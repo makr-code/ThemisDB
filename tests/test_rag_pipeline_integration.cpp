@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_pipeline_integration.cpp                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:32:32                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:56:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 1573d9537  2026-03-09  feat(rag): implement batchConvert, add pipeline integrati... ║
+    • 1573d95376  2026-03-09  feat(rag): implement batchConvert, add pipeline integrati... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

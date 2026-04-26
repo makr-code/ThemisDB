@@ -1,10 +1,12 @@
-<!-- Status: current | validated: 2026-03-22 -->
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Ethics AI Module — Architecture Guide
 
-**Version:** 0.0.1  
-**Last Updated:** 2026-03-22  
+**Version:** 0.0.1
+**Last Updated:** 2026-04-06
 **Module Path:** `src/ethics_ai/`
 
 ---
@@ -214,4 +216,4 @@ AQL Collections (logical view over RocksDB):
 
 - `src/ethics_ai/README.md` — module overview
 - `ARCHITECTURE.md` (root) — full system architecture
-- `src/ethics_ai/ethics_ai_types.h` — canonical type definitions
+- `include/plugins/ethics_ai/ethics_ai_types.h` — canonical type definitions

@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-22 -->
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ROADMAP.md · ARCHITECTURE.md -->
 
 # Future Enhancements — Ethics AI Module

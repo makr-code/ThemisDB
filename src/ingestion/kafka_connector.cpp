@@ -3,24 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            kafka_connector.cpp                                ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:16:46                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   83.0/100                                       ║
-    • Total Lines:     598                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   78.0/100                                       ║
+    • Total Lines:     602                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • ccd04f5f7  2026-03-13  fix(ingestion): Add AC-6/AC-7 throughput and latency test... ║
-    • b2a2c74ed  2026-03-13  feat(ingestion): Kafka Consumer Source Connector - checkp... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f8dd9e8a0  2026-02-26  fix(ingestion): audit fixes – double error_count, enable.... ║
-    • 213187424  2026-02-26  feat(ingestion): Kafka consumer source connector ║
+    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
+  Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
@@ -239,7 +235,14 @@ private:
     }
 
     // -----------------------------------------------------------------------
-    // Mock-based ingestion (unit tests)
+    // STUB/SIMULATION NOTE:
+    // Purpose: Enable unit-testing of KafkaConnector without a live Kafka
+    //   broker by using an injected message_fn_ instead of a real consumer.
+    // Activation: Active when message_fn_ is non-null (set via
+    //   KafkaConnector::setMessageFnForTesting()).
+    // Production Delta: Messages come from the injected lambda instead of a
+    //   real Kafka consumer.  No broker connection, no offset management.
+    // Removal Plan: Not removed — remains the test-injection path.
     // -----------------------------------------------------------------------
     void ingestFromMock(IngestionStats& stats,
                         ProgressCallback& progress_callback) {

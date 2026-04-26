@@ -1,3 +1,5 @@
+> ⚠️ **Historische Zusammenfassung** – Stand zum Zeitpunkt der Erstellung.
+
 # Themis AQL Visual Query Builder - Implementation Summary
 
 ## Project Overview

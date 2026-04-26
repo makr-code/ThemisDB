@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build build-linux-ninja-release --target <target>`
+
 # Metadata Module
 
 Database metadata and schema introspection for ThemisDB.
@@ -28,6 +30,13 @@ Manages the ThemisDB metadata catalog, providing schema management, collection m
 | `catalog_exporter.cpp` | Apache Atlas and DataHub integration |
 | `distributed_catalog.cpp` | Distributed metadata catalog across shards |
 | `index_recommender.cpp` | Query-pattern-driven index usage and recommendation engine |
+| `imetadata_security_provider.h` | `IMetadataSecurityProvider`, `NoOpMetadataSecurityProvider`, `InMemoryRbacMetadataSecurityProvider` — pluggable RBAC interface |
+| `imetadata_change_listener.h` | `IMetadataChangeListener`, `RecordingMetadataChangeListener`, `MetadataChangeEvent` — observer interface for schema change events |
+| `imetadata_export_policy.h` | `IMetadataExportPolicy`, `AlwaysExportPolicy`, `NeverExportPolicy`, `FilteredExportPolicy` — external catalog export policy |
+| `imetadata_encryption_provider.h` | `IMetadataEncryptionProvider`, `NoOpMetadataEncryptionProvider`, `FieldSetMetadataEncryptionProvider` — field-level encryption policy |
+| `metadata_snapshot.h` | `MetadataSnapshot`, `IMetadataSnapshotStore`, `InMemoryMetadataSnapshotStore` — point-in-time schema snapshots |
+| `schema_diff.h` | `SchemaDiff`, `SchemaDiffEngine`, `ColumnDiff`, `IndexDiff` — structural diff engine for table schemas |
+| `aql_schema_bridge.h` | Free function bridge from `SchemaManager::TableSchema` to AQL `CollectionMetadata` |
 
 ## Current Delivery Status
 
@@ -35,7 +44,7 @@ Manages the ThemisDB metadata catalog, providing schema management, collection m
 changefeeds, adaptive TTL, audit log, consistency checker, ER diagram export, external catalog
 integration (Apache Atlas, DataHub), column lineage, distributed catalog, and the Schema API REST
 endpoint are production-ready as of v1.5.x.
-<!-- status: current | validated: 2026-03-10 | commit: 4c1a2dfc1 -->
+<!-- status: current | validated: 2026-04-06 | commit: 4c1a2dfc1 -->
 
 ## Components
 
@@ -158,12 +167,12 @@ schema_mgr.setCacheTTL(std::chrono::seconds(60));
 auto tables = schema_mgr.getAllTables();
 
 for (const auto& table : tables) {
-    std::cout << "Table: " << table.name 
+    std::cout << "Table: " << table.name
               << " Type: " << table.type
               << " Rows: " << table.estimated_row_count << std::endl;
-    
+
     for (const auto& prop : table.properties) {
-        std::cout << "  - " << prop.name 
+        std::cout << "  - " << prop.name
                   << " (" << prop.type << ")"
                   << (prop.indexed ? " [indexed]" : "") << std::endl;
     }
@@ -283,7 +292,7 @@ if (schema.has_value()) {
         schema->properties.end(),
         [](const auto& prop) { return prop.name == "email"; }
     );
-    
+
     if (it != schema->properties.end()) {
         std::cout << "Column 'email' exists, type: " << it->type << std::endl;
     }
@@ -338,3 +347,7 @@ if (schema.has_value()) {
 4. Doan, A., Halevy, A., & Ives, Z. (2012). **Principles of Data Integration**. Morgan Kaufmann. ISBN: 978-0-124-16248-4
 
 5. Gray, J., Bosworth, A., Layman, A., & Pirahesh, H. (1997). **Data Cube: A Relational Aggregation Operator Generalizing Group-By, Cross-Tab, and Sub-Totals**. *Data Mining and Knowledge Discovery*, 1, 29–53. https://doi.org/10.1023/A:1009726021843
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

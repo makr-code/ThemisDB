@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 # RAG Module Roadmap
@@ -44,6 +46,7 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
 - [x] CalibrationManager – temperature scaling, Platt scaling, and isotonic regression to align judge scores with human annotations; ECE/Brier/correlation metrics (`calibration_manager.cpp`)
 - [x] BatchEvaluator – parallel batch processing with configurable worker threads, async evaluation via futures/promises, and aggregated statistics (`batch_evaluator.cpp`)
 - [x] `batchConvertToRetrievedDocuments` – implemented with `EmbeddingFunction` callback; sequential per-query K-NN search; no placeholder / DO NOT USE warning removed (`rag_integration_helpers.h`)
+- [x] `RAGIngestionBridge` — connects `IngestionToolbox` to the RAG pipeline (`include/rag/rag_ingestion_bridge.h`, `src/rag/rag_ingestion_bridge.cpp`; `themis::rag` namespace): `indexDocument()`, `enrichRetrievedDocuments()`, `extractEntitiesForContext()`, `buildEntityContext()`; `IndexResult` return type; thread-safe (v0.1.0)
 
 ## In Progress 🚧
 *(none currently in progress)*
@@ -52,6 +55,17 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
 
 ### Short-term (Next 3-6 months)
 
+- [ ] `OntologyAwareRetriever` — ontologiegesteuertes Entity-Retrieval via `OntologyManager` (Target: Q4 2026)
+  - Affected: `include/rag/ontology_aware_retriever.h` (new), `src/rag/ontology_aware_retriever.cpp` (new)
+  - Inputs: Query-Text + Domain-Ontologie-Pfad; Outputs: `RetrievedDocument`-Liste mit Ontologie-Kontext
+  - Expected behavior: Entity-Linking nutzt `OntologyManager::isA()` für Oberbegriff-Expansion;
+    Retrievalpfade folgen erlaubten Relationstypen aus `allowedEdgeTypes()`;
+    `KnowledgeGraphRetriever` wird um Reasoner-Hooks erweitert
+  - Constraints: ≤ 50 ms Latenz für top-20 Retrieval auf Graphen mit ≤ 1 M Knoten
+  - Errors: unbekannte Entities → Fallback auf BM25; Ontologie nicht geladen → Standard-Retrieval
+  - Tests: OAR-01..OAR-08 in `tests/rag/test_ontology_aware_retriever.cpp`
+  - Perf: Entity-Expansion ≤ 5 ms; Gesamtlatenz top-20 ≤ 50 ms
+
 ### Long-term (6-12 months)
 - [x] Agentic RAG with iterative retrieval loops (`rag/agentic_rag.cpp`) (Issue: #2241)
 - [x] Multi-modal RAG (image + text retrieval) (`rag/multimodal_rag.cpp`) (Issue: #2243)
@@ -59,6 +73,24 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
 - [x] Distributed RAG evaluation across multiple judge models (Issue: #2245) — `rag/distributed_rag_evaluator.h/.cpp`; thread-pool parallel dispatch; MEAN/WEIGHTED_MEAN/MAJORITY_VOTING/BEST_OF_N aggregation; inter-judge agreement metric; factory helpers
 - [x] Performance benchmarks (recall@10, latency targets) — `benchmarks/bench_rag_evaluation.cpp`; recall@K harness; FAST/BALANCED/THOROUGH latency; batch throughput; DistributedRAGEvaluator benchmark; PromptInjectionDetector scan throughput; end-to-end pipeline
 - [x] Security audit (prompt injection in retrieved context) — `rag/prompt_injection_detector.h/.cpp`; pattern-based detection (instruction-override, system-prompt-leak, delimiter-escape, role-injection, markup-injection, Unicode bidi); density threshold; PromptInjectionSanitizer; full unit test coverage
+- [ ] Semantisches-Netz-Integration: `KnowledgeGraphRetriever` + `KnowledgeGraphReasoner` für Multi-Hop-Reasoning (Target: Q3 2027)
+  - Affected: `include/rag/knowledge_graph_retriever.h`, `src/rag/knowledge_graph_retriever.cpp`
+  - Expected behavior: `retrieve()` triggert automatisch `KnowledgeGraphReasoner::infer()` für
+    bis zu `max_inference_hops` Hops; Inferenzketten werden als Zusatzkontext eingefügt;
+    Erklärungsketten sind in `RetrievedDocument.metadata["reasoning_chain"]` abrufbar
+  - Constraints: Multi-Hop-Reasoning ≤ 200 ms P99 (≤ 5 Hops, ≤ 100 k Kanten)
+  - Errors: Reasoning-Timeout → Fallback auf direkte KG-Abfrage ohne Inferenz
+  - Tests: KGR-RAG-01..KGR-RAG-06 in `tests/rag/test_knowledge_graph_retriever_reasoning.cpp`
+- [ ] LoRA-Enhanced Domain Retrieval für Mustererkennung (Target: Q2 2027)
+  - Affected: `include/rag/lora_enhanced_retriever.h` (new), `src/rag/lora_enhanced_retriever.cpp` (new)
+  - Expected behavior: Domänenspezifische LoRA-Adapter (z. B. „legal_rag_v1", „medical_rag_v1")
+    re-ranken Retrievalergebnisse; `MultiLoRAManager::selectAdapterForQuery()` wählt Adapter
+    anhand von Query-Embedding-Ähnlichkeit zur Adapter-Domäne
+  - Constraints: LoRA-Re-Ranking ≤ 100 ms für top-50 Dokumente; Guard `THEMIS_ENABLE_LLM`
+  - Errors: kein passender Adapter → Standard-RRF-Fusion; Adapter-Load-Fehler → Fallback
+  - Tests: LER-01..LER-06 in `tests/rag/test_lora_enhanced_retriever.cpp`
+  - Perf: Re-Ranking-Verbesserung MRR@10 ≥ +5% gegenüber reiner RRF-Baseline
+  - Wissensrepräsentation: LoRA-Adapter kodiert implizit domänenspezifische Konzepthierarchien
 
 ## Implementation Phases
 
@@ -100,7 +132,77 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
 - [x] `ReplugRetriever` — REPLUG-style LLM-scored retrieval fusion (`rag/replug_retriever.h/.cpp`) (Target: Q1 2026) — Inputs: query + RetrievedDocument list; Outputs: ReplugFusionResult with fused scores; λ interpolation, softmax temperature, min_retrieval_score filter, REPLUG-LSR weight update via KL gradient; ILLMScorer plugin; HeuristicLLMScorer (Jaccard); 30 unit tests
 - [x] `RLAIFTrainer` — Constitutional AI + RLAIF preference dataset generation (`rag/rlaif_trainer.h/.cpp`) (Target: Q1 2026) — Inputs: query + draft response; Outputs: PreferencePair (prompt, chosen, rejected); critique-revision loop; IAIJudge plugin; HeuristicAIJudge; AIPrinciple registry; processBatch(); RLAIFConfig; 30 unit tests
 
-## Production Readiness Checklist
+### Phase 7: Context-Window Management & Token Budget (Status: Completed ✅)
+- [x] `ContextWindowBudget` — central token-budget model (`include/llm/context_window_budget.h`) (Target: Q2 2026) — Inputs: model_ctx, system_prompt, query, min_response; Outputs: available_context_tokens, reserved_response_tokens; heuristic estimator ceil(chars/3.5); 20% floor on response reservation; fallback 4096; 30 unit tests
+- [x] `RAGContextAssembler` — budget-aware chunk selection (`include/rag/rag_context_assembler.h`, `src/rag/rag_context_assembler.cpp`) (Target: Q2 2026) — Greedy Fill with Response Guard; truncation with configurable marker; computeMaxTokens(); 30 unit tests
+- [x] `MultiStepRAGOrchestrator` — Map-Reduce and Iterative strategies (`include/rag/multi_step_rag.h`, `src/rag/multi_step_rag.cpp`) (Target: Q2 2026) — Map: batch partitioning bounded by context budget; Reduce: partial-answer synthesis; Iterative: gap-detection loop, max_iterations guard, deduplication; factory helpers; 15 unit tests
+- [x] `LlamaCppPlugin::loadModel()` reads `n_ctx`/`context_length` from config JSON → `ModelInfo::context_length`; fallback 4096 (Target: Q2 2026)
+- [x] `LlamaCppPlugin::generateRAG()` replaced naive doc concat with `RAGContextAssembler`; `max_tokens` capped via `computeMaxTokens()` (Target: Q2 2026)
+- [x] `RAGContext::max_context_tokens` set to 0 (dynamic fallback); `response_budget_tokens` field added (Target: Q2 2026)
+- [x] `RAGPromptConfig::reserved_response_tokens` field added (default: 512) (Target: Q2 2026)
+- [x] `MultiHopReasoner` — multi-hop reasoning with query decomposition (`include/rag/multi_hop_reasoner.h`, `src/rag/multi_hop_reasoner.cpp`) (Target: Q2 2026) — heuristic + LLM-based decomposition; per-hop retrieval + inference with context injection; answer composition; factory helpers (single-hop, balanced, deep-reasoning); 15 unit tests
+- [x] `AdaptiveRetrieval` — adaptive retrieval depth based on query complexity (`include/rag/adaptive_retrieval.h`, `src/rag/adaptive_retrieval.cpp`) (Target: Q2 2026) — QueryComplexity tiers (SIMPLE/MODERATE/COMPLEX/VERY_COMPLEX); connective/question-word heuristic; IComplexityScorer plugin; top_k + similarity_threshold scaling; factory helpers (lightweight, balanced, high-recall); 15 unit tests
+
+### Phase 8: Loop 1–4 Explicit Orchestration & Federated RLAIF — IMPL-A2 + IMPL-A3 (Status: Completed ✅)
+
+> *Paper 1 — §4.4 The Four Self-Optimising Loops / §5.4 ContinuousLearningOrchestrator*
+> Issues: [IMPL-A2](../../docs/issues/lora_loops/IMPL-A2-loop-orchestration.md) · [IMPL-A3](../../docs/issues/lora_loops/IMPL-A3-federation-hooks.md)
+
+- [x] Expose explicit named loop-trigger methods on `ContinuousLearningOrchestrator` (Implemented: 2026-04-19):
+  - `triggerLoop1QueryExecution(const QueryExecutionOutcome&)` (Loop 1 — ≤ 10 ms BaoOptimizer feedback)
+  - `triggerLoop2WorkloadAdaptation()` (Loop 2 — 60 s interval, `WorkloadAdaptiveOptimizer` + HNSW)
+  - `triggerLoop3IndexLifecycle()` (Loop 3 — hours/days, `IndexSuggestionEngine`)
+  - `triggerLoop4AdapterImprovement()` (Loop 4 — weekly, `IncrementalLoRATrainer`)
+- [x] Add `FEDERATED_ROUND_START` event type to `ContinuousLearningOrchestrator` (IMPL-A3)
+  - Fired after Loop 4 completes; 24 h minimum interval guard
+  - Invokes `ILoRAFederationCoordinator::startRound()` when coordinator is injected
+- [x] Add `setFederationCoordinator(ILoRAFederationCoordinator*)` DI setter
+- [x] Loop-interference cooldown guard: `setOptimizationCooldown(seconds)` + per-loop timestamp map (RQ10)
+- [x] JSON context serialiser `serializeLoopContext()` → JSON ≤ 8 000 chars / ≈ 2 000 tokens
+- [x] `RAGIngestionBridge::indexOptimizerLog()` extension: index optimizer-log documents for RAG retrieval
+- [x] 14 unit tests in `tests/test_clo_loops.cpp` (`test_clo_loops_focused` CMake target):
+  - `CLO-L1-01` … `CLO-L1-03`: Loop 1 trigger, outcome in context JSON, completion handler
+  - `CLO-L2-01` … `CLO-L2-03`: Loop 2 trigger, context JSON, completion handler
+  - `CLO-L3-01` … `CLO-L3-02`: Loop 3 advisory guardrail pass, context JSON
+  - `CLO-L4-01` … `CLO-L4-02`: Loop 4 trigger, context JSON
+  - `CLO-FED-01`: `FEDERATED_ROUND_START` fires after Loop 4 (no throw when coordinator absent)
+  - `CLO-COOL-01`: 60 s cooldown blocks second trigger; different loop unaffected
+  - `SerializeContext_EmptyBeforeTrigger`, `SerializeContext_MultipleLoopsPresent`
+- [x] `LoopPhase` enum on `ContinuousLearningOrchestrator`: `LOOP_1_HNSW_QUERY`, `LOOP_2_WORKLOAD`, `LOOP_3_SCHEMA_INDEX`, `LOOP_4_RLAIF`  (`include/rag/continuous_learning_orchestrator.h:249`)
+- [x] `triggerLoop(LoopPhase)` — explicitly trigger a named learning loop; returns `LoopResult` (`include/rag/continuous_learning_orchestrator.h:283`)
+- [x] `registerLoopCompletionHandler(LoopPhase, handler)` — per-phase completion callback (`include/rag/continuous_learning_orchestrator.h:293`)
+- [x] `TriggerEvent::FEDERATED_ROUND_START` — fired automatically after a successful Loop-4 run with `guardrail_passed == true` (`include/rag/continuous_learning_orchestrator.h:309`)
+- [x] `setFederationCoordinator(ILoRAFederationCoordinator*)` DI setter (`include/rag/continuous_learning_orchestrator.h:326`)
+- [x] `setTrainerForFederation(IncrementalLoRATrainer*)` DI setter (`include/rag/continuous_learning_orchestrator.h:342`)
+- [x] Loop-interference cooldown guard: shared `OptimizationLock` with per-resource cooldown (RQ10)
+- [x] JSON context serialiser for Loop 1–3 outcome signals → `≤ 2 000 tokens` context block
+- [x] `RAGIngestionBridge` extension: index optimizer-log documents for RAG retrieval
+- [x] 12 new unit tests in `tests/test_continuous_learning_orchestrator_loops.cpp`:
+  - `CLO-L1-01` … `CLO-L1-03`: Loop 1 trigger updates BaoOptimizer hint
+  - `CLO-L2-01` … `CLO-L2-03`: Loop 2 trigger updates WorkloadAdaptiveOptimizer
+  - `CLO-L3-01` … `CLO-L3-02`: Loop 3 trigger calls IndexSuggestionEngine
+  - `CLO-L4-01` … `CLO-L4-02`: Loop 4 trigger calls IncrementalLoRATrainer
+  - `CLO-FED-01`: `FEDERATED_ROUND_START` fires after Loop 4 + 24 h guard respected
+  - `CLO-COOL-01`: cooldown guard prevents concurrent loop interference
+
+### Phase 9: AI Reliability & Safety Evaluation Program (Status: Completed ✅)
+- [x] Benchmark design completed (Target: Q2 2026): cross-domain goldenset harness (legal/medical/financial) via `RAGTestCase` batches, red-team injection scenarios via `AdversarialTester`, and standardized severity-ready outputs in `BatchEvaluationResult`.
+- [x] Measurement pipeline completed (Target: Q2 2026): deterministic offline replay via `BatchEvaluator::evaluateBatch`, online hallucination drift monitoring/alerting via `HallucinationDashboard`, and decision traceability coverage metrics (`traceable_decisions`/`untraceable_decisions`) in `BatchEvaluationResult`.
+- [x] Guardrail optimization completed (Target: Q2 2026): prompt-injection scenario accounting + success-rate tracking, bias/fairness drift detection (`bias_fairness_drift_rate`), groundedness computation (`groundedness_rate`), and cost-to-quality efficiency metric (`cost_to_quality_efficiency`) in `BatchEvaluator`.
+- [x] Release gates completed (Target: Q2 2026): configurable gate thresholds in `BatchEvaluatorConfig` (hallucination, groundedness, injection success, bias drift, p95 latency, cost efficiency, traceability) with blocking decision (`release_gates_passed`) and explicit regression reasons (`failed_release_gates`).
+- [x] Focused validation completed: `tests/test_rag_batch_evaluator.cpp` covers injection success-rate computation, traceability coverage, bounded reliability-score ranges, and release-gate blocking behavior.
+
+### Phase 10: Ontologie-Integration & Semantisches Netz (Status: Planned [ ], Target: Q4 2026 – Q3 2027)
+- [ ] `OntologyAwareRetriever` — Entity-Expansion via `OntologyManager::isA()`; erlaubte Pfade via `allowedEdgeTypes()` (Target: Q4 2026)
+  → `include/rag/ontology_aware_retriever.h`, `src/rag/ontology_aware_retriever.cpp`
+- [ ] `KnowledgeGraphRetriever` + `KnowledgeGraphReasoner` Integration: Multi-Hop-Reasoning bis 5 Hops; Erklärungsketten im Dokument-Metadata (Target: Q2 2027)
+  → `include/rag/knowledge_graph_retriever.h`, `src/rag/knowledge_graph_retriever.cpp`
+- [ ] `LoRAEnhancedRetriever` — LoRA-Adapter-Re-Ranking für domänenspezifisches Retrieval; MRR@10 ≥ +5% (Target: Q2 2027)
+  → `include/rag/lora_enhanced_retriever.h`, `src/rag/lora_enhanced_retriever.cpp`
+- [ ] Tests: OAR-01..OAR-08, KGR-RAG-01..KGR-RAG-06, LER-01..LER-06
+  → `tests/rag/test_ontology_aware_retriever.cpp`, `tests/rag/test_knowledge_graph_retriever_reasoning.cpp`, `tests/rag/test_lora_enhanced_retriever.cpp`
+
+
 - [x] Unit tests coverage > 80% (streaming_retriever: 28 test cases; reranker: 30+ test cases; document_splitter: 37 test cases)
 - [x] Unit tests coverage > 80% (streaming_retriever: 28 tests; reranker: 30+ tests; hybrid_retriever: 31 tests)
 - [x] Unit tests for LearningMetrics (test_learning_metrics.cpp: recordEvaluation, computeMetrics, exportMetrics, printReport, window enforcement)
@@ -111,6 +213,11 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
 - [x] Unit tests for PromptInjectionDetector and Sanitizer (test_rag_prompt_injection.cpp: benign pass-through, instruction override, system-prompt leak, delimiter escape, role injection, markup injection, Unicode bidi, sanitizer truncation/replacement)
 - [x] Unit tests for ReplugRetriever (test_rag_replug_retriever.cpp: ILLMScorer, HeuristicLLMScorer, fuse(), top_k truncation, min_retrieval_score filtering, weight updates, factory helpers; 30 tests)
 - [x] Unit tests for RLAIFTrainer (test_rag_rlaif_trainer.cpp: IAIJudge, HeuristicAIJudge, runTrainingStep(), createPreferencePair(), processBatch(), principle management, dataset access, stats; 30 tests)
+- [x] Unit tests for ContextWindowBudget (test_context_window_budget.cpp: estimateTokens, tokensToChars, compute, reserved_response_tokens enforcement, available_context_tokens arithmetic, helpers; 30 tests)
+- [x] Unit tests for RagContextAssembler (test_rag_context_assembler.cpp: empty edge cases, single chunk fit/truncation, greedy fill, response-guard, truncation marker, computeMaxTokens; 30 tests)
+- [x] Unit tests for MultiStepRAGOrchestrator (test_multi_step_rag.cpp: map-reduce single-pass, multi-batch, iterative cap, factory helpers; 15 tests)
+- [x] Unit tests for MultiHopReasoner (test_rag_multi_hop_reasoner.cpp: 15 tests — A config/factory, B decomposition heuristic+LLM, C pipeline single/multi/error cases)
+- [x] Unit tests for AdaptiveRetrieval (test_rag_adaptive_retrieval.cpp: 15 tests — A config/factory, B complexity analysis, C params + custom scorer injection)
 - [x] Performance benchmarks (benchmarks/bench_rag_evaluation.cpp: recall@K harness, FAST/BALANCED/THOROUGH latency, distributed evaluator, injection scan throughput, end-to-end pipeline)
 - [x] Integration tests (full pipeline: retrieve → generate → evaluate) — `test_rag_pipeline_integration.cpp` (heuristic/FAST mode, no live LLM required)
 - [x] Performance benchmarks (recall@10, latency per mode)
@@ -126,3 +233,12 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
 ## Breaking Changes
 - Evaluator scoring API (0–1 float range) is stable from v1.x.
 - JudgeConfig fields may gain new optional parameters; backward-compatible.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `ABTestingFramework` – A/B-Testing für RAG-Pipelines (Retrieval-/Ranking-Strategien)
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.

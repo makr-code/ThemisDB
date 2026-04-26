@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hip_backend.cpp                                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:13:45                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1115                                           ║
+    • Total Lines:     1150                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 73d8f8a8d  2026-03-15  feat(acceleration): implement GPU hardware support gaps -... ║
-    • 3ac1c4143  2026-03-09  fix: clear all remaining stubs/TODOs across modules; upda... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • edaecffe6  2026-02-24  feat(acceleration): Add ROCm/HIP backend non-HIP fallback... ║
-    • fedef6263  2026-02-23  feat(acceleration): publish backend capability matrix and... ║
+    • 8c426c95d2  2026-04-13  feat(acceleration): Kernel Block-Dimension Occupancy Tuni... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -51,6 +47,12 @@
 
 namespace themis {
 namespace acceleration {
+
+// Forward declarations for block-size setters defined in hip/ann_kernels.hip
+// and hip/geo_kernels.hip.  Called during initialize() with the occupancy-tuned
+// block size so that kernel launchers use the optimal thread count.
+extern "C" void hipSetTopKBlockSize(int blockSize);
+extern "C" void hipSetGeoKernelBlockSize(int blockSize);
 
 // ============================================================================
 // HIP Helper Macros
@@ -336,7 +338,13 @@ struct HIPBackendImpl {
     int deviceId = 0;
     raii::HipStream stream;  // RAII-managed stream (automatic cleanup)
     HIPVectorBackend::HIPConfig config;
-    
+
+    // Occupancy-tuned block size for 1-D kernels (top-K selection, etc.).
+    // Set during initialize() via hipOccupancyMaxPotentialBlockSize(); falls
+    // back to 256 (safe for all ROCm-supported devices) if the query fails.
+    // AMD GCN devices with 64-thread wavefronts use 64 as their baseline.
+    int occupancyTunedBlockSize = 256;
+
     // Device properties
     hipDeviceProp_t deviceProps;
     
@@ -502,6 +510,32 @@ bool HIPVectorBackend::initialize() {
         std::cerr << lastError_.format() << std::endl;
         return false;
     }
+
+    // ── Occupancy-based block size tuning ─────────────────────────────────────
+    // Start with a wave-size-aware baseline: AMD GCN devices have 64-thread
+    // wavefronts, so using 256 threads per block would leave half the wavefront
+    // slots idle.  Use 64 as the starting point for those devices.
+    int baseBlockSize = (impl_->deviceProps.warpSize == 64) ? 64 : 256;
+
+    // Query the HIP occupancy API for the top-K selection kernel.
+    int minGridSize   = 0;
+    int tunedBlockSize = baseBlockSize;
+    hipError_t occErr = hipOccupancyMaxPotentialBlockSize(
+        &minGridSize, &tunedBlockSize, topKSelectionKernel, 0, 0);
+    if (occErr == hipSuccess && tunedBlockSize > 0) {
+        // Round down to the nearest multiple of warpSize (never go below it).
+        const int warpSize = impl_->deviceProps.warpSize;
+        tunedBlockSize = (tunedBlockSize / warpSize) * warpSize;
+        if (tunedBlockSize < warpSize) tunedBlockSize = warpSize;
+        impl_->occupancyTunedBlockSize = tunedBlockSize;
+    } else {
+        impl_->occupancyTunedBlockSize = baseBlockSize;
+    }
+    std::cout << "  Occupancy-tuned block size: " << impl_->occupancyTunedBlockSize << std::endl;
+
+    // Propagate the tuned block size to the external HIP kernel launchers.
+    hipSetTopKBlockSize(impl_->occupancyTunedBlockSize);
+    hipSetGeoKernelBlockSize(impl_->occupancyTunedBlockSize);
     
     // Clear error on success
     clearError();
@@ -683,8 +717,8 @@ std::vector<std::vector<std::pair<uint32_t, float>>> HIPVectorBackend::batchKnnS
                 break;
         }
         
-        // Launch top-k selection kernel
-        int threadsPerBlock = 256;
+        // Launch top-k selection kernel using the occupancy-tuned block size
+        int threadsPerBlock = impl_->occupancyTunedBlockSize;
         int numBlocks = (numQueries + threadsPerBlock - 1) / threadsPerBlock;
         
         hipLaunchKernelGGL(topKSelectionKernel, dim3(numBlocks), dim3(threadsPerBlock), 0, impl_->stream.get(),

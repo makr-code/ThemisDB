@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            entity_linker.cpp                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:16:13                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • fffcbc104  2026-03-11  feat(importers): implement MDM entity matching, linking &... ║
+    • fffcbc1048  2026-03-11  feat(importers): implement MDM entity matching, linking &... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

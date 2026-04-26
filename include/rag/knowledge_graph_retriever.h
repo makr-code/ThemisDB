@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            knowledge_graph_retriever.h                        ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:10:20                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:46:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     499                                            ║
+    • Total Lines:     497                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • c5ef77899  2026-02-24  feat(rag): implement knowledge graph-augmented retrieval ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -336,12 +331,17 @@ public:
      * @param start_id       Starting node identifier.
      * @param max_depth      Maximum BFS depth (1 = direct neighbours only).
      * @param min_edge_weight Minimum edge weight to follow.
+     * @param max_nodes      Maximum number of nodes to visit (DoS guard, GAP-010).
+     *                       The BFS terminates once this many nodes have been
+     *                       enqueued, preventing unbounded traversal of dense
+     *                       graphs.  Defaults to 4096.
      * @return               Set of reachable node IDs (excluding start_id).
      */
     std::unordered_set<std::string> neighbours(
         const std::string& start_id,
         size_t             max_depth      = 1,
-        double             min_edge_weight = 0.0) const;
+        double             min_edge_weight = 0.0,
+        size_t             max_nodes      = 4096) const;
 
     /**
      * @brief Return all outgoing edges from @p node_id.  Thread-safe.

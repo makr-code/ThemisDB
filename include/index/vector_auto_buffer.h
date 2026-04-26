@@ -3,19 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vector_auto_buffer.h                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:05                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     320                                            ║
+    • Total Lines:     319                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -81,7 +77,11 @@ struct VectorAutoBufferConfig {
         ProductQuantization    // PQ for HNSW (10-32x reduction, configurable accuracy)
     };
     Compression compression = Compression::None;
-    
+
+    // Product Quantization parameters (used when compression == ProductQuantization)
+    int pq_num_subvectors = 8;    // Number of PQ sub-spaces (M); must divide vector dim
+    int pq_num_centroids  = 256;  // Number of centroids per sub-space (k); ≤ 256 for uint8 codes
+
     // Vector field name (default: "embedding")
     std::string vector_field = "embedding";
 };

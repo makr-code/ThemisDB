@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            snapshot_manager.h                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:56                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     204                                            ║
+    • Total Lines:     203                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 72f3ebe87  2026-03-12  refactor(temporal): address review feedback on snapshot G... ║
-    • 8098dfcd9  2026-03-12  feat(temporal): implement snapshot isolation - versioning... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 72f3ebe873  2026-03-12  refactor(temporal): address review feedback on snapshot G... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -42,6 +40,7 @@
 #include <mutex>
 #include <optional>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace themisdb {
@@ -87,6 +86,39 @@ struct SnapshotMetadata {
                 {"total_tables", total_tables},
                 {"total_rows", total_rows},
                 {"is_valid", is_valid}};
+    }
+};
+
+/**
+ * Result of comparing two snapshots for the same table.
+ *
+ * - `added`    — rows present in `handle_b` but absent in `handle_a`.
+ * - `removed`  — rows present in `handle_a` but absent in `handle_b`.
+ * - `modified` — rows present in both snapshots whose `data` has changed
+ *                (contains the `handle_b` version).
+ */
+struct SnapshotDiff {
+    std::vector<VersionedDocument> added;
+    std::vector<VersionedDocument> removed;
+    std::vector<VersionedDocument> modified;
+
+    bool empty() const noexcept {
+        return added.empty() && removed.empty() && modified.empty();
+    }
+
+    size_t totalChanges() const noexcept {
+        return added.size() + removed.size() + modified.size();
+    }
+
+    nlohmann::json toJson() const {
+        auto to_json_arr = [](const std::vector<VersionedDocument>& v) {
+            nlohmann::json arr = nlohmann::json::array();
+            for (const auto& doc : v) { arr.push_back(doc.toJson()); }
+            return arr;
+        };
+        return {{"added",    to_json_arr(added)},
+                {"removed",  to_json_arr(removed)},
+                {"modified", to_json_arr(modified)}};
     }
 };
 
@@ -181,6 +213,55 @@ public:
     size_t garbageCollectByCount(size_t max_snapshots);
 
     nlohmann::json getStatistics() const;
+
+    // ── Snapshot diffing ─────────────────────────────────────────────────────
+
+    /**
+     * Result of comparing two snapshots.
+     *
+     * Describes the incremental difference between an older snapshot (base)
+     * and a newer snapshot (other) on a per-table, per-key basis.
+     */
+    struct SnapshotDiff {
+        /** Keys whose latest version has a different data map in @p other. */
+        std::map<std::string /*table*/,
+                 std::vector<std::string /*key*/>> modified;
+
+        /** Keys present in @p other but absent from @p base. */
+        std::map<std::string, std::vector<std::string>> added;
+
+        /** Keys present in @p base but absent from @p other. */
+        std::map<std::string, std::vector<std::string>> removed;
+
+        /** Total tables examined (intersection of both snapshots). */
+        size_t tables_examined{0};
+
+        /** true when base and other are identical across all shared tables. */
+        bool empty() const noexcept {
+            return modified.empty() && added.empty() && removed.empty();
+        }
+
+        nlohmann::json toJson() const;
+    };
+
+    /**
+     * Compute the incremental difference between two snapshots.
+     *
+     * Both handles must be valid (not released).  The function compares each
+     * table that appears in both snapshots.  Tables that exist in only one
+     * snapshot are treated as entirely added or entirely removed.
+     *
+     * Complexity: O(R log R) where R is the total number of rows across all
+     * shared tables (sort + linear scan per table).
+     *
+     * @param base   Older snapshot handle.
+     * @param other  Newer snapshot handle.
+     * @return       SnapshotDiff; empty() == true when the snapshots are equal.
+     * @throws       std::invalid_argument when either handle is invalid or
+     *               refers to a released snapshot.
+     */
+    SnapshotDiff diff(const SnapshotHandle& base,
+                      const SnapshotHandle& other) const;
 
 private:
     struct SnapshotData {

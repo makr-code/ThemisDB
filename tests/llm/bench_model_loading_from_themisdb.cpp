@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_model_loading_from_themisdb.cpp              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:23:05                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c0a50c2ca  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • c0a50c2caf  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

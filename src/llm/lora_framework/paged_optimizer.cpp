@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            paged_optimizer.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:17:06                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   96.0/100                                       ║
     • Total Lines:     325                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -135,8 +132,8 @@ void PagedAdamWOptimizer::updateParameterCPU(Tensor* param, PagedOptimizerState&
     }
     
     // Bias correction factors
-    float bias_correction1 = 1.0f - std::pow(beta1_, step_count_ + 1);
-    float bias_correction2 = 1.0f - std::pow(beta2_, step_count_ + 1);
+    float bias_correction1 = 1.0f - static_cast<float>(std::pow(beta1_, step_count_ + 1));
+    float bias_correction2 = 1.0f - static_cast<float>(std::pow(beta2_, step_count_ + 1));
     
     // AdamW update rule
     for (size_t i = 0; i < size; ++i) {

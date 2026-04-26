@@ -1,7 +1,9 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Governance Module — Public Headers
 
-**Version:** 1.0  
-**Last Updated:** 2026-03-09  
+**Version:** 1.0
+**Last Updated:** 2026-04-06
 **Module Path:** `include/governance/`
 
 ---
@@ -35,6 +37,10 @@ This directory contains the public C++ header files (`.h`) that define the stabl
 | `cross_tenant_policy_inheritance.h` | Cross-tenant hierarchical policy composition (most-restrictive-wins, cycle detection); `CrossTenantPolicyInheritance` |
 | `model_governance.h` | AI/ML model training governance, bias auditing, training data lineage; `ModelGovernancePolicy`, `BiasAuditReport` |
 | `opa_adapter.h` | Open Policy Agent integration for Rego-based policy evaluation; `OpaAdapter`, `OpaAdapter::Config` |
+| `cross_border_transfer.h` | Cross-border data transfer compliance rules and controls; `CrossBorderTransferPolicy` |
+| `gdpr_subject_rights.h` | GDPR data subject rights evaluators (access, erasure, portability, rectification); `GdprSubjectRights` |
+| `hipaa_rules.h` | HIPAA safeguards and PHI handling rules; `HipaaRuleSet` |
+| `iso27001_rules.h` | ISO 27001 information security controls and evidence collection; `Iso27001Controls` |
 
 ## See Also
 
@@ -44,3 +50,20 @@ This directory contains the public C++ header files (`.h`) that define the stabl
 - [`src/governance/FUTURE_ENHANCEMENTS.md`](../../src/governance/FUTURE_ENHANCEMENTS.md) — Planned features with performance targets and IEEE references
 - [`docs/de/governance/README.md`](../../docs/de/governance/README.md) — German secondary documentation
 
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+## Usage
+
+Include the relevant headers from this module:
+
+```cpp
+#include "governance/module_header.h"
+```
+
+See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            openapi_route_registry.h                           ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:11:16                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:47:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 05751f325  2026-02-24  audit: fix 5 gaps found in code review of OpenAPI 3.1 fea... ║
-    • 3978fd6d9  2026-02-24  feat(server): OpenAPI 3.1 spec auto-generation from handl... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -25,6 +24,7 @@
 #pragma once
 
 #include <mutex>
+#include <shared_mutex>
 #include <string>
 #include <vector>
 #include <nlohmann/json.hpp>
@@ -128,7 +128,7 @@ public:
 private:
     RouteRegistry() = default;
 
-    mutable std::mutex       mutex_;
+    mutable std::shared_mutex mutex_;
     std::vector<RouteEntry>  entries_;
 };
 

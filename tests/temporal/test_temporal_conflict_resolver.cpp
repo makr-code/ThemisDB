@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_temporal_conflict_resolver.cpp                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:23:40                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:52:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     829                                            ║
+    • Total Lines:     827                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e1fff5135  2026-03-12  fix(temporal): address PR review findings on TemporalConf... ║
-    • de3826660  2026-03-12  fix: use find() instead of substr() for safer entity_id p... ║
-    • 1b0158e11  2026-03-12  feat: implement TemporalConflictDetector for temporal con... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e1fff5135a  2026-03-12  fix(temporal): address PR review findings on TemporalConf... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -826,4 +823,173 @@ TEST_F(TemporalConflictDetectorTest, DetectOverlappingPeriods_NonIntegerFields_N
     for (const auto& c : conflicts) {
         EXPECT_NE(c.type, themisdb::temporal::ConflictType::OVERLAPPING_PERIODS);
     }
+}
+
+// ============================================================================
+// MergeResolver Tests  (MCR-01..07)
+// ============================================================================
+// Tests verify that MergeResolver implementations satisfy the CRDT contracts
+// (commutativity, idempotency) and that TemporalConflictResolver correctly
+// delegates to an injected resolver.
+// ============================================================================
+
+namespace {
+
+// Helper: make a snapshot with arbitrary multi-field JSON data.
+TemporalSnapshot makeMultiFieldSnap(
+    const std::string& id,
+    uint64_t physical, uint32_t logical, const std::string& node_id,
+    nlohmann::json data
+) {
+    TemporalSnapshot s;
+    s.snapshot_id    = id;
+    s.hlc.physical   = physical;
+    s.hlc.logical    = logical;
+    s.hlc.node_id    = node_id;
+    s.source_node_id = node_id;
+    s.data           = std::move(data);
+    s.checksum       = "chk";
+    return s;
+}
+
+} // anonymous namespace
+
+// MCR-01: LWWFieldMergeResolver is commutative.
+//         merge(a,b).data == merge(b,a).data  (field content, not metadata)
+TEST(MergeResolverTest, LWWField_Commutative) {
+    LWWFieldMergeResolver resolver;
+
+    auto a = makeMultiFieldSnap("a", 1000, 1, "n1", {{"x", 1}, {"y", "hello"}});
+    auto b = makeMultiFieldSnap("b", 2000, 1, "n2", {{"x", 2}, {"z", true}});
+
+    auto ab = resolver.merge(a, b);
+    auto ba = resolver.merge(b, a);
+
+    EXPECT_EQ(ab.data, ba.data)
+        << "LWWFieldMergeResolver must be commutative";
+}
+
+// MCR-02: LWWFieldMergeResolver is idempotent.
+//         merge(a,a).data == a.data
+TEST(MergeResolverTest, LWWField_Idempotent) {
+    LWWFieldMergeResolver resolver;
+
+    auto a = makeMultiFieldSnap("a", 1000, 1, "n1", {{"k", 42}});
+
+    auto aa = resolver.merge(a, a);
+
+    EXPECT_EQ(aa.data, a.data)
+        << "LWWFieldMergeResolver must be idempotent";
+}
+
+// MCR-03: UnionMergeResolver includes fields from both snapshots.
+TEST(MergeResolverTest, Union_IncludesAllFields) {
+    UnionMergeResolver resolver;
+
+    auto a = makeMultiFieldSnap("a", 1000, 1, "n1", {{"from_a", 1}});
+    auto b = makeMultiFieldSnap("b", 2000, 1, "n2", {{"from_b", 2}});
+
+    auto merged = resolver.merge(a, b);
+
+    ASSERT_TRUE(merged.data.contains("from_a"))
+        << "Union merge must include fields from the older snapshot";
+    ASSERT_TRUE(merged.data.contains("from_b"))
+        << "Union merge must include fields from the newer snapshot";
+    EXPECT_EQ(merged.data["from_a"], 1);
+    EXPECT_EQ(merged.data["from_b"], 2);
+}
+
+// MCR-04: UnionMergeResolver is commutative.
+TEST(MergeResolverTest, Union_Commutative) {
+    UnionMergeResolver resolver;
+
+    auto a = makeMultiFieldSnap("a", 1000, 1, "n1", {{"x", "alpha"}, {"shared", "old"}});
+    auto b = makeMultiFieldSnap("b", 2000, 1, "n2", {{"y", "beta"},  {"shared", "new"}});
+
+    auto ab = resolver.merge(a, b);
+    auto ba = resolver.merge(b, a);
+
+    EXPECT_EQ(ab.data, ba.data)
+        << "UnionMergeResolver must be commutative";
+}
+
+// MCR-05: CustomMergeResolver uses the provided callable.
+TEST(MergeResolverTest, Custom_CallableInvoked) {
+    bool called = false;
+    TemporalSnapshot expected_result =
+        makeMultiFieldSnap("custom", 9999, 0, "custom", {{"result", "custom"}});
+
+    CustomMergeResolver resolver(
+        [&](const TemporalSnapshot&, const TemporalSnapshot&) -> TemporalSnapshot {
+            called = true;
+            return expected_result;
+        }
+    );
+
+    auto a = makeMultiFieldSnap("a", 1000, 1, "n1", {});
+    auto b = makeMultiFieldSnap("b", 2000, 1, "n2", {});
+
+    auto result = resolver.merge(a, b);
+
+    EXPECT_TRUE(called)
+        << "CustomMergeResolver must invoke the provided callable";
+    EXPECT_EQ(result.snapshot_id, "custom");
+    EXPECT_EQ(result.data["result"], "custom");
+}
+
+// MCR-06: TemporalConflictResolver::setMergeResolver injects custom strategy
+//         that is used when ConflictPolicy::CRDT_MERGE is active.
+TEST(MergeResolverTest, InjectedResolverUsedByCRDTMerge) {
+    TemporalConflictResolver cr(ConflictPolicy::CRDT_MERGE);
+
+    bool called = false;
+    auto custom = std::make_shared<CustomMergeResolver>(
+        [&](const TemporalSnapshot& l, const TemporalSnapshot& r) -> TemporalSnapshot {
+            called = true;
+            // Return the newer snapshot unchanged.
+            return (l.hlc < r.hlc) ? r : l;
+        }
+    );
+
+    cr.setMergeResolver(custom);
+    EXPECT_EQ(cr.getMergeResolver(), custom);
+
+    auto a = makeMultiFieldSnap("a", 1000, 1, "n1", {{"v", "a"}});
+    auto b = makeMultiFieldSnap("b", 2000, 1, "n2", {{"v", "b"}});
+
+    auto result = cr.resolve(a, b);
+
+    EXPECT_TRUE(called)
+        << "TemporalConflictResolver must delegate to the injected MergeResolver";
+    EXPECT_EQ(result.data["v"], "b");
+}
+
+// MCR-07: setMergeResolver(nullptr) reverts to built-in LWW-per-field behaviour.
+TEST(MergeResolverTest, NullResolverFallsBackToBuiltInLWW) {
+    TemporalConflictResolver cr(ConflictPolicy::CRDT_MERGE);
+
+    // First inject a custom resolver that always returns a sentinel.
+    auto sentinel = std::make_shared<CustomMergeResolver>(
+        [](const TemporalSnapshot&, const TemporalSnapshot&) -> TemporalSnapshot {
+            TemporalSnapshot s;
+            s.snapshot_id = "SENTINEL";
+            s.data = {{"sentinel", true}};
+            return s;
+        }
+    );
+    cr.setMergeResolver(sentinel);
+
+    // Now reset to nullptr — built-in LWW should take over.
+    cr.setMergeResolver(nullptr);
+    EXPECT_EQ(cr.getMergeResolver(), nullptr);
+
+    auto a = makeMultiFieldSnap("a", 1000, 1, "n1", {{"v", "old"}});
+    auto b = makeMultiFieldSnap("b", 2000, 1, "n2", {{"v", "new"}});
+
+    auto result = cr.resolve(a, b);
+
+    EXPECT_NE(result.snapshot_id, "SENTINEL")
+        << "After reset to nullptr, built-in LWW must be active";
+    // Built-in LWW should produce the newer snapshot's value for field "v".
+    EXPECT_EQ(result.data["v"], "new");
 }

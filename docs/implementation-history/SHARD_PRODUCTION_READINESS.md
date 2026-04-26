@@ -459,6 +459,6 @@ curl http://localhost:8080/admin/stats | jq
 ---
 
 **Document Version:** 1.0
-**Last Updated:** 2025-01-18
+**Last Updated:** 2026-04-06
 **Author:** GitHub Copilot Workspace Agent
 **Reviewers:** Automated code review (passed), CodeQL security scan (passed)

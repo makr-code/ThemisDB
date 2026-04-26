@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_security_utils.cpp                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:16:59                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     44                                             ║
+    • Total Lines:     42                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d0fa9e609  2026-02-28  feat(llm): implement prompt injection mitigation and secu... ║
-    • 522e9ae57  2026-02-24  feat(core): implement OTel tracer adapter flush() via Tra... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

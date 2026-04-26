@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThemisDB Admin</title>
+  <!-- CSRF nonce placeholder — populated by app.js at page load -->
+  <meta name="csrf-nonce" id="meta-csrf-nonce" content="" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ===================================================================
+       Login overlay (Phase 2 — shown when THEMIS_AUTH_ENABLED=true)
+       Hidden by default; revealed by auth.js when a 401 is received.
+       =================================================================== -->
+  <div id="login-overlay" class="login-overlay hidden" role="dialog" aria-modal="true" aria-label="Admin login">
+    <div class="login-card">
+      <div class="login-brand">
+        <span class="logo">⚖</span>
+        <span class="brand-name">ThemisDB Admin</span>
+      </div>
+      <h2 class="login-title">Sign in</h2>
+      <form id="login-form" novalidate>
+        <div class="form-row">
+          <label for="login-username">Username</label>
+          <input type="text"     id="login-username" name="username"
+                 autocomplete="username" required autofocus />
+        </div>
+        <div class="form-row">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" name="password"
+                 autocomplete="current-password" required />
+        </div>
+        <div id="login-error" class="login-error hidden" role="alert"></div>
+        <button type="submit" class="btn btn-primary btn-block" id="btn-login">Sign in</button>
+      </form>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <div class="topbar-brand">
+      <span class="logo">⚖</span>
+      <span class="brand-name">ThemisDB Admin</span>
+    </div>
+    <nav class="topbar-nav">
+      <a href="#dashboard"   class="nav-link active" data-section="dashboard">Dashboard</a>
+      <a href="#collections" class="nav-link" data-section="collections">Collections</a>
+      <a href="#query"       class="nav-link" data-section="query">AQL Query</a>
+      <a href="#backup"      class="nav-link" data-section="backup">Backup / Restore</a>
+      <a href="#monitoring"  class="nav-link" data-section="monitoring">Monitoring</a>
+    </nav>
+    <div class="topbar-right">
+      <span id="connection-status" class="status-badge status-checking">Connecting…</span>
+      <span id="logged-in-user" class="topbar-user hidden"></span>
+      <button class="btn btn-sm btn-outline hidden" id="btn-logout">Sign out</button>
+      <a class="btn btn-sm btn-outline" href="/openapi.json" target="_blank">OpenAPI</a>
+    </div>
+  </header>
+
+  <main id="app">
+    <!-- ===== Dashboard ===== -->
+    <section id="section-dashboard" class="section active">
+      <h2>Dashboard</h2>
+      <div class="card-grid">
+        <div class="card" id="card-health">
+          <div class="card-label">Status</div>
+          <div class="card-value" id="health-status">—</div>
+        </div>
+        <div class="card" id="card-version">
+          <div class="card-label">Version</div>
+          <div class="card-value" id="health-version">—</div>
+        </div>
+        <div class="card" id="card-uptime">
+          <div class="card-label">Uptime</div>
+          <div class="card-value" id="stat-uptime">—</div>
+        </div>
+        <div class="card" id="card-requests">
+          <div class="card-label">Total Requests</div>
+          <div class="card-value" id="stat-requests">—</div>
+        </div>
+        <div class="card" id="card-dbsize">
+          <div class="card-label">DB Size</div>
+          <div class="card-value" id="stat-dbsize">—</div>
+        </div>
+        <div class="card" id="card-edition">
+          <div class="card-label">Edition</div>
+          <div class="card-value" id="stat-edition">—</div>
+        </div>
+      </div>
+
+      <h3>Quick Links</h3>
+      <div class="link-grid">
+        <a class="link-card" href="/openapi.json" target="_blank">📄 OpenAPI Spec</a>
+        <a class="link-card" href="#" id="link-metrics" target="_blank">📊 Raw Metrics</a>
+        <a class="link-card" href="#query" data-section="query">🔍 Run Query</a>
+        <a class="link-card" href="#backup" data-section="backup">💾 Backup</a>
+      </div>
+    </section>
+
+    <!-- ===== Collections ===== -->
+    <section id="section-collections" class="section">
+      <h2>Collections</h2>
+      <div class="toolbar">
+        <button class="btn" id="btn-refresh-collections">↻ Refresh</button>
+      </div>
+      <div id="collections-content" class="table-wrapper">
+        <p class="hint">Click Refresh to load collection statistics.</p>
+      </div>
+    </section>
+
+    <!-- ===== AQL Query ===== -->
+    <section id="section-query" class="section">
+      <h2>AQL Query</h2>
+      <div class="query-editor">
+        <textarea id="aql-input" placeholder="FOR doc IN documents RETURN doc" rows="6"></textarea>
+        <div class="query-actions">
+          <button class="btn btn-primary" id="btn-run-query">▶ Execute</button>
+          <button class="btn" id="btn-clear-query">✕ Clear</button>
+        </div>
+      </div>
+      <div id="query-result" class="result-box hidden"></div>
+    </section>
+
+    <!-- ===== Backup / Restore ===== -->
+    <section id="section-backup" class="section">
+      <h2>Backup / Restore</h2>
+      <div class="op-grid">
+        <div class="op-card">
+          <h3>Create Backup</h3>
+          <p>Triggers a full database backup on the server.</p>
+          <div class="form-row">
+            <label>Backup Path (server-side)
+              <input type="text" id="backup-path" placeholder="/var/lib/themis/backups" />
+            </label>
+          </div>
+          <button class="btn btn-primary" id="btn-backup">💾 Create Backup</button>
+          <div id="backup-result" class="result-box hidden"></div>
+        </div>
+
+        <div class="op-card">
+          <h3>Restore Backup</h3>
+          <p>Restores the database from a previously created backup.</p>
+          <div class="form-row">
+            <label>Backup Path (server-side)
+              <input type="text" id="restore-path" placeholder="/var/lib/themis/backups/2026-04-16" />
+            </label>
+          </div>
+          <button class="btn btn-warning" id="btn-restore">♻ Restore</button>
+          <div id="restore-result" class="result-box hidden"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Monitoring ===== -->
+    <section id="section-monitoring" class="section">
+      <h2>Monitoring</h2>
+      <div class="toolbar">
+        <button class="btn" id="btn-refresh-metrics">↻ Refresh Metrics</button>
+      </div>
+      <div id="metrics-content" class="metrics-box">
+        <p class="hint">Click Refresh to load raw Prometheus metrics.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>ThemisDB Admin UI v1.1.0</span>
+    <span>—</span>
+    <span id="footer-server-url">API: /api</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

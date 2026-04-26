@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_lib_boost_integration.cpp                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:29:06                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:54:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     367                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -245,6 +242,7 @@ TEST_F(BoostLibIntegrationTest, BeastHttpParser) {
     
     auto consumed = parser.put(buffer.data(), ec);
     EXPECT_FALSE(ec);
+    EXPECT_GT(consumed, 0u);
     EXPECT_TRUE(parser.is_done());
     
     auto& req = parser.get();

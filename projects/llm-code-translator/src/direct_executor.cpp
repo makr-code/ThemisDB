@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            direct_executor.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:13:17                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     506                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Quality Score:   89.0/100                                       ║
+    • Total Lines:     512                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -227,8 +228,57 @@ ExecutionResult DirectExecutor::executeTransform(const ExecutionPlan& plan, cons
 
 ExecutionResult DirectExecutor::executeJoin(const ExecutionPlan& plan, const ResourceLimits& limits) {
     ExecutionResult result;
-    result.success = false;
-    result.error_message = "JOIN operation not yet implemented";
+
+    // Left datasource
+    nlohmann::json left = impl_->db->scan(plan.datasource);
+    if (!left.is_array()) { left = nlohmann::json::array(); }
+
+    // Right datasource from parameters["join_source"]
+    std::string right_source;
+    std::string join_key = "id";
+    if (plan.parameters.count("join_source")) {
+        right_source = std::get<std::string>(plan.parameters.at("join_source"));
+    }
+    if (plan.parameters.count("join_key")) {
+        join_key = std::get<std::string>(plan.parameters.at("join_key"));
+    }
+
+    if (right_source.empty()) {
+        result.success = false;
+        result.error_message = "JOIN requires parameters.join_source";
+        return result;
+    }
+
+    nlohmann::json right = impl_->db->scan(right_source);
+    if (!right.is_array()) { right = nlohmann::json::array(); }
+
+    // Build hash map on right side keyed by join_key
+    std::unordered_map<std::string, nlohmann::json> right_map;
+    for (const auto& row : right) {
+        if (row.contains(join_key)) {
+            right_map[row[join_key].dump()] = row;
+        }
+    }
+
+    nlohmann::json joined = nlohmann::json::array();
+    for (const auto& lrow : left) {
+        if (!lrow.contains(join_key)) { continue; }
+        auto it = right_map.find(lrow[join_key].dump());
+        if (it == right_map.end()) { continue; }
+        nlohmann::json merged = lrow;
+        for (auto& [k, v] : it->second.items()) {
+            if (!merged.contains(k)) { merged[k] = v; }
+        }
+        joined.push_back(std::move(merged));
+    }
+
+    if (!plan.filters.empty()) {
+        joined = applyFilters(joined, plan.filters);
+    }
+
+    result.success = true;
+    result.data = std::move(joined);
+    result.rows_affected = static_cast<int64_t>(result.data.size());
     return result;
 }
 
@@ -323,8 +373,74 @@ ExecutionResult DirectExecutor::executeTimeSeries(const ExecutionPlan& plan, con
 
 ExecutionResult DirectExecutor::executeMutation(const ExecutionPlan& plan, const ResourceLimits& limits) {
     ExecutionResult result;
-    result.success = false;
-    result.error_message = "MUTATION operation not yet implemented";
+
+    // Determine mutation type from parameters["mutation_type"]: insert | update | delete
+    std::string mutation_type = "insert";
+    if (plan.parameters.count("mutation_type")) {
+        auto& pv = plan.parameters.at("mutation_type");
+        if (std::holds_alternative<std::string>(pv)) {
+            mutation_type = std::get<std::string>(pv);
+        }
+    }
+
+    if (mutation_type == "insert") {
+        // record is passed as a JSON string in parameters["record_json"]
+        std::string record_json;
+        if (plan.parameters.count("record_json")) {
+            record_json = std::get<std::string>(plan.parameters.at("record_json"));
+        }
+        if (record_json.empty()) {
+            result.error_message = "MUTATION insert requires parameters.record_json (JSON string)";
+            return result;
+        }
+        nlohmann::json record = nlohmann::json::parse(record_json, nullptr, false);
+        if (record.is_discarded() || !record.is_object()) {
+            result.error_message = "MUTATION insert: parameters.record_json is not valid JSON object";
+            return result;
+        }
+        nlohmann::json key = record.contains("id") ? record["id"] : record;
+        bool ok = impl_->db->put(plan.datasource, key, record);
+        result.success = ok;
+        if (!ok) { result.error_message = "Insert failed"; }
+        result.rows_affected = ok ? 1 : 0;
+
+    } else if (mutation_type == "delete") {
+        // key is passed as a string in parameters["key"]
+        if (!plan.parameters.count("key")) {
+            result.error_message = "MUTATION delete requires parameters.key";
+            return result;
+        }
+        nlohmann::json key = std::get<std::string>(plan.parameters.at("key"));
+        bool ok = impl_->db->del(plan.datasource, key);
+        result.success = ok;
+        if (!ok) { result.error_message = "Delete failed"; }
+        result.rows_affected = ok ? 1 : 0;
+
+    } else if (mutation_type == "update") {
+        // key as string, updates as JSON string in parameters["updates_json"]
+        if (!plan.parameters.count("key") || !plan.parameters.count("updates_json")) {
+            result.error_message = "MUTATION update requires parameters.key and parameters.updates_json";
+            return result;
+        }
+        nlohmann::json key = std::get<std::string>(plan.parameters.at("key"));
+        std::string updates_str = std::get<std::string>(plan.parameters.at("updates_json"));
+        nlohmann::json updates = nlohmann::json::parse(updates_str, nullptr, false);
+        if (updates.is_discarded() || !updates.is_object()) {
+            result.error_message = "MUTATION update: parameters.updates_json is not valid JSON object";
+            return result;
+        }
+        nlohmann::json existing = impl_->db->get(plan.datasource, key);
+        if (!existing.is_object()) { existing = nlohmann::json::object(); }
+        for (auto& [k, v] : updates.items()) { existing[k] = v; }
+        bool ok = impl_->db->put(plan.datasource, key, existing);
+        result.success = ok;
+        if (!ok) { result.error_message = "Update failed"; }
+        result.rows_affected = ok ? 1 : 0;
+
+    } else {
+        result.error_message = "Unknown mutation_type: " + mutation_type;
+    }
+
     return result;
 }
 
@@ -434,6 +550,11 @@ void DirectExecutor::resetStats() {
     impl_->stats = ExecutionStats();
 }
 
+// STUB/SIMULATION NOTE:
+// Purpose: Provide deterministic in-process data for translator execution during tests and demos.
+// Activation: Active when DirectExecutor is wired with MockDatabase instead of a real backend adapter.
+// Production Delta: Operations are non-persistent and return simplified/mock result sets.
+// Removal Plan: Keep for tests; production code paths should use concrete database adapters.
 // MockDatabase implementation
 MockDatabase::MockDatabase() {
     loadSampleData();

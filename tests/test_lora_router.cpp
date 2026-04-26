@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_lora_router.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:29:31                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:55:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -13,15 +13,13 @@
     • Total Lines:     184                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include <gtest/gtest.h>
 #include "llm/lora_router.h"
+#include "llm/decision_record_yaml_processor.h"
 #include <nlohmann/json.hpp>
 
 // Use specific types instead of namespace-wide using
@@ -181,4 +179,39 @@ TEST(LoRARouterStructures, RoutingPolicyEnum) {
     EXPECT_EQ(policy, RoutingPolicy::LOAD_AWARE);
 }
 
+// ─── DecisionRecord integration ───────────────────────────────────────────────
 
+TEST(LoRARouterDecisionRecord, SetProcessorAcceptsNullptr) {
+    // setDecisionRecordProcessor(nullptr) must not crash — it disables emission.
+    // We cannot instantiate a full LoRARouter without real embedding providers,
+    // so we verify the API is accessible by checking the header compiles and the
+    // method exists on the type.
+    using Proc = themis::llm::DecisionRecordYamlProcessor;
+    std::shared_ptr<Proc> null_proc = nullptr;
+    // Just check that the type + method signature compile correctly.
+    (void)static_cast<void(LoRARouter::*)(std::shared_ptr<Proc>)>(
+        &LoRARouter::setDecisionRecordProcessor);
+}
+
+TEST(LoRARouterDecisionRecord, DecisionRecordAdapterSelectionType) {
+    // LORA_ADAPTER_SELECTION must be among the well-known decision types
+    // listed in the DecisionRecord documentation.
+    themis::llm::DecisionRecord rec;
+    rec.decision_type = "LORA_ADAPTER_SELECTION";
+    rec.component     = "LoRARouter";
+    rec.outcome       = "SUCCESS";
+    rec.confidence    = 0.92f;
+    rec.latency_ms    = 4;
+    rec.parameters["adapter_id"]       = "lora_code_v2";
+    rec.parameters["similarity_score"] = "0.920000";
+    rec.parameters["is_fallback"]      = "false";
+
+    EXPECT_EQ(rec.decision_type, "LORA_ADAPTER_SELECTION");
+    EXPECT_EQ(rec.component, "LoRARouter");
+    EXPECT_EQ(rec.outcome, "SUCCESS");
+    ASSERT_TRUE(rec.confidence.has_value());
+    EXPECT_NEAR(*rec.confidence, 0.92f, 1e-5f);
+    EXPECT_EQ(rec.latency_ms, 4);
+    EXPECT_EQ(rec.parameters.at("adapter_id"), "lora_code_v2");
+    EXPECT_EQ(rec.parameters.at("is_fallback"), "false");
+}

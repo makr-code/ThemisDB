@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cep_engine.h                                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:05:22                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1223                                           ║
+    • Total Lines:     1221                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 5706ac4f3  2026-03-18  fix(analytics): streaming_window — configurable expiry in... ║
-    • 41d5cc48b  2026-03-17  fix(analytics): address all code review findings from aut... ║
-    • c826f73cd  2026-03-17  feat(analytics): implement memory pool allocator for hot ... ║
-    • 245a5fba1  2026-03-16  fix(analytics): release window lock before invoking user ... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 5706ac4f36  2026-03-18  fix(analytics): streaming_window — configurable expiry in... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -220,7 +217,7 @@ constexpr uint32_t DEFAULT_CHECKPOINT_INTERVAL_MS = 10000;
 /**
  * Field value (variant type)
  */
-using FieldValue = std::variant<
+using CepFieldValue = std::variant<
     std::monostate,         // null
     bool,
     int64_t,
@@ -254,7 +251,7 @@ struct Event {
     uint32_t partition_id = 0;
     
     // Payload
-    std::map<std::string, FieldValue> fields;
+    std::map<std::string, CepFieldValue> fields;
     std::vector<uint8_t> raw_payload;
     
     // Tracking
@@ -272,7 +269,7 @@ struct Event {
         return std::nullopt;
     }
     
-    void setField(const std::string& name, FieldValue value) {
+    void setField(const std::string& name, CepFieldValue value) {
         fields[name] = std::move(value);
     }
     
@@ -288,7 +285,7 @@ struct PatternMatch {
     std::string rule_id;
     std::chrono::system_clock::time_point match_time;
     std::vector<Event> matched_events;
-    std::map<std::string, FieldValue> bindings;  // Captured values
+    std::map<std::string, CepFieldValue> bindings;  // Captured values
     double confidence = 1.0;
 };
 
@@ -298,11 +295,11 @@ struct PatternMatch {
 struct AggregationResult {
     std::string aggregation_id;
     AggregationType type;
-    FieldValue result;
+    CepFieldValue result;
     uint64_t count = 0;
     std::chrono::system_clock::time_point window_start;
     std::chrono::system_clock::time_point window_end;
-    std::map<std::string, FieldValue> group_by_values;
+    std::map<std::string, CepFieldValue> group_by_values;
 };
 
 /**
@@ -316,7 +313,7 @@ struct Alert {
     std::string message;
     std::chrono::system_clock::time_point timestamp;
     PatternMatch match;
-    std::map<std::string, FieldValue> context;
+    std::map<std::string, CepFieldValue> context;
     bool acknowledged = false;
 };
 
@@ -613,7 +610,7 @@ private:
         uint32_t current_state;
         std::vector<Event> matched_events;
         std::chrono::steady_clock::time_point start_time;
-        std::map<std::string, FieldValue> bindings;
+        std::map<std::string, CepFieldValue> bindings;
     };
     std::map<std::string, std::vector<PartialMatch>> partial_matches_;
     mutable std::mutex state_mutex_;
@@ -786,8 +783,8 @@ private:
         double max = std::numeric_limits<double>::lowest();
         std::vector<double> values;  // For percentile, stddev
         std::set<std::string> distinct_values;
-        FieldValue first_value;
-        FieldValue last_value;
+        CepFieldValue first_value;
+        CepFieldValue last_value;
         bool has_first = false;
     };
     
@@ -801,7 +798,7 @@ private:
     
     std::string getGroupKey(const Event& event) const;
     void updateAggregation(AggregationState& state, const Event& event);
-    FieldValue computeResult(const AggregationState& state) const;
+    CepFieldValue computeResult(const AggregationState& state) const;
 };
 
 // ============================================================================
@@ -980,7 +977,7 @@ public:
         EventType type,
         const std::string& collection,
         const std::string& document_id,
-        const std::map<std::string, FieldValue>& fields);
+        const std::map<std::string, CepFieldValue>& fields);
     
     // ========== Rule Management ==========
     

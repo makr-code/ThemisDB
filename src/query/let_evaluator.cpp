@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            let_evaluator.cpp                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:18:30                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1487                                           ║
+    • Total Lines:     1485                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a4a3e5f6a  2026-02-25  fix(geo): ST_AsGeoJSON now handles MultiPolygon and Geome... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -29,6 +24,7 @@
 #include "utils/geo/ewkb.h"
 #include <stdexcept>
 #include <cmath>
+#include <numbers>
 #include <algorithm>
 #include <cctype>
 #include <sstream>
@@ -547,7 +543,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         };
         if (looksLikeDegrees(x1, y1) && looksLikeDegrees(x2, y2) && (std::abs(dx) > 5.0 || std::abs(dy) > 5.0)) {
             constexpr double kEarthRadiusKm = 6371.0;
-            auto deg2rad = [](double d){ return d * M_PI / 180.0; };
+            auto deg2rad = [](double d){ return d * std::numbers::pi_v<double> / 180.0; };
             double lat1 = deg2rad(y1), lon1 = deg2rad(x1);
             double lat2 = deg2rad(y2), lon2 = deg2rad(x2);
             double dlat = lat2 - lat1;

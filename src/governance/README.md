@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Governance Module
 
 Policy engine and compliance governance implementation for ThemisDB.
@@ -64,6 +66,7 @@ For governance documentation, see:
 - [ARCHITECTURE.md](./ARCHITECTURE.md) — Architecture guide with component diagram and data flow
 - [ROADMAP.md](./ROADMAP.md) — Development roadmap and production readiness checklist
 - [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md) — Planned features with performance targets and IEEE references
+- [AI_ML_IMPACT_ASSESSMENT.md](./AI_ML_IMPACT_ASSESSMENT.md) — ML/AI impact map, risk register, guardrails, KPIs, and rollout path
 - [include/governance/README.md](../../include/governance/README.md) — Public API header overview
 - [docs/de/governance/README.md](../../docs/de/governance/README.md) — German secondary documentation
 
@@ -76,3 +79,12 @@ For governance documentation, see:
 3. Abiteboul, S., Hull, R., & Vianu, V. (1995). **Foundations of Databases**. Addison-Wesley. https://webdam.inria.fr/Alice/
 
 4. Sandhu, R. S., Coyne, E. J., Feinstein, H. L., & Youman, C. E. (1996). **Role-Based Access Control Models**. *IEEE Computer*, 29(2), 38–47. https://doi.org/10.1109/2.485845
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/governance/README.md`](../../include/governance/README.md) for the public API.

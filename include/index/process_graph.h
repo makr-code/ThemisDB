@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            process_graph.h                                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:04                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     908                                            ║
+    • Total Lines:     926                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c4ae3846c  2026-03-15  feat(network): implement ProcessGraphVisitLog and getVisi... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 6897bb74a5  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
+    • e8953e1175  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -317,6 +316,11 @@ struct ProcessNodeInfo {
     std::optional<std::string> location_constraint;   ///< WKT geofence where task can be executed
     std::optional<double> max_distance_km;            ///< Max distance from location
     std::optional<std::string> region;                ///< Geographic region code
+
+    // ===== Layout / Diagram Interchange =====
+    /// Optional graphical layout hints populated from BPMNDI (BPMNShape) on import.
+    /// Schema: { "x": float, "y": float, "width": float, "height": float }
+    nlohmann::json metadata;  ///< Extended key-value metadata (e.g. layout)
 };
 
 /**
@@ -511,6 +515,19 @@ public:
     };
 
     explicit ProcessGraphManager(RocksDBWrapper& db);
+
+    /**
+     * @brief Wire a text-embedding function for auto-generating process embeddings.
+     *
+     * When set, registerProcess() automatically computes and persists an embedding
+     * for the process name (and BPMN description if available) so that
+     * findSimilarProcesses() / semanticSearchProcesses() work without manual
+     * pre-computation.
+     *
+     * @param embedder  `(std::string_view text) → std::vector<float>`.
+     *                  Pass an empty function to disable.
+     */
+    void setEmbedder(std::function<std::vector<float>(std::string_view)> embedder);
 
     // ===== Process Model Management =====
     
@@ -868,6 +885,7 @@ public:
 
 private:
     RocksDBWrapper& db_;
+    std::function<std::vector<float>(std::string_view)> embedder_;
     
     // Internal helpers
     std::string makeProcessKey_(std::string_view process_id) const;

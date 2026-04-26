@@ -28,7 +28,7 @@ In den letzten Releases (v1.3.0 bis v1.3.4) wurden umfangreiche Sicherheitsverbe
 ## 🔒 1. RocksDB Wrapper - Security Audit & Fixes
 
 **Audit-Datum:** 2. Januar 2026  
-**Dokument:** [ROCKSDB_WRAPPER_AUDIT_REPORT.md](/docs/ROCKSDB_WRAPPER_AUDIT_REPORT.md)
+**Dokument:** [ROCKSDB_WRAPPER_AUDIT_REPORT.md](../../Audit/ROCKSDB_WRAPPER_AUDIT_REPORT.md)
 
 ### Identifizierte Probleme
 

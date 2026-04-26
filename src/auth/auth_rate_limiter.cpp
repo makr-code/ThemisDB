@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_rate_limiter.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:14:10                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     798                                            ║
+    • Total Lines:     795                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 5049fdc56  2026-03-12  fix(auth): address PR review comments on credential stuff... ║
-    • daf194f99  2026-03-12  feat(auth): implement rate limiter distributed state sync... ║
-    • 9de8da16f  2026-03-12  feat(auth): implement credential stuffing persistent cros... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c65f5b1f7  2026-03-01  feat(auth): integrate audit logger into AuthRateLimiter a... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -58,7 +55,7 @@ bool AccountLockoutManager::recordFailedAttempt(
         return false;
     }
     
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     auto now = std::chrono::system_clock::now();
     auto& info = lockout_state_[user_id];
@@ -108,7 +105,7 @@ bool AccountLockoutManager::recordFailedAttempt(
 }
 
 void AccountLockoutManager::recordSuccessfulAuth(const std::string& user_id) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     auto it = lockout_state_.find(user_id);
     if (it != lockout_state_.end()) {
@@ -124,7 +121,7 @@ void AccountLockoutManager::recordSuccessfulAuth(const std::string& user_id) {
 }
 
 bool AccountLockoutManager::isAccountLocked(const std::string& user_id) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     
     auto it = lockout_state_.find(user_id);
     if (it == lockout_state_.end()) {
@@ -142,7 +139,7 @@ bool AccountLockoutManager::isAccountLocked(const std::string& user_id) const {
 std::optional<LockoutInfo> AccountLockoutManager::getLockoutInfo(
     const std::string& user_id) const
 {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     auto it = lockout_state_.find(user_id);
     if (it == lockout_state_.end()) {
@@ -153,7 +150,7 @@ std::optional<LockoutInfo> AccountLockoutManager::getLockoutInfo(
 }
 
 bool AccountLockoutManager::unlockAccount(const std::string& user_id) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     auto it = lockout_state_.find(user_id);
     if (it == lockout_state_.end() || !it->second.is_locked) {
@@ -170,7 +167,7 @@ bool AccountLockoutManager::unlockAccount(const std::string& user_id) {
 }
 
 size_t AccountLockoutManager::getLockedAccountCount() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     
     auto now = std::chrono::system_clock::now();
     size_t count = 0;
@@ -187,7 +184,7 @@ size_t AccountLockoutManager::getLockedAccountCount() const {
 void AccountLockoutManager::forceLockAccount(const std::string& user_id,
                                               std::chrono::seconds duration)
 {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     auto now = std::chrono::system_clock::now();
     auto& info = lockout_state_[user_id];
     info.is_locked    = true;
@@ -198,7 +195,7 @@ void AccountLockoutManager::forceLockAccount(const std::string& user_id,
 }
 
 void AccountLockoutManager::cleanup() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     auto now = std::chrono::system_clock::now();
     
@@ -227,7 +224,7 @@ void AccountLockoutManager::cleanup() {
 }
 
 void AccountLockoutManager::reset() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     lockout_state_.clear();
 }
 
@@ -298,7 +295,7 @@ bool AuthRateLimiter::allowAuthAttempt(
     bool stuffing_alert = false;
 
     {
-        std::lock_guard<std::mutex> lock(stats_mutex_);
+        std::unique_lock<std::shared_mutex> lock(stats_mutex_);
         stats_.total_auth_attempts++;
 
         // Check if IP is whitelisted
@@ -381,7 +378,7 @@ void AuthRateLimiter::recordFailedAuth(
     bool stuffing_alert    = false;
 
     {
-        std::lock_guard<std::mutex> lock(stats_mutex_);
+        std::unique_lock<std::shared_mutex> lock(stats_mutex_);
         stats_.failed_auths++;
 
         // Track for credential-stuffing detection
@@ -434,9 +431,9 @@ void AuthRateLimiter::recordFailedAuth(
 
 void AuthRateLimiter::recordSuccessfulAuth(
     const std::string& user_id,
-    const std::string& ip_address)
+    [[maybe_unused]] const std::string& ip_address)
 {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
+    std::unique_lock<std::shared_mutex> lock(stats_mutex_);
     stats_.successful_auths++;
     
     if (!user_id.empty()) {
@@ -457,14 +454,14 @@ std::optional<LockoutInfo> AuthRateLimiter::getLockoutInfo(
 bool AuthRateLimiter::unlockAccount(const std::string& user_id) {
     bool unlocked = lockout_manager_->unlockAccount(user_id);
     if (unlocked) {
-        std::lock_guard<std::mutex> lock(stats_mutex_);
+        std::unique_lock<std::shared_mutex> lock(stats_mutex_);
         stats_.currently_locked_accounts = lockout_manager_->getLockedAccountCount();
     }
     return unlocked;
 }
 
 uint32_t AuthRateLimiter::getRetryAfter(const std::string& ip_address) const {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
+    std::shared_lock<std::shared_mutex> lock(stats_mutex_);
     if (backend_) {
         auto count = backend_->getCount("ip:" + ip_address, 60);
         if (static_cast<size_t>(count) >= config_.max_attempts_per_ip_per_minute) {
@@ -480,22 +477,22 @@ bool AuthRateLimiter::isWhitelisted(const std::string& ip_address) const {
 }
 
 void AuthRateLimiter::setAnomalyCallback(AuthAnomalyCallback callback) {
-    std::lock_guard<std::mutex> lock(callback_mutex_);
+    std::unique_lock<std::shared_mutex> lock(callback_mutex_);
     anomaly_callback_ = std::move(callback);
 }
 
 void AuthRateLimiter::setAuditLogger(utils::AuditLogger* logger) {
-    std::lock_guard<std::mutex> lock(callback_mutex_);
+    std::unique_lock<std::shared_mutex> lock(callback_mutex_);
     audit_logger_ = logger;
 }
 
 void AuthRateLimiter::setBackend(std::shared_ptr<IRateLimiterBackend> backend) {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
+    std::unique_lock<std::shared_mutex> lock(stats_mutex_);
     backend_ = std::move(backend);
 }
 
 void AuthRateLimiter::setMetrics(AuthMetrics* metrics) {
-    std::lock_guard<std::mutex> lock(callback_mutex_);
+    std::unique_lock<std::shared_mutex> lock(callback_mutex_);
     metrics_ = metrics;
 }
 
@@ -596,7 +593,7 @@ CredentialStuffingOutcome AuthRateLimiter::escalateCredentialStuffing(
                             user_id + " ip=" + ip +
                             " (breach_count=" + std::to_string(count) + ")");
         {
-            std::lock_guard<std::mutex> lock(stats_mutex_);
+            std::unique_lock<std::shared_mutex> lock(stats_mutex_);
             stats_.currently_locked_accounts = lockout_manager_->getLockedAccountCount();
         }
     } else if (outcome == CredentialStuffingOutcome::OTP_REQUIRED) {
@@ -658,7 +655,7 @@ void AuthRateLimiter::fireAuthAnomaly(AuthAnomalyEvent::Type type,
     utils::AuditLogger* al = nullptr;
     AuthMetrics*        met = nullptr;
     {
-        std::lock_guard<std::mutex> lock(callback_mutex_);
+        std::shared_lock<std::shared_mutex> lock(callback_mutex_);
         cb  = anomaly_callback_;
         al  = audit_logger_;
         met = metrics_;
@@ -739,7 +736,7 @@ void AuthRateLimiter::updateConfig(const AuthRateLimitConfig& config) {
     user_config.refill_rate = static_cast<double>(config.max_attempts_per_user_per_minute) / 60.0;
     user_rate_limiter_->updateConfig(user_config);
 
-    std::lock_guard<std::mutex> lock(stats_mutex_);
+    std::unique_lock<std::shared_mutex> lock(stats_mutex_);
     config_ = config;
     // Clearing the credential-stuffing state on a config update is intentional: it
     // ensures the new threshold and window take effect immediately for all IPs.
@@ -749,13 +746,13 @@ void AuthRateLimiter::updateConfig(const AuthRateLimitConfig& config) {
 }
 
 AuthRateLimiter::Statistics AuthRateLimiter::getStatistics() const {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
+    std::shared_lock<std::shared_mutex> lock(stats_mutex_);
     return stats_;
 }
 
 void AuthRateLimiter::reset() {
     {
-        std::lock_guard<std::mutex> lock(stats_mutex_);
+        std::unique_lock<std::shared_mutex> lock(stats_mutex_);
         ip_rate_limiter_->reset();
         user_rate_limiter_->reset();
         lockout_manager_->reset();
@@ -774,7 +771,7 @@ void AuthRateLimiter::cleanup() {
     lockout_manager_->cleanup();
 
     // Prune stale credential-stuffing state for IPs whose rolling window has expired.
-    std::lock_guard<std::mutex> lock(stats_mutex_);
+    std::unique_lock<std::shared_mutex> lock(stats_mutex_);
     auto now    = std::chrono::steady_clock::now();
     auto window = std::chrono::seconds(config_.credential_stuffing_window_seconds);
     auto cutoff = now - window;

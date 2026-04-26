@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Temporal Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -40,13 +42,16 @@
 - [I] `FOR SYSTEM_TIME` / `FOR APPLICATION_TIME` clause in AQL query parser (Target: Q3 2026)
 - [x] Temporal uniqueness constraints and gap/overlap detection for valid-time periods (`BiTemporalTable::hasUniquenessConflict`, `BiTemporalTable::findGaps`, `BiTemporalTable::findOverlaps`)
 - [I] Storage-based and archive-to-cold-storage retention policy variants (Target: Q3 2026)
-- [I] Delta compression for historical versions (ZSTD / Gorilla for numeric time-series data) (Target: Q4 2026)
+- [x] Delta compression for historical versions (DELTA, ZSTD, Gorilla, DICTIONARY algorithms via `TemporalCompressor`)
+  - `[x]` LZ4 compression added to `TemporalCompressor` (Issue: #4575) (2026-04-12): `CompressionAlgorithm::LZ4`, `applyLz4()`/`decompressLz4()` via `<lz4.h>`
+  - JSON payload: `{"__compressed":"lz4","__original_size":N,"__data":"<base64>"}` wired into `algorithmName()`, `decompress()`, `compressHistory()`
+  - 5 focused tests (TC-LZ4-01…TC-LZ4-05) appended to `tests/temporal/test_temporal_compressor.cpp`
 
 ### Long-term (6-12 months)
 - [x] Temporal foreign keys with period-aware referential integrity (`TemporalForeignKey::validate()`)
-- [I] Temporal CDC: version-aware change event streaming with before/after diff (Target: Q1 2027)
-- [I] Temporal migration tooling: convert existing tables to system-versioned with history backfill (Target: Q1 2027)
-- [I] Interval-tree index for efficient overlapping-period detection (Target: Q1 2027)
+- [x] Temporal CDC: version-aware change event streaming (INSERT/UPDATE/DELETE/VERSION_CREATED) with before/after payloads; ring-buffer replay; CDCPersistentLog WAL (`temporal_cdc.cpp`)
+- [x] Migration tooling: convert existing tables to system-versioned (`temporal_migrator.h/cpp`)
+- [x] Interval-tree index for `O(log n + k)` overlap detection (`interval_tree_index.cpp`)
 
 ## Implementation Phases
 
@@ -87,13 +92,13 @@
 - [I] Archive-to-cold-storage retention variant (`s3://` or filesystem archive before purge)
 - [I] Storage-based retention (cap history to N GB per table)
 - [x] Delta and Gorilla compression for historical versions
-- [x] Temporal CDC: `ChangeEvent` stream (INSERT / UPDATE / DELETE / VERSION_CREATED) with Kafka integration
+- [x] Temporal CDC: `ChangeEvent` stream (INSERT / UPDATE / DELETE / VERSION_CREATED) with pub/sub and ring-buffer replay (`temporal_cdc.cpp`); Kafka integration deferred
 - [I] Temporal foreign keys CASCADE/RESTRICT at SQL layer
 - [x] Interval-tree index for `O(log n + k)` overlap detection
 
-### Phase 5: Tooling & Migration (Status: Planned 📋)
-- [I] `TemporalMigrator`: analyze, migrate, and verify existing tables to system-versioned
-- [I] History backfill from audit log during migration
+### Phase 5: Tooling & Migration (Status: Partial ⚙️)
+- [x] `TemporalMigrator`: analyze, migrate, and verify existing tables to system-versioned (`temporal_migrator.h/cpp`)
+- [x] History backfill from audit log during migration (`TemporalMigrator::backfillHistory`)
 - [I] Integration with `src/scheduler/` for fully automated retention enforcement cycles
 - [I] Temporal query metrics exposed via `src/observability/`
 
@@ -108,9 +113,19 @@
 ## Known Issues & Limitations
 - SQL `PERIOD FOR` DDL syntax is not yet supported; application-time periods must be managed via the C++ API.
 - No automatic SQL-level retention syntax (`ALTER TABLE … SET RETENTION_PERIOD`); retention policies must be set programmatically via `RetentionManager::setPolicy()`.
-- History table compression is implemented via TemporalCompressor (DELTA, ZSTD, Gorilla, DICTIONARY algorithms).
+- History table compression is implemented via TemporalCompressor (DELTA, ZSTD, Gorilla, DICTIONARY, LZ4 algorithms). LZ4 added 2026-04-12 via `<lz4.h>`.
 - Temporal CDC is available via TemporalCDC (in-process pub/sub with bounded ring-buffer; external Kafka integration deferred to Phase 5).
 
 ## Breaking Changes
 - The `TemporalConflictResolver` and `SystemVersionedTable` C++ APIs are stable at v1.0 and will not change without a major version bump.
 - Future SQL-layer additions (`PERIOD FOR`, `FOR SYSTEM_TIME`) will be additive and backward-compatible with existing API-level usage.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `BiTemporalTable` – Bi-temporale Tabelle (valid-time + transaction-time); Tests + Bench vorhanden
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+

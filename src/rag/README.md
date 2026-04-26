@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release --target <target>`
+
 # ThemisDB RAG Module Implementation
 
 ## Module Purpose
@@ -12,10 +14,14 @@ Implements the Retrieval-Augmented Generation pipeline for ThemisDB, combining v
 
 ## Relevant Interfaces
 
-- `rag_pipeline.cpp` — orchestrates retrieval → augmentation → generation
-- `llm_integration.cpp` — LLM connector for RAG
-- `context_manager.cpp` — context window management
-- `retriever.cpp` — vector and hybrid retrieval
+- `rag_judge.cpp` — multi-dimensional evaluation orchestrator (`RAGJudge`)
+- `llm_integration.cpp` — LLM connector for RAG (`LLMIntegration`)
+- `hybrid_retriever.cpp` — BM25 + vector fusion with configurable RRF weights (`HybridRetriever`)
+- `streaming_retriever.cpp` — incremental context window filling with token-budget enforcement and MMR deduplication (`StreamingRetriever`)
+- `continuous_learning_orchestrator.cpp` — trigger-based retraining and A/B testing (`ContinuousLearningOrchestrator`; namespace `themis::rag::learning`); `triggerLoop(LoopPhase)`, `setFederationCoordinator()`, `setTrainerForFederation()`
+- `rag_ingestion_bridge.cpp` — connects `IngestionToolbox` to the RAG pipeline (`RAGIngestionBridge`, `IndexResult`; namespace `themis::rag`); `indexDocument()`, `enrichRetrievedDocuments()`, `extractEntitiesForContext()`, `buildEntityContext()`
+- `quality_control_pipeline.cpp` — multi-stage QC orchestration (`QualityControlPipeline`)
+- `prompt_injection_detector.cpp` — pattern-based injection detection and sanitisation (`PromptInjectionDetector`, `PromptInjectionSanitizer`)
 
 ## Current Delivery Status
 
@@ -25,38 +31,76 @@ Implements the Retrieval-Augmented Generation pipeline for ThemisDB, combining v
 
 Implementation files for ThemisDB's Retrieval-Augmented Generation (RAG) system providing intelligent document retrieval, quality evaluation, knowledge gap detection, and ethical compliance checking.
 
-## Implementation Files (20 files, ~7,900 LOC)
+## Implementation Files (55 files)
 
 ### Core Components
-1. **rag_judge.cpp** - Main orchestrator for multi-dimensional evaluation
+1. **rag_judge.cpp** - Main orchestrator for multi-dimensional evaluation (`RAGJudge`)
 2. **knowledge_gap_detector.cpp** - Three-level gap detection system
 3. **llm_integration.cpp** - Bridge to LLM inference engine
 
-### Streaming Retrieval (Phase 2)
-4. **streaming_retriever.cpp** - Incremental context window filling with token-budget
-   enforcement, relevance-ordered streaming, MMR deduplication, and cancellation support
+### Retrieval Components
+4. **hybrid_retriever.cpp** - BM25 + vector fusion with configurable RRF weights (`HybridRetriever`)
+5. **streaming_retriever.cpp** - Incremental context window filling with token-budget enforcement, relevance-ordered streaming, MMR deduplication, and cancellation support
+6. **adaptive_retrieval.cpp** - Adaptive retrieval depth based on query complexity (`AdaptiveRetrieval`, `QueryComplexity`)
+7. **replug_retriever.cpp** - REPLUG-style LLM-scored retrieval fusion (`ReplugRetriever`)
+8. **knowledge_graph_retriever.cpp** - Knowledge graph-augmented retrieval with entity linking
+
+### Ingestion & Assembly
+9. **rag_ingestion_bridge.cpp** - Connects `IngestionToolbox` to RAG pipeline (`RAGIngestionBridge`, `IndexResult`; `themis::rag` namespace)
+10. **rag_context_assembler.cpp** - Budget-aware chunk selection (`RAGContextAssembler`)
+11. **document_splitter.cpp** - Configurable chunking (`DocumentSplitter`)
+12. **document_summarizer.cpp** - Multi-document summarization
+
+### Continuous Learning
+13. **continuous_learning_orchestrator.cpp** - Trigger-based retraining (`ContinuousLearningOrchestrator`; `themis::rag::learning` namespace); `triggerLoop(LoopPhase)`, `setFederationCoordinator()`, `setTrainerForFederation()`
+14. **continuous_learning_client.cpp** - Client for continuous learning service
+15. **rlaif_trainer.cpp** - Constitutional AI / RLAIF training pipeline (`RLAIFTrainer`)
+16. **learning_metrics.cpp** - Sliding-window metrics with mean/std-dev/trend export
 
 ### Evaluators
-5. **faithfulness_evaluator.cpp** - Fact-checking against sources
-6. **relevance_evaluator.cpp** - Query-answer alignment
-7. **completeness_evaluator.cpp** - Query aspect coverage
-8. **coherence_evaluator.cpp** - Structure and readability
-9. **bias_detector.cpp** - Ethical compliance checking
+17. **faithfulness_evaluator.cpp** - Fact-checking against sources
+18. **relevance_evaluator.cpp** - Query-answer alignment
+19. **completeness_evaluator.cpp** - Query aspect coverage
+20. **coherence_evaluator.cpp** - Structure and readability
+21. **bias_detector.cpp** - Ethical compliance checking
 
 ### Support Components
-10. **claim_extractor.cpp** - Extract atomic claims from answers
-11. **response_parser.cpp** - Parse LLM evaluation responses
-12. **prompt_templates.cpp** - Template and few-shot management
-13. **judge_config.cpp** - Configuration validation
-14. **rubric_evaluator.cpp** - Custom rubric evaluation
+22. **claim_extractor.cpp** - Extract atomic claims from answers
+23. **response_parser.cpp** - Parse LLM evaluation responses
+24. **prompt_templates.cpp** - Template and few-shot management
+25. **judge_config.cpp** - Configuration validation
+26. **rubric_evaluator.cpp** - Custom rubric evaluation
+27. **nli_faithfulness_verifier.cpp** - NLI entailment-based claim verification
 
 ### Advanced Components
-15. **judge_ensemble.cpp** - Multi-judge voting strategies
-16. **pairwise_comparator.cpp** - Head-to-head comparisons
-17. **cot_evaluator.cpp** - Chain-of-thought evaluation
-18. **geval_evaluator.cpp** - G-Eval framework (Liu et al., 2023)
-19. **llm_judge_integration.cpp** - Judge orchestration
-20. **llm_meta_analyzer.cpp** - Performance meta-analysis
+28. **judge_ensemble.cpp** - Multi-judge voting strategies
+29. **pairwise_comparator.cpp** - Head-to-head comparisons
+30. **cot_evaluator.cpp** - Chain-of-thought evaluation
+31. **geval_evaluator.cpp** - G-Eval framework (Liu et al., 2023)
+32. **llm_judge_integration.cpp** - Judge orchestration
+33. **llm_meta_analyzer.cpp** - Performance meta-analysis
+34. **distributed_rag_evaluator.cpp** - Distributed evaluation across multiple judge models
+35. **batch_evaluator.cpp** - Parallel batch processing
+36. **evaluation_cache.cpp** - Thread-safe LRU evaluation result cache with TTL
+37. **calibration_manager.cpp** - Temperature/Platt/isotonic scaling for judge score calibration
+38. **hallucination_dashboard.cpp** - Rolling-window hallucination rate tracking
+39. **citation_highlighter.cpp** - Map answer sentences to source chunks
+40. **multi_hop_reasoner.cpp** - Multi-hop reasoning with query decomposition
+41. **multi_step_rag.cpp** - Map-Reduce and Iterative RAG strategies
+42. **agentic_rag.cpp** - Agentic RAG with iterative retrieval loops
+43. **multimodal_rag.cpp** - Multi-modal RAG (image + text retrieval)
+44. **quality_control_pipeline.cpp** - Multi-stage QC orchestration
+45. **quality_control_factory.cpp** - Factory for QC pipeline components
+46. **prompt_injection_detector.cpp** - Pattern-based injection detection (`PromptInjectionDetector`, `PromptInjectionSanitizer`)
+47. **adversarial_tester.cpp** - Adversarial robustness testing
+48. **ab_testing_framework.cpp** - A/B testing for pipeline variants
+49. **bayesian_optimizer.cpp** - Bayesian hyperparameter optimization
+50. **evaluation_report_exporter.cpp** - JSON/HTML report export
+51. **explainability_reason_builder.cpp** - Explainability reason and evidence builder
+52. **onnx_model_loader.cpp** - ONNX model loader for local NLI/reranker inference
+53. **llm_judge_client.cpp** - HTTP client for remote LLM judge API
+54. **http_metrics_client.cpp** - HTTP metrics export to external monitoring
+55. **reranker.cpp** - Cross-encoder reranking
 
 ## Performance Characteristics
 
@@ -69,11 +113,11 @@ Implementation files for ThemisDB's Retrieval-Augmented Generation (RAG) system 
 ## Testing
 
 ```bash
-./build/tests/test_rag_judge
-./build/tests/test_knowledge_gap_detector
-./build/tests/test_rag_streaming_retriever
-./build/tests/test_rag_pipeline_integration
-./build/benchmarks/bench_rag_evaluation
+cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release --target test_rag_judge
+cmake --build --preset linux-ninja-release --target test_knowledge_gap_detector
+cmake --build --preset linux-ninja-release --target test_rag_streaming_retriever
+cmake --build --preset linux-ninja-release --target test_rag_pipeline_integration
+cmake --build --preset linux-ninja-release --target bench_rag_evaluation
 ```
 
 ## Wissenschaftliche Grundlagen
@@ -152,3 +196,12 @@ Die Implementierung basiert auf folgenden peer-reviewten Forschungsarbeiten:
 4. Ma, X., Guo, J., Zhang, R., Fan, Y., Cheng, X., & Cheng, X. (2022). **Pre-train, Prompt, and Predict: A Systematic Survey of Prompting Methods in Natural Language Processing**. *ACM Computing Surveys*, 55(9), 195:1–195:35. https://doi.org/10.1145/3560815
 
 5. Borgeaud, S., Mensch, A., Hoffmann, J., Cai, T., Rutherford, E., Millican, K., … Sifre, L. (2022). **Improving Language Models by Retrieving from Trillions of Tokens**. *Proceedings of the 39th International Conference on Machine Learning (ICML)*, 2206–2240. https://arxiv.org/abs/2112.04426
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/rag/README.md`](../../include/rag/README.md) for the public API.

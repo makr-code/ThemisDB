@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Metadata Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -115,3 +117,29 @@ RBAC/access-control and observer interfaces are all shipped.
 ## Breaking Changes
 - INFORMATION_SCHEMA view column names follow SQL standard; no planned breaking changes.
 - `SchemaManager` public API is stable from v1.x.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `CatalogExporter` – Exportiert Metadaten-Katalog; getestet in `test_catalog_exporter.cpp`
+- `buildAtlasPayload` – Baut Apache Atlas Bulk-Entity-Payload (JSON) aus TableSchema-Liste;
+  vollständig implementiert (~73 Zeilen), **indirekt** über `publishSchema()` in Tests geprüft
+- `sendToAtlas` – HTTP-POST an Atlas v2 REST-API mit Basic-Auth; vollständig implementiert;
+  **indirekt** via `publishSchema()` + `setHttpPostForTesting()` getestet
+- `buildDataHubProposals` – Erstellt DataHub MetadataChangeProposal (URN + datasetProperties +
+  schemaMetadata); vollständig implementiert; indirekt getestet
+- `sendToDataHub` – HTTP-POST jedes DataHub-Proposals an GMS `/aspects?action=ingestProposal`;
+  vollständig implementiert; indirekt getestet
+
+> **Korrektur (2026-04-20):** `buildAtlasPayload`, `sendToAtlas`, `buildDataHubProposals` und
+> `sendToDataHub` wurden initial als `🟡 UNGENUTZT` klassifiziert, da die Grep-Analyse private
+> Methoden nicht direkt in Testdateien aufspürte. Alle vier sind **vollständig implementiert** und
+> werden über `publishSchema()` in `test_catalog_exporter.cpp` getestet (HTTP-Injection via
+> `setHttpPostForTesting`). Korrekte Klassifikation: **🧪 NUR_TESTS**.
+
+> **Aktion:** `CatalogExporter` in `HttpServer` oder einem neuen `MetadataApiHandler` verdrahten,
+> sobald Atlas/DataHub-Endpunkt-Konfiguration im Server-Config-Schema vorhanden ist.
+

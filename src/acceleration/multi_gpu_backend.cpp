@@ -3,20 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_gpu_backend.cpp                              ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:13:46                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     503                                            ║
+    • Total Lines:     505                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ea484e8b0  2026-02-23  fix(acceleration): audit fixes — thread-safety, warning, ... ║
-    • 9e7afd57b  2026-02-23  feat(acceleration): implement MultiGPUVectorBackend with ... ║
+    • f20e6e8d74  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • 2826fa9ccd  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -324,6 +325,7 @@ public:
     // -------------------------------------------------------------------------
 
     void initCommBackend(const std::vector<int>& deviceIds) {
+        (void)deviceIds;
         CommBackend target = config.commBackend;
 
         if (target == CommBackend::AUTO) {
@@ -391,7 +393,7 @@ public:
 #endif
             case CommBackend::CPU:
             default:
-                (void)deviceIds;  // unused when NCCL/RCCL are not compiled in
+                // unused when NCCL/RCCL are not compiled in
                 activeComm = CommBackend::CPU;
                 success = true;
                 break;

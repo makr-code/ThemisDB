@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            oauth_pkce_flow.cpp                                ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:14:18                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     499                                            ║
+    • Total Lines:     496                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • fc7a85ac8  2026-03-12  fix(auth): address PR review - curl_multi_info_read, void... ║
-    • 57fef95c4  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 82b94dd7c  2026-02-24  fix(auth): code-audit fixes for OAuth PKCE — EVP SHA-256,... ║
-    • 49afad4b8  2026-02-23  feat(auth): implement OAuth 2.0 PKCE flow for public clie... ║
+    • fc7a85ac82  2026-03-12  fix(auth): address PR review - curl_multi_info_read, void... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -43,7 +39,7 @@ namespace auth {
 namespace {
 
 // libcurl write callback – appends received data to a std::string.
-size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
+size_t oauthPkceWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
     const auto total = size * nmemb;
     static_cast<std::string*>(userdata)->append(ptr, total);
     return total;
@@ -315,7 +311,7 @@ std::string OAuthPKCEFlow::httpPost(const std::string& url, const std::string& b
     curl_easy_setopt(curl, CURLOPT_POST, 1L);
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.c_str());
     curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, static_cast<long>(body.size()));
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, oauthPkceWriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_body);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT, static_cast<long>(config_.http_timeout_seconds));
     // Always verify TLS certificates

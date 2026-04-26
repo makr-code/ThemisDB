@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_zero_copy.cpp                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:17:35                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     271                                            ║
+    • Total Lines:     272                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 354c97d28  2026-03-16  feat: Add new erasure coding backend and related components ║
-    • 543f66e65  2026-03-14  feat(network): implement wire protocol performance optimi... ║
+    • 354c97d283  2026-03-16  feat: Add new erasure coding backend and related components ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

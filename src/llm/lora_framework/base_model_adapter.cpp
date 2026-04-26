@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            base_model_adapter.cpp                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:17:01                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     739                                            ║
+    • Total Lines:     740                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -648,7 +649,7 @@ bool LoRAEnhancedModel::createLoRAAdapters() {
     return true;
 }
 
-Tensor LoRAEnhancedModel::forward(const Tensor& input, int layer_idx) {
+Tensor LoRAEnhancedModel::forward(const Tensor& input, int /*layer_idx*/) {
     if (!initialized_) {
         throw std::runtime_error("Model not initialized");
     }
@@ -670,7 +671,7 @@ Tensor LoRAEnhancedModel::forward(const Tensor& input, int layer_idx) {
     return input.clone();
 }
 
-Tensor LoRAEnhancedModel::backward(const Tensor& grad_output, int layer_idx) {
+Tensor LoRAEnhancedModel::backward(const Tensor& grad_output, int /*layer_idx*/) {
     if (!initialized_) {
         throw std::runtime_error("Model not initialized");
     }

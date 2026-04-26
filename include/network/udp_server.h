@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            udp_server.h                                       ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:08:58                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     314                                            ║
+    • Total Lines:     315                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
-    • dd95dba95  2026-03-15  feat(network): implement UDP Protocol Support (v1.8.0, is... ║
+    • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

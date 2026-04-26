@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            event_trigger.h                                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:10:37                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     253                                            ║
+    • Total Lines:     250                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 35729aa96  2026-02-23  feat(scheduler): implement onCDCEvent stub for event-trig... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -36,8 +36,7 @@
  * and trigger tasks when matching events occur.
  */
 
-#ifndef THEMIS_EVENT_TRIGGER_H
-#define THEMIS_EVENT_TRIGGER_H
+#pragma once
 
 #include "cdc/changefeed.h"
 #include <string>
@@ -249,5 +248,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_EVENT_TRIGGER_H

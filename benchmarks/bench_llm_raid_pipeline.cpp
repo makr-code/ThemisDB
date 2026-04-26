@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_llm_raid_pipeline.cpp                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:04:15                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:43:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   96.0/100                                       ║
-    • Total Lines:     421                                            ║
+    • Total Lines:     417                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 9c9ead9b4f  2026-04-09  Implement feature X to enhance user experience and optimi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -40,6 +39,7 @@
 #include <vector>
 #include <string>
 #include <thread>
+#include <future>
 
 namespace fs = std::filesystem;
 using themis::llm::InferenceRequest;
@@ -109,9 +109,6 @@ protected:
 
 BENCHMARK_F(RAIDLoRAPipelineFixture, BM_ModelLoadSingleShard)
 (benchmark::State& state) {
-    LLMPluginManager mgr;
-    mgr.registerPlugin("llama", std::make_unique<std::remove_pointer_t<decltype(mgr.getDefaultPlugin())>>());
-    
     for (auto _ : state) {
         LLMPluginManager mgr_iter;
         // Simulate model load
@@ -206,7 +203,7 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_LoRA_SwitchingLatency)
 BENCHMARK_F(RAIDLoRAPipelineFixture, BM_Inference_WithoutLoRA)
 (benchmark::State& state) {
     LLMPluginManager mgr;
-    mgr.loadModel(model_dir_ + "/base.gguf");
+    mgr.loadModel("base", model_dir_ + "/base.gguf");
     
     size_t counter = 0;
     for (auto _ : state) {
@@ -229,7 +226,7 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_Inference_WithoutLoRA)
 BENCHMARK_F(RAIDLoRAPipelineFixture, BM_Inference_WithSingleLoRA)
 (benchmark::State& state) {
     LLMPluginManager mgr;
-    mgr.loadModel(model_dir_ + "/base.gguf");
+    mgr.loadModel("base", model_dir_ + "/base.gguf");
     mgr.loadLoRA("legal", lora_dir_ + "/legal.bin", "base");
     
     size_t counter = 0;
@@ -254,7 +251,7 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_Inference_WithSingleLoRA)
 BENCHMARK_F(RAIDLoRAPipelineFixture, BM_Inference_WithLoRASwitching)
 (benchmark::State& state) {
     LLMPluginManager mgr;
-    mgr.loadModel(model_dir_ + "/base.gguf");
+    mgr.loadModel("base", model_dir_ + "/base.gguf");
     mgr.loadLoRA("legal", lora_dir_ + "/legal.bin", "base");
     mgr.loadLoRA("medical", lora_dir_ + "/medical.bin", "base");
     mgr.loadLoRA("finance", lora_dir_ + "/finance.bin", "base");
@@ -283,14 +280,14 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_Inference_WithLoRASwitching)
 // Benchmark: Multi-Shard Concurrent Inference
 // ═══════════════════════════════════════════════════════════
 
-BENCHMARK_F(RAIDLoRAPipelineFixture, BM_MultiShard_ConcurrentInference)
+BENCHMARK_DEFINE_F(RAIDLoRAPipelineFixture, BM_MultiShard_ConcurrentInference)
 (benchmark::State& state) {
     const int num_shards = state.range(0);
     std::vector<LLMPluginManager> shard_mgrs(num_shards);
     
     // Initialize all shards
     for (int i = 0; i < num_shards; i++) {
-        shard_mgrs[i].loadModel(model_dir_ + "/base.gguf");
+        shard_mgrs[i].loadModel("base", model_dir_ + "/base.gguf");
         shard_mgrs[i].loadLoRA("legal", lora_dir_ + "/legal.bin", "base");
     }
     
@@ -311,7 +308,7 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_MultiShard_ConcurrentInference)
     state.counters["num_shards"] = num_shards;
     state.counters["total_requests"] = num_shards;
 }
-BENCHMARK_F(RAIDLoRAPipelineFixture, BM_MultiShard_ConcurrentInference)
+BENCHMARK_REGISTER_F(RAIDLoRAPipelineFixture, BM_MultiShard_ConcurrentInference)
     ->Arg(1)
     ->Arg(3)
     ->Arg(5)
@@ -321,7 +318,7 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_MultiShard_ConcurrentInference)
 // Benchmark: Cross-Shard Data Distribution
 // ═══════════════════════════════════════════════════════════
 
-BENCHMARK_F(RAIDLoRAPipelineFixture, BM_DataDistribution_RAIDStriping)
+BENCHMARK_DEFINE_F(RAIDLoRAPipelineFixture, BM_DataDistribution_RAIDStriping)
 (benchmark::State& state) {
     const int num_shards = state.range(0);
     const int num_records = state.range(1);
@@ -360,7 +357,7 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_DataDistribution_RAIDStriping)
     state.counters["num_records"] = num_records;
     state.counters["records_per_sec"] = num_records / state.iterations();
 }
-BENCHMARK_F(RAIDLoRAPipelineFixture, BM_DataDistribution_RAIDStriping)
+BENCHMARK_REGISTER_F(RAIDLoRAPipelineFixture, BM_DataDistribution_RAIDStriping)
     ->Args({1, 1000})
     ->Args({3, 3000})
     ->Args({5, 5000})
@@ -384,7 +381,7 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_CompletePipeline_EndToEnd)
         
         // Load model on all shards
         for (auto& shard : shards) {
-            shard.loadModel(model_dir_ + "/base.gguf");
+            shard.loadModel("base", model_dir_ + "/base.gguf");
         }
         
         // Load LoRAs on all shards
@@ -417,5 +414,138 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_CompletePipeline_EndToEnd)
 }
 
 } // namespace
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Phase 6 — Distributed Inference Cases
+// ─────────────────────────────────────────────────────────────────────────
+// These benchmarks measure the overhead introduced by domain routing
+// decisions and batch fan-out across multiple shards.  They run entirely
+// in-process (no real network) to give stable, reproducible numbers.
+// ═══════════════════════════════════════════════════════════════════════════
+
+namespace {
+
+// ─────────────────────────────────────────────────────────────────────────
+// BM_DomainRouting_OverheadPerRequest
+//
+// Measures the latency of a single domain-routing decision made by
+// AdaptiveShardRouter::routeByDomain().  This is the overhead paid per
+// request to select the most capable shard for a given domain.
+//
+// Target (Phase 6 doc): routing decision ≤ 5 µs p99.
+// ─────────────────────────────────────────────────────────────────────────
+
+} // anonymous namespace
+
+#include "sharding/adaptive_shard_router.h"
+#include "sharding/consistent_hash.h"
+#include "sharding/shard_topology.h"
+#include "sharding/urn_resolver.h"
+#include "distributed_knowledge/adapter_capability_announcement.h"
+
+using namespace themis::sharding;
+using namespace themis::distributed_knowledge;
+
+namespace {
+
+static AdaptiveShardRouter makeThreeShardRouter()
+{
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    ShardRouter::Config cfg;
+    AdaptiveShardRouter r(resolver, nullptr, topology, cfg);
+
+    for (const auto& [shard, delta] :
+         std::initializer_list<std::pair<const char*, double>>{
+             {"shard-legal",   0.85},
+             {"shard-medical", 0.20},
+             {"shard-general", 0.10}}) {
+        AdapterCapabilityAnnouncement cap;
+        cap.domain_type    = AdapterDomainType::LEGAL;
+        cap.accuracy_delta = delta;
+        cap.adapter_version = "v1";
+        r.updateAdapterCapability(shard, cap);
+    }
+    return r;
+}
+
+} // anonymous namespace
+
+static void BM_DomainRouting_OverheadPerRequest(benchmark::State& state)
+{
+    auto router = makeThreeShardRouter();
+
+    for (auto _ : state) {
+        const auto shard = router.routeByDomain(AdapterDomainType::LEGAL);
+        benchmark::DoNotOptimize(shard);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.SetLabel("target: ≤5 µs p99");
+}
+
+BENCHMARK(BM_DomainRouting_OverheadPerRequest)
+    ->Iterations(100'000)
+    ->Unit(benchmark::kMicrosecond);
+
+// ─────────────────────────────────────────────────────────────────────────
+// BM_BatchFanOut_LatencyScaling
+//
+// Measures how batch-fanout latency grows as batch size N increases from 1
+// to 64 when requests are spread across a simulated shard-group.  Uses
+// std::async fan-out (the same mechanism as executeBatchInfer) with an
+// in-process mock that just hashes the prompt string.
+//
+// Args: batch_size (1, 8, 16, 32, 64)
+// Expected: near-linear throughput, super-linear wall time (up to thread pool saturation).
+// Target (Phase 6 doc): p99 latency for batch-64 ≤ 4× single-request latency.
+// ─────────────────────────────────────────────────────────────────────────
+
+static void BM_BatchFanOut_LatencyScaling(benchmark::State& state)
+{
+    const int batch_size = static_cast<int>(state.range(0));
+
+    // Simulate a "domain shard" that processes one request synchronously.
+    auto mock_infer = [](const std::string& prompt) -> std::string {
+        // Busy-work proportional to prompt length (simulates token generation).
+        volatile std::size_t h = 0;
+        for (char c : prompt) { h = h * 31u + static_cast<unsigned char>(c); }
+        return "result-" + std::to_string(h);
+    };
+
+    std::vector<std::string> prompts;
+    prompts.reserve(static_cast<std::size_t>(batch_size));
+    for (int i = 0; i < batch_size; ++i) {
+        prompts.push_back("System prompt for request " + std::to_string(i));
+    }
+
+    for (auto _ : state) {
+        // Fan out: one async task per request (mirrors executeBatchInfer fan-out).
+        std::vector<std::future<std::string>> futures;
+        futures.reserve(prompts.size());
+        for (const auto& p : prompts) {
+            futures.push_back(std::async(std::launch::async, mock_infer, p));
+        }
+        std::vector<std::string> results;
+        results.reserve(prompts.size());
+        for (auto& f : futures) {
+            results.push_back(f.get());
+        }
+        benchmark::DoNotOptimize(results);
+    }
+
+    state.SetItemsProcessed(state.iterations() * batch_size);
+    state.counters["batch_size"] = static_cast<double>(batch_size);
+    state.SetLabel("target: batch-64 ≤ 4× single latency");
+}
+
+BENCHMARK(BM_BatchFanOut_LatencyScaling)
+    ->Arg(1)
+    ->Arg(8)
+    ->Arg(16)
+    ->Arg(32)
+    ->Arg(64)
+    ->Unit(benchmark::kMillisecond);
 
 BENCHMARK_MAIN();

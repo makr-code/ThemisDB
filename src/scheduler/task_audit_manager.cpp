@@ -3,20 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_audit_manager.cpp                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:15                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     698                                            ║
+    • Total Lines:     699                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 4228c5bc5  2026-02-23  fix(scheduler): close remaining audit gaps in searchable ... ║
-    • ba3f28bb4  2026-02-23  feat(scheduler): implement searchable task execution hist... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 0d8e07c708  2026-04-14  chore: reduce compiler warnings in scheduler, query, secu... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 2e85cfe4c1  2026-04-14  chore: reduce compiler warnings in scheduler, query, secu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -109,7 +110,7 @@ void TaskAuditManager::logSecurityEvent(const TaskSecurityEvent& event) {
 
 void TaskAuditManager::writeToAuditLog(const TaskAuditEvent& event) {
     // Write to dedicated task audit log
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     try {
         std::ofstream ofs(config_.audit_log_path, std::ios::app);
@@ -131,7 +132,7 @@ void TaskAuditManager::writeToAuditLog(const TaskAuditEvent& event) {
 }
 
 void TaskAuditManager::writeToSecurityLog(const TaskSecurityEvent& event) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     try {
         std::ofstream ofs(config_.security_log_path, std::ios::app);
@@ -155,7 +156,7 @@ void TaskAuditManager::writeToSecurityLog(const TaskSecurityEvent& event) {
 }
 
 void TaskAuditManager::cacheAuditEvent(const TaskAuditEvent& event) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     recent_audit_events_.push_back(event);
     
@@ -166,7 +167,7 @@ void TaskAuditManager::cacheAuditEvent(const TaskAuditEvent& event) {
 }
 
 void TaskAuditManager::cacheSecurityEvent(const TaskSecurityEvent& event) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     recent_security_events_.push_back(event);
     
@@ -219,7 +220,7 @@ bool TaskAuditManager::matchesQuery(const TaskAuditEvent& event,
 }
 
 std::vector<TaskAuditEvent> TaskAuditManager::queryAuditEvents(const AuditQueryParams& params) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     
     std::vector<TaskAuditEvent> results;
     
@@ -385,7 +386,7 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
                     results.push_back(std::move(event));
                 }
                 
-            } catch (const std::exception& e) {
+            } catch (const std::exception&) {
                 // Skip malformed lines
                 continue;
             }
@@ -398,7 +399,7 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
 }
 
 std::vector<TaskSecurityEvent> TaskAuditManager::querySecurityEvents(const AuditQueryParams& params) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     
     std::vector<TaskSecurityEvent> results;
     
@@ -527,7 +528,7 @@ std::vector<TaskSecurityEvent> TaskAuditManager::loadSecurityEventsFromFile(
                     results.push_back(std::move(event));
                 }
                 
-            } catch (const std::exception& e) {
+            } catch (const std::exception&) {
                 // Skip malformed lines
                 continue;
             }
@@ -641,7 +642,7 @@ bool TaskAuditManager::hasAnomalies(const std::string& task_id) const {
     }
     
     // Check recent events for anomalies
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     for (const auto& event : recent_audit_events_) {
         if (event.task_id == task_id && event.anomaly_metrics.is_anomalous) {
             return true;
@@ -658,12 +659,12 @@ void TaskAuditManager::resetTaskStatistics(const std::string& task_id) {
 }
 
 TaskAuditConfig TaskAuditManager::getConfig() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     return config_;
 }
 
 void TaskAuditManager::updateConfig(const TaskAuditConfig& config) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     config_ = config;
     
     if (config_.enable_anomaly_detection && !anomaly_detector_) {
@@ -680,7 +681,7 @@ void TaskAuditManager::flush() {
 }
 
 nlohmann::json TaskAuditManager::exportAnomalyStatistics() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     if (anomaly_detector_) {
         return anomaly_detector_->exportStatistics();
     }
@@ -688,7 +689,7 @@ nlohmann::json TaskAuditManager::exportAnomalyStatistics() const {
 }
 
 void TaskAuditManager::importAnomalyStatistics(const nlohmann::json& data) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     if (anomaly_detector_) {
         anomaly_detector_->importStatistics(data);
     }

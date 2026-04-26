@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metric_aggregator.cpp                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:17:42                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     532                                            ║
+    • Total Lines:     530                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 368dd1e32  2026-03-13  fix(observability): populate AggregatedMetric.labels in a... ║
-    • 4cc689623  2026-03-13  feat(observability): implement Metric Aggregation Pipelin... ║
-    • 913128b50  2026-03-11  feat(observability): add MetricAggregator for Prometheus ... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -266,7 +265,6 @@ std::vector<AggregationRule> MetricAggregator::getRules() const {
     std::vector<AggregationRule> out;
     out.reserve(rules_.size());
     for (const auto& [name, rule] : rules_) {
-        (void)name;
         out.push_back(rule);
     }
     return out;
@@ -357,7 +355,7 @@ std::vector<AggregatedMetric> MetricAggregator::applyRules() const {
 // Cross-shard aggregation and rollup
 // ============================================================================
 
-MetricSnapshot MetricAggregator::aggregateShardMetrics(
+ShardAggregationSnapshot MetricAggregator::aggregateShardMetrics(
     const std::vector<ShardMetrics>& shard_metrics) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -434,7 +432,7 @@ MetricSnapshot MetricAggregator::aggregateShardMetrics(
         }
     }
 
-    MetricSnapshot snapshot;
+    ShardAggregationSnapshot snapshot;
     snapshot.metrics = std::move(results);
     snapshot.timestamp = std::chrono::system_clock::now();
     return snapshot;

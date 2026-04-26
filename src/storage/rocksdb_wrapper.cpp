@@ -3,22 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rocksdb_wrapper.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:34                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     2295                                           ║
+    • Total Lines:     2574                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 197320301  2026-03-28  Implement SequenceU64Increment merge operator for RocksDB... ║
-    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
-    • 9f9d86ceb  2026-03-15  feat(storage): implement proper size calculation in Rocks... ║
-    • 8031d339d  2026-03-15  feat(storage): implement RocksDB iteration for SecuritySi... ║
-    • cc717dd8c  2026-03-14  fix(storage): address PR review comments for BlobRedundan... ║
+    • 35e7ecae2c  2026-04-13  perf(storage): fix sustained write throughput - decouple ... ║
+    • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
+    • df501a1b55  2026-04-09  fix(storage): address code review feedback on blob stream... ║
+    • c1205d6286  2026-04-09  feat(storage): streaming blob write path – putBlob/getBlo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -80,6 +79,8 @@
 #include <iostream> // For debugging
 #include <thread>   // For sleep_for (race condition fix #3)
 #include <chrono>   // For milliseconds (race condition fix #3)
+#include <future>   // std::async / std::future (blob streaming, PERF-D5)
+#include <sstream>  // std::ostringstream (blob chunk key formatting)
 
 namespace themis {
 
@@ -406,7 +407,15 @@ void RocksDBWrapper::configureOptions() {
     // options_->allow_unordered_write = config_.allow_unordered_write;  // Not available in this version
     
     // WAL Configuration
-    write_options_->sync = config_.enable_wal;
+    // NOTE: write_options_->sync controls per-write fsync, NOT whether the WAL is written.
+    // enable_wal only controls whether the WAL is disabled entirely (via disableWAL).
+    // Linking sync to enable_wal was a bug: it forced an fsync on every write whenever
+    // enable_wal=true (the default), capping sustained throughput at disk IOPS (~1-3 k/s).
+    // Now sync is only set by force_sync_on_write (handled below).  The WAL is still
+    // written to the kernel buffer on every write, ensuring crash-recovery after process
+    // faults.  For full power-loss durability also enable force_sync_on_write or
+    // wal_bytes_per_sync.
+    write_options_->sync = false;
     write_options_->disableWAL = config_.disable_wal_for_benchmark;  // Phase 2F: Benchmark optimization
     if (!config_.wal_dir.empty()) {
         options_->wal_dir = config_.wal_dir;
@@ -417,7 +426,7 @@ void RocksDBWrapper::configureOptions() {
         std::vector<rocksdb::DbPath> paths;
         paths.reserve(config_.db_paths.size());
         for (const auto& p : config_.db_paths) {
-            paths.emplace_back(p.path, static_cast<int64_t>(p.target_size_bytes));
+            paths.emplace_back(p.path, static_cast<uint64_t>(p.target_size_bytes));
         }
         options_->db_paths = std::move(paths);
     }
@@ -524,6 +533,12 @@ void RocksDBWrapper::configureOptions() {
     // Recommended for financial data or critical writes
     if (config_.force_sync_on_write) {
         write_options_->sync = true;
+    }
+
+    // Periodic background WAL flush (wal_bytes_per_sync > 0)
+    // Provides a bounded durability window without per-write fsync overhead.
+    if (config_.wal_bytes_per_sync > 0) {
+        options_->wal_bytes_per_sync = config_.wal_bytes_per_sync;
     }
     
     // Disable memory-mapped I/O to prevent silent errors
@@ -863,6 +878,261 @@ bool RocksDBWrapper::del(std::string_view key) {
     return true;
 }
 
+bool RocksDBWrapper::putBatch(const std::vector<KeyValuePair>& pairs) {
+    if (!db_) {
+        themis::utils::Logger::error("RocksDBWrapper::putBatch: db_ is null");
+        return false;
+    }
+    if (pairs.empty()) {
+        return true;
+    }
+
+    auto batch = createWriteBatch();
+    if (!batch) {
+        themis::utils::Logger::error("RocksDBWrapper::putBatch: failed to create write batch");
+        return false;
+    }
+
+    for (const auto& kv : pairs) {
+        batch->put(kv.key, kv.value);
+    }
+
+    return batch->commit();
+}
+
+// ============================================================================
+// Streaming Blob API (v2.0.0, PERF-D5)
+// ============================================================================
+//
+// Internal key scheme:
+//   manifest : "__tmbs_m__:<key>"
+//   chunk N  : "__tmbs_c__:<key>:<6-digit-zero-padded-N>"
+//
+// Manifest layout (20 bytes, little-endian):
+//   [0..3]   uint32_t  num_chunks   – total number of chunks
+//   [4..11]  uint64_t  chunk_size   – configured chunk size in bytes
+//                                     (the last chunk may contain fewer bytes)
+//   [12..19] uint64_t  total_size   – original uncompressed blob size in bytes
+// ============================================================================
+
+namespace {
+
+// Returns the internal manifest key for a logical blob key.
+inline std::string blobManifestKey(std::string_view key) {
+    std::string mk;
+    mk.reserve(10 + key.size());
+    mk.append("__tmbs_m__:");
+    mk.append(key.data(), key.size());
+    return mk;
+}
+
+// Returns the internal chunk key for chunk index `idx` of a logical blob key.
+inline std::string blobChunkKey(std::string_view key, uint32_t idx) {
+    // 7 bytes: 6 digits + null terminator.  Extra byte keeps size a power of 2.
+    char buf[8];
+    snprintf(buf, sizeof(buf), "%06u", idx);
+    std::string ck;
+    ck.reserve(10 + key.size() + 7);
+    ck.append("__tmbs_c__:");
+    ck.append(key.data(), key.size());
+    ck.push_back(':');
+    ck.append(buf, 6);
+    return ck;
+}
+
+} // anonymous namespace
+
+bool RocksDBWrapper::putBlob(std::string_view key, const std::vector<uint8_t>& data) {
+    if (!db_) {
+        THEMIS_ERROR("putBlob: database not open");
+        return false;
+    }
+
+    // Small blobs: fall back to regular transactional put (backward compatible).
+    if (!config_.enable_blob_streaming ||
+        data.size() < config_.blob_streaming_threshold_bytes) {
+        return put(key, data);
+    }
+
+    const size_t chunk_size = config_.blob_chunk_size_bytes;
+    const size_t total_size = data.size();
+    const uint32_t num_chunks =
+        static_cast<uint32_t>((total_size + chunk_size - 1) / chunk_size);
+    const int num_threads =
+        std::max(1, std::min(config_.blob_streaming_threads,
+                             static_cast<int>(num_chunks)));
+
+    // ── Phase 1: Parallel chunk encoding ─────────────────────────────────────
+    // Each chunk is copied (and can be compressed in a future enhancement) by
+    // one of `num_threads` worker threads.  We store encoded chunks in a flat
+    // vector indexed by chunk number; no locks are needed because every thread
+    // touches a disjoint slot.
+    std::vector<std::vector<uint8_t>> encoded_chunks(num_chunks);
+    {
+        // Distribute chunks across threads using a simple round-robin assignment
+        // driven by std::async so the runtime's thread pool is reused.
+        std::vector<std::future<void>> futures;
+        futures.reserve(num_chunks);
+
+        for (uint32_t i = 0; i < num_chunks; ++i) {
+            const size_t offset = static_cast<size_t>(i) * chunk_size;
+            const size_t this_chunk_size =
+                std::min(chunk_size, total_size - offset);
+
+            futures.push_back(std::async(
+                // Use deferred launch when there are more chunks than threads to
+                // avoid spawning more system threads than configured.
+                (i < static_cast<uint32_t>(num_threads))
+                    ? std::launch::async
+                    : std::launch::deferred,
+                [&encoded_chunks, &data, i, offset, this_chunk_size]() {
+                    encoded_chunks[i].assign(
+                        data.data() + offset,
+                        data.data() + offset + this_chunk_size);
+                }));
+        }
+
+        // Wait for all encoding tasks to complete before building the batch.
+        for (auto& f : futures) {
+            f.get();
+        }
+    }
+
+    // ── Phase 2: Atomic WriteBatch commit ─────────────────────────────────────
+    // All chunk keys and the manifest are written in a single WriteBatch so
+    // that a reader never sees a partially written blob.  WriteBatch bypasses
+    // the per-write transaction overhead (no lock acquisition / MVCC bookkeeping)
+    // which is the primary source of the throughput improvement.
+    rocksdb::WriteBatch batch;
+
+    // Write chunk keys.
+    for (uint32_t i = 0; i < num_chunks; ++i) {
+        const std::string ck = blobChunkKey(key, i);
+        batch.Put(
+            rocksdb::Slice(ck),
+            rocksdb::Slice(
+                reinterpret_cast<const char*>(encoded_chunks[i].data()),
+                encoded_chunks[i].size()));
+    }
+
+    // Write manifest (20 bytes, little-endian).
+    uint8_t manifest_buf[20];
+    {
+        uint32_t n  = num_chunks;
+        uint64_t cs = static_cast<uint64_t>(chunk_size);
+        uint64_t ts = static_cast<uint64_t>(total_size);
+        std::memcpy(manifest_buf,      &n,  4);
+        std::memcpy(manifest_buf + 4,  &cs, 8);
+        std::memcpy(manifest_buf + 12, &ts, 8);
+    }
+    const std::string mk = blobManifestKey(key);
+    batch.Put(rocksdb::Slice(mk),
+              rocksdb::Slice(reinterpret_cast<const char*>(manifest_buf), 20));
+
+    const bool ok = commitBatch(&batch);
+    if (!ok) {
+        THEMIS_ERROR("putBlob: WriteBatch commit failed for key '{}'",
+                     std::string(key));
+    }
+    return ok;
+}
+
+std::optional<std::vector<uint8_t>> RocksDBWrapper::getBlob(std::string_view key) {
+    if (!db_) return std::nullopt;
+
+    // ── Fast path: check for manifest (chunked blob) ─────────────────────────
+    const std::string mk = blobManifestKey(key);
+    std::string manifest_raw;
+    rocksdb::Status ms = db_->Get(
+        *read_options_, rocksdb::Slice(mk), &manifest_raw);
+
+    if (ms.ok() && manifest_raw.size() == 20) {
+        // Decode manifest.
+        uint32_t num_chunks = 0;
+        uint64_t chunk_size = 0;
+        uint64_t total_size = 0;
+        std::memcpy(&num_chunks, manifest_raw.data(),      4);
+        std::memcpy(&chunk_size, manifest_raw.data() + 4,  8);
+        std::memcpy(&total_size, manifest_raw.data() + 12, 8);
+
+        if (num_chunks == 0 || total_size == 0) {
+            THEMIS_WARN("getBlob: corrupt manifest for key '{}'",
+                        std::string(key));
+            return std::nullopt;
+        }
+
+        // Build chunk key list for a single batched MultiGet call.
+        std::vector<std::string> chunk_keys;
+        chunk_keys.reserve(num_chunks);
+        for (uint32_t i = 0; i < num_chunks; ++i) {
+            chunk_keys.push_back(blobChunkKey(key, i));
+        }
+
+        // MultiGet all chunks in one round-trip.
+        auto* base_db = db_->GetBaseDB();
+        if (!base_db) {
+            THEMIS_ERROR("getBlob: base DB null");
+            return std::nullopt;
+        }
+
+        std::vector<rocksdb::Slice> rock_keys;
+        rock_keys.reserve(chunk_keys.size());
+        for (const auto& ck : chunk_keys) {
+            rock_keys.emplace_back(ck);
+        }
+
+        std::vector<std::string> chunk_values;
+        std::vector<rocksdb::Status> statuses =
+            base_db->MultiGet(*read_options_, rock_keys, &chunk_values);
+
+        // Reassemble into a contiguous buffer.
+        std::vector<uint8_t> result;
+        result.reserve(static_cast<size_t>(total_size));
+        for (uint32_t i = 0; i < num_chunks; ++i) {
+            if (!statuses[i].ok()) {
+                THEMIS_ERROR("getBlob: missing chunk {} for key '{}'",
+                             i, std::string(key));
+                return std::nullopt;
+            }
+            const auto& cv = chunk_values[i];
+            result.insert(result.end(), cv.begin(), cv.end());
+        }
+        return result;
+    }
+
+    // ── Slow path: regular key (stored via put()) ─────────────────────────────
+    return get(key);
+}
+
+bool RocksDBWrapper::delBlob(std::string_view key) {
+    if (!db_) {
+        THEMIS_ERROR("delBlob: database not open");
+        return false;
+    }
+
+    // Check whether a manifest exists to determine if this is a chunked blob.
+    const std::string mk = blobManifestKey(key);
+    std::string manifest_raw;
+    rocksdb::Status ms =
+        db_->Get(*read_options_, rocksdb::Slice(mk), &manifest_raw);
+
+    if (ms.ok() && manifest_raw.size() == 20) {
+        uint32_t num_chunks = 0;
+        std::memcpy(&num_chunks, manifest_raw.data(), 4);
+
+        rocksdb::WriteBatch batch;
+        batch.Delete(rocksdb::Slice(mk));
+        for (uint32_t i = 0; i < num_chunks; ++i) {
+            const std::string ck = blobChunkKey(key, i);
+            batch.Delete(rocksdb::Slice(ck));
+        }
+        return commitBatch(&batch);
+    }
+
+    // Fall back to regular delete.
+    return del(key);
+}
+
 std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGet(
     const std::vector<std::string>& keys
 ) {
@@ -1124,6 +1394,37 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::TransactionWrapper::get(std:
     }
     
     return std::nullopt;
+}
+
+bool RocksDBWrapper::TransactionWrapper::getForUpdate(std::string_view key) {
+    if (!txn_ || state_ != State::Active) {
+        THEMIS_ERROR("TransactionWrapper::getForUpdate: transaction not active");
+        return false;
+    }
+
+    std::string value;
+    rocksdb::ReadOptions read_opts;
+    if (isolation_ == TransactionIsolationLevel::Snapshot) {
+        read_opts.snapshot = txn_->GetSnapshot();
+    }
+
+    // exclusive=true: no other transaction may acquire a conflicting write lock
+    // on this key until this transaction commits or rolls back.
+    rocksdb::Status status = txn_->GetForUpdate(
+        read_opts,
+        rocksdb::Slice(key.data(), key.size()),
+        &value,
+        /*exclusive=*/true);
+
+    if (status.ok() || status.IsNotFound()) {
+        // Lock acquired; the key may or may not exist — both are success cases.
+        return true;
+    }
+
+    // Lock acquisition failed (write-write conflict, lock timeout, …)
+    THEMIS_WARN("TransactionWrapper::getForUpdate: lock acquisition failed for key '{}': {}",
+                key, status.ToString());
+    return false;
 }
 
 bool RocksDBWrapper::TransactionWrapper::put(std::string_view key, const std::vector<uint8_t>& value) {

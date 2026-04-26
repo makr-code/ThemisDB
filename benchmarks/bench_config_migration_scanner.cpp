@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_config_migration_scanner.cpp                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:04:02                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:43:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • cfeab82bc  2026-03-11  feat(config): add migration scanner performance benchmark ║
+    • cfeab82bc0  2026-03-11  feat(config): add migration scanner performance benchmark ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

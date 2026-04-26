@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Temporal Module
 
 Time-series and temporal query support for ThemisDB.
@@ -260,3 +262,12 @@ For detailed implementation documentation, see:
 4. Lamport, L. (1978). **Time, Clocks, and the Ordering of Events in a Distributed System**. *Communications of the ACM*, 21(7), 558–565. https://doi.org/10.1145/359545.359563
 
 5. Dalgaard, P., & Jensen, C. S. (2001). **On the Representation of Valid Time in a Temporal Relational Database**. *VLDB Journal*, 10(2–3), 188–205. https://doi.org/10.1007/s007780100041
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/temporal/README.md`](../../include/temporal/README.md) for the public API.

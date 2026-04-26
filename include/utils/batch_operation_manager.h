@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            batch_operation_manager.h                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:54                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     406                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -333,7 +330,7 @@ size_t BatchOperationManager<T>::processBatch(const std::vector<T>& batch) {
     
     auto end = std::chrono::steady_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-    double latency_ms = duration.count();
+    double latency_ms = static_cast<double>(duration.count());
     double throughput = processed / (latency_ms / 1000.0); // items per second
     
     // Update statistics
@@ -351,7 +348,7 @@ size_t BatchOperationManager<T>::processBatch(const std::vector<T>& batch) {
 }
 
 template<typename T>
-void BatchOperationManager<T>::adaptBatchSize(double throughput, double latency_ms) {
+void BatchOperationManager<T>::adaptBatchSize([[maybe_unused]] double throughput, double latency_ms) {
     auto now = std::chrono::steady_clock::now();
     auto since_last = std::chrono::duration_cast<std::chrono::seconds>(now - last_adaptation_);
     

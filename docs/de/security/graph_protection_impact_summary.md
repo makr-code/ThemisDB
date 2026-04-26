@@ -1,7 +1,7 @@
 # Auswirkungen der Wissensgraphen-Schutzforschung auf ThemisDB
 
 **Executive Summary**  
-**Stand:** 7. Januar 2026  
+**Stand:** 6. April 2026  
 **Autor:** ThemisDB Security Team
 
 ---

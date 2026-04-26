@@ -3,19 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_video_processor_extended.cpp                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:35:15                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:58:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     657                                            ║
+    • Total Lines:     656                                            ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b410ac7d0  2026-02-26  feat(content): Extract video metadata and thumbnails - AP... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

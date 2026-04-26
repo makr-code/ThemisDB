@@ -1,3 +1,5 @@
+> **Build + Test:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release && ctest --preset linux-ninja-release`
+
 # LoRA Framework Unit Test Documentation
 
 ## Overview

@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cdc_error.h                                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:06:14                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     336                                            ║
+    • Total Lines:     334                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • 40dea3aaf  2026-02-22  Implement CDC log compaction, fix cdc_admin method discre... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -33,6 +28,14 @@
  */
 
 #pragma once
+
+// Guard against the Windows SDK '#define ERROR 0' (and similar macros)
+// for the entire header. push_macro/undef/pop_macro is the MSVC-idiomatic
+// approach; it also applies to all inline factory functions below.
+#ifdef _WIN32
+#  pragma push_macro("ERROR")
+#  undef ERROR
+#endif
 
 #include <string>
 #include <stdexcept>
@@ -334,3 +337,7 @@ namespace error {
 
 } // namespace cdc
 } // namespace themis
+
+#ifdef _WIN32
+#  pragma pop_macro("ERROR")
+#endif

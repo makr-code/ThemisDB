@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_multi_shard_transactions.cpp                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:30:10                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:55:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     589                                            ║
+    • Total Lines:     590                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -260,10 +260,10 @@ TEST(MultiShardTransactionTest, ConcurrentTransactions) {
             // Select random subset of shards
             std::random_device rd;
             std::mt19937 gen(rd());
-            std::uniform_int_distribution<> dis(0, shards.size() - 1);
+            std::uniform_int_distribution<> dis(0, static_cast<int>(shards.size() - 1));
             
             int shard1 = dis(gen);
-            int shard2 = (shard1 + 1 + dis(gen)) % shards.size();
+            int shard2 = (shard1 + 1 + dis(gen)) % static_cast<int>(shards.size());
             
             // Phase 1: Prepare
             bool prep1 = shards[shard1].prepare(tx_id);

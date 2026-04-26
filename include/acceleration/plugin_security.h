@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_security.h                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:05:17                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     359                                            ║
+    • Total Lines:     357                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • adb14cd81  2026-03-16  feat(acceleration): implement PE certificate table extrac... ║
-    • e4976f04e  2026-03-16  feat(acceleration): implement CRL/OCSP certificate revoca... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f2b4fd08c  2026-02-26  fix(audit): correct enum ordering, string JSON serializat... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • adb14cd81a  2026-03-16  feat(acceleration): implement PE certificate table extrac... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

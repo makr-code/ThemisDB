@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            zero_copy_logger.h                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:07:03                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:44:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 3279a3a19  2026-03-13  fix(core): audit fixes — atomic json_mode_, concurrent se... ║
-    • c69bf14be  2026-03-13  feat(core): Zero-Copy Logging — ZeroCopyLogger with strin... ║
+    • 3279a3a190  2026-03-13  fix(core): audit fixes — atomic json_mode_, concurrent se... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

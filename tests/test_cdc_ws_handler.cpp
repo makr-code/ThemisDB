@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_ws_handler.cpp                            ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:25:23                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:52:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     618                                            ║
+    • Total Lines:     615                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 197320301  2026-03-28  Implement SequenceU64Increment merge operator for RocksDB... ║
-    • c0a50c2ca  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
-    • 2fed5b1c6  2026-03-15  fix(cdc): wire ConsumerGroupManager into WebSocket server... ║
-    • c410b12cc  2026-03-15  fix(cdc): address code review feedback - clarify ack_key ... ║
-    • f9a6d3a60  2026-03-15  feat(cdc): integrate ConsumerGroupManager into CdcWebSock... ║
+    • 197320301a  2026-03-28  Implement SequenceU64Increment merge operator for RocksDB... ║
+    • c0a50c2caf  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

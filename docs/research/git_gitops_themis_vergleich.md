@@ -1,6 +1,6 @@
 # Git, GitHub, GitOps im Vergleich zur Versionskontrolle von ThemisDB
 
-**Stand:** 14. Januar 2026  
+**Stand:** 6. April 2026  
 **Version:** v1.4.0  
 **Kategorie:** 🧩 Architecture
 
@@ -868,7 +868,7 @@ config:
 ### ThemisDB
 - [MVCC Architecture](../de/architecture/architecture_mvcc.md)
 - [Transaction Management](../de/features/features_transactions.md)
-- [Branching Strategy](../BRANCHING_STRATEGY.md)
+- [Branching Strategy](../ci-cd/branching-release-history/BRANCHING_STRATEGY.md)
 - [Bestehende YAML-Nutzung](bestehende_yaml_nutzung.md) - **NEU: Analyse existierender YAML-Konfigurationen**
 
 ---

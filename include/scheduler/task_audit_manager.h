@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_audit_manager.h                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:10:38                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     270                                            ║
+    • Total Lines:     269                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 4228c5bc5  2026-02-23  fix(scheduler): close remaining audit gaps in searchable ... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -33,13 +33,14 @@
  * - GDPR-compliant data handling
  */
 
-#ifndef THEMIS_TASK_AUDIT_MANAGER_H
-#define THEMIS_TASK_AUDIT_MANAGER_H
+#pragma once
 
 #include "scheduler/task_audit_event.h"
 #include "scheduler/task_anomaly_detector.h"
 #include "utils/audit_logger.h"
 #include <memory>
+#include <mutex>
+#include <shared_mutex>
 #include <string>
 #include <vector>
 #include <chrono>
@@ -245,7 +246,7 @@ private:
     TaskAuditConfig config_;
     std::unique_ptr<TaskAnomalyDetector> anomaly_detector_;
     
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
     
     // In-memory cache for recent events (for querying)
     std::deque<TaskAuditEvent> recent_audit_events_;
@@ -266,5 +267,3 @@ private:
 
 } // namespace scheduler
 } // namespace themis
-
-#endif // THEMIS_TASK_AUDIT_MANAGER_H

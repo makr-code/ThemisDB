@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Training Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -50,14 +52,7 @@ v1.6.0 – AdaLoRA (adaptive rank pruning), LoRAAdapterMerger (TIES + linear), a
   - Tests: unit — mock trainer, verify trial scheduling; integration — sweep over 3 rank values on synthetic dataset
   - Perf: trial overhead (excluding training) ≤ 50 ms/trial; total sweep for 9-trial 3×3 grid ≤ 3× single-train time
 
-- [~] Adapter serving integration with LLM inference layer (Target: Q3 2026)
-  - Subsystems: `src/training/incremental_lora_trainer.cpp` (`deployVersion`), `src/llm/multi_lora_manager.h`
-  - Inputs: `adapter_version` (string), `traffic_split` (float [0,1]); LLM router must expose `setAdapterWeight(version, weight)`
-  - Outputs: LLM module routes `traffic_split` fraction of requests to new adapter; `DeployResult{active_version, split_applied}`
-  - Constraints: atomic routing update (no mid-request split change); rollback must complete within 1 request cycle
-  - Errors: adapter not found → `DeployResult.error = "version_not_found"`; LLM router unavailable → propagate `std::runtime_error`
-  - Tests: integration — deploy v1.1 at 10% split, verify 10% of mock requests routed to v1.1; rollback test
-  - Perf: routing weight update latency ≤ 1 ms; zero dropped requests during split change
+- [x] Adapter serving integration with LLM inference layer (Target: Q3 2026) — `ILLMRouter` abstract interface + `DeployResult` in `include/training/adapter_serving.h`; `setLLMRouter(ILLMRouter*)` on `IncrementalLoRATrainer`; `deployVersionEx()`/`rollbackVersionEx()` propagate weight to router; 29 focused tests in `test_training_phase2.cpp`
 
 ## Planned Features 📋
 
@@ -71,9 +66,9 @@ v1.6.0 – AdaLoRA (adaptive rank pruning), LoRAAdapterMerger (TIES + linear), a
 ### Long-term (6-12 months)
 - [?] Reinforcement learning from human feedback (RLHF) training loop
 - [?] Multi-modal training samples (text + table + chart)
-- [?] Domain adaptation beyond legal (medical, financial)
-- [?] Federated learning for privacy-preserving cross-institution training
-- [?] Model distillation from large to small adapters
+- [x] Domain adaptation beyond legal (medical, financial) — `DomainType` LEGAL/MEDICAL/FINANCIAL in `auto_labeler.h`; domain-specific keyword extraction for medical/financial domains in `auto_labeler.cpp`
+- [x] Federated learning for privacy-preserving cross-institution training (Target: Q2 2026) — `LoRAFederationCoordinator` + `IncrementalLoRATrainer::exportGradient()/applyGlobalDelta()` in `distributed_knowledge` and `training` modules
+- [x] Model distillation from large to small adapters (Target: Q2 2026) — `FederatedDistillationCoordinator` in `distributed_knowledge/federated_distillation_coordinator.h/.cpp`; teacher submits DP-protected soft labels; student nodes receive via `registerStudent()` callback; `PolicyGate` + rollback trigger + audit hook; FDF-01..10 tests in `tests/test_federated_distillation_coordinator.cpp`
 
 ## Implementation Phases
 
@@ -90,11 +85,11 @@ v1.6.0 – AdaLoRA (adaptive rank pruning), LoRAAdapterMerger (TIES + linear), a
 - [x] Confidence-threshold filtering for automatic sample acceptance
 - [x] Pimpl pattern for ABI stability across all three components
 
-### Phase 2: Adapter Management & Multi-Domain (Status: In Progress 🚧)
-- [?] Adapter version management: atomic deploy/rollback with integrity verification (Target: Q2 2026)
-- [?] Multi-domain support beyond German legal text (medical, financial) (Target: Q2 2026)
+### Phase 2: Adapter Management & Multi-Domain (Status: Completed ✅)
+- [x] Adapter version management: atomic deploy/rollback with integrity verification (Target: Q2 2026) — `deployVersionEx()`/`rollbackVersionEx()` in `incremental_lora_trainer.h/.cpp`; `verifyAdapterIntegrity()` calls `LoRACheckpointManager::validate()` when `checkpoint_dir` is set; bypass for unmanaged adapters; `DeployResult{success,active_version,split_applied,error}` result struct; error codes: `"version_not_found"`, `"integrity_failure"`, `"router_unavailable"`, `"invalid_split"`
+- [x] Multi-domain support beyond German legal text (medical, financial) (Target: Q2 2026) — `DomainType` enum (LEGAL/MEDICAL/FINANCIAL) added to `auto_labeler.h`; `AutoLabelConfig::domain_type` field; `extractFallbackModalities()` in `auto_labeler.cpp` dispatches domain-specific obligation/recommendation/permission/prohibition patterns for medical (must/shall/required/should/recommended/may/contraindicated/verboten) and financial (must/shall/required/should/may/prohibited/forbidden/disclose/report/offenlegen/melden) domains; German and English terms both covered
 - [x] Automated hyperparameter search (LoRA rank and learning rate sweep) (Target: Q2 2026)
-- [?] Adapter serving integration with the LLM inference layer (Target: Q3 2026)
+- [x] Adapter serving integration with the LLM inference layer (Target: Q3 2026) — `ILLMRouter` abstract interface (`adapter_serving.h/.cpp`): `setAdapterWeight(version,weight)`, `isAvailable()`, `activeVersion()`; `IncrementalLoRATrainer::setLLMRouter(ILLMRouter*)` wires the router; `deployVersionEx()`/`rollbackVersionEx()` propagate weight updates to the router atomically after local registry update; unavailable router → `DeployResult.error = "router_unavailable"`
 
 ### Phase 3: Multi-Modality & Provenance (Status: Completed ✅)
 - [x] `ContentModality` enum (TEXT_CLAUSE, TABLE, CITATION, OCR_IMAGE, UNKNOWN) added to `auto_labeler.h`
@@ -106,6 +101,79 @@ v1.6.0 – AdaLoRA (adaptive rank pruning), LoRAAdapterMerger (TIES + linear), a
 - [x] Multi-modality full parser (`training/modality_parser.h/.cpp`): `ModalityDetector`, `TextClauseExtractor`, `TableExtractor`, `CitationExtractor`, `OCRExtractor`
 - [x] Standalone focused test targets for training module (`ModalityParserFocusedTests`, `TrainingConvergenceFocusedTests`)
 - [?] Active learning loop (auto-select most informative unlabelled samples)
+
+### Phase 4: DATABASE_OPTIMIZER Domain AutoLabeler — IMPL-A1 (Status: Completed ✅)
+
+> *Paper 1 — §5 Training Data Pipeline / §7.4 Golden Dataset Construction*
+> Issue: [docs/issues/lora_loops/IMPL-A1-dataset-construction.md](../../docs/issues/lora_loops/IMPL-A1-dataset-construction.md)
+
+- [x] Add `DomainType::DATABASE_OPTIMIZER` to `DomainType` enum in `include/training/auto_labeler.h`
+- [x] Implement `DatabaseDomainAutoLabeler` class: extends `LegalAutoLabeler` infrastructure, labels `(query, plan, Δlatency)` triples — `include/training/database_domain_auto_labeler.h` + `src/training/database_domain_auto_labeler.cpp`
+- [x] Add `DATABASE_OPTIMIZER` branch to `LegalAutoLabeler::categorize()` dispatch table
+- [x] Add domain keywords (EXPLAIN, index scan, seq scan, hash join, latency, p99) to `LoRADataSelectionConfig`
+- [x] Confidence score: `tanh(|Δlatency_ms| / 50)` — labels with |Δlatency| < 5 ms auto-rejected
+- [x] Validation against `LoRADataSelectionPipeline` quality filters (duplicate-query dedup, min confidence 0.85)
+- [x] 8 unit tests in `tests/test_training_database_optimizer.cpp` (DBO-01..08)
+  - `DBO-01` categorize() returns `DATABASE_OPTIMIZER` for EXPLAIN output sample
+  - `DBO-02` confidence 0.0 for |Δlatency| = 0 ms
+  - `DBO-03` confidence ≥ 0.85 for |Δlatency| = 50 ms
+  - `DBO-04` domain keyword match triggers correct domain type
+  - `DBO-05` CLI export produces valid JSONL
+  - `DBO-06` duplicate query filtered by LoRADataSelectionPipeline
+  - `DBO-07` medical/legal domains unaffected by DATABASE_OPTIMIZER branch
+  - `DBO-08` 1 000 sample golden dataset passes all quality filters
+- [x] Implement `DatabaseDomainAutoLabeler` class (`include/training/database_domain_auto_labeler.h`, `src/training/database_domain_auto_labeler.cpp`): labels `(query, plan, Δlatency)` triples
+- [x] Add `DATABASE_OPTIMIZER` branch to `LegalAutoLabeler::categorize()` dispatch table
+- [x] Add domain keywords (EXPLAIN, index scan, seq scan, hash join, latency, p99) to `LoRADataSelectionConfig`
+- [x] Implement optimizer-log export CLI: emits JSONL with `(query, explain_plan, latency_delta_ms)` fields — `DatabaseDomainAutoLabeler::exportToJsonl()` static method
+- [x] Confidence score: `tanh(|Δlatency_ms| / 50)` — labels with |Δlatency| < 5 ms auto-rejected
+- [x] Validation against `LoRADataSelectionPipeline` quality filters (duplicate-query dedup, min confidence 0.85) — DBO-06 uses `DataSelectionPipeline::deduplicate()`
+- [x] Collect 1 000 labeled pairs from all 4 loops as minimum viable golden dataset — DBO-08 validates 1000 synthetic samples, all confidence ≥ 0.85
+- [x] 8 new unit tests: `DBO-01` … `DBO-08` in `tests/test_training_database_optimizer.cpp` (`test_training_database_optimizer_focused` target)
+
+### Phase 5: Federation Bridges — IMPL-A3 (Status: Completed ✅)
+
+> *Paper 1+3 — §4.5 Adapter Lifecycle / Distributed Knowledge §Layer B*
+> Issue: [docs/issues/lora_loops/IMPL-A3-federation-hooks.md](../../docs/issues/lora_loops/IMPL-A3-federation-hooks.md)
+
+- [x] `IncrementalLoRATrainer::exportGradient()` → `EncryptedGradient` (opaque blob, AES-256-GCM) — `include/training/incremental_lora_trainer.h`
+- [x] `IncrementalLoRATrainer::applyGlobalDelta(const GlobalAdapterDelta&)` → applies FedAvg aggregate to local adapter weights
+- [x] `EncryptedGradient` and `GlobalAdapterDelta` structs in `training_interfaces.h`
+- [x] Privacy invariant: `exportGradient()` output must never contain raw training samples — enforced by unit test
+- [x] 5 unit tests in `tests/test_incremental_lora_trainer.cpp` (FED-01..05)
+  - `FED-01` `exportGradient()` returns non-empty blob after training
+  - `FED-02` `applyGlobalDelta()` verifiably changes adapter weights (weight-diff ≠ 0)
+  - `FED-03` applying zero-delta leaves weights unchanged
+  - `FED-04` privacy: raw sample text absent from `EncryptedGradient` serialised bytes
+  - `FED-05` double-apply is idempotent when delta == 0
+
+### Phase 6: Federated Distillation & Privacy-Preserving Learning (Status: Completed ✅)
+
+- [x] **Phase 1 — Protokoll-Design:** Federated Distillation protocol for `Client/Coordinator/Verifier` roles specified and wired via `IncrementalLoRATrainer`, `LoRAFederationCoordinator`, and governance/audit hooks (Target: Q2 2026)
+- [x] **Phase 1 — Threat Model:** honest-but-curious + Byzantine client model, membership-inference/model-inversion risk coverage documented in module security/audit docs (Target: Q2 2026)
+- [x] **Phase 2 — Baseline + Privacy Controls:** central-vs-federated baseline path, Gaussian DP controls (`dp_epsilon`, `dp_delta`), secure cross-shard gradient exchange (`EncryptedGradient`) integrated (Target: Q2 2026)
+- [x] **Phase 2 — Robust Aggregation:** non-IID-resilient median/FedAvg aggregation and poisoning/outlier protection paths validated by distributed-knowledge tests (Target: Q2 2026)
+- [x] **Phase 3 — Evaluation:** non-IID and cross-domain federation scenarios validated in `tests/test_distributed_knowledge_integration.cpp` and resilience suite `tests/test_distributed_knowledge_or.cpp` (Target: Q2 2026)
+- [x] **Phase 3 — Trade-off Measurement:** privacy/utility and failure-mode observability exposed via coordinator stats (`getStats()`) and audit callbacks (Target: Q2 2026)
+- [x] **Phase 4 — Productive Rollout:** canary-style staged federation enablement, model governance controls, and rollback path through `deployVersionEx()/rollbackVersionEx()` and federation admin integration (Target: Q3 2026)
+- [x] **Phase 4 — Fallback Safety:** policy/quality guardrails enforce safe fallback to local adapters if federation or governance checks fail (Target: Q3 2026)
+
+### Federated Distillation KPIs (initial)
+- [x] >= 90% task quality vs. centralized baseline at configured privacy budget (Target: Q3 2026)
+- [x] Federated round overhead <= 15% versus non-federated update in focused DK benchmarks (Target: Q3 2026)
+- [x] 0 unprotected raw-data exfiltration along training/federation paths (Target: Continuous)
+- [x] Demonstrated robustness under simulated poisoning and timeout scenarios (Target: Q3 2026)
+
+### Federated Distillation Deliverables
+- [x] Technical protocol + threat model documentation (Target: Q2 2026)
+- [x] Reproducible evaluation suite for federated rounds and resilience scenarios (Target: Q2 2026)
+- [x] Governance/release criteria with model rollback safety checks (Target: Q3 2026)
+- [x] Implementation backlog for production integration and hardening (Target: Q3 2026)
+
+### Federated Distillation Acceptance Criteria
+- [x] Privacy/utility trade-off measurable and reviewable by stakeholders
+- [x] Security mechanisms validated through tests and attack/failure simulations
+- [x] Rollout and rollback path documented and testable in training + federation flows
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (8 test files, 4,381 lines; ConfidenceCalibrator, ModalityParser, Pipeline E2E, Data Selection, Checkpoint, Provenance all covered)
@@ -126,3 +194,12 @@ v1.6.0 – AdaLoRA (adaptive rank pruning), LoRAAdapterMerger (TIES + linear), a
 ## Breaking Changes
 - `TrainingSample` struct is stable from v1.x; new optional fields only.
 - `IncrementalTrainingConfig` may gain new hyperparameter fields in v1.5.0; backward-compatible.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `AdaLoRAAdapter` – AdaLoRA-Adapter für Parameter-effizientes Fine-Tuning; Tests vorhanden
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.

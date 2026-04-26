@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cuda_backend.h                                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:05:14                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     541                                            ║
+    • Total Lines:     560                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e2fff830f  2026-03-11  feat(acceleration): wire HNSW graph traversal into CUDAVe... ║
-    • 7e608ea7c  2026-03-11  feat(acceleration): implement CUDAGraphBackend BFS and sh... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • bb7355ba7  2026-02-23  fix(acceleration): add missing CUDAMatrixBackend declarat... ║
-    • 780089324  2026-02-23  feat(acceleration): implement CUDA graph capture for recu... ║
+    • da22cf1ef2  2026-04-13  feat(acceleration): CUDA HNSW visited array memory scalin... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -373,6 +369,27 @@ public:
     bool isHnswIndexBuilt() const noexcept;
 
     // -------------------------------------------------------------------------
+    // Visited bitset pool tuning
+    //
+    // setMaxBatchSize() controls the size of the persistent visited bitset
+    // pool allocated in the HNSW engine during buildHnswAnnIndex().  The pool
+    // is sized as maxBatchSize × ceil(numNodes / 8) bytes and lives for the
+    // lifetime of the index.  Calling setMaxBatchSize() before
+    // buildHnswAnnIndex() is the recommended usage pattern; calling it after
+    // the index has been built has no effect until the next buildHnswAnnIndex().
+    //
+    // Default: 512 queries.
+    //
+    // Pool allocation must not exceed BackendCapabilities::maxMemoryBytes.
+    // If the computed pool size would exceed that limit, the effective
+    // maxBatchSize is clamped automatically during buildHnswAnnIndex().
+    // -------------------------------------------------------------------------
+    void setMaxBatchSize(size_t n);
+
+    /** Return the current maxBatchSize setting (default: 512). */
+    size_t maxBatchSize() const noexcept { return maxBatchSize_; }
+
+    // -------------------------------------------------------------------------
     // CUDA Graph-accelerated KNN search
     //
     // Identical semantics to batchKnnSearch() but caches a captured CUDA graph
@@ -400,7 +417,8 @@ public:
 #endif
 
 private:
-    bool initialized_ = false;
+    bool   initialized_  = false;
+    size_t maxBatchSize_ = 512;  ///< Max queries per HNSW kernel launch (pool size)
 
     // HNSW-based ANN engine — present in both CUDA and non-CUDA builds;
     // CudaHnswTraversalEngine transparently falls back to CPU when no GPU is

@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_nvme_manager.cpp                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:30:24                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:55:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     416                                            ║
+    • Total Lines:     415                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e7d6bc455  2026-03-13  feat(tests): add focused tests for consistent hash distri... ║
-    • 6e0a18187  2026-03-13  fix(storage/nvme): address all review comments – thread s... ║
-    • 48cc2a0a2  2026-03-13  feat(storage): implement NVMe optimizations (io_uring, mu... ║
+    • e7d6bc4555  2026-03-13  feat(tests): add focused tests for consistent hash distri... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

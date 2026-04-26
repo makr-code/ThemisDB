@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Statusreport** – Stand zum Zeitpunkt der Erstellung. Quellcode prüfen.
+
 # Themis.AqlQueryBuilder - Build Status
 
 ## Platform Requirements

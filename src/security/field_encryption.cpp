@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            field_encryption.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:26                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   94.0/100                                       ║
     • Total Lines:     712                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -92,7 +89,7 @@ static const std::string base64_chars =
     "abcdefghijklmnopqrstuvwxyz"
     "0123456789+/";
 
-static std::string base64_encode(const std::vector<uint8_t>& data) {
+static std::string fieldBase64Encode(const std::vector<uint8_t>& data) {
     std::string ret;
     int i = 0;
     int j = 0;
@@ -137,7 +134,7 @@ static bool is_base64(uint8_t c) {
     return (isalnum(c) || (c == '+') || (c == '/'));
 }
 
-static std::vector<uint8_t> base64_decode(const std::string& encoded_string) {
+static std::vector<uint8_t> fieldBase64Decode(const std::string& encoded_string) {
     size_t in_len = encoded_string.size();
     int i = 0;
     int j = 0;
@@ -182,9 +179,9 @@ std::string EncryptedBlob::toBase64() const {
     std::ostringstream oss;
     oss << key_id << ":"
         << key_version << ":"
-        << base64_encode(iv) << ":"
-        << base64_encode(ciphertext) << ":"
-        << base64_encode(tag);
+        << fieldBase64Encode(iv) << ":"
+        << fieldBase64Encode(ciphertext) << ":"
+        << fieldBase64Encode(tag);
     return oss.str();
 }
 
@@ -205,9 +202,9 @@ EncryptedBlob EncryptedBlob::fromBase64(const std::string& b64) {
     
     blob.key_id = parts[0];
     blob.key_version = std::stoul(parts[1]);
-    blob.iv = base64_decode(parts[2]);
-    blob.ciphertext = base64_decode(parts[3]);
-    blob.tag = base64_decode(parts[4]);
+    blob.iv = fieldBase64Decode(parts[2]);
+    blob.ciphertext = fieldBase64Decode(parts[3]);
+    blob.tag = fieldBase64Decode(parts[4]);
     
     return blob;
 }
@@ -216,9 +213,9 @@ nlohmann::json EncryptedBlob::toJson() const {
     return nlohmann::json{
         {"key_id", key_id},
         {"key_version", key_version},
-        {"iv", base64_encode(iv)},
-        {"ciphertext", base64_encode(ciphertext)},
-        {"tag", base64_encode(tag)}
+        {"iv", fieldBase64Encode(iv)},
+        {"ciphertext", fieldBase64Encode(ciphertext)},
+        {"tag", fieldBase64Encode(tag)}
     };
 }
 
@@ -237,9 +234,9 @@ EncryptedBlob EncryptedBlob::fromJson(const nlohmann::json& j) {
         std::string ct_b64 = j.at("ciphertext").get<std::string>();
         std::string tag_b64 = j.at("tag").get<std::string>();
 
-        blob.iv = base64_decode(iv_b64);
-        blob.ciphertext = base64_decode(ct_b64);
-        blob.tag = base64_decode(tag_b64);
+        blob.iv = fieldBase64Decode(iv_b64);
+        blob.ciphertext = fieldBase64Decode(ct_b64);
+        blob.tag = fieldBase64Decode(tag_b64);
 
     } catch (const nlohmann::json::exception& ex) {
         throw std::runtime_error(std::string("EncryptedBlob::fromJson: JSON error: ") + ex.what());
@@ -260,6 +257,19 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
     // If environment variable THEMIS_ENC_PARALLEL is set, run encryptions in parallel for stress testing.
     const char* parallel_env = std::getenv("THEMIS_ENC_PARALLEL");
     bool do_parallel = (parallel_env && *parallel_env);
+    const auto logDebugDumpFailure = [](size_t index,
+                                        bool parallel_path,
+                                        const std::exception* ex) {
+        if (ex) {
+            THEMIS_WARN("FieldEncryption::encryptEntityBatch: debug dump failed "
+                        "({} item {}): {}",
+                        parallel_path ? "parallel" : "sequential", index, ex->what());
+        } else {
+            THEMIS_WARN("FieldEncryption::encryptEntityBatch: debug dump failed "
+                        "({} item {}) with unknown exception",
+                        parallel_path ? "parallel" : "sequential", index);
+        }
+    };
 
     if (do_parallel) {
         tbb::parallel_for(tbb::blocked_range<size_t>(0, items.size()), [&](const tbb::blocked_range<size_t>& r) {
@@ -268,9 +278,19 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
                 try {
                     out[i] = encryptWithKey(ent.second, key_id, metadata.version, base_key);
                     // best-effort debug write (opt-in via env)
-                    try { write_debug_dump("encrypt", out[i], base_key, true); } catch(...) {}
+                    try {
+                        write_debug_dump("encrypt", out[i], base_key, true);
+                    } catch (const std::exception& ex) {
+                        logDebugDumpFailure(i, true, &ex);
+                    } catch (...) {
+                        logDebugDumpFailure(i, true, nullptr);
+                    }
+                } catch (const std::exception& ex) {
+                    THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
+                                "(parallel item {}): {}", i, ex.what());
                 } catch (...) {
-                    // ignore per-item errors here
+                    THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
+                                "(parallel item {}) with unknown exception", i);
                 }
             }
         });
@@ -281,9 +301,21 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
             try {
                 out[i] = encryptWithKey(ent.second, key_id, metadata.version, base_key);
                 // best-effort debug write (opt-in via env)
-                try { write_debug_dump("encrypt", out[i], base_key, true); } catch(...) {}
+                try {
+                    write_debug_dump("encrypt", out[i], base_key, true);
+                } catch (const std::exception& ex) {
+                    logDebugDumpFailure(i, false, &ex);
+                } catch (...) {
+                    logDebugDumpFailure(i, false, nullptr);
+                }
+            } catch (const std::exception& ex) {
+                // On error, leave default constructed blob; caller can inspect failures
+                // via empty output entries.
+                THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
+                            "(item {}): {}", i, ex.what());
             } catch (...) {
-                // On error, leave default constructed blob; errors should be handled by caller
+                THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
+                            "(item {}) with unknown exception", i);
             }
         }
     }

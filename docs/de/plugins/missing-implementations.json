@@ -52,20 +52,23 @@
       "claim_section": "Phase 2: [?] Capability-based permission model",
       "expected": "Fine-grained capability model: plugins can only use declared capabilities; runtime enforcement prevents post-activation capability escalation",
       "observed": "PluginCapabilityNegotiator in plugin_interface.h is implemented; capability negotiation works at load time (plugin_manager.cpp:1288); but no runtime gate on the hot call path prevents plugins from using undeclared capabilities after activation",
-      "status": "open",
+      "status": "resolved",
+      "resolved_date": "2026-04-09",
+      "resolution": "PluginManager::checkCapabilityEscalation() added to plugin_manager.h/cpp. frozen_capabilities captured at load time in loadPlugin() and loadPluginFromPath(). Escalation detection compares current getCapabilities() against frozen snapshot; any new true flag triggers ERR_PLUGIN_CAPABILITY_ESCALATION (6311) and marks plugin as RESTRICTED via is_restricted flag. PluginManager::isPluginRestricted() queries restriction state. 14 tests in tests/test_plugin_capability_escalation.cpp (CapabilityEscalationBlockedTests/CapabilityEscalationLogicTests/CapabilityEscalationApiTests).",
       "evidence": {
         "files_present": [
           "src/plugins/plugin_manager.cpp",
-          "include/plugins/plugin_interface.h"
+          "include/plugins/plugin_manager.h",
+          "include/utils/error_registry.h",
+          "tests/test_plugin_capability_escalation.cpp"
         ],
-        "implementation_note": "Negotiation at load time; runtime enforcement on call path absent"
+        "implementation_note": "checkCapabilityEscalation() in plugin_manager.cpp; frozen_capabilities captured after initialize() call; ERR_PLUGIN_CAPABILITY_ESCALATION=6311 in error_registry.h"
       },
-      "roadmap_status": "partial",
-      "roadmap_marker": "[?]",
-      "target_date": "Q3 2026",
+      "roadmap_status": "resolved",
+      "roadmap_marker": "[x]",
       "criticality": "high",
       "suggested_issue_title": "[plugins] Implement runtime capability enforcement to prevent post-activation capability escalation",
-      "suggested_labels": ["type:security", "priority:high", "plugins", "status:planned"]
+      "suggested_labels": ["type:security", "priority:high", "plugins", "status:resolved"]
     },
     {
       "id": "PLUGINS-MISSING-005",
@@ -112,8 +115,8 @@
   ],
   "summary": {
     "total_findings": 6,
-    "resolved": 4,
-    "open": 2,
-    "open_items": ["PLUGINS-MISSING-004 (capability enforcement)", "PLUGINS-MISSING-005 (WASM sandbox)"]
+    "resolved": 5,
+    "open": 1,
+    "open_items": ["PLUGINS-MISSING-005 (WASM sandbox)"]
   }
 }

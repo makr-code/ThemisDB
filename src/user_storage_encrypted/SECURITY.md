@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-22 -->
+> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Security — User Encrypted Storage Plugin
@@ -8,12 +10,12 @@
 ### 1. Key Material Exposure via Filesystem
 - **Risk:** Cryptographic key material written to a temporary file in `/tmp` is readable
   by other processes with filesystem access before it is unlinked.
-- **Mitigation:** Temp files are created with `mkstemp()` and `fchmod(fd, 0600)` before
-  the first write byte is committed. The file is `unlink()`ed immediately after gocryptfs
-  reads it. The key is hex-encoded to avoid null-byte truncation issues.
-- **Residual Risk:** On systems with swap enabled, the key hex string may persist in
-  swap space. Stdin-based key delivery (planned v0.1.0) eliminates the temp file entirely.
-- **Status:** ⚠️ Partially mitigated; stdin delivery planned Q3 2026
+- **Mitigation (v0.1.0+):** Key material is delivered to gocryptfs via a stdin pipe
+  (`-passfile /dev/stdin`). `executeCommandWithStdin()` forks the child with the pipe
+  read end wired to stdin; `deliverKeyViaStdin()` writes the hex-encoded key to the
+  pipe write end and calls `explicit_bzero` to clear the buffer. No key material is
+  written to the filesystem.
+- **Status:** ✅ Resolved in v0.1.0 — stdin delivery eliminates temp file
 
 ### 2. Shell Injection via Path Arguments
 - **Risk:** Encrypted directory paths or mount points containing shell metacharacters
@@ -34,9 +36,9 @@
 ### 4. Key Rotation Callback Failure
 - **Risk:** If the key rotation callback throws or crashes, the `schedulerLoop()`
   background thread may terminate, silently stopping all future rotations.
-- **Mitigation:** Callbacks should be written to catch all exceptions. An exception
-  guard in the loop is planned for v0.1.0.
-- **Status:** ⚠️ No exception guard in `schedulerLoop()`; planned Q3 2026
+- **Mitigation:** Callbacks should be written to catch all exceptions. <!-- TODO: verify -->
+  An exception guard in `schedulerLoop()` is recommended.
+- **Status:** ⚠️ No confirmed exception guard in `schedulerLoop()`
 
 ### 5. Container Directory Traversal
 - **Risk:** A crafted path with `../` components could escape the intended container
@@ -48,10 +50,11 @@
 ### 6. Stale Mounts After Crash
 - **Risk:** If the ThemisDB process crashes with active FUSE mounts, the mount points
   remain mounted until the OS unmounts them.
-- **Mitigation:** `isMounted()` is checked on every `mountContainer()` call and
-  skips re-mounting if already mounted. A startup reconciliation scan is planned
-  for v0.2.0 to unmount stale mounts from previous process instances.
-- **Status:** ⚠️ Startup reconciliation planned Q4 2026
+- **Mitigation (v0.2.0+):** `MultiLevelEncryptedStorage::reconcileStaleMounts()` is called
+  from `initialize()` before any `initializeLevel()` invocation. It scans `/proc/mounts`
+  for orphaned FUSE mounts and calls `fusermount -u` (with `umount` fallback). Non-fatal:
+  failures are logged at ERROR level and initialization continues.
+- **Status:** ✅ Resolved in v0.2.0
 
 ---
 
@@ -60,12 +63,12 @@
 | Control | Implementation | Status |
 |---------|---------------|--------|
 | No shell injection | `fork/execvp` with explicit arg vector | ✅ |
-| Key file permission | `fchmod(fd, 0600)` before write | ✅ |
-| Key file lifetime | `unlink()` immediately after subprocess reads | ✅ |
+| Stdin key delivery | Key piped via stdin; `explicit_bzero` clears buffer | ✅ |
+| Argon2id KDF | Per-container key derivation; salt in `.themis_kdf_salt` | ✅ |
 | Mount point permissions | `mkdir(path, 0700)` | ✅ |
 | Mount guard | `isMounted()` before every mount/unmount | ✅ |
-| Stdin key delivery | Eliminates temp file entirely | ❌ (planned Q3 2026) |
-| Scheduler exception guard | Catch in `schedulerLoop()` | ❌ (planned Q3 2026) |
+| Stale mount cleanup | `reconcileStaleMounts()` on startup | ✅ |
+| Scheduler exception guard | Catch in `schedulerLoop()` | <!-- TODO: verify --> ⚠️ |
 
 ---
 
@@ -73,7 +76,5 @@
 
 | ID | Description | Severity | Status |
 |----|-------------|----------|--------|
-| USE-SEC-01 | Key material passes through `/tmp`; swap-based leakage possible | High | Open (planned Q3 2026) |
-| USE-SEC-02 | No exception guard in `schedulerLoop()`; unhandled exception kills thread | Medium | Open |
-| USE-SEC-03 | No path normalisation / traversal prevention on container paths | Medium | Open |
-| USE-SEC-04 | No startup reconciliation of stale FUSE mounts | Low | Open (planned Q4 2026) |
+| USE-SEC-01 | <!-- TODO: verify --> No confirmed exception guard in `schedulerLoop()`; unhandled exception kills thread | Medium | Open |
+| USE-SEC-02 | No path normalisation / traversal prevention on container paths | Medium | Open |

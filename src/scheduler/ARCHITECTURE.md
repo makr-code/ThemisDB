@@ -1,7 +1,9 @@
 # Scheduler Module — Architecture Guide
 
-**Version:** 1.1  
-**Last Updated:** 2026-03-09  
+> **Status:** 2026-04-19 – Architekturtext gegen realen Sourcecode verifizieren; Abweichungen mit `<!-- TODO -->` markiert.
+
+**Version:** 1.1
+**Last Updated:** 2026-04-06
 **Module Path:** `src/scheduler/`
 
 ---
@@ -47,7 +49,7 @@ and an event-trigger system for event-driven task execution.
 | `task_anomaly_detector.cpp` | Detects anomalous task execution patterns |
 | `task_result_store.cpp` | Persists task execution results and history |
 
-*(CronExpression parser lives in `src/utils/cron_parser.cpp`)*
+*(CronExpression parser lives in `src/utils/cron_parser.cpp`; `CronExpression` is forward-declared in `include/scheduler/task_scheduler.h:72`)*
 
 ### 3.2 Component Diagram
 
@@ -197,9 +199,10 @@ TimeSeries data lifecycle (daily background job):
 
 ## 11. Known Limitations & Future Work
 
-- Auth context integration: task audit events currently log `user_id = "system"` as a placeholder; full integration with the authentication module (tracked as `#TODO-AUTH-CONTEXT`) will propagate the actual user identity.
-- Function sandboxing: custom function execution is not yet sandboxed at the OS level; resource limits are enforced via task `timeout` and query-engine quotas. Full cgroup-based sandboxing is a future enhancement.
-- Task result streaming: streaming output for long-running AQL tasks is planned but not yet implemented.
+- Distributed coordination requires `DistributedCoordinator` (sharding module) for gossip-based leader election.
+- Raft-based leader election (stronger consistency than the current gossip implementation) is a planned future enhancement.
+- Task result streaming for long-running AQL tasks is planned but not yet implemented.
+- Dynamic resource allocation (cgroups-based CPU/memory quota enforcement independent of timeout) is a planned future enhancement.
 
 ---
 

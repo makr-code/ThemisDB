@@ -526,6 +526,6 @@ themis_merge_conflicts_resolved_total
 ---
 
 **Created:** January 2026  
-**Last Updated:** February 2026  
+**Last Updated:** April 2026  
 **Version:** 1.5.0  
 **Author:** ThemisDB Development Team

@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_plugin_security_audit.cpp                     ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:31:14                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:55:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     459                                            ║
+    • Total Lines:     456                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f2b4fd08c  2026-02-26  fix(audit): correct enum ordering, string JSON serializat... ║
-    • ade268595  2026-02-23  fix(test): remove unused `before` variable in SecurePermi... ║
-    • 3f47ce19e  2026-02-23  feat(acceleration): security hardening pass for plugin/dr... ║
-    • 40c623acf  2026-02-23  Implement security audit for backend plugin loading and r... ║
+    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

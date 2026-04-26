@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            secondary_index.h                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:04                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     514                                            ║
+    • Total Lines:     517                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 6a59ae473  2026-03-15  fix(index-compression): audit fixes — CI composite action... ║
-    • 2cf21d36b  2026-03-14  feat(index): implement index compression (v1.7.0, Issue #... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
-    • 2c5066b72  2026-02-25  Code audit: fix header annotations, add PARTIAL to IndexT... ║
+    • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -70,6 +66,7 @@ public:
         bool enable_compression = false;
         index::CompressionAlgorithm compression_algorithm = index::CompressionAlgorithm::NONE;
         int  compression_level  = 3; ///< Algorithm-specific level (e.g. 1–22 for ZSTD)
+        size_t transactional_put_batch_size = 64; ///< Default chunk size for putBatch() transactions.
 
         // Fine-grained technique flags.  When enable_compression is true and
         // these flags are not explicitly set to false, all techniques are active.
@@ -250,9 +247,11 @@ public:
     Status put(std::string_view table, const BaseEntity& entity);
     Status erase(std::string_view table, std::string_view pk);
 
-    // v1.3.4: Batch Insert API - reduces commit overhead by batching multiple inserts into one WriteBatch
-    // Expected performance: 10-100x faster for bulk inserts (single commit for all entities)
+    // v1.3.4+: Batch Insert API - reduces commit overhead by batching inserts into configurable transaction chunks.
     Status putBatch(std::string_view table, const std::vector<BaseEntity>& entities);
+    Status putBatch(std::string_view table, const std::vector<BaseEntity>& entities, size_t transaction_batch_size);
+    void setTransactionalPutBatchSize(size_t batch_size);
+    size_t getTransactionalPutBatchSize() const { return transactional_put_batch_size_; }
 
     // Varianten für Transaktionen: nutzen bestehende WriteBatch
     Status put(std::string_view table, const BaseEntity& entity, RocksDBWrapper::WriteBatchWrapper& batch);
@@ -394,6 +393,7 @@ private:
     // Index compression (v1.7.0)
     Config compression_config_;
     std::unique_ptr<index::IndexCompressionCodec> compression_codec_;
+    size_t transactional_put_batch_size_ = 64;
 
     // Meta-Key für vorhandene Indizes: idxmeta:<table>:<column>
     // Composite: idxmeta:<table>:col1+col2+col3
@@ -422,6 +422,12 @@ private:
     static std::string makeIndexKey(std::string_view table, std::string_view column, std::string_view value, std::string_view pk);
     static std::string makeCompositeIndexKey(std::string_view table, const std::vector<std::string>& columns, const std::vector<std::string>& values, std::string_view pk);
     static std::string makeCompositeIndexPrefix(std::string_view table, const std::vector<std::string>& columns, const std::vector<std::string>& values);
+
+    // Unique-Index sentinel key used for GetForUpdate locking (Concurrent-Unique-Lücke fix).
+    // Single-column: "uidx:table:col:encodedVal"
+    // Composite:     "uidx:table:col1+col2:encVal1:encVal2"
+    static std::string makeUniqueSentinelKey_(std::string_view table, std::string_view col, std::string_view encodedVal);
+    static std::string makeCompositeUniqueSentinelKey_(std::string_view table, const std::vector<std::string>& columns, const std::vector<std::string>& values);
 
     // Range-Index-Key-Builder: ridx:table:column:value:PK und Prefix ridx:table:column:value:
     static std::string makeRangeIndexKey(std::string_view table, std::string_view column, std::string_view value, std::string_view pk);

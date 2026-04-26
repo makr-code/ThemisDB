@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Core Framework Implementation
 
 ## Module Purpose
@@ -8,10 +10,17 @@ This directory contains the implementation code for ThemisDB's core framework an
 
 | Interface / File | Role |
 |-----------------|------|
-| `themis_db.cpp` | Main ThemisDB orchestration class |
-| `query_router.cpp` | Query dispatch to appropriate engine |
-| `module_coordinator.cpp` | Inter-module coordination and dependency management |
-| `lifecycle_manager.cpp` | Startup and shutdown sequencing |
+| `build_info.cpp` | Build metadata collection and formatting |
+| `edition_manager.cpp` | License tier management and feature gates |
+| `license_info.cpp` | License validation and Ed25519 signature verification |
+| `module_loader.cpp` | Platform-independent secure module loading core |
+| `module_loader_linux.cpp` | Linux-specific GPG/ELF/xattr verification |
+| `module_loader_win32.cpp` | Windows Zone.Identifier and Authenticode verification |
+| `module_hash_verifier.cpp` | SHA-256 manifest integrity verification |
+| `module_signature_verifier.cpp` | Authenticode/GPG signature verification |
+| `module_security.cpp` | `ModuleSecurityVerifier` — trust-level enforcement |
+| `module_dependency_resolver.cpp` | Module dependency graph and topological load-order |
+| `wire_protocol_server.cpp` | Binary wire protocol server (`themis::wire` namespace) |
 
 ## Scope
 
@@ -29,14 +38,22 @@ This directory contains the implementation code for ThemisDB's core framework an
 
 ## Implementation Status
 
-**Note:** This directory is currently empty as ThemisDB uses a monolithic build architecture. Implementation files will be added as part of the modularization effort (v1.7.0+).
+This directory is active and contains Themis core implementation files.
 
-In the current monolithic build, the functionality described here is distributed across:
-- `src/core/` - Build and edition management
-- `src/security/` - License validation
-- `src/server/` - Wire protocol implementation
+Current implementation files in `src/themis/`:
+- `build_info.cpp`
+- `edition_manager.cpp`
+- `license_info.cpp`
+- `module_dependency_resolver.cpp`
+- `module_hash_verifier.cpp`
+- `module_loader.cpp`
+- `module_loader_linux.cpp`
+- `module_loader_win32.cpp`
+- `module_security.cpp`
+- `module_signature_verifier.cpp`
+- `wire_protocol_server.cpp`
 
-## Planned Implementation Files (v1.7.0+)
+## Implemented Core Files (v1.7.0+)
 
 ### Build & Edition Management
 
@@ -45,12 +62,13 @@ In the current monolithic build, the functionality described here is distributed
 
 Collects compile-time configuration and formats it for runtime access.
 
-**Planned Functions:**
-- `getBuildConfiguration()` - Aggregate build metadata
-- `formatBuildInfo()` - Human-readable build summary
-- `getVersionSummary()` - Compact version string
-- `isModuleCompiledIn()` - Check module availability
-- `getCompiledModules()` - List of compiled modules
+**Implemented Functions:**
+- `getBuildConfiguration()` — aggregate build metadata at runtime
+- `getReproducibilityInfo()` — reproducibility info (git HEAD, branch, dirty flag)
+- `exportBuildManifest()` / `verifyBuildManifest()` — build manifest round-trip
+- `formatBuildInfo()` — human-readable build summary
+- `isModuleCompiledIn()` — check module availability at runtime
+- `getCompiledModules()` — list compiled modules
 
 ---
 
@@ -59,10 +77,12 @@ Collects compile-time configuration and formats it for runtime access.
 
 Validates embedded license data and verifies digital signatures.
 
-**Planned Functions:**
-- `getEmbeddedLicense()` - Extract embedded license
-- `isLicenseValid()` - Validate expiry date
-- `verifyLicenseSignature()` - Cryptographic verification
+**Implemented Functions:**
+- `getEmbeddedLicense()` — extract embedded license
+- `isLicenseValid()` — validate expiry and tier
+- `verifyLicenseSignature()` — Ed25519 cryptographic verification
+- `LicenseClient` — remote license registration/activation
+- `LicenseInfo::remaining_grace_days()` — remaining grace period
 
 **Security Features:**
 - RSA-2048 or Ed25519 signatures
@@ -78,13 +98,13 @@ Validates embedded license data and verifies digital signatures.
 
 Loads shared libraries with mandatory security verification.
 
-**Planned Security Checks:**
-1. SHA-256 hash verification
-2. Digital signature verification (X.509 or GPG)
-3. Whitelist/blacklist checking
-4. Zone.Identifier detection (Windows)
+**Implemented Security Checks:**
+1. SHA-256 hash verification (`ModuleHashVerifier`)
+2. Digital signature verification — Authenticode (Windows) / GPG (Linux)
+3. Whitelist/blacklist checking (`ModuleSecurityVerifier`)
+4. Zone.Identifier detection (Windows, `module_loader_win32.cpp`)
 5. Authenticode verification (Windows)
-6. GPG signature verification (Linux)
+6. GPG signature verification via `posix_spawn` (Linux)
 
 **Platform Support:**
 - Windows: `LoadLibraryEx`, `GetProcAddress`, `FreeLibrary`
@@ -108,30 +128,19 @@ Implements the binary TCP protocol for high-performance client connections.
 
 ---
 
-## Current Architecture (Monolithic)
+## Current Architecture
 
-For now, these implementations are found in:
+The Themis implementation lives in `src/themis/`. Legacy or compatibility paths
+may still exist in other subsystems.
 
 ### Build Information
-```
-src/core/build_info.cpp (planned)
-```
-
-Currently handled by CMake-generated headers and runtime queries.
+`src/themis/build_info.cpp`
 
 ### License Management
-```
-src/security/license_manager.cpp (if exists)
-```
-
-Currently integrated with security module.
+`src/themis/license_info.cpp`
 
 ### Wire Protocol
-```
-src/server/wire_protocol_server.cpp (if exists)
-```
-
-Currently integrated with server module.
+`src/themis/wire_protocol_server.cpp`
 
 ---
 
@@ -323,18 +332,20 @@ target_link_libraries(themis-network
 
 ## Status
 
-**Planning Phase** (as of v1.5.0)
+**Implemented** (as of v1.8.0)
 
-⏳ **Planned Implementations:**
-- Build information (v1.7.0)
-- License validation (v1.7.0)
-- Module loading (v1.7.0)
-- Wire protocol server (v1.7.0)
+✅ **Delivered in `src/themis/`:**
+- Build information and reproducibility support
+- License validation and runtime license gating integration
+- Secure module loading (core + Linux + Windows split)
+- Module hash and signature verification
+- Module dependency resolution
+- Wire protocol server implementation
 
 📝 **Current Status:**
-- Functionality exists in monolithic build
-- Refactoring planned for modular architecture
-- Interfaces defined in `include/themis/`
+- `src/themis/` is the active implementation location for Themis core files
+- Public interfaces are defined in `include/themis/`
+- Additional modularization and hardening remain tracked in `ROADMAP.md`
 
 ---
 
@@ -377,3 +388,12 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 3. Kleppmann, M. (2017). **Designing Data-Intensive Applications**. O'Reilly Media. ISBN: 978-1-449-37332-0
 
 4. Stonebraker, M., & Hellerstein, J. M. (Eds.). (1994). **Readings in Database Systems (3rd ed.)**. Morgan Kaufmann. ISBN: 978-1-558-60252-9
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/themis/README.md`](../../include/themis/README.md) for the public API.

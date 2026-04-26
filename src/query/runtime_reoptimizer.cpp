@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            runtime_reoptimizer.cpp                            ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:18:39                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:50:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     205                                            ║
+    • Total Lines:     203                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e3c5254ad  2026-03-01  fix(query): use historical average rows as fallback estim... ║
-    • 4f86bf5cd  2026-03-01  feat(query): implement RuntimeReoptimizer for adaptive qu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -134,7 +129,7 @@ RuntimeReoptimizer::beginExecutionGuard(const std::string& query_hash,
     return ExecutionGuard(*this, beginExecution(query_hash, estimated_rows));
 }
 
-bool RuntimeReoptimizer::shouldReoptimize(const std::string& query_hash,
+bool RuntimeReoptimizer::shouldReoptimize([[maybe_unused]] const std::string& query_hash,
                                            size_t rows_so_far,
                                            size_t estimated_total,
                                            double progress,

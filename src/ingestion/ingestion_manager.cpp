@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ingestion_manager.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:45                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2280                                           ║
+    • Total Lines:     2336                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 5703120fe  2026-03-14  feat(ingestion): Add S3-Compatible Object Storage Source ... ║
-    • b2a2c74ed  2026-03-13  feat(ingestion): Kafka Consumer Source Connector - checkp... ║
-    • edcfeb984  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-    • a7cd4fa78  2026-03-11  feat(ingestion): LLM-driven semantic extraction pipeline ... ║
-    • 1585d858e  2026-03-10  feat(ingestion): implement end-to-end ingestion lineage t... ║
+    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -36,6 +32,7 @@
 #include "ingestion/cdc_connector.h"
 #include "ingestion/deontic_extractor.h"
 #include "ingestion/agentic_reference_validator.h"
+#include "ingestion/llm_adapter.h"
 #include <stdexcept>
 #include <algorithm>
 #include <thread>
@@ -94,7 +91,7 @@ static std::string sourceTypeLabel(SourceType t) {
 }
 
 /// Map IngestionErrorCode to its integer string for a metric label
-static std::string errorCodeLabel(IngestionErrorCode c) {
+[[maybe_unused]] static std::string errorCodeLabel(IngestionErrorCode c) {
     return std::to_string(static_cast<int>(c));
 }
 
@@ -1315,7 +1312,7 @@ public:
         lineage_store_.clear();
     }
 
-private:
+public:
     /// Consume a token from the per-source bucket (creates bucket if needed).
     /// Returns false and records a QUOTA_EXCEEDED error if the byte limit is breached.
     bool checkRateLimit(const std::string& source_id,
@@ -1416,6 +1413,9 @@ private:
     ConnectorPluginRegistry plugin_registry_; ///< Registry for third-party plugin connectors
     IngestionLineageStore lineage_store_;     ///< In-memory lineage record store
     bool lineage_enabled_ = false;            ///< Lineage tracking on/off
+    std::shared_ptr<ITextGenerationBackend> text_gen_backend_; ///< injected AI backend (SoC)
+    std::shared_ptr<WorkflowEngine> workflow_engine_; ///< injected workflow orchestrator (v2.0)
+    std::shared_ptr<ReIngestionController> reingestion_controller_; ///< LLM-as-judge loop (v2.1)
     mutable std::mutex mutex_;
 };
 
@@ -1652,6 +1652,21 @@ LegalExtractionResult IngestionManager::runLegalExtraction(
     gates.section_hierarchy.required   = config.require_section_struct;
     validator.setQualityGates(gates);
 
+    // SoC: wire the injected AI backend into the validator when available.
+    // The ingestion pipeline never knows about a concrete LLM class; it only
+    // calls ITextGenerationBackend through LegalLlmAdapter.
+    {
+        std::shared_ptr<ITextGenerationBackend> backend;
+        {
+            std::lock_guard<std::mutex> lock(impl_->mutex_);
+            backend = impl_->text_gen_backend_;
+        }
+        if (backend && backend->isAvailable()) {
+            LegalLlmAdapter adapter(backend);
+            validator.setExtractor(adapter.buildExtractor(config.confidence_threshold));
+        }
+    }
+
     LegalExtractionResult result = validator.extractDocument(document_id, text);
 
     if (config.validate_references) {
@@ -1672,8 +1687,48 @@ LegalExtractionResult IngestionManager::runLegalExtraction(
     return result;
 }
 
-// ============================================================================
-// IngestionMetricsExporter
+void IngestionManager::setTextGenerationBackend(
+        std::shared_ptr<ITextGenerationBackend> backend) {
+    std::lock_guard<std::mutex> lock(impl_->mutex_);
+    impl_->text_gen_backend_ =
+        backend ? std::move(backend)
+                : std::make_shared<NullTextGenerationBackend>();
+}
+
+std::shared_ptr<ITextGenerationBackend>
+IngestionManager::getTextGenerationBackend() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex_);
+    if (!impl_->text_gen_backend_) {
+        return std::make_shared<NullTextGenerationBackend>();
+    }
+    return impl_->text_gen_backend_;
+}
+
+void IngestionManager::setWorkflowEngine(
+        std::shared_ptr<WorkflowEngine> engine) {
+    std::lock_guard<std::mutex> lock(impl_->mutex_);
+    impl_->workflow_engine_ = std::move(engine);
+}
+
+std::shared_ptr<WorkflowEngine>
+IngestionManager::getWorkflowEngine() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex_);
+    return impl_->workflow_engine_;
+}
+
+// ---- LLM-as-judge re-ingestion quality control (v2.1) --------------------
+
+void IngestionManager::setReIngestionController(
+        std::shared_ptr<ReIngestionController> controller) {
+    std::lock_guard<std::mutex> lock(impl_->mutex_);
+    impl_->reingestion_controller_ = std::move(controller);
+}
+
+std::shared_ptr<ReIngestionController>
+IngestionManager::getReIngestionController() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex_);
+    return impl_->reingestion_controller_;
+}
 // ============================================================================
 
 namespace {

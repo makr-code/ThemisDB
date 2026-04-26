@@ -1,6 +1,6 @@
 # Copilot Instructions for Roadmap-Driven Implementation
 
-Diese Regeln steuern, wie Copilot in diesem Repository aus `ROADMAP.md` und `future_enhancement.md` produktive Implementierungen erzeugt.
+Diese Regeln steuern, wie Copilot in diesem Repository aus `ROADMAP.md` und `FUTURE_ENHANCEMENTS.md` produktive Implementierungen erzeugt.
 
 ## 1) Ziel
 
@@ -37,7 +37,7 @@ Beispiel:
 
 - `- [ ] CUDA geospatial distance and containment kernels (Target: Q3 2026)`
 
-## 3) Pflichtstruktur für `future_enhancement.md`
+## 3) Pflichtstruktur für `FUTURE_ENHANCEMENTS.md`
 
 Wenn vorhanden, MUSS die Datei pro Modul klare, implementierbare Hinweise enthalten:
 
@@ -101,6 +101,7 @@ Beim Implementieren aus Roadmap/Future-Enhancement gilt:
 3. Tests müssen reale Funktionalität verifizieren.
 4. Akzeptanzkriterien aus Roadmap sind bindend.
 5. Bei fehlenden Details zuerst Roadmap/Future-Enhancement präzisieren statt raten.
+6. Wenn Stubs, Mock-Pfade oder Simulationen im Sourcecode erforderlich sind, müssen sie explizit dokumentiert werden (Zweck, Aktivierungsbedingungen, Unterschiede zur Produktionslogik, geplanter Rückbau).
 
 ## 7) Beispiel für guten Roadmap-Eintrag
 
@@ -115,3 +116,176 @@ Beim Implementieren aus Roadmap/Future-Enhancement gilt:
 ```
 
 Dieser Detaillierungsgrad ist für produktiven Code erforderlich.
+
+## 8) C++ Best Practices (VS Code/Copilot)
+
+Bei C++-Aufgaben gelten folgende Leitlinien fuer Generierung, Review und Refactoring:
+
+```yaml
+cpp_best_practices:
+  modern_cpp_features:
+    - "Use 'auto' for type inference to improve readability."
+    - "Prefer 'nullptr' over NULL or 0."
+    - "Use 'constexpr' for compile-time computations."
+    - "Use range-based for loops for container iteration."
+    - "Prefer smart pointers (std::unique_ptr, std::shared_ptr) over raw pointers."
+
+  resource_management_raii:
+    - "Use RAII to bind resource lifetime to object lifetime."
+    - "Use std::lock_guard or std::unique_lock for mutex locking."
+    - "Avoid manual new/delete; prefer smart pointers."
+    - "Ensure resources are released automatically when objects go out of scope."
+
+  avoid_unnecessary_copies:
+    - "Pass large objects by const reference (const &)."
+    - "Use move semantics (std::move) for efficient transfer of ownership."
+    - "Implement copy and move constructors appropriately."
+
+  clear_and_safe_interfaces:
+    - "Mark member functions that do not modify state as 'const'."
+    - "Document side effects and exceptions clearly."
+    - "Avoid global variables and mutable shared state."
+
+  threading_and_synchronization:
+    - "Use std::mutex with std::lock_guard for critical sections."
+    - "Keep critical sections as short as possible."
+    - "Use atomic operations (std::atomic) when feasible."
+    - "Avoid deadlocks by consistent lock ordering or using std::lock."
+
+  error_handling:
+    - "Use exceptions for errors that cannot be handled locally."
+    - "Write exception-safe code."
+    - "Avoid silent failures and undefined behavior."
+
+  performance:
+    - "Profile code before optimizing."
+    - "Avoid premature optimization."
+    - "Use cache-friendly data structures and algorithms."
+    - "Avoid false sharing in multithreaded code."
+
+  style_and_readability:
+    - "Use meaningful and descriptive names."
+    - "Keep functions short and focused."
+    - "Follow a consistent coding style guide."
+
+  copilot_guidance:
+    - "When generating C++ code, use modern language features like 'auto', smart pointers, and 'constexpr'."
+    - "Avoid manual memory management; prefer RAII."
+    - "Synchronize threads with std::mutex and std::lock_guard; keep critical sections short."
+    - "Prevent deadlocks by consistent locking order."
+    - "Write clear, const-correct, exception-safe functions."
+    - "Optimize only after profiling and consider cache friendliness."
+    - "If stubs, mocks, or simulation paths are introduced in source code, document them explicitly (purpose, activation conditions, production delta, and removal plan)."
+```
+
+  Empfohlenes Kommentar-Template direkt ueber Stub/Mock/Simulation-Codepfaden:
+
+  ```cpp
+  // STUB/SIMULATION NOTE:
+  // Purpose: <why this non-production path exists>
+  // Activation: <build flag/runtime condition/test-only gate>
+  // Production Delta: <how behavior differs from production>
+  // Removal Plan: <when/how this path will be removed>
+  ```
+
+## 9) Ollama Delegation Bridge — AI Agent Instructions
+
+The repository ships a VS Code extension at `tools/copilot-ollama-router/` that
+routes code-generation tasks to a **local Ollama model** instead of Copilot
+cloud. Every AI agent (Copilot, GitHub Copilot in VS Code, this coding agent)
+MUST follow these rules when working on ThemisDB:
+
+### 9.1 When to use local Ollama (via `@ollama` chat participant)
+
+Use `@ollama` for all of the following:
+
+| Task | Example prompt |
+|---|---|
+| C++ boilerplate / class scaffolding | `@ollama Generate a RAII wrapper for FILE*` |
+| Unit test generation | `@ollama Write GTest cases for KnowledgeGraphRetriever::neighbours()` |
+| Refactoring | `@ollama Refactor this function to use std::expected` |
+| Documentation / Doxygen comments | `@ollama Add Doxygen docs to LLMPluginManager::loadModel()` |
+| CMakeLists.txt edits | `@ollama Add a new test target for test_foo.cpp` |
+| Repetitive code patterns | `@ollama Implement getters/setters for all fields in struct X` |
+
+### 9.2 When to use Copilot cloud (standard chat)
+
+Use the normal Copilot chat (no `@ollama`) for:
+
+- Security review and vulnerability analysis
+- Architecture and design decisions
+- Complex multi-file debugging
+- Code review with quality judgement
+- Any task requiring up-to-date knowledge (CVEs, new APIs)
+
+### 9.3 ThemisDB-specific routing rules (always enforced)
+
+- **C++ files** (`.cpp`, `.hpp`, `.h`, `.cc`) → always `@ollama /local`
+- **Security / audit** prompts → always standard Copilot (cloud)
+- **CMakeLists.txt / build system** → `@ollama`
+- **ROADMAP.md / FUTURE_ENHANCEMENTS.md updates** → standard Copilot
+
+### 9.4 First-time setup
+
+Before using `@ollama`, ensure Ollama is running and at least one coding
+model is installed:
+
+```bash
+# 1. Install Ollama (https://ollama.com)
+ollama serve &
+
+# 2. Pull recommended models via VS Code command palette:
+#    Command: "Ollama Bridge: Set Up / Download Coding Models"
+#    Command ID: ollamaBridge.setupModels
+#    → selects from ranked list (DeepSeek-Coder-V2, Qwen2.5-Coder, CodeLlama…)
+
+# 3. Verify connectivity and list installed models:
+#    Command: "Ollama Bridge: Check Ollama Connection"
+#    Command ID: ollamaBridge.checkOllamaHealth
+#    Command: "Ollama Bridge: List Installed Models"
+#    Command ID: ollamaBridge.listInstalledModels
+```
+
+Or from the terminal:
+
+```bash
+ollama pull deepseek-coder-v2:16b   # best (needs ~10 GB VRAM)
+ollama pull qwen2.5-coder:7b        # balanced (needs ~5 GB VRAM)
+ollama pull codellama:7b            # lightweight fallback
+```
+
+The ranked model catalog is maintained in
+`tools/copilot-ollama-router/src/modelSetup.ts` → `RANKED_CODING_MODELS`.
+
+### 9.5 Delegation mode configuration
+
+Set in VS Code `settings.json` (workspace or user):
+
+```jsonc
+{
+  "ollamaBridge.delegationMode": "auto",
+  "ollamaBridge.defaultModel": "deepseek-coder-v2:16b",
+  "ollamaBridge.reasoningModel": "qwen2.5-coder:14b",
+  "ollamaBridge.copilotReviewEnabled": true,
+  "ollamaBridge.themisDbRules": true
+}
+```
+
+### 9.6 How agents instruct the bridge
+
+When writing automation scripts, CI steps, or agent prompts that need to
+trigger Ollama delegation programmatically:
+
+- Use the VS Code command `ollamaBridge.delegateToOllama` (prompts for input)
+- Use the chat participant: `@ollama /local <task description>`
+- Use `ollamaBridge.autoRoute` to preview the routing decision without executing
+
+Copilot coding agents running in this repository SHOULD annotate their
+task descriptions with the target destination so the delegation router
+can be bypassed efficiently:
+
+```
+// ROUTING HINT: ollama-local
+// Model: deepseek-coder-v2:16b
+// Reason: C++ boilerplate generation
+```

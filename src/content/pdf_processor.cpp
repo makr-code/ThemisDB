@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pdf_processor.cpp                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:14                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     629                                            ║
+    • Total Lines:     627                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 99d979493  2026-02-28  fix(pdf_processor): add poppler-version.h include and use... ║
-    • 33a86557e  2026-02-23  Fix triple PDF loading regression + add content_pdf_extra... ║
-    • be51d5459  2026-02-22  Add PDF text extraction with layout preservation using po... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -102,7 +100,7 @@ bool PDFProcessor::isPDFValid(const std::string& blob) {
 
 ExtractionResult PDFProcessor::extract(
     const std::string& blob,
-    const ContentType& content_type
+    const ContentType& /*content_type*/
 ) {
     ExtractionResult result;
     result.ok = false;
@@ -243,7 +241,7 @@ ExtractionResult PDFProcessor::extract(
     std::regex page_regex("/Type\\s*/Page[^s]");
     auto pages_begin = std::sregex_iterator(blob.begin(), blob.end(), page_regex);
     auto pages_end = std::sregex_iterator();
-    int page_count = std::distance(pages_begin, pages_end);
+    int page_count = static_cast<int>(std::distance(pages_begin, pages_end));
     result.metadata["page_count"] = page_count;
     
     // Try to extract text from BT/ET blocks
@@ -342,7 +340,7 @@ PDFMetadata PDFProcessor::extractMetadata(const std::string& blob) {
     return metadata;
 }
 
-std::vector<PDFPageInfo> PDFProcessor::extractPages(const std::string& blob) {
+std::vector<PDFPageInfo> PDFProcessor::extractPages([[maybe_unused]] const std::string& blob) {
     std::vector<PDFPageInfo> pages;
 
 #if PDF_LIBRARY_AVAILABLE
@@ -569,7 +567,7 @@ std::vector<json> PDFProcessor::chunk(
     return chunks;
 }
 
-std::vector<float> PDFProcessor::generateEmbedding(const std::string& chunk_data) {
+std::vector<float> PDFProcessor::generateEmbedding(const std::string& /*chunk_data*/) {
     // Placeholder: Return empty embedding
     // In production, this would call an embedding service
     return std::vector<float>();

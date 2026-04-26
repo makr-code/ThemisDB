@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_rate_limiter.cpp                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:19:37                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:50:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • b09d74434  2026-03-13  fix(server): address all code review comments on rate lim... ║
-    • 855ed0268  2026-03-13  feat(server): add adaptive and cost-based rate limiters f... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -51,7 +51,7 @@ AdaptiveRateLimiter::AdaptiveRateLimiter(const Config& config)
 void AdaptiveRateLimiter::recordSample(const std::string& tenant_id,
                                        const BackendHealthSample& sample)
 {
-    std::lock_guard<std::mutex> lock(tenants_mutex_);
+    std::unique_lock<std::shared_mutex> lock(tenants_mutex_);
 
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end()) {
@@ -76,7 +76,7 @@ bool AdaptiveRateLimiter::allowRequest(const std::string& tenant_id)
 {
     total_requests_.fetch_add(1, std::memory_order_relaxed);
 
-    std::lock_guard<std::mutex> lock(tenants_mutex_);
+    std::unique_lock<std::shared_mutex> lock(tenants_mutex_);
 
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end()) {
@@ -108,7 +108,7 @@ bool AdaptiveRateLimiter::allowRequest(const std::string& tenant_id)
 
 size_t AdaptiveRateLimiter::getCurrentCapacity(const std::string& tenant_id) const
 {
-    std::lock_guard<std::mutex> lock(tenants_mutex_);
+    std::shared_lock<std::shared_mutex> lock(tenants_mutex_);
 
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end()) {
@@ -119,7 +119,7 @@ size_t AdaptiveRateLimiter::getCurrentCapacity(const std::string& tenant_id) con
 
 void AdaptiveRateLimiter::reset()
 {
-    std::lock_guard<std::mutex> lock(tenants_mutex_);
+    std::unique_lock<std::shared_mutex> lock(tenants_mutex_);
     tenants_.clear();
     tenants_.emplace("", TenantState{config_.base_capacity});
     total_requests_.store(0, std::memory_order_relaxed);

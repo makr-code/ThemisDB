@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_pause_control.cpp                         ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:25:20                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:52:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     230                                            ║
+    • Total Lines:     253                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9c4b80d3b  2026-03-22  Refactor AdaptiveQueryCache: Remove unused warmup functio... ║
-    • 0e01ac355  2026-03-22  Changes before error encountered         ║
+    • 9c4b80d3bc  2026-03-22  Refactor AdaptiveQueryCache: Remove unused warmup functio... ║
+    • 0e01ac3559  2026-03-22  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

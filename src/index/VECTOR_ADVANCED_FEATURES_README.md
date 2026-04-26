@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Vector Advanced Features
 
 This directory contains advanced vector search capabilities for ThemisDB. These modules extend the basic vector similarity search with sophisticated algorithms for radius-based search and multi-vector queries.

@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            filesystem_ingester.h                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:10                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     285                                            ║
+    • Total Lines:     293                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 478adf5f9  2026-02-28  security(ingestion): path traversal and API key storage a... ║
-    • 53f0cfc43  2026-02-28  feat(ingestion): per-source schema validation before writ... ║
-    • 81a0f7896  2026-02-23  Security fix: add isConverterSafe() to guard popen() agai... ║
-    • 08a813e1d  2026-02-22  feat(ingestion): PDF/DOCX binary format ingestion via ext... ║
+    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,6 +23,7 @@
 #pragma once
 
 #include "ingestion_manager.h"
+#include "ingestion/file_format.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -115,19 +112,6 @@ struct BinaryConverter {
     bool detect_by_magic = true;               ///< Detect type by magic bytes in addition to file extension
 
     BinaryConverter() = default;
-};
-
-/**
- * @brief Supported file formats
- */
-enum class FileFormat {
-    AUTO,       ///< Auto-detect format
-    PDF,        ///< Portable Document Format
-    DOCX,       ///< Microsoft Word
-    TXT,        ///< Plain text
-    HTML,       ///< HTML document
-    XML,        ///< XML document
-    JSON        ///< JSON document
 };
 
 /**

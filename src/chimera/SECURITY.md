@@ -1,66 +1,29 @@
-<!-- Status: current | validated: 2026-03-12 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
 
-# Security — Chimera Module
+# SECURITY
 
-> For reporting security vulnerabilities, see the project-level [SECURITY.md](../../../SECURITY.md).
-
-## Security Scope
-
-The Chimera module provides a vendor-neutral adapter framework for connecting to external databases (MongoDB, PostgreSQL, Neo4j, Elasticsearch, Pinecone, Qdrant, Weaviate, and others). Security concerns focus on: secure credential handling for external database connections, preventing adapter injection, safe simulation mode use, and protecting benchmark operations from data leakage.
+## Scope
+- Modul/Ordner: `src/chimera`
+- Sicherheitsrelevante Funktionen in `src/chimera/themisdb_adapter.cpp` und `include/chimera/themisdb_adapter.hpp`.
 
 ## Threat Model
 
 | Threat | Mitigation |
-|--------|------------|
-| Credential exposure in adapter configuration | Database credentials injected via configuration; not logged or included in metrics output |
-| Unauthorized adapter registration | Adapter factory registry uses thread-safe singleton; registration from untrusted code paths is blocked by RBAC at the module loading layer |
-| Simulation mode in production | Simulation mode adapters are clearly flagged in metrics and system information; production deployments should disable simulation adapters |
-| Cross-tenant data access via shared adapter | Each adapter connection is tenant-scoped; benchmark framework uses isolated connections per test run |
-| Injection via adapter operation parameters | All operation wrappers validate parameter types before forwarding to underlying driver |
-| SQL injection via PostgreSQL adapter | PostgreSQL adapter uses parameterized queries via `libpqxx` (production driver pending) |
-| Unsecured external database connections | TLS configuration is required for production adapter connections; adapters expose TLS configuration in `ConnectionConfig` |
+|--------|-----------|
+| Connection string credential leakage | Credential masking (`user:pass@` → `***:***@`) in stored/logged connection strings |
+| Unvalidated connection state | All operation methods check `connected_` flag and return `CONNECTION_ERROR` if not connected (`src/chimera/themisdb_adapter.cpp`) |
+| Engine-backed path NOT_IMPLEMENTED silent failure | Engine dispatch paths return structured `ErrorCode::NOT_IMPLEMENTED`; callers must check `Result<T>` |
+| Unvalidated query parameters | Parameters passed through to `execute_query`; input validation is the caller's responsibility at the API layer |
 
 ## Security Controls
-
-### Credential Handling
-- Database credentials (username, password, API keys, connection strings) are read from configuration and injected at adapter construction time.
-- Credentials are never included in log output, metrics labels, or benchmark results.
-- Connection strings containing embedded credentials are masked in debug output.
-
-### Adapter Factory Security
-- Adapter factory uses a thread-safe singleton with mutex-protected registration.
-- Dynamic registration is allowed only during initialization; post-startup registration is blocked.
-- Each adapter reports its system information including whether it is in simulation mode.
-
-### Simulation Mode
-- Adapters operating in simulation mode (e.g., PostgreSQL pending `libpqxx`, HTTP-based adapters pending driver integration) are explicitly identified via `isSimulationMode()` flag.
-- Production deployments should audit adapter registrations to ensure only fully wired adapters are active.
-
-### Connection Security
-- All planned production adapters will use TLS for wire encryption.
-- Elasticsearch, Pinecone, Qdrant, Weaviate (HTTP-based): TLS enforced via `cpp-httplib`/`cpr` with certificate validation.
-- Neo4j (Bolt protocol): TLS-encrypted Bolt connections planned.
-- MongoDB: TLS via `libmongocxx` driver.
-
-## Data Handling
-
-- Chimera adapters are used for benchmarking and cross-database query federation; they forward queries to external systems.
-- Query results returned through adapters are held in memory for the duration of the operation; not persisted by this module.
-- Benchmark results (latency, throughput) do not include document content; only aggregate statistics.
-- No PII or sensitive data should be included in benchmark test data sets.
+- Connection-string parsing with credential masking in `ThemisDBAdapter::connect()`
+- `Result<T>` error propagation: no silent failures on connection or operation errors
+- Engine injection constructor (`ThemisDBAdapter(QueryEngine*, VectorIndexManager*, GraphIndexManager*)`) limits injection surface to trusted callers
 
 ## Known Limitations
+- No rate limiting or connection pooling in `ThemisDBAdapter`; must be enforced at the API layer
+- `Capability::CONNECTION_POOLING` is reported available but not implemented
+- No SSL/TLS configuration in the adapter connection interface
 
-- PostgreSQL adapter (`postgresql_adapter.cpp`) is in simulation mode; production `libpqxx` wiring is pending (Issue #1632).
-- HTTP-based adapters (Elasticsearch, Pinecone, Qdrant, Weaviate) are in simulation mode pending driver integration.
-- Cross-system query federation (planned) will require careful tenant isolation to prevent cross-database data leakage.
-
-## Dependency Security
-
-| Dependency | Purpose | Notes |
-|------------|---------|-------|
-| libpqxx (planned) | PostgreSQL production driver | TLS via OpenSSL |
-| libmongocxx (planned) | MongoDB production driver | TLS connection option |
-| cpp-httplib / cpr (planned) | HTTP-based adapters | TLS with certificate validation |
-| Neo4j Bolt client (planned) | Neo4j graph database | TLS-encrypted Bolt protocol |
+## Incident & Meldung
+- Sicherheitsfunde gemäß Root-`SECURITY.md` melden und behandeln.

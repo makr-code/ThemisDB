@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            updates_config.h                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:53                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     159                                            ║
+    • Total Lines:     181                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 02c0a65e1  2026-02-23  audit: fix stale Stubs:1 banners, add Phase 10 smoke test... ║
-    • 8f53829d2  2026-02-22  Finalize canary rollout: move to Completed in ROADMAP, cl... ║
-    • 1121f3d4a  2026-02-22  Audit fixes: double-apply guard, toCanaryConfig bridge, h... ║
-    • ca631bad0  2026-02-22  Implement canary rollout mode: CanaryRollout class, confi... ║
+    • 0ae938d481  2026-04-15  feat(updates): anonymous hardware telemetry + Ed25519 bui... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -133,7 +129,33 @@ struct UpdatesConfig {
          */
         ::themis::updates::CanaryConfig toCanaryConfig(const std::string& version) const;
     } canary;
-    
+
+    // Anonymous Hardware Telemetry Settings
+    struct TelemetryConfig {
+        bool enabled = false;                  // Master on/off – opt-in only
+
+        // HTTP(S) endpoint that receives the JSON telemetry payload.
+        // Override this in updates.yaml to point at your own collector.
+        std::string endpoint_url = "https://api.themisdb.org/telemetry.php";
+
+        // How often to send a report (seconds).  Minimum enforced: 86400 (24 h).
+        int send_interval_seconds = 86400;
+
+        // Fine-grained field switches – all default to true when telemetry
+        // is enabled, so operators can strip individual fields if desired.
+        bool include_cpu_model = true;
+        bool include_cpu_cores = true;
+        bool include_ram_mb    = true;
+        bool include_os        = true;
+        bool include_arch      = true;
+
+        // HTTP timeout per send attempt (seconds).
+        int http_timeout_seconds = 10;
+
+        // Maximum number of consecutive send retries before skipping an interval.
+        int max_retries = 2;
+    } telemetry;
+
     /**
      * @brief Load configuration from YAML file
      */

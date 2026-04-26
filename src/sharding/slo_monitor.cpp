@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            slo_monitor.cpp                                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:23                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     671                                            ║
+    • Total Lines:     670                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 096960f50  2026-03-13  feat(sharding): implement Reed-Solomon repair engine para... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 096960f501  2026-03-13  feat(sharding): implement Reed-Solomon repair engine para... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -180,7 +179,7 @@ void SLOMonitor::recordShardAvailability(const std::string& shard_id, bool is_av
     checkAndGenerateAlerts();
 }
 
-void SLOMonitor::recordQueryLatency(const std::string& shard_id, const std::string& query_type, double latency_ms) {
+void SLOMonitor::recordQueryLatency([[maybe_unused]] const std::string& shard_id, const std::string& query_type, double latency_ms) {
     auto window = getOrCreateQueryWindow(query_type);
     window->recordLatency(latency_ms);
     
@@ -208,7 +207,7 @@ void SLOMonitor::recordReplicationLag(const std::string& shard_id, double lag_ms
     checkAndGenerateAlerts();
 }
 
-void SLOMonitor::recordLeaderElection(const std::string& shard_id, double duration_s) {
+void SLOMonitor::recordLeaderElection([[maybe_unused]] const std::string& shard_id, double duration_s) {
     // Leader election duration impacts consistency SLO
     if (duration_s > config_.targets.max_leader_election_time_s) {
         std::lock_guard<std::mutex> lock(mutex_);

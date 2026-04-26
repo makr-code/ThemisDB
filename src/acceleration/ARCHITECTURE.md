@@ -1,10 +1,12 @@
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
 # Acceleration Module — Architecture Guide
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/acceleration/README.md -->
 
-**Version:** 1.0  
-**Last Updated:** 2026-03-09  
-**Status:** current  
+**Version:** 1.0
+**Last Updated:** 2026-04-06
+**Status:** current
 **Module Path:** `src/acceleration/`
 
 ---
@@ -213,7 +215,6 @@ Performance targets:
 
 ## 11. Known Limitations & Future Work
 
-- CUDA ANN backends are still in progress; ANN vector operations fall through to CPU pending full HNSW integration.
 - Tensor Core matrix ops (`CUDAMatrixBackend`) require a CUDA-capable device (SM 7.0+ for FP16, SM 8.0+ for BF16).
 - Multi-GPU sharding backend (`MultiGPUVectorBackend`) is implemented; uses CPU sub-backends pending real CUDA kernels; `ncclGroupStart`/`ncclGroupEnd` wiring is deferred to v2.5+.
 - DirectX and Metal backends are experimental.

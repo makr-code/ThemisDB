@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release --target <target>`
+
 # ThemisDB Index Module
 
 ## Module Purpose
@@ -8,13 +10,13 @@ The Index module provides high-performance indexing infrastructure for ThemisDB,
 
 | Interface / File | Role |
 |-----------------|------|
-| `hnsw_index.cpp` | HNSW vector similarity index with GPU acceleration support |
-| `rtree_index.cpp` | R-tree spatial index for geospatial queries |
+| `vector_index.cpp` | HNSW vector similarity index with GPU acceleration support |
+| `spatial_index.cpp` | R-tree spatial index for geospatial queries |
 | `adaptive_index.cpp` | Automatic index recommendation based on query patterns |
-| `graph_index_manager.cpp` | Graph adjacency list indexing and traversal support |
+| `graph_index.cpp` | Graph adjacency list indexing and traversal support |
 | `secondary_index.cpp` | B-tree, range, sparse, and composite secondary indexes |
 | `inverted_index.cpp` | Full-text inverted index with BM25 scoring and positional posting lists |
-| `learned_index.cpp` | ML-based learned index structures (RMI, B-tree replacement) |
+| `learned_index.h` | ML-based learned index structures (RMI, B-tree replacement; header-only) |
 | `tiered_index_manager.cpp` | Hot/warm/cold tier index migration with automatic promotion/demotion |
 | `index_compression.cpp` | Index compression: delta, prefix, Bloom filter, dictionary, RLE |
 
@@ -101,7 +103,7 @@ vim.addVector("embeddings", "doc123", embedding);
 // Search for similar vectors
 auto results = vim.search("embeddings", query_vector, /*k=*/10);
 for (const auto& result : results) {
-    std::cout << "ID: " << result.pk 
+    std::cout << "ID: " << result.pk
               << " Distance: " << result.distance << std::endl;
 }
 ```
@@ -517,7 +519,7 @@ adaptive.recordQuery(
 // Get index recommendations
 auto recommendations = adaptive.getRecommendations(/*min_benefit=*/100.0);
 for (const auto& rec : recommendations) {
-    std::cout << "Create index on " << rec.collection 
+    std::cout << "Create index on " << rec.collection
               << "." << rec.field
               << " (estimated benefit: " << rec.benefit_score << "ms/query)"
               << std::endl;
@@ -708,9 +710,9 @@ auto results = vim.searchWithFilter(
 void handleVectorSearch(const Request& req, Response& resp) {
     auto query_vector = req.getVector("vector");
     auto k = req.getInt("k", 10);
-    
+
     auto results = vim.search("embeddings", query_vector, k);
-    
+
     resp.setJson({
         {"results", results},
         {"count", results.size()}
@@ -737,17 +739,17 @@ sim.createIndex("documents", "year");
 for (const auto& doc : documents) {
     // Generate embedding
     auto embedding = model.encode(doc.text);
-    
+
     // Store in vector index
     vim.addVector("documents", doc.id, embedding);
-    
+
     // Store metadata
     BaseEntity entity;
     entity.set("id", doc.id);
     entity.set("category", doc.category);
     entity.set("year", doc.year);
     entity.set("text", doc.text);
-    
+
     auto batch = db.createWriteBatch();
     sim.updateIndex("documents", entity, batch);
     batch.commit();
@@ -1037,3 +1039,7 @@ find_package(CUDAToolkit QUIET)
 4. Beckmann, N., Kriegel, H.-P., Schneider, R., & Seeger, B. (1990). **The R*-Tree: An Efficient and Robust Access Method for Points and Rectangles**. *Proceedings of the 1990 ACM SIGMOD International Conference on Management of Data*, 322–331. https://doi.org/10.1145/93597.98741
 
 5. Johnson, J., Douze, M., & Jégou, H. (2019). **Billion-Scale Similarity Search with GPUs**. *IEEE Transactions on Big Data*, 7(3), 535–547. https://doi.org/10.1109/TBDATA.2019.2921572
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

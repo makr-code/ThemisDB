@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_gpu_vector_index.cpp                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:37                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • b3eabcc0a  2026-03-09  feat(index): implement parallel batch search, GPU utiliza... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -259,14 +259,14 @@ public:
             case PartitionStrategy::ROUND_ROBIN: {
                 // Simple round-robin based on current vector count
                 size_t totalVectors = vectorToGPU.size();
-                return totalVectors % activeDeviceIds.size();
+                return static_cast<int>(totalVectors % activeDeviceIds.size());
             }
             
             case PartitionStrategy::HASH_BASED: {
                 // Hash the vector ID
                 std::hash<std::string> hasher;
                 size_t hash = hasher(id);
-                return hash % activeDeviceIds.size();
+                return static_cast<int>(hash % activeDeviceIds.size());
             }
             
             case PartitionStrategy::RANGE_BASED: {
@@ -274,7 +274,7 @@ public:
                 // This is simplified - production would use proper range mapping
                 std::hash<std::string> hasher;
                 size_t hash = hasher(id);
-                return hash % activeDeviceIds.size();
+                return static_cast<int>(hash % activeDeviceIds.size());
             }
             
             case PartitionStrategy::BALANCED: {
@@ -286,7 +286,7 @@ public:
                     auto stats = gpuIndices[i]->getStatistics();
                     if (stats.numVectors < minVectors) {
                         minVectors = stats.numVectors;
-                        selectedGPU = i;
+                        selectedGPU = static_cast<int>(i);
                     }
                 }
                 return selectedGPU;
@@ -565,7 +565,7 @@ public:
         // Actual speedup estimated from query time improvements
         if (gpuIndices.size() > 1) {
             // Simplified: assume linear scaling as baseline
-            double idealSpeedup = gpuIndices.size();
+            double idealSpeedup = static_cast<double>(gpuIndices.size());
             // For now, use a simple estimate based on load balance
             double actualSpeedup = gpuIndices.size() / (1.0 + stats.loadImbalance * 0.5);
             stats.scalingEfficiency = actualSpeedup / idealSpeedup;

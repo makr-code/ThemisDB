@@ -3,33 +3,37 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_lora_manager.cpp                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:17:12                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🔴 ALPHA                                        ║
-    • Quality Score:   29.0/100                                       ║
-    • Total Lines:     3112                                           ║
+    • Maturity Level:  🟠 BETA                                         ║
+    • Quality Score:   42.0/100                                       ║
+    • Total Lines:     3181                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
+    • df59ab8148  2026-04-12  feat(llm): promote llama_wrapper, multi_lora_manager, pro... ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🚧 Early Development                                         ║
+  Status: 🔧 In Progress                                               ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "llm/multi_lora_manager.h"
+#include "llm/gguf_loader.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cstring>
 #include <cmath>
-#include <random>
+#include <filesystem>
 #include <numeric>
 #include <fstream>
 #include <limits>  // For std::numeric_limits (range validation)
+#include <llama.h>
 
 // llama.cpp forward declarations (newer API may not be present in headers)
 extern "C" {
@@ -48,8 +52,6 @@ namespace {
     constexpr float INT8_MAX_VALUE = 127.0f;
     constexpr float INT4_MAX_VALUE = 7.0f;
     constexpr float MIN_SCALE_EPSILON = 1e-8f;
-    constexpr uint32_t SIMULATION_SEED = 42;
-    constexpr float LORA_WEIGHT_STDDEV = 0.1f;  // Standard deviation for simulated LoRA weights
     constexpr uint8_t INT8_ZERO_POINT = 127;    // Zero-point for INT8: maps 0 to 127 in [0,254]
     constexpr uint8_t INT4_ZERO_POINT = 7;      // Zero-point for INT4: maps 0 to 7 in [0,14]
     
@@ -169,8 +171,7 @@ MultiLoRAManager::~MultiLoRAManager() {
         
         // Free adapter handle if it exists
         if (lora->adapter_handle) {
-            // In production with llama.cpp, this would call:
-            // llama_lora_adapter_free(lora->adapter_handle);
+            llama_lora_adapter_free(lora->adapter_handle);
             lora->adapter_handle = nullptr;
         }
         
@@ -363,6 +364,14 @@ LoRASlot* MultiLoRAManager::getLoRA(const std::string& lora_id) {
 }
 
 bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* context) {
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow unit tests to exercise LoRA lifecycle (load/apply/remove) without a
+    //          real llama_context. When context is null the adapter is marked active in
+    //          metadata only – no llama_lora_adapter_set() call is made.
+    // Activation: Runtime – triggered whenever applyLoRA is called with context == nullptr
+    //             (only happens in test code; production server always passes a valid ctx).
+    // Production Delta: No actual llama.cpp adapter is applied. State change is in-memory.
+    // Removal Plan: Permanent test-gate; no removal needed. Protected by null guard below.
     // In test mode, allow null context (mock inference)
     if (!context) {
         spdlog::warn("applyLoRA called with null context (test/mock mode)");
@@ -425,6 +434,12 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
 }
 
 bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* context) {
+    // STUB/SIMULATION NOTE:
+    // Purpose: Null-context gate for unit tests. Marks LoRA as inactive in metadata
+    //          without calling llama_lora_adapter_remove() on a real context.
+    // Activation: Runtime – null context only occurs in test code.
+    // Production Delta: No llama.cpp adapter removal; state change is in-memory only.
+    // Removal Plan: Permanent test-gate; guarded by null check.
     if (!context) {
         spdlog::warn("removeLoRA called with null context (test/mock mode)");
         auto* lora = getLoRA(lora_id);
@@ -479,75 +494,198 @@ bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* con
 
 std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
     const std::vector<std::pair<InferenceRequest, std::string>>& requests,
-    [[maybe_unused]] llama_context* model_context
+    llama_context* model_context
 ) {
     spdlog::info("Multi-LoRA batch inference: {} requests", requests.size());
-    
+
     if (!config_.enable_multi_lora_batch) {
         errors::logError(errors::ErrorCode::ERR_LORA_BATCHING_DISABLED);
         return {};
     }
-    
-    // Multi-LoRA batch inference implementation
-    // This allows processing multiple requests with different LoRAs in a single batch
-    // Similar to vLLM's continuous batching with adapter switching
-    
+
+    // A valid llama_context is required for inference.
+    if (!model_context) {
+        spdlog::error("batchInferenceMultiLoRA: null model_context — cannot run inference");
+        std::vector<InferenceResponse> error_responses(requests.size());
+        for (auto& r : error_responses) {
+            r.success        = false;
+            r.error_message  = "No llama_context provided";
+        }
+        return error_responses;
+    }
+
+    // Retrieve model and vocabulary from the context
+    const struct llama_model* lmodel = llama_get_model(model_context);
+    if (!lmodel) {
+        spdlog::error("batchInferenceMultiLoRA: llama_get_model returned null");
+        std::vector<InferenceResponse> error_responses(requests.size());
+        for (auto& r : error_responses) { r.success = false; r.error_message = "llama_get_model failed"; }
+        return error_responses;
+    }
+
+    const struct llama_vocab* vocab = llama_model_get_vocab(lmodel);
+    const int32_t n_vocab    = llama_vocab_n_tokens(vocab);
+    const int32_t eos_token  = llama_vocab_eos(vocab);
+    const int32_t ctx_size   = static_cast<int32_t>(llama_n_ctx(model_context));
+
     // Prepare responses vector in request order
     std::vector<InferenceResponse> responses(requests.size());
-    
-    // Group requests by LoRA for efficiency
+
+    // Group requests by LoRA adapter for efficiency
     std::map<std::string, std::vector<size_t>> lora_to_requests;
     for (size_t i = 0; i < requests.size(); ++i) {
-        const auto& [request, lora_id] = requests[i];
-        lora_to_requests[lora_id].push_back(i);
+        lora_to_requests[requests[i].second].push_back(i);
     }
-    
+
     spdlog::debug("Batch has {} unique LoRAs", lora_to_requests.size());
-    
-    // Process each LoRA group
+
+    // Process each LoRA group sequentially: apply adapter → generate → remove adapter
     for (const auto& [lora_id, indices] : lora_to_requests) {
         spdlog::debug("Processing {} requests with LoRA {}", indices.size(), lora_id);
-        
+
         // Verify LoRA is loaded
         auto* lora = getLoRA(lora_id);
         if (!lora) {
             spdlog::warn("LoRA {} not loaded, skipping {} requests", lora_id, indices.size());
             for (size_t idx : indices) {
-                InferenceResponse error_response;
-                error_response.text = "Error: LoRA not loaded";
-                error_response.model_used = "unknown";
-                error_response.lora_used = lora_id;
-                error_response.tokens_generated = 0;
-                responses[idx] = error_response;
+                responses[idx].success       = false;
+                responses[idx].error_message = "LoRA not loaded: " + lora_id;
+                responses[idx].model_used    = "unknown";
+                responses[idx].lora_used     = lora_id;
             }
             continue;
         }
-        
-        // Process requests with this LoRA
-        // Use llama.cpp's batch processing API
-        for (size_t idx : indices) {
-            const auto& [request, _] = requests[idx];
-            
-            InferenceResponse response;
-            response.model_used = lora->base_model_id;
-            response.lora_used = lora_id;
-            
-            // Real inference would happen here via llama.cpp batch API
-            // For now, return mock response
-            response.text = "Mock response for: " + request.prompt;
-            response.tokens_generated = 10;
-            response.latency_ms = 1;
-            
-            spdlog::warn("Batch multi-LoRA inference called but llama.cpp backend integration incomplete");
-            
-            responses[idx] = response;
+
+        // Apply this LoRA adapter to the context
+        const bool lora_applied = applyLoRA(lora_id, model_context);
+        if (!lora_applied) {
+            spdlog::warn("Failed to apply LoRA {}, continuing without adapter", lora_id);
+            // Non-fatal: proceed with base model weights
         }
-        
+
+        // Run inference for each request in this LoRA group
+        for (size_t idx : indices) {
+            const InferenceRequest& request = requests[idx].first;
+            auto wall_start = std::chrono::steady_clock::now();
+
+            InferenceResponse response;
+            response.model_used  = lora->base_model_id;
+            response.lora_used   = lora_id;
+            response.request_id  = request.request_id;
+            response.trace_id    = request.trace_id;
+            response.span_id     = request.span_id;
+
+            // --- Tokenise prompt ---
+            const int32_t max_prompt_tokens = ctx_size / 2;
+            std::vector<int32_t> prompt_tokens(static_cast<size_t>(max_prompt_tokens));
+            int32_t n_prompt = llama_tokenize(
+                vocab,
+                request.prompt.c_str(),
+                static_cast<int32_t>(request.prompt.size()),
+                prompt_tokens.data(),
+                max_prompt_tokens,
+                /*add_special=*/true,
+                /*parse_special=*/false);
+
+            if (n_prompt < 0) {
+                // Buffer too small: retry with exact size
+                prompt_tokens.resize(static_cast<size_t>(-n_prompt));
+                n_prompt = llama_tokenize(
+                    vocab,
+                    request.prompt.c_str(),
+                    static_cast<int32_t>(request.prompt.size()),
+                    prompt_tokens.data(),
+                    -n_prompt,
+                    true, false);
+            }
+            if (n_prompt <= 0) {
+                response.success       = false;
+                response.error_message = "llama_tokenize failed for prompt";
+                responses[idx] = response;
+                continue;
+            }
+            prompt_tokens.resize(static_cast<size_t>(n_prompt));
+            response.tokens_prompt = n_prompt;
+
+            // --- Prefill (process prompt) ---
+            // Some llama.cpp builds do not expose a public KV-clear API.
+            // Proceed without explicit cache reset here.
+            struct llama_batch batch = llama_batch_get_one(
+                prompt_tokens.data(), n_prompt);
+            if (llama_decode(model_context, batch) != 0) {
+                response.success       = false;
+                response.error_message = "llama_decode failed during prompt prefill";
+                responses[idx] = response;
+                continue;
+            }
+
+            // --- Greedy token generation loop ---
+            const int max_new_tokens = std::max(1, request.max_tokens);
+            std::vector<int32_t> generated;
+            generated.reserve(static_cast<size_t>(max_new_tokens));
+
+            for (int tok_idx = 0; tok_idx < max_new_tokens; ++tok_idx) {
+                // Greedy sampling: argmax over vocabulary logits
+                float* logits = llama_get_logits_ith(model_context, -1);
+                int32_t next_token = 0;
+                float   best_logit = logits[0];
+                for (int32_t v = 1; v < n_vocab; ++v) {
+                    if (logits[v] > best_logit) {
+                        best_logit = logits[v];
+                        next_token = v;
+                    }
+                }
+
+                if (next_token == eos_token) break;
+
+                generated.push_back(next_token);
+
+                // Feed next token back into the model
+                struct llama_batch next_batch = llama_batch_get_one(&next_token, 1);
+                if (llama_decode(model_context, next_batch) != 0) {
+                    spdlog::warn("llama_decode failed at token {} of request idx {}",
+                                 tok_idx, idx);
+                    break;
+                }
+            }
+
+            // --- Detokenise generated tokens ---
+            std::string generated_text;
+            generated_text.reserve(generated.size() * 4);
+            char piece_buf[256];
+            for (int32_t token_id : generated) {
+                int32_t n_chars = llama_token_to_piece(
+                    vocab, token_id, piece_buf, sizeof(piece_buf), 0, false);
+                if (n_chars > 0)
+                    generated_text.append(piece_buf, static_cast<size_t>(n_chars));
+            }
+
+            auto wall_end = std::chrono::steady_clock::now();
+            float latency_ms = static_cast<float>(
+                std::chrono::duration_cast<std::chrono::microseconds>(
+                    wall_end - wall_start).count()) / 1000.0f;
+
+            response.text             = std::move(generated_text);
+            response.tokens_generated = static_cast<int>(generated.size());
+            response.latency_ms       = static_cast<int64_t>(latency_ms);
+            response.inference_time_ms = latency_ms;
+            response.tokens_per_second = latency_ms > 0.0f
+                ? static_cast<float>(response.tokens_generated) / (latency_ms / 1000.0f)
+                : 0.0f;
+            response.success = true;
+
+            responses[idx] = std::move(response);
+        }
+
+        // Remove this LoRA adapter from the context before applying the next one
+        if (lora_applied)
+            removeLoRA(lora_id, model_context);
+
         // Update usage statistics
         lora->last_used = std::chrono::system_clock::now();
         lora->use_count += indices.size();
     }
-    
+
     spdlog::info("Multi-LoRA batch inference completed: {} responses", responses.size());
     return responses;
 }
@@ -769,7 +907,7 @@ std::optional<LoRAInfo> MultiLoRAManager::getLoRAInfo(const std::string& lora_id
     return info;
 }
 
-size_t MultiLoRAManager::evictLRU(size_t target_vram_mb) {
+size_t MultiLoRAManager::evictLRU(size_t /*target_vram_mb*/) {
     // Already locked by caller
     
     if (loras_.empty()) {
@@ -982,6 +1120,13 @@ bool MultiLoRAManager::importLoRA(
     lora->path = std::string(reinterpret_cast<const char*>(data.data() + offset), path_len);
     offset += path_len;
     
+    // F1-2 fix: reject deserialized paths that escape the trusted base directory.
+    if (!isLoRAPathTrusted(lora->path)) {
+        spdlog::error("importLoRA: rejected untrusted remote LoRA path '{}' for adapter '{}'",
+                      lora->path, lora_id);
+        return false;
+    }
+    
     std::memcpy(&lora->vram_bytes, data.data() + offset, sizeof(size_t));
     offset += sizeof(size_t);
     std::memcpy(&lora->rank, data.data() + offset, sizeof(int));
@@ -1059,20 +1204,83 @@ bool MultiLoRAManager::quantizeLoRA(LoRASlot* lora) {
     try {
         auto start_time = std::chrono::high_resolution_clock::now();
         
-        // Simulate loading weights from the LoRA file
-        // In production, these would be loaded from the actual LoRA weights file
-        size_t num_weights = lora->original_vram_bytes / sizeof(float);
-        std::vector<float> weights = simulateWeights(num_weights);
-
-        // If simulation caps the allocation, keep original size in sync
-        if (weights.size() != num_weights) {
-            lora->original_vram_bytes = weights.size() * sizeof(float);
-            num_weights = weights.size();
+        // Load actual LoRA weights from the GGUF file for quantization.
+        std::vector<float> weights;
+        GGUFLoader gguf_loader;
+        if (!lora->path.empty() && gguf_loader.parseFile(lora->path)) {
+            const auto& meta = gguf_loader.getMetadata();
+            // Update VRAM estimate from real file metadata.
+            if (meta.total_size > 0) {
+                lora->original_vram_bytes = meta.total_size;
+                lora->vram_bytes          = meta.total_size;
+            }
+            // Find the first F32 or F16 weight tensor to use for scale calibration.
+            std::string weight_tensor;
+            for (const auto& t : meta.tensors) {
+                if (t.type == GGMLType::F32 || t.type == GGMLType::F16) {
+                    weight_tensor = t.name;
+                    break;
+                }
+            }
+            if (!weight_tensor.empty()) {
+                auto raw = gguf_loader.getTensorData(weight_tensor);
+                if (!raw.empty()) {
+                    if (gguf_loader.getMetadata().tensors.front().type == GGMLType::F16) {
+                        // Convert F16 → F32 for calibration (simple bit-cast half→float).
+                        size_t n_f16 = raw.size() / 2;
+                        weights.resize(n_f16);
+                        const uint16_t* h = reinterpret_cast<const uint16_t*>(raw.data());
+                        for (size_t i = 0; i < n_f16; ++i) {
+                            // IEEE 754 half-precision to single-precision conversion.
+                            uint32_t s = (h[i] >> 15u) & 1u;
+                            uint32_t e = (h[i] >> 10u) & 0x1fu;
+                            uint32_t m = h[i] & 0x3ffu;
+                            if (e == 0) {
+                                weights[i] = (s ? -1.f : 1.f) * std::ldexp(static_cast<float>(m), -24);
+                            } else if (e == 31) {
+                                weights[i] = (m == 0) ? (s ? -std::numeric_limits<float>::infinity()
+                                                            :  std::numeric_limits<float>::infinity())
+                                                       : std::numeric_limits<float>::quiet_NaN();
+                            } else {
+                                weights[i] = (s ? -1.f : 1.f) * std::ldexp(static_cast<float>(m + (1u << 10u)),
+                                                                             static_cast<int>(e) - 25);
+                            }
+                        }
+                    } else {
+                        size_t n_f32 = raw.size() / sizeof(float);
+                        weights.resize(n_f32);
+                        std::memcpy(weights.data(), raw.data(), raw.size());
+                    }
+                    spdlog::debug("quantizeLoRA: loaded {} floats from tensor '{}' in {}",
+                                  weights.size(), weight_tensor, lora->path);
+                }
+            }
+        } else {
+            spdlog::warn("quantizeLoRA: could not parse GGUF file '{}' ({}); "
+                         "falling back to size-based estimation", lora->path,
+                         gguf_loader.getLastError());
         }
-        
-        // Check if weights allocation failed
+
+        // Fallback: generate a size-representative weight vector when the file
+        // cannot be parsed (e.g. unit tests with non-existent paths).
         if (weights.empty()) {
-            spdlog::warn("Failed to simulate weights for LoRA: {}", lora->lora_id);
+            size_t num_weights = lora->original_vram_bytes / sizeof(float);
+            const size_t kMaxFallback = 256 * 1024;   // 1 MB of floats
+            num_weights = std::min(num_weights, kMaxFallback);
+            if (num_weights == 0) {
+                spdlog::warn("quantizeLoRA: zero-size LoRA '{}', skipping quantization", lora->lora_id);
+                return false;
+            }
+            weights.assign(num_weights, 0.0f);
+            // Populate with a deterministic non-zero pattern for scale calibration.
+            for (size_t i = 0; i < num_weights; ++i) {
+                weights[i] = static_cast<float>((i % 255) - 127) / 127.0f;
+            }
+        }
+
+        size_t num_weights = weights.size();
+        if (weights.empty()) {
+            spdlog::warn("quantizeLoRA: empty weight vector for LoRA '{}', aborting", lora->lora_id);
             return false;
         }
         
@@ -1304,36 +1512,24 @@ void MultiLoRAManager::calibrateScales(const std::vector<float>& weights, std::v
 }
 
 std::vector<float> MultiLoRAManager::simulateWeights(size_t count) {
-    // Simulate LoRA weights for testing
-    // In production, these would be loaded from the actual LoRA weights file
-    
-    // Limit allocation to prevent OOM in tests
-    // Cap at 1MB per allocation to avoid memory exhaustion in test environment
-    const size_t MAX_ALLOCATION_SIZE = 1024 * 1024 / sizeof(float);  // 1 MB = 256K floats
-    size_t actual_count = std::min(count, MAX_ALLOCATION_SIZE);
-    
+    // Deterministic weight estimate used only when the backing GGUF file cannot
+    // be parsed.  Values are scaled to [-1, 1] so that quantization scale
+    // calibration produces meaningful (non-trivial) results.
+    const size_t kMaxAlloc = 1024 * 1024 / sizeof(float);  // cap at 1 MB
+    size_t actual = std::min(count, kMaxAlloc);
+    if (actual == 0) {
+        return {};
+    }
     try {
-        // Directly allocate with size to avoid multiple reallocations in loop
-        std::vector<float> weights(actual_count);
-        
-        std::mt19937 gen(SIMULATION_SEED);  // Fixed seed for reproducibility
-        std::normal_distribution<float> dist(0.0f, LORA_WEIGHT_STDDEV);  // Mean=0, typical LoRA distribution
-        
-        // Fill allocated vector directly
-        for (size_t i = 0; i < actual_count; ++i) {
-            weights[i] = dist(gen);
-        }
-        
-        if (count != actual_count) {
-            spdlog::debug("Simulated weights: requested={} (capped to {}) bytes, allocated={} floats", 
-                         count, actual_count, actual_count);
+        std::vector<float> weights(actual);
+        for (size_t i = 0; i < actual; ++i) {
+            weights[i] = static_cast<float>((i % 255) - 127) / 127.0f;
         }
         return weights;
     } catch (const std::bad_alloc& e) {
-        spdlog::error("Failed to allocate simulated weights (requested: {}, actual: {}): {}", 
-                      count, actual_count, e.what());
-        // Return empty vector as fallback - caller should handle this
-        return std::vector<float>();
+        spdlog::error("simulateWeights: allocation failed (count={}, actual={}): {}",
+                      count, actual, e.what());
+        return {};
     }
 }
 
@@ -1608,9 +1804,9 @@ bool MultiLoRAManager::loadLoRAOnGPU(LoRASlot* lora, int gpu_id) {
     
     spdlog::debug("Loading LoRA {} on GPU {}", lora->lora_id, gpu_id);
     
-    // In production with CUDA:
-    // cudaSetDevice(gpu_id);
-    // lora->adapter_handle = llama_lora_adapter_init_on_device(model, lora->path.c_str(), gpu_id);
+    // The llama.cpp adapter handle is initialized lazily in initializeLoRAWithModel()
+    // once the base llama_model* is available (called from LlamaWrapper::generate()).
+    // Here we only update GPU placement tracking so VRAM accounting is correct.
     
     // Update tracking
     lora->primary_gpu = gpu_id;
@@ -1619,7 +1815,7 @@ bool MultiLoRAManager::loadLoRAOnGPU(LoRASlot* lora, int gpu_id) {
     gpu_vram_usage_[gpu_id] += lora->vram_bytes;
     
     // FIND-015: Use named constant for byte to MB conversion
-    spdlog::info("LoRA {} loaded on GPU {} ({} MB)", 
+    spdlog::info("LoRA {} assigned to GPU {} ({} MB)", 
                  lora->lora_id, gpu_id, lora->vram_bytes / BYTES_PER_MB);
     
     return true;
@@ -1760,6 +1956,35 @@ std::vector<int> MultiLoRAManager::getAvailableGPUs() const {
     return available;
 }
 
+// F1-1/F1-2 fix: verify that lora_path is confined to the trusted base directory.
+bool MultiLoRAManager::isLoRAPathTrusted(const std::string& lora_path) const {
+    if (config_.lora_base_dir.empty()) {
+        // No base directory configured — skip the check (legacy mode).
+        return true;
+    }
+    try {
+        // Use weakly_canonical to handle paths that do not yet exist on disk
+        // (e.g., during import before the file is placed).  Prefer canonical()
+        // when the path exists so that symlinks are fully resolved.
+        namespace fs = std::filesystem;
+        fs::path base = fs::weakly_canonical(fs::path(config_.lora_base_dir));
+        fs::path candidate = fs::weakly_canonical(fs::path(lora_path));
+
+        // Ensure candidate starts with base (i.e., is a descendant).
+        auto [base_it, cand_it] = std::mismatch(base.begin(), base.end(),
+                                                  candidate.begin(), candidate.end());
+        if (base_it != base.end()) {
+            spdlog::error("LoRA path '{}' is outside trusted base directory '{}'",
+                          lora_path, config_.lora_base_dir);
+            return false;
+        }
+        return true;
+    } catch (const std::exception& ex) {
+        spdlog::error("LoRA path trust check failed for '{}': {}", lora_path, ex.what());
+        return false;
+    }
+}
+
 // Update loadLoRAInternal to support multi-GPU placement
 LoRASlot* MultiLoRAManager::loadLoRAInternal(
     const std::string& lora_id,
@@ -1771,6 +1996,13 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
 ) {
     // Already locked by caller
     
+    // F1-1 fix: reject LoRA paths that escape the trusted base directory.
+    if (!isLoRAPathTrusted(lora_path)) {
+        spdlog::error("loadLoRAInternal: rejected untrusted LoRA path '{}' for adapter '{}'",
+                      lora_path, lora_id);
+        return nullptr;
+    }
+
     // Validate that LoRA file exists
     std::ifstream file_check(lora_path, std::ios::binary);
     if (!file_check.good()) {
@@ -1792,15 +2024,31 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
     lora->use_count = 1;
     lora->gpu_placement = placement;
     
-    // Load LoRA from file
-    // In production with llama.cpp, this would use:
-    // lora->adapter_handle = llama_lora_adapter_init(model, lora_path.c_str());
-    
-    // Estimate VRAM usage
-    lora->original_vram_bytes = TYPICAL_LORA_RANK8_BYTES;
-    lora->vram_bytes = lora->original_vram_bytes;
-    lora->rank = 8;
-    lora->alpha = 16;
+    // Obtain VRAM estimate from the GGUF file metadata when available.
+    // The actual llama.cpp adapter handle is initialized lazily in
+    // initializeLoRAWithModel() once the base llama_model* is known.
+    {
+        GGUFLoader gguf_loader;
+        if (gguf_loader.parseFile(lora_path)) {
+            const auto& meta = gguf_loader.getMetadata();
+            if (meta.total_size > 0) {
+                lora->original_vram_bytes = meta.total_size;
+                lora->vram_bytes          = meta.total_size;
+            }
+            // Extract rank/alpha from GGUF metadata if present.
+            auto it_rank = meta.config.find("lora.rank");
+            if (it_rank != meta.config.end()) {
+                try { lora->rank = std::stoi(it_rank->second); } catch (...) {}
+            }
+            auto it_alpha = meta.config.find("lora.alpha");
+            if (it_alpha != meta.config.end()) {
+                try { lora->alpha = std::stof(it_alpha->second); } catch (...) {}
+            }
+        } else {
+            spdlog::debug("loadLoRAInternal: GGUF parse skipped for '{}' ({}); "
+                          "using default VRAM estimate", lora_path, gguf_loader.getLastError());
+        }
+    }
     
     // Apply quantization if requested
     if (quantize && config_.quantization.enabled) {
@@ -2227,13 +2475,16 @@ bool MultiLoRAManager::migrateLoRAToGPU(const std::string& lora_id, int target_g
     
     auto start_time = std::chrono::high_resolution_clock::now();
     
-    // In production with CUDA:
-    // 1. Unload from source GPU
-    // 2. Load on target GPU
-    // 3. Update handles
-    // For now, we simulate the migration
+    // The llama.cpp adapter handle is re-initialized by initializeLoRAWithModel() on the
+    // next inference call after migration.  If the adapter is currently active, invalidate
+    // it so that the inference path will re-bind it to the new context.
+    if (lora->adapter_handle) {
+        llama_lora_adapter_free(lora->adapter_handle);
+        lora->adapter_handle = nullptr;
+        spdlog::debug("LoRA adapter handle invalidated for re-initialization on GPU {}", target_gpu);
+    }
     
-    // Update tracking
+    // Update VRAM accounting to reflect the new placement.
     if (source_gpu >= 0) {
         gpu_vram_usage_[source_gpu] -= lora->vram_bytes;
     }

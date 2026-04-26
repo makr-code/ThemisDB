@@ -2,7 +2,7 @@
 
 **Component:** ThemisDB LLM module — Observability / Prometheus
 **Severity:** Operational
-**Last Updated:** February 20, 2026
+**Last Updated:** April 2026
 
 ---
 

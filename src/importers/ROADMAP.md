@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Importers Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -246,4 +248,16 @@ implemented on top of the production-ready v1.x multi-source import pipeline.
 - v2.1 introduced `InferenceTableSchema` (shared by schema_inference, adaptive_import, polyglot_mapper, temporal_support, graphql_federation); include `importers/schema_inference.h` for the type definition.
 - `SchemaInferenceConfig` is now a free struct (not a nested struct of `SchemaInferenceEngine`) for C++17 default-argument compatibility.
 - `CDCOptions` is now a free struct (not a nested struct of `PostgreSQLCDC`) for the same reason.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Aktiv — Security-Fix 2026-04-20
+
+- `computeEventHash` – Berechnet kryptographischen Hash für Audit-Trail-Event-Chaining.
+  **Implementierungsstatus (ab 2026-04-20):** Vollständig implementiert. Verwendet OpenSSL
+  `EVP_DigestInit_ex / EVP_DigestUpdate / EVP_DigestFinal_ex` mit SHA-256. Ausgabe: 64-stelliger
+  Hex-String (voller SHA-256). `std::hash`-Placeholder und `// STUB/SIMULATION NOTE:`-Kommentar
+  wurden entfernt. Audit-Log-Kette ist damit kollisionsresistent und fälschungssicher.
 

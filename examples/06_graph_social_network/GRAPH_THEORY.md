@@ -1,4 +1,8 @@
+> **Hinweis:** Theoretische Grundlagen mit aktuellem Algorithmus-Code abgleichen.
+
 # Graph Soziales Netzwerk - Graph-Theorie und Algorithmen
+
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
 
 ## Übersicht
 

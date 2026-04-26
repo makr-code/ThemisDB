@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Geo Module Headers
 
 This directory contains header files (.h) for the geo module.
@@ -20,6 +22,13 @@ Public interfaces and declarations for geo functionality. Implementation source 
 | `temporal_spatial_query.h` | `TemporalSpatialQuery` — location-at-time-T and entities-within-distance-at-time-T queries |
 | `tile_server.h` | `TileServer` — map tile server integration (tile request routing, cache) |
 | `device_detector.h` | `DeviceDetector` — runtime GPU device discovery, compute-capability and VRAM reporting |
+| `geo_faiss_knn.h` | `GeoFaissKnn` — FAISS-backed approximate k-nearest-neighbour geo search |
+| `geo_json_geometry.h` | `GeoJsonGeometry` — GeoJSON geometry parsing and serialisation utilities |
+| `geo_math.h` | `GeoMath` — haversine, bearing, and ellipsoidal distance primitives |
+| `raster_query_interface.h` | `IRasterQuery` — abstract raster query interface |
+| `rtree_cursor.h` | `RTreeCursor` — incremental cursor for paginated R-tree result iteration |
+| `spatial_join_filter.h` | `SpatialJoinFilter` — predicate filters for spatial join pipelines |
+| `temporal_spatial_query_builder.h` | `TemporalSpatialQueryBuilder` — fluent builder for `TemporalSpatialQuery` |
 
 ## Documentation
 
@@ -28,3 +37,21 @@ Public interfaces and declarations for geo functionality. Implementation source 
 - `../../src/geo/ROADMAP.md` — module roadmap and implementation phases
 - `../../src/geo/FUTURE_ENHANCEMENTS.md` — planned enhancements with scientific references
 - `../../docs/de/geo/` — German-language developer documentation
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+## Usage
+
+Include the relevant headers from this module:
+
+```cpp
+#include "geo/module_header.h"
+```
+
+See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.

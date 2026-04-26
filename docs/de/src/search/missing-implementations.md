@@ -1,6 +1,6 @@
 # Search-Modul — Fehlende Implementierungen
 
-<!-- Status: current | validated: 2026-03-11 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Primärdokumentation: ../../../../src/search/ -->
 
 **Erstellt:** 2026-03-10

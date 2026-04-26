@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            distributed_transaction.cpp                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:14                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     922                                            ║
+    • Total Lines:     921                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 57edae2d8  2026-03-14  fix: address all PR review comments on Percolator coordin... ║
-    • 2bbac9e44  2026-03-14  feat: implement Percolator-style distributed transaction ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 57edae2d81  2026-03-14  fix: address all PR review comments on Percolator coordin... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -332,7 +330,7 @@ bool DistributedTransactionCoordinator::abort(const std::string& txn_id) {
 
 nlohmann::json DistributedTransactionCoordinator::executeReadOnly(
     const std::vector<std::string>& shard_ids,
-    const nlohmann::json& operations
+    [[maybe_unused]] const nlohmann::json& operations
 ) {
     // Read-only transactions use TrueTime for snapshot isolation
     // 1. Get snapshot timestamp (latest bound ensures we see all committed data)
@@ -483,7 +481,7 @@ bool DistributedTransactionCoordinator::sendPrepare(
     try {
         ShardRPCClient::Config rpc_config;
         rpc_config.endpoint = participant.endpoint;
-        rpc_config.timeout_ms = config_.rpc_timeout_ms;
+        rpc_config.timeout_ms = static_cast<int>(config_.rpc_timeout_ms);
         rpc_config.max_retries = config_.max_retries;
         
         ShardRPCClient client(rpc_config);
@@ -524,7 +522,7 @@ bool DistributedTransactionCoordinator::sendCommit(
     try {
         ShardRPCClient::Config rpc_config;
         rpc_config.endpoint = participant.endpoint;
-        rpc_config.timeout_ms = config_.rpc_timeout_ms;
+        rpc_config.timeout_ms = static_cast<int>(config_.rpc_timeout_ms);
         rpc_config.max_retries = config_.max_retries;
         
         ShardRPCClient client(rpc_config);
@@ -554,7 +552,7 @@ bool DistributedTransactionCoordinator::sendAbort(
     try {
         ShardRPCClient::Config rpc_config;
         rpc_config.endpoint = participant.endpoint;
-        rpc_config.timeout_ms = config_.rpc_timeout_ms;
+        rpc_config.timeout_ms = static_cast<int>(config_.rpc_timeout_ms);
         rpc_config.max_retries = config_.max_retries;
         
         ShardRPCClient client(rpc_config);

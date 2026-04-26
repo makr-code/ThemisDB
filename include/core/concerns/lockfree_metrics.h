@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lockfree_metrics.h                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:06:59                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:44:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     340                                            ║
+    • Total Lines:     348                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 56ac47b31  2026-03-13  feat(core): lock-free metrics — atomic counters, SPSC rin... ║
+    • f20e6e8d74  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
+    • 2826fa9ccd  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -233,6 +234,10 @@ private:
     /// The producing application thread calls tryPush; the background flush
     /// thread calls tryPop.  Cache-line alignment prevents false sharing.
     template<typename T, size_t Cap>
+#if defined(_MSC_VER)
+#pragma warning(push)
+#pragma warning(disable: 4324)
+#endif
     struct SPSCRing {
         static_assert((Cap & (Cap - 1)) == 0,
                       "SPSCRing capacity must be a power of 2");
@@ -267,6 +272,9 @@ private:
                    write_idx.load(std::memory_order_acquire);
         }
     };
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#endif
 
     using HistoRing = SPSCRing<HistoObservation, HISTOGRAM_RING_CAPACITY>;
 

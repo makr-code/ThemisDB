@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adapter_consistency_checker.cpp                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:17:00                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     246                                            ║
+    • Total Lines:     248                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -69,7 +70,7 @@ public:
         return actual == expected;
     }
     
-    std::string generateSignature(const std::vector<uint8_t>& data, const std::string& private_key) const {
+    std::string generateSignature(const std::vector<uint8_t>& data, const std::string& /*private_key*/) const {
         if (!config_.enable_signatures) {
             return "";
         }
@@ -84,6 +85,7 @@ public:
         const std::string& signature,
         const std::string& public_key
     ) const {
+        (void)public_key;
         if (!config_.enable_signatures || signature.empty()) {
             return true;  // Skip if disabled or no signature
         }
@@ -214,9 +216,9 @@ std::string AdapterConsistencyChecker::generateSignature(
 bool AdapterConsistencyChecker::verifySignature(
     const std::vector<uint8_t>& data,
     const std::string& signature,
-    const std::string& public_key
+    const std::string& /*public_key*/
 ) const {
-    return impl_->verifySignature(data, signature, public_key);
+    return impl_->verifySignature(data, signature, "");
 }
 
 ConsistencyCheckResult AdapterConsistencyChecker::checkAdapter(

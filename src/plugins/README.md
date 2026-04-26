@@ -1,5 +1,7 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Plugins Module
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: src/plugins/README.md · src/plugins/ARCHITECTURE.md · src/plugins/ROADMAP.md · src/plugins/FUTURE_ENHANCEMENTS.md · include/plugins/FUTURE_ENHANCEMENTS.md · docs/de/plugins/README.md -->
 
 Plugin system infrastructure for ThemisDB.
@@ -74,3 +76,7 @@ For plugin documentation, see:
 3. Herzfeld, C. (1989). **Plugin Architectures and Extensible Applications**. *ACM SIGPLAN Notices*, 24(4), 57–65.
 
 4. Szyperski, C. (2002). **Component Software: Beyond Object-Oriented Programming (2nd ed.)**. Addison-Wesley. ISBN: 978-0-201-74572-6
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

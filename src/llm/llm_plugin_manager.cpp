@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_plugin_manager.cpp                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:59                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -13,19 +13,21 @@
     • Total Lines:     467                                            ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "llm/llm_plugin_manager.h"
+#include "llm/grafana_metrics.h"
+#include "llm/context_window_budget.h"
 #include "llm/llama_wrapper.h"
+#include "llm/embedded_llm.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <sstream>
+#include <filesystem>
+#include <cstdlib>
 
 namespace themis {
 namespace llm {
@@ -210,6 +212,20 @@ json LLMPluginManager::getAggregatedStats() const {
 
 LLMPluginManager& LLMPluginManager::instance() {
     static LLMPluginManager instance;
+    // Wire up OOM callback once on first access so VRAM pressure warnings are
+    // logged even before the first plugin is registered.
+    static bool oom_cb_installed = false;
+    if (!oom_cb_installed) {
+        oom_cb_installed = true;
+        instance.vram_allocator_.setOOMCallback([](const ActiveVRAMAllocator::OOMEvent& ev) {
+            spdlog::warn("[LLMPluginManager] VRAM OOM event: need={} bytes, strategy={}, "
+                         "recovered={}, freed={} bytes",
+                         ev.requested_bytes,
+                         static_cast<int>(ev.strategy),
+                         ev.recovered,
+                         ev.bytes_recovered);
+        });
+    }
     return instance;
 }
 
@@ -247,16 +263,94 @@ std::vector<float> LLMPluginManager::embed(const std::string& text) {
     return plugin->embed(text);
 }
 
-bool LLMPluginManager::loadModel(const std::string& /*model_id*/, const std::string& path) {
-    auto* plugin = getDefaultPlugin();
+bool LLMPluginManager::loadModel(const std::string& model_id, const std::string& path) {
+    // GAP-009: Prevent path traversal attacks by checking that the resolved
+    // model path is contained within the configured model root directory.
+    // The root is read from THEMIS_MODEL_ROOT; if unset the check is skipped
+    // so that existing deployments without this env-var are not broken.
+    if (const char* model_root_env = std::getenv("THEMIS_MODEL_ROOT")) {
+        const std::string model_root_str(model_root_env);
+        if (!model_root_str.empty()) {
+            namespace fs = std::filesystem;
+            std::error_code ec;
+            const fs::path root_canonical  = fs::canonical(fs::path(model_root_str), ec);
+            if (!ec) {
+                // Prefer canonical() which resolves all symlinks fully (no TOCTOU risk
+                // from unresolved components). If the model file does not yet exist
+                // (pre-download), fall back to weakly_canonical() which resolves
+                // existing components only.  In the fallback case the remaining
+                // unresolved suffix is still checked against the root prefix, so a
+                // path like "/root/../evil" is caught because weakly_canonical still
+                // resolves the "/.." component for existing directories.
+                fs::path resolved = fs::canonical(fs::path(path), ec);
+                if (ec) {
+                    // File may not exist yet (pre-download path); try weakly_canonical.
+                    ec.clear();
+                    resolved = fs::weakly_canonical(fs::path(path), ec);
+                }
+                if (ec) {
+                    spdlog::error("LLMPluginManager::loadModel: cannot resolve path '{}': {}",
+                                  path, ec.message());
+                    return false;
+                }
+                // Verify that resolved is inside root_canonical
+                const std::string root_str = root_canonical.string();
+                const std::string res_str  = resolved.string();
+                if (res_str.rfind(root_str, 0) != 0 ||
+                    (res_str.size() > root_str.size() &&
+                     res_str[root_str.size()] != fs::path::preferred_separator)) {
+                    spdlog::error("LLMPluginManager::loadModel: path '{}' is outside "
+                                  "THEMIS_MODEL_ROOT '{}'", path, model_root_str);
+                    return false;
+                }
+            } else {
+                spdlog::warn("LLMPluginManager::loadModel: THEMIS_MODEL_ROOT '{}' cannot "
+                             "be canonicalized ({}); skipping containment check",
+                             model_root_str, ec.message());
+            }
+        }
+    }
+
+    ILLMPlugin* plugin;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        plugin = getDefaultPluginLocked();
+    }
     if (!plugin) {
         throw std::runtime_error("No default LLM plugin available");
     }
-    return plugin->loadModel(path);
+    const bool ok = plugin->loadModel(path);
+    if (ok && !model_id.empty()) {
+        // Register model VRAM usage in the budget tracker.
+        // vram_required_mb is populated by the plugin after a successful load.
+        // When it is 0 (unknown / THEMIS_LLM_ENABLED not set), we skip
+        // registration to avoid allocating a 0-byte sentinel.
+        auto info = plugin->getModelInfo();
+        if (info && info->vram_required_mb > 0) {
+            const size_t vram_bytes = info->vram_required_mb * 1024ULL * 1024ULL;
+            auto handle = vram_allocator_.registerExternal(vram_bytes, model_id);
+            std::lock_guard<std::mutex> lock(mutex_);
+            vram_handles_[model_id] = std::move(handle);
+        }
+    }
+    return ok;
 }
 
-void LLMPluginManager::unloadModel(const std::string& /*model_id*/) {
-    auto* plugin = getDefaultPlugin();
+void LLMPluginManager::unloadModel(const std::string& model_id) {
+    // Free the VRAM handle first (before the plugin frees the underlying memory).
+    if (!model_id.empty()) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = vram_handles_.find(model_id);
+        if (it != vram_handles_.end()) {
+            vram_allocator_.free(it->second);
+            vram_handles_.erase(it);
+        }
+    }
+    ILLMPlugin* plugin;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        plugin = getDefaultPluginLocked();
+    }
     if (!plugin) {
         throw std::runtime_error("No default LLM plugin available");
     }
@@ -282,7 +376,32 @@ bool LLMPluginManager::loadLoRA(const std::string& lora_id, const std::string& p
     if (!plugin) {
         throw std::runtime_error("No default LLM plugin available");
     }
-    return plugin->loadLoRA(lora_id, path, 1.0f);
+    const bool ok = plugin->loadLoRA(lora_id, path, 1.0f);
+
+    // ── AI Safety: Gossip adapter capability announcement ──────────────────
+    if (ok) {
+        distributed_knowledge::GossipAdapterPublisher* publisher;
+        std::string shard_id;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            publisher = adapter_publisher_;
+            shard_id  = local_shard_id_;
+        }
+        if (publisher) {
+            static constexpr const char* kInitialAdapterVersion = "v1.0.0";
+            distributed_knowledge::AdapterCapabilityAnnouncement ann;
+            ann.shard_id        = shard_id;
+            ann.adapter_id      = lora_id;
+            ann.adapter_version = kInitialAdapterVersion;
+            ann.domain_type     = distributed_knowledge::AdapterDomainType::GENERAL;
+            ann.training_samples = 0;                // unknown at load time
+            publisher->announce(std::move(ann));
+            spdlog::info("LLMPluginManager::loadLoRA: gossip announcement sent for '{}'", lora_id);
+        }
+    }
+    // ── end gossip announcement ────────────────────────────────────────────
+
+    return ok;
 }
 
 bool LLMPluginManager::unloadLoRA(const std::string& lora_id) {
@@ -290,7 +409,31 @@ bool LLMPluginManager::unloadLoRA(const std::string& lora_id) {
     if (!plugin) {
         throw std::runtime_error("No default LLM plugin available");
     }
-    return plugin->unloadLoRA(lora_id);
+    const bool ok = plugin->unloadLoRA(lora_id);
+
+    // ── AI Safety: Gossip withdrawal announcement ──────────────────────────
+    if (ok) {
+        distributed_knowledge::GossipAdapterPublisher* publisher;
+        std::string shard_id;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            publisher = adapter_publisher_;
+            shard_id  = local_shard_id_;
+        }
+        if (publisher) {
+            // Withdraw: broadcast an announcement that explicitly marks the adapter
+            // as no longer available on this shard.
+            distributed_knowledge::AdapterCapabilityAnnouncement withdrawal;
+            withdrawal.shard_id      = shard_id;
+            withdrawal.adapter_id    = lora_id;
+            withdrawal.is_withdrawal = true;         // explicit withdrawal flag
+            publisher->announce(std::move(withdrawal));
+            spdlog::info("LLMPluginManager::unloadLoRA: gossip withdrawal sent for '{}'", lora_id);
+        }
+    }
+    // ── end gossip withdrawal ──────────────────────────────────────────────
+
+    return ok;
 }
 
 std::vector<LoRAInfo> LLMPluginManager::listLoRAs() const {
@@ -370,11 +513,47 @@ LLMPluginManager::HealthStatus LLMPluginManager::getHealthStatus() const {
     HealthStatus health;
     health.models_loaded = static_cast<int>(listModels().size());
     health.loras_loaded = static_cast<int>(listLoRAs().size());
+
+    const auto vram = vram_allocator_.getStats();
+    health.vram_total_bytes           = vram.total_vram_bytes;
+    health.vram_used_bytes            = vram.used_vram_bytes;
+    health.vram_free_bytes            = vram.free_vram_bytes;
+    health.vram_oom_threshold_exceeded = vram.oom_threshold_exceeded;
+
+    if (vram.oom_threshold_exceeded) {
+        health.is_healthy = false;
+        health.plugin_manager_status = "vram_pressure";
+    }
+
     return health;
 }
 
+ActiveVRAMAllocator::Stats LLMPluginManager::getVRAMStats() const {
+    return vram_allocator_.getStats();
+}
+
+void LLMPluginManager::setAdapterPublisher(
+    distributed_knowledge::GossipAdapterPublisher* publisher,
+    std::string local_shard_id)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    adapter_publisher_ = publisher;
+    local_shard_id_    = std::move(local_shard_id);
+    spdlog::info("LLMPluginManager::setAdapterPublisher: gossip publisher {}",
+                 publisher ? "configured" : "disconnected");
+}
+
 void LLMPluginManager::clearAllCaches() {
-    // TODO: integrate with actual cache implementations when available
+    // Clear embedding cache on the global EmbeddedLLM singleton if initialized.
+    auto& mgr = EmbeddedLLMManager::instance();
+    if (mgr.isInitialized()) {
+        mgr.get().clearCache();
+        spdlog::info("LLMPluginManager::clearAllCaches: EmbeddedLLM embedding cache cleared");
+    }
+    // Individual plugin-level caches (KV-cache, prefix-cache) are owned by the
+    // underlying inference runtime; we log a notice for callers that rely on this.
+    spdlog::debug("LLMPluginManager::clearAllCaches: runtime KV/prefix caches are "
+                  "managed by individual plugins and reset on model reload");
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -461,6 +640,122 @@ bool createLlamaWrapper(
         spdlog::error("Failed to create llama.cpp plugin: {}", e.what());
         return false;
     }
+}
+
+// ═══════════════════════════════════════════════════════════
+// MSW: MetricsServer Admin Callback Wiring
+// ═══════════════════════════════════════════════════════════
+
+void LLMPluginManager::setCancelSessionCallback(CancelSessionCallback cb)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    cancel_session_cb_ = std::move(cb);
+}
+
+void LLMPluginManager::wireMetricsServerCallbacks(monitoring::MetricsServer& server)
+{
+    // ── Reload callback ────────────────────────────────────────────────────────
+    // Body format: {"model_id":"<id>","path":"<optional-path>"}
+    // When "path" is omitted the model_id is also used as the path (Ollama-style).
+    server.setReloadCallback(
+        [this](const std::string& body) -> std::string {
+            try {
+                const json req = json::parse(body, nullptr, /*allow_exceptions=*/false);
+                if (req.is_discarded()) {
+                    return json{{"status", "error"},
+                                {"message", "Invalid JSON body; expected {\"model_id\":\"...\"}"}}.dump();
+                }
+                const std::string model_id =
+                    req.value("model_id", req.value("model", std::string{}));
+                if (model_id.empty()) {
+                    return json{{"status", "error"},
+                                {"message", "\"model_id\" field required"}}.dump();
+                }
+                const std::string path = req.value("path", model_id);
+                const bool ok = loadModel(model_id, path);
+                if (ok) {
+                    return json{{"status", "ok"}, {"model_id", model_id}}.dump();
+                }
+                return json{{"status", "error"},
+                            {"message", "loadModel() returned false for model_id: " + model_id}}.dump();
+            } catch (const std::exception& ex) {
+                return json{{"status", "error"}, {"message", ex.what()}}.dump();
+            }
+        });
+
+    // ── Simulate callback ──────────────────────────────────────────────────────
+    // Body format: {"prompt":"<text>","model_id":"<optional>"}
+    // Returns estimated token count using the CHAR_HEURISTIC.  When a live
+    // tokenizer is wired into context_window_budget.h the heuristic will be
+    // replaced automatically without changing this callback.
+    server.setSimulateCallback(
+        [](const std::string& body) -> std::string {
+            try {
+                const json req = json::parse(body, nullptr, /*allow_exceptions=*/false);
+                if (req.is_discarded()) {
+                    return json{{"status", "error"},
+                                {"message", "Invalid JSON body; expected {\"prompt\":\"...\"}"}}.dump();
+                }
+                const std::string prompt = req.value("prompt", std::string{});
+                if (prompt.empty()) {
+                    return json{{"status", "error"},
+                                {"message", "\"prompt\" field required"}}.dump();
+                }
+                const size_t tokens = estimateTokens(prompt);
+                const std::string model_id = req.value("model_id", std::string{"default"});
+                return json{{"status",         "ok"},
+                            {"model_id",       model_id},
+                            {"prompt_chars",   prompt.size()},
+                            {"estimated_tokens", tokens},
+                            {"method",         "CHAR_HEURISTIC"}}.dump();
+            } catch (const std::exception& ex) {
+                return json{{"status", "error"}, {"message", ex.what()}}.dump();
+            }
+        });
+
+    // ── Session-delete callback ────────────────────────────────────────────────
+    // `resource_id` is the session/request ID extracted from the DELETE path by
+    // MetricsServer (e.g. DELETE /admin/sessions/req-42 → "req-42").
+    // The actual cancellation is delegated to cancel_session_cb_, which must be
+    // wired via setCancelSessionCallback() pointing to
+    // ContinuousBatchScheduler::cancelRequest().
+    // If the callback is not set, the endpoint returns a clear "not_configured"
+    // response instead of the generic "not_implemented" message.
+    CancelSessionCallback cancel_cb;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        cancel_cb = cancel_session_cb_;
+    }
+    if (cancel_cb) {
+        server.setSessionDeleteCallback(
+            [cb = std::move(cancel_cb)](const std::string& session_id) -> std::string {
+                try {
+                    const bool cancelled = cb(session_id);
+                    if (cancelled) {
+                        return json{{"status", "ok"}, {"session_id", session_id}}.dump();
+                    }
+                    return json{{"status", "not_found"},
+                                {"session_id", session_id},
+                                {"message", "No active session with this ID"}}.dump();
+                } catch (const std::exception& ex) {
+                    return json{{"status", "error"}, {"message", ex.what()}}.dump();
+                }
+            });
+    } else {
+        server.setSessionDeleteCallback(
+            [](const std::string& session_id) -> std::string {
+                return json{{"status",     "not_configured"},
+                            {"session_id", session_id},
+                            {"message",
+                             "Wire LLMPluginManager::setCancelSessionCallback() to "
+                             "ContinuousBatchScheduler::cancelRequest() to enable "
+                             "session cancellation via this endpoint."}}.dump();
+            });
+    }
+
+    spdlog::info("LLMPluginManager::wireMetricsServerCallbacks: "
+                 "reload/simulate/{} wired",
+                 cancel_cb ? "session-delete" : "session-delete(not_configured)");
 }
 
 } // namespace llm

@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [ingestion](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-04  
+**Datum:** 2026-04-17  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/ingestion/ARCHITECTURE.md`
@@ -25,21 +25,9 @@
 
 # Primary Sources — `ingestion`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`ingestion`** aus den Verzeichnissen `src/ingestion/` und/oder `include/ingestion/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`ingestion`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/ingestion/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/ingestion/ARCHITECTURE.md`](../../../src/ingestion/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/ingestion/AUDIT.md`](../../../src/ingestion/AUDIT.md) |
-| `CHANGELOG.md` | [`src/ingestion/CHANGELOG.md`](../../../src/ingestion/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/ingestion/FUTURE_ENHANCEMENTS.md`](../../../src/ingestion/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/ingestion/README.md`](../../../src/ingestion/README.md) |
-| `ROADMAP.md` | [`src/ingestion/ROADMAP.md`](../../../src/ingestion/ROADMAP.md) |
-| `SECURITY.md` | [`src/ingestion/SECURITY.md`](../../../src/ingestion/SECURITY.md) |
 
 ### `include/ingestion/`
 
@@ -53,6 +41,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`ingestion`
 | `ROADMAP.md` | [`include/ingestion/ROADMAP.md`](../../../include/ingestion/ROADMAP.md) |
 | `SECURITY.md` | [`include/ingestion/SECURITY.md`](../../../include/ingestion/SECURITY.md) |
 
+### `src/ingestion/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/ingestion/ARCHITECTURE.md`](../../../src/ingestion/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/ingestion/AUDIT.md`](../../../src/ingestion/AUDIT.md) |
+| `CHANGELOG.md` | [`src/ingestion/CHANGELOG.md`](../../../src/ingestion/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/ingestion/FUTURE_ENHANCEMENTS.md`](../../../src/ingestion/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/ingestion/README.md`](../../../src/ingestion/README.md) |
+| `ROADMAP.md` | [`src/ingestion/ROADMAP.md`](../../../src/ingestion/ROADMAP.md) |
+| `SECURITY.md` | [`src/ingestion/SECURITY.md`](../../../src/ingestion/SECURITY.md) |
+
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-04*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*

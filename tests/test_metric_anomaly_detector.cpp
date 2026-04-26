@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_metric_anomaly_detector.cpp                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:29:46                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:55:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 45318acf6  2026-03-09  feat(observability): ML-based metric anomaly detection wi... ║
+    • 45318acf60  2026-03-09  feat(observability): ML-based metric anomaly detection wi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

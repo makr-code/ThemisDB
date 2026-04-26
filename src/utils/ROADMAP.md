@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Utils Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -34,6 +36,14 @@ v1.5.0 – Comprehensive shared utilities library. Logging, audit trail, PII det
 - [x] TimestampUtils – ISO 8601 / RFC 3339 parse + format (ms, timezone offsets), `formatDuration`, Unix-ms helpers
 - [x] HashChainAuditWriter – standalone tamper-evident audit writer (SHA-256 chain, persisted head, HKDF-seedable genesis)
 - [x] AuditLogVerifier – standalone chain replay verifier; detects first tampered or missing link
+- [x] **UUID v7** — `generate_uuid_v7()` in `include/utils/uuid.h` (Issue: #4582) (2026-04-12)
+  - RFC 9562 compliant: 48-bit Unix-ms timestamp + 18-bit monotonic seq (thread_local, `std::mutex`, 0x3FFFFU mask) + 56-bit random (thread_local MT19937-64)
+  - Monotonicity guaranteed within the same millisecond via `seq_state` bump
+  - 20 focused tests (UV7-01…UV7-20) in `tests/test_uuid_v7.cpp`
+- [x] **Streaming ZSTD** — `zstd_compress_stream` + `zstd_decompress_stream` in `zstd_codec.h/cpp` (Issue: #4583) (2026-04-12)
+  - `ZSTD_CStream`/`ZSTD_DStream` with `Source: std::function<pair<const uint8_t*,size_t>()>` + `Sink: std::function<bool(...)>`
+  - `max_output_bytes` DoS-guard (default = `MAX_DECOMPRESSED_SIZE` = 4 GB); raises error on overflow
+  - 10 focused tests (ZS-01…ZS-10) in `tests/test_zstd_compression_security.cpp`
 
 ## In Progress 🚧
 - [?] Structured log query API (search logs like data) (Target: Q2 2026)
@@ -41,7 +51,7 @@ v1.5.0 – Comprehensive shared utilities library. Logging, audit trail, PII det
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [?] LZ4 codec as faster alternative to Zstd for hot-path data
+- [x] LZ4 codec as faster alternative to Zstd for hot-path data (`include/utils/lz4_codec.h` + `src/utils/lz4_codec.cpp`)
 
 ### Long-term (6-12 months)
 - [?] Multi-language stemmer support (German, French, Spanish)
@@ -106,3 +116,12 @@ v1.5.0 – Comprehensive shared utilities library. Logging, audit trail, PII det
 - ILogger interface is stable from v1.x; new optional log levels are additive.
 - ZSTD codec API is stable; compression level defaults may be tuned in v1.5.0.
 - Tracing span API follows OpenTelemetry conventions; stable from v1.x.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Aktiv (implementiert + externer Aufrufer bestätigt)
+
+- `AuditLogger` – Schreibt Audit-Events für Compliance; genutzt in policy_engine + http_server + export_api
+

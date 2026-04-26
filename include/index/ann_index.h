@@ -3,22 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ann_index.h                                        ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:07:56                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:45:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     296                                            ║
+    • Total Lines:     295                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5432ec11f  2026-02-28  fix(diskann): persist dimension in metadata; fix adapter ... ║
-    • cebce18b1  2026-02-28  feat(index): fix DiskANN offset tracking, implement graph... ║
-    • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
-    • e6e7fc6bb  2026-02-25  feat(index): DiskANN/ScaNN alternative ANN algorithms for... ║
+    • f20e6e8d74  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • 2826fa9ccd  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -86,10 +85,10 @@ public:
                                                  int k) const = 0;
 
     /// Persist the index to @p path directory.  Returns false if not supported.
-    virtual bool save(const std::string& path) const { (void)path; return false; }
+    virtual bool save(const std::string& /*path*/) const { return false; }
 
     /// Load index from @p path directory.  Returns false if not supported.
-    virtual bool load(const std::string& path) { (void)path; return false; }
+    virtual bool load(const std::string& /*path*/) { return false; }
 
     /// Number of vectors currently in the index.
     virtual size_t size() const = 0;

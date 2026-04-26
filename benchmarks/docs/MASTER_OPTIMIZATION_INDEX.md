@@ -1,3 +1,6 @@
+> ⚠️ **Historischer Plan** – Dieser Plan beschreibt den Entwicklungsstand zum Zeitpunkt der Erstellung.
+> Für aktuellen Teststatus: `ctest --preset linux-ninja-release --test-dir build/linux-ninja-release -R <pattern>` verwenden.
+
 # 📚 Complete Themis Optimization Project - Master Index
 
 **Project**: Themis Database Performance Optimization  

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            benchmark_distributed_hybrid_search.cpp            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:04:34                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:43:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 00154e017  2026-03-11  audit(search): fix all gaps in distributed hybrid search ... ║
+    • 00154e0170  2026-03-11  audit(search): fix all gaps in distributed hybrid search ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

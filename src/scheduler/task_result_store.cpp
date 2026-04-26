@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_result_store.cpp                              ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:19:15                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:50:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f79e072b9  2026-02-23  feat(scheduler): implement scheduled task output persiste... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -75,7 +75,7 @@ std::string TaskResultStore::makeTaskPrefix(const std::string& task_id) {
 }
 
 void TaskResultStore::store(const TaskExecutionResult& result) {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::unique_lock<std::shared_mutex> lk(mutex_);
 
     const std::string key = makeKey(result.task_id, result.timestamp_ms);
     const std::string value = result.toJson().dump();
@@ -114,7 +114,7 @@ void TaskResultStore::store(const TaskExecutionResult& result) {
 
 std::vector<TaskExecutionResult> TaskResultStore::getResults(
         const std::string& task_id, size_t limit) const {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::shared_lock<std::shared_mutex> lk(mutex_);
 
     const std::string prefix = makeTaskPrefix(task_id);
     std::vector<std::pair<std::string, std::string>> entries;
@@ -142,7 +142,7 @@ std::vector<TaskExecutionResult> TaskResultStore::getResults(
 
 std::optional<TaskExecutionResult> TaskResultStore::getLatestResult(
         const std::string& task_id) const {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::shared_lock<std::shared_mutex> lk(mutex_);
 
     const std::string prefix = makeTaskPrefix(task_id);
     // Collect all keys for the task to find the last (newest) one.

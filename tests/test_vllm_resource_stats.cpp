@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_vllm_resource_stats.cpp                       ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:35:15                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:58:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     376                                            ║
+    • Total Lines:     377                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 39ac8c3ef  2026-03-20  Split default-arg constructors into overloads ║
-    • 3b792a6ae  2026-03-20  Refactor saga orchestrator, add compute types ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 137d06cfe  2026-03-18  fix: handle dtotal==0 CPU cache-hit and guard perf test a... ║
-    • 3254a3d48  2026-03-18  feat(acceleration): VLLMResourceManager multi-GPU NVML mo... ║
+    • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
+    • 3b792a6ae0  2026-03-20  Refactor saga orchestrator, add compute types ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

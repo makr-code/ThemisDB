@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http3_session.cpp                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:49                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1040                                           ║
+    • Total Lines:     1036                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 7d190644e  2026-03-13  feat(server): HTTP/3 production readiness - congestion co... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 394fe997b  2026-03-01  Add HTTP/3 datagram support (RFC 9221 + RFC 9297, Issue #... ║
-    • c90319060  2026-02-28  feat(network): QUIC/HTTP3 transport layer integration ║
-    • 5375c249a  2026-02-23  refactor(api): eliminate duplicated tenant path rewriting... ║
+    • 7d190644e6  2026-03-13  feat(server): HTTP/3 production readiness - congestion co... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -46,13 +42,12 @@ namespace http = beast::http;
 // ============================================================================
 
 static void generateConnectionIdCallback(ngtcp2_cid* cid) {
+    // GAP-019: Use std::random_device directly for cryptographic-quality randomness.
+    // QUIC connection IDs must be unguessable to prevent hijacking / tracking.
     std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, 255);
-    
     cid->datalen = NGTCP2_MIN_CIDLEN;
     for (size_t i = 0; i < cid->datalen; ++i) {
-        cid->data[i] = static_cast<uint8_t>(dis(gen));
+        cid->data[i] = static_cast<uint8_t>(rd() & 0xFFu);
     }
 }
 

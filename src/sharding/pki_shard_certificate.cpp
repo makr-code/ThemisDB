@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pki_shard_certificate.cpp                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:20                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     363                                            ║
+    • Total Lines:     364                                            ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -285,8 +286,8 @@ bool PKIShardCertificate::validateShardCertificate(const ShardCertificateInfo& i
 }
 
 bool PKIShardCertificate::parseCustomExtensions(void* x509_cert_ptr, ShardCertificateInfo& info) {
-    X509* cert = static_cast<X509*>(x509_cert_ptr);
-    (void)cert; // Future: parse custom X.509 extensions
+    [[maybe_unused]] X509* cert = static_cast<X509*>(x509_cert_ptr);
+    // Future: parse custom X.509 extensions
     
     // Note: In Phase 2, we're providing the structure for custom extension parsing
     // In production, this would parse actual custom OIDs (e.g., 1.3.6.1.4.1.XXXXX)

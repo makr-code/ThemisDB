@@ -284,4 +284,4 @@ This index is maintained by the ThemisDB development team. For corrections or ad
 1. Submit an issue describing the missing/incorrect information
 2. Or create a pull request with the documentation changes
 
-**Last Updated:** 2026-01-12
+**Last Updated:** 2026-04-06

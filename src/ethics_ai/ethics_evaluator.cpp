@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ethics_evaluator.cpp                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:15:20                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:48:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     196                                            ║
+    • Total Lines:     270                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9ab72c508  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
-    • acdb250db  2026-03-12  feat: migrate plugins to src/include with CMake switches ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 87778519a4  2026-04-12  feat(ethics_ai): remove stubs — computed scoring, YAML fi... ║
+    • 32f246a038  2026-04-08  feat(ethics_ai): enhance plugin configuration and overrid... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -24,11 +23,33 @@
 
 #include "ethics_evaluator.h"
 #include <algorithm>
+#include <map>
 #include <numeric>
+#include <set>
+#include <sstream>
+#include <variant>
 
 namespace themis {
 namespace plugins {
 namespace ethics {
+
+EthicsEvaluator::EthicsEvaluator(const Config& config) {
+    // Normalise weights so they always sum to 1.0.
+    double total = config.weight_decision_quality
+                 + config.weight_consistency
+                 + config.weight_fairness
+                 + config.weight_alignment
+                 + config.weight_transparency;
+    if (total <= 0.0) {
+        config_ = Config{};  // fall back to defaults
+    } else {
+        config_.weight_decision_quality = config.weight_decision_quality / total;
+        config_.weight_consistency      = config.weight_consistency      / total;
+        config_.weight_fairness         = config.weight_fairness         / total;
+        config_.weight_alignment        = config.weight_alignment        / total;
+        config_.weight_transparency     = config.weight_transparency     / total;
+    }
+}
 
 std::variant<EthicsEvaluationResult, Status> EthicsEvaluator::evaluateDecision(
     const EthicalDecision& decision,
@@ -43,20 +64,13 @@ std::variant<EthicsEvaluationResult, Status> EthicsEvaluator::evaluateDecision(
     result.alignment_score = evaluateAlignment(decision, arguments);
     result.transparency_score = evaluateTransparency(decision, arguments);
     
-    // Calculate overall score (weighted average)
-    const double weights[5] = {0.25, 0.20, 0.20, 0.20, 0.15};
-    const double scores[5] = {
-        result.decision_quality_score,
-        result.consistency_score,
-        result.fairness_score,
-        result.alignment_score,
-        result.transparency_score
-    };
-    
-    result.overall_score = 0.0;
-    for (int i = 0; i < 5; ++i) {
-        result.overall_score += weights[i] * scores[i];
-    }
+    // Calculate overall score using configured (normalised) weights.
+    result.overall_score =
+        config_.weight_decision_quality * result.decision_quality_score +
+        config_.weight_consistency      * result.consistency_score      +
+        config_.weight_fairness         * result.fairness_score         +
+        config_.weight_alignment        * result.alignment_score        +
+        config_.weight_transparency     * result.transparency_score;
     
     // Store detailed metrics
     result.detailed_metrics["decision_quality"] = result.decision_quality_score;
@@ -169,7 +183,7 @@ double EthicsEvaluator::evaluateAlignment(
 
 double EthicsEvaluator::evaluateTransparency(
     const EthicalDecision& decision,
-    const std::vector<EthicalArgument>& arguments) {
+    [[maybe_unused]] const std::vector<EthicalArgument>& arguments) {
     
     double score = 0.5; // Base score
     
@@ -189,6 +203,124 @@ double EthicsEvaluator::evaluateTransparency(
     }
     
     return std::min(score, 1.0);
+}
+
+// ---------------------------------------------------------------------------
+// Static scoring helpers
+// ---------------------------------------------------------------------------
+
+static double strengthToScore(ArgumentStrength s) {
+    switch (s) {
+        case ArgumentStrength::WEAK:     return 0.25;
+        case ArgumentStrength::MODERATE: return 0.50;
+        case ArgumentStrength::STRONG:   return 0.75;
+        case ArgumentStrength::DECISIVE: return 1.00;
+        default:                         return 0.50;
+    }
+}
+
+double EthicsEvaluator::computeConfidence(
+    const std::vector<EthicalArgument>& arguments) {
+    
+    if (arguments.empty()) return 0.5;
+
+    double sum = 0.0;
+    for (const auto& arg : arguments) {
+        sum += strengthToScore(arg.strength);
+    }
+    return sum / static_cast<double>(arguments.size());
+}
+
+double EthicsEvaluator::computeConsensus(
+    const std::vector<EthicalArgument>& arguments) {
+    
+    if (arguments.empty()) return 1.0;
+
+    // Tally each school's net vote: PRO/SYNTHESIS = +1, CONTRA/REBUTTAL = -1.
+    std::map<std::string, int> school_votes;
+    for (const auto& arg : arguments) {
+        int vote = 0;
+        switch (arg.argument_type) {
+            case ArgumentType::PRO:
+            case ArgumentType::SYNTHESIS:
+                vote = 1;
+                break;
+            case ArgumentType::CONTRA:
+            case ArgumentType::REBUTTAL:
+                vote = -1;
+                break;
+            default:
+                vote = 0;
+                break;
+        }
+        school_votes[arg.philosophy_school] += vote;
+    }
+
+    if (school_votes.empty()) return 1.0;
+    if (school_votes.size() == 1) return 1.0;
+
+    size_t agreeing = 0;
+    for (const auto& [school, tally] : school_votes) {
+        if (tally >= 0) ++agreeing;
+    }
+    return static_cast<double>(agreeing) / static_cast<double>(school_votes.size());
+}
+
+// ============================================================================
+// Prometheus Metrics
+// ============================================================================
+
+void EthicsEvaluator::recordDecision(double confidence, bool rag_hit,
+                                       uint64_t latency_ms)
+{
+    ++decisions_total_;
+    latency_ms_total_ += latency_ms;
+    if (rag_hit) ++rag_hits_total_;
+    // Store confidence * 1e6 as integer to avoid floating-point atomics
+    confidence_sum_micro_ +=
+        static_cast<uint64_t>(confidence * 1'000'000.0);
+}
+
+void EthicsEvaluator::setArgumentStoreSize(uint64_t count) {
+    argument_store_size_.store(count);
+}
+
+std::string EthicsEvaluator::getMetricsText() const {
+    uint64_t decisions = decisions_total_.load();
+    if (decisions == 0) return "";
+
+    uint64_t latency   = latency_ms_total_.load();
+    uint64_t rag_hits  = rag_hits_total_.load();
+    uint64_t conf_sum  = confidence_sum_micro_.load();
+    uint64_t store_sz  = argument_store_size_.load();
+
+    double conf_avg = (decisions > 0)
+        ? static_cast<double>(conf_sum) / (static_cast<double>(decisions) * 1'000'000.0)
+        : 0.0;
+
+    std::ostringstream out;
+
+    out << "# HELP ethics_decisions_total Total ethical decisions synthesised.\n";
+    out << "# TYPE ethics_decisions_total counter\n";
+    out << "ethics_decisions_total " << decisions << "\n";
+
+    out << "# HELP ethics_decision_latency_ms_total Cumulative makeDecision() latency in milliseconds.\n";
+    out << "# TYPE ethics_decision_latency_ms_total counter\n";
+    out << "ethics_decision_latency_ms_total " << latency << "\n";
+
+    out << "# HELP ethics_rag_context_hits_total RAG queries that returned at least one result.\n";
+    out << "# TYPE ethics_rag_context_hits_total counter\n";
+    out << "ethics_rag_context_hits_total " << rag_hits << "\n";
+
+    out << "# HELP ethics_argument_confidence_avg Rolling average argument confidence score.\n";
+    out << "# TYPE ethics_argument_confidence_avg gauge\n";
+    out << "ethics_argument_confidence_avg " << conf_avg << "\n";
+
+    out << "# HELP ethics_argument_store_size Total arguments currently in the store.\n";
+    out << "# TYPE ethics_argument_store_size gauge\n";
+    out << "ethics_argument_store_size " << store_sz << "\n";
+
+    return out.str();
 }
 
 } // namespace ethics

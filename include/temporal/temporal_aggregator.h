@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_aggregator.h                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:56                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     280                                            ║
+    • Total Lines:     279                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 1aeed8408  2026-03-12  feat(temporal): add GROUP BY, snapshot, and trend analysi... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1aeed84081  2026-03-12  feat(temporal): add GROUP BY, snapshot, and trend analysi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -65,7 +64,9 @@ enum class AggregateFunc {
     AVG,
     COUNT,
     MIN,
-    MAX
+    MAX,
+    FIRST_VALUE, ///< Value of measure_field from the earliest row (by sys_start) in the window
+    LAST_VALUE   ///< Value of measure_field from the latest  row (by sys_start) in the window
 };
 
 /**

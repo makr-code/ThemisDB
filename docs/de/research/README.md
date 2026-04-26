@@ -1,6 +1,6 @@
 # Research Documentation
 
-**Stand:** 10. Februar 2026  
+**Stand:** 6. April 2026  
 **Version:** 1.1  
 **Kategorie:** 🔬 Research & Scientific Findings
 

@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wal_api_handler.h                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:27                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     150                                            ║
+    • Total Lines:     152                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -26,6 +27,7 @@
 #include <string>
 #include <atomic>
 #include <mutex>
+#include <shared_mutex>
 #include <boost/beast/http.hpp>
 
 namespace beast = boost::beast;
@@ -108,7 +110,7 @@ public:
     uint64_t getApplyLatencySumUs() const { return wal_apply_latency_sum_us_.load(std::memory_order_relaxed); }
     uint64_t getApplyLatencyCount() const { return wal_apply_latency_count_.load(std::memory_order_relaxed); }
     std::string getLastAppliedLsn() const { 
-        std::lock_guard<std::mutex> lock(wal_metrics_mutex_);
+        std::shared_lock<std::shared_mutex> lock(wal_metrics_mutex_);
         return wal_last_applied_lsn_; 
     }
 
@@ -132,7 +134,7 @@ private:
     std::atomic<uint64_t> wal_apply_latency_gt_1000ms_{0};
     std::atomic<uint64_t> wal_apply_latency_sum_us_{0};
     std::atomic<uint64_t> wal_apply_latency_count_{0};
-    mutable std::mutex wal_metrics_mutex_;
+    mutable std::shared_mutex wal_metrics_mutex_;
     std::string wal_last_applied_lsn_;
 
     // Helper methods

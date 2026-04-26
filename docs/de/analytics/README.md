@@ -1,8 +1,8 @@
 # Analytics Module — Dokumentation
 
-**Version:** 1.7.0
+**Version:** 1.9.0
 **Status:** 🟢 Production-Ready
-**Last Updated:** 2026-03-09
+**Last Updated:** 2026-04-06
 
 ---
 
@@ -22,7 +22,7 @@ Zeitreihenprognose, ML-Integration, Anomalieerkennung und Complex Event Processi
 | --- | --- | --- |
 | [OLAP Guide](./olap_guide.md) | GROUP BY, CUBE, ROLLUP, Window-Funktionen | 🟢 Fertig |
 | [Process Mining Guide](./process_mining_guide.md) | Prozessentdeckung, Konformitätsprüfung | 🟢 Fertig |
-| [Forecasting Guide](./forecasting_guide.md) | Zeitreihenprognose (ARIMA, Holt-Winters, ENSEMBLE) | 🟢 Fertig |
+| [Forecasting Guide](./forecasting_guide.md) | Zeitreihenprognose (ARIMA, Holt-Winters, ENSEMBLE, Batch-Prognose, inkrementelles Update) | 🟢 Fertig |
 | [CEP Guide](./cep_guide.md) | Complex Event Processing, EPL-Regeln, Alerting | 🟢 Fertig |
 | [Anomaly Detection Guide](./anomaly_detection_guide.md) | Z-Score, IQR, LOF, Isolation Forest, Ensemble | 🟢 Fertig |
 | [Streaming Windows Guide](./streaming_window_guide.md) | Tumbling, Sliding, Session, Hopping Windows | 🟢 Fertig |
@@ -65,6 +65,9 @@ ForecastModel model(ForecastMethod::HOLT_WINTERS);
 model.fit(ts);
 auto forecast = model.predict(7);
 ```
+
+> **Neu in v1.9.0:** `predictBatch()` prognostiziert N Zeitreihen in einem einzigen Aufruf
+> und reduziert den Overhead für Batch-Szenarien erheblich.
 
 → [Vollständiger Forecasting Guide](./forecasting_guide.md)
 
@@ -136,5 +139,5 @@ include/analytics/       ← Öffentliche Header
 
 ---
 
-**Last Updated:** 2026-03-09
-**Version:** v1.7.0
+**Last Updated:** 2026-04-06
+**Version:** v1.9.0

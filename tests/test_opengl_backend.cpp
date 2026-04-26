@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_opengl_backend.cpp                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:30:37                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:55:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     420                                            ║
+    • Total Lines:     757                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 4b2fdfa0e  2026-03-11  fix(acceleration): Wire OpenGLVectorBackend into BackendR... ║
-    • f6207665d  2026-03-11  feat(acceleration): Implement full OpenGL 4.3+ Compute Sh... ║
+    • c1f421bf84  2026-04-13  OpenGL Compute Shader Backend: Complete 5 Remaining Stubs... ║
+    • b75cb7a1ea  2026-04-13  OpenGL Compute Shader Backend: Complete 5 Remaining Stubs... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -415,6 +415,343 @@ TEST(OpenGLRegistryTest, BackendInitializesViaRegistry) {
     // initialize() must succeed (GPU path or CPU-fallback path)
     EXPECT_TRUE(b->initialize());
     b->shutdown();
+}
+
+#endif  // THEMIS_ENABLE_OPENGL
+
+// ============================================================================
+// OpenGLGeoBackend tests
+// ============================================================================
+
+TEST(OpenGLGeoTest, NameAndType) {
+    OpenGLGeoBackend backend;
+    EXPECT_STREQ(backend.name(), "OpenGLGeo");
+    EXPECT_EQ(backend.type(), BackendType::OPENGL);
+}
+
+TEST(OpenGLGeoTest, IsAvailableDoesNotCrash) {
+    OpenGLGeoBackend backend;
+    (void)backend.isAvailable();
+}
+
+TEST(OpenGLGeoTest, CapabilitiesGeoOpsSet) {
+#ifdef THEMIS_ENABLE_OPENGL
+    OpenGLGeoBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    auto caps = backend.getCapabilities();
+    EXPECT_TRUE(caps.supportsGeoOps);
+    EXPECT_TRUE(caps.supportsBatchProcessing);
+    EXPECT_FALSE(caps.supportsAsync);  // synchronous compute
+    backend.shutdown();
+#endif
+}
+
+TEST(OpenGLGeoTest, InitializeSucceeds) {
+#ifdef THEMIS_ENABLE_OPENGL
+    OpenGLGeoBackend backend;
+    EXPECT_TRUE(backend.initialize());
+    EXPECT_TRUE(backend.initialize());  // idempotent
+    backend.shutdown();
+#else
+    OpenGLGeoBackend backend;
+    EXPECT_FALSE(backend.initialize());
+#endif
+}
+
+TEST(OpenGLGeoTest, ShutdownBeforeInitIsHarmless) {
+    OpenGLGeoBackend backend;
+    EXPECT_NO_THROW(backend.shutdown());
+}
+
+TEST(OpenGLGeoTest, UninitializedBatchDistancesReturnsEmpty) {
+#ifdef THEMIS_ENABLE_OPENGL
+    OpenGLGeoBackend backend;
+    const double lat1[] = {0.0}, lon1[] = {0.0}, lat2[] = {1.0}, lon2[] = {1.0};
+    auto res = backend.batchDistances(lat1, lon1, lat2, lon2, 1);
+    EXPECT_TRUE(res.empty());
+#endif
+}
+
+TEST(OpenGLGeoTest, UninitializedBatchPIPReturnsEmpty) {
+#ifdef THEMIS_ENABLE_OPENGL
+    OpenGLGeoBackend backend;
+    const double pLat[] = {0.5}, pLon[] = {0.5};
+    const double poly[] = {0.0,0.0, 1.0,0.0, 1.0,1.0, 0.0,1.0};
+    auto res = backend.batchPointInPolygon(pLat, pLon, 1, poly, 4);
+    EXPECT_TRUE(res.empty());
+#endif
+}
+
+#ifdef THEMIS_ENABLE_OPENGL
+
+class OpenGLGeoComputeTest : public ::testing::Test {
+protected:
+    OpenGLGeoBackend backend_;
+    void SetUp()    override { ASSERT_TRUE(backend_.initialize()); }
+    void TearDown() override { backend_.shutdown(); }
+};
+
+TEST_F(OpenGLGeoComputeTest, HaversineDistance_SamePoint_IsZero) {
+    const double lat[] = {48.8566}, lon[] = {2.3522};  // Paris
+    auto res = backend_.batchDistances(lat, lon, lat, lon, 1);
+    ASSERT_EQ(res.size(), 1u);
+    EXPECT_NEAR(res[0], 0.f, 1e-3f);
+}
+
+TEST_F(OpenGLGeoComputeTest, HaversineDistance_KnownPair_Approximate) {
+    // Paris (48.8566°N, 2.3522°E) to London (51.5074°N, -0.1278°E) ≈ 340 km
+    const double lat1[] = {48.8566}, lon1[] = {2.3522};
+    const double lat2[] = {51.5074}, lon2[] = {-0.1278};
+    auto res = backend_.batchDistances(lat1, lon1, lat2, lon2, 1);
+    ASSERT_EQ(res.size(), 1u);
+    EXPECT_GT(res[0], 300.f);
+    EXPECT_LT(res[0], 400.f);
+}
+
+TEST_F(OpenGLGeoComputeTest, HaversineDistance_NullPointerReturnsEmpty) {
+    const double lat[] = {0.0}, lon[] = {0.0};
+    EXPECT_TRUE(backend_.batchDistances(nullptr, lon, lat, lon, 1).empty());
+    EXPECT_TRUE(backend_.batchDistances(lat, nullptr, lat, lon, 1).empty());
+    EXPECT_TRUE(backend_.batchDistances(lat, lon, nullptr, lon, 1).empty());
+    EXPECT_TRUE(backend_.batchDistances(lat, lon, lat, nullptr, 1).empty());
+}
+
+TEST_F(OpenGLGeoComputeTest, HaversineDistance_ZeroCountReturnsEmpty) {
+    const double lat[] = {0.0}, lon[] = {0.0};
+    EXPECT_TRUE(backend_.batchDistances(lat, lon, lat, lon, 0).empty());
+}
+
+TEST_F(OpenGLGeoComputeTest, HaversineDistance_MultiplePoints) {
+    // Three known pairs
+    const double lat1[] = {0.0, 48.8566, 35.6762};
+    const double lon1[] = {0.0,  2.3522, 139.6503};
+    const double lat2[] = {0.0, 51.5074, 37.6173};
+    const double lon2[] = {0.0, -0.1278,  55.7558};
+    auto res = backend_.batchDistances(lat1, lon1, lat2, lon2, 3);
+    ASSERT_EQ(res.size(), 3u);
+    // Same point → ~0
+    EXPECT_NEAR(res[0], 0.f, 1e-3f);
+    // Paris→London ~340 km
+    EXPECT_GT(res[1], 300.f); EXPECT_LT(res[1], 400.f);
+    // Tokyo→Moscow ~7500 km
+    EXPECT_GT(res[2], 7000.f); EXPECT_LT(res[2], 8000.f);
+}
+
+TEST_F(OpenGLGeoComputeTest, PointInPolygon_InsideSquare) {
+    // Unit square: (0,0)-(1,0)-(1,1)-(0,1)
+    const double pLat[] = {0.5}, pLon[] = {0.5};
+    const double poly[] = {0.0,0.0, 1.0,0.0, 1.0,1.0, 0.0,1.0};
+    auto res = backend_.batchPointInPolygon(pLat, pLon, 1, poly, 4);
+    ASSERT_EQ(res.size(), 1u);
+    EXPECT_TRUE(res[0]);
+}
+
+TEST_F(OpenGLGeoComputeTest, PointInPolygon_OutsideSquare) {
+    const double pLat[] = {2.0}, pLon[] = {2.0};
+    const double poly[] = {0.0,0.0, 1.0,0.0, 1.0,1.0, 0.0,1.0};
+    auto res = backend_.batchPointInPolygon(pLat, pLon, 1, poly, 4);
+    ASSERT_EQ(res.size(), 1u);
+    EXPECT_FALSE(res[0]);
+}
+
+TEST_F(OpenGLGeoComputeTest, PointInPolygon_NullPointerReturnsEmpty) {
+    const double pLat[] = {0.5}, pLon[] = {0.5};
+    const double poly[] = {0.0,0.0, 1.0,0.0, 1.0,1.0, 0.0,1.0};
+    EXPECT_TRUE(backend_.batchPointInPolygon(nullptr, pLon, 1, poly, 4).empty());
+    EXPECT_TRUE(backend_.batchPointInPolygon(pLat, nullptr, 1, poly, 4).empty());
+    EXPECT_TRUE(backend_.batchPointInPolygon(pLat, pLon,   1, nullptr, 4).empty());
+}
+
+TEST_F(OpenGLGeoComputeTest, PointInPolygon_TooFewVerticesReturnsEmpty) {
+    const double pLat[] = {0.5}, pLon[] = {0.5};
+    const double poly[] = {0.0,0.0, 1.0,0.0};
+    EXPECT_TRUE(backend_.batchPointInPolygon(pLat, pLon, 1, poly, 2).empty());
+}
+
+TEST_F(OpenGLGeoComputeTest, PointInPolygon_ZeroPointsReturnsEmpty) {
+    const double poly[] = {0.0,0.0, 1.0,0.0, 1.0,1.0, 0.0,1.0};
+    EXPECT_TRUE(backend_.batchPointInPolygon(nullptr, nullptr, 0, poly, 4).empty());
+}
+
+TEST_F(OpenGLGeoComputeTest, PointInPolygon_MixedInsideOutside) {
+    const double pLat[] = {0.5, 2.0, 0.1};
+    const double pLon[] = {0.5, 2.0, 0.1};
+    const double poly[] = {0.0,0.0, 1.0,0.0, 1.0,1.0, 0.0,1.0};
+    auto res = backend_.batchPointInPolygon(pLat, pLon, 3, poly, 4);
+    ASSERT_EQ(res.size(), 3u);
+    EXPECT_TRUE(res[0]);   // (0.5, 0.5) inside
+    EXPECT_FALSE(res[1]);  // (2.0, 2.0) outside
+    EXPECT_TRUE(res[2]);   // (0.1, 0.1) inside
+}
+
+#endif  // THEMIS_ENABLE_OPENGL
+
+// ============================================================================
+// OpenGLGraphBackend tests
+// ============================================================================
+
+TEST(OpenGLGraphTest, NameAndType) {
+    OpenGLGraphBackend backend;
+    EXPECT_STREQ(backend.name(), "OpenGLGraph");
+    EXPECT_EQ(backend.type(), BackendType::OPENGL);
+}
+
+TEST(OpenGLGraphTest, IsAvailableDoesNotCrash) {
+    OpenGLGraphBackend backend;
+    (void)backend.isAvailable();
+}
+
+TEST(OpenGLGraphTest, CapabilitiesGraphOpsSet) {
+#ifdef THEMIS_ENABLE_OPENGL
+    OpenGLGraphBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    auto caps = backend.getCapabilities();
+    EXPECT_TRUE(caps.supportsGraphOps);
+    EXPECT_TRUE(caps.supportsBatchProcessing);
+    EXPECT_FALSE(caps.supportsAsync);
+    backend.shutdown();
+#endif
+}
+
+TEST(OpenGLGraphTest, InitializeSucceeds) {
+#ifdef THEMIS_ENABLE_OPENGL
+    OpenGLGraphBackend backend;
+    EXPECT_TRUE(backend.initialize());
+    EXPECT_TRUE(backend.initialize());  // idempotent
+    backend.shutdown();
+#else
+    OpenGLGraphBackend backend;
+    EXPECT_FALSE(backend.initialize());
+#endif
+}
+
+TEST(OpenGLGraphTest, ShutdownBeforeInitIsHarmless) {
+    OpenGLGraphBackend backend;
+    EXPECT_NO_THROW(backend.shutdown());
+}
+
+#ifdef THEMIS_ENABLE_OPENGL
+
+class OpenGLGraphComputeTest : public ::testing::Test {
+protected:
+    OpenGLGraphBackend backend_;
+    void SetUp()    override { ASSERT_TRUE(backend_.initialize()); }
+    void TearDown() override { backend_.shutdown(); }
+};
+
+// Adjacency matrix for a simple chain: 0→1→2→3
+static constexpr uint32_t kChainAdj4[] = {
+    0,1,0,0,
+    0,0,1,0,
+    0,0,0,1,
+    0,0,0,0,
+};
+
+// Weights for the chain (unit weights)
+static constexpr float kChainWgt4[] = {
+    0.f,1.f,0.f,0.f,
+    0.f,0.f,1.f,0.f,
+    0.f,0.f,0.f,1.f,
+    0.f,0.f,0.f,0.f,
+};
+
+TEST_F(OpenGLGraphComputeTest, BFS_ChainGraph_Depth0_StartsOnly) {
+    const uint32_t starts[] = {0u};
+    auto res = backend_.batchBFS(kChainAdj4, 4, starts, 1, 0);
+    ASSERT_EQ(res.size(), 1u);
+    // depth 0: only the start vertex
+    ASSERT_EQ(res[0].size(), 1u);
+    EXPECT_EQ(res[0][0], 0u);
+}
+
+TEST_F(OpenGLGraphComputeTest, BFS_ChainGraph_Depth2_Reachable) {
+    const uint32_t starts[] = {0u};
+    auto res = backend_.batchBFS(kChainAdj4, 4, starts, 1, 2);
+    ASSERT_EQ(res.size(), 1u);
+    // From 0 with depth 2: can reach 0,1,2
+    EXPECT_GE(res[0].size(), 1u);
+    // 0 must be in result
+    bool found0 = false;
+    for (auto v : res[0]) if (v == 0u) found0 = true;
+    EXPECT_TRUE(found0);
+}
+
+TEST_F(OpenGLGraphComputeTest, BFS_ChainGraph_FullDepth_AllReachable) {
+    const uint32_t starts[] = {0u};
+    auto res = backend_.batchBFS(kChainAdj4, 4, starts, 1, 10);
+    ASSERT_EQ(res.size(), 1u);
+    // All 4 vertices reachable
+    EXPECT_EQ(res[0].size(), 4u);
+}
+
+TEST_F(OpenGLGraphComputeTest, BFS_MultipleStarts) {
+    const uint32_t starts[] = {0u, 2u};
+    auto res = backend_.batchBFS(kChainAdj4, 4, starts, 2, 10);
+    ASSERT_EQ(res.size(), 2u);
+    // From 0: can reach all 4
+    EXPECT_EQ(res[0].size(), 4u);
+    // From 2: can reach 2 and 3
+    EXPECT_EQ(res[1].size(), 2u);
+}
+
+TEST_F(OpenGLGraphComputeTest, BFS_NullPointerReturnsEmpty) {
+    const uint32_t starts[] = {0u};
+    EXPECT_TRUE(backend_.batchBFS(nullptr, 4, starts, 1, 1).empty());
+    EXPECT_TRUE(backend_.batchBFS(kChainAdj4, 4, nullptr, 1, 1).empty());
+}
+
+TEST_F(OpenGLGraphComputeTest, BFS_ZeroVerticesReturnsEmpty) {
+    const uint32_t starts[] = {0u};
+    EXPECT_TRUE(backend_.batchBFS(kChainAdj4, 0, starts, 1, 1).empty());
+}
+
+TEST_F(OpenGLGraphComputeTest, ShortestPath_ChainGraph_DirectPath) {
+    const uint32_t starts[] = {0u};
+    const uint32_t ends[]   = {3u};
+    auto res = backend_.batchShortestPath(kChainAdj4, kChainWgt4, 4, starts, ends, 1);
+    ASSERT_EQ(res.size(), 1u);
+    // Path: 0→1→2→3
+    ASSERT_EQ(res[0].size(), 4u);
+    EXPECT_EQ(res[0][0], 0u);
+    EXPECT_EQ(res[0][3], 3u);
+}
+
+TEST_F(OpenGLGraphComputeTest, ShortestPath_SameStartEnd) {
+    const uint32_t starts[] = {2u};
+    const uint32_t ends[]   = {2u};
+    auto res = backend_.batchShortestPath(kChainAdj4, kChainWgt4, 4, starts, ends, 1);
+    ASSERT_EQ(res.size(), 1u);
+    ASSERT_GE(res[0].size(), 1u);
+    EXPECT_EQ(res[0][0], 2u);
+}
+
+TEST_F(OpenGLGraphComputeTest, ShortestPath_Unreachable_EmptyPath) {
+    // Chain 0→1→2→3: vertex 0 is NOT reachable from vertex 3 (directed)
+    const uint32_t starts[] = {3u};
+    const uint32_t ends[]   = {0u};
+    auto res = backend_.batchShortestPath(kChainAdj4, kChainWgt4, 4, starts, ends, 1);
+    ASSERT_EQ(res.size(), 1u);
+    EXPECT_TRUE(res[0].empty());  // unreachable
+}
+
+TEST_F(OpenGLGraphComputeTest, ShortestPath_NullPointerReturnsEmpty) {
+    const uint32_t starts[] = {0u}, ends[] = {3u};
+    EXPECT_TRUE(backend_.batchShortestPath(nullptr,      kChainWgt4, 4, starts, ends, 1).empty());
+    EXPECT_TRUE(backend_.batchShortestPath(kChainAdj4,   nullptr,    4, starts, ends, 1).empty());
+    EXPECT_TRUE(backend_.batchShortestPath(kChainAdj4,   kChainWgt4, 4, nullptr, ends, 1).empty());
+    EXPECT_TRUE(backend_.batchShortestPath(kChainAdj4,   kChainWgt4, 4, starts, nullptr, 1).empty());
+}
+
+TEST_F(OpenGLGraphComputeTest, ShortestPath_MultiplePairs) {
+    // Pairs: (0→3) and (1→3)
+    const uint32_t starts[] = {0u, 1u};
+    const uint32_t ends[]   = {3u, 3u};
+    auto res = backend_.batchShortestPath(kChainAdj4, kChainWgt4, 4, starts, ends, 2);
+    ASSERT_EQ(res.size(), 2u);
+    // 0→3: path length 4
+    EXPECT_EQ(res[0].size(), 4u);
+    // 1→3: path length 3
+    EXPECT_EQ(res[1].size(), 3u);
 }
 
 #endif  // THEMIS_ENABLE_OPENGL

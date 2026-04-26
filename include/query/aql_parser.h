@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_parser.h                                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:09:52                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     778                                            ║
+    • Total Lines:     776                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • da5848ffb  2026-03-10  fix: apply all 7 code review recommendations + LSN.toStri... ║
-    • a3ec4aa9e  2026-03-10  refactor: update tenant metrics handling and improve modu... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 190845ecd  2026-02-23  feat(query): implement multi-statement transaction AQL (B... ║
+    • da5848ffb4  2026-03-10  fix: apply all 7 code review recommendations + LSN.toStri... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

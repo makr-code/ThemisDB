@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            arrow_user_registration_plugin.h                   ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:10:48                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:46:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     98                                             ║
+    • Total Lines:     120                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f2b393ae5  2026-03-15  feat(security): implement Apache Arrow integration for Ar... ║
+    • f2b393ae5c  2026-03-15  feat(security): implement Apache Arrow integration for Ar... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

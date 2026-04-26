@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            shard_rpc_server.h                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:39                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     155                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -55,7 +52,7 @@ public:
         std::string listen_address;     // Address to listen on (e.g., "0.0.0.0:50051")
         
         // mTLS Configuration (optional, required for production)
-        bool enable_mtls = false;       // Enable mutual TLS authentication
+        bool enable_mtls = true;        // Enable mutual TLS authentication (default: on)
         std::string tls_cert_path;      // Path to server certificate (PEM format)
         std::string tls_key_path;       // Path to server private key (PEM format)
         std::string tls_ca_cert_path;   // Path to CA certificate for client verification (PEM format)

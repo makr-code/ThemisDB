@@ -1,5 +1,7 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Change Data Capture (CDC) Module
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · include/cdc/FUTURE_ENHANCEMENTS.md · docs/de/cdc/ -->
 
 Change Data Capture and changefeed implementation for ThemisDB.
@@ -82,3 +84,12 @@ For CDC documentation, see:
 3. Mohan, C., Haderle, D., Lindsay, B., Pirahesh, H., & Schwarz, P. (1992). **ARIES: A Transaction Recovery Method Supporting Fine-Granularity Locking and Partial Rollbacks Using Write-Ahead Logging**. *ACM Transactions on Database Systems*, 17(1), 94–162. https://doi.org/10.1145/128765.128770
 
 4. Flink Community. (2015). **Apache Flink: Stream and Batch Processing in a Single Engine**. *IEEE Data Engineering Bulletin*, 38(4), 28–38. http://sites.computer.org/debull/A15dec/p28.pdf
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/cdc/README.md`](../../include/cdc/README.md) for the public API.

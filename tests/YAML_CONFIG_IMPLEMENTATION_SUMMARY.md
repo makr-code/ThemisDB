@@ -1,3 +1,5 @@
+> ⚠️ **Historisches Dokument** – Beschreibt den Stand zum Zeitpunkt der Erstellung.
+
 # ThemisDB Test YAML Configuration - Implementation Summary
 
 ## ✅ Completed Implementation

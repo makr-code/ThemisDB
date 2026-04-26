@@ -1,6 +1,6 @@
 # Authentication-Modul
 
-**Stand:** 9. März 2026
+**Stand:** 6. April 2026
 **Version:** 2.0.0
 **Kategorie:** Auth
 
@@ -33,6 +33,14 @@ Es unterstützt alle gängigen Standards und Protokolle für moderne Sicherheits
 | Zero-Trust Verifizierung | ✅ Production | NIST SP 800-207 |
 | Session Management | ✅ Production | |
 | OIDC Provider Discovery | ✅ Production | OIDC Discovery 1.0 |
+
+---
+
+## Security Note: LDAP DN/Filter Escaping
+
+- LDAP-Benutzereingaben werden bei DN-Erstellung gemäß **RFC 4514** escaped (`buildUserDN`).
+- LDAP-Filter-Platzhalter `{dn}` und `{username}` werden gemäß **RFC 4515** escaped (`buildGroupSearchFilter`).
+- Dadurch werden DN-/Filter-Injection-Angriffe wie `*)(|(member=*))` in LDAP-Operationen verhindert.
 
 ---
 

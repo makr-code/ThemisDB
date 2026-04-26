@@ -3,19 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_shard_rpc_grpc.cpp                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:33:43                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:57:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     479                                            ║
+    • Total Lines:     478                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d8b47ec5e  2026-02-28  Code audit: fix 3 bugs in retry/circuit-breaker integration ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -41,20 +37,20 @@ public:
     bool should_vote_commit = true;
     
     bool onPrepare(
-        const std::string& transaction_id,
-        const std::string& coordinator_shard_id,
-        const std::string& transaction_data
+        [[maybe_unused]] const std::string& transaction_id,
+        [[maybe_unused]] const std::string& coordinator_shard_id,
+        [[maybe_unused]] const std::string& transaction_data
     ) override {
         prepare_count++;
         return should_vote_commit;
     }
     
-    bool onCommit(const std::string& transaction_id) override {
+    bool onCommit([[maybe_unused]] const std::string& transaction_id) override {
         commit_count++;
         return true;
     }
     
-    bool onAbort(const std::string& transaction_id) override {
+    bool onAbort([[maybe_unused]] const std::string& transaction_id) override {
         abort_count++;
         return true;
     }

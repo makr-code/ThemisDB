@@ -62,4 +62,4 @@ ThemisDB uses Argon2id in its encrypted user-storage plugin (`src/user_storage_e
 - [TLS 1.3 Cipher Hardening](tls13_cipher_hardening.md)
 
 ---
-**Last Updated:** 2026-03-24
+**Last Updated:** 2026-04-06

@@ -1,9 +1,9 @@
 # Metadata-Modul
 
-**Stand:** 10. März 2026
+**Stand:** 6. April 2026
 **Version:** v1.5.x
 **Kategorie:** Schema & Metadaten
-<!-- status: current | validated: 2026-03-10 | commit: 3c9b336dc -->
+<!-- status: current | validated: 2026-04-06 | commit: 3c9b336dc -->
 
 ---
 

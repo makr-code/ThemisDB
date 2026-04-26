@@ -1,7 +1,35 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # Metadata Module - Public API
-<!-- status: current | validated: 2026-03-10 | commit: 4c1a2dfc1 -->
+<!-- status: current | validated: 2026-04-06 | commit: 4c1a2dfc1 -->
 
 Public interface definitions for ThemisDB metadata functionality.
+
+## All Headers
+
+| Header | Purpose |
+|--------|---------|
+| `aql_schema_bridge.h` | Bridge between AQL query engine and schema metadata |
+| `catalog_exporter.h` | Publish schema metadata to Apache Atlas / DataHub |
+| `column_lineage.h` | Column-level lineage and data provenance tracking |
+| `distributed_catalog.h` | Distributed metadata catalog coordination |
+| `er_diagram_exporter.h` | Export ER diagrams from schema metadata |
+| `imetadata_change_listener.h` | Interface for schema change event listeners |
+| `imetadata_encryption_provider.h` | Interface for metadata encryption providers |
+| `imetadata_export_policy.h` | Interface for metadata export policies |
+| `imetadata_security_provider.h` | Interface for metadata security providers |
+| `index_recommender.h` | ML-based index recommendation engine |
+| `information_schema.h` | SQL information_schema compatibility layer |
+| `metadata_snapshot.h` | Point-in-time metadata snapshot |
+| `schema_audit_log.h` | Audit log for schema changes |
+| `schema_consistency_checker.h` | Cross-node schema consistency validation |
+| `schema_constraints.h` | Schema constraint definitions |
+| `schema_diff.h` | Schema diff and migration utilities |
+| `schema_manager.h` | Database schema introspection and self-awareness |
+| `schema_version_manager.h` | Schema versioning and migration management |
+| `statistics_collector.h` | Column and table statistics collection |
+
+---
 
 ## Headers
 
@@ -277,7 +305,7 @@ auto upstream = tracker.getUpstreamColumns({"users", "full_name"});
 nlohmann::json prov = tracker.getColumnProvenance({"users", "full_name"});
 ```
 
-**Thread Safety:** All public methods are thread-safe.  
+**Thread Safety:** All public methods are thread-safe.
 **Design:** Append-only — `recordDerivation()` never modifies or deletes existing entries.
 
 ---
@@ -291,5 +319,13 @@ nlohmann::json prov = tracker.getColumnProvenance({"users", "full_name"});
 
 ---
 
-*Last Updated: February 2026*  
+*Last Updated: April 2026*
 *API Version: v1.5.0*
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            audio_processor.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:07                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     899                                            ║
+    • Total Lines:     896                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • fed06bb4b  2026-02-28  fix(content/audio): propagate STT transcription metadata ... ║
-    • d947853fb  2026-02-28  feat(content): Wire STTProcessor into AudioProcessor for ... ║
-    • b64a2da5f  2026-02-23  Fix integer overflow in chunk/block size arithmetic and O... ║
-    • 24177a8bc  2026-02-22  Implement real audio metadata extraction with format-spec... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -152,7 +149,7 @@ bool AudioProcessor::canProcess(const std::string& mime_type) const {
 
 ContentExtractionResult AudioProcessor::extract(
     const std::vector<uint8_t>& blob,
-    const std::string& mime_type,
+    const std::string& /*mime_type*/,
     const ExtractionOptions& options
 ) {
     auto start = std::chrono::steady_clock::now();
@@ -277,7 +274,7 @@ ContentExtractionResult AudioProcessor::extract(
 std::vector<ContentChunk> AudioProcessor::chunk(
     const ContentExtractionResult& result,
     int max_tokens,
-    int overlap
+    int /*overlap*/
 ) {
     std::vector<ContentChunk> chunks;
     
@@ -868,7 +865,7 @@ json AudioProcessor::extractTags(const std::vector<uint8_t>& blob) {
     return tags;
 }
 
-std::vector<float> AudioProcessor::extractWaveform(const std::vector<uint8_t>& blob) {
+std::vector<float> AudioProcessor::extractWaveform(const std::vector<uint8_t>& /*blob*/) {
     std::vector<float> waveform;
     waveform.reserve(waveform_samples_);
     

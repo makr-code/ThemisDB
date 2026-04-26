@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            key_rotation_scheduler.hpp                         ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:12:54                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:47:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     185                                            ║
+    • Total Lines:     159                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8e5567bf5  2026-03-24  feat(user_storage_encrypted): v0.1.0 stdin key delivery, ... ║
-    • 256e7651d  2026-03-24  Changes before error encountered         ║
-    • 9ab72c508  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
-    • acdb250db  2026-03-12  feat: migrate plugins to src/include with CMake switches ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d8ee6d7cfe  2026-04-15  fix(user_storage_encrypted): repair broken merge artifact... ║
+    • 8e5567bf5e  2026-03-24  feat(user_storage_encrypted): v0.1.0 stdin key delivery, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -36,32 +33,6 @@
 namespace themis {
 namespace plugins {
 namespace user_storage {
-
-/**
- * @brief Minimal key-value persistence interface for rotation state.
- *
- * Allows any backend (RocksDB, in-memory, file-based) to persist rotation
- * state without coupling the scheduler to a specific storage implementation.
- * Use makeRocksDBRotationStore() to create a RocksDB-backed instance.
- */
-class IRotationStore {
-public:
-    virtual ~IRotationStore() = default;
-
-    /**
-     * @brief Read a value by key.
-     * @param key  Storage key
-     * @param out  Value (set only when true is returned)
-     * @return     true if the key existed
-     */
-    virtual bool get(const std::string& key, std::string& out) const = 0;
-
-    /**
-     * @brief Write a key-value pair.
-     * @return true on success
-     */
-    virtual bool put(const std::string& key, const std::string& value) = 0;
-};
 
 /**
  * @brief Key rotation scheduler for automatic key rotation

@@ -1,11 +1,13 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Network Module Roadmap
 
-<!-- Status: current | validated: 2026-03-21 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · docs/de/network/README.md -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-v1.8.0 – Production-grade networking layer. All transport paths (TCP, WebSocket, UDP fast-path, UDP ingestion, QUIC/HTTP3, gRPC), wire protocol optimizations (batch writes, zero-copy, dictionary compression), and Raft-coordinated load balancing are fully implemented. Note: `RaftLoadBalancer` simulates Raft consensus in-process; full distributed multi-node Raft is planned for a future milestone.
+v2.0.0 – Production-grade networking layer. All transport paths (TCP, WebSocket, UDP fast-path, UDP ingestion, QUIC binary wire protocol, QUIC HTTP/3 server, gRPC), wire protocol optimizations (batch writes, zero-copy, dictionary compression), and Raft-coordinated load balancing are fully implemented. Note: `RaftLoadBalancer` simulates Raft consensus in-process; full distributed multi-node Raft is planned for a future milestone.
 
 ## Completed ✅
 - [x] WireProtocolServer – high-performance binary TCP server (port 8766)
@@ -88,8 +90,21 @@ v1.8.0 – Production-grade networking layer. All transport paths (TCP, WebSocke
   - Cross-datacenter preference: routes to local datacenter first, falls back to remote on failure
   - `Stats`: `total_requests`, `total_failures`, `failover_events`, `rebalance_events`
   - Unit tests in `tests/test_raft_load_balancer.cpp` (`RaftLoadBalancerTest`, 26 tests)
+- [x] **io_uring batched sender** — `IoUringBatchedSender` in `io_uring_batcher.h/cpp` (Issue: #4581) (2026-04-12)
+  - Single `io_uring_enter()` syscall for N concurrent `WireProtocolBatcher` flushes (`IORING_OP_WRITEV` SQEs)
+  - CQE reap + per-operation error reporting; transparent `writev(2)` fallback when io_uring unavailable
+  - Guarded by `THEMIS_ENABLE_IO_URING`; no ABI change to `WireProtocolBatcher`
+  - 12 focused tests (IUB-01…IUB-12) in `tests/test_io_uring_batcher.cpp`
+- [x] **Kernel Bypass (DPDK / io_uring)** — `DPDKServer` + `IoUringServer` + `CpuPinner` + `NumaAllocator` + `ZeroCopyDmaBuffer` in `kernel_bypass.h/cpp` (Issue: #227, v1.9.0) (2026-04-13)
+  - `DPDKServer`: DPDK EAL integration for 10G/40G/100G NICs; configurable RX/TX queue count, RSS, HW checksum, jumbo frames; huge-page mbuf pool; per-lcore poll loop; guarded by `THEMIS_ENABLE_DPDK`; port 8772 default
+  - `IoUringServer`: io_uring SQPOLL server; `IORING_SETUP_SQPOLL` + `IORING_SETUP_SQ_AFF`; fixed-buffer registration for zero-copy sends (`IORING_REGISTER_BUFFERS`); multi-worker CQE drain; guarded by `THEMIS_ENABLE_IO_URING` + Linux; port 8773 default
+  - `CpuPinner`: `pinCallerToCore()` / `pinThreadToCore()` via `sched_setaffinity` / `pthread_setaffinity_np`; `numaNodeForCore()` via sysfs; `coresOnNuma()` for NUMA topology queries
+  - `NumaAllocator`: NUMA-local allocation via `libnuma` when available (`THEMIS_ENABLE_NUMA`); fallback to `posix_memalign` with 64-byte alignment
+  - `ZeroCopyDmaBuffer`: huge-page-backed (`MAP_HUGETLB`) DMA buffer; `mbind()` NUMA binding; move-only semantics
+  - Performance targets: DPDK 1–10 µs / 100 Gbps; io_uring 10–50 µs / 10 Gbps
+  - 40 focused tests (KBP-01…KBP-40) in `tests/test_kernel_bypass.cpp`
 
-## In Progress 🚧
+## Completed (additional items) ✅
 - [x] UDP-based fast-path for read-only queries (Target: Q3 2026) (Issue: #1962) (PR: #3098)
   - UDP socket on port 8769 (dedicated, separate from TCP wire protocol port 8766)
   - Read-only opcodes only: GET, QUERY_AQL, VECTOR_SEARCH, PING
@@ -107,6 +122,17 @@ v1.8.0 – Production-grade networking layer. All transport paths (TCP, WebSocke
   - Per-connection rate tracking; `QuicTransport::Stats` for Prometheus integration
   - Guarded by `THEMIS_ENABLE_HTTP3`; requires ngtcp2 + OpenSSL
   - `Http3Session::doRead()` and `Http3Session::onRead()` stubs resolved (server module)
+- [x] **QUIC Protocol Support (HTTP/3)** — `QUICServer` + `QUICClient` in `quic_server.h/cpp` (Issue: #226, v2.0.0) (2026-04-13)
+  - `QUICServer`: high-level QUIC/HTTP/3 server; port 8769 default; ALPN "h3" + "tmdb"; UDP + TLS 1.3
+  - 0-RTT connection establishment: `enable_0rtt=true`; `zero_rtt_accepted` / `zero_rtt_rejected` stats
+  - Configurable congestion control: BBR (default) or Cubic; validated by `isValidCongestionControl()`
+  - Multiple concurrent bidirectional streams per connection: `max_streams_per_connection` (default 100)
+  - Connection migration: `migrations` counter tracks IP-change events (Wi-Fi → cellular)
+  - Built-in encryption: plain QUIC not supported; TLS 1.3 mandatory; `isValidPort()` guards reserved ports
+  - `QUICClient`: `parseUrl("quic://host:port")` URL scheme; `openStream()` returns independent Stream objects
+  - `QUICClient::Stream`: `send()` / `receive()` / `close()` / `isOpen()` / `streamId()` interface
+  - Guarded by `THEMIS_ENABLE_HTTP3`; uses ngtcp2 + OpenSSL (same as `QuicTransport`)
+  - 35 focused tests (QS-01…QS-35) in `tests/test_quic_server.cpp`; CMake target: `test_quic_server_focused`
 
 ## Planned Features 📋
 
@@ -181,8 +207,16 @@ v1.8.0 – Production-grade networking layer. All transport paths (TCP, WebSocke
   - HELLO: server info + capabilities response
   - AUTH_REQUEST: token validation, `authenticated_.store(true)`, stats.auth_failures accounting
   - GET/PUT/DELETE: RocksDB dispatch with collection-prefixed keys
-  - QUERY_AQL / GEO_QUERY: structured error with HTTP REST API redirect hint
-  - VECTOR_SEARCH: `VectorIndexManager::searchKnn()` dispatch
+  - QUERY_AQL: `QueryEngine::executeAql()` when engine wired; `AQL_NOT_INTEGRATED` redirect otherwise (2026-04-20)
+  - GRAPH_TRAVERSE: `QueryEngine::executeGeneralTraversal()` when engine wired; `GRAPH_NOT_INTEGRATED` redirect otherwise (2026-04-20)
+  - CURSOR_NEXT / CURSOR_CLOSE: TTL-based `CursorEntry` registry; 404/410 error handling (2026-04-20)
+  - BATCH_GET: `multiGet()` instead of O(N) loop (B2, 2026-04-20); dispatched to worker_pool_ (2026-04-20)
+  - BATCH_PUT: `putBatch()` for atomic N-key WriteBatch commit (B3-wire, 2026-04-20); dispatched to worker_pool_ (2026-04-20)
+  - VECTOR_SEARCH: `VectorIndexManager::searchKnn()` dispatch; dispatched to worker_pool_ (2026-04-20)
+  - GEO_QUERY / TIMESERIES_QUERY: structured error; dispatched to worker_pool_ (2026-04-20)
+- [x] QueryEngine DI: optional 9th ctor param `std::shared_ptr<QueryEngine>` (default nullptr); backward-compatible (2026-04-20)
+- [x] `asyncWriteResponse()` uses `net::dispatch` for socket-thread safety from worker threads (B1, 2026-04-20)
+- [x] `dispatchToWorkerPool()` helper on Session — offloads CPU-heavy handlers off the I/O thread (2026-04-20)
 - [x] Authentication wired: `authenticated_` flag correctly set after successful AUTH (2026-03-10)
 - [x] `Config::auth_token` field added for pre-shared token validation (2026-03-10)
 - [x] Focused standalone test targets added for network components in `tests/CMakeLists.txt` (2026-03-10):
@@ -199,6 +233,10 @@ v1.8.0 – Production-grade networking layer. All transport paths (TCP, WebSocke
 - [x] `getActiveConnections()` counts both binary and WebSocket sessions
 - [x] Binary/text frame mode correctly tracked per queued message
 - [x] Welcome frame sent on connect; graceful close handling
+- [x] Unit tests added for data-flow Phase 1–5 (`test_wire_protocol_dataflow.cpp`, 15 tests, 2026-04-20)
+  - WPD-01..10: QueryEngine DI, CursorEntry struct, BATCH_GET/BATCH_PUT response shapes,
+    cursor-next/close contracts, dispatched-opcode constants (WireProtocolDataflowFocusedTests)
+  - KB-01..05: RocksDBWrapper::KeyValuePair struct + putBatch() declaration
 - [x] V2 multiplexed protocol fully implemented (`wire_protocol_v2.cpp`)
   - Frame types: DATA, HEADERS, RST_STREAM, SETTINGS, PING, GOAWAY, WINDOW_UPDATE, PUSH_PROMISE
   - Stream state machine: IDLE → OPEN → HALF_CLOSED_{LOCAL,REMOTE} → CLOSED
@@ -211,6 +249,15 @@ v1.8.0 – Production-grade networking layer. All transport paths (TCP, WebSocke
 - [x] Unit tests added for QUIC transport (`test_quic_transport.cpp`, 17 tests)
   - Config defaults, port validation, stats initialisation, protocol constants, isRunning state
 - [x] QUIC/HTTP3 stub resolved (`Http3Session::doRead()`, `Http3Session::onRead()`)
+- [x] Unit tests added for QUIC Protocol Support (`test_quic_server.cpp`, 35 tests, 2026-04-13)
+  - QUICServer config defaults (port 8769, max_streams=100, enable_0rtt=true, cc="bbr")
+  - Port validation (isValidPort): rejects 0/80/443/8766/8770..8774; accepts 8769/8775/9000
+  - Congestion control validation (isValidCongestionControl): bbr/cubic/case-insensitive; rejects unknown
+  - Protocol constants: kQuicServerDefaultPort=8769, kQuicServerVersion1=0x1, kQuicServerAlpn="h3"
+  - Stats initialisation: all 12 counters start at zero; zero_rtt_accepted, zero_rtt_rejected, migrations
+  - isRunning() state: false before start()
+  - QUICClient config defaults (connect_timeout=5s, enable_0rtt=true, verify_tls=true, cc="bbr")
+  - QUICClient::parseUrl: valid scheme/host/port; invalid scheme/empty/missing port rejected
 - [x] Unit tests added for gRPC native transport (`test_grpc_transport.cpp`, 16 tests)
   - Config defaults, TLS flags, port validation (incl. conflict with 50051), stats, address format, isRunning state
 - [x] Unit tests added for geo topology router (`test_geo_topology_router.cpp`, 26 tests)
@@ -242,8 +289,12 @@ v1.8.0 – Production-grade networking layer. All transport paths (TCP, WebSocke
 ## Known Issues & Limitations
 - Wire Protocol V1 opcode handlers (HELLO, AUTH, GET, PUT, DELETE) are fully implemented
   (resolved 2026-03-10, see `NETWORK-MISSING-001`/`NETWORK-MISSING-002`).
-  QUERY_AQL and GEO_QUERY return structured errors directing clients to the HTTP REST API;
+  QUERY_AQL dispatches to `QueryEngine::executeAql()` when engine is injected (2026-04-20);
+  returns `AQL_NOT_INTEGRATED` redirect if no engine is wired (backward-compatible).
+  GRAPH_TRAVERSE dispatches to `QueryEngine::executeGeneralTraversal()` when engine is
+  injected; returns `GRAPH_NOT_INTEGRATED` redirect otherwise (2026-04-20).
   VECTOR_SEARCH dispatches to `VectorIndexManager::searchKnn`.
+  GEO_QUERY returns structured error directing clients to the HTTP REST API.
 - `grpc_transport.cpp` was missing from `cmake/CMakeLists.txt` (fixed: 2026-03-09).
 - `envoy_xds.cpp`, `service_mesh.cpp`, `socket_timeout_manager.cpp`, `udp_fast_path.cpp`, `wire_protocol_server_ws.cpp` were missing from `cmake/ModularBuild.cmake` (fixed: 2026-03-10).
 - WebSocket upgrade support is implemented; binary frames over WebSocket are not yet
@@ -257,6 +308,8 @@ v1.8.0 – Production-grade networking layer. All transport paths (TCP, WebSocke
   Guarded by `THEMIS_ENABLE_SERVICE_MESH`.
 - `RaftLoadBalancer` simulates Raft consensus in-process (leader election + follower replication
   without real network RPC); full distributed multi-node Raft is planned for a future milestone.
+- `dispatchToWorkerPool()`: under aggressive request pipelining a per-session `net::strand`
+  is needed to fully serialize `payload_buffer_` access. Tracked for Q3 2026 refactor.
 
 ## Breaking Changes
 - Wire protocol frame format is versioned; v2 frame format planned with extended metadata fields.
@@ -267,3 +320,15 @@ v1.8.0 – Production-grade networking layer. All transport paths (TCP, WebSocke
   remains IPv4 "0.0.0.0").
 - `WireProtocolServer::Config` gained new field `tcp_backlog` (default: 128); existing
   deployments are unaffected as 128 matches the previous implicit OS default.
+- `WireProtocolServer` ctor gained optional 9th parameter `std::shared_ptr<QueryEngine>` (default
+  `nullptr`); existing callers do not need to change (2026-04-20).
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `AdaptiveCircuitBreaker` – Circuit-Breaker mit adaptiver Schwellwert-Anpassung; nur im CB-Test geprüft
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+

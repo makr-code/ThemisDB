@@ -1,10 +1,12 @@
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
 # LLM Module — Architecture Guide
 
-<!-- Status: current | validated: 2026-03-21 | Primary: src/llm/ | Secondary: docs/de/llm/ -->
+<!-- Status: current | validated: 2026-04-06 | Primary: src/llm/ | Secondary: docs/de/llm/ -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../docs/de/llm/README.md -->
 
-**Version:** 1.2  
-**Last Updated:** 2026-03-21  
+**Version:** 1.2
+**Last Updated:** 2026-04-06
 **Module Path:** `src/llm/`
 
 ---
@@ -230,6 +232,7 @@ New request with prompt "System: You are a helpful assistant. User: ..."
 - LoRA security validator (`lora_security_validator.cpp`) checks adapters before loading.
 - Token quota manager prevents abuse by limiting per-tenant token consumption.
 - Vision inputs are sanitized to prevent adversarial inputs.
+- `vram_secure_clear.cpp` (in `src/security/`) performs explicit VRAM zeroing on model unload to prevent cross-model data leakage; called unconditionally on model swap including error paths.
 
 ---
 

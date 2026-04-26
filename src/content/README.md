@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Content Module
 
 Content management, ingestion, and processing implementation for ThemisDB.
@@ -10,7 +12,7 @@ Provides multi-format content ingestion and processing for ThemisDB, handling JS
 
 **In scope:** Multi-format content ingestion (JSON, images, documents), MIME type detection, text extraction and processing, image metadata extraction, geospatial data processing, zstd compression.
 
-**Out of scope:** Full-text indexing (handled by search module), vector embedding generation (handled by LLM/RAG modules), legacy Office formats (DOC/XLS/PPT via LibreOffice headless — planned).
+**Out of scope:** Full-text indexing (handled by search module), legacy Office formats (DOC/XLS/PPT via LibreOffice headless — implemented as CON-001 fallback).
 
 ## Relevant Interfaces
 
@@ -62,3 +64,12 @@ For content documentation, see:
 3. Dublin Core Metadata Initiative. (2012). **DCMI Metadata Terms**. DCMI Recommendation. https://www.dublincore.org/specifications/dublin-core/dcmi-terms/
 
 4. W3C. (2013). **PROV-O: The PROV Ontology**. W3C Recommendation. https://www.w3.org/TR/prov-o/
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/content/README.md`](../../include/content/README.md) for the public API.

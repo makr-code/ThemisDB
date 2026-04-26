@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_error.cpp                                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:14:10                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     602                                            ║
+    • Total Lines:     598                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c20bbb0ac  2026-03-13  fix(auth): address PR review comments on SAML assertion e... ║
-    • c613ea7a9  2026-03-04  Refactor error masking and enhance archive processor vali... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e18972c32  2026-02-24  fix(auth): resolve PASSWORD_POLICY_VIOLATION enum collisi... ║
-    • ad8c8cf55  2026-02-23  feat(auth): implement API key authentication (static key ... ║
+    • c20bbb0ace  2026-03-13  fix(auth): address PR review comments on SAML assertion e... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

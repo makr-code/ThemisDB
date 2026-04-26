@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            agentic_rag.cpp                                    ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:18:43                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:50:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     377                                            ║
+    • Total Lines:     375                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 141136c01  2026-02-24  audit(rag): fix dead code, unused include, wrong metadata... ║
-    • 7845f6477  2026-02-24  feat(rag): Agentic RAG with iterative retrieval loops (Ph... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -188,12 +183,15 @@ AgenticRAGResult AgenticRAG::run(
 
     const auto loop_start = std::chrono::steady_clock::now();
 
-    THEMIS_INFO("AgenticRAG::run started: query='{}', initial_docs={}, max_iter={}",
-                initial_query, initial_docs.size(), impl_->config.max_iterations);
+    THEMIS_INFO("AgenticRAG::run started: query='{}', initial_docs={}, max_iter={}, "
+                "max_session_tokens={}",
+                initial_query, initial_docs.size(), impl_->config.max_iterations,
+                impl_->config.max_session_tokens);
 
     AgenticRAGResult result;
-    result.stop_reason    = StopReason::MAX_ITERATIONS;
+    result.stop_reason       = StopReason::MAX_ITERATIONS;
     result.quality_satisfied = false;
+    result.tokens_consumed   = 0;
 
     // Accumulated document pool and seen-ID tracker.
     std::vector<judge::RetrievedDocument> accumulated;
@@ -210,6 +208,55 @@ AgenticRAGResult AgenticRAG::run(
             result.stop_reason = StopReason::CANCELLED;
             break;
         }
+
+        // ── Session token-budget check (Gap 4) ────────────────────────────
+        // Best-effort token accounting: estimate the tokens that will be
+        // consumed by this iteration as 1 token per 4 characters of document
+        // content (a conservative approximation).  Full integration with
+        // LLMTokenBudgetManager (Gap 6) will replace this heuristic once that
+        // component is available (see rag/FUTURE_ENHANCEMENTS.md §Gap 4).
+        if (impl_->config.max_session_tokens > 0) {
+            // Overflow-safe token estimation: cap each document's contribution at
+            // max_session_tokens to prevent size_t overflow on pathologically large
+            // document content, then clamp the running total to max_session_tokens+1
+            // (one above the limit) before comparing.
+            const size_t budget = impl_->config.max_session_tokens;
+            size_t iter_token_estimate = 0;
+            const auto& eval_docs =
+                impl_->config.accumulate_documents ? accumulated : initial_docs;
+            for (const auto& doc : eval_docs) {
+                // Per-document estimate: 1 token per 4 chars + 1; capped at budget.
+                const size_t doc_est = std::min(doc.content.size() / 4 + 1, budget);
+                // Saturating add: if already over budget, stop accumulating.
+                iter_token_estimate = (iter_token_estimate >= budget - doc_est)
+                                      ? budget + 1
+                                      : iter_token_estimate + doc_est;
+                if (iter_token_estimate > budget) break; // early-out
+            }
+            if (iter_token_estimate <= budget) {
+                // Also account for the query prompt itself.
+                const size_t q_est = std::min(current_query.size() / 4 + 1, budget);
+                iter_token_estimate = (iter_token_estimate >= budget - q_est)
+                                      ? budget + 1
+                                      : iter_token_estimate + q_est;
+            }
+
+            // Saturating add for accumulated tokens.
+            const size_t new_total = (result.tokens_consumed >= budget - iter_token_estimate ||
+                                      iter_token_estimate > budget)
+                                     ? budget + 1
+                                     : result.tokens_consumed + iter_token_estimate;
+
+            if (new_total > budget) {
+                THEMIS_WARN("AgenticRAG session token budget exceeded at iteration {}: "
+                            "consumed={}, estimate={}, limit={}",
+                            iter, result.tokens_consumed, iter_token_estimate, budget);
+                result.stop_reason = StopReason::BUDGET_EXCEEDED;
+                break;
+            }
+            result.tokens_consumed = new_total;
+        }
+        // ─────────────────────────────────────────────────────────────────
 
         const auto iter_start = std::chrono::steady_clock::now();
 
@@ -327,10 +374,11 @@ AgenticRAGResult AgenticRAG::run(
         loop_end - loop_start);
 
     THEMIS_INFO("AgenticRAG::run complete: iterations={}, stop_reason={}, "
-                "quality_satisfied={}, elapsed={}ms",
+                "quality_satisfied={}, tokens_consumed={}, elapsed={}ms",
                 result.total_iterations,
                 static_cast<int>(result.stop_reason),
                 result.quality_satisfied,
+                result.tokens_consumed,
                 result.total_elapsed_ms.count());
 
     return result;

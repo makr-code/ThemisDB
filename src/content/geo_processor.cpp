@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            geo_processor.cpp                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:09                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     923                                            ║
+    • Total Lines:     924                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -268,8 +269,8 @@ ContentExtractionResult GeoProcessor::extract(
 
 std::vector<ContentChunk> GeoProcessor::chunk(
     const ContentExtractionResult& result,
-    int max_tokens,
-    int overlap
+    int /*max_tokens*/,
+    int /*overlap*/
 ) {
     std::vector<ContentChunk> chunks;
     
@@ -407,7 +408,7 @@ static void parseCoordinates(const json& coords, GeoExtractionData& data) {
     }
 }
 
-GeoExtractionData GeoProcessor::parseKML(const std::vector<uint8_t>& blob) {
+GeoExtractionData GeoProcessor::parseKML(const std::vector<uint8_t>& /*blob*/) {
     GeoExtractionData data;
     data.crs = "EPSG:4326";  // KML is always WGS84
     data.geometry_type = "Mixed";
@@ -418,7 +419,7 @@ GeoExtractionData GeoProcessor::parseKML(const std::vector<uint8_t>& blob) {
     return data;
 }
 
-GeoExtractionData GeoProcessor::parseGPX(const std::vector<uint8_t>& blob) {
+GeoExtractionData GeoProcessor::parseGPX(const std::vector<uint8_t>& /*blob*/) {
     GeoExtractionData data;
     data.crs = "EPSG:4326";  // GPX is always WGS84
     data.geometry_type = "Track";
@@ -428,7 +429,7 @@ GeoExtractionData GeoProcessor::parseGPX(const std::vector<uint8_t>& blob) {
     return data;
 }
 
-GeoExtractionData GeoProcessor::parseShapefile(const std::vector<uint8_t>& blob, const ExtractionOptions& options) {
+GeoExtractionData GeoProcessor::parseShapefile([[maybe_unused]] const std::vector<uint8_t>& blob, [[maybe_unused]] const ExtractionOptions& options) {
     GeoExtractionData data;
     data.crs = default_crs_;
     
@@ -607,7 +608,7 @@ GeoExtractionData GeoProcessor::parseShapefile(const std::vector<uint8_t>& blob,
     return data;
 }
 
-GeoExtractionData GeoProcessor::parseGeoPackage(const std::vector<uint8_t>& blob, const ExtractionOptions& options) {
+GeoExtractionData GeoProcessor::parseGeoPackage([[maybe_unused]] const std::vector<uint8_t>& blob, [[maybe_unused]] const ExtractionOptions& options) {
     GeoExtractionData data;
     data.crs = default_crs_;
     
@@ -702,7 +703,7 @@ GeoExtractionData GeoProcessor::parseGeoPackage(const std::vector<uint8_t>& blob
 }
 
 // Helper function for GeoTIFF processing
-GeoExtractionData GeoProcessor::parseGeoTIFF(const std::vector<uint8_t>& blob) {
+GeoExtractionData GeoProcessor::parseGeoTIFF([[maybe_unused]] const std::vector<uint8_t>& blob) {
     GeoExtractionData data;
     data.crs = default_crs_;
     data.geometry_type = "Raster";

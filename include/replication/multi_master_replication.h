@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_master_replication.h                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:10:30                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     538                                            ║
+    • Total Lines:     534                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a0483324b  2026-03-01  feat(crdt): add FLAG_EW and FLAG_DW CRDT types to replica... ║
-    • ec097b836  2026-02-25  fix(crdt): code audit - fix header metadata (Stubs:1→0), ... ║
-    • cbf19161d  2026-02-25  feat(replication): expand CRDT library with TWO_P_SET and... ║
-    • 1f19586bc  2026-02-22  Implement getTopologySnapshot for MultiMasterReplicationM... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -44,6 +37,7 @@
 
 #pragma once
 
+#include <sstream>
 #include <string>
 #include <vector>
 #include <map>
@@ -146,10 +140,22 @@ public:
         uint64_t physical;  // Physical time (milliseconds since epoch)
         uint32_t logical;   // Logical counter
         std::string node_id;
-        
-        bool operator<(const Timestamp& other) const;
-        bool operator==(const Timestamp& other) const;
-        std::string toString() const;
+
+        bool operator<(const Timestamp& other) const {
+            if (physical != other.physical) return physical < other.physical;
+            if (logical  != other.logical)  return logical  < other.logical;
+            return node_id < other.node_id;
+        }
+        bool operator==(const Timestamp& other) const {
+            return physical == other.physical &&
+                   logical  == other.logical  &&
+                   node_id  == other.node_id;
+        }
+        std::string toString() const {
+            std::ostringstream oss;
+            oss << "HLC(" << physical << "," << logical << "," << node_id << ")";
+            return oss.str();
+        }
     };
     
     explicit HybridLogicalClock(const std::string& node_id);

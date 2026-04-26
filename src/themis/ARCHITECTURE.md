@@ -1,7 +1,9 @@
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
 # Themis Module — Architecture Guide
 
-**Version:** 1.0  
-**Last Updated:** 2026-02-24  
+**Version:** 1.0
+**Last Updated:** 2026-04-06
 **Module Path:** `src/themis/`
 
 ---
@@ -168,7 +170,7 @@ module_dependency_resolver: build dependency graph
 
 - Full modularization (`ThemisDB` main class, `QueryRouter`, `LifecycleManager`) is
   planned for v1.7.0+.
-- Currently much logic lives in `src/server/server.cpp` and `src/core/`.
+- Currently much logic lives in `src/server/http_server.cpp` and `src/core/`.
 - Hot-reload of individual modules (without restart) is planned.
 
 ---

@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            blob_backend_gcs.cpp                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:20:26                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     273                                            ║
+    • Total Lines:     267                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • edcfeb984  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-    • e561df7fd  2026-03-09  fix(storage): address second code review - read validatio... ║
-    • bea3655f5  2026-03-09  fix(storage): address code review comments - path travers... ║
-    • 492304352  2026-03-09  feat(storage): add GCS blob backend, tiered storage, and ... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -114,8 +112,8 @@ std::string GCSBlobBackend::objectName(const std::string& blob_id) const {
 // ─────────────────────────────────────────────────────────────────────────────
 // IBlobStorageBackend interface
 // ─────────────────────────────────────────────────────────────────────────────
-Result<BlobRef> GCSBlobBackend::put(const std::string& blob_id,
-                                    const std::vector<uint8_t>& data) {
+Result<BlobRef> GCSBlobBackend::put([[maybe_unused]] const std::string& blob_id,
+                                    [[maybe_unused]] const std::vector<uint8_t>& data) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     if (!impl_->available) {
@@ -149,13 +147,12 @@ Result<BlobRef> GCSBlobBackend::put(const std::string& blob_id,
     THEMIS_DEBUG("GCS blob stored: id={}, size={} bytes", blob_id, data.size());
     return Ok(ref);
 #else
-    (void)blob_id; (void)data;
     return Err<BlobRef>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
                         "GCS support not compiled in");
 #endif
 }
 
-Result<std::vector<uint8_t>> GCSBlobBackend::get(const BlobRef& ref) {
+Result<std::vector<uint8_t>> GCSBlobBackend::get([[maybe_unused]] const BlobRef& ref) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     if (!impl_->available) {
@@ -211,13 +208,12 @@ Result<std::vector<uint8_t>> GCSBlobBackend::get(const BlobRef& ref) {
     THEMIS_DEBUG("GCS blob retrieved: id={}, size={} bytes", ref.id, data.size());
     return Ok(std::move(data));
 #else
-    (void)ref;
     return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
                                      "GCS support not compiled in");
 #endif
 }
 
-Result<void> GCSBlobBackend::remove(const BlobRef& ref) {
+Result<void> GCSBlobBackend::remove([[maybe_unused]] const BlobRef& ref) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     if (!impl_->available) {
@@ -238,13 +234,12 @@ Result<void> GCSBlobBackend::remove(const BlobRef& ref) {
     THEMIS_DEBUG("GCS blob deleted: id={}", ref.id);
     return OkVoid();
 #else
-    (void)ref;
     return Err<void>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
                      "GCS support not compiled in");
 #endif
 }
 
-bool GCSBlobBackend::exists(const BlobRef& ref) {
+bool GCSBlobBackend::exists([[maybe_unused]] const BlobRef& ref) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     if (!impl_->available) {
@@ -256,7 +251,6 @@ bool GCSBlobBackend::exists(const BlobRef& ref) {
     auto metadata = impl_->client->GetObjectMetadata(impl_->bucket, obj);
     return metadata.ok();
 #else
-    (void)ref;
     return false;
 #endif
 }

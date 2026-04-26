@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            global_transaction_manager.h                       ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:12:34                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:47:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     382                                            ║
+    • Total Lines:     379                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 39ac8c3ef  2026-03-20  Split default-arg constructors into overloads ║
-    • 0f5ac9ce5  2026-03-10  feat(transaction): register 4 missing focused test target... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d928a3fdd  2026-03-01  feat(transaction): Add GlobalTransactionManager for multi... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -52,8 +50,7 @@
 //   A single GlobalTransaction handle must only be used from one thread
 //   at a time.
 
-#ifndef THEMISDB_TRANSACTION_GLOBAL_TRANSACTION_MANAGER_H
-#define THEMISDB_TRANSACTION_GLOBAL_TRANSACTION_MANAGER_H
+#pragma once
 
 #include "sharding/truetime.h"
 #include "sharding/wal_manager.h"
@@ -379,5 +376,3 @@ private:
 };
 
 } // namespace themis::transaction
-
-#endif // THEMISDB_TRANSACTION_GLOBAL_TRANSACTION_MANAGER_H

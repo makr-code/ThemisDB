@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lr_scheduler.cpp                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:17:06                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     422                                            ║
+    • Total Lines:     423                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -70,7 +71,7 @@ float CosineAnnealingLR::get_lr(int step) const {
     }
     
     float progress = static_cast<float>(step) / static_cast<float>(total_steps_);
-    float cosine_decay = 0.5f * (1.0f + std::cos(M_PI * progress));
+    float cosine_decay = 0.5f * (1.0f + static_cast<float>(std::cos(M_PI * progress)));
     return min_lr_ + (max_lr_ - min_lr_) * cosine_decay;
 }
 
@@ -97,8 +98,8 @@ float CosineAnnealingWarmRestartsLR::get_lr(int step) const {
     // Progress within current cycle
     int step_in_cycle = step % period_;
     float progress = static_cast<float>(step_in_cycle) / static_cast<float>(period_);
-    float cosine_decay = 0.5f * (1.0f + std::cos(M_PI * progress));
-    
+    float cosine_decay = 0.5f * (1.0f + static_cast<float>(std::cos(M_PI * progress)));
+
     return min_lr_ + (max_lr_ - min_lr_) * cosine_decay;
 }
 
@@ -107,7 +108,7 @@ LRSchedulerConfig CosineAnnealingWarmRestartsLR::config() const {
     cfg.type = SchedulerType::COSINE_WITH_RESTARTS;
     cfg.max_lr = max_lr_;
     cfg.min_lr = min_lr_;
-    cfg.step_size = period_;
+    cfg.step_size = static_cast<float>(period_);
     cfg.num_cycles = num_cycles_;
     return cfg;
 }
@@ -142,14 +143,14 @@ LRSchedulerConfig PolynomialLR::config() const {
 
 float StepLR::get_lr(int step) const {
     int num_steps = step / step_size_;
-    return initial_lr_ * std::pow(safe_double_to_float(gamma_, true), num_steps);
+    return static_cast<float>(initial_lr_ * std::pow(safe_double_to_float(gamma_, true), num_steps));
 }
 
 LRSchedulerConfig StepLR::config() const {
     LRSchedulerConfig cfg;
     cfg.type = SchedulerType::STEP;
     cfg.base_lr = initial_lr_;
-    cfg.step_size = step_size_;
+    cfg.step_size = static_cast<float>(step_size_);
     cfg.gamma = gamma_;
     return cfg;
 }
@@ -159,7 +160,7 @@ LRSchedulerConfig StepLR::config() const {
 // ============================================================================
 
 float ExponentialLR::get_lr(int step) const {
-    return initial_lr_ * std::pow(safe_double_to_float(gamma_, true), step);
+    return static_cast<float>(initial_lr_ * std::pow(safe_double_to_float(gamma_, true), step));
 }
 
 LRSchedulerConfig ExponentialLR::config() const {
@@ -212,7 +213,7 @@ float WarmupCosineLR::get_lr(int step) const {
     }
     
     float progress = static_cast<float>(adjusted_step) / static_cast<float>(adjusted_total);
-    float cosine_decay = 0.5f * (1.0f + std::cos(M_PI * progress));
+    float cosine_decay = 0.5f * (1.0f + static_cast<float>(std::cos(M_PI * progress)));
     return min_lr_ + (max_lr_ - min_lr_) * cosine_decay;
 }
 
@@ -312,7 +313,7 @@ float OneCycleLR::get_lr(int step) const {
 
     float progress = static_cast<float>(decay_step) / static_cast<float>(decay_steps);
     float min_lr = max_lr_ / final_div_factor_;
-    float cosine_decay = 0.5f * (1.0f + std::cos(M_PI * progress));
+    float cosine_decay = 0.5f * (1.0f + static_cast<float>(std::cos(M_PI * progress)));
     return min_lr + (max_lr_ - min_lr) * cosine_decay;
 }
 

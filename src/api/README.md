@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB API Module
 
 ## Module Purpose
@@ -169,3 +171,7 @@ The gRPC `StreamAQL` RPC and GraphQL resolvers delegate to `aql::LLMAQLHandler` 
 4. Hartig, O., & Pérez, J. (2018). **Semantics and Complexity of GraphQL**. *Proceedings of the 2018 World Wide Web Conference (WWW)*, 1155–1164. https://doi.org/10.1145/3178876.3186014
 
 5. Montesi, F., & Weber, J. (2016). **Circuit Breakers, Discovery, and API Gateways in Microservices**. *arXiv preprint*. https://arxiv.org/abs/1609.05830
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

@@ -120,6 +120,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/themisctl.cpp")
 
     target_compile_features(themisctl PRIVATE cxx_std_17)
 
+    target_include_directories(themisctl PRIVATE ${CMAKE_SOURCE_DIR}/include)
+
     # cpp-httplib provides the HTTP client (header-only)
     find_package(httplib QUIET)
     if(httplib_FOUND)

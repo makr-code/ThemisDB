@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            merge_engine.cpp                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:21:08                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     697                                            ║
+    • Total Lines:     695                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • a64247126  2026-03-08  Refactor code structure for improved readability and main... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1479e425b  2026-03-01  Implement MergeStats::fromJson to resolve merge_engine.cp... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -452,7 +447,7 @@ MergeEngine::MergeResult MergeEngine::previewMerge(
 // Check if fast-forward is possible
 bool MergeEngine::canFastForward(
     uint64_t base_sequence,
-    uint64_t source_sequence,
+    [[maybe_unused]] uint64_t source_sequence,
     uint64_t target_sequence) {
     
     analytics::DiffEngine::DiffOptions opts;

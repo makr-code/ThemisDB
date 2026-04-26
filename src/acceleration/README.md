@@ -1,9 +1,8 @@
-# Acceleration Module (src/acceleration)
-<!-- Status: current | validated: 2026-03-09 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/acceleration/README.md -->
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
 
-<!-- Status: current | validated: 2026-03-09 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/acceleration/README.md -->
+# Acceleration Module (src/acceleration)
+<!-- Status: current | validated: 2026-04-06 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/acceleration/README.md -->
 
 ## Overview
 
@@ -19,54 +18,54 @@ In practice, this module is responsible for:
 
 > Note: filenames below are referenced by `FUTURE_ENHANCEMENTS.md` and may evolve; treat this as a “map” of the current structure.
 
-- **Backend selection & registry**  
-  - `backend_registry.cpp`: runtime backend registration/selection and CPU fallback.  
-  - `compute_backend.cpp`: abstract `ComputeBackend` base class and shared utilities.  
-  - `device_manager.cpp`: device enumeration, capability probing (VRAM, compute capability, driver version), 60 s TTL cache, and `BackendRegistry::deviceInfo()` observability accessor.  
+- **Backend selection & registry**
+  - `backend_registry.cpp`: runtime backend registration/selection and CPU fallback.
+  - `compute_backend.cpp`: abstract `ComputeBackend` base class and shared utilities.
+  - `device_manager.cpp`: device enumeration, capability probing (VRAM, compute capability, driver version), 60 s TTL cache, and `BackendRegistry::deviceInfo()` observability accessor.
 
-- **CUDA backend (optional, guarded by `THEMIS_ENABLE_CUDA`)**  
-  - `cuda_backend.cpp` + `cuda/ann_kernels.cu`, `cuda/geo_kernels.cu`, `cuda/tensor_core_matmul.cu`, `cuda/vector_kernels.cu`: CUDA kernels and stream/graph management for vector similarity and geospatial operations.  
-  - `nccl_vector_backend.cpp`: multi-GPU NCCL collectives for sharding and query scatter/gather.  
+- **CUDA backend (optional, guarded by `THEMIS_ENABLE_CUDA`)**
+  - `cuda_backend.cpp` + `cuda/ann_kernels.cu`, `cuda/geo_kernels.cu`, `cuda/tensor_core_matmul.cu`, `cuda/vector_kernels.cu`: CUDA kernels and stream/graph management for vector similarity and geospatial operations.
+  - `nccl_vector_backend.cpp`: multi-GPU NCCL collectives for sharding and query scatter/gather.
   - `tensor_core_matmul.cpp`: Tensor Core FP16/BF16 matrix multiplication.
 
-- **HIP/ROCm backend (optional, guarded by `THEMIS_ENABLE_HIP`)**  
-  - `hip_backend.cpp` + `hip/ann_kernels.hip`, `hip/geo_kernels.hip`: AMD HIP ANN and geospatial kernels.  
+- **HIP/ROCm backend (optional, guarded by `THEMIS_ENABLE_HIP`)**
+  - `hip_backend.cpp` + `hip/ann_kernels.hip`, `hip/geo_kernels.hip`: AMD HIP ANN and geospatial kernels.
   - `rccl_vector_backend.cpp`: multi-GPU RCCL collectives (AMD mirror of NCCL backend).
 
-- **Vulkan backend (optional, guarded by `THEMIS_ENABLE_VULKAN`)**  
-  - `vulkan_backend_full.cpp`: Vulkan compute infrastructure.  
+- **Vulkan backend (optional, guarded by `THEMIS_ENABLE_VULKAN`)**
+  - `vulkan_backend_full.cpp`: Vulkan compute infrastructure.
   - `vulkan/shaders/`: SPIR-V compute shaders for L2, cosine, inner-product, top-K, Haversine, and point-in-polygon operations.
 
-- **Other GPU / platform backends**  
-  - `directx_backend_full.cpp` + `directx/shaders/`: DirectX Compute backend (Windows).  
-  - `metal_backend.mm`: Apple Metal backend (macOS/iOS).  
-  - `opencl_backend.cpp`: OpenCL backend for broad hardware compatibility.  
-  - `graphics_backends.cpp`: shared graphics/GPU utility helpers.  
-  - `zluda_backend.cpp`: ZLUDA (AMD on CUDA API) backend.  
-  - `oneapi_backend.cpp`: Intel oneAPI backend.  
+- **Other GPU / platform backends**
+  - `directx_backend_full.cpp` + `directx/shaders/`: DirectX Compute backend (Windows).
+  - `metal_backend.mm`: Apple Metal backend (macOS/iOS).
+  - `opencl_backend.cpp`: OpenCL backend for broad hardware compatibility.
+  - `graphics_backends.cpp`: shared graphics/GPU utility helpers.
+  - `zluda_backend.cpp`: ZLUDA (AMD on CUDA API) backend.
+  - `oneapi_backend.cpp`: Intel oneAPI backend.
   - `faiss_gpu_backend.cpp`: FAISS GPU wrapper for billion-scale ANN search.
 
-- **Multi-GPU**  
+- **Multi-GPU**
   - `multi_gpu_backend.cpp`: range-based sharding, fan-out KNN, and host-side top-k merge across N devices.
 
-- **Geospatial bridge**  
+- **Geospatial bridge**
   - `geo_acceleration_bridge.cpp`: bridges geospatial operators (Haversine distance, point-in-polygon) to the acceleration layer via `GeoKernelDispatch`.
 
-- **CPU fallback**  
-  - `cpu_backend.cpp`, `cpu_backend_mt.cpp`: reference single-thread and pthreads implementations used when accelerators are unavailable and as correctness baselines.  
+- **CPU fallback**
+  - `cpu_backend.cpp`, `cpu_backend_mt.cpp`: reference single-thread and pthreads implementations used when accelerators are unavailable and as correctness baselines.
   - `cpu_backend_tbb.cpp`: Intel TBB-based parallel CPU backend.
 
-- **Kernel dispatch & fallback/retry** (`include/acceleration/kernel_fallback_dispatcher.h`)  
-  - `ANNKernelFallbackDispatcher`: wraps a primary `ANNKernelDispatch` table (GPU) and a fallback table (CPU). Null slots in the primary are routed directly to the fallback (unsupported kernel). Transient device errors (`DeviceLost`, `OperationTimeout`, `SynchronizationFailed`) are retried with exponential back-off; all other errors and exhausted retries also fall back.  
-  - `GeoKernelFallbackDispatcher`: same semantics for the two geospatial kernel slots.  
+- **Kernel dispatch & fallback/retry** (`include/acceleration/kernel_fallback_dispatcher.h`)
+  - `ANNKernelFallbackDispatcher`: wraps a primary `ANNKernelDispatch` table (GPU) and a fallback table (CPU). Null slots in the primary are routed directly to the fallback (unsupported kernel). Transient device errors (`DeviceLost`, `OperationTimeout`, `SynchronizationFailed`) are retried with exponential back-off; all other errors and exhausted retries also fall back.
+  - `GeoKernelFallbackDispatcher`: same semantics for the two geospatial kernel slots.
   - `RetryPolicy`: configures `maxAttempts`, initial/max delay (ms), and back-off multiplier.
 
-- **Plugins / security**  
-  - `plugin_loader.cpp`: loads optional backend plugins at runtime.  
-  - `plugin_security.cpp`: enforces the sandbox/allow-list for dynamically loaded GPU backends; verifies GPG/code signatures before `dlopen`.  
+- **Plugins / security**
+  - `plugin_loader.cpp`: loads optional backend plugins at runtime.
+  - `plugin_security.cpp`: enforces the sandbox/allow-list for dynamically loaded GPU backends; verifies GPG/code signatures before `dlopen`.
   - `shader_integrity.cpp`: verifies SPIR-V shader integrity before pipeline creation.
 
-- **vLLM / LLM resource management**  
+- **vLLM / LLM resource management**
   - `vllm_resource_manager.cpp`: GPU VRAM resource lease management for LLM inference paths.
 
 ## Runtime Behavior
@@ -96,8 +95,8 @@ In practice, this module is responsible for:
 
 Acceleration backends are optional and must not be required to build ThemisDB.
 
-- `THEMIS_ENABLE_CUDA`: enables CUDA sources, kernel compilation, and CUDA backend registration.  
-- `THEMIS_ENABLE_VULKAN`: enables Vulkan sources and shader compilation/integration.  
+- `THEMIS_ENABLE_CUDA`: enables CUDA sources, kernel compilation, and CUDA backend registration.
+- `THEMIS_ENABLE_VULKAN`: enables Vulkan sources and shader compilation/integration.
 - `THEMIS_ENABLE_HIP`: enables HIP/ROCm sources and AMD GPU backend registration.
 
 When these flags are OFF (or SDKs are missing), the build must still succeed and the runtime must still function via CPU backends.
@@ -105,14 +104,14 @@ When these flags are OFF (or SDKs are missing), the build must still succeed and
 ## Development Guide
 
 - For a deep-dive into capability negotiation, the fallback chain, kernel-level
-  fallback/retry, health monitoring, and operational troubleshooting, see:  
-  - `docs/acceleration/capability_negotiation.md`  
-  - `docs/acceleration/troubleshooting.md` — operational troubleshooting guide (runbooks, diagnostics, platform-specific issues)  
-- For planned work items, constraints, required interfaces, and measurable performance targets, see:  
-  - `src/acceleration/FUTURE_ENHANCEMENTS.md`  
-- When implementing new accelerator paths:  
-  - Ensure CPU/GPU parity tests exist (or are added).  
-  - Prefer deterministic numerics and document tolerances where floating-point differences are expected.  
+  fallback/retry, health monitoring, and operational troubleshooting, see:
+  - `docs/acceleration/capability_negotiation.md`
+  - `docs/acceleration/troubleshooting.md` — operational troubleshooting guide (runbooks, diagnostics, platform-specific issues)
+- For planned work items, constraints, required interfaces, and measurable performance targets, see:
+  - `src/acceleration/FUTURE_ENHANCEMENTS.md`
+- When implementing new accelerator paths:
+  - Ensure CPU/GPU parity tests exist (or are added).
+  - Prefer deterministic numerics and document tolerances where floating-point differences are expected.
   - Keep plugin ABI stability in mind (no breaking changes before v2.0).
 
 ## 📚 Scientific Foundations
@@ -166,3 +165,12 @@ The following peer-reviewed publications, standards, and reference implementatio
 - [`src/performance/`](../performance/README.md) — Performance benchmarking infrastructure; `benchmarks/vector_bench.cpp` validates the ≥ 10× GPU speedup target referenced in `FUTURE_ENHANCEMENTS.md`.
 - [`docs/acceleration/capability_negotiation.md`](../../docs/acceleration/capability_negotiation.md) — Deep-dive into backend capability negotiation and the fallback chain.
 - [`docs/acceleration/troubleshooting.md`](../../docs/acceleration/troubleshooting.md) — Operational troubleshooting guide (runbooks, diagnostics, platform-specific issues).
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/acceleration/README.md`](../../include/acceleration/README.md) for the public API.

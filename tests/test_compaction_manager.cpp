@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_compaction_manager.cpp                        ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-30 04:25:32                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:53:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     241                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -131,9 +128,9 @@ TEST_F(CompactionManagerTest, CompactAll_Succeeds) {
 
 TEST_F(CompactionManagerTest, MultipleManualCompactions_CountedCorrectly) {
     insertData(5);
-    manager().compactAll();
-    manager().compactAll();
-    manager().compactRange("key_0", "key_3");
+    (void)manager().compactAll();
+    (void)manager().compactAll();
+    (void)manager().compactRange("key_0", "key_3");
 
     EXPECT_EQ(manager().stats().manual_compactions, 3u);
 }
@@ -237,5 +234,5 @@ TEST_F(CompactionManagerTest, Stats_RocksDBStatsNotEmpty) {
     auto s = manager().stats();
     // RocksDB statistics string should be non-empty (even if statistics is disabled,
     // an empty string is still returned, so we just ensure no exception occurs).
-    EXPECT_NO_THROW(s.rocksdb_stats.size());
+    EXPECT_NO_THROW((void)s.rocksdb_stats.size());
 }

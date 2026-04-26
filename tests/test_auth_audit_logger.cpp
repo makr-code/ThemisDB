@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_auth_audit_logger.cpp                         ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:24:29                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:52:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     552                                            ║
+    • Total Lines:     548                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 1470edf9b  2026-03-12  feat(auth): mandatory JWT issuer and audience validation ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5e72bf49f  2026-02-24  Add audit logging to TokenBlacklist and ApiKeyAuthenticat... ║
-    • e8e02c9ec  2026-02-24  feat(auth): implement zero-trust continuous verification ... ║
-    • 8bd556e18  2026-02-24  feat(auth): complete audit logging coverage for SAML, OAu... ║
+    • 1470edf9b1  2026-03-12  feat(auth): mandatory JWT issuer and audience validation ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

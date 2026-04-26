@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_memory_manager_edition.cpp                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:54                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     430                                            ║
+    • Total Lines:     431                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • f20e6e8d74  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
+    • 2826fa9ccd  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -319,10 +320,10 @@ uint64_t GPUMemoryManager::GetGPUMemoryUsed() const {
 
 float GPUMemoryManager::GetGPUMemoryUsagePercent() const {
     const uint64_t max_vram = GetMaxGPUVRAMBytes();
-    if (max_vram == 0) return 0.0f;
-
     std::lock_guard<std::mutex> lock(mutex_);
-    return (static_cast<float>(gpu_memory_allocated_) / static_cast<float>(max_vram)) * 100.0f;
+    return max_vram == 0
+        ? 0.0f
+        : (static_cast<float>(gpu_memory_allocated_) / static_cast<float>(max_vram)) * 100.0f;
 }
 
 bool GPUMemoryManager::IsGPUAccelerationEnabled() const noexcept {

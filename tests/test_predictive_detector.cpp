@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_predictive_detector.cpp                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:31:34                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:56:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     482                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -160,7 +157,7 @@ TEST_F(PredictiveDetectorTest, RecordMetrics) {
     PredictiveConfig config;
     PredictiveFailureDetector detector(config, *strategy_, *topology_);
     
-    ShardMetrics metrics;
+    PredictiveShardMetrics metrics;
     metrics.shard_id = "shard_001";
     metrics.timestamp = std::chrono::system_clock::now();
     metrics.avg_latency_ms = 10.5;
@@ -180,14 +177,14 @@ TEST_F(PredictiveDetectorTest, MetricsHistoryLimit) {
     PredictiveFailureDetector detector(config, *strategy_, *topology_);
     
     // Record old metrics (9 days ago)
-    ShardMetrics old_metrics;
+    PredictiveShardMetrics old_metrics;
     old_metrics.shard_id = "shard_001";
     old_metrics.timestamp = std::chrono::system_clock::now() - std::chrono::hours(24 * 9);
     old_metrics.avg_latency_ms = 5.0;
     detector.recordMetrics(old_metrics);
     
     // Record recent metrics (1 day ago)
-    ShardMetrics recent_metrics;
+    PredictiveShardMetrics recent_metrics;
     recent_metrics.shard_id = "shard_001";
     recent_metrics.timestamp = std::chrono::system_clock::now() - std::chrono::hours(24);
     recent_metrics.avg_latency_ms = 10.0;
@@ -204,12 +201,12 @@ TEST_F(PredictiveDetectorTest, MetricsMultipleShards) {
     PredictiveConfig config;
     PredictiveFailureDetector detector(config, *strategy_, *topology_);
     
-    ShardMetrics metrics1;
+    PredictiveShardMetrics metrics1;
     metrics1.shard_id = "shard_001";
     metrics1.timestamp = std::chrono::system_clock::now();
     metrics1.avg_latency_ms = 10.0;
     
-    ShardMetrics metrics2;
+    PredictiveShardMetrics metrics2;
     metrics2.shard_id = "shard_002";
     metrics2.timestamp = std::chrono::system_clock::now();
     metrics2.avg_latency_ms = 20.0;
@@ -248,7 +245,7 @@ TEST_F(PredictiveDetectorTest, PredictShardWithData) {
     
     // Record some metrics
     for (int i = 0; i < 10; ++i) {
-        ShardMetrics metrics;
+        PredictiveShardMetrics metrics;
         metrics.shard_id = "shard_001";
         metrics.timestamp = std::chrono::system_clock::now() - std::chrono::hours(24 * i);
         metrics.avg_latency_ms = 10.0 + i;  // Increasing latency trend
@@ -270,7 +267,7 @@ TEST_F(PredictiveDetectorTest, HighRiskDetection) {
     PredictiveFailureDetector detector(config, *strategy_, *topology_);
     
     // Create high-risk metrics
-    ShardMetrics high_risk_metrics;
+    PredictiveShardMetrics high_risk_metrics;
     high_risk_metrics.shard_id = "shard_001";
     high_risk_metrics.timestamp = std::chrono::system_clock::now();
     high_risk_metrics.avg_latency_ms = 500.0;  // Very high latency
@@ -417,7 +414,7 @@ TEST_F(PredictiveDetectorTest, ConcurrentPredictions) {
     
     // Record metrics for multiple shards
     for (int i = 0; i < 5; ++i) {
-        ShardMetrics metrics;
+        PredictiveShardMetrics metrics;
         metrics.shard_id = "shard_00" + std::to_string(i);
         metrics.timestamp = std::chrono::system_clock::now();
         metrics.avg_latency_ms = 10.0 * i;
@@ -469,7 +466,7 @@ TEST_F(PredictiveDetectorTest, LargeMetricsHistory) {
     
     // Record many metrics
     for (int i = 0; i < 1000; ++i) {
-        ShardMetrics metrics;
+        PredictiveShardMetrics metrics;
         metrics.shard_id = "shard_001";
         metrics.timestamp = std::chrono::system_clock::now() - std::chrono::hours(i);
         metrics.avg_latency_ms = 10.0 + (i % 10);

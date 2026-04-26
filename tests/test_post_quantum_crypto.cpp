@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_post_quantum_crypto.cpp                       ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:31:23                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:55:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   18.0/100                                       ║
-    • Total Lines:     527                                            ║
+    • Total Lines:     525                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9f7d34b9d  2026-03-09  feat(security): add attack vector tests and promote PQ cr... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ba79a4714  2026-03-01  feat(security): add post-quantum cryptography migration p... ║
+    • 9f7d34b9d6  2026-03-09  feat(security): add attack vector tests and promote PQ cr... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -524,4 +522,148 @@ TEST(PerformanceBaseline, DilithiumSignThroughput) {
     EXPECT_GE(ops_per_s, 2000.0)
         << "DilithiumSigner sign throughput " << ops_per_s
         << " ops/s is below the 2000 ops/s target";
+}
+
+// ============================================================================
+// Phase 7.1 — SPHINCS+ Hash-Based Signatures
+// ============================================================================
+
+TEST(SphincsPlus, KeyGenerationProducesNonEmptyKeys) {
+    SphincsPlus sphincs;
+    auto kp = sphincs.generateKeyPair();
+    EXPECT_FALSE(kp.public_key.empty());
+    EXPECT_FALSE(kp.secret_key.empty());
+}
+
+TEST(SphincsPlus, SignVerify256sRoundTrip) {
+    SphincsPlus sphincs(SphincsPlus::Variant::SPHINCS_SHA2_256S);
+    auto kp = sphincs.generateKeyPair();
+
+    std::vector<uint8_t> msg = {0x48, 0x65, 0x6c, 0x6c, 0x6f}; // "Hello"
+    auto sig = sphincs.sign(msg, kp.secret_key);
+    EXPECT_FALSE(sig.empty());
+    EXPECT_TRUE(sphincs.verify(msg, sig, kp.public_key));
+}
+
+TEST(SphincsPlus, SignVerify256fRoundTrip) {
+    SphincsPlus sphincs(SphincsPlus::Variant::SPHINCS_SHA2_256F);
+    auto kp = sphincs.generateKeyPair();
+
+    std::vector<uint8_t> msg(128, 0xAB);
+    auto sig = sphincs.sign(msg, kp.secret_key);
+    EXPECT_TRUE(sphincs.verify(msg, sig, kp.public_key));
+}
+
+TEST(SphincsPlus, TamperedSignatureRejected) {
+    SphincsPlus sphincs;
+    auto kp = sphincs.generateKeyPair();
+
+    std::vector<uint8_t> msg = {1, 2, 3};
+    auto sig = sphincs.sign(msg, kp.secret_key);
+    // Flip one byte
+    sig[0] ^= 0xFF;
+    EXPECT_FALSE(sphincs.verify(msg, sig, kp.public_key));
+}
+
+TEST(SphincsPlus, TamperedMessageRejected) {
+    SphincsPlus sphincs;
+    auto kp = sphincs.generateKeyPair();
+
+    std::vector<uint8_t> msg = {1, 2, 3};
+    auto sig = sphincs.sign(msg, kp.secret_key);
+    msg[0] ^= 0xFF;  // tamper message
+    EXPECT_FALSE(sphincs.verify(msg, sig, kp.public_key));
+}
+
+TEST(SphincsPlus, WrongPublicKeyRejected) {
+    SphincsPlus sphincs;
+    auto kp1 = sphincs.generateKeyPair();
+    auto kp2 = sphincs.generateKeyPair();
+
+    std::vector<uint8_t> msg = {5, 6, 7};
+    auto sig = sphincs.sign(msg, kp1.secret_key);
+    // Verify with wrong public key
+    EXPECT_FALSE(sphincs.verify(msg, sig, kp2.public_key));
+}
+
+TEST(SphincsPlus, KeySizeAssertions) {
+    SphincsPlus s256s(SphincsPlus::Variant::SPHINCS_SHA2_256S);
+    SphincsPlus s256f(SphincsPlus::Variant::SPHINCS_SHA2_256F);
+
+    EXPECT_GT(s256s.publicKeySize(), 0u);
+    EXPECT_GT(s256s.secretKeySize(), 0u);
+    EXPECT_GT(s256s.signatureSize(), 0u);
+    EXPECT_GT(s256f.publicKeySize(), 0u);
+    EXPECT_GT(s256f.signatureSize(), 0u);
+}
+
+TEST(SphincsPlus, EmptyMessageRoundTrip) {
+    SphincsPlus sphincs;
+    auto kp = sphincs.generateKeyPair();
+    std::vector<uint8_t> empty_msg;
+    auto sig = sphincs.sign(empty_msg, kp.secret_key);
+    EXPECT_TRUE(sphincs.verify(empty_msg, sig, kp.public_key));
+}
+
+TEST(SphincsPlus, LargeMessageRoundTrip) {
+    SphincsPlus sphincs;
+    auto kp = sphincs.generateKeyPair();
+    std::vector<uint8_t> big(64 * 1024, 0x42);
+    auto sig = sphincs.sign(big, kp.secret_key);
+    EXPECT_TRUE(sphincs.verify(big, sig, kp.public_key));
+}
+
+TEST(SphincsPlus, HybridModeIntegration) {
+    // Ensure SphincsPlus and KyberKEM can coexist on the same payload.
+    SphincsPlus sphincs;
+    KyberKEM kem;
+
+    auto sign_kp = sphincs.generateKeyPair();
+    auto kem_kp  = kem.generateKeyPair();
+
+    std::vector<uint8_t> payload = {0xDE, 0xAD, 0xBE, 0xEF};
+    auto sig = sphincs.sign(payload, sign_kp.secret_key);
+    auto enc = kem.encapsulate(kem_kp.public_key);
+
+    EXPECT_TRUE(sphincs.verify(payload, sig, sign_kp.public_key));
+
+    auto ss = kem.decapsulate(enc.ciphertext, kem_kp.secret_key);
+    EXPECT_EQ(ss, enc.shared_secret);
+}
+
+TEST(SphincsPlus, VerifyThroughput) {
+    SphincsPlus sphincs;
+    auto kp = sphincs.generateKeyPair();
+    std::vector<uint8_t> msg = {1, 2, 3, 4};
+    auto sig = sphincs.sign(msg, kp.secret_key);
+
+    constexpr int kOps = 1000;
+    auto t0 = std::chrono::high_resolution_clock::now();
+    for (int i = 0; i < kOps; ++i) {
+        (void)sphincs.verify(msg, sig, kp.public_key);
+    }
+    auto t1 = std::chrono::high_resolution_clock::now();
+    double elapsed_s = std::chrono::duration<double>(t1 - t0).count();
+    double ops_s = kOps / elapsed_s;
+    // Roadmap target: ≥ 5 000 ops/s for verify
+    EXPECT_GE(ops_s, 5000.0)
+        << "SphincsPlus verify throughput " << ops_s << " ops/s below 5000 target";
+}
+
+TEST(SphincsPlus, SignThroughput) {
+    SphincsPlus sphincs(SphincsPlus::Variant::SPHINCS_SHA2_256F); // fast variant
+    auto kp = sphincs.generateKeyPair();
+    std::vector<uint8_t> msg = {1, 2, 3};
+
+    constexpr int kOps = 200;
+    auto t0 = std::chrono::high_resolution_clock::now();
+    for (int i = 0; i < kOps; ++i) {
+        (void)sphincs.sign(msg, kp.secret_key);
+    }
+    auto t1 = std::chrono::high_resolution_clock::now();
+    double elapsed_s = std::chrono::duration<double>(t1 - t0).count();
+    double ops_s = kOps / elapsed_s;
+    // Roadmap target: ≥ 100 ops/s for 256s (256f should be much faster)
+    EXPECT_GE(ops_s, 100.0)
+        << "SphincsPlus::sign throughput " << ops_s << " ops/s below 100 target";
 }

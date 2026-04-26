@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_importer_throughput.cpp                      ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:04:12                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:43:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   82.0/100                                       ║
-    • Total Lines:     1119                                           ║
+    • Total Lines:     1116                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c0a50c2ca  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
-    • d3edcb49c  2026-03-15  fix(importers): fix empty tuple_str fallback in test delt... ║
-    • 786e4a8df  2026-03-15  feat(importers): incremental import, MySQL benchmark, Mon... ║
-    • ceb71780f  2026-03-15  audit(importers): add ImportConfig conflict field tests (... ║
-    • 2421634e7  2026-03-13  fix(kafka): rewrite tests to use production KafkaImporter... ║
+    • c0a50c2caf  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

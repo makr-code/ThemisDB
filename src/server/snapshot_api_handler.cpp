@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            snapshot_api_handler.cpp                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:07                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -181,7 +181,7 @@ void SnapshotApiHandler::handleDeleteTag(const httplib::Request& req, httplib::R
     }
 }
 
-void SnapshotApiHandler::handleGetStats(const httplib::Request& req, httplib::Response& res) {
+void SnapshotApiHandler::handleGetStats(const httplib::Request& /*req*/, httplib::Response& res) {
     try {
     auto span = Tracer::startSpan("handleGetStats");
         auto stats = snapshot_manager_.getStats();

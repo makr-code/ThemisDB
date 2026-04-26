@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metadata_wal.cpp                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:18                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   98.0/100                                       ║
     • Total Lines:     195                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -93,7 +90,7 @@ LSN MetadataWAL::logDelete(
     uint64_t version
 ) {
     MetadataWALEntry entry;
-    entry.type = MetadataWALEntryType::DELETE;
+    entry.type = MetadataWALEntryType::DELETE_OP;
     entry.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
     entry.partition = partition;
@@ -177,7 +174,7 @@ LSN MetadataWAL::writeEntry(const MetadataWALEntry& entry) {
         
         spdlog::debug("Logged metadata {} to WAL: partition={}, key={}, version={}, LSN=({}, {})",
                      entry.type == MetadataWALEntryType::PUT ? "PUT" :
-                     entry.type == MetadataWALEntryType::DELETE ? "DELETE" : "UPDATE",
+                     entry.type == MetadataWALEntryType::DELETE_OP ? "DELETE" : "UPDATE",
                      static_cast<int>(entry.partition),
                      entry.key,
                      entry.version,

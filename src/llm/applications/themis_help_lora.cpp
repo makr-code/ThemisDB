@@ -3,18 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themis_help_lora.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:52                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   94.0/100                                       ║
-    • Total Lines:     658                                            ║
+    • Total Lines:     662                                            ║
     • Open Issues:     TODOs: 2, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
+    • eb00b82270  2026-04-04  hotfix: prevent SIGSEGV in RocksDB/LLM init on Docker sta... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -89,7 +91,9 @@ public:
         llama_config.n_threads = 4;
         llama_config.use_mmap = true;
         llama_config.use_kv_cache_reuse = true;
-        llama_config.enable_response_cache = true;
+        // Response cache requires an explicit persistent data directory;
+        // leave disabled here so the caller can opt in via the Config.
+        llama_config.enable_response_cache = false;
         
         llama_wrapper = std::make_unique<LlamaWrapper>(llama_config);
 
@@ -122,7 +126,7 @@ public:
         return prompt.str();
     }
     
-    std::string queryInternal(const std::string& question, const std::string& user_id) {
+    std::string queryInternal(const std::string& question, const std::string& /*user_id*/) {
         auto start = std::chrono::system_clock::now();
         
         try {

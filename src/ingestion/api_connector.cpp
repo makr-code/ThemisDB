@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            api_connector.cpp                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:40                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     667                                            ║
+    • Total Lines:     663                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 0762b7374  2026-03-11  feat(ingestion): add ca_bundle_path to RetryConfig for co... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • eda6e27de  2026-02-28  fix(ingestion): reject_invalid=false mode, schema_violati... ║
-    • 53f0cfc43  2026-02-28  feat(ingestion): per-source schema validation before writ... ║
-    • b40bbc161  2026-02-26  feat(ingestion): OAuth 2.0 token refresh handling in Gene... ║
+    • 0762b73749  2026-03-11  feat(ingestion): add ca_bundle_path to RetryConfig for co... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -57,8 +53,8 @@ struct ApiHttpResponse {
 };
 
 // libcurl write callback – appends received data to a std::string.
-static size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb,
-                                void* userdata) {
+static size_t apiCurlWriteCallback(char* ptr, size_t size, size_t nmemb,
+                                   void* userdata) {
     const auto total = size * nmemb;
     static_cast<std::string*>(userdata)->append(ptr, total);
     return total;
@@ -86,7 +82,7 @@ static ApiHttpResponse apiHttpGet(const std::string& url,
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, static_cast<long>(timeout_ms));
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, apiCurlWriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &r.body);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
@@ -137,7 +133,7 @@ static ApiHttpResponse apiHttpPost(const std::string& url,
     curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, static_cast<long>(body.size()));
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, static_cast<long>(timeout_ms));
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, apiCurlWriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &r.body);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);

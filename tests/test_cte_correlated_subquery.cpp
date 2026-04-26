@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cte_correlated_subquery.cpp                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:26:19                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:53:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 4730efec6  2026-03-14  feat(query): replace CTESubquery Phase 1 stub with correl... ║
+    • 4730efec66  2026-03-14  feat(query): replace CTESubquery Phase 1 stub with correl... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

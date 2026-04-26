@@ -1,7 +1,9 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Ingestion Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Roadmap-Status: current | validated: 2026-03-09 | Primary: src/ingestion/ | Secondary: docs/de/ingestion/ -->
+<!-- Roadmap-Status: current | validated: 2026-04-06 | Primary: src/ingestion/ | Secondary: docs/de/ingestion/ -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../docs/de/ingestion/README.md -->
 
 ## Current Status
@@ -162,6 +164,108 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
 - PDF/DOCX ingestion requires external converters (pdftotext, pandoc); not handled natively.
 - `CdcConnector`: full replication driver requires `THEMIS_ENABLE_CDC_STREAM` at compile time; without it, `ingestFromStream()` returns `CONNECTOR_NOT_SUPPORTED`. The source file always compiles (uses `#ifdef` internally).
 
+---
+
+## Ingestion v2.0 — Universal File Ingestion with Workflow Orchestration (Target: v2.0.0)
+
+> First use case: **Legal Documents** (Gesetze, Verordnungen, Bescheide, Vorschriften)
+
+### Phase 1: Foundation — Core Data Structures + WorkflowEngine (Target: v2.0.0)
+- [x] `IIngestionStep` interface + `PluginType::INGESTION_STEP` — `include/ingestion/ingestion_step.h` (2026-04-15)
+- [x] `ExtractionContext` struct — `include/ingestion/extraction_context.h` (2026-04-15)
+- [x] `FileManifest` struct — `include/ingestion/file_manifest.h` (2026-04-15)
+- [x] `BaseEntity`, `EntityRelation`, `VectorRecord`, `BaseEntitySet` — `include/ingestion/base_entity.h` (2026-04-15)
+- [x] `StepRegistry` (thread-safe, supports dlopen) — `include/ingestion/workflow_engine.h` (2026-04-15)
+- [x] `WorkflowEngine` (YAML/JSON profile loading, profile selection, step execution) — `include/ingestion/workflow_engine.h` + `src/ingestion/workflow_engine.cpp` (2026-04-15)
+- [x] `IngestionManager::setWorkflowEngine()` / `getWorkflowEngine()` — `include/ingestion/ingestion_manager.h` (2026-04-15)
+- [x] `ERR_WORKFLOW_*` error codes 9600–9619 — `include/utils/error_registry.h` (2026-04-15)
+- [x] `FileFormat` extended: EPUB, XLSX, CSV, ZIP, SHP, GEOJSON, DXF, PNG, JPG, MD, DB — `include/ingestion/filesystem_ingester.h` (2026-04-15)
+- [x] `PluginType::INGESTION_STEP` added — `include/plugins/plugin_interface.h` (2026-04-15)
+- [x] Tests: SR-01..SR-05 (StepRegistry), WE-01..WE-15 (WorkflowEngine) — `tests/test_workflow_engine.cpp` (2026-04-15)
+- [x] Tests: FM-01..FM-03, EC-01..EC-07, BA-01..BA-10 — `tests/test_ingestion_base_entity.cpp` (2026-04-15)
+
+### Phase 2: Builtin Steps (Target: v2.0.0)
+- [x] `builtin.parse_text` — `src/ingestion/steps/parse_text_step.cpp` (2026-04-15)
+- [x] `builtin.chunk_text` — fixed / sentence / §-aware section strategy — `src/ingestion/steps/chunk_text_step.cpp` (2026-04-15)
+- [x] `builtin.legal_metadata` — regex norm/date/Aktenzeichen extractor — `src/ingestion/steps/legal_metadata_step.cpp` (2026-04-15)
+- [x] `builtin.deontic_extractor` — wraps `DeonticExtractor` + `SemanticValidator` — `src/ingestion/steps/deontic_step.cpp` (2026-04-15)
+- [x] `builtin.base_entity_assembler` — dedup + canonical-ID finalisation — `src/ingestion/steps/base_entity_assembler_step.cpp` (2026-04-15)
+- [x] `builtin.decompress` — ZIP/tar/gzip unpack, recursive re-ingestion (Target: Q3 2026)
+- [x] `builtin.legal_reference_extractor` — wraps `AgenticReferenceValidator` as a Step (Target: Q3 2026)
+- [x] `builtin.chunk_embed` — text chunk → vector (ONNX-CLIP / multilingual-E5) (Target: Q3 2026)
+
+### Phase 3: YAML Workflow Profiles (Target: v2.0.0)
+- [x] `config/ingestion/workflows/legal-document-de.json` — Pilot: German legal documents (2026-04-15)
+- [x] `config/ingestion/workflows/default.json` — Fallback for unknown file types (2026-04-15)
+- [x] `config/ingestion/workflows/geo-data.json` — SHP/GeoJSON/KML (2026-04-15)
+- [x] `config/ingestion/workflows/image-document.json` — PNG/JPG + OCR + CLIP (2026-04-15)
+- [x] `config/ingestion/workflows/spreadsheet.json` — XLSX/CSV (2026-04-15)
+- [ ] Migrate YAML format with native yaml-cpp parser (currently JSON subset only) (Target: Q3 2026)
+- [ ] DLL step plugin sandbox (manifest `allowedPaths`, `allowedMime`) (Target: Q3 2026)
+
+### Phase 4: NER + LLM Integration (Status: Completed ✅)
+- [x] `builtin.ner_de` — NER via `ITextGenerationBackend` (spaCy-wrapper or LLM-based) — `src/ingestion/steps/ner_step.cpp` (2026-04-15)
+- [x] `builtin.llm_extract` — generic LLM step with prompt template from YAML — `src/ingestion/steps/llm_extract_step.cpp` (2026-04-15)
+- [x] LLM-based deontic analysis (`use_llm: true` in deontic_extractor step config) (2026-04-15)
+- [x] Multilingual support: `language: de | en | fr | ...` profile parameter (2026-04-15)
+- [x] Tests: NE-01..NE-08, LE-01..LE-06 — `tests/test_ingestion_ner_llm.cpp` (2026-04-15)
+
+### Phase 5: BaseEntity Sink — Graph + Vector (Status: Completed ✅)
+- [x] `EntityNormalizer` — canonical-ID generation for legal provisions (`law:<norm>:§<n>:Abs<m>`) — `include/ingestion/entity_assembler.h` (2026-04-15)
+- [x] `RelationBuilder` — cross-refs → `CITES`, `AMENDS`, `SUPERSEDES` edges — `include/ingestion/entity_assembler.h` (2026-04-15)
+- [x] `IGraphWriter` / `InMemoryGraphWriter` — `BaseEntitySet.nodes/edges` → graph store — `include/ingestion/ingestion_sinks.h` (2026-04-15)
+- [x] `IVectorWriter` / `InMemoryVectorWriter` — `BaseEntitySet.chunks` → vector index — `include/ingestion/ingestion_sinks.h` (2026-04-15)
+- [x] `DocumentStoreSinkAdapter` — production `IDocWriter` backed by `IDocumentStore` (Phase 5 remainder) — `include/ingestion/ingestion_sinks.h` (2026-04-15)
+- [x] Integration with `IDocumentStore` (document module) via `DocumentStoreSinkAdapter` (2026-04-15)
+- [x] Tests: BA-01..BA-08, GW-01..GW-05, VW-01..VW-05 + DS-01..DS-05 — `tests/test_ingestion_assembler_sinks.cpp`, `tests/test_ingestion_legal_domain.cpp` (2026-04-15)
+
+### Phase 6: Legal Domain Specialisation (Status: Completed ✅)
+- [x] `GesetzParser` — Teil → Abschnitt → § recursive hierarchy — `include/ingestion/legal_domain.h` (2026-04-15)
+- [x] `TemporalExtractor` — `effective_from` / `effective_to` extraction from metadata + text — `include/ingestion/legal_domain.h` (2026-04-15)
+- [x] `BehoerdenMapper` — norm reference → responsible authority (30 built-in + injectable fallback) — `include/ingestion/legal_domain.h` (2026-04-15)
+- [x] `BescheidExtractor` — `Aktenzeichen`, `Antragsteller`, `Bescheiddatum`, `Auflagen`, `Nebenbestimmungen` — `include/ingestion/legal_domain.h` (2026-04-15)
+- [x] `CrossDocumentLinker` — § X Gesetz Y → § Z Gesetz W graph edges across files — `include/ingestion/legal_domain.h` (2026-04-15)
+- [x] `LegalEntityExport` — JSON-LD + Turtle/N-Triples RDF for juris / EUR-Lex compatibility — `include/ingestion/legal_domain.h` (2026-04-15)
+- [x] Tests: LD-01..LD-15 + DS-01..DS-05 — `tests/test_ingestion_legal_domain.cpp` (2026-04-15)
+
+### Phase 7: LLM-as-judge Runtime Quality Control (Status: Completed ✅)
+- [x] `IngestionJudgeConfig` — per-dimension thresholds, LLM params, re-ingestion limits — `include/ingestion/ingestion_quality_judge.h` (2026-04-15)
+- [x] `IngestionQualityReport` — completeness/groundedness/entity_coverage/relation_coherence scores, missing_entities, ungrounded_claims, recommended_steps, rationales — `include/ingestion/ingestion_quality_judge.h` (2026-04-15)
+- [x] `IIngestionQualityObserver` — noexcept callbacks: onQualityEvaluated / onReIngestionTriggered / onReIngestionComplete — `include/ingestion/ingestion_quality_judge.h` (2026-04-15)
+- [x] `IngestionQualityJudge` — stateless LLM-prompt builder + score parser + observer dispatch; thread-safe; fail-open when backend unavailable — `include/ingestion/ingestion_quality_judge.h` + `src/ingestion/ingestion_quality_judge.cpp` (2026-04-15)
+- [x] `ReIngestionController` — feedback loop: run → evaluate → re-ingest until quality passes or max_reingestion_attempts exhausted; persists best-quality context — `include/ingestion/ingestion_quality_judge.h` + `src/ingestion/ingestion_quality_judge.cpp` (2026-04-15)
+- [x] `IngestionManager::setReIngestionController()` / `getReIngestionController()` — `include/ingestion/ingestion_manager.h` + `src/ingestion/ingestion_manager.cpp` (2026-04-15)
+- [x] Tests: IJ-01..IJ-08, QR-01..QR-04, RC-01..RC-06, IM-01..IM-02 (20 tests) — `tests/test_ingestion_quality_judge.cpp` (2026-04-15)
+- [x] Stub/mock audit: `NullTextGenerationBackend`, `InMemoryGraphWriter/VectorWriter/DocWriter`, `InMemorySharedCheckpointStore`, all connector `ingestFromMock` paths (cdc/database/kafka/s3/object_storage), `TextProcessor::generateEmbedding` — all upgraded to canonical `STUB/SIMULATION NOTE:` format (2026-04-15)
+- [x] Google Benchmarks: QJ01..QJ11 — `benchmarks/bench_ingestion_quality_judge.cpp` — fail-open path, single/all-dim eval, entity scaling, bullet-list parsing, observer dispatch (0/N), config mutation, ctor/dtor, CRAG-style feedback loop simulation — registered in `benchmarks/CMakeLists.txt` (2026-04-15)
+- [x] Header documentation: scientific paper references (LLM-as-judge Zheng et al. NeurIPS 2023, RAGAS Es et al. EACL 2024, CRAG Yan et al. ICLR 2024) and full SOLID / SoC annotation added to `include/ingestion/ingestion_quality_judge.h` (2026-04-15)
+
+### Phase 8: Global Toolbox (Status: Completed ✅)
+- [x] `IngestionToolbox` — injectable system-wide service wrapping `WorkflowEngine` + `StepRegistry` + `ITextGenerationBackend` — `include/toolbox/ingestion_toolbox.h` + `src/toolbox/ingestion_toolbox.cpp` (namespace `themis::toolbox`) (2026-04-15)
+  - `createDefault()` factory pre-registers `builtin.ner_de` + `builtin.llm_extract`
+  - `setWorkflowEngine()` / `setTextBackend()` for DI (no singleton)
+  - `extractEntities(text, mime, filename)` convenience method
+- [x] `AQLIngestionBridge` — bridge in `aql/` consuming `toolbox/`; `ingestion/` never imported from `aql/` — `include/aql/aql_ingestion_bridge.h` + `src/aql/aql_ingestion_bridge.cpp` (2026-04-15)
+  - `enrichInsertPayload(json&)` — WorkflowEngine on INSERT/UPSERT payload → `_entities` + optional graph write
+  - `extractEntitiesForContext(text)` → `vector<BaseEntity>` for NL→AQL schema context injection
+  - `buildEntityContext(entities)` → compact entity string for LLM prompt enrichment
+- [x] `LLMAQLHandler::setIngestionBridge()` / `ingestionBridge()` — opt-in bridge injection (2026-04-15)
+- [x] `AQLQueryBuilder::withIngestionEnrichment()` / `hasIngestionEnrichment()` — advisory DML enrichment flag (2026-04-15)
+- [x] Tests: IT-01..IT-10, AB-01..AB-10, QB-01..QB-04, LH-01..LH-03 (27 tests) — `tests/test_toolbox_ingestion.cpp` (2026-04-15)
+- [x] ARCHITECTURE.md updated — "Global Ingestion Toolbox" section + `toolbox::` in namespace hierarchy
+
 ## Breaking Changes
 - `IngestionBuilder` fluent API is stable from v1.x.
 - Source connector interface may gain new lifecycle hooks in v1.6.0.
+- `FileFormat` enum extended in v2.0.0 — switch statements that previously covered all enum values must add cases for: `MD`, `EPUB`, `XLSX`, `CSV`, `ZIP`, `SHP`, `GEOJSON`, `DXF`, `PNG`, `JPG`, `DB`.
+- `PluginType` enum extended with `INGESTION_STEP` — any serialisation/deserialisation of `PluginType` strings must handle `"ingestion_step"`.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `AgenticReferenceValidator` – Validiert Rechtsreferenzen in Ingestion-Pipelines (LegalStep); getestet in test_legal_extraction
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+

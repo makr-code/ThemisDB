@@ -3,25 +3,25 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gorilla_simd.h                                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:12:21                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:47:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     91                                             ║
+    • Total Lines:     89                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f151b2a1b  2026-03-13  feat(timeseries): vectorised Gorilla chunk decoder with S... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_GORILLA_SIMD_H
-#define THEMIS_GORILLA_SIMD_H
+#pragma once
 
 #include "timeseries/gorilla.h"
 #include <cstdint>
@@ -87,5 +87,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_GORILLA_SIMD_H

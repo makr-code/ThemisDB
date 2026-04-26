@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_vector_index.h                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:07:59                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     185                                            ║
+    • Total Lines:     181                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • dc534b830  2026-03-13  feat(index): implement GPU memory oversubscription (v1.7.0) ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • bdf8bb008  2026-02-28  audit: fix VRAM accounting bug, add numVectors sanity cap... ║
-    • 2813641e1  2026-02-26  feat(index): implement configurable GPU memory budget per... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • dc534b8301  2026-03-13  feat(index): implement GPU memory oversubscription (v1.7.0) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

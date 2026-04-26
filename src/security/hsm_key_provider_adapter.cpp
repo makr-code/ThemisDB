@@ -3,19 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_key_provider_adapter.cpp                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:27                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   90.0/100                                       ║
-    • Total Lines:     491                                            ║
+    • Total Lines:     490                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e52586aae  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -342,7 +338,7 @@ bool HSMKeyProviderAdapter::isHSMReady() const {
 std::vector<uint8_t> HSMKeyProviderAdapter::generateRandomDEK() const {
     std::vector<uint8_t> dek(32); // 256 bits for AES-256
     
-    if (RAND_bytes(dek.data(), dek.size()) != 1) {
+    if (RAND_bytes(dek.data(), static_cast<int>(dek.size())) != 1) {
         unsigned long err = ERR_get_error();
         char err_buf[256];
         ERR_error_string_n(err, err_buf, sizeof(err_buf));

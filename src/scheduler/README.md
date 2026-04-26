@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-11 -->
+> **Build:** `cmake --preset release && cmake --build build/release --target <target>`
+
+<!-- Status: current | validated: 2026-04-06 -->
 # ThemisDB Scheduler Module
 
 The Scheduler module provides ThemisDB's task scheduling and automation implementation. It enables cron-like periodic execution of AQL queries and custom functions for data processing, maintenance, backup, retention, and analytics workflows. The module includes a generic task scheduler and a specialized hybrid retention manager for time-series data lifecycle management.
@@ -173,3 +175,7 @@ See [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md) for roadmap.
 3. Corbett, J. C., Dean, J., Epstein, M., Fikes, A., Frost, C., Furman, J., … Woodford, D. (2013). **Spanner: Google's Globally Distributed Database**. *ACM Transactions on Computer Systems*, 31(3), 8:1–8:22. https://doi.org/10.1145/2491245
 
 4. Quartz Scheduler Development Team. (2023). **Quartz Scheduler: Enterprise Job Scheduling**. Terracotta. http://www.quartz-scheduler.org/
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

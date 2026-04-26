@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            shard_repair_engine.cpp                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:22                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     715                                            ║
+    • Total Lines:     713                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 35b0161a0  2026-03-13  fix(sharding): wire IOPS throttle and GPU flag into Shard... ║
-    • f205c3d0d  2026-03-13  fix(sharding): address code review feedback - capture sca... ║
-    • 096960f50  2026-03-13  feat(sharding): implement Reed-Solomon repair engine para... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 35b0161a0f  2026-03-13  fix(sharding): wire IOPS throttle and GPU flag into Shard... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -32,6 +29,7 @@
 
 #include "sharding/shard_repair_engine.h"
 #include "sharding/shard_resource_manager.h"
+#include "utils/expected.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <future>
@@ -286,9 +284,40 @@ std::string ShardRepairEngine::exportPrometheusMetrics() const {
     return oss.str();
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Background threads
-// ─────────────────────────────────────────────────────────────────────────────
+// RVW-01..04 — runConsistencyCheck
+themis::Result<std::string> ShardRepairEngine::runConsistencyCheck() const {
+    auto reports = getShardHealthReports();
+
+    uint64_t degraded        = 0;
+    uint64_t unrecoverable   = 0;
+    for (const auto& r : reports) {
+        if (r.status == ShardRepairStatus::DEGRADED ||
+            r.status == ShardRepairStatus::FAILED) {
+            ++degraded;
+        }
+        if (r.documents_unrecoverable > 0) {
+            ++unrecoverable;
+        }
+    }
+
+    if (unrecoverable > 0) {
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                  "Replica validation: " +
+                  std::to_string(degraded) + " degraded / " +
+                  std::to_string(unrecoverable) + " unrecoverable shard(s) found"));
+    }
+
+    if (degraded > 0) {
+        return std::string("Replica validation: " +
+                           std::to_string(degraded) + " degraded / 0 unrecoverable shard(s) found");
+    }
+
+    return std::string("Replica validation OK: " +
+                       std::to_string(reports.size()) + " shard(s) healthy");
+}
+
+
 
 void ShardRepairEngine::scanLoop() {
     while (running_.load()) {

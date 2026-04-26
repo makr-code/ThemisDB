@@ -332,7 +332,7 @@
 
 ---
 
-### ✅ [PROJECT_SUMMARY_THEMIS_v1.4.md](PROJECT_SUMMARY_THEMIS_v1.4.md)
+### ✅ [PROJECT_SUMMARY_THEMIS_v1.4.md](../ARCHIVED/implementation-summaries/PROJECT_SUMMARY_THEMIS_v1.4.md)
 - **Update 1:** New Section "SHARDING & HYPERSCALER BENCHMARKS (NEU)" in DELIVERABLES
 - **Update 2:** Deliverable Count: 13 → 24+ (added 11 new files)
 - **Content:**
@@ -429,7 +429,7 @@ Data Integrity:              100% (Target: 100%) ✅
 
 ### Integration
 13. [RELEASE_NOTES_v1.4.md](RELEASE_NOTES_v1.4.md) (Updated with Sharding section)
-14. [PROJECT_SUMMARY_THEMIS_v1.4.md](PROJECT_SUMMARY_THEMIS_v1.4.md) (Updated with Sharding assets)
+14. [PROJECT_SUMMARY_THEMIS_v1.4.md](../ARCHIVED/implementation-summaries/PROJECT_SUMMARY_THEMIS_v1.4.md) (Updated with Sharding assets)
 
 ---
 
@@ -439,5 +439,5 @@ Data Integrity:              100% (Target: 100%) ✅
 **Both Main Docs Updated with Cross-References**  
 **Ready for Production Use**
 
-Last Updated: 29. Dezember 2025  
+Last Updated: 6. April 2026  
 Status: ✅ COMPLETE

@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metadata_wal.h                                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:34                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     217                                            ║
+    • Total Lines:     215                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -24,8 +25,7 @@
 // Licensed under MIT License
 // Phase 2.2: Metadata Shard Durability
 
-#ifndef THEMISDB_SHARDING_METADATA_WAL_H
-#define THEMISDB_SHARDING_METADATA_WAL_H
+#pragma once
 
 #include "sharding/wal_manager.h"
 #include "sharding/metadata_shard.h"
@@ -48,7 +48,7 @@ using WALEntryType = themis::sharding::WALEntryType;
  */
 enum class MetadataWALEntryType {
     PUT = 120,     // Put metadata entry
-    DELETE = 121,  // Delete metadata entry
+    DELETE_OP = 121,  // Delete metadata entry
     UPDATE = 122   // Update existing entry
 };
 
@@ -213,5 +213,3 @@ private:
 
 } // namespace sharding
 } // namespace themisdb
-
-#endif // THEMISDB_SHARDING_METADATA_WAL_H

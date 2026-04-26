@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed_buffer.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:14:39                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     505                                            ║
+    • Total Lines:     504                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 39ac8c3ef  2026-03-20  Split default-arg constructors into overloads ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b7ab19d6f  2026-02-24  feat(cdc): implement dead-letter queue for failed event d... ║
+    • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -118,6 +116,7 @@ Changefeed::ChangeEvent ChangefeedBuffer::recordEvent(Changefeed::ChangeEvent ev
     if (config_.compress_payloads && event.value.has_value()) {
         size_t payload_size = event.value->size();
         if (payload_size > config_.compression_threshold_bytes) {
+#pragma warning(suppress: 4456)
             CDC_MEASURE_LATENCY(metrics_.compression_latency);
             try {
                 auto compressed = utils::zstd_compress(*event.value, 3);
@@ -165,12 +164,12 @@ Changefeed::ChangeEvent ChangefeedBuffer::recordEvent(Changefeed::ChangeEvent ev
         // Add to buffer
         auto& buffer = buffers_[event.type];
         BufferedEvent buffered_event(event);
-        size_t event_size = buffered_event.memory_bytes;
+        size_t buffered_size = buffered_event.memory_bytes;
         buffer.add(std::move(buffered_event));
         
         stats_.events_buffered++;
         stats_.current_buffer_size++;
-        stats_.current_buffer_memory += event_size;
+        stats_.current_buffer_memory += buffered_size;
         
         // Check if this buffer needs immediate flush
         if (buffer.events.size() >= config_.max_events_per_buffer) {
@@ -269,6 +268,7 @@ size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, Eve
                 if (event.metadata.contains("_compressed") && event.metadata["_compressed"] == true) {
                     if (event.value.has_value()) {
                         {
+#pragma warning(suppress: 4456)
                             CDC_MEASURE_LATENCY(metrics_.decompression_latency);
                             try {
                                 std::vector<uint8_t> compressed_data(event.value->begin(), event.value->end());

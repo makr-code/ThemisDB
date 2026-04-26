@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            base_entity.cpp                                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:25                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 5bfa861df  2026-03-23  Add runtime DLL copying functionality and error handling ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -665,8 +664,7 @@ void BaseEntity::setGeometry(const Blob& ewkb) {
     try {
         auto geom_info = geo::EWKBParser::parse(ewkb);
         geo_sidecar_ = geo::EWKBParser::computeSidecar(geom_info);
-    } catch (const std::exception& e) {
-        (void)e;
+    } catch ([[maybe_unused]] const std::exception& e) {
         // Log warning but don't fail
         geo_sidecar_.reset();
     }

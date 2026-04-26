@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [llm](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-04  
+**Datum:** 2026-04-17  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/llm/ARCHITECTURE.md`
@@ -28,24 +28,9 @@
 
 # Primary Sources — `llm`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`llm`** aus den Verzeichnissen `src/llm/` und/oder `include/llm/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`llm`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/llm/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/llm/ARCHITECTURE.md`](../../../src/llm/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/llm/AUDIT.md`](../../../src/llm/AUDIT.md) |
-| `CHANGELOG.md` | [`src/llm/CHANGELOG.md`](../../../src/llm/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/llm/FUTURE_ENHANCEMENTS.md`](../../../src/llm/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/llm/README.md`](../../../src/llm/README.md) |
-| `ROADMAP.md` | [`src/llm/ROADMAP.md`](../../../src/llm/ROADMAP.md) |
-| `SECURITY.md` | [`src/llm/SECURITY.md`](../../../src/llm/SECURITY.md) |
-| `gguf_loader_README.md` | [`src/llm/gguf_loader_README.md`](../../../src/llm/gguf_loader_README.md) |
-| `README.md` | [`src/llm/grammars/README.md`](../../../src/llm/grammars/README.md) |
-| `llama_lora_adapter_README.md` | [`src/llm/llama_lora_adapter_README.md`](../../../src/llm/llama_lora_adapter_README.md) |
 
 ### `include/llm/`
 
@@ -59,6 +44,26 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`llm`** aus
 | `ROADMAP.md` | [`include/llm/ROADMAP.md`](../../../include/llm/ROADMAP.md) |
 | `SECURITY.md` | [`include/llm/SECURITY.md`](../../../include/llm/SECURITY.md) |
 
+### `src/llm/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/llm/ARCHITECTURE.md`](../../../src/llm/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/llm/AUDIT.md`](../../../src/llm/AUDIT.md) |
+| `CHANGELOG.md` | [`src/llm/CHANGELOG.md`](../../../src/llm/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/llm/FUTURE_ENHANCEMENTS.md`](../../../src/llm/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/llm/README.md`](../../../src/llm/README.md) |
+| `ROADMAP.md` | [`src/llm/ROADMAP.md`](../../../src/llm/ROADMAP.md) |
+| `SECURITY.md` | [`src/llm/SECURITY.md`](../../../src/llm/SECURITY.md) |
+| `gguf_loader_README.md` | [`src/llm/gguf_loader_README.md`](../../../src/llm/gguf_loader_README.md) |
+| `llama_lora_adapter_README.md` | [`src/llm/llama_lora_adapter_README.md`](../../../src/llm/llama_lora_adapter_README.md) |
+
+### `src/llm/grammars/`
+
+| Datei | Pfad |
+|-------|------|
+| `README.md` | [`src/llm/grammars/README.md`](../../../src/llm/grammars/README.md) |
+
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-04*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*

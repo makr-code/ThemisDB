@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_temporal_query_engine.cpp                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:23:40                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:52:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     781                                            ║
+    • Total Lines:     779                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 96f1f1fd7  2026-03-24  Changes before error encountered         ║
-    • fe76ac476  2026-03-12  fix(temporal): address PR review comments on QueryCache a... ║
-    • bce530ee4  2026-03-12  feat(temporal): implement Time-Travel Query Engine (v1.2.0) ║
-    • 6e8942ed4  2026-03-09  feat(temporal): implement bitemporal joins and SEQUENCED/... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 96f1f1fd7c  2026-03-24  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -779,4 +775,73 @@ TEST(TemporalQuerySpecTest, All_Factory_SetsFlagAndRange) {
     EXPECT_TRUE(spec.include_deleted);
     EXPECT_EQ(spec.start_time, kMinTimestamp);
     EXPECT_EQ(spec.end_time, kMaxTimestamp);
+}
+
+// ── SEQUENCED DISTINCT tests (SD-01..06) ─────────────────────────────────────
+
+TEST(SequencedDistinctTest, SD_01_NoRows_ReturnsEmpty) {
+    SystemVersionedTable t{"tbl", "n"};
+    auto result = TemporalQueryEngine::sequencedDistinct(t);
+    EXPECT_TRUE(result.empty());
+}
+
+TEST(SequencedDistinctTest, SD_02_SingleVersion_PassesThrough) {
+    SystemVersionedTable t{"tbl", "n"};
+    t.insert("k1", {{"v", 1}});
+    auto result = TemporalQueryEngine::sequencedDistinct(t);
+    ASSERT_EQ(result.size(), 1u);
+    EXPECT_EQ(result[0].key, "k1");
+}
+
+TEST(SequencedDistinctTest, SD_03_AdjacentSameData_Coalesced) {
+    SystemVersionedTable t{"tbl", "n"};
+    // Insert k1 → update with same data → history has 2 contiguous versions.
+    t.insert("k1", {{"v", 42}});
+    t.upsert("k1", {{"v", 42}});  // same data, advances sys_time
+
+    auto all = TemporalQueryEngine::sequencedDistinct(t, {"v"});
+    // The two adjacent equal-data intervals should coalesce into one.
+    size_t k1_count = 0;
+    for (const auto& row : all) {
+        if (row.key == "k1") ++k1_count;
+    }
+    EXPECT_EQ(k1_count, 1u);
+}
+
+TEST(SequencedDistinctTest, SD_04_DifferentData_NotCoalesced) {
+    SystemVersionedTable t{"tbl", "n"};
+    t.insert("k1", {{"v", 1}});
+    t.upsert("k1", {{"v", 2}});  // different data
+
+    auto result = TemporalQueryEngine::sequencedDistinct(t, {"v"});
+    size_t k1_count = 0;
+    for (const auto& row : result) {
+        if (row.key == "k1") ++k1_count;
+    }
+    // Two distinct data values → two rows after coalescing.
+    EXPECT_GE(k1_count, 1u);
+}
+
+TEST(SequencedDistinctTest, SD_05_ForKey_OnlyOneKey) {
+    SystemVersionedTable t{"tbl", "n"};
+    t.insert("k1", {{"v", 1}});
+    t.insert("k2", {{"v", 2}});
+
+    auto result = TemporalQueryEngine::sequencedDistinctForKey(t, "k1");
+    for (const auto& row : result) {
+        EXPECT_EQ(row.key, "k1");
+    }
+}
+
+TEST(SequencedDistinctTest, SD_06_EmptyCompareFields_ComparesAll) {
+    SystemVersionedTable t{"tbl", "n"};
+    t.insert("k1", {{"v", 1}, {"extra", "x"}});
+    t.upsert("k1", {{"v", 1}, {"extra", "x"}});  // identical full document
+
+    auto result = TemporalQueryEngine::sequencedDistinct(t);  // compare all fields
+    size_t k1_count = 0;
+    for (const auto& row : result) {
+        if (row.key == "k1") ++k1_count;
+    }
+    EXPECT_EQ(k1_count, 1u);
 }

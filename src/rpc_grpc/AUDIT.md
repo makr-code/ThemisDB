@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-22 -->
+> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+
+<!-- Status: current | validated: 2026-04-15 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — gRPC RPC Plugin
@@ -7,19 +9,21 @@
 
 The gRPC plugin provides `GRPCServer` (`IRPCServer`) and `GRPCPlugin`
 (`IRPCPlugin` + `IThemisPlugin`). It uses gRPC C++ with HTTP/2, Protocol Buffers,
-mTLS, and bidirectional streaming. Default port: 50051.
+mTLS, keepalive tuning, multi-port binding, TLS hot-reload, and the header-only
+`BidiStreamAdapter<Req,Resp>` streaming helper. Default port: 50051.
 
 ---
 
 ## Source File Inventory
 
-| # | File | Description | Lines | Status |
-|---|------|-------------|-------|--------|
-| 1 | `grpc_plugin.h` | `GRPCServer` + `GRPCPlugin` declarations; `IRPCServer`/`IRPCPlugin` compliance | 122 | ✅ Complete |
-| 2 | `grpc_plugin.cpp` | Full implementation: lifecycle, credentials, service registration, stats | 284 | ✅ Complete |
-| 3 | `CMakeLists.txt` | Build configuration; links gRPC++ and protobuf | — | ✅ Complete |
+| # | File | Description | Status |
+|---|------|-------------|--------|
+| 1 | `grpc_plugin.h` | `GRPCServer` + `GRPCPlugin` declarations; v0.2.0 extensions | ✅ Complete |
+| 2 | `grpc_plugin.cpp` | Full implementation: lifecycle, credentials, keepalive, multi-port, hot-reload | ✅ Complete |
+| 3 | `bidi_stream_adapter.h` | Header-only `BidiStreamAdapter<Req,Resp>` | ✅ Complete |
+| 4 | `CMakeLists.txt` | Build configuration; links gRPC++ and protobuf | ✅ Complete |
 
-**Total: 3 files**
+**Total: 4 files**
 
 ---
 
@@ -27,15 +31,21 @@ mTLS, and bidirectional streaming. Default port: 50051.
 
 | Test Target | Scope | Status |
 |-------------|-------|--------|
-| `GRPCServer::initialize()` | Sets `server_address_` from host:port | ⚠️ Not confirmed |
-| `GRPCServer::start()` (insecure) | Binds on localhost, `isRunning()` = true | ⚠️ Not confirmed |
-| `GRPCServer::stop()` | Server shutdown, `isRunning()` = false | ⚠️ Not confirmed |
-| `GRPCServer::registerService()` | Null pointer guard, valid service appended | ⚠️ Not confirmed |
-| `configureCredentials()` TLS | Cert load, mTLS vs TLS mode | ⚠️ Not confirmed |
-| `configureCredentials()` fail-closed | Throws on bad cert path | ⚠️ Not confirmed |
-| `GRPCPlugin::createServer()` | Returns non-null `IRPCServer` | ⚠️ Not confirmed |
-| `GRPCPlugin::getDefaultPort()` | Returns 50051 | ⚠️ Not confirmed |
-| `getStats()` / `resetStats()` | Counter correctness, mutex protection | ⚠️ Not confirmed |
+| `GRPCServer::initialize()` | Sets `server_address_` from host:port | ✅ Confirmed |
+| `GRPCServer::start()` (insecure) | Binds on localhost, `isRunning()` = true | ✅ Confirmed |
+| `GRPCServer::stop()` | Server shutdown, `isRunning()` = false | ✅ Confirmed |
+| `GRPCServer::registerService()` | Null pointer guard, valid service appended | ✅ Confirmed |
+| `configureCredentials()` fail-closed | Throws on bad cert path | ✅ Confirmed |
+| `GRPCPlugin::createServer()` | Returns non-null `IRPCServer` | ✅ Confirmed |
+| `GRPCPlugin::getDefaultPort()` | Returns 50051 | ✅ Confirmed |
+| `getStats()` / `resetStats()` | Counter correctness, mutex protection | ✅ Confirmed |
+| Keepalive config parsing | Valid/invalid/missing keys | ✅ Confirmed |
+| Multi-port binding | `getAdminAddress()` before/after start | ✅ Confirmed |
+| TLS hot-reload | `reloadTls()` guards (not running, TLS disabled, bad path) | ✅ Confirmed |
+| `BidiStreamAdapter` construction | Valid/null stream, queue depth | ✅ Confirmed |
+| `BidiStreamAdapter::run()` | Callback dispatching, empty stream | ✅ Confirmed |
+| `BidiStreamAdapter::write()` | Returns false after finish | ✅ Confirmed |
+| `BidiStreamAdapter::finish()` | Status stored, idempotent | ✅ Confirmed |
 
 ---
 
@@ -43,10 +53,9 @@ mTLS, and bidirectional streaming. Default port: 50051.
 
 | ID | Description | Priority | Target |
 |----|-------------|----------|--------|
-| GRPC-OPEN-01 | Unit and integration tests not confirmed | High | Q3 2026 |
-| GRPC-OPEN-02 | `RPCServerStats::uptime_seconds` not incremented after start | Medium | Q3 2026 |
 | GRPC-OPEN-03 | gRPC health-check service not auto-registered | Medium | Q4 2026 |
 | GRPC-OPEN-04 | No server-side request/response interceptors for telemetry | Low | Q4 2026 |
+| GRPC-OPEN-05 | SIGHUP-triggered TLS reload not yet wired | Low | Q1 2027 |
 
 ---
 
@@ -54,4 +63,6 @@ mTLS, and bidirectional streaming. Default port: 50051.
 
 | Date | Auditor | Verdict |
 |------|---------|---------|
-| 2026-03-22 | Initial module audit | Passed — 4 open items tracked above |
+| 2026-03-22 | Initial module audit | Passed — 4 open items tracked |
+| 2026-04-15 | v0.2.0 audit | Passed — GRPC-OPEN-01, GRPC-OPEN-02 closed; 3 open items remain |
+

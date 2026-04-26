@@ -1,4 +1,8 @@
+> ⚠️ **Historische Zusammenfassung** – Stand zum Zeitpunkt der Erstellung.
+
 # Final Implementation Summary: Standalone Moral Dialectic with GUI
+
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
 
 ## Two Complete Implementations Delivered
 

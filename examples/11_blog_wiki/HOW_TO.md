@@ -1,3 +1,5 @@
+> **Aktueller Build-Flow:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Blog/Wiki-System - Anleitung
 
 Diese Anleitung führt Sie Schritt für Schritt durch die Verwendung des Blog/Wiki-Systems.

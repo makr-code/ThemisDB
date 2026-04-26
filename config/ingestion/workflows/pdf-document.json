@@ -1,0 +1,57 @@
+{
+  "apiVersion": "themis.ingestion/v1",
+  "kind": "IngestionWorkflow",
+  "name": "pdf-document",
+  "description": "Generic PDF documents — full-text extraction via IFormatExtractor (PDFProcessor adapter) with optional OCR fallback",
+
+  "file_patterns": {
+    "mime_types": [
+      "application/pdf"
+    ],
+    "filename_patterns": [
+      "*.pdf"
+    ]
+  },
+
+  "steps": [
+    {
+      "name": "parse_pdf",
+      "plugin": "builtin.parse_pdf",
+      "on_failure": "abort",
+      "config": {
+        "ocr_fallback_on_empty": true,
+        "ocr_language": "deu+eng",
+        "extract_metadata": true,
+        "extract_tables": true
+      }
+    },
+    {
+      "name": "chunk",
+      "plugin": "builtin.chunk_text",
+      "on_failure": "skip",
+      "config": {
+        "strategy": "section",
+        "size": 512,
+        "overlap": 64
+      }
+    },
+    {
+      "name": "assemble",
+      "plugin": "builtin.base_entity_assembler",
+      "on_failure": "skip",
+      "config": {
+        "dedup_strategy": "canonical_id"
+      }
+    }
+  ],
+
+  "output": {
+    "graph": false,
+    "vector": true,
+    "document_store": true,
+    "quality_gate": {
+      "min_entities": 0,
+      "min_quality_score": 0.0
+    }
+  }
+}

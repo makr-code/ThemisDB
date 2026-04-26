@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Voice Module
 
 Voice/audio interface capabilities for natural language interaction with ThemisDB.
@@ -10,14 +12,18 @@ Implements a voice query interface for ThemisDB, enabling speech-to-text transcr
 
 **In scope:** Speech-to-text integration (Whisper), voice-to-AQL query generation, audio preprocessing, voice session management.
 
-**Out of scope:** TTS (text-to-speech) output, audio recording hardware interface, language model training.
+**Out of scope:** Audio recording hardware interface, language model training.
 
 ## Relevant Interfaces
 
-- `voice_processor.cpp` — audio preprocessing and transcription orchestration
-- `speech_to_text.cpp` — Whisper integration
-- `voice_query_generator.cpp` — NL-to-AQL from voice
-- `voice_session.cpp` — session management
+- `voice_assistant.cpp` / `include/voice/voice_assistant.h` — main orchestrator (`VoiceAssistant`)
+- `audio_preprocessing.cpp` / `include/voice/audio_preprocessing.h` — `AudioPreprocessingPipeline`, `NoiseSuppressor`
+- `voice_intent_detector.cpp` / `include/voice/voice_intent_detector.h` — `VoiceIntentDetector`
+- `voice_session_manager.cpp` / `include/voice/voice_session_manager.h` — `VoiceSessionManager`
+- `voice_assistant_llm.cpp` — LLM-backed intent and response generation
+- `voice_authenticator.cpp` / `include/voice/voice_auth.h` — `VoiceBiometricAuthenticator`
+- `voice_browser_streaming.cpp` / `include/voice/voice_browser_streaming.h` — `VoiceStreamingSession`, `VoiceStreamingManager`
+- `voice_telephony.cpp` / `include/voice/voice_telephony.h` — `SipCallSession`, `WebRtcCallSession`, `IvrEngine`, `TelephonyBridge`
 
 ## Current Delivery Status
 
@@ -111,11 +117,11 @@ Voice Command Flow:
 **Example Interaction:**
 ```
 User: "Show me sales data from last month"
-Assistant: "I found 1,247 sales records from December 2025. 
+Assistant: "I found 1,247 sales records from December 2025.
             Total revenue was $2.3 million, up 15% from November."
 
 User: "What were the top products?"
-Assistant: "The top 3 products were: Product A with $450K, 
+Assistant: "The top 3 products were: Product A with $450K,
             Product B with $380K, and Product C with $320K."
 ```
 
@@ -128,7 +134,7 @@ assistant.initialize();
 std::vector<uint8_t> audio_input = record_from_microphone();
 std::string session_id = "user123_session1";
 
-std::vector<uint8_t> audio_response = 
+std::vector<uint8_t> audio_response =
     assistant.processVoiceCommand(audio_input, session_id);
 
 play_audio(audio_response);
@@ -230,7 +236,7 @@ metadata.title = "Q4 2025 Business Review";
 metadata.organizer = "alice@example.com";
 metadata.participants = {
     "alice@example.com",
-    "bob@example.com", 
+    "bob@example.com",
     "carol@example.com"
 };
 metadata.start_time = get_timestamp();
@@ -381,7 +387,7 @@ Input: "How many customers signed up last week?"
 2. Intent: QUERY_INTENT (data retrieval)
 3. Entities:
    - Metric: "count"
-   - Object: "customers"  
+   - Object: "customers"
    - Time: "last week"
    - Action: "signed up"
 4. Context: None needed (standalone query)
@@ -614,10 +620,10 @@ std::string session_id = generate_session_id();
 while (true) {
     // Record user voice
     auto audio_input = record_audio(5000); // 5 seconds
-    
+
     // Process and get response
     auto audio_output = assistant.processVoiceCommand(audio_input, session_id);
-    
+
     // Play response
     play_audio(audio_output);
 }
@@ -629,9 +635,9 @@ while (true) {
 
 class CallCenterIntegration {
 public:
-    CallCenterIntegration(VoiceAssistant& assistant) 
+    CallCenterIntegration(VoiceAssistant& assistant)
         : assistant_(assistant) {}
-    
+
     void handleIncomingCall(
         const std::string& caller_number,
         std::vector<uint8_t> recording
@@ -643,10 +649,10 @@ public:
         metadata.callee_number = get_agent_number();
         metadata.call_type = "inbound";
         metadata.start_time = get_current_time();
-        
+
         // Process call
         json result = assistant_.recordPhoneCall(recording, metadata);
-        
+
         // Store in CRM
         if (result["success"]) {
             update_crm({
@@ -657,13 +663,13 @@ public:
                 {"document_id", result["document_id"]}
             });
         }
-        
+
         // Check for follow-up actions
         if (result.contains("action_items")) {
             create_follow_up_tasks(result["action_items"]);
         }
     }
-    
+
 private:
     VoiceAssistant& assistant_;
 };
@@ -682,29 +688,29 @@ public:
     ) {
         // Start recording
         auto audio_stream = start_room_recording(room_id);
-        
+
         MeetingMetadata metadata;
         metadata.meeting_id = generate_meeting_id();
         metadata.title = title;
         metadata.participants = participants;
         metadata.organizer = get_organizer_from_calendar(title);
         metadata.start_time = get_current_time();
-        
+
         // Wait for meeting to end
         wait_for_meeting_end(room_id);
-        
+
         metadata.end_time = get_current_time();
         auto recording = audio_stream.finalize();
-        
+
         // Generate protocol
         json protocol = assistant_.generateMeetingProtocol(recording, metadata);
-        
+
         // Distribute to participants
         email_meeting_minutes(participants, protocol);
-        
+
         // Store in document management system
         store_in_dms(protocol);
-        
+
         // Create calendar entries for action items
         for (const auto& item : protocol["action_items"]) {
             create_calendar_reminder(
@@ -714,7 +720,7 @@ public:
             );
         }
     }
-    
+
 private:
     VoiceAssistant assistant_;
 };
@@ -876,8 +882,8 @@ Solution: Implement session persistence:
 
 ---
 
-*Last Updated: January 2026*  
-*Module Version: v1.0.0*  
+*Last Updated: January 2026*
+*Module Version: v1.0.0*
 *Next Review: v1.1.0 Release*
 
 ## Scientific References
@@ -891,3 +897,7 @@ Solution: Implement session persistence:
 4. Jurafsky, D., & Martin, J. H. (2023). **Speech and Language Processing (3rd ed. draft)**. Prentice Hall. https://web.stanford.edu/~jurafsky/slp3/
 
 5. Guo, W., Su, S., & Xu, R. (2021). **Recent Advances of Conformer-Based Speech Recognition**. *arXiv preprint*. https://arxiv.org/abs/2105.08206
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

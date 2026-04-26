@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_api_handler.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:51                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1468                                           ║
+    • Total Lines:     1469                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 13e4bb297  2026-03-26  Enhance GraphQL Performance Tests and Saga Operation Comp... ║
-    • afc6b2738  2026-03-26  fix: Resolve BSI/RAG production blockers – JWT, mTLS, CRL... ║
-    • ac1c6ff53  2026-03-26  fix: thread pool priority queue + latency, lora memory/ba... ║
-    • 490de27f0  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -41,26 +38,6 @@
 #include "utils/tracing.h"
 
 namespace themis::server {
-
-namespace {
-    // Helper to extract JWT token from Authorization header
-    std::optional<std::string> extractBearerToken(const http::request<http::string_body>& req) {
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
-            return std::nullopt;
-        }
-        
-        std::string auth_header{it->value()};
-        std::regex bearer_regex(R"(^Bearer\s+(.+)$)", std::regex::icase);
-        std::smatch matches;
-        
-        if (std::regex_match(auth_header, matches, bearer_regex) && matches.size() == 2) {
-            return matches[1].str();
-        }
-        
-        return std::nullopt;
-    }
-}
 
 LoRAApiHandler::LoRAApiHandler(
     std::shared_ptr<llm::lora::LoRAOrchestrator> orchestrator,
@@ -955,7 +932,7 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAQuery(
 // ═══════════════════════════════════════════════════════════
 
 http::response<http::string_body> LoRAApiHandler::handleLoRAStats(
-    const http::request<http::string_body>& req) {
+    const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handleLoRAStats");
     
     try {
@@ -982,7 +959,7 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAStats(
 }
 
 http::response<http::string_body> LoRAApiHandler::handleLoRAHealth(
-    const http::request<http::string_body>& req) {
+    const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handleLoRAHealth");
     
     try {

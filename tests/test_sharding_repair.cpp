@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_sharding_repair.cpp                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:33:48                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:57:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1261                                           ║
+    • Total Lines:     1259                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 35b0161a0  2026-03-13  fix(sharding): wire IOPS throttle and GPU flag into Shard... ║
-    • f205c3d0d  2026-03-13  fix(sharding): address code review feedback - capture sca... ║
-    • 096960f50  2026-03-13  feat(sharding): implement Reed-Solomon repair engine para... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 35b0161a0f  2026-03-13  fix(sharding): wire IOPS throttle and GPU flag into Shard... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -1259,3 +1256,79 @@ TEST_F(ShardRepairEngineResourceManagerTest, ThrottledRepairRespectsBudget) {
 }
 
 
+
+// ============================================================================
+// RVW-01..06  runConsistencyCheck() + makeReplicaValidationHandler() wiring
+// ============================================================================
+
+#include "maintenance/maintenance_task_handler_impls.h"
+#include "maintenance/maintenance_task.h"   // MaintenanceTaskType
+
+// RVW-01: empty health map → OK summary
+TEST_F(ShardRepairEngineTest, RVW01_RunConsistencyCheck_NoShards_ReturnsOk) {
+    auto result = engine_->runConsistencyCheck();
+    ASSERT_TRUE(result.has_value()) << result.error().context();
+    EXPECT_NE(result->find("OK"), std::string::npos);
+}
+
+// RVW-02: still OK after start (background scan disabled)
+TEST_F(ShardRepairEngineTest, RVW02_RunConsistencyCheck_AfterStart_ReturnsOk) {
+    engine_->start();
+    auto result = engine_->runConsistencyCheck();
+    EXPECT_TRUE(result.has_value());
+    engine_->stop();
+}
+
+// RVW-03: makeReplicaValidationHandler with non-null engine succeeds
+TEST_F(ShardRepairEngineTest, RVW03_MakeReplicaValidationHandler_NotNull) {
+    auto shared_engine = std::shared_ptr<themis::sharding::ShardRepairEngine>(
+        engine_.release(),
+        [](themis::sharding::ShardRepairEngine* e) {
+            if (e && e->isRunning()) e->stop();
+            delete e;
+        });
+
+    auto handler = themis::maintenance::makeReplicaValidationHandler(shared_engine);
+    ASSERT_NE(handler, nullptr);
+    EXPECT_EQ(handler->handlerName(), "ReplicaValidationHandler");
+}
+
+// RVW-04: handler execute returns success when no degraded shards
+TEST_F(ShardRepairEngineTest, RVW04_Handler_Execute_NoShards_Succeeds) {
+    auto shared_engine = std::shared_ptr<themis::sharding::ShardRepairEngine>(
+        engine_.release(),
+        [](themis::sharding::ShardRepairEngine* e) {
+            if (e && e->isRunning()) e->stop();
+            delete e;
+        });
+
+    auto handler = themis::maintenance::makeReplicaValidationHandler(shared_engine);
+    auto result = handler->execute("job_rvw04", themis::maintenance::MaintenanceTaskType::REPLICA_VALIDATION);
+    ASSERT_TRUE(result.has_value()) << result.error().context();
+    EXPECT_FALSE(result->empty());
+}
+
+// RVW-05: null engine in makeReplicaValidationHandler returns error
+TEST(ReplicaValidationHandlerTest, RVW05_NullEngine_ReturnsError) {
+    auto handler = themis::maintenance::makeReplicaValidationHandler(nullptr);
+    ASSERT_NE(handler, nullptr);
+    auto result = handler->execute("job_rvw05", themis::maintenance::MaintenanceTaskType::REPLICA_VALIDATION);
+    EXPECT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), themis::errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED);
+}
+
+// RVW-06: ReplicaValidationHandler with custom check function (no ShardRepairEngine needed)
+TEST(ReplicaValidationHandlerTest, RVW06_CustomCheckFn_ReturnsExpectedResult) {
+    using themis::maintenance::ReplicaValidationHandler;
+    bool called = false;
+    auto handler = std::make_shared<ReplicaValidationHandler>(
+        [&called]() -> themis::Result<std::string> {
+            called = true;
+            return std::string("custom check OK");
+        });
+
+    auto result = handler->execute("job_rvw06", themis::maintenance::MaintenanceTaskType::REPLICA_VALIDATION);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(*result, "custom check OK");
+    EXPECT_TRUE(called);
+}

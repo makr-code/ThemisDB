@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Ausblick** – Beschreibt den Stand zum Zeitpunkt der Phase-2H-Abnahme.
+
 # Phase 2H Outlook: Bottlenecks and Next Steps
 
 ## Current Findings

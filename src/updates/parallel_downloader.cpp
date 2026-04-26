@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            parallel_downloader.cpp                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:21:21                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     491                                            ║
+    • Total Lines:     487                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 1d10fc7b3  2026-03-13  feat(build): add redis_cache and AQL components to build ... ║
-    • 354c827c4  2026-03-13  audit(updates): fix 5 issues found in parallel downloader ║
-    • ab135ba46  2026-03-13  feat(updates): implement Parallel File Downloads (Issue #... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -240,9 +239,9 @@ std::string ParallelDownloader::computeSha256(const std::string& path) {
 // ============================================================================
 
 bool ParallelDownloader::defaultFetch(
-    const std::string& url,
-    const std::string& dest,
-    uint64_t           resume_offset,
+    [[maybe_unused]] const std::string& url,
+    [[maybe_unused]] const std::string& dest,
+    [[maybe_unused]] uint64_t           resume_offset,
     long               /*connect_timeout_s*/,
     long               /*transfer_timeout_s*/,
     uint64_t*          out_bytes,
@@ -252,9 +251,6 @@ bool ParallelDownloader::defaultFetch(
     // This default implementation is a no-op stub suitable for unit tests
     // that inject a custom FetchFn.  Production deployments provide their
     // own HTTP transport via setFetchFunction().
-    (void)url;
-    (void)dest;
-    (void)resume_offset;
     if (out_bytes)  *out_bytes  = 0;
     if (out_total)  *out_total  = 0;
     if (out_error)  *out_error  = "No HTTP transport configured; call setFetchFunction()";

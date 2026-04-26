@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_model_cache.cpp                              ║
-  Version:         0.0.31                                             ║
-  Last Modified:   2026-03-30 04:21:45                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-15 18:51:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     310                                            ║
+    • Total Lines:     329                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 31fa431cf5  2026-04-12  [WIP] Update voice module documentation for accuracy (#4523) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -74,6 +74,11 @@ std::optional<CachedModel> VoiceModelCache::get(
 
     // Cache miss
     ++cache_misses_;
+
+    // Path traversal protection: reject unsafe model paths before loading
+    if (!isSafeModelPath(model_path)) {
+        return std::nullopt;
+    }
 
     // Attempt to load via registered loader
     auto loader_it = loaders_.find(model_type);
@@ -305,6 +310,20 @@ bool VoiceModelCache::evictLRUOne() {
 int64_t VoiceModelCache::nowMs() const {
     using namespace std::chrono;
     return duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
+}
+
+bool VoiceModelCache::isSafeModelPath(const std::string& path) {
+    if (path.empty()) return false;
+    // Reject path traversal sequences
+    if (path.find("..") != std::string::npos) return false;
+    // Reject null bytes
+    if (path.find('\0') != std::string::npos) return false;
+    // Reject shell metacharacters that could be used in injection attacks
+    static const std::string kForbiddenChars = ";|&$`!{}()\\";
+    for (unsigned char c : path) {
+        if (kForbiddenChars.find(static_cast<char>(c)) != std::string::npos) return false;
+    }
+    return true;
 }
 
 }} // namespace themis::voice

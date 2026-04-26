@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_inference_engine_enhanced.cpp                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:28:31                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:54:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   81.0/100                                       ║
-    • Total Lines:     1499                                           ║
+    • Total Lines:     1497                                           ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • d1f0cf3ca  2026-03-19  fix(llm): address all PR review issues - sentinel deliver... ║
-    • 3ea7ab4a4  2026-03-19  feat(llm): implement tool call parsing, submitStreaming, ... ║
-    • c3fa68410  2026-03-11  fix(llm): audit pass 2 - fix generated_text, prompt-key c... ║
-    • 5f9187ff6  2026-03-11  feat(llm): implement KV-cache prewarming with embedding-b... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • d1f0cf3ca5  2026-03-19  fix(llm): address all PR review issues - sentinel deliver... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -101,6 +98,56 @@ public:
 private:
     std::string model_id_;
     int latency_ms_;
+};
+
+class MetadataCapturePlugin : public ILLMPlugin {
+public:
+    explicit MetadataCapturePlugin(const std::string& model_id)
+        : model_id_(model_id) {}
+
+    bool loadModel(const std::string&, const json&) override { return true; }
+    void unloadModel() override {}
+    std::optional<ModelInfo> getModelInfo() const override {
+        ModelInfo info{};
+        info.model_id = model_id_;
+        info.name = model_id_;
+        info.is_loaded = true;
+        return info;
+    }
+    bool isModelLoaded() const override { return true; }
+    InferenceResponse generate(const InferenceRequest& request) override {
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            last_metadata_ = request.metadata;
+        }
+        InferenceResponse response;
+        response.request_id = request.request_id;
+        response.text = "ok";
+        response.model_id = model_id_;
+        return response;
+    }
+    InferenceResponse generateRAG(const RAGContext&, const InferenceRequest& request) override {
+        return generate(request);
+    }
+    std::vector<float> embed(const std::string&) override { return {}; }
+    LLMCapabilities getCapabilities() const override { return {}; }
+    json getMemoryStats() const override { return json::object(); }
+    json getPerformanceStats() const override { return json::object(); }
+    bool loadLoRA(const std::string&, const std::string&, float) override { return true; }
+    bool unloadLoRA(const std::string&) override { return true; }
+    std::vector<LoRAInfo> listLoRAs() const override { return {}; }
+    std::vector<uint8_t> exportLoRA(const std::string&) override { return {}; }
+    bool importLoRA(const std::string&, const std::vector<uint8_t>&) override { return true; }
+
+    json lastMetadata() const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return last_metadata_;
+    }
+
+private:
+    std::string model_id_;
+    mutable std::mutex mutex_;
+    json last_metadata_ = json::object();
 };
 
 /**
@@ -627,6 +674,36 @@ TEST_F(InferenceEngineEnhancedTest, CacheClearAndStats) {
     
     spdlog::info("Detailed metrics: {}", metrics.dump(2));
     
+    engine.shutdown();
+}
+
+TEST_F(InferenceEngineEnhancedTest, RaidShardingHintsAreForwardedToRequestMetadata) {
+    InferenceEngineEnhanced engine(config_);
+    auto plugin = std::make_shared<MetadataCapturePlugin>("model1");
+    engine.registerModel("model1", plugin);
+    engine.start();
+
+    InferenceEngineEnhanced::EnhancedInferenceRequest req;
+    req.request_id = "raid-hints";
+    req.base_request.prompt = "distributed batch inference";
+    req.allow_caching = false;
+    req.preferred_model_id = "model1";
+    req.shard_routing_key = "tenant-a";
+    req.target_instance_ids = {"shard-1", "shard-3"};
+    req.allow_cross_instance_batching = true;
+
+    auto handle = engine.submit(req);
+    auto response = handle.get();
+    EXPECT_FALSE(response.text.empty());
+
+    const auto metadata = plugin->lastMetadata();
+    ASSERT_TRUE(metadata.contains("raid_sharding"));
+    const auto& raid = metadata["raid_sharding"];
+    EXPECT_EQ(raid["routing_key"].get<std::string>(), "tenant-a");
+    ASSERT_TRUE(raid.contains("target_instance_ids"));
+    EXPECT_EQ(raid["target_instance_ids"].size(), 2u);
+    EXPECT_TRUE(raid["allow_cross_instance_batching"].get<bool>());
+
     engine.shutdown();
 }
 

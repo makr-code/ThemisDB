@@ -3,19 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            backend_metrics.h                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:05:16                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     230                                            ║
+    • Total Lines:     234                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -83,7 +85,7 @@ public:
     }
     
     // Error metrics
-    void recordError(const std::string& error_code) {
+    void recordError([[maybe_unused]] const std::string& error_code) {
         if (errors_total_) errors_total_->increment();
         // Could add per-error-code counters here
     }
@@ -108,12 +110,14 @@ public:
     // Throughput metrics
     double getOperationsPerSecond() const {
         if (!l2_distance_ops_ || !cosine_ops_) return 0.0;
-        return l2_distance_ops_->value() + cosine_ops_->value();
+        return static_cast<double>(l2_distance_ops_->value()) +
+               static_cast<double>(cosine_ops_->value());
     }
     
     double getVectorsPerSecond() const {
         if (!l2_distance_vectors_ || !cosine_vectors_) return 0.0;
-        return l2_distance_vectors_->value() + cosine_vectors_->value();
+        return static_cast<double>(l2_distance_vectors_->value()) +
+               static_cast<double>(cosine_vectors_->value());
     }
     
 private:

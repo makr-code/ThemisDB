@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            api_connector.h                                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:07                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     223                                            ║
+    • Total Lines:     219                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 53f0cfc43  2026-02-28  feat(ingestion): per-source schema validation before writ... ║
-    • b40bbc161  2026-02-26  feat(ingestion): OAuth 2.0 token refresh handling in Gene... ║
-    • dbe0c23ed  2026-02-23  Audit follow-up: update stale file headers, ROADMAP statu... ║
-    • 0c1dd5a9b  2026-02-22  Replace libcurl stub with real curl_easy_perform in api_c... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

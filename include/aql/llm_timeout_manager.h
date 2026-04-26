@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_timeout_manager.h                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:05:48                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     380                                            ║
+    • Total Lines:     377                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2c1b27b6f  2026-03-15  feat(base): async retry RemoteRegistryClient + LLM RetryP... ║
-    • 9740c3265  2026-03-14  fix: allow configured llm retries        ║
-    • cab6419cb  2026-03-13  docs(aql): fix @note accuracy in executeWithTimeout — wor... ║
-    • 2bc8ac6fd  2026-03-13  fix(aql): eliminate thread leak in LLMTimeoutManager::exe... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 2c1b27b6f2  2026-03-15  feat(base): async retry RemoteRegistryClient + LLM RetryP... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

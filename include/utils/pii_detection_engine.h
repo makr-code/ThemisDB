@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pii_detection_engine.h                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:58                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     419                                            ║
+    • Total Lines:     416                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • b2513b8c2  2026-03-16  Fix compilation errors: kDefaultLookaheadBytes forward-de... ║
-    • 3b849f06c  2026-03-15  feat(pii-streaming): complete remaining acceptance criter... ║
-    • 15a0bb670  2026-03-09  feat(utils): add BloomFilter, ConsistentHashRing, RateLim... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • b2513b8c2f  2026-03-16  Fix compilation errors: kDefaultLookaheadBytes forward-de... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

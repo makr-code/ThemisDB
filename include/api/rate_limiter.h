@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rate_limiter.h                                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:05:38                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     352                                            ║
+    • Total Lines:     370                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1b159411a  2026-02-28  fix(api): add missing #include <memory> and initialize Ra... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 8d40e1ef7c  2026-04-13  fix(api): Rate Limiter — Stale Bucket Eviction and Nested... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -29,6 +27,7 @@
 #include <string>
 #include <unordered_map>
 #include <mutex>
+#include <shared_mutex>
 #include <atomic>
 
 namespace themis {
@@ -81,8 +80,7 @@ public:
             , refill_rate(rate)
         {}
         
-        void refill() {
-            auto now = std::chrono::steady_clock::now();
+        void refill(std::chrono::steady_clock::time_point now) {
             auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
                 now - last_refill
             ).count();
@@ -94,8 +92,8 @@ public:
             }
         }
         
-        bool consume(size_t count = 1) {
-            refill();
+        bool consume(std::chrono::steady_clock::time_point now, size_t count = 1) {
+            refill(now);
             
             if (tokens >= count) {
                 tokens -= count;
@@ -116,8 +114,26 @@ public:
      * @return true if request is allowed, false if rate limited
      */
     bool allow(const std::string& key, size_t cost = 1) {
+        auto now = std::chrono::steady_clock::now();
         std::lock_guard<std::mutex> lock(mutex_);
         
+        // TTL-based eviction: sweep every 64 calls to avoid O(n) on every request.
+        // Remove fully-recharged buckets that have been idle for > 2×window.
+        if ((++evict_counter_ & 63u) == 0) {
+            auto eviction_threshold = config_.window * 2;
+            for (auto it = buckets_.begin(); it != buckets_.end(); ) {
+                auto idle = std::chrono::duration_cast<std::chrono::seconds>(
+                    now - it->second.last_refill
+                );
+                if (idle >= eviction_threshold &&
+                    it->second.tokens >= static_cast<double>(it->second.capacity)) {
+                    it = buckets_.erase(it);
+                } else {
+                    ++it;
+                }
+            }
+        }
+
         auto it = buckets_.find(key);
         if (it == buckets_.end()) {
             // Create new bucket
@@ -125,7 +141,7 @@ public:
             it = buckets_.find(key);
         }
         
-        bool allowed = it->second.consume(cost);
+        bool allowed = it->second.consume(now, cost);
         
         if (allowed) {
             stats_.allowed_requests.fetch_add(1, std::memory_order_relaxed);
@@ -140,11 +156,12 @@ public:
      * @brief Get remaining tokens for a key
      */
     size_t remaining(const std::string& key) {
+        auto now = std::chrono::steady_clock::now();
         std::lock_guard<std::mutex> lock(mutex_);
         
         auto it = buckets_.find(key);
         if (it != buckets_.end()) {
-            it->second.refill();
+            it->second.refill(now);
             return it->second.available();
         }
         return config_.capacity;
@@ -228,6 +245,7 @@ private:
     mutable std::mutex mutex_;
     std::unordered_map<std::string, Bucket> buckets_;
     Stats stats_;
+    uint64_t evict_counter_{0};
 };
 
 /**
@@ -263,7 +281,7 @@ public:
      * @brief Set rate limit for an operation type
      */
     void setLimit(const std::string& operation_type, const RateLimiter::Config& config) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         
         auto it = limiters_.find(operation_type);
         if (it != limiters_.end()) {
@@ -281,7 +299,7 @@ public:
      * @return true if allowed, false if rate limited
      */
     bool allow(const std::string& operation_type, const std::string& key, size_t cost = 1) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::shared_lock<std::shared_mutex> lock(mutex_);
         
         auto it = limiters_.find(operation_type);
         if (it != limiters_.end()) {
@@ -296,7 +314,7 @@ public:
      * @brief Get remaining tokens for operation and key
      */
     size_t remaining(const std::string& operation_type, const std::string& key) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::shared_lock<std::shared_mutex> lock(mutex_);
         
         auto it = limiters_.find(operation_type);
         if (it != limiters_.end()) {
@@ -310,7 +328,7 @@ public:
      * @brief Get rate limit headers for operation
      */
     RateLimitHeaders getHeaders(const std::string& operation_type, const std::string& key) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::shared_lock<std::shared_mutex> lock(mutex_);
         
         RateLimitHeaders headers;
         
@@ -329,7 +347,7 @@ public:
      * @brief Clear all rate limit state
      */
     void clear() {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         limiters_.clear();
     }
     
@@ -344,7 +362,7 @@ public:
 private:
     OperationRateLimiter() = default;
     
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
     std::unordered_map<std::string, std::unique_ptr<RateLimiter>> limiters_;
 };
 

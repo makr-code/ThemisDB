@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_replication_new_features.cpp                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:32:53                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:56:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     916                                            ║
+    • Total Lines:     935                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 79f081505  2026-03-28  Add test statistics documentation and collection script ║
-    • b658e5c9c  2026-03-13  feat(replication): close audit gaps — group_transactions,... ║
-    • 7bab5cf61  2026-03-13  fix(tests): address PR review feedback on ParallelReplica... ║
-    • fecf46c5a  2026-03-13  feat: add ParallelReplicationWorker tests and update ROAD... ║
-    • 3ed3b012d  2026-03-09  feat(replication): implement new module features - observ... ║
+    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
+    • 79f0815052  2026-03-28  Add test statistics documentation and collection script ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

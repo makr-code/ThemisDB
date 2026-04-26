@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_vram_allocator.cpp                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:51                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     170                                            ║
+    • Total Lines:     240                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 6e1dfd68a  2026-03-11  feat(llm): implement ActiveVRAMAllocator for GPU memory m... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • fe135d5215  2026-04-13  feat(llm): Speculative Decoding for Latency Reduction — v... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -164,6 +163,76 @@ size_t AdaptiveVRAMAllocator::estimateActivationMemory(
     return static_cast<size_t>(
         activation_elements * bytes_per_activation * model.num_layers * checkpoint_ratio
     );
+}
+
+AdaptiveVRAMAllocator::DualModelAllocationPlan
+AdaptiveVRAMAllocator::calculateDualModelAllocation(
+    const ModelConfig&    target_config,
+    const ModelConfig&    draft_config,
+    const HardwareInfo&   hw,
+    const InferenceConfig& config
+) {
+    // INT4 precision: 0.5 bytes per parameter.
+    // A precision_bytes value of 0 in the draft config signals "use INT4 default".
+    constexpr float kInt4Bytes = 0.5f;
+    const float draft_precision =
+        (draft_config.precision_bytes > 0)
+            ? static_cast<float>(draft_config.precision_bytes)
+            : kInt4Bytes;
+
+    // Build a local draft config with the resolved precision so that the
+    // existing helpers (calculateModelSize, estimateActivationMemory) work
+    // without modification.
+    ModelConfig resolved_draft = draft_config;
+    resolved_draft.precision_bytes =
+        (draft_config.precision_bytes > 0) ? draft_config.precision_bytes : 1;
+    // For calculateModelSize we pass the float precision directly.
+
+    // --- Draft model weight footprint -----------------------------------------
+    const size_t draft_weights =
+        calculateModelSize(draft_config.num_parameters, draft_precision);
+
+    // --- Base allocation plan for the target model ----------------------------
+    AllocationPlan target_plan =
+        calculateOptimalAllocation(target_config, hw, config);
+
+    // --- Build the combined dual-model plan -----------------------------------
+    DualModelAllocationPlan plan;
+
+    // Copy target-model fields first.
+    static_cast<AllocationPlan&>(plan) = target_plan;
+
+    // Add draft model weight footprint on top of the target model weights.
+    plan.draft_model_weights  = draft_weights;
+    plan.draft_precision_bytes =
+        (draft_config.precision_bytes > 0) ? draft_config.precision_bytes : 0;
+    plan.model_weights        += draft_weights;
+
+    // Re-compute total and fits_in_vram to account for the draft model.
+    plan.total += draft_weights;
+    plan.fits_in_vram = (plan.total <= hw.available_vram_bytes);
+
+    // Rebuild the recommendation string with dual-model context.
+    std::stringstream ss;
+    if (plan.fits_in_vram) {
+        ss << "✓ Dual-model allocation fits in available VRAM. ";
+        ss << "Target: " << (target_plan.model_weights / (1024.0 * 1024 * 1024)) << " GB, ";
+        ss << "Draft (INT" << (draft_precision < 1.0f ? 4 : static_cast<int>(draft_precision * 8))
+           << "): " << (draft_weights / (1024.0 * 1024 * 1024)) << " GB, ";
+        ss << "KV Cache: "
+           << ((plan.kv_cache_static + plan.kv_cache_dynamic) / (1024.0 * 1024 * 1024)) << " GB, ";
+        ss << "Total: " << (plan.total / (1024.0 * 1024 * 1024)) << " GB";
+    } else {
+        ss << "✗ Dual-model allocation exceeds available VRAM. ";
+        ss << "Need: " << (plan.total / (1024.0 * 1024 * 1024)) << " GB, ";
+        ss << "Available: " << (hw.available_vram_bytes / (1024.0 * 1024 * 1024)) << " GB. ";
+        ss << "Consider: (1) Use a smaller/more-quantized draft model, ";
+        ss << "(2) Disable speculative decoding, ";
+        ss << "(3) Reduce batch size or sequence length.";
+    }
+    plan.recommendation = ss.str();
+
+    return plan;
 }
 
 } // namespace llm

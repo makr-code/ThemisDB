@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            constitutional_reasoning_engine.cpp                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:53                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     712                                            ║
+    • Total Lines:     713                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -227,7 +228,7 @@ std::string ConstitutionalReasoningEngine::generateCritique(
     const std::string& response,
     const std::string& query,
     const ConstitutionalPrinciple& principle,
-    void* llm_wrapper
+    void* /*llm_wrapper*/
 ) {
     // Check cache
     std::string cache_key = response + "|" + principle.id;
@@ -286,7 +287,7 @@ std::string ConstitutionalReasoningEngine::generateRevision(
     const std::string& response,
     const std::vector<std::string>& critiques,
     const std::string& query,
-    void* llm_wrapper
+    void* /*llm_wrapper*/
 ) {
     // Build revision prompt
     std::string prompt = buildRevisionPrompt(response, critiques, query);

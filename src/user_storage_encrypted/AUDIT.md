@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-22 -->
+> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — User Encrypted Storage Plugin
@@ -18,11 +20,12 @@ orchestration (HOT/WARM/COLD).
 | 1 | `gocryptfs_backend.cpp` | `GocryptfsBackend` — FUSE lifecycle, safe `execvp` subprocess | 348 | 🟡 Release-Candidate (76/100) | ⚠️ Needs Hardening |
 | 2 | `key_rotation_scheduler.cpp` | `KeyRotationScheduler` — per-level rotation with background thread | 181 | 🟢 Production-Ready (100/100) | ✅ Complete |
 | 3 | `multi_level_storage.cpp` | `MultiLevelEncryptedStorage` — HOT/WARM/COLD tier orchestration | — | 🟢 Production-Ready | ✅ Complete |
-| 4 | `gocryptfs_backend.hpp` | `GocryptfsBackend` header | — | — | ✅ Complete |
-| 5 | `key_rotation_scheduler.hpp` | `KeyRotationScheduler` header | — | — | ✅ Complete |
-| 6 | `CMakeLists.txt` | Build configuration | — | — | ✅ Complete |
+| 4 | `key_derivation_service.cpp` | HKDF/PBKDF2 key derivation service for per-user encryption key management | — | 🟡 Release-Candidate | ⚠️ Needs Hardening |
+| 5 | `gocryptfs_backend.hpp` | `GocryptfsBackend` header | — | — | ✅ Complete |
+| 6 | `key_rotation_scheduler.hpp` | `KeyRotationScheduler` header | — | — | ✅ Complete |
+| 7 | `CMakeLists.txt` | Build configuration | — | — | ✅ Complete |
 
-**Total: 6 files**
+**Total: 7 files**
 
 ---
 
@@ -30,16 +33,12 @@ orchestration (HOT/WARM/COLD).
 
 | Test Target | Scope | Status |
 |-------------|-------|--------|
-| `GocryptfsBackend::checkAvailability()` | gocryptfs in PATH + FUSE device present | ⚠️ Not confirmed |
-| `GocryptfsBackend::createContainer()` | Directory creation, password file, gocryptfs init | ⚠️ Not confirmed |
-| `GocryptfsBackend::mountContainer()` | Already-mounted guard, password file lifecycle | ⚠️ Not confirmed |
-| `GocryptfsBackend::unmountContainer()` | Not-mounted guard, `fusermount -u` invocation | ⚠️ Not confirmed |
-| `GocryptfsBackend::isMounted()` | `/proc/mounts` parsing for real and absent mounts | ⚠️ Not confirmed |
-| `executeCommandSafe()` | Successful command, failing command (exit 127) | ⚠️ Not confirmed |
-| `createPasswordFile()` | File created 0600, unlinked after use | ⚠️ Not confirmed |
-| `KeyRotationScheduler::initialize()` | Background thread starts | ⚠️ Not confirmed |
-| `KeyRotationScheduler::scheduleRotation()` | Callback fires after interval | ⚠️ Not confirmed |
-| `MultiLevelEncryptedStorage` | HOT/WARM/COLD tier mount/unmount | ⚠️ Not confirmed |
+| `GocryptfsBackend::executeCommandWithStdin()` | Stdin key delivery, no `/tmp` trace | ✅ 4 tests (AC-SD) |
+| `Argon2idKeyDerivationService` | Determinism, domain sep., salt, performance | ✅ 10 tests (AC-KDF) |
+| `KeyRotationScheduler` + `IRotationStore` | Persistence across restart, state restoration | ✅ 6 tests (AC-PRS) |
+| `GocryptfsBackend` core API | `checkAvailability`, `isMounted` | ✅ 2 tests (AC-GCF) |
+| `MultiLevelEncryptedStorage::reconcileStaleMounts()` | Stale mount detection + cleanup | ✅ 5 tests |
+| Integration: create → mount → write → unmount → re-mount | End-to-end lifecycle | ⚠️ Planned (Target: Q3 2026) |
 
 ---
 
@@ -47,12 +46,17 @@ orchestration (HOT/WARM/COLD).
 
 | ID | Description | Priority | Target |
 |----|-------------|----------|--------|
-| USE-OPEN-01 | `gocryptfs_backend.cpp` needs hardening to reach Production-Ready (76→100) | High | Q3 2026 |
-| USE-OPEN-02 | No unit or integration tests confirmed | High | Q3 2026 |
-| USE-OPEN-03 | Temp key files written to `/tmp`; consider in-memory key delivery via stdin | Medium | Q3 2026 |
-| USE-OPEN-04 | `createPasswordFile()` path parameter written via `const_cast` (code smell) | Medium | Q3 2026 |
-| USE-OPEN-05 | No key derivation function (KDF) — raw key bytes passed to gocryptfs | Medium | Q4 2026 |
+| USE-OPEN-01 | `getBackendVersion()` uses `const_cast` on const object — cosmetic | Low | Q3 2026 |
 | USE-OPEN-06 | Deprecated `executeCommand()` wrapper should be removed after callers migrated | Low | Q4 2026 |
+
+### Resolved
+
+| ID | Description | Resolved in |
+|----|-------------|------------|
+| USE-OPEN-02 | No unit or integration tests | v0.1.0 — 20 unit tests in `test_user_storage_features.cpp` |
+| USE-OPEN-03 | Temp key files written to `/tmp` | v0.1.0 — stdin pipe delivery via `executeCommandWithStdin()` |
+| USE-OPEN-04 | `createPasswordFile()` path written via `const_cast` | v0.1.0 — returns `Result<std::string>` |
+| USE-OPEN-05 | No key derivation function — raw key bytes passed to gocryptfs | v0.1.0 — `Argon2idKeyDerivationService` |
 
 ---
 
@@ -60,8 +64,8 @@ orchestration (HOT/WARM/COLD).
 
 | ID | Severity | Description | Status |
 |----|----------|-------------|--------|
-| USE-SEC-F-01 | Medium | Key material in `/tmp`; swap-based leakage possible on systems with swap | Open |
-| USE-SEC-F-02 | Low | `const_cast` on `path` parameter in `createPasswordFile()` is fragile | Open |
+| USE-SEC-F-01 | ~~Medium~~ | ~~Key material in `/tmp`; swap-based leakage possible~~ | **Resolved** v0.1.0 — stdin pipe delivery |
+| USE-SEC-F-02 | ~~Low~~ | ~~`const_cast` on `path` parameter in `createPasswordFile()`~~ | **Resolved** v0.1.0 — `const_cast` removed |
 
 ---
 

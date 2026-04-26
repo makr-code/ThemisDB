@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            maintenance_api_handler.cpp                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:19:52                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:50:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     214                                            ║
+    • Total Lines:     215                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 717093f9b  2026-03-12  feat: implement IMaintenanceTaskHandler registry for main... ║
-    • a63629a5c  2026-03-12  feat: Force-Run Endpoint Window Override (v1.1.0) ║
-    • 1b86d845d  2026-03-11  feat(tracing): add OpenTelemetry spans to all major API h... ║
-    • 0eb79f3e4  2026-03-11  feat: add DatabaseMaintenanceOrchestrator with full sched... ║
+    • f1b8c76ed7  2026-04-13  feat(maintenance): multi-tenant schedule isolation (v2.0.... ║
+    • 12bb69b756  2026-04-13  feat(maintenance): multi-tenant schedule isolation (v2.0.... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -85,15 +83,18 @@ json MaintenanceApiHandler::createSchedule(const json& body) {
     return resp;
 }
 
-json MaintenanceApiHandler::listSchedules() {
+json MaintenanceApiHandler::listSchedules(const std::string& tenant_id) {
     auto span = Tracer::startSpan("GET /maintenance/schedules");
     if (!orchestrator_) {
         span.setStatus(false, "Orchestrator not initialized");
         return errorResponse("Orchestrator not initialized");
     }
 
-    auto schedules = orchestrator_->listSchedules();
+    auto schedules = orchestrator_->listSchedules(tenant_id);
     span.setAttribute("maintenance.schedule_count", static_cast<int64_t>(schedules.size()));
+    if (!tenant_id.empty()) {
+        span.setAttribute("maintenance.tenant_id", tenant_id);
+    }
     span.setStatus(true);
     json arr = json::array();
     for (auto& e : schedules) arr.push_back(scheduleToResponse(e));

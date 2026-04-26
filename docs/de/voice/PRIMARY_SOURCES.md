@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [voice](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-04  
+**Datum:** 2026-04-17  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/voice/ARCHITECTURE.md`
@@ -25,21 +25,9 @@
 
 # Primary Sources — `voice`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`voice`** aus den Verzeichnissen `src/voice/` und/oder `include/voice/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`voice`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/voice/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/voice/ARCHITECTURE.md`](../../../src/voice/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/voice/AUDIT.md`](../../../src/voice/AUDIT.md) |
-| `CHANGELOG.md` | [`src/voice/CHANGELOG.md`](../../../src/voice/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/voice/FUTURE_ENHANCEMENTS.md`](../../../src/voice/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/voice/README.md`](../../../src/voice/README.md) |
-| `ROADMAP.md` | [`src/voice/ROADMAP.md`](../../../src/voice/ROADMAP.md) |
-| `SECURITY.md` | [`src/voice/SECURITY.md`](../../../src/voice/SECURITY.md) |
 
 ### `include/voice/`
 
@@ -53,6 +41,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`voice`** a
 | `ROADMAP.md` | [`include/voice/ROADMAP.md`](../../../include/voice/ROADMAP.md) |
 | `SECURITY.md` | [`include/voice/SECURITY.md`](../../../include/voice/SECURITY.md) |
 
+### `src/voice/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/voice/ARCHITECTURE.md`](../../../src/voice/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/voice/AUDIT.md`](../../../src/voice/AUDIT.md) |
+| `CHANGELOG.md` | [`src/voice/CHANGELOG.md`](../../../src/voice/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/voice/FUTURE_ENHANCEMENTS.md`](../../../src/voice/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/voice/README.md`](../../../src/voice/README.md) |
+| `ROADMAP.md` | [`src/voice/ROADMAP.md`](../../../src/voice/ROADMAP.md) |
+| `SECURITY.md` | [`src/voice/SECURITY.md`](../../../src/voice/SECURITY.md) |
+
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-04*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*

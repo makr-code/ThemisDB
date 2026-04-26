@@ -34,22 +34,25 @@ The `scripts/archive-version.sh` script automates the creation of source archive
 
 ```bash
 # Syntax
-./scripts/archive-version.sh <version> <commit-sha>
+./scripts/archive-version.sh <version> <commit-sha> [edition] [sourcecode|binary] [arm|x86|x64]
 
 # Example: Create v1.0.0 archive
-./scripts/archive-version.sh 1.0.0 60e901590e4b2e5990877b3c0f49cdcd2bb1f992
+./scripts/archive-version.sh 1.0.0 60e901590e4b2e5990877b3c0f49cdcd2bb1f992 community sourcecode x64
 
 # Example: Create v1.3.4 archive
-./scripts/archive-version.sh 1.3.4 abc123def456
+./scripts/archive-version.sh 1.3.4 abc123def456 community sourcecode x64
 ```
 
 **Parameters:**
 - `<version>`: Version number in format `X.Y.Z` or `X.Y.Z-suffix` (e.g., `1.0.0`, `1.3.4-beta`)
 - `<commit-sha>`: Git commit SHA to archive (full or short hash)
+- `[edition]`: Lowercase edition token (default: `community`)
+- `[sourcecode|binary]`: Artefact kind token (default: `sourcecode`)
+- `[arm|x86|x64]`: Architecture token (default: `x64`)
 
 **Output:**
-- `themisdb-{version}-source.zip` - Source code archive
-- `themisdb-{version}-source.zip.sha256` - SHA256 checksum file
+- `themisdb-{version}-community-sourcecode-x64.zip` - Source code archive
+- `themisdb-{version}-community-sourcecode-x64.zip.sha256` - SHA256 checksum file
 
 ### Manual Archive Creation
 
@@ -60,7 +63,7 @@ VERSION="1.0.0"
 COMMIT_SHA="60e9015"
 
 git archive --format=zip \
-  --output="themisdb-${VERSION}-source.zip" \
+   --output="themisdb-${VERSION}-community-sourcecode-x64.zip" \
   --prefix="themisdb-${VERSION}/" \
   "${COMMIT_SHA}" \
   -- . \
@@ -70,7 +73,7 @@ git archive --format=zip \
   ':!.git/'
 
 # Generate checksum
-sha256sum "themisdb-${VERSION}-source.zip" > "themisdb-${VERSION}-source.zip.sha256"
+sha256sum "themisdb-${VERSION}-community-sourcecode-x64.zip" > "themisdb-${VERSION}-community-sourcecode-x64.zip.sha256"
 ```
 
 ## GitHub Release Workflow
@@ -100,7 +103,7 @@ If creating a release manually:
 
 2. **Create Source Archive**:
    ```bash
-   ./scripts/archive-version.sh 1.0.0 60e9015
+   ./scripts/archive-version.sh 1.0.0 60e9015 community sourcecode x64
    ```
 
 3. **Create GitHub Release**:
@@ -108,7 +111,7 @@ If creating a release manually:
    - Select the tag (e.g., `v1.0.0`)
    - Add release title: "ThemisDB v1.0.0"
    - Add description from `docs/de/archive/RELEASE_NOTES_v1.0.0.md`
-   - Upload `themisdb-1.0.0-source.zip`
+   - Upload `themisdb-1.0.0-community-sourcecode-x64.zip`
    - Include SHA256 checksum in the release notes
 
 ## Release Checklist
@@ -131,13 +134,13 @@ To verify an archive's integrity:
 
 ```bash
 # Check SHA256 checksum
-sha256sum -c themisdb-1.0.0-source.zip.sha256
+sha256sum -c themisdb-1.0.0-community-sourcecode-x64.zip.sha256
 
 # Extract and inspect contents
-unzip -l themisdb-1.0.0-source.zip | head -50
+unzip -l themisdb-1.0.0-community-sourcecode-x64.zip | head -50
 
 # Verify excluded directories are not present
-unzip -l themisdb-1.0.0-source.zip | grep -E "(external/|vcpkg/|llama\.cpp/)"
+unzip -l themisdb-1.0.0-community-sourcecode-x64.zip | grep -E "(external/|vcpkg/|llama\.cpp/)"
 # Should return no results
 ```
 
@@ -147,7 +150,7 @@ To build ThemisDB from a source archive:
 
 ```bash
 # Extract archive
-unzip themisdb-1.0.0-source.zip
+unzip themisdb-1.0.0-community-sourcecode-x64.zip
 cd themisdb-1.0.0
 
 # Build with CMake

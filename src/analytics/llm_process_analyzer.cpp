@@ -3,22 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_process_analyzer.cpp                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:13:55                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     591                                            ║
+    • Total Lines:     589                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 7811d1486  2026-03-27  feat: Enhance backward compatibility and legacy support a... ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • d740b0833  2026-03-18  fix: address all PR review feedback - splice, comments, u... ║
-    • ea0d39f68  2026-03-18  Changes before error encountered         ║
-    • 3ac1c4143  2026-03-09  fix: clear all remaining stubs/TODOs across modules; upda... ║
+    • 29ac1cf537  2026-04-14  fix                                     ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -198,7 +196,7 @@ std::pair<bool, LLMResponse> LLMProcessAnalyzer::analyze(const LLMRequest& reque
             try {
                 raw_llm_response = callLLM(prompt, request.parameters);
                 break;
-            } catch (const std::exception& e) {
+            } catch ([[maybe_unused]] const std::exception& e) {
                 if (retries == pImpl->config.max_retries) {
                     throw;
                 }
@@ -418,7 +416,7 @@ std::string LLMProcessAnalyzer::generatePrompt(
 
 std::string LLMProcessAnalyzer::callLLM(
     const std::string& prompt,
-    const std::map<std::string, std::string>& params
+    [[maybe_unused]] const std::map<std::string, std::string>& params
 ) {
     // When THEMIS_ENABLE_LLM_API is defined, delegate to the configured provider
     // (OpenAI, Anthropic, or a local model served over HTTP).
@@ -433,8 +431,6 @@ std::string LLMProcessAnalyzer::callLLM(
     // Production path: call the configured LLM provider.
     // Implementation plugged in via the provider SDK (OpenAI, Anthropic, etc.)
     // Return the raw completion text from the API response.
-    (void)params;
-    (void)prompt;
     // Unreachable unless the provider SDK is compiled in; fall through to
     // the heuristic response below so the unit tests remain functional.
 #endif
@@ -504,7 +500,7 @@ std::string LLMProcessAnalyzer::callLLM(
 
 nlohmann::json LLMProcessAnalyzer::parseResponse(
     const std::string& raw_response,
-    TaskType task_type
+    [[maybe_unused]] TaskType task_type
 ) {
     try {
         return nlohmann::json::parse(raw_response);

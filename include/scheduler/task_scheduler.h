@@ -3,22 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_scheduler.h                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:10:38                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     741                                            ║
+    • Total Lines:     786                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
-    • c8aa40193  2026-03-15  feat(scheduler): propagate authenticated user context to ... ║
-    • c97360e57  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
-    • 3d8fa9313  2026-03-09  feat(scheduler): dynamic task scaling based on queue dept... ║
-    • a64247126  2026-03-08  Refactor code structure for improved readability and main... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • ed0fb65444  2026-04-12  feat(scheduler): register 10 missing focused test targets... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -45,8 +43,7 @@
  * - Custom post-processing workflows
  */
 
-#ifndef THEMIS_TASK_SCHEDULER_H
-#define THEMIS_TASK_SCHEDULER_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -55,11 +52,13 @@
 #include <memory>
 #include <thread>
 #include <mutex>
+#include <shared_mutex>
 #include <atomic>
 #include <chrono>
 #include <condition_variable>
 #include <functional>
 #include <optional>
+#include <unordered_set>
 #include <nlohmann/json.hpp>
 #include "cdc/changefeed.h"
 #include "scheduler/task_audit_event.h"
@@ -219,6 +218,55 @@ struct ScheduledTask {
 
     std::optional<RetryPolicy> retry_policy;  // Advanced retry configuration (optional)
 
+    /**
+     * @brief SLO-based adaptive retry configuration (Phase 5, v1.9.0).
+     *
+     * When set together with @c sla_deadline, the scheduler adapts retry behaviour
+     * to avoid spending the full SLA budget on retries and prevent cascading SLO
+     * violations.
+     *
+     * Adaptive rules applied before each retry delay:
+     *  1. If elapsed task time + computed retry delay > sla_deadline *
+     *     slo_budget_fraction, the retry delay is clamped to the remaining SLA
+     *     budget fraction (minimum 0 ms — i.e. retry immediately).
+     *  2. If the remaining SLA budget (sla_deadline − elapsed) ≤ 0, all further
+     *     retries are skipped immediately — the task has already exceeded its SLO.
+     *  3. When the rolling SLO compliance rate (over the last @c slo_history_window
+     *     executions) drops below @c slo_compliance_threshold, the effective
+     *     max_retries is clamped to @c min_retries_under_pressure.
+     *
+     * Requires @c sla_deadline to be set; ignored (no-op) otherwise.
+     */
+    struct SloRetryConfig {
+        /// Enable SLO-based retry adaptation.
+        bool slo_aware = true;
+
+        /// Maximum fraction of @c sla_deadline that may be consumed by retry
+        /// delays.  E.g. 0.5 means retries can use at most 50 % of the SLA
+        /// budget, leaving the rest for actual task execution.
+        double slo_budget_fraction = 0.5;
+
+        /// When the rolling SLO compliance rate drops below this threshold,
+        /// max_retries is clamped to @c min_retries_under_pressure.
+        double slo_compliance_threshold = 0.8;
+
+        /// Minimum number of retries always allowed, even under SLO pressure.
+        size_t min_retries_under_pressure = 1;
+
+        /// Rolling window size (number of recent executions) used for compliance
+        /// tracking.  Set to 0 to disable history-based retry reduction.
+        size_t slo_history_window = 20;
+    };
+
+    /// Optional SLO-aware adaptive retry configuration.
+    /// Requires @c sla_deadline to be set; silently ignored otherwise.
+    std::optional<SloRetryConfig> slo_retry_config;
+
+    // SLO compliance tracking (updated atomically after each execution; protected
+    // by tasks_mutex_ in the scheduler).
+    size_t slo_violations       = 0;  ///< Cumulative SLO violations in current window
+    size_t slo_window_count     = 0;  ///< Total executions tracked in current window
+
     // Task dependency configuration
     std::vector<std::string> dependencies;  // IDs of tasks that must complete before this task runs
 
@@ -351,6 +399,9 @@ public:
     struct RequestContext {
         std::string user_id;    ///< Authenticated user / service account
         std::string client_ip;  ///< Originating client IP address (may be empty)
+        std::unordered_set<std::string> granted_permissions; ///< Effective permissions/scopes for this request
+        std::unordered_set<std::string> roles;               ///< Effective roles/groups for this request
+        std::string authorization_justification;             ///< Why access was granted (policy/scope decision)
     };
 
     /// Set the authentication context for the calling thread.
@@ -366,6 +417,9 @@ public:
 
     /// Return the client IP from the thread-local request context (empty if not set).
     static std::string currentClientIp() noexcept;
+    static bool hasPermission(const std::string& permission) noexcept;
+    static bool hasRole(const std::string& role) noexcept;
+    static std::string currentAuthorizationJustification(const char* fallback = "") noexcept;
     
     /**
      * @brief Construct a task scheduler
@@ -640,7 +694,7 @@ private:
 
     // Alertmanager for task failure and SLA breach alerts (optional)
     std::shared_ptr<observability::Alertmanager> alertmanager_;
-    mutable std::mutex alert_mutex_;
+    mutable std::shared_mutex alert_mutex_;
     // Tracks active failure alert IDs per task: task_id -> alert_id
     std::map<std::string, std::string> active_failure_alert_ids_;
 
@@ -737,5 +791,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_TASK_SCHEDULER_H

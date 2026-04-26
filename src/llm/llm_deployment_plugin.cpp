@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_deployment_plugin.cpp                          ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:16:58                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1187                                           ║
+    • Total Lines:     1188                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 10bb6eb49  2026-03-19  fix(llm): address PR review — key_prefix rename, source t... ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • f9096b78d  2026-03-17  feat(llm): LLMDeploymentPlugin RocksDB model storage (v1.... ║
-    • 7015dd866  2026-03-16  feat(llm): implement RocksDB model storage for LLMDeploym... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 10bb6eb49b  2026-03-19  fix(llm): address PR review — key_prefix rename, source t... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -1013,11 +1010,27 @@ bool LLMDeploymentPlugin::verifyChecksum(const std::string& file_path,
                                           const std::string& expected_checksum,
                                           const std::string& checksum_type) {
     std::string calculated_checksum;
-    
+
     if (checksum_type == "sha256") {
         calculated_checksum = utils::calculateSHA256(file_path);
     } else if (checksum_type == "md5") {
+        // SECURITY WARNING: MD5 is cryptographically broken (CWE-327).
+        // This path is provided only for backward-compatible verification of
+        // artifacts that were published with an MD5 checksum before this
+        // deprecation.  New manifests MUST use "sha256".
+        // Hard rejection of MD5 is planned for v2.0.0; track migration in
+        // FUTURE_ENHANCEMENTS.md under "MD5 hard-reject (Target: v2.0.0)".
+        LOG_WARN("[SECURITY] verifyChecksum: MD5 is deprecated (CWE-327). "
+                 "Migrate artifact checksums to SHA-256. "
+                 "MD5 support will be removed in v2.0.0. File: {}", file_path);
+#if defined(__GNUC__) || defined(__clang__)
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
         calculated_checksum = utils::calculateMD5(file_path);
+#if defined(__GNUC__) || defined(__clang__)
+#  pragma GCC diagnostic pop
+#endif
     } else {
         LOG_ERROR("Unsupported checksum type: {}", checksum_type);
         return false;

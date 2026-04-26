@@ -1,8 +1,8 @@
 # Config-Modul
-<!-- status: current | validated: 2026-03-09 | primary: src/config/ -->
+<!-- status: current | validated: 2026-04-06 | primary: src/config/ -->
 
 **Modul:** `src/config/`  
-**Stand:** 9. März 2026  
+**Stand:** 6. April 2026  
 **Version:** 0.0.34  
 **Status:** ✅ Production-Ready
 
@@ -187,7 +187,7 @@ config_migration_scanner --root /srv/themis --fix
 | Architektur | [`src/config/ARCHITECTURE.md`](../../../src/config/ARCHITECTURE.md) | Komponentendiagramme, Datenflüsse, Threading-Modell |
 | Roadmap | [`src/config/ROADMAP.md`](../../../src/config/ROADMAP.md) | Implementierungsstatus und geplante Features |
 | Future Enhancements | [`src/config/FUTURE_ENHANCEMENTS.md`](../../../src/config/FUTURE_ENHANCEMENTS.md) | Detaillierte Planung zukünftiger Features (inkl. wissenschaftliche Quellen) |
-| Migrations-Leitfaden | [`docs/config_migration_guide.md`](../../config_migration_guide.md) | Operator-Leitfaden: Legacy-Pfade auf neue Hierarchie migrieren |
+| Migrations-Leitfaden | [`docs/config_migration_guide.md`](../../migration/config_migration_guide.md) | Operator-Leitfaden: Legacy-Pfade auf neue Hierarchie migrieren |
 
 ---
 

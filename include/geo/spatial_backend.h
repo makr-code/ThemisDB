@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            spatial_backend.h                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:07:17                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     191                                            ║
+    • Total Lines:     184                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 4d99d3479  2026-03-12  feat(geo): implement CUDA/OpenCL batch intersects, real G... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d4d1128ca  2026-02-28  fix(geo): integrate GeoDeviceDetector into gpu_backend_st... ║
-    • 674e35f16  2026-02-25  feat(geo): implement WGS-84 spherical geometry support vi... ║
-    • d7367e665  2026-02-24  feat(geo): implement ST_UNION and ST_DIFFERENCE geometry ... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -74,9 +71,8 @@ public:
     // (default 36; minimum 3).
     // Supported types: Point → circular polygon, Polygon → outward expansion.
     // GPU path deferred: implementations without CUDA delegate to the CPU path.
-    virtual GeometryInfo stBuffer(const GeometryInfo& geom, double distance_m,
-                                  int arc_points = 36) {
-        (void)geom; (void)distance_m; (void)arc_points;
+    virtual GeometryInfo stBuffer([[maybe_unused]] const GeometryInfo& geom, [[maybe_unused]] double distance_m,
+                                  [[maybe_unused]] int arc_points = 36) {
         return GeometryInfo{};
     }
 
@@ -85,9 +81,8 @@ public:
     // lat1/lon1 and lat2/lon2 are in decimal degrees (WGS-84).
     // Returns 0.0 for coincident points and a negative value if the formula
     // fails to converge (nearly-antipodal degenerate case).
-    virtual double geodesicDistance(double lat1, double lon1,
-                                    double lat2, double lon2) const {
-        (void)lat1; (void)lon1; (void)lat2; (void)lon2;
+    virtual double geodesicDistance([[maybe_unused]] double lat1, [[maybe_unused]] double lon1,
+                    [[maybe_unused]] double lat2, [[maybe_unused]] double lon2) const {
         return 0.0;
     }
 
@@ -96,9 +91,8 @@ public:
     // For two non-overlapping polygons the result is a GeometryCollection.
     // For overlapping polygons the result is a merged Polygon.
     // Returns an empty GeometryInfo on unsupported type combinations.
-    virtual GeometryInfo stUnion(const GeometryInfo& geom1,
-                                 const GeometryInfo& geom2) {
-        (void)geom1; (void)geom2;
+    virtual GeometryInfo stUnion([[maybe_unused]] const GeometryInfo& geom1,
+                                 [[maybe_unused]] const GeometryInfo& geom2) {
         return GeometryInfo{};
     }
 
@@ -106,9 +100,8 @@ public:
     // Returns a geometry containing all points in geom1 that are not in geom2.
     // Returns geom1 unchanged when the two geometries do not intersect.
     // Returns an empty GeometryInfo when geom1 is fully contained in geom2.
-    virtual GeometryInfo stDifference(const GeometryInfo& geom1,
-                                      const GeometryInfo& geom2) {
-        (void)geom1; (void)geom2;
+    virtual GeometryInfo stDifference([[maybe_unused]] const GeometryInfo& geom1,
+                                      [[maybe_unused]] const GeometryInfo& geom2) {
         return GeometryInfo{};
     }
 };

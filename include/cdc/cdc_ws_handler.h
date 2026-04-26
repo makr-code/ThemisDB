@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cdc_ws_handler.h                                   ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:06:15                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:44:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     175                                            ║
+    • Total Lines:     172                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f9a6d3a60  2026-03-15  feat(cdc): integrate ConsumerGroupManager into CdcWebSock... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 13aae88f8  2026-02-24  fix(cdc): audit fixes — cdc_ws_overflow_total metric, cdc... ║
-    • 6d03c85c7  2026-02-24  feat(cdc): WebSocket transport for /v2/cdc/stream with at... ║
+    • f9a6d3a601  2026-03-15  feat(cdc): integrate ConsumerGroupManager into CdcWebSock... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

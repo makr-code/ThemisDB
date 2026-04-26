@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_secondary_index.cpp                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:33:30                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:57:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     412                                            ║
+    • Total Lines:     686                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 2c5066b72  2026-02-25  Code audit: fix header annotations, add PARTIAL to IndexT... ║
-    • 4eeafc8f5  2026-02-25  Implement partial/filtered indexes on secondary index man... ║
+    • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,11 +25,14 @@
 #include <chrono>
 #include <string>
 #include <vector>
+#include <thread>
+#include <atomic>
 
 #include "storage/key_schema.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/secondary_index.h"
+#include "index/secondary_index_metadata_cache.h"
 
 using namespace themis;
 
@@ -195,6 +196,58 @@ TEST(SecondaryIndexTest, EstimateCountAndNoIndex) {
     auto [status1, keys] = idx.scanKeysEqual("users","age","30");
     ASSERT_TRUE(status1.ok);
     EXPECT_EQ(keys.size(), 3u);
+
+    db.close();
+}
+
+TEST(SecondaryIndexTest, PutBatch_DefaultAndConfigurableBatchSize) {
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = makeTempDbPath("vccdb_secidx_put_batch_cfg_");
+    RocksDBWrapper db(cfg);
+    ASSERT_TRUE(db.open());
+
+    SecondaryIndexManager idx(db);
+    EXPECT_EQ(idx.getTransactionalPutBatchSize(), 64u);
+
+    idx.setTransactionalPutBatchSize(32);
+    EXPECT_EQ(idx.getTransactionalPutBatchSize(), 32u);
+
+    idx.setTransactionalPutBatchSize(0);
+    EXPECT_EQ(idx.getTransactionalPutBatchSize(), 1u);
+
+    db.close();
+}
+
+TEST(SecondaryIndexTest, PutBatch_ChunkedTransactionsMaintainIndexCorrectness) {
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = makeTempDbPath("vccdb_secidx_put_batch_chunk_");
+    RocksDBWrapper db(cfg);
+    ASSERT_TRUE(db.open());
+
+    SecondaryIndexManager idx(db);
+    ASSERT_TRUE(idx.createIndex("users", "group").ok);
+
+    std::vector<BaseEntity> entities;
+    entities.reserve(130);
+    for (int i = 0; i < 130; ++i) {
+        entities.emplace_back(
+            "u" + std::to_string(i),
+            BaseEntity::FieldMap{
+                {"group", std::string("g") + std::to_string(i % 2)},
+                {"name", std::string("User") + std::to_string(i)}
+            }
+        );
+    }
+
+    auto st = idx.putBatch("users", entities, 64);
+    ASSERT_TRUE(st.ok) << st.message;
+
+    auto [scan_status_g0, keys_g0] = idx.scanKeysEqual("users", "group", "g0");
+    auto [scan_status_g1, keys_g1] = idx.scanKeysEqual("users", "group", "g1");
+    ASSERT_TRUE(scan_status_g0.ok) << scan_status_g0.message;
+    ASSERT_TRUE(scan_status_g1.ok) << scan_status_g1.message;
+    EXPECT_EQ(keys_g0.size(), 65u);
+    EXPECT_EQ(keys_g1.size(), 65u);
 
     db.close();
 }
@@ -407,6 +460,279 @@ TEST(SecondaryIndexTest, PartialIndex_DeleteRemovesEntry) {
     auto [st2, keys2] = idx.scanKeysEqualPartial("sessions", "user_id", "u42");
     ASSERT_TRUE(st2.ok);
     EXPECT_TRUE(keys2.empty());
+
+    db.close();
+}
+
+// ─── KeySchema hot-path optimization: correctness parity ─────────────────────
+
+TEST(KeySchemaOptTest, RelationalKey_Parity) {
+    // The optimized append-path must produce identical output to the old format
+    EXPECT_EQ(KeySchema::makeRelationalKey("users", "u123"), "rel:users:u123");
+    EXPECT_EQ(KeySchema::makeRelationalKey("", "pk"), "rel::pk");
+    EXPECT_EQ(KeySchema::makeRelationalKey("t", ""), "rel:t:");
+}
+
+TEST(KeySchemaOptTest, DocumentKey_Parity) {
+    EXPECT_EQ(KeySchema::makeDocumentKey("orders", "o456"), "doc:orders:o456");
+}
+
+TEST(KeySchemaOptTest, GraphNodeKey_Parity) {
+    EXPECT_EQ(KeySchema::makeGraphNodeKey("alice"), "node:alice");
+}
+
+TEST(KeySchemaOptTest, GraphEdgeKey_Parity) {
+    EXPECT_EQ(KeySchema::makeGraphEdgeKey("e1"), "edge:e1");
+}
+
+TEST(KeySchemaOptTest, VectorKey_Parity) {
+    EXPECT_EQ(KeySchema::makeVectorKey("embeddings", "v7"), "vec:embeddings:v7");
+}
+
+TEST(KeySchemaOptTest, SecondaryIndexKey_Parity) {
+    EXPECT_EQ(KeySchema::makeSecondaryIndexKey("users", "age", "30", "u1"),
+              "idx:users:age:30:u1");
+}
+
+TEST(KeySchemaOptTest, GraphOutdexKey_Parity) {
+    EXPECT_EQ(KeySchema::makeGraphOutdexKey("alice", "e1"), "graph:out:alice:e1");
+}
+
+TEST(KeySchemaOptTest, GraphIndexKey_Parity) {
+    EXPECT_EQ(KeySchema::makeGraphIndexKey("bob", "e2"), "graph:in:bob:e2");
+}
+
+// ─── SecondaryIndexMetadataCache: unique-flag caching ─────────────────────────
+
+TEST(MetadataCacheUniqueFlagTest, RegularUniqueFlag_SetAndGet) {
+    SecondaryIndexMetadataCache::IndexMetadata m;
+    m.regular_indexes = {"email", "name"};
+    m.regular_unique["email"] = true;
+    m.regular_unique["name"]  = false;
+
+    SecondaryIndexMetadataCache& cache = SecondaryIndexMetadataCache::instance();
+    cache.invalidate("tbl_unique_reg");
+    cache.set("tbl_unique_reg", m);
+
+    auto opt = cache.get("tbl_unique_reg");
+    ASSERT_TRUE(opt.has_value());
+    EXPECT_TRUE(opt->regular_unique.at("email"));
+    EXPECT_FALSE(opt->regular_unique.at("name"));
+}
+
+TEST(MetadataCacheUniqueFlagTest, SparseUniqueFlag_SetAndGet) {
+    SecondaryIndexMetadataCache::IndexMetadata m;
+    m.sparse_indexes = {"phone"};
+    m.sparse_unique["phone"] = true;
+
+    SecondaryIndexMetadataCache& cache = SecondaryIndexMetadataCache::instance();
+    cache.invalidate("tbl_unique_sparse");
+    cache.set("tbl_unique_sparse", m);
+
+    auto opt = cache.get("tbl_unique_sparse");
+    ASSERT_TRUE(opt.has_value());
+    EXPECT_TRUE(opt->sparse_unique.at("phone"));
+}
+
+TEST(MetadataCacheUniqueFlagTest, PartialUniqueFlag_SetAndGet) {
+    SecondaryIndexMetadataCache::IndexMetadata m;
+    m.partial_indexes = {"coupon"};
+    m.partial_predicates["coupon"] = "active = '1'";
+    m.partial_unique["coupon"] = false;
+
+    SecondaryIndexMetadataCache& cache = SecondaryIndexMetadataCache::instance();
+    cache.invalidate("tbl_unique_partial");
+    cache.set("tbl_unique_partial", m);
+
+    auto opt = cache.get("tbl_unique_partial");
+    ASSERT_TRUE(opt.has_value());
+    EXPECT_FALSE(opt->partial_unique.at("coupon"));
+    EXPECT_EQ(opt->partial_predicates.at("coupon"), "active = '1'");
+}
+
+TEST(MetadataCacheUniqueFlagTest, Invalidate_ClearsUniqueMaps) {
+    SecondaryIndexMetadataCache::IndexMetadata m;
+    m.regular_unique["x"] = true;
+
+    SecondaryIndexMetadataCache& cache = SecondaryIndexMetadataCache::instance();
+    cache.set("tbl_inv", m);
+    ASSERT_TRUE(cache.get("tbl_inv").has_value());
+
+    cache.invalidate("tbl_inv");
+    EXPECT_FALSE(cache.get("tbl_inv").has_value());
+}
+
+TEST(MetadataCacheUniqueFlagTest, UniqueIndex_EnforcedViaCache) {
+    // Integration: creating a unique index and putting a duplicate key should fail.
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = makeTempDbPath("vccdb_unique_cache_");
+    cfg.enable_blobdb = false;
+    RocksDBWrapper db(cfg);
+    ASSERT_TRUE(db.open());
+    SecondaryIndexManager idx(db);
+
+    // Create unique index on "email"; this populates the metadata cache on the
+    // first put() call, so ensure it is warm by invalidating stale entries first.
+    ASSERT_TRUE(idx.createIndex("accounts", "email", /*unique=*/true).ok);
+    // Confirm no stale entry exists before the first write populates the cache
+    SecondaryIndexMetadataCache::instance().invalidate("accounts");
+    EXPECT_FALSE(SecondaryIndexMetadataCache::instance().get("accounts").has_value())
+        << "Cache should be empty before the first put()";
+
+    BaseEntity::FieldMap f1{{"email", std::string("a@b.com")}};
+    BaseEntity::FieldMap f2{{"email", std::string("a@b.com")}};  // duplicate
+
+    ASSERT_TRUE(idx.put("accounts", BaseEntity::fromFields("acc1", f1)).ok);
+    // Second put with same email must be rejected (unique constraint)
+    auto st2 = idx.put("accounts", BaseEntity::fromFields("acc2", f2));
+    EXPECT_FALSE(st2.ok) << "Duplicate unique-index value should be rejected";
+
+    db.close();
+}
+
+// ────────────────────────────────────────────────────────────────────────────
+// ConcurrentUniqueLücke fix tests
+//
+// These tests verify that the Concurrent-Unique-Lücke fix (using
+// TransactionWrapper::getForUpdate for unique-index sentinel locking) correctly
+// enforces unique constraints in the transactional (MVCC) put path.
+// ────────────────────────────────────────────────────────────────────────────
+
+// CU-1: Transaction overload enforces single-column unique constraint
+//       (sequential: commit, then attempt duplicate in a new transaction).
+TEST(ConcurrentUniqueLückeTest, TxnUnique_SingleColumn_SequentialReject) {
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = makeTempDbPath("vccdb_cu1_");
+    cfg.enable_blobdb = false;
+    RocksDBWrapper db(cfg);
+    ASSERT_TRUE(db.open());
+    SecondaryIndexManager idx(db);
+
+    ASSERT_TRUE(idx.createIndex("users", "email", /*unique=*/true).ok);
+    SecondaryIndexMetadataCache::instance().invalidate("users");
+
+    // First transaction: insert email=x@y.com under pk=u1
+    {
+        auto txn = db.beginTransaction();
+        ASSERT_NE(txn, nullptr);
+        BaseEntity::FieldMap f1{{"email", std::string("x@y.com")}};
+        auto st = idx.put("users", BaseEntity::fromFields("u1", f1), *txn);
+        ASSERT_TRUE(st.ok) << "First txn put should succeed: " << st.message;
+        ASSERT_TRUE(txn->commit()) << "First txn commit should succeed";
+    }
+
+    // Second transaction: attempt to insert same email under pk=u2 — must be rejected
+    {
+        auto txn = db.beginTransaction();
+        ASSERT_NE(txn, nullptr);
+        BaseEntity::FieldMap f2{{"email", std::string("x@y.com")}};
+        auto st = idx.put("users", BaseEntity::fromFields("u2", f2), *txn);
+        EXPECT_FALSE(st.ok) << "Duplicate unique-index value must be rejected in txn path";
+        txn->rollback();
+    }
+
+    db.close();
+}
+
+// CU-2: Transaction overload enforces composite unique constraint
+//       (sequential: commit, then attempt duplicate in a new transaction).
+TEST(ConcurrentUniqueLückeTest, TxnUnique_Composite_SequentialReject) {
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = makeTempDbPath("vccdb_cu2_");
+    cfg.enable_blobdb = false;
+    RocksDBWrapper db(cfg);
+    ASSERT_TRUE(db.open());
+    SecondaryIndexManager idx(db);
+
+    ASSERT_TRUE(idx.createCompositeIndex("orders", {"tenant", "order_no"}, /*unique=*/true).ok);
+    SecondaryIndexMetadataCache::instance().invalidate("orders");
+
+    // First transaction: insert (tenant=acme, order_no=42) under pk=o1
+    {
+        auto txn = db.beginTransaction();
+        ASSERT_NE(txn, nullptr);
+        BaseEntity::FieldMap f1{{"tenant", std::string("acme")}, {"order_no", std::string("42")}};
+        auto st = idx.put("orders", BaseEntity::fromFields("o1", f1), *txn);
+        ASSERT_TRUE(st.ok) << "First composite txn put should succeed: " << st.message;
+        ASSERT_TRUE(txn->commit());
+    }
+
+    // Second transaction: attempt same (tenant, order_no) under pk=o2 — must be rejected
+    {
+        auto txn = db.beginTransaction();
+        ASSERT_NE(txn, nullptr);
+        BaseEntity::FieldMap f2{{"tenant", std::string("acme")}, {"order_no", std::string("42")}};
+        auto st = idx.put("orders", BaseEntity::fromFields("o2", f2), *txn);
+        EXPECT_FALSE(st.ok) << "Duplicate composite unique value must be rejected in txn path";
+        txn->rollback();
+    }
+
+    db.close();
+}
+
+// CU-3: Concurrent transactions — at most one transaction may commit with a
+//       given unique value.  The sentinel getForUpdate lock ensures that two
+//       transactions racing to insert the same unique value result in exactly
+//       one success and at least one failure (conflict or unique violation).
+TEST(ConcurrentUniqueLückeTest, TxnUnique_Concurrent_OnlyOneCommits) {
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = makeTempDbPath("vccdb_cu3_");
+    cfg.enable_blobdb = false;
+    RocksDBWrapper db(cfg);
+    ASSERT_TRUE(db.open());
+    SecondaryIndexManager idx(db);
+
+    ASSERT_TRUE(idx.createIndex("accounts", "ssn", /*unique=*/true).ok);
+    SecondaryIndexMetadataCache::instance().invalidate("accounts");
+
+    std::atomic<int> success_count{0};
+    std::atomic<int> failure_count{0};
+
+    // Barrier so both threads start as simultaneously as possible
+    std::atomic<bool> go{false};
+
+    auto worker = [&](const std::string& pk) {
+        while (!go.load(std::memory_order_acquire)) { /* spin */ }
+
+        auto txn = db.beginTransaction();
+        if (!txn) { failure_count.fetch_add(1, std::memory_order_relaxed); return; }
+
+        BaseEntity::FieldMap fields{{"ssn", std::string("123-45-6789")}};
+        auto st = idx.put("accounts", BaseEntity::fromFields(pk, fields), *txn);
+        if (!st.ok) {
+            txn->rollback();
+            failure_count.fetch_add(1, std::memory_order_relaxed);
+            return;
+        }
+        if (txn->commit()) {
+            success_count.fetch_add(1, std::memory_order_relaxed);
+        } else {
+            failure_count.fetch_add(1, std::memory_order_relaxed);
+        }
+    };
+
+    std::thread t1(worker, "acc_a");
+    std::thread t2(worker, "acc_b");
+
+    go.store(true, std::memory_order_release);
+    t1.join();
+    t2.join();
+
+    // Exactly one transaction must have committed; the unique index must be
+    // clean (no two different PKs holding the same SSN value).
+    EXPECT_EQ(success_count.load(), 1)
+        << "Exactly one concurrent transaction should commit the unique value";
+    EXPECT_GE(failure_count.load(), 1)
+        << "At least one concurrent transaction must be rejected";
+
+    // Verify the committed state: only one row with ssn=123-45-6789 exists
+    auto [st, results] = idx.scanKeysEqual("accounts", "ssn", "123-45-6789");
+    EXPECT_EQ(results.size(), 1u)
+        << "Unique index must contain exactly one entry after concurrent inserts";
+    if (results.size() == 1u) {
+        EXPECT_TRUE(results[0] == "acc_a" || results[0] == "acc_b")
+            << "Committed PK must be one of the two worker PKs, got: " << results[0];
+    }
 
     db.close();
 }

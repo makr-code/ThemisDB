@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [ethics_ai](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-04  
+**Datum:** 2026-04-16  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `src/ethics_ai/ARCHITECTURE.md`
@@ -18,7 +18,7 @@
 
 # Primary Sources — `ethics_ai`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`ethics_ai`** aus den Verzeichnissen `src/ethics_ai/` und/oder `include/ethics_ai/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`ethics_ai`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
 
@@ -36,4 +36,4 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`ethics_ai`
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-04*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-16*

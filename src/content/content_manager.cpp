@@ -3,22 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_manager.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:07                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     2777                                           ║
+    • Total Lines:     2798                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 4468db516  2026-03-19  fix(content): dedup default-off, strengthen policy-absent... ║
-    • 55d1f8241  2026-03-19  fix(content): wire enable_deduplication config gate, add ... ║
-    • 67549ed6f  2026-03-15  fix(content): wire ContentPolicy::embedding_model gate in... ║
-    • 0e2644909  2026-03-11  fix(content): thread-safe OCR routing — add shouldTrigger... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -83,7 +82,7 @@ bool executeWithRetry(Fn&& fn, int max_retries, int retry_delay_ms,
 } // anonymous namespace
 // ---------------------------------------------------------------------------
 
-static std::string toHex(const std::string& in) {
+[[maybe_unused]] static std::string toHex(const std::string& in) {
     static const char* hex = "0123456789abcdef";
     std::string out;
     out.reserve(in.size() * 2);
@@ -225,8 +224,7 @@ static std::vector<std::string> buildChunkWhitelist(
 
     std::vector<std::string> whitelist;
     // Scan all content metas
-    storage.scanPrefix("content:", [&](std::string_view key, std::string_view val){
-        (void)key;
+    storage.scanPrefix("content:", [&]([[maybe_unused]] std::string_view key, std::string_view val){
         // Ignore non-meta keys like content:chunks lists by checking JSON
         try {
             std::string s(val);
@@ -283,9 +281,9 @@ static std::vector<std::string> buildChunkWhitelist(
                         }
                     } else if (cond.is_object() && (cond.contains("min") || cond.contains("max"))) {
                         // RANGE semantics (numeric). Convert vptr to number if possible.
-                        double val = 0.0; bool ok = false;
-                        if (vptr->is_number()) { val = vptr->get<double>(); ok = true; }
-                        else if (vptr->is_string()) { try { val = std::stod(vptr->get<std::string>()); ok = true; } catch (...) { ok = false; } }
+                        double numeric_val = 0.0; bool ok = false;
+                        if (vptr->is_number()) { numeric_val = vptr->get<double>(); ok = true; }
+                        else if (vptr->is_string()) { try { numeric_val = std::stod(vptr->get<std::string>()); ok = true; } catch (...) { ok = false; } }
                         if (ok) {
                             double vmin = -std::numeric_limits<double>::infinity();
                             double vmax =  std::numeric_limits<double>::infinity();
@@ -297,7 +295,7 @@ static std::vector<std::string> buildChunkWhitelist(
                                 if (cond["max"].is_number()) vmax = cond["max"].get<double>();
                                 else if (cond["max"].is_string()) { try { vmax = std::stod(cond["max"].get<std::string>()); } catch (...) {} }
                             }
-                            match = (val >= vmin && val <= vmax);
+                            match = (numeric_val >= vmin && numeric_val <= vmax);
                         } else {
                             match = false;
                         }
@@ -534,7 +532,7 @@ std::optional<std::string> ContentManager::checkDuplicateByHash(const std::strin
     return std::nullopt;
 }
 
-static ContentCategory detectCategory(const std::string& mime, const std::string& blob) {
+[[maybe_unused]] static ContentCategory detectCategory(const std::string& mime, const std::string& blob) {
     auto& reg = ContentTypeRegistry::instance();
     ContentType ct;
     if (!mime.empty()) {
@@ -1621,7 +1619,7 @@ std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtua
     
     if (dir_id.has_value()) {
         // List children by parent_id
-        storage_->scanPrefix("content:", [&](std::string_view key, std::string_view value) {
+        storage_->scanPrefix("content:", [&](std::string_view /*key*/, std::string_view value) {
             try {
                 json j = json::parse(value);
                 if (j.contains("parent_id") && j["parent_id"].get<std::string>() == *dir_id) {
@@ -1635,7 +1633,7 @@ std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtua
         std::string prefix = dir_path;
         if (prefix != "/") prefix += "/";
         
-        storage_->scanPrefix("content:", [&](std::string_view key, std::string_view value) {
+        storage_->scanPrefix("content:", [&](std::string_view /*key*/, std::string_view value) {
             try {
                 json j = json::parse(value);
                 if (j.contains("virtual_path")) {

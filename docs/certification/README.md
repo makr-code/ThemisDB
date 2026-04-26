@@ -479,6 +479,6 @@ Ready to validate your ThemisDB expertise? Start with the **ThemisDB Fundamental
 
 ---
 
-*Last Updated: January 2025*  
+*Last Updated: April 2026*  
 *Version: 1.0*  
 *© 2025 ThemisDB. All rights reserved.*

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_manager.cpp                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:10                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   89.0/100                                       ║
-    • Total Lines:     6212                                           ║
+    • Total Lines:     6217                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 42e48dbc3  2026-03-15  fix(replication): audit geo-replication – fix SESSION exp... ║
-    • 7cd7172d7  2026-03-14  feat(replication): add GeoReplicationManager with consist... ║
-    • 4a853813e  2026-03-13  fix(replication): audit fixes — honor bidirectional_sync/... ║
-    • 23a0696d1  2026-03-13  feat(replication): implement BidirectionalReplicationMana... ║
-    • 8db855354  2026-03-13  fix(replication): wire IArchivalBackend, fix empty-key by... ║
+    • 649f5c7538  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • 7e8c588d0f  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -158,8 +158,6 @@ void ReplicaInfo::updateHealthStatus(uint32_t heartbeat_timeout_ms, uint32_t deg
     auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         now - last_heartbeat
     ).count();
-    
-    HealthStatus old_status = health_status;
     
     // Check if replica has timed out
     if (elapsed_ms > heartbeat_timeout_ms) {
@@ -651,7 +649,7 @@ void LeaderElection::renewLease(uint32_t duration_ms) {
     if (!isLeader()) {
         return;
     }
-    std::lock_guard<std::mutex> lock(lease_mutex_);
+    std::unique_lock<std::shared_mutex> lock(lease_mutex_);
     lease_expires_at_ = std::chrono::steady_clock::now()
                         + std::chrono::milliseconds(duration_ms);
     THEMIS_DEBUG("Leader lease renewed for {}ms (node={})", duration_ms, node_id_);
@@ -661,12 +659,12 @@ bool LeaderElection::hasValidLease() const {
     if (!isLeader()) {
         return false;
     }
-    std::lock_guard<std::mutex> lock(lease_mutex_);
+    std::shared_lock<std::shared_mutex> lock(lease_mutex_);
     return std::chrono::steady_clock::now() < lease_expires_at_;
 }
 
 std::chrono::steady_clock::time_point LeaderElection::leaseExpiresAt() const {
-    std::lock_guard<std::mutex> lock(lease_mutex_);
+    std::shared_lock<std::shared_mutex> lock(lease_mutex_);
     return lease_expires_at_;
 }
 
@@ -781,7 +779,6 @@ bool ReplicationStream::sendBatch(const std::vector<WALEntry>& entries) {
     // Uncompressed path: in a real deployment this would serialise the entries
     // and transmit them via the mTLS connection to the follower endpoint.
     // The retry/backoff logic is managed by the caller (streamLoop).
-    (void)entries;
     return true;
 }
 
@@ -1158,10 +1155,7 @@ bool ReplicationManager::promoteReplica(const std::string& replica_id) {
         return false;
     }
     
-    // Step 3: Store old role for notification
-    ReplicationRole old_role = it->role;
-    
-    // Step 4: Promote replica to primary role
+    // Step 3: Promote replica to primary role
     it->role = ReplicationRole::LEADER;
     
     // Update current term
@@ -1273,10 +1267,10 @@ void ReplicationManager::heartbeatLoop() {
             uint64_t current_term = election_->getCurrentTerm();
             {
                 std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
-                for (const auto& replica : replicas_) {
+                for ([[maybe_unused]] const auto& replica : replicas_) {
                     // Record outbound heartbeat so the election module can
                     // reset its own liveness timer if it happens to be watching.
-                    (void)replica;  // endpoint used by real network layer
+                    // endpoint used by real network layer
                 }
             }
             // Reset the leader's own heartbeat timer to avoid self-election
@@ -1469,8 +1463,6 @@ ReplicationManager::LeaseReadResult ReplicationManager::leaseRead(
 
     THEMIS_DEBUG("leaseRead served: collection={} doc={} commit_index={} node={}",
                  collection, document_id, result.commit_index, node_id_);
-    (void)collection;
-    (void)document_id;
     return result;
 }
 
@@ -1823,32 +1815,6 @@ std::string CRDTConflictResolver::resolve(
     }
     
     return merged;
-}
-
-// ============================================================================
-// HybridLogicalClock::Timestamp Implementation
-// ============================================================================
-
-bool HybridLogicalClock::Timestamp::operator<(const Timestamp& other) const {
-    if (physical != other.physical) {
-        return physical < other.physical;
-    }
-    if (logical != other.logical) {
-        return logical < other.logical;
-    }
-    return node_id < other.node_id;
-}
-
-bool HybridLogicalClock::Timestamp::operator==(const Timestamp& other) const {
-    return physical == other.physical && 
-           logical == other.logical && 
-           node_id == other.node_id;
-}
-
-std::string HybridLogicalClock::Timestamp::toString() const {
-    std::ostringstream oss;
-    oss << "HLC(" << physical << "," << logical << "," << node_id << ")";
-    return oss.str();
 }
 
 // ============================================================================
@@ -2835,8 +2801,8 @@ bool MultiMasterReplicationManager::writeSync(
 // -------------------------
 
 MultiMasterReplicationManager::ReadResult MultiMasterReplicationManager::read(
-    const std::string& collection,
-    const std::string& document_id,
+    [[maybe_unused]] const std::string& collection,
+    [[maybe_unused]] const std::string& document_id,
     uint32_t /*read_quorum*/)
 {
     // In a full implementation this would query read_quorum peers and merge
@@ -3116,7 +3082,6 @@ void MultiMasterReplicationManager::heartbeatLoop() {
             // In a full implementation: send AppendEntries / heartbeat RPC.
             // Update last_heartbeat_hlc to the current timestamp.
             peer.last_heartbeat_hlc = now_ts;
-            (void)node_id;
         }
     }
 }
@@ -3191,7 +3156,6 @@ bool MultiMasterReplicationManager::sendToPeer(
 
     auto serialized = entry.serialize();
     stats_bytes_sent_.fetch_add(serialized.size());
-    (void)node_id;
     return true;
 }
 
@@ -3331,13 +3295,12 @@ void MultiMasterReplicationManager::antiEntropySync(const std::string& peer_id) 
 }
 
 std::vector<MMWriteEntry> MultiMasterReplicationManager::getMissingWrites(
-    const VectorClock& peer_clock)
+    [[maybe_unused]] const VectorClock& peer_clock)
 {
     // In a full implementation this would query a local write log and return
     // all entries whose vector clock happens-after the peer's clock.
     // For now we return an empty set (the WAL replay path is handled by
     // ReplicationStream / WALManager on the Raft leader-follower path).
-    (void)peer_clock;
     return {};
 }
 
@@ -5275,17 +5238,13 @@ uint64_t MultiRegionActiveActiveManager::parseSessionToken(
 
 MultiRegionActiveActiveManager::WriteResult
 MultiRegionActiveActiveManager::write(
-    const std::string& collection,
-    const std::string& document_id,
-    const std::string& operation,
-    const std::string& data,
+    [[maybe_unused]] const std::string& collection,
+    [[maybe_unused]] const std::string& document_id,
+    [[maybe_unused]] const std::string& operation,
+    [[maybe_unused]] const std::string& data,
     ConsistencyLevel   consistency,
     const std::string& /*session_token*/)
 {
-    (void)collection;
-    (void)document_id;
-    (void)operation;
-    (void)data;
 
     uint64_t seq = ++local_sequence_;
     ++writes_total_;
@@ -5314,13 +5273,11 @@ MultiRegionActiveActiveManager::write(
 
 MultiRegionActiveActiveManager::ReadResult
 MultiRegionActiveActiveManager::read(
-    const std::string& collection,
-    const std::string& document_id,
+    [[maybe_unused]] const std::string& collection,
+    [[maybe_unused]] const std::string& document_id,
     ConsistencyLevel   consistency,
     const std::string& session_token)
 {
-    (void)collection;
-    (void)document_id;
 
     ++reads_total_;
 
@@ -6092,10 +6049,10 @@ std::string GeoReplicationManager::selectReadRegion(
 
 bool GeoReplicationManager::write(
     const std::string& key,
-    const std::string& value,
+    [[maybe_unused]] const std::string& value,
     ConsistencyLevel   consistency)
 {
-    (void)key; (void)value;  // key/value applied by the caller's storage layer
+    // key/value applied by the caller's storage layer
 
     // For STRONG writes, require the local region to have zero lag.
     if (consistency == ConsistencyLevel::STRONG) {
@@ -6133,7 +6090,6 @@ std::optional<std::string> GeoReplicationManager::read(
     ConsistencyLevel   consistency,
     const std::string& session_token)
 {
-    (void)key;
 
     ++reads_total_;
 

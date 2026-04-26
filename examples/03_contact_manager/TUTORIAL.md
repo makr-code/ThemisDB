@@ -1,3 +1,5 @@
+> **Aktueller Build-Flow:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Kontaktmanager - Anfänger Tutorial
 
 Willkommen zum Tutorial für den ThemisDB Kontaktmanager! Dieses Tutorial führt Sie Schritt für Schritt durch alle Funktionen der Anwendung.

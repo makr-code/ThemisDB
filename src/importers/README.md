@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Importers Module
 
 Data import functionality for ThemisDB.
@@ -134,3 +136,12 @@ For importer documentation, see:
 4. Doan, A., Halevy, A., & Ives, Z. (2012). **Principles of Data Integration**. Morgan Kaufmann. ISBN: 978-0-124-16248-4
 
 5. Shapiro, M., Preguiça, N., Baquero, C., & Zawirski, M. (2011). **Conflict-Free Replicated Data Types**. *Proceedings of the 13th International Conference on Stabilization, Safety, and Security of Distributed Systems (SSS)*, 386–400. https://doi.org/10.1007/978-3-642-24550-3_29
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/importers/README.md`](../../include/importers/README.md) for the public API.

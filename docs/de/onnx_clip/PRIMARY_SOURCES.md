@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [onnx_clip](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-04  
+**Datum:** 2026-04-17  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `src/onnx_clip/ARCHITECTURE.md`
@@ -18,7 +18,7 @@
 
 # Primary Sources — `onnx_clip`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`onnx_clip`** aus den Verzeichnissen `src/onnx_clip/` und/oder `include/onnx_clip/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`onnx_clip`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
 
@@ -36,4 +36,4 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`onnx_clip`
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-04*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*

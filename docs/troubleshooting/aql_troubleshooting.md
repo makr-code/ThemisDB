@@ -224,4 +224,4 @@ aql:
 - [AQL Roadmap](../aql_roadmap.md)
 - [AQL Functions Implementation Status](../aql_functions_implementation_status.md)
 - [Query Troubleshooting](./query_troubleshooting.md)
-- [Grammar Implementation Summary](../GRAMMAR_IMPLEMENTATION_SUMMARY.md)
+- [Grammar Implementation Summary](../implementation-history/summaries/GRAMMAR_IMPLEMENTATION_SUMMARY.md)

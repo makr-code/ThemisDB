@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_process_analyzer.h                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:05:29                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 7811d1486  2026-03-27  feat: Enhance backward compatibility and legacy support a... ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • ea0d39f68  2026-03-18  Changes before error encountered         ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 80742c94d  2026-02-27  feat(analytics): sanitize LLM API keys and CSV export data ║
+    • 7811d1486a  2026-03-27  feat: Enhance backward compatibility and legacy support a... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -265,7 +262,7 @@ private:
     
     // Internal helpers
     std::string callLLM(const std::string& prompt, const std::map<std::string, std::string>& params);
-    nlohmann::json parseResponse(const std::string& raw_response, TaskType task_type);
+    nlohmann::json parseResponse(const std::string& raw_response, [[maybe_unused]] TaskType task_type);
     std::string getCacheKey(const LLMRequest& request) const;
 };
 

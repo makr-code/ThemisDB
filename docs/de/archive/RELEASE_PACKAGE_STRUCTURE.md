@@ -291,7 +291,7 @@ Der Server sucht Konfiguration in folgender Reihenfolge:
 ### Feature-Specific Requirements
 
 **Content Processing:**
-- `config/content_processors.yaml` - Globale Processor-Settings
+- `config/content/processors.yaml` - Globale Processor-Settings
 - `config/processors/pdf.yaml` - PDF-Extraktion
 - `config/processors/office.yaml` - Office-Dokumente
 - `config/processors/image.yaml` - Bildanalyse, OCR

@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_transaction_distributed_2pc.cpp               ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:34:44                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:57:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     688                                            ║
+    • Total Lines:     1000                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 0f0c408c2  2026-03-15  feat(transaction): implement Distributed Transaction Coor... ║
+    • ff299c514b  2026-04-09  feat(transaction): PERF-D4 batched prepare + lock-free 2P... ║
+    • 0f0c408c2f  2026-03-15  feat(transaction): implement Distributed Transaction Coor... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -46,8 +47,11 @@
 #include <gtest/gtest.h>
 #include "transaction/distributed_transaction_manager.h"
 
+#include <algorithm>
 #include <atomic>
 #include <chrono>
+#include <cstdio>
+#include <cstdlib>
 #include <map>
 #include <mutex>
 #include <set>
@@ -707,4 +711,290 @@ TEST_F(DistributedTxnManagerTest, AbortBeforePrepare) {
     EXPECT_EQ(p2->prepareCount(), 0);
     EXPECT_EQ(p1->abortCount(), 1);
     EXPECT_EQ(p2->abortCount(), 1);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PERF-D4: Batched prepare + lock-free coordination tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+// AC-D4-1: Default config has no batching (prepare_batch_window == 0)
+TEST(Distributed2PCPerfTests, DefaultConfigNoBatchWindow) {
+    DistributedTxnManagerConfig cfg;
+    EXPECT_EQ(cfg.prepare_batch_window.count(), 0);
+}
+
+// AC-D4-2: Config accepts a non-zero batch window
+TEST(Distributed2PCPerfTests, BatchWindowCanBeConfigured) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_batch_window = std::chrono::milliseconds(25);
+    EXPECT_EQ(cfg.prepare_batch_window.count(), 25);
+}
+
+// AC-D4-3: Default worker thread count is 4
+TEST(Distributed2PCPerfTests, DefaultWorkerThreadCount) {
+    DistributedTxnManagerConfig cfg;
+    EXPECT_EQ(cfg.worker_thread_count, 4u);
+}
+
+// AC-D4-4: Worker thread count is configurable
+TEST(Distributed2PCPerfTests, WorkerThreadCountCanBeConfigured) {
+    DistributedTxnManagerConfig cfg;
+    cfg.worker_thread_count = 8;
+    EXPECT_EQ(cfg.worker_thread_count, 8u);
+}
+
+// AC-D4-5: Full 2PC happy path with thread-pool enabled (default)
+TEST(Distributed2PCPerfTests, FullHappyPathWithThreadPool) {
+    MockParticipant p1, p2, p3;
+
+    DistributedTxnManagerConfig cfg;
+    cfg.worker_thread_count  = 4;
+    cfg.prepare_batch_window = std::chrono::milliseconds(0);  // immediate
+    DistributedTransactionManager mgr("perf-coord-tp", cfg);
+
+    auto tid = mgr.beginDistributed({
+        makeParticipant("n1", &p1),
+        makeParticipant("n2", &p2),
+        makeParticipant("n3", &p3),
+    });
+
+    ASSERT_TRUE(mgr.prepareDistributed(tid).ok);
+    ASSERT_TRUE(mgr.commitDistributed(tid).ok);
+
+    EXPECT_EQ(p1.prepareCount(), 1);
+    EXPECT_EQ(p2.prepareCount(), 1);
+    EXPECT_EQ(p3.prepareCount(), 1);
+    EXPECT_EQ(p1.commitCount(), 1);
+    EXPECT_EQ(p2.commitCount(), 1);
+    EXPECT_EQ(p3.commitCount(), 1);
+}
+
+// AC-D4-6: Batched prepare window — multiple transactions prepared in one flush
+TEST(Distributed2PCPerfTests, BatchedPrepareWindowGroupsTransactions) {
+    constexpr int N = 10;
+
+    DistributedTxnManagerConfig cfg;
+    cfg.worker_thread_count  = 4;
+    cfg.prepare_batch_window = std::chrono::milliseconds(30);
+    DistributedTransactionManager mgr("perf-coord-batch", cfg);
+
+    std::vector<std::unique_ptr<MockParticipant>> participants(N);
+    for (auto& p : participants) p = std::make_unique<MockParticipant>();
+
+    // Begin all transactions before any prepares so they all land in the batch.
+    std::vector<std::string> txn_ids;
+    txn_ids.reserve(N);
+    for (int i = 0; i < N; ++i) {
+        txn_ids.push_back(mgr.beginDistributed({
+            makeParticipant("node_" + std::to_string(i), participants[i].get()),
+        }));
+    }
+
+    // Kick off prepares concurrently — all should land in the same batch window.
+    std::vector<std::thread> threads;
+    std::atomic<int> successes{0};
+    for (int i = 0; i < N; ++i) {
+        threads.emplace_back([&mgr, &txn_ids, &successes, i] {
+            if (mgr.prepareDistributed(txn_ids[i]).ok) ++successes;
+        });
+    }
+    for (auto& t : threads) t.join();
+
+    EXPECT_EQ(successes.load(), N);
+
+    // Commit all prepared transactions.
+    for (int i = 0; i < N; ++i) {
+        auto rec = mgr.getTransaction(txn_ids[i]);
+        ASSERT_TRUE(rec.has_value());
+        if (rec->state == DistributedTxnState::PREPARED) {
+            EXPECT_TRUE(mgr.commitDistributed(txn_ids[i]).ok);
+        }
+    }
+}
+
+// AC-D4-7: Abort path works correctly with thread pool
+TEST(Distributed2PCPerfTests, AbortWithThreadPool) {
+    MockParticipant p1, p2;
+    MockParticipant aborting(MockParticipant::Policy::ALWAYS_ABORT);
+
+    DistributedTxnManagerConfig cfg;
+    cfg.worker_thread_count  = 4;
+    cfg.prepare_batch_window = std::chrono::milliseconds(0);
+    DistributedTransactionManager mgr("perf-coord-abort", cfg);
+
+    auto tid = mgr.beginDistributed({
+        makeParticipant("n1", &p1),
+        makeParticipant("n2", &aborting),
+    });
+
+    auto status = mgr.prepareDistributed(tid);
+    EXPECT_FALSE(status.ok);
+
+    auto rec = mgr.getTransaction(tid);
+    ASSERT_TRUE(rec.has_value());
+    EXPECT_EQ(rec->state, DistributedTxnState::ABORTED);
+
+    EXPECT_EQ(p1.abortCount(), 1);
+    EXPECT_EQ(p1.commitCount(), 0);
+}
+
+// AC-D4-8: Legacy mode (worker_thread_count=0) still works correctly
+TEST(Distributed2PCPerfTests, LegacyModeWorkerCount0) {
+    MockParticipant p1, p2;
+
+    DistributedTxnManagerConfig cfg;
+    cfg.worker_thread_count  = 0;  // legacy: std::async per call
+    cfg.prepare_batch_window = std::chrono::milliseconds(0);
+    DistributedTransactionManager mgr("perf-coord-legacy", cfg);
+
+    auto tid = mgr.beginDistributed({
+        makeParticipant("n1", &p1),
+        makeParticipant("n2", &p2),
+    });
+
+    ASSERT_TRUE(mgr.prepareDistributed(tid).ok);
+    ASSERT_TRUE(mgr.commitDistributed(tid).ok);
+
+    EXPECT_EQ(p1.commitCount(), 1);
+    EXPECT_EQ(p2.commitCount(), 1);
+}
+
+// AC-D4-9: Concurrent transactions with thread pool are all successful
+TEST(Distributed2PCPerfTests, ConcurrentTxnsWithThreadPool) {
+    constexpr int N = 100;
+
+    DistributedTxnManagerConfig cfg;
+    cfg.worker_thread_count  = 8;
+    cfg.prepare_batch_window = std::chrono::milliseconds(0);
+    cfg.prepare_timeout      = std::chrono::milliseconds(5000);
+    DistributedTransactionManager mgr("perf-coord-concurrent", cfg);
+
+    std::vector<std::unique_ptr<MockParticipant>> pa(N), pb(N);
+    for (int i = 0; i < N; ++i) {
+        pa[i] = std::make_unique<MockParticipant>();
+        pb[i] = std::make_unique<MockParticipant>();
+    }
+
+    std::vector<std::thread> threads;
+    std::atomic<int> successes{0};
+    threads.reserve(N);
+
+    for (int i = 0; i < N; ++i) {
+        threads.emplace_back([&, i] {
+            auto tid = mgr.beginDistributed({
+                makeParticipant("a" + std::to_string(i), pa[i].get()),
+                makeParticipant("b" + std::to_string(i), pb[i].get()),
+            });
+            if (!mgr.prepareDistributed(tid).ok)  return;
+            if (!mgr.commitDistributed(tid).ok)   return;
+            ++successes;
+        });
+    }
+    for (auto& t : threads) t.join();
+
+    EXPECT_EQ(successes.load(), N);
+}
+
+// AC-D4-10: P99 latency check for 5-shard transaction (gated by env flag)
+// To run: THEMIS_RUN_PERF_TESTS=1 ./test_transaction_distributed_2pc_focused
+TEST(Distributed2PCPerfTests, P99LatencyFiveShards) {
+    const char* env = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!env || std::string(env) != "1") {
+        GTEST_SKIP() << "Skipped: set THEMIS_RUN_PERF_TESTS=1 to run performance tests";
+    }
+
+    constexpr int ITERATIONS = 2000;
+    constexpr int SHARDS     = 5;
+
+    DistributedTxnManagerConfig cfg;
+    cfg.worker_thread_count  = 8;
+    cfg.prepare_batch_window = std::chrono::milliseconds(0);
+    DistributedTransactionManager mgr("perf-p99", cfg);
+
+    std::vector<std::unique_ptr<MockParticipant>> participants(SHARDS);
+    for (auto& p : participants) p = std::make_unique<MockParticipant>();
+
+    std::vector<double> latencies_us;
+    latencies_us.reserve(ITERATIONS);
+
+    for (int i = 0; i < ITERATIONS; ++i) {
+        std::vector<Participant> parts;
+        for (int s = 0; s < SHARDS; ++s) {
+            parts.push_back(makeParticipant(
+                "shard_" + std::to_string(s),
+                participants[s].get(),
+                {"key_" + std::to_string(i)}
+            ));
+        }
+
+        const auto t0 = std::chrono::steady_clock::now();
+        auto tid = mgr.beginDistributed(parts);
+        ASSERT_TRUE(mgr.prepareDistributed(tid).ok);
+        ASSERT_TRUE(mgr.commitDistributed(tid).ok);
+        const auto elapsed_us = std::chrono::duration<double, std::micro>(
+            std::chrono::steady_clock::now() - t0).count();
+        latencies_us.push_back(elapsed_us);
+    }
+
+    std::sort(latencies_us.begin(), latencies_us.end());
+    const double p99_us = latencies_us[static_cast<size_t>(ITERATIONS * 0.99)];
+    const double p99_ms = p99_us / 1000.0;
+
+    std::printf("[PERF-D4] P99 latency (5 shards, %d iters): %.2f ms\n", ITERATIONS, p99_ms);
+    EXPECT_LT(p99_ms, 100.0) << "P99 latency " << p99_ms << " ms exceeds 100 ms SLO";
+}
+
+// AC-D4-11: Throughput ≥ 10k/s with thread pool enabled
+// To run: THEMIS_RUN_PERF_TESTS=1 ./test_transaction_distributed_2pc_focused
+TEST(Distributed2PCPerfTests, ThroughputAtLeast10kOpsPerSec) {
+    const char* env = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!env || std::string(env) != "1") {
+        GTEST_SKIP() << "Skipped: set THEMIS_RUN_PERF_TESTS=1 to run performance tests";
+    }
+
+    constexpr int DURATION_SEC = 3;
+    constexpr int WORKER_THREADS = 8;
+
+    DistributedTxnManagerConfig cfg;
+    cfg.worker_thread_count  = WORKER_THREADS;
+    cfg.prepare_batch_window = std::chrono::milliseconds(0);
+    DistributedTransactionManager mgr("perf-throughput", cfg);
+
+    constexpr int MAX_PARTICIPANTS = 500;
+    std::vector<std::unique_ptr<MockParticipant>> pool(MAX_PARTICIPANTS);
+    for (auto& p : pool) p = std::make_unique<MockParticipant>();
+
+    std::atomic<uint64_t> ops{0};
+    std::atomic<bool>     stop_flag{false};
+
+    auto worker = [&](int worker_id) {
+        int idx = worker_id * 2;
+        while (!stop_flag.load(std::memory_order_relaxed)) {
+            auto* pa = pool[(idx)     % MAX_PARTICIPANTS].get();
+            auto* pb = pool[(idx + 1) % MAX_PARTICIPANTS].get();
+            idx = (idx + 2) % MAX_PARTICIPANTS;
+
+            auto tid = mgr.beginDistributed({
+                makeParticipant("a" + std::to_string(ops.load()), pa),
+                makeParticipant("b" + std::to_string(ops.load()), pb),
+            });
+            if (!mgr.prepareDistributed(tid).ok) continue;
+            if (!mgr.commitDistributed(tid).ok)  continue;
+            ++ops;
+        }
+    };
+
+    std::vector<std::thread> workers;
+    for (int i = 0; i < WORKER_THREADS; ++i) {
+        workers.emplace_back(worker, i);
+    }
+
+    std::this_thread::sleep_for(std::chrono::seconds(DURATION_SEC));
+    stop_flag.store(true, std::memory_order_relaxed);
+    for (auto& t : workers) t.join();
+
+    const double ops_per_sec = static_cast<double>(ops.load()) / DURATION_SEC;
+    std::printf("[PERF-D4] 2PC throughput: %.0f ops/s (target ≥ 10000)\n", ops_per_sec);
+    EXPECT_GE(ops_per_sec, 10000.0)
+        << "Throughput " << ops_per_sec << " ops/s below 10k/s SLO";
 }

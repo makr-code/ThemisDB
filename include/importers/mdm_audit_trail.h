@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mdm_audit_trail.h                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:07:43                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • fffcbc104  2026-03-11  feat(importers): implement MDM entity matching, linking &... ║
+    • fffcbc1048  2026-03-11  feat(importers): implement MDM entity matching, linking &... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

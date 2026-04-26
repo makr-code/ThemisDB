@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            simd_distance.cpp                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:21:37                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     440                                            ║
+    • Total Lines:     449                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9e61c0def  2026-02-27  audit: fix Stubs:1 annotations, update line counts, add m... ║
-    • 54593e02c  2026-02-27  feat(performance): AVX-512 SIMD path for vector distance ... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -434,6 +433,16 @@ float cosine_distance(const float* a, const float* b, std::size_t dim) {
     if (cosine_sim > 1.0f) cosine_sim = 1.0f;
     if (cosine_sim < -1.0f) cosine_sim = -1.0f;
     return 1.0f - cosine_sim;
+}
+
+// batch_cosine_similarity: compute cosine_similarity(query, db[i]) for all i.
+// Implemented as 1.0f - cosine_distance per element; future SIMD optimisation
+// can fuse the norm computation across the batch.
+void batch_cosine_similarity(const float* query, const float* database,
+                              std::size_t n, std::size_t dim, float* results) {
+    for (std::size_t i = 0; i < n; ++i) {
+        results[i] = 1.0f - cosine_distance(query, database + i * dim, dim);
+    }
 }
 
 } // namespace simd

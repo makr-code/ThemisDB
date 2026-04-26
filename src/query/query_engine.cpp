@@ -3,22 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_engine.cpp                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:18:36                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   85.0/100                                       ║
-    • Total Lines:     4497                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+    • Quality Score:   87.0/100                                       ║
+    • Total Lines:     4538                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 490de27f0  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
-    • 3ac1c4143  2026-03-09  fix: clear all remaining stubs/TODOs across modules; upda... ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1d23633fa  2026-02-26  audit(geo): add GEO_BUFFER alias and geodesic handler in ... ║
+    • 9a52ef6bb1  2026-04-13  perf(query): add 1:1 point-lookup benchmarks and pk_eq fa... ║
+    • d8c296b8a5  2026-04-11  feat(query): port v2.0.0 rewrite/profiler/approx-aggregat... ║
+    • a9c8e3f831  2026-03-30  Fix schema migration ODR in modular tests and align query... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -52,6 +50,7 @@
 #include "utils/error_registry.h"
 #include <sstream>
 #include <cmath>
+#include <numbers>
 #include <limits>
 
 #include <tbb/parallel_invoke.h>
@@ -64,6 +63,7 @@
 #include <unordered_set>
 #include <set>
 #include <map>
+#include <mutex>
 #include <queue>
 #include <thread>
 
@@ -127,7 +127,7 @@ std::vector<std::string> QueryEngine::listCollections() const {
     std::unordered_set<std::string> seen;
     // Key schema: "doc:<collection>:<pk>" or "rel:<table>:<pk>"
     // We scan all keys and extract the second segment.
-    for (const std::string& prefix : {"doc:", "rel:"}) {
+    for ([[maybe_unused]] const std::string prefix : {"doc:", "rel:"}) {
         db_->scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) {
             // key looks like "doc:name:pk" — extract "name"
             std::string_view remainder = key.substr(prefix.size());
@@ -225,7 +225,22 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			"Table name cannot be empty"
 		);
 	}
-	
+
+	// ── Primary-key fast path ──────────────────────────────────────────────
+	// When pk_eq is set the caller already knows the primary key.  Skip all
+	// secondary-index lookups and do a single direct storage existence check.
+	// This is the minimal-overhead 1:1 OLTP path (hotpath).
+	if (q.pk_eq.has_value()) {
+		const std::string& pk = *q.pk_eq;
+		auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
+		span.setAttribute("query.pk_fast_path", true);
+		span.setStatus(true);
+		if (blob.has_value()) {
+			return Ok(std::vector<std::string>{pk});
+		}
+		return Ok(std::vector<std::string>{});
+	}
+
 	// Handle phrase search queries
 	if (q.phrasePredicate.has_value()) {
 		const auto& ph = *q.phrasePredicate;
@@ -523,18 +538,20 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 
 	// Parallele Scans pro Prädikat
 	std::vector<std::vector<std::string>> all_lists(q.predicates.size());
+	std::mutex errors_mutex;
 	std::vector<std::string> errors;
 	tbb::task_group tg;
 
 	for (size_t i = 0; i < q.predicates.size(); ++i) {
 		const auto& p = q.predicates[i];
-		tg.run([this, &q, &p, &all_lists, i, &errors]() {
+		tg.run([this, &q, &p, &all_lists, i, &errors, &errors_mutex]() {
 			auto child = Tracer::startSpan("index.scanEqual");
 			child.setAttribute("index.table", q.table);
 			child.setAttribute("index.column", p.column);
 			auto [st, keys] = secIdx_->scanKeysEqual(q.table, p.column, p.value);
 			if (!st.ok) {
 				THEMIS_ERROR("Parallel scan error ({}={}): {}", p.column, p.value, st.message);
+				std::lock_guard<std::mutex> lk(errors_mutex);
 				errors.push_back(st.message);
 				child.setStatus(false, st.message);
 				return;
@@ -678,6 +695,27 @@ Result<std::vector<BaseEntity>>
 QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndEntities");
 	span.setAttribute("query.table", q.table);
+
+	// ── Primary-key fast path ──────────────────────────────────────────────
+	// Avoid the double storage round-trip (executeAndKeys checks existence,
+	// then this method fetches the blob again).  With pk_eq set we do a single
+	// get and deserialise in one step.
+	if (q.pk_eq.has_value()) {
+		const std::string& pk = *q.pk_eq;
+		auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
+		span.setAttribute("query.pk_fast_path", true);
+		span.setStatus(true);
+		if (!blob.has_value()) return Ok(std::vector<BaseEntity>{});
+		try {
+			std::vector<BaseEntity> out;
+			out.emplace_back(BaseEntity::deserialize(pk, *blob));
+			return Ok(std::move(out));
+		} catch (...) {
+			THEMIS_WARN("executeAndEntities pk_fast_path: Deserialisierung fehlgeschlagen für PK={}", pk);
+			return Ok(std::vector<BaseEntity>{});
+		}
+	}
+
 	auto keysResult = executeAndKeys(q);
 	if (!keysResult) return Err<std::vector<BaseEntity>>(keysResult.error().code(), keysResult.error().context());
 	auto keys = std::move(keysResult.value());
@@ -1343,7 +1381,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		auto looksLikeDegrees = [](double lon, double lat) { return lon >= -180.0 && lon <= 180.0 && lat >= -90.0 && lat <= 90.0; };
 		if (looksLikeDegrees(x1, y1) && looksLikeDegrees(x2, y2) && (std::abs(dx) > 5.0 || std::abs(dy) > 5.0)) {
 			constexpr double kEarthRadiusKm = 6371.0;
-			auto deg2rad = [](double d){ return d * M_PI / 180.0; };
+			auto deg2rad = [](double d){ return d * std::numbers::pi_v<double> / 180.0; };
 			double lat1 = deg2rad(y1), lon1 = deg2rad(x1); double lat2 = deg2rad(y2), lon2 = deg2rad(x2);
 			double dlat = lat2 - lat1; double dlon = lon2 - lon1;
 			double a = std::sin(dlat/2.0)*std::sin(dlat/2.0) + std::cos(lat1)*std::cos(lat2)*std::sin(dlon/2.0)*std::sin(dlon/2.0);
@@ -2212,7 +2250,7 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 
 	// Prüfe Gleichheitsindizes
 	if (!q.predicates.empty()) {
-		size_t bestIdx = 0; size_t bestEst = SIZE_MAX; bool bestCapped=false;
+		size_t bestIdx = 0; size_t bestEst = SIZE_MAX; [[maybe_unused]] bool bestCapped=false;
 		for (size_t i=0;i<q.predicates.size();++i) {
 			bool capped=false; size_t est = secIdx_->estimateCountEqual(q.table, q.predicates[i].column, q.predicates[i].value, 16, &capped);
 			size_t eff = capped ? 16 : est;
@@ -3434,13 +3472,17 @@ QueryEngine::executeGeneralTraversal(
     int minDepth,
     int maxDepth,
     TraversalDirection direction,
-    const std::string& graphId
+    const std::string& graphId,
+    const std::string& edgeTypeFilter
 ) const {
 	auto span = Tracer::startSpan("QueryEngine.executeGeneralTraversal");
 	span.setAttribute("query.start_vertex", startVertex);
 	span.setAttribute("query.min_depth", static_cast<int64_t>(minDepth));
 	span.setAttribute("query.max_depth", static_cast<int64_t>(maxDepth));
 	span.setAttribute("query.graph_id", graphId);
+	if (!edgeTypeFilter.empty()) {
+		span.setAttribute("query.edge_type_filter", edgeTypeFilter);
+	}
 	
 	if (!graphIdx_) {
 		return Err<std::vector<TraversalResult>>(ErrorCode::ERR_INDEX_NOT_FOUND, "GraphIndexManager not available");
@@ -3555,13 +3597,16 @@ QueryEngine::executeGeneralTraversal(
 			}
 		}
 		
-		// Filter by graph ID if specified
+		// Filter by graph ID and optional edge type
 		for (const auto& adj : neighbors) {
 			// Filter by graph ID - adj.graphId contains the graph namespace
-			// Note: Edge type filtering requires access to GraphIndexManager::getEdgeType_()
-			// which is private. For now, we rely on graphId filtering only.
-			// TODO: Add edge type filtering once exposed in TraversalQuery struct
 			if (!graphId.empty() && graphId != "default" && !adj.graphId.empty() && adj.graphId != graphId) {
+				continue;
+			}
+
+			// Edge type filter: adj.graphId doubles as edge type identifier
+			// (same convention as RecursivePathQuery::edge_type).
+			if (!edgeTypeFilter.empty() && !adj.graphId.empty() && adj.graphId != edgeTypeFilter) {
 				continue;
 			}
 			

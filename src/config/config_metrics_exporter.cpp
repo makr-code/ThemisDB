@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_metrics_exporter.cpp                        ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:15:03                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     413                                            ║
+    • Total Lines:     409                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 7a9e3ad1c  2026-03-14  fix: polish config metrics initialization ║
-    • 985dc57d9  2026-03-14  fix: harden config metrics exporter compatibility ║
-    • c74d69b89  2026-03-13  Changes before error encountered         ║
-    • 518f98f13  2026-03-13  refine config metrics delta handling     ║
-    • f02db7d31  2026-03-13  fix: stabilize config metrics counters   ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -405,7 +402,6 @@ void ConfigMetricsExporter::registerWithRegistry(const std::shared_ptr<prometheu
         .Register(*g_registry);
     g_metrics.cache_ttl_seconds = &cache_ttl_family.Add({});
 #else
-    (void)registry;
 #endif
 }
 

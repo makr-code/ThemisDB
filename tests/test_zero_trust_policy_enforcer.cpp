@@ -3,19 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_zero_trust_policy_enforcer.cpp                ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:35:50                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:58:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     389                                            ║
+    • Total Lines:     388                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 72c5fa5ba  2026-02-23  feat(security): implement zero-trust network policy enfor... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -386,4 +382,198 @@ TEST(ZeroTrustPolicyEnforcerTest, MetricsIdentityFailureCounted) {
 
     EXPECT_EQ(enforcer.getMetrics().identity_failures.load(), 1u);
     EXPECT_EQ(enforcer.getMetrics().requests_denied.load(), 1u);
+}
+
+// ============================================================================
+// Phase 3.2 — IPv6 CIDR support
+// ============================================================================
+
+TEST(ZeroTrustPolicyEnforcerTest, IPv6CidrMatchesExact) {
+    ZeroTrustPolicyEnforcer enforcer;
+    NetworkPolicy p;
+    p.policy_id = "v6-exact";
+    p.identity  = "alice";
+    p.allowed_cidrs = {"2001:db8::/32"};
+    p.default_deny  = true;
+    enforcer.addNetworkPolicy(p);
+
+    // Address inside the /32 block
+    auto ctx = makeCtx("alice", "2001:db8::1");
+    auto res = enforcer.verify(ctx);
+    EXPECT_TRUE(res.verified) << res.reason;
+}
+
+TEST(ZeroTrustPolicyEnforcerTest, IPv6CidrRejectsOutsideBlock) {
+    ZeroTrustPolicyEnforcer enforcer;
+    NetworkPolicy p;
+    p.policy_id = "v6-block";
+    p.identity  = "bob";
+    p.allowed_cidrs = {"2001:db8::/32"};
+    p.default_deny  = true;
+    enforcer.addNetworkPolicy(p);
+
+    // Address outside the block
+    auto ctx = makeCtx("bob", "2001:db9::1");
+    auto res = enforcer.verify(ctx);
+    EXPECT_FALSE(res.verified);
+}
+
+TEST(ZeroTrustPolicyEnforcerTest, IPv6SlashOneHundredTwentyEightExactMatch) {
+    ZeroTrustPolicyEnforcer enforcer;
+    NetworkPolicy p;
+    p.policy_id = "v6-128";
+    p.identity  = "carol";
+    p.allowed_cidrs = {"::1/128"};
+    p.default_deny  = true;
+    enforcer.addNetworkPolicy(p);
+
+    EXPECT_TRUE(enforcer.verify(makeCtx("carol", "::1")).verified);
+    EXPECT_FALSE(enforcer.verify(makeCtx("carol", "::2")).verified);
+}
+
+TEST(ZeroTrustPolicyEnforcerTest, IPv6SlashZeroMatchesAny) {
+    ZeroTrustPolicyEnforcer enforcer;
+    NetworkPolicy p;
+    p.policy_id = "v6-any";
+    p.identity  = "dave";
+    p.allowed_cidrs = {"::/0"};
+    p.default_deny  = true;
+    enforcer.addNetworkPolicy(p);
+
+    EXPECT_TRUE(enforcer.verify(makeCtx("dave", "2001:db8::cafe")).verified);
+    EXPECT_TRUE(enforcer.verify(makeCtx("dave", "::1")).verified);
+}
+
+TEST(ZeroTrustPolicyEnforcerTest, IPv6MalformedRejected) {
+    ZeroTrustPolicyEnforcer enforcer;
+    NetworkPolicy p;
+    p.policy_id = "v6-malformed";
+    p.identity  = "eve";
+    p.allowed_cidrs = {"2001:db8::/32"};
+    p.default_deny  = true;
+    enforcer.addNetworkPolicy(p);
+
+    // "not-an-ip" is not a valid IPv6 address
+    auto ctx = makeCtx("eve", "not-an-ip");
+    auto res = enforcer.verify(ctx);
+    EXPECT_FALSE(res.verified);
+}
+
+TEST(ZeroTrustPolicyEnforcerTest, IPv4MappedIPv6NormalisedToIPv4) {
+    ZeroTrustPolicyEnforcer enforcer;
+    NetworkPolicy p;
+    p.policy_id = "v4-mapped";
+    p.identity  = "frank";
+    p.allowed_cidrs = {"10.0.0.0/8"};  // IPv4 CIDR
+    p.default_deny  = true;
+    enforcer.addNetworkPolicy(p);
+
+    // ::ffff:10.1.2.3 should normalise to 10.1.2.3 and match the IPv4 CIDR
+    auto ctx = makeCtx("frank", "::ffff:10.1.2.3");
+    auto res = enforcer.verify(ctx);
+    EXPECT_TRUE(res.verified) << res.reason;
+}
+
+TEST(ZeroTrustPolicyEnforcerTest, IPv6DeniedCidrTakesPrecedence) {
+    ZeroTrustPolicyEnforcer enforcer;
+    NetworkPolicy p;
+    p.policy_id = "v6-deny";
+    p.identity  = "grace";
+    p.allowed_cidrs = {"2001:db8::/32"};
+    p.denied_cidrs  = {"2001:db8::bad:0/112"};
+    p.default_deny  = true;
+    enforcer.addNetworkPolicy(p);
+
+    // Inside allowed block but also inside denied block
+    auto ctx = makeCtx("grace", "2001:db8::bad:1");
+    auto res = enforcer.verify(ctx);
+    EXPECT_FALSE(res.verified);
+}
+
+// ============================================================================
+// Phase 3.1 — Adaptive continuous re-verification
+// ============================================================================
+
+TEST(ZeroTrustPolicyEnforcerTest, ContinuousReVerificationTriggersWhenExpired) {
+    // Set up an enforcer with a very short re-verification interval.
+    // The first request should pass; on re-checking with an invalid token,
+    // the session should be denied.
+    auto verifier = [](const std::string& tok, const std::string&) {
+        return tok == "valid";
+    };
+    ZeroTrustPolicyEnforcer enforcer(verifier);
+
+    NetworkPolicy p;
+    p.policy_id = "reVerify";
+    p.identity  = "alice";
+    p.allowed_cidrs = {"0.0.0.0/0"};
+    p.default_deny  = false;
+    // Interval: 0ms (always re-verify)
+    p.continuous_verification_interval_ms = std::chrono::milliseconds{0};
+    enforcer.addNetworkPolicy(p);
+
+    // Bad token → should be denied
+    auto ctx = makeCtx("alice", "10.0.0.1", "bad-token");
+    ctx.last_verified_at = std::chrono::system_clock::now() - std::chrono::seconds{3600};
+    auto res = enforcer.verify(ctx);
+    EXPECT_FALSE(res.verified);
+}
+
+TEST(ZeroTrustPolicyEnforcerTest, RiskScoreThresholdRevokesSession) {
+    ZeroTrustPolicyEnforcer enforcer;
+
+    NetworkPolicy p;
+    p.policy_id = "risky";
+    p.identity  = "mallory";
+    p.allowed_cidrs = {"0.0.0.0/0"};
+    p.default_deny  = false;
+    p.risk_score_threshold = 0.5;  // revoke when risk > 0.5
+    enforcer.addNetworkPolicy(p);
+
+    auto ctx = makeCtx("mallory", "1.2.3.4");
+    ctx.session_risk_score = 0.8;  // above threshold
+    auto res = enforcer.verify(ctx);
+    EXPECT_FALSE(res.verified);
+    EXPECT_NE(res.reason.find("risk score"), std::string::npos);
+}
+
+TEST(ZeroTrustPolicyEnforcerTest, RiskScoreBelowThresholdAllowed) {
+    ZeroTrustPolicyEnforcer enforcer;
+
+    NetworkPolicy p;
+    p.policy_id = "safe";
+    p.identity  = "alice";
+    p.allowed_cidrs = {"0.0.0.0/0"};
+    p.default_deny  = false;
+    p.risk_score_threshold = 0.9;
+    enforcer.addNetworkPolicy(p);
+
+    auto ctx = makeCtx("alice", "10.0.0.1");
+    ctx.session_risk_score = 0.2;  // well below threshold
+    auto res = enforcer.verify(ctx);
+    EXPECT_TRUE(res.verified) << res.reason;
+}
+
+TEST(ZeroTrustPolicyEnforcerTest, RiskScoreReducesTrustScore) {
+    ZeroTrustPolicyEnforcer enforcer;
+
+    NetworkPolicy p;
+    p.policy_id = "trust-check";
+    p.identity  = "alice";
+    p.allowed_cidrs = {"0.0.0.0/0"};
+    p.default_deny  = false;
+    enforcer.addNetworkPolicy(p);
+
+    auto ctx_low  = makeCtx("alice", "10.0.0.1");
+    auto ctx_high = makeCtx("alice", "10.0.0.1");
+    ctx_low.session_risk_score  = 0.0;
+    ctx_high.session_risk_score = 0.3;
+
+    auto res_low  = enforcer.verify(ctx_low);
+    auto res_high = enforcer.verify(ctx_high);
+
+    EXPECT_TRUE(res_low.verified);
+    EXPECT_TRUE(res_high.verified);
+    // Higher risk → lower trust score
+    EXPECT_GT(res_low.trust_score, res_high.trust_score);
 }

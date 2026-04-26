@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_legal_extraction.cpp                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:29:05                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:54:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2bb85b14f  2026-03-11  feat(ingestion): add llm_adapter.h/cpp + fix README gaps ... ║
-    • a7cd4fa78  2026-03-11  feat(ingestion): LLM-driven semantic extraction pipeline ... ║
+    • 2bb85b14f2  2026-03-11  feat(ingestion): add llm_adapter.h/cpp + fix README gaps ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compression_strategy.cpp                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:27                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2386ec7ef  2026-03-12  feat: implement GPU-accelerated compression (Zstd/Snappy/... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -163,8 +163,8 @@ std::vector<uint8_t> CompressionStrategyManager::decompress(
 }
 
 CompressionMethod CompressionStrategyManager::select_method(
-    const uint8_t* data,
-    size_t size,
+    const uint8_t* /*data*/,
+    size_t /*size*/,
     DataType type
 ) {
     switch (type) {

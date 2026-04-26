@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_postgres_importer_fk.cpp                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:31:27                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:55:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • d6a9fc001  2026-03-11  audit(importers): fix duplicate word in FK test comment, ... ║
-    • b8ff944e1  2026-03-11  feat(importers): PostgreSQL importer v2.0 - Foreign Key P... ║
+    • d6a9fc0014  2026-03-11  audit(importers): fix duplicate word in FK test comment, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

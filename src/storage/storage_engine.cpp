@@ -3,18 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            storage_engine.cpp                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:34                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   91.0/100                                       ║
-    • Total Lines:     568                                            ║
+    • Total Lines:     570                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -70,7 +73,7 @@ public:
         }
     }
 
-    bool evaluate(const std::string& expression, const void* context) override {
+    bool evaluate(const std::string& expression, [[maybe_unused]] const void* context) override {
         // Default implementation: always return true (no filtering)
         // Real implementation would parse and evaluate the expression
         if (is_production_mode() && !expression.empty()) {
@@ -95,7 +98,7 @@ public:
     }
 
     std::vector<uint8_t> encrypt_field(
-        const std::string& field_name,
+        [[maybe_unused]] const std::string& field_name,
         const std::vector<uint8_t>& plaintext) override {
         // Default implementation: no-op encryption (returns plaintext)
         // Real implementation would use AES-GCM or similar
@@ -103,13 +106,13 @@ public:
     }
     
     std::vector<uint8_t> decrypt_field(
-        const std::string& field_name,
+        [[maybe_unused]] const std::string& field_name,
         const std::vector<uint8_t>& ciphertext) override {
         // Default implementation: no-op decryption
         return ciphertext;
     }
     
-    bool should_encrypt(const std::string& field_name) const override {
+    bool should_encrypt([[maybe_unused]] const std::string& field_name) const override {
         // Default: don't encrypt any fields
         return false;
     }
@@ -125,7 +128,7 @@ public:
         }
     }
 
-    std::vector<uint8_t> get_key(const std::string& key_id) override {
+    std::vector<uint8_t> get_key([[maybe_unused]] const std::string& key_id) override {
         // Default implementation: return a dummy key
         // Real implementation would fetch from Vault, HSM, etc.
         return std::vector<uint8_t>(32, 0x42); // 32-byte dummy key
@@ -148,8 +151,8 @@ public:
 
     Result<ISecondaryIndex*> createSecondaryIndex(
         std::string_view name,
-        std::string_view field_name,
-        const std::string& config = "") override {
+        [[maybe_unused]] std::string_view field_name,
+        [[maybe_unused]] const std::string& config = "") override {
         // Default implementation: no-op, returns nullptr
         if (is_production_mode()) {
             spdlog::warn("StorageEngine: Index creation attempted with default (no-op) index manager in PRODUCTION mode: '{}'", name);
@@ -159,8 +162,8 @@ public:
     
     Result<IVectorIndex*> createVectorIndex(
         std::string_view name,
-        uint32_t dimension,
-        const std::string& config = "") override {
+        [[maybe_unused]] uint32_t dimension,
+        [[maybe_unused]] const std::string& config = "") override {
         // Default implementation: no-op, returns nullptr
         if (is_production_mode()) {
             spdlog::warn("StorageEngine: Vector index creation attempted with default (no-op) index manager in PRODUCTION mode: '{}'", name);
@@ -170,7 +173,7 @@ public:
     
     Result<IGraphIndex*> createGraphIndex(
         std::string_view name,
-        const std::string& config = "") override {
+        [[maybe_unused]] const std::string& config = "") override {
         // Default implementation: no-op, returns nullptr
         if (is_production_mode()) {
             spdlog::warn("StorageEngine: Graph index creation attempted with default (no-op) index manager in PRODUCTION mode: '{}'", name);
@@ -196,9 +199,8 @@ public:
                                    fmt::format("Index '{}' not found (default manager)", name));
     }
     
-    Result<void> dropIndex(std::string_view name) override {
+    Result<void> dropIndex([[maybe_unused]] std::string_view name) override {
         // Default implementation: always succeeds (no-op)
-        (void)name;
         return OkVoid();
     }
     

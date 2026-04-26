@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_otlp_exporter.cpp                             ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:30:45                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:55:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     350                                            ║
+    • Total Lines:     445                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • db1d1e8c2  2026-03-14  feat(api/otlp): add exponential-backoff retry in OtlpExpo... ║
-    • 8ddf5b350  2026-03-10  fix(api): address code review - clean up test, remove sta... ║
-    • e24bce921  2026-03-10  feat(api): add OTLP/HTTP span exporter + wire into Tracin... ║
+    • 409f1cad8c  2026-04-13  feat(api/otlp): persistent CURL handle, deque queue, and ... ║
+    • 8bea1245ba  2026-04-13  feat(api/otlp): persistent CURL handle, deque queue, and ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -346,5 +345,101 @@ TEST(OtlpExporterTest, RetryZeroMeansNoRetries)
     exp.enqueue(s);
 
     EXPECT_EQ(exp.droppedSpanCount(), 0u);
+    exp.stop();
+}
+
+// ---------------------------------------------------------------------------
+// Deque-backed queue behaviour (O(1) pop-front replacement for vector)
+// ---------------------------------------------------------------------------
+
+TEST(OtlpExporterTest, DequeQueueDropOldestIsOrdinal)
+{
+    // Verify that when the queue is full the *oldest* span is dropped (FIFO).
+    // With std::deque, pop_front() removes the oldest element in O(1).
+    OtlpExporterConfig cfg;
+    cfg.enabled        = true;
+    cfg.max_queue_size = 3;
+
+    OtlpExporter exp(cfg);
+    // No start() → no background flush thread; spans accumulate in the deque.
+
+    SpanData s1; s1.trace_id = "00000000000000000000000000000001"; s1.name = "first";
+    SpanData s2; s2.trace_id = "00000000000000000000000000000002"; s2.name = "second";
+    SpanData s3; s3.trace_id = "00000000000000000000000000000003"; s3.name = "third";
+
+    exp.enqueue(s1);
+    exp.enqueue(s2);
+    exp.enqueue(s3);
+    EXPECT_EQ(exp.droppedSpanCount(), 0u);
+
+    // Fourth enqueue: oldest ("first") must be dropped.
+    SpanData s4; s4.trace_id = "00000000000000000000000000000004"; s4.name = "fourth";
+    exp.enqueue(s4);
+    EXPECT_EQ(exp.droppedSpanCount(), 1u);
+
+    // Fifth: "second" is now oldest.
+    SpanData s5; s5.trace_id = "00000000000000000000000000000005"; s5.name = "fifth";
+    exp.enqueue(s5);
+    EXPECT_EQ(exp.droppedSpanCount(), 2u);
+
+    exp.stop();
+}
+
+TEST(OtlpExporterTest, DequeQueueBelowCapacityNeverDrops)
+{
+    OtlpExporterConfig cfg;
+    cfg.enabled        = true;
+    cfg.max_queue_size = 100;
+
+    OtlpExporter exp(cfg);
+
+    SpanData s;
+    s.trace_id = "abcdef0000000000abcdef0000000000";
+    s.name     = "no-drop";
+
+    for (int i = 0; i < 50; ++i) exp.enqueue(s);
+
+    EXPECT_EQ(exp.droppedSpanCount(), 0u);
+    exp.stop();
+}
+
+// ---------------------------------------------------------------------------
+// Persistent curl handle — lifecycle smoke tests (no network required)
+// ---------------------------------------------------------------------------
+
+TEST(OtlpExporterTest, StartStopWithEnabledCreatesAndCleansUpHandle)
+{
+    // start() should create the persistent curl handle and stop() should
+    // clean it up.  We verify there is no crash or memory error across the
+    // lifecycle (the actual handle state is internal; we just verify no UB).
+    OtlpExporterConfig cfg;
+    cfg.enabled        = true;
+    cfg.endpoint       = "http://127.0.0.1:19999/v1/traces"; // unreachable — no flush needed
+    cfg.flush_interval_ms = 500;
+    cfg.max_queue_size = 10;
+
+    OtlpExporter exp(cfg);
+    exp.start();
+    // Brief sleep to confirm the background thread is alive without crashing.
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    exp.stop(); // joins thread and frees curl handle
+    // If we reach here without UB/crash the lifecycle is correct.
+}
+
+TEST(OtlpExporterTest, StartStopIdempotentWithCurlHandle)
+{
+    OtlpExporterConfig cfg;
+    cfg.enabled        = true;
+    cfg.endpoint       = "http://127.0.0.1:19999/v1/traces";
+    cfg.flush_interval_ms = 500;
+    cfg.max_queue_size = 5;
+
+    OtlpExporter exp(cfg);
+    exp.start();
+    // Double-start must be a no-op (the second call returns early).
+    exp.start();
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    exp.stop();
+    // Double-stop must be safe too.
     exp.stop();
 }

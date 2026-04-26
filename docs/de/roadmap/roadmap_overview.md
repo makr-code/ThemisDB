@@ -1,7 +1,7 @@
 # ThemisDB - Entwicklungs-Roadmap
 
 **Version:** 6.0  
-**Stand:** 20. Dezember 2025  
+**Stand:** 6. April 2026  
 **Typ:** Konsolidierte Gesamt-Roadmap
 
 > **📌 Status Update Dezember 2025 - v1.3.0 RELEASED:**
@@ -268,7 +268,7 @@ ThemisDB ist jetzt eine **vollständig verteilte, cloud-native Datenplattform** 
 | Plugin Interface | ✅ ERLEDIGT | `include/content/content_plugin_interface.h` |
 | PDF Processor | ✅ ERLEDIGT | `include/content/pdf_processor.h`, `src/content/pdf_processor.cpp` |
 | Office Processor | ✅ ERLEDIGT | `include/content/office_processor.h`, `src/content/office_processor.cpp` |
-| YAML Configs | ✅ ERLEDIGT | `config/content_processors.yaml`, `config/processors/*.yaml` |
+| YAML Configs | ✅ ERLEDIGT | `config/content/processors.yaml`, `config/processors/*.yaml` |
 | Architecture Doc | ✅ ERLEDIGT | `docs/content/CONTENT_PROCESSOR_PLUGINS.md` |
 
 **Plugin-Konfigurationen:**

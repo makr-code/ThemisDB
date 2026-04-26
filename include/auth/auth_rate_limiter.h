@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_rate_limiter.h                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:05:50                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     510                                            ║
+    • Total Lines:     508                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 43a91f179  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
-    • daf194f99  2026-03-12  feat(auth): implement rate limiter distributed state sync... ║
-    • 9de8da16f  2026-03-12  feat(auth): implement credential stuffing persistent cros... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c65f5b1f7  2026-03-01  feat(auth): integrate audit logger into AuthRateLimiter a... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -33,6 +30,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <mutex>
+#include <shared_mutex>
 #include <chrono>
 #include <memory>
 #include <optional>
@@ -252,7 +250,7 @@ private:
     // Per-user lockout state
     std::unordered_map<std::string, LockoutInfo> lockout_state_;
     
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
     
     // Cleanup interval (5 minutes)
     static constexpr uint32_t CLEANUP_INTERVAL_SECONDS = 300;
@@ -451,7 +449,7 @@ private:
 
     // Anomaly detection callback – protected by a separate mutex so it can be
     // called safely while stats_mutex_ is held.
-    mutable std::mutex callback_mutex_;
+    mutable std::shared_mutex callback_mutex_;
     AuthAnomalyCallback anomaly_callback_;
     utils::AuditLogger* audit_logger_ = nullptr;  ///< Non-owning; may be nullptr.
     AuthMetrics*        metrics_      = nullptr;  ///< Non-owning; may be nullptr.
@@ -503,7 +501,7 @@ private:
 
     // Statistics
     mutable Statistics stats_;
-    mutable std::mutex stats_mutex_;
+    mutable std::shared_mutex stats_mutex_;
 };
 
 } // namespace auth

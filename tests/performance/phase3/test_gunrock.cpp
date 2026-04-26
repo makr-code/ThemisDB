@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gunrock.cpp                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:23:18                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     308                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -305,4 +302,50 @@ TEST_F(GunrockTest, Stats) {
     EXPECT_EQ(stats.num_edges, 4);
     EXPECT_FALSE(stats.gpu_available);  // CPU fallback
     EXPECT_EQ(stats.gpu_memory_mb, 0);
+}
+
+// ===========================================================================
+// GAP-021 — BFS frontier size cap (CWE-400)
+// ===========================================================================
+
+// GAP-021-01: A graph with 2,000,000 nodes in a long chain must not exhaust
+// memory — gpu_bfs() must return before visiting all nodes when the frontier
+// cap (1,000,000 nodes) is reached.
+TEST_F(GunrockTest, GAP021_LargeChainGraph_FrontierCapRespected) {
+    // Build a 2M-node chain: 0→1→2→…→N-1
+    constexpr int N = 2'000'000;
+    std::vector<std::vector<NodeID>> adj(N);
+    for (int i = 0; i < N - 1; ++i) {
+        adj[i].push_back(i + 1);
+    }
+    processor->load_graph(adj);
+
+    auto distances = processor->gpu_bfs(0);
+    ASSERT_EQ(static_cast<int>(distances.size()), N);
+
+    // Node 0 must always be at distance 0.
+    EXPECT_EQ(distances[0], 0);
+
+    // Nodes beyond the cap (1M) should be -1 (unreachable / truncated).
+    // We check the last node: on a capped run it must be -1.
+    EXPECT_EQ(distances[N - 1], -1)
+        << "BFS should have been truncated; last node must remain unreachable";
+}
+
+// GAP-021-02: Small graphs (< cap) must still return correct distances.
+TEST_F(GunrockTest, GAP021_SmallGraph_FullTraversalUnaffected) {
+    std::vector<std::vector<NodeID>> adj = {
+        {1, 2},  // 0 → 1, 2
+        {3},     // 1 → 3
+        {3},     // 2 → 3
+        {}       // 3 (leaf)
+    };
+    processor->load_graph(adj);
+
+    auto distances = processor->gpu_bfs(0);
+    ASSERT_EQ(distances.size(), 4u);
+    EXPECT_EQ(distances[0], 0);
+    EXPECT_EQ(distances[1], 1);
+    EXPECT_EQ(distances[2], 1);
+    EXPECT_EQ(distances[3], 2);
 }

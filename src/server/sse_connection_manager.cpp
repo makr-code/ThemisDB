@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sse_connection_manager.cpp                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:07                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b006db51f  2026-02-23  Implement CDC event filtering by operation type (INSERT/U... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -70,7 +70,7 @@ uint64_t SseConnectionManager::registerConnection(
     bool start_background = false;
 
     {
-        std::lock_guard<std::mutex> lock(connections_mutex_);
+        std::unique_lock<std::shared_mutex> lock(connections_mutex_);
 
         auto conn = std::make_shared<Connection>();
         conn->id = next_conn_id_++;
@@ -103,7 +103,7 @@ uint64_t SseConnectionManager::registerConnection(
 }
 
 void SseConnectionManager::unregisterConnection(uint64_t conn_id) {
-    std::lock_guard<std::mutex> lock(connections_mutex_);
+    std::unique_lock<std::shared_mutex> lock(connections_mutex_);
     
     auto it = connections_.find(conn_id);
     if (it != connections_.end()) {
@@ -127,7 +127,7 @@ std::vector<std::string> SseConnectionManager::pollEvents(
     uint64_t conn_id,
     size_t max_events
 ) {
-    std::lock_guard<std::mutex> lock(connections_mutex_);
+    std::unique_lock<std::shared_mutex> lock(connections_mutex_);
     
     auto it = connections_.find(conn_id);
     if (it == connections_.end() || !it->second->active) {
@@ -200,7 +200,7 @@ std::vector<std::string> SseConnectionManager::pollEvents(
 }
 
 bool SseConnectionManager::needsHeartbeat(uint64_t conn_id) const {
-    std::lock_guard<std::mutex> lock(connections_mutex_);
+    std::shared_lock<std::shared_mutex> lock(connections_mutex_);
     
     auto it = connections_.find(conn_id);
     if (it == connections_.end()) {
@@ -215,7 +215,7 @@ bool SseConnectionManager::needsHeartbeat(uint64_t conn_id) const {
 }
 
 void SseConnectionManager::recordHeartbeat(uint64_t conn_id) {
-    std::lock_guard<std::mutex> lock(connections_mutex_);
+    std::unique_lock<std::shared_mutex> lock(connections_mutex_);
     
     auto it = connections_.find(conn_id);
     if (it != connections_.end()) {
@@ -225,7 +225,7 @@ void SseConnectionManager::recordHeartbeat(uint64_t conn_id) {
 }
 
 SseConnectionManager::ConnectionStats SseConnectionManager::getStats() const {
-    std::lock_guard<std::mutex> lock(connections_mutex_);
+    std::shared_lock<std::shared_mutex> lock(connections_mutex_);
     
     ConnectionStats s{};
     s.active_connections = connections_.size();
@@ -245,7 +245,7 @@ void SseConnectionManager::shutdown() {
         poll_timer_->cancel();
     }
     
-    std::lock_guard<std::mutex> lock(connections_mutex_);
+    std::unique_lock<std::shared_mutex> lock(connections_mutex_);
     for (auto& [id, conn] : connections_) {
         conn->active = false;
     }
@@ -261,7 +261,7 @@ void SseConnectionManager::backgroundPollTask() {
     
     try {
         // Poll changefeed for new events
-        std::lock_guard<std::mutex> lock(connections_mutex_);
+        std::unique_lock<std::shared_mutex> lock(connections_mutex_);
         
         for (auto& [id, conn] : connections_) {
             if (!conn->active) {

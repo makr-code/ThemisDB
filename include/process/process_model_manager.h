@@ -3,20 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            process_model_manager.h                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:09:37                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:46:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     386                                            ║
+    • Total Lines:     439                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 3fea6d6b5  2026-03-12  refactor: clean up includes and remove unused transaction... ║
-    • f56652abf  2026-03-12  audit(process): focused tests, ProcessNotation enum fix, ... ║
-    • 7f7a27240  2026-03-12  feat(process): add ProcessLinker, ProcessGraphRag, and mo... ║
+    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • 6897bb74a5  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
+    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • e8953e1175  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,14 +28,17 @@
 #include "index/process_graph.h"
 #include "storage/base_entity.h"
 #include <nlohmann/json.hpp>
+#include <functional>
+#include <memory>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <vector>
-#include <optional>
-#include <memory>
 
 namespace themis {
 class RocksDBWrapper;
+class InvertedIndex;
+class VectorIndexManager;
 
 namespace process {
 
@@ -235,6 +239,23 @@ public:
         const ProcessModelRecord& meta = {}
     );
 
+    /**
+     * @brief Import an EPK model from an ARIS Markup Language (AML) XML document.
+     *
+     * Parses the first EPK `<Model>` found in the AML file produced by
+     * ARIS Designer 9.x / 10.x.  ARIS TypeNum values are mapped to the
+     * corresponding EPKNodeType values (see EpkArisXmlImporter for the
+     * full mapping table).
+     *
+     * @param aml_xml  Full AML XML string.
+     * @param meta     Optional metadata overrides (name, domain, owner, …).
+     * @return ProcessModelResult with the assigned model_id on success.
+     */
+    ProcessModelResult importArisXml(
+        std::string_view aml_xml,
+        const ProcessModelRecord& meta = {}
+    );
+
     // -------------------------------------------------------------------------
     // CRUD
     // -------------------------------------------------------------------------
@@ -355,8 +376,57 @@ public:
         ProcessGraphManager& engine
     ) const;
 
+    // -------------------------------------------------------------------------
+    // Optional integrations
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Wire a text-embedding function.
+     *
+     * When set, @p embedder is called automatically inside save() whenever the
+     * saved record has an empty embedding vector.  The concatenation of
+     * `name + " " + description + " " + long_description` is used as input.
+     *
+     * @param embedder  Callable `(std::string_view text) → std::vector<float>`.
+     *                  Pass an empty function to disable.
+     */
+    void setEmbedder(std::function<std::vector<float>(std::string_view)> embedder);
+
+    /**
+     * @brief Wire an InvertedIndex for BM25 full-text search.
+     *
+     * When set, save() automatically indexes the model name and description
+     * fields, and remove() removes the posting entries.  The search() method
+     * uses the BM25 index instead of the linear keyword scan.
+     *
+     * The index must be created for the logical table "process_definitions"
+     * and the column "text" before the first save() call.
+     *
+     * @param fts  Shared pointer to an InvertedIndex instance (may be null to
+     *             disable).
+     */
+    void setInvertedIndex(std::shared_ptr<InvertedIndex> fts);
+
+    /**
+     * @brief Wire a VectorIndexManager for HNSW-based findSimilar().
+     *
+     * When set, findSimilar() delegates to the HNSW index for O(log n)
+     * approximate nearest-neighbour search instead of a linear cosine scan.
+     * save() upserts the model embedding; remove() deletes it from the index.
+     *
+     * The index must be initialised for the object name "process_models"
+     * with the correct embedding dimension before the first save() call.
+     *
+     * @param vi  Shared pointer to an initialised VectorIndexManager (may be
+     *            null to disable).
+     */
+    void setVectorIndex(std::shared_ptr<VectorIndexManager> vi);
+
 private:
     ::themis::RocksDBWrapper& db_;
+    std::function<std::vector<float>(std::string_view)> embedder_;
+    std::shared_ptr<InvertedIndex> fts_index_;
+    std::shared_ptr<VectorIndexManager> vector_index_;
 
     // Helpers
     std::string makeKey_(std::string_view model_id) const;

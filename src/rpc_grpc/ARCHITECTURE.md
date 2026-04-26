@@ -1,10 +1,12 @@
-<!-- Status: current | validated: 2026-03-22 -->
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # gRPC Plugin — Architecture Guide
 
-**Version:** 0.0.1  
-**Last Updated:** 2026-03-22  
+**Version:** 0.2.0
+**Last Updated:** 2026-04-15
 **Module Path:** `src/rpc_grpc/`
 
 ---
@@ -94,7 +96,8 @@ registered with the server as `grpc::Service*` pointers and owned by the caller.
 | Class | File | Responsibility |
 |-------|------|----------------|
 | `GRPCPlugin` | `grpc_plugin.h/.cpp` | `IThemisPlugin` + `IRPCPlugin` factory; stateless after init |
-| `GRPCServer` | `grpc_plugin.h/.cpp` | Server lifecycle: init, register, start, stop, stats |
+| `GRPCServer` | `grpc_plugin.h/.cpp` | Server lifecycle: init, register, start, stop, stats; keepalive tuning; multi-port; TLS hot-reload |
+| `BidiStreamAdapter<Req,Resp>` | `bidi_stream_adapter.h` | Header-only bidirectional streaming helper with backpressure |
 
 ---
 
@@ -200,6 +203,7 @@ configureCredentials():
 
 ## 9. Known Limitations
 
-- `RPCServerStats::uptime_seconds` is not updated after start (incremental tracking planned).
-- No health-check service (`grpc.health.v1.Health`) is auto-registered.
-- Single-port only; SNI-based multi-host TLS is not supported.
+- No health-check service (`grpc.health.v1.Health`) is auto-registered; planned Q4 2026.
+- `reloadTls()` updates the cached credentials only; existing TLS sessions are not renegotiated.
+- SIGHUP-triggered hot-reload is not yet implemented (must call `reloadTls()` explicitly); planned Q1 2027.
+- Single-port only for primary traffic; SNI-based multi-host TLS is not supported.

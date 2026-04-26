@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_error_handler.cpp                            ║
-  Version:         0.0.31                                             ║
-  Last Modified:   2026-03-30 04:21:43                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-15 18:51:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     308                                            ║
+    • Total Lines:     307                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -188,24 +189,22 @@ json VoiceRetryHandler::getStats() const {
 // ---- VoiceFallbackStrategy ----
 
 VoiceFallbackStrategy::FallbackResult VoiceFallbackStrategy::sttFallback(
-    const std::string& error_context)
+    [[maybe_unused]] const std::string& error_context)
 {
     FallbackResult res;
     res.used_fallback  = true;
     res.fallback_type  = "stt_empty_transcript";
     res.result         = "";
-    (void)error_context;
     return res;
 }
 
 VoiceFallbackStrategy::FallbackResult VoiceFallbackStrategy::ttsFallback(
-    const std::string& error_context)
+    [[maybe_unused]] const std::string& error_context)
 {
     FallbackResult res;
     res.used_fallback  = true;
     res.fallback_type  = "tts_silent_audio";
     res.result         = "";
-    (void)error_context;
     return res;
 }
 

@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cross_module_german_egov.cpp                  ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:26:09                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:53:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     626                                            ║
+    • Total Lines:     649                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 7851d4089  2026-03-26  fix(tests): use PLACE_OF_RESIDENCE instead of non-existen... ║
-    • 7ceb31898  2026-03-26  feat(tests): add cross-module integration tests for Germa... ║
+    • 7851d40890  2026-03-26  fix(tests): use PLACE_OF_RESIDENCE instead of non-existen... ║
+    • 7ceb318984  2026-03-26  feat(tests): add cross-module integration tests for Germa... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

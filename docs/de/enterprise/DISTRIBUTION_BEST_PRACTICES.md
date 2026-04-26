@@ -1,6 +1,6 @@
 # Enterprise Source Code Distribution - Best Practices
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** v1.3.0  
 **Kategorie:** 🏢 Enterprise  
 **Purpose:** Document best practices for distributing enterprise source code
@@ -186,7 +186,7 @@ cmake --build build
 **Setup:**
 ```bash
 # Package enterprise source
-./scripts/package-enterprise.sh v1.3.0
+./.github/workflows/04-release_publish-enterprise.yml v1.3.0
 
 # Creates:
 themisdb-enterprise-v1.3.0.tar.gz
@@ -429,7 +429,7 @@ bool validateLicense(const std::string& license_key) {
 
 **Implementation Steps:**
 
-1. **Create packaging script:** `scripts/package-enterprise.sh`
+1. **Create packaging script:** `.github/workflows/04-release_publish-enterprise.yml`
 2. **Test integration:** Verify customers can integrate easily
 3. **Update ENTERPRISE.md:** Add integration instructions
 4. **Setup distribution:** Email, Google Drive, or simple web server

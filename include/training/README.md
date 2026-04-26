@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-22 -->
+> **Build:** `cmake --preset release && cmake --build build/release`
+
+<!-- Status: current | validated: 2026-04-06 -->
 
 # training — Public Headers
 
@@ -26,6 +28,10 @@ models, integrated with ThemisDB storage and query infrastructure.
 
 | Header | Key Types | Description |
 |---|---|---|
+| `ada_lora_adapter.h` | `AdaLoRAAdapter`, `AdaLoRAConfig` | Adaptive LoRA with dynamic rank allocation |
+| `adapter_serving.h` | `AdapterServer`, `ServingConfig` | Runtime adapter hot-swap and serving |
+| `database_domain_auto_labeler.h` | `DatabaseDomainAutoLabeler` | Domain-specific auto-labeling from DB schema |
+| `lora_adapter_merger.h` | `LoRAAdapterMerger`, `MergeConfig` | Merge multiple LoRA adapters into a single model |
 | `training_interfaces.h` | `ITrainer`, `IAdapter`, `IDataSource` | Abstract contracts |
 | `training_pipeline.h` | `TrainingPipeline`, `PipelineConfig` | End-to-end run orchestration |
 | `lora_adapter.h` | `LoRAAdapter`, `LoRAConfig` | LoRA adapter value type |
@@ -80,3 +86,21 @@ auto adapter = mgr->load_latest();
 ---
 
 > Implementation details: `../../src/training/`
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+## Usage
+
+Include the relevant headers from this module:
+
+```cpp
+#include "training/module_header.h"
+```
+
+See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.

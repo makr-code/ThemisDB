@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tenant_buffer_manager.cpp                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:14:44                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • edcfeb984  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-    • da5848ffb  2026-03-10  fix: apply all 7 code review recommendations + LSN.toStri... ║
-    • a3ec4aa9e  2026-03-10  refactor: update tenant metrics handling and improve modu... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -122,7 +122,7 @@ Changefeed::ChangeEvent TenantBufferManager::recordEvent(const std::string& tena
         updateTenantStats(tenant_id, state);
         
         return recorded_event;
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         state.stats.errors++;
         throw;
     }
@@ -409,7 +409,7 @@ bool TenantBufferManager::checkTenantQuota(const std::string& tenant_id,
     return true;
 }
 
-void TenantBufferManager::updateTenantStats(const std::string& tenant_id,
+void TenantBufferManager::updateTenantStats([[maybe_unused]] const std::string& tenant_id,
                                            TenantBufferState& state) {
     // Must be called with lock held
     

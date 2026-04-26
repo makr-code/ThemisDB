@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_mcp_integration.cpp                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:29:37                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:55:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     623                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -491,18 +488,25 @@ TEST_F(MCPIntegrationTest, QueryToolAutoDetectAQL) {
     EXPECT_EQ(parsed["language"], "aql");
 }
 
-TEST_F(MCPIntegrationTest, QueryToolUnsupportedLanguage) {
-    // Test SQL (not yet implemented)
+TEST_F(MCPIntegrationTest, QueryToolSQLTranspiledToAQL) {
+    // SQL is now transpiled to AQL and executed via the AQL engine.
+    // The query engine may or may not be initialised in this test fixture;
+    // either way the response must NOT contain "not yet implemented".
     json result = callTool("query", {
         {"query", "SELECT * FROM users"},
         {"language", "sql"}
     });
-    
+
     std::string result_text = result["result"]["content"][0]["text"];
     json parsed = json::parse(result_text);
-    
-    EXPECT_EQ(parsed["status"], "error");
-    EXPECT_NE(parsed["message"].get<std::string>().find("not yet implemented"), std::string::npos);
+
+    // The response should no longer claim SQL is "not yet implemented"
+    const std::string msg = parsed["message"].get<std::string>();
+    EXPECT_EQ(msg.find("not yet implemented"), std::string::npos)
+        << "SQL should no longer return 'not yet implemented'; got: " << msg;
+
+    // language field must be reflected
+    EXPECT_EQ(parsed["language"], "sql");
 }
 
 TEST_F(MCPIntegrationTest, QueryToolInvalidAQL) {

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rag_context_engine.cpp                             ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:15:20                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:48:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 172e0dd5e  2026-03-26  fix: address code review - safe filesystem copy, RFC 4180... ║
-    • 490de27f0  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
-    • 9ab72c508  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
-    • acdb250db  2026-03-12  feat: migrate plugins to src/include with CMake switches ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 11ddb98b9f  2026-04-09  Add comprehensive documentation and security measures for... ║
+    • 172e0dd5e1  2026-03-26  fix: address code review - safe filesystem copy, RFC 4180... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -149,10 +146,10 @@ std::variant<std::vector<std::string>, Status> RAGContextEngine::getBestPractice
                 if (results.size() >= limit) break;
                 double strength_score = 0.5;
                 switch (arg.strength) {
-                    case ArgumentStrength::COMPELLING: strength_score = 1.0;  break;
-                    case ArgumentStrength::HIGH:       strength_score = 0.85; break;
-                    case ArgumentStrength::MODERATE:   strength_score = 0.65; break;
-                    case ArgumentStrength::WEAK:       strength_score = 0.35; break;
+                    case ArgumentStrength::DECISIVE: strength_score = 1.0;  break;
+                    case ArgumentStrength::STRONG:   strength_score = 0.85; break;
+                    case ArgumentStrength::MODERATE: strength_score = 0.65; break;
+                    case ArgumentStrength::WEAK:     strength_score = 0.35; break;
                     default: break;
                 }
                 if (strength_score >= min_satisfaction) {

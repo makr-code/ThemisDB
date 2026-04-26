@@ -10,8 +10,8 @@ set(THEMIS_SHARDING_MAX_NODES 50 CACHE STRING "Maximum sharding nodes" FORCE)
 set(THEMIS_MAX_CACHE_SIZE_MB 2048 CACHE STRING "Maximum cache size (MB)" FORCE)
 
 # Feature defaults for MILITARY edition
-# No external LLM or cloud training - air-gapped operation required
-set(THEMIS_ENABLE_LLM OFF CACHE BOOL "LLM disabled for MILITARY edition (external cloud dependency)" FORCE)
+# Air-gapped operation: LLM remains local (llama.cpp) with CPU fallback.
+set(THEMIS_ENABLE_LLM ON CACHE BOOL "LLM enabled for MILITARY edition (local/offline inference)" FORCE)
 set(THEMIS_ENABLE_DISTRIBUTED_TRAINING OFF CACHE BOOL "Distributed training disabled for MILITARY edition" FORCE)
 
 # gRPC enabled for secure inter-node comms (required, skipped in CI mode)
@@ -24,10 +24,8 @@ endif()
 # Real HSM required for key management
 set(THEMIS_ENABLE_HSM_REAL ON CACHE BOOL "Real HSM required for MILITARY edition" FORCE)
 
-# GPU available for on-premises inference workloads (optional)
-if(NOT DEFINED THEMIS_ENABLE_GPU)
-    set(THEMIS_ENABLE_GPU OFF CACHE BOOL "GPU available in MILITARY edition (off by default)")
-endif()
+# GPU enabled by default; runtime can fall back to CPU-only execution
+set(THEMIS_ENABLE_GPU ON CACHE BOOL "GPU enabled for MILITARY edition (runtime CPU fallback)" FORCE)
 
 # Tracing disabled by default (operational security - minimise side channels)
 if(NOT DEFINED THEMIS_ENABLE_TRACING)
@@ -76,8 +74,7 @@ endif()
 
 # Edition-specific compile definitions
 add_compile_definitions(THEMIS_MILITARY_EDITION)
-add_compile_definitions(THEMIS_GPU_MAX_VRAM_GB=16)
 add_compile_definitions(THEMIS_SHARDING_MAX_NODES=50)
 
 message(STATUS "  Hardware limits: Up to 16 GB GPU VRAM, 50 nodes, 2 GB cache")
-message(STATUS "  Features: Hardened security + HSM + gRPC, no external LLM/cloud")
+message(STATUS "  Features: Hardened security + HSM + gRPC + local LLM/GPU (CPU fallback)")

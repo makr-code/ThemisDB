@@ -2316,6 +2316,107 @@ print(f"Zusammenfassung: {result['summary']['text']}")
 
 ---
 
+### 10.7.x WhisperPlugin — C++ Plugin API (v2.0)
+
+Der Voice Assistant basiert intern auf einem plugin-basierten C++-Backend (`include/whisper/whisper_plugin.h`).  Das `WhisperPlugin` implementiert das `IAudioBackend`-Interface und kann direkt in C++-Anwendungen eingebunden werden, ohne den HTTP-Server zu benötigen.
+
+#### Kerninterface: IAudioBackend
+
+```cpp
+#include "whisper/whisper_plugin.h"
+#include "whisper/whisper_config.h"
+
+// Standard-Konstruktor — wählt automatisch WhisperCppTranscriber (THEMIS_ENABLE_WHISPER=ON)
+// oder WhisperStubTranscriber (CI/Test)
+themis::whisper::WhisperPlugin plugin;
+
+// Initialisierung mit Modell-Pfad
+nlohmann::json cfg = {{"language", "de"}, {"threads", 4}};
+plugin.initialize("/models/ggml-base.bin", cfg);
+
+// Rohe PCM-Float-Samples transkribieren
+std::vector<float> pcm_samples = load_pcm("recording.wav");
+auto result = plugin.transcribe(pcm_samples, /*sample_rate=*/16000.0f);
+if (result.success) {
+    std::cout << result.text << "\n";          // Vollständiges Transkript
+    std::cout << result.language << "\n";      // Erkannte Sprache ("de", "en", ...)
+    // result.segments: [{start_ms, end_ms, text, confidence}]
+}
+
+// WAV-Datei direkt transkribieren (intern WavAudioChunkReader)
+auto file_result = plugin.transcribeFile("/data/recording.wav");
+
+// Sprache erkennen ohne vollständige Transkription
+auto lang_result = plugin.detectLanguage(pcm_samples, 16000.0f);
+// lang_result.language, lang_result.confidence
+```
+
+#### Strategy Pattern: IWhisperTranscriber
+
+`WhisperPlugin` nutzt das Strategy-Pattern für die Transcriber-Implementierung.  In Tests kann ein `InMemoryWhisperTranscriber` injiziert werden:
+
+```cpp
+#include "whisper/whisper_transcriber.h"
+
+// Injection-Konstruktor für Tests
+auto stub = std::make_unique<themis::whisper::WhisperStubTranscriber>();
+auto reader = std::make_unique<themis::whisper::WavAudioChunkReader>();
+
+themis::whisper::WhisperPlugin plugin(std::move(stub), std::move(reader));
+```
+
+| Implementierung | Beschreibung | Einsatz |
+|----------------|-------------|---------|
+| `WhisperCppTranscriber` | whisper.cpp (echte Inferenz) | Produktion (`THEMIS_ENABLE_WHISPER=ON`) |
+| `WhisperStubTranscriber` | Gibt leeres Ergebnis zurück | CI ohne Modell |
+| `InMemoryWhisperTranscriber` | Injizierbare Test-Fixtures | Unit-Tests |
+
+#### WavAudioChunkReader — Datei-I/O
+
+`WavAudioChunkReader` liest RIFF/WAV-Dateien (16-bit PCM und IEEE float32) **ohne externe Bibliothek-Abhängigkeit**.  Fehlerhafte oder abgeschnittene Dateien lösen `std::runtime_error` aus.
+
+```cpp
+themis::whisper::WavAudioChunkReader reader;
+float sample_rate = 0.0f;
+auto pcm = reader.readFile("/data/voice.wav", sample_rate);
+// pcm: std::vector<float> mono-Samples
+// sample_rate: 16000.0f für optimale Qualität
+```
+
+#### Provenienz-Stempel
+
+Jedes `TranscriptionResult`-Objekt enthält automatisch:
+
+```json
+{
+  "ingestion_source_type": "audio_file",
+  "plugin_version": "2.0.0",
+  "generation_timestamp": 1744491600000
+}
+```
+
+#### CMake-Aktivierung
+
+```cmake
+# Mit echtem whisper.cpp Modell
+cmake -DTHEMIS_ENABLE_WHISPER=ON ..
+
+# Stub-Modus (Standard, kein Modell benötigt)
+cmake ..
+```
+
+#### Statistiken
+
+```cpp
+auto stats = plugin.getStatistics();
+// stats["transcription_count"] — erfolgreiche Transkriptionen
+// stats["error_count"]         — fehlgeschlagene Aufrufe
+// stats["model_path"]          — geladener Modell-Pfad
+// stats["plugin_version"]      — "2.0.0"
+```
+
+---
+
 ## 10.6 Zusammenfassung
 
 In diesem Kapitel haben Sie gelernt:

@@ -1,9 +1,96 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Sharding Module - Future Enhancements
 
 This document covers planned enhancements to ThemisDB's sharding subsystem, which implements horizontal scaling through pluggable consensus algorithms (`ConsensusFactory` supporting Raft, Gossip, and Paxos), cross-shard distributed transactions (2PC, 3PC, SAGA, Percolator), deadlock detection, metadata sharding, and the `ShardRepairEngine` (anti-entropy with Reed-Solomon erasure coding). The module is currently in Beta state and requires RPC integration hardening, a production-ready cross-shard transaction coordinator, and improved observability before General Availability.
+
+## Formal Verification of Consensus and Cross-Shard Transaction Invariants
+
+> **Source code analysis completed 2026-04-21.** The findings below are grounded in direct
+> inspection of `src/sharding/` and `src/transaction/`. Full details with code excerpts and
+> specific line numbers are in `src/sharding/AUDIT.md`.
+
+### Scope
+- Analyze and fix safety/liveness invariant violations in `raft_consensus.cpp`,
+  `paxos_consensus.cpp`, `gossip_protocol.cpp`, `cross_shard_transaction.cpp`,
+  `raft_wal_integration.cpp`, `two_phase_commit_coordinator.cpp`, `transaction_wal.cpp`, and
+  `src/transaction/distributed_transaction_manager.cpp`.
+- Invariants covered: quorum-before-commit, WAL-before-ack, no-duplicate-commit,
+  recovery-convergence, reconfiguration-safety, no-dangling-transaction-reference.
+
+### Design Constraints
+- WAL write failure must be a hard error in all consensus phase handlers; "graceful
+  degradation" (warn + continue) violates durability guarantees.
+- Map element references (`auto& x = map.at(k)`) must not be used across lock boundaries;
+  copy by value or use `shared_ptr`-based transaction handles.
+- Quorum sizes must be derived from runtime cluster configuration, not compile-time
+  constants.
+- Mutex lock ordering must be consistent across call chains; non-recursive mutexes must not
+  be re-acquired from the same thread.
+
+### Required Code Changes (by finding ID)
+
+| ID | Severity | File | Function | Required Change |
+|----|----------|------|----------|-----------------|
+| PAX-1 | S0 | `paxos_consensus.cpp` | `executePreparePhase()` → `executeAcceptPhase()` | Restructure to avoid re-acquiring `state_mutex_` on same thread; use per-instance lock or pass locked state by reference |
+| PAX-2 | S0 | `paxos_consensus.cpp` | `leaderElectionThread()` | Replace deterministic node-ID sort with Paxos ballot-based Phase 1 election (gather quorum of promises) |
+| PAX-3 | S0 | `paxos_consensus.cpp` | `executePreparePhase()`, `executeAcceptPhase()`, `broadcastCommit()` | Change all WAL-failure catch blocks to propagate the error and abort the phase; remove "graceful degradation" pattern |
+| GOS-1 | S0 | `gossip_protocol.cpp` | `addPeer()`, `removePeer()` | Release `peers_mutex_` before calling `syncWithTopology()`; or pass snapshot to topology sync |
+| CST-1 | S0 | `cross_shard_transaction.cpp` | `commit()` | Copy transaction by value before releasing lock; or use `shared_ptr`-based handle |
+| CST-2 | S0 | `cross_shard_transaction.cpp` | `abort()` | Same fix as CST-1 |
+| CST-3 | S0 | `cross_shard_transaction.cpp` | `executeSaga()` | Re-look up transaction after re-acquiring lock at L687 |
+| RWALI-1 | S0 | `raft_wal_integration.cpp` | `write()` | Replace `std::lock_guard` + busy-wait with `std::unique_lock` + `std::condition_variable`; release lock while waiting for ACKs |
+| RWALI-2 | S0 | `raft_wal_integration.cpp` | `hasQuorum()` | Replace `size_t cluster_size = 3` with `config_.cluster_members.size()` or injected quorum value |
+| PAX-4 | S1 | `paxos_consensus.cpp` | `runAcceptor()` | Implement message processing loop for incoming Prepare/Accept requests |
+| PAX-5 | S1 | `paxos_consensus.cpp` | `generateProposalNumber()` | Change `current_round_` to `std::atomic<uint64_t>` |
+| RAFT-1 | S1 | `raft_consensus.cpp` | `propose()` | Add leadership re-check inside detached thread before `setCommitIndex`; add rollback of uncommitted log entry on failure |
+| RLOG-1 | S1 | `raft_log.cpp` | `getLastLogIndex()` | Return `snapshot_index_` when log map is empty (post-compaction) |
+| 2PC-2 | S1 | `two_phase_commit_coordinator.cpp` | `recoverInDoubtTransactions()` | Call `runPhase2()` to broadcast ABORT after marking in-doubt transaction as aborted |
+| DTM-1 | S1 | `distributed_transaction_manager.cpp` | `runPhase1Unlocked()` | Replace unconditional COMMIT vote for callback-less participants with a real RPC or an explicit "remote participant not reachable → ABORT" policy |
+| DTM-2 | S1 | `distributed_transaction_manager.cpp` | `recoverInDoubtTransactions()` | Broadcast ABORT to participants after WAL log, same as 2PC-2 |
+| DTM-3 | S1 | `distributed_transaction_manager.cpp` | `isParticipantAlive()` | Implement health check or return `false` (safe-default) until real check is available |
+
+### Implementation Notes
+- Fix S0 items before S1; each S0 finding independently makes the affected component
+  non-functional or unsafe under concurrent access.
+- For CST-1/CST-2/CST-3: the correct pattern is either (a) copy the transaction struct by
+  value before the first `lock.unlock()`, or (b) keep the lock held and make participant
+  RPCs asynchronous (submitting to a thread pool and awaiting results after re-locking).
+- For RWALI-1: pending writes should be stored in a `std::unordered_map<uint64_t, PendingWrite>`
+  under a separate mutex; `write()` inserts and then waits on a per-entry `condition_variable`;
+  `onAppendEntriesResponse()` notifies the matching entry's condition variable.
+- For PAX-2: the minimal correct approach is a Paxos Phase 1 broadcast to all `cluster_nodes_`
+  with a ballot number greater than any previously seen, waiting for a quorum of PROMISE
+  responses before transitioning to LEADER.
+
+### Test Strategy
+- **S0 fixes:** Each fix must be accompanied by a focused unit test that reproduces the
+  original failure (deadlock, UB, incorrect quorum) and passes after the fix.
+  - PAX-1: test that `prepare()` on a multi-node Paxos instance returns (does not hang).
+  - RWALI-1: test that a concurrent `onAppendEntriesResponse()` unblocks `write()`.
+  - CST-1: test that concurrent `commit()` + `abort()` on the same transaction-ID does not
+    produce a crash or UB (run under ASan/TSan).
+  - RWALI-2: test quorum calculation for 1-node, 3-node, and 5-node configurations.
+- **S1 fixes:** Integration tests calling the affected code path under concurrent access,
+  verified under ThreadSanitizer.
+- **Regression policy:** Every S0/S1 fix must be covered by a focused test target registered
+  in `tests/CMakeLists.txt` before the fix is considered complete.
+
+### Performance Targets
+- `paxos_consensus.cpp::executePreparePhase()` wall-time (3-node, LAN): ≤5 ms P99 after fix.
+- `raft_wal_integration.cpp::write()` throughput: ≥ 1,000 writes/s on a 3-node cluster.
+- `cross_shard_transaction.cpp::commit()` under 8 concurrent callers: 0 crashes under ASan.
+
+### Security / Reliability
+- `gossip_protocol.cpp::verifyMessage()` must implement actual signature verification
+  (GOS-2) before deployment in a multi-tenant environment.
+- WAL write failures must never silently bypass durability requirements; any path that
+  currently "continues on WAL error" must be audited and changed to fail-closed.
+- `cross_shard_transaction.cpp`: transaction log path must be validated at startup;
+  no fallback to `/tmp` (CST-4).
 
 ## Design Constraints
 
@@ -41,6 +128,63 @@ to an equivalent CPU path when no device is available.
 - `[x]` Add CPU/GPU parity test for encode+decode round-trip with 1, 2, and 3 erasures.
 
 ---
+
+### [x] `HammingCoder`: RAID-2 / Hamming Shard-Level Error Correction
+**Priority:** Medium
+**Target Version:** v1.9.0
+**Status:** ✅ **Implemented 2026-04-22**
+
+Implements a generalised Hamming-code erasure coder at shard (block) granularity
+for RAID-2 style single-error correction without Galois-Field arithmetic.
+
+**Scope:**
+- Encode and decode for arbitrary `(data_shards, parity_shards)` configurations.
+- Systematic parity assignment following the classical Hamming bit-mask: parity shard _p_ covers data shard _j_ when bit _p_ is set in the 1-based position (_j_+1).
+- Iterative multi-shard repair using XOR of covered peers.
+
+**Design Constraints:**
+- Pure XOR operations — no GF(2^8) arithmetic, no lookup tables.
+- O(data_shards × parity_shards × shard_size) encode and decode complexity.
+- Repair loop terminates when no progress is made; throws `std::runtime_error` on unrecoverable failure sets.
+
+**Required Interfaces:**
+- `ErasureCoder` base class (`include/sharding/redundancy_strategy.h`)
+- `ErasureCodingAlgorithm::HAMMING` enum value
+- `ErasureCoder::create(HAMMING)` factory method
+
+**Implementation Notes:**
+- `[x]` Added `HAMMING` to `ErasureCodingAlgorithm` enum.
+- `[x]` Declared `HammingCoder : public ErasureCoder` in `redundancy_strategy.h`.
+- `[x]` `HammingCoder::encode()` — splits data into equal-size shards (zero-padded) and computes XOR parity shards.
+- `[x]` `HammingCoder::decode()` — iterative repair: for each missing shard finds a parity covering it with all other covered shards present; XOR-recovers; repeats until no progress.
+- `[x]` `hammingCovers(j, p)` helper eliminates repeated `((j+1)>>p)&1` expressions.
+- `[x]` Factory in both `src/sharding/redundancy_strategy.cpp` and `src/storage/erasure_coder_factory.cpp` updated.
+
+**Test Strategy:**
+- `[x]` HC_01 — Chunk count and size invariants
+- `[x]` HC_02 — Round-trip with no failures
+- `[x]` HC_03 — Decode with data shards only (no parity)
+- `[x]` HC_04 — Single data-shard failure (all drop positions)
+- `[x]` HC_05 — Single parity-shard failure
+- `[x]` HC_06 — Multiple non-overlapping data-shard failures (iterative repair)
+- `[x]` HC_07 — All parity shards missing, all data present
+- `[x]` HC_08 — Non-multiple input sizes (padding correctness)
+- `[x]` HC_09 — Single-byte input
+- `[x]` HC_10 — Large blob (1 MB) round-trip
+- `[x]` HC_11 — Canonical Hamming(7,4) parity-coverage verification
+- `[x]` HC_12 — `std::invalid_argument` on empty data
+- `[x]` HC_13 — `std::runtime_error` on irrecoverable failure set
+- `[x]` HC_14 — Factory creates `HammingCoder` instance
+- `[x]` HC_15 — Single parity shard encoding
+- `[x]` HC_16 — Explicit parity-bit coverage verification for k=6, r=3
+
+**Performance Targets:**
+- Encode throughput: ≥ 2 GB/s on a single core for shard_size ≥ 64 KB (XOR-dominated; no GF arithmetic overhead).
+- Decode throughput: ≥ 1 GB/s for single-failure recovery (one pass over parity + data shards).
+
+---
+
+
 
 ### [x] `CrossShardTransaction`: Hardcode Coordinator ID and Missing Compensation RPC
 **Priority:** High

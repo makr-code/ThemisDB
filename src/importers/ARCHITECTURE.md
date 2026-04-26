@@ -1,7 +1,9 @@
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
 # Importers Module — Architecture Guide
 
-**Version:** 2.1  
-**Last Updated:** 2026-03-21  
+**Version:** 2.1
+**Last Updated:** 2026-04-06
 **Module Path:** `src/importers/`
 
 ---

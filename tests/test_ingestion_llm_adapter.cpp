@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ingestion_llm_adapter.cpp                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:28:40                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:54:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 7a7881349  2026-03-15  fix(ingestion): address code review - type-safe confidenc... ║
-    • c4c4c27fa  2026-03-15  feat(ingestion): LLMIngestionAdapter Phase 2 - wire llama... ║
+    • 7a78813496  2026-03-15  fix(ingestion): address code review - type-safe confidenc... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

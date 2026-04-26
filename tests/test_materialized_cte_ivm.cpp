@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_materialized_cte_ivm.cpp                      ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:29:35                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:55:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     753                                            ║
+    • Total Lines:     751                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0b1bcf59b  2026-02-23  audit: fix unused include, redundant static, add input va... ║
-    • 16dd5bf7e  2026-02-23  feat(query): incremental view maintenance for materialize... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

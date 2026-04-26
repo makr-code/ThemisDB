@@ -1,10 +1,12 @@
 # Performance Module — Architecture Guide
 
-<!-- status: current | validated: 2026-03-10 -->
+> **Status:** 2026-04-19 – Architekturtext gegen realen Sourcecode verifizieren; Abweichungen mit `<!-- TODO -->` markiert.
+
+<!-- status: current | validated: 2026-04-06 -->
 <!-- Links: Primary README → src/performance/README.md | Secondary → docs/de/performance/README.md -->
 
-**Version:** 1.1  
-**Last Updated:** 2026-03-09  
+**Version:** 1.1
+**Last Updated:** 2026-04-06
 **Module Path:** `src/performance/`
 
 ---
@@ -47,6 +49,13 @@ zero overhead when a feature is disabled.
 | `phase3/` | Phase 3 optimizations (LIRS, prefetch, alignment) |
 | `phase4/` | Phase 4 optimizations (WiscKey, DiskANN, Cicada, RabitQ) |
 | `wisckey.cpp` | WiscKey key-value separation for large values |
+| `workload_adaptive_optimizer.cpp` | `WorkloadAdaptiveOptimizer` — OLTP/OLAP/MIXED/GRAPH/VECTOR/TIMESERIES classification, dynamic strategy selection, predictive scaling |
+| `advanced_cache_manager.cpp` | `AdvancedCacheManager` — multi-partition cache with Bloom filter, adaptive eviction (LRU/LIRS/ARC/2Q), value compression |
+| `numa_memory_manager.cpp` | `NUMAMemoryManager` — sysfs topology detection, affinity-based allocation, per-node statistics |
+| `hardware_accelerator.cpp` | `HardwareAccelerator` — GPU/FPGA/SIMD/SmartNIC/PMem accelerator dispatch |
+| `intelligent_prefetcher.cpp` | `IntelligentPrefetcher` — ML-driven cache prefetcher for query access patterns |
+| `lockfree_histogram.h` | `LockFreeHistogram<T>`, `LatencyHistogram` (32-bucket), `WideHistogram` (64-bucket) — header-only atomic P99 tracking |
+| `lirs_cache.h` | `LirsCache<K,V>` — LIRS cache replacement with `shared_mutex` (header-only) |
 | `dostoevsky.cpp` | Dostoevsky LSM-tree compaction policy |
 | `cicada.cpp` | Cicada optimistic concurrency control |
 | `rabitq.cpp` | RaBitQ binary quantization for vector search |
@@ -100,7 +109,7 @@ THEMIS_SCOPED_CYCLE_TIMER(cycles);
 Large value write (> threshold):
     ├─ Store key + value_ptr in LSM-tree (fast compaction)
     └─ Store value in separate value log (vLog)
-    
+
 Large value read:
     ├─ Lookup key in LSM → get value_ptr
     └─ Direct read of value from vLog (single I/O)
@@ -111,7 +120,7 @@ Large value read:
 ```
 Thread starts on NUMA node 1:
     │
-    ├─ numa_topology.getLocalNode() → node 1
+    ├─ numa_topology.local_node() → node 1
     └─ allocate memory on node 1 (no cross-NUMA latency)
 ```
 

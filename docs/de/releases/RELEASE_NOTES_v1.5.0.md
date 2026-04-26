@@ -428,6 +428,7 @@ The following items are included in the v1.5.0 PR aggregation but require additi
 
 ## 🔗 Related Documentation
 
+- [RELEASE_TARGET_v1.5.0.md](./RELEASE_TARGET_v1.5.0.md) — Pre-release target definition: deliverables, scope, completion criteria, QA/performance requirements, and out-of-scope items
 - [CHANGELOG.md](../../../CHANGELOG.md) — Full change log
 - [roadmap.md](../../../roadmap.md) — Top-level project roadmap
 - [src/geo/ROADMAP.md](../../../src/geo/ROADMAP.md) — Geo module roadmap

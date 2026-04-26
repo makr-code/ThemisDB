@@ -1,4 +1,8 @@
+> **Hinweis:** Inhalt mit aktuellem Modulcode und -stand abgleichen.
+
 # Comprehensive Literature Review: Ethical AI & Moral Reasoning in ThemisDB
+
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
 
 ## Executive Summary
 

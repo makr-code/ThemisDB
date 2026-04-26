@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            alertmanager.cpp                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:17:37                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     695                                            ║
+    • Total Lines:     689                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 59fa44599  2026-03-01  fix(observability): code-audit fixes for AlertRuleManager ║
-    • 1bf08ad70  2026-02-28  feat(observability): implement custom user-defined alert ... ║
-    • 1808900b2  2026-02-22  feat: implement auto-bootstrap for third-party dependenci... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -87,22 +85,18 @@ Result<void> Alertmanager::initialize(const AlertmanagerConfig& config) {
     return {};
 }
 
-Result<void> Alertmanager::sendAlert(const Alert& alert) {
+Result<void> Alertmanager::sendAlert([[maybe_unused]] const Alert& alert) {
     // Base-class no-op: subclasses provide the concrete transport.
-    (void)alert;
     return {};
 }
 
-Result<void> Alertmanager::resolveAlert(const std::string& alert_id) {
+Result<void> Alertmanager::resolveAlert([[maybe_unused]] const std::string& alert_id) {
     // Base-class no-op: subclasses provide the concrete transport.
-    (void)alert_id;
     return {};
 }
 
-Result<void> Alertmanager::silenceAlert(const std::string& alert_id, int duration_minutes) {
+Result<void> Alertmanager::silenceAlert([[maybe_unused]] const std::string& alert_id, [[maybe_unused]] int duration_minutes) {
     // Base-class no-op: subclasses provide the concrete transport.
-    (void)alert_id;
-    (void)duration_minutes;
     return {};
 }
 

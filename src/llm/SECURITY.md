@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Security — LLM Module
@@ -18,7 +20,7 @@ quantization pipeline), GPU VRAM allocation, KV-cache, streaming output, the Ope
 |--------|--------------|------------|
 | Prompt injection | Malicious instructions embedded in user-supplied or ingested text reaching the inference engine | `llm_security_utils.cpp` detects and sanitises known injection patterns; `SemanticValidator` in the ingestion pipeline provides an upstream filter |
 | API key / credential exposure | Inference API keys or model-provider tokens written to logs or error responses | API key values are never passed to any log sink; only request identifiers and HTTP status codes are recorded |
-| GPU VRAM memory leakage between models | Residual activations or weight fragments from a previously loaded model accessible after hot-swap | `vram_secure_clear.cpp` performs explicit VRAM zeroing on model unload; `ActiveVRAMAllocator` enforces per-model VRAM isolation |
+| GPU VRAM memory leakage between models | Residual activations or weight fragments from a previously loaded model accessible after hot-swap | `src/security/vram_secure_clear.cpp` performs explicit VRAM zeroing on model unload; `ActiveVRAMAllocator` enforces per-model VRAM isolation |
 | Malicious GGUF model files | Crafted model file exploiting parser vulnerabilities or injecting unexpected metadata | `gguf_loader` validates magic bytes, format version, and metadata field types before any memory allocation; oversized tensors are rejected |
 | Model poisoning via LoRA adapters | Tampered LoRA adapter injecting backdoor behaviours | `lora_security_validator.cpp` verifies SHA-256 digest of every adapter file against a trusted manifest before loading; adapter files without a manifest entry are rejected |
 | Output manipulation via grammar bypass | Attacker-supplied BNF grammar designed to escape constrained generation | Grammar is parsed and validated before compilation; recursive grammars are bounded by a depth limit |
@@ -39,7 +41,7 @@ quantization pipeline), GPU VRAM allocation, KV-cache, streaming output, the Ope
 - Model quantization pipeline (GGUF/AWQ/GPTQ) produces and records a digest of the output artefact.
 
 ### Memory & VRAM Isolation
-- `vram_secure_clear.cpp` is called unconditionally on model unload, including on error paths.
+- `src/security/vram_secure_clear.cpp` is called unconditionally on model unload, including on error paths.
 - `ActiveVRAMAllocator` allocates per-model VRAM regions; cross-region access is not possible through the public API.
 - CPU-spilled tensors are written to a process-private memory-mapped file; the file is deleted on process exit.
 

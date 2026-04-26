@@ -3,22 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed.cpp                                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:14:39                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1113                                           ║
+    • Total Lines:     1186                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • a6b60b3e3  2026-03-18  Changes before error encountered         ║
-    • 5083e3481  2026-03-18  Changes before error encountered         ║
-    • 63b0ba358  2026-03-16  feat(cdc): implement Changefeed sequence counter via Rock... ║
-    • a9f387ce0  2026-03-11  feat(cdc): runtime-configurable change log retention poli... ║
+    • c1118dfd68  2026-04-13  feat(cdc): GDPR redaction audit log (cdc_redactions CF) +... ║
+    • 13a305368a  2026-04-13  feat(cdc): GDPR redaction audit log (cdc_redactions CF) +... ║
+    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -766,6 +764,7 @@ Changefeed::RedactionResult Changefeed::redactByKeyPrefix(const std::string& key
             }
 
             // Scrub PII-bearing fields; preserve audit-critical fields
+            const std::string affected_key = event.key;
             event.value           = "[REDACTED]";
             event.before_snapshot = std::nullopt;
             event.after_snapshot  = std::nullopt;
@@ -786,6 +785,7 @@ Changefeed::RedactionResult Changefeed::redactByKeyPrefix(const std::string& key
             }
 
             result.events_redacted++;
+            result.affected_keys.push_back(affected_key);
 
         } catch (const std::exception& e) {
             THEMIS_WARN("redactByKeyPrefix: failed to parse event at {}: {}", rocksdb_key, e.what());

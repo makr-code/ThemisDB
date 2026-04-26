@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_migration_assistant.cpp                   ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:24:15                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:52:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     480                                            ║
+    • Total Lines:     478                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7e4fb1199  2026-02-23  fix(aql): fix multi-occurrence rewrites, false-early-exit... ║
-    • f0c71dd49  2026-02-23  feat(aql): implement AQL query migration assistant (Arang... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

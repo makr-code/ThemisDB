@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vulkan_backend.cpp                                 ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:16:02                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     274                                            ║
+    • Total Lines:     272                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 29be16c4f  2026-02-27  fix(gpu): fix mutex deadlock and vendorName caching in Vu... ║
-    • 082828cb4  2026-02-27  feat(gpu): Vulkan compute backend for cross-vendor GPU su... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -150,8 +149,7 @@ std::string VulkanComputeBackend::vendorName() const {
 // Launcher backend
 // ============================================================================
 
-GPULauncher::BackendFn VulkanComputeBackend::createBackendFn(int device_index) {
-    (void)device_index;
+GPULauncher::BackendFn VulkanComputeBackend::createBackendFn([[maybe_unused]] int device_index) {
 
     // Return a BackendFn that dispatches via Vulkan when available, or falls
     // back to CPU execution.  A single lock covers the entire lambda body to

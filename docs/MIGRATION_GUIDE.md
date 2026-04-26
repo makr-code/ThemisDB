@@ -35,7 +35,7 @@ git push origin develop
 
 #### 2. Configure Branch Protection
 
-Follow the [BRANCH_PROTECTION_SETUP.md](BRANCH_PROTECTION_SETUP.md) guide:
+Follow the [BRANCH_PROTECTION_SETUP.md](ci-cd/branching-release-history/BRANCH_PROTECTION_SETUP.md) guide:
 
 1. Protect `main` branch (strict rules)
 2. Protect `develop` branch (moderate rules)
@@ -94,7 +94,7 @@ Starting 2025-12-30, ThemisDB is adopting a Git Flow branching strategy:
 - ✅ Hotfixes target `main` and merge back to `develop`
 
 ### What You Need to Do
-1. Read [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md)
+1. Read [BRANCHING_STRATEGY.md](ci-cd/branching-release-history/BRANCHING_STRATEGY.md)
 2. Rebase open PRs to target `develop`
 3. Create new branches from `develop`
 
@@ -341,7 +341,7 @@ git checkout -b release/1.4.0
 
 # Update version
 echo "1.4.0" > VERSION
-./scripts/prepare-release.sh 1.4.0
+./.github/workflows/04-release_create-release-archive.yml 1.4.0
 
 # Commit and test
 git commit -am "chore: Prepare release v1.4.0"
@@ -488,9 +488,9 @@ However, **we don't expect to need this** with proper communication and support.
 
 ### Resources
 
-- [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) - Complete strategy documentation
-- [BRANCHING_STRATEGY_EN.md](BRANCHING_STRATEGY_EN.md) - English version
-- [BRANCH_PROTECTION_SETUP.md](BRANCH_PROTECTION_SETUP.md) - Setup guide
+- [BRANCHING_STRATEGY.md](ci-cd/branching-release-history/BRANCHING_STRATEGY.md) - Complete strategy documentation
+- [BRANCHING_STRATEGY_EN.md](ci-cd/branching-release-history/BRANCHING_STRATEGY_EN.md) - English version
+- [BRANCH_PROTECTION_SETUP.md](ci-cd/branching-release-history/BRANCH_PROTECTION_SETUP.md) - Setup guide
 - [CONTRIBUTING.md](CONTRIBUTING.md) - Updated contribution guidelines
 
 ## Checklist for Maintainers
@@ -520,7 +520,7 @@ However, **we don't expect to need this** with proper communication and support.
 
 ---
 
-**Last Updated**: 2025-12-30  
+**Last Updated**: 2026-04-06  
 **Version**: 1.0  
 **Maintainer**: ThemisDB Core Team
 

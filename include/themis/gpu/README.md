@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-21 -->
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: src/gpu/README.md · src/gpu/ROADMAP.md · src/gpu/ARCHITECTURE.md · src/gpu/FUTURE_ENHANCEMENTS.md · src/gpu/SECURITY.md -->
 
 # ThemisDB GPU Module Headers
@@ -1213,3 +1215,11 @@ All components use internal `std::mutex` or `std::shared_mutex` for thread safet
 - [GPU Runbooks](../../docs/gpu_runbooks.md) — on-call operational procedures
 - [LLM Module](../../../src/llm/README.md) — GPU model inference
 - [Vector Index](../../../src/index/README.md) — GPU-accelerated ANN indexing
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

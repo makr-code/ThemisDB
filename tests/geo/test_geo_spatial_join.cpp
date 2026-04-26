@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_spatial_join.cpp                          ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:22:39                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:51:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     427                                            ║
+    • Total Lines:     424                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a183c645f  2026-03-13  fix: address code review - extract collectGeometries help... ║
-    • 3a43c52c9  2026-03-13  feat(geo): add SpatialJoinIterator lazy iterator and AQL ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ff7b556bb  2026-02-26  test(geo): add NonPointGeometry_UsesCentroid test for spa... ║
-    • a6b9a1ca8  2026-02-24  feat(geo): implement spatial JOIN for nearby point pairs ║
+    • a183c645fa  2026-03-13  fix: address code review - extract collectGeometries help... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

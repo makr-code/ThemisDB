@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_opentelemetry_full_integration.cpp            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:30:39                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:55:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     876                                            ║
+    • Total Lines:     875                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e7d6bc455  2026-03-13  feat(tests): add focused tests for consistent hash distri... ║
-    • b469275a8  2026-03-13  fix(observability): wire up multi-exporter dispatch, fix ... ║
-    • f7f220031  2026-03-13  feat(observability): OpenTelemetry Full Integration v1.6.0 ║
+    • e7d6bc4555  2026-03-13  feat(tests): add focused tests for consistent hash distri... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -476,7 +474,7 @@ TEST_F(OpenTelemetryTracerTest, RecordMetricsAttachesNonZeroFields) {
 
     auto span = tracer.startSpan("db.query");
 
-    MetricSnapshot snap;
+    SpanMetrics snap;
     snap.cpu_usage_percent  = 72.5;
     snap.memory_usage_bytes = 1024.0 * 1024.0 * 256.0;
     snap.active_connections = 50;
@@ -501,7 +499,7 @@ TEST_F(OpenTelemetryTracerTest, RecordMetricsDoesNotAttachZeroFields) {
     OpenTelemetryTracer tracer(cfg);
 
     auto span = tracer.startSpan("db.query");
-    MetricSnapshot snap; // all zeros / defaults
+    SpanMetrics snap; // all zeros / defaults
     tracer.recordMetrics(*span, snap);
     span->end();
 
@@ -521,7 +519,7 @@ TEST_F(OpenTelemetryTracerTest, RecordMetricsAttachesCustomEntries) {
     OpenTelemetryTracer tracer(cfg);
 
     auto span = tracer.startSpan("db.query");
-    MetricSnapshot snap;
+    SpanMetrics snap;
     snap.custom["shard.latency_ms"] = 12.5;
     snap.custom["index.hit_count"]  = 300.0;
     tracer.recordMetrics(*span, snap);

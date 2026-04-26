@@ -1,10 +1,12 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Governance Module
 
-**Last Audit:** 2026-03-12  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass — Production-Ready
 
 ## Summary
@@ -12,7 +14,7 @@
 | Metric | Result |
 |--------|--------|
 | Build System Registration | ✅ Verified |
-| Source Files | 21 (`.cpp` in `src/governance/`) |
+| Source Files | 25 (`.cpp` in `src/governance/`) |
 | Test Coverage | ✅ Production-ready; all 4 phases complete |
 | Open TODOs | 21 files contain TODOs (OPA TLS config, cross-tenant cache invalidation) |
 | Open Stubs | 0 (all tracked features implemented) |
@@ -31,9 +33,13 @@
 | `ccpa_rules.cpp` | CCPA/CPRA data subject rights rule set |
 | `compliance_reporter.cpp` | Compliance evidence collection and report generation |
 | `compliance_reporting.cpp` | Compliance reporting framework |
+| `cross_border_transfer.cpp` | Cross-border data transfer controls and restrictions |
 | `cross_tenant_policy_inheritance.cpp` | Tenant hierarchy policy inheritance with cycle detection |
 | `data_lineage.cpp` | Data lineage tracking for governed datasets |
 | `data_masker.cpp` | Automated sensitive field masking |
+| `gdpr_subject_rights.cpp` | GDPR data subject rights: erasure, portability, access |
+| `hipaa_rules.cpp` | HIPAA PHI access control and audit requirements |
+| `iso27001_rules.cpp` | ISO 27001 information security controls |
 | `model_governance.cpp` | AI/ML model governance and bias auditing |
 | `opa_adapter.cpp` | Open Policy Agent integration for policy-as-code |
 | `pci_dss_rules.cpp` | PCI-DSS data isolation rules |
@@ -44,7 +50,11 @@
 | `policy_manager_versioned.cpp` | Versioned policy with rollback |
 | `policy_review.cpp` | Policy review workflow |
 | `policy_template.cpp` | Policy template library |
-| + 5 additional files | Conflict detection, retention, classification, audit |
+| `policy_validation.cpp` | Policy syntax and semantic validation |
+| `policy_validator.cpp` | Policy rule validator with conflict detection |
+| `policy_version_history.cpp` | Policy version history and diff tracking |
+| `review_scheduler.cpp` | Scheduled policy review and expiry management |
+| `soc2_controls.cpp` | SOC 2 trust service criteria controls |
 
 ## Test Coverage
 

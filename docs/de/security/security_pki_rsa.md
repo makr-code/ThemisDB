@@ -1,6 +1,6 @@
 # PKI RSA-Integration
 
-**Stand:** 5. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.0.0  
 **Kategorie:** Security
 
@@ -17,7 +17,7 @@
 ---
 
 
-Stand: 2. November 2025 (✅ Implementiert)
+Stand:  6. April 2026
 
 Der Demo-Stub in `src/utils/pki_client.cpp` wurde durch echte RSA-Signaturen (OpenSSL) ersetzt, mit automatischem Fallback zum Stub wenn keine Schlüssel konfiguriert sind.
 

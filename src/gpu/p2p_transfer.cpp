@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            p2p_transfer.cpp                                   ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:15:57                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   88.0/100                                       ║
-    • Total Lines:     404                                            ║
+    • Total Lines:     401                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • bafc919a5  2026-02-28  fix(gpu): correct disablePeerAccess device ordinals; fix ... ║
-    • 5b1bf176b  2026-02-28  feat(gpu): implement GPUP2PTransferManager for peer-to-pe... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -133,7 +132,6 @@ bool GPUP2PTransferManager::canAccessPeer(
     return (err == hipSuccess) && (can != 0);
 #else
     // CPU simulation: no hardware P2P available.
-    (void)devs;
     return false;
 #endif
 }
@@ -210,7 +208,6 @@ GPUP2PTransferManager::Status GPUP2PTransferManager::enablePeerAccess(
 
 #else
     // CPU fallback: no hardware P2P available; deny silently.
-    (void)devs;
     return Status::PEER_ACCESS_NOT_SUPPORTED;
 #endif
 

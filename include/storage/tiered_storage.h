@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tiered_storage.h                                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:11:51                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:47:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     269                                            ║
+    • Total Lines:     267                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8c4c0d594  2026-03-13  fix(storage): address review feedback on size-based migra... ║
-    • 066bfcbb2  2026-03-12  feat(storage): add size-based migration policy to TieredS... ║
-    • bea3655f5  2026-03-09  fix(storage): address code review comments - path travers... ║
-    • 492304352  2026-03-09  feat(storage): add GCS blob backend, tiered storage, and ... ║
+    • 8c4c0d5942  2026-03-13  fix(storage): address review feedback on size-based migra... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

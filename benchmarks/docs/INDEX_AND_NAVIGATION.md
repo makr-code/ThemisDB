@@ -1,8 +1,10 @@
+> **Navigation:** Verlinkungen auf aktuelle Dateipfade prüfen.
+
 # 📚 Complete Benchmark Suite - Index & Navigation
 
 **Version:** 2.0  
 **Status:** ✅ PRODUCTION READY  
-**Last Updated:** 2025-12-04
+**Last Updated:** 2026-04-06
 
 ---
 
@@ -364,5 +366,5 @@ benchmarks/
 **Need something else?** Check the specific README files above or review the code docstrings.
 
 **Version:** 2.0  
-**Last Updated:** 2025-12-04  
+**Last Updated:** 2026-04-06  
 **Author:** ThemisDB Team

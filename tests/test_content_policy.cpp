@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_content_policy.cpp                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:25:52                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:53:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     494                                            ║
+    • Total Lines:     493                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 0e2644909  2026-03-11  fix(content): thread-safe OCR routing — add shouldTrigger... ║
-    • 208e9c6f4  2026-03-11  feat(content): add ContentPolicy::ocrEnabled() and wire O... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 0e2644909c  2026-03-11  fix(content): thread-safe OCR routing — add shouldTrigger... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -182,14 +180,8 @@ TEST_F(ContentPolicyTest, GetCategoryMaxSize_NonExistingCategory) {
 class MimeDetectorTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Create a mock security signature manager (in-memory)
-        auto security_mgr = std::make_shared<storage::SecuritySignatureManager>(
-            nullptr  // No RocksDB instance - tests will use internal policy
-        );
-        
-        // Create MimeDetector with explicit config path
-        // Tests run from build-ninja-llm-gpu/cmake/tests/, so use relative path
-        detector_ = std::make_shared<MimeDetector>("../../../config/mime_types.yaml", security_mgr);
+        // Let MimeDetector resolve the best available config path itself.
+        detector_ = std::make_shared<MimeDetector>("", nullptr);
     }
 
     std::shared_ptr<MimeDetector> detector_;
@@ -359,8 +351,8 @@ TEST(ContentPolicyOcrTest, OcrCanBeDisabledAgain) {
 class MimeDetectorOcrTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        auto security_mgr = std::make_shared<storage::SecuritySignatureManager>(nullptr);
-        detector_ = std::make_shared<MimeDetector>("../../../config/mime_types.yaml", security_mgr);
+        // Let MimeDetector resolve the best available config path itself.
+        detector_ = std::make_shared<MimeDetector>("", nullptr);
     }
 
     std::shared_ptr<MimeDetector> detector_;
@@ -419,6 +411,7 @@ TEST_F(MimeDetectorOcrTest, ValidateUpload_OcrRecommended_TrueForPngWhenEnabled)
     detector_->enableOcr(true);
     auto result = detector_->validateUpload("photo.png", 1 * 1024 * 1024);
     EXPECT_TRUE(result.allowed);
+    EXPECT_EQ(result.mime_type, "image/png");
     EXPECT_TRUE(result.ocr_recommended);
 }
 

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            socket_timeout_manager.cpp                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:17:30                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   92.0/100                                       ║
     • Total Lines:     446                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -275,7 +272,7 @@ socket_t SocketTimeoutManager::acceptWithTimeout(socket_t server_socket,
 }
 
 ssize_t SocketTimeoutManager::readWithTimeout(socket_t socket, void* buffer, size_t size,
-                                                std::chrono::milliseconds timeout_ms) {
+                                                [[maybe_unused]] std::chrono::milliseconds timeout_ms) {
     if (socket == INVALID_SOCKET_VALUE || buffer == nullptr || size == 0) {
         return -1;
     }
@@ -320,7 +317,7 @@ ssize_t SocketTimeoutManager::readWithTimeout(socket_t socket, void* buffer, siz
 }
 
 ssize_t SocketTimeoutManager::writeWithTimeout(socket_t socket, const void* buffer, size_t size,
-                                                 std::chrono::milliseconds timeout_ms) {
+                                                 [[maybe_unused]] std::chrono::milliseconds timeout_ms) {
     if (socket == INVALID_SOCKET_VALUE || buffer == nullptr || size == 0) {
         return -1;
     }

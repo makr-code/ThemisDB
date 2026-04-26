@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Benchmark Protocol Documentation
 
 **Purpose**: Complete system specification and certification for reproducible database benchmarks

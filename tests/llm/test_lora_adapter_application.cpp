@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_lora_adapter_application.cpp                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:23:11                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     350                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -65,7 +62,7 @@ protected:
         MultiLoRAManager::Config config;
         config.max_lora_slots = 10;
         config.max_lora_vram_mb = 1024;
-        config.lora_ttl = std::chrono::seconds(3600);
+        config.lora_ttl = std::chrono::seconds(0);  // Disable TTL-based eviction for tests
         config.enable_adapter_fusion = true;
         config.multi_gpu.enabled = false;  // Single GPU for tests
         config.quantization.enabled = false;  // Test without quantization first

@@ -2588,6 +2588,104 @@ ThemisDB implementiert eine **world-class, unified ML architecture** mit folgend
 5. **Security**: Cryptographic Verification, Encryption at Rest, Checksum Validation
 6. **Performance**: GPU Acceleration, KV Cache, Batch Processing, Kernel Fusion
 7. **Vector Integration**: Semantic Search über Models, Adapters und Embeddings
+8. **AiHardwareDispatcher**: Universelle NPU/ONNX/GPU/CPU-Dispatch-Schicht
+
+---
+
+## 16.11 AiHardwareDispatcher — Universal-AI-Hardware-Abstraktionsschicht {#ai-hardware-dispatcher}
+
+`AiHardwareDispatcher` ist eine compile-time-getestete, runtime-fallback-sichere Abstraktionsschicht für AI-Inferenz-Hardware.  Ein einzelner Header (`include/acceleration/ai_hardware_dispatcher.h`) deckt alle relevanten Beschleuniger ab.
+
+### Prioritätskette
+
+```
+NPU (Apple ANE)
+    ↓ (falls nicht verfügbar)
+NPU (Intel NPU / OpenVINO)
+    ↓
+NPU (Qualcomm QNN)
+    ↓
+NPU (ARM Ethos)
+    ↓
+Android NNAPI
+    ↓
+ONNX Runtime (wählt EP zur Laufzeit: CUDA, DirectML, CoreML, TensorRT, QNN, OpenVINO, CPU)
+    ↓
+GPU-Backend (CUDA / HIP / Vulkan / Metal / OpenCL / DirectX / OneAPI)
+    ↓
+CPU + SIMD (AVX-512 / AVX2 / NEON) — immer verfügbar
+```
+
+### Unterstützte Präzisionsmodi
+
+| Modus | Beschreibung | Typischer Einsatz |
+|-------|-------------|------------------|
+| `FP32` | 32-Bit Gleitkomma | Referenz-Inferenz |
+| `FP16` | 16-Bit Gleitkomma | GPU-Inferenz |
+| `INT8` | 8-Bit Integer | Quantisierte Modelle |
+| `INT4` | 4-Bit Integer | Extreme Kompression |
+| `FP4` | 4-Bit Gleitkomma | Research / Edge |
+| `W4A8` | 4-Bit Weights + 8-Bit Activations | Produktions-Quantisierung |
+| `W8A8` | 8-Bit Weights + 8-Bit Activations | Ausgewogene Quantisierung |
+
+### Geräteinformationen (DeviceCapabilityInfo)
+
+```cpp
+#include "acceleration/ai_hardware_dispatcher.h"
+
+auto& dispatcher = themis::acceleration::AiHardwareDispatcher::instance();
+auto caps = dispatcher.getDeviceCapabilities();
+
+// caps.is_npu          – true, wenn dedizierter NPU vorhanden
+// caps.npu_tops        – TOPS-Leistung des NPUs (falls bekannt)
+// caps.supports_int4   – true, wenn INT4-Inferenz hardware-beschleunigt
+// caps.supports_w4a8   – true, wenn W4A8-Quantisierung unterstützt
+// caps.onnx_ep         – gewählter ONNX-Execution-Provider ("CUDA", "CoreML", ...)
+```
+
+### Schnellstart
+
+```cpp
+auto& dispatcher = themis::acceleration::AiHardwareDispatcher::instance();
+
+// Automatische Wahl des besten verfügbaren Backends
+auto result = dispatcher.run(model_input, PrecisionMode::W4A8);
+
+// Explizit NPU bevorzugen, fallback auf GPU
+dispatcher.setPreferredBackend(BackendType::NPU_APPLE);
+auto result = dispatcher.run(model_input);
+```
+
+### CMake-Konfiguration
+
+```cmake
+# NPU-Backends aktivieren (Linux/Windows)
+cmake -DTHEMIS_ENABLE_NPU_INTEL=ON \
+      -DTHEMIS_ENABLE_NPU_QUALCOMM=ON \
+      -DTHEMIS_ENABLE_NPU_ARM=ON \
+      ..
+
+# Apple ANE und Android NNAPI werden automatisch erkannt (kein Flag benötigt)
+
+# Einzelne Backends deaktivieren
+cmake -DTHEMIS_DISABLE_NPU_APPLE=ON \
+      -DTHEMIS_DISABLE_ONNX_RUNTIME=ON \
+      ..
+```
+
+### Thread-Safety
+
+Alle Methoden sind thread-safe.  Probe-Ergebnisse werden für `kCacheTTL` Sekunden gecacht und bei explizitem `refresh()` oder TTL-Ablauf neu ermittelt.
+
+### Performance-Metriken
+
+| Backend | Typische Leistung | Plattform |
+|---------|-----------------|----------|
+| Apple ANE (M3 Ultra) | ~38 TOPS | macOS/iOS |
+| Intel NPU (Core Ultra) | ~11 TOPS | Windows/Linux |
+| Qualcomm QNN (Snapdragon X Elite) | ~45 TOPS | Windows/Linux/Android |
+| NVIDIA CUDA (RTX 4090) | ~82 TFLOPS FP16 | Linux/Windows |
+| CPU AVX-512 (Xeon) | ~2 TFLOPS INT8 | Alle Plattformen |
 
 ### Architecture Highlights
 
@@ -2661,8 +2759,518 @@ Für Production Deployment siehe:
 
 ---
 
+## 16.11 Erweiterte Training-Pipeline (v1.8.0)
+
+<!-- Source: include/training/ — training_pipeline.h, incremental_lora_trainer.h, auto_labeler.h, lora_checkpoint_manager.h, provenance_tracker.h -->
+
+> **Neu in v1.8.0** – Das Training-Modul bietet eine vollständige, produktionsreife Pipeline vom Rohdokument bis zum einsetzbaren LoRA-Adapter. Alle Stufen sind einzeln konfigurierbar und über einen einheitlichen `TrainingPipeline`-Orchestrator zusammengefasst.
+
+### 16.11.1 TrainingPipeline — End-to-End-Orchestrator
+
+`TrainingPipeline` verbindet alle Trainingsstufen zu einem deterministischen, nachvollziehbaren Workflow:
+
+```
+Rohdokumente (DB-Collection)
+        │
+        ▼
+[Stage 1] AutoLabeler          ← LLM-gestütztes Labeling mit Konfidenz
+        │
+        ▼
+[Stage 2] KnowledgeGraphEnricher ← Graph-Kontext-Anreicherung via AQL
+        │
+        ▼
+[Stage 3] LoRADataSelection    ← Qualitätsfilterung (Konfidenz, Diversität)
+        │
+        ▼
+[Stage 4] IncrementalLoRATrainer ← QLoRA/LoRA-Training gegen Basismodell
+        │
+        ▼
+[Stage 5] LoRACheckpointManager ← SHA-256-verifizierte Checkpoint-Speicherung
+        │
+        ▼
+[Stage 6] ProvenanceTracker    ← DSGVO-konformes Herkunfts-Tracking
+        │
+        ▼
+Deployments-fertiger LoRA-Adapter (AdapterRegistry)
+```
+
+**Verwendung:**
+
+```cpp
+#include "training/training_pipeline.h"
+
+using namespace themis::training;
+
+TrainingPipeline::Config cfg;
+cfg.source_collection    = "legal_documents";
+cfg.adapter_name         = "legal-assistant-v2";
+cfg.base_model           = "llama-2-7b-q4_k_m";
+cfg.batch_size           = 32;
+cfg.max_epochs           = 3;
+cfg.learning_rate        = 2e-4f;
+cfg.min_confidence       = 0.75f;   // AutoLabeler-Konfidenz-Schwelle
+cfg.checkpoint_dir       = "/models/checkpoints/legal-v2";
+cfg.enable_provenance    = true;
+
+TrainingPipeline pipeline(cfg, query_engine, llm_backend);
+auto stats = pipeline.run();
+
+// stats.documents_labeled        → 12.450
+// stats.samples_created          → 8.200
+// stats.high_confidence          → 7.100
+// stats.training_success         → true
+// stats.training_loss            → 0.042
+// stats.accuracy                 → 0.931
+// stats.provenance_records_written → 8.200
+// stats.total_elapsed_seconds    → 847.3
+```
+
+**Fortschritts-Callbacks:**
+
+```cpp
+pipeline.setProgressCallback([](const PipelineProgress& p) {
+    printf("[%s] Stage %d/6: %.1f%% (%s)\n",
+        p.timestamp.c_str(), p.stage, p.percent, p.message.c_str());
+});
+```
+
+### 16.11.2 IncrementalLoRATrainer — Inkrementelles LoRA-Training
+
+`IncrementalLoRATrainer` erweitert bestehende Adapter mit neuen Daten ohne vollständiges Neu-Training. Unterstützt INITIAL, INCREMENTAL und FINETUNE-Modi mit Quantisierung und Multi-GPU-Parallelisierung.
+
+**Trainings-Modi:**
+
+| Modus | Beschreibung | Verwendung |
+|-------|-------------|-----------|
+| `INITIAL` | Training von Grund auf | Neuer Adapter |
+| `INCREMENTAL` | Erweiterung mit neuen Daten | Monatliche Updates |
+| `FINETUNE` | Feinabstimmung eines Adapters | Domänen-Anpassung |
+
+**Quantisierungsoptionen:**
+
+```cpp
+#include "training/incremental_lora_trainer.h"
+
+IncrementalLoRATrainer::Config trainer_cfg;
+trainer_cfg.mode              = TrainingMode::INCREMENTAL;
+trainer_cfg.quantization      = QuantizationConfig{
+    .bits = 4,              // 4-bit QLoRA
+    .use_double_quant = true,
+    .bnb_4bit_quant_type = "nf4"
+};
+trainer_cfg.lora_rank         = 16;
+trainer_cfg.lora_alpha        = 32;
+trainer_cfg.lora_dropout      = 0.05f;
+trainer_cfg.target_modules    = {"q_proj", "v_proj", "k_proj", "o_proj"};
+trainer_cfg.gradient_checkpointing = true;
+trainer_cfg.num_gpus          = 4;    // Multi-GPU Data Parallelism
+
+IncrementalLoRATrainer trainer(trainer_cfg, model_path, existing_adapter);
+auto result = trainer.train(training_samples);
+// result.loss, result.accuracy, result.adapter_version, result.saved_path
+```
+
+**Performance-Ziele:**
+
+| Metrik | 1 GPU | 4 GPU |
+|--------|-------|-------|
+| Trainings-Durchsatz | 1.200 samples/min | 4.600 samples/min |
+| Speicher (4-bit QLoRA) | 8 GB VRAM | 8 GB × 4 |
+| Adapter-Größe (Llama-7B) | 32 MB | 32 MB |
+| Adapter-Wechselzeit | < 50 ms | < 50 ms |
+
+### 16.11.3 AutoLabeler — LLM-gestütztes Labeling
+
+`AutoLabeler` erzeugt Trainings-Labels automatisch aus Rohdokumenten. Es unterstützt Modality-Detection (Text, Tabelle, Zitat, OCR) und konfigurierbare Konfidenz-Schwellen.
+
+```cpp
+#include "training/auto_labeler.h"
+
+AutoLabeler::Config labeler_cfg;
+labeler_cfg.min_confidence     = 0.75f;
+labeler_cfg.extractor_fn = [&](const std::string& text) {
+    // Anbindung an LLM-Backend (z.B. LlamaWrapper oder OpenAI-kompatibler Endpoint)
+    return llm.extractLabels(text);
+};
+labeler_cfg.db_query_fn = [&](const std::string& aql) -> std::vector<std::string> {
+    return query_engine.execute(aql);
+};
+
+AutoLabeler labeler(labeler_cfg);
+auto samples = labeler.label(raw_documents);
+// samples[i].input_text, samples[i].output_text
+// samples[i].confidence, samples[i].modality
+// samples[i].sample_id
+```
+
+**Inhaltliche Modalitäten (ContentModality):**
+
+| Modalität | Beschreibung | Konfidenz-Schwelle |
+|-----------|-------------|------------------|
+| `TEXT` | Lauftext | 0.70 |
+| `TABLE` | Tabellarische Daten | 0.80 |
+| `CITATION` | Rechtliche Zitate | 0.85 |
+| `OCR` | OCR-erkannter Text | 0.65 |
+
+### 16.11.4 LoRACheckpointManager — SHA-256-verifizierte Checkpoints
+
+`LoRACheckpointManager` speichert Adapter-Checkpoints mit vollständigen Metadaten, SHA-256-Integrität und konfigurierbarer Retention-Policy.
+
+```cpp
+#include "training/lora_checkpoint_manager.h"
+
+CheckpointManagerConfig ckpt_cfg;
+ckpt_cfg.checkpoint_dir    = "/models/checkpoints/legal-v2";
+ckpt_cfg.max_checkpoints   = 5;       // Nur die letzten 5 behalten
+ckpt_cfg.save_interval     = 500;     // Checkpoint alle 500 Steps
+
+LoRACheckpointManager ckpt_mgr(ckpt_cfg);
+
+// Checkpoint speichern
+CheckpointManifestEntry entry;
+entry.adapter_version   = "legal_v2.0.3";
+entry.epoch             = 2;
+entry.step              = 1500;
+entry.loss              = 0.038;
+entry.accuracy          = 0.945;
+entry.base_model_hash   = "sha256:a3b2c1...";
+ckpt_mgr.save(adapter_weights, entry);
+// entry.sha256 wird automatisch berechnet
+
+// Besten Checkpoint laden (niedrigste Loss)
+auto best = ckpt_mgr.loadBest();
+
+// Spezifische Version laden
+auto specific = ckpt_mgr.load("legal_v2.0.2");
+
+// Alle Checkpoints auflisten
+auto all = ckpt_mgr.list();
+```
+
+### 16.11.5 ProvenanceTracker — DSGVO-konformes Herkunfts-Tracking
+
+`ProvenanceTracker` erstellt für jedes Trainings-Sample einen vollständigen Herkunftsnachweis und schreibt ihn persistent in die ThemisDB für Compliance und Audit.
+
+```cpp
+#include "training/provenance_tracker.h"
+
+ProvenanceTracker tracker(query_engine);
+
+// Provenance für ein Trainings-Sample erfassen
+ProvenanceRecord record;
+record.sample_id              = sample.sample_id;
+record.source_doc_urn         = "urn:themisdb:legal:BImSchG-2024-01-15";
+record.extraction_timestamp   = std::time(nullptr);
+record.labeler_version        = "auto_labeler/v1.4.2";
+record.modality               = "text";
+record.enrichment_query_fingerprints = {
+    "sha256:aql_context_query_v1",
+    "sha256:aql_hierarchy_query_v2"
+};
+tracker.record(record);
+
+// Herkunft eines Samples abfragen
+auto prov = tracker.query(sample_id);
+// prov.source_doc_urn, prov.labeler_version, prov.modality, etc.
+
+// Alle Samples zu einem Quelldokument finden (DSGVO Art. 17 - Löschrecht)
+auto affected = tracker.findBySoure("urn:themisdb:legal:BImSchG-2024-01-15");
+```
+
+**Compliance-Features:**
+
+| Feature | Standard | Beschreibung |
+|---------|----------|-------------|
+| Vollständige Herkunftskette | DSGVO Art. 5 | Nachweisbarkeit der Trainings-Datenherkunft |
+| SHA-256-Fingerprints | NIST | Manipulationssicherheit der AQL-Abfragen |
+| Audit-Log | ISO 27001 | Wer hat welches Sample wann erstellt |
+| Löschrecht-Support | DSGVO Art. 17 | Alle Samples zu einem Dokument auffindbar |
+
+### 16.11.6 Pipeline-Gesamtübersicht (v1.8.0)
+
+| Komponente | Status | Training-Durchsatz | Memory |
+|------------|--------|-------------------|--------|
+| `AutoLabeler` | ✅ Production-Ready | 5.000 docs/min (LLM-abhängig) | 500 MB |
+| `IncrementalLoRATrainer` | ✅ Production-Ready | 4.600 samples/min (4×GPU, 4-bit) | 8 GB × GPU |
+| `LoRACheckpointManager` | ✅ Production-Ready | < 2 s / Checkpoint | Adapter-Größe |
+| `ProvenanceTracker` | ✅ Production-Ready | < 1 ms / Record | RocksDB |
+| `TrainingPipeline` (gesamt) | ✅ Production-Ready | 12.000 Docs → Adapter in ~15 min | — |
+
+---
+
 **Letzte Aktualisierung**: Februar 2026  
 **Version**: 1.5.0-dev  
 **Status**: Comprehensive Reference Chapter  
 **Autoren**: ThemisDB Team
 
+
+---
+
+## 16.12 Exporters-Modul — C++ Produktions-API (v1.x)
+
+Das Exporters-Modul (`include/exporters/`, `src/exporters/`) stellt eine produktionsreife Export-Pipeline für LLM-Trainingsdaten bereit: JSONL, Parquet, Apache Arrow IPC, HuggingFace Datasets, Streaming, Incremental/Delta und Instruction-Tuning-Format-Templates.
+
+### 16.12.1 HuggingFaceExporter — direkt auf HuggingFace Hub
+
+```cpp
+#include "exporters/huggingface_exporter.h"
+
+themis::exporters::HuggingFaceExporterConfig hf_cfg;
+hf_cfg.dataset_name    = "my-org/legal-rag-de";
+hf_cfg.hub_api_token   = hf_token;
+hf_cfg.split           = "train";
+hf_cfg.instruction_format = "alpaca";   // Instruction-Tuning Template
+
+themis::exporters::HuggingFaceExporter exporter(hf_cfg);
+
+themis::exporters::ExportOptions opts;
+opts.output_path  = "/tmp/export-hf";
+opts.batch_size   = 1000;
+opts.encrypt      = false;  // AES-256-GCM Export Encryption verfügbar
+
+auto stats = exporter.exportEntities(entities, opts);
+// stats.records_exported, stats.bytes_written, stats.duration_ms
+
+// Dataset-Karte + Metadaten generieren
+auto readme    = exporter.generateDatasetCard();
+auto info_json = exporter.generateDatasetInfoJson(stats);
+```
+
+### 16.12.2 StreamingExporter + IncrementalExporter
+
+```cpp
+#include "exporters/streaming_exporter.h"
+#include "exporters/incremental_exporter.h"
+
+// ── Streaming (großer Datensatz, kein Aufblasen des RAM) ─────────────
+themis::exporters::StreamingExporter stream_exp;
+stream_exp.exportStream(
+    collection_cursor,
+    { .output_path = "/data/export/legal.jsonl", .format = "jsonl" },
+    [](size_t exported, size_t total, double eta_sec) {
+        // Fortschritts-Callback
+    }
+);
+
+// ── Incremental/Delta Export (nur Änderungen seit Watermark) ─────────
+themis::exporters::IncrementalExporter incr_exp;
+incr_exp.setWatermark("2026-04-01T00:00:00Z");
+auto delta_stats = incr_exp.exportDelta(
+    "legal_documents",
+    { .output_path = "/data/export/delta.parquet", .format = "parquet" }
+);
+// delta_stats.new_records, delta_stats.updated_records, delta_stats.watermark_advanced_to
+```
+
+### 16.12.3 Unterstützte Exportformate
+
+| Format | Klasse | Instruction-Tuning |
+|--------|--------|--------------------|
+| JSONL | `JsonlExporter` | Alpaca, ShareGPT, ChatML, OpenAI |
+| Parquet | `ParquetExporter` | konfigurierbare Arrow-Schema |
+| Apache Arrow IPC | `ArrowIpcExporter` | Zero-Copy Pipeline |
+| HuggingFace Datasets | `HuggingFaceExporter` | Dataset-Card + dataset_info.json |
+| Streaming | `StreamingExporter` | Cursor-basiert, beliebige Größe |
+| Delta/Incremental | `IncrementalExporter` | Watermark + Checkpoint |
+
+---
+
+## 16.13 Acceleration-Modul — CUDA/Vulkan/Multi-GPU C++ API (v1.x)
+
+Das Acceleration-Modul (`include/acceleration/`, `src/acceleration/`) stellt GPU-beschleunigte Vector-Suche, Geo-Kernels und Multi-GPU-Sharding bereit: CUDA/HIP (ANN, Geo), Vulkan (non-NVIDIA Fallback), Multi-GPU NCCL/RCCL und CUDA Graph Capture.
+
+### 16.13.1 CUDAVectorBackend — HNSW + KNN auf NVIDIA-GPU
+
+```cpp
+#include "acceleration/cuda_backend.h"
+
+themis::acceleration::CUDAVectorBackend cuda_backend;
+cuda_backend.initialize();   // Prüft CUDA-Gerät-Verfügbarkeit
+
+// HNSW ANN-Index auf GPU laden
+cuda_backend.buildHnswAnnIndex(hnsw_layers, flat_vectors, num_vecs, dim);
+
+// Batch-KNN-Suche (delegiert automatisch an HNSW auf GPU)
+auto knn_results = cuda_backend.batchKnnSearch(
+    query_vecs, num_queries, dim, flat_vectors, num_vecs, /*k=*/10, /*useL2=*/true
+);
+// knn_results[q][i].first = vector_id, .second = distance
+
+// CUDA Graph Capture (wiederverwendbare Kernel-Folge für Hot Queries)
+themis::acceleration::CUDAGraphCache graph_cache;
+auto graph_id = graph_cache.capture([&]() {
+    cuda_backend.batchKnnSearch(fixed_query, 1, dim, flat_vectors, num_vecs, 10);
+});
+graph_cache.replay(graph_id);  // Zero-Overhead-Replay ohne Kernel-Launch-Overhead
+```
+
+### 16.13.2 MultiGPUVectorBackend — Verteilte Vektor-Suche
+
+```cpp
+#include "acceleration/multi_gpu_backend.h"
+
+themis::acceleration::MultiGPUVectorBackend::Config mgpu_cfg;
+mgpu_cfg.numDevices     = 4;           // Bis zu 4 GPUs
+mgpu_cfg.commBackend    = themis::acceleration::MultiGPUVectorBackend::CommBackend::NCCL;
+mgpu_cfg.enableP2P      = true;        // GPUDirect P2P-Transfers
+mgpu_cfg.enableNVLink   = true;        // NVLink Collective-Ops
+mgpu_cfg.commBufferSizeMB = 512;
+mgpu_cfg.allowCPUFallback = true;      // CPU-Fallback wenn GPU nicht verfügbar
+
+themis::acceleration::MultiGPUVectorBackend mgpu(mgpu_cfg);
+mgpu.initialize();
+
+// Fan-out KNN über alle GPU-Shards + Top-K-Merge
+auto results = mgpu.batchKnnSearch(queries, n_queries, dim, null, 0, k);
+```
+
+### 16.13.3 Vulkan Fallback (non-NVIDIA) und ROCm/HIP (AMD)
+
+```
+Dispatch-Priorität (AiHardwareDispatcher automatisch):
+  1. CUDA  (NVIDIA, wenn verfügbar)
+  2. ROCm/HIP (AMD, wenn verfügbar)
+  3. Vulkan  (beliebige GPU via SPIR-V Compute Shader)
+  4. CPU    (SIMD/AVX2-Fallback)
+
+Vulkan Compute Shaders: l2_distance.comp, cosine_distance.comp,
+  inner_product_distance.comp, batch_search.comp, topk_selection.comp,
+  haversine_distance.comp (Geo), point_in_polygon.comp (Geo)
+```
+
+## 16.14 Training-Modul — C++ Produktions-API (v1.5) {#training-module}
+
+Das Training-Modul (`include/training/`) implementiert End-to-End LoRA-Fine-Tuning direkt aus ThemisDB-Collections.
+
+### 16.14.1 TrainingPipeline — Orchestrator
+
+```cpp
+#include "training/training_pipeline.h"
+
+themis::training::PipelineConfig cfg;
+cfg.source_collection   = "legal_docs";
+cfg.base_model_path     = "/models/mistral-7b.gguf";
+cfg.adapter_version     = "legal_v1.2";
+cfg.checkpoint_dir      = "/var/themis/checkpoints";
+cfg.target_accuracy     = 0.90;
+cfg.max_epochs          = 5;
+cfg.use_mixed_precision = true;
+
+themis::training::TrainingPipeline pipeline(db, cfg);
+
+pipeline.onProgress([](const themis::training::PipelineStats& s) {
+    std::cout << "epoch=" << s.current_epoch
+              << " loss=" << s.training_loss
+              << " accuracy=" << s.accuracy << "\n";
+});
+
+auto stats = pipeline.run();
+// stats.training_success, stats.adapter_version,
+// stats.documents_labeled, stats.samples_created,
+// stats.provenance_records_written, stats.drift_detected
+```
+
+**Stufen der Pipeline:**
+1. `AutoLabeler` — ableiten von Labels aus DB-Dokumenten (Keyword-Extraktion, LLM-Annotation)
+2. `KnowledgeGraphEnricher` — KG-Kontext je Sample hinzufügen
+3. `LoraDataSelection` — aktives Lernen / Unsicherheits-Sampling
+4. `IncrementalLoRATrainer` — inkrementelles Training (INITIAL / RESUME / CONTINUE)
+5. `LoRACheckpointManager` — atomares Speichern mit SHA-256-Verifikation
+6. `ProvenanceTracker` — Lineage-Graph für jede Gewicht-Änderung
+
+### 16.14.2 IncrementalLoRATrainer
+
+```cpp
+#include "training/incremental_lora_trainer.h"
+
+themis::training::IncrementalTrainingConfig tcfg;
+tcfg.training_data_collection = "labeled_samples";
+tcfg.base_model_path          = "/models/mistral-7b.gguf";
+tcfg.adapter_version          = "legal_v1.0";
+tcfg.quantization.type        = themis::training::TrainingQuantizationType::INT8;
+tcfg.quantization.block_size  = 64;
+
+themis::training::IncrementalLoRATrainer trainer(db, tcfg);
+
+// Erstes Training
+auto result = trainer.train(themis::training::TrainingMode::INITIAL, callback);
+
+// Fortführen von Checkpoint
+auto r2 = trainer.resumeFromCheckpoint("/var/themis/checkpoints/legal_v1.0.ckpt");
+
+// Evaluation auf Held-Out-Set
+auto eval = trainer.evaluate("legal_v1.1");
+
+// Deployment in Produktion
+trainer.deploy("legal_v1.1");
+```
+
+| Feld | Typ | Bedeutung |
+|------|-----|-----------|
+| `success` | `bool` | Training abgeschlossen ohne Fehler |
+| `version` | `string` | Neue Adapter-Version (z.B. `"legal_v1.1"`) |
+| `adapter_id` | `string` | Storage-ID des Adapters |
+| `training_loss` | `double` | Finaler Trainings-Loss |
+| `accuracy` | `double` | Evaluations-Genauigkeit |
+
+### 16.14.3 AutoLabeler
+
+```cpp
+#include "training/auto_labeler.h"
+
+themis::training::AutoLabelConfig lcfg;
+lcfg.source_collection  = "raw_docs";
+lcfg.target_collection  = "training_samples";
+lcfg.language_code      = "de";
+lcfg.min_confidence     = 0.75;
+
+themis::training::AutoLabeler labeler(db, lcfg);
+auto lresult = labeler.label();
+// lresult.documents_processed, lresult.samples_created,
+// lresult.high_confidence_count, lresult.low_confidence_skipped
+```
+
+### 16.14.4 LoRACheckpointManager
+
+```cpp
+#include "training/lora_checkpoint_manager.h"
+
+themis::training::CheckpointManagerConfig cmcfg;
+cmcfg.checkpoint_dir    = "/var/themis/checkpoints";
+cmcfg.validate_on_load  = true;
+cmcfg.auto_rollback     = true;
+
+themis::training::LoRACheckpointManager ckpt(cmcfg);
+
+// Speichern
+auto entry = ckpt.save("/tmp/adapter.bin", "legal_v1.2", base_model_hash);
+// entry.checkpoint_path, entry.sha256, entry.adapter_version
+
+// Letzten gültigen Checkpoint laden
+auto latest = ckpt.resume();   // std::optional<CheckpointManifestEntry>
+
+// Alle Checkpoints auflisten
+auto list = ckpt.listCheckpoints();
+```
+
+### 16.14.5 ProvenanceTracker
+
+```cpp
+#include "training/provenance_tracker.h"
+
+themis::training::ProvenanceTracker tracker(db);
+
+// Schreiben
+tracker.record({
+    .sample_id      = "sample-42",
+    .source_doc     = "doc-7",
+    .adapter_version= "legal_v1.1",
+    .pipeline_run   = "run-2026-04-12",
+    .label          = "contract_clause",
+    .confidence     = 0.88,
+});
+
+// Abfragen
+auto records = tracker.getByAdapter("legal_v1.1");
+auto history = tracker.getSampleHistory("sample-42");
+```

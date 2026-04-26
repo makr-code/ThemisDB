@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_orphan_detector_wired.cpp                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:30:41                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:55:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • eed24c44d  2026-03-15  feat: Wire OrphanDetector to DistributedCoordinator trans... ║
+    • eed24c44d2  2026-03-15  feat: Wire OrphanDetector to DistributedCoordinator trans... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

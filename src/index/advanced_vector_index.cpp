@@ -3,20 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            advanced_vector_index.cpp                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:29                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   90.0/100                                       ║
-    • Total Lines:     499                                            ║
+    • Total Lines:     486                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • ba22b5bb2  2026-03-13  fix(backpressure): stabilize overload metrics test and al... ║
-    • 769205492  2026-03-12  feat(index): implement CUDA and HIP GPU backends, ADC opt... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -126,7 +127,7 @@ bool AdvancedVectorIndex::initializeIndex() {
             
             case Config::Type::HNSW_FLAT: {
                 // HNSW without IVF (best accuracy)
-                auto* hnsw = new faiss::IndexHNSWFlat(dimension_, 32);
+                auto* hnsw = new faiss::IndexHNSWFlat(static_cast<int>(dimension_), 32);
                 idx = hnsw;
                 THEMIS_INFO("Created HNSW Flat index");
                 break;
@@ -150,7 +151,7 @@ bool AdvancedVectorIndex::initializeIndex() {
 #endif
 }
 
-bool AdvancedVectorIndex::train(const float* vectors, size_t count) {
+bool AdvancedVectorIndex::train([[maybe_unused]] const float* vectors, [[maybe_unused]] size_t count) {
 #ifdef THEMIS_HAS_FAISS
     if (!index_) {
         THEMIS_ERROR("Index not initialized");
@@ -186,14 +187,12 @@ bool AdvancedVectorIndex::train(const float* vectors, size_t count) {
         return false;
     }
 #else
-    (void)vectors;
-    (void)count;
     THEMIS_WARN("FAISS not available");
     return false;
 #endif
 }
 
-bool AdvancedVectorIndex::add(const float* vectors, size_t count) {
+bool AdvancedVectorIndex::add([[maybe_unused]] const float* vectors, [[maybe_unused]] size_t count) {
 #ifdef THEMIS_HAS_FAISS
     if (!index_) {
         THEMIS_ERROR("Index not initialized");
@@ -217,13 +216,11 @@ bool AdvancedVectorIndex::add(const float* vectors, size_t count) {
         return false;
     }
 #else
-    (void)vectors;
-    (void)count;
     return false;
 #endif
 }
 
-bool AdvancedVectorIndex::addWithIds(const float* vectors, const int64_t* ids, size_t count) {
+bool AdvancedVectorIndex::addWithIds([[maybe_unused]] const float* vectors, [[maybe_unused]] const int64_t* ids, [[maybe_unused]] size_t count) {
 #ifdef THEMIS_HAS_FAISS
     if (!index_) {
         THEMIS_ERROR("Index not initialized");
@@ -247,14 +244,11 @@ bool AdvancedVectorIndex::addWithIds(const float* vectors, const int64_t* ids, s
         return false;
     }
 #else
-    (void)vectors;
-    (void)ids;
-    (void)count;
     return false;
 #endif
 }
 
-AdvancedVectorIndex::SearchResult AdvancedVectorIndex::search(const float* query, size_t k) {
+AdvancedVectorIndex::SearchResult AdvancedVectorIndex::search([[maybe_unused]] const float* query, [[maybe_unused]] size_t k) {
     SearchResult result;
     
 #ifdef THEMIS_HAS_FAISS
@@ -278,16 +272,14 @@ AdvancedVectorIndex::SearchResult AdvancedVectorIndex::search(const float* query
         return result;
     }
 #else
-    (void)query;
-    (void)k;
     return result;
 #endif
 }
 
 std::vector<AdvancedVectorIndex::SearchResult> AdvancedVectorIndex::searchBatch(
-    const float* queries,
-    size_t num_queries,
-    size_t k
+    [[maybe_unused]] const float* queries,
+    [[maybe_unused]] size_t num_queries,
+    [[maybe_unused]] size_t k
 ) {
     std::vector<SearchResult> results(num_queries);
     
@@ -325,9 +317,6 @@ std::vector<AdvancedVectorIndex::SearchResult> AdvancedVectorIndex::searchBatch(
         return results;
     }
 #else
-    (void)queries;
-    (void)num_queries;
-    (void)k;
     return results;
 #endif
 }
@@ -345,19 +334,19 @@ AdvancedVectorIndex::Stats AdvancedVectorIndex::getStats() const {
         // Estimate compression ratio for PQ
         if (config_.index_type == Config::Type::IVF_PQ) {
             // PQ compresses each vector from d*4 bytes to m*nbits/8 bytes
-            double flat_size = dimension_ * sizeof(float);
+            double flat_size = static_cast<double>(dimension_) * sizeof(float);
             double pq_size = config_.pq_m * config_.pq_nbits / 8.0;
             stats.compression_ratio = flat_size / pq_size;
         }
         
-        stats.memory_usage_bytes = stats.total_vectors * dimension_ * sizeof(float) / stats.compression_ratio;
+            stats.memory_usage_bytes = static_cast<size_t>(static_cast<double>(stats.total_vectors * dimension_ * sizeof(float)) / stats.compression_ratio);
     }
 #endif
     
     return stats;
 }
 
-bool AdvancedVectorIndex::save(const std::string& path) {
+bool AdvancedVectorIndex::save([[maybe_unused]] const std::string& path) {
 #ifdef THEMIS_HAS_FAISS
     if (!index_) {
         THEMIS_ERROR("Index not initialized");
@@ -376,12 +365,11 @@ bool AdvancedVectorIndex::save(const std::string& path) {
         return false;
     }
 #else
-    (void)path;
     return false;
 #endif
 }
 
-bool AdvancedVectorIndex::load(const std::string& path) {
+bool AdvancedVectorIndex::load([[maybe_unused]] const std::string& path) {
 #ifdef THEMIS_HAS_FAISS
     try {
         if (index_) {
@@ -400,7 +388,6 @@ bool AdvancedVectorIndex::load(const std::string& path) {
         return false;
     }
 #else
-    (void)path;
     return false;
 #endif
 }

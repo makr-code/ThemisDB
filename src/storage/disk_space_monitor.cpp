@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            disk_space_monitor.cpp                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:27                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     565                                            ║
+    • Total Lines:     564                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9f9d86ceb  2026-03-15  feat(storage): implement proper size calculation in Rocks... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 9f9d86ceb0  2026-03-15  feat(storage): implement proper size calculation in Rocks... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_graphql_ws_handler.cpp                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:27:59                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:54:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     689                                            ║
+    • Total Lines:     690                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • e442ddfb5  2026-03-17  fix(api): address PR review — CI path, alive-flag tests, ... ║
-    • 6fe3cb23d  2026-03-17  audit(api): fix move-ctor UB, renumber steps, drop dead f... ║
-    • 1812297f7  2026-03-17  Changes before error encountered         ║
-    • e27950bc3  2026-03-10  fix(api): code audit fixes for GraphQLWsHandler ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • e442ddfb53  2026-03-17  fix(api): address PR review — CI path, alive-flag tests, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

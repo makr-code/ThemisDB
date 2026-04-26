@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_multithreading_comprehensive.cpp             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:04:19                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:43:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     473                                            ║
+    • Total Lines:     472                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 329b75bbb  2026-02-07  Add comprehensive test coverage and scientific benchmarks... ║
+    • 9c9ead9b4f  2026-04-09  Implement feature X to enhance user experience and optimi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -130,7 +129,7 @@ public:
                 {"value", static_cast<int64_t>(i)},
                 {"data", rng_.generateString(100)}
             });
-            db_->put("entity:" + entity.id, entity.serialize());
+            db_->put("entity:" + entity.getPrimaryKey(), entity.serialize());
         }
     }
 
@@ -357,7 +356,7 @@ static void BM_BatchInsert_SingleThread(benchmark::State& state) {
 
     for (auto _ : state) {
         DeterministicRNG rng(42);
-        std::vector<std::pair<std::string, std::string>> batch;
+        std::vector<std::pair<std::string, BaseEntity::Blob>> batch;
         batch.reserve(batch_size);
 
         for (int i = 0; i < batch_size; ++i) {
@@ -393,7 +392,7 @@ static void BM_BatchInsert_MultiThread(benchmark::State& state) {
         for (int t = 0; t < num_threads; ++t) {
             threads.emplace_back([&, t]() {
                 DeterministicRNG thread_rng(42 + t);
-                std::vector<std::pair<std::string, std::string>> batch;
+                std::vector<std::pair<std::string, BaseEntity::Blob>> batch;
                 batch.reserve(batch_size);
 
                 for (int i = 0; i < batch_size; ++i) {

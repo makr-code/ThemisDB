@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            prompt_ab_experiment.h                             ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:09:43                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:46:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     434                                            ║
+    • Total Lines:     437                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c3e556045  2026-03-23  feat(prompt_engineering): A/B Experiment Framework — Prom... ║
+    • c3e5560456  2026-03-23  feat(prompt_engineering): A/B Experiment Framework — Prom... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -82,6 +82,8 @@
 #include <vector>
 
 #include <nlohmann/json.hpp>
+
+#include "prompt_engineering/prompt_template_compiler.h"
 
 namespace themis {
 namespace prompt_engineering {
@@ -431,6 +433,125 @@ private:
 
     /** @brief checkSignificance() body called while holding mutex_. */
     bool checkSignificanceLocked(const std::string& experiment_id);
+};
+
+// ══════════════════════════════════════════════════════════════════════════════
+// IPromptABFramework — clean per-user deterministic variant-assignment interface
+// ══════════════════════════════════════════════════════════════════════════════
+
+/**
+ * @brief Opaque user identifier (any UTF-8 string; typically a session or
+ *        tenant ID; never stored by the framework).
+ */
+using UserId       = std::string;
+
+/**
+ * @brief Opaque experiment key (e.g. `"rag-system-prompt-v2"`).
+ */
+using ExperimentKey = std::string;
+
+/**
+ * @brief Variant descriptor returned by `IPromptABFramework::assignVariant()`.
+ *
+ * `templateRef` is a non-owning pointer to the template associated with this
+ * variant (may be `nullptr` when the experiment has no associated template).
+ * `trafficWeight` is the configured fraction of traffic (0.0–1.0) assigned to
+ * this variant.
+ */
+struct ABVariant {
+    std::string           variantId;      ///< Stable identifier, e.g. `"control"` / `"treatment"`.
+    const IPromptTemplate* templateRef;   ///< Non-owning; may be nullptr.
+    double                trafficWeight;  ///< Fraction of traffic (0.0–1.0).
+};
+
+/**
+ * @brief Descriptor used by `IPromptABFramework::listExperiments()`.
+ */
+struct ExperimentDescriptor {
+    ExperimentKey         key;            ///< Unique experiment key.
+    std::vector<ABVariant> variants;      ///< All variants for this experiment.
+    bool                  active;         ///< Whether the experiment is currently running.
+};
+
+/**
+ * @brief Abstract interface for deterministic per-user A/B variant assignment.
+ *
+ * Defined in `FUTURE_ENHANCEMENTS.md §Prompt A/B Experimentation Framework`.
+ *
+ * Contract
+ * --------
+ * - `assignVariant()` is a pure function: same `(UserId, ExperimentKey)` pair
+ *   always returns the same `ABVariant` while the experiment is active.
+ * - The implementation must not store raw user identifiers.
+ * - `listExperiments()` returns a stable span; the span is invalidated if any
+ *   experiment is added or removed.
+ */
+class IPromptABFramework {
+public:
+    virtual ~IPromptABFramework() = default;
+
+    /**
+     * @brief Deterministically assign a variant to the given user/experiment pair.
+     *
+     * @param user_id  Opaque user identifier.
+     * @param key      Experiment key.
+     * @return The assigned `ABVariant`.  If the experiment does not exist or is
+     *         inactive, the "control" variant is returned.
+     */
+    virtual ABVariant assignVariant(const UserId&        user_id,
+                                    const ExperimentKey& key) const = 0;
+
+    /**
+     * @brief Return all registered experiment descriptors.
+     */
+    virtual std::vector<ExperimentDescriptor> listExperiments() const = 0;
+};
+
+// ── Concrete implementation ───────────────────────────────────────────────────
+
+/**
+ * @brief Simple deterministic `IPromptABFramework` backed by an in-memory
+ *        experiment registry.
+ *
+ * Variant assignment uses FNV-1a-32 over `user_id + '\0' + key` modulo 100
+ * to decide traffic split, matching the behaviour of `PromptABExperimentFramework`.
+ *
+ * Thread-safe: `assignVariant()` and `listExperiments()` are safe for
+ * concurrent read access.  `registerExperiment()` and `deactivate()` are
+ * serialised with a shared mutex.
+ */
+class SimplePromptABFramework final : public IPromptABFramework {
+public:
+    /**
+     * @brief Register an experiment with the framework.
+     *
+     * @param descriptor  Experiment to register (must have a unique `key`).
+     * @throws std::invalid_argument if an experiment with the same key already
+     *         exists.
+     */
+    void registerExperiment(ExperimentDescriptor descriptor);
+
+    /**
+     * @brief Deactivate a running experiment (does not remove it from the list).
+     *
+     * @param key  Experiment key to deactivate.
+     * @return `true` if the experiment was found and deactivated; `false` otherwise.
+     */
+    bool deactivate(const ExperimentKey& key);
+
+    // IPromptABFramework interface
+    ABVariant assignVariant(const UserId&        user_id,
+                            const ExperimentKey& key) const override;
+
+    std::vector<ExperimentDescriptor> listExperiments() const override;
+
+private:
+    /// FNV-1a-32 hash over `user_id + '\0' + key`.
+    static uint32_t fnv1a32(const std::string& user_id,
+                             const std::string& key) noexcept;
+
+    mutable std::mutex                         mutex_;
+    std::vector<ExperimentDescriptor>          experiments_;
 };
 
 } // namespace prompt_engineering

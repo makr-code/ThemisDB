@@ -3,22 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rocksdb_wrapper.h                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:50                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     688                                            ║
+    • Total Lines:     765                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 197320301  2026-03-28  Implement SequenceU64Increment merge operator for RocksDB... ║
-    • 8031d339d  2026-03-15  feat(storage): implement RocksDB iteration for SecuritySi... ║
-    • 78f419ea2  2026-03-13  feat(storage): implement BlobRedundancyEventListener for ... ║
-    • 6e0a18187  2026-03-13  fix(storage/nvme): address all review comments – thread s... ║
-    • 48cc2a0a2  2026-03-13  feat(storage): implement NVMe optimizations (io_uring, mu... ║
+    • 35e7ecae2c  2026-04-13  perf(storage): fix sustained write throughput - decouple ... ║
+    • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
+    • c1205d6286  2026-04-09  feat(storage): streaming blob write path – putBlob/getBlo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -221,9 +219,17 @@ public:
         bool paranoid_checks = true;                // Verify all data on read (catches corruption early)
         bool verify_checksums_on_read = true;       // Verify block checksums on every read
         bool verify_checksums_in_compaction = true; // Background verification during compaction
-        bool force_sync_on_write = false;           // Force fsync on every write (30% overhead, max durability)
+        bool force_sync_on_write = false;           // Force fsync on every write (max durability, ~30% overhead)
         bool disable_mmap_reads = true;             // Prevent mmap from hiding I/O errors
         bool disable_mmap_writes = true;            // Prevent mmap write errors
+
+        // WAL periodic background flush (v1.9+)
+        // When > 0, RocksDB calls fdatasync on the WAL every wal_bytes_per_sync bytes
+        // (in the background write thread), providing a durability window without the
+        // per-write fsync overhead of force_sync_on_write.
+        // Recommended value: 1 MiB (1048576) for balanced durability/throughput.
+        // 0 = disabled (OS decides when to flush; default for backward compat).
+        uint64_t wal_bytes_per_sync = 0;
         
         // Checksum algorithm (v1.4.1+)
         enum class ChecksumType {
@@ -241,6 +247,23 @@ public:
         };
         MergeOperatorPreset merge_operator_preset =
             MergeOperatorPreset::None;
+
+        // v2.0.0: Streaming blob write path (PERF-D5)
+        // Blobs >= blob_streaming_threshold_bytes are split into 128KB chunks and
+        // written in parallel using a WriteBatch (bypasses per-write transaction
+        // overhead) and a compact thread pool for encoding.  The manifest key +
+        // all chunk keys are committed atomically in one WriteBatch.Write().
+        // putBlob() / getBlob() expose the streaming API; putBlob() falls back to
+        // put() for small values so callers need no size checks.
+        bool enable_blob_streaming = true;
+        // Minimum blob size that triggers the chunked streaming path (bytes).
+        // Blobs smaller than this threshold are stored via the regular put() path.
+        size_t blob_streaming_threshold_bytes = 65536;  // 64 KB
+        // Size of each chunk when splitting a large blob (bytes).
+        size_t blob_chunk_size_bytes = 131072;           // 128 KB
+        // Number of threads used for parallel chunk encoding.
+        // Each thread encodes (and optionally compresses) one chunk concurrently.
+        int blob_streaming_threads = 4;
     };
     
     explicit RocksDBWrapper(const Config& config);
@@ -281,6 +304,61 @@ public:
     
     /// Delete key
     bool del(std::string_view key);
+
+    /// Struct for a key-value pair used in batch writes.
+    struct KeyValuePair {
+        std::string key;
+        std::vector<uint8_t> value;
+    };
+
+    /// Write multiple key-value pairs atomically in a single WriteBatch commit.
+    ///
+    /// All writes succeed or fail together.  This is significantly faster than
+    /// N individual put() calls for OLTP workloads with many small writes because
+    /// it opens only one MVCC transaction instead of N.
+    ///
+    /// @param pairs  Key-value pairs to write.
+    /// @return true if all writes were committed successfully.
+    bool putBatch(const std::vector<KeyValuePair>& pairs);
+
+    // ===== Streaming Blob API (v2.0.0, PERF-D5) =====
+
+    /// Store a blob using the high-throughput streaming write path.
+    ///
+    /// For blobs >= Config::blob_streaming_threshold_bytes the data is split
+    /// into Config::blob_chunk_size_bytes chunks.  Chunks are encoded in
+    /// parallel by a compact thread pool (Config::blob_streaming_threads) and
+    /// then committed atomically via a single WriteBatch, bypassing per-write
+    /// transaction overhead.  A manifest key records chunk metadata so that
+    /// getBlob() can reassemble the blob transparently.
+    ///
+    /// Small blobs (< threshold) fall back to the regular put() path, so
+    /// callers need no size checks and the API is backward compatible.
+    ///
+    /// Key scheme (internal, not part of public contract):
+    ///   manifest : "__tmbs_m__:<key>"
+    ///   chunk N  : "__tmbs_c__:<key>:<6-digit-index>"
+    ///
+    /// @param key  Logical blob key (visible to getBlob() / delBlob()).
+    /// @param data Blob bytes.
+    /// @return true on success.
+    bool putBlob(std::string_view key, const std::vector<uint8_t>& data);
+
+    /// Read a blob previously stored by putBlob() or put().
+    ///
+    /// Automatically detects whether the key was stored as a chunked blob
+    /// (reads manifest + all chunks via MultiGet and reassembles) or as a
+    /// regular value (single get()).
+    ///
+    /// @param key Logical blob key.
+    /// @return Blob bytes, or std::nullopt if not found.
+    std::optional<std::vector<uint8_t>> getBlob(std::string_view key);
+
+    /// Delete a blob stored by putBlob() (removes manifest + all chunk keys).
+    /// Falls back to del() for blobs stored via the regular path.
+    /// @param key Logical blob key.
+    /// @return true if at least one key was deleted.
+    bool delBlob(std::string_view key);
     
     /// Multi-get (batch read)
     std::vector<std::optional<std::vector<uint8_t>>> multiGet(
@@ -371,6 +449,21 @@ public:
         /// Snapshot: reads from transaction snapshot
         std::optional<std::vector<uint8_t>> get(std::string_view key);
         
+        /// Acquire an exclusive write lock on a key for this transaction.
+        ///
+        /// Uses RocksDB GetForUpdate internally. The exclusive lock is held until the
+        /// transaction commits or rolls back, preventing any other concurrent transaction
+        /// from acquiring a conflicting lock on the same key.
+        ///
+        /// Primary use-case: serializing unique-constraint checks in the secondary-index
+        /// write path so that two concurrent transactions cannot both pass the check and
+        /// then both commit with the same unique value (the "Concurrent-Unique-Lücke").
+        ///
+        /// Returns true  – lock acquired (key may or may not exist in the DB).
+        /// Returns false – lock acquisition failed (e.g. write-write conflict, timeout).
+        ///                 Caller should roll back and return an error.
+        bool getForUpdate(std::string_view key);
+
         /// Put key-value pair (visible only after commit)
         bool put(std::string_view key, const std::vector<uint8_t>& value);
         

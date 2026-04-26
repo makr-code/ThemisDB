@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            maintenance_api_handler.h                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:11:13                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:47:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     136                                            ║
+    • Total Lines:     139                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 717093f9b  2026-03-12  feat: implement IMaintenanceTaskHandler registry for main... ║
-    • a63629a5c  2026-03-12  feat: Force-Run Endpoint Window Override (v1.1.0) ║
-    • 0eb79f3e4  2026-03-11  feat: add DatabaseMaintenanceOrchestrator with full sched... ║
+    • f1b8c76ed7  2026-04-13  feat(maintenance): multi-tenant schedule isolation (v2.0.... ║
+    • 12bb69b756  2026-04-13  feat(maintenance): multi-tenant schedule isolation (v2.0.... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -78,8 +77,12 @@ public:
     /** POST /api/v1/maintenance/schedules */
     nlohmann::json createSchedule(const nlohmann::json& body);
 
-    /** GET /api/v1/maintenance/schedules */
-    nlohmann::json listSchedules();
+    /** GET /api/v1/maintenance/schedules
+     *
+     *  Optional query parameter: tenant_id
+     *  When provided, only schedules belonging to the specified tenant are returned.
+     */
+    nlohmann::json listSchedules(const std::string& tenant_id = "");
 
     /** GET /api/v1/maintenance/schedules/{id} */
     nlohmann::json getSchedule(const std::string& id);

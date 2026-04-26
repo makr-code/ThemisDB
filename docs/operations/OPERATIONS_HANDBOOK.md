@@ -1,7 +1,7 @@
 # ThemisDB Operations Handbook
 
 **Version:** 1.5.0  
-**Last Updated:** 2026-02-03  
+**Last Updated:** 2026-04-06  
 **Target Audience:** Site Reliability Engineers, Database Administrators, Security Operations, Compliance Officers
 
 ---

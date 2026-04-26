@@ -1,10 +1,12 @@
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
 # Network Module — Architecture Guide
 
-<!-- Status: current | validated: 2026-03-21 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/network/README.md -->
 
-**Version:** 1.2  
-**Last Updated:** 2026-03-21  
+**Version:** 1.2
+**Last Updated:** 2026-04-06
 **Module Path:** `src/network/`
 
 ---
@@ -73,6 +75,17 @@ bidirectional streaming).
 | `geo_topology_router.cpp` | Network topology-aware routing for geo-distributed clusters |
 | `service_mesh.cpp` | Istio/Envoy probe server (`THEMIS_ENABLE_SERVICE_MESH`) |
 | `envoy_xds.cpp` | Envoy xDS v3 REST polling client (`THEMIS_ENABLE_SERVICE_MESH`) |
+| `adaptive_circuit_breaker.cpp` | `AdaptiveCircuitBreaker` — CLOSED/OPEN/HALF_OPEN state machine with load-adaptive threshold tuning |
+| `connection_compression.cpp` | `ZstdDictionaryCompressor` — dictionary-trained Zstd compression for wire payloads |
+| `wire_protocol_batch.cpp` | `WireProtocolBatcher` (writev coalescing) + `NagleController` (TCP_CORK/TCP_NOPUSH) + `BatchStats` |
+| `wire_protocol_zero_copy.cpp` | `ZeroCopyFrameBuilder` + `MemoryMappedPayload` (mmap/sendfile) + `ZeroCopyStats` |
+| `udp_server.cpp` | `UDPServer` — fire-and-forget ingestion on port 8768; opcodes: METRIC, LOG, EVENT, BATCH, PING |
+| `raft_load_balancer.cpp` | `RaftLoadBalancer` — 5 routing strategies, health-based failover, consistent hashing (port 8774) |
+| `io_uring_batcher.cpp` | `IoUringBatchedSender` — single `io_uring_enter` for N concurrent WRITEV SQEs; guarded by `THEMIS_ENABLE_IO_URING` |
+| `kernel_bypass.cpp` | `DPDKServer` + `IoUringServer` + `CpuPinner` + `NumaAllocator` + `ZeroCopyDmaBuffer` |
+| `network_audit_log.cpp` | `NetworkAuditLog` — structured audit log for connection, auth, and rate-limit security events |
+| `quic_server.cpp` | `QUICServer` + `QUICClient` — high-level QUIC/HTTP3; 0-RTT, BBR/Cubic, multi-stream (guarded by `THEMIS_ENABLE_HTTP3`) |
+| `adaptive_io_scaler.h` | `AdaptiveIOScaler` — background I/O thread count auto-scaler based on active-connection ratio (header-only) |
 | `themis_wire_v1.proto` | Protobuf schema for wire protocol v1 message types |
 
 ### 3.2 Component Diagram

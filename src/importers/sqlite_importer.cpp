@@ -3,27 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sqlite_importer.cpp                                ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:16:28                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1093                                           ║
+    • Total Lines:     1090                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • dcf7b458f  2026-02-27  feat(cmake): add transaction_retry_manager and other sour... ║
-    • aeea5e199  2026-02-26  Add SQLite importer: header, implementation, tests, fixtu... ║
-    • ac1dacf6a  2026-02-22  Add MySQL/MariaDB importer: header, implementation, tests... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "importers/sqlite_importer.h"
+#include "importers/importer_common.h"
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
@@ -36,60 +31,6 @@
 
 namespace themis {
 namespace importers {
-
-// ============================================================================
-// File-level helpers
-// ============================================================================
-
-/**
- * @brief Memory-bounded line reader.
- *
- * Reads the next newline-terminated line from @p file with a hard per-line
- * byte cap of @p max_bytes (0 = unlimited).  When the cap is exceeded the
- * remaining bytes of the current line are discarded and @p truncated is set
- * to true.  Returns false only when EOF is reached before any bytes are read.
- */
-static bool streamReadLine(std::istream& file,
-                            std::string& line,
-                            size_t max_bytes,
-                            bool& truncated) {
-    truncated = false;
-    line.clear();
-
-    if (max_bytes == 0) {
-        if (!std::getline(file, line)) return false;
-        return true;
-    }
-
-    char c = '\0';
-    size_t count = 0;
-    bool got_any = false;
-
-    while (file.get(c)) {
-        got_any = true;
-        if (c == '\n') break;
-        if (count < max_bytes) {
-            line += c;
-            ++count;
-        } else {
-            truncated = true;
-            while (file.get(c) && c != '\n') { /* discard */ }
-            break;
-        }
-    }
-
-    return got_any;
-}
-
-/**
- * @brief Convert a string to lower-case (ASCII only).
- */
-static std::string toLower(const std::string& s) {
-    std::string result = s;
-    for (auto& c : result)
-        c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
-    return result;
-}
 
 // ============================================================================
 // Constructor / Destructor

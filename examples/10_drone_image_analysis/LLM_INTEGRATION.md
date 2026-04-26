@@ -1,3 +1,5 @@
+> **Status:** Integrationsannahmen gegen aktuellen Sourcecode verifizieren. Abweichungen mit `<!-- TODO -->` markiert.
+
 # LLM Integration - Drohnenbild-Analyse
 
 ## 📋 Übersicht
@@ -95,6 +97,7 @@ class LlamaCppVision:
         
         return response["choices"][0]["message"]["content"]
 \`\`\`
+<!-- TODO: verify interface against current source -->
 
 ### 2. CLIP für Embeddings
 
@@ -121,6 +124,7 @@ class CLIPEmbedder:
         
         return image_features.cpu().numpy().tolist()[0]
 \`\`\`
+<!-- TODO: verify interface against current source -->
 
 ## 📝 Prompt Engineering
 
@@ -185,6 +189,7 @@ class ImageClassifier:
             "raw_response": response
         }
 \`\`\`
+<!-- TODO: verify interface against current source -->
 
 ### 2. Change Detection
 
@@ -224,6 +229,7 @@ class ChangeDetector:
             "changes": changes
         }
 \`\`\`
+<!-- TODO: verify interface against current source -->
 
 ## ⚡ Performance Optimization
 

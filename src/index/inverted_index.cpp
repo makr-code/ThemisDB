@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            inverted_index.cpp                                 ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-03-30 04:16:36                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-04-15 18:49:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     598                                            ║
+    • Total Lines:     596                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 39ac8c3ef  2026-03-20  Split default-arg constructors into overloads ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 4fc3321fa  2026-02-21  fix(index): audit — fix fuzzy-search key parser and upser... ║
-    • d80551ba8  2026-02-21  feat(index): implement standalone InvertedIndex class for... ║
+    • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

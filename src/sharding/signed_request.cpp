@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            signed_request.cpp                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:23                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     348                                            ║
+    • Total Lines:     349                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -294,8 +295,8 @@ bool SignedRequestVerifier::verifyTimestamp(uint64_t timestamp_ms) const {
     return time_diff <= config_.max_time_skew_ms;
 }
 
-bool SignedRequestVerifier::verifyNonce(uint64_t nonce, uint64_t timestamp_ms) {
-    (void)timestamp_ms; // Future: implement timestamp-based nonce expiry
+bool SignedRequestVerifier::verifyNonce(uint64_t nonce, [[maybe_unused]] uint64_t timestamp_ms) {
+    // Future: implement timestamp-based nonce expiry
     std::lock_guard<std::mutex> lock(nonce_mutex_);
     
     // Check if nonce was seen before

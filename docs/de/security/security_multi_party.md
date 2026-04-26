@@ -1,6 +1,6 @@
 # Multi-Party-Verschlüsselung für ThemisDB
 
-**Stand:** 5. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** v1.3.0  
 **Kategorie:** 🔒 Security
 

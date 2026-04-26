@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_manager.h                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:10:34                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 42e48dbc3  2026-03-15  fix(replication): audit geo-replication – fix SESSION exp... ║
-    • 7cd7172d7  2026-03-14  feat(replication): add GeoReplicationManager with consist... ║
-    • 4a853813e  2026-03-13  fix(replication): audit fixes — honor bidirectional_sync/... ║
-    • 23a0696d1  2026-03-13  feat(replication): implement BidirectionalReplicationMana... ║
-    • 8db855354  2026-03-13  fix(replication): wire IArchivalBackend, fix empty-key by... ║
+    • 29ac1cf537  2026-04-14  fix                                     ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -62,7 +62,7 @@ namespace themisdb {
 namespace replication {
 
 // Forward declarations
-class WALEntry;
+struct WALEntry;
 class ReplicationStream;
 class LeaderElection;
 class CompressedReplicationStream;
@@ -404,7 +404,7 @@ public:
     virtual void onNetworkPartitionDetected(const std::vector<std::string>& unreachable_nodes) = 0;
 
     // Called each time a WAL entry is successfully replicated (used by CDC)
-    virtual void onWALEntryApplied(const WALEntry& entry) {}
+    virtual void onWALEntryApplied(const WALEntry& /*entry*/) {}
 };
 
 /**
@@ -546,7 +546,7 @@ private:
     std::chrono::steady_clock::time_point last_heartbeat_time_;
 
     // Leader lease expiry time; epoch when no lease is held.
-    mutable std::mutex lease_mutex_;
+    mutable std::shared_mutex lease_mutex_;
     std::chrono::steady_clock::time_point lease_expires_at_;
     
     std::mutex election_mutex_;

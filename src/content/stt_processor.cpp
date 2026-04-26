@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            stt_processor.cpp                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:14                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1185                                           ║
+    • Total Lines:     1182                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 3ac1c4143  2026-03-09  fix: clear all remaining stubs/TODOs across modules; upda... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 56baadb99  2026-02-28  feat(voice): implement multi-speaker diarization via k-me... ║
-    • d947853fb  2026-02-28  feat(content): Wire STTProcessor into AudioProcessor for ... ║
-    • 450c6d7a4  2026-02-22  audit: update ROADMAP, fix stale Stubs metadata after str... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -142,8 +139,8 @@ bool STTProcessor::canProcess(const std::string& mime_type) const {
 
 ContentExtractionResult STTProcessor::extract(
     const std::vector<uint8_t>& blob,
-    const std::string& mime_type,
-    const ExtractionOptions& options
+    const std::string& /*mime_type*/,
+    const ExtractionOptions& /*options*/
 ) {
     auto start = std::chrono::steady_clock::now();
     ContentExtractionResult result;
@@ -235,7 +232,7 @@ ContentExtractionResult STTProcessor::extract(
 std::vector<ContentChunk> STTProcessor::chunk(
     const ContentExtractionResult& result,
     int max_tokens,
-    int overlap
+    int /*overlap*/
 ) {
     std::vector<ContentChunk> chunks;
     
@@ -1129,7 +1126,7 @@ std::vector<TranscriptionSegment> STTProcessor::diarizeSegments(
 
 json STTProcessor::formatAsProtocol(
     const TranscriptionResult& result,
-    const json& options
+    const json& /*options*/
 ) {
     json protocol;
     protocol["type"] = "meeting_protocol";
@@ -1168,10 +1165,10 @@ json STTProcessor::formatAsProtocol(
 
 // Helper function to format timestamp
 std::string STTProcessor::formatTimestamp(int64_t ms) {
-    int hours = ms / 3600000;
-    int minutes = (ms % 3600000) / 60000;
-    int seconds = (ms % 60000) / 1000;
-    int millis = ms % 1000;
+    int hours = static_cast<int>(ms / 3600000);
+    int minutes = static_cast<int>((ms % 3600000) / 60000);
+    int seconds = static_cast<int>((ms % 60000) / 1000);
+    int millis = static_cast<int>(ms % 1000);
     
     char buffer[32];
     snprintf(buffer, sizeof(buffer), "%02d:%02d:%02d.%03d", hours, minutes, seconds, millis);

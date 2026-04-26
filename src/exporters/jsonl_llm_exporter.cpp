@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jsonl_llm_exporter.cpp                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:30                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1148                                           ║
+    • Total Lines:     1145                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 44514d5a1  2026-03-15  feat(exporters): replace zlib with ZSTD as sole StreamWri... ║
-    • 2dba94765  2026-03-11  feat(exporters): PolicyEngine export authorization with a... ║
-    • a765a0369  2026-03-11  feat(exporters): add validate_template dry-run mode to ve... ║
-    • 3db37eb45  2026-03-10  feat(exporters): implement EXP-001 PolicyEngine auth, EXP... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 44514d5a18  2026-03-15  feat(exporters): replace zlib with ZSTD as sole StreamWri... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -418,7 +414,7 @@ ExportStats JSONLLLMExporter::exportEntities(
                         enc_tmp);
                 }
                 metrics_->recordEncryption(enc_bytes);
-            } catch (const std::exception& e) {
+            } catch ([[maybe_unused]] const std::exception& e) {
                 std::error_code ec;
                 std::filesystem::remove(enc_tmp, ec);
                 throw;

@@ -4,10 +4,30 @@
 > Dies ist die **maßgebliche und aktuellste Dokumentation** von ThemisDB.  
 > Übersetzungen sind in anderen Sprachen verfügbar: [English](../en/README.md) | [Français](../fr/README.md) | [Español](../es/README.md) | [日本語](../ja/README.md)
 
-**Stand:** 5. Januar 2026  
-**Version:** 1.4.0-alpha (Erweiterte LLM-Features)  
+**Stand:** 6. April 2026  
+**Version:** 1.8.0-rc1  
 **Typ:** Dokumentations-Index  
 **Sprache:** Deutsch (Hauptdokumentation)
+
+---
+
+## Schnellnavigation (gepflegte Einstiegspfade)
+
+Diese Links bilden den aktuell gepflegten Einstieg in die Dokumentation:
+
+- Root-Einstieg: [../README.md](../README.md)
+- Master-Index: [../00_DOCUMENTATION_INDEX.md](../00_DOCUMENTATION_INDEX.md)
+- Rollenhub: [../DOCUMENTATION_HUB.md](../DOCUMENTATION_HUB.md)
+- Themenindex: [../CATEGORY_INDEX.md](../CATEGORY_INDEX.md)
+- Strukturregeln: [../DOCS_ORGANIZATION_PLAN.md](../DOCS_ORGANIZATION_PLAN.md)
+- Docs PR Policy: [../governance/DOCS_PR_POLICY.md](../governance/DOCS_PR_POLICY.md)
+
+Historische Reports wurden aus dem Root ausgelagert und sind hier gebuendelt:
+
+- Summaries: [../implementation-history/summaries/README.md](../implementation-history/summaries/README.md)
+- Phasen: [../implementation-history/phases/README.md](../implementation-history/phases/README.md)
+- Reviews: [../implementation-history/reviews/README.md](../implementation-history/reviews/README.md)
+- Status-Reports: [../implementation-history/status-reports/README.md](../implementation-history/status-reports/README.md)
 
 ---
 
@@ -211,8 +231,8 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 ## 📚 Haupt-Dokumentation
 
 ### Übersichtsdokumente
-- **[Changelog](releases/CHANGELOG.md)** - Vollständige Versionshistorie (v1.2.0, v1.1.0, v1.0.2, v1.0.1, v1.0.0)
-- **[🆕 Roadmap v1.1.0](roadmap/roadmap_overview.md)** - **AKTUALISIERT:** Q1 2026 Optimization Release
+- **[Changelog](releases/CHANGELOG.md)** - Vollständige Versionshistorie (v1.8.0-rc1, v1.5.0, v1.4.0, v1.3.0, …)
+- **[🆕 Roadmap v2.0](../../roadmap.md)** - **AKTUALISIERT:** Aggregierte Roadmap über alle 46 Module
 - **[Architecture Overview](architecture/ARCHITECTURE_OVERVIEW.md)** - Komplette Systemarchitektur mit Diagrammen
 - **[Source Code Changes v1.0](development/SOURCE_CODE_CHANGES_v1.0.md)** - Detaillierte Quellcode-Dokumentation (191 Dateien, 44 Module)
 - **[Features Liste](features/features_overview.md)** - Vollständige Feature-Übersicht mit Status
@@ -541,6 +561,6 @@ Dokumentation wird automatisch zu GitHub Pages deployt bei Merge zu main.
 
 ---
 
-**Version:** 1.5.0  
-**Last Updated:** 8. März 2026  
+**Version:** 1.8.0-rc1  
+**Last Updated:** 6. April 2026  
 **License:** See [LICENSE](../LICENSE)

@@ -3,21 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            video_processor.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:15                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   68.0/100                                       ║
-    • Total Lines:     999                                            ║
+    • Total Lines:     997                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 374b05b6a  2026-02-28  Implement video frame extraction and scene detection (key... ║
-    • 42d597244  2026-02-26  fix(content): wire up extract_keyframes option and update... ║
-    • b410ac7d0  2026-02-26  feat(content): Extract video metadata and thumbnails - AP... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -285,7 +285,7 @@ ContentExtractionResult VideoProcessor::extract(
 std::vector<ContentChunk> VideoProcessor::chunk(
     const ContentExtractionResult& result,
     int max_tokens,
-    int overlap
+    int /*overlap*/
 ) {
     std::vector<ContentChunk> chunks;
     
@@ -406,7 +406,7 @@ MediaExtractionData VideoProcessor::extractMetadata(const std::vector<uint8_t>& 
 #endif
 }
 
-std::vector<uint8_t> VideoProcessor::generateThumbnail(const std::vector<uint8_t>& blob) {
+std::vector<uint8_t> VideoProcessor::generateThumbnail([[maybe_unused]] const std::vector<uint8_t>& blob) {
 #ifdef THEMIS_HAS_FFMPEG
     return generateThumbnailFFmpeg(blob);
 #else
@@ -415,7 +415,7 @@ std::vector<uint8_t> VideoProcessor::generateThumbnail(const std::vector<uint8_t
 #endif
 }
 
-std::string VideoProcessor::extractSubtitles(const std::vector<uint8_t>& blob) {
+std::string VideoProcessor::extractSubtitles(const std::vector<uint8_t>& /*blob*/) {
     // Real implementation would:
     // 1. Check for subtitle streams in container
     // 2. Extract subtitle track(s)
@@ -424,24 +424,22 @@ std::string VideoProcessor::extractSubtitles(const std::vector<uint8_t>& blob) {
     return "";
 }
 
-std::vector<int64_t> VideoProcessor::detectScenes(const std::vector<uint8_t>& blob) {
+std::vector<int64_t> VideoProcessor::detectScenes([[maybe_unused]] const std::vector<uint8_t>& blob) {
 #ifdef THEMIS_HAS_FFMPEG
     return detectScenesFFmpeg(blob);
 #else
     // Without FFmpeg, video frames cannot be decoded for histogram analysis.
     // Scene detection requires per-frame access, so return empty in simulation mode.
-    (void)blob;
     return {};
 #endif
 }
 
-std::vector<int64_t> VideoProcessor::extractKeyframes(const std::vector<uint8_t>& blob) {
+std::vector<int64_t> VideoProcessor::extractKeyframes([[maybe_unused]] const std::vector<uint8_t>& blob) {
 #ifdef THEMIS_HAS_FFMPEG
     return extractKeyframesFFmpeg(blob);
 #else
     // Without FFmpeg, synthesise evenly-distributed keyframe timestamps based
     // on the simulated video duration (120 s at 30 fps, I-frame every 2 s).
-    (void)blob;
     const int64_t duration_ms = 120000;
     std::vector<int64_t> keyframes;
     if (max_keyframes_ <= 0) return keyframes;

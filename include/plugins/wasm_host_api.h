@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wasm_host_api.h                                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:09:32                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:46:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c5a4a6854  2026-03-15  feat(plugins): complete issue audit — unregisterFactory, ... ║
+    • c5a4a68540  2026-03-15  feat(plugins): complete issue audit — unregisterFactory, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -178,6 +178,13 @@ public:
      * @brief Return the WASM runtime backing this instance.
      */
     WasmPluginRuntime runtime() const noexcept { return runtime_; }
+
+    /**
+     * @brief Store an opaque runtime-specific instance handle.
+     * Called by loadWasmPlugin() immediately after construction.
+     * The handle is freed in ~WasmHostAPI based on runtime_.
+     */
+    void setRuntimeInstance(void* handle) noexcept { wasm_instance_ = handle; }
 
 private:
     WasmPluginRuntime runtime_;

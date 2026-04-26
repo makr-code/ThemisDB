@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_jwt_key_rotation_comprehensive.cpp            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:28:54                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:54:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     321                                            ║
+    • Total Lines:     320                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 1470edf9b  2026-03-12  feat(auth): mandatory JWT issuer and audience validation ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1470edf9b1  2026-03-12  feat(auth): mandatory JWT issuer and audience validation ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

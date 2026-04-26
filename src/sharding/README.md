@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Sharding Module
 
 Horizontal scaling and sharding implementation for ThemisDB v1.4+.
@@ -18,6 +20,7 @@ Implements horizontal scaling and distributed sharding for ThemisDB, providing p
 - `consensus_factory.cpp` — runtime consensus algorithm selection (Raft/Gossip/Paxos)
 - `cross_shard_transaction_coordinator.cpp` — cross-shard SAGA/2PC/3PC transactions
 - `shard_repair_engine.cpp` — self-healing shard repair and rebalancing
+- `adaptive_shard_router.cpp` — capability-based and domain-score routing; `updateAdapterCapability()` ingests gossip announcements; `routeByDomain(domain)` routes to the shard with highest `accuracy_delta` for a given `AdapterDomainType`
 
 ## Current Delivery Status
 
@@ -59,6 +62,9 @@ Implements horizontal scaling and distributed sharding for ThemisDB, providing p
 - **Improved Reed-Solomon Decoder** – Vandermonde matrix-based erasure recovery
   supporting up to `parity_shards` simultaneous chunk failures (previously
   limited to 1).
+- **HammingCoder** (`include/sharding/redundancy_strategy.h`) — RAID-2 style
+  shard-level error-correction using pure XOR parity; no Galois-Field arithmetic.
+  Supports iterative multi-shard recovery via Hamming parity-bit assignment.
 
 #### Key capabilities
 | Capability | Details |
@@ -151,6 +157,7 @@ metricsHandler->setRepairEngine(engine);
 ### ✅ Completed (v1.5)
 - **ShardRepairEngine** – anti-entropy background scan + repair queue
 - **Vandermonde-based Reed-Solomon decoder** – full multi-chunk recovery
+- **HammingCoder** — RAID-2 / Hamming shard-level XOR error-correction; `HAMMING` in `ErasureCodingAlgorithm`; 16 focused tests (HC_01..HC_16)
 - **Prometheus metrics integration** for repair health
 - **Admin API repair endpoints** (POST /admin/repair, /admin/repair/scan, GET /admin/repair/{id})
 
@@ -185,3 +192,7 @@ See usage examples in the architecture documentation above.
 3. Corbett, J. C., Dean, J., Epstein, M., Fikes, A., Frost, C., Furman, J., … Woodford, D. (2013). **Spanner: Google's Globally Distributed Database**. *ACM Transactions on Computer Systems*, 31(3), 8:1–8:22. https://doi.org/10.1145/2491245
 
 4. Curino, C., Jones, E., Zhang, Y., & Madden, S. (2010). **Schism: A Workload-Driven Approach to Database Replication and Partitioning**. *Proceedings of the VLDB Endowment*, 3(1–2), 48–57. https://doi.org/10.14778/1920841.1920853
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

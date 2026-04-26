@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mfa_authenticator.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:14:14                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   96.0/100                                       ║
-    • Total Lines:     404                                            ║
+    • Total Lines:     401                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 47778fbd5  2026-03-12  fix(auth): suppress spurious drift warning for valid time... ║
-    • 94bb63df8  2026-03-12  feat(auth): TOTP/MFA configurable window enforcement and ... ║
-    • b4e979f80  2026-03-12  fix(auth): constant-time comparison for recovery codes an... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9e2379475  2026-02-24  audit: resolve Stubs:1 metadata in mfa_authenticator.h/.c... ║
+    • 47778fbd54  2026-03-12  fix(auth): suppress spurious drift warning for valid time... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -341,7 +337,7 @@ std::vector<uint8_t> MFAAuthenticator::base32Decode(const std::string& input) co
             throw std::invalid_argument("Invalid base32 character");
         }
         
-        int value = pos - BASE32_ALPHABET;
+        int value = static_cast<int>(pos - BASE32_ALPHABET);
         buffer = (buffer << 5) | value;
         bits_left += 5;
         
@@ -386,8 +382,8 @@ std::vector<uint8_t> MFAAuthenticator::hmacSHA1(
     unsigned int hash_len = 0;
     
     HMAC(EVP_sha1(), 
-         key.data(), key.size(),
-         message.data(), message.size(),
+         key.data(), static_cast<int>(key.size()),
+         message.data(), static_cast<int>(message.size()),
          hash, &hash_len);
     
     return std::vector<uint8_t>(hash, hash + hash_len);

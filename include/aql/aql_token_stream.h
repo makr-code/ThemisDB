@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_token_stream.h                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:05:46                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:44:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f05a54278  2026-03-10  feat(aql): Phase 4 - AQLTokenStream, ReActAgent, tests, R... ║
+    • f05a542787  2026-03-10  feat(aql): Phase 4 - AQLTokenStream, ReActAgent, tests, R... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

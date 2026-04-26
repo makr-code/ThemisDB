@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 # Plugins Module Roadmap
@@ -35,20 +37,19 @@ v1.3.0 — Phases 1–4 complete and production-ready (Phase 5 planned):
 - [x] `plugin_registry.cpp` — `unregisterFactory<T>` with `std::unique_lock`; WASM module hash verified via `verifyWasmModuleHash()` before instantiation
 - [x] Grafana dashboard (`grafana/dashboards/plugins.json`) — health score, latency avg/P95/P99, error count, memory, reload count, load time panels
 - [x] `PluginCapabilityNegotiator` — semantic version-range matching; `PluginManager::negotiateCapabilities()` exposed
-- [x] 13 focused test targets registered in `tests/CMakeLists.txt` (see Production Readiness Checklist)
+- [x] 14 focused test targets registered in `tests/CMakeLists.txt` (see Production Readiness Checklist)
 
 ## In Progress 🚧
-- [~] Runtime capability escalation blocking — capabilities validated at load time via `PluginCapabilityNegotiator`; programmatic post-load re-negotiation block planned (Target: Q4 2026)
+- [~] Per-plugin resource quotas (Target: Q2 2027)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3–6 months)
-- [ ] Runtime capability escalation blocking (Target: Q4 2026)
-  - Files: `include/plugins/plugin_interface.h`, `src/plugins/plugin_system_edition.cpp`
-  - Implementation: intercept any post-load `getCapabilities()` call that returns a superset of the frozen manifest capabilities; emit structured security audit event and reject the call
-  - Error cases: escalation attempt → `ERR_PLUGIN_CAPABILITY_ESCALATION` returned; plugin marked `RESTRICTED` in registry
-  - Tests: `tests/test_plugin_security_audit.cpp`, new `CapabilityEscalationBlocked` test case
-  - Perf: zero-overhead on the hot call path (capabilities frozen at load, checked only on explicit re-negotiation)
+- [x] Runtime capability escalation blocking (Target: Q4 2026 → implemented 2026-04-09)
+  - Files: `include/plugins/plugin_manager.h`, `src/plugins/plugin_manager.cpp`, `include/utils/error_registry.h`
+  - Implementation: `PluginManager::checkCapabilityEscalation()` compares current `getCapabilities()` against `frozen_capabilities` snapshot captured at load time; any new true flag triggers `ERR_PLUGIN_CAPABILITY_ESCALATION` and marks plugin as `RESTRICTED`
+  - `PluginManager::isPluginRestricted()` allows callers to query restriction state
+  - Tests: `tests/test_plugin_capability_escalation.cpp` — `CapabilityEscalationBlockedTests`, `CapabilityEscalationLogicTests`, `CapabilityEscalationApiTests`
 
 - [ ] Per-plugin resource quotas (Target: Q2 2027)
   - Files: `include/plugins/plugin_interface.h`, `src/plugins/plugin_manager.cpp`, `src/plugins/plugin_metrics.cpp`
@@ -73,12 +74,12 @@ v1.3.0 — Phases 1–4 complete and production-ready (Phase 5 planned):
   - Tests: per-SDK smoke tests under `sdk/*/tests/`
 
 - [ ] Community plugin repository scanning and trust scoring (Target: Q4 2027)
-  - Files: `src/plugins/signed_plugin_repository.cpp`, new `src/plugins/plugin_trust_scorer.cpp`
+  - Files: `src/plugins/signed_plugin_repository.cpp`, new trust-scorer implementation file (planned)
   - Implementation: `PluginTrustScorer` queries community registry for known CVEs, maintainer reputation score, and download count; trust score (0–1) stored in registry metadata; plugins below configurable threshold rejected or flagged
   - Security: registry communication over mTLS; trust scores re-evaluated on every OCI manifest update
 
 - [ ] Marketplace integration (Target: Q4 2027)
-  - Files: new `src/plugins/plugin_marketplace_client.cpp`, `include/plugins/plugin_marketplace_client.h`
+  - Files: new marketplace client source/header pair (planned)
   - Implementation: REST client for community plugin discovery, rating, and one-click installation; integrates with `OciRegistryClient` for download and `SignedPluginRepository` for trust verification
 
 ## Implementation Phases
@@ -115,16 +116,16 @@ v1.3.0 — Phases 1–4 complete and production-ready (Phase 5 planned):
 - [x] 13 focused test targets covering all major components (see Production Readiness Checklist)
 - [x] `AUDIT.md`, `SECURITY.md`, `ARCHITECTURE.md`, `CHANGELOG.md`, `FUTURE_ENHANCEMENTS.md` documentation complete
 
-### Phase 5: Sandbox & SDK (Status: Planned 📋)
+### Phase 5: Sandbox & SDK (Status: In Progress 🚧)
 - [ ] WASM Wasmtime runtime integration (replaces `loadWasmPlugin()` TODO block) (Target: Q3 2027)
-- [ ] Runtime capability escalation blocking (Target: Q4 2026)
+- [x] Runtime capability escalation blocking (implemented 2026-04-09)
 - [ ] Per-plugin resource quotas via cgroups v2 / Job Objects (Target: Q2 2027)
 - [ ] C / Python / Rust plugin author SDKs (Target: Q3 2027)
 - [ ] Community repository scanning and trust scoring (Target: Q4 2027)
 - [ ] Marketplace integration (Target: Q4 2027)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% — 13 focused test targets in `tests/CMakeLists.txt`
+- [x] Unit tests coverage > 80% — 14 focused test targets in `tests/CMakeLists.txt`
 - [x] `PluginManagerFocusedTests` — `tests/test_plugin_manager.cpp`: singleton, scanPluginDirectory, autoLoad, hot-plug enable/disable, negotiateCapabilities
 - [x] `PluginLifecycleFocusedTests` — `tests/test_plugin_lifecycle.cpp`: load/initialize/unload, hot-reload with rollback, dependency-ordered loading, RAII guards
 - [x] `GenericPluginRegistryFocusedTests` — `tests/test_generic_plugin_registry.cpp`: registerFactory, create, listPlugins, hasPlugin, unregisterFactory, clearRegistry, concurrent reads under shared_mutex
@@ -135,6 +136,7 @@ v1.3.0 — Phases 1–4 complete and production-ready (Phase 5 planned):
 - [x] `PluginDependencyResolverFocusedTests` — `tests/test_plugin_dependency_resolver.cpp`: resolver API, missing dependency error, ordered load result
 - [x] `PluginMetricsFocusedTests` — `tests/test_plugin_metrics.cpp`: per-plugin counters, latency recording, getAllStats
 - [x] `PluginMetricsIntegrationFocusedTests` — `tests/test_plugin_metrics_integration.cpp`: IMetrics sink export, Prometheus label format
+- [x] `PluginCapabilityEscalationTests` — `tests/test_plugin_capability_escalation.cpp`: checkCapabilityEscalation, isPluginRestricted, ERR_PLUGIN_CAPABILITY_ESCALATION, individual flag detection, error-code value contract
 - [x] `PluginSecurityAuditFocusedTests` — `tests/test_plugin_security_audit.cpp`: signature enforcement, capability denial audit events
 - [x] `PluginSecurityImplementationFocusedTests` — `tests/test_plugin_security_implementation.cpp`: Ed25519 verify, hash mismatch rejection, manifest tamper detection
 - [x] `PluginCapabilityNegotiationTests` — `tests/test_plugin_capability_negotiation.cpp`: version-range matching, semantic version parse, negotiateCapabilities API
@@ -146,11 +148,21 @@ v1.3.0 — Phases 1–4 complete and production-ready (Phase 5 planned):
 - [x] Grafana dashboard — `grafana/dashboards/plugins.json` covering health score, latency, error count, memory, reload count, load time
 
 ## Known Issues & Limitations
-- Runtime capability escalation is not yet blocked programmatically; capabilities are validated at load time only (Target: Q4 2026, OI-02 in AUDIT.md).
+- Runtime capability escalation is now blocked programmatically via `PluginManager::checkCapabilityEscalation()`. This is an explicit check; for continuous enforcement on the hot call path, a future enhancement could wrap every `getCapabilities()` invocation.
 - Native plugins run in-process; a crash or memory corruption propagates to the host until WASM sandbox isolation is complete (Target: Q3 2027, OI-01 in AUDIT.md).
-- `WasmPluginLoader` contains TODO blocks for actual Wasmtime/WasmEdge API calls; the Enterprise edition gate and SHA-256 verification are implemented and functional.
 
 ## Breaking Changes
 - `IThemisPlugin` vtable is stable from v1.x; any new pure virtual method would be a breaking change requiring a major version bump.
 - `PluginManifest` struct is stable from v1.x; new optional fields are backward compatible; removing or renaming existing fields requires a major version bump.
 - `PluginRegistry::clearRegistry()` is marked testing-only; calling it in production is unsupported.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `AIPluginGenerator` – Generiert Plugin-Boilerplate für AI-Provider (Header-only API)
+- `generatePlugin` – Erzeugt konkreten Plugin-Stub aus AIPluginGenerator-Template
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_response_cache.h                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:24                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     232                                            ║
+    • Total Lines:     233                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • eb00b82270  2026-04-04  hotfix: prevent SIGSEGV in RocksDB/LLM init on Docker sta... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -86,7 +85,9 @@ public:
         float similarity_threshold = 0.90f;  // 90% similarity required for match
         uint32_t ttl_seconds = 3600;         // 1 hour TTL
         size_t max_entries = 10000;          // Max cached responses
-        std::string cache_dir = "./llm_cache"; // Cache storage directory
+        // Cache storage directory.  Empty string = in-memory mode (no RocksDB).
+        // Set explicitly to a writable path to enable persistent caching.
+        std::string cache_dir;
         size_t embedding_dim = 384;          // Embedding dimension (default: 384 for small models)
         bool use_vector_index = true;        // Use HNSW for fast lookup
         RocksDBWrapper* db_ptr = nullptr;    // Optional: External RocksDB instance (pointer exchange)

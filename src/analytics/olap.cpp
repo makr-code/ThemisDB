@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            olap.cpp                                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:13:57                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   80.0/100                                       ║
-    • Total Lines:     2090                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 4                             ║
+    • Quality Score:   90.0/100                                       ║
+    • Total Lines:     1765                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 1e59da979  2026-03-19  Fix remaining gaps: spdlog::warn in olap.cpp/analytics_ex... ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • d5fae2ab2  2026-03-18  Changes before error encountered         ║
-    • 89af7a908  2026-03-17  perf(analytics): cache AVX-512 CPUID check in static cons... ║
-    • e51706737  2026-03-17  feat(analytics): add AVX-512 and ARM NEON SIMD vectorizat... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • 0187453ebb  2026-04-13  fix(analytics): replace whole-class _WIN32 OLAPEngine stu... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -63,333 +63,11 @@
 #include <parquet/arrow/writer.h>
 #endif
 
-#if defined(_WIN32)
-// Windows build stub: minimal no-op implementations to unblock compilation
-// NOTE: Full OLAP functionality is not available on Windows platform
-namespace themis {
-namespace analytics {
-
-class OLAPEngine::Impl {};
-
-OLAPEngine::OLAPEngine() : impl_(nullptr) {
-    spdlog::warn("OLAPEngine: Using Windows stub implementation - full OLAP functionality not available");
-}
-OLAPEngine::OLAPEngine(const Config&) : impl_(nullptr) {
-    spdlog::warn("OLAPEngine: Using Windows stub implementation - GPU acceleration not available on Windows platform");
-}
-OLAPEngine::~OLAPEngine() = default;
-
-OLAPResult OLAPEngine::execute(const OLAPQuery&) { 
-    spdlog::error("OLAPEngine::execute() not supported on Windows platform");
-    return {}; 
-}
-OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery&) { 
-    spdlog::error("OLAPEngine::executeSimpleGroupBy() not supported on Windows platform");
-    return {}; 
-}
-OLAPResult OLAPEngine::executeCubeQuery(const OLAPQuery&) { 
-    spdlog::error("OLAPEngine::executeCubeQuery() not supported on Windows platform");
-    return {}; 
-}
-OLAPResult OLAPEngine::executeRollupQuery(const OLAPQuery&) { 
-    spdlog::error("OLAPEngine::executeRollupQuery() not supported on Windows platform");
-    return {}; 
-}
-OLAPResult OLAPEngine::executeGroupingSetsQuery(const OLAPQuery&) { 
-    spdlog::error("OLAPEngine::executeGroupingSetsQuery() not supported on Windows platform");
-    return {}; 
-}
-double OLAPEngine::computeAggregate(const std::vector<double>&, Measure::Function, double) { 
-    spdlog::error("OLAPEngine::computeAggregate() not supported on Windows platform");
-    return 0.0; 
-}
-OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery&) { 
-    spdlog::error("OLAPEngine::explain() not supported on Windows platform");
-    return {}; 
-}
-void OLAPEngine::collectStatistics(std::string_view) {
-    spdlog::error("OLAPEngine::collectStatistics() not supported on Windows platform");
-}
-bool OLAPEngine::exportToParquet(const OLAPResult&, const std::string&, const std::string&) { 
-    spdlog::error("OLAPEngine::exportToParquet() not supported on Windows platform");
-    return false; 
-}
-bool OLAPEngine::exportCollectionToParquet(std::string_view, const std::string&, const std::vector<Filter>&, const std::string&) { 
-    spdlog::error("OLAPEngine::exportCollectionToParquet() not supported on Windows platform");
-    return false; 
-}
-
-class ColumnarStore::Impl {
-public:
-    std::unordered_map<std::string, std::string> columns;
-    size_t rows = 0;
-};
-
-ColumnarStore::ColumnarStore() : impl_(std::make_unique<Impl>()) {}
-ColumnarStore::~ColumnarStore() = default;
-void ColumnarStore::createColumn(std::string_view name, std::string_view type) { impl_->columns[std::string(name)] = std::string(type); }
-void ColumnarStore::dropColumn(std::string_view name) { impl_->columns.erase(std::string(name)); }
-bool ColumnarStore::hasColumn(std::string_view name) const { return impl_->columns.count(std::string(name)) > 0; }
-void ColumnarStore::appendRows(const std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>& rows) { impl_->rows += rows.size(); }
-void ColumnarStore::clear() { impl_->rows = 0; }
-size_t ColumnarStore::rowCount() const { return impl_->rows; }
-double ColumnarStore::sum(std::string_view) const { return 0.0; }
-double ColumnarStore::avg(std::string_view) const { return 0.0; }
-double ColumnarStore::min(std::string_view) const { return 0.0; }
-double ColumnarStore::max(std::string_view) const { return 0.0; }
-int64_t ColumnarStore::count(std::string_view) const { return static_cast<int64_t>(impl_->rows); }
-int64_t ColumnarStore::countDistinct(std::string_view) const { return 0; }
-double ColumnarStore::sumWhere(std::string_view, const std::vector<bool>&) const { return 0.0; }
-ColumnarStore::ColumnStats ColumnarStore::getColumnStats(std::string_view column) const { ColumnStats stats; stats.name = std::string(column); stats.row_count = static_cast<int64_t>(impl_->rows); return stats; }
-
-class MaterializedView::Impl {
-public:
-    using FieldValue = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
-    using Row = std::unordered_map<std::string, FieldValue>;
-
-    struct AggState {
-        int64_t count = 0;
-        double sum = 0.0;
-        std::optional<double> min;
-        std::optional<double> max;
-
-        void add(double value) {
-            ++count;
-            sum += value;
-            if (!min || value < *min) min = value;
-            if (!max || value > *max) max = value;
-        }
-
-        double result(Measure::Function function) const {
-            if (count == 0) return 0.0;
-            switch (function) {
-                case Measure::Function::Count:
-                    return static_cast<double>(count);
-                case Measure::Function::Sum:
-                    return sum;
-                case Measure::Function::Avg:
-                    return sum / static_cast<double>(count);
-                case Measure::Function::Min:
-                    return min.value_or(0.0);
-                case Measure::Function::Max:
-                    return max.value_or(0.0);
-                default:
-                    return sum;
-            }
-        }
-    };
-
-    OLAPResult cached_result;
-    std::chrono::system_clock::time_point last_refresh{};
-    bool is_initialized = false;
-    std::map<std::string, std::unordered_map<std::string, AggState>> groups;
-
-    static std::string toString(const FieldValue& value) {
-        if (auto* s = std::get_if<std::string>(&value)) return *s;
-        if (auto* i = std::get_if<int64_t>(&value)) return std::to_string(*i);
-        if (auto* d = std::get_if<double>(&value)) return std::to_string(*d);
-        if (auto* b = std::get_if<bool>(&value)) return *b ? "true" : "false";
-        return "";
-    }
-
-    static double toDouble(const FieldValue& value) {
-        if (auto* d = std::get_if<double>(&value)) return *d;
-        if (auto* i = std::get_if<int64_t>(&value)) return static_cast<double>(*i);
-        if (auto* b = std::get_if<bool>(&value)) return *b ? 1.0 : 0.0;
-        return 0.0;
-    }
-
-    static std::string makeGroupKey(const Row& row, const std::vector<Dimension>& dims) {
-        std::string key;
-        for (const auto& dim : dims) {
-            auto it = row.find(dim.name);
-            if (it != row.end()) key += toString(it->second);
-            key += '\0';
-        }
-        return key;
-    }
-
-    void applyInsert(const Row& row, const std::vector<Dimension>& dims, const std::vector<Measure>& measures) {
-        const std::string key = makeGroupKey(row, dims);
-        auto& group = groups[key];
-        for (const auto& measure : measures) {
-            double value = 0.0;
-            auto it = row.find(measure.field);
-            if (it != row.end()) value = toDouble(it->second);
-            group[measure.name].add(value);
-        }
-    }
-
-    OLAPResult buildResult(const std::vector<Dimension>& dims, const std::vector<Measure>& measures) const {
-        OLAPResult result;
-        for (const auto& dim : dims) result.columns.push_back(dim.name);
-        for (const auto& measure : measures) result.columns.push_back(measure.name);
-
-        for (const auto& [group_key, aggregates] : groups) {
-            OLAPResult::Row row;
-
-            std::istringstream stream(group_key);
-            std::string token;
-            for (const auto& dim : dims) {
-                std::getline(stream, token, '\0');
-                row.values[dim.name] = token;
-            }
-
-            for (const auto& measure : measures) {
-                auto it = aggregates.find(measure.name);
-                if (it != aggregates.end()) {
-                    row.values[measure.name] = it->second.result(measure.function);
-                }
-            }
-
-            result.rows.push_back(std::move(row));
-        }
-
-        result.total_rows = static_cast<int64_t>(result.rows.size());
-        return result;
-    }
-};
-
-MaterializedView::MaterializedView(const Definition& def) : definition_(def), impl_(std::make_unique<Impl>()) {}
-MaterializedView::~MaterializedView() = default;
-
-void MaterializedView::refresh() {
-    impl_->groups.clear();
-    impl_->cached_result = {};
-    impl_->last_refresh = std::chrono::system_clock::now();
-    impl_->is_initialized = true;
-}
-
-void MaterializedView::incrementalRefresh(const std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>& changes) {
-    for (const auto& row : changes) {
-        impl_->applyInsert(row, definition_.dimensions, definition_.measures);
-    }
-    impl_->cached_result = impl_->buildResult(definition_.dimensions, definition_.measures);
-    impl_->last_refresh = std::chrono::system_clock::now();
-    impl_->is_initialized = true;
-}
-
-OLAPResult MaterializedView::query(const std::vector<Filter>& filters, const std::vector<Sort>& sorts, std::optional<int64_t> limit) {
-    if (!impl_->is_initialized) {
-        refresh();
-    }
-
-    OLAPResult result = impl_->cached_result;
-
-    if (!filters.empty()) {
-        auto filterToDouble = [](const Filter& filter) -> double {
-            if (auto* d = std::get_if<double>(&filter.value)) return *d;
-            if (auto* i = std::get_if<int64_t>(&filter.value)) return static_cast<double>(*i);
-            if (auto* b = std::get_if<bool>(&filter.value)) return *b ? 1.0 : 0.0;
-            return 0.0;
-        };
-        auto filterToString = [](const Filter& filter) -> std::string {
-            if (auto* s = std::get_if<std::string>(&filter.value)) return *s;
-            if (auto* i = std::get_if<int64_t>(&filter.value)) return std::to_string(*i);
-            if (auto* d = std::get_if<double>(&filter.value)) return std::to_string(*d);
-            if (auto* b = std::get_if<bool>(&filter.value)) return *b ? "true" : "false";
-            return "";
-        };
-
-        auto passes = [&](const OLAPResult::Row& row) {
-            for (const auto& filter : filters) {
-                auto it = row.values.find(filter.field);
-                bool is_null = it == row.values.end() || std::holds_alternative<std::nullptr_t>(it->second);
-
-                if (filter.op == Filter::Operator::IsNull) {
-                    if (!is_null) return false;
-                    continue;
-                }
-                if (filter.op == Filter::Operator::IsNotNull) {
-                    if (is_null) return false;
-                    continue;
-                }
-                if (is_null) return false;
-
-                const auto& value = it->second;
-                switch (filter.op) {
-                    case Filter::Operator::Eq:
-                        if (Impl::toString(value) != filterToString(filter)) return false;
-                        break;
-                    case Filter::Operator::Ne:
-                        if (Impl::toString(value) == filterToString(filter)) return false;
-                        break;
-                    case Filter::Operator::Lt:
-                        if (!(Impl::toDouble(value) < filterToDouble(filter))) return false;
-                        break;
-                    case Filter::Operator::Le:
-                        if (!(Impl::toDouble(value) <= filterToDouble(filter))) return false;
-                        break;
-                    case Filter::Operator::Gt:
-                        if (!(Impl::toDouble(value) > filterToDouble(filter))) return false;
-                        break;
-                    case Filter::Operator::Ge:
-                        if (!(Impl::toDouble(value) >= filterToDouble(filter))) return false;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            return true;
-        };
-
-        result.rows.erase(
-            std::remove_if(result.rows.begin(), result.rows.end(),
-                [&passes](const OLAPResult::Row& row) { return !passes(row); }),
-            result.rows.end());
-        result.total_rows = static_cast<int64_t>(result.rows.size());
-    }
-
-    if (!sorts.empty()) {
-        std::sort(result.rows.begin(), result.rows.end(),
-            [&sorts](const OLAPResult::Row& a, const OLAPResult::Row& b) {
-                for (const auto& sort : sorts) {
-                    auto aIt = a.values.find(sort.field);
-                    auto bIt = b.values.find(sort.field);
-                    if (aIt == a.values.end() || bIt == b.values.end()) continue;
-
-                    double aVal = Impl::toDouble(aIt->second);
-                    double bVal = Impl::toDouble(bIt->second);
-                    if (aVal != bVal) return sort.ascending ? (aVal < bVal) : (aVal > bVal);
-
-                    std::string aStr = Impl::toString(aIt->second);
-                    std::string bStr = Impl::toString(bIt->second);
-                    if (aStr != bStr) return sort.ascending ? (aStr < bStr) : (aStr > bStr);
-                }
-                return false;
-            });
-    }
-
-    if (limit && *limit > 0 && static_cast<size_t>(*limit) < result.rows.size()) {
-        result.has_more = true;
-        result.rows.resize(*limit);
-        result.total_rows = static_cast<int64_t>(result.rows.size());
-    }
-
-    return result;
-}
-
-std::chrono::system_clock::time_point MaterializedView::lastRefreshTime() const {
-    return impl_->last_refresh;
-}
-
-int64_t MaterializedView::rowCount() const {
-    return static_cast<int64_t>(impl_->cached_result.rows.size());
-}
-
-bool MaterializedView::isStale() const {
-    if (!impl_->is_initialized) return true;
-    if (definition_.refresh_mode == Definition::RefreshMode::Manual) return false;
-
-    auto now = std::chrono::system_clock::now();
-    auto age = std::chrono::duration_cast<std::chrono::seconds>(now - impl_->last_refresh);
-    return age.count() > definition_.refresh_interval_seconds;
-}
-
-} // namespace analytics
-} // namespace themis
-
-#else
+// NOTE: All OLAP primitives are cross-platform.  SIMD intrinsics are already
+// guarded per-instruction by #if defined(__AVX512F__) / #if defined(__AVX2__)
+// / #if defined(__ARM_NEON), so the full implementation compiles cleanly on
+// Windows (MSVC) and non-SIMD targets without any platform-specific branching
+// at the class level.  The previous whole-class Windows stub has been removed.
 
 namespace themis {
 namespace analytics {
@@ -1095,9 +773,8 @@ OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery& query) {
     return plan;
 }
 
-void OLAPEngine::collectStatistics(std::string_view collection) {
+void OLAPEngine::collectStatistics([[maybe_unused]] std::string_view collection) {
     // Placeholder for statistics collection
-    (void)collection;
 }
 
 double OLAPEngine::computeAggregate(
@@ -1239,7 +916,7 @@ namespace {
 static const bool kHasAVX512 = __builtin_cpu_supports("avx512f");
 #endif
 
-static double vectorizedSum(const double* __restrict__ data, size_t n) noexcept {
+static double vectorizedSum(const double* data, size_t n) noexcept {
     double total = 0.0;
     size_t i = 0;
 #if defined(__AVX512F__)
@@ -1266,7 +943,7 @@ static double vectorizedSum(const double* __restrict__ data, size_t n) noexcept 
     return total;
 }
 
-static double vectorizedMin(const double* __restrict__ data, size_t n) noexcept {
+static double vectorizedMin(const double* data, size_t n) noexcept {
     if (n == 0) return std::numeric_limits<double>::max();
     double result = data[0];
     size_t i = 1;
@@ -1298,7 +975,7 @@ static double vectorizedMin(const double* __restrict__ data, size_t n) noexcept 
     return result;
 }
 
-static double vectorizedMax(const double* __restrict__ data, size_t n) noexcept {
+static double vectorizedMax(const double* data, size_t n) noexcept {
     if (n == 0) return std::numeric_limits<double>::lowest();
     double result = data[0];
     size_t i = 1;
@@ -1583,7 +1260,7 @@ public:
                 }
             }
         }
-        double result(Measure::Function f, double pct = 0.0) const {
+        double result(Measure::Function f, [[maybe_unused]] double pct = 0.0) const {
             if (count == 0) return 0.0;
             switch (f) {
                 case Measure::Function::Count:    return static_cast<double>(count);
@@ -2086,5 +1763,3 @@ bool OLAPEngine::exportCollectionToParquet(
 
 } // namespace analytics
 } // namespace themis
-
-#endif // _WIN32

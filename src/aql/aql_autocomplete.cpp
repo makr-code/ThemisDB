@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_autocomplete.cpp                               ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:14:03                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     661                                            ║
+    • Total Lines:     660                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 687871f13  2026-02-23  audit: fix COLLECT variable binding, unused includes, mul... ║
-    • 76634c39c  2026-02-23  feat(aql): implement LSP-compatible AQL auto-complete API... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -414,7 +413,7 @@ std::vector<AQLAutoComplete::SchemaInfo> AQLAutoComplete::parseSchema(
 // ============================================================================
 
 std::vector<CompletionItem> AQLAutoComplete::keywordCandidates(
-    const std::string& text, std::size_t cursor) const
+    [[maybe_unused]] const std::string& text, std::size_t cursor) const
 {
     std::vector<CompletionItem> items;
 
@@ -452,8 +451,8 @@ std::vector<CompletionItem> AQLAutoComplete::keywordCandidates(
         items.push_back(std::move(item));
     }
 
-    (void)text;   // reserved: will be used for context-sensitive filtering in future
-    (void)cursor; // reserved: will be used for context-sensitive filtering in future
+    // reserved: will be used for context-sensitive filtering in future
+    // reserved: will be used for context-sensitive filtering in future
     return items;
 }
 

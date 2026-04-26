@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_adaptive_join_strategies.cpp                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:23:53                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:52:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     701                                            ║
+    • Total Lines:     699                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 1a5facd33  2026-03-14  style(query): align inline comments in AC4 test for consi... ║
-    • 8700b97f4  2026-03-14  fix(query): address review comments on adaptive join stra... ║
-    • 1d922789f  2026-03-14  fix(query): standardize number formatting to 1,000/10,000... ║
-    • 29f190c8f  2026-03-14  feat(query): implement Adaptive Join Strategies (v1.7.0, ... ║
+    • 1a5facd331  2026-03-14  style(query): align inline comments in AC4 test for consi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

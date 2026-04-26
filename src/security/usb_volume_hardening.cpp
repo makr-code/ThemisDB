@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            usb_volume_hardening.cpp                           ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:19:35                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:50:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     343                                            ║
+    • Total Lines:     346                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 864799dac  2026-03-24  feat(security): USB Volume Hardening against FAT manipula... ║
+    • 864799dac9  2026-03-24  feat(security): USB Volume Hardening against FAT manipula... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -47,7 +47,7 @@ namespace security {
 namespace {
 
 /// Trim leading/trailing ASCII whitespace (space, tab, CR, LF) from a string.
-static std::string trimWhitespace(std::string s) {
+[[maybe_unused]] static std::string trimWhitespace(std::string s) {
     auto notSpace = [](unsigned char c){ return !std::isspace(c); };
     s.erase(s.begin(), std::find_if(s.begin(), s.end(), notSpace));
     s.erase(std::find_if(s.rbegin(), s.rend(), notSpace).base(), s.end());

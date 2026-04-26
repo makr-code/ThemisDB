@@ -1,12 +1,19 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — AQL Module
 
-All notable changes to the AQL (ThemisDB Query Language) module are documented here.  
+All notable changes to the AQL (ThemisDB Query Language) module are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+### Added
+- Post-generation NL→AQL validation with enforcement modes (`WARN_ONLY`, `REJECT_ON_ERROR`, `RETRY_ON_ERROR`) and retry-with-feedback behavior in `LLMAQLHandler`.
+- Timeout-thread lifecycle hardening in `LLMTimeoutManager` using `std::jthread` and stop-token cancellation.
+- Per-operation circuit breakers for INFER/RAG/EMBED/FINETUNE with state introspection via `getCircuitBreakerStates()`.
+- Bounded conversation context budgets (`max_turns`, `max_history_tokens`) in `AQLConversationContext`.
 
 ## [1.8.0] — 2026-03-22
 ### Added

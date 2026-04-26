@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graphics_backends.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:13:45                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   86.0/100                                       ║
-    • Total Lines:     2567                                           ║
+    • Total Lines:     4022                                           ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2c7ea935e  2026-03-14  fix(acceleration): address Vulkan compute shader pipeline... ║
-    • f657d8df5  2026-03-14  fix(acceleration): address code review feedback on Vulkan... ║
-    • f52f9b7ea  2026-03-14  feat(acceleration): implement Vulkan compute shader pipel... ║
-    • 1ae201084  2026-03-11  audit: fix post-implementation review findings for Direct... ║
-    • 4b2fdfa0e  2026-03-11  fix(acceleration): Wire OpenGLVectorBackend into BackendR... ║
+    • f20e6e8d74  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • c1f421bf84  2026-04-13  OpenGL Compute Shader Backend: Complete 5 Remaining Stubs... ║
+    • 2826fa9ccd  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -930,7 +930,8 @@ void VulkanVectorBackend::setWorkgroupSizeL2(uint32_t wgX, uint32_t wgY) noexcep
         impl_->wgL2Y = wgY;
     }
 #else
-    (void)wgX; (void)wgY;
+    (void)wgX;
+    (void)wgY;
 #endif
 }
 
@@ -1180,6 +1181,12 @@ std::vector<float> VulkanVectorBackend::computeDistances(
     size_t numVectors,
     bool useL2  // true → L2, false → cosine (inner-product available via populateANNDispatch())
 ) {
+    (void)queries;
+    (void)numQueries;
+    (void)dim;
+    (void)vectors;
+    (void)numVectors;
+    (void)useL2;
 #ifdef THEMIS_ENABLE_VULKAN
     if (!initialized_ || !impl_) {
         setError(ErrorContext(
@@ -1248,6 +1255,13 @@ std::vector<std::vector<std::pair<uint32_t, float>>> VulkanVectorBackend::batchK
     size_t k,
     bool useL2
 ) {
+    (void)queries;
+    (void)numQueries;
+    (void)dim;
+    (void)vectors;
+    (void)numVectors;
+    (void)k;
+    (void)useL2;
 #ifdef THEMIS_ENABLE_VULKAN
     if (!initialized_ || !impl_) {
         setError(ErrorContext(
@@ -1503,6 +1517,230 @@ void main() {
 )glsl";
 
 // ---------------------------------------------------------------------------
+// GLSL compute shader source — Haversine distance (float precision)
+// One invocation computes the distance for one coordinate pair.
+// Input SSBOs: lat1[], lon1[], lat2[], lon2[]  (binding 0-3, float)
+// Output SSBO: dist[] (binding 4, float, km)
+// ---------------------------------------------------------------------------
+static const char* s_glsl_haversine_src = R"glsl(
+#version 430 core
+layout(local_size_x = 64) in;
+
+layout(std430, binding = 0) readonly buffer Lat1Buf { float lat1[]; };
+layout(std430, binding = 1) readonly buffer Lon1Buf { float lon1[]; };
+layout(std430, binding = 2) readonly buffer Lat2Buf { float lat2[]; };
+layout(std430, binding = 3) readonly buffer Lon2Buf { float lon2[]; };
+layout(std430, binding = 4) writeonly buffer OutBuf  { float dist[]; };
+
+uniform uint uCount;
+
+const float R  = 6371.0;
+const float PI = 3.14159265358979;
+
+void main() {
+    uint i = gl_GlobalInvocationID.x;
+    if (i >= uCount) return;
+    float a1 = lat1[i] * PI / 180.0;
+    float o1 = lon1[i] * PI / 180.0;
+    float a2 = lat2[i] * PI / 180.0;
+    float o2 = lon2[i] * PI / 180.0;
+    float da = a2 - a1;
+    float doo = o2 - o1;
+    float sinHalfDa = sin(da * 0.5);
+    float sinHalfDo = sin(doo * 0.5);
+    float h = sinHalfDa * sinHalfDa + cos(a1) * cos(a2) * sinHalfDo * sinHalfDo;
+    dist[i] = R * 2.0 * atan(sqrt(h), sqrt(max(0.0, 1.0 - h)));
+}
+)glsl";
+
+// ---------------------------------------------------------------------------
+// GLSL compute shader source — Point-in-polygon (ray-casting algorithm)
+// One invocation tests one point against the polygon.
+// Input SSBOs: pLat[], pLon[] (bindings 0-1), poly[] interleaved lat/lon (binding 2)
+// Output SSBO: result[] (binding 3, uint: 1 = inside, 0 = outside)
+// ---------------------------------------------------------------------------
+static const char* s_glsl_pip_src = R"glsl(
+#version 430 core
+layout(local_size_x = 64) in;
+
+layout(std430, binding = 0) readonly  buffer PointLats { float pLat[]; };
+layout(std430, binding = 1) readonly  buffer PointLons { float pLon[]; };
+layout(std430, binding = 2) readonly  buffer PolyBuf   { float poly[]; };
+layout(std430, binding = 3) writeonly buffer ResBuf    { uint result[]; };
+
+uniform uint uNumPoints;
+uniform uint uNumVerts;
+
+void main() {
+    uint p = gl_GlobalInvocationID.x;
+    if (p >= uNumPoints) return;
+    float testLat = pLat[p];
+    float testLon = pLon[p];
+    bool inside = false;
+    int j = int(uNumVerts) - 1;
+    for (int i = 0; i < int(uNumVerts); ++i) {
+        float lat_i = poly[i * 2];
+        float lon_i = poly[i * 2 + 1];
+        float lat_j = poly[j * 2];
+        float lon_j = poly[j * 2 + 1];
+        if (((lon_i > testLon) != (lon_j > testLon)) &&
+            (testLat < (lat_j - lat_i) * (testLon - lon_i) / (lon_j - lon_i) + lat_i)) {
+            inside = !inside;
+        }
+        j = i;
+    }
+    result[p] = inside ? 1u : 0u;
+}
+)glsl";
+
+// ---------------------------------------------------------------------------
+// GLSL compute shader source — BFS initialisation
+// One invocation per start vertex (s). Zeroes frontier/visited, then seeds
+// the start vertex.
+// SSBOs: startVerts[] (binding 0 ro), frontier[] (binding 1 wo), visited[] (binding 2 wo)
+// Layout: frontier[s * uNumVerts + v]
+// ---------------------------------------------------------------------------
+static const char* s_glsl_bfs_init_src = R"glsl(
+#version 430 core
+layout(local_size_x = 64) in;
+
+layout(std430, binding = 0) readonly  buffer StartsBuf { uint startVerts[]; };
+layout(std430, binding = 1) writeonly buffer FrontBuf  { uint frontier[]; };
+layout(std430, binding = 2) writeonly buffer VisitBuf  { uint visited[]; };
+
+uniform uint uNumStarts;
+uniform uint uNumVerts;
+
+void main() {
+    uint s = gl_GlobalInvocationID.x;
+    if (s >= uNumStarts) return;
+    for (uint v = 0u; v < uNumVerts; ++v) {
+        frontier[s * uNumVerts + v] = 0u;
+        visited[s * uNumVerts + v]  = 0u;
+    }
+    uint sv = startVerts[s];
+    if (sv < uNumVerts) {
+        frontier[s * uNumVerts + sv] = 1u;
+        visited[s * uNumVerts + sv]  = 1u;
+    }
+}
+)glsl";
+
+// ---------------------------------------------------------------------------
+// GLSL compute shader source — BFS expand (one wavefront step)
+// One invocation per (s, v). For each frontier vertex v, adds unvisited
+// neighbours to nextFrontier and marks them visited.
+// Atomic OR is used on visited to handle concurrent updates from different v.
+// SSBOs: adj[] (binding 0 ro), frontier[] (binding 1 ro),
+//        visited[] (binding 2 rw), nextFrontier[] (binding 3 wo)
+// ---------------------------------------------------------------------------
+static const char* s_glsl_bfs_expand_src = R"glsl(
+#version 430 core
+layout(local_size_x = 8, local_size_y = 8) in;
+
+layout(std430, binding = 0) readonly buffer AdjBuf    { uint adj[]; };
+layout(std430, binding = 1) readonly buffer FrontBuf  { uint frontier[]; };
+layout(std430, binding = 2)          buffer VisitBuf  { uint visited[]; };
+layout(std430, binding = 3) writeonly buffer NextBuf  { uint nextFront[]; };
+
+uniform uint uNumStarts;
+uniform uint uNumVerts;
+
+void main() {
+    uint s = gl_GlobalInvocationID.x;
+    uint v = gl_GlobalInvocationID.y;
+    if (s >= uNumStarts || v >= uNumVerts) return;
+
+    // Always clear the next-frontier slot for this invocation
+    nextFront[s * uNumVerts + v] = 0u;
+
+    if (frontier[s * uNumVerts + v] == 0u) return;
+
+    // Expand neighbours of v
+    for (uint u = 0u; u < uNumVerts; ++u) {
+        if (adj[v * uNumVerts + u] != 0u) {
+            uint prev = atomicOr(visited[s * uNumVerts + u], 1u);
+            if (prev == 0u) {
+                nextFront[s * uNumVerts + u] = 1u;
+            }
+        }
+    }
+}
+)glsl";
+
+// ---------------------------------------------------------------------------
+// GLSL compute shader source — Bellman-Ford initialisation
+// One invocation per (pair p, vertex v). Sets dist[p][sv]=0, rest=+∞.
+// SSBOs: startVerts[] (binding 0 ro), dist[] (binding 1 wo), pred[] (binding 2 wo)
+// ---------------------------------------------------------------------------
+static const char* s_glsl_bf_init_src = R"glsl(
+#version 430 core
+layout(local_size_x = 8, local_size_y = 8) in;
+
+layout(std430, binding = 0) readonly  buffer StartsBuf { uint startVerts[]; };
+layout(std430, binding = 1) writeonly buffer DistBuf   { float dist[]; };
+layout(std430, binding = 2) writeonly buffer PredBuf   { int pred[]; };
+
+uniform uint uNumPairs;
+uniform uint uNumVerts;
+
+void main() {
+    uint p = gl_GlobalInvocationID.x;
+    uint v = gl_GlobalInvocationID.y;
+    if (p >= uNumPairs || v >= uNumVerts) return;
+    dist[p * uNumVerts + v] = (v == startVerts[p]) ? 0.0 : 1e30;
+    pred[p * uNumVerts + v] = -1;
+}
+)glsl";
+
+// ---------------------------------------------------------------------------
+// GLSL compute shader source — Bellman-Ford relaxation (one iteration)
+// Each invocation handles one destination vertex v for one pair p.
+// Reads from dist[] (previous iteration), scans incoming edges, and writes
+// the minimum updated distance back. Safe: each (p,v) is owned by one thread.
+// SSBOs: adj[] (binding 0 ro), wgt[] (binding 1 ro),
+//        dist[] (binding 2 rw), pred[] (binding 3 rw)
+// ---------------------------------------------------------------------------
+static const char* s_glsl_bf_relax_src = R"glsl(
+#version 430 core
+layout(local_size_x = 8, local_size_y = 8) in;
+
+layout(std430, binding = 0) readonly buffer AdjBuf  { uint adj[]; };
+layout(std430, binding = 1) readonly buffer WgtBuf  { float wgt[]; };
+layout(std430, binding = 2)          buffer DistBuf { float dist[]; };
+layout(std430, binding = 3)          buffer PredBuf { int pred[]; };
+
+uniform uint uNumPairs;
+uniform uint uNumVerts;
+
+void main() {
+    uint p = gl_GlobalInvocationID.x;
+    uint v = gl_GlobalInvocationID.y;
+    if (p >= uNumPairs || v >= uNumVerts) return;
+
+    float bestDist = dist[p * uNumVerts + v];
+    int   bestPred = pred[p * uNumVerts + v];
+
+    // Scan all incoming edges u → v
+    for (uint u = 0u; u < uNumVerts; ++u) {
+        if (adj[u * uNumVerts + v] != 0u) {
+            float du = dist[p * uNumVerts + u];
+            if (du < 1e29) {
+                float candidate = du + wgt[u * uNumVerts + v];
+                if (candidate < bestDist) {
+                    bestDist = candidate;
+                    bestPred = int(u);
+                }
+            }
+        }
+    }
+
+    dist[p * uNumVerts + v] = bestDist;
+    pred[p * uNumVerts + v] = bestPred;
+}
+)glsl";
+
+// ---------------------------------------------------------------------------
 // Platform dynamic-library helpers
 // ---------------------------------------------------------------------------
 
@@ -1512,7 +1750,6 @@ static void* openLib(const char* name) {
 #elif defined(_WIN32)
     return static_cast<void*>(LoadLibraryA(name));
 #else
-    (void)name;
     return nullptr;
 #endif
 }
@@ -1533,9 +1770,25 @@ static void* libSym(void* lib, const char* sym) {
 #elif defined(_WIN32)
     return reinterpret_cast<void*>(GetProcAddress(static_cast<HMODULE>(lib), sym));
 #else
-    (void)sym;
     return nullptr;
 #endif
+}
+
+// CPU Haversine distance (degrees → km) used by the OpenGL geo CPU fallback.
+inline double opengl_haversine_km(double lat1, double lon1,
+                                   double lat2, double lon2) noexcept {
+    constexpr double R   = 6371.0;
+    constexpr double kPi = 3.141592653589793238462643383279502884;
+    lat1 *= kPi / 180.0;
+    lon1 *= kPi / 180.0;
+    lat2 *= kPi / 180.0;
+    lon2 *= kPi / 180.0;
+    const double dlat = lat2 - lat1;
+    const double dlon = lon2 - lon1;
+    const double a = std::sin(dlat / 2) * std::sin(dlat / 2) +
+                     std::cos(lat1) * std::cos(lat2) *
+                     std::sin(dlon / 2) * std::sin(dlon / 2);
+    return R * 2.0 * std::atan2(std::sqrt(a), std::sqrt(1.0 - a));
 }
 
 } // anonymous namespace
@@ -1946,6 +2199,688 @@ public:
 };
 
 // ============================================================================
+// OpenGLGeoBackend::OpenGLGeoBackendImpl
+// Manages EGL context + GLSL haversine and PIP compute programs.
+// Falls back to CPU when EGL/OpenGL 4.3 is unavailable.
+// ============================================================================
+
+class OpenGLGeoBackend::OpenGLGeoBackendImpl {
+public:
+#ifdef THEMIS_ENABLE_OPENGL
+    void* libEGL_ = nullptr;
+    void* libGL_  = nullptr;
+
+    EGL_Display eglDisplay_ = nullptr;
+    EGL_Context eglContext_ = nullptr;
+
+    PFN_eglGetDisplay       pfnEglGetDisplay       = nullptr;
+    PFN_eglInitialize       pfnEglInitialize       = nullptr;
+    PFN_eglBindAPI          pfnEglBindAPI          = nullptr;
+    PFN_eglChooseConfig     pfnEglChooseConfig     = nullptr;
+    PFN_eglCreateContext    pfnEglCreateContext    = nullptr;
+    PFN_eglMakeCurrent      pfnEglMakeCurrent      = nullptr;
+    PFN_eglDestroyContext   pfnEglDestroyContext   = nullptr;
+    PFN_eglTerminate        pfnEglTerminate        = nullptr;
+    PFN_eglGetProcAddress   pfnEglGetProcAddress   = nullptr;
+
+    PFN_glCreateShader      pfnGlCreateShader      = nullptr;
+    PFN_glShaderSource      pfnGlShaderSource      = nullptr;
+    PFN_glCompileShader     pfnGlCompileShader     = nullptr;
+    PFN_glGetShaderiv       pfnGlGetShaderiv       = nullptr;
+    PFN_glGetShaderInfoLog  pfnGlGetShaderInfoLog  = nullptr;
+    PFN_glDeleteShader      pfnGlDeleteShader      = nullptr;
+    PFN_glCreateProgram     pfnGlCreateProgram     = nullptr;
+    PFN_glAttachShader      pfnGlAttachShader      = nullptr;
+    PFN_glLinkProgram       pfnGlLinkProgram       = nullptr;
+    PFN_glGetProgramiv      pfnGlGetProgramiv      = nullptr;
+    PFN_glGetProgramInfoLog pfnGlGetProgramInfoLog = nullptr;
+    PFN_glDeleteProgram     pfnGlDeleteProgram     = nullptr;
+    PFN_glUseProgram        pfnGlUseProgram        = nullptr;
+    PFN_glGetUniformLocation pfnGlGetUniformLocation = nullptr;
+    PFN_glUniform1ui        pfnGlUniform1ui        = nullptr;
+    PFN_glGenBuffers        pfnGlGenBuffers        = nullptr;
+    PFN_glDeleteBuffers     pfnGlDeleteBuffers     = nullptr;
+    PFN_glBindBuffer        pfnGlBindBuffer        = nullptr;
+    PFN_glBufferData        pfnGlBufferData        = nullptr;
+    PFN_glBindBufferBase    pfnGlBindBufferBase    = nullptr;
+    PFN_glDispatchCompute   pfnGlDispatchCompute   = nullptr;
+    PFN_glMemoryBarrier     pfnGlMemoryBarrier     = nullptr;
+    PFN_glGetBufferSubData  pfnGlGetBufferSubData  = nullptr;
+    PFN_glGetString         pfnGlGetString         = nullptr;
+    PFN_glGetIntegerv       pfnGlGetIntegerv       = nullptr;
+
+    GL_GLuint haversineProgram_ = 0;
+    GL_GLuint pipProgram_       = 0;
+
+    bool gpuAvailable_ = false;
+
+    void* glProc(const char* n) {
+        void* fn = nullptr;
+        if (pfnEglGetProcAddress) fn = pfnEglGetProcAddress(n);
+        if (!fn && libGL_) fn = libSym(libGL_, n);
+        return fn;
+    }
+
+    bool loadEGLLibrary() {
+#if defined(__linux__) || defined(__unix__)
+        libEGL_ = openLib("libEGL.so.1");
+        if (!libEGL_) libEGL_ = openLib("libEGL.so");
+        libGL_  = openLib("libGL.so.1");
+        if (!libGL_)  libGL_  = openLib("libGL.so");
+#elif defined(_WIN32)
+        libGL_  = openLib("OpenGL32.dll");
+        libEGL_ = openLib("libEGL.dll");
+        if (!libEGL_) libEGL_ = openLib("EGL.dll");
+#endif
+        return libEGL_ != nullptr;
+    }
+
+    bool loadEGLFunctions() {
+        auto s = [&](const char* n) { return libSym(libEGL_, n); };
+        pfnEglGetProcAddress   = reinterpret_cast<PFN_eglGetProcAddress>  (s("eglGetProcAddress"));
+        pfnEglGetDisplay       = reinterpret_cast<PFN_eglGetDisplay>      (s("eglGetDisplay"));
+        pfnEglInitialize       = reinterpret_cast<PFN_eglInitialize>      (s("eglInitialize"));
+        pfnEglBindAPI          = reinterpret_cast<PFN_eglBindAPI>         (s("eglBindAPI"));
+        pfnEglChooseConfig     = reinterpret_cast<PFN_eglChooseConfig>    (s("eglChooseConfig"));
+        pfnEglCreateContext    = reinterpret_cast<PFN_eglCreateContext>   (s("eglCreateContext"));
+        pfnEglMakeCurrent      = reinterpret_cast<PFN_eglMakeCurrent>     (s("eglMakeCurrent"));
+        pfnEglDestroyContext   = reinterpret_cast<PFN_eglDestroyContext>  (s("eglDestroyContext"));
+        pfnEglTerminate        = reinterpret_cast<PFN_eglTerminate>       (s("eglTerminate"));
+        return pfnEglGetDisplay && pfnEglInitialize && pfnEglBindAPI &&
+               pfnEglChooseConfig && pfnEglCreateContext && pfnEglMakeCurrent &&
+               pfnEglDestroyContext && pfnEglTerminate;
+    }
+
+    bool loadGLFunctions() {
+        auto l = [&](const char* n) { return glProc(n); };
+        pfnGlCreateShader       = reinterpret_cast<PFN_glCreateShader>     (l("glCreateShader"));
+        pfnGlShaderSource       = reinterpret_cast<PFN_glShaderSource>     (l("glShaderSource"));
+        pfnGlCompileShader      = reinterpret_cast<PFN_glCompileShader>    (l("glCompileShader"));
+        pfnGlGetShaderiv        = reinterpret_cast<PFN_glGetShaderiv>      (l("glGetShaderiv"));
+        pfnGlGetShaderInfoLog   = reinterpret_cast<PFN_glGetShaderInfoLog> (l("glGetShaderInfoLog"));
+        pfnGlDeleteShader       = reinterpret_cast<PFN_glDeleteShader>     (l("glDeleteShader"));
+        pfnGlCreateProgram      = reinterpret_cast<PFN_glCreateProgram>    (l("glCreateProgram"));
+        pfnGlAttachShader       = reinterpret_cast<PFN_glAttachShader>     (l("glAttachShader"));
+        pfnGlLinkProgram        = reinterpret_cast<PFN_glLinkProgram>      (l("glLinkProgram"));
+        pfnGlGetProgramiv       = reinterpret_cast<PFN_glGetProgramiv>     (l("glGetProgramiv"));
+        pfnGlGetProgramInfoLog  = reinterpret_cast<PFN_glGetProgramInfoLog>(l("glGetProgramInfoLog"));
+        pfnGlDeleteProgram      = reinterpret_cast<PFN_glDeleteProgram>    (l("glDeleteProgram"));
+        pfnGlUseProgram         = reinterpret_cast<PFN_glUseProgram>       (l("glUseProgram"));
+        pfnGlGetUniformLocation = reinterpret_cast<PFN_glGetUniformLocation>(l("glGetUniformLocation"));
+        pfnGlUniform1ui         = reinterpret_cast<PFN_glUniform1ui>       (l("glUniform1ui"));
+        pfnGlGenBuffers         = reinterpret_cast<PFN_glGenBuffers>       (l("glGenBuffers"));
+        pfnGlDeleteBuffers      = reinterpret_cast<PFN_glDeleteBuffers>    (l("glDeleteBuffers"));
+        pfnGlBindBuffer         = reinterpret_cast<PFN_glBindBuffer>       (l("glBindBuffer"));
+        pfnGlBufferData         = reinterpret_cast<PFN_glBufferData>       (l("glBufferData"));
+        pfnGlBindBufferBase     = reinterpret_cast<PFN_glBindBufferBase>   (l("glBindBufferBase"));
+        pfnGlDispatchCompute    = reinterpret_cast<PFN_glDispatchCompute>  (l("glDispatchCompute"));
+        pfnGlMemoryBarrier      = reinterpret_cast<PFN_glMemoryBarrier>    (l("glMemoryBarrier"));
+        pfnGlGetBufferSubData   = reinterpret_cast<PFN_glGetBufferSubData> (l("glGetBufferSubData"));
+        pfnGlGetString          = reinterpret_cast<PFN_glGetString>        (l("glGetString"));
+        pfnGlGetIntegerv        = reinterpret_cast<PFN_glGetIntegerv>      (l("glGetIntegerv"));
+        return pfnGlCreateShader && pfnGlShaderSource && pfnGlCompileShader &&
+               pfnGlGetShaderiv && pfnGlDeleteShader && pfnGlCreateProgram &&
+               pfnGlAttachShader && pfnGlLinkProgram && pfnGlGetProgramiv &&
+               pfnGlDeleteProgram && pfnGlUseProgram && pfnGlGetUniformLocation &&
+               pfnGlUniform1ui && pfnGlGenBuffers && pfnGlDeleteBuffers &&
+               pfnGlBindBuffer && pfnGlBufferData && pfnGlBindBufferBase &&
+               pfnGlDispatchCompute && pfnGlMemoryBarrier && pfnGlGetBufferSubData;
+    }
+
+    bool createEGLContext() {
+        if (!pfnEglGetDisplay) return false;
+        eglDisplay_ = pfnEglGetDisplay(nullptr);
+        if (eglDisplay_ == k_EGL_NO_DISPLAY) return false;
+        EGL_Int major = 0, minor = 0;
+        if (!pfnEglInitialize(eglDisplay_, &major, &minor)) {
+            eglDisplay_ = nullptr; return false;
+        }
+        if (!pfnEglBindAPI(k_EGL_OPENGL_API)) {
+            pfnEglTerminate(eglDisplay_); eglDisplay_ = nullptr; return false;
+        }
+        const EGL_Int configAttribs[] = { k_EGL_RENDERABLE_TYPE, k_EGL_OPENGL_BIT, k_EGL_NONE };
+        EGL_Config cfg = nullptr; EGL_Int numCfg = 0;
+        if (!pfnEglChooseConfig(eglDisplay_, configAttribs, &cfg, 1, &numCfg) || numCfg == 0) {
+            pfnEglTerminate(eglDisplay_); eglDisplay_ = nullptr; return false;
+        }
+        const EGL_Int ctxAttribs[] = {
+            k_EGL_CONTEXT_MAJOR_VERSION, 4,
+            k_EGL_CONTEXT_MINOR_VERSION, 3,
+            k_EGL_CONTEXT_OPENGL_PROFILE_MASK, k_EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT,
+            k_EGL_NONE
+        };
+        eglContext_ = pfnEglCreateContext(eglDisplay_, cfg, k_EGL_NO_CONTEXT, ctxAttribs);
+        if (eglContext_ == k_EGL_NO_CONTEXT) {
+            pfnEglTerminate(eglDisplay_); eglDisplay_ = nullptr; return false;
+        }
+        if (!pfnEglMakeCurrent(eglDisplay_, k_EGL_NO_SURFACE, k_EGL_NO_SURFACE, eglContext_)) {
+            pfnEglDestroyContext(eglDisplay_, eglContext_); eglContext_ = nullptr;
+            pfnEglTerminate(eglDisplay_); eglDisplay_ = nullptr; return false;
+        }
+        return true;
+    }
+
+    GL_GLuint compileAndLink(const char* src) {
+        GL_GLuint shader = pfnGlCreateShader(k_COMPUTE_SHADER);
+        const GL_GLchar* srcs[] = { src };
+        pfnGlShaderSource(shader, 1, srcs, nullptr);
+        pfnGlCompileShader(shader);
+        GL_GLint status = 0;
+        pfnGlGetShaderiv(shader, k_COMPILE_STATUS, &status);
+        if (!status) {
+            GL_GLint logLen = 0;
+            pfnGlGetShaderiv(shader, k_INFO_LOG_LENGTH, &logLen);
+            if (logLen > 0) {
+                std::vector<char> log(static_cast<size_t>(logLen));
+                pfnGlGetShaderInfoLog(shader, logLen, nullptr, log.data());
+                std::cerr << "[OpenGLGeo] Shader compile error: " << log.data() << std::endl;
+            }
+            pfnGlDeleteShader(shader); return 0;
+        }
+        GL_GLuint prog = pfnGlCreateProgram();
+        pfnGlAttachShader(prog, shader);
+        pfnGlLinkProgram(prog);
+        pfnGlDeleteShader(shader);
+        pfnGlGetProgramiv(prog, k_LINK_STATUS, &status);
+        if (!status) { pfnGlDeleteProgram(prog); return 0; }
+        return prog;
+    }
+
+    bool createShaderPrograms() {
+        haversineProgram_ = compileAndLink(s_glsl_haversine_src);
+        if (!haversineProgram_) return false;
+        pipProgram_ = compileAndLink(s_glsl_pip_src);
+        if (!pipProgram_) { pfnGlDeleteProgram(haversineProgram_); haversineProgram_ = 0; return false; }
+        return true;
+    }
+
+    // Dispatch haversine shader; lat/lon inputs converted from double to float.
+    std::vector<float> gpuHaversine(
+        const double* lat1, const double* lon1,
+        const double* lat2, const double* lon2,
+        size_t count)
+    {
+        std::vector<float> fLat1(count), fLon1(count), fLat2(count), fLon2(count);
+        for (size_t i = 0; i < count; ++i) {
+            fLat1[i] = static_cast<float>(lat1[i]);
+            fLon1[i] = static_cast<float>(lon1[i]);
+            fLat2[i] = static_cast<float>(lat2[i]);
+            fLon2[i] = static_cast<float>(lon2[i]);
+        }
+        const GL_GLsizeiptr cBytes = static_cast<GL_GLsizeiptr>(count * sizeof(float));
+        GL_GLuint bufs[5] = {};
+        pfnGlGenBuffers(5, bufs);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[0]);
+        pfnGlBufferData(k_SHADER_STORAGE_BUFFER, cBytes, fLat1.data(), k_STREAM_COPY);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[1]);
+        pfnGlBufferData(k_SHADER_STORAGE_BUFFER, cBytes, fLon1.data(), k_STREAM_COPY);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[2]);
+        pfnGlBufferData(k_SHADER_STORAGE_BUFFER, cBytes, fLat2.data(), k_STREAM_COPY);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[3]);
+        pfnGlBufferData(k_SHADER_STORAGE_BUFFER, cBytes, fLon2.data(), k_STREAM_COPY);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[4]);
+        pfnGlBufferData(k_SHADER_STORAGE_BUFFER, cBytes, nullptr, k_DYNAMIC_COPY);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, 0);
+        for (GL_GLuint b = 0; b < 5; ++b)
+            pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, b, bufs[b]);
+        pfnGlUseProgram(haversineProgram_);
+        GL_GLint locCount = pfnGlGetUniformLocation(haversineProgram_, "uCount");
+        if (locCount >= 0) pfnGlUniform1ui(locCount, static_cast<GL_GLuint>(count));
+        const GL_GLuint gx = (static_cast<GL_GLuint>(count) + 63u) / 64u;
+        pfnGlDispatchCompute(gx, 1u, 1u);
+        pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
+        std::vector<float> out(count);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[4]);
+        pfnGlGetBufferSubData(k_SHADER_STORAGE_BUFFER, 0, cBytes, out.data());
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, 0);
+        pfnGlDeleteBuffers(5, bufs);
+        return out;
+    }
+
+    // Dispatch PIP shader; inputs converted from double to float.
+    std::vector<bool> gpuPIP(
+        const double* pLat, const double* pLon, size_t numPoints,
+        const double* poly, size_t numVerts)
+    {
+        std::vector<float> fPLat(numPoints), fPLon(numPoints);
+        for (size_t i = 0; i < numPoints; ++i) {
+            fPLat[i] = static_cast<float>(pLat[i]);
+            fPLon[i] = static_cast<float>(pLon[i]);
+        }
+        std::vector<float> fPoly(numVerts * 2);
+        for (size_t i = 0; i < numVerts * 2; ++i)
+            fPoly[i] = static_cast<float>(poly[i]);
+
+        const GL_GLsizeiptr ptBytes   = static_cast<GL_GLsizeiptr>(numPoints * sizeof(float));
+        const GL_GLsizeiptr polyBytes = static_cast<GL_GLsizeiptr>(numVerts * 2 * sizeof(float));
+        const GL_GLsizeiptr resBytes  = static_cast<GL_GLsizeiptr>(numPoints * sizeof(GL_GLuint));
+
+        GL_GLuint bufs[4] = {};
+        pfnGlGenBuffers(4, bufs);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[0]);
+        pfnGlBufferData(k_SHADER_STORAGE_BUFFER, ptBytes, fPLat.data(), k_STREAM_COPY);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[1]);
+        pfnGlBufferData(k_SHADER_STORAGE_BUFFER, ptBytes, fPLon.data(), k_STREAM_COPY);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[2]);
+        pfnGlBufferData(k_SHADER_STORAGE_BUFFER, polyBytes, fPoly.data(), k_STREAM_COPY);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[3]);
+        pfnGlBufferData(k_SHADER_STORAGE_BUFFER, resBytes, nullptr, k_DYNAMIC_COPY);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, 0);
+        for (GL_GLuint b = 0; b < 4; ++b)
+            pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, b, bufs[b]);
+        pfnGlUseProgram(pipProgram_);
+        GL_GLint locPts   = pfnGlGetUniformLocation(pipProgram_, "uNumPoints");
+        GL_GLint locVerts = pfnGlGetUniformLocation(pipProgram_, "uNumVerts");
+        if (locPts   >= 0) pfnGlUniform1ui(locPts,   static_cast<GL_GLuint>(numPoints));
+        if (locVerts >= 0) pfnGlUniform1ui(locVerts, static_cast<GL_GLuint>(numVerts));
+        const GL_GLuint gx = (static_cast<GL_GLuint>(numPoints) + 63u) / 64u;
+        pfnGlDispatchCompute(gx, 1u, 1u);
+        pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
+        std::vector<GL_GLuint> raw(numPoints);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[3]);
+        pfnGlGetBufferSubData(k_SHADER_STORAGE_BUFFER, 0, resBytes, raw.data());
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, 0);
+        pfnGlDeleteBuffers(4, bufs);
+        std::vector<bool> out(numPoints);
+        for (size_t i = 0; i < numPoints; ++i) out[i] = (raw[i] != 0u);
+        return out;
+    }
+
+    void cleanup() {
+        if (gpuAvailable_) {
+            if (haversineProgram_) { pfnGlDeleteProgram(haversineProgram_); haversineProgram_ = 0; }
+            if (pipProgram_)       { pfnGlDeleteProgram(pipProgram_);       pipProgram_ = 0; }
+        }
+        if (eglContext_ && pfnEglMakeCurrent)
+            pfnEglMakeCurrent(eglDisplay_, k_EGL_NO_SURFACE, k_EGL_NO_SURFACE, k_EGL_NO_CONTEXT);
+        if (eglContext_ && pfnEglDestroyContext) pfnEglDestroyContext(eglDisplay_, eglContext_);
+        if (eglDisplay_ && pfnEglTerminate) pfnEglTerminate(eglDisplay_);
+        eglContext_ = nullptr; eglDisplay_ = nullptr;
+        closeLib(libEGL_); libEGL_ = nullptr;
+        closeLib(libGL_);  libGL_  = nullptr;
+        gpuAvailable_ = false;
+    }
+#else
+    bool gpuAvailable_ = false;
+    void cleanup() {}
+#endif
+};
+
+// ============================================================================
+// OpenGLGraphBackend::OpenGLGraphBackendImpl
+// Manages EGL context + BFS and Bellman-Ford GLSL compute programs.
+// Falls back to CPU when EGL/OpenGL 4.3 is unavailable.
+// ============================================================================
+
+class OpenGLGraphBackend::OpenGLGraphBackendImpl {
+public:
+#ifdef THEMIS_ENABLE_OPENGL
+    void* libEGL_ = nullptr;
+    void* libGL_  = nullptr;
+
+    EGL_Display eglDisplay_ = nullptr;
+    EGL_Context eglContext_ = nullptr;
+
+    PFN_eglGetDisplay       pfnEglGetDisplay       = nullptr;
+    PFN_eglInitialize       pfnEglInitialize       = nullptr;
+    PFN_eglBindAPI          pfnEglBindAPI          = nullptr;
+    PFN_eglChooseConfig     pfnEglChooseConfig     = nullptr;
+    PFN_eglCreateContext    pfnEglCreateContext    = nullptr;
+    PFN_eglMakeCurrent      pfnEglMakeCurrent      = nullptr;
+    PFN_eglDestroyContext   pfnEglDestroyContext   = nullptr;
+    PFN_eglTerminate        pfnEglTerminate        = nullptr;
+    PFN_eglGetProcAddress   pfnEglGetProcAddress   = nullptr;
+
+    PFN_glCreateShader      pfnGlCreateShader      = nullptr;
+    PFN_glShaderSource      pfnGlShaderSource      = nullptr;
+    PFN_glCompileShader     pfnGlCompileShader     = nullptr;
+    PFN_glGetShaderiv       pfnGlGetShaderiv       = nullptr;
+    PFN_glGetShaderInfoLog  pfnGlGetShaderInfoLog  = nullptr;
+    PFN_glDeleteShader      pfnGlDeleteShader      = nullptr;
+    PFN_glCreateProgram     pfnGlCreateProgram     = nullptr;
+    PFN_glAttachShader      pfnGlAttachShader      = nullptr;
+    PFN_glLinkProgram       pfnGlLinkProgram       = nullptr;
+    PFN_glGetProgramiv      pfnGlGetProgramiv      = nullptr;
+    PFN_glGetProgramInfoLog pfnGlGetProgramInfoLog = nullptr;
+    PFN_glDeleteProgram     pfnGlDeleteProgram     = nullptr;
+    PFN_glUseProgram        pfnGlUseProgram        = nullptr;
+    PFN_glGetUniformLocation pfnGlGetUniformLocation = nullptr;
+    PFN_glUniform1ui        pfnGlUniform1ui        = nullptr;
+    PFN_glGenBuffers        pfnGlGenBuffers        = nullptr;
+    PFN_glDeleteBuffers     pfnGlDeleteBuffers     = nullptr;
+    PFN_glBindBuffer        pfnGlBindBuffer        = nullptr;
+    PFN_glBufferData        pfnGlBufferData        = nullptr;
+    PFN_glBindBufferBase    pfnGlBindBufferBase    = nullptr;
+    PFN_glDispatchCompute   pfnGlDispatchCompute   = nullptr;
+    PFN_glMemoryBarrier     pfnGlMemoryBarrier     = nullptr;
+    PFN_glGetBufferSubData  pfnGlGetBufferSubData  = nullptr;
+    PFN_glGetString         pfnGlGetString         = nullptr;
+    PFN_glGetIntegerv       pfnGlGetIntegerv       = nullptr;
+
+    GL_GLuint bfsInitProgram_   = 0;
+    GL_GLuint bfsExpandProgram_ = 0;
+    GL_GLuint bfInitProgram_    = 0;  // Bellman-Ford init
+    GL_GLuint bfRelaxProgram_   = 0;  // Bellman-Ford relax
+
+    bool gpuAvailable_ = false;
+
+    void* glProc(const char* n) {
+        void* fn = nullptr;
+        if (pfnEglGetProcAddress) fn = pfnEglGetProcAddress(n);
+        if (!fn && libGL_) fn = libSym(libGL_, n);
+        return fn;
+    }
+
+    bool loadEGLLibrary() {
+#if defined(__linux__) || defined(__unix__)
+        libEGL_ = openLib("libEGL.so.1");
+        if (!libEGL_) libEGL_ = openLib("libEGL.so");
+        libGL_  = openLib("libGL.so.1");
+        if (!libGL_)  libGL_  = openLib("libGL.so");
+#elif defined(_WIN32)
+        libGL_  = openLib("OpenGL32.dll");
+        libEGL_ = openLib("libEGL.dll");
+        if (!libEGL_) libEGL_ = openLib("EGL.dll");
+#endif
+        return libEGL_ != nullptr;
+    }
+
+    bool loadEGLFunctions() {
+        auto s = [&](const char* n) { return libSym(libEGL_, n); };
+        pfnEglGetProcAddress   = reinterpret_cast<PFN_eglGetProcAddress>  (s("eglGetProcAddress"));
+        pfnEglGetDisplay       = reinterpret_cast<PFN_eglGetDisplay>      (s("eglGetDisplay"));
+        pfnEglInitialize       = reinterpret_cast<PFN_eglInitialize>      (s("eglInitialize"));
+        pfnEglBindAPI          = reinterpret_cast<PFN_eglBindAPI>         (s("eglBindAPI"));
+        pfnEglChooseConfig     = reinterpret_cast<PFN_eglChooseConfig>    (s("eglChooseConfig"));
+        pfnEglCreateContext    = reinterpret_cast<PFN_eglCreateContext>   (s("eglCreateContext"));
+        pfnEglMakeCurrent      = reinterpret_cast<PFN_eglMakeCurrent>     (s("eglMakeCurrent"));
+        pfnEglDestroyContext   = reinterpret_cast<PFN_eglDestroyContext>  (s("eglDestroyContext"));
+        pfnEglTerminate        = reinterpret_cast<PFN_eglTerminate>       (s("eglTerminate"));
+        return pfnEglGetDisplay && pfnEglInitialize && pfnEglBindAPI &&
+               pfnEglChooseConfig && pfnEglCreateContext && pfnEglMakeCurrent &&
+               pfnEglDestroyContext && pfnEglTerminate;
+    }
+
+    bool loadGLFunctions() {
+        auto l = [&](const char* n) { return glProc(n); };
+        pfnGlCreateShader       = reinterpret_cast<PFN_glCreateShader>     (l("glCreateShader"));
+        pfnGlShaderSource       = reinterpret_cast<PFN_glShaderSource>     (l("glShaderSource"));
+        pfnGlCompileShader      = reinterpret_cast<PFN_glCompileShader>    (l("glCompileShader"));
+        pfnGlGetShaderiv        = reinterpret_cast<PFN_glGetShaderiv>      (l("glGetShaderiv"));
+        pfnGlGetShaderInfoLog   = reinterpret_cast<PFN_glGetShaderInfoLog> (l("glGetShaderInfoLog"));
+        pfnGlDeleteShader       = reinterpret_cast<PFN_glDeleteShader>     (l("glDeleteShader"));
+        pfnGlCreateProgram      = reinterpret_cast<PFN_glCreateProgram>    (l("glCreateProgram"));
+        pfnGlAttachShader       = reinterpret_cast<PFN_glAttachShader>     (l("glAttachShader"));
+        pfnGlLinkProgram        = reinterpret_cast<PFN_glLinkProgram>      (l("glLinkProgram"));
+        pfnGlGetProgramiv       = reinterpret_cast<PFN_glGetProgramiv>     (l("glGetProgramiv"));
+        pfnGlGetProgramInfoLog  = reinterpret_cast<PFN_glGetProgramInfoLog>(l("glGetProgramInfoLog"));
+        pfnGlDeleteProgram      = reinterpret_cast<PFN_glDeleteProgram>    (l("glDeleteProgram"));
+        pfnGlUseProgram         = reinterpret_cast<PFN_glUseProgram>       (l("glUseProgram"));
+        pfnGlGetUniformLocation = reinterpret_cast<PFN_glGetUniformLocation>(l("glGetUniformLocation"));
+        pfnGlUniform1ui         = reinterpret_cast<PFN_glUniform1ui>       (l("glUniform1ui"));
+        pfnGlGenBuffers         = reinterpret_cast<PFN_glGenBuffers>       (l("glGenBuffers"));
+        pfnGlDeleteBuffers      = reinterpret_cast<PFN_glDeleteBuffers>    (l("glDeleteBuffers"));
+        pfnGlBindBuffer         = reinterpret_cast<PFN_glBindBuffer>       (l("glBindBuffer"));
+        pfnGlBufferData         = reinterpret_cast<PFN_glBufferData>       (l("glBufferData"));
+        pfnGlBindBufferBase     = reinterpret_cast<PFN_glBindBufferBase>   (l("glBindBufferBase"));
+        pfnGlDispatchCompute    = reinterpret_cast<PFN_glDispatchCompute>  (l("glDispatchCompute"));
+        pfnGlMemoryBarrier      = reinterpret_cast<PFN_glMemoryBarrier>    (l("glMemoryBarrier"));
+        pfnGlGetBufferSubData   = reinterpret_cast<PFN_glGetBufferSubData> (l("glGetBufferSubData"));
+        pfnGlGetString          = reinterpret_cast<PFN_glGetString>        (l("glGetString"));
+        pfnGlGetIntegerv        = reinterpret_cast<PFN_glGetIntegerv>      (l("glGetIntegerv"));
+        return pfnGlCreateShader && pfnGlShaderSource && pfnGlCompileShader &&
+               pfnGlGetShaderiv && pfnGlDeleteShader && pfnGlCreateProgram &&
+               pfnGlAttachShader && pfnGlLinkProgram && pfnGlGetProgramiv &&
+               pfnGlDeleteProgram && pfnGlUseProgram && pfnGlGetUniformLocation &&
+               pfnGlUniform1ui && pfnGlGenBuffers && pfnGlDeleteBuffers &&
+               pfnGlBindBuffer && pfnGlBufferData && pfnGlBindBufferBase &&
+               pfnGlDispatchCompute && pfnGlMemoryBarrier && pfnGlGetBufferSubData;
+    }
+
+    bool createEGLContext() {
+        if (!pfnEglGetDisplay) return false;
+        eglDisplay_ = pfnEglGetDisplay(nullptr);
+        if (eglDisplay_ == k_EGL_NO_DISPLAY) return false;
+        EGL_Int major = 0, minor = 0;
+        if (!pfnEglInitialize(eglDisplay_, &major, &minor)) {
+            eglDisplay_ = nullptr; return false;
+        }
+        if (!pfnEglBindAPI(k_EGL_OPENGL_API)) {
+            pfnEglTerminate(eglDisplay_); eglDisplay_ = nullptr; return false;
+        }
+        const EGL_Int configAttribs[] = { k_EGL_RENDERABLE_TYPE, k_EGL_OPENGL_BIT, k_EGL_NONE };
+        EGL_Config cfg = nullptr; EGL_Int numCfg = 0;
+        if (!pfnEglChooseConfig(eglDisplay_, configAttribs, &cfg, 1, &numCfg) || numCfg == 0) {
+            pfnEglTerminate(eglDisplay_); eglDisplay_ = nullptr; return false;
+        }
+        const EGL_Int ctxAttribs[] = {
+            k_EGL_CONTEXT_MAJOR_VERSION, 4,
+            k_EGL_CONTEXT_MINOR_VERSION, 3,
+            k_EGL_CONTEXT_OPENGL_PROFILE_MASK, k_EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT,
+            k_EGL_NONE
+        };
+        eglContext_ = pfnEglCreateContext(eglDisplay_, cfg, k_EGL_NO_CONTEXT, ctxAttribs);
+        if (eglContext_ == k_EGL_NO_CONTEXT) {
+            pfnEglTerminate(eglDisplay_); eglDisplay_ = nullptr; return false;
+        }
+        if (!pfnEglMakeCurrent(eglDisplay_, k_EGL_NO_SURFACE, k_EGL_NO_SURFACE, eglContext_)) {
+            pfnEglDestroyContext(eglDisplay_, eglContext_); eglContext_ = nullptr;
+            pfnEglTerminate(eglDisplay_); eglDisplay_ = nullptr; return false;
+        }
+        return true;
+    }
+
+    GL_GLuint compileAndLink(const char* src, const char* tag) {
+        GL_GLuint shader = pfnGlCreateShader(k_COMPUTE_SHADER);
+        const GL_GLchar* srcs[] = { src };
+        pfnGlShaderSource(shader, 1, srcs, nullptr);
+        pfnGlCompileShader(shader);
+        GL_GLint status = 0;
+        pfnGlGetShaderiv(shader, k_COMPILE_STATUS, &status);
+        if (!status) {
+            GL_GLint logLen = 0;
+            pfnGlGetShaderiv(shader, k_INFO_LOG_LENGTH, &logLen);
+            if (logLen > 0) {
+                std::vector<char> log(static_cast<size_t>(logLen));
+                pfnGlGetShaderInfoLog(shader, logLen, nullptr, log.data());
+                std::cerr << "[OpenGLGraph] Shader '" << tag
+                          << "' compile error: " << log.data() << std::endl;
+            }
+            pfnGlDeleteShader(shader); return 0;
+        }
+        GL_GLuint prog = pfnGlCreateProgram();
+        pfnGlAttachShader(prog, shader);
+        pfnGlLinkProgram(prog);
+        pfnGlDeleteShader(shader);
+        pfnGlGetProgramiv(prog, k_LINK_STATUS, &status);
+        if (!status) { pfnGlDeleteProgram(prog); return 0; }
+        return prog;
+    }
+
+    bool createShaderPrograms() {
+        bfsInitProgram_   = compileAndLink(s_glsl_bfs_init_src,   "bfs_init");
+        bfsExpandProgram_ = compileAndLink(s_glsl_bfs_expand_src, "bfs_expand");
+        bfInitProgram_    = compileAndLink(s_glsl_bf_init_src,    "bf_init");
+        bfRelaxProgram_   = compileAndLink(s_glsl_bf_relax_src,   "bf_relax");
+        return bfsInitProgram_ && bfsExpandProgram_ && bfInitProgram_ && bfRelaxProgram_;
+    }
+
+    // Dispatch BFS on GPU.
+    // adjacency: N×N dense uint matrix (adj[u*N+v] != 0 means edge u→v)
+    // Returns visited bitmask per start: visited[s*N+v] != 0 means v reachable.
+    std::vector<GL_GLuint> gpuBFS(
+        const uint32_t* adjacency, uint32_t nv,
+        const uint32_t* starts, uint32_t ns,
+        uint32_t maxDepth)
+    {
+        const GL_GLsizeiptr adjBytes  = static_cast<GL_GLsizeiptr>(
+            static_cast<size_t>(nv) * nv * sizeof(uint32_t));
+        const GL_GLsizeiptr svBytes   = static_cast<GL_GLsizeiptr>(ns * sizeof(uint32_t));
+        const GL_GLsizeiptr frontBytes= static_cast<GL_GLsizeiptr>(
+            static_cast<size_t>(ns) * nv * sizeof(uint32_t));
+
+        // Buffers: adj(0), starts(1), frontA(2), frontB(3), visited(4)
+        GL_GLuint bufs[5] = {};
+        pfnGlGenBuffers(5, bufs);
+
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[0]);
+        pfnGlBufferData(k_SHADER_STORAGE_BUFFER, adjBytes, adjacency, k_STREAM_COPY);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[1]);
+        pfnGlBufferData(k_SHADER_STORAGE_BUFFER, svBytes, starts, k_STREAM_COPY);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[2]);
+        pfnGlBufferData(k_SHADER_STORAGE_BUFFER, frontBytes, nullptr, k_DYNAMIC_COPY);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[3]);
+        pfnGlBufferData(k_SHADER_STORAGE_BUFFER, frontBytes, nullptr, k_DYNAMIC_COPY);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[4]);
+        pfnGlBufferData(k_SHADER_STORAGE_BUFFER, frontBytes, nullptr, k_DYNAMIC_COPY);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, 0);
+
+        // BFS init: starts(1 ro) → frontA(2 wo), visited(4 wo)
+        pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 0, bufs[1]);
+        pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 1, bufs[2]);
+        pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 2, bufs[4]);
+        pfnGlUseProgram(bfsInitProgram_);
+        {
+            GL_GLint locNS = pfnGlGetUniformLocation(bfsInitProgram_, "uNumStarts");
+            GL_GLint locNV = pfnGlGetUniformLocation(bfsInitProgram_, "uNumVerts");
+            if (locNS >= 0) pfnGlUniform1ui(locNS, ns);
+            if (locNV >= 0) pfnGlUniform1ui(locNV, nv);
+        }
+        const GL_GLuint gsInit = (ns + 63u) / 64u;
+        pfnGlDispatchCompute(gsInit, 1u, 1u);
+        pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
+
+        // BFS expand: maxDepth iterations, ping-pong frontA ↔ frontB
+        GL_GLuint curFront = 2u, nextFront = 3u;  // indices into bufs[]
+        const GL_GLuint gsx = (ns + 7u) / 8u;
+        const GL_GLuint gsy = (nv + 7u) / 8u;
+        for (uint32_t depth = 0; depth < maxDepth; ++depth) {
+            pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 0, bufs[0]);   // adj
+            pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 1, bufs[curFront]);
+            pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 2, bufs[4]);   // visited
+            pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 3, bufs[nextFront]);
+            pfnGlUseProgram(bfsExpandProgram_);
+            {
+                GL_GLint locNS = pfnGlGetUniformLocation(bfsExpandProgram_, "uNumStarts");
+                GL_GLint locNV = pfnGlGetUniformLocation(bfsExpandProgram_, "uNumVerts");
+                if (locNS >= 0) pfnGlUniform1ui(locNS, ns);
+                if (locNV >= 0) pfnGlUniform1ui(locNV, nv);
+            }
+            pfnGlDispatchCompute(gsx, gsy, 1u);
+            pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
+            std::swap(curFront, nextFront);
+        }
+
+        // Read back visited[ns × nv]
+        std::vector<GL_GLuint> visited(static_cast<size_t>(ns) * nv);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[4]);
+        pfnGlGetBufferSubData(k_SHADER_STORAGE_BUFFER, 0, frontBytes, visited.data());
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, 0);
+        pfnGlDeleteBuffers(5, bufs);
+        return visited;
+    }
+
+    // Dispatch Bellman-Ford on GPU.
+    // Returns flat dist[np × nv] and pred[np × nv] after nv-1 relaxations.
+    struct BFResult { std::vector<float> dist; std::vector<int> pred; };
+
+    BFResult gpuBellmanFord(
+        const uint32_t* adjacency, const float* weights, uint32_t nv,
+        const uint32_t* starts, uint32_t np)
+    {
+        const GL_GLsizeiptr adjBytes  = static_cast<GL_GLsizeiptr>(
+            static_cast<size_t>(nv) * nv * sizeof(uint32_t));
+        const GL_GLsizeiptr wgtBytes  = static_cast<GL_GLsizeiptr>(
+            static_cast<size_t>(nv) * nv * sizeof(float));
+        const GL_GLsizeiptr svBytes   = static_cast<GL_GLsizeiptr>(np * sizeof(uint32_t));
+        const GL_GLsizeiptr distBytes = static_cast<GL_GLsizeiptr>(
+            static_cast<size_t>(np) * nv * sizeof(float));
+        const GL_GLsizeiptr predBytes = static_cast<GL_GLsizeiptr>(
+            static_cast<size_t>(np) * nv * sizeof(int));
+
+        GL_GLuint bufs[5] = {};
+        pfnGlGenBuffers(5, bufs);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[0]);
+        pfnGlBufferData(k_SHADER_STORAGE_BUFFER, adjBytes, adjacency, k_STREAM_COPY);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[1]);
+        pfnGlBufferData(k_SHADER_STORAGE_BUFFER, wgtBytes, weights, k_STREAM_COPY);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[2]);
+        pfnGlBufferData(k_SHADER_STORAGE_BUFFER, svBytes, starts, k_STREAM_COPY);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[3]);
+        pfnGlBufferData(k_SHADER_STORAGE_BUFFER, distBytes, nullptr, k_DYNAMIC_COPY);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[4]);
+        pfnGlBufferData(k_SHADER_STORAGE_BUFFER, predBytes, nullptr, k_DYNAMIC_COPY);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, 0);
+
+        const GL_GLuint gpx = (np + 7u) / 8u;
+        const GL_GLuint gpy = (nv + 7u) / 8u;
+
+        // Bellman-Ford init
+        pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 0, bufs[2]);  // starts
+        pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 1, bufs[3]);  // dist
+        pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 2, bufs[4]);  // pred
+        pfnGlUseProgram(bfInitProgram_);
+        {
+            GL_GLint locNP = pfnGlGetUniformLocation(bfInitProgram_, "uNumPairs");
+            GL_GLint locNV = pfnGlGetUniformLocation(bfInitProgram_, "uNumVerts");
+            if (locNP >= 0) pfnGlUniform1ui(locNP, np);
+            if (locNV >= 0) pfnGlUniform1ui(locNV, nv);
+        }
+        pfnGlDispatchCompute(gpx, gpy, 1u);
+        pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
+
+        // Bellman-Ford relax (nv-1 iterations)
+        pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 0, bufs[0]);  // adj
+        pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 1, bufs[1]);  // wgt
+        pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 2, bufs[3]);  // dist
+        pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 3, bufs[4]);  // pred
+        pfnGlUseProgram(bfRelaxProgram_);
+        {
+            GL_GLint locNP = pfnGlGetUniformLocation(bfRelaxProgram_, "uNumPairs");
+            GL_GLint locNV = pfnGlGetUniformLocation(bfRelaxProgram_, "uNumVerts");
+            if (locNP >= 0) pfnGlUniform1ui(locNP, np);
+            if (locNV >= 0) pfnGlUniform1ui(locNV, nv);
+        }
+        for (uint32_t iter = 0; iter + 1 < nv; ++iter) {
+            pfnGlDispatchCompute(gpx, gpy, 1u);
+            pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
+        }
+
+        BFResult res;
+        res.dist.resize(static_cast<size_t>(np) * nv);
+        res.pred.resize(static_cast<size_t>(np) * nv);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[3]);
+        pfnGlGetBufferSubData(k_SHADER_STORAGE_BUFFER, 0, distBytes, res.dist.data());
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[4]);
+        pfnGlGetBufferSubData(k_SHADER_STORAGE_BUFFER, 0, predBytes, res.pred.data());
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, 0);
+        pfnGlDeleteBuffers(5, bufs);
+        return res;
+    }
+
+    void cleanup() {
+        if (gpuAvailable_) {
+            if (bfsInitProgram_)   { pfnGlDeleteProgram(bfsInitProgram_);   bfsInitProgram_ = 0; }
+            if (bfsExpandProgram_) { pfnGlDeleteProgram(bfsExpandProgram_); bfsExpandProgram_ = 0; }
+            if (bfInitProgram_)    { pfnGlDeleteProgram(bfInitProgram_);    bfInitProgram_ = 0; }
+            if (bfRelaxProgram_)   { pfnGlDeleteProgram(bfRelaxProgram_);   bfRelaxProgram_ = 0; }
+        }
+        if (eglContext_ && pfnEglMakeCurrent)
+            pfnEglMakeCurrent(eglDisplay_, k_EGL_NO_SURFACE, k_EGL_NO_SURFACE, k_EGL_NO_CONTEXT);
+        if (eglContext_ && pfnEglDestroyContext) pfnEglDestroyContext(eglDisplay_, eglContext_);
+        if (eglDisplay_ && pfnEglTerminate) pfnEglTerminate(eglDisplay_);
+        eglContext_ = nullptr; eglDisplay_ = nullptr;
+        closeLib(libEGL_); libEGL_ = nullptr;
+        closeLib(libGL_);  libGL_  = nullptr;
+        gpuAvailable_ = false;
+    }
+#else
+    bool gpuAvailable_ = false;
+    void cleanup() {}
+#endif
+};
+
+// ============================================================================
 // OpenGL Vector Backend — public interface
 // ============================================================================
 
@@ -2091,6 +3026,12 @@ std::vector<float> OpenGLVectorBackend::computeDistances(
     size_t numVectors,
     bool useL2
 ) {
+    (void)queries;
+    (void)numQueries;
+    (void)dim;
+    (void)vectors;
+    (void)numVectors;
+    (void)useL2;
 #ifdef THEMIS_ENABLE_OPENGL
     if (!initialized_ || !impl_) {
         setError(ErrorContext(
@@ -2153,6 +3094,13 @@ std::vector<std::vector<std::pair<uint32_t, float>>> OpenGLVectorBackend::batchK
     size_t k,
     bool useL2
 ) {
+    (void)queries;
+    (void)numQueries;
+    (void)dim;
+    (void)vectors;
+    (void)numVectors;
+    (void)k;
+    (void)useL2;
 #ifdef THEMIS_ENABLE_OPENGL
     if (!initialized_ || !impl_) {
         setError(ErrorContext(
@@ -2225,7 +3173,504 @@ std::vector<std::vector<std::pair<uint32_t, float>>> OpenGLVectorBackend::batchK
 }
 
 // ============================================================================
-// VulkanVectorBackend::populateANNDispatch
+// OpenGL Geo Backend — geospatial compute (Haversine + point-in-polygon)
+// ============================================================================
+
+OpenGLGeoBackend::OpenGLGeoBackend()
+    : initialized_(false), impl_(std::make_unique<OpenGLGeoBackendImpl>()) {}
+
+OpenGLGeoBackend::~OpenGLGeoBackend() {
+    shutdown();
+}
+
+bool OpenGLGeoBackend::isAvailable() const noexcept {
+#ifdef THEMIS_ENABLE_OPENGL
+    // Attempt a lightweight EGL probe (same logic as OpenGLVectorBackend)
+    void* libEGL = openLib("libEGL.so.1");
+    if (!libEGL) libEGL = openLib("libEGL.so");
+#ifdef _WIN32
+    if (!libEGL) libEGL = openLib("libEGL.dll");
+    if (!libEGL) libEGL = openLib("EGL.dll");
+#endif
+    if (!libEGL) return false;
+    closeLib(libEGL);
+    return true;
+#else
+    return false;
+#endif
+}
+
+BackendCapabilities OpenGLGeoBackend::getCapabilities() const {
+    BackendCapabilities caps;
+#ifdef THEMIS_ENABLE_OPENGL
+    caps.supportsGeoOps          = true;
+    caps.supportsBatchProcessing = true;
+    caps.supportsAsync           = false;  // OpenGL geo compute is synchronous
+    caps.supportedPrecisions     = PrecisionMode::FP32;
+    caps.deviceName              = initialized_
+        ? (impl_ && impl_->gpuAvailable_ ? "OpenGL Geo (GPU)" : "OpenGL Geo (CPU fallback)")
+        : "OpenGL Geo (not initialized)";
+    caps.computeUnits            = 1;
+#endif
+    return caps;
+}
+
+bool OpenGLGeoBackend::initialize() {
+#ifdef THEMIS_ENABLE_OPENGL
+    if (initialized_) return true;
+    if (!impl_->loadEGLLibrary()) {
+        std::cerr << "[OpenGLGeo] EGL library not found; running in CPU fallback mode" << std::endl;
+        initialized_ = true;
+        clearError();
+        return true;
+    }
+    if (!impl_->loadEGLFunctions() || !impl_->createEGLContext()) {
+        std::cerr << "[OpenGLGeo] EGL context creation failed; running in CPU fallback mode" << std::endl;
+        impl_->cleanup();
+        initialized_ = true;
+        clearError();
+        return true;
+    }
+    if (!impl_->loadGLFunctions() || !impl_->createShaderPrograms()) {
+        std::cerr << "[OpenGLGeo] GLSL shader compilation failed; running in CPU fallback mode" << std::endl;
+        impl_->cleanup();
+        initialized_ = true;
+        clearError();
+        return true;
+    }
+    impl_->gpuAvailable_ = true;
+    initialized_ = true;
+    clearError();
+    return true;
+#else
+    return false;
+#endif
+}
+
+void OpenGLGeoBackend::shutdown() {
+#ifdef THEMIS_ENABLE_OPENGL
+    if (impl_) impl_->cleanup();
+    initialized_ = false;
+#endif
+}
+
+std::vector<float> OpenGLGeoBackend::batchDistances(
+    const double* latitudes1,
+    const double* longitudes1,
+    const double* latitudes2,
+    const double* longitudes2,
+    size_t count,
+    bool /*useHaversine*/
+) {
+    (void)latitudes1;
+    (void)longitudes1;
+    (void)latitudes2;
+    (void)longitudes2;
+    (void)count;
+#ifdef THEMIS_ENABLE_OPENGL
+    if (!initialized_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "OpenGLGeo",
+            "OpenGL geo backend not initialized",
+            "Call initialize() before using the backend"));
+        return {};
+    }
+    if (latitudes1 == nullptr || longitudes1 == nullptr ||
+        latitudes2 == nullptr || longitudes2 == nullptr) {
+        setError(ErrorContextHelpers::createValidationError(
+            "OpenGLGeo", AccelerationErrorCode::InvalidInputShape,
+            "coordinate pointers must be non-null"));
+        return {};
+    }
+    if (count == 0) { clearError(); return {}; }
+
+    if (impl_->gpuAvailable_) {
+        try {
+            auto out = impl_->gpuHaversine(latitudes1, longitudes1,
+                                            latitudes2, longitudes2, count);
+            clearError();
+            return out;
+        } catch (const std::exception& e) {
+            std::cerr << "[OpenGLGeo] batchDistances GPU dispatch error: " << e.what()
+                      << "; falling back to CPU" << std::endl;
+        }
+    }
+
+    // CPU Haversine fallback (same algorithm as VulkanGeoBackend)
+    std::vector<float> out(count);
+    for (size_t i = 0; i < count; ++i) {
+        out[i] = static_cast<float>(
+            opengl_haversine_km(latitudes1[i], longitudes1[i],
+                                latitudes2[i], longitudes2[i]));
+    }
+    clearError();
+    return out;
+#else
+    return {};
+#endif
+}
+
+std::vector<bool> OpenGLGeoBackend::batchPointInPolygon(
+    const double* pointLats,
+    const double* pointLons,
+    size_t numPoints,
+    const double* polygonCoords,
+    size_t numPolygonVertices
+) {
+    (void)pointLats;
+    (void)pointLons;
+    (void)numPoints;
+    (void)polygonCoords;
+    (void)numPolygonVertices;
+#ifdef THEMIS_ENABLE_OPENGL
+    if (!initialized_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "OpenGLGeo",
+            "OpenGL geo backend not initialized",
+            "Call initialize() before using the backend"));
+        return {};
+    }
+    if (pointLats == nullptr || pointLons == nullptr || polygonCoords == nullptr) {
+        setError(ErrorContextHelpers::createValidationError(
+            "OpenGLGeo", AccelerationErrorCode::InvalidInputShape,
+            "point and polygon coordinate pointers must be non-null"));
+        return {};
+    }
+    if (numPoints == 0) { clearError(); return {}; }
+    if (numPolygonVertices < 3) {
+        setError(ErrorContextHelpers::createValidationError(
+            "OpenGLGeo", AccelerationErrorCode::InvalidInputShape,
+            "polygon must have at least 3 vertices"));
+        return {};
+    }
+
+    if (impl_->gpuAvailable_) {
+        try {
+            auto out = impl_->gpuPIP(pointLats, pointLons, numPoints,
+                                     polygonCoords, numPolygonVertices);
+            clearError();
+            return out;
+        } catch (const std::exception& e) {
+            std::cerr << "[OpenGLGeo] batchPointInPolygon GPU dispatch error: " << e.what()
+                      << "; falling back to CPU" << std::endl;
+        }
+    }
+
+    // CPU ray-casting fallback (same algorithm as VulkanGeoBackend)
+    std::vector<bool> out(numPoints, false);
+    const int nv = static_cast<int>(numPolygonVertices);
+    for (size_t p = 0; p < numPoints; ++p) {
+        const double testLat = pointLats[p];
+        const double testLon = pointLons[p];
+        bool inside = false;
+        int  j = nv - 1;
+        for (int i = 0; i < nv; ++i) {
+            const double lat_i = polygonCoords[i * 2];
+            const double lon_i = polygonCoords[i * 2 + 1];
+            const double lat_j = polygonCoords[j * 2];
+            const double lon_j = polygonCoords[j * 2 + 1];
+            if (((lon_i > testLon) != (lon_j > testLon)) &&
+                (testLat < (lat_j - lat_i) * (testLon - lon_i) / (lon_j - lon_i) + lat_i)) {
+                inside = !inside;
+            }
+            j = i;
+        }
+        out[p] = inside;
+    }
+    clearError();
+    return out;
+#else
+    return {};
+#endif
+}
+
+// ============================================================================
+// OpenGL Graph Backend — BFS + shortest path (Bellman-Ford)
+// ============================================================================
+
+OpenGLGraphBackend::OpenGLGraphBackend()
+    : initialized_(false), impl_(std::make_unique<OpenGLGraphBackendImpl>()) {}
+
+OpenGLGraphBackend::~OpenGLGraphBackend() {
+    shutdown();
+}
+
+bool OpenGLGraphBackend::isAvailable() const noexcept {
+#ifdef THEMIS_ENABLE_OPENGL
+    void* libEGL = openLib("libEGL.so.1");
+    if (!libEGL) libEGL = openLib("libEGL.so");
+#ifdef _WIN32
+    if (!libEGL) libEGL = openLib("libEGL.dll");
+    if (!libEGL) libEGL = openLib("EGL.dll");
+#endif
+    if (!libEGL) return false;
+    closeLib(libEGL);
+    return true;
+#else
+    return false;
+#endif
+}
+
+BackendCapabilities OpenGLGraphBackend::getCapabilities() const {
+    BackendCapabilities caps;
+#ifdef THEMIS_ENABLE_OPENGL
+    caps.supportsGraphOps        = true;
+    caps.supportsBatchProcessing = true;
+    caps.supportsAsync           = false;  // OpenGL graph compute is synchronous
+    caps.supportedPrecisions     = PrecisionMode::FP32;
+    caps.deviceName              = initialized_
+        ? (impl_ && impl_->gpuAvailable_ ? "OpenGL Graph (GPU)" : "OpenGL Graph (CPU fallback)")
+        : "OpenGL Graph (not initialized)";
+    caps.computeUnits            = 1;
+#endif
+    return caps;
+}
+
+bool OpenGLGraphBackend::initialize() {
+#ifdef THEMIS_ENABLE_OPENGL
+    if (initialized_) return true;
+    if (!impl_->loadEGLLibrary()) {
+        std::cerr << "[OpenGLGraph] EGL library not found; running in CPU fallback mode" << std::endl;
+        initialized_ = true;
+        clearError();
+        return true;
+    }
+    if (!impl_->loadEGLFunctions() || !impl_->createEGLContext()) {
+        std::cerr << "[OpenGLGraph] EGL context creation failed; running in CPU fallback mode" << std::endl;
+        impl_->cleanup();
+        initialized_ = true;
+        clearError();
+        return true;
+    }
+    if (!impl_->loadGLFunctions() || !impl_->createShaderPrograms()) {
+        std::cerr << "[OpenGLGraph] GLSL shader compilation failed; running in CPU fallback mode" << std::endl;
+        impl_->cleanup();
+        initialized_ = true;
+        clearError();
+        return true;
+    }
+    impl_->gpuAvailable_ = true;
+    initialized_ = true;
+    clearError();
+    return true;
+#else
+    return false;
+#endif
+}
+
+void OpenGLGraphBackend::shutdown() {
+#ifdef THEMIS_ENABLE_OPENGL
+    if (impl_) impl_->cleanup();
+    initialized_ = false;
+#endif
+}
+
+std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchBFS(
+    const uint32_t* adjacency,
+    size_t numVertices,
+    const uint32_t* startVertices,
+    size_t numStarts,
+    uint32_t maxDepth
+) {
+    (void)adjacency;
+    (void)numVertices;
+    (void)startVertices;
+    (void)numStarts;
+    (void)maxDepth;
+#ifdef THEMIS_ENABLE_OPENGL
+    if (!initialized_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "OpenGLGraph",
+            "OpenGL graph backend not initialized",
+            "Call initialize() before using the backend"));
+        return {};
+    }
+    if (adjacency == nullptr || startVertices == nullptr) {
+        setError(ErrorContextHelpers::createValidationError(
+            "OpenGLGraph", AccelerationErrorCode::InvalidInputShape,
+            "adjacency and startVertices pointers must be non-null"));
+        return {};
+    }
+    if (numVertices == 0 || numStarts == 0) { clearError(); return {}; }
+
+    // Validate start vertices are in range
+    for (size_t s = 0; s < numStarts; ++s) {
+        if (startVertices[s] >= numVertices) {
+            setError(ErrorContextHelpers::createValidationError(
+                "OpenGLGraph", AccelerationErrorCode::InvalidInputShape,
+                "startVertices[" + std::to_string(s) + "] out of range"));
+            return {};
+        }
+    }
+
+    // GPU path
+    if (impl_->gpuAvailable_) {
+        try {
+            auto visited = impl_->gpuBFS(
+                adjacency, static_cast<uint32_t>(numVertices),
+                startVertices, static_cast<uint32_t>(numStarts),
+                maxDepth);
+
+            std::vector<std::vector<uint32_t>> results(numStarts);
+            for (size_t s = 0; s < numStarts; ++s) {
+                for (size_t v = 0; v < numVertices; ++v) {
+                    if (visited[s * numVertices + v] != 0u)
+                        results[s].push_back(static_cast<uint32_t>(v));
+                }
+            }
+            clearError();
+            return results;
+        } catch (const std::exception& e) {
+            std::cerr << "[OpenGLGraph] batchBFS GPU dispatch error: " << e.what()
+                      << "; falling back to CPU" << std::endl;
+        }
+    }
+
+    // CPU BFS fallback
+    std::vector<std::vector<uint32_t>> results(numStarts);
+    for (size_t s = 0; s < numStarts; ++s) {
+        uint32_t sv = startVertices[s];
+        std::vector<bool> visited(numVertices, false);
+        std::queue<std::pair<uint32_t, uint32_t>> q;  // (vertex, depth)
+        q.push({sv, 0});
+        visited[sv] = true;
+        while (!q.empty()) {
+            auto [cur, depth] = q.front(); q.pop();
+            results[s].push_back(cur);
+            if (depth >= maxDepth) continue;
+            for (size_t u = 0; u < numVertices; ++u) {
+                if (adjacency[cur * numVertices + u] != 0u && !visited[u]) {
+                    visited[u] = true;
+                    q.push({static_cast<uint32_t>(u), depth + 1u});
+                }
+            }
+        }
+    }
+    clearError();
+    return results;
+#else
+    return {};
+#endif
+}
+
+std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchShortestPath(
+    const uint32_t* adjacency,
+    const float* weights,
+    size_t numVertices,
+    const uint32_t* startVertices,
+    const uint32_t* endVertices,
+    size_t numPairs
+) {
+    (void)adjacency;
+    (void)weights;
+    (void)numVertices;
+    (void)startVertices;
+    (void)endVertices;
+    (void)numPairs;
+#ifdef THEMIS_ENABLE_OPENGL
+    if (!initialized_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "OpenGLGraph",
+            "OpenGL graph backend not initialized",
+            "Call initialize() before using the backend"));
+        return {};
+    }
+    if (adjacency == nullptr || weights == nullptr ||
+        startVertices == nullptr || endVertices == nullptr) {
+        setError(ErrorContextHelpers::createValidationError(
+            "OpenGLGraph", AccelerationErrorCode::InvalidInputShape,
+            "adjacency, weights, startVertices, and endVertices must be non-null"));
+        return {};
+    }
+    if (numVertices == 0 || numPairs == 0) { clearError(); return {}; }
+
+    // Validate start/end vertices
+    for (size_t p = 0; p < numPairs; ++p) {
+        if (startVertices[p] >= numVertices || endVertices[p] >= numVertices) {
+            setError(ErrorContextHelpers::createValidationError(
+                "OpenGLGraph", AccelerationErrorCode::InvalidInputShape,
+                "start/end vertex out of range for pair " + std::to_string(p)));
+            return {};
+        }
+    }
+
+    // GPU path
+    if (impl_->gpuAvailable_) {
+        try {
+            auto bf = impl_->gpuBellmanFord(
+                adjacency, weights,
+                static_cast<uint32_t>(numVertices),
+                startVertices, static_cast<uint32_t>(numPairs));
+
+            std::vector<std::vector<uint32_t>> results(numPairs);
+            for (size_t p = 0; p < numPairs; ++p) {
+                uint32_t sv = startVertices[p], ev = endVertices[p];
+                float dist_ev = bf.dist[p * numVertices + ev];
+                if (dist_ev >= 1e29f) continue;  // unreachable
+                std::vector<uint32_t> path;
+                for (int cur = static_cast<int>(ev); cur != -1;
+                     cur = bf.pred[p * numVertices + static_cast<size_t>(cur)]) {
+                    path.push_back(static_cast<uint32_t>(cur));
+                    if (static_cast<uint32_t>(cur) == sv) break;
+                    // Guard against cycles in predecessor array
+                    if (path.size() > numVertices) { path.clear(); break; }
+                }
+                if (!path.empty()) {
+                    std::reverse(path.begin(), path.end());
+                    results[p] = std::move(path);
+                }
+            }
+            clearError();
+            return results;
+        } catch (const std::exception& e) {
+            std::cerr << "[OpenGLGraph] batchShortestPath GPU dispatch error: " << e.what()
+                      << "; falling back to CPU" << std::endl;
+        }
+    }
+
+    // CPU Bellman-Ford fallback
+    std::vector<std::vector<uint32_t>> results(numPairs);
+    for (size_t p = 0; p < numPairs; ++p) {
+        uint32_t sv = startVertices[p], ev = endVertices[p];
+        std::vector<float> dist(numVertices, 1e30f);
+        std::vector<int>   pred(numVertices, -1);
+        dist[sv] = 0.f;
+        for (size_t iter = 0; iter + 1 < numVertices; ++iter) {
+            for (size_t u = 0; u < numVertices; ++u) {
+                if (dist[u] >= 1e29f) continue;
+                for (size_t v = 0; v < numVertices; ++v) {
+                    if (adjacency[u * numVertices + v] != 0u) {
+                        float nd = dist[u] + weights[u * numVertices + v];
+                        if (nd < dist[v]) {
+                            dist[v] = nd;
+                            pred[v] = static_cast<int>(u);
+                        }
+                    }
+                }
+            }
+        }
+        if (dist[ev] >= 1e29f) continue;  // unreachable
+        std::vector<uint32_t> path;
+        for (int cur = static_cast<int>(ev); cur != -1; cur = pred[static_cast<size_t>(cur)]) {
+            path.push_back(static_cast<uint32_t>(cur));
+            if (static_cast<uint32_t>(cur) == sv) break;
+            if (path.size() > numVertices) { path.clear(); break; }
+        }
+        if (!path.empty()) {
+            std::reverse(path.begin(), path.end());
+            results[p] = std::move(path);
+        }
+    }
+    clearError();
+    return results;
+#else
+    return {};
+#endif
+}
 //
 // Provides the frozen ANN kernel dispatch table for the Vulkan backend.
 // All four slots (L2, cosine, inner product, top-K) are populated when
@@ -2466,6 +3911,11 @@ std::vector<float> VulkanGeoBackend::batchDistances(
     size_t count,
     bool /*useHaversine*/
 ) {
+    (void)latitudes1;
+    (void)longitudes1;
+    (void)latitudes2;
+    (void)longitudes2;
+    (void)count;
 #ifdef THEMIS_ENABLE_VULKAN
     if (!initialized_) {
         setError(ErrorContext(
@@ -2503,6 +3953,11 @@ std::vector<bool> VulkanGeoBackend::batchPointInPolygon(
     const double* polygonCoords,
     size_t numPolygonVertices
 ) {
+    (void)pointLats;
+    (void)pointLons;
+    (void)numPoints;
+    (void)polygonCoords;
+    (void)numPolygonVertices;
 #ifdef THEMIS_ENABLE_VULKAN
     if (!initialized_) {
         setError(ErrorContext(

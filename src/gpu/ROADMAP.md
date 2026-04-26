@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # GPU Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -121,3 +123,15 @@
 ## Breaking Changes
 - Multi-node coordination will introduce cluster configuration block (new optional config)
 - MIG support will change device discovery output format for partitioned GPUs
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Bereits verdrahtet (Audit korrigiert 2026-04-22)
+
+- `MakeCPUFallback` – Wird intern von `device_discovery.cpp::Enumerate()` aufgerufen (Zeilen 194, 202, 224); kein Handlungsbedarf.
+- `EnumerateCUDA` – Wird intern von `device_discovery.cpp::Enumerate()` aufgerufen (Zeile 186); kein Handlungsbedarf.
+- `EnumerateROCm` – Wird intern von `device_discovery.cpp::Enumerate()` aufgerufen (Zeile 188); kein Handlungsbedarf.
+- `resolveDevices` – Wird intern von `p2p_transfer.cpp::GPUP2PTransferManager::transfer/getStats/reset` aufgerufen (Zeilen 116, 152, 304); kein Handlungsbedarf.
+

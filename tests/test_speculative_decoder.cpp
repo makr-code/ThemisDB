@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_speculative_decoder.cpp                       ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:34:00                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:57:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     540                                            ║
+    • Total Lines:     716                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 747406559  2026-02-28  fix(llm): code audit — thread safety, seed truncation, re... ║
-    • 3ec167f3d  2026-02-28  feat(llm): implement speculative decoding for latency red... ║
+    • fe135d5215  2026-04-13  feat(llm): Speculative Decoding for Latency Reduction — v... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -528,13 +526,234 @@ TEST(SpeculativeDecoderIntegrationTest, SpeculativeStatsInDetailedMetrics) {
     EXPECT_TRUE(metrics.contains("speculative"));
     EXPECT_TRUE(metrics["speculative"].contains("enabled"));
     EXPECT_TRUE(metrics["speculative"].contains("draft_tokens_total"));
+    EXPECT_TRUE(metrics["speculative"].contains("drafted_tokens"));
     EXPECT_TRUE(metrics["speculative"].contains("accepted_tokens"));
     EXPECT_TRUE(metrics["speculative"].contains("rejected_tokens"));
     EXPECT_TRUE(metrics["speculative"].contains("avg_acceptance_rate"));
+    EXPECT_TRUE(metrics["speculative"].contains("accept_rate"));
     EXPECT_TRUE(metrics["speculative"].contains("steps"));
+    EXPECT_TRUE(metrics.contains("feature_flags"));
+    EXPECT_TRUE(metrics["feature_flags"].contains("lookup_decoding"));
+    EXPECT_TRUE(metrics["feature_flags"].contains("adaptive_batch_retry"));
 
     spdlog::info("SpeculativeStatsInDetailedMetrics: {}",
                  metrics["speculative"].dump());
 
     engine.shutdown();
+}
+
+// ═══════════════════════════════════════════════════════════
+// Test 14: AdapterRegistry DRAFT role — listAdaptersByRole
+// ═══════════════════════════════════════════════════════════
+
+#include "llm/adapter_registry.h"
+
+TEST(AdapterRegistryDraftRoleTest, ListAdaptersByRoleDraftAndGeneral) {
+    AdapterRegistry registry(nullptr);
+
+    // Register one GENERAL adapter
+    AdapterMetadata general;
+    general.adapter_id    = "general-adapter";
+    general.base_model_name = "llama-7b";
+    general.architecture  = "llama";
+    general.role          = AdapterRole::GENERAL;
+    registry.registerAdapter(general);
+
+    // Register one DRAFT adapter
+    AdapterMetadata draft;
+    draft.adapter_id    = "draft-adapter";
+    draft.base_model_name = "llama-0.5b";
+    draft.architecture  = "llama";
+    draft.role          = AdapterRole::DRAFT;
+    registry.registerAdapter(draft);
+
+    auto drafts   = registry.listAdaptersByRole(AdapterRole::DRAFT);
+    auto generals = registry.listAdaptersByRole(AdapterRole::GENERAL);
+
+    ASSERT_EQ(drafts.size(), 1u)   << "Exactly one DRAFT adapter should be found";
+    ASSERT_EQ(generals.size(), 1u) << "Exactly one GENERAL adapter should be found";
+    EXPECT_EQ(drafts[0].adapter_id,   "draft-adapter");
+    EXPECT_EQ(generals[0].adapter_id, "general-adapter");
+}
+
+// ═══════════════════════════════════════════════════════════
+// Test 15: AdapterRegistry — findDraftAdapterForFamily
+// ═══════════════════════════════════════════════════════════
+
+TEST(AdapterRegistryDraftRoleTest, FindDraftAdapterForFamilyMatchesArchitecture) {
+    AdapterRegistry registry(nullptr);
+
+    AdapterMetadata draft;
+    draft.adapter_id    = "llama-draft";
+    draft.base_model_name = "llama-0.5b";
+    draft.architecture  = "llama";
+    draft.role          = AdapterRole::DRAFT;
+    draft.status        = AdapterMetadata::Status::DEPLOYED;
+    registry.registerAdapter(draft);
+
+    // Exact match
+    auto found = registry.findDraftAdapterForFamily("llama");
+    ASSERT_TRUE(found.has_value()) << "Should find DRAFT adapter for 'llama' family";
+    EXPECT_EQ(found->adapter_id, "llama-draft");
+}
+
+TEST(AdapterRegistryDraftRoleTest, FindDraftAdapterForFamilyCaseInsensitive) {
+    AdapterRegistry registry(nullptr);
+
+    AdapterMetadata draft;
+    draft.adapter_id  = "mistral-draft";
+    draft.architecture = "Mistral";  // Mixed-case in registry
+    draft.role        = AdapterRole::DRAFT;
+    registry.registerAdapter(draft);
+
+    // Query with different case
+    auto found = registry.findDraftAdapterForFamily("mistral");
+    ASSERT_TRUE(found.has_value()) << "Match should be case-insensitive";
+    EXPECT_EQ(found->adapter_id, "mistral-draft");
+}
+
+TEST(AdapterRegistryDraftRoleTest, FindDraftAdapterForFamilyReturnsNulloptWhenNoneMatch) {
+    AdapterRegistry registry(nullptr);
+
+    AdapterMetadata draft;
+    draft.adapter_id  = "llama-draft";
+    draft.architecture = "llama";
+    draft.role        = AdapterRole::DRAFT;
+    registry.registerAdapter(draft);
+
+    // Unrelated family
+    auto found = registry.findDraftAdapterForFamily("gpt");
+    EXPECT_FALSE(found.has_value())
+        << "Should return nullopt when no DRAFT adapter for the family exists";
+}
+
+TEST(AdapterRegistryDraftRoleTest, FindDraftAdapterForFamilyIgnoresGeneralAdapters) {
+    AdapterRegistry registry(nullptr);
+
+    AdapterMetadata general;
+    general.adapter_id  = "llama-general";
+    general.architecture = "llama";
+    general.role        = AdapterRole::GENERAL;  // Not a DRAFT
+    registry.registerAdapter(general);
+
+    auto found = registry.findDraftAdapterForFamily("llama");
+    EXPECT_FALSE(found.has_value())
+        << "GENERAL adapters must not be returned by findDraftAdapterForFamily";
+}
+
+TEST(AdapterRegistryDraftRoleTest, FindDraftAdapterForFamilyPrefersDeployed) {
+    AdapterRegistry registry(nullptr);
+
+    // Register two DRAFT adapters: one TRAINED, one DEPLOYED
+    AdapterMetadata trained_draft;
+    trained_draft.adapter_id  = "llama-draft-trained";
+    trained_draft.architecture = "llama";
+    trained_draft.role        = AdapterRole::DRAFT;
+    trained_draft.status      = AdapterMetadata::Status::TRAINED;
+    trained_draft.version     = {1, 0, 0};
+    registry.registerAdapter(trained_draft);
+
+    AdapterMetadata deployed_draft;
+    deployed_draft.adapter_id  = "llama-draft-deployed";
+    deployed_draft.architecture = "llama";
+    deployed_draft.role        = AdapterRole::DRAFT;
+    deployed_draft.status      = AdapterMetadata::Status::DEPLOYED;
+    deployed_draft.version     = {1, 0, 0};
+    registry.registerAdapter(deployed_draft);
+
+    auto found = registry.findDraftAdapterForFamily("llama");
+    ASSERT_TRUE(found.has_value());
+    EXPECT_EQ(found->adapter_id, "llama-draft-deployed")
+        << "DEPLOYED adapter should be preferred over TRAINED adapter";
+}
+
+// ═══════════════════════════════════════════════════════════
+// Test 16: InferenceEngineEnhanced — setAdapterRegistry +
+//          auto draft model selection
+// ═══════════════════════════════════════════════════════════
+
+TEST(SpeculativeDecoderIntegrationTest, AutoDraftModelViaAdapterRegistry) {
+    // Build an engine with enable_speculative_decoding but NO explicit draft ID.
+    InferenceEngineEnhanced::Config cfg;
+    cfg.enable_speculative_decoding = true;
+    cfg.speculative_draft_tokens    = 3;
+    cfg.speculative_draft_model_id  = "";  // Use auto-discovery
+    cfg.num_worker_threads          = 1;
+    cfg.enable_context_caching      = false;
+    cfg.batch_timeout_ms            = 50;
+
+    InferenceEngineEnhanced engine(cfg);
+
+    // Register both models before attaching the registry.
+    engine.registerModel("llama-7b",   std::make_shared<MockPlugin>("llama-7b",   5));
+    engine.registerModel("llama-0.5b", std::make_shared<MockPlugin>("llama-0.5b", 2));
+
+    // Build an adapter registry that maps "llama" family → "llama-0.5b" draft model.
+    auto registry = std::make_shared<AdapterRegistry>(nullptr);
+    AdapterMetadata draft_meta;
+    draft_meta.adapter_id  = "llama-0.5b";  // Must match a registered model ID
+    draft_meta.architecture = "llama";
+    draft_meta.role        = AdapterRole::DRAFT;
+    draft_meta.status      = AdapterMetadata::Status::DEPLOYED;
+    registry->registerAdapter(draft_meta);
+
+    engine.setAdapterRegistry(registry);
+    engine.start();
+
+    InferenceEngineEnhanced::EnhancedInferenceRequest req;
+    req.request_id              = "auto_draft_test";
+    req.base_request.prompt     = "Auto-discovered draft model test";
+    req.base_request.max_tokens = 20;
+    req.allow_caching           = false;
+    req.preferred_model_id      = "llama-7b";
+
+    auto handle   = engine.submit(req);
+    auto response = handle.get();
+
+    EXPECT_FALSE(response.text.empty());
+
+    // Speculative stats: the engine should have found the draft model.
+    auto stats = engine.getStatistics();
+    EXPECT_GE(stats.speculative_steps, 1u)
+        << "Speculative decoding steps should be recorded when draft model is auto-discovered";
+
+    engine.shutdown();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LLM-RAID integration: SpeculativeDecoder::Config::remote_draft_shard_id
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Test 14 (SD-RDSI-01): remote_draft_shard_id defaults to empty string.
+TEST(SpeculativeDecoderConfig, RemoteDraftShardIdDefaultsEmpty) {
+    SpeculativeDecoder::Config cfg;
+    EXPECT_TRUE(cfg.remote_draft_shard_id.empty());
+}
+
+// Test 15 (SD-RDSI-02): remote_draft_shard_id can be set and read back.
+TEST(SpeculativeDecoderConfig, RemoteDraftShardIdRoundTrip) {
+    SpeculativeDecoder::Config cfg;
+    cfg.remote_draft_shard_id = "shard-a:model:mistral-7b-q4";
+    EXPECT_EQ(cfg.remote_draft_shard_id, "shard-a:model:mistral-7b-q4");
+}
+
+// Test 16 (SD-RDSI-03): SpeculativeDecoder can be constructed with
+//   a remote-draft config; it must not affect local verify() logic.
+TEST(SpeculativeDecoderConfig, RemoteDraftShardIdDoesNotAffectLocalVerify) {
+    SpeculativeDecoder::Config cfg;
+    cfg.k = 2;
+    cfg.remote_draft_shard_id = "shard-b:model:phi-2";
+    SpeculativeDecoder decoder(cfg);
+
+    constexpr size_t V = 4;
+    // Perfect draft: draft logits and target logits both peak at the same token.
+    auto draft_row  = makePeakedLogits(V, 0);
+    auto target_row = makePeakedLogits(V, 0);
+
+    std::vector<std::vector<float>> draft_logits  = { draft_row, draft_row };
+    std::vector<std::vector<float>> target_logits = { target_row, target_row, target_row };
+
+    auto result = decoder.verify({0, 0}, draft_logits, target_logits);
+    // With a perfect draft all K tokens should be accepted.
+    EXPECT_EQ(result.num_accepted, cfg.k);
 }

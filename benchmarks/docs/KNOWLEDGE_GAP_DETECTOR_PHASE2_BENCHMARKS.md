@@ -1,3 +1,6 @@
+> ⚠️ **Historische Messdaten** – Die in diesem Dokument enthaltenen Zahlen entstammen einem bestimmten Messzeitpunkt und sind nicht mehr reproduzierbar ohne die ursprüngliche Testumgebung.
+> Für reproduzierbare Ergebnisse: Benchmark-Kommandos und aktuelle CMake-Presets unter [`benchmarks/README.md`](../README.md) verwenden.
+
 # Knowledge Gap Detector Phase 2 Benchmarks
 
 Comprehensive Google Benchmark suite for evaluating the performance of Phase 2 LLM-based confidence metrics in the Knowledge Gap Detector.

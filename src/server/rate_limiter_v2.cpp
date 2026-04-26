@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rate_limiter_v2.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:58                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     533                                            ║
+    • Total Lines:     530                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • ea7db4d78  2026-03-11  feat(server): Redis backend for RateLimiterV2 (distribute... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -285,15 +285,14 @@ bool TokenBucketRateLimiter::redisConnect() {
     THEMIS_INFO("TokenBucketRateLimiter: Redis connected, script SHA={}", evalsha_);
     return true;
 #else
-    (void)this;
     return false;
 #endif
 }
 
-int TokenBucketRateLimiter::redisEvalBucket(Priority prio,
-                                             size_t capacity,
-                                             size_t refill_rate,
-                                             size_t consume_count) {
+int TokenBucketRateLimiter::redisEvalBucket([[maybe_unused]] Priority prio,
+                                             [[maybe_unused]] size_t capacity,
+                                             [[maybe_unused]] size_t refill_rate,
+                                             [[maybe_unused]] size_t consume_count) {
 #ifdef THEMIS_ENABLE_REDIS
     std::string key = redisKey(config_.bucket_id, prio);
 
@@ -317,15 +316,14 @@ int TokenBucketRateLimiter::redisEvalBucket(Priority prio,
     }
     return redisExecEvalsha(key, capacity, refill_rate, consume_count);
 #else
-    (void)prio; (void)capacity; (void)refill_rate; (void)consume_count;
     return -1;
 #endif
 }
 
-int TokenBucketRateLimiter::redisExecEvalsha(const std::string& key,
-                                              size_t capacity,
-                                              size_t refill_rate,
-                                              size_t consume_count) {
+int TokenBucketRateLimiter::redisExecEvalsha([[maybe_unused]] const std::string& key,
+                                              [[maybe_unused]] size_t capacity,
+                                              [[maybe_unused]] size_t refill_rate,
+                                              [[maybe_unused]] size_t consume_count) {
 #ifdef THEMIS_ENABLE_REDIS
     // Caller must hold redis_mutex_ and have a valid redis_ctx_ with script loaded.
     auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -361,7 +359,6 @@ int TokenBucketRateLimiter::redisExecEvalsha(const std::string& key,
     redis_errors_.store(0, std::memory_order_relaxed);
     return result;
 #else
-    (void)key; (void)capacity; (void)refill_rate; (void)consume_count;
     return -1;
 #endif
 }

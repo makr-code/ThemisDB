@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            argument_store.cpp                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:15:19                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:48:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   96.0/100                                       ║
-    • Total Lines:     359                                            ║
+    • Total Lines:     391                                            ║
     • Open Issues:     TODOs: 2, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9ab72c508  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
-    • acdb250db  2026-03-12  feat: migrate plugins to src/include with CMake switches ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 11ddb98b9f  2026-04-09  Add comprehensive documentation and security measures for... ║
+    • 32f246a038  2026-04-08  feat(ethics_ai): enhance plugin configuration and overrid... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,6 +26,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "query/query_engine.h"
 #include <algorithm>
+#include <set>
 
 namespace themis {
 namespace plugins {
@@ -55,7 +55,7 @@ Status ArgumentStore::initialize(
     return Status::OK();
 }
 
-Status ArgumentStore::storeArgument(const EthicalArgument& argument, bool store_vector) {
+Status ArgumentStore::storeArgument(const EthicalArgument& argument, [[maybe_unused]] bool store_vector) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (!initialized_) {
@@ -175,16 +175,17 @@ std::variant<std::vector<EthicalArgument>, Status> ArgumentStore::getArgumentsBy
     std::string prefix = "entity:ethics_arguments:";
     
     // Scan RocksDB with prefix
-    storage_->scan(prefix, [&](const std::string& key, const std::vector<uint8_t>& value) {
+    storage_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
         if (results.size() >= limit) {
             return false; // Stop iteration
         }
         
         // Extract PK from key
-        std::string pk = key.substr(prefix.length());
+        std::string pk = std::string(key).substr(prefix.length());
         
         // Deserialize BaseEntity
-        BaseEntity entity = BaseEntity::deserialize(pk, value);
+        std::vector<uint8_t> blob(value.begin(), value.end());
+        BaseEntity entity = BaseEntity::deserialize(pk, blob);
         
         // Check philosophy school filter
         auto school = entity.getFieldAsString("philosophy_school");
@@ -283,12 +284,12 @@ Status ArgumentStore::storePhilosophyProfile(const PhilosophyProfile& profile) {
         return Status::Error("ArgumentStore not initialized");
     }
     
-    if (profile.school.empty()) {
+    if (profile.school_id.empty()) {
         return Status::Error("Profile school cannot be empty");
     }
     
     if (standalone_mode_) {
-        profiles_[profile.school] = profile;
+        profiles_[profile.school_id] = profile;
         return Status::OK();
     }
     
@@ -296,7 +297,7 @@ Status ArgumentStore::storePhilosophyProfile(const PhilosophyProfile& profile) {
     BaseEntity entity = EthicsBaseEntityAdapter::toBaseEntity(profile);
     
     // Store in RocksDB
-    std::string key = EthicsBaseEntityAdapter::makeProfileKey(profile.school);
+    std::string key = EthicsBaseEntityAdapter::makeProfileKey(profile.school_id);
     auto blob = entity.serialize();
     storage_->put(key, blob);
     
@@ -350,8 +351,72 @@ void ArgumentStore::shutdown() {
     arguments_.clear();
     decisions_.clear();
     profiles_.clear();
+    chains_.clear();
     
     initialized_ = false;
+}
+
+Status ArgumentStore::storeChain(const ArgumentChain& chain) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!initialized_) {
+        return Status::Error("ArgumentStore not initialized");
+    }
+    
+    if (chain.id.empty()) {
+        return Status::Error("Chain ID cannot be empty");
+    }
+    
+    chains_[chain.id] = chain;
+    return Status::OK();
+}
+
+std::variant<ArgumentChain, Status> ArgumentStore::getChain(const std::string& chain_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!initialized_) {
+        return Status::Error("ArgumentStore not initialized");
+    }
+    
+    auto it = chains_.find(chain_id);
+    if (it == chains_.end()) {
+        return Status::Error("Chain not found: " + chain_id);
+    }
+    
+    return it->second;
+}
+
+// ============================================================================
+// v0.2.0 — Debate Transcript Storage
+// ============================================================================
+
+Status ArgumentStore::storeDebateRound(const DebateRound& round) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto& rounds = debate_rounds_[round.debate_id];
+    // Replace if a round with the same number already exists.
+    for (auto& existing : rounds) {
+        if (existing.round_number == round.round_number) {
+            existing = round;
+            return Status::OK();
+        }
+    }
+    rounds.push_back(round);
+    // Keep rounds sorted by round_number.
+    std::sort(rounds.begin(), rounds.end(),
+              [](const DebateRound& a, const DebateRound& b) {
+                  return a.round_number < b.round_number;
+              });
+    return Status::OK();
+}
+
+std::variant<std::vector<DebateRound>, Status>
+ArgumentStore::getDebateTranscript(const std::string& debate_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = debate_rounds_.find(debate_id);
+    if (it == debate_rounds_.end()) {
+        return std::vector<DebateRound>{}; // no rounds yet — not an error
+    }
+    return it->second;
 }
 
 } // namespace ethics

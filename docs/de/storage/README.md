@@ -1,8 +1,8 @@
 # Storage-Modul
-<!-- Status: current | validated: 2026-03-10 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Primärdokumentation: ../../../src/storage/ -->
 
-**Stand:** 10. März 2026  
+**Stand:** 6. April 2026  
 **Version:** 1.1  
 **Kategorie:** 💾 Persistenz & Speicher  
 **Validated:** 2026-03-10 (Reality-Check gegen Sourcecode; siehe [missing-implementations.md](missing-implementations.md))

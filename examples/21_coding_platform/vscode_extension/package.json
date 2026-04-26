@@ -10,13 +10,7 @@
     "Snippets",
     "Other"
   ],
-  "activationEvents": [
-    "onCommand:themisdb.searchSnippets",
-    "onCommand:themisdb.insertSnippet",
-    "onCommand:themisdb.saveSnippet",
-    "onCommand:themisdb.findSimilar",
-    "onView:themisdbSnippets"
-  ],
+  "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [

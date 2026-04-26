@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_federation.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:18:36                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   86.0/100                                       ║
-    • Total Lines:     666                                            ║
+    • Total Lines:     668                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 7811d1486  2026-03-27  feat: Enhance backward compatibility and legacy support a... ║
-    • 13e4bb297  2026-03-26  Enhance GraphQL Performance Tests and Saga Operation Comp... ║
-    • c8d2c5254  2026-03-24  fix(query): address code review: two-part ring walk, fall... ║
-    • bc061a79d  2026-03-24  feat(query): QueryFederation shard-key routing v1.9.0 ║
-    • 097e8a577  2026-03-24  feat(query,sharding): QueryFederation shard-key routing v... ║
+    • 7811d1486a  2026-03-27  feat: Enhance backward compatibility and legacy support a... ║
+    • 13e4bb2974  2026-03-26  Enhance GraphQL Performance Tests and Saga Operation Comp... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -29,6 +26,7 @@
 #include <algorithm>
 #include <regex>
 #include <set>
+#include <stdexcept>
 #include <spdlog/spdlog.h>
 
 // Configuration constants
@@ -75,8 +73,102 @@ QueryFederation::QueryFederation(
                  config_.enable_result_streaming);
 }
 
-nlohmann::json QueryFederation::execute(const std::string& query) {
-    total_queries_++;
+// ─────────────────────────────────────────────────────────────────────────────
+// DK-4: Federated RAG merge (Layer C)
+// ─────────────────────────────────────────────────────────────────────────────
+
+void QueryFederation::setRAGMerger(
+    std::shared_ptr<distributed_knowledge::FederatedRAGMerger> merger)
+{
+    rag_merger_ = std::move(merger);
+}
+
+void QueryFederation::setShardRouter(
+    std::shared_ptr<sharding::AdaptiveShardRouter> router)
+{
+    adaptive_router_ = std::move(router);
+}
+
+distributed_knowledge::MergedRAGContext QueryFederation::mergeRAGResults(
+    const std::vector<distributed_knowledge::ShardRetrievalResult>& shard_results) const
+{
+    if (!rag_merger_) {
+        throw std::logic_error(
+            "QueryFederation::mergeRAGResults: no FederatedRAGMerger injected — "
+            "call setRAGMerger() first");
+    }
+    return rag_merger_->merge(shard_results);
+}
+
+distributed_knowledge::MergedRAGContext QueryFederation::executeFederatedRAGQuery(
+    const std::string& query,
+    distributed_knowledge::AdapterDomainType domain)
+{
+    if (!rag_merger_) {
+        throw std::logic_error(
+            "QueryFederation::executeFederatedRAGQuery: no FederatedRAGMerger "
+            "injected — call setRAGMerger() first");
+    }
+
+    // Fan-out to all shards
+    auto raw_results = shard_router_->scatterGather(query);
+
+    // Convert ShardResult → ShardRetrievalResult
+    std::vector<distributed_knowledge::ShardRetrievalResult> rag_results;
+    rag_results.reserve(raw_results.size());
+
+    for (const auto& sr : raw_results) {
+        distributed_knowledge::ShardRetrievalResult rr;
+        rr.shard_id = sr.shard_id;
+        rr.ok       = sr.success;
+        if (!sr.success) {
+            rr.error_message = sr.error_msg;
+            rag_results.push_back(std::move(rr));
+            continue;
+        }
+
+        // Per-shard accuracy delta from AdaptiveShardRouter (DK-2)
+        if (adaptive_router_) {
+            rr.adapter_accuracy_delta =
+                adaptive_router_->getAdapterAccuracyDelta(sr.shard_id, domain);
+        }
+
+        // Extract documents from shard data
+        // Supports two layouts:
+        //   1. data is a JSON array of document objects
+        //   2. data is a JSON object with a "docs" array key
+        const nlohmann::json* doc_list = nullptr;
+        if (sr.data.is_array()) {
+            doc_list = &sr.data;
+        } else if (sr.data.is_object() && sr.data.contains("docs") &&
+                   sr.data["docs"].is_array()) {
+            doc_list = &sr.data["docs"];
+        }
+
+        if (doc_list) {
+            size_t rank = 1;
+            for (const auto& dj : *doc_list) {
+                distributed_knowledge::RetrievedDocument doc;
+                doc.doc_id  = dj.value("doc_id",
+                              dj.value("_key",
+                              dj.value("id", std::to_string(rank))));
+                doc.content = dj.value("content", dj.dump());
+                doc.shard_id         = sr.shard_id;
+                doc.relevance_score  = dj.value("score", 1.0 / static_cast<double>(rank));
+                doc.rank_in_shard    = rank++;
+                rr.documents.push_back(std::move(doc));
+            }
+        }
+
+        rag_results.push_back(std::move(rr));
+    }
+
+    return rag_merger_->merge(rag_results);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
+nlohmann::json QueryFederation::execute(const std::string& query) {    total_queries_++;
     auto start_time = std::chrono::steady_clock::now();
     
     try {
@@ -579,7 +671,7 @@ std::vector<std::string> QueryFederation::determineRelevantShards(
 
 std::string QueryFederation::rewriteQueryForShard(
     const std::string& query,
-    const std::string& shard_id
+    [[maybe_unused]] const std::string& shard_id
 ) {
     // Rewrite query to add shard-specific predicates
     // For example, add a filter on partition key
@@ -594,7 +686,7 @@ std::string QueryFederation::rewriteQueryForShard(
 
 nlohmann::json QueryFederation::mergeResults(
     const std::vector<sharding::ShardResult>& results,
-    const QueryMetadata& metadata
+    [[maybe_unused]] const QueryMetadata& metadata
 ) {
     nlohmann::json merged = nlohmann::json::array();
     
@@ -659,7 +751,7 @@ nlohmann::json QueryFederation::applyGlobalOperations(
     return result;
 }
 
-uint64_t QueryFederation::estimateCollectionSize(const std::string& collection) {
+uint64_t QueryFederation::estimateCollectionSize([[maybe_unused]] const std::string& collection) {
     // Simplified size estimation
     // Real implementation would query metadata or use statistics
     

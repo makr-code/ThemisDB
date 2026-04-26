@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            edition_manager.h                                  ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:12:04                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:47:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     268                                            ║
+    • Total Lines:     263                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 4da3502dd  2026-03-12  feat(themis): add THEMIS_BASE_API export macros to public... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a4de3d12c  2026-03-01  feat(themis): implement dynamic feature flag override API... ║
-    • 0cbb725b3  2026-02-23  feat(themis): implement edition_manager.cpp for Community... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -53,8 +51,7 @@
  *   }
  */
 
-#ifndef THEMIS_EDITION_MANAGER_H
-#define THEMIS_EDITION_MANAGER_H
+#pragma once
 
 #include "themis/edition.h"
 #include "themis/export.h"
@@ -264,5 +261,3 @@ private:
 
 } // namespace edition
 } // namespace themis
-
-#endif // THEMIS_EDITION_MANAGER_H

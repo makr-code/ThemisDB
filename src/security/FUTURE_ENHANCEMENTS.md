@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-24 -->
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Security Module - Future Enhancements
@@ -148,7 +150,7 @@ class QuantumResistantSigning : public SigningService {
 public:
     // Dilithium-5 for maximum security
     SigningResult sign(const std::vector<uint8_t>& data) override;
-    bool verify(const std::vector<uint8_t>& data, 
+    bool verify(const std::vector<uint8_t>& data,
                 const std::vector<uint8_t>& signature) override;
 };
 ```
@@ -162,13 +164,13 @@ public:
     EncryptedBlob encrypt(const std::string& plaintext) {
         auto kyber_key = kyber_.generateKey();
         auto aes_key = aes_.generateKey();
-        
+
         // Encrypt data with AES
         auto ciphertext = aes_.encrypt(plaintext, aes_key);
-        
+
         // Encapsulate AES key with Kyber
         auto encapsulated = kyber_.encapsulate(aes_key);
-        
+
         return {ciphertext, encapsulated};
     }
 };
@@ -203,13 +205,13 @@ public:
         int total_shares;     // Total shares (e.g., 5)
         std::vector<std::string> participant_ids;
     };
-    
+
     // Generate key shares
     std::vector<KeyShare> generateShares(const DKGConfig& config);
-    
+
     // Reconstruct key from threshold shares
     std::vector<uint8_t> reconstructKey(const std::vector<KeyShare>& shares);
-    
+
     // Refresh shares without changing key
     std::vector<KeyShare> refreshShares(const std::vector<KeyShare>& old_shares);
 };
@@ -228,12 +230,12 @@ Require multiple parties to authorize signatures:
 class ThresholdSignature {
 public:
     // Create partial signature with individual key share
-    PartialSignature signPartial(const std::vector<uint8_t>& data, 
+    PartialSignature signPartial(const std::vector<uint8_t>& data,
                                    const KeyShare& share);
-    
+
     // Combine partial signatures
     Signature combinePartials(const std::vector<PartialSignature>& partials);
-    
+
     // Verify threshold signature
     bool verify(const std::vector<uint8_t>& data, const Signature& sig);
 };
@@ -253,11 +255,11 @@ class SecureMultiPartyComputation {
 public:
     // Secret-share input across parties
     std::vector<Share> share(const std::vector<uint8_t>& input, int parties);
-    
+
     // Compute on shares (e.g., average, sum, comparison)
     std::vector<Share> compute(const std::vector<std::vector<Share>>& inputs,
                                const ComputeFunction& func);
-    
+
     // Reconstruct result
     std::vector<uint8_t> reconstruct(const std::vector<Share>& shares);
 };
@@ -280,13 +282,13 @@ public:
                                     const std::string& context,
                                     const std::string& purpose,
                                     size_t output_len);
-    
+
     // Argon2id for password-based keys
     std::vector<uint8_t> deriveFromPassword(const std::string& password,
                                             const std::vector<uint8_t>& salt,
                                             int memory_cost,
                                             int time_cost);
-    
+
     // X963 KDF for ECDH
     std::vector<uint8_t> deriveFromECDH(const ECPoint& shared_secret,
                                         const std::vector<uint8_t>& info);
@@ -306,9 +308,9 @@ class ZeroKnowledgeQuery {
 public:
     // Generate proof that query result is correct
     // without revealing underlying data
-    Proof generateProof(const AQLQuery& query, 
+    Proof generateProof(const AQLQuery& query,
                         const QueryResult& result);
-    
+
     // Verify proof
     bool verifyProof(const AQLQuery& query,
                      const QueryResult& result,
@@ -338,7 +340,7 @@ class RangeProof {
 public:
     // Prove value is in range without revealing exact value
     Proof proveInRange(int64_t value, int64_t min, int64_t max);
-    
+
     // Example: Prove age >= 18 without revealing exact age
     bool verifyAgeProof(const Proof& proof, int64_t min_age);
 };
@@ -362,15 +364,15 @@ class HomomorphicEncryption {
 public:
     // Paillier cryptosystem for additive operations
     PaillierCiphertext encrypt(int64_t plaintext);
-    
+
     // Add encrypted values
-    PaillierCiphertext add(const PaillierCiphertext& a, 
+    PaillierCiphertext add(const PaillierCiphertext& a,
                            const PaillierCiphertext& b);
-    
+
     // Multiply encrypted value by constant
-    PaillierCiphertext multiplyConstant(const PaillierCiphertext& ct, 
+    PaillierCiphertext multiplyConstant(const PaillierCiphertext& ct,
                                         int64_t constant);
-    
+
     int64_t decrypt(const PaillierCiphertext& ct);
 };
 ```
@@ -386,12 +388,12 @@ class FullyHomomorphicEncryption {
 public:
     // Microsoft SEAL or OpenFHE backend
     FHECiphertext encrypt(int64_t plaintext);
-    
+
     // Arbitrary arithmetic on encrypted data
     FHECiphertext add(const FHECiphertext& a, const FHECiphertext& b);
     FHECiphertext multiply(const FHECiphertext& a, const FHECiphertext& b);
     FHECiphertext negate(const FHECiphertext& a);
-    
+
     int64_t decrypt(const FHECiphertext& ct);
 };
 ```
@@ -414,10 +416,10 @@ public:
     // Run encryption inside SGX enclave
     EncryptedBlob encryptInEnclave(const std::string& plaintext,
                                     const std::string& key_id);
-    
+
     // Seal data to enclave (encrypted with CPU key)
     SealedBlob seal(const std::vector<uint8_t>& data);
-    
+
     // Attest enclave integrity
     AttestationReport generateAttestation();
 };
@@ -429,7 +431,7 @@ class SEVProtection {
 public:
     // Encrypt entire VM memory
     bool enableSEV(const VMConfig& config);
-    
+
     // Verify VM integrity
     bool attestVM(const AttestationToken& token);
 };
@@ -441,9 +443,9 @@ class TrustZoneSecureWorld {
 public:
     // Execute cryptographic operations in secure world
     SecureResult executeSecure(const SecureOperation& op);
-    
+
     // Store keys in secure storage
-    bool storeKeySecure(const std::string& key_id, 
+    bool storeKeySecure(const std::string& key_id,
                         const std::vector<uint8_t>& key);
 };
 ```
@@ -455,14 +457,14 @@ class AdvancedHSM : public HSMProvider {
 public:
     // Dual control (require 2+ admins)
     bool setDualControl(const std::string& key_id, int min_approvals);
-    
+
     // Key ceremony (generate key with witnesses)
     KeyCeremonyResult conductKeyCeremony(const std::vector<std::string>& witnesses);
-    
+
     // Backup and recovery
     EncryptedBackup backupKeys(const std::vector<std::string>& key_ids);
     bool restoreKeys(const EncryptedBackup& backup);
-    
+
     // Audit logging
     std::vector<HSMAuditEvent> getAuditLog(int64_t start_ts, int64_t end_ts);
 };
@@ -474,12 +476,12 @@ public:
 class TPMProvider : public KeyProvider {
 public:
     // Use TPM for key storage
-    bool sealKeyToTPM(const std::string& key_id, 
+    bool sealKeyToTPM(const std::string& key_id,
                       const std::vector<uint8_t>& key);
-    
+
     // Unseal only if PCR values match (measured boot)
     std::optional<std::vector<uint8_t>> unsealKey(const std::string& key_id);
-    
+
     // Remote attestation
     AttestationQuote quote(const std::vector<uint8_t>& nonce);
 };
@@ -499,13 +501,13 @@ public:
         TimeOfDayProfile time_profile;
         LocationProfile location_profile;
     };
-    
+
     // Learn normal behavior
     void train(const std::vector<AuditEvent>& events);
-    
+
     // Detect anomalies
     AnomalyScore scoreEvent(const AuditEvent& event);
-    
+
     // Alert on suspicious activity
     std::vector<SecurityAlert> detectAnomalies();
 };
@@ -525,10 +527,10 @@ class MLThreatDetector {
 public:
     // Train model on labeled threats
     void train(const std::vector<LabeledEvent>& events);
-    
+
     // Classify new events
     ThreatClassification classify(const AuditEvent& event);
-    
+
     // Adaptive learning (update model with new threats)
     void updateModel(const std::vector<ConfirmedThreat>& threats);
 };
@@ -551,13 +553,13 @@ public:
         SeverityLevel severity;
         ResponseAction action;  // LOG, ALERT, BLOCK
     };
-    
+
     // Load Snort/Suricata rules
     void loadRules(const std::vector<IDS_Rule>& rules);
-    
+
     // Real-time event processing
     void processEvent(const AuditEvent& event);
-    
+
     // Auto-response
     void triggerResponse(const SecurityIncident& incident);
 };
@@ -573,10 +575,10 @@ class FIPS140Compliance {
 public:
     // Ensure only FIPS-approved algorithms
     bool validateAlgorithm(const std::string& algorithm);
-    
+
     // FIPS self-tests
     bool runSelfTests();
-    
+
     // Zeroization (secure deletion)
     void zeroize(void* ptr, size_t len);
 };
@@ -588,13 +590,13 @@ class PCIDSSCompliance {
 public:
     // Requirement 3: Protect stored cardholder data
     void encryptCardData(const std::string& pan);
-    
+
     // Requirement 4: Encrypt transmission
     void enableTLS13();
-    
+
     // Requirement 8: Multi-factor authentication
     void enforceMFA();
-    
+
     // Requirement 10: Log and monitor
     void auditAllAccess();
 };
@@ -614,10 +616,10 @@ class DifferentialPrivacy {
 public:
     // Add calibrated noise to query results
     QueryResult addNoise(const QueryResult& result, double epsilon);
-    
+
     // Privacy budget tracking
     bool checkPrivacyBudget(const std::string& dataset, double epsilon);
-    
+
     // Composition theorems
     double computeComposedEpsilon(const std::vector<double>& epsilons);
 };
@@ -628,9 +630,9 @@ public:
 class SyntheticDataGenerator {
 public:
     // Generate synthetic dataset preserving statistics
-    Dataset generateSynthetic(const Dataset& original, 
+    Dataset generateSynthetic(const Dataset& original,
                              const PrivacyParams& params);
-    
+
     // Validate synthetic data quality
     QualityMetrics evaluateQuality(const Dataset& original,
                                    const Dataset& synthetic);
@@ -644,13 +646,13 @@ class ComplianceReporter {
 public:
     // Generate SOC 2 report
     SOC2Report generateSOC2(int64_t period_start, int64_t period_end);
-    
+
     // Generate GDPR compliance report
     GDPRReport generateGDPR();
-    
+
     // Generate HIPAA audit log
     HIPAAReport generateHIPAA(int64_t period_start, int64_t period_end);
-    
+
     // Export for auditors
     AuditPackage exportForAudit(const std::vector<std::string>& controls);
 };
@@ -668,7 +670,7 @@ public:
     std::vector<EncryptedBlob> encryptBatch(
         const std::vector<std::string>& plaintexts,
         const std::string& key_id);
-    
+
     // CUDA kernel for AES-GCM
     __global__ void aes_gcm_encrypt_kernel(
         const uint8_t* plaintexts,
@@ -690,7 +692,7 @@ public:
     // Use Intel AES-NI or ARM Crypto Extensions
     std::vector<uint8_t> encryptAESNI(const std::vector<uint8_t>& plaintext,
                                        const std::vector<uint8_t>& key);
-    
+
     // VAES (AVX-512)
     void encryptBatchVAES(const BatchInput& input, BatchOutput& output);
 };
@@ -707,13 +709,13 @@ public:
         bool use_lru_eviction;
         bool enable_prefetch;
     };
-    
+
     // Predictive prefetch
     void prefetchKeys(const std::vector<std::string>& key_ids);
-    
+
     // Multi-tier cache (L1 in-memory, L2 Redis)
     std::optional<KeyMaterial> getKey(const std::string& key_id);
-    
+
     // Negative caching (cache key-not-found results)
     void cacheNegative(const std::string& key_id);
 };
@@ -728,7 +730,7 @@ public:
     std::vector<EncryptedBlob> encryptParallel(
         const std::vector<std::pair<std::string, std::string>>& fields,
         int num_threads);
-    
+
     // Pipeline encryption (overlap I/O and compute)
     void encryptPipeline(InputStream& input, OutputStream& output);
 };
@@ -744,10 +746,10 @@ class AWSKMSProvider : public KeyProvider {
 public:
     std::vector<uint8_t> encrypt(const std::vector<uint8_t>& plaintext,
                                   const std::string& key_arn) override;
-    
+
     std::vector<uint8_t> decrypt(const std::vector<uint8_t>& ciphertext,
                                   const std::string& key_arn) override;
-    
+
     // Envelope encryption
     EnvelopeKey generateDataKey(const std::string& key_arn);
 };
@@ -759,7 +761,7 @@ class AzureKeyVaultProvider : public KeyProvider {
 public:
     std::vector<uint8_t> wrapKey(const std::vector<uint8_t>& key,
                                  const std::string& vault_key_name) override;
-    
+
     std::vector<uint8_t> unwrapKey(const std::vector<uint8_t>& wrapped_key,
                                     const std::string& vault_key_name) override;
 };
@@ -771,7 +773,7 @@ class GCPKMSProvider : public KeyProvider {
 public:
     std::vector<uint8_t> asymmetricEncrypt(const std::vector<uint8_t>& plaintext,
                                            const std::string& key_path) override;
-    
+
     std::vector<uint8_t> asymmetricDecrypt(const std::vector<uint8_t>& ciphertext,
                                            const std::string& key_path) override;
 };
@@ -785,11 +787,11 @@ public:
     // Rotate secrets automatically
     void enableAutoRotation(const std::string& secret_id,
                            std::chrono::hours rotation_period);
-    
+
     // Version management
     SecretVersion getSecretVersion(const std::string& secret_id,
                                    const std::string& version);
-    
+
     // Access control
     bool grantAccess(const std::string& secret_id,
                     const std::string& principal);
@@ -803,10 +805,10 @@ class CloudSecurityServices {
 public:
     // AWS GuardDuty integration
     void enableGuardDuty();
-    
+
     // Azure Sentinel integration
     void streamToSentinel(const std::vector<AuditEvent>& events);
-    
+
     // GCP Security Command Center
     void reportToSCC(const SecurityFinding& finding);
 };
@@ -821,10 +823,10 @@ class BlockchainAuditLog {
 public:
     // Write audit event to blockchain
     TransactionHash logToBlockchain(const AuditEvent& event);
-    
+
     // Verify event integrity
     bool verifyEvent(const AuditEvent& event, const TransactionHash& tx_hash);
-    
+
     // Prove event ordering (temporal proof)
     TemporalProof proveOrdering(const AuditEvent& event1,
                                const AuditEvent& event2);
@@ -843,10 +845,10 @@ class SmartContractSecurity {
 public:
     // Deploy security policy as smart contract
     ContractAddress deployPolicy(const SecurityPolicy& policy);
-    
+
     // Enforce policy on-chain
     bool checkPolicy(const AccessRequest& request);
-    
+
     // Audit smart contract
     std::vector<Vulnerability> auditContract(const ContractAddress& addr);
 };
@@ -859,11 +861,11 @@ class DecentralizedIdentity {
 public:
     // Create decentralized identifier
     DID createDID(const PublicKey& pub_key);
-    
+
     // Verifiable credentials
     VerifiableCredential issueCredential(const DID& subject,
                                         const Claims& claims);
-    
+
     // Verify credential
     bool verifyCredential(const VerifiableCredential& credential);
 };
@@ -972,3 +974,71 @@ Interested in contributing to security features? See:
 - RBAC policy evaluation (up to 100 roles): p99 ≤ 0.5 ms
 - HSM-backed RSA-2048 sign (SoftHSM2 baseline): p99 ≤ 20 ms
 - Audit log write (tamper-evident append): p99 ≤ 2 ms per entry
+
+---
+
+## Security Hardening Backlog (Q2–Q3 2026)
+
+> Items below were identified via static analysis (2026-04-21) and are tracked as
+> GAP entries in `docs/governance/SOURCECODE_COMPLIANCE_GOVERNANCE.md`.
+
+### GAP-008 – Constant-Time Token Comparison
+
+**Scope:** `src/server/export_api_handler.cpp:443`, `src/server/auth_middleware.cpp:204`
+
+### Design Constraints
+- Must not regress existing auth flow (all tests in `tests/test_auth_middleware.cpp` must pass)
+- Constant-time comparison must guard against both value-equality and length-equality leaks
+
+### Required Interfaces
+- Use `CRYPTO_memcmp` (OpenSSL, already a dependency) for raw byte comparison
+- For `auth_middleware`, hash each stored token with HMAC-SHA256 (keyed by a server secret)
+  and compare the incoming token's digest against stored digests
+
+### Implementation Notes
+- `export_api_handler.cpp:443`: `return token == admin_token;`
+  → replace with constant-length comparison after `strlen(admin_token) == token.size()` check
+  (length check itself must **not** short-circuit; use `|=` to accumulate difference)
+- `auth_middleware.cpp:204`: key the token map on HMAC-SHA256(token); on lookup, compute the
+  incoming token's HMAC and do a direct map lookup (hash maps are structurally O(1) and hide
+  timing from the value comparison)
+
+### Test Strategy
+- Unit test: submit tokens that differ only in last byte; assert response times are statistically
+  indistinguishable (Welch's t-test, α=0.01, n=1000 samples)
+- Regression: all existing auth tests must pass unchanged
+
+### Performance Targets
+- Token validation overhead: ≤ 5 µs additional latency per request (HMAC-SHA256 is ~1 µs on modern HW)
+
+### Security / Reliability
+- `CRYPTO_memcmp` must be used; `std::equal` with custom comparator is **not** acceptable because
+  the compiler may optimise it into a timing-unsafe branch
+
+---
+
+### GAP-003 – Reject SHA-1 in SAML Assertions
+
+**Scope:** `src/auth/saml_authenticator.cpp:338`
+
+### Design Constraints
+- Existing SHA-256 SAML flows must not be affected
+- Change must be accompanied by an operator-visible warning period (deprecation log at WARN for 1 release before hard rejection)
+
+### Required Interfaces
+- EVP_sha1() branch becomes: `THEMIS_ERROR("SAML: SHA-1 digest rejected"); return false;`
+- Add a `THEMIS_SAML_ALLOW_SHA1` emergency override env-var (logs a critical warning on startup)
+
+### Implementation Notes
+- RFC 8211 (2017) mandates deprecation of SHA-1 in XML Digital Signatures
+- NIST SP 800-131A Rev. 2 prohibits SHA-1 for digital signatures after 2015
+
+### Test Strategy
+- Unit test: assert that a SHA-1-signed assertion returns `false`
+- Unit test: assert that `THEMIS_SAML_ALLOW_SHA1=1` env var re-enables SHA-1 with CRITICAL log
+
+### Performance Targets
+- No performance impact (rejection is early-exit)
+
+### Security / Reliability
+- Hard rejection by default; no silent downgrade

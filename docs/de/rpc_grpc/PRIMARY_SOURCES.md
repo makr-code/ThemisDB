@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [rpc_grpc](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-04  
+**Datum:** 2026-04-17  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `src/rpc_grpc/ARCHITECTURE.md`
@@ -18,7 +18,7 @@
 
 # Primary Sources — `rpc_grpc`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`rpc_grpc`** aus den Verzeichnissen `src/rpc_grpc/` und/oder `include/rpc_grpc/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`rpc_grpc`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
 
@@ -36,4 +36,4 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`rpc_grpc`*
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-04*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*

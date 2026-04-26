@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [search](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-04  
+**Datum:** 2026-04-17  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/search/ARCHITECTURE.md`
@@ -25,21 +25,9 @@
 
 # Primary Sources — `search`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`search`** aus den Verzeichnissen `src/search/` und/oder `include/search/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`search`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/search/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/search/ARCHITECTURE.md`](../../../src/search/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/search/AUDIT.md`](../../../src/search/AUDIT.md) |
-| `CHANGELOG.md` | [`src/search/CHANGELOG.md`](../../../src/search/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/search/FUTURE_ENHANCEMENTS.md`](../../../src/search/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/search/README.md`](../../../src/search/README.md) |
-| `ROADMAP.md` | [`src/search/ROADMAP.md`](../../../src/search/ROADMAP.md) |
-| `SECURITY.md` | [`src/search/SECURITY.md`](../../../src/search/SECURITY.md) |
 
 ### `include/search/`
 
@@ -53,6 +41,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`search`** 
 | `ROADMAP.md` | [`include/search/ROADMAP.md`](../../../include/search/ROADMAP.md) |
 | `SECURITY.md` | [`include/search/SECURITY.md`](../../../include/search/SECURITY.md) |
 
+### `src/search/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/search/ARCHITECTURE.md`](../../../src/search/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/search/AUDIT.md`](../../../src/search/AUDIT.md) |
+| `CHANGELOG.md` | [`src/search/CHANGELOG.md`](../../../src/search/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/search/FUTURE_ENHANCEMENTS.md`](../../../src/search/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/search/README.md`](../../../src/search/README.md) |
+| `ROADMAP.md` | [`src/search/ROADMAP.md`](../../../src/search/ROADMAP.md) |
+| `SECURITY.md` | [`src/search/SECURITY.md`](../../../src/search/SECURITY.md) |
+
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-04*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*

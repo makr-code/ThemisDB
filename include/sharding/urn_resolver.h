@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            urn_resolver.h                                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:41                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • bc061a79d  2026-03-24  feat(query): QueryFederation shard-key routing v1.9.0 ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • bc061a79df  2026-03-24  feat(query): QueryFederation shard-key routing v1.9.0 ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

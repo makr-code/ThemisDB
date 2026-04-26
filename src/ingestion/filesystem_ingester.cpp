@@ -3,22 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            filesystem_ingester.cpp                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:43                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     764                                            ║
+    • Total Lines:     763                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 478adf5f9  2026-02-28  security(ingestion): path traversal and API key storage a... ║
-    • eda6e27de  2026-02-28  fix(ingestion): reject_invalid=false mode, schema_violati... ║
-    • 53f0cfc43  2026-02-28  feat(ingestion): per-source schema validation before writ... ║
-    • 81a0f7896  2026-02-23  Security fix: add isConverterSafe() to guard popen() agai... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -157,7 +156,7 @@ static void collectTextNodes(const pugi::xml_node& node, std::ostringstream& out
 /// Extract plain text from an XML/HTML buffer using pugixml.
 /// Falls back to returning an empty string when pugixml is not available.
 static std::string extractXmlText(const std::string& raw,
-                                   bool is_html) {
+                                   [[maybe_unused]] bool is_html) {
 #ifdef THEMIS_HAS_PUGIXML
     pugi::xml_document doc;
     unsigned int parse_flags = is_html
@@ -177,7 +176,6 @@ static std::string extractXmlText(const std::string& raw,
     return out.str();
 #else
     // pugixml not available: return raw content as-is (best effort)
-    (void)is_html;
     return raw;
 #endif
 }
@@ -427,6 +425,7 @@ public:
     
     IngestionStats ingest(const std::string& target_collection,
                          ProgressCallback progress_callback) {
+        (void)target_collection;
         IngestionStats stats;
         auto start_time = std::chrono::steady_clock::now();
         

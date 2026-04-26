@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/network/ -->
 
 # Network Module - Future Enhancements
@@ -55,8 +57,9 @@
 
 ---
 
+### `WireProtocolServer`: WebSocket Binary Frame Dispatch
 
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Add WebSocket support for real-time bidirectional communication.
@@ -135,7 +138,7 @@ ThemisDB Message Format (JSON):
 ---
 
 ### UDP Protocol Support
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Add UDP support for low-latency, fire-and-forget operations.
@@ -173,7 +176,7 @@ UDPClient client("server.example.com:8768");
 client.send_metric("cpu.usage", 85.5, timestamp);
 
 // Send with optional ACK
-client.send_metric("important.metric", 123.4, timestamp, 
+client.send_metric("important.metric", 123.4, timestamp,
     /*wait_for_ack=*/true,
     /*timeout_ms=*/1000
 );
@@ -213,91 +216,65 @@ Payload:
 ---
 
 ### QUIC Protocol Support
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v2.0.0
+**Status:** ✅ Implemented (v2.0.0, 2026-04-13)
 
-Add QUIC (HTTP/3) support for modern low-latency communication.
+QUIC (HTTP/3) support for modern low-latency communication.
 
-**Features:**
-- QUIC protocol (UDP + TLS 1.3)
-- 0-RTT connection establishment
-- Built-in encryption (no plain QUIC)
-- Multiple streams over single connection
-- Better loss recovery than TCP
-- Connection migration (mobile clients)
+**Implementation:** `include/network/quic_server.h` / `src/network/quic_server.cpp`
 
-**Benefits:**
-- **Faster handshake:** 0-RTT for resumed connections (vs 3 RTT for TCP+TLS)
-- **Better loss recovery:** Packet-level retransmission (vs TCP head-of-line blocking)
-- **Connection migration:** Survive IP changes (Wi-Fi to cellular)
-- **Built-in encryption:** No plain QUIC (always encrypted)
+**Classes delivered:**
+- `QUICServer` — QUIC/HTTP/3 server (port 8769 default); ALPN "h3" + "tmdb"; UDP + TLS 1.3; guarded by `THEMIS_ENABLE_HTTP3`
+- `QUICClient` — QUIC client; `quic://host:port` URL; `openStream()` independent bidirectional streams
+- `QUICClient::Stream` — independent QUIC stream; `send()` / `receive()` / `close()` / `streamId()`
 
-**API:**
-```cpp
-QUICServer::Config config;
-config.port = 8769;
-config.max_streams_per_connection = 100;
-config.enable_0rtt = true;         // 0-RTT for resumed connections
-config.congestion_control = "bbr"; // BBR or Cubic
+**Features delivered:**
+- [x] QUIC protocol (UDP + TLS 1.3)
+- [x] 0-RTT connection establishment (`enable_0rtt=true`; `zero_rtt_accepted`/`zero_rtt_rejected` stats)
+- [x] Built-in encryption (no plain QUIC; TLS 1.3 mandatory)
+- [x] Multiple streams over single connection (`max_streams_per_connection`, default 100)
+- [x] Better loss recovery than TCP (QUIC per-packet retransmit via ngtcp2)
+- [x] Connection migration (mobile clients; `migrations` stat)
+- [x] Congestion control: BBR (default) or Cubic (`congestion_control` config field)
+- [x] HTTP/3 ALPN ("h3") for compatibility with standard HTTP/3 clients
+- [x] QUIC-specific metrics (`zero_rtt_accepted`, `zero_rtt_rejected`, `migrations`, `handshakes_completed`)
 
-QUICServer quic_server(config, storage, index_mgr);
-quic_server.start();
-
-// Client-side
-QUICClient client("quic://server.example.com:8769");
-client.connect();  // 0-RTT if resumed
-
-// Multiple concurrent streams
-auto stream1 = client.open_stream();
-stream1.send_request(query1);
-
-auto stream2 = client.open_stream();
-stream2.send_request(query2);
-
-// Streams are independent (no head-of-line blocking)
-```
-
-**Performance Characteristics:**
-- Initial connection: ~1 RTT (vs 3 RTT for TCP+TLS)
-- 0-RTT connection: 0 RTT (vs 3 RTT for TCP+TLS)
-- Stream multiplexing: No head-of-line blocking
-- Loss recovery: Faster than TCP (per-packet retransmit)
-
-**Implementation:**
-- Use quiche (Cloudflare) or mvfst (Meta) QUIC library
-- Implement HTTP/3 mapping for compatibility
-- Support connection migration (mobile use case)
-- Add QUIC-specific metrics (0-RTT usage, migration events)
+**Tests:** 35 focused tests (QS-01…QS-35) in `tests/test_quic_server.cpp`; CMake target: `test_quic_server_focused`
 
 ---
 
 ### Kernel Bypass (DPDK/io_uring)
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.9.0
+**Status:** ✅ Implemented (v1.9.0, 2026-04-13)
 
-Add kernel bypass support for ultra-low latency applications.
+Kernel bypass support for ultra-low latency applications.
+
+**Implementation:** `include/network/kernel_bypass.h` / `src/network/kernel_bypass.cpp`
+
+**Classes delivered:**
+- `DPDKServer` — DPDK EAL integration; poll-mode RX/TX; guarded by `THEMIS_ENABLE_DPDK`; port 8772 default
+- `IoUringServer` — io_uring SQPOLL async server; fixed-buffer zero-copy sends; guarded by `THEMIS_ENABLE_IO_URING` + Linux; port 8773 default
+- `CpuPinner` — `pinCallerToCore()` / `pinThreadToCore()` / `numaNodeForCore()` / `coresOnNuma()`
+- `NumaAllocator` — NUMA-local allocation (`THEMIS_ENABLE_NUMA`) with `posix_memalign` fallback
+- `ZeroCopyDmaBuffer` — huge-page (`MAP_HUGETLB`) DMA buffer; `mbind()` NUMA binding; move-only
 
 **Features:**
-- DPDK (Data Plane Development Kit) for 10G/40G/100G NICs
-- io_uring for efficient async I/O on Linux
-- Zero-copy networking
-- User-space TCP/IP stack
-- CPU pinning and NUMA awareness
-
-**Benefits:**
-- **5-10x lower latency:** Bypass kernel TCP/IP stack
-- **Higher throughput:** Saturate 100G NICs
-- **Lower CPU usage:** Efficient polling mode
-- **Predictable latency:** No context switches
+- [x] DPDK (Data Plane Development Kit) for 10G/40G/100G NICs
+- [x] io_uring for efficient async I/O on Linux
+- [x] Zero-copy networking (fixed-buffer `IORING_REGISTER_BUFFERS` + `ZeroCopyDmaBuffer`)
+- [x] User-space TCP/IP stack (DPDK PMD poll loop)
+- [x] CPU pinning and NUMA awareness (`CpuPinner` / `NumaAllocator`)
 
 **DPDK Integration:**
 ```cpp
 DPDKServer::Config config;
-config.port = 8770;
+config.port = 8772;                    // default DPDK server port
 config.pci_address = "0000:05:00.0";  // NIC PCI address
 config.num_rx_queues = 4;
 config.num_tx_queues = 4;
-config.cpu_core_mask = 0x0F;  // Cores 0-3
+config.cpu_core_mask = 0x0F;           // Cores 0-3
 config.huge_pages_mb = 2048;
 
 DPDKServer dpdk_server(config, storage, index_mgr);
@@ -306,13 +283,10 @@ dpdk_server.start();
 
 **io_uring Integration:**
 ```cpp
-io_uring_params params = {};
-params.flags = IORING_SETUP_SQPOLL;  // Kernel SQ polling
-
 IoUringServer::Config config;
-config.port = 8771;
-config.ring_size = 4096;
-config.sq_thread_cpu = 2;  // CPU for SQ polling
+config.port              = 8773;       // default io_uring server port
+config.ring_size         = 4096;
+config.sq_thread_cpu     = 2;          // CPU for kernel SQ polling
 config.sq_thread_idle_ms = 1000;
 
 IoUringServer uring_server(config, storage, index_mgr);
@@ -337,10 +311,12 @@ uring_server.start();
 - ❌ Hardware specific (DPDK requires compatible NIC)
 - ❌ Limited OS compatibility (Linux only for io_uring)
 
+**Tests:** 40 focused tests (KBP-01…KBP-40) in `tests/test_kernel_bypass.cpp`
+
 ---
 
 ### Service Mesh Integration
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.10.0
 
 Add support for service mesh integration (Istio, Linkerd, Consul Connect).
@@ -412,8 +388,8 @@ spec:
 
 ---
 
-### HTTP/3 Support
-**Priority:** Low  
+## HTTP/3 Support
+**Priority:** Low
 **Target Version:** v2.0.0
 
 Add HTTP/3 support for HTTP API (complementary to wire protocol).
@@ -446,7 +422,7 @@ http3_server.start();
 ---
 
 ### Multicast Support
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.11.0
 
 Add IP multicast support for efficient one-to-many communication.
@@ -492,7 +468,7 @@ client.subscribe("topic.metrics", [](const auto& data) {
 ---
 
 ### RDMA Support
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v2.1.0
 
 Add RDMA (Remote Direct Memory Access) support for ultra-low latency.
@@ -545,7 +521,7 @@ client.rdma_read(remote_addr, length, local_buffer);
 ---
 
 ### Load Balancing with Raft Coordination
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.8.0
 
 Add Raft-based load balancing for distributed query routing.
@@ -614,8 +590,8 @@ auto conn = lb.get_connection();
 ---
 
 ### Bandwidth Management and QoS
-**Priority:** Medium  
-**Target Version:** v1.8.0  
+**Priority:** Medium
+**Target Version:** v1.8.0
 **Status:** ✅ Implemented (v1.8.0, Issue #190, PR copilot/add-bandwidth-management-qos)
 
 Add bandwidth management and quality of service (QoS) features.
@@ -644,7 +620,7 @@ qos.set_priority(connection_id, Priority::HIGH);
 qos.set_bandwidth_limit(connection_id, 50 * 1024 * 1024);  // 50 Mbps
 
 // Traffic shaping with token bucket
-qos.set_token_bucket(connection_id, 
+qos.set_token_bucket(connection_id,
     /*rate=*/10'000'000,    // 10 MB/s
     /*burst=*/100'000'000   // 100 MB burst
 );
@@ -673,7 +649,7 @@ qos.set_token_bucket(connection_id,
 ---
 
 ### Distributed Tracing
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Add distributed tracing support for request flow visualization.
@@ -700,9 +676,9 @@ void Session::handleGet() {
     auto span = tracer.start_span("wire_protocol.get",
         {{"collection", collection}, {"uuid", uuid}}
     );
-    
+
     auto result = storage_->get(key);
-    
+
     span.set_attribute("result_size", result.size());
     span.end();
 }

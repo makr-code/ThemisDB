@@ -3,18 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_response_cache.cpp                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:59                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     566                                            ║
+    • Total Lines:     586                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
+    • eb00b82270  2026-04-04  hotfix: prevent SIGSEGV in RocksDB/LLM init on Docker sta... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -45,30 +47,48 @@ LLMResponseCache::LLMResponseCache(const std::string& cache_name, const Config& 
     // Initialize RocksDB if not provided via pointer exchange
     RocksDBWrapper* db = config_.db_ptr;
     if (!db) {
-        try {
-            RocksDBWrapper::Config db_config;
-            db_config.db_path = config_.cache_dir;
-            db_config.create_if_missing = true;
-            owned_db_ = std::make_unique<RocksDBWrapper>(db_config);
-            db = owned_db_.get();
-            if (!db->open()) {
-                THEMIS_ERROR("LLMResponseCache '{}': failed to open RocksDB at '{}'", cache_name_, config_.cache_dir);
+        // Skip RocksDB creation when no cache directory is configured.
+        // The cache will operate in pure in-memory mode instead of crashing.
+        if (config_.cache_dir.empty()) {
+            THEMIS_WARN("LLMResponseCache '{}': cache_dir is empty, running in in-memory mode only",
+                        cache_name_);
+        } else {
+            try {
+                RocksDBWrapper::Config db_config;
+                db_config.db_path = config_.cache_dir;
+                db_config.create_if_missing = true;
+                // Use conservative memory settings for an embedded cache database
+                // to avoid excessive resource consumption during startup.
+                db_config.block_cache_size_mb = 64;
+                db_config.memtable_size_mb = 32;
+                db_config.db_write_buffer_size_mb = 64;
+                owned_db_ = std::make_unique<RocksDBWrapper>(db_config);
+                db = owned_db_.get();
+                if (!db->open()) {
+                    THEMIS_WARN("LLMResponseCache '{}': failed to open RocksDB at '{}', "
+                                "running in in-memory mode only",
+                                cache_name_, config_.cache_dir);
+                    owned_db_.reset();
+                    db = nullptr;
+                } else {
+                    THEMIS_INFO("LLMResponseCache '{}': Created own RocksDB at '{}'", cache_name_, config_.cache_dir);
+                }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("LLMResponseCache '{}': RocksDB init failed ({}), "
+                            "running in in-memory mode only",
+                            cache_name_, e.what());
                 owned_db_.reset();
                 db = nullptr;
-            } else {
-                THEMIS_INFO("LLMResponseCache '{}': Created own RocksDB at '{}'", cache_name_, config_.cache_dir);
             }
-        } catch (const std::exception& e) {
-            THEMIS_ERROR("Failed to create RocksDB for LLMResponseCache '{}': {}", 
-                        cache_name_, e.what());
-            return;
         }
     } else {
         THEMIS_INFO("LLMResponseCache '{}': Using external RocksDB via pointer exchange", 
                    cache_name_);
         if (!db->isOpen()) {
             if (!db->open()) {
-                THEMIS_ERROR("LLMResponseCache '{}': external RocksDB failed to open", cache_name_);
+                THEMIS_WARN("LLMResponseCache '{}': external RocksDB failed to open, "
+                            "running in in-memory mode only",
+                            cache_name_);
                 db = nullptr;
             }
         }
@@ -82,7 +102,7 @@ LLMResponseCache::LLMResponseCache(const std::string& cache_name, const Config& 
             // Initialize HNSW index for prompt embeddings
             auto status = vector_index_->init(
                 cache_name_,                           // objectName
-                config_.embedding_dim,                 // dimension
+                static_cast<int>(config_.embedding_dim), // dimension
                 VectorIndexManager::Metric::COSINE,    // metric
                 16,                                    // M
                 200,                                   // efConstruction
@@ -152,7 +172,7 @@ void LLMResponseCache::put(const std::string& prompt, const InferenceResponse& r
     
     // Record cache size metric
     if (metrics_collector_) {
-        metrics_collector_->recordCacheSize(cache_name_, stats_.total_entries / 1024.0);
+        metrics_collector_->recordCacheSize(cache_name_, stats_.total_entries.load(std::memory_order_relaxed) / 1024);
     }
     
     // Enforce max_entries limit (LRU eviction)
@@ -177,7 +197,7 @@ void LLMResponseCache::put(const std::string& prompt, const InferenceResponse& r
             stats_.total_entries.store(response_store_.size(), std::memory_order_relaxed);
             
             if (metrics_collector_) {
-                metrics_collector_->recordCacheSize(cache_name_, stats_.total_entries / 1024.0);
+                metrics_collector_->recordCacheSize(cache_name_, stats_.total_entries.load(std::memory_order_relaxed) / 1024);
             }
         }
     }
@@ -265,7 +285,7 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
                         
                         // Update cache size
                         if (metrics_collector_) {
-                            metrics_collector_->recordCacheSize(cache_name_, stats_.total_entries / 1024.0);
+                            metrics_collector_->recordCacheSize(cache_name_, stats_.total_entries.load(std::memory_order_relaxed) / 1024);
                         }
                     }
                 }
@@ -395,7 +415,7 @@ void LLMResponseCache::clear() {
         vector_index_->shutdown();
         vector_index_->init(
             cache_name_,
-            config_.embedding_dim,
+            static_cast<int>(config_.embedding_dim),
             VectorIndexManager::Metric::COSINE,
             16, 200, 64
         );
@@ -405,7 +425,7 @@ void LLMResponseCache::clear() {
     
     // Record cache cleared
     if (metrics_collector_) {
-        metrics_collector_->recordCacheSize(cache_name_, 0.0);
+        metrics_collector_->recordCacheSize(cache_name_, 0);
     }
 }
 
@@ -477,7 +497,7 @@ std::vector<float> LLMResponseCache::generateSimpleEmbedding(const std::string& 
     std::string lower_prompt;
     lower_prompt.reserve(prompt.size());
     for (char c : prompt) {
-        lower_prompt += std::tolower(c);
+        lower_prompt += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
     }
     
     // Reusable hasher to avoid repeated construction

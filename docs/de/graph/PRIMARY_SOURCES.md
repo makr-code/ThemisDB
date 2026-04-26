@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [graph](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-04  
+**Datum:** 2026-04-17  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/graph/ARCHITECTURE.md`
@@ -26,9 +26,21 @@
 
 # Primary Sources — `graph`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`graph`** aus den Verzeichnissen `src/graph/` und/oder `include/graph/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`graph`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
+
+### `include/graph/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`include/graph/ARCHITECTURE.md`](../../../include/graph/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/graph/AUDIT.md`](../../../include/graph/AUDIT.md) |
+| `CHANGELOG.md` | [`include/graph/CHANGELOG.md`](../../../include/graph/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`include/graph/FUTURE_ENHANCEMENTS.md`](../../../include/graph/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`include/graph/README.md`](../../../include/graph/README.md) |
+| `ROADMAP.md` | [`include/graph/ROADMAP.md`](../../../include/graph/ROADMAP.md) |
+| `SECURITY.md` | [`include/graph/SECURITY.md`](../../../include/graph/SECURITY.md) |
 
 ### `src/graph/`
 
@@ -43,18 +55,6 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`graph`** a
 | `ROADMAP.md` | [`src/graph/ROADMAP.md`](../../../src/graph/ROADMAP.md) |
 | `SECURITY.md` | [`src/graph/SECURITY.md`](../../../src/graph/SECURITY.md) |
 
-### `include/graph/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`include/graph/ARCHITECTURE.md`](../../../include/graph/ARCHITECTURE.md) |
-| `AUDIT.md` | [`include/graph/AUDIT.md`](../../../include/graph/AUDIT.md) |
-| `CHANGELOG.md` | [`include/graph/CHANGELOG.md`](../../../include/graph/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`include/graph/FUTURE_ENHANCEMENTS.md`](../../../include/graph/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`include/graph/README.md`](../../../include/graph/README.md) |
-| `ROADMAP.md` | [`include/graph/ROADMAP.md`](../../../include/graph/ROADMAP.md) |
-| `SECURITY.md` | [`include/graph/SECURITY.md`](../../../include/graph/SECURITY.md) |
-
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-04*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*

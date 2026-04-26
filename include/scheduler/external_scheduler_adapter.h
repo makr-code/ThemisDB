@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            external_scheduler_adapter.h                       ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:10:37                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:46:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     273                                            ║
+    • Total Lines:     270                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9ed4897df  2026-02-23  feat(scheduler): integrate Kubernetes CronJob and Airflow... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -55,8 +55,7 @@
  *   or Airflow Connections instead.
  */
 
-#ifndef THEMIS_SCHEDULER_EXTERNAL_SCHEDULER_ADAPTER_H
-#define THEMIS_SCHEDULER_EXTERNAL_SCHEDULER_ADAPTER_H
+#pragma once
 
 #include "scheduler/task_scheduler.h"
 #include <string>
@@ -269,5 +268,3 @@ private:
 
 } // namespace scheduler
 } // namespace themis
-
-#endif // THEMIS_SCHEDULER_EXTERNAL_SCHEDULER_ADAPTER_H

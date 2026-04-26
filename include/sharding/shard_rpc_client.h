@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            shard_rpc_client.h                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:38                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     268                                            ║
+    • Total Lines:     293                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
-    • 715714948  2026-03-15  feat(sharding): fix coordinator ID + implement SAGA compe... ║
-    • 2a280bfd0  2026-03-15  feat: Complete Shard RPC Integration acceptance criteria ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • cd1278c92  2026-02-27  Implement circuit breaker integration and retry policy in... ║
+    • 116157e290  2026-04-12  fix(sharding): Paxos WAL durability, writeEntity RPC, PSR... ║
+    • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -105,7 +102,7 @@ public:
         int retry_delay_ms = 100;       // Initial delay between retries (exponential backoff)
         
         // mTLS Configuration (optional, required for production)
-        bool enable_mtls = false;       // Enable mutual TLS authentication
+        bool enable_mtls = true;        // Enable mutual TLS authentication (default: on)
         std::string tls_cert_path;      // Path to client certificate (PEM format)
         std::string tls_key_path;       // Path to client private key (PEM format)
         std::string tls_ca_cert_path;   // Path to CA certificate for server verification (PEM format)
@@ -186,6 +183,25 @@ public:
     );
     
     /**
+     * @brief Replicate (write) a single entity to this shard.
+     *
+     * Uses the gRPC ReplicateData RPC in multi-node deployments and a
+     * lightweight in-process acknowledgement for loopback/test endpoints.
+     *
+     * @param collection  Collection / namespace name
+     * @param uuid        Entity UUID
+     * @param data        Entity payload (JSON object)
+     * @param timestamp_ns Write timestamp (nanoseconds since epoch); 0 = now
+     * @return true if the entity was accepted by the remote shard
+     */
+    bool writeEntity(
+        const std::string& collection,
+        const std::string& uuid,
+        const nlohmann::json& data,
+        uint64_t timestamp_ns = 0
+    );
+    
+    /**
      * @brief Check if shard is available
      */
     bool ping();
@@ -248,6 +264,14 @@ private:
      * @brief Handle gRPC snapshot read request
      */
     nlohmann::json handleSnapshotReadGrpc(
+        grpc::ClientContext& context,
+        const nlohmann::json& params
+    );
+    
+    /**
+     * @brief Handle gRPC write-entity request (ReplicateData RPC)
+     */
+    nlohmann::json handleWriteEntityGrpc(
         grpc::ClientContext& context,
         const nlohmann::json& params
     );

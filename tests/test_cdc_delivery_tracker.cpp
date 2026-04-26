@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_delivery_tracker.cpp                      ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:25:11                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:52:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     367                                            ║
+    • Total Lines:     365                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 3ba0b14cb  2026-02-24  Audit fixes: remove unused include, ack_timeout precision... ║
-    • 970f1684c  2026-02-24  Add at-least-once delivery tracker for CDC module (issue ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -271,7 +266,7 @@ TEST(DeliveryTrackerTest, RedeliveryCallbackInvokedByBackgroundThread) {
     cfg.ack_timeout = std::chrono::milliseconds{0}; // immediate timeout for test
     cfg.recheck_interval = std::chrono::milliseconds{50};
 
-    DeliveryTracker tracker(cfg, [&](const std::string& cid,
+    DeliveryTracker tracker(cfg, [&]([[maybe_unused]] const std::string& cid,
                                      const std::vector<Changefeed::ChangeEvent>& evts) {
         callback_count.fetch_add(static_cast<int>(evts.size()));
         for (const auto& ev : evts) {

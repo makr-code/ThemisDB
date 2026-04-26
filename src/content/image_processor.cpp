@@ -3,21 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            image_processor.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:10                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     580                                            ║
+    • Total Lines:     579                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 718c75097  2026-02-28  feat(content): Integrate Tesseract OCR processor (content... ║
-    • 8af0ff1a8  2026-02-27  refactor(content): address code review feedback on dedupl... ║
-    • 95da435db  2026-02-27  feat(content): add content deduplication via perceptual h... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -259,7 +259,7 @@ ContentExtractionResult ImageProcessor::extract(
 std::vector<ContentChunk> ImageProcessor::chunk(
     const ContentExtractionResult& result,
     int max_tokens,
-    int overlap
+    int /*overlap*/
 ) {
     std::vector<ContentChunk> chunks;
     
@@ -318,7 +318,7 @@ json ImageProcessor::getStatistics() const {
 
 // Private implementation methods
 
-static void detectImageDimensions(const std::vector<uint8_t>& blob, const std::string& mime_type, int& width, int& height) {
+static void detectImageDimensions(const std::vector<uint8_t>& blob, const std::string& /*mime_type*/, int& width, int& height) {
     width = 0;
     height = 0;
     
@@ -378,7 +378,7 @@ json ImageProcessor::extractExifMetadata(const std::vector<uint8_t>& blob) {
     return exif;
 }
 
-json ImageProcessor::extractXmpMetadata(const std::vector<uint8_t>& blob) {
+json ImageProcessor::extractXmpMetadata(const std::vector<uint8_t>& /*blob*/) {
     json xmp;
     
     // XMP data is XML embedded in images
@@ -387,7 +387,7 @@ json ImageProcessor::extractXmpMetadata(const std::vector<uint8_t>& blob) {
     return xmp;
 }
 
-std::vector<uint8_t> ImageProcessor::generateThumbnail(const std::vector<uint8_t>& blob) {
+std::vector<uint8_t> ImageProcessor::generateThumbnail(const std::vector<uint8_t>& /*blob*/) {
     // Real implementation would use libvips:
     // VipsImage* in;
     // vips_thumbnail_buffer(&in, blob.data(), blob.size(), thumbnail_max_width_, nullptr);
@@ -396,16 +396,15 @@ std::vector<uint8_t> ImageProcessor::generateThumbnail(const std::vector<uint8_t
     return std::vector<uint8_t>();
 }
 
-std::string ImageProcessor::performOCR(const std::vector<uint8_t>& blob) {
+std::string ImageProcessor::performOCR([[maybe_unused]] const std::vector<uint8_t>& blob) {
 #ifdef THEMIS_ENABLE_OCR
     return OcrProcessor::performOcr(blob, ocr_language_);
 #else
-    (void)blob;
     return "";
 #endif
 }
 
-std::vector<std::array<uint8_t, 3>> ImageProcessor::extractDominantColors(const std::vector<uint8_t>& blob) {
+std::vector<std::array<uint8_t, 3>> ImageProcessor::extractDominantColors(const std::vector<uint8_t>& /*blob*/) {
     std::vector<std::array<uint8_t, 3>> colors;
     
     // Real implementation would:
@@ -417,7 +416,7 @@ std::vector<std::array<uint8_t, 3>> ImageProcessor::extractDominantColors(const 
     return colors;
 }
 
-json ImageProcessor::detectFaces(const std::vector<uint8_t>& blob) {
+json ImageProcessor::detectFaces(const std::vector<uint8_t>& /*blob*/) {
     json faces = json::array();
     
     // Real implementation would use dlib, OpenCV, or ML model
@@ -426,7 +425,7 @@ json ImageProcessor::detectFaces(const std::vector<uint8_t>& blob) {
     return faces;
 }
 
-json ImageProcessor::detectObjects(const std::vector<uint8_t>& blob) {
+json ImageProcessor::detectObjects(const std::vector<uint8_t>& /*blob*/) {
     json objects = json::array();
     
     // Real implementation would use YOLO, SSD, or similar

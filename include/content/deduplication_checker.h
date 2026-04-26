@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            deduplication_checker.h                            ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:06:48                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:44:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     152                                            ║
+    • Total Lines:     148                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9d3ecaa0e  2026-02-28  Add ThemisDB Wiki Integration plugin with documentation i... ║
-    • b45ae45eb  2026-02-27  fix(content): use BoundedLRUCache for MinHash band-LSH in... ║
-    • 8af0ff1a8  2026-02-27  refactor(content): address code review feedback on dedupl... ║
-    • 95da435db  2026-02-27  feat(content): add content deduplication via perceptual h... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -328,5 +328,5 @@ For questions or issues:
 ---
 
 **Version:** ThemisDB v1.3.0  
-**Last Updated:** December 2025  
+**Last Updated:** April 2026  
 **Status:** Complete Architecture, Ready for llama.cpp Integration

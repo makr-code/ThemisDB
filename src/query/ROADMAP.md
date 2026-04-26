@@ -1,8 +1,10 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Query Module Roadmap
 
 **Version:** 1.9.0
 **Status:** ✅ Production-Ready
-**Last Updated:** 2026-03-24
+**Last Updated:** 2026-04-06
 **Module Path:** `src/query/`
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -61,7 +63,30 @@ Production-ready multi-model query engine supporting relational, document, graph
 
 ## In Progress 🚧
 
-- [~] `QueryEngine` graph traversal: edge-type filtering — `query_engine.cpp` line 3533 has a TODO ("Add edge type filtering once exposed in `TraversalQuery` struct"); depends on graph module exposing the field (Target: v1.9.0)
+- [~] `QueryEngine` graph traversal: edge-type filtering — ✅ implemented in v2.0.0 as optional `edgeTypeFilter` parameter to `executeGeneralTraversal()`. Edges are matched by `adj.graphId` (same convention as `RecursivePathQuery::edge_type`). (Target: v1.9.0 → shipped v2.0.0)
+
+## Completed (v2.0.0) ✅
+
+- [x] **Edge-type filtering in `executeGeneralTraversal()`** — optional `edgeTypeFilter` parameter added to `include/query/query_engine.h` and `src/query/query_engine.cpp`. Edges are filtered by `adj.graphId` (same convention as `RecursivePathQuery::edge_type`). Old callers unaffected (default: `""`).
+- [x] **`IQueryRewriteRule` + `QueryRewritePipeline`** — `include/query/query_rewrite_rule.h` + `src/query/query_rewrite_rule.cpp`
+  - 5 built-in rules: `PredicatePushdownRule`, `ProjectionPushdownRule`, `OrToInRewriteRule`, `ConstantFoldingRule`, `CommonSubexpressionRule`
+  - Fixed-point iteration (`max_iterations=5`); `createDefault()` factory
+  - `RewriteContext` (row counts, OR threshold, constant-folding flag) + `RewriteStats` (rules applied, transformation count)
+- [x] **`IQueryProfiler` / `QueryProfiler` / `NullQueryProfiler`** — `include/query/query_profiler.h` + `src/query/query_profiler.cpp`
+  - `OperatorProfile` (name, duration_ns, rows_in/out, memory_bytes, io_reads)
+  - `QueryProfile` (total_duration_ns, peak_memory_bytes, operators, result_rows, cache_hit, slowestOperator())
+  - `QueryProfiler`: wall-clock timing via `std::chrono::steady_clock`; `NullQueryProfiler`: zero-overhead no-op
+- [x] **`IApproximateAggregator` + three concrete implementations** — `include/query/approximate_aggregator.h` + `src/query/approximate_aggregator.cpp`
+  - `ApproximateCountDistinct`: HyperLogLog++ (precision 4–18; default 12 → ~1.6 % error; merge support)
+  - `ApproximatePercentile`: t-Digest (configurable compression; median, p95, merge, interpolation)
+  - `SamplingAggregator`: reservoir sampling (COUNT/AVG/SUM; configurable reservoir size; 1 % scale-up)
+  - Hash function: FNV-1a with MurmurHash3 64-bit avalanche finalizer for uniform top-bit distribution
+- [x] **54 focused tests** in `tests/test_query_future_interfaces.cpp` (`QueryFutureInterfacesFocusedTests`)
+  - 24 rewrite rule tests (all 5 rules + pipeline stats + fixed-point)
+  - 8 profiler tests (timing, cache-hit, operators, reset, NullProfiler, peak memory)
+  - 9 HyperLogLog tests (precision, error rate, small/large sets, duplicates, merge, reset)
+  - 6 t-Digest tests (median, p95, merge, reset)
+  - 7 reservoir sampling tests (COUNT/AVG/SUM, cap, non-numeric skip, reset)
 
 ## Completed (v1.9.0) ✅
 
@@ -82,8 +107,8 @@ Production-ready multi-model query engine supporting relational, document, graph
 
 ### Short-term (v1.9.0, Q2 2026)
 
-- [ ] Edge-type filtering in graph traversal (`TraversalQuery` struct extension) (Target: v1.9.0)
-- [ ] `QueryFederation` shard-key routing (see In Progress above) (Target: v1.9.0)
+- [x] Edge-type filtering in graph traversal (`TraversalQuery` struct extension) (Target: v1.9.0) — ✅ implemented: `executeGeneralTraversal()` now accepts optional `edgeTypeFilter` parameter
+- [x] `QueryFederation` shard-key routing (see In Progress above) (Target: v1.9.0) — ✅ already completed (v1.9.0)
   - Inputs: AQL query with shard-key predicate; `ShardingManager` interface
   - Outputs: routed plan executing on ≤ N relevant shards
   - Errors: shard unreachable → skip with `WARN`; no shard-key predicate → broadcast + `WARN` if > 10 shards
@@ -92,11 +117,18 @@ Production-ready multi-model query engine supporting relational, document, graph
   - Inputs: `TraversalQuery::edge_type_filter` (string set)
   - Outputs: traversal restricted to matching edge types
   - Tests: unit tests asserting only matching edges are followed
-- [ ] `QueryEngine::createDefault()` wired — inject `RocksDBWrapper` + `SecondaryIndexManager` concrete implementations (Target: v1.9.0)
+- [x] `QueryEngine::createDefault()` wired — inject `RocksDBWrapper` + `SecondaryIndexManager` concrete implementations (Target: v1.9.0)
   - Depends on: `storage::RocksDBWrapper` and `index::SecondaryIndexManager` adapting to `IStorageEngine`/`IIndexManager`
   - Tests: smoke test creating default engine and executing a simple AQL query
 
 ### Long-term (Q3–Q4 2026)
+
+- [~] **PERF-D7: Query Engine Lazy Eval / SIMD Column Compression** (Target: Q4 2026)
+  - `benchmarks/bench_query_lazy_eval.cpp` added: Filter-only, Filter+Project, MultiPredicate, FilterAggregate, FullPipeline, BatchSizes, SelectivitySweep, SIMD-vs-Scalar
+  - Uses `VectorizedExecutionEngine` → `analytics::ColumnarExecutionEngine` columnar late-materialization path
+  - Registered in `benchmarks/CMakeLists.txt`
+  - `PERFORMANCE_EXPECTATIONS.md` D-7 and P-8 updated
+  - Remaining work: CUDA/AVX-512 explicit intrinsics for scan kernels (Target: Q4 2026)
 
 - [ ] Machine learning–based query optimizer (Target: Q3 2026)
   - Affected: `src/query/query_optimizer.cpp`, `include/query/query_optimizer.h`
@@ -104,8 +136,8 @@ Production-ready multi-model query engine supporting relational, document, graph
   - Errors: cold-start fallback to heuristic cost model; inference latency > 10 ms → fallback
   - Tests: A/B accuracy vs. heuristic on 20 synthetic datasets; assert cost error < 15 %
   - Perf: inference latency ≤ 5 ms at p99
-- [ ] Approximate query processing (Target: Q4 2026)
-  - Affected: `src/query/statistical_aggregator.cpp`, `include/query/statistical_aggregator.h`
+- [ ] Approximate query processing (Target: Q4 2026) — 🟡 **interface & reference implementation shipped in v2.0.0**
+  - Affected: `include/query/approximate_aggregator.h`, `src/query/approximate_aggregator.cpp`
   - Techniques: HyperLogLog for `COUNT DISTINCT`, t-Digest for percentiles, 1 % sampling for aggregations
   - Errors: insufficient sample size → structured error; incompatible expression type → `UNSUPPORTED_OPERATION`
   - Tests: accuracy within 1 % of exact results on 1M-row dataset; performance ≥ 50× faster than exact path
@@ -183,6 +215,110 @@ Production-ready multi-model query engine supporting relational, document, graph
 - [x] AQL injection prevention: parameterised literals in `AQLParser`; maximum AST depth = 256
 - [x] JIT compilation tests — `tests/test_query_jit_compilation.cpp`; optimizer statistics tests — `tests/test_query_optimizer_statistics.cpp`; adaptive compilation tests — `tests/test_adaptive_query_compilation.cpp`
 
+### Phase 7: Serialization Strategy Advisor (Status: Completed ✅)
+- [x] `WorkloadType` enum (`DOCUMENT_CRUD`, `VECTOR_SEARCH`, `ANALYTICS_OLAP`, `CDC_STREAM`, `CACHE_REPL`) — `include/query/optimizer_cost_model.h`
+- [x] `SerializationAdvice` struct — `Format` × `ExecutionPath` enums + `recommended_batch_size`, `recommended_thread_count`, `use_vram_pinned_memory`, `rationale` — `include/query/optimizer_cost_model.h`
+- [x] 6 calibratable `CostConstants` thresholds: `gpu_row_threshold_low`, `gpu_row_threshold_high`, `vram_safety_factor`, `cpu_batch_thread_low`, `cpu_batch_thread_high`, `msgpack_row_threshold` — `include/query/optimizer_cost_model.h`
+- [x] `adviseSerializationStrategy(row_count, avg_row_bytes, gpu_available, vram_free_bytes, workload)` decision tree — `src/query/optimizer_cost_model.cpp`
+- [x] `Plan::serialization_advice` field populated on every plan — `include/query/query_optimizer.h`, `src/query/query_optimizer.cpp`
+- [x] `QueryCostRecord::exec_path_used` + `serialization_time_ms` fields — `include/performance/phase3/per_query_cost_model.h`, `src/performance/phase3/per_query_cost_model.cpp`
+- [x] `getCalibrationFactors()` emits `gpu_row_threshold_low` and `msgpack_row_threshold` auto-adjustment hints
+- [x] `AdaptivePlanSelector::Strategy` extended: `BINARY_BATCH_CPU`, `ARROW_GPU_VRAM`, `ARROW_CPU_PARALLEL` — `include/query/adaptive_optimizer.h`
+- [x] 12 unit tests SA-01..12 — `tests/test_serialization_advisor.cpp` (`test_serialization_advisor_focused`)
+- [x] Performance expectations documented in `PERFORMANCE_EXPECTATIONS.md` §2.5
+
+**Performance Targets (default thresholds, RTX-class GPU, ≥ 4 cores, ~100 B avg row):**
+
+| Path                                       | Condition                              | Throughput gain vs JSON/CPU_SINGLE | Payload reduction |
+|--------------------------------------------|----------------------------------------|-----------------------------------:|-------------------|
+| MSGPACK_CBOR / CPU_THREADED_BATCH (4 T)    | 1 k–50 k rows, non-CDC                |                          1.3–2.5×  | 20–50 %           |
+| BINARY_CUSTOM / CPU_THREADED_BATCH (4 T)   | CDC_STREAM (any row count)             |                          1.5–3×    | 30–60 %           |
+| ARROW_IPC / CPU_THREADED_BATCH (hw_conc)   | ≥ 50 k rows, no GPU or VRAM too small  |                          2–4×      | 40–65 %           |
+| ARROW_IPC / GPU_VRAM                        | ≥ 50 k rows, GPU + VRAM ≥ 1.5× payload|                          3–10×     | 40–65 %           |
+| PROTOBUF / CPU_THREADED_BATCH              | CACHE_REPL workload                    |                    30–70 % smaller payload | —          |
+
+Decision overhead: ≤ 1 µs/call (no I/O, pure arithmetic; see `PERFORMANCE_EXPECTATIONS.md` §2.5).
+
+### Phase 8: Continuous Query Language (Status: Planned — v2.0.0)
+
+> **Research foundation:** [CQL — Arasu, Babu & Widom (2006)](../../docs/research/papers/arasu_cql_2006.md) · [Best Practice: Continuous Query Sliding Windows](../../docs/research/best_practices/continuous_query_sliding_window.md)
+
+Adds a production-grade Continuous Query Language (CQL) engine to ThemisDB, enabling standing queries that are evaluated continuously as new data arrives. CQL is the formal language underlying the `CREATE CONTINUOUS QUERY` syntax already present in IoT examples (`examples/09_iot_sensor_network/`). Phase 8 wires it into the main query engine, timeseries scheduler, and push-delivery transport.
+
+#### Phase 8.1 — Design / API Contract (Target: Q3 2026)
+
+- [ ] Define `ContinuousQuerySpec` struct: `name`, `source_collection`, `window_spec` (`WindowType` × `range` × `slide` × `partition_by`), `aql_body`, `result_mode` (`DELTA` | `SNAPSHOT` | `CHANGES`), `allowed_lateness_ms`, `max_window_size` (tuple + byte caps) — `include/query/continuous_query_engine.h`
+- [ ] Define `ContinuousQueryHandle` (opaque registration token) and `ResultStreamPtr` (typed iterator with `next()`, `cancel()`, `stats()`) — `include/query/continuous_query_engine.h`
+- [ ] Define `WindowSpec` with three subtypes: `TimeWindow{range_ms, slide_ms}`, `CountWindow{rows, slide, partition_by}`, `TumblingWindow{interval_ms}` — `include/query/window_spec.h`
+- [ ] Define `ContinuousQueryInfo` for `SHOW CONTINUOUS QUERIES` output: `name`, `source`, `window`, `result_mode`, `registered_at`, `last_tick_at`, `tuples_processed`, `result_queue_depth` — `include/query/continuous_query_registry.h`
+- [ ] AQL DDL grammar additions in `src/query/aql_parser.cpp`: `CREATE CONTINUOUS QUERY`, `DROP CONTINUOUS QUERY`, `SHOW CONTINUOUS QUERIES`, `DESCRIBE CONTINUOUS QUERY <name>` — parse to `ContinuousQueryDDL` AST node
+- [ ] API stability contract: `ContinuousQueryEngine::registerQuery()`, `::dropQuery()`, `::subscribe()`, `::listQueries()` are v2.0.0 stable
+
+#### Phase 8.2 — Core Implementation (Target: Q3 2026)
+
+- [ ] `ContinuousQueryEngine` class — `include/query/continuous_query_engine.h`, `src/query/continuous_query_engine.cpp`
+  - `registerQuery(ContinuousQuerySpec)` → validates spec (bounded windows, no impure UDFs, source exists), stores in `ContinuousQueryRegistry`, starts evaluation loop via `AggregateScheduler`
+  - `dropQuery(name)` → drains result queue, cancels scheduler job, releases synopsis storage
+  - `subscribe(name, ResultMode)` → returns `ResultStreamPtr`; multiple subscribers per query supported
+- [ ] `ContinuousQueryRegistry` — thread-safe map of active queries; persists registry to RocksDB on each mutation for crash recovery — `src/query/continuous_query_registry.cpp`
+- [ ] `ContinuousQueryPlanner` — extends `QueryOptimizer` to produce `ContinuousPlan` with a `SynopsisNode` (ring buffer), `DeltaAggNode` (incremental aggregation), and `ResultEmitNode` (Istream / Dstream / Rstream) — `src/query/continuous_query_planner.cpp`
+- [ ] Synopsis storage: RocksDB-backed ring buffer per `(query_name, partition_key)` keyed by event timestamp; configurable `max_window_size` enforced on insert — `src/query/synopsis_store.cpp`
+- [ ] Incremental aggregation: delta-based `SUM`, `COUNT`, `AVG`, `MIN`, `MAX` updates applied on `added_tuples` and `expired_tuples` without full re-scan — `src/query/incremental_agg.cpp`
+- [ ] Watermark engine: per-query watermark tracker; late-data detection; correction delta emission within one tick for events within `allowed_lateness_ms`; `late_dropped_events_total` Prometheus counter — `src/query/cq_watermark.cpp`
+- [ ] Result delivery: bounded `ResultQueue` per `(query_name, subscriber_id)`; SSE push via `src/server/http_server.cpp`; WebSocket push via `src/server/ws_server.cpp`; wire protocol subscription frame in wire protocol v2
+- [ ] Wiring: `HttpServer::setContinuousQueryEngine()` called from `main_server.cpp`; expose `/v1/queries/continuous` REST endpoints: `POST /register`, `DELETE /:name`, `GET /` (list), `GET /:name/results` (SSE stream)
+
+#### Phase 8.3 — Error Handling & Edge Cases (Target: Q3 2026)
+
+- [ ] Validation at registration: reject unbounded stream-stream joins (`UNBOUNDED_JOIN_WINDOW`), impure UDFs (`IMPURE_UDF_IN_CONTINUOUS_QUERY`), unknown source collection (`COLLECTION_NOT_FOUND`), window size exceeding cap (`WINDOW_SIZE_EXCEEDED`)
+- [ ] Schema evolution: new optional fields in source collection tolerated without restart; missing required fields abort evaluation and emit `SCHEMA_MISMATCH` event to subscribers
+- [ ] Shard coordination: per-shard local evaluation + coordinator merge node; eventual consistency window ≤ one tick interval; `cross_shard_merge_latency_ms` metric emitted
+- [ ] Client disconnection: result queue buffered for `result_buffer_ms` (default 60 000 ms); reconnecting client receives buffered deltas; queue overflow triggers `SUBSCRIBER_QUEUE_OVERFLOW` warning and oldest entries dropped
+- [ ] Node restart recovery: `ContinuousQueryRegistry` reloads from RocksDB; `SynopsisStore` replays WAL to restore in-flight window state; evaluation resumes within one scheduler tick
+
+#### Phase 8.4 — Tests (Target: Q3 2026)
+
+- [ ] Unit tests `CQ-01..CQ-20` — `tests/test_continuous_query_engine.cpp`:
+  - CQ-01..05: `WindowSpec` construction and tick computation (time, count, tumbling)
+  - CQ-06..10: synopsis insert, expire, and size enforcement
+  - CQ-11..13: incremental aggregation correctness (SUM/AVG/MIN/MAX delta vs. full re-scan)
+  - CQ-14..15: watermark advancement and late-data correction
+  - CQ-16..18: `DELTA` / `SNAPSHOT` / `CHANGES` result mode output
+  - CQ-19..20: validation rejections (unbounded join, impure UDF)
+- [ ] Integration tests `CQI-01..05` — `tests/integration/test_continuous_query_e2e.cpp`:
+  - CQI-01: `CREATE CONTINUOUS QUERY` → inject events → verify SSE delta stream
+  - CQI-02: multi-subscriber fan-out; both subscribers receive identical deltas
+  - CQI-03: late event within `allowed_lateness_ms`; correction delta emitted
+  - CQI-04: client disconnect + reconnect; buffered deltas delivered on reconnect
+  - CQI-05: node restart; query registry reloaded; evaluation resumes
+- [ ] Register test suite as `CTest` target `ContinuousQueryEngineTests` in `tests/CMakeLists.txt`
+
+#### Phase 8.5 — Performance & Hardening (Target: Q4 2026)
+
+- [ ] Benchmark `BM_ContinuousQuery_Throughput` — `benchmarks/bench_continuous_query.cpp`: throughput ≥ 500 k tuples/s; p99 per-tuple latency ≤ 5 ms; target ID `CQ-PERF-01` in `benchmark_target_mapping.json`
+- [ ] Benchmark `BM_ContinuousQuery_WindowTick` — empty-window tick overhead ≤ 1 µs; target ID `CQ-PERF-02`
+- [ ] Memory guard: enforce `max_window_size` (default: 10 M tuples OR 1 GB); verified by `CQ-19` unit test
+- [ ] Backpressure: slow subscribers trigger evaluation frequency reduction via `AggregateScheduler::throttle()`; `subscriber_backpressure_total` Prometheus counter
+
+#### Phase 8.6 — Documentation & Acceptance (Target: Q4 2026)
+
+- [ ] Update `src/query/README.md` with CQL syntax reference and lifecycle diagram
+- [ ] Update `include/query/README.md` with `ContinuousQueryEngine` API surface
+- [ ] Update `src/query/CHANGELOG.md` with v2.0.0 CQL entry
+- [ ] Update `PERFORMANCE_EXPECTATIONS.md` §2.6 with CQ-PERF-01/02 targets
+- [ ] Link `docs/research/papers/arasu_cql_2006.md` from query README
+- [ ] API stability guaranteed for `ContinuousQueryEngine::registerQuery`, `::dropQuery`, `::subscribe`, `::listQueries` from v2.0.0
+
+**Performance Targets (Phase 8):**
+
+| Metric | Target | Condition |
+|--------|--------|-----------|
+| Throughput | ≥ 500 k tuples/s | Single time-window sliding query, 4-core host |
+| Per-tuple p99 latency | ≤ 5 ms | End-to-end: ingest → window update → SSE delivery |
+| Empty-window tick overhead | ≤ 1 µs | No new events in evaluation interval |
+| Concurrent active queries | ≥ 1 000 | Mixed window types, single node |
+| Watermark correction latency | ≤ 2 × tick_interval | Late event within `allowed_lateness_ms` |
+
 ## Production Readiness Checklist
 
 - [x] Unit test coverage ≥ 80 % across `AQLParser`, `QueryOptimizer`, `QueryExecutor`, `QueryCache`, and `UDFRegistry`
@@ -199,6 +335,9 @@ Production-ready multi-model query engine supporting relational, document, graph
   - Execution ≥ 10,000 simple AQL/s at p99 < 20 ms (3-node cluster, warm cache)
   - Exact-match cache lookup ≤ 1 ms at p99 under 10,000 concurrent clients
   - Streaming first-chunk ≤ 50 ms
+  - `adviseSerializationStrategy()` decision overhead ≤ 1 µs/call
+  - MSGPACK_CBOR path: 1.3–2.5× throughput gain and 20–50 % payload reduction vs JSON baseline (1 k–50 k rows)
+  - ARROW_IPC + GPU_VRAM path: 3–10× throughput gain (≥ 50 k rows, RTX-class GPU)
 - [x] Documentation complete (`src/query/README.md`, `include/query/README.md`, `src/query/CHANGELOG.md`)
 - [x] API stability guaranteed for `AQLParser::parse`, `QueryOptimizer::optimize`, `QueryEngine::execute*`, `QueryCache::lookup`, `UDFRegistry::register_fn`
 - [x] `QueryFederation` shard-key routing (point-lookup + range routing implemented — v1.9.0)
@@ -207,7 +346,7 @@ Production-ready multi-model query engine supporting relational, document, graph
 
 - **`AQLParser` is NOT thread-safe**: each thread must own its own `AQLParser` instance or protect shared instances with a mutex. Thread-safe wrapper is planned but not yet scheduled.
 - **`QueryEngine::createDefault()` unimplemented**: throws `std::runtime_error`. Use constructor injection (`IStorageEnginePtr` + `IIndexManagerPtr`) until concrete interface adapters are wired (v1.9.0).
-- **Graph traversal edge-type filtering missing**: `TraversalQuery` struct does not yet expose an edge-type filter field (`query_engine.cpp` line 3533 TODO). Traversals match all edge types. Depends on the graph module exposing the field.
+- **Graph traversal edge-type filtering** — ✅ resolved in v2.0.0: `executeGeneralTraversal()` now accepts an optional `edgeTypeFilter` parameter. Edges are matched by `adj.graphId` (same convention as `RecursivePathQuery::edge_type`).
 - **Stale statistics for cost estimation**: statistics used for cardinality estimation can become stale over time as data grows, leading to suboptimal join ordering. Workaround: restart or manually trigger `StatisticsCollector::refresh()`. Continuous incremental stats collection is planned.
 - **JIT compilation requires matching compiler ABI**: `QueryCompiler` hot-path specialisation relies on the same compiler toolchain used for the server binary. Cross-compiled or plugin-loaded UDFs may have ABI mismatches.
 - **SQL compatibility layer covers DML only** (SELECT/INSERT/UPDATE/DELETE); DDL (CREATE TABLE, ALTER TABLE) is not translated and returns `UNSUPPORTED_OPERATION`.
@@ -219,3 +358,18 @@ Production-ready multi-model query engine supporting relational, document, graph
 - **v1.5.0 (SPARQL/SQL parsers)**: `AQLParser::parse()` now rejects raw SQL or SPARQL strings with a structured `AQLParseException`; route SQL/SPARQL through `SQLParser`/`SPARQLParser` before passing to the AQL pipeline.
 - **v1.8.0 (JIT compiler)**: `QueryCompiler` requires LLVM 15+ at link time when `THEMIS_ENABLE_JIT=ON` (default: OFF); builds without LLVM remain unaffected.
 - **v1.9.0 (ShardRouter)**: `scatterGather()` and `executeOnShards()` are now `virtual`; subclasses or mocks that previously relied on them being non-virtual must be updated.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `executeHashJoin` – Führt Hash-Join-Algorithmus aus (AdaptiveJoin-Strategie)
+- `executeMergeJoin` – Führt Sort-Merge-Join-Algorithmus aus
+- `executeNestedLoopJoin` – Führt Nested-Loop-Join aus (Fallback für kleine Relationen)
+- `executeIndexNestedLoopJoin` – Führt Index-NL-Join aus (nutzt verfügbare Indizes)
+- `executeGraceHashJoin` – Führt Grace-Hash-Join für große Datenmengen aus (partitioniert)
+- `executeBroadcastJoin` – Führt Broadcast-Join für kleine Lookup-Tabellen aus
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_http_aql_graph.cpp                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:28:15                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:54:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     552                                            ║
+    • Total Lines:     550                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • efa84641f  2026-02-27  fix(graph): update stale file-header metadata after incre... ║
-    • 0ba7cfc69  2026-02-27  feat(graph): implement incremental graph query HTTP API (... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

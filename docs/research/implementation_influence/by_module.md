@@ -63,6 +63,9 @@ This file groups all research influences by ThemisDB module (`src/<module>`).
 | Category | Source | Version | Status |
 |----------|--------|---------|--------|
 | Book | van der Aalst (2016) — Process Mining | v1.9.0+ | 🔄 Partial |
+| Paper | Forgy (1982) — RETE Algorithm | v2.1.0+ planned | ⏳ Planned |
+| Best Practice | Forgy / CLIPS / Drools — RETE Forward-Chaining Rule Engine | v2.1.0+ planned | ⏳ Planned |
+| Best Practice | Hu et al. / vLLM — Multi-LoRA Adapter Routing | v2.1.0+ planned | ⏳ Planned |
 
 ---
 
@@ -110,6 +113,10 @@ This file groups all research influences by ThemisDB module (`src/<module>`).
 |----------|--------|---------|--------|
 | Book | Robinson, Webber & Eifrem (2015) — Graph Databases | v1.0.0+ | 🔄 Partial |
 | Paper | Edge et al. (2024) — GraphRAG | planned Q3 2026 | ⏳ Planned |
+| Paper | W3C / Baader et al. (2012/2003) — OWL 2 / Description Logic Handbook | v2.1.0+ planned | ⏳ Planned |
+| Paper | Bordes et al. (2013) — TransE / Knowledge Graph Completion | v2.1.0+ planned | ⏳ Planned |
+| Best Practice | W3C OWL 2 RL / Apache Jena — OWL-lite Ontology Constraints | v2.1.0+ planned | ⏳ Planned |
+| Best Practice | Hu et al. / vLLM — Multi-LoRA Adapter Routing | v2.1.0+ planned | ⏳ Planned |
 | Architecture Decision | ADR-004 — Native Multi-Model Data Model | v1.0.0+ | ✅ Accepted |
 
 ---
@@ -189,6 +196,10 @@ This file groups all research influences by ThemisDB module (`src/<module>`).
 | Paper | Malkov & Yashunin (2020) — HNSW | v1.0.0+ | ✅ Implemented |
 | Paper | Edge et al. (2024) — GraphRAG | planned Q3 2026 | ⏳ Planned |
 | Paper | Gutierrez et al. (2024) — HippoRAG | planned Q2 2026 | ⏳ Planned |
+| Paper | W3C / Baader et al. (2012/2003) — OWL 2 / Description Logic Handbook | v2.1.0+ planned | ⏳ Planned |
+| Paper | Bordes et al. (2013) — TransE / Knowledge Graph Completion | v2.1.0+ planned | ⏳ Planned |
+| Best Practice | W3C OWL 2 RL — OWL-lite Ontology Constraints | v2.1.0+ planned | ⏳ Planned |
+| Best Practice | Hu et al. / vLLM — Multi-LoRA Adapter Routing | v2.1.0+ planned | ⏳ Planned |
 | Architecture Decision | ADR-002 — RocksDB as Primary Storage Backend | v1.0.0+ | ✅ Accepted |
 
 ---

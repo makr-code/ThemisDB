@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graphql_cache.h                                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:05:33                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     316                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+    • Total Lines:     335                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • d1b7d6452  2026-02-22  Code audit bugfixes: eliminate hash collision, add defaul... ║
-    • 54d480371  2026-02-22  Improve GraphQL API layer performance: O(1) LRU, parse ca... ║
+    • edf7340821  2026-04-13  feat(api): implement selective collection-based cache inv... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -28,6 +25,7 @@
 #include <string>
 #include <list>
 #include <unordered_map>
+#include <unordered_set>
 #include <chrono>
 #include <mutex>
 #include <memory>
@@ -139,6 +137,23 @@ public:
         }
     }
     
+    /**
+     * @brief Erase all entries for which the predicate returns true
+     * @param pred Callable with signature `bool(const T& value)`
+     */
+    template<typename Predicate>
+    void eraseIf(Predicate pred) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        for (auto it = cache_.begin(); it != cache_.end(); ) {
+            if (pred(it->second.first.value)) {
+                lru_order_.erase(it->second.second);
+                it = cache_.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    }
+
     /**
      * @brief Clear all cache entries
      */
@@ -262,6 +277,7 @@ public:
         std::string data;           // Serialized response data
         std::string etag;           // ETag for conditional requests
         std::chrono::steady_clock::time_point last_modified;
+        std::unordered_set<std::string> collections;  // Collections read by this query
     };
     
     static ResponseCache& instance() {
@@ -285,11 +301,14 @@ public:
     
     /**
      * @brief Invalidate responses for a specific collection/type
+     *
+     * Only evicts entries whose tag set includes @p pattern, leaving
+     * responses that reference other collections untouched.
      */
     void invalidatePattern(const std::string& pattern) {
-        // TODO: Implement pattern-based invalidation
-        // For now, just clear the entire cache
-        cache_.clear();
+        cache_.eraseIf([&pattern](const CachedResponse& response) {
+            return response.collections.count(pattern) > 0;
+        });
     }
     
     /**

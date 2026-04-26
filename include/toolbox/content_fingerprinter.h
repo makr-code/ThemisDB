@@ -1,0 +1,139 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            content_fingerprinter.h                            ║
+  Version:         0.1.0                                              ║
+  Last Modified:   2026-04-20                                         ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#pragma once
+
+/**
+ * @file content_fingerprinter.h
+ * @brief Standardised content fingerprint / deduplication contract.
+ *
+ * `ContentFingerprinter` provides a single, consistent fingerprinting API for
+ * all ThemisDB modules (`training/`, `rag/`, `content/`) that need to detect
+ * duplicate or near-duplicate content.
+ *
+ * Previously each module maintained its own ad-hoc hash fields
+ * (`rag_ingestion_bridge.h`, `faithfulness_evaluator.h`).  This header
+ * establishes the canonical `ContentFingerprint` struct and
+ * `themis::toolbox::fingerprint()` free function as the single source of truth.
+ *
+ * ## Free function (simplest usage)
+ * @code
+ * auto fp = themis::toolbox::fingerprint("Some document text …");
+ * if (seen_hashes.count(fp.sha256_hex)) { deduplicate(); }
+ * @endcode
+ *
+ * ## Class usage
+ * @code
+ * themis::toolbox::ContentFingerprinter fp;
+ * auto result = fp.compute("…");
+ * @endcode
+ */
+
+#include <cstddef>
+#include <string>
+#include <string_view>
+
+namespace themis {
+namespace toolbox {
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ContentFingerprint
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Standardised content fingerprint produced by `ContentFingerprinter`.
+ *
+ * All fields are populated by `ContentFingerprinter::compute()`.
+ */
+struct ContentFingerprint {
+    /// SHA-256 digest of the raw UTF-8 content as a 64-character lowercase
+    /// hexadecimal string.  Empty only when the input is empty.
+    std::string sha256_hex;
+
+    /// Byte length of the original content (number of UTF-8 bytes / raw bytes).
+    std::size_t byte_len = 0;
+
+    /// Estimated token count using the default 4 chars-per-token heuristic.
+    /// Consistent with `DocumentSplitter`'s token estimation.
+    std::size_t token_estimate = 0;
+
+    /// @return `true` when @c sha256_hex is non-empty (i.e. input was
+    ///         non-empty and fingerprinting succeeded).
+    [[nodiscard]] bool valid() const noexcept { return !sha256_hex.empty(); }
+
+    /// Equality is defined by the SHA-256 digest only.
+    bool operator==(const ContentFingerprint& o) const noexcept {
+        return sha256_hex == o.sha256_hex;
+    }
+    bool operator!=(const ContentFingerprint& o) const noexcept {
+        return !(*this == o);
+    }
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ContentFingerprinter
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Computes a `ContentFingerprint` from raw bytes or UTF-8 text.
+ *
+ * Internally uses OpenSSL `SHA256()` for the cryptographic digest.
+ * Token estimation uses the same 4 chars-per-token heuristic as
+ * `rag::DocumentSplitter`.
+ *
+ * Thread-safety: all methods are stateless; an instance may be shared across
+ * threads.
+ */
+class ContentFingerprinter {
+public:
+    ContentFingerprinter()  = default;
+    ~ContentFingerprinter() = default;
+
+    ContentFingerprinter(const ContentFingerprinter&)            = default;
+    ContentFingerprinter& operator=(const ContentFingerprinter&) = default;
+
+    /**
+     * @brief Compute a `ContentFingerprint` for the given UTF-8 text.
+     *
+     * @param text  UTF-8 text or raw byte content.
+     * @return Populated fingerprint.  `sha256_hex` is empty only when @p text
+     *         is empty.
+     */
+    ContentFingerprint compute(std::string_view text) const;
+
+    /**
+     * @brief Compute a `ContentFingerprint` for the given raw bytes.
+     *
+     * @param data Pointer to the first byte.
+     * @param len  Number of bytes.
+     * @return Populated fingerprint.
+     */
+    ContentFingerprint compute(const unsigned char* data, std::size_t len) const;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Free function
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Compute a content fingerprint for @p text.
+ *
+ * Convenience free function.  Equivalent to
+ * `ContentFingerprinter{}.compute(text)`.
+ *
+ * @param text UTF-8 text or raw bytes.
+ * @return Populated `ContentFingerprint`.
+ */
+ContentFingerprint fingerprint(std::string_view text);
+
+} // namespace toolbox
+} // namespace themis

@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gorilla.cpp                                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:52                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     314                                            ║
+    • Total Lines:     262                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 022228c57  2026-03-20  Changes before error encountered         ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d58e7f6a4a  2026-04-09  perf(gorilla): SIMD-optimized decode achieving >1.2 GB/s ... ║
+    • 022228c572  2026-03-20  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -110,59 +110,6 @@ std::vector<uint8_t> BitWriter::finish() {
         bitpos_ = 0;
     }
     return buf_;
-}
-
-// ------- BitReader -------
-BitReader::BitReader(const std::vector<uint8_t>& data)
-    : buf_(data) {
-    if (!buf_.empty()) { cur_ = buf_[0]; idx_ = 0; bitpos_ = 0; }
-}
-
-bool BitReader::readBit() {
-    if (idx_ >= buf_.size()) return false;
-    bool bit = ((cur_ >> bitpos_) & 1U) != 0;
-    bitpos_++;
-    if (bitpos_ == 8) {
-        idx_++;
-        if (idx_ < buf_.size()) cur_ = buf_[idx_];
-        bitpos_ = 0;
-    }
-    return bit;
-}
-
-uint64_t BitReader::readBits(int bits) {
-    uint64_t v = 0;
-    for (int i = 0; i < bits; ++i) {
-        if (readBit()) v |= (1ULL << i);
-    }
-    return v;
-}
-
-uint64_t BitReader::readVarUInt() {
-    // LEB128 unsigned; caller ensures byte alignment when required
-    uint64_t result = 0;
-    int shift = 0;
-    while (true) {
-        if (idx_ >= buf_.size()) return result;
-        uint64_t byte = readBits(8);
-        result |= static_cast<uint64_t>(byte & 0x7F) << shift;
-        if ((byte & 0x80) == 0) break;
-        shift += 7;
-    }
-    return result;
-}
-
-int64_t BitReader::readZigZag64() {
-    uint64_t zz = readVarUInt();
-    int64_t v = static_cast<int64_t>(zz >> 1);
-    if (zz & 1ULL) v = ~v;
-    return v;
-}
-
-bool BitReader::eof() const { return idx_ >= buf_.size(); }
-
-void BitReader::alignToByte() {
-    while (bitpos_ != 0) { (void)readBit(); }
 }
 
 // ------- GorillaEncoder -------

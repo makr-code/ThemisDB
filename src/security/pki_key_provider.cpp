@@ -3,18 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pki_key_provider.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:29                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     688                                            ║
+    • Total Lines:     691                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -54,7 +57,7 @@ PKIKeyProvider::PKIKeyProvider(std::shared_ptr<utils::VCCPKIClient> pki,
 
 // File-based constructor
 PKIKeyProvider::PKIKeyProvider(const std::string& cert_path,
-                               const std::string& private_key_path,
+                               const std::string& /*private_key_path*/,
                                std::shared_ptr<themis::RocksDBWrapper> db,
                                const std::string& service_id,
                                bool validate_cert)
@@ -412,8 +415,8 @@ KeyMetadata PKIKeyProvider::getKeyMetadata(const std::string& key_id, uint32_t v
     return meta;
 }
 
-void PKIKeyProvider::deleteKey(const std::string& key_id, uint32_t version) {
-    (void)version; // unused parameter
+void PKIKeyProvider::deleteKey(const std::string& key_id, [[maybe_unused]] uint32_t version) {
+    // unused parameter
     std::scoped_lock lk(mu_);
     
     if (key_id == "dek") {
@@ -439,8 +442,8 @@ bool PKIKeyProvider::hasKey(const std::string& key_id, uint32_t version) {
 uint32_t PKIKeyProvider::createKeyFromBytes(
     const std::string& key_id,
     const std::vector<uint8_t>& key_bytes,
-    const KeyMetadata& metadata) {
-    (void)metadata; // unused parameter
+    [[maybe_unused]] const KeyMetadata& metadata) {
+    // unused parameter
     
     std::scoped_lock lk(mu_);
     field_key_cache_[key_id] = key_bytes;

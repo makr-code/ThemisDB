@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            direct_executor.h                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:13:17                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     168                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Quality Score:   92.0/100                                       ║
+    • Total Lines:     173                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -128,7 +129,11 @@ public:
                                            const std::string& aggregation) = 0;
 };
 
-// Mock database for testing
+// STUB/SIMULATION NOTE:
+// Purpose: Provide deterministic in-memory database behavior for translator development and tests.
+// Activation: Used when callers instantiate MockDatabase instead of a production database adapter.
+// Production Delta: Data is process-local and non-persistent; no real storage engine or network calls.
+// Removal Plan: Keep for tests; do not use in production execution paths once full adapters are wired.
 class MockDatabase : public DatabaseInterface {
 public:
     MockDatabase();

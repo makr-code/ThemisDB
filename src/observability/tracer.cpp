@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tracer.cpp                                         ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:17:50                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 062b31eba  2026-03-11  fix(observability): wire ContinuousProfiler integration, ... ║
-    • 4c437a31a  2026-03-11  feat(observability): implement tracer.cpp and log_aggrega... ║
+    • 062b31ebab  2026-03-11  fix(observability): wire ContinuousProfiler integration, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -34,6 +33,7 @@
 
 #include "observability/tracer.h"
 #include "observability/metrics_collector.h"
+#include "tracer_utils.h"
 
 #include <algorithm>
 #include <array>
@@ -50,89 +50,7 @@
 namespace themis {
 namespace observability {
 
-// ---------------------------------------------------------------------------
-// Internal helpers
-// ---------------------------------------------------------------------------
-
-namespace {
-
-/// Generate a 16-byte (128-bit) random hex string suitable as a trace ID.
-std::string generateTraceId() {
-    thread_local std::mt19937_64 rng{std::random_device{}()};
-    std::uniform_int_distribution<uint64_t> dist;
-    uint64_t hi = dist(rng);
-    uint64_t lo = dist(rng);
-    std::ostringstream oss;
-    oss << std::hex << std::setfill('0')
-        << std::setw(16) << hi
-        << std::setw(16) << lo;
-    return oss.str();
-}
-
-/// Generate an 8-byte (64-bit) random hex string suitable as a span ID.
-std::string generateSpanId() {
-    thread_local std::mt19937_64 rng{std::random_device{}()};
-    std::uniform_int_distribution<uint64_t> dist;
-    std::ostringstream oss;
-    oss << std::hex << std::setfill('0') << std::setw(16) << dist(rng);
-    return oss.str();
-}
-
-/// Decide whether to sample a span based on a [0.0, 1.0] rate.
-bool shouldSample(double rate) {
-    if (rate >= 1.0) return true;
-    if (rate <= 0.0) return false;
-    thread_local std::mt19937_64 rng{std::random_device{}()};
-    thread_local std::uniform_real_distribution<double> dist(0.0, 1.0);
-    return dist(rng) < rate;
-}
-
-/// Parse a W3C traceparent header of the form
-/// "00-<32hexTraceId>-<16hexSpanId>-<2hexFlags>"
-/// Returns {trace_id, parent_span_id} on success, or {"", ""} on failure.
-std::pair<std::string, std::string> parseTraceparent(const std::string& value) {
-    // Minimum length: "00-" + 32 + "-" + 16 + "-" + 2 = 55 chars
-    if (value.size() < 55) return {"", ""};
-    if (value[2] != '-' || value[35] != '-' || value[52] != '-') return {"", ""};
-
-    std::string trace_id  = value.substr(3, 32);
-    std::string parent_id = value.substr(36, 16);
-
-    // Validate hex content
-    auto isHex = [](const std::string& s) {
-        return std::all_of(s.begin(), s.end(), [](char c) {
-            return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') ||
-                   (c >= 'A' && c <= 'F');
-        });
-    };
-
-    if (!isHex(trace_id) || !isHex(parent_id)) return {"", ""};
-    return {trace_id, parent_id};
-}
-
-/// Build a traceparent header value from trace and span IDs.
-std::string buildTraceparent(const std::string& trace_id,
-                              const std::string& span_id,
-                              bool sampled = true) {
-    std::ostringstream oss;
-    oss << "00-" << trace_id << "-" << span_id << "-"
-        << (sampled ? "01" : "00");
-    return oss.str();
-}
-
-/// Locate a header by lower-cased key (case-insensitive lookup).
-std::string findHeader(const std::map<std::string, std::string>& headers,
-                       const std::string& lower_key) {
-    for (const auto& [k, v] : headers) {
-        std::string lk = k;
-        std::transform(lk.begin(), lk.end(), lk.begin(),
-                       [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
-        if (lk == lower_key) return v;
-    }
-    return {};
-}
-
-} // anonymous namespace
+using namespace detail;  // bring generateTraceId, generateSpanId, etc. into scope
 
 // ---------------------------------------------------------------------------
 // ObservabilitySpan — ISpan implementation

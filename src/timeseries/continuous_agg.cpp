@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            continuous_agg.cpp                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:50                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     413                                            ║
+    • Total Lines:     433                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e155b627e  2026-03-24  feat(temporal,timeseries): SQL:2011 temporal query dispat... ║
-    • 4dbd7efde  2026-03-13  feat(timeseries): incremental continuous aggregation with... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d331f64d17  2026-04-01  feat: add support for merge operator detection in Changef... ║
+    • e155b627eb  2026-03-24  feat(temporal,timeseries): SQL:2011 temporal query dispat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -150,13 +149,13 @@ int64_t ContinuousAggWatermarkStore::getWatermark(const std::string& agg_id) con
 void ContinuousAggWatermarkStore::setWatermark(const std::string& agg_id, int64_t watermark_ms) {
     if (!store_) return;
     std::string key = std::string(WM_KEY_PREFIX) + agg_id;
-    store_->putSystemMeta(key, std::to_string(watermark_ms));
+    [[maybe_unused]] const auto write_ok = store_->putSystemMeta(key, std::to_string(watermark_ms));
 }
 
 void ContinuousAggWatermarkStore::deleteWatermark(const std::string& agg_id) {
     if (!store_) return;
     std::string key = std::string(WM_KEY_PREFIX) + agg_id;
-    store_->deleteSystemMeta(key);
+    [[maybe_unused]] const auto delete_ok = store_->deleteSystemMeta(key);
 }
 
 // ============================================================
@@ -217,7 +216,7 @@ void ContinuousAggregateManager::refresh(const AggConfig& cfg, int64_t from_ms, 
             {"min", minv}, {"max", maxv}, {"sum", sum}, {"count", count},
             {"from_ms", wstart}, {"to_ms", wend}
         };
-        store_->putDataPoint(out);
+        [[maybe_unused]] const auto write_ok = store_->putDataPoint(out);
     }
 }
 

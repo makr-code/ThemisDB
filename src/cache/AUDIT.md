@@ -1,22 +1,30 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+
+<!-- Status: CRITICAL FINDINGS | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Cache Module
 
-**Last Audit:** 2026-03-12  
-**Auditor:** Copilot  
-**Status:** ✅ Pass
+**Last Audit:** 2026-04-21
+**Auditor:** Copilot
+**Status:** 🔴 Critical — 1×S0 HMAC bypass + 3×S1 concurrency and use-after-free
+
+> **Note:** Previous audit claimed "Security Issues: None". Source code analysis found that
+> the Redis coordinator's HMAC verification is a stub returning `true` unconditionally on
+> non-POSIX platforms (S0), the L2 cache is permanently broken with tenant isolation enabled (S1),
+> and the L3 invalidation path accesses `l3_db_` after releasing its lock (S1).
 
 ## Summary
 
 | Metric | Result |
 |--------|--------|
 | Build System Registration | ✅ Verified |
-| Source Files | 11 (`.cpp` in `src/cache/`) |
-| Test Coverage | ✅ > 80% (Issue #1596 confirmed via 43 interface tests + component tests) |
-| Open TODOs | 11 files contain TODOs (primarily prefetcher tuning and Redis TLS config) |
-| Open Stubs | 0 (all 4 implementation phases complete) |
-| Security Issues | None |
+| Source Files | 12 (`.cpp` in `src/cache/`) |
+| Test Coverage | ✅ > 80% (43 interface tests + component tests) |
+| S0 Critical | 🔴 1 (HMAC bypass on non-POSIX) |
+| S1 High | 🔴 3 |
+| S2 Medium | ⚠️ 2 |
+| Tenant isolation correct across all tiers | 🔴 **No — L2 uses wrong key in `put()`** |
 
 ## Build System
 
@@ -36,6 +44,7 @@
 | `cache_replication_coordinator.cpp` | Replication coordination across nodes |
 | `distributed_cache_coordinator.cpp` | In-process distributed cache coordinator |
 | `embedding_cache.cpp` | Embedding-specific cache for vector similarity lookups |
+| `grpc_remote_cache_peer.cpp` | gRPC-based remote cache peer for cross-node invalidation |
 | `predictive_prefetcher.cpp` | Query history-based predictive prefetch |
 | `redis_cache_coordinator.cpp` | Redis-backed invalidation coordinator with HMAC-SHA256 |
 | `semantic_cache.cpp` | SHA-256 fingerprint + cosine similarity cache |
@@ -57,15 +66,112 @@
 
 ## Findings
 
-### Resolved
-- **Cross-tenant cache leakage** — `get(fp, tenant_id)` now returns `nullopt` (not an error) on tenant mismatch; confirmed by unit tests.
-- **Unsigned Redis invalidation messages** — HMAC-SHA256 signing added to `RedisCacheCoordinator`; unsigned messages rejected.
-- **GDPR right-to-erasure gap** — `invalidatePII()` covers L1, L2, and L3; auto-triggered from `PIIPseudonymizer`.
+### S0 — Critical
+
+#### D-1 · `distributed_cache_coordinator.cpp` · `verifyHmac()` — Unconditional stub returns `true`
+
+On non-POSIX platforms (Windows and any platform without POSIX socket support), the
+`verifyHmac()` function is compiled as an unconditional stub:
+
+```cpp
+bool RedisCacheCoordinator::verifyHmac(const nlohmann::json&) const { return true; }
+```
+
+Even when an HMAC secret is configured, **all incoming cache invalidation messages are
+accepted without signature verification** on those platforms. An attacker on any network
+path can inject cache entries or trigger mass invalidations. Because cluster nodes may
+run different platforms, a rogue Windows node or a MITM between nodes can poison the
+entire cluster cache.
+
+**Fix required:** The non-POSIX stub must return `false` (fail-closed) or the HMAC
+verification must be implemented portably using OpenSSL (which is already a dependency).
+POSIX sockets are not required for HMAC computation.
+
+---
+
+### S1 — High
+
+#### C-1 · `adaptive_query_cache.cpp` · `put()` / `get()` — L2 key mismatch: tenant isolation permanently breaks L2
+
+`put()` stores L2 entries under the bare `fingerprint`:
+
+```cpp
+l2_cache_[fingerprint] = std::move(l2_entry);  // line 683 (write-through) and line 825
+```
+
+`get()` looks up L2 under the tenant-prefixed key when tenant isolation is enabled:
+
+```cpp
+std::string key = (config_.enable_tenant_isolation && !tenant_id.empty())
+                  ? makeTenantKey(fingerprint, tenant_id)   // "tenant:X:fp"
+                  : fingerprint;
+auto it = l2_cache_.find(key);  // never finds "tenant:X:fp" because put stored "fp"
+```
+
+**L2 (WARM tier) is permanently empty for every multi-tenant deployment with
+`enable_tenant_isolation = true`.** All queries fall through to L3 or re-execute.
+
+**Fix required:** Use the same `key` variable (computed identically in both `put()` and
+`get()`) as the L2 map key.
+
+---
+
+#### C-2 · `adaptive_query_cache.cpp` · `invalidate()` — L3 access after `l3_mutex_` released
+
+`invalidate()` builds a list of keys to delete, then releases `l3_mutex_` and accesses
+`l3_db_` without the lock:
+
+```cpp
+lock.unlock();                 // l3_mutex_ released
+for (const auto& key : keys_to_delete) {
+    l3_db_->del(key);          // l3_db_ may be null — use-after-free / null deref
+    count++;
+}
+lock.lock();
+```
+
+Between the unlock and the re-lock, a concurrent circuit-breaker trip can reset `l3_db_`
+to `nullptr`. Dereferencing `l3_db_` → **null pointer dereference / undefined behavior**.
+
+**Fix required:** Hold `l3_mutex_` across the deletion loop, or copy `l3_db_` into a
+local `shared_ptr` before releasing the lock.
+
+---
+
+#### C-4 · `adaptive_query_cache.cpp` · Destructor — Coordinator callbacks fire after object freed
+
+The destructor calls `setCoordinator(nullptr)` and `clear()`. However, if the background
+subscriber thread of `RedisCacheCoordinator` is mid-dispatch when the destructor runs,
+a callback lambda capturing `this` (a pointer to the now-destroyed `AdaptiveQueryCache`)
+can fire after the object's memory is freed — **use-after-free**.
+
+**Fix required:** Join or detach the coordinator's subscriber thread, ensuring no callbacks
+can be dispatched, before the `AdaptiveQueryCache` destructor releases its own resources.
+Consider `weak_ptr<AdaptiveQueryCache>` in the callback lambda with `lock()` guard.
+
+---
+
+### S2 — Medium
+
+| ID | File | Function | Description |
+|----|------|----------|-------------|
+| C-3 | `adaptive_query_cache.cpp` | `invalidate(pattern)` | User-supplied regex compiled without timeout or complexity limit — pathological patterns cause exponential backtracking (ReDoS), blocking the cache thread |
+| D-2 | `distributed_cache_coordinator.cpp` | `readPubSubMessage()` | `std::stoi` on RESP bulk-string lengths — out-of-range or negative values throw or produce negative `count`, crashing or bypassing the array-length guard |
+| D-3 | `distributed_cache_coordinator.cpp` | `isConnected()` | `pub_ok_` non-atomic `bool` read without `pub_mutex_` while it is written inside `pub_mutex_` — data race |
+
+---
+
+### Previously Resolved (from 2026-04-19 audit)
+- **Cross-tenant cache leakage (L1)** — `get(fp, tenant_id)` returns `nullopt` on tenant mismatch in L1; confirmed by unit tests.
+  - **Note:** L2 key inconsistency (C-1) means tenant isolation is still broken at the L2 tier.
+- **Unsigned Redis invalidation messages** — HMAC-SHA256 signing added to `RedisCacheCoordinator` for POSIX builds.
+  - **Note:** Non-POSIX stub (D-1) means HMAC is not enforced on all platforms.
+- **GDPR right-to-erasure gap** — `invalidatePII()` covers L1, L2, and L3.
 - **Unbounded per-tenant memory usage** — per-tenant byte quotas enforced with default 100 MB limit.
 
-### Open
-- **L3 encryption at rest** — RocksDB column family encryption is operator-managed; cache module does not enforce it. Recommendation: document encryption configuration requirement in deployment guide.
-- **Redis TLS enforcement** — TLS for Redis replication coordinator is recommended but not enforced by the module; operators must configure Redis with TLS.
+### Open (carried forward)
+- **L3 encryption at rest** — RocksDB column family encryption is operator-managed; cache module does not enforce it.
+- **Redis TLS enforcement** — TLS for Redis replication coordinator recommended but not enforced.
 
 ## Compliance
 

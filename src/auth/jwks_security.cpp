@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jwks_security.cpp                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:14:11                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     512                                            ║
+    • Total Lines:     510                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 6be7ad5fd  2026-03-12  fix(auth): address PR review comments on secure_memory ║
-    • 45126cc05  2026-03-12  refactor(auth): improve secure memory destructor comments... ║
-    • 7d76228b3  2026-03-12  feat(auth): implement secure memory for key material (v1.... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 6be7ad5fda  2026-03-12  fix(auth): address PR review comments on secure_memory ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -53,7 +50,7 @@ std::string base64Encode(const unsigned char* data, size_t len) {
     bio = BIO_push(b64, bio);
     
     BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
-    BIO_write(bio, data, len);
+    BIO_write(bio, data, static_cast<int>(len));
     BIO_flush(bio);
     
     BUF_MEM* bufferPtr;
@@ -403,7 +400,7 @@ std::string CertificateUtils::computeSPKIHashFromFile(const std::string& cert_pa
 }
 
 std::string CertificateUtils::computeSPKIHashFromPEM(const std::string& cert_pem) {
-    BIO* bio = BIO_new_mem_buf(cert_pem.c_str(), cert_pem.size());
+    BIO* bio = BIO_new_mem_buf(cert_pem.c_str(), static_cast<int>(cert_pem.size()));
     if (!bio) {
         throw std::runtime_error("Failed to create BIO");
     }

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            connection_compression.cpp                         ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:17:25                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 0ee0d5725  2026-03-14  fix(network): address PR review comments on wire protocol... ║
-    • 543f66e65  2026-03-14  feat(network): implement wire protocol performance optimi... ║
+    • 0ee0d57254  2026-03-14  fix(network): address PR review comments on wire protocol... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -122,7 +121,8 @@ bool ZstdDictionaryCompressor::train(
     std::vector<uint8_t> dict_buf(max_dict_size);
     const size_t dict_size = ZDICT_trainFromBuffer(
         dict_buf.data(), dict_buf.size(),
-        concat.data(), sample_sizes.data(), samples.size());
+        concat.data(), sample_sizes.data(),
+        static_cast<unsigned>(samples.size()));
 
     if (ZDICT_isError(dict_size)) return false;
 

@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            maintenance_task.h                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:08:43                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     195                                            ║
+    • Total Lines:     197                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a63629a5c  2026-03-12  feat: Force-Run Endpoint Window Override (v1.1.0) ║
-    • 0eb79f3e4  2026-03-11  feat: add DatabaseMaintenanceOrchestrator with full sched... ║
+    • f1b8c76ed7  2026-04-13  feat(maintenance): multi-tenant schedule isolation (v2.0.... ║
+    • 12bb69b756  2026-04-13  feat(maintenance): multi-tenant schedule isolation (v2.0.... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -163,6 +163,7 @@ inline std::string jobStateToString(MaintenanceJobState s) {
 struct OrchestratorJob {
     std::string          id;           ///< Unique job identifier (UUID)
     std::string          schedule_id;  ///< Parent schedule that spawned this job ("" = ad-hoc)
+    std::string          tenant_id;    ///< Tenant that owns this job (from schedule; "" = global)
     MaintenanceTaskType  task_type;    ///< Which operation is being performed
     MaintenanceJobState  state = MaintenanceJobState::PENDING;
     std::string          error_message;
@@ -176,6 +177,7 @@ struct OrchestratorJob {
         nlohmann::json j;
         j["id"]             = id;
         j["schedule_id"]    = schedule_id;
+        j["tenant_id"]      = tenant_id;
         j["task_type"]      = taskTypeToString(task_type);
         j["state"]          = jobStateToString(state);
         j["error_message"]  = error_message;

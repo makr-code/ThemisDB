@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_pki_client.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:31:06                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:55:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   67.0/100                                       ║
-    • Total Lines:     355                                            ║
+    • Total Lines:     354                                            ║
     • Open Issues:     TODOs: 0, Stubs: 10                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2680d3d04  2026-03-15  feat(pki): complete stub replacement — PKCS#10 CSR provis... ║
-    • 0f0e5dc3b  2026-03-15  feat(pki): replace fallback stub verification with real P... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 2680d3d042  2026-03-15  feat(pki): complete stub replacement — PKCS#10 CSR provis... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

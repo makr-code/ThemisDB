@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # AQL Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -28,6 +30,10 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] Query template library for common AQL patterns (`src/aql/aql_query_template_library.cpp`)
 - [x] Schema-aware programmatic AQL query builder (`src/aql/aql_query_builder.cpp`)
 - [x] LLM inference metrics collection (`src/aql/llm_metrics_collector.cpp`)
+- [x] Post-generation AQL validation with selectable enforcement (`WARN_ONLY` / `REJECT_ON_ERROR` / `RETRY_ON_ERROR`) in `LLMAQLHandler::translateNLToAQL*` (`src/aql/llm_aql_handler.cpp`)
+- [x] Thread-leak fix in `LLMTimeoutManager::executeWithTimeout()` / `executeWithCancelToken()` using `std::jthread` + stop-token cancellation (`include/aql/llm_timeout_manager.h`)
+- [x] Per-operation circuit breakers for INFER/RAG/EMBED/FINETUNE with per-command config and observability (`LLMAQLHandler::getCircuitBreakerStates`)
+- [x] Bounded conversation history with context-window budget (`AQLConversationContext::Config{max_turns,max_history_tokens}` + token-based eviction)
 - [x] Generic `AQLTokenStream` iterator API for all LLM inference calls (`include/aql/aql_token_stream.h`) (Phase 4)
 - [x] ReActAgent multi-step reasoning framework with tool calling (`src/aql/aql_agent.cpp`) (Phase 4)
 - [x] Runtime-configurable confidence scoring weights (`AQLConfidenceScorer::Config`, `calibrate()`, word-boundary keyword matching) (Target: v1.6.0) (Issue: #144)
@@ -93,11 +99,31 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
   - `include/aql/iasync_llm_backend.h` – pure abstract `IAsyncLLMBackend` + `ThreadPoolAsyncLLMBackend` adapter
   - `tests/test_aql_async_backend.cpp` – 11 unit tests covering construction, async inference, error propagation
 
+### Phase 5: Hardening & Developer Ergonomics (Status: Completed ✅)
+- [x] **Feature 8** – Semantic Few-Shot Selection (`IEmbeddingProvider` interface, `setEmbeddingProvider()` / `rebuildEmbeddingIndex()` on `AQLFewShotExampleLibrary`)
+  - `include/aql/aql_fewshot_example_library.h` – `IEmbeddingProvider` abstract interface, new methods + semantic private helpers
+  - `src/aql/aql_fewshot_example_library.cpp` – cosine-similarity ranking with Jaccard fallback, lazy embedding cache
+- [x] **Feature 10** – Deduplicated Prompt-Building helpers in `LLMAQLHandler`
+  - `include/aql/llm_aql_handler.h` – private static helpers: `buildNLToAQLSystemPrompt()`, `stripMarkdownFences()`, `logAnnotations()`
+  - `src/aql/llm_aql_handler.cpp` – refactored all three translate methods to use shared helpers
+- [x] **Feature 12** – Schema-aware `AQLQueryValidator::validate(query, schema)` overload
+  - `include/aql/aql_query_validator.h` – includes `aql_schema_provider.h`; new `validate(string, vector<CollectionMetadata>)` overload + private helpers
+  - `src/aql/aql_query_validator.cpp` – `checkUnknownCollections()` and `checkUnknownFields()` implementations
+- [x] **Feature 13** – Runtime-overridable `ValidationLimitsConfig` + `setValidationLimits()` / `setTimeoutConfig()`
+  - `include/aql/llm_error_codes.h` – new `ValidationLimitsConfig` struct (runtime version of `ValidationLimits` namespace)
+  - `include/aql/llm_aql_handler.h` / `src/aql/llm_aql_handler.cpp` – `setValidationLimits()`, `getValidationLimits()`, `setTimeoutConfig()`
+- [x] **Feature 14** – Named LoRA hyperparameter constants + `Config::fromOptions()` factory
+  - `include/aql/aql_lora_finetuner.h` – `kDefaultRank`, `kDefaultAlpha`, etc. `static constexpr` members; `fromOptions()` declaration
+  - `src/aql/aql_lora_finetuner.cpp` – `fromOptions()` with range validation for all hyperparameters
+- [x] **Feature 15** – `DocsAssistantFunctions` degraded-mode reporting
+  - `include/aql/docs_assistant_functions.h` – `DegradedReason` enum, `isFullyReady()`, `degradedReason()` declarations
+  - `src/aql/docs_assistant_functions.cpp` – `Impl` tracks `degraded_reason_` + `degraded_message_`; emits `spdlog::warn` before degrading
+
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (42 unit tests in few-shot library + 3 performance benchmarks + 7 integration tests + 13 injection tests + 1 highlighter path integration test in handler + 14 token-stream tests + 17 agent tests + 28 multimodal tests + 11 async-backend tests)
 - [x] Integration tests (handler ↔ highlighter path covered)
 - [x] Performance benchmarks (few-shot library: findRelevant/buildPromptSection timing tests added; AQLSyntaxHighlighter, AQLConfidenceScorer, and AQLFewShotExampleLibrary benchmarks implemented in `benchmarks/bench_hybrid_aql_sugar.cpp`, Issue: #1523)
-- [x] Security audit (prompt injection prevention via `sanitizePromptInput()` in `translateNLToAQL()`, `translateNLToAQLStreaming()`, and `translateNLToAQLWithExamples()`; AgentTool executor exceptions are caught and returned as JSON error objects)  
+- [x] Security audit (prompt injection prevention via `sanitizePromptInput()` in `translateNLToAQL()`, `translateNLToAQLStreaming()`, and `translateNLToAQLWithExamples()`; AgentTool executor exceptions are caught and returned as JSON error objects)
 - [x] Documentation complete (README.md and ROADMAP.md updated; FUTURE_ENHANCEMENTS.md Implementation Notes added)
 - [x] API stability guaranteed (Issue: #1524)
 
@@ -110,3 +136,12 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 ## Breaking Changes
 - LLM command handler API is stable; new command types will be additive
 - Confidence scoring API was introduced as an optional field (non-breaking)
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `ReActAgent` – LLM-gesteuerter Reasoning+Action Agent für mehrstufige AQL-Abfragen
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.

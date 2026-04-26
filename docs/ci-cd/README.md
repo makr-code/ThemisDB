@@ -25,15 +25,12 @@ This directory contains documentation and tools related to the GitHub Actions CI
   - Phased migration plan
   - Risk assessment and mitigation strategies
 
-- **[WORDPRESS_PLUGIN_RELEASE_PIPELINE.md](WORDPRESS_PLUGIN_RELEASE_PIPELINE.md)** - WordPress plugin release pipeline
+- **WordPress plugin release/operations docs** - currently maintained outside this folder
   - Manual release workflow inputs and validation
   - Flat/nested repository layout support
   - Tag/asset conventions for plugin-specific releases
   - Local dry-run and batch release scripts
-
-- **[WORDPRESS_PLUGIN_OPERATIONS.md](WORDPRESS_PLUGIN_OPERATIONS.md)** - WordPress plugin operations runbook
   - End-to-end release operating procedure
-  - Local and CI-based execution paths
   - Verification commands and failure recovery
 
 - **[../ci/NIGHTLY_BUILD.md](../ci/NIGHTLY_BUILD.md)** - Nightly Build System with automatic issue tracking
@@ -93,7 +90,7 @@ The ThemisDB repository contains additional CI/CD related documentation:
 
 - **[CI_CD_WORKFLOWS.md](../CI_CD_WORKFLOWS.md)** - Git Flow CI/CD pipeline documentation
 - **[COMPLETE_CICD_STRATEGY.md](../COMPLETE_CICD_STRATEGY.md)** - Complete automated CI/CD strategy (German)
-- **[CI_CD_REVIEW_BRANCHING_STRATEGY.md](../CI_CD_REVIEW_BRANCHING_STRATEGY.md)** - Branching strategy review
+- **[CI_CD_REVIEW_BRANCHING_STRATEGY.md](../implementation-history/reviews/CI_CD_REVIEW_BRANCHING_STRATEGY.md)** - Branching strategy review
 - **[CI_TEST_REPORTING.md](../CI_TEST_REPORTING.md)** - Test reporting setup
 
 This inventory and consolidation plan complements the existing documentation by providing:
@@ -104,7 +101,6 @@ This inventory and consolidation plan complements the existing documentation by 
 ## Quick Links
 
 - [Workflows Directory](../../.github/workflows/)
-- [WordPress Plugin Operations Runbook](WORDPRESS_PLUGIN_OPERATIONS.md)
 - [Contributing Guide](../../CONTRIBUTING.md)
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 

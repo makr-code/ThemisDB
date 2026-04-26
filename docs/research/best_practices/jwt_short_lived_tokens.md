@@ -65,4 +65,4 @@ ThemisDB's OAuth2 provider (`src/server/oauth2_provider.cpp`) implements this pa
 - [Token Bucket Rate Limiting](token_bucket_rate_limiting.md)
 
 ---
-**Last Updated:** 2026-03-24
+**Last Updated:** 2026-04-06

@@ -342,6 +342,6 @@ When reporting DirectX issues, include:
 
 ---
 
-**Last Updated**: 2026-01-16  
+**Last Updated**: 2026-04-06  
 **DirectX Version**: 12 (Shader Model 6.0)  
 **Status**: Production Ready

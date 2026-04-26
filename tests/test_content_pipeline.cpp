@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_content_pipeline.cpp                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:25:51                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:53:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     514                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -301,7 +298,7 @@ TEST(ContentPipelineTest, BulkUploadInterface_ProgressCallback) {
     size_t callback_bytes = 0;
     
     uploader.set_progress_callback(
-        [&](const std::string& id, size_t uploaded, size_t total) {
+        [&](const std::string& id, size_t uploaded, [[maybe_unused]] size_t total) {
             callback_called = true;
             callback_id = id;
             callback_bytes = uploaded;
@@ -416,7 +413,7 @@ TEST(ContentPipelineTest, ZstdCompression_StreamingDecompress) {
         
         auto decompressed = compressor.decompress_streaming(
             compressed,
-            [&](size_t processed, size_t total) {
+            [&]([[maybe_unused]] size_t processed, [[maybe_unused]] size_t total) {
                 callback_called = true;
             }
         );

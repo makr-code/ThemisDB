@@ -1,7 +1,7 @@
 # ThemisDB mit llama.cpp auf SoC-Geräten (Raspberry Pi & Co.)
 
 **Version:** 1.5.0  
-**Stand:** 7. Februar 2026  
+**Stand:** 6. April 2026  
 **Kategorie:** 🚀 Deployment / 🤖 AI Integration
 
 ---
@@ -1442,7 +1442,7 @@ sudo systemctl start themisdb
 - [ThemisDB Hauptdokumentation](https://makr-code.github.io/ThemisDB/)
 - [Raspberry Pi Tuning Guide](deployment_raspberry_tuning.md)
 - [ARM Build Guide](../../build-guide/BUILD_ARM.md)
-- [LLM Testing Guide](../../TESTING_GUIDE_LLM.md)
+- [LLM Testing Guide](../../llm_orchestration/TESTING_GUIDE_LLM.md)
 
 ### llama.cpp Ressourcen
 

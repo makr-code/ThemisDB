@@ -2,7 +2,7 @@
 
 **Datum:** 2026-01-12  
 **Projekt:** ThemisDB  
-**Version:** 1.4.0-alpha  
+**Version:** 1.8.0-rc1  
 **Sprache:** Deutsch
 
 ---

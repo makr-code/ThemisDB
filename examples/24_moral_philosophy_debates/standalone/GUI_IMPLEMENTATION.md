@@ -1,3 +1,5 @@
+> **Hinweis:** Inhalt mit aktuellem Modulcode und -stand abgleichen.
+
 # GUI Implementation Summary
 
 ## Overview

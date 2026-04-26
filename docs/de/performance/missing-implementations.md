@@ -1,9 +1,9 @@
 # Performance Module — Missing Implementations Report
 
-<!-- status: current | validated: 2026-03-10 -->
+<!-- status: current | validated: 2026-04-06 -->
 <!-- Links: Primary → ../../../../src/performance/README.md | Roadmap → ../../../../src/performance/ROADMAP.md -->
 
-**Stand:** 10. März 2026  
+**Stand:** 6. April 2026  
 **Erstellt durch:** Reality-Check gegen Sourcecode (Issue #3525); Build-System-Audit (Folgeaudit)  
 **Ergebnis:** 4 dokumentarische/Build-Lücken (alle behoben), 2 technische Einschränkungen (bekannt), 0 kritische fehlende Implementierungen
 

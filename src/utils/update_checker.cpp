@@ -3,18 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            update_checker.cpp                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:21:38                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     613                                            ║
+    • Total Lines:     619                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 9d11fed508  2026-04-14  fix                                     ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • 9623765ff2  2026-04-14  fix                                     ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -472,6 +476,7 @@ std::variant<std::vector<ReleaseInfo>, std::string> UpdateChecker::fetchReleases
     
     return releases;
 #else
+    (void)limit;
     return std::string("CURL support not enabled - cannot fetch releases");
 #endif
 }
@@ -546,6 +551,7 @@ std::variant<json, std::string> UpdateChecker::httpGet(const std::string& url) {
     
     return result;
 #else
+    (void)url;
     return std::string("CURL support not enabled");
 #endif
 }

@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_server.h                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:59                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     485                                            ║
+    • Total Lines:     482                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f1feffbc0  2026-03-11  feat(network): TCP backlog management and backpressure ha... ║
-    • 267da6617  2026-03-11  feat(network): full IPv6 support in Wire Protocol Server ... ║
-    • e7af44ad0  2026-03-11  fix(network): audit pass 2 — add CURSOR_NEXT (0x23), CURS... ║
-    • c47502afd  2026-03-11  feat(network): implement all WireProtocol V1 opcode handl... ║
-    • 710fcd61f  2026-03-10  feat(network): implement Wire Protocol V1 opcode handlers... ║
+    • f1feffbc06  2026-03-11  feat(network): TCP backlog management and backpressure ha... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -44,7 +40,9 @@
 #include <deque>
 #include <atomic>
 #include <mutex>
+#include <functional>
 #include <unordered_map>
+#include <nlohmann/json.hpp>
 
 namespace themis {
 // Forward declarations
@@ -56,6 +54,7 @@ class TransactionManager;
 class ProcessGraphManager;
 class TSStore;
 class ContinuousAggregateManager;
+class QueryEngine;
 
 namespace network {
 
@@ -163,7 +162,8 @@ public:
         std::shared_ptr<TransactionManager> tx_manager,
         std::shared_ptr<ProcessGraphManager> process_graph = nullptr,
         std::shared_ptr<TSStore> ts_store = nullptr,
-        std::shared_ptr<ContinuousAggregateManager> agg_manager = nullptr
+        std::shared_ptr<ContinuousAggregateManager> agg_manager = nullptr,
+        std::shared_ptr<QueryEngine> query_engine = nullptr
     );
 
     ~WireProtocolServer();
@@ -279,6 +279,13 @@ public:
      */
     std::vector<QoSManager::TenantQuotaStats> getAllTenantBandwidthStats() const;
 
+    // Cursor entry used by paginated query responses.
+    struct CursorEntry {
+        nlohmann::json results;    // Full result set (JSON array)
+        size_t         offset = 0; // Next item index to return
+        int64_t        ttl_ms = 0; // Expiry (epoch ms); 0 = never
+    };
+
 private:
     class Session;  // Forward declaration
 
@@ -308,6 +315,12 @@ private:
     std::shared_ptr<ProcessGraphManager> process_graph_;
     std::shared_ptr<TSStore> ts_store_;
     std::shared_ptr<ContinuousAggregateManager> agg_manager_;
+    std::shared_ptr<QueryEngine> query_engine_;
+
+    // Cursor registry: stores live AQL query results for batch pagination.
+    // cursor_id -> {results as JSON array, current offset, TTL timestamp}
+    mutable std::mutex cursors_mutex_;
+    std::unordered_map<std::string, CursorEntry> cursors_;
 
     // Networking (SEPARATE from HTTP server!)
     std::unique_ptr<net::io_context> io_context_;  // Dedicated IO context
@@ -405,6 +418,12 @@ private:
     void asyncReadChecksum();
     void asyncWriteResponse(const std::vector<uint8_t>& data);
     void doWrite();  // Internal write loop
+
+    // Dispatch a heavy handler function to the server's worker_pool_.
+    // Copies payload_buffer_ and header_buffer_ for the worker lambda so the
+    // I/O thread can immediately begin reading the next frame.
+    // Falls back to direct invocation when worker_pool_ is not configured.
+    void dispatchToWorkerPool(std::function<void()> handler);
 
 #ifdef THEMIS_ENABLE_WEBSOCKET
     // Protocol detection: reads first 4 bytes and decides binary vs WebSocket

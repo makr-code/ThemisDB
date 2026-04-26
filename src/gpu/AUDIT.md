@@ -1,10 +1,12 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — GPU Module
 
-**Last Audit:** 2026-03-12  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass (Beta)
 
 ## Summary
@@ -48,9 +50,20 @@
 | `load_balancer.cpp` | Multi-GPU: ROUND_ROBIN, LEAST_LOADED, FIRST_HEALTHY |
 | `memory_pool.cpp` | Slab allocator with defragmentation |
 | `metrics.cpp` | Prometheus-compatible counter/gauge metrics |
+| `mig_manager.cpp` | NVIDIA MIG (Multi-Instance GPU) partition management |
+| `p2p_transfer.cpp` | Peer-to-peer GPU memory transfer management |
+| `policy.cpp` | GPU resource policy enforcement |
 | `profiler.cpp` | NVTX/rocTX profiler marker integration |
 | `query_accelerator.cpp` | GPU-accelerated scan/sort/aggregate/join/ANN |
-| + 12 additional files | ROCm backend, training loop, tensor containers, etc. |
+| `rocm_backend.cpp` | AMD ROCm/HIP backend implementation |
+| `safe_fail.cpp` | Safe-fail handler for GPU errors with CPU fallback |
+| `stream_manager.cpp` | CUDA/HIP stream lifecycle management |
+| `tensor_buffer.cpp` | GPU tensor buffer with pinned memory support |
+| `time_slice_scheduler.cpp` | Time-slice scheduling for multi-tenant GPU isolation |
+| `training_loop.cpp` | GPU training loop for on-device model fine-tuning |
+| `unified_memory.cpp` | CUDA unified memory management for CPU-GPU transfers |
+| `vulkan_backend.cpp` | Vulkan compute backend for cross-platform GPU support |
+| `wasm_kernel_sandbox.cpp` | WASM sandbox for untrusted GPU kernel isolation |
 
 ## Test Coverage
 

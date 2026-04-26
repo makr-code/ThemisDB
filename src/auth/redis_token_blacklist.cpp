@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            redis_token_blacklist.cpp                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:14:21                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:48:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 67965456c  2026-03-22  Add constructors with default config for various classes ... ║
-    • 3a23233d6  2026-03-12  fix(auth): address PR review comments on token blacklist ... ║
-    • e93c27150  2026-03-12  feat(auth): implement ITokenBlacklist interface, Bloom fi... ║
+    • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

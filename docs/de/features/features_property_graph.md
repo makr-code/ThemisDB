@@ -830,4 +830,4 @@ auto [st, result] = pgm.executeCypher(cypher, "social");
 
 ---
 
-**Stand:** 22. Dezember 2025 | **Status:** ✅ Production-Ready
+**Stand:** 6. April 2026 | **Status:** ✅ Production-Ready

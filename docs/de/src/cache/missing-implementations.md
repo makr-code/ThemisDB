@@ -1,6 +1,6 @@
 # Cache-Modul — Fehlende Implementierungen
 
-<!-- Status: updated | validated: 2026-03-10 -->
+<!-- Status: updated | validated: 2026-04-06 -->
 <!-- Primärdokumentation: ../../../../src/cache/ -->
 
 **Erstellt:** 2026-03-09

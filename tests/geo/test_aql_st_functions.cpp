@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_st_functions.cpp                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:22:32                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1015                                           ║
+    • Total Lines:     1011                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1d23633fa  2026-02-26  audit(geo): add GEO_BUFFER alias and geodesic handler in ... ║
-    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • a4a3e5f6a  2026-02-25  fix(geo): ST_AsGeoJSON now handles MultiPolygon and Geome... ║
-    • 0608dd49e  2026-02-25  feat(geo): complete ST_UNION/ST_DIFFERENCE – AQL function... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

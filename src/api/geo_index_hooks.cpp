@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            geo_index_hooks.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:13:57                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     575                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -72,7 +69,7 @@ static bool validateGeoJSONBasic(const json& geojson) {
 }
 
 // Helper function to validate and sanitize coordinate pair
-static bool validateCoordinatePair(const json& coord, double& lon, double& lat) {
+[[maybe_unused]] static bool validateCoordinatePair(const json& coord, double& lon, double& lat) {
     try {
         if (!coord.is_array() || coord.size() < 2) {
             return false;
@@ -121,7 +118,7 @@ void GeoIndexHooks::onEntityPut(
             try {
                 std::string blob_str(reinterpret_cast<const char*>(blob.data()), blob.size());
                 j = nlohmann::json::parse(blob_str);
-            } catch (const std::exception& e) {
+            } catch (...) {
                 throw;
             }
         } else {

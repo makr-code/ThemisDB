@@ -3,19 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_opa_adapter.cpp                               ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:30:35                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:55:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   0.0/100                                        ║
-    • Total Lines:     294                                            ║
+    • Total Lines:     293                                            ║
     • Open Issues:     TODOs: 0, Stubs: 24                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 977edef79  2026-02-24  feat(auth): add OPA adapter for fine-grained ABAC policy ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

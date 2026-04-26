@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_adaptive_shard_router.cpp                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:23:55                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:52:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     405                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -402,4 +399,93 @@ TEST_F(AdaptiveShardRouterTest, EmptyShardTopology) {
     EXPECT_TRUE(result.is_array());
     EXPECT_EQ(result.size(), 0);
     EXPECT_EQ(stats.stop_reason, "no_shards_available");
+}
+
+// ============================================================================
+// DK-2 / S-5 — Domain Routing tests
+// ============================================================================
+
+using namespace themis::distributed_knowledge;
+
+// Helper: build an AdapterCapabilityAnnouncement
+static AdapterCapabilityAnnouncement makeAnnouncement(
+    const std::string& shard_id,
+    AdapterDomainType domain,
+    double accuracy_delta)
+{
+    AdapterCapabilityAnnouncement a;
+    a.shard_id      = shard_id;
+    a.adapter_id    = "adapter-" + shard_id;
+    a.adapter_version = "v1.0.0";
+    a.domain_type   = domain;
+    a.accuracy_delta = accuracy_delta;
+    a.training_samples = 1000;
+    a.announced_at  = std::chrono::system_clock::now();
+    return a;
+}
+
+// ASR-DOM-01: updateAdapterCapability() + routeByDomain() selects shard with
+//             highest accuracy_delta for the requested domain.
+TEST_F(AdaptiveShardRouterTest, ASR_DOM_01_RouteByDomainSelectsBestDelta) {
+    router->updateAdapterCapability(
+        "shard_hamburg",
+        makeAnnouncement("shard_hamburg", AdapterDomainType::SECURITY_MONITOR, 0.05));
+    router->updateAdapterCapability(
+        "shard_berlin",
+        makeAnnouncement("shard_berlin", AdapterDomainType::SECURITY_MONITOR, 0.12));
+    router->updateAdapterCapability(
+        "shard_bremen",
+        makeAnnouncement("shard_bremen", AdapterDomainType::SECURITY_MONITOR, 0.03));
+
+    const std::string best = router->routeByDomain(AdapterDomainType::SECURITY_MONITOR);
+    EXPECT_EQ(best, "shard_berlin") << "shard_berlin has the highest accuracy_delta (0.12)";
+}
+
+// ASR-DOM-02: routeByDomain() returns empty string when no score is registered
+//             for the requested domain (fallback to default routing).
+TEST_F(AdaptiveShardRouterTest, ASR_DOM_02_FallbackWhenNoDomainScore) {
+    // Register a score only for SCHEMA_ADVISOR — not for GEOSPATIAL
+    router->updateAdapterCapability(
+        "shard_hamburg",
+        makeAnnouncement("shard_hamburg", AdapterDomainType::SCHEMA_ADVISOR, 0.08));
+
+    const std::string result = router->routeByDomain(AdapterDomainType::GEOSPATIAL);
+    EXPECT_TRUE(result.empty())
+        << "routeByDomain must return empty string when no score exists for the domain";
+}
+
+// ASR-DOM-03: A second updateAdapterCapability() call with a higher delta for
+//             the same shard+domain overwrites the previous value.
+TEST_F(AdaptiveShardRouterTest, ASR_DOM_03_HigherDeltaOverwritesLower) {
+    router->updateAdapterCapability(
+        "shard_hamburg",
+        makeAnnouncement("shard_hamburg", AdapterDomainType::TRANSACTION, 0.05));
+
+    // Second round — improved delta
+    router->updateAdapterCapability(
+        "shard_hamburg",
+        makeAnnouncement("shard_hamburg", AdapterDomainType::TRANSACTION, 0.15));
+
+    EXPECT_DOUBLE_EQ(
+        router->getAdapterAccuracyDelta("shard_hamburg", AdapterDomainType::TRANSACTION),
+        0.15);
+}
+
+// ASR-DOM-04: getAdapterAccuracyDelta() returns 0.0 for unknown shard/domain
+//             combinations.
+TEST_F(AdaptiveShardRouterTest, ASR_DOM_04_UnknownShardOrDomainReturnsZero) {
+    EXPECT_DOUBLE_EQ(
+        router->getAdapterAccuracyDelta("unknown_shard", AdapterDomainType::SECURITY_MONITOR),
+        0.0)
+        << "Unknown shard must return 0.0";
+
+    // Register a shard for SCHEMA_ADVISOR; query for SECURITY_MONITOR on that shard
+    router->updateAdapterCapability(
+        "shard_law",
+        makeAnnouncement("shard_law", AdapterDomainType::SCHEMA_ADVISOR, 0.07));
+
+    EXPECT_DOUBLE_EQ(
+        router->getAdapterAccuracyDelta("shard_law", AdapterDomainType::SECURITY_MONITOR),
+        0.0)
+        << "Known shard but unknown domain must return 0.0";
 }

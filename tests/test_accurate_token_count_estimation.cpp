@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_accurate_token_count_estimation.cpp           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:23:48                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:52:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c0fe40af5  2026-03-13  fix(aql/test): correct AC-4 benchmark assertion; remove d... ║
-    • c28ecfee9  2026-03-13  feat(aql): accurate token-count estimation - TiktokenEsti... ║
+    • c0fe40af5f  2026-03-13  fix(aql/test): correct AC-4 benchmark assertion; remove d... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

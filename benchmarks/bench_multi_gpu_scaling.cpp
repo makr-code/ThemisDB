@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_multi_gpu_scaling.cpp                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:04:18                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:43:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     451                                            ║
+    • Total Lines:     468                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 202546ee10  2026-04-13  perf: add Disabled-Stub-Policy comments to all 21 *_Disab... ║
+    • 9c9ead9b4f  2026-04-09  Implement feature X to enhance user experience and optimi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -29,6 +29,21 @@
 #include <chrono>
 #include <vector>
 #include <memory>
+
+#ifndef THEMIS_ENABLE_GPU
+
+static void BM_MultiGPUScaling_GPUDisabled(benchmark::State& state) {
+    for (auto _ : state) {
+        state.SkipWithError("Multi-GPU scaling benchmarks are disabled in this build");
+        break;
+    }
+}
+// Disabled: multi-GPU scaling requires multi-GPU CUDA runner | Deadline: v1.9.0 | Issue: #5
+BENCHMARK(BM_MultiGPUScaling_GPUDisabled);
+
+BENCHMARK_MAIN();
+
+#else
 
 using namespace themis::llm::lora;
 
@@ -59,8 +74,8 @@ static int get_gpu_count() {
     int max_gpus = 0;
     for (const auto& backend : backends) {
         if (backend.available && 
-            (backend.type == acceleration::BackendType::CUDA ||
-             backend.type == acceleration::BackendType::HIP)) {
+            (backend.type == themis::acceleration::BackendType::CUDA ||
+             backend.type == themis::acceleration::BackendType::HIP)) {
             // For simplicity, assume we can query device count
             // In real implementation, this would query cudaGetDeviceCount/hipGetDeviceCount
             max_gpus = std::max(max_gpus, 4);  // Cap at 4 for benchmark
@@ -449,3 +464,5 @@ BENCHMARK(BM_CommCompute_Ratio)
     ->UseManualTime();
 
 BENCHMARK_MAIN();
+
+#endif  // THEMIS_ENABLE_GPU

@@ -3,19 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bpmn_api_handler.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:40                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     488                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 0                             ║
+    • Quality Score:   98.0/100                                       ║
+    • Total Lines:     496                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • 6897bb74a5  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
+    • e8953e1175  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -81,8 +83,8 @@ BpmnApiHandler::AuthContext BpmnApiHandler::extractAuthContext(
 std::optional<http::response<http::string_body>> BpmnApiHandler::requireAccess(
     const http::request<http::string_body>& req,
     const std::string& scope,
-    const std::string& action,
-    const std::string& resource
+    const std::string& /*action*/,
+    const std::string& /*resource*/
 ) {
     // If auth is disabled, allow all
     if (!auth_ || !auth_->isEnabled()) {
@@ -105,16 +107,17 @@ std::optional<http::response<http::string_body>> BpmnApiHandler::requireAccess(
         return makeErrorResponse(http::status::unauthorized, "Invalid authorization header", req);
     }
 
-    // Validate token
-    auto ar = auth_->validateToken(*token);
+    // GAP-001: Enforce scope-based authorization (CWE-862).
+    // Previously, requireAccess() discarded the scope/action/resource parameters
+    // and only verified token validity (authentication).  That left the BPMN API
+    // open to any authenticated user regardless of their role.  Now we use
+    // auth_->authorize() which checks that the token contains the required scope.
+    auto ar = auth_->authorize(*token, scope);
     if (!ar.authorized) {
-        // Invalid token -> 401 Unauthorized
-        return makeErrorResponse(http::status::unauthorized, "Invalid or expired token", req);
+        return makeErrorResponse(http::status::forbidden,
+                                 "Insufficient permissions for scope: " + scope, req);
     }
 
-    // TODO: Implement scope-based authorization when AuthMiddleware supports it
-    // For now, just ensure user is authenticated
-    
     return std::nullopt; // Access granted
 }
 
@@ -448,16 +451,22 @@ http::response<http::string_body> BpmnApiHandler::handleQueryInstance(
             response["variables"] = json::object();
         }
         
-        // History (simplified - just list visited nodes)
+        // History — use per-node visit timestamps when available.
         if (include_history) {
             json history = json::array();
             for (const auto& token : instance.tokens) {
                 for (const auto& node : token.visited_nodes) {
                     json event;
                     event["event_type"] = "node_visited";
-                    // TODO: ProcessGraphManager doesn't store individual visit timestamps per node,
-                    // only token creation time. Future enhancement: add visit timestamp tracking.
-                    event["timestamp_ns"] = token.created_at_ms * 1000000;
+                    // Use the precise per-node visit timestamp if stored; fall back to
+                    // the token creation time for nodes that predate timestamp tracking.
+                    const auto tsIt = token.visit_timestamps.find(node);
+                    int64_t ts_ms = token.created_at_ms;
+                    if (tsIt != token.visit_timestamps.end()) {
+                        ts_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                    tsIt->second.time_since_epoch()).count();
+                    }
+                    event["timestamp_ns"] = ts_ms * 1'000'000;
                     event["data"] = json::object();
                     event["data"]["node_id"] = node;
                     history.push_back(event);

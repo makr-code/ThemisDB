@@ -1,0 +1,71 @@
+# =============================================================================
+# ThemisDB 2-SSD Performance Configuration
+# =============================================================================
+#
+# Simple but effective setup for systems with 2 NVMe SSDs
+# - 1x SSD for main data
+# - 1x SSD for WAL (write-ahead log)
+#
+# This configuration provides:
+# - Better write latency consistency (P99 <5ms)
+# - I/O isolation between WAL and compaction
+# - Simple setup without complexity of many paths
+#
+# Expected Performance:
+# - Write Throughput: ~150-200 MB/s
+# - Read Throughput: ~1000-1200 MB/s
+# - P99 Latency: <5ms
+#
+# Suitable for:
+# - Write-intensive workloads
+# - Medium-scale production (<2 TB)
+# - Latency-sensitive applications
+#
+# =============================================================================
+
+storage:
+  # Main database on first SSD
+  rocksdb_path: "/mnt/nvme0/themisdb"
+  
+  # WAL on dedicated second SSD
+  # Provides I/O isolation for predictable latency
+  wal_dir: "/mnt/nvme1/themisdb_wal"
+  
+  # Memory configuration
+  memtable_size_mb: 256
+  block_cache_size_mb: 1024
+  block_cache_shard_bits: -1  # Auto
+  
+  # WAL enabled for durability
+  enable_wal: true
+  
+  # Write configuration
+  max_write_buffer_number: 3
+  min_write_buffer_number_to_merge: 1
+  allow_concurrent_memtable_write: true
+  
+  # Compaction
+  max_background_jobs: 8
+  max_background_compactions: 4
+  max_background_flushes: 2
+  
+  # Compression
+  compression:
+    default: "lz4"
+    bottommost: "zstd"
+  
+  # BlobDB for large values
+  enable_blobdb: true
+  blob_size_threshold: 4096
+
+server:
+  host: "0.0.0.0"
+  port: 8765
+  worker_threads: 0  # Auto-detect
+
+performance:
+  enable_statistics: true
+
+logging:
+  level: "INFO"
+  file: "./themis_2ssd.log"

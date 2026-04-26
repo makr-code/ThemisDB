@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            argument_store.h                                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:15:19                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:48:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     153                                            ║
+    • Total Lines:     167                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9ab72c508  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
-    • acdb250db  2026-03-12  feat: migrate plugins to src/include with CMake switches ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 11ddb98b9f  2026-04-09  Add comprehensive documentation and security measures for... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -127,7 +125,42 @@ public:
      * @return Profile or error
      */
     std::variant<PhilosophyProfile, Status> getPhilosophyProfile(const std::string& school);
-    
+
+    /**
+     * @brief Store an argument chain
+     * @param chain The argument chain to store
+     * @return Status indicating success/failure
+     */
+    Status storeChain(const ArgumentChain& chain);
+
+    /**
+     * @brief Retrieve an argument chain by ID
+     * @param chain_id Chain identifier
+     * @return Chain or error
+     */
+    std::variant<ArgumentChain, Status> getChain(const std::string& chain_id);
+
+    /**
+     * @brief Store a single debate round (all arguments produced in one round).
+     * @param round The round to store
+     * @return Status indicating success/failure
+     */
+    Status storeDebateRound(const DebateRound& round);
+
+    /**
+     * @brief Retrieve the full debate transcript (all rounds) for a given debate.
+     *
+     * Returns all `DebateRound` objects that were stored for @p debate_id,
+     * ordered by `round_number` ascending.  If no rounds are stored for the
+     * debate, returns an empty vector (not an error).
+     *
+     * @param debate_id  Debate identifier (from `DebateInitialization::debate_id`).
+     * @return Ordered list of rounds, or `Status::Error` on storage failure.
+     */
+    std::variant<std::vector<DebateRound>, Status> getDebateTranscript(
+        const std::string& debate_id
+    );
+
     /**
      * @brief Shutdown the store
      */
@@ -146,6 +179,9 @@ private:
     std::map<std::string, EthicalArgument> arguments_;
     std::map<std::string, EthicalDecision> decisions_;
     std::map<std::string, PhilosophyProfile> profiles_;
+    std::map<std::string, ArgumentChain> chains_; ///< In-memory chain cache
+    /// Key = debate_id; value = rounds ordered by round_number
+    std::map<std::string, std::vector<DebateRound>> debate_rounds_;
 };
 
 } // namespace ethics

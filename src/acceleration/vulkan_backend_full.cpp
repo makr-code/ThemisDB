@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vulkan_backend_full.cpp                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:13:48                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     499                                            ║
+    • Total Lines:     532                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efc8af71b  2026-03-11  feat: add LLM-assisted content analysis methods and impro... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 8c426c95d2  2026-04-13  feat(acceleration): Kernel Block-Dimension Occupancy Tuni... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -373,12 +372,45 @@ public:
             return false;
         }
         
-        // Create compute pipeline for L2 distance
+        // Create compute pipeline for L2 distance.
+        // The l2_distance.comp shader exposes LOCAL_SIZE_X (constant_id=0) and
+        // LOCAL_SIZE_Y (constant_id=1) as SPIR-V specialization constants so we
+        // can inject the device-optimal workgroup dimensions at pipeline-creation
+        // time without recompiling the shader.
+        //
+        // Heuristic:
+        //   • maxComputeWorkGroupInvocations >= 512 → 32×16 (typical desktop GPU)
+        //   • otherwise                             → 16×16 (mobile / integrated)
+        //
+        // Both choices keep the total invocation count (≤1024) within spec limits.
+        const uint32_t maxInvocations =
+            ctx.deviceProps.limits.maxComputeWorkGroupInvocations;
+        const uint32_t localSizeX = (maxInvocations >= 512u) ? 32u : 16u;
+        const uint32_t localSizeY = (maxInvocations >= 512u) ? 16u : 16u;
+
+        // MapEntries map constant_id → offset in the data block.
+        VkSpecializationMapEntry specMapEntries[2] = {};
+        specMapEntries[0].constantID = 0;
+        specMapEntries[0].offset     = 0;
+        specMapEntries[0].size       = sizeof(uint32_t);
+        specMapEntries[1].constantID = 1;
+        specMapEntries[1].offset     = sizeof(uint32_t);
+        specMapEntries[1].size       = sizeof(uint32_t);
+
+        uint32_t specData[2] = { localSizeX, localSizeY };
+
+        VkSpecializationInfo l2SpecInfo{};
+        l2SpecInfo.mapEntryCount = 2;
+        l2SpecInfo.pMapEntries   = specMapEntries;
+        l2SpecInfo.dataSize      = sizeof(specData);
+        l2SpecInfo.pData         = specData;
+
         VkPipelineShaderStageCreateInfo l2ShaderStage{};
-        l2ShaderStage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-        l2ShaderStage.stage = VK_SHADER_STAGE_COMPUTE_BIT;
-        l2ShaderStage.module = ctx.l2ShaderModule;
-        l2ShaderStage.pName = "main";
+        l2ShaderStage.sType               = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+        l2ShaderStage.stage               = VK_SHADER_STAGE_COMPUTE_BIT;
+        l2ShaderStage.module              = ctx.l2ShaderModule;
+        l2ShaderStage.pName               = "main";
+        l2ShaderStage.pSpecializationInfo = &l2SpecInfo;
         
         VkComputePipelineCreateInfo l2PipelineInfo{};
         l2PipelineInfo.sType = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO;

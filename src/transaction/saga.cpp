@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            saga.cpp                                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:21:08                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     301                                            ║
+    • Total Lines:     297                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 926e23fe4  2026-03-09  fix(transaction): implement SAGA compensation for seconda... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -190,10 +190,9 @@ Saga::Metrics Saga::getMetrics() const {
 void SagaOperation::putEntityWithCompensation(
     RocksDBWrapper& db,
     const std::string& key,
-    const std::vector<uint8_t>& value,
+    [[maybe_unused]] const std::vector<uint8_t>& value,
     Saga& saga
 ) {
-    (void)value;
     // Check if key exists (for idempotency)
     auto existing = db.get(key);
     
@@ -240,10 +239,9 @@ void SagaOperation::indexPutWithCompensation(
     SecondaryIndexManager& idx,
     const std::string& table,
     const BaseEntity& entity,
-    RocksDBWrapper::WriteBatchWrapper& batch,
+    [[maybe_unused]] RocksDBWrapper::WriteBatchWrapper& batch,
     Saga& saga
 ) {
-    (void)batch;
     const std::string& pk = entity.getPrimaryKey();
     
     // Compensating action: remove from secondary index
@@ -260,10 +258,9 @@ void SagaOperation::indexPutWithCompensation(
 void SagaOperation::graphAddWithCompensation(
     GraphIndexManager& graph,
     const BaseEntity& edge,
-    RocksDBWrapper::WriteBatchWrapper& batch,
+    [[maybe_unused]] RocksDBWrapper::WriteBatchWrapper& batch,
     Saga& saga
 ) {
-    (void)batch;
     std::string edge_id = edge.getPrimaryKey();
     
     // Compensating action: delete graph edge
@@ -280,11 +277,10 @@ void SagaOperation::graphAddWithCompensation(
 void SagaOperation::vectorAddWithCompensation(
     VectorIndexManager& vec,
     const BaseEntity& entity,
-    RocksDBWrapper::WriteBatchWrapper& batch,
-    const std::string& vectorField,
+    [[maybe_unused]] RocksDBWrapper::WriteBatchWrapper& batch,
+    [[maybe_unused]] const std::string& vectorField,
     Saga& saga
 ) {
-    (void)batch; (void)vectorField;
     const std::string& pk = entity.getPrimaryKey();
     
     // Compensating action: remove from vector cache and HNSW

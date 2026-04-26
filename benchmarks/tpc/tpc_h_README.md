@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
 # TPC-H Benchmark for ThemisDB
 
 ## Overview

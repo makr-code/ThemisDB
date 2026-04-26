@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            security_signature_manager.h                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:50                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     98                                             ║
+    • Total Lines:     97                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8031d339d  2026-03-15  feat(storage): implement RocksDB iteration for SecuritySi... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 8031d339d2  2026-03-15  feat(storage): implement RocksDB iteration for SecuritySi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -1,7 +1,7 @@
 # ThemisDB Documentation
 
 **Version:** 1.3.0  
-**Last Updated:** December 20, 2025
+**Last Updated:** April 2026
 
 Welcome to the ThemisDB documentation! This guide will help you find the information you need.
 
@@ -222,5 +222,5 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 ---
 
 **Documentation Version:** 1.2.0  
-**Last Updated:** December 15, 2025  
+**Last Updated:** April 2026  
 **Next Review:** March 15, 2026

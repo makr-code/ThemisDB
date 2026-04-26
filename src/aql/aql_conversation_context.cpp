@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_conversation_context.cpp                       ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-03-30 04:14:04                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-15 18:48:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     364                                            ║
+    • Total Lines:     365                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f38c013cd  2026-03-29  Enhance various components with improvements and fixes ║
-    • 67965456c  2026-03-22  Add constructors with default config for various classes ... ║
-    • d630135fe  2026-03-13  fix(aql): address PR review comments on bounded conversat... ║
-    • d231050f3  2026-03-13  feat(aql): bounded conversation history with context-wind... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -31,6 +28,7 @@
 #include <stdexcept>
 #include <algorithm>
 #include <mutex>
+#include <shared_mutex>
 #include <spdlog/spdlog.h>
 
 namespace themis {
@@ -59,7 +57,7 @@ public:
     std::vector<llm::ChatMessage>    history_;
     std::string                      last_query_;
     std::size_t                      turn_count_;
-    mutable std::mutex               history_mutex_; // guards history_, turn_count_, last_query_
+    mutable std::shared_mutex        history_mutex_; // guards history_, turn_count_, last_query_
     std::mutex                       call_mutex_;    // serializes LLM round-trips and reset/start
 
     // Build the system prompt once so every call uses a consistent context.
@@ -160,7 +158,7 @@ public:
         // Evict oldest pairs if needed, push the new user message, and snapshot.
         std::vector<llm::ChatMessage> history_snapshot;
         {
-            std::lock_guard<std::mutex> lock(history_mutex_);
+            std::unique_lock<std::shared_mutex> lock(history_mutex_);
             const std::size_t new_msg_tokens = estimator_->estimate("user") +
                                                estimator_->estimate(user_message);
             evictOldestPairs(new_msg_tokens);
@@ -183,7 +181,7 @@ public:
             const std::string query = cleanQuery(response);
 
             {
-                std::lock_guard<std::mutex> lock(history_mutex_);
+                std::unique_lock<std::shared_mutex> lock(history_mutex_);
 
                 // Reserve room for the assistant response before appending it.
                 const std::size_t assistant_tokens = estimator_->estimate("assistant") +
@@ -217,7 +215,7 @@ public:
             // no other thread could have appended to history_ since we pushed it;
             // the check guards against an empty history_ resulting from reset().
             {
-                std::lock_guard<std::mutex> lock(history_mutex_);
+                std::unique_lock<std::shared_mutex> lock(history_mutex_);
                 if (!history_.empty() && history_.back().role == "user") {
                     history_.pop_back();
                 }
@@ -256,7 +254,7 @@ AQLConversationContext& AQLConversationContext::operator=(AQLConversationContext
 // ============================================================================
 
 void AQLConversationContext::setSchemaContext(const std::string& schema) {
-    std::lock_guard<std::mutex> lock(impl_->history_mutex_);
+    std::unique_lock<std::shared_mutex> lock(impl_->history_mutex_);
     impl_->schema_context_ = schema;
     // If the history already has a system message, update it
     if (!impl_->history_.empty() && impl_->history_.front().role == "system") {
@@ -265,7 +263,7 @@ void AQLConversationContext::setSchemaContext(const std::string& schema) {
 }
 
 std::string AQLConversationContext::getSchemaContext() const {
-    std::lock_guard<std::mutex> lock(impl_->history_mutex_);
+    std::shared_lock<std::shared_mutex> lock(impl_->history_mutex_);
     return impl_->schema_context_;
 }
 
@@ -284,7 +282,7 @@ std::string AQLConversationContext::start(const std::string& intent) {
     // or reset() waits until this start() — including the LLM call — finishes.
     std::lock_guard<std::mutex> call_lock(impl_->call_mutex_);
     {
-        std::lock_guard<std::mutex> lock(impl_->history_mutex_);
+        std::unique_lock<std::shared_mutex> lock(impl_->history_mutex_);
         impl_->history_.clear();
         impl_->last_query_.clear();
         impl_->turn_count_ = 0;
@@ -301,7 +299,7 @@ std::string AQLConversationContext::refine(const std::string& instruction) {
         );
     }
     {
-        std::lock_guard<std::mutex> lock(impl_->history_mutex_);
+        std::unique_lock<std::shared_mutex> lock(impl_->history_mutex_);
         if (impl_->last_query_.empty()) {
             throw std::logic_error(
                 "AQLConversationContext::refine: call start() before refine()"
@@ -312,7 +310,7 @@ std::string AQLConversationContext::refine(const std::string& instruction) {
     // Compose a user message that includes the current query for context
     std::ostringstream msg;
     {
-        std::lock_guard<std::mutex> lock(impl_->history_mutex_);
+        std::unique_lock<std::shared_mutex> lock(impl_->history_mutex_);
         if (!impl_->last_query_.empty()) {
             msg << "Current query:\n```\n" << impl_->last_query_ << "\n```\n\n";
         }
@@ -327,7 +325,7 @@ void AQLConversationContext::reset() {
     // history is cleared; otherwise a finishing callLLMImpl could append to an
     // already-reset history.
     std::lock_guard<std::mutex> call_lock(impl_->call_mutex_);
-    std::lock_guard<std::mutex> lock(impl_->history_mutex_);
+    std::unique_lock<std::shared_mutex> lock(impl_->history_mutex_);
     impl_->history_.clear();
     impl_->last_query_.clear();
     impl_->turn_count_ = 0;
@@ -338,22 +336,22 @@ void AQLConversationContext::reset() {
 // ============================================================================
 
 std::size_t AQLConversationContext::turnCount() const {
-    std::lock_guard<std::mutex> lock(impl_->history_mutex_);
+    std::shared_lock<std::shared_mutex> lock(impl_->history_mutex_);
     return impl_->turn_count_;
 }
 
 std::size_t AQLConversationContext::tokenCount() const {
-    std::lock_guard<std::mutex> lock(impl_->history_mutex_);
+    std::shared_lock<std::shared_mutex> lock(impl_->history_mutex_);
     return impl_->estimateHistoryTokens();
 }
 
 std::string AQLConversationContext::lastQuery() const {
-    std::lock_guard<std::mutex> lock(impl_->history_mutex_);
+    std::shared_lock<std::shared_mutex> lock(impl_->history_mutex_);
     return impl_->last_query_;
 }
 
 std::vector<std::pair<std::string, std::string>> AQLConversationContext::getHistory() const {
-    std::lock_guard<std::mutex> lock(impl_->history_mutex_);
+    std::shared_lock<std::shared_mutex> lock(impl_->history_mutex_);
     std::vector<std::pair<std::string, std::string>> out;
     out.reserve(impl_->history_.size());
     for (const auto& msg : impl_->history_) {

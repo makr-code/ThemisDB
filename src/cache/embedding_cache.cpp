@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            embedding_cache.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:14:34                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     374                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -75,7 +72,7 @@ EmbeddingCache::EmbeddingCache(const Config& config)
             // Initialize HNSW index with cache namespace
             auto status = impl_->vector_index->init(
                 "embedding_cache",
-                config_.embedding_dim,
+                static_cast<int>(config_.embedding_dim),
                 impl_->metric,
                 16,   // M
                 200,  // efConstruction
@@ -173,8 +170,6 @@ std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(
         // Fallback: brute-force search through all entries
         float best_similarity = 0.0f;
         std::string best_pk;
-        const float threshold = config_.similarity_threshold;
-        
         for (const auto& [pk, entry] : impl_->entries) {
             if (isExpired(entry)) {
                 continue;
@@ -311,8 +306,6 @@ uint64_t EmbeddingCache::clearExpired() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
     uint64_t cleared = 0;
-    auto now_ms = getCurrentTimestampMs();
-    
     // Scan and remove expired entries
     for (auto it = impl_->entries.begin(); it != impl_->entries.end(); ) {
         if (isExpired(it->second)) {
@@ -345,7 +338,7 @@ void EmbeddingCache::clear() {
         impl_->vector_index->shutdown();
         auto status = impl_->vector_index->init(
             "embedding_cache",
-            config_.embedding_dim,
+            static_cast<int>(config_.embedding_dim),
             VectorIndexManager::Metric::COSINE,
             16, 200, 64
         );

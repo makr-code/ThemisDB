@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compliance_reporting_api_handler.cpp               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:43                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     396                                            ║
+    • Total Lines:     393                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 2d61f04b5  2026-02-28  fix(governance): wire time_window into API handler with i... ║
-    • 1cb3e6183  2026-02-25  feat(governance): implement PDF and HTML compliance repor... ║
+    • a2a0e15fab  2026-03-11  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

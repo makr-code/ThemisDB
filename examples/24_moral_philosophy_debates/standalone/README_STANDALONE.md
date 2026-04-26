@@ -1,3 +1,5 @@
+> **Status:** 2026-04-19 – Mit aktuellem Modulcode synchronisieren; falsche Pfade/Kommandos ggf. korrigiert.
+
 # Standalone Moral Philosophy Dialectic Engine
 
 A self-contained implementation of moral philosophical debates using SQLite for storage and Ollama for local LLM inference. This system is completely independent of ThemisDB and provides a lightweight solution for generating philosophical discussions on ethical questions.

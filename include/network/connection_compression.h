@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            connection_compression.h                           ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:08:51                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:45:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     288                                            ║
+    • Total Lines:     286                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 0ee0d5725  2026-03-14  fix(network): address PR review comments on wire protocol... ║
-    • 543f66e65  2026-03-14  feat(network): implement wire protocol performance optimi... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c3655c7e6  2026-02-25  feat(network): implement LZ4 and Zstd connection-level co... ║
+    • 0ee0d57254  2026-03-14  fix(network): address PR review comments on wire protocol... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            learned_quantizer.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:36                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 769205492  2026-03-12  feat(index): implement CUDA and HIP GPU backends, ADC opt... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -253,7 +253,7 @@ std::vector<uint8_t> LearnedQuantizer::encode(const std::vector<float>& vector) 
         for (int block = 0; block < num_blocks; block++) {
             int start = block * config_.block_size;
             int end = std::min(start + config_.block_size, dimension_);
-            int block_dim = end - start;
+            [[maybe_unused]] int block_dim = end - start;
             
             // Compute block scale (max absolute value)
             float max_abs = 0.0f;
@@ -313,7 +313,7 @@ std::vector<float> LearnedQuantizer::decode(const std::vector<uint8_t>& codes) c
         for (int block = 0; block < num_blocks; block++) {
             int start = block * config_.block_size;
             int end = std::min(start + config_.block_size, dimension_);
-            int block_dim = end - start;
+            [[maybe_unused]] int block_dim = end - start;
             
             // Read scale
             if (code_offset + sizeof(float) > codes.size()) {
@@ -431,7 +431,7 @@ int LearnedQuantizer::findBin(float value, const std::vector<float>& thresholds)
 }
 
 float LearnedQuantizer::getCompressionRatio() const {
-    float original_bytes = dimension_ * sizeof(float);
+    float original_bytes = static_cast<float>(dimension_ * sizeof(float));
     float compressed_bytes = static_cast<float>(getEncodedSize());
     return original_bytes / compressed_bytes;
 }

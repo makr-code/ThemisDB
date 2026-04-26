@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/observability/ -->
 
 # Observability Module - Future Enhancements
@@ -7,13 +9,13 @@
 ## Scope
 
 - Prometheus metrics export (`/metrics`, `themis_*` namespace) via `MetricsCollector` singleton
-- Distributed tracing with span context propagation (OpenTelemetry-compatible; OTLP gRPC/HTTP export planned)
-- Structured logging via Core `ILogger` interface with log-level filtering
+- Distributed tracing with span context propagation (`ObservabilityTracer`, W3C Trace Context); full OTLP gRPC/HTTP export via `OpenTelemetryTracer` with multi-exporter dispatch (OTLP, Jaeger, Zipkin)
+- Structured logging via Core `ILogger` interface with log-level filtering; `LogSearchEngine` for field/level/time-range queries
 - `QueryProfiler`: per-phase and per-operator timing with index usage tracking
 - `StorageProfiler`: RocksDB stats, write/read amplification, compaction metrics, cache hit rates
 - Continuous profiling (pprof / async-profiler compatible) and adaptive sampling for high-frequency spans
 - eBPF-based kernel-level tracing (perf counters; guarded by `THEMIS_ENABLE_EBPF`)
-- Anomaly detection on metrics time-series (ML-based, planned) and SLO/SLA burn-rate alerting
+- ML-based anomaly detection on metric time-series (`MetricAnomalyDetector`, `MLAnomalyDetector`) and SLO/SLA burn-rate alerting (`SloReporter`)
 
 ## Design Constraints
 
@@ -78,7 +80,7 @@ Planned monitoring, tracing, and performance analysis features for ThemisDB.
 ## Distributed Tracing
 
 ### OpenTelemetry Full Integration
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Complete OpenTelemetry implementation with automatic span propagation across distributed components.
@@ -94,16 +96,16 @@ Complete OpenTelemetry implementation with automatic span propagation across dis
 class OpenTelemetryTracer : public ITracer {
 public:
     OpenTelemetryTracer(const OTelConfig& config);
-    
+
     // Automatic span creation with context propagation
     std::unique_ptr<ISpan> startSpan(const std::string& name) override;
-    
+
     // Extract context from incoming request
     SpanContext extractContext(const std::map<std::string, std::string>& headers);
-    
+
     // Inject context into outgoing request
     void injectContext(const ISpan& span, std::map<std::string, std::string>& headers);
-    
+
     // Span attributes
     void recordException(const ISpan& span, const std::exception& ex);
     void recordMetrics(const ISpan& span, const MetricSnapshot& metrics);
@@ -140,10 +142,10 @@ OpenTelemetryTracer tracer(config);
     span->setAttribute("query.text", query_text);
     span->setAttribute("db.system", "themisdb");
     span->setAttribute("db.operation", "SELECT");
-    
+
     // Child spans automatically inherit context
     executeQuery(query_text);
-    
+
     span->setAttribute("query.result_rows", result_count);
     span->setStatus(true);
 }
@@ -158,7 +160,7 @@ OpenTelemetryTracer tracer(config);
 ---
 
 ### Span Events and Links
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Rich span context with events and inter-span relationships.
@@ -168,14 +170,14 @@ Rich span context with events and inter-span relationships.
 class EnhancedSpan : public ITracer::ISpan {
 public:
     // Record events within span
-    void addEvent(const std::string& name, 
+    void addEvent(const std::string& name,
                   const std::map<std::string, std::string>& attributes = {},
                   std::chrono::system_clock::time_point timestamp = std::chrono::system_clock::now());
-    
+
     // Link to related spans
-    void addLink(const SpanContext& context, 
+    void addLink(const SpanContext& context,
                  const std::map<std::string, std::string>& attributes = {});
-    
+
     // Structured attributes
     void setAttributes(const std::map<std::string, AttributeValue>& attributes);
 };
@@ -194,7 +196,7 @@ span->addLink(compaction_span_context, {{"relation", "blocking_operation"}});
 ---
 
 ### Service Mesh Integration
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Automatic tracing via Envoy/Istio sidecar injection.
@@ -233,8 +235,8 @@ spec:
 ## Advanced Metrics
 
 ### Custom Metric Types
-**Priority:** High  
-**Target Version:** v1.6.0  
+**Priority:** High
+**Target Version:** v1.6.0
 **Status:** ✅ Implemented (v1.6.0) — `include/observability/advanced_metrics.h` + `src/observability/advanced_metrics.cpp`
 
 Extended metric types beyond counters, gauges, and histograms.
@@ -283,7 +285,7 @@ double p99 = summary.quantile_values.at(0.99);
 ---
 
 ### Exemplars Support
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Link metrics to traces via exemplars for drill-down analysis.
@@ -300,7 +302,7 @@ struct Exemplar {
 
 class ExemplarEnabledMetrics {
 public:
-    void observeHistogramWithExemplar(const std::string& name, 
+    void observeHistogramWithExemplar(const std::string& name,
                                      double value,
                                      const Exemplar& exemplar);
 };
@@ -323,7 +325,7 @@ metrics.observeHistogramWithExemplar("query_latency_ms", 1250.0, exemplar);
 ---
 
 ### Multi-Dimensional Metrics
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Rich label dimensions for detailed metric segmentation.
@@ -350,8 +352,8 @@ metrics.recordLatency("query_latency_ms", latency_ms, {
 ---
 
 ### Metric Aggregation Pipeline
-**Priority:** High  
-**Target Version:** v1.6.0  
+**Priority:** High
+**Target Version:** v1.6.0
 **Status:** ✅ Implemented
 
 Pre-aggregate metrics across shards for efficient querying.
@@ -362,10 +364,10 @@ class MetricAggregator {
 public:
     // Configure aggregation rules
     void addAggregationRule(const AggregationRule& rule);
-    
+
     // Aggregate metrics from multiple shards
     MetricSnapshot aggregateShardMetrics(const std::vector<ShardMetrics>& shard_metrics);
-    
+
     // Rollup metrics to reduce cardinality
     void rollupMetrics(std::chrono::minutes window);
 };
@@ -399,7 +401,7 @@ aggregator.addAggregationRule(rule);
 ## AI-Powered Analysis
 
 ### Machine Learning-Based Anomaly Detection
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Automated detection of performance anomalies using ML models.
@@ -415,16 +417,16 @@ Automated detection of performance anomalies using ML models.
 class MLAnomalyDetector {
 public:
     explicit MLAnomalyDetector(const MLConfig& config);
-    
+
     // Train model on historical data
     void train(const std::vector<TimeSeries>& training_data);
-    
+
     // Detect anomalies in real-time
     std::vector<Anomaly> detectAnomalies(const TimeSeries& current_data);
-    
+
     // Predict future values
     TimeSeries forecast(std::chrono::hours horizon);
-    
+
     // Explain anomaly (feature importance)
     AnomalyExplanation explainAnomaly(const Anomaly& anomaly);
 };
@@ -463,7 +465,7 @@ for (const auto& anomaly : anomalies) {
 ---
 
 ### Intelligent Query Recommendations
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 ML-powered query optimization suggestions based on workload patterns.
@@ -480,17 +482,17 @@ class QueryRecommendationEngine {
 public:
     // Analyze query patterns
     void analyzeWorkload(const std::vector<QueryProfile>& profiles);
-    
+
     // Generate recommendations
     std::vector<Recommendation> generateRecommendations();
-    
+
     // Estimate impact
     ImpactAnalysis estimateImpact(const Recommendation& rec);
 };
 
 struct Recommendation {
     enum Type { CREATE_INDEX, REWRITE_QUERY, ADJUST_CACHE, REPARTITION };
-    
+
     Type type;
     std::string title;
     std::string description;
@@ -512,12 +514,12 @@ struct Recommendation {
 ---
 
 ### Root Cause Analysis
-**Priority:** High  
-**Target Version:** v1.7.0  
+**Priority:** High
+**Target Version:** v1.7.0
 **Status:** ✅ Implemented (v1.7.0, Issue #84)
 
-> **Implementation files:** `include/observability/root_cause_analyzer.h`, `src/observability/root_cause_analyzer.cpp`  
-> **Tests:** `tests/test_root_cause_analyzer.cpp` (RootCauseAnalyzerFocusedTests — 34 tests)  
+> **Implementation files:** `include/observability/root_cause_analyzer.h`, `src/observability/root_cause_analyzer.cpp`
+> **Tests:** `tests/test_root_cause_analyzer.cpp` (RootCauseAnalyzerFocusedTests — 34 tests)
 > **CI:** `.github/workflows/root-cause-analyzer-ci.yml`
 
 Automated root cause identification for performance issues.
@@ -530,10 +532,10 @@ public:
     RootCauseReport analyzeIssue(const PerformanceIssue& issue,
                                  const SystemSnapshot& before,
                                  const SystemSnapshot& after);
-    
+
     // Correlation analysis
     std::vector<CorrelatedMetric> findCorrelations(const std::string& metric_name);
-    
+
     // Causal inference
     CausalGraph buildCausalGraph(const std::vector<TimeSeries>& metrics);
 };
@@ -564,7 +566,7 @@ auto report = analyzer.analyzeIssue(latency_spike, before_snapshot, after_snapsh
 ## Real-Time Monitoring
 
 ### Streaming Metrics
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Real-time metric streaming via WebSocket or Server-Sent Events.
@@ -575,10 +577,10 @@ class MetricsStreamServer {
 public:
     // Start streaming server
     void start(const std::string& bind_address, uint16_t port);
-    
+
     // Client subscription
     void subscribe(const StreamSubscription& subscription);
-    
+
     // Push metrics to subscribers
     void pushMetrics(const MetricUpdate& update);
 };
@@ -609,7 +611,7 @@ ws.onmessage = (event) => {
 ---
 
 ### Live Query Profiling
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Real-time query execution visualization.
@@ -627,7 +629,7 @@ public:
     // Start profiling with callback
     void startLiveProfile(const std::string& query_id,
                          std::function<void(const ProfileUpdate&)> callback);
-    
+
     // Push updates during execution
     void updateProgress(const std::string& query_id,
                        const OperatorProgress& progress);
@@ -652,7 +654,7 @@ struct ProfileUpdate {
 ---
 
 ### Dashboard Auto-Refresh
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.7.0
 
 Intelligent dashboard refresh based on data volatility.
@@ -668,7 +670,7 @@ Intelligent dashboard refresh based on data volatility.
 ## Continuous Profiling
 
 ### Always-On CPU Profiling
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Low-overhead continuous CPU profiling in production.
@@ -678,13 +680,13 @@ Low-overhead continuous CPU profiling in production.
 class ContinuousProfiler {
 public:
     ContinuousProfiler(const ProfilerConfig& config);
-    
+
     // Start continuous profiling
     void start();
-    
+
     // Collect profile snapshot
     Profile snapshot();
-    
+
     // Compare profiles
     ProfileDiff compare(const Profile& baseline, const Profile& current);
 };
@@ -711,7 +713,7 @@ if (diff.cpu_regression_percent > 10.0) {
 ---
 
 ### Memory Leak Detection
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Automatic memory leak detection and reporting.
@@ -722,10 +724,10 @@ class MemoryLeakDetector {
 public:
     // Start monitoring
     void startMonitoring(std::chrono::minutes interval = std::chrono::minutes(5));
-    
+
     // Analyze heap growth
     std::vector<LeakCandidate> detectLeaks();
-    
+
     // Generate detailed report
     LeakReport generateReport(const LeakCandidate& candidate);
 };
@@ -751,7 +753,7 @@ for (const auto& leak : leaks) {
 ---
 
 ### Lock Contention Analysis
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Identify and analyze lock contention hotspots.
@@ -763,7 +765,7 @@ public:
     // Track lock acquisitions
     void recordLockAcquisition(const std::string& lock_name,
                               std::chrono::microseconds wait_time);
-    
+
     // Generate contention report
     ContentionReport analyzeContention();
 };
@@ -788,7 +790,7 @@ struct ContentionReport {
 ## Anomaly Detection
 
 ### Statistical Anomaly Detection
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Statistical methods for anomaly detection without ML training.
@@ -807,10 +809,10 @@ public:
     // Configure detection
     void setThreshold(double num_std_devs = 3.0);
     void setMethod(AnomalyMethod method);
-    
+
     // Detect anomalies
     std::vector<Anomaly> detect(const TimeSeries& data);
-    
+
     // Seasonal decomposition
     SeasonalComponents decompose(const TimeSeries& data);
 };
@@ -838,7 +840,7 @@ auto anomalies = detector.detect(query_latencies);
 ---
 
 ### Baseline Comparison
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Compare current metrics against historical baselines.
@@ -851,7 +853,7 @@ public:
     void createBaseline(const std::string& name,
                        const TimeSeries& historical_data,
                        std::chrono::hours window = std::chrono::hours(168));  // 1 week
-    
+
     // Compare against baseline
     ComparisonReport compare(const std::string& baseline_name,
                             const TimeSeries& current_data);
@@ -876,7 +878,7 @@ auto report = comparator.compare("last_week", today_data);
 ---
 
 ### Alerting with Adaptive Thresholds
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Dynamic alert thresholds that adapt to workload patterns.
@@ -888,12 +890,12 @@ public:
     // Learn thresholds from data
     void learnThresholds(const std::string& metric_name,
                         const TimeSeries& training_data);
-    
+
     // Evaluate with adaptive thresholds
     std::optional<Alert> evaluate(const std::string& metric_name,
                                  double current_value,
                                  std::chrono::system_clock::time_point timestamp);
-    
+
     // Account for time-of-day, day-of-week patterns
     void enableSeasonalAdjustment(bool enabled);
 };
@@ -910,7 +912,7 @@ public:
 ## Cost Analysis
 
 ### Query Cost Estimation
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Estimate resource costs for queries before execution.
@@ -921,7 +923,7 @@ class QueryCostEstimator {
 public:
     // Estimate query cost
     QueryCost estimateCost(const std::string& query_text);
-    
+
     // Cost breakdown
     CostBreakdown getBreakdown(const QueryCost& cost);
 };
@@ -948,7 +950,7 @@ struct QueryCost {
 ---
 
 ### Cost Monitoring Dashboard
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Track resource costs per tenant/team/project.
@@ -962,7 +964,7 @@ Track resource costs per tenant/team/project.
 ---
 
 ### Resource Optimization Advisor
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Recommend configuration changes to optimize cost/performance.
@@ -977,7 +979,7 @@ Recommend configuration changes to optimize cost/performance.
 ## Predictive Analytics
 
 ### Capacity Planning
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Predict future resource needs based on growth trends.
@@ -988,7 +990,7 @@ class CapacityPlanner {
 public:
     // Forecast resource usage
     CapacityForecast forecast(std::chrono::days horizon);
-    
+
     // Recommend scaling actions
     std::vector<ScalingRecommendation> recommendScaling(const CapacityForecast& forecast);
 };
@@ -1005,7 +1007,7 @@ struct CapacityForecast {
 //   QPS: Growing 15% month-over-month
 //   Storage: Growing 200 GB/week
 //   Memory: Stable at 32 GB
-//   
+//
 // Recommendations:
 //   - Add 2 nodes in 45 days (before 80% capacity)
 //   - Provision 5 TB additional storage in 60 days
@@ -1014,7 +1016,7 @@ struct CapacityForecast {
 ---
 
 ### Workload Forecasting
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Predict future query patterns and load.
@@ -1028,7 +1030,7 @@ Predict future query patterns and load.
 ---
 
 ### Failure Prediction
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.8.0
 
 Predict potential failures before they occur.
@@ -1039,7 +1041,7 @@ class FailurePredictor {
 public:
     // Analyze system health
     HealthScore assessHealth(const SystemMetrics& metrics);
-    
+
     // Predict failures
     std::vector<FailurePrediction> predictFailures(std::chrono::hours horizon);
 };
@@ -1073,7 +1075,7 @@ struct FailurePrediction {
 ## Enhanced Visualization
 
 ### Interactive Query Plans
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Visual query execution plan with interactive exploration.
@@ -1092,7 +1094,7 @@ Visual query execution plan with interactive exploration.
 ---
 
 ### Flame Graphs
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Interactive flame graphs for CPU/memory profiling.
@@ -1106,7 +1108,7 @@ Interactive flame graphs for CPU/memory profiling.
 ---
 
 ### Distributed Trace Waterfall
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Visualize distributed traces as waterfall diagrams.
@@ -1120,7 +1122,7 @@ Visualize distributed traces as waterfall diagrams.
 ---
 
 ### Custom Dashboard Builder
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Drag-and-drop dashboard builder for custom visualizations.
@@ -1136,7 +1138,7 @@ Drag-and-drop dashboard builder for custom visualizations.
 ## Integration Enhancements
 
 ### Grafana Loki Integration
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Stream logs to Grafana Loki for unified log aggregation.
@@ -1146,9 +1148,9 @@ Stream logs to Grafana Loki for unified log aggregation.
 class LokiLogExporter : public ILogger {
 public:
     LokiLogExporter(const LokiConfig& config);
-    
+
     void log(Level level, const std::string& message) override;
-    
+
     // Add structured labels
     void addLabel(const std::string& key, const std::string& value);
 };
@@ -1170,7 +1172,7 @@ exporter.info("Query executed successfully");
 ---
 
 ### DataDog Integration
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.7.0
 
 Native DataDog APM and metrics integration.
@@ -1184,7 +1186,7 @@ Native DataDog APM and metrics integration.
 ---
 
 ### New Relic Integration
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.7.0
 
 New Relic APM and infrastructure monitoring.
@@ -1192,7 +1194,7 @@ New Relic APM and infrastructure monitoring.
 ---
 
 ### AWS CloudWatch Integration
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Export metrics and logs to CloudWatch for AWS deployments.
@@ -1206,7 +1208,7 @@ Export metrics and logs to CloudWatch for AWS deployments.
 ---
 
 ### Elastic APM Integration
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Integration with Elastic Observability stack.

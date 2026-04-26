@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [replication](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-04  
+**Datum:** 2026-04-17  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/replication/ARCHITECTURE.md`
@@ -25,21 +25,9 @@
 
 # Primary Sources — `replication`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`replication`** aus den Verzeichnissen `src/replication/` und/oder `include/replication/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`replication`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/replication/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/replication/ARCHITECTURE.md`](../../../src/replication/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/replication/AUDIT.md`](../../../src/replication/AUDIT.md) |
-| `CHANGELOG.md` | [`src/replication/CHANGELOG.md`](../../../src/replication/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/replication/FUTURE_ENHANCEMENTS.md`](../../../src/replication/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/replication/README.md`](../../../src/replication/README.md) |
-| `ROADMAP.md` | [`src/replication/ROADMAP.md`](../../../src/replication/ROADMAP.md) |
-| `SECURITY.md` | [`src/replication/SECURITY.md`](../../../src/replication/SECURITY.md) |
 
 ### `include/replication/`
 
@@ -53,6 +41,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`replicatio
 | `ROADMAP.md` | [`include/replication/ROADMAP.md`](../../../include/replication/ROADMAP.md) |
 | `SECURITY.md` | [`include/replication/SECURITY.md`](../../../include/replication/SECURITY.md) |
 
+### `src/replication/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/replication/ARCHITECTURE.md`](../../../src/replication/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/replication/AUDIT.md`](../../../src/replication/AUDIT.md) |
+| `CHANGELOG.md` | [`src/replication/CHANGELOG.md`](../../../src/replication/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/replication/FUTURE_ENHANCEMENTS.md`](../../../src/replication/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/replication/README.md`](../../../src/replication/README.md) |
+| `ROADMAP.md` | [`src/replication/ROADMAP.md`](../../../src/replication/ROADMAP.md) |
+| `SECURITY.md` | [`src/replication/SECURITY.md`](../../../src/replication/SECURITY.md) |
+
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-04*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*

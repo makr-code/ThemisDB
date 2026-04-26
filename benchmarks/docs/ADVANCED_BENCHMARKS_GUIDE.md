@@ -1,3 +1,5 @@
+> **Aktueller Build-Flow:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
 # 🚀 Advanced Benchmarks Suite - OOP & Best-Practices Edition
 
 ## Executive Summary
@@ -408,4 +410,4 @@ grep "^>" regressions.txt && echo "ALERT: Performance Regression"
 **Execution Time**: ~5-10 minutes (all 20 benchmarks)  
 **Output Location**: C:\tmp\advanced_bench_results.json  
 **Maintainer**: ThemisDB Performance Team  
-**Last Updated**: 2025-12-18
+**Last Updated**: 2026-04-06

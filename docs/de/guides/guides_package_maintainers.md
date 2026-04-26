@@ -26,7 +26,7 @@ Essential information for distribution package maintainers.
 
 This document provides essential information for distribution package maintainers.
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.3.0  
 **Kategorie:** 🔨 Build/Deployment
 

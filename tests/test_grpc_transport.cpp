@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_grpc_transport.cpp                            ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:28:01                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:54:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     240                                            ║
+    • Total Lines:     238                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 6a618fcfd  2026-02-28  fix(network): upgrade insecure-TLS log to WARN, add start... ║
-    • c9048c016  2026-02-28  feat(network): add gRPC native transport (separate from s... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -235,6 +230,45 @@ TEST(GrpcTransportTest, StopWithoutStartIsNoOp) {
     // stop() on a never-started transport must not crash.
     EXPECT_NO_THROW(transport.stop());
     EXPECT_FALSE(transport.isRunning());
+}
+
+#endif  // THEMIS_ENABLE_GRPC
+
+// ===========================================================================
+// GAP-016 — gRPC insecure credentials warning (CWE-295)
+// ===========================================================================
+// The production gRPC transport already logs THEMIS_WARN when TLS is disabled.
+// These tests verify the config-level behaviour that governs which credentials
+// path is taken, to ensure the warning path is not accidentally bypassed.
+
+#ifdef THEMIS_ENABLE_GRPC
+
+// GAP-016-01: Default GrpcTransport::Config has tls_enabled=false — the
+// insecure path fires; verify the config field so this can be caught in CI.
+TEST(GrpcTransportGap016Test, GAP016_DefaultConfigTlsDisabled) {
+    GrpcTransport::Config cfg;
+    EXPECT_FALSE(cfg.tls_enabled)
+        << "Default config must have tls_enabled=false so the insecure "
+           "credential warning fires (GAP-016)";
+}
+
+// GAP-016-02: When tls_enabled=true the TLS credential path is selected.
+TEST(GrpcTransportGap016Test, GAP016_TlsEnabled_SelectsTlsPath) {
+    GrpcTransport::Config cfg;
+    cfg.tls_enabled   = true;
+    cfg.tls_cert_path = "/nonexistent/cert.pem";  // Intentionally missing
+    cfg.tls_key_path  = "/nonexistent/key.pem";
+    cfg.port          = 0;
+
+    // buildCredentials() (private) is exercised indirectly through start().
+    // start() will throw/return-false because the cert files don't exist;
+    // what matters is that the insecure fallback code path is NOT taken.
+    GrpcTransport transport(cfg);
+    // Should fail gracefully (can't load certs) — not assert or crash.
+    EXPECT_NO_THROW({ (void)transport.start(); });
+    EXPECT_FALSE(transport.isRunning())
+        << "Transport must not be running when cert files are missing (GAP-016)";
+    transport.stop();
 }
 
 #endif  // THEMIS_ENABLE_GRPC

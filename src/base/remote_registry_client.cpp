@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            remote_registry_client.cpp                         ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:14:29                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     875                                            ║
+    • Total Lines:     872                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 354c97d28  2026-03-16  feat: Add new erasure coding backend and related components ║
-    • 2c1b27b6f  2026-03-15  feat(base): async retry RemoteRegistryClient + LLM RetryP... ║
-    • e56570ab4  2026-03-15  feat(base): add async methods to RemoteRegistryClient; fi... ║
-    • 4e273a130  2026-03-14  feat(base): implement async retry API for RemoteRegistryC... ║
-    • 8b7f5ae1f  2026-03-14  Enforce shared ownership for async calls ║
+    • 354c97d283  2026-03-16  feat: Add new erasure coding backend and related components ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

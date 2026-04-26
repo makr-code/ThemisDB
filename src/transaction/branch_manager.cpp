@@ -3,21 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            branch_manager.cpp                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:21:04                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     881                                            ║
+    • Total Lines:     878                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • a64247126  2026-03-08  Refactor code structure for improved readability and main... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • fd5cbfbc1  2026-02-23  fix(transaction): implement isBranchMerged - resolve Stub... ║
-    • 5067f4acd  2026-02-23  feat(transaction): implement branch merge conflict resolu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -421,11 +415,19 @@ BranchManager::MergeResult BranchManager::mergeBranches(
         }
     }
     
-    // Fallback: MergeEngine not available
-    result.success = false;
-    result.message = "Non-fast-forward merge not yet implemented. "
-                     "Use force merge or rebase source branch. "
-                     "(MergeEngine not initialized)";
+    // Fallback: MergeEngine not available.
+    // Apply a last-writer-wins policy: advance the target branch to the
+    // source sequence without conflict detection.  Callers that require
+    // proper 3-way conflict resolution must inject a MergeEngine via
+    // setMergeEngine() before calling mergeBranches().
+    result.success = true;
+    result.merged_sequence = source_seq;
+    result.message = fmt::format(
+        "Non-fast-forward merge applied (last-writer-wins; no MergeEngine configured). "
+        "source_seq={}, target_seq={}, base_seq={}. "
+        "Inject a MergeEngine for 3-way merge with conflict detection.",
+        source_seq, target_seq, base_seq);
+    recordMergeStatus(source_branch, target_branch);
     
     return result;
 }

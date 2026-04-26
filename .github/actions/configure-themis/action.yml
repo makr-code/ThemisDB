@@ -3,11 +3,9 @@ description: |
   Runs CMake configure (Ninja generator) for the Themis project and
   optionally builds a single target.
 
-  LLM and GPU feature flags are set according to the requested edition:
-  - COMMUNITY / ENTERPRISE / HYPERSCALER: LLM=ON, GPU=ON with CPU-only
-    fallback (CUDA, HIP, OpenCL and Vulkan remain OFF so no GPU hardware
-    is required on CI runners).
-  - MINIMAL / MILITARY / (no edition): LLM=OFF, GPU=OFF.
+  LLM and GPU feature flags are always enabled (all editions):
+  - LLM=ON, GPU=ON with CPU-only fallback (CUDA, HIP, OpenCL and Vulkan
+    remain OFF so no GPU hardware is required on CI runners).
   Hardware-specific backends (CUDA, HIP, OpenCL, Vulkan), TRACING and
   gRPC are always disabled in CI regardless of edition.
 
@@ -115,21 +113,10 @@ runs:
         # CI mode: relax REQUIRED feature enforcement for edition builds
         [ "$CI_MODE" = "true" ] && CMAKE_ARGS+=("-DTHEMIS_CI_MODE=ON")
 
-        # Edition-aware LLM and GPU configuration:
-        #   COMMUNITY / ENTERPRISE / HYPERSCALER → LLM=ON, GPU=ON (CPU-only fallback)
-        #   MINIMAL / MILITARY / (no edition set) → LLM=OFF, GPU=OFF
-        # NOTE: The job summary in edition-build-ci.yml mirrors this logic for display.
-        # Keep both in sync when adding new editions.
-        case "$EDITION" in
-          COMMUNITY|ENTERPRISE|HYPERSCALER)
-            CMAKE_ARGS+=(-DTHEMIS_ENABLE_LLM=ON)
-            CMAKE_ARGS+=(-DTHEMIS_ENABLE_GPU=ON)
-            ;;
-          *)
-            CMAKE_ARGS+=(-DTHEMIS_ENABLE_LLM=OFF)
-            CMAKE_ARGS+=(-DTHEMIS_ENABLE_GPU=OFF)
-            ;;
-        esac
+        # LLM and GPU are always compiled in.
+        # Runtime falls back to CPU when no hardware backend is available.
+        CMAKE_ARGS+=(-DTHEMIS_ENABLE_LLM=ON)
+        CMAKE_ARGS+=(-DTHEMIS_ENABLE_GPU=ON)
 
         # Always disable hardware-specific GPU backends in CI
         # (no NVIDIA/AMD GPU or Vulkan drivers available on GitHub runners)

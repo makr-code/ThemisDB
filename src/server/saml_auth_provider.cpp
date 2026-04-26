@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            saml_auth_provider.cpp                             ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:20:03                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:50:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • edcfeb984  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-    • ec10fee12  2026-03-11  feat(server): SAML 2.0 SP - SamlAuthProvider, HTTP endpoi... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -45,7 +45,7 @@ namespace server {
 }
 
 /*static*/ std::string SamlAuthProvider::defaultTokenFactory(
-    const auth::SAMLClaims& claims)
+    [[maybe_unused]] const auth::SAMLClaims& claims)
 {
     // Generate a 16-byte random token and hex-encode it, prefix with "saml_"
     unsigned char buf[16]{};
@@ -56,7 +56,7 @@ namespace server {
         oss << std::hex << std::setw(2) << std::setfill('0')
             << static_cast<unsigned>(b);
     }
-    (void)claims; // claims available for enrichment by custom factories
+    // claims available for enrichment by custom factories
     return oss.str();
 }
 

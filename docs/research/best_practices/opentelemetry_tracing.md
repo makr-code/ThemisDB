@@ -67,4 +67,4 @@ ThemisDB v1.9.0 standardised on this pattern across all 64 API handler files via
 - [Token Bucket Rate Limiting](token_bucket_rate_limiting.md)
 
 ---
-**Last Updated:** 2026-03-24
+**Last Updated:** 2026-04-06

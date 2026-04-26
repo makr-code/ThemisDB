@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            huggingface_hub_client.cpp                         ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:15:27                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:48:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     791                                            ║
+    • Total Lines:     784                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 17ac0cd31  2026-03-16  feat(exporters): HuggingFace Hub Client HTTP 429 back-off... ║
-    • c64ea5aac  2026-03-11  feat(exporters): add hf_token_kek_id for KEK/KMS-protecte... ║
-    • 07dbc3052  2026-03-11  feat(exporters): add memory-streaming upload API for Hugg... ║
-    • f838f7700  2026-03-11  docs(exporters): add Hub upload usage examples, update RO... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -124,7 +121,7 @@ namespace {
 /// Extract the value of the `Retry-After` response header from a raw
 /// header block captured by headerCaptureCb().  Returns an empty string
 /// when the header is absent.
-static std::string extractRetryAfterHeader(const std::string& raw_headers) {
+[[maybe_unused]] static std::string extractRetryAfterHeader(const std::string& raw_headers) {
     // Walk line by line (headers end with \r\n or \n).
     std::istringstream stream(raw_headers);
     std::string line;
@@ -228,12 +225,11 @@ std::string HuggingFaceHubClient::resolveToken() const {
 // ── HTTP helpers (libcurl path) ──────────────────────────────────────────────
 
 std::pair<int, std::string> HuggingFaceHubClient::httpPost(
-    const std::string& url,
-    const std::string& json_body,
-    const std::string& bearer_token) const
+    [[maybe_unused]] const std::string& url,
+    [[maybe_unused]] const std::string& json_body,
+    [[maybe_unused]] const std::string& bearer_token) const
 {
 #ifndef CURL_ENABLED
-    (void)url; (void)json_body; (void)bearer_token;
     return {0, "CURL_ENABLED is not defined; Hub upload requires libcurl"};
 #else
     CURL* curl = curl_easy_init();
@@ -268,16 +264,14 @@ std::pair<int, std::string> HuggingFaceHubClient::httpPost(
 }
 
 int HuggingFaceHubClient::httpPutBytes(
-    const std::string& url,
-    const char* data,
-    std::size_t size,
-    const std::string& bearer_token,
-    std::function<void(double)> progress_cb,
-    std::string* retry_after_out) const
+    [[maybe_unused]] const std::string& url,
+    [[maybe_unused]] const char* data,
+    [[maybe_unused]] std::size_t size,
+    [[maybe_unused]] const std::string& bearer_token,
+    [[maybe_unused]] std::function<void(double)> progress_cb,
+    [[maybe_unused]] std::string* retry_after_out) const
 {
 #ifndef CURL_ENABLED
-    (void)url; (void)data; (void)size; (void)bearer_token; (void)progress_cb;
-    (void)retry_after_out;
     return 0;
 #else
     CURL* curl = curl_easy_init();
@@ -330,15 +324,13 @@ int HuggingFaceHubClient::httpPutBytes(
 }
 
 int HuggingFaceHubClient::httpPutFile(
-    const std::string& url,
-    const std::string& file_path,
-    const std::string& bearer_token,
-    std::function<void(double)> progress_cb,
-    std::string* retry_after_out) const
+    [[maybe_unused]] const std::string& url,
+    [[maybe_unused]] const std::string& file_path,
+    [[maybe_unused]] const std::string& bearer_token,
+    [[maybe_unused]] std::function<void(double)> progress_cb,
+    [[maybe_unused]] std::string* retry_after_out) const
 {
 #ifndef CURL_ENABLED
-    (void)url; (void)file_path; (void)bearer_token; (void)progress_cb;
-    (void)retry_after_out;
     return 0;
 #else
     std::ifstream f(file_path, std::ios::binary | std::ios::ate);

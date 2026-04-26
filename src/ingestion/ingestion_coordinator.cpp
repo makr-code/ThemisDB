@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ingestion_coordinator.cpp                          ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:16:44                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     747                                            ║
+    • Total Lines:     746                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • b04a231b9  2026-03-17  fix: address all 9 copilot review comments on coordinator... ║
-    • 962b4cb78  2026-03-17  Complete distributed ingestion coordinator: tests, CI wor... ║
-    • 85891212c  2026-03-17  Changes before error encountered         ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 088d46b92  2026-02-28  feat(ingestion): add WorkStealingPool to IngestionCoordin... ║
+    • b04a231b9f  2026-03-17  fix: address all 9 copilot review comments on coordinator... ║
+    • 962b4cb780  2026-03-17  Complete distributed ingestion coordinator: tests, CI wor... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

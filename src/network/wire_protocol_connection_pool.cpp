@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_connection_pool.cpp                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:17:33                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   94.0/100                                       ║
-    • Total Lines:     793                                            ║
+    • Total Lines:     792                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a7ed90d42  2026-03-11  fix(network): integrate getIdealConnectionCount into adap... ║
-    • 9f407b889  2026-03-11  feat(network): implement adaptive connection pool sizing ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • a7ed90d427  2026-03-11  fix(network): integrate getIdealConnectionCount into adap... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -48,7 +46,7 @@ AdaptivePoolingStrategy::AdaptivePoolingStrategy()
 
 size_t AdaptivePoolingStrategy::getIdealConnectionCount(
     size_t current_count,
-    size_t active_count,
+    [[maybe_unused]] size_t active_count,
     double load)
 {
     if (current_count == 0) return 1;
@@ -355,7 +353,7 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
         
         return wrapper;
         
-    } catch (const std::exception& e) {
+    } catch ([[maybe_unused]] const std::exception& e) {
         // Only count failures once (already counted above before throw)
         throw;
     }
@@ -429,7 +427,7 @@ WireProtocolConnectionPool::acquireConnection(const std::string& target) {
                 
                 return ConnectionHandle(socket, this, target);
                 
-            } catch (const std::exception& e) {
+            } catch ([[maybe_unused]] const std::exception& e) {
                 lock.lock();
                 // Add backoff before retry to avoid tight loop under outage
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));

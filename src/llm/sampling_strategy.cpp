@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sampling_strategy.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:17:14                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   92.0/100                                       ║
-    • Total Lines:     253                                            ║
+    • Total Lines:     254                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -35,7 +36,7 @@ namespace llm {
 
 llama_token GreedySampling::sample(
     llama_context* ctx,
-    const std::vector<llama_token>& last_tokens,
+    const std::vector<llama_token>& /*last_tokens*/,
     int pos) {
     
     // Note: last_tokens parameter is not used in greedy sampling
@@ -169,7 +170,7 @@ MirostatSampling::MirostatSampling(float tau, float eta)
 
 llama_token MirostatSampling::sample(
     llama_context* ctx,
-    const std::vector<llama_token>& last_tokens,
+    const std::vector<llama_token>& /*last_tokens*/,
     int pos) {
     // Simplified Mirostat: approximate via nucleus with adaptive temperature
     spdlog::debug("MirostatSampling::sample - tau={}, eta={}", tau_, eta_);

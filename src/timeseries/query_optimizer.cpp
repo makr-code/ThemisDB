@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_optimizer.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:55                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     399                                            ║
+    • Total Lines:     398                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 822b0afce  2026-03-15  feat(timeseries): implement TSStore single-point insert b... ║
-    • fe42ba76e  2026-03-09  feat(timeseries): add FlushController adaptive flush, Dow... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 822b0afce6  2026-03-15  feat(timeseries): implement TSStore single-point insert b... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

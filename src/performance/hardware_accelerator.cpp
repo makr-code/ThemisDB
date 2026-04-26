@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hardware_accelerator.cpp                           ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:17:52                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:49:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     730                                            ║
+    • Total Lines:     735                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 139f96263  2026-03-16  feat(performance): implement HardwareAccelerator v1.8.0 (... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -230,7 +231,6 @@ ExecutionResult cpuSortMergeJoin(const QueryOperator& op) {
             }
             ++li;
         }
-        (void)li_start;
     }
     return r;
 }

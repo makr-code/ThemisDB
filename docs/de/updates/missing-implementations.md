@@ -1,6 +1,6 @@
 # Updates-Modul — Fehlende / Unvollständige Implementierungen
 
-<!-- Status: current | validated: 2026-03-20 | updated: 2026-03-20 -->
+<!-- Status: current | validated: 2026-04-06 | updated: 2026-03-20 -->
 <!-- Primärdokumentation: ../../../src/updates/ -->
 
 Dieser Report dokumentiert Funktionen und Komponenten, die in `src/updates/ROADMAP.md`, `src/updates/README.md` oder anderen Primary-Docs als implementiert beschrieben werden oder als geplant gelten, jedoch bei der Reality-Check-Prüfung als **nicht vollständig dokumentiert**, **fehlerhaft referenziert** oder **teilweise umgesetzt** befunden wurden.
@@ -76,7 +76,7 @@ Prüfstand: 2026-03-20 | Branch: `develop`
 |---|---|
 | **Claim-Quelle** | `src/updates/FUTURE_ENHANCEMENTS.md` (Footer + Status-Header) |
 | **Erwartet** | Footer und Status-Header spiegeln den aktuellen Entwicklungsstand wider |
-| **Beobachtet** | Footer: "Last Updated: February 2026", "Module Version: v1.5.x", "Next Review: v1.6.0 Release" — steht im Widerspruch zu v1.8.0 Release und März 2026 Stand. Status-Header: `validated: 2026-03-12` |
+| **Beobachtet** | Footer: "Last Updated: February 2026", "Module Version: v1.5.x", "Next Review: v1.6.0 Release" — steht im Widerspruch zu v1.8.0 Release und März 2026 Stand. Status-Header: `validated: 2026-04-06` |
 | **Evidence** | `src/updates/ROADMAP.md` §"Current Status": v1.7.0 als Production-ready, v1.8.0 multi-tenant fertig |
 | **Status** | ✅ **Behoben** — Footer auf v1.8.0 / März 2026 aktualisiert; validated-Datum auf 2026-03-20 (2026-03-20) |
 | **Lösung** | `src/updates/FUTURE_ENHANCEMENTS.md`: Footer-Zeilen und Status-Header korrigiert |

@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — RAG Module
@@ -7,6 +9,30 @@ All notable changes to the RAG module are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+
+## [2.1.0] — 2026-04-16
+### Added
+- `RAGIngestionBridge` (`include/rag/rag_ingestion_bridge.h`, `src/rag/rag_ingestion_bridge.cpp`; `themis::rag` namespace):
+  - `IndexResult` return type: `ok`, `doc_id`, `collection`, `entity_count`, `vector_count`, `error`
+  - `indexDocument(text, collection)` — full ingestion workflow; writes to `IVectorWriter` and optional `IGraphWriter`; idempotent via content-hash `doc_id`
+  - `enrichRetrievedDocuments(docs, query)` — attaches NER entities under `"_entities"` metadata key
+  - `extractEntitiesForContext(text)` — delegates to `IngestionToolbox::extractEntities()`
+  - `static buildEntityContext(entities)` — converts `BaseEntity` list to compact string for LLM prompt injection
+  - Thread-safe: no mutable state beyond constructor-injected shared pointers
+
+## [2.0.1] — 2026-04-15
+### Added
+- `ContinuousLearningOrchestrator` (`include/rag/continuous_learning_orchestrator.h`, `src/rag/continuous_learning_orchestrator.cpp`; `themis::rag::learning` namespace):
+  - `ContinuousLearningConfig` — trigger thresholds, learning rates, A/B testing config, data-selection integration, federation paths
+  - `startLearningLoop()` / `stopLearningLoop()` — background learning loop
+  - `triggerLearningIteration()` — manual trigger
+  - `LoopPhase` enum: `IDLE`, `LOOP_1_HNSW_QUERY`, `LOOP_2_WORKLOAD`, `LOOP_3_SCHEMA_INDEX`, `LOOP_4_RLAIF`
+  - `LoopResult` — `phase`, `success`, `guardrail_passed`, `adapter_version`, `metric_delta`
+  - `triggerLoop(LoopPhase)` — explicit named loop trigger with `LoopResult` return
+  - `registerLoopCompletionHandler(LoopPhase, handler)` — per-phase synchronous completion callback
+  - `TriggerEvent::FEDERATED_ROUND_START` — fires after Loop-4 with `guardrail_passed == true`
+  - `setFederationCoordinator(ILoRAFederationCoordinator*)` — DI setter for federated LoRA aggregation
+  - `setTrainerForFederation(IncrementalLoRATrainer*)` — DI setter for gradient export
 
 ## [2.0.0] — 2026-03-24
 ### Added

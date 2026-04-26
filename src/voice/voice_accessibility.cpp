@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_accessibility.cpp                            ║
-  Version:         0.0.31                                             ║
-  Last Modified:   2026-03-30 04:21:41                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-15 18:51:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -176,9 +177,8 @@ std::string VoiceAccessibility::formatAsVTT(
 
 std::string VoiceAccessibility::formatAsSRT(
     const std::vector<CaptionCue>& cues,
-    const TranscriptExportOptions& opts) const
+    [[maybe_unused]] const TranscriptExportOptions& opts) const
 {
-    (void)opts;
     std::ostringstream ss;
 
     auto sorted = mergeSortCues(cues);

@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            secondary_index_metadata_cache.h                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:04                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     150                                            ║
+    • Total Lines:     171                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 2c5066b72  2026-02-25  Code audit: fix header annotations, add PARTIAL to IndexT... ║
-    • 4eeafc8f5  2026-02-25  Implement partial/filtered indexes on secondary index man... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • aab4886b64  2026-04-13  perf(index): cache fulltext-configs, ttl-seconds, composi... ║
+    • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -28,6 +26,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 #include <chrono>
 #include <shared_mutex>
 #include <optional>
@@ -43,6 +42,16 @@ namespace themis {
 ///
 class SecondaryIndexMetadataCache {
 public:
+    /// Mirrors SecondaryIndexManager::FulltextConfig — stored here to avoid a
+    /// circular include dependency between this header and secondary_index.h.
+    struct CachedFulltextConfig {
+        bool stemming_enabled   = false;
+        std::string language    = "none";
+        bool stopwords_enabled  = false;
+        std::vector<std::string> stopwords;
+        bool normalize_umlauts  = false;
+    };
+
     struct IndexMetadata {
         std::vector<std::string> regular_indexes;       // Equality indexes
         std::vector<std::string> range_indexes;         // Range indexes
@@ -57,6 +66,18 @@ public:
         std::unordered_map<std::string, bool> sparse_unique;
         std::unordered_map<std::string, std::string> partial_predicates; // column -> predicate
         std::unordered_map<std::string, bool> partial_unique; // column -> unique flag
+
+        // Precomputed sets for O(1) membership lookup in write-path hot loops.
+        // Populated alongside the vectors so callers avoid rebuilding sets on
+        // every cache hit.
+        std::unordered_set<std::string> regular_indexes_set;
+        std::unordered_set<std::string> range_indexes_set;
+
+        // Per-column config/metadata cached to eliminate extra db.get() calls on
+        // every insert/upsert in the hot write path (v1.3.5 optimization).
+        std::unordered_map<std::string, CachedFulltextConfig> fulltext_configs; // column -> config
+        std::unordered_map<std::string, int64_t>              ttl_seconds;      // column -> TTL value
+        std::unordered_map<std::string, bool>                 composite_unique; // "c1+c2" -> unique flag
     };
 
     /// Singleton instance

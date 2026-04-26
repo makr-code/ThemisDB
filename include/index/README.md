@@ -1,4 +1,53 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # ThemisDB Index Module
+
+## All Headers
+
+| Header | Purpose |
+|--------|---------|
+| `adaptive_index.h` | Adaptive index recommendations from query patterns |
+| `advanced_vector_index.h` | Advanced vector index algorithms (DiskANN, ScaNN) |
+| `ann_index.h` | ANN index base interface |
+| `approximate_radius_search.h` | Approximate radius/range search |
+| `binary_quantizer.h` | Binary quantization (256x compression) |
+| `cuda_hnsw_graph_traversal.h` | CUDA-accelerated HNSW graph traversal |
+| `distributed_vector_index.h` | Distributed multi-node vector index |
+| `edge_types.h` | Edge type definitions for graph indexes |
+| `gnn_embeddings.h` | Graph Neural Network embedding integration |
+| `gpu_memory_oversubscription.h` | GPU memory oversubscription for large indexes |
+| `gpu_vector_index.h` | GPU-accelerated vector index (Vulkan/CUDA/HIP) |
+| `graph_analytics.h` | Graph analytics primitives (PageRank, centrality) |
+| `graph_auto_buffer.h` | Auto-sizing buffer for graph operations |
+| `graph_index.h` | Graph index (adjacency lists, BFS/DFS) |
+| `hnsw_layer_optimizer.h` | HNSW layer structure optimizer |
+| `hnsw_parameter_tuner.h` | HNSW parameter auto-tuning |
+| `hnsw_production_defaults.h` | Production-optimized HNSW defaults |
+| `index_compression.h` | Delta, prefix, dictionary, RLE, and Bloom filter compression |
+| `index_manager.h` | Unified index manager with dependency injection |
+| `inverted_index.h` | Full-text inverted index with BM25 scoring |
+| `learnable_rope.h` | Learnable rotary positional embeddings |
+| `learned_index.h` | ML-based RMI learned index structures |
+| `learned_quantizer.h` | Learned/neural quantizer |
+| `lora_rope.h` | LoRA-adapted rotary embeddings |
+| `matryoshka_truncation.h` | Matryoshka embedding truncation |
+| `multi_gpu_vector_index.h` | Multi-GPU distributed vector index |
+| `multi_vector_search.h` | Multi-vector (ColBERT-style) search |
+| `process_graph.h` | Process graph for workflow/BPMN indexing |
+| `product_quantizer.h` | Product quantization (PQ) with ADC tables |
+| `property_graph.h` | Property graph index |
+| `residual_quantizer.h` | Residual quantization |
+| `rotary_embeddings.h` | Rotary positional embeddings (RoPE) — CPU |
+| `rotary_embeddings_gpu.h` | Rotary positional embeddings — GPU |
+| `secondary_index.h` | Secondary indexes (B-tree, range, sparse, composite, TTL, geo) |
+| `secondary_index_metadata_cache.h` | Metadata cache for secondary indexes |
+| `spatial_index.h` | R-tree spatial index for geospatial queries |
+| `temporal_graph.h` | Temporal graph with time-versioned edges |
+| `tiered_index_manager.h` | Hot/warm/cold tiered index migration |
+| `vector_auto_buffer.h` | Auto-sizing buffer for vector operations |
+| `vector_index.h` | HNSW vector similarity search |
+| `vector_index_manager.h` | Vector index lifecycle manager |
+| `workload_replay.h` | Workload replay advisor for index recommendations |
 
 ## Module Purpose
 
@@ -86,7 +135,7 @@ vim.addVector("embeddings", "doc123", embedding);
 // Search for similar vectors
 auto results = vim.search("embeddings", query_vector, /*k=*/10);
 for (const auto& result : results) {
-    std::cout << "ID: " << result.pk 
+    std::cout << "ID: " << result.pk
               << " Distance: " << result.distance << std::endl;
 }
 ```
@@ -467,7 +516,7 @@ adaptive.recordQuery(
 // Get index recommendations
 auto recommendations = adaptive.getRecommendations(/*min_benefit=*/100.0);
 for (const auto& rec : recommendations) {
-    std::cout << "Create index on " << rec.collection 
+    std::cout << "Create index on " << rec.collection
               << "." << rec.field
               << " (estimated benefit: " << rec.benefit_score << "ms/query)"
               << std::endl;
@@ -658,9 +707,9 @@ auto results = vim.searchWithFilter(
 void handleVectorSearch(const Request& req, Response& resp) {
     auto query_vector = req.getVector("vector");
     auto k = req.getInt("k", 10);
-    
+
     auto results = vim.search("embeddings", query_vector, k);
-    
+
     resp.setJson({
         {"results", results},
         {"count", results.size()}
@@ -687,17 +736,17 @@ sim.createIndex("documents", "year");
 for (const auto& doc : documents) {
     // Generate embedding
     auto embedding = model.encode(doc.text);
-    
+
     // Store in vector index
     vim.addVector("documents", doc.id, embedding);
-    
+
     // Store metadata
     BaseEntity entity;
     entity.set("id", doc.id);
     entity.set("category", doc.category);
     entity.set("year", doc.year);
     entity.set("text", doc.text);
-    
+
     auto batch = db.createWriteBatch();
     sim.updateIndex("documents", entity, batch);
     batch.commit();
@@ -975,3 +1024,11 @@ find_package(CUDAToolkit QUIET)
 - [FAISS Documentation](https://github.com/facebookresearch/faiss/wiki)
 - [Product Quantization Paper](https://hal.inria.fr/inria-00514462) - Jégou et al. (2011)
 - [R-tree Paper](http://www-db.deis.unibo.it/courses/SI-LS/papers/Gut84.pdf) - Guttman (1984)
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

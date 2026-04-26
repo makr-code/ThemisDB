@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            main.cpp                                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:17:17                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   98.0/100                                       ║
     • Total Lines:     437                                            ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -26,6 +23,7 @@
     #include <mimalloc-new-delete.h>
 #endif
 
+#include "utils/cli_parser_utils.h"
 #include "utils/logger.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
@@ -36,6 +34,8 @@
 #include "transaction/transaction_manager.h"
 #include "query/query_engine.h"
 #include "query/query_optimizer.h"
+#include <nlohmann/json.hpp>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <optional>
@@ -49,45 +49,42 @@ int main(int argc, char* argv[]) {
                   << "Options:\n"
                   << "  --db PATH         Database path (default: ./data/themis_test)\n"
                   << "  --db-path PATH    Alias for --db\n"
-                  << "  --config FILE     Configuration file (not yet implemented)\n"
+                  << "  --config FILE     Configuration file (JSON, supports 'db_path' key)\n"
                   << "  --version, -v     Show version information and exit\n"
                   << "  --help, -h        Show this help message\n";
     };
 
     // Parse command-line arguments
     std::string db_path = "./data/themis_test";
-    // TODO: Implement configuration file loading logic
-    [[maybe_unused]] std::optional<std::string> config_path;
+    std::optional<std::string> config_path;
     
     for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];
-        if (arg == "--version" || arg == "-v") {
+        if (themis::cli::is_version_flag(arg)) {
 #ifdef THEMIS_VERSION_STRING
             std::cout << THEMIS_VERSION_STRING << std::endl;
 #else
             std::cout << "unknown" << std::endl;
 #endif
             return 0;
-        } else if (arg == "--help" || arg == "-h") {
+        } else if (themis::cli::is_help_flag(arg)) {
             print_usage(argv[0]);
             return 0;
         } else if (arg == "--db" || arg == "--db-path") {
-            if (i + 1 < argc) {
-                db_path = argv[++i];
-            } else {
-                std::cerr << "Error: " << arg << " requires a value" << std::endl;
+            std::string err;
+            if (!themis::cli::consume_next_value(argc, argv, i, arg.c_str(), db_path, err)) {
+                std::cerr << "Error: " << err << std::endl;
                 print_usage(argv[0]);
                 return 1;
             }
         } else if (arg == "--config") {
-            if (i + 1 < argc) {
-                config_path = argv[++i];
-                std::cerr << "Warning: Configuration file support is not yet implemented. The provided path will be ignored." << std::endl;
-            } else {
-                std::cerr << "Error: --config requires a value" << std::endl;
+            std::string val, err;
+            if (!themis::cli::consume_next_value(argc, argv, i, "--config", val, err)) {
+                std::cerr << "Error: " << err << std::endl;
                 print_usage(argv[0]);
                 return 1;
             }
+            config_path = val;
         } else {
             std::cerr << "Error: Unknown option: " << arg << std::endl;
             print_usage(argv[0]);
@@ -97,6 +94,26 @@ int main(int argc, char* argv[]) {
     
     // Initialize logger AFTER flag checks
     utils::Logger::init("vccdb.log", utils::Logger::Level::INFO);
+
+    // Load configuration file if provided
+    if (config_path) {
+        std::ifstream cfg_stream(*config_path);
+        if (!cfg_stream.is_open()) {
+            std::cerr << "Error: Cannot open config file: " << *config_path << std::endl;
+            return 1;
+        }
+        try {
+            nlohmann::json cfg = nlohmann::json::parse(cfg_stream);
+            if (cfg.contains("db_path") && cfg["db_path"].is_string()) {
+                db_path = cfg["db_path"].get<std::string>();
+            }
+            THEMIS_INFO("Loaded configuration from: {}", *config_path);
+        } catch (const nlohmann::json::exception& ex) {
+            std::cerr << "Error: Failed to parse config file " << *config_path
+                      << ": " << ex.what() << std::endl;
+            return 1;
+        }
+    }
     
     THEMIS_INFO("=== Themis Multi-Model Database System ===");
 #ifdef THEMIS_VERSION_STRING

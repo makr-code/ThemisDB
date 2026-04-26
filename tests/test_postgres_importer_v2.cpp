@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_postgres_importer_v2.cpp                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:31:33                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:55:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2005                                           ║
+    • Total Lines:     2002                                           ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 79f081505  2026-03-28  Add test statistics documentation and collection script ║
-    • 9d8c5ce37  2026-03-15  Refactor service mesh API handler to use fully qualified ... ║
-    • 9efa3acd7  2026-03-11  feat(importers): add PostgreSQL Importer v2.1+ with 12 ne... ║
-    • 9a33042e6  2026-03-11  fix(importers): update version headers to 2.1.0 per code ... ║
-    • 8cf8f1d12  2026-03-11  feat(importers): v2.1 - additional constraint types, rela... ║
+    • 79f0815052  2026-03-28  Add test statistics documentation and collection script ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

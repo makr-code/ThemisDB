@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_assistant.h                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:13:05                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     420                                            ║
+    • Total Lines:     416                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • fc3311312  2026-03-01  feat(voice): implement language detection and auto-locale... ║
-    • 49fd40219  2026-03-01  feat(voice): expose speaker verification REST API endpoints ║
-    • 75c7c24ea  2026-03-01  feat(voice): implement voice session playback and search ... ║
-    • 7bdfe2da2  2026-02-28  feat(voice): implement voice command macros for user-defi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -367,6 +360,28 @@ public:
      * @brief Update session context
      */
     void updateSession(const std::string& session_id, const json& context);
+
+    /**
+     * @brief Synthesize text to speech using the embedded TTS processor.
+     *
+     * @param text       Text to synthesize.
+     * @param options    TTS options (voice, speed, pitch, format).
+     * @return TTS result containing audio_data, mime_type, duration_ms.
+     */
+    content::TTSResult synthesize(
+        const std::string& text,
+        const content::TTSOptions& options = {}
+    );
+
+    /**
+     * @brief Return the list of available TTS voices.
+     */
+    json getAvailableVoices() const;
+
+    /**
+     * @brief Return the list of supported TTS language codes.
+     */
+    std::vector<std::string> getSupportedLanguages() const;
     
     /**
      * @brief Get statistics

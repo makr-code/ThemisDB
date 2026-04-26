@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            smart_routing.cpp                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:20:07                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:50:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • d153089bc  2026-03-13  fix(server): eliminate data race in SmartRouter::refreshS... ║
-    • 830284816  2026-03-13  feat: implement RequestCoalescingManager and SmartRouter ... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -112,13 +112,13 @@ void SmartRouter::recordCacheHit(const std::string& backend_id,
 }
 
 void SmartRouter::recordCacheMiss(const std::string& backend_id,
-                                  const std::string& resource_key)
+                                  [[maybe_unused]] const std::string& resource_key)
 {
     std::unique_lock lock(mutex_);
     auto it = backends_.find(backend_id);
     if (it == backends_.end()) return;
 
-    (void)resource_key; // key not tracked for misses (only hits drive prediction)
+    // key not tracked for misses (only hits drive prediction)
     it->second.cache_misses++;
 }
 

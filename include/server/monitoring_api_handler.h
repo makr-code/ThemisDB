@@ -3,19 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            monitoring_api_handler.h                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:13                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     335                                            ║
+    • Total Lines:     334                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 3978fd6d9  2026-02-24  feat(server): OpenAPI 3.1 spec auto-generation from handl... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -303,6 +299,31 @@ public:
      */
     void setAlertmanager(std::shared_ptr<observability::DefaultAlertmanager> alertmanager) {
         alertmanager_ = std::move(alertmanager);
+    }
+
+    /**
+     * @brief Inject sharding / repair metrics into the monitoring handler.
+     *
+     * Optional: when set, GET /metrics and GET /v1/monitoring/sharding/{name} expose
+     * shard-level Prometheus metrics including anti-entropy repair statistics.
+     * Must be called before start() for the first scrape to include repair data.
+     */
+    void setShardingMetrics(std::shared_ptr<ShardingMetricsHandler> sharding_metrics) {
+        sharding_metrics_ = std::move(sharding_metrics);
+    }
+
+    /**
+     * @brief Inject the SchemaManager after deferred initialization.
+     *
+     * SchemaManager is initialized after MonitoringApiHandler due to construction
+     * ordering constraints (schema_manager_ depends on storage being fully open).
+     * Call this from HttpServer once schema_manager_ is available so that
+     * GET /api/v1/capabilities returns accurate schema capability information.
+     *
+     * Optional: when not set the capabilities endpoint omits schema details.
+     */
+    void setSchemaManager(::themis::SchemaManager* schema_manager) {
+        schema_manager_ = schema_manager;
     }
 
 private:

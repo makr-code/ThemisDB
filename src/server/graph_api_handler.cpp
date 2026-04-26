@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_api_handler.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:45                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1119                                           ║
+    • Total Lines:     1116                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 5bfa861df  2026-03-23  Add runtime DLL copying functionality and error handling ║
-    • edcfeb984  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-    • 11950d9f7  2026-03-10  feat(graph): add EXPLAIN HTTP endpoint and focused test t... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • bc547c433  2026-02-28  feat(graph): expose cost model calibration via HTTP API ║
+    • 5bfa861df6  2026-03-23  Add runtime DLL copying functionality and error handling ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -72,6 +68,13 @@ http::response<http::string_body> GraphApiHandler::handleTraverse(
         }
 
         std::string start_vertex = body_json["start_vertex"];
+        // TODO(GAP-010): max_depth taken directly from user without upper-bound cap.
+        // A request with max_depth=UINT_MAX triggers a full-graph BFS traversal, causing
+        // CPU saturation and OOM (Denial-of-Service).
+        // Fix: enforce a server-side cap, e.g.:
+        //   static constexpr size_t kMaxBfsDepth = 20;
+        //   if (max_depth > kMaxBfsDepth) { return makeErrorResponse(400, "max_depth exceeds limit"); }
+        // Target: Q2 2026
         size_t max_depth = body_json["max_depth"];
         
         span.setAttribute("graph.start_vertex", start_vertex);
@@ -371,7 +374,7 @@ http::response<http::string_body> GraphApiHandler::handleMetricsPrometheus(
             "Plan-cache entries evicted by LRU or TTL policy",
             m.plan_cache_evictions.load(std::memory_order_relaxed));
     gauge("themis_graph_query_error_rate",
-          "Fraction of graph queries that failed (0.0–1.0)",
+          "Fraction of graph queries that failed (0.0-1.0)",
           m.errorRate());
     gauge("themis_graph_query_avg_duration_ms",
           "Average graph query execution time in milliseconds",

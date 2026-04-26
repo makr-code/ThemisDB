@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_canceller.h                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:10:02                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:46:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • ab3b22a88  2026-03-09  feat(query): implement query cancellation via request ID ... ║
+    • ab3b22a88e  2026-03-09  feat(query): implement query cancellation via request ID ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

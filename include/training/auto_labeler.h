@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auto_labeler.h                                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:25                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     200                                            ║
+    • Total Lines:     217                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f499362b1  2026-03-11  feat(training): wire LegalAutoLabeler DB fetch to AQL que... ║
-    • ce712594b  2026-03-09  feat(training): Phase 3 enhancements - checkpoint manager... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • ac63c2ec8d  2026-04-12  [WIP] Update developer documentation for module training ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -91,6 +89,27 @@ using LabelingCallback = std::function<void(size_t processed,
                                             const std::string& status)>;
 
 /**
+ * @brief Target domain for auto-labeling and sample extraction.
+ *
+ * Controls domain-specific keyword dictionaries and NLP heuristics used by
+ * `LegalAutoLabeler` when the external NlpTextAnalyzer is unavailable or
+ * returns no modalities.
+ *
+ * - LEGAL    : German legal text (modal verbs: muss/soll/kann/darf/…)
+ * - MEDICAL  : Medical / clinical text (obligatory / recommended / optional care)
+ * - FINANCIAL: Financial regulatory text (obligation / prohibition / disclosure)
+ */
+enum class DomainType {
+    LEGAL,               ///< German legal / regulatory domain (default)
+    MEDICAL,             ///< Medical / clinical / pharmaceutical domain
+    FINANCIAL,           ///< Financial regulation / compliance domain
+    DATABASE_OPTIMIZER,  ///< Query-plan optimization (IMPL-A1)
+    INDEX_ADVISOR,       ///< Index recommendation (IMPL-A1)
+    SCHEMA_ADVISOR,      ///< Schema evolution advisory (IMPL-A1)
+    SECURITY_MONITOR,    ///< Anomaly / threat detection (IMPL-A1)
+};
+
+/**
  * @brief Configuration for auto-labeling
  */
 struct AutoLabelConfig {
@@ -101,7 +120,8 @@ struct AutoLabelConfig {
     float min_confidence = 0.5f;            ///< Minimum confidence to include sample
     bool flag_low_confidence = true;        ///< Flag low-confidence for review
     size_t batch_size = 100;                ///< Documents per batch
-    
+    DomainType domain_type = DomainType::LEGAL; ///< Target domain for sample extraction
+
     AutoLabelConfig() = default;
 };
 

@@ -1,6 +1,6 @@
 # Exporters Module
 
-**Stand:** 22. März 2026  
+**Stand:** 6. April 2026  
 **Version:** 1.1  
 **Kategorie:** Datenexport / LLM-Training  
 **Validated:** 2026-03-22 (Reality-Check gegen Sourcecode; siehe [missing-implementations.md](missing-implementations.md))

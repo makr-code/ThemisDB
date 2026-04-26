@@ -33,6 +33,12 @@ Each paper that serves as a foundation for a ThemisDB algorithm, data structure,
 |-------|-----------|---------|--------|
 | [DuckDB — Raasveldt & Mühleisen (2019)](duckdb_olap_2019.md) | `src/query/`, `src/exporters/` | planned v2.x | ⏳ Planned |
 
+**Streaming & Continuous Queries:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [CQL — Arasu, Babu & Widom (2006)](arasu_cql_2006.md) | `src/query/continuous_query/`, `src/timeseries/`, `src/analytics/` | planned v2.0.0 | ⏳ Planned |
+
 **Vector Search:**
 
 | Paper | Module(s) | Version | Status |

@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            office_processor.h                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:06:51                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     273                                            ║
+    • Total Lines:     270                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a8e6e6790  2026-03-11  feat(content): add focused test targets and fix stale doc... ║
-    • be3d43d96  2026-03-11  feat: LibreOffice headless fallback for legacy .doc/.xls/... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 3b1aefed2  2026-02-26  Audit: add content_office_extracted_total metrics, wire i... ║
-    • e144d6842  2026-02-26  Fix PowerPointInfo::slide_count uninitialized field (offi... ║
+    • a8e6e67906  2026-03-11  feat(content): add focused test targets and fix stale doc... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

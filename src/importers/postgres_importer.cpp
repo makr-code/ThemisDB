@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            postgres_importer.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:23                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     2412                                           ║
+    • Total Lines:     2409                                           ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9d8c5ce37  2026-03-15  Refactor service mesh API handler to use fully qualified ... ║
-    • bd46fdcaf  2026-03-12  Refactor issue and PR reconciliation documents; update Po... ║
-    • 9cdd82fbd  2026-03-11  fix(importers): apply getSourceSchema performance parity ... ║
-    • b8ff944e1  2026-03-11  feat(importers): PostgreSQL importer v2.0 - Foreign Key P... ║
-    • 8cf8f1d12  2026-03-11  feat(importers): v2.1 - additional constraint types, rela... ║
+    • 9d8c5ce371  2026-03-15  Refactor service mesh API handler to use fully qualified ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -201,7 +197,7 @@ static size_t findMatchingParen(const std::string& sql, size_t open_pos) {
  * an adversarial or accidentally huge pg_dump line (e.g. a COPY row with no
  * newline in 10 GB of data) cannot exhaust process memory.
  */
-static bool streamReadLine(std::istream& file,
+static bool streamReadLinePg(std::istream& file,
                            std::string& line,
                            size_t max_bytes,
                            bool& truncated) {
@@ -242,7 +238,7 @@ std::vector<std::string> PostgreSQLImporter::getSupportedTypes() const {
     return {"postgresql", "postgres", "pg_dump"};
 }
 
-bool PostgreSQLImporter::initialize(const std::string& config) {
+bool PostgreSQLImporter::initialize([[maybe_unused]] const std::string& config) {
     cancelled_ = false;
     schemas_.clear();
     
@@ -626,7 +622,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
         int hdr_lines = 0;
         bool hdr_trunc = false;
         std::streampos after_header = 0;
-        while (streamReadLine(file, hdr_line, 4096, hdr_trunc) && hdr_lines < 50) {
+        while (streamReadLinePg(file, hdr_line, 4096, hdr_trunc) && hdr_lines < 50) {
             after_header = file.tellg();
             if (hdr_line.find("-- PostgreSQL database dump") != std::string::npos ||
                 hdr_line.find("pg_dump") != std::string::npos) {
@@ -695,7 +691,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
     current_sql.reserve(8192);
 
     bool line_truncated = false;
-    while (streamReadLine(file, line, line_read_limit, line_truncated) && !cancelled_) {
+    while (streamReadLinePg(file, line, line_read_limit, line_truncated) && !cancelled_) {
         line_number++;
 
         if (line_truncated) {
@@ -1579,7 +1575,6 @@ bool PostgreSQLImporter::parseGeneratedColumn(const std::string& col_def,
 
     // GENERATED ALWAYS AS (expr) STORED
     if (!rest.empty() && rest[0] == '(') {
-        size_t paren = gen_pos + 11 + (upper.size() - rest.size() - (gen_pos + 11 - gen_pos - 11));
         // Find the paren in the original col_def
         size_t orig_paren = col_def.find('(', gen_pos);
         if (orig_paren == std::string::npos) return false;
@@ -1717,7 +1712,7 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
         const size_t skip_limit = options.max_row_size_bytes > 0
                                   ? options.max_row_size_bytes * 2
                                   : 64 * 1024 * 1024ULL;
-        while (streamReadLine(file, line, skip_limit, trunc)) {
+        while (streamReadLinePg(file, line, skip_limit, trunc)) {
             if (line == "\\." || line.rfind("\\.", 0) == 0) break;
             stats.skipped_records++;
         }
@@ -1740,7 +1735,7 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
     size_t row_num = 0;
     bool first_data_line = true;
     bool row_truncated = false;
-    while (streamReadLine(file, line, row_read_limit, row_truncated) && !cancelled_) {
+    while (streamReadLinePg(file, line, row_read_limit, row_truncated) && !cancelled_) {
         if (line == "\\." || line.rfind("\\.", 0) == 0) {
             break;  // End of COPY data
         }
@@ -1782,7 +1777,7 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
                 if (!options.continue_on_error) return false;
                 // Skip remaining lines of this COPY block using the bounded reader
                 bool skip_trunc = false;
-                while (streamReadLine(file, line, row_read_limit, skip_trunc)) {
+                while (streamReadLinePg(file, line, row_read_limit, skip_trunc)) {
                     if (line == "\\." || line.rfind("\\.", 0) == 0) break;
                 }
                 return true;

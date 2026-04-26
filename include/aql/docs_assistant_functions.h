@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            docs_assistant_functions.h                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:05:46                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     307                                            ║
+    • Total Lines:     346                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a7b41e3e7  2026-03-22  feat(docs): refactor DocsAssistantFunctions to use unique... ║
-    • f62f9c89c  2026-03-14  feat(aql): wire detectIntentWithNativeNLP() to IClassifyF... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 3a758b465a  2026-04-12  feat(aql): AQL module enhancements — Features 8, 10, 12, ... ║
+    • a7b41e3e73  2026-03-22  feat(docs): refactor DocsAssistantFunctions to use unique... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -91,9 +89,27 @@ using json = nlohmann::json;
  * 
  * This class provides a thin wrapper around the DocsAssistant
  * to make it available as AQL functions.
+ *
+ * Degraded-mode behaviour: when the documentation database or LoRA adapter
+ * cannot be loaded the object degrades gracefully. Use @c isFullyReady() and
+ * @c degradedReason() to inspect the current degradation state. In embedded
+ * deployments without a docs database this is the expected steady state;
+ * affected commands fall back to LLM generation.
  */
 class DocsAssistantFunctions {
 public:
+    /**
+     * @brief Reason why the assistant is operating in degraded mode.
+     *
+     * Check @c degradedReason() to obtain a human-readable string for logging
+     * or diagnostics. @c OK means the assistant is fully operational.
+     */
+    enum class DegradedReason {
+        OK,                  ///< All components loaded successfully
+        DATABASE_NOT_FOUND,  ///< Documentation database file could not be located
+        DATABASE_LOAD_FAILED, ///< Database found but failed to load
+        LORA_LOAD_FAILED,    ///< LoRA adapter initialisation failed
+    };
     /**
      * @brief Constructor - initializes documentation assistant
      */
@@ -203,6 +219,28 @@ public:
      * @return true if ready, false otherwise
      */
     bool isReady() const;
+
+    /**
+     * @brief Return true only when all components (database AND LoRA) are loaded.
+     *
+     * Use this for health-check endpoints that need to distinguish a partially
+     * degraded assistant from a fully operational one.
+     *
+     * @return true iff @c isReady() is true AND the LoRA adapter is available.
+     */
+    bool isFullyReady() const;
+
+    /**
+     * @brief Return a human-readable description of the current degradation state.
+     *
+     * Returns an empty string when @c degradedReason() == @c DegradedReason::OK.
+     *
+     * Examples:
+     * - "Documentation database not found"
+     * - "Documentation database failed to load: <exception message>"
+     * - "LoRA adapter failed to load: <exception message>"
+     */
+    std::string degradedReason() const;
     
     /**
      * @brief Clear any cached results and unload LoRA adapter if loaded

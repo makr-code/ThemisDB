@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Updates Module
 
 ## Module Purpose
@@ -270,27 +272,27 @@ struct ReleaseManifest {
     std::string release_notes;        // Changelog
     std::chrono::system_clock::time_point release_date;
     bool is_critical = false;         // Security update?
-    
+
     // Files
     std::vector<ReleaseFile> files;   // All files in release
-    
+
     // Signatures
     std::string manifest_hash;        // SHA-256 of manifest
     std::string signature;            // CMS/PKCS#7 signature
     std::string signing_certificate;  // X.509 certificate
     std::string timestamp_token;      // RFC 3161 timestamp
-    
+
     // Build Info
     std::string build_commit;         // Git commit SHA
     std::string build_date;           // ISO 8601 timestamp
     std::string compiler_version;     // "GCC 11.2.0"
-    
+
     // Dependencies
     std::vector<std::string> dependencies;
-    
+
     // Upgrade Path
     std::string min_upgrade_from;     // "1.0.0"
-    
+
     // Schema Version
     int schema_version = 1;
 };
@@ -336,14 +338,14 @@ bool validateManifest(const ReleaseManifest& manifest) {
     // Check required fields
     if (manifest.version.empty()) return false;
     if (manifest.files.empty()) return false;
-    
+
     // Verify hash matches
     std::string computed_hash = manifest.calculateHash();
     if (computed_hash != manifest.manifest_hash) {
         LOG_ERROR("Manifest hash mismatch");
         return false;
     }
-    
+
     // Verify all files have required fields
     for (const auto& file : manifest.files) {
         if (file.path.empty() || file.sha256_hash.empty()) {
@@ -351,7 +353,7 @@ bool validateManifest(const ReleaseManifest& manifest) {
             return false;
         }
     }
-    
+
     return true;
 }
 ```
@@ -634,7 +636,7 @@ auto engine = std::make_unique<HotReloadEngine>(
 if (update_checker->checkForUpdate()) {
     auto latest = update_checker->getLatestVersion();
     LOG_INFO("Update available: {}", latest);
-    
+
     // Download and apply update
     auto download = engine->downloadRelease(latest);
     if (download.success) {
@@ -661,7 +663,7 @@ auto tm = std::localtime(&now_time);
 if (config.auto_update.scheduled) {
     int schedule_hour = std::stoi(config.auto_update.schedule_time.substr(0, 2));
     int schedule_minute = std::stoi(config.auto_update.schedule_time.substr(3, 2));
-    
+
     if (tm->tm_hour == schedule_hour && tm->tm_min == schedule_minute) {
         // Check if today is scheduled day
         std::string day = getDayOfWeek(tm->tm_wday);
@@ -682,12 +684,12 @@ if (config.auto_update.scheduled) {
 auto latest_manifest = manifest_db->getLatestManifest();
 if (latest_manifest && latest_manifest->is_critical) {
     LOG_WARN("Critical security update available: {}", latest_manifest->version);
-    
+
     if (config.auto_update.critical_only && !config.auto_update.require_approval) {
         // Automatically apply critical updates
         LOG_INFO("Automatically applying critical security update");
         auto result = engine->applyHotReload(latest_manifest->version);
-        
+
         if (result.success) {
             LOG_INFO("Critical security update applied");
             // Send notification
@@ -698,7 +700,7 @@ if (latest_manifest && latest_manifest->is_critical) {
         }
     } else {
         // Require manual approval
-        notifyAdmin("Critical security update requires approval: " + 
+        notifyAdmin("Critical security update requires approval: " +
                    latest_manifest->version);
     }
 }
@@ -735,7 +737,7 @@ for (const auto& migration : migrations) {
             break;
         }
     }
-    
+
     if (can_apply && compareVersions(current_version, migration.version) < 0) {
         LOG_INFO("Applying migration to {}", migration.version);
         if (migration.migrate()) {
@@ -920,3 +922,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 3. Neumann, T., & Weikum, G. (2010). **The RDF-3X Engine for Scalable Management of RDF Data**. *VLDB Journal*, 19(1), 91–113. https://doi.org/10.1007/s00778-009-0165-y
 
 4. Bernstein, P. A., & Goodman, N. (1981). **Concurrency Control in Distributed Database Systems**. *ACM Computing Surveys*, 13(2), 185–221. https://doi.org/10.1145/356842.356846
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

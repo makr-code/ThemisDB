@@ -68,4 +68,4 @@ ThemisDB's server TLS layer has applied this profile since v1.0.0 using OpenSSL 
 - [Argon2id KDF](argon2id_kdf.md)
 
 ---
-**Last Updated:** 2026-03-24
+**Last Updated:** 2026-04-06

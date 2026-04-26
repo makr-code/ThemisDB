@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            kafka_importer.cpp                                 ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:16:17                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   88.0/100                                       ║
-    • Total Lines:     755                                            ║
+    • Total Lines:     754                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 59453d3ae  2026-02-28  feat(importers): Add Kafka consumer importer for real-tim... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -167,7 +167,6 @@ bool KafkaImporter::validateSource(const std::string& source_path,
     }
 #else
     // Without librdkafka we can only validate the URL format.
-    (void)brokers;
 #endif
 
     return true;

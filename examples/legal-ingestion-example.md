@@ -1,3 +1,5 @@
+> **Aktueller Build-Flow:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Legal Ingestion Example: BImSchG (Bundes-Immissionsschutzgesetz)
 
 This example demonstrates how to configure and use ThemisDB's LLM-driven legal

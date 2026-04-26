@@ -68,4 +68,4 @@ ThemisDB's HTTP server, WebSocket server, SSE broadcaster, and MQTT client all u
 - [Shared Mutex Read-Write Locks](shared_mutex_read_write_locks.md)
 
 ---
-**Last Updated:** 2026-03-24
+**Last Updated:** 2026-04-06

@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            prefetch_hints.h                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:09:25                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     245                                            ║
+    • Total Lines:     242                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -138,8 +139,6 @@ inline void prefetch(const void* ptr, PrefetchHint hint = PrefetchHint::T0) noex
         }
     #else
         // No prefetch support on this platform
-        (void)ptr;
-        (void)hint;
     #endif
 }
 
@@ -175,8 +174,6 @@ inline void prefetch_write(void* ptr, PrefetchHint hint = PrefetchHint::T0) noex
                 break;
         }
     #else
-        (void)ptr;
-        (void)hint;
     #endif
 }
 

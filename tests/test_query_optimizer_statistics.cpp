@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_optimizer_statistics.cpp                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:32:02                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:56:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 61ffe3bfd  2026-03-13  audit: address all gaps from issue #87 code review ║
-    • 3d37c77d3  2026-03-13  feat(query): wire StatisticsCollector and MetricsCollecto... ║
+    • 61ffe3bfd7  2026-03-13  audit: address all gaps from issue #87 code review ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_adapter.h                                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:08:12                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     231                                            ║
+    • Total Lines:     229                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2bb85b14f  2026-03-11  feat(ingestion): add llm_adapter.h/cpp + fix README gaps ... ║
+    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -23,6 +23,7 @@
 #pragma once
 
 #include "ingestion/deontic_extractor.h"
+#include "ingestion/inference_backend.h"
 #include <string>
 #include <memory>
 #include <functional>
@@ -73,57 +74,57 @@ struct LlmAdapterConfig {
 /**
  * @brief LLM integration adapter for the legal ingestion pipeline.
  *
- * Bridges the `DeonticExtractor` (Phase 1: regex) with a real LLM inference
- * engine (Phase 2: Mistral 7B + LoRA via llama.cpp).
+ * Bridges the `DeonticExtractor` (regex-based) with an injected
+ * `ITextGenerationBackend`.  The adapter has **no knowledge** of any
+ * concrete AI/LLM framework; it only calls the abstract backend interface.
+ * This satisfies the Dependency-Inversion Principle (DIP) and keeps the
+ * ingestion module free of any `llm/` includes.
  *
- * The adapter exposes a `buildExtractorFn()` method that returns a
- * `DeonticExtractor::ExtractorFn` suitable for passing to
- * `DeonticExtractor::setExtractorFn()`.  This cleanly decouples the
- * extraction interface from the inference backend.
+ * ## SoC contract
+ * - `ingestion` module owns: `ITextGenerationBackend`, `LegalLlmAdapter`,
+ *   `DeonticExtractor`, `LlmAdapterConfig`.
+ * - `llm` module owns:  `LlmIngestionBridge` (a concrete backend that
+ *   wraps `LLMPluginManager`).
+ * - Wiring code (main / server bootstrap) creates an `LlmIngestionBridge`
+ *   and injects it into `LegalLlmAdapter`.
  *
- * **Phase 1 behaviour (current):**
- * - When `THEMIS_ENABLE_LLM` is `OFF` at compile time, or when no model path
- *   is configured, `buildExtractorFn()` returns an empty `ExtractorFn` so
- *   that `DeonticExtractor` keeps using its built-in regex implementation.
- * - `isLlmAvailable()` returns `false`.
+ * ## Fallback behaviour
+ * When the injected backend returns `isAvailable() == false`, or when no
+ * backend is provided (default: `NullTextGenerationBackend`), `buildExtractorFn()`
+ * returns an empty function so `DeonticExtractor` keeps using its built-in
+ * regex implementation.
  *
- * **Phase 2 behaviour (planned – requires `THEMIS_ENABLE_LLM=ON`):**
- * - When a valid `LlmAdapterConfig::model_path` is set, `buildExtractorFn()`
- *   returns a function that calls the llama.cpp inference engine.
- * - The prompt template instructs the model to classify the deontic category
- *   and extract entities from the supplied German legal text.
- * - The LoRA adapter fine-tuned on BImSchG / StGB / DSGVO is loaded when
- *   `LlmAdapterConfig::adapter_path` is non-empty.
- *
- * Usage (Phase 1 / testing):
+ * ## Usage
  * @code
- * LegalLlmAdapter adapter;
- * adapter.setConfig({.model_path = ""});  // no model → regex fallback
+ * // Regex fallback (no LLM):
+ * LegalLlmAdapter adapter;  // uses NullTextGenerationBackend
  *
- * DeonticExtractor extractor;
- * auto fn = adapter.buildExtractorFn();
- * if (fn) {
- *     extractor.setExtractorFn(std::move(fn));
- * }
+ * // With a real LLM backend (injected externally):
+ * auto bridge = std::make_shared<LlmIngestionBridge>(...);
+ * LegalLlmAdapter adapter(bridge);
+ * adapter.setConfig({.model_path = "...", .temperature = 0.1});
+ *
+ * DeonticExtractor extractor = adapter.buildExtractor(0.75);
  * auto result = extractor.extract(text);
- * @endcode
- *
- * Usage (Phase 2 with LLM):
- * @code
- * LegalLlmAdapter adapter;
- * adapter.setConfig({
- *     .model_path   = "/models/mistral-7b.Q4_K_M.gguf",
- *     .adapter_path = "/adapters/legal-lora.gguf",
- *     .temperature  = 0.1
- * });
- *
- * DeonticExtractor extractor;
- * extractor.setExtractorFn(adapter.buildExtractorFn());
  * @endcode
  */
 class LegalLlmAdapter {
 public:
+    /**
+     * @brief Default constructor — uses `NullTextGenerationBackend`.
+     *        `isLlmAvailable()` returns `false`; regex fallback is active.
+     */
     LegalLlmAdapter();
+
+    /**
+     * @brief Construct with an externally owned backend (injection).
+     *
+     * @param backend  Shared pointer to any `ITextGenerationBackend`.
+     *                 Must not be null; pass a `NullTextGenerationBackend`
+     *                 explicitly when no LLM is desired.
+     */
+    explicit LegalLlmAdapter(std::shared_ptr<ITextGenerationBackend> backend);
+
     ~LegalLlmAdapter();
 
     // Non-copyable (owns inference context)
@@ -150,17 +151,12 @@ public:
     const LlmAdapterConfig& getConfig() const;
 
     /**
-     * @brief Check whether a real LLM is available for inference.
+     * @brief Check whether a real LLM backend is available.
      *
-     * Returns `true` when:
-     *  - `THEMIS_ENABLE_LLM` is `ON` at compile time, AND
-     *  - A non-empty `model_path` has been configured, AND
-     *  - The model file can be found on the filesystem.
+     * Delegates to `ITextGenerationBackend::isAvailable()` on the injected
+     * backend.  Returns `false` when using the default `NullTextGenerationBackend`.
      *
-     * Returns `false` in Phase 1 (always) and in Phase 2 when the model
-     * file is missing.
-     *
-     * @return true if LLM inference is available
+     * @return true if the backend is ready for inference
      */
     bool isLlmAvailable() const;
 
@@ -194,6 +190,7 @@ public:
 
 private:
     LlmAdapterConfig config_;
+    std::shared_ptr<ITextGenerationBackend> backend_; ///< injected backend (never null)
 
     /**
      * @brief Build the extraction prompt for the given text.

@@ -3,22 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.h                                      ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:11                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1114                                           ║
+    • Total Lines:     1147                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 490de27f0  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
-    • c9b143394  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
-    • 2fed5b1c6  2026-03-15  fix(cdc): wire ConsumerGroupManager into WebSocket server... ║
-    • ef1605ac5  2026-03-11  fix(server): ExportApiHandler - 403 Forbidden for ERR_EXP... ║
-    • 0eb79f3e4  2026-03-11  feat: add DatabaseMaintenanceOrchestrator with full sched... ║
+    • 8332e5afa3  2026-04-13  Refactor and update various components for improved compa... ║
+    • 040083b025  2026-04-12  feat: StreamingIngestManager, TsStreamCursor, LZ4 compres... ║
+    • 9f5c953436  2026-04-07  feat(config): Introduce new hierarchical configuration st... ║
+    • 4c09145112  2026-04-07  fix(http_server): correct member declaration order to pre... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -62,6 +61,9 @@
 #include "server/export_api_handler.h"
 #include "server/admin_api_handler.h"
 #include "server/shard_repair_api_handler.h"
+#include "server/sharding_metrics_handler.h"
+#include "sharding/shard_repair_engine.h"
+#include "sharding/prometheus_metrics.h"
 #include "server/vector_api_handler.h"
 #include "server/rope_api_handler.h"
 #include "server/spatial_api_handler.h"
@@ -151,6 +153,7 @@ class AdaptiveIndexManager;
 class PITRManager;
 class TaskScheduler;
 class QueryEngine;
+class MVCCStore;
 
 namespace prompt_engineering {
 class PromptManager;
@@ -185,6 +188,10 @@ class ConsistentHashRing;
 class ShardRepairEngine;
 class ShardTopology;
 class ShardingManager;
+}
+
+namespace modules {
+class ModuleLoader;
 }
 
 namespace index {
@@ -376,6 +383,11 @@ public:
         return concerns_;
     }
 
+    /// @return the shared AuditLogger instance (may be nullptr if audit init failed).
+    std::shared_ptr<themis::utils::AuditLogger> getAuditLogger() const {
+        return audit_logger_;
+    }
+
     /// @return the RequestValidationMiddleware for external schema registration (never nullptr after start()).
     RequestValidationMiddleware* getRequestValidator() {
         return request_validator_.get();
@@ -440,8 +452,35 @@ public:
 
     void setShardRepairEngine(std::shared_ptr<sharding::ShardRepairEngine> engine) {
         shard_repair_engine_ = std::move(engine);
+        // Lazily construct the repair REST API handler the first time a real
+        // engine is injected so that auth_ is guaranteed to be set by then.
+        if (shard_repair_engine_ && !shard_repair_api_) {
+            shard_repair_api_ = std::make_unique<themis::server::ShardRepairApiHandler>(
+                shard_repair_engine_, auth_);
+        }
+        // Forward engine update to an already-existing handler (e.g. re-injection).
         if (shard_repair_api_) {
             shard_repair_api_->setRepairEngine(shard_repair_engine_);
+        }
+        // Build (or update) the ShardingMetricsHandler so that anti-entropy
+        // repair metrics are exposed on GET /metrics.  We create a fresh
+        // PrometheusMetrics instance scoped to the repair engine; no SLO
+        // monitor is attached by default (can be added later via a separate
+        // setter if needed).
+        if (shard_repair_engine_) {
+            sharding::PrometheusMetrics::Config pmc;
+            pmc.http_port = 0;   // standalone HTTP scrape port disabled;
+            pmc.http_path = "/metrics"; // metrics are served via HttpServer
+            auto repair_prom = std::make_shared<sharding::PrometheusMetrics>(pmc);
+            shard_repair_engine_->setPrometheusMetrics(repair_prom);
+
+            sharding_metrics_handler_ = std::make_shared<ShardingMetricsHandler>(
+                std::move(repair_prom));
+            sharding_metrics_handler_->setRepairEngine(shard_repair_engine_);
+
+            if (monitoring_api_) {
+                monitoring_api_->setShardingMetrics(sharding_metrics_handler_);
+            }
         }
     }
 
@@ -449,6 +488,49 @@ public:
     sharding::ShardingManager* getShardingManager() const {
         return sharding_manager_;
     }
+
+    /**
+     * @brief Inject the live ModuleLoader for /v1/admin/modules/{name} endpoints.
+     *
+     * Must be called before start() to activate module management endpoints.
+     * The pointer must remain valid for the lifetime of the HttpServer.
+     *
+     * @param loader Pointer to the live ModuleLoader instance (or nullptr to disable).
+     */
+    void setModuleLoader(modules::ModuleLoader* loader) {
+        module_loader_ = loader;
+    }
+
+    /// @return the injected ModuleLoader (may be nullptr before injection).
+    modules::ModuleLoader* getModuleLoader() const {
+        return module_loader_;
+    }
+
+    /**
+     * @brief Registered endpoint information (dynamically assembled from config)
+     */
+    struct RegisteredEndpoint {
+        std::string method;    // GET, POST, PUT, DELETE, PATCH, etc.
+        std::string path;      // e.g. "/query", "/entities/:id"
+        std::string description;
+    };
+
+    /**
+     * @brief Get list of all registered API endpoints (dynamic)
+     *
+     * Returns dynamically constructed endpoint list based on:
+     *  - Always-available core endpoints (/health, /query, /entities, etc.)
+     *  - Config-enabled feature endpoints (LLM, CDC, TimeSeries, etc.)
+     *  - SAML endpoints (if enableSaml() was called)
+     *
+     * Useful for:
+     *  - Startup logs (no more hardcoding endpoint lists)
+     *  - API documentation generation
+     *  - Health checks / capability discovery
+     *
+     * @return vector of RegisteredEndpoint structs, sorted by path
+     */
+    std::vector<RegisteredEndpoint> getRegisteredEndpoints() const;
 
 private:
     // Session class for handling individual connections
@@ -789,6 +871,7 @@ private:
     
     // MVCC API Handler (per-record versioning + HLC)
     std::unique_ptr<server::MvccApiHandler> mvcc_api_handler_;
+    std::shared_ptr<themis::MVCCStore>      mvcc_store_; // shared with MvccCleanupHandler
     
     // Diff Engine and API Handler (Phase 2 MVCC features)
     std::unique_ptr<analytics::DiffEngine> diff_engine_;
@@ -817,9 +900,9 @@ private:
 #endif
     
     // Time-Series Store (Sprint B)
-    std::unique_ptr<TSStore> timeseries_;
+    std::shared_ptr<TSStore> timeseries_;
     rocksdb::ColumnFamilyHandle* ts_cf_handle_ = nullptr;
-    std::unique_ptr<ContinuousAggregateManager> ts_agg_manager_;
+    std::shared_ptr<ContinuousAggregateManager> ts_agg_manager_;
     // Governance Policy Engine
     std::unique_ptr<themis::PolicyEngine> policy_engine_;
     std::unique_ptr<themis::OpaAdapter> opa_adapter_;
@@ -865,6 +948,10 @@ private:
     // Monitoring API Handler
     std::unique_ptr<themis::server::MonitoringApiHandler> monitoring_api_;
     std::unique_ptr<themis::server::ShardRepairApiHandler> shard_repair_api_;
+    std::shared_ptr<themis::server::ShardingMetricsHandler> sharding_metrics_handler_;
+    // Shared Alertmanager instance – created during monitoring init, reused for
+    // TaskScheduler SLA-breach alerts and Cache SLO monitor.
+    std::shared_ptr<observability::DefaultAlertmanager> alertmanager_;
     // Cross-cutting concerns (lifecycle hooks + health probes); optional.
     std::shared_ptr<core::concerns::ConcernsContext> concerns_;
     // Query API Handler
@@ -958,6 +1045,11 @@ private:
     std::unique_ptr<SchemaManager> schema_manager_;
 
     // GraphQL API Handler
+    // IMPORTANT: graphql_query_engine_ must be declared BEFORE graphql_api_handler_
+    // so that it is destroyed AFTER the handler (C++ destroys in reverse declaration
+    // order).  The handler holds a raw pointer to the engine; if the engine were
+    // destroyed first the handler's destructor could dereference freed memory.
+    std::unique_ptr<QueryEngine> graphql_query_engine_; ///< AQL engine for GraphQL resolvers
     std::unique_ptr<themis::server::GraphQLApiHandler> graphql_api_handler_;
 
     // gRPC-Web proxy – translates browser gRPC-Web requests to native gRPC
@@ -1005,6 +1097,9 @@ private:
     // Live ShardingManager (injected via setShardingManager before start())
     sharding::ShardingManager* sharding_manager_{nullptr};
     std::shared_ptr<sharding::ShardRepairEngine> shard_repair_engine_;
+
+    // Live ModuleLoader (injected via setModuleLoader before start())
+    modules::ModuleLoader* module_loader_{nullptr};
 
     // RAID redundancy components (optional)
     std::shared_ptr<sharding::CollectionRedundancyManager> redundancy_manager_;

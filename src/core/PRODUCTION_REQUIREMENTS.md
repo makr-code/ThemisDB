@@ -1,3 +1,5 @@
+> **Status:** 2026-04-19 – Mit aktuellem Modulcode synchronisieren; falsche Pfade/Kommandos ggf. korrigiert.
+
 # ThemisDB Core Module - Production Requirements
 
 ## Overview

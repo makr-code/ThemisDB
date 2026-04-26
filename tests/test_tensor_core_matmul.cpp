@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_tensor_core_matmul.cpp                        ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:34:23                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:57:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     379                                            ║
+    • Total Lines:     532                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 57747c2d6  2026-02-23  feat(acceleration): Tensor Core FP16/BF16 matrix ops via ... ║
+    • 05b9b49f02  2026-04-13  feat(acceleration): Add INT8 quantize/dequantize helpers ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -377,3 +376,157 @@ TEST(TensorCoreMatmul, PrecisionModeHasPrecision) {
     EXPECT_FALSE(hasPrecision(PrecisionMode::FP32, PrecisionMode::FP16));
     EXPECT_FALSE(hasPrecision(PrecisionMode::FP32, PrecisionMode::BF16));
 }
+
+// =============================================================================
+// MatrixPrecision::INT8 enum value
+// =============================================================================
+
+TEST(TensorCoreMatmul, MatrixPrecisionINT8IsThree) {
+    EXPECT_EQ(static_cast<uint32_t>(MatrixPrecision::INT8), 3u);
+}
+
+TEST(TensorCoreMatmul, MatrixPrecisionParamsCanSetINT8) {
+    MatrixKernelParams p;
+    p.precision = MatrixPrecision::INT8;
+    EXPECT_EQ(p.precision, MatrixPrecision::INT8);
+}
+
+// =============================================================================
+// quantize() — FP32 → INT8 symmetric quantisation
+// =============================================================================
+
+TEST(TensorCoreMatmul, QuantizeBasic) {
+    // scale = 1.0: values should map directly to int8
+    float src[4] = {1.0f, -1.0f, 0.0f, 127.0f};
+    int8_t dst[4] = {};
+    quantize(src, dst, 4, 1.0f);
+    EXPECT_EQ(dst[0],  1);
+    EXPECT_EQ(dst[1], -1);
+    EXPECT_EQ(dst[2],  0);
+    EXPECT_EQ(dst[3],  127);
+}
+
+TEST(TensorCoreMatmul, QuantizeWithScale) {
+    // scale = 2.0: src / scale = dst → 2.0/2=1, -4.0/2=-2, 0.0/2=0, 254.0/2=127
+    float src[4] = {2.0f, -4.0f, 0.0f, 254.0f};
+    int8_t dst[4] = {};
+    quantize(src, dst, 4, 2.0f);
+    EXPECT_EQ(dst[0],   1);
+    EXPECT_EQ(dst[1],  -2);
+    EXPECT_EQ(dst[2],   0);
+    EXPECT_EQ(dst[3],  127);
+}
+
+TEST(TensorCoreMatmul, QuantizeClampMax) {
+    // Values that exceed INT8 range must be clamped to 127
+    float src[2] = {1000.0f, 256.0f};
+    int8_t dst[2] = {};
+    quantize(src, dst, 2, 1.0f);
+    EXPECT_EQ(dst[0], 127);
+    EXPECT_EQ(dst[1], 127);
+}
+
+TEST(TensorCoreMatmul, QuantizeClampMin) {
+    // Values below INT8 range must be clamped to -128
+    float src[2] = {-1000.0f, -200.0f};
+    int8_t dst[2] = {};
+    quantize(src, dst, 2, 1.0f);
+    EXPECT_EQ(dst[0], -128);
+    EXPECT_EQ(dst[1], -128);
+}
+
+TEST(TensorCoreMatmul, QuantizeNullSrcNoOp) {
+    int8_t dst[4] = {5, 5, 5, 5};
+    quantize(nullptr, dst, 4, 1.0f);
+    // dst must be unchanged
+    for (int i = 0; i < 4; ++i) EXPECT_EQ(dst[i], 5);
+}
+
+TEST(TensorCoreMatmul, QuantizeNullDstNoOp) {
+    float src[4] = {1.0f, 2.0f, 3.0f, 4.0f};
+    // Must not crash
+    quantize(src, nullptr, 4, 1.0f);
+}
+
+TEST(TensorCoreMatmul, QuantizeZeroNNoOp) {
+    float src[4] = {1.0f, 2.0f};
+    int8_t dst[4] = {7, 7};
+    quantize(src, dst, 0, 1.0f);
+    EXPECT_EQ(dst[0], 7);
+}
+
+TEST(TensorCoreMatmul, QuantizeNonPositiveScaleNoOp) {
+    float src[2] = {10.0f, 20.0f};
+    int8_t dst[2] = {9, 9};
+    quantize(src, dst, 2, 0.0f);
+    EXPECT_EQ(dst[0], 9);
+    quantize(src, dst, 2, -1.0f);
+    EXPECT_EQ(dst[0], 9);
+}
+
+TEST(TensorCoreMatmul, QuantizeRounding) {
+    // 1.5 / 1.0 = 1.5 → rounds to 2 (round half away from zero)
+    float src[2] = {1.5f, -1.5f};
+    int8_t dst[2] = {};
+    quantize(src, dst, 2, 1.0f);
+    EXPECT_EQ(dst[0],  2);
+    EXPECT_EQ(dst[1], -2);
+}
+
+// =============================================================================
+// dequantize() — INT8 → FP32 inverse
+// =============================================================================
+
+TEST(TensorCoreMatmul, DequantizeBasic) {
+    int8_t src[4] = {1, -1, 0, 127};
+    float dst[4] = {};
+    dequantize(src, dst, 4, 1.0f);
+    EXPECT_FLOAT_EQ(dst[0],   1.0f);
+    EXPECT_FLOAT_EQ(dst[1],  -1.0f);
+    EXPECT_FLOAT_EQ(dst[2],   0.0f);
+    EXPECT_FLOAT_EQ(dst[3], 127.0f);
+}
+
+TEST(TensorCoreMatmul, DequantizeWithScale) {
+    int8_t src[3] = {1, -2, 127};
+    float dst[3] = {};
+    dequantize(src, dst, 3, 2.0f);
+    EXPECT_FLOAT_EQ(dst[0],   2.0f);
+    EXPECT_FLOAT_EQ(dst[1],  -4.0f);
+    EXPECT_FLOAT_EQ(dst[2], 254.0f);
+}
+
+TEST(TensorCoreMatmul, DequantizeNullSrcNoOp) {
+    float dst[4] = {9.0f, 9.0f, 9.0f, 9.0f};
+    dequantize(nullptr, dst, 4, 1.0f);
+    for (int i = 0; i < 4; ++i) EXPECT_FLOAT_EQ(dst[i], 9.0f);
+}
+
+TEST(TensorCoreMatmul, DequantizeNullDstNoOp) {
+    int8_t src[4] = {1, 2, 3, 4};
+    // Must not crash
+    dequantize(src, nullptr, 4, 1.0f);
+}
+
+TEST(TensorCoreMatmul, DequantizeZeroNNoOp) {
+    int8_t src[2] = {5, 5};
+    float dst[2] = {3.0f, 3.0f};
+    dequantize(src, dst, 0, 1.0f);
+    EXPECT_FLOAT_EQ(dst[0], 3.0f);
+}
+
+TEST(TensorCoreMatmul, QuantizeDequantizeRoundTrip) {
+    // Round-trip: quantize then dequantize should recover approximately original values
+    // Using scale = max(|src|) / 127 ensures the full range maps to [-127, 127]
+    float src[5] = {0.0f, 25.4f, -25.4f, 12.7f, -12.7f};
+    const float scale = 25.4f / 127.0f;  // ≈ 0.2
+    int8_t quantized[5] = {};
+    float recovered[5] = {};
+    quantize(src, quantized, 5, scale);
+    dequantize(quantized, recovered, 5, scale);
+    for (int i = 0; i < 5; ++i) {
+        // Tolerate rounding error of at most 1 quantisation step (scale)
+        EXPECT_NEAR(recovered[i], src[i], scale);
+    }
+}
+

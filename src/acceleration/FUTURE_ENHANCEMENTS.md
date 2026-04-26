@@ -1,3 +1,5 @@
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
 <!-- Status: current | validated: 2026-06-09 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/acceleration/README.md -->
 
@@ -32,11 +34,12 @@ The Acceleration module (`src/acceleration/`) provides hardware-accelerated comp
 ### CUDA Kernel Completion for Vector Similarity Search
 **Priority:** High
 **Target Version:** v1.7.0
+**Status:** ✅ Implemented
 
-`cuda_backend.cpp` declares stub kernel launch functions (`launchL2DistanceKernel`, `launchCosineDistanceKernel`, `launchTopKKernel`, …). The core kernels have been implemented in `cuda/ann_kernels.cu` and `cuda/vector_kernels.cu`; the remaining work is wiring the HNSW index layer to call these CUDA kernels instead of the CPU fallback. cuBLAS batched GEMM is the target for L2/cosine distance; CUB `DeviceSegmentedSort` is the target for top-k selection \[6\].
+`cuda_backend.cpp` kernel launch surfaces (`launchL2DistanceKernel`, `launchCosineDistanceKernel`, `launchTopKKernel`, …) are implemented and wired through `cuda/ann_kernels.cu`, `cuda/vector_kernels.cu`, and `cuda/cuda_hnsw_kernels.cu`. cuBLAS batched GEMM remains the target path for L2/cosine distance; CUB `DeviceSegmentedSort` is used for top-k selection \[6\].
 
 **Implementation Notes:**
-- `[~]` `.cu` kernel files (`cuda/ann_kernels.cu`, `cuda/vector_kernels.cu`) are implemented; HNSW graph traversal wiring into `CUDAVectorBackend` is still pending.
+- `[x]` `.cu` kernel files (`cuda/ann_kernels.cu`, `cuda/vector_kernels.cu`) are implemented and wired into `CUDAVectorBackend`, including HNSW traversal dispatch (`cuda/cuda_hnsw_kernels.cu`).
 - `[x]` Cosine distance: fuse L2-norm and dot-product into a single tiled kernel to avoid a second pass over device memory (IO-aware pattern per FlashAttention \[3\]).
 - `[x]` Top-k (k ≤ 1024): use CUB `DeviceSegmentedSort` \[6\]; for k > 1024 fall back to `thrust::partial_sort`.
 - `[x]` Add `CUDA_ARCH` compile-time guard: require sm_70+ (Tensor Core availability); emit warning for sm_60.
@@ -74,6 +77,7 @@ std::vector<SearchResult> CUDAVectorBackend::batchSimilaritySearch(
 - `[x]` `ncclGroupStart()` / `ncclGroupEnd()` bracket pipelining both AllGather calls and both Bcast calls.
 - `[x]` `(void)root; (void)stream;` suppression lines removed.
 - `[x]` Tests added to `tests/test_collective_backends.cpp` validating single-rank copy correctness and k > localK rejection.
+- `[x]` Integration test `tests/acceleration/test_nccl_merge_topk.cpp` added: 13 CPU-side merge-algorithm simulation tests (worldSize ∈ {2, 4, 8}, k ∈ {10, 100, 256}) plus 6 NCCL single-rank device tests (skipped without hardware) and 6 RCCL single-rank device tests (skipped without hardware); registered in `tests/CMakeLists.txt` as `NCCLMergeTopKFocusedTests`.
 
 **Performance Targets:**
 - 100M × 128-dim index distributed across 4× A100 80 GB; p99 query latency < 15 ms for k=100.
@@ -85,22 +89,19 @@ std::vector<SearchResult> CUDAVectorBackend::batchSimilaritySearch(
 ### Plugin Security: CRL and OCSP Certificate Revocation Checking
 **Priority:** High
 **Target Version:** v1.8.0
+**Status:** ✅ Implemented
 
-`plugin_security.cpp` contains two complete stub methods for certificate revocation:
-- `PluginSecurityVerifier::checkCRL()` (line 598): extracts CRL distribution points but never fetches or validates the CRL — the body is a comment block listing the 4 required steps; when revocation checking is configured it fail-safes to `false` (line 636) and warns `"actual CRL checking not implemented"`.
-- `PluginSecurityVerifier::checkOCSP()` (line 654): identical structure — OCSP responder URLs are extracted but no OCSP request is built or sent; also fail-safes to `false` (line 691).
-- `EnhancedPluginSecurityVerifier::verifyCertificateChain()` (line 1036–1037) emits `THEMIS_WARN("Revocation checking configured but not yet implemented")`.
-
-This means any GPU plugin with a revoked code-signing certificate will pass security validation when `requireRevocationCheck = false` (the default), and will fail to load with an opaque error when `requireRevocationCheck = true`, with no actionable diagnostic.
+`plugin_security.cpp` now enforces revocation checks in production code paths:
+- `PluginSecurityVerifier::checkCRL()` fetches CRLs from distribution points, parses DER CRLs, verifies signatures and validity windows, checks certificate serials, and caches results by serial.
+- `PluginSecurityVerifier::checkOCSP()` builds OCSP requests, performs HTTP POST to responders, verifies OCSP basic response signatures and validity windows, and caches results by serial.
+- `EnhancedPluginSecurityVerifier::verifyFullChain()` now wires CRL/OCSP checks into full-chain verification and fails closed when revocation checking is required and neither check confirms not-revoked status.
 
 **Implementation Notes:**
-- `[ ]` Implement `checkCRL()` in `plugin_security.cpp`: (1) for each CRL distribution point URL, perform an HTTP GET using `libcurl` or `WinHttp`; (2) parse the DER-encoded CRL with OpenSSL `d2i_X509_CRL`; (3) verify the CRL signature against the issuer certificate; (4) call `X509_CRL_get0_by_cert()` to check the target certificate's serial number; (5) validate CRL `thisUpdate` / `nextUpdate` timestamps. Honour a configurable timeout (default 5 s) to prevent hangs on unreachable endpoints.
-- `[ ]` Implement `checkOCSP()` in `plugin_security.cpp`: (1) build an OCSP request with `OCSP_REQUEST_new()` + `OCSP_request_add0_id()`; (2) POST to each OCSP responder URL via HTTP; (3) parse the response with `OCSP_response_status()` and `OCSP_resp_find_status()`; (4) verify the responder's signature; (5) check `thisUpdate` / `nextUpdate` bounds.
-- `[ ]` Implement PE certificate table extraction in `EnhancedPluginSecurityVerifier::extractSigningCertificate()` (line 1092): parse the PE optional header's DataDirectory[IMAGE_DIRECTORY_ENTRY_SECURITY], extract the WIN_CERTIFICATE structure, and return the embedded PKCS#7 blob as a DER byte string. Currently the method detects the PE magic bytes but returns without extracting the cert (comment: *"extraction not fully implemented"*).
-- `[ ]` Cache CRL/OCSP results per certificate serial number with a configurable TTL (default: CRL `nextUpdate`, OCSP 1 h) to avoid per-load network round trips.
-- `[ ]` Add unit tests with a mock HTTP server (or pre-fetched fixtures) for both CRL and OCSP paths; cover revoked-cert, unknown-cert, network-timeout, and signature-invalid cases.
-
-**Security Note:** Until this is implemented, plugin revocation is not enforced even when `requireRevocationCheck = true`. The fail-safe behaviour (returning `false`) prevents revoked plugins from loading only when the calling code actually checks the `checkCRL()`/`checkOCSP()` return value; `verifyCertificateChain()` currently bypasses both checks with a warning.
+- `[x]` Implement `checkCRL()` with HTTP fetch, DER parse (`d2i_X509_CRL`), signature validation, serial check (`X509_CRL_get0_by_cert`), and `thisUpdate`/`nextUpdate` validation.
+- `[x]` Implement `checkOCSP()` with OpenSSL request/response APIs (`OCSP_REQUEST_new`, `OCSP_resp_find_status`, `OCSP_basic_verify`) and timestamp checks.
+- `[x]` Implement PE certificate table extraction for embedded PKCS#7 blobs in `extractEmbeddedCertificate()`.
+- `[x]` Add CRL/OCSP cache keyed by certificate serial with expiry derived from CRL `nextUpdate` (or default) and OCSP `nextUpdate`/1h TTL.
+- `[x]` Add focused revocation tests in `tests/test_plugin_security_crl_ocsp.cpp`.
 
 ---
 
@@ -198,7 +199,7 @@ This means any GPU plugin with a revoked code-signing certificate will pass secu
 ### CUDA HNSW Kernel: Visited Array Memory Scaling
 **Priority:** Medium
 **Target Version:** v1.9.0
-**Status:** ✅ Partially implemented (1-bit-per-node bitset adopted; per-invocation malloc remains)
+**Status:** ✅ Production Ready
 
 `cuda/cuda_hnsw_kernels.cu` previously allocated `num_queries × num_nodes × sizeof(uint8_t)` bytes per kernel launch — 5 GB for 512 queries × 10M nodes.
 
@@ -206,11 +207,15 @@ This means any GPU plugin with a revoked code-signing certificate will pass secu
 - `[x]` Switched from `uint8_t` per-node to 1-bit-per-node bitset: allocation is now `ceil(num_nodes / 8)` bytes per query (10M nodes → 1.25 MB per query, 512 queries → 640 MB — 8× reduction).
 - `[x]` Kernel updated to use bitset read (`visited[nb >> 3] & (1u << (nb & 7u))`) and write (`visited[nb >> 3] |= (1u << (nb & 7u))`) operations.
 - `[x]` Initialisation loop reduced from `num_nodes` to `ceil(num_nodes/8)` iterations.
-- `[ ]` Replace per-invocation `cudaMalloc` / `cudaFree` with a persistent pre-allocated pool (eliminates per-launch allocation overhead; ≥ 15% speedup for repeated fixed-batch queries).
-- `[ ]` Chunked batch processing for graphs where even the bitset exceeds budget.
+- `[x]` Replace per-invocation `cudaMalloc` / `cudaFree` with a persistent pre-allocated pool owned by `CudaHnswTraversalEngine::Impl::d_visited_pool`; allocated once in `buildIndex()` at `maxBatchSize × ceil(numNodes/8)` bytes; eliminates per-launch allocation overhead.
+- `[x]` Chunked batch processing for graphs where bitset pool cannot cover all queries: `batchSearch()` splits `numQueries` into sub-batches of at most `pool_capacity` queries, processes them serially, and concatenates results on the host.
+- `[x]` Exposed `CudaHnswTraversalEngine::setMaxBatchSize(size_t n)` and `CUDAVectorBackend::setMaxBatchSize(size_t n)` so callers can tune pool allocation.
+- `[x]` Pool allocation failure surfaces as `BackendHealthStatus::makeDegraded()` via `setError()` in `CUDAVectorBackend::buildHnswAnnIndex()`.
+- `[x]` Pool size is clamped to 90% of `BackendCapabilities::maxMemoryBytes` during `buildHnswAnnIndex()`.
 
 **Performance Targets:**
 - Pool allocation must not exceed `BackendCapabilities::maxMemoryBytes` at construction time.
+- Per-query `cudaMalloc`/`cudaFree` round trips eliminated; visited-pool reuse reduces HNSW launch overhead by ≥ 15% for repeated fixed-batch queries.
 
 ---
 
@@ -230,11 +235,11 @@ Multiple CUDA and HIP kernel launchers use hard-coded block dimensions that are 
 A fixed block size of 256 is a reasonable default for NVIDIA sm_86 and AMD RDNA2, but may underperform on GPUs with 64-thread wavefronts (AMD GCN2) or on sm_90 (Hopper) where 128-thread blocks better utilize the warp scheduler.
 
 **Implementation Notes:**
-- `[ ]` Replace hard-coded `threadsPerBlock = 256` in `cuda/vector_kernels.cu:359` and `hip_backend.cpp:602` with a runtime call to `cudaOccupancyMaxPotentialBlockSize()` / `hipOccupancyMaxPotentialBlockSize()` at `initialize()` time; store the result in the backend's `Impl` struct and pass it to all kernel launches.
-- `[ ]` For `constexpr` block sizes in `.cu`/`.hip` files (`ann_kernels.cu`, `geo_kernels.cu`, `graph_kernels.cu`), expose a launch wrapper that accepts `threadsPerBlock` as a parameter and is called from the backend with the occupancy-tuned value rather than hard-coding the constant at the launch site.
-- `[ ]` For AMD GCN targets (wavefront = 64): default to 64 threads when `hipGetDeviceProperties().warpSize == 64` to avoid half-occupancy.
+- `[x]` Replace hard-coded `threadsPerBlock = 256` in `cuda/vector_kernels.cu:359` and `hip_backend.cpp:602` with a runtime call to `cudaOccupancyMaxPotentialBlockSize()` / `hipOccupancyMaxPotentialBlockSize()` at `initialize()` time; store the result in the backend's `Impl` struct and pass it to all kernel launches.
+- `[x]` For `constexpr` block sizes in `.cu`/`.hip` files (`ann_kernels.cu`, `geo_kernels.cu`, `graph_kernels.cu`), expose a launch wrapper that accepts `threadsPerBlock` as a parameter and is called from the backend with the occupancy-tuned value rather than hard-coding the constant at the launch site.
+- `[x]` For AMD GCN targets (wavefront = 64): default to 64 threads when `hipGetDeviceProperties().warpSize == 64` to avoid half-occupancy.
 - `[x]` Vulkan `l2_distance.comp` hard-codes `layout(local_size_x = 16, local_size_y = 16)`: expose this as a specialization constant (`layout(constant_id = 0) const uint LOCAL_SIZE_X = 16`) so the `VulkanVectorBackend` can inject the optimal value for the target device via `VkSpecializationInfo` at pipeline creation time. Also `batch_search.comp` `local_size_x = 256` is now a specialization constant.
-- `[ ]` Add a micro-benchmark (`benchmarks/kernel_block_size_bench.cpp`) that sweeps block sizes 64/128/256/512 for each kernel and reports achieved occupancy.
+- `[x]` Add a micro-benchmark (`benchmarks/kernel_block_size_bench.cpp`) that sweeps block sizes 64/128/256/512 for each kernel and reports achieved occupancy.
 
 **Performance Targets:**
 - ≥ 5% throughput improvement on AMD RDNA2 (wavefront=32) vs. 256-thread baseline.
@@ -277,13 +282,14 @@ A fixed block size of 256 is a reasonable default for NVIDIA sm_86 and AMD RDNA2
 ### BackendRegistry: O(n²) Backend Selection Index
 **Priority:** Low
 **Target Version:** v1.9.0
+**Status:** ✅ Implemented
 
 The `selectTyped<T>()` helper in `backend_registry.cpp:223–233` iterates the entire `kFallbackOrder` vector (13 entries) and for each entry scans all registered backends in `backends_`. In the current implementation with ~15 backends this is negligible, but it is called for every query that needs backend selection (`selectVectorBackendFor`, `selectGraphBackendFor`, `selectGeoBackendFor`, `selectMatrixBackendFor`, `getBestVectorBackend`, etc.). More importantly, the nested loop requires O(|kFallbackOrder| × |backends_|) `dynamic_cast` calls per selection.
 
 **Implementation Notes:**
-- `[ ]` At the end of `initializeRuntime()`, build a `std::unordered_map<BackendType, IComputeBackend*>` index from `backends_`; replace the nested loop in `selectTyped<T>()` with a single map lookup per priority level.
-- `[ ]` Pre-compute and cache `getBestVectorBackend()` / `getBestGraphBackend()` / `getBestGeoBackend()` results into `selectedVectorBackend_` etc. as is already partially done; ensure `getBackend(type)` also uses the map.
-- `[ ]` Avoid `dynamic_cast` in the hot path: store typed pointers (`IVectorBackend*`, `IGraphBackend*`, `IGeoBackend*`) alongside the `IComputeBackend*` in a `RegisteredBackend` struct at `registerBackend()` time (one `dynamic_cast` per registration, not per query).
+- `[x]` At the end of `initializeRuntime()`, build a `std::unordered_map<BackendType, IComputeBackend*>` index from `backends_`; replace the nested loop in `selectTyped<T>()` with a single map lookup per priority level. — `typeIndex_` (`unordered_map<BackendType, RegisteredBackend>`) is populated in `registerBackend()` and used by `selectTyped<T>()` for O(|kFallbackOrder|) typed selection; `getBackend()` also uses the map for O(1) lookup.
+- `[x]` Pre-compute and cache `getBestVectorBackend()` / `getBestGraphBackend()` / `getBestGeoBackend()` results into `selectedVectorBackend_` etc. as is already partially done; ensure `getBackend(type)` also uses the map. — `getBestVectorBackend/GraphBackend/GeoBackend/MatrixBackend()` iterate `kFallbackOrder` and look up `typeIndex_` for O(|kFallbackOrder|) with no dynamic_cast; `getBackend()` uses `typeIndex_` for O(1).
+- `[x]` Avoid `dynamic_cast` in the hot path: store typed pointers (`IVectorBackend*`, `IGraphBackend*`, `IGeoBackend*`) alongside the `IComputeBackend*` in a `RegisteredBackend` struct at `registerBackend()` time (one `dynamic_cast` per registration, not per query). — `RegisteredBackend` struct in `compute_backend.h` holds `base`, `vectorPtr`, `graphPtr`, `geoPtr`, `matrixPtr`; all casts done once in `registerBackend()`.
 
 ---
 
@@ -297,7 +303,7 @@ The `selectTyped<T>()` helper in `backend_registry.cpp:223–233` iterates the e
 - `[x]` Added `INT8` case in `dispatchMatmul()` (`tensor_core_matmul.cpp`) that dispatches to `launchINT8MatmulKernel()`.
 - `[x]` Implemented `launchINT8MatmulKernel()` in `cuda/tensor_core_matmul.cu` using `cublasGemmEx` with `CUDA_R_8I` inputs, `CUDA_R_32I` accumulator, and `CUBLAS_GEMM_DEFAULT_TENSOR_OP`; includes runtime SM 7.5+ guard (returns 1 on older hardware).
 - `[x]` Updated `CUDAMatrixBackend::getCapabilities()` to advertise `PrecisionMode::INT8` only when `sm >= 75` (Turing+).
-- `[ ]` `quantize()` / `dequantize()` FP32↔INT8 helpers not yet added (callers currently responsible for quantization).
+- `[x]` `quantize()` / `dequantize()` FP32↔INT8 helpers added to `tensor_core_matmul.h` / `tensor_core_matmul.cpp`; symmetric per-tensor quantisation with clamp and round, guard for null pointers / non-positive scale.
 
 **Performance Targets:**
 - INT8 matmul throughput ≥ 2× FP16 throughput on RTX 3090 (sm_86) for 4096×4096 matrices.
@@ -307,30 +313,44 @@ The `selectTyped<T>()` helper in `backend_registry.cpp:223–233` iterates the e
 ### FAISS GPU Backend: HNSW and ScalarQuantizer Index Types
 **Priority:** Medium
 **Target Version:** v1.9.0
+**Status:** ✅ IMPLEMENTED
 
-`faiss_gpu_backend.cpp` implements only `IVF_FLAT` (line 164) and `IVF_PQ` (line 187) index types. The FAISS library provides `GpuIndexIVFScalarQuantizer` (IVF_SQ8) for memory-efficient 8-bit quantized search with better recall than PQ at equivalent memory, and the CPU-only `IndexHNSWFlat` which can be combined with a GPU flat index for hybrid search. These omissions mean callers that need higher recall or lower-latency search at medium scale have no GPU-accelerated option.
+`faiss_gpu_backend.cpp` now implements all six index types. `IVF_SQ8` uses
+`GpuIndexIVFScalarQuantizer` with `QT_8bit` for higher recall than PQ at
+equivalent memory. `HNSW_FLAT` uses CPU-side `faiss::IndexHNSWFlat` which
+exposes the same `IVectorBackend` interface and is preferred for
+low-latency single-query search. All switch statements include `default:`
+branches that set `lastError_` via `setError()`. Input validation guards
+(null pointers, zero sizes, empty paths, negative dimension) added to all
+public methods. `getCapabilities()` now advertises `FP32 | INT8` precisions
+and `L2 | INNER_PRODUCT` metric bits. Tests in `tests/test_faiss_gpu_backend.cpp`
+(25 GPU tests + 15 validation + 10 structural).
 
-**Implementation Notes:**
-- `[ ]` Add `IndexType::IVF_SQ8` case in `FAISSGPUBackend::buildIndex()`: create a `faiss::gpu::GpuIndexIVFScalarQuantizer` with `faiss::ScalarQuantizer::QT_8bit`; register the destructor in the cleanup `switch` at line 226.
-- `[ ]` Add `IndexType::FLAT` case: create a `faiss::gpu::GpuIndexFlatL2` or `GpuIndexFlatIP` depending on the distance metric; this is the baseline for exact search and already required for the IVF quantizer — expose it as a first-class index type.
-- `[ ]` Add a `IndexType::HNSW_FLAT` case using CPU-side `faiss::IndexHNSWFlat` backed by a `faiss::gpu::StandardGpuResources` distance oracle for the inner-product step (FAISS `IndexHNSW` supports custom `DistanceComputer` that delegates to GPU flat index).
-- `[ ]` Update `FAISSGPUBackend::getCapabilities()` to advertise the additional index types in the capabilities struct.
-- `[ ]` Add a `default:` branch in the index creation switch (line 164) that returns `false` and sets `lastError_` to `AccelerationErrorCode::InvalidInputShape` — currently the switch falls through silently for unknown types.
+**Resolved checklist:**
+- `[x]` Add `IndexType::IVF_SQ8` — `GpuIndexIVFScalarQuantizer` with `QT_8bit`
+- `[x]` Add `IndexType::HNSW_FLAT` — CPU-side `faiss::IndexHNSWFlat` + `hnswM` config field
+- `[x]` Add `default:` branches with `setError()` in all switch statements
+- `[x]` Update `getCapabilities()` with `INT8` precision flag and metric bitmask
+- `[x]` Input validation in `search()`, `addVectors()`, `trainIndex()`,
+        `computeDistances()`, `batchKnnSearch()`, `initializeIndex()`, `saveIndex()`, `loadIndex()`
+- `[x]` Introduce `setError()` helper; replace bare `std::cerr` error paths
+- `[x]` Add 50 unit + integration tests in `tests/test_faiss_gpu_backend.cpp`
 
 ---
 
 ### OpenGL Compute Shader Backend: Complete 5 Remaining Stubs
 **Priority:** Low
 **Target Version:** v2.0.0
+**Status:** ✅ IMPLEMENTED
 
-`graphics_backends.cpp` header comment (line 14) and status banner (line 23) explicitly note *"OpenGL stub remaining"* and records *"Stubs: 5 (OpenGL only)"*. Specifically, `OpenGLVectorBackend::batchKnnSearch()`, `batchBFS()`, `batchShortestPaths()`, `batchPointInPolygon()`, and `batchHaversineDistance()` all return `{}` (lines 1781–1823). The Vulkan equivalents of all five operations are fully implemented in SPIR-V; the OpenGL path is intended as a fallback for platforms with OpenGL 4.3+ but no Vulkan ICD.
+`graphics_backends.cpp` header comment and status banner updated to *"Stubs: 0"*. All five stubs are now implemented across three OpenGL backend classes.
 
 **Implementation Notes:**
-- `[ ]` Implement `OpenGLVectorBackend::batchKnnSearch()` using the existing EGL + compute-shader infrastructure from `computeDistances()` (line 1766): dispatch the L2/cosine GLSL shader, read back distances, perform top-K on CPU with `std::nth_element`, return `std::vector<std::vector<std::pair<uint32_t,float>>>`.
-- `[ ]` Implement `batchBFS()` and `batchShortestPaths()` using GLSL compute shaders equivalent to the Vulkan `batch_search.comp` and `topk_selection.comp`; store adjacency list in an SSBO.
-- `[ ]` Implement `batchPointInPolygon()` and `batchHaversineDistance()` porting the Vulkan `point_in_polygon.comp` and `haversine_distance.comp` shaders to GLSL 4.30 (minimal changes — both shaders are already GLSL-compatible).
-- `[ ]` Update the status banner comment to *"Stubs: 0"* and maturity to `🟢 PRODUCTION-READY` once all five are complete.
-- `[ ]` Mark `OpenGLVectorBackend::getCapabilities().supportsAsync = false` remains accurate; document it in the header.
+- `[x]` Implemented `OpenGLVectorBackend::batchKnnSearch()` using the existing EGL + compute-shader infrastructure from `computeDistances()`: dispatches the L2/cosine GLSL shader, reads back distances, performs top-K on CPU with `std::partial_sort`, returns `std::vector<std::vector<std::pair<uint32_t,float>>>`.
+- `[x]` Implemented `OpenGLGraphBackend::batchBFS()` and `batchShortestPath()` in the new `OpenGLGraphBackend` class (implements `IGraphBackend`) using GLSL 4.30 compute shaders (wavefront-parallel BFS with two ping-pong frontier SSBOs; parallel Bellman-Ford with init + relax shaders); CPU fallback BFS queue and Bellman-Ford when EGL unavailable.
+- `[x]` Implemented `OpenGLGeoBackend::batchDistances()` (Haversine) and `batchPointInPolygon()` (ray-casting) in the new `OpenGLGeoBackend` class (implements `IGeoBackend`) using GLSL 4.30 compute shaders ported from the Vulkan GLSL-compatible equivalents; CPU fallback uses the same algorithms as `VulkanGeoBackend`.
+- `[x]` Updated the status banner comment to *"Stubs: 0"*.
+- `[x]` `OpenGLVectorBackend::getCapabilities().supportsAsync = false` remains accurate and is documented in `graphics_backends.h`. Both new backends (`OpenGLGeoBackend`, `OpenGLGraphBackend`) also set `supportsAsync = false`.
 
 ---
 
@@ -355,15 +375,17 @@ The `selectTyped<T>()` helper in `backend_registry.cpp:223–233` iterates the e
 ### Multi-GPU Sharding for Large Embedding Datasets
 **Priority:** Medium
 **Target Version:** v1.9.0
+**Status:** ✅ Implemented
 
-`nccl_vector_backend.cpp` and `rccl_vector_backend.cpp` stub NCCL/RCCL collective operations. Implement a sharding strategy in `BackendRegistry` that partitions an embedding index across N GPUs and scatters queries using NCCL `ncclBcast` + `ncclAllGather`. The tensor-parallel all-reduce communication pattern follows the Megatron-LM approach \[7\].
+`MultiGPUVectorBackend` in `multi_gpu_backend.cpp` implements range-based sharding across N GPUs with NCCL/RCCL collective operations for distributed top-k merge, falling back to host-side merge when collectives are unavailable. Registered in `BackendRegistry::autoDetect()` when `detectGPUCount() >= 2`.
 
 **Implementation Notes:**
 - `[x]` Introduce `MultiGPUVectorBackend` in `multi_gpu_backend.cpp`; register it in `BackendRegistry` when `cudaGetDeviceCount() > 1`.
 - `[x]` Shard by contiguous vector-ID ranges; store shard metadata in a `std::vector<ShardDescriptor>` on the host.
-- `[~]` Use `ncclGroupStart` / `ncclGroupEnd` to batch cross-GPU transfers. (NCCL/RCCL backends initialized; actual group-call wiring pending `mergeTopK` implementation above.)
+- `[x]` Use `ncclGroupStart` / `ncclGroupEnd` to batch cross-GPU transfers. Both `NCCLVectorBackend::mergeTopK()` and `RCCLVectorBackend::mergeTopK()` bracket the `AllGather` pair and the `Bcast` pair inside `ncclGroupStart`/`ncclGroupEnd` (and `rcclGroupStart`/`rcclGroupEnd`) respectively.
 - `[x]` RCCL mirror: `rccl_vector_backend.cpp` exposes the same `IVectorBackend` interface; `BackendRegistry` selects NCCL vs RCCL at runtime via `cudaGetDeviceProperties`.
 - `[x]` Graceful degradation: if NCCL init fails, fall back to single-GPU or CPU backend.
+- `[x]` Integration tests in `tests/acceleration/test_nccl_merge_topk.cpp` (registered as `NCCLMergeTopKFocusedTests`): 13 CPU-side merge simulation tests + 6 NCCL single-rank device tests + 6 RCCL single-rank device tests.
 
 **Performance Targets:**
 - 100M × 128-dim index distributed across 4× A100 80GB; query latency < 15 ms @ 99th percentile for k=100.
@@ -424,20 +446,20 @@ For workloads that repeatedly execute the same ANN kernel shape (same `dim`, `nu
 
 | Metric | Current | Target | Method |
 |--------|---------|--------|--------|
-| L2 search 1M×128 (CUDA) | N/A (stub) | < 8 ms | `benchmarks/vector_bench.cpp` on RTX 3090 |
+| L2 search 1M×128 (CUDA) | Implemented (hardware benchmark required) | < 8 ms | `benchmarks/vector_bench.cpp` on RTX 3090 |
 | Cosine search 500K×128 (Vulkan/MoltenVK) | < 20 ms ✅ | < 20 ms | Manual bench on M2 Pro |
 | Multi-GPU scale-out efficiency | N/A | ≥ 75% (1→4× A100) | `benchmarks/multi_gpu_bench.cpp` |
 | CUDA Graph replay latency reduction | ≥ 30% ✅ | ≥ 30% | `benchmarks/vector_bench.cpp` fixed-shape mode |
 | Device probe latency (4-GPU system) | < 50 ms ✅ | < 50 ms | `tests/acceleration/device_probe_test.cpp` |
-| NCCL `mergeTopK` overhead (worldSize=4, k=100) | N/A (stub) | < 500 µs | `benchmarks/multi_gpu_bench.cpp` |
+| NCCL `mergeTopK` overhead (worldSize=4, k=100) | Implemented (hardware benchmark required) | < 500 µs | `benchmarks/multi_gpu_bench.cpp` |
 | INT8 matmul throughput vs FP16 | N/A (not implemented) | ≥ 2× on sm_86 | `benchmarks/tensor_core_bench.cpp` |
 | `getStats()` call latency (Linux) | 0 ms (returns 0) | < 2 ms | `tests/acceleration/test_vllm_resource_stats.cpp` |
 | Block-dim occupancy gain (RDNA2) | baseline (256 fixed) | ≥ 5% throughput gain | `benchmarks/kernel_block_size_bench.cpp` |
 
 ## Security / Reliability
 
-- `[ ]` **CRL/OCSP revocation not enforced**: `plugin_security.cpp` methods `checkCRL()` (line 598) and `checkOCSP()` (line 654) are stubs that warn but do not perform network revocation checks; `EnhancedPluginSecurityVerifier::verifyCertificateChain()` (line 1036) emits `THEMIS_WARN` and bypasses both checks. Until fixed, plugins with revoked code-signing certificates pass validation when `requireRevocationCheck = false`. See **Plugin Security: CRL and OCSP** feature above.
-- `[ ]` **PE certificate extraction incomplete**: `EnhancedPluginSecurityVerifier::extractSigningCertificate()` (`plugin_security.cpp:1092`) detects the PE magic bytes but does not parse the certificate table — `verifyAuthenticodeSignature()` receives an empty cert string on Windows plugins. See **Plugin Security: PE Certificate Table Extraction** above.
+- `[x]` **CRL/OCSP revocation enforced**: `PluginSecurityVerifier::checkCRL()` and `checkOCSP()` perform network-backed revocation checks with OpenSSL validation and serial-based caching; `EnhancedPluginSecurityVerifier::verifyFullChain()` applies both checks when policy requires revocation checks.
+- `[x]` **PE certificate extraction completed**: `EnhancedPluginSecurityVerifier::extractEmbeddedCertificate()` parses PE security directory (`IMAGE_DIRECTORY_ENTRY_SECURITY`) and extracts PKCS#7 certificate blobs.
 - `[ ]` `plugin_security.cpp` sandbox must be applied to all dynamically loaded GPU backends (`zluda_backend.cpp`, `oneapi_backend.cpp`); verify symbol allow-list before `dlopen`.
 - `[ ]` GPU memory allocated via `cudaMalloc` / `vkAllocateMemory` must be zeroed before exposing to query results to prevent information leakage between tenants.
 - `[x]` `vllm_resource_manager.cpp` `canUseGPU()`: wrapped `queryGPUUtilization()` with `std::async` + `wait_for(500ms)`; returns `false` on timeout (safe CPU fallback). NVML hang no longer blocks the caller.
@@ -447,25 +469,25 @@ For workloads that repeatedly execute the same ANN kernel shape (same `dim`, `nu
 
 All planned features in this document are grounded in the following peer-reviewed research and industry specifications (IEEE format):
 
-1. J. Johnson, M. Douze, and H. Jégou, "Billion-scale similarity search with GPUs," *IEEE Transactions on Big Data*, vol. 7, no. 3, pp. 535–547, 2021, doi: 10.1109/TBDATA.2019.2921572. [Online]. Available: https://faiss.ai/ [Accessed: 2026-02-22]  
+1. J. Johnson, M. Douze, and H. Jégou, "Billion-scale similarity search with GPUs," *IEEE Transactions on Big Data*, vol. 7, no. 3, pp. 535–547, 2021, doi: 10.1109/TBDATA.2019.2921572. [Online]. Available: https://faiss.ai/ [Accessed: 2026-02-22]
    — Informs the FAISS GPU backend (`faiss_gpu_backend.cpp`) and GPU vector indexing roadmap.
 
-2. Y. A. Malkov and D. A. Yashunin, "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs," *IEEE Transactions on Pattern Analysis and Machine Intelligence*, vol. 42, no. 4, pp. 824–836, Apr. 2020, doi: 10.1109/TPAMI.2018.2889473. [Online]. Available: https://ieeexplore.ieee.org/document/8613833 [Accessed: 2026-02-22]  
+2. Y. A. Malkov and D. A. Yashunin, "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs," *IEEE Transactions on Pattern Analysis and Machine Intelligence*, vol. 42, no. 4, pp. 824–836, Apr. 2020, doi: 10.1109/TPAMI.2018.2889473. [Online]. Available: https://ieeexplore.ieee.org/document/8613833 [Accessed: 2026-02-22]
    — Informs GPU-accelerated HNSW kernel design (`cuda/cuda_hnsw_kernels.cu`) and the `kMaxK` clamping issue.
 
-3. T. Dao, D. Y. Fu, S. Ermon, A. Rudra, and C. Ré, "FlashAttention: Fast and memory-efficient exact attention with IO-awareness," in *Proc. Advances in Neural Information Processing Systems (NeurIPS)*, 2022, pp. 16344–16359. [Online]. Available: https://arxiv.org/abs/2205.14135 [Accessed: 2026-02-22]  
+3. T. Dao, D. Y. Fu, S. Ermon, A. Rudra, and C. Ré, "FlashAttention: Fast and memory-efficient exact attention with IO-awareness," in *Proc. Advances in Neural Information Processing Systems (NeurIPS)*, 2022, pp. 16344–16359. [Online]. Available: https://arxiv.org/abs/2205.14135 [Accessed: 2026-02-22]
    — Informs IO-aware tiled kernel design for batch vector search and Tensor Core optimizations.
 
-4. Y. Gao, K. Xiong, X. Gao, J. Ding, and C. D. Carothers, "NVIDIA Tensor Core for machine learning and deep learning," *IEEE Micro*, vol. 40, no. 6, pp. 33–45, Nov.–Dec. 2020, doi: 10.1109/MM.2020.3037720. [Online]. Available: https://ieeexplore.ieee.org/document/9269176 [Accessed: 2026-02-22]  
+4. Y. Gao, K. Xiong, X. Gao, J. Ding, and C. D. Carothers, "NVIDIA Tensor Core for machine learning and deep learning," *IEEE Micro*, vol. 40, no. 6, pp. 33–45, Nov.–Dec. 2020, doi: 10.1109/MM.2020.3037720. [Online]. Available: https://ieeexplore.ieee.org/document/9269176 [Accessed: 2026-02-22]
    — Informs FP16/BF16/INT8 mixed-precision kernels in `cuda_backend.cpp` and `tensor_core_matmul.cpp`.
 
-5. C. Ding, A. Sharma, S. C. Suh, M. R. Amer, A. Bhattacharya, and S. Kumar, "ScaNN: Efficient vector similarity search at scale," in *Proc. 37th Int. Conf. Machine Learning (ICML)*, 2020, pp. 2589–2599. [Online]. Available: https://arxiv.org/abs/1908.10396 [Accessed: 2026-02-22]  
+5. C. Ding, A. Sharma, S. C. Suh, M. R. Amer, A. Bhattacharya, and S. Kumar, "ScaNN: Efficient vector similarity search at scale," in *Proc. 37th Int. Conf. Machine Learning (ICML)*, 2020, pp. 2589–2599. [Online]. Available: https://arxiv.org/abs/1908.10396 [Accessed: 2026-02-22]
    — Informs quantization-aware ANN search and hybrid CPU/GPU search strategies.
 
-6. Khronos Group, "Vulkan API Specification v1.3," Khronos Registries. [Online]. Available: https://www.khronos.org/registry/vulkan/ [Accessed: 2026-02-22]  
+6. Khronos Group, "Vulkan API Specification v1.3," Khronos Registries. [Online]. Available: https://www.khronos.org/registry/vulkan/ [Accessed: 2026-02-22]
    — Informs Vulkan compute shader pipeline and cross-platform GPU support (`vulkan_backend_full.cpp`); including specialization constants for workgroup-size tuning.
 
-7. AMD, "ROCm documentation: Software platform for GPU computing," AMD. [Online]. Available: https://rocmdocs.amd.com/ [Accessed: 2026-02-22]  
+7. AMD, "ROCm documentation: Software platform for GPU computing," AMD. [Online]. Available: https://rocmdocs.amd.com/ [Accessed: 2026-02-22]
    — Informs HIP API usage, rocBLAS, and RCCL multi-GPU collectives (`hip_backend.cpp`, `rccl_vector_backend.cpp`).
 
 ## See Also

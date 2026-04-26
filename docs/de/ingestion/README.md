@@ -1,9 +1,9 @@
 # Ingestion-Modul
 
-<!-- Status: current | validated: 2026-03-10 | Primary: ../../../src/ingestion/ | ../../../include/ingestion/ -->
+<!-- Status: current | validated: 2026-04-06 | Primary: ../../../src/ingestion/ | ../../../include/ingestion/ -->
 <!-- Links: ../../../src/ingestion/README.md · ../../../src/ingestion/ROADMAP.md · inventory.md · missing-implementations.md -->
 
-**Stand:** 10. März 2026  
+**Stand:** 6. April 2026  
 **Version:** 1.7.x (Production-ready)  
 **Kategorie:** Daten-Intake / Konnektoren
 

@@ -1,7 +1,7 @@
 # ThemisDB Troubleshooting Guide
 
 **Version:** 1.4.0  
-**Last Updated:** 2026-01-18  
+**Last Updated:** 2026-04-06  
 **Target Audience:** Site Reliability Engineers, Database Administrators, Support Engineers
 
 ---

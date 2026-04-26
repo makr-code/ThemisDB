@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            object_storage_connector.cpp                       ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:16:47                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     718                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Quality Score:   87.0/100                                       ║
+    • Total Lines:     725                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7a7b91374  2026-02-27  Add S3/GCS/Azure Blob object storage source connector ║
+    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -271,7 +270,15 @@ private:
     }
 
     // -----------------------------------------------------------------------
-    // Mock-based ingestion (unit tests)
+    // STUB/SIMULATION NOTE:
+    // Purpose: Enable unit-testing of ObjectStorageConnector without a live
+    //   object-storage endpoint by using injected list_fn_/fetch_fn_ lambdas.
+    // Activation: Active when list_fn_ is non-null (set via
+    //   ObjectStorageConnector::setListFnForTesting()).
+    // Production Delta: Object keys and content come from injected lambdas
+    //   instead of real HTTP/S3/GCS calls.  No authentication, no retries,
+    //   no bandwidth throttling.
+    // Removal Plan: Not removed — remains the test-injection path.
     // -----------------------------------------------------------------------
     void ingestFromMock(IngestionStats& stats,
                         ProgressCallback& progress_callback) {

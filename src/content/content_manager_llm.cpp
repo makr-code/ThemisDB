@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_manager_llm.cpp                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:08                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efc8af71b  2026-03-11  feat: add LLM-assisted content analysis methods and impro... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -153,7 +153,7 @@ std::vector<std::string> ContentManager::generateTags(
             }
         }
         
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         // Log error
     }
     
@@ -194,7 +194,7 @@ std::string ContentManager::summarizeContent(
             return summary;
         }
         
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         // Log error
     }
     
@@ -237,7 +237,7 @@ std::string ContentManager::classifyContent(const std::string& content_id) {
             return category;
         }
         
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         // Log error
     }
     
@@ -284,7 +284,7 @@ json ContentManager::extractEntities(const std::string& content_id) {
             result = parseEntities(entities_text);
         }
         
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         // Log error
     }
     
@@ -442,7 +442,7 @@ json ContentManager::parseEntities(const std::string& entities_text) {
 /**
  * @brief Get extracted text from content
  */
-std::string ContentManager::getExtractedText(const std::string& content_id) {
+std::string ContentManager::getExtractedText(const std::string& /*content_id*/) {
     // This would normally retrieve the extracted text from storage
     // For now, return placeholder
     // Real implementation would:

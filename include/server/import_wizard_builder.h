@@ -3,19 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            import_wizard_builder.h                            ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:11:12                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:46:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     44                                             ║
+    • Total Lines:     43                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d88671344  2026-02-28  feat(importers): implement web-based import wizard at GET... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -32,7 +28,7 @@ namespace server {
  * @brief Build the self-contained HTML for the web-based import wizard.
  *
  * Returns a complete, dependency-free HTML page that drives the import
- * REST API (/api/v1/import/*) via vanilla JavaScript.  No external CDN
+ * REST API (/api/v1/import/{name}) via vanilla JavaScript.  No external CDN
  * resources are referenced, making the wizard suitable for air-gapped
  * deployments.
  *

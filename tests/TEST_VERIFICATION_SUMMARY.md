@@ -1,3 +1,6 @@
+> ⚠️ **Historischer Testbericht** – Dieser Bericht beschreibt den Teststand zum Zeitpunkt der Erstellung.
+> Für aktuellen Stand: `ctest --preset linux-ninja-release --test-dir build/linux-ninja-release` ausführen.
+
 # Test Verification Summary
 
 ## Overview
@@ -377,5 +380,5 @@ The tests follow best practices:
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** January 2026  
+**Last Updated:** April 2026  
 **Maintained By:** ThemisDB Team

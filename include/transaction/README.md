@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # ThemisDB Transaction Module - Header Files
 
 This directory contains the public header files for the ThemisDB Transaction module.
@@ -110,6 +112,22 @@ if (!result.success) {
     }
 }
 ```
+
+### Additional Headers
+
+| Header | Key Types | Description |
+|---|---|---|
+| `crash_recovery_manager.h` | `CrashRecoveryManager` | WAL-based crash recovery and redo/undo |
+| `deadlock_predictor.h` | `DeadlockPredictor` | Wait-for graph analysis and deadlock detection |
+| `distributed_saga.h` | `DistributedSaga`, `DistributedStep` | Multi-node SAGA coordination |
+| `distributed_transaction_manager.h` | `DistributedTransactionManager` | 2PC/3PC distributed transaction coordinator |
+| `global_transaction_manager.h` | `GlobalTransactionManager` | Cross-shard global transaction ID management |
+| `isolation_level.h` | `IsolationLevel` | Isolation level enum definitions |
+| `lock_manager.h` | `LockManager`, `LockMode` | Row/range lock acquisition and release |
+| `saga_orchestrator.h` | `SagaOrchestrator` | Choreography-based SAGA orchestration |
+| `transaction_auditor.h` | `TransactionAuditor` | Audit trail recording for compliance |
+| `transaction_batcher.h` | `TransactionBatcher` | Micro-batching for throughput optimisation |
+| `transaction_semantic_advisor.h` | `TransactionSemanticAdvisor` | <!-- TODO: verify --> Semantic hints for query planning |
 
 ---
 
@@ -261,7 +279,7 @@ auto result = merge_engine.merge(
 if (!result.success && !result.conflicts.empty()) {
     // Manual resolution required
     std::vector<MergeEngine::ConflictResolution> resolutions;
-    
+
     for (const auto& conflict : result.conflicts) {
         // Decide resolution strategy per conflict
         resolutions.push_back({
@@ -270,7 +288,7 @@ if (!result.success && !result.conflicts.empty()) {
             "Resolution reason"
         });
     }
-    
+
     // Apply with resolutions
     auto resolved = merge_engine.mergeWithResolutions(
         "source-branch",
@@ -432,3 +450,11 @@ For detailed implementation documentation, see:
 ## License
 
 Copyright © 2024 ThemisDB Contributors. Licensed under Apache 2.0.
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

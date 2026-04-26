@@ -2,7 +2,7 @@
 ## Systematischer Leitfaden für die wiederholbare Sicherheitsanalyse
 
 **Version:** 1.0.0  
-**Stand:** Januar 2026  
+**Stand:** April 2026  
 **Zielgruppe:** Security Engineers, DevSecOps Team, Penetration Testers  
 **Kategorie:** 🔒 Security Operations
 

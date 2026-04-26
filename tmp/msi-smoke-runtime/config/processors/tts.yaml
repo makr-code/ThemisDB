@@ -1,0 +1,189 @@
+# Text-to-Speech (TTS) Processor Configuration
+# 
+# Provides speech synthesis for voice assistant responses.
+#
+# Version: 1.0
+
+processor:
+  name: "TTS Processor"
+  version: "1.0.0"
+  library: "themis_proc_tts"
+  description: "Text-to-Speech processor for voice synthesis"
+  
+  # Supported MIME types (input)
+  mime_types:
+    - "text/plain"
+    - "application/json"
+  
+  # Supported file extensions
+  extensions:
+    - ".txt"
+    - ".json"
+
+  # ============================================================================
+  # Model Settings
+  # ============================================================================
+  model:
+    # Model path
+    path: "./models/tts-model.bin"
+    
+    # TTS engine: piper, coqui, espeak, festival
+    engine: piper
+    
+    # Download model if not found
+    auto_download: true
+    
+    # Model URL
+    download_url: "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/amy/medium/en_US-amy-medium.onnx"
+
+  # ============================================================================
+  # Voice Settings
+  # ============================================================================
+  voices:
+    # Default voice
+    default: "en_US-amy-medium"
+    
+    # Available voices
+    available:
+      - id: "en_US-amy-medium"
+        name: "Amy (US English, Female)"
+        language: "en"
+        gender: "female"
+        style: "professional"
+        path: "./models/voices/en_US-amy-medium.onnx"
+        
+      - id: "en_US-danny-low"
+        name: "Danny (US English, Male)"
+        language: "en"
+        gender: "male"
+        style: "casual"
+        path: "./models/voices/en_US-danny-low.onnx"
+        
+      - id: "en_GB-alan-medium"
+        name: "Alan (British English, Male)"
+        language: "en-GB"
+        gender: "male"
+        style: "professional"
+        path: "./models/voices/en_GB-alan-medium.onnx"
+        
+      - id: "de_DE-thorsten-medium"
+        name: "Thorsten (German, Male)"
+        language: "de"
+        gender: "male"
+        style: "professional"
+        path: "./models/voices/de_DE-thorsten-medium.onnx"
+
+  # ============================================================================
+  # Synthesis Settings
+  # ============================================================================
+  synthesis:
+    # Sample rate (Hz)
+    sample_rate: 22050
+    
+    # Speaking speed (0.5 - 2.0)
+    speed: 1.0
+    
+    # Pitch adjustment (0.5 - 2.0)
+    pitch: 1.0
+    
+    # Volume (0.0 - 1.0)
+    volume: 1.0
+    
+    # Normalize audio
+    normalize: true
+    
+    # Add silence at end (ms)
+    silence_padding_ms: 200
+
+  # ============================================================================
+  # Output Format Settings
+  # ============================================================================
+  output:
+    # Default format: wav, mp3, ogg, opus
+    format: wav
+    
+    # Audio quality (for compressed formats)
+    # - low: 64 kbps
+    # - medium: 128 kbps
+    # - high: 192 kbps
+    # - very_high: 320 kbps
+    quality: medium
+    
+    # Bit depth (for WAV): 16, 24, 32
+    bit_depth: 16
+    
+    # Include metadata
+    include_metadata: true
+
+  # ============================================================================
+  # Text Processing Settings
+  # ============================================================================
+  text_processing:
+    # Normalize text
+    normalize: true
+    
+    # Expand abbreviations
+    expand_abbreviations: true
+    
+    # Convert numbers to words
+    numbers_to_words: true
+    
+    # SSML support
+    ssml_enabled: false
+    
+    # Phonetic dictionary
+    phonetic_dict_path: "./config/phonetic_dict.json"
+
+  # ============================================================================
+  # Performance Settings
+  # ============================================================================
+  performance:
+    # Number of threads
+    num_threads: 2
+    
+    # Use GPU acceleration
+    use_gpu: false
+    
+    # GPU device ID
+    gpu_device_id: 0
+    
+    # Batch size
+    batch_size: 1
+    
+    # Streaming synthesis
+    enable_streaming: false
+    
+    # Streaming chunk size (characters)
+    streaming_chunk_size: 100
+
+  # ============================================================================
+  # Caching Settings
+  # ============================================================================
+  caching:
+    # Enable result caching
+    enabled: true
+    
+    # Cache TTL (seconds)
+    ttl_sec: 3600
+    
+    # Max cache size (MB)
+    max_size_mb: 512
+    
+    # Cache key includes: voice, speed, pitch
+    cache_key_includes:
+      - voice_id
+      - speed
+      - pitch
+
+  # ============================================================================
+  # Security Settings
+  # ============================================================================
+  security:
+    # Maximum input text length (characters)
+    max_text_length: 10000
+    
+    # Rate limiting (requests per minute)
+    rate_limit: 60
+    
+    # Malicious content detection
+    content_filter: false

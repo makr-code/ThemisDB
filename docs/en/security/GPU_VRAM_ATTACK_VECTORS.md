@@ -862,7 +862,7 @@ private:
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** 2026-01-07  
+**Last Updated:** 2026-04-06  
 **Next Review:** 2026-04-07 (quarterly)  
 **Responsible:** ThemisDB Security Team
 

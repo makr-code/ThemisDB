@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/prompt_engineering/ -->
 
 # Prompt Engineering Module - Future Enhancements
@@ -27,21 +29,30 @@ This document covers planned enhancements to ThemisDB's prompt engineering subsy
 
 ## Planned Features
 
-### [ ] Structured Prompt Template DSL
+### [x] Structured Prompt Template DSL
 **Priority:** High
 **Target Version:** v0.9.0
+**Status:** ✅ Implemented (v2.1.0)
 
 Replace ad-hoc string interpolation in `prompt_manager.cpp` with a typed template DSL that supports typed variable slots (string, list, document-chunk), conditional blocks, and loop constructs. The DSL compiles to a `CompiledPromptTemplate` object that is validated at publish time rather than at render time.
 
-**Implementation Notes:**
-- Add `prompt_template_compiler.cpp` with a recursive-descent parser for the DSL; expose `CompiledPromptTemplate::render(PromptContext&)`.
-- Update `prompt_version_control.cpp` to store the compiled AST alongside the raw template source for faster re-render.
-- `prompt_manager.cpp` must fall back to legacy string-substitution for templates without a DSL version field (backward compat).
-- Integrate variable-type validation with `utils/input_validator.cpp` to catch mismatched context variables at publish time.
+**Implemented Components:**
+- `SlotType` enum — `STRING`, `LIST`, `DOCUMENT_CHUNK`.
+- `SlotDefinition` struct — `name`, `type`, `required`, `default_value`; `toJson()`.
+- `PromptContextValue` — typed runtime value; `fromString()`, `fromList()`, `fromChunks()`; `toString()`, `asBool()`.
+- `PromptContext` — `unordered_map<string, PromptContextValue>`.
+- `IPromptTemplate` — abstract interface: `source()`, `slots()`, `render(ctx)`, `validate(ctx) noexcept`.
+- `CompiledPromptTemplate` — implements `IPromptTemplate`; holds compiled AST; `toJson()`.
+- `PromptTemplateCompiler` — stateless; `compile(source, slots)` → recursive-descent lex+parse.
+- `PromptTemplateCompileError`, `PromptTemplateMissingSlotError`, `PromptTemplateTypeMismatchError`.
+- `PromptTemplateValidator` — structural JSON validator for serialised `PromptTemplate` documents; `validate(json)`, `validate(string)`; `require_id` flag.
+- DSL syntax: `{var}` / `{{ var }}` slots; `{% if var %}...{% else %}...{% endif %}`; `{% for item in list %}...{% endfor %}`.
+- Backward-compatible with existing `{placeholder}` convention from `PromptManager::injectContext()`.
+- 30 unit tests (AC-1 through AC-30); registered in `tests/CMakeLists.txt` as `test_prompt_template_compiler_focused`.
 
-**Performance Targets:**
-- Template compilation (publish time): <50 ms for a 4 KB template.
-- Compiled template render latency: <1 ms P99 for a 2 KB context.
+**Performance Targets (met):**
+- Compile a 4 KB template: < 50 ms.
+- Render with a 2 KB context: < 1 ms P99.
 
 ---
 
@@ -206,6 +217,45 @@ Cross-environment portability for prompt template collections via JSON and YAML 
 - [ ] The A/B experimentation framework must not leak experiment assignments across tenant boundaries; `experiment_context` must be scoped to a single tenant ID.
 - [?] Clarify whether chain-of-thought traces containing legal case content are subject to e-discovery retention requirements before enabling long-term storage.
 - [ ] `ContextWindowBudgetManager` must enforce a hard maximum token cap regardless of model-reported limit to prevent prompt-injection via oversized context chunks.
+
+---
+
+## Identified Gaps (from AI_ML_IMPACT_ASSESSMENT.md)
+
+### Gap 5 — Consolidate Dual PromptInjectionDetector Implementations (Target: Q4 2026)
+
+**Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 5 (Severity: Medium/S2)`
+**Status:** ✅ Implemented (2026-04-21)
+**See also:** `src/rag/FUTURE_ENHANCEMENTS.md §Gap 5` (RAG-module counterpart).
+
+**Problem (resolved):** Two independent `PromptInjectionDetector` implementations
+maintained separate pattern registries.  A new attack pattern added to one was
+silently absent from the other.
+
+**Implemented changes:**
+- `include/security/prompt_injection_pattern_registry.h` + `src/security/prompt_injection_pattern_registry.cpp`:
+  `PromptInjectionPatternRegistry` singleton with 11 shared patterns + 11 keywords.
+  `version()` monotonic integer; `SHARED_INJECTION_PATTERN_COUNT` / `SHARED_INJECTION_KEYWORD_COUNT`
+  compile-time constants.
+- `PromptInjectionDetector::initializePatterns()` now calls
+  `PromptInjectionPatternRegistry::defaultRegistry()` to load the 11 shared patterns
+  as its base; caller `custom_patterns` appended after.
+- Startup parity assertion: logs ERROR + aborts if `patternCount() != SHARED_INJECTION_PATTERN_COUNT`.
+- `src/rag/prompt_injection_detector.cpp::getRules()` similarly loads shared patterns
+  first, then appends RAG-specific patterns (score_manipulation, role headers,
+  separator, markup, exfiltration).
+- Tests: `test_prompt_injection_pattern_registry.cpp` (PRR_01..08) registered as
+  `PromptInjectionPatternRegistryFocusedTests`.
+
+**Invariant:** pattern shared_forget_instructions (pattern 4 — previously absent
+from PE detector) is now detected by both detectors. PRR_05 tests this explicitly.
+
+**Deferred (Q4 2026):**
+- YAML/JSON pattern file (`config/prompt_injection_patterns.yaml`) for operator
+  overrides at deployment time.
+- CI script `scripts/check_injection_pattern_sync.py`.
+
+**Perf target:** Registry load at startup ≤ 5 ms (static singleton); per-scan unchanged.
 
 ## Scientific References
 

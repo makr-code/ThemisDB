@@ -1,6 +1,6 @@
 # ThemisDB Enterprise Feature Analysis & DLL Extraction Strategy
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** v1.3.0  
 **Kategorie:** 🏢 Enterprise  
 **Purpose:** Define enterprise vs. community features and DLL architecture
@@ -577,5 +577,5 @@ This analysis provides a clear roadmap for extracting enterprise features into s
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** December 13, 2025  
+**Last Updated:** April 2026  
 **Status:** ✅ Ready for Review

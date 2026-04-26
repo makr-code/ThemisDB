@@ -2,7 +2,7 @@
 
 **Version:** v1.7.0  
 **Status:** ✅ Production-Ready  
-**Last Updated:** 2026-02-25
+**Last Updated:** 2026-04-06
 
 ---
 
@@ -226,6 +226,6 @@ See full API at `include/analytics/forecasting.h`.
 
 ---
 
-**Last Updated:** 2026-02-25  
+**Last Updated:** 2026-04-06  
 **Version:** v1.7.0  
 **Status:** ✅ Production-Ready

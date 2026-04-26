@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compliance_reporting.cpp                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:42                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1628                                           ║
+    • Total Lines:     1625                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • dcc54150e  2026-03-16  Changes before error encountered         ║
-    • a64247126  2026-03-08  Refactor code structure for improved readability and main... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7844e4d32  2026-02-25  fix(ccpa): resolve DataPortability semantic conflict and ... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • dcc54150e3  2026-03-16  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -115,7 +112,7 @@ PolicyCoverageAnalyzer::CoverageResult PolicyCoverageAnalyzer::analyzeCoverage(
     const std::vector<std::string>& actions
 ) const {
     CoverageResult result;
-    result.total_resources_checked = resources.size();
+    result.total_resources_checked = static_cast<int>(resources.size());
     
     THEMIS_DEBUG("Analyzing coverage for {} resources across {} actions", 
                  resources.size(), actions.size());
@@ -183,7 +180,7 @@ std::vector<PolicyCoverageAnalyzer::OverlapResult> PolicyCoverageAnalyzer::detec
             overlap.resource_pattern = pattern.substr(0, colon_pos);
             overlap.action_pattern = pattern.substr(colon_pos + 1);
             overlap.overlapping_rule_ids = rule_ids;
-            overlap.overlap_count = rule_ids.size();
+            overlap.overlap_count = static_cast<int>(rule_ids.size());
             
             overlaps.push_back(overlap);
         }
@@ -390,7 +387,7 @@ ComplianceGapDetector::ComplianceStatus ComplianceGapDetector::getComplianceStat
         }
     }
     
-    status.total_requirements = filtered_reqs.size();
+    status.total_requirements = static_cast<int>(filtered_reqs.size());
     
     for (const auto& req : filtered_reqs) {
         if (checkRequirement(req, policy_mgr)) {
@@ -867,7 +864,7 @@ ComplianceReporter::PolicySummaryReport ComplianceReporter::generatePolicySummar
     PolicySummaryReport report;
     auto all_rules = policy_mgr.listRules();
     
-    report.total_rules = all_rules.size();
+    report.total_rules = static_cast<int>(all_rules.size());
     report.generated_at = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     
     for (const auto& rule : all_rules) {
@@ -1098,7 +1095,7 @@ ComplianceReporter::ChangeHistoryReport ComplianceReporter::generateChangeHistor
         }
     }
     
-    report.total_changes = report.changes.size();
+    report.total_changes = static_cast<int>(report.changes.size());
     
     THEMIS_INFO("Generated change history report: {} changes", report.total_changes);
     

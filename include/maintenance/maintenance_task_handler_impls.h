@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            maintenance_task_handler_impls.h                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:08:43                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • af1b62452  2026-03-12  fix: address review feedback - null safety, HTTP route fo... ║
-    • 717093f9b  2026-03-12  feat: implement IMaintenanceTaskHandler registry for main... ║
+    • af1b624522  2026-03-12  fix: address review feedback - null safety, HTTP route fo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -253,6 +252,53 @@ private:
     std::string name_;
     ExecuteFn   fn_;
 };
+
+} // namespace maintenance
+} // namespace themis
+
+// ---------------------------------------------------------------------------
+// Factory — wire ShardRepairEngine into ReplicaValidationHandler
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Create a ReplicaValidationHandler wired to a ShardRepairEngine.
+ *
+ * This free function is the canonical startup wiring that resolves the
+ * roadmap item "Replica consistency check integration with sharding/replication
+ * module (v1.2.0)" without introducing a compile-time dependency on the
+ * sharding module from the maintenance module itself.
+ *
+ * Typical startup usage (in the server or integration layer):
+ * @code
+ *   #include "maintenance/maintenance_task_handler_impls.h"
+ *   #include "sharding/shard_repair_engine.h"
+ *
+ *   auto handler = themis::maintenance::makeReplicaValidationHandler(repair_engine);
+ *   orchestrator.registerTaskHandler(
+ *       MaintenanceTaskType::REPLICA_VALIDATION, std::move(handler));
+ * @endcode
+ *
+ * @param engine  Shared pointer to a live ShardRepairEngine.  Must not be null.
+ * @return        A ReplicaValidationHandler that delegates to
+ *                engine->runConsistencyCheck().
+ */
+#include "sharding/shard_repair_engine.h"
+
+namespace themis {
+namespace maintenance {
+
+inline std::shared_ptr<ReplicaValidationHandler>
+makeReplicaValidationHandler(std::shared_ptr<themis::sharding::ShardRepairEngine> engine) {
+    return std::make_shared<ReplicaValidationHandler>(
+        [engine]() -> Result<std::string> {
+            if (!engine) {
+                return tl::unexpected(
+                    Error(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                          "makeReplicaValidationHandler: ShardRepairEngine is null"));
+            }
+            return engine->runConsistencyCheck();
+        });
+}
 
 } // namespace maintenance
 } // namespace themis

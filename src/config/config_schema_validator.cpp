@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_schema_validator.cpp                        ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:15:05                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     807                                            ║
+    • Total Lines:     804                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 64c72611d  2026-03-22  feat(config): implement `not` JSON Schema keyword, upgrad... ║
-    • ee59cce51  2026-03-11  docs(config): update ARCHITECTURE.md and header metadata ... ║
-    • ec0d1bcbc  2026-03-11  feat(config): add validateFromString API for in-memory YA... ║
-    • 61be0fd2e  2026-03-11  chore(config): fix stale file headers and add format/uniq... ║
-    • a8886b55e  2026-03-11  feat(config): add loadAsJson(content, is_yaml) overload t... ║
+    • 64c72611d4  2026-03-22  feat(config): implement `not` JSON Schema keyword, upgrad... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

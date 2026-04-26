@@ -1,7 +1,7 @@
 # Performance Tuning Guide
 
-**Version:** 1.4.0-alpha  
-**Last Updated:** January 2026  
+**Version:** 1.8.0-rc1  
+**Last Updated:** April 2026  
 **Target Audience:** ML Engineers, Performance Engineers
 
 ## Table of Contents
@@ -688,5 +688,5 @@ inference:
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** January 2026  
+**Last Updated:** April 2026  
 **Next Review:** April 2026

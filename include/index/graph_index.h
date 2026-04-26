@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_index.h                                      ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:07:59                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     334                                            ║
+    • Total Lines:     332                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 87955cec9  2026-03-11  feat(graph): implement ScheduledGraphEdgeRefreshEngine mo... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f22c734c5  2026-02-25  feat(graph): implement GPU-accelerated BFS/DFS for massiv... ║
-    • daf027b34  2026-02-25  feat(graph): implement subgraph isomorphism queries (patt... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -36,6 +33,7 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <mutex>
+#include <shared_mutex>
 #include <functional>
 #include <memory>
 
@@ -294,7 +292,7 @@ private:
     RocksDBWrapper& db_;
 
     // In-Memory Adjazenzlisten (thread-safe)
-    mutable std::mutex topology_mutex_;
+    mutable std::shared_mutex topology_mutex_;
     std::unordered_map<std::string, std::vector<AdjacencyInfo>> outEdges_; // fromPk -> [(edgeId, toPk)]
     std::unordered_map<std::string, std::vector<AdjacencyInfo>> inEdges_;  // toPk -> [(edgeId, fromPk)]
     bool topologyLoaded_ = false;

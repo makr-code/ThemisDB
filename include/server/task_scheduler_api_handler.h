@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_scheduler_api_handler.h                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:26                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     257                                            ║
+    • Total Lines:     251                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c34a95e5f  2026-03-01  feat(scheduler): expose ExternalSchedulerAdapter via Task... ║
-    • cf5596a8c  2026-03-01  feat(scheduler): expose executeDAG via TaskSchedulerApiHa... ║
-    • 46cbedd51  2026-03-01  Fix total count to return all matching records for proper... ║
-    • b36d290e6  2026-03-01  feat(scheduler): add getTaskResults/getLatestTaskResult A... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -38,8 +35,7 @@
  * - HTTPS only (no plain HTTP)
  */
 
-#ifndef THEMIS_TASK_SCHEDULER_API_HANDLER_H
-#define THEMIS_TASK_SCHEDULER_API_HANDLER_H
+#pragma once
 
 #include "scheduler/task_scheduler.h"
 #include <nlohmann/json.hpp>
@@ -70,6 +66,7 @@ namespace server {
  * SECURITY REQUIREMENTS:
  * - All endpoints must verify user authentication
  * - All endpoints must check user authorization (admin role)
+ * - Scheduler runtime enforces task-level permissions via TaskScheduler::RequestContext
  * - All operations must be audit logged
  * - Input validation on all parameters
  * - Rate limiting on execute endpoint
@@ -253,5 +250,3 @@ private:
 
 } // namespace server
 } // namespace themis
-
-#endif // THEMIS_TASK_SCHEDULER_API_HANDLER_H

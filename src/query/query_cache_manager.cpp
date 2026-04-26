@@ -3,18 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_cache_manager.cpp                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:18:35                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     557                                            ║
+    • Total Lines:     560                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -303,9 +306,9 @@ void QueryCacheManager::clear() {
     }
     
     if (basic_cache_) {
-        basic_cache_->clear();
+        (void)basic_cache_->clear();
     } else if (adaptive_cache_) {
-        adaptive_cache_->clear();
+        (void)adaptive_cache_->clear();
     }
     
     if (workload_strategy_) {
@@ -531,7 +534,7 @@ void QueryCacheManager::reportStatsIfNeeded() {
 }
 
 bool QueryCacheManager::putInBasicCache(
-    const std::string& fingerprint,
+    [[maybe_unused]] const std::string& fingerprint,
     const std::string& query,
     const nlohmann::json& params,
     const nlohmann::json& result,
@@ -546,7 +549,7 @@ bool QueryCacheManager::putInAdaptiveCache(
     const std::string& fingerprint,
     const nlohmann::json& params,
     const nlohmann::json& result,
-    std::chrono::seconds ttl
+    [[maybe_unused]] std::chrono::seconds ttl
 ) {
     // AdaptiveQueryCache doesn't support custom TTL in the current implementation
     // It uses its own adaptive TTL logic

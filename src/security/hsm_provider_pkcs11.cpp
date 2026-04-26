@@ -3,24 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_provider_pkcs11.cpp                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:27                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   0.0/100                                        ║
-    • Total Lines:     1056                                           ║
+    • Total Lines:     1050                                           ║
     • Open Issues:     TODOs: 0, Stubs: 23                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e45182eb8  2026-03-01  feat(security): implement PKCS#11 token init, slot select... ║
-    • 14140888f  2026-02-22  feat: Complete HSM PKCS#11 direct integration with RSA-OA... ║
-    • 309347f92  2026-02-22  audit(security): fix null-pointer guards and remaining si... ║
-    • 69ccec431  2026-02-22  fix(security): address code review - fail on RAND_bytes e... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: 📝 Draft / Stub                                              ║
+  Status: 🟡 Documented Stub (dev-fallback; see STUB/SIMULATION NOTE)                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
@@ -55,6 +52,18 @@ namespace themis { namespace security {
 // Real PKCS#11 implementation with graceful developer fallback.
 // If any critical step fails (lib load, slot, login, key discovery),
 // operations transparently revert to deterministic stub behaviour.
+
+// STUB/SIMULATION NOTE (fallback path only):
+// Purpose: When PKCS#11 hardware/library is unavailable (slot discovery fails, PIN error,
+//          device absent), HSMProvider::Impl::stub_kek is used as a software AES-256-GCM
+//          fallback so that developer and CI environments remain functional.
+// Activation: Automatically activated at runtime when real_ready == false (PKCS#11 init
+//             fails). Controlled by THEMIS_ALLOW_HSM_STUB env var in production mode.
+// Production Delta: Fallback KEK is randomly generated in-memory, not HSM-protected.
+//                   Key material is not backed by hardware; wrap/unwrap is software-only.
+// Removal Plan: No removal needed – fallback is a runtime safety net. Real HSM usage is
+//               enforced in production mode (THEMIS_PRODUCTION_MODE=1) unless explicitly
+//               overridden. Fallback triggers a loud WARN log in every call.
 
 class PKCS11Loader {
 public:
@@ -571,9 +580,8 @@ HSMProvider::SessionEntry* HSMProvider::acquireSession(){
     return nullptr;
 }
 
-void HSMProvider::releaseSession(SessionEntry* s){ 
+void HSMProvider::releaseSession([[maybe_unused]] SessionEntry* s){ 
     // No-op for lock-free implementation (no busy flag to clear)
-    (void)s;
 }
 
 HSMSignatureResult HSMProvider::sign(const std::vector<uint8_t>& data, const std::string& key_label){
@@ -710,7 +718,7 @@ std::vector<HSMKeyInfo> HSMProvider::listKeys(){
     HSMKeyInfo info; info.label = config_.key_label; info.id = impl_->real_ready?"real-id":"stub-id"; info.algorithm = config_.signature_algorithm; info.can_sign = true; info.can_verify = true; info.extractable = false; info.key_size = impl_->real_ready?2048:0; return {info};
 }
 
-std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, const std::string& key_label){
+std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, [[maybe_unused]] const std::string& key_label){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if (!initialized_) { last_error_ = "Not initialized"; return {}; }
     if (!impl_->real_ready || !impl_->loader.api()) {
@@ -749,11 +757,10 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
         return {};
     }
     ciphertext.resize(outLen);
-    (void)key_label;
     return ciphertext;
 }
 
-std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, const std::string& key_label){
+std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, [[maybe_unused]] const std::string& key_label){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if (!initialized_) { last_error_ = "Not initialized"; return {}; }
     if (!impl_->real_ready || !impl_->loader.api()) {
@@ -791,7 +798,6 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
         return {};
     }
     plaintext.resize(outLen);
-    (void)key_label;
     return plaintext;
 }
 

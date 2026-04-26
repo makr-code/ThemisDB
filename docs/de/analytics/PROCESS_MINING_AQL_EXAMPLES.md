@@ -706,5 +706,5 @@ LET log = PM_EXTRACT_LOG("my_collection", {
 ---
 
 **Version**: 1.0  
-**Last Updated**: 2025-12-24  
+**Last Updated**: 2026-04-06  
 **Status**: Examples & Best Practices

@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_graphql_cache_security.cpp                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:27:53                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:54:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     307                                            ║
+    • Total Lines:     407                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • edf7340821  2026-04-13  feat(api): implement selective collection-based cache inv... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -158,6 +158,106 @@ TEST(GraphQLCache, ResponseCacheSingleton) {
     ASSERT_NE(cached, nullptr);
     EXPECT_EQ(cached->data, "{\"user\":{\"id\":\"123\"}}");
     EXPECT_EQ(cached->etag, "abc123");
+}
+
+TEST(GraphQLCache, InvalidatePatternSelectiveEviction) {
+    auto& cache = ResponseCache::instance();
+    cache.clear();
+
+    // Entry tagged with "orders"
+    ResponseCache::CachedResponse r1;
+    r1.data = "{\"orders\":[]}";
+    r1.collections = {"orders"};
+    cache.put("{ orders { id } }", r1);
+
+    // Entry tagged with "users"
+    ResponseCache::CachedResponse r2;
+    r2.data = "{\"users\":[]}";
+    r2.collections = {"users"};
+    cache.put("{ users { id } }", r2);
+
+    // Entry tagged with both
+    ResponseCache::CachedResponse r3;
+    r3.data = "{\"orders\":[], \"users\":[]}";
+    r3.collections = {"orders", "users"};
+    cache.put("{ orders { id } users { id } }", r3);
+
+    // Invalidate only "orders"
+    cache.invalidatePattern("orders");
+
+    // "orders"-tagged entries must be gone
+    EXPECT_EQ(cache.get("{ orders { id } }"), nullptr);
+    EXPECT_EQ(cache.get("{ orders { id } users { id } }"), nullptr);
+
+    // "users"-only entry must still be present
+    auto remaining = cache.get("{ users { id } }");
+    ASSERT_NE(remaining, nullptr);
+    EXPECT_EQ(remaining->data, "{\"users\":[]}");
+}
+
+TEST(GraphQLCache, InvalidatePatternNoMatchLeavesAllEntries) {
+    auto& cache = ResponseCache::instance();
+    cache.clear();
+
+    ResponseCache::CachedResponse r;
+    r.data = "{\"products\":[]}";
+    r.collections = {"products"};
+    cache.put("{ products { id } }", r);
+
+    // Invalidating an unrelated collection must not evict anything
+    cache.invalidatePattern("orders");
+
+    auto remaining = cache.get("{ products { id } }");
+    ASSERT_NE(remaining, nullptr);
+}
+
+TEST(GraphQLCache, InvalidatePatternPerformanceTarget) {
+    // Performance target: invalidating one collection evicts ≤10% of entries
+    // when 10 distinct collections are active.
+    auto& cache = ResponseCache::instance();
+    cache.clear();
+
+    const int collections_count = 10;
+    const int entries_per_collection = 10;  // 100 total entries
+
+    for (int c = 0; c < collections_count; ++c) {
+        std::string coll = "collection_" + std::to_string(c);
+        for (int e = 0; e < entries_per_collection; ++e) {
+            ResponseCache::CachedResponse r;
+            r.data = "{\"data\":" + std::to_string(e) + "}";
+            r.collections = {coll};
+            cache.put("query_" + coll + "_" + std::to_string(e), r);
+        }
+    }
+
+    size_t before = 0;
+    // Count entries by querying all keys (approximate via put/get round-trip)
+    // We know we inserted entries_per_collection * collections_count entries;
+    // check that invalidating one collection removes exactly entries_per_collection.
+    cache.invalidatePattern("collection_0");
+
+    int evicted = 0;
+    for (int e = 0; e < entries_per_collection; ++e) {
+        if (!cache.get("query_collection_0_" + std::to_string(e))) {
+            evicted++;
+        }
+    }
+    EXPECT_EQ(evicted, entries_per_collection);
+
+    // Remaining collections must all still be present
+    int surviving = 0;
+    for (int c = 1; c < collections_count; ++c) {
+        std::string coll = "collection_" + std::to_string(c);
+        for (int e = 0; e < entries_per_collection; ++e) {
+            if (cache.get("query_" + coll + "_" + std::to_string(e))) {
+                surviving++;
+            }
+        }
+    }
+    int total = collections_count * entries_per_collection;
+    double eviction_ratio = static_cast<double>(evicted) / total;
+    EXPECT_LE(eviction_ratio, 0.10);
+    EXPECT_EQ(surviving, (collections_count - 1) * entries_per_collection);
 }
 
 // ============================================================================

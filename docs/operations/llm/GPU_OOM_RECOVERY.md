@@ -2,7 +2,7 @@
 
 **Component:** ThemisDB LLM module
 **Severity:** Critical
-**Last Updated:** February 20, 2026
+**Last Updated:** April 2026
 **Related Alert:** `LLMGPUMemoryCritical`, `LLMGPUMemoryHigh`
 
 ---

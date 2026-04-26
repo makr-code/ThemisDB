@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_vector_index.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:33                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1534                                           ║
+    • Total Lines:     1531                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 95f4f2af0  2026-03-13  fix(index): audit – searchBatch oversubscription path + l... ║
-    • be007f370  2026-03-13  refactor(index): address code review - extract prefetchSt... ║
-    • dc534b830  2026-03-13  feat(index): implement GPU memory oversubscription (v1.7.0) ║
-    • 769205492  2026-03-12  feat(index): implement CUDA and HIP GPU backends, ADC opt... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -1271,7 +1268,7 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
 
     int32_t metric = 0;
     ifs.read(reinterpret_cast<char*>(&metric), sizeof(metric));
-    (void)metric; // Stored for future compatibility; callers set the metric via Config
+    // Stored for future compatibility; callers set the metric via Config
 
     if (!ifs || dim <= 0) {
         return false;

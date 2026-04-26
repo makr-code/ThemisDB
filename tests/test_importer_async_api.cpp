@@ -3,19 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_importer_async_api.cpp                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:28:25                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:54:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     671                                            ║
+    • Total Lines:     670                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 47845c7e2  2026-02-27  audit: add S3 HTTP route, fix stub annotations, add API t... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -516,14 +512,18 @@ TEST(ImportMetricsEndpointTest, DurationAccumulatesAcrossJobs) {
 
 static ImportOptions optionsFromJson(const std::string& json_str) {
     // Minimal re-implementation of ImportApiHandler::optionsFromJson
+    // GAP-020: mirrors the production cap of 100,000 for batch_size.
+    static constexpr size_t kMaxBatchSize = 100'000;
     auto j = nlohmann::json::parse(json_str);
     ImportOptions opts;
     if (j.contains("dry_run") && j["dry_run"].is_boolean())
         opts.dry_run = j["dry_run"].get<bool>();
     if (j.contains("continue_on_error") && j["continue_on_error"].is_boolean())
         opts.continue_on_error = j["continue_on_error"].get<bool>();
-    if (j.contains("batch_size") && j["batch_size"].is_number_unsigned())
-        opts.batch_size = j["batch_size"].get<size_t>();
+    if (j.contains("batch_size") && j["batch_size"].is_number_unsigned()) {
+        const size_t requested = j["batch_size"].get<size_t>();
+        opts.batch_size = std::min(requested, kMaxBatchSize);
+    }
     if (j.contains("default_namespace") && j["default_namespace"].is_string())
         opts.default_namespace = j["default_namespace"].get<std::string>();
     if (j.contains("enforce_utf8") && j["enforce_utf8"].is_boolean())
@@ -668,4 +668,28 @@ TEST(ImportApiS3RouteTest, Returns200ForValidS3Url) {
     EXPECT_EQ(simulateS3RouteValidation("s3://bucket/data.csv", true), 200);
     EXPECT_EQ(simulateS3RouteValidation("s3://bucket/prefix/", true), 200);
     EXPECT_EQ(simulateS3RouteValidation("s3://bucket", true), 200);
+}
+
+// ===========================================================================
+// GAP-020 — batch_size DoS cap (CWE-400)
+// ===========================================================================
+
+// GAP-020-01: batch_size at the maximum boundary is preserved exactly.
+TEST(ImportApiHandlerOptionsTest, GAP020_BatchSizeAtMaxBoundary_Preserved) {
+    static constexpr size_t kMaxBatchSize = 100'000;
+    auto opts = optionsFromJson(R"({"batch_size": 100000})");
+    EXPECT_EQ(opts.batch_size, kMaxBatchSize);
+}
+
+// GAP-020-02: batch_size exceeding the cap is clamped to the cap.
+TEST(ImportApiHandlerOptionsTest, GAP020_OversizeBatchSize_ClampedToCap) {
+    auto opts = optionsFromJson(R"({"batch_size": 9999999999})");
+    EXPECT_LE(opts.batch_size, 100'000u)
+        << "batch_size must be clamped to prevent DoS via memory exhaustion";
+}
+
+// GAP-020-03: Normal batch_size below the cap passes through unchanged.
+TEST(ImportApiHandlerOptionsTest, GAP020_NormalBatchSize_Unchanged) {
+    auto opts = optionsFromJson(R"({"batch_size": 500})");
+    EXPECT_EQ(opts.batch_size, 500u);
 }

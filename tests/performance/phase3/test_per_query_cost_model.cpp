@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_per_query_cost_model.cpp                      ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:23:20                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:51:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     294                                            ║
+    • Total Lines:     290                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
-    • 0a4c84047  2026-02-25  fix(performance): code audit fixes for per-query cost model ║
-    • 78e4e67bb  2026-02-25  feat(performance): per-query cost model integration with ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

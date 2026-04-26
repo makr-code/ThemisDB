@@ -1,6 +1,6 @@
 # Hardware-Angriffsvektoren – Übersicht und Schutzmaßnahmen
 
-**Stand:** 7. Januar 2026  
+**Stand:** 6. April 2026  
 **Version:** 1.0.0  
 **Kategorie:** 🔒 Security
 

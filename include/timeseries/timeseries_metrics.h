@@ -3,29 +3,25 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            timeseries_metrics.h                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:22                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     319                                            ║
+    • Total Lines:     313                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 4dbd7efde  2026-03-13  feat(timeseries): incremental continuous aggregation with... ║
-    • a188b47e9  2026-03-09  fix(timeseries): audit fixes - getStats regression, backp... ║
-    • fe42ba76e  2026-03-09  feat(timeseries): add FlushController adaptive flush, Dow... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e558cffaa  2026-02-22  feat(timeseries): out-of-order write support with configu... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_TIMESERIES_METRICS_H
-#define THEMIS_TIMESERIES_METRICS_H
+#pragma once
 
 #include <string>
 #include <atomic>
@@ -315,5 +311,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_TIMESERIES_METRICS_H

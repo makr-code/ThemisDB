@@ -1,3 +1,6 @@
+> ⚠️ **Historischer Statusreport** – Dieser Bericht beschreibt den Implementierungsstand zum Zeitpunkt der Erstellung.
+> Für den aktuellen Stand: Quellcode und aktuelle [`benchmarks/README.md`](../README.md) prüfen.
+
 # ✅ Docker Benchmarks Consolidation - COMPLETE
 
 **Status:** 🟢 COMPLETE & READY FOR PRODUCTION  
@@ -60,6 +63,7 @@
 #### 3. Consolidated Analysis Framework ✅
 - **Gap Analysis Integration:**
   - 36 v1.0.0 gaps catalogued
+<!-- TODO: verify against current version -->
   - Automatic comparison framework
   - Gap-closure targets (>85%)
   - Severity categorization
@@ -392,6 +396,7 @@ bbc9dc8 - Session Summary: Release & Benchmarking Infrastructure
 - 🔄 Gap-closure validation: PENDING (awaiting execution)
 
 **WHEN gap-closure > 85% → RELEASE v1.0.1** 🚀
+<!-- TODO: verify against current version -->
 
 ---
 
@@ -409,6 +414,7 @@ All Python Docker benchmarks, documentation, and analysis have been successfully
 - **Maintains** code quality (90%+ coverage)
 
 **System is ready for v1.0.1 benchmark execution and validation.** 🎯
+<!-- TODO: verify against current version -->
 
 ---
 

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rocksdb_token_blacklist.cpp                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:14:22                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:48:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 3a23233d6  2026-03-12  fix(auth): address PR review comments on token blacklist ... ║
-    • e93c27150  2026-03-12  feat(auth): implement ITokenBlacklist interface, Bloom fi... ║
+    • 3a23233d60  2026-03-12  fix(auth): address PR review comments on token blacklist ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

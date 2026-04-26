@@ -3,19 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            docs_assistant.h                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:19                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     238                                            ║
+    • Total Lines:     237                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -42,6 +38,7 @@
 #include <vector>
 #include <memory>
 #include <optional>
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <nlohmann/json.hpp>
@@ -62,6 +59,13 @@ struct DocumentEntry {
     int content_length = 0;
     json metadata;
     json themis_metadata;
+
+    // Optional precomputed embedding payload (load-only runtime path)
+    std::vector<float> embedding;
+    std::vector<int16_t> embedding_q;
+    float embedding_scale = 0.0f;
+    bool has_embedding = false;
+    bool is_quantized_embedding = false;
     
     // Computed at runtime
     float relevance_score = 0.0f;
@@ -98,10 +102,13 @@ struct DocsAssistantConfig {
         
         // Search order
         std::vector<std::pair<std::string, std::string>> search_paths = {
+            {"data/docs_artifact.json", "json"},
             {"data/docs.db", "rocksdb"},
             {"data/docs_database.json", "json"},
+            {"./docs_artifact.json", "json"},
             {"./docs.db", "rocksdb"},
             {"./docs_database.json", "json"},
+            {"../data/docs_artifact.json", "json"},
             {"../data/docs.db", "rocksdb"},
             {"../data/docs_database.json", "json"}
         };

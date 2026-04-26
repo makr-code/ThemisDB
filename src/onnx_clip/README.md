@@ -1,12 +1,14 @@
-<!-- Status: current | validated: 2026-03-22 -->
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # ThemisDB ONNX CLIP Plugin
 
-**Version:** 0.0.1  
-**Status:** 🟢 Production-Ready  
-**Last Updated:** 2026-03-22  
-**Module Path:** `src/onnx_clip/`  
+**Version:** 0.0.1
+**Status:** 🟢 Production-Ready
+**Last Updated:** 2026-04-06
+**Module Path:** `src/onnx_clip/`
 **Namespace:** `themis::plugins::image`
 
 ---
@@ -74,10 +76,14 @@ if (result.ok) {
 // 4. Batch processing
 auto batch_results = plugin.generateEmbeddingBatch({image1, image2, image3});
 
-// 5. Health and stats
+// 5. Text embedding (for cross-modal similarity search)
+auto text_result = plugin.generateTextEmbedding("a photo of a cat");
+// text_result.embedding is compatible with image embeddings
+
+// 6. Health and stats
 plugin.warmup();
 bool healthy = plugin.healthCheck();
-auto stats = plugin.getStatistics();  // JSON: calls, avg_latency_ms, backend_name, etc.
+auto stats = plugin.getStatistics();  // JSON: calls, avg_latency_ms, backend_name, max_batch_size, etc.
 ```
 
 ---
@@ -97,6 +103,8 @@ THEMIS_IMAGE_PLUGIN(themis::plugins::image::ONNXClipPlugin)
 |-----|----------|---------|-------------|
 | `model_path` | Yes | — | Path to ONNX model file |
 | `model_variant` | No | `ViT-B/32` | `"ViT-B/32"` or `"ViT-L/14"` |
+| `model.embedding_dim` | No | `512` | Embedding dimension (512 for ViT-B/32, 768 for ViT-L/14) |
+| `max_batch_size` | No | 16 (CPU) / 64 (GPU) | Maximum images per sub-batch call |
 | `num_threads` | No | 4 | CPU thread count (CPU backend) |
 | `gpu_device_id` | No | 0 | GPU device index (CUDA/TensorRT) |
 
@@ -107,3 +115,12 @@ THEMIS_IMAGE_PLUGIN(themis::plugins::image::ONNXClipPlugin)
 - `ARCHITECTURE.md` — pImpl design, inference pipeline
 - `ROADMAP.md` — implementation phases and feature backlog
 - `SECURITY.md` — model integrity and input validation
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/onnx_clip/README.md`](../../include/onnx_clip/README.md) for the public API.

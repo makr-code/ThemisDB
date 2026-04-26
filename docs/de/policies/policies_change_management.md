@@ -1,7 +1,7 @@
 # ThemisDB – Change Management Policy
 
 **Version:** 1.0  
-**Stand:** November 2025  
+**Stand:** 6. April 2026  
 **Klassifizierung:** Intern  
 **Basis:** ISO 27001 (A.12.1.2), ITIL v4, BSI C5 (OPS-03)
 

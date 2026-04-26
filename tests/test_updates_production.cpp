@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_updates_production.cpp                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-30 04:35:02                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 18:57:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1788                                           ║
+    • Total Lines:     2019                                           ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f8f228e0d  2026-03-01  feat(updates): automatic rollback on post-update health c... ║
-    • 1490a2be3  2026-03-01  feat(updates): implement update history log (who, when, f... ║
-    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
+    • fa516498e3  2026-04-12  [WIP] Update module documentation and inventory (#4521) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -1786,3 +1782,238 @@ TEST_F(UpdateHistoryLoggerTest, HotReloadEngineConfig_HistoryFieldsCustomizable)
     EXPECT_EQ(cfg.history_log_path, log_file_);
     EXPECT_EQ(cfg.history_actor,    "deploy-bot");
 }
+
+// ============================================================================
+// Phase 12: Rollback Checkpoint API
+// ============================================================================
+
+class CheckpointTest : public ::testing::Test {
+protected:
+    std::string tmp_dir_;
+    std::string log_file_;
+    std::string history_file_;
+
+    void SetUp() override {
+        auto ts   = std::chrono::steady_clock::now().time_since_epoch().count();
+        tmp_dir_      = "/tmp/test_checkpoint_" + std::to_string(ts);
+        log_file_     = tmp_dir_ + "/sm.log";
+        history_file_ = tmp_dir_ + "/history.json";
+        fs::create_directories(tmp_dir_);
+    }
+
+    void TearDown() override {
+        try { fs::remove_all(tmp_dir_); } catch (...) {}
+    }
+};
+
+TEST_F(CheckpointTest, CreateCheckpoint_ReturnsMonotonicId) {
+    UpdateStateMachine sm;
+    auto id1 = sm.createCheckpoint("first");
+    auto id2 = sm.createCheckpoint("second");
+    EXPECT_EQ(id1, 1u);
+    EXPECT_EQ(id2, 2u);
+}
+
+TEST_F(CheckpointTest, ListCheckpoints_EmptyInitially) {
+    UpdateStateMachine sm;
+    EXPECT_TRUE(sm.listCheckpoints().empty());
+}
+
+TEST_F(CheckpointTest, ListCheckpoints_ReturnedInCreationOrder) {
+    UpdateStateMachine sm;
+    sm.createCheckpoint("a");
+    sm.createCheckpoint("b");
+    sm.createCheckpoint("c");
+
+    auto cps = sm.listCheckpoints();
+    ASSERT_EQ(cps.size(), 3u);
+    EXPECT_EQ(cps[0].description, "a");
+    EXPECT_EQ(cps[1].description, "b");
+    EXPECT_EQ(cps[2].description, "c");
+    EXPECT_EQ(cps[0].id, 1u);
+    EXPECT_EQ(cps[2].id, 3u);
+}
+
+TEST_F(CheckpointTest, Checkpoint_CapturesCurrentState) {
+    UpdateStateMachine sm;
+    sm.transition(UpdateState::DOWNLOADING, "1.2.3");
+
+    auto id = sm.createCheckpoint("mid-download");
+
+    auto cps = sm.listCheckpoints();
+    ASSERT_EQ(cps.size(), 1u);
+    EXPECT_EQ(cps[0].state,   UpdateState::DOWNLOADING);
+    EXPECT_EQ(cps[0].version, "1.2.3");
+    EXPECT_EQ(cps[0].id,      id);
+}
+
+TEST_F(CheckpointTest, RollbackToCheckpoint_RestoresStateAndVersion) {
+    UpdateStateMachine sm;
+    sm.transition(UpdateState::DOWNLOADING, "2.0.0");
+    auto id = sm.createCheckpoint("after-download");
+
+    // Advance further
+    sm.transition(UpdateState::VERIFYING,  "2.0.0");
+    sm.transition(UpdateState::APPLYING,   "2.0.0");
+
+    EXPECT_EQ(sm.currentState(), UpdateState::APPLYING);
+
+    bool ok = sm.rollbackToCheckpoint(id);
+    EXPECT_TRUE(ok);
+    EXPECT_EQ(sm.currentState(),   UpdateState::DOWNLOADING);
+    EXPECT_EQ(sm.currentVersion(), "2.0.0");
+}
+
+TEST_F(CheckpointTest, RollbackToCheckpoint_UnknownId_ReturnsFalse) {
+    UpdateStateMachine sm;
+    EXPECT_FALSE(sm.rollbackToCheckpoint(999));
+}
+
+TEST_F(CheckpointTest, RollbackToCheckpoint_PrunesNewerCheckpoints) {
+    UpdateStateMachine sm;
+    sm.transition(UpdateState::DOWNLOADING, "3.0.0");
+    auto id1 = sm.createCheckpoint("cp1");
+    sm.transition(UpdateState::VERIFYING, "3.0.0");
+    sm.createCheckpoint("cp2");
+    sm.createCheckpoint("cp3");
+
+    ASSERT_EQ(sm.listCheckpoints().size(), 3u);
+
+    sm.rollbackToCheckpoint(id1);
+
+    // cp2 and cp3 should be removed; only cp1 remains
+    auto remaining = sm.listCheckpoints();
+    ASSERT_EQ(remaining.size(), 1u);
+    EXPECT_EQ(remaining[0].id, id1);
+}
+
+TEST_F(CheckpointTest, RollbackToCheckpoint_FiresCallbacks) {
+    UpdateStateMachine sm;
+    sm.transition(UpdateState::DOWNLOADING, "4.0.0");
+    auto id = sm.createCheckpoint("snap");
+    sm.transition(UpdateState::VERIFYING, "4.0.0");
+
+    UpdateState observed_to = UpdateState::FAILED;
+    sm.addStateChangeCallback([&](UpdateState, UpdateState to, const std::string&) {
+        observed_to = to;
+    });
+
+    sm.rollbackToCheckpoint(id);
+    EXPECT_EQ(observed_to, UpdateState::DOWNLOADING);
+}
+
+TEST_F(CheckpointTest, RollbackToCheckpoint_RecordedInTransactionLog) {
+    UpdateStateMachine sm;
+    sm.transition(UpdateState::DOWNLOADING, "5.0.0");
+    auto id = sm.createCheckpoint();
+    sm.transition(UpdateState::VERIFYING, "5.0.0");
+    sm.rollbackToCheckpoint(id);
+
+    auto log = sm.transactionLog();
+    // Most recent entry (index 0 = newest) should be the rollback
+    ASSERT_FALSE(log.empty());
+    EXPECT_EQ(log[0].to_state, UpdateState::DOWNLOADING);
+    EXPECT_NE(log[0].message.find("checkpoint"), std::string::npos);
+}
+
+TEST_F(CheckpointTest, ClearCheckpoints_RemovesAll) {
+    UpdateStateMachine sm;
+    sm.createCheckpoint("x");
+    sm.createCheckpoint("y");
+    ASSERT_EQ(sm.listCheckpoints().size(), 2u);
+
+    sm.clearCheckpoints();
+    EXPECT_TRUE(sm.listCheckpoints().empty());
+}
+
+TEST_F(CheckpointTest, Checkpoint_DefaultDescription_IsEmpty) {
+    UpdateStateMachine sm;
+    sm.createCheckpoint();
+    auto cps = sm.listCheckpoints();
+    ASSERT_EQ(cps.size(), 1u);
+    EXPECT_TRUE(cps[0].description.empty());
+}
+
+TEST_F(CheckpointTest, Checkpoint_TimestampIsRecent) {
+    UpdateStateMachine sm;
+    auto before = std::chrono::system_clock::now();
+    sm.createCheckpoint("ts-test");
+    auto after = std::chrono::system_clock::now();
+
+    auto cps = sm.listCheckpoints();
+    ASSERT_EQ(cps.size(), 1u);
+    EXPECT_GE(cps[0].timestamp, before);
+    EXPECT_LE(cps[0].timestamp, after);
+}
+
+TEST_F(CheckpointTest, SetHistoryLogger_AuditsCheckpointCreate) {
+    UpdateHistoryLogger logger(history_file_);
+    UpdateStateMachine sm;
+    sm.setHistoryLogger(&logger);
+
+    sm.createCheckpoint("audit-test");
+
+    auto history = logger.getHistory();
+    ASSERT_EQ(history.size(), 1u);
+    EXPECT_EQ(history[0].event_type, "checkpoint_created");
+    EXPECT_EQ(history[0].error_message, "audit-test");
+    EXPECT_TRUE(history[0].success);
+}
+
+TEST_F(CheckpointTest, SetHistoryLogger_AuditsRollback) {
+    UpdateHistoryLogger logger(history_file_);
+    UpdateStateMachine sm;
+    sm.setHistoryLogger(&logger);
+
+    sm.transition(UpdateState::DOWNLOADING, "6.0.0");
+    auto id = sm.createCheckpoint("before-rollback");
+    sm.transition(UpdateState::VERIFYING, "6.0.0");
+    sm.rollbackToCheckpoint(id);
+
+    auto history = logger.getHistory();  // newest first
+    ASSERT_GE(history.size(), 2u);
+    // Most recent entry should be the rollback
+    EXPECT_EQ(history[0].event_type, "checkpoint_rollback");
+    EXPECT_TRUE(history[0].success);
+}
+
+TEST_F(CheckpointTest, SetHistoryLogger_Nullptr_DisablesLogging) {
+    UpdateHistoryLogger logger(history_file_);
+    UpdateStateMachine sm;
+    sm.setHistoryLogger(&logger);
+    sm.createCheckpoint("x");
+
+    sm.setHistoryLogger(nullptr);
+    sm.createCheckpoint("y");  // should NOT log
+
+    auto history = logger.getHistory();
+    EXPECT_EQ(history.size(), 1u);  // only the first createCheckpoint logged
+}
+
+TEST_F(CheckpointTest, RollbackToCheckpoint_UnknownId_DoesNotChangeState) {
+    UpdateStateMachine sm;
+    sm.transition(UpdateState::DOWNLOADING, "7.0.0");
+
+    sm.rollbackToCheckpoint(42);  // no such checkpoint
+
+    EXPECT_EQ(sm.currentState(),   UpdateState::DOWNLOADING);
+    EXPECT_EQ(sm.currentVersion(), "7.0.0");
+}
+
+TEST_F(CheckpointTest, MultipleRollbacks_WorkSequentially) {
+    UpdateStateMachine sm;
+    sm.transition(UpdateState::DOWNLOADING, "8.0.0");
+    auto id_dl = sm.createCheckpoint("dl");
+    sm.transition(UpdateState::VERIFYING, "8.0.0");
+    auto id_vr = sm.createCheckpoint("vr");
+    sm.transition(UpdateState::APPLYING, "8.0.0");
+
+    // Roll back to VERIFYING
+    EXPECT_TRUE(sm.rollbackToCheckpoint(id_vr));
+    EXPECT_EQ(sm.currentState(), UpdateState::VERIFYING);
+
+    // Roll back further to DOWNLOADING
+    EXPECT_TRUE(sm.rollbackToCheckpoint(id_dl));
+    EXPECT_EQ(sm.currentState(), UpdateState::DOWNLOADING);
+}
+

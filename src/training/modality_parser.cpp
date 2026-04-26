@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            modality_parser.cpp                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:21:02                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     637                                            ║
+    • Total Lines:     636                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 964bbdd61  2026-03-10  feat(training): add modality_parser Phase 3, replace conv... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -419,7 +420,7 @@ OCRExtractor::OCRExtractor(const ModalityParserConfig& config)
     // (production: call TessBaseAPI::Init and check return code)
     available_ = config_.enable_ocr;
 #endif
-    (void)config_; // suppress unused-variable warning when OCR is disabled
+    // suppress unused-variable warning when OCR is disabled
 }
 
 bool OCRExtractor::isAvailable() const noexcept {
@@ -457,8 +458,6 @@ OCRExtractor::extract(const std::string& image_path,
                   + "\",\"source\":\"" + document_id + "\"}";
     samples.push_back(std::move(s));
 #else
-    (void)image_path;
-    (void)document_id;
 #endif
 
     return samples;

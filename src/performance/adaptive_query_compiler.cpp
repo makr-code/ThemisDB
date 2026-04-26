@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_query_compiler.cpp                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:17:50                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1188                                           ║
+    • Total Lines:     1184                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2efe68350  2026-03-15  audit(performance): close gaps in AdaptiveQueryCompiler (... ║
-    • 2fe39105e  2026-03-15  feat(performance): implement AdaptiveQueryCompiler (v1.8.... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -232,9 +232,8 @@ struct IRGenOptions {
 };
 
 static std::string generateLLVMIR(const ParsedQuery& query,
-                                   const Schema&      schema,
+                                   [[maybe_unused]] const Schema&      schema,
                                    const IRGenOptions& opts) {
-    (void)schema;
     std::ostringstream ir;
     ir << "; ThemisDB Adaptive Query Compiler – LLVM IR (simulated)\n";
     ir << "; Query fingerprint: " << query.fingerprint << "\n";
@@ -307,8 +306,7 @@ static std::string generateAssembly(const ParsedQuery&  query,
 static QueryRow makeRow(const std::string&       table,
                          const TableSchema*        tschema,
                          size_t                    row_idx,
-                         const QueryParams&        params) {
-    (void)params;
+                         [[maybe_unused]] const QueryParams&        params) {
     QueryRow row;
     if (!tschema) {
         row.column_names = {"id", "value"};
@@ -706,8 +704,7 @@ private:
 
     static double applyAggFunction(const std::string& fn,
                                     const AggAccum&    acc,
-                                    size_t             total_rows) {
-        (void)total_rows;
+                                    [[maybe_unused]] size_t             total_rows) {
         if (fn == "COUNT") return static_cast<double>(acc.count);
         if (fn == "SUM")   return acc.sum;
         if (fn == "AVG")   return acc.count > 0 ? acc.sum / acc.count : 0.0;
@@ -882,13 +879,12 @@ private:
                                     : ColumnType::Unknown;
                     preds.push_back({p.column, p.op, p.value, p.param_name, ct});
                 }
-                const bool vectorized = cfg.enable_vectorization;
+                [[maybe_unused]] const bool vectorized = cfg.enable_vectorization;
                 const std::string tbl = query.table;
 
                 cq.execute = [preds, tschema_copy = (tschema ? *tschema : TableSchema{}),
                                vectorized, tbl]
                               (const QueryParams& params) -> QueryResult {
-                    (void)vectorized;
                     QueryResult result;
                     constexpr size_t kRows = 10;
                     for (size_t i = 0; i < kRows; ++i) {

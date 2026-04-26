@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            diff_api_handler.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:44                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     253                                            ║
+    • Total Lines:     252                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e812e3a43  2026-02-24  feat(cache): implement adaptive TTL tuning based on slidi... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -113,7 +112,7 @@ void DiffApiHandler::handleGetDiff(const httplib::Request& req, httplib::Respons
     }
 }
 
-void DiffApiHandler::handleGetCacheStats(const httplib::Request& req, httplib::Response& res) {
+void DiffApiHandler::handleGetCacheStats(const httplib::Request& /*req*/, httplib::Response& res) {
     try {
     auto span = Tracer::startSpan("handleGetCacheStats");
         auto stats = diff_engine_.getCacheStats();
@@ -123,7 +122,7 @@ void DiffApiHandler::handleGetCacheStats(const httplib::Request& req, httplib::R
     }
 }
 
-void DiffApiHandler::handleClearCache(const httplib::Request& req, httplib::Response& res) {
+void DiffApiHandler::handleClearCache(const httplib::Request& /*req*/, httplib::Response& res) {
     try {
     auto span = Tracer::startSpan("handleClearCache");
         diff_engine_.clearCache();
@@ -160,7 +159,7 @@ analytics::DiffEngine::DiffOptions DiffApiHandler::parseOptions(const httplib::R
         try {
             size_t limit = std::stoull(req.get_param_value("limit"));
             options.limit = limit;
-        } catch (const std::exception& e) {
+        } catch (...) {
             throw std::invalid_argument("Invalid limit parameter");
         }
     }
@@ -170,7 +169,7 @@ analytics::DiffEngine::DiffOptions DiffApiHandler::parseOptions(const httplib::R
         try {
             size_t offset = std::stoull(req.get_param_value("offset"));
             options.offset = offset;
-        } catch (const std::exception& e) {
+        } catch (...) {
             throw std::invalid_argument("Invalid offset parameter");
         }
     }

@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            database_connector.cpp                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:16:42                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     756                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Quality Score:   87.0/100                                       ║
+    • Total Lines:     761                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 39e5f1bbd  2026-02-27  fix(ingestion): mask credentials in ODBC error messages; ... ║
-    • 99bb0fef9  2026-02-27  feat(ingestion): add JDBC-compatible DatabaseConnector so... ║
+    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -193,7 +191,7 @@ static std::string buildOdbcConnectionString(
 
 /// Return a copy of an ODBC connection string with the PWD value masked.
 /// This is used in log/error messages to avoid credential leakage.
-static std::string sanitisedConnectionString(const std::string& cs) {
+[[maybe_unused]] static std::string sanitisedConnectionString(const std::string& cs) {
     // Case-insensitive search for "PWD=" without copying the whole string.
     static const std::string target = "pwd=";
     auto it = std::search(cs.begin(), cs.end(),
@@ -457,7 +455,14 @@ public:
 
 private:
     // -----------------------------------------------------------------------
-    // Mock-based ingestion (unit tests)
+    // STUB/SIMULATION NOTE:
+    // Purpose: Enable unit-testing of DatabaseConnector without a live RDBMS
+    //   by using an injected row_fetch_fn_ instead of a real SQL connection.
+    // Activation: Active when row_fetch_fn_ is non-null (set via
+    //   DatabaseConnector::setRowFetchForTesting()).
+    // Production Delta: Rows come from the injected lambda instead of a real
+    //   database connection.  No connection pooling, no transaction management.
+    // Removal Plan: Not removed — remains the test-injection path.
     // -----------------------------------------------------------------------
     void ingestFromMock(IngestionStats& stats,
                         ProgressCallback& progress_callback) {

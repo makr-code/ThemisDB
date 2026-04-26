@@ -3,18 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_browser_streaming.cpp                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:21:43                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     330                                            ║
+    • Total Lines:     337                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 15e6e3143  2026-03-09  feat: implement all features from problem statement ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • 31fa431cf5  2026-04-12  [WIP] Update voice module documentation for accuracy (#4523) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -86,13 +88,12 @@ std::string generateStreamId() {
  * The placeholder returns a synthetic partial transcript to make the
  * pipeline end-to-end testable without a GPU.
  */
-PartialTranscript runPartialStt(const std::string& session_id,
+PartialTranscript runPartialStt([[maybe_unused]] const std::string& session_id,
                                  StreamID           stream_id,
                                  const std::vector<uint8_t>& audio,
                                  bool   is_final,
                                  uint32_t seq)
 {
-    (void)session_id;
     // Placeholder: emit placeholder text proportional to audio length
     PartialTranscript pt;
     pt.stream_id  = stream_id;
@@ -106,12 +107,11 @@ PartialTranscript runPartialStt(const std::string& session_id,
     return pt;
 }
 
-FinalTranscript makeFinalTranscript(const std::string& session_id,
+FinalTranscript makeFinalTranscript([[maybe_unused]] const std::string& session_id,
                                      StreamID           stream_id,
                                      const std::vector<uint8_t>& audio,
                                      int64_t            started_at_ms)
 {
-    (void)session_id;
     FinalTranscript ft;
     ft.stream_id   = stream_id;
     ft.confidence  = 0.92f;
@@ -274,6 +274,13 @@ int64_t VoiceStreamingSession::startedAtMs() const noexcept {
 }
 size_t VoiceStreamingSession::bytesReceived() const noexcept {
     return impl_ ? impl_->bytes_received : 0;
+}
+
+bool VoiceStreamingSession::checkOrigin(const std::string& origin) const {
+    if (!impl_) return false;
+    const auto& allowlist = impl_->config.origin_allowlist;
+    if (allowlist.empty()) return true; // no restriction
+    return std::find(allowlist.begin(), allowlist.end(), origin) != allowlist.end();
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

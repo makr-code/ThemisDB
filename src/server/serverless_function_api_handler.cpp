@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            serverless_function_api_handler.cpp                ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:20:04                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:50:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     537                                            ║
+    • Total Lines:     534                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8b9f66e57  2026-02-23  fix(server): audit – fix data race in executeFunction, is... ║
-    • 2bd0bc816  2026-02-23  feat(server): implement serverless function hosting (in-p... ║
+    • a2a0e15fab  2026-03-11  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -29,11 +26,13 @@
 #include <chrono>
 #include <atomic>
 #include <climits>
+#include <algorithm>
 #include <sstream>
 #include <iomanip>
 #include <thread>
 #include <future>
 #include <stdexcept>
+#include <spdlog/spdlog.h>
 #include "utils/tracing.h"
 
 namespace themis {
@@ -289,7 +288,9 @@ ServerlessFunctionApiHandler::handleRegister(
     fn.description = body.value("description", "");
     fn.code        = body["code"];
     fn.timeout_ms       = body.value("timeout_ms", 5000u);
-    fn.memory_limit_kb  = body.value("memory_limit_kb", 4096u);
+    // GAP-022: Cap creation-time memory_limit_kb at 16 GB (16,777,216 KB).
+    static constexpr uint32_t kMaxMemoryLimitKb = 16'777'216u;
+    fn.memory_limit_kb  = std::min(body.value("memory_limit_kb", 4096u), kMaxMemoryLimitKb);
     fn.version     = 1;
     fn.created_at  = utcNow();
     fn.updated_at  = fn.created_at;
@@ -410,8 +411,16 @@ ServerlessFunctionApiHandler::handleUpdate(
     }
     if (body.contains("memory_limit_kb") && body["memory_limit_kb"].is_number()) {
         const int64_t v = body["memory_limit_kb"].get<int64_t>();
-        if (v > 0 && v <= static_cast<int64_t>(UINT32_MAX)) {
+        // GAP-022: Cap memory_limit_kb to prevent DoS via absurdly large allocation
+        // requests.  UINT32_MAX (~4TB) is the previous upper bound; now capped at
+        // 16GB (16,777,216 KB) which is the practical maximum per-function limit.
+        static constexpr int64_t kMaxMemoryLimitKb = 16'777'216; // 16 GB
+        if (v > 0 && v <= kMaxMemoryLimitKb) {
             fn.memory_limit_kb = static_cast<uint32_t>(v);
+        } else if (v > kMaxMemoryLimitKb) {
+            spdlog::warn("[SECURITY] Serverless: memory_limit_kb={} exceeds cap {}; "
+                         "clamping to cap (GAP-022/CWE-400)", v, kMaxMemoryLimitKb);
+            fn.memory_limit_kb = static_cast<uint32_t>(kMaxMemoryLimitKb);
         }
     }
 

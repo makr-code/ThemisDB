@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · SECURITY.md (root) -->
 
 # Security Policy — Prompt Engineering Module
@@ -7,9 +9,9 @@
 
 | Version | Security Fixes |
 |---------|---------------|
+| 2.0.x   | ✅ Active      |
 | 1.4.x   | ✅ Active      |
-| 1.3.x   | ✅ Active      |
-| < 1.3   | ❌ EOL         |
+| < 1.4   | ❌ EOL         |
 
 ## Threat Model
 
@@ -42,7 +44,7 @@
 
 | ID    | Description                                                              | Target Fix |
 |-------|--------------------------------------------------------------------------|------------|
-| KL-01 | Token counting and context-window management are caller responsibility   | Planned    |
+| KL-01 | `ContextWindowBudgetManager` enforces a budget cap but does not use model-specific BPE tokenization; the `CharDivisionCounter` is an approximation | Planned    |
 | KL-02 | Injection detector covers 10 known patterns; novel patterns require updates | Ongoing |
 
 ## Reporting a Vulnerability

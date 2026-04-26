@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_loader.cpp                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:20:46                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   80.0/100                                       ║
-    • Total Lines:     1984                                           ║
+    • Total Lines:     1981                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • dea1ebd8b  2026-03-13  fix(base): address PluginBundleLoader review comments (Zi... ║
-    • 2398e2296  2026-03-12  feat(base): implement cross-platform PluginBundle format ... ║
-    • e2d71ace5  2026-03-12  fix: address review feedback — thread-safe tests, insert_... ║
-    • db4d733c2  2026-03-12  fix: remove explicit mutex unlock before unregisterModule... ║
-    • c2e0a8ff7  2026-03-12  feat: O(1) module lookup — replace loadedModules_ vector ... ║
+    • dea1ebd8b3  2026-03-13  fix(base): address PluginBundleLoader review comments (Zi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

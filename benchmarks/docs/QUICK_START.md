@@ -1,6 +1,8 @@
+> **Aktueller Build-Flow:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Quick Start: Enhanced Benchmark Suite
 
-**Last Updated:** 2025-12-23  
+**Last Updated:** 2026-04-06  
 **Status:** Phase 1 Complete ✅
 
 ## What Was Added?

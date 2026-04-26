@@ -1,3 +1,5 @@
+> **Hinweis:** Inhalt mit aktuellem Modulcode und -stand abgleichen.
+
 # Test Configuration System
 
 ## Overview
@@ -24,6 +26,14 @@ cat tests/test_config.yaml
 
 ### 2. Run Tests
 ```bash
+cmake --preset linux-ninja-release
+cmake --build --preset linux-ninja-release
+ctest --preset linux-ninja-release -R integration
+```
+
+> <!-- TODO: verify against current source – legacy executable path below kept for reference -->
+```bash
+# Legacy (kept for historical reference):
 cd build-msvc-ninja-release
 .\cmake\tests\themis_tests.exe --gtest_filter='*LLM*'
 ```
@@ -194,6 +204,12 @@ Searched in order:
 
 Run validation tests:
 ```bash
+ctest --preset linux-ninja-release -R YAMLConfigIntegrationTest
+```
+
+> <!-- TODO: verify against current source – legacy filter path kept for reference -->
+```bash
+# Legacy (kept for historical reference):
 .\cmake\tests\themis_tests.exe --gtest_filter='YAMLConfigIntegrationTest.*'
 ```
 

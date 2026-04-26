@@ -2,19 +2,35 @@
 
 <!-- Describe the changes in this PR -->
 
+## Linked Issues
+
+<!-- Reference related issues: "Closes #123", "Fixes #456", "Related to #789" -->
+
 ## Type of Change
 
-- [ ] Bug fix
-- [ ] New feature
-- [ ] Refactoring
+- [ ] Bug fix (non-breaking)
+- [ ] New feature (non-breaking)
+- [ ] Refactoring (non-breaking)
 - [ ] Documentation
+- [ ] Breaking change (requires MAJOR version bump — see [VERSIONING.md](../VERSIONING.md))
+- [ ] Security fix
 - [ ] Other: 
+
+## Breaking Change Checklist
+
+<!-- Only fill out if "Breaking change" is checked above -->
+
+- [ ] MAJOR version bump planned in `VERSION` and `CMakeLists.txt`
+- [ ] Migration guide added in `docs/migration/`
+- [ ] Announcement prepared for GitHub Discussions (≥ 2 weeks before release)
+- [ ] CHANGELOG `### Removed` / `### Changed` section updated
 
 ## Testing
 
 - [ ] Unit tests added/updated
 - [ ] Integration tests added/updated
 - [ ] Manual testing performed
+- [ ] Benchmarks run (if performance-sensitive change)
 
 ## 📚 Research & Knowledge (wenn applicable)
 
@@ -30,7 +46,10 @@
 
 ## Checklist
 
-- [ ] Code follows project style guidelines
+- [ ] Code follows project style guidelines (clang-format / clang-tidy)
 - [ ] Self-review completed
 - [ ] Documentation updated (if needed)
+- [ ] CHANGELOG.md updated under `[Unreleased]`
 - [ ] No new warnings introduced
+- [ ] Security-sensitive paths reviewed by security maintainer (if applicable)
+

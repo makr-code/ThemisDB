@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            knowledge_graph_enricher.h                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:25                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     269                                            ║
+    • Total Lines:     267                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 26e49f8ba  2026-03-11  fix: wire include_guidance in enrichSample; expose findRe... ║
-    • c5396a31a  2026-03-11  feat(training): wire findSimilarDocuments to VectorIndexM... ║
-    • ce712594b  2026-03-09  feat(training): Phase 3 enhancements - checkpoint manager... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 26e49f8ba7  2026-03-11  fix: wire include_guidance in enrichSample; expose findRe... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

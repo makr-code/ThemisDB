@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            entity_api_handler.cpp                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:45                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1227                                           ║
+    • Total Lines:     1224                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e5cd79501  2026-03-10  Changes before error encountered         ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • df280b5a0  2026-02-24  feat(cdc): add before/after document snapshots to ChangeE... ║
-    • 1c7c2d949  2026-02-23  fix: resolve 4 RULE-CPP-002 audit violations in entity_ap... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -132,8 +129,8 @@ EntityApiHandler::AuthContext EntityApiHandler::extractAuthContext(
 std::optional<http::response<http::string_body>> EntityApiHandler::requireAccess(
     const http::request<http::string_body>& req,
     const std::string& scope,
-    const std::string& action,
-    const std::string& resource
+    const std::string& /*action*/,
+    const std::string& /*resource*/
 ) {
     if (!auth_ || !auth_->isEnabled()) {
         return std::nullopt; // Auth disabled, allow access

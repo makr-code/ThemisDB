@@ -3,22 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auto_labeler.cpp                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:58                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     684                                            ║
+    • Total Lines:     730                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f38c013cd  2026-03-29  Enhance various components with improvements and fixes ║
-    • c6daefeb7  2026-03-15  fix: add mean confidence per modality to THEMIS_INFO log;... ║
-    • f9bd87798  2026-03-15  feat: ProvenanceTracker live AQL connection, KGE fail-fas... ║
-    • 8f0ee70ec  2026-03-11  fix(training): close all acceptance criteria gaps from AQ... ║
-    • eeae3f101  2026-03-11  fix(training): audit follow-up — total_processed_ in labe... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ac63c2ec8d  2026-04-12  [WIP] Update developer documentation for module training ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -353,7 +351,7 @@ public:
         return stats;
     }
 
-    std::vector<TrainingSample> getLowConfidenceSamples(float min_confidence) {
+    std::vector<TrainingSample> getLowConfidenceSamples([[maybe_unused]] float min_confidence) {
         // Phase 1: AQL query to fetch low-confidence samples
         // Production query (aql_templates::FETCH_LOW_CONFIDENCE):
         //   FOR sample IN @@collection
@@ -362,14 +360,14 @@ public:
         //   (min_confidence bound as @min_confidence)
         //
         // Returns empty list when no database is connected (test environment)
-        (void)min_confidence; // bound as @min_confidence in production AQL query
+        // bound as @min_confidence in production AQL query
         std::vector<TrainingSample> samples;
         return samples;
     }
 
     void updateSampleConfidence(const std::string& sample_id,
                                 float new_confidence,
-                                const std::string& reviewed_by) {
+                                [[maybe_unused]] const std::string& reviewed_by) {
         if (sample_id.empty()) {
             return;
         }
@@ -379,7 +377,6 @@ public:
         // Phase 1: AQL update query (aql_templates::UPDATE_SAMPLE_CONFIDENCE)
         // Production: UPDATE @sample_id WITH {confidence, reviewed_by, ...} IN @@collection
         // No-op in test environment (no database connection)
-        (void)reviewed_by;
     }
 
     // Phase 1: Statistics accessors
@@ -578,10 +575,52 @@ private:
             }
         };
 
-        add_matches("muss", "obligation", 1.0f, "O(φ)", "Bindende Rechtspflicht");
-        add_matches("soll", "default_obligation", 0.8f, "O_default(φ)",
-                    "Regelfall, Abweichung rechtfertigungsbedürftig");
-        add_matches("kann", "permission", 0.3f, "P(φ)", "Ermessensentscheidung");
+        switch (config_.domain_type) {
+            case DomainType::MEDICAL:
+                // Medical / clinical domain: obligation = must perform/prescribe,
+                // recommendation = should, optional = may.
+                add_matches("must",        "obligation",       1.0f,  "O(φ)", "Mandatory clinical procedure");
+                add_matches("shall",       "obligation",       0.95f, "O(φ)", "Clinical requirement");
+                add_matches("required",    "obligation",       0.90f, "O(φ)", "Required care standard");
+                add_matches("should",      "recommendation",   0.75f, "R(φ)", "Clinical recommendation");
+                add_matches("recommended", "recommendation",   0.70f, "R(φ)", "Best-practice recommendation");
+                add_matches("may",         "permission",       0.40f, "P(φ)", "Discretionary clinical act");
+                add_matches("contraindicated", "prohibition",  1.0f,  "F(φ)", "Clinical contraindication");
+                add_matches("prohibited",  "prohibition",      0.95f, "F(φ)", "Prohibited procedure");
+                // German medical terms
+                add_matches("muss",        "obligation",       1.0f,  "O(φ)", "Verbindliche medizinische Pflicht");
+                add_matches("soll",        "recommendation",   0.75f, "R(φ)", "Medizinische Empfehlung");
+                add_matches("kann",        "permission",       0.40f, "P(φ)", "Medizinisches Ermessen");
+                add_matches("kontraindiziert", "prohibition",  1.0f,  "F(φ)", "Klinische Kontraindikation");
+                break;
+
+            case DomainType::FINANCIAL:
+                // Financial / regulatory compliance domain
+                add_matches("must",        "obligation",       1.0f,  "O(φ)", "Regulatory obligation");
+                add_matches("shall",       "obligation",       0.95f, "O(φ)", "Compliance requirement");
+                add_matches("required",    "obligation",       0.90f, "O(φ)", "Mandatory disclosure");
+                add_matches("should",      "recommendation",   0.75f, "R(φ)", "Regulatory guidance");
+                add_matches("may",         "permission",       0.40f, "P(φ)", "Permitted activity");
+                add_matches("prohibited",  "prohibition",      1.0f,  "F(φ)", "Prohibited transaction");
+                add_matches("forbidden",   "prohibition",      1.0f,  "F(φ)", "Forbidden financial activity");
+                add_matches("disclose",    "obligation",       0.85f, "O(φ)", "Disclosure obligation");
+                add_matches("report",      "obligation",       0.80f, "O(φ)", "Reporting obligation");
+                // German financial terms
+                add_matches("muss",        "obligation",       1.0f,  "O(φ)", "Regulatorische Pflicht");
+                add_matches("soll",        "default_obligation", 0.8f, "O_default(φ)", "Regelfall-Pflicht");
+                add_matches("kann",        "permission",       0.30f, "P(φ)", "Regulatorisches Ermessen");
+                add_matches("verboten",    "prohibition",      1.0f,  "F(φ)", "Verbotene Transaktion");
+                add_matches("offenlegen",  "obligation",       0.85f, "O(φ)", "Offenlegungspflicht");
+                add_matches("melden",      "obligation",       0.80f, "O(φ)", "Meldepflicht");
+                break;
+
+            default: // DomainType::LEGAL
+                add_matches("muss", "obligation", 1.0f, "O(φ)", "Bindende Rechtspflicht");
+                add_matches("soll", "default_obligation", 0.8f, "O_default(φ)",
+                            "Regelfall, Abweichung rechtfertigungsbedürftig");
+                add_matches("kann", "permission", 0.3f, "P(φ)", "Ermessensentscheidung");
+                break;
+        }
 
         std::sort(modalities.begin(), modalities.end(),
                   [](const analytics::LegalModality& a, const analytics::LegalModality& b) {

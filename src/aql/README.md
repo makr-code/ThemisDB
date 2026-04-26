@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release --target <target>`
+
 # ThemisDB AQL Module
 
 ## Module Purpose
@@ -352,8 +354,8 @@ Fine-tune models for domain-specific tasks without full retraining:
 LLM MODEL LOAD 'llama-3-8b.gguf' ALIAS 'base'
 
 -- Load domain-specific adapter
-LLM LORA LOAD 'medical-terminology.safetensors' 
-  ALIAS 'medical' 
+LLM LORA LOAD 'medical-terminology.safetensors'
+  ALIAS 'medical'
   BASE_MODEL 'base'
 
 -- Use specialized model
@@ -772,3 +774,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 4. Li, F., & Jagadish, H. V. (2014). **Constructing an Interactive Natural Language Interface for Relational Databases**. *Proceedings of the VLDB Endowment*, 8(1), 73–84. https://doi.org/10.14778/2735461.2735468
 
 5. Bonawitz, K., Ivanov, V., Kreuter, B., Marcedone, A., McMahan, H. B., Patel, S., … Ramage, D. (2017). **Practical Secure Aggregation for Privacy-Preserving Machine Learning**. *Proceedings of ACM CCS 2017*, 1175–1191. https://doi.org/10.1145/3133956.3133982
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

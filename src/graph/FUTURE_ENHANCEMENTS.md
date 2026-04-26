@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Graph Module - Future Enhancements
@@ -39,7 +41,7 @@
 ## Planned Features
 
 ### Structural Plan Reuse (Query Plan Reuse Across Structurally Similar Queries) ✅ DONE
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Reuse optimization plans across graph queries that share the same query pattern and
@@ -98,7 +100,7 @@ std::cout << "Cache misses: " << m.plan_cache_misses.load() << "\n";
 ---
 
 ### Parallel Graph Execution ✅ DONE
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Enable parallel execution of graph traversals for improved performance on large graphs.
@@ -117,7 +119,7 @@ Enable parallel execution of graph traversals for improved performance on large 
 ---
 
 ### Adaptive Cost Model ✅ DONE
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0 / v1.8.0
 
 Automatically improve cost estimates based on actual execution statistics.
@@ -176,7 +178,7 @@ blended_cost = (1 - confidence) * base_cost + confidence * (ema_cost_ms * 10)
 ---
 
 ### Distributed Graph Queries ✅ DONE
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Enable graph queries across distributed ThemisDB instances.
@@ -222,7 +224,7 @@ auto plan = dist_graph.optimizePlan("A", "D",
 ---
 
 ### GPU-Accelerated Graph Processing ✅ IMPLEMENTED (BFS/DFS)
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.9.0
 
 Offload graph computations to GPU for massive parallelism.
@@ -313,7 +315,7 @@ auto result = optimizer.executeBFS("start", 10, constraints);
 ---
 
 
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Extend PathConstraints with more sophisticated constraint types.
@@ -326,7 +328,7 @@ Extend PathConstraints with more sophisticated constraint types.
 - **Temporal Constraints**: Path valid at specific time ⏳ Planned
 - **Probability Constraints**: Min probability for uncertain graphs ⏳ Planned
 - **Resource Constraints**: Capacity limits on paths ⏳ Planned
-- **Semantic Constraints**: Ontology-based path rules ⏳ Planned
+- **Semantic Constraints**: Ontology-based path rules ⏳ Planned — see [Ontology-based Semantic Constraints](#ontology-based-semantic-constraints) below
 - **Geo-Fence Constraints**: Spatial boundaries for paths ⏳ Planned
 
 **Implemented API:**
@@ -363,63 +365,134 @@ constraints.addGeoFence(
 );
 ```
 
+---
+
+### Ontology-based Semantic Constraints
+**Priority:** Medium
+**Target Version:** v2.1.0
+**Issue:** #PLANNED
+
+Enforce semantic path validity rules derived from a domain ontology during graph traversal.
+This enables knowledge-representation-aware queries: paths may only follow edges whose
+types are permitted by the ontology relationship hierarchy, and nodes may only be visited
+if they satisfy the declared class membership or property restrictions.
+
+**Scope**
+- Affected files: `include/graph/path_constraints.h`, `src/graph/path_constraints.cpp`,
+  `include/graph/ontology_manager.h` (new), `src/graph/ontology_manager.cpp` (new)
+- OWL/RDF-compatible concept hierarchy stored in a compact in-memory adjacency map
+  (`OntologyManager`) loaded from YAML or JSON schema files
+- Constraint evaluation is side-effect-free and deterministic; no I/O during traversal
+
+**Design Constraints**
+- `[ ]` Ontology load time: ≤ 100 ms for schemas with ≤ 10 000 concepts (JSON/YAML)
+- `[ ]` Per-edge constraint check: ≤ 5 µs including class-membership lookup
+- `[ ]` Constraint violations must return a structured error (`ConstraintViolation`) containing
+  the violating edge ID, the expected class, and the actual class
+- `[ ]` `OntologyManager` must be immutable after `build()` (thread-safe read; no write locks during traversal)
+- `[ ]` Graceful degradation: unknown concept IDs are treated as unconstrained (warn, not fail)
+
+**Required Interfaces**
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `OntologyManager::loadFromJson(path)` | Server startup, schema admin | Parses OWL-lite JSON; builds concept DAG |
+| `OntologyManager::loadFromYaml(path)` | Server startup | YAML alternative to JSON loader |
+| `OntologyManager::isA(concept, superConcept)` | PathConstraints evaluator | Transitive class-membership check via ancestor walk |
+| `OntologyManager::allowedEdgeTypes(sourceClass, targetClass)` | PathConstraints evaluator | Returns set of edge types permitted by domain axioms |
+| `PathConstraints::addSemanticConstraint(OntologyManager*, ruleset)` | AQL query compiler | Attaches ontology rule set to an active constraint object |
+| `PathConstraints::validateSemanticPath(path, graph)` | `findConstrainedPaths` | Validates full path post-discovery; returns `ConstraintViolation` list |
+
+**Planned API:**
+```cpp
+// Load ontology schema
+auto onto = std::make_shared<OntologyManager>();
+onto->loadFromJson("schemas/legal_ontology.json");
+onto->build();  // finalise concept DAG
+
+// Attach semantic constraint
+PathConstraints constraints(&graph_mgr);
+constraints.addSemanticConstraint(onto.get(), OntologyRuleset::STRICT);
+// → edge type "hasParty" only valid between "LegalEntity" nodes
+// → edge type "ruledBy" only valid from "Case" to "Statute"
+
+auto paths = constraints.findConstrainedPaths("case_001", "statute_42", 10);
+// Violations stored in constraints.lastViolations()
+```
+
 **Implementation Notes:**
-- `getNodeField(vertexId, fieldName)` added to `GraphIndexManager` (uses `node:<pk>` key format)
-- `ConstraintType::MAX_WEIGHT` / `MIN_WEIGHT` added to `PathConstraints::ConstraintType` enum
-- `Constraint::double_value` field stores threshold for weight constraints
-- BFS pruner checks `MAX_WEIGHT` after each edge weight accumulation
-- `validatePath` enforces `NODE_PROPERTY` for all nodes; weight constraints handled by `findConstrainedPaths`
+- `[ ]` Implement `OntologyManager` with a flat `std::unordered_map<std::string, ConceptNode>`
+  where each `ConceptNode` stores `parents`, `allowed_edge_types_as_source`, and
+  `allowed_edge_types_as_target`
+- `[ ]` `isA()` performs BFS over the ancestor chain (depth-limited to 20 hops) and caches
+  results in a `std::unordered_map<std::pair<string,string>, bool>` LRU with 1 000 entries
+- `[ ]` `PathConstraints::validateSemanticPath()` iterates over all edges in the discovered
+  path and calls `OntologyManager::allowedEdgeTypes(srcClass, dstClass)` for each edge;
+  returns a `std::vector<ConstraintViolation>` (empty = valid)
+- `[ ]` BFS pruner in `findConstrainedPaths` calls `allowedEdgeTypes` at each frontier
+  expansion to avoid generating invalid paths early (prune-first strategy)
+- `[ ]` Serialisation: `OntologyManager::toJson()` / `toYaml()` round-trips for hot-reload
+- `[ ]` LoRA-enhanced semantic constraint scoring (v2.2.0): a fine-tuned LoRA adapter
+  on the `LLMPluginManager` provides a soft-plausibility score for each traversed edge
+  (0.0–1.0); paths with cumulative score < threshold are pruned (see AI/ML + LoRA integration)
+
+**Test Strategy**
+- `tests/graph/test_ontology_manager.cpp` — OM-01..OM-12
+  - OM-01: `loadFromJson` round-trip equality
+  - OM-02: `isA` transitive closure (3-hop hierarchy)
+  - OM-03: `allowedEdgeTypes` returns correct set for known source/target pair
+  - OM-04: unknown concept → unconstrained (no throw)
+  - OM-05: thread-safety: 16 concurrent `isA` calls on shared `OntologyManager`
+- `tests/graph/test_path_constraints_semantic.cpp` — SC-01..SC-10
+  - SC-01: valid path accepted with schema-conformant edges
+  - SC-02: invalid edge type → `ConstraintViolation` returned
+  - SC-03: prune-first reduces discovered nodes by ≥ 30% vs unconstrained traversal
+  - SC-04: `STRICT` vs `WARN` ruleset modes
+  - SC-05: `loadFromYaml` + `findConstrainedPaths` end-to-end
+
+**Performance Targets**
+- `addSemanticConstraint`: ≤ 1 µs (pointer capture)
+- `validateSemanticPath` for 100-edge path: ≤ 200 µs
+- Ontology load (10 000 concepts, JSON): ≤ 100 ms
 
 ---
 
+
+
 ### Query Rewriting for Graph Optimization
-**Priority:** Medium  
-**Target Version:** v1.8.0
+**Status: ✅ DONE (Issue #250, delivered v1.9.0)**
+**Priority:** Medium
+**Target Version:** v1.8.0 → delivered v1.9.0
 
 Automatically rewrite graph queries for better performance.
 
-**Features:**
-- Common subexpression elimination
-- Predicate pushdown to graph layer
-- Join reordering for graph patterns
-- Materialized view utilization
-- Query decomposition for parallelism
-
-**Benefits:**
-- Improved query performance without user intervention
-- Better integration with relational/document queries
-- Optimal execution plans for complex queries
-- Reduced redundant computation
-
-**Example Rewrite:**
-```aql
--- Original query
-FOR v1 IN vertices
-  FILTER v1.type == "Person"
-  FOR v2 IN 1..3 OUTBOUND v1 GRAPH "social"
-    FILTER v2.country == "USA"
-    RETURN {person: v1, friend: v2}
-
--- Rewritten query
-FOR v1 IN vertices
-  FILTER v1.type == "Person"
-  FOR v2 IN 1..3 OUTBOUND v1 GRAPH "social"
-    PRUNE v2.country != "USA"  // Early pruning
-    FILTER v2.country == "USA"
-    RETURN {person: v1, friend: v2}
-```
+**Implemented Features:**
+- ✅ `GraphQueryRewriter` class (`include/graph/graph_query_rewriter.h`, `src/graph/graph_query_rewriter.cpp`)
+- ✅ `PREDICATE_PUSHDOWN` / `PRUNE_EARLY` rule — promotes `vertex_filters` to `prune_conditions` for early BFS/DFS branch pruning
+- ✅ `COMMON_SUBEXPRESSION` rule — detects duplicate graph traversal sub-expressions and replaces repeated occurrences with LET-scoped `ref` nodes
+- ✅ `JOIN_REORDERING` rule — swaps `traversal_join` operands so the more selective (lower cardinality) side is executed first
+- ✅ `MATERIALIZED_VIEW` rule — tags traversal nodes for subgraph materialisation (activated automatically for multi-access patterns or when `aggressive_optimization = true`)
+- ✅ `QUERY_DECOMPOSITION` rule — splits `multi_traversal` nodes into independent `parallel_subqueries` for concurrent execution
+- ✅ `RewriteConfig` — per-rewrite configuration: `enabled_rules`, `aggressive_optimization`, `rewrite_time_limit_ms`
+- ✅ `RewriteResult` — structured return value with rewritten plan and `GraphRewriteStats` (rules_applied, applied_rule_names, total_transformations)
+- ✅ `explainRewrites(original, rewritten)` — human-readable multi-line summary of applied transformations
+- ✅ `estimateSpeedup(original, rewritten)` — heuristic speedup factor estimate based on applied rules
+- ✅ `addCustomRule(name, fn)` / `clearCustomRules()` — extensible custom rule hook
+- ✅ Factory helpers: `makeTraversalPlan`, `makeFilterScanPlan`, `makeJoinPlan`, `makeMultiTraversalPlan`, `estimateCardinality`
+- ✅ 38 unit tests in `tests/test_graph_query_rewriter.cpp` covering all acceptance criteria
+- ✅ Standalone CMake target `test_graph_query_rewriter`
 
 **Rewrite Rules:**
-- Push predicates into graph traversal (prune early)
-- Decompose multi-pattern queries into independent subqueries
-- Materialize frequently accessed subgraphs
-- Convert repeated traversals to single traversal with caching
-- Reorder multi-hop traversals based on selectivity
+- Push predicates into graph traversal (prune early) — PREDICATE_PUSHDOWN converts vertex_filters to prune_conditions
+- Decompose multi-pattern queries into independent subqueries — QUERY_DECOMPOSITION splits multi_traversal nodes
+- Materialize frequently accessed subgraphs — MATERIALIZED_VIEW tags traversals for precomputed results
+- Convert repeated traversals to single traversal with caching — COMMON_SUBEXPRESSION via LET-scoped refs
+- Reorder multi-hop traversals based on selectivity — JOIN_REORDERING uses heuristic cardinality estimation
 
 ---
 
 ### Approximate Graph Algorithms
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v2.0.0
 
 Trade accuracy for speed with approximate algorithms.
@@ -447,9 +520,9 @@ auto result = optimizer.optimizeShortestPath("A", "B", constraints);
 // May return path within 5% of optimal length
 
 // Access approximation metadata
-std::cout << "Approximation error bound: " 
+std::cout << "Approximation error bound: "
           << result.metadata.error_bound << std::endl;
-std::cout << "Confidence: " 
+std::cout << "Confidence: "
           << result.metadata.confidence << std::endl;
 ```
 
@@ -463,7 +536,7 @@ std::cout << "Confidence: "
 ---
 
 ### Multi-Layer Graph Support
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v2.0.0
 
 Support graphs with multiple edge types and layers.
@@ -478,7 +551,7 @@ Support graphs with multiple edge types and layers.
 **Benefits:**
 - Model complex multi-relational data
 - Support social networks with multiple edge types
-- Enable knowledge graph reasoning
+- Enable knowledge graph reasoning (see [Knowledge Graph Reasoning with Ontology & ML/LoRA](#knowledge-graph-reasoning-with-ontology--mlloRA) below)
 - Better domain modeling
 
 **Example:**
@@ -506,7 +579,7 @@ auto centrality = mlg.pageRank(
 ---
 
 ### Graph Machine Learning Integration
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v2.0.0
 
 Integrate graph neural networks and embeddings.
@@ -550,7 +623,7 @@ auto label = embedding.classifyNode("user_B", model);
 ---
 
 ### Graph Visualization Integration
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v2.0.0
 
 Built-in graph visualization and exploration.
@@ -588,10 +661,126 @@ viz.exportInteractiveHTML(subgraph, "output.html");
 
 ---
 
+### Knowledge Graph Reasoning with Ontology & ML/LoRA
+**Priority:** High
+**Target Version:** v2.1.0
+**Issue:** #PLANNED
+
+Enable ThemisDB to perform symbolic and neural reasoning over knowledge graphs.  This
+combines the `OntologyManager` (semantic constraints above), the `MultiLayerGraph` (multi-
+relational structure), and LoRA-fine-tuned LLM adapters to produce explainable, domain-
+grounded inference chains.
+
+**Scope**
+- Affected files:
+  - `include/graph/knowledge_graph_reasoner.h` (new)
+  - `src/graph/knowledge_graph_reasoner.cpp` (new)
+  - `include/graph/ontology_manager.h` (new, see Semantic Constraints above)
+  - `src/graph/ontology_manager.cpp` (new)
+  - `include/rag/knowledge_graph_retriever.h` (existing — extend with reasoning hooks)
+  - `src/rag/knowledge_graph_retriever.cpp` (existing — extend)
+  - Integration with `src/llm/multi_lora_manager.cpp` for LoRA adapter selection
+
+**Wissensrepräsentation — Komponenten**
+
+| Komponente | Funktion |
+|---|---|
+| `OntologyManager` | OWL-lite Konzepthierarchie; `isA()`, `allowedEdgeTypes()`, transitive Schließung |
+| `KnowledgeGraphReasoner` | Regelerstellung + Forward-Chaining über Property-Paths; Erklärungsketten |
+| `MultiLayerGraph` | Heterogene Graphschicht mit typisierten Kanten für multi-relationale KG-Abfragen |
+| `KnowledgeGraphRetriever` (RAG) | Entity-linking + KG-augmentiertes Retrieval (existierend, wird erweitert) |
+| LoRA Adapter (LLM) | Domänenspezifische Mustererkennung + soft-plausibility scoring über Kanten |
+
+**Design Constraints**
+- `[ ]` Reasoning depth limit: configurable `max_inference_hops` (default 5; hard cap 20)
+- `[ ]` Inference chain must be serialisable as an ordered list of `(subject, predicate, object)` triples for explanation output
+- `[ ]` Forward-chaining must be incremental (triggered by new edge/node events via CDC, not full re-evaluation)
+- `[ ]` LoRA adapter inference must be optional (`THEMIS_ENABLE_LLM` guard); deterministic rule-based fallback always active
+- `[ ]` Thread-safety: `KnowledgeGraphReasoner::infer()` is read-only; rule-set updates use `std::unique_lock`
+- `[ ]` Memory: derived facts stored in a dedicated in-memory `InferenceStore`; TTL-based eviction; max 1 M derived triples
+
+**Required Interfaces**
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `KnowledgeGraphReasoner::addRule(Rule)` | Schema admin, AQL DDL | Adds a Horn-clause rule: `IF (A, rel1, B) AND (B, rel2, C) THEN (A, rel3, C)` |
+| `KnowledgeGraphReasoner::infer(subjectId, depth)` | AQL query layer, RAG retriever | Returns `InferenceChain` with all derived facts up to `depth` hops |
+| `KnowledgeGraphReasoner::explain(factId)` | Explanation API | Returns proof trace as ordered triple sequence |
+| `KnowledgeGraphReasoner::applyLoRAScore(chain, adapter_id)` | LLM integration | Attaches soft-plausibility score (0.0–1.0) from LoRA adapter to each inferred edge |
+| `KnowledgeGraphReasoner::onCDCEvent(event)` | CDC pipeline | Incremental forward-chaining on new edge inserts |
+| `OntologyManager::loadFromJson(path)` | Server startup | Loads OWL-lite concept hierarchy |
+| `OntologyManager::getSubclasses(concept)` | Reasoner | Returns direct + transitive subclasses |
+
+**Semantisches Netz — Regel-Beispiele (Horn-Klauseln):**
+```yaml
+# Transitives Vorgesetzten-Verhältnis
+- id: transitive_reports_to
+  if:
+    - [?A, reports_to, ?B]
+    - [?B, reports_to, ?C]
+  then:
+    - [?A, indirectly_reports_to, ?C]
+
+# Rollenhierarchie (Ontologie-Klausel)
+- id: manager_is_employee
+  if:
+    - [?X, rdf:type, Manager]
+  then:
+    - [?X, rdf:type, Employee]
+
+# Wissensrepräsentation: Kompetenz-Zuordnung via LoRA-Score
+- id: expert_in
+  if:
+    - [?P, authored, ?D]
+    - [?D, hasKeyword, ?T]
+  then:
+    - [?P, expertIn, ?T]
+  lora_plausibility_adapter: "domain_expertise_v1"
+  min_lora_score: 0.75
+```
+
+**AI/ML + LoRA Integration für Mustererkennung:**
+- `[ ]` `MultiLoRAManager::selectAdapterForGraph(graph_context)` wählt den passenden
+  LoRA-Adapter anhand von Graph-Statistiken (Knotentypen-Verteilung, Edge-Type-Häufigkeit)
+- `[ ]` LoRA-Adapter wird während `KnowledgeGraphReasoner::applyLoRAScore()` mit
+  strukturierten Graph-Prompts gespeist; Output ist ein Konfidenzwert pro Inferenz-Kante
+- `[ ]` Training neuer LoRA-Adapter für Graphdomänen via `IncrementalLoRATrainer`
+  (Training-Modul); Checkpoints über `exportWeights()` / `importWeights()` austauschbar
+- `[ ]` Mustererkennung in Graphpfaden: LoRA-Adapter klassifiziert strukturelle Muster
+  (Zyklen, Hub-Spoke, Chain-of-Authority) und gibt domänenspezifische Labels zurück
+
+**Implementation Phases:**
+
+| Phase | Beschreibung | Target |
+|---|---|---|
+| Phase 1 | `OntologyManager` + JSON/YAML-Loader + `isA()` / `allowedEdgeTypes()` | Q3 2026 |
+| Phase 2 | `KnowledgeGraphReasoner` Horn-Klausel-Forward-Chaining + `InferenceStore` | Q4 2026 |
+| Phase 3 | Incremental CDC-Trigger + TTL-Eviction + Erklärungsketten | Q1 2027 |
+| Phase 4 | LoRA-Adapter-Integration + `applyLoRAScore()` + Mustererkennung | Q2 2027 |
+| Phase 5 | RAG-Integration: `KnowledgeGraphRetriever` nutzt `KnowledgeGraphReasoner` | Q3 2027 |
+| Phase 6 | Tests, Benchmarks, Dokumentation, Produktion | Q3 2027 |
+
+**Test Strategy**
+- `tests/graph/test_knowledge_graph_reasoner.cpp` — KGR-01..KGR-20
+  - KGR-01..05: Horn-Klausel-Regelanwendung (transitiv, reflexiv, invers)
+  - KGR-06..10: Erklärungsketten-Serialisierung
+  - KGR-11..13: Incremental CDC-Trigger-Tests
+  - KGR-14..16: LoRA-Score-Integration (Mock-Adapter)
+  - KGR-17..18: Mustererkennung — Hub-Spoke, Chain-of-Authority
+  - KGR-19..20: Performance (100 k Kanten, ≤ 500 ms Reasoning)
+- `tests/graph/test_ontology_manager.cpp` — OM-01..OM-12 (s. Semantic Constraints)
+
+**Performance Targets**
+- Forward-chaining over 1 M graph edges: ≤ 2 s (cold start); ≤ 50 ms incremental
+- `explain(factId)` proof trace: ≤ 10 ms
+- LoRA plausibility scoring for 1 000 inferred edges: ≤ 500 ms
+
+---
+
 ## Research Topics
 
 ### Quantum Graph Algorithms
-**Priority:** Research  
+**Priority:** Research
 **Target Version:** TBD
 
 Explore quantum algorithms for graph problems.
@@ -611,7 +800,7 @@ Explore quantum algorithms for graph problems.
 ---
 
 ### Graph Streaming Algorithms
-**Priority:** Research  
+**Priority:** Research
 **Target Version:** TBD
 
 Process graphs as streams of edge insertions/deletions.
@@ -957,9 +1146,9 @@ Key properties:
 
 **Status:** ✅ Production Ready — Core engine, safety gates, audit trail, anomaly detection, ChangeFeed integration, ANN-accelerated candidate discovery, and CEP event emission are complete.
 
-**Issue:** #FEATURE/ScheduledGraphEdgeRefresh  
-**Files:** `include/graph/scheduled_edge_refresh.h`, `src/graph/scheduled_edge_refresh.cpp`  
-**Tests:** `tests/graph/test_scheduled_edge_refresh.cpp` (60+ tests)  
+**Issue:** #FEATURE/ScheduledGraphEdgeRefresh
+**Files:** `include/graph/scheduled_edge_refresh.h`, `src/graph/scheduled_edge_refresh.cpp`
+**Tests:** `tests/graph/test_scheduled_edge_refresh.cpp` (60+ tests)
 **Docs:** `docs/scheduled_edge_refresh.md`, `docs/de/scheduled_edge_refresh.md`
 
 ### Background & State of the Art
@@ -989,15 +1178,15 @@ Keeping a graph semantically current as the underlying data evolves is a well-st
 
 ### Design Constraints
 
-- [ ] `RefreshPolicy` fields validated at construction; out-of-range values throw `std::invalid_argument` (no silent defaults after construction)
-- [ ] `max_removal_fraction` safety gate must abort the entire batch before any storage writes if violated — no partial mutations
-- [ ] All edge mutations (removals + additions) for a single cycle are committed as one `WriteBatchWrapper`; atomic at the RocksDB level
-- [ ] `anomaly_threshold_removal_rate = 0.0` disables anomaly detection (zero = off); enabling requires explicit opt-in
-- [ ] Background scheduler must not start concurrent cycles; `cycle_mutex_` serialises all `runRefreshCycle()` invocations
-- [ ] `setPolicy()` takes effect on the *next* cycle; a currently running cycle completes with the old policy
-- [ ] `NodeEmbeddingProvider` returning an empty vector is treated as "embedding unavailable" → similarity skipped → `similarity = 1.0`
-- [ ] Audit trail bounded at `kMaxAuditEntries = 10,000`; oldest entries evicted FIFO (no unbounded growth)
-- [ ] `Changefeed` attachment is optional; `recordEvent` failures are logged as warnings, never as errors that abort the cycle
+- [x] `RefreshPolicy` fields validated at construction; out-of-range values throw `std::invalid_argument` (no silent defaults after construction)
+- [x] `max_removal_fraction` safety gate must abort the entire batch before any storage writes if violated — no partial mutations
+- [x] All edge mutations (removals + additions) for a single cycle are committed as one `WriteBatchWrapper`; atomic at the RocksDB level
+- [x] `anomaly_threshold_removal_rate = 0.0` disables anomaly detection (zero = off); enabling requires explicit opt-in
+- [x] Background scheduler must not start concurrent cycles; `cycle_mutex_` serialises all `runRefreshCycle()` invocations
+- [x] `setPolicy()` takes effect on the *next* cycle; a currently running cycle completes with the old policy
+- [x] `NodeEmbeddingProvider` returning an empty vector is treated as "embedding unavailable" → similarity skipped → `similarity = 1.0`
+- [x] Audit trail bounded at `kMaxAuditEntries = 10,000`; oldest entries evicted FIFO (no unbounded growth)
+- [x] `Changefeed` attachment is optional; `recordEvent` failures are logged as warnings, never as errors that abort the cycle
 - [x] ANN integration: `setANNIndex(IAnnIndex*)` + `rebuildANNIndex()` + ANN path in `discoverCandidateEdges()` when vertex count > `policy.ann_min_vertices`; brute-force fallback when below threshold or no index attached
 
 ### Required Interfaces
@@ -1026,16 +1215,16 @@ relevance = similarity × temporal_factor × centrality_weight
 - `temporal_factor = 2^(−age_s / half_life_s)` where `age_s` is read from the edge's `_created_at` field. If absent or `half_life_s = 0`, factor = 1.0.
 - `centrality_weight = 1 / (1 + log(1 + out_degree))` — dampens hub nodes.
 
-**Candidate discovery** (brute-force, partially implemented):
+**Candidate discovery** (✅ implemented — brute-force + ANN):
 - For each vertex `v`, compute `similarity(embedding(v), embedding(u))` for all `u ≠ v`.
 - Keep the top-k pairs above `add_threshold` that do not already have an edge `v → u`.
-- **Planned upgrade:** replace with `acceleration::ANNIndex::knnSearch(embedding(v), top_k)` for graphs > 10,000 nodes. This reduces O(V²) to O(V · log V) per cycle.
+- **ANN path:** when vertex count > `policy.ann_min_vertices` (default 10,000) and an `IAnnIndex` is attached via `setANNIndex()`, uses `knnSearch(embedding(v), top_k)` to reduce O(V²) to O(V · log V) per cycle.
 
-**CEP integration** (planned, Target: Q1 2027):
-- After `applyBatch()` succeeds, emit one `CEPEngine::ChangeEvent` per mutation into the configured CEP stream.
-- Pattern: `EDGE_REMOVED` / `EDGE_ADDED` with payload `{ edge_id, from, to, relevance_score, cycle_number }`.
+**CEP integration** (✅ implemented):
+- After `applyBatch()` succeeds, emits one `themisdb::analytics::Event` per mutation via `setCEPEventCallback()`.
+- Event types: `EDGE_CREATE` / `EDGE_DELETE` with payload `{ edge_id, from, to, relevance_score, cycle_number }`.
 - Downstream CEP rules can react (e.g., alert on burst of removals, trigger reindexing on cluster-like additions).
-- This is additive to the existing `Changefeed` integration; both may be active simultaneously.
+- Additive to the existing `Changefeed` integration; both may be active simultaneously.
 
 **Scheduling strategies** (configurable via `RefreshPolicy`):
 | Strategy | How to configure | Best for |
@@ -1104,7 +1293,7 @@ Track user-requested features:
 
 ---
 
-*Last Updated: March 2026*  
+*Last Updated: April 2026*
 *Next Review: Q3 2026*
 
 ## Test Strategy

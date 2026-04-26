@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            huggingface_ingestion_plugin.cpp                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:18:02                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   98.0/100                                       ║
     • Total Lines:     671                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -316,7 +313,7 @@ std::string HuggingFaceIngestionPlugin::httpGet(const std::string& url) {
                 THEMIS_WARN("Rate limited on HF API (attempt {}/{}), waiting...", 
                     attempt + 1, config_.max_retries);
                 std::this_thread::sleep_for(
-                    std::chrono::milliseconds(config_.retry_delay_ms * (1 << attempt))
+                    std::chrono::milliseconds(config_.retry_delay_ms * (1ULL << attempt))
                 );
                 continue;
             } else {
@@ -330,7 +327,7 @@ std::string HuggingFaceIngestionPlugin::httpGet(const std::string& url) {
             
             if (attempt < config_.max_retries - 1) {
                 std::this_thread::sleep_for(
-                    std::chrono::milliseconds(config_.retry_delay_ms * (1 << attempt))
+                    std::chrono::milliseconds(config_.retry_delay_ms * (1ULL << attempt))
                 );
             }
         }

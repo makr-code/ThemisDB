@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_content_security.cpp                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:25:53                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:53:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • b2513b8c2  2026-03-16  Fix compilation errors: kDefaultLookaheadBytes forward-de... ║
-    • aa52e5330  2026-03-16  Changes before error encountered         ║
-    • 018e0013e  2026-03-11  audit: close all remaining CON-006 documentation gaps ║
-    • 30cd78e12  2026-03-11  feat(content/security): enforce zip-bomb protection with ... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • b2513b8c2f  2026-03-16  Fix compilation errors: kDefaultLookaheadBytes forward-de... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

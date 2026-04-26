@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_wire_protocol_v1_handlers.cpp                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:35:38                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:58:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1192                                           ║
+    • Total Lines:     1190                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e7af44ad0  2026-03-11  fix(network): audit pass 2 — add CURSOR_NEXT (0x23), CURS... ║
-    • b2779462c  2026-03-11  fix(network): address code review comments in wire protoc... ║
-    • c47502afd  2026-03-11  feat(network): implement all WireProtocol V1 opcode handl... ║
-    • 0f748db74  2026-03-10  audit(network): fix stale README docs and add Wire Protoc... ║
+    • e7af44ad0c  2026-03-11  fix(network): audit pass 2 — add CURSOR_NEXT (0x23), CURS... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

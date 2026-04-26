@@ -3,21 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            opa_adapter.h                                      ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:07:24                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:44:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     143                                            ║
+    • Total Lines:     140                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 99dc8e3f4  2026-02-27  feat(governance): integrate OPA as alternative policy eva... ║
-    • 0766c4a21  2026-02-24  fix(auth/opa): code audit - remove redundant static, thre... ║
-    • 977edef79  2026-02-24  feat(auth): add OPA adapter for fine-grained ABAC policy ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -99,6 +93,14 @@ public:
         std::string policy_path  = "themis/governance/allow";
         /// Total request timeout in milliseconds (default: 50 ms).
         long timeout_ms = 50;
+
+        /// Evaluation mode: REST (default) or WASM bundle.
+        enum class EvalMode { REST, WASM };
+        EvalMode mode = EvalMode::REST;
+
+        /// Path to pre-compiled OPA bundle (.wasm) for WASM evaluation mode.
+        /// Ignored when mode == REST.
+        std::string wasm_bundle_path;
     };
 
     explicit OpaAdapter(const Config& config);
@@ -137,6 +139,19 @@ private:
 
     /// Parse OPA response and extract a PolicyDecision.
     static std::optional<PolicyDecision> parseOpaResponse(const std::string& body);
+
+    // STUB/SIMULATION NOTE:
+    // Purpose: WASM-based OPA bundle evaluation path — evaluates pre-compiled
+    //          OPA bundles (.wasm) locally without requiring an OPA sidecar.
+    // Activation: Config::mode == EvalMode::WASM and wasm_bundle_path is set.
+    // Production Delta: Returns a stub PolicyDecision (allow=true, defaults)
+    //   rather than a real WASM evaluation. Actual WASM execution requires the
+    //   THEMIS_ENABLE_OPA_WASM build flag and a linked WASM runtime.
+    // Removal Plan: Replace stub with real opa-go-wasm binding when
+    //   THEMIS_ENABLE_OPA_WASM is enabled in the build.
+    std::optional<PolicyDecision> evaluateWasm(
+        const std::unordered_map<std::string, std::string>& headers,
+        const std::string& route) const;
 };
 
 } // namespace governance

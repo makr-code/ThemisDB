@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wasm_plugin_loader.cpp                             ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:18:05                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   96.0/100                                       ║
-    • Total Lines:     356                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 3                             ║
+    • Total Lines:     357                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c5a4a6854  2026-03-15  feat(plugins): complete issue audit — unregisterFactory, ... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -55,12 +56,22 @@
 #include <string>
 #include <memory>
 #include <fstream>
+#include <iterator>
 #include <sstream>
 #include <iomanip>
 #include <stdexcept>
+#include <vector>
 
 // SHA-256 via OpenSSL (same approach as plugin_system_edition.cpp)
 #include <openssl/evp.h>
+
+// Optional WASM runtimes — each guarded by its own compile flag.
+#ifdef THEMIS_WASM_WASMTIME
+#   include <wasmtime.h>
+#endif
+#ifdef THEMIS_WASM_WASMEDGE
+#   include <wasmedge/wasmedge.h>
+#endif
 
 namespace themis {
 namespace plugins {
@@ -202,25 +213,129 @@ std::unique_ptr<WasmHostAPI> loadWasmPlugin(
         return nullptr;
     }
 
-    // 3. Runtime instantiation (placeholder — link against Wasmtime/WasmEdge)
-    //    When THEMIS_WASM_SUPPORT is defined but the runtime library is not yet
-    //    linked, this block documents the integration point.
-    (void)runtime;
+    // 3. Runtime instantiation — guarded by per-runtime compile flags.
+    //    Pass THEMIS_WASM_WASMTIME=1 to link against the Wasmtime C API, or
+    //    THEMIS_WASM_WASMEDGE=1 to link against the WasmEdge C API.
 
-    // TODO(wasm): replace with actual Wasmtime/WasmEdge instantiation.
-    //   Wasmtime example:
-    //     wasmtime_engine_t* engine = wasmtime_engine_new();
-    //     wasmtime_module_t* module = nullptr;
-    //     wasmtime_error_t*  err    = wasmtime_module_new(engine, bytes, len, &module);
-    //
-    //   WasmEdge example:
-    //     WasmEdge_VMContext* vm = WasmEdge_VMCreate(nullptr, nullptr);
-    //     WasmEdge_VMLoadWasmFromFile(vm, wasm_path.c_str());
-    //     WasmEdge_VMValidate(vm);
-    //     WasmEdge_VMInstantiate(vm);
+#if defined(THEMIS_WASM_WASMTIME)
+    // ---- Wasmtime (Bytecode Alliance) ----------------------------------------
+    if (runtime == WasmPluginRuntime::WASMTIME || runtime == WasmPluginRuntime::NONE) {
+        // Read the WASM binary into memory.
+        std::ifstream wasm_file(wasm_path, std::ios::binary);
+        if (!wasm_file) {
+            error_out = "Cannot open WASM file: " + wasm_path;
+            return nullptr;
+        }
+        const std::vector<uint8_t> wasm_bytes{
+            std::istreambuf_iterator<char>(wasm_file),
+            std::istreambuf_iterator<char>()};
 
-    error_out = "WASM runtime not yet linked (THEMIS_WASM_SUPPORT defined but "
-                "runtime library missing). Plugin: " + module_name;
+        wasmtime_engine_t* engine = wasmtime_engine_new();
+        wasmtime_store_t*  store  = wasmtime_store_new(engine, nullptr, nullptr);
+        wasmtime_context_t* ctx   = wasmtime_store_context(store);
+
+        wasmtime_module_t* module = nullptr;
+        wasmtime_error_t*  err    = wasmtime_module_new(
+            engine,
+            reinterpret_cast<const uint8_t*>(wasm_bytes.data()),
+            wasm_bytes.size(),
+            &module);
+        if (err) {
+            wasm_byte_vec_t msg;
+            wasmtime_error_message(err, &msg);
+            error_out = std::string(msg.data, msg.size);
+            wasm_byte_vec_delete(&msg);
+            wasmtime_error_delete(err);
+            wasmtime_store_delete(store);
+            wasmtime_engine_delete(engine);
+            return nullptr;
+        }
+
+        wasmtime_linker_t* linker = wasmtime_linker_new(engine);
+        wasmtime_linker_define_wasi(linker);
+
+        wasmtime_instance_t instance{};
+        wasmtime_trap_t*    trap = nullptr;
+        err = wasmtime_linker_instantiate(linker, ctx, module, &instance, &trap);
+        if (err || trap) {
+            if (trap) {
+                wasm_byte_vec_t msg;
+                wasmtime_trap_message(trap, &msg);
+                error_out = std::string(msg.data, msg.size);
+                wasm_byte_vec_delete(&msg);
+                wasm_trap_delete(reinterpret_cast<wasm_trap_t*>(trap));
+            } else {
+                wasm_byte_vec_t msg;
+                wasmtime_error_message(err, &msg);
+                error_out = std::string(msg.data, msg.size);
+                wasm_byte_vec_delete(&msg);
+                wasmtime_error_delete(err);
+            }
+            wasmtime_linker_delete(linker);
+            wasmtime_module_delete(module);
+            wasmtime_store_delete(store);
+            wasmtime_engine_delete(engine);
+            return nullptr;
+        }
+
+        // Bundle all handles into a heap-allocated structure stored in
+        // WasmHostAPI::wasm_instance_ (freed in ~WasmHostAPI).
+        struct WasmtimeBundle {
+            wasmtime_engine_t*  engine;
+            wasmtime_store_t*   store;
+            wasmtime_linker_t*  linker;
+            wasmtime_module_t*  module;
+            wasmtime_instance_t instance;
+        };
+        auto* bundle = new WasmtimeBundle{engine, store, linker, module, instance};
+
+        auto api = std::make_unique<WasmHostAPI>(WasmPluginRuntime::WASMTIME, module_name);
+        api->setRuntimeInstance(bundle);
+        return api;
+    }
+#endif // THEMIS_WASM_WASMTIME
+
+#if defined(THEMIS_WASM_WASMEDGE)
+    // ---- WasmEdge (CNCF) -------------------------------------------------------
+    if (runtime == WasmPluginRuntime::WASMEDGE || runtime == WasmPluginRuntime::NONE) {
+        WasmEdge_VMContext* vm = WasmEdge_VMCreate(nullptr, nullptr);
+        if (!vm) {
+            error_out = "WasmEdge_VMCreate failed for plugin: " + module_name;
+            return nullptr;
+        }
+
+        WasmEdge_Result res = WasmEdge_VMLoadWasmFromFile(vm, wasm_path.c_str());
+        if (!WasmEdge_ResultOK(res)) {
+            error_out = "WasmEdge_VMLoadWasmFromFile failed: " +
+                        std::string(WasmEdge_ResultGetMessage(res));
+            WasmEdge_VMDelete(vm);
+            return nullptr;
+        }
+
+        res = WasmEdge_VMValidate(vm);
+        if (!WasmEdge_ResultOK(res)) {
+            error_out = "WasmEdge_VMValidate failed: " +
+                        std::string(WasmEdge_ResultGetMessage(res));
+            WasmEdge_VMDelete(vm);
+            return nullptr;
+        }
+
+        res = WasmEdge_VMInstantiate(vm);
+        if (!WasmEdge_ResultOK(res)) {
+            error_out = "WasmEdge_VMInstantiate failed: " +
+                        std::string(WasmEdge_ResultGetMessage(res));
+            WasmEdge_VMDelete(vm);
+            return nullptr;
+        }
+
+        auto api = std::make_unique<WasmHostAPI>(WasmPluginRuntime::WASMEDGE, module_name);
+        api->setRuntimeInstance(vm);   // freed in ~WasmHostAPI
+        return api;
+    }
+#endif // THEMIS_WASM_WASMEDGE
+
+    error_out = "No WASM runtime available. Rebuild with THEMIS_WASM_WASMTIME=1 or "
+                "THEMIS_WASM_WASMEDGE=1. Plugin: " + module_name;
     return nullptr;
 }
 
@@ -230,8 +345,36 @@ WasmHostAPI::WasmHostAPI(WasmPluginRuntime runtime, std::string module_name)
     : runtime_(runtime), module_name_(std::move(module_name)) {}
 
 WasmHostAPI::~WasmHostAPI() {
-    // Release WASM instance if instantiation had succeeded.
-    // TODO(wasm): call runtime-specific destructor here.
+    if (!wasm_instance_) return;
+
+    switch (runtime_) {
+#ifdef THEMIS_WASM_WASMTIME
+    case WasmPluginRuntime::WASMTIME: {
+        struct WasmtimeBundle {
+            wasmtime_engine_t*  engine;
+            wasmtime_store_t*   store;
+            wasmtime_linker_t*  linker;
+            wasmtime_module_t*  module;
+            wasmtime_instance_t instance;
+        };
+        auto* b = static_cast<WasmtimeBundle*>(wasm_instance_);
+        wasmtime_linker_delete(b->linker);
+        wasmtime_module_delete(b->module);
+        wasmtime_store_delete(b->store);
+        wasmtime_engine_delete(b->engine);
+        delete b;
+        break;
+    }
+#endif
+#ifdef THEMIS_WASM_WASMEDGE
+    case WasmPluginRuntime::WASMEDGE:
+        WasmEdge_VMDelete(static_cast<WasmEdge_VMContext*>(wasm_instance_));
+        break;
+#endif
+    default:
+        break;
+    }
+    wasm_instance_ = nullptr;
 }
 
 // ---- IThemisPlugin forwarding stubs (to be replaced by host-call dispatch) --

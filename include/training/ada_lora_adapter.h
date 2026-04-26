@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ada_lora_adapter.h                                 ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:12:24                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:47:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     270                                            ║
+    • Total Lines:     293                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 7811d1486  2026-03-27  feat: Enhance backward compatibility and legacy support a... ║
-    • e25b25ef5  2026-03-24  Changes before error encountered         ║
+    • 7811d1486a  2026-03-27  feat: Enhance backward compatibility and legacy support a... ║
+    • e25b25ef58  2026-03-24  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -84,7 +84,7 @@ struct ReallocResult {
  *
  * Usage:
  * @code
- * AdaLoRAAdapter ada(4 /*default_rank*\/, 8.0f, 128 /*total_rank_budget*\/);
+ * AdaLoRAAdapter ada(4, 8.0f, 128);  // default_rank=4, scale=8.0, total_rank_budget=128
  * ada.addLayer("q_proj", 768, 768, 8);
  * ada.addLayer("v_proj", 768, 768, 8);
  * ada.addLayer("k_proj", 768, 768, 4);

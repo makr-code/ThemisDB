@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ewkb.cpp                                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:21:32                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     962                                            ║
+    • Total Lines:     958                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • fd8d65d52  2026-02-26  feat(geo): fix GeometryCollection Z-detection in GeoJSON ... ║
-    • 74e4a4f6f  2026-02-23  Füge neue Funktionen zur Verarbeitung von WKT-Geometrien ... ║
-    • 01e160a70  2026-02-22  feat(geo): Add WGS84 validation, CHANGELOG, ROADMAP updat... ║
-    • c88fedecb  2026-02-22  feat(geo): Full GeoJSON RFC 7946 parsing for all geometry... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -520,7 +517,6 @@ static void validateWGS84(double lon, double lat) {
             "GeoJSON: latitude " + std::to_string(lat) + " is out of WGS84 range [-90, 90]");
     }
 #else
-    (void)lon; (void)lat;
 #endif
 }
 

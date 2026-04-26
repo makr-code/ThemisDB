@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hybrid_retriever.h                                 ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:10:19                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:46:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     261                                            ║
+    • Total Lines:     259                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 838f20874  2026-02-24  fix(rag): audit corrections - remove unused include, fix ... ║
-    • e340bbb9a  2026-02-24  feat(rag): implement hybrid retrieval (BM25 + vector) wit... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

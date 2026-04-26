@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_postgres_importer_advanced.cpp                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:31:25                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:55:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1028                                           ║
+    • Total Lines:     1026                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 3c885e9f3  2026-02-28  fix(importers): suppress persistent writes in dry-run mod... ║
-    • 8f780fcd2  2026-02-28  feat(importers): implement dry-run preview for PostgreSQL... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

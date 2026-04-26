@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            language_detector.cpp                              ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:15:11                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     323                                            ║
+    • Total Lines:     322                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 60c5ea72d  2026-02-28  Add multi-language text detection and routing for content... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -141,14 +141,13 @@ ScriptCounts countScriptBytes(std::string_view text) {
             // Arabic / Arabic Supplement
             ++c.arabic;
         } else if (i + 2 < text.size()) {
-            auto b2 = static_cast<unsigned char>(text[i + 2]);
+            [[maybe_unused]] auto b2 = static_cast<unsigned char>(text[i + 2]);
             if (b0 == 0xE3 && b1 >= 0x81 && b1 <= 0x83) {
                 // Hiragana (E3 81..) / Katakana (E3 82..)
                 ++c.hiragana;
             } else if ((b0 >= 0xE4 && b0 <= 0xE9) ||
                        (b0 == 0xE3 && b1 >= 0xB0)) {
                 // CJK Unified Ideographs (U+4E00–U+9FFF) and extensions
-                (void)b2;
                 ++c.cjk;
             }
         }

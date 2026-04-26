@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ts_auto_buffer.h                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:22                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     444                                            ║
+    • Total Lines:     441                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • d9e68edf7  2026-03-15  fix: address code review - INVALID_INPUT status, test acc... ║
-    • 822b0afce  2026-03-15  feat(timeseries): implement TSStore single-point insert b... ║
-    • a188b47e9  2026-03-09  fix(timeseries): audit fixes - getStats regression, backp... ║
-    • 9bdb7e29c  2026-03-09  fix(timeseries): address code review - improve FlushContr... ║
-    • fe42ba76e  2026-03-09  feat(timeseries): add FlushController adaptive flush, Dow... ║
+    • d9e68edf71  2026-03-15  fix: address code review - INVALID_INPUT status, test acc... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

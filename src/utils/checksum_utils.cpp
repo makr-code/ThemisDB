@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            checksum_utils.cpp                                 ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:21:31                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:51:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     93                                             ║
+    • Total Lines:     89                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 57bf541b2  2026-02-24  chore(core): code audit — fix stale annotations and expli... ║
-    • ce91302f7  2026-02-24  feat: erweitere die ModularBuild-Konfiguration und implem... ║
-    • 31c83c701  2026-02-23  fix(core): repair syntax errors from develop merge; resto... ║
-    • 454802e88  2026-02-23  fix(core): fix syntax errors in core headers and improve ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -63,6 +56,11 @@ std::string calculateSHA256(const std::string& file_path) {
 }
 
 std::string calculateMD5(const std::string& file_path) {
+    // TODO(GAP-005): MD5 is cryptographically broken (collision attacks, CVE-2004-2761).
+    // Using MD5 for file integrity checks allows a motivated attacker to craft two
+    // files with the same checksum, undermining tamper detection.
+    // Fix: replace MD5_CTX / MD5_Init / MD5_Update / MD5_Final with EVP_MD_CTX and
+    // EVP_sha256() (OpenSSL ≥ 1.1, already a dependency).  Target: Q3 2026
     std::ifstream file(file_path, std::ios::binary);
     if (!file.is_open()) {
         return "";

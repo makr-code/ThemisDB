@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_query_engine.cpp                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:42                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     575                                            ║
+    • Total Lines:     572                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 96f1f1fd7  2026-03-24  Changes before error encountered         ║
-    • 43a91f179  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
-    • fe76ac476  2026-03-12  fix(temporal): address PR review comments on QueryCache a... ║
-    • bce530ee4  2026-03-12  feat(temporal): implement Time-Travel Query Engine (v1.2.0) ║
-    • 6e8942ed4  2026-03-09  feat(temporal): implement bitemporal joins and SEQUENCED/... ║
+    • 96f1f1fd7c  2026-03-24  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -532,8 +528,100 @@ std::vector<VersionedDocument> TemporalQueryEngine::executeTemporalQuery(
 }
 
 // ============================================================================
-// Cached query helper
+// SEQUENCED DISTINCT  (SQL:2011 §13.4)
 // ============================================================================
+
+namespace {
+
+/// Compare two Documents by a subset of fields, or fully if fields is empty.
+bool documentsEqual(const Document& a,
+                    const Document& b,
+                    const std::vector<std::string>& fields) {
+    if (fields.empty()) {
+        return a == b;
+    }
+    for (const auto& f : fields) {
+        auto ia = a.find(f);
+        auto ib = b.find(f);
+        const bool a_missing = (ia == a.end());
+        const bool b_missing = (ib == b.end());
+        if (a_missing != b_missing) return false;
+        if (!a_missing && (*ia != *ib)) return false;
+    }
+    return true;
+}
+
+/// Coalesce a sorted (by sys_start) list of versions for a single key.
+/// Adjacent versions whose compared fields are equal and whose intervals are
+/// contiguous (i.e. v[i].sys_time.end == v[i+1].sys_time.start) are merged.
+std::vector<VersionedDocument> coalesceVersions(
+    std::vector<VersionedDocument> versions,
+    const std::vector<std::string>& compare_fields) {
+
+    if (versions.empty()) return {};
+
+    // Sort ascending by sys_start.
+    std::sort(versions.begin(), versions.end(),
+              [](const VersionedDocument& a, const VersionedDocument& b) {
+                  return a.sys_time.start < b.sys_time.start;
+              });
+
+    std::vector<VersionedDocument> result;
+    result.push_back(versions.front());
+
+    for (size_t i = 1; i < versions.size(); ++i) {
+        auto& last = result.back();
+        const auto& cur = versions[i];
+
+        const bool adjacent = (last.sys_time.end == cur.sys_time.start);
+        const bool same_data = documentsEqual(last.data, cur.data, compare_fields);
+
+        if (adjacent && same_data) {
+            // Merge: extend the last result's sys_time to cover cur's period.
+            last.sys_time.end = cur.sys_time.end;
+        } else {
+            result.push_back(cur);
+        }
+    }
+
+    return result;
+}
+
+} // anonymous namespace
+
+std::vector<VersionedDocument> TemporalQueryEngine::sequencedDistinct(
+    const SystemVersionedTable& table,
+    const std::vector<std::string>& compare_fields) {
+
+    const auto keys = table.getAllKeys();
+    std::vector<VersionedDocument> result;
+
+    for (const auto& key : keys) {
+        auto coalesced = coalesceVersions(table.getHistory(key), compare_fields);
+        for (auto& row : coalesced) {
+            result.push_back(std::move(row));
+        }
+    }
+
+    // Sort the global result by key, then sys_start for deterministic output.
+    std::sort(result.begin(), result.end(),
+              [](const VersionedDocument& a, const VersionedDocument& b) {
+                  if (a.key != b.key) return a.key < b.key;
+                  return a.sys_time.start < b.sys_time.start;
+              });
+
+    return result;
+}
+
+std::vector<VersionedDocument> TemporalQueryEngine::sequencedDistinctForKey(
+    const SystemVersionedTable& table,
+    const std::string& key,
+    const std::vector<std::string>& compare_fields) {
+
+    return coalesceVersions(table.getHistory(key), compare_fields);
+}
+
+
 
 namespace detail {
 
@@ -570,6 +658,49 @@ std::vector<VersionedDocument> queryAsOfCached(
 }
 
 } // namespace detail
+
+// ============================================================================
+// sequencedDistinct — SQL:2011 §13.4
+// ============================================================================
+
+namespace {
+
+/// Merge the version history of a single key into sequenced-distinct rows.
+std::vector<VersionedDocument> mergeDistinctKey(
+    std::vector<VersionedDocument> history) {
+
+    if (history.empty()) return {};
+
+    // Sort by sys_start ascending.
+    std::sort(history.begin(), history.end(),
+              [](const VersionedDocument& a, const VersionedDocument& b) {
+                  return a.sys_time.start < b.sys_time.start;
+              });
+
+    std::vector<VersionedDocument> result;
+    VersionedDocument current = history.front();
+
+    for (size_t i = 1; i < history.size(); ++i) {
+        const VersionedDocument& next = history[i];
+
+        // Two versions are contiguous when the previous period's end == the
+        // next period's start (half-open interval adjacency).
+        const bool contiguous = (current.sys_time.end == next.sys_time.start);
+        const bool same_data  = (current.data == next.data);
+
+        if (contiguous && same_data) {
+            // Extend the current period to cover the next version.
+            current.sys_time.end = next.sys_time.end;
+        } else {
+            result.push_back(current);
+            current = next;
+        }
+    }
+    result.push_back(current);
+    return result;
+}
+
+} // anonymous namespace
 
 } // namespace temporal
 } // namespace themisdb

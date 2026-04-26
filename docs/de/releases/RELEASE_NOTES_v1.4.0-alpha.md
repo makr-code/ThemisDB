@@ -412,7 +412,7 @@ Alle neuen Features sind:
 
 ### Zusätzliche Ressourcen
 
-- **[V1.4.0 Alpha Update Plan](../../V1.4.0_ALPHA_UPDATE_NOTES.md)** - Detaillierter Implementierungsplan
+- **[V1.4.0 Alpha Update Plan](../../reports/V1.4.0_ALPHA_UPDATE_NOTES.md)** - Detaillierter Implementierungsplan
 - **[CHANGELOG.md](../../CHANGELOG.md)** - Vollständige Änderungshistorie
 - **[API Documentation](https://docs.themisdb.org)** - REST API und AQL Referenz
 

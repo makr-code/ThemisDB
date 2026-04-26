@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            distributed_transaction_manager.cpp                ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:21:07                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:51:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     648                                            ║
+    • Total Lines:     823                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 0f0c408c2  2026-03-15  feat(transaction): implement Distributed Transaction Coor... ║
+    • ff299c514b  2026-04-09  feat(transaction): PERF-D4 batched prepare + lock-free 2P... ║
+    • 0f0c408c2f  2026-03-15  feat(transaction): implement Distributed Transaction Coor... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -25,6 +26,13 @@
 //
 // DistributedTransactionManager – Two-Phase Commit coordinator
 // (see include/transaction/distributed_transaction_manager.h for design notes)
+//
+// PERF-D4: Batched prepare + lock-free coordination
+//   • Thread pool reuses workers → eliminates per-call thread-creation cost.
+//   • prepare_batch_window > 0ms: multiple prepareDistributed() callers are
+//     queued and flushed together so all their Phase-1 calls hit participants
+//     in one parallel wave.
+//   • transactions_ is now an std::unordered_map for O(1) lookup.
 
 #include "transaction/distributed_transaction_manager.h"
 #include "utils/logger.h"
@@ -75,9 +83,44 @@ DistributedTransactionManager::DistributedTransactionManager(
         THEMIS_INFO("DistributedTransactionManager [{}] WAL initialised at {}",
                     coordinator_id_, config_.wal_directory);
     }
+
+    // Start thread pool (PERF-D4).
+    startThreadPool();
+
+    // Start batch-flush thread when batching is enabled (PERF-D4).
+    if (config_.prepare_batch_window.count() > 0) {
+        batch_stop_.store(false, std::memory_order_relaxed);
+        batch_flush_thread_ = std::thread(&DistributedTransactionManager::batchFlushLoop, this);
+        THEMIS_INFO("DistributedTransactionManager [{}] batch-prepare enabled: window={}ms workers={}",
+                    coordinator_id_, config_.prepare_batch_window.count(),
+                    config_.worker_thread_count);
+    }
 }
 
-DistributedTransactionManager::~DistributedTransactionManager() = default;
+DistributedTransactionManager::~DistributedTransactionManager() {
+    // Stop batch-flush thread first so it no longer queues tasks.
+    if (batch_flush_thread_.joinable()) {
+        {
+            std::lock_guard<std::mutex> lock(batch_mutex_);
+            batch_stop_.store(true, std::memory_order_relaxed);
+        }
+        batch_cv_.notify_all();
+        batch_flush_thread_.join();
+    }
+
+    // Drain any remaining batch entries with a "false" result so callers
+    // waiting on their futures are unblocked.
+    {
+        std::lock_guard<std::mutex> lock(batch_mutex_);
+        for (auto& entry : batch_queue_) {
+            try { entry.result.set_value(false); } catch (...) {}
+        }
+        batch_queue_.clear();
+    }
+
+    // Stop thread pool.
+    stopThreadPool();
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Coordinator API
@@ -132,7 +175,22 @@ DistributedTransactionManager::prepareDistributed(const TransactionId& txn_id) {
     txn->state = DistributedTxnState::PREPARING;
     lock.unlock();
 
-    const bool all_voted_commit = runPhase1Unlocked(txn_id);
+    bool all_voted_commit = false;
+
+    if (config_.prepare_batch_window.count() > 0 && batch_flush_thread_.joinable()) {
+        // Batched path (PERF-D4): enqueue and wait for the batch-flush thread.
+        std::promise<bool> promise;
+        std::future<bool>  fut = promise.get_future();
+        {
+            std::lock_guard<std::mutex> blk(batch_mutex_);
+            batch_queue_.push_back({txn_id, std::move(promise)});
+        }
+        batch_cv_.notify_one();
+        all_voted_commit = fut.get();
+    } else {
+        // Immediate path: run Phase 1 right now.
+        all_voted_commit = runPhase1Unlocked(txn_id);
+    }
 
     lock.lock();
     txn = findTransaction(txn_id);  // re-acquire pointer after re-lock
@@ -520,7 +578,7 @@ bool DistributedTransactionManager::runPhase1Unlocked(const TransactionId& txn_i
     const auto deadline =
         std::chrono::steady_clock::now() + config_.prepare_timeout;
 
-    // Launch prepare calls in parallel using std::async.
+    // Launch prepare calls in parallel via the thread pool (PERF-D4).
     struct VoteResult {
         std::string node_id;
         bool        voted;
@@ -537,8 +595,9 @@ bool DistributedTransactionManager::runPhase1Unlocked(const TransactionId& txn_i
             THEMIS_DEBUG("DistributedTransactionManager [{}] txn={} participant {} has no callback "
                          "(remote) — treating as COMMIT vote",
                          coordinator_id_, txn_id, part.node_id);
-            futures.push_back(std::async(std::launch::deferred, [&part]() -> VoteResult {
-                return {part.node_id, true, true};
+            const std::string nid = part.node_id;
+            futures.push_back(submitTask([nid]() -> VoteResult {
+                return {nid, true, true};
             }));
             continue;
         }
@@ -548,7 +607,7 @@ bool DistributedTransactionManager::runPhase1Unlocked(const TransactionId& txn_i
         const std::set<std::string>      keys = part.affected_keys;
         const std::string                tid  = txn_id;
 
-        futures.push_back(std::async(std::launch::async, [cb, nid, keys, tid]() -> VoteResult {
+        futures.push_back(submitTask([cb, nid, keys, tid]() -> VoteResult {
             try {
                 const bool vote = cb->onPrepare(tid, keys);
                 return {nid, true, vote};
@@ -632,7 +691,7 @@ void DistributedTransactionManager::runPhase2Unlocked(
         const std::string                cid = coordinator_id_;
 
         if (do_commit) {
-            futures.push_back(std::async(std::launch::async, [cb, nid, tid, cid]() {
+            futures.push_back(submitTask([cb, nid, tid, cid]() {
                 try {
                     cb->onCommit(tid);
                 } catch (const std::exception& ex) {
@@ -641,7 +700,7 @@ void DistributedTransactionManager::runPhase2Unlocked(
                 }
             }));
         } else {
-            futures.push_back(std::async(std::launch::async, [cb, nid, tid, cid]() {
+            futures.push_back(submitTask([cb, nid, tid, cid]() {
                 try {
                     cb->onAbort(tid);
                 } catch (const std::exception& ex) {
@@ -663,6 +722,100 @@ void DistributedTransactionManager::runPhase2Unlocked(
         if (status == std::future_status::timeout) {
             THEMIS_WARN("DistributedTransactionManager [{}] participant timed out in Phase-2 for txn={}",
                         coordinator_id_, txn_id);
+        }
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Thread pool (PERF-D4)
+// ─────────────────────────────────────────────────────────────────────────────
+
+void DistributedTransactionManager::startThreadPool() {
+    const size_t n = config_.worker_thread_count;
+    if (n == 0) return;  // Legacy mode: std::async per call.
+
+    pool_stop_ = false;
+    worker_threads_.reserve(n);
+    for (size_t i = 0; i < n; ++i) {
+        worker_threads_.emplace_back([this] {
+            while (true) {
+                std::function<void()> task;
+                {
+                    std::unique_lock<std::mutex> lock(pool_mutex_);
+                    pool_cv_.wait(lock, [this] {
+                        return pool_stop_ || !task_queue_.empty();
+                    });
+                    if (pool_stop_ && task_queue_.empty()) return;
+                    task = std::move(task_queue_.front());
+                    task_queue_.pop();
+                }
+                task();
+            }
+        });
+    }
+
+    THEMIS_DEBUG("DistributedTransactionManager [{}] thread pool started: {} workers",
+                 coordinator_id_, n);
+}
+
+void DistributedTransactionManager::stopThreadPool() {
+    {
+        std::lock_guard<std::mutex> lock(pool_mutex_);
+        pool_stop_ = true;
+    }
+    pool_cv_.notify_all();
+    for (auto& t : worker_threads_) {
+        if (t.joinable()) t.join();
+    }
+    worker_threads_.clear();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Batch-prepare flush loop (PERF-D4)
+// ─────────────────────────────────────────────────────────────────────────────
+
+void DistributedTransactionManager::batchFlushLoop() {
+    while (!batch_stop_.load(std::memory_order_relaxed)) {
+        std::vector<BatchPrepareEntry> batch;
+        {
+            std::unique_lock<std::mutex> lock(batch_mutex_);
+            // Wait for the window or until stopped.
+            batch_cv_.wait_for(lock, config_.prepare_batch_window, [this] {
+                return !batch_queue_.empty() || batch_stop_.load(std::memory_order_relaxed);
+            });
+            if (batch_stop_.load(std::memory_order_relaxed) && batch_queue_.empty()) break;
+            batch.swap(batch_queue_);
+        }
+
+        if (batch.empty()) continue;
+
+        THEMIS_DEBUG("DistributedTransactionManager [{}] batch-flush: {} transactions",
+                     coordinator_id_, batch.size());
+
+        // Launch Phase 1 for every queued transaction in parallel.
+        // Each Phase-1 internally dispatches participant calls to the thread
+        // pool, so this outer layer of parallelism batches across transactions.
+        std::vector<std::future<bool>> phase1_futures;
+        phase1_futures.reserve(batch.size());
+
+        for (auto& entry : batch) {
+            const TransactionId tid = entry.txn_id;
+            phase1_futures.push_back(submitTask([this, tid]() -> bool {
+                return runPhase1Unlocked(tid);
+            }));
+        }
+
+        // Deliver results back to the waiting callers.
+        for (size_t i = 0; i < batch.size(); ++i) {
+            bool result = false;
+            try {
+                result = phase1_futures[i].get();
+            } catch (...) {
+                result = false;
+            }
+            try {
+                batch[i].result.set_value(result);
+            } catch (...) {}
         }
     }
 }

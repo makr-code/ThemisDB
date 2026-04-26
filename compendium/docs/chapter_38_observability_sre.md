@@ -1980,3 +1980,81 @@ Wir präsentierten ein ganzheitliches [Observability](../appendix_h_glossary.md#
 [^9]: Hidalgo, A. (2020). "Implementing Service Level Objectives." O'Reilly Media.
 
 [^10]: Rosenthal, C., & Jones, N. (2020). *Chaos Engineering: System Resiliency in Practice.* O'Reilly Media.
+
+---
+
+## 38.12 Observability-Modul — C++ Produktions-API (v1.x)
+
+### 38.12.1 MetricsCollector — Prometheus-Singleton
+
+```cpp
+#include "observability/metrics_collector.h"
+
+auto& metrics = themis::observability::MetricsCollector::getInstance();
+
+// ── Query Engine ──────────────────────────────────────────────────────
+metrics.recordQuery("aql", latency_ms, result_count);
+metrics.recordIndexScan("hnsw_vector", keys_scanned);
+
+// ── Cache ─────────────────────────────────────────────────────────────
+metrics.recordCacheHit("l1_lru");
+metrics.recordCacheMiss("l2_compressed");
+
+// ── Sharding ──────────────────────────────────────────────────────────
+metrics.recordShardRequest("shard-0", "vector_search");
+metrics.recordShardLatency("shard-0", 2.3 /* ms */);
+
+// ── Security ──────────────────────────────────────────────────────────
+metrics.recordAuthAttempt(true);
+metrics.recordPolicyEvaluation(allowed, eval_latency_ms);
+
+// ── Prometheus Text-Format Export ─────────────────────────────────────
+// /metrics endpoint: Prometheus-kompatibler Scrape-Endpunkt
+auto prometheus_text = metrics.exportPrometheus();
+```
+
+### 38.12.2 QueryProfiler — Per-Phase Timing + Index Usage
+
+```cpp
+#include "observability/query_profiler.h"
+
+themis::observability::QueryProfiler profiler;
+auto session = profiler.startSession("query-abc123");
+
+session.beginPhase("parse");
+/* AQL parsen */
+session.endPhase("parse");
+
+session.beginPhase("optimize");
+/* Query optimieren */
+session.endPhase("optimize");
+
+session.beginPhase("execute");
+/* Query ausführen */
+session.endPhase("execute");
+
+auto report = session.finish();
+// report.total_ms, report.phases["parse"].duration_ms
+// report.index_scans[i].index_name, .keys_scanned
+// report.recommendation: "Consider adding index on field X"
+```
+
+### 38.12.3 PerformanceAnalyzer — Automatische Issue-Erkennung
+
+```cpp
+#include "observability/performance_analyzer.h"
+
+themis::observability::PerformanceAnalyzer analyzer;
+analyzer.setStorageEngine(storage_engine);
+analyzer.setQueryEngine(query_engine);
+
+// Analyse ausführen (synchron, empfehlenswert: alle 5 Minuten)
+auto issues = analyzer.analyze();
+
+for (auto& issue : issues) {
+    // issue.severity: INFO/WARNING/CRITICAL
+    // issue.component: "storage" | "index" | "cache" | "query"
+    // issue.description: "Write amplification > 10x on HNSW index"
+    // issue.recommendation: "Run compaction on column family 'vectors'"
+}
+```

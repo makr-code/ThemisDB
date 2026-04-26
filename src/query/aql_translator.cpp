@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_translator.cpp                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:18:26                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1884                                           ║
+    • Total Lines:     1882                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 3a43c52c9  2026-03-13  feat(geo): add SpatialJoinIterator lazy iterator and AQL ... ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 3a43c52c92  2026-03-13  feat(geo): add SpatialJoinIterator lazy iterator and AQL ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -759,11 +757,35 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
             if (disjQuery.disjuncts.empty()) {
                 disjQuery.disjuncts = std::move(disjuncts);
             } else {
-                // Multiple filters with OR: combine via cartesian product (DNF expansion)
-                // For simplicity in v1, require single FILTER with OR
-                if (ast->filters.size() > 1) {
-                    return TranslationResult::Error("Multiple FILTER clauses with OR not yet supported - combine into single FILTER");
+                // Multiple FILTERs with OR: AND-combine via cartesian product (DNF expansion).
+                // If existing disjuncts = [A, B] and new disjuncts = [C, D], the result is
+                // [A∧C, A∧D, B∧C, B∧D] — each pair of conjuncts is merged.
+                std::vector<ConjunctiveQuery> merged;
+                merged.reserve(disjQuery.disjuncts.size() * disjuncts.size());
+                for (const auto& existing : disjQuery.disjuncts) {
+                    for (const auto& incoming : disjuncts) {
+                        ConjunctiveQuery combined;
+                        combined.table = existing.table;
+                        // Merge equality predicates
+                        combined.predicates = existing.predicates;
+                        combined.predicates.insert(combined.predicates.end(),
+                                                   incoming.predicates.begin(),
+                                                   incoming.predicates.end());
+                        // Merge range predicates
+                        combined.rangePredicates = existing.rangePredicates;
+                        combined.rangePredicates.insert(combined.rangePredicates.end(),
+                                                        incoming.rangePredicates.begin(),
+                                                        incoming.rangePredicates.end());
+                        // Preserve first non-null optional predicates
+                        combined.fulltextPredicate  = existing.fulltextPredicate  ? existing.fulltextPredicate  : incoming.fulltextPredicate;
+                        combined.phrasePredicate    = existing.phrasePredicate    ? existing.phrasePredicate    : incoming.phrasePredicate;
+                        combined.fuzzyPredicate     = existing.fuzzyPredicate     ? existing.fuzzyPredicate     : incoming.fuzzyPredicate;
+                        combined.spatialPredicate   = existing.spatialPredicate   ? existing.spatialPredicate   : incoming.spatialPredicate;
+                        combined.pk_eq              = existing.pk_eq              ? existing.pk_eq              : incoming.pk_eq;
+                        merged.push_back(std::move(combined));
+                    }
                 }
+                disjQuery.disjuncts = std::move(merged);
             }
         }
         

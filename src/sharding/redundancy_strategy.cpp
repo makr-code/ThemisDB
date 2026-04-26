@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            redundancy_strategy.cpp                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:21                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2553                                           ║
+    • Total Lines:     2541                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -169,10 +170,9 @@ std::vector<uint8_t> ChunkInfo::serialize() const {
     return data;
 }
 
-std::optional<ChunkInfo> ChunkInfo::deserialize(const std::vector<uint8_t>& data) {
+std::optional<ChunkInfo> ChunkInfo::deserialize([[maybe_unused]] const std::vector<uint8_t>& data) {
     // Simple binary deserialization
     // In production, use protobuf or similar
-    (void)data;
     return std::nullopt;
 }
 
@@ -199,8 +199,7 @@ std::vector<uint32_t> StripeGroup::getMissingChunks() const {
     return missing;
 }
 
-bool StripeGroup::canRecover(uint32_t data_shards, uint32_t parity_shards) const {
-    (void)parity_shards;
+bool StripeGroup::canRecover(uint32_t data_shards, [[maybe_unused]] uint32_t parity_shards) const {
     uint32_t available = 0;
     for (const auto& chunk : data_chunks) {
         if (!chunk.shard_id.empty()) available++;
@@ -814,6 +813,468 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
 }
 
 // ═══════════════════════════════════════════════════════════
+// LocallyRepairableCoder (LRC) Implementation
+// ═══════════════════════════════════════════════════════════
+
+namespace {  // anonymous — GF helpers shared with LRC
+
+static constexpr uint8_t LRC_GF_POLY = 0x1d;  // x^8+x^4+x^3+x^2+1
+
+static uint8_t lrc_gf_mul(uint8_t a, uint8_t b) {
+    uint8_t p = 0;
+    for (int i = 0; i < 8; ++i) {
+        if (b & 1) p ^= a;
+        bool carry = (a & 0x80) != 0;
+        a <<= 1;
+        if (carry) a ^= LRC_GF_POLY;
+        b >>= 1;
+    }
+    return p;
+}
+
+static uint8_t lrc_gf_pow(uint8_t a, uint8_t exp) {
+    uint8_t r = 1;
+    for (uint8_t i = 0; i < exp; ++i) r = lrc_gf_mul(r, a);
+    return r;
+}
+
+static uint8_t lrc_gf_inv(uint8_t a) {
+    // Extended Euclidean / brute-force for GF(2^8)
+    for (int b = 1; b < 256; ++b)
+        if (lrc_gf_mul(a, static_cast<uint8_t>(b)) == 1)
+            return static_cast<uint8_t>(b);
+    return 0;
+}
+
+[[maybe_unused]] static void lrc_gf_matrix_mul(const std::vector<std::vector<uint8_t>>& m,
+                                                const std::vector<uint8_t>& v,
+                                                std::vector<uint8_t>& result) {
+    const std::size_t rows = m.size(), cols = v.size();
+    result.assign(rows, 0);
+    for (std::size_t r = 0; r < rows; ++r)
+        for (std::size_t c = 0; c < cols; ++c)
+            result[r] ^= lrc_gf_mul(m[r][c], v[c]);
+}
+
+static std::vector<std::vector<uint8_t>> lrc_buildVandermonde(uint32_t rows, uint32_t cols) {
+    std::vector<std::vector<uint8_t>> mat(rows, std::vector<uint8_t>(cols));
+    for (uint32_t r = 0; r < rows; ++r)
+        for (uint32_t c = 0; c < cols; ++c)
+            mat[r][c] = lrc_gf_pow(static_cast<uint8_t>(r + 1), static_cast<uint8_t>(c));
+    return mat;
+}
+
+static bool lrc_invertMatrix(std::vector<std::vector<uint8_t>>& mat) {
+    const uint32_t n = static_cast<uint32_t>(mat.size());
+    std::vector<std::vector<uint8_t>> id(n, std::vector<uint8_t>(n, 0));
+    for (uint32_t i = 0; i < n; ++i) id[i][i] = 1;
+    for (uint32_t col = 0; col < n; ++col) {
+        // Pivot
+        uint32_t pivot = n;
+        for (uint32_t row = col; row < n; ++row)
+            if (mat[row][col]) { pivot = row; break; }
+        if (pivot == n) return false;
+        std::swap(mat[col], mat[pivot]);
+        std::swap(id[col], id[pivot]);
+        // Scale
+        const uint8_t inv_lead = lrc_gf_inv(mat[col][col]);
+        for (uint32_t j = 0; j < n; ++j) {
+            mat[col][j] = lrc_gf_mul(mat[col][j], inv_lead);
+            id[col][j]  = lrc_gf_mul(id[col][j],  inv_lead);
+        }
+        // Eliminate
+        for (uint32_t row = 0; row < n; ++row) {
+            if (row == col || !mat[row][col]) continue;
+            const uint8_t f = mat[row][col];
+            for (uint32_t j = 0; j < n; ++j) {
+                mat[row][j] ^= lrc_gf_mul(f, mat[col][j]);
+                id[row][j]  ^= lrc_gf_mul(f, id[col][j]);
+            }
+        }
+    }
+    mat = id;
+    return true;
+}
+
+} // anonymous namespace
+
+// ── LocallyRepairableCoder helpers ──────────────────────────────────────────
+
+uint32_t LocallyRepairableCoder::localGroupCount(uint32_t data_shards,
+                                                  uint32_t parity_shards) {
+    const uint32_t groups = (data_shards + kDefaultLocalGroupSize - 1) / kDefaultLocalGroupSize;
+    // Reserve at least 1 parity for global coverage; cap local group count.
+    return std::min(groups, parity_shards > 1 ? parity_shards - 1 : parity_shards);
+}
+
+// ── encode ───────────────────────────────────────────────────────────────────
+
+std::vector<std::vector<uint8_t>> LocallyRepairableCoder::encode(
+    const std::vector<uint8_t>& data,
+    uint32_t data_shards,
+    uint32_t parity_shards)
+{
+    if (data_shards == 0 || parity_shards == 0)
+        throw std::invalid_argument("LRC encode: shard counts must be > 0");
+    if (data.empty())
+        throw std::invalid_argument("LRC encode: data must not be empty");
+
+    const uint32_t shard_size = static_cast<uint32_t>(
+        (data.size() + data_shards - 1) / data_shards);
+    const uint32_t n_local = localGroupCount(data_shards, parity_shards);
+    const uint32_t n_global = parity_shards - n_local;
+
+    // Split data into equal-size shards (zero-padded)
+    std::vector<std::vector<uint8_t>> shards(data_shards + parity_shards,
+                                              std::vector<uint8_t>(shard_size, 0));
+    for (uint32_t s = 0; s < data_shards; ++s) {
+        const uint32_t start = s * shard_size;
+        const uint32_t end   = std::min<uint32_t>(start + shard_size,
+                                                   static_cast<uint32_t>(data.size()));
+        if (start < static_cast<uint32_t>(data.size()))
+            std::copy(data.begin() + start, data.begin() + end, shards[s].begin());
+    }
+
+    // Local parity shards: XOR each group
+    const uint32_t local_start = data_shards;  // local parities begin here
+    for (uint32_t g = 0; g < n_local; ++g) {
+        const uint32_t grp_begin = g * kDefaultLocalGroupSize;
+        const uint32_t grp_end   = std::min(grp_begin + kDefaultLocalGroupSize, data_shards);
+        shards[local_start + g].assign(shard_size, 0);
+        for (uint32_t s = grp_begin; s < grp_end; ++s)
+            for (uint32_t b = 0; b < shard_size; ++b)
+                shards[local_start + g][b] ^= shards[s][b];
+    }
+
+    // Global parity shards: Vandermonde RS over all data shards
+    if (n_global > 0) {
+        auto gp_matrix = lrc_buildVandermonde(n_global, data_shards);
+        const uint32_t global_start = data_shards + n_local;
+        for (uint32_t p = 0; p < n_global; ++p) {
+            shards[global_start + p].assign(shard_size, 0);
+            for (uint32_t b = 0; b < shard_size; ++b) {
+                for (uint32_t s = 0; s < data_shards; ++s)
+                    shards[global_start + p][b] ^=
+                        lrc_gf_mul(gp_matrix[p][s], shards[s][b]);
+            }
+        }
+    }
+
+    return shards;
+}
+
+// ── decode ───────────────────────────────────────────────────────────────────
+
+std::vector<uint8_t> LocallyRepairableCoder::decode(
+    const std::map<uint32_t, std::vector<uint8_t>>& available_chunks,
+    const std::vector<uint32_t>& missing_indices,
+    uint32_t data_shards,
+    uint32_t parity_shards)
+{
+    if (missing_indices.empty()) {
+        // All data shards present — just concatenate
+        std::vector<uint8_t> result;
+        for (uint32_t s = 0; s < data_shards; ++s) {
+            const auto it = available_chunks.find(s);
+            if (it == available_chunks.end())
+                throw std::runtime_error("LRC decode: missing shard with no missing_indices entry");
+            result.insert(result.end(), it->second.begin(), it->second.end());
+        }
+        return result;
+    }
+
+    const uint32_t n_total   = data_shards + parity_shards;
+    const uint32_t n_local   = localGroupCount(data_shards, parity_shards);
+    const uint32_t shard_size = static_cast<uint32_t>(
+        available_chunks.begin()->second.size());
+
+    // Build full shard array (fill known shards; zeros for missing)
+    std::vector<std::vector<uint8_t>> shards(n_total,
+                                              std::vector<uint8_t>(shard_size, 0));
+    for (const auto& [idx, data] : available_chunks)
+        if (idx < n_total) shards[idx] = data;
+
+    // Attempt local group repair for each missing data shard
+    std::vector<bool> recovered(n_total, false);
+    for (uint32_t mi : missing_indices)
+        recovered[mi] = false;
+    for (const auto& [idx, _] : available_chunks)
+        recovered[idx] = true;
+
+    // Try local repair: for each missing data shard, check if only it is missing
+    // from its local group (data + local-parity shard available)
+    bool any_local = true;
+    while (any_local) {
+        any_local = false;
+        for (uint32_t s = 0; s < data_shards; ++s) {
+            if (recovered[s]) continue;
+            const uint32_t g          = s / kDefaultLocalGroupSize;
+            const uint32_t grp_begin  = g * kDefaultLocalGroupSize;
+            const uint32_t grp_end    = std::min(grp_begin + kDefaultLocalGroupSize, data_shards);
+            const uint32_t local_par  = data_shards + g;
+
+            // Count missing in group (data + local parity)
+            int missing_in_group = 0;
+            for (uint32_t m = grp_begin; m < grp_end; ++m) if (!recovered[m]) ++missing_in_group;
+            if (!recovered[local_par]) ++missing_in_group;
+
+            if (missing_in_group == 1) {
+                // Recover via XOR of group
+                shards[s].assign(shard_size, 0);
+                for (uint32_t m = grp_begin; m < grp_end; ++m)
+                    if (m != s)
+                        for (uint32_t b = 0; b < shard_size; ++b)
+                            shards[s][b] ^= shards[m][b];
+                if (recovered[local_par])
+                    for (uint32_t b = 0; b < shard_size; ++b)
+                        shards[s][b] ^= shards[local_par][b];
+                recovered[s] = true;
+                any_local = true;
+            }
+        }
+    }
+
+    // If still missing, fall back to global RS recovery
+    std::vector<uint32_t> still_missing;
+    for (uint32_t s = 0; s < data_shards; ++s)
+        if (!recovered[s]) still_missing.push_back(s);
+
+    if (!still_missing.empty()) {
+        const uint32_t n_global      = parity_shards - n_local;
+        const uint32_t global_start  = data_shards + n_local;
+
+        // Collect available rows (data + global parity)
+        std::vector<uint32_t> avail_rows;
+        for (uint32_t s = 0; s < data_shards; ++s)
+            if (recovered[s]) avail_rows.push_back(s);
+        for (uint32_t p = 0; p < n_global && avail_rows.size() < data_shards; ++p)
+            if (recovered[global_start + p]) avail_rows.push_back(data_shards + p);
+
+        if (avail_rows.size() < data_shards)
+            throw std::runtime_error("LRC decode: insufficient shards for recovery");
+
+        // Build encode matrix: identity (data) + Vandermonde (global)
+        auto vand = lrc_buildVandermonde(n_global, data_shards);
+        std::vector<std::vector<uint8_t>> full_mat(data_shards + n_global,
+                                                    std::vector<uint8_t>(data_shards, 0));
+        for (uint32_t s = 0; s < data_shards; ++s) full_mat[s][s] = 1;
+        for (uint32_t p = 0; p < n_global; ++p)   full_mat[data_shards + p] = vand[p];
+
+        // Select decode matrix rows
+        std::vector<std::vector<uint8_t>> dec_mat(data_shards,
+                                                   std::vector<uint8_t>(data_shards));
+        std::vector<std::vector<uint8_t>> rhs(data_shards,
+                                               std::vector<uint8_t>(shard_size, 0));
+        for (uint32_t i = 0; i < data_shards; ++i) {
+            const uint32_t row_idx = avail_rows[i];
+            dec_mat[i] = row_idx < data_shards
+                       ? full_mat[row_idx]
+                       : full_mat[data_shards + (row_idx - data_shards)];
+            rhs[i]     = row_idx < data_shards
+                       ? shards[row_idx]
+                       : shards[global_start + (row_idx - data_shards)];
+        }
+
+        if (!lrc_invertMatrix(dec_mat))
+            throw std::runtime_error("LRC decode: could not invert recovery matrix");
+
+        for (uint32_t s = 0; s < data_shards; ++s) {
+            shards[s].assign(shard_size, 0);
+            for (uint32_t b = 0; b < shard_size; ++b)
+                for (uint32_t j = 0; j < data_shards; ++j)
+                    shards[s][b] ^= lrc_gf_mul(dec_mat[s][j], rhs[j][b]);
+        }
+    }
+
+    // Concatenate recovered data shards
+    std::vector<uint8_t> result;
+    result.reserve(static_cast<std::size_t>(data_shards) * shard_size);
+    for (uint32_t s = 0; s < data_shards; ++s)
+        result.insert(result.end(), shards[s].begin(), shards[s].end());
+    return result;
+}
+
+// ═══════════════════════════════════════════════════════════
+// HammingCoder Implementation
+// ═══════════════════════════════════════════════════════════
+
+// Parity shard p (0-indexed) covers data shard j (0-indexed) when bit p is
+// set in the 1-based position (j+1):  ((j + 1) >> p) & 1 == 1.
+//
+// This mirrors the classical Hamming parity-bit assignment but operates at
+// shard granularity with pure XOR — no Galois-Field arithmetic is required.
+
+// Returns true when parity shard `p` covers data shard `j` (both 0-indexed).
+static inline bool hammingCovers(uint32_t j, uint32_t p) noexcept {
+    return (((j + 1u) >> p) & 1u) != 0u;
+}
+
+std::vector<std::vector<uint8_t>> HammingCoder::encode(
+    const std::vector<uint8_t>& data,
+    uint32_t data_shards,
+    uint32_t parity_shards)
+{
+    if (data_shards == 0 || parity_shards == 0)
+        throw std::invalid_argument("HammingCoder::encode: shard counts must be > 0");
+    if (data.empty())
+        throw std::invalid_argument("HammingCoder::encode: data must not be empty");
+
+    const uint32_t shard_size = static_cast<uint32_t>(
+        (data.size() + data_shards - 1) / data_shards);
+
+    // Initialise all shards to zero (data shards will be filled below)
+    const uint32_t total_shards = data_shards + parity_shards;
+    std::vector<std::vector<uint8_t>> shards(total_shards,
+                                              std::vector<uint8_t>(shard_size, 0));
+
+    // Fill data shards (zero-padded if data is not a multiple of shard_size)
+    for (uint32_t s = 0; s < data_shards; ++s) {
+        const uint32_t start = s * shard_size;
+        const uint32_t end = std::min(start + shard_size,
+                                      static_cast<uint32_t>(data.size()));
+        if (start < static_cast<uint32_t>(data.size()))
+            std::copy(data.begin() + start, data.begin() + end, shards[s].begin());
+    }
+
+    // Compute parity shards via XOR
+    for (uint32_t p = 0; p < parity_shards; ++p) {
+        std::vector<uint8_t>& parity = shards[data_shards + p];
+        for (uint32_t j = 0; j < data_shards; ++j) {
+            if (hammingCovers(j, p)) {
+                for (uint32_t b = 0; b < shard_size; ++b)
+                    parity[b] ^= shards[j][b];
+            }
+        }
+    }
+
+    return shards;
+}
+
+std::vector<uint8_t> HammingCoder::decode(
+    const std::map<uint32_t, std::vector<uint8_t>>& available_chunks,
+    const std::vector<uint32_t>& missing_indices,
+    uint32_t data_shards,
+    uint32_t parity_shards)
+{
+    if (available_chunks.empty())
+        throw std::runtime_error("HammingCoder::decode: no chunks available");
+
+    const uint32_t total_shards = data_shards + parity_shards;
+    const uint32_t shard_size =
+        static_cast<uint32_t>(available_chunks.begin()->second.size());
+
+    // Fast path: all data shards present
+    if (missing_indices.empty()) {
+        std::vector<uint8_t> result;
+        result.reserve(static_cast<size_t>(data_shards) * shard_size);
+        for (uint32_t s = 0; s < data_shards; ++s) {
+            const auto it = available_chunks.find(s);
+            if (it == available_chunks.end())
+                throw std::runtime_error(
+                    "HammingCoder::decode: data shard " + std::to_string(s) +
+                    " missing but not listed in missing_indices");
+            result.insert(result.end(), it->second.begin(), it->second.end());
+        }
+        return result;
+    }
+
+    // Build working shard array (zeros for missing shards)
+    std::vector<std::vector<uint8_t>> shards(total_shards,
+                                              std::vector<uint8_t>(shard_size, 0));
+    std::vector<bool> present(total_shards, false);
+    for (const auto& [idx, chunk] : available_chunks) {
+        if (idx < total_shards) {
+            shards[idx] = chunk;
+            present[idx] = true;
+        }
+    }
+
+    // Iterative repair: in each pass try to recover a missing shard using a
+    // parity shard that covers exactly one absent shard (the target itself).
+    // The loop terminates when a full pass completes without recovering any
+    // new shard; at that point the remaining missing shards cannot be repaired
+    // with the available parity coverage.
+    bool progress = true;
+    while (progress) {
+        progress = false;
+
+        for (uint32_t target = 0; target < total_shards; ++target) {
+            if (present[target]) continue;
+
+            if (target >= data_shards) {
+                // Missing parity shard: recompute directly from data shards
+                const uint32_t p = target - data_shards;
+                bool can_recompute = true;
+                for (uint32_t j = 0; j < data_shards; ++j) {
+                    if (!present[j] && hammingCovers(j, p)) {
+                        can_recompute = false;
+                        break;
+                    }
+                }
+                if (can_recompute) {
+                    shards[target].assign(shard_size, 0);
+                    for (uint32_t j = 0; j < data_shards; ++j) {
+                        if (hammingCovers(j, p)) {
+                            for (uint32_t b = 0; b < shard_size; ++b)
+                                shards[target][b] ^= shards[j][b];
+                        }
+                    }
+                    present[target] = true;
+                    progress = true;
+                }
+            } else {
+                // Missing data shard j = target.
+                // Look for a parity shard p that covers it and has all its
+                // other covered shards already recovered.
+                for (uint32_t p = 0; p < parity_shards; ++p) {
+                    if (!present[data_shards + p]) continue;       // parity absent
+                    if (!hammingCovers(target, p))  continue;      // parity doesn't cover target
+
+                    // Check that every other data shard covered by p is present
+                    bool all_others_present = true;
+                    for (uint32_t j = 0; j < data_shards; ++j) {
+                        if (j == target) continue;
+                        if (hammingCovers(j, p) && !present[j]) {
+                            all_others_present = false;
+                            break;
+                        }
+                    }
+                    if (!all_others_present) continue;
+
+                    // Recover target = parity[p] XOR (XOR of other covered data shards)
+                    shards[target] = shards[data_shards + p];
+                    for (uint32_t j = 0; j < data_shards; ++j) {
+                        if (j == target) continue;
+                        if (hammingCovers(j, p)) {
+                            for (uint32_t b = 0; b < shard_size; ++b)
+                                shards[target][b] ^= shards[j][b];
+                        }
+                    }
+                    present[target] = true;
+                    progress = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    // Verify all data shards are recovered
+    for (uint32_t s = 0; s < data_shards; ++s) {
+        if (!present[s])
+            throw std::runtime_error(
+                "HammingCoder::decode: cannot recover data shard " +
+                std::to_string(s) + " — too many simultaneous failures");
+    }
+
+    // Concatenate and return
+    std::vector<uint8_t> result;
+    result.reserve(static_cast<size_t>(data_shards) * shard_size);
+    for (uint32_t s = 0; s < data_shards; ++s)
+        result.insert(result.end(), shards[s].begin(), shards[s].end());
+    return result;
+}
+
+// ═══════════════════════════════════════════════════════════
 // ErasureCoder Factory
 // ═══════════════════════════════════════════════════════════
 
@@ -824,8 +1285,9 @@ std::unique_ptr<ErasureCoder> ErasureCoder::create(ErasureCodingAlgorithm algori
         case ErasureCodingAlgorithm::CAUCHY:
             return std::make_unique<CauchyReedSolomonCoder>();
         case ErasureCodingAlgorithm::LRC:
-            spdlog::warn("LRC algorithm not yet implemented, falling back to Cauchy Reed-Solomon");
-            return std::make_unique<CauchyReedSolomonCoder>();
+            return std::make_unique<LocallyRepairableCoder>();
+        case ErasureCodingAlgorithm::HAMMING:
+            return std::make_unique<HammingCoder>();
         default:
             return nullptr;
     }
@@ -871,7 +1333,6 @@ WriteResult RedundancyStrategy::write(
     ShardTopology& topology,
     WriteHandler handler
 ) {
-    (void)collection;
     auto start = std::chrono::steady_clock::now();
     
     stats_writes_++;
@@ -922,7 +1383,6 @@ ReadResult RedundancyStrategy::read(
     ShardTopology& topology,
     ReadHandler handler
 ) {
-    (void)collection;
     auto start = std::chrono::steady_clock::now();
     
     stats_reads_++;
@@ -978,7 +1438,6 @@ WriteResult RedundancyStrategy::writeMirror(
     ShardTopology& topology [[maybe_unused]],
     WriteHandler handler
 ) {
-    (void)topology;
     // Get primary shard
     auto primary_shard = ring.getNode(document_id);
     if (!primary_shard) {
@@ -1165,7 +1624,6 @@ WriteResult RedundancyStrategy::writeStripe(
     ShardTopology& topology [[maybe_unused]],
     WriteHandler handler
 ) {
-    (void)topology;
     // Split data into chunks
     auto chunks = splitIntoChunks(data, config_.stripe.stripe_size_kb * 1024);
     
@@ -1252,7 +1710,6 @@ WriteResult RedundancyStrategy::writeParity(
     ShardTopology& topology [[maybe_unused]],
     WriteHandler handler
 ) {
-    (void)topology;
     if (!erasure_coder_) {
         return WriteResult::failed(document_id, "Erasure coder not initialized");
     }
@@ -1675,7 +2132,6 @@ ReadResult RedundancyStrategy::readStripe(
     ShardTopology& topology [[maybe_unused]],
     ReadHandler handler
 ) {
-    (void)topology;
     ReadResult result;
     result.document_id = document_id;
     result.success = false;
@@ -1715,11 +2171,9 @@ ReadResult RedundancyStrategy::readStripe(
 ReadResult RedundancyStrategy::readParity(
     const std::string& document_id,
     ConsistentHashRing& ring,
-    ShardTopology& topology,
+    [[maybe_unused]] ShardTopology& topology,
     ReadHandler handler
 ) {
-    (void)ring;
-    (void)topology;
     if (!erasure_coder_) {
         ReadResult result;
         result.success = false;
@@ -1942,7 +2396,6 @@ bool RedundancyStrategy::remove(
     ShardTopology& topology,
     WriteHandler handler
 ) {
-    (void)collection;
 
     // Determine the set of shards that hold this document
     auto primary_opt = ring.getNode(document_id);
@@ -2063,7 +2516,6 @@ bool RedundancyStrategy::recoverDocument(
     ReadHandler read_handler,
     WriteHandler write_handler
 ) {
-    (void)collection;
     stats_recoveries_++;
 
     // Recovery is only meaningful for modes that have redundant copies or parity
@@ -2212,7 +2664,6 @@ RedundancyStrategy::DocumentHealth RedundancyStrategy::checkDocumentHealth(
     ShardTopology& topology,
     ReadHandler handler
 ) {
-    (void)collection;
     DocumentHealth health;
     health.required_replicas = config_.replication_factor;
     health.is_healthy = false;

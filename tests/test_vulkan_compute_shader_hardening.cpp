@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_vulkan_compute_shader_hardening.cpp           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:35:22                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:58:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     332                                            ║
+    • Total Lines:     331                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2c7ea935e  2026-03-14  fix(acceleration): address Vulkan compute shader pipeline... ║
-    • f657d8df5  2026-03-14  fix(acceleration): address code review feedback on Vulkan... ║
-    • f52f9b7ea  2026-03-14  feat(acceleration): implement Vulkan compute shader pipel... ║
+    • 2c7ea935e7  2026-03-14  fix(acceleration): address Vulkan compute shader pipeline... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

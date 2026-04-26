@@ -1,3 +1,6 @@
+> ⚠️ **Historischer Statusreport** – Dieser Bericht beschreibt den Implementierungsstand zum Zeitpunkt der Erstellung.
+> Für den aktuellen Stand: Quellcode und aktuelle [`benchmarks/README.md`](../README.md) prüfen.
+
 # RPC Framework v1.3.0 - Final Implementation Summary
 
 **Date:** 2025-12-17  

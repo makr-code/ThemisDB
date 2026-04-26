@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — Plugins Module
@@ -11,7 +13,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - WASM sandbox via Wasmtime for in-process native plugin isolation
 - Marketplace integration for community plugin discovery and installation
 - Per-plugin resource quotas (CPU, memory, I/O)
-- Capability-based permission model with runtime escalation blocking
 - SDK bindings for plugin authors (C, Python, Rust)
 - Community plugin repository scanning and trust scoring
 
@@ -25,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Health monitoring with automatic restart on crash (`plugin_health_monitor.cpp`)
 - Prometheus metrics integration (`plugin_metrics.cpp`) with Grafana dashboard
 - Plugin system edition management (`plugin_system_edition.cpp`) for community/enterprise tier differentiation
+- Runtime capability escalation blocking: `PluginManager::checkCapabilityEscalation()` compares current capabilities against snapshot frozen at load time; any new capability flag triggers `ERR_PLUGIN_CAPABILITY_ESCALATION` and marks plugin as `RESTRICTED` (implemented 2026-04-09)
 
 ### Changed
 - Plugin lifecycle now fully RAII-managed (load → init → unload with exception safety)

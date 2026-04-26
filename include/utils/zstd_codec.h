@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            zstd_codec.h                                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:13:04                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     68                                             ║
+    • Total Lines:     203                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 47adc1e417  2026-04-13  feat(utils): UUID v7, LZ4 codec, streaming ZSTD API (#4522) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -22,9 +22,10 @@
 
 #pragma once
 
-#include <vector>
 #include <cstdint>
+#include <memory>
 #include <string>
+#include <vector>
 #include "utils/expected.h"
 
 // Thin wrapper around Zstandard (ZSTD) compression library
@@ -39,6 +40,8 @@ namespace compression {
     constexpr size_t MAX_INPUT_SIZE = 1024ULL * 1024 * 1024;           // 1GB max input
     constexpr size_t MAX_OUTPUT_SIZE = 1024ULL * 1024 * 1024 * 2;      // 2GB max compressed output
     constexpr size_t MAX_DECOMPRESSED_SIZE = 1024ULL * 1024 * 1024 * 4; // 4GB max decompressed output
+    /// Recommended chunk size for streaming APIs (256 KB).
+    constexpr size_t STREAM_CHUNK_SIZE = 256 * 1024;
 }
 
 // Compress a buffer with ZSTD. Returns compressed bytes on success; empty on failure/unsupported.
@@ -63,6 +66,138 @@ std::vector<uint8_t> zstd_decompress(const std::vector<uint8_t>& compressed);
 // These provide detailed error information and are recommended for new code
 Result<std::vector<uint8_t>> zstd_compress_safe(const uint8_t* data, size_t size, int level = 3);
 Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& compressed);
+
+// ---------------------------------------------------------------------------
+// Streaming compression API
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Streaming ZSTD compressor.
+ *
+ * Compress an arbitrarily large data stream chunk by chunk without loading
+ * the entire input into memory at once.
+ *
+ * Typical usage:
+ * @code
+ *   ZstdStreamCompressor enc(3);
+ *   while (has_more_data()) {
+ *       auto chunk = enc.compress_chunk(buf, len);
+ *       if (chunk) write(*chunk);
+ *   }
+ *   auto tail = enc.flush();
+ *   if (tail) write(*tail);
+ * @endcode
+ */
+class ZstdStreamCompressor {
+public:
+    /**
+     * @brief Construct a stream compressor.
+     * @param level Zstd compression level (1–22; default 3).
+     */
+    explicit ZstdStreamCompressor(int level = 3);
+    ~ZstdStreamCompressor();
+
+    // Non-copyable; movable.
+    ZstdStreamCompressor(const ZstdStreamCompressor&)            = delete;
+    ZstdStreamCompressor& operator=(const ZstdStreamCompressor&) = delete;
+    ZstdStreamCompressor(ZstdStreamCompressor&&)                 = default;
+    ZstdStreamCompressor& operator=(ZstdStreamCompressor&&)      = default;
+
+    /**
+     * @brief Feed a chunk of uncompressed data into the stream.
+     *
+     * @param data  Pointer to input bytes.
+     * @param size  Number of bytes to compress.
+     * @return Ok(compressed_output) — may be empty if ZSTD buffered data
+     *         internally; Err on failure.
+     */
+    Result<std::vector<uint8_t>> compress_chunk(const uint8_t* data, size_t size);
+
+    /// Convenience overload for std::vector input.
+    Result<std::vector<uint8_t>> compress_chunk(const std::vector<uint8_t>& data) {
+        return compress_chunk(data.data(), data.size());
+    }
+
+    /**
+     * @brief Flush all buffered output and finalise the ZSTD frame.
+     *
+     * Must be called after the last compress_chunk() call. The returned
+     * bytes complete the ZSTD frame and must be appended to the output
+     * stream before the decompressor can verify integrity.
+     *
+     * @return Ok(final_compressed_bytes); Err on failure.
+     */
+    Result<std::vector<uint8_t>> flush();
+
+    /**
+     * @brief Reset the compressor for reuse with a new compression level.
+     * @param level New compression level (≥1; 0 keeps the current level).
+     */
+    void reset(int level = 0);
+
+private:
+    struct Impl;
+    std::unique_ptr<Impl> impl_;
+};
+
+/**
+ * @brief Streaming ZSTD decompressor.
+ *
+ * Decompress a ZSTD-framed stream chunk by chunk.
+ *
+ * Typical usage:
+ * @code
+ *   ZstdStreamDecompressor dec;
+ *   while (read_chunk(buf, len)) {
+ *       auto out = dec.decompress_chunk(buf, len);
+ *       if (out) process(*out);
+ *       if (dec.is_done()) break;
+ *   }
+ * @endcode
+ */
+class ZstdStreamDecompressor {
+public:
+    ZstdStreamDecompressor();
+    ~ZstdStreamDecompressor();
+
+    // Non-copyable; movable.
+    ZstdStreamDecompressor(const ZstdStreamDecompressor&)            = delete;
+    ZstdStreamDecompressor& operator=(const ZstdStreamDecompressor&) = delete;
+    ZstdStreamDecompressor(ZstdStreamDecompressor&&)                 = default;
+    ZstdStreamDecompressor& operator=(ZstdStreamDecompressor&&)      = default;
+
+    /**
+     * @brief Feed a chunk of compressed data into the stream.
+     *
+     * @param data  Pointer to compressed bytes.
+     * @param size  Number of compressed bytes.
+     * @return Ok(decompressed_output) — may be empty if more input needed;
+     *         Err on decompression failure.
+     */
+    Result<std::vector<uint8_t>> decompress_chunk(const uint8_t* data, size_t size);
+
+    /// Convenience overload for std::vector input.
+    Result<std::vector<uint8_t>> decompress_chunk(const std::vector<uint8_t>& data) {
+        return decompress_chunk(data.data(), data.size());
+    }
+
+    /**
+     * @brief Returns true when the current ZSTD frame has been fully decoded.
+     *
+     * After is_done() returns true, reset() must be called before feeding
+     * bytes from a new frame.
+     */
+    bool is_done() const;
+
+    /**
+     * @brief Reset the decompressor to accept a new ZSTD frame.
+     */
+    void reset();
+
+private:
+    struct Impl;
+    std::unique_ptr<Impl> impl_;
+};
 
 } // namespace utils
 } // namespace themis

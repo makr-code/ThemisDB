@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            irotation_store.hpp                                ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:12:53                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:47:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     107                                            ║
+    • Total Lines:     175                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8e5567bf5  2026-03-24  feat(user_storage_encrypted): v0.1.0 stdin key delivery, ... ║
+    • d8ee6d7cfe  2026-04-15  fix(user_storage_encrypted): repair broken merge artifact... ║
+    • 8e5567bf5e  2026-03-24  feat(user_storage_encrypted): v0.1.0 stdin key delivery, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,7 +28,6 @@
 #include <cstdint>
 #include <string>
 #include <fstream>
-#include <map>
 #include <mutex>
 #include <nlohmann/json.hpp>
 
@@ -36,73 +36,119 @@ namespace plugins {
 namespace user_storage {
 
 /**
- * @brief Persistence interface for KeyRotationScheduler state.
+ * @brief Minimal key-value persistence interface for rotation state.
  *
- * Allows last_check_ms timestamps to survive process restarts.
+ * The core protocol is string-key / string-value (get/put).  The
+ * SecurityLevel-based convenience methods (save/load) are implemented
+ * in this base class using the standard key format:
+ *   "user_storage:rotation_state:{level_name}"  →  JSON {"last_check_ms": N}
+ *
+ * Allows any backend (in-memory, file-backed, RocksDB, …) to persist
+ * rotation state without coupling the scheduler to a specific storage.
  */
 class IRotationStore {
 public:
     virtual ~IRotationStore() = default;
 
+    /**
+     * @brief Read a value by string key.
+     * @param key  Storage key
+     * @param out  Value (set only when true is returned)
+     * @return     true if the key existed
+     */
+    virtual bool get(const std::string& key, std::string& out) const = 0;
+
+    /**
+     * @brief Write a key-value pair.
+     * @return true on success
+     */
+    virtual bool put(const std::string& key, const std::string& value) = 0;
+
+    // -----------------------------------------------------------------------
+    // SecurityLevel-based convenience wrappers (built on get/put above)
+    // -----------------------------------------------------------------------
+
     /// Persist the last-check timestamp for @p level.
-    virtual Result<void> save(SecurityLevel level, int64_t last_check_ms) = 0;
-
-    /// Load the last-check timestamp for @p level (returns 0 if not found).
-    virtual Result<int64_t> load(SecurityLevel level) = 0;
-};
-
-/**
- * @brief No-op IRotationStore — useful for testing and ephemeral use.
- */
-class NullRotationStore : public IRotationStore {
-public:
-    Result<void> save(SecurityLevel /*level*/, int64_t /*ts*/) override {
+    Result<void> save(SecurityLevel level, int64_t last_check_ms) {
+        nlohmann::json j;
+        j["last_check_ms"] = last_check_ms;
+        const std::string key =
+            "user_storage:rotation_state:" + securityLevelToString(level);
+        if (!put(key, j.dump())) {
+            return Result<void>::error("IRotationStore::save: put failed for key " + key);
+        }
         return Result<void>();
     }
-    Result<int64_t> load(SecurityLevel /*level*/) override {
+
+    /// Load the last-check timestamp for @p level (returns 0 if not found).
+    Result<int64_t> load(SecurityLevel level) const {
+        const std::string key =
+            "user_storage:rotation_state:" + securityLevelToString(level);
+        std::string json_value;
+        if (!get(key, json_value)) {
+            return Result<int64_t>(int64_t{0});
+        }
+        try {
+            auto j = nlohmann::json::parse(json_value);
+            if (j.contains("last_check_ms")) {
+                return Result<int64_t>(j["last_check_ms"].get<int64_t>());
+            }
+        } catch (...) {}
         return Result<int64_t>(int64_t{0});
     }
 };
 
 /**
- * @brief File-backed IRotationStore using a JSON file for persistence.
+ * @brief No-op IRotationStore — useful for ephemeral use (no persistence).
+ */
+class NullRotationStore : public IRotationStore {
+public:
+    bool get(const std::string& /*key*/, std::string& /*out*/) const override {
+        return false;
+    }
+    bool put(const std::string& /*key*/, const std::string& /*value*/) override {
+        return true;
+    }
+};
+
+/**
+ * @brief File-backed IRotationStore using a flat JSON file for persistence.
  *
  * Thread-safe via an internal mutex.  File format:
  * @code{.json}
- * { "0": 1711234567890, "1": 1711234567891, ... }
+ * {
+ *   "user_storage:rotation_state:vs-nfd": "{\"last_check_ms\":1711234567890}",
+ *   ...
+ * }
  * @endcode
- * Keys are the numeric value of SecurityLevel cast to int.
  */
 class FileRotationStore : public IRotationStore {
 public:
     explicit FileRotationStore(std::string path) : path_(std::move(path)) {}
 
-    Result<void> save(SecurityLevel level, int64_t last_check_ms) override {
+    bool get(const std::string& key, std::string& out) const override {
         std::lock_guard<std::mutex> lk(mtx_);
-
-        nlohmann::json j = load_json();
-        j[std::to_string(static_cast<int>(level))] = last_check_ms;
-
-        std::ofstream f(path_);
-        if (!f) {
-            return Result<void>::error("FileRotationStore: cannot open " + path_);
+        const auto j = load_json();
+        if (!j.is_object() || !j.contains(key)) {
+            return false;
         }
-        f << j.dump(2);
-        if (!f) {
-            return Result<void>::error("FileRotationStore: write failed " + path_);
-        }
-        return Result<void>();
+        out = j[key].get<std::string>();
+        return true;
     }
 
-    Result<int64_t> load(SecurityLevel level) override {
+    bool put(const std::string& key, const std::string& value) override {
         std::lock_guard<std::mutex> lk(mtx_);
-
-        nlohmann::json j = load_json();
-        std::string key = std::to_string(static_cast<int>(level));
-        if (j.contains(key)) {
-            return Result<int64_t>(j[key].get<int64_t>());
+        auto j = load_json();
+        if (!j.is_object()) {
+            j = nlohmann::json::object();
         }
-        return Result<int64_t>(int64_t{0});
+        j[key] = value;
+        std::ofstream f(path_);
+        if (!f) {
+            return false;
+        }
+        f << j.dump(2);
+        return f.good();
     }
 
 private:
@@ -114,7 +160,7 @@ private:
         try {
             nlohmann::json j;
             f >> j;
-            return j;
+            return j.is_object() ? j : nlohmann::json::object();
         } catch (...) {
             return nlohmann::json::object();
         }

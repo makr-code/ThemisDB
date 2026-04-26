@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cad_processor.cpp                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:07                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     513                                            ║
+    • Total Lines:     514                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -250,8 +251,8 @@ ContentExtractionResult CADProcessor::extract(
 
 std::vector<ContentChunk> CADProcessor::chunk(
     const ContentExtractionResult& result,
-    int max_tokens,
-    int overlap
+    int /*max_tokens*/,
+    int /*overlap*/
 ) {
     std::vector<ContentChunk> chunks;
     
@@ -344,7 +345,7 @@ CADExtractionData CADProcessor::parseSTEP(const std::vector<uint8_t>& blob) {
     return data;
 }
 
-CADExtractionData CADProcessor::parseIGES(const std::vector<uint8_t>& blob) {
+CADExtractionData CADProcessor::parseIGES(const std::vector<uint8_t>& /*blob*/) {
     CADExtractionData data;
     
     // Real implementation would use OpenCASCADE IGESControl_Reader
@@ -356,7 +357,7 @@ CADExtractionData CADProcessor::parseIGES(const std::vector<uint8_t>& blob) {
     return data;
 }
 
-CADExtractionData CADProcessor::parseDXF(const std::vector<uint8_t>& blob) {
+CADExtractionData CADProcessor::parseDXF(const std::vector<uint8_t>& /*blob*/) {
     CADExtractionData data;
     
     // DXF is typically 2D, but can contain 3D
@@ -476,7 +477,7 @@ CADExtractionData CADProcessor::parseOBJ(const std::vector<uint8_t>& blob) {
     return data;
 }
 
-std::vector<uint8_t> CADProcessor::render3DPreview(const std::vector<uint8_t>& blob) {
+std::vector<uint8_t> CADProcessor::render3DPreview(const std::vector<uint8_t>& /*blob*/) {
     // Real implementation would:
     // 1. Load CAD geometry
     // 2. Set up orthographic/perspective camera
@@ -487,7 +488,7 @@ std::vector<uint8_t> CADProcessor::render3DPreview(const std::vector<uint8_t>& b
     return std::vector<uint8_t>();
 }
 
-json CADProcessor::extractAssemblyTree(const std::vector<uint8_t>& blob) {
+json CADProcessor::extractAssemblyTree(const std::vector<uint8_t>& /*blob*/) {
     json tree;
     
     // Real implementation would parse STEP/IGES assembly structure
@@ -495,7 +496,7 @@ json CADProcessor::extractAssemblyTree(const std::vector<uint8_t>& blob) {
     return tree;
 }
 
-json CADProcessor::extractBillOfMaterials(const std::vector<uint8_t>& blob) {
+json CADProcessor::extractBillOfMaterials(const std::vector<uint8_t>& /*blob*/) {
     json bom;
     
     // Real implementation would extract:

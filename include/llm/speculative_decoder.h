@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            speculative_decoder.h                              ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:08:38                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:45:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     201                                            ║
+    • Total Lines:     199                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 67965456c  2026-03-22  Add constructors with default config for various classes ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 747406559  2026-02-28  fix(llm): code audit — thread safety, seed truncation, re... ║
-    • 3ec167f3d  2026-02-28  feat(llm): implement speculative decoding for latency red... ║
+    • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -78,6 +75,20 @@ public:
 
         /// RNG seed for reproducibility in tests.  0 = use random seed.
         uint64_t rng_seed = 0;
+
+        /**
+         * @brief Remote draft shard identifier for cross-shard speculative decoding.
+         *
+         * When non-empty this field holds the shard address used to contact a
+         * lightweight draft model running on a remote ThemisDB shard (e.g.
+         * "shard-a:model:mistral-7b-q4").  The InferenceEngineEnhanced is
+         * expected to use RemoteExecutor to forward draft-token requests to
+         * that shard.  Falls back to the local draft model when the field is
+         * empty or the remote shard is unavailable.
+         *
+         * Format: "<shard_id>:model:<model_id>"   (colon-separated)
+         */
+        std::string remote_draft_shard_id;
     };
 
     // ── Result of one verify() call ──────────────────────────────────
@@ -120,6 +131,9 @@ public:
 
     SpeculativeDecoder();
     explicit SpeculativeDecoder(const Config& config);
+
+    /// Read-only access to the active configuration.
+    const Config& getConfig() const noexcept { return config_; }
 
     // ── Core interface ───────────────────────────────────────────────
 

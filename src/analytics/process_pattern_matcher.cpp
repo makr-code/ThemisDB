@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            process_pattern_matcher.cpp                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:13:57                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     847                                            ║
+    • Total Lines:     845                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • edf27e3ee  2026-02-26  Refactor CMake configuration, add vision components, and ... ║
-    • 63a6e0d65  2026-02-21  Update ROADMAPs across multiple components with issue tra... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -190,7 +185,7 @@ double ProcessPatternMatcher::computeGraphSimilarity(
                           trace_set.begin(), trace_set.end(),
                           std::inserter(intersection_set, intersection_set.begin()));
     size_t sym_diff = (pat_set.size() + trace_set.size()) - 2 * intersection_set.size();
-    double denom = pat_set.size() + trace_set.size();
+    double denom = static_cast<double>(pat_set.size() + trace_set.size());
     double edit_norm = (denom > 0) ? 1.0 - static_cast<double>(sym_diff) / denom : 1.0;
 
     return 0.30 * node_jac + 0.30 * edge_jac + 0.25 * path_sim + 0.15 * edit_norm;
@@ -389,7 +384,7 @@ ProcessPatternMatcher::findSimilar(
                               trace_set.begin(), trace_set.end(),
                               std::inserter(inter_set, inter_set.begin()));
         size_t sym_diff = (pat_set.size() + trace_set.size()) - 2 * inter_set.size();
-        double den = pat_set.size() + trace_set.size();
+        double den = static_cast<double>(pat_set.size() + trace_set.size());
         metrics.edit_distance = (den > 0) ? static_cast<double>(sym_diff) / den : 0.0;
 
         // Matched / missing / extra activities

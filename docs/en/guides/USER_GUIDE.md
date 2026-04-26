@@ -33,7 +33,7 @@ ThemisDB is a multi-model database for modern applications with:
 
 **Target Audience:** Application developers, data engineers, AI/ML engineers  
 **Version:** 1.3.0  
-**Last Updated:** December 2025
+**Last Updated:** April 2026
 
 ---
 

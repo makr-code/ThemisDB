@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            backup_manager.cpp                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:25                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     1795                                           ║
+    • Total Lines:     1794                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 06a455cf3  2026-03-11  audit(storage): fix error codes, expand test coverage, up... ║
-    • 79e04d690  2026-03-11  feat(storage): implement BackupManager scheduling and clo... ║
-    • 3ac1c4143  2026-03-09  fix: clear all remaining stubs/TODOs across modules; upda... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 649f5c7538  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • 7e8c588d0f  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -38,8 +39,28 @@
 #include <nlohmann/json.hpp>
 #include <cstdlib>
 #include <openssl/sha.h>
+#ifndef _WIN32
+#  include <sys/types.h>
+#  include <sys/wait.h>
+#  include <unistd.h>
+#else
+#  include <windows.h>
+#endif
 
 namespace themis {
+
+#ifdef _WIN32
+/// Wrap a string in double quotes for use as a CreateProcess command argument.
+/// Backslash-escapes embedded double-quote characters.
+static std::string winQuoteForCreateProcess(const std::string& s) {
+    std::string out = "\"";
+    for (char c : s) {
+        if (c == '"') out += "\\\"";
+        else          out += c;
+    }
+    return out + "\"";
+}
+#endif
 
 BackupManager::BackupManager(std::shared_ptr<RocksDBWrapper> db_wrapper) 
     : db_wrapper_(std::move(db_wrapper)) {
@@ -285,8 +306,7 @@ uint64_t BackupManager::getCurrentSequenceNumber() const {
 }
 
 Result<void> BackupManager::copyWALFiles(const std::string& src_dir, const std::string& dest_dir,
-                                         uint64_t min_sequence) {
-    (void)min_sequence;
+                                         [[maybe_unused]] uint64_t min_sequence) {
     namespace fs = std::filesystem;
     try {
         std::error_code ec;
@@ -390,7 +410,7 @@ Result<std::string> BackupManager::createFullBackup(const std::string& dest_dir)
 
 bool BackupManager::createFullBackup(const std::string& dest_dir, 
                                      std::error_code& ec,
-                                     const BackupOptions& options) {
+                                     [[maybe_unused]] const BackupOptions& options) {
     // Call the Result-based version and convert to bool + error_code
     auto result = createFullBackup(dest_dir);
     if (result) {
@@ -928,61 +948,145 @@ Result<std::string> BackupManager::compressBackup(const std::string& backup_dir)
     namespace fs = std::filesystem;
     try {
         if (!fs::exists(backup_dir)) {
-            return Err<std::string>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND, 
+            return Err<std::string>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
                                    "Backup directory not found: " + backup_dir);
         }
-        
-        // Create compressed file path
+
         auto compressed_file = backup_dir + ".tar.gz";
-        
-        // Use system tar command for compression
-        std::string cmd = "tar -czf \"" + compressed_file + "\" -C \"" + 
-                         fs::path(backup_dir).parent_path().string() + "\" \"" + 
-                         fs::path(backup_dir).filename().string() + "\"";
-        
-        int result = system(cmd.c_str());
-        if (result != 0) {
-            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_COMPRESSION_FAILED, 
-                                   "Failed to compress backup directory");
+        const std::string parent_dir = fs::path(backup_dir).parent_path().string();
+        const std::string dir_name   = fs::path(backup_dir).filename().string();
+
+        // Use fork()+execvp() instead of system() to avoid shell injection
+        // (CWE-78). Arguments are passed as separate strings — no shell
+        // metacharacter interpretation takes place.
+#ifndef _WIN32
+        pid_t pid = fork();
+        if (pid < 0) {
+            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_COMPRESSION_FAILED,
+                                   "fork() failed when invoking tar");
         }
-        
+        if (pid == 0) {
+            // Child: exec tar directly, no shell involved.
+            // argv must be null-terminated; strings are const-cast-safe because
+            // execvp does not modify them.
+            const char* argv[] = {
+                "tar", "-czf",
+                compressed_file.c_str(),
+                "-C", parent_dir.c_str(),
+                dir_name.c_str(),
+                nullptr
+            };
+            execvp("tar", const_cast<char* const*>(argv));
+            // If execvp returns, it failed.
+            _exit(127);
+        }
+        int status = 0;
+        waitpid(pid, &status, 0);
+        if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
+            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_COMPRESSION_FAILED,
+                                   "tar exited with error during compression");
+        }
+#else
+        // Windows: build a quoted command for CreateProcess (no shell).
+        // Double-quote each argument component defensively.
+        std::string cmd = "tar -czf " + winQuoteForCreateProcess(compressed_file) +
+                          " -C " + winQuoteForCreateProcess(parent_dir) + " " + winQuoteForCreateProcess(dir_name);
+        STARTUPINFOA si{}; si.cb = sizeof(si);
+        PROCESS_INFORMATION pi{};
+        std::vector<char> mutable_cmd(cmd.begin(), cmd.end());
+        mutable_cmd.push_back('\0');
+        if (!CreateProcessA(nullptr, mutable_cmd.data(),
+                            nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi)) {
+            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_COMPRESSION_FAILED,
+                                   "CreateProcess failed for tar (compression)");
+        }
+        WaitForSingleObject(pi.hProcess, INFINITE);
+        DWORD exit_code = 0;
+        GetExitCodeProcess(pi.hProcess, &exit_code);
+        CloseHandle(pi.hProcess);
+        CloseHandle(pi.hThread);
+        if (exit_code != 0) {
+            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_COMPRESSION_FAILED,
+                                   "tar exited with error during compression");
+        }
+#endif
+
         THEMIS_INFO("Backup compressed successfully: {}", compressed_file);
         return Ok(compressed_file);
     } catch (const std::exception& e) {
-        return Err<std::string>(errors::ErrorCode::ERR_BACKUP_COMPRESSION_FAILED, 
+        return Err<std::string>(errors::ErrorCode::ERR_BACKUP_COMPRESSION_FAILED,
                                "Exception compressing backup: " + std::string(e.what()));
     }
 }
 
-Result<std::string> BackupManager::decompressBackup(const std::string& compressed_file, 
+Result<std::string> BackupManager::decompressBackup(const std::string& compressed_file,
                                                     const std::string& dest_dir) {
     namespace fs = std::filesystem;
     try {
         if (!fs::exists(compressed_file)) {
-            return Err<std::string>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND, 
+            return Err<std::string>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
                                    "Compressed file not found: " + compressed_file);
         }
-        
+
         std::error_code ec;
         fs::create_directories(dest_dir, ec);
         if (ec) {
-            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED, 
+            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
                                    "Failed to create destination directory: " + ec.message());
         }
-        
-        // Use system tar command for decompression
-        std::string cmd = "tar -xzf \"" + compressed_file + "\" -C \"" + dest_dir + "\"";
-        
-        int result = system(cmd.c_str());
-        if (result != 0) {
-            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED, 
-                                   "Failed to decompress backup file");
+
+        // Use fork()+execvp() instead of system() to avoid shell injection
+        // (CWE-78). Arguments are passed as separate strings — no shell
+        // metacharacter interpretation takes place.
+#ifndef _WIN32
+        pid_t pid = fork();
+        if (pid < 0) {
+            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
+                                   "fork() failed when invoking tar");
         }
-        
+        if (pid == 0) {
+            const char* argv[] = {
+                "tar", "-xzf",
+                compressed_file.c_str(),
+                "-C", dest_dir.c_str(),
+                nullptr
+            };
+            execvp("tar", const_cast<char* const*>(argv));
+            _exit(127);
+        }
+        int status = 0;
+        waitpid(pid, &status, 0);
+        if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
+            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
+                                   "tar exited with error during decompression");
+        }
+#else
+        std::string cmd = "tar -xzf " + winQuoteForCreateProcess(compressed_file) +
+                          " -C " + winQuoteForCreateProcess(dest_dir);
+        STARTUPINFOA si{}; si.cb = sizeof(si);
+        PROCESS_INFORMATION pi{};
+        std::vector<char> mutable_cmd(cmd.begin(), cmd.end());
+        mutable_cmd.push_back('\0');
+        if (!CreateProcessA(nullptr, mutable_cmd.data(),
+                            nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi)) {
+            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
+                                   "CreateProcess failed for tar (decompression)");
+        }
+        WaitForSingleObject(pi.hProcess, INFINITE);
+        DWORD exit_code = 0;
+        GetExitCodeProcess(pi.hProcess, &exit_code);
+        CloseHandle(pi.hProcess);
+        CloseHandle(pi.hThread);
+        if (exit_code != 0) {
+            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
+                                   "tar exited with error during decompression");
+        }
+#endif
+
         THEMIS_INFO("Backup decompressed successfully to: {}", dest_dir);
         return Ok(dest_dir);
     } catch (const std::exception& e) {
-        return Err<std::string>(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED, 
+        return Err<std::string>(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
                                "Exception decompressing backup: " + std::string(e.what()));
     }
 }
@@ -1015,7 +1119,7 @@ bool BackupManager::compressPath(const std::string& src_path, const std::string&
 }
 
 bool BackupManager::decompressPath(const std::string& src_path, const std::string& dest_path,
-                                   CompressionType type, std::error_code& ec) {
+                                   [[maybe_unused]] CompressionType type, std::error_code& ec) {
     // Placeholder implementation
     namespace fs = std::filesystem;
     try {
@@ -1034,7 +1138,7 @@ bool BackupManager::decompressPath(const std::string& src_path, const std::strin
 }
 
 bool BackupManager::encryptFile(const std::string& src_path, const std::string& dest_path,
-                                const std::string& key, std::error_code& ec) {
+                                [[maybe_unused]] const std::string& key, std::error_code& ec) {
     // When THEMIS_ENABLE_OPENSSL is defined, use AES-256-GCM authenticated encryption:
     //   EVP_CIPHER_CTX with EVP_aes_256_gcm()
     //   Reference: https://wiki.openssl.org/index.php/EVP_Authenticated_Encryption_and_Decryption
@@ -1042,7 +1146,7 @@ bool BackupManager::encryptFile(const std::string& src_path, const std::string& 
     namespace fs = std::filesystem;
     try {
         THEMIS_INFO("Encrypting {} to {}", src_path, dest_path);
-        (void)key; // used by the real OpenSSL path
+        // used by the real OpenSSL path
         fs::copy(src_path, dest_path, fs::copy_options::recursive, ec);
         if (ec) {
             THEMIS_ERROR("Failed to copy for encryption: {}", ec.message());
@@ -1057,7 +1161,7 @@ bool BackupManager::encryptFile(const std::string& src_path, const std::string& 
 }
 
 bool BackupManager::decryptFile(const std::string& src_path, const std::string& dest_path,
-                                const std::string& key, std::error_code& ec) {
+                                [[maybe_unused]] const std::string& key, std::error_code& ec) {
     // Placeholder implementation
     namespace fs = std::filesystem;
     try {
@@ -1075,10 +1179,10 @@ bool BackupManager::decryptFile(const std::string& src_path, const std::string& 
     }
 }
 
-bool BackupManager::uploadToCloud(const std::string& local_path, const std::string& cloud_path,
-                                  StorageBackend backend, 
-                                  const std::map<std::string, std::string>& config,
-                                  std::error_code& ec) {
+bool BackupManager::uploadToCloud(const std::string& local_path, [[maybe_unused]] const std::string& cloud_path,
+                                  StorageBackend backend,
+                                  const std::map<std::string, std::string>& /*config*/,
+                                  [[maybe_unused]] std::error_code& ec) {
     // When the relevant SDK compile flag is set, use the real SDK:
     //   THEMIS_ENABLE_S3:     AWS SDK for C++ (github.com/aws/aws-sdk-cpp)
     //   THEMIS_ENABLE_GCS:    Google Cloud Storage C++ (github.com/googleapis/google-cloud-cpp)
@@ -1086,7 +1190,6 @@ bool BackupManager::uploadToCloud(const std::string& local_path, const std::stri
     // Without a flag the upload is a no-op (development/testing only).
     try {
         THEMIS_INFO("Uploading {} to cloud backend {}", local_path, static_cast<int>(backend));
-        (void)cloud_path; (void)config; (void)ec;
         return true;
     } catch (const std::exception& e) {
         ec = std::make_error_code(std::errc::io_error);
@@ -1095,9 +1198,9 @@ bool BackupManager::uploadToCloud(const std::string& local_path, const std::stri
     }
 }
 
-bool BackupManager::downloadFromCloud(const std::string& cloud_path, const std::string& local_path,
+bool BackupManager::downloadFromCloud(const std::string& cloud_path, [[maybe_unused]] const std::string& local_path,
                                       StorageBackend backend,
-                                      const std::map<std::string, std::string>& config,
+                                      const std::map<std::string, std::string>& /*config*/,
                                       std::error_code& ec) {
     // Placeholder implementation
     try {
@@ -1218,7 +1321,7 @@ bool BackupManager::restoreFromBackup(const std::string& src_dir, std::error_cod
     }
 }
 
-bool BackupManager::performPITR(const std::string& dest_dir, const PITROptions& pitr_options,
+bool BackupManager::performPITR(const std::string& dest_dir, [[maybe_unused]] const PITROptions& pitr_options,
                                 std::error_code& ec, RecoveryStats* stats) {
     // Placeholder implementation for PITR
     namespace fs = std::filesystem;
@@ -1252,7 +1355,7 @@ bool BackupManager::performPITR(const std::string& dest_dir, const PITROptions& 
     }
 }
 
-bool BackupManager::restoreCollections(const std::string& src_dir, 
+bool BackupManager::restoreCollections([[maybe_unused]] const std::string& src_dir, 
                                        const std::vector<std::string>& collections,
                                        std::error_code& ec) {
     // Placeholder implementation for partial recovery

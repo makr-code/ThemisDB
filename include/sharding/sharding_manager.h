@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sharding_manager.h                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:11:40                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:47:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     149                                            ║
+    • Total Lines:     150                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 097e8a577  2026-03-24  feat(query,sharding): QueryFederation shard-key routing v... ║
-    • c9b143394  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
+    • 097e8a5773  2026-03-24  feat(query,sharding): QueryFederation shard-key routing v... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

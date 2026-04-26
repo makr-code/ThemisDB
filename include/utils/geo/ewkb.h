@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ewkb.h                                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:56                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     196                                            ║
+    • Total Lines:     194                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c2e120dd0  2026-02-24  feat(geo): Complete GeoJSON spec coverage for GeometryCol... ║
-    • c88fedecb  2026-02-22  feat(geo): Full GeoJSON RFC 7946 parsing for all geometry... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

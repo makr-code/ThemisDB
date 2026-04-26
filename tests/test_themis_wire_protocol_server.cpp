@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_themis_wire_protocol_server.cpp               ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:34:26                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:57:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     827                                            ║
+    • Total Lines:     824                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 197320301  2026-03-28  Implement SequenceU64Increment merge operator for RocksDB... ║
-    • e6f59e401  2026-03-11  fix(security): sanitize user input in error messages + sy... ║
-    • 74c1c156e  2026-03-11  fix(network): implement complete wire protocol V1 opcode ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
+    • 197320301a  2026-03-28  Implement SequenceU64Increment merge operator for RocksDB... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -37,9 +33,11 @@
 #include "themis/network/wire_protocol_server.hpp"
 
 #include <boost/asio.hpp>
+#include <chrono>
 #include <cstring>
 #include <functional>
 #include <sstream>
+#include <thread>
 #include <vector>
 
 using namespace themis::wire;
@@ -216,6 +214,12 @@ static boost::asio::ip::tcp::socket make_client_socket(
     acceptor.accept(server_side);
 
     return client;
+}
+
+static uint16_t reserve_loopback_port(boost::asio::io_context& ioc) {
+    using tcp = boost::asio::ip::tcp;
+    tcp::acceptor acceptor(ioc, tcp::endpoint(tcp::v4(), 0));
+    return acceptor.local_endpoint().port();
 }
 
 } // anonymous namespace
@@ -416,6 +420,43 @@ TEST(WireProtocolServer, DoubleStart) {
         server.start();  // second call should be a no-op
         server.stop();
     });
+}
+
+TEST(WireProtocolServer, Sessions_Pruned_After_Disconnect) {
+    using tcp = boost::asio::ip::tcp;
+    constexpr int kConnectionCount = 100;
+
+    boost::asio::io_context server_ioc;
+    const uint16_t port = reserve_loopback_port(server_ioc);
+    WireProtocolServer server(server_ioc, port);
+
+    server.start();
+    std::thread io_thread([&server_ioc]() {
+        server_ioc.run();
+    });
+
+    for (int i = 0; i < kConnectionCount; ++i) {
+        boost::asio::io_context client_ioc;
+        tcp::socket client(client_ioc);
+        client.connect(tcp::endpoint(boost::asio::ip::address_v4::loopback(), port));
+        boost::system::error_code ec;
+        client.shutdown(tcp::socket::shutdown_both, ec);
+        client.close(ec);
+    }
+
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+    while ((server.total_connections() < static_cast<uint64_t>(kConnectionCount) ||
+            server.active_sessions() != 0u) &&
+           std::chrono::steady_clock::now() < deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+
+    EXPECT_EQ(server.total_connections(), static_cast<uint64_t>(kConnectionCount));
+    EXPECT_EQ(server.active_sessions(), 0u);
+
+    server.stop();
+    server_ioc.stop();
+    io_thread.join();
 }
 
 // ===========================================================================

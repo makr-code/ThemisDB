@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_mixed_precision_perf.cpp                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:04:17                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:43:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     326                                            ║
+    • Total Lines:     343                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 202546ee10  2026-04-13  perf: add Disabled-Stub-Policy comments to all 21 *_Disab... ║
+    • 9c9ead9b4f  2026-04-09  Implement feature X to enhance user experience and optimi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -28,6 +28,21 @@
 #include "llm/lora_framework/gpu_memory.h"
 #include <chrono>
 #include <vector>
+
+#ifndef THEMIS_ENABLE_GPU
+
+static void BM_MixedPrecision_GPUDisabled(benchmark::State& state) {
+    for (auto _ : state) {
+        state.SkipWithError("Mixed precision GPU benchmarks are disabled in this build");
+        break;
+    }
+}
+// Disabled: mixed precision GPU kernels require CUDA runner | Deadline: v1.9.0 | Issue: #5
+BENCHMARK(BM_MixedPrecision_GPUDisabled);
+
+BENCHMARK_MAIN();
+
+#else
 
 using namespace themis::llm::lora;
 
@@ -56,7 +71,7 @@ constexpr int MEASURE_ITERS = 10;
 static bool cuda_available() {
     auto backends = GPUMemoryManager::detect_backends();
     for (const auto& backend : backends) {
-        if (backend.type == acceleration::BackendType::CUDA && backend.available) {
+        if (backend.type == themis::acceleration::BackendType::CUDA && backend.available) {
             return true;
         }
     }
@@ -324,3 +339,5 @@ BENCHMARK(BM_TensorCore_Speedup)
     ->UseManualTime();
 
 BENCHMARK_MAIN();
+
+#endif  // THEMIS_ENABLE_GPU

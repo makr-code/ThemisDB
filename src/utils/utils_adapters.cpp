@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            utils_adapters.cpp                                 ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:21:39                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:51:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     433                                            ║
+    • Total Lines:     437                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 071d9ee89  2026-03-20  feat(utils): implement abstract interfaces for the utils ... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -288,12 +289,11 @@ bool SampledLoggerSamplerAdapter::shouldSample(const LogEntry& entry) noexcept {
 }
 
 void SampledLoggerSamplerAdapter::recordDecision(
-        const LogEntry& /*entry*/, bool sampled) noexcept
+        const LogEntry& /*entry*/, [[maybe_unused]] bool sampled) noexcept
 {
     // No adaptive feedback in this implementation; stats already tracked in
     // shouldSample().  If sampled is inconsistent with internal tracking the
     // caller's explicit feedback takes precedence.
-    (void)sampled;
 }
 
 double SampledLoggerSamplerAdapter::currentRate() const noexcept {

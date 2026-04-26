@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wasm_kernel_sandbox.cpp                            ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:16:03                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   88.0/100                                       ║
-    • Total Lines:     357                                            ║
+    • Total Lines:     355                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 4e7e76257  2026-02-27  fix(gpu): fix deadlock in WASMKernelSandbox::execute() me... ║
-    • 5139a04e1  2026-02-26  feat(gpu): WASM-based GPU kernel sandbox for untrusted th... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

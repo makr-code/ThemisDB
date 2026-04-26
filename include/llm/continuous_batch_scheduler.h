@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            continuous_batch_scheduler.h                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:19                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     278                                            ║
+    • Total Lines:     276                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 57f73b9da  2026-03-13  feat(batch-scheduler): enhance canAddToBatch method to in... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 57f73b9da1  2026-03-13  feat(batch-scheduler): enhance canAddToBatch method to in... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -78,6 +76,7 @@ public:
         bool enable_preemption = true;
         bool enable_chunked_prefill = true;    // Chunk large prefills
         size_t prefill_chunk_size = 512;       // Tokens per prefill chunk
+        bool enable_adaptive_batch_retry = false; // Retry decode failures with downshift
         
         // Priority scheduling
         bool enable_priority_scheduling = true;
@@ -168,6 +167,31 @@ public:
         std::lock_guard<std::mutex> lock(mutex_);
         quota_manager_ = quota;
     }
+
+    /**
+     * @brief Callback type for shard load telemetry.
+     *
+     * Fired on every queue-depth change (submitRequest and processBatchResults)
+     * so that the AdaptiveShardRouter can keep its LLM-load table up-to-date
+     * for LEAST_LOADED routing decisions.
+     *
+     * @param pending     Current number of requests in the waiting queue.
+     * @param avg_queue_ms  Estimated average queue wait time in milliseconds.
+     */
+    using ShardLoadCallback = std::function<void(size_t pending, double avg_queue_ms)>;
+
+    /**
+     * @brief Inject a shard-load callback.
+     *
+     * When set, the callback is invoked (while holding the internal mutex) at
+     * the end of submitRequest() and processBatchResults() whenever the queue
+     * depth changes.  Pass an empty std::function to detach.
+     * Ownership of any captured state is the caller's responsibility.
+     */
+    void setShardLoadCallback(ShardLoadCallback cb) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        shard_load_cb_ = std::move(cb);
+    }
     
     // Request submission
     std::string submitRequest(
@@ -214,11 +238,37 @@ public:
         
         size_t current_batch_size = 0;
         size_t max_batch_size_seen = 0;
+        size_t batch_retry_count = 0;
+        size_t adaptive_prefill_chunk_size_tokens = 0;
         // Current combined depth of waiting + active requests
         size_t current_queue_depth = 0;
+        /// Times a decode step was skipped due to KV cache budget exhaustion
+        /// (n_ctx / blocks_free == 0 guard, Phase 3).
+        size_t kv_budget_exhausted_count = 0;
     };
     
     Stats getStats() const;
+
+    /**
+     * @brief Snapshot of LLM queue telemetry for ShardStats integration.
+     *
+     * Returned by getLLMStats() and intended to be forwarded into a
+     * sharding::ShardStats struct so that the AdaptiveShardRouter can make
+     * LLM-load-aware routing decisions.
+     */
+    struct LLMStats {
+        /// Number of requests currently waiting in the scheduler queue.
+        size_t pending_requests = 0;
+        /// Moving average queue wait time in milliseconds, or 0.0 when idle.
+        double avg_queue_ms = 0.0;
+    };
+
+    /**
+     * @brief Return a point-in-time snapshot of LLM queue metrics.
+     *
+     * Thread-safe; acquires the internal scheduler mutex briefly.
+     */
+    LLMStats getLLMStats() const;
     
 private:
     SchedulerConfig config_;
@@ -227,6 +277,8 @@ private:
     monitoring::LLMMetricsCollector* metrics_collector_ = nullptr;
     // Optional quota manager — not owned, may be nullptr
     TokenQuotaManager* quota_manager_ = nullptr;
+    // Optional shard-load callback — fired on queue depth changes
+    ShardLoadCallback shard_load_cb_;
     
     // Request queues by priority
     std::priority_queue<
@@ -256,6 +308,9 @@ private:
     // Statistics
     Stats stats_;
     std::chrono::system_clock::time_point last_schedule_time_;
+    // Adaptive prefill chunk state; accessed only while holding mutex_ in
+    // scheduleNextBatch() and processBatchResults().
+    size_t effective_prefill_chunk_size_ = 0;
     
     // Internal helpers
     bool canAddToBatch(const ScheduledRequest* request,

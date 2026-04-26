@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            import_api_handler.h                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:11                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     171                                            ║
+    • Total Lines:     168                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9bccf09a7  2026-03-16  Changes before error encountered         ║
-    • 8452353dc  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
-    • e4aae2a7f  2026-03-11  feat(importers): PostgreSQL Importer v2.0 - FK preservati... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d88671344  2026-02-28  feat(importers): implement web-based import wizard at GET... ║
+    • 9bccf09a7c  2026-03-16  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -89,7 +85,7 @@ namespace server {
  * GET    /import/wizard
  *   Serves the interactive web-based import wizard (single-page HTML application).
  *   No authentication required for the page itself; all data operations are
- *   delegated to the existing /api/v1/import/* REST endpoints.
+ *   delegated to the existing /api/v1/import/{name} REST endpoints.
  *
  * --- v2.0 endpoints ---
  *
@@ -127,7 +123,7 @@ public:
     ~ImportApiHandler() = default;
 
     /**
-     * @brief Register all /api/v1/import/* routes on @p server.
+     * @brief Register all /api/v1/import/{name} routes on @p server.
      *
      * Call once after constructing the handler, before calling
      * `server.listen()`.

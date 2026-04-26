@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            raft_wal_integration.cpp                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:21                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -13,16 +13,12 @@
     • Total Lines:     203                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "sharding/raft_wal_integration.h"
 #include <chrono>
-#include <thread>
 #include <set>
 #include <vector>
 
@@ -42,7 +38,7 @@ RaftWALIntegration::~RaftWALIntegration() {
 }
 
 RaftWALIntegration::WriteResult RaftWALIntegration::write(const WALEntry& entry) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::mutex> lock(mutex_);
     
     if (!is_leader_) {
         return {false, LSN{}, "Not leader, redirect to " + config_.raft_state->getLeaderId()};
@@ -72,30 +68,18 @@ RaftWALIntegration::WriteResult RaftWALIntegration::write(const WALEntry& entry)
     
     pending_writes_[log_index] = pending;
     
-    // 4. Replicate via AppendEntries (simulated here, actual would be async)
-    // In real implementation, this would trigger AppendEntries RPCs
-    // For now, we simulate waiting for responses
-    
-    // 5. Wait for quorum (in real impl, this would be event-driven)
-    auto start = std::chrono::steady_clock::now();
-    while (!pending_writes_[log_index].committed) {
-        // Check timeout (e.g., 5 seconds)
-        auto now = std::chrono::steady_clock::now();
-        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - start);
-        if (elapsed.count() > 5000) {
-            pending_writes_.erase(log_index);
-            return {false, wal_lsn, "Quorum timeout"};
-        }
-        
-        // In real impl, would wait on condition variable
-        // For testing, we check if we have quorum
-        if (hasQuorum(pending_writes_[log_index].acknowledgments)) {
-            pending_writes_[log_index].committed = true;
-            config_.raft_log->setCommitIndex(log_index);
-            break;
-        }
-        
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    // 4. Wait for quorum with a condition variable so that onAppendEntriesResponse()
+    //    can acquire the same mutex to deliver ACKs while write() is waiting.
+    //    The mutex is temporarily released by cv_.wait_for() on each iteration.
+    auto timeout = std::chrono::milliseconds(5000);
+    bool quorum_reached = cv_.wait_for(lock, timeout, [this, log_index]() {
+        auto it = pending_writes_.find(log_index);
+        return it != pending_writes_.end() && it->second.committed;
+    });
+
+    if (!quorum_reached) {
+        pending_writes_.erase(log_index);
+        return {false, wal_lsn, "Quorum timeout"};
     }
     
     pending_writes_.erase(log_index);
@@ -180,9 +164,9 @@ void RaftWALIntegration::stopWALApplier() {
 }
 
 bool RaftWALIntegration::hasQuorum(const std::set<std::string>& acks) const {
-    // Get cluster size from Raft configuration
-    // For now, assume 3 nodes (quorum = 2)
-    size_t cluster_size = 3;  // In real impl, get from RaftConfiguration
+    // Use actual cluster membership size from RaftState configuration.
+    const auto& members = config_.raft_state->getClusterMembers();
+    size_t cluster_size = members.empty() ? 1 : members.size();
     size_t quorum = (cluster_size / 2) + 1;
     
     return acks.size() >= quorum;
@@ -192,10 +176,21 @@ void RaftWALIntegration::onAppendEntriesResponse(const std::string& follower_id,
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Mark acknowledgment for all pending writes up to match_index
+    bool any_newly_committed = false;
     for (auto& [log_index, pending] : pending_writes_) {
         if (log_index <= match_index) {
             pending.acknowledgments.insert(follower_id);
+            if (!pending.committed && hasQuorum(pending.acknowledgments)) {
+                pending.committed = true;
+                config_.raft_log->setCommitIndex(log_index);
+                any_newly_committed = true;
+            }
         }
+    }
+
+    // Wake up write() waiters whenever a new entry reaches quorum.
+    if (any_newly_committed) {
+        cv_.notify_all();
     }
 }
 

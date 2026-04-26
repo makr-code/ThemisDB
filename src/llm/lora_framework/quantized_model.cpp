@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            quantized_model.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:17:07                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 43a91f179  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -284,7 +284,7 @@ size_t estimate_memory_usage(size_t num_parameters,
     return data_bytes + block_bytes;
 }
 
-float calculate_memory_reduction(size_t original_bytes, QuantizationType quant_type) {
+float calculate_memory_reduction(size_t /*original_bytes*/, QuantizationType quant_type) {
     // Rough estimates based on typical block sizes
     float reduction = 0.0f;
     

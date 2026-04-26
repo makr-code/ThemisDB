@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_loader_linux.cpp                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:20:47                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 4d3183301  2026-03-12  fix(themis): address PR review – errorCategory on success... ║
-    • 9dde7cb67  2026-03-12  feat(themis): implement module loader in src/themis/ with... ║
+    • 4d31833011  2026-03-12  fix(themis): address PR review – errorCategory on success... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

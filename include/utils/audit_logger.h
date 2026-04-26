@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            audit_logger.h                                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:54                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 33f9fb777  2026-03-14  feat(sharding): implement adaptive shard rebalancer with ... ║
-    • 2dba94765  2026-03-11  feat(exporters): PolicyEngine export authorization with a... ║
-    • eea8f803b  2026-03-09  feat(utils): implement HashChainAuditWriter/AuditLogVerif... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f7107b065  2026-03-01  Protect audit log against loss: fsync, rotation, secondar... ║
+    • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -429,6 +425,7 @@ struct HashChainAuditWriterConfig {
     std::string log_path        = "data/logs/audit_chain.jsonl";
     std::string chain_head_path = "data/logs/audit_chain_head.bin";
     bool        fsync_on_write  = true;   ///< fdatasync the head file after each write
+    uint64_t    checkpoint_interval = 1;  ///< persist chain head every N writes (1 = every write)
 };
 
 /**
@@ -483,6 +480,8 @@ public:
 private:
     HashChainAuditWriterConfig cfg_;
     mutable std::mutex         mu_;
+    std::ofstream              log_stream_;
+    std::fstream               chain_head_stream_;
     std::string                last_hash_;
     uint64_t                   seq_{0};
 

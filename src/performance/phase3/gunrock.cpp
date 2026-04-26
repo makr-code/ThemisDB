@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gunrock.cpp                                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:17:56                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     184                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -28,6 +25,7 @@
 #include <queue>
 #include <limits>
 #include <cmath>
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace performance {
@@ -76,10 +74,20 @@ std::vector<int> GunrockProcessor::gpu_bfs(NodeID start_vertex) {
         return distances;
     }
     
+    // GAP-021: Frontier size cap prevents unbounded BFS expansion on dense graphs
+    // (DoS via API calls that trigger traversal of millions of nodes).
+    // Cap is set to the number of vertices — the worst case is visiting every
+    // node exactly once, so any queue growth beyond n indicates a cycle bug.
+    // We also guard against pathological adjacency lists by capping total enqueued
+    // nodes at MAX_FRONTIER_NODES per traversal call.
+    static constexpr size_t kMaxFrontierNodes = 1'000'000;
+    size_t nodes_enqueued = 0;
+
     // BFS using queue (CPU implementation)
     std::queue<NodeID> frontier;
     frontier.push(start_vertex);
     distances[start_vertex] = 0;
+    ++nodes_enqueued;
     
     while (!frontier.empty()) {
         NodeID current = frontier.front();
@@ -87,12 +95,20 @@ std::vector<int> GunrockProcessor::gpu_bfs(NodeID start_vertex) {
         
         const auto& neighbors = impl_->adj_list[current];
         for (NodeID neighbor : neighbors) {
+            if (nodes_enqueued >= kMaxFrontierNodes) {
+                spdlog::warn("GunrockProcessor::gpu_bfs: frontier cap ({}) reached "
+                             "from vertex {}; truncating traversal",
+                             kMaxFrontierNodes, start_vertex);
+                goto bfs_done;
+            }
             if (neighbor < n && distances[neighbor] == -1) {
                 distances[neighbor] = distances[current] + 1;
                 frontier.push(neighbor);
+                ++nodes_enqueued;
             }
         }
     }
+bfs_done:
     
     return distances;
 }

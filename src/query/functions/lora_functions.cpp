@@ -3,19 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_functions.cpp                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:18:28                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     987                                            ║
+    • Total Lines:     998                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • ac1c6ff53  2026-03-26  fix: thread pool priority queue + latency, lora memory/ba... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 0d8e07c708  2026-04-14  chore: reduce compiler warnings in scheduler, query, secu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • 2e85cfe4c1  2026-04-14  chore: reduce compiler warnings in scheduler, query, secu... ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -91,10 +93,10 @@ LoRAHyperparameters parseTrainingConfig(const json& config) {
         params.rank = config["rank"].get<int>();
     }
     if (config.contains("alpha")) {
-        params.alpha = config["alpha"].get<double>();
+        params.alpha = config["alpha"].get<float>();
     }
     if (config.contains("learning_rate")) {
-        params.learning_rate = config["learning_rate"].get<double>();
+        params.learning_rate = config["learning_rate"].get<float>();
     }
     if (config.contains("num_epochs")) {
         params.num_epochs = config["num_epochs"].get<int>();
@@ -103,7 +105,7 @@ LoRAHyperparameters parseTrainingConfig(const json& config) {
         params.batch_size = config["batch_size"].get<int>();
     }
     if (config.contains("dropout")) {
-        params.dropout = config["dropout"].get<double>();
+        params.dropout = config["dropout"].get<float>();
     }
     
     return params;
@@ -165,6 +167,7 @@ nlohmann::json LoraTrainFunction::execute(
     const std::vector<nlohmann::json>& args,
     const FunctionContext& context
 ) const {
+    (void)context;
     try {
         // Parse arguments
         std::string adapter_id = args[0].get<std::string>();
@@ -251,6 +254,7 @@ nlohmann::json LoraQueryFunction::execute(
     const std::vector<nlohmann::json>& args,
     const FunctionContext& context
 ) const {
+    (void)context;
     try {
         // Parse arguments
         std::string model_id = args[0].get<std::string>();
@@ -260,8 +264,8 @@ nlohmann::json LoraQueryFunction::execute(
         
         // Parse generation options
         int max_tokens = options.value("max_tokens", 500);
-        double temperature = options.value("temperature", 0.7);
-        double top_p = options.value("top_p", 0.9);
+        float temperature = options.value("temperature", 0.7f);
+        float top_p = options.value("top_p", 0.9f);
         
         // Get orchestrator and ensure adapter is loaded
         auto orchestrator = getLoRAOrchestrator();
@@ -325,6 +329,7 @@ nlohmann::json LoraSimilarFunction::execute(
     const std::vector<nlohmann::json>& args,
     const FunctionContext& context
 ) const {
+    (void)context;
     try {
         // Parse arguments
         std::string adapter_id = args[0].get<std::string>();
@@ -418,7 +423,7 @@ nlohmann::json LoraSimilarFunction::execute(
         
         return results;
         
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         json error = json::array();
         return error;
     }
@@ -459,11 +464,13 @@ nlohmann::json LoraPathFunction::execute(
     const std::vector<nlohmann::json>& args,
     const FunctionContext& context
 ) const {
+    (void)context;
     try {
         // Parse arguments
         std::string start_model = args[0].get<std::string>();
         std::string end_model = args[1].get<std::string>();
         int max_depth = args.size() > 2 ? args[2].get<int>() : 5;
+        (void)max_depth;
         
         // Build adaptation path
         // This is a placeholder - would integrate with actual graph traversal
@@ -495,7 +502,7 @@ nlohmann::json LoraPathFunction::execute(
         
         return path;
         
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         json error = json::array();
         return error;
     }
@@ -534,6 +541,7 @@ nlohmann::json LoraStatsFunction::execute(
     const std::vector<nlohmann::json>& args,
     const FunctionContext& context
 ) const {
+    (void)context;
     try {
         // Parse arguments
         std::string adapter_id = args[0].get<std::string>();
@@ -624,6 +632,7 @@ nlohmann::json LoraRecommendFunction::execute(
     const std::vector<nlohmann::json>& args,
     const FunctionContext& context
 ) const {
+    (void)context;
     try {
         // Parse arguments
         std::string query = args[0].get<std::string>();
@@ -730,6 +739,7 @@ nlohmann::json LoraLineageFunction::execute(
     const std::vector<nlohmann::json>& args,
     const FunctionContext& context
 ) const {
+    (void)context;
     try {
         // Parse arguments
         std::string adapter_id = args[0].get<std::string>();
@@ -759,7 +769,7 @@ nlohmann::json LoraLineageFunction::execute(
         
         return lineage;
         
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         json error = json::array();
         return error;
     }

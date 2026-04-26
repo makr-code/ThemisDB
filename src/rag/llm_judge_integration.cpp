@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_judge_integration.cpp                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:18:56                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟠 BETA                                         ║
     • Quality Score:   59.0/100                                       ║
-    • Total Lines:     236                                            ║
+    • Total Lines:     237                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 67965456c  2026-03-22  Add constructors with default config for various classes ... ║
-    • 883e2e12b  2026-03-15  feat(rag): replace LLMIntegration stub + add ILLMInferenc... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🔧 In Progress                                               ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -40,7 +38,7 @@ LLMJudgeIntegration::LLMJudgeIntegration(ILLMInferenceEngine* engine)
 }
 
 LLMJudgeIntegration::LLMJudgeIntegration(ILLMInferenceEngine* engine, const Config& config)
-    : config_(config), mock_mode_warning_shown_(false) {
+    : config_(config), mock_mode_active_(false), mock_mode_warning_shown_(false) {
     if (engine == nullptr && !config_.allow_mock) {
         throw std::invalid_argument(
             "LLMJudgeIntegration: engine must not be nullptr when allow_mock is false. "
@@ -51,10 +49,12 @@ LLMJudgeIntegration::LLMJudgeIntegration(ILLMInferenceEngine* engine, const Conf
         inference_fn_ = [engine](const std::string& prompt) {
             return engine->generate(prompt);
         };
+        mock_mode_active_ = false;
         THEMIS_INFO("LLMJudgeIntegration initialized with injected inference engine");
     } else {
         // allow_mock = true AND engine = nullptr → fall back to default mock
         inference_fn_ = defaultInference;
+        mock_mode_active_ = true;
         if (config_.warn_on_mock_mode) {
             THEMIS_WARN("LLMJudgeIntegration initialized with nullptr engine in MOCK MODE "
                         "(allow_mock=true) - evaluations will use stub responses");
@@ -67,10 +67,11 @@ LLMJudgeIntegration::LLMJudgeIntegration()
 }
 
 LLMJudgeIntegration::LLMJudgeIntegration(const Config& config)
-    : config_(config), mock_mode_warning_shown_(false) {
+    : config_(config), mock_mode_active_(false), mock_mode_warning_shown_(false) {
     // Only set default inference function if mock mode is explicitly enabled
     if (config_.use_mock_mode) {
         inference_fn_ = defaultInference;
+        mock_mode_active_ = true;
         if (config_.warn_on_mock_mode) {
             THEMIS_WARN("LLMJudgeIntegration initialized in MOCK MODE - evaluations will use stub responses");
         }
@@ -134,11 +135,18 @@ ParsedResponse LLMJudgeIntegration::evaluateWithLLM(
     
     // Parse response
     ParsedResponse parsed = ResponseParser::parse(llm_response);
-    
+
+    // Gap 7 (AI_ML_IMPACT_ASSESSMENT.md §7): mark the result as mock-produced
+    // so callers can filter it from production dashboards without having to
+    // separately call isMockMode().
+    if (isMockMode()) {
+        parsed.is_mock = true;
+    }
+
     if (!parsed.success) {
         THEMIS_WARN("Failed to parse LLM response: {}", parsed.error_message);
     }
-    
+
     return parsed;
 }
 
@@ -177,6 +185,7 @@ void LLMJudgeIntegration::setInferenceFunction(
     std::function<std::string(const std::string&)> fn
 ) {
     inference_fn_ = fn;
+    mock_mode_active_ = false;
     THEMIS_INFO("Custom inference function set for LLM judge");
 }
 
@@ -200,7 +209,7 @@ std::string LLMJudgeIntegration::callLLM(const std::string& prompt) {
     }
     
     // Warn once if in mock mode
-    if (config_.use_mock_mode && config_.warn_on_mock_mode && !mock_mode_warning_shown_) {
+    if (mock_mode_active_ && config_.warn_on_mock_mode && !mock_mode_warning_shown_) {
         THEMIS_WARN("LLM evaluation using MOCK MODE - results are not real (warning shown once)");
         mock_mode_warning_shown_ = true;
     }
@@ -216,9 +225,23 @@ std::string LLMJudgeIntegration::callLLM(const std::string& prompt) {
 }
 
 std::string LLMJudgeIntegration::defaultInference(const std::string& prompt) {
-    // Mock inference function for testing only
-    // This should only be used when explicitly enabled via config.use_mock_mode = true
-    
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide a structurally-valid LLM-judge response when no real
+    //          ILLMInferenceEngine is injected, enabling unit tests and offline
+    //          evaluation pipelines without a live model endpoint.
+    // Activation: Called only when config.use_mock_mode == true or allow_mock == true
+    //             AND engine == nullptr.  Production deployments always inject a real
+    //             engine; the mock path is never reached.
+    // Production Delta: Returns a hardcoded score=4.0 / confidence=0.85 regardless
+    //                   of the prompt content.  Real scores are model-generated and
+    //                   prompt-dependent.  As of 2026-04-21 the caller (evaluateWithLLM)
+    //                   sets ParsedResponse::is_mock=true on the parsed result so
+    //                   callers can filter mock data from production dashboards
+    //                   (AI_ML_IMPACT_ASSESSMENT.md §7, Gap 7 — implemented).
+    // Removal Plan: Full removal when LLMTokenBudgetManager (Gap 6) and a real engine
+    //               DI path are the only supported entry points.  Track in
+    //               rag/FUTURE_ENHANCEMENTS.md §Gap 7.
+    (void)prompt; // unused in mock path — intentional
     THEMIS_DEBUG("Using mock inference function (for testing only)");
     
     // Return a mock JSON response
@@ -232,7 +255,7 @@ std::string LLMJudgeIntegration::defaultInference(const std::string& prompt) {
 }
 
 bool LLMJudgeIntegration::isMockMode() const {
-    return config_.use_mock_mode || config_.allow_mock;
+    return mock_mode_active_;
 }
 
 } // namespace themis::rag::judge

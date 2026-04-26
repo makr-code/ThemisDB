@@ -3,19 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            license_info.h                                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:18                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     213                                            ║
+    • Total Lines:     270                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 4da3502dd  2026-03-12  feat(themis): add THEMIS_BASE_API export macros to public... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • d77b1da0d8  2026-04-12  [WIP] Update developer documentation to match current sou... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -29,11 +30,11 @@
  * embedded into the binary during the build process.
  */
 
-#ifndef THEMIS_LICENSE_INFO_H
-#define THEMIS_LICENSE_INFO_H
+#pragma once
 
 #include <chrono>
 #include <functional>
+#include <memory>
 #include <optional>
 #include <string>
 #include "themis/export.h"
@@ -207,7 +208,63 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 
+// ============================================================================
+// LICENSE INFO HELPER VIEW (v1.7.1)
+// ============================================================================
+
+/**
+ * @brief Helper view over LicenseData providing computed runtime properties.
+ *
+ * Wraps a LicenseData reference to expose properties that are computed
+ * from the raw data, such as the remaining grace period after expiry.
+ *
+ * Example:
+ * @code
+ *   auto lic = getEmbeddedLicense();
+ *   if (lic) {
+ *       LicenseInfo info(*lic);
+ *       int days = info.remaining_grace_days();
+ *   }
+ * @endcode
+ */
+class THEMIS_BASE_API LicenseInfo {
+public:
+    /// Default grace period used when none is specified.
+    static constexpr int kDefaultGracePeriodDays = 7;
+
+    /**
+     * @brief Construct a LicenseInfo view over @p data.
+     *
+     * @param data              The license data to inspect.
+     * @param grace_period_days The configured grace period (days).
+     *                          Defaults to kDefaultGracePeriodDays.
+     */
+    explicit LicenseInfo(const LicenseData& data,
+                         int grace_period_days = kDefaultGracePeriodDays);
+
+    /**
+     * @brief Returns the number of days remaining in the grace window.
+     *
+     * Interpretation:
+     *   - If the license has **not yet expired**, returns @c grace_period_days
+     *     (the full grace window is available after expiry).
+     *   - If the license **has expired** and the expiry occurred within the
+     *     grace window, returns the remaining days in that window.
+     *   - If the license has **fully expired** (beyond the grace window),
+     *     returns 0.
+     *   - If @c expiry_date is empty or unparseable, returns 0.
+     *
+     * @return Non-negative integer days remaining in grace period.
+     */
+    int remaining_grace_days() const;
+
+    /// Accessor for the underlying data.
+    const LicenseData& data() const noexcept { return data_; }
+
+private:
+    const LicenseData& data_;
+    int grace_period_days_;
+};
+
 } // namespace license
 } // namespace themis
-
-#endif // THEMIS_LICENSE_INFO_H

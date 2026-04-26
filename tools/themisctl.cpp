@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themisctl.cpp                                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:36:34                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:58:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     956                                            ║
+    • Total Lines:     1052                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 97d8d09e7  2026-03-15  feat(tools/themisctl): config command, REPL mode, shell c... ║
-    • 938d29e24  2026-03-15  feat(tools): Add themisctl — unified ThemisDB management ... ║
+    • 30763c38a6  2026-04-13  feat(metadata): complete Automatic Indexing Recommendatio... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -47,6 +46,7 @@
  *   schema [table]               Show schema (optionally for one table)
  *   config get                   Print current server configuration
  *   config set <key=value> ...   Hot-reload one or more config keys
+ *   config validate [key=value ...]  Dry-run + diff proposed config changes
  *   branch list                  List branches
  *   branch create <name>         Create a branch
  *   branch switch <name>         Switch the active branch
@@ -55,6 +55,9 @@
  *   snapshot create [tag]        Create a snapshot tag
  *   admin stats                  Show observability health / node stats
  *   admin cache                  Show cache health and statistics
+ *   index recommend [table]      Show automatic index recommendations
+ *   rag query [--collection C] [--top-k N] [--lora ID] <question>
+ *                                AgenticRAG natural-language query
  *   repl                         Start interactive REPL (with history)
  *
  * Exit codes:
@@ -69,8 +72,11 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
+
+#include "utils/cli_parser_utils.h"
 
 // ── httplib (cpp-httplib, header-only) ────────────────────────────────────────
 #include <httplib.h>
@@ -135,18 +141,89 @@ static Ctx g_ctx;
 // Argument parsing helpers
 // ============================================================================
 
-static bool flag(const std::vector<std::string>& args, const std::string& name) {
-    return std::find(args.begin(), args.end(), name) != args.end();
+namespace {
+
+struct ThemisCtlGlobalOptions {
+    std::string host;
+    int port = 8765;
+    std::string token;
+    int timeout = 30;
+    bool raw_json = false;
+    bool no_color = false;
+    bool show_help = false;
+    std::vector<std::string> remaining_args;
+};
+
+using themis::cli::is_help_flag;
+using themis::cli::consume_next_argument;
+
+bool parse_global_options(const std::vector<std::string>& args,
+                          ThemisCtlGlobalOptions& options,
+                          std::string& error_message) {
+    options.remaining_args.clear();
+
+    for (size_t index = 0; index < args.size(); ++index) {
+        const auto& arg = args[index];
+
+        if (arg == "--no-color") {
+            options.no_color = true;
+            continue;
+        }
+        if (arg == "--json") {
+            options.raw_json = true;
+            continue;
+        }
+        if (is_help_flag(arg)) {
+            options.show_help = true;
+            continue;
+        }
+        if (arg == "--host") {
+            if (!consume_next_argument(args, index, arg, options.host, error_message)) {
+                return false;
+            }
+            continue;
+        }
+        if (arg == "--port") {
+            std::string port_value;
+            if (!consume_next_argument(args, index, arg, port_value, error_message)) {
+                return false;
+            }
+            try {
+                options.port = std::stoi(port_value);
+            } catch (const std::exception&) {
+                error_message = "Invalid numeric value for option --port: " + port_value;
+                return false;
+            }
+            continue;
+        }
+        if (arg == "--token") {
+            if (!consume_next_argument(args, index, arg, options.token, error_message)) {
+                return false;
+            }
+            continue;
+        }
+        if (arg == "--timeout") {
+            std::string timeout_value;
+            if (!consume_next_argument(args, index, arg, timeout_value, error_message)) {
+                return false;
+            }
+            try {
+                options.timeout = std::stoi(timeout_value);
+            } catch (const std::exception&) {
+                error_message = "Invalid numeric value for option --timeout: " + timeout_value;
+                return false;
+            }
+            continue;
+        }
+
+        options.remaining_args.assign(args.begin() + static_cast<std::ptrdiff_t>(index), args.end());
+        return true;
+    }
+
+    return true;
 }
 
-static std::string optval(const std::vector<std::string>& args,
-                          const std::string& name,
-                          const std::string& def = "") {
-    for (size_t i = 0; i + 1 < args.size(); ++i) {
-        if (args[i] == name) return args[i + 1];
-    }
-    return def;
-}
+} // namespace
 
 // ============================================================================
 // HTTP client helpers
@@ -529,8 +606,133 @@ static int cmdConfig(const std::vector<std::string>& args) {
         return 0;
     }
 
+    // ── config validate [key=value ...] ────────────────────────────────────
+    // Dry-run: send proposed changes to POST /config/validate and show a diff
+    // between the current config and the validated result.
+    //
+    // CVL-01..06: schema validation, diff display, dry-run semantics (no
+    // server-side mutation), error reporting, raw-JSON mode, empty args mode.
+    if (sub == "validate") {
+        // Build proposed patch from optional key=value args (same logic as set).
+        json proposed = json::object();
+        const std::vector<std::string> pairs(args.begin() + 1, args.end());
+        for (const auto& pair : pairs) {
+            auto eq = pair.find('=');
+            if (eq == std::string::npos) {
+                std::cerr << "[" << fail() << "] Invalid key=value pair: " << pair
+                          << " (missing '=')\n";
+                return 2;
+            }
+            std::string key   = pair.substr(0, eq);
+            std::string value = pair.substr(eq + 1);
+            auto dot = key.find('.');
+            if (dot != std::string::npos) {
+                std::string outer = key.substr(0, dot);
+                std::string inner = key.substr(dot + 1);
+                if (!proposed.contains(outer) || !proposed[outer].is_object()) {
+                    proposed[outer] = json::object();
+                }
+                if (value == "true")       proposed[outer][inner] = true;
+                else if (value == "false") proposed[outer][inner] = false;
+                else {
+                    try { proposed[outer][inner] = std::stold(value); }
+                    catch (...) { proposed[outer][inner] = value; }
+                }
+            } else {
+                if (value == "true")       proposed[key] = true;
+                else if (value == "false") proposed[key] = false;
+                else {
+                    try { proposed[key] = std::stold(value); }
+                    catch (...) { proposed[key] = value; }
+                }
+            }
+        }
+
+        // Fetch current config for diff base.
+        Response current_r = httpGet("/config");
+        json current_cfg;
+        if (current_r.status != -1 && current_r.ok()) {
+            try { current_cfg = json::parse(current_r.body); }
+            catch (...) { current_cfg = json::object(); }
+        }
+
+        // Send validate request (dry-run — server MUST NOT apply changes).
+        Response r = httpPost("/config/validate", proposed.dump());
+        if (r.status == -1) {
+            std::cerr << "[" << fail() << "] " << r.body << "\n";
+            return 3;
+        }
+        if (!r.ok()) {
+            if (g_ctx.raw_json) {
+                printJson(r.body);
+                return 1;
+            }
+            std::cerr << "[" << fail() << "] Validation failed (HTTP " << r.status << ")\n";
+            try {
+                json err = json::parse(r.body);
+                std::cerr << err.dump(2) << "\n";
+            } catch (...) { std::cerr << r.body << "\n"; }
+            return 1;
+        }
+
+        json validated;
+        try { validated = json::parse(r.body); }
+        catch (...) { validated = proposed; }
+
+        if (g_ctx.raw_json) {
+            printJson(r.body);
+            return 0;
+        }
+
+        // Print human-readable diff: current → validated.
+        std::cout << "[" << ok() << "] Config validation passed (dry-run — no changes applied).\n";
+        if (proposed.empty()) {
+            std::cout << "  (no changes proposed — server config is valid as-is)\n";
+            return 0;
+        }
+
+        std::cout << "\n" << col(Color::Bold, "Diff (current → validated):") << "\n";
+        for (const auto& [key, val] : proposed.items()) {
+            if (val.is_object()) {
+                for (const auto& [inner_key, inner_val] : val.items()) {
+                    std::string full_key = key + "." + inner_key;
+                    json old_val;
+                    if (current_cfg.contains(key) && current_cfg[key].is_object() &&
+                        current_cfg[key].contains(inner_key)) {
+                        old_val = current_cfg[key][inner_key];
+                    }
+                    json new_val = inner_val;
+                    if (validated.contains(key) && validated[key].is_object() &&
+                        validated[key].contains(inner_key)) {
+                        new_val = validated[key][inner_key];
+                    }
+                    if (old_val != new_val) {
+                        std::cout << "  " << col(Color::Cyan, full_key) << ": "
+                                  << col(Color::Red, old_val.dump()) << " → "
+                                  << col(Color::Bold, new_val.dump()) << "\n";
+                    } else {
+                        std::cout << "  " << col(Color::Dim, full_key) << ": "
+                                  << old_val.dump() << " (unchanged)\n";
+                    }
+                }
+            } else {
+                json old_val = current_cfg.contains(key) ? current_cfg[key] : json{};
+                json new_val = validated.contains(key) ? validated[key] : val;
+                if (old_val != new_val) {
+                    std::cout << "  " << col(Color::Cyan, key) << ": "
+                              << col(Color::Red, old_val.dump()) << " → "
+                              << col(Color::Bold, new_val.dump()) << "\n";
+                } else {
+                    std::cout << "  " << col(Color::Dim, key) << ": "
+                              << old_val.dump() << " (unchanged)\n";
+                }
+            }
+        }
+        return 0;
+    }
+
     std::cerr << "Unknown config sub-command: " << sub
-              << "\n  Valid sub-commands: get, set\n";
+              << "\n  Valid sub-commands: get, set, validate\n";
     return 2;
 }
 
@@ -676,6 +878,201 @@ static int cmdAdmin(const std::vector<std::string>& args) {
     return 2;
 }
 
+// ── index ─────────────────────────────────────────────────────────────────────
+//
+// index recommend [table]   — GET /api/v1/metadata/index_recommendations[/:table]
+//
+// Without a table argument lists ADD/DROP recommendations for all tracked tables.
+// With a table argument restricts output to that table.
+
+static int cmdIndex(const std::vector<std::string>& args) {
+    const std::string sub = args.empty() ? "" : args[0];
+
+    if (!sub.empty() && sub != "recommend") {
+        std::cerr << "Unknown index sub-command: " << sub
+                  << "\n  Valid sub-command: recommend [table]\n";
+        return 2;
+    }
+
+    // Determine the optional table name (first non-sub argument).
+    std::string table_name;
+    if (sub == "recommend" && args.size() > 1) {
+        table_name = args[1];
+    }
+
+    std::string path = "/api/v1/metadata/index_recommendations";
+    if (!table_name.empty()) {
+        path += "/" + table_name;
+    }
+
+    Response r = httpGet(path);
+    if (r.status == -1) { std::cerr << "[" << fail() << "] " << r.body << "\n"; return 3; }
+    if (!r.ok()) {
+        std::cerr << "[" << fail() << "] HTTP " << r.status << "\n";
+        if (!r.body.empty()) {
+            try { std::cerr << json::parse(r.body).dump(2) << "\n"; }
+            catch (...) { std::cerr << r.body << "\n"; }
+        }
+        return 1;
+    }
+
+    if (g_ctx.raw_json) { printJson(r.body); return 0; }
+
+    try {
+        json j = json::parse(r.body);
+
+        auto print_rec = [](const json& rec) {
+            std::string action     = rec.value("action", "?");
+            std::string col_name   = rec.value("column_name", "?");
+            std::string idx_type   = rec.value("index_type", "?");
+            double      score      = rec.value("benefit_score", 0.0);
+            std::string rationale  = rec.value("rationale", "");
+
+            std::string action_col = (action == "ADD") ? Color::Green : Color::Yellow;
+            std::cout << "  " << col(action_col, action) << "  "
+                      << col(Color::Cyan, col_name)
+                      << "  (" << idx_type << ")"
+                      << "  score=" << std::to_string(static_cast<int>(score + 0.5)) << "\n";
+            if (!rationale.empty()) {
+                std::cout << "       " << col(Color::Dim, rationale) << "\n";
+            }
+        };
+
+        if (!table_name.empty()) {
+            // Single-table response: {"status":…, "table_name":…, "recommendations":[…]}
+            auto recs = j.value("recommendations", json::array());
+            if (recs.empty()) {
+                std::cout << col(Color::Dim, "(no recommendations for " + table_name + ")") << "\n";
+            } else {
+                std::cout << col(Color::Bold, table_name) << ":\n";
+                for (const auto& rec : recs) { print_rec(rec); }
+            }
+        } else {
+            // All-tables response: {"status":…, "recommendations":{"tbl":[…], …}}
+            auto all = j.value("recommendations", json::object());
+            bool any = false;
+            for (const auto& [tbl, recs] : all.items()) {
+                if (!recs.is_array() || recs.empty()) continue;
+                any = true;
+                std::cout << col(Color::Bold, tbl) << ":\n";
+                for (const auto& rec : recs) { print_rec(rec); }
+            }
+            if (!any) {
+                std::cout << col(Color::Dim, "(no recommendations available)") << "\n";
+            }
+        }
+    } catch (...) {
+        std::cout << r.body << "\n";
+    }
+
+    return 0;
+}
+
+// ── rag ───────────────────────────────────────────────────────────────────────
+//
+// rag query [--collection <name>] [--top-k <n>] [--lora <id>] <nl-question>
+//
+// Sends a natural-language question to the server's AgenticRAG endpoint
+// (POST /api/v1/llm/rag) and displays the generated answer together with
+// retrieval metadata.
+//
+// TRQ-01..06: argument validation, successful query, raw-JSON mode,
+//   collection/top-k flags, missing question error, connection error.
+//
+// Note: The endpoint mirrors the server-side LLMApiHandler::handleRAG()
+//   request format: {"query": "...", "collection": "...", "top_k": N,
+//   "lora_adapter": "..."}.  Response fields: "text", "query",
+//   "documents_retrieved", "tokens_generated", "inference_time_ms", "cache_hit".
+
+static int cmdRag(const std::vector<std::string>& args) {
+    // Usage: rag query [--collection C] [--top-k N] [--lora ID] <question...>
+    if (args.empty() || args[0] != "query") {
+        std::cerr << "Usage: themisctl rag query [--collection <name>] "
+                     "[--top-k <n>] [--lora <adapter-id>] <nl-question>\n";
+        return 2;
+    }
+
+    // Parse optional flags after "query".
+    std::string collection;
+    int         top_k = 5;
+    std::string lora_id;
+    std::vector<std::string> question_parts;
+
+    for (size_t i = 1; i < args.size(); ++i) {
+        if (args[i] == "--collection" && i + 1 < args.size()) {
+            collection = args[++i];
+        } else if (args[i] == "--top-k" && i + 1 < args.size()) {
+            try { top_k = std::stoi(args[++i]); }
+            catch (...) {
+                std::cerr << "[" << fail() << "] --top-k requires an integer\n";
+                return 2;
+            }
+        } else if (args[i] == "--lora" && i + 1 < args.size()) {
+            lora_id = args[++i];
+        } else {
+            // Remaining tokens form the natural-language question.
+            for (; i < args.size(); ++i) question_parts.push_back(args[i]);
+        }
+    }
+
+    if (question_parts.empty()) {
+        std::cerr << "[" << fail() << "] No question provided.\n"
+                  << "Usage: themisctl rag query [--collection <name>] "
+                     "[--top-k <n>] [--lora <adapter-id>] <nl-question>\n";
+        return 2;
+    }
+
+    // Join question tokens into a single string.
+    std::string question;
+    for (size_t i = 0; i < question_parts.size(); ++i) {
+        if (i > 0) question += ' ';
+        question += question_parts[i];
+    }
+
+    // Build request body.
+    json req_body;
+    req_body["query"] = question;
+    if (!collection.empty()) req_body["collection"] = collection;
+    req_body["top_k"] = top_k;
+    if (!lora_id.empty()) req_body["lora_adapter"] = lora_id;
+
+    Response r = httpPost("/api/v1/llm/rag", req_body.dump());
+    if (r.status == -1) {
+        std::cerr << "[" << fail() << "] " << r.body << "\n";
+        return 3;
+    }
+    if (!r.ok()) {
+        std::cerr << "[" << fail() << "] HTTP " << r.status << "\n";
+        try { std::cerr << json::parse(r.body).dump(2) << "\n"; }
+        catch (...) { std::cerr << r.body << "\n"; }
+        return 1;
+    }
+
+    if (g_ctx.raw_json) { printJson(r.body); return 0; }
+
+    try {
+        json j = json::parse(r.body);
+
+        std::string answer   = j.value("text", "");
+        int docs_retrieved   = j.value("documents_retrieved", 0);
+        int tokens_gen       = j.value("tokens_generated", 0);
+        int infer_ms         = j.value("inference_time_ms", 0);
+        bool cache_hit       = j.value("cache_hit", false);
+
+        std::cout << col(Color::Bold, "Answer:") << "\n"
+                  << answer << "\n\n"
+                  << col(Color::Dim, "documents_retrieved=") << docs_retrieved
+                  << col(Color::Dim, "  tokens_generated=") << tokens_gen
+                  << col(Color::Dim, "  inference_time_ms=") << infer_ms
+                  << col(Color::Dim, "  cache_hit=") << (cache_hit ? "true" : "false")
+                  << "\n";
+    } catch (...) {
+        std::cout << r.body << "\n";
+    }
+
+    return 0;
+}
+
 // ============================================================================
 // REPL support — shared tokeniser used by both cmdRepl and tests
 // ============================================================================
@@ -818,7 +1215,7 @@ static void printHelp(const char* prog) {
         << "  --timeout <s>   Request timeout     (default: 30 s)\n"
         << "  --json          Print raw JSON responses\n"
         << "  --no-color      Disable ANSI color output\n"
-        << "  --help, -h      Print this help\n\n"
+        << "  --help, -h, /?  Print this help\n\n"
         << col(Color::Bold, "Commands") << ":\n"
         << "  " << col(Color::Cyan, "health")
             << "                       Check server liveness and readiness\n"
@@ -834,12 +1231,16 @@ static void printHelp(const char* prog) {
             << "                 Delete an entity\n"
         << "  " << col(Color::Cyan, "schema") << " [table]"
             << "               Show schema (all tables or a specific one)\n"
-        << "  " << col(Color::Cyan, "config") << " get|set [key=value ...]"
-            << "  Read or hot-reload server config\n"
+        << "  " << col(Color::Cyan, "config") << " get|set|validate [key=value ...]"
+            << "  Read, hot-reload, or dry-run validate server config\n"
         << "  " << col(Color::Cyan, "branch") << " list|create|switch|delete\n"
         << "  " << col(Color::Cyan, "snapshot") << " list|create [tag]\n"
         << "  " << col(Color::Cyan, "admin") << " stats|cache"
             << "             Show observability/cache statistics\n"
+        << "  " << col(Color::Cyan, "index") << " recommend [table]"
+            << "        Show automatic index recommendations\n"
+        << "  " << col(Color::Cyan, "rag") << " query [--collection <name>] [--top-k <n>] [--lora <id>] <question>"
+            << "\n                              AgenticRAG natural-language query\n"
         << "  " << col(Color::Cyan, "repl")
             << "                        Start interactive REPL (with history)\n\n"
         << col(Color::Bold, "Examples") << ":\n"
@@ -853,11 +1254,16 @@ static void printHelp(const char* prog) {
         << "  " << prog << " config get\n"
         << "  " << prog << " config set logging.level=debug request_timeout_ms=60000\n"
         << "  " << prog << " config set features.cdc=true\n"
+        << "  " << prog << " config validate features.cdc=true logging.level=info\n"
         << "  " << prog << " branch list\n"
         << "  " << prog << " branch create feature-x\n"
         << "  " << prog << " snapshot create v1.2.0\n"
         << "  " << prog << " admin stats\n"
         << "  " << prog << " --json admin cache\n"
+        << "  " << prog << " index recommend\n"
+        << "  " << prog << " index recommend users\n"
+        << "  " << prog << " rag query 'Welche Unterlagen fehlen für den Bauantrag?'\n"
+        << "  " << prog << " rag query --collection procs --top-k 10 What is the next step?\n"
         << "  " << prog << " repl\n";
 }
 
@@ -880,10 +1286,12 @@ static int dispatchCommand(const std::string& cmd,
         {"branch",   cmdBranch},
         {"snapshot", cmdSnapshot},
         {"admin",    cmdAdmin},
+        {"index",    cmdIndex},
+        {"rag",      cmdRag},
         {"repl",     cmdRepl},
     };
 
-    if (cmd == "help" || cmd == "--help" || cmd == "-h") {
+    if (cmd == "help" || is_help_flag(cmd)) {
         printHelp("themisctl");
         return 0;
     }
@@ -910,38 +1318,31 @@ int main(int argc, char* argv[]) {
 
     std::vector<std::string> all_args(argv + 1, argv + argc);
 
-    // ── Parse global options (before the command token) ─────────────────────
-    while (!all_args.empty()) {
-        const std::string& a = all_args[0];
+    ThemisCtlGlobalOptions parsed_options;
+    parsed_options.host = g_ctx.host;
+    parsed_options.port = g_ctx.port;
+    parsed_options.token = g_ctx.token;
+    parsed_options.timeout = g_ctx.timeout;
 
-        if (a == "--no-color") {
-            g_use_color = false; all_args.erase(all_args.begin()); continue;
-        }
-        if (a == "--json") {
-            g_ctx.raw_json = true; all_args.erase(all_args.begin()); continue;
-        }
-        if ((a == "--help" || a == "-h")) {
-            printHelp(argv[0]); return 0;
-        }
-        if (a == "--host" && all_args.size() > 1) {
-            g_ctx.host = all_args[1];
-            all_args.erase(all_args.begin(), all_args.begin() + 2); continue;
-        }
-        if (a == "--port" && all_args.size() > 1) {
-            g_ctx.port = std::atoi(all_args[1].c_str());
-            all_args.erase(all_args.begin(), all_args.begin() + 2); continue;
-        }
-        if (a == "--token" && all_args.size() > 1) {
-            g_ctx.token = all_args[1];
-            all_args.erase(all_args.begin(), all_args.begin() + 2); continue;
-        }
-        if (a == "--timeout" && all_args.size() > 1) {
-            g_ctx.timeout = std::atoi(all_args[1].c_str());
-            all_args.erase(all_args.begin(), all_args.begin() + 2); continue;
-        }
-        // Not a global option — must be the command
-        break;
+    std::string parse_error;
+    if (!parse_global_options(all_args, parsed_options, parse_error)) {
+        std::cerr << parse_error << "\n";
+        printHelp(argv[0]);
+        return 2;
     }
+
+    if (parsed_options.show_help) {
+        printHelp(argv[0]);
+        return 0;
+    }
+
+    g_use_color = !parsed_options.no_color;
+    g_ctx.raw_json = parsed_options.raw_json;
+    g_ctx.host = std::move(parsed_options.host);
+    g_ctx.port = parsed_options.port;
+    g_ctx.token = std::move(parsed_options.token);
+    g_ctx.timeout = parsed_options.timeout;
+    all_args = std::move(parsed_options.remaining_args);
 
     if (all_args.empty()) {
         printHelp(argv[0]);

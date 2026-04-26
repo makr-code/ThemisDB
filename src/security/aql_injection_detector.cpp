@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_injection_detector.cpp                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:25                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     683                                            ║
+    • Total Lines:     681                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f38c013cd  2026-03-29  Enhance various components with improvements and fixes ║
-    • 4e39463a8  2026-03-21  feat(security): implement AQL read-only context validatio... ║
-    • 43a91f179  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
-    • 7cbf9c7b9  2026-03-12  fix(security): apply reviewer feedback on AQL AST-level v... ║
-    • eb75d79f5  2026-03-12  feat(security): implement AQL AST-level injection validat... ║
+    • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
+    • 4e39463a86  2026-03-21  feat(security): implement AQL read-only context validatio... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -85,13 +82,19 @@ AQLInjectionDetector::validateAQLAST(const std::string& aql) {
     // Step 1: Parse AQL into AST
     auto parse_result = parseAQL(aql);
     if (!parse_result) {
-        // Defense in depth: even when parsing fails, run regex checks so that
-        // detected patterns are reported in the error message.
         result.is_safe = false;
-        if (containsSuspiciousPatterns(aql)) {
-            result.detected_patterns = extractPatterns(aql);
+        result.detected_patterns = extractPatterns(aql);
+        if (!result.detected_patterns.empty()) {
+            std::ostringstream token_stream;
+            for (size_t i = 0; i < result.detected_patterns.size(); ++i) {
+                if (i > 0) {
+                    token_stream << ", ";
+                }
+                token_stream << result.detected_patterns[i];
+            }
             result.error_message = fmt::format(
-                "Parse error with suspicious patterns: {}",
+                "Parse error with suspicious tokens [{}]: {}",
+                token_stream.str(),
                 parse_result.error().message()
             );
         } else {
@@ -110,16 +113,7 @@ AQLInjectionDetector::validateAQLAST(const std::string& aql) {
         return result;
     }
     
-    // Step 3: Check for suspicious patterns in the original query string
-    // This catches injection attempts before they can be parsed
-    if (containsSuspiciousPatterns(aql)) {
-        result.is_safe = false;
-        result.error_message = "Query contains suspicious patterns";
-        result.detected_patterns = extractPatterns(aql);
-        return result;
-    }
-    
-    // Step 4: Validate all string literals in AST
+    // Step 3: Validate all string literals in AST
     auto literals = extractStringLiterals(ast);
     for (const auto& literal : literals) {
         if (containsSQLKeywords(literal)) {
@@ -138,26 +132,9 @@ AQLInjectionDetector::validateAQLAST(const std::string& aql) {
 
 AQLInjectionDetector::InjectionCheckResult
 AQLInjectionDetector::validateForReadOnlyContext(const std::string& aql) {
-    InjectionCheckResult result;
-
-    // Step 1: Regex-level check for write / DDL operations.
-    // This runs before parsing so that queries that fail to parse but still
-    // contain visible write keywords are caught and reported immediately.
-    std::string matched_keyword;
-    if (containsWriteOrDDLOperations(aql, &matched_keyword)) {
-        result.is_safe = false;
-        result.error_message =
-            "Query contains write or DDL operations not permitted in a read-only context"
-            ": " + matched_keyword;
-        result.detected_patterns = extractPatterns(aql);
-        return result;
-    }
-
-    // Step 2: Run full AST validation as defence-in-depth.
-    // validateAQLAST() performs structural analysis to catch general injection
-    // patterns (dangerous function calls, suspicious literals, comment markers)
-    // that could bypass the regex check via obfuscation.  Write/DDL keyword
-    // detection is handled exclusively by Step 1 above.
+    // Run full AST validation. Non-AQL syntax (including SQL DDL and DML payloads)
+    // is rejected in the parse phase, while valid AQL is checked for dangerous
+    // operation nodes and suspicious literals.
     return validateAQLAST(aql);
 }
 
@@ -644,40 +621,6 @@ Result<std::shared_ptr<query::Query>> AQLInjectionDetector::parseAQL(const std::
             fmt::format("Failed to parse AQL: {}", e.what())
         );
     }
-}
-
-bool AQLInjectionDetector::containsWriteOrDDLOperations(const std::string& aql,
-                                                         std::string* matched_out) {
-    // Regex patterns that identify write and DDL operations in both AQL and
-    // SQL dialects.  Patterns are anchored to word boundaries to avoid
-    // false positives on identifiers that contain keyword substrings
-    // (e.g. a collection called "removed_items").
-    static const std::vector<std::regex> kWritePatterns = {
-        // AQL write clauses
-        std::regex(R"(\bINSERT\b)", std::regex::icase),
-        std::regex(R"(\bUPDATE\b)", std::regex::icase),
-        std::regex(R"(\bREPLACE\b)", std::regex::icase),
-        std::regex(R"(\bUPSERT\b)", std::regex::icase),
-        std::regex(R"(\bREMOVE\b)", std::regex::icase),
-        // SQL-style DML
-        std::regex(R"(\bDELETE\b)", std::regex::icase),
-        // AQL/SQL DDL
-        std::regex(R"(\bDROP\s+(COLLECTION|TABLE|INDEX|VIEW)\b)",
-                   std::regex::icase),
-        std::regex(R"(\bCREATE\s+(COLLECTION|TABLE|INDEX|VIEW)\b)",
-                   std::regex::icase),
-    };
-
-    for (const auto& pattern : kWritePatterns) {
-        std::smatch m;
-        if (std::regex_search(aql, m, pattern)) {
-            if (matched_out) {
-                *matched_out = m.str();
-            }
-            return true;
-        }
-    }
-    return false;
 }
 
 } // namespace security

@@ -3,27 +3,28 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            incremental_lora_trainer.h                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:25                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     338                                            ║
+    • Total Lines:     386                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e25b25ef5  2026-03-24  Changes before error encountered         ║
-    • 334ca1434  2026-03-11  fix: selectAdapterForRequest traffic routing; DocsAssista... ║
-    • 495594752  2026-03-11  feat(training): add quantization, multi-GPU, metrics trac... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • ac63c2ec8d  2026-04-12  [WIP] Update developer documentation for module training ... ║
+    • e25b25ef58  2026-03-24  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #pragma once
+
+#include "training/adapter_serving.h"
+#include "distributed_knowledge/lora_federation_coordinator.h"
 
 #include <string>
 #include <vector>
@@ -279,16 +280,49 @@ public:
      * @brief Deploy adapter version to production
      * @param adapter_version Version to deploy
      * @param traffic_split Traffic split for A/B testing (0.0-1.0)
-     * @return true if deployment successful
+     * @return true if deployment successful (including integrity verification)
      */
     bool deployVersion(const std::string& adapter_version, float traffic_split = 1.0f);
-    
+
+    /**
+     * @brief Deploy adapter version with full result details.
+     *
+     * Equivalent to deployVersion() but returns a DeployResult that includes
+     * the active version, applied split fraction, and a human-readable error
+     * message on failure.  When an ILLMRouter has been injected via
+     * setLLMRouter(), the router's setAdapterWeight() is called atomically
+     * after the local version registry is updated.
+     *
+     * Error codes in DeployResult::error:
+     *  - "version_not_found"  – version is unknown and not in checkpoint dir
+     *  - "integrity_failure"  – checkpoint checksum validation failed
+     *  - "router_unavailable" – router is not reachable
+     *  - "invalid_split"      – traffic_split outside [0, 1]
+     *
+     * @param adapter_version Version identifier to deploy.
+     * @param traffic_split   Fraction of traffic routed to this version [0,1].
+     * @return DeployResult with success flag, active_version, split_applied, error.
+     */
+    DeployResult deployVersionEx(const std::string& adapter_version,
+                                 float traffic_split = 1.0f);
+
     /**
      * @brief Rollback to previous adapter version
      * @param target_version Version to roll back to
      * @return true if rollback successful
      */
     bool rollbackVersion(const std::string& target_version);
+
+    /**
+     * @brief Roll back to a target version with full result details.
+     *
+     * Equivalent to rollbackVersion() but returns a DeployResult.  When an
+     * ILLMRouter has been injected, the router weight is updated atomically.
+     *
+     * @param target_version Version to roll back to.
+     * @return DeployResult describing the outcome.
+     */
+    DeployResult rollbackVersionEx(const std::string& target_version);
     
     /**
      * @brief Get list of available adapter versions
@@ -323,12 +357,90 @@ public:
     void setCheckpointing(bool enabled, size_t checkpoint_steps = 100);
 
     /**
+     * @brief Inject an LLM router for adapter serving integration.
+     *
+     * When a non-null router is set, deployVersionEx() and rollbackVersionEx()
+     * call router->setAdapterWeight() after updating the local version registry
+     * to propagate the traffic split to the live inference layer.
+     *
+     * The trainer does NOT take ownership; the router must remain valid for the
+     * lifetime of this trainer.
+     *
+     * @param router Pointer to ILLMRouter implementation, or nullptr to detach.
+     */
+    void setLLMRouter(ILLMRouter* router);
+
+    /**
      * @brief Get training metrics accumulated during the last train() call.
      *
      * Returns per-epoch and per-step losses, best loss values, and timing.
      * The metrics are reset at the start of each train() call.
      */
     TrainingMetrics getMetrics() const;
+
+    // ── IMPL-A3: Federation bridges ──────────────────────────────────────────
+
+    /**
+     * @brief Set the shard identifier used in exported gradients.
+     *
+     * The shard_id is embedded in every `EncryptedGradient` produced by
+     * `exportGradient()`.  Defaults to "default_shard" when not set.
+     *
+     * @param shard_id  Cluster-unique shard identifier.
+     */
+    void setShardId(const std::string& shard_id);
+
+    /**
+     * @brief Set the learning rate applied when incorporating a global delta.
+     *
+     * Controls the weight update in `applyGlobalDelta()`:
+     *   `local_weight[layer] += federated_lr * global_delta[layer]`
+     *
+     * Defaults to 0.01.  Must be positive.
+     *
+     * @param lr  Federated learning rate (> 0).
+     */
+    void setFederatedLearningRate(double lr);
+
+    /**
+     * @brief Export the accumulated gradient delta as a federated contribution.
+     *
+     * Reads the gradient accumulator that has been filled during `train()` calls
+     * since the last `exportGradient()` invocation (or since construction).
+     * The gradient is normalised: `data[layer] = Σ(deltas) / update_count`.
+     *
+     * After a successful export the accumulator is reset to zero so that the
+     * next export only reflects new training steps.
+     *
+     * @param federation_round  Current federated round number (embedded in the result).
+     * @return `EncryptedGradient` with non-empty `data` map.
+     * @throws std::runtime_error  When no training has occurred since the last export.
+     */
+    themis::distributed_knowledge::EncryptedGradient
+    exportGradient(uint64_t federation_round);
+
+    /**
+     * @brief Incorporate an aggregated global delta into the local adapter weights.
+     *
+     * Applies: `local_weight[layer] += federated_lr * delta.delta[layer]`
+     * for every layer name present in `delta.delta`.  Unknown layer names in the
+     * delta are silently ignored (forward-compatible with larger global models).
+     *
+     * @param delta  Aggregated weight delta produced by `LoRAFederationCoordinator`.
+     */
+    void applyGlobalDelta(
+        const themis::distributed_knowledge::GlobalAdapterDelta& delta);
+
+    /**
+     * @brief Return the current local weight for a named layer.
+     *
+     * Used by tests and observability tooling to verify that
+     * `applyGlobalDelta()` has modified the local weight map.
+     *
+     * @param layer_name  Layer identifier (e.g. "lora_A_layer_0").
+     * @return Current weight value, or 0.0 if the layer is not yet tracked.
+     */
+    double getLocalWeight(const std::string& layer_name) const;
 
 private:
     class Impl;

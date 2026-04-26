@@ -1,5 +1,7 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Prompt Engineering Module Roadmap
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: src/prompt_engineering/README.md · src/prompt_engineering/ARCHITECTURE.md · src/prompt_engineering/FUTURE_ENHANCEMENTS.md · docs/de/prompt_engineering/README.md -->
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -45,6 +47,7 @@ v2.0.0 – Full lifecycle management for LLM prompt templates is production-read
 
 ## In Progress 🚧
 - [x] Token counting and context-window budget enforcement (Target: Q2 2026)
+- [x] Typed template DSL (`PromptTemplateCompiler`, `CompiledPromptTemplate`, `IPromptTemplate`) (Target: Q2 2026)
 
 ## Planned Features 📋
 
@@ -75,8 +78,8 @@ v2.0.0 – Full lifecycle management for LLM prompt templates is production-read
 - [x] A/B testing with statistical significance (p-value)
 - [x] Prometheus-compatible metrics export
 
-### Phase 2: Typed DSL & Context Budget (Status: In Progress 🚧)
-- [?] Typed template DSL with compile-time placeholder validation (Target: Q2 2026)
+### Phase 2: Typed DSL & Context Budget (Status: Completed ✅)
+- [x] **Typed Template DSL** – `PromptTemplateCompiler`, `IPromptTemplate`, `CompiledPromptTemplate`, `PromptTemplateValidator`, `PromptContextValue` (Target: Q2 2026)
 - [x] Context window budget manager – enforce token limits before dispatch (Target: Q2 2026)
 - [x] Prompt injection attack detection layer (Target: Q2 2026)
 - [x] Multi-modal prompt support (image descriptions alongside text) (Target: Q3 2026)
@@ -142,3 +145,13 @@ v2.0.0 – Full lifecycle management for LLM prompt templates is production-read
 - PromptTemplate schema is stable from v1.x; new optional fields only.
 - `FeedbackType` enum may gain new values; exhaustive switches in callers should use a default case.
 - `PromptManager::createTemplate()` now returns an empty-id sentinel on validation failure (id.empty() == true); callers should check the returned id before use.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `attackCategoryName` – Gibt lesbaren Namen einer AdversarialAttackCategory zurück
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

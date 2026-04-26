@@ -3,28 +3,29 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            raft_wal_integration.h                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:37                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     121                                            ║
+    • Total Lines:     119                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMISDB_RAFT_WAL_INTEGRATION_H
-#define THEMISDB_RAFT_WAL_INTEGRATION_H
+#pragma once
 
 #include <memory>
 #include <string>
+#include <condition_variable>
 #include <map>
 #include <set>
 #include <mutex>
@@ -94,6 +95,7 @@ private:
     Config config_;
     bool is_leader_;
     std::mutex mutex_;
+    std::condition_variable cv_;  ///< Notified by onAppendEntriesResponse() when ACKs arrive
     
     // Track pending writes for quorum
     struct PendingWrite {
@@ -117,5 +119,3 @@ private:
 
 } // namespace sharding
 } // namespace themisdb
-
-#endif // THEMISDB_RAFT_WAL_INTEGRATION_H

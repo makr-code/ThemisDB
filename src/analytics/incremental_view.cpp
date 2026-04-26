@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            incremental_view.cpp                               ║
-  Version:         0.0.21                                             ║
-  Last Modified:   2026-03-30 04:13:53                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-04-15 18:48:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     582                                            ║
+    • Total Lines:     581                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • d6218d312  2026-03-17  feat(analytics): reduce exclusive lock scope in Increment... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d894064f1  2026-02-26  fix(analytics,cdc): code audit fixes - empty-group cleanu... ║
-    • edb77c71d  2026-02-24  feat(analytics): implement incremental materialized views... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • d6218d312d  2026-03-17  feat(analytics): reduce exclusive lock scope in Increment... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_memory_manager.cpp                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:55                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟠 BETA                                         ║
     • Quality Score:   48.0/100                                       ║
-    • Total Lines:     1713                                           ║
+    • Total Lines:     1710                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f38c013cd  2026-03-29  Enhance various components with improvements and fixes ║
-    • 26e49f8ba  2026-03-11  fix: wire include_guidance in enrichSample; expose findRe... ║
-    • bdd5a732d  2026-03-11  Address code review: deduplicate VRAM auto-detection, fix... ║
-    • 8ff806630  2026-03-11  Fix 3 bugs in gpu_memory_manager: getTotalVRAM semantics,... ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
+    • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🔧 In Progress                                               ║
 ╚═════════════════════════════════════════════════════════════════════╝

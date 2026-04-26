@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [base](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-04  
+**Datum:** 2026-04-17  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `src/base/ARCHITECTURE.md`
@@ -18,7 +18,7 @@
 
 # Primary Sources — `base`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`base`** aus den Verzeichnissen `src/base/` und/oder `include/base/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`base`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
 
@@ -36,4 +36,4 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`base`** au
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-04*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*

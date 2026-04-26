@@ -403,7 +403,7 @@ See `docs/en/llm/FLASH_ATTENTION_IMPLEMENTATION.md` for llama.cpp integration de
 - [Flash Attention 2](https://arxiv.org/abs/2307.08691)
 - [CUDA C++ Programming Guide](https://docs.nvidia.com/cuda/cuda-c-programming-guide/)
 - [llama.cpp Flash Attention](https://github.com/ggerganov/llama.cpp)
-- [Production Readiness Review](../../PRODUCTION_READINESS_REVIEW.md)
+- [Production Readiness Review](../../implementation-history/reviews/PRODUCTION_READINESS_REVIEW.md)
 
 ## Authors
 

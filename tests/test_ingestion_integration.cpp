@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ingestion_integration.cpp                     ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:28:36                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:54:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     897                                            ║
+    • Total Lines:     894                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 0762b7374  2026-03-11  feat(ingestion): add ca_bundle_path to RetryConfig for co... ║
-    • 25f69a572  2026-03-09  feat(ingestion): replace simulated HttpClient in HuggingF... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ab1851da9  2026-02-28  Fix doxygen comment block opener in integration test file ║
-    • 613a5b5eb  2026-02-28  Add integration tests for filesystem, HuggingFace, and ge... ║
+    • 0762b73749  2026-03-11  feat(ingestion): add ca_bundle_path to RetryConfig for co... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

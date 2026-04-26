@@ -1,3 +1,6 @@
+> ⚠️ **Historische Messdaten** – Die in diesem Dokument enthaltenen Zahlen entstammen einem bestimmten Messzeipunkt und sind nicht mehr reproduzierbar ohne die ursprüngliche Testumgebung.
+> Für reproduzierbare Ergebnisse: Benchmark-Kommandos und aktuelle CMake-Presets unter [`benchmarks/README.md`](../../README.md) verwenden.
+
 # BENCHMARK PROTOKOLL ERSTELLUNG - FINALER BERICHT
 
 **Status**: ✅ **ABGESCHLOSSEN**  
@@ -20,6 +23,7 @@ Inhalt:
 - ✅ Storage: 274 GB frei (von 1906 GB)
 - ✅ Software: Windows 11 Pro Build 26100
 - ✅ Docker: 29.0.1, Docker Compose v2.40.3
+<!-- TODO: verify against current version -->
 - ✅ Python: 3.13.6 + alle Benchmark-Packages
 - ✅ Netzwerk: 10 Gbps virtuell, 100 Mbps physisch
 - ✅ Test-Parameter: 50 Iterationen, 5 Warmup, 3 Repetitionen

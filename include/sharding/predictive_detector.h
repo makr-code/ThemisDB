@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            predictive_detector.h                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:36                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     213                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -72,7 +69,7 @@ struct PredictiveConfig {
 // Shard Metrics
 // ═══════════════════════════════════════════════════════════
 
-struct ShardMetrics {
+struct PredictiveShardMetrics {
     std::string shard_id;
     std::chrono::system_clock::time_point timestamp;
     
@@ -139,8 +136,8 @@ public:
     FailurePrediction predictShard(const std::string& shard_id);
     
     // Metrics collection
-    void recordMetrics(const ShardMetrics& metrics);
-    std::vector<ShardMetrics> getMetricsHistory(const std::string& shard_id, 
+    void recordMetrics(const PredictiveShardMetrics& metrics);
+    std::vector<PredictiveShardMetrics> getMetricsHistory(const std::string& shard_id, 
                                                  std::chrono::hours lookback) const;
     
     // Statistics
@@ -173,7 +170,7 @@ private:
     
     // Feature extraction
     std::vector<float> extractFeatures(const std::string& shard_id);
-    std::vector<float> computeStatisticalFeatures(const std::vector<ShardMetrics>& history);
+    std::vector<float> computeStatisticalFeatures(const std::vector<PredictiveShardMetrics>& history);
     
     // ML inference
     FailurePrediction runInference(const std::string& shard_id, 
@@ -194,7 +191,7 @@ private:
     
     // Metrics storage
     mutable std::mutex metrics_mutex_;
-    std::map<std::string, std::vector<ShardMetrics>> metrics_history_;
+    std::map<std::string, std::vector<PredictiveShardMetrics>> metrics_history_;
     
     // Prediction cache
     mutable std::mutex predictions_mutex_;

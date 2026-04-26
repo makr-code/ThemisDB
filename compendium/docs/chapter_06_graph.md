@@ -1664,3 +1664,194 @@ Im nächsten Kapitel schauen wir uns **Dokument-Speicherung** an - flexibles, sc
 - 📖 `docs/de/features/features_property_graph.md` - Graph-Features
 - 📖 NetworkX Documentation - Graph-Visualisierung
 - 📖 "Graph Algorithms" (Mark Needham, Amy E. Hodler) - Tiefere Algorithmen
+
+---
+
+## 6.10 Graph-Modul — Erweiterte C++ API (v1.x)
+
+### 6.10.1 GraphQueryOptimizer — Cost-Based Algorithm-Selektion
+
+`GraphQueryOptimizer` (`include/graph/graph_query_optimizer.h`) wählt automatisch den optimalen Traversierungs-Algorithmus anhand von Graph-Statistiken und Query-Constraints.
+
+```cpp
+#include "graph/graph_query_optimizer.h"
+
+themis::graph::GraphQueryOptimizer optimizer;
+
+// Graph-Statistiken aktualisieren (für Kostenmodell)
+themis::graph::GraphQueryOptimizer::GraphStatistics stats;
+stats.vertex_count         = 1_000_000;
+stats.edge_count           = 5_000_000;
+stats.avg_degree           = 10.0;
+stats.avg_branching_factor = 8.0;
+optimizer.updateStatistics(stats);
+
+// Query-Plan erzeugen
+themis::graph::GraphQueryOptimizer::QueryConstraints constraints;
+constraints.max_depth         = 4;
+constraints.edge_type         = "FOLLOWS";
+constraints.unique_vertices   = true;
+constraints.enable_parallel   = true;   // Parallele Frontier-Expansion
+constraints.num_threads       = 8;
+constraints.timeout_ms        = 500;
+
+auto plan = optimizer.optimize(
+    themis::graph::GraphQueryOptimizer::QueryPattern::K_HOP_NEIGHBORS,
+    constraints
+);
+// plan.algorithm: BFS / DFS / BIDIRECTIONAL / ASTAR / DIJKSTRA
+// plan.cost_estimate, plan.index_usage, plan.cache_usage
+
+// Constrained Path Finding
+auto path_plan = optimizer.optimize(
+    themis::graph::GraphQueryOptimizer::QueryPattern::SHORTEST_PATH,
+    { .max_depth = 6, .required_vertices = { "intermediary-X" },
+      .forbidden_vertices = { "blacklisted-node" } }
+);
+```
+
+**Adaptive Kostenmodell:** EMA-basiertes Lernen aus Ausführungsfeedback — der Optimizer kalibriert seine Kostenschätzungen anhand tatsächlicher Laufzeiten.
+
+### 6.10.2 DistributedGraphManager — Shard-übergreifende Graph-Queries
+
+```cpp
+#include "graph/distributed_graph.h"
+
+themis::graph::DistributedGraphManager::Config dg_cfg;
+dg_cfg.local_shard_id     = "shard-0";
+dg_cfg.shard_timeout_ms   = 2000;
+dg_cfg.enable_streaming   = true;  // Large path-set streaming
+
+themis::graph::DistributedGraphManager dist_graph(shard_clients, dg_cfg);
+
+// Distributed K-Hop Query
+auto results = dist_graph.kHopNeighbors("user:alice", /*k=*/3, {
+    .edge_type = "KNOWS",
+    .max_results = 1000
+});
+
+// EXPLAIN Endpunkt (Dry-Run)
+auto explain = dist_graph.explain({
+    .from = "user:alice", .to = "user:bob",
+    .pattern = QueryPattern::SHORTEST_PATH
+});
+// explain.plan, explain.estimated_shards, explain.estimated_cost
+```
+
+## 6.11 Graph-Modul — Scheduled Semantic Edge Refresh (v1.x)
+
+### 6.11.1 ScheduledGraphEdgeRefreshEngine — Semantisch-gesteuerte Kanten-Wartung
+
+`ScheduledGraphEdgeRefreshEngine` (`include/graph/scheduled_edge_refresh.h`) hält einen Property-Graphen semantisch aktuell: Es bewertet Kanten regelmäßig anhand von Vektorähnlichkeit, zeitlichem Verfall und Zentralitätsdämpfung, entfernt irrelevante Kanten und fügt neue, semantisch ähnliche Kanten hinzu — alles in einer einzigen ACID-Transaktion.
+
+**Wissenschaftliche Grundlage:**
+
+| Forschungsbereich | Ansatz | Umsetzung in ThemisDB |
+|---|---|---|
+| Dynamic Graph Maintenance (Brandes, 2008) | Inkrementelle Kanten-Aktualisierung basierend auf Betweenness-Centrality | `centrality_weight = 1 / (1 + log(1 + out_degree))` in `EdgeScore` |
+| STGCN (Yu et al., 2017) | Spatio-temporale GNN-Embeddings für sich entwickelnde Graphen | `NodeEmbeddingProvider` kann GNN-Index nutzen |
+| Temporal Graph Evolution (Leskovec et al., 2008) | Exponentieller Verfall der Kantenrelevanz über die Zeit | `temporal_factor = 2^(−age / half_life)` in `computeTemporalDecay()` |
+| Link Prediction via Embeddings (Hamilton et al., 2017) | Kosinus-/Skalarprodukt-Ähnlichkeit für Kandidatenkanten | `SimilarityMetric::COSINE / DOT_PRODUCT / EUCLIDEAN` |
+
+```cpp
+#include "graph/scheduled_edge_refresh.h"
+#include "cdc/changefeed.h"
+#include "index/graph_index.h"
+
+// 1. Richtlinie konfigurieren
+themis::graph::RefreshPolicy policy;
+policy.refresh_interval               = std::chrono::seconds(300); // alle 5 Minuten
+policy.similarity_metric              = themis::graph::SimilarityMetric::COSINE;
+policy.relevance_threshold            = 0.4f;   // Kanten unter diesem Wert entfernen
+policy.add_threshold                  = 0.75f;  // Mindestähnlichkeit für neue Kanten
+policy.decay_half_life_seconds        = 86400.0;  // 1 Tag
+policy.max_removal_fraction           = 0.05f;  // max. 5% Löschungen pro Zyklus (Sicherheitssperre)
+policy.top_k_candidates               = 20;     // top-20 Kandidaten pro Knoten
+policy.anomaly_threshold_removal_rate = 0.15f;  // Warnung bei >15% Entfernungen
+
+// 2. Einbettungs-Provider (GNN-Index oder HNSW-Vektorspeicher)
+themis::graph::NodeEmbeddingProvider embedding_fn =
+    [&](const std::string& node_id) -> std::vector<float> {
+        return gnn_index.getEmbedding(node_id);
+    };
+
+// 3. Engine erzeugen, Changefeed und CEP-Callback verdrahten, starten
+themis::graph::ScheduledGraphEdgeRefreshEngine engine(
+    graph_manager, policy, embedding_fn);
+
+auto changefeed = std::make_shared<themis::Changefeed>(rocksdb_ptr);
+engine.setChangefeed(changefeed);
+
+engine.setCEPEventCallback([&](themisdb::analytics::Event ev) {
+    cep_engine.ingest(ev);  // EDGE_CREATE / EDGE_DELETE ins CEP-System
+});
+
+engine.start();  // Hintergrund-Scheduler-Thread starten
+
+// 4. Manueller Trigger (z.B. für Tests)
+auto stats = engine.triggerRefresh();
+// stats.edges_evaluated, .edges_removed, .edges_added
+// stats.cycle_duration_ms, .removal_rate, .anomaly_high_removal_rate
+
+// 5. Anomalie-Prüfung
+if (stats.anomaly_high_removal_rate) {
+    alert_ops("Anomale Entfernungsrate: " + std::to_string(stats.removal_rate));
+}
+
+// 6. Prüfspur auslesen (max. 10.000 Einträge, FIFO-Ring)
+for (const auto& entry : engine.getAuditTrail()) {
+    // entry.action (ADD / REMOVE), .edge_id, .from_vertex, .to_vertex
+    // entry.relevance_score, .timestamp, .cycle_number
+}
+
+// 7. Ordentliches Herunterfahren
+engine.stop();
+```
+
+### 6.11.2 Bewertungsmodell
+
+Die Relevanz jeder Kante ergibt sich aus:
+
+```
+relevance = similarity × temporal_factor × centrality_weight
+```
+
+| Faktor | Berechnung | Bereich |
+|--------|-----------|---------|
+| `similarity` (COSINE) | `(cos(a,b) + 1) / 2` | [0, 1] |
+| `similarity` (DOT_PRODUCT) | `dot(a,b) / (‖a‖ · ‖b‖)`, normiert | [0, 1] |
+| `similarity` (EUCLIDEAN) | `1 / (1 + dist(a,b))` | (0, 1] |
+| `temporal_factor` | `2^(−age_s / half_life_s)` | (0, 1] |
+| `centrality_weight` | `1 / (1 + log(1 + out_degree))` | (0, 1] |
+
+### 6.11.3 Sicherheitssperren & Anomalieerkennung
+
+```
+Safety Gate:  |removal_candidates| / |total_edges| > max_removal_fraction
+              → Zyklus abgebrochen (aborted_safety_gate = true), keine Schreibvorgänge
+
+Anomalie:     removal_rate > anomaly_threshold_removal_rate (wenn > 0)
+              → anomaly_high_removal_rate = true + Warnung im Log
+```
+
+### 6.11.4 ANN-Index für große Graphen
+
+Bei Graphen mit mehr als `policy.ann_min_vertices` Knoten (Standard: 10.000) kann ein ANN-Index angebunden werden, um die Kandidatenentdeckung von O(V²) auf O(V · log V) zu reduzieren:
+
+```cpp
+// HNSW-Index aus dem Acceleration-Modul
+engine.setANNIndex(&hnsw_index);
+// Der Index wird zu Beginn jedes Zyklus automatisch neu aufgebaut
+```
+
+**Integrationspunkte:**
+
+| Modul | Integration |
+|-------|-------------|
+| `index/graph_index.h` | Kanten-CRUD, Adjazenzabfragen, ACID-WriteBatch |
+| `acceleration` | HNSW/ANN-Index für O(V·log V) Kandidatenentdeckung |
+| `analytics/cep_engine` | `EDGE_CREATE`/`EDGE_DELETE`-Ereignisse nach Commit |
+| `cdc/changefeed` | `EVENT_PUT`/`EVENT_DELETE` je Kante für nachgelagerte Konsumenten |
+| `temporal_graph` | `_created_at`-Feld für zeitlichen Verfall |
+
+**Weiterführende Dokumentation:** `docs/scheduled_edge_refresh.md` (EN), `docs/de/scheduled_edge_refresh.md` (DE)

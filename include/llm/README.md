@@ -1,6 +1,8 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # LLM Module Headers
 
-<!-- Status: current | validated: 2026-03-09 | Primary: include/llm/ | Secondary: docs/de/llm/ -->
+<!-- Status: current | validated: 2026-04-09 | Primary: include/llm/ | Secondary: docs/de/llm/ -->
 <!-- Links: ../../src/llm/README.md · FUTURE_ENHANCEMENTS.md · ../../docs/de/llm/README.md -->
 
 This directory contains header files (.h, .hpp) for the llm module.
@@ -44,6 +46,103 @@ ThemisDB provides **two independent inference engines** serving different needs:
 
 See `../../src/llm/README.md` for detailed architecture documentation.
 
+## All Headers
+
+| Header | Purpose |
+|--------|---------|
+| `active_vram_allocator.h` | Active VRAM allocation tracking <!-- TODO: verify --> |
+| `adapter_compatibility.h` | Adapter compatibility checks |
+| `adapter_deployment_manager.h` | Adapter deployment lifecycle manager |
+| `adapter_load_balancer.h` | Load balancing across adapters |
+| `adapter_registry.h` | Registry for LLM adapters |
+| `adaptive_vram_allocator.h` | Adaptive VRAM allocation strategies |
+| `ai_decision_auditor.h` | Audit logging for AI decisions |
+| `ai_orchestrator.h` | Multi-agent AI orchestration |
+| `aql_train_parser.h` | AQL training data parser |
+| `async_inference_engine.h` | Async wrapper for single LLM plugin |
+| `batch_generator.h` | Token batch generation utilities |
+| `block_table.h` | Block table for paged attention |
+| `byzantine_detector.h` | Byzantine fault detection for distributed inference |
+| `constitutional_reasoning_engine.h` | Constitutional AI reasoning engine |
+| `context_window_budget.h` | Context window budget management |
+| `continuous_batch_scheduler.h` | Dynamic batching for improved throughput |
+| `decision_record_yaml_processor.h` | YAML processor for decision records |
+| `distributed_training_coordinator.h` | Coordinator for distributed training jobs |
+| `docs_assistant.h` | Documentation assistant LLM interface |
+| `embedded_llm.h` | Embedded LLM runtime |
+| `ethical_guidelines_manager.h` | Ethical guidelines policy manager |
+| `ethics_aware_confidence_detector.h` | Confidence detection with ethics awareness |
+| `explanation_generator.h` | Generates human-readable explanations |
+| `feedback_store.h` | Persistent store for inference feedback |
+| `fewshot_optimizer.h` | Few-shot prompt optimizer |
+| `gguf_loader.h` | GGUF model file loader |
+| `gguf_st_adapter.h` | GGUF sentence-transformer adapter |
+| `gpu_memory_manager.h` | GPU memory lifecycle manager |
+| `gpu_safe_fail.h` | Safe GPU failure handling |
+| `grafana_metrics.h` | Grafana metrics integration for LLM |
+| `grammar.h` | Grammar-constrained generation |
+| `grammar_cache.h` | Cache for compiled grammars |
+| `i_feedback_plugin.h` | Feedback plugin interface |
+| `i_llm_plugin.h` | Core LLM plugin interface |
+| `inference_engine_enhanced.h` | Multi-model engine with caching and load balancing |
+| `inference_handle.h` | Shared handle for async inference requests |
+| `inline_training_engine.h` | Inline/online training engine |
+| `json_schema_converter.h` | JSON schema to grammar converter |
+| `kernel_fusion.h` | CPU kernel fusion utilities |
+| `kernel_fusion_cuda.h` | CUDA kernel fusion utilities |
+| `kv_cache_buffer.h` | KV cache buffer management |
+| `lazy_model_loader.h` | Lazy/deferred model loader |
+| `llama_resource_manager.h` | llama.cpp resource lifecycle manager |
+| `llama_wrapper.h` | llama.cpp plugin implementing ILLMPlugin |
+| `llamacpp_inference_engine.h` | llama.cpp-backed inference engine |
+| `llamacpp_training_backend.h` | llama.cpp training backend |
+| `llm_deployment_plugin.h` | LLM deployment plugin interface |
+| `llm_ingestion_bridge.h` | Bridge between LLM and ingestion pipeline |
+| `llm_interaction_store.h` | Persistent store for LLM interactions |
+| `llm_model_audit_logger.h` | Audit logger for model operations |
+| `llm_model_storage.h` | Model storage and retrieval |
+| `llm_plugin_interface.h` | Base interface for all LLM plugins |
+| `llm_plugin_manager.h` | Registry and lifecycle for plugins |
+| `llm_prefix_cache.h` | Context caching for faster inference |
+| `llm_response_cache.h` | Response-level cache |
+| `llm_security_utils.h` | Security utilities for LLM input/output |
+| `lora_certificate_store.h` | Certificate store for LoRA adapters |
+| `lora_metadata_cache.h` | Metadata cache for LoRA adapters |
+| `lora_router.h` | Automatic LoRA adapter routing |
+| `lora_security_validator.h` | Security validator for LoRA adapters |
+| `meta_prompt_generator.h` | Meta-prompt generation |
+| `mixed_precision_inference.h` | Mixed-precision inference support |
+| `ml_model_manager.h` | Generic ML model manager |
+| `model_downloader.h` | Model download and verification |
+| `model_loader.h` | Model loading and validation |
+| `model_metadata_cache.h` | Cache for model metadata |
+| `model_quantization_pipeline.h` | Model quantization pipeline |
+| `model_router.h` | Multi-model routing logic |
+| `moral_analyzer.h` | Moral/ethical content analyzer |
+| `multi_gpu_memory_coordinator.h` | Multi-GPU memory coordination |
+| `multi_lora_manager.h` | Multi-LoRA adapter management |
+| `multi_model_training_data.h` | Training data for multi-model setups |
+| `multi_perspective_generator.h` | Multi-perspective response generation |
+| `openai_compat_adapter.h` | OpenAI-compatible API adapter |
+| `paged_block_manager.h` | Block manager for paged attention |
+| `paged_kv_cache.h` | Paged attention KV cache |
+| `paged_kv_cache_manager.h` | Manager for paged KV cache instances |
+| `production_validator.h` | Production-readiness validator |
+| `prompt_evaluator.h` | Prompt quality evaluator |
+| `prompt_manager.h` | Prompt template manager |
+| `prompt_optimizer.h` | Prompt optimization engine |
+| `prompt_policy.h` | Prompt policy enforcement |
+| `sampling_strategy.h` | Token sampling strategies |
+| `shared_worker_pool.h` | Shared worker thread pool for inference |
+| `speculative_decoder.h` | Speculative decoding for faster generation |
+| `streaming_handler.h` | Streaming response handler |
+| `themis_tool_interface.h` | ThemisDB tool-calling interface for LLMs |
+| `token_quota_manager.h` | Per-tenant token quota management |
+| `training_data_iterator.h` | Iterator over training datasets |
+| `vision_config.h` | Vision model configuration |
+| `vision_encoder.h` | Vision encoder interface |
+| `vision_resource_monitor.h` | Resource monitor for vision models |
+
 ## Implementation
 
 See `../../src/llm/` for the implementation code.
@@ -51,3 +150,21 @@ See `../../src/llm/` for the implementation code.
 ## Documentation
 
 See `../../docs/src/llm/` for detailed module documentation.
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+## Usage
+
+Include the relevant headers from this module:
+
+```cpp
+#include "llm/module_header.h"
+```
+
+See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.

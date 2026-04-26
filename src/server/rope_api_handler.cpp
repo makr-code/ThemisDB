@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rope_api_handler.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:01                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -858,13 +859,12 @@ http::response<http::string_body> RopeApiHandler::makeResponse(
 }
 
 std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
-    const http::request<http::string_body>& req,
-    const std::string& permission,
-    const std::string& resource,
-    const std::string& path)
+    [[maybe_unused]] const http::request<http::string_body>& req,
+    [[maybe_unused]] const std::string& permission,
+    [[maybe_unused]] const std::string& resource,
+    [[maybe_unused]] const std::string& path)
 {
     // Suppress unused parameter warnings for parameters reserved for future use
-    (void)permission; (void)resource; (void)path;
     
     // Basic authentication check - if auth middleware is not configured or not enabled,
     // allow access (open mode)

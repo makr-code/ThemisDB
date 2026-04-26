@@ -1,3 +1,5 @@
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
 <!-- Status: current | validated: 2026-06-09 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · src/auth/FUTURE_ENHANCEMENTS.md -->
 
@@ -5,7 +7,7 @@
 
 ## Scope
 
-The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stack identity and access control subsystem covering: JWT/OIDC bearer-token validation and issuance, Kerberos/GSSAPI enterprise authentication, TOTP and WebAuthn/FIDO2 multi-factor authentication, OAuth 2.0 (authorization-code, device, PKCE, client-credentials), SAML 2.0 SP/IdP-initiated SSO, LDAP/AD directory bind, mTLS service-identity verification, federated identity bridging, session management, token blacklisting, rate limiting, audit logging, and zero-trust continuous verification. The module consists of 29 source files and a matching set of public headers.
+The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stack identity and access control subsystem covering: JWT/OIDC bearer-token validation and issuance, Kerberos/GSSAPI enterprise authentication, TOTP and WebAuthn/FIDO2 multi-factor authentication, OAuth 2.0 (authorization-code, device, PKCE, client-credentials), SAML 2.0 SP/IdP-initiated SSO, LDAP/AD directory bind, mTLS service-identity verification, federated identity bridging, session management, token blacklisting, rate limiting, audit logging, and zero-trust continuous verification. The module consists of 31 source files and a matching set of public headers.
 
 ---
 
@@ -60,7 +62,7 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 
 ### 1. Thread-Safety: Add Mutex to `JWTValidator` JWKS Cache
 
-**Priority:** Critical  
+**Priority:** Critical
 **Target Version:** v1.1.0
 
 `include/auth/jwt_validator.h` declares `jwks_cache_` (line 192) and `jwks_cache_time_` (line 193) as plain non-atomic member fields. There is **no `mutable std::mutex`** guarding them in the header or in `jwt_validator.cpp`. When multiple threads call `JWTValidator::validate()` concurrently and the cache expires, they all race into `fetchJWKS()` simultaneously — writing `jwks_cache_` and `jwks_cache_time_` from multiple threads is a data race (undefined behaviour under C++11 and later).
@@ -79,7 +81,7 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 
 ### 2. Async / Non-Blocking LDAP and HTTP Authentication Calls
 
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.2.0
 
 `ldap_authenticator.cpp` uses exclusively synchronous blocking calls: `ldap_simple_bind_s()` (line 222), `ldap_search_s()` (line 257), `ldap_search_ext_s()` (line 379), `ldap_start_tls_s()` (line 333). `jwt_validator.cpp:132` calls `curl_easy_perform()` synchronously with an inline `std::this_thread::sleep_for` retry loop (lines 118, 145). `oidc_provider.cpp:230` and `oauth_pkce_flow.cpp:214` and `oauth_device_flow.cpp:198` each call `curl_easy_perform()` / `httpPost()` on the caller's thread. This means any network timeout or LDAP server slowdown stalls the entire calling thread.
@@ -100,7 +102,7 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 
 ### 3. LDAP DN and Filter Injection Prevention
 
-**Priority:** Critical (Security)  
+**Priority:** Critical (Security)
 **Target Version:** v1.1.0
 
 `ldap_authenticator.cpp:buildUserDN()` (lines 90-97) substitutes the raw `username` string into a DN template by replacing the `{username}` placeholder with no escaping at all. An attacker supplying a username containing DN special characters (`,`, `=`, `+`, `<`, `>`, `#`, `;`, `\`, `"`) can manipulate the constructed DN to bind as a different directory entry. This is a textbook LDAP injection vulnerability.
@@ -120,7 +122,7 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 
 ### 4. Constant-Time Comparison for Recovery Codes and Session IDs
 
-**Priority:** High (Security)  
+**Priority:** High (Security)
 **Target Version:** v1.1.0
 
 `api_key_authenticator.cpp:272` already uses `CRYPTO_memcmp()` for secret comparison — correct. However, other comparators in the module are not constant-time:
@@ -141,8 +143,8 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 
 ### 5. Mandatory JWT Issuer and Audience Validation
 
-**Priority:** High (Security)  
-**Target Version:** v1.1.0  
+**Priority:** High (Security)
+**Target Version:** v1.1.0
 **Status:** ✅ Implemented (v1.7.0)
 
 `JWTValidatorConfig` now uses `std::optional<std::string>` for `expected_issuer` and `expected_audience` with `bool require_issuer_validation = true` / `bool require_audience_validation = true` flags. The constructor throws `std::runtime_error("Issuer validation not configured")` when a require flag is true but the field is unset.
@@ -157,8 +159,8 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 
 ### 6. JWT JTI Replay Prevention Warning When JTI Is Absent
 
-**Priority:** Medium (Security)  
-**Target Version:** v1.2.0  
+**Priority:** Medium (Security)
+**Target Version:** v1.2.0
 **Status:** ✅ Implemented (v1.7.0)
 
 `JWTValidatorConfig` now has `bool require_jti = false`. When `token_blacklist_` is set and the incoming token has no `jti`, a one-time `spdlog::warn` is emitted (guarded by `warned_blacklist_no_jti_` atomic flag to prevent per-request log flooding).
@@ -172,8 +174,8 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 
 ### 7. Token Blacklist Persistence and Distributed Support
 
-**Priority:** High  
-**Target Version:** v1.3.0  
+**Priority:** High
+**Target Version:** v1.3.0
 **Status:** ✅ Implemented (v1.7.0)
 
 `ITokenBlacklist` abstract interface with three implementations: in-memory `TokenBlacklist` (Bloom filter pre-check, bounded `max_entries`), `RedisTokenBlacklist` (Redis `SET jti EX ttl NX`), and `RocksDBTokenBlacklist` (single-node persistence with background expiry thread).
@@ -193,8 +195,8 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 
 ### 8. LDAP Connection Pooling
 
-**Priority:** High  
-**Target Version:** v1.2.0  
+**Priority:** High
+**Target Version:** v1.2.0
 **Status:** ✅ Implemented
 
 `ldap_authenticator.cpp` opens a new LDAP connection (TCP + TLS handshake + bind) for **every authentication call** (`performBind()`, lines 188-286 on Windows; lines 307-395 on POSIX). LDAP connection setup including TLS typically takes 10–50 ms. Under load (e.g., 500 concurrent logins) this exhausts file descriptors and introduces severe latency.
@@ -212,8 +214,8 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 
 ### 9. EC Curve Support: P-384 and P-521 in JWT Validator
 
-**Priority:** Medium  
-**Target Version:** v1.3.0  
+**Priority:** Medium
+**Target Version:** v1.3.0
 **Status:** ✅ Implemented (v1.8.0)
 
 `jwt_validator.cpp` now supports ES384 (P-384/SHA-384), ES512 (P-521/SHA-512), RS384 (RSA/SHA-384), and RS512 (RSA/SHA-512) in addition to the existing ES256, RS256, and EdDSA.
@@ -229,8 +231,8 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 
 ### 10. Secure Memory for Key Material in `jwks_security.cpp`
 
-**Priority:** High (Security)  
-**Target Version:** v1.2.0  
+**Priority:** High (Security)
+**Target Version:** v1.2.0
 **Status:** ✅ Implemented (v1.7.0)
 
 `SecureString` and `SecureVector` wrappers in `include/auth/secure_memory.h` use `OPENSSL_cleanse()` on destruction and call `mlock()` / `VirtualLock()` to prevent key material from being swapped to disk.
@@ -245,8 +247,8 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 
 ### 11. TOTP/MFA: Configurable Window and Audit on Drift
 
-**Priority:** Medium  
-**Target Version:** v1.2.0  
+**Priority:** Medium
+**Target Version:** v1.2.0
 **Status:** ✅ Implemented (v1.7.0)
 
 `MFAAuthenticator::Config` now has `uint8_t max_window_steps = 1` capped at an absolute hard limit of 2. The constructor rejects configurations where `time_window > max_window_steps` via `std::invalid_argument`. Non-zero step offsets emit audit log entries via `auth_audit_logger.cpp`.
@@ -261,8 +263,8 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 
 ### 12. Rate Limiter: Distributed State Synchronisation
 
-**Priority:** Medium  
-**Target Version:** v1.3.0  
+**Priority:** Medium
+**Target Version:** v1.3.0
 **Status:** ✅ Implemented (v1.7.0)
 
 `IRateLimiterBackend` abstract interface in `include/auth/rate_limiter_backend.h` with two built-in implementations: `InMemoryRateLimiterBackend` (single-node default) and `RedisRateLimiterBackend` (multi-node; atomic Lua sliding-window script).
@@ -277,7 +279,7 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 
 ### 13. Credential Stuffing Detection: Persistent Cross-Session State
 
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.3.0
 
 `auth_rate_limiter.cpp:463` gates credential stuffing detection on `config_.enable_credential_stuffing_detection` but the underlying counters are in-memory only. Cross-session detection (tracking a user across multiple login sessions over hours) requires persisted, time-windowed counters. Currently, process restart resets all detection state.
@@ -291,7 +293,7 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 
 ### 14. Zero-Trust Continuous Verification: Async Policy Re-evaluation
 
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.4.0
 
 `zero_trust_auth_verifier.cpp` currently performs synchronous policy evaluation. For long-lived connections (WebSocket, gRPC streaming, DB connection pool), the zero-trust posture of a session must be re-evaluated periodically without dropping the connection.
@@ -308,8 +310,8 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 
 ### 15. SAML Assertion Encryption Support
 
-**Priority:** Low  
-**Target Version:** v1.4.0  
+**Priority:** Low
+**Target Version:** v1.4.0
 **Status:** ✅ Implemented (v1.4.0)
 
 Encrypted SAML assertions (`<EncryptedAssertion>`) are now supported. The implementation uses OpenSSL (AES-128-CBC / AES-256-CBC with RSA-OAEP or RSA-PKCS1-v1.5 key transport) and the pugixml parser that is already a codebase dependency, avoiding the need for a separate xmlsec library.
@@ -324,8 +326,8 @@ Encrypted SAML assertions (`<EncryptedAssertion>`) are now supported. The implem
 
 ### 16. Federated Identity Manager: Token Exchange (RFC 8693)
 
-**Priority:** Low  
-**Target Version:** v1.4.0  
+**Priority:** Low
+**Target Version:** v1.4.0
 **Status:** ✅ Implemented (v1.4.0)
 
 `FederatedIdentityManager::exchangeToken()` implements RFC 8693 (OAuth 2.0 Token Exchange) for service-to-service impersonation and delegation in federated scenarios.
@@ -384,3 +386,57 @@ Encrypted SAML assertions (`<EncryptedAssertion>`) are now supported. The implem
 - `[ ]` RFC 8693 (Token Exchange) — partially stubbed in `federated_identity_manager.cpp:187`
 - `[x]` RFC 4514 (LDAP DN string representation / escaping) — `escapeLDAPDNComponent()` in `ldap_authenticator.cpp`
 - `[x]` RFC 4515 (LDAP filter string representation / escaping) — `escapeLDAPFilterValue()` in `ldap_authenticator.cpp`
+
+---
+
+## Security Hardening Backlog (Q2 2026)
+
+> GAP-003 – identified via static analysis (2026-04-21).
+> Reference: `docs/governance/SOURCECODE_COMPLIANCE_GOVERNANCE.md`.
+
+### GAP-003 – Hard-Reject SHA-1 in SAML Signature / Digest Verification
+
+**Scope:** `src/auth/saml_authenticator.cpp:338`
+
+### Design Constraints
+- SHA-256 SAML flows must not be affected
+- A grace-period escape hatch (`THEMIS_SAML_ALLOW_SHA1=1` env var) is allowed for
+  operators upgrading their IdP, but must log a CRITICAL startup warning and be
+  clearly documented as a security risk
+
+### Required Interfaces
+```cpp
+// In SamlAuthenticator constructor / init:
+bool allow_sha1_ = (std::getenv("THEMIS_SAML_ALLOW_SHA1") != nullptr);
+if (allow_sha1_) {
+    THEMIS_CRITICAL("SAML: SHA-1 acceptance enabled via THEMIS_SAML_ALLOW_SHA1 – "
+                    "this is a security risk; upgrade your IdP to SHA-256");
+}
+```
+- In `verifySAMLAssertion()`, replace the SHA-1 branch:
+```cpp
+} else if (digest_algorithm_uri.find("sha1") != std::string::npos) {
+    if (!allow_sha1_) {
+        THEMIS_ERROR("SAML: SHA-1 digest rejected – set THEMIS_SAML_ALLOW_SHA1=1 to override");
+        return false;
+    }
+    digest_md = EVP_sha1();
+}
+```
+
+### Implementation Notes
+- RFC 8211 §4 prohibits SHA-1 for XML Digital Signatures in new deployments
+- NIST SP 800-131A Rev. 2 §9 prohibits SHA-1 for digital signature generation after 2017
+- The SHAttered (2017) attack demonstrated a practical SHA-1 chosen-prefix collision
+
+### Test Strategy
+- Unit test: SHA-1 signed assertion → `false` (default, no env var)
+- Unit test: SHA-1 signed assertion + `THEMIS_SAML_ALLOW_SHA1=1` → `true` + CRITICAL log
+- Unit test: SHA-256 signed assertion → `true` (unaffected)
+
+### Performance Targets
+- No performance impact (early-exit path)
+
+### Security / Reliability
+- Fail-closed by default; no silent downgrade
+- Operator must opt-in explicitly; the env var is documented in SECURITY.md

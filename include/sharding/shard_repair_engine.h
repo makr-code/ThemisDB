@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            shard_repair_engine.h                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:38                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     334                                            ║
+    • Total Lines:     333                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 35b0161a0  2026-03-13  fix(sharding): wire IOPS throttle and GPU flag into Shard... ║
-    • 096960f50  2026-03-13  feat(sharding): implement Reed-Solomon repair engine para... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 35b0161a0f  2026-03-13  fix(sharding): wire IOPS throttle and GPU flag into Shard... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -45,6 +43,7 @@
 #include "sharding/prometheus_metrics.h"
 #include "sharding/slo_monitor.h"
 #include "utils/thread_pool_manager.h"
+#include "utils/expected.h"
 
 #include <atomic>
 #include <chrono>
@@ -255,6 +254,37 @@ public:
 
     /// Export current metrics in Prometheus text exposition format.
     std::string exportPrometheusMetrics() const;
+
+    /**
+     * @brief Run a synchronous replica consistency check across all shards.
+     *
+     * Iterates the last-known per-shard health reports (populated by the
+     * background scan loop or the most recent triggerFullScan() call) and
+     * returns a human-readable summary string.  The summary format is:
+     *
+     *   "Replica validation OK: <n> shard(s) healthy"          — all healthy
+     *   "Replica validation: <n> degraded / <m> unrecoverable shard(s) found" — issues found
+     *
+     * This method is intentionally lightweight and non-blocking: it reads
+     * cached state rather than triggering a new network scan.  Use
+     * triggerFullScan() before calling this if fresh data is required.
+     *
+     * Designed to be passed as the `check_fn` of a
+     * `ReplicaValidationHandler` registered with the
+     * `DatabaseMaintenanceOrchestrator`:
+     * @code
+     *   auto handler = std::make_shared<ReplicaValidationHandler>(
+     *       [engine]() { return engine->runConsistencyCheck(); });
+     *   orchestrator.registerTaskHandler(
+     *       MaintenanceTaskType::REPLICA_VALIDATION,
+     *       std::move(handler));
+     * @endcode
+     *
+     * @return Ok<std::string> with the summary message.
+     * @return Err<Error>      if reports indicate unrecoverable shard(s)
+     *                         (ErrorCode::ERR_STORAGE_TRANSACTION_FAILED).
+     */
+    themis::Result<std::string> runConsistencyCheck() const;
 
 private:
     // ── Background threads ────────────────────────────────────────────────────

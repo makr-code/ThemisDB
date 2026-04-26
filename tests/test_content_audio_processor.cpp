@@ -3,21 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_content_audio_processor.cpp                   ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:25:45                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:53:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     651                                            ║
+    • Total Lines:     648                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • fed06bb4b  2026-02-28  fix(content/audio): propagate STT transcription metadata ... ║
-    • d947853fb  2026-02-28  feat(content): Wire STTProcessor into AudioProcessor for ... ║
-    • 24177a8bc  2026-02-22  Implement real audio metadata extraction with format-spec... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

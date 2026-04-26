@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_task_scheduler_api_handler.cpp                ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:34:17                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:57:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1116                                           ║
+    • Total Lines:     1112                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c34a95e5f  2026-03-01  feat(scheduler): expose ExternalSchedulerAdapter via Task... ║
-    • cf5596a8c  2026-03-01  feat(scheduler): expose executeDAG via TaskSchedulerApiHa... ║
-    • 46cbedd51  2026-03-01  Fix total count to return all matching records for proper... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -58,6 +51,8 @@ protected:
     }
 
     void SetUp() override {
+        TaskScheduler::clearRequestContext();
+        ASSERT_EQ(TaskScheduler::currentUserId(), "system");
         db_path_ = makeDbPath();
         std::filesystem::create_directories(db_path_);
 
@@ -82,6 +77,7 @@ protected:
     }
 
     void TearDown() override {
+        TaskScheduler::clearRequestContext();
         handler_.reset();
         if (scheduler_) {
             scheduler_->stop();
@@ -218,6 +214,56 @@ TEST_F(TaskSchedulerApiHandlerTest, DisableAndEnableTask) {
 TEST_F(TaskSchedulerApiHandlerTest, DisableTask_NotFound) {
     auto result = handler_->disableTask("bad_id");
     EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExecuteTask_DeniedWithoutPermission) {
+    scheduler_->registerFunction("api_exec_denied_fn",
+        [](const nlohmann::json&) -> nlohmann::json { return {{"ok", true}}; });
+
+    ScheduledTask task;
+    task.id = "api_exec_denied_task";
+    task.name = "api_exec_denied_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "api_exec_denied_fn";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    scheduler_->registerTask(task);
+
+    TaskScheduler::RequestContext ctx;
+    ctx.user_id = "api-user";
+    ctx.authorization_justification = "api-negative-execute-test";
+    TaskScheduler::setRequestContext(ctx);
+
+    auto result = handler_->executeTask(task.id);
+    TaskScheduler::clearRequestContext();
+
+    EXPECT_EQ(result.value("status", ""), "error");
+    EXPECT_NE(result.value("error", "").find("Unauthorized"), std::string::npos);
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExecuteTask_AllowedWithPermission) {
+    scheduler_->registerFunction("api_exec_allowed_fn",
+        [](const nlohmann::json&) -> nlohmann::json { return {{"ok", true}}; });
+
+    ScheduledTask task;
+    task.id = "api_exec_allowed_task";
+    task.name = "api_exec_allowed_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "api_exec_allowed_fn";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    scheduler_->registerTask(task);
+
+    TaskScheduler::RequestContext ctx;
+    ctx.user_id = "api-user";
+    ctx.granted_permissions.insert("task:execute");
+    ctx.authorization_justification = "api-positive-execute-test";
+    TaskScheduler::setRequestContext(ctx);
+
+    auto result = handler_->executeTask(task.id);
+    TaskScheduler::clearRequestContext();
+
+    EXPECT_EQ(result.value("status", ""), "executed");
+    ASSERT_TRUE(result.contains("result"));
+    EXPECT_EQ(result["result"].value("ok", false), true);
 }
 
 // ============================================================================
@@ -1113,4 +1159,73 @@ TEST_F(TaskSchedulerApiHandlerTest, ImportFromK8sCronJob_ImportedTaskAppearsInLi
         }
     }
     EXPECT_TRUE(found) << "Imported task not found in task list";
+}
+
+// ============================================================================
+// GAP-018 — e.what() must NOT be forwarded into HTTP API responses (CWE-209)
+// ============================================================================
+
+// GAP-018-01: registerTask with a malformed request must return a generic error
+// message (not the raw exception text) in the JSON response.
+TEST_F(TaskSchedulerApiHandlerTest, GAP018_RegisterTask_ErrorResponseIsGeneric) {
+    // Intentionally malformed: "type" and "trigger_type" are missing so
+    // parseTaskFromJson must throw, exercising the catch block.
+    nlohmann::json bad_req{{"name", "bad_task"}};
+    auto result = handler_->registerTask(bad_req);
+
+    ASSERT_EQ(result.value("status", ""), "error");
+    const std::string err = result.value("error", "");
+    // The response must NOT contain raw C++ exception text that would reveal
+    // internal implementation details (CWE-209 / GAP-018).
+    EXPECT_NE(err, "") << "Error field must be present";
+    EXPECT_EQ(err, "Internal server error")
+        << "Expected generic message; got: " << err;
+}
+
+// GAP-018-02: unregisterTask with an unknown task ID returns a generic error.
+TEST_F(TaskSchedulerApiHandlerTest, GAP018_UnregisterTask_UnknownId_ErrorResponseIsGeneric) {
+    auto result = handler_->unregisterTask("nonexistent_xyz");
+
+    ASSERT_EQ(result.value("status", ""), "error");
+    const std::string err = result.value("error", "");
+    EXPECT_NE(err, "");
+    EXPECT_TRUE(err.find("std::") == std::string::npos)
+        << "Response must not expose C++ exception type; got: " << err;
+    EXPECT_TRUE(err.find("exception") == std::string::npos)
+        << "Response must not expose exception details; got: " << err;
+}
+
+// GAP-018-03: enableTask with an unknown task ID returns a generic error.
+TEST_F(TaskSchedulerApiHandlerTest, GAP018_EnableTask_UnknownId_ErrorResponseIsGeneric) {
+    auto result = handler_->enableTask("nonexistent_xyz");
+
+    ASSERT_EQ(result.value("status", ""), "error");
+    const std::string err = result.value("error", "");
+    EXPECT_NE(err, "");
+    EXPECT_TRUE(err.find("std::") == std::string::npos);
+}
+
+// GAP-018-04: disableTask with an unknown task ID returns a generic error.
+TEST_F(TaskSchedulerApiHandlerTest, GAP018_DisableTask_UnknownId_ErrorResponseIsGeneric) {
+    auto result = handler_->disableTask("nonexistent_xyz");
+
+    ASSERT_EQ(result.value("status", ""), "error");
+    const std::string err = result.value("error", "");
+    EXPECT_NE(err, "");
+    EXPECT_TRUE(err.find("std::") == std::string::npos);
+}
+
+// ============================================================================
+// GAP-019 — mt19937 replaced with random_device for security-sensitive IDs
+// ============================================================================
+
+// GAP-019-01: Registered task IDs must be unique (verifies that the underlying
+// UUID generator produces non-colliding values even on rapid successive calls).
+TEST_F(TaskSchedulerApiHandlerTest, GAP019_RegisteredTaskIds_AreUnique) {
+    auto t1 = handler_->registerTask(makeTaskJson("rng_task_1"));
+    auto t2 = handler_->registerTask(makeTaskJson("rng_task_2"));
+    ASSERT_EQ(t1.value("status", ""), "created");
+    ASSERT_EQ(t2.value("status", ""), "created");
+    EXPECT_NE(t1.value("id", ""), t2.value("id", ""))
+        << "Task IDs must be unique across consecutive registrations";
 }

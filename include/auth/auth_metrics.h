@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_metrics.h                                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:05:50                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     453                                            ║
+    • Total Lines:     450                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9de8da16f  2026-03-12  feat(auth): implement credential stuffing persistent cros... ║
-    • 47778fbd5  2026-03-12  fix(auth): suppress spurious drift warning for valid time... ║
-    • 94bb63df8  2026-03-12  feat(auth): TOTP/MFA configurable window enforcement and ... ║
-    • fc9c9664a  2026-03-12  feat(auth): implement LDAP connection pooling (v1.2.0) ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 9de8da16fa  2026-03-12  feat(auth): implement credential stuffing persistent cros... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

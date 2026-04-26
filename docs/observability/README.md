@@ -1,7 +1,7 @@
 # Observability & Monitoring Overview
 
 **Version:** 1.5.0-dev  
-**Last Updated:** February 9, 2026  
+**Last Updated:** April 2026  
 **Status:** Production Ready
 
 ---
@@ -158,7 +158,7 @@ try {
 
 ### Documentation
 
-- **[Tracing Configuration Guide](../tracing-configuration.md)** - Complete setup and integration guide
+- **[Tracing Configuration Guide](../build-guide/tracing-configuration.md)** - Complete setup and integration guide
 - [Tracing Implementation](../de/src/utils/tracing.cpp.md) (German)
 - [OpenTelemetry Documentation](https://opentelemetry.io/docs/)
 
@@ -293,7 +293,7 @@ scrape_configs:
 
 - [LLM Response Cache Metrics](../LLM_RESPONSE_CACHE_METRICS.md) - Detailed cache metrics guide
 - [Prometheus Integration Complete](../PROMETHEUS_INTEGRATION_COMPLETE.md)
-- [Grafana Metrics Complete](../GRAFANA_METRICS_COMPLETE.md)
+- [Grafana Metrics Complete](../ARCHIVED/implementation-summaries/GRAFANA_METRICS_COMPLETE.md)
 - [German Observability Docs](../de/observability/) - Comprehensive observability documentation
 
 ---
@@ -359,8 +359,8 @@ groups:
 ### Documentation
 
 - [Observability Alerting](../de/observability/observability_alerting.md) (German)
-- [Performance Alerting Config](../PERFORMANCE_ALERTING_CONFIG.md)
-- [Performance Regression Detection](../PERFORMANCE_REGRESSION_DETECTION.md)
+- [Performance Alerting Config](../performance/PERFORMANCE_ALERTING_CONFIG.md)
+- [Performance Regression Detection](../performance/PERFORMANCE_REGRESSION_DETECTION.md)
 
 ---
 
@@ -493,7 +493,7 @@ docker run -d --name grafana \
 ## Related Documentation
 
 ### Core Documentation
-- **[Tracing Configuration Guide](../tracing-configuration.md)** - Complete tracing setup
+- **[Tracing Configuration Guide](../build-guide/tracing-configuration.md)** - Complete tracing setup
 - **[LLM Response Cache Metrics](../LLM_RESPONSE_CACHE_METRICS.md)** - Cache metrics integration
 - **[Utils Module README](../../src/utils/README.md)** - Logging and utility components
 
@@ -507,13 +507,13 @@ docker run -d --name grafana \
 
 ### Integration Guides
 - **[Prometheus Integration](../PROMETHEUS_INTEGRATION_COMPLETE.md)**
-- **[Grafana Metrics Integration](../GRAFANA_METRICS_COMPLETE.md)**
+- **[Grafana Metrics Integration](../ARCHIVED/implementation-summaries/GRAFANA_METRICS_COMPLETE.md)**
 - **[LLM Grafana Metrics Integration](../LLM_GRAFANA_METRICS_INTEGRATION.md)**
 
 ### Performance & Monitoring
-- **[Performance Alerting Config](../PERFORMANCE_ALERTING_CONFIG.md)**
-- **[Performance Regression Detection](../PERFORMANCE_REGRESSION_DETECTION.md)**
-- **[Performance Regression Quick Reference](../PERFORMANCE_REGRESSION_QUICK_REFERENCE.md)**
+- **[Performance Alerting Config](../performance/PERFORMANCE_ALERTING_CONFIG.md)**
+- **[Performance Regression Detection](../performance/PERFORMANCE_REGRESSION_DETECTION.md)**
+- **[Performance Regression Quick Reference](../performance/PERFORMANCE_REGRESSION_QUICK_REFERENCE.md)**
 
 ### API & Integration
 - **[Operations Runbook](../de/guides/guides_operations_runbook.md)** - Daily operations guide
@@ -544,4 +544,4 @@ For questions or issues related to observability:
 
 **Version:** 1.5.0-dev  
 **License:** See [LICENSE](../../LICENSE)  
-**Last Updated:** February 9, 2026
+**Last Updated:** April 2026

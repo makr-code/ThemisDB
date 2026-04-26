@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_http_sharding_admin.cpp                       ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:28:21                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:54:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c9b143394  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
+    • c9b1433946  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

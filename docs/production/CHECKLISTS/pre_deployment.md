@@ -1,7 +1,7 @@
 # Pre-Deployment Checklist
 
-**Version:** 1.4.0-alpha  
-**Last Updated:** January 2026  
+**Version:** 1.8.0-rc1  
+**Last Updated:** April 2026  
 **Purpose:** Ensure production readiness before ThemisDB GPU deployment
 
 ---
@@ -403,4 +403,4 @@ After completing this checklist:
 ---
 
 **Checklist Version:** 1.0  
-**Last Updated:** January 2026
+**Last Updated:** April 2026

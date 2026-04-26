@@ -26,7 +26,7 @@ Guide to building and distributing packages across platforms.
 
 This document describes how to build and publish ThemisDB packages for various operating systems and package managers.
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.3.0  
 **Kategorie:** 🔨 Build/Deployment
 

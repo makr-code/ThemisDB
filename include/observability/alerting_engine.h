@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            alerting_engine.h                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:09:03                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 4b2211d98  2026-03-11  fix(observability): code audit fixes — error().message(),... ║
-    • d33d5cf06  2026-03-11  feat(observability): rule-based alerting engine with conf... ║
+    • 4b2211d98f  2026-03-11  fix(observability): code audit fixes — error().message(),... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

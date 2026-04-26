@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_field_search.cpp                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:19:20                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:50:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     193                                            ║
+    • Total Lines:     191                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 48fbf5b22  2026-03-21  Update search, temporal, and build artifacts ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • bf06f5417  2026-02-28  feat(search): implement MultiFieldBoostedSearch for title... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -61,7 +60,6 @@ void MultiFieldBoostedSearch::normalizeScores(
     double min_score = std::numeric_limits<double>::max();
     double max_score = std::numeric_limits<double>::lowest();
     for (const auto& [doc_id, s] : scored) {
-        (void)doc_id;
         min_score = std::min(min_score, s);
         max_score = std::max(max_score, s);
     }
@@ -69,14 +67,12 @@ void MultiFieldBoostedSearch::normalizeScores(
     const double range = max_score - min_score;
     if (range > 0.0) {
         for (auto& [doc_id, s] : scored) {
-            (void)doc_id;
             s = (s - min_score) / range;
         }
     } else {
         // All scores are equal: map to 1.0 if positive, 0.0 otherwise
         const double normalized = (max_score > 0.0) ? 1.0 : 0.0;
         for (auto& [doc_id, s] : scored) {
-            (void)doc_id;
             s = normalized;
         }
     }

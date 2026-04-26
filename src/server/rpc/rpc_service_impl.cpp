@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rpc_service_impl.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:02                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2464                                           ║
+    • Total Lines:     2460                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 208883d43  2026-03-01  Implement handleBatchDelete, fix integration test stub, a... ║
-    • 1415c6f80  2026-03-01  feat(rpc): replace stubs with real DB-backed implementations ║
-    • bd470bd61  2026-03-01  feat(rpc): implement DELETE with cascade logic and refere... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -775,7 +768,7 @@ json ThemisRPCService::handleVectorSearch(const json& params) {
         }
         
         // Extract parameters
-        int k = params.value("k", 10);  // default top-k = 10
+        [[maybe_unused]] int k = params.value("k", 10);  // default top-k = 10
         std::string metric(params.value("metric", "cosine"));  // cosine, euclidean, dot
         
         // Note: Vector search requires the vector index module (FAISS or similar).
@@ -810,7 +803,7 @@ json ThemisRPCService::handleGraphTraverse(const json& params) {
         // Extract parameters
         std::string start_vertex(params.value("start_vertex", ""));
         std::string direction(params.value("direction", "outbound"));  // outbound, inbound, any
-        int max_depth = params.value("max_depth", 1);
+        [[maybe_unused]] int max_depth = params.value("max_depth", 1);
         
         if (start_vertex.empty()) {
             return createError(
@@ -1315,7 +1308,7 @@ json ThemisRPCService::handleTransactionAbort(const json& params) {
     }
 }
 
-json ThemisRPCService::handleHealthCheck(const json& params) {
+json ThemisRPCService::handleHealthCheck([[maybe_unused]] const json& params) {
     try {
         int64_t uptime_seconds = 0;
         if (start_time_) {
@@ -1482,7 +1475,7 @@ json ThemisRPCService::handleSearch(const json& params) {
     }
 }
 
-json ThemisRPCService::handleStats(const json& params) {
+json ThemisRPCService::handleStats([[maybe_unused]] const json& params) {
     try {
         // Get storage engine
         auto storage = storage_;
@@ -2009,7 +2002,7 @@ json ThemisRPCService::handleAggregationPipeline(const json& params) {
     }
 }
 
-json ThemisRPCService::handleListCollections(const json& params) {
+json ThemisRPCService::handleListCollections([[maybe_unused]] const json& params) {
     try {
         // Get storage engine
         auto storage = storage_;

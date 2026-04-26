@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vault_signing_provider.h                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:10:59                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     142                                            ║
+    • Total Lines:     136                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -72,24 +73,21 @@ public:
     // See: docs/security/VAULT_SIGNING_PROVIDER.md
     // =========================================================================
     
-    std::vector<uint8_t> getKey(const std::string& key_id) override {
-        (void)key_id;
+    std::vector<uint8_t> getKey([[maybe_unused]] const std::string& key_id) override {
         throw KeyOperationException(
             "VaultSigningProvider: getKey() not implemented - signing-only provider. "
             "Use VaultKeyProvider for key management operations. "
             "See: docs/security/VAULT_SIGNING_PROVIDER.md");
     }
     
-    std::vector<uint8_t> getKey(const std::string& key_id, uint32_t version) override {
-        (void)key_id; (void)version;
+    std::vector<uint8_t> getKey([[maybe_unused]] const std::string& key_id, [[maybe_unused]] uint32_t version) override {
         throw KeyOperationException(
             "VaultSigningProvider: getKey(version) not implemented - signing-only provider. "
             "Use VaultKeyProvider for key management operations. "
             "See: docs/security/VAULT_SIGNING_PROVIDER.md");
     }
     
-    uint32_t rotateKey(const std::string& key_id) override {
-        (void)key_id;
+    uint32_t rotateKey([[maybe_unused]] const std::string& key_id) override {
         throw KeyOperationException(
             "VaultSigningProvider: rotateKey() not implemented - signing-only provider. "
             "Use VaultKeyProvider or Vault CLI for key rotation. "
@@ -103,24 +101,21 @@ public:
             "See: docs/security/VAULT_SIGNING_PROVIDER.md");
     }
     
-    KeyMetadata getKeyMetadata(const std::string& key_id, uint32_t version = 0) override {
-        (void)key_id; (void)version;
+    KeyMetadata getKeyMetadata([[maybe_unused]] const std::string& key_id, [[maybe_unused]] uint32_t version = 0) override {
         throw KeyOperationException(
             "VaultSigningProvider: getKeyMetadata() not implemented - signing-only provider. "
             "Use VaultKeyProvider for key metadata operations. "
             "See: docs/security/VAULT_SIGNING_PROVIDER.md");
     }
     
-    void deleteKey(const std::string& key_id, uint32_t version) override {
-        (void)key_id; (void)version;
+    void deleteKey([[maybe_unused]] const std::string& key_id, [[maybe_unused]] uint32_t version) override {
         throw KeyOperationException(
             "VaultSigningProvider: deleteKey() not implemented - signing-only provider. "
             "Use VaultKeyProvider or Vault API for key deletion. "
             "See: docs/security/VAULT_SIGNING_PROVIDER.md");
     }
     
-    bool hasKey(const std::string& key_id, uint32_t version = 0) override {
-        (void)key_id; (void)version;
+    bool hasKey([[maybe_unused]] const std::string& key_id, [[maybe_unused]] uint32_t version = 0) override {
         throw KeyOperationException(
             "VaultSigningProvider: hasKey() not implemented - signing-only provider. "
             "Use VaultKeyProvider for key existence checks. "
@@ -128,10 +123,9 @@ public:
     }
     
     uint32_t createKeyFromBytes(
-        const std::string& key_id,
-        const std::vector<uint8_t>& key_bytes,
-        const KeyMetadata& metadata = KeyMetadata()) override {
-        (void)key_id; (void)key_bytes; (void)metadata;
+        [[maybe_unused]] const std::string& key_id,
+        [[maybe_unused]] const std::vector<uint8_t>& key_bytes,
+        [[maybe_unused]] const KeyMetadata& metadata = KeyMetadata()) override {
         throw KeyOperationException(
             "VaultSigningProvider: createKeyFromBytes() not implemented - signing-only provider. "
             "Use VaultKeyProvider or Vault API for key creation. "

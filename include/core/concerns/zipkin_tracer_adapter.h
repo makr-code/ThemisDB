@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            zipkin_tracer_adapter.h                            ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:07:04                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:44:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 52726f0a2  2026-02-26  feat(core): add Jaeger and Zipkin tracing backend adapters ║
+    • f20e6e8d74  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
+    • 2826fa9ccd  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -178,23 +178,23 @@ public:
      */
     std::unique_ptr<ISpan> startSpanFromHeaders(
             const std::string& name,
-            const std::map<std::string, std::string>& headers) override {
+            const std::map<std::string, std::string>& carrier_headers) override {
         if (!circuit_breaker_->allowRequest()) {
             return std::make_unique<ZipkinSpanAdapter>(themis::Tracer::Span{});
         }
 
         // W3C traceparent takes precedence.
-        std::string traceparent = headerValueCI(headers, "traceparent");
+        std::string traceparent = headerValueCI(carrier_headers, "traceparent");
         if (!traceparent.empty()) {
             auto span_ptr = std::make_unique<ZipkinSpanAdapter>(
-                themis::Tracer::startSpanFromHeaders(name, headers));
+                themis::Tracer::startSpanFromHeaders(name, carrier_headers));
             span_ptr->isValid() ? circuit_breaker_->recordSuccess()
                                 : circuit_breaker_->recordFailure();
             return span_ptr;
         }
 
         // Try B3 single header first.
-        std::string b3_single = headerValueCI(headers, "b3");
+        std::string b3_single = headerValueCI(carrier_headers, "b3");
         B3Ids ids;
         bool has_b3 = false;
 
@@ -204,10 +204,10 @@ public:
 
         // Fall back to B3 multi-headers.
         if (!has_b3) {
-            ids.trace_id  = headerValueCI(headers, "X-B3-TraceId");
-            ids.span_id   = headerValueCI(headers, "X-B3-SpanId");
-            ids.parent_id = headerValueCI(headers, "X-B3-ParentSpanId");
-            ids.sampled   = headerValueCI(headers, "X-B3-Sampled");
+            ids.trace_id  = headerValueCI(carrier_headers, "X-B3-TraceId");
+            ids.span_id   = headerValueCI(carrier_headers, "X-B3-SpanId");
+            ids.parent_id = headerValueCI(carrier_headers, "X-B3-ParentSpanId");
+            ids.sampled   = headerValueCI(carrier_headers, "X-B3-Sampled");
             has_b3 = !ids.trace_id.empty() && !ids.span_id.empty();
         }
 
@@ -226,7 +226,7 @@ public:
         }
 
         // Extract W3C Baggage.
-        themis::Baggage::extract(headers);
+        themis::Baggage::extract(carrier_headers);
 
         span_ptr->isValid() ? circuit_breaker_->recordSuccess()
                             : circuit_breaker_->recordFailure();
@@ -241,24 +241,24 @@ public:
      * downstream services using any of the three conventions can continue the
      * trace.  Also injects W3C Baggage when any items are present.
      */
-    void injectContext(std::map<std::string, std::string>& headers) override {
+    void injectContext(std::map<std::string, std::string>& carrier_headers) override {
         std::string trace_id = themis::Tracer::getCurrentTraceId();
         std::string span_id  = themis::Tracer::getCurrentSpanId();
 
         if (!trace_id.empty() && !span_id.empty()) {
             // W3C traceparent
-            headers["traceparent"] = "00-" + trace_id + "-" + span_id + "-01";
+            carrier_headers["traceparent"] = "00-" + trace_id + "-" + span_id + "-01";
 
             // B3 single header: {traceId}-{spanId}-{sampling}
-            headers["b3"] = trace_id + "-" + span_id + "-1";
+            carrier_headers["b3"] = trace_id + "-" + span_id + "-1";
 
             // B3 multi-headers
-            headers["X-B3-TraceId"] = trace_id;
-            headers["X-B3-SpanId"]  = span_id;
-            headers["X-B3-Sampled"] = "1";
+            carrier_headers["X-B3-TraceId"] = trace_id;
+            carrier_headers["X-B3-SpanId"]  = span_id;
+            carrier_headers["X-B3-Sampled"] = "1";
         }
 
-        themis::Baggage::inject(headers);
+        themis::Baggage::inject(carrier_headers);
     }
 
     // -------------------------------------------------------------------------

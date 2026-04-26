@@ -3,22 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themisdb_adapter.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:14:56                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     1425                                           ║
+    • Quality Score:   89.0/100                                       ║
+    • Total Lines:     1709                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 6b598edc4  2026-03-12  Add ThemisDB Graph Navigation plugin with automatic updater ║
-    • 3760a281c  2026-03-12  fix(chimera): move semantics for ScopedTokenRemover, id-r... ║
-    • 16eb8c2a4  2026-03-12  fix(chimera): address async API review comments (RAII cle... ║
-    • 0701ac8f4  2026-03-12  feat(chimera): implement async/promise-based API (IAsyncD... ║
-    • 3fea6d6b5  2026-03-12  refactor: clean up includes and remove unused transaction... ║
+    • 649f5c7538  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • 7e8c588d0f  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -394,8 +393,8 @@ Result<std::vector<std::pair<Vector, double>>> ThemisDBAdapter::search_vectors(
 
 Result<bool> ThemisDBAdapter::create_index(
     const std::string& collection,
-    size_t dimensions,
-    const std::map<std::string, Scalar>& index_params
+    [[maybe_unused]] size_t dimensions,
+    const std::map<std::string, Scalar>& /*index_params*/
 ) {
     if (!connected_) {
         return Result<bool>::err(
@@ -405,8 +404,6 @@ Result<bool> ThemisDBAdapter::create_index(
     }
 
     // Ensure the collection entry exists in the in-memory store.
-    (void)dimensions;
-    (void)index_params;
     {
         std::unique_lock<std::mutex> lock(store_mutex_);
         vector_store_.try_emplace(collection);
@@ -467,19 +464,22 @@ Result<GraphPath> ThemisDBAdapter::shortest_path(
     // When a GraphIndexManager is wired in, delegate to its Dijkstra.
     if (graph_index_) {
 #if defined(THEMISDB_ENGINE_AVAILABLE)
-        // The GraphIndexManager::dijkstra API does not support a depth bound.
-        // Fail fast when a non-default max_depth is requested so callers are
-        // not silently surprised by unbounded graph exploration.
-        if (max_depth != 10U) { // 10 is the interface default
-            return Result<GraphPath>::err(
-                ErrorCode::NOT_IMPLEMENTED,
-                "shortest_path with a custom max_depth constraint is not supported "
-                "by the engine-backed GraphIndexManager; pass the default max_depth "
-                "(10) for unbounded Dijkstra search"
-            );
+        // Use dijkstraWithConstraints when a depth cap is requested so that
+        // paths longer than max_depth are pruned by the engine.  When max_depth
+        // equals the interface default (10 = "unbounded"), delegate to the
+        // unconstrained Dijkstra overload which is slightly more efficient.
+        GraphIndexManager::PathResult path_result;
+        GraphIndexManager::Status status;
+        if (max_depth != 10U) {
+            GraphIndexManager::PathConstraints constraints;
+            constraints.max_edge_count = static_cast<int>(max_depth);
+            std::tie(status, path_result) =
+                graph_index_->dijkstraWithConstraints(
+                    source_id, target_id, constraints);
+        } else {
+            std::tie(status, path_result) =
+                graph_index_->dijkstra(source_id, target_id);
         }
-        auto [status, path_result] =
-            graph_index_->dijkstra(source_id, target_id);
         if (!status.ok) {
             return Result<GraphPath>::err(
                 ErrorCode::INTERNAL_ERROR, status.message);
@@ -607,44 +607,42 @@ Result<std::vector<GraphNode>> ThemisDBAdapter::traverse(
 #if defined(THEMISDB_ENGINE_AVAILABLE)
         // Map edge_labels to the engine API:
         //   • no labels    -> unfiltered BFS
-        //   • single label -> BFS filtered by that edge type (engine overload)
-        //   • multi-label  -> not yet supported; fail explicitly to avoid
-        //                     silent divergence from the in-memory semantics.
-        if (edge_labels.size() > 1) {
-            return Result<std::vector<GraphNode>>::err(
-                ErrorCode::NOT_IMPLEMENTED,
-                "GraphIndexManager-backed traverse does not yet support "
-                "multi-label edge filters; use zero or one edge label"
-            );
-        }
-
-        std::pair<GraphIndexManager::Status, std::vector<std::string>> bfs_pair;
-        if (edge_labels.empty()) {
-            bfs_pair = graph_index_->bfs(start_id, static_cast<int>(max_depth));
-        } else {
-            // Use the overload that accepts an edge_type.
-            bfs_pair = graph_index_->bfs(
-                start_id,
-                static_cast<int>(max_depth),
-                edge_labels.front(),
-                /*graph_id=*/""
-            );
-        }
-
-        auto& [status, bfs_result] = bfs_pair;
-        if (!status.ok) {
-            return Result<std::vector<GraphNode>>::err(
-                ErrorCode::INTERNAL_ERROR, status.message);
-        }
+        //   • single label -> BFS filtered by that edge type
+        //   • multi-label  -> run one BFS per label and merge with deduplication
+        const int depth = static_cast<int>(max_depth);
+        std::unordered_set<std::string> seen_ids;
         std::vector<GraphNode> nodes;
-        nodes.reserve(bfs_result.size());
-        for (const auto& nid : bfs_result) {
-            auto it = graph_nodes_.find(nid);
-            if (it != graph_nodes_.end()) {
-                nodes.push_back(it->second);
-            } else {
-                GraphNode n; n.id = nid;
-                nodes.push_back(std::move(n));
+
+        auto append_bfs_results = [&](const std::vector<std::string>& bfs_result) {
+            for (const auto& nid : bfs_result) {
+                if (!seen_ids.insert(nid).second) continue; // already added
+                auto it = graph_nodes_.find(nid);
+                if (it != graph_nodes_.end()) {
+                    nodes.push_back(it->second);
+                } else {
+                    GraphNode n; n.id = nid;
+                    nodes.push_back(std::move(n));
+                }
+            }
+        };
+
+        if (edge_labels.empty()) {
+            auto [status, bfs_result] =
+                graph_index_->bfs(start_id, depth);
+            if (!status.ok) {
+                return Result<std::vector<GraphNode>>::err(
+                    ErrorCode::INTERNAL_ERROR, status.message);
+            }
+            append_bfs_results(bfs_result);
+        } else {
+            for (const auto& label : edge_labels) {
+                auto [status, bfs_result] =
+                    graph_index_->bfs(start_id, depth, label, /*graph_id=*/"");
+                if (!status.ok) {
+                    return Result<std::vector<GraphNode>>::err(
+                        ErrorCode::INTERNAL_ERROR, status.message);
+                }
+                append_bfs_results(bfs_result);
             }
         }
         return Result<std::vector<GraphNode>>::ok(std::move(nodes));
@@ -1148,7 +1146,6 @@ Result<SystemMetrics> ThemisDBAdapter::get_metrics() const {
 }
 
 bool ThemisDBAdapter::has_capability(Capability cap) const {
-    // ThemisDB supports all capabilities in this example
     switch (cap) {
         case Capability::RELATIONAL_QUERIES:
         case Capability::VECTOR_SEARCH:
@@ -1162,13 +1159,21 @@ bool ThemisDBAdapter::has_capability(Capability cap) const {
         case Capability::BATCH_OPERATIONS:
         case Capability::SECONDARY_INDEXES:
         case Capability::ASYNC_OPERATIONS:
+        case Capability::STREAMING_RESULTS:
+        case Capability::PREPARED_STATEMENTS:
             return true;
+        case Capability::CONNECTION_POOLING:
+            // Not yet implemented; no dedicated pooling API exists in this adapter.
+            // Tracked: src/chimera/ROADMAP.md — Target Q3 2026.
+            return false;
         default:
             return false;
     }
 }
 
 std::vector<Capability> ThemisDBAdapter::get_capabilities() const {
+    // CONNECTION_POOLING intentionally excluded: no pooling API is implemented yet.
+    // See src/chimera/ROADMAP.md — Target Q3 2026.
     return {
         Capability::RELATIONAL_QUERIES,
         Capability::VECTOR_SEARCH,
@@ -1181,7 +1186,9 @@ std::vector<Capability> ThemisDBAdapter::get_capabilities() const {
         Capability::TIME_SERIES,
         Capability::BATCH_OPERATIONS,
         Capability::SECONDARY_INDEXES,
-        Capability::ASYNC_OPERATIONS
+        Capability::ASYNC_OPERATIONS,
+        Capability::STREAMING_RESULTS,
+        Capability::PREPARED_STATEMENTS
     };
 }
 
@@ -1420,6 +1427,286 @@ Result<bool> ThemisDBAdapter::cancel_async(const std::string& operation_id) {
 
     it->second->store(true, std::memory_order_relaxed);
     return Result<bool>::ok(true);
+}
+
+// ---------------------------------------------------------------------------
+// IStreamingAdapter — pull-based cursor over in-memory result sets
+// ---------------------------------------------------------------------------
+
+Result<std::unique_ptr<IResultStream>> ThemisDBAdapter::execute_query_stream(
+    const std::string& query,
+    const std::vector<Scalar>& params
+) {
+    // Delegate to the synchronous path to obtain a full RelationalTable
+    // snapshot, then wrap it in a ThemisDBResultStream cursor.
+    auto table_result = execute_query(query, params);
+    if (!table_result.is_ok()) {
+        return Result<std::unique_ptr<IResultStream>>::err(
+            table_result.error_code, table_result.error_message);
+    }
+
+    StreamConfig cfg;
+    {
+        std::lock_guard<std::mutex> lk(store_mutex_);
+        cfg = stream_config_;
+    }
+
+    auto stream = std::make_unique<ThemisDBResultStream>(
+        std::move(*table_result.value), cfg);
+    return Result<std::unique_ptr<IResultStream>>::ok(std::move(stream));
+}
+
+Result<bool> ThemisDBAdapter::set_stream_config(const StreamConfig& config) {
+    std::lock_guard<std::mutex> lk(store_mutex_);
+    stream_config_ = config;
+    return Result<bool>::ok(true);
+}
+
+// ---------------------------------------------------------------------------
+// IPreparedStatementAdapter — plan-cached statement management
+// ---------------------------------------------------------------------------
+
+Result<std::unique_ptr<IPreparedStatement>> ThemisDBAdapter::prepare(
+    const std::string& query
+) {
+    if (query.empty()) {
+        return Result<std::unique_ptr<IPreparedStatement>>::err(
+            ErrorCode::INVALID_ARGUMENT, "Query must not be empty");
+    }
+
+    const std::string id = generate_id();
+
+    {
+        std::lock_guard<std::mutex> lk(prepared_mutex_);
+        prepared_queries_.emplace(id, query);
+    }
+
+    auto stmt = std::make_unique<ThemisDBPreparedStatement>(id, query, this);
+    return Result<std::unique_ptr<IPreparedStatement>>::ok(std::move(stmt));
+}
+
+Result<bool> ThemisDBAdapter::unprepare(const std::string& statement_id) {
+    std::lock_guard<std::mutex> lk(prepared_mutex_);
+    auto it = prepared_queries_.find(statement_id);
+    if (it == prepared_queries_.end()) {
+        return Result<bool>::err(
+            ErrorCode::NOT_FOUND,
+            "No prepared statement with id: " + statement_id);
+    }
+    prepared_queries_.erase(it);
+    return Result<bool>::ok(true);
+}
+
+Result<std::vector<std::string>> ThemisDBAdapter::list_prepared() {
+    std::lock_guard<std::mutex> lk(prepared_mutex_);
+    std::vector<std::string> ids;
+    ids.reserve(prepared_queries_.size());
+    for (const auto& kv : prepared_queries_) {
+        ids.push_back(kv.first);
+    }
+    return Result<std::vector<std::string>>::ok(std::move(ids));
+}
+
+// ---------------------------------------------------------------------------
+// ThemisDBResultStream implementation
+// ---------------------------------------------------------------------------
+
+ThemisDBResultStream::ThemisDBResultStream(
+    RelationalTable  table,
+    StreamConfig     config
+)
+    : table_(std::move(table))
+    , config_(config)
+{}
+
+bool ThemisDBResultStream::has_more() const {
+    return !closed_ && cursor_ < table_.rows.size();
+}
+
+Result<std::vector<RelationalRow>> ThemisDBResultStream::next_batch(
+    size_t batch_size
+) {
+    if (closed_) {
+        return Result<std::vector<RelationalRow>>::err(
+            ErrorCode::INTERNAL_ERROR, "Stream has been closed");
+    }
+    if (cursor_ >= table_.rows.size()) {
+        return Result<std::vector<RelationalRow>>::ok({});
+    }
+
+    const size_t effective = (batch_size == 0)
+        ? config_.default_batch_size
+        : batch_size;
+
+    const size_t end = std::min(cursor_ + effective, table_.rows.size());
+    std::vector<RelationalRow> batch(
+        table_.rows.begin() + static_cast<std::ptrdiff_t>(cursor_),
+        table_.rows.begin() + static_cast<std::ptrdiff_t>(end));
+    cursor_ = end;
+    return Result<std::vector<RelationalRow>>::ok(std::move(batch));
+}
+
+size_t ThemisDBResultStream::position() const {
+    return cursor_;
+}
+
+std::optional<size_t> ThemisDBResultStream::total_size() const {
+    return table_.rows.size();
+}
+
+Result<bool> ThemisDBResultStream::close() {
+    closed_ = true;
+    return Result<bool>::ok(true);
+}
+
+// ---------------------------------------------------------------------------
+// ThemisDBPreparedStatement implementation
+// ---------------------------------------------------------------------------
+
+ThemisDBPreparedStatement::ThemisDBPreparedStatement(
+    std::string       id,
+    std::string       query,
+    IDatabaseAdapter* adapter
+)
+    : id_(std::move(id))
+    , query_(std::move(query))
+    , adapter_(adapter)
+{}
+
+std::string ThemisDBPreparedStatement::get_id() const { return id_; }
+std::string ThemisDBPreparedStatement::get_query() const { return query_; }
+
+Result<bool> ThemisDBPreparedStatement::bind(
+    const std::string& name, const Scalar& value
+) {
+    if (name.empty()) {
+        return Result<bool>::err(
+            ErrorCode::INVALID_ARGUMENT, "Parameter name must not be empty");
+    }
+    named_params_[name] = value;
+    return Result<bool>::ok(true);
+}
+
+Result<bool> ThemisDBPreparedStatement::bind(size_t position, const Scalar& value) {
+    positional_params_[position] = value;
+    return Result<bool>::ok(true);
+}
+
+Result<bool> ThemisDBPreparedStatement::bind_all(
+    const std::map<std::string, Scalar>& params
+) {
+    for (const auto& kv : params) {
+        if (kv.first.empty()) {
+            return Result<bool>::err(
+                ErrorCode::INVALID_ARGUMENT, "Parameter name must not be empty");
+        }
+        named_params_[kv.first] = kv.second;
+    }
+    return Result<bool>::ok(true);
+}
+
+Result<RelationalTable> ThemisDBPreparedStatement::execute() {
+    const auto t_start = std::chrono::steady_clock::now();
+
+    // Build effective query by substituting @name tokens in the query text
+    // with their scalar string representations.  In simulation mode this
+    // simulates plan-parameter binding without a real query compiler.
+    const std::string effective_query = apply_named_params();
+    const std::vector<Scalar> pos_params = build_positional_params();
+
+    auto result = adapter_->execute_query(effective_query, pos_params);
+
+    const auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
+        std::chrono::steady_clock::now() - t_start);
+
+    std::lock_guard<std::mutex> lk(stats_mutex_);
+    ++exec_count_;
+    total_exec_time_ += elapsed;
+
+    return result;
+}
+
+std::future<Result<RelationalTable>> ThemisDBPreparedStatement::execute_async() {
+    return std::async(std::launch::async, [this]() -> Result<RelationalTable> {
+        return execute();
+    });
+}
+
+Result<bool> ThemisDBPreparedStatement::reset() {
+    named_params_.clear();
+    positional_params_.clear();
+    return Result<bool>::ok(true);
+}
+
+Result<QueryStatistics> ThemisDBPreparedStatement::get_statistics() const {
+    std::lock_guard<std::mutex> lk(stats_mutex_);
+    QueryStatistics stats;
+    if (exec_count_ > 0) {
+        // Round to nearest microsecond to avoid systematic truncation bias.
+        const int64_t count    = total_exec_time_.count();
+        const int64_t n        = static_cast<int64_t>(exec_count_);
+        const int64_t avg_us   = (count + n / 2) / n;
+        stats.execution_time   = std::chrono::microseconds{avg_us};
+    } else {
+        stats.execution_time   = std::chrono::microseconds{0};
+    }
+    stats.rows_read     = 0;
+    stats.rows_returned = 0;
+    stats.bytes_read    = 0;
+    return Result<QueryStatistics>::ok(std::move(stats));
+}
+
+// Private helpers ─────────────────────────────────────────────────────────
+
+std::string ThemisDBPreparedStatement::apply_named_params() const {
+    std::string q = query_;
+    for (const auto& kv : named_params_) {
+        const std::string token = "@" + kv.first;
+        std::string replacement;
+        std::visit([&replacement](const auto& v) {
+            using T = std::decay_t<decltype(v)>;
+            if constexpr (std::is_same_v<T, std::monostate>) {
+                replacement = "null";
+            } else if constexpr (std::is_same_v<T, bool>) {
+                replacement = v ? "true" : "false";
+            } else if constexpr (std::is_same_v<T, int64_t>) {
+                replacement = std::to_string(v);
+            } else if constexpr (std::is_same_v<T, double>) {
+                replacement = std::to_string(v);
+            } else if constexpr (std::is_same_v<T, std::string>) {
+                // Use SQL standard single-quoted string literals.
+                // Escape backslashes first, then single quotes, so that the
+                // resulting literal cannot be terminated early by injected SQL.
+                std::string escaped;
+                escaped.reserve(v.size() + 2);
+                for (char c : v) {
+                    if (c == '\\') escaped += "\\\\";
+                    else if (c == '\'') escaped += "\\'";
+                    else escaped += c;
+                }
+                replacement = '\'' + escaped + '\'';
+            } else {
+                replacement = "<binary>";
+            }
+        }, kv.second);
+
+        size_t pos = 0;
+        while ((pos = q.find(token, pos)) != std::string::npos) {
+            q.replace(pos, token.size(), replacement);
+            pos += replacement.size();
+        }
+    }
+    return q;
+}
+
+std::vector<Scalar> ThemisDBPreparedStatement::build_positional_params() const {
+    if (positional_params_.empty()) return {};
+    const size_t max_idx = positional_params_.rbegin()->first;
+    std::vector<Scalar> params(max_idx + 1, Scalar{std::monostate{}});
+    for (const auto& kv : positional_params_) {
+        params[kv.first] = kv.second;
+    }
+    return params;
 }
 
 } // namespace chimera

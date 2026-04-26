@@ -3,25 +3,25 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gossip_protocol.h                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:32                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     346                                            ║
+    • Total Lines:     344                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_SHARDING_GOSSIP_PROTOCOL_H
-#define THEMIS_SHARDING_GOSSIP_PROTOCOL_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -265,6 +265,26 @@ public:
     GossipMessage handleMessage(const GossipMessage& message);
     
     /**
+     * Register a custom handler for a specific gossip message type.
+     *
+     * The handler is invoked inside `handleMessage()` before the built-in
+     * type dispatch (heartbeat / peer_list / peer_leave).  This enables
+     * external modules such as the distributed_knowledge layer to extend the
+     * gossip bus without modifying the transport protocol.
+     *
+     * Thread-safety: handler map is protected by the internal peers mutex.
+     * Duplicate registration: the new handler replaces the previous one and
+     * a warning is written to stderr.
+     *
+     * @param message_type  Payload type string, e.g. "adapter_capability"
+     * @param handler       Callable invoked with the full `GossipMessage`
+     */
+    void registerCustomHandler(
+        const std::string& message_type,
+        std::function<void(const GossipMessage&)> handler
+    );
+
+    /**
      * Register callback for peer discovery
      * @param callback Function called when new peer is discovered
      */
@@ -301,6 +321,9 @@ private:
     std::thread gossip_thread_;
     std::thread cleanup_thread_;
     
+    // Custom handlers registered via registerCustomHandler()
+    std::map<std::string, std::function<void(const GossipMessage&)>> custom_handlers_;
+
     // Callbacks
     PeerDiscoveryCallback on_peer_discovered_;
     PeerLostCallback on_peer_lost_;
@@ -329,6 +352,8 @@ private:
     void mergePeerList(const std::vector<PeerInfo>& peers);
     void updatePeerHealth();
     void syncWithTopology();
+    // Requires peers_mutex_ already held by the calling thread.
+    void syncWithTopologyLocked();
     
     std::string generateMessageId() const;
     std::string signMessage(const GossipMessage& message) const;
@@ -342,5 +367,3 @@ private:
 
 } // namespace sharding
 } // namespace themis
-
-#endif // THEMIS_SHARDING_GOSSIP_PROTOCOL_H

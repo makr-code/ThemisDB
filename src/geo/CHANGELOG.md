@@ -1,15 +1,62 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — Geo Module
 
-All notable changes to the Geo module are documented here.  
+All notable changes to the Geo module are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 - Spherical geometry support (WGS-84 ellipsoid) — Issue #1744
 - GPU-accelerated DBSCAN / k-means clustering — Target: v2.3.0
 - CUDA kernels for ST_BUFFER, ST_UNION, ST_DIFFERENCE on GPU — Target: v2.2.0
+
+## [2.5.0] — 2026-04-15
+### Added
+- **Pull-based R-tree cursor API** (`include/geo/rtree_cursor.h`, `src/geo/rtree_cursor.cpp`):
+  - `CursorStatus` enum (`OK`, `END`, `STALE`); `GeoIndexEntry` value type
+  - `IRTreeCursor` abstract interface: `next(GeoIndexEntry&)`, `estimatedResultCount()`
+  - `IGeoIndex` abstract interface: `openRangeCursor(MBR)`, `openKNNCursor(Coordinate, k)`, `insert()`, `bulkLoad()`, `clear()`, `size()`
+  - `GeoRTreeIndex` concrete implementation wrapping `GeoRTree`; version counter invalidates open cursors on mutation
+- **Fluent temporal-spatial query builder** (`include/geo/temporal_spatial_query_builder.h`, `src/geo/temporal_spatial_query_builder.cpp`):
+  - `TimeWindowType` enum: `POINT_IN_TIME`, `INTERVAL`, `SLIDING_WINDOW`
+  - `BuiltTemporalSpatialQuery` immutable value type; `execute(SystemVersionedTable)` method
+  - `ITemporalSpatialQueryBuilder` abstract interface; `TemporalSpatialQueryBuilder` concrete implementation with `reset()` support
+  - `build()` throws `std::logic_error` if temporal or spatial constraints are absent
+- **Typed raster query interface** (`include/geo/raster_query_interface.h`, `src/geo/raster_query_interface.cpp`):
+  - `RasterConfig` with configurable `maxTileSizeBytes()` (default 64 MiB)
+  - `RasterStatus`: `OK`, `NOT_SUPPORTED`, `TILE_TOO_LARGE`, `INVALID_KEY`, `BACKEND_ERROR`, `INVALID_BBOX`
+  - `IRasterQueryInterface` abstract interface; `RasterGridQueryImpl` (full, behind `THEMIS_ENABLE_RASTER`); `NoOpRasterQueryImpl` (always available, returns `NOT_SUPPORTED`)
+- **GeoJSON geometry class hierarchy** (`include/geo/geo_json_geometry.h`, `src/geo/geo_json_geometry.cpp`):
+  - `CrsId` enum; `BBox` struct; `ValidationError` and `ValidationResult`
+  - `IGeoJSONGeometry` abstract base; concrete: `GeoPoint`, `GeoLineString`, `GeoPolygon` (right-hand-rule enforcement), `GeoMultiPolygon`, `GeoGeometryCollection`
+- **Composable spatial join filters** (`include/geo/spatial_join_filter.h`, `src/geo/spatial_join_filter.cpp`):
+  - `ISpatialJoinFilter` abstract interface; `IntersectsFilter`, `ContainsFilter`, `WithinFilter`, `TouchesFilter`, `DWithinFilter` (Haversine distance)
+  - Logical combinators: `AndFilter`, `OrFilter`, `NotFilter`
+  - `SpatialJoinFilter` factory namespace
+
+## [2.3.0] — 2026-04-04
+### Added
+- **Full GeoJSON RFC 7946 parsing**: `EWKBParser::parseGeoJSON()` now handles all seven RFC 7946
+  geometry types: `Point`, `MultiPoint`, `LineString`, `MultiLineString`, `Polygon`,
+  `MultiPolygon`, and `GeometryCollection` (including 3D variants with Z coordinates).
+- **GeoJSON serialization**: `EWKBParser::toGeoJSON()` serializes all seven geometry types.
+- **EWKB extension**: `parse()` and `serialize()` now support all geometry types (types 4–7).
+- **GeometryCollection recursion**: Parsed recursively up to depth 8 to prevent stack overflow
+  on adversarial input.
+- **computeMBR() / computeCentroid()**: Now recurse into nested sub-geometries.
+- **WGS84 coordinate range validation**: Longitude in [-180, 180] and latitude in [-90, 90];
+  invalid coordinates throw `std::runtime_error`. Compile with `-DTHEMIS_GEO_COMPAT_LAX` to
+  skip during a migration window.
+- **In-memory R-tree spatial index** (`include/geo/geo_rtree.h`, `src/geo/geo_rtree.cpp`):
+  - `GeoRTree` class for `GeometryInfo` objects enabling sub-linear `intersects` and `contains` queries.
+  - When compiled with `THEMIS_GEO_BOOST_BACKEND` and Boost.Geometry headers present, uses
+    `boost::geometry::index::rtree` with `rstar<16>` splitting strategy.
+  - Without Boost, automatically falls back to an O(n) linear MBR scan — semantically identical,
+    no dependency required.
+  - `bulkLoad(entries)` uses STR (Sort-Tile-Recursive) packing via the Boost bulk-insert constructor.
 
 ## [2.2.0] — 2026-03-21
 ### Added

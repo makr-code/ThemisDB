@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_query_validator.h                              ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-03-30 04:05:45                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-15 18:44:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     114                                            ║
+    • Total Lines:     148                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 3a758b465a  2026-04-12  feat(aql): AQL module enhancements — Features 8, 10, 12, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -23,6 +22,7 @@
 
 #pragma once
 
+#include "aql/aql_schema_provider.h"
 #include <string>
 #include <vector>
 
@@ -74,9 +74,10 @@ struct ValidationResult {
  * @brief Rule-based structural validator and linter for AQL queries.
  *
  * Performs purely syntactic/structural checks — no LLM required.
- * The validator operates in two modes:
+ * The validator operates in three modes:
  *  1. String mode  — validates a complete AQL query string
  *  2. Builder mode — validates an `AQLQueryBuilder` in progress
+ *  3. Schema-aware mode — validates a query string against known collections
  *
  * Rules checked:
  * - Presence of FOR and RETURN clauses (ERRORS when missing)
@@ -85,6 +86,8 @@ struct ValidationResult {
  * - COLLECT and SORT ordering that could reduce performance (INFO)
  * - Missing RETURN (ERROR)
  * - Empty collection/variable names (ERROR, only in builder mode)
+ * - Schema-aware: unknown collection names (WARNING, only in schema-aware mode)
+ * - Schema-aware: unknown field names in FILTER/SORT/RETURN (WARNING, only in schema-aware mode)
  */
 class AQLQueryValidator {
 public:
@@ -99,6 +102,24 @@ public:
     ValidationResult validate(const std::string& query) const;
 
     /**
+     * @brief Validate a fully formed AQL query string against a schema.
+     *
+     * Runs all standard structural checks, then additionally:
+     *  - Warns when a collection used in a FOR clause is not present in
+     *    @p schema (@c WARNING severity).
+     *  - Warns when a field access (@c variable.field) refers to a field
+     *    that is not listed in the schema for that collection (@c WARNING).
+     *
+     * @param query   AQL query to validate.
+     * @param schema  Collection metadata snapshot to validate against.
+     * @return ValidationResult with all issues found.
+     */
+    ValidationResult validate(
+        const std::string& query,
+        const std::vector<CollectionMetadata>& schema
+    ) const;
+
+    /**
      * @brief Validate an AQLQueryBuilder (may be partial).
      *
      * Only issues that can be detected from the builder's current state are
@@ -108,6 +129,19 @@ public:
      * @return ValidationResult with all issues found
      */
     ValidationResult validate(const AQLQueryBuilder& builder) const;
+
+private:
+    void checkUnknownCollections(
+        const std::string& query,
+        const std::vector<CollectionMetadata>& schema,
+        ValidationResult& result
+    ) const;
+
+    void checkUnknownFields(
+        const std::string& query,
+        const std::vector<CollectionMetadata>& schema,
+        ValidationResult& result
+    ) const;
 };
 
 } // namespace aql

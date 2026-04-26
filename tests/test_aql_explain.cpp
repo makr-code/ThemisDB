@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_explain.cpp                               ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-03-30 04:24:11                                ║
+  Version:         0.0.25                                             ║
+  Last Modified:   2026-04-15 18:52:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     376                                            ║
+    • Total Lines:     372                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 984af17f2  2026-02-26  audit: fix misleading GraphTraversal_DeepPath_UsesBidirec... ║
-    • b1216f45a  2026-02-26  audit: fix stale file headers (Stubs: 0) and add ANALYZE-... ║
-    • 9a1cb143d  2026-02-25  feat(graph): implement EXPLAIN AQL output for graph query... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

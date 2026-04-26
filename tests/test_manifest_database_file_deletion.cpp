@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_manifest_database_file_deletion.cpp           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:29:34                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:55:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9915e99f0  2026-03-15  feat(updates): implement file deletion in ManifestDatabas... ║
+    • 9915e99f0a  2026-03-15  feat(updates): implement file deletion in ManifestDatabas... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

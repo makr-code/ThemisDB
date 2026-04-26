@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            arrow_ipc_exporter.cpp                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:15:22                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1152                                           ║
+    • Total Lines:     1149                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 3db37eb45  2026-03-10  feat(exporters): implement EXP-001 PolicyEngine auth, EXP... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 51582c4f6  2026-02-26  Code audit: fix LE encoding, [[maybe_unused]], int32 over... ║
-    • f7a4d85f3  2026-02-26  Changes before error encountered         ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -959,12 +957,11 @@ ExportStats ArrowIPCExporter::exportFallback(
     }
 
     // Schema message frame
-    int64_t schema_frame_start = file_pos;
+    [[maybe_unused]] int64_t schema_frame_start = file_pos;
     writeMessageFrame(out, schema_msg, {});
     // frame size: 4 (continuation) + 4 (meta_size) + schema_msg.size()
     int64_t schema_frame_size = 4 + 4 + static_cast<int64_t>(schema_msg.size());
     file_pos += schema_frame_size;
-    (void)schema_frame_start;
 
     // Record-batch message frame (if any rows)
     std::vector<BlockInfo> rb_blocks;

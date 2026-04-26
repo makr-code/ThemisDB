@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Time Series Module
 
 Time series data management and compression implementation for ThemisDB.
@@ -30,8 +32,7 @@ Provides time series data management and compression for ThemisDB, offering Gori
 - **Continuous aggregation** (`continuous_agg.h/cpp`)
 - **Gorilla compression** (`gorilla.h/cpp`)
 - **Retention management** (`retention.h/cpp`)
-- **Auto-batching buffer** (`ts_auto_buffer.h/cpp`) - NEW!
-- TSStore
+- **Auto-batching buffer** (`ts_auto_buffer.h/cpp`)
 
 ## Features
 
@@ -65,3 +66,12 @@ For time series documentation, see:
 3. Ding, R., Wang, Q., Dang, Y., Fu, Q., Zhang, H., & Zhang, D. (2015). **YADING: Fast Clustering of Large-Scale Time Series Data**. *Proceedings of the VLDB Endowment*, 8(5), 473–484. https://doi.org/10.14778/2735479.2735481
 
 4. Keogh, E., & Ratanamahatana, C. A. (2005). **Exact Indexing of Dynamic Time Warping**. *Knowledge and Information Systems*, 7(3), 358–386. https://doi.org/10.1007/s10115-004-0154-9
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/timeseries/README.md`](../../include/timeseries/README.md) for the public API.

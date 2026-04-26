@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_injection_attack_vectors.cpp                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:23:32                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:52:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     463                                            ║
+    • Total Lines:     464                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 4e39463a8  2026-03-21  feat(security): implement AQL read-only context validatio... ║
-    • 9f7d34b9d  2026-03-09  feat(security): add attack vector tests and promote PQ cr... ║
+    • 4e39463a86  2026-03-21  feat(security): implement AQL read-only context validatio... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -387,6 +386,15 @@ TEST_F(InjectionAttackVectorTest, ReadOnly_DropCollectionBlocked) {
     );
     EXPECT_FALSE(result.is_safe)
         << "DROP COLLECTION must be rejected in read-only context";
+}
+
+TEST_F(InjectionAttackVectorTest, ReadOnly_DropCollectionRejectedByAstParse) {
+    auto result = detector_.validateForReadOnlyContext(
+        "DROP COLLECTION users"
+    );
+    EXPECT_FALSE(result.is_safe);
+    EXPECT_NE(result.error_message.find("Parse error"), std::string::npos)
+        << "Read-only validation must reject non-AQL write syntax via parser/AST path";
 }
 
 TEST_F(InjectionAttackVectorTest, ReadOnly_CreateCollectionBlocked) {

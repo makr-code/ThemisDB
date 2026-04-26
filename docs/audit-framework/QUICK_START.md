@@ -355,7 +355,7 @@ A:
 **Preparing a release?**
 1. Review [Audit Runbook](AUDIT_RUNBOOK.md)
 2. Use [Release Checklist](templates/AUDIT_REPORT_EXECUTIVE_TEMPLATE.md)
-3. Follow [Git Flow](../BRANCHING_STRATEGY.md)
+3. Follow [Git Flow](../ci-cd/branching-release-history/BRANCHING_STRATEGY.md)
 
 ---
 

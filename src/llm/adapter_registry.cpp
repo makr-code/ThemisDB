@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adapter_registry.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:51                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     493                                            ║
+    • Quality Score:   92.0/100                                       ║
+    • Total Lines:     569                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • ca711c041  2026-03-19  fix(lora): unique_lock for hotLoad write, CI path, AC5 pe... ║
-    • 2873683f7  2026-03-18  Changes before error encountered         ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 011803ade  2026-02-28  feat(llm): add hotLoad() and addHotLoadObserver() to Adap... ║
+    • fe135d5215  2026-04-13  feat(llm): Speculative Decoding for Latency Reduction — v... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -35,7 +32,10 @@
 #include "llm/adapter_registry.h"
 #include "storage/security_signature.h"
 #include <spdlog/spdlog.h>
+#include <openssl/evp.h>
+#include <openssl/pem.h>
 #include <algorithm>
+#include <cctype>
 #include <mutex>
 #include <shared_mutex>
 #include <unordered_map>
@@ -187,6 +187,81 @@ std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByDomain(
     return result;
 }
 
+std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByRole(AdapterRole role) {
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
+    std::vector<AdapterMetadata> result;
+    for (const auto& [id, meta] : impl_->adapters) {
+        if (meta.role == role) {
+            result.push_back(meta);
+        }
+    }
+    return result;
+}
+
+std::optional<AdapterMetadata> AdapterRegistry::findDraftAdapterForFamily(
+    const std::string& model_family
+) {
+    if (model_family.empty()) {
+        return std::nullopt;
+    }
+
+    // Build lowercase copy of family for case-insensitive matching.
+    std::string family_lower = model_family;
+    std::transform(family_lower.begin(), family_lower.end(),
+                   family_lower.begin(), [](unsigned char c) {
+                       return static_cast<char>(std::tolower(c));
+                   });
+
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
+
+    std::optional<AdapterMetadata> best;
+    for (const auto& [id, meta] : impl_->adapters) {
+        if (meta.role != AdapterRole::DRAFT) {
+            continue;
+        }
+
+        // Case-insensitive substring match on architecture field.
+        std::string arch_lower = meta.architecture;
+        std::transform(arch_lower.begin(), arch_lower.end(),
+                       arch_lower.begin(), [](unsigned char c) {
+                           return static_cast<char>(std::tolower(c));
+                       });
+        if (arch_lower.find(family_lower) == std::string::npos) {
+            continue;
+        }
+
+        if (!best.has_value()) {
+            best = meta;
+            continue;
+        }
+
+        // Prefer DEPLOYED status over other states.
+        const bool meta_deployed = (meta.status == AdapterMetadata::Status::DEPLOYED);
+        const bool best_deployed = (best->status == AdapterMetadata::Status::DEPLOYED);
+        if (meta_deployed && !best_deployed) {
+            best = meta;
+            continue;
+        }
+        if (!meta_deployed && best_deployed) {
+            continue;
+        }
+
+        // Among equal-status candidates prefer the highest version.
+        if (best->version < meta.version) {
+            best = meta;
+        }
+    }
+
+    if (best.has_value()) {
+        spdlog::debug("AdapterRegistry::findDraftAdapterForFamily: found '{}' for family '{}'",
+                      best->adapter_id, model_family);
+    } else {
+        spdlog::debug("AdapterRegistry::findDraftAdapterForFamily: no DRAFT adapter for family '{}'",
+                      model_family);
+    }
+    return best;
+}
+
 // ============================================================================
 // Compatibility validation
 // ============================================================================
@@ -229,12 +304,7 @@ AdapterRegistry::ValidationResult AdapterRegistry::validateCompatibility(
 // ============================================================================
 
 bool AdapterRegistry::signAdapter(const std::string& adapter_id,
-                                   [[maybe_unused]] const std::string& private_key) {
-    // NOTE: Real Ed25519 signing via `private_key` is not yet implemented.
-    // The `content_hash` field is populated, and the `signature` field is a
-    // placeholder token that makes `verifySignature()` deterministic for
-    // testing purposes.  A production implementation must replace this with
-    // an actual Ed25519 signature over `content_hash` using `private_key`.
+                                   const std::string& private_key) {
     std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
     if (!impl_->adapters.count(adapter_id)) {
         spdlog::warn("AdapterRegistry::signAdapter: adapter '{}' not found", adapter_id);
@@ -244,13 +314,70 @@ bool AdapterRegistry::signAdapter(const std::string& adapter_id,
     AdapterSignature sig;
     sig.signer_identity = "adapter_registry";
     sig.content_hash    = storage::SecuritySignatureManager::computeFileHash(adapter_id);
-    // ISO 8601 timestamp via system_clock
     auto now    = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
     char buf[32];
     std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", std::gmtime(&time_t));
     sig.signing_timestamp = buf;
-    sig.signature         = "sig:" + sig.content_hash;  // Placeholder; real Ed25519 via private_key
+
+    // Perform real Ed25519 signature over content_hash when a PEM private key
+    // is provided.  Fall back to a deterministic placeholder when no key is
+    // supplied (useful in test/CI environments).
+    if (!private_key.empty()) {
+        BIO* bio = BIO_new_mem_buf(private_key.data(),
+                                   static_cast<int>(private_key.size()));
+        EVP_PKEY* pkey = PEM_read_bio_PrivateKey(bio, nullptr, nullptr, nullptr);
+        BIO_free(bio);
+
+        if (!pkey) {
+            spdlog::warn("AdapterRegistry::signAdapter: failed to parse private key for '{}'",
+                         adapter_id);
+            return false;
+        }
+
+        EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+        std::string signature_bytes;
+        bool sign_ok = false;
+
+        if (ctx && EVP_DigestSignInit(ctx, nullptr, nullptr, nullptr, pkey) == 1) {
+            std::size_t sig_len = 0;
+            if (EVP_DigestSign(ctx,
+                               nullptr, &sig_len,
+                               reinterpret_cast<const unsigned char*>(sig.content_hash.data()),
+                               sig.content_hash.size()) == 1) {
+                signature_bytes.resize(sig_len);
+                if (EVP_DigestSign(ctx,
+                                   reinterpret_cast<unsigned char*>(signature_bytes.data()),
+                                   &sig_len,
+                                   reinterpret_cast<const unsigned char*>(sig.content_hash.data()),
+                                   sig.content_hash.size()) == 1) {
+                    signature_bytes.resize(sig_len);
+                    sign_ok = true;
+                }
+            }
+        }
+        EVP_MD_CTX_free(ctx);
+        EVP_PKEY_free(pkey);
+
+        if (!sign_ok) {
+            spdlog::warn("AdapterRegistry::signAdapter: Ed25519 sign failed for '{}'",
+                         adapter_id);
+            return false;
+        }
+
+        // Hex-encode the raw signature bytes for storage
+        static constexpr char hex[] = "0123456789abcdef";
+        std::string hex_sig;
+        hex_sig.reserve(signature_bytes.size() * 2);
+        for (unsigned char c : signature_bytes) {
+            hex_sig += hex[(c >> 4) & 0xf];
+            hex_sig += hex[c & 0xf];
+        }
+        sig.signature = "ed25519:" + hex_sig;
+    } else {
+        // No private key: deterministic placeholder for testing
+        sig.signature = "sig:" + sig.content_hash;
+    }
 
     impl_->signatures[adapter_id] = sig;
 

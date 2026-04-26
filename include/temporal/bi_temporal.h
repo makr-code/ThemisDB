@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bi_temporal.h                                      ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:54                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     240                                            ║
+    • Total Lines:     238                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 6e698b5db  2026-03-12  fix(temporal): address PR review feedback on BiTemporalTable ║
-    • bf380a1af  2026-03-12  feat(temporal): add gap detection, uniqueness constraints... ║
-    • 6e8942ed4  2026-03-09  feat(temporal): implement bitemporal joins and SEQUENCED/... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 6e698b5dbb  2026-03-12  fix(temporal): address PR review feedback on BiTemporalTable ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -212,6 +209,34 @@ public:
      * enumerate every key ever written to the table.
      */
     std::vector<std::string> getAllKeys() const;
+
+    // ── Cross-node reconciliation ─────────────────────────────────────────────
+
+    /**
+     * Result of a merge operation.
+     */
+    struct MergeResult {
+        size_t rows_inserted{0};   ///< Rows from @p other not present locally
+        size_t rows_skipped{0};    ///< Rows that were already present (no diff)
+        size_t conflicts_lww{0};   ///< Rows accepted via Last-Writer-Wins (higher sys_time)
+    };
+
+    /**
+     * Merge all rows from another BiTemporalTable into this table.
+     *
+     * The merge follows Last-Writer-Wins (LWW) semantics based on
+     * `sys_time.start`: for each (key, valid_time) pair that exists in both
+     * tables, the row with the later `sys_time.start` wins.  Rows that exist
+     * only in @p other are inserted unconditionally.
+     *
+     * The operation is atomic on each key (keys are locked one at a time) and
+     * does not modify @p other.
+     *
+     * @param other  Source table.  Must not be the same object as @p this.
+     * @return       MergeResult with counters for inserted, skipped, and
+     *               conflict-resolved rows.
+     */
+    MergeResult merge(const BiTemporalTable& other);
 
     // ── Metadata ─────────────────────────────────────────────────────────────
 

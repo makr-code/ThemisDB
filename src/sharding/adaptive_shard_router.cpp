@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_shard_router.cpp                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:11                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -13,14 +13,12 @@
     • Total Lines:     484                                            ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "sharding/adaptive_shard_router.h"
+#include "distributed_knowledge/adapter_capability_announcement.h"
 #include <algorithm>
 #include <chrono>
 #include <sstream>
@@ -65,6 +63,78 @@ AdaptiveShardRouter::AdaptiveShardRouter(
         truetime
     )
 {
+}
+
+void AdaptiveShardRouter::updateAdapterCapability(
+    const std::string& shard_id,
+    const themis::distributed_knowledge::AdapterCapabilityAnnouncement& announcement
+) {
+    std::lock_guard<std::mutex> lock(domain_scores_mutex_);
+    shard_domain_scores_[shard_id][announcement.domain_type] = announcement.accuracy_delta;
+}
+
+void AdaptiveShardRouter::updateShardLLMLoad(
+    const std::string& shard_id,
+    uint64_t pending_requests,
+    double avg_queue_ms
+) {
+    std::lock_guard<std::mutex> lock(domain_scores_mutex_);
+    auto& load = shard_llm_load_[shard_id];
+    load.pending_requests = pending_requests;
+    load.avg_queue_ms     = avg_queue_ms;
+}
+
+std::string AdaptiveShardRouter::routeByDomain(
+    themis::distributed_knowledge::AdapterDomainType domain
+) const {
+    std::lock_guard<std::mutex> lock(domain_scores_mutex_);
+
+    std::string best_shard;
+    double best_delta = std::numeric_limits<double>::lowest();
+    uint64_t best_pending = std::numeric_limits<uint64_t>::max();
+    bool found = false;
+
+    for (const auto& [shard_id, domain_map] : shard_domain_scores_) {
+        auto it = domain_map.find(domain);
+        if (it == domain_map.end()) {
+            continue;
+        }
+        const double delta = it->second;
+        // Retrieve LLM queue depth for tie-breaking (0 when unknown = treat as idle).
+        uint64_t pending = 0;
+        auto load_it = shard_llm_load_.find(shard_id);
+        if (load_it != shard_llm_load_.end()) {
+            pending = load_it->second.pending_requests;
+        }
+
+        const bool better_score   = delta > best_delta;
+        const bool tied_less_load = (delta == best_delta) && (pending < best_pending);
+        if (!found || better_score || tied_less_load) {
+            best_delta   = delta;
+            best_pending = pending;
+            best_shard   = shard_id;
+            found        = true;
+        }
+    }
+
+    return best_shard; // empty string when no score exists for this domain
+}
+
+double AdaptiveShardRouter::getAdapterAccuracyDelta(
+    const std::string& shard_id,
+    themis::distributed_knowledge::AdapterDomainType domain
+) const {
+    std::lock_guard<std::mutex> lock(domain_scores_mutex_);
+
+    auto shard_it = shard_domain_scores_.find(shard_id);
+    if (shard_it == shard_domain_scores_.end()) {
+        return 0.0;
+    }
+    auto domain_it = shard_it->second.find(domain);
+    if (domain_it == shard_it->second.end()) {
+        return 0.0;
+    }
+    return domain_it->second;
 }
 
 nlohmann::json AdaptiveShardRouter::executeQuery(const std::string& query) {
@@ -172,13 +242,13 @@ nlohmann::json AdaptiveShardRouter::executeAdaptiveQuery(
             already_queried.insert(shard_id);
         }
         
-        stats.total_shards_queried += shard_ids.size();
+        stats.total_shards_queried += static_cast<uint32_t>(shard_ids.size());
         
         // Count results
         uint32_t iteration_result_count = 0;
         for (const auto& result : iteration_results) {
             if (result.success && result.data.is_array()) {
-                iteration_result_count += result.data.size();
+                iteration_result_count += static_cast<uint32_t>(result.data.size());
             }
         }
         
@@ -224,9 +294,10 @@ nlohmann::json AdaptiveShardRouter::executeAdaptiveQuery(
         stats.end_time - stats.start_time).count();
     
     // Calculate iterations saved
-    uint32_t potential_iterations = (all_shards.size() + 
+    uint32_t potential_iterations = static_cast<uint32_t>(
+        (all_shards.size() + 
         adaptive_config_.results_per_iteration - 1) / 
-        adaptive_config_.results_per_iteration;
+        adaptive_config_.results_per_iteration);
     if (potential_iterations > stats.iterations_executed) {
         iterations_saved_ += (potential_iterations - stats.iterations_executed);
     }
@@ -340,9 +411,9 @@ std::vector<std::string> AdaptiveShardRouter::selectShardsForIteration(
 }
 
 std::vector<ShardResult> AdaptiveShardRouter::executeOnShards(
-    const std::string& query,
+    [[maybe_unused]] const std::string& query,
     const std::vector<std::string>& shard_ids,
-    uint32_t timeout_ms
+    [[maybe_unused]] uint32_t timeout_ms
 ) {
     std::vector<ShardResult> results;
     
@@ -445,7 +516,7 @@ AdaptiveShardRouter::IterationStats AdaptiveShardRouter::calculateIterationStats
 ) {
     IterationStats stats;
     stats.iteration_number = iteration;
-    stats.shards_queried = shard_ids.size();
+    stats.shards_queried = static_cast<uint32_t>(shard_ids.size());
     stats.iteration_time_ms = iteration_time_ms;
     stats.shard_ids = shard_ids;
     
@@ -453,7 +524,7 @@ AdaptiveShardRouter::IterationStats AdaptiveShardRouter::calculateIterationStats
     stats.results_received = 0;
     for (const auto& result : results) {
         if (result.success && result.data.is_array()) {
-            stats.results_received += result.data.size();
+            stats.results_received += static_cast<uint32_t>(result.data.size());
         }
     }
     

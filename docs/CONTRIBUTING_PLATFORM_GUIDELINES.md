@@ -610,7 +610,7 @@ python tools/compiler_diagnostics/source_audit.py --root . --include src/myfile.
 ## References
 
 - [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/)
-- [Compiler Troubleshooting Guide](COMPILER_TROUBLESHOOTING.md)
+- [Compiler Troubleshooting Guide](build-guide/COMPILER_TROUBLESHOOTING.md)
 - [Platform Compatibility Matrix](PLATFORM_COMPATIBILITY_MATRIX.md)
 - [Windows Build Errors](build-guide/BUILD_WINDOWS_ERRORS.md)
 - [Linux Build Errors](build-guide/BUILD_LINUX_ERRORS.md)

@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Server Module
 
 **Status:** `current` | **Validated:** 2026-03-10 (Commit `a04b89b`) | **Version:** v1.7.0
@@ -10,11 +12,12 @@ The Server module provides ThemisDB's complete API surface, network protocol imp
 
 | Interface / File | Role |
 |-----------------|------|
-| `server.cpp` | Main server entry point and lifecycle management |
-| `api_handler.cpp` | HTTP request routing and handler dispatch |
+| `http_server.cpp` | Main HTTP/HTTPS server lifecycle and request dispatch (`HttpServer`) |
+| `api_gateway.cpp` | Request routing, versioning, API key validation |
 | `llm_api_handler.cpp` | LLM inference API handler (INFER, RAG, EMBED) |
-| `rpc/` | RPC handler infrastructure for gRPC services |
-| `middleware/` | Auth, logging, and rate limiting middleware |
+| `rpc/` | gRPC service implementations (`llm_grpc_service.cpp`, `wal_grpc_service.cpp`, etc.) |
+| `auth_middleware.cpp` | Authentication and authorization middleware |
+| `rate_limiter_v2.cpp` | Rate limiting (local + Redis-backed distributed) |
 
 ## Scope
 
@@ -883,7 +886,7 @@ SSEConnectionManager sse_manager;
 auto connection_id = sse_manager.createConnection(request);
 
 // Server pushes events
-sse_manager.sendEvent(connection_id, "data-changed", 
+sse_manager.sendEvent(connection_id, "data-changed",
                       R"({"table":"users","op":"insert"})");
 
 // Client disconnects
@@ -1452,3 +1455,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 4. Postel, J. (1980). **Transmission Control Protocol**. RFC 793. IETF. https://doi.org/10.17487/RFC0793
 
 5. Rescorla, E. (2018). **The Transport Layer Security (TLS) Protocol Version 1.3**. RFC 8446. IETF. https://doi.org/10.17487/RFC8446
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

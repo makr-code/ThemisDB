@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            kafka_importer_logger_stub.cpp                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:23:04                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2421634e7  2026-03-13  fix(kafka): rewrite tests to use production KafkaImporter... ║
+    • 2421634e7d  2026-03-13  fix(kafka): rewrite tests to use production KafkaImporter... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -33,6 +33,12 @@
  * This stub intentionally avoids including pii_redacting_sink.h and the full
  * PII-detection chain so the focused test binary remains standalone.
  */
+
+// This TU defines Logger static members for a focused test binary.
+// Force export mode so definitions are valid on Windows.
+#if defined(_WIN32) && !defined(THEMIS_BASE_EXPORTS)
+#define THEMIS_BASE_EXPORTS
+#endif
 
 // Include only what we need: the Logger class declaration + spdlog types.
 #include "utils/logger.h"

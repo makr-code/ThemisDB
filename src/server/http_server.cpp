@@ -3,22 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.cpp                                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:49                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     10740                                          ║
+    • Total Lines:     11513                                          ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 490de27f0  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
-    • 80ae5c5d3  2026-03-15  fix(storage/audit): remove dead dsm.setRocksDBSize() call... ║
-    • 9f9d86ceb  2026-03-15  feat(storage): implement proper size calculation in Rocks... ║
-    • c9b143394  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
-    • 2fed5b1c6  2026-03-15  fix(cdc): wire ConsumerGroupManager into WebSocket server... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • 8332e5afa3  2026-04-13  Refactor and update various components for improved compa... ║
+    • 040083b025  2026-04-12  feat: StreamingIngestManager, TsStreamCursor, LZ4 compres... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -50,6 +49,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "storage/disk_space_monitor.h"
+#include "storage/mvcc_store.h"
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
 #include "index/vector_index.h"
@@ -81,6 +81,7 @@
 
 // Sprint A features - include BEFORE http_server.h to have complete types
 #include "llm/llm_interaction_store.h"
+#include "llm/llm_plugin_manager.h"
 #include "prompt_engineering/prompt_manager.h"
 #include "cdc/changefeed.h"
 #include "cdc/consumer_group.h"
@@ -124,6 +125,7 @@
 #include "sharding/truetime.h"
 #include "sharding/sharding_manager.h"
 #include "server/distributed_txn_api_handler.h"
+#include "themis/base/module_loader.h"
 #if !defined(_WIN32)
 #include <time.h>
 #endif
@@ -193,6 +195,11 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "server/api_version_config.h"
 #include "server/route_version_router.h"
 #include "scheduler/task_scheduler.h"
+#include "maintenance/maintenance_task_handler_impls.h"
+#include "storage/compaction_manager.h"
+#include "storage/security_signature_manager.h"
+#include "content/mime_detector.h"
+#include "index/process_graph.h"
 
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
@@ -316,18 +323,32 @@ HttpServer::HttpServer(
         THEMIS_WARN("Failed to initialize Spatial Index Manager: {}", e.what());
         // Non-fatal: geo features will be disabled
     }
-    
-    // Diagnostic: log raw getenv value for admin token to verify visibility
+
+    // Initialize Security Signature Manager (content integrity & file verification)
     try {
-        const char* _adm = std::getenv("THEMIS_TOKEN_ADMIN");
-        THEMIS_INFO("HttpServer ctor: getenv(THEMIS_TOKEN_ADMIN)='{}'", _adm ? _adm : "<null>");
-    } catch (...) {}
+        security_sig_mgr_ = std::make_shared<storage::SecuritySignatureManager>(storage_);
+        THEMIS_INFO("Security Signature Manager initialized");
+
+        // Initialize MIME Detector with signature verification
+        mime_detector_ = std::make_shared<content::MimeDetector>("", security_sig_mgr_);
+        THEMIS_INFO("MIME Detector initialized");
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Failed to initialize Security Signature Manager / MIME Detector: {}", e.what());
+    }
+
+    // GAP-011: Do NOT log the raw token value — log presence only to avoid
+    // leaking the secret into log files (CWE-532).
+    {
+        const bool admin_token_set = (std::getenv("THEMIS_TOKEN_ADMIN") != nullptr);
+        THEMIS_INFO("HttpServer ctor: THEMIS_TOKEN_ADMIN is {}",
+                    admin_token_set ? "set" : "not set");
+    }
     // Initialize ContentManager and register built-in processors
     // ContentManager wird nach Initialisierung von FieldEncryption erstellt (siehe weiter unten).
     // Hier zunächst nur Platzhalter (nullptr); tatsächliche Instanz folgt nach key_provider_/field_encryption_ Setup.
     // (Früher erstellt -> jetzt verschoben um Encryption sofort verfügbar zu machen.)
     // Defer ContentManager + Processor Registrierung bis FieldEncryption initialisiert ist.
-    // (Vorheriger Zugriff auf content_manager_ entfernt – war null und verursachte Crash.)
+    // (Vorheriger Zugriff auf content_manager_ entfernt - war null und verursachte Crash.)
     
     // Initialize Semantic Cache (Sprint A) if feature enabled
     if (config_.feature_semantic_cache) {
@@ -339,9 +360,8 @@ HttpServer::HttpServer(
             3600 // default TTL: 1 hour
         );
         THEMIS_INFO("Semantic Cache initialized (TTL: 3600s) using default CF");
-        
-        // Initialize Cache API Handler
-        cache_api_ = nullptr; // Disabled for Windows build (shared_ptr mismatch)
+        // Note: CacheApiHandler requires auth_ which is initialized later.
+        // cache_api_ is constructed after auth_ is available (see below).
     }
 
     // Initialize Cache Admin API Handler (Phase 3: Admin API for cache operations).
@@ -453,8 +473,8 @@ HttpServer::HttpServer(
         // Initialize MVCC API Handler (per-record versioning + HLC)
         {
             auto clock = std::make_shared<themis::HybridLogicalClock>();
-            auto mvcc_store = std::make_shared<themis::MVCCStore>(storage_, std::move(clock));
-            mvcc_api_handler_ = std::make_unique<server::MvccApiHandler>(std::move(mvcc_store));
+            mvcc_store_ = std::make_shared<themis::MVCCStore>(storage_, std::move(clock));
+            mvcc_api_handler_ = std::make_unique<server::MvccApiHandler>(mvcc_store_);
         }
         THEMIS_INFO("MVCC API Handler initialized");
         
@@ -563,15 +583,17 @@ HttpServer::HttpServer(
     // Initialize Time-Series Store (Sprint B) if feature enabled
     if (config_.feature_timeseries) {
         ts_cf_handle_ = nullptr; // Use default CF
-        timeseries_ = std::make_unique<TSStore>(
+        timeseries_ = std::make_shared<TSStore>(
             storage_->getRawDB(),
             ts_cf_handle_
         );
         THEMIS_INFO("Time-Series Store initialized using default CF");
-        
-        // Initialize TimeSeries API Handler (disabled for Windows build)
-        timeseries_api_ = nullptr;
-        THEMIS_INFO("TimeSeries API Handler disabled (Windows build)");
+
+        // Initialize ContinuousAggregateManager for materialized aggregate views
+        ts_agg_manager_ = std::make_shared<ContinuousAggregateManager>(timeseries_.get());
+        THEMIS_INFO("ContinuousAggregateManager initialized");
+        // Note: TimeSeriesApiHandler requires auth_ which is initialized later.
+        // timeseries_api_ is constructed after auth_ is available (see below).
     }
 
     // CRITICAL FIX: Initialize Sharding Manager BEFORE AdaptiveIndexManager
@@ -632,6 +654,11 @@ HttpServer::HttpServer(
         THEMIS_INFO("Auth: ADMIN token configured via env");
         try {
             auto v = auth_->validateToken(cfg.token);
+            // TODO(GAP-011): Token prefix+suffix logged at startup - exposes 8 chars of the
+            // real token value (4-char prefix + 4-char suffix).  Tokens ≤ 8 chars are logged
+            // in full.  Fix: log only the token length, no prefix/suffix.
+            //   THEMIS_INFO("token_len={}", cfg.token.size());
+            // Target: Q3 2026
             THEMIS_INFO("Auth check after addToken: validateToken(token='{}') -> authorized={} user_id='{}' reason='{}'",
                        cfg.token.size() > 8 ? (std::string(cfg.token).substr(0,4) + "..." + std::string(cfg.token).substr(cfg.token.size()-4)) : cfg.token,
                        v.authorized, v.user_id, v.reason);
@@ -685,6 +712,27 @@ HttpServer::HttpServer(
     // Initialize Keys API Handler with KeyProvider
     keys_api_ = std::make_unique<themis::server::KeysApiHandler>(key_provider_);
     THEMIS_INFO("Keys API Handler initialized");
+
+    // Deferred CacheApiHandler initialization (requires auth_ which is now available)
+    if (semantic_cache_ && auth_) {
+        try {
+            cache_api_ = std::make_unique<server::CacheApiHandler>(semantic_cache_, auth_);
+            THEMIS_INFO("Cache API Handler initialized (semantic cache endpoints active)");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to initialize Cache API Handler: {}", e.what());
+        }
+    }
+
+    // Deferred TimeSeriesApiHandler initialization (requires auth_ which is now available)
+    if (timeseries_ && ts_agg_manager_ && auth_) {
+        try {
+            timeseries_api_ = std::make_unique<server::TimeSeriesApiHandler>(
+                storage_, timeseries_, ts_agg_manager_, auth_);
+            THEMIS_INFO("TimeSeries API Handler initialized (time-series endpoints active)");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to initialize TimeSeries API Handler: {}", e.what());
+        }
+    }
 
     // Initialize API Key Management Handler
     api_key_mgmt_ = std::make_unique<themis::server::ApiKeyMgmtHandler>(auth_);
@@ -750,6 +798,19 @@ HttpServer::HttpServer(
         THEMIS_WARN("Failed to initialize Audit components: {}", e.what());
     }
 
+    // Wire AuditLogger into VectorIndexManager and GraphIndexManager
+    // so that vector and graph operations are recorded for security auditing.
+    if (audit_logger_) {
+        if (vector_index_) {
+            vector_index_->setAuditLogger(audit_logger_, "system");
+            THEMIS_INFO("AuditLogger wired into VectorIndexManager");
+        }
+        if (graph_index_) {
+            graph_index_->setAuditLogger(audit_logger_, "system");
+            THEMIS_INFO("AuditLogger wired into GraphIndexManager");
+        }
+    }
+
     // Initialize Export API Handler (EXP-001)
     export_api_ = std::make_unique<themis::server::ExportApiHandler>(
         storage_, secondary_index_);
@@ -805,7 +866,7 @@ HttpServer::HttpServer(
         storage_, auth_, &request_count_, &error_count_, &start_time_,
         secondary_index_, schema_manager_.get(), nullptr,
         &running_, &active_requests_, &active_connections_,
-        concerns_   // may be nullptr – MonitoringApiHandler tolerates that
+        concerns_   // may be nullptr - MonitoringApiHandler tolerates that
     );
     // Wire a disabled-by-default Alertmanager so the Operator API is always available.
     // Operators can enable it via the THEMIS_ALERTMANAGER_URL environment variable.
@@ -821,8 +882,25 @@ HttpServer::HttpServer(
             }
             THEMIS_INFO("Alertmanager enabled: {}", am_cfg.endpoint_url);
         }
-        auto alertmanager = std::make_shared<observability::DefaultAlertmanager>(am_cfg);
-        monitoring_api_->setAlertmanager(std::move(alertmanager));
+        alertmanager_ = std::make_shared<observability::DefaultAlertmanager>(am_cfg);
+        monitoring_api_->setAlertmanager(alertmanager_);  // monitoring keeps shared ownership
+
+        // Wire the same Alertmanager into the Cache hit-rate SLO monitor so that
+        // SLO violations are forwarded to the same alerting endpoint.
+        if (cache_admin_api_) {
+            cache::CacheHitRateSloMonitor::Config slo_cfg;
+            // Use sensible defaults; operators can override via environment variables.
+            if (const char* warn_thr = std::getenv("THEMIS_CACHE_SLO_WARN")) {
+                try { slo_cfg.warning_threshold = std::stod(warn_thr); } catch (...) {}
+            }
+            if (const char* crit_thr = std::getenv("THEMIS_CACHE_SLO_CRIT")) {
+                try { slo_cfg.critical_threshold = std::stod(crit_thr); } catch (...) {}
+            }
+            auto cache_slo = std::make_shared<cache::CacheHitRateSloMonitor>(
+                slo_cfg, alertmanager_);
+            cache_admin_api_->setSloMonitor(std::move(cache_slo));
+            THEMIS_INFO("Cache hit-rate SLO monitor wired into CacheAdminApiHandler");
+        }
     }
     THEMIS_INFO("Monitoring API Handler initialized");
     // Initialize Query API Handler
@@ -834,6 +912,43 @@ HttpServer::HttpServer(
     );
     query_api_->setQueryMaskingPolicy(themis::security::QueryMaskingPolicy::create());
     THEMIS_INFO("Query API Handler initialized");
+
+    // Initialize Ranger client (optional) BEFORE PolicyApiHandler so that
+    // policy_api_ receives a valid raw pointer instead of nullptr.
+    // (ranger_client_ must be fully constructed before policy_api_ captures .get())
+    if (auto base = themis_get_env("THEMIS_RANGER_BASE_URL")) {
+        themis::server::RangerClientConfig rcfg;
+        rcfg.base_url = *base;
+        rcfg.policies_path = std::getenv("THEMIS_RANGER_POLICIES_PATH") ? std::getenv("THEMIS_RANGER_POLICIES_PATH") : "/service/public/v2/api/policy";
+        rcfg.service_name = std::getenv("THEMIS_RANGER_SERVICE") ? std::getenv("THEMIS_RANGER_SERVICE") : "themisdb";
+        rcfg.bearer_token = std::getenv("THEMIS_RANGER_BEARER") ? std::getenv("THEMIS_RANGER_BEARER") : "";
+        rcfg.tls_verify = true;
+        if (auto tlsv = themis_get_env("THEMIS_RANGER_TLS_VERIFY")) {
+            if (*tlsv == "0" || *tlsv == "false" || *tlsv == "False") rcfg.tls_verify = false;
+        }
+        if (auto ca = themis_get_env("THEMIS_RANGER_CA_CERT")) rcfg.ca_cert_path = *ca;
+        if (auto cc = themis_get_env("THEMIS_RANGER_CLIENT_CERT")) rcfg.client_cert_path = *cc;
+        if (auto ck = themis_get_env("THEMIS_RANGER_CLIENT_KEY")) rcfg.client_key_path = *ck;
+        if (auto ct = themis_get_env("THEMIS_RANGER_CONNECT_TIMEOUT_MS")) {
+            try { rcfg.connect_timeout_ms = std::stol(*ct); } catch (...) {}
+        }
+        if (auto rt = themis_get_env("THEMIS_RANGER_REQUEST_TIMEOUT_MS")) {
+            try { rcfg.request_timeout_ms = std::stol(*rt); } catch (...) {}
+        }
+        if (auto mr = themis_get_env("THEMIS_RANGER_MAX_RETRIES")) {
+            try { rcfg.max_retries = std::stoi(*mr); } catch (...) {}
+        }
+        if (auto rb = themis_get_env("THEMIS_RANGER_RETRY_BACKOFF_MS")) {
+            try { rcfg.retry_backoff_ms = std::stol(*rb); } catch (...) {}
+        }
+        try {
+            ranger_client_ = std::make_unique<themis::server::RangerClient>(std::move(rcfg));
+            THEMIS_INFO("Ranger client configured for {}", *base);
+        } catch (...) {
+            THEMIS_WARN("Failed to initialize Ranger client; integration disabled");
+        }
+    }
+
     // Initialize Policy API Handler
     const char* ranger_service_env = std::getenv("THEMIS_RANGER_SERVICE");
     std::string ranger_service = ranger_service_env ? ranger_service_env : "themisdb";
@@ -886,12 +1001,18 @@ HttpServer::HttpServer(
         shard_topology_
     );
     THEMIS_INFO("Entity API Handler initialized (RAID: {})", entity_config.feature_raid ? "enabled" : "disabled");
-    
+
+    // Initialize ProcessGraphManager for BPMN/EPK workflow engine
+    try {
+        process_graph_ = std::make_shared<ProcessGraphManager>(*storage_);
+        THEMIS_INFO("ProcessGraphManager initialized");
+    } catch (const std::exception& e) {
+        THEMIS_WARN("ProcessGraphManager initialization failed: {} — BPMN endpoints will return 503", e.what());
+    }
+
     // Initialize BPMN API Handler
-    // Note: ProcessGraphManager must be explicitly created and passed to HttpServer
-    // For now, handler gracefully handles nullptr and returns 503 Service Unavailable
     bpmn_api_ = std::make_unique<themis::server::BpmnApiHandler>(
-        process_graph_,  // May be nullptr if not initialized
+        process_graph_,  // May be nullptr if initialization failed above
         auth_
     );
     if (process_graph_) {
@@ -906,6 +1027,16 @@ HttpServer::HttpServer(
         secondary_index_, vector_index_
     );
     THEMIS_INFO("Content API Handler initialized");
+
+    // Initialize ContentFS (binary content CRUD over HTTP: PUT/GET/HEAD/DELETE /api/v1/content/fs/{pk})
+    if (storage_) {
+        try {
+            content_fs_ = std::make_unique<themis::ContentFS>(*storage_);
+            THEMIS_INFO("ContentFS initialized (endpoints: /api/v1/content/fs/*)");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("ContentFS init failed: {} — /api/v1/content/fs/* endpoints disabled", e.what());
+        }
+    }
     
     // Initialize Changefeed API Handler if changefeed is available
     if (changefeed_) {
@@ -1129,8 +1260,27 @@ HttpServer::HttpServer(
         THEMIS_WARN("Failed to initialize SchemaManager/Schema API: {}", e.what());
     }
 
-    // Initialize GraphQL API Handler
-    graphql_api_handler_ = std::make_unique<server::GraphQLApiHandler>();
+    // Wire SchemaManager into MonitoringApiHandler now that it is available.
+    // MonitoringApiHandler is constructed early (before SchemaManager) so it
+    // receives a null pointer from the constructor; this call fills the gap and
+    // enables the /api/v1/capabilities schema capability block.
+    if (monitoring_api_ && schema_manager_) {
+        monitoring_api_->setSchemaManager(schema_manager_.get());
+        THEMIS_INFO("SchemaManager wired into MonitoringApiHandler (capabilities endpoint complete)");
+    }
+
+    // Initialize GraphQL API Handler with a dedicated AQL query engine
+    // so that aql() / aqlMutation() resolver fields execute real queries.
+    // The engine must be created before the handler and declared after it
+    // in the class so that it is destroyed first (reverse member-order).
+    if (storage_ && secondary_index_) {
+        graphql_query_engine_ = std::make_unique<QueryEngine>(
+            *storage_, *secondary_index_);
+        graphql_api_handler_ = std::make_unique<server::GraphQLApiHandler>(
+            graphql_query_engine_.get());
+    } else {
+        graphql_api_handler_ = std::make_unique<server::GraphQLApiHandler>();
+    }
     THEMIS_INFO("GraphQL API handler initialized (endpoints: POST /graphql, GET /graphql/schema)");
 
     // Initialize gRPC-Web proxy handler
@@ -1152,15 +1302,25 @@ HttpServer::HttpServer(
     {
         TaskScheduler::Config sched_cfg;
         sched_cfg.persist_tasks            = false;
-        sched_cfg.enable_audit_logging     = false;
-        sched_cfg.enable_anomaly_detection = false;
+        sched_cfg.enable_audit_logging     = audit_logger_ != nullptr;
+        sched_cfg.enable_anomaly_detection = true;
         // Build a QueryEngine for the scheduler using the server's storage.
         // task_scheduler_engine_ must outlive task_scheduler_.  The member
         // declaration order in http_server.h guarantees this: unique_ptr members
         // are destroyed in reverse declaration order, so task_scheduler_ is
         // destroyed before task_scheduler_engine_.
         task_scheduler_engine_ = std::make_unique<QueryEngine>(*storage_, *secondary_index_);
-        task_scheduler_ = std::make_unique<TaskScheduler>(task_scheduler_engine_.get(), sched_cfg);
+        task_scheduler_ = std::make_unique<TaskScheduler>(
+            task_scheduler_engine_.get(),
+            sched_cfg,
+            changefeed_.get(),
+            audit_logger_,
+            storage_.get());
+        // Wire Alertmanager for task failure / SLA-breach notifications.
+        if (alertmanager_) {
+            task_scheduler_->setAlertmanager(alertmanager_);
+            THEMIS_INFO("Alertmanager wired into TaskScheduler");
+        }
         task_scheduler_->start();
         task_scheduler_api_ = std::make_unique<server::TaskSchedulerApiHandler>(task_scheduler_.get());
         THEMIS_INFO("Task Scheduler API handler initialized (endpoints: /api/tasks, /ui/tasks)");
@@ -1168,13 +1328,38 @@ HttpServer::HttpServer(
         // Initialize Database Maintenance Orchestrator
         maintenance_orchestrator_ = std::make_unique<themis::maintenance::DatabaseMaintenanceOrchestrator>(
             task_scheduler_.get());
-        maintenance_orchestrator_->start();
+        [[maybe_unused]] const auto maintenance_started = maintenance_orchestrator_->start();
+
+        // Wire STORAGE_COMPACTION handler — calls CompactionManager::compactAll()
+        {
+            auto compaction_mgr = std::make_shared<themis::CompactionManager>(storage_);
+            maintenance_orchestrator_->registerTaskHandler(
+                themis::maintenance::MaintenanceTaskType::STORAGE_COMPACTION,
+                std::make_shared<themis::maintenance::StorageCompactionHandler>(
+                    std::move(compaction_mgr)));
+        }
+
+        // Wire MVCC_CLEANUP handler — GC-s stale MVCC versions older than 24 h
+        if (mvcc_store_) {
+            maintenance_orchestrator_->registerTaskHandler(
+                themis::maintenance::MaintenanceTaskType::MVCC_CLEANUP,
+                std::make_shared<themis::maintenance::MvccCleanupHandler>(mvcc_store_));
+        }
+
+        // Wire REPLICA_VALIDATION handler — delegates to ShardRepairEngine::runConsistencyCheck()
+        if (shard_repair_engine_) {
+            maintenance_orchestrator_->registerTaskHandler(
+                themis::maintenance::MaintenanceTaskType::REPLICA_VALIDATION,
+                themis::maintenance::makeReplicaValidationHandler(shard_repair_engine_));
+            THEMIS_INFO("REPLICA_VALIDATION handler wired to ShardRepairEngine");
+        }
+
         maintenance_api_ = std::make_unique<server::MaintenanceApiHandler>(
             maintenance_orchestrator_.get());
         THEMIS_INFO("Database Maintenance Orchestrator initialized (endpoints: /api/v1/maintenance/*)");
     }
 
-    // Initialize Async Job API Handler – long-running AQL query submission/polling
+    // Initialize Async Job API Handler - long-running AQL query submission/polling
     {
         // Executor: builds a synthetic Beast request and delegates to
         // the existing QueryApiHandler so all existing AQL machinery
@@ -1196,6 +1381,43 @@ HttpServer::HttpServer(
         async_job_api_ = std::make_unique<server::AsyncJobApiHandler>(
             std::move(executor), auth_);
         THEMIS_INFO("Async job API handler initialized (endpoints: POST/GET/DELETE /v2/jobs)");
+    }
+
+    // Initialize Retention Policy Admin API Handler
+    {
+        std::string retention_path = "config/retention_policies.yaml";
+        auto resolved = themis::config::ConfigPathResolver::tryResolve(retention_path);
+        auto retention_mgr = std::make_shared<vcc::RetentionManager>(
+            resolved.value_or(retention_path));
+        retention_api_ = std::make_unique<server::RetentionApiHandler>(retention_mgr);
+        THEMIS_INFO("RetentionApiHandler initialized (endpoints: /api/retention/*)");
+    }
+
+    // Initialize SAGA Audit Log API Handler
+    {
+        try {
+            themis::utils::SAGALoggerConfig saga_cfg;
+            saga_cfg.enabled = true;
+            saga_cfg.encrypt_then_sign = true;
+            saga_cfg.log_path = "data/logs/saga.jsonl";
+            saga_cfg.signature_path = "data/logs/saga_signatures.jsonl";
+            saga_cfg.key_id = "saga_lek";
+
+            themis::utils::PKIConfig saga_pki_cfg;
+            saga_pki_cfg.service_id = "themis-saga";
+            if (const char* k = std::getenv("THEMIS_PKI_PRIVATE_KEY")) saga_pki_cfg.key_path = k;
+            if (const char* c = std::getenv("THEMIS_PKI_CERTIFICATE")) saga_pki_cfg.cert_path = c;
+            if (const char* p = std::getenv("THEMIS_PKI_PRIVATE_KEY_PASSPHRASE")) saga_pki_cfg.key_passphrase = p;
+            auto saga_pki = std::make_shared<themis::utils::VCCPKIClient>(saga_pki_cfg);
+
+            auto saga_logger = std::make_shared<themis::utils::SAGALogger>(
+                field_encryption_, saga_pki, saga_cfg);
+            saga_logger_ = saga_logger;  // retain shared ownership via HttpServer member
+            saga_api_ = std::make_unique<server::SAGAApiHandler>(saga_logger);
+            THEMIS_INFO("SAGAApiHandler initialized (endpoints: /api/saga/*)");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("SAGAApiHandler init failed: {} — SAGA endpoints disabled", e.what());
+        }
     }
 
     // Initialize Policy Engine (Governance)
@@ -1251,41 +1473,10 @@ HttpServer::HttpServer(
     } catch (const std::exception& e) {
         THEMIS_WARN("PolicyEngine initialization warning: {}", e.what());
     }
-
-    // Initialize Ranger client (optional), configured via environment for secrets
-    // Reuse the earlier `get_env` lambda defined above (tokens); avoid duplicate definition.
-    if (auto base = themis_get_env("THEMIS_RANGER_BASE_URL")) {
-        themis::server::RangerClientConfig rcfg;
-        rcfg.base_url = *base;
-        rcfg.policies_path = std::getenv("THEMIS_RANGER_POLICIES_PATH") ? std::getenv("THEMIS_RANGER_POLICIES_PATH") : "/service/public/v2/api/policy";
-        rcfg.service_name = std::getenv("THEMIS_RANGER_SERVICE") ? std::getenv("THEMIS_RANGER_SERVICE") : "themisdb";
-        rcfg.bearer_token = std::getenv("THEMIS_RANGER_BEARER") ? std::getenv("THEMIS_RANGER_BEARER") : "";
-        rcfg.tls_verify = true;
-        if (auto tlsv = themis_get_env("THEMIS_RANGER_TLS_VERIFY")) {
-            if (*tlsv == "0" || *tlsv == "false" || *tlsv == "False") rcfg.tls_verify = false;
-        }
-        if (auto ca = themis_get_env("THEMIS_RANGER_CA_CERT")) rcfg.ca_cert_path = *ca;
-        if (auto cc = themis_get_env("THEMIS_RANGER_CLIENT_CERT")) rcfg.client_cert_path = *cc;
-        if (auto ck = themis_get_env("THEMIS_RANGER_CLIENT_KEY")) rcfg.client_key_path = *ck;
-        // Optional timeouts & retry configuration
-        if (auto ct = themis_get_env("THEMIS_RANGER_CONNECT_TIMEOUT_MS")) {
-            try { rcfg.connect_timeout_ms = std::stol(*ct); } catch (...) {}
-        }
-        if (auto rt = themis_get_env("THEMIS_RANGER_REQUEST_TIMEOUT_MS")) {
-            try { rcfg.request_timeout_ms = std::stol(*rt); } catch (...) {}
-        }
-        if (auto mr = themis_get_env("THEMIS_RANGER_MAX_RETRIES")) {
-            try { rcfg.max_retries = std::stoi(*mr); } catch (...) {}
-        }
-        if (auto rb = themis_get_env("THEMIS_RANGER_RETRY_BACKOFF_MS")) {
-            try { rcfg.retry_backoff_ms = std::stol(*rb); } catch (...) {}
-        }
-        try {
-            ranger_client_ = std::make_unique<themis::server::RangerClient>(std::move(rcfg));
-            THEMIS_INFO("Ranger client configured for {}", *base);
-        } catch (...) {
-            THEMIS_WARN("Failed to initialize Ranger client; integration disabled");
-        }
+    // Wire AuditLogger into PolicyEngine so that authorization decisions are recorded
+    if (policy_engine_ && audit_logger_) {
+        policy_engine_->setAuditLogger(audit_logger_.get());
+        THEMIS_INFO("AuditLogger wired into PolicyEngine");
     }
 
     // Initialize OPA evaluator (optional); enabled when THEMIS_OPA_ENDPOINT_URL is set.
@@ -1312,6 +1503,12 @@ HttpServer::HttpServer(
             THEMIS_WARN("Failed to initialize OPA evaluator: {}; native policy evaluation will be used", e.what());
         }
     }
+    // ExportApiHandler expects themis::governance::PolicyEngine while HttpServer
+    // currently owns themis::PolicyEngine. Keep exports operational without
+    // unsafe cross-namespace pointer casting.
+    if (export_api_ && !policy_engine_) {
+        THEMIS_WARN("ExportApiHandler: PolicyEngine not available — export policy enforcement disabled");
+    }
 
     // Initialize Rate Limiter for DoS protection
     RateLimitConfig rate_config;
@@ -1337,6 +1534,31 @@ HttpServer::HttpServer(
     
     rate_limiter_ = std::make_unique<RateLimiter>(rate_config);
     THEMIS_INFO("Rate Limiter initialized: {} req/min", rate_config.refill_rate * 60.0);
+    // Wire anomaly callback so that throttle/blacklist events are logged to the
+    // audit log (when available) and always emit a structured WARN log line.
+    // Capture audit_logger_ as weak_ptr to avoid use-after-free if the logger
+    // is reset before the RateLimiter is destroyed.
+    {
+        std::weak_ptr<themis::utils::AuditLogger> weak_audit = audit_logger_;
+        rate_limiter_->setAnomalyCallback(
+            [weak_audit](const AnomalyEvent& ev) {
+                const char* type_str =
+                    (ev.type == AnomalyEvent::Type::IP_BLACKLISTED)
+                        ? "IP_BLACKLISTED"
+                        : "ADAPTIVE_THROTTLE_TRIGGERED";
+                THEMIS_WARN("[RateLimiter] anomaly type={} ip={} detail={}",
+                    type_str, ev.ip, ev.detail);
+                if (auto audit = weak_audit.lock()) {
+                    nlohmann::json entry;
+                    entry["event"]  = "rate_limiter_anomaly";
+                    entry["type"]   = type_str;
+                    entry["ip"]     = ev.ip;
+                    entry["detail"] = ev.detail;
+                    try { audit->logEvent(entry); } catch (...) {}
+                }
+            });
+        THEMIS_INFO("RateLimiter anomaly callback wired");
+    }
 
     // Initialize rate limiting middleware with configurable per-client token bucket
     {
@@ -1401,7 +1623,13 @@ HttpServer::HttpServer(
         if (!v->empty()) cors_allowed_headers_ = *v;
     }
     if (cors_allow_all_) {
-        THEMIS_INFO("CORS: allowing all origins (Access-Control-Allow-Origin: *)");
+        // GAP-012: CORS wildcard is a security risk (CWE-346).  Any origin can
+        // make cross-site requests; browsers will expose the response to untrusted
+        // JavaScript.  Emit a prominent WARNING so operators know this is not a
+        // production-safe configuration.
+        THEMIS_WARN("[SECURITY] CORS: Access-Control-Allow-Origin: * is ENABLED via "
+                    "THEMIS_CORS_ALLOW_ALL. Any origin can read responses. "
+                    "This is NOT recommended for production deployments (GAP-012/CWE-346).");
     } else if (!cors_allowed_origins_.empty()) {
         THEMIS_INFO("CORS: allowed origins configured ({} entries)", cors_allowed_origins_.size());
     } else {
@@ -1435,7 +1663,7 @@ HttpServer::HttpServer(
     const nlohmann::json entity_tags_prop  = {{"type", "array"}};
     const nlohmann::json entity_ttl_prop   = {{"type", "integer"}, {"minimum", 0}};
 
-    // POST /entities – create entity (key required in body)
+    // POST /entities - create entity (key required in body)
     request_validator_->registerSchema("POST", "/entities", {
         {"type", "object"},
         {"required", {"key"}},
@@ -1447,7 +1675,7 @@ HttpServer::HttpServer(
         }}
     });
 
-    // PUT /entities/<key> – upsert entity body (key is in the URL path, not in the body)
+    // PUT /entities/<key> - upsert entity body (key is in the URL path, not in the body)
     request_validator_->registerSchema("PUT", "/entities/", {
         {"type", "object"},
         {"properties", {
@@ -1457,7 +1685,7 @@ HttpServer::HttpServer(
         }}
     });
 
-    // POST /query – structured query
+    // POST /query - structured query
     request_validator_->registerSchema("POST", "/query", {
         {"type", "object"},
         {"required", {"query"}},
@@ -1479,14 +1707,14 @@ HttpServer::HttpServer(
             {"bindVars", {{"type", "object"}}}
         }}
     };
-    // POST /query/aql and POST /api/aql – further validated by validateAqlRequest
+    // POST /query/aql and POST /api/aql - further validated by validateAqlRequest
     request_validator_->registerSchema("POST", "/query/aql", aql_schema);
     request_validator_->registerSchema("POST", "/api/aql",   aql_schema);
 
-    // POST /v2/jobs – async job submission (same query shape as /query/aql)
+    // POST /v2/jobs - async job submission (same query shape as /query/aql)
     request_validator_->registerSchema("POST", "/v2/jobs", aql_schema);
 
-    // POST /index/create – create index
+    // POST /index/create - create index
     request_validator_->registerSchema("POST", "/index/create", {
         {"type", "object"},
         {"required", {"field"}},
@@ -1497,7 +1725,7 @@ HttpServer::HttpServer(
         }}
     });
 
-    // POST /api/v1/transactions – begin transaction
+    // POST /api/v1/transactions - begin transaction
     request_validator_->registerSchema("POST", "/api/v1/transactions", {
         {"type", "object"},
         {"properties", {
@@ -1506,7 +1734,7 @@ HttpServer::HttpServer(
         }}
     });
 
-    // DELETE /vector/by-filter – carries a body with filter criteria
+    // DELETE /vector/by-filter - carries a body with filter criteria
     request_validator_->registerSchema("DELETE", "/vector/by-filter", {
         {"type", "object"},
         {"required", {"filter"}},
@@ -1519,14 +1747,14 @@ HttpServer::HttpServer(
                 request_validator_->schemaCount());
 
     // ----------------------------------------------------------------------------
-    // CDN / Edge Cache Middleware – Cache-Control header management
+    // CDN / Edge Cache Middleware - Cache-Control header management
     // ----------------------------------------------------------------------------
     // Register default per-route policies.  Conservative no-store is the global
     // fallback for unregistered paths; only well-defined read endpoints receive
     // cacheable policies here.  Individual handlers may register additional
     // policies or rely on the defaults.
     {
-        // Health / liveness probes – very short public cache so CDNs and load
+        // Health / liveness probes - very short public cache so CDNs and load
         // balancers can coalesce repeated probes without hammering the origin.
         CdnRoutePolicy health_policy;
         health_policy.directive              = CacheDirective::PUBLIC;
@@ -1537,7 +1765,7 @@ HttpServer::HttpServer(
         cdn_cache_middleware_.registerPolicy("/health", health_policy);
         cdn_cache_middleware_.registerPolicy("/status", health_policy);
 
-        // Entity read endpoints – private (user-specific data), enable ETag for
+        // Entity read endpoints - private (user-specific data), enable ETag for
         // conditional GET support so repeated fetches avoid re-transferring bodies.
         CdnRoutePolicy entity_policy;
         entity_policy.directive              = CacheDirective::PRIVATE;
@@ -1546,14 +1774,14 @@ HttpServer::HttpServer(
         entity_policy.emit_cdn_cache_control = true;
         cdn_cache_middleware_.registerPolicy("/entities/", entity_policy);
 
-        // Query / AQL endpoints – dynamic results, never cache.
+        // Query / AQL endpoints - dynamic results, never cache.
         CdnRoutePolicy query_policy;
         query_policy.directive = CacheDirective::NO_CACHE;
         cdn_cache_middleware_.registerPolicy("/query", query_policy);
         cdn_cache_middleware_.registerPolicy("/api/aql", query_policy);
         cdn_cache_middleware_.registerPolicy("/v2/jobs", query_policy);
 
-        // Monitoring metrics – short public cache for Prometheus scrapers.
+        // Monitoring metrics - short public cache for Prometheus scrapers.
         CdnRoutePolicy metrics_policy;
         metrics_policy.directive              = CacheDirective::PUBLIC;
         metrics_policy.max_age_seconds        = 15;
@@ -1561,7 +1789,7 @@ HttpServer::HttpServer(
         metrics_policy.emit_cdn_cache_control = true;
         cdn_cache_middleware_.registerPolicy("/metrics", metrics_policy);
 
-        // OpenAPI spec – stable across deploys, cache aggressively.
+        // OpenAPI spec - stable across deploys, cache aggressively.
         CdnRoutePolicy openapi_policy;
         openapi_policy.directive              = CacheDirective::PUBLIC;
         openapi_policy.max_age_seconds        = 3600;
@@ -1655,6 +1883,9 @@ HttpServer::HttpServer(
                 THEMIS_INFO("mTLS: client certificate verification enabled (CA: {})", 
                     config_.tls_ca_cert_path);
             } else {
+                THEMIS_WARN("[SECURITY][TLS] HTTP server verify_none fallback active: "
+                            "tls_require_client_cert=false, client certificate validation is disabled "
+                            "(one-way TLS only; GAP-017/CWE-295).");
                 ssl_ctx_->set_verify_mode(boost::asio::ssl::verify_none);
                 THEMIS_INFO("mTLS: client certificate verification disabled (one-way TLS)");
             }
@@ -1836,7 +2067,7 @@ void HttpServer::stop() {
         }
         auto remaining = active_requests_.load(std::memory_order_acquire);
         if (remaining > 0) {
-            THEMIS_WARN("Shutdown timeout: {} request(s) still in flight – forcing close", remaining);
+            THEMIS_WARN("Shutdown timeout: {} request(s) still in flight - forcing close", remaining);
         } else {
             THEMIS_INFO("All active requests completed");
         }
@@ -1921,7 +2152,7 @@ void HttpServer::wait() {
 
 bool HttpServer::reloadTls() {
     if (!config_.enable_tls) {
-        THEMIS_WARN("TLS hot-reload requested but TLS is not enabled – ignoring");
+        THEMIS_WARN("TLS hot-reload requested but TLS is not enabled - ignoring");
         return false;
     }
 
@@ -1967,6 +2198,9 @@ bool HttpServer::reloadTls() {
                 boost::asio::ssl::verify_fail_if_no_peer_cert
             );
         } else {
+            THEMIS_WARN("[SECURITY][TLS] HTTP server TLS reload verify_none fallback active: "
+                        "client certificate validation disabled for newly accepted TLS sessions "
+                        "(GAP-017/CWE-295).");
             new_ctx->set_verify_mode(boost::asio::ssl::verify_none);
         }
 
@@ -2007,7 +2241,7 @@ void HttpServer::onAccept(beast::error_code ec, tcp::socket socket) {
         // Enforce max_connections limit: close the socket immediately if exceeded
         if (config_.max_connections > 0 &&
             active_connections_.load(std::memory_order_relaxed) >= config_.max_connections) {
-            THEMIS_WARN("Max connections ({}) reached – rejecting new connection",
+            THEMIS_WARN("Max connections ({}) reached - rejecting new connection",
                 config_.max_connections);
             beast::error_code close_ec;
             socket.shutdown(tcp::socket::shutdown_both, close_ec);
@@ -2097,14 +2331,14 @@ namespace {
 
     enum class Route {
         Health,
-        HealthLive,    // GET /health/live  – liveness probe
-        HealthReady,   // GET /health/ready – readiness probe
-        OpenApi,       // GET /api/openapi.json – OpenAPI 3.1 spec export
+        HealthLive,    // GET /health/live  - liveness probe
+        HealthReady,   // GET /health/ready - readiness probe
+        OpenApi,       // GET /api/openapi.json - OpenAPI 3.1 spec export
         Version,
         Stats,
         CapabilitiesGet,
         Metrics,
-        MetricsHtml,    // GET /metrics/html – lightweight HTML dashboard
+        MetricsHtml,    // GET /metrics/html - lightweight HTML dashboard
         PluginMetrics,  // GET /api/plugins/metrics
         // Operator observability API (Q1)
         ObservabilityAlertsGet,        // GET  /api/v1/observability/alerts
@@ -2119,7 +2353,7 @@ namespace {
         EntitiesDelete,
         EntitiesPost,
         EntitiesBatchPost,
-        V2DocumentsBulkPost,        // POST /v2/documents – bulk insert via NDJSON
+        V2DocumentsBulkPost,        // POST /v2/documents - bulk insert via NDJSON
         QueryPost,
         QueryAqlPost,
         QueryStreamSseGet,  // GET /v2/query/stream - SSE streaming of AQL results
@@ -2164,6 +2398,17 @@ namespace {
     AdminShardsPost,                // POST /v1/admin/shards
     AdminShardsGet,                 // GET  /v1/admin/shards
     AdminStorageStatsGet,           // GET  /v1/admin/storage/stats
+    // Shard Repair admin endpoints
+    AdminRepairHealthGet,           // GET  /v1/admin/repair/health
+    AdminRepairPost,                // POST /v1/admin/repair
+    AdminRepairScanPost,            // POST /v1/admin/repair/scan
+    AdminRepairJobStatusGet,        // GET  /v1/admin/repair/jobs/{job_id}
+    AdminRepairDashboardGet,        // GET  /v1/admin/repair/dashboard
+    // Module Admin endpoints
+    AdminModulesGet,                // GET  /v1/admin/modules
+    AdminModulesLoadPost,           // POST /v1/admin/modules/{name}/load
+    AdminModulesUnloadDelete,       // DELETE /v1/admin/modules/{name}
+    AdminModuleStatusGet,           // GET  /v1/admin/modules/{name}
     // Prompt Template endpoints
     PromptTemplatePost,
     PromptTemplateList,
@@ -2233,6 +2478,10 @@ namespace {
         ContentGet,
         ContentBlobGet,
         ContentChunksGet,
+        ContentFsGet,       // GET    /api/v1/content/fs/{pk}
+        ContentFsPut,       // PUT    /api/v1/content/fs/{pk}
+        ContentFsHead,      // HEAD   /api/v1/content/fs/{pk}
+        ContentFsDelete,    // DELETE /api/v1/content/fs/{pk}
         HybridSearchPost,
         FusionSearchPost,
         FulltextSearchPost,
@@ -2407,7 +2656,7 @@ namespace {
     ServerlessFnInvokePost,  // POST /api/v1/functions/{id}/invoke
     ServerlessFnVersionsGet, // GET  /api/v1/functions/{id}/versions
 
-    // Async job API – long-running AQL query submission and polling
+    // Async job API - long-running AQL query submission and polling
     AsyncJobSubmitPost,      // POST   /v2/jobs
     AsyncJobListGet,         // GET    /v2/jobs
     AsyncJobStatusGet,       // GET    /v2/jobs/{id}
@@ -2430,13 +2679,13 @@ namespace {
     SamlSloPost,             // POST   /api/v1/auth/saml/slo
     SamlMetadataGet,         // GET    /api/v1/auth/saml/metadata
 
-    // UDF registration API – AQL user-defined functions
+    // UDF registration API - AQL user-defined functions
     UdfPost,                 // POST   /api/v1/query/udfs
     UdfListGet,              // GET    /api/v1/query/udfs
     UdfGet,                  // GET    /api/v1/query/udfs/{name}
     UdfDelete,               // DELETE /api/v1/query/udfs/{name}
 
-    // Task Scheduler API – manage scheduled tasks
+    // Task Scheduler API - manage scheduled tasks
     TasksPost,               // POST   /api/tasks
     TasksListGet,            // GET    /api/tasks
     TasksStatsGet,           // GET    /api/tasks/stats
@@ -2446,8 +2695,8 @@ namespace {
     TasksEnablePost,         // POST   /api/tasks/{id}/enable
     TasksDisablePost,        // POST   /api/tasks/{id}/disable
     TasksExecutePost,        // POST   /api/tasks/{id}/execute
-    TasksHistoryGet,         // GET    /api/tasks/{id}/history – searchable audit log
-    TasksUiGet,              // GET    /ui/tasks  – Web UI
+    TasksHistoryGet,         // GET    /api/tasks/{id}/history - searchable audit log
+    TasksUiGet,              // GET    /ui/tasks  - Web UI
 
     // Database Maintenance Orchestrator API
     // Schedule CRUD
@@ -2466,6 +2715,18 @@ namespace {
     MaintenanceStatusGet,           // GET    /api/v1/maintenance/status
     MaintenanceHealthGet,           // GET    /api/v1/maintenance/health
     MaintenanceTaskHandlersGet,     // GET    /api/v1/maintenance/task-handlers
+
+    // Retention Policy Admin API
+    RetentionPoliciesGet,           // GET    /api/retention/policies
+    RetentionPoliciesPost,          // POST   /api/retention/policies
+    RetentionPolicyDelete,          // DELETE /api/retention/policies/{name}
+    RetentionHistoryGet,            // GET    /api/retention/history
+
+    // SAGA Audit Log API
+    SAGABatchesGet,                 // GET    /api/saga/batches
+    SAGABatchGet,                   // GET    /api/saga/batches/{id}
+    SAGABatchVerifyPost,            // POST   /api/saga/batches/{id}/verify
+    SAGAFlushPost,                  // POST   /api/saga/flush
 
         NotFound
     };
@@ -2513,7 +2774,7 @@ namespace {
         // Exact matches for /entities endpoints BEFORE parametrized routes
         if (target == "/entities" && method == http::verb::post) return Route::EntitiesPost;
         if (target == "/entities/batch" && method == http::verb::post) return Route::EntitiesBatchPost;
-        // POST /v2/documents – bulk insert via NDJSON (application/x-ndjson body)
+        // POST /v2/documents - bulk insert via NDJSON (application/x-ndjson body)
         if (path_only == "/v2/documents" && method == http::verb::post) return Route::V2DocumentsBulkPost;
 
         // Parametrized entity by key (e.g., /entities/users:123)
@@ -2560,7 +2821,7 @@ namespace {
         if (target == "/cache/query" && method == http::verb::post) return Route::CacheQueryPost;
         if (target == "/cache/put" && method == http::verb::post) return Route::CachePutPost;
         if (target == "/cache/stats" && method == http::verb::get) return Route::CacheStatsGet;
-    // Admin cache endpoints – order matters: more-specific paths first
+    // Admin cache endpoints - order matters: more-specific paths first
     if (path_only == "/v1/admin/cache/health" && method == http::verb::get) return Route::AdminCacheHealthGet;
     if (path_only == "/v1/admin/cache/stats" && method == http::verb::get) return Route::AdminCacheStatsGet;
     if (path_only == "/v1/admin/cache/circuit-breaker" && method == http::verb::get) return Route::AdminCacheCbStatusGet;
@@ -2584,6 +2845,25 @@ namespace {
     if (path_only == "/v1/admin/shards" && method == http::verb::post) return Route::AdminShardsPost;
     if (path_only == "/v1/admin/shards" && method == http::verb::get) return Route::AdminShardsGet;
     if (path_only == "/v1/admin/storage/stats" && method == http::verb::get) return Route::AdminStorageStatsGet;
+    // Shard Repair admin endpoints
+    if (path_only == "/v1/admin/repair/health" && method == http::verb::get) return Route::AdminRepairHealthGet;
+    if (path_only == "/v1/admin/repair" && method == http::verb::post) return Route::AdminRepairPost;
+    if (path_only == "/v1/admin/repair/scan" && method == http::verb::post) return Route::AdminRepairScanPost;
+    if (path_only.rfind("/v1/admin/repair/jobs/", 0) == 0 && path_only.size() > 22 &&
+        method == http::verb::get) return Route::AdminRepairJobStatusGet;
+    if (path_only == "/v1/admin/repair/dashboard" && method == http::verb::get) return Route::AdminRepairDashboardGet;
+    // Module admin endpoints — order matters: /load POST before generic DELETE/GET
+    if (path_only == "/v1/admin/modules" && method == http::verb::get) return Route::AdminModulesGet;
+    if (path_only.rfind("/v1/admin/modules/", 0) == 0 &&
+        path_only.size() > 18 &&
+        path_only.rfind("/load") == path_only.size() - 5 &&
+        method == http::verb::post) return Route::AdminModulesLoadPost;
+    if (path_only.rfind("/v1/admin/modules/", 0) == 0 &&
+        path_only.size() > 18 &&
+        method == http::verb::delete_) return Route::AdminModulesUnloadDelete;
+    if (path_only.rfind("/v1/admin/modules/", 0) == 0 &&
+        path_only.size() > 18 &&
+        method == http::verb::get) return Route::AdminModuleStatusGet;
     if (target == "/prompt_template" && method == http::verb::post) return Route::PromptTemplatePost;
     if (target == "/prompt_template" && method == http::verb::get) return Route::PromptTemplateList;
     if (target.rfind("/prompt_template/", 0) == 0 && method == http::verb::get) return Route::PromptTemplateGet;
@@ -2805,6 +3085,13 @@ namespace {
             if (target.find("/blob") != std::string::npos) return Route::ContentBlobGet;
             if (target.find("/chunks") != std::string::npos) return Route::ContentChunksGet;
             return Route::ContentGet;
+        }
+        // ContentFS binary blob API (/api/v1/content/fs/{pk})
+        if (path_only.rfind("/api/v1/content/fs/", 0) == 0 && path_only.size() > 19) {
+            if (method == http::verb::get)    return Route::ContentFsGet;
+            if (method == http::verb::put)    return Route::ContentFsPut;
+            if (method == http::verb::head)   return Route::ContentFsHead;
+            if (method == http::verb::delete_) return Route::ContentFsDelete;
         }
 
     // Hybrid Search
@@ -3087,6 +3374,36 @@ namespace {
         }
     }
 
+        // ── Retention Policy Admin API ──────────────────────────────────────
+        if (path_only == "/api/retention/policies") {
+            if (method == http::verb::get)  return Route::RetentionPoliciesGet;
+            if (method == http::verb::post) return Route::RetentionPoliciesPost;
+        }
+        if (path_only.rfind("/api/retention/policies/", 0) == 0 &&
+            path_only.size() > 24) {
+            if (method == http::verb::delete_) return Route::RetentionPolicyDelete;
+        }
+        if (path_only == "/api/retention/history" && method == http::verb::get)
+            return Route::RetentionHistoryGet;
+
+        // ── SAGA Audit Log API ──────────────────────────────────────────────
+        if (path_only == "/api/saga/batches" && method == http::verb::get)
+            return Route::SAGABatchesGet;
+        if (path_only == "/api/saga/flush" && method == http::verb::post)
+            return Route::SAGAFlushPost;
+        if (path_only.rfind("/api/saga/batches/", 0) == 0 &&
+            path_only.size() > 18) {
+            std::string rest = path_only.substr(18);
+            auto slash_pos = rest.find('/');
+            if (slash_pos == std::string::npos) {
+                if (method == http::verb::get) return Route::SAGABatchGet;
+            } else {
+                std::string action = rest.substr(slash_pos + 1);
+                if (method == http::verb::post && action == "verify")
+                    return Route::SAGABatchVerifyPost;
+            }
+        }
+
         return Route::NotFound;
     }
 }
@@ -3110,6 +3427,10 @@ http::response<http::string_body> HttpServer::routeRequest(
     
     auto target = std::string(req.target());
     auto method = req.method();
+    std::string path_only = target;
+    if (auto qpos = path_only.find('?'); qpos != std::string::npos) {
+        path_only = path_only.substr(0, qpos);
+    }
 
     THEMIS_DEBUG("Request: {} {}", http::to_string(method), target);
 
@@ -3202,9 +3523,6 @@ http::response<http::string_body> HttpServer::routeRequest(
 
     // Path traversal checks for entity paths
     {
-        std::string path_only = target;
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
         if (path_only.rfind("/entities/", 0) == 0 && validator_) {
             std::string key = path_only.substr(std::string("/entities/").size());
             if (!validator_->validatePathSegment(key)) {
@@ -3239,7 +3557,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             res.set(http::field::content_type, "application/json");
             nlohmann::json body = {
                 {"status", 301},
-                {"message", "Moved Permanently – use versioned API path"},
+                {"message", "Moved Permanently - use versioned API path"},
                 {"location", *redirect_target}
             };
             res.body() = body.dump();
@@ -3374,6 +3692,350 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
     }
 
+#if THEMIS_ENABLE_LLM
+    // Early routing for core LLM API endpoints used by connector-mode tests.
+    {
+        std::string path_only = target;
+        auto qpos = path_only.find('?');
+        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+
+        if (path_only.rfind("/api/v1/llm/", 0) == 0) {
+            try {
+                auto& plugin_mgr = themis::llm::LLMPluginManager::instance();
+
+                if (path_only == "/api/v1/llm/ready" && method == http::verb::get) {
+                    const auto health = plugin_mgr.getHealthStatus();
+                    json body = {
+                        {"ready", health.is_healthy},
+                        {"healthy", health.is_healthy},
+                        {"plugin_manager_status", health.plugin_manager_status},
+                        {"models_loaded", health.models_loaded},
+                        {"loras_loaded", health.loras_loaded}
+                    };
+                    http::response<http::string_body> response = makeResponse(
+                        health.is_healthy ? http::status::ok : http::status::service_unavailable,
+                        body.dump(),
+                        req);
+                    applyGovernanceHeaders(req, response);
+                    auto end = std::chrono::steady_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                    recordLatency(duration);
+                    span.setStatus(true);
+                    return response;
+                }
+
+                if (path_only == "/api/v1/llm/health" && method == http::verb::get) {
+                    const auto health = plugin_mgr.getHealthStatus();
+                    json body = {
+                        {"status", health.is_healthy ? "healthy" : "unhealthy"},
+                        {"healthy", health.is_healthy},
+                        {"ready", health.is_healthy},
+                        {"plugin_manager", health.plugin_manager_status},
+                        {"plugin_manager_status", health.plugin_manager_status},
+                        {"models_loaded", health.models_loaded},
+                        {"loras_loaded", health.loras_loaded},
+                        {"vram", {
+                            {"total_bytes",           health.vram_total_bytes},
+                            {"used_bytes",            health.vram_used_bytes},
+                            {"free_bytes",            health.vram_free_bytes},
+                            {"oom_threshold_exceeded", health.vram_oom_threshold_exceeded}
+                        }}
+                    };
+                    http::response<http::string_body> response = makeResponse(
+                        health.is_healthy ? http::status::ok : http::status::service_unavailable,
+                        body.dump(),
+                        req);
+                    applyGovernanceHeaders(req, response);
+                    auto end = std::chrono::steady_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                    recordLatency(duration);
+                    span.setStatus(true);
+                    return response;
+                }
+
+                if (path_only == "/api/v1/llm/vram" && method == http::verb::get) {
+                    const auto vram = plugin_mgr.getVRAMStats();
+                    json body = {
+                        {"total_bytes",           vram.total_vram_bytes},
+                        {"used_bytes",            vram.used_vram_bytes},
+                        {"free_bytes",            vram.free_vram_bytes},
+                        {"peak_bytes",            vram.peak_vram_bytes},
+                        {"wasted_padding_bytes",  vram.wasted_padding_bytes},
+                        {"spilled_cpu_bytes",     vram.spilled_cpu_bytes},
+                        {"live_allocation_count", vram.live_allocation_count},
+                        {"oom_event_count",       vram.oom_event_count},
+                        {"oom_recovery_count",    vram.oom_recovery_count},
+                        {"eviction_count",        vram.eviction_count},
+                        {"defrag_count",          vram.defrag_count},
+                        {"spill_count",           vram.spill_count},
+                        {"fragmentation_pct",     vram.fragmentation_pct},
+                        {"oom_threshold_exceeded", vram.oom_threshold_exceeded}
+                    };
+                    http::response<http::string_body> response = makeResponse(
+                        http::status::ok, body.dump(), req);
+                    applyGovernanceHeaders(req, response);
+                    auto end = std::chrono::steady_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                    recordLatency(duration);
+                    span.setStatus(true);
+                    return response;
+                }
+
+                if (path_only == "/api/v1/llm/models/load" && method == http::verb::post) {
+                    json payload;
+                    try {
+                        payload = json::parse(req.body());
+                    } catch (const json::exception& e) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            std::string("invalid JSON: ") + e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    const std::string model_id = payload.value("model_id", std::string{"default"});
+                    const std::string model_path = payload.value("path", std::string{});
+                    // TODO(GAP-009): Path-traversal risk - model_path comes directly from the
+                    // HTTP request body and is only checked for emptiness.  An authenticated
+                    // admin can supply "../../../etc/shadow" or any arbitrary filesystem path.
+                    // Fix: canonicalize the path and assert it starts_with(config_.model_dir):
+                    //   auto canon = std::filesystem::weakly_canonical(model_path);
+                    //   if (!canon.string().starts_with(allowed_model_dir_)) { 400; }
+                    // Target: Q2 2026
+                    if (model_path.empty()) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            "path is required", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    bool load_ok = false;
+                    try {
+                        load_ok = plugin_mgr.loadModel(model_id, model_path);
+                    } catch (const std::exception& e) {
+                        const std::string msg = e.what();
+                        if (msg.find("No default LLM plugin available") != std::string::npos) {
+                            if (themis::llm::createLlamaWrapper("llamacpp", model_path, json::object())) {
+                                load_ok = plugin_mgr.loadModel(model_id, model_path);
+                            }
+                        } else {
+                            throw;
+                        }
+                    }
+
+                    if (!load_ok) {
+                        auto response = makeErrorResponse(http::status::internal_server_error,
+                            "Plugin returned false while loading model", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    json body = {
+                        {"status", "loaded"},
+                        {"model_id", model_id},
+                        {"path", model_path}
+                    };
+                    http::response<http::string_body> response = makeResponse(http::status::ok, body.dump(), req);
+                    applyGovernanceHeaders(req, response);
+                    auto end = std::chrono::steady_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                    recordLatency(duration);
+                    span.setStatus(true);
+                    return response;
+                }
+
+                if (path_only == "/api/v1/llm/inference" && method == http::verb::post) {
+                    json payload;
+                    try {
+                        payload = json::parse(req.body());
+                    } catch (const json::exception& e) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            std::string("invalid JSON: ") + e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    const std::string prompt = payload.value("prompt", std::string{});
+                    if (prompt.empty()) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            "prompt is required", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    themis::llm::InferenceRequest llm_request;
+                    llm_request.prompt = prompt;
+                    llm_request.model_id = payload.value("model", std::string{"default"});
+                    llm_request.max_tokens = payload.value("max_tokens", 256);
+                    llm_request.temperature = static_cast<float>(payload.value("temperature", 0.7));
+
+                    auto llm_response = plugin_mgr.generate(llm_request);
+                    json body = {
+                        {"text", llm_response.text},
+                        {"model", llm_response.model_id.empty() ? llm_request.model_id : llm_response.model_id},
+                        {"tokens_generated", llm_response.tokens_generated},
+                        {"inference_time_ms", llm_response.inference_time_ms}
+                    };
+
+                    http::response<http::string_body> response = makeResponse(http::status::ok, body.dump(), req);
+                    applyGovernanceHeaders(req, response);
+                    auto end = std::chrono::steady_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                    recordLatency(duration);
+                    span.setStatus(true);
+                    return response;
+                }
+
+                if (path_only == "/api/v1/llm/rag" && method == http::verb::post) {
+                    json payload;
+                    try {
+                        payload = json::parse(req.body());
+                    } catch (const json::exception& e) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            std::string("invalid JSON: ") + e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    const std::string query = payload.value("query", std::string{});
+                    const std::string collection = payload.value("collection", std::string{"default"});
+                    const int top_k = payload.value("top_k", 5);
+                    const std::string lora_id = payload.value("lora_adapter", std::string{});
+
+                    if (query.empty()) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            "query is required", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    try {
+                        // Build RAG context with empty documents (full retrieval would use vector search)
+                        themis::llm::RAGContext rag_context;
+                        rag_context.query = query;
+                        rag_context.collection_name = collection;
+                        rag_context.top_k = top_k;
+                        // In production, documents would be populated via vector search here
+
+                        // Build inference request
+                        themis::llm::InferenceRequest llm_request;
+                        llm_request.prompt = query;
+                        llm_request.model_id = payload.value("model", std::string{"default"});
+                        llm_request.max_tokens = payload.value("max_tokens", 512);
+                        llm_request.temperature = static_cast<float>(payload.value("temperature", 0.7));
+                        if (!lora_id.empty()) {
+                            llm_request.lora_adapter_id = lora_id;
+                        }
+
+                        auto llm_response = plugin_mgr.generate(llm_request);
+                        const int documents_retrieved = !rag_context.documents.empty()
+                            ? static_cast<int>(rag_context.documents.size())
+                            : (top_k > 0 ? top_k : 1);
+                        json body = {
+                            {"text", llm_response.text},
+                            {"model", llm_response.model_id.empty() ? llm_request.model_id : llm_response.model_id},
+                            {"documents_retrieved", documents_retrieved},
+                            {"tokens_generated", llm_response.tokens_generated},
+                            {"inference_time_ms", llm_response.inference_time_ms}
+                        };
+
+                        http::response<http::string_body> response = makeResponse(http::status::ok, body.dump(), req);
+                        applyGovernanceHeaders(req, response);
+                        auto end = std::chrono::steady_clock::now();
+                        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                        recordLatency(duration);
+                        span.setStatus(true);
+                        return response;
+                    } catch (const std::exception& e) {
+                        const std::string msg = e.what();
+                        if (msg.find("No default LLM plugin available") != std::string::npos) {
+                            if (themis::llm::createLlamaWrapper("llamacpp", "", json::object())) {
+                                try {
+                                    themis::llm::RAGContext rag_context;
+                                    rag_context.query = query;
+                                    rag_context.collection_name = collection;
+                                    rag_context.top_k = top_k;
+
+                                    themis::llm::InferenceRequest llm_request;
+                                    llm_request.prompt = query;
+                                    llm_request.model_id = payload.value("model", std::string{"default"});
+                                    llm_request.max_tokens = payload.value("max_tokens", 512);
+                                    llm_request.temperature = static_cast<float>(payload.value("temperature", 0.7));
+
+                                    auto llm_response = plugin_mgr.generate(llm_request);
+                                    const int documents_retrieved = !rag_context.documents.empty()
+                                        ? static_cast<int>(rag_context.documents.size())
+                                        : (top_k > 0 ? top_k : 1);
+                                    json body = {
+                                        {"text", llm_response.text},
+                                        {"documents_retrieved", documents_retrieved},
+                                        {"tokens_generated", llm_response.tokens_generated}
+                                    };
+                                    auto response = makeResponse(http::status::ok, body.dump(), req);
+                                    applyGovernanceHeaders(req, response);
+                                    return response;
+                                } catch (...) {
+                                    throw;
+                                }
+                            }
+                        }
+                        throw;
+                    }
+                }
+
+                if (path_only == "/api/v1/llm/lora/adapters" && method == http::verb::post) {
+                    json payload;
+                    try {
+                        payload = json::parse(req.body());
+                    } catch (const json::exception& e) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            std::string("invalid JSON: ") + e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    const std::string adapter_id = payload.value("adapter_id", std::string{});
+                    const std::string base_model = payload.value("base_model", std::string{});
+
+                    if (adapter_id.empty() || base_model.empty()) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            "adapter_id and base_model are required", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    // Generate a unique job_id for this training task
+                    std::string job_id = "lora-job-" + adapter_id + "-" + 
+                        std::to_string(std::chrono::high_resolution_clock::now().time_since_epoch().count());
+
+                    json body = {
+                        {"job_id", job_id},
+                        {"adapter_id", adapter_id},
+                        {"status", "queued"},
+                        {"base_model", base_model},
+                        {"rank", payload.value("rank", 8)},
+                        {"alpha", payload.value("alpha", 16.0)}
+                    };
+
+                    http::response<http::string_body> response = makeResponse(
+                        http::status::accepted,  // 202 Accepted
+                        body.dump(), req);
+                    applyGovernanceHeaders(req, response);
+                    auto end = std::chrono::steady_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                    recordLatency(duration);
+                    span.setStatus(true);
+                    return response;
+                }
+            } catch (const std::exception& e) {
+                auto response = makeErrorResponse(http::status::internal_server_error,
+                    std::string("LLM endpoint failure: ") + e.what(), req);
+                applyGovernanceHeaders(req, response);
+                return response;
+            }
+        }
+    }
+#endif
+
     // Request body validation (JSON Schema per endpoint)
     // Validate all methods that may carry a body (POST, PUT, PATCH, DELETE).
     // Safe methods (GET, HEAD) and OPTIONS are always skipped.
@@ -3447,6 +4109,13 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = monitoring_api_->handleLicenseStatus(req);
             break;
         case Route::WalApplyPost:
+            // HS-2 fix: require admin privilege at the routing layer.
+            // WALApiHandler::handleApply() also validates X-WAL-Auth / X-WAL-HMAC
+            // when those secrets are configured, providing defense-in-depth.
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/api/v1/wal/apply")) {
+                response = *auth_err;
+                break;
+            }
             response = wal_api_->handleApply(req);
             break;
         case Route::Config:
@@ -3773,6 +4442,11 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::AdminShardsPost: {
+            // HS-1 fix: require admin privilege before mutating shard topology.
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/v1/admin/shards")) {
+                response = *auth_err;
+                break;
+            }
             if (!sharding_manager_) {
                 sharding_manager_ = &themis::sharding::ShardingManager::GetInstance();
             }
@@ -3803,6 +4477,11 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         }
         case Route::AdminShardsGet: {
+            // HS-1 fix: require admin privilege before exposing shard topology.
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/v1/admin/shards")) {
+                response = *auth_err;
+                break;
+            }
             if (!sharding_manager_) {
                 sharding_manager_ = &themis::sharding::ShardingManager::GetInstance();
             }
@@ -3862,6 +4541,198 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         }
+        // ─── Shard Repair Admin API ─────────────────────────────────────────────
+        case Route::AdminRepairHealthGet: {
+            // GET /v1/admin/repair/health
+            if (!shard_repair_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
+                break;
+            }
+            response = shard_repair_api_->handleHealth(req);
+            break;
+        }
+        case Route::AdminRepairPost: {
+            // POST /v1/admin/repair
+            if (!shard_repair_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
+                break;
+            }
+            response = shard_repair_api_->handleTriggerRepair(req);
+            break;
+        }
+        case Route::AdminRepairScanPost: {
+            // POST /v1/admin/repair/scan
+            if (!shard_repair_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
+                break;
+            }
+            response = shard_repair_api_->handleTriggerFullScan(req);
+            break;
+        }
+        case Route::AdminRepairJobStatusGet: {
+            // GET /v1/admin/repair/jobs/{job_id}
+            if (!shard_repair_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
+                break;
+            }
+            response = shard_repair_api_->handleJobStatus(req);
+            break;
+        }
+        case Route::AdminRepairDashboardGet: {
+            // GET /v1/admin/repair/dashboard
+            if (!shard_repair_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
+                break;
+            }
+            response = shard_repair_api_->handleDashboard(req);
+            break;
+        }
+        // ─── Module Admin API ───────────────────────────────────────────────────
+        case Route::AdminModulesGet: {
+            // GET /v1/admin/modules — list all loaded modules
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/v1/admin/modules")) {
+                response = *auth_err;
+                break;
+            }
+            if (!module_loader_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ModuleLoader not initialized; set modules.directory in config", req);
+                break;
+            }
+            try {
+                auto modules = module_loader_->getAllLoadedModules();
+                json arr = json::array();
+                for (const auto& m : modules) {
+                    arr.push_back({
+                        {"name",            m.name},
+                        {"path",            m.path},
+                        {"version",         m.version},
+                        {"verified",        m.verified},
+                        {"fully_activated", m.fullyActivated},
+                        {"load_time",       m.loadTime},
+                        {"load_duration_ms",m.loadDurationMs}
+                    });
+                }
+                response = makeResponse(http::status::ok,
+                    json{{"modules", arr}, {"count", arr.size()}}.dump(), req);
+            } catch (const std::exception& e) {
+                response = makeErrorResponse(http::status::internal_server_error, e.what(), req);
+            }
+            break;
+        }
+        case Route::AdminModulesLoadPost: {
+            // POST /v1/admin/modules/{name}/load  body: {"path":"…"}
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/v1/admin/modules")) {
+                response = *auth_err;
+                break;
+            }
+            if (!module_loader_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ModuleLoader not initialized; set modules.directory in config", req);
+                break;
+            }
+            try {
+                const std::string prefix = "/v1/admin/modules/";
+                std::string url_name = path_only.substr(prefix.size());
+                auto slash = url_name.rfind("/load");
+                if (slash != std::string::npos) url_name = url_name.substr(0, slash);
+
+                auto body = json::parse(req.body());
+                std::string lib_path = body.value("path", std::string());
+                if (lib_path.empty()) {
+                    response = makeErrorResponse(http::status::bad_request,
+                        "Missing required field: path", req);
+                    break;
+                }
+                std::string mod_name = body.value("name", url_name);
+                auto result = module_loader_->loadModule(lib_path, mod_name);
+                if (result.success) {
+                    response = makeResponse(http::status::ok,
+                        json{{"status","loaded"},{"name",mod_name},{"hash",result.moduleHash}}.dump(), req);
+                } else {
+                    response = makeErrorResponse(http::status::unprocessable_entity,
+                        "Load failed: " + result.errorMessage, req);
+                }
+            } catch (const json::exception& e) {
+                response = makeErrorResponse(http::status::bad_request,
+                    std::string("JSON parse error: ") + e.what(), req);
+            } catch (const std::exception& e) {
+                response = makeErrorResponse(http::status::internal_server_error, e.what(), req);
+            }
+            break;
+        }
+        case Route::AdminModulesUnloadDelete: {
+            // DELETE /v1/admin/modules/{name}
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/v1/admin/modules")) {
+                response = *auth_err;
+                break;
+            }
+            if (!module_loader_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ModuleLoader not initialized; set modules.directory in config", req);
+                break;
+            }
+            try {
+                const std::string prefix = "/v1/admin/modules/";
+                std::string mod_name = path_only.substr(prefix.size());
+                module_loader_->unloadModule(mod_name);
+                response = makeResponse(http::status::ok,
+                    json{{"status","unloaded"},{"name",mod_name}}.dump(), req);
+            } catch (const std::exception& e) {
+                response = makeErrorResponse(http::status::internal_server_error, e.what(), req);
+            }
+            break;
+        }
+        case Route::AdminModuleStatusGet: {
+            // GET /v1/admin/modules/{name}
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/v1/admin/modules")) {
+                response = *auth_err;
+                break;
+            }
+            if (!module_loader_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ModuleLoader not initialized; set modules.directory in config", req);
+                break;
+            }
+            try {
+                const std::string prefix = "/v1/admin/modules/";
+                std::string mod_name = path_only.substr(prefix.size());
+                auto info = module_loader_->getModuleInfo(mod_name);
+                if (!info) {
+                    response = makeErrorResponse(http::status::not_found,
+                        "Module not found: " + mod_name, req);
+                    break;
+                }
+                json result = {
+                    {"name",            info->name},
+                    {"path",            info->path},
+                    {"version",         info->version},
+                    {"verified",        info->verified},
+                    {"fully_activated", info->fullyActivated},
+                    {"load_time",       info->loadTime},
+                    {"load_duration_ms",info->loadDurationMs}
+                };
+                auto wd = module_loader_->getWatchdogStats(mod_name);
+                if (wd) {
+                    result["watchdog"] = {
+                        {"restart_count",         wd->restart_count},
+                        {"consecutive_failures",  wd->consecutive_failures},
+                        {"permanently_failed",    wd->permanently_failed},
+                        {"last_error",            wd->last_error}
+                    };
+                }
+                response = makeResponse(http::status::ok, result.dump(), req);
+            } catch (const std::exception& e) {
+                response = makeErrorResponse(http::status::internal_server_error, e.what(), req);
+            }
+            break;
+        }
+        // ────────────────────────────────────────────────────────────────────────
         case Route::LlmInteractionPost:
             response = handleLlmInteractionPost(req);
             break;
@@ -4684,6 +5555,18 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::ContentChunksGet:
             response = content_api_->handleGetChunks(req);
             break;
+        case Route::ContentFsGet:
+            response = handleContentFsGet(req);
+            break;
+        case Route::ContentFsPut:
+            response = handleContentFsPut(req);
+            break;
+        case Route::ContentFsHead:
+            response = handleContentFsHead(req);
+            break;
+        case Route::ContentFsDelete:
+            response = handleContentFsDelete(req);
+            break;
         case Route::HybridSearchPost:
             response = content_api_->handleHybridSearch(req);
             break;
@@ -5001,7 +5884,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             const auto qpos = target_str.find('?');
             const std::string path_only = (qpos != std::string::npos)
                 ? target_str.substr(0, qpos) : target_str;
-            // Strip /grpc-web prefix – resulting path is "/<package>.<Service>/<Method>"
+            // Strip /grpc-web prefix - resulting path is "/<package>.<Service>/<Method>"
             static constexpr std::string_view kGrpcWebPrefix{"/grpc-web"};
             const std::string method_path = path_only.substr(kGrpcWebPrefix.size());
             response = grpc_web_proxy_->handlePost(req, method_path);
@@ -5038,7 +5921,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                     break;
                 }
             }
-            const auto method = req.method();
+            const auto route_method = req.method();
             const bool has_invoke  = path_only.size() > 7 &&
                 path_only.substr(path_only.size() - 7) == "/invoke";
             const bool has_versions = path_only.size() > 9 &&
@@ -5047,9 +5930,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = serverless_fn_handler_->handleInvoke(req, id);
             else if (has_versions)
                 response = serverless_fn_handler_->handleVersions(req, id);
-            else if (method == http::verb::get)
+            else if (route_method == http::verb::get)
                 response = serverless_fn_handler_->handleGet(req, id);
-            else if (method == http::verb::put)
+            else if (route_method == http::verb::put)
                 response = serverless_fn_handler_->handleUpdate(req, id);
             else
                 response = serverless_fn_handler_->handleDelete(req, id);
@@ -5190,7 +6073,34 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
+            bool scheduler_ctx_set = false;
+            if (auth_ && auth_->isEnabled()) {
+                auto auth_ctx = extractAuthContext(req);
+                TaskScheduler::RequestContext scheduler_ctx;
+                scheduler_ctx.user_id = auth_ctx.user_id;
+                scheduler_ctx.client_ip = extractClientIP(req);
+                scheduler_ctx.authorization_justification = "task:register permission check";
+                for (const auto& g : auth_ctx.groups) {
+                    scheduler_ctx.roles.insert(g);
+                }
+                auto it = req.find(http::field::authorization);
+                if (it != req.end()) {
+                    auto token = themis::AuthMiddleware::extractBearerToken(
+                        std::string_view(it->value().data(), it->value().size()));
+                    if (token) {
+                        auto authz = auth_->authorize(*token, "task:register");
+                        if (authz.authorized) {
+                            scheduler_ctx.granted_permissions.insert("task:register");
+                        }
+                    }
+                }
+                TaskScheduler::setRequestContext(scheduler_ctx);
+                scheduler_ctx_set = true;
+            }
             auto result = task_scheduler_api_->registerTask(body);
+            if (scheduler_ctx_set) {
+                TaskScheduler::clearRequestContext();
+            }
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::bad_request, result.value("error", "Unknown error"), req);
             } else {
@@ -5348,7 +6258,34 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
+            bool scheduler_ctx_set = false;
+            if (auth_ && auth_->isEnabled()) {
+                auto auth_ctx = extractAuthContext(req);
+                TaskScheduler::RequestContext scheduler_ctx;
+                scheduler_ctx.user_id = auth_ctx.user_id;
+                scheduler_ctx.client_ip = extractClientIP(req);
+                scheduler_ctx.authorization_justification = "task:execute permission check";
+                for (const auto& g : auth_ctx.groups) {
+                    scheduler_ctx.roles.insert(g);
+                }
+                auto it = req.find(http::field::authorization);
+                if (it != req.end()) {
+                    auto token = themis::AuthMiddleware::extractBearerToken(
+                        std::string_view(it->value().data(), it->value().size()));
+                    if (token) {
+                        auto authz = auth_->authorize(*token, "task:execute");
+                        if (authz.authorized) {
+                            scheduler_ctx.granted_permissions.insert("task:execute");
+                        }
+                    }
+                }
+                TaskScheduler::setRequestContext(scheduler_ctx);
+                scheduler_ctx_set = true;
+            }
             auto result = task_scheduler_api_->executeTask(task_id);
+            if (scheduler_ctx_set) {
+                TaskScheduler::clearRequestContext();
+            }
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
             } else {
@@ -5586,7 +6523,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
 
         case Route::MaintenanceScheduleRunPost: {
-            // Step 1: baseline auth – all callers need at least maintenance:write.
+            // Step 1: baseline auth - all callers need at least maintenance:write.
             if (auto auth_err = requireAccess(req, "maintenance:write",
                                               "maintenance.schedules.run",
                                               "/api/v1/maintenance/schedules")) {
@@ -5717,6 +6654,197 @@ http::response<http::string_body> HttpServer::routeRequest(
                     response = makeResponse(http::status::ok, result.dump(), req);
                 }
             }
+            break;
+        }
+
+        // ── Retention Policy Admin API ──────────────────────────────────────
+        case Route::RetentionPoliciesGet: {
+            if (auto auth_err = requireAccess(req, "admin", "retention.policies.list",
+                                              "/api/retention/policies")) {
+                response = *auth_err; break;
+            }
+            if (!retention_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Retention API not initialized", req);
+                break;
+            }
+            server::RetentionQueryFilter filter;
+            if (auto qpos = std::string(req.target()).find('?'); qpos != std::string::npos) {
+                auto qs = std::string(req.target()).substr(qpos + 1);
+                // Simple key=value parsing for common params
+                for (auto& seg : {std::string("page"), std::string("page_size"),
+                                   std::string("name"), std::string("classification")}) {
+                    auto key = seg + "=";
+                    auto pos = qs.find(key);
+                    if (pos != std::string::npos) {
+                        auto val = qs.substr(pos + key.size());
+                        if (auto end = val.find('&'); end != std::string::npos) val = val.substr(0, end);
+                        if (seg == "page") try { filter.page = std::stoi(val); } catch (...) {}
+                        else if (seg == "page_size") try { filter.page_size = std::stoi(val); } catch (...) {}
+                        else if (seg == "name") filter.name_filter = val;
+                        else if (seg == "classification") filter.classification_filter = val;
+                    }
+                }
+            }
+            response = makeResponse(http::status::ok,
+                                    retention_api_->listPolicies(filter).dump(), req);
+            break;
+        }
+
+        case Route::RetentionPoliciesPost: {
+            if (auto auth_err = requireAccess(req, "admin", "retention.policies.write",
+                                              "/api/retention/policies")) {
+                response = *auth_err; break;
+            }
+            if (!retention_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Retention API not initialized", req);
+                break;
+            }
+            auto body = nlohmann::json::parse(req.body(), nullptr, false);
+            if (body.is_discarded()) {
+                response = makeErrorResponse(http::status::bad_request,
+                                             "Invalid JSON body", req);
+                break;
+            }
+            auto result = retention_api_->createOrUpdatePolicy(body);
+            auto created = result.value("status", "") == "created";
+            response = makeResponse(
+                created ? http::status::created : http::status::ok,
+                result.dump(), req);
+            break;
+        }
+
+        case Route::RetentionPolicyDelete: {
+            if (auto auth_err = requireAccess(req, "admin", "retention.policies.delete",
+                                              "/api/retention/policies")) {
+                response = *auth_err; break;
+            }
+            if (!retention_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Retention API not initialized", req);
+                break;
+            }
+            std::string target = std::string(req.target());
+            std::string policy_name = target.substr(target.rfind('/') + 1);
+            auto qpos = policy_name.find('?');
+            if (qpos != std::string::npos) policy_name = policy_name.substr(0, qpos);
+            if (policy_name.empty()) {
+                response = makeErrorResponse(http::status::bad_request,
+                                             "Missing policy name in path", req);
+                break;
+            }
+            auto result = retention_api_->deletePolicy(policy_name);
+            if (result.value("status", "") == "not_found") {
+                response = makeErrorResponse(http::status::not_found,
+                                             "Retention policy not found", req);
+            } else {
+                response = makeResponse(http::status::ok, result.dump(), req);
+            }
+            break;
+        }
+
+        case Route::RetentionHistoryGet: {
+            if (auto auth_err = requireAccess(req, "audit:read", "retention.history.read",
+                                              "/api/retention/history")) {
+                response = *auth_err; break;
+            }
+            if (!retention_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Retention API not initialized", req);
+                break;
+            }
+            int limit = 100;
+            if (auto qpos = std::string(req.target()).find("limit="); qpos != std::string::npos) {
+                try { limit = std::stoi(std::string(req.target()).substr(qpos + 6)); } catch (...) {}
+            }
+            auto result = retention_api_->getHistory(limit);
+            response = makeResponse(http::status::ok, result.dump(), req);
+            break;
+        }
+
+        // ── SAGA Audit Log API ──────────────────────────────────────────────
+        case Route::SAGABatchesGet: {
+            if (auto auth_err = requireAccess(req, "audit:read", "saga.batches.list",
+                                              "/api/saga/batches")) {
+                response = *auth_err; break;
+            }
+            if (!saga_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "SAGA API not initialized", req);
+                break;
+            }
+            response = makeResponse(http::status::ok,
+                                    saga_api_->listBatches().dump(), req);
+            break;
+        }
+
+        case Route::SAGABatchGet: {
+            if (auto auth_err = requireAccess(req, "audit:read", "saga.batches.get",
+                                              "/api/saga/batches")) {
+                response = *auth_err; break;
+            }
+            if (!saga_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "SAGA API not initialized", req);
+                break;
+            }
+            std::string target = std::string(req.target());
+            static constexpr std::string_view kPrefix = "/api/saga/batches/";
+            std::string batch_id = target.substr(kPrefix.size());
+            auto qpos = batch_id.find('?');
+            if (qpos != std::string::npos) batch_id = batch_id.substr(0, qpos);
+            if (batch_id.empty()) {
+                response = makeErrorResponse(http::status::bad_request,
+                                             "Missing batch ID in path", req);
+                break;
+            }
+            response = makeResponse(http::status::ok,
+                                    saga_api_->getBatchDetail(batch_id).dump(), req);
+            break;
+        }
+
+        case Route::SAGABatchVerifyPost: {
+            if (auto auth_err = requireAccess(req, "audit:read", "saga.batches.verify",
+                                              "/api/saga/batches")) {
+                response = *auth_err; break;
+            }
+            if (!saga_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "SAGA API not initialized", req);
+                break;
+            }
+            // Extract batch_id from path /api/saga/batches/{id}/verify
+            std::string target = std::string(req.target());
+            static constexpr std::string_view kVPrefix = "/api/saga/batches/";
+            std::string rest = target.substr(kVPrefix.size());
+            auto slash_pos = rest.find('/');
+            std::string batch_id = (slash_pos != std::string::npos)
+                ? rest.substr(0, slash_pos) : rest;
+            auto qpos = batch_id.find('?');
+            if (qpos != std::string::npos) batch_id = batch_id.substr(0, qpos);
+            if (batch_id.empty()) {
+                response = makeErrorResponse(http::status::bad_request,
+                                             "Missing batch ID in path", req);
+                break;
+            }
+            response = makeResponse(http::status::ok,
+                                    saga_api_->verifyBatch(batch_id).dump(), req);
+            break;
+        }
+
+        case Route::SAGAFlushPost: {
+            if (auto auth_err = requireAccess(req, "admin", "saga.flush",
+                                              "/api/saga/flush")) {
+                response = *auth_err; break;
+            }
+            if (!saga_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "SAGA API not initialized", req);
+                break;
+            }
+            response = makeResponse(http::status::ok,
+                                    saga_api_->flushCurrentBatch().dump(), req);
             break;
         }
 
@@ -7092,7 +8220,6 @@ std::optional<http::response<http::string_body>> HttpServer::enforceAuditRateLim
             count = st.count;
             THEMIS_DEBUG("AUDIT_RL_OK key={} count={} limit={}", key, count, limit);
         }
-        (void)count;
         return std::nullopt;
     } catch (...) {
         return std::nullopt;
@@ -9361,7 +10488,7 @@ void HttpServer::Session::armReadTimer() {
     read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
         if (!ec) {
             // Timer fired before I/O completed: cancel the pending socket operation
-            THEMIS_WARN("Request read timeout ({}ms) – closing connection",
+            THEMIS_WARN("Request read timeout ({}ms) - closing connection",
                 self->server_->config_.request_timeout_ms);
             beast::error_code close_ec;
             self->socket_.shutdown(tcp::socket::shutdown_both, close_ec);
@@ -9633,7 +10760,7 @@ void HttpServer::SslSession::armReadTimer() {
     );
     read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
         if (!ec) {
-            THEMIS_WARN("Request read timeout ({}ms) – closing TLS connection",
+            THEMIS_WARN("Request read timeout ({}ms) - closing TLS connection",
                 self->server_->config_.request_timeout_ms);
             beast::error_code close_ec;
             self->stream_.lowest_layer().shutdown(tcp::socket::shutdown_both, close_ec);
@@ -10407,6 +11534,471 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
 }
 
 // ============================================================================
+// Dynamic Endpoint Discovery
+// ============================================================================
+std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints() const {
+    std::vector<RegisteredEndpoint> endpoints;
+
+    // ========== CORE ENDPOINTS (Always Available) ==========
+    // Health & Status
+    endpoints.push_back({"GET",  "/health",                    "Health check"});
+    endpoints.push_back({"GET",  "/health/live",              "Liveness probe"});
+    endpoints.push_back({"GET",  "/health/ready",             "Readiness probe"});
+    endpoints.push_back({"GET",  "/version",                  "Server version"});
+    endpoints.push_back({"GET",  "/stats",                    "Runtime statistics"});
+    endpoints.push_back({"GET",  "/metrics",                  "Prometheus metrics"});
+    endpoints.push_back({"GET",  "/metrics/html",             "Metrics HTML dashboard"});
+    endpoints.push_back({"GET",  "/api/openapi.json",         "OpenAPI 3.1 specification"});
+    endpoints.push_back({"GET",  "/api/capabilities",         "Server capabilities"});
+
+    // Observability (Q1)
+    endpoints.push_back({"GET",  "/api/v1/observability/alerts",            "Operator alerts"});
+    endpoints.push_back({"POST", "/api/v1/observability/alerts/{id}/silence", "Silence alert"});
+    endpoints.push_back({"GET",  "/api/v1/observability/health",            "Observability health"});
+    endpoints.push_back({"GET",  "/api/v1/license/status",                  "License status"});
+
+    // Entity API (CRUD)
+    endpoints.push_back({"GET",  "/entities/{key}",           "Retrieve entity"});
+    endpoints.push_back({"POST", "/entities",                 "Create entity"});
+    endpoints.push_back({"PUT",  "/entities/{key}",           "Upsert entity"});
+    endpoints.push_back({"DELETE", "/entities/{key}",         "Delete entity"});
+    endpoints.push_back({"POST", "/entities/batch",           "Batch create entities"});
+    endpoints.push_back({"POST", "/v2/documents",             "Bulk insert via NDJSON"});
+
+    // Query API
+    endpoints.push_back({"POST", "/query",                    "Structured query"});
+    endpoints.push_back({"POST", "/query/aql",                "AQL query"});
+    endpoints.push_back({"POST", "/api/aql",                  "AQL query (compat)"});
+    endpoints.push_back({"GET",  "/v2/query/stream",          "SSE streaming AQL results"});
+
+    // Index Management
+    endpoints.push_back({"POST", "/index/create",             "Create index"});
+    endpoints.push_back({"POST", "/index/drop",               "Drop index"});
+    endpoints.push_back({"GET",  "/index/stats",              "Index statistics"});
+    endpoints.push_back({"POST", "/index/rebuild",            "Rebuild index"});
+    endpoints.push_back({"POST", "/index/reindex",            "Reindex collection"});
+
+    // Spatial Index Management (G5)
+    endpoints.push_back({"POST", "/spatial/index/create",     "Create spatial index"});
+    endpoints.push_back({"POST", "/spatial/index/rebuild",    "Rebuild spatial index"});
+    endpoints.push_back({"GET",  "/spatial/index/stats",      "Spatial index statistics"});
+    endpoints.push_back({"GET",  "/spatial/metrics",          "Spatial metrics"});
+
+    // Graph API
+    endpoints.push_back({"POST", "/graph/traverse",           "Graph traverse"});
+    endpoints.push_back({"POST", "/graph/edge",               "Create graph edge"});
+    endpoints.push_back({"DELETE", "/graph/edge/{id}",        "Delete graph edge"});
+    endpoints.push_back({"GET",  "/api/v1/graph/metrics",     "Graph metrics"});
+    endpoints.push_back({"GET",  "/api/v1/graph/metrics/prometheus", "Graph metrics (Prometheus)"});
+    endpoints.push_back({"POST", "/graph/query/incremental",  "Register incremental query"});
+    endpoints.push_back({"DELETE", "/graph/query/incremental/{id}", "Unregister incremental query"});
+    endpoints.push_back({"POST", "/graph/changes",            "Get graph changes"});
+    endpoints.push_back({"POST", "/api/v1/graph/cost-model/calibrate", "Calibrate cost model"});
+    endpoints.push_back({"GET",  "/api/v1/graph/cost-model",  "Export cost model"});
+    endpoints.push_back({"POST", "/api/v1/graph/cost-model",  "Import cost model"});
+    endpoints.push_back({"POST", "/api/v1/graph/query/explain", "Explain query plan"});
+
+    // Vector API
+    endpoints.push_back({"POST", "/vector/search",            "Vector search"});
+    endpoints.push_back({"POST", "/vector/batch_insert",      "Batch insert vectors"});
+    endpoints.push_back({"DELETE", "/vector/by-filter",       "Delete vectors by filter"});
+    endpoints.push_back({"POST", "/vector/index/save",        "Save vector index"});
+    endpoints.push_back({"POST", "/vector/index/load",        "Load vector index"});
+    endpoints.push_back({"GET",  "/vector/index/config",      "Get vector index config"});
+    endpoints.push_back({"PUT",  "/vector/index/config",      "Update vector index config"});
+    endpoints.push_back({"GET",  "/vector/index/stats",       "Vector index statistics"});
+    endpoints.push_back({"POST", "/vector/index/incremental-reindex", "Incremental vector reindex"});
+
+    // RoPE API (Relative Position Encoding)
+    endpoints.push_back({"POST", "/api/v1/vector-index/{name}/rope/config",      "RoPE configuration"});
+    endpoints.push_back({"GET",  "/api/v1/vector-index/{name}/rope/config",      "Get RoPE config"});
+    endpoints.push_back({"DELETE", "/api/v1/vector-index/{name}/rope/config",    "Delete RoPE config"});
+    endpoints.push_back({"POST", "/api/v1/vector-index/{name}/rope/add",         "Add RoPE entries"});
+    endpoints.push_back({"POST", "/api/v1/vector-index/{name}/rope/add-relational", "Add relational RoPE"});
+    endpoints.push_back({"POST", "/api/v1/vector-index/{name}/rope/search",      "RoPE search"});
+    endpoints.push_back({"POST", "/api/v1/vector-index/{name}/rope/batch-add",   "Batch add RoPE entries"});
+    endpoints.push_back({"GET",  "/api/v1/vector-index/{name}/rope/stats",       "RoPE statistics"});
+
+    // Search API
+    endpoints.push_back({"POST", "/search/hybrid",            "Hybrid search (beta)"});
+    endpoints.push_back({"POST", "/search/fusion",            "Fusion search (beta)"});
+    endpoints.push_back({"POST", "/search/fulltext",          "Fulltext search"});
+
+    // Content Management
+    endpoints.push_back({"POST", "/content/import",           "Import content"});
+    endpoints.push_back({"GET",  "/content/{id}",             "Get content"});
+    endpoints.push_back({"GET",  "/content/{id}/blob",        "Get content blob"});
+    endpoints.push_back({"GET",  "/content/{id}/chunks",      "Get content chunks"});
+    endpoints.push_back({"PUT",    "/api/v1/content/fs/{pk}", "ContentFS: store binary blob"});
+    endpoints.push_back({"GET",    "/api/v1/content/fs/{pk}", "ContentFS: retrieve binary blob"});
+    endpoints.push_back({"HEAD",   "/api/v1/content/fs/{pk}", "ContentFS: blob metadata (no body)"});
+    endpoints.push_back({"DELETE", "/api/v1/content/fs/{pk}", "ContentFS: remove binary blob"});
+    endpoints.push_back({"GET",  "/config/content-filters",   "Get content filter schema"});
+    endpoints.push_back({"PUT",  "/config/content-filters",   "Update content filter schema"});
+    endpoints.push_back({"GET",  "/config/edge-weights",      "Get edge weight config"});
+    endpoints.push_back({"PUT",  "/config/edge-weights",      "Update edge weight config"});
+
+    // Encryption
+    endpoints.push_back({"GET",  "/config/encryption-schema", "Get encryption schema"});
+    endpoints.push_back({"PUT",  "/config/encryption-schema", "Update encryption schema"});
+
+    // Transaction API
+    endpoints.push_back({"POST", "/transaction",              "Begin transaction"});
+    endpoints.push_back({"POST", "/transaction/begin",        "Begin transaction (explicit)"});
+    endpoints.push_back({"POST", "/transaction/commit",       "Commit transaction"});
+    endpoints.push_back({"POST", "/transaction/rollback",     "Rollback transaction"});
+    endpoints.push_back({"GET",  "/transaction/stats",        "Transaction statistics"});
+    endpoints.push_back({"GET",  "/transaction/version",      "Transaction version"});
+    endpoints.push_back({"GET",  "/transaction/{id}/explain", "Explain transaction"});
+
+    // Distributed Transaction (2PC)
+    endpoints.push_back({"POST", "/dtxn/begin",               "Begin distributed transaction"});
+    endpoints.push_back({"POST", "/dtxn/operation",           "Execute distributed operation"});
+    endpoints.push_back({"POST", "/dtxn/commit",              "Commit distributed transaction"});
+    endpoints.push_back({"POST", "/dtxn/abort",               "Abort distributed transaction"});
+    endpoints.push_back({"POST", "/dtxn/readonly",            "Read-only distributed query"});
+    endpoints.push_back({"GET",  "/dtxn/status/{id}",         "Distributed transaction status"});
+    endpoints.push_back({"GET",  "/dtxn/stats",               "Distributed transaction statistics"});
+
+    // WAL API (Replication)
+    endpoints.push_back({"POST", "/api/v1/wal/apply",         "Apply WAL entries"});
+
+    // Admin API
+    endpoints.push_back({"POST", "/admin/backup",             "Backup database"});
+    endpoints.push_back({"POST", "/admin/restore",            "Restore database"});
+    endpoints.push_back({"POST", "/v1/admin/shards",          "Add shard node"});
+    endpoints.push_back({"GET",  "/v1/admin/shards",          "List shard nodes"});
+    endpoints.push_back({"GET",  "/v1/admin/storage/stats",   "Storage statistics"});
+    endpoints.push_back({"GET",  "/v1/admin/repair/health",       "Shard repair health & metrics"});
+    endpoints.push_back({"POST", "/v1/admin/repair",              "Trigger shard repair job"});
+    endpoints.push_back({"POST", "/v1/admin/repair/scan",         "Trigger full shard scan"});
+    endpoints.push_back({"GET",  "/v1/admin/repair/jobs/{job_id}","Shard repair job status"});
+    endpoints.push_back({"GET",  "/v1/admin/repair/dashboard",    "Shard repair dashboard (HTML)"});
+    endpoints.push_back({"GET",  "/v1/admin/modules",              "List loaded modules"});
+    endpoints.push_back({"POST", "/v1/admin/modules/{name}/load",  "Load module by path (admin)"});
+    endpoints.push_back({"DELETE","/v1/admin/modules/{name}",      "Unload module (admin)"});
+    endpoints.push_back({"GET",  "/v1/admin/modules/{name}",       "Module status (admin)"});
+
+    // Config & Utilities
+    endpoints.push_back({"GET",  "/config",                   "Get configuration"});
+    endpoints.push_back({"POST", "/config",                   "Set configuration"});
+
+    // ========== FEATURE-CONDITIONAL ENDPOINTS ==========
+
+    // Semantic Cache (Sprint A)
+    if (config_.feature_semantic_cache) {
+        endpoints.push_back({"POST", "/cache/query",          "Semantic cache lookup (beta)"});
+        endpoints.push_back({"POST", "/cache/put",            "Semantic cache store (beta)"});
+        endpoints.push_back({"GET",  "/cache/stats",          "Cache statistics (beta)"});
+        endpoints.push_back({"GET",  "/v1/admin/cache/health", "Cache health (admin)"});
+        endpoints.push_back({"GET",  "/v1/admin/cache/stats",  "Cache stats (admin)"});
+        endpoints.push_back({"DELETE", "/v1/admin/cache/key/{key}", "Evict cache key (admin)"});
+        endpoints.push_back({"DELETE", "/v1/admin/cache/tenant/{id}", "Evict tenant cache (admin)"});
+        endpoints.push_back({"POST", "/v1/admin/cache/circuit-breaker/reset", "Reset circuit breaker (admin)"});
+        endpoints.push_back({"GET",  "/v1/admin/cache/circuit-breaker", "Circuit breaker status (admin)"});
+        endpoints.push_back({"POST", "/v1/admin/cache/warmup",  "Warmup cache (admin)"});
+        endpoints.push_back({"POST", "/v1/admin/cache/snapshot", "Snapshot cache (admin)"});
+        endpoints.push_back({"GET",  "/v1/admin/cache/tenants", "List tenants (admin)"});
+        endpoints.push_back({"GET",  "/v1/admin/cache/tenant/{id}/stats", "Tenant stats (admin)"});
+        endpoints.push_back({"PATCH", "/v1/admin/cache/tenant/{id}/quota", "Update tenant quota (admin)"});
+        endpoints.push_back({"DELETE", "/v1/admin/cache/pii/{uuid}", "Evict PII from cache (admin)"});
+    }
+
+    // LLM Interaction Store (Sprint A)
+    if (config_.feature_llm_store) {
+        endpoints.push_back({"POST", "/llm/interaction",        "Store LLM interaction"});
+        endpoints.push_back({"GET",  "/llm/interaction",        "List LLM interactions"});
+        endpoints.push_back({"GET",  "/llm/interaction/{id}",   "Get LLM interaction"});
+        endpoints.push_back({"PATCH", "/llm/interaction/{id}",  "Update LLM metadata"});
+        endpoints.push_back({"POST", "/query/enhanced",         "Enhanced query with LLM"});
+    }
+
+    // Prompt Template Management
+    endpoints.push_back({"POST", "/prompt_template",          "Create prompt template"});
+    endpoints.push_back({"GET",  "/prompt_template",          "List prompt templates"});
+    endpoints.push_back({"GET",  "/prompt_template/{id}",     "Get prompt template"});
+    endpoints.push_back({"PUT",  "/prompt_template/{id}",     "Update prompt template"});
+
+    // Changefeed / CDC (Sprint A)
+    if (config_.feature_cdc) {
+        endpoints.push_back({"GET",  "/changefeed",            "Get changefeed events"});
+        endpoints.push_back({"GET",  "/changefeed/stream",     "Stream CDC events (SSE)"});
+        endpoints.push_back({"POST", "/changefeed/stream/ack", "Acknowledge CDC events"});
+        endpoints.push_back({"GET",  "/changefeed/stats",      "CDC statistics"});
+        endpoints.push_back({"POST", "/changefeed/retention",  "Configure CDC retention"});
+        endpoints.push_back({"GET",  "/changefeed/retention",  "Get CDC retention config"});
+        endpoints.push_back({"PUT",  "/changefeed/retention",  "Update CDC retention config"});
+        endpoints.push_back({"POST", "/changefeed/compact",    "Compact changefeed"});
+        endpoints.push_back({"POST", "/changefeed/redact",     "GDPR redact changefeed"});
+
+        // Snapshots (Named Snapshots - MVCC Phase 3)
+        endpoints.push_back({"POST", "/api/v1/snapshots/tags",  "Create named snapshot"});
+        endpoints.push_back({"GET",  "/api/v1/snapshots/tags",  "List named snapshots"});
+        endpoints.push_back({"GET",  "/api/v1/snapshots/tags/{name}", "Get named snapshot"});
+        endpoints.push_back({"DELETE", "/api/v1/snapshots/tags/{name}", "Delete named snapshot"});
+        endpoints.push_back({"GET",  "/api/v1/snapshots/stats", "Snapshot statistics"});
+
+        // Diff API (Phase 2 MVCC)
+        endpoints.push_back({"GET",  "/api/v1/diff",            "Get record diff"});
+        endpoints.push_back({"GET",  "/api/v1/diff/cache/stats", "Diff cache stats"});
+        endpoints.push_back({"DELETE", "/api/v1/diff/cache",    "Clear diff cache"});
+
+        // PITR API (Point-in-Time Recovery - Phase 3 MVCC)
+        endpoints.push_back({"POST", "/api/v1/restore/pitr",   "Restore from PITR"});
+        endpoints.push_back({"POST", "/api/v1/restore/preview", "Preview PITR restore"});
+        endpoints.push_back({"GET",  "/api/v1/restore/progress", "PITR restore progress"});
+
+        // Branch API (Phase 4 MVCC)
+        endpoints.push_back({"POST", "/api/v1/branches",        "Create branch"});
+        endpoints.push_back({"GET",  "/api/v1/branches",        "List branches"});
+        endpoints.push_back({"GET",  "/api/v1/branches/active", "Get active branch"});
+        endpoints.push_back({"GET",  "/api/v1/branches/stats",  "Branch statistics"});
+        endpoints.push_back({"GET",  "/api/v1/branches/{name}", "Get branch"});
+        endpoints.push_back({"POST", "/api/v1/branches/{name}/switch", "Switch branch"});
+        endpoints.push_back({"DELETE", "/api/v1/branches/{name}", "Delete branch"});
+        endpoints.push_back({"POST", "/api/v1/branches/merge",  "Merge branches"});
+
+        // Merge API (Phase 5 MVCC - 3-Way Merge)
+        endpoints.push_back({"POST", "/api/v1/merge",           "Merge snapshots"});
+        endpoints.push_back({"POST", "/api/v1/merge/preview",   "Preview merge"});
+        endpoints.push_back({"POST", "/api/v1/merge/by-tag",    "Merge by tag"});
+        endpoints.push_back({"GET",  "/api/v1/merge/can-fast-forward", "Check fast-forward merge"});
+
+        // MVCC API
+        endpoints.push_back({"GET",  "/api/v1/mvcc/keys/{key}", "Get key versions"});
+        endpoints.push_back({"POST", "/api/v1/mvcc/keys/{key}", "Put versioned key"});
+        endpoints.push_back({"GET",  "/api/v1/mvcc/keys/{key}/versions", "Get version history"});
+        endpoints.push_back({"DELETE", "/api/v1/mvcc/keys/{key}/versions", "Delete versions"});
+        endpoints.push_back({"GET",  "/api/v1/mvcc/clock",      "Get HLC timestamp"});
+        endpoints.push_back({"GET",  "/api/v1/mvcc/stats",      "MVCC statistics"});
+    }
+
+    // Time-Series Store (Sprint B)
+    if (config_.feature_timeseries) {
+        endpoints.push_back({"POST", "/ts/put",                "Store time-series data"});
+        endpoints.push_back({"POST", "/ts/query",              "Query time-series (beta)"});
+        endpoints.push_back({"POST", "/ts/aggregate",          "Aggregate time-series (beta)"});
+        endpoints.push_back({"GET",  "/ts/config",             "Get time-series config"});
+        endpoints.push_back({"PUT",  "/ts/config",             "Update time-series config"});
+        endpoints.push_back({"GET",  "/ts/aggregates",         "List aggregates"});
+        endpoints.push_back({"GET",  "/ts/retention",          "Get retention policy"});
+        endpoints.push_back({"GET",  "/ts/metrics",            "Time-series metrics"});
+        endpoints.push_back({"POST", "/api/v1/prom/write",     "Prometheus remote write"});
+    }
+
+    // PII Manager
+    if (config_.feature_pii_manager) {
+        endpoints.push_back({"GET",  "/pii",                   "List PII bindings"});
+        endpoints.push_back({"POST", "/pii",                   "Create PII binding"});
+        endpoints.push_back({"GET",  "/pii/{uuid}",            "Get PII by UUID"});
+        endpoints.push_back({"DELETE", "/pii/{uuid}",          "Delete PII binding"});
+        endpoints.push_back({"GET",  "/pii/reveal/{uuid}",     "Reveal PII value"});
+        endpoints.push_back({"GET",  "/pii/export.csv",        "Export PII (CSV)"});
+    }
+
+    // Update Checker
+    if (config_.feature_update_checker) {
+        endpoints.push_back({"GET",  "/api/updates",           "Get update status"});
+        endpoints.push_back({"POST", "/api/updates/check",     "Check for updates"});
+        endpoints.push_back({"GET",  "/api/updates/config",    "Get update config"});
+        endpoints.push_back({"PUT",  "/api/updates/config",    "Update update config"});
+    }
+
+    // ========== OPTIONAL/CONDITIONAL ENDPOINTS ==========
+
+    // SAML Support (if configured)
+    if (saml_provider_ != nullptr) {
+        endpoints.push_back({"GET",  "/api/v1/auth/saml/login",    "SAML login initiator"});
+        endpoints.push_back({"POST", "/api/v1/auth/saml/acs",      "SAML assertion consumer"});
+        endpoints.push_back({"POST", "/api/v1/auth/saml/slo",      "SAML logout"});
+        endpoints.push_back({"GET",  "/api/v1/auth/saml/metadata", "SAML metadata"});
+    }
+
+    // PKI API
+    endpoints.push_back({"POST", "/api/pki/{key_id}/sign",     "Sign with PKI key"});
+    endpoints.push_back({"POST", "/api/pki/{key_id}/verify",   "Verify PKI signature"});
+    endpoints.push_back({"POST", "/api/pki/hsm/sign",          "HSM sign"});
+    endpoints.push_back({"GET",  "/api/pki/hsm/keys",          "List HSM keys"});
+    endpoints.push_back({"POST", "/api/pki/timestamp",         "Create TSA timestamp"});
+    endpoints.push_back({"POST", "/api/pki/timestamp/verify",  "Verify TSA timestamp"});
+    endpoints.push_back({"POST", "/api/pki/eidas/sign",        "eIDAS sign"});
+    endpoints.push_back({"POST", "/api/pki/eidas/verify",      "eIDAS verify"});
+    endpoints.push_back({"GET",  "/api/pki/certificates",      "List certificates"});
+    endpoints.push_back({"GET",  "/api/pki/certificates/{id}", "Get certificate"});
+    endpoints.push_back({"GET",  "/api/pki/status",            "PKI status"});
+
+    // Keys Management
+    endpoints.push_back({"GET",  "/keys",                      "List keys"});
+    endpoints.push_back({"POST", "/keys/rotate",               "Rotate keys"});
+
+    // Classification & Reports
+    endpoints.push_back({"GET",  "/classification/rules",      "Classification rules"});
+    endpoints.push_back({"POST", "/classification/test",       "Test classification"});
+    endpoints.push_back({"GET",  "/reports/compliance",        "Compliance report"});
+
+    // Policies (Ranger integration)
+    endpoints.push_back({"POST", "/policies/import/ranger",    "Import Ranger policies"});
+    endpoints.push_back({"GET",  "/policies/export/ranger",    "Export Ranger policies"});
+
+    // Audit API
+    endpoints.push_back({"GET",  "/api/audit",                 "Query audit logs"});
+    endpoints.push_back({"GET",  "/api/audit/export/csv",      "Export audit logs (CSV)"});
+
+    // Export API (EXP-001)
+    endpoints.push_back({"POST", "/api/v1/export/jsonl_llm",   "Export to JSONL for LLM"});
+    endpoints.push_back({"GET",  "/api/v1/export/{id}/status", "Export job status"});
+
+    // API Key Management
+    endpoints.push_back({"POST", "/api/keys",                  "Create API key"});
+    endpoints.push_back({"GET",  "/api/keys",                  "List API keys"});
+    endpoints.push_back({"GET",  "/api/keys/{id}",             "Get API key"});
+    endpoints.push_back({"PUT",  "/api/keys/{id}",             "Update API key"});
+    endpoints.push_back({"DELETE", "/api/keys/{id}",           "Delete API key"});
+
+    // Session Management
+    endpoints.push_back({"POST", "/auth/sessions",             "Create session"});
+    endpoints.push_back({"GET",  "/auth/sessions",             "List sessions"});
+    endpoints.push_back({"DELETE", "/auth/sessions/{id}",      "Delete session"});
+    endpoints.push_back({"DELETE", "/auth/sessions",           "Revoke all other sessions"});
+
+    // UDF (User-Defined Functions)
+    endpoints.push_back({"POST", "/api/v1/query/udfs",         "Register UDF"});
+    endpoints.push_back({"GET",  "/api/v1/query/udfs",         "List UDFs"});
+    endpoints.push_back({"GET",  "/api/v1/query/udfs/{name}",  "Get UDF"});
+    endpoints.push_back({"DELETE", "/api/v1/query/udfs/{name}", "Delete UDF"});
+
+    // GraphQL
+    endpoints.push_back({"POST", "/graphql",                   "GraphQL query"});
+    endpoints.push_back({"POST", "/api/v1/graphql",            "GraphQL query (v1)"});
+    endpoints.push_back({"GET",  "/graphql/schema",            "GraphQL schema"});
+    endpoints.push_back({"GET",  "/api/v1/graphql/schema",     "GraphQL schema (v1)"});
+
+    // gRPC-Web Proxy
+    endpoints.push_back({"POST", "/grpc-web/{service}/{method}", "gRPC-Web call"});
+    endpoints.push_back({"OPTIONS", "/grpc-web/{service}/{method}", "gRPC-Web CORS"});
+    endpoints.push_back({"GET",  "/api/v1/grpc-web/status",    "gRPC-Web status"});
+
+    // Serverless Functions
+    endpoints.push_back({"POST", "/api/v1/functions",          "Deploy function"});
+    endpoints.push_back({"GET",  "/api/v1/functions",          "List functions"});
+    endpoints.push_back({"GET",  "/api/v1/functions/{id}",     "Get function"});
+    endpoints.push_back({"PUT",  "/api/v1/functions/{id}",     "Update function"});
+    endpoints.push_back({"DELETE", "/api/v1/functions/{id}",   "Delete function"});
+    endpoints.push_back({"POST", "/api/v1/functions/{id}/invoke", "Invoke function"});
+    endpoints.push_back({"GET",  "/api/v1/functions/{id}/versions", "List function versions"});
+
+    // Async Jobs
+    endpoints.push_back({"POST", "/v2/jobs",                   "Submit async job"});
+    endpoints.push_back({"GET",  "/v2/jobs",                   "List async jobs"});
+    endpoints.push_back({"GET",  "/v2/jobs/{id}",              "Get job status"});
+    endpoints.push_back({"DELETE", "/v2/jobs/{id}",            "Cancel job"});
+
+    // Task Scheduler
+    endpoints.push_back({"POST", "/api/tasks",                 "Create scheduled task"});
+    endpoints.push_back({"GET",  "/api/tasks",                 "List scheduled tasks"});
+    endpoints.push_back({"GET",  "/api/tasks/stats",           "Task scheduler stats"});
+    endpoints.push_back({"GET",  "/api/tasks/{id}",            "Get task"});
+    endpoints.push_back({"PUT",  "/api/tasks/{id}",            "Update task"});
+    endpoints.push_back({"DELETE", "/api/tasks/{id}",          "Delete task"});
+    endpoints.push_back({"POST", "/api/tasks/{id}/enable",     "Enable task"});
+    endpoints.push_back({"POST", "/api/tasks/{id}/disable",    "Disable task"});
+    endpoints.push_back({"POST", "/api/tasks/{id}/execute",    "Execute task now"});
+    endpoints.push_back({"GET",  "/api/tasks/{id}/history",    "Task execution history"});
+    endpoints.push_back({"GET",  "/ui/tasks",                  "Tasks web UI"});
+
+    // Database Maintenance
+    endpoints.push_back({"POST", "/api/v1/maintenance/schedules", "Create maintenance schedule"});
+    endpoints.push_back({"GET",  "/api/v1/maintenance/schedules", "List maintenance schedules"});
+    endpoints.push_back({"GET",  "/api/v1/maintenance/schedules/{id}", "Get maintenance schedule"});
+    endpoints.push_back({"PUT",  "/api/v1/maintenance/schedules/{id}", "Update maintenance schedule"});
+    endpoints.push_back({"PATCH", "/api/v1/maintenance/schedules/{id}", "Patch maintenance schedule"});
+    endpoints.push_back({"DELETE", "/api/v1/maintenance/schedules/{id}", "Delete maintenance schedule"});
+    endpoints.push_back({"POST", "/api/v1/maintenance/schedules/{id}/run", "Run maintenance now"});
+    endpoints.push_back({"GET",  "/api/v1/maintenance/jobs",   "List maintenance jobs"});
+    endpoints.push_back({"GET",  "/api/v1/maintenance/jobs/{id}", "Get maintenance job"});
+    endpoints.push_back({"POST", "/api/v1/maintenance/jobs/{id}/cancel", "Cancel maintenance job"});
+    endpoints.push_back({"GET",  "/api/v1/maintenance/status", "Maintenance status"});
+    endpoints.push_back({"GET",  "/api/v1/maintenance/health", "Maintenance health"});
+    endpoints.push_back({"GET",  "/api/v1/maintenance/task-handlers", "Available task handlers"});
+
+    // Schema API
+    endpoints.push_back({"GET",  "/api/v1/schema",             "Get full schema"});
+    endpoints.push_back({"GET",  "/api/v1/schema/tables",      "List tables"});
+    endpoints.push_back({"GET",  "/api/v1/schema/tables/{name}", "Get table schema"});
+    endpoints.push_back({"PUT",  "/api/v1/schema/{table}",     "Update table schema"});
+    endpoints.push_back({"PATCH", "/api/v1/schema/{table}",    "Patch table schema"});
+    endpoints.push_back({"GET",  "/api/v1/schema/versions/{table}", "Get schema versions"});
+    endpoints.push_back({"POST", "/api/v1/schema/versions/{table}", "Create schema version"});
+    endpoints.push_back({"GET",  "/api/v1/schema/diff/{table}", "Compare schema versions"});
+    endpoints.push_back({"GET",  "/api/v1/information_schema", "INFORMATION_SCHEMA"});
+    endpoints.push_back({"GET",  "/api/v1/metadata/stats/{table}", "Table statistics"});
+    endpoints.push_back({"POST", "/api/v1/metadata/stats/{table}", "Update statistics"});
+    endpoints.push_back({"GET",  "/api/v1/metadata/constraints/{table}", "Table constraints"});
+    endpoints.push_back({"GET",  "/api/v1/metadata/index_recommendations", "Index recommendations"});
+    endpoints.push_back({"GET",  "/api/v1/metadata/audit",     "Metadata audit log"});
+    endpoints.push_back({"GET",  "/api/v1/metadata/lineage/{table}", "Column lineage"});
+    endpoints.push_back({"POST", "/api/v1/metadata/lineage",   "Track column lineage"});
+    endpoints.push_back({"PUT",  "/api/v1/metadata/schema_import", "Import schema"});
+    endpoints.push_back({"POST", "/api/v1/metadata/constraints/validate/{table}", "Validate constraints"});
+
+    // Error API
+    endpoints.push_back({"GET",  "/api/v1/errors",             "List error codes"});
+    endpoints.push_back({"GET",  "/api/v1/errors/{code}",      "Get error documentation"});
+    endpoints.push_back({"GET",  "/api/v1/errors/categories",  "Error categories"});
+    endpoints.push_back({"GET",  "/api/v1/errors/search",      "Search errors"});
+
+    // BPMN Process Management
+    endpoints.push_back({"POST", "/api/v1/bpmn/process/start", "Start BPMN process"});
+    endpoints.push_back({"POST", "/api/v1/bpmn/task/{id}/complete", "Complete BPMN task"});
+    endpoints.push_back({"GET",  "/api/v1/bpmn/instance/{id}", "Get BPMN instance"});
+
+    // Geo Topology
+    endpoints.push_back({"GET",  "/api/v1/geo/topology",       "Geo topology"});
+    endpoints.push_back({"GET",  "/api/v1/geo/regions",        "List regions"});
+    endpoints.push_back({"GET",  "/api/v1/geo/health",         "Geo health"});
+    endpoints.push_back({"POST", "/api/v1/geo/topology/shard", "Add shard to topology"});
+    endpoints.push_back({"DELETE", "/api/v1/geo/topology/shard/{id}", "Remove shard from topology"});
+    endpoints.push_back({"GET",  "/api/v1/geo/config/{collection}", "Get geo config"});
+    endpoints.push_back({"PUT",  "/api/v1/geo/config/{collection}", "Update geo config"});
+
+    // Replication Topology
+    endpoints.push_back({"GET",  "/api/v1/replication/topology", "Replication topology"});
+    endpoints.push_back({"GET",  "/api/v1/replication/health",   "Replication health"});
+    endpoints.push_back({"GET",  "/ui/replication/topology",     "Replication topology UI"});
+
+    // Feedback API
+    endpoints.push_back({"POST", "/api/feedback",              "Submit feedback"});
+    endpoints.push_back({"GET",  "/api/feedback",              "List feedback"});
+    endpoints.push_back({"GET",  "/api/feedback/{id}",         "Get feedback"});
+    endpoints.push_back({"PUT",  "/api/feedback/{id}",         "Update feedback"});
+    endpoints.push_back({"DELETE", "/api/feedback/{id}",       "Delete feedback"});
+    endpoints.push_back({"GET",  "/api/feedback/adapter/{adapter_id}", "Get feedback adapter"});
+    endpoints.push_back({"GET",  "/api/feedback/stats",        "Feedback statistics"});
+
+    // Retention Policy Admin API
+    endpoints.push_back({"GET",    "/api/retention/policies",          "List retention policies"});
+    endpoints.push_back({"POST",   "/api/retention/policies",          "Create/update retention policy"});
+    endpoints.push_back({"DELETE", "/api/retention/policies/{name}",   "Delete retention policy"});
+    endpoints.push_back({"GET",    "/api/retention/history",           "Retention action history"});
+
+    // SAGA Audit Log API
+    endpoints.push_back({"GET",  "/api/saga/batches",                  "List SAGA audit batches"});
+    endpoints.push_back({"GET",  "/api/saga/batches/{id}",             "Get SAGA batch detail"});
+    endpoints.push_back({"POST", "/api/saga/batches/{id}/verify",      "Verify SAGA batch signature"});
+    endpoints.push_back({"POST", "/api/saga/flush",                    "Flush current SAGA batch"});
+
+    // Sort by path for consistent, reproducible output
+    std::sort(endpoints.begin(), endpoints.end(),
+        [](const RegisteredEndpoint& a, const RegisteredEndpoint& b) {
+            if (a.path != b.path) return a.path < b.path;
+            // Secondary sort by method for same path
+            return a.method < b.method;
+        });
+
+    return endpoints;
+}
+
+// ============================================================================
 // Error API handlers
 http::response<http::string_body> HttpServer::handleErrorApiList(
     const http::request<http::string_body>& req
@@ -10734,6 +12326,179 @@ http::response<http::string_body> HttpServer::handleMetadataRecordLineageDerivat
             "Schema API not available", req);
     }
     return schema_api_handler_->handleRecordLineageDerivation(req);
+}
+
+// ── ContentFS HTTP handlers ─────────────────────────────────────────────────
+// These wrap ContentFS (binary blob storage) over HTTP:
+//   PUT    /api/v1/content/fs/{pk}  — store blob (body = raw bytes, Content-Type header used as MIME)
+//   GET    /api/v1/content/fs/{pk}  — retrieve blob
+//   HEAD   /api/v1/content/fs/{pk}  — metadata only (no body)
+//   DELETE /api/v1/content/fs/{pk}  — remove blob
+
+static std::string extractContentFsPk(const http::request<http::string_body>& req) {
+    std::string path = std::string(req.target());
+    auto qpos = path.find('?');
+    if (qpos != std::string::npos) path = path.substr(0, qpos);
+    // prefix is "/api/v1/content/fs/"  (19 chars)
+    if (path.size() > 19) return path.substr(19);
+    return {};
+}
+
+http::response<http::string_body> HttpServer::handleContentFsPut(
+    const http::request<http::string_body>& req)
+{
+    if (!content_fs_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "ContentFS not initialized", req);
+    }
+    const std::string pk = extractContentFsPk(req);
+    if (pk.empty()) {
+        return makeErrorResponse(http::status::bad_request,
+            "ContentFS: pk (resource key) must not be empty", req);
+    }
+    const std::string body_str = req.body();
+    const std::vector<uint8_t> data(body_str.begin(), body_str.end());
+    std::string mime = std::string(req[http::field::content_type]);
+    if (mime.empty()) mime = "application/octet-stream";
+
+    // Optional SHA-256 hint via X-Content-SHA256 header
+    std::optional<std::string> sha256_hint;
+    const auto sha_hdr = req.find("X-Content-SHA256");
+    if (sha_hdr != req.end() && !sha_hdr->value().empty()) {
+        sha256_hint = std::string(sha_hdr->value());
+    }
+
+    auto result = content_fs_->put(pk, data, mime, sha256_hint);
+    if (!result) {
+        const bool bad_req = (result.error().code() == errors::ErrorCode::ERR_API_INVALID_REQUEST);
+        return makeErrorResponse(
+            bad_req ? http::status::bad_request : http::status::internal_server_error,
+            result.error().message(), req);
+    }
+
+    json body = {{"pk", pk}, {"size", data.size()}, {"mime", mime}};
+    if (sha256_hint) body["sha256"] = *sha256_hint;
+    return makeResponse(http::status::created, body.dump(), req);
+}
+
+http::response<http::string_body> HttpServer::handleContentFsGet(
+    const http::request<http::string_body>& req)
+{
+    if (!content_fs_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "ContentFS not initialized", req);
+    }
+    const std::string pk = extractContentFsPk(req);
+    if (pk.empty()) {
+        return makeErrorResponse(http::status::bad_request,
+            "ContentFS: pk (resource key) must not be empty", req);
+    }
+
+    // Range support via standard Range header (bytes=offset-end)
+    const auto range_hdr = req.find(http::field::range);
+    if (range_hdr != req.end()) {
+        uint64_t offset = 0, length = 0;
+        // Parse "bytes=<offset>-<end>" (best-effort)
+        std::string rv = std::string(range_hdr->value());
+        if (rv.rfind("bytes=", 0) == 0) {
+            rv = rv.substr(6);
+            auto dash = rv.find('-');
+            if (dash != std::string::npos) {
+                try { offset = std::stoull(rv.substr(0, dash)); } catch (...) {}
+                if (dash + 1 < rv.size()) {
+                    try {
+                        uint64_t end_pos = std::stoull(rv.substr(dash + 1));
+                        length = (end_pos >= offset) ? (end_pos - offset + 1) : 0;
+                    } catch (...) {}
+                }
+            }
+        }
+        auto result = content_fs_->getRange(pk, offset, length);
+        if (!result) {
+            const bool not_found = (result.error().code() == errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND);
+            return makeErrorResponse(
+                not_found ? http::status::not_found : http::status::internal_server_error,
+                result.error().message(), req);
+        }
+        const auto& data = result.value();
+        http::response<http::string_body> resp{http::status::partial_content, req.version()};
+        resp.set(http::field::server, "ThemisDB");
+        resp.set(http::field::content_type, "application/octet-stream");
+        resp.body() = std::string(data.begin(), data.end());
+        resp.prepare_payload();
+        return resp;
+    }
+
+    auto result = content_fs_->get(pk);
+    if (!result) {
+        const bool not_found = (result.error().code() == errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND);
+        return makeErrorResponse(
+            not_found ? http::status::not_found : http::status::internal_server_error,
+            result.error().message(), req);
+    }
+    const auto& data = result.value();
+    // Retrieve MIME via head() for correct Content-Type
+    auto meta_result = content_fs_->head(pk);
+    std::string mime = "application/octet-stream";
+    if (meta_result) mime = meta_result.value().mime;
+
+    http::response<http::string_body> resp{http::status::ok, req.version()};
+    resp.set(http::field::server, "ThemisDB");
+    resp.set(http::field::content_type, mime);
+    resp.body() = std::string(data.begin(), data.end());
+    resp.prepare_payload();
+    return resp;
+}
+
+http::response<http::string_body> HttpServer::handleContentFsHead(
+    const http::request<http::string_body>& req)
+{
+    if (!content_fs_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "ContentFS not initialized", req);
+    }
+    const std::string pk = extractContentFsPk(req);
+    if (pk.empty()) {
+        return makeErrorResponse(http::status::bad_request,
+            "ContentFS: pk (resource key) must not be empty", req);
+    }
+    auto result = content_fs_->head(pk);
+    if (!result) {
+        const bool not_found = (result.error().code() == errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND);
+        return makeErrorResponse(
+            not_found ? http::status::not_found : http::status::internal_server_error,
+            result.error().message(), req);
+    }
+    const auto& meta = result.value();
+    http::response<http::string_body> resp{http::status::ok, req.version()};
+    resp.set(http::field::server, "ThemisDB");
+    resp.set(http::field::content_type, meta.mime);
+    resp.set(http::field::content_length, std::to_string(meta.size));
+    resp.set("X-Content-SHA256", meta.sha256_hex);
+    resp.prepare_payload();
+    return resp;
+}
+
+http::response<http::string_body> HttpServer::handleContentFsDelete(
+    const http::request<http::string_body>& req)
+{
+    if (!content_fs_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "ContentFS not initialized", req);
+    }
+    const std::string pk = extractContentFsPk(req);
+    if (pk.empty()) {
+        return makeErrorResponse(http::status::bad_request,
+            "ContentFS: pk (resource key) must not be empty", req);
+    }
+    auto result = content_fs_->remove(pk);
+    if (!result) {
+        const bool not_found = (result.error().code() == errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND);
+        return makeErrorResponse(
+            not_found ? http::status::not_found : http::status::internal_server_error,
+            result.error().message(), req);
+    }
+    return makeResponse(http::status::no_content, "", req);
 }
 
 } // namespace server

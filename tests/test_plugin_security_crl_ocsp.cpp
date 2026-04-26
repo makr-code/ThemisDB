@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_plugin_security_crl_ocsp.cpp                  ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:31:15                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:55:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     667                                            ║
+    • Total Lines:     680                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
-    • b89c76ed9  2026-03-16  feat(test): add signature-invalid test cases for CRL/OCSP... ║
-    • e4976f04e  2026-03-16  feat(acceleration): implement CRL/OCSP certificate revoca... ║
+    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
+    • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

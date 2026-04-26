@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_job_api_handler.cpp                          ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:19:40                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:50:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     532                                            ║
+    • Total Lines:     529                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • bc826baaf  2026-03-17  fix(server): address review comments - namespace, deadloc... ║
-    • ec399a541  2026-03-16  Changes before error encountered         ║
-    • 4b3823144  2026-03-16  Changes before error encountered         ║
-    • a56ed533e  2026-03-11  fix(tracing): remove spans from helper/utility methods (o... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -226,8 +223,7 @@ AsyncJobApiHandler::~AsyncJobApiHandler() {
     for (auto& f : to_join) {
         if (f.valid()) {
             // Wait up to 2 s; if the job is stuck the thread is detached.
-            auto status = f.wait_for(std::chrono::seconds(2));
-            (void)status;
+            f.wait_for(std::chrono::seconds(2));
         }
     }
 }

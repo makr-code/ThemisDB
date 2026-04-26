@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            format_template.h                                  ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:07:10                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:44:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     212                                            ║
+    • Total Lines:     210                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a765a0369  2026-03-11  feat(exporters): add validate_template dry-run mode to ve... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 47062c4ec  2026-02-28  Implement Alpaca, ShareGPT, ChatML, and OpenAI instructio... ║
+    • a765a03691  2026-03-11  feat(exporters): add validate_template dry-run mode to ve... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

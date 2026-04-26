@@ -1,0 +1,211 @@
+# =============================================================================
+# ThemisDB Multi-SSD Configuration Example
+# =============================================================================
+#
+# This configuration demonstrates optimal setup for multi-SSD systems
+# to maximize throughput while maintaining data durability.
+#
+# Scenario: High-performance server with 6x NVMe SSDs
+# - 1x dedicated SSD for WAL (fastest, lowest latency)
+# - 5x SSDs for distributed SSTables (high throughput)
+#
+# Expected Performance:
+# - Write Throughput: ~400-500 MB/s (3-4x single SSD)
+# - Read Throughput: ~2500-3000 MB/s (3-4x single SSD)
+# - P99 Latency: <10ms
+#
+# =============================================================================
+
+# =============================================================================
+# STORAGE CONFIGURATION
+# =============================================================================
+storage:
+  # Main database path (first SSD in array)
+  rocksdb_path: "/mnt/nvme0/themisdb"
+  
+  # WAL on dedicated high-speed SSD
+  # This SSD should be:
+  # - Fastest NVMe available (Gen4+)
+  # - Lowest latency (<100µs)
+  # - Over-provisioned (20%+) for better wear leveling
+  wal_dir: "/mnt/nvme_wal/themisdb_wal"
+  
+  # Distribute SSTables across multiple SSDs
+  # RocksDB will automatically balance data across these paths
+  db_paths:
+    - path: "/mnt/nvme0/themisdb"
+      target_size_bytes: 1099511627776  # 1 TB
+    - path: "/mnt/nvme1/themisdb"
+      target_size_bytes: 1099511627776  # 1 TB
+    - path: "/mnt/nvme2/themisdb"
+      target_size_bytes: 1099511627776  # 1 TB
+    - path: "/mnt/nvme3/themisdb"
+      target_size_bytes: 1099511627776  # 1 TB
+    - path: "/mnt/nvme4/themisdb"
+      target_size_bytes: 1099511627776  # 1 TB
+  
+  # ---------------------------------------------------------------------------
+  # Memory Configuration (optimized for multi-SSD)
+  # ---------------------------------------------------------------------------
+  
+  # Larger memtables to reduce flush frequency
+  memtable_size_mb: 512
+  
+  # Large block cache for read performance
+  block_cache_size_mb: 4096  # 4 GB
+  
+  # 64 shards for better concurrency with many SSDs
+  block_cache_shard_bits: 6
+  
+  # Cache index/filter blocks for faster access
+  cache_index_and_filter_blocks: true
+  pin_l0_filter_and_index_blocks_in_cache: true
+  partition_filters: true
+  high_pri_pool_ratio: 0.5
+  
+  # Total write buffer limit across all CFs
+  db_write_buffer_size_mb: 2048  # 2 GB
+  
+  # ---------------------------------------------------------------------------
+  # Write Configuration (optimized for throughput)
+  # ---------------------------------------------------------------------------
+  
+  # Enable WAL for durability
+  enable_wal: true
+  
+  # More memtables for write buffering
+  max_write_buffer_number: 6
+  min_write_buffer_number_to_merge: 2
+  
+  # Enable concurrent writes
+  allow_concurrent_memtable_write: true
+  
+  # Write policy for best concurrency
+  write_policy: "WriteUnprepared"
+  two_write_queues: true
+  wp_commit_cache_bits: 23
+  
+  # ---------------------------------------------------------------------------
+  # Compaction Configuration (parallel across SSDs)
+  # ---------------------------------------------------------------------------
+  
+  # High parallelism for multi-SSD
+  max_background_jobs: 20
+  max_background_compactions: 12
+  max_background_flushes: 4
+  
+  # Parallel sub-compactions
+  max_subcompactions: 4
+  
+  # Thread pools
+  background_threads_high: 4   # Flush threads
+  background_threads_low: 12   # Compaction threads
+  
+  # Enable high-parallel tuning
+  enable_high_parallel_tuning: true
+  high_parallel_thread_threshold: 16
+  
+  # Leveled compaction (better for multi-SSD)
+  use_universal_compaction: false
+  dynamic_level_bytes: true
+  
+  # Larger SSTable files for fewer file handles
+  target_file_size_base_mb: 128
+  max_bytes_for_level_base_mb: 1024
+  
+  # Aggressive L0 compaction to utilize all SSDs
+  level0_file_num_compaction_trigger: 2
+  level0_slowdown_writes_trigger: 8
+  level0_stop_writes_trigger: 16
+  
+  # ---------------------------------------------------------------------------
+  # BlobDB Configuration
+  # ---------------------------------------------------------------------------
+  
+  enable_blobdb: true
+  blob_size_threshold: 4096  # 4 KB
+  
+  # ---------------------------------------------------------------------------
+  # I/O Configuration
+  # ---------------------------------------------------------------------------
+  
+  # Direct I/O can reduce OS cache thrashing with large RocksDB cache
+  use_direct_reads: false
+  use_direct_io_for_flush_and_compaction: true
+  
+  # ---------------------------------------------------------------------------
+  # Compression
+  # ---------------------------------------------------------------------------
+  
+  compression:
+    default: "lz4"      # Fast compression for hot data
+    bottommost: "zstd"  # Better compression for cold data
+  
+  # ---------------------------------------------------------------------------
+  # Bloom Filters
+  # ---------------------------------------------------------------------------
+  
+  bloom_bits_per_key: 10
+
+# =============================================================================
+# SERVER CONFIGURATION
+# =============================================================================
+server:
+  host: "0.0.0.0"
+  port: 8765
+  
+  # Auto-detect CPU cores (or set explicitly)
+  worker_threads: 0
+  
+  # Higher limits for high-throughput setup
+  max_request_size_mb: 50
+  request_timeout_ms: 60000
+  max_connections: 500
+
+# =============================================================================
+# MONITORING
+# =============================================================================
+performance:
+  enable_statistics: true
+
+logging:
+  level: "INFO"
+  file: "./themis_multi_ssd.log"
+  max_size_mb: 100
+  max_files: 5
+
+# =============================================================================
+# LINUX SYSTEM TUNING RECOMMENDATIONS
+# =============================================================================
+#
+# For optimal performance with multi-SSD setup, tune Linux kernel parameters:
+#
+# 1. Mount options for each SSD:
+#    mount -o noatime,discard,data=ordered /dev/nvmeXn1 /mnt/nvmeX
+#
+# 2. I/O Scheduler (use none/noop for NVMe):
+#    echo none > /sys/block/nvmeXn1/queue/scheduler
+#
+# 3. Read-ahead (increase for sequential workloads):
+#    echo 512 > /sys/block/nvmeXn1/queue/read_ahead_kb
+#
+# 4. Queue depth (increase for parallel I/O):
+#    echo 1024 > /sys/block/nvmeXn1/queue/nr_requests
+#
+# 5. Filesystem:
+#    - ext4: Good all-around performance
+#    - XFS: Better for large files and parallel I/O
+#    - F2FS: Optimized for SSDs (if available)
+#
+# 6. Kernel parameters (/etc/sysctl.conf):
+#    vm.swappiness = 1
+#    vm.dirty_ratio = 15
+#    vm.dirty_background_ratio = 5
+#    vm.vfs_cache_pressure = 50
+#
+# 7. Monitor with:
+#    iostat -x 1         # I/O statistics per device
+#    iotop               # I/O usage per process
+#    nvme smart-log /dev/nvmeXn1  # SSD health
+#
+# =============================================================================

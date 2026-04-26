@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sharding_interfaces.h                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:11:40                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:47:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 79c6d25c9  2026-03-09  fix(sharding): close 6 audit gaps in sharding interfaces ║
-    • c2063fa4a  2026-03-09  feat(sharding): implement 6 public abstract interfaces + ... ║
+    • 79c6d25c9c  2026-03-09  fix(sharding): close 6 audit gaps in sharding interfaces ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -108,6 +107,9 @@ struct ShardStats {
     double storage_usage{0.0};   ///< Normalised to [0.0, 1.0]
     double request_rate{0.0};    ///< Requests per second
     uint64_t key_count{0};       ///< Number of keys stored on this shard
+    uint64_t pending_llm_requests{0}; ///< Current number of queued LLM requests
+    double avg_llm_queue_ms{0.0};     ///< Average LLM queue wait time in milliseconds
+    uint64_t active_lora_adapters{0}; ///< Number of active LoRA adapters on this shard
 };
 
 /// Cluster-wide telemetry snapshot.

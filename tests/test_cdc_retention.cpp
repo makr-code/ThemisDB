@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_retention.cpp                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:25:20                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:52:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     731                                            ║
+    • Total Lines:     745                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a9f387ce0  2026-03-11  feat(cdc): runtime-configurable change log retention poli... ║
-    • a64247126  2026-03-08  Refactor code structure for improved readability and main... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • de729d957  2026-02-24  cdc: expose retention policy configuration in getRetentio... ║
-    • 40dea3aaf  2026-02-22  Implement CDC log compaction, fix cdc_admin method discre... ║
+    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

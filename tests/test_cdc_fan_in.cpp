@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_fan_in.cpp                                ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:25:14                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:52:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     327                                            ║
+    • Total Lines:     350                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 197320301  2026-03-28  Implement SequenceU64Increment merge operator for RocksDB... ║
-    • 0e01ac355  2026-03-22  Changes before error encountered         ║
+    • 197320301a  2026-03-28  Implement SequenceU64Increment merge operator for RocksDB... ║
+    • 0e01ac3559  2026-03-22  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

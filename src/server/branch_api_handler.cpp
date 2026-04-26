@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            branch_api_handler.cpp                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:40                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     392                                            ║
+    • Total Lines:     390                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a56ed533e  2026-03-11  fix(tracing): remove spans from helper/utility methods (o... ║
-    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5067f4acd  2026-02-23  feat(transaction): implement branch merge conflict resolu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -253,12 +251,12 @@ void BranchApiHandler::handleDeleteBranch(const httplib::Request& req, httplib::
     sendJson(res, result);
 }
 
-void BranchApiHandler::handleGetStats(const httplib::Request& req, httplib::Response& res) {
+void BranchApiHandler::handleGetStats(const httplib::Request& /*req*/, httplib::Response& res) {
     auto stats = branch_manager_.getStats();
     sendJson(res, stats.toJson());
 }
 
-void BranchApiHandler::handleGetActiveBranch(const httplib::Request& req, httplib::Response& res) {
+void BranchApiHandler::handleGetActiveBranch(const httplib::Request& /*req*/, httplib::Response& res) {
     auto span = Tracer::startSpan("handleGetActiveBranch");
     std::string active_branch = branch_manager_.getActiveBranch();
     

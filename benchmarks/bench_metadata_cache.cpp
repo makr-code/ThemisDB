@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_metadata_cache.cpp                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:04:17                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:43:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 67b061c59  2026-03-11  fix(bench_metadata_cache): fix concurrent benchmark data ... ║
-    • 511182e34  2026-03-11  bench(metadata): add cache hit rate and scan latency benc... ║
+    • 67b061c591  2026-03-11  fix(bench_metadata_cache): fix concurrent benchmark data ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

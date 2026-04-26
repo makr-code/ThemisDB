@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            paxos_consensus.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:18                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟠 BETA                                         ║
-    • Quality Score:   49.0/100                                       ║
-    • Total Lines:     1107                                           ║
+    • Quality Score:   48.0/100                                       ║
+    • Total Lines:     1158                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 116157e290  2026-04-12  fix(sharding): Paxos WAL durability, writeEntity RPC, PSR... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🔧 In Progress                                               ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -395,6 +395,16 @@ void PaxosConsensus::onLeaderChange(
     on_leader_change_callback_ = std::move(callback);
 }
 
+void PaxosConsensus::setPrepareRPCCallback(PaxosPrepareCallback cb) {
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    rpc_prepare_cb_ = std::move(cb);
+}
+
+void PaxosConsensus::setAcceptRPCCallback(PaxosAcceptCallback cb) {
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    rpc_accept_cb_ = std::move(cb);
+}
+
 // Private methods
 
 void PaxosConsensus::runProposer() {
@@ -530,64 +540,93 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
             wal_->logPrepare(slot, proposal.round, node_id_);
             operations_since_snapshot_++;
         } catch (const std::exception& e) {
-            spdlog::warn("Failed to log PREPARE to WAL: {}", e.what());
-            // Continue operation despite WAL failure (graceful degradation)
+            spdlog::error("Node {} WAL PREPARE log failed for slot {}: {} — aborting phase",
+                          node_id_, slot, e.what());
+            return false;
         }
     }
     
-    std::lock_guard<std::mutex> lock(state_mutex_);
+    // Scoped lock: initialize instance and collect promises, then release before
+    // calling executeAcceptPhase() to avoid re-acquiring the same non-recursive mutex.
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
     
-    // Get or create instance for this slot
-    auto& instance = instances_[slot];
-    instance.slot = slot;
-    instance.prepare_promises.clear();
+        // Get or create instance for this slot
+        auto& instance = instances_[slot];
+        instance.slot = slot;
+        instance.prepare_promises.clear();
     
-    spdlog::debug("Node {} executing prepare phase for slot {} with proposal {}/{}",
-                 node_id_, slot, proposal.round, proposal.node_id);
+        spdlog::debug("Node {} executing prepare phase for slot {} with proposal {}/{}",
+                     node_id_, slot, proposal.round, proposal.node_id);
     
-    total_prepares_++;
-    
-    // In a single-node simulation, we always promise to ourselves
-    // In multi-node: Send prepare(proposal) to all acceptors
-    instance.prepare_promises.insert(node_id_);
-    
-    // Simulate timeout for collecting promises
-    auto start_time = std::chrono::steady_clock::now();
-    
-    // For now, simulate other nodes accepting
-    // In real implementation: Send RPC with timeout and wait for quorum of promises
-    for (const auto& node : cluster_nodes_) {
-        if (node != node_id_) {
-            // Check if we've exceeded timeout
+        total_prepares_++;
+
+        // Self-promise (local acceptor always promises to its own proposer)
+        instance.prepare_promises.insert(node_id_);
+
+        // Send Phase-1 Prepare RPCs to all peer nodes.
+        // If a real RPC callback has been registered (via setPrepareRPCCallback),
+        // invoke it for every peer and count acknowledged promises.
+        // Without a callback we operate in single-node mode: only the self-promise
+        // counts, so quorum is only achievable when cluster_nodes_.size() == 1.
+        auto start_time = std::chrono::steady_clock::now();
+
+        for (const auto& node : cluster_nodes_) {
+            if (node == node_id_) continue;
+
             auto elapsed = std::chrono::steady_clock::now() - start_time;
             if (elapsed > config_.paxos_prepare_timeout) {
                 spdlog::warn("Node {} prepare phase timed out for slot {} after {}ms",
-                           node_id_, slot,
-                           std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count());
+                             node_id_, slot,
+                             std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count());
                 break;
             }
-            
-            // Simulate promise from other nodes
-            // In production: Send RPC and wait for response
-            instance.prepare_promises.insert(node);
+
+            PaxosPrepareCallback cb;
+            {
+                std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
+                cb = rpc_prepare_cb_;
+            }
+
+            if (cb) {
+                // Real RPC path: ask the peer to promise
+                bool promised = cb(node, slot, proposal.round, node_id_);
+                if (promised) {
+                    instance.prepare_promises.insert(node);
+                    spdlog::debug("Node {} received promise from peer {} for slot {}",
+                                  node_id_, node, slot);
+                } else {
+                    spdlog::debug("Node {} peer {} rejected prepare for slot {}",
+                                  node_id_, node, slot);
+                }
+            } else {
+                // No RPC callback: single-node mode only.
+                // Do NOT auto-insert the peer — that would falsely simulate quorum
+                // in a multi-node cluster where peers have not actually been reached.
+                spdlog::warn("Node {} has no Paxos prepare RPC callback; "
+                             "peer {} not counted (single-node mode)",
+                             node_id_, node);
+            }
         }
-    }
-    
-    // Check if we have quorum
-    if (!hasQuorum(instance.prepare_promises.size())) {
-        spdlog::warn("Node {} failed to get quorum in prepare phase for slot {} ({}/{})",
-                    node_id_, slot, instance.prepare_promises.size(), cluster_nodes_.size());
-        return false;
-    }
-    
-    spdlog::debug("Node {} got quorum ({}/{}) in prepare phase for slot {}",
-                 node_id_, instance.prepare_promises.size(), 
-                 cluster_nodes_.size(), slot);
-    
-    // Phase 1b complete: We have quorum of promises
-    // If any acceptor returned a previously accepted value, use the one with highest ballot
-    // For now, we use our proposed value since we're simulating
-    
+
+        // Check if we have quorum
+        if (!hasQuorum(instance.prepare_promises.size())) {
+            spdlog::warn("Node {} failed to get quorum in prepare phase for slot {} ({}/{})",
+                        node_id_, slot, instance.prepare_promises.size(), cluster_nodes_.size());
+            return false;
+        }
+
+        spdlog::debug("Node {} got quorum ({}/{}) in prepare phase for slot {}",
+                     node_id_, instance.prepare_promises.size(),
+                     cluster_nodes_.size(), slot);
+
+        // Phase 1b complete: quorum of promises received.
+        // If any acceptor returned a previously accepted value, the highest-ballot
+        // value MUST be proposed instead of our own (RFC Paxos safety property).
+        // TODO: propagate highest accepted value from promise responses
+        // once the RPC callback returns the peer's accepted proposal/value.
+    } // state_mutex_ released here — executeAcceptPhase() re-acquires it safely
+
     // Move to accept phase
     return executeAcceptPhase(slot, proposal, value);
 }
@@ -606,8 +645,9 @@ bool PaxosConsensus::executeAcceptPhase(
             wal_->logAccept(slot, proposal.round, node_id_, value);
             operations_since_snapshot_++;
         } catch (const std::exception& e) {
-            spdlog::warn("Failed to log ACCEPT to WAL: {}", e.what());
-            // Continue operation despite WAL failure (graceful degradation)
+            spdlog::error("Node {} WAL ACCEPT log failed for slot {}: {} — aborting phase",
+                          node_id_, slot, e.what());
+            return false;
         }
     }
     
@@ -622,43 +662,66 @@ bool PaxosConsensus::executeAcceptPhase(
     }
     
     total_accepts_++;
-    
-    // Accept on self (we're also an acceptor)
+
+    // Self-accept (local acceptor always accepts its own proposer)
     if (handleAccept(slot, proposal, value)) {
         std::lock_guard<std::mutex> lock(state_mutex_);
         instances_[slot].accept_acks.insert(node_id_);
     }
-    
-    // In real implementation: Send accept(proposal, value) to all acceptors via RPC
-    // For now, simulate other nodes accepting with timeout
+
+    // Send Phase-2 Accept RPCs to all peer nodes.
+    // If a real RPC callback has been registered (via setAcceptRPCCallback),
+    // invoke it for every peer and count acknowledgements.
+    // Without a callback we operate in single-node mode; peers are NOT
+    // auto-inserted so quorum is only reachable in a 1-node cluster.
     {
         std::lock_guard<std::mutex> lock(state_mutex_);
         auto& instance = instances_[slot];
-        
+
         for (const auto& node : cluster_nodes_) {
-            if (node != node_id_) {
-                // Check if we've exceeded timeout
-                auto elapsed = std::chrono::steady_clock::now() - start_time;
-                if (elapsed > config_.paxos_accept_timeout) {
-                    spdlog::warn("Node {} accept phase timed out for slot {} after {}ms",
-                               node_id_, slot,
-                               std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count());
-                    break;
+            if (node == node_id_) continue;
+
+            auto elapsed = std::chrono::steady_clock::now() - start_time;
+            if (elapsed > config_.paxos_accept_timeout) {
+                spdlog::warn("Node {} accept phase timed out for slot {} after {}ms",
+                             node_id_, slot,
+                             std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count());
+                break;
+            }
+
+            PaxosAcceptCallback cb;
+            {
+                std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
+                cb = rpc_accept_cb_;
+            }
+
+            if (cb) {
+                // Real RPC path: ask the peer to accept the value
+                bool accepted = cb(node, slot, proposal.round, value);
+                if (accepted) {
+                    instance.accept_acks.insert(node);
+                    spdlog::debug("Node {} received accept-ack from peer {} for slot {}",
+                                  node_id_, node, slot);
+                } else {
+                    spdlog::debug("Node {} peer {} rejected accept for slot {}",
+                                  node_id_, node, slot);
                 }
-                
-                // Simulate acceptance from other nodes
-                // In production: Send RPC and wait for response
-                instance.accept_acks.insert(node);
+            } else {
+                // No RPC callback: single-node mode only.
+                // Do NOT auto-insert the peer.
+                spdlog::warn("Node {} has no Paxos accept RPC callback; "
+                             "peer {} not counted (single-node mode)",
+                             node_id_, node);
             }
         }
-        
+
         // Phase 2b: Check if we have quorum of accepts
         if (!hasQuorum(instance.accept_acks.size())) {
             spdlog::warn("Node {} failed to get quorum in accept phase for slot {} ({}/{})",
                         node_id_, slot, instance.accept_acks.size(), cluster_nodes_.size());
             return false;
         }
-        
+
         spdlog::debug("Node {} got quorum ({}/{}) in accept phase for slot {}",
                      node_id_, instance.accept_acks.size(),
                      cluster_nodes_.size(), slot);
@@ -669,14 +732,15 @@ bool PaxosConsensus::executeAcceptPhase(
         instance.accepted_proposal = proposal;
     }
     
-    // Broadcast commit to all learners
-    broadcastCommit(slot, value);
-    
-    return true;
+    // Broadcast commit to all learners; propagate WAL failure as a phase failure.
+    return broadcastCommit(slot, value);
 }
 
-void PaxosConsensus::broadcastCommit(uint64_t slot, const ConsensusLogEntry& value) {
-    // Phase 2.1.3: Log COMMIT to WAL for durability
+bool PaxosConsensus::broadcastCommit(uint64_t slot, const ConsensusLogEntry& value) {
+    // Phase 2.1.3: Log COMMIT to WAL for durability before updating in-memory state.
+    // WAL failure is a hard error: proceeding without a durable COMMIT record would
+    // allow a restarted node to re-accept lower-ballot proposals for the same slot,
+    // violating the Paxos safety property.
     if (wal_) {
         try {
             wal_->logCommit(slot, value);
@@ -688,8 +752,9 @@ void PaxosConsensus::broadcastCommit(uint64_t slot, const ConsensusLogEntry& val
                 createPeriodicSnapshot();
             }
         } catch (const std::exception& e) {
-            spdlog::warn("Failed to log COMMIT to WAL: {}", e.what());
-            // Continue operation despite WAL failure (graceful degradation)
+            spdlog::error("Node {} WAL COMMIT log failed for slot {}: {} — aborting broadcast",
+                          node_id_, slot, e.what());
+            return false;
         }
     }
     
@@ -711,6 +776,7 @@ void PaxosConsensus::broadcastCommit(uint64_t slot, const ConsensusLogEntry& val
     }
     
     spdlog::debug("Committed entry at slot {}", slot);
+    return true;
 }
 
 size_t PaxosConsensus::getQuorumSize() const {
@@ -933,11 +999,19 @@ bool PaxosConsensus::handlePrepare(uint64_t slot, const ProposalNumber& proposal
         // Update promised proposal
         instance.promised_proposal = proposal;
         
+        // WAL durability: persist promise BEFORE responding so the invariant
+        // survives a crash between sending the PROMISE and the next restart.
+        if (wal_) {
+            const uint64_t prev_accepted_round = instance.accepted_proposal.round;
+            const nlohmann::json prev_accepted_value = instance.accepted_value.data;
+            wal_->logPromise(slot, proposal.round, node_id_,
+                             prev_accepted_round, prev_accepted_value);
+            ++operations_since_snapshot_;
+        }
+        
         spdlog::debug("Node {} promised slot {} to proposal {}/{}",
                      node_id_, slot, proposal.round, proposal.node_id);
         
-        // Return true (promise granted)
-        // In a real implementation, we would also return the previously accepted value
         return true;
     }
     
@@ -963,6 +1037,13 @@ bool PaxosConsensus::handleAccept(
         // Accept the proposal
         instance.accepted_proposal = proposal;
         instance.accepted_value = value;
+        
+        // WAL durability: persist accept BEFORE responding so the invariant
+        // survives a crash between sending ACCEPTED and the next restart.
+        if (wal_) {
+            wal_->logAccept(slot, proposal.round, node_id_, value);
+            ++operations_since_snapshot_;
+        }
         
         spdlog::debug("Node {} accepted slot {} with proposal {}/{}",
                      node_id_, slot, proposal.round, proposal.node_id);
@@ -1038,17 +1119,53 @@ bool PaxosConsensus::recoverFromWAL() {
                     spdlog::debug("Replay PREPARE: slot={}, round={}", entry.slot, entry.round);
                     break;
                     
-                case themis::sharding::PaxosWALEntryType::ACCEPT:
-                    spdlog::debug("Replay ACCEPT: slot={}, round={}", entry.slot, entry.round);
+                case themis::sharding::PaxosWALEntryType::PROMISE: {
+                    spdlog::debug("Replay PROMISE: slot={}, round={}", entry.slot, entry.round);
+                    auto& inst = instances_[entry.slot];
+                    inst.slot = entry.slot;
+                    if (entry.round > inst.promised_proposal.round) {
+                        inst.promised_proposal.round   = entry.round;
+                        inst.promised_proposal.node_id = entry.node_id;
+                    }
                     break;
+                }
                     
-                case themis::sharding::PaxosWALEntryType::COMMIT:
+                case themis::sharding::PaxosWALEntryType::ACCEPT:
+                case themis::sharding::PaxosWALEntryType::ACCEPTED: {
+                    spdlog::debug("Replay ACCEPT: slot={}, round={}", entry.slot, entry.round);
+                    auto& inst = instances_[entry.slot];
+                    inst.slot = entry.slot;
+                    if (entry.round >= inst.accepted_proposal.round) {
+                        inst.accepted_proposal.round   = entry.round;
+                        inst.accepted_proposal.node_id = entry.node_id;
+                        if (!entry.data.is_null()) {
+                            inst.accepted_value.operation =
+                                entry.data.value("operation", std::string{});
+                            inst.accepted_value.data =
+                                entry.data.value("data", nlohmann::json{});
+                        }
+                    }
+                    break;
+                }
+                    
+                case themis::sharding::PaxosWALEntryType::COMMIT: {
                     spdlog::debug("Replay COMMIT: slot={}", entry.slot);
+                    auto& inst = instances_[entry.slot];
+                    inst.is_committed = true;
                     // Update commit index
                     if (entry.slot > commit_index_.load()) {
                         commit_index_.store(entry.slot);
                     }
+                    // Rebuild committed log
+                    ConsensusLogEntry log_entry;
+                    if (!entry.data.is_null()) {
+                        log_entry.operation = entry.data.value("operation", std::string{});
+                        log_entry.data      = entry.data.value("data", nlohmann::json{});
+                        log_entry.index     = entry.slot;
+                    }
+                    committed_log_[entry.slot] = log_entry;
                     break;
+                }
                     
                 default:
                     break;

@@ -26,7 +26,7 @@ Essential operations and emergency procedures guide.
 
 Dieses Runbook fasst die wichtigsten Betriebsaufgaben und Notfallmaßnahmen für THEMIS zusammen. Es richtet sich an On-Call/Operations und beschreibt Checks, Standardprozeduren und Playbooks.
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.3.0  
 **Kategorie:** ⚙️ Operations/Admin
 

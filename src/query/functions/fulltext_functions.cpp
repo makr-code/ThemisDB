@@ -3,19 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            fulltext_functions.cpp                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:18:28                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     846                                            ║
+    • Total Lines:     854                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 29b72e1f3  2026-02-21  feat(query): add HIGHLIGHT and FULLTEXT_SNIPPET AQL funct... ║
+    • 9d11fed508  2026-04-14  fix                                     ║
+    • 9623765ff2  2026-04-14  fix                                     ║
+    • 5942e7d691  2026-03-30  Fix warmupFromLog to enforce max_entries accurately and i... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -58,7 +59,7 @@ std::vector<std::string> tokenize(const std::string& text) {
     
     for (char c : text) {
         if (std::isalnum(static_cast<unsigned char>(c))) {
-            current += std::tolower(static_cast<unsigned char>(c));
+            current += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         } else if (!current.empty()) {
             tokens.push_back(current);
             current.clear();
@@ -89,10 +90,10 @@ std::string soundex(const std::string& s) {
     if (s.empty()) return "";
     
     std::string result;
-    result += std::toupper(static_cast<unsigned char>(s[0]));
+    result += static_cast<char>(std::toupper(static_cast<unsigned char>(s[0])));
     
     auto getCode = [](char c) -> char {
-        c = std::toupper(static_cast<unsigned char>(c));
+        c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
         if (c == 'B' || c == 'F' || c == 'P' || c == 'V') return '1';
         if (c == 'C' || c == 'G' || c == 'J' || c == 'K' || c == 'Q' || c == 'S' || c == 'X' || c == 'Z') return '2';
         if (c == 'D' || c == 'T') return '3';
@@ -121,7 +122,7 @@ std::string metaphone(const std::string& word, int maxLen = 6) {
     
     std::string result;
     std::string upper;
-    for (char c : word) upper += std::toupper(static_cast<unsigned char>(c));
+    for (char c : word) upper += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
     
     size_t i = 0;
     
@@ -696,7 +697,7 @@ public:
             }
         }
         
-        int total = ngrams1.size() + ngrams2.size();
+        int total = static_cast<int>(ngrams1.size() + ngrams2.size());
         if (total == 0) return 0.0;
         
         return 2.0 * intersection / total;

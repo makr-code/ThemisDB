@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_fs.cpp                                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:07                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     299                                            ║
+    • Total Lines:     300                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 0d8e07c708  2026-04-14  chore: reduce compiler warnings in scheduler, query, secu... ║
+    • 2e85cfe4c1  2026-04-14  chore: reduce compiler warnings in scheduler, query, secu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -165,7 +166,7 @@ Result<std::vector<uint8_t>> ContentFS::get(const std::string& pk) const {
             return Ok(std::move(*blob));
         } else {
             uint64_t total = j.value("size", static_cast<uint64_t>(0));
-            uint64_t chunk_sz = j.value("chunk_size", chunk_size_bytes_);
+            [[maybe_unused]] uint64_t chunk_sz = j.value("chunk_size", chunk_size_bytes_);
             std::vector<uint8_t> out;
             out.reserve(static_cast<size_t>(total));
             for (uint64_t i = 0; i < chunks; ++i) {
@@ -280,8 +281,8 @@ Result<void> ContentFS::remove(const std::string& pk) {
         } catch (...) {}
     }
     
-    bool ok1 = db_.del(metaKey(pk));
-    bool ok2 = db_.del(blobKey(pk));
+    [[maybe_unused]] bool ok1 = db_.del(metaKey(pk));
+    [[maybe_unused]] bool ok2 = db_.del(blobKey(pk));
     bool ok3 = false;
     if (chunks > 0) {
         ok3 = true;

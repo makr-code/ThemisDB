@@ -1,5 +1,5 @@
 # Server Module — Primär-Inventar
-<!-- status: current | validated: 2026-03-10 | commit: 22764eeee -->
+<!-- status: current | validated: 2026-04-06 | commit: 22764eeee -->
 
 **Modul:** `server`  
 **Stand:** 2026-03-10  

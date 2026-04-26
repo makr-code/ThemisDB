@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            security_evidence_collector.h                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:10:56                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:46:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c9429f8d3  2026-03-09  feat(security): HMAC challenge-response, Windows MachineG... ║
+    • c9429f8d3d  2026-03-09  feat(security): HMAC challenge-response, Windows MachineG... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -120,6 +120,35 @@ struct AccessControlReport {
  * The bundle includes a retention verification flag that indicates whether the
  * collected evidence falls within the configured 12-month retention window.
  */
+/**
+ * @brief Evidence of network control configuration for SOC 2 audit.
+ *
+ * Captures TLS cipher suites, mTLS-enabled shard count, and rate-limiter
+ * configuration snapshot.
+ */
+struct NetworkControlsEvidence {
+    std::vector<std::string> tls_cipher_suites;       ///< Configured TLS 1.3 cipher suite names
+    int mtls_enabled_shard_count = 0;                 ///< Number of shards with mTLS enabled
+    std::string rate_limiter_config_snapshot;         ///< JSON snapshot of rate limiter config
+
+    nlohmann::json toJson() const;
+};
+
+/**
+ * @brief Evidence of change management events for SOC 2 audit.
+ *
+ * Captures configuration audit trail entries and key rotation records
+ * within a specified time window.
+ */
+struct ChangeManagementEvidence {
+    std::vector<nlohmann::json> config_audit_trail;   ///< Config changes (last 30 days)
+    std::vector<KeyRotationRecord> key_rotation_log;  ///< Key rotation events in window
+    int64_t from_ms = 0;                              ///< Window start (Unix epoch ms)
+    int64_t to_ms   = 0;                              ///< Window end   (Unix epoch ms)
+
+    nlohmann::json toJson() const;
+};
+
 struct SecurityEvidenceBundle {
     std::string bundle_id;                   ///< Unique bundle identifier
     int64_t collected_at_ms = 0;             ///< Bundle collection timestamp
@@ -130,6 +159,8 @@ struct SecurityEvidenceBundle {
     SecurityMetricsSnapshot  metrics;        ///< Point-in-time metrics
     std::vector<KeyRotationRecord> key_rotations; ///< Key-rotation history
     AccessControlReport      access_control; ///< RBAC configuration snapshot
+    NetworkControlsEvidence  network_controls;    ///< Network & TLS configuration evidence
+    ChangeManagementEvidence change_management;   ///< Change management evidence
 
     nlohmann::json toJson() const;
 };
@@ -261,6 +292,12 @@ private:
         std::chrono::system_clock::time_point to) const;
 
     AccessControlReport collectAccessControl() const;
+
+    NetworkControlsEvidence collectNetworkControls() const;
+
+    ChangeManagementEvidence collectChangeManagement(
+        std::chrono::system_clock::time_point from,
+        std::chrono::system_clock::time_point to) const;
 
     static std::string generateBundleId();
     static int64_t toMs(std::chrono::system_clock::time_point tp) noexcept;

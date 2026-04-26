@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/ingestion/ -->
 
 # Ingestion Module - Future Enhancements
@@ -37,17 +39,36 @@ This document covers planned enhancements to the Ingestion module beyond what is
 
 ## Planned Features
 
+### SoC Refactoring: Ingestion/AI Separation (DIP)
+**Priority:** High
+**Target Version:** v1.6.0
+**Status:** ✅ Implemented (2026-04-15)
+
+The ingestion module no longer includes any `llm/` headers directly.  The concrete
+LLM backend is injected via the new `ITextGenerationBackend` interface
+(`include/ingestion/inference_backend.h`).  The cross-module binding lives in
+`LlmIngestionBridge` (`include/llm/llm_ingestion_bridge.h` / `src/llm/llm_ingestion_bridge.cpp`)
+which wraps `LLMPluginManager::instance().generate()`.
+
+Wiring code (main/server bootstrap) creates an `LlmIngestionBridge` and passes
+it to `LegalLlmAdapter(bridge)`.  12 tests in `tests/test_ingestion_inference_backend.cpp`
+(IB-01..IB-12).
+
+---
+
 ### `LLMIngestionAdapter` Phase 2: Wire llama.cpp
 **Priority:** High
 **Target Version:** v1.8.0
-**Status:** ✅ Implemented
+**Status:** ✅ Implemented (superseded by SoC refactoring above)
 
-`ingestion/llm_adapter.cpp` now fully implements Phase 2: `#include "llm/llama_resource_manager.h"` and `#include "llm/llm_plugin_manager.h"` are active under `THEMIS_ENABLE_LLM`; the `buildExtractorFn()` lambda calls `LLMPluginManager::instance().generate()` with a structured German legal extraction prompt and parses the JSON response via `nlohmann::json::parse()`.
+`ingestion/llm_adapter.cpp` uses the injected `ITextGenerationBackend`
+(formerly called `LLMPluginManager::instance().generate()` directly).
+The prompt assembly and JSON parsing logic is unchanged; only the backend
+call is now abstracted through the interface.
 
 **Implementation Notes:**
-- `[x]` Uncomment `#include "llm/llama_resource_manager.h"` and wire the `buildExtractorFn()` callback to `LLMPluginManager::instance().generate()` when `THEMIS_ENABLE_LLM` is defined.
+- `[x]` SoC: replaced direct `llm/` includes with `ITextGenerationBackend` injection.
 - `[x]` Replace the naive line-by-line JSON parser with `nlohmann::json::parse()` — locates the outermost `{…}` block to handle LLM preamble noise, then extracts `deontic_category`, `confidence`, and `entities`.
-- `[x]` Add a Phase 2 model health check at `buildExtractorFn()` — throws `std::runtime_error` when a model path is configured but the GGUF file is not accessible.
 - `[x]` Add integration tests for `LLMIngestionAdapter` with a real (small) GGUF model file (see `tests/test_ingestion_llm_adapter.cpp`, skipped with `GTEST_SKIP` when no model is available).
 
 ---
@@ -197,6 +218,38 @@ Enable third-party code to register custom source connectors at runtime without 
 - Kafka consumer group offsets are committed only after a document is durably written to ThemisDB; at-least-once delivery semantics are preserved; idempotency at the storage layer handles duplicates.
 - Quarantine entries containing raw document payloads may contain PII; the quarantine collection must be governed by the same `PolicyEngine` access controls as production collections.
 - **WebCrawlerConnector**: only `http://` and `https://` seed URLs and link targets are permitted; all other URI schemes (`file://`, `ftp://`, `data:`, `ldap://`, etc.) are rejected at `initialize()` and `resolveUrl()` to prevent SSRF attacks.
+
+---
+
+## Identified Gaps (from AI_ML_IMPACT_ASSESSMENT.md)
+
+### Gap 8 — Data Classification Gate for External Connectors (HuggingFaceConnector) (Target: Q3 2026)
+
+**Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 8 (Severity: Medium/S1)`
+**Status:** ✅ Implemented (2026-04-21) — policy gate via `ModelGovernancePolicy`.
+
+**Problem (resolved):** `HuggingFaceConnector::initialize()` fetched datasets without
+any classification gate, allowing PII or restricted data to enter collections unchecked.
+
+**Implemented changes:**
+- `HuggingFaceConnector::setIngestionPolicy(shared_ptr<ModelGovernancePolicy>)` added.
+- `initialize()` now calls `ModelGovernancePolicy::checkExportPermission()` with
+  `purpose="DATA_INGESTION"` before any HTTP request.  DENY → returns `false` + ERROR log.
+  PERMIT → continues with existing connector logic + INFO log.
+- `config.options["classification"]` is forwarded to the governance request; defaults
+  to `"offen"` when not provided.
+- No policy set (nullptr) → WARN log + existing behavior (backward compatible).
+- Tests: `test_huggingface_connector_governance.cpp` (HFC_GOV_01..05) registered as
+  `HuggingFaceConnectorGovernanceFocusedTests`.
+
+**Deferred (Q4 2026):**
+- `DataClassificationGate` dedicated class (full domain/URL-based restriction).
+- `IngestionConfig::require_classification_gate` enforcement flag.
+- Same gate applied to `WebCrawlerConnector` and future external connectors.
+
+**Inputs:** `SourceConfig::location` (HuggingFace dataset ID); `classification` option.
+**Outputs:** `initialize()` returns `false` on DENY.
+**Perf target:** Gate adds ≤ 2 ms (synchronous local policy lookup; no network).
 
 ---
 

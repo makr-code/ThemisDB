@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ts_encrypted_key_rotation.h                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:12:23                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:47:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a0ac59009  2026-03-14  feat(timeseries): implement chunk-level AES-256-GCM encry... ║
+    • a0ac59009f  2026-03-14  feat(timeseries): implement chunk-level AES-256-GCM encry... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

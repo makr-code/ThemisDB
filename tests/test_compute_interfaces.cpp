@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_compute_interfaces.cpp                        ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:25:35                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:53:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   75.0/100                                       ║
-    • Total Lines:     805                                            ║
+    • Total Lines:     827                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • fe4492690  2026-03-19  Changes before error encountered         ║
+    • fe44926901  2026-03-19  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -721,7 +721,10 @@ public:
         if (descriptor.batch.num_queries > 0) {
             res.results.resize(descriptor.batch.num_queries);
         }
-        return ComputeFuture<SimilarityKernelResult>::make_ready(std::move(res));
+        std::promise<SimilarityKernelResult> promise;
+        promise.set_value(std::move(res));
+        return ComputeFuture<SimilarityKernelResult>(
+            promise.get_future().share(), std::move(token), {});
     }
 
     int submit_count_ = 0;

@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_model_cache.h                                ║
-  Version:         0.0.31                                             ║
-  Last Modified:   2026-03-30 04:13:08                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-15 18:47:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     138                                            ║
+    • Total Lines:     142                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 31fa431cf5  2026-04-12  [WIP] Update voice module documentation for accuracy (#4523) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -112,6 +112,10 @@ public:
     // Statistics
     ModelCacheStats getStats() const;
     json getDetailedStats() const;
+
+    // Path traversal protection: returns false if path contains "..", null bytes,
+    // or shell metacharacters that could be used for injection attacks.
+    static bool isSafeModelPath(const std::string& path);
 
 private:
     ModelCacheConfig config_;

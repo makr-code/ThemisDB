@@ -1,9 +1,9 @@
 # Performance Documentation
 
-<!-- status: current | validated: 2026-03-10 -->
+<!-- status: current | validated: 2026-04-06 -->
 <!-- Links: Primary → ../../../../src/performance/README.md | Architektur → ../../../../src/performance/ARCHITECTURE.md | Roadmap → ../../../../src/performance/ROADMAP.md -->
 
-**Stand:** 9. März 2026  
+**Stand:** 6. April 2026  
 **Version:** v1.4.0  
 **Kategorie:** ⚡ Performance
 
@@ -77,6 +77,18 @@ Performance-Benchmarks und Optimierungs-Strategien für ThemisDB.
 - 🎯 **Phase 3 (Long-Term):** +200-500% Domain-Specific (6-12 Monate)
 
 **Bereiche:** LSM-Trees, Vector Search, Graph Processing, GPU Acceleration, MVCC, Query Optimization, Memory Management, Concurrency Control, Compression, Caching
+
+## Neue Performance-Komponenten (v1.9.x)
+
+| Komponente | Header | Beschreibung |
+|------------|--------|-------------|
+| `LockFreeHistogram<T>` | `include/performance/lockfree_histogram.h` | Lock-free Latenz-Histogramm, ≤ 20 ns `record()`, Exponential/Linear Modi |
+| `RequestCoalescer` | `include/cache/request_coalescer.h` | Singleflight: thundering-herd-Schutz, `fn()` exakt einmal pro In-Flight-Key |
+| `IoUringBatchedSender` | `include/network/io_uring_batcher.h` | O(1) Syscalls/Runde statt O(N) writev-Aufrufe, writev-Fallback |
+| LIRS `shared_mutex` Fix | `include/performance/lirs_cache.h` | TOCTOU-Race in `get()` behoben: `unique_lock` statt `shared_lock` |
+| RCU `g_rcu_reader_count` | `include/performance/rcu.h` | `readers_active()` war immer false — globaler atomic Zähler korrigiert |
+
+Vollständige Dokumentation: Compendium Kapitel 21.1.
 
 ## Verwandte Dokumentation
 

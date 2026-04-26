@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_model_serving.cpp                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:21:59                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:51:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 8ba60c408  2026-03-17  fix(analytics): ModelServingEngine::predict() — inference... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 90cdb41ff  2026-02-24  feat(analytics): implement model serving and online infer... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 8ba60c408b  2026-03-17  fix(analytics): ModelServingEngine::predict() — inference... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -274,7 +272,7 @@ TEST(ModelServingEngine, PredictRegressionReturnsNumericString) {
     dp.set("x2", 0.3);
 
     auto val_str = engine.predict("reg", "v1", dp);
-    EXPECT_NO_THROW(std::stod(val_str));
+    EXPECT_NO_THROW((void)std::stod(val_str));
 }
 
 TEST(ModelServingEngine, PredictMissingModelThrows) {

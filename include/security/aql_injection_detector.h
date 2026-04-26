@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_injection_detector.h                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:10:47                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 4e39463a8  2026-03-21  feat(security): implement AQL read-only context validatio... ║
-    • eb75d79f5  2026-03-12  feat(security): implement AQL AST-level injection validat... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 4e39463a86  2026-03-21  feat(security): implement AQL read-only context validatio... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -116,16 +114,8 @@ public:
     /**
      * @brief Validate an AQL query for use in a read-only context
      *
-     * Extends the base AST validation with an additional layer that explicitly
-     * rejects any DDL or write operations.  This is useful when a query is
-     * executed against a read-only replica or inside a read-only transaction
-     * where write operations would either be silently ignored or cause an error
-     * at a later stage.
-     *
-     * Detected write / DDL patterns (regex + AST):
-     *   - AQL write clauses: INSERT, UPDATE, REPLACE, UPSERT, REMOVE
-     *   - SQL-style DDL: CREATE COLLECTION, DROP COLLECTION, CREATE INDEX
-     *   - SQL-style DML: DELETE FROM, INSERT INTO, UPDATE SET
+     * Extends the base AST validation with additional read-only constraints.
+     * The query must parse as AQL and must not contain write/DDL operations.
      *
      * @param aql The AQL query string to validate.
      * @return InjectionCheckResult with is_safe == false if any write/DDL
@@ -239,21 +229,6 @@ private:
      */
     bool scanExpressionForDangerousOps(const std::shared_ptr<query::Expression>& expr);
 
-    /**
-     * @brief Check whether a raw query string contains write or DDL operations
-     *
-     * Used by validateForReadOnlyContext() to provide a regex-level defence in
-     * addition to AST analysis.  Detects AQL write clauses (INSERT, UPDATE,
-     * REPLACE, UPSERT, REMOVE) and SQL-style DDL (CREATE/DROP COLLECTION,
-     * CREATE INDEX, DELETE FROM, INSERT INTO).
-     *
-     * @param aql         Query string to scan.
-     * @param matched_out If non-null and a match is found, receives the first
-     *                    matched keyword (e.g. "INSERT", "DROP COLLECTION").
-     * @return true if a write or DDL operation was detected.
-     */
-    bool containsWriteOrDDLOperations(const std::string& aql,
-                                      std::string* matched_out = nullptr);
 };
 
 } // namespace security

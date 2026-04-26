@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_compression.cpp                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:20:30                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 72b5cb195  2026-03-13  fix(gpu_compression): address all 10 review feedback items ║
-    • 2386ec7ef  2026-03-12  feat: implement GPU-accelerated compression (Zstd/Snappy/... ║
+    • 72b5cb1957  2026-03-13  fix(gpu_compression): address all 10 review feedback items ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -196,7 +195,7 @@ static bool parse_gpu_container(
 
 /// Build and append the GPU container header to @p out.
 /// @p out must have been empty (or cleared) before the call.
-static void write_gpu_container_header(
+[[maybe_unused]] static void write_gpu_container_header(
     std::vector<uint8_t>& out,
     uint64_t n_chunks,
     uint64_t orig_size,
@@ -946,6 +945,9 @@ bool GpuCompressionManager::init_gpu()
     }
 
     switch (requested) {
+        case GpuAccelerationType::CPU_ONLY:
+            active_accel_ = GpuAccelerationType::CPU_ONLY;
+            return false;
 #ifdef THEMIS_ENABLE_CUDA
         case GpuAccelerationType::CUDA: {
             auto cuda_impl = std::make_unique<CudaNvcompImpl>();

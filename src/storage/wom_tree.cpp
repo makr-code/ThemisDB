@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wom_tree.cpp                                       ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:20:37                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     867                                            ║
+    • Total Lines:     866                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e6d7da0de  2026-03-14  refactor(storage): extract applyOpToLeaf helper; fix live... ║
-    • 74d75d5ad  2026-03-14  fix(storage): address all 6 review comments on WOM Tree i... ║
-    • d617efc09  2026-03-13  feat(storage): implement Write-Optimized Merge (WOM) Tree... ║
+    • e6d7da0ded  2026-03-14  refactor(storage): extract applyOpToLeaf helper; fix live... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

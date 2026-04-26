@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            embedded_llm_stub.cpp                              ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:16:54                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:49:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     188                                            ║
+    • Total Lines:     208                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 67965456c  2026-03-22  Add constructors with default config for various classes ... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -52,9 +53,8 @@ std::string EmbeddedLLM::generateWithParams(
 
 std::string EmbeddedLLM::chat(
     const std::vector<ChatMessage>& messages,
-    ChatFormat format
+    [[maybe_unused]] ChatFormat format
 ) {
-    (void)format;
     std::string merged;
     for (const auto& m : messages) {
         if (!merged.empty()) {
@@ -74,16 +74,14 @@ std::string EmbeddedLLM::chatSimple(
     return chat({{"system", system_prompt}, {"user", user_message}});
 }
 
-std::vector<float> EmbeddedLLM::embed(const std::string& text) {
-    (void)text;
+std::vector<float> EmbeddedLLM::embed([[maybe_unused]] const std::string& text) {
     return {};
 }
 
 std::vector<std::vector<float>> EmbeddedLLM::embedBatch(const std::vector<std::string>& texts) {
     std::vector<std::vector<float>> out;
     out.reserve(texts.size());
-    for (const auto& t : texts) {
-        (void)t;
+    for ([[maybe_unused]] const auto& t : texts) {
         out.push_back({});
     }
     return out;
@@ -175,9 +173,8 @@ InferenceRequest EmbeddedLLM::createRequest(
 
 std::string EmbeddedLLM::applyEthicalGuidelines(
     const std::string& prompt,
-    const std::string& context_text
+    [[maybe_unused]] const std::string& context_text
 ) {
-    (void)context_text;
     return prompt;
 }
 

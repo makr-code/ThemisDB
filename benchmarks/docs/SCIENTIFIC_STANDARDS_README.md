@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
 # Scientific Benchmark Suite - Qualitätsstandardskompatibilität
 
 **Status: ✅ SCIENTIFIC STANDARDS COMPLIANT (v2.0)**
@@ -410,5 +412,5 @@ MIT License - ThemisDB Team (2025)
 ---
 
 **Version:** 2.0 (Scientific Standards Compliant)  
-**Last Updated:** 2025-12-04  
+**Last Updated:** 2026-04-06  
 **Status:** ✅ PRODUCTION READY

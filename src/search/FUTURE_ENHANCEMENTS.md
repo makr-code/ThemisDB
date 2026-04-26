@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Search Module - Future Enhancements
@@ -300,8 +302,55 @@ The following high-priority features were delivered in v1.5.0:
 
 ---
 
+## Delivered in v2.4.0
+
+### ConversationalSearch (`include/search/conversational_search.h`)
+- Multi-turn conversational search with context-aware query reformulation (Phase 5)
+- `search(query)` — reformulates the query using `context_window` most recent turns, dispatches
+  to the underlying `HybridSearch`, and appends the turn to the session history
+- `reformulate(query)` — public static-equivalent helper; builds context-enriched query string
+  by prepending up to `context_window` prior queries separated by `Config::context_separator`
+- `Turn` struct: `query`, `reformulated_query`, `results` — full turn record
+- `getHistory()` — inspect full deque of turns (oldest first)
+- `clearHistory()` — remove all history (GDPR-compatible session reset)
+- `Config::context_window` — number of prior turns to include in context (0 = stateless)
+- `Config::max_history` — maximum retained turns; oldest are evicted (min 1)
+- `Config::context_separator` — separator between historical query terms (default `" "`)
+- Exception safety: `search()` never throws; null `HybridSearch` returns empty results
+- Tests: `tests/test_search_future_interfaces.cpp` (17 tests — ConversationalSearch*)
+
+---
+
+### FederatedSearch (`include/search/federated_search.h`)
+- Federated search across multiple isolated per-tenant `HybridSearch` indexes (Phase 5)
+- `registerTenant(id, hs)` — register a named tenant index (non-owning pointer)
+- `removeTenant(id)` / `setTenantWeight(id, w)` — dynamic tenant management
+- `search(query, vector_query, tenant_stats)` — queries all non-skipped tenants, merges via
+  weighted Reciprocal Rank Fusion (RRF), returns top-k globally ranked results
+- `mergeTenantResults(map)` — public RRF merge helper; directly unit-testable without network
+- `Result` struct: `document_id`, `tenant_id`, `score`, `bm25_score`, `vector_score`
+- `TenantStats` struct: per-tenant diagnostics (`results_count`, `skipped`)
+- Tenant weights clamped to [0, 1]; weight=0 excludes tenant from results
+- `Config::skip_null_tenants` — silently skip null-pointer tenants (default true)
+- Exception safety: `search()` never throws; per-tenant errors are caught and logged
+- Tests: `tests/test_search_future_interfaces.cpp` (17 tests — FederatedSearch*)
+
+---
+
+### SearchResultStream (`include/search/search_result_stream.h`)
+- Cursor-based streaming pagination over large `HybridSearch` result sets (Phase 5)
+- `open(query)` — fetches up to `Config::total_k` results, resets cursor to 0
+- `nextPage()` — returns up to `Config::page_size` results and advances cursor
+- `hasMore()` / `reset()` / `close()` — cursor and stream lifecycle management
+- `forEachResult(callback)` — streaming iteration; return `false` from callback for early stop
+- `totalResults()` / `cursorPosition()` — inspection accessors
+- Temporarily adjusts the underlying `HybridSearch` config k to `total_k` during `open()`
+  and restores it afterwards; transparent to the caller
+- Exception safety: `open()` and `nextPage()` never throw; callback exceptions are caught
+- Tests: `tests/test_search_future_interfaces.cpp` (17 tests — SearchResultStream*)
+
 ### Query Expansion and Rewriting
-**Priority:** High  
+**Priority:** High
 **Status:** ✅ Delivered in v1.5.0 — see `include/search/query_expander.h`
 
 Automatically expand and rewrite queries for better results.
@@ -324,16 +373,16 @@ public:
         double synonym_weight = 0.8;
         size_t max_expansions = 5;
     };
-    
+
     Result<ExpandedQuery> expand(
         const std::string& query,
         const ExpansionConfig& config
     );
-    
+
     Result<std::string> correctSpelling(
         const std::string& query
     );
-    
+
     Result<std::vector<std::string>> suggestAlternatives(
         const std::string& query
     );
@@ -343,7 +392,7 @@ public:
 ---
 
 ### Advanced Fuzzy Matching
-**Priority:** Medium  
+**Priority:** Medium
 **Status:** ✅ Delivered in v1.5.0 — see `include/search/fuzzy_matcher.h`
 
 Enhanced fuzzy search with phonetic algorithms.
@@ -362,7 +411,7 @@ Enhanced fuzzy search with phonetic algorithms.
 ---
 
 ### Multi-Modal Search
-**Priority:** Medium  
+**Priority:** Medium
 **Status:** ✅ Delivered in v1.5.0 — see `include/search/multi_modal_search.h`
 
 Search across text, images, and other modalities.
@@ -376,7 +425,7 @@ Search across text, images, and other modalities.
 ---
 
 ### Learning to Rank (LTR)
-**Priority:** Medium  
+**Priority:** Medium
 **Status:** ✅ Delivered in v1.5.0 — see `include/search/learning_to_rank.h`
 
 Machine learning-based result ranking.
@@ -390,7 +439,7 @@ Machine learning-based result ranking.
 ---
 
 ### Search Analytics
-**Priority:** High  
+**Priority:** High
 **Status:** ✅ Delivered in v1.5.0 — see `include/search/search_analytics.h`
 
 Track and analyze search performance.
@@ -405,7 +454,7 @@ Track and analyze search performance.
 ---
 
 ### Faceted Search
-**Priority:** High  
+**Priority:** High
 **Status:** ✅ Delivered in v1.5.0 — see `include/search/faceted_search.h`
 
 Multi-dimensional filtering and navigation.
@@ -420,7 +469,7 @@ Multi-dimensional filtering and navigation.
 ---
 
 ### Autocomplete and Suggestions
-**Priority:** Medium  
+**Priority:** Medium
 **Status:** ✅ Delivered in v1.5.0 — see `include/search/autocomplete.h`
 
 Real-time query suggestions.
@@ -473,6 +522,37 @@ Real-time query suggestions.
 - LTR re-ranking latency: ≤ 2 ms for re-ranking top-100 candidates with the 6-dimensional linear model
 - SPLADE index memory: ≤ 4 GB for a 10 M-document corpus stored in CSR format
 - Autocomplete suggestion latency: ≤ 5 ms at p99 for prefix queries against a 1 M-term dictionary
+
+---
+
+## Identified Gaps (from AI_ML_IMPACT_ASSESSMENT.md)
+
+### Gap 2 — LlmQueryRewriter: Semantic Output Validator and Structured Fallback (Target: Q3 2026)
+
+**Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 2 (Severity: Medium/S2)`
+**Status:** ✅ Implemented (2026-04-21)
+
+**Problem:** `LlmQueryRewriter::rewrite()` had no semantic output validator: an LLM
+response that is syntactically parseable but semantically nonsensical was accepted
+and returned as-is with no signal to callers.
+
+**Implemented changes:**
+- `RewriteQuality` enum (`OK` / `FALLBACK`) added to `llm_query_rewriter.h`.
+- `RewrittenQuery::quality` field added (default: `OK`).
+- `Config::min_token_overlap_ratio` (default: `0.2`) — rewrites below the Jaccard
+  token-overlap threshold are discarded; when all are discarded, `quality=FALLBACK`
+  and the original query is returned via `fallback_to_original`.
+- `LlmQueryRewriter::jaccardTokenOverlap()` + `applyOverlapFilter()` private helpers
+  added to `llm_query_rewriter.h` / `.cpp`.
+- Tests: `test_llm_query_rewriter_validator.cpp` (LQR_VAL_01..06) registered as
+  `LlmQueryRewriterValidatorFocusedTests`.
+
+**Inputs:** `std::string query`, LLM-generated rewrite lines.
+**Outputs:** `RewrittenQuery { rewrites, quality=OK|FALLBACK }`.
+**Constraints:** Existing `fallback_to_original` behaviour on error/timeout paths unchanged.
+**Perf target:** ≤ 1 ms additional overhead at p99 (one `unordered_set` per rewrite).
+
+---
 
 ## Security / Reliability
 
@@ -534,6 +614,6 @@ Real-time query suggestions.
 
 ---
 
-*Last Updated: February 2026*  
-*Module Version: v1.7.0*  
+*Last Updated: April 2026*
+*Module Version: v1.7.0*
 *Next Review: v1.8.0 Release*

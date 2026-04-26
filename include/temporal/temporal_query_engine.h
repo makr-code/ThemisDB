@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_query_engine.h                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:58                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     533                                            ║
+    • Total Lines:     531                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 96f1f1fd7  2026-03-24  Changes before error encountered         ║
-    • fe76ac476  2026-03-12  fix(temporal): address PR review comments on QueryCache a... ║
-    • bce530ee4  2026-03-12  feat(temporal): implement Time-Travel Query Engine (v1.2.0) ║
-    • 6e8942ed4  2026-03-09  feat(temporal): implement bitemporal joins and SEQUENCED/... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 96f1f1fd7c  2026-03-24  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -414,6 +410,63 @@ public:
         const TemporalQuerySpec& spec,
         const std::vector<RowFilter>& filters = {});
 
+    // ── SEQUENCED DISTINCT ────────────────────────────────────────────────────
+
+    /**
+     * @brief SQL:2011 §13.4 SEQUENCED DISTINCT — remove temporally redundant rows.
+     *
+     * Returns the minimal set of `VersionedDocument` rows that captures the
+     * complete version history of each logical key, eliminating rows whose
+     * non-temporal data is identical to an adjacent version for the same key.
+     * Adjacent periods with identical data are merged into a single, longer
+     * interval.
+     *
+     * ### Definition (SQL:2011 §13.4)
+     * A row R is temporally redundant when there exists another row R' for the
+     * same key such that:
+     *   - R'.sys_time overlaps or is immediately adjacent to R.sys_time, AND
+     *   - the compared fields of R' are identical to those of R.
+     * The SEQUENCED DISTINCT result coalesces all such adjacent equal-data
+     * intervals into a single row whose sys_time spans the merged range.
+     *
+     * ### Example
+     * ```
+     * key="x",  data={"v":1},  sys_time=[0,  10)
+     * key="x",  data={"v":1},  sys_time=[10, 20)   ← same data, adjacent → merge
+     * key="x",  data={"v":2},  sys_time=[20, 30)   ← different data → keep separate
+     * ```
+     * Result:
+     * ```
+     * key="x",  data={"v":1},  sys_time=[0,  20)
+     * key="x",  data={"v":2},  sys_time=[20, 30)
+     * ```
+     *
+     * @param table          Source table (all historical versions are scanned).
+     * @param compare_fields JSON field names used for equality comparison.
+     *                       Pass an empty vector to compare the entire `data`
+     *                       document (all fields must match for merging).
+     * @return               Coalesced rows, sorted by key then sys_start.
+     */
+    static std::vector<VersionedDocument> sequencedDistinct(
+        const SystemVersionedTable& table,
+        const std::vector<std::string>& compare_fields = {});
+
+    /**
+     * @brief SEQUENCED DISTINCT restricted to a single key.
+     *
+     * Same semantics as the table-wide overload, applied only to versions
+     * of the given @p key.  Useful when the caller already knows the key
+     * and wants to avoid scanning the full table.
+     *
+     * @param table          Source table.
+     * @param key            Key whose versions should be coalesced.
+     * @param compare_fields Fields used for equality comparison (empty = all fields).
+     * @return               Coalesced rows for @p key, sorted by sys_start.
+     */
+    static std::vector<VersionedDocument> sequencedDistinctForKey(
+        const SystemVersionedTable& table,
+        const std::string& key,
+        const std::vector<std::string>& compare_fields = {});
 };
 
 // ============================================================================

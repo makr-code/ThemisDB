@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_scraper_plugin.cpp                            ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 18:57:00                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1008                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 9f5c953436  2026-04-07  feat(config): Introduce new hierarchical configuration st... ║
+    • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
+    • 527ce5dd6e  2026-04-02  fix(scraper): update test count comments (60 tests, 12 gr... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_scraper_plugin.cpp
  * @brief Unit tests for the Scraper Plugin (agentic gap-detection scraper)
@@ -20,14 +44,14 @@
 
 #include <gtest/gtest.h>
 
-#include "scraper_config.h"
-#include "scraper_search_engine.h"
-#include "gov_source_catalog.h"
-#include "scraper_js_renderer.h"
-#include "scraper_api_client.h"
-#include "scraper_llm_evaluator.h"
-#include "scraper_metadata_writer.h"
-#include "scraper_plugin.h"
+#include "../plugins/scraper/include/scraper_config.h"
+#include "../plugins/scraper/include/scraper_search_engine.h"
+#include "../plugins/scraper/include/gov_source_catalog.h"
+#include "../plugins/scraper/include/scraper_js_renderer.h"
+#include "../plugins/scraper/include/scraper_api_client.h"
+#include "../plugins/scraper/include/scraper_llm_evaluator.h"
+#include "../plugins/scraper/include/scraper_metadata_writer.h"
+#include "../plugins/scraper/include/scraper_plugin.h"
 
 using namespace themis::scraper;
 

@@ -3,19 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            function_registry.h                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:09:55                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     518                                            ║
+    • Total Lines:     516                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1200426fc  2026-02-26  feat(query): implement UDF registration API (Issue #2433) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -36,6 +32,7 @@ namespace themis {
     class GraphIndexManager;
     class GraphAnalytics;
     class SecondaryIndexManager;
+    class ProcessMining;
 }
 
 namespace themis {
@@ -225,6 +222,10 @@ public:
     void setSecondaryIndexManager(themis::SecondaryIndexManager* mgr) { secondary_idx_mgr_ = mgr; }
     themis::SecondaryIndexManager* getSecondaryIndexManager() const { return secondary_idx_mgr_; }
 
+    // Process mining engine access (for PM_DISCOVER_PROCESS, PM_VARIANTS, etc.)
+    void setProcessMining(themis::ProcessMining* pm) { process_mining_ = pm; }
+    themis::ProcessMining* getProcessMining() const { return process_mining_; }
+
 private:
     nlohmann::json current_doc_;
     std::unordered_map<std::string, nlohmann::json> variables_;
@@ -233,6 +234,7 @@ private:
     themis::GraphIndexManager* graph_mgr_ = nullptr;
     themis::GraphAnalytics* graph_analytics_ = nullptr;
     themis::SecondaryIndexManager* secondary_idx_mgr_ = nullptr;
+    themis::ProcessMining* process_mining_ = nullptr;
 };
 
 // ============================================================================

@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            agentic_rag.h                                      ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:10:11                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:46:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     333                                            ║
+    • Total Lines:     331                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 141136c01  2026-02-24  audit(rag): fix dead code, unused include, wrong metadata... ║
-    • 7845f6477  2026-02-24  feat(rag): Agentic RAG with iterative retrieval loops (Ph... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -69,7 +64,8 @@ enum class StopReason {
     MAX_ITERATIONS,        ///< Maximum number of iterations reached
     NO_GAP_DETECTED,       ///< KnowledgeGapDetector found no gap
     NO_NEW_DOCUMENTS,      ///< Retrieval returned no additional documents
-    CANCELLED              ///< Externally cancelled via AgenticRAG::cancel()
+    CANCELLED,             ///< Externally cancelled via AgenticRAG::cancel()
+    BUDGET_EXCEEDED        ///< Session token budget cap reached (Gap 4)
 };
 
 // ---------------------------------------------------------------------------
@@ -116,6 +112,12 @@ struct AgenticRAGResult {
 
     /// True when the quality threshold was ultimately satisfied.
     bool quality_satisfied;
+
+    /// Cumulative token count consumed across all LLM calls in this session.
+    /// Best-effort: summed from InferenceResponse::tokens_generated when
+    /// available; may be 0 if the backend does not report token counts.
+    /// Used for budget enforcement (Gap 4 — AI_ML_IMPACT_ASSESSMENT.md §7).
+    size_t tokens_consumed = 0;
 };
 
 // ---------------------------------------------------------------------------
@@ -174,6 +176,15 @@ struct AgenticRAGConfig {
 
     /// KnowledgeGapDetector configuration forwarded to the gap detector.
     knowledge_gap::KnowledgeGapConfig gap_config;
+
+    /// Maximum total tokens that may be consumed across all LLM calls in a
+    /// single run() session.  When the cumulative token count reaches this
+    /// value the loop stops with StopReason::BUDGET_EXCEEDED and the partial
+    /// result is returned.
+    /// 0 (default) disables enforcement — existing behaviour is preserved.
+    /// (Gap 4 — AI_ML_IMPACT_ASSESSMENT.md §7; tracked in
+    ///  rag/FUTURE_ENHANCEMENTS.md §"Session Token-Budget Cap")
+    size_t max_session_tokens = 0;
 };
 
 // ---------------------------------------------------------------------------

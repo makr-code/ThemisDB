@@ -3,18 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            columnar_format.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:27                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     1450                                           ║
+    • Total Lines:     1453                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -1068,8 +1071,8 @@ void ColumnSegment::buildZoneMap() {
 
 CompressionCodec ColumnSegment::selectOptimalCodec(
     ColumnType type,
-    const void* data,
-    size_t row_count
+    [[maybe_unused]] const void* data,
+    [[maybe_unused]] size_t row_count
 ) {
     // Simple heuristic-based codec selection
     switch (type) {
@@ -1146,7 +1149,7 @@ Result<void> ColumnSegment::encode() {
         return {};
     }
 
-    Result<std::vector<uint8_t>> encode_result;
+    Result<std::vector<uint8_t>> encode_result = Ok(std::vector<uint8_t>{});
 
     switch (metadata_.codec) {
         case CompressionCodec::RLE: {

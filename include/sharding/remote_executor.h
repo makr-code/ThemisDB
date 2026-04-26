@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            remote_executor.h                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:37                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     184                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -132,6 +129,29 @@ public:
      * @return Result with query results
      */
     Result executeQuery(const ShardInfo& shard_info, const std::string& query);
+
+    /**
+     * Transfer a raw binary payload to a remote shard via HTTP POST.
+     *
+     * Intended for KV-state transfer (Phase 5 KV-Prefix Cross-Shard sharing):
+     * the serialised KV cache for a shared system-prompt prefix is POSTed to
+     * the target shard so that it can warm its local KV cache and reduce
+     * time-to-first-token (TTFT) for requests that share the same prefix.
+     *
+     * Content-Type is set to "application/octet-stream".  The response body
+     * is returned in @c Result::response (base64-encoded by the mTLS layer if
+     * non-printable characters are present).
+     *
+     * @param shard_info   Target shard.
+     * @param path         Request path (e.g., "/api/v1/kv-prefix/ingest").
+     * @param data         Pointer to binary payload bytes.
+     * @param size         Payload size in bytes.
+     * @return Result with success flag, shard_id, and optional error message.
+     */
+    Result postBinary(const ShardInfo& shard_info,
+                      const std::string& path,
+                      const uint8_t* data,
+                      std::size_t size);
     
     /**
      * Check if remote executor is ready

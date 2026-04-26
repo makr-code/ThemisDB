@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bao.cpp                                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:17:55                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   97.0/100                                       ║
     • Total Lines:     175                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -40,6 +37,7 @@ struct BaoOptimizer::Impl {
     size_t queries_optimized = 0;
     size_t model_updates = 0;
     double total_speedup = 0.0;
+    size_t miss_count = 0;  ///< Plans flagged as sub-optimal by update_model()
     
     Impl() : rng(std::random_device{}()) {}
     
@@ -157,6 +155,7 @@ void BaoOptimizer::update_model(const QueryPlan& plan, const QueryResult& result
         impl_->total_speedup += reward;
     } else {
         arm.second += 1.0; // Failure (poor plan)
+        ++impl_->miss_count;
     }
 }
 
@@ -168,6 +167,12 @@ BaoOptimizer::Stats BaoOptimizer::get_stats() const {
         ? impl_->total_speedup / impl_->queries_optimized 
         : 0.0;
     return stats;
+}
+
+double BaoOptimizer::getMissRate() const {
+    if (impl_->queries_optimized == 0) return 0.0;
+    return static_cast<double>(impl_->miss_count) /
+           static_cast<double>(impl_->queries_optimized);
 }
 
 } // namespace phase3

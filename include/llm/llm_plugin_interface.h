@@ -3,21 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_plugin_interface.h                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:24                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     453                                            ║
+    • Total Lines:     487                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0f9839ae4  2026-02-26  feat(llm): implement JSON schema binding support (Issue #... ║
-    • 53b07730b  2026-02-26  feat(llm): implement multi-modal input support (image + t... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 7b80a66e02  2026-04-07  fix(llama_cpp): align LlamaCppPlugin with ILLMPlugin inte... ║
+    • bc505b7f56  2026-04-07  feat(rag): implement context-window budget, RAGContextAss... ║
+    • 01a86c4f10  2026-04-07  Changes before error encountered        ║
+    • 938636d98f  2026-04-07  feat(plugins): add audio/imggen interfaces, THEMIS_LLM_PL... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,6 +27,7 @@
 
 #include "plugins/plugin_interface.h"
 #include "llm/json_schema_converter.h"
+#include "llm/context_window_budget.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -85,6 +86,14 @@ struct LLMCapabilities {
 
     // Multi-modal capabilities
     bool supports_multimodal = false;      // Image + text input (vision-language models)
+
+    // Embedding / RAG / function-call support
+    bool supports_embeddings = false;      // Text embedding (dense vector output)
+    bool supports_rag = false;             // Retrieval-Augmented Generation
+    bool supports_function_call = false;   // Structured function / tool calling
+
+    // Plugin metadata
+    std::string plugin_version;            // Semantic version of this plugin
 };
 
 /**
@@ -228,10 +237,19 @@ struct InferenceResponse {
     std::vector<float> logprobs;   // Log probabilities per token
     
     json metadata;
+
+    // Status
+    bool success = false;          // true when inference completed without error
+    std::string error_message;     // Non-empty on failure
 };
 
 /**
  * @brief RAG (Retrieval-Augmented Generation) context
+ *
+ * max_context_tokens should be set to ModelInfo::context_length of the loaded
+ * model.  The RAGContextAssembler uses this value together with
+ * response_budget_tokens to compute the exact token budget available for the
+ * retrieved chunks.  Setting it to 0 triggers the 4 096-token fallback.
  */
 struct RAGContext {
     std::string query;             // User query
@@ -248,8 +266,13 @@ struct RAGContext {
     std::vector<Document> documents;
     
     // Context assembly parameters
-    int max_context_tokens = 4096;
+    // NOTE: set from ModelInfo::context_length — do NOT hardcode.
+    int max_context_tokens = 0;    // 0 → falls back to kDefaultContextWindowTokens
     std::string context_template;  // How to format context
+
+    // Response-budget reservation (tokens kept for the model answer).
+    // The actual reservation is max(response_budget_tokens, 20 % of the window).
+    int response_budget_tokens = 512;
 };
 
 /**
@@ -451,3 +474,14 @@ private:
 
 } // namespace llm
 } // namespace themis
+
+/**
+ * @brief Export macro for dynamic loading of LLM plugins.
+ *
+ * Add this macro once in the .cpp file of your LLM plugin implementation.
+ */
+#define THEMIS_LLM_PLUGIN()                                                        \
+    extern "C" THEMIS_PLUGIN_EXPORT                                                \
+        themis::llm::ILLMPlugin* themis_llm_create();                             \
+    extern "C" THEMIS_PLUGIN_EXPORT                                                \
+        void themis_llm_destroy(themis::llm::ILLMPlugin* p)

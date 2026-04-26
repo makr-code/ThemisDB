@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_server.hpp                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:19                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     317                                            ║
+    • Total Lines:     315                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e7af44ad0  2026-03-11  fix(network): audit pass 2 — add CURSOR_NEXT (0x23), CURS... ║
-    • c47502afd  2026-03-11  feat(network): implement all WireProtocol V1 opcode handl... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
+    • e7af44ad0c  2026-03-11  fix(network): audit pass 2 — add CURSOR_NEXT (0x23), CURS... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -34,6 +31,7 @@
 #include <vector>
 #include <unordered_map>
 #include <functional>
+#include <mutex>
 #include <boost/asio.hpp>
 #include <google/protobuf/message.h>
 
@@ -204,6 +202,7 @@ public:
     
     void start();
     void close(const std::string& reason = "");
+    void set_disconnect_callback(std::function<void(const std::string&)> callback);
     
     const std::string& session_id() const { return session_id_; }
     bool is_authenticated() const { return authenticated_; }
@@ -256,6 +255,9 @@ private:
     
     std::vector<uint8_t> read_buffer_;
     std::vector<uint8_t> write_buffer_;
+    std::function<void(const std::string&)> disconnect_callback_;
+    bool disconnect_notified_;
+    mutable std::mutex session_mutex_;
     
     // Statistics
     uint64_t messages_received_;
@@ -281,8 +283,8 @@ public:
     
     // Statistics
     size_t active_sessions() const;
-    uint64_t total_connections() const { return total_connections_; }
-    uint64_t total_messages() const { return total_messages_; }
+    uint64_t total_connections() const;
+    uint64_t total_messages() const;
     
 private:
     void async_accept();
@@ -291,6 +293,7 @@ private:
     boost::asio::io_context& io_context_;
     acceptor_t acceptor_;
     std::unordered_map<std::string, std::shared_ptr<WireProtocolSession>> sessions_;
+    mutable std::mutex state_mutex_;
     
     uint16_t port_;
     uint64_t total_connections_;

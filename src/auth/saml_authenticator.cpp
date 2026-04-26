@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            saml_authenticator.cpp                             ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-03-30 04:14:23                                ║
+  Version:         0.0.20                                             ║
+  Last Modified:   2026-04-15 18:48:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1332                                           ║
+    • Total Lines:     1329                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c20bbb0ac  2026-03-13  fix(auth): address PR review comments on SAML assertion e... ║
-    • be4418c00  2026-03-12  fix(auth): address code review - PKCS1-v1.5 deprecation w... ║
-    • b428004b9  2026-03-12  feat(auth): implement SAML assertion encryption support (... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 879ea3571  2026-02-26  fix(auth): redact PII in log statements (LDAP, SAML, API ... ║
+    • c20bbb0ace  2026-03-13  fix(auth): address PR review comments on SAML assertion e... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -341,6 +337,25 @@ bool SAMLAuthenticator::verifyXmlSignature(
         digest_md = EVP_sha256();
     } else if (digest_algorithm_uri.find("sha1") != std::string::npos ||
                digest_algorithm_uri.find("SHA1") != std::string::npos) {
+        // SHA-1 is cryptographically broken (CWE-327, NIST SP 800-131A rev. 2).
+        // Reject unless the operator has explicitly enabled the legacy fallback.
+        // Sanitize the URI before logging to prevent log injection — truncate to
+        // 128 chars and replace control characters with '?'.
+        std::string safe_uri = digest_algorithm_uri.substr(0, 128);
+        for (char& c : safe_uri) {
+            if (static_cast<unsigned char>(c) < 0x20 || c == '\n' || c == '\r') {
+                c = '?';
+            }
+        }
+        THEMIS_WARN("[SECURITY] SAML: SHA-1 digest algorithm detected ({}). "
+                    "SHA-1 is cryptographically broken. Migrate to SHA-256.",
+                    safe_uri);
+        if (!config_.allow_sha1_deprecated) {
+            THEMIS_ERROR("[SECURITY] SAML: SHA-1 digest rejected. "
+                         "Set SAMLConfig::allow_sha1_deprecated=true to allow "
+                         "temporarily during IdP migration.");
+            return false;
+        }
         digest_md = EVP_sha1();
     } else {
         THEMIS_WARN("SAML: Unsupported digest algorithm: {}", digest_algorithm_uri);
@@ -354,6 +369,16 @@ bool SAMLAuthenticator::verifyXmlSignature(
         sig_md = EVP_sha256();
     } else if (sig_algorithm_uri.find("rsa-sha1") != std::string::npos ||
                sig_algorithm_uri.find("RSA-SHA1") != std::string::npos) {
+        // SHA-1 based signature algorithm is broken (CWE-327).
+        THEMIS_WARN("[SECURITY] SAML: SHA-1 signature algorithm detected ({}). "
+                    "SHA-1 is cryptographically broken. Migrate to RSA-SHA256.",
+                    sig_algorithm_uri);
+        if (!config_.allow_sha1_deprecated) {
+            THEMIS_ERROR("[SECURITY] SAML: SHA-1 signature rejected. "
+                         "Set SAMLConfig::allow_sha1_deprecated=true to allow "
+                         "temporarily during IdP migration.");
+            return false;
+        }
         sig_md = EVP_sha1();
     } else {
         THEMIS_WARN("SAML: Unsupported signature algorithm: {}", sig_algorithm_uri);
@@ -472,7 +497,7 @@ pugi::xml_node findSignature(const pugi::xml_node& node) {
 } // anonymous namespace
 
 // ============================================================================
-// decryptAssertion – XML Encryption (XMLEnc) assertion decryption
+// decryptAssertion - XML Encryption (XMLEnc) assertion decryption
 // Supports AES-128-CBC / AES-256-CBC data encryption and
 // RSA-OAEP (rsa-oaep-mgf1p) / RSA-PKCS1-v1.5 key transport.
 // IV is the first block_size bytes of the CipherValue (per XML Enc §5.2).
@@ -761,7 +786,7 @@ std::string SAMLAuthenticator::decryptAssertion(
 }
 
 // ============================================================================
-// processResponse – main entry point
+// processResponse - main entry point
 // ============================================================================
 
 SAMLClaims SAMLAuthenticator::processResponse(
@@ -1135,7 +1160,10 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
                     if (noa) {
                         try {
                             assertion_expiry = parseDateTime(noa.as_string("")) + config_.clock_skew;
-                        } catch (...) {}
+                        } catch (const std::exception& ex) {
+                            THEMIS_WARN("SAML: failed to parse SubjectConfirmationData@NotOnOrAfter "
+                                        "for replay TTL fallback: {}", ex.what());
+                        }
                     }
                 }
             }

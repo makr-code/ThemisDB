@@ -3,27 +3,28 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themisdb_grpc_service.cpp                          ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:14:01                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   82.0/100                                       ║
-    • Total Lines:     713                                            ║
+    • Quality Score:   92.0/100                                       ║
+    • Total Lines:     849                                            ║
     • Open Issues:     TODOs: 0, Stubs: 4                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 6a26e097b  2026-03-25  fix(api): address code review – AQL injection escaping, t... ║
-    • 97cd90011  2026-03-25  feat(api): gRPC Phase 4 – mutex fix, deadline, RPC stubs,... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c9bb592d7  2026-02-24  Implement ThemisDBGrpcService and fix ThemisCoreServiceIm... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ed2d46e8d1  2026-04-13  fix(api): complete gRPC stub wiring — bounds checks, stop... ║
+    • 11ddb98b9f  2026-04-09  Add comprehensive documentation and security measures for... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "api/themisdb_grpc_service.h"
+#include "api/aql_utils.h"
 #include "storage/rocksdb_wrapper.h"
 #include "transaction/transaction_manager.h"
 #include "utils/logger.h"
@@ -60,18 +61,34 @@
 
 namespace {
 
+using themis::api::aqlEscapeLiteral;
+using themis::api::isValidAqlIdentifier;
+
 /// Escape a string for safe embedding inside an AQL single-quoted literal.
 /// Replaces backslashes and single-quotes to prevent AQL injection.
-std::string aqlEscape(const std::string& raw) {
-    std::string out;
-    out.reserve(raw.size() + 4);
-    for (char c : raw) {
-        if (c == '\\') { out += "\\\\"; }
-        else if (c == '\'') { out += "\\'"; }
-        else { out += c; }
-    }
-    return out;
+/// Kept as a local alias for backward compatibility with call sites below.
+inline std::string aqlEscape(const std::string& raw) {
+    return aqlEscapeLiteral(raw);
 }
+
+/// Validate a collection name used as an AQL identifier (FOR doc IN <name>).
+/// Delegates to the shared header implementation.
+inline bool isValidCollectionName(const std::string& name) {
+    return isValidAqlIdentifier(name);
+}
+
+/// Version-counter key for a stored document.
+/// Stored as a plain decimal string so that no additional serialisation is
+/// needed and the counter survives a process restart.
+inline std::string versionKey(const std::string& storage_key) {
+    return "__ver/" + storage_key;
+}
+
+/// Hard upper bound on the number of items in a single BatchWrite or BatchRead
+/// request (upserts + deletes for BatchWrite; keys for BatchRead).  Requests
+/// that exceed this limit are rejected with RESOURCE_EXHAUSTED to prevent
+/// unbounded memory allocation on the server.
+static constexpr int kMaxBatchItems = 10'000;
 
 } // namespace
 
@@ -145,6 +162,9 @@ private:
                 err->set_message("storage write failed");
                 return grpc::Status::OK;
             }
+
+            // Persist version counter (always 1 for a fresh create).
+            db_->put(versionKey(storage_key), "1");
 
             resp->set_success(true);
             resp->set_key(doc.key());
@@ -228,9 +248,24 @@ private:
                 return grpc::Status::OK;
             }
 
+            // Read-increment-store version counter.
+            uint64_t new_version = 1;
+            if (db_) {
+                std::string ver_str;
+                if (db_->get(versionKey(storage_key), ver_str)) {
+                    try { new_version = std::stoull(ver_str) + 1; }
+                    catch (...) {
+                        THEMIS_WARN("UpdateDocument: malformed version counter '{}' for key '{}'; "
+                                    "resetting to 1", ver_str, storage_key);
+                        new_version = 1;
+                    }
+                }
+                db_->put(versionKey(storage_key), std::to_string(new_version));
+            }
+
             resp->set_success(true);
             resp->set_key(doc.key());
-            resp->set_version(1);
+            resp->set_version(new_version);
             return grpc::Status::OK;
         }
 
@@ -268,26 +303,48 @@ private:
             const BatchWriteRequest*   req,
             BatchWriteResponse*        resp
         ) override {
+            // Reject oversized batches before allocating any per-item resources.
+            if (req->upserts_size() + req->deletes_size() > kMaxBatchItems) {
+                return grpc::Status(
+                    grpc::StatusCode::RESOURCE_EXHAUSTED,
+                    "batch exceeds maximum of " + std::to_string(kMaxBatchItems) + " items; "
+                    "split the request into smaller batches");
+            }
+
             int upserted = 0;
             int deleted  = 0;
+            bool all_ok  = true;
 
             for (const auto& doc : req->upserts()) {
                 const std::string key  = doc.collection() + "/" + doc.key();
                 const std::string body(doc.body().begin(), doc.body().end());
                 if (db_ && db_->put(key, body)) {
                     ++upserted;
+                } else {
+                    all_ok = false;
                 }
             }
 
             for (const auto& del_key : req->deletes()) {
                 if (db_ && db_->del(del_key)) {
                     ++deleted;
+                } else {
+                    all_ok = false;
                 }
             }
 
-            resp->set_success(true);
+            resp->set_success(all_ok);
             resp->set_upserted_count(upserted);
             resp->set_deleted_count(deleted);
+            if (!all_ok) {
+                const int expected = req->upserts_size() + req->deletes_size();
+                const int done     = upserted + deleted;
+                auto* err = resp->mutable_error();
+                err->set_code(207);
+                err->set_message("partial failure: " + std::to_string(done) +
+                                 "/" + std::to_string(expected) +
+                                 " operations succeeded");
+            }
             return grpc::Status::OK;
         }
 
@@ -296,6 +353,14 @@ private:
             const BatchReadRequest*   req,
             BatchReadResponse*        resp
         ) override {
+            // Reject oversized key lists before allocating any per-item resources.
+            if (req->keys_size() > kMaxBatchItems) {
+                return grpc::Status(
+                    grpc::StatusCode::RESOURCE_EXHAUSTED,
+                    "batch exceeds maximum of " + std::to_string(kMaxBatchItems) + " keys; "
+                    "split the request into smaller batches");
+            }
+
             for (const auto& key : req->keys()) {
                 const std::string storage_key = req->collection() + "/" + key;
                 std::string body;
@@ -348,8 +413,31 @@ private:
             }
 
             resp->set_success(true);
+#if THEMIS_HAS_JSON
+            try {
+                const auto json = nlohmann::json::parse(*result);
+                if (json.is_array()) {
+                    for (const auto& element : json) {
+                        auto* row = resp->add_rows();
+                        row->set_data(element.dump());
+                        row->set_has_more(false);
+                    }
+                } else {
+                    auto* row = resp->add_rows();
+                    row->set_data(*result);
+                    row->set_has_more(false);
+                }
+            } catch (...) {
+                // Fall back to raw payload when response is not valid JSON.
+                auto* row = resp->add_rows();
+                row->set_data(*result);
+                row->set_has_more(false);
+            }
+#else
             auto* row = resp->add_rows();
             row->set_data(*result);
+            row->set_has_more(false);
+#endif
             return grpc::Status::OK;
         }
 
@@ -524,7 +612,17 @@ private:
                                     "neither VectorIndex nor AQL engine wired");
             }
 
+            // Validate the collection name used as an AQL identifier.
+            if (!req->collection().empty() && !isValidCollectionName(req->collection())) {
+                resp->set_success(false);
+                auto* err = resp->mutable_error();
+                err->set_code(400);
+                err->set_message("invalid collection name: must match [a-zA-Z_][a-zA-Z0-9_]*");
+                return grpc::Status::OK;
+            }
+
             const uint32_t k = req->k() > 0 ? static_cast<uint32_t>(req->k()) : 10;
+            const float alpha = req->alpha() > 0.0f ? req->alpha() : 0.5f;
             resp->set_success(true);
 
             // Dense component (vector index)
@@ -534,7 +632,6 @@ private:
                     req->dense_vector().values().begin(),
                     req->dense_vector().values().end());
                 const auto dense_hits = vector_index_->search(embedding, k);
-                const float alpha = req->alpha() > 0.0f ? req->alpha() : 0.5f;
                 for (const auto& hit : dense_hits) {
                     auto* h = resp->add_hits();
                     h->set_collection(req->collection());
@@ -543,20 +640,42 @@ private:
                 }
             }
 
-            // Sparse component (AQL full-text via engine) – simplified delegation
+            // Sparse component (AQL full-text via engine).
+            // Collection name is an AQL identifier (validated above); the query
+            // string is embedded inside a single-quoted literal (escaped below).
             if (aql_engine_ && !req->sparse_query().empty()) {
-                // Escape user input before embedding in AQL string literal
                 const std::string aql =
-                    "FOR doc IN " + aqlEscape(req->collection()) +
+                    "FOR doc IN " + req->collection() +
                     " FILTER FULLTEXT(doc, 'text', '" + aqlEscape(req->sparse_query()) + "')"
                     " LIMIT " + std::to_string(k) + " RETURN doc";
                 auto result = aql_engine_->execute(aql);
                 if (result) {
-                    // Emit as search hits with score (1 - alpha)
-                    const float sparse_weight = 1.0f - (req->alpha() > 0.0f ? req->alpha() : 0.5f);
-                    (void)sparse_weight; // score merging is a v2.0.0 task
-                    // Add a summary note without breaking the response
-                    THEMIS_INFO("ThemisDBGrpcService: HybridSearch – AQL sparse component executed");
+                    const float sparse_weight = 1.0f - alpha;
+#if THEMIS_HAS_JSON
+                    try {
+                        const auto json = nlohmann::json::parse(*result);
+                        if (json.is_array()) {
+                            for (const auto& element : json) {
+                                if (!element.is_object()) continue;
+                                auto* h = resp->add_hits();
+                                h->set_collection(req->collection());
+                                if (element.contains("_key")) {
+                                    h->set_key(element["_key"].get<std::string>());
+                                }
+                                h->set_score(sparse_weight);
+                            }
+                        }
+                    } catch (const nlohmann::json::parse_error& e) {
+                        // AQL engine returned non-JSON (or malformed JSON) – emit
+                        // as single hit and log so that engine issues are diagnosable.
+                        THEMIS_WARN("ThemisDBGrpcService: HybridSearch – AQL result is not "
+                                    "valid JSON ({}); emitting as single hit", e.what());
+                        auto* h = resp->add_hits();
+                        h->set_collection(req->collection());
+                        h->set_score(sparse_weight);
+                    }
+#else
+#endif
                 }
             }
 
@@ -586,10 +705,20 @@ private:
                 return grpc::Status::OK;
             }
 
+            // Validate the collection name used as an AQL identifier.
+            if (!isValidCollectionName(req->collection())) {
+                resp->set_success(false);
+                auto* err = resp->mutable_error();
+                err->set_code(400);
+                err->set_message("invalid collection name: must match [a-zA-Z_][a-zA-Z0-9_]*");
+                return grpc::Status::OK;
+            }
+
             const int limit = req->max_results() > 0 ? req->max_results() : 10;
-            // Escape user input before embedding in AQL string literal
+            // Collection name is a validated AQL identifier; query is embedded
+            // inside a single-quoted AQL literal and escaped accordingly.
             const std::string aql =
-                "FOR doc IN " + aqlEscape(req->collection()) +
+                "FOR doc IN " + req->collection() +
                 " FILTER FULLTEXT(doc, 'text', '" + aqlEscape(req->query()) + "')"
                 " LIMIT " + std::to_string(limit) + " RETURN doc";
 
@@ -620,8 +749,11 @@ private:
                         }
                     }
                 }
-            } catch (const nlohmann::json::parse_error&) {
-                // Non-JSON result: pass through as-is (degraded mode)
+            } catch (const nlohmann::json::parse_error& e) {
+                // AQL engine returned non-JSON (or malformed JSON) – pass through
+                // in degraded mode and log so that engine issues are diagnosable.
+                THEMIS_WARN("ThemisDBGrpcService: FullTextSearch – AQL result is not "
+                            "valid JSON ({}); degraded mode, no hits emitted", e.what());
             }
 #endif
             return grpc::Status::OK;

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plan_cache.cpp                                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:18:34                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:50:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • cebe1e7f8  2026-03-14  feat(query): implement Query Plan Caching (v1.7.0, Issue ... ║
+    • cebe1e7f8d  2026-03-14  feat(query): implement Query Plan Caching (v1.7.0, Issue ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

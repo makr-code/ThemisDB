@@ -3,21 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_policy_validator.cpp                          ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:31:21                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:55:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     488                                            ║
+    • Total Lines:     485                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 641f86b5d  2026-02-28  fix(governance): detect overlapping access control rule c... ║
-    • 5a94aff9a  2026-02-25  fix: complete audit - fix detectOverlappingPermissions di... ║
-    • 6ebd71125  2026-02-25  fix: complete overlapping access control policy conflict ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

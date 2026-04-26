@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            web_crawler_connector.cpp                          ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:16:50                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     665                                            ║
+    • Total Lines:     663                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • fa57b59d1  2026-02-28  audit(ingestion): fix SSRF security gap, add missing docs... ║
-    • 70c88bde2  2026-02-28  feat(ingestion): implement web crawler and sitemap ingest... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -364,7 +363,7 @@ static bool isDisallowedByRobots(const std::string& url,
 
 #ifdef THEMIS_ENABLE_CURL
 // libcurl write callback
-static size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
+static size_t webCrawlerWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
     auto* buf = static_cast<std::string*>(userdata);
     buf->append(ptr, size * nmemb);
     return size * nmemb;
@@ -590,7 +589,7 @@ private:
         std::string response_body;
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_USERAGENT, user_agent_.c_str());
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, webCrawlerWriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_body);
         curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS,
                          static_cast<long>(retry_config_.timeout_ms));
@@ -609,7 +608,6 @@ private:
         if (res != CURLE_OK) return {0, {}};
         return {static_cast<int>(http_code), std::move(response_body)};
 #else
-        (void)url;
         return {0, {}};
 #endif
     }

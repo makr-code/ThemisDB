@@ -26,6 +26,20 @@ Fifteen open `[ ]` items were identified across `src/api/FUTURE_ENHANCEMENTS.md`
 
 ## Findings
 
+### FINDING-API-001: gRPC Phase 4 — ✅ Abgeschlossen (v1.9.0)
+
+| Feld | Wert |
+|------|------|
+| **Schweregrad** | Hoch |
+| **Status** | ✅ Vollständig abgeschlossen (v1.9.0) |
+| **Claim-Quelle** | `src/api/ROADMAP.md` Phase 4 |
+| **Feature** | GrpcApiServer::start() gibt Mutex vor BuildAndStart() frei; stop() nutzt 30s Deadline |
+| **Feature** | ThemisDBGrpcServiceFactory — Header-only Fluent-Builder in `include/api/themisdb_grpc_service_factory.h` |
+| **Feature** | `aqlEscape()` sanitisiert AQL-Strings für HybridSearch + FullTextSearch |
+| **Tests** | 8 neue Tests in `tests/test_themisdb_grpc_service.cpp` |
+
+---
+
 ### FINDING-API-001: gRPC ExecuteAQL Stub
 
 | Field | Value |

@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_runner.cpp                                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:18:26                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     911                                            ║
+    • Total Lines:     909                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f38c013cd  2026-03-29  Enhance various components with improvements and fixes ║
-    • 13e4bb297  2026-03-26  Enhance GraphQL Performance Tests and Saga Operation Comp... ║
-    • fe549ead1  2026-03-24  feat(query): wire QueryCompiler JIT hot-path into execute... ║
-    • acb2238a5  2026-03-14  refactor: clean up CMake configuration and improve test d... ║
-    • 441ccba68  2026-03-13  feat(geo/bench): AC5 – add spatial join performance bench... ║
+    • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
+    • 13e4bb2974  2026-03-26  Enhance GraphQL Performance Tests and Saga Operation Comp... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -124,7 +121,7 @@ Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
     // This provides query analysis for optimization and caching
     auto& nlp = getNlpAnalyzer();
     std::string normalized_query = nlp.normalizeQuery(aql);
-    double query_complexity = nlp.estimateQueryComplexity(aql);
+    [[maybe_unused]] double query_complexity = nlp.estimateQueryComplexity(aql);
     auto query_hints = nlp.extractQueryHints(aql);
     auto suggested_indexes = nlp.suggestIndexes(aql);
 

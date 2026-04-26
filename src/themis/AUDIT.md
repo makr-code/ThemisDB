@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+
+<!-- Status: current | validated: 2026-04-06 -->
 # Audit Report — Themis Module
 **Last Audit:** 2026-03-12 | **Status:** ✅ Pass
 
@@ -7,7 +9,7 @@
 | Metric | Result |
 |--------|--------|
 | Build System Registration | ✅ Verified (`cmake/MiscellaneousFeatures.cmake`, `cmake/ModularBuild.cmake`) |
-| Source Files | 10 in `src/themis/` |
+| Source Files | 11 in `src/themis/` |
 | Test Coverage | ✅ `ModuleLoaderFocusedTests` CTest target |
 | Security Issues | None critical |
 
@@ -22,6 +24,7 @@
 - `edition_manager.cpp` — feature-flag and edition management
 - `build_info.cpp` — build metadata
 - `license_info.cpp` — license validation
+- `wire_protocol_server.cpp` — wire protocol server implementation (`themis::wire`)
 
 ## Findings
 ### Resolved

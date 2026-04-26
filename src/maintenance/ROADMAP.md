@@ -1,12 +1,16 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- validated: 2026-03-11 | Branch: copilot/add-centralized-maintenance-orchestrator -->
+<!-- validated: 2026-04-15 | Commit: e963d4e9ba -->
 
 # Maintenance Module Roadmap
 
 ## Current Status
-v1.0.0 – `DatabaseMaintenanceOrchestrator` implemented with full schedule CRUD,
-maintenance window enforcement, audit logging, observability metrics, job
-management, and aggregated health reporting.
+v2.0.0 – `DatabaseMaintenanceOrchestrator` production-ready with full schedule
+CRUD, cron-based scheduling, maintenance window enforcement, audit logging,
+observability metrics, job management, aggregated health reporting, RocksDB
+schedule persistence, DAG dependency execution, distributed maintenance
+coordination via `IDistributedLock`, and multi-tenant schedule isolation.
 
 ## Completed ✅
 
@@ -46,27 +50,41 @@ management, and aggregated health reporting.
   - Audit log records `forced: true`
 
 ### Medium-term (v1.2.0)
-- [ ] DAG with explicit per-task predecessors (replace implicit list order) (Target: v1.2.0)
-  - `MaintenanceTaskDependency` struct with `task_type` and `depends_on: [TaskType]`
-  - Topological sort via `ModuleDependencyResolver` (already implemented)
-  - Errors: cycle detection → reject schedule creation; missing predecessor type → `ERR_UTIL_INVALID_ARGUMENT`
-  - Tests: DAG scheduling correctness, cycle rejection, cascading failure
-  - Perf: topological sort O(V+E); V=19 max tasks, negligible overhead
-- [ ] Replica consistency check integration (Target: v1.2.0)
-  - Wire `REPLICA_VALIDATION` task to sharding/replica module once available
-  - Health probe contributed by sharding module via `registerHealthProbe("replica", ...)`
-- [ ] StorageCompaction integration (Target: v1.2.0)
-  - Wire `STORAGE_COMPACTION` task to `CompactionManager::triggerCompaction()`
+- [x] DAG with explicit per-task predecessors (replace implicit list order) (Target: v1.2.0)
+  - `MaintenanceTaskDependency` struct with `task_type` and `depends_on: [TaskType]` — `include/maintenance/maintenance_schedule.h` (commit de8a5ac414)
+  - Topological sort via Kahn's algorithm in `DatabaseMaintenanceOrchestrator::resolveTaskOrder_()` — `include/maintenance/database_maintenance_orchestrator.h`
+  - Cycle detection → rejects schedule creation; missing predecessor type → `ERR_UTIL_INVALID_ARGUMENT`
+- [x] StorageCompaction integration (Target: v1.2.0)
+  - `StorageCompactionHandler` in `include/maintenance/maintenance_task_handler_impls.h`: wraps `CompactionManager::compactAll()`
+  - Register via `orchestrator.registerTaskHandler(STORAGE_COMPACTION, std::make_shared<StorageCompactionHandler>(mgr))`
+- [x] Replica consistency check integration (Target: v1.2.0)
+  - `makeReplicaValidationHandler(shard_repair_engine_)` wired in `http_server.cpp` (2026-04-20)
+  - `ReplicaValidationHandler` delegates to `ShardRepairEngine::runConsistencyCheck()`
+  - Guarded by `if (shard_repair_engine_)` — no-op when ShardRepairEngine not injected
+  - Focused tests RVH-01..08 in `test_replica_validation_handler.cpp`
 
 ### Long-term (v2.0.0)
-- [ ] Multi-tenant schedule isolation – per-tenant windows and quotas (Target: v2.0.0)
-- [ ] Distributed maintenance coordination via Raft – prevent two nodes running same schedule (Target: v2.0.0)
-- [ ] Maintenance impact prediction – ML model to predict CPU/memory impact before execution (Target: v2.0.0)
+- [x] Multi-tenant schedule isolation – per-tenant windows and quotas (Target: v2.0.0)
+  - `MaintenanceScheduleEntry::tenant_id` (optional; empty = global/system schedule)
+  - Per-tenant window enforcement via `TenantMaintenanceConfig::enforce_window`; configured via `setTenantMaintenanceConfig()`
+  - Per-tenant concurrent job quota: `TenantMaintenanceConfig::max_concurrent_jobs`; enforced in `executeSchedule()`
+  - `listSchedules(tenant_id_filter)`: filter schedules by tenant; `MaintenanceApiHandler::listSchedules(tenant_id)` passes filter
+  - `OrchestratorJob::tenant_id` populated from parent schedule
+  - 15 new tests (MT-01..MT-15) covering field round-trip, filter, window override, and quota enforcement
+- [x] Distributed maintenance coordination via Raft – prevent two nodes running same schedule (Target: v2.0.0)
+  - `IDistributedLock` interface + `InProcessDistributedLock` implementation in `include/maintenance/i_distributed_lock.h`
+  - `DatabaseMaintenanceOrchestrator::setDistributedLock(shared_ptr<IDistributedLock>)` — inject via DI
+  - Before each scheduled job: `tryAcquire(schedule_id, ttl_ms)`; SKIPPED + DEBUG log when lock held by peer
+  - Lock TTL auto-derived from window duration + 30 s, or explicit `MaintenanceScheduleEntry::lock_ttl_ms`
+  - RAII guard ensures lock release on every exit path (success, window skip, DAG error, cancellation)
+- [ ] Raft-backed `IDistributedLock` implementation – production multi-node coordination (Target: v2.1.0)
+  - In-process `InProcessDistributedLock` available; Raft-backed impl requires `src/replication/raft_v2.cpp` integration
+- [ ] Maintenance impact prediction – ML model to predict CPU/memory impact before execution (Target: v3.0.0)
 
 ## Production Readiness Checklist
 
 - [x] Compilation: all `result.error().message()` calls correct
-- [x] Thread safety: three separate mutexes for schedules, jobs, health probes
+- [x] Thread safety: `shared_mutex` for schedules, jobs, handlers, tenant_configs; `mutex` for health probes and dist lock
 - [x] Graceful cancellation: running jobs check CANCELLED flag
 - [x] Resource cleanup: 24-hour job TTL with automatic pruning
 - [x] Audit trail: all state-changing operations logged
@@ -76,14 +94,20 @@ management, and aggregated health reporting.
 - [x] Cascading failure control: `halt_on_task_failure`
 - [x] HTTP RBAC: `maintenance:read` / `maintenance:write` / `maintenance:admin`
 - [x] Schedule persistence (survives restart) – implemented v1.1.0 (`MaintenanceScheduleStore`, write-through CRUD, loadAll on start())
-- [ ] Explicit DAG dependency graph – planned v1.2.0
+- [x] Explicit DAG dependency graph – implemented v1.2.0 (`MaintenanceTaskDependency`, Kahn's topological sort)
+- [x] Distributed maintenance coordination – implemented v2.0.0 (`IDistributedLock`, `setDistributedLock()`, RAII lock guard, per-schedule TTL)
+- [x] Multi-tenant schedule isolation – implemented v2.0.0 (`TenantMaintenanceConfig`, `setTenantMaintenanceConfig()`, per-tenant window + quota)
+- [x] IMaintenanceTaskHandler registry – implemented v1.2.0 (`registerTaskHandler`, `listTaskHandlers`)
+- [x] STORAGE_COMPACTION wired – implemented v1.2.0 (`StorageCompactionHandler` in `http_server.cpp`)
+- [x] MVCC_CLEANUP wired – implemented v1.2.0 (`MvccCleanupHandler` in `http_server.cpp`)
+- [x] REPLICA_VALIDATION wired – implemented v1.2.0 (`makeReplicaValidationHandler(shard_repair_engine_)` in `http_server.cpp` guarded by `if (shard_repair_engine_)`, 2026-04-20)
 
 ## Known Issues & Limitations
 
-- Schedules are in-memory only (lost on server restart). Persistence to RocksDB is planned for v1.1.0.
-- The `tasks` list implies a total order (first to last). Explicit dependency graphs (per-task `depends_on`) are planned for v1.2.0.
-- Module-delegated tasks (`METRICS_COLLECTION`, `STORAGE_COMPACTION`, etc.) currently succeed immediately without calling the actual module. Wiring to real module methods requires each module to register a handler, which is documented in `docs/maintenance/MODULE_INTEGRATION_GUIDE.md`.
-- `REPLICA_VALIDATION` and `MVCC_CLEANUP` tasks are not yet wired to real implementations; they are delegated to module health probes.
+- Raft-backed `IDistributedLock` implementation not yet available; use `InProcessDistributedLock` for single-node or test deployments.
+- `MVCC_CLEANUP` is wired (2026-04-12): `MvccCleanupHandler` registered in `http_server.cpp` using the shared `mvcc_store_` member.
+- `STORAGE_COMPACTION` is wired (2026-04-12): `StorageCompactionHandler` registered in `http_server.cpp` via `CompactionManager`.
+- `REPLICA_VALIDATION` is wired (2026-04-20): `makeReplicaValidationHandler(shard_repair_engine_)` registered in `http_server.cpp` when `shard_repair_engine_` is non-null; no-op if the ShardRepairEngine has not been injected (silently skipped, SKIPPED job state in the orchestrator).
 
 ## Implementation Phases
 
@@ -112,10 +136,31 @@ management, and aggregated health reporting.
 - [x] `docs/maintenance/MAINTENANCE_SCHEDULE.md`
 - [x] `docs/maintenance/MODULE_INTEGRATION_GUIDE.md`
 
-### Phase 5: Persistence & Advanced DAG (Planned – v1.1.0 / v1.2.0)
-- [ ] RocksDB persistence for schedules
-- [ ] Explicit per-task dependency graph
-- [ ] Module-specific task wiring (compaction, replica validation)
+### Phase 5: Persistence & Advanced DAG (Status: Completed ✅ — v1.1.0 / v1.2.0)
+- [x] RocksDB persistence for schedules (`MaintenanceScheduleStore`, write-through CRUD, loadAll on start())
+- [x] Explicit per-task dependency graph (`MaintenanceTaskDependency`, `resolveTaskExecutionOrder`, Kahn's topological sort)
+- [x] Module-specific task wiring: `StorageCompactionHandler`, `MvccCleanupHandler`, `ReplicaValidationHandler` (handler classes); `registerTaskHandler()` registry
+- [x] `REPLICA_VALIDATION` wired in `http_server.cpp` via `makeReplicaValidationHandler(shard_repair_engine_)` (2026-04-20)
+- [x] Focused tests RVH-01..08 in `test_replica_validation_handler.cpp` (`ReplicaValidationHandlerFocusedTests`)
+
+### Phase 6: Distributed Coordination & Multi-Tenancy (Status: Completed ✅ — v2.0.0)
+- [x] `IDistributedLock` interface + `InProcessDistributedLock` implementation
+- [x] `setDistributedLock()` DI injection; RAII lock guard in `executeSchedule()`
+- [x] Multi-tenant schedule isolation: `TenantMaintenanceConfig`, `setTenantMaintenanceConfig()`, per-tenant window and quota enforcement
+- [x] 15 multi-tenant tests (MT-01..MT-15) in `test_database_maintenance_orchestrator.cpp`
+
+### Phase 7: Production Hardening (Planned — v2.1.0+)
+- [ ] Raft-backed `IDistributedLock` implementation (integrate with `src/replication/raft_v2.cpp`)
+- [ ] Maintenance impact prediction (ML model for CPU/memory forecasting)
 
 ## Breaking Changes
 *None – new module with no existing API contract.*
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Aktiv (implementiert + externer Aufrufer bestätigt)
+
+- `DatabaseMaintenanceOrchestrator` – Orchestriert DB-Maintenance (Compaction, Vacuum); genutzt in HttpServer
+

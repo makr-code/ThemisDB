@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            process_model_manager.cpp                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:18:11                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:50:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     760                                            ║
+    • Total Lines:     882                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 3fea6d6b5  2026-03-12  refactor: clean up includes and remove unused transaction... ║
-    • f56652abf  2026-03-12  audit(process): focused tests, ProcessNotation enum fix, ... ║
-    • 7f7a27240  2026-03-12  feat(process): add ProcessLinker, ProcessGraphRag, and mo... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • 6897bb74a5  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -33,10 +35,14 @@
  */
 
 #include "process/process_model_manager.h"
+#include "process/process_common.h"
 #include "process/bpmn_serializer.h"
 #include "process/epk_serializer.h"
+#include "process/epk_aris_xml_importer.h"
 #include "process/llm_process_descriptor.h"
 #include "process/vcc_vpb_importer.h"
+#include "index/inverted_index.h"
+#include "index/vector_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 
@@ -224,26 +230,39 @@ ProcessModelRecord ProcessModelRecord::fromDocument(const json& doc) {
 }
 
 // ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-namespace {
-
-int64_t nowMs() {
-    return std::chrono::duration_cast<std::chrono::milliseconds>(
-        std::chrono::system_clock::now().time_since_epoch()
-    ).count();
-}
-
-} // anonymous namespace
-
-// ---------------------------------------------------------------------------
 // ProcessModelManager implementation
 // ---------------------------------------------------------------------------
 
 ProcessModelManager::ProcessModelManager(::themis::RocksDBWrapper& db) : db_(db) {}
 
 ProcessModelManager::~ProcessModelManager() = default;
+
+void ProcessModelManager::setEmbedder(
+    std::function<std::vector<float>(std::string_view)> embedder)
+{
+    embedder_ = std::move(embedder);
+}
+
+void ProcessModelManager::setInvertedIndex(
+    std::shared_ptr<InvertedIndex> fts)
+{
+    fts_index_ = std::move(fts);
+    // Ensure the logical index exists.
+    if (fts_index_) {
+        if (!fts_index_->exists("process_definitions", "text")) {
+            InvertedIndex::Config cfg;
+            cfg.stemming_enabled  = false;
+            cfg.language          = "none";
+            cfg.stopwords_enabled = false;
+            fts_index_->create("process_definitions", "text", cfg);
+        }
+    }
+}
+
+void ProcessModelManager::setVectorIndex(std::shared_ptr<VectorIndexManager> vi)
+{
+    vector_index_ = std::move(vi);
+}
 
 std::string ProcessModelManager::makeKey_(std::string_view model_id) const {
     return "proc:def:" + std::string(model_id);
@@ -322,6 +341,9 @@ json ProcessModelManager::buildNormalizedGraph_(
 
         if (n.timeout) {
             jn["timeout_ms"] = n.timeout->count();
+        }
+        if (!n.metadata.is_null() && !n.metadata.empty()) {
+            jn["metadata"] = n.metadata;
         }
         jnodes.push_back(std::move(jn));
     }
@@ -406,6 +428,25 @@ ProcessModelResult ProcessModelManager::importVccVpb(
     return save(result.record);
 }
 
+ProcessModelResult ProcessModelManager::importArisXml(
+    std::string_view aml_xml,
+    const ProcessModelRecord& meta)
+{
+    auto result = EpkArisXmlImporter::importAml(aml_xml);
+    if (!result.ok) {
+        return ProcessModelResult::failure("ARIS-XML import failed: " + result.message);
+    }
+
+    ProcessModelRecord record = meta;
+    if (record.id.empty())   record.id   = result.process_id;
+    if (record.name.empty()) record.name = result.process_name;
+    record.notation    = ProcessNotation::EPK;
+    record.raw_payload = std::string(aml_xml);
+    record.normalized  = buildNormalizedGraph_(result.nodes, result.edges, record);
+
+    return save(record);
+}
+
 // ---- CRUD -------------------------------------------------------------------
 
 ProcessModelResult ProcessModelManager::save(const ProcessModelRecord& record) {
@@ -432,6 +473,19 @@ ProcessModelResult ProcessModelManager::save(const ProcessModelRecord& record) {
         to_save.created_at_ms = to_save.updated_at_ms;
     }
 
+    // Auto-generate embedding when an embedder is wired and the record
+    // doesn't already carry one.
+    if (to_save.embedding.empty() && embedder_) {
+        const std::string embed_text =
+            to_save.name + " " + to_save.description + " " + to_save.long_description;
+        try {
+            to_save.embedding = embedder_(embed_text);
+        } catch (const std::exception& e) {
+            SPDLOG_WARN("[process] embedding generation failed for '{}': {}",
+                        to_save.id, e.what());
+        }
+    }
+
     auto key  = makeKey_(record.id);
     auto doc  = to_save.toDocument();
     auto jstr = doc.dump();
@@ -439,6 +493,33 @@ ProcessModelResult ProcessModelManager::save(const ProcessModelRecord& record) {
     if (!db_.put(key, jstr)) {
         return ProcessModelResult::failure(
             "DB write failed for process model '" + record.id + "'");
+    }
+
+    // Update full-text index.
+    if (fts_index_) {
+        const std::string fts_text =
+            to_save.name + " " + to_save.name_en + " " +
+            to_save.description + " " + to_save.description_en + " " +
+            to_save.long_description;
+        auto st = fts_index_->index("process_definitions", "text",
+                                    to_save.id, fts_text);
+        if (!st.ok) {
+            SPDLOG_WARN("[process] FTS index update failed for '{}': {}",
+                        to_save.id, st.message);
+        }
+    }
+
+    // Upsert into HNSW vector index when wired and embedding is available.
+    if (vector_index_ && !to_save.embedding.empty()) {
+        BaseEntity ve = BaseEntity::fromFields(to_save.id, {{"id", to_save.id}});
+        // Store the embedding under the "embedding" field expected by VectorIndexManager.
+        nlohmann::json emb_json(to_save.embedding);
+        ve.setField("embedding", emb_json.dump());
+        auto vst = vector_index_->addEntity(ve, "embedding");
+        if (!vst.ok) {
+            // Update path: if add fails (e.g. duplicate), try update.
+            vector_index_->updateEntity(ve, "embedding");
+        }
     }
 
     SPDLOG_INFO("[process] saved model '{}' rev={}", record.id, next_revision);
@@ -468,6 +549,17 @@ ProcessModelResult ProcessModelManager::remove(std::string_view model_id) {
     if (!existing) {
         return ProcessModelResult::failure(
             "Process model '" + std::string(model_id) + "' not found");
+    }
+
+    // Remove from full-text index before archiving.
+    if (fts_index_) {
+        fts_index_->deindex("process_definitions", "text",
+                            existing->id, /*text=*/"");
+    }
+
+    // Remove from HNSW vector index.
+    if (vector_index_) {
+        vector_index_->removeByPk(existing->id);
     }
 
     // Soft-delete: mark as ARCHIVED
@@ -513,6 +605,25 @@ std::vector<ProcessModelRecord> ProcessModelManager::search(
     std::string_view query,
     size_t           limit) const
 {
+    // If an InvertedIndex is wired, use BM25 search and resolve PKs.
+    if (fts_index_) {
+        auto [st, hits] = fts_index_->search(
+            "process_definitions", "text", query,
+            limit > 0 ? limit : 1000u);
+
+        std::vector<ProcessModelRecord> results;
+        results.reserve(hits.size());
+        for (const auto& hit : hits) {
+            auto rec = load(hit.pk);
+            if (rec) {
+                results.push_back(std::move(*rec));
+            }
+            if (limit > 0 && results.size() >= limit) break;
+        }
+        return results;
+    }
+
+    // Fallback: linear keyword scan.
     std::string q_lower(query);
     std::transform(q_lower.begin(), q_lower.end(), q_lower.begin(), ::tolower);
 
@@ -524,7 +635,6 @@ std::vector<ProcessModelRecord> ProcessModelManager::search(
             if (!doc.contains("id")) return true;
             auto r = ProcessModelRecord::fromDocument(doc);
 
-            // Simple keyword match against name, description
             auto match_field = [&](const std::string& field) {
                 std::string f_lower = field;
                 std::transform(f_lower.begin(), f_lower.end(), f_lower.begin(), ::tolower);
@@ -552,6 +662,26 @@ std::vector<std::pair<ProcessModelRecord, float>> ProcessModelManager::findSimil
 
     std::vector<std::pair<ProcessModelRecord, float>> candidates;
 
+    // Fast path: HNSW index when wired.
+    if (vector_index_) {
+        const size_t search_k = (k > 0) ? k * 4 : 40; // over-fetch for min_similarity filter
+        auto [vst, hits] = vector_index_->searchKnn(query_embedding, search_k);
+        if (vst.ok) {
+            for (const auto& hit : hits) {
+                // VectorIndexManager returns distance (1 - cosine for COSINE metric).
+                const float sim = 1.0f - hit.distance;
+                if (sim < min_similarity) continue;
+                auto rec = load(hit.pk);
+                if (!rec) continue;
+                candidates.emplace_back(std::move(*rec), sim);
+                if (k > 0 && candidates.size() >= k) break;
+            }
+            return candidates; // already ordered by distance ascending → sim descending
+        }
+        // Fall through to linear scan if HNSW search failed.
+    }
+
+    // Fallback: linear cosine scan over all stored embeddings.
     db_.scanPrefix("proc:def:", [&](std::string_view /*key*/, std::string_view value) -> bool {
         try {
             auto doc = json::parse(std::string(value));
@@ -746,11 +876,10 @@ ProcessModelResult ProcessModelManager::deployToEngine(
 
 ProcessModelResult ProcessModelManager::undeployFromEngine(
     std::string_view     model_id,
-    ProcessGraphManager& engine) const
+    [[maybe_unused]] ProcessGraphManager& engine) const
 {
     // ProcessGraphManager doesn't have an unregister API yet; use the
     // removeProcess method if available, or log a warning.
-    (void)engine;
     SPDLOG_WARN("[process] undeployFromEngine: engine.removeProcess not yet available "
                 "for model '{}'", model_id);
     return ProcessModelResult::success(std::string(model_id));

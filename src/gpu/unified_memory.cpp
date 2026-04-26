@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            unified_memory.cpp                                 ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:16:01                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     321                                            ║
+    • Total Lines:     317                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0262b492b  2026-02-26  fix(gpu): resolve 3 bugs and 1 doc issue found in code audit ║
-    • c9cd31c32  2026-02-26  feat(gpu): implement unified memory support (CPU+GPU shar... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -190,7 +189,6 @@ bool GPUUnifiedMemoryAllocator::prefetch(const void* ptr, size_t bytes,
 #elif defined(THEMIS_ENABLE_HIP)
     return hipMemPrefetchAsync(ptr, bytes, device_id, nullptr) == hipSuccess;
 #else
-    (void)device_id;
     return true;
 #endif
 }
@@ -231,8 +229,6 @@ bool GPUUnifiedMemoryAllocator::advise(const void* ptr, size_t bytes,
     }
     return hipMemAdvise(ptr, bytes, hip_advice, device_id) == hipSuccess;
 #else
-    (void)advice;
-    (void)device_id;
     return true;
 #endif
 }

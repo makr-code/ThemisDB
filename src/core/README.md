@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Core Module
 
 ## Module Purpose
@@ -111,6 +113,7 @@ Generic caching abstraction supporting multiple eviction strategies.
 **Implementations:**
 - `InMemoryCacheImpl` - Local in-process cache
 - `StrategicCacheImpl` - Cache with pluggable eviction strategies (LRU, LIRS, ARC, etc.)
+- `RedisCache` - Distributed Redis-backed cache with consistent hashing, TTL, and pub/sub invalidation
 - `NoopCache` - Pass-through implementation
 
 **Usage:**
@@ -224,22 +227,22 @@ auto context = ConcernsContext::create(config);
 // Use throughout application
 void processRequest(Request req, std::shared_ptr<ConcernsContext> ctx) {
     ctx->logger()->info("Processing request {}", req.id);
-    
+
     auto span = ctx->tracer()->startSpan("process_request");
     span->setAttribute("request_id", req.id);
-    
+
     ctx->metrics()->incrementCounter("requests_total");
-    
+
     // Check cache
     if (auto cached = ctx->cache()->get(req.cache_key())) {
         ctx->metrics()->incrementCounter("cache_hits");
         return *cached;
     }
-    
+
     // Process and cache result
     auto result = doWork(req);
     ctx->cache()->set(req.cache_key(), result);
-    
+
     span->end();
 }
 ```
@@ -361,7 +364,6 @@ export THEMIS_ENVIRONMENT=production
 - Thread-safe operations
 
 ⚠️ **Beta Features:**
-- Distributed cache integration (Redis adapter)
 - Advanced cache strategies (LIRS, ARC)
 
 🔬 **Experimental:**
@@ -403,3 +405,7 @@ When adding new cross-cutting concerns:
 4. Johnson, R., & Foote, B. (1988). **Designing Reusable Classes**. *Journal of Object-Oriented Programming*, 1(2), 22–35.
 
 5. Steele, G. L. (1994). **Building Interpreters by Composing Monads**. *Proceedings of the 21st ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages (POPL)*, 472–492. https://doi.org/10.1145/174675.178068
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

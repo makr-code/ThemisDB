@@ -1,3 +1,5 @@
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
 <!-- Status: current | validated: 2026-06-09 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
@@ -13,8 +15,9 @@ This document covers implementation-specific future enhancements for the API mod
 - `[x]` The GraphQL parser in `graphql.cpp` uses `QueryLimits::defaults()` for depth/complexity guards; any new field resolver must enforce those limits to prevent query amplification. (**Enforced** — `QueryLimits` passed to `Parser::parse()` in all call sites; `QueryLimits::production()` disables introspection.)
 - `[x]` TLS is mandatory for all production transports; new WebSocket and gRPC transports must share the same TLS context as the existing HTTP listener. (**Enforced** — `GrpcApiServer` uses `grpc::SslServerCredentials` from the same PEM paths; WebSocket upgrades go through the Beast TLS acceptor.)
 - `[x]` Auth middleware (`src/auth/`) is a hard dependency; no new transport may bypass JWT/JWKS validation enforced by `jwt_validator.cpp`. (**Enforced** — `WsChangeHandler::validate()` and gRPC interceptor both call `AuthMiddleware::authorize` before any data is exchanged.)
-- `[ ]` `GrpcApiServer::start()` must not hold `mutex_` across blocking operations (port bind, TLS handshake). The current implementation calls `builder.BuildAndStart()` inside a `std::lock_guard<std::mutex>` in `grpc_server.cpp:start()`, causing the lock to be held during a potentially long network bind, which blocks `stop()` and `isRunning()` callers for the entire duration. (Target: v2.1.0)
-- `[ ]` `GrpcApiServer::stop()` must specify a shutdown deadline. The current call `server_->Shutdown()` with no argument blocks indefinitely if in-flight RPCs do not terminate. (Target: v2.1.0)
+- `[x]` `GrpcApiServer::start()` must not hold `mutex_` across blocking operations. (**Fixed v1.9.0** — mutex released before `BuildAndStart()`; lock re-acquired afterwards.)
+- `[x]` `GrpcApiServer::stop()` must specify a shutdown deadline. (**Fixed v1.9.0** — 30-second hard deadline passed to `server_->Shutdown()`.)
+- `[x]` GraphQL `$variable` references in field arguments must be resolved at execution time. (**Fixed v2.0.0** — `Value::VariableRef` type + `Executor::resolveValue()` + default-value merge in `executeOperation()`; see `include/api/graphql.h`, `src/api/graphql.cpp`.)
 
 ## Required Interfaces
 
@@ -25,7 +28,7 @@ This document covers implementation-specific future enhancements for the API mod
 | `auth::JWTValidator` | All HTTP/WS/gRPC handlers | Must propagate tenant ID into request context |
 | `cdc::Changefeed` | Planned WebSocket change-stream endpoint | Requires `Changefeed::subscribe()` returning an async event iterator |
 | `aql::LLMAQLHandler` | AQL execution endpoint | Streaming result set needed for `/v2/query/stream` |
-| `IGRPCBridge` (`include/api/grpc_bridge.h`) | gRPC bridge consumers | Pure-virtual interface with no registered concrete implementation yet; callers must inject one via factory |
+| `IGRPCBridge` (`include/api/grpc_bridge.h`) | gRPC bridge consumers | Interface remains extension point; runtime wiring is factory-driven via `ThemisDBGrpcServiceFactory` |
 
 ## Planned Features
 
@@ -68,7 +71,7 @@ type ChangeEvent {
 
 ---
 
-### WebSocket Real-Time Change Streaming Endpoint
+## WebSocket Real-Time Change Streaming Endpoint
 **Priority:** High
 **Target Version:** v1.7.0
 
@@ -111,25 +114,22 @@ Current REST routes use unversioned paths (e.g., `/documents/{id}`). Introduce a
 **Priority:** High
 **Target Version:** v2.0.0
 
-`themisdb_grpc_service.cpp` reports "Open Issues: Stubs: 4" in its header. All five non-CRUD RPC methods return `grpc::StatusCode::UNIMPLEMENTED`. The gRPC surface cannot be used for its primary value (AQL execution, vector search) until these stubs are replaced with real engine delegation via `ThemisDBGrpcServiceFactory`.
+`themisdb_grpc_service.cpp` is now factory-wired for core operations and query execution. Remaining enhancement scope is focused on advanced search parity and hardening of batch semantics.
 
 **Implementation Notes:**
 - `[x]` Create `src/api/grpc_server.cpp`; gRPC C++ server using `grpc::ServerBuilder` (synchronous dispatch model, consistent with the rest of the codebase).
 - `[x]` Reuse existing service-layer infrastructure via `GrpcApiServer::registerService()`; no business logic duplication — service implementations are registered externally.
 - `[x]` TLS: `grpc::SslServerCredentials` using the same PEM cert/key pair as the Beast HTTP listener; fail-closed on cert load failure.
 - `[x]` Expose gRPC reflection service in debug builds only to prevent schema leakage in production.
-- `[ ]` **`ExecuteAQL` stub** (`themisdb_grpc_service.cpp:~line 302`): returns `UNIMPLEMENTED` with message "AQL execution requires an AQLEngine; wire one in via ThemisDBGrpcServiceFactory". Implement `ThemisDBGrpcServiceFactory` that accepts an `AQLEngine*` and injects it into `ServiceImpl` so `ExecuteAQL` can delegate to `engine_->execute(req->query(), ...)`.
-- `[ ]` **`StreamAQL` stub** (`themisdb_grpc_service.cpp:~line 337`): the comment block already shows the exact streaming loop implementation needed (inject `AQLEngine`, call `executeStreaming`, write rows via `writer->Write(row)`). The code exists as a comment — uncomment and wire after `ThemisDBGrpcServiceFactory` provides the engine. Implement server-side streaming RPC `StreamAQL(AQLQueryRequest) returns (stream AQLRow)`.
-- `[ ]` **`VectorSearch` stub** (`themisdb_grpc_service.cpp:~line 354`): returns `UNIMPLEMENTED`. Add a `VectorIndex*` injection point to `ServiceImpl` (parallel to the `AQLEngine*` injection) and delegate to `vector_index_->search(req->collection(), req->vector(), req->k())`.
-- `[ ]` **`FilteredVectorSearch` stub** (`themisdb_grpc_service.cpp:~line 367`): returns `UNIMPLEMENTED`, message "filtered vector search not yet wired". Wire alongside `VectorSearch` in the same injection pass.
-- `[ ]` **`HybridSearch` stub** (`themisdb_grpc_service.cpp:~line 380`): returns `UNIMPLEMENTED`. Implement after `VectorSearch` and full-text index injection are complete.
-- `[ ]` **`FullTextSearch` stub** (`themisdb_grpc_service.cpp:~line 393`): returns `UNIMPLEMENTED`, message "full-text search not yet wired". Add `FullTextIndex*` injection point alongside `VectorIndex*`.
+- `[x]` **`ExecuteAQL` factory wiring**: `ThemisDBGrpcServiceFactory` now injects `AQLEngine*` and delegates execution through service implementations.
+- `[x]` **`StreamAQL` server-streaming path**: streaming AQL execution is wired when the query engine is present; service keeps `UNIMPLEMENTED` fail-fast semantics when the dependency is absent.
+- `[ ]` **Advanced search RPC parity**: `VectorSearch`, `FilteredVectorSearch`, `HybridSearch`, and `FullTextSearch` still require complete backend feature wiring across all deployment profiles; current behavior is dependency/feature-gated and may return `UNIMPLEMENTED` where optional engines are missing.
 - `[ ]` **Hard-coded document version** in `CreateDocument` and `UpdateDocument` (`themisdb_grpc_service.cpp`): both handlers unconditionally set `resp->set_version(1)`, regardless of whether the document already existed. Add a real version counter sourced from the storage layer (e.g., a RocksDB sequence number or a dedicated version key) so optimistic-concurrency clients can detect conflicting updates.
 - `[ ]` **`BatchWrite` silent partial failures** (`themisdb_grpc_service.cpp`): the loop over `req->upserts()` increments `upserted` only when `db_->put(key, body)` returns true, but the final response always sets `resp->set_success(true)`. If some puts fail (e.g., storage full), the caller receives a success response with a `upserted_count` less than the number of requested writes, with no error code. Change to: if `upserted_count != req->upserts_size()`, set `success = false` and include error details.
 - `[ ]` **`BatchWrite`/`BatchRead` lack input bounds checks**: no validation of the number of documents in `req->upserts()` or keys in `req->keys()`. A single request can contain arbitrarily many items, leading to unbounded memory allocation. Add a hard upper limit (e.g., 10,000 items) with a `RESOURCE_EXHAUSTED` gRPC status code on violation.
-- `[ ]` **`GrpcApiServer::start()` holds `mutex_` across `BuildAndStart()`** (`grpc_server.cpp:start()`): `builder.BuildAndStart()` performs a blocking socket bind and TLS handshake inside a `std::lock_guard<std::mutex> lock(mutex_)`. If the port is unavailable or TLS cert loading is slow, `isRunning()` and `stop()` are both blocked for the entire duration. Extract the `ServerBuilder` setup before acquiring the lock; acquire the lock only to store `server_` and set `running_ = true`.
-- `[ ]` **`GrpcApiServer::stop()` holds `mutex_` during `server_->Shutdown()`** (`grpc_server.cpp:stop()`): `Shutdown()` without a deadline can block indefinitely waiting for in-flight RPCs. Use `server_->Shutdown(std::chrono::system_clock::now() + std::chrono::seconds(30))` and release the mutex before calling `Shutdown()` to avoid deadlocking callers of `isRunning()` during shutdown.
-- `[ ]` **`GrpcServerConfig::max_message_size_bytes` hard-coded** (`grpc_server.h`): default value of `100 * 1024 * 1024` (100 MB) is set in the struct definition rather than loaded from `config/networking/`. Expose as a config key (e.g., `grpc.max_message_size_mb`) loaded at `GrpcApiServer::initialize()` time so operators can tune it without recompiling.
+- `[x]` **`GrpcApiServer::start()` mutex scope hardening**: blocking startup work is performed outside the critical section; lock is used only for state commit.
+- `[x]` **`GrpcApiServer::stop()` bounded shutdown**: shutdown deadline is set and lock hold duration minimized to avoid state-query contention.
+- `[ ]` **`GrpcServerConfig::max_message_size_bytes` configurability**: default remains compile-time; expose a runtime config key (e.g., `grpc.max_message_size_mb`) for operator tuning.
 
 **Performance Targets:**
 - gRPC unary `GetDocument` < 1 ms added latency vs equivalent REST call (same process).
@@ -145,7 +145,7 @@ All inbound requests must carry or receive a `X-Correlation-ID` header that prop
 
 **Implementation Notes:**
 - `[x]` Add `TracingMiddleware` in `src/api/tracing_middleware.cpp`; generate UUID v4 if `X-Correlation-ID` absent; inject into thread-local `RequestContext`. (**Implemented** — `TracingMiddleware::processRequest()` uses `boost::uuids::random_generator` per thread.)
-- `[x]` Forward `RequestContext::correlationId` to `utils/logger.h` log macros via a structured field (`correlation_id`). (**Implemented** — `utils::Logger::setTraceContext(corr_id)` called in `processRequest()`.)
+- `[x]` Forward `RequestContext::correlationId` to `include/utils/logger.h` log macros via a structured field (`correlation_id`). (**Implemented** — `utils::Logger::setTraceContext(corr_id)` called in `processRequest()`.)
 - `[x]` Echo back `X-Correlation-ID` in all responses including errors and SSE streams (implemented in `HttpServer::applyGovernanceHeaders()`).
 - `[x]` Export span data to OpenTelemetry collector via OTLP HTTP exporter (configurable endpoint in `config/networking/`). Implemented in `include/api/otlp_exporter.h` + `src/api/otlp_exporter.cpp` (async queue + libcurl POST, OTLP JSON format); `TracingMiddleware` extended with `finishSpan()` and optional `OtlpExporter*`; configuration in `config/networking/otlp.yaml`.
 - `[x]` Decision: retain proprietary `X-Correlation-ID` as the primary correlation header; the OTLP exporter uses the correlation-ID value as the OTLP `traceId`. A future W3C `traceparent` bridge can be added when SDK interoperability is required.
@@ -163,10 +163,10 @@ All inbound requests must carry or receive a `X-Correlation-ID` header that prop
 `otlp_exporter.cpp` implements an async queue + background-thread OTLP/HTTP exporter using libcurl. Two structural inefficiencies limit throughput and reliability at production scale.
 
 **Implementation Notes:**
-- `[ ]` **New `CURL*` handle per flush batch** (`otlp_exporter.cpp::flushBatch()`): every call to `flushBatch()` opens a new TCP connection via `curl_easy_init()` and cleans up with `curl_easy_cleanup()` after the POST. Under the default flush interval (5 s) with 64-span batches this is infrequent, but if the batch interval is reduced or the collector is remote, connection setup becomes the dominant latency. Replace with a persistent `CURL*` handle created once in `start()` and reused across batches (set `CURLOPT_FORBID_REUSE=0L` and `CURLOPT_TCP_KEEPALIVE=1L`).
-- `[ ]` **`queue_` uses `std::vector` with `erase(begin, begin+n)` dequeue** (`otlp_exporter.h` + `otlp_exporter.cpp::flushLoop()`): the internal span queue is a `std::vector<SpanData>` and the dequeue path calls `queue_.erase(queue_.begin(), queue_.begin() + take_offset)`, which is O(n) because it shifts all remaining elements. Replace with `std::deque<SpanData>` or a fixed-size ring buffer to get O(1) pop-front at the cost of a trivial container change.
+- `[x]` **New `CURL*` handle per flush batch** (`otlp_exporter.cpp::flushBatch()`): every call to `flushBatch()` opens a new TCP connection via `curl_easy_init()` and cleans up with `curl_easy_cleanup()` after the POST. Under the default flush interval (5 s) with 64-span batches this is infrequent, but if the batch interval is reduced or the collector is remote, connection setup becomes the dominant latency. Replace with a persistent `CURL*` handle created once in `start()` and reused across batches (set `CURLOPT_FORBID_REUSE=0L` and `CURLOPT_TCP_KEEPALIVE=1L`). **Implemented:** `curl_handle_` and `curl_headers_` members added to `OtlpExporter`; handle initialised once in `start()` with both options set, reused in `flushBatch()`, and cleaned up in `stop()` after the flush thread exits.
+- `[x]` **`queue_` uses `std::vector` with `erase(begin, begin+n)` dequeue** (`otlp_exporter.h` + `otlp_exporter.cpp::flushLoop()`): the internal span queue is a `std::vector<SpanData>` and the dequeue path calls `queue_.erase(queue_.begin(), queue_.begin() + take_offset)`, which is O(n) because it shifts all remaining elements. Replace with `std::deque<SpanData>` or a fixed-size ring buffer to get O(1) pop-front at the cost of a trivial container change. **Implemented:** `queue_` changed to `std::deque<SpanData>`; `enqueue()` now uses `pop_front()` (O(1)) instead of `erase(begin())`; drain path in `flushLoop()` updated to use move iterators + `clear()`.
 - `[x]` **No retry on transient HTTP errors**: `flushBatch()` now retries up to `max_export_retries` times (default 3) with exponential back-off (`retry_initial_delay_ms` doubles each attempt: 100 ms → 200 ms → 400 ms) for retriable HTTP status codes (429, 503) and transient curl transport errors, before dropping the batch and incrementing `dropped_count_`. Non-retriable HTTP errors (e.g. 400, 404, 500) still drop immediately. Both new fields are exposed in `OtlpExporterConfig` with defaults `max_export_retries = 3` and `retry_initial_delay_ms = 100`.
-- `[ ]` **`droppedSpanCount` metric not exposed via Prometheus**: `OtlpExporter::droppedSpanCount()` and `exportedSpanCount()` exist but are not wired to the Prometheus `/metrics` endpoint. Register `otlp_spans_exported_total` and `otlp_spans_dropped_total` counters in the Prometheus registry at `OtlpExporter::start()` time.
+- `[x]` **`droppedSpanCount` metric not exposed via Prometheus**: `OtlpExporter::droppedSpanCount()` and `exportedSpanCount()` exist but are not wired to the Prometheus `/metrics` endpoint. Register `otlp_spans_exported_total` and `otlp_spans_dropped_total` counters in the Prometheus registry at `OtlpExporter::start()` time. **Implemented:** `setPrometheusRegistry(shared_ptr<prometheus::Registry>)` method added (guarded by `THEMIS_HAS_PROMETHEUS`); calling it before `start()` causes `start()` to register `otlp_spans_exported_total` and `otlp_spans_dropped_total` counter families labelled by `service`; both counters are incremented alongside the atomic `exported_count_`/`dropped_count_` in `enqueue()` and `flushBatch()`.
 
 **Performance Targets:**
 - Span enqueue (hot path) < 500 ns per call (single lock acquire + vector push_back or deque push_back).
@@ -194,14 +194,15 @@ All inbound requests must carry or receive a `X-Correlation-ID` header that prop
 ### GraphQL Response Cache — Pattern-Based Invalidation
 **Priority:** Medium
 **Target Version:** v2.0.0
+**Status:** ✅ Implemented
 
-`include/api/graphql_cache.h::ResponseCache::invalidatePattern()` contains a `TODO: Implement pattern-based invalidation` comment. The current implementation nukes the entire cache on any collection change, causing unnecessary cache misses for queries targeting unrelated collections.
+`include/api/graphql_cache.h::ResponseCache::invalidatePattern()` previously contained a `TODO: Implement pattern-based invalidation` comment. The implementation now performs selective eviction.
 
 **Implementation Notes:**
-- `[ ]` **`ResponseCache::invalidatePattern()` always clears entire cache** (`graphql_cache.h:290`): the method receives a `pattern` argument (e.g., the collection name `"orders"`) but ignores it and calls `cache_.clear()`, invalidating all cached responses regardless of which collection they reference. Implement selective eviction: at cache insertion time, tag each `CachedResponse` with the set of collections it reads (extracted from the resolved query fields). In `invalidatePattern(collection)`, iterate the cache and evict only entries whose tag set contains `collection`. This requires extending `CachedResponse` with a `std::unordered_set<std::string> collections` field.
+- `[x]` **`ResponseCache::invalidatePattern()` always clears entire cache** (`graphql_cache.h:290`): the method now iterates the cache and evicts only entries whose `collections` tag set contains the given pattern. `CachedResponse` has been extended with a `std::unordered_set<std::string> collections` field. The generic `Cache<T>` template gained an `eraseIf(pred)` method for O(n) selective eviction.
 
 **Performance Targets:**
-- Targeted invalidation of a single collection evicts ≤ 10% of cached entries when 10 distinct collections are active.
+- Targeted invalidation of a single collection evicts ≤ 10% of cached entries when 10 distinct collections are active. ✅ Verified by `GraphQLCache.InvalidatePatternPerformanceTarget` test.
 
 ---
 
@@ -212,8 +213,8 @@ All inbound requests must carry or receive a `X-Correlation-ID` header that prop
 `include/api/audit_logger.h::AuditLogger::log()` holds `mutex_` for the entire duration of calling all registered handlers. Handlers may write to disk, push to a network audit sink, or run regex matching — all while the mutex is held.
 
 **Implementation Notes:**
-- `[ ]` **`AuditLogger::log()` holds `mutex_` during handler callbacks** (`audit_logger.h::log()`): a `std::lock_guard<std::mutex> lock(mutex_)` is held for the entire body of `log()`, including the inner `for (const auto& handler : handlers_) { handler(entry); }` loop. File-writing or network-sending handlers will stall every concurrent API thread that tries to emit an audit entry. Decouple: copy the handlers vector under the lock (O(n) pointer copies), release the lock, then invoke the handlers outside the critical section. The buffer append (also inside the lock) is already fast and should remain protected.
-- `[ ]` **In-memory audit buffer is not persistent** (`audit_logger.h`): `buffer_` (a circular in-memory vector) is lost on process restart. Add an optional file-backed `AuditLogHandler` that appends newline-delimited JSON audit entries to a configurable path, and register it by default when `config/audit.yaml` specifies `persistence: file`.
+- `[x]` **`AuditLogger::log()` holds `mutex_` during handler callbacks** (`audit_logger.h::log()`): a `std::lock_guard<std::mutex> lock(mutex_)` is held for the entire body of `log()`, including the inner `for (const auto& handler : handlers_) { handler(entry); }` loop. File-writing or network-sending handlers will stall every concurrent API thread that tries to emit an audit entry. Decouple: copy the handlers vector under the lock (O(n) pointer copies), release the lock, then invoke the handlers outside the critical section. The buffer append (also inside the lock) is already fast and should remain protected. (**Fixed** — `log()` now copies `handlers_` under a scoped lock, releases the lock, then invokes each handler; buffer append and stats update remain protected by a second scoped lock.)
+- `[x]` **In-memory audit buffer is not persistent** (`audit_logger.h`): `buffer_` (a circular in-memory vector) is lost on process restart. Add an optional file-backed `AuditLogHandler` that appends newline-delimited JSON audit entries to a configurable path, and register it by default when `config/audit.yaml` specifies `persistence: file`. (**Implemented** — `FileAuditLogHandler` class added to `audit_logger.h`; `AuditLogger::addFileHandler(path)` convenience method registers a JSONL-appending handler; `config/audit.yaml` now contains a `persistence:` section with `backend: none|file` and `file_path` settings.)
 
 ---
 
@@ -239,8 +240,8 @@ All inbound requests must carry or receive a `X-Correlation-ID` header that prop
 `include/api/grpc_bridge.h` defines a pure-virtual `IGRPCBridge` interface and supporting plain-data structs (`ServiceDescriptor`, `GRPCRequest`, `GRPCMetadata`) for registering and routing gRPC services. No concrete implementation is registered anywhere in the codebase.
 
 **Implementation Notes:**
-- `[ ]` **`IGRPCBridge` has no concrete implementation** (`grpc_bridge.h`): the interface exposes `registerService()`, `route()`, `getMetadata()`, and `listServices()` pure-virtual methods. Implement `GrpcBridgeImpl` in `src/api/grpc_bridge.cpp` that holds a `std::unordered_map<std::string, ServiceDescriptor>` guarded by `std::shared_mutex` and delegates routing to `GrpcApiServer::registerService()`.
-- `[ ]` **`IGRPCBridge` has no integration tests**: add `tests/api/grpc_bridge_test.cpp` exercising service registration, duplicate-name rejection, and metadata lookup.
+- `[ ]` **`IGRPCBridge` has no concrete implementation** (`grpc_bridge.h`): the interface exposes `registerService()`, `route()`, `getMetadata()`, and `listServices()` pure-virtual methods. Implement `GrpcBridgeImpl` in a dedicated API bridge implementation file (planned) that holds a `std::unordered_map<std::string, ServiceDescriptor>` guarded by `std::shared_mutex` and delegates routing to `GrpcApiServer::registerService()`.
+- `[ ]` **`IGRPCBridge` has no integration tests**: add a dedicated gRPC bridge test target exercising service registration, duplicate-name rejection, and metadata lookup.
 
 ---
 
@@ -249,19 +250,19 @@ All inbound requests must carry or receive a `X-Correlation-ID` header that prop
 | Test Type | Coverage Target | Notes |
 |-----------|----------------|-------|
 | Unit | >80% new code | Test `graphql::Parser` new resolvers with `QueryLimits` boundary cases; mock `Changefeed` for subscription tests |
-| Integration | All `/v1/` routes ≥ 95% | `tests/api/rest_integration_test.cpp`; add WebSocket client tests for `/v2/changes` |
+| Integration | All `/v1/` routes ≥ 95% | `tests/test_api_integration.cpp`; add WebSocket client tests for `/v2/changes` |
 | Performance | Regression ≤ 5% on existing endpoints | Benchmark with `wrk` at 500 concurrent connections; alert on p99 regression |
-| gRPC stub coverage | All 6 stub RPCs have integration tests | `tests/api/grpc_service_test.cpp`; use `grpc::testing::MockServerWriter` for `StreamAQL` |
+| gRPC stub coverage | Advanced search and stream RPCs have integration tests | `tests/test_themisdb_grpc_service.cpp`; use `grpc::testing::MockServerWriter` for `StreamAQL` |
 
 ## Performance Targets
 
 | Metric | Current | Target | Method |
 |--------|---------|--------|--------|
-| GraphQL parse+execute (10-field query) | ~5 ms (estimate) | < 2 ms p99 | `tests/api/graphql_bench.cpp` |
+| GraphQL parse+execute (10-field query) | ~5 ms (estimate) | < 2 ms p99 | `tests/test_graphql_variables.cpp` + dedicated benchmark task |
 | WebSocket concurrent connections | 0 (not implemented) | ≥ 10,000 | Load test with `k6` |
-| Bulk insert 10K docs via `/v2/documents` | N/A | < 500 ms | `tests/api/bulk_bench.cpp` |
-| Correlation ID middleware overhead | N/A | < 10 µs/req | microbenchmark in `benchmarks/api_bench.cpp` |
-| OTLP span flush (64 spans, persistent conn) | N/A | < 5 ms | `benchmarks/otlp_bench.cpp` |
+| Bulk insert 10K docs via `/v2/documents` | N/A | < 500 ms | `benchmarks/bench_api_endpoints.cpp` |
+| Correlation ID middleware overhead | N/A | < 10 µs/req | microbenchmark in `benchmarks/bench_api_endpoints.cpp` |
+| OTLP span flush (64 spans, persistent conn) | N/A | < 5 ms | planned OTLP microbenchmark target |
 | `RateLimiter::allow()` throughput | ~200K calls/sec (est.) | ≥ 1M calls/sec | microbenchmark after shared_mutex migration |
 
 ## Security / Reliability
@@ -295,3 +296,43 @@ All inbound requests must carry or receive a `X-Correlation-ID` header that prop
 [9] Hunt, P., Konar, M., Junqueira, F. P., & Reed, B. (2010). **ZooKeeper: Wait-free Coordination for Internet-scale Systems**. *Proceedings of the 2010 USENIX Annual Technical Conference (ATC)*, 145–158. (Relevance: atomic write-batch semantics and distributed coordination patterns used in gRPC `BatchWrite` atomicity design.) https://www.usenix.org/conference/usenix-atc-10/zookeeper-wait-free-coordination-internet-scale-systems
 
 [10] Mell, P., & Grance, T. (2011). **The NIST Definition of Cloud Computing**. NIST Special Publication 800-145. https://doi.org/10.6028/NIST.SP.800-145 (Relevance: multi-tenant API isolation requirements for per-tenant rate limiting and namespace routing.)
+
+---
+
+## Security Hardening Backlog (Q2 2026)
+
+> GAP-016 – identified via static analysis (2026-04-21).
+> Reference: `docs/governance/SOURCECODE_COMPLIANCE_GOVERNANCE.md`.
+
+### GAP-016 – gRPC Server: Block `InsecureServerCredentials` in Production Mode
+
+**Scope:** `src/api/grpc_server.cpp:295`
+
+### Design Constraints
+- TLS-disabled mode must still be allowed in development (`THEMIS_ENV=development`)
+- In production, server startup must fail with a clear error message
+
+### Required Interfaces
+```cpp
+// In GrpcApiServer::buildCredentials():
+if (!config_.tls_enabled) {
+    const char* env = std::getenv("THEMIS_ENV");
+    if (env && std::string(env) == "production") {
+        THEMIS_CRITICAL("gRPC: InsecureServerCredentials forbidden in production – set tls_enabled=true");
+        throw std::runtime_error("gRPC TLS required in production");
+    }
+    THEMIS_CRITICAL("gRPC: InsecureServerCredentials active – all gRPC traffic is unencrypted");
+    return grpc::InsecureServerCredentials();
+}
+```
+
+### Test Strategy
+- Unit test: `tls_enabled=false` + `THEMIS_ENV=production` → `std::runtime_error` thrown
+- Unit test: `tls_enabled=false` + `THEMIS_ENV=development` → Insecure credentials + CRITICAL log
+- Unit test: `tls_enabled=true` → SslServerCredentials returned
+
+### Performance Targets
+- No runtime overhead (check only on server startup)
+
+### Security / Reliability
+- Production guard must not be bypassable by missing env var (default = deny in production)

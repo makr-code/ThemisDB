@@ -1,105 +1,79 @@
-# Chimera Module Roadmap
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+# chimera roadmap
 
 ## Current Status
-**Beta** — All planned adapter implementations are complete in simulation mode (no live server
-required for tests). ThemisDB reference adapter and adapter factory infrastructure are
-functional. Vendor-neutral benchmarking architecture supports relational, document, vector, and
-graph operations across 9 adapters. Build system fully registered; focused test targets available.
 
-## Completed ✅
-- [x] Adapter factory with thread-safe singleton registry
-- [x] Dynamic adapter registration without recompilation
-- [x] ThemisDB reference adapter implementation
-- [x] Base adapter infrastructure and connection management
-- [x] Multi-model operation wrappers (relational, vector, graph, document)
-- [x] Transaction coordination interfaces
-- [x] System information and metrics collection
-- [x] Alphabetic vendor-neutral ordering of registered systems
-- [x] Result type conversions and error handling
-- [x] MongoDB vendor adapter implementation (Target: Q2 2026) (Issue: #1630)
-- [x] Benchmark result normalization and scoring framework (Target: Q3 2026) (Issue: #1985)
-- [x] MongoDB adapter (document + Atlas Vector Search) (Issue: #1633)
-- [x] Elasticsearch adapter (full-text + vector search) (Issue: #1640)
-- [x] Pinecone adapter (managed vector search) (Issue: #1639)
-- [x] Qdrant adapter (native vector database)
-- [x] Weaviate adapter (native vector database)
-- [x] Neo4j adapter (native graph database) (Issue: #1650)
-- [x] Build system: all 9 adapters registered in `cmake/ChimeraAdapters.cmake` (unconditional – no LLM gate)
-- [x] Focused standalone test targets for all 14 test files in `tests/CMakeLists.txt`
-- [x] Error Recovery and Retry Logic: `RetryPolicy` (exponential backoff, configurable), `CircuitBreaker` (CLOSED/OPEN/HALF_OPEN), `ConnectionWithRetry` decorator (Issue: #17)
-- [x] Async/Promise-Based API: `IAsyncDatabaseAdapter` with `execute_query_async()`, `batch_insert_async()`, `search_vectors_async()`, `cancel_async()` (v1.8.0)
-- [x] Batch Operation Enhancements: `BatchOptions`, `BatchResult`, `batch_insert_advanced()`, `batch_insert_documents_advanced()` (v1.8.0)
-- [x] AdapterConfig Validation: `validate()`, `get_validation_errors()`, `parse_connection_string()` (v1.8.0)
+- `ThemisDBAdapter` ist für den Simulationsmodus implementiert (`src/chimera/themisdb_adapter.cpp`).
+- Streaming (`IStreamingAdapter`) und Prepared Statements (`IPreparedStatementAdapter`) sind implementiert und durch dedizierte Tests abgedeckt.
+- Erweiterte Multi-Vendor-Adapterlandschaft ist im Modulpfad `src/chimera/` aktuell nicht vorhanden.
 
-## In Progress 🚧
-- [~] PostgreSQL vendor adapter — simulation mode complete; production wiring to `libpqxx` pending (Issue: #1629)
-- [~] Production driver integration for all HTTP-based adapters (libmongocxx, cpp-httplib / cpr)
+## In Progress
 
-## Planned Features 📋
+- [x] Konsolidierung der capability claims für Simulations- vs. Engine-Modus (Target: v1.8.0)
+  - `Capability::CONNECTION_POOLING` aus `has_capability()` und `get_capabilities()` entfernt (falsely advertised → false); Test ergänzt (2026-04-21)
+- [x] Präzisierung und Nachrüstung von Include-Dokumentation unter `include/chimera/` (Target: v1.8.0)
 
-### Short-term (Next 3-6 months)
-- [ ] Production driver integration: `libpqxx` for PostgreSQL (Issue: #1632)
-- [ ] Production driver integration: `libmongocxx` for MongoDB
-- [ ] Production driver integration: HTTP client (`cpp-httplib` / `cpr`) for Elasticsearch, Pinecone, Qdrant, Weaviate
-- [ ] Neo4j Bolt/HTTP client integration for production deployments
+## Planned Features
 
-### Long-term (6-12 months)
-- [ ] Cross-system query federation for hybrid benchmarks (Issue: #1642)
-- [ ] Automated benchmark CI pipeline with regression tracking (Issue: #1643)
-- [I] Cassandra adapter (wide-column) (Issue: #1641)
-- [ ] Adapter-level connection pooling
+- [ ] Engine-Dispatch-Pfade ohne `NOT_IMPLEMENTED`-Fallback für alle deklarativen Capabilities (Target: Q3 2026)
+- [ ] Konsistente Connection-Pooling-Unterstützung (Capability + API + Tests) (Target: Q3 2026)
+- [ ] Vendor-Adapter-Registry und dokumentierte Integrationsverträge im Modul selbst (Target: Q4 2026)
 
 ## Implementation Phases
 
-### Phase 1: Adapter Infrastructure & Reference Implementation (Status: Completed ✅)
-- [x] Adapter factory with thread-safe singleton registry (`chimera/adapter_factory.cpp`)
-- [x] Dynamic adapter registration without recompilation
-- [x] ThemisDB reference adapter implementation (`chimera/adapters/themisdb_adapter.cpp`)
-- [x] Base adapter infrastructure and connection management
-- [x] Multi-model operation wrappers: relational, vector, graph, document
-- [x] Transaction coordination interfaces
-- [x] System information and metrics collection
-- [x] Alphabetic vendor-neutral ordering of registered systems
-- [x] Result type conversions and error handling
+### Phase 1 — Design / API-Vertrag
 
-### Phase 2: Vendor Adapters & Benchmarking (Status: In Progress 🚧)
-- [~] PostgreSQL vendor adapter (`chimera/postgresql_adapter.cpp`) — simulation complete, production driver pending (Issue: #1656)
-- [x] MongoDB vendor adapter (`chimera/mongodb_adapter.cpp`) (Issue: #1657)
-- [x] Benchmark result normalization and scoring framework
+- [x] Adapter-API für Streaming/Prepared Statements im Header-Shim definiert (Target: v1.9.0)
+- [ ] Connection-Pooling-Vertrag eindeutig in Header + Implementierung abbilden (Target: v1.8.0)
 
-### Phase 3: Ecosystem Expansion & Reporting (Status: Completed ✅)
-- [x] Weaviate adapter (native vector database)
-- [x] Qdrant adapter (native vector database)
-- [x] Elasticsearch adapter (full-text + vector search)
-- [x] Pinecone adapter (managed vector search)
-- [x] Neo4j adapter (native graph database)
-- [x] Unified benchmark harness (workload definitions, warm-up, run, report)
-- [x] Adapter capability matrix (which operations each system supports)
-- [I] Benchmark result aggregation and reporting dashboard (Issue: #1649)
+### Phase 2 — Core-Implementierung
 
-### Phase 4: Advanced Features & Developer Experience (Status: Completed ✅)
-- [x] Async/Promise-Based API: `IAsyncDatabaseAdapter` with `execute_query_async()`, `batch_insert_async()`, `search_vectors_async()`, `cancel_async()`; `ASYNC_OPERATIONS` capability flag; `ThemisDBAdapter` full implementation with thread-pool dispatch and cancellation tokens (`database_adapter.hpp`, `themisdb_adapter.hpp`)
-- [x] Batch Operation Enhancements: `BatchOptions` (chunk_size, stop_on_error, progress_callback, batch_callback) and `BatchResult` (aggregated stats + per-chunk results); default implementations in `IRelationalAdapter` and `IDocumentAdapter` (`database_adapter.hpp`)
-- [x] AdapterConfig Validation: `validate()` with structured `Result<bool>` error codes, `get_validation_errors()` returning all constraint violations, `parse_connection_string()` decomposing URLs into `ParsedConnectionString` (`database_adapter.hpp`)
-- [x] Error Recovery and Retry Logic: `RetryPolicy` (exponential backoff, configurable is_transient predicate), `CircuitBreaker` (CLOSED/OPEN/HALF_OPEN state machine), `ConnectionWithRetry<T>` decorator template (`retry_policy.hpp`)
+- [x] Simulationsmodus für relationale, dokumenten-, graph- und vektorbezogene Grundpfade (Target: v1.9.0)
+- [x] Streaming- und Prepared-Statement-Basisimplementierung (Target: v1.9.0)
+- [ ] Vollständige engine-backed Implementierung ohne Build-Flag-Lücken (Target: Q3 2026)
+
+### Phase 3 — Fehlerbehandlung & Edge Cases
+
+- [x] Verbindungsprüfung und strukturierte Fehlercodes in Kernpfaden (Target: v1.9.0)
+- [x] Einheitliche Behandlung von Feature-Mismatch zwischen Capabilities und Verhalten (Target: v1.8.0)
+  - `CONNECTION_POOLING` liefert nun korrekt `false` bis zur Implementierung (2026-04-21)
+
+### Phase 4 — Tests
+
+- [x] Streaming-Tests vorhanden (`tests/chimera/test_chimera_streaming.cpp`) (Target: v1.9.0)
+- [x] Prepared-Statement-Tests vorhanden (`tests/chimera/test_chimera_prepared_statements.cpp`) (Target: v1.9.0)
+- [ ] Engine-injection-Tests für reale Backend-Pfade ergänzen (Target: Q3 2026)
+
+### Phase 5 — Performance/Hardening
+
+- [ ] Connection-Pooling, Retry-Strategien und Ressourcenhärtung implementieren (Target: Q3 2026)
+- [ ] Last- und Speicherprofiling für große Batch-/Stream-Workloads dokumentieren (Target: Q3 2026)
+
+### Phase 6 — Dokumentation & Abnahme
+
+- [x] Modulbezogene Primary/Secondary-Doku-Migration gestartet (`docs/de|en/chimera/*`) (Target: v1.8.0)
+- [x] Include-Readme und konsolidierte Modulnavigationspfade fertigstellen (`include/chimera/README.md`) (Target: v1.8.0)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% line coverage — 14 focused test executables covering all 9 adapters, retry policy, batch operations, async API, and AdapterConfig validation; >500 test cases across all adapter test files
-- [x] Integration tests (adapter factory, ThemisDB, MongoDB, PostgreSQL, Elasticsearch, Pinecone, Qdrant, Weaviate, Neo4j)
-- [P] Performance benchmarks (adapter overhead measurement) (Issue: #1652)
-- [P] Security audit (connection credential handling) (Issue: #1653)
-- [x] Documentation complete (primary docs synchronised with source)
-- [x] API stability guaranteed
+
+- [x] Simulationsmodus stabil für lokale Tests
+- [x] Streaming- und Prepared-Statement-Pfade testbar
+- [x] Capability-Matrix deckt reales Verhalten ohne Widersprüche ab
+  - `CONNECTION_POOLING` korrekt auf `false` gesetzt bis zur Implementierung (2026-04-21)
+- [ ] Engine-Mode ohne `NOT_IMPLEMENTED`-Abbrüche für produktive Kernpfade
+- [x] Include-API-Doku vollständig und mit Sourcecode konsistent (`include/chimera/README.md`)
+- [ ] Sicherheits- und Lasttests für produktive Adapteranbindung dokumentiert
 
 ## Known Issues & Limitations
-- All vendor adapters are implemented in simulation mode (in-process `std::unordered_map`
-  storage, no live server required for tests); production use requires linking the respective
-  native client library (e.g. `libmongocxx`, `libpqxx`, `cpp-httplib`/`cpr` for HTTP-based
-  adapters) and replacing the simulation blocks.
-- No adapter-level connection pooling; each `create()` call produces a new independent
-  connection.
+
+- Nur ThemisDB-Referenzadapter ist im Modulpfad `src/chimera/` vorhanden.
+- Teile des engine-backed Dispatches hängen an `THEMISDB_ENGINE_AVAILABLE`.
+- `Capability::CONNECTION_POOLING` wird als verfügbar gemeldet, ohne dedizierte Pooling-API-Implementierung im Adapter. (**Fix 2026-04-21**: `has_capability()` gibt jetzt `false`, `get_capabilities()` enthält `CONNECTION_POOLING` nicht mehr.)
+- Include-Dokumentation (`include/chimera/README.md`) fehlt derzeit nicht mehr — vorhanden.
+- `shortest_path` mit `max_depth != 10` verwendet `dijkstraWithConstraints` (engine-backed); `traverse` mit mehreren `edge_labels` läuft als BFS-pro-Label mit Deduplication (engine-backed).
 
 ## Breaking Changes
-- Adapter interface is stable; new capability methods will be added with default no-op implementations (backward-compatible)
+
+Aktuell keine bestätigten Breaking Changes geplant.
+Falls Connection-Pooling-Verträge oder Capability-Semantik geändert werden, muss dies als Breaking Change dokumentiert werden.

@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # Voice Module - Header Interfaces
 
 ## Module Purpose
@@ -22,6 +24,29 @@ The Voice module headers define the interface contracts for voice/audio interact
 - Database storage implementations
 
 ## Header Files
+
+### Quick Reference
+
+| Header | Key Types | Description |
+|---|---|---|
+| `audio_preprocessing.h` | `AudioPreprocessor`, `PreprocessConfig` | <!-- TODO: verify --> Audio normalisation and pre-filtering |
+| `emotion_analyzer.h` | `EmotionAnalyzer`, `EmotionResult` | <!-- TODO: verify --> Acoustic emotion detection |
+| `voice_accessibility.h` | `VoiceAccessibility` | <!-- TODO: verify --> Accessibility features (speaker adaptation, slow speech) |
+| `voice_assistant.h` | `VoiceAssistant`, `VoiceSession`, `VoiceAssistant::Config` | Core voice assistant interface |
+| `voice_audio_storage.h` | `VoiceAudioStorage` | <!-- TODO: verify --> Persistent audio recording storage |
+| `voice_auth.h` | `VoiceAuth` | <!-- TODO: verify --> Voice-biometric authentication |
+| `voice_batch_processor.h` | `VoiceBatchProcessor` | <!-- TODO: verify --> Batch STT/NLP processing |
+| `voice_browser_streaming.h` | `VoiceBrowserStreaming` | <!-- TODO: verify --> WebSocket / WebRTC streaming to browser clients |
+| `voice_error_handler.h` | `VoiceErrorHandler` | <!-- TODO: verify --> Structured voice pipeline error handling |
+| `voice_intent_detector.h` | `VoiceIntentDetector` | <!-- TODO: verify --> NLU intent extraction from transcriptions |
+| `voice_macro.h` | `VoiceMacro` | <!-- TODO: verify --> Programmable voice macro definitions |
+| `voice_meeting_support.h` | `VoiceMeetingSupport`, `MeetingMetadata` | Meeting recording and protocol generation |
+| `voice_model_cache.h` | `VoiceModelCache` | <!-- TODO: verify --> In-memory cache for STT/TTS model weights |
+| `voice_security.h` | `VoiceSecurity` | <!-- TODO: verify --> Audio stream encryption and access control |
+| `voice_session_manager.h` | `VoiceSessionManager` | <!-- TODO: verify --> Multi-session lifecycle management |
+| `voice_telephony.h` | `VoiceTelephony`, `PhoneCallMetadata` | Phone call recording and metadata |
+| `voice_tts_customizer.h` | `VoiceTTSCustomizer` | <!-- TODO: verify --> Custom voice / prosody for TTS output |
+| `wake_word_detector.h` | `WakeWordDetector` | <!-- TODO: verify --> Low-power wake-word / hotword detection |
 
 ### voice_assistant.h
 **Location:** `/include/voice/voice_assistant.h`
@@ -182,17 +207,17 @@ struct Config {
     std::string stt_model_path;       // Path to Whisper model file
     std::string stt_model_size;       // Model size: "tiny", "base", "small", "medium", "large"
     std::string stt_language;         // Language code or "auto" for detection
-    
+
     // TTS (Text-to-Speech) Configuration
     std::string tts_model_path;       // Path to TTS model file
     std::string tts_voice;            // Voice ID from TTS model
     float tts_speed;                  // Speech rate (0.5 - 2.0, default 1.0)
-    
+
     // LLM Configuration
     std::string llm_model_path;       // Path to LLM model (GGUF format)
     int llm_n_ctx;                    // Context window size (default 4096)
     int llm_n_gpu_layers;             // GPU layers (0 = CPU only)
-    
+
     // Storage Configuration
     std::string storage_path;         // Base path for voice data storage
     bool enable_revision_control;     // Enable revision history (default true)
@@ -273,51 +298,51 @@ class VoiceAssistant {
 public:
     VoiceAssistant(const Config& config);
     ~VoiceAssistant();
-    
+
     // Lifecycle management
     bool initialize();
     void shutdown();
-    
+
     // Voice command processing
     std::vector<uint8_t> processVoiceCommand(
         const std::vector<uint8_t>& audio_data,
         const std::string& session_id
     );
-    
+
     std::string processTextCommand(
         const std::string& text,
         const std::string& session_id
     );
-    
+
     // Phone call recording
     json recordPhoneCall(
         const std::vector<uint8_t>& audio_data,
         const PhoneCallMetadata& metadata
     );
-    
+
     // Meeting protocol generation
     json generateMeetingProtocol(
         const std::vector<uint8_t>& audio_data,
         const MeetingMetadata& metadata
     );
-    
+
     // Audio utilities
     std::vector<uint8_t> convertAudioFormat(
         const std::vector<uint8_t>& audio_data,
         const std::string& target_format
     );
-    
+
     // Storage
     std::string storeRecording(
         const std::vector<uint8_t>& audio_data,
         const std::string& transcript,
         const json& metadata
     );
-    
+
     // Session management
     VoiceSession getSession(const std::string& session_id);
     void updateSession(const std::string& session_id, const json& context);
-    
+
     // Statistics
     json getStatistics() const;
 };
@@ -390,7 +415,7 @@ if (!assistant.initialize()) {
 std::vector<uint8_t> audio_input = load_audio_file("user_query.wav");
 std::string session_id = "user123_session1";
 
-std::vector<uint8_t> audio_response = 
+std::vector<uint8_t> audio_response =
     assistant.processVoiceCommand(audio_input, session_id);
 
 // Save or play response
@@ -424,7 +449,7 @@ if (result["success"].get<bool>()) {
     std::string transcript = result["transcript"];
     std::string summary = result["summary"];
     std::string doc_id = result["document_id"];
-    
+
     // Update CRM
     update_crm(metadata.caller_number, {
         {"last_call_id", doc_id},
@@ -627,7 +652,7 @@ json result = assistant.recordPhoneCall(audio, metadata);
 if (!result["success"].get<bool>()) {
     std::string error = result["error"];
     std::cerr << "Call recording failed: " << error << std::endl;
-    
+
     // Handle specific errors
     if (result.contains("error_code")) {
         std::string code = result["error_code"];
@@ -637,7 +662,7 @@ if (!result["success"].get<bool>()) {
             // Check disk space
         }
     }
-    
+
     return false;
 }
 
@@ -754,6 +779,14 @@ assert(!response.empty());
 
 ---
 
-*Last Updated: January 2026*  
-*Module Version: v1.0.0*  
+*Last Updated: April 2026*
+*Module Version: v1.0.0*
 *Next Review: v1.1.0 Release*
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

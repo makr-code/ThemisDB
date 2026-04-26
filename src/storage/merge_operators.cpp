@@ -3,18 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            merge_operators.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:32                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     165                                            ║
+    • Total Lines:     168                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -30,11 +33,11 @@
 namespace themis {
 
 // CounterMergeOperator Implementation
-bool CounterMergeOperator::Merge(const rocksdb::Slice& key,
+bool CounterMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
                                   const rocksdb::Slice* existing_value,
                                   const rocksdb::Slice& value,
                                   std::string* new_value,
-                                  rocksdb::Logger* logger) const {
+                                  [[maybe_unused]] rocksdb::Logger* logger) const {
     // Parse new value as integer
     int64_t delta = 0;
     auto result = std::from_chars(value.data(), value.data() + value.size(), delta);
@@ -67,11 +70,11 @@ bool CounterMergeOperator::Merge(const rocksdb::Slice& key,
 AppendMergeOperator::AppendMergeOperator(std::string delimiter) 
     : delimiter_(std::move(delimiter)) {}
 
-bool AppendMergeOperator::Merge(const rocksdb::Slice& key,
+bool AppendMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
                                  const rocksdb::Slice* existing_value,
                                  const rocksdb::Slice& value,
                                  std::string* new_value,
-                                 rocksdb::Logger* logger) const {
+                                 [[maybe_unused]] rocksdb::Logger* logger) const {
     if (existing_value) {
         new_value->reserve(existing_value->size() + delimiter_.size() + value.size());
         new_value->assign(existing_value->data(), existing_value->size());
@@ -84,11 +87,11 @@ bool AppendMergeOperator::Merge(const rocksdb::Slice& key,
 }
 
 // SetMergeOperator Implementation
-bool SetMergeOperator::Merge(const rocksdb::Slice& key,
+bool SetMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
                               const rocksdb::Slice* existing_value,
                               const rocksdb::Slice& value,
                               std::string* new_value,
-                              rocksdb::Logger* logger) const {
+                              [[maybe_unused]] rocksdb::Logger* logger) const {
     // Parse existing set
     std::set<std::string> unique_values;
     
@@ -128,11 +131,11 @@ bool SetMergeOperator::Merge(const rocksdb::Slice& key,
 }
 
 // MaxMergeOperator Implementation
-bool MaxMergeOperator::Merge(const rocksdb::Slice& key,
+bool MaxMergeOperator::Merge([[maybe_unused]] const rocksdb::Slice& key,
                               const rocksdb::Slice* existing_value,
                               const rocksdb::Slice& value,
                               std::string* new_value,
-                              rocksdb::Logger* logger) const {
+                              [[maybe_unused]] rocksdb::Logger* logger) const {
     // Parse new value as double
     double new_val = 0.0;
     auto result = std::from_chars(value.data(), value.data() + value.size(), new_val);

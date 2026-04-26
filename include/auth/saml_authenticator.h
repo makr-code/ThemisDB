@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            saml_authenticator.h                               ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-03-30 04:06:02                                ║
+  Version:         0.0.20                                             ║
+  Last Modified:   2026-04-15 18:44:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     334                                            ║
+    • Total Lines:     331                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c20bbb0ac  2026-03-13  fix(auth): address PR review comments on SAML assertion e... ║
-    • b428004b9  2026-03-12  feat(auth): implement SAML assertion encryption support (... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 52bf149ea  2026-02-24  fix(auth): correct processResponse doc comment - step lis... ║
-    • 63f2b0f83  2026-02-24  feat(auth): implement SAML 2.0 SP-initiated and IdP-initi... ║
+    • c20bbb0ace  2026-03-13  fix(auth): address PR review comments on SAML assertion e... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -123,6 +119,15 @@ struct SAMLConfig {
     // Optional: NameID policy to request in AuthnRequest
     std::string requested_authn_context{
         "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport"};
+
+    // Algorithm security policy.
+    // SHA-1 based digest and signature algorithms (e.g. http://www.w3.org/2000/09/xmldsig#sha1,
+    // http://www.w3.org/2000/09/xmldsig#rsa-sha1) are cryptographically broken and
+    // MUST NOT be accepted in new deployments (CWE-327, NIST SP 800-131A rev. 2).
+    // Set to true ONLY for temporary backward compatibility with legacy IdPs that
+    // cannot yet be migrated to SHA-256.  Log a security warning each time SHA-1
+    // is encountered regardless of this setting.
+    bool allow_sha1_deprecated{false};
 };
 
 // ============================================================================

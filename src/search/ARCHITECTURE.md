@@ -1,9 +1,11 @@
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
 # Search Module — Architecture Guide
 
-<!-- Status: current | validated: 2026-03-11 | commit: a14cdb2 -->
+<!-- Status: current | validated: 2026-04-06 | commit: a14cdb2 -->
 
-**Version:** 1.2  
-**Last Updated:** 2026-03-11  
+**Version:** 1.2
+**Last Updated:** 2026-04-06
 **Module Path:** `src/search/`
 
 ---
@@ -56,6 +58,9 @@ across multiple shards.
 | `personalized_ranker.cpp` | Per-user interaction history tracking with time-decayed scoring |
 | `search_highlighter.cpp` | Highlight and snippet generation for matched terms |
 | `negative_keyword_filter.cpp` | NOT-operator negative keyword filtering |
+| `conversational_search.cpp` | Multi-turn context-aware query reformulation (`ConversationalSearch`) |
+| `federated_search.cpp` | Tenant-isolated parallel search with per-tenant weighting (`FederatedSearch`) |
+| `search_result_stream.cpp` | Cursor-based streaming pagination for large result sets (`SearchResultStream`) |
 
 *(Inverted index and BM25 scorer are in `src/index/inverted_index.cpp` and `src/query/functions/`)*
 

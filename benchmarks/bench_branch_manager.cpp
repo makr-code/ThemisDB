@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_branch_manager.cpp                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:04:00                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:43:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     282                                            ║
+    • Total Lines:     291                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 9c9ead9b4f  2026-04-09  Implement feature X to enhance user experience and optimi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -28,6 +27,7 @@
 #include "cdc/changefeed.h"
 #include <filesystem>
 #include <memory>
+#include <stdexcept>
 
 namespace themis {
 namespace transaction {
@@ -47,10 +47,15 @@ public:
         std::filesystem::create_directories(test_db_path_);
         
         // Initialize database
-        db_ = std::make_unique<RocksDBWrapper>(test_db_path_);
+        RocksDBWrapper::Config config;
+        config.db_path = test_db_path_;
+        db_ = std::make_unique<RocksDBWrapper>(config);
+        if (!db_->open()) {
+            throw std::runtime_error("failed to open benchmark RocksDB instance");
+        }
         
         // Initialize changefeed
-        changefeed_ = std::make_unique<Changefeed>(*db_);
+        changefeed_ = std::make_unique<Changefeed>(db_->getRawDB());
         
         // Initialize snapshot manager
         snapshot_manager_ = std::make_unique<SnapshotManager>(*db_, *changefeed_);
@@ -62,7 +67,11 @@ public:
         for (int i = 0; i < 1000; i++) {
             std::string key = "bench_key_" + std::to_string(i);
             std::string value = "bench_value_" + std::to_string(i);
-            changefeed_->recordPut(key, value);
+            Changefeed::ChangeEvent ev;
+            ev.type = Changefeed::ChangeEventType::EVENT_PUT;
+            ev.key = key;
+            ev.value = value;
+            changefeed_->recordEvent(std::move(ev));
         }
     }
     

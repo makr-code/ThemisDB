@@ -1,3 +1,6 @@
+> ⚠️ **Historischer Statusreport** – Dieser Bericht beschreibt den Implementierungsstand zum Zeitpunkt der Erstellung.
+> Für den aktuellen Stand: Quellcode und aktuelle [`benchmarks/README.md`](../../README.md) prüfen.
+
 # Large-Scale Real-World Benchmark Strategy
 
 **Ziel**: Demonstriere ThemisDB's Hybrid-Search-Alleinstellung mit ~20GB realistischen Datasets

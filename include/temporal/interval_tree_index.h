@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            interval_tree_index.h                              ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:11:56                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:47:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     241                                            ║
+    • Total Lines:     244                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c5ff147e9  2026-03-20  Changes before error encountered         ║
+    • c5ff147e9f  2026-03-20  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -37,11 +37,13 @@
 #pragma once
 
 #include "temporal/temporal_types.h"
+#include <atomic>
 #include <cstddef>
 #include <memory>
-#include <mutex>
 #include <optional>
+#include <shared_mutex>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace themisdb {
@@ -91,21 +93,24 @@ struct IntervalTreeStats {
  * simpler `TemporalIndex` class.
  *
  * ## Key operations
- * | Operation         | Time complexity |
- * |-------------------|-----------------|
- * | insert()          | O(log n)        |
- * | remove()          | O(log n)        |
- * | queryPoint()      | O(log n + k)    |
- * | queryOverlap()    | O(log n + k)    |
- * | queryKey()        | O(n) worst-case |
- * | size()            | O(1)            |
+ * | Operation         | Time complexity                          |
+ * |-------------------|------------------------------------------|
+ * | insert()          | O(log n) — AVL-balanced                  |
+ * | remove()          | O(log n) — AVL-balanced                  |
+ * | queryPoint()      | O(log n + k)                             |
+ * | queryOverlap()    | O(log n + k)                             |
+ * | queryKey()        | O(k) via secondary key index             |
+ * | size()            | O(1) — atomic                            |
  *
- * Thread-safety: all public methods are thread-safe via an internal mutex.
+ * Thread-safety: reads use a shared lock (std::shared_mutex) so concurrent
+ * point/overlap/key queries do not block one another.  Writes acquire an
+ * exclusive lock.
  *
- * @note The tree is not balanced (no AVL/red-black rotations) because the
- *       primary workload in ThemisDB is read-heavy with batched inserts.
- *       For write-heavy production loads, replace the BST with a balanced
- *       variant; the public API remains unchanged.
+ * @note The BST is kept balanced via AVL rotations (LL, RR, LR, RL cases).
+ *       The `subtree_max_end` augmentation field is updated atomically during
+ *       each rotation so the invariant is preserved at all times.  A secondary
+ *       hash index (key → entries) provides O(k) queryKey() without a full
+ *       tree traversal.
  */
 class IntervalTreeIndex {
 public:
@@ -138,6 +143,34 @@ public:
      * O(n) worst-case due to multiple hits with the same key.
      */
     size_t removeKey(const std::string& key);
+
+    /**
+     * @brief STL-style erase: remove all entries for the given key.
+     *
+     * This is an alias for `removeKey()` that follows STL container naming
+     * conventions (`erase` vs. `remove`).  It removes every interval entry
+     * associated with @p key from the tree while maintaining the AVL-balance
+     * invariant through tree rotations.
+     *
+     * Complexity:
+     *   - O(k·log n) where k is the number of intervals stored for @p key and
+     *     n is the total number of entries in the tree.
+     *   - For the common case of a unique-key index (k = 1) this degenerates
+     *     to O(log n).
+     *
+     * @par Thread-safety
+     * `erase()` acquires an **exclusive** (`std::unique_lock`) on the internal
+     * `std::shared_mutex`.  All concurrent readers — including those holding a
+     * `std::shared_lock` via `queryPoint()`, `queryRange()`, or `queryKey()` —
+     * are **blocked** until the erase completes.  Callers that received results
+     * from a previous query call must not retain raw pointers or references into
+     * those result vectors after `erase()` returns; the returned
+     * `std::vector<IntervalEntry>` copies are safe to use independently.
+     *
+     * @param key  Logical key whose entries should be removed.
+     * @return     Number of entries actually removed (0 if the key was absent).
+     */
+    size_t erase(const std::string& key);
 
     /** Remove all entries. O(n). */
     void clear();
@@ -176,7 +209,7 @@ public:
 
     const std::string& name() const noexcept { return name_; }
 
-    /** O(1) — maintained incrementally. */
+    /** O(1) — maintained as an atomic counter. */
     size_t size() const noexcept;
 
     IntervalTreeStats stats() const;
@@ -190,6 +223,9 @@ private:
         /// Maximum `range.end` in this subtree (augmentation field).
         Timestamp subtree_max_end{kMinTimestamp};
 
+        /// AVL balance height (1 for a leaf node).
+        int height{1};
+
         std::unique_ptr<Node> left;
         std::unique_ptr<Node> right;
 
@@ -202,6 +238,14 @@ private:
 
     static Timestamp nodeMaxEnd(const Node* n) noexcept;
     static void      updateSubtreeMax(Node* n) noexcept;
+
+    // AVL helpers
+    static int  nodeHeight(const Node* n) noexcept;
+    static int  balanceFactor(const Node* n) noexcept;
+    static void updateHeight(Node* n) noexcept;
+    static std::unique_ptr<Node> rotateRight(std::unique_ptr<Node> y);
+    static std::unique_ptr<Node> rotateLeft(std::unique_ptr<Node> x);
+    static std::unique_ptr<Node> balance(std::unique_ptr<Node> n);
 
     static std::unique_ptr<Node> insertNode(std::unique_ptr<Node> root,
                                             const IntervalEntry& entry);
@@ -235,8 +279,13 @@ private:
 
     std::string               name_;
     std::unique_ptr<Node>     root_;
-    size_t                    size_{0};
-    mutable std::mutex        mutex_;
+    std::atomic<size_t>       size_{0};
+
+    /// Secondary index: key → copies of all entries with that key.
+    /// Provides O(k) queryKey() without a full BST traversal.
+    std::unordered_map<std::string, std::vector<IntervalEntry>> key_index_;
+
+    mutable std::shared_mutex mutex_;
     mutable IntervalTreeStats stats_;
 };
 

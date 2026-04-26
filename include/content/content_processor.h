@@ -3,21 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_processor.h                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:06:47                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     303                                            ║
+    • Total Lines:     300                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9d3ecaa0e  2026-02-28  Add ThemisDB Wiki Integration plugin with documentation i... ║
-    • 95da435db  2026-02-27  feat(content): add content deduplication via perceptual h... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -179,12 +173,12 @@ private:
  * Extracts EXIF metadata, generates image embeddings (e.g., CLIP).
  */
 #ifndef THEMIS_CONTENT_PLUGIN_IMAGE_PROCESSOR_DEFINED
-class ImageProcessor : public IContentProcessor {
+class LegacyImageProcessor : public IContentProcessor {
 public:
     ExtractionResult extract(const std::string& blob, const ContentType& content_type) override;
     std::vector<json> chunk(const ExtractionResult& extraction_result, int chunk_size, int overlap) override;
     std::vector<float> generateEmbedding(const std::string& chunk_data) override;
-    std::string getName() const override { return "ImageProcessor"; }
+    std::string getName() const override { return "LegacyImageProcessor"; }
     std::vector<ContentCategory> getSupportedCategories() const override {
         return {ContentCategory::IMAGE};
     }
@@ -201,12 +195,12 @@ private:
  * Handles GeoJSON, GPX, Shapefiles, GeoTIFF.
  * Extracts coordinates, creates spatial indices.
  */
-class GeoProcessor : public IContentProcessor {
+class LegacyGeoProcessor : public IContentProcessor {
 public:
     ExtractionResult extract(const std::string& blob, const ContentType& content_type) override;
     std::vector<json> chunk(const ExtractionResult& extraction_result, int chunk_size, int overlap) override;
     std::vector<float> generateEmbedding(const std::string& chunk_data) override;
-    std::string getName() const override { return "GeoProcessor"; }
+    std::string getName() const override { return "LegacyGeoProcessor"; }
     std::vector<ContentCategory> getSupportedCategories() const override {
         return {ContentCategory::GEO};
     }
@@ -222,12 +216,12 @@ private:
  * Handles STEP, IGES, STL, DXF.
  * Extracts geometry, assemblies, bill of materials.
  */
-class CADProcessor : public IContentProcessor {
+class LegacyCADProcessor : public IContentProcessor {
 public:
     ExtractionResult extract(const std::string& blob, const ContentType& content_type) override;
     std::vector<json> chunk(const ExtractionResult& extraction_result, int chunk_size, int overlap) override;
     std::vector<float> generateEmbedding(const std::string& chunk_data) override;
-    std::string getName() const override { return "CADProcessor"; }
+    std::string getName() const override { return "LegacyCADProcessor"; }
     std::vector<ContentCategory> getSupportedCategories() const override {
         return {ContentCategory::CAD};
     }
@@ -243,12 +237,12 @@ private:
  * Handles MP3, WAV, FLAC.
  * Extracts ID3 tags, transcribes speech (optional), generates audio embeddings.
  */
-class AudioProcessor : public IContentProcessor {
+class LegacyAudioProcessor : public IContentProcessor {
 public:
     ExtractionResult extract(const std::string& blob, const ContentType& content_type) override;
     std::vector<json> chunk(const ExtractionResult& extraction_result, int chunk_size, int overlap) override;
     std::vector<float> generateEmbedding(const std::string& chunk_data) override;
-    std::string getName() const override { return "AudioProcessor"; }
+    std::string getName() const override { return "LegacyAudioProcessor"; }
     std::vector<ContentCategory> getSupportedCategories() const override {
         return {ContentCategory::AUDIO};
     }

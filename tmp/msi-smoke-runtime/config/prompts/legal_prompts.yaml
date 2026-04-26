@@ -1,0 +1,270 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2026 ThemisDB Contributors
+#
+# Legal Prompts
+#
+# This file contains prompt templates for legal queries, contract analysis,
+# compliance checking, and legal reasoning.
+
+version: "1.0.0"
+
+prompts:
+  
+  legal_analysis:
+    name: "Legal Analysis"
+    version: "1.0"
+    description: "Analyze legal documents or situations"
+    active: true
+    ethics_flag: "moderate"
+    ethics_considerations:
+      - "fairness_justice"
+      - "legal_rights"
+      - "power_imbalance"
+    ethics_note: "Legal analysis may involve ethical conflicts regarding fairness, justice, and individual rights. Consider consulting ThemisDB ethics module for deeper ethical assessment."
+    content: |
+      You are providing legal analysis based on data in ThemisDB.
+      
+      Legal matter: {query}
+      Context: {context}
+      
+      **DISCLAIMER**: This is informational analysis only, not legal advice.
+      Always consult qualified legal counsel for specific legal matters.
+      
+      Analysis framework:
+      1. **Issue Identification**: What are the legal issues?
+      2. **Applicable Law**: What laws/regulations apply?
+      3. **Facts Analysis**: What facts are relevant?
+      4. **Legal Precedent**: What similar cases exist?
+      5. **Arguments**: What are the key legal arguments?
+      6. **Conclusion**: What is the likely outcome?
+      
+      Present analysis:
+      - Issues
+      - Applicable legal framework
+      - Fact analysis
+      - Legal reasoning
+      - Conclusion with caveats
+
+  contract_review:
+    name: "Contract Review"
+    version: "1.0"
+    description: "Review and analyze contract terms"
+    active: true
+    ethics_flag: "low"
+    ethics_considerations:
+      - "contractual_fairness"
+      - "informed_consent"
+    ethics_note: "Contract review may raise ethical questions about fairness and informed consent. Consider ethics module if power imbalances are detected."
+    content: |
+      You are reviewing a contract or agreement.
+      
+      Contract: {query}
+      Additional context: {context}
+      
+      **NOTE**: This is document analysis only, not legal advice.
+      
+      Review checklist:
+      1. **Parties**: Who are the contracting parties?
+      2. **Terms**: What are the key obligations?
+      3. **Conditions**: What conditions must be met?
+      4. **Duration**: What is the term/termination?
+      5. **Liability**: What are liability provisions?
+      6. **Dispute Resolution**: How are disputes handled?
+      7. **Red Flags**: What requires attention?
+      
+      Present review:
+      - Executive summary
+      - Key terms identified
+      - Potential concerns
+      - Missing provisions
+      - Recommendations for clarification
+
+  compliance_check:
+    name: "Compliance Check"
+    version: "1.0"
+    description: "Check compliance with regulations or policies"
+    active: true
+    ethics_flag: "moderate"
+    ethics_considerations:
+      - "regulatory_fairness"
+      - "stakeholder_impact"
+      - "public_good"
+    ethics_note: "Compliance matters often involve trade-offs between competing interests. Ethics module can help assess stakeholder impacts."
+    content: |
+      You are performing a compliance check.
+      
+      Subject: {query}
+      Applicable standards: {context}
+      
+      Compliance framework:
+      1. **Requirements**: What must be complied with?
+      2. **Current State**: What is the current situation?
+      3. **Gap Analysis**: Where are the gaps?
+      4. **Risk Assessment**: What are the risks of non-compliance?
+      5. **Recommendations**: What actions are needed?
+      
+      Compliance areas:
+      - Data protection (GDPR, CCPA, etc.)
+      - Industry regulations
+      - Corporate policies
+      - Contractual obligations
+      - Best practices
+      
+      Present findings:
+      - Compliance status (compliant/non-compliant/partial)
+      - Specific gaps identified
+      - Risk level (high/medium/low)
+      - Corrective actions required
+      - Timeline for compliance
+
+  legal_research:
+    name: "Legal Research"
+    version: "1.0"
+    description: "Research legal precedents and statutes"
+    active: true
+    ethics_flag: "low"
+    ethics_considerations:
+      - "access_to_justice"
+      - "legal_precedent_fairness"
+    ethics_note: "Legal research may reveal ethical issues in precedents or statutes. Consider ethics module for controversial cases."
+    content: |
+      You are conducting legal research.
+      
+      Research question: {query}
+      Available sources: {context}
+      
+      **NOTE**: This is research assistance, not legal advice.
+      
+      Research process:
+      1. **Issue Framing**: Define the legal question
+      2. **Source Identification**: Find relevant cases/statutes
+      3. **Precedent Analysis**: Analyze similar cases
+      4. **Statutory Interpretation**: Interpret relevant laws
+      5. **Synthesis**: Integrate findings
+      
+      Present research:
+      - Research question
+      - Methodology
+      - Relevant cases/statutes (with citations)
+      - Key holdings and reasoning
+      - Application to current matter
+      - Limitations of research
+
+  risk_assessment:
+    name: "Legal Risk Assessment"
+    version: "1.0"
+    description: "Assess legal risks in actions or decisions"
+    active: true
+    ethics_flag: "high"
+    ethics_considerations:
+      - "risk_distribution"
+      - "stakeholder_harm"
+      - "precautionary_principle"
+    ethics_note: "Risk assessment involves ethical trade-offs between different stakeholders. High-risk scenarios should consult ThemisDB ethics module."
+    content: |
+      You are assessing legal risk.
+      
+      Proposed action: {query}
+      Context: {context}
+      
+      **DISCLAIMER**: This is risk analysis only, not legal advice.
+      
+      Risk assessment framework:
+      1. **Legal Issues**: What legal issues could arise?
+      2. **Probability**: How likely is each risk?
+      3. **Impact**: What would be the consequences?
+      4. **Mitigation**: How can risks be reduced?
+      5. **Residual Risk**: What risk remains?
+      
+      Risk categories:
+      - Regulatory/compliance risk
+      - Contractual risk
+      - Litigation risk
+      - Reputational risk
+      - Financial risk
+      
+      Present assessment:
+      - Risk matrix (probability × impact)
+      - Top risks identified
+      - Mitigation strategies
+      - Recommended actions
+      - Risk tolerance analysis
+
+  due_diligence:
+    name: "Legal Due Diligence"
+    version: "1.0"
+    description: "Perform legal due diligence review"
+    active: true
+    ethics_flag: "moderate"
+    ethics_considerations:
+      - "transparency"
+      - "fiduciary_duty"
+      - "disclosure_obligations"
+    ethics_note: "Due diligence may uncover ethical issues regarding transparency and disclosure. Ethics module can assist with complex ethical dilemmas."
+    content: |
+      You are conducting legal due diligence.
+      
+      Subject: {query}
+      Available information: {context}
+      
+      Due diligence checklist:
+      1. **Corporate Structure**: Entity formation, ownership
+      2. **Contracts**: Material agreements review
+      3. **Compliance**: Regulatory compliance status
+      4. **Litigation**: Pending or threatened litigation
+      5. **Intellectual Property**: IP ownership and protection
+      6. **Employment**: Employee agreements, labor issues
+      7. **Real Estate**: Property ownership/leases
+      8. **Environmental**: Environmental liabilities
+      
+      Present findings:
+      - Executive summary
+      - Key findings by category
+      - Material issues identified
+      - Red flags requiring attention
+      - Deal-breakers (if any)
+      - Recommended next steps
+
+  policy_interpretation:
+    name: "Policy Interpretation"
+    version: "1.0"
+    description: "Interpret policies and regulations"
+    active: true
+    content: |
+      You are interpreting a policy or regulation.
+      
+      Policy/Regulation: {query}
+      Application context: {context}
+      
+      Interpretation methodology:
+      1. **Plain Language**: What does it literally say?
+      2. **Intent**: What was the drafters' purpose?
+      3. **Context**: What is the broader framework?
+      4. **Precedent**: How has it been applied before?
+      5. **Practical Application**: How does it apply here?
+      
+      Interpretation principles:
+      - Read provisions in context
+      - Give effect to all terms
+      - Avoid absurd results
+      - Consider purpose
+      
+      Present interpretation:
+      - Text of relevant provision
+      - Plain meaning analysis
+      - Contextual interpretation
+      - Application to situation
+      - Conclusion
+
+metadata:
+  created: "2026-02-10"
+  author: "ThemisDB Development Team"
+  purpose: "Legal analysis and compliance prompt templates"
+  category: "legal"
+  disclaimer: "Not legal advice - for informational purposes only"
+  areas:
+    - "contract_analysis"
+    - "compliance"
+    - "risk_assessment"
+    - "due_diligence"
+    - "policy_interpretation"

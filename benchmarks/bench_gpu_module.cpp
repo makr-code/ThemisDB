@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_gpu_module.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:04:11                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:43:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     268                                            ║
+    • Total Lines:     289                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 202546ee10  2026-04-13  perf: add Disabled-Stub-Policy comments to all 21 *_Disab... ║
+    • 9c9ead9b4f  2026-04-09  Implement feature X to enhance user experience and optimi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -39,6 +39,21 @@
 #include "themis/gpu/policy.h"
 #include "themis/gpu/config.h"
 #include "themis/gpu/admin_api.h"
+
+#ifndef THEMIS_ENABLE_GPU
+
+static void BM_GPUModule_GPUDisabled(benchmark::State& state) {
+    for (auto _ : state) {
+        state.SkipWithError("GPU module benchmarks are disabled in this build");
+        break;
+    }
+}
+// Disabled: GPU module subsystem requires dedicated GPU hardware | Deadline: v1.9.0 | Issue: #5
+BENCHMARK(BM_GPUModule_GPUDisabled);
+
+BENCHMARK_MAIN();
+
+#else
 
 using namespace themis::gpu;
 
@@ -93,13 +108,17 @@ BENCHMARK(BM_MemoryManager_GetStats)->Unit(benchmark::kNanosecond);
 static void BM_MemoryPool_Acquire_Release(benchmark::State& state) {
     const size_t slab_size = 256ULL * 1024 * 1024;  // 256 MB slabs
     const size_t num_slabs = 4;
-    GPUMemoryPool pool(slab_size, num_slabs);
+    GPUMemoryPool pool(slab_size * num_slabs, slab_size, num_slabs);
 
     const uint64_t alloc_size = static_cast<uint64_t>(state.range(0)) * 1024;
     for (auto _ : state) {
-        auto handle = pool.acquire(alloc_size, "bench");
-        benchmark::DoNotOptimize(handle);
-        if (handle.valid) pool.release(handle);
+        uint64_t offset = 0;
+        bool acquired = pool.tryAcquire(alloc_size, "bench", offset);
+        benchmark::DoNotOptimize(acquired);
+        benchmark::DoNotOptimize(offset);
+        if (acquired) {
+            pool.release(offset);
+        }
     }
     state.SetItemsProcessed(state.iterations());
     state.SetBytesProcessed(static_cast<int64_t>(state.iterations()) *
@@ -113,7 +132,7 @@ BENCHMARK(BM_MemoryPool_Acquire_Release)
     ->Unit(benchmark::kNanosecond);
 
 static void BM_MemoryPool_Stats(benchmark::State& state) {
-    GPUMemoryPool pool(256ULL * 1024 * 1024, 2);
+    GPUMemoryPool pool(512ULL * 1024 * 1024, 256ULL * 1024 * 1024, 2);
     for (auto _ : state) {
         auto s = pool.getStats();
         benchmark::DoNotOptimize(s);
@@ -266,3 +285,5 @@ BENCHMARK(BM_MemoryManager_ConcurrentAlloc)
 // ============================================================================
 
 BENCHMARK_MAIN();
+
+#endif  // THEMIS_ENABLE_GPU

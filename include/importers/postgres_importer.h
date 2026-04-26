@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            postgres_importer.h                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:07:49                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     435                                            ║
+    • Total Lines:     432                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9d8c5ce37  2026-03-15  Refactor service mesh API handler to use fully qualified ... ║
-    • 8452353dc  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
-    • b8ff944e1  2026-03-11  feat(importers): PostgreSQL importer v2.0 - Foreign Key P... ║
-    • 8cf8f1d12  2026-03-11  feat(importers): v2.1 - additional constraint types, rela... ║
-    • e4aae2a7f  2026-03-11  feat(importers): PostgreSQL Importer v2.0 - FK preservati... ║
+    • 9d8c5ce371  2026-03-15  Refactor service mesh API handler to use fully qualified ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

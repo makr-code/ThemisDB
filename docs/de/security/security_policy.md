@@ -1,7 +1,7 @@
 # ThemisDB - Informationssicherheitspolitik
 
 **Version:** v1.3.0  
-**Stand:** Dezember 2025  
+**Stand:** 6. April 2026  
 **Klassifizierung:** Intern  
 **Genehmigt durch:** ThemisDB Security Team  
 **Kategorie:** 🔒 Security

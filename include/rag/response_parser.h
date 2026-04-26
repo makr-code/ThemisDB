@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            response_parser.h                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:10:25                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     143                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -45,6 +42,11 @@ struct ParsedResponse {
     std::vector<std::string> supporting_claims;
     std::vector<std::string> unsupported_claims;
     std::string error_message;
+    /// True when this response was produced by the stub/mock inference path
+    /// (config.use_mock_mode == true or allow_mock == true with engine == nullptr).
+    /// Callers should discard or flag these results in production dashboards.
+    /// Source: AI_ML_IMPACT_ASSESSMENT.md §7, Gap 7.
+    bool is_mock = false;
 };
 
 /**

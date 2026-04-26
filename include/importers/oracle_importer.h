@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            oracle_importer.h                                  ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:07:47                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:45:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     156                                            ║
+    • Total Lines:     154                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9870104df  2026-02-28  feat(importers): Add Oracle Database importer (header, im... ║
-    • ac1dacf6a  2026-02-22  Add MySQL/MariaDB importer: header, implementation, tests... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -42,7 +37,7 @@ namespace importers {
  * - DDL parsing (CREATE TABLE with double-quoted identifiers)
  * - DML parsing (INSERT INTO … VALUES – single-row and multi-row)
  * - Oracle-style schema qualifiers ("OWNER"."TABLE")
- * - Oracle hint comment stripping (/*+ ... *\/)
+ * - Oracle hint comment stripping (hints of the form: --+ ... --)
  * - Type mapping for 30+ Oracle built-in column types
  * - Batch processing with configurable chunk size
  * - Async import via importDataAsync()

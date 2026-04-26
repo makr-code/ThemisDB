@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_traversal.cpp                                  ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:16:05                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     385                                            ║
+    • Total Lines:     861                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 39ac8c3ef  2026-03-20  Split default-arg constructors into overloads ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5cac3c4d2  2026-02-26  audit(graph): fix allVertices RocksDB fallback, cleanup f... ║
-    • f22c734c5  2026-02-25  feat(graph): implement GPU-accelerated BFS/DFS for massiv... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dac91fef60  2026-04-04  Add local production readiness checklist and OpenAPI comp... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -205,13 +204,13 @@ __global__ void dfsSingleSourceKernel(
 namespace {
 
 bool runBFSCudaIfAvailable(
-    const std::vector<uint32_t>& row_offsets,
-    const std::vector<uint32_t>& column_indices,
-    uint32_t start_id,
-    const std::vector<uint8_t>& forbidden_mask,
-    const themis::graph::GPUGraphTraversal::Config& config,
-    themis::graph::GPUGraphTraversal::TraversalResult& result,
-    std::vector<int>& out_distances) {
+    [[maybe_unused]] const std::vector<uint32_t>& row_offsets,
+    [[maybe_unused]] const std::vector<uint32_t>& column_indices,
+    [[maybe_unused]] uint32_t start_id,
+    [[maybe_unused]] const std::vector<uint8_t>& forbidden_mask,
+    [[maybe_unused]] const themis::graph::GPUGraphTraversal::Config& config,
+    [[maybe_unused]] themis::graph::GPUGraphTraversal::TraversalResult& result,
+    [[maybe_unused]] std::vector<int>& out_distances) {
 
 #if defined(THEMIS_ENABLE_CUDA) && defined(__CUDACC__)
     const uint32_t vertex_count = static_cast<uint32_t>(row_offsets.size() - 1);
@@ -340,25 +339,18 @@ bool runBFSCudaIfAvailable(
     out_distances = std::move(host_dist);
     return true;
 #else
-    (void)row_offsets;
-    (void)column_indices;
-    (void)start_id;
-    (void)forbidden_mask;
-    (void)config;
-    (void)result;
-    (void)out_distances;
     return false;
 #endif
 }
 
 bool runDFSCudaIfAvailable(
-    const std::vector<uint32_t>& row_offsets,
-    const std::vector<uint32_t>& column_indices,
-    uint32_t start_id,
-    const std::vector<uint8_t>& forbidden_mask,
-    const themis::graph::GPUGraphTraversal::Config& config,
-    themis::graph::GPUGraphTraversal::TraversalResult& result,
-    std::vector<int>& out_order) {
+    [[maybe_unused]] const std::vector<uint32_t>& row_offsets,
+    [[maybe_unused]] const std::vector<uint32_t>& column_indices,
+    [[maybe_unused]] uint32_t start_id,
+    [[maybe_unused]] const std::vector<uint8_t>& forbidden_mask,
+    [[maybe_unused]] const themis::graph::GPUGraphTraversal::Config& config,
+    [[maybe_unused]] themis::graph::GPUGraphTraversal::TraversalResult& result,
+    [[maybe_unused]] std::vector<int>& out_order) {
 
 #if defined(THEMIS_ENABLE_CUDA) && defined(__CUDACC__)
     const uint32_t vertex_count = static_cast<uint32_t>(row_offsets.size() - 1);
@@ -455,13 +447,6 @@ bool runDFSCudaIfAvailable(
     out_order = std::move(host_order);
     return true;
 #else
-    (void)row_offsets;
-    (void)column_indices;
-    (void)start_id;
-    (void)forbidden_mask;
-    (void)config;
-    (void)result;
-    (void)out_order;
     return false;
 #endif
 }

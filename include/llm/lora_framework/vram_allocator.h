@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vram_allocator.h                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:32                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     189                                            ║
+    • Total Lines:     193                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -143,8 +144,8 @@ private:
     size_t allocated_bytes_ = 0;
     size_t peak_usage_bytes_ = 0;
     
-    // Thread safety (recursive mutex for re-entrant operations)
-    mutable std::recursive_mutex mutex_;
+    // Thread safety
+    mutable std::mutex mutex_;
     
     // Backend-specific data
     void* backend_context_ = nullptr;  // CUDA context, Vulkan device, etc.
@@ -154,6 +155,9 @@ private:
     void shutdown_backend();
     void* allocate_from_backend(size_t size_bytes, size_t alignment);
     void deallocate_to_backend(void* ptr);
+    // Perform the actual backend deallocation WITHOUT holding mutex_.
+    // Callers must supply the known block size (for secure clearing).
+    void release_backend_ptr_(void* ptr, size_t block_size) noexcept;
     VRAMBlock* find_free_block(size_t size_bytes, size_t alignment);
     void coalesce_free_blocks();  // Assumes lock is already held
 };

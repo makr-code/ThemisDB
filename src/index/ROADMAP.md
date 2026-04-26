@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Index Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -35,7 +37,7 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Index statistics export to metadata module (Issue: #1866)
+- [x] Index statistics export to metadata module (Issue: #1866)
 - [P] Online index rebuild with minimal read impact (Issue: #1868)
 - [P] Configurable GPU memory budget per index (Issue: #1869)
 
@@ -45,12 +47,12 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 ## Implementation Phases
 
 ### Phase 1: Production-Grade Index Infrastructure (Status: Completed ✅)
-- [x] HNSW vector similarity index (L2, Cosine, Dot Product) in `index/hnsw_index.cpp`
+- [x] HNSW vector similarity index (L2, Cosine, Dot Product) in `index/vector_index.cpp`
 - [x] GPU-accelerated vector search via GPUVectorIndex (Vulkan, CUDA, HIP)
 - [x] Product Quantization (PQ), Binary Quantization, and Residual Quantization
-- [x] B-tree, range, sparse, and composite secondary indexes (`index/secondary_index_manager.cpp`)
-- [x] R-tree spatial index with Z-order curves (`index/rtree_index.cpp`)
-- [x] Graph indexing: adjacency lists, BFS/DFS traversal (`index/graph_index_manager.cpp`)
+- [x] B-tree, range, sparse, and composite secondary indexes (`index/secondary_index.cpp`)
+- [x] R-tree spatial index with Z-order curves (`index/spatial_index.cpp`)
+- [x] Graph indexing: adjacency lists, BFS/DFS traversal (`index/graph_index.cpp`)
 - [x] Adaptive index recommendations based on query patterns
 - [x] IVF+PQ and FAISS integration, multi-vector search
 - [x] GNN embeddings, temporal graphs, rotary embeddings
@@ -100,7 +102,25 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
   implemented and returned by `IndexManager::createVectorIndex()` / `createSecondaryIndex()`.
   Partial (filtered) indexes are created by passing `config = "partial:<predicate>"` to
   `createSecondaryIndex()`.
+- `ProcessGraphManager` multi-model query functions (v2026-04-13): 13 previously stubbed
+  methods are now fully implemented:
+  - Relational: `queryTasksByFormData`, `joinWithCollection`, `aggregateByField`
+  - Vector: `findSimilarProcesses` (cosine similarity), `findSimilarTasks`, `semanticSearchProcesses` (keyword scoring)
+  - Anomaly: `detectAnomalies` (duration z-score + path deviation)
+  - Geo: `findTasksInArea` (Haversine radius), `findTasksInGeofence` (WKT ray-casting),
+    `optimizeTaskRoute` (nearest-neighbor TSP), `validateLocationConstraint`, `getRegionalParameters`
+  - Cross-model: `executeMultiModelQuery` (BFS graph + relational + vector + geo combined)
 
 ## Breaking Changes
 - `IndexManager` factory API (`createDefault()`) is stable from v1.x.
 - GPU index configuration struct may gain new fields in v2.0; additive only.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `QueryPatternTracker` – Trackt Query-Muster für Adaptive-Index-Optimierungen; nur im Index-Test geprüft
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+

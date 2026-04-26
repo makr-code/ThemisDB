@@ -1,6 +1,6 @@
 # Fulltext Stemming Support
 
-**Stand:** 5. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.0.0  
 **Kategorie:** Search
 
@@ -418,6 +418,6 @@ POST /index/rebuild
 
 ---
 
-**Last Updated:** 2025-11-02  
+**Last Updated:** 2026-04-06  
 **Version:** v1.1  
 **Status:** Production Ready

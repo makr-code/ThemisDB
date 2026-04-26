@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jit_aggregation.cpp                                ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:13:54                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     590                                            ║
+    • Total Lines:     588                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a0b664127  2026-02-26  fix(analytics): remove unused includes from jit_aggregati... ║
-    • ebb5b620e  2026-02-26  feat(analytics): implement JIT aggregation compiler for h... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -81,7 +76,7 @@ namespace {
 
 // -- Numeric value extraction (same logic as columnar_execution.cpp) ----------
 
-static std::optional<double> numericAt(const Column& col, size_t row) {
+static std::optional<double> numericAtJit(const Column& col, size_t row) {
     if (col.isNull(row)) return std::nullopt;
     switch (col.type()) {
         case ColumnType::Double: return col.doubleData()[row];
@@ -93,7 +88,7 @@ static std::optional<double> numericAt(const Column& col, size_t row) {
 
 // -- Per-spec aggregate state -------------------------------------------------
 
-struct AggState {
+struct JitAggState {
     double  sum           = 0.0;
     double  min_val       = std::numeric_limits<double>::max();
     double  max_val       = std::numeric_limits<double>::lowest();
@@ -102,9 +97,9 @@ struct AggState {
     std::unordered_set<std::string> distinct_set;
 };
 
-static void updateState(AggState& st, const Column& col, size_t row) {
+static void updateStateJit(JitAggState& st, const Column& col, size_t row) {
     ++st.count;
-    auto v = numericAt(col, row);
+    auto v = numericAtJit(col, row);
     if (!v) return;
     ++st.count_nonnull;
     st.sum += *v;
@@ -112,7 +107,7 @@ static void updateState(AggState& st, const Column& col, size_t row) {
     if (*v > st.max_val) st.max_val = *v;
 }
 
-static void updateDistinct(AggState& st, const Column& col, size_t row) {
+static void updateDistinctJit(JitAggState& st, const Column& col, size_t row) {
     ++st.count;
     if (col.isNull(row)) return;
     ++st.count_nonnull;
@@ -126,7 +121,7 @@ static void updateDistinct(AggState& st, const Column& col, size_t row) {
     st.distinct_set.insert(oss.str());
 }
 
-static double finalizeAgg(const AggState& st, AggregateSpec::Function fn) {
+static double finalizeAggJit(const JitAggState& st, AggregateSpec::Function fn) {
     switch (fn) {
         case AggregateSpec::Function::Count:
             return static_cast<double>(st.count);
@@ -145,9 +140,9 @@ static double finalizeAgg(const AggState& st, AggregateSpec::Function fn) {
     return 0.0;
 }
 
-static std::string makeGroupKey(const ColumnBatch&               batch,
-                                const std::vector<std::string>&  group_cols,
-                                size_t                           row) {
+static std::string makeGroupKeyJit(const ColumnBatch&               batch,
+                                   const std::vector<std::string>&  group_cols,
+                                   size_t                           row) {
     std::ostringstream oss;
     for (const auto& gc : group_cols) {
         auto col = batch.getColumn(gc);
@@ -177,7 +172,7 @@ static ColumnBatch specialisedAggregateAll(
     const std::vector<AggregateSpec>& specs)
 {
     const size_t n = input.rowCount();
-    std::vector<AggState> states(specs.size());
+    std::vector<JitAggState> states(specs.size());
 
     for (size_t s = 0; s < specs.size(); ++s) {
         const auto& spec = specs[s];
@@ -190,7 +185,7 @@ static ColumnBatch specialisedAggregateAll(
         }
         if (spec.function == AggregateSpec::Function::CountDistinct) {
             auto col = input.getColumn(spec.input_column);
-            if (col) for (size_t i = 0; i < n; ++i) updateDistinct(st, *col, i);
+            if (col) for (size_t i = 0; i < n; ++i) updateDistinctJit(st, *col, i);
             continue;
         }
         auto col = input.getColumn(spec.input_column);
@@ -206,12 +201,12 @@ static ColumnBatch specialisedAggregateAll(
                         ++st.count;
                     }
                 } else {
-                    for (size_t i = 0; i < n; ++i) updateState(st, *col, i);
+                    for (size_t i = 0; i < n; ++i) updateStateJit(st, *col, i);
                 }
                 break;
             }
             case AggregateSpec::Function::Avg: {
-                for (size_t i = 0; i < n; ++i) updateState(st, *col, i);
+                for (size_t i = 0; i < n; ++i) updateStateJit(st, *col, i);
                 break;
             }
             case AggregateSpec::Function::Min: {
@@ -225,7 +220,7 @@ static ColumnBatch specialisedAggregateAll(
                         ++st.count;
                     }
                 } else {
-                    for (size_t i = 0; i < n; ++i) updateState(st, *col, i);
+                    for (size_t i = 0; i < n; ++i) updateStateJit(st, *col, i);
                 }
                 break;
             }
@@ -240,19 +235,19 @@ static ColumnBatch specialisedAggregateAll(
                         ++st.count;
                     }
                 } else {
-                    for (size_t i = 0; i < n; ++i) updateState(st, *col, i);
+                    for (size_t i = 0; i < n; ++i) updateStateJit(st, *col, i);
                 }
                 break;
             }
             default:
-                for (size_t i = 0; i < n; ++i) updateState(st, *col, i);
+                for (size_t i = 0; i < n; ++i) updateStateJit(st, *col, i);
                 break;
         }
     }
 
     ColumnBatch result(1);
     for (size_t s = 0; s < specs.size(); ++s) {
-        double val = finalizeAgg(states[s], specs[s].function);
+        double val = finalizeAggJit(states[s], specs[s].function);
         auto out_col = std::make_shared<Column>(specs[s].result_name, ColumnType::Double);
         out_col->appendDouble(val);
         result.addColumn(out_col);
@@ -268,15 +263,15 @@ static ColumnBatch specialisedAggregateGroupBy(
 {
     const size_t n = input.rowCount();
 
-    std::unordered_map<std::string, std::vector<AggState>> groups;
+    std::unordered_map<std::string, std::vector<JitAggState>> groups;
     std::vector<std::string> key_order;
 
     for (size_t row = 0; row < n; ++row) {
-        std::string key = makeGroupKey(input, group_cols, row);
+        std::string key = makeGroupKeyJit(input, group_cols, row);
 
         auto it = groups.find(key);
         if (it == groups.end()) {
-            groups.emplace(key, std::vector<AggState>(specs.size()));
+            groups.emplace(key, std::vector<JitAggState>(specs.size()));
             key_order.push_back(key);
             it = groups.find(key);
         }
@@ -292,11 +287,11 @@ static ColumnBatch specialisedAggregateGroupBy(
             }
             if (spec.function == AggregateSpec::Function::CountDistinct) {
                 auto col = input.getColumn(spec.input_column);
-                if (col) updateDistinct(st, *col, row);
+                if (col) updateDistinctJit(st, *col, row);
                 continue;
             }
             auto col = input.getColumn(spec.input_column);
-            if (col) updateState(st, *col, row);
+            if (col) updateStateJit(st, *col, row);
         }
     }
 
@@ -306,7 +301,7 @@ static ColumnBatch specialisedAggregateGroupBy(
     // Group-key columns (representative first-row value per group).
     std::unordered_map<std::string, size_t> first_row;
     for (size_t row = 0; row < n; ++row) {
-        std::string k = makeGroupKey(input, group_cols, row);
+        std::string k = makeGroupKeyJit(input, group_cols, row);
         if (!first_row.count(k)) first_row[k] = row;
     }
 
@@ -344,7 +339,7 @@ static ColumnBatch specialisedAggregateGroupBy(
         auto out_col = std::make_shared<Column>(specs[s].result_name, ColumnType::Double);
         out_col->reserve(num_rows);
         for (const auto& k : key_order) {
-            out_col->appendDouble(finalizeAgg(groups.at(k)[s], specs[s].function));
+            out_col->appendDouble(finalizeAggJit(groups.at(k)[s], specs[s].function));
         }
         result.addColumn(out_col);
     }

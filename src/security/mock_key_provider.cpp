@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mock_key_provider.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:28                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -13,14 +13,12 @@
     • Total Lines:     311                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "security/mock_key_provider.h"
+#include "utils/logger.h"
 #include <chrono>
 #include <sstream>
 #include <stdexcept>
@@ -31,6 +29,19 @@ MockKeyProvider::MockKeyProvider() {
     // Seed random number generator
     std::random_device rd;
     rng_.seed(rd());
+
+    THEMIS_WARN("╔═══════════════════════════════════════════════════════════════╗");
+    THEMIS_WARN("║  ⚠️  INSECURE CONFIGURATION: MockKeyProvider ACTIVE!  ⚠️      ║");
+    THEMIS_WARN("╠═══════════════════════════════════════════════════════════════╣");
+    THEMIS_WARN("║  Encryption keys are stored in PROCESS MEMORY only.          ║");
+    THEMIS_WARN("║  Keys are NOT persisted and will be lost on restart.          ║");
+    THEMIS_WARN("║  This configuration is for DEVELOPMENT / TESTING ONLY.       ║");
+    THEMIS_WARN("║                                                               ║");
+    THEMIS_WARN("║  Production deployments MUST use a real KeyProvider:          ║");
+    THEMIS_WARN("║  - PKIKeyProvider (TLS-backed PKI)                            ║");
+    THEMIS_WARN("║  - HSMKeyProvider (hardware security module)                  ║");
+    THEMIS_WARN("║  - VaultKeyProvider (HashiCorp Vault / cloud KMS)             ║");
+    THEMIS_WARN("╚═══════════════════════════════════════════════════════════════╝");
 }
 
 void MockKeyProvider::createKey(const std::string& key_id, uint32_t version) {

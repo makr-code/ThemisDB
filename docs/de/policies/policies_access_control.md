@@ -1,7 +1,7 @@
 # ThemisDB – Access Control Policy
 
 **Version:** 1.0  
-**Stand:** November 2025  
+**Stand:** 6. April 2026  
 **Klassifizierung:** Intern  
 **Basis:** ISO 27001 (A.9), BSI C5 (IDM), NIST SP 800-53 (AC)
 

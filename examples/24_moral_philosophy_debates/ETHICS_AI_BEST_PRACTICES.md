@@ -1,4 +1,8 @@
+> **Hinweis:** Inhalt mit aktuellem Modulcode und -stand abgleichen.
+
 # ThemisDB Ethical AI: Comprehensive Best Practices Guide
+
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
 
 ## Executive Summary
 

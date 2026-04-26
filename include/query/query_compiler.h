@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_compiler.h                                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:10:03                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:46:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 28e5fa09b  2026-03-15  feat(query): implement Query Compilation & JIT (v1.8.0, I... ║
+    • 28e5fa09be  2026-03-15  feat(query): implement Query Compilation & JIT (v1.8.0, I... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -1,15 +1,22 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
+<!-- Status: current | validated: 2026-04-09 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Scheduler Module - Future Enhancements
 
 - Periodic and one-shot task execution driven by Cron expressions (6-field format, including year)
 - Distributed leader election (gossip-based, with planned Raft-based upgrade for stronger consistency)
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - Task DAG dependency resolution: topological sort, parallel fan-out, cascading-failure propagation
 - Retention management: data expiry policies and compaction scheduling
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - Priority-based task queuing with starvation prevention via aging
+- SLO-based adaptive retry policy ✅ implemented v1.9.0 (`ScheduledTask::SloRetryConfig`)
 - Multi-tenancy: per-tenant quota tracking and task namespace isolation
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - Observability hooks: Prometheus metrics, event streaming, and execution timeline
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 
 ## Design Constraints
 
@@ -36,7 +43,7 @@
 This file tracks planned enhancements for the Scheduler module implementation.
 
 For detailed feature descriptions and API proposals, see:
-[../include/scheduler/FUTURE_ENHANCEMENTS.md](../include/scheduler/FUTURE_ENHANCEMENTS.md)
+[../../include/scheduler/README.md](../../include/scheduler/README.md)
 
 ### `TaskScheduler`: Propagate Authenticated User Context to Audit Events
 **Priority:** High
@@ -205,9 +212,13 @@ Implementation tasks:
 
 Research tasks:
 - [ ] Task execution time prediction (LSTM/Prophet)
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - [ ] Failure prediction model
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - [ ] Auto-tuning resource limits
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - [ ] Anomaly detection in task behavior
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 
 ### Serverless Task Execution
 **Timeline:** 2025+
@@ -319,8 +330,8 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) for guidelines.
 
 - [Task Scheduler Implementation](./task_scheduler.cpp)
 - [Hybrid Retention Manager](./hybrid_retention_manager.cpp)
-- [Public API Documentation](../include/scheduler/README.md)
-- [Detailed Feature Descriptions](../include/scheduler/FUTURE_ENHANCEMENTS.md)
+- [Public API Documentation](../../include/scheduler/README.md)
+- [Detailed Feature Descriptions](../../include/scheduler/README.md)
 
 ---
 
@@ -375,3 +386,55 @@ The following papers underpin the algorithms and design decisions for the planne
 [16] S. J. Taylor and B. Letham, "Forecasting at Scale," *Am. Stat.*, vol. 72, no. 1, pp. 37–45, Jan. 2018, doi: 10.1080/00031305.2017.1380080. *(Prophet forecasting model for seasonality-aware time series; applicable to `Task execution time prediction (LSTM/Prophet)` for adaptive concurrency limit scaling)*
 
 [17] Y. Diao, J. L. Hellerstein, S. Parekh, R. Griffith, G. Kaiser, and D. Phung, "Self-Managing Systems: A Control Theory Foundation," in *Proc. 12th IEEE Int. Conf. and Workshop on the Engineering of Computer Based Systems (ECBS '05)*, Greenbelt, MD, USA, 2005, pp. 441–448, doi: 10.1109/ECBS.2005.68. *(Control-theoretic approach to autonomous resource tuning and anomaly detection; basis for `auto-tuning resource limits` and `anomaly detection in task behavior` research items)*
+
+---
+
+## Security Hardening Backlog (Q2 2026)
+
+> GAP-001 – identified via static analysis (2026-04-21).
+> Reference: `docs/governance/SOURCECODE_COMPLIANCE_GOVERNANCE.md`.
+
+### GAP-001 – TaskScheduler: Wire AuthZ Checks for Task Registration / Execution
+
+**Scope:** `src/scheduler/task_scheduler.cpp:510,711,1286`
+
+### Design Constraints
+- Auth context must flow from the HTTP layer without breaking existing unit tests that
+  call `registerTask()` / `scheduleTask()` / `executeTask()` directly (use optional overload
+  or default-allow in test mode via compile flag)
+- No global mutable auth state; pass auth context as a method parameter
+
+### Required Interfaces
+```cpp
+// New optional parameter on all task-mutating operations:
+struct AuthContext {
+    std::string user_id;
+    std::vector<std::string> scopes;
+    std::string tenant_id;
+};
+
+Result<TaskId> registerTask(const TaskDefinition& task,
+                             const std::optional<AuthContext>& auth = std::nullopt);
+```
+- If `auth` is present, check `auth->scopes` contains `"task:register"` / `"task:execute"`
+- If `auth` is absent (internal callers), allow unconditionally
+
+### Implementation Notes
+- The HTTP handlers (`task_api_handler.cpp`, `scheduler_api_handler.cpp`) already extract
+  the auth token via `auth_middleware_`; they must extract `user_id` + `scopes` and pass
+  `AuthContext` to all scheduler calls
+- The three commented-out auth blocks in `task_scheduler.cpp` (lines 510, 711, 1286) serve
+  as the insertion points; uncomment and adapt them
+
+### Test Strategy
+- Unit test: call `registerTask` with an `AuthContext` missing `"task:register"` → returns
+  `ErrorCode::ERR_UNAUTHORIZED`
+- Unit test: call `registerTask` with `auth = std::nullopt` → succeeds (internal caller)
+- Integration test: HTTP POST `/api/scheduler/tasks` with read-only token → 403
+
+### Performance Targets
+- Auth check overhead: O(scopes.size()), ≤ 10 µs per call
+
+### Security / Reliability
+- Default-deny: if `auth` is present but lacks the required scope, always return 403
+- Audit log entry on every unauthorized attempt

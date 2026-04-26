@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_vulkan_lora.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:04:32                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:43:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     448                                            ║
+    • Total Lines:     467                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 202546ee10  2026-04-13  perf: add Disabled-Stub-Policy comments to all 21 *_Disab... ║
+    • 9c9ead9b4f  2026-04-09  Implement feature X to enhance user experience and optimi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -29,6 +29,21 @@
 #include <vector>
 #include <random>
 #include <memory>
+
+#ifndef THEMIS_ENABLE_GPU
+
+static void BM_VulkanLoRA_GPUDisabled(benchmark::State& state) {
+    for (auto _ : state) {
+        state.SkipWithError("Vulkan LoRA benchmarks are disabled in this build");
+        break;
+    }
+}
+// Disabled: Vulkan LoRA pipeline requires Vulkan-capable GPU runner | Deadline: v1.9.0 | Issue: #5
+BENCHMARK(BM_VulkanLoRA_GPUDisabled);
+
+BENCHMARK_MAIN();
+
+#else
 
 using namespace themis::lora::vulkan;
 
@@ -72,11 +87,13 @@ public:
         static bool initialized = false;
         if (!initialized) {
             if (!is_vulkan_available()) {
-                state.SkipWithError("Vulkan not available");
+                auto& mutable_state = const_cast<benchmark::State&>(state);
+                mutable_state.SkipWithError("Vulkan not available");
                 return;
             }
             if (!initialize_vulkan_lora(0)) {
-                state.SkipWithError("Failed to initialize Vulkan");
+                auto& mutable_state = const_cast<benchmark::State&>(state);
+                mutable_state.SkipWithError("Failed to initialize Vulkan");
                 return;
             }
             initialized = true;
@@ -446,3 +463,5 @@ BENCHMARK_REGISTER_F(VulkanBenchmarkFixture, BufferUploadDownload)
 // ============================================================================
 
 BENCHMARK_MAIN();
+
+#endif  // THEMIS_ENABLE_GPU

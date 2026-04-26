@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            active_vram_allocator.cpp                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:16:51                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     833                                            ║
+    • Total Lines:     830                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 4aee399a8  2026-03-11  fix(llm): code audit - fix 3 bugs in ActiveVRAMAllocator ... ║
-    • dde33760f  2026-03-11  fix(llm): address code review - use cudaMemcpy for device... ║
-    • 6e1dfd68a  2026-03-11  feat(llm): implement ActiveVRAMAllocator for GPU memory m... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -107,8 +106,6 @@ void copyMemory(void* dst, const void* src, size_t bytes,
         return;
     }
 #else
-    (void)device_to_host;
-    (void)gpu_available;
 #endif
     std::memcpy(dst, src, bytes);
 }
@@ -465,6 +462,42 @@ public:
     bool isGPUAvailable() const noexcept { return gpu_available_; }
 
     // ------------------------------------------------------------------
+    // External-memory registration
+    // ------------------------------------------------------------------
+
+    /// Register externally-managed VRAM without allocating any memory.
+    AllocationHandle registerExternal(size_t bytes, const std::string& owner_id) {
+        std::lock_guard<std::mutex> lock(mu_);
+
+        AllocationHandle h;
+        h.id              = next_id_++;
+        h.owner_id        = owner_id;
+        h.requested_bytes = bytes;
+        h.allocated_bytes = bytes;   // no alignment padding for external allocs
+        h.gpu_ptr         = nullptr; // owned by external runtime
+        h.cpu_ptr         = nullptr;
+        h.is_spilled      = false;
+        h.is_external     = true;
+        h.valid           = true;
+        h.allocated_at_ms = nowMs();
+        h.last_used_at_ms = h.allocated_at_ms;
+
+        stats_.used_vram_bytes += bytes;
+        stats_.live_allocation_count++;
+        if (stats_.used_vram_bytes > stats_.peak_vram_bytes) {
+            stats_.peak_vram_bytes = stats_.used_vram_bytes;
+        }
+        updateFreeVRAM();
+
+        allocations_[h.id] = h;
+
+        spdlog::info("[ActiveVRAMAllocator] Registered external allocation '{}' "
+                     "({} MB, id={})",
+                     owner_id, bytes / (1024 * 1024), h.id);
+        return h;
+    }
+
+    // ------------------------------------------------------------------
     // Bridge API (for AdaptiveVRAMAllocator)
     // ------------------------------------------------------------------
 
@@ -557,12 +590,13 @@ private:
     size_t evictLRULocked() {
         if (allocations_.empty()) return 0;
 
-        // Find the non-spilled allocation with the smallest last_used_at_ms
+        // Find the non-spilled, non-external allocation with the smallest last_used_at_ms.
+        // External allocations are owned by the inference runtime and must not be evicted.
         uint64_t lru_id = 0;
         int64_t  lru_ts = std::numeric_limits<int64_t>::max();
 
         for (const auto& [id, h] : allocations_) {
-            if (!h.is_spilled && h.last_used_at_ms < lru_ts) {
+            if (!h.is_spilled && !h.is_external && h.last_used_at_ms < lru_ts) {
                 lru_ts = h.last_used_at_ms;
                 lru_id = id;
             }
@@ -596,12 +630,13 @@ private:
             return 0;
         }
 
-        // Find the LRU non-spilled allocation
+        // Find the LRU non-spilled, non-external allocation.
+        // External allocations are owned by the inference runtime and cannot be spilled.
         uint64_t lru_id = 0;
         int64_t  lru_ts = std::numeric_limits<int64_t>::max();
 
         for (const auto& [id, h] : allocations_) {
-            if (!h.is_spilled && h.last_used_at_ms < lru_ts) {
+            if (!h.is_spilled && !h.is_external && h.last_used_at_ms < lru_ts) {
                 lru_ts = h.last_used_at_ms;
                 lru_id = id;
             }
@@ -655,7 +690,12 @@ private:
 
         const std::string key = makeModelKey(handle.owner_id, handle.id);
 
-        if (handle.is_spilled && handle.cpu_ptr) {
+        if (handle.is_external) {
+            // External allocation: only update accounting — do NOT touch GPU/CPU memory,
+            // as the external owner (e.g., llama.cpp) manages the actual allocation.
+            stats_.used_vram_bytes -= std::min(
+                handle.allocated_bytes, stats_.used_vram_bytes);
+        } else if (handle.is_spilled && handle.cpu_ptr) {
             gpu_mgr_->freeCPU(key, handle.cpu_ptr);
             stats_.spilled_cpu_bytes -= std::min(
                 handle.allocated_bytes, stats_.spilled_cpu_bytes);
@@ -687,8 +727,16 @@ private:
         size_t free_vram = gpu_mgr_->getFreeVRAM();
         stats_.free_vram_bytes = free_vram;
         if (stats_.total_vram_bytes > 0) {
-            float util = 1.0f - static_cast<float>(free_vram) /
-                                static_cast<float>(stats_.total_vram_bytes);
+            // Use the higher of the two utilization metrics so that externally-registered
+            // allocations (which don't consume GPU memory through this allocator) also
+            // contribute to OOM pressure detection.
+            const float util_actual =
+                1.0f - static_cast<float>(free_vram) /
+                       static_cast<float>(stats_.total_vram_bytes);
+            const float util_accounting =
+                static_cast<float>(stats_.used_vram_bytes) /
+                static_cast<float>(stats_.total_vram_bytes);
+            const float util = std::max(util_actual, util_accounting);
             stats_.oom_threshold_exceeded = (util >= cfg_.oom_threshold_fraction);
         }
     }
@@ -817,6 +865,12 @@ int ActiveVRAMAllocator::gpuDeviceId() const noexcept
 bool ActiveVRAMAllocator::isGPUAvailable() const noexcept
 {
     return impl_->isGPUAvailable();
+}
+
+ActiveVRAMAllocator::AllocationHandle
+ActiveVRAMAllocator::registerExternal(size_t bytes, const std::string& owner_id)
+{
+    return impl_->registerExternal(bytes, owner_id);
 }
 
 bool ActiveVRAMAllocator::allocateWithFragmentation(size_t bytes, void** ptr)

@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_compressor.cpp                            ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:20:42                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:51:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     556                                            ║
+    • Total Lines:     659                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 79f081505  2026-03-28  Add test statistics documentation and collection script ║
-    • 48fbf5b22  2026-03-21  Update search, temporal, and build artifacts ║
-    • c5ff147e9  2026-03-20  Changes before error encountered         ║
+    • 040083b025  2026-04-12  feat: StreamingIngestManager, TsStreamCursor, LZ4 compres... ║
+    • 79f0815052  2026-03-28  Add test statistics documentation and collection script ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -30,6 +29,7 @@
  */
 
 #include "temporal/temporal_compressor.h"
+#include <lz4.h>
 #include <algorithm>
 #include <array>
 #include <chrono>
@@ -297,6 +297,76 @@ nlohmann::json TemporalCompressor::applyDictionary(
 }
 
 // ============================================================================
+// ============================================================================
+// Algorithm: LZ4 — high-throughput block compression
+// ============================================================================
+//
+// Payload format stored in the history table:
+//   { "__compressed": "lz4",
+//     "__original_size": <int>,      // original JSON string byte count
+//     "__data": "<base64-encoded LZ4 compressed block>"
+//   }
+
+nlohmann::json TemporalCompressor::applyLz4(const nlohmann::json& doc) {
+    const std::string src = doc.dump();
+    const int src_size    = static_cast<int>(src.size());
+
+    // LZ4_compressBound gives the worst-case output size.
+    const int max_dst = LZ4_compressBound(src_size);
+    std::string dst(static_cast<size_t>(max_dst), '\0');
+
+    const int compressed_size = LZ4_compress_default(
+        src.data(),
+        dst.data(),
+        src_size,
+        max_dst);
+
+    if (compressed_size <= 0) {
+        // Compression failed — return doc unchanged so data is not lost.
+        return doc;
+    }
+
+    dst.resize(static_cast<size_t>(compressed_size));
+
+    return nlohmann::json{
+        {"__compressed",    "lz4"},
+        {"__original_size", src_size},
+        {"__data",          base64Encode(dst)}
+    };
+}
+
+nlohmann::json TemporalCompressor::decompressLz4(const nlohmann::json& doc) {
+    if (!doc.contains("__original_size") || !doc.contains("__data")) {
+        return doc;
+    }
+
+    const int original_size = doc["__original_size"].get<int>();
+    if (original_size <= 0) {
+        return doc;
+    }
+
+    const std::string encoded     = doc["__data"].get<std::string>();
+    const std::string compressed  = base64Decode(encoded);
+
+    std::string decompressed(static_cast<size_t>(original_size), '\0');
+
+    const int decompressed_size = LZ4_decompress_safe(
+        compressed.data(),
+        decompressed.data(),
+        static_cast<int>(compressed.size()),
+        original_size);
+
+    if (decompressed_size < 0 || decompressed_size != original_size) {
+        return doc;  // Decompression error — return marker document.
+    }
+
+    try {
+        return nlohmann::json::parse(decompressed);
+    } catch (...) {
+        return doc;
+    }
+}
+
 // algorithmName
 // ============================================================================
 
@@ -306,6 +376,7 @@ std::string TemporalCompressor::algorithmName(CompressionAlgorithm algo) {
         case CompressionAlgorithm::ZSTD:       return "ZSTD";
         case CompressionAlgorithm::GORILLA:    return "GORILLA";
         case CompressionAlgorithm::DICTIONARY: return "DICTIONARY";
+        case CompressionAlgorithm::LZ4:        return "LZ4";
     }
     return "UNKNOWN";
 }
@@ -322,6 +393,9 @@ nlohmann::json TemporalCompressor::decompress(const nlohmann::json& doc) {
 
     if (tag == "zstd") {
         return decompressZstd(doc);
+    }
+    if (tag == "lz4") {
+        return decompressLz4(doc);
     }
     if (tag == "delta") {
         // Cannot decompress delta without the base; return as-is.
@@ -524,6 +598,29 @@ CompressionStats TemporalCompressor::compressHistory(
 
                 nlohmann::json compressed =
                     applyDictionary(v.data, global_dicts);
+                const std::string comp_str = compressed.dump();
+                stats.compressed_size_bytes += comp_str.size();
+
+                bool ok = table.replaceHistoricalPayload(
+                    key, v.sys_time.start, compressed);
+                if (ok) {
+                    ++stats.versions_compressed;
+                } else {
+                    stats.errors.emplace_back(
+                        key, "replaceHistoricalPayload failed for start=" +
+                                 std::to_string(v.sys_time.start));
+                }
+            }
+            break;
+        }
+
+        // ── LZ4 ────────────────────────────────────────────────────────────
+        case CompressionAlgorithm::LZ4: {
+            for (const auto& v : sorted_versions) {
+                const std::string orig = v.data.dump();
+                stats.original_size_bytes += orig.size();
+
+                nlohmann::json compressed = applyLz4(v.data);
                 const std::string comp_str = compressed.dump();
                 stats.compressed_size_bytes += comp_str.size();
 

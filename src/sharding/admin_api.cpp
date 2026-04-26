@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            admin_api.cpp                                      ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:11                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -13,15 +13,13 @@
     • Total Lines:     220                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "sharding/admin_api.h"
 #include "sharding/shard_repair_engine.h"
+#include "sharding/hardware_migration_manager.h"
 #include <fstream>
 #include <chrono>
 #include <iomanip>
@@ -52,6 +50,14 @@ void AdminAPI::registerStatsHandler(RequestHandler handler) {
 
 void AdminAPI::registerRepairHandler(RequestHandler handler) {
     repair_handler_ = handler;
+}
+
+void AdminAPI::registerMigrateHardwareHandler(RequestHandler handler) {
+    migrate_hardware_handler_ = handler;
+}
+
+void AdminAPI::setMigrationManager(std::shared_ptr<HardwareMigrationManager> mgr) {
+    migration_manager_ = std::move(mgr);
 }
 
 void AdminAPI::setRepairEngine(std::shared_ptr<ShardRepairEngine> engine) {
@@ -126,6 +132,18 @@ nlohmann::json AdminAPI::handleRequest(const std::string& method,
             nlohmann::json status_body = body;
             status_body["job_id"] = job_id;
             return repair_handler_(status_body);
+        }
+    } else if (path.find(Endpoints::MIGRATE_HARDWARE_PREFIX) == 0
+               && path.find(Endpoints::MIGRATE_HARDWARE_SUFFIX) != std::string::npos
+               && method == "POST") {
+        // Extract shard_id from path: /api/v1/shards/{id}/migrate-hardware
+        const std::string prefix = Endpoints::MIGRATE_HARDWARE_PREFIX;
+        const std::string suffix = Endpoints::MIGRATE_HARDWARE_SUFFIX;
+        std::string mid = path.substr(prefix.size());
+        auto pos = mid.rfind(suffix);
+        if (pos != std::string::npos) {
+            std::string shard_id = mid.substr(0, pos);
+            return handleMigrateHardware(shard_id, body);
         }
     }
 
@@ -214,6 +232,52 @@ nlohmann::json AdminAPI::buildRepairHealthJson() const {
     repair["shards"] = std::move(shards);
 
     return repair;
+}
+
+nlohmann::json AdminAPI::handleMigrateHardware(const std::string& shard_id,
+                                                  const nlohmann::json& body) {
+    // Custom handler takes precedence over the built-in path.
+    if (migrate_hardware_handler_) {
+        nlohmann::json req = body;
+        req["shard_id"] = shard_id;
+        return migrate_hardware_handler_(req);
+    }
+
+    if (!migration_manager_) {
+        return createErrorResponse(501, "Hardware migration manager not configured");
+    }
+
+    if (shard_id.empty()) {
+        return createErrorResponse(400, "shard_id must not be empty");
+    }
+
+    std::string new_endpoint;
+    if (body.contains("new_endpoint") && body["new_endpoint"].is_string()) {
+        new_endpoint = body["new_endpoint"].get<std::string>();
+    }
+    if (new_endpoint.empty()) {
+        return createErrorResponse(400, "new_endpoint is required");
+    }
+
+    auto result = migration_manager_->replaceEndpoint(shard_id, new_endpoint);
+
+    if (!result.success) {
+        return {
+            {"success", false},
+            {"shard_id", result.shard_id},
+            {"old_endpoint", result.old_endpoint},
+            {"new_endpoint", result.new_endpoint},
+            {"message", result.message}
+        };
+    }
+
+    return {
+        {"success", true},
+        {"shard_id", result.shard_id},
+        {"old_endpoint", result.old_endpoint},
+        {"new_endpoint", result.new_endpoint},
+        {"message", result.message}
+    };
 }
 
 } // namespace sharding

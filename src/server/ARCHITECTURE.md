@@ -1,9 +1,11 @@
 # Server Module — Architecture Guide
 
-**Version:** 1.1  
-**Last Updated:** 2026-03-10  
-**Status:** `current`  
-**Validated:** 2026-03-10 (Commit `a04b89b`)  
+> **Status:** 2026-04-19 – Architekturtext gegen realen Sourcecode verifizieren; Abweichungen mit `<!-- TODO -->` markiert.
+
+**Version:** 1.1
+**Last Updated:** 2026-04-06
+**Status:** `current`
+**Validated:** 2026-03-10 (Commit `a04b89b`)
 **Module Path:** `src/server/`
 
 ---
@@ -38,7 +40,7 @@ for multi-model data operations, governance, LLM inference, observability, and a
 
 | File | Role |
 |---|---|
-| `server.cpp` | Server lifecycle: init, start, graceful shutdown |
+| `http_server.cpp` | Server lifecycle: init, start, graceful shutdown (`HttpServer`) |
 | `api_gateway.cpp` | Request routing, versioning, API key validation |
 | `auth_middleware.cpp` | Authentication and authorization middleware |
 | `api_auth_config.cpp` | Per-endpoint auth requirements |
@@ -63,7 +65,7 @@ for multi-model data operations, governance, LLM inference, observability, and a
 | `buffer_api_handler.cpp` / `buffer_binary_protocol.cpp` | Binary buffer API |
 | `diff_api_handler.cpp` | Data diff and comparison API |
 | `rpc/` | gRPC service implementations |
-| `middleware/` | Auth, logging, rate limiting, CORS middleware |
+
 
 ### 3.2 Component Diagram
 
@@ -212,10 +214,8 @@ GET /api/v1/changefeed?collection=users  (SSE long-poll)
 
 ## 11. Known Limitations & Future Work
 
-- HTTP/3 (QUIC) support is in progress.
-- PostgreSQL wire protocol support is partial; full SQL compatibility planned.
-- GraphQL endpoint is planned.
-- MCP (Model Context Protocol) server is experimental.
+- PostgreSQL wire protocol is implemented; full SQL compatibility (AQL parser) is planned.
+- WASM sandbox CPU-time quota enforcement is planned.
 
 ---
 

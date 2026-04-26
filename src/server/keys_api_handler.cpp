@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            keys_api_handler.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:51                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     146                                            ║
+    • Total Lines:     145                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -98,8 +98,7 @@ nlohmann::json KeysApiHandler::listKeys() {
     }
 }
 
-nlohmann::json KeysApiHandler::rotateKey(const std::string& key_id, const nlohmann::json& body) {
-    (void)body;
+nlohmann::json KeysApiHandler::rotateKey(const std::string& key_id, [[maybe_unused]] const nlohmann::json& body) {
     try {
     auto span = Tracer::startSpan("rotateKey");
         if (!key_provider_) {

@@ -3,21 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            per_query_cost_model.h                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:09:22                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:46:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     229                                            ║
+    • Total Lines:     226                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
-    • 0a4c84047  2026-02-25  fix(performance): code audit fixes for per-query cost model ║
-    • 78e4e67bb  2026-02-25  feat(performance): per-query cost model integration with ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -66,6 +60,14 @@ struct QueryCostRecord {
     size_t      pages_read       = 0;  ///< Pages fetched from storage
     double      estimated_cost   = 0.0; ///< OptimizerCostModel estimate at plan time
     double      cost_ratio       = 1.0; ///< estimated_cost / actual_cost (>1 = over-estimated)
+
+    /// Execution path actually used (set by higher-level consumer after planning).
+    OptimizerCostModel::SerializationAdvice::ExecutionPath exec_path_used =
+        OptimizerCostModel::SerializationAdvice::ExecutionPath::CPU_SINGLE;
+
+    /// Time spent on serialization/deserialization within this query (ms).
+    /// Populated by consumers that measure serialization overhead separately.
+    double serialization_time_ms = 0.0;
 };
 
 /**
@@ -168,8 +170,22 @@ public:
      * Returns a map of OptimizerCostModel constant names to updated
      * values derived from measured CPU and I/O rates.  Pass to
      * OptimizerCostModel::calibrateCosts().
+     *
+     * Additionally emits:
+     *  - "gpu_row_threshold_low"  when GPU-path records show high serialization
+     *    overhead (serialization_time_ms / execution_time_ms > 0.5), suggesting
+     *    the GPU breakeven threshold should be raised.
+     *  - "msgpack_row_threshold"  when CPU_SINGLE records show the row count
+     *    distribution warrants switching to binary format at a lower threshold.
+     *
+     * @param current  Optional pointer to the model's current CostConstants.
+     *   When provided the GPU/msgpack threshold adjustments are computed
+     *   relative to the actual configured values rather than the compile-time
+     *   defaults, preventing threshold oscillation after repeated calibrations.
+     *   Pass nullptr (default) for backwards compatibility.
      */
-    std::unordered_map<std::string, double> getCalibrationFactors() const;
+    std::unordered_map<std::string, double> getCalibrationFactors(
+        const OptimizerCostModel::CostConstants* current = nullptr) const;
 
     /**
      * @brief Apply calibration directly to an OptimizerCostModel.

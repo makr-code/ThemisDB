@@ -126,13 +126,13 @@ Dashboard: "Themis RAID Benchmark"
 
 | Datei | Zweck | Größe |
 |-------|-------|-------|
-| [SETUP_COMPLETE.md](SETUP_COMPLETE.md) | 🏠 **START HIER** | 11 KB |
+| [SETUP_COMPLETE.md](ARCHIVED/implementation-summaries/SETUP_COMPLETE.md) | 🏠 **START HIER** | 11 KB |
 | [docker/compose/QUICK_START.md](docker/compose/QUICK_START.md) | Schnelle 3-Schritt Anleitung | 4.6 KB |
-| [PROMETHEUS_METRICS_BUILD.md](PROMETHEUS_METRICS_BUILD.md) | Docker Build Details | 6.4 KB |
+| [PROMETHEUS_METRICS_BUILD.md](ARCHIVED/implementation-summaries/PROMETHEUS_METRICS_BUILD.md) | Docker Build Details | 6.4 KB |
 | [PROMETHEUS_INTEGRATION_COMPLETE.md](PROMETHEUS_INTEGRATION_COMPLETE.md) | Technische Übersicht | 11 KB |
 | [docker/compose/README.md](docker/compose/README.md) | Docker Compose Setup | 12.5 KB |
 | [docker/compose/CONFIGURATION_CHECKLIST.md](docker/compose/CONFIGURATION_CHECKLIST.md) | Verifikations-Checkliste | 10.4 KB |
-| [INTEGRATION_CHANGES_SUMMARY.md](INTEGRATION_CHANGES_SUMMARY.md) | Datei-Übersicht | 9.8 KB |
+| [INTEGRATION_CHANGES_SUMMARY.md](ARCHIVED/implementation-summaries/INTEGRATION_CHANGES_SUMMARY.md) | Datei-Übersicht | 9.8 KB |
 
 ---
 
@@ -288,7 +288,7 @@ themis_migration_records_total{...} 0
 ## 🚨 Falls Fehler auftreten
 
 **Docker Build schlägt fehl:**
-→ Siehe [PROMETHEUS_METRICS_BUILD.md](PROMETHEUS_METRICS_BUILD.md) Troubleshooting
+→ Siehe [PROMETHEUS_METRICS_BUILD.md](ARCHIVED/implementation-summaries/PROMETHEUS_METRICS_BUILD.md) Troubleshooting
 
 **Prometheus Targets "down":**
 → Siehe [docker/compose/CONFIGURATION_CHECKLIST.md](docker/compose/CONFIGURATION_CHECKLIST.md#problem-prometheus-zeigt-down)
@@ -325,7 +325,7 @@ docker build -f Dockerfile.themis-metrics-enabled `
 
 ---
 
-**Stand:** 3. Januar 2026  
+**Stand:** 6. April 2026  
 **Status:** 🟢 Ready for Docker Build  
 **Dokumentation:** ✅ Vollständig  
 **Edition:** Community bis Hyperscaler

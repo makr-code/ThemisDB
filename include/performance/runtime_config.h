@@ -3,18 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            runtime_config.h                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:09:25                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     153                                            ║
+    • Total Lines:     157                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,6 +30,7 @@
 #include <string>
 #include <unordered_set>
 #include <mutex>
+#include <shared_mutex>
 
 namespace themis {
 namespace performance {
@@ -75,7 +79,7 @@ public:
         if (rate == 0) return false;
         if (rate == 1) return true;
         
-        const uint32_t count = operation_counter_.fetch_add(1, std::memory_order_relaxed);
+        const uint32_t count = static_cast<uint32_t>(operation_counter_.fetch_add(1, std::memory_order_relaxed));
         return (count % rate) == 0;
     }
 
@@ -84,7 +88,7 @@ public:
      * @param operation_name Operation name
      */
     void enableOperation(const std::string& operation_name) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         enabled_operations_.insert(operation_name);
     }
 
@@ -93,7 +97,7 @@ public:
      * @param operation_name Operation name
      */
     void disableOperation(const std::string& operation_name) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         enabled_operations_.erase(operation_name);
     }
 
@@ -103,7 +107,7 @@ public:
      * @return true if enabled
      */
     bool isOperationEnabled(const std::string& operation_name) const {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::shared_lock<std::shared_mutex> lock(mutex_);
         // If no specific operations are enabled, all are enabled
         if (enabled_operations_.empty()) return true;
         return enabled_operations_.find(operation_name) != enabled_operations_.end();
@@ -113,7 +117,7 @@ public:
      * @brief Clear all operation filters
      */
     void clearOperationFilters() {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         enabled_operations_.clear();
     }
 
@@ -145,7 +149,7 @@ private:
     std::atomic<uint32_t> sampling_rate_;
     std::atomic<uint64_t> operation_counter_;
     
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
     std::unordered_set<std::string> enabled_operations_;
 };
 

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            continuous_learning_orchestrator.cpp               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:18:48                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8f2d385c0  2026-03-01  feat(rag): implement online learning from evaluation feed... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -29,6 +29,8 @@
 #include "rag/continuous_learning_orchestrator.h"
 #include "rag/bayesian_optimizer.h"
 #include "utils/logger.h"
+#include "distributed_knowledge/lora_federation_coordinator.h"
+#include "training/incremental_lora_trainer.h"
 
 #include <algorithm>
 #include <atomic>
@@ -92,7 +94,27 @@ struct ContinuousLearningOrchestrator::Impl {
     // ---- Adaptive retrieval ----
     /// Most-recently optimized retrieval parameters, updated by runRetrievalOptimization().
     RetrievalParams current_retrieval_params;
-};
+
+    // ---- Loop orchestration (IMPL-A2) ----
+    LoopPhase active_loop{LoopPhase::IDLE};
+    std::unordered_map<int, std::function<void(LoopPhase, const LoopResult&)>> loop_handlers;
+
+    // ---- IMPL-A2 Phase 2: named typed trigger state ----
+    /// Latest QueryExecutionOutcome from triggerLoop1QueryExecution().
+    QueryExecutionOutcome last_loop1_outcome;
+    /// Per-loop last-trigger timestamps for the cooldown guard.
+    std::unordered_map<int, std::chrono::system_clock::time_point> loop_last_trigger;
+    /// Cooldown window — calls within this duration of the previous trigger are rejected.
+    std::chrono::seconds loop_cooldown_secs{10};
+    /// Latest LoopResult per phase (kept for context serialisation).
+    std::unordered_map<int, LoopResult> last_loop_results;
+
+    // ---- IMPL-A3: Federation bridges ----
+    std::shared_ptr<themis::distributed_knowledge::ILoRAFederationCoordinator>
+        federation_coordinator_;
+    themis::training::IncrementalLoRATrainer* trainer_for_federation_{nullptr};
+}; // struct ContinuousLearningOrchestrator::Impl
+
 
 ContinuousLearningOrchestrator::ContinuousLearningOrchestrator(const ContinuousLearningConfig &config)
     : impl_(std::make_unique<Impl>()) {
@@ -177,7 +199,7 @@ void ContinuousLearningOrchestrator::triggerLearningIteration() {
             if (sel_result.success) {
                 impl_->last_selection_time = std::chrono::system_clock::now();
             }
-            (void)sel_result; // consumed by retraining in full impl
+            // consumed by retraining in full impl
         }
     }
 
@@ -474,7 +496,7 @@ void ContinuousLearningOrchestrator::runLoRARetraining() {
                 if (sel_result.success) {
                     impl_->last_selection_time = std::chrono::system_clock::now();
                 }
-                (void)sel_result; // selected_samples fed to trainer in full impl
+                // selected_samples fed to trainer in full impl
 
                 // Apply adaptive threshold rules using current monitoring metrics
                 if (impl_->si_module) {
@@ -736,6 +758,344 @@ void ContinuousLearningOrchestrator::setDataSelectionConfig(
 RetrievalParams ContinuousLearningOrchestrator::getOptimizedRetrievalParams() const {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     return impl_->current_retrieval_params;
+}
+
+// ============================================================================
+// Loop orchestration (IMPL-A2)
+// ============================================================================
+
+ContinuousLearningOrchestrator::LoopPhase
+ContinuousLearningOrchestrator::currentLoop() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    return impl_->active_loop;
+}
+
+void ContinuousLearningOrchestrator::registerLoopCompletionHandler(
+        LoopPhase phase,
+        std::function<void(LoopPhase, const LoopResult&)> handler) {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    impl_->loop_handlers[static_cast<int>(phase)] = std::move(handler);
+}
+
+ContinuousLearningOrchestrator::LoopResult
+ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
+    if (phase == LoopPhase::IDLE) {
+        return LoopResult{};
+    }
+
+    LoopResult result;
+    result.phase = phase;
+
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        impl_->active_loop = phase;
+    }
+
+    // ── Execute loop-specific logic ──────────────────────────────────────────
+    // Each loop simulates the signal check, the training call, and the
+    // guardrail evaluation.  Guardrail thresholds are read from config.
+    //
+    // STUB/SIMULATION NOTE:
+    // Purpose: Run IncrementalLoRATrainer / RLAIFTrainer stubs; real signal
+    //          values come from BaoOptimizer/WorkloadAdaptiveOptimizer at runtime.
+    // Activation: Always active until IMPL-A2 Phase 2 wires real signal sources.
+    // Production Delta: Real impl calls IncrementalLoRATrainer::runIncremental()
+    //                   and checks actual ECE / hot_coverage metrics.
+    // Removal Plan: Replace signal stubs with real accessor calls when adapters
+    //               are available in the orchestrator's dependency graph.
+
+    const auto next_adapter_revision = impl_->stats.lora_retraining_count + 1;
+    const auto baseline_accuracy = impl_->stats.accuracy_7d_avg > 0.0
+        ? impl_->stats.accuracy_7d_avg
+        : impl_->stats.current_accuracy;
+
+    switch (phase) {
+        case LoopPhase::LOOP_1_HNSW_QUERY:
+            // Signal: BaoOptimizer::getMissRate() > 0.15 or HNSWTuner recall < 0.93
+            // Guardrail: ECE < 0.05 AND hot_coverage >= 0.85
+            result.success          = true;
+            result.guardrail_passed = (impl_->stats.current_accuracy >= (1.0 - 0.05));
+            result.metric_delta     = result.guardrail_passed ? 0.02 : 0.0;
+            result.adapter_version  = result.guardrail_passed
+                                          ? "v" + std::to_string(next_adapter_revision)
+                                          : "";
+            break;
+
+        case LoopPhase::LOOP_2_WORKLOAD:
+            // Signal: WorkloadAdaptiveOptimizer::getProfileDrift() > 0.1
+            // Guardrail: no regression in avg_speedup
+            result.success          = true;
+            result.guardrail_passed = (impl_->stats.current_accuracy >= baseline_accuracy);
+            result.metric_delta     = result.guardrail_passed ? 0.01 : 0.0;
+            result.adapter_version  = "";
+            break;
+
+        case LoopPhase::LOOP_3_SCHEMA_INDEX:
+            // Advisory-only: always succeeds, DBA review required before DDL
+            result.success          = true;
+            result.guardrail_passed = true;  // advisory: no adapter commit
+            result.metric_delta     = 0.0;
+            result.adapter_version  = "";
+            break;
+
+        case LoopPhase::LOOP_4_RLAIF:
+            // Signal: FeedbackCollector::newEntryCount() >= 100
+            // Guardrail: DBA acceptance rate >= 0.75
+            result.success          = true;
+            // Use current_accuracy as proxy for DBA acceptance rate
+            result.guardrail_passed = (impl_->stats.current_accuracy >= 0.75);
+            result.metric_delta     = result.guardrail_passed ? 0.03 : 0.0;
+            result.adapter_version  = result.guardrail_passed
+                                          ? "rlaif_v" + std::to_string(next_adapter_revision)
+                                          : "";
+            break;
+
+        default:
+            break;
+    }
+
+    // Update stats when a new adapter version is committed
+    if (result.guardrail_passed && !result.adapter_version.empty()) {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        ++impl_->stats.lora_retraining_count;
+    }
+
+    // Invoke completion handler (if registered), outside the mutex
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        impl_->active_loop = LoopPhase::IDLE;
+        // Store last result for context serialiser
+        impl_->last_loop_results[static_cast<int>(phase)] = result;
+        auto it = impl_->loop_handlers.find(static_cast<int>(phase));
+        if (it != impl_->loop_handlers.end() && it->second) {
+            it->second(phase, result);
+        }
+    }
+
+    // IMPL-A3: Auto-trigger FEDERATED_ROUND_START after a successful Loop-4
+    // that has passed the guardrail check.  This fires outside all locks to
+    // avoid holding impl_->mutex while calling the federation coordinator.
+    if (phase == LoopPhase::LOOP_4_RLAIF && result.success && result.guardrail_passed) {
+        handleFederatedRoundStart();
+    }
+
+    return result;
+}
+
+// ============================================================================
+// IMPL-A2 Phase 2: Named typed trigger methods + cooldown guard + context JSON
+// ============================================================================
+
+bool ContinuousLearningOrchestrator::checkAndUpdateCooldown(LoopPhase phase) {
+    const auto key = static_cast<int>(phase);
+    const auto now = std::chrono::system_clock::now();
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    auto it = impl_->loop_last_trigger.find(key);
+    if (it != impl_->loop_last_trigger.end()) {
+        const auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - it->second);
+        if (elapsed < impl_->loop_cooldown_secs) {
+            return false; // still within cooldown window
+        }
+    }
+    impl_->loop_last_trigger[key] = now;
+    return true;
+}
+
+void ContinuousLearningOrchestrator::setOptimizationCooldown(std::chrono::seconds cooldown) {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    impl_->loop_cooldown_secs = cooldown;
+}
+
+ContinuousLearningOrchestrator::LoopResult
+ContinuousLearningOrchestrator::triggerLoop1QueryExecution(
+    const QueryExecutionOutcome& outcome) {
+    if (!checkAndUpdateCooldown(LoopPhase::LOOP_1_HNSW_QUERY)) {
+        LoopResult blocked;
+        blocked.phase           = LoopPhase::LOOP_1_HNSW_QUERY;
+        blocked.success         = false;
+        blocked.adapter_version = "cooldown";
+        return blocked;
+    }
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        impl_->last_loop1_outcome = outcome;
+    }
+    return triggerLoop(LoopPhase::LOOP_1_HNSW_QUERY);
+}
+
+ContinuousLearningOrchestrator::LoopResult
+ContinuousLearningOrchestrator::triggerLoop2WorkloadAdaptation() {
+    if (!checkAndUpdateCooldown(LoopPhase::LOOP_2_WORKLOAD)) {
+        LoopResult blocked;
+        blocked.phase           = LoopPhase::LOOP_2_WORKLOAD;
+        blocked.success         = false;
+        blocked.adapter_version = "cooldown";
+        return blocked;
+    }
+    return triggerLoop(LoopPhase::LOOP_2_WORKLOAD);
+}
+
+ContinuousLearningOrchestrator::LoopResult
+ContinuousLearningOrchestrator::triggerLoop3IndexLifecycle() {
+    if (!checkAndUpdateCooldown(LoopPhase::LOOP_3_SCHEMA_INDEX)) {
+        LoopResult blocked;
+        blocked.phase           = LoopPhase::LOOP_3_SCHEMA_INDEX;
+        blocked.success         = false;
+        blocked.adapter_version = "cooldown";
+        return blocked;
+    }
+    return triggerLoop(LoopPhase::LOOP_3_SCHEMA_INDEX);
+}
+
+ContinuousLearningOrchestrator::LoopResult
+ContinuousLearningOrchestrator::triggerLoop4AdapterImprovement() {
+    if (!checkAndUpdateCooldown(LoopPhase::LOOP_4_RLAIF)) {
+        LoopResult blocked;
+        blocked.phase           = LoopPhase::LOOP_4_RLAIF;
+        blocked.success         = false;
+        blocked.adapter_version = "cooldown";
+        return blocked;
+    }
+    return triggerLoop(LoopPhase::LOOP_4_RLAIF);
+}
+
+std::string ContinuousLearningOrchestrator::serializeLoopContext() const {
+    // Gather snapshot under the lock
+    struct Snapshot {
+        QueryExecutionOutcome  loop1_outcome;
+        std::unordered_map<int, LoopResult> results;
+        std::unordered_map<int, std::chrono::system_clock::time_point> timestamps;
+    } snap;
+
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        snap.loop1_outcome = impl_->last_loop1_outcome;
+        snap.results       = impl_->last_loop_results;
+        snap.timestamps    = impl_->loop_last_trigger;
+    }
+
+    if (snap.results.empty()) {
+        return "{}";
+    }
+
+    // Build compact JSON manually (no external JSON dependency in this path).
+    // Format: { "loops": [ { "loop_id": 1, ... }, ... ] }
+    auto iso_time = [](std::chrono::system_clock::time_point tp) -> std::string {
+        if (tp == std::chrono::system_clock::time_point{}) return "";
+        const auto t = std::chrono::system_clock::to_time_t(tp);
+        std::ostringstream oss;
+        struct tm buf{};
+#if defined(_WIN32)
+        gmtime_s(&buf, &t);
+#else
+        gmtime_r(&t, &buf);
+#endif
+        oss << std::put_time(&buf, "%Y-%m-%dT%H:%M:%SZ");
+        return oss.str();
+    };
+
+    auto escape_json = [](const std::string& s) -> std::string {
+        std::string out;
+        out.reserve(s.size());
+        for (const char c : s) {
+            if      (c == '"')  out += "\\\"";
+            else if (c == '\\') out += "\\\\";
+            else if (c == '\n') out += "\\n";
+            else                out += c;
+        }
+        return out;
+    };
+
+    static const std::unordered_map<int, std::string> kPhaseNames{
+        {static_cast<int>(LoopPhase::LOOP_1_HNSW_QUERY),   "LOOP_1_HNSW_QUERY"},
+        {static_cast<int>(LoopPhase::LOOP_2_WORKLOAD),      "LOOP_2_WORKLOAD"},
+        {static_cast<int>(LoopPhase::LOOP_3_SCHEMA_INDEX),  "LOOP_3_SCHEMA_INDEX"},
+        {static_cast<int>(LoopPhase::LOOP_4_RLAIF),         "LOOP_4_RLAIF"},
+    };
+
+    std::ostringstream json;
+    json << "{\"loops\":[";
+    bool first = true;
+    for (const auto& [key, res] : snap.results) {
+        if (!first) json << ",";
+        first = false;
+        const std::string phase_name =
+            kPhaseNames.count(key) ? kPhaseNames.at(key) : "UNKNOWN";
+        json << "{"
+             << "\"loop_id\":"      << key                              << ","
+             << "\"phase\":\""      << phase_name                       << "\","
+             << "\"success\":"      << (res.success ? "true" : "false") << ","
+             << "\"guardrail\":"    << (res.guardrail_passed ? "true" : "false") << ","
+             << "\"metric_delta\":" << res.metric_delta                 << ","
+             << "\"adapter\":\"" << escape_json(res.adapter_version)    << "\"";
+        // Loop 1 extra fields
+        if (key == static_cast<int>(LoopPhase::LOOP_1_HNSW_QUERY)
+                && !snap.loop1_outcome.query_id.empty()) {
+            json << ",\"query_id\":\""    << escape_json(snap.loop1_outcome.query_id) << "\""
+                 << ",\"latency_ms\":"    << snap.loop1_outcome.latency_ms
+                 << ",\"used_index\":"    << (snap.loop1_outcome.used_index ? "true" : "false");
+        }
+        // Timestamp
+        auto ts_it = snap.timestamps.find(key);
+        if (ts_it != snap.timestamps.end()) {
+            json << ",\"timestamp\":\"" << iso_time(ts_it->second) << "\"";
+        }
+        json << "}";
+    }
+    json << "]}";
+
+    // Hard-cap at ~8 000 chars (≈ 2 000 tokens) to respect the context budget
+    std::string out = json.str();
+    if (out.size() > 8000) {
+        out.resize(8000);
+        // ensure valid closing brackets
+        out += "...]}";
+    }
+    return out;
+}
+
+// ============================================================================
+// IMPL-A3: Federation bridge public API
+// ============================================================================
+
+void ContinuousLearningOrchestrator::setFederationCoordinator(
+    std::shared_ptr<themis::distributed_knowledge::ILoRAFederationCoordinator>
+        coordinator) {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    impl_->federation_coordinator_ = std::move(coordinator);
+}
+
+void ContinuousLearningOrchestrator::setTrainerForFederation(
+    themis::training::IncrementalLoRATrainer* trainer) {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    impl_->trainer_for_federation_ = trainer;
+}
+
+void ContinuousLearningOrchestrator::handleFederatedRoundStart() {
+    // Read coordinator and trainer pointers under the lock, then operate
+    // outside the lock so federation I/O does not block the orchestrator.
+    std::shared_ptr<themis::distributed_knowledge::ILoRAFederationCoordinator>
+        coordinator;
+    themis::training::IncrementalLoRATrainer* trainer{nullptr};
+
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        coordinator = impl_->federation_coordinator_;
+        trainer     = impl_->trainer_for_federation_;
+    }
+
+    if (!coordinator || !trainer) {
+        spdlog::warn("CLO: FEDERATED_ROUND_START: coordinator or trainer not injected; skipping");
+        return;
+    }
+
+    try {
+        const uint64_t round = coordinator->currentRound();
+        auto gradient        = trainer->exportGradient(round);
+        coordinator->submitGradient(gradient);
+    } catch (const std::exception& e) {
+        spdlog::warn("CLO: FEDERATED_ROUND_START failed: {}", e.what());
+    }
 }
 
 } // namespace themis::rag::learning

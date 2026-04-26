@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            backup_manager.h                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:42                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   85.0/100                                       ║
-    • Total Lines:     558                                            ║
+    • Total Lines:     557                                            ║
     • Open Issues:     TODOs: 0, Stubs: 6                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 79e04d690  2026-03-11  feat(storage): implement BackupManager scheduling and clo... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 79e04d6902  2026-03-11  feat(storage): implement BackupManager scheduling and clo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

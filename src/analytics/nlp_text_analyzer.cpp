@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            nlp_text_analyzer.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:13:56                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   96.0/100                                       ║
-    • Total Lines:     1594                                           ║
+    • Total Lines:     1590                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8a2b22d30  2026-02-26  fix(nlp,cep): dead-code removal in lemmatizeWord, add mis... ║
-    • 83af59874  2026-02-26  audit: fix detectLanguage ambiguity, ROADMAP [x], correct... ║
-    • 3fd42b08d  2026-02-26  fix(analytics): code audit fixes - Spanish 'es'→'ser', Ge... ║
-    • c9e8e9704  2026-02-26  feat(analytics): implement full morphological lemmatizati... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -1155,7 +1148,7 @@ std::string NlpTextAnalyzer::toLowerCase(std::string_view text) const {
     std::string result;
     result.reserve(text.size());
     for (char c : text) {
-        result += std::tolower(static_cast<unsigned char>(c));
+        result += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
     }
     return result;
 }
@@ -1210,7 +1203,7 @@ size_t NlpTextAnalyzer::countSyllables(std::string_view word) const {
     bool previous_was_vowel = false;
     
     for (char c : word) {
-        char lower = std::tolower(static_cast<unsigned char>(c));
+        char lower = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         bool is_vowel = (lower == 'a' || lower == 'e' || lower == 'i' || 
                         lower == 'o' || lower == 'u' || lower == 'y');
         
@@ -1367,7 +1360,7 @@ size_t NlpTextAnalyzer::loadStopWordsFromDirectory(const std::string& directory)
 
 // ========== Legal Modality Extraction ==========
 
-std::string NlpTextAnalyzer::getDefaultLegalConfigPath(const std::string& language_code) const {
+std::string NlpTextAnalyzer::getDefaultLegalConfigPath([[maybe_unused]] const std::string& language_code) const {
     return "config/nlp/legal/german_modal_verbs.yaml";
 }
 

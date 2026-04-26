@@ -1,7 +1,7 @@
 # ThemisDB Security Posture Guide
 
 **Version:** 1.4.0  
-**Last Updated:** February 2026  
+**Last Updated:** April 2026  
 **Target Audience:** Security Engineers, Integration Teams, Platform Engineers
 
 > [!IMPORTANT]
@@ -338,7 +338,7 @@ For integrators embedding ThemisDB into a larger platform, the following items a
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** February 2026  
+**Last Updated:** April 2026  
 **Next Review:** May 2026  
 **Related Documents:**
 - [CORE_MODULE_RUNBOOK.md](RUNBOOKS/CORE_MODULE_RUNBOOK.md)

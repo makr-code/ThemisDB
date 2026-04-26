@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            updates_config.cpp                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:21:26                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     412                                            ║
+    • Total Lines:     493                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 02c0a65e1  2026-02-23  audit: fix stale Stubs:1 banners, add Phase 10 smoke test... ║
-    • 8f53829d2  2026-02-22  Finalize canary rollout: move to Completed in ROADMAP, cl... ║
-    • 1121f3d4a  2026-02-22  Audit fixes: double-apply guard, toCanaryConfig bridge, h... ║
-    • ca631bad0  2026-02-22  Implement canary rollout mode: CanaryRollout class, confi... ║
+    • 0ae938d481  2026-04-15  feat(updates): anonymous hardware telemetry + Ed25519 bui... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -156,6 +152,32 @@ UpdatesConfig UpdatesConfig::loadFromYaml(const std::string& yaml_path) {
             }
         }
 
+        // Load anonymous hardware telemetry settings
+        if (config["updates"] && config["updates"]["telemetry"]) {
+            auto tel = config["updates"]["telemetry"];
+            result.telemetry.enabled =
+                tel["enabled"].as<bool>(false);
+            result.telemetry.endpoint_url =
+                tel["endpoint_url"].as<std::string>(
+                    "https://api.themisdb.org/telemetry.php");
+            result.telemetry.send_interval_seconds =
+                std::max(86400, tel["send_interval_seconds"].as<int>(86400));
+            result.telemetry.include_cpu_model =
+                tel["include_cpu_model"].as<bool>(true);
+            result.telemetry.include_cpu_cores =
+                tel["include_cpu_cores"].as<bool>(true);
+            result.telemetry.include_ram_mb =
+                tel["include_ram_mb"].as<bool>(true);
+            result.telemetry.include_os =
+                tel["include_os"].as<bool>(true);
+            result.telemetry.include_arch =
+                tel["include_arch"].as<bool>(true);
+            result.telemetry.http_timeout_seconds =
+                tel["http_timeout_seconds"].as<int>(10);
+            result.telemetry.max_retries =
+                tel["max_retries"].as<int>(2);
+        }
+        
         LOG_INFO("Loaded updates configuration from {}", yaml_path);
         return result;
     } catch (const std::exception& e) {
@@ -244,6 +266,32 @@ UpdatesConfig UpdatesConfig::fromJson(const json& j) {
                 }
             }
         }
+
+        // Load anonymous hardware telemetry settings
+        if (j.contains("telemetry")) {
+            auto tel = j["telemetry"];
+            result.telemetry.enabled =
+                tel.value("enabled", false);
+            result.telemetry.endpoint_url =
+                tel.value("endpoint_url",
+                          std::string("https://api.themisdb.org/telemetry.php"));
+            result.telemetry.send_interval_seconds =
+                std::max(86400, tel.value("send_interval_seconds", 86400));
+            result.telemetry.include_cpu_model =
+                tel.value("include_cpu_model", true);
+            result.telemetry.include_cpu_cores =
+                tel.value("include_cpu_cores", true);
+            result.telemetry.include_ram_mb =
+                tel.value("include_ram_mb", true);
+            result.telemetry.include_os =
+                tel.value("include_os", true);
+            result.telemetry.include_arch =
+                tel.value("include_arch", true);
+            result.telemetry.http_timeout_seconds =
+                tel.value("http_timeout_seconds", 10);
+            result.telemetry.max_retries =
+                tel.value("max_retries", 2);
+        }
     } catch (const std::exception& e) {
         LOG_ERROR("Failed to parse updates configuration from JSON: {}", e.what());
     }
@@ -312,6 +360,18 @@ json UpdatesConfig::toJson() const {
         stage_json["observation_seconds"] = s.observation_seconds;
         j["canary"]["stages"].push_back(stage_json);
     }
+
+    // Anonymous hardware telemetry config
+    j["telemetry"]["enabled"]                = telemetry.enabled;
+    j["telemetry"]["endpoint_url"]           = telemetry.endpoint_url;
+    j["telemetry"]["send_interval_seconds"]  = telemetry.send_interval_seconds;
+    j["telemetry"]["include_cpu_model"]      = telemetry.include_cpu_model;
+    j["telemetry"]["include_cpu_cores"]      = telemetry.include_cpu_cores;
+    j["telemetry"]["include_ram_mb"]         = telemetry.include_ram_mb;
+    j["telemetry"]["include_os"]             = telemetry.include_os;
+    j["telemetry"]["include_arch"]           = telemetry.include_arch;
+    j["telemetry"]["http_timeout_seconds"]   = telemetry.http_timeout_seconds;
+    j["telemetry"]["max_retries"]            = telemetry.max_retries;
 
     return j;
 }
@@ -394,6 +454,21 @@ void UpdatesConfig::saveToYaml(const std::string& yaml_path) const {
             out << YAML::EndMap;
         }
         out << YAML::EndSeq;
+        out << YAML::EndMap;
+
+        // Anonymous hardware telemetry config
+        out << YAML::Key << "telemetry";
+        out << YAML::Value << YAML::BeginMap;
+        out << YAML::Key << "enabled"               << YAML::Value << telemetry.enabled;
+        out << YAML::Key << "endpoint_url"          << YAML::Value << telemetry.endpoint_url;
+        out << YAML::Key << "send_interval_seconds" << YAML::Value << telemetry.send_interval_seconds;
+        out << YAML::Key << "include_cpu_model"     << YAML::Value << telemetry.include_cpu_model;
+        out << YAML::Key << "include_cpu_cores"     << YAML::Value << telemetry.include_cpu_cores;
+        out << YAML::Key << "include_ram_mb"        << YAML::Value << telemetry.include_ram_mb;
+        out << YAML::Key << "include_os"            << YAML::Value << telemetry.include_os;
+        out << YAML::Key << "include_arch"          << YAML::Value << telemetry.include_arch;
+        out << YAML::Key << "http_timeout_seconds"  << YAML::Value << telemetry.http_timeout_seconds;
+        out << YAML::Key << "max_retries"           << YAML::Value << telemetry.max_retries;
         out << YAML::EndMap;
 
         out << YAML::EndMap;  // updates

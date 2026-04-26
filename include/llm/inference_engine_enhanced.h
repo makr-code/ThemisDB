@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            inference_engine_enhanced.h                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:21                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     527                                            ║
+    • Total Lines:     557                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • d1f0cf3ca  2026-03-19  fix(llm): address all PR review issues - sentinel deliver... ║
-    • cdc974975  2026-03-18  Changes before error encountered         ║
-    • c3fa68410  2026-03-11  fix(llm): audit pass 2 - fix generated_text, prompt-key c... ║
-    • 5f9187ff6  2026-03-11  feat(llm): implement KV-cache prewarming with embedding-b... ║
+    • fe135d5215  2026-04-13  feat(llm): Speculative Decoding for Latency Reduction — v... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -28,6 +25,7 @@
 
 #include "llm/inference_handle.h"
 #include "llm/continuous_batch_scheduler.h"
+#include "llm/lookup_decoder.h"
 #include "llm/paged_kv_cache.h"
 #include "llm/llm_prefix_cache.h"
 #include "llm/llm_plugin_interface.h"
@@ -35,6 +33,7 @@
 #include "llm/multi_lora_manager.h"
 #include "llm/shared_worker_pool.h"
 #include "llm/speculative_decoder.h"
+#include "llm/adapter_registry.h"
 #include <memory>
 #include <mutex>
 #include <vector>
@@ -45,6 +44,15 @@
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
+
+// Forward declarations for cross-shard speculative decoding
+namespace themis { namespace sharding {
+class RemoteExecutor;
+struct ShardInfo;
+} }
+
+// ShardInfo is stored by value in InferenceEngineEnhanced — include the full type.
+#include "sharding/shard_topology.h"
 
 /**
  * @file inference_engine_enhanced.h
@@ -84,6 +92,7 @@ public:
         size_t max_batch_size = 256;
         size_t batch_timeout_ms = 100;  // Wait up to 100ms to form batch
         size_t max_tokens_per_batch = 8192;
+        bool enable_adaptive_batch_retry = false;
         
         // Request queuing
         size_t max_queue_size = 1000;
@@ -112,6 +121,29 @@ public:
         /// The draft model is typically a small, quantised variant of the
         /// target model (e.g., INT4-quantised 0.5 B parameters).
         std::string speculative_draft_model_id;
+
+        /**
+         * @brief Remote shard identifier for cross-shard speculative decoding.
+         *
+         * When non-empty, trySpeculativeGeneration() will attempt to fetch
+         * draft tokens from this remote shard via RemoteExecutor::post() before
+         * falling back to the locally registered draft model.
+         *
+         * Format passed through to SpeculativeDecoder::Config::remote_draft_shard_id.
+         * Activate by also calling setRemoteExecutor() with a valid executor and
+         * the ShardInfo for the target shard.
+         */
+        std::string speculative_remote_draft_shard_id;
+
+        // Prompt lookup decoding (n-gram based speculation-light path)
+        bool enable_lookup_decoding = false;
+        size_t lookup_ngram_min = 2;
+        size_t lookup_ngram_max = 4;
+        /// Maximum draft tokens proposed per lookup step.
+        /// Defaults to lookup_ngram_max (one continuation token per key token),
+        /// but can be set independently to allow longer continuations than the
+        /// key length (e.g., ngram_max=4, max_draft=8).
+        size_t lookup_max_draft_tokens = 0;  // 0 = use lookup_ngram_max
     };
     
     /**
@@ -196,6 +228,13 @@ public:
         std::chrono::milliseconds timeout{30000};
         bool allow_caching = true;
         std::string preferred_model_id;  // Optional model preference
+        // RAID-sharding orchestration hints (optional, see src/llm/FUTURE_ENHANCEMENTS.md):
+        // - shard_routing_key: deterministic placement hint for shard routers.
+        // - target_instance_ids: explicit shard/instance fan-out subset.
+        // - allow_cross_instance_batching: opt-in guard for distributed co-batching.
+        std::string shard_routing_key;        // Set alone for deterministic shard placement.
+        std::vector<std::string> target_instance_ids; // Optional explicit fan-out subset; empty = router decides.
+        bool allow_cross_instance_batching = false;   // Explicit opt-in for coordinator-side co-batching.
         
         // For result tracking
         std::string request_id;
@@ -225,6 +264,23 @@ public:
     void registerModel(const std::string& model_id, std::shared_ptr<ILLMPlugin> plugin);
     void unregisterModel(const std::string& model_id);
     std::vector<std::string> getAvailableModels() const;
+
+    /**
+     * @brief Attach an adapter registry for DRAFT model auto-discovery.
+     *
+     * When speculative decoding is enabled and @c Config::speculative_draft_model_id
+     * is empty, the engine will call
+     * @c AdapterRegistry::findDraftAdapterForFamily() with the target model's
+     * architecture/family string each time it selects a target model.  The
+     * first DRAFT adapter whose architecture matches the target model's family
+     * is used as the draft model for that request, provided its adapter_id is
+     * also registered as a model via @c registerModel().
+     *
+     * Thread-safe: the registry reference is stored under @c models_mutex_.
+     *
+     * @param registry Non-null adapter registry to query for DRAFT adapters.
+     */
+    void setAdapterRegistry(std::shared_ptr<AdapterRegistry> registry);
 
     /**
      * @brief Hot-swap the plugin for a registered model without restarting the engine.
@@ -396,6 +452,21 @@ public:
     void start();
     void shutdown();
     bool isRunning() const;
+
+    /**
+     * @brief Inject a RemoteExecutor for cross-shard speculative decoding.
+     *
+     * When set and @c Config::speculative_remote_draft_shard_id is non-empty,
+     * trySpeculativeGeneration() will POST draft-token requests to the remote
+     * shard before falling back to the locally registered draft model.
+     *
+     * @param exec          Pointer to the executor.  Pass @c nullptr to detach.
+     *                      Ownership is NOT transferred.
+     * @param draft_shard   ShardInfo describing the remote draft shard's
+     *                      endpoint, shard_id, and health status.
+     */
+    void setRemoteExecutor(sharding::RemoteExecutor* exec,
+                           const sharding::ShardInfo& draft_shard);
     
 private:
     Config config_;
@@ -413,6 +484,22 @@ private:
     // Speculative decoding — one decoder per engine instance.
     // nullptr when enable_speculative_decoding == false.
     std::unique_ptr<SpeculativeDecoder> speculative_decoder_;
+
+    // Optional RemoteExecutor for cross-shard speculative draft dispatch.
+    // nullptr when setRemoteExecutor() has not been called.  Not owned.
+    sharding::RemoteExecutor* remote_executor_ = nullptr;
+    // ShardInfo for the remote draft shard (valid only when remote_executor_ != nullptr).
+    sharding::ShardInfo remote_draft_shard_info_;
+
+    // Lookup decoder (n-gram based, draft-model-free).
+    // nullptr when enable_lookup_decoding == false.
+    std::unique_ptr<LookupDecoder> lookup_decoder_;
+
+    // Optional adapter registry for DRAFT model auto-discovery.
+    // When set and speculative_draft_model_id is empty, the engine queries
+    // this registry via findDraftAdapterForFamily() to auto-select the draft
+    // model based on the target model's architecture/family.
+    std::shared_ptr<AdapterRegistry> adapter_registry_;
 
     // Content-based / metadata-tag model router (Phase 3).
     // Evaluated in selectModel() before load-balancing strategies.
@@ -517,6 +604,14 @@ private:
         std::shared_ptr<ILLMPlugin> draft_plugin,
         InferenceResponse&         response
     );
+
+    // Resolve the draft model ID for a given target model.
+    // Returns config_.speculative_draft_model_id when non-empty.
+    // Otherwise, if adapter_registry_ is set, queries it for a DRAFT adapter
+    // matching the target model's family (architecture field); returns the
+    // matching adapter_id when the corresponding model is registered, or
+    // an empty string when no suitable draft model is found.
+    std::string resolveDraftModelId(const std::string& target_model_id) const;
     
     // Helper methods
     std::string generateRequestId();

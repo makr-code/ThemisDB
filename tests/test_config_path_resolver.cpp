@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_config_path_resolver.cpp                      ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:25:41                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:53:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1426                                           ║
+    • Total Lines:     1448                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8aa77a0ee  2026-03-16  fix(config): atomic enabled_ flag + concurrency stress te... ║
-    • 535cee36d  2026-03-13  feat: export config metrics via Prometheus registry ║
-    • d38f9d8e2  2026-03-13  fix(config): fix broken AC-5 test; add AC-7 benchmark for... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b801c6da3  2026-02-28  feat(config): reject symlinks outside config root for abs... ║
+    • e5b103c366  2026-04-13  feat(config): Multi-Environment Config Overlay (dev/stagi... ║
+    • 8aa77a0ee1  2026-03-16  fix(config): atomic enabled_ flag + concurrency stress te... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -828,6 +825,31 @@ TEST_F(ConfigEnvOverlayTest, ResolveErrorMessageIncludesOverlayPathInDevEnv) {
         EXPECT_TRUE(found_overlay)
             << "ConfigNotFoundException should list the dev overlay path as attempted";
     }
+}
+
+TEST_F(ConfigEnvOverlayTest, ThemisConfigEnvVariableDevSetsDevEnvironment) {
+    // Verify that setEnvironment(DEV) and getEnvironment() round-trip correctly,
+    // mirroring the behaviour expected from THEMIS_CONFIG_ENV=dev at startup.
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::DEV);
+    EXPECT_EQ(ConfigPathResolver::getEnvironment(), ConfigEnvironment::DEV);
+}
+
+TEST_F(ConfigEnvOverlayTest, ThemisConfigEnvVariableStagingSetsStagingEnvironment) {
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::STAGING);
+    EXPECT_EQ(ConfigPathResolver::getEnvironment(), ConfigEnvironment::STAGING);
+}
+
+TEST_F(ConfigEnvOverlayTest, ThemisConfigEnvVariableProdDefaultsToNoOverlay) {
+    // PROD is the default; verify that tryResolve() in PROD never probes an overlay directory.
+    createFile("config/ai_ml/lora_training_config.yaml");      // new path
+    createFile("config/prod/ai_ml/lora_training_config.yaml"); // prod overlay must NOT be used
+
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::PROD);
+    auto result = ConfigPathResolver::tryResolve("config/lora_training_config.yaml");
+
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result.value(), "config/ai_ml/lora_training_config.yaml")
+        << "THEMIS_CONFIG_ENV=prod (default) must not use any overlay directory";
 }
 
 // Legacy Fallback Rate Threshold Tests

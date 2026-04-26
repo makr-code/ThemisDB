@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metadata_shard.cpp                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:17                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     690                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -387,7 +384,7 @@ void MetadataShard::subscribe(
 }
 
 std::string MetadataShard::determineShardOwner(
-    MetadataPartitionKey partition,
+    [[maybe_unused]] MetadataPartitionKey partition,
     const std::string& key
 ) const {
     // Simple hash-based sharding
@@ -558,7 +555,7 @@ nlohmann::json MetadataShardRouter::getStatistics() const {
 }
 
 std::string MetadataShardRouter::routeToShard(
-    MetadataPartitionKey partition,
+    [[maybe_unused]] MetadataPartitionKey partition,
     const std::string& key
 ) const {
     size_t hash = hashKey(key);
@@ -659,7 +656,7 @@ bool MetadataShard::recoverFromWAL() {
                 
                 storage_[entry.partition][entry.key] = metadata_entry;
                 
-            } else if (entry.type == MetadataWALEntryType::DELETE) {
+            } else if (entry.type == MetadataWALEntryType::DELETE_OP) {
                 auto partition_it = storage_.find(entry.partition);
                 if (partition_it != storage_.end()) {
                     partition_it->second.erase(entry.key);

@@ -1,3 +1,7 @@
+> **Design-Hinweis:** API-Kontrakte und Schnittstellen gegen aktuellen Sourcecode verifizieren.
+
+> **Historischer Stand:** 2026-04-19
+
 # Multi-Model Visual Query Builder - Design Document
 
 ## Executive Summary

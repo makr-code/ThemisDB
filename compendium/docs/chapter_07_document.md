@@ -1321,3 +1321,97 @@ Event-System mit:
 - `examples/11_blog_wiki` - Vollständiges CMS
 - `examples/13_recipe_manager` - Recipe-System
 - Beide mit Schema-Evolution und Nested Data
+
+---
+
+## 7.10 Content Module — Multi-Format-Ingest-Pipeline (v1.x)
+
+Das Content-Modul (`include/content/`, `src/content/`) implementiert eine vollständige Multi-Format-Ingest-Pipeline: MIME-Erkennung, Text-Extraktion, Chunking, Embedding-Generierung, perceptuale Deduplizierung, Sprach-Erkennung und LLM-augmentierte Inhaltsanalyse.
+
+### 7.10.1 ContentManager — Haupt-API
+
+```cpp
+#include "content/content_manager.h"
+
+// Konstruktor
+auto content_mgr = std::make_shared<themis::ContentManager>(
+    storage, vector_index, graph_index, secondary_index
+);
+
+// ── Raw-Blob ingesten (automatische Typ-Erkennung) ─────────────────────
+auto result = content_mgr->ingestRawBlob(
+    blob_bytes,             // std::string mit Binärinhalt
+    "bauantrag.pdf",        // Dateiname (für Typ-Erkennung)
+    "application/pdf",      // optionaler MIME-Hint
+    "user:mustermax"        // User-Kontext (für Verschlüsselung)
+);
+// result.success, result.primary_content_id
+// result.extracted_content_ids  (für Archive: alle extrahierten Dateien)
+// result.stage_outcomes          pro Pipeline-Stufe (extraction, chunking, embedding)
+
+// ── Vorverarbeiteten Inhalt importieren ────────────────────────────────
+content_mgr->importContent(
+    json_spec,     // {"content":{...}, "chunks":[...], "edges":[...]}
+    blob_optional  // optionaler Binärblob
+);
+
+// ── LLM-augmentierte Analyse ───────────────────────────────────────────
+auto analysis = content_mgr->analyzeContent(content_id);
+// analysis: {"summary":"...", "topics":["..."], "sentiment":"positive",
+//            "category":"legal", "language":"de"}
+```
+
+### 7.10.2 Unterstützte Formate und Prozessoren
+
+| Format | Klasse | Beschreibung |
+|--------|--------|-------------|
+| PDF | `PdfProcessor` | Text-Extraktion via poppler-cpp |
+| DOCX/XLSX/PPTX | `OfficeProcessor` | OOXML/ODF via libzip+pugixml |
+| DOC/XLS/PPT (Legacy) | `OfficeProcessor` | LibreOffice-Headless-Fallback |
+| HTML | `HtmlProcessor` | Boilerplate-Entfernung |
+| Markdown | `MarkdownProcessor` | Frontmatter-Parsing |
+| Audio | `AudioProcessor` + `SttProcessor` | Metadaten + Whisper-Transkription |
+| TTS | `TtsProcessor` | Text-zu-Sprache-Generierung |
+| Video | `VideoProcessor` | Metadaten-Extraktion |
+| Bilder | `OcrProcessor` | OCR via Tesseract |
+| Archive | `ArchiveProcessor` | Rekursive Extraktion + Graph-Relationen |
+
+### 7.10.3 Deduplizierung und Sprach-Erkennung
+
+```cpp
+#include "content/deduplication_checker.h"
+#include "content/language_detector.h"
+
+// Perceptuale Deduplizierung
+themis::ContentDuplicationChecker dedup;
+
+// Bilder: pHash (perceptual Hash) — tolerant gegenüber Kompression/Resize
+bool is_dup_img = dedup.isImageDuplicate(image_blob, /*threshold=*/10);
+
+// Texte: MinHash + LSH (Locality Sensitive Hashing) — Jaccard-Ähnlichkeit
+bool is_dup_txt = dedup.isTextDuplicate(text, /*threshold=*/0.85);
+
+// Sprach-Erkennung
+themis::LanguageDetector lang;
+auto detected = lang.detect(text);
+// detected.language: "de" | "en" | ...
+// detected.confidence: 0.0–1.0
+```
+
+### 7.10.4 Ingest-Pipeline-Stufen
+
+```
+ingestRawBlob()
+  │
+  ├── 1. MIME-Erkennung     → ContentTypeRegistry
+  ├── 2. Archiv-Check       → ArchiveProcessor (recursive für ZIP/TAR/...)
+  ├── 3. Typ-spez. Extract  → PdfProcessor / OfficeProcessor / HtmlProcessor / ...
+  ├── 4. OCR (optional)     → OcrProcessor (Tesseract, für Bild-PDFs)
+  ├── 5. Chunking           → konfigurierbare Chunk-Größe + Overlap
+  ├── 6. Embedding          → EmbeddingPipeline → VectorIndexManager
+  ├── 7. Deduplizierung     → pHash (Bilder) / MinHash+LSH (Texte)
+  ├── 8. Sprach-Erkennung   → LanguageDetector
+  ├── 9. Graph-Relationen   → GraphIndexManager (für Archive: Parent→Child)
+  └── 10. LLM-Analyse       → ContentManagerLlm (async, optional)
+       → summary, topics, sentiment, category
+```

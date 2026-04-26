@@ -3,26 +3,25 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            branch_api_handler.h                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:03                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     120                                            ║
+    • Total Lines:     117                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5067f4acd  2026-02-23  feat(transaction): implement branch merge conflict resolu... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_BRANCH_API_HANDLER_H
-#define THEMIS_BRANCH_API_HANDLER_H
+#pragma once
 
 #include "transaction/branch_manager.h"
 #include <httplib.h>
@@ -116,5 +115,3 @@ private:
 
 } // namespace server
 } // namespace themis
-
-#endif // THEMIS_BRANCH_API_HANDLER_H

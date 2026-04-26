@@ -3,25 +3,26 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            timeseries.h                                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:22                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     172                                            ║
+    • Total Lines:     173                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 3043a1a008  2026-04-12  docs(perf): aktualisiere Performance-Erwartungswerte und ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_TIMESERIES_H
-#define THEMIS_TIMESERIES_H
+#pragma once
 
 #include <string>
 #include <string_view>
@@ -156,6 +157,8 @@ public:
 private:
     rocksdb::TransactionDB* db_;
     rocksdb::ColumnFamilyHandle* cf_;
+
+  rocksdb::ColumnFamilyHandle* resolveColumnFamily() const;
     
     static constexpr const char* KEY_PREFIX = "ts:";
     
@@ -168,5 +171,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_TIMESERIES_H

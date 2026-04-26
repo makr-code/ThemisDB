@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_v2.hpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:19                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     364                                            ║
+    • Total Lines:     361                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • bb451d1e6  2026-03-15  fix(themis): complete Wire Protocol V2 priority/dependenc... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 33cc1ed9f  2026-02-28  fix: pass decompressed payload to data_handler in V2 DATA... ║
-    • c3655c7e6  2026-02-25  feat(network): implement LZ4 and Zstd connection-level co... ║
+    • bb451d1e6c  2026-03-15  fix(themis): complete Wire Protocol V2 priority/dependenc... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

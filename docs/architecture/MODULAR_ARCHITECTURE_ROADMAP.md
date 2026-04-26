@@ -787,7 +787,7 @@ If critical issues arise during refactoring:
 - [CMAKE_MODULAR_ARCHITECTURE.md](CMAKE_MODULAR_ARCHITECTURE.md) - Target architecture description
 - [FEATURE_FLAGS_REFERENCE.md](FEATURE_FLAGS_REFERENCE.md) - Feature flag documentation
 - [MIGRATION_GUIDE_v13_v14.md](MIGRATION_GUIDE_v13_v14.md) - Previous migration guide
-- [DOCUMENTATION_SOURCE_CODE_GAP_ANALYSIS.md](../DOCUMENTATION_SOURCE_CODE_GAP_ANALYSIS.md) - Gap analysis that identified this issue
+- [DOCUMENTATION_SOURCE_CODE_GAP_ANALYSIS.md](../Audit/DOCUMENTATION_SOURCE_CODE_GAP_ANALYSIS.md) - Gap analysis that identified this issue
 
 ---
 
@@ -803,5 +803,5 @@ If critical issues arise during refactoring:
 ---
 
 **Document Maintainer:** ThemisDB Build System Team  
-**Last Updated:** 2026-01-12  
+**Last Updated:** 2026-04-06  
 **Next Review:** After Phase 1 completion

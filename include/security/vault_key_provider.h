@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vault_key_provider.h                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:10:59                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     213                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -52,10 +49,10 @@ namespace themis {
  *      version=1
  * 
  * 3. Create policy:
- *    path "themis/data/keys/*" {
+ *    path "themis/data/keys/{name}" {
  *      capabilities = ["read", "list"]
  *    }
- *    path "themis/metadata/keys/*" {
+ *    path "themis/metadata/keys/{name}" {
  *      capabilities = ["read", "list"]
  *    }
  * 

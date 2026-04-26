@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_lora_manager.h                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:35                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     945                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -327,6 +324,11 @@ public:
         size_t max_lora_vram_mb = 2048;  // 2 GB for all LoRAs
         size_t max_lora_slots = 16;      // Max concurrent LoRAs
         
+        // Trusted directory: LoRA files must reside under this path (F1-1/F1-2 fix).
+        // Defaults to an empty string which disables the check (legacy behaviour);
+        // production deployments must set this to the managed LoRA storage directory.
+        std::string lora_base_dir;
+
         // Cache policy
         std::chrono::seconds lora_ttl{1800};  // 30 min TTL
         bool enable_lazy_load = true;
@@ -903,6 +905,16 @@ private:
         bool quantize = false,
         GPUPlacement placement = GPUPlacement::SINGLE_GPU
     );
+
+    /**
+     * @brief Verify that @p lora_path is contained within the trusted
+     *        @c config_.lora_base_dir directory (F1-1/F1-2 fix).
+     *
+     * Returns true when the check passes or when @c config_.lora_base_dir is
+     * empty (legacy/unconfigured deployments).  Returns false when the path
+     * escapes the base directory; callers must reject the request in that case.
+     */
+    bool isLoRAPathTrusted(const std::string& lora_path) const;
     
     // Background eviction worker
     void evictionWorker();

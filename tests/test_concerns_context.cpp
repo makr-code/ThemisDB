@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_concerns_context.cpp                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:25:35                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:53:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   86.0/100                                       ║
-    • Total Lines:     1932                                           ║
+    • Total Lines:     1929                                           ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c24f94c9c  2026-03-22  feat(cmake): add join_exporter to THEMIS_CORE_SOURCES and... ║
-    • 090f93ef2  2026-03-22  feat(core): implement InMemorySecrets and EnvSecretsProvi... ║
-    • 30309f5df  2026-03-09  fix(core): rename misleading test name per code review ║
-    • 50ae658f6  2026-03-09  feat(core): implement dynamic log level adjustment and au... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • c24f94c9c6  2026-03-22  feat(cmake): add join_exporter to THEMIS_CORE_SOURCES and... ║
+    • 090f93ef21  2026-03-22  feat(core): implement InMemorySecrets and EnvSecretsProvi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

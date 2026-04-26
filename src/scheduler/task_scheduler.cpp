@@ -3,22 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_scheduler.cpp                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:15                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     2696                                           ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     2867                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 5e4a201cc  2026-03-21  docs(scheduler): update FUTURE_ENHANCEMENTS, CHANGELOG, R... ║
-    • c8aa40193  2026-03-15  feat(scheduler): propagate authenticated user context to ... ║
-    • 592b54382  2026-03-15  fix(scheduler,acceleration): remove stale TODOs, add VLLM... ║
-    • c97360e57  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
-    • 646fb7bd6  2026-03-10  feat(scheduler): build-system audit – register sources, a... ║
+    • 649f5c7538  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 7e8c588d0f  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -79,21 +78,39 @@ namespace {
 struct TLSRequestContext {
     std::string user_id;
     std::string client_ip;
+    std::unordered_set<std::string> granted_permissions;
+    std::unordered_set<std::string> roles;
+    std::string authorization_justification;
     bool set = false;
 };
+
+constexpr const char* kAdminRole = "admin";
+constexpr const char* kSystemAdminRole = "system_admin";
+std::atomic<bool> g_warned_missing_permission_context{false};
+std::atomic<bool> g_warned_missing_role_context{false};
+
+bool hasSuperuserRole(const std::unordered_set<std::string>& roles) {
+    return roles.count(kAdminRole) > 0 || roles.count(kSystemAdminRole) > 0;
+}
 } // anonymous namespace
 
 static thread_local TLSRequestContext tls_request_ctx;
 
 void TaskScheduler::setRequestContext(const RequestContext& ctx) noexcept {
-    tls_request_ctx.user_id  = ctx.user_id;
+    tls_request_ctx.user_id = ctx.user_id;
     tls_request_ctx.client_ip = ctx.client_ip;
-    tls_request_ctx.set      = true;
+    tls_request_ctx.granted_permissions = ctx.granted_permissions;
+    tls_request_ctx.roles = ctx.roles;
+    tls_request_ctx.authorization_justification = ctx.authorization_justification;
+    tls_request_ctx.set = true;
 }
 
 void TaskScheduler::clearRequestContext() noexcept {
     tls_request_ctx.user_id.clear();
     tls_request_ctx.client_ip.clear();
+    tls_request_ctx.granted_permissions.clear();
+    tls_request_ctx.roles.clear();
+    tls_request_ctx.authorization_justification.clear();
     tls_request_ctx.set = false;
 }
 
@@ -109,6 +126,40 @@ std::string TaskScheduler::currentClientIp() noexcept {
         return tls_request_ctx.client_ip;
     }
     return {};
+}
+
+bool TaskScheduler::hasPermission(const std::string& permission) noexcept {
+    if (!tls_request_ctx.set) {
+        if (!g_warned_missing_permission_context.exchange(true)) {
+            THEMIS_WARN(
+                "TaskScheduler::hasPermission fallback allow without request context (permission='{}'). Configure RequestContext in security-sensitive entry points.",
+                permission);
+        }
+        // Backward-compatible fallback for trusted in-process calls.
+        return true;
+    }
+    return tls_request_ctx.granted_permissions.count(permission) > 0 ||
+           hasSuperuserRole(tls_request_ctx.roles);
+}
+
+bool TaskScheduler::hasRole(const std::string& role) noexcept {
+    if (!tls_request_ctx.set) {
+        if (!g_warned_missing_role_context.exchange(true)) {
+            THEMIS_WARN(
+                "TaskScheduler::hasRole fallback allow without request context (role='{}'). Configure RequestContext in security-sensitive entry points.",
+                role);
+        }
+        // Backward-compatible fallback for trusted in-process calls.
+        return true;
+    }
+    return tls_request_ctx.roles.count(role) > 0 || hasSuperuserRole(tls_request_ctx.roles);
+}
+
+std::string TaskScheduler::currentAuthorizationJustification(const char* fallback) noexcept {
+    if (tls_request_ctx.set && !tls_request_ctx.authorization_justification.empty()) {
+        return tls_request_ctx.authorization_justification;
+    }
+    return fallback ? fallback : "";
 }
 
 // ---------------------------------------------------------------------------
@@ -128,6 +179,49 @@ static void setDefaultAuditContext(scheduler::TaskSecurityEvent& event) {
     event.user_id    = TaskScheduler::currentUserId(DEFAULT_AUDIT_USER);
     const auto ip    = TaskScheduler::currentClientIp();
     event.ip_address = ip.empty() ? DEFAULT_AUDIT_IP : ip;
+}
+
+static void logUnauthorizedPermissionAttempt(
+    const std::shared_ptr<scheduler::TaskAuditManager>& audit_manager,
+    const std::string& task_id,
+    const std::string& task_name,
+    const std::string& required_permission,
+    const std::string& operation,
+    const std::string& reason)
+{
+    THEMIS_WARN(
+        "Unauthorized scheduler operation denied: op='{}' task_id='{}' task_name='{}' user='{}' permission='{}' reason='{}' justification='{}'",
+        operation,
+        task_id,
+        task_name,
+        TaskScheduler::currentUserId(DEFAULT_AUDIT_USER),
+        required_permission,
+        reason,
+        TaskScheduler::currentAuthorizationJustification("none"));
+
+    if (!audit_manager) {
+        return;
+    }
+
+    scheduler::TaskSecurityEvent security_event;
+    security_event.uuid = scheduler::generateUUID();
+    security_event.timestamp = std::chrono::system_clock::now();
+    security_event.task_id = task_id;
+    security_event.task_name = task_name;
+    security_event.event_type = scheduler::TaskSecurityEventType::UNAUTHORIZED_ACCESS;
+    security_event.severity = "HIGH";
+    setDefaultAuditContext(security_event);
+    security_event.violation_type = "PERMISSION_DENIED";
+    security_event.description = "Scheduler permission check denied operation";
+    security_event.details = {
+        {"operation", operation},
+        {"required_permission", required_permission},
+        {"reason", reason},
+        {"justification", TaskScheduler::currentAuthorizationJustification("none")}
+    };
+    security_event.blocked = true;
+    security_event.action_taken = "operation_blocked";
+    audit_manager->logSecurityEvent(security_event);
 }
 
 // Helper function to convert trigger type to string
@@ -233,6 +327,70 @@ ScheduledTask::RetryPolicy effectiveRetryPolicy(const ScheduledTask& task) {
     p.max_delay      = std::chrono::milliseconds{30000};
     p.backoff_multiplier = 2.0;
     return p;
+}
+
+/**
+ * @brief Apply SLO-based retry adaptation to a computed delay and max-attempts.
+ *
+ * When the task has both an SloRetryConfig and an sla_deadline, this function:
+ *  - Clamps @p delay_ms to the remaining SLA budget fraction.
+ *  - Returns false (skip retry) if no SLA budget remains.
+ *  - Reduces @p effective_max_retries to min_retries_under_pressure when the
+ *    rolling SLO compliance rate (tracked on the task) is below the threshold.
+ *
+ * @param task               The scheduled task (provides sla_deadline and SLO state).
+ * @param elapsed_ms         Time already spent since task execution began (ms).
+ * @param delay_ms           [in/out] Computed retry delay – may be clamped.
+ * @param effective_max_retries [in/out] Max attempts – may be clamped.
+ * @return true  – retry is permitted (possibly with an adjusted delay).
+ * @return false – retry should be skipped (SLA budget exhausted).
+ */
+bool applySloAdaptation(const ScheduledTask& task,
+                        double elapsed_ms,
+                        double& delay_ms,
+                        size_t& effective_max_retries) {
+    // No adaptation without both an SloRetryConfig and a deadline.
+    if (!task.slo_retry_config.has_value() || !task.sla_deadline.has_value()) {
+        return true;
+    }
+    const auto& slo = *task.slo_retry_config;
+    if (!slo.slo_aware) {
+        return true;
+    }
+
+    const double deadline_ms = static_cast<double>(task.sla_deadline->count());
+
+    // 1. If SLA budget is already exhausted, skip further retries.
+    if (elapsed_ms >= deadline_ms) {
+        return false;
+    }
+
+    // 2. Clamp retry delay to the remaining SLA budget fraction.
+    const double budget_ms = deadline_ms * slo.slo_budget_fraction;
+    const double remaining_budget_ms = budget_ms - elapsed_ms;
+    if (remaining_budget_ms <= 0.0) {
+        return false;  // Budget spent; do not retry
+    }
+    if (delay_ms > remaining_budget_ms) {
+        delay_ms = remaining_budget_ms;
+    }
+    if (delay_ms < 0.0) {
+        delay_ms = 0.0;
+    }
+
+    // 3. Reduce max retries when SLO compliance is below threshold.
+    if (slo.slo_history_window > 0 && task.slo_window_count >= slo.slo_history_window) {
+        const double compliance =
+            1.0 - (static_cast<double>(task.slo_violations) /
+                   static_cast<double>(task.slo_window_count));
+        if (compliance < slo.slo_compliance_threshold) {
+            if (effective_max_retries > 1 + slo.min_retries_under_pressure) {
+                effective_max_retries = 1 + slo.min_retries_under_pressure;
+            }
+        }
+    }
+
+    return true;
 }
 
 } // anonymous namespace
@@ -419,7 +577,13 @@ void TaskScheduler::stop() {
 // ===== Task Management =====
 
 std::string TaskScheduler::registerTask(const ScheduledTask& task) {
-    // ⚠️ SECURITY: In production, add authentication/authorization checks here
+    if (!hasPermission("task:register")) {
+        const std::string reason = "missing permission 'task:register'";
+        logUnauthorizedPermissionAttempt(
+            audit_manager_, task.id, task.name, "task:register", "registerTask", reason);
+        throw std::runtime_error(
+            "Unauthorized: Missing required permission 'task:register' for registerTask");
+    }
     
     // Validate AQL query for SQL injection patterns
     if (task.type == ScheduledTask::TaskType::AQL_QUERY) {
@@ -441,12 +605,6 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
     
     // Sanitize task parameters
     auto sanitized_task = sanitizeTask(task);
-    
-    // Note: User permission checks should be added here when authentication
-    // system is integrated. Example:
-    // if (!auth_context || !auth_context->hasPermission("task:register")) {
-    //     throw std::runtime_error("Unauthorized: User lacks permission to register tasks");
-    // }
     
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     
@@ -632,7 +790,12 @@ void TaskScheduler::updateTask(const ScheduledTask& task) {
 // ===== Manual Execution =====
 
 nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
-    // ⚠️ SECURITY: In production, add authentication/authorization checks here
+    if (!hasPermission("task:execute")) {
+        const std::string reason = "missing permission 'task:execute'";
+        logUnauthorizedPermissionAttempt(
+            audit_manager_, task_id, task_id, "task:execute", "executeTaskNow", reason);
+        return nlohmann::json{{"error", "Unauthorized: Missing required permission 'task:execute'"}};
+    }
     
     // Log execution attempt for audit trail
     THEMIS_INFO("Manual task execution requested: task_id={}", task_id);
@@ -642,14 +805,6 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
         THEMIS_WARN("Rate limit exceeded for task execution: task_id={}", task_id);
         return nlohmann::json{{"error", "Rate limit exceeded. Please try again later."}};
     }
-    
-    // Note: User permission verification should be added here when authentication
-    // system is integrated. Example:
-    // if (!auth_context || !auth_context->hasPermission("task:execute")) {
-    //     THEMIS_WARN("Unauthorized task execution attempt: task_id={}, user={}", 
-    //                 task_id, auth_context ? auth_context->user_id : "unknown");
-    //     return nlohmann::json{{"error", "Unauthorized: User lacks permission to execute tasks"}};
-    // }
     
     auto span = Tracer::startSpan("TaskScheduler.executeTaskNow");
     span.setAttribute("task_id", task_id);
@@ -684,9 +839,10 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
 
     // Execute synchronously with retry logic (same as scheduled execution)
     const ScheduledTask::RetryPolicy policy = effectiveRetryPolicy(*task);
-    const size_t max_attempts = (policy.strategy == ScheduledTask::RetryStrategy::NONE)
-                                    ? 1
-                                    : 1 + policy.max_retries;
+    const size_t base_max_attempts = (policy.strategy == ScheduledTask::RetryStrategy::NONE)
+                                         ? 1
+                                         : 1 + policy.max_retries;
+    size_t max_attempts = base_max_attempts;  // may be clamped by SLO adaptation
     std::string last_error;
     bool succeeded = false;
     nlohmann::json result;
@@ -694,12 +850,30 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
 
     for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
         if (attempt > 0) {
-            auto delay = computeRetryDelay(policy, attempt - 1);
+            double delay_ms = static_cast<double>(computeRetryDelay(policy, attempt - 1).count());
+
+            // SLO-based adaptive retry for manual execution
+            {
+                auto now_elapsed = std::chrono::steady_clock::now();
+                double elapsed_so_far =
+                    std::chrono::duration<double, std::milli>(now_elapsed - start_time).count();
+                if (!applySloAdaptation(*task, elapsed_so_far, delay_ms, max_attempts)) {
+                    THEMIS_INFO("executeTaskNow: task {} SLO budget exhausted after {:.0f}ms; "
+                                "skipping retries",
+                                task_id, elapsed_so_far);
+                    break;
+                }
+            }
+
             THEMIS_INFO("executeTaskNow: retrying task {} (attempt {}/{}) after {}ms "
                         "[strategy={}]",
-                        task_id, attempt + 1, max_attempts, delay.count(),
+                        task_id, attempt + 1, max_attempts,
+                        static_cast<int64_t>(delay_ms),
                         static_cast<int>(policy.strategy));
-            std::this_thread::sleep_for(delay);
+            if (delay_ms > 0.0) {
+                std::this_thread::sleep_for(
+                    std::chrono::milliseconds(static_cast<int64_t>(delay_ms)));
+            }
         }
 
         ++attempts_made;
@@ -770,7 +944,28 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
         fireTaskSlaBreachAlert(*task, elapsed_ms);
     }
 
-    // Persist execution result to ThemisDB (if result store is enabled)
+    // SLO compliance tracking (Phase 5: SLO-based adaptive retry).
+    if (task->slo_retry_config.has_value() && task->sla_deadline.has_value()) {
+        const auto& slo = *task->slo_retry_config;
+        if (slo.slo_aware && slo.slo_history_window > 0) {
+            const bool violated = elapsed_ms >
+                static_cast<double>(task->sla_deadline->count());
+            if (task->slo_window_count >= slo.slo_history_window) {
+                const double ratio =
+                    static_cast<double>(task->slo_violations) /
+                    static_cast<double>(task->slo_window_count);
+                task->slo_window_count  = slo.slo_history_window / 2;
+                task->slo_violations    =
+                    static_cast<size_t>(ratio * static_cast<double>(task->slo_window_count));
+            }
+            ++task->slo_window_count;
+            if (violated) {
+                ++task->slo_violations;
+            }
+        }
+    }
+
+
     if (result_store_) {
         scheduler::TaskExecutionResult exec_result;
         exec_result.task_id      = task->id;
@@ -798,9 +993,7 @@ std::vector<std::string> TaskScheduler::topologicalSort(
         in_degree[id] = 0;
     }
     for (const auto& [id, deps] : adj) {
-        for (const auto& dep : deps) {
-            in_degree[id]++;  // 'id' depends on 'dep', so it has higher in-degree
-        }
+        in_degree[id] += static_cast<int>(deps.size());
     }
 
     // Queue nodes with no dependencies
@@ -848,6 +1041,13 @@ std::vector<std::string> TaskScheduler::topologicalSort(
 TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
     const std::vector<std::string>& task_ids)
 {
+    if (!hasPermission("task:execute")) {
+        const std::string reason = "missing permission 'task:execute'";
+        logUnauthorizedPermissionAttempt(
+            audit_manager_, "<dag>", "<dag>", "task:execute", "executeDAG", reason);
+        throw std::runtime_error("Unauthorized: Missing required permission 'task:execute'");
+    }
+
     if (task_ids.empty()) {
         return {};
     }
@@ -1175,19 +1375,18 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
 // ===== Function Registration =====
 
 void TaskScheduler::registerFunction(const std::string& name, TaskFunction func) {
-    // ⚠️ SECURITY CRITICAL: This allows arbitrary code execution
-    
-    // Audit log all function registrations
+    // ⚠️ SECURITY CRITICAL: This allows arbitrary code execution.
+    if (!hasPermission("task:register_function") || !hasRole("system_admin")) {
+        const std::string reason = !hasPermission("task:register_function")
+            ? "missing permission 'task:register_function'"
+            : "missing role 'system_admin'";
+        logUnauthorizedPermissionAttempt(
+            audit_manager_, name, name, "task:register_function", "registerFunction", reason);
+        throw std::runtime_error(
+            "Unauthorized: Missing 'task:register_function' permission and/or 'system_admin' role");
+    }
+
     THEMIS_INFO("Function registration attempt: name={}", name);
-    
-    // Note: Strict access controls should be enforced here when authentication
-    // system is integrated. Example:
-    // if (!auth_context || !auth_context->hasPermission("task:register_function") || 
-    //     !auth_context->hasRole("system_admin")) {
-    //     THEMIS_ERROR("Unauthorized function registration attempt: name={}, user={}", 
-    //                  name, auth_context ? auth_context->user_id : "unknown");
-    //     throw std::runtime_error("Unauthorized: Only system administrators can register functions");
-    // }
     
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     functions_[name] = func;
@@ -1203,18 +1402,16 @@ void TaskScheduler::unregisterFunction(const std::string& name) {
 // ===== Statistics =====
 
 TaskScheduler::Stats TaskScheduler::getStats() const {
-    std::lock_guard<std::mutex> lock(tasks_mutex_);
+    // Acquire both locks atomically (canonical order tasks < running) to avoid
+    // inversion against threads that acquire running_mutex_ alone.
+    std::scoped_lock lock(tasks_mutex_, running_mutex_);
     
     Stats stats;
     stats.registered_tasks = tasks_.size();
     stats.active_tasks = std::count_if(tasks_.begin(), tasks_.end(),
         [](const auto& pair) { return pair.second->enabled; });
     
-    {
-        std::lock_guard<std::mutex> running_lock(running_mutex_);
-        stats.running_tasks = running_task_threads_.size();
-    }
-    
+    stats.running_tasks = running_task_threads_.size();
     stats.total_executions = total_executions_.load();
     stats.failed_executions = failed_executions_.load();
     stats.last_run = last_run_;
@@ -1247,22 +1444,18 @@ std::string TaskScheduler::exportMetrics() const {
     size_t total_exec, failed_exec;
     std::vector<ScheduledTask> task_snapshot;
 
-    {
-        std::lock_guard<std::mutex> lock(tasks_mutex_);
-        registered_tasks = tasks_.size();
-        active_tasks = std::count_if(tasks_.begin(), tasks_.end(),
-                                     [](const auto& p) { return p.second->enabled; });
-        {
-            std::lock_guard<std::mutex> rlock(running_mutex_);
-            running_tasks = running_task_threads_.size();
-        }
-        total_exec   = total_executions_.load();
-        failed_exec  = failed_executions_.load();
+    // Acquire both locks atomically (canonical order tasks < running).
+    std::scoped_lock lock(tasks_mutex_, running_mutex_);
+    registered_tasks = tasks_.size();
+    active_tasks = std::count_if(tasks_.begin(), tasks_.end(),
+                                 [](const auto& p) { return p.second->enabled; });
+    running_tasks = running_task_threads_.size();
+    total_exec   = total_executions_.load();
+    failed_exec  = failed_executions_.load();
 
-        task_snapshot.reserve(tasks_.size());
-        for (const auto& [id, task] : tasks_) {
-            task_snapshot.push_back(*task);
-        }
+    task_snapshot.reserve(tasks_.size());
+    for (const auto& [id, task] : tasks_) {
+        task_snapshot.push_back(*task);
     }
 
     // ── Scheduler-level gauges ────────────────────────────────────────────
@@ -1543,9 +1736,10 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
 
     // Retry loop with strategy-based backoff (RetryPolicy)
     const ScheduledTask::RetryPolicy policy = effectiveRetryPolicy(*task);
-    const size_t max_attempts = (policy.strategy == ScheduledTask::RetryStrategy::NONE)
-                                    ? 1
-                                    : 1 + policy.max_retries;
+    const size_t base_max_attempts = (policy.strategy == ScheduledTask::RetryStrategy::NONE)
+                                         ? 1
+                                         : 1 + policy.max_retries;
+    size_t max_attempts = base_max_attempts;  // may be clamped by SLO adaptation
     std::string last_error;
     bool succeeded = false;
     nlohmann::json result;
@@ -1559,13 +1753,31 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
 
         // Compute and apply delay before each retry (not before the first attempt)
         if (attempt > 0) {
-            auto delay = computeRetryDelay(policy, attempt - 1);
+            double delay_ms = static_cast<double>(computeRetryDelay(policy, attempt - 1).count());
+
+            // SLO-based adaptive retry: clamp delay / skip retry if budget exhausted.
+            {
+                auto now_elapsed = std::chrono::steady_clock::now();
+                double elapsed_so_far =
+                    std::chrono::duration<double, std::milli>(now_elapsed - start).count();
+                if (!applySloAdaptation(*task, elapsed_so_far, delay_ms, max_attempts)) {
+                    THEMIS_INFO("Task {} SLO budget exhausted after {:.0f}ms; "
+                                "skipping {} remaining retries",
+                                task->id, elapsed_so_far,
+                                max_attempts - attempt);
+                    break;
+                }
+            }
 
             THEMIS_INFO("Retrying task {} (attempt {}/{}) after {}ms [strategy={}]",
-                        task->id, attempt + 1, max_attempts, delay.count(),
+                        task->id, attempt + 1, max_attempts,
+                        static_cast<int64_t>(delay_ms),
                         static_cast<int>(policy.strategy));
 
-            std::this_thread::sleep_for(delay);
+            if (delay_ms > 0.0) {
+                std::this_thread::sleep_for(
+                    std::chrono::milliseconds(static_cast<int64_t>(delay_ms)));
+            }
             if (!running_.load()) break;
         }
 
@@ -1732,6 +1944,30 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         fireTaskSlaBreachAlert(*task, elapsed_ms);
     }
 
+    // SLO compliance tracking (Phase 5: SLO-based adaptive retry).
+    // Track SLA violations in a rolling window so applySloAdaptation() can
+    // reduce retry attempts when the compliance rate drops below threshold.
+    if (task->slo_retry_config.has_value() && task->sla_deadline.has_value()) {
+        const auto& slo = *task->slo_retry_config;
+        if (slo.slo_aware && slo.slo_history_window > 0) {
+            const bool violated = elapsed_ms >
+                static_cast<double>(task->sla_deadline->count());
+            // Slide the window when it fills up: reset counters proportionally.
+            if (task->slo_window_count >= slo.slo_history_window) {
+                const double ratio =
+                    static_cast<double>(task->slo_violations) /
+                    static_cast<double>(task->slo_window_count);
+                task->slo_window_count  = slo.slo_history_window / 2;
+                task->slo_violations    =
+                    static_cast<size_t>(ratio * static_cast<double>(task->slo_window_count));
+            }
+            ++task->slo_window_count;
+            if (violated) {
+                ++task->slo_violations;
+            }
+        }
+    }
+
     // Persist execution result to ThemisDB (if result store is enabled)
     if (result_store_) {
         scheduler::TaskExecutionResult exec_result;
@@ -1744,7 +1980,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         exec_result.error        = succeeded ? "" : last_error;
         result_store_->store(exec_result);
     }
-    
+
     task->running = false;
 }
 
@@ -1901,6 +2137,21 @@ void TaskScheduler::saveTasks() {
             task_json["max_retries"] = task->max_retries;
         }
 
+        // Save SLO-based adaptive retry config (Phase 5)
+        if (task->slo_retry_config) {
+            const auto& slo = *task->slo_retry_config;
+            nlohmann::json slo_json;
+            slo_json["slo_aware"]                   = slo.slo_aware;
+            slo_json["slo_budget_fraction"]          = slo.slo_budget_fraction;
+            slo_json["slo_compliance_threshold"]     = slo.slo_compliance_threshold;
+            slo_json["min_retries_under_pressure"]   = slo.min_retries_under_pressure;
+            slo_json["slo_history_window"]           = slo.slo_history_window;
+            task_json["slo_retry_config"] = slo_json;
+        }
+        // Persist SLO compliance counters so the window survives restarts
+        task_json["slo_violations"]    = task->slo_violations;
+        task_json["slo_window_count"]  = task->slo_window_count;
+
         // Save dependency list
         task_json["dependencies"] = task->dependencies;
         
@@ -2015,6 +2266,21 @@ void TaskScheduler::loadTasks() {
             } else {
                 task.max_retries = task_json.value("max_retries", size_t{3});
             }
+
+            // Restore SLO-based adaptive retry config (Phase 5)
+            if (task_json.contains("slo_retry_config")) {
+                const auto& slo_json = task_json["slo_retry_config"];
+                ScheduledTask::SloRetryConfig slo;
+                slo.slo_aware                 = slo_json.value("slo_aware", true);
+                slo.slo_budget_fraction       = slo_json.value("slo_budget_fraction", 0.5);
+                slo.slo_compliance_threshold  = slo_json.value("slo_compliance_threshold", 0.8);
+                slo.min_retries_under_pressure = slo_json.value("min_retries_under_pressure", size_t{1});
+                slo.slo_history_window        = slo_json.value("slo_history_window", size_t{20});
+                task.slo_retry_config = slo;
+            }
+            // Restore SLO compliance counters
+            task.slo_violations   = task_json.value("slo_violations",   size_t{0});
+            task.slo_window_count = task_json.value("slo_window_count", size_t{0});
 
             // Restore dependency list (backward-compatible: absent = no deps)
             if (task_json.contains("dependencies")) {
@@ -2509,12 +2775,12 @@ std::optional<scheduler::TaskExecutionResult> TaskScheduler::getLatestTaskResult
 // ===== Alertmanager Integration =====
 
 void TaskScheduler::setAlertmanager(std::shared_ptr<observability::Alertmanager> alertmanager) {
-    std::lock_guard<std::mutex> lock(alert_mutex_);
+    std::unique_lock<std::shared_mutex> lock(alert_mutex_);
     alertmanager_ = std::move(alertmanager);
 }
 
 std::shared_ptr<observability::Alertmanager> TaskScheduler::getAlertmanager() const {
-    std::lock_guard<std::mutex> lock(alert_mutex_);
+    std::shared_lock<std::shared_mutex> lock(alert_mutex_);
     return alertmanager_;
 }
 
@@ -2528,7 +2794,7 @@ void TaskScheduler::fireTaskFailureAlert(const ScheduledTask& task, const std::s
     // before calling sendAlert() to avoid holding the mutex during potentially blocking I/O.
     std::shared_ptr<observability::Alertmanager> am;
     {
-        std::lock_guard<std::mutex> lock(alert_mutex_);
+        std::unique_lock<std::shared_mutex> lock(alert_mutex_);
         am = alertmanager_;
     }
     if (!am) {
@@ -2559,7 +2825,7 @@ void TaskScheduler::fireTaskFailureAlert(const ScheduledTask& task, const std::s
     // sendAlert() may involve network I/O; called outside the lock
     auto result = am->sendAlert(alert);
     if (result) {
-        std::lock_guard<std::mutex> lock(alert_mutex_);
+        std::unique_lock<std::shared_mutex> lock(alert_mutex_);
         active_failure_alert_ids_[task.id] = alert_id;
         THEMIS_WARN("Task failure alert fired for task {} ({}): {}", task.id, task.name, error);
     } else {
@@ -2577,7 +2843,7 @@ void TaskScheduler::fireTaskSlaBreachAlert(const ScheduledTask& task, double ela
     // before calling sendAlert() to avoid holding the mutex during potentially blocking I/O.
     std::shared_ptr<observability::Alertmanager> am;
     {
-        std::lock_guard<std::mutex> lock(alert_mutex_);
+        std::unique_lock<std::shared_mutex> lock(alert_mutex_);
         am = alertmanager_;
     }
     if (!am) {
@@ -2625,7 +2891,7 @@ void TaskScheduler::resolveTaskFailureAlert(const std::string& task_id) {
     std::shared_ptr<observability::Alertmanager> am;
     std::string alert_id;
     {
-        std::lock_guard<std::mutex> lock(alert_mutex_);
+        std::unique_lock<std::shared_mutex> lock(alert_mutex_);
         if (!alertmanager_) {
             return;
         }

@@ -236,6 +236,6 @@ Interested in helping build GPU support? Here's how:
 
 ---
 
-**Last Updated**: February 2026  
+**Last Updated**:  April 2026
 **Status**: GPU support planned for v2.x series  
 **Contact**: File an issue on GitHub for questions

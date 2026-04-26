@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_llm_infrastructure.cpp                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:04:14                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:43:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   77.0/100                                       ║
-    • Total Lines:     198                                            ║
+    • Total Lines:     197                                            ║
     • Open Issues:     TODOs: 0, Stubs: 5                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 9c9ead9b4f  2026-04-09  Implement feature X to enhance user experience and optimi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -24,7 +23,7 @@
 #include <benchmark/benchmark.h>
 #include "llm/llama_resource_manager.h"
 #include "llm/sampling_strategy.h"
-#include "acceleration/backend_registry.h"
+#include "acceleration/compute_backend.h"
 
 using namespace themis::llm;
 using namespace themis::acceleration;

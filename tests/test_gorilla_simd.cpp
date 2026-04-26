@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gorilla_simd.cpp                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:27:20                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:54:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • b2d0e5638  2026-03-13  fix(gorilla_simd): remove dead code, fix logic bug, drop ... ║
-    • f151b2a1b  2026-03-13  feat(timeseries): vectorised Gorilla chunk decoder with S... ║
+    • b2d0e5638e  2026-03-13  fix(gorilla_simd): remove dead code, fix logic bug, drop ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -478,4 +477,28 @@ TEST_F(GorillaSIMDTest, VeryLargeDoubleValues) {
         pts.emplace_back(t0 + i * 1000, std::numeric_limits<double>::max() / i);
     auto bytes = encode(pts);
     expect_eq(decode_scalar(bytes), decode_simd(bytes), "VeryLargeValues");
+}
+
+TEST_F(GorillaSIMDTest, ParityPropertyRandomSeries1k) {
+    std::mt19937_64 rng(0xC0FFEE1234ULL);
+    std::uniform_int_distribution<int> length_dist(1, 256);
+    std::uniform_int_distribution<int64_t> dt_dist(1, 5000);
+    std::uniform_real_distribution<double> value_dist(-1e6, 1e6);
+
+    for (int series_idx = 0; series_idx < 1000; ++series_idx) {
+        const int len = length_dist(rng);
+        std::vector<std::pair<int64_t, double>> pts;
+        pts.reserve(static_cast<size_t>(len));
+
+        int64_t ts = 1700000000000LL + static_cast<int64_t>(series_idx) * 1000000LL;
+        for (int i = 0; i < len; ++i) {
+            ts += dt_dist(rng);
+            pts.emplace_back(ts, value_dist(rng));
+        }
+
+        const auto bytes = encode(pts);
+        const auto ref = decode_scalar(bytes);
+        const auto simd = decode_simd(bytes);
+        expect_eq(ref, simd, "ParityPropertyRandomSeries1k");
+    }
 }

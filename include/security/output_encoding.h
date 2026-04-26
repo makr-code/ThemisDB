@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            output_encoding.h                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:10:50                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     330                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -47,7 +44,7 @@ public:
      */
     static std::string encodeHTML(std::string_view input) {
         std::string output;
-        output.reserve(input.size() * 1.2);  // Reserve extra space for encoding
+        output.reserve(input.size() + input.size() / 5);  // Reserve ~20% extra space for encoding
         
         for (char c : input) {
             switch (c) {
@@ -74,7 +71,7 @@ public:
      */
     static std::string encodeJavaScript(std::string_view input) {
         std::string output;
-        output.reserve(input.size() * 1.2);
+        output.reserve(input.size() + input.size() / 5);
         
         for (unsigned char c : input) {
             switch (c) {
@@ -114,7 +111,7 @@ public:
      */
     static std::string encodeURL(std::string_view input) {
         std::string output;
-        output.reserve(input.size() * 1.2);
+        output.reserve(input.size() + input.size() / 5);
         
         const char* hex = "0123456789ABCDEF";
         
@@ -141,7 +138,7 @@ public:
      */
     static std::string encodeJSON(std::string_view input) {
         std::string output;
-        output.reserve(input.size() * 1.2);
+        output.reserve(input.size() + input.size() / 5);
         
         for (unsigned char c : input) {
             switch (c) {

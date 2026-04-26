@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            safe_fail.h                                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:14                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     198                                            ║
+    • Total Lines:     206                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -108,6 +109,13 @@ public:
     GPUSafeFail() = default;
     explicit GPUSafeFail(const Config& cfg);
     ~GPUSafeFail() = default;
+
+    /**
+     * @brief Reconfigure and reset internal state.
+     *
+     * Useful for module re-initialization when the type is non-assignable.
+     */
+    void reset(const Config& cfg);
 
     // -----------------------------------------------------------------------
     // Core API

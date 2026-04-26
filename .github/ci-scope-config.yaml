@@ -94,7 +94,7 @@ scopes:
       - 'README*'
       - 'CHANGELOG*'
       - 'LICENSE*'
-      - '.github/COPILOT_INSTRUCTIONS.md'
+      - '.github/copilot-instructions.md'
       - '.github/copilot/**'
       - '.github/GOVERNANCE.md'
       - '.github/SECURITY.md'

@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ethics_base_entity_adapter.h                       ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:15:20                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:48:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     314                                            ║
+    • Total Lines:     338                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9ab72c508  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
-    • acdb250db  2026-03-12  feat: migrate plugins to src/include with CMake switches ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7053becfa  2026-02-23  fix(ci): fix 10 error-handling audit violations to bring ... ║
+    • 11ddb98b9f  2026-04-09  Add comprehensive documentation and security measures for... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -108,7 +105,7 @@ public:
             try {
                 nlohmann::json j = nlohmann::json::parse(*principle_json);
                 argument.principle_basis = j.get<std::vector<std::string>>();
-            } catch (...) { THEMIS_WARN("ethics: failed to parse principle_basis json for argument"); }
+            } catch (...) {}
         }
         
         auto counter_json = entity.getFieldAsString("counterarguments");
@@ -116,7 +113,7 @@ public:
             try {
                 nlohmann::json j = nlohmann::json::parse(*counter_json);
                 argument.counterarguments = j.get<std::vector<std::string>>();
-            } catch (...) { THEMIS_WARN("ethics: failed to parse counterarguments json for argument"); }
+            } catch (...) {}
         }
         
         auto supports_json = entity.getFieldAsString("supports");
@@ -124,7 +121,7 @@ public:
             try {
                 nlohmann::json j = nlohmann::json::parse(*supports_json);
                 argument.supports = j.get<std::vector<std::string>>();
-            } catch (...) { THEMIS_WARN("ethics: failed to parse supports json for argument"); }
+            } catch (...) {}
         }
         
         return argument;
@@ -173,7 +170,7 @@ public:
     /**
      * @brief Convert BaseEntity to EthicalDecision
      */
-    static EthicalDecision fromBaseEntity(const BaseEntity& entity, bool is_decision) {
+    static EthicalDecision fromBaseEntity(const BaseEntity& entity, [[maybe_unused]] bool is_decision) {
         EthicalDecision decision;
         decision.decision_id = entity.getPrimaryKey();
         
@@ -192,7 +189,7 @@ public:
             try {
                 nlohmann::json j = nlohmann::json::parse(*supporting_json);
                 decision.supporting_philosophies = j.get<std::vector<std::string>>();
-            } catch (...) { THEMIS_WARN("ethics: failed to parse supporting_philosophies json for decision"); }
+            } catch (...) {}
         }
         
         auto chain_json = entity.getFieldAsString("argument_chain_ids");
@@ -200,7 +197,7 @@ public:
             try {
                 nlohmann::json j = nlohmann::json::parse(*chain_json);
                 decision.argument_chain_ids = j.get<std::vector<std::string>>();
-            } catch (...) { THEMIS_WARN("ethics: failed to parse argument_chain_ids json for decision"); }
+            } catch (...) {}
         }
         
         return decision;
@@ -221,23 +218,42 @@ public:
     static BaseEntity toBaseEntity(const PhilosophyProfile& profile) {
         BaseEntity::FieldMap fields;
         
-        fields["school"] = profile.school;
+        fields["school_id"] = profile.school_id;
         fields["name"] = profile.name;
-        fields["founder"] = profile.founder;
-        fields["historical_context"] = profile.historical_context;
-        fields["main_thesis"] = profile.main_thesis;
-        fields["secondary_thesis"] = profile.secondary_thesis;
-        fields["decision_framework"] = profile.decision_framework;
-        fields["strengths"] = profile.strengths;
-        fields["weaknesses"] = profile.weaknesses;
         
-        // Store principles as JSON
-        if (!profile.principles.empty()) {
-            nlohmann::json j = profile.principles;
-            fields["principles"] = j.dump();
+        // Serialize vector<string> fields as JSON
+        {
+            nlohmann::json j = profile.main_theses;
+            fields["main_theses"] = j.dump();
+        }
+        {
+            nlohmann::json j = profile.secondary_theses;
+            fields["secondary_theses"] = j.dump();
+        }
+        {
+            nlohmann::json j = profile.strengths;
+            fields["strengths"] = j.dump();
+        }
+        {
+            nlohmann::json j = profile.weaknesses;
+            fields["weaknesses"] = j.dump();
         }
         
-        return BaseEntity::fromFields(profile.school, fields);
+        // Serialize map<string,string> fields as JSON
+        {
+            nlohmann::json j = profile.decision_framework;
+            fields["decision_framework"] = j.dump();
+        }
+        {
+            nlohmann::json j = profile.internal_debate;
+            fields["internal_debate"] = j.dump();
+        }
+        {
+            nlohmann::json j = profile.philosophical_positioning;
+            fields["philosophical_positioning"] = j.dump();
+        }
+        
+        return BaseEntity::fromFields(profile.school_id, fields);
     }
     
     /**
@@ -245,25 +261,32 @@ public:
      */
     static PhilosophyProfile fromBaseEntityToProfile(const BaseEntity& entity) {
         PhilosophyProfile profile;
-        profile.school = entity.getPrimaryKey();
-        
+        profile.school_id = entity.getPrimaryKey();
         profile.name = entity.getFieldAsString("name").value_or("");
-        profile.founder = entity.getFieldAsString("founder").value_or("");
-        profile.historical_context = entity.getFieldAsString("historical_context").value_or("");
-        profile.main_thesis = entity.getFieldAsString("main_thesis").value_or("");
-        profile.secondary_thesis = entity.getFieldAsString("secondary_thesis").value_or("");
-        profile.decision_framework = entity.getFieldAsString("decision_framework").value_or("");
-        profile.strengths = entity.getFieldAsString("strengths").value_or("");
-        profile.weaknesses = entity.getFieldAsString("weaknesses").value_or("");
         
-        // Parse JSON array
-        auto principles_json = entity.getFieldAsString("principles");
-        if (principles_json) {
+        // Parse JSON arrays
+        auto parse_string_vec = [&](const char* field) -> std::vector<std::string> {
+            auto s = entity.getFieldAsString(field);
+            if (!s) return {};
             try {
-                nlohmann::json j = nlohmann::json::parse(*principles_json);
-                profile.principles = j.get<std::vector<std::string>>();
-            } catch (...) { THEMIS_WARN("ethics: failed to parse principles json for profile"); }
-        }
+                return nlohmann::json::parse(*s).get<std::vector<std::string>>();
+            } catch (...) { return {}; }
+        };
+        auto parse_string_map = [&](const char* field) -> std::map<std::string, std::string> {
+            auto s = entity.getFieldAsString(field);
+            if (!s) return {};
+            try {
+                return nlohmann::json::parse(*s).get<std::map<std::string, std::string>>();
+            } catch (...) { return {}; }
+        };
+        
+        profile.main_theses = parse_string_vec("main_theses");
+        profile.secondary_theses = parse_string_vec("secondary_theses");
+        profile.strengths = parse_string_vec("strengths");
+        profile.weaknesses = parse_string_vec("weaknesses");
+        profile.decision_framework = parse_string_map("decision_framework");
+        profile.internal_debate = parse_string_map("internal_debate");
+        profile.philosophical_positioning = parse_string_map("philosophical_positioning");
         
         return profile;
     }

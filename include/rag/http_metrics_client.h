@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_metrics_client.h                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:10:18                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     244                                            ║
+    • Total Lines:     246                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -38,6 +39,7 @@
 #include <optional>
 #include <unordered_map>
 #include <mutex>
+#include <shared_mutex>
 
 namespace themis::rag::judge {
 
@@ -200,7 +202,7 @@ private:
     std::unique_ptr<Impl> impl_;
     HTTPMetricsClientConfig config_;
     Statistics stats_;
-    mutable std::mutex stats_mutex_;
+    mutable std::shared_mutex stats_mutex_;
     RequestCallback request_callback_;
     
     HTTPResponse requestWithRetry(

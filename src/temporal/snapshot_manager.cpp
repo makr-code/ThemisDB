@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            snapshot_manager.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:40                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     238                                            ║
+    • Total Lines:     237                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 72f3ebe87  2026-03-12  refactor(temporal): address review feedback on snapshot G... ║
-    • 8098dfcd9  2026-03-12  feat(temporal): implement snapshot isolation - versioning... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 72f3ebe873  2026-03-12  refactor(temporal): address review feedback on snapshot G... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -33,7 +31,9 @@
 #include <algorithm>
 #include <chrono>
 #include <random>
+#include <set>
 #include <sstream>
+#include <stdexcept>
 
 namespace themisdb {
 namespace temporal {
@@ -232,6 +232,132 @@ std::string TemporalSnapshotManager::generateSnapshotId() {
     std::ostringstream oss;
     oss << "snap_" << ts << "_" << dist(gen);
     return oss.str();
+}
+
+// ============================================================================
+// SnapshotDiff helpers
+// ============================================================================
+
+nlohmann::json TemporalSnapshotManager::SnapshotDiff::toJson() const {
+    auto table_map_to_json = [](const std::map<std::string,
+                                                std::vector<std::string>>& m) {
+        nlohmann::json j = nlohmann::json::object();
+        for (const auto& [table, keys] : m) {
+            j[table] = keys;
+        }
+        return j;
+    };
+    return {{"tables_examined", tables_examined},
+            {"empty",           empty()},
+            {"modified",        table_map_to_json(modified)},
+            {"added",           table_map_to_json(added)},
+            {"removed",         table_map_to_json(removed)}};
+}
+
+// ============================================================================
+// TemporalSnapshotManager::diff
+// ============================================================================
+
+TemporalSnapshotManager::SnapshotDiff
+TemporalSnapshotManager::diff(const SnapshotHandle& base,
+                               const SnapshotHandle& other) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it_base  = snapshots_.find(base.snapshot_id);
+    auto it_other = snapshots_.find(other.snapshot_id);
+
+    if (it_base == snapshots_.end()) {
+        throw std::invalid_argument(
+            "diff: base snapshot '" + base.snapshot_id + "' is not valid / was released");
+    }
+    if (it_other == snapshots_.end()) {
+        throw std::invalid_argument(
+            "diff: other snapshot '" + other.snapshot_id + "' is not valid / was released");
+    }
+
+    const auto& base_tables  = it_base->second.tables;
+    const auto& other_tables = it_other->second.tables;
+
+    // Collect all table names that appear in either snapshot.
+    std::set<std::string> all_tables;
+    for (const auto& [t, _] : base_tables)  all_tables.insert(t);
+    for (const auto& [t, _] : other_tables) all_tables.insert(t);
+
+    SnapshotDiff result;
+
+    for (const auto& table : all_tables) {
+        auto b_it = base_tables.find(table);
+        auto o_it = other_tables.find(table);
+
+        const bool in_base  = (b_it != base_tables.end());
+        const bool in_other = (o_it != other_tables.end());
+
+        if (!in_base && in_other) {
+            // Entire table added
+            ++result.tables_examined;
+            for (const auto& row : o_it->second) {
+                result.added[table].push_back(row.key);
+            }
+            continue;
+        }
+        if (in_base && !in_other) {
+            // Entire table removed
+            ++result.tables_examined;
+            for (const auto& row : b_it->second) {
+                result.removed[table].push_back(row.key);
+            }
+            continue;
+        }
+
+        // Table present in both snapshots — compare per-key.
+        ++result.tables_examined;
+
+        // Build key → latest-version maps for each snapshot.
+        auto build_key_map = [](const std::vector<VersionedDocument>& rows)
+            -> std::unordered_map<std::string, const VersionedDocument*>
+        {
+            std::unordered_map<std::string, const VersionedDocument*> m;
+            for (const auto& row : rows) {
+                auto it = m.find(row.key);
+                if (it == m.end() || row.sys_time.start > it->second->sys_time.start) {
+                    m[row.key] = &row;
+                }
+            }
+            return m;
+        };
+
+        auto base_map  = build_key_map(b_it->second);
+        auto other_map = build_key_map(o_it->second);
+
+        // Added / modified
+        for (const auto& [key, o_row] : other_map) {
+            auto b_it2 = base_map.find(key);
+            if (b_it2 == base_map.end()) {
+                result.added[table].push_back(key);
+            } else if (o_row->data != b_it2->second->data) {
+                result.modified[table].push_back(key);
+            }
+        }
+
+        // Removed
+        for (const auto& [key, _] : base_map) {
+            if (other_map.find(key) == other_map.end()) {
+                result.removed[table].push_back(key);
+            }
+        }
+    }
+
+    // Sort key lists for deterministic output.
+    auto sort_keys = [](std::map<std::string, std::vector<std::string>>& m) {
+        for (auto& [_, keys] : m) {
+            std::sort(keys.begin(), keys.end());
+        }
+    };
+    sort_keys(result.modified);
+    sort_keys(result.added);
+    sort_keys(result.removed);
+
+    return result;
 }
 
 } // namespace temporal

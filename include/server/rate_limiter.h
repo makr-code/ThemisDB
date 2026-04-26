@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rate_limiter.h                                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:17                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     286                                            ║
+    • Total Lines:     288                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -28,6 +29,7 @@
 #include <unordered_set>
 #include <functional>
 #include <mutex>
+#include <shared_mutex>
 #include <chrono>
 #include <memory>
 
@@ -113,7 +115,7 @@ private:
     double tokens_;
     double refill_rate_;
     std::chrono::steady_clock::time_point last_refill_;
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
 };
 
 /**
@@ -267,7 +269,7 @@ private:
 
     // Anomaly detection callback – protected by a dedicated mutex so that
     // fireAnomaly() can be called while mutex_ is held without risk of deadlock.
-    mutable std::mutex callback_mutex_;
+    mutable std::shared_mutex callback_mutex_;
     AnomalyCallback anomaly_callback_;
     // Fire the anomaly callback (safe to call while mutex_ is held).
     void fireAnomaly(AnomalyEvent::Type type, const std::string& ip, const std::string& detail) const;
@@ -275,7 +277,7 @@ private:
     // Statistics
     mutable Statistics stats_;
     
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
     
     // Cleanup interval (5 minutes)
     static constexpr uint32_t CLEANUP_INTERVAL_SECONDS = 300;

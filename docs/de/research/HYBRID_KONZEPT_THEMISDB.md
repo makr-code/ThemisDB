@@ -1,6 +1,6 @@
 # Hybrid-Konzept für ThemisDB – Kombination von Regelbasierten und ML-basierten Ansätzen
 
-**Stand:** 10. Februar 2026  
+**Stand:** 6. April 2026  
 **Version:** 1.0  
 **Status:** 🔬 Konzeptionelles Design  
 **Kategorie:** Hybrid Adaptive Learning Architecture

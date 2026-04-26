@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_scheduled_edge_refresh.cpp                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:22:50                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1229                                           ║
+    • Total Lines:     1230                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 79f081505  2026-03-28  Add test statistics documentation and collection script ║
-    • 89945cb4d  2026-03-22  feat(graph): ANN-accelerated candidate discovery + CEP ca... ║
-    • 1795733ac  2026-03-21  Changes before error encountered         ║
-    • bbaa6edd8  2026-03-11  feat(graph): close issue gaps for ScheduledGraphEdgeRefre... ║
-    • 87955cec9  2026-03-11  feat(graph): implement ScheduledGraphEdgeRefreshEngine mo... ║
+    • 79f0815052  2026-03-28  Add test statistics documentation and collection script ║
+    • 89945cb4d4  2026-03-22  feat(graph): ANN-accelerated candidate discovery + CEP ca... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-22 -->
+> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Ethics AI Module
@@ -26,13 +28,14 @@ and synthesises scored ethical decisions stored as BaseEntity documents.
 | 9 | `philosophy_loader.h` | `PhilosophyLoader` interface — YAML profile management | 108 | ✅ Complete |
 | 10 | `philosophy_loader.cpp` | `PhilosophyLoader` implementation — YAML parsing | — | ✅ Complete |
 | 11 | `ethics_ai_plugin.cpp` | `EthicsAiPlugin` — IThemisPlugin wiring and lifecycle | — | ✅ Complete |
-| 12 | `ethics_ai_types.h` | Shared domain types: argument, decision, profile, RAG context | — | ✅ Complete |
+| 12 | `include/plugins/ethics_ai/ethics_ai_types.h` | Shared domain types: argument, decision, profile, RAG context | — | ✅ Complete |
 | 13 | `ethics_ai_types.cpp` | Type helper implementations | — | ✅ Complete |
 | 14 | `ethics_aql_queries.h` | AQL query string constants for 7 RAG patterns | — | ✅ Complete |
 | 15 | `ethics_base_entity_adapter.h` | BaseEntity adapter for ethics domain types | — | ✅ Complete |
-| 16 | `CMakeLists.txt` | Build configuration | — | ✅ Complete |
+| 16 | `chain_visualizer.cpp` | Chain-of-thought visualization and ethics reasoning trace display | — | ✅ Complete |
+| 17 | `CMakeLists.txt` | Build configuration | — | ✅ Complete |
 
-**Total: 16 files**
+**Total: 17 files**
 
 ---
 
@@ -40,15 +43,12 @@ and synthesises scored ethical decisions stored as BaseEntity documents.
 
 | Test Target | Scope | Status |
 |-------------|-------|--------|
-| `EthicsEvaluator` | 5-dimension scoring with valid and empty argument lists | ⚠️ Partial |
-| `EthicalDiscourseEngine::initializeDebate` | Valid schools, unknown school, empty schools | ⚠️ Partial |
-| `EthicalDiscourseEngine::makeDecision` | Single-school, multi-school, with/without RAG | ⚠️ Partial |
-| `RAGContextEngine::findSimilarDilemmas` | Threshold filtering, limit enforcement | ⚠️ Partial |
-| `RAGContextEngine::vectorSemanticSearch` | Embedding match, philosophy filter | ⚠️ Partial |
-| `RAGContextEngine::traverseArgumentChain` | Max depth, direction (inbound/outbound) | ⚠️ Partial |
-| `ArgumentStore` (standalone mode) | Store/retrieve arguments, decisions, profiles | ⚠️ Partial |
-| `PhilosophyLoader` | Load directory, load file, missing file, invalid YAML | ⚠️ Partial |
-| Integration: full decision pipeline | Multi-philosophy + RAG + store | ❌ Missing |
+| `test_argument_store_standalone` | `ArgumentStore` standalone mode (store/retrieve/error paths) | ✅ Present |
+| `test_rag_context_engine` | RAG query patterns, vector search behavior, chain traversal | ✅ Present |
+| `test_ethics_ai_plugin` | Plugin lifecycle, metrics, interface conformance | ✅ Present |
+| `test_discourse_engine` | Debate initialization and decision orchestration | ✅ Present |
+| `test_philosophy_loader` | YAML load/validation/cache behavior | ✅ Present |
+| `test_ethics_ai_integration` | Full pipeline integration (initializeDebate → makeDecision → evaluate) | ✅ Present |
 
 ---
 
@@ -59,7 +59,7 @@ and synthesises scored ethical decisions stored as BaseEntity documents.
 | ETHICS-OPEN-01 | Argument content uses template strings; needs LLM-based generation | High | Q3 2026 |
 | ETHICS-OPEN-02 | `confidence` and `consensus_level` are static placeholders (0.75/0.70) | High | Q3 2026 |
 | ETHICS-OPEN-03 | Vector embeddings are stubs; real embedding model integration needed | High | Q3 2026 |
-| ETHICS-OPEN-04 | Integration tests combining full pipeline (RAG + store + evaluate) | Medium | Q3 2026 |
+| ETHICS-OPEN-04 | Integration tests with real RocksDB backend (beyond standalone mode) | Medium | Q3 2026 |
 | ETHICS-OPEN-05 | Performance benchmarks for RAG context build (target: < 200 ms at p99) | Low | Q4 2026 |
 
 ---
@@ -69,3 +69,4 @@ and synthesises scored ethical decisions stored as BaseEntity documents.
 | Date | Auditor | Verdict |
 |------|---------|---------|
 | 2026-03-22 | Initial module audit | Passed — 5 open items tracked above |
+| 2026-04-08 | Documentation consistency pass | Updated test coverage status and canonical header paths |

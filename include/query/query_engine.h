@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_engine.h                                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:10:04                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     801                                            ║
+    • Total Lines:     815                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 490de27f0  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
-    • 3ac1c4143  2026-03-09  fix: clear all remaining stubs/TODOs across modules; upda... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 9a52ef6bb1  2026-04-13  perf(query): add 1:1 point-lookup benchmarks and pk_eq fa... ║
+    • d8c296b8a5  2026-04-11  feat(query): port v2.0.0 rewrite/profiler/approx-aggregat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -277,6 +276,15 @@ struct ConjunctiveQuery {
     std::optional<PredicatePhrase> phrasePredicate; // optional: PHRASE(column, phrase, limit)
     std::optional<PredicateFuzzy> fuzzyPredicate; // optional: FUZZY(column, query, maxDistance, limit)
     std::optional<PredicateSpatial> spatialPredicate; // optional: ST_*(geometry_column, ...) (G3)
+
+    // Direct primary-key lookup fast path.
+    // When set, executeAndKeys / executeAndEntities skip all secondary-index
+    // scans and perform a single direct storage read for the given primary key.
+    // Other predicates are ignored when pk_eq is set — use this only when the
+    // primary key uniquely identifies the desired entity.
+    // This is ACID-compliant: the direct RocksDB read uses the same isolation
+    // level as any other storage access in the engine.
+    std::optional<std::string> pk_eq;
 };
 
 // Disjunctive Query: OR-verknüpfte AND-Blöcke (Disjunctive Normal Form)
@@ -293,8 +301,7 @@ class QueryEngine {
 public:
     // DEPRECATED: Legacy Status struct - use Result<T> instead
     // Kept temporarily for backward compatibility during migration
-    [[deprecated("Use Result<T> pattern instead")]]
-    struct Status {
+    struct [[deprecated("Use Result<T> pattern instead")]] Status {
         bool ok = true;
         std::string message;
         static Status OK() { return {}; }
@@ -393,7 +400,7 @@ public:
 
     // General graph traversal (non-shortest path)
     // Performs BFS with depth filtering and direction support
-    // Note: Edge type filtering not yet implemented (requires TraversalQuery extension)
+    // Edge type filtering: pass edgeTypeFilter to restrict which edges are followed.
     /**
      * @brief Execute a general graph traversal query
      * @param startVertex Starting vertex primary key
@@ -401,17 +408,22 @@ public:
      * @param maxDepth Maximum traversal depth (limits recursion)
      * @param direction Traversal direction (OUTBOUND, INBOUND, or ANY)
      * @param graphId Graph identifier (default: "default")
+     * @param edgeTypeFilter Optional edge type filter; only edges whose graphId
+     *        matches this value are followed. Empty string = no filtering.
      * @return Vector of traversal results containing visited vertices and paths
      * 
-     * Performs breadth-first or depth-first graph traversal starting from the given vertex.
+     * Performs breadth-first graph traversal starting from the given vertex.
      * Results include the full path and depth information for each reachable vertex.
+     * When edgeTypeFilter is non-empty, only edges with a matching graphId are
+     * traversed (same convention as RecursivePathQuery::edge_type).
      */
     Result<std::vector<TraversalResult>> executeGeneralTraversal(
         const std::string& startVertex,
         int minDepth,
         int maxDepth,
         TraversalDirection direction,
-        const std::string& graphId = "default"
+        const std::string& graphId = "default",
+        const std::string& edgeTypeFilter = ""
     ) const;
 
     /**

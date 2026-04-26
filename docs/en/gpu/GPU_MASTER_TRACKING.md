@@ -4,7 +4,7 @@
 **Target Timeline:** Q3 2026 - Q2 2027  
 **Priority:** High  
 **Status:** 🚀 90% COMPLETE (3 of 4 phases implemented)  
-**Last Updated:** February 7, 2026
+**Last Updated:** April 2026
 
 ---
 
@@ -657,7 +657,7 @@ build_type: [Debug, Release]
 ---
 
 **Status:** Planning  
-**Last Updated:** February 7, 2026  
+**Last Updated:** April 2026  
 **Milestone:** v2.x  
 **Epic:** GPU Vector Indexing  
 **Labels:** `gpu-acceleration`, `epic`, `tracking`, `v2.x`

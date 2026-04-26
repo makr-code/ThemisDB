@@ -1,5 +1,7 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Cache Module
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/src/cache/README.md -->
 
 Caching implementations for ThemisDB.
@@ -39,7 +41,7 @@ Implements multi-level adaptive query result caching for ThemisDB with semantic-
 
 ## Current Delivery Status
 
-**Maturity:** ✅ Production Ready — All four implementation phases complete. Tenant management API (Issue: #1579) is the only remaining tracked item.
+**Maturity:** ✅ Production Ready — All four implementation phases complete, including tenant management API and distributed coordination follow-ups.
 
 ## Components
 
@@ -376,3 +378,7 @@ For detailed caching documentation, see:
 4. King, W. F. (1971). **Analysis of Demand Paging Algorithms**. *IFIP Congress*, 485–490.
 
 5. Mattson, R. L., Gecsei, J., Slutz, D. R., & Traiger, I. L. (1970). **Evaluation Techniques for Storage Hierarchies**. *IBM Systems Journal*, 9(2), 78–117. https://doi.org/10.1147/sj.92.0078
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

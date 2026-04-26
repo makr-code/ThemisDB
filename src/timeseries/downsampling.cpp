@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            downsampling.cpp                                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:20:51                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9bdb7e29c  2026-03-09  fix(timeseries): address code review - improve FlushContr... ║
-    • fe42ba76e  2026-03-09  feat(timeseries): add FlushController adaptive flush, Dow... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -144,7 +144,7 @@ DownsamplingPipeline::DownsamplingPipeline(TSStore* store)
     }
 }
 
-void DownsamplingPipeline::addPolicy(const DownsamplingPolicy& policy) {
+void DownsamplingPipeline::addPolicy([[maybe_unused]] const DownsamplingPolicy& policy) {
     if (policy.metric.empty()) {
         throw std::invalid_argument("DownsamplingPipeline::addPolicy: metric name cannot be empty");
     }
@@ -162,7 +162,7 @@ void DownsamplingPipeline::addPolicy(const DownsamplingPolicy& policy) {
 size_t DownsamplingPipeline::refresh(int64_t to_ms) {
     size_t total = 0;
     for (const auto& [metric, policy] : policies_) {
-        (void)policy;  // metric key is sufficient; policy is accessed in refreshMetric
+        // metric key is sufficient; policy is accessed in refreshMetric
         total += refreshMetric(metric, to_ms);
     }
     return total;

@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vcc_pki_client.cpp                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:35                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     498                                            ║
+    • Total Lines:     499                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -481,10 +482,9 @@ bool VCCPKIClient::validateCertChain(const X509Certificate& cert) const {
     // Log verification errors if validation failed
     if (!is_valid) {
         int error = X509_STORE_CTX_get_error(ctx);
-        const char* error_string = X509_verify_cert_error_string(error);
+        (void)X509_verify_cert_error_string(error);
         // Note: In production, log this error for debugging
         // For now, we just fail silently to maintain minimal changes
-        (void)error_string; // Suppress unused variable warning
     }
     
     // Clean up

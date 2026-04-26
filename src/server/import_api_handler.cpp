@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            import_api_handler.cpp                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:49                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   96.0/100                                       ║
-    • Total Lines:     612                                            ║
+    • Total Lines:     608                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9bccf09a7  2026-03-16  Changes before error encountered         ║
-    • 8452353dc  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
-    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
-    • e4aae2a7f  2026-03-11  feat(importers): PostgreSQL Importer v2.0 - FK preservati... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -30,6 +27,7 @@
 
 #include <httplib.h>
 #include <nlohmann/json.hpp>
+#include <algorithm>
 #include <sstream>
 #include <chrono>
 #include "utils/tracing.h"
@@ -381,8 +379,18 @@ ImportOptions ImportApiHandler::optionsFromJson(const json& j) {
         opts.dry_run = j["dry_run"].get<bool>();
     if (j.contains("continue_on_error") && j["continue_on_error"].is_boolean())
         opts.continue_on_error = j["continue_on_error"].get<bool>();
-    if (j.contains("batch_size") && j["batch_size"].is_number_unsigned())
-        opts.batch_size = j["batch_size"].get<size_t>();
+    if (j.contains("batch_size") && j["batch_size"].is_number_unsigned()) {
+        // GAP-020: Cap batch_size to prevent unbounded memory allocation (DoS).
+        // A malicious or misconfigured client sending batch_size=UINT64_MAX would
+        // cause the import engine to attempt allocations of billions of records.
+        static constexpr size_t kMaxBatchSize = 100'000;
+        const size_t requested = j["batch_size"].get<size_t>();
+        if (requested > kMaxBatchSize) {
+            spdlog::warn("ImportApiHandler: batch_size {} exceeds maximum {}; clamping",
+                         requested, kMaxBatchSize);
+        }
+        opts.batch_size = std::min(requested, kMaxBatchSize);
+    }
     if (j.contains("default_namespace") && j["default_namespace"].is_string())
         opts.default_namespace = j["default_namespace"].get<std::string>();
     if (j.contains("preserve_ids") && j["preserve_ids"].is_boolean())
@@ -439,11 +447,10 @@ httplib::Response& ImportApiHandler::jsonError(httplib::Response& res,
 // v2.0 Handlers
 // ============================================================================
 
-void ImportApiHandler::handleGetSchema(const httplib::Request& req,
+void ImportApiHandler::handleGetSchema([[maybe_unused]] const httplib::Request& req,
                                         httplib::Response& res) {
     auto span = Tracer::startSpan("handleGetSchema");
 #ifndef THEMIS_ENABLE_POSTGRES_WIRE
-    (void)req;
     jsonError(res, 501,
               "Schema preview requires PostgreSQL wire support; rebuild with THEMIS_ENABLE_POSTGRES_WIRE=ON");
     return;
@@ -483,11 +490,10 @@ void ImportApiHandler::handleGetSchema(const httplib::Request& req,
 #endif
 }
 
-void ImportApiHandler::handleValidateSchema(const httplib::Request& req,
+void ImportApiHandler::handleValidateSchema([[maybe_unused]] const httplib::Request& req,
                                              httplib::Response& res) {
     auto span = Tracer::startSpan("handleValidateSchema");
 #ifndef THEMIS_ENABLE_POSTGRES_WIRE
-    (void)req;
     jsonError(res, 501,
               "Schema validation requires PostgreSQL wire support; rebuild with THEMIS_ENABLE_POSTGRES_WIRE=ON");
     return;

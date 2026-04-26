@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cpu_backend.cpp                                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:13:43                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     563                                            ║
+    • Total Lines:     559                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b8c99b1a5  2026-02-23  fix: add clearError() at start of all CPU backend operati... ║
-    • 9724334d6  2026-02-23  feat(acceleration): add deterministic tie-breaking and pa... ║
-    • e86b6edc7  2026-02-23  feat(acceleration): add BatchValidator and strict input v... ║
-    • 57747c2d6  2026-02-23  feat(acceleration): Tensor Core FP16/BF16 matrix ops via ... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -177,7 +174,7 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchBFS(
         return {};
     }
 
-    (void)adjacency; // Placeholder implementation
+    // Placeholder implementation
     std::vector<std::vector<uint32_t>> results(numStarts);
     
     for (size_t s = 0; s < numStarts; ++s) {
@@ -222,8 +219,7 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(
         return {};
     }
 
-    (void)adjacency; (void)weights; (void)numVertices;
-    (void)startVertices; (void)endVertices; // Placeholder implementation
+    // Placeholder implementation
     std::vector<std::vector<uint32_t>> results(numPairs);
     
     // Simplified Dijkstra implementation placeholder

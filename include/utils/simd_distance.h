@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            simd_distance.h                                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:13:00                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     68                                             ║
+    • Total Lines:     84                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9e61c0def  2026-02-27  audit: fix Stubs:1 annotations, update line counts, add m... ║
-    • 54593e02c  2026-02-27  feat(performance): AVX-512 SIMD path for vector distance ... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -63,6 +62,23 @@ float inner_product(const float* a, const float* b, std::size_t dim);
 // 2 means opposite direction. Uses AVX-512/AVX2/NEON when available.
 // Zero-norm vectors are treated as maximally distant (returns 1.0).
 float cosine_distance(const float* a, const float* b, std::size_t dim);
+
+// Compute cosine similarity between two float vectors of length dim.
+// Returns a value in [-1, 1]: 1 means identical direction, 0 means orthogonal,
+// -1 means opposite direction. This is the canonical entry point; callers that
+// only need a distance metric should prefer cosine_distance() which avoids the
+// subtraction and is marginally faster.
+// Zero-norm vectors are treated as maximally dissimilar (returns 0.0).
+inline float cosine_similarity(const float* a, const float* b, std::size_t dim) {
+    return 1.0f - cosine_distance(a, b, dim);
+}
+
+// Batch cosine similarity: compute cosine_similarity from a single query vector
+// to n database vectors stored contiguously (n * dim floats).
+// Results are written to the pre-allocated output array of n floats.
+// More cache-efficient than calling cosine_similarity() in a loop.
+void batch_cosine_similarity(const float* query, const float* database,
+                              std::size_t n, std::size_t dim, float* results);
 
 } // namespace simd
 } // namespace themis

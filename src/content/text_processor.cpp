@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            text_processor.cpp                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:14                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     412                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Quality Score:   92.0/100                                       ║
+    • Total Lines:     419                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 60c5ea72d  2026-02-28  Add multi-language text detection and routing for content... ║
-    • 8af0ff1a8  2026-02-27  refactor(content): address code review feedback on dedupl... ║
-    • 95da435db  2026-02-27  feat(content): add content deduplication via perceptual h... ║
+    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -207,8 +204,18 @@ std::vector<json> TextProcessor::chunk(
 }
 
 std::vector<float> TextProcessor::generateEmbedding(const std::string& chunk_data) {
-    // Mock embedding generator using hash-based approach
-    // In production, this would call an external embedding service (e.g., Sentence-BERT)
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide a deterministic, zero-dependency embedding for unit
+    //   tests and environments where no real embedding service is available.
+    // Activation: Always active — TextProcessor has no IEmbeddingBackend
+    //   injection point yet.  Replace this body once an embedding backend
+    //   interface is introduced (tracked as a future enhancement).
+    // Production Delta: Uses a hash-based deterministic formula instead of a
+    //   real transformer model (e.g. Sentence-BERT / all-mpnet-base-v2).
+    //   Output vectors are NOT semantically meaningful for similarity search.
+    // Removal Plan: Replace with an injected IEmbeddingBackend call (e.g.
+    //   ONNXClipPlugin or a Sentence-BERT plugin) and remove this path once
+    //   the embedding plugin interface is wired into TextProcessor.
     
     const int EMBEDDING_DIM = 768; // Standard for all-mpnet-base-v2
     std::vector<float> embedding(EMBEDDING_DIM, 0.0f);

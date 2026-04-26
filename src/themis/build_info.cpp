@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            build_info.cpp                                     ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:20:43                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:51:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     1022                                           ║
+    • Total Lines:     1021                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 52f52d4a5  2026-03-28  Fix edition type assignment to use THEMIS_EDITION_STRING ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 639136c66  2026-03-01  Migrate build_info.cpp from src/utils to src/themis (getB... ║
+    • 52f52d4a5c  2026-03-28  Fix edition type assignment to use THEMIS_EDITION_STRING ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

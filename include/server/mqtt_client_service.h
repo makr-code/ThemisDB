@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mqtt_client_service.h                              ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:11:14                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:47:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     572                                            ║
+    • Total Lines:     581                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 21fb5b70f  2026-03-27  Add CMake source coverage audit workflow and baseline script ║
-    • d0d07d689  2026-03-23  fix(server/mqtt): remove bytes_sent double-count, remove ... ║
-    • c9f5c0d13  2026-03-23  feat(server): add MqttClientService — bidirectional MQTT ... ║
+    • 8d4df392df  2026-04-11  feat(server): MQTT client TLS support via THEMIS_ENABLE_M... ║
+    • 21fb5b70f6  2026-03-27  Add CMake source coverage audit workflow and baseline script ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -64,6 +63,7 @@
 #include <memory>
 #include <mutex>
 #include <string>
+#include <string_view>
 #include <thread>
 #include <vector>
 
@@ -71,6 +71,9 @@ namespace boost { namespace asio { class io_context; } }
 
 namespace themis {
 namespace server {
+
+inline constexpr std::string_view kMqttTlsVerifyNoneFallbackLogPrefix =
+    "[SECURITY][TLS] MQTT TLS verify_none fallback active";
 
 // ── Forward declarations ──────────────────────────────────────────────────────
 
@@ -435,6 +438,7 @@ private:
 
     void ioThreadEntry();
     void doConnect();
+    void sendMqttConnect();
     void doRead();
     void doWrite();
     void onConnAck(uint8_t flags, uint8_t return_code);
@@ -447,6 +451,9 @@ private:
     void handleDisconnect(const std::string& reason);
     void enqueuePacket(std::vector<uint8_t> packet);
     void sendSubscriptions();
+#ifdef THEMIS_ENABLE_MQTT_TLS
+    void doHandshake();
+#endif
 
     static std::string generateClientId();
 

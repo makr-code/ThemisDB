@@ -1,10 +1,12 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Content Module
 
-**Last Audit:** 2026-03-12  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ## Summary
@@ -12,7 +14,7 @@
 | Metric | Result |
 |--------|--------|
 | Build System Registration | ✅ Verified |
-| Source Files | 33 (`.cpp` in `src/content/`) |
+| Source Files | 34 (`.cpp` in `src/content/`) |
 | Test Coverage | ✅ Production-ready; security tests cover LibreOffice, archive, OCR paths |
 | Open TODOs | 38 files contain TODOs (processor chain plugin API, video frames, LLM PII scrubbing) |
 | Open Stubs | 2 (plugin processor chain pending Issue #1686; video frame extraction pending Issue #1688) |
@@ -31,6 +33,7 @@
 
 | File | Purpose |
 |------|---------|
+| `abuse_detector.cpp` | Abuse content detection and policy enforcement |
 | `archive_processor.cpp` | Archive extraction with bomb protection |
 | `async_ingestion_worker.cpp` | Async ingestion queue with back-pressure |
 | `audio_processor.cpp` | Audio metadata extraction |
@@ -55,7 +58,15 @@
 | `language_detector.cpp` | Multi-language detection and routing |
 | `markdown_processor.cpp` | Markdown processing and frontmatter parsing |
 | `mime_detector.cpp` | MIME type detection |
-| + additional processors | OCR, STT, TTS, Office, PDF, video |
+| `mock_clip_processor.cpp` | Mock CLIP processor for testing multimodal pipelines |
+| `ocr_processor.cpp` | OCR text extraction via Tesseract |
+| `office_processor.cpp` | LibreOffice-backed Office document extraction |
+| `pdf_processor.cpp` | PDF text and metadata extraction via Poppler |
+| `stt_processor.cpp` | Speech-to-text processor integration |
+| `text_processor.cpp` | Plain text normalization and segmentation |
+| `tts_processor.cpp` | Text-to-speech synthesis integration |
+| `version_manager.cpp` | Content version tracking and history management |
+| `video_processor.cpp` | Video metadata and frame extraction |
 
 ## Test Coverage
 

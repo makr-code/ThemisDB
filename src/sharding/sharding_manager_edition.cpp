@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sharding_manager_edition.cpp                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:22                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 097e8a577  2026-03-24  feat(query,sharding): QueryFederation shard-key routing v... ║
-    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
-    • c9b143394  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 097e8a5773  2026-03-24  feat(query,sharding): QueryFederation shard-key routing v... ║
+    • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

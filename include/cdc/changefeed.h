@@ -3,29 +3,27 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed.h                                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:06:16                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     476                                            ║
+    • Total Lines:     482                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 5083e3481  2026-03-18  Changes before error encountered         ║
-    • 63b0ba358  2026-03-16  feat(cdc): implement Changefeed sequence counter via Rock... ║
-    • a9f387ce0  2026-03-11  feat(cdc): runtime-configurable change log retention poli... ║
-    • 2317d0155  2026-03-10  Changes before error encountered         ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • c1118dfd68  2026-04-13  feat(cdc): GDPR redaction audit log (cdc_redactions CF) +... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 13a305368a  2026-04-13  feat(cdc): GDPR redaction audit log (cdc_redactions CF) +... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_CHANGEFEED_H
-#define THEMIS_CHANGEFEED_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -251,6 +249,8 @@ public:
     struct RedactionResult {
         size_t events_scanned = 0;   ///< Total events examined
         size_t events_redacted = 0;  ///< Events whose value field was scrubbed
+        /// Unique event keys that were redacted (for Kafka tombstone propagation).
+        std::vector<std::string> affected_keys;
     };
 
     /**
@@ -480,5 +480,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_CHANGEFEED_H

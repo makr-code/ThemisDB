@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Authentication Module
 
 Comprehensive authentication and authorization implementation for ThemisDB with enterprise SSO and multi-factor authentication support.
@@ -916,44 +918,44 @@ using namespace themis::auth;
 int main() {
     // Initialize validator
     JWTValidator validator("https://keycloak.example.com/realms/prod/protocol/openid-connect/certs");
-    
+
     // Token from Authorization header
     std::string auth_header = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...";
-    
+
     try {
         // Parse and validate token
         auto claims = validator.parseAndValidate(auth_header);
-        
+
         // Extract user information
         std::cout << "User ID: " << claims.sub << std::endl;
         std::cout << "Email: " << claims.email << std::endl;
         std::cout << "Tenant: " << claims.tenant_id << std::endl;
-        
+
         // Check expiration
         if (claims.isExpired()) {
             std::cout << "Token expired!" << std::endl;
             return 1;
         }
-        
+
         // Access roles
         std::cout << "Roles: ";
         for (const auto& role : claims.roles) {
             std::cout << role << " ";
         }
         std::cout << std::endl;
-        
+
         // Access groups
         std::cout << "Groups: ";
         for (const auto& group : claims.groups) {
             std::cout << group << " ";
         }
         std::cout << std::endl;
-        
+
     } catch (const std::exception& e) {
         std::cerr << "Authentication failed: " << e.what() << std::endl;
         return 1;
     }
-    
+
     return 0;
 }
 ```
@@ -976,19 +978,19 @@ int main() {
         {"admin@EXAMPLE.COM", "admin"},
         {"*@EXAMPLE.COM", "user"}
     };
-    
+
     // Initialize authenticator
     GSSAPIAuthenticator auth;
     if (!auth.initialize(config)) {
         std::cerr << "Failed to initialize GSSAPI" << std::endl;
         return 1;
     }
-    
+
     // Authenticate token from client (Negotiate header)
     std::string negotiate_token = "YIIGfwYGKwYBBQUCoIIG...";
-    
+
     auto result = auth.authenticateToken(negotiate_token);
-    
+
     if (result.success) {
         std::cout << "Authentication successful!" << std::endl;
         std::cout << "Principal: " << result.principal_name << std::endl;
@@ -1001,7 +1003,7 @@ int main() {
         std::cerr << "Authentication failed: " << result.error_message << std::endl;
         return 1;
     }
-    
+
     return 0;
 }
 ```
@@ -1019,38 +1021,38 @@ int main() {
     MFAAuthenticator::Config config;
     config.issuer = "ThemisDB Production";
     MFAAuthenticator mfa(config);
-    
+
     // Generate enrollment for user
     std::string user_id = "alice@example.com";
     auto enrollment = mfa.generateEnrollment(user_id);
-    
+
     // Display QR code URI (scan with authenticator app)
     std::string qr_uri = mfa.generateProvisioningURI(enrollment);
     std::cout << "Scan this QR code with your authenticator app:" << std::endl;
     std::cout << qr_uri << std::endl;
-    
+
     // Display recovery codes (save securely!)
     std::cout << "\nRecovery Codes (save these!):" << std::endl;
     for (const auto& code : enrollment.recovery_codes) {
         std::cout << "  " << code << std::endl;
     }
-    
+
     // Save enrollment data (encrypted!)
     auto json = enrollment.to_json();
     // saveToDatabase(user_id, json);
-    
+
     // Verify TOTP code
     std::cout << "\nEnter TOTP code from app: ";
     std::string totp_code;
     std::cin >> totp_code;
-    
+
     if (mfa.validateTOTP(enrollment.secret_base32, totp_code)) {
         std::cout << "TOTP code valid! MFA enabled." << std::endl;
         enrollment.enabled = true;
     } else {
         std::cout << "Invalid TOTP code." << std::endl;
     }
-    
+
     return 0;
 }
 ```
@@ -1065,36 +1067,36 @@ using namespace themis::auth;
 
 int main() {
     MFAAuthenticator mfa;
-    
+
     // Load enrollment from database
     // auto enrollment = loadFromDatabase(user_id);
     MFAAuthenticator::EnrollmentData enrollment;
     enrollment.user_id = "alice@example.com";
     enrollment.secret_base32 = "JBSWY3DPEHPK3PXP";  // Example secret
     enrollment.enabled = true;
-    
+
     // Get TOTP code from user
     std::cout << "Enter TOTP code: ";
     std::string totp_code;
     std::cin >> totp_code;
-    
+
     // Validate TOTP
     if (mfa.validateTOTP(enrollment.secret_base32, totp_code)) {
         std::cout << "Authentication successful!" << std::endl;
         return 0;
     }
-    
+
     // Try recovery code if TOTP failed
     std::cout << "Invalid TOTP. Enter recovery code: ";
     std::string recovery_code;
     std::cin >> recovery_code;
-    
+
     if (mfa.validateRecoveryCode(enrollment, recovery_code)) {
         std::cout << "Recovery code accepted. Update your authenticator app!" << std::endl;
         // saveToDatabase(user_id, enrollment);  // Save updated enrollment
         return 0;
     }
-    
+
     std::cout << "Authentication failed." << std::endl;
     return 1;
 }
@@ -1113,20 +1115,20 @@ using namespace themis::security;
 int main() {
     // Master Data Encryption Key (from key management)
     std::vector<uint8_t> dek = loadDEK();
-    
+
     // Validate JWT and get claims
     JWTValidator validator("https://keycloak.example.com/realms/prod/protocol/openid-connect/certs");
     auto claims = validator.parseAndValidate(bearer_token);
-    
+
     // Derive user-specific key for sensitive field
     auto user_key = JWTValidator::deriveUserKey(dek, claims, "ssn");
-    
+
     // Encrypt data with user-specific key
     std::string ssn = "123-45-6789";
     auto encrypted_ssn = encrypt_aes_gcm(ssn, user_key);
-    
+
     // Only this user can decrypt (requires same JWT claims)
-    
+
     // Check group access for shared data
     if (JWTValidator::hasAccess(claims, "finance-team")) {
         // Derive group key
@@ -1134,7 +1136,7 @@ int main() {
         auto encrypted_salary = encrypt_aes_gcm(salary, group_key);
         // All finance team members can decrypt
     }
-    
+
     return 0;
 }
 ```
@@ -1441,7 +1443,7 @@ ctest --test-dir build -R SessionManagerTests
 ./build/tests/themis_tests --gtest_filter=SessionManagerTest*:SessionApiHandlerTest*
 ```
 
-### Integration Tests
+## Integration Tests
 
 ```bash
 # Test with Keycloak
@@ -1455,7 +1457,7 @@ export KRB5_KTNAME=/etc/themisdb/test.keytab
 ./build/tests/test_kerberos_integration
 ```
 
-### Load Testing
+## Load Testing
 
 ```bash
 # Benchmark JWT validation
@@ -1538,3 +1540,7 @@ For general support, see [SUPPORT.md](../../SUPPORT.md)
 4. Bonneau, J., Herley, C., van Oorschot, P. C., & Stajano, F. (2012). **The Quest to Replace Passwords: A Framework for Comparative Evaluation of Web Authentication Schemes**. *Proceedings of the 2012 IEEE Symposium on Security and Privacy*, 553–567. https://doi.org/10.1109/SP.2012.44
 
 5. Grassi, P. A., Garcia, M. E., & Fenton, J. L. (2017). **Digital Identity Guidelines: Authentication and Lifecycle Management**. NIST Special Publication 800-63B. National Institute of Standards and Technology. https://doi.org/10.6028/NIST.SP.800-63b
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

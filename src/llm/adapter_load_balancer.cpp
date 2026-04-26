@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adapter_load_balancer.cpp                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:51                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     652                                            ║
+    • Total Lines:     653                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 2873683f7  2026-03-18  Changes before error encountered         ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 2873683f74  2026-03-18  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -24,6 +23,7 @@
 
 #include "llm/adapter_load_balancer.h"
 #include "llm/gpu_memory_manager.h"
+#include "llm/decision_record_yaml_processor.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <chrono>
@@ -341,7 +341,9 @@ bool AdapterLoadBalancer::rebalance() {
     last_rebalance_time_ = getCurrentTimeMs();
     
     spdlog::info("Load rebalancing completed: {} migrations", migrations);
-    
+
+    emitRebalanceRecord(migrations, static_cast<int>(healthy_gpus.size()), avg_load);
+
     return migrations > 0;
 }
 
@@ -648,6 +650,36 @@ std::string AdapterLoadBalancer::resolveAdapter(const std::string& adapter_id) c
         return it->second;
     }
     return adapter_id;
+}
+
+void AdapterLoadBalancer::setDecisionRecordProcessor(
+    std::shared_ptr<DecisionRecordYamlProcessor> processor)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    dr_processor_ = std::move(processor);
+}
+
+void AdapterLoadBalancer::emitRebalanceRecord(
+    int migrations, int num_gpus, float avg_load) const
+{
+    // dr_processor_ is checked under the caller's mutex_ context
+    if (!dr_processor_) {
+        return;
+    }
+
+    DecisionRecord rec;
+    rec.decision_type = "LORA_RANK_ADJUSTMENT";
+    rec.component     = "AdapterLoadBalancer";
+    rec.outcome       = migrations > 0 ? "SUCCESS" : "SKIPPED_BUDGET";
+
+    rec.parameters["migrations"]        = std::to_string(migrations);
+    rec.parameters["num_gpus"]          = std::to_string(num_gpus);
+    rec.parameters["avg_gpu_load"]      = std::to_string(avg_load);
+    rec.parameters["total_migrations"]  = std::to_string(total_migrations_);
+    rec.parameters["total_evictions"]   = std::to_string(total_evictions_);
+
+    // submit() is non-blocking — the processor's background thread handles I/O
+    dr_processor_->submit(std::move(rec));
 }
 
 } // namespace llm

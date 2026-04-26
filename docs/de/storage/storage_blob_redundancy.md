@@ -1,7 +1,7 @@
 # ThemisDB - Granulare Binär-Blob Redundanz
 
 **Version:** 1.0  
-**Stand:** 2. Dezember 2025  
+**Stand:** 6. April 2026  
 **Status:** Konzept / Design
 
 ---

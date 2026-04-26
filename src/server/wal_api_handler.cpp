@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wal_api_handler.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:10                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -154,7 +154,7 @@ http::response<http::string_body> WALApiHandler::handleApply(
 
     wal_apply_success_.fetch_add(1, std::memory_order_relaxed);
     {
-        std::lock_guard<std::mutex> lock(wal_metrics_mutex_);
+        std::unique_lock<std::shared_mutex> lock(wal_metrics_mutex_);
         wal_last_applied_lsn_ = result.last_applied_lsn.toString();
     }
 

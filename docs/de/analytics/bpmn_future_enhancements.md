@@ -101,5 +101,5 @@ These enhancements are planned for future releases. Implementation priority and 
 
 ---
 
-**Last Updated:** February 9, 2026  
+**Last Updated:** April 2026  
 **Status:** Planning

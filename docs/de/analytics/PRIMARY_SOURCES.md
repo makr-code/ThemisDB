@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [analytics](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-04  
+**Datum:** 2026-04-17  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/analytics/ARCHITECTURE.md`
@@ -25,21 +25,9 @@
 
 # Primary Sources — `analytics`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`analytics`** aus den Verzeichnissen `src/analytics/` und/oder `include/analytics/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`analytics`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/analytics/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/analytics/ARCHITECTURE.md`](../../../src/analytics/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/analytics/AUDIT.md`](../../../src/analytics/AUDIT.md) |
-| `CHANGELOG.md` | [`src/analytics/CHANGELOG.md`](../../../src/analytics/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/analytics/FUTURE_ENHANCEMENTS.md`](../../../src/analytics/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/analytics/README.md`](../../../src/analytics/README.md) |
-| `ROADMAP.md` | [`src/analytics/ROADMAP.md`](../../../src/analytics/ROADMAP.md) |
-| `SECURITY.md` | [`src/analytics/SECURITY.md`](../../../src/analytics/SECURITY.md) |
 
 ### `include/analytics/`
 
@@ -53,6 +41,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`analytics`
 | `ROADMAP.md` | [`include/analytics/ROADMAP.md`](../../../include/analytics/ROADMAP.md) |
 | `SECURITY.md` | [`include/analytics/SECURITY.md`](../../../include/analytics/SECURITY.md) |
 
+### `src/analytics/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/analytics/ARCHITECTURE.md`](../../../src/analytics/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/analytics/AUDIT.md`](../../../src/analytics/AUDIT.md) |
+| `CHANGELOG.md` | [`src/analytics/CHANGELOG.md`](../../../src/analytics/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/analytics/FUTURE_ENHANCEMENTS.md`](../../../src/analytics/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/analytics/README.md`](../../../src/analytics/README.md) |
+| `ROADMAP.md` | [`src/analytics/ROADMAP.md`](../../../src/analytics/ROADMAP.md) |
+| `SECURITY.md` | [`src/analytics/SECURITY.md`](../../../src/analytics/SECURITY.md) |
+
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-04*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*

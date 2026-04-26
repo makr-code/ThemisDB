@@ -178,7 +178,7 @@ transfer_money(client, "alice", "bob", 100.0)
 
 ## LLM Integration (v1.4.0+) 🆕
 
-ThemisDB v1.4.0-alpha introduces native LLM integration with support for various models and features like prefix caching, response caching, multi-GPU, and more.
+ThemisDB v1.8.0-rc1 introduces native LLM integration with support for various models and features like prefix caching, response caching, multi-GPU, and more.
 
 ### Basic LLM Interaction
 

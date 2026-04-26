@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cross_module_temporal_bitemporal.cpp          ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:26:14                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:53:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     481                                            ║
+    • Total Lines:     504                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a7b2d6bca  2026-03-26  fix(tests): address code review - predicate logic, delete... ║
-    • d70fc89e5  2026-03-26  feat(tests): add cross-module integration tests for times... ║
+    • a7b2d6bca0  2026-03-26  fix(tests): address code review - predicate logic, delete... ║
+    • d70fc89e5d  2026-03-26  feat(tests): add cross-module integration tests for times... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

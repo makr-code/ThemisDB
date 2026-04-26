@@ -97,4 +97,4 @@ uWebSockets was rejected due to AGPL licensing incompatibility. Drogon was rejec
 - [ADR-008: JWT + OAuth2 PKCE as Primary API Authentication](adr_008_jwt_oauth2_for_api_auth.md)
 
 ---
-**Last Updated:** 2026-03-24
+**Last Updated:** 2026-04-06

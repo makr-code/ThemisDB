@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed_api_handler.cpp                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:42                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     1249                                           ║
+    • Total Lines:     1247                                           ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 5a6955588  2026-03-11  chore(cdc): audit fixes - documentation, THEMIS_ENABLE_SS... ║
-    • b56122b39  2026-03-11  feat(cdc): extend at-least-once delivery guarantee to SSE... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1c8568075  2026-02-24  Implement GDPR-aware PII field scrubbing HTTP endpoint fo... ║
-    • e812e3a43  2026-02-24  feat(cache): implement adaptive TTL tuning based on slidi... ║
+    • c1118dfd68  2026-04-13  feat(cdc): GDPR redaction audit log (cdc_redactions CF) +... ║
+    • 13a305368a  2026-04-13  feat(cdc): GDPR redaction audit log (cdc_redactions CF) +... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -403,6 +400,11 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
         res.set(http::field::cache_control, "no-cache, no-transform");
         res.set(http::field::connection, "keep-alive");
         // Best-effort proxies
+        // TODO(GAP-012): Hardcoded CORS wildcard bypasses the central CORS policy in
+        // HttpServer::applyCORSHeaders(). If cors_allow_credentials_ is enabled, browsers
+        // silently drop the Credentials flag, but the policy divergence is hard to audit.
+        // Fix: delegate to HttpServer::applyCORSHeaders() or replicate the origin-whitelist
+        // check here using the same cors_allowed_origins_ config list.  Target: Q3 2026
         res.set(http::field::access_control_allow_origin, "*");
         res.keep_alive(true);
         
@@ -835,7 +837,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleRetentionPut(
 http::response<http::string_body> ChangefeedApiHandler::handleGdprRedact(
     const http::request<http::string_body>& req
 ) {
-    // Authorization check – requires admin scope (data erasure is a privileged operation)
+    // Authorization check - requires admin scope (data erasure is a privileged operation)
     if (auto auth_resp = checkAuth(req, "cdc:admin")) {
         return *auth_resp;
     }
@@ -861,6 +863,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleGdprRedact(
         }
 
         themis::cdc::CDCAdmin admin(changefeed_.get());
+        admin.setAuditStorage(storage_.get());
         auto result = admin.redactByKeyPrefix(tenant_id, key_prefix, operator_id);
 
         span.setAttribute("redact.scanned",  static_cast<int64_t>(result.events_scanned));

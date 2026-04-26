@@ -1,8 +1,11 @@
+> **Build:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
 # Docker Comparative Benchmarks - ThemisDB v1.0.1 Gap Validation
 
 ## Überblick
 
 Umfassendes Docker-basiertes Benchmark-Framework zur Validierung der Performance-Verbesserungen in ThemisDB v1.0.1 gegenüber bekannten Gaps aus v1.0.0.
+<!-- TODO: verify against current version -->
 
 ## Executive Summary - v1.0.0 → v1.0.1 Überblick
 
@@ -11,6 +14,7 @@ Umfassendes Docker-basiertes Benchmark-Framework zur Validierung der Performance
 ### Durchschnittliche Verbesserungen pro Workload
 
 | Kategorie | v1.0.0 Baseline | v1.0.1 Erreicht | Verbesserung | Gap-Closure |
+<!-- TODO: verify against current version -->
 |-----------|-----------------|-----------------|--------------|------------|
 | **Relational** | 1.36ms | 0.59ms | **-57%** | 45/45 ✓ |
 | **Vector** | 3.8s (Index) | 2.1s | **-45%** | 24/24 ✓ |
@@ -291,6 +295,7 @@ docker_benchmark_results_20251204_143022/
 ### Gap-Closure Targets
 
 | Workload | v1.0.0 Gap | v1.0.1 Target | Status |
+<!-- TODO: verify against current version -->
 |----------|-----------|---------------|--------|
 | Relational | 18 Gaps | > 17 closed (94%) | ✓ On Track |
 | Vector | 12 Gaps | > 10 closed (83%) | ✓ On Track |
@@ -304,6 +309,7 @@ docker_benchmark_results_20251204_143022/
 ### Relational Workloads - TCP Protocol
 
 | Operator | Themis v1.0.0 | Themis v1.0.1 | PostgreSQL 16 | Improvement | Gap-Closure |
+<!-- TODO: verify against current version -->
 |----------|--------------|--------------|---------------|-------------|-------------|
 | Insert | 1.45ms | 0.56ms | 0.96ms | **-61%** ✓ | **Geschlossen** |
 | Read (PK) | 0.89ms | 0.42ms | 0.78ms | **-53%** ✓ | **Geschlossen** |
@@ -315,6 +321,7 @@ docker_benchmark_results_20251204_143022/
 ### Relational Workloads - HTTP Protocol
 
 | Operator | Themis v1.0.0 | Themis v1.0.1 | PostgreSQL 16 | Improvement | Gap-Closure |
+<!-- TODO: verify against current version -->
 |----------|--------------|--------------|---------------|-------------|-------------|
 | Insert | 1.81ms | 0.70ms | 1.20ms | **-61%** ✓ | **Geschlossen** |
 | Read (PK) | 1.15ms | 0.58ms | 1.02ms | **-50%** ✓ | **Geschlossen** |
@@ -326,6 +333,7 @@ docker_benchmark_results_20251204_143022/
 ### Vector Workloads - Milvus/Qdrant
 
 | Workload | Themis v1.0.0 | Themis v1.0.1 | Competitor | Improvement | Status |
+<!-- TODO: verify against current version -->
 |----------|--------------|--------------|-----------|-------------|--------|
 | Index Build (100k vectors) | 5.8s | 2.8s | Milvus 3.2s | **-52%** ✓ | **-13% vs Milvus** |
 | Recall@100 (Accuracy) | 92.0% | 99.5% | Qdrant 100% | **+7.5%** ✓ | **-0.5% vs Qdrant** |
@@ -336,6 +344,7 @@ docker_benchmark_results_20251204_143022/
 ### Graph Workloads - Neo4j/ArangoDB
 
 | Query Type | Themis v1.0.0 | Themis v1.0.1 | Neo4j | Improvement | Status |
+<!-- TODO: verify against current version -->
 |-----------|--------------|--------------|-------|-------------|--------|
 | Shortest Path (10K nodes) | 12.0ms | 4.5ms | 2.7ms | **-62%** ✓ | **+67% vs Neo4j** |
 | Traversal Depth-5 | 8.5ms | 3.0ms | ArangoDB 2.8ms | **-65%** ✓ | **+7% vs ArangoDB** |
@@ -346,6 +355,7 @@ docker_benchmark_results_20251204_143022/
 ### Geo-Spatial Workloads
 
 | Query | Themis v1.0.0 | Themis v1.0.1 | PostGIS | Improvement | Status |
+<!-- TODO: verify against current version -->
 |-------|--------------|--------------|---------|-------------|--------|
 | Radius Search (1M points) | 1.86ms | 0.95ms | 1.20ms | **-49%** ✓ | **-21% vs PostGIS** |
 | Polygon Intersection (50K) | 3.5ms | 1.3ms | 1.8ms | **-63%** ✓ | **-28% vs PostGIS** |
@@ -356,6 +366,7 @@ docker_benchmark_results_20251204_143022/
 ### Document Workloads - MongoDB
 
 | Operation | Themis v1.0.0 | Themis v1.0.1 | MongoDB 7.0 | Improvement | Status |
+<!-- TODO: verify against current version -->
 |-----------|--------------|--------------|------------|-------------|--------|
 | Insert (1 doc) | 1.3ms | 0.85ms | 1.0ms | **-35%** ✓ | **-15% vs MongoDB** |
 | Bulk Insert (10K docs) | Previous -25% | Now +28% | MongoDB -15% | **+43% throughput** ✓ | **Geschlossen** |
@@ -367,6 +378,7 @@ docker_benchmark_results_20251204_143022/
 ### Hybrid Workloads (Mixed Operations)
 
 | Scenario | Themis v1.0.0 | Themis v1.0.1 | Improvement | Status |
+<!-- TODO: verify against current version -->
 |----------|--------------|--------------|-------------|--------|
 | Relational + Vector | 3.2ms | 1.1ms | **-66%** ✓ | **Geschlossen** |
 | Graph + Geo | 2.8ms | 1.0ms | **-64%** ✓ | **Geschlossen** |
@@ -469,6 +481,7 @@ python3 scripts/run_docker_comparative_benchmarks.py --duration 300
 2. ✅ **Runner-Skripte erstellen** (PowerShell + Python)
 3. 🔄 **Benchmarks ausführen** und Ergebnisse sammeln
 4. 📊 **Gap-Analyse durchführen** gegen v1.0.0 Baseline
+<!-- TODO: verify against current version -->
 5. 📋 **Gap-Closure-Report** generieren
 6. 🎯 **Verbesserungen identifizieren** und Optimierungen planen
 7. 📈 **Competitor-Positioning** dokumentieren
@@ -478,6 +491,7 @@ python3 scripts/run_docker_comparative_benchmarks.py --duration 300
 - **Benchmark Results:** `benchmarks/enterprise_benchmarks_20251204_*/`
 - **Docker Compose Files:** `benchmarks/comparative/docker-compose.benchmark*.yml`
 - **Release Notes:** `CHANGELOG.md` (v1.0.1)
+<!-- TODO: verify against current version -->
 - **Performance Improvements:** Commit `e01570e` (SLSA2 + optimizations)
 
 ---

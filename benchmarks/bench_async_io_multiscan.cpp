@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_async_io_multiscan.cpp                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:03:59                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:43:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 202546ee10  2026-04-13  perf: add Disabled-Stub-Policy comments to all 21 *_Disab... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -30,5 +29,6 @@ static void BM_AsyncIO_Multiscan_Disabled(benchmark::State& state) {
     }
 }
 
+// Disabled: async I/O multiscan pending API update | Deadline: v1.9.0 | Issue: #5
 BENCHMARK(BM_AsyncIO_Multiscan_Disabled);
 BENCHMARK_MAIN();

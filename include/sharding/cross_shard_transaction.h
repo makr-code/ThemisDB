@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cross_shard_transaction.h                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:31                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     634                                            ║
+    • Total Lines:     628                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 715714948  2026-03-15  feat(sharding): fix coordinator ID + implement SAGA compe... ║
-    • 57edae2d8  2026-03-14  fix: address all PR review comments on Percolator coordin... ║
-    • 2bbac9e44  2026-03-14  feat: implement Percolator-style distributed transaction ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8cf91c826  2026-03-01  feat: implement Calvin protocol for deterministic distrib... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,8 +24,7 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_CROSS_SHARD_TRANSACTION_H
-#define THEMISDB_SHARDING_CROSS_SHARD_TRANSACTION_H
+#pragma once
 
 #include "sharding/consensus_module.h"
 #include "sharding/distributed_transaction.h"
@@ -630,5 +626,3 @@ private:
 
 } // namespace sharding
 } // namespace themisdb
-
-#endif // THEMISDB_SHARDING_CROSS_SHARD_TRANSACTION_H

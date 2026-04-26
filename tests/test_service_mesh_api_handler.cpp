@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_service_mesh_api_handler.cpp                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:33:39                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:57:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 607608e9d  2026-03-09  feat(server): add ServiceMeshApiHandler, update ROADMAP a... ║
+    • 607608e9d8  2026-03-09  feat(server): add ServiceMeshApiHandler, update ROADMAP a... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -66,7 +66,7 @@ TEST_F(ServiceMeshApiHandlerDisabledTest, Status_ContentTypeIsJson) {
 
 TEST_F(ServiceMeshApiHandlerDisabledTest, Status_BodyIsValidJson) {
     auto res = handler.handleStatus(makeGet("/api/v1/service-mesh/status"));
-    EXPECT_NO_THROW(json::parse(res.body()));
+    EXPECT_NO_THROW((void)json::parse(res.body()));
 }
 
 TEST_F(ServiceMeshApiHandlerDisabledTest, Status_ContainsEnabledOrMessage) {
@@ -84,7 +84,7 @@ TEST_F(ServiceMeshApiHandlerDisabledTest, Config_Returns200) {
 
 TEST_F(ServiceMeshApiHandlerDisabledTest, Config_BodyIsValidJson) {
     auto res = handler.handleConfig(makeGet("/api/v1/service-mesh/config"));
-    EXPECT_NO_THROW(json::parse(res.body()));
+    EXPECT_NO_THROW((void)json::parse(res.body()));
 }
 
 TEST_F(ServiceMeshApiHandlerDisabledTest, Annotations_Returns200) {
@@ -94,7 +94,7 @@ TEST_F(ServiceMeshApiHandlerDisabledTest, Annotations_Returns200) {
 
 TEST_F(ServiceMeshApiHandlerDisabledTest, Annotations_BodyIsValidJson) {
     auto res = handler.handleAnnotations(makeGet("/api/v1/service-mesh/annotations"));
-    EXPECT_NO_THROW(json::parse(res.body()));
+    EXPECT_NO_THROW((void)json::parse(res.body()));
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

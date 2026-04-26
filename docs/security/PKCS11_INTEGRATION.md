@@ -1,7 +1,7 @@
 # PKCS#11 Integration Guide
 
 **Version:** 1.4.2  
-**Last Updated:** February 2026  
+**Last Updated:** April 2026  
 **Classification:** Public  
 **Related:** HSM Production Setup, Security Hardening
 

@@ -1,7 +1,7 @@
 # Scaling Runbook
 
 **Version:** 1.0  
-**Last Updated:** January 2026  
+**Last Updated:** April 2026  
 **Target Audience:** Operations Teams, SREs
 
 ---

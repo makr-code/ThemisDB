@@ -2,7 +2,7 @@
 
 > **Related Documentation:**
 > - **[replication-ha-guide.md](./replication-ha-guide.md)** - Complete HA/replication guide with deployment topologies
-> - **[REPLICATION_IMPLEMENTATION_STATUS.md](./REPLICATION_IMPLEMENTATION_STATUS.md)** - Detailed component status (~85% complete)
+> - **[REPLICATION_IMPLEMENTATION_STATUS.md](../../reports/REPLICATION_IMPLEMENTATION_STATUS.md)** - Detailed component status (~85% complete)
 
 ## Module Organization
 
@@ -40,7 +40,7 @@ This plan covers the WAL-based replication infrastructure implemented in the **`
 - RAID1/10 endurance tests show zero 404 sync misses; lag falls toward zero after load.
 
 ## Next Actions
-- ✅ Wire WALShipper lifecycle (leader-only) with real ShardService client + TLS/config (done: config/replication.example.yaml shows usage).
+- ✅ Wire WALShipper lifecycle (leader-only) with real ShardService client + TLS/config (done: config/distributed/replication/basic.example.yaml shows usage).
 - ✅ Write concern handling: ReplicationCoordinator tracks LSN acks, waits for quorum with timeout, returns success/failure to write API.
 - ✅ Wire ReplicationCoordinator into HttpServer POST /entities: append to WAL, call coordinator.waitForReplication(), return 503 on quorum timeout.
 - ✅ Expose Prometheus metrics: ship_batches_total, ship_bytes_total, ship_failures_total, replication_lag_seconds, backlog_bytes per replica.
@@ -51,4 +51,4 @@ This plan covers the WAL-based replication infrastructure implemented in the **`
 ## See Also
 
 - **[replication-ha-guide.md](./replication-ha-guide.md)** - Complete HA/replication guide with deployment topologies and operational procedures
-- **[REPLICATION_IMPLEMENTATION_STATUS.md](./REPLICATION_IMPLEMENTATION_STATUS.md)** - Detailed implementation status with component breakdown
+- **[REPLICATION_IMPLEMENTATION_STATUS.md](../../reports/REPLICATION_IMPLEMENTATION_STATUS.md)** - Detailed implementation status with component breakdown

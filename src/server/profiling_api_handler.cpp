@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            profiling_api_handler.cpp                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:57                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a2a0e15fa  2026-03-11  Changes before error encountered         ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -82,7 +82,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_request(
 }
 
 http::response<http::string_body> ProfilingApiHandler::handle_enable(
-    const http::request<http::string_body>& req) {
+    const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handle_enable");
     
     query_profiler_->enable();
@@ -97,7 +97,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_enable(
 }
 
 http::response<http::string_body> ProfilingApiHandler::handle_disable(
-    const http::request<http::string_body>& req) {
+    const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handle_disable");
     
     query_profiler_->disable();
@@ -155,7 +155,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_get_slow_queries(
 }
 
 http::response<http::string_body> ProfilingApiHandler::handle_get_storage(
-    const http::request<http::string_body>& req) {
+    const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handle_get_storage");
     
     json result = {
@@ -173,7 +173,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_get_storage(
 }
 
 http::response<http::string_body> ProfilingApiHandler::handle_analyze(
-    const http::request<http::string_body>& req) {
+    const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handle_analyze");
     
     auto analysis = analyzer_->analyze(*query_profiler_, *storage_profiler_);
@@ -182,7 +182,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_analyze(
 }
 
 http::response<http::string_body> ProfilingApiHandler::handle_export(
-    const http::request<http::string_body>& req) {
+    const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handle_export");
     
     auto query_profiles = query_profiler_->get_all_profiles();
@@ -209,7 +209,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_export(
 }
 
 http::response<http::string_body> ProfilingApiHandler::handle_clear(
-    const http::request<http::string_body>& req) {
+    const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handle_clear");
     
     query_profiler_->clear();
@@ -224,7 +224,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_clear(
 }
 
 http::response<http::string_body> ProfilingApiHandler::handle_get_config(
-    const http::request<http::string_body>& req) {
+    const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handle_get_config");
     
     auto query_config = query_profiler_->get_config();

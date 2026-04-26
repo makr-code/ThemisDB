@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            feature_flags.h                                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:09:20                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     188                                            ║
+    • Total Lines:     184                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1973a06f2  2026-02-28  feat(performance): Adaptive batch size tuning for LLM inf... ║
-    • 54593e02c  2026-02-27  feat(performance): AVX-512 SIMD path for vector distance ... ║
-    • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
-    • da9b09bcc  2026-02-25  chore: code-audit fixes - update header metadata, remove ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

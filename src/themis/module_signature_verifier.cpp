@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_signature_verifier.cpp                      ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:20:49                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:51:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 99408f61e  2026-03-01  feat: add standalone ModuleSignatureVerifier for Authenti... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -55,12 +55,12 @@ namespace modules {
 
 ModuleSignatureVerificationResult ModuleSignatureVerifier::verifySignature(
     const std::string& modulePath,
-    const std::string& signaturePath)
+    [[maybe_unused]] const std::string& signaturePath)
 {
     ModuleSignatureVerificationResult result;
 
 #ifdef _WIN32
-    (void)signaturePath; // unused on Windows
+    // unused on Windows
     result.platform = "windows_authenticode";
     result.success  = verifyAuthenticodeSignature(modulePath, result.signerInfo);
     if (!result.success && result.signerInfo.empty()) {

@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            spatial_join.cpp                                   ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:15:39                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     277                                            ║
+    • Total Lines:     274                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 3a43c52c9  2026-03-13  feat(geo): add SpatialJoinIterator lazy iterator and AQL ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 48e1d07b1  2026-02-25  fix(geo): audit cleanup — remove unused include, update s... ║
-    • a6b9a1ca8  2026-02-24  feat(geo): implement spatial JOIN for nearby point pairs ║
+    • 3a43c52c92  2026-03-13  feat(geo): add SpatialJoinIterator lazy iterator and AQL ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -25,6 +22,7 @@
 
 #include "geo/spatial_join.h"
 #include "geo/geo_rtree.h"
+#include "geo/geo_math.h"
 #include "utils/logger.h"
 
 #include <cmath>
@@ -32,28 +30,6 @@
 
 namespace themis {
 namespace geo {
-
-// ---------------------------------------------------------------------------
-// Haversine distance helper
-// ---------------------------------------------------------------------------
-
-static constexpr double kPi         = 3.14159265358979323846;
-static constexpr double kEarthRadiusM = 6371000.0; // mean Earth radius in metres
-
-double haversineDistanceM(double lon1, double lat1,
-                          double lon2, double lat2) noexcept {
-    const double rlat1 = lat1 * kPi / 180.0;
-    const double rlat2 = lat2 * kPi / 180.0;
-    const double dlat  = (lat2 - lat1) * kPi / 180.0;
-    const double dlon  = (lon2 - lon1) * kPi / 180.0;
-
-    const double sinDlat = std::sin(dlat * 0.5);
-    const double sinDlon = std::sin(dlon * 0.5);
-    const double a = sinDlat * sinDlat
-                   + std::cos(rlat1) * std::cos(rlat2) * sinDlon * sinDlon;
-    const double c = 2.0 * std::atan2(std::sqrt(a), std::sqrt(1.0 - a));
-    return kEarthRadiusM * c;
-}
 
 // ---------------------------------------------------------------------------
 // Centroid extraction for distance computation

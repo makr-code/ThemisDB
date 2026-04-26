@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ethics_ai_types.h                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:09:27                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     228                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -151,6 +148,24 @@ struct RAGContext {
     std::vector<std::string> recent_debates;                ///< Recent debate references
     std::vector<std::string> consensus_decisions;           ///< Consensus decisions
     std::map<std::string, double> relevance_scores;        ///< Relevance scores for retrieved items
+};
+
+/**
+ * @brief Debate Round
+ *
+ * Represents one round of counter-arguments in a multi-round debate.
+ * Each philosophy school responds to arguments generated in previous rounds.
+ */
+struct DebateRound {
+    std::string debate_id;                        ///< Parent debate identifier
+    int round_number;                             ///< Round index (1-based)
+    std::vector<EthicalArgument> arguments;       ///< Arguments produced in this round
+    std::chrono::system_clock::time_point created_at;
+
+    DebateRound()
+        : round_number(0)
+        , created_at(std::chrono::system_clock::now())
+    {}
 };
 
 /**

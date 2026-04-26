@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
 # Plugin Hot-Plug Monitoring Benchmarks
 
 This directory contains performance benchmarks for the Plugin Hot-Plug Monitoring system.

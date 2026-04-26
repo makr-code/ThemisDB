@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_metrics_exemplar.cpp                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:29:49                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:55:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 240f91cc6  2026-03-09  feat(observability): add Prometheus exemplar support on h... ║
+    • 240f91cc62  2026-03-09  feat(observability): add Prometheus exemplar support on h... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

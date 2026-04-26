@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_aql_handler.h                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:05:47                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     628                                            ║
+    • Total Lines:     720                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2e566adfc  2026-03-14  fix(aql): bounded worker pool - fix dangling ref, unbound... ║
-    • db5df3fde  2026-03-14  feat(aql): parallel execution of translateBatchNLToAQL() ... ║
-    • c0fe40af5  2026-03-13  fix(aql/test): correct AC-4 benchmark assertion; remove d... ║
-    • c28ecfee9  2026-03-13  feat(aql): accurate token-count estimation - TiktokenEsti... ║
-    • f5c74c7e8  2026-03-13  fix(aql): add mock chat executor injection + AC#5 integra... ║
+    • 8332e5afa3  2026-04-13  Refactor and update various components for improved compa... ║
+    • 3a758b465a  2026-04-12  feat(aql): AQL module enhancements — Features 8, 10, 12, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -26,13 +23,32 @@
 
 #pragma once
 
+// Forward-declare RocksDBWrapper to allow setStorage() without pulling in its header.
+namespace themis { class RocksDBWrapper; }
+
 #include "aql/aql_syntax_highlighter.h"
 #include "aql/aql_confidence_scorer.h"
 #include "aql/aql_fewshot_example_library.h"
 #include "aql/llm_token_estimator.h"
+#include "aql/llm_error_codes.h"
+#include "aql/llm_timeout_manager.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/llama_wrapper.h"
 #include "sharding/circuit_breaker.h"
+
+// Forward-declare to avoid pulling in toolbox/ingestion headers transitively.
+// Consumers that use setIngestionBridge() must include aql_ingestion_bridge.h.
+namespace themis { namespace aql { class AQLIngestionBridge; } }
+// Forward-declare embedding bridge; consumers must include llm_aql_embedding_bridge.h.
+namespace themis { namespace aql { class LLMAQLEmbeddingBridge; } }
+namespace themis { namespace sharding {
+class ShardingManager;
+class AdaptiveShardRouter;
+} }
+namespace themis { namespace llm {
+class KVPrefixTransferManager;
+class ContinuousBatchScheduler;
+} }
 #include <string>
 #include <cstdint>
 #include <functional>
@@ -128,6 +144,10 @@ private:
  */
 class LLMAQLHandler {
 public:
+    using DomainRouteResolver = std::function<
+        std::optional<std::pair<std::string, double>>(const std::string& domain_hint)
+    >;
+
     /**
      * @brief Per-operation-type circuit breaker configuration.
      *
@@ -582,6 +602,80 @@ public:
     TranslationValidationMode getValidationMode() const;
 
     // =========================================================================
+    // Runtime-overridable validation limits
+    // =========================================================================
+
+    /**
+     * @brief Override all input-length and query-count validation limits at runtime.
+     *
+     * The supplied @p config replaces the handler's internal copy of the
+     * limits. All subsequent calls to translateNLToAQL(), translateNLToAQLStreaming(),
+     * translateNLToAQLWithExamples(), and the sanitizePromptInput() helper will
+     * use the new values. Passing a default-constructed @c ValidationLimitsConfig
+     * restores the original @c ValidationLimits constexpr values.
+     *
+     * Typical use (embedded deployment with tight memory):
+     * @code
+     * ValidationLimitsConfig cfg;
+     * cfg.max_nl_query_length = 512;
+     * cfg.max_schema_context_length = 4096;
+     * handler.setValidationLimits(cfg);
+     * @endcode
+     *
+     * @param config  New validation limits. All fields carry defaults identical
+     *                to the original compile-time constants for backward compatibility.
+     */
+    void setValidationLimits(const ValidationLimitsConfig& config);
+
+    /**
+     * @brief Return the currently active validation limits.
+     */
+    ValidationLimitsConfig getValidationLimits() const;
+
+    /**
+     * @brief Override LLM timeout settings at runtime.
+     *
+     * Replaces the handler's internal @c LLMTimeoutManager configuration.
+     * Individual timeout values (infer, rag, embed, model-load) are all
+     * adjustable without recompilation.
+     *
+     * @param config  New timeout configuration.
+     */
+    void setTimeoutConfig(const LLMTimeoutManager::TimeoutConfig& config);
+    void setDomainRouteResolver(DomainRouteResolver resolver);
+    void setAdaptiveShardRouter(std::shared_ptr<sharding::AdaptiveShardRouter> router);
+    void setShardingManager(sharding::ShardingManager* sharding_manager);
+
+    /**
+     * @brief Inject a ContinuousBatchScheduler for live LLM-queue telemetry.
+     *
+     * When both a scheduler and an AdaptiveShardRouter are set, the scheduler's
+     * ShardLoadCallback is wired to call
+     * @c AdaptiveShardRouter::updateShardLLMLoad() on every queue-depth change
+     * so that LEAST_LOADED routing decisions reflect actual LLM queue pressure.
+     *
+     * @param sched           Pointer to the scheduler.  Pass @c nullptr to detach.
+     *                        Ownership is NOT transferred.
+     * @param local_shard_id  Shard identifier reported to the router for this node.
+     */
+    void setBatchScheduler(llm::ContinuousBatchScheduler* sched,
+                           std::string local_shard_id);
+
+    /**
+     * @brief Inject a KVPrefixTransferManager for Phase 5 cross-shard KV
+     *        prefix transfer.
+     *
+     * When set and a domain-routing decision selects a remote shard for an
+     * @c executeInfer() call, the handler will ask the manager to transfer the
+     * computed KV prefix (system-prompt) to that shard before returning the
+     * inference result.  The transfer is best-effort; a failure never fails
+     * the inference request.
+     *
+     * @param mgr  Owning pointer to the manager.  Pass @c nullptr to disable.
+     */
+    void setKVPrefixTransferManager(std::unique_ptr<llm::KVPrefixTransferManager> mgr);
+
+    // =========================================================================
     // Test / dependency injection
     // =========================================================================
 
@@ -619,9 +713,121 @@ public:
      */
     void setTokenEstimator(std::unique_ptr<TokenEstimator> estimator);
 
+    // =========================================================================
+    // Ingestion bridge (optional enrichment)
+    // =========================================================================
+
+    /**
+     * @brief Attach an `AQLIngestionBridge` to enable entity-context enrichment
+     *        of `translateNLToAQL()` calls.
+     *
+     * When set, `translateNLToAQL()` passes @p nl_query through the bridge's
+     * `extractEntitiesForContext()` and appends the resulting entity context
+     * string to the @p schema_context before constructing the LLM prompt.
+     * This improves NL→AQL translation accuracy for queries that reference
+     * domain entities (legal provisions, organisations, etc.).
+     *
+     * All other translation methods (streaming, batch, with-examples) also
+     * benefit from the injected entity context when a bridge is set.
+     *
+     * Pass @c nullptr to detach any previously set bridge (no-op).
+     *
+     * @param bridge  Shared `AQLIngestionBridge` instance, or nullptr.
+     */
+    void setIngestionBridge(std::shared_ptr<AQLIngestionBridge> bridge);
+
+    /**
+     * @brief Return the currently attached `AQLIngestionBridge`, or nullptr.
+     */
+    std::shared_ptr<AQLIngestionBridge> ingestionBridge() const;
+
+    /**
+     * @brief Inject a storage layer so that RAG result documents can be
+     *        hydrated with their actual content instead of just the primary key.
+     *
+     * Call this before invoking executeRAG() / executeCommand(…, "RAG", …).
+     * When not set, doc.content carries the primary key (backward-compatible).
+     */
+    void setStorage(std::shared_ptr<RocksDBWrapper> storage);
+
+    /**
+     * @brief Factory: create an `IEmbeddingProvider` backed by this handler's
+     *        `executeEmbed()` circuit.
+     *
+     * The returned bridge can be injected into an `AQLFewShotExampleLibrary`
+     * to enable semantic (cosine-similarity) few-shot example ranking instead
+     * of the default Jaccard word-overlap metric:
+     *
+     * @code
+     * auto bridge = handler.makeEmbeddingBridge();
+     * library.setEmbeddingProvider(bridge.get());
+     * library.rebuildEmbeddingIndex();
+     * @endcode
+     *
+     * The bridge holds a non-owning reference to @c *this — the returned
+     * pointer must not outlive this handler.
+     *
+     * Consumers must `#include "aql/llm_aql_embedding_bridge.h"` to access
+     * the concrete type; this header only sees the forward declaration.
+     *
+     * @return `unique_ptr` owning the bridge (concrete type: `LLMAQLEmbeddingBridge`).
+     */
+    std::unique_ptr<IEmbeddingProvider> makeEmbeddingBridge();
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
+
+    // =========================================================================
+    // Private prompt-building and post-processing helpers
+    // =========================================================================
+
+    /**
+     * @brief Build the NL-to-AQL system prompt shared by all three translation methods.
+     *
+     * Centralises prompt construction to eliminate copy-paste duplication across
+     * translateNLToAQL(), translateNLToAQLStreaming(), and
+     * translateNLToAQLWithExamples().  The returned string is ready to be used as
+     * the "system" chat message.
+     *
+     * @param schema_context  Optional database schema description (may be empty).
+     * @param examples        Optional few-shot examples to inject (may be empty).
+     * @param validation_feedback  When non-empty, appended as error feedback for
+     *        retry attempts.
+     * @return Fully assembled system prompt string.
+     */
+    std::string buildNLToAQLSystemPrompt(
+        const std::string& schema_context,
+        const std::vector<AQLFewShotExample>& examples = {},
+        const std::string& validation_feedback = ""
+    ) const;
+
+    /**
+     * @brief Strip a surrounding markdown code fence from @p raw.
+     *
+     * Handles both plain @c ``` and language-tagged @c ```aql fences.
+     * Returns the untouched input when no fence is detected.
+     *
+     * @param raw  Raw LLM response, potentially wrapped in a markdown fence.
+     *             Passed by value to enable the caller to move-in the source
+     *             string (e.g. `stripMarkdownFences(std::move(response))`),
+     *             avoiding a copy when the fence is absent.
+     * @return Query string with fences stripped and leading/trailing whitespace removed.
+     */
+    static std::string stripMarkdownFences(std::string raw);
+
+    /**
+     * @brief Log syntax-highlighter annotations as a single @c spdlog::warn call.
+     *
+     * @param annotations   Annotations from AQLSyntaxHighlighter::annotateErrors().
+     * @param query_preview Short description or prefix of the query (for log context).
+     * @param function_name Calling function name (for log context).
+     */
+    static void logAnnotations(
+        const std::vector<AQLAnnotation>& annotations,
+        const std::string& query_preview,
+        const std::string& function_name
+    );
 };
 
 } // namespace aql

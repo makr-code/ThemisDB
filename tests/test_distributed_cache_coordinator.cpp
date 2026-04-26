@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_distributed_cache_coordinator.cpp             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:26:35                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:53:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     390                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     392                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 84e885494  2026-03-14  feat(cache): implement RedisCacheCoordinator async pub/su... ║
-    • 022a28c27  2026-03-10  Changes before error encountered         ║
-    • a64247126  2026-03-08  Refactor code structure for improved readability and main... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
+    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -55,7 +51,7 @@ using json = nlohmann::json;
 // so all operations degrade gracefully.
 // ============================================================================
 static RedisCacheCoordinatorConfig makeOfflineConfig(
-    const std::string& node_id = "test-node")
+    [[maybe_unused]] const std::string& node_id = "test-node")
 {
     RedisCacheCoordinatorConfig cfg;
     cfg.host                 = "127.0.0.1";

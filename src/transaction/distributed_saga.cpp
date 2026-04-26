@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            distributed_saga.cpp                               ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:21:06                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:51:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     633                                            ║
+    • Total Lines:     893                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ffeccdf86  2026-03-01  feat(transaction): implement DistributedSagaCoordinator f... ║
+    • 28f276f45c  2026-04-13  feat(transaction): Distributed SAGA Coordinator v1.9.0 (#... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -628,6 +627,267 @@ void DistributedSagaCoordinator::journalWrite(
     } catch (...) {
         // Journal write failures are non-fatal
     }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// remoteStepToLocal()
+// ─────────────────────────────────────────────────────────────────────────────
+
+DistributedSagaStep DistributedSagaCoordinator::remoteStepToLocal(
+    const RemoteStep& remote
+) const {
+    DistributedSagaStep local;
+    local.name              = remote.name;
+    local.node_id           = remote.service_endpoint;
+    local.depends_on        = remote.depends_on;
+    local.forward_timeout   = remote.forward_timeout;
+    local.compensate_timeout = remote.compensate_timeout;
+    local.max_retries       = remote.max_retries;
+    local.retry_backoff     = remote.retry_backoff;
+
+    // Capture by value so the lambdas remain valid after this stack frame
+    auto executor      = config_.remote_executor;
+    auto endpoint      = remote.service_endpoint;
+    auto operation     = remote.operation;
+    auto params        = remote.params;
+    auto comp_op       = remote.compensate_operation;
+    auto comp_params   = remote.compensate_params;
+
+    if (executor) {
+        local.forward = [executor, endpoint, operation, params]() {
+            return executor(endpoint, operation, params);
+        };
+        if (!comp_op.empty()) {
+            local.compensate = [executor, endpoint, comp_op, comp_params]() {
+                return executor(endpoint, comp_op, comp_params);
+            };
+        }
+    } else {
+        // No executor configured — forward/compensate are no-ops (useful for testing)
+        local.forward = []() { return DistributedSagaStatus::OK(); };
+        if (!comp_op.empty()) {
+            local.compensate = []() { return DistributedSagaStatus::OK(); };
+        }
+    }
+
+    return local;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// executeDistributed()
+// ─────────────────────────────────────────────────────────────────────────────
+
+DistributedSagaReport DistributedSagaCoordinator::executeDistributed(
+    const DistributedSAGADefinition& remote_saga
+) {
+    // Convert to the canonical DistributedSagaDefinition
+    DistributedSagaDefinition local_def;
+    local_def.saga_id = remote_saga.saga_id;
+    local_def.context = remote_saga.context;
+
+    for (const auto& remote_step : remote_saga.steps) {
+        local_def.steps.push_back(remoteStepToLocal(remote_step));
+    }
+
+    return execute(local_def);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// getDistributedStatus()
+// ─────────────────────────────────────────────────────────────────────────────
+
+std::optional<DistributedSagaReport> DistributedSagaCoordinator::getDistributedStatus(
+    const std::string& saga_id
+) const {
+    return getReport(saga_id);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// recoverInProgressSAGAs()
+// ─────────────────────────────────────────────────────────────────────────────
+
+std::vector<std::string> DistributedSagaCoordinator::recoverInProgressSAGAs() {
+    std::vector<std::string> recovered;
+
+    if (config_.journal_path.empty()) return recovered;
+
+    std::ifstream f(config_.journal_path);
+    if (!f.is_open()) return recovered;
+
+    // Track terminal states seen per saga_id
+    std::map<std::string, std::string> latest_event; // saga_id → most recent event
+
+    std::string line;
+    while (std::getline(f, line)) {
+        if (line.empty()) continue;
+        try {
+            auto entry = nlohmann::json::parse(line);
+            std::string sid   = entry.value("saga_id", std::string{});
+            std::string event = entry.value("event",   std::string{});
+            if (!sid.empty() && !event.empty()) {
+                latest_event[sid] = event;
+            }
+        } catch (...) {
+            // Malformed lines are silently skipped
+        }
+    }
+
+    // SAGAs whose last event is STARTED or COMPENSATING are orphaned
+    for (const auto& [sid, event] : latest_event) {
+        if (event == "STARTED" || event == "COMPENSATING") {
+            // Record a synthetic recovery report so callers can inspect it
+            DistributedSagaReport report;
+            report.saga_id        = sid;
+            report.state          = SagaExecutionState::FAILED;
+            report.failure_reason = "recovered from incomplete state (" + event + ") after coordinator restart";
+
+            {
+                std::lock_guard<std::mutex> lk(reports_mutex_);
+                // Only insert if not already present (a concurrent execute() may have
+                // completed it between our journal read and now)
+                reports_.emplace(sid, report);
+            }
+
+            journalWrite(sid, "RECOVERED", event);
+            THEMIS_WARN("DSAGA[{}]: recovered orphaned SAGA (last state: {})", sid, event);
+            recovered.push_back(sid);
+        }
+    }
+
+    return recovered;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// visualize()
+// ─────────────────────────────────────────────────────────────────────────────
+
+SagaVisualization DistributedSagaCoordinator::visualize(
+    const DistributedSagaDefinition& saga
+) const {
+    // Retrieve any existing execution report for annotation
+    std::optional<DistributedSagaReport> report_opt = getReport(saga.saga_id);
+
+    // Build phase lookup
+    std::unordered_map<std::string, std::string> phase_label;
+    if (report_opt) {
+        for (const auto& rec : report_opt->step_records) {
+            switch (rec.phase) {
+                case StepRecord::Phase::PENDING:     phase_label[rec.name] = "PENDING";     break;
+                case StepRecord::Phase::EXECUTING:   phase_label[rec.name] = "EXECUTING";   break;
+                case StepRecord::Phase::DONE:        phase_label[rec.name] = "DONE";        break;
+                case StepRecord::Phase::COMPENSATING:phase_label[rec.name] = "COMPENSATING";break;
+                case StepRecord::Phase::COMPENSATED: phase_label[rec.name] = "COMPENSATED"; break;
+                case StepRecord::Phase::FAILED:      phase_label[rec.name] = "FAILED";      break;
+            }
+        }
+    }
+
+    // ── DOT graph ──────────────────────────────────────────────────────────
+    std::ostringstream dot;
+    dot << "digraph \"" << saga.saga_id << "\" {\n";
+    dot << "  rankdir=LR;\n";
+    dot << "  node [shape=box, style=filled, fillcolor=lightgrey];\n";
+
+    for (const auto& step : saga.steps) {
+        std::string fill = "lightgrey";
+        auto it = phase_label.find(step.name);
+        if (it != phase_label.end()) {
+            const std::string& ph = it->second;
+            if (ph == "DONE")        fill = "lightgreen";
+            else if (ph == "FAILED") fill = "salmon";
+            else if (ph == "COMPENSATED") fill = "lightyellow";
+            else if (ph == "EXECUTING" || ph == "COMPENSATING") fill = "lightblue";
+        }
+        dot << "  \"" << step.name << "\" [fillcolor=" << fill;
+        if (it != phase_label.end()) {
+            dot << ", label=\"" << step.name << "\\n(" << it->second << ")\"";
+        }
+        dot << "];\n";
+    }
+
+    for (const auto& step : saga.steps) {
+        for (const auto& dep : step.depends_on) {
+            dot << "  \"" << dep << "\" -> \"" << step.name << "\";\n";
+        }
+    }
+    dot << "}\n";
+
+    // ── Text summary ───────────────────────────────────────────────────────
+    std::ostringstream txt;
+    txt << "SAGA: " << saga.saga_id << "\n";
+    txt << "Steps: " << saga.steps.size() << "\n";
+    if (report_opt) {
+        txt << "State: ";
+        switch (report_opt->state) {
+            case SagaExecutionState::PENDING:     txt << "PENDING";     break;
+            case SagaExecutionState::RUNNING:     txt << "RUNNING";     break;
+            case SagaExecutionState::COMPLETED:   txt << "COMPLETED";   break;
+            case SagaExecutionState::COMPENSATING:txt << "COMPENSATING";break;
+            case SagaExecutionState::COMPENSATED: txt << "COMPENSATED"; break;
+            case SagaExecutionState::FAILED:      txt << "FAILED";      break;
+        }
+        txt << "\n";
+        txt << "Duration: " << report_opt->total_duration_ms << " ms\n";
+        txt << "\nStep Details:\n";
+        for (const auto& rec : report_opt->step_records) {
+            txt << "  [";
+            switch (rec.phase) {
+                case StepRecord::Phase::DONE:        txt << "✓"; break;
+                case StepRecord::Phase::FAILED:      txt << "✗"; break;
+                case StepRecord::Phase::COMPENSATED: txt << "↩"; break;
+                default:                             txt << "·"; break;
+            }
+            txt << "] " << rec.name;
+            if (rec.attempts > 0) txt << " (attempts: " << rec.attempts << ")";
+            if (!rec.error_message.empty()) txt << " — " << rec.error_message;
+            txt << "\n";
+        }
+    } else {
+        txt << "(Not yet executed)\n";
+        txt << "\nStep Dependency Order:\n";
+        for (const auto& step : saga.steps) {
+            txt << "  " << step.name;
+            if (!step.depends_on.empty()) {
+                txt << " (after: ";
+                bool first = true;
+                for (const auto& d : step.depends_on) {
+                    if (!first) txt << ", ";
+                    txt << d;
+                    first = false;
+                }
+                txt << ")";
+            }
+            txt << "\n";
+        }
+    }
+
+    return SagaVisualization{dot.str(), txt.str()};
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// forceCompensate() / forceComplete()
+// ─────────────────────────────────────────────────────────────────────────────
+
+bool DistributedSagaCoordinator::forceCompensate(const std::string& saga_id) {
+    std::lock_guard<std::mutex> lk(reports_mutex_);
+    auto it = reports_.find(saga_id);
+    if (it == reports_.end()) return false;
+    it->second.state          = SagaExecutionState::COMPENSATED;
+    it->second.failure_reason = "forced compensation via manual intervention";
+    journalWrite(saga_id, "FORCE_COMPENSATED");
+    THEMIS_WARN("DSAGA[{}]: force-compensated via manual intervention", saga_id);
+    return true;
+}
+
+bool DistributedSagaCoordinator::forceComplete(const std::string& saga_id) {
+    std::lock_guard<std::mutex> lk(reports_mutex_);
+    auto it = reports_.find(saga_id);
+    if (it == reports_.end()) return false;
+    it->second.state          = SagaExecutionState::COMPLETED;
+    it->second.failure_reason.clear();
+    journalWrite(saga_id, "FORCE_COMPLETED");
+    THEMIS_WARN("DSAGA[{}]: force-completed via manual intervention", saga_id);
+    return true;
 }
 
 } // namespace themis

@@ -3,24 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_provider.cpp                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:27                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   0.0/100                                        ║
-    • Total Lines:     367                                            ║
+    • Total Lines:     362                                            ║
     • Open Issues:     TODOs: 0, Stubs: 42                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a05c4ac44  2026-03-01  feat(security): enforce hard rejection of stub HSM in pro... ║
-    • ffcf5ac92  2026-03-01  fix: replace HSM stub with PKCS#11 production implementation ║
-    • 14140888f  2026-02-22  feat: Complete HSM PKCS#11 direct integration with RSA-OA... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: 📝 Draft / Stub                                              ║
+  Status: 🟡 Documented Stub (dev-fallback; see STUB/SIMULATION NOTE)                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
@@ -31,6 +28,21 @@
 #ifdef THEMIS_ENABLE_HSM_REAL
 // Real PKCS#11 Implementierung in hsm_provider_pkcs11.cpp
 #else
+
+// STUB/SIMULATION NOTE:
+// Purpose: Software-only AES-256-GCM fallback for HSMProvider when no real HSM hardware
+//          is present. Provides deterministic key-wrap/unwrap for developer and CI use.
+//          Production mode is explicitly blocked unless THEMIS_ALLOW_HSM_STUB=1 env var
+//          is set, or the --allow-stub-hsm server flag is passed.
+// Activation: Compiled when THEMIS_ENABLE_HSM_REAL is NOT defined (default in dev builds).
+//             Build with -DTHEMIS_ENABLE_HSM_REAL=ON to replace this with the real PKCS#11
+//             implementation in hsm_provider_pkcs11.cpp.
+// Production Delta: Uses a randomly-generated in-memory KEK (not persisted across restarts,
+//                   not protected by HSM hardware). All crypto is software-only OpenSSL.
+//                   Not suitable for production key management.
+// Removal Plan: Replaced at build time by hsm_provider_pkcs11.cpp when
+//               -DTHEMIS_ENABLE_HSM_REAL=ON is set. No v1.x production deployment ships
+//               without a real HSM backend.
 
 #include "security/hsm_provider.h"
 #include "core/production_mode.h"
@@ -272,8 +284,7 @@ std::vector<HSMKeyInfo> HSMProvider::listKeys() {
     return {info};
 }
 
-std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, const std::string& key_label) {
-    (void)key_label;
+std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, [[maybe_unused]] const std::string& key_label) {
     if (!initialized_) { last_error_ = "HSM stub not initialized"; return {}; }
     THEMIS_WARN("HSMProvider STUB encryptData - NOT hardware-protected, for development only!");
     auto result = stub_aes_encrypt(impl_->stub_kek, data);
@@ -281,8 +292,7 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
     return result;
 }
 
-std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, const std::string& key_label) {
-    (void)key_label;
+std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, [[maybe_unused]] const std::string& key_label) {
     if (!initialized_) { last_error_ = "HSM stub not initialized"; return {}; }
     THEMIS_WARN("HSMProvider STUB decryptData - NOT hardware-protected, for development only!");
     auto result = stub_aes_decrypt(impl_->stub_kek, encrypted);
@@ -290,20 +300,20 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
     return result;
 }
 
-bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, bool extractable) {
-    (void)key_size; (void)extractable; // Stub: unused
+bool HSMProvider::generateKeyPair(const std::string& label, [[maybe_unused]] uint32_t key_size, [[maybe_unused]] bool extractable) {
+    // Stub: unused
     THEMIS_WARN("HSMProvider stub generateKeyPair ignored (label='{}')", label);
     return false;
 }
 
-bool HSMProvider::importCertificate(const std::string& key_label, const std::string& cert_pem) {
-    (void)cert_pem; // Stub: unused
+bool HSMProvider::importCertificate(const std::string& key_label, [[maybe_unused]] const std::string& cert_pem) {
+    // Stub: unused
     THEMIS_WARN("HSMProvider stub importCertificate ignored (key='{}')", key_label);
     return false;
 }
 
-std::optional<std::string> HSMProvider::getCertificate(const std::string& key_label) {
-    (void)key_label; // Stub: unused
+std::optional<std::string> HSMProvider::getCertificate([[maybe_unused]] const std::string& key_label) {
+    // Stub: unused
     return std::string("-----BEGIN CERTIFICATE-----\nSTUB\n-----END CERTIFICATE-----\n");
 }
 

@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_pii_stream_scanner.cpp                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:31:04                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:55:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   65.0/100                                       ║
-    • Total Lines:     162                                            ║
+    • Total Lines:     163                                            ║
     • Open Issues:     TODOs: 0, Stubs: 11                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • edcfeb984  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-    • eea8f803b  2026-03-09  feat(utils): implement HashChainAuditWriter/AuditLogVerif... ║
+    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

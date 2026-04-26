@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vllm_resource_manager.cpp                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:13:48                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     510                                            ║
+    • Total Lines:     512                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 137d06cfe  2026-03-18  fix: handle dtotal==0 CPU cache-hit and guard perf test a... ║
-    • 3254a3d48  2026-03-18  feat(acceleration): VLLMResourceManager multi-GPU NVML mo... ║
-    • 7a41ab30d  2026-03-18  feat(acceleration): implement CPU snapshot cache (200ms T... ║
-    • 592b54382  2026-03-15  fix(scheduler,acceleration): remove stale TODOs, add VLLM... ║
+    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -40,7 +37,9 @@
 #endif
 
 #ifdef _WIN32
-#   define WIN32_LEAN_AND_MEAN
+#   ifndef WIN32_LEAN_AND_MEAN
+#       define WIN32_LEAN_AND_MEAN
+#   endif
 #   include <windows.h>
 #endif
 

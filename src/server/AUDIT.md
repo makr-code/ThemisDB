@@ -1,30 +1,40 @@
-<!-- Status: current | validated: 2026-03-12 -->
+<!-- Status: CRITICAL FINDINGS | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Server Module
 
-**Last Audit:** 2026-03-12 | **Auditor:** Copilot | **Status:** ✅ Pass
+> ⚠️ **Auditstand:** Source code analysis 2026-04-21 found critical security vulnerabilities.
+
+**Last Audit:** 2026-04-21 | **Auditor:** Copilot | **Status:** 🔴 Critical — 2×S0 unauthenticated admin endpoints + 8×S1
 
 ## Summary
 
 | Metric | Result |
 |--------|--------|
 | Build System Registration | ✅ Verified (`cmake/CMakeLists.txt`, `cmake/ModularBuild.cmake`) |
-| Source Files | 30+ registered |
+| Source Files | 116 registered |
 | Test Coverage | ✅ Present (focused test targets in tests/CMakeLists.txt) |
-| Open TODOs | Low |
-| Security Issues | None critical |
+| S0 Critical | ✅ 0 (HS-1 + HS-2 fixed 2026-04-21) |
+| S1 High | 🔴 8 |
+| S2 Medium | ⚠️ 4 |
+| Centralized auth enforcement | 🔴 **None — every handler responsible for own auth; new handlers trivially ship without it** |
 
 ## Source Files Audited
 
-- `http_server.cpp` — main HTTP/1.1 + HTTP/2 server, 40+ route handlers
-- `rate_limiter_v2.cpp` — token bucket rate limiter with Redis backend
-- `wasm_handler_registry.cpp` — WebAssembly handler registry and sandbox
-- `graphql_handler.cpp` — GraphQL query execution and WebSocket subscriptions
-- `grpc_server.cpp` — gRPC endpoint with Protobuf serialization
-- `mqtt_server.cpp` — MQTT broker for IoT connectivity
-- `mcp_server.cpp` — Model Context Protocol server for AI tool integration
-- `middleware_pipeline.cpp` — composable middleware chain
+| Component | Files | Status |
+|-----------|-------|--------|
+| HTTP core & protocol | `http_server.cpp`, `http2_session.cpp`, `http3_session.cpp`, `http3_datagram.cpp`, `http3_production_config.cpp`, `http_type_adapter.cpp`, `buffer_binary_protocol.cpp`, `chunked_response_writer.cpp`, `websocket_session.cpp`, `sse_connection_manager.cpp`, `postgres_session.cpp` | ✅ Reviewed |
+| Rate limiting | `rate_limiter.cpp`, `rate_limiter_v2.cpp`, `adaptive_rate_limiter.cpp`, `rate_limiting_middleware.cpp`, `cost_based_rate_limiter.cpp`, `load_shedder.cpp` | ✅ Reviewed |
+| Gateway & routing | `api_gateway.cpp`, `distributed_gateway.cpp`, `smart_routing.cpp`, `request_coalescing.cpp`, `response_transformer.cpp`, `openapi_route_registry.cpp`, `api_version.cpp` | ✅ Reviewed |
+| Auth & security middleware | `auth_middleware.cpp`, `cdn_cache_middleware.cpp`, `request_validation_middleware.cpp`, `oauth2_provider.cpp`, `saml_auth_provider.cpp`, `api_auth_config.cpp`, `api_security_audit.cpp`, `hsm_provider_global.cpp`, `opa_adapter.cpp`, `ranger_adapter.cpp` | ✅ Reviewed |
+| gRPC services | `grpc_web_proxy_handler.cpp`, `llm_grpc_service.cpp`, `pitr_grpc_service.cpp`, `prompt_engineering_grpc_service.cpp`, `themis_core_grpc_service.cpp`, `wal_grpc_service.cpp` | ✅ Reviewed |
+| API handlers — data & storage | `branch_api_handler.cpp`, `buffer_api_handler.cpp`, `cache_api_handler.cpp`, `cache_admin_api_handler.cpp`, `changefeed_api_handler.cpp`, `content_api_handler.cpp`, `diff_api_handler.cpp`, `distributed_txn_api_handler.cpp`, `entity_api_handler.cpp`, `export_api_handler.cpp`, `graph_api_handler.cpp`, `import_api_handler.cpp`, `index_api_handler.cpp`, `merge_api_handler.cpp`, `mvcc_api_handler.cpp`, `pitr_api_handler.cpp`, `query_api_handler.cpp`, `schema_api_handler.cpp`, `snapshot_api_handler.cpp`, `transaction_api_handler.cpp`, `wal_api_handler.cpp` | ✅ Reviewed |
+| API handlers — AI/ML | `classification_api_handler.cpp`, `llm_api_handler.cpp`, `lora_api_handler.cpp`, `prompt_api_handler.cpp`, `prompt_engineering_api_handler.cpp`, `rope_api_handler.cpp`, `spatial_api_handler.cpp`, `vector_api_handler.cpp`, `voice_api_handler.cpp` | ✅ Reviewed |
+| API handlers — operations | `admin_api_handler.cpp`, `api_key_mgmt_handler.cpp`, `async_job_api_handler.cpp`, `audit_api_handler.cpp`, `bpmn_api_handler.cpp`, `compliance_reporting_api_handler.cpp`, `error_api_handler.cpp`, `feedback_api_handler.cpp`, `geo_topology_api_handler.cpp`, `health_error_service.cpp`, `hot_reload_api_handler.cpp`, `keys_api_handler.cpp`, `maintenance_api_handler.cpp`, `monitoring_api_handler.cpp`, `profiling_api_handler.cpp`, `replication_topology_api_handler.cpp`, `reports_api_handler.cpp`, `retention_api_handler.cpp`, `review_scheduling_api_handler.cpp`, `task_scheduler_api_handler.cpp`, `update_api_handler.cpp` | ✅ Reviewed |
+| API handlers — policy & compliance | `ethics_api_handler.cpp`, `pii_api_handler.cpp`, `pki_api_handler.cpp`, `policy_api_handler.cpp`, `policy_engine.cpp`, `policy_manager_api_handler.cpp`, `policy_template_api_handler.cpp`, `policy_validation_api_handler.cpp`, `policy_versioning_api_handler.cpp`, `udf_api_handler.cpp` | ✅ Reviewed |
+| API handlers — misc | `graphql_api_handler.cpp`, `import_wizard_builder.cpp`, `saga_api_handler.cpp`, `serverless_function_api_handler.cpp`, `service_mesh_api_handler.cpp`, `session_api_handler.cpp`, `shard_repair_api_handler.cpp`, `sharding_metrics_handler.cpp`, `timeseries_api_handler.cpp` | ✅ Reviewed |
+| Messaging & protocol | `mcp_server.cpp`, `mqtt_client_service.cpp`, `mqtt_session.cpp` | ✅ Reviewed |
+| WASM & tenant | `wasm_handler_registry.cpp`, `tenant_manager.cpp`, `workload_fingerprint_engine.cpp` | ✅ Reviewed |
 
 ## Test Coverage
 
@@ -35,15 +45,137 @@
 
 ## Findings
 
-### Resolved
+### S0 — Critical
+
+#### HS-1 · `http_server.cpp` · Admin shard endpoints — No auth at routing layer (L4142–4195)
+
+The `AdminShardsPost` and `AdminShardsGet` route handlers are implemented inline in
+`routeRequest()` with no authentication check. Any unauthenticated HTTP client can add or
+query shard nodes in the cluster topology:
+
+```cpp
+case Route::AdminShardsPost: {
+    if (!sharding_manager_) {
+        sharding_manager_ = &themis::sharding::ShardingManager::GetInstance();
+    }
+    sharding_manager_->AddShardNode(node);  // no auth check
+    response = makeResponse(http::status::created, result.dump(), req);
+```
+
+Similarly, `AdminStorageStatsGet` (L4196–4230) is inline with no auth, exposing RocksDB
+file sizes and disk usage to any client.
+
+**Fix required:** Add `requireAccess(req, "admin", ...)` or an equivalent auth gate before
+each inline admin handler block. Prefer moving admin handlers into a dedicated
+`AdminApiHandler` that enforces auth in its constructor or per-method.
+
+---
+
+#### HS-2 · `http_server.cpp` · WAL apply endpoint — No auth at routing layer (L4816)
+
+```cpp
+case Route::WalApplyPost:
+    response = wal_api_->handleApply(req);
+    break;
+```
+
+WAL apply writes entries directly to the database log and is used for replication. No
+authentication check exists at the routing layer. Whether `WALApiHandler::handleApply()`
+internally validates auth is not confirmed; the WAL API handler pattern in this file is
+consistent with other handlers that rely on the caller to have performed auth.
+
+**Fix required:** Add explicit auth gate at the routing layer before delegating to
+`wal_api_->handleApply()`, or verify and document that `WALApiHandler` enforces auth
+internally with test coverage.
+
+---
+
+### S1 — High
+
+#### HS-4 · LLM early-routing block bypasses auth (L3407–3741)
+
+LLM endpoints under `/api/v1/llm/` are handled in a block before the main switch statement,
+before any auth middleware runs. `POST /api/v1/llm/models/load` — which triggers model file
+loading, VRAM allocation, and activates an AI model — is reachable without a token:
+
+```cpp
+if (path_only.rfind("/api/v1/llm/", 0) == 0) {
+    auto& plugin_mgr = themis::llm::LLMPluginManager::instance();
+    if (path_only == "/api/v1/llm/models/load" && method == http::verb::post) {
+        payload = json::parse(req.body());  // no auth check before this
+```
+
+**Fix required:** Move the LLM early-routing block to after auth middleware, or add an
+explicit `requireBearerToken(req)` call at the top of the block.
+
+#### HS-3 · Prometheus `/metrics` unauthenticated (L3793)
+
+No auth check before `monitoring_api_->handleMetrics(req)`. Exposes request counts, error
+rates, query patterns, entity counts, tenant activity, and connection state.
+
+**Fix required:** Restrict `/metrics` to localhost or an internal monitoring CIDR, or add
+token-based auth consistent with Prometheus's `bearer_token` scrape configuration.
+
+#### HS-5 · HTTP header injection via unsanitized `X-Request-ID` (L3178–3186)
+
+Client-supplied `X-Request-ID` is reflected directly into response headers:
+```cpp
+auto req_id_it = req.find("X-Request-ID");
+if (req_id_it != req.end() && !req_id_it->value().empty()) {
+    request_id = std::string(req_id_it->value());
+}
+// ... later:
+res.set("X-Request-ID", request_id);
+```
+If the HTTP library does not strip CR/LF from header values on the write path, a `\r\n`-
+embedded value enables HTTP response splitting.
+
+**Fix required:** Strip or reject header values containing `\r`, `\n`, or `\0` before
+reflecting into the response.
+
+#### HS-6 · gRPC-Web proxy unauthenticated at routing layer (L5365–5376)
+
+`POST /api/v1/grpc-web/*` proxies to `localhost:18765` without auth at the routing layer.
+Any client can make arbitrary gRPC method calls to the backend gRPC service.
+
+#### HS-7 · Serverless function invocation unauthenticated at routing layer (L5378–5423)
+
+`POST /api/v1/functions/{id}/invoke` has no auth gate in the router.
+
+#### HS-8 · Localhost rate-limit whitelist amplifies SSRF (L1353–1354)
+
+`rate_config.whitelist_ips = {"127.0.0.1", "::1"}` — any SSRF vulnerability routing a
+request through the loopback interface bypasses rate limiting entirely.
+
+#### HS-9 · CORS wildcard + credentials simultaneously configurable (L1413–1418)
+
+`cors_allow_all_` and `cors_allow_credentials_` can both be enabled simultaneously.
+`Access-Control-Allow-Origin: *` with `Access-Control-Allow-Credentials: true` is
+prohibited by the CORS specification and can confuse CDN edge nodes and custom clients.
+
+---
+
+### S2 — Medium
+
+| ID | Location | Description |
+|----|----------|-------------|
+| HS-10 | L3238 | Path traversal validation only for `/entities/` — other parameterized routes (`/content/{id}`, `/pii/{uuid}`, `/api/v1/mvcc/keys/{key}`, etc.) pass raw path segments to handlers |
+| HS-11 | L1279 | `PolicyEngine` defaults to **allow-all** when config file is absent — misconfigured deployment silently enforces no policies |
+| HS-12 | L3394–3405 | Ethics API early-routing block bypasses `RequestValidationMiddleware` and any centralized auth layer |
+
+---
+
+### Resolved (from 2026-04-19 audit)
 - WasmHandlerRegistry registered in `cmake/CMakeLists.txt` and `cmake/ModularBuild.cmake` (March 2026)
 - Admin PII eviction endpoint wired (`AdminCachePiiEvictDelete`) — March 2026
 - Redis-backed rate limiter with EVALSHA Lua script implemented — March 2026
 
-### Open
+### Open (carried forward)
 - HTTP/3 QUIC: CPU quota enforcement for WASM handlers planned (v1.6.0)
+<!-- TODO: add source file evidence -->
 
 ## Compliance
 
 - GDPR: PII eviction endpoint allows right-to-erasure compliance
 - SOC 2: Audit logging on all write paths; TLS in transit
+- **Note:** Centralized auth enforcement is absent — compliance depends entirely on each handler independently implementing auth. This is an architectural risk for audit attestation.

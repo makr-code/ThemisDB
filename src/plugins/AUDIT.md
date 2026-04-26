@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · SECURITY.md -->
 
 # Audit Record — Plugins Module
@@ -27,8 +29,9 @@
 | `plugin_system_edition.cpp`   | Edition management (community/enterprise)            | ✅ Covered    |
 | `rpc_service_registry.cpp`    | RPC service registration for plugin-exposed services | ✅ Covered    |
 | `signed_plugin_repository.cpp`| Ed25519 signing and signature verification           | ✅ Covered    |
+| `wasm_plugin_loader.cpp`      | WASM component model plugin loader (experimental)    | ⚠️ Pending    |
 
-**Total: 10 source files**
+**Total: 11 source files**
 
 ## Test Inventory
 
@@ -45,7 +48,7 @@ Key test areas: plugin load/unload lifecycle, hot-reload with rollback, Ed25519 
 | Ed25519 signature enforcement    | ✅ Complete  | Mandatory at load time; no bypass path  |
 | JSON Schema v2 manifest validation | ✅ Complete | Schema errors abort load                |
 | Capability isolation at load     | ✅ Complete  | `PluginCapabilityNegotiator` enforced   |
-| Runtime escalation blocking      | ⚠️ Open     | Not yet blocked programmatically        |
+| Runtime escalation blocking      | ✅ Complete  | `PluginManager::checkCapabilityEscalation()` implemented 2026-04-09 |
 | WASM sandbox isolation           | ❌ Not implemented | Planned Q3 2027 (Wasmtime)         |
 | Supply chain / OCI signing       | ✅ Complete  | Key rotation supported                  |
 | Health monitoring + auto-restart | ✅ Complete  | `plugin_health_monitor.cpp`             |
@@ -55,7 +58,7 @@ Key test areas: plugin load/unload lifecycle, hot-reload with rollback, Ed25519 
 | ID     | Description                                              | Target     | Priority |
 |--------|----------------------------------------------------------|------------|----------|
 | OI-01  | WASM sandbox via Wasmtime for in-process isolation       | Q3 2027    | High     |
-| OI-02  | Runtime capability escalation blocking                   | Q4 2026    | High     |
+| OI-02  | Runtime capability escalation blocking — **Implemented** 2026-04-09 via `PluginManager::checkCapabilityEscalation()`; tests in `test_plugin_capability_escalation.cpp` | ~~Q4 2026~~ Shipped | ~~High~~ Resolved |
 | OI-03  | Per-plugin resource quotas (CPU/memory/I/O)              | Q2 2027    | Medium   |
 | OI-04  | SDK bindings for plugin authors (C, Python, Rust)        | Q3 2027    | Medium   |
 | OI-05  | Community plugin repository scanning and trust scoring   | Q4 2027    | Medium   |
@@ -65,7 +68,7 @@ Key test areas: plugin load/unload lifecycle, hot-reload with rollback, Ed25519 
 
 | Check                      | Result   |
 |----------------------------|----------|
-| Compilation (all 10 files) | ✅ Pass  |
+| Compilation (all 11 files) | ✅ Pass  |
 | Static analysis            | ✅ Pass  |
 | All 13 test targets        | ✅ Pass  |
 | Audit completed            | 2026-03-12 |

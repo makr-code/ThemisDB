@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            zero_copy_blob_transfer.cpp                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:20:38                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     568                                            ║
+    • Total Lines:     565                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c0a50c2ca  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
-    • 9b6c7e67f  2026-03-15  fix(storage): audit fixes for zero-copy blob transfers (I... ║
-    • dcaac1c5c  2026-03-14  feat(storage): Zero-Copy Blob Transfers (Issue #231, v1.7.0) ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -128,7 +127,7 @@ static void ensureAwsSdkInitialized() {
 // MmapBlobView
 // ─────────────────────────────────────────────────────────────────────────────
 
-MmapBlobView::MmapBlobView(const std::string& file_path, bool sequential_hint) {
+MmapBlobView::MmapBlobView(const std::string& file_path, [[maybe_unused]] bool sequential_hint) {
 #if defined(__linux__) || defined(__APPLE__)
     fd_ = ::open(file_path.c_str(), O_RDONLY);
     if (fd_ < 0) {
@@ -162,7 +161,7 @@ MmapBlobView::MmapBlobView(const std::string& file_path, bool sequential_hint) {
         ::madvise(ptr, size_, MADV_SEQUENTIAL);
     }
 #else
-    (void)sequential_hint;  // hint unused on non-POSIX platforms
+    // hint unused on non-POSIX platforms
     // Non-POSIX: fall back to reading the file into a heap buffer.
     // The "zero-copy" goal is not met, but correctness is preserved.
     try {
@@ -411,10 +410,10 @@ MmapBlobView ZeroCopyBlobTransfer::openMmap(const std::string& file_path) const 
 // ─────────────────────────────────────────────────────────────────────────────
 
 Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::s3MultipartUpload(
-    const std::string& bucket,
-    const std::string& s3_key,
-    const std::string& source_path,
-    const std::string& blob_id)
+    [[maybe_unused]] const std::string& bucket,
+    [[maybe_unused]] const std::string& s3_key,
+    [[maybe_unused]] const std::string& source_path,
+    [[maybe_unused]] const std::string& blob_id)
 {
 #if THEMIS_ZERO_COPY_S3_AVAILABLE
     auto t0 = std::chrono::steady_clock::now();
@@ -554,10 +553,6 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::s3MultipartUpload(
     return Ok(std::move(stats));
 
 #else // !THEMIS_ZERO_COPY_S3_AVAILABLE
-    (void)bucket;
-    (void)s3_key;
-    (void)source_path;
-    (void)blob_id;
     return Err<ZeroCopyTransferStats>(
         errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
         "s3MultipartUpload: AWS SDK not available; "

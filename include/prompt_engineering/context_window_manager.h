@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            context_window_manager.h                           ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:09:39                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:46:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     354                                            ║
+    • Total Lines:     357                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 6314fa0fc  2026-03-21  feat(prompt_engineering): implement ContextWindowBudgetMa... ║
+    • 6314fa0fc6  2026-03-21  feat(prompt_engineering): implement ContextWindowBudgetMa... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

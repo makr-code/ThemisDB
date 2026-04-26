@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_audit_event.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:15                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     378                                            ║
+    • Total Lines:     376                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 4228c5bc5  2026-02-23  fix(scheduler): close remaining audit gaps in searchable ... ║
-    • ba3f28bb4  2026-02-23  feat(scheduler): implement searchable task execution hist... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -33,13 +28,13 @@ namespace scheduler {
 
 // UUID generation
 std::string generateUUID() {
-    static std::random_device rd;
-    static std::mt19937_64 gen(rd());
-    static std::uniform_int_distribution<uint64_t> dis;
-    
-    uint64_t high = dis(gen);
-    uint64_t low = dis(gen);
-    
+    // GAP-019: Use std::random_device directly for cryptographic-quality randomness.
+    // Audit event UUIDs must be unguessable to prevent enumeration attacks.
+    std::random_device rd;
+
+    uint64_t high = (static_cast<uint64_t>(rd()) << 32) | rd();
+    uint64_t low  = (static_cast<uint64_t>(rd()) << 32) | rd();
+
     // Set version to 4 (random UUID)
     high = (high & 0xFFFFFFFFFFFF0FFFULL) | 0x0000000000004000ULL;
     // Set variant to RFC 4122

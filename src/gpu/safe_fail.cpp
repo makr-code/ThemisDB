@@ -3,18 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            safe_fail.cpp                                      ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:59                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     241                                            ║
+    • Total Lines:     257                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -37,15 +40,28 @@ namespace gpu {
 
 GPUSafeFail::GPUSafeFail(const Config& cfg) : cfg_(cfg) {}
 
+void GPUSafeFail::reset(const Config& cfg) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    cfg_                  = cfg;
+    state_                = State::HEALTHY;
+    consecutive_failures_ = 0;
+    consecutive_successes_ = 0;
+    total_failures_       = 0;
+    total_operations_     = 0;
+    total_fallbacks_      = 0;
+    cpu_fallback_active_  = false;
+    last_error_.clear();
+    last_failure_type_    = FailureType::DEVICE_ERROR;
+}
+
 // ============================================================================
 // executeWithFallback
 // ============================================================================
 
 bool GPUSafeFail::executeWithFallback(std::function<bool()> gpu_op,
                                        std::function<bool()> cpu_fallback,
-                                       const std::string& op_name) {
+                                       [[maybe_unused]] const std::string& op_name) {
     // op_name is reserved for future structured-logging / audit integration.
-    (void)op_name;
     // Determine whether we should attempt the GPU at all (lock briefly).
     bool attempt_gpu = false;
     {

@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Exporters Module - Future Enhancements
@@ -25,7 +27,7 @@ This document covers planned enhancements to the Exporters module beyond what is
 ## Planned Features
 
 ### ~~Parquet Export with Configurable Schema~~ ✅ Implemented (Issue #1710)
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0 — **Delivered**
 
 Parquet export is implemented in `parquet_exporter.cpp` / `parquet_exporter.h`. A fallback
@@ -38,7 +40,7 @@ in `exporter_metrics.cpp`.
 - Register Parquet writer in a formal `ExportFormatRegistry` (additive, non-breaking). ✅ Implemented — `ExportFormatRegistry::registerBuiltins()` registers "parquet".
 
 ### ~~Streaming Export for Large Collections~~ ✅ Implemented
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0 — **Delivered**
 
 Cursor-driven streaming export is implemented in `streaming_exporter.cpp` / `streaming_exporter.h`.
@@ -52,7 +54,7 @@ enforces `max_buffer_bytes` (default 256 MB). Checkpoint-based resumable export 
 ---
 
 ### ~~Incremental / Delta Export~~ ✅ Implemented (Issue #1726)
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0 — **Delivered**
 
 Delta export is implemented in `incremental_exporter.cpp` / `incremental_exporter.h`.
@@ -66,7 +68,7 @@ Atomic watermark update uses `.tmp` + `rename()`. The
 ---
 
 ### ~~Instruction-Tuning Format Templates~~ ✅ Implemented (Issue #1727)
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0 — **Delivered**
 
 Named instruction-tuning format templates (Alpaca, ShareGPT, ChatML, OpenAI fine-tuning JSONL) are implemented in `format_template.cpp` / `format_template.h`.  The `JSONLLLMExporter` activates a template via `JSONLLLMConfig::format_template_type`; field-name overrides go in `template_field_mapping`.  See `tests/exporters/test_format_template.cpp` for 35 test cases.
@@ -78,7 +80,7 @@ Named instruction-tuning format templates (Alpaca, ShareGPT, ChatML, OpenAI fine
 ---
 
 ### ~~Export Encryption and Authorization~~ ✅ Implemented (Issue #1728)
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0 — **Delivered**
 
 AES-256-GCM encryption is implemented in `export_encryption.cpp` / `export_encryption.h`.
@@ -180,7 +182,7 @@ gzip format, pipe through `zstd -d | gzip` or use `pigz`.
 
 
 ### ~~Cross-Collection Join Export~~ ✅ Implemented (Issue: #1722)
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0 — **Delivered**
 
 Export a joined view of two or more collections (e.g., `documents JOIN annotations`) into a single JSONL output file. Implemented as an in-memory hash-join: the right side is loaded into a hash table keyed on `right_key_field`, then every left entity is probed against it.
@@ -213,3 +215,32 @@ Export a joined view of two or more collections (e.g., `documents JOIN annotatio
 5. McGrew, D., & Viega, J. (2004). **The Galois/Counter Mode of Operation (GCM)**. NIST Submission. https://csrc.nist.gov/publications/detail/sp/800-38d/final
 
 6. Krawczyk, H., Bellare, M., & Canetti, R. (1997). **HMAC: Keyed-Hashing for Message Authentication**. RFC 2104. IETF. https://doi.org/10.17487/RFC2104
+
+---
+
+## Security Hardening Backlog (Q2–Q3 2026)
+
+> GAP-004 + GAP-019 – identified via static analysis (2026-04-21).
+> Reference: `docs/governance/SOURCECODE_COMPLIANCE_GOVERNANCE.md`.
+
+### GAP-004 – AQL Injection via String Concatenation in Export Query Builder
+
+**Scope:** `src/server/export_api_handler.cpp:354–388`
+
+The `buildAqlQuery()` function builds AQL query conditions by concatenating user-supplied
+strings without escaping or injection validation.  The `"query"` field is embedded verbatim.
+
+**Fix:** Run each custom query through `AQLInjectionDetector::validateForReadOnlyContext()`
+and replace string-concat conditions with AQL bind parameters.
+
+See: `src/server/FUTURE_ENHANCEMENTS.md` GAP-004 for full implementation spec.
+
+### GAP-019 – Replace mt19937 with CSPRNG for Export IDs
+
+**Scope:** `src/server/export_api_handler.cpp:405`
+
+Export IDs generated with `mt19937` may be predictable on low-entropy systems.
+
+**Fix:** Replace with `RAND_bytes()` (OpenSSL).
+
+See: `src/server/FUTURE_ENHANCEMENTS.md` GAP-019 for full implementation spec.

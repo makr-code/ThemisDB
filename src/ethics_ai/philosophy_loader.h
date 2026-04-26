@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            philosophy_loader.h                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:15:20                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:48:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     110                                            ║
+    • Total Lines:     117                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9ab72c508  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
-    • acdb250db  2026-03-12  feat: migrate plugins to src/include with CMake switches ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 32f246a038  2026-04-08  feat(ethics_ai): enhance plugin configuration and overrid... ║
+    • 63cde823d4  2026-04-08  Add unit tests for Ethics AI and RAG Context Engine plugins ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -26,8 +25,10 @@
 
 #include "plugins/ethics_ai/ethics_ai_types.h"
 #include <map>
+#include <mutex>
 #include <string>
 #include <memory>
+#include <variant>
 
 namespace themis {
 namespace plugins {
@@ -83,6 +84,26 @@ public:
      */
     void clear();
     
+
+    /**
+     * @brief Hot-reload profiles from a directory without stopping the server.
+     *
+     * Atomically re-scans @p directory: loads all YAML profiles, then swaps
+     * the internal profile map under the loader's write lock.  Profiles that
+     * could not be parsed are skipped; the old map is left intact if the
+     * directory is empty or does not exist.
+     *
+     * @param directory Path to directory containing YAML files.
+     * @return Number of profiles now loaded, or Status::Error on failure.
+     */
+    std::variant<size_t, Status> reloadProfiles(const std::string& directory);
+
+    /**
+     * @brief Register a profile directly (used for testing / plugin registration)
+     * @param profile The profile to register
+     */
+    void addProfile(const PhilosophyProfile& profile);
+
     /**
      * @brief Get count of loaded profiles
      * @return Number of profiles
@@ -99,6 +120,7 @@ public:
     std::map<std::string, PhilosophyProfile> getAllProfiles() const;
     
 private:
+    mutable std::mutex mutex_;
     std::map<std::string, PhilosophyProfile> profiles_;
     
     // Helper to parse YAML content

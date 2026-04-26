@@ -82,5 +82,5 @@ ProcessGPT investigates how large language models can transform business process
 - [`docs/de/process/STATE_OF_THE_ART.md`](../../de/process/STATE_OF_THE_ART.md)
 
 ---
-**Last Updated:** 2026-03-23  
+**Last Updated:** 2026-04-06  
 **Next Review:** 2026-09-30

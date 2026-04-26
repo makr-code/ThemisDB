@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_active_vram_allocator.cpp                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:23:06                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     682                                            ║
+    • Total Lines:     835                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • bdd5a732d  2026-03-11  Address code review: deduplicate VRAM auto-detection, fix... ║
-    • 8ff806630  2026-03-11  Fix 3 bugs in gpu_memory_manager: getTotalVRAM semantics,... ║
-    • 4aee399a8  2026-03-11  fix(llm): code audit - fix 3 bugs in ActiveVRAMAllocator ... ║
-    • dde33760f  2026-03-11  fix(llm): address code review - use cudaMemcpy for device... ║
-    • 6e1dfd68a  2026-03-11  feat(llm): implement ActiveVRAMAllocator for GPU memory m... ║
+    • fe135d5215  2026-04-13  feat(llm): Speculative Decoding for Latency Reduction — v... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -679,4 +675,237 @@ TEST(ActiveVRAMAllocatorTest, BridgeHandlesCleanedUpOnEviction) {
     // Allocator should be in a consistent state (no crash, no stale pointers)
     EXPECT_EQ(alloc.listAllocations().size(), 0u);
     EXPECT_NO_THROW(alloc.getStats());
+}
+
+// ═══════════════════════════════════════════════════════════
+// AdaptiveVRAMAllocator::calculateDualModelAllocation
+// ═══════════════════════════════════════════════════════════
+
+namespace {
+/// Build a minimal 7B target model config (LLaMA-like, FP16).
+AdaptiveVRAMAllocator::ModelConfig make7BTargetConfig() {
+    AdaptiveVRAMAllocator::ModelConfig cfg;
+    cfg.model_name      = "llama-7b";
+    cfg.num_parameters  = 7'000'000'000ULL;
+    cfg.num_layers      = 32;
+    cfg.hidden_dim      = 4096;
+    cfg.num_heads       = 32;
+    cfg.num_kv_heads    = 8;
+    cfg.head_dim        = 128;
+    cfg.precision_bytes = 2;  // FP16
+    return cfg;
+}
+
+/// Build a minimal 0.5B draft model config (no explicit precision → INT4 default).
+AdaptiveVRAMAllocator::ModelConfig make500MDraftConfig() {
+    AdaptiveVRAMAllocator::ModelConfig cfg;
+    cfg.model_name      = "llama-0.5b";
+    cfg.num_parameters  = 500'000'000ULL;
+    cfg.num_layers      = 24;
+    cfg.hidden_dim      = 1024;
+    cfg.num_heads       = 16;
+    cfg.num_kv_heads    = 4;
+    cfg.head_dim        = 64;
+    cfg.precision_bytes = 0;  // 0 signals INT4 (0.5 bytes/param)
+    return cfg;
+}
+
+/// A10G-class GPU: 24 GB VRAM.
+AdaptiveVRAMAllocator::HardwareInfo makeA10GHardware() {
+    AdaptiveVRAMAllocator::HardwareInfo hw;
+    hw.total_vram_bytes     = 24ULL * 1024 * 1024 * 1024;
+    hw.available_vram_bytes = 22ULL * 1024 * 1024 * 1024;
+    hw.compute_capability_major = 8;
+    hw.compute_capability_minor = 6;
+    hw.has_tensor_cores     = true;
+    hw.memory_bandwidth_gbps = 600;
+    return hw;
+}
+} // namespace
+
+/// Dual-model plan total >= single-model plan total (draft weights added).
+TEST(AdaptiveVRAMAllocatorDualModelTest, DualModelTotalGreaterThanSingleModel) {
+    AdaptiveVRAMAllocator alloc;
+    const auto target = make7BTargetConfig();
+    const auto draft  = make500MDraftConfig();
+    const auto hw     = makeA10GHardware();
+
+    AdaptiveVRAMAllocator::InferenceConfig inf_cfg;
+    inf_cfg.batch_size   = 1;
+    inf_cfg.max_seq_length = 2048;
+
+    auto single_plan = alloc.calculateOptimalAllocation(target, hw, inf_cfg);
+    auto dual_plan   = alloc.calculateDualModelAllocation(target, draft, hw, inf_cfg);
+
+    EXPECT_GT(dual_plan.total, single_plan.total)
+        << "Dual-model allocation must be larger than single-model allocation";
+}
+
+/// Draft model weights are INT4 (0.5 bytes/param) when precision_bytes == 0.
+TEST(AdaptiveVRAMAllocatorDualModelTest, DraftModelDefaultsToInt4WhenPrecisionIsZero) {
+    AdaptiveVRAMAllocator alloc;
+    const auto target = make7BTargetConfig();
+    const auto draft  = make500MDraftConfig(); // precision_bytes = 0
+    const auto hw     = makeA10GHardware();
+
+    AdaptiveVRAMAllocator::InferenceConfig inf_cfg;
+    inf_cfg.batch_size    = 1;
+    inf_cfg.max_seq_length = 2048;
+
+    auto plan = alloc.calculateDualModelAllocation(target, draft, hw, inf_cfg);
+
+    // INT4: 500M × 0.5 bytes = 250 MB
+    const size_t expected_draft_bytes = 500'000'000ULL / 2;  // 0.5 bytes per param
+    EXPECT_EQ(plan.draft_model_weights, expected_draft_bytes)
+        << "Draft model (INT4) should use 0.5 bytes per parameter";
+    EXPECT_EQ(plan.draft_precision_bytes, 0)
+        << "draft_precision_bytes should reflect the INT4 default (0)";
+}
+
+/// draft_model_weights contributes to plan.model_weights.
+TEST(AdaptiveVRAMAllocatorDualModelTest, ModelWeightsIncludesDraftContribution) {
+    AdaptiveVRAMAllocator alloc;
+    const auto target = make7BTargetConfig();
+    const auto draft  = make500MDraftConfig();
+    const auto hw     = makeA10GHardware();
+
+    AdaptiveVRAMAllocator::InferenceConfig inf_cfg;
+    inf_cfg.batch_size    = 1;
+    inf_cfg.max_seq_length = 2048;
+
+    auto single_plan = alloc.calculateOptimalAllocation(target, hw, inf_cfg);
+    auto dual_plan   = alloc.calculateDualModelAllocation(target, draft, hw, inf_cfg);
+
+    EXPECT_EQ(dual_plan.model_weights,
+              single_plan.model_weights + dual_plan.draft_model_weights)
+        << "model_weights in dual plan must equal target + draft weights";
+}
+
+/// fits_in_vram is false when total exceeds available VRAM.
+TEST(AdaptiveVRAMAllocatorDualModelTest, FitsInVramFalseWhenTotalExceedsAvailable) {
+    AdaptiveVRAMAllocator alloc;
+
+    // Huge model that won't fit in 22 GB
+    AdaptiveVRAMAllocator::ModelConfig big_target;
+    big_target.num_parameters  = 70'000'000'000ULL;  // 70B
+    big_target.num_layers      = 80;
+    big_target.hidden_dim      = 8192;
+    big_target.num_heads       = 64;
+    big_target.num_kv_heads    = 8;
+    big_target.head_dim        = 128;
+    big_target.precision_bytes = 2;  // FP16
+
+    AdaptiveVRAMAllocator::ModelConfig draft;
+    draft.num_parameters  = 500'000'000ULL;
+    draft.precision_bytes = 0;  // INT4
+
+    const auto hw = makeA10GHardware();  // 22 GB available
+    AdaptiveVRAMAllocator::InferenceConfig inf_cfg;
+
+    auto plan = alloc.calculateDualModelAllocation(big_target, draft, hw, inf_cfg);
+    EXPECT_FALSE(plan.fits_in_vram)
+        << "A 70B + 0.5B model combination must not fit in 22 GB";
+    EXPECT_FALSE(plan.recommendation.empty())
+        << "Recommendation should be non-empty when allocation fails";
+}
+
+/// Explicit draft precision is respected when precision_bytes > 0.
+TEST(AdaptiveVRAMAllocatorDualModelTest, ExplicitDraftPrecisionRespected) {
+    AdaptiveVRAMAllocator alloc;
+    const auto target = make7BTargetConfig();
+
+    // Draft model with explicit INT8 precision (1 byte/param)
+    AdaptiveVRAMAllocator::ModelConfig draft = make500MDraftConfig();
+    draft.precision_bytes = 1;  // INT8
+
+    const auto hw = makeA10GHardware();
+    AdaptiveVRAMAllocator::InferenceConfig inf_cfg;
+    inf_cfg.batch_size    = 1;
+    inf_cfg.max_seq_length = 2048;
+
+    auto plan = alloc.calculateDualModelAllocation(target, draft, hw, inf_cfg);
+
+    // INT8: 500M × 1 byte = 500 MB
+    const size_t expected_draft_bytes = 500'000'000ULL;
+    EXPECT_EQ(plan.draft_model_weights, expected_draft_bytes)
+        << "Draft model (INT8) should use 1 byte per parameter";
+    EXPECT_EQ(plan.draft_precision_bytes, 1)
+        << "draft_precision_bytes should reflect the explicit INT8 value";
+}
+
+// ---------------------------------------------------------------------------
+// AVA_EXT: registerExternal / free (external-memory tracking)
+// ---------------------------------------------------------------------------
+
+/// AVA_EXT_01 — registerExternal() creates a valid handle, marks is_external=true,
+/// and updates used_vram_bytes + live_allocation_count in the Stats snapshot.
+TEST(ActiveVRAMAllocatorTest, RegisterExternalCreatesValidHandle) {
+    ActiveVRAMAllocator alloc(makeTestConfig(/*max_vram_mb=*/256));
+
+    const size_t model_bytes = 7ULL * 1024 * 1024 * 1024;  // 7 GB simulated
+
+    auto handle = alloc.registerExternal(model_bytes, "llama-7b");
+
+    EXPECT_TRUE(handle.valid)        << "AVA_EXT_01: handle must be valid";
+    EXPECT_TRUE(handle.is_external)  << "AVA_EXT_01: is_external must be true";
+    EXPECT_EQ(handle.owner_id, "llama-7b");
+    EXPECT_EQ(handle.requested_bytes, model_bytes);
+    EXPECT_EQ(handle.allocated_bytes, model_bytes);
+    EXPECT_EQ(handle.gpu_ptr, nullptr)  << "AVA_EXT_01: external handle must not hold a GPU pointer";
+    EXPECT_EQ(handle.cpu_ptr, nullptr);
+    EXPECT_FALSE(handle.is_spilled);
+
+    const auto stats = alloc.getStats();
+    EXPECT_EQ(stats.used_vram_bytes, model_bytes)
+        << "AVA_EXT_01: used_vram_bytes must reflect the registered external allocation";
+    EXPECT_EQ(stats.live_allocation_count, 1u)
+        << "AVA_EXT_01: live_allocation_count must be 1 after registerExternal";
+    EXPECT_GE(stats.peak_vram_bytes, model_bytes)
+        << "AVA_EXT_01: peak usage must track the external allocation";
+}
+
+/// AVA_EXT_02 — free() on an external handle decrements stats correctly and does NOT crash.
+/// In particular, used_vram_bytes must return to 0 and no GPU/CPU memory must be touched.
+TEST(ActiveVRAMAllocatorTest, FreeExternalHandleUpdatesStatsWithoutCrash) {
+    ActiveVRAMAllocator alloc(makeTestConfig(/*max_vram_mb=*/256));
+
+    const size_t model_bytes = 4ULL * 1024 * 1024 * 1024;  // 4 GB
+
+    auto handle = alloc.registerExternal(model_bytes, "llama-4b");
+    ASSERT_TRUE(handle.valid) << "AVA_EXT_02: pre-condition: handle must be valid";
+
+    bool freed = alloc.free(handle);
+    EXPECT_TRUE(freed)          << "AVA_EXT_02: free() must return true for a valid external handle";
+    EXPECT_FALSE(handle.valid)  << "AVA_EXT_02: handle must be invalid after free";
+
+    const auto stats = alloc.getStats();
+    EXPECT_EQ(stats.used_vram_bytes, 0u)
+        << "AVA_EXT_02: used_vram_bytes must be 0 after freeing the only external allocation";
+    EXPECT_EQ(stats.live_allocation_count, 0u)
+        << "AVA_EXT_02: live_allocation_count must be 0 after free";
+}
+
+/// AVA_EXT_03 — OOM threshold is triggered when external + internal allocations
+/// together exceed oom_threshold_fraction of max_vram_bytes.
+TEST(ActiveVRAMAllocatorTest, OOMThresholdConsidersExternalAllocations) {
+    // 128 MB budget, 90% OOM threshold = 115.2 MB trigger
+    ActiveVRAMAllocator alloc(makeTestConfig(/*max_vram_mb=*/128, /*spill=*/false, /*defrag=*/false));
+
+    // Register 100 MB as an external allocation (e.g. model weights)
+    const size_t external_bytes = 100ULL * 1024 * 1024;
+    auto ext_handle = alloc.registerExternal(external_bytes, "big-model");
+    ASSERT_TRUE(ext_handle.valid);
+
+    // Allocate another 30 MB internally — this should push usage past 90%
+    auto inner = alloc.allocate(30ULL * 1024 * 1024, "kv-cache");
+    // Regardless of whether the inner allocation succeeds (depends on free VRAM),
+    // the combined logical usage must have set the OOM-threshold flag.
+    const auto stats = alloc.getStats();
+    EXPECT_TRUE(stats.oom_threshold_exceeded)
+        << "AVA_EXT_03: OOM threshold must be exceeded when external + internal "
+           "allocations together surpass oom_threshold_fraction";
+
+    // Cleanup
+    alloc.free(ext_handle);
+    if (inner) alloc.free(*inner);
 }

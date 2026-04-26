@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metric_aggregator.h                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:09:07                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     387                                            ║
+    • Total Lines:     386                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 4cc689623  2026-03-13  feat(observability): implement Metric Aggregation Pipelin... ║
-    • 41c4cd5fe  2026-03-11  fix(observability): mark MetricAggregator move ops as del... ║
-    • 913128b50  2026-03-11  feat(observability): add MetricAggregator for Prometheus ... ║
+    • 4cc689623c  2026-03-13  feat(observability): implement Metric Aggregation Pipelin... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -121,7 +119,7 @@ struct ShardMetrics {
  * `AggregatedMetric` entry for each rule/group combination that matched the
  * supplied shard data.
  */
-struct MetricSnapshot {
+struct ShardAggregationSnapshot {
     /// Aggregated metric values, one per matching rule × group combination.
     std::vector<AggregatedMetric> metrics;
     /// Wall-clock time at which the snapshot was produced.
@@ -261,15 +259,15 @@ public:
      *
      * Converts each `ShardMetrics` into histogram snapshots (tagging them
      * with the source `shard_id`), then applies all registered rules to
-     * produce a unified `MetricSnapshot`.  This call does **not** mutate the
+     * produce a unified `ShardAggregationSnapshot`.  This call does **not** mutate the
      * internal snapshot buffer; the supplied shard data is processed
      * transiently and the result is returned directly.
      *
      * @param shard_metrics One `ShardMetrics` per shard.
-     * @return `MetricSnapshot` containing one `AggregatedMetric` per
+     * @return `ShardAggregationSnapshot` containing one `AggregatedMetric` per
      *         applicable rule × group combination.
      */
-    MetricSnapshot aggregateShardMetrics(
+    ShardAggregationSnapshot aggregateShardMetrics(
         const std::vector<ShardMetrics>& shard_metrics) const;
 
     /**

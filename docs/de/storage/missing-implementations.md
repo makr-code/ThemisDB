@@ -1,6 +1,6 @@
 # Storage Module — Fehlende / Unvollständige Implementierungen
 
-<!-- Status: current | validated: 2026-03-20 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Primärdokumentation: ../../../src/storage/ -->
 
 Dieser Report dokumentiert Funktionen, die in `src/storage/ROADMAP.md`,

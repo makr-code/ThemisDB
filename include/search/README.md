@@ -1,6 +1,8 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # Search Module - Public API
 
-<!-- Status: current | validated: 2026-03-10 | commit: a14cdb2 -->
+<!-- Status: current | validated: 2026-04-06 | commit: a14cdb2 -->
 <!-- Primary: src/search/ | Secondary: docs/de/src/search/ -->
 
 Public interface definitions for ThemisDB search functionality.
@@ -666,6 +668,50 @@ for (const auto& r : results) {
 
 ---
 
+## Additional Header Files
+
+The following headers are present in `include/search/` and supplement the components documented above.
+
+### conversational_search.h
+**Purpose:** Multi-turn conversational search that maintains session context across queries and resolves coreferences. <!-- TODO: verify -->
+
+---
+
+### federated_search.h
+**Purpose:** Federated search across heterogeneous external sources (REST APIs, other database instances) with result merging. <!-- TODO: verify -->
+
+---
+
+### llm_query_rewriter.h
+**Purpose:** LLM-powered query rewriter that expands, clarifies, or decomposes natural-language search queries before execution. <!-- TODO: verify -->
+
+---
+
+### llm_reranker.h
+**Purpose:** LLM-based cross-encoder reranker that scores query-document pairs for precision-oriented re-ranking. <!-- TODO: verify -->
+
+---
+
+### negative_keyword_filter.h
+**Purpose:** Filters search results that match a configurable set of negative keywords or blocked phrases. <!-- TODO: verify -->
+
+---
+
+### neural_sparse_retrieval.h
+**Purpose:** Neural sparse retrieval (SPLADE-style) generating sparse lexical-semantic embeddings for inverted-index search. <!-- TODO: verify -->
+
+---
+
+### search_highlighter.h
+**Purpose:** Highlights matching query terms and semantic passages within document content for snippet generation. <!-- TODO: verify -->
+
+---
+
+### search_result_stream.h
+**Purpose:** Streams search results progressively as they are retrieved, supporting server-sent events and WebSocket delivery. <!-- TODO: verify -->
+
+---
+
 ## Integration Points
 
 ### With Index Module
@@ -779,5 +825,13 @@ HybridSearch search(fulltext_idx, vector_idx, config);
 
 ---
 
-*Last Updated: March 2026*
+*Last Updated: April 2026*
 *API Version: v2.3.0*
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

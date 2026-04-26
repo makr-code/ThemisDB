@@ -1,4 +1,4 @@
-# Modular Build Configuration for ThemisDB
+﻿# Modular Build Configuration for ThemisDB
 # This feature is planned for post-v1.3.0 release
 # See docs/architecture/MODULARIZATION_PLAN.md for details
 
@@ -24,21 +24,41 @@ endif()
 if(THEMIS_BUILD_MODULAR)
     option(THEMIS_MODULE_TRANSACTION "Include transaction module (required)" ON)
     option(THEMIS_MODULE_LLM "Include LLM inference module (optional)" ON)
+    option(THEMIS_MODULE_LLM_SPLIT "Split LLM module into core and extension libraries" OFF)
     option(THEMIS_MODULE_GEO "Include geospatial module (optional)" ON)
     option(THEMIS_MODULE_GRAPH "Include graph analytics module (optional)" ON)
     option(THEMIS_MODULE_CONTENT "Include content processors module (optional)" ON)
     option(THEMIS_MODULE_TIMESERIES "Include time-series module" ON)
     option(THEMIS_MODULE_SHARDING "Include distributed sharding module" ON)
     option(THEMIS_MODULE_INGESTION "Include ingestion module (all data-intake connectors)" ON)
+    option(THEMIS_MODULES_ENABLE_UNITY "Enable Unity Build for modular libraries on MSVC" ON)
+    set(THEMIS_MODULES_UNITY_BATCH_SIZE "20" CACHE STRING "Unity batch size for modular libraries")
+    set(THEMIS_MODULES_UNITY_ALLOWLIST "network;query;sharding;geo;graph;content;timeseries;security;transaction;ingestion;llm;llm_ext" CACHE STRING
+        "Semicolon-separated module names for Unity Build (or ALL)")
+
+    # llm_ext existed as a linker-symbol-count mitigation. With the current
+    # Unity strategy enabled, keep the LLM module monolithic to avoid
+    # split-related symbol ownership/link regressions.
+    if(THEMIS_MODULES_ENABLE_UNITY AND THEMIS_MODULE_LLM_SPLIT)
+        message(STATUS "THEMIS_MODULES_ENABLE_UNITY=ON -> disabling THEMIS_MODULE_LLM_SPLIT (llm_ext)")
+        set(THEMIS_MODULE_LLM_SPLIT OFF CACHE BOOL
+            "Split LLM module into core and extension libraries" FORCE)
+    endif()
 endif()
 
 # Helper function to create a modular library target
-# Usage: themis_add_module(module_name SOURCES file1.cpp file2.cpp ... DEPENDENCIES dep1 dep2 ...)
+# Usage: themis_add_module(module_name SOURCES file1.cpp file2.cpp ... DEPENDENCIES dep1 dep2 ... [DISABLE_AUTO_EXPORT] [STATIC_MODULE])
 function(themis_add_module MODULE_NAME)
-    cmake_parse_arguments(ARG "" "" "SOURCES;DEPENDENCIES" ${ARGN})
-    
-    # Create the library (SHARED for modular build)
-    add_library(themis_${MODULE_NAME} SHARED ${ARG_SOURCES})
+    cmake_parse_arguments(ARG "DISABLE_AUTO_EXPORT;STATIC_MODULE" "" "SOURCES;DEPENDENCIES" ${ARGN})
+
+    if(ARG_STATIC_MODULE)
+        set(_themis_module_type STATIC)
+    else()
+        set(_themis_module_type SHARED)
+    endif()
+
+    # Create the library (SHARED by default for modular build)
+    add_library(themis_${MODULE_NAME} ${_themis_module_type} ${ARG_SOURCES})
     
     # Set export macro
     string(TOUPPER ${MODULE_NAME} MODULE_NAME_UPPER)
@@ -58,6 +78,32 @@ function(themis_add_module MODULE_NAME)
     
     # C++20 standard
     target_compile_features(themis_${MODULE_NAME} PUBLIC cxx_std_20)
+
+    # Unity Build rollout for modular targets on MSVC.
+    # Guarded by allowlist to prevent broad ODR/macro collisions.
+    if(MSVC AND THEMIS_MODULES_ENABLE_UNITY)
+        set(_themis_enable_unity_for_module OFF)
+        if(THEMIS_MODULES_UNITY_ALLOWLIST STREQUAL "ALL")
+            set(_themis_enable_unity_for_module ON)
+        else()
+            set(_themis_unity_modules ${THEMIS_MODULES_UNITY_ALLOWLIST})
+            list(FIND _themis_unity_modules "${MODULE_NAME}" _themis_unity_module_idx)
+            if(NOT _themis_unity_module_idx EQUAL -1)
+                set(_themis_enable_unity_for_module ON)
+            endif()
+        endif()
+
+        if(_themis_enable_unity_for_module)
+            set_target_properties(themis_${MODULE_NAME} PROPERTIES
+                UNITY_BUILD ON
+                UNITY_BUILD_BATCH_SIZE ${THEMIS_MODULES_UNITY_BATCH_SIZE}
+            )
+        else()
+            set_target_properties(themis_${MODULE_NAME} PROPERTIES
+                UNITY_BUILD OFF
+            )
+        endif()
+    endif()
     
     # Link dependencies
     if(ARG_DEPENDENCIES)
@@ -78,13 +124,22 @@ function(themis_add_module MODULE_NAME)
         target_compile_definitions(themis_${MODULE_NAME} PRIVATE THEMIS_ENABLE_JEMALLOC)
     endif()
     
-    # Windows: Export all symbols for DLL and disable /GL so __create_def can read symbols
-    if(MSVC)
-        set_target_properties(themis_${MODULE_NAME} PROPERTIES
-            WINDOWS_EXPORT_ALL_SYMBOLS ON
-            INTERPROCEDURAL_OPTIMIZATION FALSE
-            VS_GLOBAL_WholeProgramOptimization "false"
-        )
+    # Windows: Export all symbols for DLL and disable /GL so __create_def can read symbols.
+    # Large modules can disable this to avoid oversized import libraries.
+    if(MSVC AND NOT ARG_STATIC_MODULE)
+        if(ARG_DISABLE_AUTO_EXPORT)
+            set_target_properties(themis_${MODULE_NAME} PROPERTIES
+                WINDOWS_EXPORT_ALL_SYMBOLS OFF
+                INTERPROCEDURAL_OPTIMIZATION FALSE
+                VS_GLOBAL_WholeProgramOptimization "false"
+            )
+        else()
+            set_target_properties(themis_${MODULE_NAME} PROPERTIES
+                WINDOWS_EXPORT_ALL_SYMBOLS ON
+                INTERPROCEDURAL_OPTIMIZATION FALSE
+                VS_GLOBAL_WholeProgramOptimization "false"
+            )
+        endif()
         target_compile_options(themis_${MODULE_NAME} PRIVATE
             $<$<CONFIG:Release>:/GL->
             $<$<CONFIG:RelWithDebInfo>:/GL->
@@ -108,8 +163,11 @@ function(themis_add_module MODULE_NAME)
     install(TARGETS themis_${MODULE_NAME}
         EXPORT ThemisTargets
         RUNTIME DESTINATION bin
+            COMPONENT runtime
         LIBRARY DESTINATION lib
+            COMPONENT runtime
         ARCHIVE DESTINATION lib
+            COMPONENT development
     )
     
     message(STATUS "Module configured: themis_${MODULE_NAME}")
@@ -125,6 +183,7 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/cursor.cpp
     ../src/utils/tracing.cpp
     ../src/utils/zstd_codec.cpp
+    ../src/utils/lz4_codec.cpp
     ../src/utils/input_validator.cpp
     ../src/utils/hkdf_helper.cpp
     ../src/utils/hkdf_cache.cpp
@@ -143,6 +202,12 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/self_awareness.cpp
     ../src/utils/timestamp_utils.cpp
     ../src/observability/metrics_collector.cpp
+    ../src/security/pii_redaction_policy.cpp
+    ../src/utils/pii_detection_engine.cpp
+    ../src/utils/regex_detection_engine.cpp
+    ../src/utils/ner_detection_engine.cpp
+    ../src/utils/pii_detector.cpp
+    ../src/utils/pki_client.cpp
     ../src/config/config_path_resolver.cpp
     ../src/config/config_file_watcher.cpp
     ../src/config/config_metrics_exporter.cpp
@@ -184,10 +249,13 @@ set(THEMIS_BASE_SOURCES
     ../src/acceleration/device_manager.cpp
     ../src/acceleration/vllm_resource_manager.cpp
     ../src/acceleration/shader_integrity.cpp
+    # PERF-D3: Parallel batch insertion + SIMD distance pipeline
+    ../src/acceleration/vec_knn.cpp
     # CPU multi-threaded backends (requires THEMIS_ENABLE_GPU)
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/acceleration/cpu_backend_mt.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/acceleration/cpu_backend_tbb.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/acceleration/graphics_backends.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/gpu/gpu_memory_manager_edition.cpp>
     # GPU-specific backends
     $<$<AND:$<BOOL:${THEMIS_ENABLE_GPU}>,$<BOOL:${WIN32}>>:../src/acceleration/directx_backend_full.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HIP}>:../src/acceleration/hip_backend.cpp>
@@ -252,11 +320,14 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/key_schema.cpp
     ../src/storage/backup_manager.cpp
     ../src/storage/columnar_format.cpp
+    ../src/storage/simd_filter.cpp
+    ../src/storage/storage_parquet_exporter.cpp
     ../src/storage/batch_write_optimizer.cpp
     # ../src/storage/pitr_manager.cpp  # Temporarily disabled - needs transaction module
     ../src/storage/blob_redundancy_manager.cpp
     ../src/storage/erasure_coding_backend.cpp
     ../src/storage/erasure_coder_factory.cpp
+    ../src/storage/hamming_coder.cpp
     ../src/storage/database_connection_manager.cpp
     ../src/storage/disk_space_monitor.cpp
     # WAL for durability and crash recovery
@@ -278,6 +349,8 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/raft_mvcc_bridge.cpp
     # Tiered storage (hot/warm/cold) with age- and access-based migration
     ../src/storage/tiered_storage.cpp
+    # Index Analyzer – per-index analyze with tier thresholds, cron scheduling, AI/ML hook – v1.9.0
+    ../src/storage/index_analyzer.cpp
     # Distributed transactions (2PC across multiple shards) – v1.7.0
     ../src/storage/distributed_transaction_manager.cpp
     # NVMe optimizations (io_uring, multi-queue, ZNS, Direct I/O) – v1.6.0
@@ -329,6 +402,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/cuda_hnsw_graph_traversal.cpp
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/multi_gpu_vector_index.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/gpu_memory_oversubscription.cpp>
     $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/index/gpu_vector_index_vulkan.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/index/rotary_embeddings_cuda.cu>
     $<$<BOOL:${THEMIS_ENABLE_HIP}>:../src/index/rotary_embeddings_hip.cpp>
@@ -352,7 +426,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/performance/phase3/feature_flags.cpp
     ../src/performance/numa_topology.cpp
     ../src/performance/prometheus_exporter.cpp
-    ../src/performance/chimera_exporter.cpp
+        $<$<BOOL:${THEMIS_BUILD_CHIMERA}>:../src/performance/chimera_exporter.cpp>
     ../src/performance/async_metrics_exporter.cpp
     ../src/performance/phase3/memory_pressure.cpp
     ../src/performance/phase3/adaptive_batch_tuner.cpp
@@ -361,6 +435,9 @@ set(THEMIS_STORAGE_SOURCES
     # perf_event_open is unavailable (containers, non-Linux).  The actual PMU
     # paths are gated by the THEMIS_ENABLE_PMU_COUNTERS compile definition.
     ../src/performance/phase4/pmu_counters.cpp
+    ../src/performance/numa_memory_manager.cpp
+    ../src/performance/advanced_cache_manager.cpp
+    ../src/performance/workload_adaptive_optimizer.cpp
     
     # Storage enhancements
     ../src/cache/semantic_cache.cpp
@@ -466,6 +543,8 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/materialized_cte.cpp
     ../src/query/result_stream.cpp
     ../src/query/query_cache.cpp
+    ../src/query/query_rewrite_rule.cpp
+    ../src/query/query_profiler.cpp
     ../src/query/workload_cache_strategy.cpp
     ../src/query/query_cache_manager.cpp
     ../src/query/cross_cluster_federation.cpp
@@ -476,6 +555,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/parallel_executor.cpp
     ../src/query/query_canceller.cpp
     ../src/query/query_federation.cpp
+    ../src/distributed_knowledge/federated_rag_merger.cpp
     ../src/query/plan_cache.cpp
     ../src/query/query_compiler.cpp
     ../src/query/materialized_view.cpp
@@ -485,7 +565,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/performance/cycle_metrics.cpp
     ../src/performance/workload_predictor.cpp
     ../src/performance/async_metrics_exporter.cpp
-    ../src/performance/chimera_exporter.cpp
+        $<$<BOOL:${THEMIS_BUILD_CHIMERA}>:../src/performance/chimera_exporter.cpp>
     ../src/performance/prometheus_exporter.cpp
     ../src/performance/phase3/per_query_cost_model.cpp
     ../src/cache/cache_replication.cpp
@@ -517,6 +597,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/columnar_execution.cpp
     # Process Modeling Module
     ../src/process/process_model_manager.cpp
+    ../src/process/epk_aris_xml_importer.cpp
     ../src/process/bpmn_serializer.cpp
     ../src/process/epk_serializer.cpp
     ../src/process/llm_process_descriptor.cpp
@@ -537,12 +618,12 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/arrow_flight.cpp
     
     # AQL handlers (non-LLM)
-    ../src/aql/aql_query_builder.cpp
-    ../src/aql/aql_query_validator.cpp
+    $<$<NOT:$<BOOL:${THEMIS_MODULE_LLM}>>:../src/aql/aql_query_builder.cpp>
+    $<$<NOT:$<BOOL:${THEMIS_MODULE_LLM}>>:../src/aql/aql_query_validator.cpp>
     ../src/aql/aql_optimizer_advisor.cpp
     ../src/aql/aql_query_template_library.cpp
     ../src/aql/aql_conversation_context.cpp
-    ../src/aql/aql_schema_provider.cpp
+    $<$<NOT:$<BOOL:${THEMIS_MODULE_LLM}>>:../src/aql/aql_schema_provider.cpp>
     ../src/aql/aql_migration_assistant.cpp
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/aql/classify_bridge.cpp>
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/aql/docs_assistant_functions.cpp>
@@ -623,6 +704,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/row_level_security.cpp
     ../src/security/access_control.cpp
     ../src/security/zero_trust_policy_enforcer.cpp
+    ../src/security/prompt_injection_pattern_registry.cpp
     ../src/auth/auth_audit_logger.cpp
     ../src/security/user_registration_plugin.cpp
     ../src/security/arrow_user_registration_plugin.cpp
@@ -634,9 +716,6 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/timestamp_authority.cpp
     ../src/security/timestamp_authority_openssl.cpp
     ../src/security/vcc_pki_client.cpp
-    ../src/security/pii_redaction_policy.cpp
-    ../src/utils/lek_manager.cpp
-    ../src/utils/saga_logger.cpp
     
     # Authentication
     ../src/auth/jwt_validator.cpp
@@ -693,16 +772,14 @@ set(THEMIS_SECURITY_SOURCES
     ../src/governance/policy_review.cpp
     ../src/governance/policy_file_watcher.cpp
     ../src/governance/soc2_controls.cpp
-    
-    # PII detection
-    ../src/utils/pii_detection_engine.cpp
-    ../src/utils/regex_detection_engine.cpp
-    ../src/utils/ner_detection_engine.cpp
-    ../src/utils/pii_detector.cpp
+
+    # Utility modules that depend on security/storage internals
     ../src/utils/pii_stream_scanner.cpp
     ../src/utils/utils_adapters.cpp
+    ../src/utils/lek_manager.cpp
+    ../src/utils/saga_logger.cpp
+    ../src/utils/audit_logger.cpp
     ../src/utils/retention_manager.cpp
-    ../src/utils/pki_client.cpp
     
     # Post-quantum cryptography (CRYSTALS-Kyber / Dilithium migration path)
     ../src/security/post_quantum_crypto.cpp
@@ -723,8 +800,8 @@ set(THEMIS_SECURITY_SOURCES
     # Encryption and vector/graph index helpers (use storage + security features)
     ../src/security/field_encryption.cpp
     ../src/security/encrypted_field.cpp
-    ../src/utils/audit_logger.cpp
     ../src/storage/index_maintenance.cpp
+    ../src/storage/index_analyzer.cpp
     ../src/index/vector_index.cpp
     ../src/index/graph_index.cpp
     ../src/index/approximate_radius_search.cpp
@@ -932,9 +1009,18 @@ set(THEMIS_LLM_SOURCES
     ../src/prompt_engineering/prompt_regression_runner.cpp
     ../src/prompt_engineering/prompt_ab_experiment.cpp
     ../src/prompt_engineering/prompt_library_io.cpp
+    ../src/prompt_engineering/rag_context_budget_manager.cpp
+    ../src/prompt_engineering/prompt_quality_evaluator.cpp
     ../src/prompt_engineering/tree_of_thoughts.cpp
     ../src/prompt_engineering/protegi_optimizer.cpp
     ../src/prompt_engineering/dspy_module.cpp
+    ../src/prompt_engineering/structured_output.cpp
+    ../src/prompt_engineering/prompt_compressor.cpp
+    ../src/prompt_engineering/adversarial_prompt_tester.cpp
+    ../src/prompt_engineering/prompt_template_validator.cpp
+    ../src/prompt_engineering/prompt_template_compiler.cpp
+    ../src/distributed_knowledge/cross_shard_feedback_sync.cpp
+    ../src/distributed_knowledge/adapter_capability_announcement.cpp
     ../src/llm/block_table.cpp
     ../src/llm/paged_block_manager.cpp
     ../src/llm/paged_kv_cache.cpp
@@ -944,6 +1030,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/model_quantization_pipeline.cpp
     ../src/llm/model_downloader.cpp
     ../src/llm/aql_train_parser.cpp
+    ../src/aql/llm_aql_embedding_bridge.cpp
     ../src/llm/llama_wrapper.cpp
     ../src/llm/llama_lora_adapter.cpp
     ../src/llm/llama_grammar_adapter.cpp
@@ -952,7 +1039,10 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/async_inference_engine.cpp
     ../src/llm/prompt_policy.cpp
     ../src/llm/speculative_decoder.cpp
+    ../src/llm/kv_prefix_transfer_manager.cpp
+    ../src/llm/lookup_decoder.cpp
     ../src/llm/model_router.cpp
+    ../src/llm/adapter_registry.cpp
     ../src/llm/inference_engine_enhanced.cpp
     ../src/llm/streaming_handler.cpp
     ../src/llm/openai_compat_adapter.cpp
@@ -961,6 +1051,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/constitutional_reasoning_engine.cpp
     ../src/llm/ethics_aware_confidence_detector.cpp
     ../src/llm/ai_decision_auditor.cpp
+    ../src/llm/decision_record_yaml_processor.cpp
     ../src/llm/moral_analyzer.cpp
     ../src/llm/multi_perspective_generator.cpp
     ../src/llm/meta_prompt_generator.cpp
@@ -999,6 +1090,8 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/ethics_aware_confidence_detector.cpp
     ../src/llm/moral_analyzer.cpp
     ../src/llm/multi_perspective_generator.cpp
+    # Decision Record YAML Processor (async, independent of llama.cpp / RocksDB)
+    ../src/llm/decision_record_yaml_processor.cpp
     # Feedback & Security
     ../src/llm/feedback_plugin_basic.cpp
     ../src/llm/llm_security_utils.cpp
@@ -1007,6 +1100,7 @@ set(THEMIS_LLM_SOURCES
     # LoRA framework additions (unconditional)
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/distributed_dataloader.cpp>
     ../src/llm/lora_framework/kernels/cpu_fused_kernels.cpp
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/paged_memory_manager.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/paged_optimizer.cpp>
         ../src/cache/embedding_cache.cpp
         ../src/llm/lora_framework/lora_layers.cpp
@@ -1067,6 +1161,9 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/prompt_templates.cpp
     ../src/rag/response_parser.cpp
     ../src/training/lora_data_selection.cpp
+    ../src/training/incremental_lora_trainer.cpp
+    ../src/training/lora_checkpoint_manager.cpp
+    ../src/training/adapter_serving.cpp
     ../src/rag/faithfulness_evaluator.cpp
     ../src/rag/relevance_evaluator.cpp
     ../src/rag/completeness_evaluator.cpp
@@ -1170,6 +1267,38 @@ if(THEMIS_ENABLE_VULKAN)
     )
 endif()
 
+# Optional split for very large LLM builds (notably MSVC toolchains).
+if(THEMIS_BUILD_MODULAR AND THEMIS_MODULE_LLM AND THEMIS_MODULE_LLM_SPLIT)
+    list(LENGTH THEMIS_LLM_SOURCES _themis_llm_source_count)
+    if(_themis_llm_source_count GREATER 1)
+        math(EXPR _themis_llm_split_index "${_themis_llm_source_count} / 2")
+        math(EXPR _themis_llm_ext_count "${_themis_llm_source_count} - ${_themis_llm_split_index}")
+        list(SUBLIST THEMIS_LLM_SOURCES 0 ${_themis_llm_split_index} THEMIS_LLM_CORE_SOURCES)
+        list(SUBLIST THEMIS_LLM_SOURCES ${_themis_llm_split_index} ${_themis_llm_ext_count} THEMIS_LLM_EXT_SOURCES)
+    else()
+        set(THEMIS_LLM_CORE_SOURCES ${THEMIS_LLM_SOURCES})
+        set(THEMIS_LLM_EXT_SOURCES)
+    endif()
+else()
+    set(THEMIS_LLM_CORE_SOURCES ${THEMIS_LLM_SOURCES})
+    set(THEMIS_LLM_EXT_SOURCES)
+endif()
+
+# Keep AQL LLM integration files together in llm_ext when split is enabled.
+# This avoids accidental core/ext separation by index-based splitting and
+# prevents link-time resolution from pulling query objects into unrelated DLLs.
+if(THEMIS_BUILD_MODULAR AND THEMIS_MODULE_LLM AND THEMIS_MODULE_LLM_SPLIT)
+    set(_themis_llm_ext_aql_sources
+        ../src/aql/llm_aql_handler.cpp
+        ../src/aql/aql_query_validator.cpp
+        ../src/aql/aql_query_builder.cpp
+        ../src/aql/aql_schema_provider.cpp
+    )
+    list(REMOVE_ITEM THEMIS_LLM_CORE_SOURCES ${_themis_llm_ext_aql_sources})
+    list(REMOVE_ITEM THEMIS_LLM_EXT_SOURCES ${_themis_llm_ext_aql_sources})
+    list(APPEND THEMIS_LLM_EXT_SOURCES ${_themis_llm_ext_aql_sources})
+endif()
+
 set(THEMIS_CONTENT_SOURCES
     # Content processing (conditional)
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_type.cpp>
@@ -1234,6 +1363,9 @@ set(THEMIS_TIMESERIES_SOURCES
     ../src/timeseries/ts_auto_buffer_adaptive.cpp
     ../src/timeseries/encrypted_chunk_store.cpp
     ../src/timeseries/ts_encrypted_key_rotation.cpp
+    ../src/timeseries/compression_selector.cpp
+    ../src/timeseries/anomaly_detection.cpp
+    ../src/timeseries/gap_fill.cpp
 )
 
 set(THEMIS_INGESTION_SOURCES
@@ -1352,6 +1484,7 @@ set(THEMIS_NETWORK_SOURCES
     ../src/server/update_api_handler.cpp
     ../src/server/hot_reload_api_handler.cpp
     ../src/server/export_api_handler.cpp
+    ../src/server/shard_repair_api_handler.cpp
     ../src/server/tenant_manager.cpp
     ../src/server/sharding_metrics_handler.cpp
     
@@ -1425,6 +1558,7 @@ set(THEMIS_NETWORK_SOURCES
     ../src/network/wire_protocol_performance.cpp
     ../src/network/wire_protocol_zero_copy.cpp
     ../src/network/wire_protocol_batch.cpp
+    ../src/network/io_uring_batcher.cpp
     ../src/network/connection_compression.cpp
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/network/quic_transport.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/network/grpc_transport.cpp>
@@ -1502,7 +1636,6 @@ if(THEMIS_ENABLE_GPU)
         ../src/gpu/gpu_module.cpp
         ../src/gpu/config.cpp
         ../src/gpu/feature_flags.cpp
-        ../src/gpu/gpu_memory_manager_edition.cpp
         ../src/gpu/memory_pool.cpp
         ../src/gpu/kernel_validator.cpp
         ../src/gpu/policy.cpp
@@ -1548,6 +1681,7 @@ set(THEMIS_GRAPH_SOURCES
     ../src/index/gnn_embeddings.cpp
     ../src/index/graph_analytics.cpp
     ../src/graph/graph_query_optimizer.cpp
+    ../src/graph/explain_plan.cpp
     ../src/query/result_stream.cpp
     ../src/graph/path_constraints.cpp
     ../src/graph/distributed_graph.cpp
@@ -1598,6 +1732,9 @@ function(themis_build_modular)
     endif()
     if(TARGET prometheus-cpp::pull)
         list(APPEND _themis_base_deps prometheus-cpp::pull)
+    endif()
+    if(TARGET TBB::tbb)
+        list(APPEND _themis_base_deps TBB::tbb)
     endif()
     if(TARGET libzip::zip)
         list(APPEND _themis_base_deps libzip::zip)
@@ -1698,6 +1835,18 @@ function(themis_build_modular)
         SOURCES ${THEMIS_SECURITY_SOURCES}
         DEPENDENCIES ${_themis_security_deps}
     )
+    # These two translation units include different governance headers that both
+    # declare a class named ComplianceReporter. In Unity mode they can end up in
+    # one TU and trigger class redefinition errors (C2011/C2027 cascade).
+    set_source_files_properties(
+        ${CMAKE_SOURCE_DIR}/src/governance/compliance_reporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/governance/compliance_reporting.cpp
+        ${CMAKE_SOURCE_DIR}/src/governance/policy_validator.cpp
+        ${CMAKE_SOURCE_DIR}/src/governance/policy_validation.cpp
+        ${CMAKE_SOURCE_DIR}/src/governance/policy_review.cpp
+        ${CMAKE_SOURCE_DIR}/src/governance/review_scheduler.cpp
+        PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
+    )
     
     themis_add_module(transaction
         SOURCES ${THEMIS_TRANSACTION_SOURCES}
@@ -1750,6 +1899,9 @@ function(themis_build_modular)
     endif()
     if(THEMIS_MODULE_LLM)
         list(APPEND _themis_query_deps themis_llm)
+        if(THEMIS_MODULE_LLM_SPLIT)
+            list(APPEND _themis_query_deps themis_llm_ext)
+        endif()
     endif()
     if(THEMIS_MODULE_GEO)
         list(APPEND _themis_query_deps themis_geo)
@@ -1761,7 +1913,17 @@ function(themis_build_modular)
     themis_add_module(query
         SOURCES ${THEMIS_QUERY_SOURCES}
         DEPENDENCIES ${_themis_query_deps}
+        STATIC_MODULE
     )
+    if(MSVC)
+        # Keep XML parser TUs separate: both files define helper types in
+        # anonymous namespaces and can conflict when merged into one Unity TU.
+        set_source_files_properties(
+            ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
+            ${CMAKE_SOURCE_DIR}/src/process/epk_aris_xml_importer.cpp
+            PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
+        )
+    endif()
     
     set(_themis_network_deps
         themis_base
@@ -1775,6 +1937,9 @@ function(themis_build_modular)
     endif()
     if(THEMIS_MODULE_LLM)
         list(APPEND _themis_network_deps themis_llm)
+        if(THEMIS_MODULE_LLM_SPLIT)
+            list(APPEND _themis_network_deps themis_llm_ext)
+        endif()
     endif()
     if(THEMIS_MODULE_TIMESERIES)
         list(APPEND _themis_network_deps themis_timeseries)
@@ -1788,17 +1953,58 @@ function(themis_build_modular)
     if(THEMIS_MODULE_CONTENT)
         list(APPEND _themis_network_deps themis_content)
     endif()
+    if(TARGET themis_api_proto)
+        list(APPEND _themis_network_deps themis_api_proto)
+    endif()
 
+    # LNK1189 fix: >65535 exported symbols (WINDOWS_EXPORT_ALL_SYMBOLS ON) exceed
+    # the MSVC import-library limit. STATIC_MODULE avoids auto-export entirely;
+    # the server exe links it transitively through themis_core INTERFACE.
     themis_add_module(network
         SOURCES ${THEMIS_NETWORK_SOURCES}
         DEPENDENCIES ${_themis_network_deps}
+        STATIC_MODULE
     )
     if(MSVC)
+        set_target_properties(themis_network PROPERTIES
+            UNITY_BUILD ON
+            UNITY_BUILD_BATCH_SIZE 20
+        )
+        # Files that must NOT enter a unity batch:
+        # - monitoring_api_handler / index_api_handler: need per-file /bigobj;/Od
+        # - distributed_flame_graph: defines 'parseFolded' in anonymous namespace
+        #   which causes C2375 (redefinition / different linkage) when merged with
+        #   another TU that also defines an anonymous-namespace symbol of the same name
         set_source_files_properties(
             ${CMAKE_SOURCE_DIR}/src/server/monitoring_api_handler.cpp
             ${CMAKE_SOURCE_DIR}/src/server/index_api_handler.cpp
-            PROPERTIES COMPILE_OPTIONS "/bigobj;/Od;/Zm200"
+            PROPERTIES
+                SKIP_UNITY_BUILD_INCLUSION ON
+                COMPILE_OPTIONS "/bigobj;/Od;/Zm200"
         )
+        set_source_files_properties(
+            ${CMAKE_SOURCE_DIR}/src/observability/distributed_flame_graph.cpp
+            PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
+        )
+        # task_scheduler_api_handler.cpp defines an anonymous-namespace
+        # timePointToIso that conflicts with the namespace-level version in
+        # async_job_api_handler.cpp when both are merged into the same Unity TU.
+        set_source_files_properties(
+            ${CMAKE_SOURCE_DIR}/src/server/task_scheduler_api_handler.cpp
+            PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
+        )
+        # cdc_admin.cpp pulls in cdc::TenantConfig which is ambiguous with
+        # themis::TenantConfig from server/tenant_manager.h in the same Unity TU.
+        set_source_files_properties(
+            ${CMAKE_SOURCE_DIR}/src/cdc/cdc_admin.cpp
+            PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
+        )
+            # api_gateway.cpp defines an anonymous-namespace 'class Error' that
+            # becomes ambiguous with themis::Error when merged with other server files.
+            set_source_files_properties(
+                ${CMAKE_SOURCE_DIR}/src/server/api_gateway.cpp
+                PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
+            )
     endif()
     
     # Optional modules
@@ -1834,39 +2040,66 @@ function(themis_build_modular)
             DEPENDENCIES 
                 themis_base 
                 themis_storage
+                themis_security
         )
     endif()
     
     if(THEMIS_MODULE_LLM)
         themis_add_module(llm
-            SOURCES ${THEMIS_LLM_SOURCES}
+            STATIC_MODULE
+            DISABLE_AUTO_EXPORT
+            SOURCES ${THEMIS_LLM_CORE_SOURCES}
             DEPENDENCIES 
                 themis_base 
                 themis_storage
                 themis_security
                 themis_sharding
         )
+        if(THEMIS_MODULE_LLM_SPLIT AND THEMIS_LLM_EXT_SOURCES)
+            themis_add_module(llm_ext
+                STATIC_MODULE
+                DISABLE_AUTO_EXPORT
+                SOURCES ${THEMIS_LLM_EXT_SOURCES}
+                DEPENDENCIES
+                    themis_base
+                    themis_storage
+                    themis_security
+                    themis_sharding
+                    themis_llm
+            )
+        endif()
         if(THEMIS_MODULE_GRAPH)
             target_link_libraries(themis_llm PUBLIC themis_graph)
         endif()
-        target_include_directories(themis_llm PRIVATE
-            ${CMAKE_SOURCE_DIR}/llama.cpp/include
-            ${CMAKE_SOURCE_DIR}/llama.cpp/ggml/include
-        )
         if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc)
             target_link_libraries(themis_llm PUBLIC mimalloc)
+            if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
+                target_link_libraries(themis_llm_ext PUBLIC mimalloc)
+            endif()
         endif()
         if(THEMIS_ENABLE_JEMALLOC)
             if(TARGET jemalloc::jemalloc)
                 target_link_libraries(themis_llm PUBLIC jemalloc::jemalloc)
+                if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
+                    target_link_libraries(themis_llm_ext PUBLIC jemalloc::jemalloc)
+                endif()
             elseif(jemalloc_LIBRARIES)
                 target_link_libraries(themis_llm PUBLIC ${jemalloc_LIBRARIES})
+                if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
+                    target_link_libraries(themis_llm_ext PUBLIC ${jemalloc_LIBRARIES})
+                endif()
             endif()
         endif()
         if(TARGET llama)
             target_link_libraries(themis_llm PUBLIC llama)
+            if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
+                target_link_libraries(themis_llm_ext PUBLIC llama)
+            endif()
         elseif(llama_LIBRARIES)
             target_link_libraries(themis_llm PUBLIC ${llama_LIBRARIES})
+            if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
+                target_link_libraries(themis_llm_ext PUBLIC ${llama_LIBRARIES})
+            endif()
         endif()
     endif()
     
@@ -1936,6 +2169,9 @@ function(themis_build_modular)
         endif()
         if(THEMIS_MODULE_LLM)
             list(APPEND _themis_content_deps themis_llm)
+            if(THEMIS_MODULE_LLM_SPLIT)
+                list(APPEND _themis_content_deps themis_llm_ext)
+            endif()
         endif()
         if(TARGET libzip::zip)
             list(APPEND _themis_content_deps libzip::zip)
@@ -1965,6 +2201,9 @@ function(themis_build_modular)
     )
     if(THEMIS_MODULE_LLM)
         list(APPEND _themis_ingestion_deps themis_llm)
+        if(THEMIS_MODULE_LLM_SPLIT)
+            list(APPEND _themis_ingestion_deps themis_llm_ext)
+        endif()
     endif()
     themis_add_module(ingestion
         SOURCES ${THEMIS_INGESTION_SOURCES}
@@ -2006,6 +2245,9 @@ function(themis_build_modular)
     
     if(THEMIS_MODULE_LLM)
         list(APPEND THEMIS_ALL_MODULES themis_llm)
+        if(THEMIS_MODULE_LLM_SPLIT)
+            list(APPEND THEMIS_ALL_MODULES themis_llm_ext)
+        endif()
     endif()
     
     if(THEMIS_MODULE_GEO)

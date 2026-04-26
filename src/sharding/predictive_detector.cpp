@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            predictive_detector.cpp                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:20                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     478                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -170,7 +167,7 @@ void PredictiveFailureDetector::checkAllShards() {
                 stats_.predictions_made++;
             }
             
-        } catch (const std::exception& e) {
+        } catch (const std::exception&) {
             // Skip this shard and continue
             continue;
         }
@@ -237,7 +234,7 @@ FailurePrediction PredictiveFailureDetector::predictShard(const std::string& sha
 // Metrics Collection
 // ═══════════════════════════════════════════════════════════
 
-void PredictiveFailureDetector::recordMetrics(const ShardMetrics& metrics) {
+void PredictiveFailureDetector::recordMetrics(const PredictiveShardMetrics& metrics) {
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     
     auto& history = metrics_history_[metrics.shard_id];
@@ -249,14 +246,14 @@ void PredictiveFailureDetector::recordMetrics(const ShardMetrics& metrics) {
     
     history.erase(
         std::remove_if(history.begin(), history.end(),
-            [cutoff_time](const ShardMetrics& m) {
+            [cutoff_time](const PredictiveShardMetrics& m) {
                 return m.timestamp < cutoff_time;
             }),
         history.end()
     );
 }
 
-std::vector<ShardMetrics> PredictiveFailureDetector::getMetricsHistory(
+std::vector<PredictiveShardMetrics> PredictiveFailureDetector::getMetricsHistory(
     const std::string& shard_id, 
     std::chrono::hours lookback) const {
     
@@ -269,7 +266,7 @@ std::vector<ShardMetrics> PredictiveFailureDetector::getMetricsHistory(
     
     auto cutoff_time = std::chrono::system_clock::now() - lookback;
     
-    std::vector<ShardMetrics> result;
+    std::vector<PredictiveShardMetrics> result;
     for (const auto& metrics : it->second) {
         if (metrics.timestamp >= cutoff_time) {
             result.push_back(metrics);
@@ -298,7 +295,7 @@ std::vector<float> PredictiveFailureDetector::extractFeatures(const std::string&
 }
 
 std::vector<float> PredictiveFailureDetector::computeStatisticalFeatures(
-    const std::vector<ShardMetrics>& history) {
+    const std::vector<PredictiveShardMetrics>& history) {
     
     std::vector<float> features;
     features.reserve(50);
@@ -356,9 +353,9 @@ std::vector<float> PredictiveFailureDetector::computeStatisticalFeatures(
     features.push_back(compute_mean(latencies));
     features.push_back(compute_stddev(latencies));
     features.push_back(compute_trend(latencies));
-    features.push_back(history.back().avg_latency_ms / 100.0f);  // Current normalized
-    features.push_back(history.back().p95_latency_ms / 100.0f);
-    features.push_back(history.back().p99_latency_ms / 100.0f);
+    features.push_back(static_cast<float>(history.back().avg_latency_ms / 100.0));  // Current normalized
+    features.push_back(static_cast<float>(history.back().p95_latency_ms / 100.0));
+    features.push_back(static_cast<float>(history.back().p99_latency_ms / 100.0));
     
     // Throughput features (indices 6-9)
     features.push_back(compute_mean(throughputs));

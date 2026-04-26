@@ -3,28 +3,26 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mysql_importer.cpp                                 ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-03-30 04:16:21                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-04-15 18:49:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     1424                                           ║
+    • Total Lines:     1422                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
-    • a522f154e  2026-03-16  feat(importers): wire & verify MySQL/MariaDB importer reg... ║
-    • 9bccf09a7  2026-03-16  Changes before error encountered         ║
-    • 786e4a8df  2026-03-15  feat(importers): incremental import, MySQL benchmark, Mon... ║
-    • e8972c533  2026-03-15  feat(importers): add MySQL-specific Prometheus metrics an... ║
+    • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
+    • a522f154ee  2026-03-16  feat(importers): wire & verify MySQL/MariaDB importer reg... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "importers/mysql_importer.h"
+#include "importers/importer_common.h"
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
@@ -44,59 +42,8 @@
 namespace themis {
 namespace importers {
 
-// ============================================================================
-// File-level helpers
-// ============================================================================
-
-/**
- * @brief Memory-bounded line reader (mirrors postgres_importer helper).
- *
- * Reads the next newline-terminated line from @p file with a hard per-line
- * byte cap of @p max_bytes (0 = unlimited). When the cap is exceeded the
- * remaining bytes of the current line are discarded and @p truncated is set
- * to true. Returns false only when EOF is reached before any bytes are read.
- */
-static bool streamReadLine(std::istream& file,
-                            std::string& line,
-                            size_t max_bytes,
-                            bool& truncated) {
-    truncated = false;
-    line.clear();
-
-    if (max_bytes == 0) {
-        if (!std::getline(file, line)) return false;
-        return true;
-    }
-
-    char c = '\0';
-    size_t count = 0;
-    bool got_any = false;
-
-    while (file.get(c)) {
-        got_any = true;
-        if (c == '\n') break;
-
-        if (count < max_bytes) {
-            line += c;
-            ++count;
-        } else {
-            truncated = true;
-            while (file.get(c) && c != '\n') { /* discard */ }
-            break;
-        }
-    }
-
-    return got_any;
-}
-
-/**
- * @brief Convert a string to lower-case (ASCII only).
- */
-static std::string toLower(const std::string& s) {
-    std::string result = s;
-    for (auto& c : result) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
-    return result;
-}
+// Note: streamReadLine() and toLower() are defined in importer_common.h
+// as inline functions shared across all importer implementations.
 
 // ============================================================================
 // Constructor / Destructor

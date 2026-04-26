@@ -2,7 +2,7 @@
 
 **Version:** v1.3.0 Phase 2  
 **Status:** Production-Ready  
-**Last Updated:** December 22, 2025
+**Last Updated:** April 2026
 
 ---
 
@@ -54,6 +54,6 @@ See full documentation at https://github.com/makr-code/ThemisDB
 
 ---
 
-**Last Updated:** December 22, 2025  
+**Last Updated:** April 2026  
 **Version:** v1.3.0 Phase 2  
 **Status:** Production-Ready

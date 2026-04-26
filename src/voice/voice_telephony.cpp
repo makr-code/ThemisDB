@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_telephony.cpp                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:21:46                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • d4de81cc0  2026-03-09  feat(voice): telephony bridge SIP/WebRTC integration (Iss... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -453,9 +454,8 @@ std::string WebRtcCallSession::processOffer(const std::string& sdp_offer) {
     return impl_->negotiated_sdp;
 }
 
-void WebRtcCallSession::addIceCandidate(const std::string& candidate_json) {
+void WebRtcCallSession::addIceCandidate([[maybe_unused]] const std::string& candidate_json) {
     // In production: forward to the WebRTC ICE stack
-    (void)candidate_json;
     THEMIS_INFO("WebRtcCallSession: addIceCandidate call_id={}", impl_->call_id);
 }
 

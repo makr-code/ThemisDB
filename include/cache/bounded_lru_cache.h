@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bounded_lru_cache.h                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:06:06                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     188                                            ║
+    • Total Lines:     185                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -24,8 +24,7 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_CACHE_BOUNDED_LRU_CACHE_H
-#define THEMISDB_CACHE_BOUNDED_LRU_CACHE_H
+#pragma once
 
 #include <chrono>
 #include <memory>
@@ -184,5 +183,3 @@ private:
 
 } // namespace cache
 } // namespace themis
-
-#endif // THEMISDB_CACHE_BOUNDED_LRU_CACHE_H

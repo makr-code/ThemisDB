@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_llm_response_cache.cpp                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:04:15                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:43:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     255                                            ║
+    • Total Lines:     254                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 9c9ead9b4f  2026-04-09  Implement feature X to enhance user experience and optimi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -132,8 +131,8 @@ static void BM_CacheGetSemanticMatch(benchmark::State& state) {
     
     auto stats = cache.getStatistics();
     state.counters["hit_rate"] = stats.getHitRate();
-    state.counters["hits"] = stats.hits;
-    state.counters["misses"] = stats.misses;
+    state.counters["hits"] = static_cast<double>(stats.hits.load(std::memory_order_relaxed));
+    state.counters["misses"] = static_cast<double>(stats.misses.load(std::memory_order_relaxed));
     state.SetItemsProcessed(state.iterations());
 }
 BENCHMARK(BM_CacheGetSemanticMatch);
@@ -195,8 +194,8 @@ static void BM_CacheMixedWorkload(benchmark::State& state) {
     
     auto stats = cache.getStatistics();
     state.counters["hit_rate"] = stats.getHitRate();
-    state.counters["total_entries"] = stats.total_entries;
-    state.counters["avg_lookup_ms"] = stats.avg_lookup_time_ms;
+    state.counters["total_entries"] = static_cast<double>(stats.total_entries.load(std::memory_order_relaxed));
+    state.counters["avg_lookup_ms"] = stats.avg_lookup_time_ms.load(std::memory_order_relaxed);
     state.SetItemsProcessed(state.iterations());
 }
 BENCHMARK(BM_CacheMixedWorkload);
@@ -217,7 +216,7 @@ static void BM_CacheLRUEviction(benchmark::State& state) {
     }
     
     auto stats = cache.getStatistics();
-    state.counters["final_entries"] = stats.total_entries;
+    state.counters["final_entries"] = static_cast<double>(stats.total_entries.load(std::memory_order_relaxed));
     state.SetItemsProcessed(state.iterations());
 }
 BENCHMARK(BM_CacheLRUEviction);

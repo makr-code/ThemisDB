@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hlc.h                                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:47                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     179                                            ║
+    • Total Lines:     182                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -28,7 +29,6 @@
 #include <chrono>
 #include <cstdint>
 #include <atomic>
-#include <mutex>
 #include <string>
 
 namespace themis {
@@ -168,9 +168,12 @@ public:
     HLCTimestamp peek() const;
 
 private:
-    mutable std::mutex mutex_;
-    uint64_t last_physical_ms_{0};
-    uint32_t logical_{0};
+    // Single atomic state encodes the full HLCTimestamp value:
+    //   bits 63..20 = physical milliseconds since Unix epoch
+    //   bits 19.. 0 = logical counter
+    // All three public methods (now/update/peek) operate with CAS loops,
+    // eliminating the mutex and allowing lock-free reads via peek().
+    std::atomic<uint64_t> state_{0};
 
     static uint64_t wallClockMs();
     HLCTimestamp advanceTo(uint64_t phys_ms);

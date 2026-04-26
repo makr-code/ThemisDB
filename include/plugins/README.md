@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-21 -->
+> **Build:** `cmake --preset release && cmake --build build/release`
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: src/plugins/README.md · src/plugins/ROADMAP.md · src/plugins/ARCHITECTURE.md · src/plugins/FUTURE_ENHANCEMENTS.md · include/plugins/FUTURE_ENHANCEMENTS.md -->
 
 # ThemisDB Plugins Module Headers
@@ -30,7 +32,7 @@ Provides a unified, cross-platform plugin architecture for ThemisDB that consoli
 **Out of Scope:**
 - Plugin business logic (in individual plugin packages, e.g. `huggingface_ingestion_plugin.h`)
 - WASM runtime instantiation (`src/plugins/wasm_plugin_loader.cpp` — requires Wasmtime/WasmEdge)
-- Community marketplace REST client (planned — `src/plugins/plugin_marketplace_client.cpp`)
+- Community marketplace REST client (planned — concrete implementation file will be introduced in the plugin source tree)
 - Query execution (handled by the query module)
 - Network transport (handled by the server module)
 
@@ -584,6 +586,55 @@ JSON Schema v2 that `plugin_registry.cpp` validates against before accepting a p
 
 ---
 
+### OCI Manifest Signing
+**Location:** `oci_manifest_signing.h`
+
+Ed25519-based signing and verification utilities for OCI manifest payloads used by `OciRegistryClient` and `SignedPluginRepository`. <!-- TODO: verify -->
+
+---
+
+### WASM Component Model
+**Location:** `wasm_component_model.h`
+
+Declarations for the WASM Component Model interface layer, extending `WasmHostAPI` with component-level import/export bindings. <!-- TODO: verify -->
+
+---
+
+### Audio Backend Interface
+**Location:** `audio_backend_interface.h`
+
+Contract for audio-processing plugin backends (transcription, synthesis, analysis). <!-- TODO: verify -->
+
+---
+
+### HuggingFace Ingestion Plugin
+**Location:** `huggingface_ingestion_plugin.h`
+
+Plugin implementation header for ingesting models and datasets from the HuggingFace Hub. <!-- TODO: verify -->
+
+---
+
+### Image Analysis Interface
+**Location:** `image_analysis_interface.h`
+
+Abstract interface for image-analysis plugin backends (object detection, classification, embedding extraction). <!-- TODO: verify -->
+
+---
+
+### Image Analysis Manager
+**Location:** `image_analysis_manager.h`
+
+Lifecycle manager for registered `IImageAnalysis` plugins; dispatches analysis requests to the active backend. <!-- TODO: verify -->
+
+---
+
+### Image Generation Interface
+**Location:** `image_generation_interface.h`
+
+Abstract interface for image-generation plugin backends (diffusion models, GANs). <!-- TODO: verify -->
+
+---
+
 ## Known Limitations
 
 - `WasmHostAPI` bridges the host ABI but actual Wasmtime/WasmEdge instantiation (`wasm_plugin_loader.cpp`) contains placeholder TODO blocks pending Wasmtime linkage (Target: Q3 2027).
@@ -594,3 +645,11 @@ JSON Schema v2 that `plugin_registry.cpp` validates against before accepting a p
 ## Current Delivery Status
 
 **Maturity:** 🟢 Production-Ready — Phases 1–4 complete. All headers are stable from v1.x; new virtual methods to `IThemisPlugin` would require a major version bump.
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

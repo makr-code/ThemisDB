@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            spatial_index.cpp                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:38                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1312                                           ║
+    • Total Lines:     1309                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 43a91f179  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
-    • 8026e7349  2026-03-13  fix(geo): purge stale per-PK RocksDB keys in SpatialIndex... ║
-    • 10732a3a8  2026-03-12  feat(geo): add SpatialIndexManager::bulkLoad and improve ... ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -115,9 +112,9 @@ std::pair<double, double> MortonEncoder::decode2D(uint64_t code, const geo::MBR&
 std::vector<std::pair<uint64_t, uint64_t>> MortonEncoder::getRanges(
     const geo::MBR& query_bbox,
     const geo::MBR& total_bounds,
-    int max_ranges
+    [[maybe_unused]] int max_ranges
 ) {
-    (void)max_ranges; // unused parameter
+    // unused parameter
     // Simplified implementation: compute min/max Morton codes
     uint64_t min_code = encode2D(query_bbox.minx, query_bbox.miny, total_bounds);
     uint64_t max_code = encode2D(query_bbox.maxx, query_bbox.maxy, total_bounds);
@@ -298,10 +295,10 @@ SpatialIndexManager::Status SpatialIndexManager::saveConfig(std::string_view tab
 // Create spatial index
 SpatialIndexManager::Status SpatialIndexManager::createSpatialIndex(
     std::string_view table,
-    std::string_view geometry_column,
+    [[maybe_unused]] std::string_view geometry_column,
     const RTreeConfig& config
 ) {
-    (void)geometry_column; // unused parameter
+    // unused parameter
     // Save config
     RTreeConfig cfg = config;
     if (cfg.total_bounds.minx == 0.0 && cfg.total_bounds.maxx == 0.0) {
@@ -1002,9 +999,9 @@ std::vector<SpatialResult> SpatialIndexManager::searchContains(
     std::string_view table,
     double x,
     double y,
-    std::optional<double> z
+    [[maybe_unused]] std::optional<double> z
 ) const {
-    (void)z; // unused parameter
+    // unused parameter
 
     auto config = getConfig(table);
     if (!config) return {};
@@ -1054,10 +1051,10 @@ std::vector<SpatialResult> SpatialIndexManager::searchNearby(
     double x,
     double y,
     double max_distance_meters,
-    std::optional<double> z,
+    [[maybe_unused]] std::optional<double> z,
     size_t limit
 ) const {
-    (void)z; // unused parameter
+    // unused parameter
     // Expand to bbox (approximate)
     double degrees_delta = max_distance_meters / 111320.0;  // Rough approximation
     geo::MBR query_bbox(x - degrees_delta, y - degrees_delta, x + degrees_delta, y + degrees_delta);
@@ -1100,9 +1097,9 @@ std::vector<SpatialResult> SpatialIndexManager::searchKNN(
     double x,
     double y,
     size_t k,
-    std::optional<double> z
+    [[maybe_unused]] std::optional<double> z
 ) const {
-    (void)z; // unused parameter — reserved for future 3D distance filtering
+    // unused parameter — reserved for future 3D distance filtering
     if (k == 0) return {};
 
     auto config = getConfig(table);

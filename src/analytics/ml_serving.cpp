@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ml_serving.cpp                                     ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:13:55                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     714                                            ║
+    • Total Lines:     713                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • cc2751810  2026-03-17  fix(analytics): MLServingEngine::infer() TOCTOU + full-in... ║
-    • edcfeb984  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 197b8b5b1  2026-02-24  feat(analytics): integrate ONNX Runtime and TensorFlow Se... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • cc27518101  2026-03-17  fix(analytics): MLServingEngine::infer() TOCTOU + full-in... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -402,7 +399,7 @@ std::string TFServingBackend::backendName() const {
 
 bool TFServingBackend::isAvailable() const { return true; }
 
-MLServingResponse TFServingBackend::infer(const MLServingRequest& req) {
+MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingRequest& req) {
     using json = nlohmann::json;
     Stopwatch sw;
     MLServingResponse resp;
@@ -555,7 +552,7 @@ std::string TFServingBackend::backendName() const {
 
 bool TFServingBackend::isAvailable() const { return false; }
 
-MLServingResponse TFServingBackend::infer(const MLServingRequest& req) {
+MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingRequest& req) {
 #if !defined(THEMIS_HAS_CURL)
     spdlog::warn("MLServing[TF]: libcurl not compiled in – "
                  "rebuild with THEMIS_HAS_CURL=1");
@@ -654,10 +651,10 @@ MLServingResponse MLServingClient::inferFromDataPoint(
     values.reserve(field_names.size());
     for (const auto& fname : field_names) {
         // Try double first, then int64
-        if (auto v = point.get<double>(fname)) {
-            values.push_back(static_cast<float>(*v));
-        } else if (auto v = point.get<int64_t>(fname)) {
-            values.push_back(static_cast<float>(*v));
+        if (auto v_double = point.get<double>(fname)) {
+            values.push_back(static_cast<float>(*v_double));
+        } else if (auto v_i64 = point.get<int64_t>(fname)) {
+            values.push_back(static_cast<float>(*v_i64));
         }
     }
 

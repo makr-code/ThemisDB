@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hybrid_retention_manager.h                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:10:38                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -40,14 +41,15 @@
  * and resource limits.
  */
 
-#ifndef THEMIS_HYBRID_RETENTION_MANAGER_H
-#define THEMIS_HYBRID_RETENTION_MANAGER_H
+#pragma once
 
 #include "scheduler/task_scheduler.h"
 #include "timeseries/tsstore.h"
 #include "timeseries/gorilla.h"
 #include <string>
 #include <memory>
+#include <mutex>
+#include <shared_mutex>
 #include <chrono>
 #include <nlohmann/json.hpp>
 
@@ -209,7 +211,7 @@ private:
     HybridRetentionConfig config_;
     
     bool running_ = false;
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
     
     // Task IDs for cleanup
     std::string stage1_task_id_;
@@ -236,5 +238,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_HYBRID_RETENTION_MANAGER_H

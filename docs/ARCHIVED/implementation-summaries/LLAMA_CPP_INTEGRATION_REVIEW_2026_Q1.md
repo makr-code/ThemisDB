@@ -506,7 +506,7 @@ From `include/llm/grafana_metrics.h`:
 - [llama.cpp Wrapper Implementation](src/llm/llama_wrapper.cpp)
 - [GGUF Loader](src/llm/gguf_loader.cpp)
 - [LLM LoRA Implementation Status](docs/LLM_LORA_IMPLEMENTATION_STATUS.md)
-- [Minimal Edition Features](docs/MINIMAL_EDITION.md)
+- [Minimal Edition Features](../../de/features/MINIMAL_EDITION.md)
 
 ### External Resources
 

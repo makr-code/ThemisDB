@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cep_engine.cpp                                     ║
-  Version:         0.0.21                                             ║
-  Last Modified:   2026-03-30 04:13:50                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-04-15 18:48:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2475                                           ║
+    • Total Lines:     2473                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 248ee0806  2026-03-19  Changes before error encountered         ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 5706ac4f3  2026-03-18  fix(analytics): streaming_window — configurable expiry in... ║
-    • 5a0ad3972  2026-03-17  fix(analytics): address code-review polish — rename effec... ║
-    • 41d5cc48b  2026-03-17  fix(analytics): address all code review findings from aut... ║
+    • 248ee0806f  2026-03-19  Changes before error encountered        ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -87,16 +84,16 @@ std::string generateId() {
     return std::string(buf);
 }
 
-/** Convert FieldValue to double for numeric aggregations (returns 0.0 on failure) */
-double toDouble(const FieldValue& v) {
+/** Convert CepFieldValue to double for numeric aggregations (returns 0.0 on failure) */
+double toDouble(const CepFieldValue& v) {
     if (auto* d = std::get_if<double>(&v)) return *d;
     if (auto* i = std::get_if<int64_t>(&v)) return static_cast<double>(*i);
     if (auto* b = std::get_if<bool>(&v)) return *b ? 1.0 : 0.0;
     return 0.0;
 }
 
-/** Convert FieldValue to string for distinct counting and set operations */
-std::string fieldValueToString(const FieldValue& v) {
+/** Convert CepFieldValue to string for distinct counting and set operations */
+std::string fieldValueToString(const CepFieldValue& v) {
     if (std::holds_alternative<std::monostate>(v)) return "";
     if (auto* s = std::get_if<std::string>(&v)) return *s;
     if (auto* i = std::get_if<int64_t>(&v)) return std::to_string(*i);
@@ -1201,7 +1198,7 @@ std::string Aggregator::getGroupKey(const Event& event) const {
 
 void Aggregator::updateAggregation(AggregationState& s, const Event& event) {
     auto it = event.fields.find(s.field);
-    FieldValue fv = (it != event.fields.end()) ? it->second : FieldValue{std::monostate{}};
+    CepFieldValue fv = (it != event.fields.end()) ? it->second : CepFieldValue{std::monostate{}};
     double dval = toDouble(fv);
 
     ++s.count;
@@ -1227,7 +1224,7 @@ void Aggregator::updateAggregation(AggregationState& s, const Event& event) {
     }
 }
 
-FieldValue Aggregator::computeResult(const AggregationState& s) const {
+CepFieldValue Aggregator::computeResult(const AggregationState& s) const {
     // COUNT returns 0 even for empty sets; other aggregations return null
     if (s.count == 0 && s.type != AggregationType::COUNT) return std::monostate{};
     switch (s.type) {
@@ -2124,7 +2121,7 @@ Event CEPEngine::createCDCEvent(
     EventType type,
     const std::string& collection,
     const std::string& document_id,
-    const std::map<std::string, FieldValue>& fields) {
+    const std::map<std::string, CepFieldValue>& fields) {
     Event ev;
     ev.event_id = generateId();
     ev.type = type;

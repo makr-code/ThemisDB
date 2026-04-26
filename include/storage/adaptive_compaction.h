@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_compaction.h                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:11:42                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:47:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 229b86439  2026-03-14  feat(storage): implement AdaptiveCompactionScheduler (v1.... ║
+    • 229b864396  2026-03-14  feat(storage): implement AdaptiveCompactionScheduler (v1.... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

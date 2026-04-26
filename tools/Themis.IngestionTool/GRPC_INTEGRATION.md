@@ -1,3 +1,9 @@
+> ⚠️ **Historischer Report** – Dieser Report beschreibt den Entwicklungsstand zum Zeitpunkt der Erfassung.
+> Für den aktuellen Implementierungsstand: Quellcode in `tools/Themis.IngestionTool/` prüfen.
+
+> 🔴 **Hinweis:** `rpc_grpc` hat aktuell **Alpha-Status**. Nicht für Produktionsumgebungen empfohlen.
+> <!-- TODO: verify against current source -->
+
 # gRPC Integration für Themis.IngestionTool
 
 ## Übersicht

@@ -1,7 +1,7 @@
 # Documentation Archival Process
 
 **Version:** 1.0  
-**Last Updated:** 2026-01-12  
+**Last Updated:** 2026-04-06  
 **Status:** Official
 
 ---
@@ -332,7 +332,7 @@ mkdir -p docs/LANG/archive
 
 - **Archive Policy:** [CONTRIBUTING.md § Documentation Archival](#documentation-archival)
 - **Archive Template:** [docs/archive/ARCHIVE_NOTE_TEMPLATE.md](ARCHIVE_NOTE_TEMPLATE.md)
-- **Investigation Report:** [docs/DOCUMENTATION_ARCHIVAL_INVESTIGATION.md](DOCUMENTATION_ARCHIVAL_INVESTIGATION.md)
+- **Investigation Report:** [docs/DOCUMENTATION_ARCHIVAL_INVESTIGATION.md](governance/documentation-history/DOCUMENTATION_ARCHIVAL_INVESTIGATION.md)
 - **Documentation Standards:** [CONTRIBUTING.md § Documentation](#documentation)
 
 ---

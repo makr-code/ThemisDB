@@ -1,10 +1,12 @@
-<!-- Status: current | validated: 2026-03-22 -->
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # User Encrypted Storage Plugin — Architecture Guide
 
-**Version:** 0.0.1  
-**Last Updated:** 2026-03-22  
+**Version:** 0.0.1
+**Last Updated:** 2026-04-06
 **Module Path:** `src/user_storage_encrypted/`
 
 ---
@@ -99,21 +101,25 @@ multi-level storage orchestrator.
 
 ---
 
-## 4. Key Material Flow
+## 4. Key Material Flow (v0.1.0+)
 
 ```
 Caller supplies key_material: std::vector<uint8_t>
   │
-  ├─ createPasswordFile(path, key_material):
-  │     mkstemp("/tmp/gocryptfs_key_XXXXXX")
-  │     fchmod(fd, 0600)        ← set before write
-  │     write hex-encoded key
-  │     close(fd)
-  │     → path = temp_template
+  ├─ Optional: resolveKey(encrypted_dir, key_material, create_salt)
+  │     If KDF service configured:
+  │       Read/write {encrypted_dir}/.themis_kdf_salt
+  │       Argon2id(master_key ‖ salt) → derived_key
+  │     Otherwise: use key_material directly
   │
-  ├─ executeCommandSafe({"gocryptfs", "-passfile", path, ...})
+  ├─ deliverKeyViaStdin(args, derived_key):
+  │     executeCommandWithStdin(args, derived_key)
+  │       fork() child: stdin ← pipe read end
+  │       parent: write hex(derived_key) → pipe write end
+  │       explicit_bzero(buffer) after write
+  │     → child receives key on STDIN; gocryptfs uses -passfile /dev/stdin
   │
-  └─ unlink(path)               ← immediate cleanup
+  └─ No key material written to filesystem
 ```
 
 ---
@@ -167,18 +173,18 @@ KeyRotationScheduler::schedulerLoop():
 | Control | Implementation |
 |---------|---------------|
 | No shell injection | `execvp` with explicit arg vector; no `system()` or `popen()` |
-| Key file permissions | `fchmod(fd, 0600)` before first write |
-| Key file lifetime | `unlink()` immediately after gocryptfs reads it |
-| Temp file location | `/tmp/gocryptfs_key_XXXXXX` (outside encrypted dir) |
+| Stdin key delivery | Key piped to gocryptfs via stdin (`-passfile /dev/stdin`); no filesystem trace |
+| Buffer zeroing | `explicit_bzero` clears pipe write buffer after key delivery |
+| Argon2id KDF | Optional per-container key derivation from master key; salt in `{encrypted_dir}/.themis_kdf_salt` |
 | Mount double-check | `isMounted()` checked before every mount/unmount |
+| Stale mount cleanup | `reconcileStaleMounts()` called from `initialize()` via `/proc/mounts` scan |
 
 ---
 
 ## 9. Known Limitations
 
-- `gocryptfs_backend.cpp` is rated 🟡 Release-Candidate (Quality Score 76/100);
-  additional hardening is required before production deployment.
-- `createPasswordFile()` uses `/tmp`; on systems where `/tmp` is on a world-readable
-  filesystem, the 0600 permission on the temp file is the primary protection.
-- The deprecated `executeCommand()` wrapper is retained for backward compatibility
-  but delegates to `executeCommandSafe()`.
+- `gocryptfs_backend.cpp` uses a deprecated `executeCommand()` private method which
+  delegates to `executeCommandSafe()`; the wrapper is retained for backward compatibility.
+- `getBackendVersion()` uses `const_cast` to call `executeCommand()` on a const object (cosmetic).
+- <!-- TODO: verify --> Exception guard in `schedulerLoop()` is recommended to prevent silent
+  thread termination on unhandled callback exceptions.

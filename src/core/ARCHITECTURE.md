@@ -1,7 +1,9 @@
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
 # Core Module — Architecture Guide
 
-**Version:** 1.0  
-**Last Updated:** 2026-02-24  
+**Version:** 1.0
+**Last Updated:** 2026-04-06
 **Module Path:** `src/core/`
 
 ---
@@ -187,7 +189,7 @@ All logger/tracer calls on this thread include the trace ID automatically
 
 ## 11. Known Limitations & Future Work
 
-- Redis cache adapter is planned; currently only local in-memory cache is implemented.
+- Redis cache adapter (`RedisCache`) is implemented in `include/core/concerns/redis_cache.h` / `src/core/concerns/redis_cache.cpp` with consistent hashing, TTL, and pub/sub invalidation.
 - OTel baggage propagation is partial; full W3C Baggage support is planned.
 - Log sampling (high-frequency event suppression) is not yet implemented.
 

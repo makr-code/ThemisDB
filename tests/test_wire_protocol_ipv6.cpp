@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_wire_protocol_ipv6.cpp                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:35:35                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:58:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 267da6617  2026-03-11  feat(network): full IPv6 support in Wire Protocol Server ... ║
+    • 267da6617b  2026-03-11  feat(network): full IPv6 support in Wire Protocol Server ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

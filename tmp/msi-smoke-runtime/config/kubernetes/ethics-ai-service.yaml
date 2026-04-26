@@ -1,0 +1,252 @@
+# ============================================================================
+# Kubernetes Service - Ethics AI Framework
+# ============================================================================
+# Load balancing service for Ethics AI application
+# ============================================================================
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ethics-ai
+  namespace: ethics-ai
+  labels:
+    app: ethics-ai
+    component: application
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8081"
+    prometheus.io/path: "/metrics"
+spec:
+  type: ClusterIP  # Use LoadBalancer for external access
+  selector:
+    app: ethics-ai
+    component: application
+  
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP
+    - name: metrics
+      port: 8081
+      targetPort: metrics
+      protocol: TCP
+  
+  # Session affinity (optional)
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800  # 3 hours
+
+---
+# ============================================================================
+# Kubernetes Service - External LoadBalancer (Optional)
+# ============================================================================
+# Uncomment to expose service externally via cloud load balancer
+# ============================================================================
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: ethics-ai-external
+#   namespace: ethics-ai
+#   labels:
+#     app: ethics-ai
+#     component: load-balancer
+#   annotations:
+#     # AWS ELB annotations
+#     service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+#     service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+#     # GCP LB annotations
+#     cloud.google.com/load-balancer-type: "External"
+#     # Azure LB annotations
+#     service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: "/health"
+# spec:
+#   type: LoadBalancer
+#   selector:
+#     app: ethics-ai
+#     component: application
+#   
+#   ports:
+#     - name: http
+#       port: 80
+#       targetPort: http
+#       protocol: TCP
+#     - name: https
+#       port: 443
+#       targetPort: http
+#       protocol: TCP
+#   
+#   # Health check configuration
+#   externalTrafficPolicy: Local  # Preserve client IP
+#   healthCheckNodePort: 30000
+
+---
+# ============================================================================
+# Headless Service - For direct pod access
+# ============================================================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: ethics-ai-headless
+  namespace: ethics-ai
+  labels:
+    app: ethics-ai
+    component: application
+spec:
+  type: ClusterIP
+  clusterIP: None  # Headless service
+  selector:
+    app: ethics-ai
+    component: application
+  
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
+      protocol: TCP
+    - name: metrics
+      port: 8081
+      targetPort: metrics
+      protocol: TCP
+  
+  publishNotReadyAddresses: true  # Include not-ready pods in DNS
+
+---
+# ============================================================================
+# Ingress - HTTPS Routing (Optional)
+# ============================================================================
+# Requires Ingress controller (nginx, traefik, etc.)
+# ============================================================================
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ethics-ai-ingress
+  namespace: ethics-ai
+  labels:
+    app: ethics-ai
+    component: ingress
+  annotations:
+    # NGINX Ingress annotations
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    
+    # Rate limiting
+    nginx.ingress.kubernetes.io/limit-rps: "100"
+    nginx.ingress.kubernetes.io/limit-connections: "20"
+    
+    # Timeouts
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "120"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "120"
+    
+    # CORS (if needed)
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, PUT, DELETE, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    
+    # TLS/SSL
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  
+  tls:
+    - hosts:
+        - ethics-ai.example.com
+      secretName: ethics-ai-tls
+  
+  rules:
+    - host: ethics-ai.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ethics-ai
+                port:
+                  name: http
+
+---
+# ============================================================================
+# NetworkPolicy - Security Rules
+# ============================================================================
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ethics-ai-netpol
+  namespace: ethics-ai
+  labels:
+    app: ethics-ai
+spec:
+  podSelector:
+    matchLabels:
+      app: ethics-ai
+      component: application
+  
+  policyTypes:
+    - Ingress
+    - Egress
+  
+  # Ingress rules
+  ingress:
+    # Allow from ingress controller
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: 8080
+    
+    # Allow from same namespace
+    - from:
+        - podSelector: {}
+      ports:
+        - protocol: TCP
+          port: 8080
+        - protocol: TCP
+          port: 8081
+    
+    # Allow Prometheus scraping
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: monitoring
+        - podSelector:
+            matchLabels:
+              app: prometheus
+      ports:
+        - protocol: TCP
+          port: 8081
+  
+  # Egress rules
+  egress:
+    # Allow DNS
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - protocol: UDP
+          port: 53
+    
+    # Allow ThemisDB
+    - to:
+        - podSelector:
+            matchLabels:
+              app: themisdb
+      ports:
+        - protocol: TCP
+          port: 8529
+    
+    # Allow HTTPS (for external APIs)
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: TCP
+          port: 443

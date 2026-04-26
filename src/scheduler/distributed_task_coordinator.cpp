@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            distributed_task_coordinator.cpp                   ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-03-30 04:19:13                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-04-15 18:50:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     361                                            ║
+    • Total Lines:     359                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 849475995  2026-03-20  fix: avoid delegating ctor with Config{} aggregate init i... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 6bdc7ab4a  2026-03-01  feat(scheduler): implement distributed cron leader electi... ║
-    • 0367b9a10  2026-02-22  Fix test bug and stop-race-condition in DistributedTaskCo... ║
-    • 49cd5bf58  2026-02-22  Implement distributed task coordination across nodes (Pha... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -172,10 +169,9 @@ void DistributedTaskCoordinator::deactivateScheduler() {
         for (const auto& [id, task] : task_registry_) {
             try {
                 scheduler_->unregisterTask(id);
-            } catch (const std::exception& ex) {
+            } catch ([[maybe_unused]] const std::exception& ex) {
                 // Ignore: task may not have been registered if there was an
                 // error during activation.
-                (void)ex;
             }
         }
     }

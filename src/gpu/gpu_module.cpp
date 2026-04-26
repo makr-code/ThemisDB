@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_module.cpp                                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:54                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5961062fe  2026-03-01  Integrate MIGManager into GPUModule facade and GPUAdminAPI ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -42,7 +42,7 @@ GPUModule::InitResult GPUModule::initialize(const GPUConfig& config,
     }
 
     config_    = config;
-    safe_fail_ = GPUSafeFail([&]() {
+    safe_fail_.reset([&]() {
         GPUSafeFail::Config c;
         c.failure_threshold     = static_cast<size_t>(config.circuit_failure_threshold);
         c.success_threshold     = static_cast<size_t>(config.circuit_success_threshold);

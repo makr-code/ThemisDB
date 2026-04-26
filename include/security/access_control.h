@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            access_control.h                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:10:47                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     585                                            ║
+    • Total Lines:     583                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f0228555e  2026-02-22  fix(security): code-audit: add user_agent to Authorizatio... ║
-    • 3371af473  2026-02-22  feat(security): implement ABAC alongside RBAC in AccessCo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -39,6 +34,7 @@
 #include "security/user_registration_plugin.h"
 #include "server/policy_engine.h"
 #include "utils/expected.h"
+#include "auth/mfa_authenticator.h"
 
 // Forward declarations
 namespace themis {
@@ -94,6 +90,14 @@ public:
             std::chrono::seconds idle_timeout = std::chrono::minutes(30);
             bool require_mfa = false;
             int max_concurrent_sessions = 5;
+
+            // Phase 2.2: per-role MFA enforcement.
+            // Users whose RBAC role is in this list MUST provide a valid TOTP
+            // code at login, regardless of the global require_mfa flag.
+            // Default: admin and operator roles require MFA.
+            // Override at runtime via THEMIS_MFA_REQUIRED_ROLES env variable
+            // (comma-separated list).
+            std::vector<std::string> mfa_required_roles = {"admin", "operator"};
         } session_config;
         
         // Rate Limiting
@@ -536,6 +540,10 @@ private:
     std::unique_ptr<UserRoleStore> user_role_store_;
     std::unique_ptr<AuthMiddleware> auth_middleware_;
     std::unique_ptr<auth::MFAAuthenticator> mfa_authenticator_;
+    // In-memory MFA enrollment store: user_id → EnrollmentData (secret + recovery codes).
+    // Populated by enrollMFA(); cleared by disableMFA().
+    // Production: replace with encrypted persistent store (see src/security/ROADMAP.md).
+    std::unordered_map<std::string, auth::MFAAuthenticator::EnrollmentData> mfa_enrollments_;
     std::unique_ptr<utils::AuditLogger> audit_logger_;
     std::unique_ptr<UserRegistrationPluginManager> user_registration_plugin_manager_;
     PolicyEngine policy_engine_;  ///< ABAC policy engine (evaluated alongside RBAC)
@@ -579,6 +587,14 @@ private:
     std::string generateSessionToken() const;
     void updateRateLimit(const std::string& user_id);
     bool checkRateLimit(const std::string& user_id);
+
+    // Mutex-free variants for internal use when mutex_ is already held by the caller.
+    std::vector<std::string> getUserRolesLocked(const std::string& user_id) const;
+    std::string createSessionLocked(const std::string& user_id,
+                                    const std::vector<std::string>& roles,
+                                    bool mfa_verified);
+    void invalidateSessionLocked(const std::string& session_token);
+    void invalidateUserSessionsLocked(const std::string& user_id);
 };
 
 } // namespace security

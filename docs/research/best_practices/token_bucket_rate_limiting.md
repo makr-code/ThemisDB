@@ -70,4 +70,4 @@ ThemisDB implements this pattern at two levels: a node-local in-process token bu
 - [OpenTelemetry Tracing](opentelemetry_tracing.md)
 
 ---
-**Last Updated:** 2026-03-24
+**Last Updated:** 2026-04-06

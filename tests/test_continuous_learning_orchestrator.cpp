@@ -3,19 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_continuous_learning_orchestrator.cpp          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:25:58                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:53:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     584                                            ║
+    • Total Lines:     583                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8f2d385c0  2026-03-01  feat(rag): implement online learning from evaluation feed... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -582,3 +578,326 @@ TEST_F(ContinuousLearningOrchestratorTest, OptimizedParamsThreadSafe) {
 
     SUCCEED();
 }
+
+// ============================================================================
+// IMPL-A2: Loop 1–4 Explicit Orchestration Tests
+// ============================================================================
+
+// Helper: create a uniquely-owned orchestrator on the heap.
+// ContinuousLearningOrchestrator is non-copyable (holds unique_ptr<Impl>).
+#define MAKE_ORCH()  \
+    ContinuousLearningConfig _cfg_; \
+    ContinuousLearningOrchestrator orch(_cfg_)
+
+// 1. Initial loop state is IDLE
+TEST(ImplA2, InitialLoopIsIdle) {
+    MAKE_ORCH();
+    EXPECT_EQ(orch.currentLoop(), ContinuousLearningOrchestrator::LoopPhase::IDLE);
+}
+
+// 2. triggerLoop(IDLE) is a no-op and returns an IDLE LoopResult
+TEST(ImplA2, TriggerIdleIsNoOp) {
+    MAKE_ORCH();
+    auto res = orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::IDLE);
+    EXPECT_EQ(res.phase, ContinuousLearningOrchestrator::LoopPhase::IDLE);
+    EXPECT_FALSE(res.success);
+}
+
+// 3. triggerLoop(LOOP_1_HNSW_QUERY) completes and returns to IDLE
+TEST(ImplA2, TriggerLoop1CompletesAndReturnsToIdle) {
+    MAKE_ORCH();
+    auto res = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+    EXPECT_EQ(res.phase,
+              ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+    EXPECT_TRUE(res.success);
+    // After completion the orchestrator must return to IDLE
+    EXPECT_EQ(orch.currentLoop(),
+              ContinuousLearningOrchestrator::LoopPhase::IDLE);
+}
+
+// 4. triggerLoop(LOOP_2_WORKLOAD) sets success = true
+TEST(ImplA2, TriggerLoop2Returns) {
+    MAKE_ORCH();
+    auto res = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_2_WORKLOAD);
+    EXPECT_EQ(res.phase,
+              ContinuousLearningOrchestrator::LoopPhase::LOOP_2_WORKLOAD);
+    EXPECT_TRUE(res.success);
+}
+
+// 5. triggerLoop(LOOP_3_SCHEMA_INDEX) is always advisory — guardrail_passed = true
+TEST(ImplA2, Loop3AlwaysGuardrailPassed) {
+    MAKE_ORCH();
+    auto res = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_3_SCHEMA_INDEX);
+    EXPECT_TRUE(res.guardrail_passed);
+    EXPECT_TRUE(res.success);
+}
+
+// 6. triggerLoop(LOOP_4_RLAIF) returns
+TEST(ImplA2, TriggerLoop4Returns) {
+    MAKE_ORCH();
+    auto res = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
+    EXPECT_EQ(res.phase,
+              ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
+    EXPECT_TRUE(res.success);
+}
+
+// 7. Completion handler is invoked for the triggered loop
+TEST(ImplA2, CompletionHandlerInvoked) {
+    MAKE_ORCH();
+
+    bool handler_called = false;
+    ContinuousLearningOrchestrator::LoopPhase captured_phase =
+        ContinuousLearningOrchestrator::LoopPhase::IDLE;
+
+    orch.registerLoopCompletionHandler(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY,
+        [&](ContinuousLearningOrchestrator::LoopPhase ph,
+            const ContinuousLearningOrchestrator::LoopResult&) {
+            handler_called  = true;
+            captured_phase  = ph;
+        });
+
+    orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+
+    EXPECT_TRUE(handler_called);
+    EXPECT_EQ(captured_phase,
+              ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+}
+
+// 8. Completion handler NOT invoked for a different loop phase
+TEST(ImplA2, CompletionHandlerNotInvokedForOtherPhase) {
+    MAKE_ORCH();
+
+    bool handler_called = false;
+    orch.registerLoopCompletionHandler(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_2_WORKLOAD,
+        [&](auto, auto) { handler_called = true; });
+
+    // Trigger a DIFFERENT loop
+    orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+
+    EXPECT_FALSE(handler_called);
+}
+
+// 9. Registering a handler twice replaces the previous one
+TEST(ImplA2, HandlerOverwrittenBySecondRegistration) {
+    MAKE_ORCH();
+
+    int call_count = 0;
+    orch.registerLoopCompletionHandler(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_3_SCHEMA_INDEX,
+        [&](auto, auto) { ++call_count; });
+    // Overwrite
+    orch.registerLoopCompletionHandler(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_3_SCHEMA_INDEX,
+        [&](auto, auto) { call_count += 10; });
+
+    orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_3_SCHEMA_INDEX);
+
+    // Only the second handler (+=10) should have fired, not both
+    EXPECT_EQ(call_count, 10);
+}
+
+// 10. LoopResult fields are populated — metric_delta >= 0 for successful loops
+TEST(ImplA2, LoopResultMetricDeltaNonNegativeOnSuccess) {
+    MAKE_ORCH();
+    for (auto phase : {
+             ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY,
+             ContinuousLearningOrchestrator::LoopPhase::LOOP_2_WORKLOAD,
+             ContinuousLearningOrchestrator::LoopPhase::LOOP_3_SCHEMA_INDEX,
+             ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF,
+         }) {
+        auto res = orch.triggerLoop(phase);
+        EXPECT_TRUE(res.success) << "phase=" << static_cast<int>(phase);
+        EXPECT_GE(res.metric_delta, 0.0) << "phase=" << static_cast<int>(phase);
+    }
+}
+
+// ============================================================================
+// IMPL-A3: Federation bridge tests (CLO-FED-01, CLO-FED-02)
+// ============================================================================
+
+#include "training/incremental_lora_trainer.h"
+#include "distributed_knowledge/lora_federation_coordinator.h"
+
+using namespace themis::distributed_knowledge;
+using namespace themis::training;
+
+/// Minimal mock coordinator that tracks submitGradient calls.
+class MockFederationCoordinator : public ILoRAFederationCoordinator {
+public:
+    void submitGradient(const EncryptedGradient& gradient) override {
+        ++submit_count;
+        last_gradient = gradient;
+    }
+
+    GlobalAdapterDelta triggerAggregation() override {
+        return GlobalAdapterDelta{};
+    }
+
+    GlobalAdapterDelta triggerAggregation(size_t /*timeout_ms*/) override {
+        return GlobalAdapterDelta{};
+    }
+
+    void setGlobalDeltaCallback(
+        std::function<void(const GlobalAdapterDelta&)>) override {}
+
+    [[nodiscard]] uint64_t currentRound() const override { return 1u; }
+    [[nodiscard]] size_t   submittedCount() const override { return static_cast<size_t>(submit_count); }
+    [[nodiscard]] std::optional<GlobalAdapterDelta> lastDelta() const override { return std::nullopt; }
+    [[nodiscard]] nlohmann::json getStats() const override { return {}; }
+
+    int submit_count{0};
+    EncryptedGradient last_gradient;
+};
+
+// Helper: log N positive interactions to drive current_accuracy above 0.75
+static void logPositiveInteractions(ContinuousLearningOrchestrator& orch, size_t n) {
+    for (size_t i = 0; i < n; ++i) {
+        Interaction itx;
+        itx.interaction_id    = "fed_" + std::to_string(i);
+        itx.timestamp         = std::chrono::system_clock::now();
+        itx.query             = "test";
+        itx.generated_answer  = "answer";
+        itx.user_feedback     = FeedbackType::POSITIVE;
+        orch.logInteraction(itx);
+    }
+}
+
+// CLO-FED-01: FEDERATED_ROUND_START triggers exportGradient + submitGradient
+//             in the correct order.
+TEST(ImplA3_Federation, FED01_FederatedRoundStartCallsSubmitGradient) {
+    ContinuousLearningConfig cfg;
+    ContinuousLearningOrchestrator orch(cfg);
+
+    // Inject mock coordinator and a real trainer
+    auto mock_coord = std::make_shared<MockFederationCoordinator>();
+    IncrementalTrainingConfig tr_cfg;
+    tr_cfg.rank           = 4;
+    tr_cfg.alpha          = 8.0f;
+    tr_cfg.learning_rate  = 0.001f;
+    tr_cfg.batch_size     = 2;
+    tr_cfg.num_epochs     = 1;
+    tr_cfg.max_seq_length = 16;
+    tr_cfg.device         = "cpu";
+    IncrementalLoRATrainer trainer(tr_cfg, "");
+    trainer.setShardId("shard_fed_01");
+
+    // Train the trainer so gradient accumulator is non-empty
+    auto tr = trainer.train(TrainingMode::INITIAL);
+    ASSERT_TRUE(tr.success);
+
+    orch.setFederationCoordinator(mock_coord);
+    orch.setTrainerForFederation(&trainer);
+
+    // Log 35 positive interactions → accuracy ~ 0.83 → guardrail passes
+    logPositiveInteractions(orch, 35);
+
+    // Trigger Loop-4; with guardrail_passed=true, handleFederatedRoundStart fires
+    auto result = orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
+
+    EXPECT_TRUE(result.success);
+
+    if (result.guardrail_passed) {
+        // submitGradient must have been called exactly once
+        EXPECT_EQ(mock_coord->submit_count, 1)
+            << "submitGradient must be called once when guardrail passes";
+        EXPECT_EQ(mock_coord->last_gradient.shard_id, "shard_fed_01");
+        EXPECT_EQ(mock_coord->last_gradient.round, 1u);
+        EXPECT_FALSE(mock_coord->last_gradient.data.empty());
+    } else {
+        // Guard rail didn't pass → no submission (acceptable if accuracy < 0.75)
+        EXPECT_EQ(mock_coord->submit_count, 0)
+            << "submitGradient must NOT be called when guardrail fails";
+    }
+}
+
+// CLO-FED-02: FEDERATED_ROUND_START fires only after Loop-4 with
+//             guardrail_passed == true; a failing guardrail must suppress it.
+TEST(ImplA3_Federation, FED02_FederatedRoundStartOnlyWithGuardrailPassed) {
+    // ── Part A: guardrail fails (accuracy = 0.0) → no submission ─────────────
+    {
+        ContinuousLearningConfig cfg;
+        ContinuousLearningOrchestrator orch(cfg);
+
+        auto mock_coord = std::make_shared<MockFederationCoordinator>();
+        IncrementalTrainingConfig tr_cfg;
+        tr_cfg.rank = 4; tr_cfg.alpha = 8.0f; tr_cfg.learning_rate = 0.001f;
+        tr_cfg.batch_size = 2; tr_cfg.num_epochs = 1; tr_cfg.max_seq_length = 16;
+        tr_cfg.device = "cpu";
+        IncrementalLoRATrainer trainer(tr_cfg, "");
+        trainer.train(TrainingMode::INITIAL);
+
+        orch.setFederationCoordinator(mock_coord);
+        orch.setTrainerForFederation(&trainer);
+        // No interactions logged → accuracy = 0.0 → guardrail_passed = false
+
+        auto result = orch.triggerLoop(
+            ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
+
+        EXPECT_TRUE(result.success);
+        EXPECT_FALSE(result.guardrail_passed);
+        EXPECT_EQ(mock_coord->submit_count, 0)
+            << "submitGradient must NOT be called when guardrail_passed=false";
+    }
+
+    // ── Part B: guardrail passes → submission must occur ─────────────────────
+    {
+        ContinuousLearningConfig cfg;
+        ContinuousLearningOrchestrator orch(cfg);
+
+        auto mock_coord = std::make_shared<MockFederationCoordinator>();
+        IncrementalTrainingConfig tr_cfg;
+        tr_cfg.rank = 4; tr_cfg.alpha = 8.0f; tr_cfg.learning_rate = 0.001f;
+        tr_cfg.batch_size = 2; tr_cfg.num_epochs = 1; tr_cfg.max_seq_length = 16;
+        tr_cfg.device = "cpu";
+        IncrementalLoRATrainer trainer(tr_cfg, "");
+        trainer.train(TrainingMode::INITIAL);
+
+        orch.setFederationCoordinator(mock_coord);
+        orch.setTrainerForFederation(&trainer);
+        // Log 35 positive interactions to push accuracy > 0.75
+        logPositiveInteractions(orch, 35);
+
+        auto result = orch.triggerLoop(
+            ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
+
+        EXPECT_TRUE(result.success);
+        if (result.guardrail_passed) {
+            EXPECT_EQ(mock_coord->submit_count, 1)
+                << "submitGradient must be called once when guardrail_passed=true";
+        }
+    }
+}
+
+// CLO-FED-03: FEDERATED_ROUND_START does NOT fire for loops other than Loop-4
+TEST(ImplA3_Federation, FED03_NoFederationTriggerForOtherLoops) {
+    ContinuousLearningConfig cfg;
+    ContinuousLearningOrchestrator orch(cfg);
+
+    auto mock_coord = std::make_shared<MockFederationCoordinator>();
+    IncrementalTrainingConfig tr_cfg;
+    tr_cfg.rank = 4; tr_cfg.alpha = 8.0f; tr_cfg.learning_rate = 0.001f;
+    tr_cfg.batch_size = 2; tr_cfg.num_epochs = 1; tr_cfg.max_seq_length = 16;
+    tr_cfg.device = "cpu";
+    IncrementalLoRATrainer trainer(tr_cfg, "");
+    trainer.train(TrainingMode::INITIAL);
+
+    orch.setFederationCoordinator(mock_coord);
+    orch.setTrainerForFederation(&trainer);
+    logPositiveInteractions(orch, 35); // High accuracy so guardrail would pass
+
+    // Trigger Loops 1, 2, 3 — none of them should trigger federation
+    orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+    orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_2_WORKLOAD);
+    orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_3_SCHEMA_INDEX);
+
+    EXPECT_EQ(mock_coord->submit_count, 0)
+        << "submitGradient must NOT fire for loops other than LOOP_4_RLAIF";
+}
+

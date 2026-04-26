@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_forecasting.cpp                               ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:21:55                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:51:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1096                                           ║
+    • Total Lines:     1147                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f38c013cd  2026-03-29  Enhance various components with improvements and fixes ║
-    • a15f06cbd  2026-03-25  feat(analytics): batch prediction, update(), parallel aut... ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • d16f38e0d  2026-03-18  fix(analytics): address all 5 code review issues — null t... ║
-    • e51706737  2026-03-17  feat(analytics): add AVX-512 and ARM NEON SIMD vectorizat... ║
+    • d1e63d24c0  2026-04-13  perf(analytics): O(1) incremental OLS update + forecastin... ║
+    • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -1015,6 +1012,58 @@ TEST(ForecastingBatchStreamingTests, Update_MultipleUpdates_ModelStillFitted) {
         model.update(static_cast<double>(20 + i));
         EXPECT_TRUE(model.isFitted());
         EXPECT_NO_THROW(model.predict(3));
+    }
+}
+
+TEST(ForecastingBatchStreamingTests, Update_LinearRegression_IncrementalOLS) {
+    // Verify that update() on a LINEAR_REGRESSION model produces the same
+    // alpha/beta/forecast as a full refit on the extended series.
+    // This exercises the O(1) running-moment OLS path.
+    TimeSeries ts = makeLinearSeries(20, 2.0, 5.0);
+    ForecastModel model(ForecastMethod::LINEAR_REGRESSION);
+    model.fit(ts);
+
+    double new_val = 50.0;
+    model.update(new_val);
+    auto after_update = model.predict(5);
+
+    // Build the reference: full refit on ts + new_val
+    TimeSeries ts_extended = ts;
+    ts_extended.push(static_cast<int64_t>(20) * 1000LL, new_val);
+    ForecastModel ref(ForecastMethod::LINEAR_REGRESSION);
+    ref.fit(ts_extended);
+    auto after_refit = ref.predict(5);
+
+    ASSERT_EQ(after_update.size(), after_refit.size());
+    for (size_t i = 0; i < after_update.size(); ++i) {
+        EXPECT_NEAR(after_update[i].value, after_refit[i].value, 1e-6)
+            << "Incremental OLS update differs from full refit at step " << i;
+    }
+}
+
+TEST(ForecastingBatchStreamingTests, Update_LinearRegression_MultipleUpdatesConsistent) {
+    // Apply 5 successive update() calls and verify results match a full
+    // refit on the correspondingly extended series.
+    TimeSeries ts = makeLinearSeries(30, 1.5, 0.0);
+    ForecastModel model(ForecastMethod::LINEAR_REGRESSION);
+    model.fit(ts);
+
+    TimeSeries ts_ext = ts;
+    for (int i = 0; i < 5; ++i) {
+        double v = 30.0 + static_cast<double>(i) * 1.5;
+        model.update(v);
+        ts_ext.push(static_cast<int64_t>(30 + i) * 1000LL, v);
+    }
+    auto inc = model.predict(3);
+
+    ForecastModel ref(ForecastMethod::LINEAR_REGRESSION);
+    ref.fit(ts_ext);
+    auto full = ref.predict(3);
+
+    ASSERT_EQ(inc.size(), full.size());
+    for (size_t i = 0; i < inc.size(); ++i) {
+        EXPECT_NEAR(inc[i].value, full[i].value, 1e-5)
+            << "Incremental OLS (5 updates) differs from full refit at step " << i;
     }
 }
 

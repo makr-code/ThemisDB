@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # Exporters Module Headers
 
 This directory contains the public header files for the exporters module.
@@ -36,3 +38,21 @@ See `../../src/exporters/` for the implementation code.
 ## Documentation
 
 See `../../src/exporters/README.md` for the full module documentation.
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+## Usage
+
+Include the relevant headers from this module:
+
+```cpp
+#include "exporters/module_header.h"
+```
+
+See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.

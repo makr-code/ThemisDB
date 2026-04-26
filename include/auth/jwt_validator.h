@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jwt_validator.h                                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:05:53                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     261                                            ║
+    • Total Lines:     258                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 435595de1  2026-03-22  Changes before error encountered         ║
-    • 76eef4d70  2026-03-15  feat(auth): implement JWT scope extraction and role-to-sc... ║
-    • c97360e57  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
-    • 3071a3bb7  2026-03-12  fix(auth): address JWT JTI reviewer feedback ║
-    • 6903f5910  2026-03-12  feat(auth): JWT JTI replay prevention warning (v1.2.0) ║
+    • 435595de1f  2026-03-22  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -33,6 +29,8 @@
 #include <optional>
 #include <memory>
 #include <shared_mutex>
+#include <mutex>
+#include <condition_variable>
 #include <atomic>
 #include <future>
 

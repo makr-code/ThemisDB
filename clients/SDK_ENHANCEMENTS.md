@@ -560,7 +560,7 @@ setInterval(() => {
 - ⚠️  Implicit/Built-in
 - ❌ Not implemented
 
-**Updated: January 2026**
+**Updated: April 2026**
 - All major SDKs (JS, Go, Java, Python, C#, Rust, Ruby, PHP) now have circuit breaker, retry, and logging
 - Java and C# have explicit connection pooling configuration
 - Go and Java have binary protocol support
@@ -628,7 +628,7 @@ For issues or questions:
 
 ## Changelog
 
-### Version 1.4.0-alpha (January 2026)
+### Version 1.8.0-rc1 (April 2026)
 - ✨ Added circuit breaker pattern to JavaScript, Go, Java, Python SDKs
 - ✨ Added comprehensive logging to JavaScript, Go, Java, Python SDKs
 - ✨ Enhanced retry mechanisms with circuit breaker integration
@@ -637,4 +637,4 @@ For issues or questions:
 
 ---
 
-*Last Updated: January 2026*
+*Last Updated: April 2026*

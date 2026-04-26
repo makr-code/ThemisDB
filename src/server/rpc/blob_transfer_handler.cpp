@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            blob_transfer_handler.cpp                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:01                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   98.0/100                                       ║
     • Total Lines:     522                                            ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -60,8 +57,8 @@ public:
         }
         
         total_bytes_ = fs::file_size(config_.source_path);
-        total_chunks_ = (total_bytes_ + (config_.chunk_size_mb * 1024 * 1024) - 1) / 
-                       (config_.chunk_size_mb * 1024 * 1024);
+        total_chunks_ = static_cast<uint32_t>((total_bytes_ + (config_.chunk_size_mb * 1024 * 1024) - 1) / 
+                       (config_.chunk_size_mb * 1024 * 1024));
         
         return BlobStatus::OK;
     }
@@ -209,7 +206,7 @@ public:
             
             double bytes_per_ms = static_cast<double>(transferred_bytes_) / elapsed;
             progress.estimated_remaining_ms = 
-                (total_bytes_ - transferred_bytes_) / bytes_per_ms;
+                static_cast<uint64_t>((total_bytes_ - transferred_bytes_) / bytes_per_ms);
         }
         
         return progress;
@@ -317,7 +314,7 @@ private:
             for (size_t i = 0; i < len; ++i) {
                 crc ^= static_cast<uint32_t>(buf[i]);
                 for (int j = 0; j < 8; ++j) {
-                    uint32_t mask = -(crc & 1u);
+                    const uint32_t mask = (crc & 1u) ? 0xFFFFFFFFu : 0u;
                     crc = (crc >> 1) ^ (0xEDB88320u & mask);
                 }
             }

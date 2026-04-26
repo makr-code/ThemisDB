@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            scheduled_edge_refresh.cpp                         ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:16:06                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     971                                            ║
+    • Total Lines:     970                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 79f081505  2026-03-28  Add test statistics documentation and collection script ║
-    • 89945cb4d  2026-03-22  feat(graph): ANN-accelerated candidate discovery + CEP ca... ║
-    • 1795733ac  2026-03-21  Changes before error encountered         ║
-    • 43a91f179  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
-    • 8452353dc  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -412,7 +409,7 @@ void ScheduledGraphEdgeRefreshEngine::schedulerLoop() {
         {
             std::lock_guard<std::mutex> lock(cycle_mutex_);
             auto stats = runRefreshCycle();
-            (void)stats; // logged inside runRefreshCycle
+            // logged inside runRefreshCycle
         }
     }
 

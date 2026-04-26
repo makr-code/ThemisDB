@@ -1,3 +1,5 @@
+> **Aktueller Build-Flow:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
 # Prometheus Integration - Schnellstart
 
 ## Status: ✅ Integration abgeschlossen

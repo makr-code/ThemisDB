@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_manager.h                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:09:29                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     412                                            ║
+    • Total Lines:     447                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 18598257e  2026-03-01  feat(plugins): add OciRegistryClient and loadPluginFromOc... ║
-    • 3d4510f1a  2026-02-28  fix(plugins): mark runtime plugin capability negotiation ... ║
-    • 88c2ff1ef  2026-02-28  feat(plugins): integrate PluginHealthMonitor into PluginM... ║
-    • d7e3e58b0  2026-02-28  feat(plugins): implement PluginManager::negotiateCapabili... ║
+    • a217820d8f  2026-04-12  feat(plugins): implement runtime capability escalation bl... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -32,6 +28,8 @@
 #include "plugins/plugin_hot_plug_monitor.h"  // HotPlugConfig definition
 #include "plugins/oci_registry_client.h"  // OCI registry pull support
 #include "acceleration/plugin_loader.h"  // Reuse existing loader
+#include "themis/edition.h"
+#include "themis/runtime_license_gate.h"
 #include "utils/expected.h"
 #include <string>
 #include <memory>
@@ -101,6 +99,14 @@ private:
         std::unique_ptr<IThemisPlugin> instance;
         bool loaded = false;
         std::string file_hash;
+
+        /// Capabilities snapshot captured immediately after plugin initialization.
+        /// Used by checkCapabilityEscalation() to detect post-load capability expansion.
+        PluginCapabilities frozen_capabilities;
+
+        /// Set to true when checkCapabilityEscalation() detects a superset violation.
+        /// A restricted plugin remains loaded but is flagged for operator review.
+        bool is_restricted = false;
     };
     
     std::unordered_map<std::string, PluginEntry> plugins_;  // name -> entry
@@ -279,6 +285,37 @@ public:
     PluginNegotiationResult negotiateCapabilities(
         const std::string& name,
         const std::vector<PluginCapabilityRequirement>& requirements) const;
+
+    /**
+     * @brief Check whether a loaded plugin has escalated its capabilities beyond
+     *        what was declared in the manifest at load time.
+     *
+     * The capabilities returned by the plugin's getCapabilities() are compared
+     * against the snapshot frozen at load time.  If the current capabilities are
+     * a strict superset (i.e. any flag that was false at load is now true), the
+     * plugin is marked RESTRICTED and ERR_PLUGIN_CAPABILITY_ESCALATION is returned.
+     *
+     * This method is a no-op on the hot call path: capabilities are only checked
+     * when this method is explicitly called (e.g. from a periodic security scan or
+     * after an explicit re-negotiation request).
+     *
+     * @param name  Name of the loaded plugin.
+     * @return      Ok(void) if no escalation is detected.
+     *              Err(ERR_PLUGIN_CAPABILITY_ESCALATION) if escalation is detected;
+     *              the plugin is also marked as RESTRICTED in the registry.
+     *              Err(ERR_PLUGIN_NOT_FOUND) if the plugin is not loaded.
+     */
+    Result<void> checkCapabilityEscalation(const std::string& name);
+
+    /**
+     * @brief Query whether a plugin has been marked RESTRICTED due to a capability
+     *        escalation attempt.
+     *
+     * @param name  Plugin name.
+     * @return      true if the plugin exists, is loaded, and has been marked
+     *              RESTRICTED; false in all other cases.
+     */
+    bool isPluginRestricted(const std::string& name) const;
     
     /**
      * @brief Get plugin metrics
@@ -346,6 +383,37 @@ public:
      * @brief Singleton instance
      */
     static PluginManager& instance();
+
+    // -----------------------------------------------------------------------
+    // Edition / License gating helpers
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Check whether the running edition supports plugins (compile-time gate).
+     * @return true for Enterprise / Hyperscaler editions.
+     */
+    static bool isEditionSupported();
+
+    /**
+     * @brief Check whether the runtime license allows the enterprise_plugins feature.
+     * @return true when the runtime license grants plugin loading.
+     */
+    static bool isLicensed();
+
+    /**
+     * @brief Human-readable error message for Community-edition plugin load attempts.
+     */
+    static std::string communityUnavailableMessage(const std::string& plugin_name);
+
+    /**
+     * @brief Returns marketplace availability info for the running edition.
+     */
+    static std::string marketplaceInfo();
+
+    /**
+     * @brief Returns installation instructions, gated by edition.
+     */
+    static std::string installationInstructions();
 };
 
 /**

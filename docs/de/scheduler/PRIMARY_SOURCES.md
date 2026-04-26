@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [scheduler](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-04  
+**Datum:** 2026-04-17  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/scheduler/ARCHITECTURE.md`
@@ -25,21 +25,9 @@
 
 # Primary Sources — `scheduler`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`scheduler`** aus den Verzeichnissen `src/scheduler/` und/oder `include/scheduler/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`scheduler`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/scheduler/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/scheduler/ARCHITECTURE.md`](../../../src/scheduler/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/scheduler/AUDIT.md`](../../../src/scheduler/AUDIT.md) |
-| `CHANGELOG.md` | [`src/scheduler/CHANGELOG.md`](../../../src/scheduler/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/scheduler/FUTURE_ENHANCEMENTS.md`](../../../src/scheduler/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/scheduler/README.md`](../../../src/scheduler/README.md) |
-| `ROADMAP.md` | [`src/scheduler/ROADMAP.md`](../../../src/scheduler/ROADMAP.md) |
-| `SECURITY.md` | [`src/scheduler/SECURITY.md`](../../../src/scheduler/SECURITY.md) |
 
 ### `include/scheduler/`
 
@@ -53,6 +41,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`scheduler`
 | `ROADMAP.md` | [`include/scheduler/ROADMAP.md`](../../../include/scheduler/ROADMAP.md) |
 | `SECURITY.md` | [`include/scheduler/SECURITY.md`](../../../include/scheduler/SECURITY.md) |
 
+### `src/scheduler/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/scheduler/ARCHITECTURE.md`](../../../src/scheduler/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/scheduler/AUDIT.md`](../../../src/scheduler/AUDIT.md) |
+| `CHANGELOG.md` | [`src/scheduler/CHANGELOG.md`](../../../src/scheduler/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/scheduler/FUTURE_ENHANCEMENTS.md`](../../../src/scheduler/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/scheduler/README.md`](../../../src/scheduler/README.md) |
+| `ROADMAP.md` | [`src/scheduler/ROADMAP.md`](../../../src/scheduler/ROADMAP.md) |
+| `SECURITY.md` | [`src/scheduler/SECURITY.md`](../../../src/scheduler/SECURITY.md) |
+
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-04*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*

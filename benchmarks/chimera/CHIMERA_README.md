@@ -1,200 +1,172 @@
-# CHIMERA Suite
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
 
-**C**omprehensive, **H**onest, **I**mpartial **M**etrics for **E**mpirical **R**eporting and **A**nalysis
+# CHIMERA Benchmark Framework
 
-[![IEEE Compliant](https://img.shields.io/badge/IEEE-Compliant-blue)](https://www.ieee.org/)
-[![Color Blind Friendly](https://img.shields.io/badge/ColorBlind-Friendly-green)](https://jfly.uni-koeln.de/color/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
----
-
-## What is CHIMERA?
-
-CHIMERA Suite is a **vendor-neutral, scientifically rigorous** framework for database benchmark reporting and visualization. It ensures fair, transparent, and accessible comparison of database systems without vendor bias.
-
-### Why CHIMERA?
-
-Database benchmarking often suffers from:
-- **Vendor bias** in result presentation
-- **Inconsistent methodologies** across benchmarks
-- **Inaccessible visualizations** for color-blind users
-- **Lack of statistical rigor** in comparisons
-
-CHIMERA solves these problems by providing a standardized, neutral framework that any database system can use.
+**CHIMERA** = Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment  
+Version: 1.0.0 · Standard: IEEE Std 2807-2022, ISO/IEC 14756:2015  
+Native CI path: `external/chimera/run_ci_benchmarks.py`
 
 ---
 
-## Key Features
+## Overview
 
-### 🎨 Vendor-Neutral Design
-- ✓ **Color-Blind Friendly Palettes**: Uses Okabe-Ito and Paul Tol color schemes
-- ✓ **No Vendor Bias**: Systems sorted alphabetically or by metric value only
-- ✓ **No Branding**: No logos, brand colors, or marketing materials
-- ✓ **Transparent Methodology**: All methods fully disclosed and referenced
+CHIMERA defines a **unified native benchmark path** for ThemisDB module comparison.
+It provides four canonical workloads that exercise the core paradigms of ThemisDB
+(relational, vector, document, graph) in a single, reproducible Python harness.
 
-### 📊 Statistical Rigor (IEEE Compliant)
-- ✓ **Welch's t-test**: For comparing means with unequal variances
-- ✓ **Mann-Whitney U test**: Non-parametric alternative
-- ✓ **Cohen's d**: Effect size measurement
-- ✓ **Confidence Intervals**: 95% CI using t-distribution
-- ✓ **Outlier Detection**: IQR method (1.5 × IQR)
-- ✓ **Comprehensive Statistics**: Mean, median, std dev, P25, P75, P95, P99
-
-### 📄 Multiple Report Formats
-- ✓ **HTML**: Interactive reports with visualizations
-- ✓ **CSV**: Raw statistics for further analysis
-- ✓ **PDF**: Printable reports (via HTML rendering)
-
-### 📚 IEEE Citations
-- ✓ Proper citations for all statistical methods
-- ✓ References to color accessibility research
-- ✓ Benchmark standard citations (TPC-C, TPC-H, YCSB)
+The results are exported in a schema compatible with the existing
+traffic-light / coverage reporting logic in `tools/bench_coverage_report.py`
+and `benchmarks/performance_regression_detector.py`.
 
 ---
 
-## Supported Systems
+## Native CI Benchmark Path
 
-CHIMERA is designed to benchmark **any database system** including:
-
-- **Multi-Model Databases** (e.g., ThemisDB, ArangoDB, OrientDB)
-- **Relational Databases** (e.g., PostgreSQL, MySQL, Oracle)
-- **NoSQL Databases** (e.g., MongoDB, Cassandra, Redis)
-- **Graph Databases** (e.g., Neo4j, JanusGraph, TigerGraph)
-- **Vector Databases** (e.g., Pinecone, Weaviate, Milvus)
-- **Time-Series Databases** (e.g., InfluxDB, TimescaleDB, QuestDB)
-
-ThemisDB is **one of many** database systems that can be evaluated with CHIMERA.
-
----
-
-## Installation
-
-```bash
-cd benchmarks/chimera
-pip install -r requirements.txt
+```
+external/chimera/run_ci_benchmarks.py
+    │
+    ├── _WORKLOADS  (four WorkloadDefinition objects)
+    │     ├── relational_sort      → proxies query/storage ordering (Module 4, 2)
+    │     ├── vector_dot_product   → proxies vector index throughput (Module 10, 3)
+    │     ├── document_lookup      → proxies document-store / cache read (Module 8, cache)
+    │     └── graph_bfs            → proxies graph engine traversal  (Module 5)
+    │
+    ├── run_benchmarks(warmup, iterations) → harness report dict
+    ├── build_output(report, repo_root)   → versioned JSON (same schema as baselines/)
+    └── main(argv)                         → CLI entry point
 ```
 
-### Requirements
-- Python 3.8+
-- numpy
-- scipy
-- matplotlib (optional, for visualizations)
-- weasyprint (optional, for PDF generation)
+### Workload → Target Module Mapping
+
+| Workload ID         | Workload Family | Target Module(s)        | Ziel-ID       |
+|---------------------|-----------------|-------------------------|---------------|
+| `relational_sort`   | relational      | Query (M4), Storage (M2)| CHI-1         |
+| `vector_dot_product`| vector          | Vector/Embedding (M10)  | CHI-2         |
+| `document_lookup`   | document        | Cache (C-*), Index (M3) | CHI-3         |
+| `graph_bfs`         | graph           | Graph (M5)              | CHI-4         |
+
+All four workloads are registered in `benchmarks/benchmark_target_mapping.json`
+under the `"chimera"` module block (entries CHI-1 … CHI-4).
 
 ---
 
-## Quick Start
+## Result Schema
 
-### Basic Usage
+Output follows the same schema as `benchmarks/baselines/chimera/baseline.json`:
+
+```json
+{
+  "version":   "1.5.0-dev",
+  "branch":    "main",
+  "commit":    "abc1234",
+  "timestamp": "2026-03-01T00:00:00Z",
+  "workloads": {
+    "relational_sort": {
+      "throughput_ops_per_sec": 42503.0,
+      "mean_latency_ms":        0.024,
+      "p95_latency_ms":         0.023,
+      "p99_latency_ms":         0.034
+    },
+    "vector_dot_product": { ... },
+    "document_lookup":    { ... },
+    "graph_bfs":          { ... }
+  }
+}
+```
+
+This schema is compatible with:
+
+- `tools/bench_coverage_report.py` — traffic-light module coverage
+- `benchmarks/performance_regression_detector.py` — regression detection
+- `benchmarks/cross_module_regression_detector.py` — cross-module aggregation
+
+---
+
+## Benchmark Methodology
+
+### Sampling Strategy
+
+| Parameter          | Default | Rationale                                    |
+|--------------------|---------|----------------------------------------------|
+| Warm-up iterations | 3       | Stabilise JIT, page cache, branch predictor  |
+| Run iterations     | 100     | ≥ 30 samples required for CLT applicability  |
+| Percentiles        | 50, 95, 99 | Standard latency SLO markers              |
+
+### Variance Treatment
+
+- Outlier removal: none (raw measurements preserved; IQR-based removal is
+  performed post-hoc by `StatisticalAnalyzer` when comparing baseline vs current).
+- Reported statistics: arithmetic mean, P95, P99 (nearest-rank method).
+- Regression threshold: ≥ 10 % increase in mean CPU time → 🔴 (critical);
+  5–10 % → 🟡 (warning). See `bench_coverage_report.py:_traffic_light`.
+
+### Statistical Significance
+
+Welch's two-sample t-test (`StatisticalAnalyzer.t_test`) is used when comparing
+two runs (e.g. baseline vs PR). Default α = 0.05.
+
+The degrees of freedom are computed via the Welch–Satterthwaite equation.
+The p-value is approximated via the regularised incomplete beta function
+(Lentz continued-fraction method, ε = 1 × 10⁻¹²).
+
+### Platform Requirements
+
+| Requirement           | Minimum              |
+|-----------------------|----------------------|
+| Python                | 3.10+                |
+| CPU                   | Any x86-64 / arm64   |
+| RAM                   | 64 MB                |
+| Dependencies          | stdlib only          |
+| Reproducibility gate  | All workloads deterministic (no GPU, no network) |
+
+---
+
+## Running the Benchmarks
+
+```bash
+# Quick run (CI defaults)
+python external/chimera/run_ci_benchmarks.py
+
+# Custom output path
+python external/chimera/run_ci_benchmarks.py --output results/my_run.json
+
+# Faster (reduced iterations)
+python external/chimera/run_ci_benchmarks.py --warmup 1 --iterations 20
+```
+
+Output is written to `benchmark_results/chimera_results.json` by default.
+
+---
+
+## Comparing Against Baseline
 
 ```python
-from chimera import ChimeraReporter
+from benchmarks.performance_regression_detector import RegressionDetector
 
-# Create reporter
-reporter = ChimeraReporter(significance_level=0.05)
-
-# Add benchmark results for each system
-reporter.add_system_results(
-    system_name="System A",
-    metric_name="Query Throughput",
-    metric_unit="queries/sec",
-    data=[15000, 15200, 14800, 15100, ...]
+detector = RegressionDetector(
+    baseline_path="benchmarks/baselines/chimera/baseline.json",
+    current_path="benchmark_results/chimera_results.json",
 )
-
-reporter.add_system_results(
-    system_name="System B",
-    metric_name="Query Throughput",
-    metric_unit="queries/sec",
-    data=[12500, 12700, 12300, 12600, ...]
-)
-
-# Generate reports
-reporter.generate_html_report("report.html", sort_by='alphabetical')
-reporter.generate_csv_report("results.csv", sort_by='alphabetical')
+report = detector.compare()
 ```
 
-### Run Demo
+---
 
-**Basic Demo** (3 systems):
-```bash
-cd benchmarks/chimera
-python3 demo.py
+## File Map
+
 ```
+benchmarks/chimera/
+├── CHIMERA_README.md              ← This file (methodology documentation)
+├── benchmark_config_schema.yaml   ← Canonical workload configuration schema
+└── demo_reports/
+    └── benchmark_comparison.csv   ← Anonymised vendor-neutral demo results
 
-**Multi-Vendor Demo** (9 systems - proves vendor neutrality):
-```bash
-cd benchmarks/chimera
-python3 demo_multi_vendor.py
+external/chimera/
+└── run_ci_benchmarks.py           ← Native CI benchmark runner (entry point)
+
+benchmarks/
+└── chimera.py                     ← BenchmarkHarness / StatisticalAnalyzer library
+
+benchmarks/baselines/chimera/
+└── baseline.json                  ← v1.5.0-dev reference baseline (2026-03-01)
 ```
-
-See [MULTI_VENDOR_DEMO.md](MULTI_VENDOR_DEMO.md) for details on the multi-vendor demonstration.
-
-Reports are generated in the `demo_reports/` directory.
-
----
-
-## Neutrality Guarantees
-
-### 1. System Naming
-- Names normalized (remove marketing terms)
-- No vendor/product identifiers in sorting
-- Equal visual prominence
-
-### 2. Color Assignment
-- Colors assigned by palette order
-- Never by brand/vendor
-- Consistent across reports
-
-### 3. Result Presentation
-- No "winner" declared
-- Statistical significance marked objectively
-- Effect sizes always reported
-
-### 4. Methodology
-- All methods disclosed
-- No hidden optimizations
-- Reproducible analysis
-
----
-
-## Documentation
-
-- [README.md](README.md) - Technical implementation guide
-- [CHIMERA_STYLEGUIDE.md](CHIMERA_STYLEGUIDE.md) - Branding and design guidelines
-- [BENCHMARK_CONFIG_README.md](BENCHMARK_CONFIG_README.md) - Configuration format
-
----
-
-## Standards Compliance
-
-CHIMERA complies with:
-- **IEEE Std 2807-2022**: Performance Benchmarking of DBMS
-- **ISO/IEC 14756:2015**: Database Performance Measurement
-- **IEEE Std 730-2014**: Software Quality Assurance Processes
-- **IEEE Std 1012-2016**: System, Software, and Hardware Verification
-
----
-
-## License
-
-MIT License - see LICENSE file for details.
-
----
-
-## Contributing
-
-Contributions welcome! Please ensure:
-- Statistical methods are properly referenced
-- Color palettes remain color-blind friendly
-- No vendor bias introduced
-- Tests pass
-
----
-
-## Contact
-
-For questions or contributions, please refer to the project documentation.
-
----
-
-**CHIMERA v1.0.0** - *Honest metrics for everyone*

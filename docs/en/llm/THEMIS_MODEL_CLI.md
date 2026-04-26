@@ -298,7 +298,7 @@ themis-model list
 ## See Also
 
 - [PHI3_INTEGRATION.md](PHI3_INTEGRATION.md) - Complete Phi-3 integration guide
-- [PHI3_QUICKSTART.md](PHI3_QUICKSTART.md) - Phi-3 quick start guide
+- [PHI3_QUICKSTART.md](../../llm_orchestration/PHI3_QUICKSTART.md) - Phi-3 quick start guide
 - [ModelDownloader API](../../include/llm/model_downloader.h) - C++ API documentation
 
 ## Support

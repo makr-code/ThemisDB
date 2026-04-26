@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            prompt_performance_tracker.cpp                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:18:19                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     351                                            ║
+    • Total Lines:     352                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -300,7 +301,7 @@ void PromptPerformanceTracker::loadFromDB() {
     std::string prefix = KEY_PREFIX;
     size_t loaded = 0;
     
-    db_->scanPrefix(prefix, [this, &loaded](std::string_view key, std::string_view value) -> bool {
+    db_->scanPrefix(prefix, [this, &loaded](std::string_view /*key*/, std::string_view value) -> bool {
         try {
             auto j = nlohmann::json::parse(std::string(value));
             auto metrics = PromptMetrics::fromJson(j);

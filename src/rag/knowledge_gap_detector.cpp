@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            knowledge_gap_detector.cpp                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:18:55                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1524                                           ║
+    • Total Lines:     1538                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 72b3b0427  2026-03-09  Enable FLARE-Loop with TPT-Gating by default, add factory... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 48168807ee  2026-04-13  feat(rag): wire FLARE retrieval-callback bridge — Knowled... ║
+    • 5ef023b6a2  2026-04-13  feat(rag): wire FLARE retrieval-callback bridge — Knowled... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -42,7 +42,8 @@ namespace themis::rag::knowledge_gap {
 struct KnowledgeGapDetector::Impl {
     KnowledgeGapConfig config;
     std::function<void(const DetectionResult&)> gap_callback;
-    
+    RetrievalCallback retrieval_fn;   ///< FLARE dynamic-retrieval callback (optional)
+
     // Cache for performance
     std::unordered_map<std::string, DetectionResult> cache;
 };
@@ -172,7 +173,7 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
 }
 
 DetectionResult KnowledgeGapDetector::detectDuringGeneration(
-    const std::string& query,
+    [[maybe_unused]] const std::string& query,
     const std::vector<RetrievedDocument>& documents,
     const GenerationContext& context
 ) {
@@ -519,6 +520,10 @@ void KnowledgeGapDetector::setGapDetectionCallback(
     impl_->gap_callback = std::move(callback);
 }
 
+void KnowledgeGapDetector::setRetrievalCallback(RetrievalCallback fn) {
+    impl_->retrieval_fn = std::move(fn);
+}
+
 // Private helper methods
 
 double KnowledgeGapDetector::calculateAverageSimilarity(
@@ -542,7 +547,7 @@ double KnowledgeGapDetector::calculateAverageSimilarity(
 }
 
 double KnowledgeGapDetector::calculateQueryCoverage(
-    const std::string& query,
+    [[maybe_unused]] const std::string& query,
     const std::vector<RetrievedDocument>& docs
 ) {
     // Basic coverage calculation based on:
@@ -785,7 +790,7 @@ bool KnowledgeGapDetector::verifyClaim(
     
     for (char c : claim) {
         if (std::isalnum(static_cast<unsigned char>(c)) || c == '_') {
-            current_term += std::tolower(static_cast<unsigned char>(c));
+            current_term += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         } else if (!current_term.empty()) {
             if (current_term.length() > 3) { // Only significant terms
                 claim_terms.push_back(current_term);
@@ -1051,7 +1056,7 @@ double KnowledgeGapDetector::calculateSemanticSimilarity(
         std::string word;
         for (char c : text) {
             if (std::isalnum(static_cast<unsigned char>(c)) || c == '_') {
-                word += std::tolower(static_cast<unsigned char>(c));
+                word += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
             } else if (!word.empty()) {
                 if (word.length() > 2) { // Only meaningful words
                     words.insert(word);
@@ -1207,7 +1212,7 @@ double KnowledgeGapDetector::monitorSentenceConfidence(
     
     for (char c : sentence) {
         if (std::isalnum(static_cast<unsigned char>(c))) {
-            current_term += std::tolower(static_cast<unsigned char>(c));
+            current_term += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         } else if (!current_term.empty()) {
             if (current_term.length() > 3) {
                 sentence_terms.push_back(current_term);
@@ -1262,13 +1267,22 @@ std::string KnowledgeGapDetector::reformulateQuery(
 std::vector<RetrievedDocument> KnowledgeGapDetector::performDynamicRetrieval(
     const std::string& query
 ) {
-    // Returns additional documents by querying the vector index for the given
-    // query.  When a VectorIndexManager is configured on this detector instance,
-    // the implementation would: encode the query, call searchKnn(), and convert
-    // the resulting hits to RetrievedDocument values.  Without an index this
-    // returns an empty list so callers degrade gracefully.
     THEMIS_DEBUG("Dynamic retrieval for query: {}", query);
-    return std::vector<RetrievedDocument>();
+
+    if (!impl_->retrieval_fn) {
+        // No retrieval callback wired — caller must provide documents upfront or
+        // use setRetrievalCallback() to enable FLARE active re-retrieval.
+        return {};
+    }
+
+    // Use top_k from config (min_documents serves as a reasonable per-round budget).
+    const size_t k = std::max(impl_->config.min_documents, size_t{1});
+    try {
+        return impl_->retrieval_fn(query, k);
+    } catch (const std::exception& ex) {
+        THEMIS_DEBUG("Dynamic retrieval callback threw: {}", ex.what());
+        return {};
+    }
 }
 
 DetectionResult KnowledgeGapDetector::detectEthicalPerspectiveGap(
@@ -1471,7 +1485,7 @@ std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::createBalance
     config.enable_query_aspect_analysis = true;
     config.enable_token_probability = true;
     config.enable_self_consistency_check = false; // Can be expensive
-    config.enable_flare = false; // Requires VectorIndexManager integration
+    config.enable_flare = false; // Enable by calling setRetrievalCallback() after construction
     return std::make_unique<KnowledgeGapDetector>(config);
 }
 
@@ -1482,7 +1496,7 @@ std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::createThoroug
     config.enable_claim_verification = true;
     config.enable_query_aspect_analysis = true;
     config.enable_token_probability = true;
-    config.enable_flare = false; // Can be enabled when VectorIndexManager integrated
+    config.enable_flare = false; // Enable by calling setRetrievalCallback() after construction
     config.self_consistency_samples = 5;
     return std::make_unique<KnowledgeGapDetector>(config);
 }

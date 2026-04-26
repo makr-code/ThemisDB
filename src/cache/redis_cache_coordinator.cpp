@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            redis_cache_coordinator.cpp                        ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:14:36                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   91.0/100                                       ║
-    • Total Lines:     690                                            ║
+    • Total Lines:     686                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 39ac8c3ef  2026-03-20  Split default-arg constructors into overloads ║
-    • 5b1c0eb4a  2026-03-14  fix(cache): address PR review comments on RedisCacheCoord... ║
-    • 84e885494  2026-03-14  feat(cache): implement RedisCacheCoordinator async pub/su... ║
-    • 5c7846b53  2026-03-10  fix(cache): add missing #include <climits> to redis_cache... ║
-    • 022a28c27  2026-03-10  Changes before error encountered         ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -162,7 +159,6 @@ void RedisCacheCoordinator::publishEntry(const std::string& key,
         ++messages_published_;
     }
 #else
-    (void)key; (void)result; (void)ttl_seconds; (void)tenant_id;
 #endif
 }
 
@@ -206,7 +202,6 @@ void RedisCacheCoordinator::publishInvalidation(const std::string& pattern,
         ++messages_published_;
     }
 #else
-    (void)pattern; (void)tenant_id;
 #endif
 }
 

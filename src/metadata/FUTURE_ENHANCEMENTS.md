@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Metadata Module - Future Enhancements
@@ -55,7 +57,7 @@
 ---
 
 ### Statistics Collector
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Comprehensive table and index statistics for query optimization.
@@ -77,14 +79,14 @@ public:
         std::map<std::string, ColumnStats> column_stats;
         std::chrono::system_clock::time_point last_updated;
     };
-    
+
     struct ColumnStats {
         size_t distinct_count;
         size_t null_count;
         double selectivity;
         std::optional<Histogram> distribution;
     };
-    
+
     Result<TableStats> collectStats(const std::string& table_name);
     Result<bool> updateStats(const std::string& table_name);
     Result<TableStats> getStats(const std::string& table_name);
@@ -99,7 +101,7 @@ public:
 ---
 
 ### Information Schema Views
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 SQL-standard INFORMATION_SCHEMA views for metadata access.
@@ -125,8 +127,8 @@ WHERE table_name = 'users';
 ---
 
 ### Schema Versioning
-**Priority:** Medium  
-**Target Version:** v1.8.0  
+**Priority:** Medium
+**Target Version:** v1.8.0
 **Status:** ✅ Implemented
 
 Track and manage schema changes over time.
@@ -152,7 +154,7 @@ Track and manage schema changes over time.
 ---
 
 ### Schema Constraints
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Enforce schema constraints and validation.
@@ -167,17 +169,29 @@ Enforce schema constraints and validation.
 ---
 
 ### Automatic Indexing Recommendations
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.9.0
+**Status:** ✅ Implemented
 
 Analyze query patterns and recommend indexes.
 
 **Features:**
-- Query log analysis
-- Index usage tracking
-- Missing index detection
-- Unused index identification
-- Cost-benefit analysis
+- `[x]` Query log analysis — `IndexRecommender::recordAccess()` records filter and sort access patterns per column per query; `recordQuery()` tracks the total query count for normalisation.
+- `[x]` Index usage tracking — `recommend()` accepts an `existing_indexes` list; indexed columns with a low benefit score are returned as `DROP` recommendations.
+- `[x]` Missing index detection — columns with a benefit score above `kAddThreshold` (20.0) and no existing index are returned as `ADD` recommendations.
+- `[x]` Unused index identification — indexed columns whose benefit score falls below `kDropThreshold` (5.0) are returned as `DROP` recommendations.
+- `[x]` Cost-benefit analysis — `computeCostModelBenefit()` uses `StatisticsCollector` cardinality / selectivity estimates and a write-amplification penalty based on table row count (logarithmic, capped at 20 %).
+
+**Implemented in:**
+- `include/metadata/index_recommender.h`
+- `src/metadata/index_recommender.cpp`
+
+**Tests:**
+- `tests/test_index_recommender.cpp`
+
+**REST endpoint:** `GET /api/v1/metadata/index_recommendations[/:table]`
+
+**CLI:** `themisctl index recommend [table]`
 
 ---
 
@@ -250,6 +264,6 @@ The following references underpin the planned enhancements and design decisions 
 
 ---
 
-*Last Updated: March 2026*  
-*Module Version: v1.6.0*  
+*Last Updated: April 2026*
+*Module Version: v1.6.0*
 *Next Review: v1.9.0 Release*

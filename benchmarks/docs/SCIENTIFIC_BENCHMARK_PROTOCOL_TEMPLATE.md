@@ -1,3 +1,6 @@
+> ⚠️ **Historischer Plan** – Dieser Plan beschreibt den Entwicklungsstand zum Zeitpunkt der Erstellung.
+> Für aktuellen Teststatus: `ctest --preset linux-ninja-release --test-dir build/linux-ninja-release -R <pattern>` verwenden.
+
 # Scientific Benchmark Protocol Template - ThemisDB
 
 **Version:** 1.0  

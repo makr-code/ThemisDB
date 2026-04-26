@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_manager.cpp                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:48                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     760                                            ║
+    • Total Lines:     761                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • a7acef308  2026-03-17  feat(governance): PolicyManager::reloadPolicies() with do... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0fc73bfa2  2026-02-27  feat(governance): implement rollback/preview stubs for Po... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -645,12 +643,12 @@ std::vector<VersionDiff> PolicyManager::compareRuleVersions(
 }
 
 std::vector<PolicyRuleVersion> PolicyManager::getAuditTrail(
-    const std::string& rule_id, int64_t start_time, int64_t end_time) const {
+    const std::string& rule_id, int64_t /*start_time*/, int64_t /*end_time*/) const {
     return version_history_.getVersions(rule_id);
 }
 
 std::vector<PolicyRuleVersion> PolicyManager::getAuditTrailByUser(
-    const std::string& user, int64_t start_time, int64_t end_time) const {
+    const std::string& user, int64_t /*start_time*/, int64_t /*end_time*/) const {
     // Collect all rule IDs under the rules mutex, then query version history
     std::vector<std::string> rule_ids;
     {

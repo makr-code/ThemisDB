@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_edge_cases_comprehensive.cpp                 ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:04:07                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:43:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     625                                            ║
+    • Total Lines:     624                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 329b75bbb  2026-02-07  Add comprehensive test coverage and scientific benchmarks... ║
+    • 9c9ead9b4f  2026-04-09  Implement feature X to enhance user experience and optimi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -498,7 +497,7 @@ static void BM_RapidSuccessiveReads(benchmark::State& state) {
         BaseEntity entity("rapid_" + std::to_string(i), BaseEntity::FieldMap{
             {"value", rng.generateInt(0, 1000000)}
         });
-        db.put("entity:" + entity.id, entity.serialize());
+        db.put("entity:" + entity.getPrimaryKey(), entity.serialize());
     }
 
     const int rapid_count = 1000;

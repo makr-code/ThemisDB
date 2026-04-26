@@ -113,4 +113,4 @@ Session cookies were rejected because they require a shared session store across
 - [ADR-007: gRPC + Protobuf for Internal Service RPC](adr_007_grpc_for_internal_rpc.md)
 
 ---
-**Last Updated:** 2026-03-24
+**Last Updated:** 2026-04-06

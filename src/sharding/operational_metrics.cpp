@@ -3,19 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            operational_metrics.cpp                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:18                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     626                                            ║
+    • Total Lines:     647                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a280bfd0  2026-03-15  feat: Complete Shard RPC Integration acceptance criteria ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -408,7 +410,7 @@ HealthStatus OperationalMetrics::getClusterHealth() const {
 
 void OperationalMetrics::recordRpcCall(
     const std::string& shard_id,
-    const std::string& method,
+    [[maybe_unused]] const std::string& method,
     const std::string& outcome,
     uint64_t latency_us
 ) {
@@ -417,7 +419,7 @@ void OperationalMetrics::recordRpcCall(
     // RPC calls are always cross-shard writes from the perspective of the
     // generic request counter (they carry mutation intent).
     recordRequest(shard_id, latency_us, success, /*is_write=*/true);
-    (void)method; // label carried by PrometheusMetrics; suppresses unused-var warning
+    // label carried by PrometheusMetrics; suppresses unused-var warning
 }
 
 void OperationalMetrics::recordRequest(
@@ -602,6 +604,7 @@ std::string OperationalMetrics::formatPrometheusMetric(
     double value,
     const std::map<std::string, std::string>& labels
 ) {
+    (void)type;
     std::stringstream ss;
     
     ss << name;
@@ -620,6 +623,24 @@ std::string OperationalMetrics::formatPrometheusMetric(
     ss << " " << std::fixed << std::setprecision(2) << value << "\n";
     
     return ss.str();
+}
+
+std::string OperationalMetrics::formatPrometheusMetric(
+    const std::string& name,
+    MetricType type,
+    uint64_t value,
+    const std::map<std::string, std::string>& labels
+) {
+    return formatPrometheusMetric(name, type, static_cast<double>(value), labels);
+}
+
+std::string OperationalMetrics::formatPrometheusMetric(
+    const std::string& name,
+    MetricType type,
+    int value,
+    const std::map<std::string, std::string>& labels
+) {
+    return formatPrometheusMetric(name, type, static_cast<double>(value), labels);
 }
 
 }  // namespace sharding

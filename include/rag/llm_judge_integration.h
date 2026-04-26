@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_judge_integration.h                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:10:20                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   86.0/100                                       ║
-    • Total Lines:     210                                            ║
+    • Total Lines:     211                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 67965456c  2026-03-22  Add constructors with default config for various classes ... ║
-    • 883e2e12b  2026-03-15  feat(rag): replace LLMIntegration stub + add ILLMInferenc... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -192,6 +190,7 @@ public:
 private:
     Config config_;
     std::function<std::string(const std::string&)> inference_fn_;
+    bool mock_mode_active_ = false;        // Tracks whether stub inference is currently active
     bool mock_mode_warning_shown_ = false;  // Track if warning has been shown
     
     /**

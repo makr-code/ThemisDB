@@ -3,31 +3,30 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            inference_engine_enhanced.cpp                      ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:56                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   78.0/100                                       ║
-    • Total Lines:     1673                                           ║
+    • Quality Score:   76.0/100                                       ║
+    • Total Lines:     1764                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • d1f0cf3ca  2026-03-19  fix(llm): address all PR review issues - sentinel deliver... ║
-    • cdc974975  2026-03-18  Changes before error encountered         ║
-    • c3fa68410  2026-03-11  fix(llm): audit pass 2 - fix generated_text, prompt-key c... ║
-    • 5f9187ff6  2026-03-11  feat(llm): implement KV-cache prewarming with embedding-b... ║
+    • fe135d5215  2026-04-13  feat(llm): Speculative Decoding for Latency Reduction — v... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "llm/inference_engine_enhanced.h"
+#include "llm/lookup_decoder.h"
 #include "llm/model_router.h"
 #include "llm/shared_worker_pool.h"
 #include "llm/speculative_decoder.h"
+#include "sharding/remote_executor.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <numeric>
@@ -80,6 +79,7 @@ InferenceEngineEnhanced::InferenceEngineEnhanced(const Config& config)
         sched_config.max_batch_size = config_.max_batch_size;
         sched_config.max_tokens_per_batch = config_.max_tokens_per_batch;
         sched_config.enable_priority_scheduling = config_.enable_priority_scheduling;
+        sched_config.enable_adaptive_batch_retry = config_.enable_adaptive_batch_retry;
         
         batch_scheduler_ = std::make_unique<ContinuousBatchScheduler>(
             sched_config, kv_cache_.get());
@@ -91,17 +91,36 @@ InferenceEngineEnhanced::InferenceEngineEnhanced(const Config& config)
 
     // Initialise speculative decoder when requested.
     if (config_.enable_speculative_decoding) {
+        SpeculativeDecoder::Config sd_cfg;
+        sd_cfg.k = config_.speculative_draft_tokens;
+        sd_cfg.remote_draft_shard_id = config_.speculative_remote_draft_shard_id;
+        speculative_decoder_ = std::make_unique<SpeculativeDecoder>(sd_cfg);
+
         if (config_.speculative_draft_model_id.empty()) {
-            spdlog::warn("Speculative decoding requested but speculative_draft_model_id "
-                         "is empty — disabling speculative decoding");
-            config_.enable_speculative_decoding = false;
+            spdlog::info("Speculative decoder initialised: k={}, draft_model=auto-discover "
+                         "(call setAdapterRegistry() with a DRAFT adapter registered to "
+                         "enable family-based draft model selection)",
+                         sd_cfg.k);
         } else {
-            SpeculativeDecoder::Config sd_cfg;
-            sd_cfg.k = config_.speculative_draft_tokens;
-            speculative_decoder_ = std::make_unique<SpeculativeDecoder>(sd_cfg);
             spdlog::info("Speculative decoder initialised: k={}, draft_model={}",
                          sd_cfg.k, config_.speculative_draft_model_id);
         }
+    }
+
+    // Initialise n-gram lookup decoder when requested (draft-model-free path).
+    if (config_.enable_lookup_decoding) {
+        LookupDecoder::Config ld_cfg;
+        ld_cfg.ngram_min = config_.lookup_ngram_min;
+        ld_cfg.ngram_max = config_.lookup_ngram_max;
+        // Use the explicit max_draft_tokens config when set; otherwise default
+        // to ngram_max (the maximum key length equals the default continuation
+        // budget, which is the correct coupling for prompt lookup decoding).
+        ld_cfg.max_draft_tokens = (config_.lookup_max_draft_tokens > 0)
+                                      ? config_.lookup_max_draft_tokens
+                                      : config_.lookup_ngram_max;
+        lookup_decoder_ = std::make_unique<LookupDecoder>(ld_cfg);
+        spdlog::info("Lookup decoder initialised: ngram_min={}, ngram_max={}, max_draft={}",
+                     ld_cfg.ngram_min, ld_cfg.ngram_max, ld_cfg.max_draft_tokens);
     }
 }
 
@@ -119,6 +138,22 @@ InferenceEngineEnhanced::InferenceEngineEnhanced(
 
 InferenceEngineEnhanced::~InferenceEngineEnhanced() {
     shutdown();
+}
+
+void InferenceEngineEnhanced::setRemoteExecutor(
+    sharding::RemoteExecutor* exec,
+    const sharding::ShardInfo& draft_shard)
+{
+    std::lock_guard<std::mutex> lock(stats_mutex_);
+    remote_executor_          = exec;
+    remote_draft_shard_info_  = draft_shard;
+    if (exec) {
+        spdlog::info("InferenceEngineEnhanced: remote draft executor set "
+                     "(shard='{}', endpoint='{}')",
+                     draft_shard.shard_id, draft_shard.primary_endpoint);
+    } else {
+        spdlog::info("InferenceEngineEnhanced: remote draft executor detached");
+    }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -204,6 +239,14 @@ void InferenceEngineEnhanced::swapModel(
 // ═══════════════════════════════════════════════════════════
 // LoRA Adapter Hot-Loading
 // ═══════════════════════════════════════════════════════════
+
+void InferenceEngineEnhanced::setAdapterRegistry(
+    std::shared_ptr<AdapterRegistry> registry
+) {
+    std::lock_guard<std::mutex> lock(models_mutex_);
+    adapter_registry_ = std::move(registry);
+    spdlog::info("InferenceEngineEnhanced: adapter registry attached for DRAFT model discovery");
+}
 
 void InferenceEngineEnhanced::loadLoRAAdapter(
     const std::string& adapter_id,
@@ -648,6 +691,7 @@ json InferenceEngineEnhanced::getDetailedMetrics() const {
     metrics["cache"]["hit_rate"] = stats.cache_hit_rate;
     metrics["cache"]["hits"] = stats.cache_hits;
     metrics["cache"]["misses"] = stats.cache_misses;
+    metrics["cache"]["cache_miss"] = stats.cache_misses;
     metrics["cache"]["tokens_saved"] = stats.tokens_saved_by_cache;
     
     // Batch metrics
@@ -655,6 +699,9 @@ json InferenceEngineEnhanced::getDetailedMetrics() const {
     metrics["batch"]["avg_size"] = stats.avg_batch_size;
     metrics["batch"]["max_size"] = stats.max_batch_size_seen;
     metrics["batch"]["throughput_improvement"] = stats.throughput_improvement;
+    metrics["batch"]["batch_retry_count"] = batch_scheduler_
+        ? batch_scheduler_->getStats().batch_retry_count
+        : 0;
     
     // Queue metrics
     metrics["queue"]["total_requests"] = stats.total_requests;
@@ -677,10 +724,28 @@ json InferenceEngineEnhanced::getDetailedMetrics() const {
     // Speculative decoding
     metrics["speculative"]["enabled"] = config_.enable_speculative_decoding;
     metrics["speculative"]["draft_tokens_total"] = stats.speculative_draft_tokens_total;
+    metrics["speculative"]["drafted_tokens"] = stats.speculative_draft_tokens_total;
     metrics["speculative"]["accepted_tokens"]    = stats.speculative_accepted_tokens;
     metrics["speculative"]["rejected_tokens"]    = stats.speculative_rejected_tokens;
     metrics["speculative"]["avg_acceptance_rate"] = stats.speculative_avg_acceptance_rate;
+    metrics["speculative"]["accept_rate"] = stats.speculative_avg_acceptance_rate;
     metrics["speculative"]["steps"]              = stats.speculative_steps;
+    metrics["feature_flags"]["lookup_decoding"] = config_.enable_lookup_decoding;
+    metrics["feature_flags"]["adaptive_batch_retry"] = config_.enable_adaptive_batch_retry;
+
+    // Lookup decoder statistics (if enabled)
+    if (lookup_decoder_) {
+        const auto ls = lookup_decoder_->getStats();
+        metrics["lookup_decoding"]["probe_calls"]           = ls.total_probe_calls;
+        metrics["lookup_decoding"]["hits"]                  = ls.total_hits;
+        metrics["lookup_decoding"]["hit_rate"]              = ls.hit_rate();
+        metrics["lookup_decoding"]["draft_tokens_proposed"] = ls.total_draft_tokens_proposed;
+    } else {
+        metrics["lookup_decoding"]["probe_calls"]           = 0;
+        metrics["lookup_decoding"]["hits"]                  = 0;
+        metrics["lookup_decoding"]["hit_rate"]              = 0.0;
+        metrics["lookup_decoding"]["draft_tokens_proposed"] = 0;
+    }
     
     return metrics;
 }
@@ -1025,6 +1090,17 @@ void InferenceEngineEnhanced::processBatch(
             // Build an effective request that wraps the stream_callback so
             // cancellation is propagated at every token boundary.
             InferenceRequest effective_request = req.base_request;
+            if (!req.shard_routing_key.empty()) {
+                effective_request.metadata["raid_sharding"]["routing_key"] = req.shard_routing_key;
+            }
+            if (!req.target_instance_ids.empty()) {
+                effective_request.metadata["raid_sharding"]["target_instance_ids"] =
+                    req.target_instance_ids;
+            }
+            // Keep this boolean always present so downstream coordinators can
+            // distinguish "explicitly disabled" from "field omitted".
+            effective_request.metadata["raid_sharding"]["allow_cross_instance_batching"] =
+                req.allow_cross_instance_batching;
             auto cancel_token = tracked->cancel_token;
             auto deadline = tracked->deadline;
             if (effective_request.stream_callback) {
@@ -1062,15 +1138,18 @@ void InferenceEngineEnhanced::processBatch(
 
             if (speculative_decoder_ && !grammar_active) {
                 // speculative_decoder_ is non-null only when
-                // enable_speculative_decoding == true and
-                // speculative_draft_model_id is non-empty (enforced in
-                // the constructor), so those two conditions are redundant here.
+                // enable_speculative_decoding == true.
+                // Resolve the draft model ID dynamically: use the explicit
+                // config value when set, otherwise auto-discover via the
+                // adapter registry (DRAFT role, matching model family).
+
+                const std::string draft_model_id = resolveDraftModelId(model_id);
 
                 // Retrieve the draft model plugin.
                 std::shared_ptr<ILLMPlugin> draft_plugin;
-                {
+                if (!draft_model_id.empty()) {
                     std::lock_guard<std::mutex> lock(models_mutex_);
-                    auto it = models_.find(config_.speculative_draft_model_id);
+                    auto it = models_.find(draft_model_id);
                     if (it != models_.end() && it->second.is_available) {
                         draft_plugin = it->second.plugin;
                     }
@@ -1082,7 +1161,40 @@ void InferenceEngineEnhanced::processBatch(
                 } else {
                     spdlog::debug("Draft model '{}' not available; falling back to "
                                   "standard generation for request {}",
-                                  config_.speculative_draft_model_id, req.request_id);
+                                  draft_model_id.empty() ? "(none resolved)" : draft_model_id,
+                                  req.request_id);
+                }
+            }
+
+            // Lookup decoder (n-gram based, draft-model-free).
+            // Active when enable_lookup_decoding == true and neither grammar
+            // constraints nor draft-model speculative decoding are engaged.
+            if (!used_speculative && lookup_decoder_ && !grammar_active) {
+                const auto& prompt = effective_request.prompt;
+                // Build the prompt n-gram index for this request.
+                // Note: estimateTokenSequence() uses a 4-chars-per-token heuristic
+                // (the ILLMPlugin interface does not expose a standalone tokenize()
+                // method).  The draft proposals are informational hints only;
+                // the plugin may accept or ignore them, and standard generation
+                // is always used as the fallback.  Accuracy improves when actual
+                // tokenization is available through plugin-level integration.
+                const auto prompt_tokens = estimateTokenSequence(prompt);
+                lookup_decoder_->buildFromPrompt(prompt_tokens);
+
+                // Propose draft tokens from the prompt context.
+                const auto max_draft = (config_.lookup_max_draft_tokens > 0)
+                                           ? config_.lookup_max_draft_tokens
+                                           : config_.lookup_ngram_max;
+                const auto drafts = lookup_decoder_->proposeDraftTokens(prompt_tokens, max_draft);
+
+                if (!drafts.empty()) {
+                    spdlog::debug("Lookup decoder proposed {} draft tokens for request {}",
+                                  drafts.size(), req.request_id);
+                    // Attach draft hints into the request metadata for the plugin.
+                    // The plugin may or may not use them; standard generation
+                    // is used as fallback regardless.
+                    effective_request.metadata["lookup_decoding"]["draft_tokens"] = drafts;
+                    effective_request.metadata["lookup_decoding"]["ngram_hit"] = true;
                 }
             }
 
@@ -1541,12 +1653,63 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
     draft_request.stream_callback = nullptr;
 
     InferenceResponse draft_response;
-    try {
-        draft_response = draft_plugin->generate(draft_request);
-    } catch (const std::exception& e) {
-        spdlog::warn("Draft model generation failed: {} — falling back to target",
-                     e.what());
-        return false;
+
+    // ── Remote draft path ─────────────────────────────────────────────────
+    // When a remote draft shard is configured and a RemoteExecutor is injected,
+    // attempt to fetch draft tokens from the remote shard first.  On any
+    // failure (network error, circuit-breaker open, empty response) we fall
+    // through to the local draft model below.
+    sharding::RemoteExecutor* remote_exec = nullptr;
+    sharding::ShardInfo        remote_shard;
+    {
+        std::lock_guard<std::mutex> lk(stats_mutex_);
+        remote_exec  = remote_executor_;
+        remote_shard = remote_draft_shard_info_;
+    }
+    const bool use_remote =
+        remote_exec != nullptr &&
+        speculative_decoder_ &&
+        !speculative_decoder_->getConfig().remote_draft_shard_id.empty();
+
+    if (use_remote) {
+        try {
+            const nlohmann::json body = {
+                {"prompt",     request.prompt},
+                {"max_tokens", static_cast<int>(config_.speculative_draft_tokens)},
+                {"model_id",   config_.speculative_draft_model_id}
+            };
+            const auto result = remote_exec->post(
+                remote_shard,
+                "/api/v1/llm/speculative/draft",
+                body
+            );
+            if (result.success && result.data.contains("text") &&
+                !result.data["text"].get<std::string>().empty())
+            {
+                draft_response.text = result.data["text"].get<std::string>();
+                spdlog::debug("Remote draft tokens fetched from shard '{}' ({} chars)",
+                              remote_shard.shard_id, draft_response.text.size());
+            } else {
+                spdlog::debug("Remote draft shard '{}' returned no tokens — "
+                              "falling back to local draft model",
+                              remote_shard.shard_id);
+            }
+        } catch (const std::exception& e) {
+            spdlog::warn("Remote draft dispatch to shard '{}' failed: {} — "
+                         "falling back to local draft model",
+                         remote_shard.shard_id, e.what());
+        }
+    }
+
+    // ── Local draft path (fallback or primary) ────────────────────────────
+    if (draft_response.text.empty()) {
+        try {
+            draft_response = draft_plugin->generate(draft_request);
+        } catch (const std::exception& e) {
+            spdlog::warn("Draft model generation failed: {} — falling back to target",
+                         e.what());
+            return false;
+        }
     }
 
     if (draft_response.text.empty()) {
@@ -1667,6 +1830,85 @@ std::vector<RoutingRule> InferenceEngineEnhanced::getRoutingRules() const {
 
 void InferenceEngineEnhanced::clearRoutingRules() {
     model_router_.clearRules();
+}
+
+// ═══════════════════════════════════════════════════════════
+// Draft-model resolution via AdapterRegistry
+// ═══════════════════════════════════════════════════════════
+
+std::string InferenceEngineEnhanced::resolveDraftModelId(
+    const std::string& target_model_id
+) const {
+    // Fast path: explicit draft model ID wins.
+    if (!config_.speculative_draft_model_id.empty()) {
+        return config_.speculative_draft_model_id;
+    }
+
+    // No registry attached → nothing to discover.
+    if (!adapter_registry_) {
+        return {};
+    }
+
+    // Determine the family/architecture of the target model.
+    // First try the ModelInfo metadata (architecture tag); if absent fall
+    // back to a simple heuristic of splitting the model_id on hyphens and
+    // using the first token as the family (e.g. "llama-7b" → "llama").
+    std::string family;
+    {
+        std::lock_guard<std::mutex> lock(models_mutex_);
+        auto it = models_.find(target_model_id);
+        if (it != models_.end() && it->second.plugin) {
+            auto info = it->second.plugin->getModelInfo();
+            if (info) {
+                // Prefer the architecture field from model metadata when present.
+                if (!info->architecture.empty()) {
+                    family = info->architecture;
+                } else if (!info->name.empty()) {
+                    // Fall back to first component of the model name.
+                    family = info->name;
+                    const auto pos = family.find('-');
+                    if (pos != std::string::npos) {
+                        family = family.substr(0, pos);
+                    }
+                }
+            }
+        }
+    }
+
+    if (family.empty()) {
+        // Last resort: derive from the model ID itself.
+        family = target_model_id;
+        const auto pos = family.find('-');
+        if (pos != std::string::npos) {
+            family = family.substr(0, pos);
+        }
+    }
+
+    // Query the registry for a DRAFT adapter matching this family.
+    auto draft_opt = adapter_registry_->findDraftAdapterForFamily(family);
+    if (!draft_opt.has_value()) {
+        return {};
+    }
+
+    const std::string& draft_id = draft_opt->adapter_id;
+
+    // Only use the draft adapter if its adapter_id is registered as a model
+    // in this engine instance (so the engine can call plugin->generate()).
+    {
+        std::lock_guard<std::mutex> lock(models_mutex_);
+        if (models_.count(draft_id) && models_.at(draft_id).is_available) {
+            spdlog::debug(
+                "InferenceEngineEnhanced: auto-selected DRAFT model '{}' for target '{}'",
+                draft_id, target_model_id);
+            return draft_id;
+        }
+    }
+
+    spdlog::debug(
+        "InferenceEngineEnhanced: DRAFT adapter '{}' found in registry but not registered "
+        "as a model — skipping auto-selection for target '{}'",
+        draft_id, target_model_id);
+    return {};
 }
 
 } // namespace llm

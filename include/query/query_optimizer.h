@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_optimizer.h                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:10:04                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     337                                            ║
+    • Total Lines:     334                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 3d37c77d3  2026-03-13  feat(query): wire StatisticsCollector and MetricsCollecto... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5af2d754f  2026-02-28  feat: integrate per-query cost model into query optimizer... ║
-    • 78e4e67bb  2026-02-25  feat(performance): per-query cost model integration with ... ║
+    • 3d37c77d33  2026-03-13  feat(query): wire StatisticsCollector and MetricsCollecto... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -34,6 +31,7 @@
 
 #include "query/query_engine.h"
 #include "query/adaptive_optimizer.h"
+#include "query/optimizer_cost_model.h"
 
 // Forward-declare PerQueryCostModel to avoid a hard dependency;
 // callers that want to use it must include the full header.
@@ -63,6 +61,9 @@ public:
         double nlp_complexity = 0.0;                // Query complexity estimate (0.0-1.0)
         std::vector<std::string> nlp_suggested_indexes; // Suggested index types
         std::map<std::string, std::string> nlp_hints;   // Semantic optimization hints
+
+        // Serialization + execution-path recommendation (SerializationStrategyAdvisor)
+        OptimizerCostModel::SerializationAdvice serialization_advice;
     };
 
     /// @param secIdx          Secondary index manager (required).
@@ -74,6 +75,24 @@ public:
 
     // Schätzt Selektivitäten der Gleichheitsprädikate und liefert eine Ordnung (kleinste zuerst)
     Plan chooseOrderForAndQuery(const ConjunctiveQuery& q, size_t maxProbePerPred = 1000) const;
+
+    // =============================
+    // Serialization Advisor tuning
+    // =============================
+
+    /**
+     * @brief Replace the cost constants used by the serialization-strategy advisor.
+     *
+     * Allows external calibration (e.g. via PerQueryCostModel::calibrate) to flow
+     * into subsequent chooseOrderForAndQuery() calls.  Thread-safe only with
+     * external serialization of calls to this method and chooseOrderForAndQuery().
+     */
+    void setAdvisorCostConstants(const OptimizerCostModel::CostConstants& c);
+
+    /**
+     * @brief Return a read-only reference to the advisor's current cost constants.
+     */
+    const OptimizerCostModel::CostConstants& advisorCostConstants() const;
     
     // NLP-enhanced query optimization (PR #317 Phase 1)
     // Combines traditional cost-based optimization with NLP-based semantic analysis
@@ -264,6 +283,11 @@ private:
 
     // Per-query cost model (Phase 3, Issue #2419)
     mutable std::shared_ptr<performance::phase3::PerQueryCostModel> per_query_cost_model_;
+
+    // Cost model instance shared across chooseOrderForAndQuery() calls so that
+    // calibrated constants (via setAdvisorCostConstants / PerQueryCostModel::calibrate)
+    // are preserved between calls instead of being discarded with a local instance.
+    OptimizerCostModel advisor_cost_model_;
 
     // Adaptive query optimization components
     // Use the full implementations from adaptive_optimizer.h

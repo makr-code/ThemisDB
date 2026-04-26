@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            i_maintenance_task_handler.h                       ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:08:40                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 717093f9b  2026-03-12  feat: implement IMaintenanceTaskHandler registry for main... ║
+    • 717093f9bc  2026-03-12  feat: implement IMaintenanceTaskHandler registry for main... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

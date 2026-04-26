@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            storage_interface.h                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:00                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     195                                            ║
+    • Total Lines:     194                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -102,11 +103,10 @@ public:
      * @return Result<void> – ok on success, error on failure.
      */
     virtual Result<void> scanRange(
-        std::string_view start_key,
-        std::string_view end_key,
-        std::function<bool(std::string_view key, std::string_view value)> callback)
+        [[maybe_unused]] std::string_view start_key,
+        [[maybe_unused]] std::string_view end_key,
+        [[maybe_unused]] std::function<bool(std::string_view key, [[maybe_unused]] std::string_view value)> callback)
     {
-        (void)start_key; (void)end_key; (void)callback;
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                        "scanRange not implemented");
     }
@@ -123,10 +123,9 @@ public:
      * @return Result<void> – ok on success, error on failure.
      */
     virtual Result<void> scanPrefix(
-        std::string_view prefix,
-        std::function<bool(std::string_view key, std::string_view value)> callback)
+        [[maybe_unused]] std::string_view prefix,
+        [[maybe_unused]] std::function<bool(std::string_view key, [[maybe_unused]] std::string_view value)> callback)
     {
-        (void)prefix; (void)callback;
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                        "scanPrefix not implemented");
     }

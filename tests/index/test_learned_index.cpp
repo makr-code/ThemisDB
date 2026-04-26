@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_learned_index.cpp                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:22:56                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:51:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     430                                            ║
+    • Total Lines:     428                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5c7c84971  2026-02-27  Security fix: guard against integer-overflow DoS in deser... ║
-    • 1983b8223  2026-02-27  Implement learned index structures (ML-based B-tree repla... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

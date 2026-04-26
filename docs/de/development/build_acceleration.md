@@ -1,6 +1,6 @@
 # Building ThemisDB with Hardware Acceleration
 
-**Stand:** 5. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.0.0  
 **Kategorie:** Development
 
@@ -357,5 +357,5 @@ RUN apt-get update && apt-get install -y \
 - [Vulkan Backend Documentation](docs/performance/VULKAN_BACKEND.md)
 - [Hardware Acceleration Guide](docs/performance/HARDWARE_ACCELERATION.md)
 
-**Last Updated:** 20. November 2025  
+**Last Updated:** April 2026  
 **Version:** 1.0

@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_plugin_security_pe_cert_extraction.cpp        ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:31:17                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:55:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     483                                            ║
+    • Total Lines:     493                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 6b9a39c6d  2026-03-16  fix(acceleration): add CI workflow, fix overflow guard, c... ║
-    • adb14cd81  2026-03-16  feat(acceleration): implement PE certificate table extrac... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 6b9a39c6d8  2026-03-16  fix(acceleration): add CI workflow, fix overflow guard, c... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            oauth2_provider.cpp                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:19:54                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:50:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 1364ca87e  2026-03-11  fix: address code review – duplicate heading, curl overfl... ║
-    • 0f96c888e  2026-03-11  feat(server): implement OAuth2/OIDC provider (RFC 6749 + ... ║
+    • 1364ca87e9  2026-03-11  fix: address code review – duplicate heading, curl overfl... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

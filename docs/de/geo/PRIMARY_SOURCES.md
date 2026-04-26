@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [geo](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-04  
+**Datum:** 2026-04-17  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/geo/ARCHITECTURE.md`
@@ -25,21 +25,9 @@
 
 # Primary Sources — `geo`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`geo`** aus den Verzeichnissen `src/geo/` und/oder `include/geo/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`geo`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/geo/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/geo/ARCHITECTURE.md`](../../../src/geo/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/geo/AUDIT.md`](../../../src/geo/AUDIT.md) |
-| `CHANGELOG.md` | [`src/geo/CHANGELOG.md`](../../../src/geo/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/geo/FUTURE_ENHANCEMENTS.md`](../../../src/geo/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/geo/README.md`](../../../src/geo/README.md) |
-| `ROADMAP.md` | [`src/geo/ROADMAP.md`](../../../src/geo/ROADMAP.md) |
-| `SECURITY.md` | [`src/geo/SECURITY.md`](../../../src/geo/SECURITY.md) |
 
 ### `include/geo/`
 
@@ -53,6 +41,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`geo`** aus
 | `ROADMAP.md` | [`include/geo/ROADMAP.md`](../../../include/geo/ROADMAP.md) |
 | `SECURITY.md` | [`include/geo/SECURITY.md`](../../../include/geo/SECURITY.md) |
 
+### `src/geo/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/geo/ARCHITECTURE.md`](../../../src/geo/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/geo/AUDIT.md`](../../../src/geo/AUDIT.md) |
+| `CHANGELOG.md` | [`src/geo/CHANGELOG.md`](../../../src/geo/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/geo/FUTURE_ENHANCEMENTS.md`](../../../src/geo/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/geo/README.md`](../../../src/geo/README.md) |
+| `ROADMAP.md` | [`src/geo/ROADMAP.md`](../../../src/geo/ROADMAP.md) |
+| `SECURITY.md` | [`src/geo/SECURITY.md`](../../../src/geo/SECURITY.md) |
+
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-04*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*

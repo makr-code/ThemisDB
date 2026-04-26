@@ -1,6 +1,6 @@
 # Observability-Modul — Missing Implementations
 
-<!-- Status: current | validated: 2026-03-11 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Primärdokumentation: ../../../src/observability/ -->
 
 Dieser Report dokumentiert Funktionen, die in `src/observability/ROADMAP.md` oder anderen

@@ -1,5 +1,7 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Cache Module Roadmap
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · docs/de/src/cache/README.md -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
@@ -46,6 +48,11 @@ Production-ready multi-level cache (L1/L2/L3) with all four implementation phase
 - [x] `RedisCacheCoordinator` Async Pub/Sub Subscription Loop (v1.7.0) — exponential back-off reconnection (1 s → 30 s) with `cache.redis.reconnect` metric; `isConnected()` exposed in `GET /v1/admin/cache/health`; Windows stub replaced with `THEMIS_POSIX_SOCKETS` compile-time feature flag; noisy `THEMIS_WARN` in stub constructor downgraded to `THEMIS_DEBUG`; CI: `redis-cache-coordinator-async-loop-ci.yml`
 - [x] Warmup: Parallel Bulk Load (v1.8.0, Issue: #244) — `src/cache/warmup.cpp` rewrites `warmupFromLog()` with N `std::async` workers (one per CPU core); `Config::max_parallel_workers` (default: `std::thread::hardware_concurrency()`); `WarmupResult::warmup_duration_ms` + `warmup_entries_per_second`; per-shard L1/L2 insertion under existing mutexes; atomic aggregate counters; API response extended with timing/throughput fields; 4 new tests in `tests/test_cache_warmup.cpp`; CI: `cache-warmup-parallel-bulk-load-ci.yml`
 - [x] Lock-Free L1 Read Path (v1.9.0) — `l1_mutex_` → `std::shared_mutex`; `L1Entry` fields atomicised; `l1_cache_` stores `unique_ptr<L1Entry>`; `l1_eviction_mutex_` guards eviction strategy; lazy expiry via CAS on `expired_flag`; `onAccess()` removed from hot path
+- [x] `RequestCoalescer` — real Singleflight implementation (Issue: #4580) (2026-04-12)
+  - `include/cache/request_coalescer.h`; `promise/shared_future` inflight map
+  - `fn()` called exactly once per concurrent in-flight key group; results broadcast to all waiters
+  - Exception from `fn()` propagated as `success=false` + error message to all waiters
+  - 14 focused tests (RC-01…RC-14) in `tests/test_request_coalescer.cpp`
 
 ## Implementation Phases
 
@@ -98,7 +105,19 @@ Production-ready multi-level cache (L1/L2/L3) with all four implementation phase
 - Distributed cache coordination (`RedisCacheCoordinator`) requires an external Redis server; enable via `THEMIS_ENABLE_REDIS=ON` and link hiredis. The coordinator degrades gracefully when Redis is unavailable.
 - Predictive pre-fetching is implemented (`PredictivePrefetcher`, opt-in via `enable_predictive_prefetch`); actual pre-warm scheduling is delegated to the caller.
 - Cache entries are not encrypted at rest (L3); enable RocksDB encryption at the storage layer for at-rest protection.
+- **[D-1] `distributed_cache_coordinator.cpp::verifyHmac()`**: Non-POSIX stub returns `true` unconditionally — HMAC validation silently disabled on Windows and non-POSIX platforms even when an HMAC secret is configured.
+- **[C-1] `adaptive_query_cache.cpp` `put()`/`get()`**: L2 (WARM tier) entries stored under bare `fingerprint` but looked up under tenant-prefixed `key` when `enable_tenant_isolation = true` — L2 permanently empty in multi-tenant deployments.
+- **[C-2] `adaptive_query_cache.cpp::invalidate()`**: `l3_db_->del()` called after `l3_mutex_` is released — null pointer dereference if L3 is reset concurrently.
 
 ## Breaking Changes
 - Admin API endpoints (`/v1/admin/cache/`) were introduced as new endpoints; non-breaking to existing cache read/write/invalidate API.
 - Distributed cache configuration adds new optional fields for cluster mode; existing single-node configurations are unaffected.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Aktiv (implementiert + externer Aufrufer bestätigt)
+
+- `AdaptiveQueryCache` – LRU-/TTL-basierter Query-Result-Cache; wired in CacheAdminApiHandler + HttpServer
+

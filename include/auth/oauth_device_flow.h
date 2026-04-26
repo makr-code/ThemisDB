@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            oauth_device_flow.h                                ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-03-30 04:05:57                                ║
+  Version:         0.0.20                                             ║
+  Last Modified:   2026-04-15 18:44:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     202                                            ║
+    • Total Lines:     198                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d0b6d3475  2026-02-24  Enable OAuth 2.0 device flow tests and update ROADMAP status ║
-    • 8bd556e18  2026-02-24  feat(auth): complete audit logging coverage for SAML, OAu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • c19ab9056  2026-02-22  Implement OAuth 2.0 device authorization flow (RFC 8628) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rlaif_trainer.cpp                                  ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:19:02                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:50:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     608                                            ║
+    • Total Lines:     619                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 7811d1486  2026-03-27  feat: Enhance backward compatibility and legacy support a... ║
-    • d6f254c93  2026-03-24  fix(rag): fix IAIJudge interface, PIMPL destructor, and m... ║
-    • 609fbdaa5  2026-03-24  Changes before error encountered         ║
+    • 7811d1486a  2026-03-27  feat: Enhance backward compatibility and legacy support a... ║
+    • d6f254c93e  2026-03-24  fix(rag): fix IAIJudge interface, PIMPL destructor, and m... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -175,6 +174,9 @@ struct RLAIFTrainer::Impl {
 
     // Queue for batch processing.
     std::vector<std::pair<std::string, std::string>> queue; // (query, draft)
+
+    // DK-5: Cross-shard feedback counters
+    CrossShardStats cross_shard_stats;
 };
 
 // ============================================================
@@ -614,6 +616,24 @@ RLAIFTrainer RLAIFTrainerFactory::createWithJudge(
         trainer.loadDefaultPrinciples();
     }
     return trainer;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DK-5: Cross-shard RLAIF feedback ingestion
+// ─────────────────────────────────────────────────────────────────────────────
+
+void RLAIFTrainer::addCrossShardSummary(
+    const distributed_knowledge::FeedbackSummary& /*summary*/,
+    const PreferencePair& synthetic_pair)
+{
+    ++impl_->cross_shard_stats.received_summaries;
+    impl_->dataset.push_back(synthetic_pair);
+    ++impl_->cross_shard_stats.applied_pairs;
+}
+
+RLAIFTrainer::CrossShardStats RLAIFTrainer::getCrossShardStats() const
+{
+    return impl_->cross_shard_stats;
 }
 
 } // namespace themis::rag::training

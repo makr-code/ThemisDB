@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jwt_validator.cpp                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:14:11                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     862                                            ║
+    • Total Lines:     859                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 435595de1  2026-03-22  Changes before error encountered         ║
-    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
-    • 76eef4d70  2026-03-15  feat(auth): implement JWT scope extraction and role-to-sc... ║
-    • c97360e57  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
-    • 3071a3bb7  2026-03-12  fix(auth): address JWT JTI reviewer feedback ║
+    • 435595de1f  2026-03-22  Changes before error encountered        ║
+    • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -164,6 +161,20 @@ nlohmann::json JWTValidator::fetchJWKS() {
         jwks_refreshing_ = true;
     }
 
+    struct ScopedRefreshReset final {
+        explicit ScopedRefreshReset(JWTValidator* v) : validator(v) {}
+        JWTValidator* const validator;
+        ScopedRefreshReset(const ScopedRefreshReset&) = delete;
+        ScopedRefreshReset& operator=(const ScopedRefreshReset&) = delete;
+        ScopedRefreshReset(ScopedRefreshReset&&) = delete;
+        ScopedRefreshReset& operator=(ScopedRefreshReset&&) = delete;
+        ~ScopedRefreshReset() noexcept {
+            std::lock_guard<std::mutex> refresh_lock(validator->jwks_refresh_mutex_);
+            validator->jwks_refreshing_ = false;
+            validator->jwks_refresh_cv_.notify_all();
+        }
+    } refresh_guard{this};
+
     // Perform the HTTP fetch completely outside all locks so concurrent
     // readers/validators are never stalled.
     nlohmann::json fetched_json;
@@ -285,13 +296,6 @@ nlohmann::json JWTValidator::fetchJWKS() {
             jwks_cache_time_ = cache_now;
         }
     }
-
-    // Release single-flight lock and wake any waiting threads.
-    {
-        std::lock_guard<std::mutex> refresh_lock(jwks_refresh_mutex_);
-        jwks_refreshing_ = false;
-    }
-    jwks_refresh_cv_.notify_all();
 
     if (fetch_exc) {
         std::rethrow_exception(fetch_exc);

@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cuda_hnsw_graph_traversal.cpp                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:26:24                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:53:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     224                                            ║
+    • Total Lines:     343                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 15e6e3143  2026-03-09  feat: implement all features from problem statement ║
+    • da22cf1ef2  2026-04-13  feat(acceleration): CUDA HNSW visited array memory scalin... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -217,6 +217,124 @@ TEST(CudaHnswEngine, BatchSearchReturnsResultsForEachQuery) {
     ASSERT_EQ(results.size(), NQ);
     for (const auto& r : results) {
         EXPECT_EQ(r.size(), K);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// setMaxBatchSize / visited pool
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(CudaHnswEngine, SetMaxBatchSizeDefaultIs512) {
+    CudaHnswConfig cfg;
+    cfg.dim = 4;
+    CudaHnswTraversalEngine engine(cfg);
+    EXPECT_EQ(engine.maxBatchSize(), 512u);
+}
+
+TEST(CudaHnswEngine, SetMaxBatchSizeUpdatesValue) {
+    CudaHnswConfig cfg;
+    cfg.dim = 4;
+    CudaHnswTraversalEngine engine(cfg);
+    engine.setMaxBatchSize(128);
+    EXPECT_EQ(engine.maxBatchSize(), 128u);
+}
+
+TEST(CudaHnswEngine, SetMaxBatchSizeZeroClampedToOne) {
+    CudaHnswConfig cfg;
+    cfg.dim = 4;
+    CudaHnswTraversalEngine engine(cfg);
+    engine.setMaxBatchSize(0);
+    EXPECT_GE(engine.maxBatchSize(), 1u);
+}
+
+TEST(CudaHnswEngine, HasVisitedPoolFalseBeforeBuild) {
+    CudaHnswConfig cfg;
+    cfg.dim = 4;
+    CudaHnswTraversalEngine engine(cfg);
+    // Pool not allocated until buildIndex() is called
+    EXPECT_FALSE(engine.hasVisitedPool());
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Chunked batch processing (max_batch_size < num_queries)
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(CudaHnswEngine, ChunkedBatchSearchSmallPool) {
+    // Build an engine with max_batch_size=2 so that a 5-query batch triggers
+    // chunked processing (5 > 2).  Results must still be correct.
+    constexpr uint32_t N   = 8;
+    constexpr uint32_t DIM = 2;
+    constexpr uint32_t K   = 2;
+    constexpr uint32_t NQ  = 5;  // More than max_batch_size
+
+    CudaHnswConfig cfg;
+    cfg.dim = DIM;
+    CudaHnswTraversalEngine engine(cfg);
+    engine.setMaxBatchSize(2);  // Force chunking
+
+    std::vector<float> vecs;
+    for (uint32_t i = 0; i < N; ++i) {
+        vecs.push_back(static_cast<float>(i));
+        vecs.push_back(0.0f);
+    }
+
+    auto g = makeFullGraph(N);
+    ASSERT_TRUE(engine.buildIndex({g}, vecs.data(), N));
+
+    std::vector<float> queries(NQ * DIM, 0.0f);
+    auto results = engine.batchSearch(queries.data(), NQ, K);
+
+    ASSERT_EQ(results.size(), static_cast<size_t>(NQ))
+        << "Chunked batch search must return results for every query";
+    for (size_t qi = 0; qi < NQ; ++qi) {
+        EXPECT_EQ(results[qi].size(), static_cast<size_t>(K))
+            << "Query " << qi << " must return exactly K=" << K << " results";
+    }
+}
+
+TEST(CudaHnswEngine, ChunkedBatchSearchResultsCorrect) {
+    // Verify that chunked processing (pool smaller than batch) returns results
+    // consistent with a single-batch search.
+    constexpr uint32_t N   = 6;
+    constexpr uint32_t DIM = 1;
+    constexpr uint32_t K   = 1;
+    constexpr uint32_t NQ  = 4;
+
+    CudaHnswConfig cfg;
+    cfg.dim    = DIM;
+    cfg.metric = HnswDistanceMetric::L2;
+
+    // Engine A: default batch size (no chunking for NQ=4)
+    CudaHnswTraversalEngine engineA(cfg);
+    engineA.setMaxBatchSize(512);
+
+    // Engine B: max_batch_size=1 (one query per kernel launch)
+    CudaHnswTraversalEngine engineB(cfg);
+    engineB.setMaxBatchSize(1);
+
+    std::vector<float> vecs;
+    for (uint32_t i = 0; i < N; ++i) vecs.push_back(static_cast<float>(i));
+
+    auto g = makeFullGraph(N);
+    ASSERT_TRUE(engineA.buildIndex({g}, vecs.data(), N));
+    ASSERT_TRUE(engineB.buildIndex({g}, vecs.data(), N));
+
+    // Queries at 0, 1, 2, 3
+    std::vector<float> queries = {0.0f, 1.0f, 2.0f, 3.0f};
+
+    auto resA = engineA.batchSearch(queries.data(), NQ, K);
+    auto resB = engineB.batchSearch(queries.data(), NQ, K);
+
+    ASSERT_EQ(resA.size(), static_cast<size_t>(NQ));
+    ASSERT_EQ(resB.size(), static_cast<size_t>(NQ));
+
+    for (size_t qi = 0; qi < NQ; ++qi) {
+        ASSERT_FALSE(resA[qi].empty());
+        ASSERT_FALSE(resB[qi].empty());
+        // Both engines must agree on the nearest neighbour
+        EXPECT_EQ(resA[qi][0].id, resB[qi][0].id)
+            << "Chunked and non-chunked must agree on nearest neighbour for query "
+            << qi;
     }
 }
 

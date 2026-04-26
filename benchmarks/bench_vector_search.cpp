@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_vector_search.cpp                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:04:32                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:43:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     177                                            ║
+    • Total Lines:     352                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -33,6 +32,7 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
+#include <chrono>
 
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
@@ -45,16 +45,74 @@ using themis::VectorIndexManager;
 namespace {
 
 struct VecUtil {
-    static std::vector<float> randomVec(int dim, std::mt19937& rng) {
+    static std::vector<float> randomVec(int dim, std::mt19937& rng, bool normalize = true) {
         std::uniform_real_distribution<float> dist(0.0f, 1.0f);
         std::vector<float> v(dim);
         for (int i = 0; i < dim; ++i) v[i] = dist(rng);
-        // L2-Normalisieren für COSINE stabilere Werte
-        float s = 0.0f; for (float x : v) s += x * x; s = std::sqrt(std::max(s, 1e-12f));
-        for (float& x : v) x /= s;
+        if (normalize) {
+            // L2-Normalisieren für COSINE stabilere Werte
+            float s = 0.0f;
+            for (float x : v) s += x * x;
+            s = std::sqrt(std::max(s, 1e-12f));
+            for (float& x : v) x /= s;
+        }
         return v;
     }
 };
+
+struct ExactCaseEnv {
+    std::string db_path;
+    std::shared_ptr<RocksDBWrapper> db;
+    std::shared_ptr<VectorIndexManager> vix;
+    std::vector<std::vector<float>> dataset;
+};
+
+ExactCaseEnv buildExactCaseEnv(
+    int dim,
+    size_t n_vectors,
+    VectorIndexManager::Metric metric,
+    bool normalize_for_cosine,
+    const char* name_suffix
+) {
+    ExactCaseEnv env;
+    env.db_path = std::string("data/themis_bench_vector_exact_") + name_suffix + "_" +
+                  std::to_string(std::chrono::steady_clock::now().time_since_epoch().count());
+    std::error_code ec;
+    std::filesystem::remove_all(env.db_path, ec);
+
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = env.db_path;
+    cfg.memtable_size_mb = 128;
+    cfg.block_cache_size_mb = 256;
+    cfg.compression_default = "lz4";
+    cfg.compression_bottommost = "zstd";
+
+    env.db = std::make_shared<RocksDBWrapper>(cfg);
+    if (!env.db->open()) {
+        throw std::runtime_error("Failed to open RocksDB for exact vector case");
+    }
+
+    env.vix = std::make_shared<VectorIndexManager>(*env.db);
+    auto st = env.vix->init("chunks", dim, metric, /*M*/16, /*efC*/200, /*ef*/128);
+    if (!st.ok) {
+        throw std::runtime_error("VectorIndex init failed: " + st.message);
+    }
+
+    env.dataset.reserve(n_vectors);
+    std::mt19937 rng(99);
+    for (size_t i = 0; i < n_vectors; ++i) {
+        auto vec = VecUtil::randomVec(dim, rng, normalize_for_cosine);
+        env.dataset.push_back(vec);
+        BaseEntity e("exact_" + std::to_string(i));
+        e.setField("embedding", themis::Value{vec});
+        auto rst = env.vix->addEntity(e);
+        if (!rst.ok) {
+            throw std::runtime_error("addEntity failed at i=" + std::to_string(i));
+        }
+    }
+
+    return env;
+}
 
 struct SearchEnv {
     std::shared_ptr<RocksDBWrapper> db;
@@ -163,6 +221,119 @@ static void BM_VectorInsert_Batch100(benchmark::State& state) {
     state.counters["inserted"] = static_cast<double>(inserted);
 }
 
+// ---------------------------------------------------------------------------
+// Exact case: L2Distance/1000/512
+static void BM_L2Distance_1000_512(benchmark::State& state) {
+    auto env = buildExactCaseEnv(
+        /*dim*/512,
+        /*n_vectors*/1000,
+        VectorIndexManager::Metric::L2,
+        /*normalize_for_cosine*/false,
+        "l2_1000_512"
+    );
+
+    std::mt19937 rng(1234);
+    std::uniform_int_distribution<size_t> pick(0, env.dataset.size() - 1);
+    size_t queries = 0;
+
+    for (auto _ : state) {
+        const auto& q = env.dataset[pick(rng)];
+        auto [status, res] = env.vix->searchKnn(q, 10);
+        if (!status.ok) {
+            state.SkipWithError(status.message.c_str());
+            break;
+        }
+        benchmark::DoNotOptimize(res);
+        ++queries;
+    }
+
+    state.counters["vectors"] = 1000;
+    state.counters["dim"] = 512;
+    state.counters["k"] = 10;
+    state.counters["queries"] = static_cast<double>(queries);
+    state.counters["qps"] = benchmark::Counter(static_cast<double>(queries), benchmark::Counter::kIsRate);
+
+    env.db->close();
+    std::error_code ec;
+    std::filesystem::remove_all(env.db_path, ec);
+}
+
+// ---------------------------------------------------------------------------
+// Exact case: CosineDistance/1000/512
+static void BM_CosineDistance_1000_512(benchmark::State& state) {
+    auto env = buildExactCaseEnv(
+        /*dim*/512,
+        /*n_vectors*/1000,
+        VectorIndexManager::Metric::COSINE,
+        /*normalize_for_cosine*/true,
+        "cos_1000_512"
+    );
+
+    std::mt19937 rng(5678);
+    std::uniform_int_distribution<size_t> pick(0, env.dataset.size() - 1);
+    size_t queries = 0;
+
+    for (auto _ : state) {
+        const auto& q = env.dataset[pick(rng)];
+        auto [status, res] = env.vix->searchKnn(q, 10);
+        if (!status.ok) {
+            state.SkipWithError(status.message.c_str());
+            break;
+        }
+        benchmark::DoNotOptimize(res);
+        ++queries;
+    }
+
+    state.counters["vectors"] = 1000;
+    state.counters["dim"] = 512;
+    state.counters["k"] = 10;
+    state.counters["queries"] = static_cast<double>(queries);
+    state.counters["qps"] = benchmark::Counter(static_cast<double>(queries), benchmark::Counter::kIsRate);
+
+    env.db->close();
+    std::error_code ec;
+    std::filesystem::remove_all(env.db_path, ec);
+}
+
+// ---------------------------------------------------------------------------
+// Exact case: TopK/5000/50
+static void BM_TopK_5000_50(benchmark::State& state) {
+    auto env = buildExactCaseEnv(
+        /*dim*/256,
+        /*n_vectors*/5000,
+        VectorIndexManager::Metric::COSINE,
+        /*normalize_for_cosine*/true,
+        "topk_5000_50"
+    );
+
+    env.vix->setEfSearch(256);
+
+    std::mt19937 rng(2468);
+    std::uniform_int_distribution<size_t> pick(0, env.dataset.size() - 1);
+    size_t queries = 0;
+
+    for (auto _ : state) {
+        const auto& q = env.dataset[pick(rng)];
+        auto [status, res] = env.vix->searchKnn(q, 50);
+        if (!status.ok) {
+            state.SkipWithError(status.message.c_str());
+            break;
+        }
+        benchmark::DoNotOptimize(res);
+        ++queries;
+    }
+
+    state.counters["vectors"] = 5000;
+    state.counters["dim"] = 256;
+    state.counters["k"] = 50;
+    state.counters["queries"] = static_cast<double>(queries);
+    state.counters["qps"] = benchmark::Counter(static_cast<double>(queries), benchmark::Counter::kIsRate);
+
+    env.db->close();
+    std::error_code ec;
+    std::filesystem::remove_all(env.db_path, ec);
+}
+
 // Register
 BENCHMARK(BM_VectorSearch_efSearch)
     ->Args({32, 10})
@@ -175,3 +346,7 @@ BENCHMARK(BM_VectorInsert_Batch100)
     ->Args({64})  // dim=64
     ->Args({128}) // dim=128
     ->Unit(benchmark::kMillisecond);
+
+BENCHMARK(BM_L2Distance_1000_512)->Unit(benchmark::kMillisecond)->UseRealTime();
+BENCHMARK(BM_CosineDistance_1000_512)->Unit(benchmark::kMillisecond)->UseRealTime();
+BENCHMARK(BM_TopK_5000_50)->Unit(benchmark::kMillisecond)->UseRealTime();

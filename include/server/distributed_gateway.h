@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            distributed_gateway.h                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:11:07                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:46:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c4f67f41c  2026-03-11  fix(server): audit gaps – quorum detection CRITICAL log, ... ║
-    • 46bcc08db  2026-03-11  feat(server): implement distributed API gateway with Raft... ║
+    • c4f67f41ce  2026-03-11  fix(server): audit gaps – quorum detection CRITICAL log, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -321,7 +320,7 @@ public:
      * Delegates to the underlying APIGateway::registerHandler so that callers
      * do not need to hold a reference to the wrapped single-node gateway.
      *
-     * @param pattern Path pattern (e.g., "/api/v1/custom/*")
+     * @param pattern Path pattern (e.g., "/api/v1/custom/{name}")
      * @param handler Handler function
      */
     void registerHandler(

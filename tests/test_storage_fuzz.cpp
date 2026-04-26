@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_storage_fuzz.cpp                              ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-30 04:34:08                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:57:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     371                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -78,7 +75,7 @@ protected:
 // Helper: replay all WAL entries into a map
 // ─────────────────────────────────────────────────────────────────────────────
 static std::map<std::string, std::string> replayToMap(
-    const std::string& dir, WALStorage::Config cfg)
+    [[maybe_unused]] const std::string& dir, WALStorage::Config cfg)
 {
     std::map<std::string, std::string> db;
     WALStorage::RecoveryCallback cb = [&](const WALStorage::Entry& e) {
@@ -113,7 +110,7 @@ TEST_F(StorageFuzzTest, RandomisedPutDel_FullRecovery) {
             std::string key = "k" + std::to_string(rng() % kKeys);
             if (rng() % 3 == 0) {
                 // DELETE
-                (*wal)->appendDelete(key);
+                (void)(*wal)->appendDelete(key);
                 reference.erase(key);
             } else {
                 // PUT
@@ -122,7 +119,7 @@ TEST_F(StorageFuzzTest, RandomisedPutDel_FullRecovery) {
                 reference[key] = val;
             }
         }
-        (*wal)->flush();
+        (void)(*wal)->flush();
     }
 
     // Recover
@@ -152,11 +149,11 @@ TEST_F(StorageFuzzTest, MultipleSeedFuzz_RecoveryConsistent) {
             for (int i = 0; i < kOps; ++i) {
                 std::string key = "k" + std::to_string(rng() % kKeys);
                 if (rng() % 4 == 0) {
-                    (*wal)->appendDelete(key);
+                    (void)(*wal)->appendDelete(key);
                     reference.erase(key);
                 } else {
                     std::string val = "v" + std::to_string(rng() % 10000);
-                    (*wal)->appendPut(key, val);
+                    (void)(*wal)->appendPut(key, val);
                     reference[key] = val;
                 }
             }
@@ -184,7 +181,7 @@ TEST_F(StorageFuzzTest, CrashSim_TruncateFile_PartialEntriesSurvive) {
             ASSERT_TRUE((*wal)->appendPut(k, v).has_value());
             written.emplace_back(k, v);
         }
-        (*wal)->flush();
+        (void)(*wal)->flush();
     }
 
     // Find the single segment file and truncate it to 75%
@@ -356,9 +353,9 @@ TEST_F(StorageFuzzTest, AlternatingPutDel_LastOpWins) {
         ASSERT_TRUE(wal.has_value());
         for (int i = 0; i < kFlips; ++i) {
             if (i % 2 == 0) {
-                (*wal)->appendPut(key, "val_" + std::to_string(i));
+                (void)(*wal)->appendPut(key, "val_" + std::to_string(i));
             } else {
-                (*wal)->appendDelete(key);
+                (void)(*wal)->appendDelete(key);
             }
         }
         // Last op is a DEL (kFlips=100 → last i=99, odd → DEL)

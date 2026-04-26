@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            distributed_graph.cpp                              ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:16:04                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 5bfa861df  2026-03-23  Add runtime DLL copying functionality and error handling ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • f3fc19790  2026-03-16  feat(graph): upgrade DistributedGraphManager to std::shar... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f9c01f781  2026-02-26  fix(graph): code audit fixes - dead ternary, undersized r... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -330,10 +327,10 @@ Result<std::vector<std::string>> DistributedGraphManager::kHopNeighbors(
 // ─────────────────────────────────────────────────────────────────────────────
 
 Result<GraphQueryOptimizer::OptimizationPlan> DistributedGraphManager::optimizePlan(
-    std::string_view start_vertex,
-    std::string_view target_vertex,
+    [[maybe_unused]] std::string_view start_vertex,
+    [[maybe_unused]] std::string_view target_vertex,
     GraphQueryOptimizer::QueryPattern pattern,
-    const GraphQueryOptimizer::QueryConstraints& constraints) {
+    [[maybe_unused]] const GraphQueryOptimizer::QueryConstraints& constraints) {
 
     auto shards = healthyShards();
     if (shards.empty()) {
@@ -345,7 +342,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> DistributedGraphManager::optimizeP
     // Use the first available shard's optimizer to generate a base plan, then
     // annotate it with shard-aware distribution metadata.
     auto& [first_shard_id, first_exec] = shards.front();
-    (void)first_exec; // reserved for future remote-plan generation
+    // reserved for future remote-plan generation
 
     // Build a base plan with sensible defaults for distributed execution.
     GraphQueryOptimizer::OptimizationPlan plan;

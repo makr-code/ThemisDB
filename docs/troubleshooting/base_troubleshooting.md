@@ -237,6 +237,6 @@ base:
 ## Related Documentation
 
 - [Base Module ROADMAP](../../src/base/ROADMAP.md)
-- [Base Roadmap](../base_roadmap.md)
+- [Base Roadmap](../de/roadmap/base_roadmap.md)
 - [Plugin System](./plugins_troubleshooting.md)
 - [Architecture Overview](../../ARCHITECTURE.md)

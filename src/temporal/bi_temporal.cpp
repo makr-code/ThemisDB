@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bi_temporal.cpp                                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:38                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     430                                            ║
+    • Total Lines:     428                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 6e698b5db  2026-03-12  fix(temporal): address PR review feedback on BiTemporalTable ║
-    • bf380a1af  2026-03-12  feat(temporal): add gap detection, uniqueness constraints... ║
-    • 6e8942ed4  2026-03-09  feat(temporal): implement bitemporal joins and SEQUENCED/... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 6e698b5dbb  2026-03-12  fix(temporal): address PR review feedback on BiTemporalTable ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -32,6 +29,7 @@
 
 #include "temporal/bi_temporal.h"
 #include <algorithm>
+#include <limits>
 
 namespace themisdb {
 namespace temporal {
@@ -368,6 +366,10 @@ std::vector<std::string> BiTemporalTable::getAllKeys() const {
 }
 
 // ============================================================================
+// Cross-node reconciliation
+// ============================================================================
+
+// ============================================================================
 // Metadata
 // ============================================================================
 
@@ -424,6 +426,73 @@ size_t BiTemporalTable::closeCurrentRows(
         }
     }
     return closed;
+}
+
+// ============================================================================
+// BiTemporalTable::merge — cross-node LWW reconciliation (v1.9.0)
+// ============================================================================
+
+BiTemporalTable::MergeResult BiTemporalTable::merge(const BiTemporalTable& other) {
+    // Take a snapshot of the other table's rows under its own mutex, then
+    // merge into our own table under our mutex.  Never hold both locks
+    // simultaneously to avoid potential deadlock.
+    std::map<std::string, std::vector<VersionedDocument>> other_snapshot;
+    {
+        std::lock_guard<std::mutex> lk_other(other.mutex_);
+        other_snapshot = other.rows_;
+    }
+
+    MergeResult result;
+    std::lock_guard<std::mutex> lk_self(mutex_);
+
+    for (const auto& [key, other_versions] : other_snapshot) {
+        auto& self_versions = rows_[key];  // creates empty VersionList if absent
+
+        for (const auto& o_row : other_versions) {
+            // Check whether an identical row already exists locally.
+            bool found_exact = false;
+            bool found_conflict = false;
+            std::size_t conflict_idx = std::numeric_limits<std::size_t>::max();
+
+            for (std::size_t i = 0; i < self_versions.size(); ++i) {
+                const auto& s_row = self_versions[i];
+                // Match on valid_time period (the bi-temporal key dimension).
+                if (s_row.valid_time == o_row.valid_time) {
+                    if (s_row.sys_time.start == o_row.sys_time.start &&
+                        s_row.data           == o_row.data) {
+                        found_exact = true;
+                        break;
+                    }
+                    // Different sys_time or data → LWW conflict
+                    found_conflict = true;
+                    conflict_idx   = i;
+                    break;
+                }
+            }
+
+            if (found_exact) {
+                ++result.rows_skipped;
+                continue;
+            }
+
+            if (found_conflict) {
+                // LWW: the row with the later sys_time.start wins.
+                if (o_row.sys_time.start > self_versions[conflict_idx].sys_time.start) {
+                    self_versions[conflict_idx] = o_row;
+                    ++result.conflicts_lww;
+                } else {
+                    ++result.rows_skipped;
+                }
+                continue;
+            }
+
+            // No matching valid_time found locally → insert the foreign row.
+            self_versions.push_back(o_row);
+            ++result.rows_inserted;
+        }
+    }
+
+    return result;
 }
 
 } // namespace temporal

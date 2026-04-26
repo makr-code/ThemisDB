@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cross_shard_transaction.cpp                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:13                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   73.0/100                                       ║
-    • Total Lines:     2757                                           ║
+    • Total Lines:     2731                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f71946369  2026-03-15  fix(sharding): remove dead-code `operations` var + fix in... ║
-    • 715714948  2026-03-15  feat(sharding): fix coordinator ID + implement SAGA compe... ║
-    • 57edae2d8  2026-03-14  fix: address all PR review comments on Percolator coordin... ║
-    • 7a60ba06c  2026-03-14  refactor: address code review feedback - extract helper, ... ║
-    • 2bbac9e44  2026-03-14  feat: implement Percolator-style distributed transaction ... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -376,7 +373,10 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
         return false;
     }
     
-    auto& txn = it->second;
+    // Copy the transaction by value before releasing the lock to avoid a dangling
+    // reference: a concurrent abort() could erase the map entry while we are
+    // executing the protocol outside the lock (CST-1).
+    auto txn = it->second;
     
     // Execute protocol-specific commit
     bool success = false;
@@ -405,26 +405,33 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
     }
     
     lock.lock();
-    if (success) {
-        txn.state = TransactionState::COMMITTED;
-        txn.end_time = std::chrono::system_clock::now();
-        committed_transactions_++;
-        persistTransactionState(transaction_id, TransactionState::COMMITTED);
-        spdlog::info("Transaction {} committed successfully", transaction_id);
-    } else {
-        txn.state = TransactionState::ABORTED;
-        txn.end_time = std::chrono::system_clock::now();
-        aborted_transactions_++;
-        persistTransactionState(transaction_id, TransactionState::ABORTED);
-        spdlog::error("Transaction {} commit failed, aborted", transaction_id);
+    // Re-look-up the entry after re-acquiring the lock; the entry may have been
+    // erased by a concurrent operation while the lock was released.
+    auto it2 = transactions_.find(transaction_id);
+    if (it2 != transactions_.end()) {
+        auto& live_txn = it2->second;
+        if (success) {
+            live_txn.state = TransactionState::COMMITTED;
+            live_txn.end_time = std::chrono::system_clock::now();
+            committed_transactions_++;
+            persistTransactionState(transaction_id, TransactionState::COMMITTED);
+            spdlog::info("Transaction {} committed successfully", transaction_id);
+        } else {
+            live_txn.state = TransactionState::ABORTED;
+            live_txn.end_time = std::chrono::system_clock::now();
+            aborted_transactions_++;
+            persistTransactionState(transaction_id, TransactionState::ABORTED);
+            spdlog::error("Transaction {} commit failed, aborted", transaction_id);
+        }
     }
     lock.unlock();
     
     // Replicate final state via consensus
     if (consensus_) {
+        auto final_state = success ? TransactionState::COMMITTED : TransactionState::ABORTED;
         consensus_->propose("FINALIZE_TRANSACTION", {
             {"transaction_id", transaction_id},
-            {"state", static_cast<int>(txn.state)}
+            {"state", static_cast<int>(final_state)}
         });
     }
     
@@ -440,17 +447,17 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
         return false;
     }
     
-    auto& txn = it->second;
+    // Copy the transaction by value before releasing the lock to avoid a dangling
+    // reference: a concurrent commit() could erase the map entry while we are
+    // sending abort RPCs outside the lock (CST-2).
+    auto txn = it->second;
     txn.state = TransactionState::ABORTING;
+    it->second.state = TransactionState::ABORTING;
     persistTransactionState(transaction_id, TransactionState::ABORTING);
     
     // Phase 2.3.4: Log ABORT decision to WAL
     if (transaction_wal_) {
         try {
-            nlohmann::json abort_data = {
-                {"reason", "explicit_abort"},
-                {"protocol", static_cast<int>(txn.protocol)}
-            };
             transaction_wal_->logAbort(txn.transaction_id, "coordinator_decision");
             operations_since_snapshot_++;
         } catch (const std::exception& e) {
@@ -460,7 +467,7 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
     
     lock.unlock();
     
-    // Send abort requests to all participants
+    // Send abort requests to all participants using the local copy.
     for (auto& [shard_id, participant] : txn.participants) {
         sendAbort(shard_id, transaction_id);
         participant.aborted = true;
@@ -477,10 +484,14 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
     }
     
     lock.lock();
-    txn.state = TransactionState::ABORTED;
-    txn.end_time = std::chrono::system_clock::now();
-    aborted_transactions_++;
-    persistTransactionState(transaction_id, TransactionState::ABORTED);
+    // Re-look-up after re-acquiring the lock so we update the live entry, not the copy.
+    auto it2 = transactions_.find(transaction_id);
+    if (it2 != transactions_.end()) {
+        it2->second.state = TransactionState::ABORTED;
+        it2->second.end_time = std::chrono::system_clock::now();
+        aborted_transactions_++;
+        persistTransactionState(transaction_id, TransactionState::ABORTED);
+    }
     
     // Phase 2.3.4: Check if snapshot needed
     if (transaction_wal_ && transaction_wal_->shouldCreateSnapshot(operations_since_snapshot_.load())) {
@@ -523,12 +534,15 @@ bool CrossShardTransactionCoordinator::executeSaga(
         return false;
     }
     
-    auto& txn = it->second;
-    if (txn.protocol != TransactionProtocol::SAGA) {
+    // Validate the protocol on the live entry while locked, then release.
+    if (it->second.protocol != TransactionProtocol::SAGA) {
         spdlog::error("Transaction {} is not a SAGA transaction", transaction_id);
         return false;
     }
     
+    // Do NOT hold a reference across the lock release (CST-3): after unlock a
+    // concurrent call could erase the map entry.  The only field needed during
+    // the unlocked section is the transaction_id (already a local string).
     lock.unlock();
     
     spdlog::info("Executing SAGA transaction {} with {} steps", 
@@ -560,8 +574,18 @@ bool CrossShardTransactionCoordinator::executeSaga(
         // Execute step - send operation to shard via RPC
         try {
             lock.lock();
-            auto participant_it = txn.participants.find(shard_id);
-            if (participant_it == txn.participants.end()) {
+            // Re-look-up the live transaction (txn reference was not kept across the lock
+            // release to avoid the CST-3 dangling reference).
+            auto saga_participant_it = transactions_.find(transaction_id);
+            if (saga_participant_it == transactions_.end()) {
+                lock.unlock();
+                spdlog::error("Transaction {} disappeared while executing SAGA step {}",
+                             transaction_id, i);
+                executeCompensations(transaction_id, executed_steps, compensations);
+                return false;
+            }
+            auto participant_it = saga_participant_it->second.participants.find(shard_id);
+            if (participant_it == saga_participant_it->second.participants.end()) {
                 lock.unlock();
                 spdlog::error("Shard {} not found in transaction {} participants", 
                             shard_id, transaction_id);
@@ -572,8 +596,7 @@ bool CrossShardTransactionCoordinator::executeSaga(
                 return false;
             }
             
-            auto& participant = participant_it->second;
-            std::string endpoint = participant.endpoint;
+            std::string endpoint = participant_it->second.endpoint;
             lock.unlock();
             
             // Create RPC client for this shard
@@ -688,9 +711,14 @@ bool CrossShardTransactionCoordinator::executeSaga(
     
     // All steps completed successfully
     lock.lock();
-    txn.state = TransactionState::COMMITTED;
-    txn.end_time = std::chrono::system_clock::now();
-    committed_transactions_++;
+    // Re-look-up the live entry; it may have been erased during the unlocked
+    // execution of the SAGA steps (CST-3 fix).
+    auto saga_it = transactions_.find(transaction_id);
+    if (saga_it != transactions_.end()) {
+        saga_it->second.state = TransactionState::COMMITTED;
+        saga_it->second.end_time = std::chrono::system_clock::now();
+        committed_transactions_++;
+    }
     lock.unlock();
     
     spdlog::info("SAGA transaction {} completed successfully with {} steps", 
@@ -1228,48 +1256,44 @@ bool CrossShardTransactionCoordinator::sendPrepare(
 ) {
     spdlog::debug("Sending prepare to shard {} for transaction {}", 
                   shard_id, transaction_id);
-    
-    std::lock_guard<std::mutex> lock(transactions_mutex_);
-    auto it = transactions_.find(transaction_id);
-    if (it == transactions_.end()) {
-        spdlog::error("Transaction {} not found", transaction_id);
-        return false;
-    }
-    
-    auto& txn = it->second;
-    auto participant_it = txn.participants.find(shard_id);
-    if (participant_it == txn.participants.end()) {
-        spdlog::error("Shard {} is not a participant in transaction {}", 
-                     shard_id, transaction_id);
-        return false;
-    }
-    
-    auto& participant = participant_it->second;
-    
-    // Create RPC client for this shard
-    try {
-        themis::sharding::ShardRPCClient::Config rpc_config;
-        rpc_config.endpoint = participant.endpoint;
-        rpc_config.timeout_ms = static_cast<int>(config_.prepare_timeout.count());
+
+    // Snapshot all data needed for the RPC under the lock, then release before
+    // doing any network I/O or exponential-backoff sleeps.
+    themis::sharding::ShardRPCClient::Config rpc_config;
+    nlohmann::json operations = nlohmann::json::array();
+    {
+        std::lock_guard<std::mutex> lock(transactions_mutex_);
+        auto it = transactions_.find(transaction_id);
+        if (it == transactions_.end()) {
+            spdlog::error("Transaction {} not found", transaction_id);
+            return false;
+        }
+        auto& txn = it->second;
+        auto participant_it = txn.participants.find(shard_id);
+        if (participant_it == txn.participants.end()) {
+            spdlog::error("Shard {} is not a participant in transaction {}", 
+                         shard_id, transaction_id);
+            return false;
+        }
+        auto& participant = participant_it->second;
+        rpc_config.endpoint    = participant.endpoint;
+        rpc_config.timeout_ms  = static_cast<int>(config_.prepare_timeout.count());
         rpc_config.max_retries = 3;
         rpc_config.retry_delay_ms = 100;
-        
-        themis::sharding::ShardRPCClient rpc_client(rpc_config);
-        
-        // Prepare operations for this shard
-        nlohmann::json operations = nlohmann::json::array();
         for (const auto& op : participant.operations) {
             operations.push_back(op);
         }
-        
-        // Send prepare request with retry logic
-        int retries = 0;
+    }
+    // Lock released – all network + sleep work happens outside transactions_mutex_.
+    try {
+        themis::sharding::ShardRPCClient rpc_client(rpc_config);
+
+        int retries  = 0;
         int delay_ms = rpc_config.retry_delay_ms;
-        
+
         while (retries <= rpc_config.max_retries) {
             try {
                 bool vote = rpc_client.prepare(transaction_id, operations);
-                
                 if (vote) {
                     spdlog::info("Shard {} voted COMMIT for transaction {}", 
                                shard_id, transaction_id);
@@ -1285,7 +1309,7 @@ bool CrossShardTransactionCoordinator::sendPrepare(
                                shard_id, retries + 1, rpc_config.max_retries + 1, 
                                e.what(), delay_ms);
                     std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
-                    delay_ms *= 2;  // Exponential backoff
+                    delay_ms *= 2;
                     retries++;
                 } else {
                     spdlog::error("Prepare RPC to shard {} failed after {} retries: {}", 
@@ -1294,11 +1318,8 @@ bool CrossShardTransactionCoordinator::sendPrepare(
                 }
             }
         }
-        
-        // Should not reach here, but return false for safety
         spdlog::error("Unexpected exit from prepare retry loop");
         return false;
-        
     } catch (const std::exception& e) {
         spdlog::error("Failed to create RPC client for shard {}: {}", 
                      shard_id, e.what());
@@ -1312,52 +1333,50 @@ bool CrossShardTransactionCoordinator::sendCommit(
 ) {
     spdlog::debug("Sending commit to shard {} for transaction {}", 
                   shard_id, transaction_id);
-    
-    std::lock_guard<std::mutex> lock(transactions_mutex_);
-    auto it = transactions_.find(transaction_id);
-    if (it == transactions_.end()) {
-        spdlog::error("Transaction {} not found", transaction_id);
-        return false;
-    }
-    
-    auto& txn = it->second;
-    auto participant_it = txn.participants.find(shard_id);
-    if (participant_it == txn.participants.end()) {
-        spdlog::error("Shard {} is not a participant in transaction {}", 
-                     shard_id, transaction_id);
-        return false;
-    }
-    
-    auto& participant = participant_it->second;
-    
-    // Use the commit timestamp from the transaction if available (for MVCC)
-    // Otherwise generate one
-    int64_t commit_timestamp = txn.commit_timestamp;
-    if (commit_timestamp == 0) {
-        commit_timestamp = generateCommitTimestamp(txn);
-        
-        // Store for consistency across all participants
-        txn.commit_timestamp = commit_timestamp;
-    }
-    
-    // Create RPC client for this shard
-    try {
-        themis::sharding::ShardRPCClient::Config rpc_config;
-        rpc_config.endpoint = participant.endpoint;
-        rpc_config.timeout_ms = static_cast<int>(config_.commit_timeout.count());
-        rpc_config.max_retries = 3;
+
+    // Snapshot all data needed for the RPC under the lock, then release before
+    // doing any network I/O or exponential-backoff sleeps.
+    themis::sharding::ShardRPCClient::Config rpc_config;
+    int64_t commit_timestamp = 0;
+    {
+        std::lock_guard<std::mutex> lock(transactions_mutex_);
+        auto it = transactions_.find(transaction_id);
+        if (it == transactions_.end()) {
+            spdlog::error("Transaction {} not found", transaction_id);
+            return false;
+        }
+        auto& txn = it->second;
+        auto participant_it = txn.participants.find(shard_id);
+        if (participant_it == txn.participants.end()) {
+            spdlog::error("Shard {} is not a participant in transaction {}", 
+                         shard_id, transaction_id);
+            return false;
+        }
+        auto& participant = participant_it->second;
+
+        // Resolve / allocate the MVCC commit timestamp while still under the lock
+        // so all participants for this transaction share the same value.
+        commit_timestamp = txn.commit_timestamp;
+        if (commit_timestamp == 0) {
+            commit_timestamp = generateCommitTimestamp(txn);
+            txn.commit_timestamp = commit_timestamp;
+        }
+
+        rpc_config.endpoint       = participant.endpoint;
+        rpc_config.timeout_ms     = static_cast<int>(config_.commit_timeout.count());
+        rpc_config.max_retries    = 3;
         rpc_config.retry_delay_ms = 100;
-        
+    }
+    // Lock released – all network + sleep work happens outside transactions_mutex_.
+    try {
         themis::sharding::ShardRPCClient rpc_client(rpc_config);
-        
-        // Send commit request with retry logic (using the commit_timestamp from above)
-        int retries = 0;
+
+        int retries  = 0;
         int delay_ms = rpc_config.retry_delay_ms;
-        
+
         while (retries <= rpc_config.max_retries) {
             try {
                 bool success = rpc_client.commit(transaction_id, commit_timestamp);
-                
                 if (success) {
                     spdlog::info("Shard {} committed transaction {} at timestamp {}", 
                                shard_id, transaction_id, commit_timestamp);
@@ -1373,7 +1392,7 @@ bool CrossShardTransactionCoordinator::sendCommit(
                                shard_id, retries + 1, rpc_config.max_retries + 1, 
                                e.what(), delay_ms);
                     std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
-                    delay_ms *= 2;  // Exponential backoff
+                    delay_ms *= 2;
                     retries++;
                 } else {
                     spdlog::error("Commit RPC to shard {} failed after {} retries: {}", 
@@ -1382,11 +1401,8 @@ bool CrossShardTransactionCoordinator::sendCommit(
                 }
             }
         }
-        
-        // Should not reach here, but return false for safety
         spdlog::error("Unexpected exit from commit retry loop");
         return false;
-        
     } catch (const std::exception& e) {
         spdlog::error("Failed to create RPC client for shard {}: {}", 
                      shard_id, e.what());
@@ -1400,42 +1416,40 @@ bool CrossShardTransactionCoordinator::sendAbort(
 ) {
     spdlog::debug("Sending abort to shard {} for transaction {}", 
                   shard_id, transaction_id);
-    
-    std::lock_guard<std::mutex> lock(transactions_mutex_);
-    auto it = transactions_.find(transaction_id);
-    if (it == transactions_.end()) {
-        spdlog::error("Transaction {} not found", transaction_id);
-        return false;
-    }
-    
-    auto& txn = it->second;
-    auto participant_it = txn.participants.find(shard_id);
-    if (participant_it == txn.participants.end()) {
-        spdlog::error("Shard {} is not a participant in transaction {}", 
-                     shard_id, transaction_id);
-        return false;
-    }
-    
-    auto& participant = participant_it->second;
-    
-    // Create RPC client for this shard
-    try {
-        themis::sharding::ShardRPCClient::Config rpc_config;
-        rpc_config.endpoint = participant.endpoint;
-        rpc_config.timeout_ms = static_cast<int>(config_.abort_timeout.count());
-        rpc_config.max_retries = 3;
+
+    // Snapshot all data needed for the RPC under the lock, then release before
+    // doing any network I/O or exponential-backoff sleeps.
+    themis::sharding::ShardRPCClient::Config rpc_config;
+    {
+        std::lock_guard<std::mutex> lock(transactions_mutex_);
+        auto it = transactions_.find(transaction_id);
+        if (it == transactions_.end()) {
+            spdlog::error("Transaction {} not found", transaction_id);
+            return false;
+        }
+        auto& txn = it->second;
+        auto participant_it = txn.participants.find(shard_id);
+        if (participant_it == txn.participants.end()) {
+            spdlog::error("Shard {} is not a participant in transaction {}", 
+                         shard_id, transaction_id);
+            return false;
+        }
+        auto& participant = participant_it->second;
+        rpc_config.endpoint       = participant.endpoint;
+        rpc_config.timeout_ms     = static_cast<int>(config_.abort_timeout.count());
+        rpc_config.max_retries    = 3;
         rpc_config.retry_delay_ms = 100;
-        
+    }
+    // Lock released – all network + sleep work happens outside transactions_mutex_.
+    try {
         themis::sharding::ShardRPCClient rpc_client(rpc_config);
-        
-        // Send abort request with retry logic
-        int retries = 0;
+
+        int retries  = 0;
         int delay_ms = rpc_config.retry_delay_ms;
-        
+
         while (retries <= rpc_config.max_retries) {
             try {
                 bool success = rpc_client.abort(transaction_id);
-                
                 if (success) {
                     spdlog::info("Shard {} aborted transaction {}", 
                                shard_id, transaction_id);
@@ -1443,8 +1457,7 @@ bool CrossShardTransactionCoordinator::sendAbort(
                 } else {
                     spdlog::warn("Shard {} reported abort failure for transaction {}", 
                                shard_id, transaction_id);
-                    // Abort is best-effort, so we consider it successful even if shard reports failure
-                    return true;
+                    return true; // best-effort
                 }
             } catch (const std::exception& e) {
                 if (retries < rpc_config.max_retries) {
@@ -1452,27 +1465,21 @@ bool CrossShardTransactionCoordinator::sendAbort(
                                shard_id, retries + 1, rpc_config.max_retries + 1, 
                                e.what(), delay_ms);
                     std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
-                    delay_ms *= 2;  // Exponential backoff
+                    delay_ms *= 2;
                     retries++;
                 } else {
                     spdlog::error("Abort RPC to shard {} failed after {} retries: {}", 
                                 shard_id, rpc_config.max_retries, e.what());
-                    // Abort is best-effort, so we consider it successful even after retries fail
-                    // Log this as a warning for monitoring
                     spdlog::warn("Abort considered successful despite failures (best-effort semantics)");
                     return true;
                 }
             }
         }
-        
-        // Should not reach here in normal flow
         spdlog::warn("Unexpected exit from abort retry loop - treating as successful (best-effort)");
         return true;
-        
     } catch (const std::exception& e) {
         spdlog::error("Failed to create RPC client for shard {}: {}", 
                      shard_id, e.what());
-        // Abort is best-effort, so we consider it successful even on client creation failure
         spdlog::warn("Abort considered successful despite client creation failure (best-effort semantics)");
         return true;
     }
@@ -1667,7 +1674,6 @@ void CrossShardTransactionCoordinator::executeCompensations(
     if (!executed_steps.empty()) {
         for (size_t j = executed_steps.size(); j > 0; --j) {
             const size_t idx = j - 1;
-            const auto& step = executed_steps[idx];
             const auto& compensation = compensations[idx];
             
             if (!compensation.contains("shard_id") || !compensation.contains("operation")) {
@@ -1699,33 +1705,31 @@ void CrossShardTransactionCoordinator::executeCompensations(
             }
             
             try {
-            std::lock_guard<std::mutex> lock(transactions_mutex_);
-            auto it = transactions_.find(transaction_id);
-            if (it == transactions_.end()) {
-                spdlog::error("Transaction {} not found during compensation", transaction_id);
-                continue;
-            }
-            
-            auto& txn = it->second;
-            auto participant_it = txn.participants.find(shard_id);
-            if (participant_it == txn.participants.end()) {
-                spdlog::error("Shard {} not found in transaction {} participants", 
-                            shard_id, transaction_id);
-                continue;
-            }
-            
-            auto& participant = participant_it->second;
-            std::string endpoint = participant.endpoint;
-            
-            // Create RPC client for compensation
+            // Snapshot endpoint under lock, then release before RPC + sleep.
             themis::sharding::ShardRPCClient::Config rpc_config;
-            rpc_config.endpoint = endpoint;
-            rpc_config.timeout_ms = static_cast<int>(config_.saga_step_timeout.count());
-            rpc_config.max_retries = 3;  // Retry compensations aggressively
-            rpc_config.retry_delay_ms = 100;
-            
+            {
+                std::lock_guard<std::mutex> lock(transactions_mutex_);
+                auto it = transactions_.find(transaction_id);
+                if (it == transactions_.end()) {
+                    spdlog::error("Transaction {} not found during compensation", transaction_id);
+                    continue;
+                }
+                auto& txn = it->second;
+                auto participant_it = txn.participants.find(shard_id);
+                if (participant_it == txn.participants.end()) {
+                    spdlog::error("Shard {} not found in transaction {} participants", 
+                                shard_id, transaction_id);
+                    continue;
+                }
+                auto& participant = participant_it->second;
+                rpc_config.endpoint       = participant.endpoint;
+                rpc_config.timeout_ms     = static_cast<int>(config_.saga_step_timeout.count());
+                rpc_config.max_retries    = 3;
+                rpc_config.retry_delay_ms = 100;
+            }
+            // Lock released – all RPC + sleep work happens outside transactions_mutex_.
             themis::sharding::ShardRPCClient rpc_client(rpc_config);
-            
+
             // Execute the SAGA compensation operation via a dedicated compensate RPC.
             // The operation JSON carries the reverse action (e.g., DELETE to undo INSERT)
             // that the shard will apply idempotently.

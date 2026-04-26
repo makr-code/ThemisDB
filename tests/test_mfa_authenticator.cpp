@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_mfa_authenticator.cpp                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:29:50                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:55:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     454                                            ║
+    • Total Lines:     451                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 94bb63df8  2026-03-12  feat(auth): TOTP/MFA configurable window enforcement and ... ║
-    • 6010e0a0d  2026-03-12  fix(auth): address review comments on timing documentatio... ║
-    • b4e979f80  2026-03-12  fix(auth): constant-time comparison for recovery codes an... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9e2379475  2026-02-24  audit: resolve Stubs:1 metadata in mfa_authenticator.h/.c... ║
+    • 94bb63df8d  2026-03-12  feat(auth): TOTP/MFA configurable window enforcement and ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

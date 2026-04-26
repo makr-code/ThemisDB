@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            index_manager.cpp                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:35                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     769                                            ║
+    • Total Lines:     860                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 49aa9b058  2026-03-02  Add modules, extraction retries, and test fixes ║
-    • bb886db93  2026-02-28  feat(index): implement SecondaryIndexAdapter for partial/... ║
-    • 0ed251f65  2026-02-28  feat(index): implement VectorIndexAdapter to resolve IVec... ║
-    • 92ff27163  2026-02-26  feat(index): implement multi-tenancy index isolation with... ║
+    • 649f5c7538  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • 7e8c588d0f  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -219,6 +219,33 @@ private:
 
 } // anonymous namespace
 
+namespace {
+
+/// Validates a string that will be used as a component in the tenant-scoped
+/// key `"tenant:<tenant_id>:<index_name>"`.
+///
+/// The separator between components is `:`.  Allowing `:` inside either
+/// component would let a caller with tenant id "a:b" construct the same storage
+/// key as a caller with tenant id "a" and index name "b:x", enabling cross-
+/// tenant data access (audit finding #1872).
+///
+/// Rules enforced:
+///   - Must not be empty.
+///   - Must not contain the separator character `:`.
+///   - Must not contain null bytes (early-termination bypass in C-string APIs).
+///   - Must not exceed 512 bytes (prevents key-length amplification attacks).
+///
+/// @return true when the component is safe to embed in a tenant key.
+static bool isValidTenantComponent(std::string_view s) noexcept {
+    if (s.empty() || s.size() > 512) return false;
+    for (char c : s) {
+        if (c == ':' || c == '\0') return false;
+    }
+    return true;
+}
+
+} // namespace (validation helpers)
+
 IndexManager::IndexManager(
     IExpressionEvaluatorPtr evaluator,
     IStorageEnginePtr storage
@@ -305,7 +332,7 @@ Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
     span.setAttribute("index.field", std::string(field_name));
     span.setAttribute("index.config", config);
     
-    std::lock_guard<std::mutex> lock(registry_mutex_);
+    std::unique_lock<std::shared_mutex> lock(registry_mutex_);
     
     if (!secondary_manager_) {
         THEMIS_ERROR("IndexManager::createSecondaryIndex: Secondary manager not initialized");
@@ -392,8 +419,7 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
     span.setAttribute("index.dimension", static_cast<int64_t>(dimension));
     span.setAttribute("index.config", config);
     
-    (void)config;
-    std::lock_guard<std::mutex> lock(registry_mutex_);
+    std::lock_guard<std::shared_mutex> lock(registry_mutex_);
     
     if (!vector_manager_) {
         THEMIS_ERROR("IndexManager::createVectorIndex: Vector manager not initialized");
@@ -446,10 +472,9 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
 
 Result<IGraphIndex*> IndexManager::createGraphIndex(
     std::string_view name,
-    const std::string& config) {
+    [[maybe_unused]] const std::string& config) {
     
-    (void)config;
-    std::lock_guard<std::mutex> lock(registry_mutex_);
+    std::lock_guard<std::shared_mutex> lock(registry_mutex_);
     
     if (!graph_manager_) {
         THEMIS_ERROR("IndexManager::createGraphIndex: Graph manager not initialized");
@@ -474,7 +499,7 @@ Result<IGraphIndex*> IndexManager::createGraphIndex(
 }
 
 Result<ISecondaryIndex*> IndexManager::getSecondaryIndex(std::string_view name) const {
-    std::lock_guard<std::mutex> lock(registry_mutex_);
+    std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     
     std::string name_str(name);
     auto it = secondary_indices_.find(name_str);
@@ -488,7 +513,7 @@ Result<ISecondaryIndex*> IndexManager::getSecondaryIndex(std::string_view name) 
 }
 
 Result<IVectorIndex*> IndexManager::getVectorIndex(std::string_view name) const {
-    std::lock_guard<std::mutex> lock(registry_mutex_);
+    std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     
     std::string name_str(name);
     auto it = vector_indices_.find(name_str);
@@ -502,7 +527,7 @@ Result<IVectorIndex*> IndexManager::getVectorIndex(std::string_view name) const 
 }
 
 Result<IGraphIndex*> IndexManager::getGraphIndex(std::string_view name) const {
-    std::lock_guard<std::mutex> lock(registry_mutex_);
+    std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     
     std::string name_str(name);
     auto it = graph_indices_.find(name_str);
@@ -516,7 +541,7 @@ Result<IGraphIndex*> IndexManager::getGraphIndex(std::string_view name) const {
 }
 
 Result<void> IndexManager::dropIndex(std::string_view name) {
-    std::lock_guard<std::mutex> lock(registry_mutex_);
+    std::unique_lock<std::shared_mutex> lock(registry_mutex_);
     
     std::string name_str(name);
     
@@ -585,7 +610,7 @@ Result<void> IndexManager::dropIndex(std::string_view name) {
 }
 
 std::vector<std::string> IndexManager::listIndexes() const {
-    std::lock_guard<std::mutex> lock(registry_mutex_);
+    std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     
     std::vector<std::string> indices;
     indices.reserve(index_types_.size());
@@ -598,7 +623,7 @@ std::vector<std::string> IndexManager::listIndexes() const {
 }
 
 Result<IndexType> IndexManager::getIndexType(std::string_view name) const {
-    std::lock_guard<std::mutex> lock(registry_mutex_);
+    std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     
     std::string name_str(name);
     auto it = index_types_.find(name_str);
@@ -608,6 +633,23 @@ Result<IndexType> IndexManager::getIndexType(std::string_view name) const {
     
     return Err<IndexType>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
                            fmt::format("Index '{}' not found", name_str));
+}
+
+// =============================================================================
+// Index statistics export (Issue #1866)
+// =============================================================================
+
+std::vector<SecondaryIndexManager::IndexStats>
+IndexManager::exportIndexStats(std::string_view table_name) const {
+    if (!secondary_manager_) {
+        THEMIS_WARN("IndexManager::exportIndexStats: SecondaryIndexManager not initialized"
+                    " (call setRocksDB first) – returning empty stats for '{}'", table_name);
+        return {};
+    }
+    auto stats = secondary_manager_->getAllIndexStats(std::string(table_name));
+    THEMIS_INFO("IndexManager::exportIndexStats: exported {} index stat(s) for '{}'",
+                stats.size(), table_name);
+    return stats;
 }
 
 // =============================================================================
@@ -627,9 +669,15 @@ Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
     std::string_view field_name,
     const std::string& config) {
 
-    if (tenant_id.empty()) {
+    if (!isValidTenantComponent(tenant_id)) {
         return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
-                                     "tenant_id must not be empty");
+                                     "tenant_id must not be empty, exceed 512 bytes, "
+                                     "or contain ':' / null bytes");
+    }
+    if (!isValidTenantComponent(name)) {
+        return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                                     "index name must not be empty, exceed 512 bytes, "
+                                     "or contain ':' / null bytes");
     }
     return createSecondaryIndex(makeTenantIndexName(tenant_id, name),
                                 field_name, config);
@@ -641,9 +689,15 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
     uint32_t dimension,
     const std::string& config) {
 
-    if (tenant_id.empty()) {
+    if (!isValidTenantComponent(tenant_id)) {
         return Err<IVectorIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
-                                   "tenant_id must not be empty");
+                                   "tenant_id must not be empty, exceed 512 bytes, "
+                                   "or contain ':' / null bytes");
+    }
+    if (!isValidTenantComponent(name)) {
+        return Err<IVectorIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                                   "index name must not be empty, exceed 512 bytes, "
+                                   "or contain ':' / null bytes");
     }
     return createVectorIndex(makeTenantIndexName(tenant_id, name),
                              dimension, config);
@@ -654,9 +708,15 @@ Result<IGraphIndex*> IndexManager::createGraphIndex(
     std::string_view name,
     const std::string& config) {
 
-    if (tenant_id.empty()) {
+    if (!isValidTenantComponent(tenant_id)) {
         return Err<IGraphIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
-                                  "tenant_id must not be empty");
+                                  "tenant_id must not be empty, exceed 512 bytes, "
+                                  "or contain ':' / null bytes");
+    }
+    if (!isValidTenantComponent(name)) {
+        return Err<IGraphIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                                  "index name must not be empty, exceed 512 bytes, "
+                                  "or contain ':' / null bytes");
     }
     return createGraphIndex(makeTenantIndexName(tenant_id, name), config);
 }
@@ -667,9 +727,15 @@ Result<ISecondaryIndex*> IndexManager::getSecondaryIndex(
     std::string_view tenant_id,
     std::string_view name) const {
 
-    if (tenant_id.empty()) {
+    if (!isValidTenantComponent(tenant_id)) {
         return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
-                                     "tenant_id must not be empty");
+                                     "tenant_id must not be empty, exceed 512 bytes, "
+                                     "or contain ':' / null bytes");
+    }
+    if (!isValidTenantComponent(name)) {
+        return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                                     "index name must not be empty, exceed 512 bytes, "
+                                     "or contain ':' / null bytes");
     }
     return getSecondaryIndex(makeTenantIndexName(tenant_id, name));
 }
@@ -678,9 +744,15 @@ Result<IVectorIndex*> IndexManager::getVectorIndex(
     std::string_view tenant_id,
     std::string_view name) const {
 
-    if (tenant_id.empty()) {
+    if (!isValidTenantComponent(tenant_id)) {
         return Err<IVectorIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
-                                   "tenant_id must not be empty");
+                                   "tenant_id must not be empty, exceed 512 bytes, "
+                                   "or contain ':' / null bytes");
+    }
+    if (!isValidTenantComponent(name)) {
+        return Err<IVectorIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                                   "index name must not be empty, exceed 512 bytes, "
+                                   "or contain ':' / null bytes");
     }
     return getVectorIndex(makeTenantIndexName(tenant_id, name));
 }
@@ -689,9 +761,15 @@ Result<IGraphIndex*> IndexManager::getGraphIndex(
     std::string_view tenant_id,
     std::string_view name) const {
 
-    if (tenant_id.empty()) {
+    if (!isValidTenantComponent(tenant_id)) {
         return Err<IGraphIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
-                                  "tenant_id must not be empty");
+                                  "tenant_id must not be empty, exceed 512 bytes, "
+                                  "or contain ':' / null bytes");
+    }
+    if (!isValidTenantComponent(name)) {
+        return Err<IGraphIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                                  "index name must not be empty, exceed 512 bytes, "
+                                  "or contain ':' / null bytes");
     }
     return getGraphIndex(makeTenantIndexName(tenant_id, name));
 }
@@ -700,17 +778,24 @@ Result<IGraphIndex*> IndexManager::getGraphIndex(
 
 Result<void> IndexManager::dropIndex(std::string_view tenant_id,
                                       std::string_view name) {
-    if (tenant_id.empty()) {
+    if (!isValidTenantComponent(tenant_id)) {
         return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST,
-                       "tenant_id must not be empty");
+                       "tenant_id must not be empty, exceed 512 bytes, "
+                       "or contain ':' / null bytes");
+    }
+    if (!isValidTenantComponent(name)) {
+        return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                       "index name must not be empty, exceed 512 bytes, "
+                       "or contain ':' / null bytes");
     }
     return dropIndex(makeTenantIndexName(tenant_id, name));
 }
 
 Result<void> IndexManager::dropTenantIndexes(std::string_view tenant_id) {
-    if (tenant_id.empty()) {
+    if (!isValidTenantComponent(tenant_id)) {
         return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST,
-                       "tenant_id must not be empty");
+                       "tenant_id must not be empty, exceed 512 bytes, "
+                       "or contain ':' / null bytes");
     }
 
     const std::string prefix = fmt::format("tenant:{}:", tenant_id);
@@ -718,7 +803,7 @@ Result<void> IndexManager::dropTenantIndexes(std::string_view tenant_id) {
     // Collect all keys belonging to this tenant under lock, then drop each one.
     std::vector<std::string> to_drop;
     {
-        std::lock_guard<std::mutex> lock(registry_mutex_);
+        std::unique_lock<std::shared_mutex> lock(registry_mutex_);
         for (const auto& [key, _] : index_types_) {
             if (key.starts_with(prefix)) {
                 to_drop.push_back(key);
@@ -745,7 +830,7 @@ std::vector<std::string> IndexManager::listIndexes(
     std::string_view tenant_id) const {
 
     const std::string prefix = fmt::format("tenant:{}:", tenant_id);
-    std::lock_guard<std::mutex> lock(registry_mutex_);
+    std::shared_lock<std::shared_mutex> lock(registry_mutex_);
 
     std::vector<std::string> result;
     for (const auto& [key, _] : index_types_) {
@@ -759,9 +844,15 @@ std::vector<std::string> IndexManager::listIndexes(
 
 Result<IndexType> IndexManager::getIndexType(std::string_view tenant_id,
                                               std::string_view name) const {
-    if (tenant_id.empty()) {
+    if (!isValidTenantComponent(tenant_id)) {
         return Err<IndexType>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
-                              "tenant_id must not be empty");
+                              "tenant_id must not be empty, exceed 512 bytes, "
+                              "or contain ':' / null bytes");
+    }
+    if (!isValidTenantComponent(name)) {
+        return Err<IndexType>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                              "index name must not be empty, exceed 512 bytes, "
+                              "or contain ':' / null bytes");
     }
     return getIndexType(makeTenantIndexName(tenant_id, name));
 }

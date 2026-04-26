@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vllm_resource_manager.h                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:05:19                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 137d06cfe  2026-03-18  fix: handle dtotal==0 CPU cache-hit and guard perf test a... ║
-    • 3254a3d48  2026-03-18  feat(acceleration): VLLMResourceManager multi-GPU NVML mo... ║
-    • 7a41ab30d  2026-03-18  feat(acceleration): implement CPU snapshot cache (200ms T... ║
-    • 592b54382  2026-03-15  fix(scheduler,acceleration): remove stale TODOs, add VLLM... ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
+    • 137d06cfed  2026-03-18  fix: handle dtotal==0 CPU cache-hit and guard perf test a... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

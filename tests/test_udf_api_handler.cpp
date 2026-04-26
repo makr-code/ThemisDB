@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_udf_api_handler.cpp                           ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:35:00                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:57:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     542                                            ║
+    • Total Lines:     540                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 2500bf5da  2026-02-26  audit(query): fix gaps in UDF registration API – security... ║
-    • 1200426fc  2026-02-26  feat(query): implement UDF registration API (Issue #2433) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

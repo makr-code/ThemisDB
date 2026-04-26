@@ -1,0 +1,122 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            audio_backend_interface.h                          ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 18:46:02                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     122                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 938636d98f  2026-04-07  feat(plugins): add audio/imggen interfaces, THEMIS_LLM_PL... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#pragma once
+
+#include "plugins/plugin_interface.h"
+#include <string>
+#include <vector>
+#include <memory>
+#include <cstdint>
+#include <nlohmann/json.hpp>
+
+namespace themis {
+namespace audio {
+
+using json = nlohmann::json;
+
+/**
+ * @brief Result of a transcription operation.
+ *
+ * Every result carries mandatory provenance fields so that downstream
+ * ingestion pipelines can trace back to the audio backend plugin.
+ */
+struct TranscriptionResult {
+    std::string text;
+    std::string language;           // BCP-47 language code, e.g. "de", "en"
+    float       confidence = 0.0f;  // 0..1
+    double      duration_seconds = 0.0;
+    std::string model_id;
+    std::string plugin_version;
+    std::string ingestion_source_type = "WHISPER";  // mandatory provenance
+    int64_t     generation_timestamp = 0;           // Unix epoch milliseconds
+    bool        success = true;
+    std::string error_message;
+};
+
+/**
+ * @brief Result of a language-detection operation.
+ */
+struct LanguageDetectionResult {
+    std::string language;           // BCP-47
+    float       confidence = 0.0f;
+};
+
+/**
+ * @brief Pure-virtual interface for audio transcription / processing backends.
+ *
+ * Implementations: WhisperPlugin (whisper.cpp), stub/test doubles.
+ */
+class IAudioBackend {
+public:
+    virtual ~IAudioBackend() = default;
+
+    /**
+     * @brief Load model and apply configuration.
+     * @param model_path  Path to the model file on disk (or empty for stub).
+     * @param config      JSON configuration object (see whisper_config.h).
+     * @return true on success.
+     */
+    virtual bool initialize(const std::string& model_path, const json& config) = 0;
+
+    virtual bool isInitialized() const = 0;
+
+    /**
+     * @brief Transcribe raw PCM float32 samples.
+     * @param pcm_samples  Mono float32 audio data.
+     * @param sample_rate  Sample rate of the audio (e.g. 16000.0f).
+     */
+    virtual TranscriptionResult transcribe(const std::vector<float>& pcm_samples,
+                                           float sample_rate) = 0;
+
+    /**
+     * @brief Transcribe an audio file from disk.
+     * @param path  Absolute or relative path to a WAV/FLAC file.
+     */
+    virtual TranscriptionResult transcribeFile(const std::string& path) = 0;
+
+    /**
+     * @brief Detect the spoken language in PCM samples.
+     */
+    virtual LanguageDetectionResult detectLanguage(const std::vector<float>& pcm_samples,
+                                                   float sample_rate) = 0;
+
+    virtual std::string getModelId() const = 0;
+    virtual std::string getPluginVersion() const = 0;
+    virtual json        getStatistics() const = 0;
+};
+
+} // namespace audio
+} // namespace themis
+
+/**
+ * @brief Export macro for dynamic loading of audio backend plugins.
+ *
+ * Add this macro once in the .cpp file of your audio plugin implementation.
+ * The host loader will call themis_audio_create() to obtain the plugin
+ * instance and themis_audio_destroy() to release it.
+ */
+#define THEMIS_AUDIO_PLUGIN()                                                         \
+    extern "C" THEMIS_PLUGIN_EXPORT                                                   \
+        themis::audio::IAudioBackend* themis_audio_create();                          \
+    extern "C" THEMIS_PLUGIN_EXPORT                                                   \
+        void themis_audio_destroy(themis::audio::IAudioBackend* p)

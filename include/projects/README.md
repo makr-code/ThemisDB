@@ -1,185 +1,46 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # Projects Module - Header Documentation
 
 ## Module Purpose
 
-The Projects module provides **project and workspace management** capabilities for ThemisDB. It enables organizing database objects (tables, indexes, queries, models) into logical projects or workspaces, facilitating collaboration, versioning, and environment isolation.
+The include-side Projects module currently exposes document-management contracts
+for project-scoped document ingestion and retrieval.
 
-## Scope
+## Current Header Surface
 
-### In Scope
-- Project/workspace creation and management
-- Object organization within projects
-- Project-level permissions and access control
-- Project metadata and configuration
-- Project versioning and snapshots
-- Project import/export
-- Multi-project isolation
-- Project templates
+The active public API headers are:
 
-### Out of Scope
-- User authentication (handled by Auth module)
-- Fine-grained RBAC (handled by Security module)
-- Storage implementation (handled by Storage module)
-- Query execution (handled by Query module)
-
-## Header Files
-
-This module currently contains 1 header file in the `include/projects/` directory:
-
-```
-include/projects/
-└── [to be determined based on actual file]
+```text
+include/projects/collaboration_manager.h
+include/projects/project_audit_log.h
+include/projects/project_bundle.h
+include/projects/project_diff.h
+include/projects/project_lifecycle.h
+include/projects/project_template.h
+include/projects/project_versioning.h
 ```
 
-**Note:** The actual header file name should be discovered by exploring the directory. Common patterns might include:
-- `project_manager.h` - Core project management interface
-- `workspace.h` - Workspace abstraction
-- `project_metadata.h` - Project metadata structures
+### collaboration_manager.h
+Multi-user collaboration primitives for shared project workspaces. <!-- TODO: verify -->
 
-## Architecture
+### project_audit_log.h
+Append-only audit log for project-scoped operations (create, modify, delete, access). <!-- TODO: verify -->
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                   Projects Module                        │
-│                                                          │
-│  ┌─────────────────┐      ┌─────────────────┐          │
-│  │ Project Manager │      │ Project Metadata│          │
-│  │                 │─────▶│                 │          │
-│  │ - Create        │      │ - Name          │          │
-│  │ - Delete        │      │ - Description   │          │
-│  │ - List          │      │ - Owner         │          │
-│  │ - Switch        │      │ - Created       │          │
-│  └─────────────────┘      └─────────────────┘          │
-│          │                        │                      │
-│          │                        │                      │
-│          ▼                        ▼                      │
-│  ┌─────────────────┐      ┌─────────────────┐          │
-│  │   Object Map    │      │ Access Control  │          │
-│  │                 │      │                 │          │
-│  │ - Tables        │      │ - Permissions   │          │
-│  │ - Indexes       │      │ - Roles         │          │
-│  │ - Queries       │      │ - Users         │          │
-│  │ - Models        │      └─────────────────┘          │
-│  └─────────────────┘                                    │
-└─────────────────────────────────────────────────────────┘
-         │                    │
-         ▼                    ▼
-┌────────────────┐    ┌────────────────┐
-│ Storage Module │    │ Security Module│
-└────────────────┘    └────────────────┘
-```
+### project_bundle.h
+Bundles a project and all its artefacts into a portable archive for import/export. <!-- TODO: verify -->
 
-## Key Concepts
+### project_diff.h
+Computes structural diffs between two project snapshots (schema, data, metadata). <!-- TODO: verify -->
 
-### Project
-A **project** is a logical container for database objects, providing:
-- Namespace isolation
-- Version control integration
-- Shared configuration
-- Collaborative workspace
-- Environment separation (dev/test/prod)
+### project_lifecycle.h
+Manages project state transitions (draft → active → archived → deleted). <!-- TODO: verify -->
 
-### Workspace
-A **workspace** is an active development environment within a project:
-- Current working context
-- Temporary object staging
-- Local modifications
-- Draft queries and models
+### project_template.h
+Defines reusable project templates with pre-configured schemas, roles, and policies. <!-- TODO: verify -->
 
-### Project Metadata
-Metadata associated with each project:
-- Project name and description
-- Owner and contributors
-- Creation and modification timestamps
-- Version history
-- Tags and labels
-- Configuration overrides
-
-## Usage Examples
-
-### Example 1: Create and Switch Projects
-
-```cpp
-#include <projects/project_manager.h>  // Hypothetical
-
-// Create a new project
-ProjectManager pm;
-auto result = pm.createProject("ml-pipeline", {
-    .description = "Machine learning data pipeline",
-    .owner = "data-science-team",
-    .tags = {"ml", "production"}
-});
-
-if (result.isSuccess()) {
-    // Switch to the new project
-    pm.switchProject("ml-pipeline");
-    
-    // All subsequent operations are scoped to this project
-    // CREATE TABLE, CREATE INDEX, etc.
-}
-```
-
-### Example 2: List Objects in Project
-
-```cpp
-// List all tables in the current project
-auto tables = pm.listTables();
-for (const auto& table : tables) {
-    std::cout << "Table: " << table.name 
-              << " (created: " << table.created << ")" << std::endl;
-}
-
-// List projects
-auto projects = pm.listProjects();
-for (const auto& proj : projects) {
-    std::cout << "Project: " << proj.name 
-              << " (" << proj.objectCount << " objects)" << std::endl;
-}
-```
-
-### Example 3: Project Snapshots
-
-```cpp
-// Create a snapshot of the current project state
-auto snapshot = pm.createSnapshot("v1.0.0", {
-    .description = "Production release",
-    .tags = {"release", "stable"}
-});
-
-// Restore from a snapshot
-pm.restoreSnapshot("v1.0.0");
-```
-
-### Example 4: Import/Export Projects
-
-```cpp
-// Export project to file
-pm.exportProject("ml-pipeline", "/backup/ml-pipeline.zip", {
-    .includeData = true,
-    .includeIndexes = true,
-    .includeConfig = true
-});
-
-// Import project from file
-pm.importProject("/backup/ml-pipeline.zip", "ml-pipeline-restored");
-```
-
-## Integration with Other Modules
-
-### Storage Module
-- Projects map to storage namespaces or prefixes
-- Object metadata stored in system catalog
-- Project isolation at storage level
-
-### Security Module
-- Project-level access control
-- Role-based permissions
-- Audit logging for project operations
-
-### Query Module
-- Project context for query execution
-- Name resolution within project scope
-- Cross-project queries with explicit references
+### project_versioning.h
+Version-control layer for project snapshots; supports branching, tagging, and rollback. <!-- TODO: verify -->
 
 ### Observability Module
 - Project-level metrics and monitoring
@@ -301,6 +162,14 @@ Project operations are **thread-safe** with the following guarantees:
 
 ---
 
-**Last Updated**: 2024-02-10  
-**Status**: Draft - Awaiting actual header file discovery  
+**Last Updated**: 2026-04-06
+**Status**: Draft - Awaiting actual header file discovery
 **Maintainer**: ThemisDB Team
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

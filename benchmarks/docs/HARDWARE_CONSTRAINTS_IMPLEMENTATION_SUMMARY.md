@@ -1,3 +1,6 @@
+> ⚠️ **Historischer Statusreport** – Dieser Bericht beschreibt den Implementierungsstand zum Zeitpunkt der Erstellung.
+> Für den aktuellen Stand: Quellcode und aktuelle [`benchmarks/README.md`](../README.md) prüfen.
+
 # Hardware Constraints Analysis - Implementation Summary
 ## How ThemisDB Performance is Constrained by Hardware Limits
 
@@ -495,5 +498,5 @@ Before using in production:
 
 **Version:** 1.0  
 **Status:** ✅ Production Ready  
-**Last Updated:** 2025-12-04  
+**Last Updated:** 2026-04-06  
 **Author:** ThemisDB Team

@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Test Certificates for Signature Verification
 
 This directory contains test certificates and keys for testing the RSA-SHA256 signature verification system.

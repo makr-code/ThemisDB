@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            distributed_hybrid_search.h                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:10:40                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:46:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 48fbf5b22  2026-03-21  Update search, temporal, and build artifacts ║
-    • 00154e017  2026-03-11  audit(search): fix all gaps in distributed hybrid search ... ║
-    • 0d5a19ee1  2026-03-11  feat(search): implement DistributedHybridSearch for distr... ║
+    • 48fbf5b222  2026-03-21  Update search, temporal, and build artifacts ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

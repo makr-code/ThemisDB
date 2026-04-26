@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_masking_policy.cpp                      ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:32:01                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:56:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     371                                            ║
+    • Total Lines:     367                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 37baf981c  2026-03-01  test(security): add edge-case tests for QueryMaskingPolicy ║
-    • b629d06e4  2026-02-23  audit: fix thread-safety race, missed JOIN path, and COLL... ║
-    • 617224a49  2026-02-23  feat(security): implement dynamic data masking for PII fi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

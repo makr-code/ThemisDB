@@ -1457,3 +1457,387 @@ Dieses Kochbuch präsentierte systematische Performance-Optimierung für [Themis
 [^13]: Axboe, J. (2018). "Linux Block I/O: Introducing Multi-queue SSD Access." *Linux Kernel Documentation*. https://www.kernel.org/doc/Documentation/block/blk-mq.txt
 
 [^14]: Berenson, H. et al. (1995). "A Critique of ANSI SQL Isolation Levels." *SIGMOD'95*, pp. 1-10. ACM.
+
+## 39.13 Performance-Internals C++ API (v1.x) {#performance-internals-cpp}
+
+Dieses Kapitel dokumentiert die Low-Level-Performance-Komponenten (`include/performance/`).
+
+### 39.13.1 AdaptiveQueryCompiler — JIT-ähnliche Query-Kompilierung
+
+```cpp
+#include "performance/adaptive_query_compiler.h"
+
+themis::performance::AdaptiveQueryCompiler compiler;
+
+// Query kompilieren (inlined loop generation)
+themis::performance::QueryParams params;
+params.table     = "orders";
+params.filter    = "amount > 1000";
+params.columns   = {"id", "customer_id", "amount"};
+
+auto compiled = compiler.compile(params);
+// compiled.plan_id, compiled.is_jit_compiled, compiled.estimated_cost
+
+// Ausführen
+auto result = compiler.execute(compiled, storage);
+// result.ok, result.rows, result.execution_time_us
+
+// Hot-Query-Cache: Wird nach N Ausführungen automatisch JIT-optimiert
+auto stats = compiler.getStats();
+// stats.total_compiled, stats.jit_hits, stats.jit_misses
+```
+
+### 39.13.2 IntelligentPrefetcher — ML-basiertes Prefetching
+
+```cpp
+#include "performance/intelligent_prefetcher.h"
+
+themis::performance::IntelligentPrefetcher::PrefetchConfig pfcfg;
+pfcfg.enable_learning         = true;
+pfcfg.enable_hardware_prefetch = true;
+pfcfg.lookahead_distance       = 8;   // 8 Cache-Lines voraus
+
+themis::performance::IntelligentPrefetcher prefetcher(pfcfg);
+
+// Zugriff aufzeichnen (für Pattern-Lernen)
+prefetcher.record_access(address, timestamp_ns);
+
+// Prefetch-Entscheidung abfragen
+auto pattern = prefetcher.predict_next(current_address);
+// pattern.prefetch_addresses: [{addr, confidence}, ...]
+// pattern.pattern_type: SEQUENTIAL / STRIDED / RANDOM / POINTER_CHASE
+
+// Hardware-Prefetch auslösen
+prefetcher.issue_prefetch(pattern);
+
+// Statistiken
+auto stats = prefetcher.getStats();
+// stats.predictions_issued, stats.cache_hit_improvement_pct
+```
+
+**CacheLevel:** `L1` / `L2` / `L3` / `DRAM`
+
+### 39.13.3 WorkloadPredictor — LSTM-basierte Lastvorhersage
+
+```cpp
+#include "performance/workload_predictor.h"
+
+themis::performance::WorkloadPredictor::Config wpcfg;
+wpcfg.window_size       = 60;   // 60 Messungen für Vorhersage
+wpcfg.forecast_horizon  = 10;   // 10 Zeitschritte voraus
+wpcfg.use_exponential_smoothing = true;
+
+themis::performance::WorkloadPredictor predictor(wpcfg);
+
+// Aktuellen Zustand aufzeichnen
+themis::performance::WorkloadSnapshot snap;
+snap.timestamp_ms       = now_ms();
+snap.qps                = 4500;
+snap.cpu_utilization    = 0.72;
+snap.memory_used_bytes  = 8LL * 1024 * 1024 * 1024;
+snap.p99_latency_ms     = 12;
+
+predictor.record(snap);
+
+// Vorhersage abrufen
+auto forecast = predictor.forecast();
+// forecast.predicted_qps: [{t+1: 4800}, {t+2: 5100}, ...]
+// forecast.scale_recommendation: {direction: UP/DOWN/STABLE, magnitude: 2}
+
+// Skalierungsempfehlung
+auto rec = predictor.getScaleRecommendation();
+// rec.direction: ScaleDirection::UP / DOWN / STABLE
+// rec.recommended_replicas, rec.confidence
+```
+
+### 39.13.4 HardwareAccelerator — CPU/GPU Query-Operator-Dispatch
+
+```cpp
+#include "performance/hardware_accelerator.h"
+
+themis::performance::HardwareAccelerator accel;
+
+// Operator für Hardware-Pfad beschreiben
+themis::performance::QueryOperator op;
+op.type        = themis::performance::OperatorType::VECTOR_SIMILARITY;
+op.input_bytes = embeddings_size;
+op.batch_size  = 1024;
+
+// Hardware-Pfad ausführen (automatischer GPU/AVX-Dispatch)
+auto exec_result = accel.execute(op, input_data, output_buffer);
+// exec_result.ok, exec_result.used_hw_path, exec_result.device_type
+// exec_result.duration_us, exec_result.throughput_ops_per_sec
+
+// Capabilities abfragen
+auto caps = accel.getCapabilities();
+// caps.has_gpu, caps.has_avx512, caps.has_npu, caps.device_type
+```
+
+**DeviceType:** `CPU` / `CUDA_GPU` / `OPENCL_GPU` / `NPU` / `FPGA`
+**OperatorType:** `VECTOR_SIMILARITY` / `AGGREGATION` / `SORT` / `FILTER` / `HASH_JOIN`
+
+### 39.13.5 LockFreeRingBuffer — Zero-Contention-Metriken
+
+```cpp
+#include "performance/lockfree_metrics_buffer.h"
+
+// Thread-eigene Lock-Free-Buffer (SPSC)
+constexpr size_t BUFFER_SIZE = 1024;
+themis::performance::LockFreeRingBuffer<themis::performance::MetricsEntry, BUFFER_SIZE> buf;
+
+// Producer-Thread
+themis::performance::MetricsEntry e;
+e.timestamp_ns = clock_ns();
+e.metric_id    = MetricId::QUERY_LATENCY;
+e.value        = 12.5;
+bool pushed = buf.tryPush(e);
+
+// Consumer-Thread (z.B. Metrics-Aggregator)
+themis::performance::MetricsEntry item;
+while (buf.tryPop(item)) {
+    aggregator.record(item);
+}
+
+// Dropped-Counter (Overflow-Diagnose)
+size_t dropped = buf.dropped_count();
+```
+
+## 39.14 Acceleration-Internals C++ API (v1.x) {#acceleration-internals-cpp}
+
+### 39.14.1 ComputeBackend — Abstrakte GPU/NPU/CPU-Schicht
+
+```cpp
+#include "acceleration/compute_backend.h"
+
+// Backend-Fähigkeiten abfragen
+themis::acceleration::BackendCapabilities caps =
+    themis::acceleration::getBackendCapabilities(
+        themis::acceleration::BackendType::CUDA);
+
+// caps.max_batch_size, caps.supports_fp16, caps.supports_int8
+// caps.supports_int4, caps.vram_bytes, caps.compute_units
+
+// Kernel ausführen
+themis::acceleration::KernelConfig kconfig;
+kconfig.batch_size    = 1024;
+kconfig.precision     = themis::acceleration::PrecisionMode::FP16;
+kconfig.max_latency_ms = 10;
+
+themis::acceleration::BatchDescriptor batch;
+batch.data     = input_ptr;
+batch.count    = 1024;
+batch.dim      = 768;
+
+auto kernel_result = backend->executeSimilarityKernel(batch, kconfig);
+// kernel_result.distances: float[], kernel_result.duration_ms
+
+// Gesundheitsstatus
+auto health = backend->getHealth();
+// health.status: HEALTHY / DEGRADED / FAILED
+// health.error_message, health.consecutive_failures
+```
+
+**BackendType:** `CPU` / `CUDA` / `HIP` / `VULKAN` / `OPENCL` / `DIRECTX`
+**PrecisionMode:** `FP32` / `FP16` / `BF16` / `INT8` / `INT4` / `W4A8`
+
+### 39.14.2 KernelFallbackDispatcher — Automatischer Fallback
+
+```cpp
+#include "acceleration/kernel_fallback_dispatcher.h"
+
+// ANN (Approximate Nearest Neighbor) Kernel mit Fallback-Kette
+themis::acceleration::ANNKernelFallbackDispatcher ann_dispatcher;
+// Fallback-Kette: CUDA → HIP → Vulkan → CPU
+
+ann_dispatcher.setRetryPolicy({
+    .max_attempts       = 3,
+    .backoff_ms         = 100,
+    .fallback_to_cpu    = true,
+});
+
+auto ann_result = ann_dispatcher.search(query_vector, index, k);
+// ann_result.ids: top-k Index-IDs
+// ann_result.distances: entsprechende Distanzen
+// ann_result.backend_used: "CUDA" / "CPU_FALLBACK"
+
+// Geo-Kernel mit Fallback
+themis::acceleration::GeoKernelFallbackDispatcher geo_dispatcher;
+auto geo_result = geo_dispatcher.computeDistancesBatch(
+    origin_points, target_points, themis::geo::DistanceMode::HAVERSINE);
+// geo_result.distances_m: [{origin_idx, target_idx, distance_m}]
+```
+
+### 39.14.3 VecKnnPipeline — Hochperformante Vektorsucheals Pipeline
+
+```cpp
+#include "acceleration/vec_knn.h"
+
+themis::acceleration::VecKnnPipelineConfig knn_cfg;
+knn_cfg.backend       = themis::acceleration::BackendType::CUDA;
+knn_cfg.precision     = themis::acceleration::PrecisionMode::FP16;
+knn_cfg.nprobe        = 64;      // IVF-Suchtiefe
+knn_cfg.use_cache     = true;
+knn_cfg.cache_ttl_ms  = 5000;
+knn_cfg.ef_search     = 200;     // HNSW ef
+
+// Pipeline aufbauen (VectorIndex → Acceleration Backend)
+auto knn_pipeline = themis::acceleration::VecKnnPipeline::create(
+    vector_index, knn_cfg);
+
+// K-Nearest-Neighbor-Suche
+auto results = knn_pipeline->search(
+    query_embedding,   // std::vector<float>
+    /*k=*/ 10,
+    filter_expr        // optional: AQL-Filter
+);
+
+// results: [{doc_id, score, distance}] sortiert nach Score
+for (auto& r : results) {
+    std::cout << r.doc_id << " score=" << r.score << "\n";
+}
+
+// Batch-Suche (mehrere Queries gleichzeitig)
+auto batch_results = knn_pipeline->searchBatch(
+    {query1, query2, query3}, /*k=*/ 5);
+// batch_results[i]: Ergebnisse für query i
+
+// Distanz-Cache leeren
+knn_pipeline->clearCache();
+```
+
+### 39.14.4 DeviceManager — Multi-GPU-Verwaltung
+
+```cpp
+#include "acceleration/device_manager.h"
+
+themis::acceleration::DeviceManager& dev_mgr =
+    themis::acceleration::DeviceManager::instance();
+
+// GPU-Erkennung
+if (dev_mgr.hasGPU()) {
+    dev_mgr.logDeviceInfo();
+    // Gibt aus: GPU-Modell, VRAM, Compute Capability
+}
+
+// Alle verfügbaren Devices
+auto devices = dev_mgr.getDevices();
+for (auto& d : devices) {
+    // d.type: CPU/CUDA/HIP
+    // d.name: "NVIDIA A100 80GB"
+    // d.vram_bytes, d.compute_units
+}
+
+// Metriken abrufen
+#include "acceleration/metrics/metrics_collector.h"
+auto& acc_metrics = themis::acceleration::MetricsCollector::instance();
+// Prometheus-Counter/Gauge für:
+// - acceleration_kernel_duration_ms
+// - acceleration_fallback_count
+// - acceleration_cache_hit_ratio
+```
+
+### 39.14.5 RAII-Ressourcenverwaltung
+
+```cpp
+#include "acceleration/raii/cuda_raii.h"
+#include "acceleration/raii/vulkan_raii.h"
+
+// CUDA-Buffer mit RAII (automatische Freigabe)
+{
+    themis::acceleration::CudaBuffer<float> gpu_buf(1024 * 768);
+    // Daten hochladen
+    gpu_buf.upload(cpu_data.data(), cpu_data.size());
+    // Kernel ausführen
+    run_similarity_kernel(gpu_buf.ptr(), k);
+    // Daten herunterladen
+    gpu_buf.download(result_data.data());
+}  // GPU-Speicher wird hier automatisch freigegeben
+
+// Vulkan-Buffer analog
+{
+    themis::acceleration::VulkanBuffer<float> vk_buf(device, 512);
+    vk_buf.upload(cpu_data.data(), cpu_data.size());
+    // ...
+}  // automatische vkDestroyBuffer
+```
+
+## 39.15 Workload-Adaptive Optimizer C++ API (v1.9.0) {#workload-adaptive-optimizer-cpp}
+
+The `WorkloadAdaptiveOptimizer` (Issue #230, Research Basis: "Adaptive Execution" SIGMOD'19) automatically classifies the current database workload and selects optimal execution strategies at runtime.
+
+### 39.15.1 WorkloadAdaptiveOptimizer — Workload-Klassifikation und Strategieauswahl
+
+```cpp
+#include "performance/workload_adaptive_optimizer.h"
+
+themis::performance::WorkloadAdaptiveOptimizer optimizer;
+
+// Queries beobachten (is_write, complexity [1..10], result_rows, table, latency_µs)
+optimizer.record_query(false, 2.0, 500, "orders", 120);
+optimizer.record_query(true,  1.5, 1,   "orders", 85);
+optimizer.set_concurrent_queries(16);
+
+// Workload klassifizieren
+auto profile = optimizer.classify_workload();
+// profile.type: OLTP | OLAP | MIXED | GRAPH | VECTOR | TIMESERIES | UNKNOWN
+// profile.read_write_ratio: 0.0..1.0 (Anteil Lesezugriffe)
+// profile.avg_query_complexity: 1..10
+// profile.avg_result_size: Ø Ergebniszeilen
+// profile.concurrent_queries: aktuelle Parallelität
+// profile.hot_tables: Top-3 am häufigsten zugegriffene Tabellen
+
+// Optimale Strategie ableiten
+auto strategy = optimizer.get_strategy(profile);
+// strategy.enable_jit_compilation
+// strategy.enable_parallel_execution
+// strategy.thread_pool_size    (mit Predictive Scaling bei Lastspitzen)
+// strategy.cache_size_mb
+// strategy.join_algorithm      "hash" | "sort-merge" | "nested-loop"
+// strategy.index_type          "btree" | "hash" | "brin"
+
+// Strategie anwenden
+optimizer.apply_strategy(strategy);
+```
+
+### 39.15.2 Automatische Adaption im Hintergrund
+
+```cpp
+// Callback registrieren (wird bei jeder Adaption aufgerufen)
+optimizer.set_callback(
+    [](const themis::performance::WorkloadProfile& old_p,
+       const themis::performance::WorkloadProfile& new_p,
+       const themis::performance::OptimizationStrategy& s) {
+        // Ressourcen (Thread-Pool, Cache) gemäß s neu konfigurieren
+    });
+
+// Hintergrund-Thread alle 30 Sekunden neu klassifizieren
+optimizer.enable_auto_adapt(std::chrono::seconds{30});
+
+// ... Anwendungslaufzeit ...
+
+optimizer.disable_auto_adapt();
+```
+
+### 39.15.3 Statistiken und Reset
+
+```cpp
+auto stats = optimizer.get_stats();
+// stats.total_queries_recorded
+// stats.total_adaptations
+// stats.last_workload_type
+
+optimizer.reset_stats();
+```
+
+### 39.15.4 Strategietabelle nach Workload-Typ
+
+| WorkloadType | JIT  | Threads | Cache (MB) | Join        | Index   |
+|-------------|------|---------|-----------|-------------|---------|
+| OLTP        | No   | max(4, concurrency) | 128  | hash        | btree   |
+| OLAP        | Yes  | 8       | 1024      | sort-merge  | brin    |
+| MIXED       | Yes  | 6       | 512       | hash        | btree   |
+| GRAPH       | No   | 8       | 512       | hash        | hash    |
+| VECTOR      | No   | 8       | 2048      | hash        | hash    |
+| TIMESERIES  | No   | 4       | 256       | sort-merge  | brin    |
+
+> **Predictive Scaling**: Übersteigt `concurrent_queries` den Basiswert für `thread_pool_size`, wird der Pool auf `concurrent_queries × 1.25` hochskaliert.

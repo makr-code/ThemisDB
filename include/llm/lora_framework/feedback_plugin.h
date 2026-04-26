@@ -3,19 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            feedback_plugin.h                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:27                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     198                                            ║
+    • Total Lines:     200                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -95,11 +97,11 @@ public:
         if (feedback.rating < 1 || feedback.rating > 5) return false;
         return true;
     }
-    
-    void process(Feedback& feedback) override {
+
+    void process([[maybe_unused]] Feedback& feedback) override {
         // Default: no-op
     }
-    
+
     bool onTrainingTrigger(const std::vector<Feedback>& batch) const override {
         // Default: trigger when batch reaches 100 items
         return batch.size() >= 100;

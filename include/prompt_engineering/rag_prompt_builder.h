@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rag_prompt_builder.h                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:09:48                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:46:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     201                                            ║
+    • Total Lines:     209                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • d135ff3ad  2026-03-09  feat(prompt_engineering): implement ChainOfThoughtBuilder... ║
+    • 01a86c4f10  2026-04-07  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -61,6 +61,8 @@ struct RetrievedChunk {
  */
 struct RAGPromptConfig {
     /// Maximum total character length for the assembled context section.
+    /// For token-precise control prefer RAGContextAssembler, which derives
+    /// this value automatically from the model's context window.
     size_t max_context_length = 4000;
 
     /// Header prepended to the context section.
@@ -82,6 +84,11 @@ struct RAGPromptConfig {
     /// Placeholder token inside base templates that will be replaced with
     /// the assembled context block.
     std::string template_placeholder = "{context}";
+
+    /// Minimum tokens reserved for the model's answer when this config is
+    /// used in conjunction with RAGContextAssembler.  The assembler converts
+    /// the token budget to characters for max_context_length.
+    size_t reserved_response_tokens = 512;
 };
 
 /**

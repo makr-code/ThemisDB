@@ -108,32 +108,31 @@ COPY proto/ ./proto/
 COPY tests/ ./tests/
 COPY benchmarks/ ./benchmarks/
 
+ENV VCPKG_TARGET_TRIPLET=x64-linux
+
 # Create build directory and configure
-RUN mkdir -p build && cd build && \
-    cmake .. \
-        -G Ninja \
-        -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
-        -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
-        -DTHEMIS_BUILD_TESTS=${BUILD_TESTS} \
-        -DTHEMIS_BUILD_BENCHMARKS=${BUILD_BENCHMARKS} \
-        -DTHEMIS_ENABLE_LLM=${ENABLE_LLM} \
-        -DTHEMIS_LORA_ENABLED=${ENABLE_LORA} \
-        -DTHEMIS_ENABLE_ASAN=${ENABLE_ASAN} \
+RUN cmake --preset docker-release \
+        -DCMAKE_BUILD_TYPE="${BUILD_TYPE}" \
+        -DTHEMIS_BUILD_TESTS="${BUILD_TESTS}" \
+        -DTHEMIS_BUILD_BENCHMARKS="${BUILD_BENCHMARKS}" \
+        -DTHEMIS_MODELS_MODE=SKIP \
+        -DTHEMIS_ENABLE_LLM="${ENABLE_LLM}" \
+        -DTHEMIS_LORA_ENABLED="${ENABLE_LORA}" \
+        -DTHEMIS_ENABLE_ASAN="${ENABLE_ASAN}" \
         -DTHEMIS_STATIC_BUILD=OFF
 
 # Build ThemisDB
-RUN cd build && \
-    ninja -j$(nproc) && \
+RUN ninja -C build -j$(nproc) && \
     echo "Build completed successfully"
 
 # Build tests if enabled
 RUN if [ "${BUILD_TESTS}" = "ON" ]; then \
-        cd build && ninja test_lora_framework; \
+        ninja -C build test_lora_framework; \
     fi
 
 # Build benchmarks if enabled
 RUN if [ "${BUILD_BENCHMARKS}" = "ON" ]; then \
-        cd build && ninja bench_lora_framework; \
+        ninja -C build bench_lora_framework; \
     fi
 
 # ============================================================================

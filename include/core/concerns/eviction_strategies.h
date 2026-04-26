@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            eviction_strategies.h                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:06:53                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0587578d8  2026-02-27  feat(graph): plan cache eviction with size and TTL controls ║
-    • 5f3f466a9  2026-02-24  feat(cache): add configurable eviction policies (LFU, ARC... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -53,10 +53,10 @@ public:
         }
     }
 
-    void onInsert(std::string_view key, uint64_t timestamp_ms) override {
+    void onInsert(std::string_view key, [[maybe_unused]] uint64_t timestamp_ms) override {
         std::string key_str(key);
         auto it = position_map_.find(key_str);
-        
+
         if (it != position_map_.end()) {
             // Already exists, move to front
             access_list_.splice(access_list_.begin(), access_list_, it->second);
@@ -188,7 +188,7 @@ public:
     explicit TTLEvictionStrategy(uint64_t default_ttl_ms = 3600000)  // 1 hour default
         : default_ttl_ms_(default_ttl_ms) {}
 
-    void onAccess(std::string_view key) override {
+    void onAccess([[maybe_unused]] std::string_view key) override {
         // TTL strategy doesn't change on access
     }
 

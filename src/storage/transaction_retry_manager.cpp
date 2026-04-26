@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            transaction_retry_manager.cpp                      ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:36                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,9 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 97ce99ded  2026-03-15  feat(transaction): Serializable Snapshot Isolation (SSI) ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ad5decdf5  2026-02-26  Code audit: fix const_cast UB, pow() overflow, jitter val... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -49,7 +48,7 @@ TransactionRetryManager::TransactionRetryManager(const TransactionRetryConfig& c
 TransactionRetryManager::~TransactionRetryManager() = default;
 
 RetryStatistics TransactionRetryManager::getStatistics() const {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
+    std::shared_lock<std::shared_mutex> lock(stats_mutex_);
     return stats_;
 }
 
@@ -73,7 +72,7 @@ CircuitState TransactionRetryManager::getCircuitState() const {
 }
 
 void TransactionRetryManager::resetStatistics() {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
+    std::unique_lock<std::shared_mutex> lock(stats_mutex_);
     stats_ = RetryStatistics();
 }
 
@@ -212,7 +211,7 @@ uint32_t TransactionRetryManager::calculateDelay(size_t attempt, const RetryPoli
         
         case BackoffStrategy::LINEAR:
             // delay = base * (attempt + 1)
-            delay = base_delay * (attempt + 1);
+            delay = base_delay * static_cast<uint32_t>(attempt + 1);
             break;
         
         case BackoffStrategy::FIXED:

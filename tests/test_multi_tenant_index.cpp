@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_multi_tenant_index.cpp                        ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:30:11                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:55:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     239                                            ║
+    • Total Lines:     367                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • edf27e3ee  2026-02-26  Refactor CMake configuration, add vision components, and ... ║
-    • 341b887e7  2026-02-26  audit: fix ROADMAP gaps and add missing edge-case tests f... ║
-    • 92ff27163  2026-02-26  feat(index): implement multi-tenancy index isolation with... ║
+    • 504f42c537  2026-04-07  fix(index): fix misleading test comment in MultiTenantInj... ║
+    • dd49fe5493  2026-04-07  fix(index): tenant key separator injection – validate col... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -236,4 +234,134 @@ TEST(MultiTenantIndexEdgeCases, GetGraphIndex_UnknownTenantScopedIndex_ReturnsNo
     auto result = mgr->getGraphIndex("acme", "nonexistent");
     EXPECT_FALSE(result.has_value());
     EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_INDEX_NOT_FOUND);
+}
+
+// ===========================================================================
+// Security regression – Audit finding #1872: separator injection via tenant_id
+// or index_name containing the ':' separator character.
+//
+// Attack model:
+//   tenant "a" + index "b:c" → key "tenant:a:b:c"
+//   tenant "a:b" + index "c" → key "tenant:a:b:c"  (SAME key – isolation bypass)
+//
+// After the fix, any ':' (or null byte, or empty string) in tenant_id / name
+// must be rejected with ERR_API_INVALID_REQUEST.
+// ===========================================================================
+
+TEST(MultiTenantInjectionSecurity, TenantIdWithColon_CreateSecondaryIndex_Rejected) {
+    auto mgr = makeTestIndexManager();
+    auto result = mgr->createSecondaryIndex("a:b", "c", "field", "{}");
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
+}
+
+TEST(MultiTenantInjectionSecurity, IndexNameWithColon_CreateSecondaryIndex_Rejected) {
+    auto mgr = makeTestIndexManager();
+    auto result = mgr->createSecondaryIndex("acme", "b:c", "field", "{}");
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
+}
+
+TEST(MultiTenantInjectionSecurity, TenantIdWithColon_CreateVectorIndex_Rejected) {
+    auto mgr = makeTestIndexManager();
+    auto result = mgr->createVectorIndex("a:b", "idx", 128, "{}");
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
+}
+
+TEST(MultiTenantInjectionSecurity, IndexNameWithColon_CreateVectorIndex_Rejected) {
+    auto mgr = makeTestIndexManager();
+    auto result = mgr->createVectorIndex("acme", "a:b", 128, "{}");
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
+}
+
+TEST(MultiTenantInjectionSecurity, TenantIdWithColon_CreateGraphIndex_Rejected) {
+    auto mgr = makeTestIndexManager();
+    auto result = mgr->createGraphIndex("corp:evil", "idx", "{}");
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
+}
+
+TEST(MultiTenantInjectionSecurity, IndexNameWithColon_CreateGraphIndex_Rejected) {
+    auto mgr = makeTestIndexManager();
+    auto result = mgr->createGraphIndex("corp", "a:b", "{}");
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
+}
+
+TEST(MultiTenantInjectionSecurity, TenantIdWithColon_GetVectorIndex_Rejected) {
+    auto mgr = makeTestIndexManager();
+    auto result = mgr->getVectorIndex("a:b", "idx");
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
+}
+
+TEST(MultiTenantInjectionSecurity, IndexNameWithColon_GetSecondaryIndex_Rejected) {
+    auto mgr = makeTestIndexManager();
+    auto result = mgr->getSecondaryIndex("acme", "a:b");
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
+}
+
+TEST(MultiTenantInjectionSecurity, TenantIdWithColon_DropIndex_Rejected) {
+    auto mgr = makeTestIndexManager();
+    auto result = mgr->dropIndex("a:b", "idx");
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
+}
+
+TEST(MultiTenantInjectionSecurity, TenantIdWithColon_DropTenantIndexes_Rejected) {
+    auto mgr = makeTestIndexManager();
+    auto result = mgr->dropTenantIndexes("a:b");
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
+}
+
+TEST(MultiTenantInjectionSecurity, TenantIdWithColon_GetIndexType_Rejected) {
+    auto mgr = makeTestIndexManager();
+    auto result = mgr->getIndexType("a:b", "idx");
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
+}
+
+TEST(MultiTenantInjectionSecurity, TenantIdWithNullByte_CreateVectorIndex_Rejected) {
+    auto mgr = makeTestIndexManager();
+    const std::string bad_id = std::string("tenant") + '\0' + "hack";
+    auto result = mgr->createVectorIndex(bad_id, "idx", 64, "{}");
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
+}
+
+TEST(MultiTenantInjectionSecurity, IndexNameWithNullByte_CreateVectorIndex_Rejected) {
+    auto mgr = makeTestIndexManager();
+    const std::string bad_name = std::string("idx") + '\0' + "x";
+    auto result = mgr->createVectorIndex("acme", bad_name, 64, "{}");
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
+}
+
+TEST(MultiTenantInjectionSecurity, EmptyIndexName_CreateVectorIndex_Rejected) {
+    auto mgr = makeTestIndexManager();
+    auto result = mgr->createVectorIndex("acme", "", 64, "{}");
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
+}
+
+TEST(MultiTenantInjectionSecurity, OversizedTenantId_CreateVectorIndex_Rejected) {
+    auto mgr = makeTestIndexManager();
+    const std::string huge(513, 'x');
+    auto result = mgr->createVectorIndex(huge, "idx", 64, "{}");
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
+}
+
+TEST(MultiTenantInjectionSecurity, ValidTenantAndIndex_NotRejected) {
+    // Sanity: legitimate inputs must pass validation (even if the index is not found).
+    auto mgr = makeTestIndexManager();
+    auto result = mgr->getVectorIndex("corp-eu.prod", "embeddings_v2");
+    // ERR_INDEX_NOT_FOUND is acceptable – the key was NOT rejected at the
+    // validation step; it simply does not exist in the registry yet.
+    ASSERT_FALSE(result.has_value());
+    EXPECT_NE(result.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
 }

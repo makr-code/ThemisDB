@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Graph Module - Header Reference
 
 ## Overview
@@ -21,7 +23,7 @@ This directory contains the public header files for ThemisDB's Graph module. The
 // Traversal algorithms
 enum class TraversalAlgorithm {
     BFS,              // Breadth-First Search
-    DFS,              // Depth-First Search  
+    DFS,              // Depth-First Search
     BIDIRECTIONAL,    // Bidirectional search
     ASTAR,            // A* heuristic search
     DIJKSTRA          // Weighted shortest path
@@ -96,74 +98,74 @@ struct ExecutionStats {
 class GraphQueryOptimizer {
 public:
     explicit GraphQueryOptimizer(GraphIndexManager& graph_manager);
-    
+
     // Optimization
     Result<OptimizationPlan> optimizeShortestPath(
         std::string_view start, std::string_view target,
         const QueryConstraints& constraints = {}
     );
-    
+
     Result<OptimizationPlan> optimizeKHopNeighborhood(
         std::string_view start, int k,
         const QueryConstraints& constraints = {}
     );
-    
+
     Result<OptimizationPlan> optimizePatternMatch(
         const std::vector<std::string>& pattern_vertices,
         const std::vector<std::pair<std::string, std::string>>& pattern_edges,
         const QueryConstraints& constraints = {}
     );
-    
+
     Result<OptimizationPlan> optimizeReachability(
         std::string_view start, std::string_view target,
         const QueryConstraints& constraints = {}
     );
-    
+
     Result<OptimizationPlan> optimizeConstrainedPath(
         std::string_view start, std::string_view end,
         const PathConstraints& constraints
     );
-    
+
     // Execution
     Result<std::vector<std::string>> executeBFS(
         std::string_view start, int max_depth,
         const QueryConstraints& constraints,
         ExecutionStats* stats = nullptr
     );
-    
+
     Result<std::vector<std::string>> executeDFS(
         std::string_view start, int max_depth,
         const QueryConstraints& constraints,
         ExecutionStats* stats = nullptr
     );
-    
+
     Result<PathResult> executeDijkstra(
         std::string_view start, std::string_view target,
         const QueryConstraints& constraints,
         ExecutionStats* stats = nullptr
     );
-    
+
     Result<PathResult> executeAStar(
         std::string_view start, std::string_view target,
         std::function<double(const std::string&)> heuristic,
         const QueryConstraints& constraints,
         ExecutionStats* stats = nullptr
     );
-    
+
     Result<PathResult> executeBidirectional(
         std::string_view start, std::string_view target,
         const QueryConstraints& constraints,
         ExecutionStats* stats = nullptr
     );
-    
+
     // Statistics
     Result<GraphStatistics> collectStatistics(
         std::optional<std::string_view> graph_id = std::nullopt
     );
-    
+
     const GraphStatistics& getStatistics() const;
     double estimateEdgeTypeSelectivity(std::string_view edge_type) const;
-    
+
     // Plan Management
     std::string explainPlan(const OptimizationPlan& plan) const;
     void setPlanCachingEnabled(bool enabled);
@@ -190,11 +192,11 @@ constraints.unique_vertices = true;
 auto plan = optimizer.optimizeShortestPath("A", "B", constraints);
 if (plan) {
     std::cout << optimizer.explainPlan(plan.value()) << std::endl;
-    
+
     // Execute
     GraphQueryOptimizer::ExecutionStats exec_stats;
     auto result = optimizer.executeBFS("A", 5, constraints, &exec_stats);
-    
+
     std::cout << "Nodes explored: " << exec_stats.nodes_explored << std::endl;
     std::cout << "Time: " << exec_stats.execution_time_ms << "ms" << std::endl;
 }
@@ -255,43 +257,43 @@ class PathConstraints {
 public:
     PathConstraints() = default;
     explicit PathConstraints(GraphIndexManager* graph_mgr);
-    
+
     void setGraphManager(GraphIndexManager* graph_mgr);
-    
+
     // Length constraints
     void addMinLength(int min_length);
     void addMaxLength(int max_length);
-    
+
     // Node constraints
     void addForbiddenNode(std::string_view node_id);
     void addRequiredNode(std::string_view node_id);
-    
+
     // Edge constraints
     void addForbiddenEdge(std::string_view edge_id);
     void addRequiredEdge(std::string_view edge_id);
-    
+
     // Uniqueness constraints
     void requireAcyclic();
     void requireUniqueNodes();
     void requireUniqueEdges();
-    
+
     // Custom validation
     void addCustomPredicate(
         std::function<bool(const std::vector<std::string>&)> predicate
     );
-    
+
     // Path operations
     Result<bool> validatePath(
         const std::vector<std::string>& nodes,
         const std::vector<std::string>& edges
     ) const;
-    
+
     Result<std::vector<PathResult>> findConstrainedPaths(
         std::string_view start_node,
         std::string_view end_node,
         int max_results = 10
     ) const;
-    
+
     // Inspection
     const std::vector<Constraint>& getConstraints() const;
     std::string describeConstraints() const;
@@ -492,5 +494,26 @@ std::cout << optimizer.explainPlan(plan.value()) << std::endl;
 - [Index Module](../index/README.md) - Graph infrastructure (GraphIndexManager, GraphAnalytics)
 - [Query Module](../query/README.md) - AQL integration
 
-*Last Updated: February 2026*  
+## Additional Public Headers
+
+| Header | Purpose |
+|--------|---------|
+| `distributed_graph.h` | `DistributedGraph` — partitioned graph across cluster nodes <!-- TODO: verify --> |
+| `explain_plan.h` | `ExplainPlan` — human-readable query plan explanation output |
+| `gpu_traversal.h` | `GpuTraversal` — CUDA/HIP-accelerated graph traversal kernels <!-- TODO: verify --> |
+| `graph_embedding.h` | `GraphEmbedding` — node and edge embedding computation |
+| `graph_query_rewriter.h` | `GraphQueryRewriter` — rewrite rules for graph query optimisation |
+| `graph_watermark.h` | `GraphWatermark` — temporal watermark tracking for streaming graph updates |
+| `parallel_traversal.h` | `ParallelTraversal` — multi-threaded BFS/DFS traversal engine |
+| `scheduled_edge_refresh.h` | `ScheduledEdgeRefresh` — periodic refresh of derived/cached edges |
+
+*Last Updated: April 2026*
 *Module Version: v1.5.0*
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

@@ -3,22 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compute_backend.h                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:05:12                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:43:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1092                                           ║
+    • Total Lines:     1135                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 3b792a6ae  2026-03-20  Refactor saga orchestrator, add compute types ║
-    • fe4492690  2026-03-19  Changes before error encountered         ║
-    • e627c556b  2026-03-15  feat(acceleration): BackendRegistry thread-safety, VLLMRe... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f2fa0c5eb  2026-02-23  fix(acceleration): address code-audit gaps — deviceInfo()... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • b5921c3ced  2026-04-13  feat(acceleration): BackendRegistry O(n²) → O(k) backend ... ║
+    • 040083b025  2026-04-12  feat: StreamingIngestManager, TsStreamCursor, LZ4 compres... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -28,6 +27,7 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include <memory>
 #include <cstdint>
 #include <atomic>
@@ -61,30 +61,45 @@ inline constexpr uint32_t BACKEND_CONTRACT_VERSION = 100; // v1.0
 
 // Backend types for hardware acceleration
 enum class BackendType {
-    CPU,        // CPU-only (fallback)
-    CUDA,       // NVIDIA CUDA
-    ZLUDA,      // AMD ZLUDA (CUDA compatibility for AMD GPUs)
-    HIP,        // AMD HIP (Heterogeneous-computing Interface for Portability)
-    ROCM,       // AMD ROCm
-    DIRECTX,    // DirectX Compute Shaders (Windows)
-    VULKAN,     // Vulkan Compute (cross-platform)
-    OPENGL,     // OpenGL Compute Shaders (legacy support)
-    METAL,      // Apple Metal
-    ONEAPI,     // Intel OneAPI/SYCL (cross-platform)
-    OPENCL,     // OpenCL (generic)
-    WEBGPU,     // WebGPU (browser-based, future)
-    MULTI_GPU,  // Multi-GPU sharding (distributes across N devices)
-    AUTO        // Auto-detect best available
+    CPU,            // CPU-only (fallback)
+    CUDA,           // NVIDIA CUDA
+    ZLUDA,          // AMD ZLUDA (CUDA compatibility for AMD GPUs)
+    HIP,            // AMD HIP (Heterogeneous-computing Interface for Portability)
+    ROCM,           // AMD ROCm
+    DIRECTX,        // DirectX Compute Shaders (Windows)
+    VULKAN,         // Vulkan Compute (cross-platform)
+    OPENGL,         // OpenGL Compute Shaders (legacy support)
+    METAL,          // Apple Metal (GPU)
+    ONEAPI,         // Intel OneAPI/SYCL (cross-platform)
+    OPENCL,         // OpenCL (generic)
+    WEBGPU,         // WebGPU (browser-based, future)
+    MULTI_GPU,      // Multi-GPU sharding (distributes across N devices)
+    // ── AI-specific accelerator backends ─────────────────────────────────────
+    // Dedicated AI/inference hardware with dedicated low-power neural engines.
+    // All AI backends expose graceful CPU fallback via AiHardwareDispatcher.
+    NPU_APPLE,      // Apple Neural Engine (Core ML / Metal Performance Shaders)
+    NPU_INTEL,      // Intel NPU (OpenVINO / iGPU tile)
+    NPU_QUALCOMM,   // Qualcomm QNN / Hexagon DSP / Snapdragon NPU
+    NPU_ARM,        // ARM Ethos-N / Mali AI extensions
+    NNAPI,          // Android Neural Networks API (delegates to best available)
+    ONNX_RUNTIME,   // ONNX Runtime (universal AI inference, selects EP at runtime)
+    AUTO            // Auto-detect best available
 };
 
 // Floating-point and quantisation precision modes.
 // Values are stable bitmask flags; combine with bitwise OR.
 enum class PrecisionMode : uint32_t {
-    NONE = 0,
-    FP32 = 1u << 0,   ///< 32-bit IEEE 754 single precision (always required)
-    FP16 = 1u << 1,   ///< 16-bit IEEE 754 half precision
-    BF16 = 1u << 2,   ///< bfloat16
-    INT8 = 1u << 3,   ///< 8-bit integer quantisation
+    NONE  = 0,
+    FP32  = 1u << 0,   ///< 32-bit IEEE 754 single precision (always required)
+    FP16  = 1u << 1,   ///< 16-bit IEEE 754 half precision
+    BF16  = 1u << 2,   ///< bfloat16
+    INT8  = 1u << 3,   ///< 8-bit integer quantisation (symmetric / asymmetric)
+    // ── AI / LLM quantisation modes ─────────────────────────────────────────
+    // Used by NPU and dedicated AI inference engines.
+    INT4  = 1u << 4,   ///< 4-bit integer (GPTQ / AWQ / NF4 schemes)
+    FP4   = 1u << 5,   ///< 4-bit float (e.g. NF4, FP4-E2M1)
+    W4A8  = 1u << 6,   ///< 4-bit weights, 8-bit activations (Qualcomm AI Engine)
+    W8A8  = 1u << 7,   ///< 8-bit weights and 8-bit activations (symmetric INT8)
 };
 
 inline constexpr PrecisionMode operator|(PrecisionMode a, PrecisionMode b) noexcept {
@@ -129,9 +144,19 @@ struct DeviceCapabilityInfo {
     bool        is_healthy        = true;    ///< false when the device reported an error
     std::string error_message;              ///< Non-empty when is_healthy == false
 
-    // Derived precision support flags
+    // Derived precision support flags (GPU / CPU backends)
     bool        supports_fp16     = false;   ///< true for CUDA sm_70+ / ROCm gfx900+
     bool        supports_bf16     = false;   ///< true for CUDA sm_80+ (Ampere and newer)
+
+    // ── AI / NPU-specific fields ──────────────────────────────────────────────
+    bool        is_npu            = false;   ///< true when this is a dedicated neural engine
+    uint32_t    npu_tops          = 0;       ///< Reported NPU peak throughput in TOPS (0 = unknown)
+    bool        supports_int4     = false;   ///< 4-bit inference (GPTQ/AWQ/NF4)
+    bool        supports_w4a8     = false;   ///< W4A8 mixed-precision (Qualcomm AI Engine, etc.)
+    std::string onnx_ep;                     ///< Preferred ONNX Runtime execution provider name
+                                             ///<  ("CUDAExecutionProvider", "CoreMLExecutionProvider",
+                                             ///<   "QNNExecutionProvider", "OpenVINOExecutionProvider",
+                                             ///<   "CPUExecutionProvider" …)
 };
 
 // Capability contract for a compute backend.
@@ -144,6 +169,7 @@ struct BackendCapabilities {
     bool supportsMatrixOps = false;    ///< FP16/BF16 matrix multiply via Tensor Core
     bool supportsBatchProcessing = false;
     bool supportsAsync = false;
+    bool supportsAiInference = false;  ///< Dedicated AI inference path (NPU / ONNX Runtime)
 
     // Precision feature matrix: OR of PrecisionMode flags.
     // Must include at least PrecisionMode::FP32 for any vector or geo backend.
@@ -160,6 +186,10 @@ struct BackendCapabilities {
     // Vendor name for GPU/hardware identification (e.g. "NVIDIA", "AMD", "Intel", "ARM")
     // Empty string means unknown or CPU backend.
     std::string vendorName;
+
+    // ── AI / NPU-specific ────────────────────────────────────────────────────
+    uint32_t    npuTops           = 0;    ///< Reported peak throughput in TOPS (0 = unknown)
+    std::string preferredOnnxEP;          ///< ONNX Runtime execution provider (empty = CPU)
 };
 
 // Backend health status — returned by IComputeBackend::getHealthStatus()
@@ -321,9 +351,8 @@ public:
     // -------------------------------------------------------------------------
     virtual ComputeFuture<SimilarityKernelResult>
     submitSimilarityKernel(const BatchDescriptor& batch,
-                           const KernelConfig&    config,
+                           [[maybe_unused]] const KernelConfig&    config,
                            CancellationToken       token = {}) {
-        (void)config;
         // Default CPU fallback: brute-force L2 / cosine / inner-product search.
         SimilarityKernelResult result;
         result.metric_used    = config.metric;
@@ -536,6 +565,19 @@ public:
     virtual MatrixKernelDispatch populateMatrixDispatch() const { return {}; }
 };
 
+/// Per-type backend aggregation stored in BackendRegistry::typeIndex_.
+/// One instance exists per distinct BackendType in the registry.  The typed
+/// interface pointer fields are set once by registerBackend() (one
+/// dynamic_cast per interface per registration) and are then used in the hot
+/// query path without further dynamic_cast calls.
+struct RegisteredBackend {
+    IComputeBackend* base      = nullptr;  ///< First registered backend of this type
+    IVectorBackend*  vectorPtr = nullptr;  ///< First IVectorBackend of this type, or nullptr
+    IGraphBackend*   graphPtr  = nullptr;  ///< First IGraphBackend of this type, or nullptr
+    IGeoBackend*     geoPtr    = nullptr;  ///< First IGeoBackend of this type, or nullptr
+    IMatrixBackend*  matrixPtr = nullptr;  ///< First IMatrixBackend of this type, or nullptr
+};
+
 // Forward declaration
 class PluginLoader;
 
@@ -702,6 +744,7 @@ private:
     mutable std::shared_mutex registryMutex_;
 
     std::vector<std::unique_ptr<IComputeBackend>> backends_;
+    std::unordered_map<BackendType, RegisteredBackend> typeIndex_;
     std::unique_ptr<PluginLoader> pluginLoader_;
 
     // Backends selected at the last initializeRuntime() call (nullptr until

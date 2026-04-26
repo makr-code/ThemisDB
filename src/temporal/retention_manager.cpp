@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            retention_manager.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:40                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     568                                            ║
+    • Total Lines:     565                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 1b4259583  2026-03-12  Add safety comment for countdown predicate, clarify test ... ║
-    • eff45c52d  2026-03-12  Address PR review: fix resolveArchiveTag, retry exception... ║
-    • 1b897ee39  2026-03-12  Address code review: extract helpers, fix VERSION_COUNT_B... ║
-    • 958756864  2026-03-12  Implement Automated Retention Policies: STORAGE_BASED typ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1b4259583e  2026-03-12  Add safety comment for countdown predicate, clarify test ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -40,6 +36,20 @@
 
 namespace themisdb {
 namespace temporal {
+
+// ============================================================================
+// RetentionRule — comparison operators
+// ============================================================================
+
+bool RetentionRule::operator==(const RetentionRule& rhs) const noexcept {
+    return std::tie(type, period, max_versions, max_bytes, tag)
+        == std::tie(rhs.type, rhs.period, rhs.max_versions, rhs.max_bytes, rhs.tag);
+}
+
+bool RetentionRule::operator<(const RetentionRule& rhs) const noexcept {
+    return std::tie(type, period, max_versions, max_bytes, tag)
+        < std::tie(rhs.type, rhs.period, rhs.max_versions, rhs.max_bytes, rhs.tag);
+}
 
 // ============================================================================
 // Policy management

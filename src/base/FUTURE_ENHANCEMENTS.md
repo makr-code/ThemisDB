@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Base Module - Future Enhancements
@@ -203,3 +205,51 @@ Universal module packaging format across Linux/macOS/Windows, including platform
 
 *Last Updated: 2026-03-22*
 *Module Version: v1.8.0*
+
+---
+
+## Security Hardening Backlog (Q3 2026)
+
+> GAP-014 – identified via static analysis (2026-04-21).
+> Reference: `docs/governance/SOURCECODE_COMPLIANCE_GOVERNANCE.md`.
+
+### GAP-014 – Replace `popen(gpg …)` with `execvp()` in Module Loader
+
+**Scope:** `src/base/module_loader.cpp:1449`
+
+### Design Constraints
+- GPG signature verification semantics must be preserved (exit code 0 + "Good signature" in output)
+- The replacement must work on Linux (the primary deployment target); macOS support is secondary
+- kForbidden character check can be retained as defence-in-depth but must not be relied upon
+  as the sole injection mitigation
+
+### Required Interfaces
+```cpp
+// New helper: run gpg without shell, capture stdout+stderr via pipe pair
+struct GpgResult { int exit_code; std::string output; };
+static GpgResult runGpgVerify(const std::string& sig_path, const std::string& module_path);
+```
+- Uses `pipe()` + `fork()` + `execvp("gpg", ...)` + `waitpid()` pattern
+- No `/bin/sh` involved; arguments are passed directly as `char* const[]`
+
+### Implementation Notes
+```cpp
+// Sketch:
+const char* args[] = {"gpg", "--verify", sig_path.c_str(), module_path.c_str(), nullptr};
+// pipe stdout+stderr to parent, execvp in child, waitpid in parent
+```
+- `execvp` resolves `gpg` from `PATH`; alternatively use full path `/usr/bin/gpg` from config
+- The child's stdout+stderr is redirected to a pipe; the parent reads it after `waitpid`
+
+### Test Strategy
+- Unit test with a mock `gpg` binary (shell script) that exits 0 and prints "Good signature"
+- Unit test with a mock `gpg` that exits 1 → function returns `false`
+- Unit test with a path containing `'` → verify that no shell interprets the quote
+
+### Performance Targets
+- Execution time: ≤ 500 ms (dominated by gpg's asymmetric crypto, not the syscall overhead)
+
+### Security / Reliability
+- No `/bin/sh` invoked; all arguments are null-terminated strings passed directly to `execvp`
+- On `fork()` failure: return `false` (fail-closed)
+- Child process timeout: `alarm(30)` in child to avoid hanging indefinitely

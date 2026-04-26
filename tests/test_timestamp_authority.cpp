@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_timestamp_authority.cpp                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:34:31                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:57:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🔴 ALPHA                                        ║
     • Quality Score:   28.0/100                                       ║
-    • Total Lines:     703                                            ║
+    • Total Lines:     701                                            ║
     • Open Issues:     TODOs: 0, Stubs: 18                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f3755277d  2026-03-01  feat(tsa): implement RFC 3161 TSAConfig auth/TLS fields a... ║
-    • efbe366d9  2026-03-01  Add production mode guard to TimestampAuthority stub and ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🚧 Early Development                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝

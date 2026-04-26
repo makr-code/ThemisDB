@@ -621,11 +621,59 @@ Low cardinality: Status (10 values)
 
 **SSTable:** Sorted String Table
 
+**StreamingIngestManager:** High-throughput key-value ingest component using an in-memory ring buffer drained by a background flush thread into a single RocksDB WriteBatch. Supports ≥ 1 M events/s at ≤ 50 ms end-to-end latency. OverflowPolicy BLOCK or DROP. See Chapter 11.8.
+
+**TsStreamCursor:** Lazy, paginated streaming cursor over TSStore query results. Fetches results in configurable pages (default 4 096 DataPoints) to avoid materialising large result sets in memory. See Chapter 9.11.2.
+
+**TSStore::putBatch:** Zero-copy batch write API for TSStore. Accepts `std::span<const TSRow>` and commits all rows in a single RocksDB WriteBatch for maximum write throughput. See Chapter 9.11.1.
+
+**TemporalCompressor:** Component responsible for compressing and decompressing temporal (time-versioned) JSON data in ThemisDB. Supports ZSTD and LZ4 algorithms. LZ4 is optimised for high-throughput, low-latency hot paths. See Chapter 9.11.3.
+
 **TTL:** Time-To-Live (auto-delete after interval)
 
 **Transaction:** Atomic unit of work
 
 **Throughput:** Operations per unit time
+
+**LockFreeHistogram:** Header-only, lock-free latency histogram using per-bucket atomic counters. `record()` costs ≤ 20 ns. Supports Exponential and Linear bucket modes. See Chapter 21.1.1.
+
+**RequestCoalescer:** Cache singleflight implementation that coalesces concurrent requests with the same key so that the backend function `fn()` is executed exactly once per in-flight key, eliminating thundering-herd cache-miss storms. See Chapter 21.1.2.
+
+**IoUringBatchedSender:** Linux io_uring-backed batched network sender that submits multiple WireProtocolBatcher flush operations as a single `io_uring_enter()` syscall, reducing syscall count from O(N) to O(1) per round. Falls back to `writev(2)` when io_uring is unavailable. See Chapter 21.1.3.
+
+**ColumnarCache:** LRU in-memory cache for columnar `ColumnSegment` objects. Cached data is in the same layout as `ColumnBatch`, enabling zero-copy analytics access. Supports PinGuard RAII for eviction protection. See Chapter 15.13.1.
+
+**IStreamingJoin:** Interface for streaming join operators over `ColumnBatch` streams. Concrete implementations: `HashJoin` (equi-join, Inner/LeftOuter) and `IntervalJoin` (time-based event correlation). See Chapter 15.13.2.
+
+**AiHardwareDispatcher:** Universal AI-hardware dispatch layer that selects the best available backend at runtime following the priority chain: NPU → ONNX Runtime → GPU → CPU. Supports INT4/W4A8/W8A8 precision modes. See Chapter 16.11.
+
+**ArgumentStore:** Ethics AI Plugin component that persists `EthicalArgument` objects as ThemisDB `BaseEntity` entries in RocksDB (or an in-memory fallback for tests). See Chapter 24.9.
+
+**EthicalDiscourseEngine:** Ethics AI Plugin orchestrator that coordinates multi-philosophy debates via `initializeDebate()` and synthesises an `EthicalDecision` via `makeDecision()`. See Chapter 24.9.
+
+**EthicsEvaluator:** Ethics AI Plugin component that scores an `EthicalDecision` across five dimensions: Decision Quality, Consistency, Fairness, Alignment, and Transparency. See Chapter 24.9.
+
+**IAudioBackend:** Plugin interface implemented by `WhisperPlugin`. Provides `transcribe()`, `transcribeFile()`, and `detectLanguage()` methods. See Chapter 10.7.x.
+
+**IImageGenerationBackend:** Plugin interface implemented by `SDPlugin`. Provides `generate()`, `generateBatch()`, and `generateImg2Img()` methods. See Chapter 12.10.
+
+**PhilosophyLoader:** Ethics AI Plugin component that loads and caches philosophy school profiles from YAML files. See Chapter 24.9.
+
+**RAGContextEngine:** Ethics AI Plugin component providing 7 optimised AQL query patterns for context retrieval from the ethics knowledge base. See Chapter 24.9.
+
+**SDPlugin:** Stable Diffusion image-generation plugin implementing `IImageGenerationBackend`. Provides text-to-image, batch, and img2img generation with prompt sanitisation and provenance stamps. See Chapter 12.10.
+
+**SDPromptSanitizer:** Stable Diffusion content-policy component that blocks prompts containing forbidden keywords (case-insensitive, file-loadable blocklist). Covers negative prompts (security gap SD-NP-01). See Chapter 12.10.
+
+**WhisperPlugin:** Speech-to-text plugin implementing `IAudioBackend`. Wraps `IWhisperTranscriber` strategy and `IAudioChunkReader` for file I/O. Thread-safe; adds provenance stamps to every result. See Chapter 10.7.x.
+
+**WavAudioChunkReader:** WAV file reader without external library dependency. Supports 16-bit PCM and IEEE float32 RIFF/WAV. Used by `WhisperPlugin` as default audio input. See Chapter 10.7.x.
+
+**LIRS (Low Inter-Reference Recency Set):** Advanced cache eviction algorithm distinguishing LIR (low inter-reference recency, "hot") from HIR (high inter-reference recency, "warm/cold") entries. ThemisDB's LIRS implementation uses `std::shared_mutex` for thread-safe access.
+
+**RCU (Read-Copy-Update):** Lock-free synchronisation technique for shared data: readers proceed without locks while writers create a new version. `g_rcu_reader_count` tracks active readers; writers wait until the count reaches zero.
+
+**UUID v7:** UUID version 7 as defined by RFC 9562, embedding a 48-bit millisecond Unix timestamp for time-sortable identifiers. ThemisDB generates UUID v7 via `generate_uuid_v7()` using a thread-local monotonic sequence counter and MT19937-64 randomness.
 
 **Vector:** Ordered list of numbers
 
@@ -645,7 +693,99 @@ Low cardinality: Status (10 values)
 
 ---
 
-## Summary
+## Process Module Terms
+
+**BpmnSerializer:** Process module component that imports and exports BPMN 2.0 XML using a state-machine tokenizer (no external XML library). Handles Camunda/Flowable/Signavio/VCC-VPB files. 10 MiB input guard. See Chapter 29.14.
+
+**EPK (Ereignisgesteuerte Prozesskette):** Event-driven Process Chain — a German process notation standard. ThemisDB supports EPK via `EpkSerializer` for both text and JSON formats. See Chapter 29.14.
+
+**EpkSerializer:** Process module component for EPK text/JSON import and export. `importText()` accepts line-based EPK notation; `exportJson()` produces a machine-readable JSON graph. See Chapter 29.14.
+
+**LlmProcessDescriptor:** Process module component that generates structured JSON descriptors and system prompts from process models, optimised for GPT-4, Claude, and local LLMs. See Chapter 29.14.
+
+**ProcessAttachment:** Descriptor of a data object attached to a process instance, stored under `proc:attach:<instance_id>:<object_id>` in RocksDB. See Chapter 29.14.
+
+**ProcessDomain:** Classification for process models: `ADMINISTRATION`, `BUSINESS`, `IT_SERVICE`, `HEALTHCARE`, `FINANCE`, `CUSTOMER_SERVICE`, `CUSTOM`. See Chapter 29.14.
+
+**ProcessGraphRag:** Graph-RAG engine that bridges the process execution graph with LLMs. Produces `ProcessRagContext` with subgraph, attachments, missing documents, similar cases, and a ready-to-send LLM prompt. See Chapter 29.14.
+
+**ProcessLinkType:** Typed relationship between a process instance and a data object or another instance: `HAS_DOCUMENT`, `HAS_METADATA`, `REQUIRES_DOCUMENT`, `IS_INSTANCE_OF`, `SUB_PROCESS`, `CROSS_REFERENCE`, `TRIGGERS`, `EVIDENCE_FOR`. See Chapter 29.14.
+
+**ProcessLinker:** Process module component managing attachments (`proc:attach:`), typed process-to-process links (`proc:link:`), and required-document registrations (`proc:req_doc:`) in RocksDB. See Chapter 29.14.
+
+**ProcessModelManager:** Process module CRUD manager storing versioned process models (`proc:def:<id>`) in RocksDB. Supports BPMN 2.0, EPK, and VCC-VPB import/export as well as deployment to `ProcessGraphManager`. See Chapter 29.14.
+
+**ProcessModelRecord:** Metadata record stored alongside each process model: id, name, notation, domain, state, normalised graph, compliance tags, version, and embedding. See Chapter 29.14.
+
+**ProcessNotation:** Format enum for process models: `BPMN_2_0`, `EPK`, `VCC_VPB`, `CMMN_1_1`, `DMN_1_5`. See Chapter 29.14.
+
+**ProcessRagContext:** Full Graph-RAG result produced by `ProcessGraphRag::retrieve()`. Contains the LLM prompt, subgraph, attachments, similar cases, compliance check, and missing documents list. See Chapter 29.14.
+
+**VccVpbImporter:** Process module component that imports VCC-VPB YAML process definitions into the ThemisDB internal graph format. See Chapter 29.14.
+
+**Verwaltungsvorgang:** German administrative case/procedure. ThemisDB's Process Module and `ProcessGraphRag` are specifically optimised for German Verwaltungsprozesse (e.g., Bauantrag, Führerscheinantrag). See Chapter 29.14.
+
+**LIRS (Low Inter-Reference Recency Set):** Advanced cache eviction algorithm distinguishing LIR (low inter-reference recency, "hot") from HIR (high inter-reference recency, "warm/cold") entries. ThemisDB's LIRS implementation uses `std::shared_mutex` for thread-safe access.
+
+**RCU (Read-Copy-Update):** Lock-free synchronisation technique for shared data: readers proceed without locks while writers create a new version. `g_rcu_reader_count` tracks active readers; writers wait until the count reaches zero.
+
+**UUID v7:** UUID version 7 as defined by RFC 9562, embedding a 48-bit millisecond Unix timestamp for time-sortable identifiers. ThemisDB generates UUID v7 via `generate_uuid_v7()` using a thread-local monotonic sequence counter and MT19937-64 randomness.
+
+**Vector:** Ordered list of numbers
+
+**View:** Virtual table derived from query
+
+**Voice Assistant:** Enterprise feature providing natural language voice interaction using Whisper (STT), Piper (TTS), and llama.cpp (LLM). Enables call center automation, meeting protocol generation, and voice-controlled database queries with DSGVO-compliant storage. See Chapter 10.7.
+
+**WAL (Write-Ahead Log):** Transaction log that records all database changes before they are applied, ensuring durability and enabling replication. In ThemisDB v1.5.0-dev, WAL replication provides zero-data-loss failover with support for synchronous, asynchronous, and hybrid replication modes. See Chapter 16.10.2.
+
+**WAL Replication:** Replication mechanism based on Write-Ahead Log streaming that continuously transfers transaction log entries from primary to replica nodes. Supports sync (zero data loss, higher latency), async (minimal latency, potential data loss), and hybrid modes. See Chapter 16.10.2.
+
+**Warm Data:** Occasionally accessed data
+
+**Whisper:** OpenAI's high-accuracy Speech-to-Text (STT) model integrated into ThemisDB Voice Assistant via whisper.cpp. Supports 100+ languages with auto-detection, speaker diarization, and 5 model sizes (tiny to large) trading accuracy for speed. See Chapter 10.7.
+
+**Workload:** Pattern of database usage
+
+---
+
+## LLM Module Terms
+
+**IntegrationTestSuite:** LLM module testing class with 14 scenarios covering component integration (LazyLoader + GPU Memory, Scheduler + Paged Attention, Kernel Fusion + Inference, full E2E pipeline), multi-model serving/switching/LoRA management, failure scenarios (OOM, load failure, cancellation, preemption), and performance (high concurrency, burst traffic, long requests). See Chapter 17.24.
+
+**LlamaWrapper:** Central llama.cpp adapter in ThemisDB's LLM module. Implements `ILLMPlugin`, wrapping llama.cpp inference with full production features: Multi-LoRA, KV-Cache / Prefix Cache, RoPE Scaling, grammar-constrained generation, streaming, and multi-modal vision support. See Chapter 17.24.
+
+**MultiLoRAManager:** vLLM-inspired LoRA adapter manager supporting up to N simultaneous adapters, dynamic load/unload without model reload, INT8/INT4 quantization (`quantizeLoRA()`), and multi-GPU placement (ROUND_ROBIN, DATA_PARALLEL, MODEL_PARALLEL). See Chapter 17.24.
+
+**ProductionValidator:** End-to-end validation framework for the LLM module. Covers 72-hour stress tests, load tests (100 concurrent, 50 RPS), quality validation (≥80% pass rate), and performance regression detection (≤1% tolerance). See Chapter 17.24.
+
+**RoPE Scaling:** Rotary Position Embedding scaling for extending the context window beyond a model's training length. ThemisDB supports LINEAR, NTK, YARN, and DYNAMIC methods. YARN provides the best quality for 8×+ extension (4K→32K tokens). See Chapter 17.24.
+
+**VisionEncoder:** CLIP-based image encoder (`include/llm/vision_encoder.h`) used by `LlamaWrapper::generateVision()`. Loads CLIP GGUF models, encodes image files to float embedding vectors, and supports GPU acceleration. Configured via `enable_vision` + `clip_model_path` in `LlamaWrapper::Config`. See Chapter 17.24.
+
+**VisionRequest / VisionResponse:** Structs for multi-modal LLM inference. `VisionRequest` contains `text_prompt`, `image_path`/`image_paths`, and generation parameters. `VisionResponse` contains `text`, `tokens_generated`, `inference_time_ms`, and `image_encoding_time_ms`. See Chapter 17.24.
+
+---
+
+## RAG v2 Module Terms
+
+**BatchEvaluator:** Parallel batch RAG evaluation using configurable worker threads and async futures/promises. Aggregates individual `EvaluationResult`s into statistics (pass_rate, avg_faithfulness, avg_overall). See Chapter 17.3.5.
+
+**CalibrationManager:** Aligns RAGJudge scores with human annotations via temperature scaling, Platt scaling, and isotonic regression. Reports ECE (Expected Calibration Error), Brier score, and Pearson/Spearman correlation. See Chapter 17.3.5.
+
+**DocumentSplitter:** Configurable text chunking for RAG ingestion pipelines. Strategies: FIXED (token count), SENTENCE (boundary-aware), SEMANTIC (embedding-similarity), RECURSIVE (hierarchical). Configurable `chunk_size` and `chunk_overlap`. See Chapter 17.3.5.
+
+**EvaluationCache:** Thread-safe LRU cache for `EvaluationResult` objects with TTL expiry and invalidation triggers. Tracks hit/miss/eviction statistics. Prevents redundant LLM judge calls for identical inputs. See Chapter 17.3.5.
+
+**EvaluationMode (RAG):** Evaluation speed/depth trade-off for `RAGJudge`. `FAST` (~100 ms, single-dimension), `BALANCED` (~500 ms, multi-dimension, default), `THOROUGH` (~2 s, CoT + NLI verification). See Chapter 17.3.5.
+
+**HallucinationDashboard:** Rolling-window hallucination rate tracker for `RAGJudge` evaluations. Reports current rate (0.0–1.0) and trend (IMPROVING/STABLE/DEGRADING) over a configurable window. See Chapter 17.3.5.
+
+**HybridRetriever:** Fuses BM25 (sparse/keyword) and vector (dense/semantic) candidate lists using Reciprocal Rank Fusion (RRF, k=60) or linear combination. Configurable per-source weights (default 0.5/0.5). See Chapter 17.3.5.
+
+**RAGJudge:** Central RAG evaluation orchestrator in `themis::rag::judge`. Evaluates generated answers across 5 dimensions: Faithfulness, Relevance, Completeness, Coherence, Ethical Compliance. Supports pairwise comparison, batch evaluation, and pluggable NLI/G-Eval scorers. See Chapter 17.3.5.
+
+**RRF (Reciprocal Rank Fusion):** Rank-based fusion formula combining multiple ranked lists: `score(d) = Σ 1/(k + rank(d))`. The constant k=60 (default) controls rank-sensitivity. Used by `HybridRetriever` to combine BM25 and vector results. See Chapter 17.3.5.
 
 Understanding these terms is essential for:
 - **Development:** Writing efficient queries

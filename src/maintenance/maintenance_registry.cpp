@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            maintenance_registry.cpp                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:17:18                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     240                                            ║
+    • Total Lines:     241                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 0eb79f3e4  2026-03-11  feat: add DatabaseMaintenanceOrchestrator with full sched... ║
+    • 9d11fed508  2026-04-14  fix                                     ║
+    • 9623765ff2  2026-04-14  fix                                     ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -211,19 +212,19 @@ void registerDefaultMaintenanceSetup(
     // Register default schedules (disabled by default so operators can enable)
     auto daily = defaultDailySchedule();
     daily.enabled = false;
-    orchestrator.createSchedule(daily);
+    (void)orchestrator.createSchedule(daily);
 
     auto weekly = defaultWeeklySchedule();
     weekly.enabled = false;
-    orchestrator.createSchedule(weekly);
+    (void)orchestrator.createSchedule(weekly);
 
     auto monthly = defaultMonthlySchedule();
     monthly.enabled = false;
-    orchestrator.createSchedule(monthly);
+    (void)orchestrator.createSchedule(monthly);
 
     auto quarterly = defaultQuarterlySchedule();
     quarterly.enabled = false;
-    orchestrator.createSchedule(quarterly);
+    (void)orchestrator.createSchedule(quarterly);
 
     // Register index maintenance health probe
     if (index_mgr) {

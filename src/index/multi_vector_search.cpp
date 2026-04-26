@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_vector_search.cpp                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:37                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     626                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -216,7 +213,7 @@ MultiVectorSearch::search(
                 float score = 1.0f / (1.0f + it->distance);
                 scores.push_back(score);
                 
-                int rank = std::distance(results.begin(), it);
+                int rank = static_cast<int>(std::distance(results.begin(), it));
                 ranks.push_back(rank);
             } else {
                 scores.push_back(0.0f);  // Not found
@@ -394,7 +391,7 @@ MultiVectorSearch::hybridSearch(
         if (vec_it != vector_results.end()) {
             float score = 1.0f / (1.0f + vec_it->distance);
             scores.push_back(score);
-            ranks.push_back(std::distance(vector_results.begin(), vec_it));
+            ranks.push_back(static_cast<int>(std::distance(vector_results.begin(), vec_it)));
         } else {
             scores.push_back(0.0f);
             ranks.push_back(std::numeric_limits<int>::max());
@@ -572,7 +569,7 @@ Result<std::vector<float>> MultiVectorSearch::optimizeWeights(
                         if (it != relevant_docs.end()) {
                             // Document is relevant
                             float gain = 1.0f; // Binary relevance
-                            dcg += gain / std::log2(i + 2); // i+2 because ranks start at 1
+                            dcg += gain / std::log2f(static_cast<float>(i + 2)); // i+2 because ranks start at 1
                         }
                     }
                     
@@ -580,7 +577,7 @@ Result<std::vector<float>> MultiVectorSearch::optimizeWeights(
                     float idcg = 0.0f;
                     size_t num_relevant = std::min(relevant_docs.size(), static_cast<size_t>(10));
                     for (size_t i = 0; i < num_relevant; ++i) {
-                        idcg += 1.0f / std::log2(i + 2);
+                        idcg += 1.0f / std::log2f(static_cast<float>(i + 2));
                     }
                     
                     float ndcg = (idcg > 0) ? (dcg / idcg) : 0.0f;
@@ -588,7 +585,7 @@ Result<std::vector<float>> MultiVectorSearch::optimizeWeights(
                 }
             }
             
-            float avg_ndcg = total_ndcg / queries.size();
+            float avg_ndcg = total_ndcg / static_cast<float>(queries.size());
             if (avg_ndcg > best_score) {
                 best_score = avg_ndcg;
                 best_weights = current_weights;

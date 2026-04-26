@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [server](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-04  
+**Datum:** 2026-04-17  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/server/ARCHITECTURE.md`
@@ -9,6 +9,7 @@
 - `include/server/README.md`
 - `include/server/ROADMAP.md`
 - `include/server/SECURITY.md`
+- `include/server/examples/README.md`
 - `src/server/ARCHITECTURE.md`
 - `src/server/AUDIT.md`
 - `src/server/CHANGELOG.md`
@@ -27,23 +28,9 @@
 
 # Primary Sources — `server`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`server`** aus den Verzeichnissen `src/server/` und/oder `include/server/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`server`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/server/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/server/ARCHITECTURE.md`](../../../src/server/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/server/AUDIT.md`](../../../src/server/AUDIT.md) |
-| `CHANGELOG.md` | [`src/server/CHANGELOG.md`](../../../src/server/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/server/FUTURE_ENHANCEMENTS.md`](../../../src/server/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/server/README.md`](../../../src/server/README.md) |
-| `ROADMAP.md` | [`src/server/ROADMAP.md`](../../../src/server/ROADMAP.md) |
-| `SECURITY.md` | [`src/server/SECURITY.md`](../../../src/server/SECURITY.md) |
-| `VCCDB Design.md` | [`src/server/VCCDB Design.md`](../../../src/server/VCCDB Design.md) |
-| `README.md` | [`src/server/rpc/README.md`](../../../src/server/rpc/README.md) |
 
 ### `include/server/`
 
@@ -57,6 +44,31 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`server`** 
 | `ROADMAP.md` | [`include/server/ROADMAP.md`](../../../include/server/ROADMAP.md) |
 | `SECURITY.md` | [`include/server/SECURITY.md`](../../../include/server/SECURITY.md) |
 
+### `include/server/examples/`
+
+| Datei | Pfad |
+|-------|------|
+| `README.md` | [`include/server/examples/README.md`](../../../include/server/examples/README.md) |
+
+### `src/server/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/server/ARCHITECTURE.md`](../../../src/server/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/server/AUDIT.md`](../../../src/server/AUDIT.md) |
+| `CHANGELOG.md` | [`src/server/CHANGELOG.md`](../../../src/server/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/server/FUTURE_ENHANCEMENTS.md`](../../../src/server/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/server/README.md`](../../../src/server/README.md) |
+| `ROADMAP.md` | [`src/server/ROADMAP.md`](../../../src/server/ROADMAP.md) |
+| `SECURITY.md` | [`src/server/SECURITY.md`](../../../src/server/SECURITY.md) |
+| `VCCDB Design.md` | [`src/server/VCCDB Design.md`](../../../src/server/VCCDB Design.md) |
+
+### `src/server/rpc/`
+
+| Datei | Pfad |
+|-------|------|
+| `README.md` | [`src/server/rpc/README.md`](../../../src/server/rpc/README.md) |
+
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-04*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*

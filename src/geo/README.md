@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release --target <target>`
+
 # Geospatial Module
 
 Geospatial query processing and indexing implementation for ThemisDB.
@@ -20,44 +22,58 @@ Implements geospatial query processing and spatial indexing for ThemisDB, provid
 - `gpu_backend_cuda.cu` — CUDA kernel dispatch for distance and containment (`THEMIS_GEO_CUDA=ON`)
 - `gpu_backend_hip.cpp` — ROCm/HIP kernel dispatch for AMD hardware (`THEMIS_ENABLE_HIP=ON`)
 - `gpu_backend_production.cpp` — production GPU backend wrapper (metrics, audit log)
-- `geo_rtree.cpp` — R-tree spatial index for sub-linear CPU query performance
+- `geo_rtree.cpp` — R-tree spatial index (`GeoRTree`) for sub-linear CPU query performance
+- `rtree_cursor.h` / `rtree_cursor.cpp` — pull-based cursor API: `IRTreeCursor`, `IGeoIndex`, `GeoRTreeIndex`; supports `openRangeCursor(MBR)` and `openKNNCursor(Coordinate, k)`; stale-cursor detection on index mutation
+- `geo_json_geometry.h` / `geo_json_geometry.cpp` — OOP geometry class hierarchy: `IGeoJSONGeometry` (abstract base), `GeoPoint`, `GeoLineString`, `GeoPolygon`, `GeoMultiPolygon`, `GeoGeometryCollection`; `BBox`, `ValidationResult`, `CrsId`; right-hand-rule enforcement; RFC 7946 WGS-84 coordinate validation
+- `spatial_join_filter.h` / `spatial_join_filter.cpp` — composable spatial predicate hierarchy: `ISpatialJoinFilter` (abstract), `IntersectsFilter`, `ContainsFilter`, `WithinFilter`, `TouchesFilter`, `DWithinFilter`; logical combinators `AndFilter`, `OrFilter`, `NotFilter`; `SpatialJoinFilter` factory namespace
+- `temporal_spatial_query_builder.h` / `temporal_spatial_query_builder.cpp` — fluent builder: `ITemporalSpatialQueryBuilder`, `TemporalSpatialQueryBuilder`, `BuiltTemporalSpatialQuery`; `TimeWindowType` enum (`POINT_IN_TIME`, `INTERVAL`, `SLIDING_WINDOW`)
+- `raster_query_interface.h` / `raster_query_interface.cpp` — typed raster query interface: `IRasterQueryInterface`, `RasterGridQueryImpl`, `NoOpRasterQueryImpl`; `RasterConfig` (max tile size), `RasterStatus`, `RasterResult`; guarded by `THEMIS_ENABLE_RASTER`
 - `spatial_join.cpp` — spatial JOIN finding all pairs within a configurable distance threshold
 - `geo_clustering.cpp` — DBSCAN and k-means clustering for geo point datasets
 - `raster.cpp` — raster grid queries (elevation sampling, bbox extraction, Gaussian KDE heatmaps)
-- `temporal_spatial_query.cpp` — location-at-time-T queries over versioned document tables
+- `temporal_spatial_query.cpp` — location-at-time-T queries over versioned document tables (`TemporalSpatialQuery`)
 - `tile_server.cpp` — map tile server integration
 - `device_detector.cpp` — runtime GPU device discovery and capability reporting
+- `geo_faiss_knn.cpp` — FAISS GPU k-NN bridge (`GeoFaissKnn`, `GeoKnnResult`) via ECEF 3D projection
 - `getBackendForPrecision(GeoPrecisionMode)` — factory to select exact or approximate backend at call-site
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — CPU and GPU-accelerated backends operational. CUDA kernels for distance/containment implemented; ST_BUFFER/UNION/DIFFERENCE CUDA kernels deferred to v2.2.0 (CPU fallback active).
+**Maturity:** 🟢 Production-Ready — CPU and GPU-accelerated backends fully operational. v2.5.0 adds the pull-based R-tree cursor API, fluent temporal-spatial query builder, typed raster query interface, GeoJSON geometry class hierarchy, and composable spatial join filters. CUDA kernels for ST_BUFFER/UNION/DIFFERENCE remain deferred (CPU fallback active).
 
 ## Components
 
 - CPU-based geospatial backend (`cpu_backend.cpp`, `boost_cpu_exact_backend.cpp`)
 - GPU-accelerated geospatial backend (`gpu_backend_stub.cpp`, `gpu_backend_cuda.cu`, `gpu_backend_hip.cpp`, `gpu_backend_production.cpp`)
-- R-tree spatial index (`geo_rtree.cpp`)
+- R-tree spatial index (`geo_rtree.cpp`) and pull-based cursor API (`rtree_cursor.h/cpp`)
 - Spatial JOIN support (`spatial_join.cpp`)
+- Composable spatial join filters (`spatial_join_filter.h/cpp`)
 - Geo-point clustering: DBSCAN and k-means (`geo_clustering.cpp`)
-- Raster data queries (`raster.cpp`)
-- Temporal-spatial queries (`temporal_spatial_query.cpp`)
+- Raster data queries (`raster.cpp`) and typed raster query interface (`raster_query_interface.h/cpp`)
+- Temporal-spatial queries (`temporal_spatial_query.cpp`) and fluent temporal-spatial query builder (`temporal_spatial_query_builder.h/cpp`)
+- GeoJSON geometry class hierarchy (`geo_json_geometry.h/cpp`)
 - Tile server integration (`tile_server.cpp`)
 - GPU device detection (`device_detector.cpp`)
+- FAISS GPU k-NN bridge (`geo_faiss_knn.cpp`)
 
 ## Features
 
 - 2D and 3D spatial queries
 - Geometry operations: contains, intersects, distance, ST_BUFFER, ST_UNION, ST_DIFFERENCE
 - Full GeoJSON RFC 7946 support (all 7 geometry types including `GeometryCollection` and `MultiPolygon`)
+- **GeoJSON geometry class hierarchy**: `IGeoJSONGeometry` abstract base with concrete `GeoPoint`, `GeoLineString`, `GeoPolygon`, `GeoMultiPolygon`, `GeoGeometryCollection`; `BBox`, `ValidationResult`, `CrsId`; right-hand-rule enforcement on `GeoPolygon`
 - S2/H3 cell indexing support
 - R-tree spatial index for sub-linear query performance on large collections
+- **Pull-based R-tree cursor API**: `IRTreeCursor` / `IGeoIndex` / `GeoRTreeIndex` — `openRangeCursor(MBR)` and `openKNNCursor(Coordinate, k)`; `CursorStatus::STALE` returned on index mutation
 - GPU acceleration for large-scale queries (CUDA + ROCm/HIP; CPU fallback via circuit-breaker when no device is present)
 - **Configurable precision mode**: `GeoPrecisionMode::Exact` (full geometric algorithms, no false positives) and `GeoPrecisionMode::Approximate` (MBR-based fast pre-filter, no false negatives); selected via `getBackendForPrecision()`
 - Spatial JOIN (all pairs within distance threshold)
+- **Composable spatial join filters**: `ISpatialJoinFilter` with `IntersectsFilter`, `ContainsFilter`, `WithinFilter`, `TouchesFilter`, `DWithinFilter`; logical `AndFilter`, `OrFilter`, `NotFilter`; `SpatialJoinFilter` factory namespace
 - Geo-point clustering: DBSCAN and k-means
 - Raster data queries (elevation sampling, bounding-box extraction, Gaussian KDE heatmaps)
+- **Typed raster query interface**: `IRasterQueryInterface` / `RasterGridQueryImpl` / `NoOpRasterQueryImpl`; `RasterConfig` max-tile-size guard; `RasterStatus` error codes; compile-time `THEMIS_ENABLE_RASTER` guard
 - Temporal-spatial queries (location at time T, entities within distance at time T)
+- **Fluent temporal-spatial query builder**: `ITemporalSpatialQueryBuilder` / `TemporalSpatialQueryBuilder` / `BuiltTemporalSpatialQuery`; `TimeWindowType` (`POINT_IN_TIME`, `INTERVAL`, `SLIDING_WINDOW`); validates presence of both temporal and spatial constraints at `build()`
 - Tile server integration for map visualization
 
 ## Documentation
@@ -85,3 +101,12 @@ For geospatial documentation, see:
 7. Vincenty, T. (1975). **Direct and Inverse Solutions of Geodesics on the Ellipsoid with Application of Nested Equations**. *Survey Review*, 23(176), 88–93. https://doi.org/10.1179/sre.1975.23.176.88
 
 8. Greiner, G., & Hormann, K. (1998). **Efficient Clipping of Arbitrary Polygons**. *ACM Transactions on Graphics*, 17(2), 71–83. https://doi.org/10.1145/274363.274364
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/geo/README.md`](../../include/geo/README.md) for the public API.

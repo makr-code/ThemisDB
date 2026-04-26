@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_model_storage.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:59                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     996                                            ║
+    • Total Lines:     998                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 10bb6eb49  2026-03-19  fix(llm): address PR review — key_prefix rename, source t... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -477,7 +477,7 @@ public:
         }
     }
     
-    bool updateModel(const std::string& model_id, const LLMModelMetadata& metadata) {
+    bool updateModel(const std::string& /*model_id*/, const LLMModelMetadata& metadata) {
         // For simplicity, just store again
         return storeModel(metadata, std::nullopt);
     }

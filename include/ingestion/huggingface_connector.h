@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            huggingface_connector.h                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:10                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     183                                            ║
+    • Total Lines:     179                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 25f69a572  2026-03-09  feat(ingestion): replace simulated HttpClient in HuggingF... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • eda6e27de  2026-02-28  fix(ingestion): reject_invalid=false mode, schema_violati... ║
-    • b40bbc161  2026-02-26  feat(ingestion): OAuth 2.0 token refresh handling in Gene... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 25f69a572f  2026-03-09  feat(ingestion): replace simulated HttpClient in HuggingF... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -31,6 +27,7 @@
 #include <memory>
 
 namespace themis {
+namespace governance { class ModelGovernancePolicy; }
 namespace ingestion {
 
 /**
@@ -173,6 +170,20 @@ public:
      * @param validator Validator callback; empty = disable
      */
     void setDocumentValidator(DocumentValidatorFn validator) override;
+
+    /**
+     * @brief Set the governance policy for data classification checks.
+     *
+     * When set, `initialize()` calls `policy->checkExportPermission()` with
+     * purpose="DATA_INGESTION" before accepting the configuration.  If the
+     * decision is DENY, `initialize()` returns false and logs the denial reason.
+     * When @p policy is nullptr, the classification gate is bypassed and a
+     * WARN is logged (Gap 8 degraded mode — AI_ML_IMPACT_ASSESSMENT.md §7).
+     *
+     * @param policy  Governance policy to consult; may be nullptr.
+     */
+    void setIngestionPolicy(
+        std::shared_ptr<governance::ModelGovernancePolicy> policy);
 
 private:
     class Impl;

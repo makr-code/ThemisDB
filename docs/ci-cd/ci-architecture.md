@@ -1,7 +1,7 @@
 # ThemisDB CI/CD Architecture
 
 **Version:** 2.0  
-**Last Updated:** 2026-02-10  
+**Last Updated:** 2026-04-06  
 **Status:** Active
 
 ## Overview

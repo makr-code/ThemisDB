@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_adapter.cpp                                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:16:46                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     218                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     189                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 7a7881349  2026-03-15  fix(ingestion): address code review - type-safe confidenc... ║
-    • c4c4c27fa  2026-03-15  feat(ingestion): LLMIngestionAdapter Phase 2 - wire llama... ║
-    • 2bb85b14f  2026-03-11  feat(ingestion): add llm_adapter.h/cpp + fix README gaps ... ║
+    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,12 +25,9 @@
 #include <fstream>
 #include <stdexcept>
 
-// Phase 2: When THEMIS_ENABLE_LLM is ON, include the llama.cpp bridge.
-// The include is guarded so Phase 1 compiles without llama.cpp.
-#ifdef THEMIS_ENABLE_LLM
-#include "llm/llama_resource_manager.h"
-#include "llm/llm_plugin_manager.h"
-#endif
+// SoC NOTE: This file intentionally contains NO includes from llm/.
+// The concrete LLM backend is injected via ITextGenerationBackend.
+// See include/ingestion/inference_backend.h and llm/llm_ingestion_bridge.h.
 
 namespace themis {
 namespace ingestion {
@@ -41,7 +36,13 @@ namespace ingestion {
 // LegalLlmAdapter implementation
 // ============================================================================
 
-LegalLlmAdapter::LegalLlmAdapter() = default;
+LegalLlmAdapter::LegalLlmAdapter()
+    : backend_(std::make_shared<NullTextGenerationBackend>()) {}
+
+LegalLlmAdapter::LegalLlmAdapter(std::shared_ptr<ITextGenerationBackend> backend)
+    : backend_(backend ? std::move(backend)
+                       : std::make_shared<NullTextGenerationBackend>()) {}
+
 LegalLlmAdapter::~LegalLlmAdapter() = default;
 LegalLlmAdapter::LegalLlmAdapter(LegalLlmAdapter&&) noexcept = default;
 LegalLlmAdapter& LegalLlmAdapter::operator=(LegalLlmAdapter&&) noexcept = default;
@@ -55,65 +56,34 @@ const LlmAdapterConfig& LegalLlmAdapter::getConfig() const {
 }
 
 bool LegalLlmAdapter::isLlmAvailable() const {
-#ifdef THEMIS_ENABLE_LLM
-    // Phase 2: check that the model file exists and is readable
-    if (!config_.hasModel()) {
-        return false;
-    }
-    // Attempt a lightweight file existence check
-    std::ifstream f(config_.model_path);
-    return f.good();
-#else
-    // Phase 1: LLM support not compiled in; always fall back to regex
-    return false;
-#endif
+    return backend_ && backend_->isAvailable();
 }
 
 DeonticExtractor::ExtractorFn LegalLlmAdapter::buildExtractorFn() const {
-#ifdef THEMIS_ENABLE_LLM
-    // Phase 2 health check: when a model path is explicitly configured but the
-    // GGUF file does not exist or is not readable, fail fast with a clear error
-    // rather than silently falling back to the stub regex implementation.
-    if (config_.hasModel()) {
-        std::ifstream probe(config_.model_path);
-        if (!probe.good()) {
-            throw std::runtime_error(
-                "LegalLlmAdapter: GGUF model file is not accessible: " +
-                config_.model_path);
-        }
-    }
-#endif
-
     if (!isLlmAvailable()) {
-        // Phase 1 / no model configured: return empty fn → DeonticExtractor
-        // will use its built-in regex implementation.
+        // No backend available — return empty fn so DeonticExtractor uses regex.
         return {};
     }
 
-#ifdef THEMIS_ENABLE_LLM
-    // Phase 2: capture config by value so the function outlives this adapter.
+    // Capture backend + config by value so the lambda outlives this adapter.
+    auto captured_backend = backend_;
     LlmAdapterConfig captured_config = config_;
-    return [captured_config](const std::string& text) -> DeonticExtraction {
-        themis::llm::InferenceRequest req;
-        req.prompt       = LegalLlmAdapter::buildPrompt(text);
-        req.model_id     = "default";
-        req.max_tokens   = 512;
-        req.temperature  = static_cast<float>(captured_config.temperature);
-        // "json" is a built-in grammar type supported by LLMPluginManager
-        // (see InferenceRequest::grammar_type) that constrains generation to
-        // produce syntactically valid JSON — a best-effort hint to the backend.
-        req.grammar_type = "json";
 
-        if (captured_config.hasAdapter()) {
-            req.lora_adapter_id = captured_config.adapter_path;
+    return [captured_backend, captured_config](const std::string& text) -> DeonticExtraction {
+        try {
+            const std::string response = captured_backend->generate(
+                LegalLlmAdapter::buildPrompt(text),
+                512,
+                captured_config.temperature,
+                captured_config.adapter_path);
+            return LegalLlmAdapter::parseLlmResponse(response);
+        } catch (const std::exception& e) {
+            DeonticExtraction result;
+            result.warnings.push_back(
+                std::string("ITextGenerationBackend::generate() threw: ") + e.what());
+            return result;
         }
-
-        auto response = themis::llm::LLMPluginManager::instance().generate(req);
-        return LegalLlmAdapter::parseLlmResponse(response.text);
     };
-#else
-    return {};
-#endif
 }
 
 DeonticExtractor LegalLlmAdapter::buildExtractor(double confidence_threshold) const {

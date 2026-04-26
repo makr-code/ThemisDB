@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            process_linker.cpp                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:18:10                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:50:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     490                                            ║
+    • Total Lines:     508                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 7f7a27240  2026-03-12  feat(process): add ProcessLinker, ProcessGraphRag, and mo... ║
+    • b18a0735c6  2026-04-12  fix(process): replace regex BPMN parser with state-machin... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -150,6 +150,13 @@ std::string ProcessLinker::makeAttachKey_(std::string_view instance_id,
     return "proc:attach:" + std::string(instance_id) + ":" + std::string(object_id);
 }
 
+std::string ProcessLinker::makeObjIdxKey_(std::string_view object_id,
+                                           std::string_view collection,
+                                           std::string_view instance_id) const {
+    return "proc:obj_idx:" + std::string(object_id) + ":" +
+           std::string(collection) + ":" + std::string(instance_id);
+}
+
 std::string ProcessLinker::makeLinkKey_(std::string_view source_id,
                                          std::string_view target_id,
                                          ProcessLinkType  link_type) const {
@@ -205,6 +212,11 @@ std::pair<bool, std::string> ProcessLinker::attachObject(
         return {false, "storage write failed"};
     }
 
+    // Write reverse-lookup secondary index for findInstancesWithObject().
+    const std::string idx_key =
+        makeObjIdxKey_(object_id, object_collection, instance_id);
+    db_.put(idx_key, "1");
+
     SPDLOG_INFO("[process_linker] attached '{}' ({}) to instance '{}'",
                 object_id, std::string(toString(link_type)), instance_id);
     return {true, att.id};
@@ -216,28 +228,38 @@ std::pair<bool, std::string> ProcessLinker::attachObject(
 
 bool ProcessLinker::detachObject(std::string_view attachment_id) {
     // attachment_id format: "attach:<instance_id>:<object_id>"
-    // Reconstruct the RocksDB key from the attachment id by stripping the
-    // leading "attach:" and substituting the "proc:attach:" prefix.
+    // Reconstruct the RocksDB primary key: "proc:attach:<instance_id>:<object_id>"
     std::string sid(attachment_id);
     if (sid.size() > 7 && sid.substr(0, 7) == "attach:") {
-        sid = "proc:" + sid;  // → "proc:attach:<instance_id>:<object_id>"
-    } else {
-        sid = std::string(attachment_id);
+        sid = "proc:" + sid;
     }
 
-    // Check the key exists before deleting
+    // Read the attachment document to extract fields needed for index cleanup.
     std::string existing;
     if (!db_.get(sid, existing)) {
         SPDLOG_WARN("[process_linker] detachObject: attachment key '{}' not found", sid);
         return false;
     }
 
-    // RocksDB wrapper exposes put but not explicit delete; write a tombstone by
-    // marking deleted in the value so scans can skip it.
-    json tombstone;
-    tombstone["deleted"] = true;
-    if (!db_.put(sid, tombstone.dump())) {
-        SPDLOG_WARN("[process_linker] detachObject: failed to write tombstone for '{}'", sid);
+    // Remove the secondary reverse-lookup index entry.
+    try {
+        auto doc = json::parse(existing);
+        if (!doc.value("deleted", false)) {
+            const std::string obj_id  = doc.value("object_id", "");
+            const std::string col     = doc.value("object_collection", "");
+            const std::string inst_id = doc.value("instance_id", "");
+            if (!obj_id.empty() && !inst_id.empty()) {
+                db_.del(makeObjIdxKey_(obj_id, col, inst_id));
+            }
+        }
+    } catch (const std::exception& ex) {
+        SPDLOG_WARN("[process_linker] detachObject: failed to parse attachment '{}': {}",
+                    sid, ex.what());
+    }
+
+    // Hard delete the primary attachment record.
+    if (!db_.del(sid)) {
+        SPDLOG_WARN("[process_linker] detachObject: del failed for '{}'", sid);
         return false;
     }
 
@@ -300,30 +322,25 @@ std::vector<std::string> ProcessLinker::findInstancesWithObject(
     std::string_view object_collection) const
 {
     std::vector<std::string> instances;
-    const std::string prefix = "proc:attach:";
-    const std::string oid(object_id);
-    const std::string ocol(object_collection);
 
-    db_.scanPrefix(prefix, [&](std::string_view /*key*/, std::string_view value) -> bool {
-        try {
-            auto doc = json::parse(value);
-            if (doc.value("deleted", false)) return true;
-            if (doc.value("object_id", "") == oid &&
-                doc.value("object_collection", "") == ocol) {
-                std::string iid = doc.value("instance_id", "");
-                if (!iid.empty()) {
-                    instances.push_back(std::move(iid));
-                }
-            }
-        } catch (const std::exception& ex) {
-            SPDLOG_WARN("[process_linker] findInstancesWithObject parse error: {}", ex.what());
+    // Use the secondary reverse-lookup index for O(prefix-scan) lookup
+    // instead of a full scan over all attachments.
+    // Key scheme: proc:obj_idx:<object_id>:<collection>:<instance_id>
+    const std::string prefix =
+        "proc:obj_idx:" + std::string(object_id) + ":" +
+        std::string(object_collection) + ":";
+
+    db_.scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) -> bool {
+        // The instance_id is the suffix after the prefix.
+        if (key.size() > prefix.size()) {
+            instances.emplace_back(key.substr(prefix.size()));
         }
         return true;
     });
 
-    // Deduplicate
+    // Index entries are unique per (object_id, collection, instance_id) triple,
+    // but sort for stable ordering.
     std::sort(instances.begin(), instances.end());
-    instances.erase(std::unique(instances.begin(), instances.end()), instances.end());
     return instances;
 }
 

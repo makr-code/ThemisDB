@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wasm_handler_registry.cpp                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:20:11                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:50:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 33dfc284a  2026-03-11  feat(server): WebAssembly Handler Registry for Edge Compu... ║
+    • 33dfc284ad  2026-03-11  feat(server): WebAssembly Handler Registry for Edge Compu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -22,6 +22,7 @@
 
 #include "server/wasm_handler_registry.h"
 
+#include <algorithm>
 #include <chrono>
 #include <ctime>
 #include <future>
@@ -29,6 +30,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <thread>
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace server {
@@ -415,9 +417,18 @@ http::response<http::string_body> WasmHandlerRegistry::handleUpload(
         if (j.contains("cpu_time_ms") && j["cpu_time_ms"].is_number_integer())
             config.cpu_time_limit =
                 std::chrono::milliseconds(j["cpu_time_ms"].get<uint64_t>());
-        if (j.contains("memory_limit_mb") && j["memory_limit_mb"].is_number_integer())
-            config.memory_limit_bytes =
-                static_cast<size_t>(j["memory_limit_mb"].get<uint64_t>()) * 1024 * 1024;
+        if (j.contains("memory_limit_mb") && j["memory_limit_mb"].is_number_integer()) {
+            // GAP-022: Cap WASM memory_limit_mb at 16 GB to prevent DoS via
+            // absurdly large sandbox allocation requests (CWE-400).
+            static constexpr uint64_t kMaxMemoryLimitMb = 16'384; // 16 GB
+            const uint64_t requested = j["memory_limit_mb"].get<uint64_t>();
+            if (requested > kMaxMemoryLimitMb) {
+                spdlog::warn("[SECURITY] WASM: memory_limit_mb={} exceeds cap {}; "
+                             "clamping to cap (GAP-022/CWE-400)", requested, kMaxMemoryLimitMb);
+            }
+            const uint64_t clamped = std::min(requested, kMaxMemoryLimitMb);
+            config.memory_limit_bytes = static_cast<size_t>(clamped) * 1024 * 1024;
+        }
         if (j.contains("entry_point") && j["entry_point"].is_string())
             config.entry_point = j["entry_point"].get<std::string>();
     } else {

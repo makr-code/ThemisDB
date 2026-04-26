@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "required": ["content", "metadata"],
+  "properties": {
+    "content": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 104857600
+    },
+    "metadata": { "type": "object" },
+    "mime_type": {
+      "type": "string",
+      "maxLength": 256,
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9!#$&\\-^_]*\\/[a-zA-Z0-9][a-zA-Z0-9!#$&\\-^_.+]*$"
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 512
+    }
+  },
+  "additionalProperties": false
+}

@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_conflict_resolver.cpp                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:42                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     623                                            ║
+    • Total Lines:     621                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 43a91f179  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
-    • e1fff5135  2026-03-12  fix(temporal): address PR review findings on TemporalConf... ║
-    • 1b0158e11  2026-03-12  feat: implement TemporalConflictDetector for temporal con... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 43a91f1793  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -199,32 +196,19 @@ TemporalSnapshot TemporalConflictResolver::resolveCRDT(
     const TemporalSnapshot& local,
     const TemporalSnapshot& remote
 ) {
-    // LWW-Register per field: for each field, keep the value from the
-    // snapshot with the higher HLC timestamp (Last-Write-Wins per field).
-    // For fields present only in one snapshot the single value is kept.
-    // This is the standard LWW-Element-Register CRDT strategy.
-
-    const TemporalSnapshot& newer =
-        (local.hlc < remote.hlc) ? remote : local;
-    const TemporalSnapshot& older =
-        (local.hlc < remote.hlc) ? local : remote;
-
-    // Start with the older snapshot's fields as the baseline
-    nlohmann::json merged = older.data;
-
-    // Override/add with all fields from the newer snapshot
-    if (newer.data.is_object() && older.data.is_object()) {
-        for (auto& [key, value] : newer.data.items()) {
-            merged[key] = value;
-        }
-    } else {
-        // Non-object payloads: the newer value wins outright
-        merged = newer.data;
+    // Delegate to the injected MergeResolver if one has been set; otherwise
+    // fall back to the built-in LWW-per-field strategy.
+    std::shared_ptr<MergeResolver> resolver;
+    {
+        std::lock_guard<std::mutex> lk(mutex_);
+        resolver = merge_resolver_;
     }
 
-    TemporalSnapshot result = newer;
-    result.data = std::move(merged);
-    return result;
+    if (resolver) {
+        return resolver->merge(local, remote);
+    }
+    // Fallback: built-in LWW-per-field strategy
+    return LWWFieldMergeResolver{}.merge(local, remote);
 }
 
 std::vector<ConflictRecord> TemporalConflictResolver::getUnresolvedConflicts() const {
@@ -617,6 +601,96 @@ std::optional<Conflict> TemporalConflictDetector::detectUniquenessViolation(
     c.remote_version   = remote;
     c.affected_columns = std::move(affected);
     return c;
+}
+
+// ============================================================================
+// MergeResolver Built-in Implementations
+// ============================================================================
+
+// ─── LWWFieldMergeResolver ───────────────────────────────────────────────────
+
+TemporalSnapshot LWWFieldMergeResolver::merge(
+    const TemporalSnapshot& local,
+    const TemporalSnapshot& remote
+) const {
+    // LWW-Register per field: for each JSON field keep the value from the
+    // snapshot with the higher HLC timestamp.  Fields present only in one
+    // snapshot are always included.
+
+    const TemporalSnapshot& newer = (local.hlc < remote.hlc) ? remote : local;
+    const TemporalSnapshot& older = (local.hlc < remote.hlc) ? local  : remote;
+
+    nlohmann::json merged = older.data;
+
+    if (newer.data.is_object() && older.data.is_object()) {
+        for (const auto& [key, value] : newer.data.items()) {
+            merged[key] = value;
+        }
+    } else {
+        merged = newer.data;
+    }
+
+    TemporalSnapshot result = newer;
+    result.data = std::move(merged);
+    return result;
+}
+
+// ─── UnionMergeResolver ──────────────────────────────────────────────────────
+
+TemporalSnapshot UnionMergeResolver::merge(
+    const TemporalSnapshot& local,
+    const TemporalSnapshot& remote
+) const {
+    // Union: keep every field from either snapshot; for fields present in
+    // both, take the value from the snapshot with the higher HLC.
+    // Non-object payloads fall back to LWW.
+
+    const TemporalSnapshot& newer = (local.hlc < remote.hlc) ? remote : local;
+    const TemporalSnapshot& older = (local.hlc < remote.hlc) ? local  : remote;
+
+    nlohmann::json merged;
+
+    if (newer.data.is_object() && older.data.is_object()) {
+        // Start with older fields as the baseline (union semantics: keep all).
+        merged = older.data;
+        // Overwrite/add all fields from the newer snapshot.
+        for (const auto& [key, value] : newer.data.items()) {
+            merged[key] = value;
+        }
+    } else {
+        merged = newer.data;
+    }
+
+    TemporalSnapshot result = newer;
+    result.data = std::move(merged);
+    return result;
+}
+
+// ─── CustomMergeResolver ─────────────────────────────────────────────────────
+
+CustomMergeResolver::CustomMergeResolver(MergeFn fn)
+    : fn_(std::move(fn))
+{}
+
+TemporalSnapshot CustomMergeResolver::merge(
+    const TemporalSnapshot& local,
+    const TemporalSnapshot& remote
+) const {
+    return fn_(local, remote);
+}
+
+// ============================================================================
+// TemporalConflictResolver – MergeResolver accessors
+// ============================================================================
+
+void TemporalConflictResolver::setMergeResolver(std::shared_ptr<MergeResolver> resolver) {
+    std::lock_guard<std::mutex> lk(mutex_);
+    merge_resolver_ = std::move(resolver);
+}
+
+std::shared_ptr<MergeResolver> TemporalConflictResolver::getMergeResolver() const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    return merge_resolver_;
 }
 
 } // namespace temporal

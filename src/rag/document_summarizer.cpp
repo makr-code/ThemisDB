@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            document_summarizer.cpp                            ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:18:51                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:50:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     489                                            ║
+    • Total Lines:     487                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7b7b5e67d  2026-02-24  fix(rag): audit fixes – remove dead code, finalize ROADMA... ║
-    • 03b20d394  2026-02-24  feat(rag): implement multi-document summarization before ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -96,7 +91,7 @@ double scoreSentence(const std::string& sentence,
 }
 
 /// Split @p text into sentences (split on '.', '!', '?').
-std::vector<std::string> splitSentences(const std::string& text) {
+std::vector<std::string> splitSentencesSimple(const std::string& text) {
     std::vector<std::string> sentences;
     std::string current;
     for (size_t i = 0; i < text.size(); ++i) {
@@ -135,7 +130,7 @@ std::string extractiveSummary(
     size_t min_sentence_chars,
     size_t budget_chars)
 {
-    const auto all_sentences = splitSentences(content);
+    const auto all_sentences = splitSentencesSimple(content);
 
     // Score each sentence
     std::vector<std::pair<double, size_t>> scored; // (score, index)
@@ -280,8 +275,8 @@ struct DocumentSummarizer::Impl {
         }
 
         // coverage_score: distinct sentences in summary / total sentences
-        const auto total_sents   = splitSentences(content).size();
-        const auto summary_sents = splitSentences(ds.summary).size();
+        const auto total_sents   = splitSentencesSimple(content).size();
+        const auto summary_sents = splitSentencesSimple(ds.summary).size();
         ds.coverage_score = total_sents > 0
             ? std::min(1.0, static_cast<double>(summary_sents) /
                             static_cast<double>(total_sents))
@@ -386,8 +381,8 @@ MultiDocumentSummary DocumentSummarizer::summarizeMultiple(
                 impl_->config.max_sentences_per_doc,
                 impl_->config.min_sentence_chars,
                 per_doc_budget);
-            const auto total_sents   = splitSentences(d.content).size();
-            const auto summary_sents = splitSentences(ds.summary).size();
+            const auto total_sents   = splitSentencesSimple(d.content).size();
+            const auto summary_sents = splitSentencesSimple(ds.summary).size();
             ds.coverage_score = total_sents > 0
                 ? std::min(1.0, static_cast<double>(summary_sents) /
                                 static_cast<double>(total_sents))

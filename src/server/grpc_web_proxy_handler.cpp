@@ -3,26 +3,26 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            grpc_web_proxy_handler.cpp                         ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:19:47                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:50:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   85.0/100                                       ║
-    • Total Lines:     340                                            ║
+    • Total Lines:     341                                            ║
     • Open Issues:     TODOs: 0, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 39ac8c3ef  2026-03-20  Split default-arg constructors into overloads ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • de101321a  2026-03-01  feat(server): implement gRPC-Web proxy handler for browse... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "server/grpc_web_proxy_handler.h"
+#include "utils/logger.h"
 
 #include <nlohmann/json.hpp>
 #include <chrono>
@@ -124,7 +124,17 @@ GrpcWebProxyHandler::GrpcWebProxyHandler()
 
 GrpcWebProxyHandler::GrpcWebProxyHandler(Config config)
     : config_(std::move(config))
-{}
+{
+    // GAP-012: Warn when the CORS allow-origin is the wildcard '*' (CWE-346).
+    // A wildcard allows any browser origin to read gRPC-Web responses, which
+    // violates the principle of least privilege.  Set Config::cors_allow_origin
+    // to a specific origin (e.g. "https://app.example.com") in production.
+    if (config_.cors_allow_origin == "*") {
+        THEMIS_WARN("[SECURITY] GrpcWebProxy: cors_allow_origin='*' — any origin can read "
+                    "gRPC-Web responses. Configure a specific origin in production "
+                    "(GAP-012/CWE-346).");
+    }
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Channel management
@@ -222,7 +232,7 @@ http::response<http::string_body> GrpcWebProxyHandler::handleStatus(
 
 http::response<http::string_body> GrpcWebProxyHandler::handlePost(
     const http::request<http::string_body>& req,
-    const std::string& method)
+    [[maybe_unused]] const std::string& method)
 {
     // Validate Content-Type
     const std::string content_type{req[http::field::content_type]};
@@ -258,14 +268,14 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
             const char unit = timeout_hdr.back();
             const int64_t value = std::stoll(timeout_hdr.substr(0, timeout_hdr.size() - 1));
             using namespace std::chrono;
-            system_clock::time_point deadline;
+            system_clock::time_point deadline = system_clock::now();
             switch (unit) {
-                case 'H': deadline = system_clock::now() + hours(value);        break;
-                case 'M': deadline = system_clock::now() + minutes(value);      break;
-                case 'S': deadline = system_clock::now() + seconds(value);      break;
-                case 'm': deadline = system_clock::now() + milliseconds(value); break;
-                case 'u': deadline = system_clock::now() + microseconds(value); break;
-                case 'n': deadline = system_clock::now() + nanoseconds(value);  break;
+                case 'H': deadline = system_clock::now() + std::chrono::duration_cast<system_clock::duration>(hours(value));        break;
+                case 'M': deadline = system_clock::now() + std::chrono::duration_cast<system_clock::duration>(minutes(value));      break;
+                case 'S': deadline = system_clock::now() + std::chrono::duration_cast<system_clock::duration>(seconds(value));      break;
+                case 'm': deadline = system_clock::now() + std::chrono::duration_cast<system_clock::duration>(milliseconds(value)); break;
+                case 'u': deadline = system_clock::now() + std::chrono::duration_cast<system_clock::duration>(microseconds(value)); break;
+                case 'n': deadline = system_clock::now() + std::chrono::duration_cast<system_clock::duration>(nanoseconds(value));  break;
                 default:  break;
             }
             if (unit == 'H' || unit == 'M' || unit == 'S' ||

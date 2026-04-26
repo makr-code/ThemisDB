@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_orchestrator.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:17:05                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -13,14 +13,12 @@
     • Total Lines:     575                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "llm/lora_framework/lora_orchestrator.h"
+#include "llm/decision_record_yaml_processor.h"
 
 #include <algorithm>
 #include <atomic>
@@ -85,6 +83,9 @@ public:
 
     // Provenance manager for cryptographic audit and MVCC snapshots
     LoRAProvenanceManager provenance_mgr;
+
+    // Decision traceability (optional, non-blocking)
+    std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> dr_processor;
 };
 
 LoRAOrchestrator::LoRAOrchestrator(const Config& config) : impl_(std::make_unique<Impl>()) {
@@ -400,6 +401,18 @@ std::string LoRAOrchestrator::loadAdapter(const std::string& adapter_id, bool as
     job.updated_at = job.started_at;
     impl_->jobs[job.job_id] = job;
 
+    // Emit LOOP_TRIGGER decision record (non-blocking)
+    if (impl_->dr_processor) {
+        themis::llm::DecisionRecord rec;
+        rec.decision_type = "LOOP_TRIGGER";
+        rec.component     = "LoRAOrchestrator";
+        rec.outcome       = async ? "RUNNING" : "SUCCESS";
+        rec.parameters["adapter_id"] = adapter_id;
+        rec.parameters["job_id"]     = job.job_id;
+        rec.parameters["async"]      = async ? "true" : "false";
+        impl_->dr_processor->submit(std::move(rec));
+    }
+
     return job.job_id;
 }
 
@@ -568,6 +581,13 @@ std::vector<InferenceAuditEntry> LoRAOrchestrator::getInferenceAuditLog(
 
 bool LoRAOrchestrator::verifyAuditChain(const std::string& adapter_id) const {
     return impl_->provenance_mgr.verifyAuditChain(adapter_id);
+}
+
+void LoRAOrchestrator::setDecisionRecordProcessor(
+    std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> processor)
+{
+    std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
+    impl_->dr_processor = std::move(processor);
 }
 
 } // namespace lora

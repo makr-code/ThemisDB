@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Plan** – Strategie-Dokument beschreibt den Stand zum Zeitpunkt der Erstellung.
+
 # 🚀 Phase 2: Sharding Strategy for True Parallelization
 
 **Goal**: Eliminate Database Write Serialization  

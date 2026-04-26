@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_file_watcher.cpp                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:15:01                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:48:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   81.0/100                                       ║
-    • Total Lines:     673                                            ║
+    • Total Lines:     675                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • d53734b2f  2026-03-15  fix(config): mark roadmap issue checkboxes done; fix star... ║
-    • 1e2b358f1  2026-03-15  feat(config): SIGHUP hot-reload inotify/kqueue/ReadDirect... ║
+    • 8332e5afa3  2026-04-13  Refactor and update various components for improved compa... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -51,7 +50,9 @@
 #  include <cstring>
 #  include <map>
 #elif defined(_WIN32)
-#  define WIN32_LEAN_AND_MEAN
+#  ifndef WIN32_LEAN_AND_MEAN
+#    define WIN32_LEAN_AND_MEAN
+#  endif
 #  include <windows.h>
 #endif
 

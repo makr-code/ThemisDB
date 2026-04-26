@@ -82,5 +82,5 @@ This paper describes the temporal extensions standardized in SQL:2011 — the fi
 - [Temporal module README](../../../src/temporal/README.md)
 
 ---
-**Last Updated:** 2026-03-23  
+**Last Updated:** 2026-04-06  
 **Next Review:** 2026-09-30

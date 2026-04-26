@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_compiler.cpp                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:18:36                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:50:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     447                                            ║
+    • Total Lines:     448                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 28e5fa09b  2026-03-15  feat(query): implement Query Compilation & JIT (v1.8.0, I... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -312,7 +313,7 @@ private:
             // Deadline guard — abort if specialisation takes too long.
             // In this template-specialisation backend the work is fast;
             // the guard protects future LLVM backend integration.
-            const auto deadline_ms = config_.compilation_timeout_ms;
+            [[maybe_unused]] const auto deadline_ms = config_.compilation_timeout_ms;
 
             // Capture everything the hot function needs by value.
             auto captured_executor = entry.executor;
@@ -331,7 +332,7 @@ private:
                                 deadline_ms](const QueryParams& params)
                     -> Result<QueryResult>
                 {
-                    (void)deadline_ms; // guard; relevant for LLVM backend
+                    // guard; relevant for LLVM backend
                     auto r = captured_executor(captured_query, params);
                     if (r) { r->used_compiled_path = true; }
                     return r;

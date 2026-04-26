@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            redundancy_strategy.h                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:37                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     738                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -113,7 +110,8 @@ enum class ConflictResolution {
 enum class ErasureCodingAlgorithm {
     REED_SOLOMON,       // Classic Reed-Solomon
     CAUCHY,             // Cauchy Reed-Solomon (faster)
-    LRC                 // Local Reconstruction Code (Azure-style)
+    LRC,                // Local Reconstruction Code (Azure-style)
+    HAMMING             // Hamming code (RAID-2 style, single-error correction via XOR parities)
 };
 
 /**
@@ -464,6 +462,116 @@ private:
     
     // Matrix inversion for recovery
     bool invertMatrix(std::vector<std::vector<uint8_t>>& matrix);
+};
+
+/**
+ * Locally Repairable Code (LRC) Erasure Coder
+ *
+ * LRC organises @p data_shards into local groups.  Each group has one XOR
+ * local-parity shard so a single failure in that group can be repaired by
+ * reading only the other group members rather than all data shards.
+ * The remaining parity budget (parity_shards − n_local_groups) is spent on
+ * global Vandermonde parity shards that cover all data shards.
+ *
+ * Layout (total n = data_shards + parity_shards shards):
+ *   [d0 … dk-1] [lp0 … lp(g-1)] [gp0 … gp(m-1)]
+ *   where g = n_local_groups, m = parity_shards − g
+ *
+ * Default local group size is kDefaultLocalGroupSize (4).  The value is
+ * capped so that g ≤ parity_shards.
+ */
+class LocallyRepairableCoder : public ErasureCoder {
+public:
+    static constexpr uint32_t kDefaultLocalGroupSize = 4;
+
+    std::vector<std::vector<uint8_t>> encode(
+        const std::vector<uint8_t>& data,
+        uint32_t data_shards,
+        uint32_t parity_shards
+    ) override;
+
+    std::vector<uint8_t> decode(
+        const std::map<uint32_t, std::vector<uint8_t>>& available_chunks,
+        const std::vector<uint32_t>& missing_indices,
+        uint32_t data_shards,
+        uint32_t parity_shards
+    ) override;
+
+private:
+    // Return number of local groups for given data/parity counts.
+    static uint32_t localGroupCount(uint32_t data_shards, uint32_t parity_shards);
+
+    // GF(2^8) helpers (shared Vandermonde parity logic)
+    static uint8_t gf_mul(uint8_t a, uint8_t b);
+    static uint8_t gf_inv(uint8_t a);
+    static uint8_t gf_pow(uint8_t a, uint8_t exp);
+    static void gf_matrix_mul(const std::vector<std::vector<uint8_t>>& m,
+                               const std::vector<uint8_t>& v,
+                               std::vector<uint8_t>& result);
+    static bool invertMatrix(std::vector<std::vector<uint8_t>>& matrix);
+    static std::vector<std::vector<uint8_t>> buildVandermonde(uint32_t rows, uint32_t cols);
+};
+
+/**
+ * Hamming Erasure Coder
+ *
+ * Implements a generalised RAID-2 / Hamming-code erasure coder operating at
+ * shard (block) granularity rather than at the bit level.
+ *
+ * Parity assignment:
+ *   Parity shard p (0-indexed) covers every data shard j (0-indexed) for
+ *   which bit p is set in the 1-based position (j + 1):
+ *
+ *     parity[p] = XOR{ data[j]  for all j in [0, data_shards)
+ *                      where ((j + 1) >> p) & 1 == 1 }
+ *
+ * Properties:
+ *   - Encode / decode uses pure XOR — no Galois-Field arithmetic needed.
+ *   - Single data-shard failure can always be recovered via syndrome
+ *     detection (O(data_shards) work per byte).
+ *   - A missing parity shard can be recomputed directly from data shards.
+ *   - Best configured with parity_shards = ceil(log2(data_shards + r + 1))
+ *     so that syndromes are unique for every possible single failure.
+ *   - When more than one data shard is missing the coder attempts iterative
+ *     repair using parity shards that cover exactly one of the missing
+ *     shards; if impossible it throws std::runtime_error.
+ *
+ * Example: 4 data shards → 3 parity shards (Hamming(7,4) shard analogue)
+ */
+class HammingCoder : public ErasureCoder {
+public:
+    /**
+     * Encode @p data into (data_shards + parity_shards) chunks.
+     *
+     * The first data_shards chunks are systematic (raw data).
+     * Chunks at indices [data_shards, data_shards + parity_shards) are parity.
+     *
+     * @throws std::invalid_argument if data is empty or shard counts are 0.
+     */
+    std::vector<std::vector<uint8_t>> encode(
+        const std::vector<uint8_t>& data,
+        uint32_t data_shards,
+        uint32_t parity_shards
+    ) override;
+
+    /**
+     * Recover original data from an incomplete set of chunks.
+     *
+     * @param available_chunks  Map of chunk index → chunk bytes for every
+     *                          shard that is present.
+     * @param missing_indices   Indices of shards that are unavailable.
+     * @param data_shards       k (number of data shards used during encode).
+     * @param parity_shards     r (number of parity shards used during encode).
+     * @return                  Concatenated recovered data shards (may be
+     *                          zero-padded at the end if encode padded).
+     * @throws std::runtime_error if too many data shards are missing to recover.
+     */
+    std::vector<uint8_t> decode(
+        const std::map<uint32_t, std::vector<uint8_t>>& available_chunks,
+        const std::vector<uint32_t>& missing_indices,
+        uint32_t data_shards,
+        uint32_t parity_shards
+    ) override;
 };
 
 /**

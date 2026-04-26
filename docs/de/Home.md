@@ -2,33 +2,27 @@
 
 **A high-performance multi-model database with ACID guarantees**
 
-[![Version](https://img.shields.io/badge/version-1.4.0--alpha-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.4.0-alpha)
+[![Version](https://img.shields.io/badge/version-1.8.0--rc1-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.8.0-rc1)
 [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml)
 [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/makr-code/ThemisDB/blob/main/LICENSE)
 
 ---
 
-## 🚀 NEW in v1.4.0-alpha (January 5, 2026)
+## 🚀 Current Release: v1.8.0-rc1 (April 2026)
 
-**Advanced LLM Features:**
-- 📝 **Grammar-Constrained Generation** - EBNF/GBNF support for guaranteed valid outputs (95-99% reliability)
-- 🔭 **RoPE Scaling** - Extended context window from 4K → 32K tokens (8x increase)
-- 🖼️ **Vision Support** - Multi-modal LLMs with CLIP-based image encoding
-- ⚡ **Flash Attention** - CUDA kernels for 15-25% speedup, 30% memory reduction
-- 🎯 **Speculative Decoding** - 2-3x faster inference with draft+target models
-- 🔄 **Continuous Batching** - 2x+ throughput with dynamic request batching
-
-**Enterprise Features:**
-- 🔥 Hot Spare Management - Automatic failover with health monitoring
-- 📊 Enhanced Prometheus Metrics - LLM monitoring and cache performance
-- 🔄 WAL Replication via gRPC - Distributed inter-shard replication
-- 🎮 Multi-GPU LoRA Support - Distributed LoRA adapters
-- 🐘 PostgreSQL Protocol - COPY, prepared statements, transactions
+**Key Highlights:**
+- 🌍 **Geo Module** - Full GeoJSON RFC 7946 parsing (all 7 geometry types) + in-memory R-tree spatial index
+- 🔐 **Auth: German eID** - Online-Ausweisfunktion per BSI TR-03130/eIDAS (v1.9.0)
+- 🔍 **Query: ShardKey Routing** - Point-lookup routed to 1 shard instead of scatter-gather (v1.9.0)
+- 🧠 **Analytics: Forecasting** - Batch prediction, streaming update, parallel auto-tune (v1.9.0)
+- 🕸️ **Scraper Plugin v1.1.0** - Provenance fields on all records; 56-source knowledge catalog
+- 🇩🇪 **German E-Gov** - OZG/XÖV/XDOMEA/eID connectors (v2.2.0/v1.9.0)
+- 🧪 **Training v1.6.0** - AdaLoRA (importance-based rank pruning), LoRAAdapterMerger (TIES merge), LoRA+
 
 **Documentation:**
-- [Release Notes v1.4.0-alpha](../../RELEASE_NOTES_V1.4.0_ALPHA.md)
-- [Changelog](../../CHANGELOG.md#v140-alpha)
-- [Compendium Update Notes](../../compendium/V1.4.0_ALPHA_UPDATE_NOTES.md)
+- [Changelog](../../CHANGELOG.md)
+- [Roadmap](../../roadmap.md)
+- [Compendium Update Notes](../reports/V1.4.0_ALPHA_UPDATE_NOTES.md)
 
 ---
 

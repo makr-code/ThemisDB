@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_continuous_batch_scheduler.cpp               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:23:05                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     318                                            ║
+    • Total Lines:     317                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • b3d8aa4a5  2026-03-15  refactor: streamline performance statistics retrieval and... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • b3d8aa4a55  2026-03-15  refactor: streamline performance statistics retrieval and... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -47,6 +46,7 @@
 #include "llm/paged_kv_cache.h"
 #include "llm/paged_block_manager.h"
 #include "llm/token_quota_manager.h"
+#include "utils/logger.h"
 #include <chrono>
 #include <vector>
 #include <string>
@@ -57,6 +57,24 @@ using namespace themis::llm;
 using Clock = std::chrono::steady_clock;
 using Micros = std::chrono::microseconds;
 using Millis = std::chrono::milliseconds;
+
+class ScopedLogLevel final {
+public:
+    explicit ScopedLogLevel(const themis::utils::Logger::Level level)
+        : previous_(themis::utils::Logger::getLevel()) {
+        themis::utils::Logger::setLevel(level);
+    }
+
+    ~ScopedLogLevel() {
+        themis::utils::Logger::setLevel(previous_);
+    }
+
+    ScopedLogLevel(const ScopedLogLevel&) = delete;
+    ScopedLogLevel& operator=(const ScopedLogLevel&) = delete;
+
+private:
+    themis::utils::Logger::Level previous_;
+};
 
 // ---------------------------------------------------------------------------
 // Benchmark fixture
@@ -226,13 +244,17 @@ TEST_F(SchedulerBenchmark, RejectionLatency_QueueFull) {
     std::vector<long> durations_us;
     durations_us.reserve(REJECT_ITERS);
 
-    for (size_t i = 0; i < REJECT_ITERS; ++i) {
-        auto t0 = Clock::now();
-        auto id = sched->submitRequest(makeRequest());
-        auto t1 = Clock::now();
-        EXPECT_TRUE(id.empty());  // Must be rejected
-        durations_us.push_back(
-            std::chrono::duration_cast<Micros>(t1 - t0).count());
+    {
+        // Keep rejection benchmarks focused on scheduler path, not log I/O costs.
+        const ScopedLogLevel quiet_logs(themis::utils::Logger::Level::ERROR);
+        for (size_t i = 0; i < REJECT_ITERS; ++i) {
+            auto t0 = Clock::now();
+            auto id = sched->submitRequest(makeRequest());
+            auto t1 = Clock::now();
+            EXPECT_TRUE(id.empty());  // Must be rejected
+            durations_us.push_back(
+                std::chrono::duration_cast<Micros>(t1 - t0).count());
+        }
     }
 
     long p99 = percentile(durations_us, 99);
@@ -260,15 +282,19 @@ TEST_F(SchedulerBenchmark, QuotaRejectionThroughput) {
     std::vector<long> durations_us;
     durations_us.reserve(N);
 
-    for (size_t i = 0; i < N; ++i) {
-        InferenceRequest req = makeRequest(20, 10);
-        req.request_id = "bench-user";  // used as quota key in scheduler
-        auto t0 = Clock::now();
-        auto id = scheduler->submitRequest(req);
-        auto t1 = Clock::now();
-        durations_us.push_back(
-            std::chrono::duration_cast<Micros>(t1 - t0).count());
-        if (!id.empty()) scheduler->cancelRequest(id);
+    {
+        // Quota path emits warn-level rejections by design; suppress them during timing.
+        const ScopedLogLevel quiet_logs(themis::utils::Logger::Level::ERROR);
+        for (size_t i = 0; i < N; ++i) {
+            InferenceRequest req = makeRequest(20, 10);
+            req.request_id = "bench-user";  // used as quota key in scheduler
+            auto t0 = Clock::now();
+            auto id = scheduler->submitRequest(req);
+            auto t1 = Clock::now();
+            durations_us.push_back(
+                std::chrono::duration_cast<Micros>(t1 - t0).count());
+            if (!id.empty()) scheduler->cancelRequest(id);
+        }
     }
 
     long p99 = percentile(durations_us, 99);

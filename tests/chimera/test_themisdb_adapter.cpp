@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_themisdb_adapter.cpp                          ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:22:18                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:51:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1193                                           ║
+    • Total Lines:     1190                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c4c01c242  2026-03-12  fix(chimera): address code review feedback on ThemisDB ad... ║
-    • cadbebb7b  2026-03-12  feat(chimera): Production ThemisDB Adapter Integration - ... ║
-    • 3485e0abe  2026-03-12  feat(chimera): implement Transaction Management Enhanceme... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a0b50b625  2026-02-28  feat(chimera): add test_themisdb_adapter.cpp with adapter... ║
+    • c4c01c2428  2026-03-12  fix(chimera): address code review feedback on ThemisDB ad... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -731,9 +727,18 @@ TEST_F(ThemisDBCapabilityTest, HasTransactionCapability) {
     EXPECT_TRUE(adapter.has_capability(Capability::TRANSACTIONS));
 }
 
-TEST_F(ThemisDBCapabilityTest, GetCapabilitiesReturnsNonEmpty) {
+TEST_F(ThemisDBCapabilityTest, ConnectionPoolingNotAvailable) {
+    // CONNECTION_POOLING is not implemented; has_capability() must return false
+    // to avoid false capability advertisement. Tracked: src/chimera/ROADMAP.md Q3-2026.
+    EXPECT_FALSE(adapter.has_capability(Capability::CONNECTION_POOLING));
+}
+
+TEST_F(ThemisDBCapabilityTest, GetCapabilitiesExcludesConnectionPooling) {
     auto caps = adapter.get_capabilities();
     EXPECT_FALSE(caps.empty());
+    auto it = std::find(caps.begin(), caps.end(), Capability::CONNECTION_POOLING);
+    EXPECT_EQ(it, caps.end())
+        << "CONNECTION_POOLING must not appear in get_capabilities() until implemented";
 }
 
 TEST_F(ThemisDBCapabilityTest, GetSystemInfoReturnsOk) {
@@ -1190,4 +1195,151 @@ TEST_F(ThemisDBIntegrationTest, InsertDocumentWithEmptyIdGeneratesUuid) {
     EXPECT_TRUE(variant == '8' || variant == '9' ||
                 variant == 'a' || variant == 'b')
         << "UUID v4: variant nibble must be 8/9/a/b, got: " << variant;
+}
+
+// ── shortest_path with custom max_depth ──────────────────────────────────────
+
+TEST_F(ThemisDBIntegrationTest, ShortestPathRespectMaxDepth) {
+    // Build chain: D0 -> D1 -> D2 -> D3
+    for (const auto& id : {"D0", "D1", "D2", "D3"}) {
+        GraphNode n; n.id = id;
+        adapter.insert_node(n);
+    }
+    auto make_edge = [&](const std::string& id,
+                         const std::string& src,
+                         const std::string& tgt) {
+        GraphEdge e;
+        e.id = id; e.source_id = src; e.target_id = tgt;
+        e.weight = 1.0;
+        adapter.insert_edge(e);
+    };
+    make_edge("d01", "D0", "D1");
+    make_edge("d12", "D1", "D2");
+    make_edge("d23", "D2", "D3");
+
+    // Without depth cap: D0 -> D3 reachable (3 hops)
+    auto res_unbounded = adapter.shortest_path("D0", "D3");
+    ASSERT_TRUE(res_unbounded.is_ok());
+    EXPECT_FALSE(res_unbounded.value.value().nodes.empty());
+
+    // With max_depth=2: D3 is 3 hops away and should NOT be reachable
+    auto res_limited = adapter.shortest_path("D0", "D3", 2);
+    ASSERT_TRUE(res_limited.is_ok()) << "Operation must succeed, not return NOT_IMPLEMENTED";
+    // The path should be empty because D3 is beyond depth 2
+    EXPECT_TRUE(res_limited.value.value().nodes.empty())
+        << "D3 is 3 hops away; should be unreachable within max_depth=2";
+
+    // With max_depth=3: exactly enough hops to reach D3
+    auto res_exact = adapter.shortest_path("D0", "D3", 3);
+    ASSERT_TRUE(res_exact.is_ok());
+    EXPECT_FALSE(res_exact.value.value().nodes.empty())
+        << "D3 should be reachable within max_depth=3";
+}
+
+TEST_F(ThemisDBIntegrationTest, ShortestPathMaxDepthOne) {
+    // A -> B (direct), A -> C -> B (via C, 2 hops)
+    for (const auto& id : {"MA", "MB", "MC"}) {
+        GraphNode n; n.id = id;
+        adapter.insert_node(n);
+    }
+    GraphEdge ab, ac, cb;
+    ab.id = "mab"; ab.source_id = "MA"; ab.target_id = "MB"; ab.weight = 5.0;
+    ac.id = "mac"; ac.source_id = "MA"; ac.target_id = "MC"; ac.weight = 1.0;
+    cb.id = "mcb"; cb.source_id = "MC"; cb.target_id = "MB"; cb.weight = 1.0;
+    adapter.insert_edge(ab);
+    adapter.insert_edge(ac);
+    adapter.insert_edge(cb);
+
+    // max_depth=1: only direct 1-hop path A->B is visible
+    auto res = adapter.shortest_path("MA", "MB", 1);
+    ASSERT_TRUE(res.is_ok()) << "max_depth=1 must not return NOT_IMPLEMENTED";
+    const auto& path = res.value.value();
+    // Direct path A->B should still be found (1 hop, within depth=1)
+    EXPECT_FALSE(path.nodes.empty());
+    EXPECT_EQ(path.nodes.front().id, "MA");
+    EXPECT_EQ(path.nodes.back().id, "MB");
+}
+
+// ── traverse with multiple edge labels ───────────────────────────────────────
+
+TEST_F(ThemisDBIntegrationTest, TraverseMultiLabelReachesNodesOfEitherType) {
+    // Build: N -> A (KNOWS), N -> B (LIKES), N -> C (HATES)
+    for (const auto& id : {"N", "A", "B", "C"}) {
+        GraphNode n; n.id = id;
+        adapter.insert_node(n);
+    }
+    GraphEdge na, nb, nc;
+    na.id = "na"; na.source_id = "N"; na.target_id = "A"; na.label = "KNOWS";
+    nb.id = "nb"; nb.source_id = "N"; nb.target_id = "B"; nb.label = "LIKES";
+    nc.id = "nc"; nc.source_id = "N"; nc.target_id = "C"; nc.label = "HATES";
+    adapter.insert_edge(na);
+    adapter.insert_edge(nb);
+    adapter.insert_edge(nc);
+
+    // Traverse via both KNOWS and LIKES: should reach A and B, but NOT C.
+    auto res = adapter.traverse("N", 1, {"KNOWS", "LIKES"});
+    ASSERT_TRUE(res.is_ok()) << "Multi-label traverse must not return NOT_IMPLEMENTED";
+    const auto& nodes = res.value.value();
+
+    bool found_A = false, found_B = false, found_C = false;
+    for (const auto& n : nodes) {
+        if (n.id == "A") found_A = true;
+        if (n.id == "B") found_B = true;
+        if (n.id == "C") found_C = true;
+    }
+    EXPECT_TRUE(found_A) << "Node A (via KNOWS) must be reachable";
+    EXPECT_TRUE(found_B) << "Node B (via LIKES) must be reachable";
+    EXPECT_FALSE(found_C) << "Node C (via HATES) must NOT be reachable";
+}
+
+TEST_F(ThemisDBIntegrationTest, TraverseMultiLabelDeduplicatesSharedNodes) {
+    // V -> W (L1), V -> W (L2) — W reachable via both labels; should appear once.
+    GraphNode v, w;
+    v.id = "V"; w.id = "W";
+    adapter.insert_node(v);
+    adapter.insert_node(w);
+    GraphEdge e1, e2;
+    e1.id = "vw1"; e1.source_id = "V"; e1.target_id = "W"; e1.label = "L1";
+    e2.id = "vw2"; e2.source_id = "V"; e2.target_id = "W"; e2.label = "L2";
+    adapter.insert_edge(e1);
+    adapter.insert_edge(e2);
+
+    auto res = adapter.traverse("V", 1, {"L1", "L2"});
+    ASSERT_TRUE(res.is_ok());
+    const auto& nodes = res.value.value();
+
+    int w_count = 0;
+    for (const auto& n : nodes) {
+        if (n.id == "W") w_count++;
+    }
+    EXPECT_EQ(w_count, 1) << "W reachable via both labels must appear exactly once";
+}
+
+TEST_F(ThemisDBIntegrationTest, TraverseThreeLabelsAllReachable) {
+    // Hub H -> X (T1), H -> Y (T2), H -> Z (T3)
+    for (const auto& id : {"H", "X", "Y", "Z"}) {
+        GraphNode n; n.id = id;
+        adapter.insert_node(n);
+    }
+    GraphEdge hx, hy, hz;
+    hx.id = "hx"; hx.source_id = "H"; hx.target_id = "X"; hx.label = "T1";
+    hy.id = "hy"; hy.source_id = "H"; hy.target_id = "Y"; hy.label = "T2";
+    hz.id = "hz"; hz.source_id = "H"; hz.target_id = "Z"; hz.label = "T3";
+    adapter.insert_edge(hx);
+    adapter.insert_edge(hy);
+    adapter.insert_edge(hz);
+
+    auto res = adapter.traverse("H", 1, {"T1", "T2", "T3"});
+    ASSERT_TRUE(res.is_ok()) << "Three-label traverse must not return NOT_IMPLEMENTED";
+    const auto& nodes = res.value.value();
+
+    bool found_X = false, found_Y = false, found_Z = false;
+    for (const auto& n : nodes) {
+        if (n.id == "X") found_X = true;
+        if (n.id == "Y") found_Y = true;
+        if (n.id == "Z") found_Z = true;
+    }
+    EXPECT_TRUE(found_X) << "X via T1 must be reachable";
+    EXPECT_TRUE(found_Y) << "Y via T2 must be reachable";
+    EXPECT_TRUE(found_Z) << "Z via T3 must be reachable";
 }

@@ -1,13 +1,36 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — Auth Module
 
-All notable changes to the Auth module are documented here.  
+All notable changes to the Auth module are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+### Added
 - Fine-grained ABAC with OPA policy expressions — PR open (Issue #1538)
+- Async/non-blocking auth I/O: LDAP and HTTP auth paths use `AuthWorkerThreadPool`, with async entry points (`authenticateAsync()`, `validateAsync()`).
+- Token revocation persistence backends: `ITokenBlacklist`, `RocksDBTokenBlacklist`, and `RedisTokenBlacklist`.
+- LDAP connection pooling via `LDAPConnectionPool` with pool telemetry.
+
+## [1.9.1] — 2026-04-08
+### Added
+- Registered 13 previously unregistered test targets in `tests/CMakeLists.txt`:
+  - `FederatedIdentityManagerTests` (`test_federated_identity_manager.cpp`) — RFC 8693 token exchange, multi-realm federation, OIDC claim mapping
+  - `TokenBlacklistComprehensiveTests` (`test_token_blacklist_comprehensive.cpp`) — revoke/isRevoked/unrevoke, Bloom filter, concurrent access, size cap
+  - `TokenBlacklistPersistenceTests` (`test_token_blacklist_persistence.cpp`) — ITokenBlacklist interface, RocksDB persistence, Redis stub, purgeExpired
+  - `PasswordPolicyTests` (`test_password_policy.cpp`) — length, complexity, entropy, dictionary, history enforcement
+  - `KerberosSecurityTests` (`test_kerberos_security.cpp`) — channel bindings, ASN.1 validation, token structure, service target
+  - `ServerRateLimiterTests` (`test_rate_limiter.cpp`) — sliding window, per-IP, per-user, concurrent access
+  - `RateLimitingComprehensiveTests` (`test_rate_limiting_comprehensive.cpp`) — token bucket, leaky bucket, adaptive throttling, concurrent stress
+  - `RateLimitingMiddlewareTests` (`test_rate_limiting_middleware.cpp`) — HTTP request gating, header injection, bypass prevention
+  - `ApiAuthConfigTests` (`test_api_auth_config.cpp`) — JWT config, API-key config, auth method selection
+  - `ApiKeyMgmtHandlerTests` (`test_api_key_mgmt_handler.cpp`) — create/list/revoke/rotate API keys via REST handler
+  - `MTLSClientTests` (`test_mtls_client.cpp`) — mTLS client config, response structure, TLS version
+  - `MTLSConnectionPoolTests` (`test_mtls_connection_pool.cpp`) — pool construction, statistics, acquire/release, health checks
+  - `PKIeIDASTests` (`test_pki_eidas.cpp`) — PKI/eIDAS placeholder (skipped pending SigningService)
 
 ## [1.9.0] — 2026-03-24
 ### Added

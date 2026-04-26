@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_loader.h                                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:01                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     1184                                           ║
+    • Total Lines:     1181                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • dea1ebd8b  2026-03-13  fix(base): address PluginBundleLoader review comments (Zi... ║
-    • 2398e2296  2026-03-12  feat(base): implement cross-platform PluginBundle format ... ║
-    • c2e0a8ff7  2026-03-12  feat: O(1) module lookup — replace loadedModules_ vector ... ║
-    • 4d3183301  2026-03-12  fix(themis): address PR review – errorCategory on success... ║
-    • eecc4c71b  2026-03-11  feat(base): implement plugin watchdog for automatic resta... ║
+    • dea1ebd8b3  2026-03-13  fix(base): address PluginBundleLoader review comments (Zi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

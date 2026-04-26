@@ -3,20 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ann_index.cpp                                      ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:16:30                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     432                                            ║
+    • Total Lines:     433                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
-    • e6e7fc6bb  2026-02-25  feat(index): DiskANN/ScaNN alternative ANN algorithms for... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -179,7 +180,7 @@ void ScaNN::PQCodebook::train(const float* data, size_t n, size_t d,
     }
 }
 
-std::vector<uint8_t> ScaNN::PQCodebook::encode(const float* vec, size_t d) const {
+std::vector<uint8_t> ScaNN::PQCodebook::encode(const float* vec, [[maybe_unused]] size_t d) const {
     std::vector<uint8_t> code(num_subspaces);
     for (size_t s = 0; s < num_subspaces; ++s) {
         const float* sv = vec + s * sub_dim;
@@ -284,7 +285,7 @@ bool ScaNN::add(int64_t id, const float* vector, size_t dim) {
     return true;
 }
 
-std::vector<AnnSearchResult> ScaNN::search(const float* query, size_t dim,
+std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] size_t dim,
                                             int k) const {
     // Lazy build from flat buffer (thread-safety not required for this path)
     if (!trained_) {

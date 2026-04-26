@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_themisctl.cpp                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:34:27                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:57:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     783                                            ║
+    • Total Lines:     914                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 97d8d09e7  2026-03-15  feat(tools/themisctl): config command, REPL mode, shell c... ║
-    • 938d29e24  2026-03-15  feat(tools): Add themisctl — unified ThemisDB management ... ║
+    • 30763c38a6  2026-04-13  feat(metadata): complete Automatic Indexing Recommendatio... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -328,6 +327,117 @@ protected:
             }
         });
 
+        // Config validate endpoint (dry-run — returns validated config, no mutation)
+        s_srv_.Post("/config/validate", [](const httplib::Request& req, httplib::Response& res) {
+            try {
+                json body = json::parse(req.body);
+                // Check for explicitly invalid keys to exercise error path
+                if (body.contains("invalid_key")) {
+                    res.status = 400;
+                    res.set_content(R"({"error":"unknown key: invalid_key"})",
+                                    "application/json");
+                    return;
+                }
+                // Echo validated (merged) config
+                json validated = {
+                    {"server",   {{"port",8765},{"threads",4},{"request_timeout_ms",30000}}},
+                    {"features", {{"semantic_cache",false},{"llm_store",false},{"cdc",false},{"timeseries",false}}},
+                    {"logging",  {{"level","info"},{"format","text"}}}
+                };
+                // Apply proposed values to the validated output
+                for (const auto& [key, val] : body.items()) {
+                    if (validated.contains(key) && validated[key].is_object() && val.is_object()) {
+                        for (const auto& [inner, inner_val] : val.items()) {
+                            validated[key][inner] = inner_val;
+                        }
+                    } else {
+                        validated[key] = val;
+                    }
+                }
+                res.status = 200;
+                res.set_content(validated.dump(), "application/json");
+            } catch (...) {
+                res.status = 400;
+                res.set_content(R"({"error":"invalid json"})", "application/json");
+            }
+        });
+
+
+        s_srv_.Get("/api/v1/metadata/index_recommendations",
+                   [](const httplib::Request&, httplib::Response& res) {
+            json j = {
+                {"status", "success"},
+                {"recommendations", {
+                    {"users", json::array({
+                        {{"table_name","users"},{"column_name","email"},
+                         {"index_type","regular"},{"action","ADD"},
+                         {"benefit_score",75.0},
+                         {"rationale","Column 'email' appeared in 100 filter(s)"}}
+                    })},
+                    {"orders", json::array()}
+                }}
+            };
+            res.status = 200;
+            res.set_content(j.dump(), "application/json");
+        });
+        // Index recommendations endpoint (single table)
+        s_srv_.Get(R"(/api/v1/metadata/index_recommendations/(.+))",
+                   [](const httplib::Request& req, httplib::Response& res) {
+            std::string table = req.matches[1];
+            if (table == "users") {
+                json j = {
+                    {"status", "success"},
+                    {"table_name", "users"},
+                    {"recommendations", json::array({
+                        {{"table_name","users"},{"column_name","email"},
+                         {"index_type","regular"},{"action","ADD"},
+                         {"benefit_score",75.0},
+                         {"rationale","Column 'email' appeared in 100 filter(s)"}}
+                    })}
+                };
+                res.status = 200;
+                res.set_content(j.dump(), "application/json");
+            } else if (table == "empty_table") {
+                json j = {
+                    {"status", "success"},
+                    {"table_name", "empty_table"},
+                    {"recommendations", json::array()}
+                };
+                res.status = 200;
+                res.set_content(j.dump(), "application/json");
+            } else {
+                res.status = 404;
+                res.set_content(R"({"error":"table not found"})", "application/json");
+            }
+        });
+
+        // RAG query endpoint — POST /api/v1/llm/rag
+        // TRQ-01..06 server fixture: returns a canned answer; rejects missing query.
+        s_srv_.Post("/api/v1/llm/rag", [](const httplib::Request& req, httplib::Response& res) {
+            try {
+                json body = json::parse(req.body);
+                if (!body.contains("query") || body["query"].get<std::string>().empty()) {
+                    res.status = 400;
+                    res.set_content(R"({"error":"Missing 'query' field"})", "application/json");
+                    return;
+                }
+                std::string query = body["query"].get<std::string>();
+                json resp = {
+                    {"text",               "Das Bauamt benötigt noch den Lageplan und die Baugenehmigung."},
+                    {"query",              query},
+                    {"documents_retrieved",3},
+                    {"tokens_generated",   42},
+                    {"inference_time_ms",  17},
+                    {"cache_hit",          false}
+                };
+                res.status = 200;
+                res.set_content(resp.dump(), "application/json");
+            } catch (...) {
+                res.status = 400;
+                res.set_content(R"({"error":"invalid json"})", "application/json");
+            }
+        });
+
         // Bind and start server
         s_port_ = s_srv_.bind_to_any_port("localhost");
         s_thread_ = std::thread([] { s_srv_.listen_after_bind(); });
@@ -600,6 +710,88 @@ TEST_F(ThemisctlHttpTest, AdminUnknownSubcommand) {
     EXPECT_EQ(cmdAdmin({"frobnicate"}), 2);
 }
 
+// ── index ─────────────────────────────────────────────────────────────────────
+
+TEST_F(ThemisctlHttpTest, IndexRecommendAllTablesRawJson) {
+    g_ctx.raw_json = true;
+    std::ostringstream cap;
+    auto* old = std::cout.rdbuf(cap.rdbuf());
+    int rc = cmdIndex({"recommend"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    json j = json::parse(cap.str());
+    EXPECT_TRUE(j.contains("recommendations"));
+}
+
+TEST_F(ThemisctlHttpTest, IndexRecommendNoSubAllTablesRawJson) {
+    // "index" with no sub-command defaults to recommending all tables
+    g_ctx.raw_json = true;
+    std::ostringstream cap;
+    auto* old = std::cout.rdbuf(cap.rdbuf());
+    int rc = cmdIndex({});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    json j = json::parse(cap.str());
+    EXPECT_TRUE(j.contains("recommendations"));
+}
+
+TEST_F(ThemisctlHttpTest, IndexRecommendSingleTableRawJson) {
+    g_ctx.raw_json = true;
+    std::ostringstream cap;
+    auto* old = std::cout.rdbuf(cap.rdbuf());
+    int rc = cmdIndex({"recommend", "users"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    json j = json::parse(cap.str());
+    EXPECT_TRUE(j.contains("recommendations"));
+    EXPECT_EQ(j["table_name"], "users");
+    ASSERT_TRUE(j["recommendations"].is_array());
+    ASSERT_FALSE(j["recommendations"].empty());
+    EXPECT_EQ(j["recommendations"][0]["action"], "ADD");
+    EXPECT_EQ(j["recommendations"][0]["column_name"], "email");
+}
+
+TEST_F(ThemisctlHttpTest, IndexRecommendEmptyTableRawJson) {
+    g_ctx.raw_json = true;
+    std::ostringstream cap;
+    auto* old = std::cout.rdbuf(cap.rdbuf());
+    int rc = cmdIndex({"recommend", "empty_table"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    json j = json::parse(cap.str());
+    EXPECT_TRUE(j["recommendations"].is_array());
+    EXPECT_TRUE(j["recommendations"].empty());
+}
+
+TEST_F(ThemisctlHttpTest, IndexRecommendPrettyPrintAllTables) {
+    g_ctx.raw_json = false;
+    std::ostringstream cap;
+    auto* old = std::cout.rdbuf(cap.rdbuf());
+    int rc = cmdIndex({"recommend"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    EXPECT_NE(cap.str().find("email"), std::string::npos);
+}
+
+TEST_F(ThemisctlHttpTest, IndexRecommendPrettyPrintSingleTable) {
+    g_ctx.raw_json = false;
+    std::ostringstream cap;
+    auto* old = std::cout.rdbuf(cap.rdbuf());
+    int rc = cmdIndex({"recommend", "users"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    EXPECT_NE(cap.str().find("users"), std::string::npos);
+}
+
+TEST_F(ThemisctlHttpTest, IndexRecommendNotFoundTableReturnsOne) {
+    int rc = cmdIndex({"recommend", "nonexistent_table"});
+    EXPECT_EQ(rc, 1);
+}
+
+TEST_F(ThemisctlHttpTest, IndexUnknownSubcommandReturnsTwo) {
+    EXPECT_EQ(cmdIndex({"frobnicate"}), 2);
+}
+
 // ── config ────────────────────────────────────────────────────────────────────
 
 TEST_F(ThemisctlHttpTest, ConfigGet) {
@@ -780,4 +972,140 @@ TEST(ThemisctlConnFailTest, HealthReturnsThreeOnConnectionRefused) {
     int rc = cmdHealth({});
     std::cerr.rdbuf(old);
     EXPECT_EQ(rc, 3);
+}
+
+// ── config validate ───────────────────────────────────────────────────────────
+// CVL-01..06: themisctl config validate — dry-run + diff
+
+// CVL-01: validate with no proposed keys → passes, prints no-changes message
+TEST_F(ThemisctlHttpTest, CVL01_ConfigValidateNoArgs) {
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdConfig({"validate"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    EXPECT_NE(capOut.str().find("no changes"), std::string::npos);
+}
+
+// CVL-02: validate with a dotted key change → passes, stdout contains diff
+TEST_F(ThemisctlHttpTest, CVL02_ConfigValidateDottedKey) {
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdConfig({"validate", "logging.level=debug"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    EXPECT_NE(capOut.str().find("dry-run"), std::string::npos);
+}
+
+// CVL-03: validate with multiple keys → passes, output shows diff header
+TEST_F(ThemisctlHttpTest, CVL03_ConfigValidateMultipleKeys) {
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdConfig({"validate", "logging.level=warn", "features.cdc=true"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    EXPECT_NE(capOut.str().find("Diff"), std::string::npos);
+}
+
+// CVL-04: validate with raw_json returns parseable JSON
+TEST_F(ThemisctlHttpTest, CVL04_ConfigValidateRawJson) {
+    g_ctx.raw_json = true;
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdConfig({"validate", "logging.level=info"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    // Output should be parseable JSON
+    EXPECT_NO_THROW({
+        json j = json::parse(capOut.str());
+        EXPECT_TRUE(j.contains("logging"));
+    });
+}
+
+// CVL-05: validate with invalid key → server returns 400, command returns 1
+TEST_F(ThemisctlHttpTest, CVL05_ConfigValidateInvalidKey_ReturnsError) {
+    std::ostringstream capErr;
+    auto* oldErr = std::cerr.rdbuf(capErr.rdbuf());
+    std::ostringstream capOut;
+    auto* oldOut = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdConfig({"validate", "invalid_key=bad"});
+    std::cerr.rdbuf(oldErr);
+    std::cout.rdbuf(oldOut);
+    EXPECT_EQ(rc, 1);
+    EXPECT_NE(capErr.str().find("Validation failed"), std::string::npos);
+}
+
+// CVL-06: validate with malformed key=value pair → usage error (rc=2), no HTTP call
+TEST_F(ThemisctlHttpTest, CVL06_ConfigValidateMalformedPair_ReturnsUsageError) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdConfig({"validate", "no-equals-sign"});
+    std::cerr.rdbuf(old);
+    EXPECT_EQ(rc, 2);
+}
+
+// ── rag query ─────────────────────────────────────────────────────────────────
+// TRQ-01..06: themisctl rag query — AgenticRAG natural-language query
+
+// TRQ-01: missing question → usage error (rc=2), no HTTP call
+TEST_F(ThemisctlHttpTest, TRQ01_RagQuery_MissingQuestion_ReturnsUsageError) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({"query"});
+    std::cerr.rdbuf(old);
+    EXPECT_EQ(rc, 2);
+}
+
+// TRQ-02: no sub-command → usage error (rc=2)
+TEST_F(ThemisctlHttpTest, TRQ02_RagNoSubCommand_ReturnsUsageError) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({});
+    std::cerr.rdbuf(old);
+    EXPECT_EQ(rc, 2);
+}
+
+// TRQ-03: successful query → rc=0, stdout contains answer text
+TEST_F(ThemisctlHttpTest, TRQ03_RagQuery_Success_PrintsAnswer) {
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdRag({"query", "Was fehlt noch für den Bauantrag?"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    EXPECT_NE(capOut.str().find("Bauamt"), std::string::npos);
+}
+
+// TRQ-04: --collection and --top-k flags are forwarded, rc=0
+TEST_F(ThemisctlHttpTest, TRQ04_RagQuery_WithCollectionAndTopK) {
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdRag({"query", "--collection", "procs", "--top-k", "10", "What is the next step?"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    EXPECT_NE(capOut.str().find("Answer"), std::string::npos);
+}
+
+// TRQ-05: raw_json mode returns parseable JSON with expected fields
+TEST_F(ThemisctlHttpTest, TRQ05_RagQuery_RawJson_ReturnsParseable) {
+    g_ctx.raw_json = true;
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdRag({"query", "List the required documents."});
+    std::cout.rdbuf(old);
+    g_ctx.raw_json = false;
+    EXPECT_EQ(rc, 0);
+    EXPECT_NO_THROW({
+        json j = json::parse(capOut.str());
+        EXPECT_TRUE(j.contains("text"));
+        EXPECT_TRUE(j.contains("documents_retrieved"));
+    });
+}
+
+// TRQ-06: invalid top-k value (non-integer) → usage error (rc=2)
+TEST_F(ThemisctlHttpTest, TRQ06_RagQuery_InvalidTopK_ReturnsUsageError) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({"query", "--top-k", "notanumber", "some question"});
+    std::cerr.rdbuf(old);
+    EXPECT_EQ(rc, 2);
 }

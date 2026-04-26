@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_themisdb_grpc_service.cpp                     ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:34:27                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:57:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🔴 ALPHA                                        ║
     • Quality Score:   32.0/100                                       ║
-    • Total Lines:     200                                            ║
+    • Total Lines:     240                                            ║
     • Open Issues:     TODOs: 0, Stubs: 17                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 6a26e097b  2026-03-25  fix(api): address code review – AQL injection escaping, t... ║
-    • 97cd90011  2026-03-25  feat(api): gRPC Phase 4 – mutex fix, deadline, RPC stubs,... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c9bb592d7  2026-02-24  Implement ThemisDBGrpcService and fix ThemisCoreServiceIm... ║
+    • 02a975f292  2026-04-07  fix(api): AQL identifier injection, BatchWrite partial-fa... ║
+    • 6a26e097b8  2026-03-25  fix(api): address code review – AQL injection escaping, t... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🚧 Early Development                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -198,5 +196,44 @@ TEST(ThemisDBGrpcServiceFactoryTest, FactoryIsReusable) {
     ASSERT_NE(svc2, nullptr);
     // They must be distinct objects.
     EXPECT_NE(svc1.get(), svc2.get());
+}
+
+// ============================================================================
+// Bug-fix regression tests (audit findings 2026-04-07)
+// ============================================================================
+
+// ── Fix 1: AQL identifier validation ────────────────────────────────────────
+#include "api/aql_utils.h"
+
+TEST(AqlUtilsTest, ValidIdentifiers) {
+    EXPECT_TRUE(themis::api::isValidAqlIdentifier("documents"));
+    EXPECT_TRUE(themis::api::isValidAqlIdentifier("_system"));
+    EXPECT_TRUE(themis::api::isValidAqlIdentifier("MyCollection123"));
+    EXPECT_TRUE(themis::api::isValidAqlIdentifier("a"));
+    EXPECT_TRUE(themis::api::isValidAqlIdentifier("_"));
+}
+
+TEST(AqlUtilsTest, InvalidIdentifiers) {
+    EXPECT_FALSE(themis::api::isValidAqlIdentifier(""));
+    EXPECT_FALSE(themis::api::isValidAqlIdentifier("123abc"));       // starts with digit
+    EXPECT_FALSE(themis::api::isValidAqlIdentifier("col RETURN 1")); // space + injection
+    EXPECT_FALSE(themis::api::isValidAqlIdentifier("col/sub"));      // slash
+    EXPECT_FALSE(themis::api::isValidAqlIdentifier("col; DROP"));    // semicolon
+    EXPECT_FALSE(themis::api::isValidAqlIdentifier("col\nFILTER"));  // newline
+    EXPECT_FALSE(themis::api::isValidAqlIdentifier("col`OTHER"));    // backtick
+}
+
+TEST(AqlUtilsTest, EscapeLiteralHandlesSpecialChars) {
+    EXPECT_EQ(themis::api::aqlEscapeLiteral("hello"),         "hello");
+    EXPECT_EQ(themis::api::aqlEscapeLiteral("it's"),          "it\\'s");
+    EXPECT_EQ(themis::api::aqlEscapeLiteral("path\\to\\end"), "path\\\\to\\\\end");
+    EXPECT_EQ(themis::api::aqlEscapeLiteral("a'b\\c"),        "a\\'b\\\\c");
+    EXPECT_EQ(themis::api::aqlEscapeLiteral(""),              "");
+}
+
+TEST(AqlUtilsTest, EscapeLiteralDoesNotEscapeIdentifierChars) {
+    // Normal alphanumeric query strings must pass through unchanged.
+    const std::string q = "Bundesministerium fuer Wirtschaft";
+    EXPECT_EQ(themis::api::aqlEscapeLiteral(q), q);
 }
 

@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themisdb_grpc_service.h                            ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:05:38                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:44:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     127                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 3                             ║
+    • Quality Score:   87.0/100                                       ║
+    • Total Lines:     134                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 5                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 97cd90011  2026-03-25  feat(api): gRPC Phase 4 – mutex fix, deadline, RPC stubs,... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c9bb592d7  2026-02-24  Implement ThemisDBGrpcService and fix ThemisCoreServiceIm... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -69,6 +68,12 @@ namespace api {
  * constructor the corresponding RPC stubs delegate to them rather than
  * returning UNIMPLEMENTED.  See ThemisDBGrpcServiceFactory for a fluent
  * builder that wires all components together.
+ *
+ * STUB/SIMULATION NOTE:
+ * Purpose: Keep gRPC wrapper type available even when generated protobuf stubs are absent.
+ * Activation: Active when generated themisdb gRPC headers are not available on include path.
+ * Production Delta: service() returns nullptr and RPC registration is skipped instead of serving requests.
+ * Removal Plan: Remove fallback behavior once protobuf code generation is mandatory in all builds.
  */
 class ThemisDBGrpcService {
 public:

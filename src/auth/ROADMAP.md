@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Auth Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -31,6 +33,9 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] Configurable password policy enforcement (Issue: #2013)
 - [x] SAML 2.0 SP-initiated and IdP-initiated SSO
 - [x] LDAP/Active Directory direct bind authentication (Issue: #1537)
+- [x] Async/non-blocking LDAP and HTTP authentication calls via `AuthWorkerThreadPool`, `authenticateAsync()`, and `validateAsync()` (Target: v1.2.0) (Issue: #3836)
+- [x] Token blacklist persistence and distributed backends via `ITokenBlacklist`, `RocksDBTokenBlacklist`, and `RedisTokenBlacklist` (Target: v1.3.0) (Issue: #3837)
+- [x] LDAP connection pooling with `LDAPConnectionPool` and pool metrics (`pool_size`, `idle_connections`, `active_connections`) (Target: v1.2.0) (Issue: #3838)
 - [x] Certificate-based mutual TLS (mTLS) authentication (Issue: #2370)
 - [x] Federated identity across multiple realms (Issue: #1540)
 - [x] Zero-trust access model with continuous verification (Issue: #1541)
@@ -96,3 +101,13 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 ## Breaking Changes
 - ABAC engine (`PolicyEngine`) API is additive to existing RBAC and backward-compatible.
 - mTLS (`MtlsAuthenticator`) requires TLS layer configuration changes; see auth/mtls_authenticator.h for details.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Aktiv (implementiert + externer Aufrufer bestätigt)
+
+- `ApiKeyAuthenticator` – Authentifiziert HTTP-Requests via API-Key; genutzt in auth_middleware.cpp
+- `constantTimeEqual` – Zeitkonstanter Byte-Vergleich gegen Timing-Side-Channel bei API-Key-Checks;
+  genutzt in `api_key_authenticator.cpp`.

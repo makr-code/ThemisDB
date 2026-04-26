@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_query_accelerator_parity.cpp              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:27:41                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:54:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e010f4ac7  2026-03-12  fix(gpu): address review feedback on query_accelerator GP... ║
-    • a896955d8  2026-03-12  feat(gpu): replace CPU fallback stubs with real CUDA/HIP ... ║
+    • e010f4ac73  2026-03-12  fix(gpu): address review feedback on query_accelerator GP... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

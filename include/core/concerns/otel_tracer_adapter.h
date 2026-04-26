@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            otel_tracer_adapter.h                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:07:00                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     226                                            ║
+    • Total Lines:     224                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 522e9ae57  2026-02-24  feat(core): implement OTel tracer adapter flush() via Tra... ║
-    • d78d1008b  2026-02-23  feat(core): OpenTelemetry trace and span propagation ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • f20e6e8d74  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
+    • 2826fa9ccd  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -149,12 +147,12 @@ public:
 
     std::unique_ptr<ISpan> startSpanFromHeaders(
             const std::string& name,
-            const std::map<std::string, std::string>& headers) override {
+            const std::map<std::string, std::string>& carrier_headers) override {
         if (!circuit_breaker_->allowRequest()) {
             return std::make_unique<OtelSpanAdapter>(themis::Tracer::Span{});
         }
         auto span_ptr = std::make_unique<OtelSpanAdapter>(
-            themis::Tracer::startSpanFromHeaders(name, headers));
+            themis::Tracer::startSpanFromHeaders(name, carrier_headers));
         if (span_ptr->isValid()) {
             circuit_breaker_->recordSuccess();
         } else {
@@ -163,13 +161,13 @@ public:
         return span_ptr;
     }
 
-    void injectContext(std::map<std::string, std::string>& headers) override {
+    void injectContext(std::map<std::string, std::string>& carrier_headers) override {
         auto trace_id = themis::Tracer::getCurrentTraceId();
         auto span_id  = themis::Tracer::getCurrentSpanId();
         if (!trace_id.empty() && !span_id.empty()) {
-            headers["traceparent"] = "00-" + trace_id + "-" + span_id + "-01";
+            carrier_headers["traceparent"] = "00-" + trace_id + "-" + span_id + "-01";
         }
-        themis::Baggage::inject(headers);
+        themis::Baggage::inject(carrier_headers);
     }
 
     bool initialize(const std::string& serviceName, const std::string& endpoint) override {

@@ -3,22 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_security.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:13:47                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2230                                           ║
+    • Total Lines:     2235                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 6b9a39c6d  2026-03-16  fix(acceleration): add CI workflow, fix overflow guard, c... ║
-    • adb14cd81  2026-03-16  feat(acceleration): implement PE certificate table extrac... ║
-    • b89c76ed9  2026-03-16  feat(test): add signature-invalid test cases for CRL/OCSP... ║
-    • e4976f04e  2026-03-16  feat(acceleration): implement CRL/OCSP certificate revoca... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -347,9 +345,9 @@ std::optional<PluginMetadata> PluginSecurityVerifier::loadMetadata(const std::st
         
         return metadata;
         
-    } catch (const std::exception& e) {
+    } catch ([[maybe_unused]] const std::exception& e) {
         // Failed to parse metadata
-        (void)e; // Suppress unused variable warning
+        // Suppress unused variable warning
         return std::nullopt;
     }
 }

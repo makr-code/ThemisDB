@@ -3,19 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_knowledge_graph_retriever.cpp             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:32:30                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:56:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     549                                            ║
+    • Total Lines:     548                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c5ef77899  2026-02-24  feat(rag): implement knowledge graph-augmented retrieval ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -546,4 +542,50 @@ TEST(KGEdgeCasesTest, KGWeightZeroPreservesOriginalScores) {
                      result.documents[0].document.similarity_score);
     EXPECT_DOUBLE_EQ(result.documents[1].final_score,
                      result.documents[1].document.similarity_score);
+}
+
+// ===========================================================================
+// GAP-010 — BFS DoS guard: neighbours() must respect the max_nodes cap
+// ===========================================================================
+
+// GAP-010-01: Build a dense chain graph (1000 nodes → single path) and verify
+// that neighbours() respects a cap of 10 nodes, terminating early instead of
+// visiting all 1000 nodes.
+TEST(GAP010BfsCapTest, DenseChain_NodeCapRespected) {
+    KnowledgeGraph g;
+    for (int i = 0; i < 1000; ++i) {
+        KGNode n;
+        n.id = "c" + std::to_string(i);
+        n.canonical_name = "chain node " + std::to_string(i);
+        g.addNode(n);
+    }
+    for (int i = 0; i < 999; ++i) {
+        KGEdge e;
+        e.from_id = "c" + std::to_string(i);
+        e.to_id   = "c" + std::to_string(i + 1);
+        e.weight  = 1.0;
+        g.addEdge(e);
+    }
+
+    // Set max_depth high enough that depth isn't the limiting factor;
+    // max_nodes=10 should be the binding constraint.
+    auto nbrs = g.neighbours("c0", /*max_depth=*/2000, /*min_weight=*/0.0, /*max_nodes=*/10);
+
+    EXPECT_LE(nbrs.size(), 10u)
+        << "BFS must not exceed max_nodes cap";
+}
+
+// GAP-010-02: When max_nodes is larger than the graph, all reachable nodes
+// are returned (no spurious truncation).
+TEST(GAP010BfsCapTest, SmallGraph_AllNodesReturned) {
+    KnowledgeGraph g = buildMLGraph();  // 6 nodes, sparse
+
+    // With a generous cap the full neighbourhood must be returned.
+    auto nbrs = g.neighbours("ent-rag", /*max_depth=*/10, /*min_weight=*/0.0,
+                             /*max_nodes=*/1000);
+
+    // ent-rag is reachable to all other 5 nodes through the ML graph
+    // (transitively at depth 2); at least direct neighbours must be present.
+    EXPECT_GE(nbrs.size(), 2u)
+        << "All reachable nodes should be returned when cap is generous";
 }

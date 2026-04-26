@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_accelerator.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:58                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   88.0/100                                       ║
-    • Total Lines:     1242                                           ║
+    • Total Lines:     1233                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e010f4ac7  2026-03-12  fix(gpu): address review feedback on query_accelerator GP... ║
-    • a896955d8  2026-03-12  feat(gpu): replace CPU fallback stubs with real CUDA/HIP ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • eeb29b53c  2026-02-28  feat(gpu): wire THEMIS_ENABLE_CUDA/CUVS guards in annSear... ║
-    • 9cc43d8f2  2026-02-26  feat(gpu): implement GPU-accelerated ANN vector similarit... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -300,9 +297,8 @@ GPUQueryAccelerator::scan(const std::vector<Row>& rows, FilterFn filter) {
             }
             result.rows_passed = result.rows.size();
             gpu_done = true;
-        } catch (const std::exception& ex) {
+        } catch ([[maybe_unused]] const std::exception& ex) {
             // Thrust system_error or std::runtime_error — fall through.
-            (void)ex;
             result.rows.clear();
             gpu_done = false;
         } catch (...) {
@@ -407,9 +403,8 @@ GPUQueryAccelerator::sort(std::vector<Row> rows, KeyFn key_fn, SortOrder order) 
             }
             rows = std::move(sorted_rows);
             gpu_done = true;
-        } catch (const std::exception& ex) {
+        } catch ([[maybe_unused]] const std::exception& ex) {
             // Thrust system_error or std::runtime_error — fall through to CPU.
-            (void)ex;
             gpu_done = false;
         } catch (...) {
             gpu_done = false;
@@ -519,9 +514,8 @@ GPUQueryAccelerator::aggregate(const std::vector<Row>& rows,
             }
             result.value = gpu_result;
             gpu_done = true;
-        } catch (const std::exception& ex) {
+        } catch ([[maybe_unused]] const std::exception& ex) {
             // Thrust system_error or std::runtime_error — fall through to CPU.
-            (void)ex;
             gpu_done = false;
         } catch (...) {
             gpu_done = false;
@@ -673,9 +667,8 @@ GPUQueryAccelerator::hashJoin(const std::vector<Row>& left,
                 }
             }
             gpu_done = true;
-        } catch (const std::exception& ex) {
+        } catch ([[maybe_unused]] const std::exception& ex) {
             // Thrust system_error or std::runtime_error — fall through to CPU.
-            (void)ex;
             result.pairs.clear();
             gpu_done = false;
         } catch (...) {
@@ -878,9 +871,8 @@ GPUQueryAccelerator::dotProduct(const std::vector<float>& a,
                     if (d_c) cudaFree(d_c);
                 }
             }
-        } catch (const std::exception& ex) {
+        } catch ([[maybe_unused]] const std::exception& ex) {
             // cuBLAS, Thrust, or std::runtime_error — fall through to CPU.
-            (void)ex;
             gpu_done = false;
         } catch (...) {
             gpu_done = false;
@@ -983,9 +975,8 @@ GPUQueryAccelerator::dotProduct(const std::vector<float>& a,
                     gpu_done = false;
                 }
             }
-        } catch (const std::exception& ex) {
+        } catch ([[maybe_unused]] const std::exception& ex) {
             // hipBLAS, Thrust, or std::runtime_error — fall through to CPU.
-            (void)ex;
             gpu_done = false;
         } catch (...) {
             gpu_done = false;

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metrics_stream_server.h                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:09:09                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 67ef436e5  2026-03-13  fix(observability): address PR review comments on Metrics... ║
-    • 413813f62  2026-03-13  feat(observability): implement real-time streaming metric... ║
+    • 67ef436e5f  2026-03-13  fix(observability): address PR review comments on Metrics... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

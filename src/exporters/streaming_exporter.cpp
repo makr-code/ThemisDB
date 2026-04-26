@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            streaming_exporter.cpp                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:15:32                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     413                                            ║
+    • Total Lines:     410                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 44514d5a1  2026-03-15  feat(exporters): replace zlib with ZSTD as sole StreamWri... ║
-    • 3db37eb45  2026-03-10  feat(exporters): implement EXP-001 PolicyEngine auth, EXP... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7d170c769  2026-03-01  feat(build): update CMake configuration for benchmarks an... ║
-    • 6cbe0e954  2026-02-28  Implement AES-256-GCM export encryption (Phase 3 security... ║
+    • 44514d5a18  2026-03-15  feat(exporters): replace zlib with ZSTD as sole StreamWri... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -282,7 +278,7 @@ ExportStats StreamingExporter::exportFromCursor(
                         enc_tmp);
                 }
                 metrics_->recordEncryption(enc_bytes);
-            } catch (const std::exception& e) {
+            } catch ([[maybe_unused]] const std::exception& e) {
                 std::error_code ec;
                 std::filesystem::remove(enc_tmp, ec);
                 throw;

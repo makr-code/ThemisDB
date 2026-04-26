@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # ThemisDB Query Module Headers
 
 ## Module Purpose
@@ -249,8 +251,8 @@ std::cout << ast_json.dump(2) << std::endl;
 auto result = parser.parse(query_string);
 if (!result) {
     auto err = result.error();
-    std::cerr << "Error at line " << err.line 
-              << ", col " << err.column << ": " 
+    std::cerr << "Error at line " << err.line
+              << ", col " << err.column << ": "
               << err.message() << std::endl;
     // Syntax errors include position for IDE integration
 }
@@ -403,7 +405,7 @@ std::string query = "FOR doc IN users FILTER doc.age > 30 RETURN doc";
 nlohmann::json params = {{"min_age", 30}};
 nlohmann::json result = execute_query(query);
 
-cache.put(query, params, result, 
+cache.put(query, params, result,
           std::chrono::seconds(300),  // TTL: 5 minutes
           {"users"});                 // Dependencies
 
@@ -600,14 +602,14 @@ while (iterator->hasNext()) {
         std::cerr << "Error: " << batch_result.error().message() << std::endl;
         break;
     }
-    
+
     auto batch = batch_result.value();
     for (const auto& item : batch.items) {
         process(item);
     }
-    
+
     if (batch.is_last_batch) break;
-    
+
     // Use cursor for next request
     PaginationCursor cursor = batch.cursor;
 }
@@ -706,8 +708,8 @@ SQL-style window functions for analytical queries.
 FOR sale IN sales
   SORT sale.date ASC
   WINDOW w AS (
-    PARTITION BY sale.product_id 
-    ORDER BY sale.date 
+    PARTITION BY sale.product_id
+    ORDER BY sale.date
     ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
   )
   LET moving_avg = AVG(sale.amount) OVER w
@@ -1318,3 +1320,47 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 - [Storage Module](../../src/storage/README.md) - Data persistence layer
 - [Index Module](../../src/index/README.md) - Index management
 - [Server Module](../../src/server/README.md) - Network protocols
+
+## Additional Header Files
+
+The following headers are present in `include/query/` and supplement the components documented above.
+
+| Header | Description |
+|---|---|
+| `adaptive_join.h` | Adaptive join strategy that switches between nested-loop, hash, and merge join at runtime <!-- TODO: verify --> |
+| `approximate_aggregator.h` | Approximate aggregation using sketches (HyperLogLog, Count-Min, T-Digest) <!-- TODO: verify --> |
+| `aql_runner.h` | High-level AQL query runner; wraps parser + optimizer + engine into a single call <!-- TODO: verify --> |
+| `aql_translator.h` | Translates AQL ASTs to execution plans or other query dialects <!-- TODO: verify --> |
+| `cross_cluster_federation.h` | Cross-cluster query federation extending `query_federation.h` to span multiple independent clusters <!-- TODO: verify --> |
+| `cte_cache.h` | Per-query cache for materialised CTE results (`CTECache` class) |
+| `cypher_parser.h` | Parser for Cypher graph query language (Neo4j-compatible subset) <!-- TODO: verify --> |
+| `graphql_dialect.h` | GraphQL query dialect adapter; translates GraphQL queries to AQL <!-- TODO: verify --> |
+| `gremlin_parser.h` | Parser for Apache Gremlin graph traversal language <!-- TODO: verify --> |
+| `incremental_view.h` | Incremental view maintenance: applies delta updates to pre-computed view results <!-- TODO: verify --> |
+| `let_evaluator.h` | Evaluates `LET` variable bindings in AQL queries <!-- TODO: verify --> |
+| `materialized_cte.h` | Materialised CTE storage and retrieval backed by RocksDB <!-- TODO: verify --> |
+| `materialized_view.h` | Fully materialised view: stored pre-computed results with refresh policies <!-- TODO: verify --> |
+| `optimizer_cost_model.h` | Pluggable cost model interface used by `QueryOptimizer` for plan costing <!-- TODO: verify --> |
+| `parallel_executor.h` | Parallel query execution engine that partitions work across worker threads <!-- TODO: verify --> |
+| `parallel_scan.h` | Parallel table/index scan splitting ranges across threads <!-- TODO: verify --> |
+| `plan_cache.h` | Caches compiled execution plans keyed by normalised query fingerprint <!-- TODO: verify --> |
+| `query_cache_manager.h` | Manages multiple `QueryCache` instances with coordinated invalidation <!-- TODO: verify --> |
+| `query_canceller.h` | Cooperative cancellation token for long-running queries <!-- TODO: verify --> |
+| `query_compiler.h` | Compiles AQL ASTs to native or bytecode execution plans <!-- TODO: verify --> |
+| `query_plan_visualizer.h` | Renders query execution plans as DOT graphs or JSON for `EXPLAIN` output <!-- TODO: verify --> |
+| `query_profiler.h` | Per-operator timing and row-count profiler for `PROFILE` queries <!-- TODO: verify --> |
+| `query_resource_limits.h` | Per-query CPU time, memory, and row-count resource limits and enforcement <!-- TODO: verify --> |
+| `query_rewrite_rule.h` | Interface and registry for pluggable AST-level query rewrite rules <!-- TODO: verify --> |
+| `result_type_annotation.h` | Annotates result columns with inferred or declared type information <!-- TODO: verify --> |
+| `runtime_reoptimizer.h` | Re-optimises a running query mid-execution when actual cardinalities diverge from estimates <!-- TODO: verify --> |
+| `sparql_parser.h` | Parser for SPARQL RDF query language <!-- TODO: verify --> |
+| `sql_parser.h` | Parser for SQL dialect (SELECT/INSERT/UPDATE/DELETE subset) <!-- TODO: verify --> |
+| `vectorized_execution.h` | SIMD-accelerated vectorized execution engine operating on columnar batches <!-- TODO: verify --> |
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

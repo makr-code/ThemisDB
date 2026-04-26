@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            process_graph_rag.h                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:09:35                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:46:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     328                                            ║
+    • Total Lines:     377                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 7f7a27240  2026-03-12  feat(process): add ProcessLinker, ProcessGraphRag, and mo... ║
+    • dc8a1dc60e  2026-04-15  feat(process): PPR GraphRAG scoring, LLM-to-BPMN generato... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -64,6 +64,27 @@ struct ProcessRagConfig {
     float  similarity_threshold{0.7f};  ///< Minimum similarity score for similar cases
     size_t max_prompt_tokens{3000};     ///< Approximate token budget for the LLM prompt
     std::string language{"de"};         ///< Output language: "de" (German) or "en"
+    bool   use_ppr{false};              ///< Use Personalized PageRank instead of BFS
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PprConfig
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Tuning parameters for Personalized PageRank (PPR) subgraph scoring.
+ *
+ * PPR replaces BFS for multi-hop query resolution when
+ * @c ProcessRagConfig::use_ppr is true.
+ *
+ * Scientific basis: Gutierrez et al. (2024). *HippoRAG: Neurobiologically
+ * Inspired Long-Term Memory for Large Language Models.* NeurIPS 2024.
+ */
+struct PprConfig {
+    float damping{0.85f};             ///< Damping factor α (standard PageRank default)
+    int   max_iterations{50};         ///< Maximum power-iteration steps
+    float convergence_epsilon{1e-6f}; ///< Stop when ||r_new - r_old||_1 < epsilon
+    int   top_k_nodes{20};            ///< Return only the top-k nodes by PPR score
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -222,6 +243,33 @@ public:
         std::string_view             model_id,
         const std::vector<std::string>& seed_node_ids,
         int                          max_depth = 2
+    ) const;
+
+    /**
+     * @brief Compute Personalized PageRank (PPR) scores for all nodes in a
+     *        process model graph, seeded from @p seed_node_ids.
+     *
+     * PPR handles multi-hop queries better than BFS by propagating relevance
+     * across the entire graph with exponential distance decay.
+     *
+     * Uses power iteration:
+     * @code
+     *   r = α * A^T * r + (1-α) * personalization
+     * @endcode
+     * Terminates when ||r_new − r_old||₁ < @c PprConfig::convergence_epsilon
+     * or after @c PprConfig::max_iterations steps.
+     *
+     * @param normalized_graph  Process model normalized graph JSON
+     *                          ({@c "nodes", @c "edges"}).
+     * @param seed_node_ids     Starting nodes (personalisation vector is
+     *                          uniform over these nodes).
+     * @param config            PPR tuning parameters.
+     * @return Top-k (node_id, ppr_score) pairs sorted descending by score.
+     */
+    [[nodiscard]] std::vector<std::pair<std::string, float>> computePpr(
+        const nlohmann::json&          normalized_graph,
+        const std::vector<std::string>& seed_node_ids,
+        const PprConfig&               config = {}
     ) const;
 
     // ── LLM prompt building ────────────────────────────────────────────────

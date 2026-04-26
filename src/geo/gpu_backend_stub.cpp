@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_backend_stub.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:37                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     709                                            ║
+    • Total Lines:     705                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 67965456c  2026-03-22  Add constructors with default config for various classes ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d4d1128ca  2026-02-28  fix(geo): integrate GeoDeviceDetector into gpu_backend_st... ║
-    • 0f84568fb  2026-02-27  feat(geo): circuit-breaker immediately fails when no CUDA... ║
-    • 7a427cad5  2026-02-27  feat(geo): fix stale header metadata and add CPU fallback... ║
+    • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -519,7 +515,7 @@ private:
     // ------------------------------------------------------------------
     GeometryInfo stBuffer(const GeometryInfo& geom, double distance_m,
                           int arc_points) override {
-        audit_log_.recordFallbackToCPU("stBuffer: cpu fallback (GPU kernel not yet implemented)", "");
+        audit_log_.recordFallbackToCPU("stBuffer: cpu fallback (GPU kernel pending CUDA release)", "");
         themis::gpu::GPUMetrics::GetInstance().recordFallback("st_buffer_cpu_fallback");
         return getCpuExactBackend()->stBuffer(geom, distance_m, arc_points);
     }
@@ -532,14 +528,14 @@ private:
     // ------------------------------------------------------------------
     GeometryInfo stUnion(const GeometryInfo& geom1,
                          const GeometryInfo& geom2) override {
-        audit_log_.recordFallbackToCPU("stUnion: cpu fallback (GPU kernel not yet implemented)", "");
+        audit_log_.recordFallbackToCPU("stUnion: cpu fallback (GPU kernel pending CUDA release)", "");
         themis::gpu::GPUMetrics::GetInstance().recordFallback("st_union_cpu_fallback");
         return getCpuExactBackend()->stUnion(geom1, geom2);
     }
 
     GeometryInfo stDifference(const GeometryInfo& geom1,
                               const GeometryInfo& geom2) override {
-        audit_log_.recordFallbackToCPU("stDifference: cpu fallback (GPU kernel not yet implemented)", "");
+        audit_log_.recordFallbackToCPU("stDifference: cpu fallback (GPU kernel pending CUDA release)", "");
         themis::gpu::GPUMetrics::GetInstance().recordFallback("st_difference_cpu_fallback");
         return getCpuExactBackend()->stDifference(geom1, geom2);
     }

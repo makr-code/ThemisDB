@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Geo Module - Future Enhancements
@@ -22,6 +24,11 @@ This document covers planned enhancements to the Geospatial module beyond what i
 | `GeoJsonParser::parseGeometryCollection()` | `cpu_backend.cpp`, `boost_cpu_exact_backend.cpp` | **Implemented**: all seven GeoJSON geometry types per RFC 7946 |
 | `SpatialIndex::rTreeQuery(bbox)` | `cpu_backend.cpp` query planner | **Implemented**: R-tree index in `geo_rtree.cpp` replaces linear scan |
 | `GpuKernelDispatcher::dispatch(op, geom[], n)` | `gpu_backend_stub.cpp` | **Implemented**: CUDA (`gpu_backend_cuda.cu`) and HIP (`gpu_backend_hip.cpp`) kernel dispatch |
+| `IRTreeCursor::next(GeoIndexEntry&)` / `IGeoIndex::openRangeCursor(MBR)` / `IGeoIndex::openKNNCursor(Coordinate, k)` | Query planner, AQL cursor API | **Implemented** (v2.5.0): `include/geo/rtree_cursor.h`, `src/geo/rtree_cursor.cpp`; `GeoRTreeIndex` wraps `GeoRTree`; `CursorStatus::STALE` on mutation |
+| `ITemporalSpatialQueryBuilder::build()` / `BuiltTemporalSpatialQuery::execute(table)` | Temporal-spatial AQL functions | **Implemented** (v2.5.0): `include/geo/temporal_spatial_query_builder.h`, `src/geo/temporal_spatial_query_builder.cpp`; `TimeWindowType::POINT_IN_TIME`, `INTERVAL`, `SLIDING_WINDOW` |
+| `IRasterQueryInterface::queryBBox(key, bbox)` / `IRasterQueryInterface::queryTile(z, x, y)` | Raster AQL functions | **Implemented** (v2.5.0): `include/geo/raster_query_interface.h`, `src/geo/raster_query_interface.cpp`; `RasterGridQueryImpl` (full) and `NoOpRasterQueryImpl` (stub); guarded by `THEMIS_ENABLE_RASTER` |
+| `IGeoJSONGeometry::validate()` / `IGeoJSONGeometry::bbox()` | GeoJSON parser, AQL geo predicates | **Implemented** (v2.5.0): `include/geo/geo_json_geometry.h`, `src/geo/geo_json_geometry.cpp`; `GeoPoint`, `GeoLineString`, `GeoPolygon`, `GeoMultiPolygon`, `GeoGeometryCollection` |
+| `ISpatialJoinFilter::matches(GeometryInfo, GeometryInfo)` | Spatial JOIN planner, `BuiltTemporalSpatialQuery` | **Implemented** (v2.5.0): `include/geo/spatial_join_filter.h`, `src/geo/spatial_join_filter.cpp`; `IntersectsFilter`, `ContainsFilter`, `WithinFilter`, `TouchesFilter`, `DWithinFilter`; `AndFilter`, `OrFilter`, `NotFilter` |
 
 ## Planned Features
 

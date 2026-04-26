@@ -1,0 +1,297 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2026 ThemisDB Contributors
+#
+# Mathematical Prompts
+#
+# This file contains prompt templates for mathematical analysis, statistics,
+# numerical methods, and mathematical problem-solving.
+
+version: "1.0.0"
+
+prompts:
+  
+  mathematical_analysis:
+    name: "Mathematical Analysis"
+    version: "1.0"
+    description: "Analyze mathematical problems and data"
+    active: true
+    content: |
+      You are performing mathematical analysis.
+      
+      Problem: {query}
+      Data/Context: {context}
+      
+      Mathematical approach:
+      1. **Problem Formulation**: Define the mathematical problem clearly
+      2. **Variables**: Identify all variables and parameters
+      3. **Constraints**: List all constraints and conditions
+      4. **Methods**: Choose appropriate mathematical methods
+      5. **Solution**: Solve step-by-step
+      6. **Verification**: Verify the solution
+      
+      Analysis components:
+      - State assumptions clearly
+      - Show all work step-by-step
+      - Explain reasoning at each step
+      - Check solutions for validity
+      - Consider edge cases
+      
+      Present solution:
+      - Problem statement
+      - Given information
+      - Solution methodology
+      - Step-by-step solution
+      - Final answer
+      - Verification
+
+  statistical_analysis:
+    name: "Statistical Analysis"
+    version: "1.0"
+    description: "Perform statistical analysis on data"
+    active: true
+    content: |
+      You are performing statistical analysis.
+      
+      Analysis objective: {query}
+      Dataset: {context}
+      
+      Statistical methods:
+      1. **Descriptive Statistics**: Mean, median, mode, std dev, range
+      2. **Distribution**: Normal, skewed, outliers
+      3. **Correlation**: Relationships between variables
+      4. **Hypothesis Testing**: t-test, ANOVA, chi-square
+      5. **Confidence Intervals**: Estimate with confidence
+      6. **Regression**: Model relationships
+      
+      Analysis steps:
+      - Data exploration and cleaning
+      - Summary statistics
+      - Visualization (describe)
+      - Statistical tests
+      - Interpretation
+      - Conclusions
+      
+      Present analysis:
+      - Data summary
+      - Statistical measures
+      - Test results (with p-values)
+      - Confidence intervals
+      - Interpretation
+      - Limitations
+
+  optimization_problem:
+    name: "Optimization Problem"
+    version: "1.0"
+    description: "Solve mathematical optimization problems"
+    active: true
+    content: |
+      You are solving an optimization problem.
+      
+      Objective: {query}
+      Constraints: {context}
+      
+      Optimization framework:
+      1. **Objective Function**: What are we maximizing/minimizing?
+      2. **Decision Variables**: What can we control?
+      3. **Constraints**: What are the limitations?
+      4. **Method**: Linear programming, calculus, etc.
+      5. **Solution**: Find optimal solution
+      6. **Sensitivity**: How sensitive is the solution?
+      
+      Solution approach:
+      - Formulate mathematically
+      - Identify feasible region
+      - Apply optimization method
+      - Find optimal point
+      - Verify optimality
+      - Sensitivity analysis
+      
+      Present solution:
+      - Problem formulation
+      - Mathematical model
+      - Solution method
+      - Optimal solution
+      - Interpretation
+      - Sensitivity analysis
+
+  probability_calculation:
+    name: "Probability Calculation"
+    version: "1.0"
+    description: "Calculate probabilities and analyze random events"
+    active: true
+    content: |
+      You are calculating probabilities.
+      
+      Probability question: {query}
+      Given information: {context}
+      
+      Probability concepts:
+      1. **Sample Space**: What are all possible outcomes?
+      2. **Events**: What events are we interested in?
+      3. **Probability Rules**: Independent, conditional, Bayes
+      4. **Calculation**: Apply appropriate formulas
+      5. **Interpretation**: What does this probability mean?
+      
+      Methods:
+      - Basic probability rules
+      - Conditional probability P(A|B)
+      - Bayes' theorem
+      - Expected value
+      - Variance and standard deviation
+      - Distributions (binomial, normal, etc.)
+      
+      Present solution:
+      - Problem understanding
+      - Sample space
+      - Relevant events
+      - Calculations (show work)
+      - Final probability
+      - Interpretation
+
+  numerical_methods:
+    name: "Numerical Methods"
+    version: "1.0"
+    description: "Apply numerical methods to solve problems"
+    active: true
+    content: |
+      You are applying numerical methods.
+      
+      Problem: {query}
+      Parameters: {context}
+      
+      Numerical approaches:
+      1. **Problem Type**: Root finding, integration, ODE, etc.
+      2. **Method Selection**: Newton-Raphson, Runge-Kutta, etc.
+      3. **Algorithm**: Describe the algorithm
+      4. **Implementation**: Step-by-step calculation
+      5. **Convergence**: Check convergence criteria
+      6. **Error**: Estimate numerical error
+      
+      Methods available:
+      - Root finding (bisection, Newton's method)
+      - Numerical integration (trapezoidal, Simpson's)
+      - Differential equations (Euler, Runge-Kutta)
+      - Linear systems (Gaussian elimination, iterative)
+      - Interpolation and approximation
+      
+      Present solution:
+      - Problem formulation
+      - Method chosen and why
+      - Algorithm steps
+      - Numerical results
+      - Error estimation
+      - Conclusion
+
+  linear_algebra:
+    name: "Linear Algebra Problems"
+    version: "1.0"
+    description: "Solve linear algebra problems"
+    active: true
+    content: |
+      You are solving a linear algebra problem.
+      
+      Problem: {query}
+      Given: {context}
+      
+      Linear algebra topics:
+      1. **Vectors**: Operations, dot product, cross product
+      2. **Matrices**: Operations, determinants, inverse
+      3. **Systems**: Solve Ax = b
+      4. **Eigenvalues**: Find eigenvalues and eigenvectors
+      5. **Transformations**: Linear transformations
+      6. **Spaces**: Vector spaces, basis, dimension
+      
+      Solution approach:
+      - Write in matrix/vector form
+      - Apply appropriate operations
+      - Reduce to simpler form
+      - Solve systematically
+      - Check solution
+      
+      Present solution:
+      - Problem in standard form
+      - Method applied
+      - Step-by-step calculation
+      - Final answer
+      - Geometric interpretation (if applicable)
+
+  calculus_problem:
+    name: "Calculus Problem"
+    version: "1.0"
+    description: "Solve calculus problems"
+    active: true
+    content: |
+      You are solving a calculus problem.
+      
+      Problem: {query}
+      Given: {context}
+      
+      Calculus topics:
+      1. **Limits**: Evaluate limits
+      2. **Derivatives**: Find derivatives, optimization
+      3. **Integration**: Compute integrals, areas
+      4. **Series**: Convergence, Taylor series
+      5. **Multivariable**: Partial derivatives, gradients
+      6. **Applications**: Real-world applications
+      
+      Solution steps:
+      - Identify the calculus concept needed
+      - Apply relevant theorems/rules
+      - Perform calculations carefully
+      - Simplify the result
+      - Interpret in context
+      
+      Present solution:
+      - Problem type identification
+      - Relevant formulas/theorems
+      - Detailed calculation
+      - Final answer
+      - Interpretation/application
+
+  combinatorics:
+    name: "Combinatorics Problems"
+    version: "1.0"
+    description: "Solve counting and combinatorics problems"
+    active: true
+    content: |
+      You are solving a combinatorics problem.
+      
+      Problem: {query}
+      Conditions: {context}
+      
+      Combinatorics concepts:
+      1. **Counting Principle**: Multiplication rule, addition rule
+      2. **Permutations**: Arrangements (n!)
+      3. **Combinations**: Selections (n choose k)
+      4. **Inclusion-Exclusion**: Overlap counting
+      5. **Pigeonhole Principle**: Distribution problems
+      6. **Generating Functions**: Advanced counting
+      
+      Solution approach:
+      - Identify what we're counting
+      - Determine if order matters (permutation vs combination)
+      - Check for restrictions
+      - Apply appropriate formula
+      - Verify with small examples
+      
+      Present solution:
+      - Problem analysis
+      - Counting method chosen
+      - Formula applied
+      - Calculation
+      - Final count
+      - Verification (if possible)
+
+metadata:
+  created: "2026-02-10"
+  author: "ThemisDB Development Team"
+  purpose: "Mathematical analysis and problem-solving prompt templates"
+  category: "mathematical"
+  areas:
+    - "statistics"
+    - "optimization"
+    - "probability"
+    - "numerical_methods"
+    - "linear_algebra"
+    - "calculus"
+    - "combinatorics"

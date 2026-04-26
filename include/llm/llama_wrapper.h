@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llama_wrapper.h                                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:22                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     649                                            ║
+    • Total Lines:     653                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • dd98ecc0e0  2026-04-06  Add server crash error log for model loading and tensor i... ║
+    • eb00b82270  2026-04-04  hotfix: prevent SIGSEGV in RocksDB/LLM init on Docker sta... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -207,8 +207,10 @@ public:
         
         // KV-Cache Reuse (Prefix Caching)
         LLMPrefixCache::Config prefix_cache_config;
-        // Response cache (optional)
-        bool enable_response_cache = true;
+        // Response cache (optional) — disabled by default to avoid
+        // unconditional RocksDB initialisation during startup.
+        // Enable explicitly when a persistent response cache is desired.
+        bool enable_response_cache = false;
         LLMResponseCache::Config response_cache_config;
         
         // Grammar-Constrained Generation (Phase 3.2)
@@ -528,6 +530,8 @@ private:
     // Current active model
     std::string current_model_id_;
     std::string current_model_path_;
+    std::string configured_model_id_;
+    std::string configured_model_path_;
     
     // Statistics
     struct Stats {

@@ -1,6 +1,6 @@
 # ThemisDB Edition Comparison
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** v1.3.0  
 **Kategorie:** 🏢 Enterprise
 
@@ -262,5 +262,5 @@ Yes, simply remove the license file and enterprise DLLs. Your data remains intac
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** December 13, 2025  
+**Last Updated:** April 2026  
 **Contact:** service@themisdb.org

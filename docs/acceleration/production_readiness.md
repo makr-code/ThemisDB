@@ -394,5 +394,5 @@ The ThemisDB acceleration module demonstrates strong foundational architecture w
 ---
 
 **Document Maintainer:** ThemisDB Core Team  
-**Last Updated:** 2026-02-19  
+**Last Updated:** 2026-04-06  
 **Next Review:** 2026-05-19

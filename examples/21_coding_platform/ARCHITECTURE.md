@@ -1,3 +1,5 @@
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
 # Coding Platform - Architecture & Design
 
 Dieses Dokument beschreibt die System-Architektur, Design-Entscheidungen und technische Details der ThemisDB Coding Platform.

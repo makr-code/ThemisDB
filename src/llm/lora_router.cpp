@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_router.cpp                                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:17:08                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -13,14 +13,12 @@
     • Total Lines:     795                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "llm/lora_router.h"
+#include "llm/decision_record_yaml_processor.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cmath>
@@ -182,7 +180,10 @@ RoutingDecision LoRARouter::routeQuery(
     
     // Update metrics
     updateMetrics(decision);
-    
+
+    // Emit decision record for non-cached decisions
+    emitAdapterSelectionRecord(decision);
+
     // Cache decision
     if (config_.enable_decision_cache && !decision.is_fallback) {
         cacheDecision(query, decision);
@@ -789,6 +790,43 @@ void LoRARouter::evictExpiredCache() {
             ++it;
         }
     }
+}
+
+void LoRARouter::setDecisionRecordProcessor(
+    std::shared_ptr<DecisionRecordYamlProcessor> processor)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    dr_processor_ = std::move(processor);
+}
+
+void LoRARouter::emitAdapterSelectionRecord(const RoutingDecision& decision) const
+{
+    // dr_processor_ is checked under the caller's mutex_ context
+    if (!dr_processor_) {
+        return;
+    }
+
+    DecisionRecord rec;
+    rec.decision_type = "LORA_ADAPTER_SELECTION";
+    rec.component     = "LoRARouter";
+    rec.outcome       = decision.adapter_id.empty() ? "FALLBACK" : "SUCCESS";
+    rec.confidence    = decision.confidence > 0.0f
+                            ? std::optional<float>(decision.confidence)
+                            : std::nullopt;
+    rec.latency_ms    = static_cast<int64_t>(decision.routing_latency_ms.count());
+
+    rec.parameters["adapter_id"]      = decision.adapter_id;
+    rec.parameters["base_model_id"]   = decision.base_model_id;
+    rec.parameters["gpu_device_id"]   = std::to_string(decision.gpu_device_id);
+    rec.parameters["similarity_score"] = std::to_string(decision.similarity_score);
+    rec.parameters["policy"]          = std::to_string(static_cast<int>(decision.policy_used));
+    rec.parameters["is_fallback"]     = decision.is_fallback ? "true" : "false";
+    if (!decision.reason.empty()) {
+        rec.parameters["reason"] = decision.reason;
+    }
+
+    // submit() is non-blocking — the processor's background thread handles I/O
+    dr_processor_->submit(std::move(rec));
 }
 
 } // namespace llm

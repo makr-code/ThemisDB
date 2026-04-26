@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            feedback_collector.h                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:09:41                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     362                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -37,12 +34,17 @@
 #include <chrono>
 #include <mutex>
 #include <optional>
+#include <functional>
+#include <memory>
 #include <nlohmann/json.hpp>
 
 namespace rocksdb { class ColumnFamilyHandle; }
 
 namespace themis {
 class RocksDBWrapper;
+
+// Forward declaration — full header included in .cpp only.
+namespace distributed_knowledge { class CrossShardFeedbackSync; }
 
 namespace prompt_engineering {
 
@@ -262,6 +264,17 @@ public:
      * @return Number of entries deleted
      */
     size_t clearFeedback(const std::string& prompt_id);
+
+    /**
+     * @brief Return the total number of feedback entries recorded since last clear.
+     *
+     * Used by Loop 4 (RLAIF) in ContinuousLearningOrchestrator to decide
+     * whether sufficient preference-pair data has accumulated to trigger a
+     * training round (threshold: >= 100 entries).
+     *
+     * @return Total number of entries across all prompt IDs.
+     */
+    [[nodiscard]] size_t newEntryCount() const;
     
     /**
      * @brief Get feedback entries for a specific prompt (paginated)
@@ -302,6 +315,39 @@ public:
      */
     nlohmann::json getSummary() const;
 
+    // ── DK-5: Cross-shard feedback propagation ────────────────────────────────
+
+    /**
+     * @brief Minimal embedding model interface for cross-shard feedback.
+     *
+     * Implement this (or inject a lambda via `setEmbeddingModel`) to provide
+     * the 384-dimensional float embedding that is broadcast — in place of the
+     * raw query text — when cross-shard sync is enabled.
+     */
+    struct IEmbeddingModel {
+        virtual std::vector<float> embed(const std::string& text) const = 0;
+        virtual ~IEmbeddingModel() = default;
+    };
+
+    /**
+     * @brief Inject a `CrossShardFeedbackSync` hook (DK-5 DI-setter).
+     *
+     * When set together with an embedding model, `recordFeedback()` will
+     * publish an anonymised `FeedbackSummary` (embedding only, no raw text)
+     * to all peer shards via the sync component.
+     */
+    void setCrossShardSync(
+        std::shared_ptr<distributed_knowledge::CrossShardFeedbackSync> sync);
+
+    /**
+     * @brief Inject an embedding model for cross-shard summary generation.
+     *
+     * Required alongside `setCrossShardSync()` for the cross-shard publish
+     * path.  When absent, cross-shard publish is silently skipped and a
+     * warning is logged.
+     */
+    void setEmbeddingModel(std::shared_ptr<IEmbeddingModel> model);
+
 private:
     mutable std::mutex mutex_;
     
@@ -311,6 +357,10 @@ private:
     // Optional persistence
     RocksDBWrapper* db_ = nullptr;
     rocksdb::ColumnFamilyHandle* cf_ = nullptr;
+
+    // DK-5: Cross-shard feedback propagation (both must be set to enable)
+    std::shared_ptr<distributed_knowledge::CrossShardFeedbackSync> cross_shard_sync_;
+    std::shared_ptr<IEmbeddingModel>                               embedding_model_;
     
     static constexpr const char* KEY_PREFIX = "feedback:";
     /// Secondary time-based index prefix: "idx:time:{prompt_id}:{ts_us}:{id}" → entry_key

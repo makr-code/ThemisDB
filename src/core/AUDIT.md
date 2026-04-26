@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-22 -->
+> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Core Module
@@ -12,7 +14,7 @@
 | Metric | Result |
 |--------|--------|
 | Build System Registration | ✅ Verified |
-| Source Files | 2 direct + 5 in subdirectories (`src/core/`, `core/adapters/`, `core/concerns/`) |
+| Source Files | 2 direct + 8 in subdirectories (`src/core/`, `core/adapters/`, `core/concerns/`) |
 | Test Coverage | ✅ Production — core interfaces covered; secrets providers (InMemorySecrets, EnvSecretsProvider) covered |
 | Open TODOs | 1 file contains TODO (plugin adapter loading, Issue #1706) |
 | Open Stubs | 0 |
@@ -31,10 +33,12 @@
 |------|---------|
 | `core/concerns/concerns_context.cpp` | Central DI hub: logger, tracer, metrics, cache, health checks |
 | `core/concerns/context_propagation.cpp` | W3C TraceContext propagation (`traceparent`/`tracestate`) |
-| `core/concerns/i_logger.cpp` | ILogger abstract interface |
+| `core/concerns/i_logger.cpp` | ILogger interface (SpdlogLoggerAdapter is header-only in `include/core/concerns/spdlog_logger_adapter.h`) |
+| `core/concerns/lockfree_metrics.cpp` | Lock-free metrics implementation |
 | `core/concerns/prometheus_metrics.cpp` | Prometheus metrics adapter |
+| `core/concerns/redis_cache.cpp` | Redis-backed distributed cache with consistent hashing and pub/sub invalidation |
+| `core/concerns/zero_copy_logger.cpp` | Zero-copy logger with `string_view` hot-path API |
 | `core/adapters/otel_tracer.cpp` | OpenTelemetry OTLP tracer adapter with circuit-breaker |
-| `core/adapters/spdlog_logger.cpp` | Spdlog logger adapter |
 | `security_initialization.cpp` | Security context initialization |
 | `index_interface_stubs.cpp` | Index interface stubs |
 
@@ -49,6 +53,8 @@
 - Dynamic log level adjustment
 - Feature flag interface
 - Secrets providers: InMemorySecrets (map-backed) and EnvSecretsProvider (env-var-backed)
+- ZeroCopyLogger: `string_view` hot-path, PII redaction, concurrent `json_mode_` switching (41 tests in `tests/test_zero_copy_logging.cpp`)
+- RedisCache: consistent hashing, TTL, pub/sub invalidation, deadlock-free `invalidatePattern`
 
 ## Findings
 

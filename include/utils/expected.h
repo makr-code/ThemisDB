@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            expected.h                                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:56                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     196                                            ║
+    • Total Lines:     396                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 070d3a6164  2026-04-14  llama                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -22,14 +22,12 @@
 
 #pragma once
 
-// Try to include tl/expected.hpp if available.
-// If unavailable, provide a minimal local fallback that supports the subset
-// used by this codebase (construction from value/unexpected, bool checks,
-// value()/error(), operator*()).
+// Try to include tl/expected.hpp if available, otherwise use std::optional fallback
 #if __has_include(<tl/expected.hpp>)
   #include <tl/expected.hpp>
   #define HAS_TL_EXPECTED 1
 #else
+  // Fallback: provide a lightweight tl::expected implementation.
   #include <optional>
   #include <stdexcept>
   #include <type_traits>
@@ -42,128 +40,193 @@ namespace tl {
 template<typename E>
 class unexpected {
 public:
-    explicit unexpected(E e) : error_(std::move(e)) {}
+    using error_type = E;
 
-    E& value() { return error_; }
-    const E& value() const { return error_; }
+    unexpected(const E& e)
+        : error_(e) {}
+
+    unexpected(E&& e)
+        : error_(std::move(e)) {}
+
+    const E& value() const& { return error_; }
+    E& value() & { return error_; }
+    E&& value() && { return std::move(error_); }
 
 private:
     E error_;
 };
 
+template<typename E>
+unexpected(E) -> unexpected<E>;
+
 template<typename T, typename E>
 class expected {
 public:
-    template<typename, typename>
-    friend class expected;
+    using value_type = T;
+    using error_type = E;
 
-    template<typename U = T, typename = std::enable_if_t<std::is_default_constructible_v<U>>>
-    expected() : data_(T{}) {}
+    expected(const T& value)
+        : storage_(value) {}
 
-    expected(const T& v) : data_(v) {}
-    expected(T&& v) : data_(std::move(v)) {}
-    expected(unexpected<E> u) : data_(std::move(u.value())) {}
+    expected(T&& value)
+        : storage_(std::move(value)) {}
 
-    template<
-        typename U,
-        typename = std::enable_if_t<
-            std::is_convertible_v<U, T> && !std::is_same_v<U, T>
-        >
-    >
-    expected(const expected<U, E>& other) {
-        if (other.has_value()) {
-            data_ = T(other.value());
-        } else {
-            data_ = other.error();
-        }
-    }
+    expected(const unexpected<E>& unexp)
+        : storage_(unexp.value()) {}
 
-    template<
-        typename U,
-        typename = std::enable_if_t<
-            std::is_convertible_v<U, T> && !std::is_same_v<U, T>
-        >
-    >
-    expected& operator=(const expected<U, E>& other) {
-        if (other.has_value()) {
-            data_ = T(other.value());
-        } else {
-            data_ = other.error();
-        }
-        return *this;
-    }
+    expected(unexpected<E>&& unexp)
+        : storage_(std::move(unexp).value()) {}
 
-    bool has_value() const { return std::holds_alternative<T>(data_); }
-    explicit operator bool() const { return has_value(); }
+    expected(const expected&) = default;
+    expected(expected&&) noexcept(std::is_nothrow_move_constructible_v<std::variant<T, E>>) = default;
+    expected& operator=(const expected&) = default;
+    expected& operator=(expected&&) noexcept(std::is_nothrow_move_assignable_v<std::variant<T, E>>) = default;
 
-    T& value() {
+    [[nodiscard]] bool has_value() const noexcept { return std::holds_alternative<T>(storage_); }
+    explicit operator bool() const noexcept { return has_value(); }
+
+    T& value() & {
         if (!has_value()) {
             throw std::logic_error("bad expected access");
         }
-        return std::get<T>(data_);
+        return std::get<T>(storage_);
     }
 
-    const T& value() const {
+    const T& value() const& {
         if (!has_value()) {
             throw std::logic_error("bad expected access");
         }
-        return std::get<T>(data_);
+        return std::get<T>(storage_);
     }
 
-    E& error() {
-        if (has_value()) {
-            throw std::logic_error("no expected error");
+    T&& value() && {
+        if (!has_value()) {
+            throw std::logic_error("bad expected access");
         }
-        return std::get<E>(data_);
+        return std::get<T>(std::move(storage_));
     }
 
-    const E& error() const {
+    T& operator*() & { return value(); }
+    const T& operator*() const& { return value(); }
+    T&& operator*() && { return std::move(value()); }
+
+    E& error() & {
         if (has_value()) {
-            throw std::logic_error("no expected error");
+            throw std::logic_error("expected has value, no error present");
         }
-        return std::get<E>(data_);
+        return std::get<E>(storage_);
     }
 
-    T& operator*() { return value(); }
-    const T& operator*() const { return value(); }
-    T* operator->() { return &value(); }
-    const T* operator->() const { return &value(); }
+    const E& error() const& {
+        if (has_value()) {
+            throw std::logic_error("expected has value, no error present");
+        }
+        return std::get<E>(storage_);
+    }
+
+    E&& error() && {
+        if (has_value()) {
+            throw std::logic_error("expected has value, no error present");
+        }
+        return std::get<E>(std::move(storage_));
+    }
+
+    template<typename U>
+    T value_or(U&& default_value) const& {
+        if (has_value()) {
+            return std::get<T>(storage_);
+        }
+        return static_cast<T>(std::forward<U>(default_value));
+    }
+
+    template<typename F>
+    auto and_then(F&& f) & {
+        using result_type = decltype(f(value()));
+        if (has_value()) {
+            return f(value());
+        }
+        return result_type(unexpected<E>(error()));
+    }
+
+    template<typename F>
+    auto and_then(F&& f) const& {
+        using result_type = decltype(f(value()));
+        if (has_value()) {
+            return f(value());
+        }
+        return result_type(unexpected<E>(error()));
+    }
 
 private:
-    std::variant<T, E> data_;
+    std::variant<T, E> storage_;
 };
 
 template<typename E>
 class expected<void, E> {
 public:
-    expected() = default;
-    expected(unexpected<E> u) : error_(std::move(u.value())) {}
+    using value_type = void;
+    using error_type = E;
 
-    bool has_value() const { return !error_.has_value(); }
-    explicit operator bool() const { return has_value(); }
+    expected()
+        : has_value_(true), error_() {}
+
+    expected(const unexpected<E>& unexp)
+        : has_value_(false), error_(unexp.value()) {}
+
+    expected(unexpected<E>&& unexp)
+        : has_value_(false), error_(std::move(unexp).value()) {}
+
+    [[nodiscard]] bool has_value() const noexcept { return has_value_; }
+    explicit operator bool() const noexcept { return has_value_; }
 
     void value() const {
-        if (!has_value()) {
+        if (!has_value_) {
             throw std::logic_error("bad expected access");
         }
     }
 
-    E& error() {
-        if (has_value()) {
-            throw std::logic_error("no expected error");
+    E& error() & {
+        if (has_value_) {
+            throw std::logic_error("expected has value, no error present");
         }
-        return *error_;
+        return error_;
     }
 
-    const E& error() const {
-        if (has_value()) {
-            throw std::logic_error("no expected error");
+    const E& error() const& {
+        if (has_value_) {
+            throw std::logic_error("expected has value, no error present");
         }
-        return *error_;
+        return error_;
+    }
+
+    E&& error() && {
+        if (has_value_) {
+            throw std::logic_error("expected has value, no error present");
+        }
+        return std::move(error_);
+    }
+
+    template<typename F>
+    auto and_then(F&& f) & {
+        using result_type = decltype(f());
+        if (has_value_) {
+            return f();
+        }
+        return result_type(unexpected<E>(error_));
+    }
+
+    template<typename F>
+    auto and_then(F&& f) const& {
+        using result_type = decltype(f());
+        if (has_value_) {
+            return f();
+        }
+        return result_type(unexpected<E>(error_));
     }
 
 private:
-    std::optional<E> error_;
+    bool has_value_;
+    E error_;
 };
 
 } // namespace tl

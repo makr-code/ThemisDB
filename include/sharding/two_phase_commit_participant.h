@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            two_phase_commit_participant.h                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:41                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     271                                            ║
+    • Total Lines:     270                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 67965456c  2026-03-22  Add constructors with default config for various classes ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -39,8 +39,7 @@
 // This class implements ShardRPCServer::RequestHandler so it can be attached
 // directly to a ShardRPCServer for real network deployments.
 
-#ifndef THEMISDB_SHARDING_TWO_PHASE_COMMIT_PARTICIPANT_H
-#define THEMISDB_SHARDING_TWO_PHASE_COMMIT_PARTICIPANT_H
+#pragma once
 
 #include "sharding/shard_rpc_server.h"
 #include "sharding/wal_manager.h"
@@ -268,5 +267,3 @@ private:
 };
 
 } // namespace themis::sharding
-
-#endif // THEMISDB_SHARDING_TWO_PHASE_COMMIT_PARTICIPANT_H

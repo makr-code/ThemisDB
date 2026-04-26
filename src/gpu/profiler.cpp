@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            profiler.cpp                                       ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:15:58                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     196                                            ║
+    • Total Lines:     193                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 4966e1aa6  2026-02-25  fix(gpu): correct stale metadata banners and update ROADM... ║
-    • c110763ce  2026-02-25  feat(gpu): implement GPU profiling integration (NVIDIA Ns... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -68,10 +67,8 @@ void GPUProfiler::beginRange(const std::string& name, uint32_t argb_color) {
     attrs.message.ascii          = name.c_str();
     nvtxRangePushEx(&attrs);
 #elif defined(THEMIS_ENABLE_HIP)
-    (void)argb_color;
     roctxRangePushA(name.c_str());
 #else
-    (void)argb_color;
 #endif
 
     range_stack_.push_back({name, nowNs(), argb_color});

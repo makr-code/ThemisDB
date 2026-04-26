@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metrics.cpp                                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:55                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     294                                            ║
+    • Total Lines:     289                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
-    • 4966e1aa6  2026-02-25  fix(gpu): correct stale metadata banners and update ROADM... ║
-    • c110763ce  2026-02-25  feat(gpu): implement GPU profiling integration (NVIDIA Ns... ║
-    • 67871bb3f  2026-02-25  audit: fix stale headers, blank lines, add FUTURE_ENHANCE... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -89,23 +86,21 @@ void GPUMetrics::recordAllocSuccess(uint64_t bytes,
                 static_cast<double>(bytes));
 }
 
-void GPUMetrics::recordAllocFailGlobal(uint64_t bytes,
+void GPUMetrics::recordAllocFailGlobal([[maybe_unused]] uint64_t bytes,
                                         const std::string& tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     std::unordered_map<std::string, std::string> labels{
         {"result", "fail_global_limit"}};
     if (!tenant_id.empty()) labels["tenant"] = tenant_id;
     incrCounter("themis_gpu_alloc_total", labels);
-    (void)bytes;
 }
 
-void GPUMetrics::recordAllocFailTenant(uint64_t bytes,
+void GPUMetrics::recordAllocFailTenant([[maybe_unused]] uint64_t bytes,
                                         const std::string& tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     std::unordered_map<std::string, std::string> labels{
         {"result", "fail_tenant_quota"}, {"tenant", tenant_id}};
     incrCounter("themis_gpu_alloc_total", labels);
-    (void)bytes;
 }
 
 void GPUMetrics::recordDealloc(uint64_t bytes, const std::string& tenant_id) {

@@ -1,10 +1,10 @@
 # Training-Modul
 
-**Stand:** 11. März 2026  
-**Version:** 1.0  
+**Stand:** 6. April 2026  
+**Version:** 1.6.0  
 **Kategorie:** Training  
-**Validated:** 2026-03-11 (b2342851)  
-**Status:** current
+**Validated:** 2026-04-06  
+**Status:** 🟢 Production-Ready
 
 ---
 
@@ -32,8 +32,7 @@ umfasst folgende Kernkomponenten:
 - **TrainingPipeline** (`training_pipeline.cpp`) — Ende-zu-Ende-Orchestrierung des
   Trainingsprozesses (ConfidenceCalibrator, ProvenanceTracker-Integration)
 
-**Aktueller Status: Alpha** — Strukturelles Gerüst und Integrationspunkte vorhanden;
-einzelne Datenbankanbindungen (AQL-Executor, Vektor-Index) sind als Stubs implementiert.
+**Aktueller Status: 🟢 Production-Ready** — v1.6.0 vollständig implementiert. AdaLoRAAdapter, LoRAAdapterMerger und LoRA+ Dual-Optimizer integriert.
 
 ---
 
@@ -54,13 +53,15 @@ einzelne Datenbankanbindungen (AQL-Executor, Vektor-Index) sind als Stubs implem
 | Komponente | Header | Source | Rolle |
 |------------|--------|--------|-------|
 | LegalAutoLabeler | `auto_labeler.h` | `auto_labeler.cpp` | NLP-Extraktions-Pipeline für juristische Dokumente |
-| IncrementalLoRATrainer | `incremental_lora_trainer.h` | `incremental_lora_trainer.cpp` | LoRA-Lebenszyklus (Training, Deploy, Rollback) |
+| IncrementalLoRATrainer | `incremental_lora_trainer.h` | `incremental_lora_trainer.cpp` | LoRA-Lebenszyklus (Training, Deploy, Rollback); LoRA+ Dual-AdamOptimizer (B-Matrix: lr×λ, A-Matrix: lr) via `IncrementalTrainingConfig::lora_plus_lambda` |
 | KnowledgeGraphEnricher | `knowledge_graph_enricher.h` | `knowledge_graph_enricher.cpp` | AQL-Graphtraversierung für Kontextanreicherung |
 | LoRACheckpointManager | `lora_checkpoint_manager.h` | `lora_checkpoint_manager.cpp` | SHA-256-Checkpoint-Validierung und -Rotation |
 | ModalityParser | `modality_parser.h` | `modality_parser.cpp` | Modalitätserkennung (Text, Tabelle, Zitat, OCR) |
 | ProvenanceTracker | `provenance_tracker.h` | `provenance_tracker.cpp` | Proben-Herkunftsverfolgung |
 | LoraDataSelection | `lora_data_selection.h` | `lora_data_selection.cpp` | Trainingsdaten-Auswahl und -Deduplizierung |
 | TrainingPipeline | `training_pipeline.h` | `training_pipeline.cpp` | Ende-zu-Ende-Orchestrierung |
+| AdaLoRAAdapter | `ada_lora_adapter.h` | `ada_lora_adapter.cpp` | Wichtigkeitsbasiertes Rank-Pruning für LoRA-Adapter (AdaLoRA) |
+| LoRAAdapterMerger | `lora_adapter_merger.h` | `lora_adapter_merger.cpp` | Adapter-Zusammenführung (Linear, TIES, *All) mit Power-Iteration-SVD |
 
 ---
 

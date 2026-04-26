@@ -529,6 +529,6 @@ Consider decreasing `max_memory_bytes` if:
 
 ---
 
-**Last Updated:** 17. November 2025  
+**Last Updated:** April 2026  
 **Version:** 1.0  
 **Status:** Production Ready (pending compilation verification)

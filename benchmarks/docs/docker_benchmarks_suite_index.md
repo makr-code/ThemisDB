@@ -1,8 +1,10 @@
+> **Navigation:** Verlinkungen auf aktuelle Docker-Benchmark-Dateipfade prüfen.
+
 # ThemisDB Docker Benchmarks - Unified Suite
 
 **Version:** 1.0.0  
 **Status:** ✅ Production Ready  
-**Last Updated:** 2025-12-09
+**Last Updated:** 2026-04-06
 
 ---
 
@@ -403,4 +405,4 @@ firefox docker_benchmarks_results_*/reports/benchmark_results.html
 
 **Version:** 1.0.0  
 **Status:** ✅ Production Ready  
-**Last Updated:** 2025-12-09
+**Last Updated:** 2026-04-06

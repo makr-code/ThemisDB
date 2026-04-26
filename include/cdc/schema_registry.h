@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_registry.h                                  ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:06:27                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:44:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     856                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     861                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f8098a60c  2026-02-25  fix(cdc): remove unused includes; add TRANSACTION_COMMIT/... ║
-    • 87c62f731  2026-02-25  feat(cdc): schema-aware CDC with Avro/Protobuf schema reg... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -480,6 +479,12 @@ struct EncodedEvent {
  *  - JSON     – UTF-8 JSON bytes produced by eventToPayload().
  *  - AVRO     – UTF-8 JSON bytes (stub; full Avro binary requires avro-cpp).
  *  - PROTOBUF – UTF-8 JSON bytes (stub; full proto binary requires protobuf).
+ *
+ * STUB/SIMULATION NOTE:
+ * Purpose: Provide a uniform wire format while optional Avro/Protobuf binary encoders are unavailable.
+ * Activation: Active when event format is AVRO or PROTOBUF without corresponding binary serializer integration.
+ * Production Delta: Payload bytes are JSON text rather than native Avro/Protobuf binary payloads.
+ * Removal Plan: Replace JSON fallback serialization with native binary encoding once dependencies are integrated.
  *
  * Schema auto-registration: when @c config.auto_register_schemas is true
  * (the default) the encoder calls @c ensureCollectionSchema() on first use

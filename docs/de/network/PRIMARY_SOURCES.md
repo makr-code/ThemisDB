@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [network](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-04  
+**Datum:** 2026-04-17  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/network/ARCHITECTURE.md`
@@ -25,21 +25,9 @@
 
 # Primary Sources — `network`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`network`** aus den Verzeichnissen `src/network/` und/oder `include/network/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`network`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/network/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/network/ARCHITECTURE.md`](../../../src/network/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/network/AUDIT.md`](../../../src/network/AUDIT.md) |
-| `CHANGELOG.md` | [`src/network/CHANGELOG.md`](../../../src/network/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/network/FUTURE_ENHANCEMENTS.md`](../../../src/network/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/network/README.md`](../../../src/network/README.md) |
-| `ROADMAP.md` | [`src/network/ROADMAP.md`](../../../src/network/ROADMAP.md) |
-| `SECURITY.md` | [`src/network/SECURITY.md`](../../../src/network/SECURITY.md) |
 
 ### `include/network/`
 
@@ -53,6 +41,18 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`network`**
 | `ROADMAP.md` | [`include/network/ROADMAP.md`](../../../include/network/ROADMAP.md) |
 | `SECURITY.md` | [`include/network/SECURITY.md`](../../../include/network/SECURITY.md) |
 
+### `src/network/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/network/ARCHITECTURE.md`](../../../src/network/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/network/AUDIT.md`](../../../src/network/AUDIT.md) |
+| `CHANGELOG.md` | [`src/network/CHANGELOG.md`](../../../src/network/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/network/FUTURE_ENHANCEMENTS.md`](../../../src/network/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/network/README.md`](../../../src/network/README.md) |
+| `ROADMAP.md` | [`src/network/ROADMAP.md`](../../../src/network/ROADMAP.md) |
+| `SECURITY.md` | [`src/network/SECURITY.md`](../../../src/network/SECURITY.md) |
+
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-04*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*

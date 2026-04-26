@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aligned_vector_allocator.h                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:06:06                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -104,8 +104,8 @@ public:
      * @param ptr Pointer to memory to deallocate
      * @param n Number of elements (unused but required by STL)
      */
-    void deallocate(T* ptr, std::size_t n) noexcept {
-        (void)n;  // Unused parameter
+    void deallocate(T* ptr, [[maybe_unused]] std::size_t n) noexcept {
+        // Unused parameter
         memory::deallocate_aligned(ptr, Alignment);
     }
     

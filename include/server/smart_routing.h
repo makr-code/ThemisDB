@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            smart_routing.h                                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:11:26                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:47:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • d153089bc  2026-03-13  fix(server): eliminate data race in SmartRouter::refreshS... ║
-    • 830284816  2026-03-13  feat: implement RequestCoalescingManager and SmartRouter ... ║
+    • d153089bc2  2026-03-13  fix(server): eliminate data race in SmartRouter::refreshS... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

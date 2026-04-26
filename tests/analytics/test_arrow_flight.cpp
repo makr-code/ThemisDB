@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_arrow_flight.cpp                              ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:21:51                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:51:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     634                                            ║
+    • Total Lines:     632                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ab2ac9533  2026-02-26  fix: resolve deadlock risk, missing thread include, and v... ║
-    • 1c13e549b  2026-02-26  feat: implement Arrow Flight RPC support for remote analy... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

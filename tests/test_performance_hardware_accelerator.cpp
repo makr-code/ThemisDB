@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_performance_hardware_accelerator.cpp          ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:30:59                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:55:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     722                                            ║
+    • Total Lines:     728                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 153f8573f  2026-03-16  fix(tests): add FilterLessThanOp + FilterGreaterThanOrEqu... ║
-    • 84799a990  2026-03-16  fix(test): rename HighThresholdForcescpuFallback → HighTh... ║
-    • 139f96263  2026-03-16  feat(performance): implement HardwareAccelerator v1.8.0 (... ║
+    • 153f8573ff  2026-03-16  fix(tests): add FilterLessThanOp + FilterGreaterThanOrEqu... ║
+    • 84799a9908  2026-03-16  fix(test): rename HighThresholdForcescpuFallback → HighTh... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

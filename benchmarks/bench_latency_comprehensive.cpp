@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_latency_comprehensive.cpp                    ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:04:14                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:43:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     534                                            ║
+    • Total Lines:     533                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 329b75bbb  2026-02-07  Add comprehensive test coverage and scientific benchmarks... ║
+    • 9c9ead9b4f  2026-04-09  Implement feature X to enhance user experience and optimi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -194,7 +193,7 @@ protected:
                 {"value", rng.generateInt(0, 1000000)},
                 {"data", rng.generateString(100)}
             });
-            db_->put("entity:" + entity.id, entity.serialize());
+            db_->put("entity:" + entity.getPrimaryKey(), entity.serialize());
         }
     }
 
@@ -245,7 +244,7 @@ BENCHMARK_F(LatencyBenchFixture, ReadLatency_LargeValues)(benchmark::State& stat
         BaseEntity entity("large_" + std::to_string(i), BaseEntity::FieldMap{
             {"data", setup_rng.generateString(10000)} // 10KB values
         });
-        db_->put("entity:" + entity.id, entity.serialize());
+        db_->put("entity:" + entity.getPrimaryKey(), entity.serialize());
     }
 
     DeterministicRNG rng(42);
@@ -463,7 +462,7 @@ BENCHMARK_F(LatencyBenchFixture, CacheMissLatency)(benchmark::State& state) {
         BaseEntity entity("cold_" + std::to_string(i), BaseEntity::FieldMap{
             {"value", rng.generateInt(0, 1000000)}
         });
-        db_->put("entity:" + entity.id, entity.serialize());
+        db_->put("entity:" + entity.getPrimaryKey(), entity.serialize());
     }
 
     int counter = 10000;

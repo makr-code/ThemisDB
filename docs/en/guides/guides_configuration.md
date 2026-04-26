@@ -256,6 +256,6 @@ features:
 For configuration questions or performance issues:
 
 1. Check metrics: `curl http://localhost:8765/stats`
-2. Review logs: `tail -f themis_server.log`
+2. Review logs: `tail -f logs/themis_server.log`
 3. Consult the comprehensive guide: [CONFIGURATION_TUNING_GUIDE.md](../../de/guides/CONFIGURATION_TUNING_GUIDE.md)
 4. Open an issue: https://github.com/makr-code/ThemisDB/issues

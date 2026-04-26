@@ -3,26 +3,26 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graphql_api_handler.cpp                            ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-03-30 04:19:46                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-04-15 18:50:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     213                                            ║
+    • Total Lines:     261                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 1b86d845d  2026-03-11  feat(tracing): add OpenTelemetry spans to all major API h... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 15cad19ba  2026-02-22  feat(server): implement dedicated GraphQLApiHandler and e... ║
+    • d11498de07  2026-04-07  fix: address code review comments – shared error helper, ... ║
+    • fc0c65a058  2026-04-07  feat(api/aql): AQL-GraphQL integration – cost model bridg... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "server/graphql_api_handler.h"
+#include "api/graphql_aql_resolver.h"
 #include "utils/tracing.h"
 #include <nlohmann/json.hpp>
 
@@ -103,13 +103,12 @@ http::response<http::string_body> GraphQLApiHandler::handlePost(
 {
     auto span = Tracer::startSpan("POST /graphql");
     try {
-        // Parse the request body as a JSON object.
+        // ── Parse request body ─────────────────────────────────────────────
         json body_json = json::object();
         if (!req.body().empty()) {
             body_json = json::parse(req.body());
         }
 
-        // The "query" field is mandatory.
         if (!body_json.contains("query") || !body_json["query"].is_string()) {
             span.setStatus(false, "Missing query field");
             return makeErrorResponse(
@@ -119,14 +118,45 @@ http::response<http::string_body> GraphQLApiHandler::handlePost(
         }
         const std::string gql_query = body_json["query"].get<std::string>();
 
-        // Optional: operationName
         std::string op_name;
         if (body_json.contains("operationName") &&
             body_json["operationName"].is_string()) {
             op_name = body_json["operationName"].get<std::string>();
         }
 
-        // Build the execution context and populate variables.
+        // ── Parse GraphQL document ─────────────────────────────────────────
+        auto parse_result = graphql::Parser::parse(gql_query);
+        if (!parse_result.success) {
+            json errors_array = json::array();
+            for (const auto& pe : parse_result.errors)
+                errors_array.push_back({{"message", pe.toString()}});
+            json err_body = {{"errors", errors_array}, {"data", nullptr}};
+            span.setStatus(false, "Parse error");
+            return makeResponse(http::status::bad_request, err_body.dump(), req);
+        }
+
+        // ── Complexity check (cost model enforcement) ──────────────────────
+        //
+        // The GraphQL complexity score is computed before execution.  A high
+        // score tightens the AQL resource limits injected into each resolver;
+        // a score above kGraphQLMaxComplexity is rejected immediately (HTTP 400).
+        const uint32_t complexity =
+            graphql::GraphQLComplexityEstimator::estimate(parse_result.document);
+        span.setAttribute("graphql.complexity", static_cast<int64_t>(complexity));
+
+        if (complexity > graphql::kGraphQLMaxComplexity) {
+            const std::string msg = graphql::makeComplexityErrorMessage(
+                complexity, graphql::kGraphQLMaxComplexity);
+            span.setStatus(false, msg);
+            json err_body = {
+                {"errors", json::array({{{"message", msg},
+                                         {"extensions", {{"code", "COMPLEXITY_EXCEEDED"}}}}})},
+                {"data", nullptr}
+            };
+            return makeResponse(http::status::bad_request, err_body.dump(), req);
+        }
+
+        // ── Build execution context with variables ─────────────────────────
         graphql::ExecutionContext ctx;
         if (body_json.contains("variables") &&
             body_json["variables"].is_object()) {
@@ -144,21 +174,25 @@ http::response<http::string_body> GraphQLApiHandler::handlePost(
             }
         }
 
-        // Parse the GraphQL query.
-        auto parse_result = graphql::Parser::parse(gql_query);
-        if (!parse_result.success) {
-            json errors_array = json::array();
-            for (const auto& pe : parse_result.errors)
-                errors_array.push_back({{"message", pe.toString()}});
-            json err_body = {{"errors", errors_array}, {"data", nullptr}};
-            return makeResponse(http::status::bad_request, err_body.dump(), req);
-        }
+        // ── Inject AQL + versioning resolvers ─────────────────────────────
+        //
+        // GraphQLAqlResolverFactory wires:
+        //   aql(query)          → executeAqlWithLimits (read queries)
+        //   aqlMutation(query)  → executeAqlWithLimits (DML statements)
+        //   apiVersion          → static version string
+        //   schemaVersion       → static schema version string
+        //
+        // The limits passed to executeAqlWithLimits are derived from the
+        // complexity score above so that expensive GraphQL documents
+        // automatically receive tighter AQL budgets.
+        graphql::GraphQLAqlResolverFactory::injectResolvers(
+            ctx, parse_result.document, engine_);
 
-        // Execute the operation.
+        // ── Execute ────────────────────────────────────────────────────────
         graphql::Executor executor;
         auto exec_result = executor.execute(parse_result.document, ctx, op_name);
 
-        // Build the response envelope.
+        // ── Serialize response ─────────────────────────────────────────────
         json result_json = json::object();
         result_json["data"] = exec_result.data
             ? serializeValue(exec_result.data)
@@ -175,9 +209,23 @@ http::response<http::string_body> GraphQLApiHandler::handlePost(
             result_json["errors"] = errors_array;
         }
 
+        span.setAttribute("graphql.errors",
+                          static_cast<int64_t>(exec_result.errors.size()));
+        span.setStatus(!exec_result.hasErrors());
         return makeResponse(http::status::ok, result_json.dump(), req);
 
+    } catch (const std::runtime_error& e) {
+        // Catches complexity errors thrown by GraphQLComplexityEstimator
+        // and AQL execution errors surfaced through resolvers.
+        json err_body = {
+            {"errors", json::array({{{"message", std::string(e.what())},
+                                     {"extensions", {{"code", "EXECUTION_ERROR"}}}}})},
+            {"data", nullptr}
+        };
+        span.setStatus(false, e.what());
+        return makeResponse(http::status::bad_request, err_body.dump(), req);
     } catch (const json::exception& e) {
+        span.setStatus(false, e.what());
         return makeErrorResponse(
             http::status::bad_request,
             std::string("Invalid JSON in GraphQL request: ") + e.what(),

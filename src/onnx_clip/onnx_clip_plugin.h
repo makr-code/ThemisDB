@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            onnx_clip_plugin.h                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:17:50                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     99                                             ║
+    • Total Lines:     103                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9ab72c508  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
-    • acdb250db  2026-03-12  feat: migrate plugins to src/include with CMake switches ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • ccd6c6d9e7  2026-04-15  feat(onnx_clip): CLIP text encoder, native batch sub-spli... ║
+    • 63cde823d4  2026-04-08  Add unit tests for Ethics AI and RAG Context Engine plugins ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -45,6 +44,7 @@
 #include <vector>
 #include <string>
 #include <mutex>
+#include <cstdint>
 
 namespace themis {
 namespace plugins {
@@ -79,6 +79,8 @@ public:
     std::vector<EmbeddingResult> generateEmbeddingBatch(
         const std::vector<std::vector<uint8_t>>& images
     ) override;
+
+    EmbeddingResult generateTextEmbedding(const std::string& text) override;
     
     // Management
     bool healthCheck() const override;
@@ -95,5 +97,8 @@ private:
 } // namespace plugins
 } // namespace themis
 
-// Export plugin entry points
+// Export plugin entry points (disabled for unit-test binaries that compile
+// plugin sources directly).
+#ifndef THEMIS_IMAGE_PLUGIN_DISABLE_EXPORT
 THEMIS_IMAGE_PLUGIN(themis::plugins::image::ONNXClipPlugin)
+#endif

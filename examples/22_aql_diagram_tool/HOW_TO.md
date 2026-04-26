@@ -1,3 +1,5 @@
+> **Aktueller Build-Flow:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # How To: ThemisDB AQL Diagram Tool
 
 Diese Anleitung zeigt Ihnen Schritt für Schritt, wie Sie das AQL Diagram Tool verwenden.

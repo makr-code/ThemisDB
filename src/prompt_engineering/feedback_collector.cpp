@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            feedback_collector.cpp                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:18:15                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     886                                            ║
+    • Total Lines:     887                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,6 +28,7 @@
 
 #include "prompt_engineering/feedback_collector.h"
 #include "storage/rocksdb_wrapper.h"
+#include "distributed_knowledge/cross_shard_feedback_sync.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <cstdint>
@@ -226,8 +228,40 @@ std::string FeedbackCollector::recordFeedback(
     
     THEMIS_DEBUG("Recorded feedback for prompt '{}': type={}, severity={}",
                  prompt_id, feedbackTypeToString(type), severity);
-    
+
+    // ── DK-5: Cross-shard publish (anonymised embedding, no raw text) ────────
+    if (cross_shard_sync_ && embedding_model_) {
+        try {
+            distributed_knowledge::FeedbackSummary summary;
+            summary.feedback_type_label = feedbackTypeToString(type);
+            summary.shard_origin        = "ANON"; // also enforced by sync
+            summary.reason_embedding    = embedding_model_->embed(query);
+            cross_shard_sync_->publishFeedback(std::move(summary));
+        } catch (const std::exception& e) {
+            // Cross-shard publish must never fail local recording
+            THEMIS_DEBUG("Cross-shard feedback publish failed (skipping): {}", e.what());
+        }
+    } else if (cross_shard_sync_ && !embedding_model_) {
+        THEMIS_DEBUG("Cross-shard feedback skipped: no embedding model set");
+    }
+    // ─────────────────────────────────────────────────────────────────────────
+
     return entry.id;
+}
+
+// ── DK-5: DI setters ─────────────────────────────────────────────────────────
+
+void FeedbackCollector::setCrossShardSync(
+    std::shared_ptr<distributed_knowledge::CrossShardFeedbackSync> sync)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    cross_shard_sync_ = std::move(sync);
+}
+
+void FeedbackCollector::setEmbeddingModel(std::shared_ptr<IEmbeddingModel> model)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    embedding_model_ = std::move(model);
 }
 
 std::vector<FeedbackEntry> FeedbackCollector::getFeedback(
@@ -688,7 +722,7 @@ void FeedbackCollector::loadFromDB() {
     std::string prefix = KEY_PREFIX;
     size_t loaded = 0;
     
-    db_->scanPrefix(prefix, [this, &loaded](std::string_view key, std::string_view value) -> bool {
+    db_->scanPrefix(prefix, [this, &loaded](std::string_view /*key*/, std::string_view value) -> bool {
         try {
             auto j = nlohmann::json::parse(std::string(value));
             auto entry = FeedbackEntry::fromJson(j);
@@ -880,6 +914,15 @@ std::vector<FailedQueryPattern> FeedbackCollector::extractPatterns(
               [](const auto& a, const auto& b) { return a.occurrences > b.occurrences; });
 
     return result;
+}
+
+size_t FeedbackCollector::newEntryCount() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    size_t total = 0;
+    for (const auto& [prompt_id, entries] : feedback_) {
+        total += entries.size();
+    }
+    return total;
 }
 
 } // namespace prompt_engineering

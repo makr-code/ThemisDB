@@ -3,19 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_grafana_metrics.cpp                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:29:11                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:54:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   84.0/100                                       ║
-    • Total Lines:     640                                            ║
+    • Total Lines:     639                                            ║
     • Open Issues:     TODOs: 1, Stubs: 5                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 6e4b52d94  2026-02-26  feat(llm): unified metrics dashboard for both engines ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

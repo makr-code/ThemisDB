@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            forecasting.cpp                                    ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:13:53                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1415                                           ║
+    • Total Lines:     1486                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a15f06cbd  2026-03-25  feat(analytics): batch prediction, update(), parallel aut... ║
-    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 89af7a908  2026-03-17  perf(analytics): cache AVX-512 CPUID check in static cons... ║
-    • e51706737  2026-03-17  feat(analytics): add AVX-512 and ARM NEON SIMD vectorizat... ║
+    • d1e63d24c0  2026-04-13  perf(analytics): O(1) incremental OLS update + forecastin... ║
+    • a15f06cbdd  2026-03-25  feat(analytics): batch prediction, update(), parallel aut... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -245,7 +242,7 @@ double zScore(double confidence) {
     return normalQuantile(0.5 + confidence * 0.5);
 }
 
-double computeMean(const std::vector<double>& v) {
+double computeForecastMean(const std::vector<double>& v) {
     if (v.empty()) return 0.0;
     return std::accumulate(v.begin(), v.end(), 0.0) / static_cast<double>(v.size());
 }
@@ -552,7 +549,7 @@ std::vector<double> yuleWalker(const std::vector<double>& y, int p) {
     size_t n = y.size();
     if (n == 0 || p <= 0) return {};
 
-    double mean_y = computeMean(y);
+    double mean_y = computeForecastMean(y);
     // Autocovariances r[0..p] — inner loop accelerated by AVX-512 / AVX2.
     std::vector<double> r(static_cast<size_t>(p + 1), 0.0);
     for (int k = 0; k <= p; ++k) {
@@ -596,7 +593,7 @@ ArimaParams fitARIMA(const std::vector<double>& y, int p, int d, int q) {
         for (size_t i = 1; i < y.size(); ++i) diff[i - 1] = y[i] - y[i - 1];
         yd = diff;
     }
-    params.mean_diff = computeMean(yd);
+    params.mean_diff = computeForecastMean(yd);
 
     // Demean for AR fitting
     std::vector<double> yc = yd;
@@ -666,8 +663,555 @@ ArimaParams fitARIMA(const std::vector<double>& y, int p, int d, int q) {
 } // anonymous namespace
 
 // ============================================================================
-// ForecastModel::Impl
+// SARIMA helper — Seasonal ARIMA (p,d,q)(P,D,Q)_m
 // ============================================================================
+
+namespace {
+
+/// Parameters retained after SARIMA fitting.
+struct SARIMAParams {
+    // Seasonal metadata
+    int m = 1; ///< seasonal period
+    int p = 2; ///< non-seasonal AR order
+    int d = 1; ///< non-seasonal differencing
+    int q = 1; ///< non-seasonal MA order
+    int P = 1; ///< seasonal AR order
+    int D = 1; ///< seasonal differencing
+    int Q = 1; ///< seasonal MA order
+
+    // Fitted AR+SAR coefficient vector (length p + P·m)
+    std::vector<double> ar_coeffs;
+    // Fitted MA+SMA coefficient vector (length q + Q·m)
+    std::vector<double> ma_coeffs;
+    double mean_diff       = 0.0;
+    double last_obs        = 0.0;
+    double residual_stddev = 0.0;
+
+    std::vector<double> last_window;
+    std::vector<double> last_resid;
+    std::vector<double> seasonal_buffer; ///< last m values (for seasonal integrating)
+};
+
+/// Apply seasonal differencing of order D at period m.
+static std::vector<double> seasonalDiff(const std::vector<double>& y, int D, int m) {
+    if (D == 0 || m < 1) return y;
+    std::vector<double> yd = y;
+    for (int iter = 0; iter < D; ++iter) {
+        if (static_cast<int>(yd.size()) <= m) break;
+        std::vector<double> tmp(yd.size() - static_cast<size_t>(m));
+        for (size_t i = static_cast<size_t>(m); i < yd.size(); ++i)
+            tmp[i - static_cast<size_t>(m)] = yd[i] - yd[i - static_cast<size_t>(m)];
+        yd = tmp;
+    }
+    return yd;
+}
+
+/// Apply non-seasonal differencing.
+static std::vector<double> regularDiff(const std::vector<double>& y, int d) {
+    std::vector<double> yd = y;
+    for (int iter = 0; iter < d; ++iter) {
+        if (yd.size() < 2) break;
+        std::vector<double> tmp(yd.size() - 1);
+        for (size_t i = 1; i < yd.size(); ++i) tmp[i - 1] = yd[i] - yd[i - 1];
+        yd = tmp;
+    }
+    return yd;
+}
+
+SARIMAParams fitSARIMA(const std::vector<double>& y,
+                       int p, int d, int q,
+                       int P, int D, int Q, int m)
+{
+    SARIMAParams params{};
+    params.m = (m < 1) ? 1 : m;
+    params.p = p; params.d = d; params.q = q;
+    params.P = P; params.D = D; params.Q = Q;
+
+    if (y.size() < 4) {
+        params.last_obs = y.empty() ? 0.0 : y.back();
+        return params;
+    }
+    params.last_obs = y.back();
+
+    // --- double differencing: seasonal(D,m) then non-seasonal(d) -----------
+    std::vector<double> yd = seasonalDiff(y, D, params.m);
+    yd = regularDiff(yd, d);
+    if (yd.empty()) { params.last_obs = y.back(); return params; }
+
+    params.mean_diff = computeForecastMean(yd);
+    std::vector<double> yc = yd;
+    for (double& v : yc) v -= params.mean_diff;
+
+    // --- build AR lag set: lags 1..p  plus seasonal lags m, 2m..P*m --------
+    std::vector<int> ar_lags;
+    for (int i = 1; i <= p; ++i) ar_lags.push_back(i);
+    for (int i = 1; i <= P; ++i) ar_lags.push_back(i * params.m);
+    // remove duplicates
+    std::sort(ar_lags.begin(), ar_lags.end());
+    ar_lags.erase(std::unique(ar_lags.begin(), ar_lags.end()), ar_lags.end());
+
+    // Build OLS design matrix for AR via Yule-Walker generalisation
+    // (simple OLS regression of yc[t] on yc[t-lag] for lag in ar_lags)
+    int total_ar = static_cast<int>(ar_lags.size());
+    size_t n = yc.size();
+    int max_lag = ar_lags.empty() ? 0 : ar_lags.back();
+    if (max_lag < 1 || static_cast<int>(n) <= max_lag + 1) {
+        // fall back to plain AR(p) via Yule-Walker
+        int actual_p = std::min(p, static_cast<int>(n) - 1);
+        if (actual_p > 0) params.ar_coeffs = yuleWalker(yc, actual_p);
+    } else {
+        // Normal-equation (X'X)^{-1} X'y for the AR lag design
+        // Use full Yule-Walker autocovariance approach for the selected lags.
+        // Build ACF vector
+        std::vector<double> acf(static_cast<size_t>(max_lag + 1), 0.0);
+        double var = 0.0;
+        for (double v : yc) var += v * v;
+        var /= static_cast<double>(n);
+        acf[0] = var;
+        for (int k = 1; k <= max_lag; ++k) {
+            double sum = 0.0;
+            for (size_t i = static_cast<size_t>(k); i < n; ++i)
+                sum += yc[i] * yc[i - static_cast<size_t>(k)];
+            acf[static_cast<size_t>(k)] = sum / static_cast<double>(n);
+        }
+        // Build Yule-Walker system R * phi = r
+        // R[i][j] = acf[|ar_lags[i] - ar_lags[j]|]
+        // r[i]    = acf[ar_lags[i]]
+        std::vector<std::vector<double>> R(static_cast<size_t>(total_ar),
+                                           std::vector<double>(static_cast<size_t>(total_ar)));
+        std::vector<double> r(static_cast<size_t>(total_ar));
+        for (int i = 0; i < total_ar; ++i) {
+            r[static_cast<size_t>(i)] = acf[static_cast<size_t>(ar_lags[static_cast<size_t>(i)])];
+            for (int j = 0; j < total_ar; ++j) {
+                int lag_diff = std::abs(ar_lags[static_cast<size_t>(i)] - ar_lags[static_cast<size_t>(j)]);
+                R[static_cast<size_t>(i)][static_cast<size_t>(j)] =
+                    (lag_diff <= max_lag) ? acf[static_cast<size_t>(lag_diff)] : 0.0;
+            }
+            R[static_cast<size_t>(i)][static_cast<size_t>(i)] += 1e-8; // regularise
+        }
+        // Cholesky / forward-elimination solve (Gauss with partial pivot)
+        std::vector<double> phi = r;
+        for (int col = 0; col < total_ar; ++col) {
+            // find pivot
+            int pivot = col;
+            for (int row = col + 1; row < total_ar; ++row)
+                if (std::abs(R[static_cast<size_t>(row)][static_cast<size_t>(col)]) >
+                    std::abs(R[static_cast<size_t>(pivot)][static_cast<size_t>(col)]))
+                    pivot = row;
+            std::swap(R[static_cast<size_t>(col)], R[static_cast<size_t>(pivot)]);
+            std::swap(phi[static_cast<size_t>(col)], phi[static_cast<size_t>(pivot)]);
+            double diag = R[static_cast<size_t>(col)][static_cast<size_t>(col)];
+            if (std::abs(diag) < 1e-12) continue;
+            for (int row = col + 1; row < total_ar; ++row) {
+                double f = R[static_cast<size_t>(row)][static_cast<size_t>(col)] / diag;
+                for (int k = col; k < total_ar; ++k)
+                    R[static_cast<size_t>(row)][static_cast<size_t>(k)] -= f * R[static_cast<size_t>(col)][static_cast<size_t>(k)];
+                phi[static_cast<size_t>(row)] -= f * phi[static_cast<size_t>(col)];
+            }
+        }
+        // Back-substitution
+        for (int row = total_ar - 1; row >= 0; --row) {
+            double diag = R[static_cast<size_t>(row)][static_cast<size_t>(row)];
+            if (std::abs(diag) < 1e-12) { phi[static_cast<size_t>(row)] = 0.0; continue; }
+            for (int col = row + 1; col < total_ar; ++col)
+                phi[static_cast<size_t>(row)] -= R[static_cast<size_t>(row)][static_cast<size_t>(col)]
+                                               * phi[static_cast<size_t>(col)];
+            phi[static_cast<size_t>(row)] /= diag;
+        }
+        // Store as full lag vector (0..max_lag), non-selected lags = 0
+        params.ar_coeffs.assign(static_cast<size_t>(max_lag), 0.0);
+        for (int i = 0; i < total_ar; ++i)
+            if (ar_lags[static_cast<size_t>(i)] <= max_lag)
+                params.ar_coeffs[static_cast<size_t>(ar_lags[static_cast<size_t>(i)]) - 1] = phi[static_cast<size_t>(i)];
+    }
+
+    // --- MA lags: lags 1..q plus seasonal lags m..Q*m ----------------------
+    std::vector<int> ma_lags;
+    for (int i = 1; i <= q; ++i) ma_lags.push_back(i);
+    for (int i = 1; i <= Q; ++i) ma_lags.push_back(i * params.m);
+    std::sort(ma_lags.begin(), ma_lags.end());
+    ma_lags.erase(std::unique(ma_lags.begin(), ma_lags.end()), ma_lags.end());
+
+    // Compute AR residuals for MA fitting
+    size_t ap = params.ar_coeffs.size();
+    std::vector<double> residuals(n, 0.0);
+    for (size_t i = ap; i < n; ++i) {
+        double pred = 0.0;
+        for (size_t j = 0; j < ap; ++j) pred += params.ar_coeffs[j] * yc[i - 1 - j];
+        residuals[i] = yc[i] - pred;
+    }
+
+    // Fit MA via OLS on residuals (same lag-set approach, simplified one-pass)
+    if (!ma_lags.empty()) {
+        int max_ma_lag = ma_lags.back();
+        params.ma_coeffs.assign(static_cast<size_t>(max_ma_lag), 0.0);
+        for (int qi : ma_lags) {
+            double sxy = 0.0, sxx = 0.0;
+            for (size_t i = static_cast<size_t>(qi); i < n; ++i) {
+                sxy += residuals[i] * residuals[i - static_cast<size_t>(qi)];
+                sxx += residuals[i - static_cast<size_t>(qi)] * residuals[i - static_cast<size_t>(qi)];
+            }
+            if (sxx > 1e-12 && qi <= max_ma_lag)
+                params.ma_coeffs[static_cast<size_t>(qi) - 1] = sxy / sxx;
+        }
+    }
+
+    // --- last window / residuals for multi-step ahead -----------------------
+    size_t win_size = std::max(ap, size_t{1});
+    if (n >= win_size)
+        params.last_window.assign(yc.end() - static_cast<ptrdiff_t>(win_size), yc.end());
+    else
+        params.last_window = yc;
+
+    size_t res_size = std::max(params.ma_coeffs.size(), size_t{1});
+    if (n >= res_size)
+        params.last_resid.assign(residuals.end() - static_cast<ptrdiff_t>(res_size), residuals.end());
+    else
+        params.last_resid = residuals;
+
+    // --- residual std-dev ---------------------------------------------------
+    size_t cnt = 0; double ss = 0.0;
+    for (size_t i = ap; i < n; ++i) { ss += residuals[i] * residuals[i]; ++cnt; }
+    params.residual_stddev = (cnt > 1) ? std::sqrt(ss / static_cast<double>(cnt - 1)) : 0.0;
+
+    // --- seasonal buffer: last m original values (needed for prediction) ----
+    int sbuf_size = params.m;
+    if (static_cast<int>(y.size()) >= sbuf_size)
+        params.seasonal_buffer.assign(y.end() - static_cast<ptrdiff_t>(sbuf_size), y.end());
+    else
+        params.seasonal_buffer = y;
+
+    return params;
+}
+
+std::vector<double> predictSARIMA(const SARIMAParams& p, int steps) {
+    std::vector<double> out;
+    out.reserve(static_cast<size_t>(steps));
+
+    std::vector<double> window = p.last_window;
+    std::vector<double> resid  = p.last_resid;
+    size_t ap = p.ar_coeffs.size();
+    size_t mq = p.ma_coeffs.size();
+
+    // Keep a rolling buffer of doubly-differenced predictions for integration
+    // We integrate back: first add non-seasonal mean, then seasonal mean.
+    double last_reg = p.last_obs;
+    std::vector<double> seas_buf = p.seasonal_buffer;
+    int m = std::max(p.m, 1);
+
+    for (int k = 0; k < steps; ++k) {
+        // AR(ar_coeffs) on doubly-differenced series
+        double ar_contrib = 0.0;
+        for (size_t j = 0; j < ap && j < window.size(); ++j)
+            ar_contrib += p.ar_coeffs[j] * window[window.size() - 1 - j];
+        // MA(ma_coeffs) — future residuals are 0
+        double ma_contrib = 0.0;
+        for (size_t j = 0; j < mq && j < resid.size(); ++j)
+            ma_contrib += p.ma_coeffs[j] * resid[resid.size() - 1 - j];
+
+        double pred_diff = p.mean_diff + ar_contrib + ma_contrib;
+
+        // Non-seasonal integration (d=1): pred_val = last_reg + pred_diff
+        double pred_val = last_reg + pred_diff;
+        last_reg = pred_val;
+
+        // Seasonal integration (D=1): pred_val += seas_buf[k % m]
+        // (We approximate by adding back the seasonal value from the buffer)
+        if (p.D >= 1 && m >= 2 && !seas_buf.empty()) {
+            int si = static_cast<int>(seas_buf.size()) - m + (k % m);
+            if (si < 0) si = 0;
+            if (si >= static_cast<int>(seas_buf.size())) si = static_cast<int>(seas_buf.size()) - 1;
+            pred_val += seas_buf[static_cast<size_t>(si)];
+        }
+
+        out.push_back(pred_val);
+
+        // Update window for next step (use doubly-differenced version)
+        window.push_back(pred_diff - p.mean_diff);
+        if (window.size() > ap + 10) window.erase(window.begin());
+        resid.push_back(0.0);
+        if (resid.size() > mq + 10) resid.erase(resid.begin());
+    }
+    return out;
+}
+
+// ============================================================================
+// Prophet-style helper — piecewise linear trend + Fourier seasonality
+// ============================================================================
+
+struct ProphetParams {
+    // Piecewise linear trend
+    double      k     = 0.0; ///< initial growth rate
+    double      m_off = 0.0; ///< initial offset
+    std::vector<double> changepoints_t; ///< changepoint times (normalised 0..1)
+    std::vector<double> deltas;         ///< rate change at each changepoint
+    double      t_max = 1.0; ///< max training time for normalisation
+
+    // Fourier seasonality
+    int    fourier_order_weekly  = 3;
+    int    fourier_order_yearly  = 10;
+    double period_weekly  = 7.0;    ///< in days (≈ 7)
+    double period_yearly  = 365.25; ///< in days
+
+    // Fourier coefficients: [an_w, bn_w, an_y, bn_y] packed
+    std::vector<double> fourier_weekly;  ///< 2*fourier_order_weekly coeffs [a1,b1,a2,b2,...]
+    std::vector<double> fourier_yearly;  ///< 2*fourier_order_yearly coeffs
+
+    double residual_stddev = 0.0;
+    double interval_ms = 1.0; ///< median interval of training series (ms)
+    int64_t last_ts_ms = 0;
+};
+
+/// Evaluate piecewise linear trend at normalised time t_norm.
+static double prophetTrend(double t_norm,
+                           double k, double m_off,
+                           const std::vector<double>& cpts,
+                           const std::vector<double>& deltas)
+{
+    double k_acc = k;
+    double m_acc = m_off;
+    for (size_t i = 0; i < cpts.size(); ++i) {
+        if (t_norm > cpts[i]) {
+            k_acc += deltas[i];
+            m_acc -= cpts[i] * deltas[i]; // adjust offset so trend is continuous
+        }
+    }
+    return k_acc * t_norm + m_acc;
+}
+
+/// Evaluate Fourier seasonality component at time t_days.
+static double prophetFourier(double t_days, double period,
+                             const std::vector<double>& coeffs)
+{
+    double s = 0.0;
+    int order = static_cast<int>(coeffs.size()) / 2;
+    for (int n = 1; n <= order; ++n) {
+        double freq = 2.0 * 3.14159265358979323846 * static_cast<double>(n) * t_days / period;
+        s += coeffs[static_cast<size_t>(2 * n - 2)] * std::cos(freq);
+        s += coeffs[static_cast<size_t>(2 * n - 1)] * std::sin(freq);
+    }
+    return s;
+}
+
+ProphetParams fitProphet(const std::vector<double>& y,
+                         const std::vector<int64_t>& ts,
+                         const ForecastConfig& cfg)
+{
+    ProphetParams p;
+    p.fourier_order_weekly = cfg.prophet_fourier_order_weekly;
+    p.fourier_order_yearly = cfg.prophet_fourier_order_yearly;
+
+    if (y.size() < 3) {
+        p.last_ts_ms = ts.empty() ? 0 : ts.back();
+        return p;
+    }
+
+    size_t n = y.size();
+    p.last_ts_ms = ts.back();
+
+    // Compute interval in ms and convert timestamps to days
+    p.interval_ms = static_cast<double>(medianInterval(ts));
+    std::vector<double> t_days(n);
+    double t0_ms = static_cast<double>(ts.front());
+    double t_range_ms = static_cast<double>(ts.back() - ts.front());
+    if (t_range_ms < 1.0) t_range_ms = 1.0;
+    p.t_max = t_range_ms;
+
+    for (size_t i = 0; i < n; ++i) {
+        t_days[i] = (static_cast<double>(ts[i]) - t0_ms) / 86400000.0; // ms → days
+    }
+
+    // Normalised time for trend fit
+    std::vector<double> t_norm(n);
+    for (size_t i = 0; i < n; ++i)
+        t_norm[i] = (static_cast<double>(ts[i]) - t0_ms) / t_range_ms;
+
+    // ---- Changepoint detection: evenly-spaced within first 80% of series ----
+    double cp_range = cfg.prophet_changepoint_range;
+    int n_cps = std::max(0, std::min(25, static_cast<int>(n) / 4));
+    p.changepoints_t.resize(static_cast<size_t>(n_cps));
+    for (int i = 0; i < n_cps; ++i)
+        p.changepoints_t[static_cast<size_t>(i)] =
+            cp_range * static_cast<double>(i + 1) / static_cast<double>(n_cps);
+    p.deltas.assign(static_cast<size_t>(n_cps), 0.0);
+
+    // ---- Piecewise OLS: fit k,m_off ignoring changepoints first (linear trend) ----
+    {
+        double sx = 0.0, sy = 0.0, sxx = 0.0, sxy = 0.0;
+        for (size_t i = 0; i < n; ++i) {
+            sx  += t_norm[i];
+            sy  += y[i];
+            sxx += t_norm[i] * t_norm[i];
+            sxy += t_norm[i] * y[i];
+        }
+        double dn = static_cast<double>(n);
+        double denom = dn * sxx - sx * sx;
+        if (std::abs(denom) > 1e-12) {
+            p.k     = (dn * sxy - sx * sy) / denom;
+            p.m_off = (sy - p.k * sx) / dn;
+        } else {
+            p.m_off = sy / dn;
+        }
+    }
+
+    // ---- Refine changepoint deltas via L1-penalised regression (1 iteration) ----
+    // We use a simple one-step SGD approximation with L1 shrinkage (soft-threshold).
+    const double lambda = cfg.prophet_changepoint_prior_scale;
+    if (n_cps > 0) {
+        for (int iter = 0; iter < 20; ++iter) {
+            for (int ci = 0; ci < n_cps; ++ci) {
+                // Gradient of MSE w.r.t. delta[ci]
+                double grad = 0.0;
+                for (size_t i = 0; i < n; ++i) {
+                    if (t_norm[i] > p.changepoints_t[static_cast<size_t>(ci)]) {
+                        double pred = prophetTrend(t_norm[i], p.k, p.m_off,
+                                                   p.changepoints_t, p.deltas);
+                        double err  = pred - y[i];
+                        // partial derivative w.r.t. delta[ci]
+                        double dt   = t_norm[i] - p.changepoints_t[static_cast<size_t>(ci)];
+                        grad += 2.0 * err * dt / static_cast<double>(n);
+                    }
+                }
+                // Soft-threshold update (L1 prior on deltas)
+                double d = p.deltas[static_cast<size_t>(ci)] - 0.01 * grad;
+                double thresh = 0.01 * lambda;
+                if      (d >  thresh) d -= thresh;
+                else if (d < -thresh) d += thresh;
+                else                  d  = 0.0;
+                p.deltas[static_cast<size_t>(ci)] = d;
+            }
+        }
+    }
+
+    // ---- Fourier seasonality OLS ----
+    // Build X matrix with Fourier features per time step, then solve X'X \ X'r
+    // where r = y - trend(t).
+    auto buildFourierCols = [&](double period, int order) -> std::vector<double> {
+        // Returns 2*order columns flattened: row-major [n rows, 2*order cols]
+        std::vector<double> X(n * static_cast<size_t>(2 * order), 0.0);
+        for (size_t i = 0; i < n; ++i) {
+            for (int k = 1; k <= order; ++k) {
+                double freq = 2.0 * 3.14159265358979323846 * static_cast<double>(k) * t_days[i] / period;
+                X[i * static_cast<size_t>(2 * order) + static_cast<size_t>(2 * k - 2)] = std::cos(freq);
+                X[i * static_cast<size_t>(2 * order) + static_cast<size_t>(2 * k - 1)] = std::sin(freq);
+            }
+        }
+        return X;
+    };
+
+    auto fitOLS = [&](const std::vector<double>& X_flat, int ncols,
+                      const std::vector<double>& rhs) -> std::vector<double> {
+        // Normal equations: (X'X) β = X'y   via Gauss elimination
+        size_t nc = static_cast<size_t>(ncols);
+        std::vector<double> XtX(nc * nc, 0.0);
+        std::vector<double> Xtr(nc, 0.0);
+        for (size_t i = 0; i < n; ++i) {
+            const double* xi = &X_flat[i * nc];
+            for (size_t a = 0; a < nc; ++a) {
+                Xtr[a] += xi[a] * rhs[i];
+                for (size_t b = 0; b <= a; ++b) {
+                    double v = xi[a] * xi[b];
+                    XtX[a * nc + b] += v;
+                    if (a != b) XtX[b * nc + a] += v;
+                }
+            }
+        }
+        // Tikhonov regularisation
+        double reg = 1e-6;
+        for (size_t a = 0; a < nc; ++a) XtX[a * nc + a] += reg;
+        // Gauss elimination with partial pivoting
+        std::vector<double> beta = Xtr;
+        for (size_t col = 0; col < nc; ++col) {
+            size_t pivot = col;
+            for (size_t row = col + 1; row < nc; ++row)
+                if (std::abs(XtX[row * nc + col]) > std::abs(XtX[pivot * nc + col])) pivot = row;
+            for (size_t c = 0; c < nc; ++c) std::swap(XtX[col * nc + c], XtX[pivot * nc + c]);
+            std::swap(beta[col], beta[pivot]);
+            double diag = XtX[col * nc + col];
+            if (std::abs(diag) < 1e-15) continue;
+            for (size_t row = col + 1; row < nc; ++row) {
+                double f = XtX[row * nc + col] / diag;
+                for (size_t c = col; c < nc; ++c) XtX[row * nc + c] -= f * XtX[col * nc + c];
+                beta[row] -= f * beta[col];
+            }
+        }
+        for (int row = static_cast<int>(nc) - 1; row >= 0; --row) {
+            double diag = XtX[static_cast<size_t>(row) * nc + static_cast<size_t>(row)];
+            if (std::abs(diag) < 1e-15) { beta[static_cast<size_t>(row)] = 0.0; continue; }
+            for (size_t c = static_cast<size_t>(row) + 1; c < nc; ++c)
+                beta[static_cast<size_t>(row)] -= XtX[static_cast<size_t>(row) * nc + c] * beta[c];
+            beta[static_cast<size_t>(row)] /= diag;
+        }
+        return beta;
+    };
+
+    // Detrend
+    std::vector<double> detrended(n);
+    for (size_t i = 0; i < n; ++i) {
+        double trend = prophetTrend(t_norm[i], p.k, p.m_off, p.changepoints_t, p.deltas);
+        detrended[i] = y[i] - trend;
+    }
+
+    // Weekly seasonality (period 7 days)
+    if (p.fourier_order_weekly > 0) {
+        auto Xw = buildFourierCols(p.period_weekly, p.fourier_order_weekly);
+        p.fourier_weekly = fitOLS(Xw, 2 * p.fourier_order_weekly, detrended);
+    }
+
+    // Residual after weekly seasonality
+    std::vector<double> resid2(n);
+    for (size_t i = 0; i < n; ++i) {
+        double s = prophetFourier(t_days[i], p.period_weekly, p.fourier_weekly);
+        resid2[i] = detrended[i] - s;
+    }
+
+    // Yearly seasonality
+    if (p.fourier_order_yearly > 0) {
+        auto Xy = buildFourierCols(p.period_yearly, p.fourier_order_yearly);
+        p.fourier_yearly = fitOLS(Xy, 2 * p.fourier_order_yearly, resid2);
+    }
+
+    // Residual std-dev
+    double ss2 = 0.0;
+    for (size_t i = 0; i < n; ++i) {
+        double trend    = prophetTrend(t_norm[i], p.k, p.m_off, p.changepoints_t, p.deltas);
+        double s_weekly = prophetFourier(t_days[i], p.period_weekly, p.fourier_weekly);
+        double s_yearly = prophetFourier(t_days[i], p.period_yearly, p.fourier_yearly);
+        double err = y[i] - (trend + s_weekly + s_yearly);
+        ss2 += err * err;
+    }
+    p.residual_stddev = (n > 1) ? std::sqrt(ss2 / static_cast<double>(n - 1)) : 0.0;
+
+    return p;
+}
+
+std::vector<double> predictProphet(const ProphetParams& p,
+                                   const ForecastConfig& cfg,
+                                   int steps)
+{
+    std::vector<double> out;
+    out.reserve(static_cast<size_t>(steps));
+
+    // Last training time normalised
+    // We need the t_range used during fit — stored as p.t_max.
+    // For each future step k: t_norm = 1.0 + (k * interval_ms) / t_max
+    for (int k = 1; k <= steps; ++k) {
+        double future_offset_ms = static_cast<double>(k) * p.interval_ms;
+        double t_norm_fut = 1.0 + future_offset_ms / p.t_max;
+        double t_days_fut = static_cast<double>(p.last_ts_ms) / 86400000.0
+                          + static_cast<double>(k) * p.interval_ms / 86400000.0;
+
+        double trend    = prophetTrend(t_norm_fut, p.k, p.m_off,
+                                       p.changepoints_t, p.deltas);
+        double s_weekly = prophetFourier(t_days_fut, p.period_weekly, p.fourier_weekly);
+        double s_yearly = prophetFourier(t_days_fut, p.period_yearly, p.fourier_yearly);
+        out.push_back(trend + s_weekly + s_yearly);
+        (void)cfg;
+    }
+    return out;
+}
+
+} // end anonymous namespace (SARIMA + Prophet helpers)
 
 struct ForecastModel::Impl {
     ForecastMethod  method;
@@ -683,9 +1227,20 @@ struct ForecastModel::Impl {
     SESParams         ses_p{};
     HoltWintersParams hw_p{};
     ArimaParams       arima_p{};
+    SARIMAParams      sarima_p{};
+    ProphetParams     prophet_p{};
 
     // In-sample RMSE
     double in_sample_rmse = 0.0;
+
+    // ---- Running OLS moments for O(1) incremental linear regression update ----
+    // Populated by fitLinear() and updated O(1) by update().
+    // x values are 0-based integer indices (0, 1, 2, …, n-1).
+    double   lin_sx  = 0.0; ///< Σ x_i
+    double   lin_sy  = 0.0; ///< Σ y_i
+    double   lin_sxx = 0.0; ///< Σ x_i²
+    double   lin_sxy = 0.0; ///< Σ x_i·y_i
+    size_t   lin_n   = 0;   ///< number of observations in running sums
 
     // ---- fit-result cache ------------------------------------------------
     // Key: FNV-1a 64-bit hash over (training_data_bytes + config_bytes).
@@ -714,6 +1269,12 @@ struct ForecastModel::Impl {
         ArimaParams       arima_p{};
         double            in_sample_rmse = 0.0;
         ForecastConfig    config{};
+        // Running OLS moments (for O(1) incremental update after cache restore)
+        double   lin_sx  = 0.0;
+        double   lin_sy  = 0.0;
+        double   lin_sxx = 0.0;
+        double   lin_sxy = 0.0;
+        size_t   lin_n   = 0;
     };
     // Single-entry cache (last fit)
     bool            cache_valid = false;
@@ -757,6 +1318,16 @@ struct ForecastModel::Impl {
     // ---- fit helpers ----
     void fitLinear() {
         linear_p = ::themisdb::analytics::fitLinear(train_y);
+        // Populate running OLS moments for O(1) incremental update().
+        lin_n = train_y.size();
+        lin_sx = 0.0; lin_sy = 0.0; lin_sxx = 0.0; lin_sxy = 0.0;
+        for (size_t i = 0; i < lin_n; ++i) {
+            double xi = static_cast<double>(i);
+            lin_sx  += xi;
+            lin_sy  += train_y[i];
+            lin_sxx += xi * xi;
+            lin_sxy += xi * train_y[i];
+        }
     }
 
     void fitSES() {
@@ -770,6 +1341,20 @@ struct ForecastModel::Impl {
 
     void fitAR() {
         arima_p = fitARIMA(train_y, config.ar_order, config.diff_order, config.ma_order);
+    }
+
+    void fitSARIMAImpl() {
+        int m_period = (config.sarima_m > 0) ? config.sarima_m : config.seasonality;
+        if (m_period < 2) m_period = 12; // default monthly
+        sarima_p = ::themisdb::analytics::fitSARIMA(
+            train_y,
+            config.ar_order, config.diff_order, config.ma_order,
+            config.sarima_P, config.sarima_D, config.sarima_Q,
+            m_period);
+    }
+
+    void fitProphetImpl() {
+        prophet_p = ::themisdb::analytics::fitProphet(train_y, train_ts, config);
     }
 
     // ---- single-model predict ----
@@ -892,6 +1477,8 @@ struct ForecastModel::Impl {
             case ForecastMethod::HOLT_WINTERS:      return predictHW(steps);
             case ForecastMethod::ARIMA:             return predictARIMA(steps);
             case ForecastMethod::ENSEMBLE:          return predictEnsemble(steps);
+            case ForecastMethod::SARIMA:            return ::themisdb::analytics::predictSARIMA(sarima_p, steps);
+            case ForecastMethod::PROPHET:           return ::themisdb::analytics::predictProphet(prophet_p, config, steps);
         }
         return predictLinear(steps);
     }
@@ -902,6 +1489,8 @@ struct ForecastModel::Impl {
             case ForecastMethod::EXP_SMOOTHING:     return ses_p.residual_stddev;
             case ForecastMethod::HOLT_WINTERS:      return hw_p.residual_stddev;
             case ForecastMethod::ARIMA:             return arima_p.residual_stddev;
+            case ForecastMethod::SARIMA:            return sarima_p.residual_stddev;
+            case ForecastMethod::PROPHET:           return prophet_p.residual_stddev;
             case ForecastMethod::ENSEMBLE: {
                 // Average residual std-devs
                 double s = linear_p.residual_stddev + ses_p.residual_stddev
@@ -956,6 +1545,11 @@ void ForecastModel::fit(const TimeSeries& ts, const ForecastConfig& config) {
         impl_->arima_p       = impl_->cache_entry.arima_p;
         impl_->in_sample_rmse = impl_->cache_entry.in_sample_rmse;
         impl_->config        = impl_->cache_entry.config;
+        impl_->lin_sx  = impl_->cache_entry.lin_sx;
+        impl_->lin_sy  = impl_->cache_entry.lin_sy;
+        impl_->lin_sxx = impl_->cache_entry.lin_sxx;
+        impl_->lin_sxy = impl_->cache_entry.lin_sxy;
+        impl_->lin_n   = impl_->cache_entry.lin_n;
         impl_->fitted        = true;
         return;
     }
@@ -998,6 +1592,13 @@ void ForecastModel::fit(const TimeSeries& ts, const ForecastConfig& config) {
     impl_->fitSES();
     impl_->fitHW();
     impl_->fitAR();
+
+    // Fit SARIMA or Prophet if that method is selected
+    if (impl_->method == ForecastMethod::SARIMA)
+        impl_->fitSARIMAImpl();
+    else if (impl_->method == ForecastMethod::PROPHET)
+        impl_->fitProphetImpl();
+
     impl_->fitted = true;
 
     // In-sample RMSE
@@ -1017,6 +1618,11 @@ void ForecastModel::fit(const TimeSeries& ts, const ForecastConfig& config) {
     impl_->cache_entry.arima_p        = impl_->arima_p;
     impl_->cache_entry.in_sample_rmse = impl_->in_sample_rmse;
     impl_->cache_entry.config         = impl_->config;
+    impl_->cache_entry.lin_sx  = impl_->lin_sx;
+    impl_->cache_entry.lin_sy  = impl_->lin_sy;
+    impl_->cache_entry.lin_sxx = impl_->lin_sxx;
+    impl_->cache_entry.lin_sxy = impl_->lin_sxy;
+    impl_->cache_entry.lin_n   = impl_->lin_n;
     impl_->cache_key   = ck;
     impl_->cache_valid = true;
 }
@@ -1090,13 +1696,49 @@ void ForecastModel::update(double new_value) {
 
     const double y = new_value;
 
-    // ---- LINEAR_REGRESSION: incremental OLS update ----
-    // Recompute alpha/beta using the full (extended) series (O(n) but simple).
-    // For true O(1) we would need Welford-style running moments — however the
-    // series growth is bounded in practice and the fit is already fast.
+    // ---- LINEAR_REGRESSION: O(1) incremental OLS update via running moments ----
+    // Running sums (lin_sx, lin_sy, lin_sxx, lin_sxy, lin_n) were populated
+    // during fitLinear() and are updated here in O(1) per new observation.
+    // Residual std-dev is tracked with an exponential moving average (EMA) so
+    // the confidence-interval width stays approximately current without O(n) refit.
     {
         auto& lp = impl_->linear_p;
-        lp = ::themisdb::analytics::fitLinear(impl_->train_y);
+        if (impl_->lin_n > 0) {
+            double x_new = static_cast<double>(impl_->lin_n); // next 0-based index
+            impl_->lin_sx  += x_new;
+            impl_->lin_sy  += y;
+            impl_->lin_sxx += x_new * x_new;
+            impl_->lin_sxy += x_new * y;
+            impl_->lin_n   += 1;
+            double dn    = static_cast<double>(impl_->lin_n);
+            double denom = dn * impl_->lin_sxx - impl_->lin_sx * impl_->lin_sx;
+            if (std::abs(denom) > 1e-12) {
+                lp.beta  = (dn * impl_->lin_sxy - impl_->lin_sx * impl_->lin_sy) / denom;
+                lp.alpha = (impl_->lin_sy - lp.beta * impl_->lin_sx) / dn;
+            } else {
+                lp.alpha = impl_->lin_sy / dn;
+                lp.beta  = 0.0;
+            }
+            // EMA update for residual std-dev (O(1) approximation)
+            double res = y - (lp.alpha + lp.beta * x_new);
+            lp.residual_stddev = std::sqrt(
+                0.9 * lp.residual_stddev * lp.residual_stddev + 0.1 * res * res);
+        } else {
+            // Fallback: running sums not initialized (model was deserialized
+            // without running-sum state).  Full refit is correct but O(n).
+            lp = ::themisdb::analytics::fitLinear(impl_->train_y);
+            // Reinitialize running sums from the freshly fitted series.
+            impl_->lin_n = impl_->train_y.size();
+            impl_->lin_sx = 0.0; impl_->lin_sy = 0.0;
+            impl_->lin_sxx = 0.0; impl_->lin_sxy = 0.0;
+            for (size_t i = 0; i < impl_->lin_n; ++i) {
+                double xi = static_cast<double>(i);
+                impl_->lin_sx  += xi;
+                impl_->lin_sy  += impl_->train_y[i];
+                impl_->lin_sxx += xi * xi;
+                impl_->lin_sxy += xi * impl_->train_y[i];
+            }
+        }
     }
 
     // ---- EXP_SMOOTHING (SES): O(1) level update ----
@@ -1292,6 +1934,50 @@ std::string ForecastModel::serialize() const {
     oss << "train_n=" << impl_->train_ts.size() << "\n";
     for (size_t i = 0; i < impl_->train_ts.size(); ++i)
         oss << "ts_" << i << "=" << impl_->train_ts[i] << "\n";
+    // SARIMA params (serialised only when method == SARIMA)
+    const auto& sp = impl_->sarima_p;
+    oss << "sarima_m=" << sp.m << "\n";
+    oss << "sarima_d=" << sp.d << "\n";
+    oss << "sarima_D=" << sp.D << "\n";
+    oss << "sarima_mean_diff=" << sp.mean_diff << "\n";
+    oss << "sarima_last_obs=" << sp.last_obs << "\n";
+    oss << "sarima_sigma=" << sp.residual_stddev << "\n";
+    oss << "sarima_ar_n=" << sp.ar_coeffs.size() << "\n";
+    for (size_t i = 0; i < sp.ar_coeffs.size(); ++i)
+        oss << "sarima_ar_" << i << "=" << sp.ar_coeffs[i] << "\n";
+    oss << "sarima_ma_n=" << sp.ma_coeffs.size() << "\n";
+    for (size_t i = 0; i < sp.ma_coeffs.size(); ++i)
+        oss << "sarima_ma_" << i << "=" << sp.ma_coeffs[i] << "\n";
+    oss << "sarima_win_n=" << sp.last_window.size() << "\n";
+    for (size_t i = 0; i < sp.last_window.size(); ++i)
+        oss << "sarima_w_" << i << "=" << sp.last_window[i] << "\n";
+    oss << "sarima_res_n=" << sp.last_resid.size() << "\n";
+    for (size_t i = 0; i < sp.last_resid.size(); ++i)
+        oss << "sarima_r_" << i << "=" << sp.last_resid[i] << "\n";
+    oss << "sarima_sbuf_n=" << sp.seasonal_buffer.size() << "\n";
+    for (size_t i = 0; i < sp.seasonal_buffer.size(); ++i)
+        oss << "sarima_sb_" << i << "=" << sp.seasonal_buffer[i] << "\n";
+    // Prophet params
+    const auto& pp = impl_->prophet_p;
+    oss << "prophet_k=" << pp.k << "\n";
+    oss << "prophet_m_off=" << pp.m_off << "\n";
+    oss << "prophet_t_max=" << pp.t_max << "\n";
+    oss << "prophet_sigma=" << pp.residual_stddev << "\n";
+    oss << "prophet_interval_ms=" << pp.interval_ms << "\n";
+    oss << "prophet_last_ts=" << pp.last_ts_ms << "\n";
+    oss << "prophet_fw_order=" << pp.fourier_order_weekly << "\n";
+    oss << "prophet_fy_order=" << pp.fourier_order_yearly << "\n";
+    oss << "prophet_cp_n=" << pp.changepoints_t.size() << "\n";
+    for (size_t i = 0; i < pp.changepoints_t.size(); ++i)
+        oss << "prophet_cp_" << i << "=" << pp.changepoints_t[i] << "\n";
+    for (size_t i = 0; i < pp.deltas.size(); ++i)
+        oss << "prophet_delta_" << i << "=" << pp.deltas[i] << "\n";
+    oss << "prophet_fw_n=" << pp.fourier_weekly.size() << "\n";
+    for (size_t i = 0; i < pp.fourier_weekly.size(); ++i)
+        oss << "prophet_fw_" << i << "=" << pp.fourier_weekly[i] << "\n";
+    oss << "prophet_fy_n=" << pp.fourier_yearly.size() << "\n";
+    for (size_t i = 0; i < pp.fourier_yearly.size(); ++i)
+        oss << "prophet_fy_" << i << "=" << pp.fourier_yearly[i] << "\n";
     return oss.str();
 }
 
@@ -1387,6 +2073,64 @@ ForecastModel ForecastModel::deserialize(const std::string& data) {
     model.impl_->train_ts.resize(static_cast<size_t>(train_n));
     for (int i = 0; i < train_n; ++i)
         model.impl_->train_ts[static_cast<size_t>(i)] = readL("ts_" + std::to_string(i));
+
+    // SARIMA params
+    {
+        auto& sp = model.impl_->sarima_p;
+        sp.m    = readI("sarima_m");    sp.d = readI("sarima_d");
+        sp.D    = readI("sarima_D");
+        sp.mean_diff        = readD("sarima_mean_diff");
+        sp.last_obs         = readD("sarima_last_obs");
+        sp.residual_stddev  = readD("sarima_sigma");
+        int sar_n = readI("sarima_ar_n");
+        sp.ar_coeffs.resize(static_cast<size_t>(sar_n));
+        for (int i = 0; i < sar_n; ++i)
+            sp.ar_coeffs[static_cast<size_t>(i)] = readD("sarima_ar_" + std::to_string(i));
+        int sma_n = readI("sarima_ma_n");
+        sp.ma_coeffs.resize(static_cast<size_t>(sma_n));
+        for (int i = 0; i < sma_n; ++i)
+            sp.ma_coeffs[static_cast<size_t>(i)] = readD("sarima_ma_" + std::to_string(i));
+        int swin_n = readI("sarima_win_n");
+        sp.last_window.resize(static_cast<size_t>(swin_n));
+        for (int i = 0; i < swin_n; ++i)
+            sp.last_window[static_cast<size_t>(i)] = readD("sarima_w_" + std::to_string(i));
+        int sres_n = readI("sarima_res_n");
+        sp.last_resid.resize(static_cast<size_t>(sres_n));
+        for (int i = 0; i < sres_n; ++i)
+            sp.last_resid[static_cast<size_t>(i)] = readD("sarima_r_" + std::to_string(i));
+        int sbuf_n = readI("sarima_sbuf_n");
+        sp.seasonal_buffer.resize(static_cast<size_t>(sbuf_n));
+        for (int i = 0; i < sbuf_n; ++i)
+            sp.seasonal_buffer[static_cast<size_t>(i)] = readD("sarima_sb_" + std::to_string(i));
+    }
+
+    // Prophet params
+    {
+        auto& pp = model.impl_->prophet_p;
+        pp.k                   = readD("prophet_k");
+        pp.m_off               = readD("prophet_m_off");
+        pp.t_max               = readD("prophet_t_max");
+        pp.residual_stddev     = readD("prophet_sigma");
+        pp.interval_ms         = readD("prophet_interval_ms");
+        pp.last_ts_ms          = readL("prophet_last_ts");
+        pp.fourier_order_weekly = readI("prophet_fw_order");
+        pp.fourier_order_yearly = readI("prophet_fy_order");
+        int cp_n = readI("prophet_cp_n");
+        pp.changepoints_t.resize(static_cast<size_t>(cp_n));
+        pp.deltas.resize(static_cast<size_t>(cp_n));
+        for (int i = 0; i < cp_n; ++i) {
+            pp.changepoints_t[static_cast<size_t>(i)] = readD("prophet_cp_"    + std::to_string(i));
+            pp.deltas[static_cast<size_t>(i)]          = readD("prophet_delta_" + std::to_string(i));
+        }
+        int fw_n = readI("prophet_fw_n");
+        pp.fourier_weekly.resize(static_cast<size_t>(fw_n));
+        for (int i = 0; i < fw_n; ++i)
+            pp.fourier_weekly[static_cast<size_t>(i)] = readD("prophet_fw_" + std::to_string(i));
+        int fy_n = readI("prophet_fy_n");
+        pp.fourier_yearly.resize(static_cast<size_t>(fy_n));
+        for (int i = 0; i < fy_n; ++i)
+            pp.fourier_yearly[static_cast<size_t>(i)] = readD("prophet_fy_" + std::to_string(i));
+    }
 
     return model;
 }

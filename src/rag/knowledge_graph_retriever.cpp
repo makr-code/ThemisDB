@@ -3,21 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            knowledge_graph_retriever.cpp                      ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:18:56                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:50:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     570                                            ║
+    • Total Lines:     567                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • 2f39a9ce6  2026-02-24  fix(rag): correct edge_count decrement in KnowledgeGraph:... ║
-    • c5ef77899  2026-02-24  feat(rag): implement knowledge graph-augmented retrieval ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -227,19 +221,33 @@ size_t KnowledgeGraph::edgeCount() const {
 std::unordered_set<std::string> KnowledgeGraph::neighbours(
     const std::string& start_id,
     size_t             max_depth,
-    double             min_edge_weight) const
+    double             min_edge_weight,
+    size_t             max_nodes) const
 {
     std::lock_guard<std::mutex> lk(impl_->mtx);
 
     std::unordered_set<std::string> visited;
     if (!impl_->nodes.count(start_id)) return visited;
 
+    // GAP-010: BFS is capped at max_nodes to prevent unbounded traversal
+    // (DoS) on densely-connected graphs.  The caller can raise the cap
+    // explicitly for trusted internal paths that genuinely need wider
+    // traversal, but the safe default is 4096 nodes.
     // BFS queue: (node_id, depth)
     std::queue<std::pair<std::string, size_t>> q;
     q.push({start_id, 0});
     visited.insert(start_id);
 
     while (!q.empty()) {
+        // GAP-010: Check node count before dequeuing.
+        // visited always contains at least start_id (inserted before the loop),
+        // so visited.size() >= 1 and the subtraction is safe from underflow.
+        if (max_nodes > 0 && visited.size() - 1u >= max_nodes) {
+            spdlog::warn("KnowledgeGraph::neighbours: BFS node cap ({}) reached "
+                         "from '{}'; truncating traversal", max_nodes, start_id);
+            break;
+        }
+
         auto [cur_id, depth] = q.front();
         q.pop();
 
@@ -249,6 +257,7 @@ std::unordered_set<std::string> KnowledgeGraph::neighbours(
         if (adj_it == impl_->adj.end()) continue;
 
         for (const auto& edge : adj_it->second) {
+            if (max_nodes > 0 && visited.size() - 1u >= max_nodes) break;
             if (edge.weight < min_edge_weight) continue;
             if (visited.count(edge.to_id))     continue;
             if (!impl_->nodes.count(edge.to_id)) continue;

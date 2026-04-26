@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_server.cpp                           ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:20:50                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:51:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1153                                           ║
+    • Total Lines:     1143                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e7af44ad0  2026-03-11  fix(network): audit pass 2 — add CURSOR_NEXT (0x23), CURS... ║
-    • c47502afd  2026-03-11  feat(network): implement all WireProtocol V1 opcode handl... ║
-    • e6f59e401  2026-03-11  fix(security): sanitize user input in error messages + sy... ║
-    • 74c1c156e  2026-03-11  fix(network): implement complete wire protocol V1 opcode ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -233,6 +230,7 @@ WireProtocolSession::WireProtocolSession(socket_t socket)
     : socket_(std::move(socket))
     , session_id_(makeSessionId(socket_))
     , authenticated_(false)
+    , disconnect_notified_(false)
     , messages_received_(0)
     , messages_sent_(0)
     , bytes_received_(0)
@@ -247,11 +245,29 @@ void WireProtocolSession::start() {
     async_read_header();
 }
 
+void WireProtocolSession::set_disconnect_callback(
+    std::function<void(const std::string&)> callback) {
+    std::lock_guard<std::mutex> lock(session_mutex_);
+    disconnect_callback_ = std::move(callback);
+}
+
 void WireProtocolSession::close(const std::string& /*reason*/) {
+    std::function<void(const std::string&)> disconnect_callback;
+    {
+        std::lock_guard<std::mutex> lock(session_mutex_);
+        if (disconnect_notified_) return;
+        disconnect_notified_ = true;
+        disconnect_callback = disconnect_callback_;
+    }
+
     error_code ec;
     if (socket_.is_open()) {
         socket_.shutdown(tcp::socket::shutdown_both, ec);
         socket_.close(ec);
+    }
+
+    if (disconnect_callback) {
+        disconnect_callback(session_id_);
     }
 }
 
@@ -270,6 +286,7 @@ void WireProtocolSession::async_read_header() {
                     ec != net::error::operation_aborted)
                     std::cerr << "[WireV1:" << session_id_
                               << "] header read: " << ec.message() << '\n';
+                close();
                 return;
             }
             bytes_received_ += bytes_read;
@@ -300,7 +317,6 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
         // Dispatch with empty payload inline (captures `this`).
         const OpCode opcode = header.get_opcode();
 #if !defined(THEMIS_WIRE_V1_PROTO_AVAILABLE) || !THEMIS_WIRE_V1_PB_HEADER_FOUND
-        (void)opcode;
         send_error(0xFF, "Protobuf not compiled in this build");
 #else
         switch (opcode) {
@@ -327,6 +343,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                     ec != net::error::operation_aborted)
                     std::cerr << "[WireV1:" << session_id_
                               << "] payload read: " << ec.message() << '\n';
+                close();
                 return;
             }
             bytes_received_ += bytes_read;
@@ -537,8 +554,6 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                     break;
             }
 #else
-            (void)opcode;
-            (void)isz;
             send_error(0xFF, "Protobuf not compiled in this build");
 #endif
             async_read_header();
@@ -588,14 +603,13 @@ void WireProtocolSession::async_write_response(
             if (ec) {
                 std::cerr << "[WireV1:" << session_id_
                           << "] write error: " << ec.message() << '\n';
+                close();
                 return;
             }
             bytes_sent_ += written;
             ++messages_sent_;
         });
 #else
-    (void)opcode;
-    (void)message;
     send_error(0xFF, "Protobuf not compiled in this build");
 #endif
 }
@@ -682,15 +696,13 @@ bool WireProtocolSession::verify_checksum(
 }
 
 std::vector<uint8_t> WireProtocolSession::decompress_lz4(
-    const std::vector<uint8_t>& compressed) {
+    [[maybe_unused]] const std::vector<uint8_t>& compressed) {
     // LZ4 decompression deferred until dependency is unconditionally available.
-    (void)compressed;
     return {};
 }
 
 std::vector<uint8_t> WireProtocolSession::compress_lz4(
-    const std::vector<uint8_t>& data) {
-    (void)data;
+    [[maybe_unused]] const std::vector<uint8_t>& data) {
     return {};
 }
 
@@ -1110,23 +1122,44 @@ WireProtocolServer::~WireProtocolServer() {
 }
 
 void WireProtocolServer::start() {
-    if (running_) return;
-    running_ = true;
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        if (running_) return;
+        running_ = true;
+    }
     async_accept();
 }
 
 void WireProtocolServer::stop() {
-    if (!running_) return;
-    running_ = false;
+    std::vector<std::shared_ptr<WireProtocolSession>> sessions_to_close;
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        if (!running_) return;
+        running_ = false;
+        for (const auto& kv : sessions_)
+            sessions_to_close.push_back(kv.second);
+        sessions_.clear();
+    }
+
     error_code ec;
     acceptor_.close(ec);
-    for (auto& kv : sessions_)
-        kv.second->close("server shutdown");
-    sessions_.clear();
+    for (const auto& session : sessions_to_close)
+        session->close("server shutdown");
 }
 
 size_t WireProtocolServer::active_sessions() const {
+    std::lock_guard<std::mutex> lock(state_mutex_);
     return sessions_.size();
+}
+
+uint64_t WireProtocolServer::total_connections() const {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    return total_connections_;
+}
+
+uint64_t WireProtocolServer::total_messages() const {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    return total_messages_;
 }
 
 void WireProtocolServer::async_accept() {
@@ -1141,12 +1174,34 @@ void WireProtocolServer::async_accept() {
 void WireProtocolServer::handle_accept(
     std::shared_ptr<WireProtocolSession> session,
     const boost::system::error_code&     error) {
+    bool accepted_session = false;
     if (!error) {
-        sessions_[session->session_id()] = session;
-        ++total_connections_;
-        session->start();
+        session->set_disconnect_callback(
+            [this](const std::string& session_id) {
+                std::lock_guard<std::mutex> lock(state_mutex_);
+                sessions_.erase(session_id);
+            });
+        {
+            std::lock_guard<std::mutex> lock(state_mutex_);
+            if (running_) {
+                sessions_[session->session_id()] = session;
+                ++total_connections_;
+                accepted_session = true;
+            }
+        }
+        if (accepted_session) {
+            session->start();
+        } else {
+            session->close("server stopping");
+        }
     }
-    if (running_) async_accept();
+
+    bool should_continue = false;
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        should_continue = running_;
+    }
+    if (should_continue) async_accept();
 }
 
 } // namespace wire

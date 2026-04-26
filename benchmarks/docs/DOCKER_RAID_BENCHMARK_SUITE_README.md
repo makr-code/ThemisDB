@@ -1,3 +1,5 @@
+> **Hinweis:** Docker-Kommandos gegen aktuellen Stand der Compose-Dateien und Images prüfen.
+
 # ThemisDB Docker RAID Comprehensive Benchmark Suite
 
 **Status:** ✅ Production-Ready  
@@ -115,6 +117,9 @@ g++ -std=c++17 -O3 -DNDEBUG \
 ```
 
 ### Ausführung
+
+> **Build:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
 
 #### Standard-Run (1+ Stunde)
 ```bash
@@ -418,7 +423,7 @@ enum class RAIDLevel {
 - [Google Benchmark Documentation](https://github.com/google/benchmark)
 - [RocksDB Benchmark Examples](https://github.com/facebook/rocksdb/tools)
 - [ThemisDB Python RAID Suite](../../benchmarks/raid_sharding_test_suite.py)
-- [ThemisDB Sharding Benchmarks](bench_sharding_performance.cpp)
+- [ThemisDB Sharding Benchmarks](../bench_sharding_performance.cpp)
 
 ## Lizenz
 

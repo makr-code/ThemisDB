@@ -3,27 +3,25 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            branch_manager.h                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:30                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     462                                            ║
+    • Total Lines:     458                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • fd5cbfbc1  2026-02-23  fix(transaction): implement isBranchMerged - resolve Stub... ║
-    • 5067f4acd  2026-02-23  feat(transaction): implement branch merge conflict resolu... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_BRANCH_MANAGER_H
-#define THEMIS_BRANCH_MANAGER_H
+#pragma once
 
 #include "storage/rocksdb_wrapper.h"
 #include "cdc/changefeed.h"
@@ -458,5 +456,3 @@ private:
 
 } // namespace transaction
 } // namespace themis
-
-#endif // THEMIS_BRANCH_MANAGER_H

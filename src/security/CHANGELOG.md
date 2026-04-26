@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-24 -->
+> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+
+<!-- Status: current | validated: 2026-04-06 -->
 # Changelog — Security Module
 Based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 

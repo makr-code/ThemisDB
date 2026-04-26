@@ -1,6 +1,8 @@
+> **Build:** `cmake --preset release && cmake --build build/release --target <target>`
+
 # Observability Module
 
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/observability/README.md -->
 <!-- Primärdokumentation: src/observability/ -->
 
@@ -22,6 +24,7 @@ Provides the metrics, distributed tracing, and structured logging infrastructure
 |---|---|
 | `metrics_collector.cpp` | Prometheus metric collection and `/metrics` endpoint |
 | `alertmanager.cpp` | Alertmanager integration — alert routing and notification webhooks |
+| `alerting_engine.cpp` | Rule-based alerting engine with pluggable notification channels (`AlertingEngine`, `INotificationChannel`, `LogNotificationChannel`, `WebhookNotificationChannel`, `SlackNotificationChannel`) |
 | `continuous_profiler.cpp` | Continuous profiling (pprof / async-profiler compatible), adaptive sampling |
 | `ebpf_tracer.cpp` | eBPF-based kernel-level performance tracing (Linux perf counters) |
 | `distributed_flame_graph.cpp` | Distributed flame graph generation across nodes |
@@ -29,11 +32,21 @@ Provides the metrics, distributed tracing, and structured logging infrastructure
 | `storage_profiler.cpp` | RocksDB stats, write/read amplification, compaction metrics, cache hit rates |
 | `performance_analyzer.cpp` | Automated issue detection with optimization recommendations |
 | `tracer.cpp` | Standalone `ObservabilityTracer` — W3C Trace Context propagation, span ring buffer, ContinuousProfiler integration, MetricsCollector gauges |
+| `opentelemetry_tracer.cpp` | `OpenTelemetryTracer` — OTLP gRPC/HTTP export, Jaeger/Zipkin adapters, W3C Baggage, `recordException()`, `recordMetrics()` |
 | `log_aggregator.cpp` | Standalone `LogAggregator` — structured JSON log collection, trace-context correlation, ring buffer, optional file sink |
+| `log_search_engine.cpp` | `LogSearchEngine` — query structured logs by level, time range, field filters, message content |
+| `metric_aggregator.cpp` | `MetricAggregator` — rate calculation, histogram aggregation, cross-shard pre-aggregation, cardinality rollup |
+| `metric_anomaly_detector.cpp` | `MetricAnomalyDetector` — ML-based anomaly detection bridging `analytics::StreamingAnomalyDetector` with MetricsCollector |
+| `ml_anomaly_detector.cpp` | `MLAnomalyDetector` — ARIMA/Holt-Winters forecast-based anomaly detection with model lifecycle management |
+| `metrics_stream_server.cpp` | `MetricsStreamServer` — real-time metric streaming via WebSocket/SSE with `SendFn` callback delivery |
+| `advanced_metrics.cpp` | `AdvancedMetrics` — Summary, ExponentialHistogram, Cardinality, TimeWeightedAverage, Rate metric types |
+| `slo_reporter.cpp` | `SloReporter` — SLO/SLA burn-rate alerting (FAST 14.4×, MEDIUM 6×, SLOW 3× windows) |
+| `root_cause_analyzer.cpp` | `RootCauseAnalyzer` — automated root cause analysis via Pearson correlation and Granger-inspired causal graph inference |
+| `tenant_metrics_namespace.cpp` | `TenantMetricsNamespace` — per-tenant metric namespacing with independent cardinality budgets and `themis_<tenant_id>_` Prometheus prefix |
 
 ## Current Delivery Status
 
-**Maturity:** 🟢 Production-Ready — Enterprise-grade observability stack operational. Prometheus metrics, query/storage profiling, continuous profiling, eBPF tracing, distributed flame graph, performance analysis, Alertmanager integration, standalone tracer and log aggregator are all fully implemented. OTLP direct export (`otlp_exporter.cpp`) is pending.
+**Maturity:** 🟢 Production-Ready — Enterprise-grade observability stack operational. Prometheus metrics, query/storage profiling, continuous profiling, eBPF tracing, distributed flame graph, performance analysis, Alertmanager integration, standalone tracer and log aggregator, OpenTelemetry full integration (`OpenTelemetryTracer` with OTLP gRPC/HTTP export), structured log search, per-tenant metric namespacing, real-time metric streaming, advanced custom metric types, root cause analyzer, and SLO reporter are all fully implemented. The OTLP exemplar interface (`otlp_exemplar.h`) is a planned interface header targeting Q3 2026.
 
 **Validated:** 2026-03-11 (Reality-Check against Sourcecode; see [docs/de/observability/missing-implementations.md](../../docs/de/observability/missing-implementations.md))
 
@@ -167,7 +180,7 @@ using namespace themis::observability;
 
 // Record a write operation
 MetricsCollector::getInstance().recordTSStoreWrite(
-    "cpu_usage", 
+    "cpu_usage",
     100,      // batch_size
     5.2       // latency_ms
 );
@@ -263,10 +276,10 @@ std::cout << profile->toSummary() << std::endl;
 ```cpp
 {
     ScopedQueryProfile profile(profiler, "q-456", query_text);
-    
+
     // Automatically tracked
     executeQuery();
-    
+
     // Add context
     profile.add_hint("Consider adding index on column 'timestamp'");
     profile.add_warning("Full table scan detected");
@@ -368,11 +381,11 @@ StorageProfiler profiler(config);
 // Profile storage operation
 {
     ScopedStorageOp op(profiler, StorageOpType::GET, "default");
-    
+
     // Perform operation
     std::string value;
     rocksdb::Status status = db->Get(rocksdb::ReadOptions(), key, &value);
-    
+
     // Record details
     op.record_bytes_read(value.size());
     op.set_cache_hit(status.ok() && value.size() > 0);
@@ -383,8 +396,8 @@ RocksDBStats stats = profiler.collect_rocksdb_stats("/var/lib/themisdb/data");
 
 std::cout << "Write Amplification: " << stats.write_amplification << std::endl;
 std::cout << "Read Amplification: " << stats.read_amplification << std::endl;
-std::cout << "Cache Hit Rate: " 
-          << (100.0 * stats.block_cache_hits / (stats.block_cache_hits + stats.block_cache_misses)) 
+std::cout << "Cache Hit Rate: "
+          << (100.0 * stats.block_cache_hits / (stats.block_cache_hits + stats.block_cache_misses))
           << "%" << std::endl;
 ```
 
@@ -473,7 +486,7 @@ for (const auto& issue : query_issues) {
     std::cout << "[" << to_string(issue.severity) << "] "
               << issue.title << std::endl;
     std::cout << "  " << issue.description << std::endl;
-    
+
     for (const auto& rec : issue.recommendations) {
         std::cout << "  → " << rec << std::endl;
     }
@@ -711,7 +724,7 @@ export THEMIS_ALERTMANAGER_URL=http://alertmanager:9093
 export THEMIS_ALERTMANAGER_ENABLED=true
 ```
 
-### Configuration File (themisdb.yaml)
+## Configuration File (themisdb.yaml)
 
 ```yaml
 observability:
@@ -719,26 +732,26 @@ observability:
     enabled: true
     port: 9090
     path: /metrics
-    
+
   tracing:
     enabled: true
     service_name: themisdb
     endpoint: http://jaeger:14268/api/traces
     sample_rate: 0.1  # 10% sampling
-    
+
   query_profiler:
     enabled: true
     profile_all_queries: false
     slow_query_threshold_ms: 1000
     max_profiles_retained: 1000
     retention_hours: 24
-    
+
   storage_profiler:
     enabled: true
     slow_op_threshold_ms: 100
     stats_collection_interval_sec: 60
     retention_hours: 24
-    
+
   performance_analyzer:
     enabled: true
     analysis_interval_sec: 300
@@ -747,7 +760,7 @@ observability:
       write_amplification: 10.0
       read_amplification: 5.0
       max_full_scan_rows: 1000
-      
+
   alertmanager:
     enabled: true
     endpoint: http://alertmanager:9093/api/v2/alerts
@@ -771,16 +784,16 @@ using namespace themis::observability;
 
 class ObservabilityLogger {
     ILogger& logger_;
-    
+
 public:
     explicit ObservabilityLogger(ILogger& logger) : logger_(logger) {}
-    
+
     void logSlowQuery(const QueryProfile& profile) {
         logger_.warn("Slow query detected: " + profile.query_text +
                     " (duration: " + std::to_string(profile.total_duration.count()) + "μs)");
-        
+
         MetricsCollector::getInstance().recordQuery(
-            "slow_query", 
+            "slow_query",
             profile.total_duration.count() / 1000.0,
             profile.result_rows
         );
@@ -800,38 +813,38 @@ using namespace themis::observability;
 class TracedQueryExecution {
     ITracer& tracer_;
     QueryProfiler& profiler_;
-    
+
 public:
     TracedQueryExecution(ITracer& tracer, QueryProfiler& profiler)
         : tracer_(tracer), profiler_(profiler) {}
-    
+
     void executeQuery(const std::string& query_id, const std::string& query_text) {
         // Create trace span
         auto span = tracer_.startSpan("query_execution");
         span->setAttribute("query_id", query_id);
         span->setAttribute("query_text", query_text);
-        
+
         // Start profiling
         profiler_.start_query(query_id, query_text);
-        
+
         try {
             // Execute query phases
             parseQuery(query_text);
             span->setAttribute("phase", "parsed");
-            
+
             optimizeQuery();
             span->setAttribute("phase", "optimized");
-            
+
             executeQueryPlan();
             span->setAttribute("phase", "executed");
-            
+
             span->setStatus(true, "Query completed successfully");
         } catch (const std::exception& e) {
             span->recordError(e.what());
             span->setStatus(false, "Query failed");
             throw;
         }
-        
+
         // End profiling
         profiler_.end_query(query_id);
         span->end();
@@ -850,30 +863,30 @@ using namespace themis::observability;
 
 class MetricsAdapter : public IMetrics {
     MetricsCollector& collector_;
-    
+
 public:
     MetricsAdapter() : collector_(MetricsCollector::getInstance()) {}
-    
+
     void incrementCounter(const std::string& name, int64_t value, const Labels& labels) override {
         collector_.incrementCounter(name, labels);
     }
-    
+
     void setGauge(const std::string& name, double value, const Labels& labels) override {
         collector_.setGauge(name, value, labels);
     }
-    
+
     void observeHistogram(const std::string& name, double value, const Labels& labels) override {
         collector_.observeHistogram(name, value, labels);
     }
-    
+
     void recordLatency(const std::string& operation, double latencyMs, const Labels& labels) override {
         collector_.observeHistogram(operation + "_latency_ms", latencyMs, labels);
     }
-    
+
     std::string exportMetrics() const override {
         return collector_.getPrometheusMetrics();
     }
-    
+
     void reset() override {
         collector_.reset();
     }
@@ -992,7 +1005,7 @@ groups:
         annotations:
           summary: "High query latency detected"
           description: "P95 query latency is {{ $value }}s (threshold: 1s)"
-          
+
       - alert: CriticalQueryLatency
         expr: histogram_quantile(0.95, rate(themisdb_query_latency_seconds_bucket[5m])) > 5
         for: 2m
@@ -1002,7 +1015,7 @@ groups:
         annotations:
           summary: "Critical query latency"
           description: "P95 query latency is {{ $value }}s"
-          
+
       # Cache Performance
       - alert: LowCacheHitRate
         expr: (themisdb_cache_hits_total / (themisdb_cache_hits_total + themisdb_cache_misses_total)) < 0.5
@@ -1013,7 +1026,7 @@ groups:
         annotations:
           summary: "Low cache hit rate"
           description: "Cache hit rate is {{ $value | humanizePercentage }}"
-          
+
       # Storage Health
       - alert: HighWriteAmplification
         expr: themisdb_rocksdb_write_amplification > 20
@@ -1024,7 +1037,7 @@ groups:
         annotations:
           summary: "High write amplification"
           description: "Write amplification is {{ $value }} (threshold: 20)"
-          
+
       # Resource Usage
       - alert: HighMemoryUsage
         expr: themisdb_memory_usage_bytes / themisdb_memory_limit_bytes > 0.9
@@ -1035,7 +1048,7 @@ groups:
         annotations:
           summary: "High memory usage"
           description: "Memory usage is {{ $value | humanizePercentage }}"
-          
+
       - alert: DiskSpaceLow
         expr: themisdb_disk_free_bytes / themisdb_disk_total_bytes < 0.1
         for: 5m
@@ -1045,7 +1058,7 @@ groups:
         annotations:
           summary: "Low disk space"
           description: "Only {{ $value | humanizePercentage }} disk space remaining"
-          
+
       # Authentication
       - alert: HighAuthFailureRate
         expr: rate(themisdb_auth_attempts_total{result="failure"}[5m]) / rate(themisdb_auth_attempts_total[5m]) > 0.5
@@ -1087,7 +1100,7 @@ curl -X POST http://themisdb:8000/api/v1/admin/indexes \
 curl http://themisdb:8000/api/v1/query_profiles/{new_query_id}
 ```
 
-### 2. Storage Performance Issues
+## 2. Storage Performance Issues
 
 ```bash
 # Step 1: Check RocksDB statistics
@@ -1106,7 +1119,7 @@ curl -X POST http://themisdb:8000/api/v1/admin/storage/compact
 curl http://themisdb:8000/api/v1/storage/stats
 ```
 
-### 3. Cache Performance Tuning
+## 3. Cache Performance Tuning
 
 ```bash
 # Step 1: Check cache metrics
@@ -1144,7 +1157,7 @@ go tool pprof -http=:8080 profile.pb.gz
 # Open http://localhost:8080
 ```
 
-### Memory Profiling
+## Memory Profiling
 
 ```bash
 # Heap snapshot
@@ -1174,3 +1187,7 @@ curl http://themisdb:8000/api/v1/profiling/heap/diff
 4. Beyer, B., Jones, C., Petoff, J., & Murphy, N. R. (2016). **Site Reliability Engineering: How Google Runs Production Systems**. O'Reilly Media. ISBN: 978-1-491-92912-4
 
 5. Prometheus Authors. (2023). **Prometheus: An Open-Source Monitoring System with a Dimensional Data Model**. CNCF Project. https://prometheus.io/
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ethics_functions.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:18:28                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 3ac1c4143  2026-03-09  fix: clear all remaining stubs/TODOs across modules; upda... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 0d8e07c708  2026-04-14  chore: reduce compiler warnings in scheduler, query, secu... ║
+    • 2e85cfe4c1  2026-04-14  chore: reduce compiler warnings in scheduler, query, secu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -156,9 +156,9 @@ json EthicsGetArgumentsFunction::execute(
     //     LIMIT @limit
     //     RETURN arg
     // Requires the ethics_ai plugin to populate the collection.
-    const std::string& philosophy = args[0];
-    const json& types = args.size() > 1 ? args[1] : json::array();
-    int limit = args.size() > 2 ? args[2].get<int>() : 20;
+    [[maybe_unused]] const std::string& philosophy = args[0];
+    [[maybe_unused]] const json& types = args.size() > 1 ? args[1] : json::array();
+    [[maybe_unused]] int limit = args.size() > 2 ? args[2].get<int>() : 20;
     
     // Return empty array as placeholder until collection is populated
     // Real implementation would execute AQL query:
@@ -183,9 +183,9 @@ json EthicsFindSimilarDilemmasFunction::execute(
     //     LIMIT @limit
     //     RETURN {dilemma: doc, similarity: similarity}
     // Requires the ethics_ai plugin + vector index on the ethics_dilemmas collection.
-    const std::string& query_text = args[0];
-    double threshold = args.size() > 1 ? args[1].get<double>() : 0.65;
-    int limit = args.size() > 2 ? args[2].get<int>() : 10;
+    [[maybe_unused]] const std::string& query_text = args[0];
+    [[maybe_unused]] double threshold = args.size() > 1 ? args[1].get<double>() : 0.65;
+    [[maybe_unused]] int limit = args.size() > 2 ? args[2].get<int>() : 10;
     
     // Return empty array as placeholder
     // Real implementation would execute vector similarity search:
@@ -208,8 +208,8 @@ json EthicsTraverseChainFunction::execute(
     //     GRAPH 'ethics_arguments_graph'
     //     RETURN {vertex: v, edge: e, path: p, depth: LENGTH(p.edges)}
     // Requires the ethics_ai plugin to create the ethics_arguments_graph.
-    const std::string& start_id = args[0];
-    int max_depth = args.size() > 1 ? args[1].get<int>() : 5;
+    [[maybe_unused]] const std::string& start_id = args[0];
+    [[maybe_unused]] int max_depth = args.size() > 1 ? args[1].get<int>() : 5;
     
     // Return empty array as placeholder
     // Real implementation would execute graph traversal:
@@ -274,9 +274,9 @@ json EthicsBuildContextFunction::execute(
     const FunctionContext& /*ctx*/) const {
     
     // NOTE: Full implementation integrates with RAGContextEngine from the ethics_ai plugin.
-    const std::string& dilemma = args[0];
-    const json& philosophies = args[1];
-    const std::string& category = args.size() > 2 ? args[2].get<std::string>() : "general";
+    [[maybe_unused]] const std::string& dilemma = args[0];
+    [[maybe_unused]] const json& philosophies = args[1];
+    [[maybe_unused]] const std::string& category = args.size() > 2 ? args[2].get<std::string>() : "general";
     
     json context;
     context["similar_dilemmas"] = json::array();

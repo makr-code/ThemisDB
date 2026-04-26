@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_evaluation_cache.cpp                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:32:24                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:56:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 145a48fa1  2026-03-09  fix: address code review - fix typo and correct LOC count... ║
-    • 6efaebce2  2026-03-09  feat(rag): implement BatchEvaluator, CalibrationManager, ... ║
+    • 145a48fa12  2026-03-09  fix: address code review - fix typo and correct LOC count... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

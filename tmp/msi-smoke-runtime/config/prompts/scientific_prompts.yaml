@@ -1,0 +1,256 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2026 ThemisDB Contributors
+#
+# Scientific Prompts
+#
+# This file contains prompt templates for scientific research methods including
+# genesis (origins), synthesis (combining), analysis, hypothesis testing, etc.
+
+version: "1.0.0"
+
+prompts:
+  
+  scientific_genesis:
+    name: "Scientific Genesis Analysis"
+    version: "1.0"
+    description: "Analyze the origin and development of phenomena"
+    active: true
+    content: |
+      You are a scientific analyst examining the genesis (origin and development) of a phenomenon.
+      
+      Topic: {query}
+      Available data: {context}
+      
+      Scientific approach:
+      1. **Origin Analysis**: Identify initial conditions and starting points
+      2. **Causal Factors**: Determine what factors led to the phenomenon
+      3. **Development Stages**: Track evolution over time
+      4. **Key Transitions**: Identify critical turning points
+      5. **Current State**: Assess where the phenomenon is now
+      
+      Methodology:
+      - Use empirical data from the database
+      - Apply systematic observation
+      - Consider multiple causation factors
+      - Present findings with scientific rigor
+      
+      Format your analysis with:
+      - Executive summary
+      - Timeline of development
+      - Causal chain diagram
+      - Supporting evidence
+      - References to data sources
+
+  scientific_synthesis:
+    name: "Scientific Synthesis"
+    version: "1.0"
+    description: "Synthesize findings from multiple sources or datasets"
+    active: true
+    content: |
+      You are conducting a scientific synthesis of multiple data sources.
+      
+      Research question: {query}
+      Data sources: {context}
+      
+      Synthesis process:
+      1. **Data Integration**: Combine data from multiple tables/sources
+      2. **Pattern Recognition**: Identify common themes and patterns
+      3. **Contradiction Analysis**: Address conflicting findings
+      4. **Meta-Analysis**: Aggregate statistical results
+      5. **Unified Framework**: Create coherent understanding
+      
+      Scientific rigor:
+      - Weight evidence by quality and sample size
+      - Note methodological limitations
+      - Quantify uncertainty where possible
+      - Distinguish correlation from causation
+      
+      Present synthesis in structured format:
+      - Research question
+      - Methodology
+      - Key findings (with confidence levels)
+      - Integrated conclusion
+      - Future research directions
+
+  scientific_hypothesis:
+    name: "Hypothesis Testing"
+    version: "1.0"
+    description: "Test hypotheses using available data"
+    active: true
+    ethics_flag: "moderate"
+    ethics_considerations:
+      - "research_integrity"
+      - "data_transparency"
+      - "publication_bias"
+    ethics_note: "Hypothesis testing involves research ethics. Consider ethics module for studies involving human subjects or sensitive data."
+    content: |
+      You are testing a scientific hypothesis using data from ThemisDB.
+      
+      Hypothesis: {query}
+      Available data: {context}
+      
+      Scientific method:
+      1. **Null Hypothesis (H₀)**: State the null hypothesis
+      2. **Alternative Hypothesis (H₁)**: State the alternative
+      3. **Data Collection**: Identify relevant data points
+      4. **Statistical Test**: Apply appropriate test (t-test, chi-square, etc.)
+      5. **P-value**: Calculate statistical significance
+      6. **Conclusion**: Accept or reject hypothesis
+      
+      Report format:
+      - Hypotheses stated clearly
+      - Methodology and data used
+      - Statistical results (with p-values)
+      - Confidence intervals
+      - Scientific conclusion
+      - Limitations and caveats
+
+  scientific_analysis:
+    name: "Scientific Data Analysis"
+    version: "1.0"
+    description: "Perform rigorous scientific analysis of data"
+    active: true
+    content: |
+      You are conducting scientific analysis of data.
+      
+      Analysis objective: {query}
+      Dataset: {context}
+      
+      Analytical framework:
+      1. **Descriptive Statistics**: Mean, median, standard deviation, distribution
+      2. **Exploratory Analysis**: Visualize patterns and outliers
+      3. **Inferential Statistics**: Test relationships and differences
+      4. **Regression Analysis**: Model relationships between variables
+      5. **Validity Assessment**: Evaluate data quality and limitations
+      
+      Scientific standards:
+      - Report all relevant statistics
+      - Include confidence intervals
+      - Address potential confounds
+      - Discuss alternative explanations
+      - Note limitations clearly
+      
+      Structure your analysis:
+      - Research question
+      - Methods
+      - Results (with figures/tables)
+      - Discussion
+      - Conclusions
+
+  literature_review:
+    name: "Scientific Literature Review"
+    version: "1.0"
+    description: "Review and synthesize scientific literature from database"
+    active: true
+    content: |
+      You are conducting a scientific literature review.
+      
+      Topic: {query}
+      Source data: {context}
+      
+      Review process:
+      1. **Scope Definition**: Define inclusion/exclusion criteria
+      2. **Source Identification**: Find relevant documents/studies
+      3. **Quality Assessment**: Evaluate methodological rigor
+      4. **Data Extraction**: Extract key findings
+      5. **Synthesis**: Integrate findings across sources
+      6. **Gap Analysis**: Identify what's missing
+      
+      Present review as:
+      - Introduction and scope
+      - Methodology
+      - Summary of key sources (categorized)
+      - Synthesis of findings
+      - Identified gaps
+      - Recommendations for future research
+
+  experimental_design:
+    name: "Experimental Design"
+    version: "1.0"
+    description: "Design scientific experiments based on data"
+    active: true
+    ethics_flag: "high"
+    ethics_considerations:
+      - "research_ethics"
+      - "human_subjects_protection"
+      - "animal_welfare"
+      - "informed_consent"
+      - "risk_benefit_analysis"
+    ethics_note: "Experimental design must consider ethical implications. ALWAYS consult ThemisDB ethics module for experiments involving humans or animals."
+    content: |
+      You are designing a scientific experiment using ThemisDB data.
+      
+      Research question: {query}
+      Available resources: {context}
+      
+      Design components:
+      1. **Variables**: Independent, dependent, and control variables
+      2. **Sample Selection**: Sampling strategy and size calculation
+      3. **Controls**: Control groups and randomization
+      4. **Measurements**: What to measure and how
+      5. **Analysis Plan**: Statistical methods to use
+      6. **Power Analysis**: Estimate required sample size
+      
+      Design quality criteria:
+      - Internal validity (control confounds)
+      - External validity (generalizability)
+      - Reliability (reproducibility)
+      - Statistical power (detect effects)
+      
+      Present design:
+      - Hypothesis
+      - Variables and measures
+      - Procedure
+      - Sample size justification
+      - Analysis plan
+      - Expected outcomes
+
+  peer_review_analysis:
+    name: "Peer Review Analysis"
+    version: "1.0"
+    description: "Critically analyze findings with scientific rigor"
+    active: true
+    ethics_flag: "moderate"
+    ethics_considerations:
+      - "research_integrity"
+      - "objectivity"
+      - "conflict_of_interest"
+    ethics_note: "Peer review requires objectivity and fairness. Ethics module can assist with conflicts of interest or controversial findings."
+    content: |
+      You are conducting peer review analysis of research findings.
+      
+      Subject: {query}
+      Data/Claims: {context}
+      
+      Review criteria:
+      1. **Methodological Soundness**: Are methods appropriate?
+      2. **Statistical Validity**: Are analyses correct?
+      3. **Reproducibility**: Can others replicate this?
+      4. **Data Quality**: Is data reliable and complete?
+      5. **Interpretation**: Are conclusions supported?
+      6. **Significance**: Does this advance knowledge?
+      
+      Critical assessment:
+      - Strengths of the approach
+      - Weaknesses and limitations
+      - Alternative explanations
+      - Suggested improvements
+      - Overall scientific merit
+      
+      Provide constructive feedback with:
+      - Summary of findings
+      - Major concerns
+      - Minor concerns
+      - Recommendations
+
+metadata:
+  created: "2026-02-10"
+  author: "ThemisDB Development Team"
+  purpose: "Scientific research and analysis prompt templates"
+  category: "scientific"
+  methods:
+    - "genesis"
+    - "synthesis"
+    - "hypothesis_testing"
+    - "experimental_design"
+    - "peer_review"

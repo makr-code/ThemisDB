@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            onnx_clip_plugin.h                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:09:28                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:46:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,10 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9d8c5ce37  2026-03-15  Refactor service mesh API handler to use fully qualified ... ║
-    • 9ab72c508  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
-    • acdb250db  2026-03-12  feat: migrate plugins to src/include with CMake switches ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • ccd6c6d9e7  2026-04-15  feat(onnx_clip): CLIP text encoder, native batch sub-spli... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -55,6 +52,8 @@ public:
 	std::vector<EmbeddingResult> generateEmbeddingBatch(
 		const std::vector<std::vector<uint8_t>>& images
 	) override;
+
+	EmbeddingResult generateTextEmbedding(const std::string& text) override;
 
 	bool healthCheck() const override;
 	nlohmann::json getStatistics() const override;

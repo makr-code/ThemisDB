@@ -309,8 +309,8 @@ transaction:
 
 ## Related Documentation
 
-- [Transaction Auto-Retry](../TRANSACTION_AUTO_RETRY.md)
+- [Transaction Auto-Retry](../ARCHIVED/implementation-summaries/TRANSACTION_AUTO_RETRY.md)
 - [Distributed Transactions](../DISTRIBUTED_TRANSACTIONS.md)
-- [Branching Strategy](../BRANCHING_STRATEGY.md)
+- [Branching Strategy](../ci-cd/branching-release-history/BRANCHING_STRATEGY.md)
 - [Branching Docs Index](../BRANCHING_DOCS_INDEX.md)
-- [Race Condition Analysis](../RACE_CONDITION_ANALYSIS.md)
+- [Race Condition Analysis](../reviews/RACE_CONDITION_ANALYSIS.md)

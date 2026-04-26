@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            post_quantum_crypto.cpp                            ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:19:29                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:50:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   91.0/100                                       ║
-    • Total Lines:     924                                            ║
+    • Total Lines:     922                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a1907cd74  2026-03-01  fix(security): address code review feedback on PQ crypto ... ║
-    • ba79a4714  2026-03-01  feat(security): add post-quantum cryptography migration p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -918,6 +913,146 @@ HybridEncryption::decryptHybrid(const EncryptedBlob& blob)
     THEMIS_INFO("HybridEncryption::decryptHybrid: key_id={}, pt_len={}",
                 key_id, pt_bytes.size());
     return std::string(pt_bytes.begin(), pt_bytes.end());
+}
+
+} // namespace security
+} // namespace themis
+
+// ============================================================================
+// SPHINCS+ implementation — Phase 7.1
+// ============================================================================
+//
+// STUB/SIMULATION NOTE:
+// Purpose:    Provide an API-stable SPHINCS+ interface before liboqs is
+//             integrated. The signing/verification is performed with OpenSSL
+//             Ed25519 (same primitive as the Dilithium sim) so that all
+//             callers compile and test against a correct interface.
+// Activation: Always active until liboqs is added to vcpkg.json.
+// Production Delta: Real SPHINCS+-SHA2-256s/256f from liboqs will produce
+//             hash-tree-based signatures (~8 KB / ~50 KB) rather than the
+//             64-byte Ed25519 signatures emitted here.  Key sizes also differ.
+// Removal Plan: Replace this block with #include <oqs/sig.h> and wire
+//             OQS_SIG_alg_sphincs_sha2_256s once liboqs is a vcpkg dep.
+
+namespace themis {
+namespace security {
+
+struct SphincsPlus::Impl {
+    // Simulation: re-use Ed25519 via EVP_PKEY
+};
+
+SphincsPlus::SphincsPlus(Variant variant)
+    : variant_(variant), impl_(std::make_unique<Impl>()) {}
+
+SphincsPlus::~SphincsPlus() = default;
+
+SphincsPlus::SphincsPlus(SphincsPlus&&) noexcept = default;
+SphincsPlus& SphincsPlus::operator=(SphincsPlus&&) noexcept = default;
+
+size_t SphincsPlus::publicKeySize() const noexcept {
+    // Simulation: Ed25519 public key (32 bytes)
+    // Real SPHINCS+-SHA2-256s: 32 bytes  (actual liboqs value)
+    return 32;
+}
+
+size_t SphincsPlus::secretKeySize() const noexcept {
+    // Simulation: Ed25519 secret key (64 bytes in OpenSSL representation)
+    // Real SPHINCS+-SHA2-256s: 64 bytes
+    return 64;
+}
+
+size_t SphincsPlus::signatureSize() const noexcept {
+    // Real values (for documentation):
+    //   SPHINCS+-SHA2-256s: 29 792 bytes
+    //   SPHINCS+-SHA2-256f: 49 856 bytes
+    // Simulation returns Ed25519 signature size (64 bytes).
+    return 64;
+}
+
+SphincsPlus::KeyPair SphincsPlus::generateKeyPair() {
+    EVP_PKEY_CTX* pctx = EVP_PKEY_CTX_new_id(EVP_PKEY_ED25519, nullptr);
+    if (!pctx) throw std::runtime_error("SphincsPlus::generateKeyPair: EVP_PKEY_CTX_new_id failed");
+    if (EVP_PKEY_keygen_init(pctx) <= 0) {
+        EVP_PKEY_CTX_free(pctx);
+        throw std::runtime_error("SphincsPlus::generateKeyPair: keygen_init failed");
+    }
+    EVP_PKEY* pkey = nullptr;
+    if (EVP_PKEY_keygen(pctx, &pkey) <= 0) {
+        EVP_PKEY_CTX_free(pctx);
+        throw std::runtime_error("SphincsPlus::generateKeyPair: keygen failed");
+    }
+    EVP_PKEY_CTX_free(pctx);
+
+    KeyPair kp;
+    kp.public_key.resize(32);
+    kp.secret_key.resize(64);
+    size_t pub_len = 32, sec_len = 64;
+    if (EVP_PKEY_get_raw_public_key(pkey, kp.public_key.data(), &pub_len) != 1 ||
+        EVP_PKEY_get_raw_private_key(pkey, kp.secret_key.data(), &sec_len) != 1) {
+        EVP_PKEY_free(pkey);
+        throw std::runtime_error("SphincsPlus::generateKeyPair: raw key extraction failed");
+    }
+    kp.public_key.resize(pub_len);
+    kp.secret_key.resize(sec_len);
+    EVP_PKEY_free(pkey);
+    THEMIS_DEBUG("SphincsPlus::generateKeyPair (SPHINCSPLUS_SIM variant={}) pub={}B sec={}B",
+                 static_cast<int>(variant_), pub_len, sec_len);
+    return kp;
+}
+
+std::vector<uint8_t> SphincsPlus::sign(const std::vector<uint8_t>& message,
+                                        const std::vector<uint8_t>& secret_key) {
+    if (secret_key.size() != secretKeySize()) {
+        throw std::invalid_argument("SphincsPlus::sign: unexpected secret key size");
+    }
+    EVP_PKEY* pkey = EVP_PKEY_new_raw_private_key(
+        EVP_PKEY_ED25519, nullptr, secret_key.data(), secret_key.size());
+    if (!pkey) throw std::runtime_error("SphincsPlus::sign: key import failed");
+
+    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    if (!ctx) { EVP_PKEY_free(pkey); throw std::runtime_error("SphincsPlus::sign: MD_CTX alloc"); }
+
+    if (EVP_DigestSignInit(ctx, nullptr, nullptr, nullptr, pkey) != 1) {
+        EVP_MD_CTX_free(ctx); EVP_PKEY_free(pkey);
+        throw std::runtime_error("SphincsPlus::sign: DigestSignInit failed");
+    }
+
+    size_t sig_len = 0;
+    if (EVP_DigestSign(ctx, nullptr, &sig_len, message.data(), message.size()) != 1) {
+        EVP_MD_CTX_free(ctx); EVP_PKEY_free(pkey);
+        throw std::runtime_error("SphincsPlus::sign: DigestSign size query failed");
+    }
+    std::vector<uint8_t> sig(sig_len);
+    if (EVP_DigestSign(ctx, sig.data(), &sig_len, message.data(), message.size()) != 1) {
+        EVP_MD_CTX_free(ctx); EVP_PKEY_free(pkey);
+        throw std::runtime_error("SphincsPlus::sign: DigestSign failed");
+    }
+    sig.resize(sig_len);
+    EVP_MD_CTX_free(ctx);
+    EVP_PKEY_free(pkey);
+    return sig;
+}
+
+bool SphincsPlus::verify(const std::vector<uint8_t>& message,
+                          const std::vector<uint8_t>& signature,
+                          const std::vector<uint8_t>& public_key) {
+    if (public_key.size() != publicKeySize()) return false;
+
+    EVP_PKEY* pkey = EVP_PKEY_new_raw_public_key(
+        EVP_PKEY_ED25519, nullptr, public_key.data(), public_key.size());
+    if (!pkey) return false;
+
+    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    if (!ctx) { EVP_PKEY_free(pkey); return false; }
+
+    bool ok = false;
+    if (EVP_DigestVerifyInit(ctx, nullptr, nullptr, nullptr, pkey) == 1) {
+        ok = (EVP_DigestVerify(ctx, signature.data(), signature.size(),
+                                message.data(), message.size()) == 1);
+    }
+    EVP_MD_CTX_free(ctx);
+    EVP_PKEY_free(pkey);
+    return ok;
 }
 
 } // namespace security

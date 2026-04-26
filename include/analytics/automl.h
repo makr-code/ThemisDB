@@ -3,19 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            automl.h                                           ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:05:22                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:44:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     404                                            ║
+    • Total Lines:     403                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f5db1202d  2026-02-23  feat(analytics): implement AutoML integration for automat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -284,6 +280,24 @@ public:
     // ---- Serialisation ----
     std::string   serialize()   const;
     static AutoMLModel deserialize(const std::string& data);
+
+    /**
+     * Export the trained model to an ONNX-compatible text representation.
+     *
+     * Serialises the model weights, algorithm type, and feature schema into a
+     * JSON-ONNX text file at @p path.  The output is loadable by
+     * `MLServingClient` when the `THEMIS_HAS_ONNX_RUNTIME` flag is set; on
+     * platforms without ONNX Runtime the file can be used for offline tooling.
+     *
+     * Supported algorithms (all others return Status::UNSUPPORTED_OPERATION):
+     *   LinearRegression, LogisticRegression, DecisionTree, RandomForest,
+     *   GradientBoosting, KNN (all exported as ONNX-JSON text format v0.1).
+     *
+     * @param path  Absolute or relative file-system path for the output file.
+     * @return      Empty string on success; error message on failure.
+     * @throws      std::invalid_argument if the model is not fitted.
+     */
+    std::string exportONNX(const std::string& path) const;
 
 private:
     struct Impl;

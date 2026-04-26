@@ -67,4 +67,4 @@ ThemisDB uses MurmurHash3-32 with a fixed seed (`0x9747b28c`) in two key subsyst
 - [FNV-1a Checksums](fnv1a_checksums.md)
 
 ---
-**Last Updated:** 2026-03-24
+**Last Updated:** 2026-04-06

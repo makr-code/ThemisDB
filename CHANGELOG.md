@@ -7,7 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Released
+- **v1.9.0-alpha (2026-04-26) veröffentlicht**
+  - GitHub Pre-Release: https://github.com/makr-code/ThemisDB/releases/tag/v1.9.0-alpha
+  - Assets: `ThemisDB-COMMUNITY-1.9.0-alpha-windows-x64.zip` und `ThemisDB-COMMUNITY-1.9.0-alpha-windows-x64.msi`
+
+### Added
+- **HammingCoder — RAID-2 / Hamming Shard-Level Error Correction** (`include/sharding/redundancy_strategy.h`, `src/sharding/redundancy_strategy.cpp`)
+  - `HAMMING` added to `ErasureCodingAlgorithm` enum; `ErasureCoder::create(HAMMING)` factory method returns a `HammingCoder` instance
+  - `HammingCoder::encode()`: systematic XOR-based parity; parity shard _p_ covers data shard _j_ when bit _p_ of (_j_+1) is set — classical Hamming assignment at block granularity
+  - `HammingCoder::decode()`: iterative XOR repair; recovers all shards whose parity coverage allows; `std::runtime_error` on irrecoverable failure sets
+  - No Galois-Field arithmetic — purely XOR-based; O(k × r × shard_size) encode/decode
+  - 16 focused tests in `tests/test_hamming_coder.cpp` (HC_01..HC_16): chunk invariants, single/multi-shard failure, canonical Hamming(7,4) coverage verification, 1 MB round-trip, edge cases
+  - `HammingCoderFocusedTests` CTest target registered
+
 ### Security
+
+- **Task Scheduler AuthZ Hardening (GAP-001)** 🔐
+  - Activated runtime permission checks in `TaskScheduler` for:
+    - `registerTask()` → requires `task:register`
+    - `executeTaskNow()` / `executeDAG()` → requires `task:execute`
+    - `registerFunction()` → requires `task:register_function` and `system_admin` role
+  - Added denied-access security audit events (`UNAUTHORIZED_ACCESS`) with structured
+    justification metadata (`required_permission`, `reason`, `justification`).
+  - `HttpServer` task create/execute routes now propagate authenticated request context
+    (user, IP, permissions, roles, justification) into `TaskScheduler` thread-local context.
+  - `TaskSchedulerApiHandler::executeTask()` now returns `status=error` when scheduler
+    execution is rejected (e.g., missing permission), instead of reporting `executed`.
+- **JWT/JWKS cache synchronization hardening** 🔒
+  - `JWTValidator::fetchJWKS()` now guarantees `jwks_refreshing_` reset via RAII even on exceptional exits,
+    preventing stuck refresh state under parallel validation/key-fetch error paths.
+  - Added explicit header includes for `std::mutex` / `std::condition_variable` in
+    `include/auth/jwt_validator.h` to keep synchronization primitives self-contained.
 
 - **Docker Image Security Hardening** 🔒
   - `THEMIS_ENABLE_ENCRYPTED_STORAGE` Build-ARG hinzugefügt (default: `OFF`):
@@ -20,6 +51,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Verbleibende CVEs: CVE-2024-2236 (libgcrypt20, LOW), CVE-2024-56433 (shadow, LOW),
     CVE-2025-45582 (tar, MEDIUM) — alle ohne upstream-Fix; Waiver dokumentiert in
     `docs/audit-reports/cve-waivers.md`.
+
+### Documentation
+
+- **Module-Docs Sync 📚 — 2026-04-17**
+  - 58 Module indexiert; 761 Primary-Markdown-Dateien in `src/` und `include/`
+  - 0 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
+  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
+  - Tool: `tools/module_docs_builder.py` v1.0.0
+  <!-- changelog-updater: module-docs-sync-2026-04-17 -->
+
+- **Module-Docs Sync 📚 — 2026-04-16**
+  - 56 Module indexiert; 752 Primary-Markdown-Dateien in `src/` und `include/`
+  - 6 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
+  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
+  - Tool: `tools/module_docs_builder.py` v1.0.0
+  <!-- changelog-updater: module-docs-sync-2026-04-16 -->
+
+- **Module-Docs Sync 📚 — 2026-04-15**
+  - 56 Module indexiert; 752 Primary-Markdown-Dateien in `src/` und `include/`
+  - 6 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
+  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
+  - Tool: `tools/module_docs_builder.py` v1.0.0
+  <!-- changelog-updater: module-docs-sync-2026-04-15 -->
+
+
 
 ## [1.8.1-rc1] - 2026-04-04
 

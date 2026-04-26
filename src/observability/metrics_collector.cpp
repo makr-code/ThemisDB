@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metrics_collector.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:17:43                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     461                                            ║
+    • Total Lines:     463                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 692780f01  2026-03-15  feat(observability): upgrade MetricsCollector to shared_m... ║
-    • 240f91cc6  2026-03-09  feat(observability): add Prometheus exemplar support on h... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 9d11fed508  2026-04-14  fix                                     ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • 9623765ff2  2026-04-14  fix                                     ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -73,12 +75,12 @@ void MetricsCollector::recordQuery(const std::string& query_type, double latency
     setGauge("query_result_count", static_cast<double>(result_count), {{"type", query_type}});
 }
 
-void MetricsCollector::recordIndexScan(const std::string& index_type, size_t keys_scanned) {
+void MetricsCollector::recordIndexScan(const std::string& index_type, [[maybe_unused]] size_t keys_scanned) {
     incrementCounter("index_scans_total", {{"type", index_type}});
     incrementCounter("index_keys_scanned", {{"type", index_type}});
 }
 
-void MetricsCollector::recordFullScan(const std::string& table, size_t keys_scanned) {
+void MetricsCollector::recordFullScan(const std::string& table, [[maybe_unused]] size_t keys_scanned) {
     incrementCounter("full_scans_total", {{"table", table}});
     incrementCounter("full_scan_keys", {{"table", table}});
 }
@@ -114,16 +116,16 @@ void MetricsCollector::recordRebalanceProgress(const std::string& operation_id, 
 
 // ===== Content Processing Metrics =====
 
-void MetricsCollector::recordContentImport(const std::string& mime_type, size_t size_bytes) {
+void MetricsCollector::recordContentImport(const std::string& mime_type, [[maybe_unused]] size_t size_bytes) {
     incrementCounter("content_imports_total", {{"mime_type", mime_type}});
     incrementCounter("content_bytes_imported", {{"mime_type", mime_type}});
 }
 
-void MetricsCollector::recordChunkCreation(size_t chunk_count) {
+void MetricsCollector::recordChunkCreation([[maybe_unused]] size_t chunk_count) {
     incrementCounter("chunks_created_total", {});
 }
 
-void MetricsCollector::recordEmbeddingGeneration(size_t count, double latency_ms) {
+void MetricsCollector::recordEmbeddingGeneration([[maybe_unused]] size_t count, double latency_ms) {
     incrementCounter("embeddings_generated_total", {});
     observeHistogram("embedding_generation_latency_ms", latency_ms, {});
 }
@@ -154,7 +156,7 @@ void MetricsCollector::recordCPUUsage(double percent) {
     setGauge("cpu_usage_percent", percent, {});
 }
 
-void MetricsCollector::recordDiskIOps(size_t read_ops, size_t write_ops) {
+void MetricsCollector::recordDiskIOps([[maybe_unused]] size_t read_ops, [[maybe_unused]] size_t write_ops) {
     incrementCounter("disk_read_ops_total", {});
     incrementCounter("disk_write_ops_total", {});
 }

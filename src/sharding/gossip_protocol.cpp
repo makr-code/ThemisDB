@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gossip_protocol.cpp                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:15                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   96.0/100                                       ║
     • Total Lines:     688                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,6 +24,7 @@
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
+#include <iostream>
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/err.h>
@@ -141,8 +139,8 @@ void GossipProtocol::addPeer(const PeerInfo& peer) {
             on_peer_discovered_(new_peer);
         }
         
-        // Sync with topology
-        syncWithTopology();
+        // Sync with topology without re-acquiring peers_mutex_
+        syncWithTopologyLocked();
     } else {
         // Update existing peer
         if (peer.version > it->second.version) {
@@ -169,8 +167,8 @@ void GossipProtocol::removePeer(const std::string& peer_id) {
             on_peer_lost_(peer_id);
         }
         
-        // Sync with topology
-        syncWithTopology();
+        // Sync with topology without re-acquiring peers_mutex_
+        syncWithTopologyLocked();
     }
 }
 
@@ -197,6 +195,22 @@ GossipMessage GossipProtocol::handleMessage(const GossipMessage& message) {
     }
     
     // Handle message based on type
+    // 1. Custom handlers are dispatched first (registered via registerCustomHandler)
+    {
+        std::function<void(const GossipMessage&)> custom_handler;
+        {
+            std::lock_guard<std::mutex> lock(peers_mutex_);
+            auto it = custom_handlers_.find(message.message_type);
+            if (it != custom_handlers_.end()) {
+                custom_handler = it->second;
+            }
+        }
+        if (custom_handler) {
+            custom_handler(message);
+        }
+    }
+
+    // 2. Built-in type handling
     if (message.message_type == "heartbeat") {
         // Update peer status
         PeerInfo peer;
@@ -258,6 +272,19 @@ void GossipProtocol::onPeerDiscovered(PeerDiscoveryCallback callback) {
 
 void GossipProtocol::onPeerLost(PeerLostCallback callback) {
     on_peer_lost_ = std::move(callback);
+}
+
+void GossipProtocol::registerCustomHandler(
+    const std::string& message_type,
+    std::function<void(const GossipMessage&)> handler
+) {
+    std::lock_guard<std::mutex> lock(peers_mutex_);
+    auto it = custom_handlers_.find(message_type);
+    if (it != custom_handlers_.end()) {
+        std::cerr << "[GossipProtocol] WARNING: duplicate registerCustomHandler for type '"
+                  << message_type << "' — previous handler overwritten\n";
+    }
+    custom_handlers_[message_type] = std::move(handler);
 }
 
 nlohmann::json GossipProtocol::getStatistics() const {
@@ -340,7 +367,7 @@ void GossipProtocol::sendHeartbeat(const PeerInfo& peer) {
                 handleMessage(response_msg);
             }
         }
-    } catch (const std::exception& e) {
+    } catch (...) {
         // Log error, mark peer as potentially unhealthy
         std::lock_guard<std::mutex> lock(peers_mutex_);
         auto it = peers_.find(peer.peer_id);
@@ -372,7 +399,7 @@ void GossipProtocol::sendPeerList(const PeerInfo& peer) {
                 handleMessage(response_msg);
             }
         }
-    } catch (const std::exception& e) {
+    } catch (...) {
         // Log error
     }
 }
@@ -400,7 +427,7 @@ void GossipProtocol::sendLeaveMessage() {
                 message.toJson()
             );
             messages_sent_++;
-        } catch (const std::exception& e) {
+        } catch (...) {
             // Best effort, ignore errors
         }
     }
@@ -496,8 +523,15 @@ void GossipProtocol::updatePeerHealth() {
 void GossipProtocol::syncWithTopology() {
     if (!topology_) return;
     
-    // Convert discovered peers to ShardInfo and add to topology
+    // Convert discovered peers to ShardInfo and add to topology.
+    // Acquire the lock so this public variant is safe to call from outside.
     std::lock_guard<std::mutex> lock(peers_mutex_);
+    syncWithTopologyLocked();
+}
+
+// Called only when peers_mutex_ is already held by the current thread.
+void GossipProtocol::syncWithTopologyLocked() {
+    if (!topology_) return;
     
     for (const auto& [id, peer] : peers_) {
         if (!peer.is_healthy) continue;

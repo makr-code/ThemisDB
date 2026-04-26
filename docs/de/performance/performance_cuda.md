@@ -1,6 +1,6 @@
 # CUDA Backend Implementation
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** v1.3.0  
 **Kategorie:** ⚡ Performance
 
@@ -168,6 +168,6 @@ CUDA plugins follow the same security model:
 
 ---
 
-**Last Updated:** 20. November 2025  
+**Last Updated:** April 2026  
 **Version:** 1.0  
 **Maintainer:** ThemisDB Team

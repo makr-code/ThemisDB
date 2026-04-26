@@ -1,9 +1,11 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — Analytics Module
 
-All notable changes to the Analytics module are documented here.  
+All notable changes to the Analytics module are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
@@ -12,6 +14,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - AutoML ONNX export and deployment pipeline (Target: Q4 2026)
 - GPU-accelerated OLAP aggregations (CUDA) — PR open (Issue #1469)
 - Zero-copy Arrow data transfer optimizations — PR open (Issue #1471)
+
+## [1.9.0] — 2026-03-28
+### Added
+- **Forecasting: Batch prediction, streaming update, parallel auto-tune, fit-result cache** (Issue #4054):
+  - `ForecastModel::predictBatch(const std::vector<TimeSeries>& batch, int steps)` — amortises model-state copies across N independent series; returns `std::vector<std::vector<ForecastPoint>>`; throws `std::invalid_argument` for `steps ≤ 0` or empty batch (returns empty vector).
+  - `ForecastModel::update(double new_value)` — O(1) incremental state absorption of one new observation without full `fit()` rerun; updates ETS level/trend/seasonal components, ARIMA MA error term, and LR running sums.
+  - Parallel auto-tune grid search for Holt–Winters (`auto_tune=true`): 9 α tasks dispatched via `std::async`; wall-time ≤ 5 ms on a 500-sample series (down from ≤ 50 ms single-threaded).
+  - FNV-1a 64-bit fit-result cache: repeated `fit()` calls on unchanged data with the same config are O(1) hash lookups; cache keyed on `(xxHash(training_data), config_hash)`.
+  - 14 new tests in `ForecastingBatchStreamingTests` (`tests/analytics/test_forecasting.cpp`): shape/consistency, single-series parity, invalid-steps, empty batch, all methods, update no-op on unfitted, update ETS state absorption, update LR state, update ARIMA state, parallel auto-tune correctness, cache hit on repeat fit, cache miss on data change, cache miss on config change, predictBatch thread safety.
+  - CI workflow: `forecasting-batch-streaming-ci.yml`.
 
 ## [1.7.0] — 2026-03-09
 ### Added

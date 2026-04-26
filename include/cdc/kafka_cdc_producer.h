@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            kafka_cdc_producer.h                               ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:06:25                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:44:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     298                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 3                             ║
+    • Quality Score:   91.0/100                                       ║
+    • Total Lines:     301                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 4                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a3f88599c  2026-02-27  Add Debezium-compatible change event envelope format with... ║
-    • 4c5109651  2026-02-26  Implement ICDCTransport interface; KafkaCDCProducer now i... ║
-    • a992f7ece  2026-02-25  Code audit: fix 6 gaps in KafkaCDCProducer implementation ║
-    • f5b8ef62f  2026-02-25  Implement Kafka-compatible CDC producer interface (KafkaC... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -273,6 +270,12 @@ private:
  *
  * All methods are inline no-ops so the rest of the codebase can reference
  * KafkaCDCProducer without introducing a Kafka dependency.
+ *
+ * STUB/SIMULATION NOTE:
+ * Purpose: Preserve compile-time API compatibility without linking librdkafka.
+ * Activation: Compiled when THEMIS_ENABLE_KAFKA is not defined.
+ * Production Delta: start()/publish() return false and no CDC events are emitted to Kafka.
+ * Removal Plan: Keep as optional-build fallback; remove only if Kafka becomes a mandatory runtime dependency.
  */
 class KafkaCDCProducer : public ICDCTransport {
 public:

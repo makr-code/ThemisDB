@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gocryptfs_backend.hpp                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:12:53                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:47:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     197                                            ║
+    • Total Lines:     222                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8e5567bf5  2026-03-24  feat(user_storage_encrypted): v0.1.0 stdin key delivery, ... ║
-    • 256e7651d  2026-03-24  Changes before error encountered         ║
-    • 9ab72c508  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
-    • acdb250db  2026-03-12  feat: migrate plugins to src/include with CMake switches ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d8ee6d7cfe  2026-04-15  fix(user_storage_encrypted): repair broken merge artifact... ║
+    • 8332e5afa3  2026-04-13  Refactor and update various components for improved compa... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -107,6 +104,40 @@ public:
 
     Result<void> checkAvailability() override;
 
+    // -----------------------------------------------------------------------
+    // Public test / integration helpers
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Execute a command with @p stdin_data written to its stdin.
+     *
+     * Forks the process, executes @p args[0] via execvp, writes @p stdin_data
+     * to its standard input, and returns the collected stdout/stderr.
+     *
+     * @param args        argv for execvp (args[0] is the executable)
+     * @param stdin_data  Data to write to the child's stdin
+     * @return            Child output on success, or error description
+     */
+    Result<std::string> executeCommandWithStdin(
+        const std::vector<std::string>& args,
+        const std::string& stdin_data
+    );
+
+    /**
+     * @brief Deliver @p key_hex to a command via stdin, then clear the buffer.
+     *
+     * Equivalent to executeCommandWithStdin(args, key_hex) but explicitly
+     * zeroes @p key_hex after the write to limit key material exposure.
+     *
+     * @param args     argv for execvp
+     * @param key_hex  Hex-encoded key to write (cleared on return)
+     * @return         Child output on success, or error description
+     */
+    Result<std::string> deliverKeyViaStdin(
+        const std::vector<std::string>& args,
+        const std::string& key_hex
+    );
+
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
@@ -117,9 +148,6 @@ private:
     Result<std::string> createPasswordFile(
         const std::vector<uint8_t>& key_material
     );
-
-    /// Execute command and pipe key_hex to its stdin; zeroes key_hex on return.
-    Result<std::string> deliverKeyViaStdin(
 
     // --- Stdin-based key delivery (Feature 1) ---
 
@@ -152,19 +180,6 @@ private:
     );
 
     // --- Legacy / internal helpers ---
-
-    /** @deprecated Use executeCommandSafe() */
-    Result<std::string> executeCommand(
-        const std::string& command,
-        const std::vector<std::string>& args,
-        std::string key_hex
-    );
-
-    /// Execute command with arbitrary stdin data.
-    Result<std::string> executeCommandWithStdin(
-        const std::vector<std::string>& args,
-        const std::string& stdin_data
-    );
 
     /// Execute command safely via fork/execvp (no shell).
     Result<std::string> executeCommandSafe(

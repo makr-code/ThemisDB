@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_mysql_importer.cpp                            ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-03-30 04:30:15                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-04-15 18:55:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1835                                           ║
+    • Total Lines:     1832                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • d3edcb49c  2026-03-15  fix(importers): fix empty tuple_str fallback in test delt... ║
-    • 786e4a8df  2026-03-15  feat(importers): incremental import, MySQL benchmark, Mon... ║
-    • 5dcbb0ae0  2026-03-15  fix(importers): improve MetricNamingConventionFollowed te... ║
-    • e8972c533  2026-03-15  feat(importers): add MySQL-specific Prometheus metrics an... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d3edcb49cd  2026-03-15  fix(importers): fix empty tuple_str fallback in test delt... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

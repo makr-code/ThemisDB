@@ -2,7 +2,7 @@
 
 **Status:** Implemented ✅ (metrics wired in `src/llm/grafana_metrics.cpp`, alerting rules active in `prometheus/rules/llm_alerts.yml`, dashboard validated in `grafana/dashboards/themisdb-llm-dashboard.json`)
 **Version:** 1.5.0
-**Last Updated:** February 20, 2026
+**Last Updated:** April 2026
 
 ---
 

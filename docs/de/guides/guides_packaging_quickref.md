@@ -26,7 +26,7 @@ Quick reference guide for package maintainers across all distributions.
 
 This is a quick reference guide for package maintainers.
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.3.0  
 **Kategorie:** 🔨 Build/Deployment
 
@@ -54,10 +54,10 @@ When preparing a new release:
 
 ```bash
 # Linux/macOS
-./scripts/prepare-release.sh 1.0.1
+./.github/workflows/04-release_create-release-archive.yml 1.0.1
 
 # Windows
-.\scripts\prepare-release.ps1 -Version 1.0.1
+.github/workflows/04-release_create-release-archive.yml -Version 1.0.1
 ```
 
 Manual updates if needed:

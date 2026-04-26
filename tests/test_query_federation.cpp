@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_federation.cpp                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:31:59                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:56:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     186                                            ║
+    • Total Lines:     187                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • bc061a79d  2026-03-24  feat(query): QueryFederation shard-key routing v1.9.0 ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • bc061a79df  2026-03-24  feat(query): QueryFederation shard-key routing v1.9.0 ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -185,4 +184,169 @@ TEST_F(QueryFederationShardRoutingTest, PointLookup_Is_Deterministic) {
         << "The same key must always route to the same shard";
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// DK-4: Federated RAG merge tests (QF-RAG-01 … QF-RAG-05)
+// ─────────────────────────────────────────────────────────────────────────────
+
+#include "distributed_knowledge/federated_rag_merger.h"
+
+using namespace themis::distributed_knowledge;
+
+namespace {
+
+// Build a ShardRetrievalResult with N documents whose doc_ids are
+// "<shard_id>-doc-<i>".
+ShardRetrievalResult makeShardResult(const std::string& shard_id, int num_docs,
+                                     double accuracy_delta = 0.0,
+                                     bool ok = true)
+{
+    ShardRetrievalResult sr;
+    sr.shard_id              = shard_id;
+    sr.ok                    = ok;
+    sr.adapter_accuracy_delta = accuracy_delta;
+    if (ok) {
+        for (int i = 0; i < num_docs; ++i) {
+            RetrievedDocument doc;
+            doc.doc_id          = shard_id + "-doc-" + std::to_string(i);
+            doc.content         = "content from " + shard_id + " doc " + std::to_string(i);
+            doc.shard_id        = shard_id;
+            doc.relevance_score = 1.0 - (0.1 * i);  // decreasing relevance
+            doc.rank_in_shard   = static_cast<size_t>(i + 1);
+            sr.documents.push_back(doc);
+        }
+    }
+    return sr;
+}
+
+} // namespace
+
+// QF-RAG-01: Fan-out to 3 mock shards → merged top-5 contains docs from all shards
+TEST(QueryFederationRAGTest, QF_RAG_01_MergeContainsDocsFromAllThreeShards) {
+    FederatedRAGMergerConfig cfg;
+    cfg.top_k = 20;
+    auto merger = std::make_shared<FederatedRAGMerger>(cfg);
+
+    // Build a minimal QueryFederation just to call mergeRAGResults
+    auto topology = std::make_shared<sharding::ShardTopology>();
+    auto ring     = std::make_shared<sharding::ConsistentHashRing>();
+    auto resolver = std::make_shared<sharding::URNResolver>(topology, ring);
+    auto router   = std::make_shared<InstrumentedShardRouter>(resolver);
+    QueryFederation qf(router);
+    qf.setRAGMerger(merger);
+
+    std::vector<ShardRetrievalResult> inputs = {
+        makeShardResult("shard-1", 5),
+        makeShardResult("shard-2", 5),
+        makeShardResult("shard-3", 5),
+    };
+
+    auto ctx = qf.mergeRAGResults(inputs);
+
+    // Collect shard IDs present in merged output
+    std::set<std::string> shards_seen;
+    for (const auto& doc : ctx.documents) {
+        shards_seen.insert(doc.shard_id);
+    }
+
+    EXPECT_EQ(shards_seen.size(), 3u) << "Merged result must include docs from all 3 shards";
+    EXPECT_GE(ctx.documents.size(), 3u);
+    EXPECT_EQ(ctx.shards_queried, 3u);
+    EXPECT_EQ(ctx.shards_responded, 3u);
+}
+
+// QF-RAG-02: One shard timeout (ok=false) → merge still produces result with 2 shards
+TEST(QueryFederationRAGTest, QF_RAG_02_TimeoutShardGracefullySkipped) {
+    auto merger = std::make_shared<FederatedRAGMerger>();
+
+    auto topology = std::make_shared<sharding::ShardTopology>();
+    auto ring     = std::make_shared<sharding::ConsistentHashRing>();
+    auto resolver = std::make_shared<sharding::URNResolver>(topology, ring);
+    auto router   = std::make_shared<InstrumentedShardRouter>(resolver);
+    QueryFederation qf(router);
+    qf.setRAGMerger(merger);
+
+    std::vector<ShardRetrievalResult> inputs = {
+        makeShardResult("shard-1", 5),
+        makeShardResult("shard-2", 0, 0.0, /*ok=*/false),  // timeout shard
+        makeShardResult("shard-3", 5),
+    };
+
+    auto ctx = qf.mergeRAGResults(inputs);
+
+    // Documents from timed-out shard must not appear in result
+    for (const auto& doc : ctx.documents) {
+        EXPECT_NE(doc.shard_id, "shard-2")
+            << "Timeout shard docs must not appear in merged result";
+    }
+    EXPECT_GE(ctx.documents.size(), 1u);
+    EXPECT_EQ(ctx.shards_queried, 3u);
+    EXPECT_EQ(ctx.shards_responded, 2u);
+}
+
+// QF-RAG-03: Specialised shard (accuracy_delta=+0.15) → its top-docs dominate
+TEST(QueryFederationRAGTest, QF_RAG_03_SpecialisedShardDocsDominate) {
+    FederatedRAGMergerConfig cfg;
+    cfg.boost_specialised    = true;
+    cfg.specialisation_boost = 1.2;
+    cfg.top_k                = 5;
+    auto merger = std::make_shared<FederatedRAGMerger>(cfg);
+
+    auto topology = std::make_shared<sharding::ShardTopology>();
+    auto ring     = std::make_shared<sharding::ConsistentHashRing>();
+    auto resolver = std::make_shared<sharding::URNResolver>(topology, ring);
+    auto router   = std::make_shared<InstrumentedShardRouter>(resolver);
+    QueryFederation qf(router);
+    qf.setRAGMerger(merger);
+
+    // shard-special has accuracy_delta = +0.15 → 1.2× boost in RRF
+    std::vector<ShardRetrievalResult> inputs = {
+        makeShardResult("shard-generic-1", 5, 0.0),
+        makeShardResult("shard-generic-2", 5, 0.0),
+        makeShardResult("shard-special",   5, 0.15),
+    };
+
+    auto ctx = qf.mergeRAGResults(inputs);
+
+    ASSERT_FALSE(ctx.documents.empty());
+    // The top-ranked document must come from the specialised shard
+    EXPECT_EQ(ctx.documents.front().shard_id, "shard-special")
+        << "Specialised shard's rank-1 doc must dominate merged output (RRF boost)";
+}
+
+// QF-RAG-04: No RAGMerger set → execute() uses existing merge path unchanged (no regression)
+TEST_F(QueryFederationShardRoutingTest, QF_RAG_04_NoRAGMerger_ExistingPathUnchanged) {
+    // fed was created without setRAGMerger() in SetUp → normal execute path
+    const std::string query = "FOR doc IN orders RETURN doc";
+
+    // Must not throw; must return a valid (possibly empty) JSON result
+    EXPECT_NO_THROW(fed->execute(query));
+
+    // The existing scatter-gather counter must have been incremented
+    EXPECT_GE(router->scatter_gather_call_count, 1);
+}
+
+// QF-RAG-05: buildPromptContext() produces [Shard: ...] prefixes for each document
+TEST(QueryFederationRAGTest, QF_RAG_05_BuildPromptContextContainsShardPrefixes) {
+    auto merger = std::make_shared<FederatedRAGMerger>();
+
+    auto topology = std::make_shared<sharding::ShardTopology>();
+    auto ring     = std::make_shared<sharding::ConsistentHashRing>();
+    auto resolver = std::make_shared<sharding::URNResolver>(topology, ring);
+    auto router   = std::make_shared<InstrumentedShardRouter>(resolver);
+    QueryFederation qf(router);
+    qf.setRAGMerger(merger);
+
+    std::vector<ShardRetrievalResult> inputs = {
+        makeShardResult("shard-alpha", 3),
+        makeShardResult("shard-beta",  3),
+    };
+
+    auto ctx     = qf.mergeRAGResults(inputs);
+    auto prompt  = ctx.buildPromptContext(/*max_docs=*/6, /*max_chars=*/0);
+
+    EXPECT_NE(prompt.find("[Shard: shard-alpha]"), std::string::npos)
+        << "Prompt context must include [Shard: shard-alpha] prefix";
+    EXPECT_NE(prompt.find("[Shard: shard-beta]"), std::string::npos)
+        << "Prompt context must include [Shard: shard-beta] prefix";
+}
 

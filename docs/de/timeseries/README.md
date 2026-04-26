@@ -1,6 +1,6 @@
 # Time Series Module
 
-**Stand:** 5. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.0.0  
 **Kategorie:** TimeSeries
 
@@ -121,11 +121,52 @@ auto agg = ts.aggregate("cpu_usage", "server-1", query);
 // agg.avg = 76.85, agg.min = 75.5, agg.max = 78.2
 ```
 
+## Hochleistungs-APIs (v1.9.x)
+
+### TSStore::putBatch
+
+Zero-Copy Batch Write via `std::span<const TSRow>`:
+
+```cpp
+std::vector<themis::timeseries::TSStore::TSRow> rows = {
+    {"cpu_usage", now_ms(), 0.72, "server-01"},
+    {"cpu_usage", now_ms() + 1, 0.74, "server-01"},
+};
+auto result = ts_store->putBatch(rows);
+// result.ok_count == 2
+```
+
+Alle Rows werden in einem einzigen RocksDB `WriteBatch` committet.
+
+### TsStreamCursor
+
+Lazy paginierter Iterator für große Abfragen:
+
+```cpp
+auto cursor = themis::timeseries::TsStreamCursor::open(*ts_store, opts);
+while (cursor->valid()) {
+    process(cursor->current());
+    cursor->advance();
+}
+```
+
+Standard-Seitengröße: **4 096** Datenpunkte. Performance-Ziel: ≥ 500 MB/s auf NVMe.
+
+### TemporalCompressor LZ4
+
+```yaml
+timeseries:
+  temporal_compressor:
+    algorithm: lz4  # oder: zstd
+```
+
+LZ4 ist für heiße Datenpfade optimiert (GB/s Kompressionsgeschwindigkeit).
+
 ## Performance
 
-- **Kompression:** 10-20x mit Gorilla
-- **Write:** ~100,000 points/sec
-- **Read:** ~500,000 points/sec (komprimiert)
+- **Kompression:** 10-20x mit Gorilla; 1.5-2x mit LZ4; 3-5x mit ZSTD
+- **Write:** ~1.000.000 points/sec (putBatch, v1.9.x)
+- **Read:** ≥ 500 MB/s sustained (TsStreamCursor, v1.9.x)
 - **Aggregation:** O(n) single-pass
 
 ## Verwandte Dokumentation

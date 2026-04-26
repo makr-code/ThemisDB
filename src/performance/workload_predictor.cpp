@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            workload_predictor.cpp                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:18:02                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     306                                            ║
+    • Total Lines:     305                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 326d6a2d5  2026-02-25  fix(performance): code audit fixes for workload predictor ║
-    • d7e7aa959  2026-02-25  feat(performance): add ML-based workload predictor for pr... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -47,7 +46,7 @@ WorkloadPredictor::WorkloadPredictor(const Config& config)
 // ---------------------------------------------------------------------------
 
 void WorkloadPredictor::record(const WorkloadSnapshot& snapshot) {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::unique_lock<std::shared_mutex> lk(mutex_);
     history_.push_back(snapshot);
     // Evict oldest observation when window is full
     while (history_.size() > config_.history_window) {
@@ -60,7 +59,7 @@ void WorkloadPredictor::record(const WorkloadSnapshot& snapshot) {
 // ---------------------------------------------------------------------------
 
 WorkloadForecast WorkloadPredictor::predict(uint64_t horizon_us) const {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::unique_lock<std::shared_mutex> lk(mutex_);
 
     WorkloadForecast result{};
 
@@ -221,12 +220,12 @@ ScaleRecommendation WorkloadPredictor::recommend_scaling(
 // ---------------------------------------------------------------------------
 
 size_t WorkloadPredictor::observation_count() const noexcept {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::shared_lock<std::shared_mutex> lk(mutex_);
     return history_.size();
 }
 
 void WorkloadPredictor::reset() noexcept {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::unique_lock<std::shared_mutex> lk(mutex_);
     history_.clear();
 }
 

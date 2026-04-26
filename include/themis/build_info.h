@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            build_info.h                                       ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:04                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     185                                            ║
+    • Total Lines:     181                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • fd83348aa  2026-03-12  fix(themis): address PR review comments - path triggers, ... ║
-    • 4da3502dd  2026-03-12  feat(themis): add THEMIS_BASE_API export macros to public... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -29,8 +28,7 @@
  * This header provides runtime access to CMake build flags and edition settings.
  */
 
-#ifndef THEMIS_BUILD_INFO_H
-#define THEMIS_BUILD_INFO_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -181,5 +179,3 @@ THEMIS_BASE_API bool verifyBuildManifest(const std::string& manifest_path);
 
 } // namespace build_info
 } // namespace themis
-
-#endif // THEMIS_BUILD_INFO_H

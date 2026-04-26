@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_retention_manager.cpp                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:23:38                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:52:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     555                                            ║
+    • Total Lines:     552                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 1b4259583  2026-03-12  Add safety comment for countdown predicate, clarify test ... ║
-    • eff45c52d  2026-03-12  Address PR review: fix resolveArchiveTag, retry exception... ║
-    • 1b897ee39  2026-03-12  Address code review: extract helpers, fix VERSION_COUNT_B... ║
-    • 958756864  2026-03-12  Implement Automated Retention Policies: STORAGE_BASED typ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 1b4259583e  2026-03-12  Add safety comment for countdown predicate, clarify test ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -552,4 +548,50 @@ TEST_F(RetentionManagerTest, Retry_SucceedsEvenWithoutErrors) {
     auto stats = mgr.enforceRetention(t, policy);
     EXPECT_EQ(stats.versions_deleted, 3u);
     EXPECT_TRUE(stats.errors.empty());
+}
+
+// ── RetentionRule operator== / operator< (RR-01..06) ─────────────────────────
+
+TEST(RetentionRuleTest, RR_01_EqualityReflexive) {
+    auto r = RetentionRule::timeBased(std::chrono::hours(24), "GDPR");
+    EXPECT_EQ(r, r);
+}
+
+TEST(RetentionRuleTest, RR_02_EqualitySymmetric) {
+    auto r1 = RetentionRule::timeBased(std::chrono::hours(24), "GDPR");
+    auto r2 = RetentionRule::timeBased(std::chrono::hours(24), "GDPR");
+    EXPECT_EQ(r1, r2);
+    EXPECT_EQ(r2, r1);
+}
+
+TEST(RetentionRuleTest, RR_03_InequalityDifferentPeriod) {
+    auto r1 = RetentionRule::timeBased(std::chrono::hours(24));
+    auto r2 = RetentionRule::timeBased(std::chrono::hours(48));
+    EXPECT_NE(r1, r2);
+}
+
+TEST(RetentionRuleTest, RR_04_InequalityDifferentType) {
+    auto r1 = RetentionRule::timeBased(std::chrono::hours(1));
+    auto r2 = RetentionRule::versionCount(5);
+    EXPECT_NE(r1, r2);
+}
+
+TEST(RetentionRuleTest, RR_05_LessThanism_TotalOrder) {
+    auto r1 = RetentionRule::timeBased(std::chrono::hours(1));
+    auto r2 = RetentionRule::timeBased(std::chrono::hours(2));
+    EXPECT_LT(r1, r2);
+    EXPECT_FALSE(r2 < r1);
+    EXPECT_FALSE(r1 < r1);
+}
+
+TEST(RetentionRuleTest, RR_06_UsableInStdSet) {
+    std::set<RetentionRule> rule_set;
+    rule_set.insert(RetentionRule::timeBased(std::chrono::hours(24), "GDPR"));
+    rule_set.insert(RetentionRule::versionCount(10, "HIPAA"));
+    rule_set.insert(RetentionRule::storageBased(1024 * 1024));
+    EXPECT_EQ(rule_set.size(), 3u);
+
+    // Inserting a duplicate should not grow the set.
+    rule_set.insert(RetentionRule::timeBased(std::chrono::hours(24), "GDPR"));
+    EXPECT_EQ(rule_set.size(), 3u);
 }

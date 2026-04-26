@@ -218,4 +218,4 @@ core:
 - [Architecture Overview](../../ARCHITECTURE.md)
 - [Setup Guide](../../SETUP.md)
 - [Security Framework Implementation](../SECURITY_FRAMEWORK_IMPLEMENTATION.md)
-- [Production Readiness Review](../PRODUCTION_READINESS_REVIEW.md)
+- [Production Readiness Review](../implementation-history/reviews/PRODUCTION_READINESS_REVIEW.md)

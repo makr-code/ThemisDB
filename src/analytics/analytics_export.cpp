@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            analytics_export.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:13:48                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1008                                           ║
+    • Total Lines:     1006                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 1e59da979  2026-03-19  Fix remaining gaps: spdlog::warn in olap.cpp/analytics_ex... ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • d5fae2ab2  2026-03-18  Changes before error encountered         ║
-    • 4bd69efbb  2026-03-16  Complete ExporterFactory stub replacement: CI workflow + ... ║
-    • 8d9f38886  2026-03-16  Changes before error encountered         ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -214,7 +211,7 @@ public:
     ExportResult exportToFile(
         const ArrowRecordBatch& batch,
         const std::string& output_path,
-        const ExportOptions& options) override {
+        [[maybe_unused]] const ExportOptions& options) override {
 
         auto start = std::chrono::high_resolution_clock::now();
 
@@ -442,7 +439,7 @@ public:
     ExportResult exportToFile(
         const ArrowRecordBatch& batch,
         const std::string& output_path,
-        const ExportOptions& options) override {
+        [[maybe_unused]] const ExportOptions& options) override {
 
         auto start = std::chrono::high_resolution_clock::now();
         ExportResult result;
@@ -513,9 +510,9 @@ public:
 
     std::string exportToString(
         const ArrowRecordBatch& batch,
-        const ExportOptions& options) override {
+        [[maybe_unused]] const ExportOptions& options) override {
 
-        (void)options;  // format is implicitly FMT_ARROW_IPC for this exporter
+        // format is implicitly FMT_ARROW_IPC for this exporter
         try {
             auto arrow_batch_result = convertToArrowRecordBatch(batch);
             if (!arrow_batch_result.ok()) {
@@ -674,7 +671,7 @@ public:
     ExportResult exportToFile(
         const ArrowRecordBatch& batch,
         const std::string& output_path,
-        const ExportOptions& options) override {
+        [[maybe_unused]] const ExportOptions& options) override {
 
         auto start = std::chrono::high_resolution_clock::now();
         ExportResult result;
@@ -799,7 +796,7 @@ public:
     ExportResult exportToFile(
         const ArrowRecordBatch& batch,
         const std::string& output_path,
-        const ExportOptions& options) override {
+        [[maybe_unused]] const ExportOptions& options) override {
 
         auto start = std::chrono::high_resolution_clock::now();
         ExportResult result;
@@ -870,9 +867,9 @@ public:
 
     std::string exportToString(
         const ArrowRecordBatch& batch,
-        const ExportOptions& options) override {
+        [[maybe_unused]] const ExportOptions& options) override {
 
-        (void)options;  // format is implicitly FMT_ARROW_FEATHER for this exporter
+        // format is implicitly FMT_ARROW_FEATHER for this exporter
         try {
             auto arrow_batch_result = convertToArrowRecordBatch(batch);
             if (!arrow_batch_result.ok()) {

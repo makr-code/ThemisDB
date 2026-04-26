@@ -1,0 +1,141 @@
+# ThemisDB Shard Repair / Anti-Entropy Engine – Prometheus Metrics (v1.5)
+#
+# All metrics are emitted by ShardRepairEngine when a PrometheusMetrics
+# instance is attached via ShardRepairEngine::setPrometheusMetrics().
+# They are also appended to the main /metrics scrape endpoint when
+# ShardingMetricsHandler::setRepairEngine() is called.
+#
+# Labels used:
+#   result   – "success" or "failure"  (repair_operations_total)
+#   shard_id – shard identifier         (repair_health gauge)
+#   status   – one of healthy / degraded / failed / rebuilding  (repair_health)
+#
+# See: include/sharding/shard_repair_engine.h
+#      include/sharding/prometheus_metrics.h (RepairShardStatus constants)
+# ──────────────────────────────────────────────────────────────────────────────
+
+groups:
+  - name: themis_shard_repair
+    rules:
+
+      # ── Counters ────────────────────────────────────────────────────────────
+
+      - record: themis_shard_repair_scans_total
+        annotations:
+          summary: "Total anti-entropy scans performed"
+          description: >
+            Incremented once for each full cluster-wide anti-entropy scan
+            completed by the ShardRepairEngine background scan thread or
+            triggered via POST /admin/repair/scan.
+
+      - record: themis_shard_repair_operations_total
+        annotations:
+          summary: "Total shard repair operations (by result)"
+          description: >
+            Incremented after every individual document repair attempt.
+            Split by label `result` = "success" | "failure".
+          labels:
+            result: success | failure
+
+      - record: themis_shard_repair_documents_scanned_total
+        annotations:
+          summary: "Total documents inspected by anti-entropy scans"
+          description: >
+            Counts every document health check performed during an
+            anti-entropy scan (healthy + degraded + unrecoverable alike).
+
+      # ── Histograms ──────────────────────────────────────────────────────────
+
+      - record: themis_shard_repair_duration_seconds
+        annotations:
+          summary: "Repair operation duration (seconds)"
+          description: >
+            Histogram of per-document repair wall-clock time in seconds.
+            Observed in ShardRepairEngine::updateMetricsAfterRepair().
+
+      # ── Gauges ──────────────────────────────────────────────────────────────
+
+      - record: themis_shard_repair_health
+        annotations:
+          summary: "Per-shard health status (1 = active, 0 = inactive)"
+          description: >
+            A gauge family with labels `shard_id` and `status`.
+            Exactly one label combination per shard has value 1.0 (the
+            active status) while the other three are 0.0.
+            Updated after every anti-entropy scan.
+          example: >
+            themis_shard_repair_health{shard_id="shard_1",status="healthy"} 1
+            themis_shard_repair_health{shard_id="shard_1",status="degraded"} 0
+            themis_shard_repair_health{shard_id="shard_1",status="failed"} 0
+            themis_shard_repair_health{shard_id="shard_1",status="rebuilding"} 0
+          labels:
+            shard_id: "<shard identifier>"
+            status: "healthy | degraded | failed | rebuilding"
+
+      - record: themis_shard_repair_avg_duration_ms
+        annotations:
+          summary: "Rolling-average repair duration (ms)"
+          description: >
+            Cumulative moving average of repair wall-clock time in
+            milliseconds. Exported as part of exportPrometheusMetrics().
+
+      - record: themis_shard_degraded_documents
+        annotations:
+          summary: "Number of degraded documents per shard"
+          description: >
+            Degraded document count as measured in the last anti-entropy
+            scan. Split by `shard` label.
+          labels:
+            shard: "<shard identifier>"
+
+# ── Alerting rules (example – adapt thresholds to your SLO) ─────────────────
+
+  - name: themis_shard_repair_alerts
+    rules:
+
+      - alert: ShardRepairEngineDown
+        expr: absent(themis_shard_repair_scans_total)
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "ShardRepairEngine is not emitting metrics"
+          description: >
+            No themis_shard_repair_scans_total series has been seen for
+            10 minutes. The repair engine may not be running.
+
+      - alert: ShardRepairHighFailureRate
+        expr: |
+          rate(themis_shard_repair_operations_total{result="failure"}[5m])
+          /
+          rate(themis_shard_repair_operations_total[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Shard repair failure rate >10%"
+          description: >
+            More than 10% of repair operations are failing. Check storage
+            hardware and shard health via GET /admin/health.
+
+      - alert: ShardDegraded
+        expr: themis_shard_repair_health{status="degraded"} == 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Shard {{ $labels.shard_id }} is degraded"
+          description: >
+            Shard {{ $labels.shard_id }} has degraded documents. Repair
+            will be attempted automatically if enable_auto_repair is true.
+
+      - alert: ShardFailed
+        expr: themis_shard_repair_health{status="failed"} == 1
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Shard {{ $labels.shard_id }} has FAILED documents"
+          description: >
+            Shard {{ $labels.shard_id }} has unrecoverable documents.
+            Manual intervention may be required.

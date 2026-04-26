@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_auth_middleware.cpp                           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:24:30                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:52:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1169                                           ║
+    • Total Lines:     1167                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 971a3c49d  2026-03-20  Build/test fixes and auth role mapping refactor ║
-    • 55c042995  2026-03-15  refactor(auth): improve naming clarity in JWT scope test ... ║
-    • 76eef4d70  2026-03-15  feat(auth): implement JWT scope extraction and role-to-sc... ║
-    • c97360e57  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
-    • c613ea7a9  2026-03-04  Refactor error masking and enhance archive processor vali... ║
+    • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -1167,4 +1163,52 @@ TEST(TaskSchedulerRequestContext, ContextIsPerThread) {
 TEST(TaskSchedulerRequestContext, FallbackParameterUsed) {
     TaskScheduler::clearRequestContext();
     EXPECT_EQ(TaskScheduler::currentUserId("svc-account"), "svc-account");
+}
+
+// ===========================================================================
+// GAP-013 — Auth failure audit logging (CWE-778)
+// ===========================================================================
+
+// GAP-013-01: validateToken with an unknown token returns Denied.
+// The validateToken implementation now logs at WARN for every failure.
+// This test verifies the Denied outcome so that it is exercised in CI
+// (SIEM log coverage is verified by log inspection in integration tests).
+TEST(AuthMiddlewareGap013Test, ValidateToken_UnknownToken_ReturnsDenied) {
+    AuthMiddleware auth;
+    // Add one known token so isEnabled()=true.
+    AuthMiddleware::TokenConfig tc;
+    tc.token   = "good-token";
+    tc.user_id = "alice";
+    tc.scopes  = {"read"};
+    auth.addToken(tc);
+
+    auto result = auth.validateToken("completely-unknown-token");
+    EXPECT_FALSE(result.authorized) << "Unknown token must be denied (GAP-013)";
+    EXPECT_EQ(result.reason, "Invalid token");
+}
+
+// GAP-013-02: authorize() with a recognised user but wrong scope returns Denied.
+TEST(AuthMiddlewareGap013Test, Authorize_WrongScope_ReturnsDenied) {
+    AuthMiddleware auth;
+    AuthMiddleware::TokenConfig tc;
+    tc.token   = "read-only-token";
+    tc.user_id = "bob";
+    tc.scopes  = {"data:read"};
+    auth.addToken(tc);
+
+    auto result = auth.authorize("read-only-token", "data:write");
+    EXPECT_FALSE(result.authorized) << "Insufficient scope must be denied (GAP-013)";
+}
+
+// GAP-013-03: authorize() with a completely invalid token returns Denied.
+TEST(AuthMiddlewareGap013Test, Authorize_InvalidToken_ReturnsDenied) {
+    AuthMiddleware auth;
+    AuthMiddleware::TokenConfig tc;
+    tc.token   = "good-token";
+    tc.user_id = "carol";
+    tc.scopes  = {"admin"};
+    auth.addToken(tc);
+
+    auto result = auth.authorize("not-a-valid-token", "admin");
+    EXPECT_FALSE(result.authorized) << "Invalid token must be denied (GAP-013)";
 }

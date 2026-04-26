@@ -1,8 +1,10 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Analytics Module Roadmap
 
-**Version:** 1.7.0
+**Version:** 2.0.0
 **Status:** 🟢 Production-Ready
-**Last Updated:** 2026-03-09
+**Last Updated:** 2026-04-19
 **Module Path:** `src/analytics/`
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -45,6 +47,11 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Multi-language NLP support (beyond English) (Issue: #1478)
 - [x] Full morphological lemmatization (Issue: #1479)
 - [x] Arrow Flight RPC support for remote analytics: in-process + optional native gRPC transport (Issue: #1472) (`analytics/arrow_flight.cpp`)
+- [x] **Multi-stream join engine** — `IStreamingJoin` / `HashJoin` / `IntervalJoin` (Issue: #4576) (2026-04-12)
+  - `include/analytics/streaming_join.h` + `src/analytics/streaming_join.cpp`
+  - `HashJoin`: composite-key hash table, inner/left-outer join, multi-batch build, configurable `max_build_rows`
+  - `IntervalJoin`: `before_ms`/`after_ms`/`slack_ms` time-window join with LRU probe-side pruning
+  - 15 focused tests (SJ-01…SJ-15) in `tests/analytics/test_streaming_join.cpp`
 
 ## In Progress 🚧
 *(none — all Phase 3 items completed)*
@@ -71,19 +78,86 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
   - Tests: unit tests for scatter/gather logic + integration tests with mock shards
   - Perf: fan-out latency ≤ 200 ms for 16 shards on LAN
   - Per-tenant data isolation at the `SourceRegistry` boundary
-- [ ] SARIMA and Prophet-style forecasting models (Target: Q4 2026)
+- [x] SARIMA and Prophet-style forecasting models (Target: Q4 2026)
   - Affected: `src/analytics/forecasting.cpp`, `include/analytics/forecasting.h`
-  - Expected behavior: extends `ForecastMethod` enum; `fit()`/`predict()` API unchanged
+  - Note: `ForecastMethod::SARIMA` and `ForecastMethod::PROPHET` enum values are already defined (`include/analytics/forecasting.h:154-155`) but switch-case handlers are not yet implemented
+  - Expected behavior: `fit()`/`predict()` API unchanged; extends existing switch branches
   - Errors: insufficient data for seasonal period (< 2 × seasonality), NaN in input series → structured error
   - Tests: unit tests for fit/predict/evaluate/serialize round-trip; parity vs Python statsmodels reference
   - Perf: SARIMA fit ≤ 5 s for series of length 10 000
   - Confidence intervals and decomposition retained
-- [ ] AutoML ONNX export and deployment pipeline (Target: Q4 2026)
+- [x] AutoML ONNX export and deployment pipeline (Target: Q4 2026)
   - Affected: `src/analytics/automl.cpp`, `include/analytics/automl.h`
-  - Expected behavior: `AutoMLEngine::exportONNX(path)` serializes trained model; loadable by `MLServingClient`
+  - Expected behavior: `AutoMLModel::exportONNX(path)` serializes trained model; loadable by `MLServingClient`
+  - Expected behavior: `AutoML::exportONNX(path)` serializes trained model; loadable by `MLServingClient` <!-- TODO: verify exact method signature when implemented -->
   - Errors: unsupported model type → `UNSUPPORTED_OPERATION`; serialization failure → structured error with cause
   - Tests: unit test export → load → infer round-trip; ONNX opset compatibility for all supported algorithms
   - Perf: export time ≤ 500 ms for any model trained on ≤ 1M samples
+
+- [ ] **Expertensystem-Engine** (CEP + Rule-Engine + ML-Inferenz) (Target: Q2 2027)
+  - Affected: `include/analytics/expert_system_engine.h` (new), `src/analytics/expert_system_engine.cpp` (new),
+    `include/analytics/knowledge_base.h` (new), `src/analytics/knowledge_base.cpp` (new),
+    Integration mit `src/analytics/cep_engine.cpp`, `src/analytics/model_serving.cpp`
+  - Scope: Das bestehende CEP-NFA-Pattern-Matching (`cep_engine.cpp`) bildet das Regelausführungssubsystem
+    (Working Memory + Agenda + NFA-Matcher). `ExpertSystemEngine` erweitert es um:
+    (1) eine persistente `KnowledgeBase` für Fakten (RocksDB-backed), (2) einen Inferenz-Controller
+    der Vorwärts- und Rückwärtsverkettung unterstützt, (3) eine Erklärungskomponente die
+    Entscheidungspfade als geordnete Regelanwendungs-Traces exportiert
+  - Expected behavior:
+    - `ExpertSystemEngine::assertFact(fact)` → schreibt Fakt in Working Memory; triggert NFA-Evaluierung
+    - `ExpertSystemEngine::queryGoal(goal)` → Rückwärtsverkettung; liefert `GoalResult` mit Proof-Trace
+    - `ExpertSystemEngine::forwardChain(max_cycles)` → Vorwärtsverkettung bis Fixpunkt oder Limit
+    - `ExpertSystemEngine::explain(decision_id)` → exportiert Regelanwendungs-Trace als JSON
+    - ML-Augmentierung: `ExpertSystemEngine::setMLScorer(ModelServingEngine*)` → AI/ML-Modell
+      bewertet Regelprämissen mit Konfidenzwert; unscharfe Regeln (confidence < threshold) werden
+      als Hinweis nicht als harte Entscheidung behandelt
+  - Constraints: max 10 000 aktive Fakten im Working Memory (Ring-Eviction); max 100 Regeln;
+    Vorwärtsverkettungs-Zyklus ≤ 50 ms; Erklärungsgeneration ≤ 10 ms
+  - Errors: Regelwiderspruch → `ConflictError` mit beteiligten Regel-IDs; zirkulärer Beweis →
+    Depth-Limit-Fehler; ML-Scorer nicht erreichbar → deterministische Regelauswertung
+  - Tests: ES-01..ES-20 in `tests/analytics/test_expert_system_engine.cpp`
+    - ES-01..ES-05: Faktenassertierung + Vorwärtsverkettung
+    - ES-06..ES-10: Rückwärtsverkettung + Proof-Traces
+    - ES-11..ES-14: ML-Scorer-Integration (Mock)
+    - ES-15..ES-17: Regelkonflikt-Erkennung
+    - ES-18..ES-20: Concurrency (8 Threads)
+  - Perf: 1 000 Fakten + 100 Regeln, Vorwärtsverkettung ≤ 50 ms; Rückwärtsverkettung ≤ 20 ms
+  - Wissensrepräsentation: `KnowledgeBase` speichert Fakten als `(subject, predicate, object)` Tripel
+    (kompatibel mit `KnowledgeGraphReasoner`); Regeln als Horn-Klauseln in YAML-Format
+  - Detail: `src/analytics/FUTURE_ENHANCEMENTS.md` → Expert System Engine
+
+- [ ] **AI/ML + LoRA Mustererkennung und Auswertung** (Target: Q3 2027)
+  - Affected: `include/analytics/lora_pattern_classifier.h` (new), `src/analytics/lora_pattern_classifier.cpp` (new),
+    Integration mit `src/llm/multi_lora_manager.cpp`, `src/analytics/cep_engine.cpp`,
+    `src/analytics/model_serving.cpp`
+  - Scope: LoRA-fine-tuned LLM-Adapter übernehmen domänenspezifische Mustererkennung in
+    Ereignisströmen und Analyseresultaten. `LoRAPatternClassifier` wrapped `MultiLoRAManager`
+    und liefert klassenspezifische Labels + Konfidenzwerte für:
+    (1) CEP-Ereignismuster (z. B. Betrugssequenzen, Compliance-Verstöße, Anomalie-Cluster)
+    (2) Zeitreihen-Muster (Trend, Saisonalität, Ausreißer) — Ergänzung zu `forecasting.cpp`
+    (3) Graph-Pfad-Muster (Hub-Spoke, Authority-Chain) via `KnowledgeGraphReasoner`
+  - Expected behavior:
+    - `LoRAPatternClassifier::classify(events, adapter_id)` → `PatternResult` mit Label + Konfidenz
+    - `LoRAPatternClassifier::selectAdapter(context)` → wählt Adapter via Embedding-Ähnlichkeit
+    - `LoRAPatternClassifier::batchClassify(event_batch)` → parallele Klassifikation via Thread-Pool
+    - Integration in CEP: `CEPEngine::setLoRAPatternClassifier(classifier)` → Adapter-Klassifikation
+      wird als zusätzlicher Filtertyp in EPL-Regeln nutzbar: `PATTERN CLASSIFIED_AS "fraud_sequence"`
+    - Integration in `ExpertSystemEngine::setMLScorer()` für ML-augmentierte Regelprämissen
+  - Constraints: LoRA-Adapter-Inference ≤ 100 ms pro Batch ≤ 64 Events; Guard `THEMIS_ENABLE_LLM`;
+    Fallback: AutoML-Klassifikator (`automl.cpp`) wenn LoRA nicht verfügbar
+  - Errors: kein passender Adapter → AutoML-Fallback; Adapter-Load-Fehler → Fehlerprotokoll + Fallback
+  - Tests: LPC-01..LPC-15 in `tests/analytics/test_lora_pattern_classifier.cpp`
+    - LPC-01..LPC-05: Einzelereignis-Klassifikation mit Mock-Adapter
+    - LPC-06..LPC-08: Batch-Klassifikation + Thread-Pool
+    - LPC-09..LPC-11: Adapter-Selektion via Embedding-Ähnlichkeit
+    - LPC-12..LPC-13: CEP-Integration (`PATTERN CLASSIFIED_AS`)
+    - LPC-14..LPC-15: AutoML-Fallback-Verhalten
+  - Perf: Batch-Klassifikation 64 Events ≤ 100 ms; Adapter-Selektion ≤ 5 ms
+  - Mustererkennung-Ziele (messbar):
+    - Betrugssequenzen im CEP-Strom: Precision ≥ 0.90, Recall ≥ 0.85
+    - Zeitreihen-Anomalie-Klassifikation: F1 ≥ 0.88 auf Benchmark-Datensatz
+    - Graph-Pfad-Muster: Adapter-Konfidenz für bekannte Strukturmuster ≥ 0.80
+  - Detail: `src/analytics/FUTURE_ENHANCEMENTS.md` → AI/ML + LoRA Pattern Classification
 
 ### Phase 1: Core Analytics Engine (Status: Completed ✅)
 - [x] OLAP engine with GROUP BY, CUBE, ROLLUP, and GROUPING SETS (`analytics/olap_engine.cpp`)
@@ -113,7 +187,27 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] AutoML integration for automated model selection
 - [x] Model serving and online inference pipeline (`analytics/model_serving.cpp`) (Issue: #1477)
 
-## Production Readiness Checklist
+### Phase 4: Expert System Engine (Status: Planned [ ], Target: Q2 2027)
+- [ ] `ExpertSystemEngine` — CEP-basiertes Vorwärts-/Rückwärts-Verkettungs-Framework
+  (Target: Q2 2027) → `include/analytics/expert_system_engine.h`, `src/analytics/expert_system_engine.cpp`
+- [ ] `KnowledgeBase` — persistente Fakten-Wissensbasis (subject, predicate, object Tripel);
+  RocksDB-backed (Target: Q2 2027) → `include/analytics/knowledge_base.h`, `src/analytics/knowledge_base.cpp`
+- [ ] YAML-Regelformat (Horn-Klauseln), `KnowledgeBase::loadRulesFromYaml()` (Target: Q2 2027)
+- [ ] ML-Scorer-Anbindung: `ExpertSystemEngine::setMLScorer(ModelServingEngine*)` (Target: Q3 2027)
+- [ ] Erklärungskomponente: `explain(decision_id)` → JSON Proof-Trace (Target: Q3 2027)
+- [ ] Integration mit `KnowledgeGraphReasoner` (Graph-Modul) für Triple-Austausch (Target: Q3 2027)
+- [ ] Tests: ES-01..ES-20 (`tests/analytics/test_expert_system_engine.cpp`) + KB-01..KB-08 (Target: Q3 2027)
+
+### Phase 5: AI/ML + LoRA Mustererkennung (Status: Planned [ ], Target: Q3 2027)
+- [ ] `LoRAPatternClassifier` — LoRA-Adapter-basierte Mustererkennung in CEP-Ereignisströmen,
+  Zeitreihen und Graphpfaden (Target: Q3 2027)
+  → `include/analytics/lora_pattern_classifier.h`, `src/analytics/lora_pattern_classifier.cpp`
+- [ ] EPL-Erweiterung: `PATTERN CLASSIFIED_AS "..."` + `EXPERT_SYSTEM_CONFIRMS(...)` (Target: Q4 2027)
+- [ ] `CEPEngine::setLoRAPatternClassifier()` für Adapter-basierte Ereignisfilterung (Target: Q4 2027)
+- [ ] AutoML-Fallback wenn `THEMIS_ENABLE_LLM=OFF` (Target: Q3 2027)
+- [ ] Tests: LPC-01..LPC-15 (`tests/analytics/test_lora_pattern_classifier.cpp`) (Target: Q4 2027)
+
+
 - [x] Unit tests (OLAP, Arrow export, process mining, NLP, diff engine, forecasting)
 - [x] Unit tests coverage > 80% (test files added for all Phase 2 components; all three Phase 2 test suites active in CI)
 - [x] Integration tests (query module, index module, CDC)
@@ -132,12 +226,14 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Security audit (LLM API key handling, data export sanitization)
 - [x] Documentation complete (API docs, OLAP guide, process mining guide)
 - [x] API stability guaranteed for OLAP, export, and process mining
+- [x] Windows platform compatibility: whole-class `_WIN32` stub removed from `olap.cpp`; SIMD guarded per-instruction; Windows CI workflow at `.github/workflows/02-feature-modules_analytics_windows-olap-ci.yml` (Issue: #238)
 
 ## Known Issues & Limitations
 - NLP text analyzer uses rule-based approaches — not suitable as a replacement for full NLP frameworks
 - LLM analyzer requires external API keys; responses are non-deterministic
-- Arrow-dependent formats (Parquet, Feather, IPC) require compile-time flag `THEMIS_HAS_ARROW`
+- Arrow-dependent formats (Parquet, Feather, IPC) require compile-time flag `THEMIS_HAS_ARROW`; when Arrow is absent, `exportToParquet()` / `exportCollectionToParquet()` return `false` with a `spdlog::warn` message
 - Graph analytics advanced algorithms (betweenness centrality, Louvain community detection) are now implemented as AQL functions in `include/query/functions/graph_extensions.h`
+- Windows: `ProcessMining` is gated behind the opt-in flag `THEMIS_PROCESS_MINING_WINDOWS_STUB`; the flag is off by default so the full implementation is used
 
 ## Breaking Changes
 - Arrow export format options may expand in v1.7.0 (additive, non-breaking)

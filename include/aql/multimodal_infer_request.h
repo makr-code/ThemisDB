@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multimodal_infer_request.h                         ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:05:49                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:44:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     289                                            ║
+    • Total Lines:     293                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • ecd4473e7  2026-03-22  feat(aql): implement MultiModalInferRequest and IAsyncLLM... ║
+    • ecd4473e77  2026-03-22  feat(aql): implement MultiModalInferRequest and IAsyncLLM... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

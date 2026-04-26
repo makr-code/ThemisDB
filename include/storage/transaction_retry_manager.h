@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            transaction_retry_manager.h                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:52                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     401                                            ║
+    • Total Lines:     398                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • ea0a10a28  2026-03-14  Fix retry attempt counting               ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ad5decdf5  2026-02-26  Code audit: fix const_cast UB, pow() overflow, jitter val... ║
-    • c44891bf3  2026-02-26  Fix TransactionRetryManager: add thread include, fix Retr... ║
+    • 29ac1cf537  2026-04-14  fix                                     ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -26,8 +25,7 @@
 // Copyright (c) 2024 ThemisDB
 // Licensed under the MIT License
 
-#ifndef THEMISDB_TRANSACTION_RETRY_MANAGER_H
-#define THEMISDB_TRANSACTION_RETRY_MANAGER_H
+#pragma once
 
 #include <chrono>
 #include <functional>
@@ -36,6 +34,7 @@
 #include <string>
 #include <atomic>
 #include <mutex>
+#include <shared_mutex>
 #include <thread>
 #include <unordered_map>
 
@@ -260,7 +259,7 @@ public:
                 
                 // Update error stats
                 {
-                    std::lock_guard<std::mutex> lock(stats_mutex_);
+                    std::lock_guard<std::shared_mutex> lock(stats_mutex_);
                     stats_.errors_by_type[error_type]++;
                 }
                 
@@ -389,7 +388,7 @@ private:
     std::uniform_real_distribution<double> jitter_dist_;
     
     // Stats mutex
-    mutable std::mutex stats_mutex_;
+    mutable std::shared_mutex stats_mutex_;
     
     // Alert callback
     AlertCallback alert_callback_;
@@ -397,5 +396,3 @@ private:
 
 }  // namespace storage
 }  // namespace themisdb
-
-#endif  // THEMISDB_TRANSACTION_RETRY_MANAGER_H

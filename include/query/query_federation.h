@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_federation.h                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:10:04                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     317                                            ║
+    • Total Lines:     319                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 7811d1486  2026-03-27  feat: Enhance backward compatibility and legacy support a... ║
-    • bc061a79d  2026-03-24  feat(query): QueryFederation shard-key routing v1.9.0 ║
-    • 097e8a577  2026-03-24  feat(query,sharding): QueryFederation shard-key routing v... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7811d1486a  2026-03-27  feat: Enhance backward compatibility and legacy support a... ║
+    • bc061a79df  2026-03-24  feat(query): QueryFederation shard-key routing v1.9.0 ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -28,7 +26,9 @@
 #include "sharding/shard_router.h"
 #include "sharding/urn_resolver.h"
 #include "sharding/sharding_manager.h"
+#include "sharding/adaptive_shard_router.h"
 #include "query/query_optimizer.h"
+#include "distributed_knowledge/federated_rag_merger.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -145,6 +145,66 @@ public:
         const Config& config
     );
     
+    // ── DK-4: Federated RAG merge (Layer C) ─────────────────────────────────
+
+    /**
+     * @brief Inject a FederatedRAGMerger (DK-4 DI-setter).
+     *
+     * When set, `executeFederatedRAGQuery()` uses this merger to combine
+     * per-shard retrieval results via Reciprocal Rank Fusion.
+     */
+    void setRAGMerger(
+        std::shared_ptr<distributed_knowledge::FederatedRAGMerger> merger);
+
+    /**
+     * @brief Inject an AdaptiveShardRouter for per-shard accuracy-delta lookup
+     *        (DK-4 DI-setter).
+     *
+     * When set, `executeFederatedRAGQuery()` enriches each
+     * `ShardRetrievalResult` with `adapter_accuracy_delta` from the router
+     * so that specialised shards are boosted during RRF merge.
+     *
+     * @param router  Typed AdaptiveShardRouter — provides
+     *                `getAdapterAccuracyDelta(shard_id, domain)`.
+     */
+    void setShardRouter(
+        std::shared_ptr<sharding::AdaptiveShardRouter> router);
+
+    /**
+     * @brief Merge pre-built per-shard retrieval results via the injected
+     *        FederatedRAGMerger.
+     *
+     * Exposed publicly so unit tests can bypass the fan-out and verify merge
+     * logic directly without a running shard cluster.
+     *
+     * @throws std::logic_error when no RAGMerger has been injected.
+     */
+    [[nodiscard]] distributed_knowledge::MergedRAGContext mergeRAGResults(
+        const std::vector<distributed_knowledge::ShardRetrievalResult>& shard_results
+    ) const;
+
+    /**
+     * @brief Execute a RAG-aware federated query.
+     *
+     * Fan-out to all shards via `shard_router_->scatterGather()`, convert
+     * each `ShardResult` to `ShardRetrievalResult` (including
+     * `adapter_accuracy_delta` when an AdaptiveShardRouter is injected),
+     * then merge via `FederatedRAGMerger`.
+     *
+     * Timeout shards (`success == false`) are marked `ok = false` and
+     * skipped by the merger automatically.
+     *
+     * @throws std::logic_error when no RAGMerger has been injected.
+     * @param domain  Domain type used for accuracy-delta lookup (default: GENERAL).
+     */
+    [[nodiscard]] distributed_knowledge::MergedRAGContext executeFederatedRAGQuery(
+        const std::string& query,
+        distributed_knowledge::AdapterDomainType domain =
+            distributed_knowledge::AdapterDomainType::GENERAL
+    );
+
+    // ── Standard execution ───────────────────────────────────────────────────
+
     /**
      * @brief Execute federated query
      * 
@@ -221,6 +281,10 @@ public:
     std::atomic<uint64_t> partition_pruned_queries_{0};
     std::atomic<uint64_t> broadcast_joins_{0};
     std::atomic<uint64_t> shuffle_joins_{0};
+
+    // ── DK-4: Federated RAG merge ────────────────────────────────────────────
+    std::shared_ptr<distributed_knowledge::FederatedRAGMerger> rag_merger_;
+    std::shared_ptr<sharding::AdaptiveShardRouter>             adaptive_router_;
     
     /**
      * @brief Analyze query to extract metadata

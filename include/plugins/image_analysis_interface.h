@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            image_analysis_interface.h                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:09:28                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     598                                            ║
+    • Total Lines:     615                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • ccd6c6d9e7  2026-04-15  feat(onnx_clip): CLIP text encoder, native batch sub-spli... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -400,9 +400,9 @@ public:
      * @return Caption result with text
      */
     virtual CaptionResult generateCaption(
-        const std::vector<uint8_t>& image_data,
-        const ImageMetadata* metadata = nullptr,
-        int max_length = 50
+        [[maybe_unused]] const std::vector<uint8_t>& image_data,
+        [[maybe_unused]] const ImageMetadata* metadata = nullptr,
+        [[maybe_unused]] int max_length = 50
     ) {
         // Default: not supported
         CaptionResult result;
@@ -423,9 +423,9 @@ public:
      * @return Detection result with bounding boxes
      */
     virtual DetectionResult detectObjects(
-        const std::vector<uint8_t>& image_data,
-        const ImageMetadata* metadata = nullptr,
-        float confidence_threshold = 0.5f
+        [[maybe_unused]] const std::vector<uint8_t>& image_data,
+        [[maybe_unused]] const ImageMetadata* metadata = nullptr,
+        [[maybe_unused]] float confidence_threshold = 0.5f
     ) {
         // Default: not supported
         DetectionResult result;
@@ -444,8 +444,8 @@ public:
      * @return Segmentation result with mask
      */
     virtual SegmentationResult segmentImage(
-        const std::vector<uint8_t>& image_data,
-        const ImageMetadata* metadata = nullptr
+        [[maybe_unused]] const std::vector<uint8_t>& image_data,
+        [[maybe_unused]] const ImageMetadata* metadata = nullptr
     ) {
         // Default: not supported
         SegmentationResult result;
@@ -462,7 +462,7 @@ public:
      * @param params Generation parameters
      * @return Generation result with image data
      */
-    virtual GenerationResult generateImage(const GenerationParams& params) {
+    virtual GenerationResult generateImage([[maybe_unused]] const GenerationParams& params) {
         // Default: not supported
         GenerationResult result;
         result.success = false;
@@ -481,9 +481,9 @@ public:
      * @return Answer as text
      */
     virtual std::string answerVisualQuestion(
-        const std::vector<uint8_t>& image_data,
-        const std::string& question,
-        const ImageMetadata* metadata = nullptr
+        [[maybe_unused]] const std::vector<uint8_t>& image_data,
+        [[maybe_unused]] const std::string& question,
+        [[maybe_unused]] const ImageMetadata* metadata = nullptr
     ) {
         // Default: not supported
         return "Visual question answering not supported by this plugin";
@@ -511,6 +511,23 @@ public:
             results.push_back(generateEmbedding(img));
         }
         return results;
+    }
+
+    /**
+     * @brief Generate embedding vector for a text query
+     * 
+     * Uses the CLIP text encoder to generate a semantic embedding compatible
+     * with the image embedding space, enabling cross-modal similarity search.
+     * 
+     * @param text Natural language query string (max 77 tokens for CLIP)
+     * @return Embedding result with float vector in the same space as image embeddings
+     */
+    virtual EmbeddingResult generateTextEmbedding([[maybe_unused]] const std::string& text) {
+        // Default: not supported
+        EmbeddingResult result;
+        result.success = false;
+        result.error_message = "Text embedding not supported by this plugin";
+        return result;
     }
     
     // ========================================================================

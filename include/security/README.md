@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # Security Module Headers
 
 Public API headers for ThemisDB security features.
@@ -95,15 +97,15 @@ std::string decrypted = encryption.decrypt(blob);
 
 class CustomKeyProvider : public KeyProvider {
 public:
-    std::vector<uint8_t> getKey(const std::string& key_id, 
+    std::vector<uint8_t> getKey(const std::string& key_id,
                                 uint32_t version) override {
         // Fetch from custom backend
     }
-    
+
     void createKey(const KeyMetadata& metadata) override {
         // Generate new key
     }
-    
+
     void rotateKey(const std::string& key_id) override {
         // Create new version
     }
@@ -319,7 +321,7 @@ acl.entries = {
 acm.setACL("/data/sensitive", acl);
 
 // Check access
-bool can_read = acm.checkAccess("bob@example.com", "/data/sensitive", 
+bool can_read = acm.checkAccess("bob@example.com", "/data/sensitive",
                                  Permission::READ);
 ```
 
@@ -701,6 +703,86 @@ auto sig = signData(session, privKeys[0], CKM_SHA256_RSA_PKCS, data);
 
 ---
 
+#### `arrow_user_registration_plugin.h`
+**Purpose**: Apache Arrow-compatible user registration plugin interface
+
+---
+
+#### `behavioral_anomaly_detector.h`
+**Purpose**: Runtime behavioral anomaly detection for access patterns
+
+---
+
+#### `confidential_computing.h`
+**Purpose**: Confidential computing enclave integration interfaces <!-- TODO: verify -->
+
+---
+
+#### `fips_crypto_mode.h`
+**Purpose**: FIPS 140-3 compliant cryptographic mode enforcement
+
+---
+
+#### `intent_classifier.h`
+**Purpose**: Query intent classification for security policy decisions
+
+---
+
+#### `mock_key_provider.h`
+**Purpose**: In-memory key provider for testing
+
+---
+
+#### `output_encoding.h`
+**Purpose**: Output encoding utilities to prevent injection attacks
+
+---
+
+#### `pii_redaction_policy.h`
+**Purpose**: PII field redaction policy definitions and enforcement
+
+---
+
+#### `post_quantum_crypto.h`
+**Purpose**: Post-quantum cryptography algorithm interfaces <!-- TODO: verify -->
+
+---
+
+#### `query_masking_policy.h`
+**Purpose**: Query-result masking policy for sensitive field obfuscation
+
+---
+
+#### `row_level_security.h`
+**Purpose**: Row-level security predicate definitions and enforcement
+
+---
+
+#### `secret_manager.h`
+**Purpose**: Secret lifecycle management (creation, rotation, revocation)
+
+---
+
+#### `security_evidence_collector.h`
+**Purpose**: Collects and aggregates security evidence for compliance audits
+
+---
+
+#### `tsa_api.h`
+**Purpose**: Timestamp Authority (TSA) API definitions (RFC 3161)
+
+---
+
+#### `usb_volume_hardening.h`
+**Purpose**: USB storage volume hardening and access control policies
+
+---
+
+#### `zero_trust_policy_enforcer.h`
+**Purpose**: Zero-trust network access policy enforcement
+
+---
+
 ## Usage Patterns
 
 ### Pattern 1: Field-Level Encryption
@@ -745,7 +827,7 @@ void handleRequest(const Request& req, Response& res) {
         res.status(403).json({{"error", "Forbidden"}});
         return;
     }
-    
+
     // Process request
     auto data = db.query(req.body["query"]);
     res.json(data);
@@ -765,13 +847,13 @@ auto old_docs = db.find({{"ssn", {"$exists", true}}});
 
 for (auto& doc : old_docs) {
     auto blob = EncryptedBlob::fromBase64(doc["ssn"]);
-    
+
     // Check if old version
     if (blob.key_version < current_version) {
         // Re-encrypt with new key
         auto decrypted = encryption.decrypt(blob);
         auto re_encrypted = encryption.encrypt("user_pii", decrypted);
-        
+
         doc["ssn"] = re_encrypted.toBase64();
         db.update(doc);
     }
@@ -919,7 +1001,7 @@ export SOFTHSM2_CONF=/etc/softhsm2.conf
 ./tests/security/hsm_integration_test
 ```
 
-### Code Coverage
+## Code Coverage
 ```bash
 cd build
 cmake -DCMAKE_BUILD_TYPE=Coverage ..
@@ -953,3 +1035,11 @@ make coverage
 - [eIDAS Regulation](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32014R0910)
 - [GDPR](https://gdpr-info.eu/)
 - [PCI DSS](https://www.pcisecuritystandards.org/)
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

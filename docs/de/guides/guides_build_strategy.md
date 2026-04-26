@@ -26,7 +26,7 @@ Comprehensive build strategy across all platforms and deployment scenarios.
 
 Konsistente Build-Toolchain für alle Plattformen mit eindeutiger Versionierung und abgestimmtem Packaging/CI-CD.
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.3.0  
 **Kategorie:** 🔨 Build/Deployment
 

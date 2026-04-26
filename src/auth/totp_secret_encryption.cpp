@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            totp_secret_encryption.cpp                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:14:24                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     464                                            ║
+    • Total Lines:     462                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 67965456c  2026-03-22  Add constructors with default config for various classes ... ║
-    • 6be7ad5fd  2026-03-12  fix(auth): address PR review comments on secure_memory ║
-    • 45126cc05  2026-03-12  refactor(auth): improve secure memory destructor comments... ║
-    • 7d76228b3  2026-03-12  feat(auth): implement secure memory for key material (v1.... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -81,7 +78,7 @@ std::string base64Encode(const std::vector<uint8_t>& data) {
     bio = BIO_push(b64, bio);
     
     BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
-    BIO_write(bio, data.data(), data.size());
+    BIO_write(bio, data.data(), static_cast<int>(data.size()));
     BIO_flush(bio);
     
     BUF_MEM* bufferPtr;
@@ -98,13 +95,13 @@ std::vector<uint8_t> base64Decode(const std::string& input) {
     if (input.empty()) return {};
     
     BIO* b64 = BIO_new(BIO_f_base64());
-    BIO* bio = BIO_new_mem_buf(input.data(), input.length());
+    BIO* bio = BIO_new_mem_buf(input.data(), static_cast<int>(input.length()));
     bio = BIO_push(b64, bio);
     
     BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
     
     std::vector<uint8_t> result(input.length());
-    int len = BIO_read(bio, result.data(), result.size());
+    int len = BIO_read(bio, result.data(), static_cast<int>(result.size()));
     
     BIO_free_all(bio);
     
@@ -209,7 +206,7 @@ TOTPSecretEncryption::encrypt(const std::string& plaintext_secret) {
         
         int len;
         if (EVP_EncryptUpdate(ctx, result.ciphertext.data(), &len, 
-                             plaintext.data(), plaintext.size()) != 1) {
+                             plaintext.data(), static_cast<int>(plaintext.size())) != 1) {
             throw std::runtime_error("Encryption failed");
         }
         
@@ -226,7 +223,7 @@ TOTPSecretEncryption::encrypt(const std::string& plaintext_secret) {
         // Get authentication tag
         result.tag.resize(impl_->config.tag_size);
         if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 
-                               impl_->config.tag_size, result.tag.data()) != 1) {
+                               static_cast<int>(impl_->config.tag_size), result.tag.data()) != 1) {
             throw std::runtime_error("Failed to get authentication tag");
         }
         
@@ -262,7 +259,7 @@ std::string TOTPSecretEncryption::decrypt(const EncryptedSecret& encrypted) {
         
         int len;
         if (EVP_DecryptUpdate(ctx, plaintext.data(), &len,
-                             encrypted.ciphertext.data(), encrypted.ciphertext.size()) != 1) {
+                             encrypted.ciphertext.data(), static_cast<int>(encrypted.ciphertext.size())) != 1) {
             throw std::runtime_error("Decryption failed");
         }
         
@@ -270,7 +267,7 @@ std::string TOTPSecretEncryption::decrypt(const EncryptedSecret& encrypted) {
         
         // Set authentication tag
         if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG,
-                               encrypted.tag.size(), 
+                               static_cast<int>(encrypted.tag.size()), 
                                const_cast<uint8_t*>(encrypted.tag.data())) != 1) {
             throw std::runtime_error("Failed to set authentication tag");
         }
@@ -349,7 +346,7 @@ SecureBuffer<uint8_t> TOTPSecretEncryption::deriveKey(const std::vector<uint8_t>
 std::vector<uint8_t> TOTPSecretEncryption::generateRandomBytes(size_t size) {
     std::vector<uint8_t> bytes(size);
     
-    if (RAND_bytes(bytes.data(), size) != 1) {
+    if (RAND_bytes(bytes.data(), static_cast<int>(size)) != 1) {
         throw std::runtime_error("Random number generation failed");
     }
     
@@ -375,7 +372,7 @@ TOTPSecretRotationManager::TOTPSecretRotationManager(const RotationConfig& confi
 TOTPSecretRotationManager::SecretVersion 
 TOTPSecretRotationManager::rotateSecret(
     const std::string& user_id,
-    const std::string& old_secret,
+    const std::string& /*old_secret*/,
     const std::string& new_secret)
 {
     auto now = std::chrono::system_clock::now();
@@ -391,7 +388,7 @@ TOTPSecretRotationManager::rotateSecret(
     // Add new secret
     SecretVersion new_version;
     new_version.secret = new_secret;
-    new_version.version = secrets.size() + 1;
+    new_version.version = static_cast<int>(secrets.size()) + 1;
     new_version.created_at = now;
     new_version.is_active = true;
     

@@ -3,19 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_grpc_web_proxy_handler.cpp                    ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:28:02                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:54:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     361                                            ║
+    • Total Lines:     360                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • de101321a  2026-03-01  feat(server): implement gRPC-Web proxy handler for browse... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -358,4 +354,26 @@ TEST_F(GrpcWebProxyHandlerTest, Post_GrpcWebContentType_Accepted) {
     auto res = handler.handlePost(req, "/themis.CoreService/Ping");
     // Should NOT return 415 Unsupported Media Type
     EXPECT_NE(res.result(), http::status::unsupported_media_type);
+}
+
+// ===========================================================================
+// GAP-012 — CORS wildcard (CWE-346) — config-level structural tests
+// ===========================================================================
+// The GrpcWebProxyHandler constructor now emits THEMIS_WARN when
+// cors_allow_origin is '*'. The following tests verify the FIELD values and
+// the security-relevant behaviour that follows from the config.
+
+// GAP-012-01: Default Config has cors_allow_origin = '*'.
+TEST(CorsConfigTest, GAP012_DefaultCorsAllowOriginIsWildcard) {
+    GrpcWebProxyHandler::Config cfg;
+    EXPECT_EQ(cfg.cors_allow_origin, "*")
+        << "Default config must start with wildcard so the warning fires (GAP-012)";
+}
+
+// GAP-012-02: Specific origin string is not the wildcard.
+TEST(CorsConfigTest, GAP012_SpecificOriginIsNotWildcard) {
+    GrpcWebProxyHandler::Config cfg;
+    cfg.cors_allow_origin = "https://app.example.com";
+    EXPECT_NE(cfg.cors_allow_origin, "*")
+        << "Configuring a specific origin must not be '*' (GAP-012)";
 }

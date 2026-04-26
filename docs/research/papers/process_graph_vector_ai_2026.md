@@ -94,5 +94,5 @@ This paper introduces the **Graph-Process Schema (GPS)** — a unified graph rep
 - [Matryoshka Representation Learning — Kusupati et al. (2022)](../LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md#34-matryoshka-representation-learning)
 
 ---
-**Last Updated:** 2026-03-19
+**Last Updated:** 2026-04-06
 **Next Review:** 2026-09-19

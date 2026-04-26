@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_perspective_generator.cpp                    ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:17:12                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     937                                            ║
+    • Total Lines:     938                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -127,7 +128,7 @@ MultiPerspectiveGenerator::~MultiPerspectiveGenerator() = default;
 MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
     const std::string& query,
     void* llm_wrapper,
-    const std::vector<std::string>& context
+    const std::vector<std::string>& /*context*/
 ) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->stats.total_generations++;
@@ -232,7 +233,7 @@ MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
 PerspectiveResponse MultiPerspectiveGenerator::generateSinglePerspective(
     const std::string& query,
     const EthicalPerspective& perspective,
-    void* llm_wrapper
+    void* /*llm_wrapper*/
 ) {
     PerspectiveResponse response;
     response.perspective = perspective;
@@ -357,7 +358,7 @@ bool MultiPerspectiveGenerator::requiresMultiPerspective(const std::string& quer
 }
 
 std::vector<EthicalPerspective> MultiPerspectiveGenerator::selectPerspectives(
-    const std::string& query
+    const std::string& /*query*/
 ) {
     std::vector<EthicalPerspective> selected;
     

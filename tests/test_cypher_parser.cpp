@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cypher_parser.cpp                             ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:26:27                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:53:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     309                                            ║
+    • Total Lines:     319                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2b0224e30  2026-03-24  feat(query): add Gremlin parser + focused test targets fo... ║
+    • 2b0224e307  2026-03-24  feat(query): add Gremlin parser + focused test targets fo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

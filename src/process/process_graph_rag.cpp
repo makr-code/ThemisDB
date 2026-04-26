@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            process_graph_rag.cpp                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:18:09                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:50:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1028                                           ║
+    • Total Lines:     1163                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 7f7a27240  2026-03-12  feat(process): add ProcessLinker, ProcessGraphRag, and mo... ║
+    • dc8a1dc60e  2026-04-15  feat(process): PPR GraphRAG scoring, LLM-to-BPMN generato... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -31,6 +31,7 @@
  */
 
 #include "process/process_graph_rag.h"
+#include "process/process_common.h"
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -51,13 +52,6 @@ using json = nlohmann::json;
 // Anonymous namespace helpers
 // ─────────────────────────────────────────────────────────────────────────────
 namespace {
-
-/// Current wall-clock time in milliseconds.
-int64_t nowMs() {
-    return std::chrono::duration_cast<std::chrono::milliseconds>(
-               std::chrono::system_clock::now().time_since_epoch())
-               .count();
-}
 
 /// Cosine similarity between two float vectors; returns 0.0 when either is
 /// empty or the norms are zero.
@@ -349,6 +343,106 @@ json ProcessGraphRag::extractSubgraph(std::string_view                model_id,
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// computePpr
+// ─────────────────────────────────────────────────────────────────────────────
+
+std::vector<std::pair<std::string, float>> ProcessGraphRag::computePpr(
+    const json&                    normalized_graph,
+    const std::vector<std::string>& seed_node_ids,
+    const PprConfig&               cfg) const
+{
+    if (seed_node_ids.empty() ||
+        !normalized_graph.contains("nodes") ||
+        !normalized_graph.contains("edges")) {
+        return {};
+    }
+
+    // Build ordered node index
+    std::vector<std::string> node_ids;
+    for (const auto& n : normalized_graph["nodes"]) {
+        std::string nid = n.value("id", "");
+        if (!nid.empty()) node_ids.push_back(nid);
+    }
+    const int N = static_cast<int>(node_ids.size());
+    if (N == 0) return {};
+
+    std::unordered_map<std::string, int> node_index;
+    node_index.reserve(N);
+    for (int i = 0; i < N; ++i) node_index[node_ids[i]] = i;
+
+    // Build column-stochastic transition matrix stored as sparse out-degree lists
+    // transition[from] = [(to, weight)]  (uniform weight over out-edges)
+    std::vector<std::vector<int>> out_neighbors(N);
+    for (const auto& e : normalized_graph["edges"]) {
+        std::string from = e.value("from", "");
+        std::string to   = e.value("to", "");
+        auto fi = node_index.find(from);
+        auto ti = node_index.find(to);
+        if (fi == node_index.end() || ti == node_index.end()) continue;
+        out_neighbors[fi->second].push_back(ti->second);
+        // For undirected context propagation also add reverse edge
+        out_neighbors[ti->second].push_back(fi->second);
+    }
+
+    // Build personalisation vector: uniform over seeds
+    std::vector<float> personal(N, 0.f);
+    for (const auto& seed : seed_node_ids) {
+        auto it = node_index.find(seed);
+        if (it != node_index.end()) personal[it->second] += 1.f;
+    }
+    float psum = 0.f;
+    for (float v : personal) psum += v;
+    if (psum > 0.f) {
+        for (float& v : personal) v /= psum;
+    } else {
+        // Fallback: uniform
+        const float uni = 1.f / static_cast<float>(N);
+        for (float& v : personal) v = uni;
+    }
+
+    // Power iteration: r = α * A^T * r + (1-α) * p
+    std::vector<float> r(personal);   // initialise to personalisation vector
+    std::vector<float> r_new(N, 0.f);
+
+    for (int iter = 0; iter < cfg.max_iterations; ++iter) {
+        // A^T * r:  for each destination j, sum contributions from sources i
+        std::fill(r_new.begin(), r_new.end(), 0.f);
+        for (int i = 0; i < N; ++i) {
+            if (out_neighbors[i].empty()) {
+                // Dangling node: redistribute uniformly
+                const float contrib = r[i] / static_cast<float>(N);
+                for (int j = 0; j < N; ++j) r_new[j] += contrib;
+            } else {
+                const float contrib = r[i] / static_cast<float>(out_neighbors[i].size());
+                for (int j : out_neighbors[i]) r_new[j] += contrib;
+            }
+        }
+
+        // r_new = α * A^T*r + (1-α) * personal
+        float l1_diff = 0.f;
+        for (int j = 0; j < N; ++j) {
+            r_new[j] = cfg.damping * r_new[j] + (1.f - cfg.damping) * personal[j];
+            l1_diff += std::abs(r_new[j] - r[j]);
+        }
+        r = r_new;
+        if (l1_diff < cfg.convergence_epsilon) break;
+    }
+
+    // Collect top-k by PPR score
+    std::vector<std::pair<std::string, float>> scored;
+    scored.reserve(N);
+    for (int i = 0; i < N; ++i) {
+        scored.emplace_back(node_ids[i], r[i]);
+    }
+    std::sort(scored.begin(), scored.end(),
+              [](const auto& a, const auto& b) { return a.second > b.second; });
+
+    const int k = std::min(cfg.top_k_nodes, N);
+    scored.resize(k);
+    return scored;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // scoreNodeRelevance_
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -421,16 +515,50 @@ ProcessRagContext ProcessGraphRag::retrieve(std::string_view        instance_id,
         }
     }
 
-    // 3. Extract subgraph around active nodes
-    ctx.subgraph = extractSubgraph(inst.process_definition_id,
-                                   ctx.active_nodes,
-                                   config.max_subgraph_depth);
+    // 3. Extract subgraph around active nodes (BFS or PPR)
+    if (config.use_ppr) {
+        // PPR path: load the normalised graph and run Personalized PageRank
+        auto model_opt = models_.load(inst.process_definition_id);
+        if (model_opt.has_value() && model_opt->normalized.contains("nodes")) {
+            PprConfig ppr_cfg;
+            ppr_cfg.top_k_nodes = config.max_subgraph_depth * 10; // heuristic top-k
+            auto ranked = computePpr(model_opt->normalized, ctx.active_nodes, ppr_cfg);
 
-    // Compute per-node relevance scores
+            // Build subgraph from top-k nodes
+            std::unordered_set<std::string> top_set;
+            for (const auto& [nid, score] : ranked) {
+                top_set.insert(nid);
+                ctx.node_scores[nid] = score;
+            }
+
+            json ppr_nodes = json::array();
+            json ppr_edges = json::array();
+            for (const auto& n : model_opt->normalized["nodes"]) {
+                if (top_set.count(n.value("id", ""))) ppr_nodes.push_back(n);
+            }
+            for (const auto& e : model_opt->normalized["edges"]) {
+                if (top_set.count(e.value("from", "")) &&
+                    top_set.count(e.value("to", ""))) {
+                    ppr_edges.push_back(e);
+                }
+            }
+            ctx.subgraph = {{"nodes", ppr_nodes}, {"edges", ppr_edges}};
+        } else {
+            ctx.subgraph = extractSubgraph(inst.process_definition_id,
+                                           ctx.active_nodes,
+                                           config.max_subgraph_depth);
+        }
+    } else {
+        ctx.subgraph = extractSubgraph(inst.process_definition_id,
+                                       ctx.active_nodes,
+                                       config.max_subgraph_depth);
+    }
+
+    // Compute per-node relevance scores (only for BFS path; PPR scores already set)
     if (ctx.subgraph.contains("nodes") && ctx.subgraph["nodes"].is_array()) {
         for (const auto& n : ctx.subgraph["nodes"]) {
             std::string nid = n.value("id", "");
-            if (!nid.empty()) {
+            if (!nid.empty() && ctx.node_scores.find(nid) == ctx.node_scores.end()) {
                 ctx.node_scores[nid] = scoreNodeRelevance_(n, query, ctx.active_nodes);
             }
         }
@@ -728,8 +856,8 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
     // Build reference variable key set for Jaccard fallback
     std::unordered_set<std::string> ref_var_keys;
     if (ref_inst.variables.is_object()) {
-        for (auto& [k, v] : ref_inst.variables.items()) {
-            ref_var_keys.insert(k);
+        for (auto& [var_key, v] : ref_inst.variables.items()) {
+            ref_var_keys.insert(var_key);
         }
     }
 

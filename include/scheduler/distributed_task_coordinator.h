@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            distributed_task_coordinator.h                     ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-03-30 04:10:37                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-04-15 18:46:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     329                                            ║
+    • Total Lines:     326                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 39ac8c3ef  2026-03-20  Split default-arg constructors into overloads ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 6bdc7ab4a  2026-03-01  feat(scheduler): implement distributed cron leader electi... ║
-    • 49cd5bf58  2026-02-22  Implement distributed task coordination across nodes (Pha... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -71,8 +69,7 @@
  * @endcode
  */
 
-#ifndef THEMIS_SCHEDULER_DISTRIBUTED_TASK_COORDINATOR_H
-#define THEMIS_SCHEDULER_DISTRIBUTED_TASK_COORDINATOR_H
+#pragma once
 
 #include "scheduler/task_scheduler.h"
 #include "sharding/distributed_coordinator.h"
@@ -326,5 +323,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_SCHEDULER_DISTRIBUTED_TASK_COORDINATOR_H

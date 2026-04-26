@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            webdav_user_registration_plugin.cpp                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:35                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     662                                            ║
+    • Total Lines:     664                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • fa3aa4091  2026-03-26  fix: replace Result<void>::Err() with themis::ErrVoid(Err... ║
-    • 4e39463a8  2026-03-21  feat(security): implement AQL read-only context validatio... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -93,8 +92,8 @@ public:
     
     Result<UserRegistrationData> registerUser(
         const std::string& user_id,
-        const std::string& password,
-        const std::unordered_map<std::string, std::string>& attributes
+        [[maybe_unused]] const std::string& password,
+        [[maybe_unused]] const std::unordered_map<std::string, std::string>& attributes
     ) override {
         THEMIS_INFO("WebDAV plugin: Registering user '{}'", user_id);
         
@@ -149,7 +148,7 @@ public:
     
     Result<UserRegistrationData> authenticateUser(
         const std::string& user_id,
-        const std::string& password
+        [[maybe_unused]] const std::string& password
     ) override {
         THEMIS_INFO("WebDAV plugin: Authenticating user '{}'", user_id);
         

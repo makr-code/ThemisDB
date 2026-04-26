@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            database_maintenance_orchestrator.h                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:08:40                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     412                                            ║
+    • Total Lines:     496                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 717093f9b  2026-03-12  feat: implement IMaintenanceTaskHandler registry for main... ║
-    • 0a16483a8  2026-03-12  feat(maintenance): upgrade schedules_mutex_ and jobs_mute... ║
-    • e434e1c0f  2026-03-12  Apply review feedback: validate task refs, stable orderin... ║
-    • de8a5ac41  2026-03-12  Implement explicit per-task DAG with depends_on (v1.2.0 f... ║
-    • 5d2cef871  2026-03-12  fix: address PR review comments for schedule persistence ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • a6a7a1adc4  2026-04-13  feat(maintenance): Distributed Maintenance Coordination v... ║
+    • f1b8c76ed7  2026-04-13  feat(maintenance): multi-tenant schedule isolation (v2.0.... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 53b0c36537  2026-04-13  feat(maintenance): Distributed Maintenance Coordination v... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -55,6 +55,7 @@
 #include "maintenance/maintenance_schedule.h"
 #include "maintenance/maintenance_health_report.h"
 #include "maintenance/i_maintenance_task_handler.h"
+#include "maintenance/i_distributed_lock.h"
 #include "utils/expected.h"
 
 #include <string>
@@ -92,6 +93,29 @@ class MaintenanceScheduleStore;
  * non-blocking (< 10 ms).
  */
 using HealthProbe = std::function<ModuleHealthSignal()>;
+
+// ---------------------------------------------------------------------------
+// TenantMaintenanceConfig
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Per-tenant maintenance configuration overrides.
+ *
+ * When a schedule has a non-empty tenant_id and a TenantMaintenanceConfig is
+ * registered for that tenant via setTenantMaintenanceConfig(), the orchestrator
+ * applies these overrides instead of (or in addition to) the per-schedule values.
+ */
+struct TenantMaintenanceConfig {
+    /// When true, the tenant-level window [window_start_hour, window_end_hour)
+    /// takes precedence over the per-schedule window.
+    bool enforce_window       = false;
+    int  window_start_hour    = 0;    ///< Inclusive start (0–23, UTC)
+    int  window_end_hour      = 23;   ///< Exclusive end (0–23, UTC)
+
+    /// Maximum number of concurrently RUNNING maintenance jobs for this tenant.
+    /// 0 means unlimited.
+    int  max_concurrent_jobs  = 0;
+};
 
 // ---------------------------------------------------------------------------
 // DatabaseMaintenanceOrchestrator
@@ -201,10 +225,15 @@ public:
     Result<MaintenanceScheduleEntry> getSchedule(const std::string& id) const;
 
     /**
-     * @brief List all schedules (enabled and disabled).
-     * @return Vector of all stored schedule entries.
+     * @brief List schedules, optionally filtered by tenant.
+     *
+     * @param tenant_id_filter  When non-empty, only schedules whose tenant_id
+     *                          equals this value are returned.  An empty string
+     *                          returns all schedules (global + all tenants).
+     * @return Vector of matching schedule entries.
      */
-    std::vector<MaintenanceScheduleEntry> listSchedules() const;
+    std::vector<MaintenanceScheduleEntry> listSchedules(
+        const std::string& tenant_id_filter = "") const;
 
     /**
      * @brief Full-replace update of a schedule (PUT semantics).
@@ -309,6 +338,34 @@ public:
      */
     MaintenanceHealthReport getHealthReport() const;
 
+    /**
+     * @brief Register or update per-tenant maintenance configuration.
+     *
+     * Affects all schedules whose tenant_id matches @p tenant_id:
+     *   - If config.enforce_window is true, the tenant-level window overrides
+     *     the per-schedule window during executeSchedule().
+     *   - If config.max_concurrent_jobs > 0, the orchestrator enforces the
+     *     quota in executeSchedule() and SKIPs the job when the limit is reached.
+     *
+     * Call with a default-constructed TenantMaintenanceConfig (enforce_window=false,
+     * max_concurrent_jobs=0) to effectively remove constraints for a tenant.
+     *
+     * @param tenant_id  Tenant identifier.  Must not be empty.
+     * @param config     Configuration to apply for this tenant.
+     */
+    void setTenantMaintenanceConfig(const std::string& tenant_id,
+                                    TenantMaintenanceConfig config);
+
+    /**
+     * @brief Retrieve the per-tenant maintenance configuration.
+     *
+     * @param tenant_id  Tenant identifier.
+     * @return The registered TenantMaintenanceConfig, or a default-constructed one
+     *         (enforce_window=false, max_concurrent_jobs=0) if none is registered.
+     */
+    TenantMaintenanceConfig getTenantMaintenanceConfig(
+        const std::string& tenant_id) const;
+
     // ---- Module integration -----------------------------------------------
 
     /**
@@ -321,6 +378,26 @@ public:
      * @param probe        Callable returning a ModuleHealthSignal.
      */
     void registerHealthProbe(const std::string& module_name, HealthProbe probe);
+
+    /**
+     * @brief Inject a distributed lock implementation.
+     *
+     * When set, the orchestrator calls `dist_lock_->tryAcquire(schedule_id,
+     * ttl_ms)` before firing each scheduled job.  Only the cluster node that
+     * successfully acquires the lock runs the job; all other nodes log a DEBUG
+     * message and mark the job as SKIPPED.
+     *
+     * The TTL is derived from `MaintenanceScheduleEntry::lock_ttl_ms` when
+     * non-zero, otherwise it is computed as the maintenance-window duration
+     * plus a 30-second safety margin.
+     *
+     * This method is thread-safe.  Pass `nullptr` to disable distributed
+     * locking (single-node or test deployments).
+     *
+     * @param lock  Shared pointer to the IDistributedLock implementation,
+     *              or nullptr to disable distributed locking.
+     */
+    void setDistributedLock(std::shared_ptr<IDistributedLock> lock);
 
     /**
      * @brief Register a task handler for a specific task type.
@@ -401,8 +478,15 @@ private:
     std::map<std::string, HealthProbe>                       health_probes_;
 
     // Registered task handlers (keyed by MaintenanceTaskType cast to int)
-    mutable std::mutex                                              handlers_mutex_;
+    mutable std::shared_mutex                                        handlers_mutex_;
     std::map<int, std::shared_ptr<IMaintenanceTaskHandler>>         task_handlers_;
+
+    // Optional distributed lock (nullptr → no distributed coordination)
+    mutable std::mutex                                              dist_lock_mutex_;
+    std::shared_ptr<IDistributedLock>                               dist_lock_;
+    // Per-tenant maintenance configuration overrides
+    mutable std::shared_mutex                                     tenant_configs_mutex_;
+    std::map<std::string, TenantMaintenanceConfig>           tenant_configs_;
 
     std::atomic<bool>                                        running_{false};
     mutable std::atomic<uint64_t>                            id_counter_{0};

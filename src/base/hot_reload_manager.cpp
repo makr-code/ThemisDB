@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hot_reload_manager.cpp                             ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-03-30 04:14:27                                ║
+  Version:         0.0.21                                             ║
+  Last Modified:   2026-04-15 18:48:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     518                                            ║
+    • Total Lines:     515                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • fe4e33c57  2026-03-12  feat(base): upgrade HotReloadManager mutex to shared_mute... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 11a2aa184  2026-02-28  feat(base): integrate ModuleSandbox into HotReloadManager... ║
-    • 4fb12f70c  2026-02-22  Add hot-reload manager for plugins (base module Phase 2) ║
+    • fe4e33c577  2026-03-12  feat(base): upgrade HotReloadManager mutex to shared_mute... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

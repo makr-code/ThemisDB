@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # NLP Text Analyzer Examples
 
 This directory contains examples demonstrating the ThemisDB NLP Text Analyzer capabilities introduced in PR #317.

@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            streaming_window.h                                 ║
-  Version:         0.0.21                                             ║
-  Last Modified:   2026-03-30 04:05:32                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-04-15 18:44:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     667                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     694                                            ║
+    • Open Issues:     TODOs: 4, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • efdbcc2fc  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 5706ac4f3  2026-03-18  fix(analytics): streaming_window — configurable expiry in... ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e2ddc67a4  2026-02-28  feat(analytics): add factory functions for window types a... ║
+    • 40c9e6295b  2026-04-07  feat(analytics): implement 7 open TODOs in streaming_window ║
+    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -57,6 +54,7 @@
 #include <string>
 #include <thread>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <variant>
 #include <vector>
@@ -100,7 +98,7 @@ enum class AggFunc {
     MAX,
     STDDEV,
     VARIANCE,
-    PERCENTILE,   // requires percentile p in [0,100] via AggregateSpec::percentile_p
+    PERCENTILE,   // requires percentile p in [0,100] via WindowAggregateSpec::percentile_p
     FIRST,
     LAST,
     DISTINCT_COUNT
@@ -142,25 +140,25 @@ struct StreamRecord {
 /**
  * Specifies one aggregation to compute in a window.
  */
-struct AggregateSpec {
+struct WindowAggregateSpec {
     std::string name;           ///< output name in WindowResult
     AggFunc     func = AggFunc::COUNT;
     std::string field;          ///< input field name (empty → operate on presence)
     double      percentile_p = 50.0; ///< only used for PERCENTILE
 
-    AggregateSpec() = default;
-    AggregateSpec(std::string name_, AggFunc func_, std::string field_,
+    WindowAggregateSpec() = default;
+    WindowAggregateSpec(std::string name_, AggFunc func_, std::string field_,
                   double percentile_p_ = 50.0)
         : name(std::move(name_)),
           func(func_),
           field(std::move(field_)),
           percentile_p(percentile_p_) {}
 
-        AggregateSpec(const AggregateSpec&) = default;
-        AggregateSpec& operator=(const AggregateSpec&) = default;
-        AggregateSpec(AggregateSpec&&) noexcept = default;
-        AggregateSpec& operator=(AggregateSpec&&) noexcept = default;
-        ~AggregateSpec() = default;
+        WindowAggregateSpec(const WindowAggregateSpec&) = default;
+        WindowAggregateSpec& operator=(const WindowAggregateSpec&) = default;
+        WindowAggregateSpec(WindowAggregateSpec&&) noexcept = default;
+        WindowAggregateSpec& operator=(WindowAggregateSpec&&) noexcept = default;
+        ~WindowAggregateSpec() = default;
 };
 
 /**
@@ -276,7 +274,7 @@ public:
      * Register an aggregation to compute.
      * Must be called before the first ingest().
      */
-    void addAggregation(const AggregateSpec& spec);
+    void addAggregation(const WindowAggregateSpec& spec);
 
     /**
      * Register a callback that is invoked when a window closes.
@@ -300,12 +298,13 @@ public:
 private:
     TumblingWindowConfig config_;
     ResultCallback callback_;
-    std::vector<AggregateSpec> agg_specs_;
+    std::vector<WindowAggregateSpec> agg_specs_;
 
     struct InternalWindow {
         std::chrono::system_clock::time_point start;
         std::chrono::system_clock::time_point end;
         std::vector<StreamRecord> records;
+        std::string partition_key;
     };
 
     // One window per time-slot
@@ -323,12 +322,20 @@ private:
     std::atomic<uint64_t> late_records_{0};
     std::atomic<uint64_t> results_emitted_{0};
 
+    // Idle-timeout background thread (TODO #1)
+    std::thread idle_thread_;
+    std::atomic<bool> idle_running_{false};
+    std::condition_variable idle_cv_;
+    std::mutex idle_mutex_;
+    std::atomic<int64_t> last_event_us_{0};
+
     int64_t slotIndex(const std::chrono::system_clock::time_point& tp) const;
     std::chrono::system_clock::time_point slotStart(int64_t idx) const;
     WindowResult computeResult(const InternalWindow& win, bool late) const;
     // Returns results to emit; caller fires the callback outside the mutex.
     std::vector<WindowResult> closeExpiredWindows(int64_t watermark_us);
     void updateWatermark(const std::chrono::system_clock::time_point& event_time);
+    void idleTimeoutLoop();
 };
 
 std::unique_ptr<TumblingWindow> createTumblingWindow(const TumblingWindowConfig& config);
@@ -360,7 +367,7 @@ public:
     SlidingWindow(const SlidingWindow&) = delete;
     SlidingWindow& operator=(const SlidingWindow&) = delete;
 
-    void addAggregation(const AggregateSpec& spec);
+    void addAggregation(const WindowAggregateSpec& spec);
     void setResultCallback(ResultCallback cb);
 
     /** Ingest a record. Thread-safe. */
@@ -374,7 +381,7 @@ public:
 private:
     SlidingWindowConfig config_;
     ResultCallback callback_;
-    std::vector<AggregateSpec> agg_specs_;
+    std::vector<WindowAggregateSpec> agg_specs_;
 
     struct InternalWindow {
         std::string window_id;
@@ -382,6 +389,7 @@ private:
         std::chrono::system_clock::time_point end;
         std::vector<StreamRecord> records;
         bool closed = false;
+        std::string partition_key;
     };
 
     std::deque<InternalWindow> windows_;
@@ -395,11 +403,23 @@ private:
     std::atomic<uint64_t> late_records_{0};
     std::atomic<uint64_t> results_emitted_{0};
 
+    // O(1) duplicate-detection index keyed on window start (TODO #5)
+    std::unordered_set<int64_t> window_start_set_;
+
+    // Idle-timeout background thread (TODO #1)
+    std::thread idle_thread_;
+    std::atomic<bool> idle_running_{false};
+    std::condition_variable idle_cv_;
+    std::mutex idle_mutex_;
+    std::atomic<int64_t> last_event_us_{0};
+
     WindowResult computeResult(const InternalWindow& win, bool late) const;
-    void ensureWindowsExist(const std::chrono::system_clock::time_point& event_time);
+    void ensureWindowsExist(const std::chrono::system_clock::time_point& event_time,
+                            const std::string& partition_key);
     // Returns results to emit; caller fires the callback outside the mutex.
     std::vector<WindowResult> closeExpiredWindows(int64_t watermark_us);
     void updateWatermark(const std::chrono::system_clock::time_point& event_time);
+    void idleTimeoutLoop();
     static std::string generateId();
 };
 
@@ -429,7 +449,7 @@ public:
     SessionWindow(const SessionWindow&) = delete;
     SessionWindow& operator=(const SessionWindow&) = delete;
 
-    void addAggregation(const AggregateSpec& spec);
+    void addAggregation(const WindowAggregateSpec& spec);
     void setResultCallback(ResultCallback cb);
 
     /** Ingest a record. Thread-safe. Returns false on late/dropped record. */
@@ -443,7 +463,7 @@ public:
 private:
     SessionWindowConfig config_;
     ResultCallback callback_;
-    std::vector<AggregateSpec> agg_specs_;
+    std::vector<WindowAggregateSpec> agg_specs_;
 
     struct Session {
         std::string session_id;
@@ -451,6 +471,7 @@ private:
         std::chrono::system_clock::time_point start;
         std::chrono::system_clock::time_point last_event;
         std::vector<StreamRecord> records;
+        bool has_late_records = false;
     };
 
     std::unordered_map<std::string, Session> sessions_;  // keyed by partition_key
@@ -472,7 +493,7 @@ private:
     std::atomic<uint64_t> late_records_{0};
     std::atomic<uint64_t> results_emitted_{0};
 
-    WindowResult computeResult(const Session& s) const;
+    WindowResult computeResult(const Session& s, bool late = false) const;
     void expiryLoop();
     static std::string generateId();
 };
@@ -502,7 +523,7 @@ public:
     HoppingWindow(const HoppingWindow&) = delete;
     HoppingWindow& operator=(const HoppingWindow&) = delete;
 
-    void addAggregation(const AggregateSpec& spec);
+    void addAggregation(const WindowAggregateSpec& spec);
     void setResultCallback(ResultCallback cb);
 
     /** Ingest a record. Thread-safe. */
@@ -516,7 +537,7 @@ public:
 private:
     HoppingWindowConfig config_;
     ResultCallback callback_;
-    std::vector<AggregateSpec> agg_specs_;
+    std::vector<WindowAggregateSpec> agg_specs_;
 
     struct InternalWindow {
         std::string window_id;
@@ -536,6 +557,9 @@ private:
     std::atomic<uint64_t> records_dropped_{0};
     std::atomic<uint64_t> late_records_{0};
     std::atomic<uint64_t> results_emitted_{0};
+
+    // O(1) duplicate-detection index keyed on window start (TODO #5)
+    std::unordered_set<int64_t> window_start_set_;
 
     WindowResult computeResult(const InternalWindow& win, bool late) const;
     void ensureWindowsExist(const std::chrono::system_clock::time_point& event_time);
@@ -580,6 +604,7 @@ public:
         std::chrono::milliseconds hop{10000};
         std::chrono::milliseconds gap{30000};
         WatermarkConfig watermark;
+        std::chrono::milliseconds session_expiry_interval_ms{200};
     };
 
     // ---- Static factory methods (fluent interface) ----
@@ -590,14 +615,15 @@ public:
                                             std::chrono::milliseconds slide,
                                             WatermarkConfig wm = {});
     static StreamingWindowPipeline session(std::chrono::milliseconds gap,
-                                            WatermarkConfig wm = {});
+                                            WatermarkConfig wm = {},
+                                            std::chrono::milliseconds expiry_interval_ms = std::chrono::milliseconds{200});
     static StreamingWindowPipeline hopping(std::chrono::milliseconds size,
                                             std::chrono::milliseconds hop,
                                             WatermarkConfig wm = {});
 
     // ---- Builder methods ----
 
-    StreamingWindowPipeline& aggregate(const AggregateSpec& spec);
+    StreamingWindowPipeline& aggregate(const WindowAggregateSpec& spec);
     StreamingWindowPipeline& onResult(std::function<void(WindowResult)> callback);
 
     /**
@@ -618,7 +644,7 @@ public:
 
 private:
     Config config_;
-    std::vector<AggregateSpec> agg_specs_;
+    std::vector<WindowAggregateSpec> agg_specs_;
     std::function<void(WindowResult)> callback_;
 
     // Underlying window after build()

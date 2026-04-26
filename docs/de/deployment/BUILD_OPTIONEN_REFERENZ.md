@@ -1,6 +1,6 @@
 # ThemisDB Build-Optionen Referenz
 
-**Stand:** 26. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** v1.3.1  
 **Kategorie:** 🚀 Deployment  
 **Status:** Production-Ready
@@ -473,9 +473,9 @@ Siehe [Edition Limits Matrix](EDITION_LIMITS_MATRIX.md) für vollständige Tabel
 | **HYPERSCALER** | ∞ | ∞ | Mandatory (all builds) |
 
 **Build Scripts:**
-- `scripts/build-community-release.ps1` - Community Edition
-- `scripts/build-enterprise-release.ps1` - Enterprise Edition
-- `scripts/build-hyperscaler-release.ps1` - Hyperscaler Edition
+- `.github/workflows/04-release_build-binary-linux.yml` - Community Edition
+- `.github/workflows/04-release_publish-enterprise.yml` - Enterprise Edition
+- `.github/workflows/04-release_publish-hyperscaler.yml` - Hyperscaler Edition
 
 **Dokumentation:** 
 - [Edition Limits Matrix](EDITION_LIMITS_MATRIX.md) - **Single Source of Truth**

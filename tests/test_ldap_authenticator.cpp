@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ldap_authenticator.cpp                        ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:29:01                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:54:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     595                                            ║
+    • Total Lines:     590                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • fc7a85ac8  2026-03-12  fix(auth): address PR review - curl_multi_info_read, void... ║
-    • 57fef95c4  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
-    • 0f9b874f4  2026-03-12  fix(auth): address all reviewer comments on LDAP injectio... ║
-    • 83e36bcbd  2026-03-12  security(auth): LDAP DN and filter injection prevention (... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -447,6 +443,17 @@ TEST(LDAPAuthenticatorTest, BuildUserDN_EscapesEqualsInUsername)
     EXPECT_EQ(dn, "CN=cn\\=admin,OU=Users,DC=example,DC=com");
 }
 
+TEST(LDAPAuthenticatorTest, BuildUserDN_ReplacesAllUsernamePlaceholdersEscaped)
+{
+    LDAPAuthenticator auth;
+    LDAPConfig cfg = makeConfig();
+    cfg.bind_dn_template = "CN={username},OU={username},DC=example,DC=com";
+    ASSERT_TRUE(auth.initialize(cfg));
+
+    const std::string dn = auth.buildUserDN("jdoe,admins");
+    EXPECT_EQ(dn, "CN=jdoe\\,admins,OU=jdoe\\,admins,DC=example,DC=com");
+}
+
 // ===========================================================================
 // LDAP filter injection prevention (RFC 4515) — buildGroupSearchFilter
 // ===========================================================================
@@ -469,6 +476,41 @@ TEST(LDAPAuthenticatorTest, BuildGroupSearchFilter_EscapesFilterSpecialCharsInDN
     // Must not contain unescaped wildcard in substituted member DN.
     const std::string substituted = filter.substr(filter.find("member=") + 7);
     EXPECT_EQ(substituted.find('*'), std::string::npos);
+}
+
+TEST(LDAPAuthenticatorTest, BuildGroupSearchFilter_EscapesMaliciousDNPlaceholder)
+{
+    LDAPAuthenticator auth;
+    LDAPConfig cfg = makeConfig();
+    cfg.enable_group_search = true;
+    cfg.base_dn             = "DC=example,DC=com";
+    cfg.group_search_filter = "(&(objectClass=group)(member={dn}))";
+    ASSERT_TRUE(auth.initialize(cfg));
+
+    // Mapping for "CN=jdoe)(|(member=*))":
+    // ')' -> \29, '(' -> \28, '*' -> \2a, remaining bytes unchanged.
+    const std::string filter =
+        auth.buildGroupSearchFilter("CN=jdoe)(|(member=*))", "unused-username");
+    EXPECT_EQ(filter,
+        "(&(objectClass=group)(member=CN=jdoe\\29\\28|\\28member=\\2a\\29\\29))");
+    EXPECT_EQ(filter.find("member=*)"), std::string::npos);
+}
+
+TEST(LDAPAuthenticatorTest, BuildGroupSearchFilter_EscapesMaliciousUsernamePlaceholder)
+{
+    LDAPAuthenticator auth;
+    LDAPConfig cfg = makeConfig();
+    cfg.enable_group_search = true;
+    cfg.base_dn             = "DC=example,DC=com";
+    cfg.group_search_filter = "(&(objectClass=group)(memberUid={username}))";
+    ASSERT_TRUE(auth.initialize(cfg));
+
+    const std::string expected_escaped_filter =
+        "(&(objectClass=group)(memberUid=jdoe\\2a\\29\\28|\\28member=\\2a\\29\\29))"; // \2a='*', \29=')', \28='('
+    const std::string filter =
+        auth.buildGroupSearchFilter("CN=safe,DC=example,DC=com", "jdoe*)(|(member=*))");
+    EXPECT_EQ(filter, expected_escaped_filter);
+    EXPECT_EQ(filter.find("member=*)"), std::string::npos);
 }
 
 /**

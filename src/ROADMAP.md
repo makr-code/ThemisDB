@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 <!-- Status: current | generated: 2026-03-12 | source: all src/*/FUTURE_ENHANCEMENTS.md -->
 <!-- Use this file as the master backlog for GitHub Issue creation. -->
 <!-- Each item row maps directly to one GitHub Issue. -->
@@ -5,7 +7,7 @@
 # ThemisDB — Consolidated Source Roadmap
 
 > **Purpose:** This document aggregates every open TODO, stub-replacement, and planned feature
-> from all 50 module `FUTURE_ENHANCEMENTS.md` files.  
+> from all 50 module `FUTURE_ENHANCEMENTS.md` files.
 > It is sorted by **Priority → Target Version → Module** and is the canonical input for
 > creating GitHub Issues with full implementation context.
 
@@ -484,8 +486,9 @@ Affects: `themis`, `acceleration`, `analytics`
 ### 🚀 GPU Compute Epic
 Affects: `acceleration`, `geo`, `gpu`, `index`, `sharding`, `storage`
 
-All GPU backend stubs and missing CUDA/HIP/OpenCL/Vulkan implementations:
-- #28, #29, #30, #35, #36, #37, #38, #39, #105
+GPU backend hardening, portability validation, and operational rollout for the
+formerly stubbed CUDA/HIP/OpenCL/Vulkan feature set:
+- #28, #29, #30, #35, #36, #37, #38, #39, #105 (implementation complete; focus shifts to benchmarking, hardware validation, and ops readiness)
 
 **Suggested Epic Label:** `epic:gpu-compute` · **Target:** v1.8.0
 
@@ -514,7 +517,7 @@ Affects: `sharding`, `replication`, `transaction`, `maintenance`, `cache`, `quer
 | 10 | 🟠 High | auth, base, chimera, maintenance, temporal |
 | 3 | 🟡 Medium | auth |
 
-→ **17 open items**  
+→ **17 open items**
 → Primary labels: `security`, `persistence`, `stub-replacement`
 
 ---
@@ -528,7 +531,7 @@ Affects: `sharding`, `replication`, `transaction`, `maintenance`, `cache`, `quer
 | 10 | 🟡 Medium | auth, base, chimera, maintenance, temporal |
 | 5 | 🟢 Low | auth, base |
 
-→ **20 open items**  
+→ **20 open items**
 → Primary labels: `security`, `thread-safety`, `wasm`, `transactions`
 
 ---
@@ -541,7 +544,7 @@ Affects: `sharding`, `replication`, `transaction`, `maintenance`, `cache`, `quer
 | 15 | 🟠 High | aql, core, geo, index, ingestion, observability, query, replication, server, sharding, storage, updates |
 | 10 | 🟡 Medium | aql, analytics, ingestion, replication, storage, updates |
 
-→ **25 open items**  
+→ **25 open items**
 → Primary labels: `feature`, `performance`, `observability`, `distributed`
 
 ---
@@ -555,7 +558,7 @@ Affects: `sharding`, `replication`, `transaction`, `maintenance`, `cache`, `quer
 | 60 | 🟡 Medium | (most modules) |
 | 15 | 🟢 Low | various |
 
-→ **~125 open items** — largest milestone  
+→ **~125 open items** — largest milestone
 → Primary labels: `stub-replacement`, `thread-safety`, `gpu`, `performance`, `security`
 
 ---
@@ -569,7 +572,7 @@ Affects: `sharding`, `replication`, `transaction`, `maintenance`, `cache`, `quer
 | 10 | 🟡 Medium | acceleration, analytics, config, llm, network, performance, storage, transaction |
 | 6 | 🟢 Low | cdc, chimera, config, graph, maintenance |
 
-→ **24 open items**  
+→ **24 open items**
 → Primary labels: `distributed`, `gpu`, `performance`, `platform`
 
 ---
@@ -630,6 +633,6 @@ epic:llm-integration       LLM inference, LoRA, training pipeline
 
 ---
 
-*Generated: 2026-04-04 · Based on: `src/*/FUTURE_ENHANCEMENTS.md` (50 modules)*  
-*Next update: when any module FUTURE_ENHANCEMENTS.md is changed.*  
+*Generated: 2026-04-04 · Based on: `src/*/FUTURE_ENHANCEMENTS.md` (50 modules)*
+*Next update: when any module FUTURE_ENHANCEMENTS.md is changed.*
 *Issues tracker: [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)*

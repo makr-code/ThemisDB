@@ -9,10 +9,10 @@ set(THEMIS_SHARDING_MAX_NODES 1 CACHE STRING "Maximum sharding nodes" FORCE)
 set(THEMIS_MAX_CACHE_SIZE_MB 128 CACHE STRING "Maximum cache size (MB)" FORCE)
 
 # Feature defaults for MINIMAL edition
-# Core database only - no LLM, no gRPC, no GPU, no protocols
-set(THEMIS_ENABLE_LLM OFF CACHE BOOL "LLM disabled for MINIMAL edition" FORCE)
+# Keep LLM/GPU compile switches ON and rely on runtime CPU fallback.
+set(THEMIS_ENABLE_LLM ON CACHE BOOL "LLM enabled for MINIMAL edition (runtime CPU fallback)" FORCE)
 set(THEMIS_ENABLE_GRPC OFF CACHE BOOL "gRPC disabled for MINIMAL edition" FORCE)
-set(THEMIS_ENABLE_GPU OFF CACHE BOOL "GPU disabled for MINIMAL edition" FORCE)
+set(THEMIS_ENABLE_GPU ON CACHE BOOL "GPU enabled for MINIMAL edition (runtime CPU fallback)" FORCE)
 set(THEMIS_ENABLE_TRACING OFF CACHE BOOL "Tracing disabled for MINIMAL edition" FORCE)
 set(THEMIS_ENABLE_HTTP2 OFF CACHE BOOL "HTTP/2 disabled for MINIMAL edition" FORCE)
 set(THEMIS_ENABLE_HTTP3 OFF CACHE BOOL "HTTP/3 disabled for MINIMAL edition" FORCE)
@@ -32,8 +32,7 @@ set(THEMIS_ENABLE_HSM_REAL OFF CACHE BOOL "Real HSM disabled for MINIMAL edition
 
 # Edition-specific compile definitions
 add_compile_definitions(THEMIS_MINIMAL_EDITION)
-add_compile_definitions(THEMIS_GPU_MAX_VRAM_GB=0)
 add_compile_definitions(THEMIS_SHARDING_MAX_NODES=1)
 
-message(STATUS "  Hardware limits: No GPU, 1 node, 128 MB cache")
-message(STATUS "  Features: Core database only")
+message(STATUS "  Hardware limits: CPU-focused runtime (GPU VRAM cap 0), 1 node, 128 MB cache")
+message(STATUS "  Features: LLM/GPU compiled-in with CPU fallback")

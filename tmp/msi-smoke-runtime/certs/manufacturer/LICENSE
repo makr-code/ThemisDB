@@ -1,0 +1,100 @@
+# ThemisDB.org Herstellerlizenz
+
+**Lizenztyp:** Plugin Manufacturing License  
+**Version:** 1.0.0  
+**Ausstellungsdatum:** 2026-01-20  
+**Gültig bis:** 2029-01-20  
+**Lizenzinhaber:** ThemisDB.org  
+
+---
+
+## Lizenzinhalt
+
+Diese Herstellerlizenz berechtigt **ThemisDB.org** zur Herstellung, Signierung und Vertrieb von offiziellen ThemisDB-Plugins gemäß den nachfolgenden Bestimmungen.
+
+---
+
+## 1. Definitionen
+
+**"Hersteller":** ThemisDB.org als rechtmäßiger Inhaber dieser Lizenz.
+
+**"Plugin":** Dynamisch ladbare Software-Bibliothek (DLL/SO/DYLIB) zur Erweiterung der ThemisDB-Funktionalität.
+
+**"Offizielle Signatur":** Digitale Signatur mit dem ThemisDB Plugin Code-Signing Zertifikat.
+
+**"Herstellerzertifikat":** X.509-Zertifikat ausgestellt von der ThemisDB Certificate Authority mit der Distinguished Name:
+```
+Subject: CN=ThemisDB Plugin Signer, O=ThemisDB.org, C=DE
+Issuer: CN=ThemisDB Official Plugins CA, O=ThemisDB.org, C=DE
+```
+
+---
+
+## 2. Lizenzgewährung
+
+### 2.1 Berechtigung zur Plugin-Herstellung
+
+Der Hersteller ist berechtigt:
+
+1. **Plugins zu entwickeln** gemäß der ThemisDB Plugin-API-Spezifikation
+2. **Plugins zu kompilieren** für unterstützte Plattformen (Windows, Linux, macOS)
+3. **Plugins zu signieren** mit dem Herstellerzertifikat
+4. **Plugins zu vertreiben** über offizielle Kanäle
+
+### 2.2 Signierungsberechtigung
+
+Der Hersteller darf das Herstellerzertifikat verwenden für:
+
+1. **Code-Signierung** von Plugin-Binaries (DLL/SO/DYLIB)
+2. **Einbettung** des Zertifikats in Plugin-Metadaten
+3. **Timestamping** via RFC 3161 Time-Stamp Authority
+4. **CMS-Signaturen** gemäß RFC 5652
+
+---
+
+## 3. Technische Anforderungen
+
+### 3.1 Zertifikatsanforderungen
+
+Das Herstellerzertifikat **MUSS**:
+
+- ✅ RSA-4096 oder höher verwenden
+- ✅ SHA-256 oder stärker für Signaturen verwenden
+- ✅ Gültige Zertifikatskette bis zur Root CA haben
+- ✅ Extended Key Usage: `codeSigning` enthalten
+- ✅ Key Usage: `digitalSignature` enthalten
+
+### 3.2 Signierungsanforderungen
+
+Jedes offizielle Plugin **MUSS**:
+
+1. **Binärsignatur** mit dem Herstellerzertifikat enthalten
+2. **Embedded Certificate** im Data-Section der DLL/SO haben
+3. **Timestamp-Signatur** von vertrauenswürdiger TSA haben
+4. **Metadata-Signatur** in begleitender `.json` Datei haben
+5. **SHA-256 Hash** des Binaries in Metadaten haben
+
+---
+
+## Vollständige Lizenz
+
+Siehe vollständige Lizenz im Repository für alle Bedingungen und rechtliche Details.
+
+---
+
+**Signatur:**
+
+Diese Herstellerlizenz wurde digital signiert am **2026-01-20** durch:
+
+```
+ThemisDB.org Certificate Authority
+CN=ThemisDB Official Plugins CA, O=ThemisDB.org, C=DE
+Serial: 0x01
+```
+
+---
+
+**ENDE DER LIZENZ**
+
+**Version:** 1.0.0  
+**Zuletzt aktualisiert:** 2026-01-20

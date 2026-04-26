@@ -81,10 +81,10 @@ Three compile-time feature gates determine edition capabilities:
 - ✅ src/plugins/plugin_system_edition.cpp: Edition-gating for plugins
 
 **Build Automation (4 scripts):**
-- ✅ scripts/build-community-release.ps1: Community Edition build
-- ✅ scripts/build-enterprise-release.ps1: Enterprise Edition build
-- ✅ scripts/build-hyperscaler-release.ps1: Hyperscaler Edition build
-- ✅ scripts/orchestrate-release.ps1: Master orchestrator for all editions
+- ✅ .github/workflows/04-release_build-binary-linux.yml: Community Edition build
+- ✅ .github/workflows/04-release_publish-enterprise.yml: Enterprise Edition build
+- ✅ .github/workflows/04-release_publish-hyperscaler.yml: Hyperscaler Edition build
+- ✅ .github/workflows/04-release_create-release-archive.yml: Master orchestrator for all editions
 
 **Documentation (4 comprehensive guides):**
 - ✅ docs/deployment/EDITION_DEPLOYMENT_STRATEGY.md

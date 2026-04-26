@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tiered_index_manager.h                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:08:05                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:45:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     295                                            ║
+    • Total Lines:     296                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 3a3113eda  2026-02-27  feat(index): Cold/warm tier index migration (Issue #2407) ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -52,6 +52,7 @@
 #include <functional>
 #include <memory>
 #include <mutex>
+#include <shared_mutex>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -279,7 +280,7 @@ private:
                                IndexTierMeta::Tier from,
                                IndexTierMeta::Tier to);
 
-    mutable std::mutex registry_mutex_;
+    mutable std::shared_mutex registry_mutex_;
     std::unordered_map<std::string, IndexTierMeta> registry_;
 
     std::string warm_base_dir_;

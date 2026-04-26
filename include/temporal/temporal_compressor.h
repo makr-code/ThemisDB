@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_compressor.h                              ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-30 04:11:58                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:47:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     254                                            ║
+    • Total Lines:     265                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c5ff147e9  2026-03-20  Changes before error encountered         ║
+    • 040083b025  2026-04-12  feat: StreamingIngestManager, TsStreamCursor, LZ4 compres... ║
+    • c5ff147e9f  2026-03-20  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -62,7 +63,8 @@ enum class CompressionAlgorithm {
     DELTA,      ///< JSON field-level delta between consecutive versions
     ZSTD,       ///< General-purpose LZ-family byte-level compression
     GORILLA,    ///< XOR-delta encoding for numeric (double) columns
-    DICTIONARY  ///< Value-table encoding for repeated string fields
+    DICTIONARY, ///< Value-table encoding for repeated string fields
+    LZ4         ///< LZ4 block compression — high-throughput, low-latency path
 };
 
 // ============================================================================
@@ -232,6 +234,12 @@ private:
                                      int level);
 
     static nlohmann::json decompressZstd(const nlohmann::json& doc);
+
+    /// Compress a JSON document with LZ4 block format.
+    static nlohmann::json applyLz4(const nlohmann::json& doc);
+
+    /// Decompress a payload that was compressed with applyLz4().
+    static nlohmann::json decompressLz4(const nlohmann::json& doc);
 
     /// Build a Gorilla-encoded payload from a vector of (timestamp, value) pairs.
     static nlohmann::json applyGorilla(

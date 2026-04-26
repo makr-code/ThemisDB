@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_gorilla_codec.cpp                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-30 04:04:09                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 18:43:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     312                                            ║
+    • Total Lines:     310                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • cafa45a9d  2026-03-15  fix(audit): upgrade tsstore decode path to GorillaSIMDDec... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • cafa45a9d4  2026-03-15  fix(audit): upgrade tsstore decode path to GorillaSIMDDec... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -308,5 +306,29 @@ static void BM_GorillaSIMDDecode_Throughput(benchmark::State& state) {
     state.counters["decoder"] = 1;  // 1 = SIMD
 }
 BENCHMARK(BM_GorillaSIMDDecode_Throughput)->Arg(10000)->Arg(100000)->Unit(benchmark::kMicrosecond);
+
+static void BM_GorillaDecode_1MB(benchmark::State& state) {
+    // Logical decoded payload size target (uncompressed bytes), not encoded size.
+    constexpr size_t target_decoded_bytes = 1u << 20; // 1 MB decoded payload
+    constexpr int n = static_cast<int>(target_decoded_bytes / (sizeof(int64_t) + sizeof(double)));
+    constexpr int kDecoderTypeSIMDLabel = 1;
+    auto compressed = encode(makeConstantSeries(n));
+    std::vector<std::pair<int64_t, double>> out;
+    out.reserve(static_cast<size_t>(n));
+
+    for (auto _ : state) {
+        GorillaSIMDDecoder dec(compressed);
+        out.clear();
+        dec.decodeAll(out);
+        benchmark::DoNotOptimize(out);
+    }
+
+    state.counters["decoded_bytes_per_sec"] = benchmark::Counter(
+        static_cast<double>(state.iterations() * target_decoded_bytes), benchmark::Counter::kIsRate);
+    state.counters["has_avx2"] = gorilla_simd_has_avx2() ? 1 : 0;
+    state.counters["has_neon"] = gorilla_simd_has_neon() ? 1 : 0;
+    state.counters["decoder"] = kDecoderTypeSIMDLabel;
+}
+BENCHMARK(BM_GorillaDecode_1MB)->Unit(benchmark::kMicrosecond);
 
 BENCHMARK_MAIN();

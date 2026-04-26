@@ -3,19 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_plugin_manager.h                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:24                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     230                                            ║
+    • Total Lines:     229                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -24,11 +20,18 @@
 #pragma once
 
 #include "llm/llm_plugin_interface.h"
+#include "llm/active_vram_allocator.h"
+#include <functional>
+#include "distributed_knowledge/adapter_capability_announcement.h"
 #include <memory>
 #include <unordered_map>
 #include <vector>
 #include <optional>
 #include <mutex>
+
+// Forward-declare MetricsServer to avoid pulling httplib into every TU that
+// includes llm_plugin_manager.h.
+namespace themis { namespace llm { namespace monitoring { class MetricsServer; } } }
 
 /**
  * @file llm_plugin_manager.h
@@ -190,13 +193,99 @@ public:
         std::string async_engine_status = "ok";
         int models_loaded = 0;
         int loras_loaded = 0;
+        // VRAM pressure summary (populated from ActiveVRAMAllocator)
+        size_t vram_total_bytes = 0;
+        size_t vram_used_bytes  = 0;
+        size_t vram_free_bytes  = 0;
+        bool   vram_oom_threshold_exceeded = false;
     };
 
     PluginStatistics getStatistics() const;
     CacheStatistics getCacheStatistics() const;
     HealthStatus getHealthStatus() const;
     void clearAllCaches();
-    
+
+    /**
+     * @brief Return a snapshot of tracked VRAM statistics.
+     *
+     * Includes total/free/used bytes, peak usage, live allocation count,
+     * OOM event and recovery counters, and the OOM-threshold flag.
+     * In CPU-simulation builds (no CUDA) the numbers reflect
+     * the simulation budget configured in ActiveVRAMAllocator::Config.
+     */
+    ActiveVRAMAllocator::Stats getVRAMStats() const;
+
+    // ── MSW: MetricsServer Admin Callback Wiring ─────────────────────────────
+
+    /**
+     * @brief Callable type for session-cancellation callbacks (MSW).
+     *
+     * Receives a `session_id` string and returns `true` if the session was
+     * found and cancelled, `false` if the session was not found.
+     *
+     * Wire this via `setCancelSessionCallback()` from wherever the
+     * `ContinuousBatchScheduler` is owned (e.g. the `LlamaWrapper` or
+     * `InferenceEngineEnhanced` that holds `batch_scheduler_`).
+     */
+    using CancelSessionCallback = std::function<bool(const std::string& session_id)>;
+
+    /**
+     * @brief Inject a session-cancellation callback for the MetricsServer
+     *        DELETE /admin/sessions/{id} endpoint (MSW).
+     *
+     * When set, `wireMetricsServerCallbacks()` connects this callback to the
+     * `MetricsServer::setSessionDeleteCallback()` slot so that DELETEs are
+     * forwarded to the `ContinuousBatchScheduler::cancelRequest()` of the
+     * underlying inference runtime.
+     *
+     * @param cb  `bool(const std::string& session_id)`.  May be `nullptr`
+     *            to clear an existing registration.
+     */
+    void setCancelSessionCallback(CancelSessionCallback cb);
+
+    /**
+     * @brief Wire the three MetricsServer admin callbacks to this manager.
+     *
+     * After this call, the following HTTP endpoints on @p server become
+     * operational instead of returning `{"status":"not_implemented"}`:
+     *
+     * | Endpoint                           | Wired to                          |
+     * |------------------------------------|-----------------------------------|
+     * | POST /admin/models/reload          | `loadModel(model_id, path)`       |
+     * | POST /admin/prompt/simulate        | `estimateTokens(prompt)` heuristic|
+     * | DELETE /admin/sessions/{id}        | `cancel_session_cb_` (if set)     |
+     *
+     * **Thread safety**: the lambdas capture `this` by raw pointer.  Ensure
+     * that `server` lifetime does not exceed that of this `LLMPluginManager`.
+     *
+     * **Session-delete**: only operational if `setCancelSessionCallback()` was
+     * called before `wireMetricsServerCallbacks()`.  Otherwise the DELETE
+     * endpoint returns a clear `{"status":"not_configured"}` JSON body.
+     *
+     * @param server  `MetricsServer` instance to wire.  Must outlive the
+     *                callbacks (i.e. must not be destroyed before this manager).
+     */
+    void wireMetricsServerCallbacks(monitoring::MetricsServer& server);
+    /**
+     * @brief Wire a @c GossipAdapterPublisher into the manager.
+     *
+     * When set, successful @c loadLoRA() calls broadcast an
+     * @c AdapterCapabilityAnnouncement to the gossip network, and
+     * @c unloadLoRA() broadcasts a zeroed-out withdrawal announcement.
+     *
+     * The pointer is non-owning: the caller must keep the publisher alive
+     * for the lifetime of this @c LLMPluginManager instance.
+     *
+     * Pass @c nullptr to disconnect.
+     *
+     * @param publisher  Pointer to an initialised @c GossipAdapterPublisher,
+     *                   or @c nullptr to disable gossip announcements.
+     * @param local_shard_id  Shard ID embedded in outgoing announcements.
+     */
+    void setAdapterPublisher(
+        distributed_knowledge::GossipAdapterPublisher* publisher,
+        std::string local_shard_id = "");
+
 private:
     struct PluginEntry {
         std::string name;
@@ -206,6 +295,23 @@ private:
     std::unordered_map<std::string, PluginEntry> plugins_;
     std::string default_plugin_name_;
     mutable std::mutex mutex_;
+
+    /// VRAM budget tracker — registers externally-managed GPU memory (loaded models)
+    /// for system-wide VRAM pressure monitoring and OOM-threshold alerting.
+    ActiveVRAMAllocator vram_allocator_;
+
+    /// Maps model_id → VRAM handle so we can deregister on unload.
+    std::unordered_map<std::string, ActiveVRAMAllocator::AllocationHandle> vram_handles_;
+
+    /// MSW: injectable session-cancellation callback wired to the DELETE
+    /// /admin/sessions/{id} endpoint of the MetricsServer.
+    CancelSessionCallback cancel_session_cb_;
+    /// Optional gossip publisher wired via setAdapterPublisher().
+    /// Non-owning; may be nullptr when gossip is not configured.
+    distributed_knowledge::GossipAdapterPublisher* adapter_publisher_ = nullptr;
+
+    /// Shard ID used in outgoing adapter capability announcements.
+    std::string local_shard_id_;
     
     ILLMPlugin* getDefaultPluginLocked() const;
 };

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bao.h                                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:09:20                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     89                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -75,6 +72,20 @@ public:
         size_t model_updates;
     };
     Stats get_stats() const;
+
+    /**
+     * @brief Return the current plan-selection miss rate in [0.0, 1.0].
+     *
+     * Miss rate = fraction of queries where the selected plan was later
+     * flagged as sub-optimal by the update_model() feedback loop.
+     *
+     * Used by Loop 1 (HNSW/Query) in ContinuousLearningOrchestrator to decide
+     * whether to trigger retraining (threshold: > 0.15).
+     *
+     * @return Miss rate in [0.0, 1.0].  Returns 0.0 when no queries have
+     *         been optimized yet.
+     */
+    [[nodiscard]] double getMissRate() const;
 
 private:
     struct Impl;

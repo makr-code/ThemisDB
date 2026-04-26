@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_security_validator.cpp                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:17:08                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   96.0/100                                       ║
-    • Total Lines:     1156                                           ║
+    • Total Lines:     1155                                           ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 59bb49e3e  2026-03-15  feat: add Windows HCERTSTORE fallback and fix stale banne... ║
-    • f34b95577  2026-03-15  feat: implement LoRACertificateStore and fail-closed cert... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 59bb49e3e5  2026-03-15  feat: add Windows HCERTSTORE fallback and fix stale banne... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -657,13 +655,70 @@ bool LoRASecurityValidator::loadLoRAFile(const std::string& path,
 
 bool LoRASecurityValidator::parseLoRAMetadata(const std::vector<uint8_t>& data,
                                              json& metadata) {
-    // TODO: Implement actual LoRa format parsing
-    // For now, assume JSON metadata at beginning
+    // ── Size guard: reject files that exceed max_adapter_size_bytes BEFORE
+    //    any heap allocation that processes file content, to prevent
+    //    integer-overflow-driven heap exhaustion (Phase 1.4 hardening).
+    const size_t max_bytes = config_.max_adapter_size_mb * 1024ULL * 1024ULL;
+    if (data.size() > max_bytes) {
+        spdlog::error("LoRASecurityValidator: file too large ({} bytes, max {})",
+                      data.size(), max_bytes);
+        return false;
+    }
+    if (data.empty()) {
+        spdlog::error("LoRASecurityValidator: empty file");
+        return false;
+    }
+
+    // ── Attempt 1: SafeTensors binary format ──────────────────────────────
+    // Magic bytes: SafeTensors starts with an 8-byte little-endian uint64
+    // that encodes the JSON header length.  The JSON header must contain at
+    // least one key and fit within the file.
+    if (data.size() >= 8) {
+        uint64_t header_size = 0;
+        for (int i = 0; i < 8; ++i) {
+            header_size |= (static_cast<uint64_t>(data[i]) << (i * 8));
+        }
+        // Sanity: header_size must be non-zero, not overflow the buffer, and
+        // not be implausibly large (reject files claiming a > 100 MiB header).
+        constexpr uint64_t kMaxHeaderSize = 100ULL * 1024 * 1024;
+        if (header_size > 0 && header_size <= kMaxHeaderSize &&
+            8 + header_size <= static_cast<uint64_t>(data.size())) {
+            try {
+                std::string hdr_str(data.begin() + 8,
+                                    data.begin() + 8 + static_cast<size_t>(header_size));
+                metadata = json::parse(hdr_str);
+                // Validate: must be a JSON object with at least one tensor entry
+                if (!metadata.empty() && metadata.is_object()) {
+                    spdlog::debug("LoRASecurityValidator: parsed SafeTensors metadata "
+                                  "({} tensors)", metadata.size());
+                    return true;
+                }
+            } catch (const json::exception&) {
+                // Not a valid SafeTensors header — fall through to JSON path
+            }
+        }
+    }
+
+    // ── Attempt 2: Pure JSON format (legacy / lightweight adapters) ───────
+    // Reject if the very first byte is not '{' to avoid expensive parsing of
+    // arbitrary binary data.
+    if (data[0] != '{') {
+        spdlog::error("LoRASecurityValidator: unrecognised file format "
+                      "(first byte 0x{:02x})", static_cast<unsigned>(data[0]));
+        return false;
+    }
     try {
-        std::string data_str(data.begin(), data.end());
-        metadata = json::parse(data_str);
+        // Parse only up to max_bytes bytes even for JSON to avoid quadratic
+        // blow-up from deeply nested or extremely long strings.
+        metadata = json::parse(data.begin(), data.end());
+        if (!metadata.is_object()) {
+            spdlog::error("LoRASecurityValidator: JSON root is not an object");
+            return false;
+        }
+        spdlog::debug("LoRASecurityValidator: parsed JSON LoRA metadata");
         return true;
-    } catch (...) {
+    } catch (const json::exception& e) {
+        spdlog::error("LoRASecurityValidator: JSON parse error: {}", e.what());
         return false;
     }
 }

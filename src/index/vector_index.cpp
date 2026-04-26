@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vector_index.cpp                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:16:39                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   68.0/100                                       ║
-    • Total Lines:     3039                                           ║
+    • Total Lines:     3034                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
-    • ade1fdc2e  2026-02-25  fix(index): wire ann_backend_ into addEntity/searchKnn/sh... ║
-    • e6e7fc6bb  2026-02-25  feat(index): DiskANN/ScaNN alternative ANN algorithms for... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -122,7 +120,6 @@ VectorIndexManager::Status VectorIndexManager::setAdvancedIndexConfig(const Adva
 			return Status::Error("Advanced indexing requires FAISS support (THEMIS_GPU_ENABLED not defined)");
 		}
 		#endif
-		(void)needs_faiss;
 	}
 	
 	return Status::OK();
@@ -852,7 +849,6 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 	// --- Phase 2: remove vectors deleted from storage ---
 	std::vector<std::string> to_delete;
 	for (const auto& [pk, cached_vec] : cache_) {
-		(void)cached_vec;
 		if (storage_vectors.find(pk) == storage_vectors.end())
 			to_delete.push_back(pk);
 	}
@@ -1243,7 +1239,6 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 		#elif defined(__GNUC__) || defined(__clang__)
 			__builtin_prefetch(ptr, 0, 3);
 		#else
-			(void)ptr;
 		#endif
 	};
 	

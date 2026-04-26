@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vram_secure_clear.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:19:35                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   94.0/100                                       ║
-    • Total Lines:     210                                            ║
+    • Total Lines:     217                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 0d8e07c708  2026-04-14  chore: reduce compiler warnings in scheduler, query, secu... ║
+    • 2e85cfe4c1  2026-04-14  chore: reduce compiler warnings in scheduler, query, secu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -103,6 +104,9 @@ bool VRAMSecureClear::secureClearCUDA(void* ptr, size_t size_bytes, const Config
     
     return true;
 #else
+    (void)ptr;
+    (void)size_bytes;
+    (void)config;
     spdlog::warn("VRAM secure clear called but CUDA not enabled");
     return false;
 #endif
@@ -171,6 +175,9 @@ bool VRAMSecureClear::secureClearHIP(void* ptr, size_t size_bytes, const Config&
     
     return true;
 #else
+    (void)ptr;
+    (void)size_bytes;
+    (void)config;
     spdlog::warn("VRAM secure clear (HIP) called but HIP not enabled");
     return false;
 #endif

@@ -3,22 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            shard_rpc_client.cpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:22                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟠 BETA                                         ║
-    • Quality Score:   50.0/100                                       ║
-    • Total Lines:     799                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 7                             ║
+    • Quality Score:   45.0/100                                       ║
+    • Total Lines:     865                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 8                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 715714948  2026-03-15  feat(sharding): fix coordinator ID + implement SAGA compe... ║
-    • 2a280bfd0  2026-03-15  feat: Complete Shard RPC Integration acceptance criteria ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d8b47ec5e  2026-02-28  Code audit: fix 3 bugs in retry/circuit-breaker integration ║
-    • cd1278c92  2026-02-27  Implement circuit breaker integration and retry policy in... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
+    • 116157e290  2026-04-12  fix(sharding): Paxos WAL durability, writeEntity RPC, PSR... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🔧 In Progress                                               ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -191,10 +189,26 @@ struct ShardRPCClient::Impl {
                 }
                 
             } catch (const std::exception& e) {
-                THEMIS_ERROR("Failed to load mTLS certificates: {}. Falling back to insecure connection.", e.what());
+                // GAP-016: mTLS cert load failure silently fell back to insecure.
+                // Log at ERROR for audit visibility (CWE-295).
+                THEMIS_ERROR("[SECURITY] ShardRPCClient: Failed to load mTLS certificates: {}. "
+                             "Falling back to INSECURE channel (GAP-016/CWE-295).", e.what());
                 credentials = grpc::InsecureChannelCredentials();
             }
         } else {
+            // mTLS not enabled - check production mode enforcement
+            if (const char* prod = getenv("THEMIS_PRODUCTION_MODE"); prod && std::string(prod) == "1") {
+                if (const char* override_flag = getenv("THEMIS_SHARD_MTLS_DISABLED");
+                    override_flag && std::string(override_flag) == "1") {
+                    THEMIS_WARN("ShardRPCClient: mTLS disabled in production mode via "
+                                "THEMIS_SHARD_MTLS_DISABLED=1 — this is INSECURE and for dev/test only.");
+                } else {
+                    throw std::runtime_error(
+                        "ShardRPCClient: mTLS must be enabled in production mode "
+                        "(THEMIS_PRODUCTION_MODE=1). Set enable_mtls=true or set "
+                        "THEMIS_SHARD_MTLS_DISABLED=1 to explicitly override (insecure, dev only).");
+                }
+            }
             // mTLS not enabled - use insecure credentials (development only)
             credentials = grpc::InsecureChannelCredentials();
             THEMIS_WARN("mTLS is disabled for shard RPC communication. This is insecure and should only be used in development.");
@@ -386,6 +400,29 @@ bool ShardRPCClient::ping() {
     }
 }
 
+bool ShardRPCClient::writeEntity(
+    const std::string& collection,
+    const std::string& uuid,
+    const nlohmann::json& data,
+    uint64_t timestamp_ns
+) {
+    THEMIS_DEBUG("RPC WRITE_ENTITY to {}: collection={} uuid={}",
+                impl_->config.endpoint, collection, uuid);
+    try {
+        nlohmann::json params = {
+            {"collection",    collection},
+            {"uuid",          uuid},
+            {"data",          data},
+            {"timestamp_ns",  timestamp_ns}
+        };
+        auto response = sendRequest("write_entity", params);
+        return response.contains("success") && response["success"].get<bool>();
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("RPC WRITE_ENTITY exception: {}", e.what());
+        return false;
+    }
+}
+
 nlohmann::json ShardRPCClient::sendRequest(
     const std::string& method,
     const nlohmann::json& params
@@ -457,6 +494,8 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
                 }
             } else if (method == "snapshot_read") {
                 result = handleSnapshotReadGrpc(context, params);
+            } else if (method == "write_entity") {
+                result = handleWriteEntityGrpc(context, params);
             } else if (method == "ping") {
                 result = handleHealthCheckGrpc(context);
             } else {
@@ -667,6 +706,43 @@ nlohmann::json ShardRPCClient::handleHealthCheckGrpc(
     return result;
 }
 
+nlohmann::json ShardRPCClient::handleWriteEntityGrpc(
+    grpc::ClientContext& context,
+    const nlohmann::json& params
+) {
+    themis::sharding::proto::ReplicateRequest request;
+    request.set_shard_id(impl_->config.shard_id.empty()
+                         ? impl_->config.endpoint
+                         : impl_->config.shard_id);
+
+    auto* entity = request.add_entities();
+    entity->set_uuid(params.value("uuid", std::string{}));
+    entity->set_collection(params.value("collection", std::string{}));
+    entity->set_data(params.value("data", nlohmann::json{}).dump());
+    entity->set_version(1);
+    if (params.contains("timestamp_ns") && !params["timestamp_ns"].is_null()) {
+        const uint64_t ts = params["timestamp_ns"].get<uint64_t>();
+        entity->set_timestamp_ns(ts);
+        request.set_timestamp_ns(ts);
+    }
+
+    themis::sharding::proto::ReplicateResponse response;
+    grpc::Status status = impl_->stub->ReplicateData(&context, request, &response);
+
+    if (!status.ok()) {
+        if (isRetryableError(status.error_code())) {
+            throw std::runtime_error("Retryable error: " + status.error_message());
+        }
+        throw NonRetryableRpcError(status.error_message());
+    }
+
+    return {
+        {"success",           response.success()},
+        {"replicated_count",  static_cast<uint64_t>(response.replicated_count())},
+        {"error",             response.error()}
+    };
+}
+
 bool ShardRPCClient::isRetryableError(grpc::StatusCode code) {
     // Categorize errors as retryable or non-retryable
     switch (code) {
@@ -697,6 +773,7 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
     const std::string& method,
     const nlohmann::json& params
 ) {
+    (void)params;
     // In-process simulation for single-node deployments
     int attempts = 0;
     std::exception_ptr last_exception;
@@ -746,6 +823,11 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
                 response = {
                     {"status", "success"},
                     {"data", nlohmann::json::array()}
+                };
+            } else if (method == "write_entity") {
+                response = {
+                    {"success",          true},
+                    {"replicated_count", 1}
                 };
             } else if (method == "ping") {
                 response = {

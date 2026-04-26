@@ -3,28 +3,30 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ingestion_manager.h                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:11                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     1947                                           ║
+    • Total Lines:     2042                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a7cd4fa78  2026-03-11  feat(ingestion): LLM-driven semantic extraction pipeline ... ║
-    • 0762b7374  2026-03-11  feat(ingestion): add ca_bundle_path to RetryConfig for co... ║
-    • 1585d858e  2026-03-10  feat(ingestion): implement end-to-end ingestion lineage t... ║
-    • 5613cb3bf  2026-03-09  fix(ingestion): remove last write stub; add DocumentWrite... ║
-    • 25f69a572  2026-03-09  feat(ingestion): replace simulated HttpClient in HuggingF... ║
+    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #pragma once
+
+#ifdef ERROR
+#undef ERROR
+#endif
 
 #include <string>
 #include <vector>
@@ -36,6 +38,9 @@
 #include <atomic>
 #include <mutex>
 #include "ingestion/semantic_validator.h"
+#include "ingestion/inference_backend.h"
+#include "ingestion/ingestion_quality_judge.h"
+#include "ingestion/workflow_engine.h"
 
 namespace themis {
 namespace ingestion {
@@ -1246,6 +1251,100 @@ public:
         const std::string& text,
         const LegalIngestionConfig& config) const;
 
+    // ── AI backend injection (SoC / DIP) ─────────────────────────────────────
+
+    /**
+     * @brief Inject a text-generation backend into the ingestion pipeline.
+     *
+     * When set, `runLegalExtraction()` builds a `LegalLlmAdapter` backed by
+     * this backend and injects it into the `SemanticValidator` so deontic
+     * extraction uses LLM inference instead of regex.
+     *
+     * The ingestion module never sees a concrete LLM class — it only depends
+     * on `ITextGenerationBackend` (defined in `ingestion/inference_backend.h`).
+     * The `LlmIngestionBridge` (in `llm/`) is the only binding between the
+     * two modules and is provided by wiring code (main / server bootstrap).
+     *
+     * Passing `nullptr` (or not calling this method) resets to the default
+     * `NullTextGenerationBackend`, which falls back to regex extraction.
+     *
+     * Thread-safety: the backend pointer is stored once at startup; concurrent
+     * calls to `runLegalExtraction()` are safe as long as the backend itself
+     * is thread-safe (required by `ITextGenerationBackend` contract).
+     *
+     * Example (wiring code):
+     * @code
+     * #include "llm/llm_ingestion_bridge.h"
+     * auto bridge = std::make_shared<LlmIngestionBridge>();
+     * mgr.setTextGenerationBackend(bridge);
+     * @endcode
+     *
+     * @param backend  Shared pointer to any `ITextGenerationBackend`.
+     *                 Pass `nullptr` to fall back to `NullTextGenerationBackend`.
+     */
+    void setTextGenerationBackend(
+        std::shared_ptr<ITextGenerationBackend> backend);
+
+    /**
+     * @brief Return the currently configured text-generation backend.
+     *
+     * Never returns null: if no backend has been set the result is a
+     * `NullTextGenerationBackend`.
+     */
+    std::shared_ptr<ITextGenerationBackend> getTextGenerationBackend() const;
+
+    /**
+     * @brief Inject the workflow orchestration engine.
+     *
+     * When a `WorkflowEngine` is set, calls to `ingestFile()` route through
+     * the YAML-driven pipeline (Stage 1–5 as described in ARCHITECTURE.md)
+     * instead of the legacy `FileSystemIngester` / `runLegalExtraction()` path.
+     *
+     * The legacy path remains fully functional when no `WorkflowEngine` is
+     * set (backward compatibility).
+     *
+     * Passing `nullptr` disables the workflow engine and reverts to the legacy
+     * path.
+     *
+     * Thread-safety: the engine pointer is stored once at startup; concurrent
+     * calls to `ingestFile()` are safe as long as the engine itself is
+     * thread-safe (guaranteed by `WorkflowEngine`).
+     *
+     * @param engine  Shared pointer to a configured `WorkflowEngine`.
+     *                Pass `nullptr` to revert to legacy mode.
+     */
+    void setWorkflowEngine(std::shared_ptr<::themis::ingestion::WorkflowEngine> engine);
+
+    /**
+     * @brief Return the currently configured workflow engine, or nullptr.
+     */
+    std::shared_ptr<::themis::ingestion::WorkflowEngine> getWorkflowEngine() const;
+
+    // ---- LLM-as-judge re-ingestion quality control (v2.1) -----------------
+
+    /**
+     * @brief Attach a `ReIngestionController` for runtime quality control.
+     *
+     * When set, every call to `ingestFile()` (or the equivalent workflow-
+     * engine path) is wrapped in the quality-judge feedback loop:
+     *
+     *   1. Run WorkflowEngine on the document.
+     *   2. Evaluate extraction quality via the injected IngestionQualityJudge.
+     *   3. If quality fails and attempts remain, re-run with targeted hints.
+     *   4. Persist the best-quality extraction context.
+     *
+     * Pass `nullptr` to disable the quality-control loop and fall back to a
+     * single-pass ingestion (legacy behaviour).
+     *
+     * @param controller  Configured `ReIngestionController` instance, or nullptr.
+     */
+    void setReIngestionController(std::shared_ptr<ReIngestionController> controller);
+
+    /**
+     * @brief Return the active `ReIngestionController`, or nullptr when unset.
+     */
+    std::shared_ptr<ReIngestionController> getReIngestionController() const;
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
@@ -1302,8 +1401,8 @@ public:
      *
      * @param validator Callback to invoke per document; empty fn = disable
      */
-    virtual void setDocumentValidator(DocumentValidatorFn validator) {
-        (void)validator; // default: no-op
+    virtual void setDocumentValidator([[maybe_unused]] DocumentValidatorFn validator) {
+        // default: no-op
     }
 };
 

@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_policy.h                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:06:47                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     115                                            ║
+    • Total Lines:     111                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 208e9c6f4  2026-03-11  feat(content): add ContentPolicy::ocrEnabled() and wire O... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 95da435db  2026-02-27  feat(content): add content deduplication via perceptual h... ║
-    • ee034a657  2026-02-24  fix(content): audit — wire ContentMetrics, add ContentPol... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 208e9c6f4c  2026-03-11  feat(content): add ContentPolicy::ocrEnabled() and wire O... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

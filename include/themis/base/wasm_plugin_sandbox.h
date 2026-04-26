@@ -3,21 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wasm_plugin_sandbox.h                              ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:12:03                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:47:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     468                                            ║
+    • Total Lines:     466                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2cf276ba5  2026-03-22  feat(base): implement WASM instruction fuel metering for ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f5a88cea2  2026-02-27  audit: fix non-function import parsing bug, remove unused... ║
-    • 7ff4e928f  2026-02-26  feat(base): WASM-based plugin isolation for untrusted code ║
+    • 2cf276ba53  2026-03-22  feat(base): implement WASM instruction fuel metering for ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

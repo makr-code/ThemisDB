@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            openssl_deleter.h                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:12:58                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     209                                            ║
+    • Total Lines:     208                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2680d3d04  2026-03-15  feat(pki): complete stub replacement — PKCS#10 CSR provis... ║
-    • 0f0e5dc3b  2026-03-15  feat(pki): replace fallback stub verification with real P... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 2680d3d042  2026-03-15  feat(pki): complete stub replacement — PKCS#10 CSR provis... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

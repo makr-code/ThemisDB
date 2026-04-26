@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cdc_admin.cpp                                      ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:14:37                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     393                                            ║
+    • Total Lines:     455                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a9f387ce0  2026-03-11  feat(cdc): runtime-configurable change log retention poli... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • de9fb43e7  2026-03-01  Implement CDC event filtering by operation type ║
-    • 5e637e76d  2026-02-24  AQL: rename distributed training struct  ║
-    • 7a2028071  2026-02-24  feat(cdc): implement GDPR-aware change log redaction for ... ║
+    • c1118dfd68  2026-04-13  feat(cdc): GDPR redaction audit log (cdc_redactions CF) +... ║
+    • 13a305368a  2026-04-13  feat(cdc): GDPR redaction audit log (cdc_redactions CF) +... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -26,10 +23,13 @@
 
 #include "cdc/cdc_admin.h"
 #include "cdc/cdc_error.h"
+#include "cdc/icdc_transport.h"
 #include "cdc/tenant_buffer_manager.h"
+#include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <limits>
+#include <rocksdb/utilities/transaction_db.h>
 
 namespace themis {
 namespace cdc {
@@ -130,20 +130,30 @@ PurgeResult CDCAdmin::purgeByTimestamp(uint64_t before_timestamp_ms) {
     return result;
 }
 
+// STUB/SIMULATION NOTE:
+// Purpose:          purgeTenant() API surface is defined to allow GDPR/tenant-isolation
+//                   callers to compile; the TenantBufferManager dependency is not yet
+//                   linked in the modular build configuration.
+// Activation:       Always active (no build-flag gate). Throws unconditionally.
+// Production Delta: Real implementation must drain and delete all CDC events for the
+//                   given tenant via TenantBufferManager, then return an accurate
+//                   PurgeResult with events_deleted and elapsed_time_ms populated.
+// Removal Plan:     Replace throw with real implementation once TenantBufferManager
+//                   is available in the modular build (see src/cdc/ROADMAP.md).
 PurgeResult CDCAdmin::purgeTenant(const std::string& tenant_id) {
     THEMIS_INFO("CDC Admin: Purging tenant '{}'", tenant_id);
-    
+
     if (!tenant_manager_) {
         throw error::internalError("No tenant manager available for tenant purge");
     }
-    
+
     if (tenant_id.empty()) {
         throw error::invalidArgument("Tenant ID cannot be empty");
     }
-    
+
     auto start = steady_clock::now();
     PurgeResult result;
-    
+
     // Tenant purge via TenantBufferManager is currently unavailable in modular build.
     // Keep API deterministic and fail explicitly instead of linking against unavailable implementation.
     throw error::internalError(
@@ -340,6 +350,68 @@ GDPRRedactionResult CDCAdmin::redactByKeyPrefix(
                 tenant_id, key_prefix,
                 result.events_scanned, result.events_redacted,
                 result.elapsed_time_ms, operator_id);
+
+    // ── Audit log ────────────────────────────────────────────────────────────
+    // Write an immutable audit record to the 'cdc_redactions' column family so
+    // the operation is traceable even if it partially fails.
+    if (audit_storage_) {
+        auto cf_result = audit_storage_->getOrCreateColumnFamily("cdc_redactions");
+        if (cf_result.has_value()) {
+            rocksdb::ColumnFamilyHandle* audit_cf = cf_result.value();
+            // Key: "<timestamp_ms>:<key_prefix>" ensures chronological ordering.
+            const std::string audit_key =
+                std::to_string(now_ms) + ":" + key_prefix;
+            const nlohmann::json audit_entry = {
+                {"key_prefix",      key_prefix},
+                {"redacted_count",  result.events_redacted},
+                {"timestamp_ms",    now_ms},
+                {"operator",        operator_id},
+                {"tenant_id",       tenant_id}
+            };
+            rocksdb::WriteOptions write_opts;
+            auto* raw_db = audit_storage_->getDB();
+            if (raw_db) {
+                rocksdb::Status s =
+                    raw_db->Put(write_opts, audit_cf, audit_key, audit_entry.dump());
+                if (!s.ok()) {
+                    THEMIS_WARN("CDC Admin: failed to write GDPR audit log entry: {}",
+                                s.ToString());
+                } else {
+                    THEMIS_INFO("CDC Admin: GDPR audit log entry written for key_prefix='{}'",
+                                key_prefix);
+                }
+            }
+        } else {
+            THEMIS_WARN("CDC Admin: could not obtain 'cdc_redactions' column family for audit log");
+        }
+    }
+
+    // ── Kafka tombstone propagation ──────────────────────────────────────────
+    // For each distinct affected key, publish a tombstone (EVENT_DELETE with
+    // null value) so that downstream Kafka consumers observe the erasure.
+    if (transport_ && !inner.affected_keys.empty()) {
+        // Deduplicate keys so each key gets exactly one tombstone.
+        std::vector<std::string> unique_keys = inner.affected_keys;
+        std::sort(unique_keys.begin(), unique_keys.end());
+        unique_keys.erase(std::unique(unique_keys.begin(), unique_keys.end()),
+                          unique_keys.end());
+
+        for (const auto& affected_key : unique_keys) {
+            Changefeed::ChangeEvent tombstone;
+            tombstone.type       = Changefeed::ChangeEventType::EVENT_DELETE;
+            tombstone.key        = affected_key;
+            tombstone.value      = std::nullopt;  // null payload — Kafka tombstone
+            tombstone.redacted   = true;
+            tombstone.timestamp_ms = now_ms;
+
+            if (!transport_->publish(tombstone)) {
+                THEMIS_WARN("CDC Admin: failed to publish tombstone for key='{}'",
+                            affected_key);
+            }
+        }
+        THEMIS_INFO("CDC Admin: published {} tombstone(s) for key_prefix='{}'",
+                    unique_keys.size(), key_prefix);
+    }
 
     return result;
 }

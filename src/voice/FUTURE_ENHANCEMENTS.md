@@ -1,9 +1,11 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Voice Module - Future Enhancements
 
-The voice module implements an end-to-end voice interface for ThemisDB. It covers: speech-to-text (STT) via Whisper-based models, text-to-speech (TTS) synthesis, LLM-based intent recognition and natural-language-to-AQL translation, user-defined voice command macros, wake-word detection (custom and built-in), real-time noise suppression (RNNoise), automatic language detection across 50+ languages, multi-speaker diarization, biometric voice authentication with liveness detection, browser WebSocket audio streaming, and a voice analytics dashboard. Affected source files: `voice_processor.cpp`, `stt_engine.cpp`, `tts_engine.cpp`, `wake_word_detector.cpp`, `voice_authenticator.cpp`, and headers under `include/voice/`.
+The voice module implements an end-to-end voice interface for ThemisDB. It covers: speech-to-text (STT) via Whisper-based models, text-to-speech (TTS) synthesis, LLM-based intent recognition and natural-language-to-AQL translation, user-defined voice command macros, wake-word detection (custom and built-in), real-time noise suppression (RNNoise), automatic language detection across 50+ languages, multi-speaker diarization, biometric voice authentication with liveness detection, browser WebSocket audio streaming, and a voice analytics dashboard. Affected source files include `voice_assistant.cpp`, `audio_preprocessing.cpp`, `voice_assistant_llm.cpp`, `wake_word_detector.cpp`, `voice_authenticator.cpp`, `voice_meeting_support.cpp`, and `voice_browser_streaming.cpp`.
 
 ---
 
@@ -34,7 +36,7 @@ The voice module implements an end-to-end voice interface for ThemisDB. It cover
 ## Planned Features
 
 ### Real-Time Voice Streaming
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.1.0
 
 Support for real-time audio streaming and incremental transcription.
@@ -55,19 +57,19 @@ public:
         const std::string& session_id,
         const StreamConfig& config
     );
-    
+
     // Send audio chunk
     Result<PartialTranscript> send_audio_chunk(
         StreamID stream_id,
         const std::vector<uint8_t>& audio_chunk
     );
-    
+
     // Receive response audio chunk
     Result<std::vector<uint8_t>> receive_audio_chunk(
         StreamID stream_id,
         std::chrono::milliseconds timeout
     );
-    
+
     // End streaming session
     Result<FinalTranscript> end_stream(StreamID stream_id);
 };
@@ -94,7 +96,7 @@ struct PartialTranscript {
 ---
 
 ### Multi-Speaker Voice Authentication
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.1.0
 
 Advanced speaker verification and voice biometric authentication.
@@ -116,19 +118,19 @@ public:
         const std::string& user_id,
         const std::vector<std::vector<uint8_t>>& audio_samples
     );
-    
+
     // Verify speaker identity
     Result<VerificationResult> verify_speaker(
         const VoiceProfileID& profile_id,
         const std::vector<uint8_t>& audio_sample
     );
-    
+
     // Identify speaker from group
     Result<std::vector<SpeakerMatch>> identify_speaker(
         const std::vector<VoiceProfileID>& candidate_profiles,
         const std::vector<uint8_t>& audio_sample
     );
-    
+
     // Check for liveness (not recording/synthesis)
     Result<LivenessScore> detect_liveness(
         const std::vector<uint8_t>& audio_sample
@@ -165,7 +167,7 @@ struct SpeakerMatch {
 ---
 
 ### Emotion & Sentiment Analysis
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.2.0
 
 Real-time emotion detection from voice characteristics.
@@ -183,10 +185,10 @@ struct EmotionAnalysis {
     std::map<Emotion, float> emotion_probabilities;
     Emotion primary_emotion;
     float emotion_confidence;
-    
+
     Sentiment sentiment;
     float sentiment_score;  // -1.0 (negative) to +1.0 (positive)
-    
+
     float stress_level;     // 0.0 (calm) to 1.0 (stressed)
     float engagement_score; // 0.0 (disengaged) to 1.0 (engaged)
 };
@@ -197,7 +199,7 @@ public:
     Result<EmotionAnalysis> analyze_emotions(
         const std::vector<uint8_t>& audio_data
     );
-    
+
     // Track emotions over conversation
     Result<EmotionTimeline> track_emotions(
         const std::vector<AudioSegment>& segments
@@ -226,7 +228,7 @@ struct TimedEmotion {
 ---
 
 ### Voice Command Macros
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.2.0
 
 User-defined voice command shortcuts and automation.
@@ -248,24 +250,24 @@ public:
         const std::vector<MacroStep>& steps,
         const MacroOptions& options
     );
-    
+
     // Execute macro
     Result<MacroResult> execute_macro(
         MacroID macro_id,
         const std::map<std::string, std::string>& parameters
     );
-    
+
     // List available macros
     Result<std::vector<MacroInfo>> list_macros(
         const std::string& user_id
     );
-    
+
     // Import/export macros
     Result<bool> export_macros(
         const std::vector<MacroID>& macro_ids,
         const std::string& file_path
     );
-    
+
     Result<std::vector<MacroID>> import_macros(
         const std::string& file_path
     );
@@ -305,7 +307,7 @@ struct MacroOptions {
 ---
 
 ### Multi-Language Support Enhancement
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.1.0
 
 Expanded language support and real-time translation.
@@ -326,14 +328,14 @@ public:
     Result<LanguageInfo> detect_language(
         const std::vector<uint8_t>& audio_data
     );
-    
+
     // Translate between languages
     Result<std::string> translate_text(
         const std::string& text,
         const std::string& source_lang,
         const std::string& target_lang
     );
-    
+
     // Real-time translation
     Result<TranslationSession> start_translation_session(
         const std::string& source_lang,
@@ -372,7 +374,7 @@ struct LanguageSpan {
 ---
 
 ### Voice Analytics Dashboard
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.2.0
 
 Comprehensive analytics and visualization for voice data.
@@ -392,18 +394,18 @@ struct VoiceAnalytics {
     size_t total_conversations;
     size_t total_audio_minutes;
     size_t total_transcripts;
-    
+
     // Quality metrics
     float average_transcription_confidence;
     float average_response_time_ms;
     size_t total_errors;
-    
+
     // User metrics
     std::map<std::string, UserStats> user_statistics;
-    
+
     // Topic metrics
     std::vector<TopicFrequency> trending_topics;
-    
+
     // Performance metrics
     float stt_throughput_realtime_factor;
     float tts_throughput_realtime_factor;
@@ -430,7 +432,7 @@ struct UserStats {
 ---
 
 ### Voice-Activated Database Admin
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.3.0
 
 Voice control for database administration tasks.
@@ -467,7 +469,7 @@ Voice control for database administration tasks.
 ---
 
 ### Advanced Meeting Features
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.2.0
 
 Enhanced meeting protocol generation with AI insights.
@@ -487,14 +489,14 @@ struct EnhancedMeetingProtocol {
     std::string meeting_id;
     std::string title;
     std::vector<std::string> participants;
-    
+
     // Enhanced analysis
     AgendaTracking agenda_tracking;
     std::vector<Decision> decisions;
     std::vector<Risk> identified_risks;
     std::vector<Insight> ai_insights;
     MeetingEffectiveness effectiveness;
-    
+
     // Follow-up
     std::vector<ActionItem> action_items;
     std::vector<FollowUpMeeting> suggested_followups;
@@ -540,7 +542,7 @@ struct MeetingEffectiveness {
 ---
 
 ### Voice Data Compression & Optimization
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.2.0
 
 Advanced compression and storage optimization.
@@ -568,13 +570,13 @@ public:
     Result<bool> auto_tier_recordings(
         const TieringPolicy& policy
     );
-    
+
     // Compress with quality settings
     Result<std::vector<uint8_t>> compress_audio(
         const std::vector<uint8_t>& audio_data,
         const CompressionSettings& settings
     );
-    
+
     // Remove silence
     Result<std::vector<uint8_t>> remove_silence(
         const std::vector<uint8_t>& audio_data,
@@ -586,10 +588,10 @@ struct TieringPolicy {
     int days_before_warm;    // Move to WARM after N days
     int days_before_cold;    // Move to COLD after N days
     int days_before_glacier; // Move to GLACIER after N days
-    
+
     bool delete_after_years; // Optional deletion
     int years_retention;     // Retention period
-    
+
     std::vector<std::string> exempt_tags; // Don't tier these
 };
 
@@ -611,7 +613,7 @@ struct CompressionSettings {
 ---
 
 ### Voice-Based Access Control
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.2.0
 
 Fine-grained access control for voice features.
@@ -632,13 +634,13 @@ public:
         const std::string& user_id,
         const VoiceCommand& command
     );
-    
+
     // Check recording access
     Result<bool> can_access_recording(
         const std::string& user_id,
         const std::string& recording_id
     );
-    
+
     // Define access policy
     Result<PolicyID> create_access_policy(
         const std::string& policy_name,
@@ -664,7 +666,7 @@ struct DataScope {
 ---
 
 ### Noise Cancellation & Enhancement
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.1.0
 
 Real-time audio quality improvement.
@@ -686,18 +688,18 @@ public:
         const std::vector<uint8_t>& audio_data,
         const NoiseCancellationProfile& profile
     );
-    
+
     // Enhance voice clarity
     Result<std::vector<uint8_t>> enhance_voice(
         const std::vector<uint8_t>& audio_data,
         const EnhancementSettings& settings
     );
-    
+
     // Remove background music
     Result<std::vector<uint8_t>> remove_background_music(
         const std::vector<uint8_t>& audio_data
     );
-    
+
     // Automatic gain control
     Result<std::vector<uint8_t>> normalize_volume(
         const std::vector<uint8_t>& audio_data,
@@ -717,7 +719,7 @@ struct EnhancementSettings {
     bool enable_echo_suppression;
     bool enable_voice_clarity;
     bool enable_auto_gain;
-    
+
     float noise_reduction_db;
     float clarity_enhancement_factor;
     float target_loudness_lufs;
@@ -732,7 +734,7 @@ struct EnhancementSettings {
 ---
 
 ### Custom Wake Word Detection
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.3.0
 
 Customizable wake word/hotword detection.
@@ -753,13 +755,13 @@ public:
         const std::string& wake_word,
         const std::vector<std::vector<uint8_t>>& samples
     );
-    
+
     // Start listening for wake word
     Result<DetectionSession> start_detection(
         const std::vector<WakeWordID>& wake_words,
         const DetectionConfig& config
     );
-    
+
     // Process audio for wake word
     Result<DetectionResult> process_audio(
         DetectionSession& session,
@@ -791,7 +793,7 @@ struct DetectionConfig {
 ---
 
 ### Voice-Based Query Builder
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.2.0
 
 Natural language to complex query translation.
@@ -811,18 +813,18 @@ public:
     Result<QueryBuildSession> start_query(
         const std::string& session_id
     );
-    
+
     // Add constraint
     Result<QueryPreview> add_constraint(
         QueryBuildSession& session,
         const std::string& voice_constraint
     );
-    
+
     // Get query preview
     Result<QueryPreview> preview_query(
         const QueryBuildSession& session
     );
-    
+
     // Execute built query
     Result<QueryResult> execute_query(
         const QueryBuildSession& session,
@@ -868,7 +870,7 @@ System: [Executes query and speaks results]
 ---
 
 ### Voice Feedback Loop
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.3.0
 
 Continuous improvement through user feedback.
@@ -890,20 +892,20 @@ public:
         const std::string& incorrect_text,
         const std::string& corrected_text
     );
-    
+
     // Rate response
     Result<bool> rate_response(
         const std::string& session_id,
         int rating,  // 1-5 stars
         const std::string& feedback_text
     );
-    
+
     // Report issue
     Result<IssueID> report_issue(
         const std::string& description,
         IssueSeverity severity
     );
-    
+
     // Collect improvement metrics
     Result<ImprovementMetrics> get_improvement_metrics();
 };
@@ -1058,7 +1060,7 @@ query VoiceAnalytics {
 ## Machine Learning Enhancements
 
 ### Custom Model Training
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.3.0
 
 Train domain-specific models for better accuracy.
@@ -1079,13 +1081,13 @@ public:
         const std::vector<TrainingExample>& examples,
         const TrainingConfig& config
     );
-    
+
     // Train custom TTS voice
     Result<VoiceID> train_tts_voice(
         const std::vector<VoiceRecording>& recordings,
         const VoiceTrainingConfig& config
     );
-    
+
     // Adapt LLM for domain
     Result<ModelID> adapt_llm(
         const ModelID& base_model,
@@ -1095,7 +1097,7 @@ public:
 ```
 
 ### Federated Learning
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.4.0
 
 Privacy-preserving model improvement across clients.
@@ -1111,7 +1113,7 @@ Privacy-preserving model improvement across clients.
 ## Hardware Acceleration
 
 ### GPU Optimization
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.1.0
 
 Improved GPU utilization for faster processing.
@@ -1128,7 +1130,7 @@ Improved GPU utilization for faster processing.
 - TTS: 2-4x faster with GPU
 
 ### Edge Device Support
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.2.0
 
 Optimized models for edge deployment.
@@ -1173,7 +1175,7 @@ Enhanced compliance features:
 ## Known Limitations & Workarounds
 
 ### Limitation #1: No Real-Time Streaming
-**Severity:** Medium  
+**Severity:** Medium
 **Versions:** v1.0.x
 
 Current implementation requires complete audio before processing.
@@ -1188,7 +1190,7 @@ Current implementation requires complete audio before processing.
 ---
 
 ### Limitation #2: Limited Speaker Identification
-**Severity:** Medium  
+**Severity:** Medium
 **Versions:** v1.0.x
 
 Speaker diarization doesn't identify specific individuals.
@@ -1203,7 +1205,7 @@ Speaker diarization doesn't identify specific individuals.
 ---
 
 ### Limitation #3: No Emotion Detection
-**Severity:** Low  
+**Severity:** Low
 **Versions:** v1.0.x, v1.1.x
 
 Cannot detect emotions from voice tone.
@@ -1218,7 +1220,7 @@ Cannot detect emotions from voice tone.
 ---
 
 ### Limitation #4: Single Language Per Session
-**Severity:** Low  
+**Severity:** Low
 **Versions:** v1.0.x
 
 Cannot handle code-switching within a conversation.
@@ -1274,9 +1276,9 @@ For detailed guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
 | Metric | Target | Measurement Method |
 |--------|--------|--------------------|
-| STT latency for 5-second audio (p95) | ≤ 300 ms | `benchmarks/bench_voice_stt.cpp` using pre-recorded 5-second 16 kHz WAV samples |
+| STT latency for 5-second audio (p95) | ≤ 300 ms | `benchmarks/bench_voice_assistant.cpp` using pre-recorded 5-second 16 kHz WAV samples |
 | TTS first-token generation latency | ≤ 200 ms | Time from `synthesize()` call to first PCM chunk returned |
-| Wake-word detection latency | ≤ 20 ms | Per-chunk detection time measured in `tests/voice/test_wake_word.cpp` |
+| Wake-word detection latency | ≤ 20 ms | Per-chunk detection time measured in `tests/test_voice_coverage.cpp` |
 | STT batch throughput | ≥ 10× real-time | Audio minutes processed per wall-clock second in batch mode |
 | WebSocket end-to-end latency | ≤ 500 ms | Time from audio chunk sent to transcript received in integration tests |
 | Concurrent streaming sessions | ≥ 100 | Load test using 100 simultaneous WebSocket clients each sending 5-second streams |
@@ -1288,12 +1290,12 @@ For detailed guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
 | Test Type | Coverage Target | Notes |
 |-----------|----------------|-------|
-| Unit | ≥ 80% line coverage in `stt_engine.cpp`, `tts_engine.cpp`, `voice_authenticator.cpp` | Use pre-recorded WAV fixtures; mock model inference with deterministic outputs to eliminate GPU dependency in CI |
-| Wake-word | False-positive rate ≤ 1 per hour in continuous background noise; false-negative rate ≤ 5% | Tested with `tests/voice/test_wake_word.cpp` using standardized NOIZEUS noise samples |
+| Unit | ≥ 80% line coverage in `voice_assistant.cpp`, `voice_assistant_llm.cpp`, `voice_authenticator.cpp` | Use pre-recorded WAV fixtures; mock model inference with deterministic outputs to eliminate GPU dependency in CI |
+| Wake-word | False-positive rate ≤ 1 per hour in continuous background noise; false-negative rate ≤ 5% | Tested with `tests/test_voice_coverage.cpp` using standardized background-noise fixtures |
 | Authentication | Genuine speaker acceptance rate ≥ 95%; impostor rejection rate ≥ 99% | 10-speaker test corpus; liveness detection must reject all synthetic/replayed audio samples |
 | Streaming | WebSocket session handles 10-second audio without dropped frames at 50 Mbps network constraint | Integration test using a local WebSocket echo server |
-| Noise suppression | SNR improvement ≥ 10 dB measured on NOIZEUS test corpus | Automated WER comparison before and after enhancement using `tests/voice/test_noise_suppression.cpp` |
-| PII redaction | 100% of phone numbers, email addresses, and payment card numbers stripped from stored transcripts | Property-based test with synthetically generated PII patterns in `tests/voice/test_pii_redaction.cpp` |
+| Noise suppression | SNR improvement ≥ 10 dB measured on NOIZEUS test corpus | Automated WER comparison before and after enhancement in `tests/test_voice_coverage.cpp` |
+| PII redaction | 100% of phone numbers, email addresses, and payment card numbers stripped from stored transcripts | Property-based test scenarios in `tests/test_voice_production.cpp` |
 
 ---
 
@@ -1318,6 +1320,6 @@ For detailed guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
 ---
 
-*Last Updated: January 2026*  
-*Module Version: v1.0.0*  
+*Last Updated: April 2026*
+*Module Version: v1.0.0*
 *Next Review: v1.1.0 Release*

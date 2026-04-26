@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jsonl_llm_exporter.h                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:07:13                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     309                                            ║
+    • Total Lines:     305                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a765a0369  2026-03-11  feat(exporters): add validate_template dry-run mode to ve... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d1800e174  2026-02-28  feat(exporters): implement sensitive field redaction via ... ║
-    • 47062c4ec  2026-02-28  Implement Alpaca, ShareGPT, ChatML, and OpenAI instructio... ║
-    • 0da3ceaf6  2026-02-28  feat(exporters): add toxicity filtering to JSONL LLM expo... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -289,8 +286,7 @@ public:
     ::themis::plugins::PluginType getType() const override { return ::themis::plugins::PluginType::EXPORTER; }
     ::themis::plugins::PluginCapabilities getCapabilities() const override { return {}; }
 
-    bool initialize(const char* config_json) override {
-        (void)config_json;
+    bool initialize([[maybe_unused]] const char* config_json) override {
         exporter_ = std::make_unique<JSONLLLMExporter>();
         return true;
     }

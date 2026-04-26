@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            flash_lora.cpp                                     ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:17:02                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     517                                            ║
+    • Total Lines:     527                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -103,6 +104,8 @@ GPUTensor FlashLoRA::forward(
     float scaling,
     const Config& config
 ) {
+    (void)scaling;
+    (void)config;
     validate_shapes(input, B, A);
     
     // Check device support
@@ -242,6 +245,9 @@ std::tuple<GPUTensor, GPUTensor, GPUTensor> FlashLoRA::backward(
     float scaling,
     const Config& config
 ) {
+    (void)grad_output;
+    (void)scaling;
+    (void)config;
     validate_shapes(input, B, A);
     
     // Get dimensions
@@ -389,6 +395,7 @@ std::tuple<GPUTensor, GPUTensor, GPUTensor> FlashLoRA::backward(
 // ============================================================================
 
 bool FlashLoRA::is_available(const Device& device) {
+    (void)device;
 #ifdef THEMIS_ENABLE_CUDA
     if (device.type == DeviceType::CUDA) {
         // Check CUDA compute capability
@@ -427,6 +434,9 @@ FlashLoRA::Config FlashLoRA::get_recommended_config(
     size_t rank,
     size_t seq_len
 ) {
+    (void)device;
+    (void)rank;
+    (void)seq_len;
     Config config;
     
 #ifdef THEMIS_ENABLE_CUDA

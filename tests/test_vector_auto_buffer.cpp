@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_vector_auto_buffer.cpp                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:35:09                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:57:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     175                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -169,6 +166,97 @@ TEST_F(VectorAutoBufferFixture, ConfigCanBeUpdated) {
     new_cfg.max_vectors_per_buffer = 50;
     EXPECT_NO_THROW(buf.setConfig(new_cfg));
     EXPECT_EQ(buf.getConfig().max_vectors_per_buffer, 50u);
+}
+
+// ============================================================================
+// Product Quantization config field tests
+// ============================================================================
+
+TEST_F(VectorAutoBufferFixture, PQConfigDefaultFields) {
+    VectorAutoBufferConfig cfg;
+    EXPECT_EQ(cfg.pq_num_subvectors, 8);
+    EXPECT_EQ(cfg.pq_num_centroids, 256);
+    EXPECT_EQ(cfg.compression,
+              VectorAutoBufferConfig::Compression::None);
+}
+
+TEST_F(VectorAutoBufferFixture, PQConfigRoundtrip) {
+    VectorAutoBufferConfig cfg;
+    cfg.async_flush        = false;
+    cfg.compression        = VectorAutoBufferConfig::Compression::ProductQuantization;
+    cfg.pq_num_subvectors  = 2;
+    cfg.pq_num_centroids   = 4;
+
+    VectorAutoBuffer buf(vim.get(), cfg);
+    const auto& stored = buf.getConfig();
+    EXPECT_EQ(stored.compression,
+              VectorAutoBufferConfig::Compression::ProductQuantization);
+    EXPECT_EQ(stored.pq_num_subvectors, 2);
+    EXPECT_EQ(stored.pq_num_centroids,  4);
+}
+
+// Helper: build a 4-dim entity with distinct values to avoid zero-vector edge case
+static BaseEntity makePQEntity(const std::string& pk, int seed) {
+    BaseEntity e(pk);
+    std::vector<float> emb = {
+        static_cast<float>(seed),
+        static_cast<float>(seed + 1),
+        static_cast<float>(seed + 2),
+        static_cast<float>(seed + 3)
+    };
+    e.setField("embedding", emb);
+    return e;
+}
+
+// With pq_num_centroids > batch_size the PQ path must fall back gracefully
+// (return uncompressed entities) rather than crash.
+TEST_F(VectorAutoBufferFixture, PQFallbackWhenTooFewTrainingVectors) {
+    VectorAutoBufferConfig cfg;
+    cfg.async_flush        = false;
+    cfg.compression        = VectorAutoBufferConfig::Compression::ProductQuantization;
+    cfg.pq_num_subvectors  = 2;
+    cfg.pq_num_centroids   = 100;  // requires ≥ 100 entities; we only add 5
+
+    VectorAutoBuffer buf(vim.get(), cfg);
+    for (int i = 0; i < 5; ++i) {
+        buf.add(makePQEntity("e" + std::to_string(i), i * 10));
+    }
+    // flush() must succeed without throwing even though PQ training is skipped
+    EXPECT_NO_THROW(buf.flush());
+}
+
+// With enough training vectors and a valid dim/subvectors split the PQ path
+// should complete the flush successfully.
+TEST_F(VectorAutoBufferFixture, PQFlushSucceedsWithSufficientBatch) {
+    VectorAutoBufferConfig cfg;
+    cfg.async_flush        = false;
+    cfg.compression        = VectorAutoBufferConfig::Compression::ProductQuantization;
+    cfg.pq_num_subvectors  = 2;   // 4-dim / 2 = 2-dim sub-vectors
+    cfg.pq_num_centroids   = 4;   // need ≥ 4 training vectors
+
+    VectorAutoBuffer buf(vim.get(), cfg);
+    for (int i = 0; i < 8; ++i) {
+        buf.add(makePQEntity("pq_" + std::to_string(i), i * 5));
+    }
+    size_t flushed = 0;
+    EXPECT_NO_THROW(flushed = buf.flush());
+    EXPECT_GT(flushed, 0u);
+}
+
+// When vector dim is not divisible by pq_num_subvectors the PQ path should
+// fall back gracefully (return uncompressed entities).
+TEST_F(VectorAutoBufferFixture, PQFallbackOnBadDimDivisibility) {
+    VectorAutoBufferConfig cfg;
+    cfg.async_flush        = false;
+    cfg.compression        = VectorAutoBufferConfig::Compression::ProductQuantization;
+    cfg.pq_num_subvectors  = 3;   // 4 % 3 != 0 → must fall back
+    cfg.pq_num_centroids   = 4;
+
+    VectorAutoBuffer buf(vim.get(), cfg);
+    for (int i = 0; i < 8; ++i) {
+        buf.add(makePQEntity("bad_" + std::to_string(i), i));
+    }
+    EXPECT_NO_THROW(buf.flush());
 }
 
 }  // namespace

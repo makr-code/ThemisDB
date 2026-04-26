@@ -1,7 +1,9 @@
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
 # API Module — Architecture Guide
 
-**Version:** 1.1  
-**Last Updated:** 2026-03-22  
+**Version:** 1.1
+**Last Updated:** 2026-04-06
 **Module Path:** `src/api/`
 
 ---
@@ -34,7 +36,7 @@ that adding a new protocol requires touching only `src/api/`, not the query or s
 | File | Role |
 |---|---|
 | `grpc_server.cpp` | gRPC server initialization and service registration |
-| `themisdb_grpc_service.cpp` | gRPC service implementation (protocol buffer bridge); RPC stubs pending `ThemisDBGrpcServiceFactory` injection |
+| `themisdb_grpc_service.cpp` | gRPC service implementation (protocol-buffer bridge) backed by `ThemisDBGrpcServiceFactory`; core CRUD/batch/query paths are wired, selected advanced search RPCs remain optional/feature-gated |
 | `ws_handler.cpp` | WebSocket upgrade handler and frame dispatcher for `/v2/changes` and `/v2/cdc/stream` |
 | `graphql.cpp` | GraphQL schema, resolver dispatch, LRU query-plan cache, and subscription support |
 | `graphql_ws_handler.cpp` | GraphQL over WebSocket subscription transport (`graphql-transport-ws` protocol); CDC callback use-after-free protection via `alive_` atomic flag |

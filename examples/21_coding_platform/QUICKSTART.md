@@ -1,3 +1,5 @@
+> **Aktueller Build-Flow:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Quick Start Guide - ThemisDB Coding Platform
 
 Get started with the ThemisDB Coding Platform in under 5 minutes!

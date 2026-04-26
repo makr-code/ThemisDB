@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_concurrent_cache.cpp                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:25:35                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:53:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     164                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -151,7 +148,7 @@ TEST_F(ConcurrentCacheTest, ForEach) {
     cache.insert("c", 3);
     
     std::vector<int> values;
-    cache.for_each([&](const std::string& k, int v) {
+    cache.for_each([&]([[maybe_unused]] const std::string& k, int v) {
         values.push_back(v);
     });
     

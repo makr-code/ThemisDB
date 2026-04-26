@@ -1,7 +1,7 @@
 # HSM Integration for LoRA Adapter Encryption
 
 **Status**: ✅ Implemented  
-**Version**: 1.4.0-alpha  
+**Version**: 1.8.0-rc1  
 **Date**: January 16, 2026
 
 ## Overview
@@ -544,5 +544,5 @@ For issues or questions:
 
 ---
 
-**Last Updated**: January 16, 2026  
+**Last Updated**: April 2026  
 **Maintained by**: ThemisDB Security Team

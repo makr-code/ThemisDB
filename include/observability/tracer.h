@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tracer.h                                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:09:14                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 062b31eba  2026-03-11  fix(observability): wire ContinuousProfiler integration, ... ║
-    • 4c437a31a  2026-03-11  feat(observability): implement tracer.cpp and log_aggrega... ║
+    • 062b31ebab  2026-03-11  fix(observability): wire ContinuousProfiler integration, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

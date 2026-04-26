@@ -458,3 +458,115 @@ Shard A                              Shard B
 | [MVCC Architektur-Übersicht (DE)](../../docs/de/architecture/architecture_mvcc.md) | Architektonische Einordnung beider MVCC-Schichten (MVCCStore/HLC + TransactionManager/RocksDB) |
 | [MVCC Tuning Guide (EN)](../../docs/en/features/MVCC_TUNING_GUIDE.md) | Konfiguration, Tuning und Benchmarks der TransactionManager-Schicht |
 | [Transaction Best Practices (EN)](../../docs/en/features/TRANSACTION_BEST_PRACTICES.md) | Anwendungsempfehlungen für Transaktionen |
+
+---
+
+## 18.11 Transaction-Modul — Erweiterte C++ API (v1.9)
+
+Das Transaction-Modul (`include/transaction/`, `src/transaction/`) erweitert die Basis-ACID-Semantik um Git-ähnliche Branches, SAGA-Orchestrierung, Adaptive Deadlock Prediction und Distributed 2PC (TrueTime).
+
+### 18.11.1 BranchManager — Git-ähnliche Daten-Branches
+
+```cpp
+#include "transaction/branch_manager.h"
+
+themis::transaction::BranchManager bm(db, changefeed, snapshot_manager);
+
+// Branch erstellen (ab Sequence oder Tag)
+auto branch = bm.createBranch("feature-pricing-v2", {
+    .from_tag     = "release-2026-q1",
+    .set_active   = false
+});
+// branch.branch_name, branch.parent_branch, branch.creation_sequence
+
+// Branches auflisten + Status
+auto branches = bm.listBranches();
+auto stats    = bm.getBranchStats();
+// stats.total_branches, stats.active_branches
+
+// Merge (3-Way oder Fast-Forward)
+auto result = bm.mergeBranches("feature-pricing-v2", "main", {
+    .fast_forward    = false,
+    .abort_on_conflict = true
+});
+// result.success, result.conflicts, result.merged_sequence
+
+bm.deleteBranch("feature-pricing-v2");
+```
+
+### 18.11.2 DeadlockPredictor — Adaptive Deadlock-Prävention
+
+```cpp
+#include "transaction/deadlock_predictor.h"
+
+themis::transaction::DeadlockPredictor::Config dp_cfg;
+dp_cfg.prediction_threshold  = 0.7;   // Wahrscheinlichkeit ab der eine Warnung ausgelöst wird
+dp_cfg.adaptive_timeout       = true;  // Timeout adaptiv an Deadlock-Wahrscheinlichkeit anpassen
+dp_cfg.lock_order_recommendations = true;
+
+themis::transaction::DeadlockPredictor predictor(dp_cfg);
+
+// Lock-Anfrage analysieren
+auto pred = predictor.predict(txn_id, resource_id, conflicting_txns);
+// pred.probability (0.0–1.0), pred.recommended_lock_order, pred.suggested_timeout_ms
+// pred.risk_level: LOW/MEDIUM/HIGH/CRITICAL
+
+if (pred.probability > 0.7) {
+    // Frühzeitiger Abbruch oder Lock-Reihenfolge anpassen
+}
+```
+
+### 18.11.3 DistributedTransactionManager — Verteiltes 2PC
+
+```cpp
+#include "transaction/distributed_transaction_manager.h"
+
+themis::transaction::DistributedTransactionManager::Config dtm_cfg;
+dtm_cfg.prepare_timeout_ms  = 5000;
+dtm_cfg.commit_timeout_ms   = 10000;
+dtm_cfg.wal_path            = "/data/dtm-wal";  // WAL für Coordinator-Crash-Recovery
+dtm_cfg.max_participants    = 16;
+
+themis::transaction::DistributedTransactionManager dtm(dtm_cfg, shard_clients);
+
+// Koordinierte Transaktion über mehrere Shards
+auto txn_id = dtm.begin();
+
+dtm.addParticipant(txn_id, "shard-0", write_set_0);
+dtm.addParticipant(txn_id, "shard-2", write_set_2);
+
+// Phase 1: Alle Shards preparen
+auto prepared = dtm.prepare(txn_id);  // Parallel für alle Teilnehmer
+
+if (prepared) {
+    dtm.commit(txn_id);   // Phase 2: Alle committen
+} else {
+    dtm.rollback(txn_id); // Abort + Compensation
+}
+```
+
+### 18.11.4 SAGA Distributed Orchestration
+
+```cpp
+#include "transaction/saga_orchestrator.h"
+
+// Kompensierender SAGA-Schritt (mit Auto-Rollback bei Fehler)
+themis::transaction::SagaOrchestrator saga;
+
+saga.addStep({
+    .action      = [&](auto& ctx) { return relational_write(ctx); },
+    .compensate  = [&](auto& ctx) { return relational_undo(ctx); }
+});
+saga.addStep({
+    .action      = [&](auto& ctx) { return index_put(ctx); },
+    .compensate  = [&](auto& ctx) { return index_erase(ctx); }
+});
+saga.addStep({
+    .action      = [&](auto& ctx) { return graph_add_edge(ctx); },
+    .compensate  = [&](auto& ctx) { return graph_delete_edge(ctx); }
+});
+
+auto result = saga.execute();
+// result.success — alle Schritte erfolgreich
+// result.compensated_steps — bei Fehler: welche Schritte rückgängig gemacht
+```

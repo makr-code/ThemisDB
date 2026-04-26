@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            arrow_flight.cpp                                   ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:13:49                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     1033                                           ║
+    • Total Lines:     1029                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7d170c769  2026-03-01  feat(build): update CMake configuration for benchmarks an... ║
-    • ab2ac9533  2026-02-26  fix: resolve deadlock risk, missing thread include, and v... ║
-    • 1c13e549b  2026-02-26  feat: implement Arrow Flight RPC support for remote analy... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -742,7 +735,10 @@ private:
             return;
         }
         flight_thread_ = std::thread([this]() {
-            flight_service_->Serve();
+            auto serve_status = flight_service_->Serve();
+            if (!serve_status.ok()) {
+                spdlog::warn("[ArrowFlight] serve exited with status: {}", serve_status.ToString());
+            }
         });
         spdlog::info("[ArrowFlight] native gRPC transport started at '{}'",
                      endpoint_);

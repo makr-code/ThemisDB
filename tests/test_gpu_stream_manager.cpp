@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_stream_manager.cpp                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:27:42                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:54:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     383                                            ║
+    • Total Lines:     379                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0b5f77af9  2026-02-28  feat(gpu): add createCudaStream tests, register GPU test ... ║
-    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
-    • 7b7408fe7  2026-02-25  fix(gpu): code audit - complete GPUStreamManager CUDA+ROC... ║
-    • e30646f09  2026-02-25  feat(gpu): implement CUDA stream creation in GPUStreamMan... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

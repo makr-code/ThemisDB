@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bpmn_serializer.h                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:09:33                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:46:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     126                                            ║
+    • Total Lines:     127                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 7f7a27240  2026-03-12  feat(process): add ProcessLinker, ProcessGraphRag, and mo... ║
+    • 6897bb74a5  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
+    • e8953e1175  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -48,7 +49,7 @@ namespace process {
  * | Pools & lanes | ✅ | ✅ |
  * | Data objects & data stores | ✅ | ✅ |
  * | Annotations & associations | ✅ | ✅ |
- * | BPMNDI layout hints | ❌ (ignored on import, omitted on export) | |
+ * | BPMNDI layout hints | ✅ (BPMNShape x/y/width/height → node.metadata.layout) | ❌ (not emitted) |
  *
  * ## Compliance
  *

@@ -79,5 +79,5 @@ This book is the definitive introduction to graph databases, the property graph 
 - [Apache TinkerPop / Gremlin](https://tinkerpop.apache.org)
 
 ---
-**Last Updated:** 2026-03-23  
+**Last Updated:** 2026-04-06  
 **Next Review:** 2026-09-30

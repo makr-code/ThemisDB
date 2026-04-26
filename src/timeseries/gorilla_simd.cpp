@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gorilla_simd.cpp                                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:20:54                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     385                                            ║
+    • Total Lines:     366                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 022228c57  2026-03-20  Changes before error encountered         ║
-    • b2d0e5638  2026-03-13  fix(gorilla_simd): remove dead code, fix logic bug, drop ... ║
-    • f151b2a1b  2026-03-13  feat(timeseries): vectorised Gorilla chunk decoder with S... ║
+    • d58e7f6a4a  2026-04-09  perf(gorilla): SIMD-optimized decode achieving >1.2 GB/s ... ║
+    • 022228c572  2026-03-20  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -81,75 +80,6 @@ static inline double bits_to_dbl_simd(uint64_t b) {
     double v;
     std::memcpy(&v, &b, sizeof(v));
     return v;
-}
-
-// ──────────────────────────────────────────────────────────────────────────
-// Phase 1: scalar bit-stream parser into intermediate arrays
-//
-// The output arrays are:
-//   dods[i]     delta-of-delta for point (i+1), i in [0, n-2]
-//   xorvals[i]  XOR pattern for point (i+1) (0 when value == previous)
-// ──────────────────────────────────────────────────────────────────────────
-
-struct GorillaParsed {
-    bool        error{false};
-    int64_t     first_ts{0};
-    uint64_t    first_vbits{0};
-    std::vector<int64_t>  dods;
-    std::vector<uint64_t> xorvals;
-};
-
-static GorillaParsed parse_gorilla_chunk(const std::vector<uint8_t>& data) {
-    GorillaParsed out;
-
-    if (data.empty()) return out;
-
-    BitReader br(data);
-
-    // ── First point ──────────────────────────────────────────────────────
-    br.alignToByte();
-    if (br.eof()) return out;
-
-    out.first_ts    = br.readZigZag64();
-    if (br.eof()) { out.error = true; return out; }
-    out.first_vbits = br.readBits(64);
-
-    // ── Subsequent points ─────────────────────────────────────────────────
-    uint64_t prev_vbits = out.first_vbits;
-
-    while (true) {
-        br.alignToByte();
-        if (br.eof()) break;
-
-        // Timestamp delta-of-delta
-        int64_t dod = br.readZigZag64();
-
-        // Detect truncation: EOF immediately after the ZigZag means the value
-        // bits were never written — this is a corrupt/truncated chunk.
-        if (br.eof()) { out.error = true; break; }
-        bool different = br.readBit();
-
-        uint64_t xorv = 0;
-        if (different) {
-            if (br.eof()) { out.error = true; break; }
-            int leading    = static_cast<int>(br.readBits(6));
-            if (br.eof()) { out.error = true; break; }
-            int significant = static_cast<int>(br.readBits(6));
-            if (significant == 0) significant = 64;
-            if (leading + significant > 64) { out.error = true; break; }
-            if (br.eof() && significant > 0) { out.error = true; break; }
-            uint64_t payload = br.readBits(significant);
-            int trailing     = 64 - leading - significant;
-            xorv = payload << trailing;
-            prev_vbits ^= xorv;
-        }
-        // Only commit this point once we have successfully decoded both
-        // the timestamp dod and the value field.
-        out.dods.push_back(dod);
-        out.xorvals.push_back(xorv);
-    }
-
-    return out;
 }
 
 // ──────────────────────────────────────────────────────────────────────────
@@ -299,6 +229,11 @@ static void prefix_xor_u64(uint64_t* arr, size_t n, uint64_t seed) {
 
 // ──────────────────────────────────────────────────────────────────────────
 // GorillaSIMDDecoder implementation
+//
+// Decodes in batches of 4 points to leverage the SIMD prefix-sum/XOR helpers
+// while keeping intermediate buffers tiny (4×8 bytes each → register-sized).
+// This avoids the large heap allocations and extra memory passes that a
+// full-chunk intermediate-array approach would require.
 // ──────────────────────────────────────────────────────────────────────────
 
 GorillaSIMDDecoder::GorillaSIMDDecoder(std::vector<uint8_t> data)
@@ -306,6 +241,26 @@ GorillaSIMDDecoder::GorillaSIMDDecoder(std::vector<uint8_t> data)
 
 size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& out) {
     if (data_.empty()) return 0;
+
+#if defined(__AVX2__)
+    // Runtime guard for binaries compiled with AVX2 but executed on non-AVX2 CPUs.
+    // In that case we must not execute AVX2 instructions.
+    if (!gorilla_simd_has_avx2()) {
+        GorillaDecoder fallback(data_);
+        const size_t out_begin = out.size();
+        // Same conservative estimate used by the SIMD path below:
+        // Gorilla points are at least ~1 byte encoded, so payload_size/2 + 1
+        // avoids repeated reallocations without changing decode semantics.
+        out.reserve(out.size() + data_.size() / 2 + 1);
+        while (auto p = fallback.next()) {
+            out.push_back(*p);
+        }
+        error_ = fallback.hasError();
+        const size_t appended = out.size() - out_begin;
+        decoded_count_ += appended;
+        return appended;
+    }
+#endif
 
     // Detect and validate the Gorilla chunk header (3 bytes: magic0, magic1, version).
     // Legacy chunks (encoded before v1) have no header; fall through to decode as-is.
@@ -325,58 +280,103 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
 
     if (payload_size == 0) return 0;
 
-    // Build a header-stripped vector for parse_gorilla_chunk (which needs a
-    // std::vector<uint8_t> reference via BitReader).
-    const std::vector<uint8_t> payload(payload_ptr, payload_ptr + payload_size);
+    // Pass raw pointer+size directly — avoids an unnecessary heap allocation
+    // that would otherwise be needed just to strip the 3-byte header.
+    BitReader br(payload_ptr, payload_size);
 
-    // Phase 1: parse the compressed bit-stream into intermediate arrays.
-    GorillaParsed parsed = parse_gorilla_chunk(payload);
-    error_ = parsed.error;
+    // ── First point ───────────────────────────────────────────────────────
+    br.alignToByte();
+    if (br.eof()) return 0;
 
-    const size_t subsequent = parsed.dods.size();  // == parsed.xorvals.size()
-    const size_t total      = 1 + subsequent;
+    int64_t  first_ts    = br.readZigZag64();
+    if (br.eof()) { error_ = true; return 0; }
+    uint64_t first_vbits = br.readBits(64);
 
-    // Allocate output storage and set the first point.
-    out.reserve(out.size() + total);
+    // Reserve output with a conservative estimate (each compressed point is at
+    // minimum ~1 byte, so payload_size / 2 + 1 is a safe upper bound).
+    out.reserve(out.size() + payload_size / 2 + 1);
+    out.emplace_back(first_ts, bits_to_dbl_simd(first_vbits));
 
-    if (subsequent == 0) {
-        // Stream contained exactly one valid point, or the first point failed.
-        if (!parsed.error) {
-            out.emplace_back(parsed.first_ts, bits_to_dbl_simd(parsed.first_vbits));
-            decoded_count_ += 1;
-            return 1;
+    // Carry state: dt and ts of the last emitted point.
+    int64_t  carry_dt  = 0;           // dt for the first point is 0
+    int64_t  carry_ts  = first_ts;
+    uint64_t carry_xor = first_vbits;
+
+    // Per-batch buffers: sized to process exactly one AVX2 register worth of
+    // int64_t elements (4 × 64-bit = 256 bits = one __m256i) per SIMD call.
+    // These are stack-allocated and stay in registers/L1 cache throughout.
+    static constexpr int kBatchSize = 4;
+    alignas(32) int64_t  dods_buf[kBatchSize] = {};
+    alignas(32) uint64_t xors_buf[kBatchSize] = {};
+
+    size_t total = 1;
+
+    while (true) {
+        // ── Parse up to kBatchSize subsequent points ──────────────────────
+        int  batch_size  = 0;
+        bool parse_error = false;
+
+        for (int b = 0; b < kBatchSize && !parse_error; ++b) {
+            br.alignToByte();
+            if (br.eof()) break;
+
+            int64_t dod = br.readZigZag64();
+
+            // EOF immediately after the ZigZag means the value field was
+            // never written — truncated/corrupt chunk.
+            if (br.eof()) { parse_error = true; break; }
+            bool different = br.readBit();
+
+            uint64_t xorv = 0;
+            if (different) {
+                if (br.eof()) { parse_error = true; break; }
+                int leading    = static_cast<int>(br.readBits(6));
+                if (br.eof()) { parse_error = true; break; }
+                int significant = static_cast<int>(br.readBits(6));
+                if (significant == 0) significant = 64;
+                if (leading + significant > 64) { parse_error = true; break; }
+                if (br.eof() && significant > 0) { parse_error = true; break; }
+                uint64_t payload_bits = br.readBits(significant);
+                int trailing = 64 - leading - significant;
+                xorv = payload_bits << trailing;
+            }
+
+            dods_buf[b] = dod;
+            xors_buf[b] = xorv;
+            ++batch_size;
         }
-        return 0;
-    }
 
-    // ── Phase 2a: reconstruct timestamps ─────────────────────────────────
-    //
-    // dods[] contains delta-of-deltas for points [1 .. n-1].
-    // We apply two successive in-place prefix sums:
-    //
-    //   Pass 1 (seed = 0):            dods[i] → dt[i+1]
-    //                                 (cumulative sum of dods gives Δt)
-    //
-    //   Pass 2 (seed = first_ts):     dt[i+1] → ts[i+1]
-    //                                 (cumulative sum of Δt with first_ts)
+        if (batch_size == 0 && !parse_error) break;  // clean end-of-stream
+        if (parse_error) error_ = true;
+        if (batch_size == 0) break;
 
-    prefix_sum_i64(parsed.dods.data(), subsequent, 0);
-    prefix_sum_i64(parsed.dods.data(), subsequent, parsed.first_ts);
+        // ── Phase 2a: reconstruct dt[] and ts[] via two prefix-sum passes ──
+        //
+        //   Pass 1 (seed = carry_dt):  dods_buf[b] → dt values
+        //   Pass 2 (seed = carry_ts):  dt values   → ts values
+        //
+        // carry_dt must be saved BEFORE the second pass overwrites dods_buf.
+        prefix_sum_i64(dods_buf, batch_size, carry_dt);
+        int64_t new_carry_dt = dods_buf[batch_size - 1];   // dt of last point
 
-    // ── Phase 2b: reconstruct double bit-patterns ─────────────────────────
-    //
-    // xorvals[i] contains the XOR pattern for point (i+1); 0 means "same value".
-    // A single prefix-XOR pass with seed = first_vbits reconstructs all vbits:
-    //
-    //   vbits[i+1] = first_vbits XOR xorvals[0] XOR … XOR xorvals[i]
+        prefix_sum_i64(dods_buf, batch_size, carry_ts);
+        int64_t new_carry_ts = dods_buf[batch_size - 1];   // ts of last point
 
-    prefix_xor_u64(parsed.xorvals.data(), subsequent, parsed.first_vbits);
+        // ── Phase 2b: reconstruct vbits[] via prefix-XOR ─────────────────
+        prefix_xor_u64(xors_buf, batch_size, carry_xor);
+        uint64_t new_carry_xor = xors_buf[batch_size - 1]; // vbits of last point
 
-    // ── Assemble output ───────────────────────────────────────────────────
+        // ── Emit this batch ───────────────────────────────────────────────
+        for (int b = 0; b < batch_size; ++b) {
+            out.emplace_back(dods_buf[b], bits_to_dbl_simd(xors_buf[b]));
+        }
 
-    out.emplace_back(parsed.first_ts, bits_to_dbl_simd(parsed.first_vbits));
-    for (size_t i = 0; i < subsequent; ++i) {
-        out.emplace_back(parsed.dods[i], bits_to_dbl_simd(parsed.xorvals[i]));
+        total      += static_cast<size_t>(batch_size);
+        carry_dt    = new_carry_dt;
+        carry_ts    = new_carry_ts;
+        carry_xor   = new_carry_xor;
+
+        if (parse_error || batch_size < kBatchSize) break;
     }
 
     decoded_count_ += total;

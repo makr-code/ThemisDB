@@ -1,9 +1,11 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — Acceleration Module
 
-All notable changes to the Acceleration module are documented here.  
+All notable changes to the Acceleration module are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
@@ -29,8 +31,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - CUDA graph capture for recurring query workloads: `CUDAGraphCache` + `batchKnnSearchWithGraph()` (`cuda_backend.h/cpp`)
 - CUDAGraphBackend BFS and Bellman-Ford (shortest-path) CUDA kernels with frontier expansion (`cuda/graph_kernels.cu`)
 - `BackendRegistry::initializeRuntime()` with `defaultVectorRequirements()` / `defaultGraphRequirements()` / `defaultGeoRequirements()` factory helpers
-
-### Added
 - `ANNKernelFallbackDispatcher` and `GeoKernelFallbackDispatcher` with configurable retry semantics
 - Deterministic tie-breaking and partial-failure guards via `BatchValidator` (`include/acceleration/batch_validator.h`)
 - Benchmark harness `bench_cuda_vs_cpu.cpp` with JSON output and baseline in `benchmarks/baselines/acceleration/baseline.json`

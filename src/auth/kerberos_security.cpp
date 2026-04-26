@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            kerberos_security.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:14:12                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     491                                            ║
+    • Total Lines:     492                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -265,7 +266,7 @@ bool KerberosSecurityValidator::verifyServicePrincipal(
 }
 
 bool KerberosSecurityValidator::verifyChannelBinding(
-    const std::vector<uint8_t>& token_data,
+    const std::vector<uint8_t>& /*token_data*/,
     const std::vector<uint8_t>& channel_binding)
 {
     // In a full implementation, would extract channel binding from token
@@ -327,7 +328,7 @@ bool KerberosSecurityValidator::isTicketExpired(const std::vector<uint8_t>& toke
 }
 
 KerberosSecurityValidator::TokenInfo 
-KerberosSecurityValidator::getTokenInfo(const std::vector<uint8_t>& token_data) {
+KerberosSecurityValidator::getTokenInfo(const std::vector<uint8_t>& /*token_data*/) {
     TokenInfo info;
     
     // Simplified implementation
@@ -452,7 +453,7 @@ std::vector<uint8_t> ChannelBindingGenerator::formatChannelBinding(
                  reinterpret_cast<uint8_t*>(&init_addrtype) + sizeof(uint32_t));
     
     // Initiator address length
-    uint32_t init_len = initiator_address.size();
+    uint32_t init_len = static_cast<uint32_t>(initiator_address.size());
     result.insert(result.end(),
                  reinterpret_cast<uint8_t*>(&init_len),
                  reinterpret_cast<uint8_t*>(&init_len) + sizeof(uint32_t));
@@ -467,7 +468,7 @@ std::vector<uint8_t> ChannelBindingGenerator::formatChannelBinding(
                  reinterpret_cast<uint8_t*>(&acc_addrtype) + sizeof(uint32_t));
     
     // Acceptor address length
-    uint32_t acc_len = acceptor_address.size();
+    uint32_t acc_len = static_cast<uint32_t>(acceptor_address.size());
     result.insert(result.end(),
                  reinterpret_cast<uint8_t*>(&acc_len),
                  reinterpret_cast<uint8_t*>(&acc_len) + sizeof(uint32_t));
@@ -476,7 +477,7 @@ std::vector<uint8_t> ChannelBindingGenerator::formatChannelBinding(
     result.insert(result.end(), acceptor_address.begin(), acceptor_address.end());
     
     // Application data length
-    uint32_t app_len = application_data.size();
+    uint32_t app_len = static_cast<uint32_t>(application_data.size());
     result.insert(result.end(),
                  reinterpret_cast<uint8_t*>(&app_len),
                  reinterpret_cast<uint8_t*>(&app_len) + sizeof(uint32_t));

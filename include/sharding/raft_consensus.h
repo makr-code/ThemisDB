@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            raft_consensus.h                                   ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:37                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     296                                            ║
+    • Total Lines:     293                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 429d2af3c  2026-02-25  fix(audit): close all gaps in joint consensus implementation ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -24,8 +24,7 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_RAFT_CONSENSUS_H
-#define THEMISDB_SHARDING_RAFT_CONSENSUS_H
+#pragma once
 
 #include "sharding/raft_state.h"
 #include "sharding/raft_log.h"
@@ -63,6 +62,7 @@ enum class ReplicaHealth {
  */
 struct ReplicaState {
     std::string node_id;
+    std::string endpoint;           ///< Network endpoint ("host:port" or URL); updated by updatePeerAddress()
     ReplicaHealth health;
     uint64_t next_index;        // Next log index to send
     uint64_t match_index;       // Highest log index replicated
@@ -217,6 +217,23 @@ public:
      */
     void removeReplicaNode(const std::string& node_id);
 
+    /**
+     * @brief Update the network endpoint (address) of a known peer.
+     *
+     * Called during hardware migration (Phase 5) to reflect a shard's new
+     * physical host:port after the operator runs
+     * `POST /api/v1/shards/{id}/migrate-hardware`.
+     *
+     * Thread-safe.  Logs a warning (via spdlog) if node_id is not present in
+     * replica_states_; the call is a no-op in that case.
+     *
+     * @param node_id      The peer whose endpoint is changing (must match an
+     *                     existing replica state entry).
+     * @param new_endpoint New "host:port" or URL string.
+     */
+    void updatePeerAddress(const std::string& node_id,
+                           const std::string& new_endpoint);
+
 private:
     Config config_;
     RaftState raft_state_;
@@ -292,5 +309,3 @@ private:
 
 }  // namespace sharding
 }  // namespace themisdb
-
-#endif  // THEMISDB_SHARDING_RAFT_CONSENSUS_H

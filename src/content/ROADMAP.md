@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Content Module Roadmap
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
@@ -141,3 +143,19 @@
 
 ## Breaking Changes
 - Processor plugin API may be refined when the plugin-based pipeline (Issue: #1686) is introduced
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `PhotoDNAAbuseDetector` – Erkennt CSAM via PhotoDNA-Hash-Abgleich; nur in Content-Security-Tests geprüft
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `detectorType` – Gibt den Typ des aktiven Abuse-Detectors zurück (PhotoDNA/Text/…)
+- `createPdfExtractorAdapter` – Factory-Funktion für den PDF-Format-Extractor; noch nicht in Pipeline verdrahtet
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

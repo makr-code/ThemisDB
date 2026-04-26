@@ -1,0 +1,97 @@
+# Query Cache Configuration - OLTP Workload
+# Optimized for: High-frequency, small-result transactional queries
+# Use case: E-commerce, banking, user authentication, session management
+
+query_cache:
+  # Enable query result caching
+  enabled: true
+  
+  # Cache implementation: "basic" or "adaptive"
+  # - basic: Single-level LRU/LFU cache (simpler, lower overhead)
+  # - adaptive: 3-tier cache (HOT/WARM/COLD) for complex workloads
+  type: "basic"
+  
+  # Workload detection and auto-tuning
+  workload_detection:
+    enabled: true
+    sample_rate: 0.1          # Sample 10% of queries for profiling
+    min_samples: 100           # Minimum queries before classification
+    detection_window_sec: 300  # Re-detect workload every 5 minutes
+  
+  # Cache sizing for OLTP
+  sizing:
+    max_entries: 50000                  # Many small entries
+    max_memory_bytes: 209715200         # 200MB
+    max_entry_size_bytes: 102400        # 100KB max per entry
+  
+  # TTL (Time-To-Live) settings
+  ttl:
+    default_seconds: 300     # 5 minutes (data changes frequently)
+    min_seconds: 30          # 30 seconds minimum
+    max_seconds: 3600        # 1 hour maximum
+    adaptive: true           # Adjust TTL based on query frequency
+  
+  # Eviction policy
+  # - LRU: Least Recently Used (good for recency-based patterns)
+  # - LFU: Least Frequently Used (good for stable hot data)
+  eviction_policy: "LRU"
+  
+  # Cache warming on startup
+  cache_warming:
+    enabled: true
+    top_k_queries: 100      # Warm top 100 most frequent queries
+    warmup_timeout_sec: 60   # Max time to spend warming cache
+  
+  # OLTP-specific tuning
+  oltp:
+    # Queries per minute threshold to classify as OLTP
+    high_frequency_threshold: 10.0
+    
+    # Result size threshold (smaller = more OLTP-like)
+    small_result_threshold_bytes: 51200  # 50KB
+    
+    # Enable frequency-based priority
+    frequency_weighting: true
+    
+    # Memory pressure handling
+    memory_pressure_threshold: 0.9  # Evict when 90% full
+  
+  # Monitoring and statistics
+  monitoring:
+    enabled: true
+    detailed_stats: true
+    stats_report_interval_sec: 300  # Log stats every 5 minutes
+  
+  # Invalidation on data changes
+  invalidation:
+    by_table: true          # Auto-invalidate when tables change
+    by_pattern: true        # Support regex-based invalidation
+  
+# Example: Integration with server settings
+server:
+  # Query execution settings
+  query:
+    # Enable query result caching in execution pipeline
+    enable_cache: true
+    
+    # Cache before or after parsing
+    cache_layer: "pre_parse"  # "pre_parse" or "post_optimize"
+    
+    # Track query metrics for workload detection
+    track_execution_metrics: true
+
+# Example: Storage layer cache (RocksDB block cache)
+storage:
+  rocksdb:
+    # Block cache (separate from query result cache)
+    block_cache_size_mb: 512
+    
+    # Don't confuse with query cache - this caches storage blocks
+    cache_index_and_filter_blocks: true
+
+# Performance expectations for OLTP configuration:
+# - Cache hit rate: 70-85% (frequent repeated queries)
+# - Cache lookup latency: <1ms (L1 in-memory)
+# - Memory efficiency: ~4KB average entry size
+# - Throughput improvement: 2-4x for cached queries
+# - CPU savings: 40-60% reduction for cached queries

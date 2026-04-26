@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+
+<!-- Status: current | validated: 2026-04-06 -->
 # Changelog — Updates Module
 Based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
@@ -16,7 +18,7 @@ Based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Pre-flight health checks before update execution
 - Multi-node coordinated updates with quorum acknowledgement
 - Notification webhooks for update lifecycle events
-- Build system audit: all 14 source files registered; 8 focused test targets
+- Build system audit: all 21 source files registered; 10 focused test targets
 
 ## [1.0.0] — 2024-01-01
 ### Added

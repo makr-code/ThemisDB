@@ -1,6 +1,6 @@
 # Raspberry Pi Performance Tuning Guide
 
-**Stand:** 7. Februar 2026  
+**Stand:** 6. April 2026  
 **Version:** v1.5.0  
 **Kategorie:** 🚀 Deployment
 

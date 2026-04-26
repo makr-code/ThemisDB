@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_compliance_security_governance.cpp           ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:04:01                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:43:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   70.0/100                                       ║
-    • Total Lines:     876                                            ║
+    • Total Lines:     892                                            ║
     • Open Issues:     TODOs: 0, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ade2399cc  2026-02-26  feat(governance): add CCPA/CPRA performance benchmarks to... ║
-    • 309347f92  2026-02-22  audit(security): fix null-pointer guards and remaining si... ║
-    • e52586aae  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -96,11 +92,15 @@ std::string generateRandomString(size_t length) {
 static void BM_FieldEncryption_SmallData(benchmark::State& state) {
     auto data = generateTestData(256); // 256 bytes
     auto provider = std::make_shared<MockKeyProvider>();
+    provider->createKey("bench-key", 1);
     FieldEncryption enc(provider);
     const std::string key_id = "bench-key";
-    
+    auto raw_key = provider->getKey(key_id);
+    auto meta    = provider->getKeyMetadata(key_id);
+    const std::string data_str(data.begin(), data.end());
+
     for (auto _ : state) {
-        auto blob = enc.encrypt(data, key_id);
+        auto blob = enc.encryptWithKey(data_str, key_id, meta.version, raw_key);
         benchmark::DoNotOptimize(blob);
     }
     
@@ -112,11 +112,15 @@ BENCHMARK(BM_FieldEncryption_SmallData);
 static void BM_FieldEncryption_MediumData(benchmark::State& state) {
     auto data = generateTestData(4096); // 4 KB
     auto provider = std::make_shared<MockKeyProvider>();
+    provider->createKey("bench-key", 1);
     FieldEncryption enc(provider);
     const std::string key_id = "bench-key";
-    
+    auto raw_key = provider->getKey(key_id);
+    auto meta    = provider->getKeyMetadata(key_id);
+    const std::string data_str(data.begin(), data.end());
+
     for (auto _ : state) {
-        auto blob = enc.encrypt(data, key_id);
+        auto blob = enc.encryptWithKey(data_str, key_id, meta.version, raw_key);
         benchmark::DoNotOptimize(blob);
     }
     
@@ -128,11 +132,15 @@ BENCHMARK(BM_FieldEncryption_MediumData);
 static void BM_FieldEncryption_LargeData(benchmark::State& state) {
     auto data = generateTestData(1024 * 1024); // 1 MB
     auto provider = std::make_shared<MockKeyProvider>();
+    provider->createKey("bench-key", 1);
     FieldEncryption enc(provider);
     const std::string key_id = "bench-key";
-    
+    auto raw_key = provider->getKey(key_id);
+    auto meta    = provider->getKeyMetadata(key_id);
+    const std::string data_str(data.begin(), data.end());
+
     for (auto _ : state) {
-        auto blob = enc.encrypt(data, key_id);
+        auto blob = enc.encryptWithKey(data_str, key_id, meta.version, raw_key);
         benchmark::DoNotOptimize(blob);
     }
     
@@ -145,13 +153,17 @@ static void BM_FieldDecryption_Performance(benchmark::State& state) {
     size_t data_size = state.range(0) * 1024;
     auto data = generateTestData(data_size);
     auto provider = std::make_shared<MockKeyProvider>();
+    provider->createKey("bench-key", 1);
     FieldEncryption enc(provider);
     const std::string key_id = "bench-key";
     // Pre-encrypt data outside the benchmark loop
-    auto blob = enc.encrypt(data, key_id);
-    
+    auto raw_key = provider->getKey(key_id);
+    auto meta    = provider->getKeyMetadata(key_id);
+    const std::string data_str(data.begin(), data.end());
+    auto blob = enc.encryptWithKey(data_str, key_id, meta.version, raw_key);
+
     for (auto _ : state) {
-        auto decrypted = enc.decryptToBytes(blob);
+        auto decrypted = enc.decryptWithKey(blob, raw_key);
         benchmark::DoNotOptimize(decrypted);
     }
     
@@ -519,6 +531,9 @@ static void BM_KeyManagement_KeyRetrieval(benchmark::State& state) {
     // Benchmark key retrieval from MockKeyProvider (simulates cache/provider lookup)
     auto provider = std::make_shared<MockKeyProvider>();
     const std::string key_ids[] = {"key1", "key2", "key3"};
+    provider->createKey("key1", 1);
+    provider->createKey("key2", 1);
+    provider->createKey("key3", 1);
 
     int idx = 0;
     for (auto _ : state) {
@@ -535,6 +550,7 @@ static void BM_KeyManagement_KeyRotation(benchmark::State& state) {
     // Benchmark key rotation: create new version and verify old remains accessible
     auto provider = std::make_shared<MockKeyProvider>();
     const std::string key_id = "rotation-bench-key";
+    provider->createKey(key_id, 1);
 
     for (auto _ : state) {
         provider->rotateKey(key_id);

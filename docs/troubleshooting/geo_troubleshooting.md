@@ -285,8 +285,8 @@ geo:
 ## Related Documentation
 
 - [Geo Module ROADMAP](../../src/geo/ROADMAP.md)
-- [GDAL Implementation Complete](../GDAL_IMPLEMENTATION_COMPLETE.md)
-- [GDAL Integration Summary](../GDAL_INTEGRATION_SUMMARY.md)
+- [GDAL Implementation Complete](../ARCHIVED/implementation-summaries/GDAL_IMPLEMENTATION_COMPLETE.md)
+- [GDAL Integration Summary](../ARCHIVED/implementation-summaries/GDAL_INTEGRATION_SUMMARY.md)
 - [Geospatial Future Enhancements](../geospatial_future_enhancements.md)
 - [RPC Geospatial Query](../api/RPC_GEOSPATIAL_QUERY.md)
-- [Approximate Radius Search](../ApproximateRadiusSearch.md)
+- [Approximate Radius Search](../performance/ApproximateRadiusSearch.md)

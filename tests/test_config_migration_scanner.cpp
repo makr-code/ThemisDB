@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_config_migration_scanner.cpp                  ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:25:41                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:53:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     731                                            ║
+    • Total Lines:     727                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 3d4e90552  2026-03-15  fix(config): fill CI workflow and test gaps found in audi... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 2c5e21f76  2026-02-27  test(config): add output formatter and formatTimePoint te... ║
-    • d426b1c54  2026-02-26  audit: fix test guard, ROADMAP accuracy, and migration gu... ║
-    • 5ced97252  2026-02-26  feat(config): add migration scanner impl header and unit ... ║
+    • 3d4e905525  2026-03-15  fix(config): fill CI workflow and test gaps found in audi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

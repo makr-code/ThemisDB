@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Training Module - Future Enhancements
@@ -224,3 +226,79 @@ Implement end-to-end provenance tracking for every training sample from source d
 - When `lora_plus_lambda > 1.0`: B uses `lr * λ`, A uses `lr` (two separate AdamOptimizer instances)
 - Backward-compatible: default `1.0` preserves original behaviour
 - Reference: Hayou et al. (2024), *LoRA+*, arXiv:2402.12354
+
+---
+
+## Paper 1 — Self-Optimising LoRA Loops (IMPL-A1, IMPL-A3)
+
+> Full research paper: `docs/en/research/THEMISDB_LORA_RESEARCH_PAPER.md`
+> See also: `include/training/FUTURE_ENHANCEMENTS.md` §Paper 1
+
+### DATABASE_OPTIMIZER Domain (IMPL-A1)
+- `DomainType::DATABASE_OPTIMIZER` in `auto_labeler.h` / `auto_labeler.cpp`
+- Confidence function: `tanh(|Δlatency_ms| / 50)` — reject if < 0.85
+- Minimum golden dataset: 1 000 labeled `(query, explain_plan, Δlatency_ms)` pairs
+
+### Federation Bridges (IMPL-A3)
+- `IncrementalLoRATrainer::exportGradient()` → `EncryptedGradient` (AES-256-GCM)
+- `IncrementalLoRATrainer::applyGlobalDelta(const GlobalAdapterDelta&)` → FedAvg weight update
+- Privacy invariant enforced by unit test: raw query text absent from gradient blob
+
+---
+
+## ✅ Implemented — Federated Distillation & Privacy-Preserving Learning (v1.9.0 / FDF)
+
+### Scope
+- Teacher-student distillation across tenant/institution boundaries without raw data exchange.
+- `FederatedDistillationCoordinator` — dedicated teacher→student soft-label transfer layer with
+  Gaussian DP noise, configurable policy gate, student utility reporting, and rollback trigger.
+- Secure federated round coordination with DP-protected gradient aggregation via `LoRAFederationCoordinator`.
+- Governance-controlled model release, canary rollout, and rollback/fallback to local adapters.
+
+### Design Constraints
+- Raw training samples must never leave the local institution boundary.
+- Only temperature-scaled softmax distributions (soft labels) are shared; raw query text stays on the teacher.
+- Coordinator processes opaque `EncryptedGradient` payloads for the gradient path; `SoftLabel` structs for the distillation path.
+- Differential privacy budget (`epsilon`, `delta`) is mandatory and auditable per round.
+- Byzantine/outlier behavior must be handled by robust aggregation and resilience controls.
+
+### Required Interfaces
+- `FederatedDistillationCoordinator::{submitSoftLabels, broadcastToStudents, registerStudent, reportStudentUtility}`
+- `DistillationConfig::{dp_epsilon, dp_delta, dp_sensitivity, temperature, alpha, min_utility_threshold}`
+- `SoftLabel::{query_id, probabilities, temperature, teacher_id}`
+- `IncrementalLoRATrainer::exportGradient()` and `applyGlobalDelta(const GlobalAdapterDelta&)` (gradient path)
+- `LoRAFederationCoordinator::{submitGradient, triggerAggregation, getStats}` (gradient path)
+- `IncrementalLoRATrainer::{deployVersionEx, rollbackVersionEx}` for governance rollout/rollback
+- Federation admin + audit callback integration for release decisions and policy gates
+
+### Implementation Notes
+- `[x]` `FederatedDistillationCoordinator` implemented — `include/distributed_knowledge/federated_distillation_coordinator.h` + `src/distributed_knowledge/federated_distillation_coordinator.cpp` (2026-04-21)
+- `[x]` Gaussian DP noise: σ = sensitivity·√(2·ln(1.25/δ))/ε applied per broadcast; probabilities re-normalised to valid simplex.
+- `[x]` Policy gate DI-setter: `setPolicyGate()` — blocks broadcast when gate returns false.
+- `[x]` Audit DI-setter: `setAuditCallback()` — JSON audit record emitted on every successful broadcast.
+- `[x]` Rollback trigger DI-setter: `setRollbackTrigger()` — fires when reported student utility drops below `min_utility_threshold`.
+- `[x]` Privacy budget observability: `privacyBudgetRemaining()`, `verifyPrivacyBudget()`.
+- `[x]` Federated protocol roles (Client/Coordinator/Verifier) implemented through trainer export/apply hooks and coordinator round lifecycle.
+- `[x]` Secure aggregation path uses non-raw gradient payloads, FedAvg/median aggregation, and Gaussian DP protection.
+- `[x]` Non-IID/drift and poisoning/failure resilience validated with integration + OR test suites.
+- `[x]` Canary and rollback path uses existing adapter lifecycle APIs with governance enforcement and audit records.
+- `[x]` `DistillationModelCard` governance snapshot added: `generateModelCard()` captures rounds, DP accounting, utility range, policy blocks, rollback count.
+- `[x]` Threat model documented in `docs/en/security/FEDERATED_DISTILLATION_THREAT_MODEL.md`: T-1 (membership inference), T-2 (model inversion), T-3 (Byzantine teacher), T-4 (rollback DoS), T-5 (budget exhaustion), T-6 (audit leakage); SEC-FDF-01..07 requirements.
+
+### Test Strategy
+- Focused unit/integration coverage in:
+  - `tests/test_federated_distillation_coordinator.cpp` — FDF-01..15 (submit, broadcast, DP noise validity, policy gate, audit, rollback trigger, budget exhaustion, privacy invariant/no cleartext, require_dp=false path, multi-round, reset, model card)
+  - `tests/test_incremental_lora_trainer.cpp`
+  - `tests/test_distributed_knowledge_integration.cpp`
+  - `tests/test_distributed_knowledge_or.cpp`
+- Validated privacy invariant (no cleartext data in shared payloads), robustness under fault/poison-like scenarios, and rollback safety.
+
+### Performance Targets
+- Federated round overhead: ≤ 15% vs. local-only update path.
+- Task utility retention: ≥ 90% of centralized distillation baseline under configured privacy budget.
+- Coordinator observability overhead (`getStats` + audit emission): operationally bounded for continuous rounds.
+
+### Security / Reliability
+- Differential privacy accounting (`epsilon`, `delta`) is enforced per round and audited.
+- Cross-border/policy checks can block aggregation prior to global delta release.
+- Local rollback/fallback remains available if policy, quality, or availability checks fail.

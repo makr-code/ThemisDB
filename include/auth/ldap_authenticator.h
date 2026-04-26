@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ldap_authenticator.h                               ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:05:54                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:44:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     321                                            ║
+    • Total Lines:     318                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • fc7a85ac8  2026-03-12  fix(auth): address PR review - curl_multi_info_read, void... ║
-    • 57fef95c4  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
-    • fc9c9664a  2026-03-12  feat(auth): implement LDAP connection pooling (v1.2.0) ║
-    • 0f9b874f4  2026-03-12  fix(auth): address all reviewer comments on LDAP injectio... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • fc7a85ac82  2026-03-12  fix(auth): address PR review - curl_multi_info_read, void... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -266,16 +262,19 @@ public:
     std::string buildUserDN(const std::string& username) const;
 
     /**
-     * @brief Build the group search filter by substituting and filter-escaping {dn}.
+     * @brief Build the group search filter by substituting and filter-escaping placeholders.
      *
-     * Substitutes the {dn} placeholder in group_search_filter with the
-     * RFC 4515-escaped DN value.  Public for unit-testing; callers normally
-     * use authenticate().
+     * Substitutes placeholders in group_search_filter with RFC 4515-escaped values:
+     * - {dn} with the distinguished name
+     * - {username} with the username (when provided)
+     * Public for unit-testing; callers normally use authenticate().
      *
-     * @param dn  Distinguished Name to substitute
-     * @return Filter string with {dn} replaced and filter-escaped
+     * @param dn        Distinguished Name to substitute into {dn}
+     * @param username  Optional username to substitute into {username}
+     * @return Filter string with substituted placeholders
      */
-    std::string buildGroupSearchFilter(const std::string& dn) const;
+    std::string buildGroupSearchFilter(const std::string& dn,
+                                       const std::string& username = "") const;
 
     /**
      * @brief Map a list of LDAP group names to ThemisDB roles.

@@ -3,22 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_manager.cpp                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:18:03                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1472                                           ║
+    • Total Lines:     1537                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 18598257e  2026-03-01  feat(plugins): add OciRegistryClient and loadPluginFromOc... ║
-    • 3d4510f1a  2026-02-28  fix(plugins): mark runtime plugin capability negotiation ... ║
-    • 88c2ff1ef  2026-02-28  feat(plugins): integrate PluginHealthMonitor into PluginM... ║
-    • d7e3e58b0  2026-02-28  feat(plugins): implement PluginManager::negotiateCapabili... ║
+    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • a217820d8f  2026-04-12  feat(plugins): implement runtime capability escalation bl... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -31,6 +29,8 @@
 #include "plugins/self_healing_plugin.h"
 #include "plugins/oci_registry_client.h"
 #include "acceleration/plugin_security.h"
+#include "themis/edition.h"
+#include "themis/runtime_license_gate.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <algorithm>
@@ -494,7 +494,20 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
 Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     TracedSpan span("PluginManager.loadPlugin");
     span.setAttribute("plugin.name", name);
-    
+
+    // Edition + runtime license gate: reject early on unsupported editions
+    if (!isEditionSupported()) {
+        const std::string msg = communityUnavailableMessage(name);
+        THEMIS_WARN("{}", msg);
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND, msg);
+    }
+    if (!isLicensed()) {
+        const std::string msg = "Plugin '" + name +
+            "' cannot be loaded: runtime license does not permit enterprise_plugins.";
+        THEMIS_WARN("{}", msg);
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND, msg);
+    }
+
     auto start = std::chrono::steady_clock::now();
     
     std::unique_lock<std::mutex> lock(mutex_);
@@ -649,6 +662,7 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     current_entry.instance.reset(plugin);
     current_entry.loaded = true;
     current_entry.file_hash = calculateFileHash(current_entry.path);
+    current_entry.frozen_capabilities = plugin->getCapabilities();
     
     // Auto-register self-healing plugins with the health monitor
     if (health_monitor_) {
@@ -734,6 +748,7 @@ Result<IThemisPlugin*> PluginManager::loadPluginFromPath(
     entry.instance.reset(plugin);
     entry.loaded = true;
     entry.file_hash = calculateFileHash(path);
+    entry.frozen_capabilities = plugin->getCapabilities();
     
     // Store
     plugins_[entry.name] = std::move(entry);
@@ -1319,7 +1334,62 @@ PluginNegotiationResult PluginManager::negotiateCapabilities(
 }
 
 PluginManager::~PluginManager() {
-    unloadAllPlugins();
+    (void)unloadAllPlugins();
+}
+
+// ============================================================================
+// Runtime capability escalation blocking
+// ============================================================================
+
+Result<void> PluginManager::checkCapabilityEscalation(const std::string& name)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = plugins_.find(name);
+    if (it == plugins_.end() || !it->second.loaded || !it->second.instance) {
+        return ErrVoid(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
+                       fmt::format("Plugin '{}' not found or not loaded", name));
+    }
+
+    auto& entry = it->second;
+    const PluginCapabilities& frozen  = entry.frozen_capabilities;
+    const PluginCapabilities  current = entry.instance->getCapabilities();
+
+    // A capability escalation occurs when a flag that was false at load time
+    // (i.e. not declared in the manifest capabilities snapshot) is now true.
+    bool escalated =
+        (!frozen.supports_streaming    && current.supports_streaming)    ||
+        (!frozen.supports_batching     && current.supports_batching)     ||
+        (!frozen.supports_transactions && current.supports_transactions) ||
+        (!frozen.thread_safe           && current.thread_safe)           ||
+        (!frozen.gpu_accelerated       && current.gpu_accelerated);
+
+    if (!escalated) {
+        return OkVoid();
+    }
+
+    // Mark the plugin as restricted so that operators can act on it.
+    entry.is_restricted = true;
+
+    THEMIS_ERROR(
+        "Capability escalation attempt detected for plugin '{}' — marking as RESTRICTED",
+        name);
+
+    return ErrVoid(
+        errors::ErrorCode::ERR_PLUGIN_CAPABILITY_ESCALATION,
+        fmt::format(
+            "Plugin '{}' attempted to escalate capabilities beyond its manifest declaration",
+            name));
+}
+
+bool PluginManager::isPluginRestricted(const std::string& name) const
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = plugins_.find(name);
+    if (it == plugins_.end()) {
+        return false;
+    }
+    return it->second.is_restricted;
 }
 
 // Singleton
@@ -1475,6 +1545,54 @@ void PluginManager::attachHealthMonitor(PluginHealthMonitor* monitor) {
     }
 
     THEMIS_INFO("PluginManager: health monitor attached");
+}
+
+// ============================================================================
+// Edition / License gating helpers
+// ============================================================================
+
+bool PluginManager::isEditionSupported() {
+    return edition::FEATURE_ENTERPRISE_PLUGINS;
+}
+
+bool PluginManager::isLicensed() {
+    return license::RuntimeLicenseGate::instance().isFeatureAllowed("enterprise_plugins");
+}
+
+std::string PluginManager::communityUnavailableMessage(const std::string& plugin_name) {
+    return "Plugin '" + plugin_name +
+           "' is not available in Community Edition. "
+           "Custom plugins require Enterprise Edition or higher. "
+           "Please upgrade at https://themisdb.io/pricing";
+}
+
+std::string PluginManager::marketplaceInfo() {
+    const auto info = edition::EditionInfo::Get();
+    if (!info.supports_plugins) {
+        return "Plugin Marketplace: Not available in " +
+               std::string(info.name) + " Edition";
+    }
+    std::string result = "Plugin Marketplace: Available\n";
+    result += "Edition: " + std::string(info.name) + "\n";
+    result += "Visit: https://marketplace.themisdb.io/";
+    if (info.type == edition::EditionType::HYPERSCALER) {
+        result += " (OEM custom plugins available)";
+    }
+    return result;
+}
+
+std::string PluginManager::installationInstructions() {
+    if (!edition::FEATURE_ENTERPRISE_PLUGINS) {
+        return "Error: Plugins are not supported in " +
+               std::string(edition::EDITION_STRING) +
+               " Edition. Please upgrade to Enterprise or Hyperscaler.";
+    }
+    return "To install a plugin:\n"
+           "1. Download from https://marketplace.themisdb.io/\n"
+           "2. Verify SHA256 checksum\n"
+           "3. Place in $THEMIS_HOME/plugins/\n"
+           "4. Restart themis_server\n"
+           "5. Use CREATE PLUGIN command";
 }
 
 } // namespace plugins

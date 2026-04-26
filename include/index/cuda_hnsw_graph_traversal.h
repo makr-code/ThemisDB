@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cuda_hnsw_graph_traversal.h                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:07:57                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     203                                            ║
+    • Total Lines:     235                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 15e6e3143  2026-03-09  feat: implement all features from problem statement ║
+    • da22cf1ef2  2026-04-13  feat(acceleration): CUDA HNSW visited array memory scalin... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -180,6 +180,37 @@ public:
                 size_t       num_queries,
                 uint32_t     k,
                 uint32_t     ef = 0) const;
+
+    // ── Visited bitset pool tuning ────────────────────────────────────────────
+
+    /**
+     * @brief Set the maximum query-batch size used to size the persistent
+     *        visited bitset pool.
+     *
+     * The pool is allocated once in buildIndex() as
+     *   `n × ceil(numNodes / 8)` bytes.
+     * Calling setMaxBatchSize() after buildIndex() takes effect on the next
+     * buildIndex() call (the pool is not reallocated lazily).
+     *
+     * Default: 512 queries.
+     *
+     * @param n  Maximum number of queries per single kernel launch.
+     *           Must be ≥ 1; values of 0 are silently clamped to 1.
+     */
+    void setMaxBatchSize(size_t n);
+
+    /**
+     * @brief Return the current max-batch-size setting.
+     */
+    size_t maxBatchSize() const noexcept;
+
+    /**
+     * @brief Return true when the persistent visited bitset pool has been
+     *        successfully allocated (i.e. buildIndex() allocated it without
+     *        error).  When false, batchSearch() falls back to per-invocation
+     *        allocation.
+     */
+    bool hasVisitedPool() const noexcept;
 
     // ── Diagnostics ───────────────────────────────────────────────────────────
 

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_orchestrator.h                                ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:08:30                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     490                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,6 +24,7 @@
 #include "llm/lora_framework/lora_provenance.h"
 #include "llm/lora_framework/adapter_consistency_checker.h"
 #include "llm/multi_lora_manager.h"
+#include "llm/decision_record_yaml_processor.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -479,6 +477,18 @@ public:
     /// Verify the Merkle audit chain integrity.
     /// Returns true when the chain is intact; false when tampered or corrupt.
     bool verifyAuditChain(const std::string& adapter_id) const;
+
+    /**
+     * @brief Inject a `DecisionRecordYamlProcessor` for async YAML traceability.
+     *
+     * When set, every `loadAdapter()` call emits a `LOOP_TRIGGER` decision
+     * record written asynchronously to
+     * `logs/decisions/YYYY-MM-DD/<ts>_LOOP_TRIGGER_<id>.yaml`.
+     *
+     * @param processor  Shared processor instance (may be nullptr to disable).
+     */
+    void setDecisionRecordProcessor(
+        std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> processor);
 
 private:
     class Impl;

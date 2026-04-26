@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compliance_reporter.cpp                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:15:42                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1122                                           ║
+    • Total Lines:     1118                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e60d47f28  2026-02-28  feat(governance): implement compliance report generation ... ║
-    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • 9f365a654  2026-02-25  feat(governance): integrate PCI-DSS/GDPR conflict detecti... ║
-    • c9b77cb47  2026-02-25  feat(governance): implement AI/ML model governance with t... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -391,7 +384,7 @@ CoverageAnalysis ComplianceReporter::analyzeCoverage(
     const std::vector<std::string>& resources
 ) const {
     CoverageAnalysis analysis;
-    analysis.total_resources_analyzed = resources.size();
+    analysis.total_resources_analyzed = static_cast<int>(resources.size());
     
     auto rules = policy_manager_->listRules();
     

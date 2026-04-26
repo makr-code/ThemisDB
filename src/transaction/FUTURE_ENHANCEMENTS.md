@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
+<!-- Status: current | validated: 2026-04-10 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Transaction Module - Future Enhancements
@@ -34,7 +36,7 @@ The transaction module provides ACID transaction semantics for all ThemisDB data
 ## Planned Features
 
 ### Serializable Snapshot Isolation (SSI)
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.8.0
 
 Add full serializability with snapshot isolation using predicate locking and conflict detection.
@@ -42,7 +44,7 @@ Add full serializability with snapshot isolation using predicate locking and con
 **Features:**
 - Predicate lock tracking for range queries
 - Read-write conflict detection
-- Write-write conflict detection  
+- Write-write conflict detection
 - Automatic serialization failure detection
 - Transaction retry with exponential backoff
 
@@ -61,13 +63,13 @@ public:
         size_t max_predicate_locks = 10000;
         std::chrono::milliseconds conflict_detection_interval{100};
     };
-    
+
     void setSSIConfig(const SSIConfig& config);
-    
+
     // Predicate lock management
-    void trackPredicateLock(TransactionId txn_id, 
+    void trackPredicateLock(TransactionId txn_id,
                            const PredicateLock& predicate);
-    
+
     // Conflict detection
     std::vector<SerializationConflict> detectConflicts(TransactionId txn_id);
 };
@@ -96,8 +98,8 @@ if (!result.ok && result.message.find("Serialization") != std::string::npos) {
 ---
 
 ### Optimistic Concurrency Control (OCC)
-**Status: ✅ Implemented** (v1.x)  
-**Priority:** Medium  
+**Status: ✅ Implemented** (v1.x)
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Optimistic locking with per-entity version numbers is fully implemented in `TransactionManager::Transaction`.
@@ -166,14 +168,14 @@ while (!committed) {
 - Version keys are stored in RocksDB alongside entity data under `occ:ver:{table}:{pk}`
 - Version encoding: 8-byte little-endian uint64_t (`encodeVersion` / `decodeVersion` helpers)
 - `optimisticPut` / `optimisticErase` use `mvcc_txn_->put` / `mvcc_txn_->del` so all writes participate in the MVCC snapshot; MVCC conflict errors are surfaced as `Status::Error`
-- Tests: `tests/test_transaction_occ.cpp` (11 unit tests covering creation, update, erase, version-conflict detection, retry pattern, and isolation-level compatibility)
+- Tests: `tests/test_transaction_occ.cpp` (13 unit tests covering creation, update, erase, version-conflict detection, retry pattern, isolation-level compatibility, and null-opt guard)
 - Benchmarks: `benchmarks/bench_transaction_throughput.cpp` — `OccOptimisticPut`, `OccReadVersionAndUpdate`, `OccOptimisticErase`
 
 ---
 
 ### Distributed Transaction Coordinator (2PC)
-**Status: ✅ Implemented** (v1.9.0, Issue: #123)  
-**Priority:** High  
+**Status: ✅ Implemented** (v1.9.0, Issue: #123)
+**Priority:** High
 **Target Version:** v1.9.0
 
 Implement two-phase commit for multi-shard distributed transactions.
@@ -201,7 +203,7 @@ public:
         std::string endpoint;
         std::set<std::string> affected_keys;
     };
-    
+
     struct DistributedTransaction {
         TransactionId txn_id;
         std::vector<Participant> participants;
@@ -209,13 +211,13 @@ public:
         State state;
         std::chrono::system_clock::time_point timeout;
     };
-    
+
     // Coordinator API
     TransactionId beginDistributed(const std::vector<Participant>& participants);
     Status prepareDistributed(TransactionId txn_id);
     Status commitDistributed(TransactionId txn_id);
     void abortDistributed(TransactionId txn_id);
-    
+
     // Participant API
     Status voteOnPrepare(TransactionId txn_id, bool can_commit);
     Status applyCommit(TransactionId txn_id);
@@ -255,8 +257,8 @@ auto commit_status = dist_txn_mgr.commitDistributed(dtxn_id);
 ---
 
 ### SAGA Orchestration Engine
-**Status: ✅ Implemented** (v1.8.0)  
-**Priority:** Medium  
+**Status: ✅ Implemented** (v1.8.0)
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Advanced SAGA coordination with parallel execution and conditional logic.
@@ -282,16 +284,16 @@ public:
         size_t max_retries = 3;
         std::chrono::milliseconds retry_delay{1000};
     };
-    
+
     struct SAGADefinition {
         std::string name;
         std::vector<Step> steps;
         bool enable_parallel = true;
     };
-    
+
     // Execute SAGA with orchestration
     Status execute(const SAGADefinition& saga);
-    
+
     // Get execution status
     struct ExecutionStatus {
         std::string saga_name;
@@ -300,7 +302,7 @@ public:
         size_t failed_steps;
         size_t pending_steps;
     };
-    
+
     ExecutionStatus getStatus(const std::string& saga_id);
 };
 
@@ -351,8 +353,8 @@ validate_customer ──┘
 ---
 
 ### Transaction Savepoints
-**Status: ✅ Implemented** (v1.x)  
-**Priority:** Medium  
+**Status: ✅ Implemented** (v1.x)
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Named savepoint support with partial rollback is fully implemented in `TransactionManager::Transaction`.
@@ -372,7 +374,7 @@ public:
     Status createSavepoint(std::string_view name);
     Status rollbackToSavepoint(std::string_view name);
     Status releaseSavepoint(std::string_view name);
-    
+
     // Query savepoints
     std::vector<std::string> getSavepoints() const;
     bool hasSavepoint(std::string_view name) const;
@@ -410,7 +412,7 @@ txn.commit();
 ---
 
 ### Adaptive Deadlock Prevention
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.9.0
 
 Machine learning-based deadlock prediction and prevention.
@@ -431,23 +433,23 @@ public:
         std::chrono::microseconds hold_time;
         size_t frequency;
     };
-    
+
     // Learn from transaction history
     void recordTransaction(TransactionId txn_id,
                           const std::vector<std::string>& locks_acquired,
                           std::chrono::microseconds duration);
-    
+
     // Predict deadlock probability
     double predictDeadlockProbability(
         const std::vector<std::string>& proposed_locks,
         const std::set<TransactionId>& active_transactions
     );
-    
+
     // Recommend lock order
     std::vector<std::string> recommendLockOrder(
         const std::vector<std::string>& keys
     );
-    
+
     // Suggest timeout
     std::chrono::milliseconds recommendTimeout(
         const std::vector<std::string>& keys
@@ -478,8 +480,8 @@ if (predictor > 0.8) {
 ---
 
 ### Write Batching and Coalescing
-**Priority:** Medium  
-**Target Version:** v1.8.0  
+**Priority:** Medium
+**Target Version:** v1.8.0
 **Status:** ✅ Implemented
 
 Automatic batching of concurrent small transactions for improved throughput.
@@ -565,8 +567,8 @@ for (auto& f : futures) {
 ---
 
 ### Read-Only Transaction Optimization
-**Status: ✅ Implemented** (v1.8.0)  
-**Priority:** Low  
+**Status: ✅ Implemented** (v1.8.0)
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Lightweight read-only transactions with no locking overhead.
@@ -585,7 +587,7 @@ public:
     // Mark transaction as read-only
     void setReadOnly(bool read_only = true);
     bool isReadOnly() const;
-    
+
     // Automatic detection
     bool hasWrites() const;
 };
@@ -612,80 +614,85 @@ txn.commit();  // Fast path
 ---
 
 ### Distributed SAGA Coordinator
-**Priority:** High  
+**Status: ✅ Implemented** (v1.9.0)
+**Priority:** High
 **Target Version:** v1.9.0
 
 Cross-cluster SAGA coordination with failure recovery.
 
 **Features:**
-- Multi-cluster orchestration
-- Persistent SAGA state
-- Automatic recovery after coordinator crash
-- Compensation retry policies
-- SAGA visualization and debugging
+- ✅ Multi-cluster orchestration — `RemoteStep` + `executeDistributed()` with pluggable `RemoteStepExecutor` transport
+- ✅ Persistent SAGA state — append-only JSON-lines journal (`journal_path`)
+- ✅ Automatic recovery after coordinator crash — `recoverInProgressSAGAs()` reads journal, identifies orphaned SAGAs
+- ✅ Compensation retry policies — per-step `max_retries` + exponential backoff on both forward and compensating actions
+- ✅ SAGA visualization and debugging — `visualize()` emits Graphviz DOT + plain-text summary
+- ✅ Manual intervention API — `forceCompensate()` / `forceComplete()` for stuck SAGAs
 
 **Architecture:**
 ```cpp
-class DistributedSAGACoordinator {
-public:
-    struct RemoteStep {
-        std::string service_endpoint;
-        std::string operation;
-        nlohmann::json params;
-        std::string compensate_operation;
-        nlohmann::json compensate_params;
-    };
-    
-    struct DistributedSAGA {
-        std::string saga_id;
-        std::vector<RemoteStep> steps;
-        std::map<std::string, std::string> context;  // Shared data
-    };
-    
-    // Execute distributed SAGA
-    Status executeDistributed(const DistributedSAGA& saga);
-    
-    // Recovery from crash
-    void recoverInProgressSAGAs();
-    
-    // Query SAGA status across cluster
-    SAGAStatus getDistributedStatus(const std::string& saga_id);
+// Remote step (cross-cluster)
+struct RemoteStep {
+    std::string service_endpoint;   // e.g. "http://inventory:8080"
+    std::string operation;          // e.g. "/reserve"
+    nlohmann::json params;
+    std::string compensate_operation; // e.g. "/release"
+    nlohmann::json compensate_params;
+    std::string name;
+    std::set<std::string> depends_on;
+    std::chrono::milliseconds forward_timeout{5000ms};
+    std::chrono::milliseconds compensate_timeout{10000ms};
+    size_t max_retries{3};
+    std::chrono::milliseconds retry_backoff{100ms};
 };
 
-// Example: Multi-service SAGA
-DistributedSAGACoordinator::DistributedSAGA saga;
-saga.saga_id = "order-123";
+struct DistributedSAGADefinition {
+    std::string saga_id;
+    std::vector<RemoteStep> steps;
+    std::map<std::string, std::string> context;
+};
 
-saga.steps.push_back({
-    .service_endpoint = "http://inventory:8080",
-    .operation = "/reserve",
-    .params = {{"sku", "ABC123"}, {"quantity", 5}},
-    .compensate_operation = "/release",
-    .compensate_params = {{"sku", "ABC123"}, {"quantity", 5}}
-});
+// Pluggable transport
+using RemoteStepExecutor =
+    std::function<DistributedSagaStatus(endpoint, operation, params)>;
 
-saga.steps.push_back({
-    .service_endpoint = "http://payment:8080",
-    .operation = "/charge",
-    .params = {{"amount", 99.99}, {"currency", "USD"}},
-    .compensate_operation = "/refund",
-    .compensate_params = {{"amount", 99.99}}
-});
+class DistributedSagaCoordinator {
+public:
+    // Multi-cluster execution
+    DistributedSagaReport executeDistributed(const DistributedSAGADefinition& saga);
 
-saga_coordinator.executeDistributed(saga);
+    // Status query
+    std::optional<DistributedSagaReport> getDistributedStatus(const std::string& saga_id) const;
+
+    // Crash recovery
+    std::vector<std::string> recoverInProgressSAGAs();
+
+    // Visualization
+    SagaVisualization visualize(const DistributedSagaDefinition& saga) const;
+
+    // Manual intervention
+    bool forceCompensate(const std::string& saga_id);
+    bool forceComplete(const std::string& saga_id);
+};
 ```
 
+**Implementation:**
+- `include/transaction/distributed_saga.h` — header with all types and methods
+- `src/transaction/distributed_saga.cpp` — full implementation
+- `tests/test_distributed_saga.cpp` — comprehensive unit tests (700+ lines)
+
 **Failure Recovery:**
-- Persistent SAGA log in RocksDB
-- Coordinator election for HA
-- Automatic step retry with exponential backoff
-- Manual intervention API for stuck SAGAs
+- ✅ Persistent SAGA log (append-only JSON-lines journal file, `journal_path` config)
+- ✅ Automatic step retry with exponential backoff (capped at 30 s, per-step configurable)
+- ✅ `recoverInProgressSAGAs()` detects orphaned SAGAs from journal on coordinator restart
+- ✅ Manual intervention API (`forceCompensate`, `forceComplete`) for stuck SAGAs
+- Note: Full RocksDB persistence and coordinator election are post-v1.9.0 enhancements;
+  journal-based persistence + manual recovery covers the v1.9.0 acceptance criteria.
 
 ---
 
 ### Transaction Audit Trail
-**Status: ✅ Implemented** (v1.8.0)  
-**Priority:** Medium  
+**Status: ✅ Implemented** (v1.8.0)
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Comprehensive transaction logging for compliance and debugging.
@@ -713,7 +720,7 @@ public:
         Result result;
         uint64_t duration_us;
     };
-    
+
     struct Operation {
         enum Type { PUT, DELETE, ADD_EDGE, DELETE_EDGE, ADD_VECTOR };
         Type type;
@@ -722,10 +729,10 @@ public:
         std::optional<std::string> old_value;
         std::optional<std::string> new_value;
     };
-    
+
     // Enable auditing
     void enableAuditing(bool enabled);
-    
+
     // Query audit log
     std::vector<AuditRecord> queryAuditLog(
         std::optional<std::string> user_id,
@@ -733,7 +740,7 @@ public:
         std::optional<std::chrono::system_clock::time_point> end_time,
         size_t limit = 1000
     );
-    
+
     // Export audit log
     Status exportToKafka(const std::string& topic);
     Status exportToS3(const std::string& bucket, const std::string& prefix);
@@ -753,7 +760,7 @@ auto failed_txns = txn_auditor.queryAuditLog(
 
 for (const auto& record : failed_txns) {
     if (record.result == TransactionAuditor::AuditRecord::ABORTED) {
-        std::cout << "Transaction " << record.txn_id 
+        std::cout << "Transaction " << record.txn_id
                   << " aborted by " << record.user_id << std::endl;
     }
 }
@@ -768,7 +775,7 @@ for (const auto& record : failed_txns) {
 ---
 
 ### Cross-Branch Transactions
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.9.0
 
 Atomic operations spanning multiple branches for advanced workflows.
@@ -789,14 +796,14 @@ public:
         std::string_view table,
         std::string_view pk
     );
-    
+
     // Write to specific branch
     Status putToBranch(
         const std::string& branch_name,
         std::string_view table,
         const BaseEntity& entity
     );
-    
+
     // Atomic cross-branch operation
     Status atomicMerge(
         const std::string& source_branch,
@@ -826,7 +833,7 @@ cross_txn.commit();  // Atomic across branches
 ## Research & Experimental
 
 ### Hardware Transactional Memory (HTM)
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** Research
 
 Explore Intel TSX / ARM TME for lock-free transactions.
@@ -845,7 +852,7 @@ Explore Intel TSX / ARM TME for lock-free transactions.
 ---
 
 ### Blockchain-Inspired Immutable Transaction Log
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** Research
 
 Cryptographically verifiable transaction history.
@@ -919,7 +926,7 @@ Track requests from GitHub issues:
 | Test Type | Coverage Target | Notes |
 |-----------|----------------|-------|
 | Unit | ≥ 90% line coverage in `transaction_manager.cpp` | Cover all isolation levels, OCC version conflict, savepoint LIFO ordering, and transaction timeout detection |
-| OCC | 11 existing tests in `tests/test_transaction_occ.cpp` must pass; add concurrent-contention tests | Verify ≥ 90% commit success rate at 10% contention ratio using a 10-thread stress driver |
+| OCC | 13 existing tests in `tests/test_transaction_occ.cpp` must pass; add concurrent-contention tests | Verify ≥ 90% commit success rate at 10% contention ratio using a 10-thread stress driver |
 | 2PC | Simulate coordinator crash after PREPARE; verify recovery commits or aborts correctly without duplicates | Use in-memory RocksDB for coordinator log in unit tests; inject crash via a test-hook API |
 | SAGA | Sequential and parallel SAGA with injected step failures; verify compensation executes in reverse dependency order | At least one parallel SAGA test with 4+ steps and 2 injected failures at non-leaf nodes |
 | SSI | Write-skew anomaly must be prevented under `SerializableSnapshot`; confirm retry loop resolves | Phantom-read test using concurrent range-scan + insert pattern; assert zero anomalies across 1000 iterations |
@@ -946,3 +953,51 @@ Track requests from GitHub issues:
 - [PostgreSQL Serializable Snapshot Isolation](https://drkp.net/papers/ssi-vldb12.pdf)
 - [SAGA Pattern](https://microservices.io/patterns/data/saga.html)
 - [Two-Phase Commit](https://en.wikipedia.org/wiki/Two-phase_commit_protocol)
+
+---
+
+## Scientific References (IEEE)
+
+The following references support the research basis for planned and implemented features in this module.
+
+**Serializable Snapshot Isolation (SSI)**
+
+[1] M. J. Cahill, U. Röhm, and A. D. Fekete, "Serializable isolation for snapshot databases," *ACM Trans. Database Syst.*, vol. 34, no. 4, pp. 1–42, Dec. 2009, doi: 10.1145/1620585.1620587.
+
+[2] D. R. K. Ports and K. Grittner, "Serializable snapshot isolation in PostgreSQL," *Proc. VLDB Endow.*, vol. 5, no. 12, pp. 1850–1861, Aug. 2012, doi: 10.14778/2367502.2367523.
+
+**Two-Phase Commit and Distributed Transactions**
+
+[3] J. Gray, "Notes on data base operating systems," in *Operating Systems: An Advanced Course*, R. Bayer, R. M. Graham, and G. Seegmüller, Eds. Berlin, Germany: Springer, 1978, pp. 393–481.
+
+[4] P. A. Bernstein, V. Hadzilacos, and N. Goodman, *Concurrency Control and Recovery in Database Systems*. Reading, MA, USA: Addison-Wesley, 1987. Available: https://www.microsoft.com/en-us/research/people/philbe/book/
+
+[5] D. Spanner: Google's Globally-Distributed Database, J. C. Corbett *et al.*, "Spanner: Google's globally distributed database," *ACM Trans. Comput. Syst.*, vol. 31, no. 3, pp. 1–22, Aug. 2013, doi: 10.1145/2491245.
+
+**SAGA Pattern and Compensation**
+
+[6] H. Garcia-Molina and K. Salem, "Sagas," *ACM SIGMOD Rec.*, vol. 16, no. 3, pp. 249–259, Dec. 1987, doi: 10.1145/38714.38742.
+
+[7] C. Richardson, *Microservices Patterns: With Examples in Java*. Shelter Island, NY, USA: Manning Publications, 2018, ch. 4 (Saga Pattern). ISBN: 978-1617294549.
+
+**Optimistic Concurrency Control**
+
+[8] H. T. Kung and J. T. Robinson, "On optimistic methods for concurrency control," *ACM Trans. Database Syst.*, vol. 6, no. 2, pp. 213–226, Jun. 1981, doi: 10.1145/319566.319567.
+
+**Deadlock Detection and Prevention**
+
+[9] A. Silberschatz, P. B. Galvin, and G. Gagne, *Operating System Concepts*, 10th ed. Hoboken, NJ, USA: Wiley, 2018, ch. 8 (Deadlocks). ISBN: 978-1119320913.
+
+[10] E. Knapp, "Deadlock detection in distributed databases," *ACM Comput. Surv.*, vol. 19, no. 4, pp. 303–328, Dec. 1987, doi: 10.1145/46157.46158.
+
+**MVCC and Snapshot Isolation**
+
+[11] A. Fekete, D. Liarokapis, E. O'Neil, P. O'Neil, and D. Shasha, "Making snapshot isolation serializable," *ACM Trans. Database Syst.*, vol. 30, no. 2, pp. 492–528, Jun. 2005, doi: 10.1145/1071610.1071615.
+
+[12] T. Neumann, T. Mühlbauer, and A. Kemper, "Fast serializable multi-version concurrency control for main-memory database systems," in *Proc. ACM SIGMOD Int. Conf. Manag. Data*, Melbourne, VIC, Australia, 2015, pp. 743–755, doi: 10.1145/2723372.2749436.
+
+**Write Batching and Group Commit**
+
+[13] T. Helland, "Life beyond distributed transactions: An apostate's opinion," in *Proc. 3rd Biennial Conf. Innovative Data Syst. Res. (CIDR)*, Asilomar, CA, USA, Jan. 2007.
+
+[14] B. Lampson and H. Sturgis, "Crash recovery in a distributed data storage system," unpublished manuscript, Xerox Palo Alto Research Center, 1979. (Foundational group-commit reference.)

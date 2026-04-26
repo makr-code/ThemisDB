@@ -1,3 +1,6 @@
+> ⚠️ **Historische Messdaten** – Die in diesem Dokument enthaltenen Zahlen entstammen einem bestimmten Messzeitpunkt und sind nicht mehr reproduzierbar ohne die ursprüngliche Testumgebung.
+> Für reproduzierbare Ergebnisse: Benchmark-Kommandos und aktuelle CMake-Presets unter [`benchmarks/README.md`](../README.md) verwenden.
+
 # ThemisDB V1.3.0 Performance Report
 **Datum**: 23. Dezember 2025  
 **Build**: MSVC Release (x64, AVX2)  

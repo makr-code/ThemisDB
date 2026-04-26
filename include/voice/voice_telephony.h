@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_telephony.h                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:13:09                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:47:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • d4de81cc0  2026-03-09  feat(voice): telephony bridge SIP/WebRTC integration (Iss... ║
+    • d4de81cc06  2026-03-09  feat(voice): telephony bridge SIP/WebRTC integration (Iss... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -166,8 +166,10 @@ struct IvrResult {
  * ## Typical inbound flow
  * ```cpp
  * auto session = SipCallSession::create(config);
- * session->onTranscript([](auto& t){ /* process transcript *\/ });
- * session->onDtmf([](auto& d){ /* handle digit *\/ });
+ * session->onTranscript([](auto& t){ // process transcript
+ * });
+ * session->onDtmf([](auto& d){ // handle digit
+ * });
  * session->start();                 // send 200 OK
  * session->receiveRtpPacket(pkt);   // called per arriving RTP packet
  * session->end();                   // sends BYE
@@ -317,7 +319,8 @@ private:
  * ## Typical browser-initiated flow
  * ```cpp
  * auto session = WebRtcCallSession::create(config);
- * session->onTranscript([](auto& t){ /* process *\/ });
+ * session->onTranscript([](auto& t){ // process
+ * });
  * auto answer_sdp = session->processOffer(offer_sdp);
  * session->start();
  * session->addIceCandidate(ice_json);
@@ -557,7 +560,7 @@ class TelephonyBridge {
 public:
     using Config = TelephonyBridgeConfig;
 
-    explicit TelephonyBridge(Config config = {});
+    explicit TelephonyBridge(Config config = Config{});
     ~TelephonyBridge() = default;
 
     // Non-copyable

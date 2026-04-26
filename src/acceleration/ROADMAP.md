@@ -1,10 +1,12 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Acceleration Module Roadmap
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · docs/de/acceleration/README.md -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-Production hardening complete — all GPU kernel surfaces and design contracts are in place; the CUDA ANN end-to-end path (HNSW integration) is fully wired: `CUDAVectorBackend::buildHnswAnnIndex()` loads the graph onto the device and `batchKnnSearch()` delegates to GPU-accelerated HNSW traversal when an index is pre-built (`cuda/cuda_hnsw_kernels.cu`).
+Production hardening complete — all GPU kernel surfaces and design contracts are in place; the CUDA ANN end-to-end path (HNSW integration) is fully wired. FAISS GPU backend is now production-ready: all six index types implemented (FLAT_L2, FLAT_IP, IVF_FLAT, IVF_PQ, IVF_SQ8, HNSW_FLAT), input validation and default-branch error handling added, 50-test suite added in `tests/test_faiss_gpu_backend.cpp`.
 
 ## Completed ✅
 - [x] Directory structure for CUDA and Vulkan backends
@@ -19,6 +21,7 @@ Production hardening complete — all GPU kernel surfaces and design contracts a
 - [x] Multi-GPU sharding for large embedding datasets (Target: Q4 2026) (Issue: #1376) — `MultiGPUVectorBackend` implemented in `src/acceleration/multi_gpu_backend.cpp`; range-based sharding, fan-out KNN search, host-side top-k merge, NCCL/RCCL collective backend integration with CPU fallback; tests in `tests/test_multi_gpu_backend.cpp`
 - [x] CUDA graph capture for recurring query workloads (Target: Q4 2026) (Issue: #1378) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`; tests in `tests/test_cuda_graph_capture.cpp`
 - [x] CUDAGraphBackend BFS and shortest-path CUDA kernels (Target: Q2 2026) — `cuda/graph_kernels.cu` implements parallel BFS (frontier expansion) and Bellman-Ford (edge relaxation); `CUDAGraphBackend` wired with CUDA Graph Capture (`CUDAGraphBFSCache` + `CUDAGraphSPCache`); `isAvailable()` now performs real device detection; tests in `tests/test_acceleration.cpp`
+- [x] FAISS GPU Backend: IVF_SQ8 + HNSW_FLAT index types, input validation, default-branch error handling (Target: v1.9.0) (Issue: #4052) — `IVF_SQ8` via `GpuIndexIVFScalarQuantizer` (QT_8bit), `HNSW_FLAT` via `faiss::IndexHNSWFlat` + `hnswM` config field; all switch statements have `default:` branches; `setError()` helper replaces bare `std::cerr`; `getCapabilities()` now reports `INT8` precision and L2/IP metric bits; 50 tests in `tests/test_faiss_gpu_backend.cpp`
 
 ## In Progress 🚧
 - [x] CUDA kernel implementations for vector similarity (Target: Q2 2026) (Issue: #1366) — `cuda/vector_kernels.cu` and `cuda/ann_kernels.cu` implemented; issue closed 2026-02-23
@@ -53,7 +56,7 @@ Production hardening complete — all GPU kernel surfaces and design contracts a
 - [x] Add deterministic behavior constraints for tie-breaking and partial-failure handling (Target: Q3 2026) (Issue: #1388) — deterministic tie-breaking and partial-failure guards in `include/acceleration/batch_validator.h`; issue closed 2026-02-23
 
 ### Phase 4: Tests
-- [x] Add unit tests for backend selection and capability negotiation matrix (Target: Q3 2026) (Issue: #1389) — `tests/test_backend_selection_matrix.cpp` added (65 tests: full fallback order, CPUMatrixBackend capabilities, capability negotiation matrix, precision/metric requirement matrix, `selectMatrixBackendFor`/`getBestMatrixBackend`, `getAvailableBackends`, `BackendHealthStatus` helpers)
+- [x] Add unit tests for backend selection and capability negotiation matrix (Target: Q3 2026) (Issue: #1389) — `tests/test_backend_selection_matrix.cpp` added (72 tests: full fallback order, CPUMatrixBackend capabilities, capability negotiation matrix, precision/metric requirement matrix, `selectMatrixBackendFor`/`getBestMatrixBackend`, `getAvailableBackends`, `BackendHealthStatus` helpers, O(1) type index correctness for all 4 CPU-typed backends)
 - [x] Add GPU/CPU parity integration tests for ANN and geospatial queries (Target: Q3 2026) (Issue: #1390) — CPU parity tests and GPU end-to-end tests (skipped gracefully when no hardware) in `test_cuda_ann_search.cpp`
 - [x] Add regression tests for invalid input and runtime fallback correctness (Target: Q3 2026) (Issue: #1391) — null-pointer, zero-dim, k-clamp regression tests in `test_cuda_ann_search.cpp`
 
@@ -61,6 +64,7 @@ Production hardening complete — all GPU kernel surfaces and design contracts a
 - [x] Add benchmark suite with latency/throughput baselines per backend (Target: Q3 2026) (Issue: #1392) — `bench_cuda_vs_cpu` harness (CPU ANN + Geo) with JSON output; baselines in `benchmarks/baselines/acceleration/`
 - [x] Establish performance gates for key workloads and batch sizes (Target: Q3 2026) (Issue: #1393) — regression thresholds (minor 5 %, major 10 %, critical 20 %) enforced in `.github/workflows/acceleration-benchmark-ci.yml`
 - [x] Run security hardening pass for plugin/driver interaction surfaces (Target: Q4 2026) (Issue: #1394) — `RTLD_NOW` replaces `RTLD_LAZY` in `loadLibrary` for fail-fast symbol binding; file permission check rejects group/world-writable plugins; file size cap (128 MB) guards against resource exhaustion; `verifyGPGSignature` (Linux) replaced `popen`+shell with `posix_spawn`+`execv` to eliminate shell-injection surface; `verifyMacOSCodeSignature` (macOS) replaced shell invocation with direct `SecStaticCodeCheckValidity` Security-framework call; tests in `tests/test_plugin_security_audit.cpp`
+- [x] BackendRegistry O(n²) backend selection index eliminated (Target: v1.9.0) (Issue: #236) — `RegisteredBackend` struct added to `compute_backend.h`; `typeIndex_` (`unordered_map<BackendType, RegisteredBackend>`) built at `registerBackend()` time; `selectTyped<T>()` now O(|kFallbackOrder|) map-lookup; `getBestVectorBackend/GraphBackend/GeoBackend/MatrixBackend()` use typed pointers directly; zero `dynamic_cast` calls in the hot query path
 
 ### Phase 6: Dokumentation & Abnahme
 - [x] Publish backend capability matrix and configuration guide (Target: Q4 2026) (Issue: #1395) — full capability tables for all GPU backends (CUDA, HIP, Vulkan, ZLUDA, DirectX, OpenGL, OpenCL) in `docs/acceleration/capability_negotiation.md`; bug fixes in `HIPVectorBackend` and `ZLUDAVectorBackend` `getCapabilities()` (added missing `supportedPrecisions`/`supportedMetrics`; replaced non-existent `totalMemory`/`maxBatchSize` fields)
@@ -76,14 +80,35 @@ Production hardening complete — all GPU kernel surfaces and design contracts a
 - [x] API stability guaranteed for acceleration backend contracts (Issue: #1403) — `BACKEND_CONTRACT_VERSION = 100` added to `compute_backend.h`; tests in `tests/test_backend_api_stability.cpp` verify all frozen enum values, struct field existence, version constants, and dispatcher behaviour
 
 ## Known Issues & Limitations
-- `CUDAGraphBackend` (graph analytics — BFS, shortest path) is a stub; GPU-accelerated graph traversal is not yet implemented
-- CUDA ANN backends are still in progress; ANN vector operations fall through to CPU pending full HNSW index integration (kernels in `cuda/ann_kernels.cu` are complete; HNSW wiring is missing)
-- DirectX (`DirectXVectorBackend`) and OpenGL (`OpenGLVectorBackend`) vector backends are stubs; not yet implemented
-- `CUDAGraphBackend` (graph analytics — BFS, shortest path) is a stub; GPU-accelerated graph traversal is not yet implemented
-- DirectX (`DirectXVectorBackend`): fully implemented with DX12 compute shaders for L2 and cosine distance in `src/acceleration/directx_backend_full.cpp` (Windows only, `THEMIS_ENABLE_DIRECTX`); `OpenGLVectorBackend` is still a stub; not yet implemented
+- `CUDAGraphBackend` (graph analytics — BFS, shortest path): BFS and Bellman-Ford kernels exist in `cuda/graph_kernels.cu` but the graph analytics adapter still delegates to CPU; CPU fallback is active.
+- DirectX (`DirectXVectorBackend`): fully implemented with DX12 compute shaders for L2 and cosine distance in `src/acceleration/directx_backend_full.cpp` (Windows only, `THEMIS_ENABLE_DIRECTX`); `OpenGLVectorBackend`, `OpenGLGeoBackend`, and `OpenGLGraphBackend` are fully implemented with GLSL 4.30 compute shaders and CPU fallbacks.
 - Tensor Core matrix ops (`CUDAMatrixBackend`) are production-ready; FP16/BF16 Tensor Core acceleration requires a CUDA-capable device (SM 7.0+ for FP16, SM 8.0+ for BF16)
-- Multi-GPU sharding backend (`MultiGPUVectorBackend`) implemented in acceleration layer; uses CPU sub-backends pending real CUDA kernels; `ncclGroupStart`/`ncclGroupEnd` wiring deferred to v2.5+
+- Multi-GPU sharding backend (`MultiGPUVectorBackend`) implemented in acceleration layer; uses CPU sub-backends pending real CUDA kernels
 - CUDA HNSW: kMaxK increased from 256 to 512; for k > 512 the launcher logs a warning and truncates results (multi-pass host-side strategy required for k > 512)
+- `AiHardwareDispatcher` NPU dispatch helpers (Apple ANE, Qualcomm QNN, ARM Ethos, NNAPI) return graceful "not yet implemented" errors; ONNX Runtime and Intel NPU (OpenVINO) paths are fully wired when the respective SDKs are linked
+
+## AI Hardware Support (v1.1.0)
+- [x] `AiHardwareDispatcher` singleton in `include/acceleration/ai_hardware_dispatcher.h` + `src/acceleration/ai_hardware_dispatcher.cpp`
+- [x] Priority chain: NPU_APPLE → NPU_INTEL → NPU_QUALCOMM → NPU_ARM → NNAPI → ONNX_RUNTIME → GPU → CPU
+- [x] `BackendType` extended: NPU_APPLE / NPU_INTEL / NPU_QUALCOMM / NPU_ARM / NNAPI / ONNX_RUNTIME
+- [x] `PrecisionMode` extended: INT4 / FP4 / W4A8 / W8A8 (LLM quantisation modes)
+- [x] `DeviceCapabilityInfo` extended: is_npu / npu_tops / supports_int4 / supports_w4a8 / onnx_ep
+- [x] `BackendCapabilities` extended: supportsAiInference / npuTops / preferredOnnxEP
+- [x] `cmake/features/GPUFeatures.cmake`: THEMIS_ENABLE_NPU_INTEL / THEMIS_ENABLE_NPU_QUALCOMM / THEMIS_ENABLE_NPU_ARM; auto-enable Apple ANE on Darwin, NNAPI on Android; ONNX Runtime auto-detect via find_path
+- [x] ONNX Runtime full inference path (CreateEnv / CreateSession / Run / OrtValue extraction) in `dispatchOnnxRuntime()`
+- [x] Intel NPU path via OpenVINO ov::Core in `dispatchIntelNPU()`
+- [x] 30 tests in `tests/acceleration/test_ai_hardware_dispatcher.cpp` (AiHardwareDispatcherFocusedTests AH-1 … AH-30)
 
 ## Breaking Changes
 - GPU kernel APIs are not yet stable; function signatures may change before v1.0
+- `BackendType` enum: new values (NPU_APPLE, NPU_INTEL, NPU_QUALCOMM, NPU_ARM, NNAPI, ONNX_RUNTIME) inserted before AUTO — any code that switch-cases on BackendType without a default must be recompiled
+- `PrecisionMode` enum: new bitmask values (INT4, FP4, W4A8, W8A8) added — existing stored bitmasks remain valid (additive change)
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Verdrahtet (2026-04-22)
+
+- `logCapabilities` – Wird jetzt am Ende von `AiHardwareDispatcher::initialize()` aufgerufen; loggt erkannte CPU/GPU/NPU-Capabilities beim Startup. AH-31 Rauchtest in `tests/acceleration/test_ai_hardware_dispatcher.cpp`.
+

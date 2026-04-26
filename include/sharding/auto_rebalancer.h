@@ -3,27 +3,25 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auto_rebalancer.h                                  ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:29                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     371                                            ║
+    • Total Lines:     367                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e80b3d54b  2026-03-14  feat(sharding): integrate PredictiveFailureDetector into ... ║
-    • 33f9fb777  2026-03-14  feat(sharding): implement adaptive shard rebalancer with ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_AUTO_REBALANCER_H
-#define THEMIS_AUTO_REBALANCER_H
+#pragma once
 
 #include "sharding/shard_load_detector.h"
 #include "sharding/rebalance_operation.h"
@@ -367,5 +365,3 @@ private:
 
 } // namespace sharding
 } // namespace themis
-
-#endif // THEMIS_AUTO_REBALANCER_H

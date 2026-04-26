@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            timeseries_metrics.cpp                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:55                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     521                                            ║
+    • Total Lines:     518                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 16b61f181  2026-03-13  fix(timeseries): audit fixes – catch-up dedup, prometheus... ║
-    • 4dbd7efde  2026-03-13  feat(timeseries): incremental continuous aggregation with... ║
-    • a188b47e9  2026-03-09  fix(timeseries): audit fixes - getStats regression, backp... ║
-    • fe42ba76e  2026-03-09  feat(timeseries): add FlushController adaptive flush, Dow... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -98,7 +95,7 @@ void TimeSeriesMetrics::recordCompression(const std::string& metric_name, size_t
 }
 
 void TimeSeriesMetrics::recordQuery(const std::string& metric_name, double latency_ms, 
-                                    size_t result_count, int64_t time_range_ms) {
+                                    size_t result_count, int64_t /*time_range_ms*/) {
     total_queries_executed_.fetch_add(1, std::memory_order_relaxed);
     total_data_points_returned_.fetch_add(result_count, std::memory_order_relaxed);
     
@@ -115,8 +112,8 @@ void TimeSeriesMetrics::recordQuery(const std::string& metric_name, double laten
     }
 }
 
-void TimeSeriesMetrics::recordAggregation(const std::string& metric_name, double latency_ms, 
-                                         size_t data_points_scanned, bool optimizer_used) {
+void TimeSeriesMetrics::recordAggregation(const std::string& /*metric_name*/, double latency_ms, 
+                                         size_t /*data_points_scanned*/, bool optimizer_used) {
     total_aggregations_executed_.fetch_add(1, std::memory_order_relaxed);
     
     if (optimizer_used) {
@@ -145,7 +142,7 @@ void TimeSeriesMetrics::updateStorageStats(size_t total_data_points, size_t tota
     current_storage_bytes_.store(total_size_bytes, std::memory_order_relaxed);
 }
 
-void TimeSeriesMetrics::recordRetention(const std::string& metric_name, size_t deleted_points, double latency_ms) {
+void TimeSeriesMetrics::recordRetention(const std::string& /*metric_name*/, size_t deleted_points, double /*latency_ms*/) {
     total_retention_runs_.fetch_add(1, std::memory_order_relaxed);
     total_data_points_deleted_.fetch_add(deleted_points, std::memory_order_relaxed);
 }
@@ -158,8 +155,8 @@ void TimeSeriesMetrics::recordOverdueFlush(const std::string& /*metric_name*/, d
     total_overdue_flush_events_.fetch_add(1, std::memory_order_relaxed);
 }
 
-void TimeSeriesMetrics::recordContinuousAggregateRefresh(const std::string& metric_name, int64_t window_ms, 
-                                                         double latency_ms, size_t points_processed) {
+void TimeSeriesMetrics::recordContinuousAggregateRefresh(const std::string& /*metric_name*/, int64_t /*window_ms*/, 
+                                                         double /*latency_ms*/, size_t points_processed) {
     total_continuous_agg_refreshes_.fetch_add(1, std::memory_order_relaxed);
     total_continuous_agg_points_generated_.fetch_add(points_processed, std::memory_order_relaxed);
 }

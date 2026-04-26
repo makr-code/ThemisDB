@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            shard_resource_manager.cpp                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:22                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
+    • Quality Score:   100.0/100                                      ║
     • Total Lines:     625                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 096960f50  2026-03-13  feat(sharding): implement Reed-Solomon repair engine para... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 6897bb74a5  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
+    • e8953e1175  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -295,8 +295,8 @@ void ShardResourceManager::broadcastResourceUpdate() {
     );
     gossip_snapshot.available_memory_bytes = snapshot.ram_total_bytes - snapshot.ram_usage_bytes;
     gossip_snapshot.total_memory_bytes = snapshot.ram_total_bytes;
-    // TODO: Implement platform-specific CPU core detection (sysconf on Linux, WMI on Windows)
-    // For now, use std::thread::hardware_concurrency() as a fallback
+    // std::thread::hardware_concurrency() is the correct cross-platform approach
+    // (maps to sysconf(_SC_NPROCESSORS_ONLN) on Linux, GetSystemInfo on Windows).
     gossip_snapshot.total_cpu_cores = std::thread::hardware_concurrency();
     gossip_snapshot.available_cpu_cores = std::max(0U, 
         gossip_snapshot.total_cpu_cores - static_cast<uint32_t>(snapshot.cpu_usage_percent / 100.0f * gossip_snapshot.total_cpu_cores)

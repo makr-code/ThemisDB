@@ -1,4 +1,6 @@
-<!-- Status: current | validated: 2026-03-12 -->
+> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+
+<!-- Status: current | validated: 2026-04-15 | Commit: e963d4e9ba -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Security — Maintenance Module
@@ -33,5 +35,5 @@
 
 ## Known Limitations
 
-- Schedules currently in memory only; lost on restart until RocksDB persistence is implemented (v1.1.0)
-- Force-run override (planned v1.1.0) will bypass window enforcement — requires `maintenance:admin` scope and will be audit-logged
+- Raft-backed `IDistributedLock` not yet available; production multi-node deployments should use a custom `IDistributedLock` implementation backed by Raft or a dedicated lock service until v2.1.0.
+- `REPLICA_VALIDATION` wiring to the sharding/replica module is pending; the task currently succeeds via the no-op unregistered-handler path.

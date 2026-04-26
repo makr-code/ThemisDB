@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hlc.cpp                                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:20:31                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     115                                            ║
+    • Total Lines:     143                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -45,7 +46,7 @@ std::string HLCTimestamp::toString() const {
 // ─────────────────────────────────────────────────────────────────────────────
 
 HybridLogicalClock::HybridLogicalClock()
-    : last_physical_ms_(wallClockMs()), logical_(0) {}
+    : state_(wallClockMs() << HLCTimestamp::LOGICAL_BITS) {}
 
 uint64_t HybridLogicalClock::wallClockMs() {
     return static_cast<uint64_t>(
@@ -55,61 +56,88 @@ uint64_t HybridLogicalClock::wallClockMs() {
     );
 }
 
+// advanceTo is a helper for the CAS loop in now() – not called externally.
+// Computes the next HLCTimestamp value given current packed state and wall clock.
 HLCTimestamp HybridLogicalClock::advanceTo(uint64_t phys_ms) {
-    // Called with mutex held.
-    if (phys_ms > last_physical_ms_) {
-        last_physical_ms_ = phys_ms;
-        logical_ = 0;
-    } else {
-        // Wall clock did not advance – bump the logical counter.
-        ++logical_;
-        if (logical_ > HLCTimestamp::MAX_LOGICAL) {
-            // Overflow: advance the physical component by 1 ms to make room.
-            ++last_physical_ms_;
-            logical_ = 0;
+    // CAS loop: atomically advance the packed (physical||logical) state.
+    uint64_t cur = state_.load(std::memory_order_relaxed);
+    for (;;) {
+        uint64_t cur_phys = cur >> HLCTimestamp::LOGICAL_BITS;
+        uint32_t cur_log  = static_cast<uint32_t>(cur & HLCTimestamp::LOGICAL_MASK);
+
+        uint64_t new_phys;
+        uint32_t new_log;
+        if (phys_ms > cur_phys) {
+            new_phys = phys_ms;
+            new_log  = 0;
+        } else {
+            new_phys = cur_phys;
+            new_log  = cur_log + 1;
+            if (new_log > HLCTimestamp::MAX_LOGICAL) {
+                ++new_phys;
+                new_log = 0;
+            }
         }
+
+        uint64_t desired = (new_phys << HLCTimestamp::LOGICAL_BITS) | new_log;
+        if (state_.compare_exchange_weak(cur, desired,
+                                         std::memory_order_acq_rel,
+                                         std::memory_order_relaxed)) {
+            return HLCTimestamp{desired};
+        }
+        // cur has been updated by compare_exchange_weak on failure – retry.
     }
-    return HLCTimestamp::from(last_physical_ms_, logical_);
 }
 
 HLCTimestamp HybridLogicalClock::now() {
-    std::lock_guard<std::mutex> lock(mutex_);
     return advanceTo(wallClockMs());
 }
 
 HLCTimestamp HybridLogicalClock::update(HLCTimestamp received) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    // Advance to the maximum of the local wall clock and the received physical ts.
-    uint64_t local_phys = wallClockMs();
-    uint64_t max_phys   = std::max(local_phys, received.physical());
+    uint64_t cur = state_.load(std::memory_order_relaxed);
+    for (;;) {
+        uint64_t local_phys = wallClockMs();
+        uint64_t max_phys   = std::max(local_phys, received.physical());
 
-    if (max_phys == last_physical_ms_) {
-        // Both local and remote share the same physical millisecond.
-        // Logical = max(local_logical, received_logical) + 1.
-        logical_ = std::max(logical_, received.logical()) + 1;
-        if (logical_ > HLCTimestamp::MAX_LOGICAL) {
-            ++last_physical_ms_;
-            logical_ = 0;
+        uint64_t cur_phys = cur >> HLCTimestamp::LOGICAL_BITS;
+        uint32_t cur_log  = static_cast<uint32_t>(cur & HLCTimestamp::LOGICAL_MASK);
+
+        uint64_t new_phys;
+        uint32_t new_log;
+        if (max_phys == cur_phys) {
+            // Both local and remote share the same physical millisecond.
+            new_phys = cur_phys;
+            new_log  = std::max(cur_log, received.logical()) + 1;
+            if (new_log > HLCTimestamp::MAX_LOGICAL) {
+                ++new_phys;
+                new_log = 0;
+            }
+        } else if (max_phys == received.physical() && max_phys > cur_phys) {
+            // Received message has a newer physical timestamp.
+            new_phys = max_phys;
+            new_log  = received.logical() + 1;
+            if (new_log > HLCTimestamp::MAX_LOGICAL) {
+                ++new_phys;
+                new_log = 0;
+            }
+        } else {
+            // Local wall clock is strictly ahead.
+            new_phys = max_phys;
+            new_log  = 0;
         }
-    } else if (max_phys == received.physical() && max_phys > last_physical_ms_) {
-        // Received message has a newer physical timestamp.
-        last_physical_ms_ = max_phys;
-        logical_ = received.logical() + 1;
-        if (logical_ > HLCTimestamp::MAX_LOGICAL) {
-            ++last_physical_ms_;
-            logical_ = 0;
+
+        uint64_t desired = (new_phys << HLCTimestamp::LOGICAL_BITS) | new_log;
+        if (state_.compare_exchange_weak(cur, desired,
+                                         std::memory_order_acq_rel,
+                                         std::memory_order_relaxed)) {
+            return HLCTimestamp{desired};
         }
-    } else {
-        // Local wall clock is strictly ahead.
-        last_physical_ms_ = max_phys;
-        logical_ = 0;
+        // cur was refreshed by CAS failure – retry with new wall clock sample.
     }
-    return HLCTimestamp::from(last_physical_ms_, logical_);
 }
 
 HLCTimestamp HybridLogicalClock::peek() const {
-    std::lock_guard<std::mutex> lock(mutex_);
-    return HLCTimestamp::from(last_physical_ms_, logical_);
+    return HLCTimestamp{state_.load(std::memory_order_acquire)};
 }
 
 } // namespace themis

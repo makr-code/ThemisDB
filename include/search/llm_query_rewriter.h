@@ -3,21 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_query_rewriter.h                               ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-03-30 04:10:41                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-04-15 18:46:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     173                                            ║
+    • Total Lines:     170                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8b78c9c56  2026-02-28  Fix temperature stub in LlmQueryRewriter and add temperat... ║
-    • 92608937d  2026-02-26  fix: GCC default-arg error in 18 headers - add ::defaults... ║
-    • e6212d67e  2026-02-22  Implement LlmQueryRewriter for LLM-based query rewriting ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -34,10 +28,20 @@ namespace themis {
 /**
  * @brief Result of an LLM-based query rewrite operation.
  */
+/// Quality of the rewrites returned by `LlmQueryRewriter::rewrite()`.
+/// Source: AI_ML_IMPACT_ASSESSMENT.md §7, Gap 2 (search/FUTURE_ENHANCEMENTS.md §Gap 2).
+enum class RewriteQuality {
+    OK,       ///< LLM-generated rewrites passed all quality checks.
+    FALLBACK, ///< All LLM rewrites were discarded (e.g. too low overlap); original used.
+};
+
 struct RewrittenQuery {
     std::string original;                  ///< Original input query
     std::vector<std::string> rewrites;     ///< LLM-generated alternative queries
     bool llm_used = false;                 ///< Whether the LLM backend was actually invoked
+    /// Quality classification of the returned rewrites.  FALLBACK means all
+    /// LLM outputs were discarded and the original query was substituted.
+    RewriteQuality quality = RewriteQuality::OK;
 };
 
 /**
@@ -110,6 +114,11 @@ public:
         bool fallback_to_original = true;
         /// Character budget per individual rewrite; longer strings are dropped.
         size_t max_rewrite_length = 256;
+        /// Minimum Jaccard token-overlap ratio between a rewrite and the original
+        /// query.  Rewrites whose overlap falls below this threshold are discarded
+        /// (semantically nonsensical output filter).  Set to 0.0 to disable.
+        /// Source: AI_ML_IMPACT_ASSESSMENT.md §7, Gap 2 / search/FUTURE_ENHANCEMENTS.md.
+        float min_token_overlap_ratio = 0.2f;
         static Config defaults() { return {}; }
     };
 
@@ -168,6 +177,16 @@ private:
     /// Parse numbered lines (e.g. "1. some rewrite") from the LLM response.
     std::vector<std::string> parseRewrites(const std::string& llm_output,
                                            const std::string& original) const;
+
+    /// Compute the Jaccard overlap between the whitespace-token sets of
+    /// @p a and @p b.  Returns a value in [0, 1].
+    static float jaccardTokenOverlap(const std::string& a, const std::string& b);
+
+    /// Filter @p rewrites in-place: discard entries whose Jaccard overlap with
+    /// @p original falls below Config::min_token_overlap_ratio.
+    /// Returns true if at least one rewrite survived the filter.
+    bool applyOverlapFilter(std::vector<std::string>& rewrites,
+                            const std::string& original) const;
 };
 
 }  // namespace themis

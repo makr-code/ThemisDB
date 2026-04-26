@@ -25,6 +25,7 @@ Each row contains:
 | ADR-006 | Plugin-Based Adapter Architecture for Multi-Database Benchmarking (Chimera) | 2023-08-01 | Accepted | `src/chimera/` | [adr_006](adr_006_plugin_chimera_adapter_architecture.md) |
 | ADR-007 | gRPC + Protobuf for Internal Service RPC | 2022-10-01 | Accepted | `src/rpc_grpc/`, `src/server/` | [adr_007](adr_007_grpc_for_internal_rpc.md) |
 | ADR-008 | JWT + OAuth2 PKCE as Primary API Authentication | 2023-01-01 | Accepted | `src/server/`, `src/auth/` | [adr_008](adr_008_jwt_oauth2_for_api_auth.md) |
+| ADR-009 | Systematisches Algorithm-Validation-Framework (6-Schritte-Prozess) | 2026-04-22 | Accepted | alle `src/<modul>/` (cross-cutting) | [adr_009](adr_009_algorithm_validation_framework.md) |
 
 ---
 

@@ -1,9 +1,11 @@
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
 # Plugins Module — Architecture Guide
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: src/plugins/README.md · src/plugins/ROADMAP.md · src/plugins/FUTURE_ENHANCEMENTS.md · docs/de/plugins/README.md -->
 
-**Version:** 1.0  
-**Last Updated:** 2026-03-09  
+**Version:** 1.0
+**Last Updated:** 2026-04-06
 **Module Path:** `src/plugins/`
 
 ---

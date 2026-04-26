@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_security.cpp                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:04:27                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:43:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     477                                            ║
+    • Total Lines:     496                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2cfa27ed1  2026-03-10  feat(security): add focused test targets, bench_security.... ║
+    • 40456a3c45  2026-04-11  perf(audit): reduce hash-chain writer overhead in benchmarks ║
+    • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -59,6 +60,7 @@
 #include <openssl/rand.h>
 
 #include <algorithm>
+#include <filesystem>
 #include <memory>
 #include <random>
 #include <string>
@@ -85,6 +87,12 @@ std::string random_string(std::size_t n) {
     for (char& c : s)
         c = kAlpha[dist(rng)];
     return s;
+}
+
+std::filesystem::path benchmark_temp_path(const std::string& stem) {
+    auto dir = std::filesystem::temp_directory_path() / "themis_benchmarks";
+    std::filesystem::create_directories(dir);
+    return dir / stem;
 }
 
 // ---------------------------------------------------------------------------
@@ -202,12 +210,16 @@ BENCHMARK(BM_AES256GCM_Decrypt_1MB);
 
 static void BM_FieldEncryption_SmallDocument(benchmark::State& state) {
     auto provider = std::make_shared<themis::MockKeyProvider>();
+    provider->createKey("bench-doc-key", 1);
     themis::FieldEncryption enc(provider);
     const std::string key_id = "bench-doc-key";
     const std::string plaintext = random_string(256);
 
+    auto raw_key = provider->getKey(key_id);
+    auto meta    = provider->getKeyMetadata(key_id);
+
     for (auto _ : state) {
-        auto blob = enc.encrypt(key_id, plaintext);
+        auto blob = enc.encryptWithKey(plaintext, key_id, meta.version, raw_key);
         benchmark::DoNotOptimize(blob.ciphertext.data());
     }
     state.SetBytesProcessed(state.iterations() * static_cast<int64_t>(plaintext.size()));
@@ -217,13 +229,16 @@ BENCHMARK(BM_FieldEncryption_SmallDocument);
 
 static void BM_FieldDecryption_SmallDocument(benchmark::State& state) {
     auto provider = std::make_shared<themis::MockKeyProvider>();
+    provider->createKey("bench-doc-key", 1);
     themis::FieldEncryption enc(provider);
     const std::string key_id = "bench-doc-key";
     const std::string plaintext = random_string(256);
-    auto blob = enc.encrypt(key_id, plaintext);
+    auto raw_key = provider->getKey(key_id);
+    auto meta    = provider->getKeyMetadata(key_id);
+    auto blob    = enc.encryptWithKey(plaintext, key_id, meta.version, raw_key);
 
     for (auto _ : state) {
-        auto recovered = enc.decrypt(blob);
+        auto recovered = enc.decryptWithKey(blob, raw_key);
         benchmark::DoNotOptimize(recovered.data());
     }
     state.SetBytesProcessed(state.iterations() * static_cast<int64_t>(plaintext.size()));
@@ -433,9 +448,11 @@ BENCHMARK(BM_AQLInjection_MaliciousQuery);
 
 static void BM_AuditLog_TamperEvidentAppend(benchmark::State& state) {
     themis::utils::HashChainAuditWriterConfig cfg;
-    cfg.log_path        = "/tmp/bench_security_audit.jsonl";
-    cfg.chain_head_path = "/tmp/bench_security_audit_head.bin";
+    cfg.log_path        = benchmark_temp_path("bench_security_audit.jsonl").string();
+    cfg.chain_head_path = benchmark_temp_path("bench_security_audit_head.bin").string();
     cfg.fsync_on_write  = false;  // disable fsync for throughput benchmark
+    std::filesystem::remove(cfg.log_path);
+    std::filesystem::remove(cfg.chain_head_path);
     themis::utils::HashChainAuditWriter writer(cfg);
 
     nlohmann::json ev;
@@ -454,9 +471,11 @@ BENCHMARK(BM_AuditLog_TamperEvidentAppend);
 
 static void BM_AuditLog_BatchAppend_100(benchmark::State& state) {
     themis::utils::HashChainAuditWriterConfig cfg;
-    cfg.log_path        = "/tmp/bench_security_audit_batch.jsonl";
-    cfg.chain_head_path = "/tmp/bench_security_audit_batch_head.bin";
+    cfg.log_path        = benchmark_temp_path("bench_security_audit_batch.jsonl").string();
+    cfg.chain_head_path = benchmark_temp_path("bench_security_audit_batch_head.bin").string();
     cfg.fsync_on_write  = false;
+    std::filesystem::remove(cfg.log_path);
+    std::filesystem::remove(cfg.chain_head_path);
     themis::utils::HashChainAuditWriter writer(cfg);
 
     nlohmann::json ev;

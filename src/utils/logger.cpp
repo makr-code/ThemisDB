@@ -3,24 +3,25 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            logger.cpp                                         ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:21:33                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     293                                            ║
+    • Total Lines:     291                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5cc90811f  2026-02-23  fix(core): trace ID injection into JSON structured logs; ... ║
-    • e683223e3  2026-02-23  feat(core): add Logger::getLevel() and fix level-aware me... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
+
+// Focused test binaries may compile this TU directly instead of linking themis_base.
+// In that mode, export symbols from this TU to allow static member definitions.
+#if defined(THEMIS_TEST_BUILD) && !defined(THEMIS_BASE_EXPORTS)
+#define THEMIS_BASE_EXPORTS
+#endif
 
 #include "utils/logger.h"
 #include "utils/pii_redacting_sink.h"

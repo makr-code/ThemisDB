@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            two_phase_commit_coordinator.cpp                   ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-03-30 04:20:23                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-04-15 18:50:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     505                                            ║
+    • Total Lines:     507                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 67965456c  2026-03-22  Add constructors with default config for various classes ... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -242,7 +242,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
         THEMIS_INFO("2PC coordinator [{}] txn {} ABORTED", coordinator_id_, transaction_id);
     }
 
-    const double total_ms = std::chrono::duration<double, std::milli>(
+    [[maybe_unused]] const double total_ms = std::chrono::duration<double, std::milli>(
         std::chrono::steady_clock::now() - t0).count();
 
     if (auto m = ShardingMetricsRegistry::instance().getMetrics()) {
@@ -251,7 +251,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
         if (!all_prepared) {
             m->record2PCAbort(coordinator_id_, outcome.reason);
         }
-        (void)total_ms; // available for future histogram
+        // available for future histogram
     }
 
     return outcome;

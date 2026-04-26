@@ -3,18 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pool_allocator.cpp                                 ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:21:33                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     929                                            ║
+    • Total Lines:     932                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -502,7 +505,7 @@ SlabAllocator::SlabAllocator(size_t object_size, size_t objects_per_slab,
 
 SlabAllocator::~SlabAllocator() = default;
 
-Result<void*> SlabAllocator::allocate(size_t size, AllocationHint hint) {
+Result<void*> SlabAllocator::allocate(size_t size, [[maybe_unused]] AllocationHint hint) {
     if (size == 0) {
         return Err<void*>(errors::ErrorCode::ERR_MEMORY_INVALID_SIZE,
                          "Allocation size must be greater than 0");
@@ -633,7 +636,7 @@ StackAllocator::StackAllocator(size_t capacity)
 
 StackAllocator::~StackAllocator() = default;
 
-Result<void*> StackAllocator::allocate(size_t size, AllocationHint hint) {
+Result<void*> StackAllocator::allocate(size_t size, [[maybe_unused]] AllocationHint hint) {
     if (size == 0) {
         return Err<void*>(errors::ErrorCode::ERR_MEMORY_INVALID_SIZE,
                          "Allocation size must be greater than 0");

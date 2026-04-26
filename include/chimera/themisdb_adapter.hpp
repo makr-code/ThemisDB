@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themisdb_adapter.hpp                               ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:06:43                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     334                                            ║
+    • Quality Score:   88.0/100                                       ║
+    • Total Lines:     456                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 0701ac8f4  2026-03-12  feat(chimera): implement async/promise-based API (IAsyncD... ║
-    • 3fea6d6b5  2026-03-12  refactor: clean up includes and remove unused transaction... ║
-    • c4c01c242  2026-03-12  fix(chimera): address code review feedback on ThemisDB ad... ║
-    • 042f896b6  2026-03-12  refactor(chimera): address PR review feedback on transact... ║
-    • cadbebb7b  2026-03-12  feat(chimera): Production ThemisDB Adapter Integration - ... ║
+    • 95161c29db  2026-04-11  feat(chimera): Streaming result sets, prepared statements... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -71,6 +67,103 @@ class GraphIndexManager;
 namespace chimera {
 
 /**
+ * @class ThemisDBResultStream
+ * @brief In-memory simulation implementation of IResultStream for ThemisDB
+ *
+ * @details
+ * Stores a pre-fetched RelationalTable snapshot and serves rows via the
+ * IResultStream cursor API.  In simulation mode (no live server) all rows
+ * are available immediately; in production mode the back-end would replace
+ * the snapshot with a real server-side cursor.
+ */
+class ThemisDBResultStream final : public IResultStream {
+public:
+    /**
+     * @brief Construct a result stream from a pre-fetched table snapshot.
+     * @param table   All rows to be served by this stream.
+     * @param config  Stream configuration (batch size / timeout hints).
+     */
+    explicit ThemisDBResultStream(
+        RelationalTable  table,
+        StreamConfig     config = {}
+    );
+
+    bool has_more() const override;
+    Result<std::vector<RelationalRow>> next_batch(
+        size_t batch_size = 0
+    ) override;
+    size_t position() const override;
+    std::optional<size_t> total_size() const override;
+    Result<bool> close() override;
+
+private:
+    RelationalTable table_;
+    StreamConfig    config_;
+    size_t          cursor_   = 0; ///< Index of next row to be returned
+    bool            closed_   = false;
+};
+
+/**
+ * @class ThemisDBPreparedStatement
+ * @brief In-memory simulation implementation of IPreparedStatement for ThemisDB
+ *
+ * @details
+ * Stores the original query text and a named/positional parameter map.
+ * When execute() is called the parameters are applied to the query by
+ * substituting @name tokens and then delegated to the adapter's
+ * execute_query() method.  In production mode a real query-plan cache
+ * would replace the textual substitution with a plan-cache lookup.
+ */
+class ThemisDBPreparedStatement final : public IPreparedStatement {
+public:
+    /**
+     * @brief Construct a prepared statement for the given query.
+     *
+     * @param id      Unique server-side statement ID (UUID).
+     * @param query   Query text to prepare.
+     * @param adapter Owning adapter; used to execute the statement.
+     */
+    ThemisDBPreparedStatement(
+        std::string             id,
+        std::string             query,
+        IDatabaseAdapter*       adapter
+    );
+
+    std::string get_id() const override;
+    std::string get_query() const override;
+
+    Result<bool> bind(const std::string& name, const Scalar& value) override;
+    Result<bool> bind(size_t position, const Scalar& value) override;
+    Result<bool> bind_all(
+        const std::map<std::string, Scalar>& params
+    ) override;
+
+    Result<RelationalTable> execute() override;
+    std::future<Result<RelationalTable>> execute_async() override;
+    Result<bool> reset() override;
+    Result<QueryStatistics> get_statistics() const override;
+
+private:
+    std::string             id_;
+    std::string             query_;
+    IDatabaseAdapter*       adapter_;  ///< Non-owning; adapter outlives stmt
+
+    std::map<std::string, Scalar>  named_params_;
+    std::map<size_t, Scalar>       positional_params_;
+
+    // Accumulated execution statistics
+    mutable std::mutex stats_mutex_;
+    size_t             exec_count_   = 0;
+    std::chrono::microseconds total_exec_time_{0};
+
+    /// Substitute @name tokens in the query with their bound Scalar values.
+    std::string apply_named_params() const;
+
+    /// Build a positional params vector from the positional_params_ map.
+    std::vector<Scalar> build_positional_params() const;
+};
+
+/**
  * @class ThemisDBAdapter
  * @brief ThemisDB implementation of the CHIMERA adapter interface
  *
@@ -88,7 +181,9 @@ namespace chimera {
  *          true production-grade integration.
  */
 class ThemisDBAdapter : public IDatabaseAdapter,
-                        public IAsyncDatabaseAdapter {
+                        public IAsyncDatabaseAdapter,
+                        public IStreamingAdapter,
+                        public IPreparedStatementAdapter {
 public:
     /**
      * @brief Default constructor — in-process simulation mode.
@@ -268,6 +363,23 @@ public:
 
     Result<bool> cancel_async(const std::string& operation_id) override;
 
+    // IStreamingAdapter
+    Result<std::unique_ptr<IResultStream>> execute_query_stream(
+        const std::string& query,
+        const std::vector<Scalar>& params = {}
+    ) override;
+
+    Result<bool> set_stream_config(const StreamConfig& config) override;
+
+    // IPreparedStatementAdapter
+    Result<std::unique_ptr<IPreparedStatement>> prepare(
+        const std::string& query
+    ) override;
+
+    Result<bool> unprepare(const std::string& statement_id) override;
+
+    Result<std::vector<std::string>> list_prepared() override;
+
 private:
     // ── Connection state ────────────────────────────────────────────────────
     bool connected_ = false;
@@ -327,6 +439,15 @@ private:
     // checks this flag before and after each major step.
     mutable std::mutex cancel_mutex_;
     std::map<std::string, std::shared_ptr<std::atomic<bool>>> cancel_tokens_;
+
+    // ── Streaming configuration ──────────────────────────────────────────────
+    StreamConfig stream_config_;
+
+    // ── Prepared statement registry ─────────────────────────────────────────
+    // Maps statement_id → raw pointer (statement is owned by the caller).
+    // We only keep the set of live IDs here so unprepare() can validate them.
+    mutable std::mutex prepared_mutex_;
+    std::map<std::string, std::string> prepared_queries_; ///< id → query text
 };
 
 } // namespace chimera

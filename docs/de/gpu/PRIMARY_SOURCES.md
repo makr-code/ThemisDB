@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [gpu](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-04  
+**Datum:** 2026-04-17  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `src/gpu/ARCHITECTURE.md`
@@ -18,7 +18,7 @@
 
 # Primary Sources — `gpu`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`gpu`** aus den Verzeichnissen `src/gpu/` und/oder `include/gpu/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`gpu`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
 
@@ -36,4 +36,4 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`gpu`** aus
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-04*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*

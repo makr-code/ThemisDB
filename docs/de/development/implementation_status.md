@@ -1,5 +1,5 @@
 # Themis Implementation Status Audit
-**Stand:** 5. Dezember 2025  
+**Stand:** 6. April 2026  
 **Zweck:** Klarer Abgleich zwischen todo.md-Planung und tatsächlich vorhandenem Code
 
 ---

@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [security](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-04  
+**Datum:** 2026-04-17  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/security/ARCHITECTURE.md`
@@ -9,6 +9,7 @@
 - `include/security/README.md`
 - `include/security/ROADMAP.md`
 - `include/security/SECURITY.md`
+- `include/security/examples/README.md`
 - `src/security/ARCHITECTURE.md`
 - `src/security/AUDIT.md`
 - `src/security/CHANGELOG.md`
@@ -25,21 +26,9 @@
 
 # Primary Sources — `security`
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`security`** aus den Verzeichnissen `src/security/` und/oder `include/security/`.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`security`** aus den erkannten Quellverzeichnissen des Moduls.
 
 ## Primäre Markdown-Dateien
-
-### `src/security/`
-
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/security/ARCHITECTURE.md`](../../../src/security/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/security/AUDIT.md`](../../../src/security/AUDIT.md) |
-| `CHANGELOG.md` | [`src/security/CHANGELOG.md`](../../../src/security/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/security/FUTURE_ENHANCEMENTS.md`](../../../src/security/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/security/README.md`](../../../src/security/README.md) |
-| `ROADMAP.md` | [`src/security/ROADMAP.md`](../../../src/security/ROADMAP.md) |
-| `SECURITY.md` | [`src/security/SECURITY.md`](../../../src/security/SECURITY.md) |
 
 ### `include/security/`
 
@@ -53,6 +42,24 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`security`*
 | `ROADMAP.md` | [`include/security/ROADMAP.md`](../../../include/security/ROADMAP.md) |
 | `SECURITY.md` | [`include/security/SECURITY.md`](../../../include/security/SECURITY.md) |
 
+### `include/security/examples/`
+
+| Datei | Pfad |
+|-------|------|
+| `README.md` | [`include/security/examples/README.md`](../../../include/security/examples/README.md) |
+
+### `src/security/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/security/ARCHITECTURE.md`](../../../src/security/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/security/AUDIT.md`](../../../src/security/AUDIT.md) |
+| `CHANGELOG.md` | [`src/security/CHANGELOG.md`](../../../src/security/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/security/FUTURE_ENHANCEMENTS.md`](../../../src/security/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/security/README.md`](../../../src/security/README.md) |
+| `ROADMAP.md` | [`src/security/ROADMAP.md`](../../../src/security/ROADMAP.md) |
+| `SECURITY.md` | [`src/security/SECURITY.md`](../../../src/security/SECURITY.md) |
+
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-04*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*

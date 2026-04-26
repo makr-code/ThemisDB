@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tensor_core_matmul.cpp                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:13:48                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     153                                            ║
+    • Total Lines:     184                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e627c556b  2026-03-15  feat(acceleration): BackendRegistry thread-safety, VLLMRe... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 57747c2d6  2026-02-23  feat(acceleration): Tensor Core FP16/BF16 matrix ops via ... ║
+    • f20e6e8d74  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • 2826fa9ccd  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -30,6 +32,8 @@
 
 #include "acceleration/tensor_core_matmul.h"
 #include <cstring>
+#include <cmath>
+#include <algorithm>
 #include <iostream>
 
 #ifdef THEMIS_ENABLE_CUDA
@@ -87,6 +91,9 @@ int launchCPUMatmulKernel(
 
 int dispatchMatmul(const MatrixKernelParams& params, void* opaque_stream)
 {
+#ifndef THEMIS_ENABLE_CUDA
+    (void)opaque_stream;
+#endif
     if (!params.A || !params.B || !params.C) return 1;
     if (params.M == 0 || params.K == 0 || params.N == 0) return 1;
 
@@ -146,6 +153,30 @@ int dispatchMatmul(const MatrixKernelParams& params, void* opaque_stream)
         params.alpha, params.beta
     );
 #endif
+}
+
+// =============================================================================
+// FP32 ↔ INT8 quantisation helpers
+// =============================================================================
+
+void quantize(const float* src, int8_t* dst, size_t n, float scale)
+{
+    if (!src || !dst || n == 0 || scale <= 0.0f) return;
+    const float inv_scale = 1.0f / scale;
+    for (size_t i = 0; i < n; ++i) {
+        float val = std::round(src[i] * inv_scale);
+        val = std::max(val, -128.0f);
+        val = std::min(val,  127.0f);
+        dst[i] = static_cast<int8_t>(val);
+    }
+}
+
+void dequantize(const int8_t* src, float* dst, size_t n, float scale)
+{
+    if (!src || !dst || n == 0) return;
+    for (size_t i = 0; i < n; ++i) {
+        dst[i] = static_cast<float>(src[i]) * scale;
+    }
 }
 
 } // namespace tensor_core

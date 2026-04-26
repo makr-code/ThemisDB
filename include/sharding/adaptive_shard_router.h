@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_shard_router.h                            ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-03-30 04:11:29                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     297                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -25,9 +22,12 @@
 #include "sharding/shard_router.h"
 #include "sharding/capability_matcher.h"
 #include "sharding/shard_topology.h"
+#include "distributed_knowledge/adapter_capability_announcement.h"
 #include <string>
 #include <vector>
+#include <map>
 #include <memory>
+#include <mutex>
 #include <chrono>
 #include <nlohmann/json.hpp>
 
@@ -177,6 +177,64 @@ public:
     );
     
     /**
+     * Update the domain-score map for a shard based on a gossip announcement.
+     *
+     * Called by the `GossipProtocol` custom handler registered for
+     * `message_type = "adapter_capability"`.  Thread-safe.
+     *
+     * @param shard_id      Originating shard identifier (from GossipMessage::sender_id)
+     * @param announcement  Deserialized capability announcement
+     */
+    void updateAdapterCapability(
+        const std::string& shard_id,
+        const themis::distributed_knowledge::AdapterCapabilityAnnouncement& announcement
+    );
+
+    /**
+     * Update per-shard LLM queue load snapshot used for LEAST_LOADED tie-breaking
+     * in routeByDomain().
+     *
+     * Called after each `ContinuousBatchScheduler::getLLMStats()` poll or
+     * whenever a ShardStats gossip message is received.  Thread-safe.
+     *
+     * @param shard_id         Shard identifier
+     * @param pending_requests Current waiting-request count on that shard
+     * @param avg_queue_ms     Current average queue wait time on that shard
+     */
+    void updateShardLLMLoad(
+        const std::string& shard_id,
+        uint64_t pending_requests,
+        double avg_queue_ms
+    );
+
+    /**
+     * Route a query to the shard with the highest `accuracy_delta` for the
+     * given adapter domain.
+     *
+     * When two shards share the same best accuracy_delta the one with the
+     * lower `pending_llm_requests` (LEAST_LOADED) wins.  Fallback: if no
+     * shard has registered a score for `domain`, the method returns an empty
+     * string and callers should use the default `route()` behaviour.
+     *
+     * @param domain  Domain type to look up
+     * @return shard_id of the best-scoring shard, or "" if no score exists
+     */
+    std::string routeByDomain(
+        themis::distributed_knowledge::AdapterDomainType domain
+    ) const;
+
+    /**
+     * Return the `accuracy_delta` registered for a specific shard + domain pair.
+     *
+     * Returns 0.0 when the shard is unknown or has no score for the domain
+     * (used by `FederatedRAGMerger` in DK-4).
+     */
+    double getAdapterAccuracyDelta(
+        const std::string& shard_id,
+        themis::distributed_knowledge::AdapterDomainType domain
+    ) const;
+
+    /**
      * Get adaptive routing statistics
      * @return Statistics JSON
      */
@@ -200,6 +258,22 @@ private:
     std::shared_ptr<ShardTopology> topology_;
     std::shared_ptr<CapabilityMatcher> matcher_;
     AdaptiveConfig adaptive_config_;
+
+    // Domain-score map: shard_id → { domain_type → accuracy_delta }
+    // Updated via updateAdapterCapability(); consulted by routeByDomain().
+    std::map<std::string,
+             std::map<themis::distributed_knowledge::AdapterDomainType, double>>
+        shard_domain_scores_;
+
+    // LLM load map: shard_id → { pending_requests, avg_queue_ms }
+    // Updated via updateShardLLMLoad(); used as LEAST_LOADED tie-breaker in routeByDomain().
+    struct ShardLLMLoad {
+        uint64_t pending_requests = 0;
+        double   avg_queue_ms    = 0.0;
+    };
+    std::map<std::string, ShardLLMLoad> shard_llm_load_;
+
+    mutable std::mutex domain_scores_mutex_;
     
     // Statistics
     mutable std::atomic<uint64_t> total_adaptive_queries_{0};

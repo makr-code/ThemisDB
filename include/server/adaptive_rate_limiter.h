@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_rate_limiter.h                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:11:01                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:46:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     227                                            ║
+    • Total Lines:     228                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • b09d74434  2026-03-13  fix(server): address all code review comments on rate lim... ║
-    • 855ed0268  2026-03-13  feat(server): add adaptive and cost-based rate limiters f... ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,6 +27,7 @@
 #include <chrono>
 #include <functional>
 #include <mutex>
+#include <shared_mutex>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -216,7 +217,7 @@ private:
 
     Config config_;
 
-    mutable std::mutex tenants_mutex_;
+    mutable std::shared_mutex tenants_mutex_;
     std::unordered_map<std::string, TenantState> tenants_;
 
     std::atomic<uint64_t> total_requests_{0};

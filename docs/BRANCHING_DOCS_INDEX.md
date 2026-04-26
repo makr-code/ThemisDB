@@ -8,13 +8,13 @@ Welcome to the ThemisDB Git Flow Branching Strategy documentation! This index he
 
 Start here to understand the overall strategy:
 
-1. **[BRANCHING_IMPLEMENTATION_SUMMARY.md](BRANCHING_IMPLEMENTATION_SUMMARY.md)** ⭐ **START HERE**
+1. **[BRANCHING_IMPLEMENTATION_SUMMARY.md](implementation-history/summaries/BRANCHING_IMPLEMENTATION_SUMMARY.md)** ⭐ **START HERE**
    - Overview of the entire branching strategy
    - What has been implemented
    - Quick reference to all documents
    - **Time**: 5-10 minutes
 
-2. **[BRANCHING_VISUAL_GUIDE.md](BRANCHING_VISUAL_GUIDE.md)**
+2. **[BRANCHING_VISUAL_GUIDE.md](ci-cd/branching-release-history/BRANCHING_VISUAL_GUIDE.md)**
    - Visual diagrams and flowcharts
    - Real-world examples
    - Decision trees
@@ -77,7 +77,7 @@ For transitioning to the new strategy:
   - Required for repository administrators
   - **Time**: 5-10 minutes
 
-- **[MERGE_STRATEGY_QUICK_REF.md](MERGE_STRATEGY_QUICK_REF.md)** 🆕
+- **[MERGE_STRATEGY_QUICK_REF.md](ci-cd/branching-release-history/MERGE_STRATEGY_QUICK_REF.md)** 🆕
   - One-page merge strategy reference
   - When to squash vs merge commit
   - For daily use
@@ -88,7 +88,7 @@ For transitioning to the new strategy:
 
 Updated guidelines for contributions:
 
-- **[CONTRIBUTING.md](CONTRIBUTING.md)**
+- **[CONTRIBUTING.md](../CONTRIBUTING.md)**
   - How to contribute to ThemisDB
   - Updated with branching strategy
   - Code quality standards
@@ -101,7 +101,7 @@ Documentation Structure
 │
 ├── 🎯 Getting Started
 │   ├── BRANCHING_IMPLEMENTATION_SUMMARY.md    ← Overview
-│   └── BRANCHING_VISUAL_GUIDE.md              ← Visual guide
+│   └── ci-cd/branching-release-history/BRANCHING_VISUAL_GUIDE.md ← Visual guide
 │
 ├── 📖 Complete Guides
 │   ├── BRANCHING_STRATEGY.md                  ← German
@@ -115,14 +115,14 @@ Documentation Structure
 │   ├── BRANCH_PROTECTION_SETUP.md             ← GitHub config
 │   ├── MERGE_STRATEGY_MIGRATION.md            ← Squash merge migration 🆕
 │   ├── GITHUB_SETTINGS_CONFIGURATION.md       ← GitHub settings 🆕
-│   └── MERGE_STRATEGY_QUICK_REF.md            ← Merge quick ref 🆕
+│   └── ci-cd/branching-release-history/MERGE_STRATEGY_QUICK_REF.md ← Merge quick ref 🆕
 │
 ├── 🤝 Contributing
-│   └── CONTRIBUTING.md                        ← Contribution guide
+│   └── ../CONTRIBUTING.md                     ← Contribution guide
 │
 └── ⚙️ Configuration
-    ├── .github/CODEOWNERS                     ← Code ownership
-    └── .github/workflows/develop-ci.yml.example ← CI example
+   ├── ../.github/CODEOWNERS                  ← Code ownership
+   └── ../.github/workflows/develop-ci.yml.example ← CI example
 ```
 
 ## 🎭 Choose by Your Role
@@ -130,13 +130,13 @@ Documentation Structure
 ### 👨‍💻 As a Developer
 
 **First time contributing:**
-1. Read: [BRANCHING_IMPLEMENTATION_SUMMARY.md](BRANCHING_IMPLEMENTATION_SUMMARY.md)
-2. Review: [BRANCHING_VISUAL_GUIDE.md](BRANCHING_VISUAL_GUIDE.md)
+1. Read: [BRANCHING_IMPLEMENTATION_SUMMARY.md](implementation-history/summaries/BRANCHING_IMPLEMENTATION_SUMMARY.md)
+2. Review: [BRANCHING_VISUAL_GUIDE.md](ci-cd/branching-release-history/BRANCHING_VISUAL_GUIDE.md)
 3. Keep handy: [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md)
 
 **Daily work:**
 - Quick reference: [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md)
-- Contributing guide: [CONTRIBUTING.md](CONTRIBUTING.md)
+- Contributing guide: [CONTRIBUTING.md](../CONTRIBUTING.md)
 
 ### 👨‍💼 As a Maintainer
 
@@ -152,9 +152,9 @@ Documentation Structure
 ### 🆕 As a New Contributor
 
 **Getting started:**
-1. Start: [BRANCHING_IMPLEMENTATION_SUMMARY.md](BRANCHING_IMPLEMENTATION_SUMMARY.md)
-2. Understand: [BRANCHING_VISUAL_GUIDE.md](BRANCHING_VISUAL_GUIDE.md)
-3. Contribute: [CONTRIBUTING.md](CONTRIBUTING.md)
+1. Start: [BRANCHING_IMPLEMENTATION_SUMMARY.md](implementation-history/summaries/BRANCHING_IMPLEMENTATION_SUMMARY.md)
+2. Understand: [BRANCHING_VISUAL_GUIDE.md](ci-cd/branching-release-history/BRANCHING_VISUAL_GUIDE.md)
+3. Contribute: [CONTRIBUTING.md](../CONTRIBUTING.md)
 4. Print: [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md)
 
 ### 🔄 Migrating Existing PRs
@@ -180,33 +180,33 @@ Documentation Structure
 ### Branch Types
 - Complete info: [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) → "Branch-Struktur"
 - Quick ref: [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md) → "Branch Types"
-- Visual: [BRANCHING_VISUAL_GUIDE.md](BRANCHING_VISUAL_GUIDE.md) → "Branch Structure Overview"
+- Visual: [BRANCHING_VISUAL_GUIDE.md](ci-cd/branching-release-history/BRANCHING_VISUAL_GUIDE.md) → "Branch Structure Overview"
 
 ### Creating Feature Branches
 - Commands: [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md) → "Start New Feature"
 - Workflow: [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) → "feature/* Branches"
-- Visual: [BRANCHING_VISUAL_GUIDE.md](BRANCHING_VISUAL_GUIDE.md) → "New Feature Development"
+- Visual: [BRANCHING_VISUAL_GUIDE.md](ci-cd/branching-release-history/BRANCHING_VISUAL_GUIDE.md) → "New Feature Development"
 
 ### Release Process
 - Complete: [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) → "Release Process"
 - Steps: [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md) → "Start Release"
-- Visual: [BRANCHING_VISUAL_GUIDE.md](BRANCHING_VISUAL_GUIDE.md) → "Release Process"
+- Visual: [BRANCHING_VISUAL_GUIDE.md](ci-cd/branching-release-history/BRANCHING_VISUAL_GUIDE.md) → "Release Process"
 
 ### Hotfix Process
 - Complete: [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) → "hotfix/* Branches"
 - Commands: [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md) → "Create Hotfix"
-- Visual: [BRANCHING_VISUAL_GUIDE.md](BRANCHING_VISUAL_GUIDE.md) → "Hotfix (Production Bug)"
+- Visual: [BRANCHING_VISUAL_GUIDE.md](ci-cd/branching-release-history/BRANCHING_VISUAL_GUIDE.md) → "Hotfix (Production Bug)"
 
 ### Pull Requests
-- Guidelines: [CONTRIBUTING.md](CONTRIBUTING.md) → "Pull Request Process"
+- Guidelines: [CONTRIBUTING.md](../CONTRIBUTING.md) → "Pull Request Process"
 - Workflow: [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) → "Pull Request Workflows"
-- Visual: [BRANCHING_VISUAL_GUIDE.md](BRANCHING_VISUAL_GUIDE.md) → "Pull Request Flow"
+- Visual: [BRANCHING_VISUAL_GUIDE.md](ci-cd/branching-release-history/BRANCHING_VISUAL_GUIDE.md) → "Pull Request Flow"
 
 ### Merge Strategy
 - Complete guide: [MERGE_STRATEGY_MIGRATION.md](MERGE_STRATEGY_MIGRATION.md) 🆕
-- Quick reference: [MERGE_STRATEGY_QUICK_REF.md](MERGE_STRATEGY_QUICK_REF.md) 🆕
+- Quick reference: [MERGE_STRATEGY_QUICK_REF.md](ci-cd/branching-release-history/MERGE_STRATEGY_QUICK_REF.md) 🆕
 - GitHub setup: [GITHUB_SETTINGS_CONFIGURATION.md](GITHUB_SETTINGS_CONFIGURATION.md) 🆕
-- Guidelines: [CONTRIBUTING.md](CONTRIBUTING.md) → "Merge Strategy Guidelines"
+- Guidelines: [CONTRIBUTING.md](../CONTRIBUTING.md) → "Merge Strategy Guidelines"
 - Strategy docs: [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) → "Merge-Strategie"
 
 ### Branch Protection
@@ -215,7 +215,7 @@ Documentation Structure
 
 ### Migration
 - Full guide: [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)
-- Summary: [BRANCHING_IMPLEMENTATION_SUMMARY.md](BRANCHING_IMPLEMENTATION_SUMMARY.md) → "Next Steps"
+- Summary: [BRANCHING_IMPLEMENTATION_SUMMARY.md](implementation-history/summaries/BRANCHING_IMPLEMENTATION_SUMMARY.md) → "Next Steps"
 
 ## 🎓 Learning Path
 
@@ -268,14 +268,14 @@ Documentation Structure
 ### Related Documents in Repository
 
 - **[README.md](README.md)** - Main project README with strategy links
-- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Contribution guidelines
-- **[SECURITY.md](SECURITY.md)** - Security policy (related to hotfixes)
-- **[CHANGELOG.md](CHANGELOG.md)** - Release history examples
+- **[CONTRIBUTING.md](../CONTRIBUTING.md)** - Contribution guidelines
+- **[SECURITY.md](../SECURITY.md)** - Security policy (related to hotfixes)
+- **[CHANGELOG.md](../CHANGELOG.md)** - Release history examples
 
 ### Configuration Files
 
-- **[.github/CODEOWNERS](.github/CODEOWNERS)** - Code ownership configuration
-- **[.github/workflows/develop-ci.yml.example](.github/workflows/develop-ci.yml.example)** - CI workflow example
+- **[.github/CODEOWNERS](../.github/CODEOWNERS)** - Code ownership configuration
+- **[.github/workflows/develop-ci.yml.example](../.github/workflows/develop-ci.yml.example)** - CI workflow example
 
 ### External Resources
 
@@ -298,7 +298,7 @@ Documentation Structure
 
 **General contribution questions:**
 - 💬 [GitHub Discussions](https://github.com/makr-code/ThemisDB/discussions)
-- 📖 Read: [CONTRIBUTING.md](CONTRIBUTING.md)
+- 📖 Read: [CONTRIBUTING.md](../CONTRIBUTING.md)
 
 **Found errors in documentation:**
 - 🐛 Create an issue with label `documentation`
@@ -370,14 +370,14 @@ Always remember:
 
 | Need | Document | Section |
 |------|----------|---------|
-| 🎯 **Overview** | [Implementation Summary](BRANCHING_IMPLEMENTATION_SUMMARY.md) | All |
-| 📊 **Visual Flow** | [Visual Guide](BRANCHING_VISUAL_GUIDE.md) | All |
+| 🎯 **Overview** | [Implementation Summary](implementation-history/summaries/BRANCHING_IMPLEMENTATION_SUMMARY.md) | All |
+| 📊 **Visual Flow** | [Visual Guide](ci-cd/branching-release-history/BRANCHING_VISUAL_GUIDE.md) | All |
 | 📖 **Complete Guide** | [Strategy (DE)](BRANCHING_STRATEGY.md) or [Strategy (EN)](BRANCHING_STRATEGY_EN.md) | All |
 | ⚡ **Quick Commands** | [Quick Reference](BRANCHING_QUICK_REF.md) | Common Commands |
 | 🔄 **Migrating** | [Migration Guide](MIGRATION_GUIDE.md) | For Contributors |
 | 🛡️ **Setup Protection** | [Branch Protection](BRANCH_PROTECTION_SETUP.md) | Quick Setup |
-| 🤝 **Contributing** | [Contributing Guide](CONTRIBUTING.md) | Development Workflow |
-| 🔀 **Merge Strategy** | [Merge Quick Ref](MERGE_STRATEGY_QUICK_REF.md) | All | 🆕
+| 🤝 **Contributing** | [Contributing Guide](../CONTRIBUTING.md) | Development Workflow |
+| 🔀 **Merge Strategy** | [Merge Quick Ref](ci-cd/branching-release-history/MERGE_STRATEGY_QUICK_REF.md) | All | 🆕
 | ⚙️ **GitHub Settings** | [GitHub Config](GITHUB_SETTINGS_CONFIGURATION.md) | All | 🆕
 
 ---
@@ -387,9 +387,9 @@ Always remember:
 These documents are optimized for printing:
 
 1. **[BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md)** - One page reference
-2. **[MERGE_STRATEGY_QUICK_REF.md](MERGE_STRATEGY_QUICK_REF.md)** - Merge strategy reference 🆕
-3. **[BRANCHING_VISUAL_GUIDE.md](BRANCHING_VISUAL_GUIDE.md)** - Visual diagrams
-4. **[BRANCHING_IMPLEMENTATION_SUMMARY.md](BRANCHING_IMPLEMENTATION_SUMMARY.md)** - Overview
+2. **[MERGE_STRATEGY_QUICK_REF.md](ci-cd/branching-release-history/MERGE_STRATEGY_QUICK_REF.md)** - Merge strategy reference 🆕
+3. **[BRANCHING_VISUAL_GUIDE.md](ci-cd/branching-release-history/BRANCHING_VISUAL_GUIDE.md)** - Visual diagrams
+4. **[BRANCHING_IMPLEMENTATION_SUMMARY.md](implementation-history/summaries/BRANCHING_IMPLEMENTATION_SUMMARY.md)** - Overview
 
 **To print:**
 1. Open document in browser
@@ -398,7 +398,7 @@ These documents are optimized for printing:
 
 ---
 
-**Last Updated**: 2025-12-30  
+**Last Updated**: 2026-04-06  
 **Maintainer**: ThemisDB Documentation Team  
 **Questions?** [Open a discussion](https://github.com/makr-code/ThemisDB/discussions)
 

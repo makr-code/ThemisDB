@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            grpc_server.cpp                                    ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-30 04:13:59                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     270                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     335                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • f38c013cd  2026-03-29  Enhance various components with improvements and fixes ║
-    • 97cd90011  2026-03-25  feat(api): gRPC Phase 4 – mutex fix, deadline, RPC stubs,... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8f4f0c9ea  2026-02-23  Implement gRPC API server alongside REST (src/api/grpc_se... ║
+    • ed2d46e8d1  2026-04-13  fix(api): complete gRPC stub wiring — bounds checks, stop... ║
+    • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -34,10 +32,33 @@
 #include <stdexcept>
 
 // gRPC reflection is only compiled in debug builds to prevent schema leakage
-// in production (FUTURE_ENHANCEMENTS.md – Security / Reliability).
+// in production (FUTURE_ENHANCEMENTS.md - Security / Reliability).
 #if !defined(NDEBUG) && !defined(THEMIS_TEST_BUILD)
 #  include <grpcpp/ext/proto_server_reflection_plugin.h>
 #endif
+
+// Optional YAML config support for loading grpc.max_message_size_mb from
+// config/networking/grpc.yaml at initialize() time.
+#if __has_include(<yaml-cpp/yaml.h>)
+#  include <yaml-cpp/yaml.h>
+#  define THEMIS_GRPC_HAS_YAML 1
+#else
+#  define THEMIS_GRPC_HAS_YAML 0
+#endif
+
+namespace {
+/// Well-known path to the gRPC networking configuration file, relative to the
+/// process working directory.  Exposed as a named constant so that
+/// integration tests and deployment tooling can predict the location.
+constexpr const char* kGrpcNetworkingConfigPath = "config/networking/grpc.yaml";
+
+/// Maximum allowed value for grpc.max_message_size_mb in the config file.
+/// Values above this are rejected to prevent integer overflow when multiplying
+/// by 1024 * 1024 on a 32-bit signed int.
+/// 2047 MB * 1024 * 1024 = 2,146,435,072 < INT_MAX (2,147,483,647).
+/// 2048 MB * 1024 * 1024 = 2,147,483,648 > INT_MAX (overflow).
+constexpr int kMaxMessageSizeMbLimit = 2047;
+} // namespace
 
 namespace themis {
 namespace api {
@@ -67,12 +88,45 @@ bool GrpcApiServer::initialize(const GrpcServerConfig& config) {
     }
 
     if (config.port == 0) {
-        THEMIS_ERROR("GrpcApiServer::initialize – invalid port 0");
+        THEMIS_ERROR("GrpcApiServer::initialize - invalid port 0");
         return false;
     }
 
     config_         = config;
     server_address_ = config_.host + ":" + std::to_string(config_.port);
+
+    // Try to load grpc.max_message_size_mb from config/networking/grpc.yaml so
+    // that operators can tune the limit without recompiling.  The caller-
+    // supplied struct value is used as a fallback when the file is absent or
+    // the key is not present.
+#if THEMIS_GRPC_HAS_YAML
+    {
+        try {
+            YAML::Node node = YAML::LoadFile(kGrpcNetworkingConfigPath);
+            if (node["grpc"] && node["grpc"]["max_message_size_mb"]) {
+                const int mb = node["grpc"]["max_message_size_mb"].as<int>();
+                if (mb > 0 && mb <= kMaxMessageSizeMbLimit) {
+                    config_.max_message_size_bytes = mb * 1024 * 1024;
+                    THEMIS_INFO("GrpcApiServer: max_message_size_bytes overridden to " +
+                                std::to_string(config_.max_message_size_bytes) +
+                                " bytes from " + kGrpcNetworkingConfigPath);
+                } else if (mb > kMaxMessageSizeMbLimit) {
+                    THEMIS_WARN("GrpcApiServer: grpc.max_message_size_mb=" +
+                                std::to_string(mb) + " exceeds limit of " +
+                                std::to_string(kMaxMessageSizeMbLimit) + " MB; ignoring");
+                }
+            }
+        } catch (const std::exception& ex) {
+            // Config file absent or unreadable - warn so that operators are
+            // notified their configuration file is being ignored, then fall
+            // back to the caller-supplied struct value.
+            THEMIS_WARN(std::string("GrpcApiServer: could not load ") +
+                        kGrpcNetworkingConfigPath + " (" + ex.what() +
+                        "); using default max_message_size_bytes=" +
+                        std::to_string(config_.max_message_size_bytes));
+        }
+    }
+#endif
 
     THEMIS_INFO("GrpcApiServer initialized, will listen on " + server_address_);
     return true;
@@ -84,7 +138,7 @@ bool GrpcApiServer::initialize(const GrpcServerConfig& config) {
 
 void GrpcApiServer::registerService(grpc::Service* service) {
     if (!service) {
-        THEMIS_WARN("GrpcApiServer::registerService – null service pointer ignored");
+        THEMIS_WARN("GrpcApiServer::registerService - null service pointer ignored");
         return;
     }
     std::lock_guard<std::mutex> lock(mutex_);
@@ -104,17 +158,17 @@ bool GrpcApiServer::start() {
     std::unique_lock<std::mutex> lock(mutex_);
 
     if (running_) {
-        THEMIS_WARN("GrpcApiServer::start – server is already running on " + server_address_);
+        THEMIS_WARN("GrpcApiServer::start - server is already running on " + server_address_);
         return false;
     }
 
     if (server_address_.empty()) {
-        THEMIS_ERROR("GrpcApiServer::start – call initialize() first");
+        THEMIS_ERROR("GrpcApiServer::start - call initialize() first");
         return false;
     }
 
     if (services_.empty()) {
-        THEMIS_ERROR("GrpcApiServer::start – no gRPC services registered");
+        THEMIS_ERROR("GrpcApiServer::start - no gRPC services registered");
         return false;
     }
 
@@ -128,7 +182,7 @@ bool GrpcApiServer::start() {
     try {
         credentials = buildCredentials();
     } catch (const std::exception& ex) {
-        THEMIS_ERROR(std::string("GrpcApiServer::start – credential build failed: ") + ex.what());
+        THEMIS_ERROR(std::string("GrpcApiServer::start - credential build failed: ") + ex.what());
         return false;
     }
 
@@ -156,7 +210,7 @@ bool GrpcApiServer::start() {
 
         auto server = builder.BuildAndStart();
         if (!server) {
-            THEMIS_ERROR("GrpcApiServer::start – BuildAndStart() returned nullptr for " + address);
+            THEMIS_ERROR("GrpcApiServer::start - BuildAndStart() returned nullptr for " + address);
             return false;
         }
 
@@ -180,7 +234,7 @@ bool GrpcApiServer::start() {
 // ---------------------------------------------------------------------------
 
 void GrpcApiServer::stop() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::mutex> lock(mutex_);
 
     if (!running_ || !server_) {
         return;
@@ -188,12 +242,20 @@ void GrpcApiServer::stop() {
 
     THEMIS_INFO("GrpcApiServer: shutting down " + server_address_);
 
-    // Apply a 30-second hard deadline so stop() never blocks indefinitely
-    // when a misbehaving RPC handler stalls (ROADMAP Phase 4).
-    const auto deadline = std::chrono::system_clock::now() + std::chrono::seconds(30);
-    server_->Shutdown(deadline);
-    server_.reset();
+    // Mark as stopped and extract the server handle while the lock is held so
+    // that concurrent calls to isRunning() immediately see the stopped state.
     running_ = false;
+    std::unique_ptr<grpc::Server> local_server = std::move(server_);
+
+    // Release the mutex before calling Shutdown() so that other threads
+    // invoking isRunning() or stop() are not deadlocked for the full
+    // 30-second drain window (ROADMAP Phase 4 requirement).
+    lock.unlock();
+
+    // Apply a 30-second hard deadline so stop() never blocks indefinitely
+    // when a misbehaving RPC handler stalls.
+    const auto deadline = std::chrono::system_clock::now() + std::chrono::seconds(30);
+    local_server->Shutdown(deadline);
     THEMIS_INFO("GrpcApiServer stopped");
 }
 
@@ -229,7 +291,12 @@ std::string GrpcApiServer::loadFile(const std::string& path) {
 
 std::shared_ptr<grpc::ServerCredentials> GrpcApiServer::buildCredentials() const {
     if (!config_.tls_enabled) {
-        THEMIS_INFO("GrpcApiServer: using insecure credentials (TLS disabled)");
+        // GAP-016: Log a security warning when falling back to insecure gRPC
+        // credentials (CWE-295). Previously logged at INFO, which is invisible at
+        // default WARN log levels and gives no signal to operators or SIEM systems.
+        THEMIS_WARN("[SECURITY] GrpcApiServer: TLS is disabled — using insecure "
+                    "gRPC credentials. All gRPC traffic is unencrypted. "
+                    "Enable TLS in production (GAP-016/CWE-295).");
         return grpc::InsecureServerCredentials();
     }
 
@@ -259,8 +326,8 @@ std::shared_ptr<grpc::ServerCredentials> GrpcApiServer::buildCredentials() const
 
     } catch (const std::exception& ex) {
         // Fail-closed: do not fall back to insecure mode when TLS is
-        // explicitly requested (FUTURE_ENHANCEMENTS.md – Design Constraints).
-        THEMIS_ERROR(std::string("GrpcApiServer: TLS configuration failed – ") + ex.what());
+        // explicitly requested (FUTURE_ENHANCEMENTS.md - Design Constraints).
+        THEMIS_ERROR(std::string("GrpcApiServer: TLS configuration failed - ") + ex.what());
         throw std::runtime_error(
             std::string("GrpcApiServer: TLS configuration failed: ") + ex.what());
     }

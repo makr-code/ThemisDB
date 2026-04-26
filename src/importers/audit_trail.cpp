@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            audit_trail.cpp                                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:16:08                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,7 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9efa3acd7  2026-03-11  feat(importers): add PostgreSQL Importer v2.1+ with 12 ne... ║
+    • 9efa3acd76  2026-03-11  feat(importers): add PostgreSQL Importer v2.1+ with 12 ne... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -26,6 +26,7 @@
 #include <chrono>
 #include <mutex>
 #include <functional>
+#include <openssl/evp.h>
 
 namespace themis {
 namespace importers {
@@ -56,8 +57,7 @@ std::string AuditedImporter::ImmutableAuditLog::computeEventHash(
     const AuditEvent& event,
     const std::string& prev_hash) const
 {
-    // Deterministic serialisation → std::hash (portable; NOT cryptographic)
-    // Production builds replace this with OpenSSL SHA-256.
+    // Deterministic serialisation
     std::ostringstream ss;
     ss << prev_hash
        << eventTypeToString(event.type)
@@ -66,11 +66,23 @@ std::string AuditedImporter::ImmutableAuditLog::computeEventHash(
        << event.importer_instance_id
        << event.correlation_id
        << event.details.dump();
+    const std::string payload = ss.str();
 
-    std::size_t h = std::hash<std::string>{}(ss.str());
-    // Return as hex string
+    // SHA-256 via OpenSSL EVP (collision-resistant, suitable for audit chains)
+    unsigned char digest[EVP_MAX_MD_SIZE];
+    unsigned int digest_len = 0;
+    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr);
+    EVP_DigestUpdate(ctx, payload.data(), payload.size());
+    EVP_DigestFinal_ex(ctx, digest, &digest_len);
+    EVP_MD_CTX_free(ctx);
+
+    // Return first 32 hex chars (128-bit prefix) – same width as the old 16-char placeholder
     std::ostringstream hex;
-    hex << std::hex << std::setw(16) << std::setfill('0') << h;
+    for (unsigned int i = 0; i < digest_len; ++i) {
+        hex << std::hex << std::setw(2) << std::setfill('0')
+            << static_cast<unsigned int>(digest[i]);
+    }
     return hex.str();
 }
 

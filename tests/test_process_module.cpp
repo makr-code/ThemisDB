@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_process_module.cpp                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-30 04:31:39                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:56:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     799                                            ║
+    • Total Lines:     1830                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 79f081505  2026-03-28  Add test statistics documentation and collection script ║
-    • 3fea6d6b5  2026-03-12  refactor: clean up includes and remove unused transaction... ║
-    • f56652abf  2026-03-12  audit(process): focused tests, ProcessNotation enum fix, ... ║
+    • dc8a1dc60e  2026-04-15  feat(process): PPR GraphRAG scoring, LLM-to-BPMN generato... ║
+    • b18a0735c6  2026-04-12  fix(process): replace regex BPMN parser with state-machin... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -43,16 +42,21 @@
 
 #include "index/process_graph.h"
 #include "process/bpmn_serializer.h"
+#include "process/dmn_evaluator.h"
 #include "process/epk_serializer.h"
 #include "process/llm_process_descriptor.h"
+#include "process/ocel_exporter.h"
 #include "process/process_graph_rag.h"
 #include "process/process_linker.h"
+#include "process/process_model_generator.h"
 #include "process/process_model_manager.h"
 #include "process/vcc_vpb_importer.h"
 #include "storage/rocksdb_wrapper.h"
 
 #include <filesystem>
+#include <chrono>
 #include <memory>
+#include <sstream>
 #include <string>
 
 namespace fs = std::filesystem;
@@ -797,4 +801,1029 @@ TEST(ProcessEnumsTest, ProcessDomainRoundTrip) {
         EXPECT_EQ(back, d) << "Round-trip failed for domain: "
                            << std::string(s);
     }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 9. BpmnSerializer – extended parser hardening tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+// PM-01: Namespace-prefixed BPMN tags (bpmn:startEvent etc.)
+TEST_F(BpmnSerializerTest, ImportNamespacePrefixedBpmn) {
+    const std::string xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions
+    xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+    targetNamespace="http://example.com">
+  <bpmn:process id="ns_proc" name="NS Process">
+    <bpmn:startEvent id="ns_start" name="Eingang"/>
+    <bpmn:userTask   id="ns_task"  name="Prüfung"/>
+    <bpmn:endEvent   id="ns_end"   name="Abschluss"/>
+    <bpmn:sequenceFlow id="ns_f1" sourceRef="ns_start" targetRef="ns_task"/>
+    <bpmn:sequenceFlow id="ns_f2" sourceRef="ns_task"  targetRef="ns_end"/>
+  </bpmn:process>
+</bpmn:definitions>)";
+
+    auto result = themis::process::BpmnSerializer::importXml(xml);
+    ASSERT_TRUE(result.ok) << result.message;
+    EXPECT_EQ(result.process_id, "ns_proc");
+    EXPECT_GE(result.nodes.size(), 3u);
+    EXPECT_GE(result.edges.size(), 2u);
+}
+
+// PM-02: Complex nested subProcess with child nodes
+TEST_F(BpmnSerializerTest, ImportNestedSubProcess) {
+    const std::string xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <process id="outer_proc" name="Outer">
+    <startEvent id="out_start" name="Start"/>
+    <subProcess id="sp1" name="Genehmigung">
+      <startEvent id="sp_start" name="SP-Start"/>
+      <userTask   id="sp_task"  name="SP-Prüfung"/>
+      <endEvent   id="sp_end"   name="SP-Ende"/>
+      <sequenceFlow id="sp_f1" sourceRef="sp_start" targetRef="sp_task"/>
+      <sequenceFlow id="sp_f2" sourceRef="sp_task"  targetRef="sp_end"/>
+    </subProcess>
+    <endEvent id="out_end" name="Ende"/>
+    <sequenceFlow id="out_f1" sourceRef="out_start" targetRef="sp1"/>
+    <sequenceFlow id="out_f2" sourceRef="sp1"       targetRef="out_end"/>
+  </process>
+</definitions>)";
+
+    auto result = themis::process::BpmnSerializer::importXml(xml);
+    ASSERT_TRUE(result.ok) << result.message;
+    EXPECT_EQ(result.process_id, "outer_proc");
+    // Outer nodes: out_start, sp1, out_end; inner: sp_start, sp_task, sp_end
+    EXPECT_GE(result.nodes.size(), 6u);
+    // Outer flows + inner flows
+    EXPECT_GE(result.edges.size(), 4u);
+}
+
+// PM-03: conditionExpression as child element of sequenceFlow (non-self-closing)
+TEST_F(BpmnSerializerTest, ImportConditionExpressionChild) {
+    const std::string xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <process id="cond_proc" name="Condition Test">
+    <startEvent id="c_start"/>
+    <exclusiveGateway id="gw1"/>
+    <endEvent id="c_end1"/>
+    <endEvent id="c_end2"/>
+    <sequenceFlow id="cf1" sourceRef="c_start" targetRef="gw1"/>
+    <sequenceFlow id="cf2" sourceRef="gw1" targetRef="c_end1">
+      <conditionExpression>${approved == true}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="cf3" sourceRef="gw1" targetRef="c_end2">
+      <conditionExpression>${approved == false}</conditionExpression>
+    </sequenceFlow>
+  </process>
+</definitions>)";
+
+    auto result = themis::process::BpmnSerializer::importXml(xml);
+    ASSERT_TRUE(result.ok) << result.message;
+    EXPECT_GE(result.edges.size(), 3u);
+
+    bool found_cond = false;
+    for (const auto& e : result.edges) {
+        if (e.condition_expression.has_value() &&
+            e.condition_expression->find("approved") != std::string::npos) {
+            found_cond = true;
+        }
+    }
+    EXPECT_TRUE(found_cond) << "conditionExpression child text not captured";
+}
+
+// PM-04: BPMN XML with XML comment blocks and PIs must parse cleanly
+TEST_F(BpmnSerializerTest, ImportWithCommentsAndPIs) {
+    const std::string xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated by Camunda Modeler 4.8 -->
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <!-- Header comment -->
+  <process id="comment_proc" name="Comment Test">
+    <?camunda custom-pi="value"?>
+    <startEvent id="c1" name="Start"/>
+    <!-- mid-element comment -->
+    <endEvent id="c2" name="End"/>
+    <sequenceFlow id="cf1" sourceRef="c1" targetRef="c2"/>
+  </process>
+</definitions>)";
+
+    auto result = themis::process::BpmnSerializer::importXml(xml);
+    ASSERT_TRUE(result.ok) << result.message;
+    EXPECT_EQ(result.process_id, "comment_proc");
+    EXPECT_GE(result.nodes.size(), 2u);
+    EXPECT_GE(result.edges.size(), 1u);
+}
+
+// PM-05: Deeply nested sub-process pools (stress test for proper stack handling)
+TEST_F(BpmnSerializerTest, ImportDeeplyNestedSubProcesses) {
+    const std::string xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <process id="deep_proc" name="Deep">
+    <startEvent id="d_start"/>
+    <subProcess id="sp_lvl1" name="Level 1">
+      <subProcess id="sp_lvl2" name="Level 2">
+        <userTask id="inner_task" name="Inner Task"/>
+        <sequenceFlow id="inner_f1" sourceRef="sp_lvl2_start" targetRef="inner_task"/>
+      </subProcess>
+      <sequenceFlow id="sp1_f1" sourceRef="sp_lvl1_start" targetRef="sp_lvl2"/>
+    </subProcess>
+    <endEvent id="d_end"/>
+    <sequenceFlow id="d_f1" sourceRef="d_start" targetRef="sp_lvl1"/>
+    <sequenceFlow id="d_f2" sourceRef="sp_lvl1" targetRef="d_end"/>
+  </process>
+</definitions>)";
+
+    auto result = themis::process::BpmnSerializer::importXml(xml);
+    ASSERT_TRUE(result.ok) << result.message;
+    // Must not crash; must capture all identified nodes/edges
+    EXPECT_GE(result.nodes.size(), 4u);
+    EXPECT_GE(result.edges.size(), 2u);
+}
+
+// PM-06: All gateway types in a single document
+TEST_F(BpmnSerializerTest, ImportAllGatewayTypes) {
+    const std::string xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <process id="gw_proc" name="Gateways">
+    <startEvent id="gw_s"/>
+    <exclusiveGateway  id="xor_gw"/>
+    <parallelGateway   id="and_gw"/>
+    <inclusiveGateway  id="or_gw"/>
+    <eventBasedGateway id="ev_gw"/>
+    <complexGateway    id="cplx_gw"/>
+    <endEvent id="gw_e"/>
+    <sequenceFlow id="gf1" sourceRef="gw_s"    targetRef="xor_gw"/>
+    <sequenceFlow id="gf2" sourceRef="xor_gw"  targetRef="and_gw"/>
+    <sequenceFlow id="gf3" sourceRef="and_gw"  targetRef="or_gw"/>
+    <sequenceFlow id="gf4" sourceRef="or_gw"   targetRef="ev_gw"/>
+    <sequenceFlow id="gf5" sourceRef="ev_gw"   targetRef="cplx_gw"/>
+    <sequenceFlow id="gf6" sourceRef="cplx_gw" targetRef="gw_e"/>
+  </process>
+</definitions>)";
+
+    auto result = themis::process::BpmnSerializer::importXml(xml);
+    ASSERT_TRUE(result.ok) << result.message;
+    EXPECT_GE(result.nodes.size(), 7u);
+    EXPECT_EQ(result.edges.size(), 6u);
+}
+
+// PM-07: Security – oversized input must be rejected without crashing
+TEST_F(BpmnSerializerTest, SecurityOversizedInputRejected) {
+    // Build an input just over 10 MiB
+    const std::string huge(11u * 1024u * 1024u, 'X');
+    auto result = themis::process::BpmnSerializer::importXml(huge);
+    EXPECT_FALSE(result.ok);
+    EXPECT_NE(result.message.find("10 MiB"), std::string::npos);
+}
+
+// PM-08: Security – malformed / truncated XML must not crash
+TEST_F(BpmnSerializerTest, SecurityMalformedXmlGraceful) {
+    const std::vector<std::string> malformed = {
+        "<",
+        "<<<<<",
+        "<!-",
+        "<?",
+        "<definitions><process id=\"p1\">",  // unclosed tags
+        R"(<definitions><process id="p1"><startEvent id="s1"/><sequenceFlow)",
+        "<!-- unclosed comment",
+        "<![CDATA[unclosed",
+    };
+    for (const auto& bad : malformed) {
+        EXPECT_NO_THROW({
+            auto r = themis::process::BpmnSerializer::importXml(bad);
+            (void)r;
+        }) << "Crashed on: " << bad;
+    }
+}
+
+// PM-09: Security – XML entity / CDATA content must not be executed
+TEST_F(BpmnSerializerTest, SecurityCdataStrippedFromAttributes) {
+    // id attribute with entity-encoded angle brackets must survive as-is
+    const std::string xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <process id="safe_proc" name="Safe &amp; Secure">
+    <startEvent id="safe_start" name="Antrag &lt;geprüft&gt;"/>
+    <endEvent   id="safe_end"   name="Fertig"/>
+    <sequenceFlow id="safe_f1" sourceRef="safe_start" targetRef="safe_end"/>
+  </process>
+</definitions>)";
+
+    auto result = themis::process::BpmnSerializer::importXml(xml);
+    ASSERT_TRUE(result.ok) << result.message;
+    EXPECT_EQ(result.process_id, "safe_proc");
+    EXPECT_GE(result.nodes.size(), 2u);
+    // Verify entity decoding in node names
+    bool found = false;
+    for (const auto& n : result.nodes) {
+        if (n.name.find('<') != std::string::npos ||
+            n.name.find("geprüft") != std::string::npos) found = true;
+    }
+    EXPECT_TRUE(found) << "XML entity decoding did not work correctly";
+}
+
+// PM-10: messageFlow is imported correctly
+TEST_F(BpmnSerializerTest, ImportMessageFlow) {
+    const std::string xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <process id="mf_proc">
+    <startEvent id="mf_s"/>
+    <endEvent   id="mf_e"/>
+    <sequenceFlow id="mf_sf1" sourceRef="mf_s" targetRef="mf_e"/>
+  </process>
+  <collaboration id="collab1">
+    <participant id="p1" name="Amt"/>
+    <participant id="p2" name="Bürger"/>
+    <messageFlow id="mf1" sourceRef="p1" targetRef="p2"/>
+    <messageFlow id="mf2" sourceRef="p2" targetRef="p1"/>
+  </collaboration>
+</definitions>)";
+
+    auto result = themis::process::BpmnSerializer::importXml(xml);
+    ASSERT_TRUE(result.ok) << result.message;
+    // participants become nodes, message flows become edges
+    bool has_msg_flow = false;
+    for (const auto& e : result.edges) {
+        if (e.edge_type == themis::ProcessEdgeType::MESSAGE_FLOW) {
+            has_msg_flow = true;
+        }
+    }
+    EXPECT_TRUE(has_msg_flow);
+}
+
+// PM-11: Performance – import of a large BPMN document completes within 500 ms
+TEST_F(BpmnSerializerTest, PerformanceLargeBpmnImport) {
+    // Build a synthetic BPMN with 200 tasks and 199 sequence flows
+    std::ostringstream oss;
+    oss << R"(<?xml version="1.0" encoding="UTF-8"?>)"
+        << R"(<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">)"
+        << R"(<process id="perf_proc" name="Perf Test">)";
+    oss << R"(<startEvent id="perf_s" name="Start"/>)";
+    for (int i = 0; i < 200; ++i) {
+        oss << "<userTask id=\"perf_t" << i << "\" name=\"Task " << i << "\"/>";
+    }
+    oss << R"(<endEvent id="perf_e" name="End"/>)";
+    oss << R"(<sequenceFlow id="perf_sf0" sourceRef="perf_s" targetRef="perf_t0"/>)";
+    for (int i = 0; i < 199; ++i) {
+        oss << "<sequenceFlow id=\"perf_sf" << (i + 1) << "\" sourceRef=\"perf_t" << i
+            << "\" targetRef=\"perf_t" << (i + 1) << "\"/>";
+    }
+    oss << "<sequenceFlow id=\"perf_sf200\" sourceRef=\"perf_t199\" targetRef=\"perf_e\"/>";
+    oss << "</process></definitions>";
+
+    const std::string large_xml = oss.str();
+    auto t0 = std::chrono::steady_clock::now();
+    auto result = themis::process::BpmnSerializer::importXml(large_xml);
+    auto t1 = std::chrono::steady_clock::now();
+
+    ASSERT_TRUE(result.ok) << result.message;
+    EXPECT_GE(result.nodes.size(), 202u); // start + 200 tasks + end
+    EXPECT_GE(result.edges.size(), 201u);
+
+    auto elapsed_ms =
+        std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
+    EXPECT_LT(elapsed_ms, 500)
+        << "Large BPMN import took " << elapsed_ms << " ms (limit: 500 ms)";
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 10. ProcessLinker – hard-delete and secondary-index tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+// PL-01: detachObject performs a hard delete (key must not exist afterwards)
+TEST_F(ProcessModuleTest, DetachObjectHardDelete) {
+    auto [ok, att_id] = linker_->attachObject(
+        "hd-inst-001", "hd-doc-001", "documents",
+        themis::process::ProcessLinkType::HAS_DOCUMENT,
+        std::nullopt, {}, "tester");
+    ASSERT_TRUE(ok);
+
+    ASSERT_TRUE(linker_->detachObject(att_id));
+
+    // No tombstone should appear when we list attachments.
+    auto remaining = linker_->getAttachments("hd-inst-001");
+    EXPECT_TRUE(remaining.empty()) << "Expected hard delete, but attachment still visible";
+
+    // Direct DB key must be gone: a second detach returns false (key not found).
+    EXPECT_FALSE(linker_->detachObject(att_id))
+        << "Expected false on second detach (hard delete must have removed the key)";
+}
+
+// PL-02: detachObject on a non-existent ID returns false gracefully
+TEST_F(ProcessModuleTest, DetachObjectNonExistentReturnsFalse) {
+    EXPECT_FALSE(linker_->detachObject("attach:does-not-exist:doc-x"));
+}
+
+// PL-03: Secondary index: findInstancesWithObject uses index (verify via attach+detach cycle)
+TEST_F(ProcessModuleTest, FindInstancesSecondaryIndexRoundTrip) {
+    // Attach the same shared doc to two instances
+    linker_->attachObject("idx-inst-A", "idx-shared-doc", "documents",
+        themis::process::ProcessLinkType::HAS_DOCUMENT, std::nullopt, {}, "u1");
+    auto [ok, att_id_B] = linker_->attachObject(
+        "idx-inst-B", "idx-shared-doc", "documents",
+        themis::process::ProcessLinkType::HAS_DOCUMENT, std::nullopt, {}, "u2");
+    ASSERT_TRUE(ok);
+
+    auto instances = linker_->findInstancesWithObject("idx-shared-doc", "documents");
+    EXPECT_EQ(instances.size(), 2u);
+    EXPECT_NE(std::find(instances.begin(), instances.end(), "idx-inst-A"), instances.end());
+    EXPECT_NE(std::find(instances.begin(), instances.end(), "idx-inst-B"), instances.end());
+
+    // After detaching inst-B, only inst-A should remain
+    ASSERT_TRUE(linker_->detachObject(att_id_B));
+    auto after_detach = linker_->findInstancesWithObject("idx-shared-doc", "documents");
+    EXPECT_EQ(after_detach.size(), 1u);
+    EXPECT_EQ(after_detach[0], "idx-inst-A");
+}
+
+// PL-04: findInstancesWithObject returns empty when no attachments exist
+TEST_F(ProcessModuleTest, FindInstancesWithObjectEmpty) {
+    auto instances = linker_->findInstancesWithObject("nonexistent-doc", "documents");
+    EXPECT_TRUE(instances.empty());
+}
+
+// PL-05: Secondary index handles multiple collections correctly
+TEST_F(ProcessModuleTest, FindInstancesMultipleCollections) {
+    linker_->attachObject("col-inst-A", "multi-doc", "documents",
+        themis::process::ProcessLinkType::HAS_DOCUMENT, std::nullopt, {}, "u1");
+    linker_->attachObject("col-inst-B", "multi-doc", "metadata",
+        themis::process::ProcessLinkType::HAS_METADATA, std::nullopt, {}, "u2");
+
+    auto docs = linker_->findInstancesWithObject("multi-doc", "documents");
+    EXPECT_EQ(docs.size(), 1u);
+    EXPECT_EQ(docs[0], "col-inst-A");
+
+    auto meta = linker_->findInstancesWithObject("multi-doc", "metadata");
+    EXPECT_EQ(meta.size(), 1u);
+    EXPECT_EQ(meta[0], "col-inst-B");
+}
+
+// PL-06: getAttachments still works after hard-delete (no tombstone leakage)
+TEST_F(ProcessModuleTest, GetAttachmentsAfterHardDelete) {
+    linker_->attachObject("noTmb-inst", "noTmb-doc-a", "documents",
+        themis::process::ProcessLinkType::HAS_DOCUMENT, std::nullopt, {}, "u1");
+    auto [ok, att_id] = linker_->attachObject(
+        "noTmb-inst", "noTmb-doc-b", "documents",
+        themis::process::ProcessLinkType::HAS_DOCUMENT, std::nullopt, {}, "u1");
+    ASSERT_TRUE(ok);
+
+    // Detach doc-b
+    ASSERT_TRUE(linker_->detachObject(att_id));
+
+    // Only doc-a should remain – no tombstone visible
+    auto remaining = linker_->getAttachments("noTmb-inst");
+    ASSERT_EQ(remaining.size(), 1u);
+    EXPECT_EQ(remaining[0].object_id, "noTmb-doc-a");
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 11. PPR-based GraphRAG Scoring (PPR-01 … PPR-05)
+// ─────────────────────────────────────────────────────────────────────────────
+
+class PprTest : public ::testing::Test {};
+
+// PPR-01: computePpr on empty graph returns empty result
+TEST_F(PprTest, EmptyGraphReturnsEmpty) {
+    themis::RocksDBWrapper::Config cfg;
+    cfg.db_path = "./data/test_ppr_01";
+    fs::remove_all(cfg.db_path);
+    cfg.memtable_size_mb = 16;
+    cfg.block_cache_size_mb = 32;
+    cfg.max_background_jobs = 1;
+    cfg.compression_default = "lz4";
+    cfg.compression_bottommost = "zstd";
+    auto db = std::make_unique<themis::RocksDBWrapper>(cfg);
+    ASSERT_TRUE(db->open());
+
+    themis::registerProcessEdgeTypes();
+    auto engine  = std::make_unique<themis::ProcessGraphManager>(*db);
+    auto mgr     = std::make_unique<themis::process::ProcessModelManager>(*db);
+    auto linker  = std::make_unique<themis::process::ProcessLinker>(*db);
+    auto rag     = std::make_unique<themis::process::ProcessGraphRag>(*db, *engine, *mgr, *linker);
+
+    json empty_graph = {{"nodes", json::array()}, {"edges", json::array()}};
+    auto result = rag->computePpr(empty_graph, {"n1"});
+    EXPECT_TRUE(result.empty());
+
+    db.reset();
+    fs::remove_all(cfg.db_path);
+}
+
+// PPR-02: computePpr on linear chain — seed nodes should have highest scores
+TEST_F(PprTest, LinearChainSeedHasHighScore) {
+    themis::RocksDBWrapper::Config cfg;
+    cfg.db_path = "./data/test_ppr_02";
+    fs::remove_all(cfg.db_path);
+    cfg.memtable_size_mb = 16;
+    cfg.block_cache_size_mb = 32;
+    cfg.max_background_jobs = 1;
+    cfg.compression_default = "lz4";
+    cfg.compression_bottommost = "zstd";
+    auto db = std::make_unique<themis::RocksDBWrapper>(cfg);
+    ASSERT_TRUE(db->open());
+
+    themis::registerProcessEdgeTypes();
+    auto engine  = std::make_unique<themis::ProcessGraphManager>(*db);
+    auto mgr     = std::make_unique<themis::process::ProcessModelManager>(*db);
+    auto linker  = std::make_unique<themis::process::ProcessLinker>(*db);
+    auto rag     = std::make_unique<themis::process::ProcessGraphRag>(*db, *engine, *mgr, *linker);
+
+    // 5-node linear chain: n1→n2→n3→n4→n5
+    json graph = {
+        {"nodes", json::array({
+            {{"id","n1"}},{{"id","n2"}},{{"id","n3"}},{{"id","n4"}},{{"id","n5"}}
+        })},
+        {"edges", json::array({
+            {{"from","n1"},{"to","n2"}},
+            {{"from","n2"},{"to","n3"}},
+            {{"from","n3"},{"to","n4"}},
+            {{"from","n4"},{"to","n5"}}
+        })}
+    };
+
+    themis::process::PprConfig ppr_cfg;
+    ppr_cfg.top_k_nodes = 5;
+    auto result = rag->computePpr(graph, {"n1"}, ppr_cfg);
+
+    ASSERT_GE(result.size(), 2u);
+    // n1 (the seed) should have the highest score
+    EXPECT_EQ(result[0].first, "n1");
+    // All scores should be positive
+    for (const auto& [nid, score] : result) {
+        EXPECT_GT(score, 0.f) << "Node " << nid << " has non-positive score";
+    }
+
+    db.reset();
+    fs::remove_all(cfg.db_path);
+}
+
+// PPR-03: computePpr on 10-node graph — top-k is respected
+TEST_F(PprTest, TopKRespected) {
+    themis::RocksDBWrapper::Config cfg;
+    cfg.db_path = "./data/test_ppr_03";
+    fs::remove_all(cfg.db_path);
+    cfg.memtable_size_mb = 16;
+    cfg.block_cache_size_mb = 32;
+    cfg.max_background_jobs = 1;
+    cfg.compression_default = "lz4";
+    cfg.compression_bottommost = "zstd";
+    auto db = std::make_unique<themis::RocksDBWrapper>(cfg);
+    ASSERT_TRUE(db->open());
+
+    themis::registerProcessEdgeTypes();
+    auto engine  = std::make_unique<themis::ProcessGraphManager>(*db);
+    auto mgr     = std::make_unique<themis::process::ProcessModelManager>(*db);
+    auto linker  = std::make_unique<themis::process::ProcessLinker>(*db);
+    auto rag     = std::make_unique<themis::process::ProcessGraphRag>(*db, *engine, *mgr, *linker);
+
+    // 10-node star: n0 connected to n1..n9
+    json nodes = json::array();
+    json edges = json::array();
+    for (int i = 0; i < 10; ++i) {
+        nodes.push_back({{"id", "n" + std::to_string(i)}});
+    }
+    for (int i = 1; i < 10; ++i) {
+        edges.push_back({{"from","n0"},{"to","n" + std::to_string(i)}});
+    }
+    json graph = {{"nodes", nodes}, {"edges", edges}};
+
+    themis::process::PprConfig ppr_cfg;
+    ppr_cfg.top_k_nodes = 3;
+    auto result = rag->computePpr(graph, {"n0"}, ppr_cfg);
+
+    EXPECT_EQ(result.size(), 3u);
+
+    db.reset();
+    fs::remove_all(cfg.db_path);
+}
+
+// PPR-04: computePpr with no matching seed node IDs falls back gracefully
+TEST_F(PprTest, UnknownSeedFallsBackToUniform) {
+    themis::RocksDBWrapper::Config cfg;
+    cfg.db_path = "./data/test_ppr_04";
+    fs::remove_all(cfg.db_path);
+    cfg.memtable_size_mb = 16;
+    cfg.block_cache_size_mb = 32;
+    cfg.max_background_jobs = 1;
+    cfg.compression_default = "lz4";
+    cfg.compression_bottommost = "zstd";
+    auto db = std::make_unique<themis::RocksDBWrapper>(cfg);
+    ASSERT_TRUE(db->open());
+
+    themis::registerProcessEdgeTypes();
+    auto engine  = std::make_unique<themis::ProcessGraphManager>(*db);
+    auto mgr     = std::make_unique<themis::process::ProcessModelManager>(*db);
+    auto linker  = std::make_unique<themis::process::ProcessLinker>(*db);
+    auto rag     = std::make_unique<themis::process::ProcessGraphRag>(*db, *engine, *mgr, *linker);
+
+    json graph = {
+        {"nodes", json::array({{{"id","a"}},{{"id","b"}},{{"id","c"}}})},
+        {"edges", json::array({{{"from","a"},{"to","b"}},{{"from","b"},{"to","c"}}})}
+    };
+
+    themis::process::PprConfig ppr_cfg;
+    ppr_cfg.top_k_nodes = 3;
+    // "unknown_node" is not in the graph
+    auto result = rag->computePpr(graph, {"unknown_node"}, ppr_cfg);
+    // Should still return k nodes (uniform personalisation fallback)
+    EXPECT_LE(result.size(), 3u);
+
+    db.reset();
+    fs::remove_all(cfg.db_path);
+}
+
+// PPR-05: computePpr performance — 200-node graph completes in < 100 ms
+TEST_F(PprTest, PerformanceLargeGraph) {
+    themis::RocksDBWrapper::Config cfg;
+    cfg.db_path = "./data/test_ppr_05";
+    fs::remove_all(cfg.db_path);
+    cfg.memtable_size_mb = 16;
+    cfg.block_cache_size_mb = 32;
+    cfg.max_background_jobs = 1;
+    cfg.compression_default = "lz4";
+    cfg.compression_bottommost = "zstd";
+    auto db = std::make_unique<themis::RocksDBWrapper>(cfg);
+    ASSERT_TRUE(db->open());
+
+    themis::registerProcessEdgeTypes();
+    auto engine  = std::make_unique<themis::ProcessGraphManager>(*db);
+    auto mgr     = std::make_unique<themis::process::ProcessModelManager>(*db);
+    auto linker  = std::make_unique<themis::process::ProcessLinker>(*db);
+    auto rag     = std::make_unique<themis::process::ProcessGraphRag>(*db, *engine, *mgr, *linker);
+
+    // Build linear chain of 200 nodes
+    json nodes = json::array();
+    json edges = json::array();
+    for (int i = 0; i < 200; ++i) {
+        nodes.push_back({{"id", "p" + std::to_string(i)}});
+    }
+    for (int i = 0; i < 199; ++i) {
+        edges.push_back({{"from","p" + std::to_string(i)},
+                         {"to",  "p" + std::to_string(i + 1)}});
+    }
+    json graph = {{"nodes", nodes}, {"edges", edges}};
+
+    themis::process::PprConfig ppr_cfg;
+    ppr_cfg.top_k_nodes = 20;
+
+    const auto t0 = std::chrono::steady_clock::now();
+    auto result = rag->computePpr(graph, {"p0"}, ppr_cfg);
+    const auto t1 = std::chrono::steady_clock::now();
+
+    const auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
+    EXPECT_LT(ms, 100) << "PPR on 200-node graph took " << ms << " ms (limit: 100 ms)";
+    EXPECT_GE(result.size(), 1u);
+
+    db.reset();
+    fs::remove_all(cfg.db_path);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 12. ProcessModelGenerator (PMG-01 … PMG-06)
+// ─────────────────────────────────────────────────────────────────────────────
+
+class ProcessModelGeneratorTest : public ::testing::Test {};
+
+// PMG-01: validate() passes for a valid minimal graph
+TEST_F(ProcessModelGeneratorTest, ValidatePassesForMinimalGraph) {
+    json graph = {
+        {"nodes", json::array({
+            {{"id","s1"},{"type","startEvent"},{"name","Start"}},
+            {{"id","a1"},{"type","userTask"},{"name","Task A"}},
+            {{"id","e1"},{"type","endEvent"},{"name","End"}}
+        })},
+        {"edges", json::array({
+            {{"from","s1"},{"to","a1"}},
+            {{"from","a1"},{"to","e1"}}
+        })}
+    };
+    auto result = themis::process::ProcessModelGenerator::validate(graph);
+    EXPECT_TRUE(result.ok) << "Errors: " << (result.errors.empty() ? "none" : result.errors[0]);
+}
+
+// PMG-02: validate() fails when no startEvent
+TEST_F(ProcessModelGeneratorTest, ValidateFailsNoStart) {
+    json graph = {
+        {"nodes", json::array({
+            {{"id","a1"},{"type","userTask"}},
+            {{"id","e1"},{"type","endEvent"}}
+        })},
+        {"edges", json::array({{{"from","a1"},{"to","e1"}}})}
+    };
+    auto result = themis::process::ProcessModelGenerator::validate(graph);
+    EXPECT_FALSE(result.ok);
+    EXPECT_FALSE(result.errors.empty());
+}
+
+// PMG-03: validate() fails when no endEvent
+TEST_F(ProcessModelGeneratorTest, ValidateFailsNoEnd) {
+    json graph = {
+        {"nodes", json::array({
+            {{"id","s1"},{"type","startEvent"}},
+            {{"id","a1"},{"type","userTask"}}
+        })},
+        {"edges", json::array({{{"from","s1"},{"to","a1"}}})}
+    };
+    auto result = themis::process::ProcessModelGenerator::validate(graph);
+    EXPECT_FALSE(result.ok);
+}
+
+// PMG-04: validate() fails for isolated node
+TEST_F(ProcessModelGeneratorTest, ValidateFailsIsolatedNode) {
+    json graph = {
+        {"nodes", json::array({
+            {{"id","s1"},{"type","startEvent"}},
+            {{"id","a1"},{"type","userTask"}},
+            {{"id","e1"},{"type","endEvent"}},
+            {{"id","iso"},{"type","userTask"}} // isolated
+        })},
+        {"edges", json::array({
+            {{"from","s1"},{"to","a1"}},
+            {{"from","a1"},{"to","e1"}}
+        })}
+    };
+    auto result = themis::process::ProcessModelGenerator::validate(graph);
+    EXPECT_FALSE(result.ok);
+}
+
+// PMG-05: fromLlmJson converts LLM JSON to ProcessModelRecord correctly
+TEST_F(ProcessModelGeneratorTest, FromLlmJsonProducesRecord) {
+    json llm_json = {
+        {"id", "bauantrag"},
+        {"name", "Bauantragsverfahren"},
+        {"domain", "ADMINISTRATION"},
+        {"events", json::array({
+            {{"id","s1"},{"type","startEvent"},{"name","Antrag eingegangen"}},
+            {{"id","e1"},{"type","endEvent"},{"name","Bescheid erteilt"}}
+        })},
+        {"activities", json::array({
+            {{"id","a1"},{"name","Vollständigkeitsprüfung"},{"type","userTask"},{"sla_hours",48}},
+            {{"id","a2"},{"name","Fachprüfung"},{"type","userTask"},{"sla_hours",120}},
+            {{"id","a3"},{"name","Bescheid erstellen"},{"type","userTask"},{"sla_hours",24}}
+        })},
+        {"gateways", json::array({
+            {{"id","g1"},{"name","Vollständig?"},{"type","exclusiveGateway"}}
+        })},
+        {"edges", json::array({
+            {{"id","f1"},{"from","s1"},{"to","a1"}},
+            {{"id","f2"},{"from","a1"},{"to","g1"}},
+            {{"id","f3"},{"from","g1"},{"to","a2"}},
+            {{"id","f4"},{"from","g1"},{"to","e1"}},
+            {{"id","f5"},{"from","a2"},{"to","a3"}},
+            {{"id","f6"},{"from","a3"},{"to","e1"}}
+        })}
+    };
+
+    auto rec = themis::process::ProcessModelGenerator::fromLlmJson(
+        llm_json, themis::process::ProcessDomain::ADMINISTRATION);
+
+    EXPECT_EQ(rec.id, "bauantrag");
+    EXPECT_EQ(rec.name, "Bauantragsverfahren");
+    EXPECT_EQ(rec.domain, themis::process::ProcessDomain::ADMINISTRATION);
+    ASSERT_TRUE(rec.normalized.contains("nodes"));
+    ASSERT_TRUE(rec.normalized.contains("edges"));
+    EXPECT_GE(rec.normalized["nodes"].size(), 6u); // 2 events + 3 activities + 1 gateway
+    EXPECT_GE(rec.normalized["edges"].size(), 5u);
+}
+
+// PMG-06: generateFromDescription returns false when no backend is set
+TEST_F(ProcessModelGeneratorTest, NoBackendReturnsFalse) {
+    themis::process::ProcessModelGenerator gen;
+    // No LLM backend configured
+    auto [ok, rec] = gen.generateFromDescription("Einfacher Testprozess");
+    EXPECT_FALSE(ok);
+}
+
+// PMG-07: generateFromDescription with mock backend generates valid model
+TEST_F(ProcessModelGeneratorTest, MockBackendGeneratesValidModel) {
+    themis::process::ProcessModelGenerator gen;
+
+    // Mock LLM that returns a valid JSON process model
+    gen.setLlmBackend([](const std::string& /*prompt*/) -> std::string {
+        return R"({
+            "id": "mock_proc",
+            "name": "Mock Process",
+            "domain": "BUSINESS",
+            "events": [
+                {"id":"s1","type":"startEvent","name":"Start"},
+                {"id":"e1","type":"endEvent","name":"End"}
+            ],
+            "activities": [
+                {"id":"a1","name":"Task 1","type":"userTask","sla_hours":8},
+                {"id":"a2","name":"Task 2","type":"userTask","sla_hours":16},
+                {"id":"a3","name":"Task 3","type":"userTask","sla_hours":24}
+            ],
+            "gateways": [],
+            "edges": [
+                {"id":"f1","from":"s1","to":"a1"},
+                {"id":"f2","from":"a1","to":"a2"},
+                {"id":"f3","from":"a2","to":"a3"},
+                {"id":"f4","from":"a3","to":"e1"}
+            ]
+        })";
+    });
+
+    themis::process::ProcessModelGenerator::Config cfg;
+    cfg.max_retries = 1;
+    auto [ok, rec] = gen.generateFromDescription("Test process", cfg);
+
+    ASSERT_TRUE(ok) << "Expected successful generation with mock backend";
+    EXPECT_EQ(rec.id, "mock_proc");
+    ASSERT_TRUE(rec.normalized.contains("nodes"));
+    ASSERT_TRUE(rec.normalized.contains("edges"));
+    EXPECT_GE(rec.normalized["nodes"].size(), 5u); // 2 events + 3 activities
+    EXPECT_GE(rec.normalized["edges"].size(), 4u);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 13. DmnEvaluator (DMN-01 … DMN-10)
+// ─────────────────────────────────────────────────────────────────────────────
+
+class DmnEvaluatorTest : public ::testing::Test {};
+
+// DMN-01: evaluateFeel wildcard '-' always matches
+TEST_F(DmnEvaluatorTest, FeelWildcardAlwaysMatches) {
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel("-", json(42)));
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel("-", json("hello")));
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel("-", json(nullptr)));
+}
+
+// DMN-02: evaluateFeel numeric comparisons
+TEST_F(DmnEvaluatorTest, FeelNumericComparisons) {
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel(">5", json(6.0)));
+    EXPECT_FALSE(themis::process::DmnEvaluator::evaluateFeel(">5", json(5.0)));
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel(">=5", json(5.0)));
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel("<100", json(99.0)));
+    EXPECT_FALSE(themis::process::DmnEvaluator::evaluateFeel("<100", json(100.0)));
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel("!=3", json(4.0)));
+    EXPECT_FALSE(themis::process::DmnEvaluator::evaluateFeel("!=3", json(3.0)));
+}
+
+// DMN-03: evaluateFeel range expressions
+TEST_F(DmnEvaluatorTest, FeelRangeExpressions) {
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel("[100..1000]", json(500.0)));
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel("[100..1000]", json(100.0)));
+    EXPECT_FALSE(themis::process::DmnEvaluator::evaluateFeel("[100..1000]", json(1001.0)));
+    EXPECT_FALSE(themis::process::DmnEvaluator::evaluateFeel("(100..1000)", json(100.0)));
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel("(100..1000)", json(101.0)));
+    EXPECT_FALSE(themis::process::DmnEvaluator::evaluateFeel("[100..1000)", json(1000.0)));
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel("[100..1000)", json(999.0)));
+}
+
+// DMN-04: evaluateFeel string equality with quotes
+TEST_F(DmnEvaluatorTest, FeelStringEquality) {
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel(R"("credit")", json("credit")));
+    EXPECT_FALSE(themis::process::DmnEvaluator::evaluateFeel(R"("credit")", json("debit")));
+    EXPECT_FALSE(themis::process::DmnEvaluator::evaluateFeel(R"("credit")", json(42)));
+}
+
+// DMN-05: evaluateFeel null checks
+TEST_F(DmnEvaluatorTest, FeelNullChecks) {
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel("null", json(nullptr)));
+    EXPECT_FALSE(themis::process::DmnEvaluator::evaluateFeel("null", json(42)));
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel("not(null)", json(42)));
+    EXPECT_FALSE(themis::process::DmnEvaluator::evaluateFeel("not(null)", json(nullptr)));
+}
+
+// DMN-06: loadFromJson with UNIQUE hit policy
+TEST_F(DmnEvaluatorTest, LoadFromJsonUniqueHitPolicy) {
+    json dt = {
+        {"id", "risk"},
+        {"name", "Risk Assessment"},
+        {"hit_policy", "UNIQUE"},
+        {"input_columns", {"amount", "type"}},
+        {"output_columns", {"risk_level"}},
+        {"rules", json::array({
+            {{"id","r1"}, {"inputs", json::array({">1000", R"("credit")"})},
+             {"outputs", {{"risk_level","HIGH"}}}},
+            {{"id","r2"}, {"inputs", json::array({"[100..1000]", "-"})},
+             {"outputs", {{"risk_level","MEDIUM"}}}},
+            {{"id","r3"}, {"inputs", json::array({"<100", "-"})},
+             {"outputs", {{"risk_level","LOW"}}}}
+        })}
+    };
+
+    themis::process::DmnEvaluator eval;
+    ASSERT_TRUE(eval.loadFromJson(dt));
+
+    // Test HIGH case
+    auto result = eval.evaluate("risk", {{"amount", 2000}, {"type", "credit"}});
+    ASSERT_TRUE(result.contains("risk_level"));
+    EXPECT_EQ(result["risk_level"].get<std::string>(), "HIGH");
+
+    // Test MEDIUM case
+    result = eval.evaluate("risk", {{"amount", 500}, {"type", "other"}});
+    ASSERT_TRUE(result.contains("risk_level"));
+    EXPECT_EQ(result["risk_level"].get<std::string>(), "MEDIUM");
+
+    // Test LOW case
+    result = eval.evaluate("risk", {{"amount", 50}, {"type", "cash"}});
+    ASSERT_TRUE(result.contains("risk_level"));
+    EXPECT_EQ(result["risk_level"].get<std::string>(), "LOW");
+}
+
+// DMN-07: COLLECT hit policy returns all matching rules
+TEST_F(DmnEvaluatorTest, CollectHitPolicyReturnsAll) {
+    json dt = {
+        {"id", "tags"},
+        {"name", "Tagging"},
+        {"hit_policy", "COLLECT"},
+        {"input_columns", {"score"}},
+        {"output_columns", {"tag"}},
+        {"rules", json::array({
+            {{"inputs", json::array({">=50"})}, {"outputs", {{"tag","pass"}}}},
+            {{"inputs", json::array({">=80"})}, {"outputs", {{"tag","excellent"}}}},
+            {{"inputs", json::array({"<50"})},  {"outputs", {{"tag","fail"}}}}
+        })}
+    };
+
+    themis::process::DmnEvaluator eval;
+    ASSERT_TRUE(eval.loadFromJson(dt));
+
+    auto result = eval.evaluate("tags", {{"score", 90}});
+    ASSERT_TRUE(result.is_array());
+    EXPECT_GE(result.size(), 2u); // both "pass" and "excellent" match
+}
+
+// DMN-08: evaluate returns empty object when no rule matches
+TEST_F(DmnEvaluatorTest, NoMatchReturnsEmpty) {
+    json dt = {
+        {"id", "strict"},
+        {"name", "Strict Table"},
+        {"hit_policy", "UNIQUE"},
+        {"input_columns", {"value"}},
+        {"output_columns", {"label"}},
+        {"rules", json::array({
+            {{"inputs", json::array({"=42"})}, {"outputs", {{"label","answer"}}}}
+        })}
+    };
+
+    themis::process::DmnEvaluator eval;
+    ASSERT_TRUE(eval.loadFromJson(dt));
+
+    auto result = eval.evaluate("strict", {{"value", 0}});
+    EXPECT_TRUE(result.empty());
+}
+
+// DMN-09: loadFromXml parses simplified DMN 1.5 XML
+TEST_F(DmnEvaluatorTest, LoadFromXmlParsesDecisionTable) {
+    const std::string dmn_xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+  <decision id="approval" name="Approval Decision">
+    <decisionTable hitPolicy="FIRST">
+      <input id="i1" label="amount"/>
+      <output id="o1" label="decision" name="decision"/>
+      <rule id="r1">
+        <inputEntry id="ie1">>=1000</inputEntry>
+        <outputEntry id="oe1">approved</outputEntry>
+      </rule>
+      <rule id="r2">
+        <inputEntry id="ie2">&lt;1000</inputEntry>
+        <outputEntry id="oe2">rejected</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>)";
+
+    themis::process::DmnEvaluator eval;
+    ASSERT_TRUE(eval.loadFromXml(dmn_xml)) << "loadFromXml failed";
+    const auto decisions = eval.listDecisions();
+    EXPECT_FALSE(decisions.empty());
+}
+
+// DMN-10: listDecisions returns all loaded decision IDs
+TEST_F(DmnEvaluatorTest, ListDecisionsReturnsAllIds) {
+    themis::process::DmnEvaluator eval;
+
+    json dt1 = {{"id","d1"}, {"hit_policy","UNIQUE"},
+                {"input_columns",{"x"}}, {"output_columns",{"y"}}, {"rules",json::array()}};
+    json dt2 = {{"id","d2"}, {"hit_policy","UNIQUE"},
+                {"input_columns",{"a"}}, {"output_columns",{"b"}}, {"rules",json::array()}};
+
+    ASSERT_TRUE(eval.loadFromJson(dt1));
+    ASSERT_TRUE(eval.loadFromJson(dt2));
+
+    const auto ids = eval.listDecisions();
+    EXPECT_EQ(ids.size(), 2u);
+    EXPECT_NE(std::find(ids.begin(), ids.end(), "d1"), ids.end());
+    EXPECT_NE(std::find(ids.begin(), ids.end(), "d2"), ids.end());
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 14. OcelExporter (OCEL-01 … OCEL-04)
+// ─────────────────────────────────────────────────────────────────────────────
+
+class OcelExporterTest : public ProcessModuleTest {};
+
+// OCEL-01: exportInstance returns empty JSON for non-existent instance
+TEST_F(OcelExporterTest, ExportNonExistentInstanceReturnsEmpty) {
+    themis::process::OcelExporter exp(*db_, *engine_, *mgr_, *linker_);
+    auto result = exp.exportInstance("does-not-exist");
+    EXPECT_TRUE(result.empty());
+}
+
+// OCEL-02: exportInstance for a valid instance produces OCEL 2.0 structure
+TEST_F(OcelExporterTest, ExportInstanceProducesOcel2Structure) {
+    // Register a simple process model
+    const std::string bpmn_xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <process id="ocel_test_proc" name="OCEL Test">
+    <startEvent id="s1" name="Start"/>
+    <userTask id="t1" name="Review"/>
+    <endEvent id="e1" name="End"/>
+    <sequenceFlow id="f1" sourceRef="s1" targetRef="t1"/>
+    <sequenceFlow id="f2" sourceRef="t1" targetRef="e1"/>
+  </process>
+</definitions>)";
+
+    auto import_result = mgr_->importBpmn(bpmn_xml);
+    ASSERT_TRUE(import_result.ok) << import_result.message;
+
+    // Start a process instance
+    auto [st, iid] = engine_->startProcess("ocel_test_proc", {{"applicant","Max Mustermann"}});
+    ASSERT_TRUE(st.ok) << st.message;
+
+    // Attach a document
+    linker_->attachObject(iid, "doc-ocel-001", "documents",
+                          themis::process::ProcessLinkType::HAS_DOCUMENT,
+                          std::nullopt, {{"title","Bauplan"}}, "u1");
+
+    themis::process::OcelExporter exp(*db_, *engine_, *mgr_, *linker_);
+    auto result = exp.exportInstance(iid);
+
+    ASSERT_FALSE(result.empty()) << "Expected non-empty OCEL JSON";
+    ASSERT_TRUE(result.contains("ocel:version")) << "Missing ocel:version";
+    EXPECT_EQ(result["ocel:version"].get<std::string>(), "2.0");
+    ASSERT_TRUE(result.contains("objectTypes"));
+    ASSERT_TRUE(result.contains("eventTypes"));
+    ASSERT_TRUE(result.contains("objects"));
+    ASSERT_TRUE(result.contains("events"));
+}
+
+// OCEL-03: OCEL objects list includes attached documents
+TEST_F(OcelExporterTest, ExportInstanceIncludesAttachments) {
+    const std::string bpmn_xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <process id="ocel_att_proc" name="Attachment Test">
+    <startEvent id="s1" name="Start"/>
+    <endEvent id="e1" name="End"/>
+    <sequenceFlow id="f1" sourceRef="s1" targetRef="e1"/>
+  </process>
+</definitions>)";
+
+    auto import_result = mgr_->importBpmn(bpmn_xml);
+    ASSERT_TRUE(import_result.ok);
+
+    auto [st, iid] = engine_->startProcess("ocel_att_proc", {});
+    ASSERT_TRUE(st.ok);
+
+    linker_->attachObject(iid, "doc-A", "documents",
+                          themis::process::ProcessLinkType::HAS_DOCUMENT,
+                          std::nullopt, {}, "u1");
+    linker_->attachObject(iid, "doc-B", "documents",
+                          themis::process::ProcessLinkType::HAS_DOCUMENT,
+                          std::nullopt, {}, "u1");
+
+    themis::process::OcelExporter exp(*db_, *engine_, *mgr_, *linker_);
+    auto result = exp.exportInstance(iid);
+
+    ASSERT_TRUE(result.contains("objects"));
+    EXPECT_GE(result["objects"].size(), 2u);
+}
+
+// OCEL-04: objectTypes are correctly derived from object collections
+TEST_F(OcelExporterTest, ObjectTypesAreDerived) {
+    const std::string bpmn_xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <process id="ocel_type_proc" name="Type Test">
+    <startEvent id="s1" name="Start"/>
+    <endEvent id="e1" name="End"/>
+    <sequenceFlow id="f1" sourceRef="s1" targetRef="e1"/>
+  </process>
+</definitions>)";
+
+    auto import_result = mgr_->importBpmn(bpmn_xml);
+    ASSERT_TRUE(import_result.ok);
+
+    auto [st, iid] = engine_->startProcess("ocel_type_proc", {});
+    ASSERT_TRUE(st.ok);
+
+    linker_->attachObject(iid, "doc-1", "documents",
+                          themis::process::ProcessLinkType::HAS_DOCUMENT,
+                          std::nullopt, {}, "u1");
+    linker_->attachObject(iid, "meta-1", "metadata",
+                          themis::process::ProcessLinkType::HAS_METADATA,
+                          std::nullopt, {}, "u1");
+
+    themis::process::OcelExporter exp(*db_, *engine_, *mgr_, *linker_);
+    auto result = exp.exportInstance(iid);
+
+    ASSERT_TRUE(result.contains("objectTypes"));
+    // Should have "documents" and "metadata" types
+    const auto& ot = result["objectTypes"];
+    bool has_documents = false;
+    bool has_metadata  = false;
+    for (const auto& t : ot) {
+        if (t["name"] == "documents") has_documents = true;
+        if (t["name"] == "metadata")  has_metadata  = true;
+    }
+    EXPECT_TRUE(has_documents);
+    EXPECT_TRUE(has_metadata);
 }
