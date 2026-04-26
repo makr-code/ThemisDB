@@ -12,37 +12,61 @@ if(MSVC)
     # Setup MSVC toolset directory
     if(DEFINED ENV{VCToolsInstallDir})
         set(_VC_TOOLS_DIR "$ENV{VCToolsInstallDir}")
-        string(REGEX REPLACE "\\\\$" "" _VC_TOOLS_DIR "${_VC_TOOLS_DIR}")
+        string(REGEX REPLACE "[/\\\\]+$" "" _VC_TOOLS_DIR "${_VC_TOOLS_DIR}")
+    elseif(DEFINED ENV{VCINSTALLDIR})
+        # Older VS env: VCINSTALLDIR ends with VC\
+        set(_VC_TOOLS_DIR "$ENV{VCINSTALLDIR}Tools/MSVC")
+        string(REGEX REPLACE "[/\\\\]+$" "" _VC_TOOLS_DIR "${_VC_TOOLS_DIR}")
     else()
-        set(_VC_TOOLS_DIR "C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207")
+        message(WARNING
+            "VCToolsInstallDir is not set. "
+            "Run CMake from a Visual Studio Developer Command Prompt or "
+            "use CMakePresets.json with 'toolset' configured for MSVC.")
+        # Do NOT hard-code a path; let the VS generator or vcpkg handle includes.
+        set(_VC_TOOLS_DIR "")
     endif()
-    
-    set(_WIN_SDK_VERSION "10.0.22621.0")
-    set(_WIN_SDK_ROOT "C:/Program Files (x86)/Windows Kits/10")
-    
-    # Use include_directories() instead of /I flags - cleaner and no escaping issues
-    # DO NOT use SYSTEM - MSVC headers need normal priority to find each other
-    include_directories(
-        "${_VC_TOOLS_DIR}/include"
-        "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/ucrt"
-        "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/shared"
-        "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/um"
-    )
-    
-    message(STATUS "MSVC Include Paths Added (EARLY):")
-    message(STATUS "  - ${_VC_TOOLS_DIR}/include")
-    message(STATUS "  - ${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/{ucrt,shared,um}")
-    
-    # Add lib paths for linker
-    link_directories(
-        "${_VC_TOOLS_DIR}/lib/x64"
-        "${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/ucrt/x64"
-        "${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/um/x64"
-    )
-    
-    message(STATUS "MSVC Library Paths Added:")
-    message(STATUS "  - ${_VC_TOOLS_DIR}/lib/x64")
-    message(STATUS "  - ${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/{ucrt,um}/x64")
+
+    # Windows SDK root and version
+    if(DEFINED ENV{WindowsSdkDir})
+        set(_WIN_SDK_ROOT "$ENV{WindowsSdkDir}")
+        string(REGEX REPLACE "[/\\\\]+$" "" _WIN_SDK_ROOT "${_WIN_SDK_ROOT}")
+    else()
+        set(_WIN_SDK_ROOT "C:/Program Files (x86)/Windows Kits/10")
+    endif()
+
+    if(DEFINED ENV{WindowsSDKVersion})
+        set(_WIN_SDK_VERSION "$ENV{WindowsSDKVersion}")
+        string(REGEX REPLACE "[/\\\\]+$" "" _WIN_SDK_VERSION "${_WIN_SDK_VERSION}")
+    elseif(DEFINED ENV{WindowsSdkVerBinPath})
+        # Extract version from path, e.g. C:\...\10.0.22621.0\
+        string(REGEX MATCH "[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+" _WIN_SDK_VERSION "$ENV{WindowsSdkVerBinPath}")
+    else()
+        set(_WIN_SDK_VERSION "")
+    endif()
+
+    if(_VC_TOOLS_DIR AND _WIN_SDK_VERSION)
+        # Use include_directories() instead of /I flags - cleaner and no escaping issues
+        # DO NOT use SYSTEM - MSVC headers need normal priority to find each other
+        include_directories(
+            "${_VC_TOOLS_DIR}/include"
+            "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/ucrt"
+            "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/shared"
+            "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/um"
+        )
+
+        message(STATUS "MSVC Include Paths Added:")
+        message(STATUS "  VC Tools: ${_VC_TOOLS_DIR}/include")
+        message(STATUS "  WinSDK ${_WIN_SDK_VERSION}: ucrt/shared/um")
+
+        # Add lib paths for linker
+        link_directories(
+            "${_VC_TOOLS_DIR}/lib/x64"
+            "${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/ucrt/x64"
+            "${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/um/x64"
+        )
+    else()
+        message(STATUS "MSVC Include Paths: using VS generator defaults (VCToolsInstallDir not set)")
+    endif()
 endif()
 
 # ════════════════════════════════════════════════════════════════════════════
