@@ -482,7 +482,7 @@ OptimizerCostModel::adviseSerializationStrategy(
 
     if (workload == WorkloadType::CDC_STREAM) {
         // Change-data-capture: schema-versioned binary to keep per-event overhead low
-        advice.wire_format              = Format::BINARY_CUSTOM;
+        advice.wire_format              = Format::SF_BINARY_CUSTOM;
         advice.exec_path                = ExecutionPath::CPU_THREADED_BATCH;
         advice.recommended_batch_size   = 256;
         advice.recommended_thread_count = constants_.cpu_batch_thread_low;
@@ -493,7 +493,7 @@ OptimizerCostModel::adviseSerializationStrategy(
 
     if (workload == WorkloadType::CACHE_REPL) {
         // Internal cache replication uses Protobuf for compact, schema-safe encoding
-        advice.wire_format              = Format::PROTOBUF;
+        advice.wire_format              = Format::SF_PROTOBUF_WIRE;
         advice.exec_path                = ExecutionPath::CPU_THREADED_BATCH;
         advice.recommended_batch_size   = 512;
         advice.recommended_thread_count = constants_.cpu_batch_thread_low;
@@ -505,7 +505,7 @@ OptimizerCostModel::adviseSerializationStrategy(
     if (workload == WorkloadType::DOCUMENT_CRUD ||
         estimated_row_count < constants_.msgpack_row_threshold) {
         // Small payload or simple CRUD: JSON + single-threaded path is cheapest
-        advice.wire_format              = Format::JSON_TEXT;
+        advice.wire_format              = Format::SF_JSON_TEXT;
         advice.exec_path                = ExecutionPath::CPU_SINGLE;
         advice.recommended_batch_size   = estimated_row_count > 0 ? estimated_row_count : 1;
         advice.recommended_thread_count = 1;
@@ -517,7 +517,7 @@ OptimizerCostModel::adviseSerializationStrategy(
 
     // Below the GPU threshold: binary format + multi-threaded CPU
     if (estimated_row_count < constants_.gpu_row_threshold_low) {
-        advice.wire_format              = Format::MSGPACK_CBOR;
+        advice.wire_format              = Format::SF_MSGPACK_CBOR;
         advice.exec_path                = ExecutionPath::CPU_THREADED_BATCH;
         advice.recommended_batch_size   = 1024;
         advice.recommended_thread_count = constants_.cpu_batch_thread_low;
@@ -537,7 +537,7 @@ OptimizerCostModel::adviseSerializationStrategy(
     const bool vram_fits = gpu_available && (vram_free_bytes >= required_vram);
 
     if (vram_fits) {
-        advice.wire_format              = Format::ARROW_IPC;
+        advice.wire_format              = Format::SF_ARROW_IPC;
         advice.exec_path                = ExecutionPath::GPU_VRAM;
         advice.recommended_batch_size   = 8192;
         advice.recommended_thread_count = 1;   // GPU handles internal parallelism
@@ -546,7 +546,7 @@ OptimizerCostModel::adviseSerializationStrategy(
             "≥" + std::to_string(constants_.gpu_row_threshold_low) +
             " GPU+VRAM_OK → ARROW_IPC/GPU_VRAM";
     } else {
-        advice.wire_format              = Format::ARROW_IPC;
+        advice.wire_format              = Format::SF_ARROW_IPC;
         advice.exec_path                = ExecutionPath::CPU_THREADED_BATCH;
         advice.recommended_batch_size   = 4096;
         advice.recommended_thread_count = threads_high;

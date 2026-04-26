@@ -24,7 +24,7 @@ endif()
 if(THEMIS_BUILD_MODULAR)
     option(THEMIS_MODULE_TRANSACTION "Include transaction module (required)" ON)
     option(THEMIS_MODULE_LLM "Include LLM inference module (optional)" ON)
-    option(THEMIS_MODULE_LLM_SPLIT "Split LLM module into core and extension libraries" ON)
+    option(THEMIS_MODULE_LLM_SPLIT "Split LLM module into core and extension libraries" OFF)
     option(THEMIS_MODULE_GEO "Include geospatial module (optional)" ON)
     option(THEMIS_MODULE_GRAPH "Include graph analytics module (optional)" ON)
     option(THEMIS_MODULE_CONTENT "Include content processors module (optional)" ON)
@@ -35,6 +35,15 @@ if(THEMIS_BUILD_MODULAR)
     set(THEMIS_MODULES_UNITY_BATCH_SIZE "20" CACHE STRING "Unity batch size for modular libraries")
     set(THEMIS_MODULES_UNITY_ALLOWLIST "network;query;sharding;geo;graph;content;timeseries;security;transaction;ingestion;llm;llm_ext" CACHE STRING
         "Semicolon-separated module names for Unity Build (or ALL)")
+
+    # llm_ext existed as a linker-symbol-count mitigation. With the current
+    # Unity strategy enabled, keep the LLM module monolithic to avoid
+    # split-related symbol ownership/link regressions.
+    if(THEMIS_MODULES_ENABLE_UNITY AND THEMIS_MODULE_LLM_SPLIT)
+        message(STATUS "THEMIS_MODULES_ENABLE_UNITY=ON -> disabling THEMIS_MODULE_LLM_SPLIT (llm_ext)")
+        set(THEMIS_MODULE_LLM_SPLIT OFF CACHE BOOL
+            "Split LLM module into core and extension libraries" FORCE)
+    endif()
 endif()
 
 # Helper function to create a modular library target
@@ -543,6 +552,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/parallel_executor.cpp
     ../src/query/query_canceller.cpp
     ../src/query/query_federation.cpp
+    ../src/distributed_knowledge/federated_rag_merger.cpp
     ../src/query/plan_cache.cpp
     ../src/query/query_compiler.cpp
     ../src/query/materialized_view.cpp
@@ -564,7 +574,6 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
     ../src/query/functions/function_registry.cpp
-    ../src/api/graphql.cpp
     ../src/query/functions/ethics_functions.cpp
     ../src/query/functions/fulltext_functions.cpp
     ../src/query/functions/lora_functions.cpp
@@ -585,6 +594,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/columnar_execution.cpp
     # Process Modeling Module
     ../src/process/process_model_manager.cpp
+    ../src/process/epk_aris_xml_importer.cpp
     ../src/process/bpmn_serializer.cpp
     ../src/process/epk_serializer.cpp
     ../src/process/llm_process_descriptor.cpp
@@ -605,12 +615,12 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/arrow_flight.cpp
     
     # AQL handlers (non-LLM)
-    ../src/aql/aql_query_builder.cpp
-    ../src/aql/aql_query_validator.cpp
+    $<$<NOT:$<BOOL:${THEMIS_MODULE_LLM}>>:../src/aql/aql_query_builder.cpp>
+    $<$<NOT:$<BOOL:${THEMIS_MODULE_LLM}>>:../src/aql/aql_query_validator.cpp>
     ../src/aql/aql_optimizer_advisor.cpp
     ../src/aql/aql_query_template_library.cpp
     ../src/aql/aql_conversation_context.cpp
-    ../src/aql/aql_schema_provider.cpp
+    $<$<NOT:$<BOOL:${THEMIS_MODULE_LLM}>>:../src/aql/aql_schema_provider.cpp>
     ../src/aql/aql_migration_assistant.cpp
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/aql/classify_bridge.cpp>
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/aql/docs_assistant_functions.cpp>
@@ -1269,6 +1279,21 @@ if(THEMIS_BUILD_MODULAR AND THEMIS_MODULE_LLM AND THEMIS_MODULE_LLM_SPLIT)
 else()
     set(THEMIS_LLM_CORE_SOURCES ${THEMIS_LLM_SOURCES})
     set(THEMIS_LLM_EXT_SOURCES)
+endif()
+
+# Keep AQL LLM integration files together in llm_ext when split is enabled.
+# This avoids accidental core/ext separation by index-based splitting and
+# prevents link-time resolution from pulling query objects into unrelated DLLs.
+if(THEMIS_BUILD_MODULAR AND THEMIS_MODULE_LLM AND THEMIS_MODULE_LLM_SPLIT)
+    set(_themis_llm_ext_aql_sources
+        ../src/aql/llm_aql_handler.cpp
+        ../src/aql/aql_query_validator.cpp
+        ../src/aql/aql_query_builder.cpp
+        ../src/aql/aql_schema_provider.cpp
+    )
+    list(REMOVE_ITEM THEMIS_LLM_CORE_SOURCES ${_themis_llm_ext_aql_sources})
+    list(REMOVE_ITEM THEMIS_LLM_EXT_SOURCES ${_themis_llm_ext_aql_sources})
+    list(APPEND THEMIS_LLM_EXT_SOURCES ${_themis_llm_ext_aql_sources})
 endif()
 
 set(THEMIS_CONTENT_SOURCES

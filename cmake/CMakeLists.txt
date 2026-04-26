@@ -6523,6 +6523,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tools/export_cli.cpp")
 
     install(TARGETS themis-export
         RUNTIME DESTINATION bin
+        COMPONENT tools
     )
 endif()
 
@@ -6545,6 +6546,7 @@ if(THEMIS_ENABLE_LLM)
         # Install the tool
         install(TARGETS themis-model
             RUNTIME DESTINATION bin
+            COMPONENT tools
         )
     endif()
 endif()
@@ -6638,12 +6640,16 @@ endif()
 # Installation
 install(TARGETS themis_server themis_core
     RUNTIME DESTINATION bin
+        COMPONENT runtime
     LIBRARY DESTINATION lib
+        COMPONENT runtime
     ARCHIVE DESTINATION lib
+        COMPONENT development
 )
 
 install(DIRECTORY ${THEMIS_ROOT_DIR}/include/
     DESTINATION include
+    COMPONENT development
     PATTERN "mock_clip_processor.h" EXCLUDE
 )
 
