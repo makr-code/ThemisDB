@@ -623,24 +623,120 @@ endif()
 
 # ============================================================================
 # CPACK DISTRIBUTION
+# All CPACK_* variables must be set BEFORE include(CPack) so that
+# the generated CPackConfig.cmake / CPackSourceConfig.cmake picks them up.
+#
+# Deployment folder structure (defined in cmake/CMakeLists.txt install() rules):
+#   bin/         — all runtime binaries (themis_server, themisctl, themis-export, themis-model, …)
+#   lib/         — shared/static libraries (themis_core, *.so / *.dll / *.a)
+#   include/     — public SDK headers
+#   data/        — optional: docs.db, legal training data
+#   models/      — optional: LLM runtime models
+#   bin/benchmarks/ — optional: benchmark binaries (THEMIS_BUILD_BENCHMARKS)
+#
+# Build-time binaries land in <build-dir>/bin/ via RUNTIME_OUTPUT_DIRECTORY
+# (search for "themis_server RUNTIME_OUTPUT_DIRECTORY" in cmake/CMakeLists.txt).
+# GNUInstallDirs is included below so cmake/CMakeLists.txt install() rules and
+# this CPack block use the same standard variables (CMAKE_INSTALL_BINDIR = bin).
 # ============================================================================
 
-set(CPACK_PACKAGE_NAME "themisdb")
-set(CPACK_PACKAGE_VENDOR "VCC")
-set(CPACK_PACKAGE_VERSION "${THEMIS_VERSION_STRING}")
-set(CPACK_PACKAGE_DIRECTORY "${CMAKE_SOURCE_DIR}/releases")
+include(GNUInstallDirs)
 
-if(WIN32)
-    set(CPACK_GENERATOR "ZIP;WIX")
-    set(CPACK_PACKAGE_FILE_NAME "ThemisDB-${THEMIS_EDITION}-${THEMIS_VERSION_STRING}-windows-x64")
-else()
-    set(CPACK_GENERATOR "TGZ;DEB;RPM")
-    set(CPACK_PACKAGE_FILE_NAME "themisdb-${THEMIS_EDITION}-${THEMIS_VERSION_STRING}-${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
-    set(CPACK_DEBIAN_PACKAGE_DEPENDS "librocksdb-dev, libgrpc-dev, libgrpc++-dev, libssl-dev, libboost-all-dev")
-    set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
-    set(CPACK_RPM_PACKAGE_REQUIRES "rocksdb-devel, grpc-devel, openssl-devel, boost-devel")
+# Linux DEB/RPM packages follow the /usr prefix convention so installed files
+# land in /usr/bin, /usr/lib, /usr/include — not /usr/local/*.
+# ZIP/TGZ archives use the default (no prefix, relative paths).
+if(NOT WIN32 AND NOT APPLE)
+    set(CPACK_PACKAGING_INSTALL_PREFIX "/usr")
 endif()
 
+# --- Common metadata ---
+set(CPACK_PACKAGE_NAME        "themisdb")
+set(CPACK_PACKAGE_VENDOR      "VCC")
+set(CPACK_PACKAGE_VERSION     "${THEMIS_VERSION_STRING}")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "ThemisDB - Enterprise Distributed Database")
+set(CPACK_PACKAGE_DESCRIPTION
+    "ThemisDB is an enterprise-grade distributed database with built-in AI/ML support, graph traversal, time-series analytics, and a hybrid relational/document/vector storage engine.")
+set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/makr-code/ThemisDB")
+set(CPACK_PACKAGE_CONTACT      "ThemisDB Maintainers <themisdb@vcc.example.com>")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE")
+
+# Source archive (works on all platforms)
+set(CPACK_SOURCE_GENERATOR "TGZ;ZIP")
+set(CPACK_SOURCE_IGNORE_FILES
+    "\\.git/"
+    "\\.github/"
+    "build/"
+    "vcpkg/"
+    "\\.vs/"
+    "node_modules/"
+    "\.gitmodules"
+)
+
+if(WIN32)
+    # ---- Windows: ZIP + WiX/MSI (+ NSIS as optional fallback installer) ----
+    # WIX requires WiX Toolset v3 (candle.exe/light.exe) on PATH.
+    # NSIS requires NSIS installed (makensis on PATH) — add it only when available.
+    find_program(_NSIS_MAKE makensis)
+    if(_NSIS_MAKE)
+        set(CPACK_GENERATOR "ZIP;WIX;NSIS")
+    else()
+        set(CPACK_GENERATOR "ZIP;WIX")
+    endif()
+    set(CPACK_PACKAGE_FILE_NAME "ThemisDB-${THEMIS_VERSION_STRING}-Windows-x64")
+
+    # WiX / MSI specific
+    # A stable upgrade GUID ensures "upgrade in place" behaviour across versions.
+    # Do NOT change this GUID once the product has been released.
+    set(CPACK_WIX_UPGRADE_GUID     "E2A3B4C5-D6E7-4F80-91A2-B3C4D5E6F7A8")
+    set(CPACK_WIX_PRODUCT_GUID     "*")   # auto-generated per build is fine for ProductCode
+    set(CPACK_WIX_PRODUCT_NAME     "ThemisDB ${THEMIS_VERSION_STRING}")
+    set(CPACK_WIX_PROGRAM_MENU_FOLDER "ThemisDB")
+    set(CPACK_WIX_PROPERTY_ARPURLINFOABOUT  "https://github.com/makr-code/ThemisDB")
+    set(CPACK_WIX_PROPERTY_ARPHELPLINK      "https://github.com/makr-code/ThemisDB/issues")
+    set(CPACK_WIX_PROPERTY_ARPCONTACT       "ThemisDB Maintainers")
+
+elseif(APPLE)
+    # ---- macOS: TGZ + ZIP ----
+    set(CPACK_GENERATOR "TGZ;ZIP")
+    set(CPACK_PACKAGE_FILE_NAME "themisdb-${THEMIS_VERSION_STRING}-macOS-${CMAKE_SYSTEM_PROCESSOR}")
+
+else()
+    # ---- Linux: TGZ + DEB + RPM ----
+    set(CPACK_GENERATOR "TGZ;DEB;RPM")
+    set(CPACK_PACKAGE_FILE_NAME
+        "themisdb-${THEMIS_VERSION_STRING}-${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
+
+    # DEB metadata
+    set(CPACK_DEBIAN_PACKAGE_NAME        "themisdb")
+    set(CPACK_DEBIAN_PACKAGE_VERSION     "${THEMIS_VERSION_STRING}")
+    set(CPACK_DEBIAN_PACKAGE_MAINTAINER  "ThemisDB Maintainers <themisdb@vcc.example.com>")
+    set(CPACK_DEBIAN_PACKAGE_DESCRIPTION
+        "ThemisDB Enterprise Distributed Database\n Enterprise-grade distributed database with AI/ML support, graph traversal, time-series analytics, and a hybrid relational/document/vector storage engine.")
+    set(CPACK_DEBIAN_PACKAGE_SECTION     "database")
+    set(CPACK_DEBIAN_PACKAGE_PRIORITY    "optional")
+    set(CPACK_DEBIAN_PACKAGE_HOMEPAGE    "https://github.com/makr-code/ThemisDB")
+    # Let CPack derive the file name following Debian conventions (name_version_arch.deb)
+    set(CPACK_DEBIAN_FILE_NAME           "DEB-DEFAULT")
+    # Runtime library dependencies (not -dev packages — those are for compilation only).
+    # dpkg-shlibdeps (SHLIBDEPS ON below) will auto-resolve most shared-library deps;
+    # these explicit entries act as a conservative fallback for static/mixed builds.
+    set(CPACK_DEBIAN_PACKAGE_DEPENDS
+        "librocksdb8.9 | librocksdb-dev, libgrpc++1.51 | libgrpc++-dev, libssl3, libboost-filesystem1.83.0 | libboost-filesystem-dev")
+    # SHLIBDEPS resolves shared-library deps automatically when dpkg-shlibdeps is available.
+    # Falls back gracefully when the tool is absent (local builds without full dpkg stack).
+    set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS   ON)
+
+    # RPM metadata
+    set(CPACK_RPM_PACKAGE_NAME       "themisdb")
+    set(CPACK_RPM_PACKAGE_VERSION    "${THEMIS_VERSION_STRING}")
+    set(CPACK_RPM_PACKAGE_LICENSE    "Proprietary")
+    set(CPACK_RPM_PACKAGE_GROUP      "Applications/Databases")
+    set(CPACK_RPM_PACKAGE_URL        "https://github.com/makr-code/ThemisDB")
+    set(CPACK_RPM_PACKAGE_REQUIRES
+        "rocksdb, grpc, openssl-libs, boost-filesystem")
+endif()
+
+# include(CPack) must come AFTER all CPACK_* variables are set.
 include(CPack)
 
 message(STATUS "==========================================")
