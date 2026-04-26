@@ -20,5 +20,4 @@ __pycache__
 .env.local
 .venv
 venv/
-llama.cpp/build/
-llama.cpp/benches/
+llama.cpp/**

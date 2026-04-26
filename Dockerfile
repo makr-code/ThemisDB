@@ -11,6 +11,7 @@ ARG BUILD_TESTS=ON
 ARG BUILD_BENCHMARKS=ON
 ARG THEMIS_ENABLE_ENCRYPTED_STORAGE=OFF
 ARG TARGETARCH=amd64
+ARG LLAMA_CPP_REF=1e8924fd65ad349d1d838412a2172292618f3bbf
 
 # Dummy stages for optional artifacts
 FROM scratch AS prebuilt
@@ -86,11 +87,13 @@ RUN --mount=type=bind,from=prebuilt,target=/vcpkg-prebuilt,readonly \
 FROM base AS llama
 
 ARG ENABLE_LLM
+ARG LLAMA_CPP_REF
 WORKDIR /opt
 
-COPY llama.cpp ./llama.cpp
-
 RUN if [ "$ENABLE_LLM" = "ON" ]; then \
+    git clone https://github.com/ggerganov/llama.cpp.git /opt/llama.cpp && \
+    cd /opt/llama.cpp && \
+    git checkout "${LLAMA_CPP_REF}" && \
         cd /opt/llama.cpp && \
         rm -rf build && mkdir -p build && cd build && \
         cmake .. -G Ninja \

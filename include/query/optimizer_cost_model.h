@@ -25,6 +25,7 @@
 #include <map>
 #include <memory>
 #include <cstddef>
+#include <cstdint>
 
 namespace themis {
 
@@ -143,28 +144,28 @@ public:
      * and how many CPU threads (or the GPU) to use for parallelism.
      */
     struct SerializationAdvice {
-        /// On-wire encoding to use for result rows.
+        // On-wire encoding for result rows.
         enum class Format {
-            JSON_TEXT,      ///< Standard JSON – always safe, no deps
-            BINARY_CUSTOM,  ///< Compact custom binary (length-prefix framing)
-            MSGPACK_CBOR,   ///< MessagePack / CBOR – smaller than JSON, schema-free
-            ARROW_IPC,      ///< Apache Arrow IPC stream – columnar, zero-copy capable
-            PROTOBUF,       ///< Protocol Buffers – for gRPC-internal paths
+            SF_JSON_TEXT,      // Standard JSON
+            SF_BINARY_CUSTOM,  // Compact custom binary
+            SF_MSGPACK_CBOR,   // MessagePack / CBOR
+            SF_ARROW_IPC,      // Apache Arrow IPC stream
+            SF_PROTOBUF_WIRE   // Protocol Buffers for internal/gRPC paths
         };
 
-        /// Execution path for the compute kernel.
+        // Execution path for compute.
         enum class ExecutionPath {
-            CPU_SINGLE,          ///< Single-threaded sequential processing (default)
-            CPU_THREADED_BATCH,  ///< Multi-threaded batch processing via CPU thread pool
-            GPU_VRAM,            ///< Parallel execution in GPU VRAM (Arrow IPC staging)
+            CPU_SINGLE,
+            CPU_THREADED_BATCH,
+            GPU_VRAM
         };
 
-        Format        wire_format             = Format::JSON_TEXT;
-        ExecutionPath exec_path               = ExecutionPath::CPU_SINGLE;
-        size_t        recommended_batch_size  = 1;       ///< rows per batch [1..65536]
-        size_t        recommended_thread_count = 1;      ///< CPU threads (1 = serial)
-        bool          use_vram_pinned_memory  = false;   ///< pin host buffer for GPU DMA
-        std::string   rationale;                         ///< human-readable decision reason
+        Format wire_format = Format::SF_JSON_TEXT;
+        ExecutionPath exec_path = ExecutionPath::CPU_SINGLE;
+        size_t recommended_batch_size = 1;
+        size_t recommended_thread_count = 1;
+        bool use_vram_pinned_memory = false;
+        std::string rationale;
     };
     
     // =============================

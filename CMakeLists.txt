@@ -625,22 +625,23 @@ endif()
 # CPACK DISTRIBUTION
 # ============================================================================
 
-include(CPack)
-
 set(CPACK_PACKAGE_NAME "themisdb")
 set(CPACK_PACKAGE_VENDOR "VCC")
 set(CPACK_PACKAGE_VERSION "${THEMIS_VERSION_STRING}")
+set(CPACK_PACKAGE_DIRECTORY "${CMAKE_SOURCE_DIR}/releases")
 
 if(WIN32)
     set(CPACK_GENERATOR "ZIP;WIX")
-    set(CPACK_PACKAGE_FILE_NAME "ThemisDB-${THEMIS_VERSION_STRING}-Windows-x64")
+    set(CPACK_PACKAGE_FILE_NAME "ThemisDB-${THEMIS_EDITION}-${THEMIS_VERSION_STRING}-windows-x64")
 else()
     set(CPACK_GENERATOR "TGZ;DEB;RPM")
-    set(CPACK_PACKAGE_FILE_NAME "themisdb-${THEMIS_VERSION_STRING}-${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
+    set(CPACK_PACKAGE_FILE_NAME "themisdb-${THEMIS_EDITION}-${THEMIS_VERSION_STRING}-${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
     set(CPACK_DEBIAN_PACKAGE_DEPENDS "librocksdb-dev, libgrpc-dev, libgrpc++-dev, libssl-dev, libboost-all-dev")
     set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
     set(CPACK_RPM_PACKAGE_REQUIRES "rocksdb-devel, grpc-devel, openssl-devel, boost-devel")
 endif()
+
+include(CPack)
 
 message(STATUS "==========================================")
 message(STATUS "ThemisDB ${THEMIS_VERSION} (${THEMIS_VERSION_STRING})")
