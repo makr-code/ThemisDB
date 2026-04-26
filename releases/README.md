@@ -3,10 +3,9 @@
 Pfad: `releases`
 
 ## Zweck
-Dieser Ordner enthält 1 Unterordner und 0 Dateien und bildet einen abgegrenzten Teil der Repository-Struktur.
+Dieser Ordner enthält 0 Unterordner und 0 Dateien und bildet einen abgegrenzten Teil der Repository-Struktur.
 
 ## Unterordner
-- `themisdb-1.4.1-dev-alpha-windows-x64-dev/`
 
 ## Hinweise
 - Änderungen in diesem Ordner sollten mit den übergeordneten Architektur- und Sicherheitsrichtlinien des Projekts abgestimmt werden.
