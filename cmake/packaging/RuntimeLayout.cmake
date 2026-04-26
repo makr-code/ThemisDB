@@ -14,7 +14,6 @@ set(THEMIS_RELEASE_COMPONENTS_ZIP
     documentation
     benchmarks
     tests
-    Unspecified
 )
 
 # Runtime directories that must exist in release packages.

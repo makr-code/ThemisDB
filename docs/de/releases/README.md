@@ -1,7 +1,7 @@
 # Releases & Updates Dokumentation
 
-**Stand:** 11. April 2026
-**Aktueller Milestone-Stand:** v2.4.0
+**Stand:** 26. April 2026
+**Aktueller Versionsstand im Repo:** 1.9.0-alpha
 **Kategorie:** Releases & Updates
 
 ---
@@ -11,7 +11,14 @@
 ThemisDB Release-Dokumentation enthält:
 - Release Notes für alle Versionen
 - Update-System und Manifest-Management
-- Release-Verteilungsstrategie
+- die kompakte manuelle Release-Strategie
+
+Grundsatz:
+- ein Git-Tag pro freigegebenem Quellstand
+- mehrere Artefakte pro Release sind erlaubt
+- ZIP und MSI erhalten keinen eigenen separaten Tag
+- ein GitHub-Milestone definiert den jeweiligen Release-Scope
+- die zugehörigen GitHub-Issues müssen diesem Milestone zugeordnet sein
 
 ## 🎉 Aktuelle Releases
 
@@ -32,7 +39,8 @@ ThemisDB Release-Dokumentation enthält:
 | Version | Datum | Fokus | Dokumentation |
 |---------|-------|-------|---------------|
 | **v1.9.1** | in Umsetzung | Auth-Testtarget-Registrierung / Build-Integration | [Release Notes](./RELEASE_NOTES_v1.9.1.md) |
-| **v1.9.0** | in Umsetzung | Chimera Adapter-Interface-Update, Governance Compliance-Regeln | [Release Notes](./RELEASE_NOTES_v1.9.0.md) |
+| **v1.9.0-alpha** | 26.04.2026 | Packaging- und Logging-Hardening fuer Windows Release-Artefakte | [Release Notes](./RELEASE_NOTES_v1.9.0-alpha.md) |
+| **v1.9.0** | Vorabstand: 1.9.0-alpha | Chimera Adapter-Interface-Update, Governance Compliance-Regeln | [Release Notes](./RELEASE_NOTES_v1.9.0.md) |
 
 ### v1.8.x Serie (Q2 2026)
 
@@ -121,11 +129,14 @@ ThemisDB Release-Dokumentation enthält:
 
 ## 🔄 Release-Prozess
 
-1. **Feature-Entwicklung**: Features werden in chronologischer Reihenfolge entwickelt
-2. **Changelog-Update**: Features werden in CHANGELOG.md dokumentiert
-3. **Release Notes**: Detaillierte Release Notes werden erstellt
-4. **Versionierung**: Semantic Versioning (MAJOR.MINOR.PATCH)
-5. **Veröffentlichung**: GitHub Releases und Paket-Distribution
+1. Release-Kandidat auf dem passenden Release-Zweig vorbereiten.
+2. Passenden GitHub-Milestone anlegen oder prüfen und Release-Issues zuordnen.
+3. Version in `VERSION` und Release Notes prüfen.
+4. Artefakte manuell bauen.
+5. Einen Release-Tag für den freigegebenen Quellstand erzeugen.
+6. Alle zugehörigen Artefakte unter demselben Release veröffentlichen.
+
+Siehe dazu auch [../../RELEASE_STRATEGY.md](../../RELEASE_STRATEGY.md).
 
 ## 🔗 Verwandte Dokumentation
 
