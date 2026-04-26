@@ -1912,6 +1912,15 @@ function(themis_build_modular)
         DEPENDENCIES ${_themis_query_deps}
         STATIC_MODULE
     )
+    if(MSVC)
+        # Keep XML parser TUs separate: both files define helper types in
+        # anonymous namespaces and can conflict when merged into one Unity TU.
+        set_source_files_properties(
+            ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
+            ${CMAKE_SOURCE_DIR}/src/process/epk_aris_xml_importer.cpp
+            PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
+        )
+    endif()
     
     set(_themis_network_deps
         themis_base
