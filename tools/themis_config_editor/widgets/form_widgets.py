@@ -88,15 +88,28 @@ class ScrollableForm(ttk.Frame):
 
         self.inner.bind("<Configure>", self._on_inner_configure)
         self._canvas.bind("<Configure>", self._on_canvas_configure)
-        self._canvas.bind_all("<MouseWheel>", self._on_mousewheel)
-        self._canvas.bind_all("<Button-4>", self._on_mousewheel)
-        self._canvas.bind_all("<Button-5>", self._on_mousewheel)
+        # Bind scroll events only while the pointer is inside this canvas,
+        # to avoid interfering with other ScrollableForm instances.
+        self._canvas.bind("<Enter>", self._bind_mousewheel)
+        self._canvas.bind("<Leave>", self._unbind_mousewheel)
 
     def _on_inner_configure(self, _event: Any) -> None:
         self._canvas.configure(scrollregion=self._canvas.bbox("all"))
 
     def _on_canvas_configure(self, event: Any) -> None:
         self._canvas.itemconfig(self._window_id, width=event.width)
+
+    def _bind_mousewheel(self, _event: Any = None) -> None:
+        """Activate scroll bindings when the pointer enters this canvas."""
+        self._canvas.bind("<MouseWheel>", self._on_mousewheel)
+        self._canvas.bind("<Button-4>", self._on_mousewheel)
+        self._canvas.bind("<Button-5>", self._on_mousewheel)
+
+    def _unbind_mousewheel(self, _event: Any = None) -> None:
+        """Deactivate scroll bindings when the pointer leaves this canvas."""
+        self._canvas.unbind("<MouseWheel>")
+        self._canvas.unbind("<Button-4>")
+        self._canvas.unbind("<Button-5>")
 
     def _on_mousewheel(self, event: Any) -> None:
         # Cross-platform scroll

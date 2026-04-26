@@ -13,10 +13,13 @@
 from __future__ import annotations
 
 import copy
+import json
 import tkinter as tk
 from pathlib import Path
 from tkinter import filedialog, messagebox, ttk
 from typing import Any, Dict, List, Optional, Union
+
+import yaml
 
 from .config_io import ConfigIO
 from .schema import TAB_SCHEMA
@@ -206,7 +209,7 @@ class ThemisConfigApp(tk.Tk):
     def _load_file(self, path: Path) -> None:
         try:
             self._config_data = ConfigIO.load(path)
-        except Exception as exc:  # noqa: BLE001
+        except (OSError, yaml.YAMLError, json.JSONDecodeError, ValueError) as exc:
             messagebox.showerror(
                 "Ladefehler",
                 f"Datei konnte nicht geladen werden:\n{path}\n\n{exc}",
@@ -244,7 +247,7 @@ class ThemisConfigApp(tk.Tk):
         fmt = ConfigIO.detect_format(path)
         try:
             ConfigIO.save(path, data_to_save, fmt)
-        except Exception as exc:  # noqa: BLE001
+        except OSError as exc:
             messagebox.showerror(
                 "Speicherfehler",
                 f"Datei konnte nicht gespeichert werden:\n{path}\n\n{exc}",

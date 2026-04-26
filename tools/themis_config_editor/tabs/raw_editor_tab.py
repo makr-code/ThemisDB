@@ -11,11 +11,17 @@
 
 from __future__ import annotations
 
+import json
 import tkinter as tk
 from tkinter import messagebox, ttk
 from typing import Any, Callable, Dict, Optional
 
+import yaml
+
 from ..config_io import ConfigIO
+
+# Exceptions produced by the two parsers we support
+_PARSE_ERRORS = (yaml.YAMLError, json.JSONDecodeError, ValueError)
 
 
 class RawEditorTab(ttk.Frame):
@@ -175,7 +181,7 @@ class RawEditorTab(ttk.Frame):
             self._fmt = new_fmt
             self._load_text(ConfigIO.serialize(data, self._fmt))
             self._set_status(f"Format geändert → {new_fmt.upper()}")
-        except Exception as exc:  # noqa: BLE001
+        except _PARSE_ERRORS as exc:
             messagebox.showerror(
                 "Format-Fehler",
                 f"Kann nicht nach {new_fmt.upper()} konvertieren:\n{exc}",
@@ -192,7 +198,7 @@ class RawEditorTab(ttk.Frame):
         try:
             ConfigIO.deserialize(text, self._fmt)
             self._set_status("✔ Syntax korrekt", color="#005500")
-        except Exception as exc:  # noqa: BLE001
+        except _PARSE_ERRORS as exc:
             self._set_status(f"✘ Fehler: {exc}", color="#aa0000")
 
     def _reformat(self) -> None:
@@ -201,7 +207,7 @@ class RawEditorTab(ttk.Frame):
             data = ConfigIO.deserialize(text, self._fmt)
             self._load_text(ConfigIO.serialize(data, self._fmt))
             self._set_status("Formatiert.", color="#005500")
-        except Exception as exc:  # noqa: BLE001
+        except _PARSE_ERRORS as exc:
             self._set_status(f"✘ Formatierung fehlgeschlagen: {exc}", color="#aa0000")
 
     # ------------------------------------------------------------------
@@ -236,7 +242,7 @@ class RawEditorTab(ttk.Frame):
         text = self._text.get("1.0", tk.END)
         try:
             parsed = ConfigIO.deserialize(text, self._fmt)
-        except Exception as exc:  # noqa: BLE001
+        except _PARSE_ERRORS as exc:
             messagebox.showerror(
                 "Parse-Fehler",
                 f"Konfiguration konnte nicht geparst werden:\n{exc}\n\n"
