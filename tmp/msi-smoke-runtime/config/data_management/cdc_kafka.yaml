@@ -1,0 +1,57 @@
+# CDC Kafka Producer Configuration
+# See include/cdc/kafka_cdc_producer.h (KafkaProducerConfig) for full field reference.
+#
+# This file is loaded when THEMIS_ENABLE_KAFKA is defined at build time.
+# Sensitive values (sasl_password) must be resolved via ConfigPathResolver
+# and are never logged.
+
+kafka:
+  # Comma-separated initial broker addresses.
+  brokers: "localhost:9092"
+
+  # Topic prefix applied when per-collection routing is used.
+  # A collection called "orders" will publish to "themis.cdc.orders".
+  topic_prefix: "themis.cdc."
+
+  # Set to a non-empty string to route all events to a single topic.
+  # When empty (default), per-collection topics are used.
+  single_topic: ""
+
+  # librdkafka producer acknowledgement mode.
+  # "all" provides the strongest durability guarantee (leader + all ISR replicas).
+  acks: "all"
+
+  # Enable idempotent producer for exactly-once delivery where broker supports it.
+  # Requires acks=all and max_in_flight=1 (or librdkafka >= 1.x handles this automatically).
+  enable_idempotence: true
+
+  # How often the delivery-report poll loop runs (milliseconds).
+  poll_interval_ms: 500
+
+  # Maximum time a batch is held before being sent (milliseconds).
+  linger_ms: 5
+
+  # Maximum in-flight requests per connection.
+  # librdkafka enforces max_in_flight=5 automatically when idempotence is on.
+  max_in_flight: 5
+
+  # Flush timeout when the producer is stopped (milliseconds).
+  flush_timeout_ms: 10000
+
+  # Security / TLS / SASL
+  # Set security_protocol to "sasl_ssl" or "sasl_plaintext" and fill in the
+  # SASL fields to authenticate with the broker.
+  security_protocol: "plaintext"
+
+  # SASL mechanism: "PLAIN", "SCRAM-SHA-256", or "SCRAM-SHA-512".
+  # Leave empty when SASL is not used.
+  sasl_mechanism: ""
+
+  # SASL credentials — load from config/security/ via ConfigPathResolver.
+  # These values must never be hard-coded in source or committed to source control.
+  sasl_username: ""
+  sasl_password: ""
+
+  # Path to the CA certificate bundle for TLS verification.
+  # Empty string uses the system CA bundle.
+  ssl_ca_location: ""

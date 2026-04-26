@@ -1,0 +1,57 @@
+# ThemisDB — OpenTelemetry Protocol (OTLP) Exporter Configuration
+#
+# Span data collected by TracingMiddleware is exported to an OpenTelemetry
+# collector via OTLP/HTTP (JSON encoding).
+#
+# Specification reference:
+#   https://opentelemetry.io/docs/specs/otlp/
+#   https://github.com/open-telemetry/opentelemetry-proto/tree/main/opentelemetry/proto/trace/v1
+#
+# Environment variable overrides (highest precedence):
+#   THEMIS_OTLP_ENDPOINT   – collector endpoint URL
+#   THEMIS_OTLP_ENABLED    – "true" / "false"
+
+otlp:
+  # Set to false to disable span export without removing the configuration.
+  enabled: false
+
+  # OTLP/HTTP collector endpoint.
+  # Must be the full URL including path (/v1/traces) as required by OTLP spec.
+  # Default collector port for OTLP/HTTP: 4318.
+  endpoint: "http://localhost:4318/v1/traces"
+
+  # Resource attributes sent with every span to identify the service.
+  service_name: "themisdb"
+  service_version: "1.7.0"
+
+  # HTTP timeout in milliseconds for each export request.
+  # Keep low to avoid blocking the request-handling thread.
+  timeout_ms: 5000
+
+  # Maximum number of spans held in the async export queue before the
+  # oldest spans are dropped.  Increase if you see "queue full" warnings.
+  max_queue_size: 8192
+
+  # Number of spans batched into one OTLP export request.
+  batch_size: 64
+
+  # Flush interval in milliseconds.  Spans are exported either when
+  # batch_size is reached or this interval elapses, whichever comes first.
+  flush_interval_ms: 5000
+
+  # TLS / mTLS settings for the OTLP connection.
+  # Leave empty strings to disable and use plain HTTP.
+  tls:
+    ca_cert: ""
+    client_cert: ""
+    client_key: ""
+
+  # Optional Bearer token sent in the Authorization header.
+  # Useful when the collector sits behind an auth proxy.
+  auth_header: ""
+
+  # Additional static key/value headers appended to every export request.
+  # Example:
+  #   extra_headers:
+  #     X-Tenant-ID: "prod-01"
+  extra_headers: {}

@@ -19,10 +19,13 @@ if(NOT TARGET package-zip)
         add_custom_target(package-zip
             COMMAND ${CMAKE_COMMAND}
                 -DTHEMIS_BINARY_DIR=${CMAKE_BINARY_DIR}
+                -DTHEMIS_SOURCE_DIR=${CMAKE_SOURCE_DIR}
                 -DTHEMIS_CONFIG=${CMAKE_BUILD_TYPE}
                 -DTHEMIS_RELEASE_DIR=${THEMIS_RELEASE_PACKAGE_DIR}
                 -DTHEMIS_PACKAGE_NAME=ThemisDB-${THEMIS_EDITION}-${THEMIS_VERSION_STRING}-windows-x64
                 -DTHEMIS_INCLUDE_DEVELOPMENT=${_themis_include_development}
+                -DTHEMIS_PACKAGE_INCLUDE_TESTS=${THEMIS_PACKAGE_INCLUDE_TESTS}
+                -DTHEMIS_PACKAGE_INCLUDE_BENCHMARKS=${THEMIS_PACKAGE_INCLUDE_BENCHMARKS}
                 -P ${CMAKE_CURRENT_LIST_DIR}/CreateZipPackage.cmake
             WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
             COMMENT "Create deployable Windows ZIP package"

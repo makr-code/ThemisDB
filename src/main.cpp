@@ -23,6 +23,7 @@
     #include <mimalloc-new-delete.h>
 #endif
 
+#include "utils/cli_parser_utils.h"
 #include "utils/logger.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
@@ -59,32 +60,31 @@ int main(int argc, char* argv[]) {
     
     for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];
-        if (arg == "--version" || arg == "-v") {
+        if (themis::cli::is_version_flag(arg)) {
 #ifdef THEMIS_VERSION_STRING
             std::cout << THEMIS_VERSION_STRING << std::endl;
 #else
             std::cout << "unknown" << std::endl;
 #endif
             return 0;
-        } else if (arg == "--help" || arg == "-h") {
+        } else if (themis::cli::is_help_flag(arg)) {
             print_usage(argv[0]);
             return 0;
         } else if (arg == "--db" || arg == "--db-path") {
-            if (i + 1 < argc) {
-                db_path = argv[++i];
-            } else {
-                std::cerr << "Error: " << arg << " requires a value" << std::endl;
+            std::string err;
+            if (!themis::cli::consume_next_value(argc, argv, i, arg.c_str(), db_path, err)) {
+                std::cerr << "Error: " << err << std::endl;
                 print_usage(argv[0]);
                 return 1;
             }
         } else if (arg == "--config") {
-            if (i + 1 < argc) {
-                config_path = argv[++i];
-            } else {
-                std::cerr << "Error: --config requires a value" << std::endl;
+            std::string val, err;
+            if (!themis::cli::consume_next_value(argc, argv, i, "--config", val, err)) {
+                std::cerr << "Error: " << err << std::endl;
                 print_usage(argv[0]);
                 return 1;
             }
+            config_path = val;
         } else {
             std::cerr << "Error: Unknown option: " << arg << std::endl;
             print_usage(argv[0]);

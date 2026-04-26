@@ -1,0 +1,301 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2026 ThemisDB Contributors
+#
+# Technical Prompts
+#
+# This file contains prompt templates for technical queries including
+# system architecture, engineering, debugging, and technical documentation.
+
+version: "1.0.0"
+
+prompts:
+  
+  technical_architecture:
+    name: "Technical Architecture Analysis"
+    version: "1.0"
+    description: "Analyze system architecture and technical design"
+    active: true
+    content: |
+      You are analyzing technical architecture.
+      
+      System/Component: {query}
+      Technical context: {context}
+      
+      Architecture analysis:
+      1. **Components**: What are the main components?
+      2. **Interactions**: How do components communicate?
+      3. **Data Flow**: How does data move through the system?
+      4. **Scalability**: How does it scale?
+      5. **Reliability**: What are the failure modes?
+      6. **Performance**: What are the performance characteristics?
+      
+      Technical considerations:
+      - Separation of concerns
+      - Coupling and cohesion
+      - Scalability patterns
+      - Fault tolerance
+      - Performance bottlenecks
+      - Security boundaries
+      
+      Present analysis:
+      - Architecture diagram (describe)
+      - Component breakdown
+      - Key design decisions
+      - Trade-offs
+      - Recommendations
+
+  debugging_analysis:
+    name: "Debugging Analysis"
+    version: "1.0"
+    description: "Analyze technical issues and bugs"
+    active: true
+    content: |
+      You are helping debug a technical issue.
+      
+      Problem description: {query}
+      System state: {context}
+      
+      Debugging approach:
+      1. **Symptom Analysis**: What is happening?
+      2. **Expected Behavior**: What should happen?
+      3. **Root Cause**: What is causing the issue?
+      4. **Reproduction**: How to reproduce?
+      5. **Impact**: What is affected?
+      6. **Fix**: How to resolve?
+      
+      Debugging methodology:
+      - Isolate the problem
+      - Check logs and metrics
+      - Test hypotheses systematically
+      - Verify fixes
+      
+      Present findings:
+      - Problem summary
+      - Root cause analysis
+      - Reproduction steps
+      - Proposed solution
+      - Testing plan
+      - Prevention measures
+
+  performance_optimization:
+    name: "Performance Optimization"
+    version: "1.0"
+    description: "Analyze and optimize system performance"
+    active: true
+    content: |
+      You are optimizing system performance.
+      
+      Performance target: {query}
+      Current metrics: {context}
+      
+      Optimization process:
+      1. **Baseline**: What is current performance?
+      2. **Bottleneck**: Where is the bottleneck?
+      3. **Analysis**: Why is it slow?
+      4. **Options**: What can be optimized?
+      5. **Impact**: What are the trade-offs?
+      6. **Implementation**: How to implement?
+      
+      Performance areas:
+      - CPU utilization
+      - Memory usage
+      - I/O throughput
+      - Network latency
+      - Database queries
+      - Caching strategies
+      
+      Present optimization plan:
+      - Current performance metrics
+      - Bottleneck identification
+      - Optimization strategies (prioritized)
+      - Expected improvements
+      - Implementation effort
+      - Risk assessment
+
+  code_review:
+    name: "Technical Code Review"
+    version: "1.0"
+    description: "Review code for technical quality"
+    active: true
+    content: |
+      You are performing a technical code review.
+      
+      Code/Module: {query}
+      Context: {context}
+      
+      Review criteria:
+      1. **Correctness**: Does it work correctly?
+      2. **Efficiency**: Is it performant?
+      3. **Readability**: Is it clear and maintainable?
+      4. **Security**: Are there security issues?
+      5. **Best Practices**: Does it follow standards?
+      6. **Testing**: Is it adequately tested?
+      
+      Focus areas:
+      - Logic errors
+      - Edge cases
+      - Error handling
+      - Resource management
+      - Code organization
+      - Documentation
+      
+      Present review:
+      - Summary
+      - Critical issues
+      - Suggestions for improvement
+      - Good practices observed
+      - Security considerations
+
+  system_design:
+    name: "System Design"
+    version: "1.0"
+    description: "Design technical systems and solutions"
+    active: true
+    content: |
+      You are designing a technical system.
+      
+      Requirements: {query}
+      Constraints: {context}
+      
+      Design process:
+      1. **Requirements**: What are the functional/non-functional requirements?
+      2. **Architecture**: What is the high-level architecture?
+      3. **Components**: What are the key components?
+      4. **Data Model**: How is data structured?
+      5. **APIs**: What are the interfaces?
+      6. **Scalability**: How does it scale?
+      7. **Reliability**: How is reliability achieved?
+      
+      Design considerations:
+      - CAP theorem trade-offs
+      - Consistency vs availability
+      - Latency vs throughput
+      - Cost vs performance
+      - Complexity vs simplicity
+      
+      Present design:
+      - System overview
+      - Architecture diagram (describe)
+      - Component specifications
+      - Data flow
+      - API contracts
+      - Scaling strategy
+      - Failure handling
+
+  technical_documentation:
+    name: "Technical Documentation"
+    version: "1.0"
+    description: "Generate technical documentation"
+    active: true
+    content: |
+      You are creating technical documentation.
+      
+      Topic: {query}
+      Technical details: {context}
+      
+      Documentation structure:
+      1. **Overview**: What is this?
+      2. **Purpose**: Why does it exist?
+      3. **Architecture**: How is it structured?
+      4. **Usage**: How do you use it?
+      5. **API Reference**: What are the interfaces?
+      6. **Examples**: Show practical examples
+      7. **Troubleshooting**: Common issues and solutions
+      
+      Documentation principles:
+      - Write for your audience (developers, operators, users)
+      - Start with high-level overview
+      - Provide concrete examples
+      - Keep it up-to-date
+      - Include diagrams
+      
+      Present documentation:
+      - Table of contents
+      - Clear sections with headings
+      - Code examples
+      - Diagrams (described)
+      - FAQ section
+
+  security_analysis:
+    name: "Security Analysis"
+    version: "1.0"
+    description: "Analyze technical security aspects"
+    active: true
+    content: |
+      You are conducting security analysis.
+      
+      Subject: {query}
+      System context: {context}
+      
+      Security assessment:
+      1. **Threat Model**: What are the threats?
+      2. **Attack Surface**: What can be attacked?
+      3. **Vulnerabilities**: What weaknesses exist?
+      4. **Controls**: What security measures are in place?
+      5. **Gaps**: What is missing?
+      6. **Recommendations**: What should be done?
+      
+      Security domains:
+      - Authentication and authorization
+      - Data encryption (at rest, in transit)
+      - Input validation
+      - Access control
+      - Audit logging
+      - Secure communication
+      
+      Present analysis:
+      - Threat overview
+      - Identified vulnerabilities (by severity)
+      - Current security controls
+      - Security gaps
+      - Remediation recommendations (prioritized)
+      - Compliance considerations
+
+  api_design:
+    name: "API Design"
+    version: "1.0"
+    description: "Design and review API specifications"
+    active: true
+    content: |
+      You are designing or reviewing an API.
+      
+      API purpose: {query}
+      Requirements: {context}
+      
+      API design principles:
+      1. **Resources**: What resources are exposed?
+      2. **Endpoints**: What are the URL patterns?
+      3. **Methods**: What HTTP methods are used?
+      4. **Request/Response**: What is the data format?
+      5. **Error Handling**: How are errors communicated?
+      6. **Versioning**: How is the API versioned?
+      7. **Security**: How is it secured?
+      
+      Design considerations:
+      - RESTful principles
+      - Consistency across endpoints
+      - Clear naming conventions
+      - Comprehensive error messages
+      - Rate limiting
+      - Documentation
+      
+      Present API design:
+      - Resource model
+      - Endpoint specifications
+      - Request/response examples
+      - Error codes
+      - Authentication/authorization
+      - Versioning strategy
+
+metadata:
+  created: "2026-02-10"
+  author: "ThemisDB Development Team"
+  purpose: "Technical engineering and system analysis prompt templates"
+  category: "technical"
+  areas:
+    - "architecture"
+    - "debugging"
+    - "performance"
+    - "security"
+    - "design"
+    - "documentation"

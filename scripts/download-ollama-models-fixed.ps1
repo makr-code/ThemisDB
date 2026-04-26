@@ -356,20 +356,18 @@ function Main {
     Write-Info "Fetching available Ollama models..."
     $availableModels = Get-OllamaModels
     if ($availableModels.Count -gt 0) {
-        WrCheck if model exists locally, otherwise pull
-        $modelExists = Test-OllamaModelExists -ModelName $modelName
-        
-        if ($modelExists) {
-            Write-Success "Model $modelName found in local Ollama cache (offline)"
+        Write-Info "Found $($availableModels.Count) models in local Ollama registry"
+        foreach ($model in ($availableModels | Select-Object -First 10)) {
+            Write-Host "  - $($model.name)" -ForegroundColor Gray
         }
-        else {
-            Write-Info "Model $modelName not found locally, pulling from Ollama..."
-            $pullSuccess = Get-OllamaModel -ModelName $modelName
-            
-            if (-not $pullSuccess) {
-                Write-Warning-Custom "Skipping $modelName due to pull failure"
-                continue
-            }
+        if ($availableModels.Count -gt 10) {
+            Write-Host "  ... (+$($availableModels.Count - 10) weitere)" -ForegroundColor DarkGray
+        }
+    }
+    else {
+        Write-Warning-Custom "No models currently registered in local Ollama cache"
+    }
+
     Write-Host ""
     Write-Info "Starting download of $($ModelNames.Count) models..."
     Write-Host ""

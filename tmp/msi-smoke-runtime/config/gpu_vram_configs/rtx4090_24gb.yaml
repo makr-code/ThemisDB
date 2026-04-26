@@ -1,0 +1,61 @@
+# RTX 4090 (24GB VRAM) Configuration
+# Optimized for consumer-grade high-performance GPU
+
+hardware:
+  gpu_model: "NVIDIA RTX 4090"
+  vram_gb: 24
+  memory_bandwidth_gbps: 1008
+  compute_capability: "8.9"
+  tensor_cores: true
+  nvlink: false
+  
+model: "Llama-2-7B"
+inference:
+  batch_size: 8
+  max_seq_length: 4096
+  context_window: 4096
+  
+vram_allocation:
+  model_weights: "14 GB"        # FP16 Quantization (7B × 2 bytes)
+  kv_cache_static: "4 GB"       # Paged Attention (8 batch × 4096 tokens)
+  kv_cache_dynamic: "1 GB"      # Runtime growth buffer (20%)
+  activations: "2 GB"           # Forward pass activations
+  overhead: "1 GB"              # System overhead (~5%)
+  total_allocated: "22 GB"      # Total (2 GB reserve)
+  
+optimization:
+  quantization: "FP16"
+  enable_flash_attention: true
+  enable_paged_kv_cache: true
+  enable_prefix_caching: true
+  kv_cache_block_size: 16       # Tokens per block
+  tensor_parallel_size: 1
+  pipeline_parallel_size: 1
+  
+  # Memory management
+  defragmentation_enabled: true
+  memory_pool_enabled: true
+  oom_recovery_enabled: true
+  
+performance:
+  expected_throughput_tps: "320-380"     # Tokens per second (batch 8)
+  expected_latency_ms: "22-25"           # Per-token latency
+  first_token_latency_ms: "50-80"        # Time to first token
+  max_concurrent_requests: 8
+  
+limits:
+  max_model_size_gb: 18                  # Max model that fits
+  max_batch_size: 16                     # Max batch before OOM
+  max_context_length: 8192               # Max with batch_size=4
+  
+recommendations:
+  - "Ideal for 7B-13B models with FP16 precision"
+  - "Use Q5_K_M quantization for 70B models (reduced quality)"
+  - "Batch size 8-16 optimal for throughput"
+  - "Consider multi-GPU for larger models"
+  
+use_cases:
+  - "Development and prototyping"
+  - "Small-scale production (< 100 QPS)"
+  - "Research and fine-tuning"
+  - "Edge deployment (high-end)"

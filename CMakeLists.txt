@@ -410,7 +410,7 @@ if(_themis_docs_db_mode STREQUAL "BUILD")
             # Install documentation database
             install(
                 DIRECTORY ${DOCS_DB_OUTPUT}
-                DESTINATION ${CMAKE_INSTALL_PREFIX}/data
+                DESTINATION data
                 COMPONENT documentation
                 OPTIONAL
             )
@@ -434,7 +434,7 @@ elseif(_themis_docs_db_mode STREQUAL "PREBUILT")
 
     if(EXISTS "${_themis_docs_db_selected_prebuilt}")
         install(DIRECTORY "${_themis_docs_db_selected_prebuilt}"
-            DESTINATION ${CMAKE_INSTALL_PREFIX}/data
+            DESTINATION data
             COMPONENT documentation
             OPTIONAL
         )
@@ -448,15 +448,50 @@ else()
     message(FATAL_ERROR "Invalid THEMIS_DOCS_DB_MODE='${THEMIS_DOCS_DB_MODE}'. Allowed: AUTO, BUILD, PREBUILT, OFF")
 endif()
 
+if(DEFINED THEMIS_RELEASE_ROOT_DOC_FILES)
+    foreach(_themis_doc_file IN LISTS THEMIS_RELEASE_ROOT_DOC_FILES)
+        if(EXISTS "${CMAKE_SOURCE_DIR}/${_themis_doc_file}")
+            install(FILES "${CMAKE_SOURCE_DIR}/${_themis_doc_file}"
+                DESTINATION .
+                COMPONENT documentation
+                OPTIONAL
+            )
+        endif()
+    endforeach()
+endif()
+
+if(DEFINED THEMIS_RELEASE_LAYOUT_DOC)
+    if(EXISTS "${CMAKE_SOURCE_DIR}/${THEMIS_RELEASE_LAYOUT_DOC}")
+        install(FILES "${CMAKE_SOURCE_DIR}/${THEMIS_RELEASE_LAYOUT_DOC}"
+            DESTINATION docs
+            COMPONENT documentation
+            OPTIONAL
+        )
+    endif()
+endif()
+
+if(DEFINED THEMIS_RELEASE_SETUP_SCRIPT)
+    if(EXISTS "${CMAKE_SOURCE_DIR}/${THEMIS_RELEASE_SETUP_SCRIPT}")
+        install(FILES "${CMAKE_SOURCE_DIR}/${THEMIS_RELEASE_SETUP_SCRIPT}"
+            DESTINATION bin
+            COMPONENT tools
+            OPTIONAL
+        )
+    endif()
+endif()
+
 # ============================================================================
 # OPTIONAL LLM MODEL PACKAGE CONTENT
 # ============================================================================
 
-# Models are runtime assets and must be part of release packages by default.
-# SKIP is still available as an explicit override for special builds.
-set(THEMIS_MODELS_MODE "PACKAGE" CACHE STRING "models packaging mode: AUTO, PACKAGE, SKIP")
+# Models for release packages:
+# - Gemma stays local for develop workflows
+# - tinyllama is the deploy baseline via Ollama/local model directory
+set(THEMIS_MODELS_MODE "SKIP" CACHE STRING "models packaging mode: AUTO, PACKAGE, SKIP")
 set_property(CACHE THEMIS_MODELS_MODE PROPERTY STRINGS AUTO PACKAGE SKIP)
 set(THEMIS_MODELS_SOURCE_DIR "${CMAKE_SOURCE_DIR}/models" CACHE PATH "Directory containing packaged LLM model files")
+option(THEMIS_PACKAGE_INCLUDE_TINYLLAMA "Include tinyllama artifacts in packaged models component" ON)
+option(THEMIS_PACKAGE_INCLUDE_GEMMA "Include Gemma artifacts in packaged models component" OFF)
 
 set(_themis_models_mode "${THEMIS_MODELS_MODE}")
 if(_themis_models_mode STREQUAL "AUTO")
@@ -470,12 +505,33 @@ endif()
 
 if(_themis_models_mode STREQUAL "PACKAGE")
     if(EXISTS "${THEMIS_MODELS_SOURCE_DIR}")
-        install(DIRECTORY "${THEMIS_MODELS_SOURCE_DIR}/"
-            DESTINATION ${CMAKE_INSTALL_PREFIX}/models
-            COMPONENT models
-            OPTIONAL
-        )
-        message(STATUS "Including runtime models from: ${THEMIS_MODELS_SOURCE_DIR}")
+        if(THEMIS_PACKAGE_INCLUDE_TINYLLAMA)
+            install(DIRECTORY "${THEMIS_MODELS_SOURCE_DIR}/"
+                DESTINATION models
+                COMPONENT models
+                OPTIONAL
+                FILES_MATCHING
+                PATTERN "*tinyllama*"
+                PATTERN "*TinyLlama*"
+                PATTERN "*gemma*" EXCLUDE
+                PATTERN "*Gemma*" EXCLUDE
+            )
+        endif()
+
+        if(THEMIS_PACKAGE_INCLUDE_GEMMA)
+            install(DIRECTORY "${THEMIS_MODELS_SOURCE_DIR}/"
+                DESTINATION models
+                COMPONENT models
+                OPTIONAL
+                FILES_MATCHING
+                PATTERN "*gemma*"
+                PATTERN "*Gemma*"
+            )
+        endif()
+
+        message(STATUS "Including packaged runtime models from: ${THEMIS_MODELS_SOURCE_DIR}")
+        message(STATUS "  - tinyllama in package: ${THEMIS_PACKAGE_INCLUDE_TINYLLAMA}")
+        message(STATUS "  - gemma in package: ${THEMIS_PACKAGE_INCLUDE_GEMMA}")
     else()
         message(FATAL_ERROR "models mode PACKAGE selected, but directory not found: ${THEMIS_MODELS_SOURCE_DIR}")
     endif()
@@ -483,6 +539,20 @@ elseif(_themis_models_mode STREQUAL "SKIP")
     message(STATUS "Runtime model packaging disabled (THEMIS_MODELS_MODE=${_themis_models_mode})")
 else()
     message(FATAL_ERROR "Invalid THEMIS_MODELS_MODE='${THEMIS_MODELS_MODE}'. Allowed: AUTO, PACKAGE, SKIP")
+endif()
+
+# Local develop deployment helper: pull tinyllama via Ollama and export/copy into models/.
+if(WIN32)
+    add_custom_target(deploy-ollama-tinyllama
+        COMMAND "${CMAKE_COMMAND}" -E echo "Deploying tinyllama:1.1b via Ollama to ${THEMIS_MODELS_SOURCE_DIR}"
+        COMMAND pwsh -NoProfile -ExecutionPolicy Bypass
+            -File "${CMAKE_SOURCE_DIR}/scripts/download-ollama-models-fixed.ps1"
+            -ModelNames tinyllama:1.1b
+            -OutputDir "${THEMIS_MODELS_SOURCE_DIR}"
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        COMMENT "Download and deploy tinyllama model for local develop workflow"
+        VERBATIM
+    )
 endif()
 
 # ============================================================================
@@ -568,7 +638,7 @@ if(THEMIS_BUILD_LEGAL_TRAINING_DATA)
             # Step 6: Installation (optional component)
             install(
                 DIRECTORY ${LEGAL_DB_OUTPUT}
-                DESTINATION ${CMAKE_INSTALL_PREFIX}/data
+                DESTINATION data
                 COMPONENT legal_training
                 OPTIONAL
             )
@@ -640,6 +710,11 @@ endif()
 # this CPack block use the same standard variables (CMAKE_INSTALL_BINDIR = bin).
 # ============================================================================
 
+set(_themis_runtime_layout_file "${CMAKE_SOURCE_DIR}/cmake/packaging/RuntimeLayout.cmake")
+if(EXISTS "${_themis_runtime_layout_file}")
+    include("${_themis_runtime_layout_file}")
+endif()
+
 include(GNUInstallDirs)
 
 # Linux DEB/RPM packages follow the /usr prefix convention so installed files
@@ -651,14 +726,18 @@ endif()
 
 # --- Common metadata ---
 set(CPACK_PACKAGE_NAME        "themisdb")
-set(CPACK_PACKAGE_VENDOR      "VCC")
+set(CPACK_PACKAGE_VENDOR      "ThemisDB Group GmbH")
 set(CPACK_PACKAGE_VERSION     "${THEMIS_VERSION_STRING}")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "ThemisDB - Enterprise Distributed Database")
 set(CPACK_PACKAGE_DESCRIPTION
     "ThemisDB is an enterprise-grade distributed database with built-in AI/ML support, graph traversal, time-series analytics, and a hybrid relational/document/vector storage engine.")
 set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/makr-code/ThemisDB")
 set(CPACK_PACKAGE_CONTACT      "ThemisDB Maintainers <themisdb@vcc.example.com>")
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE")
+
+# CPack WIX requires a license file extension like .txt/.rtf.
+set(_themis_cpack_license_txt "${CMAKE_BINARY_DIR}/CPACK-LICENSE.txt")
+configure_file("${CMAKE_SOURCE_DIR}/LICENSE" "${_themis_cpack_license_txt}" COPYONLY)
+set(CPACK_RESOURCE_FILE_LICENSE "${_themis_cpack_license_txt}")
 
 # Source archive (works on all platforms)
 set(CPACK_SOURCE_GENERATOR "TGZ;ZIP")
@@ -683,6 +762,8 @@ if(WIN32)
         set(CPACK_GENERATOR "ZIP;WIX")
     endif()
     set(CPACK_PACKAGE_FILE_NAME "ThemisDB-${THEMIS_VERSION_STRING}-Windows-x64")
+    # WiX Product/@Version must be numeric (x.y.z.w); prerelease labels are invalid here.
+    set(CPACK_PACKAGE_VERSION "${_ver_numeric}")
 
     # WiX / MSI specific
     # A stable upgrade GUID ensures "upgrade in place" behaviour across versions.

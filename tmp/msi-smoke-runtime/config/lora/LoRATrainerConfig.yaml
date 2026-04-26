@@ -1,0 +1,145 @@
+# LoRA Trainer Configuration with Automated Data Selection Pipeline
+# Configures the multi-stage Quality & Diversity Layer for LoRA Training Data Selection.
+#
+# This file is consumed by IncrementalLoRATrainer (and DataSelectionPipeline).
+# Live-reload is supported: changes are picked up without restart.
+
+# ============================================================================
+# Automated data selection pipeline
+# ============================================================================
+lora_data_selection:
+
+  # -- Stage 1: Quality Filtering --
+  min_length_tokens: 50          # Discard samples shorter than this (approx tokens)
+  max_length_tokens: 10000       # Discard samples longer than this
+  required_language: "de"        # ISO 639-1 language code; empty = no language filter
+  max_toxicity_score: 0.3        # Reject samples with toxicity above this threshold [0..1]
+  enable_pii_check: true         # Remove / reject samples containing PII indicators
+
+  # -- Stage 2: MinHash Deduplication --
+  minhash_threshold: 0.95        # Jaccard similarity threshold for near-duplicate removal
+  minhash_num_perm: 128          # Number of MinHash permutations (higher = more accurate)
+
+  # -- Stage 3: Vector Clustering (diversity-oriented selection) --
+  embedding_model: "multilingual-e5-large"
+  clustering_k_ratio: 50         # k = target_samples / clustering_k_ratio
+
+  # -- Stage 4: Quality & Difficulty Scoring --
+  perplexity_model: "gpt2"
+  perplexity_weight: 0.4         # Weight of perplexity in combined quality score
+  diversity_weight: 0.3          # Weight of token-type ratio (TTR) in quality score
+  domain_relevance_weight: 0.3   # Weight of BM25 domain relevance in quality score
+
+  # Domain keywords for BM25 relevance scoring (per domain)
+  domain_keywords:
+    legal:
+      - "Vertrag"
+      - "Klausel"
+      - "Haftung"
+      - "eIDAS"
+      - "Verwaltungsakt"
+      - "Ermessen"
+      - "Verpflichtung"
+    medical:
+      - "Diagnose"
+      - "Therapie"
+      - "Medikament"
+      - "Befund"
+    tech:
+      - "API"
+      - "Schnittstelle"
+      - "Datenbank"
+      - "Protokoll"
+
+  # -- Stage 5: Curriculum Stratified Sampling --
+  easy_ratio: 0.1                # 10 % easy samples  (low difficulty)
+  medium_ratio: 0.7              # 70 % medium samples (typical difficulty)
+  hard_ratio: 0.2                # 20 % hard samples  (high difficulty / outliers)
+  target_samples: 5000           # Total number of samples to select
+
+  # -- Audit & Provenance --
+  audit: true                    # Record selection provenance (hash + timestamp + IDs)
+  audit_log_path: "logs/lora_data_selection_audit.jsonl"  # Append-only JSONL audit file
+
+# ============================================================================
+# LoRA hyperparameters
+# ============================================================================
+lora:
+  rank: 16
+  alpha: 32.0
+  dropout: 0.1
+  learning_rate: 0.0003
+  batch_size: 4
+  num_epochs: 3
+  max_seq_length: 512
+  target_modules:
+    - "q_proj"
+    - "v_proj"
+    - "k_proj"
+    - "o_proj"
+  optimizer: "adamw"
+  weight_decay: 0.01
+  warmup_steps: 100
+  lr_scheduler: "cosine"
+
+# ============================================================================
+# Training data sources
+# ============================================================================
+training_data:
+  collection: "legal_training_samples"
+  validation_split: 0.1
+  shuffle: true
+  seed: 42
+
+# ============================================================================
+# Checkpointing & evaluation
+# ============================================================================
+checkpointing:
+  enabled: true
+  save_steps: 100
+  save_total_limit: 3
+  checkpoint_dir: "checkpoints/lora"
+
+evaluation:
+  eval_steps: 50
+  metrics:
+    - "perplexity"
+    - "accuracy"
+    - "f1_score"
+  early_stopping:
+    enabled: true
+    patience: 3
+    min_delta: 0.001
+
+# ============================================================================
+# Versioning & deployment
+# ============================================================================
+versioning:
+  enabled: true
+  max_versions: 10
+  version_prefix: "legal_v"
+
+deployment:
+  strategy: "blue_green"
+  health_checks:
+    enabled: true
+    validation_samples: 100
+    min_pass_rate: 0.95
+  auto_rollback:
+    enabled: true
+    accuracy_drop_threshold: 0.1
+    cooldown_hours: 6
+
+# ============================================================================
+# Audit logging
+# ============================================================================
+audit:
+  enabled: true
+  log_file: "logs/lora_data_selection_audit.jsonl"
+  events:
+    - "selection_started"
+    - "selection_completed"
+    - "training_started"
+    - "training_completed"
+    - "version_deployed"
+    - "version_rolled_back"

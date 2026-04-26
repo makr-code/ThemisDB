@@ -1,0 +1,120 @@
+# ThemisDB Default LLM Model Configuration
+# Phi-3-Mini-4k-Instruct - Microsoft's efficient small language model
+# Version: 1.0.0
+
+default_llm:
+  # Model identification
+  model_id: "phi-3-mini-4k-default"
+  model_name: "Phi-3-Mini-4k-Instruct"
+  format: "gguf"
+  quantization: "Q4_K_M"
+  
+  # Download configuration
+  auto_download: true
+  download_source: "ollama"  # Use Ollama for simplified download
+  
+  # Ollama download settings
+  ollama:
+    model_name: "phi3:mini-4k"
+    endpoint: "http://localhost:11434"
+    fallback_endpoints:
+      - "http://127.0.0.1:11434"
+  
+  # Direct HuggingFace download (alternative)
+  huggingface:
+    enabled: false
+    model_repo: "microsoft/Phi-3-mini-4k-instruct-gguf"
+    filename: "Phi-3-mini-4k-instruct-q4.gguf"
+    download_url: "https://huggingface.co/microsoft/Phi-3-mini-4k-instruct-gguf/resolve/main/Phi-3-mini-4k-instruct-q4.gguf"
+    checksum_algorithm: "sha256"
+    checksum: ""  # To be verified on first download
+    size_bytes: 2415919104  # ~2.3 GB
+    verify_checksum: true
+    resume_partial: true
+  
+  # Model storage
+  storage:
+    model_dir: "models/default"
+    model_filename: "phi-3-mini-4k-instruct-q4.gguf"
+    cache_dir: "models/cache"
+    enable_compression: false  # GGUF already compressed
+  
+  # Runtime configuration
+  runtime:
+    context_size: 4096
+    n_gpu_layers: 0  # CPU-only default (auto-detect GPU in production)
+    threads: 4
+    batch_size: 512
+    rope_scaling_type: "default"
+    
+    # Memory limits
+    memory:
+      max_ram_mb: 8192  # 8GB recommended for Q4_K_M
+      max_vram_mb: 2048  # 2GB if GPU enabled
+      kv_cache_mb: 512
+  
+  # Phi-3 architecture specifics
+  architecture:
+    model_type: "phi3"
+    attention_type: "grouped_query_attention"
+    num_attention_heads: 32
+    num_key_value_heads: 8  # GQA: 4:1 ratio
+    hidden_size: 3072
+    intermediate_size: 8192
+    num_hidden_layers: 32
+    vocab_size: 32064
+    
+  # LoRA target modules for Phi-3
+  lora_target_modules:
+    - "qkv_proj"      # Combined Q/K/V projection (Phi-3 specific)
+    - "o_proj"        # Output projection
+    - "gate_up_proj"  # Combined gate/up projection (MLP)
+    - "down_proj"     # Down projection (MLP)
+  
+  # Inference settings
+  inference:
+    # Sampling defaults
+    temperature: 0.7
+    top_p: 0.95
+    top_k: 40
+    repeat_penalty: 1.1
+    
+    # Performance
+    enable_flash_attention: true
+    enable_kv_cache: true
+    enable_prefix_cache: true
+    
+    # Safety limits
+    max_tokens: 2048
+    timeout_seconds: 30
+  
+  # Lazy loading configuration
+  lazy_loading:
+    enabled: true
+    priority: high  # High priority as default model
+    ttl_seconds: 3600  # 1 hour
+    pin_to_memory: true  # Keep in memory
+    preload_on_startup: false  # Load on first use
+  
+  # Monitoring
+  monitoring:
+    enable_metrics: true
+    log_inference_time: true
+    log_token_usage: true
+    prometheus_metrics: true
+  
+  # Security
+  security:
+    enable_content_filter: true
+    max_prompt_length: 8192
+    enable_audit_logging: true
+    
+# Environment variable overrides
+# These can override settings above
+environment_overrides:
+  THEMIS_DISABLE_AUTO_DOWNLOAD: "auto_download"
+  THEMIS_MODEL_DIR: "storage.model_dir"
+  THEMIS_GPU_LAYERS: "runtime.n_gpu_layers"
+  THEMIS_THREADS: "runtime.threads"
+  THEMIS_CONTEXT_SIZE: "runtime.context_size"
+  THEMIS_OLLAMA_ENDPOINT: "ollama.endpoint"

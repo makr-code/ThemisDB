@@ -302,35 +302,53 @@ RetentionManager::RetentionStats RetentionManager::getPolicyStats(const std::str
 bool RetentionManager::loadPolicies(const std::string& config_path) {
     try {
         YAML::Node config = YAML::LoadFile(config_path);
-        
-        if (!config["retention_policies"]) {
-            last_error_ = "No 'retention_policies' section found in config";
+
+        YAML::Node policy_list;
+        bool using_legacy_schema = false;
+        if (config["retention_policies"]) {
+            policy_list = config["retention_policies"];
+            using_legacy_schema = true;
+        } else if (config["policies"]) {
+            policy_list = config["policies"];
+        } else {
+            last_error_ = "No policy section found in config (expected 'retention_policies' or 'policies')";
             return false;
         }
-        
-        for (const auto& policy_node : config["retention_policies"]) {
+
+        for (const auto& policy_node : policy_list) {
             RetentionPolicy policy;
-            
+
             policy.name = policy_node["name"].as<std::string>();
-            policy.retention_period = std::chrono::seconds(policy_node["retention_period_days"].as<int>() * 86400);
-            policy.archive_after = std::chrono::seconds(policy_node["archive_after_days"].as<int>() * 86400);
-            policy.auto_purge_enabled = policy_node["auto_purge_enabled"].as<bool>(false);
+
+            // Backward-compatible schema support:
+            // - legacy: retention_period_days/archive_after_days/auto_purge_enabled
+            // - modern: retention_days/archive_days/auto_purge
+            const int retention_days = using_legacy_schema
+                ? policy_node["retention_period_days"].as<int>()
+                : policy_node["retention_days"].as<int>();
+            const int archive_days = using_legacy_schema
+                ? policy_node["archive_after_days"].as<int>(0)
+                : policy_node["archive_days"].as<int>(0);
+
+            policy.retention_period = std::chrono::seconds(static_cast<int64_t>(retention_days) * 86400);
+            policy.archive_after = std::chrono::seconds(static_cast<int64_t>(archive_days) * 86400);
+            policy.auto_purge_enabled = using_legacy_schema
+                ? policy_node["auto_purge_enabled"].as<bool>(false)
+                : policy_node["auto_purge"].as<bool>(false);
             policy.require_audit_trail = policy_node["require_audit_trail"].as<bool>(true);
             policy.classification_level = policy_node["classification_level"].as<std::string>("offen");
-            
+
             if (policy_node["metadata"]) {
-                // Convert YAML metadata to JSON
-                std::string yaml_str = YAML::Dump(policy_node["metadata"]);
-                // Simple approach: for now just store as string, enhance later if needed
+                // Keep metadata as an object for future enrichment.
                 policy.metadata = nlohmann::json::object();
             }
-            
+
             registerPolicy(policy);
         }
-        
+
         spdlog::info("RetentionManager: Loaded {} policies from '{}'", policies_.size(), config_path);
         return true;
-        
+
     } catch (const std::exception& e) {
         last_error_ = std::string("Failed to load policies: ") + e.what();
         spdlog::error("RetentionManager: {}", last_error_);

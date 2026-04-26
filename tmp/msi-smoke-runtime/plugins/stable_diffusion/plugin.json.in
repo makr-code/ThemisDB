@@ -1,0 +1,23 @@
+{
+  "name": "stable_diffusion",
+  "version": "@PROJECT_VERSION@",
+  "type": "IMAGE_GENERATION",
+  "description": "Image generation plugin backed by stable-diffusion.cpp. Supports content-policy keyword filtering, prompt sanitization, and stub mode for CI without a model file.",
+  "author": "ThemisDB Team",
+  "license": "MIT",
+  "capabilities": {
+    "supports_streaming": false,
+    "supports_batching": false,
+    "supports_transactions": false,
+    "thread_safe": false,
+    "gpu_accelerated": false
+  },
+  "dependencies": {
+    "nlohmann_json": ">=3.10"
+  },
+  "optional_dependencies": {
+    "stable_diffusion_cpp": ">=0.1.0"
+  },
+  "api_version": "1.0",
+  "min_themisdb_version": "2.0.0"
+}

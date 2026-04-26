@@ -1,0 +1,313 @@
+# ============================================================================
+# Kubernetes HorizontalPodAutoscaler - Ethics AI Framework
+# ============================================================================
+# Auto-scaling configuration based on resource utilization and custom metrics
+# ============================================================================
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: ethics-ai-hpa
+  namespace: ethics-ai
+  labels:
+    app: ethics-ai
+    component: autoscaling
+  annotations:
+    description: "Auto-scaling for Ethics AI based on CPU, memory, and custom metrics"
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ethics-ai
+  
+  # Scaling bounds
+  minReplicas: 2
+  maxReplicas: 10
+  
+  # Metrics for scaling decisions
+  metrics:
+    # ========================================================================
+    # CPU-based scaling
+    # ========================================================================
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70  # Scale when CPU > 70%
+    
+    # ========================================================================
+    # Memory-based scaling
+    # ========================================================================
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80  # Scale when memory > 80%
+    
+    # ========================================================================
+    # Custom metric: Requests per second
+    # ========================================================================
+    - type: Pods
+      pods:
+        metric:
+          name: http_requests_per_second
+        target:
+          type: AverageValue
+          averageValue: "100"  # Scale when RPS > 100 per pod
+    
+    # ========================================================================
+    # Custom metric: Response latency
+    # ========================================================================
+    - type: Pods
+      pods:
+        metric:
+          name: http_request_duration_seconds
+        target:
+          type: AverageValue
+          averageValue: "500m"  # Scale when avg latency > 500ms
+    
+    # ========================================================================
+    # Custom metric: Active debate sessions
+    # ========================================================================
+    - type: Pods
+      pods:
+        metric:
+          name: ethics_ai_active_debates
+        target:
+          type: AverageValue
+          averageValue: "10"  # Scale when debates > 10 per pod
+    
+    # ========================================================================
+    # Custom metric: Queue depth
+    # ========================================================================
+    - type: Pods
+      pods:
+        metric:
+          name: ethics_ai_queue_depth
+        target:
+          type: AverageValue
+          averageValue: "50"  # Scale when queue > 50 items per pod
+  
+  # Scaling behavior
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300  # Wait 5 minutes before scaling down
+      policies:
+        # Remove at most 50% of pods in one step
+        - type: Percent
+          value: 50
+          periodSeconds: 60
+        # Remove at most 2 pods in one step
+        - type: Pods
+          value: 2
+          periodSeconds: 60
+      selectPolicy: Min  # Use the most conservative policy
+    
+    scaleUp:
+      stabilizationWindowSeconds: 0  # Scale up immediately
+      policies:
+        # Double the number of pods in one step
+        - type: Percent
+          value: 100
+          periodSeconds: 15
+        # Add at most 4 pods in one step
+        - type: Pods
+          value: 4
+          periodSeconds: 15
+      selectPolicy: Max  # Use the most aggressive policy
+
+---
+# ============================================================================
+# VerticalPodAutoscaler - Resource Recommendations (Optional)
+# ============================================================================
+# Requires VPA to be installed in the cluster
+# ============================================================================
+
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: ethics-ai-vpa
+  namespace: ethics-ai
+  labels:
+    app: ethics-ai
+    component: autoscaling
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ethics-ai
+  
+  # Update mode: "Off" = recommendations only, "Auto" = apply automatically
+  updatePolicy:
+    updateMode: "Recommender"  # Only provide recommendations
+  
+  # Resource policy
+  resourcePolicy:
+    containerPolicies:
+      - containerName: ethics-ai
+        minAllowed:
+          cpu: 100m
+          memory: 256Mi
+        maxAllowed:
+          cpu: 4000m
+          memory: 8Gi
+        controlledResources:
+          - cpu
+          - memory
+        # Control when VPA updates pods
+        mode: Auto
+        # Scaling mode for resources
+        # "Auto": VPA assigns requests automatically
+        # "Off": VPA only shows recommendations
+        containerName: ethics-ai
+
+---
+# ============================================================================
+# PodDisruptionBudget - High Availability
+# ============================================================================
+# Ensures minimum pods are always available during disruptions
+# ============================================================================
+
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: ethics-ai-pdb
+  namespace: ethics-ai
+  labels:
+    app: ethics-ai
+    component: availability
+spec:
+  minAvailable: 1  # Always keep at least 1 pod running
+  # Alternative: maxUnavailable: 1  # Allow at most 1 pod to be unavailable
+  
+  selector:
+    matchLabels:
+      app: ethics-ai
+      component: application
+  
+  # Unhealthy pod eviction policy
+  unhealthyPodEvictionPolicy: IfHealthyBudget
+
+---
+# ============================================================================
+# ServiceMonitor - Prometheus Scraping (Optional)
+# ============================================================================
+# Requires Prometheus Operator to be installed
+# ============================================================================
+
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ethics-ai-metrics
+  namespace: ethics-ai
+  labels:
+    app: ethics-ai
+    component: monitoring
+    prometheus: kube-prometheus
+spec:
+  selector:
+    matchLabels:
+      app: ethics-ai
+      component: application
+  
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 30s
+      scrapeTimeout: 10s
+      scheme: http
+      
+      # Relabeling
+      relabelings:
+        - sourceLabels: [__meta_kubernetes_pod_name]
+          targetLabel: pod
+        - sourceLabels: [__meta_kubernetes_namespace]
+          targetLabel: namespace
+        - sourceLabels: [__meta_kubernetes_pod_label_version]
+          targetLabel: version
+      
+      # Metric relabeling (filtering)
+      metricRelabelings:
+        # Drop high-cardinality metrics
+        - sourceLabels: [__name__]
+          regex: 'go_.*'
+          action: drop
+
+---
+# ============================================================================
+# PrometheusRule - Alerting Rules (Optional)
+# ============================================================================
+# Requires Prometheus Operator to be installed
+# ============================================================================
+
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: ethics-ai-alerts
+  namespace: ethics-ai
+  labels:
+    app: ethics-ai
+    component: monitoring
+    prometheus: kube-prometheus
+spec:
+  groups:
+    - name: ethics-ai.rules
+      interval: 30s
+      rules:
+        # High error rate
+        - alert: EthicsAIHighErrorRate
+          expr: |
+            sum(rate(http_requests_total{job="ethics-ai",status=~"5.."}[5m])) 
+            / 
+            sum(rate(http_requests_total{job="ethics-ai"}[5m])) 
+            > 0.05
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High error rate in Ethics AI"
+            description: "Error rate is {{ $value | humanizePercentage }} (threshold: 5%)"
+        
+        # High latency
+        - alert: EthicsAIHighLatency
+          expr: |
+            histogram_quantile(0.95, 
+              sum(rate(http_request_duration_seconds_bucket{job="ethics-ai"}[5m])) by (le)
+            ) > 1
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High latency in Ethics AI"
+            description: "95th percentile latency is {{ $value }}s (threshold: 1s)"
+        
+        # Pod crashes
+        - alert: EthicsAIPodCrashing
+          expr: |
+            rate(kube_pod_container_status_restarts_total{
+              namespace="ethics-ai",
+              pod=~"ethics-ai-.*"
+            }[15m]) > 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Ethics AI pod is crash looping"
+            description: "Pod {{ $labels.pod }} is restarting frequently"
+        
+        # Low availability
+        - alert: EthicsAILowAvailability
+          expr: |
+            (
+              sum(kube_pod_status_phase{namespace="ethics-ai",pod=~"ethics-ai-.*",phase="Running"})
+              /
+              sum(kube_deployment_spec_replicas{namespace="ethics-ai",deployment="ethics-ai"})
+            ) < 0.5
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Ethics AI has low availability"
+            description: "Only {{ $value | humanizePercentage }} of pods are running"

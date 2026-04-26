@@ -1,0 +1,173 @@
+# ThemisDB Kerberos/GSSAPI Authentication Configuration Example
+# 
+# This configuration enables enterprise SSO integration via Kerberos v5
+# Supports: MIT Kerberos, Active Directory, Heimdal Kerberos
+
+authentication:
+  # Authentication methods (in priority order)
+  methods:
+    - kerberos  # Kerberos/GSSAPI (enterprise SSO)
+    - jwt       # JWT tokens (Keycloak, OAuth2)
+    - basic     # Username/password (basic auth)
+  
+  # Kerberos/GSSAPI Configuration
+  kerberos:
+    enabled: true
+    
+    # Service Principal Name (SPN)
+    # Format: service/hostname@REALM
+    # Example: themisdb/db01.company.com@COMPANY.COM
+    service_principal: "themisdb/localhost@EXAMPLE.COM"
+    
+    # Keytab file path (generated with kadmin)
+    # Contains service principal credentials
+    keytab_file: "/etc/themisdb/themisdb.keytab"
+    
+    # Kerberos configuration file (optional)
+    # If not specified, uses system default (/etc/krb5.conf)
+    krb5_config: "/etc/krb5.conf"
+    
+    # Fallback to basic authentication if Kerberos fails
+    fallback_to_basic: true
+    
+    # Principal to Role Mapping
+    # Maps Kerberos principals to ThemisDB RBAC roles
+    principal_mappings:
+      # Exact principal match
+      - principal_pattern: "admin@EXAMPLE.COM"
+        role: "admin"
+      
+      # Specific users
+      - principal_pattern: "alice@EXAMPLE.COM"
+        role: "operator"
+      
+      - principal_pattern: "bob@EXAMPLE.COM"
+        role: "analyst"
+      
+      # Wildcard mapping - all users in realm get readonly access
+      - principal_pattern: "*@EXAMPLE.COM"
+        role: "readonly"
+      
+      # Active Directory example (with domain)
+      - principal_pattern: "dbadmin@AD.COMPANY.COM"
+        role: "admin"
+      
+      - principal_pattern: "*@AD.COMPANY.COM"
+        role: "readonly"
+
+# RBAC Roles Configuration
+# Define roles and their permissions
+rbac:
+  roles:
+    - name: "admin"
+      description: "Administrator with full system access"
+      permissions:
+        - resource: "*"
+          action: "*"
+    
+    - name: "operator"
+      description: "Operator with data and key management"
+      permissions:
+        - resource: "data"
+          action: "read"
+        - resource: "data"
+          action: "write"
+        - resource: "data"
+          action: "delete"
+        - resource: "keys"
+          action: "read"
+        - resource: "keys"
+          action: "rotate"
+        - resource: "audit"
+          action: "read"
+    
+    - name: "analyst"
+      description: "Read-only analyst"
+      permissions:
+        - resource: "data"
+          action: "read"
+        - resource: "audit"
+          action: "read"
+        - resource: "metrics"
+          action: "read"
+    
+    - name: "readonly"
+      description: "Minimal read access"
+      permissions:
+        - resource: "metrics"
+          action: "read"
+        - resource: "health"
+          action: "read"
+
+---
+# Setup Instructions
+
+# 1. Install Kerberos client and libraries
+#    Ubuntu/Debian:
+#      sudo apt-get install krb5-user libkrb5-dev libgssapi-krb5-2
+#    
+#    RHEL/CentOS:
+#      sudo yum install krb5-workstation krb5-libs krb5-devel
+#    
+#    macOS:
+#      brew install krb5
+
+# 2. Configure Kerberos realm (/etc/krb5.conf)
+#    [libdefaults]
+#      default_realm = EXAMPLE.COM
+#      dns_lookup_realm = false
+#      dns_lookup_kdc = false
+#    
+#    [realms]
+#      EXAMPLE.COM = {
+#        kdc = kdc.example.com
+#        admin_server = kdc.example.com
+#      }
+#    
+#    [domain_realm]
+#      .example.com = EXAMPLE.COM
+#      example.com = EXAMPLE.COM
+
+# 3. Register service principal with KDC
+#    On KDC server (as admin):
+#      kadmin.local
+#      addprinc -randkey themisdb/localhost@EXAMPLE.COM
+#      ktadd -k /tmp/themisdb.keytab themisdb/localhost@EXAMPLE.COM
+#      quit
+#    
+#    Copy keytab to ThemisDB server:
+#      scp /tmp/themisdb.keytab root@dbserver:/etc/themisdb/themisdb.keytab
+#      chmod 600 /etc/themisdb/themisdb.keytab
+#      chown themisdb:themisdb /etc/themisdb/themisdb.keytab
+
+# 4. Test Kerberos authentication
+#    Get a ticket for a test user:
+#      kinit alice@EXAMPLE.COM
+#      klist
+#    
+#    Connect to ThemisDB with Kerberos:
+#      themisdb-cli --auth kerberos --host localhost
+
+# 5. Active Directory Setup
+#    On AD server (as domain admin):
+#      setspn -A themisdb/db01.company.com dbservice
+#      ktpass -princ themisdb/db01.company.com@AD.COMPANY.COM \
+#             -mapuser dbservice \
+#             -pass * \
+#             -out themisdb.keytab \
+#             -ptype KRB5_NT_PRINCIPAL
+#    
+#    Copy keytab to ThemisDB server and set permissions as above
+
+# 6. Troubleshooting
+#    Enable Kerberos debugging:
+#      export KRB5_TRACE=/dev/stdout
+#    
+#    Check keytab contents:
+#      klist -k /etc/themisdb/themisdb.keytab
+#    
+#    Verify service principal:
+#      kvno themisdb/localhost@EXAMPLE.COM
+#    
+#    Check ThemisDB logs:
+#      tail -f /var/log/themisdb/themisdb.log | grep -i kerberos

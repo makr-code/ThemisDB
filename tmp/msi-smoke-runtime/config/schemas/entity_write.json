@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "required": ["key"],
+  "properties": {
+    "key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "data": {
+      "type": "object"
+    },
+    "tags": {
+      "type": "array"
+    },
+    "ttl": {
+      "type": "integer",
+      "minimum": 0
+    }
+  }
+}

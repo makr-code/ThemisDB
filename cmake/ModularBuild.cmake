@@ -163,8 +163,11 @@ function(themis_add_module MODULE_NAME)
     install(TARGETS themis_${MODULE_NAME}
         EXPORT ThemisTargets
         RUNTIME DESTINATION bin
+            COMPONENT runtime
         LIBRARY DESTINATION lib
+            COMPONENT runtime
         ARCHIVE DESTINATION lib
+            COMPONENT development
     )
     
     message(STATUS "Module configured: themis_${MODULE_NAME}")

@@ -43,6 +43,11 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# Keep all runtime artifacts (EXE/DLL) in a single bin/ directory to avoid PATH/env mismatches.
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin")
+
 # Runtime library for static linking on Windows
 if(MSVC AND VCPKG_TARGET_TRIPLET MATCHES "static")
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>" CACHE STRING "" FORCE)
@@ -1344,8 +1349,8 @@ endif()
 
 # Include directories
 include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${THEMIS_ROOT_DIR}/include
+    ${THEMIS_ROOT_DIR}/src
 )
 
 # Copy runtime config files into the build directory so tests and local runs
@@ -6402,6 +6407,16 @@ if(THEMIS_BUILD_DOCKER_RAID_BENCHMARK)
     endif()
 endif()  # THEMIS_BUILD_DOCKER_RAID_BENCHMARK
 
+set(_themis_runtime_layout_file "${THEMIS_ROOT_DIR}/cmake/packaging/RuntimeLayout.cmake")
+if(EXISTS "${_themis_runtime_layout_file}")
+    include("${_themis_runtime_layout_file}")
+endif()
+
+set(_themis_runtime_dep_install_arg)
+if(WIN32)
+    set(_themis_runtime_dep_install_arg RUNTIME_DEPENDENCY_SET themis_runtime_deps)
+endif()
+
 # Config Migration Scanner CLI Tool
 if(EXISTS "${THEMIS_ROOT_DIR}/tools/config_migration_scanner.cpp")
     add_executable(config_migration_scanner
@@ -6415,6 +6430,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tools/config_migration_scanner.cpp")
     target_link_libraries(config_migration_scanner PRIVATE themis_core)
     message(STATUS "Config Migration Scanner: Enabled (config_migration_scanner)")
     install(TARGETS config_migration_scanner
+        OPTIONAL
         RUNTIME DESTINATION bin
         COMPONENT tools
     )
@@ -6432,8 +6448,25 @@ if(THEMIS_BUILD_THEMISCTL AND EXISTS "${THEMIS_ROOT_DIR}/tools/themisctl.cpp")
     add_executable(themisctl
         ${THEMIS_ROOT_DIR}/tools/themisctl.cpp
     )
-    
+
+    set_target_properties(themisctl PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+        RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin"
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin"
+        RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin"
+        RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin"
+    )
+
     target_compile_features(themisctl PRIVATE cxx_std_17)
+    target_include_directories(themisctl PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    if(MSVC)
+        target_compile_options(themisctl PRIVATE "/I${CMAKE_HOME_DIRECTORY}/include")
+    else()
+        target_compile_options(themisctl PRIVATE "-I${CMAKE_HOME_DIRECTORY}/include")
+    endif()
     
     # cpp-httplib provides the HTTP client (header-only)
     find_package(httplib QUIET)
@@ -6472,6 +6505,7 @@ if(THEMIS_BUILD_THEMISCTL AND EXISTS "${THEMIS_ROOT_DIR}/tools/themisctl.cpp")
     endif()
     
     install(TARGETS themisctl
+        OPTIONAL
         RUNTIME DESTINATION bin
         COMPONENT tools
     )
@@ -6509,6 +6543,13 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tools/export_cli.cpp")
     add_executable(themis-export
         ${THEMIS_ROOT_DIR}/tools/export_cli.cpp
     )
+    set_target_properties(themis-export PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+        RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin"
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin"
+        RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin"
+        RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin"
+    )
     target_link_libraries(themis-export PRIVATE
         themis_core
         nlohmann_json::nlohmann_json
@@ -6518,10 +6559,11 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tools/export_cli.cpp")
         target_link_libraries(themis-export PRIVATE CURL::libcurl)
         target_compile_definitions(themis-export PRIVATE CURL_ENABLED=1)
     endif()
-    target_include_directories(themis-export PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../include)
+    target_include_directories(themis-export PRIVATE ${THEMIS_ROOT_DIR}/include)
     message(STATUS "Export CLI Tool: Enabled (themis-export)")
 
     install(TARGETS themis-export
+        OPTIONAL
         RUNTIME DESTINATION bin
         COMPONENT tools
     )
@@ -6533,6 +6575,13 @@ if(THEMIS_ENABLE_LLM)
         add_executable(themis-model
             ${THEMIS_ROOT_DIR}/tools/themis_model_cli.cpp
         )
+        set_target_properties(themis-model PROPERTIES
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+            RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin"
+            RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin"
+            RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin"
+            RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin"
+        )
         target_link_libraries(themis-model PRIVATE 
             themis_core
             CURL::libcurl
@@ -6540,11 +6589,12 @@ if(THEMIS_ENABLE_LLM)
             OpenSSL::Crypto
             yaml-cpp
         )
-        target_include_directories(themis-model PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../include)
+        target_include_directories(themis-model PRIVATE ${THEMIS_ROOT_DIR}/include)
         message(STATUS "LLM Model CLI Tool: Enabled (themis-model)")
         
         # Install the tool
         install(TARGETS themis-model
+            OPTIONAL
             RUNTIME DESTINATION bin
             COMPONENT tools
         )
@@ -6638,7 +6688,32 @@ if(THEMIS_BUILD_ENTERPRISE)
 endif()
 
 # Installation
+if(THEMIS_BUILD_MODULAR)
+    set(_themis_modular_install_targets)
+    foreach(_themis_mod_target IN LISTS THEMIS_ALL_MODULES)
+        if(TARGET ${_themis_mod_target})
+            get_target_property(_themis_mod_type ${_themis_mod_target} TYPE)
+            if(NOT _themis_mod_type STREQUAL "INTERFACE_LIBRARY")
+                list(APPEND _themis_modular_install_targets ${_themis_mod_target})
+            endif()
+        endif()
+    endforeach()
+
+    if(_themis_modular_install_targets)
+        install(TARGETS ${_themis_modular_install_targets}
+            ${_themis_runtime_dep_install_arg}
+            RUNTIME DESTINATION bin
+                COMPONENT runtime
+            LIBRARY DESTINATION lib
+                COMPONENT runtime
+            ARCHIVE DESTINATION lib
+                COMPONENT development
+        )
+    endif()
+endif()
+
 install(TARGETS themis_server themis_core
+    ${_themis_runtime_dep_install_arg}
     RUNTIME DESTINATION bin
         COMPONENT runtime
     LIBRARY DESTINATION lib
@@ -6652,6 +6727,80 @@ install(DIRECTORY ${THEMIS_ROOT_DIR}/include/
     COMPONENT development
     PATTERN "mock_clip_processor.h" EXCLUDE
 )
+
+if(DEFINED THEMIS_RELEASE_RUNTIME_DIRS)
+    foreach(_themis_runtime_dir IN LISTS THEMIS_RELEASE_RUNTIME_DIRS)
+        if(EXISTS "${THEMIS_ROOT_DIR}/${_themis_runtime_dir}")
+            install(DIRECTORY "${THEMIS_ROOT_DIR}/${_themis_runtime_dir}/"
+                DESTINATION ${_themis_runtime_dir}
+                COMPONENT runtime
+                OPTIONAL
+            )
+
+            # Compatibility layout: when operators start the server from bin/, relative
+            # config/* paths should still resolve without requiring a cwd change.
+            if(_themis_runtime_dir STREQUAL "config")
+                install(DIRECTORY "${THEMIS_ROOT_DIR}/${_themis_runtime_dir}/"
+                    DESTINATION bin/${_themis_runtime_dir}
+                    COMPONENT runtime
+                    OPTIONAL
+                )
+            endif()
+        endif()
+    endforeach()
+endif()
+
+if(WIN32)
+    set(_themis_runtime_dependency_dirs "${CMAKE_BINARY_DIR}/bin")
+    if(DEFINED VCPKG_INSTALLED_DIR AND DEFINED VCPKG_TARGET_TRIPLET)
+        list(APPEND _themis_runtime_dependency_dirs
+            "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin")
+    endif()
+
+    install(RUNTIME_DEPENDENCY_SET themis_runtime_deps
+        DESTINATION bin
+        COMPONENT runtime
+        DIRECTORIES ${_themis_runtime_dependency_dirs}
+        PRE_EXCLUDE_REGEXES "api-ms-.*" "ext-ms-.*"
+        POST_EXCLUDE_REGEXES ".*/system32/.*\\.dll" ".*/cmake/.*\\.dll"
+    )
+
+    if(THEMIS_ENABLE_LLM)
+        foreach(_themis_llm_runtime_dll IN ITEMS
+            "ggml-base.dll"
+            "ggml-cpu.dll"
+            "ggml.dll"
+            "llama.dll"
+        )
+            install(FILES "${CMAKE_BINARY_DIR}/bin/${_themis_llm_runtime_dll}"
+                DESTINATION bin
+                COMPONENT runtime
+                OPTIONAL
+            )
+        endforeach()
+    endif()
+
+    install(FILES "${CMAKE_BINARY_DIR}/bin/faiss.dll"
+        DESTINATION bin
+        COMPONENT runtime
+        OPTIONAL
+    )
+
+    foreach(_themis_blas_runtime_dll IN ITEMS
+        "openblas.dll"
+        "liblapack.dll"
+        "libgcc_s_seh-1.dll"
+        "libgfortran-5.dll"
+        "libquadmath-0.dll"
+        "libwinpthread-1.dll"
+    )
+        install(FILES "${CMAKE_BINARY_DIR}/bin/${_themis_blas_runtime_dll}"
+            DESTINATION bin
+            COMPONENT runtime
+            OPTIONAL
+        )
+    endforeach()
+endif()
 
 # Performance Optimization Benchmarks
 if(THEMIS_BUILD_BENCHMARKS)

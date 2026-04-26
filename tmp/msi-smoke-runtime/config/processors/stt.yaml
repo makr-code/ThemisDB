@@ -1,0 +1,202 @@
+# Speech-to-Text (STT) Processor Configuration
+# 
+# Provides speech recognition using Whisper.cpp for transcription
+# of phone calls, meetings, and voice commands.
+#
+# Version: 1.0
+
+processor:
+  name: "STT Processor"
+  version: "1.0.0"
+  library: "themis_proc_stt"
+  description: "Speech-to-Text processor using Whisper.cpp"
+  
+  # Supported MIME types
+  mime_types:
+    - "audio/mpeg"
+    - "audio/mp3"
+    - "audio/wav"
+    - "audio/x-wav"
+    - "audio/ogg"
+    - "audio/opus"
+    - "audio/flac"
+    - "audio/aac"
+    - "audio/mp4"
+    - "audio/webm"
+    - "audio/x-m4a"
+  
+  # Supported file extensions
+  extensions:
+    - ".mp3"
+    - ".wav"
+    - ".ogg"
+    - ".opus"
+    - ".flac"
+    - ".aac"
+    - ".m4a"
+    - ".wma"
+
+  # ============================================================================
+  # Model Settings
+  # ============================================================================
+  model:
+    # Model path (GGML format)
+    path: "./models/ggml-base.bin"
+    
+    # Model size: tiny, base, small, medium, large, large-v2, large-v3
+    # - tiny: 39M params, ~1GB RAM, 4x faster than base
+    # - base: 74M params, ~1GB RAM, good balance
+    # - small: 244M params, ~2GB RAM, better accuracy
+    # - medium: 769M params, ~5GB RAM, high accuracy
+    # - large: 1550M params, ~10GB RAM, best accuracy
+    size: base
+    
+    # Download model if not found
+    auto_download: true
+    
+    # Model URL template
+    download_url: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-{size}.bin"
+
+  # ============================================================================
+  # Transcription Settings
+  # ============================================================================
+  transcription:
+    # Language (auto for detection, or ISO 639-1 code)
+    language: auto
+    
+    # Enable timestamps
+    timestamps: true
+    
+    # Timestamp granularity: segment, word
+    timestamp_granularity: segment
+    
+    # Initial prompt (helps with context/domain)
+    initial_prompt: ""
+    
+    # Word-level confidence scores
+    word_confidence: false
+    
+    # Suppress blank outputs
+    suppress_blank: true
+    
+    # Suppress non-speech tokens
+    suppress_non_speech_tokens: true
+
+  # ============================================================================
+  # Speaker Diarization Settings
+  # ============================================================================
+  speaker_diarization:
+    # Enable speaker diarization
+    enabled: false
+    
+    # Number of speakers (0 = auto-detect)
+    num_speakers: 0
+    
+    # Min speakers (for auto-detect)
+    min_speakers: 1
+    
+    # Max speakers (for auto-detect)
+    max_speakers: 10
+    
+    # Speaker embedding model
+    embedding_model: "pyannote/embedding"
+
+  # ============================================================================
+  # Voice Activity Detection (VAD)
+  # ============================================================================
+  vad:
+    # Enable VAD
+    enabled: true
+    
+    # VAD threshold (0.0-1.0, higher = more aggressive)
+    threshold: 0.5
+    
+    # Min silence duration (ms)
+    min_silence_duration_ms: 500
+    
+    # Speech pad before/after (ms)
+    speech_pad_ms: 400
+
+  # ============================================================================
+  # Performance Settings
+  # ============================================================================
+  performance:
+    # Number of threads (0 = auto)
+    num_threads: 0
+    
+    # Use GPU acceleration
+    use_gpu: false
+    
+    # GPU device ID
+    gpu_device_id: 0
+    
+    # Batch size
+    batch_size: 1
+    
+    # Enable quantization
+    quantize: false
+
+  # ============================================================================
+  # Output Format Settings
+  # ============================================================================
+  output:
+    # Include confidence scores
+    include_confidence: true
+    
+    # Include word timestamps
+    include_word_timestamps: false
+    
+    # Include speaker labels
+    include_speakers: true
+    
+    # Output format: json, text, srt, vtt
+    format: json
+
+  # ============================================================================
+  # Meeting Protocol Settings
+  # ============================================================================
+  meeting_protocol:
+    # Enable automatic protocol generation
+    enabled: true
+    
+    # Include summary (requires LLM)
+    include_summary: true
+    
+    # Include key points (requires LLM)
+    include_key_points: true
+    
+    # Include action items (requires LLM)
+    include_action_items: true
+    
+    # Protocol format: markdown, json, html
+    format: markdown
+
+  # ============================================================================
+  # Security Settings
+  # ============================================================================
+  security:
+    # Maximum audio duration (seconds)
+    max_duration_sec: 7200  # 2 hours
+    
+    # Maximum file size (MB)
+    max_file_size_mb: 500
+    
+    # Malware scan
+    malware_scan: false
+    
+    # PII detection and redaction
+    pii_detection: false
+    pii_redaction: false
+
+  # ============================================================================
+  # Caching Settings
+  # ============================================================================
+  caching:
+    # Enable result caching
+    enabled: true
+    
+    # Cache TTL (seconds)
+    ttl_sec: 3600
+    
+    # Max cache size (MB)
+    max_size_mb: 1024

@@ -72,8 +72,11 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
+
+#include "utils/cli_parser_utils.h"
 
 // ── httplib (cpp-httplib, header-only) ────────────────────────────────────────
 #include <httplib.h>
@@ -138,23 +141,89 @@ static Ctx g_ctx;
 // Argument parsing helpers
 // ============================================================================
 
-static bool flag(const std::vector<std::string>& args, const std::string& key) {
-    return std::find(args.begin(), args.end(), key) != args.end();
+namespace {
+
+struct ThemisCtlGlobalOptions {
+    std::string host;
+    int port = 8765;
+    std::string token;
+    int timeout = 30;
+    bool raw_json = false;
+    bool no_color = false;
+    bool show_help = false;
+    std::vector<std::string> remaining_args;
+};
+
+using themis::cli::is_help_flag;
+using themis::cli::consume_next_argument;
+
+bool parse_global_options(const std::vector<std::string>& args,
+                          ThemisCtlGlobalOptions& options,
+                          std::string& error_message) {
+    options.remaining_args.clear();
+
+    for (size_t index = 0; index < args.size(); ++index) {
+        const auto& arg = args[index];
+
+        if (arg == "--no-color") {
+            options.no_color = true;
+            continue;
+        }
+        if (arg == "--json") {
+            options.raw_json = true;
+            continue;
+        }
+        if (is_help_flag(arg)) {
+            options.show_help = true;
+            continue;
+        }
+        if (arg == "--host") {
+            if (!consume_next_argument(args, index, arg, options.host, error_message)) {
+                return false;
+            }
+            continue;
+        }
+        if (arg == "--port") {
+            std::string port_value;
+            if (!consume_next_argument(args, index, arg, port_value, error_message)) {
+                return false;
+            }
+            try {
+                options.port = std::stoi(port_value);
+            } catch (const std::exception&) {
+                error_message = "Invalid numeric value for option --port: " + port_value;
+                return false;
+            }
+            continue;
+        }
+        if (arg == "--token") {
+            if (!consume_next_argument(args, index, arg, options.token, error_message)) {
+                return false;
+            }
+            continue;
+        }
+        if (arg == "--timeout") {
+            std::string timeout_value;
+            if (!consume_next_argument(args, index, arg, timeout_value, error_message)) {
+                return false;
+            }
+            try {
+                options.timeout = std::stoi(timeout_value);
+            } catch (const std::exception&) {
+                error_message = "Invalid numeric value for option --timeout: " + timeout_value;
+                return false;
+            }
+            continue;
+        }
+
+        options.remaining_args.assign(args.begin() + static_cast<std::ptrdiff_t>(index), args.end());
+        return true;
+    }
+
+    return true;
 }
 
-static std::string optval(const std::vector<std::string>& args,
-                          const std::string& key,
-                          const std::string& def = "") {
-    for (size_t i = 0; i < args.size(); ++i) {
-        if (args[i] == key) {
-            if (i + 1 < args.size()) {
-                return args[i + 1];
-            }
-            return def;
-        }
-    }
-    return def;
-}
+} // namespace
 
 // ============================================================================
 // HTTP client helpers
@@ -1146,7 +1215,7 @@ static void printHelp(const char* prog) {
         << "  --timeout <s>   Request timeout     (default: 30 s)\n"
         << "  --json          Print raw JSON responses\n"
         << "  --no-color      Disable ANSI color output\n"
-        << "  --help, -h      Print this help\n\n"
+        << "  --help, -h, /?  Print this help\n\n"
         << col(Color::Bold, "Commands") << ":\n"
         << "  " << col(Color::Cyan, "health")
             << "                       Check server liveness and readiness\n"
@@ -1222,7 +1291,7 @@ static int dispatchCommand(const std::string& cmd,
         {"repl",     cmdRepl},
     };
 
-    if (cmd == "help" || cmd == "--help" || cmd == "-h") {
+    if (cmd == "help" || is_help_flag(cmd)) {
         printHelp("themisctl");
         return 0;
     }
@@ -1249,38 +1318,31 @@ int main(int argc, char* argv[]) {
 
     std::vector<std::string> all_args(argv + 1, argv + argc);
 
-    // ── Parse global options (before the command token) ─────────────────────
-    while (!all_args.empty()) {
-        const std::string& a = all_args[0];
+    ThemisCtlGlobalOptions parsed_options;
+    parsed_options.host = g_ctx.host;
+    parsed_options.port = g_ctx.port;
+    parsed_options.token = g_ctx.token;
+    parsed_options.timeout = g_ctx.timeout;
 
-        if (a == "--no-color") {
-            g_use_color = false; all_args.erase(all_args.begin()); continue;
-        }
-        if (a == "--json") {
-            g_ctx.raw_json = true; all_args.erase(all_args.begin()); continue;
-        }
-        if ((a == "--help" || a == "-h")) {
-            printHelp(argv[0]); return 0;
-        }
-        if (a == "--host" && all_args.size() > 1) {
-            g_ctx.host = all_args[1];
-            all_args.erase(all_args.begin(), all_args.begin() + 2); continue;
-        }
-        if (a == "--port" && all_args.size() > 1) {
-            g_ctx.port = std::atoi(all_args[1].c_str());
-            all_args.erase(all_args.begin(), all_args.begin() + 2); continue;
-        }
-        if (a == "--token" && all_args.size() > 1) {
-            g_ctx.token = all_args[1];
-            all_args.erase(all_args.begin(), all_args.begin() + 2); continue;
-        }
-        if (a == "--timeout" && all_args.size() > 1) {
-            g_ctx.timeout = std::atoi(all_args[1].c_str());
-            all_args.erase(all_args.begin(), all_args.begin() + 2); continue;
-        }
-        // Not a global option — must be the command
-        break;
+    std::string parse_error;
+    if (!parse_global_options(all_args, parsed_options, parse_error)) {
+        std::cerr << parse_error << "\n";
+        printHelp(argv[0]);
+        return 2;
     }
+
+    if (parsed_options.show_help) {
+        printHelp(argv[0]);
+        return 0;
+    }
+
+    g_use_color = !parsed_options.no_color;
+    g_ctx.raw_json = parsed_options.raw_json;
+    g_ctx.host = std::move(parsed_options.host);
+    g_ctx.port = parsed_options.port;
+    g_ctx.token = std::move(parsed_options.token);
+    g_ctx.timeout = parsed_options.timeout;
+    all_args = std::move(parsed_options.remaining_args);
 
     if (all_args.empty()) {
         printHelp(argv[0]);

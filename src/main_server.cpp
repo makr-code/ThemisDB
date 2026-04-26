@@ -43,6 +43,7 @@
 #include <dlfcn.h>
 #endif
 
+#include "utils/cli_parser_utils.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "storage/rocksdb_wrapper.h"
@@ -102,6 +103,7 @@
 #include <csignal>
 #include <memory>
 #include <optional>
+#include <string_view>
 #include <thread>
 #include <atomic>
 #include <functional>
@@ -155,6 +157,156 @@ static std::thread g_hsm_warning_thread;
 static std::atomic<bool> g_hsm_warning_thread_running{false};
 // Global HSM provider is defined in src/server/hsm_provider_global.cpp
 extern std::shared_ptr<themis::security::HSMProvider> g_hsm_provider;
+
+namespace {
+
+struct ServerCommandLineOptions {
+    std::string db_path = "./data/themis_server";
+    std::string host = "0.0.0.0";
+    uint16_t port = 8765;
+    size_t num_threads = 0;
+    std::optional<std::string> config_path;
+    bool show_help = false;
+    bool show_version = false;
+    bool show_build_info = false;
+    bool show_license_info = false;
+};
+
+using themis::cli::is_help_flag;
+using themis::cli::is_version_flag;
+
+void print_usage(std::ostream& out, const char* prog) {
+    out << "Usage: " << prog << " [options]\n"
+        << "Options:\n"
+        << "  --db PATH            Database path (default: ./data/themis_server)\n"
+        << "  --data-dir PATH      Alias for --db (Docker-friendly)\n"
+        << "  --host HOST          Server host (default: 0.0.0.0)\n"
+        << "  --port PORT          Server port (default: 8765)\n"
+        << "  --threads N          Number of worker threads (default: auto)\n"
+        << "  --config FILE        Load server/storage config from JSON or YAML file\n"
+        << "  --allow-stub-hsm     Allow insecure stub HSM provider (development only)\n"
+        << "  --version, -v        Show version information and exit\n"
+        << "  --build-info         Show build configuration details and exit\n"
+        << "  --license-info       Show embedded license information and exit\n"
+        << "  --help, -h, /?       Show this help message\n";
+}
+
+using themis::cli::consume_next_value;
+
+bool parse_server_command_line(int argc,
+                               char* argv[],
+                               ServerCommandLineOptions& options,
+                               std::string& error_message) {
+    constexpr std::string_view kDataDirPrefix = "--data-dir=";
+    constexpr std::string_view kConfigPrefix = "--config=";
+
+    for (int index = 1; index < argc; ++index) {
+        const std::string arg = argv[index];
+        const std::string_view arg_view{arg};
+
+        if (is_help_flag(arg_view)) {
+            options.show_help = true;
+            continue;
+        }
+
+        if (is_version_flag(arg_view)) {
+            options.show_version = true;
+            continue;
+        }
+
+        if (arg_view == "--build-info") {
+            options.show_build_info = true;
+            continue;
+        }
+
+        if (arg_view == "--license-info") {
+            options.show_license_info = true;
+            continue;
+        }
+
+        if (arg_view == "--db") {
+            if (!consume_next_value(argc, argv, index, arg_view, options.db_path, error_message)) {
+                return false;
+            }
+            continue;
+        }
+
+        if (arg_view == "--data-dir") {
+            if (!consume_next_value(argc, argv, index, arg_view, options.db_path, error_message)) {
+                return false;
+            }
+            continue;
+        }
+
+        if (arg_view.rfind(kDataDirPrefix, 0) == 0) {
+            options.db_path = arg.substr(kDataDirPrefix.size());
+            continue;
+        }
+
+        if (arg_view == "--host") {
+            if (!consume_next_value(argc, argv, index, arg_view, options.host, error_message)) {
+                return false;
+            }
+            continue;
+        }
+
+        if (arg_view == "--port") {
+            std::string port_value;
+            if (!consume_next_value(argc, argv, index, arg_view, port_value, error_message)) {
+                return false;
+            }
+
+            try {
+                const auto parsed_port = std::stoul(port_value);
+                if (parsed_port > 65535) {
+                    error_message = "Port out of range for option --port: " + port_value;
+                    return false;
+                }
+                options.port = static_cast<uint16_t>(parsed_port);
+            } catch (const std::exception&) {
+                error_message = "Invalid numeric value for option --port: " + port_value;
+                return false;
+            }
+            continue;
+        }
+
+        if (arg_view == "--threads") {
+            std::string threads_value;
+            if (!consume_next_value(argc, argv, index, arg_view, threads_value, error_message)) {
+                return false;
+            }
+
+            try {
+                options.num_threads = std::stoul(threads_value);
+            } catch (const std::exception&) {
+                error_message = "Invalid numeric value for option --threads: " + threads_value;
+                return false;
+            }
+            continue;
+        }
+
+        if (arg_view == "--config") {
+            std::string config_value;
+            if (!consume_next_value(argc, argv, index, arg_view, config_value, error_message)) {
+                return false;
+            }
+            options.config_path = std::move(config_value);
+            continue;
+        }
+
+        if (arg_view.rfind(kConfigPrefix, 0) == 0) {
+            options.config_path = arg.substr(kConfigPrefix.size());
+            continue;
+        }
+
+        // Leave unknown options untouched so feature-specific subsystems can
+        // continue to inspect argc/argv without parser regressions.
+    }
+
+    return true;
+}
+
+} // namespace
 
 // ============================================================================
 // Lazy Mimalloc Initialization (after CRT startup)
@@ -328,44 +480,27 @@ int main(int argc, char* argv[]) {
     SetUnhandledExceptionFilter(windows_unhandled_exception_filter);
 #endif
     
-    // --- Early flag handling (no heavy initialization) ---
-    // Simple hardcoded usage text
-    auto print_usage = [](const char* prog) {
-        std::cout << "Usage: " << prog << " [options]\n"
-                  << "Options:\n"
-                  << "  --db PATH            Database path (default: ./data/themis_server)\n"
-                  << "  --data-dir PATH      Alias for --db (Docker-friendly)\n"
-                  << "  --host HOST          Server host (default: 0.0.0.0)\n"
-                  << "  --port PORT          Server port (default: 8765)\n"
-                  << "  --threads N          Number of worker threads (default: auto)\n"
-                  << "  --config FILE        Load server/storage config from JSON or YAML file\n"
-                  << "  --allow-stub-hsm     Allow insecure stub HSM provider (development only)\n"
-                  << "  --version, -v        Show version information and exit\n"
-                  << "  --build-info         Show build configuration details and exit\n"
-                  << "  --license-info       Show embedded license information and exit\n"
-                  << "  --help, -h           Show this help message\n";
-    };
+    // --- Early argument parsing (no heavy initialization) ---
+    ServerCommandLineOptions command_line_options;
+    std::string command_line_error;
+    if (!parse_server_command_line(argc, argv, command_line_options, command_line_error)) {
+        std::cerr << command_line_error << std::endl;
+        print_usage(std::cerr, argv[0]);
+        return 1;
+    }
 
-    bool show_build_info = false;
-    bool show_license_info = false;
-
-    for (int i = 1; i < argc; ++i) {
-        std::string arg = argv[i];
-        if (arg == "--version" || arg == "-v") {
+    if (command_line_options.show_version) {
 #ifdef THEMIS_VERSION_STRING
-            std::cout << THEMIS_VERSION_STRING << std::endl;
+        std::cout << THEMIS_VERSION_STRING << std::endl;
 #else
-            std::cout << "unknown" << std::endl;
+        std::cout << "unknown" << std::endl;
 #endif
-            return 0;
-        } else if (arg == "--build-info") {
-            show_build_info = true;
-        } else if (arg == "--license-info") {
-            show_license_info = true;
-        } else if (arg == "--help" || arg == "-h") {
-            print_usage(argv[0]);
-            return 0;
-        }
+        return 0;
+    }
+
+    if (command_line_options.show_help) {
+        print_usage(std::cout, argv[0]);
+        return 0;
     }
 
     // Initialize logger AFTER simple flag checks to avoid file I/O for --version/--help
@@ -386,7 +521,7 @@ int main(int argc, char* argv[]) {
 #endif
     
     // Display build info if requested
-    if (show_build_info) {
+    if (command_line_options.show_build_info) {
         try {
             auto build_config = themis::build_info::getBuildConfiguration();
             std::string build_info = themis::build_info::formatBuildInfo(build_config);
@@ -403,7 +538,7 @@ int main(int argc, char* argv[]) {
     }
     
     // Display license info if requested
-    if (show_license_info) {
+    if (command_line_options.show_license_info) {
         try {
             auto license = themis::license::getEmbeddedLicense();
             if (license) {
@@ -561,51 +696,11 @@ int main(int argc, char* argv[]) {
         initializeMimalloc();
 #endif
         
-        // Parse command line arguments
-        std::string db_path = "./data/themis_server";
-        std::string host = "0.0.0.0";
-        uint16_t port = 8765;
-        size_t num_threads = 0; // Auto-detect
-        std::optional<std::string> config_path;
-        for (int i = 1; i < argc; ++i) {
-            std::string arg = argv[i];
-            constexpr std::string_view kDataDirPrefix = "--data-dir=";
-            constexpr std::string_view kConfigPrefix  = "--config=";
-            if (arg == "--db" && i + 1 < argc) {
-                db_path = argv[++i];
-            } else if (arg == "--data-dir" && i + 1 < argc) {
-                // --data-dir is an alias for --db (Docker-friendly name)
-                db_path = argv[++i];
-            } else if (arg.rfind(kDataDirPrefix, 0) == 0) {
-                // Support --data-dir=/path format (equals-separated)
-                db_path = arg.substr(kDataDirPrefix.size());
-            } else if (arg == "--host" && i + 1 < argc) {
-                host = argv[++i];
-            } else if (arg == "--port" && i + 1 < argc) {
-                port = static_cast<uint16_t>(std::stoi(argv[++i]));
-            } else if (arg == "--threads" && i + 1 < argc) {
-                num_threads = std::stoul(argv[++i]);
-            } else if (arg == "--config" && i + 1 < argc) {
-                config_path = argv[++i];
-            } else if (arg.rfind(kConfigPrefix, 0) == 0) {
-                // Support --config=/path format (equals-separated)
-                config_path = arg.substr(kConfigPrefix.size());
-            } else if (arg == "--help" || arg == "-h") {
-                std::cout << "Usage: " << argv[0] << " [options]\n"
-                          << "Options:\n"
-                          << "  --db PATH            Database path (default: ./data/themis_server)\n"
-                          << "  --data-dir PATH      Alias for --db (Docker-friendly)\n"
-                          << "  --host HOST          Server host (default: 0.0.0.0)\n"
-                          << "  --port PORT          Server port (default: 8765)\n"
-                          << "  --threads N          Number of worker threads (default: auto)\n"
-                          << "  --config FILE        Load server/storage config from JSON or YAML file\n"
-                          << "  --version, -v        Show version information and exit\n"
-                          << "  --build-info         Show build configuration details and exit\n"
-                          << "  --license-info       Show embedded license information and exit\n"
-                          << "  --help, -h           Show this help message\n";
-                return 0;
-            }
-        }
+        auto db_path = command_line_options.db_path;
+        auto host = command_line_options.host;
+        auto port = command_line_options.port;
+        auto num_threads = command_line_options.num_threads;
+        const auto& config_path = command_line_options.config_path;
         
         // Load config (JSON or YAML) if provided or in default locations
         auto load_config = [&](const std::string& path) -> std::optional<json> {
@@ -615,6 +710,9 @@ int main(int argc, char* argv[]) {
                 };
 
                 if (ends_with(path, ".yaml") || ends_with(path, ".yml")) {
+                    if (!std::filesystem::exists(path)) {
+                        return std::nullopt;
+                    }
                     YAML::Node root = YAML::LoadFile(path);
                     // recursive conversion YAML -> JSON
                     std::function<json(const YAML::Node&)> to_json = [&](const YAML::Node& n) -> json {

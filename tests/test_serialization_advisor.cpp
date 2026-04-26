@@ -30,6 +30,23 @@
 #include <memory>
 #include <string>
 
+// Avoid macro collisions with enum constants used in this test (e.g. from Windows/third-party headers).
+#ifdef JSON_TEXT
+#undef JSON_TEXT
+#endif
+#ifdef ARROW_IPC
+#undef ARROW_IPC
+#endif
+#ifdef BINARY_CUSTOM
+#undef BINARY_CUSTOM
+#endif
+#ifdef PROTOBUF
+#undef PROTOBUF
+#endif
+#ifdef MSGPACK_CBOR
+#undef MSGPACK_CBOR
+#endif
+
 using namespace themis;
 using namespace themis::performance::phase3;
 
@@ -70,7 +87,7 @@ TEST(SerializationAdvisorTest, SA01_SmallRowCount_JsonCpuSingle) {
     auto m = makeAdvisor();
     // row_count = 500 < default msgpack_row_threshold (1000) → JSON/CPU_SINGLE
     auto advice = advise(m, 500, 256, false, 0, WorkloadType::DOCUMENT_CRUD);
-    EXPECT_EQ(advice.wire_format, Format::JSON_TEXT);
+    EXPECT_EQ(advice.wire_format, Format::SF_JSON_TEXT);
     EXPECT_EQ(advice.exec_path, ExecutionPath::CPU_SINGLE);
     EXPECT_EQ(advice.recommended_thread_count, 1u);
     EXPECT_FALSE(advice.use_vram_pinned_memory);
@@ -84,7 +101,7 @@ TEST(SerializationAdvisorTest, SA02_100kRows_NoGpu_ArrowCpu) {
     auto m = makeAdvisor();
     // 100k >= gpu_row_threshold_low(50k), no GPU
     auto advice = advise(m, 100'000, 512, false, 0, WorkloadType::ANALYTICS_OLAP);
-    EXPECT_EQ(advice.wire_format, Format::ARROW_IPC);
+    EXPECT_EQ(advice.wire_format, Format::SF_ARROW_IPC);
     EXPECT_EQ(advice.exec_path, ExecutionPath::CPU_THREADED_BATCH);
     EXPECT_GE(advice.recommended_thread_count, 1u);
     EXPECT_FALSE(advice.use_vram_pinned_memory);
@@ -99,7 +116,7 @@ TEST(SerializationAdvisorTest, SA03_100kRows_GpuAvail_4GB_ArrowGpu) {
     // Provide 4 GB free → GPU path
     constexpr size_t vram_4gb = 4ULL * 1024 * 1024 * 1024;
     auto advice = advise(m, 100'000, 512, true, vram_4gb, WorkloadType::ANALYTICS_OLAP);
-    EXPECT_EQ(advice.wire_format, Format::ARROW_IPC);
+    EXPECT_EQ(advice.wire_format, Format::SF_ARROW_IPC);
     EXPECT_EQ(advice.exec_path, ExecutionPath::GPU_VRAM);
     EXPECT_TRUE(advice.use_vram_pinned_memory);
 }
@@ -112,7 +129,7 @@ TEST(SerializationAdvisorTest, SA04_1MRows_Olap_GpuVram) {
     constexpr size_t vram_4gb = 4ULL * 1024 * 1024 * 1024;
     // 1M rows × 128 bytes = 128 MB; × 1.5 = 192 MB < 4 GB
     auto advice = advise(m, 1'000'000, 128, true, vram_4gb, WorkloadType::ANALYTICS_OLAP);
-    EXPECT_EQ(advice.wire_format, Format::ARROW_IPC);
+    EXPECT_EQ(advice.wire_format, Format::SF_ARROW_IPC);
     EXPECT_EQ(advice.exec_path, ExecutionPath::GPU_VRAM);
     EXPECT_TRUE(advice.use_vram_pinned_memory);
 }
@@ -123,7 +140,7 @@ TEST(SerializationAdvisorTest, SA04_1MRows_Olap_GpuVram) {
 TEST(SerializationAdvisorTest, SA05_5kRows_CdcStream_BinaryBatch) {
     auto m = makeAdvisor();
     auto advice = advise(m, 5'000, 256, false, 0, WorkloadType::CDC_STREAM);
-    EXPECT_EQ(advice.wire_format, Format::BINARY_CUSTOM);
+    EXPECT_EQ(advice.wire_format, Format::SF_BINARY_CUSTOM);
     EXPECT_EQ(advice.exec_path, ExecutionPath::CPU_THREADED_BATCH);
 }
 
@@ -172,7 +189,7 @@ TEST(SerializationAdvisorTest, SA07_PlanHasSerializationAdvice) {
     EXPECT_FALSE(plan.serialization_advice.rationale.empty());
 
     // For a tiny unknown table the conservative default is JSON/CPU_SINGLE
-    EXPECT_EQ(plan.serialization_advice.wire_format, Format::JSON_TEXT);
+    EXPECT_EQ(plan.serialization_advice.wire_format, Format::SF_JSON_TEXT);
     EXPECT_EQ(plan.serialization_advice.exec_path, ExecutionPath::CPU_SINGLE);
 }
 
@@ -185,7 +202,7 @@ TEST(SerializationAdvisorTest, SA08_VramTooSmall_FallbackCpu) {
     // Provide only 100 MB free VRAM → CPU fallback
     constexpr size_t vram_100mb = 100ULL * 1024 * 1024;
     auto advice = advise(m, 200'000, 512, true, vram_100mb, WorkloadType::ANALYTICS_OLAP);
-    EXPECT_EQ(advice.wire_format, Format::ARROW_IPC);
+    EXPECT_EQ(advice.wire_format, Format::SF_ARROW_IPC);
     EXPECT_EQ(advice.exec_path, ExecutionPath::CPU_THREADED_BATCH);
     EXPECT_FALSE(advice.use_vram_pinned_memory);
     // Rationale should mention insufficient VRAM
@@ -262,7 +279,7 @@ TEST(SerializationAdvisorTest, SA11_CacheRepl_Protobuf) {
     auto m = makeAdvisor();
     auto advice = advise(m, 1'000'000, 128, true, 4ULL * 1024 * 1024 * 1024,
                          WorkloadType::CACHE_REPL);
-    EXPECT_EQ(advice.wire_format, Format::PROTOBUF);
+    EXPECT_EQ(advice.wire_format, Format::SF_PROTOBUF_WIRE);
     EXPECT_EQ(advice.exec_path, ExecutionPath::CPU_THREADED_BATCH);
 }
 
@@ -270,7 +287,7 @@ TEST(SerializationAdvisorTest, SA11_CacheRepl_Protobuf) {
 TEST(SerializationAdvisorTest, SA12_MediumRange_Msgpack) {
     auto m = makeAdvisor();
     auto advice = advise(m, 10'000, 256, false, 0, WorkloadType::VECTOR_SEARCH);
-    EXPECT_EQ(advice.wire_format, Format::MSGPACK_CBOR);
+    EXPECT_EQ(advice.wire_format, Format::SF_MSGPACK_CBOR);
     EXPECT_EQ(advice.exec_path, ExecutionPath::CPU_THREADED_BATCH);
     EXPECT_GE(advice.recommended_thread_count,
               m.getConstants().cpu_batch_thread_low);
@@ -305,7 +322,7 @@ TEST(SerializationAdvisorTest, SA13_AdvisorMemberPersistsCalibratedConstants) {
 
     auto plan = optimizer.chooseOrderForAndQuery(q, 100);
     EXPECT_FALSE(plan.serialization_advice.rationale.empty());
-    EXPECT_EQ(plan.serialization_advice.wire_format, Format::JSON_TEXT);
+    EXPECT_EQ(plan.serialization_advice.wire_format, Format::SF_JSON_TEXT);
     EXPECT_EQ(plan.serialization_advice.exec_path, ExecutionPath::CPU_SINGLE);
 }
 

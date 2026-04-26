@@ -1,0 +1,277 @@
+# ThemisDB Capability Auto-Generation Configuration
+# Automatische Generierung und Aktualisierung von Shard-Capabilities aus RocksDB-Daten
+
+# Master-Schalter: Gesamte Auto-Generierung aktivieren/deaktivieren
+enabled: true
+
+# Update-Zeitpläne nach Shard-Typ
+# Verschiedene Shard-Typen haben unterschiedliche Update-Anforderungen
+schedules:
+  # Real-time Shards (z.B. Gesundheitsdaten, Börsenkurse)
+  # Müssen sehr häufig aktualisiert werden
+  real-time:
+    enabled: true
+    interval_seconds: 1800        # Alle 30 Minuten
+    min_document_change: 100      # Update bei 100+ neuen Dokumenten
+    min_keyword_change: 0.02      # Update bei 2% Keyword-Änderung
+    require_review: false          # Auto-Approval für kleine Änderungen
+    auto_approve_threshold: 20    # Auto-approve wenn < 20 Keywords geändert
+    
+  # High-Frequency Shards (z.B. Bauanträge, Verwaltungsvorgänge)
+  # Mehrmals täglich aktualisieren
+  high-frequency:
+    enabled: true
+    interval_seconds: 10800       # Alle 3 Stunden
+    min_document_change: 500
+    min_keyword_change: 0.05
+    require_review: false
+    auto_approve_threshold: 30
+    
+  # Normal Shards (z.B. Rechtsdatenbank, Archive)
+  # Täglich aktualisieren
+  normal:
+    enabled: true
+    interval_seconds: 86400       # Alle 24 Stunden (täglich)
+    min_document_change: 1000
+    min_keyword_change: 0.10
+    require_review: false
+    auto_approve_threshold: 50
+    
+  # Static Shards (z.B. historische Daten, Referenzdaten)
+  # Wöchentlich oder bei Bedarf
+  static:
+    enabled: true
+    interval_seconds: 604800      # Alle 7 Tage (wöchentlich)
+    min_document_change: 5000
+    min_keyword_change: 0.15
+    require_review: true           # Review erforderlich
+    auto_approve_threshold: 10
+    
+  # Critical Shards (z.B. Finanzdaten, medizinische Kerndaten)
+  # Immer Review erforderlich
+  critical:
+    enabled: true
+    interval_seconds: 43200       # Alle 12 Stunden
+    min_document_change: 100
+    min_keyword_change: 0.01
+    require_review: true           # Immer manuelles Review
+    auto_approve_threshold: 0     # Nie auto-approve
+
+# RocksDB-Analyse-Einstellungen
+rocksdb_analysis:
+  # Sampling-Rate: Analysiere jedes N-te Dokument (Performance)
+  sampling_rate: 100
+  
+  # Maximum Anzahl Keywords zu extrahieren
+  max_keywords: 100
+  
+  # Stopwords (werden aus Keywords gefiltert)
+  stopwords:
+    - der
+    - die
+    - das
+    - den
+    - dem
+    - des
+    - ein
+    - eine
+    - und
+    - oder
+    - aber
+    - von
+    - zu
+    - im
+    - am
+    - auf
+    - für
+    - mit
+    - ist
+    - sind
+    - war
+    - waren
+    # English
+    - the
+    - a
+    - an
+    - and
+    - or
+    - but
+    - of
+    - to
+    - in
+    - on
+    - for
+    - with
+    - is
+    - are
+    - was
+    - were
+  
+  # Minimum Keyword-Länge (zu kurze Wörter ignorieren)
+  min_keyword_length: 3
+  
+  # TF-IDF Parameter
+  tfidf:
+    use_tfidf: true
+    idf_smoothing: 1.0
+
+# Audit & Logging
+audit:
+  # Audit-Logging aktivieren
+  enabled: true
+  
+  # Pfad zur Audit-Log-Datei
+  log_path: /var/log/themisdb/capability-generation.log
+  
+  # Log-Rotation
+  max_log_size_mb: 100
+  max_log_files: 10
+  
+  # Detailgrad
+  log_level: info  # debug, info, warning, error
+
+# Sicherheit
+security:
+  # Signaturen für Audit-Trail generieren
+  require_signature: true
+  
+  # Pfad zum Signing-Key (optional, für kryptografische Signatur)
+  signing_key_path: /etc/themisdb/keys/capability-signing.key
+  
+  # Alternativen: SHA256-Hash (wenn kein Key vorhanden)
+  fallback_to_hash: true
+
+# Output-Einstellungen
+output:
+  # Verzeichnis für generierte YAML-Dateien
+  directory: config/capabilities
+  
+  # Backups erstellen vor Überschreiben
+  create_backups: true
+  backup_directory: config/capabilities/backups
+  
+  # Automatisch zu Git committen
+  git_commit: false
+  git_commit_message_template: "Auto-update: {shard_id} v{version}\n\nChanges: {change_summary}\nGenerated: {timestamp}"
+  
+  # Format
+  yaml_style:
+    indent: 2
+    line_width: 100
+    allow_unicode: true
+
+# Benachrichtigungen
+notifications:
+  # Email bei kritischen Ereignissen
+  email:
+    enabled: false
+    smtp_host: smtp.example.com
+    smtp_port: 587
+    from: themisdb-auto-gen@example.com
+    to:
+      - admin@example.com
+      - dba-team@example.com
+    
+    # Wann Emails senden
+    on_failure: true
+    on_manual_review_required: true
+    on_signature_verification_failed: true
+  
+  # Slack-Integration
+  slack:
+    enabled: false
+    webhook_url: https://hooks.slack.com/services/YOUR/WEBHOOK/URL
+    channel: "#themisdb-alerts"
+    on_failure: true
+    on_manual_review_required: true
+
+# Performance
+performance:
+  # Maximale Anzahl paralleler Shard-Analysen
+  max_concurrent_analyses: 4
+  
+  # Timeout für einzelne Shard-Analyse
+  analysis_timeout_seconds: 300
+  
+  # Memory-Limit für RocksDB-Iterator
+  max_memory_mb: 1024
+  
+  # Throttling: Pause zwischen Shard-Analysen (um Load zu reduzieren)
+  inter_analysis_delay_ms: 1000
+
+# Monitoring & Metriken
+monitoring:
+  # Prometheus-Metriken exportieren
+  prometheus_enabled: true
+  
+  # Metriken:
+  # - themis_capability_generations_total
+  # - themis_capability_generation_duration_seconds
+  # - themis_capability_generation_failures_total
+  # - themis_capability_last_update_timestamp
+  # - themis_capability_keywords_extracted
+  # - themis_capability_documents_analyzed
+  
+  # Health-Check Endpoint
+  health_check_enabled: true
+  health_check_path: /admin/capability-auto-gen/health
+
+# Shard-Typ-Zuordnung (Auto-Erkennung)
+# Bestimme Shard-Typ basierend auf Metadaten
+shard_type_detection:
+  # Regeln zur Auto-Erkennung des Shard-Typs
+  rules:
+    # Real-time wenn Update-Frequenz in Metadaten = "real-time"
+    - type: real-time
+      condition:
+        metadata_field: update_frequency
+        equals: real-time
+    
+    # High-frequency wenn häufige Updates
+    - type: high-frequency
+      condition:
+        metadata_field: update_frequency
+        equals: hourly
+    
+    # Static wenn selten Updates
+    - type: static
+      condition:
+        metadata_field: update_frequency
+        equals: weekly
+    
+    # Critical wenn in critical_shards Liste
+    - type: critical
+      condition:
+        shard_id_prefix: shard_critical_
+  
+  # Default wenn keine Regel matched
+  default_type: normal
+
+# Erweiterte Optionen
+advanced:
+  # Embeddings automatisch neu generieren nach Update
+  auto_regenerate_embeddings: true
+  
+  # Capability-Validierung vor Speichern
+  validate_before_save: true
+  
+  # Dry-run Modus (nur analysieren, nicht speichern)
+  dry_run: false
+  
+  # Debug-Modus (verbose logging)
+  debug: false
+
+# Beispiel-Konfiguration für spezifische Shards (Override)
+# Überschreibt globale Einstellungen für bestimmte Shards
+shard_specific_overrides:
+  shard_hamburg_bauamt_001:
+    schedule: high-frequency
+    require_review: false
+    
+  shard_financial_core_001:
+    schedule: critical
+    require_review: true
+    
+  shard_historical_archive_001:
+    schedule: static
+    interval_seconds: 2592000  # 30 Tage
