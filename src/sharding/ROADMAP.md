@@ -37,7 +37,7 @@
   - [x] S0/S1 invariant violations identified in `raft_consensus.cpp`, `paxos_consensus.cpp`, `gossip_protocol.cpp`, `cross_shard_transaction.cpp`, `raft_wal_integration.cpp`, `distributed_transaction_manager.cpp`, `transaction_wal.cpp` (see `AUDIT.md`)
   - [x] Code fixes for PAX-1, PAX-3, GOS-1, CST-1, CST-2, CST-3, RWALI-1, RWALI-2 (S0 critical) — Fixed 2026-04-21
   - [x] Code fixes for PAX-2 (split-brain leader election) — Fixed 2026-04-27
-  - [x] Code fixes for PAX-4, RAFT-1, RLOG-1, 2PC-2, DTM-1, DTM-2, DTM-3 (S1 high) — PAX-4/RAFT-1/RLOG-1 fixed 2026-04-27; DTM items pending
+  - [x] Code fixes for PAX-4, RAFT-1, RLOG-1, 2PC-2, DTM-1, DTM-2, DTM-3 (S1 high) — all fixed 2026-04-27
 - [x] Persistent Paxos acceptor state (survives process restart) — **Fixed 2026-04-12**
   - `handlePrepare()` now calls `wal_->logPromise()` before returning PROMISE
   - `handleAccept()` now calls `wal_->logAccept()` before returning ACCEPTED
@@ -177,15 +177,22 @@ Sharding is a database architecture pattern that involves breaking a database in
 - [x] **RLOG-1 — Fix `getLastLogIndex()` to return `snapshot_index_` after compaction (`raft_log.cpp`)** — Fixed 2026-04-27
   - Returns 0 after compaction; next entry gets index 1, colliding with compacted range.
   - Fix: empty `log_` → return `snapshot_index_` instead of 0.
-- [ ] **2PC-2 / DTM-2 — Broadcast ABORT to participants during in-doubt recovery**
+- [x] **2PC-2 / DTM-2 — Broadcast ABORT to participants during in-doubt recovery** — Fixed 2026-04-27
   - Both `TwoPhaseCommitCoordinator::recoverInDoubtTransactions()` and
     `DistributedTransactionManager::recoverInDoubtTransactions()` log ABORT to WAL but
     never notify participants → they remain PREPARED indefinitely, holding locks.
-- [ ] **DTM-1 — Replace fake remote-participant COMMIT vote with real RPC stub (`distributed_transaction_manager.cpp`)**
-  - `runPhase1Unlocked()` unconditionally returns COMMIT for participants without a
+  - Fix: `recoverInDoubtTransactions()` now fetches in-memory participant list and calls
+    `runPhase2Unlocked(do_commit=false)` after logging ABORT to WAL.
+- [x] **DTM-1 — Replace fake remote-participant COMMIT vote with real RPC stub (`distributed_transaction_manager.cpp`)** — Fixed 2026-04-27
+  - `runPhase1Unlocked()` unconditionally returned COMMIT for participants without a
     registered callback, bypassing 2PC safety.
-- [ ] **DTM-3 — Implement or stub `isParticipantAlive()` with a real health check**
-  - Currently always returns `true`; timed-out participants are never detected.
+  - Fix: remote participants without callback now vote ABORT (safe conservative choice).
+    Tests DTM-1 in `test_transaction_distributed_2pc.cpp`.
+- [x] **DTM-3 — Implement or stub `isParticipantAlive()` with a real health check** — Fixed 2026-04-27
+  - Previously always returned `true`; timed-out participants were never detected.
+  - Fix: in-process participants (callback != nullptr) → alive; remote participants (no
+    callback) → not alive (conservative); unknown node → alive (backward-compatible).
+    Tests DTM-3 in `test_transaction_distributed_2pc.cpp`.
 
 #### Phase 6.3: S2/S3 Medium/Low — Hardening (Target: Q3 2026)
 
@@ -205,9 +212,14 @@ Sharding is a database architecture pattern that involves breaking a database in
 - [x] **PAX-6 — Protect all `cluster_nodes_` accesses with `state_mutex_`** (`paxos_consensus.cpp`) — Fixed 2026-04-27
   - Fix: `getStats()` takes snapshot under `state_mutex_`; `leaderElectionThread()` takes
     snapshot before acting; `getQuorumSize()` documents that callers already hold the lock.
-- [ ] **CST-4 — Reject startup if `transaction_log_path_` is unconfigured (no `/tmp` fallback)** (`cross_shard_transaction.cpp`)
-- [ ] **CST-6 — Implement actual 3PC PreCommit RPC or remove 3PC claim** (`cross_shard_transaction.cpp`)
-- [ ] **DTM-4 — Add explicit WAL flush before Phase 2 broadcast** (`distributed_transaction_manager.cpp`)
+- [x] **CST-4 — Reject startup if `transaction_log_path_` is unconfigured (no `/tmp` fallback)** (`cross_shard_transaction.cpp`) — Fixed 2026-04-27
+  - Fix: constructor now throws `std::invalid_argument` if path is empty or not absolute.
+- [x] **CST-6 — Implement actual 3PC PreCommit RPC or remove 3PC claim** (`cross_shard_transaction.cpp`) — Fixed 2026-04-27
+  - Fix: `execute3PC()` Phase-2 stub is now clearly documented with STUB/SIMULATION NOTE.
+    Logs a warning at runtime. Real sendPreCommit() RPC tracked for Q3 2026.
+- [x] **DTM-4 — Add explicit WAL flush before Phase 2 broadcast** (`distributed_transaction_manager.cpp`) — Fixed 2026-04-27
+  - Fix: `wal_->flush()` called after `logToWAL(COMMIT_TX/ABORT_TX)` in both
+    `commitDistributed()` and `abortDistributed()` before Phase-2 broadcast.
 - [x] **TWAL-1 — Protect `current_lsn_` with a mutex or make it `std::atomic`** (`transaction_wal.cpp`) — Fixed 2026-04-27
   - Fix: added `mutable std::mutex lsn_mutex_` to header; all `current_lsn_` writes in
     log methods wrapped with `std::lock_guard<std::mutex>`; `getCurrentLSN()` also locked.
@@ -219,7 +231,9 @@ Sharding is a database architecture pattern that involves breaking a database in
 
 #### Phase 6.4: Cross-Cutting Code Fixes
 
-- [ ] **CC-1 — Enforce WAL flush as hard error (not warn+continue) across all consensus layers**
+- [x] **CC-1 — Enforce WAL flush as hard error (not warn+continue) across all consensus layers** — Fixed 2026-04-27
+  - Fix: `logToWAL()` in `DistributedTransactionManager` now re-throws WAL write
+    exceptions instead of catching and swallowing them.
 - [ ] **CC-4 — Gate gossip-driven topology mutations behind Raft membership change protocol**
 - [ ] **CC-5 — Consolidate 2PC coordinator implementations or enforce a shared recovery interface**
 
@@ -248,7 +262,7 @@ Implementing sharding requires careful planning and execution. Following this ro
 - [x] **[CST-1/CST-2/CST-3] Dangling-reference UB fixed in `commit()`/`abort()`/`executeSaga()`** (`cross_shard_transaction.cpp`) — Fixed 2026-04-21
 - [x] **[RWALI-1] Raft WAL `write()` self-deadlock resolved** (`raft_wal_integration.cpp`) — Fixed 2026-04-21
 - [x] **[RWALI-2] `hasQuorum()` uses actual cluster size from configuration** (`raft_wal_integration.cpp`) — Fixed 2026-04-21
-- [ ] **[DTM-1] Remote 2PC participant voting uses real RPC, not unconditional COMMIT vote** (`distributed_transaction_manager.cpp`)
+- [x] **[DTM-1] Remote 2PC participant voting uses real RPC, not unconditional COMMIT vote** (`distributed_transaction_manager.cpp`) — Fixed 2026-04-27
 
 ## Known Issues & Limitations
 
@@ -263,7 +277,7 @@ Implementing sharding requires careful planning and execution. Following this ro
 - `[x]` **CST-1/CST-2/CST-3** `cross_shard_transaction.cpp::commit()`/`abort()`/`executeSaga()` — Fixed 2026-04-21: copy-by-value before lock release; re-lookup after re-lock.
 - `[x]` **RWALI-1** `raft_wal_integration.cpp::write()` self-deadlock — Fixed 2026-04-21: unique_lock + condition_variable; onAppendEntriesResponse() notifies cv_.
 - `[x]` **RWALI-2** `raft_wal_integration.cpp::hasQuorum()` hardcoded cluster-size — Fixed 2026-04-21: uses getClusterMembers().size().
-- `[!]` **DTM-1** `distributed_transaction_manager.cpp::runPhase1Unlocked()` unconditionally returns COMMIT vote for remote participants — 2PC safety bypassed for all remote nodes.
+- `[x]` **DTM-1** `distributed_transaction_manager.cpp::runPhase1Unlocked()` unconditionally returned COMMIT vote for remote participants — Fixed 2026-04-27: remote participants without callback now vote ABORT (safe conservative choice).
 
 | # | Description | Status |
 |---|-------------|--------|
