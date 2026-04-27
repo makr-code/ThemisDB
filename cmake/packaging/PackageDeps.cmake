@@ -13,11 +13,11 @@ function(_themis_add_deps_target _target_name _triplet _output_dir)
     endif()
 
     add_custom_target(${_target_name}
-        COMMAND ${CMAKE_COMMAND}
-            -DTHEMIS_VCPKG_ROOT="${THEMIS_VCPKG_ROOT}"
+        COMMAND ${CMAKE_COMMAND} -E chdir "${CMAKE_SOURCE_DIR}" ${CMAKE_COMMAND}
+            -DTHEMIS_VCPKG_ROOT=${THEMIS_VCPKG_ROOT}
             -DTHEMIS_TRIPLET=${_triplet}
             -DTHEMIS_EDITION=${THEMIS_EDITION}
-            -DTHEMIS_OUTPUT_DIR="${_output_dir}"
+            -DTHEMIS_OUTPUT_DIR=${_output_dir}
             -P "${CMAKE_SOURCE_DIR}/cmake/VcpkgPackageBuild.cmake"
         COMMENT "Building dependency packages (${_triplet})"
         VERBATIM

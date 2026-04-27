@@ -3,19 +3,46 @@
 ## Scope
 Diese Richtlinie gilt fuer den schlanken, release-zentrierten Workflow-Kern.
 Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
+Workflows unter `.github/no_workflows/` gelten als bewusst deaktivierte Quarantaene und
+duerfen nicht stillschweigend reaktiviert werden.
 
-## Aktive Workflows (11)
-- `.github/workflows/01-core_ci.yml`
-- `.github/workflows/03-editions_ci.yml`
-- `.github/workflows/04-release_bootstrap-release-branches.yml`
-- `.github/workflows/04-release_build-binaries.yml`
-- `.github/workflows/04-release_publish-community.yml`
-- `.github/workflows/04-release_publish-private.yml`
-- `.github/workflows/09-pr-gates_quick-checks.yml`
-- `.github/workflows/09-pr-gates_path-policy.yml`
+## Aktive Workflows (7)
 - `.github/workflows/02-feature-modules_llm_voice-benchmark-ci.yml`
 - `.github/workflows/06-infrastructure_gpu_gpu-benchmark-matrix-ci.yml`
 - `.github/workflows/07-quality_nightly-benchmark-sweep.yml`
+- `.github/workflows/09-pr-gates_workflow-boundary-guard.yml`
+- `.github/workflows/copilot-ollama-router-ci.yml`
+- `.github/workflows/copilot-regression-guard.yml`
+- `.github/workflows/performance-regression-check.yml`
+
+## Harte Grenzen fuer neue oder reaktivierte CI
+- Default ist `kein neuer Workflow`. Bevorzuge einen neuen Job in einem bestehenden Workflow.
+- Alles unter `.github/no_workflows/` bleibt deaktiviert, bis eine explizite Reaktivierungsentscheidung dokumentiert ist.
+- Jeder reaktivierte Workflow braucht einen klar benannten Owner, ein Ablaufdatum fuer die naechste Review und einen Abschaltplan.
+- Pull-Request-Trigger sind nur zulaessig, wenn `branches:` und `paths:` beide eng begrenzt sind.
+- `paths:` duerfen nur datei- oder modulspezifische Bereiche enthalten. Globale Trigger wie `src/**`, `include/**`, `**/*.md` oder Repo-weit wirksame Sammelmuster sind fuer neue PR-Workflows nicht zulaessig.
+- `push:` auf `develop` oder `main` ist nur fuer Release-, Packaging- oder explizit nicht-blockierende Nachtlaeufe zulaessig.
+- Schwere Jobs muessen `workflow_dispatch` oder `schedule` bevorzugen. Sie duerfen nicht bei jedem PR-Sync anlaufen.
+- Jeder PR-Workflow braucht `concurrency` mit workflow/ref-Gruppierung und `cancel-in-progress: true`.
+- Jeder Workflow muss minimale `permissions` setzen und darf keine impliziten Default-Rechte nutzen.
+- Wenn Triggergrenzen nicht knapp und messbar formulierbar sind, bleibt der Workflow in `.github/no_workflows/`.
+- Reaktivierungen oder neue Workflow-Dateien muessen den `Workflow Boundary Guard` passieren, bevor sie aktiv bleiben duerfen.
+
+## Reaktivierungs-Checkliste
+- Der fachliche Nutzen ist branch-gate-relevant, release-relevant oder compliance-pflichtig.
+- Die Logik passt nicht sinnvoll als Job in einen bestehenden aktiven Workflow.
+- Trigger sind auf konkrete Dateien, ein einzelnes Modul oder einen klaren Release-Pfad begrenzt.
+- Der Workflow enthaelt eine Kostenbremse: `paths`, `branches`, `concurrency`, kurze `timeout-minutes` und moeglichst fruehe Exit-Bedingungen.
+- Der Workflow wurde lokal mit `scripts/test-github-actions-local.ps1` geprueft.
+- Die Reaktivierung ist in `.github/WORKFLOW_REGISTRY.md` dokumentiert.
+- Fuer den ersten Rollout ist der Workflow entweder `workflow_dispatch`-only oder nicht-blockierend (`continue-on-error` bzw. kein Required Check), bis die Triggerqualitaet verifiziert ist.
+
+## Verbotene Muster
+- Ein Spezialworkflow, der denselben Dateibaum wie ein bestehender Workflow ueberwacht.
+- Ein Benchmark-, Audit- oder Nightly-Workflow als Required PR Check.
+- Trigger auf Dokumentationsaenderungen fuer Build-, Security- oder Performance-Jobs.
+- Neue Schatten-CI in Form von fast identischen Kopien bestehender Build- oder Testlogik.
+- Reaktivierung aus `.github/no_workflows/`, ohne die Ursache fuer die frueheren Uebertrigger zu dokumentieren.
 
 ## Naming Conventions
 - Behalte den numerischen Prefix je Verantwortungsbereich (`01`, `03`, `04`, `09`) bei.
@@ -24,9 +51,10 @@ Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
 
 ## Best Practices
 - Trigger nur fuer reale Gates/Release-Lanes definieren (keine Schatten-CI).
-- `paths:` und `branches:` eng schneiden, damit unnötige Runs ausbleiben.
+- `paths:` und `branches:` eng schneiden; im Zweifel enger statt "vorsichtshalber breit".
 - `concurrency` mit `cancel-in-progress` auf Push/PR-Workflows setzen.
 - Berechtigungen minimal halten (`permissions` least privilege).
+- Schwere Benchmark-, GPU- und Sweep-Jobs standardmaessig ueber `schedule` oder `workflow_dispatch` isolieren.
 
 ## Security Guidelines
 - Keine Secrets im YAML oder in Shell-Skripten hardcoden.
@@ -44,4 +72,4 @@ gh workflow run "04-release_bootstrap-release-branches.yml" --repo makr-code/The
 ## Troubleshooting
 - Lokal zuerst linten: `pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode lint`
 - Danach Dry-Run: `pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode dryrun`
-- Registry und Strategie bei Struktur-Aenderungen immer zusammen aktualisieren.
+- Registry, Guidelines und Reaktivierungsbegruendung bei Struktur-Aenderungen immer zusammen aktualisieren.
