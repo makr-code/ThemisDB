@@ -33,6 +33,13 @@ Each paper that serves as a foundation for a ThemisDB algorithm, data structure,
 |-------|-----------|---------|--------|
 | [DuckDB — Raasveldt & Mühleisen (2019)](duckdb_olap_2019.md) | `src/query/`, `src/exporters/` | planned v2.x | ⏳ Planned |
 
+**AI-Driven Query Optimization:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [Bao: Learned Query Optimization — Marcus et al. (2021)](marcus_bao_learned_query_opt_2021.md) | `src/query/adaptive_optimizer.cpp`, `src/query/runtime_reoptimizer.cpp` | planned v2.0.0 | 🔄 In Progress |
+| [AI Meets Database (AI4DB) — Zhou et al. (2022)](zhou_ai4db_survey_2022.md) | `src/query/`, `src/storage/index_analyzer.cpp`, `src/cache/` | v2.0.0+ framework | 🔄 In Progress |
+
 **Streaming & Continuous Queries:**
 
 | Paper | Module(s) | Version | Status |
@@ -72,6 +79,13 @@ Each paper that serves as a foundation for a ThemisDB algorithm, data structure,
 | [GraphRAG — Edge et al. (2024)](graphrag_edge_2024.md) | `src/process/`, `src/rag/`, `src/graph/` | planned Q3 2026 | ⏳ Planned |
 | [HippoRAG — Gutierrez et al. (2024)](hipporag_gutierrez_2024.md) | `src/process/`, `src/rag/` | planned Q2 2026 | ⏳ Planned |
 
+**Near-Realtime LLM Inferencing & RAG:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [S-LoRA — Sheng et al. (2023)](sheng_slora_concurrent_adapters_2023.md) | `src/llm/lora/`, `src/rag/` | planned Q2/Q3 2026 | 🔄 In Progress |
+| [Speculative RAG — Wang et al. (2024)](wang_speculative_rag_2024.md) | `src/rag/streaming_retriever.cpp`, `src/llm/` | planned Q1 2027 | ⏳ Planned |
+
 **LoRA / PEFT:**
 
 | Paper | Module(s) | Version | Status |
@@ -83,7 +97,36 @@ Each paper that serves as a foundation for a ThemisDB algorithm, data structure,
 | Paper | Module(s) | Version | Status |
 |-------|-----------|---------|--------|
 | [Prompt Pattern Catalog — White et al. (2023)](prompt_patterns_catalog_2023.md) | `src/prompt_engineering/` | v1.2.0+ | ✅ Implemented |
+| [ProTeGi — Pryzant et al. (2023)](pryzant_protegi_prompt_optimization_2023.md) | `src/prompt_engineering/protegi_optimizer.cpp`, `src/prompt_engineering/self_improvement_orchestrator.cpp` | v2.0.0+ | ✅ Implemented |
+| [Self-Refine + Reflexion — Madaan & Shinn (2023)](madaan_self_refine_2023.md) | `src/prompt_engineering/reflection_tuner.cpp`, `src/prompt_engineering/llm_reflection_adapter.cpp` | v1.5.0+ | ✅ Implemented |
+| [Tree of Thoughts — Yao et al. (2023)](yao_tree_of_thoughts_2023.md) | `src/prompt_engineering/tree_of_thoughts.cpp` | v2.0.0+ | ✅ Implemented |
+| [DSPy — Khattab et al. (2023/2024)](khattab_dspy_2023.md) | `src/prompt_engineering/dspy_module.cpp` | v2.0.0+ (declaration); v2.2.0 (compiler) | 🔄 Partially Implemented |
 | [LMQL — Beurer-Kellner et al. (2023)](lmql_beurer_kellner_2023.md) | `src/prompt_engineering/`, `src/llm/` | planned v2.x | ⏳ Planned |
+
+**AI-Driven Index & Storage Optimization:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [LLM Index Advisor Integration — ThemisDB (2026)](llm_index_advisor_integrated_2024.md) | `src/storage/index_analyzer.cpp`, `src/storage/storage_layout_advisor.cpp` | v1.9.0+ | ✅ Implemented |
+
+**RAG Evaluation / LLM-as-Judge:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [G-Eval — Liu et al. (2023)](liu_geval_2023.md) | `src/rag/geval_evaluator.cpp`, `src/rag/rag_judge.cpp`, `src/rag/calibration_manager.cpp` | v1.6.0+ | ✅ Implemented |
+| [Judging LLM-as-a-Judge / MT-Bench — Zheng et al. (2023)](zheng_llm_judge_2023.md) | `src/rag/llm_judge_integration.cpp`, `src/rag/pairwise_comparator.cpp`, `src/rag/distributed_rag_evaluator.cpp` | v1.6.0+ | ✅ Implemented |
+
+**Agentic RAG / Iterative Retrieval:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [ReAct — Yao et al. (2022)](yao_react_2022.md) | `src/rag/agentic_rag.cpp`, `src/rag/multi_step_rag.cpp`, `src/rag/knowledge_gap_detector.cpp` | v1.8.0+ | ✅ Implemented |
+
+**Constitutional AI / RLAIF / Continuous Learning:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [Constitutional AI + RLAIF — Bai et al. (2022) + Lee et al. (2023)](bai_constitutional_ai_rlaif_2022.md) | `src/rag/rlaif_trainer.cpp`, `src/rag/continuous_learning_orchestrator.cpp`, `src/prompt_engineering/reflection_tuner.cpp` | v1.6.0+ | ✅ Implemented |
 
 **Verwaltungs-IT / Administrative IT:**
 
