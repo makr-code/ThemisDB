@@ -330,19 +330,19 @@ namespace compression {
     switch (m) {
         case CompressionMethod::LZ4:
         case CompressionMethod::GPU_LZ4:
-            return ::themis::compression::kTagLZ4;
+            return kTagLZ4;
         case CompressionMethod::SNAPPY:
         case CompressionMethod::GPU_SNAPPY:
-            return ::themis::compression::kTagSnappy;
+            return kTagSnappy;
         case CompressionMethod::ZSTD:
         case CompressionMethod::GPU_ZSTD:
-            return ::themis::compression::kTagZstd;
+            return kTagZstd;
         default:
             // NONE / RLE / DELTA / DICTIONARY / SPARSE_CSR / ADAPTIVE
             // These algorithms use internal framing and do not share the
             // kTag* wire-format; expose them as passthrough to callers that
             // only understand the tagged-payload protocol.
-            return ::themis::compression::kTagPassthrough;
+            return kTagPassthrough;
     }
 }
 
@@ -355,11 +355,11 @@ namespace compression {
 [[nodiscard]] constexpr std::optional<CompressionMethod>
 tag_to_method(uint8_t tag) noexcept {
     switch (tag) {
-        case ::themis::compression::kTagPassthrough: return CompressionMethod::NONE;
-        case ::themis::compression::kTagLZ4:        return CompressionMethod::LZ4;
-        case ::themis::compression::kTagSnappy:     return CompressionMethod::SNAPPY;
-        case ::themis::compression::kTagZstd:       return CompressionMethod::ZSTD;
-        default:                                     return std::nullopt;
+        case kTagPassthrough: return CompressionMethod::NONE;
+        case kTagLZ4:        return CompressionMethod::LZ4;
+        case kTagSnappy:     return CompressionMethod::SNAPPY;
+        case kTagZstd:       return CompressionMethod::ZSTD;
+        default:             return std::nullopt;
     }
 }
 
