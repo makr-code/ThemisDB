@@ -327,7 +327,9 @@ private:
     std::atomic<ConsensusState> state_;
     std::atomic<bool> running_;
     std::string current_leader_;
-    uint64_t current_round_;
+    // PAX-5: current_round_ is incremented by the proposer thread and read by
+    // the learner, election, and snapshot threads — make it atomic.
+    std::atomic<uint64_t> current_round_;
     
     // Paxos instances (one per log slot)
     std::map<uint64_t, PaxosInstance> instances_;

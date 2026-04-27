@@ -169,6 +169,7 @@ struct GossipConfig {
     std::string local_datacenter;
     std::string local_region;
     std::string private_key_path;            // For signing messages
+    std::string peer_public_keys_dir;        // GOS-2: dir containing <peer_id>.pem public keys for signature verification
 };
 
 /**

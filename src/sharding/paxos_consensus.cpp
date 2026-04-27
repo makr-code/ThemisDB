@@ -163,7 +163,7 @@ std::optional<uint64_t> PaxosConsensus::propose(
     // Create log entry
     ConsensusLogEntry entry;
     entry.index = next_slot_.fetch_add(1);
-    entry.term = current_round_;
+    entry.term = current_round_.load();
     entry.operation = operation;
     entry.data = data;
     entry.timestamp = std::chrono::system_clock::now();
@@ -291,7 +291,7 @@ bool PaxosConsensus::takeSnapshot(const nlohmann::json& snapshot_data) {
 
     {
         std::lock_guard<std::mutex> lock(state_mutex_);
-        const uint64_t snap_term = current_round_;  // read under mutex to avoid race with restoreSnapshot
+        const uint64_t snap_term = current_round_.load();  // read atomically to avoid race with restoreSnapshot
         snapshot_data_  = snapshot_data;
         snapshot_index_ = snap_index;
         snapshot_term_  = snap_term;
@@ -323,8 +323,8 @@ bool PaxosConsensus::restoreSnapshot(const nlohmann::json& snapshot_data) {
         // Step down to follower so this node re-syncs before proposing
         if (running_.load()) {
             state_.store(ConsensusState::FOLLOWER);
-            if (restored_term > current_round_)
-                current_round_ = restored_term;
+            if (restored_term > current_round_.load())
+                current_round_.store(restored_term);
         }
     }
 
@@ -335,13 +335,17 @@ bool PaxosConsensus::restoreSnapshot(const nlohmann::json& snapshot_data) {
 
 ConsensusStats PaxosConsensus::getStats() const {
     ConsensusStats stats{};
-    stats.current_term = current_round_;
+    stats.current_term = current_round_.load();
     stats.commit_index = commit_index_.load();
     stats.last_applied = commit_index_.load();
     stats.state = state_.load();
-    stats.current_leader = current_leader_;
-    stats.cluster_size = cluster_nodes_.size();
-    stats.reachable_nodes = cluster_nodes_.size();  // Simplified
+    // PAX-6: always hold state_mutex_ when accessing cluster_nodes_.
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        stats.current_leader = current_leader_;
+        stats.cluster_size = cluster_nodes_.size();
+        stats.reachable_nodes = cluster_nodes_.size();  // Simplified
+    }
     stats.total_operations = total_proposals_.load();
     stats.failed_operations = failed_proposals_.load();
     return stats;
@@ -364,7 +368,7 @@ nlohmann::json PaxosConsensus::getStatus() const {
         {"is_leader", isLeader()},
         {"leader_id", stats.current_leader},
         {"state", static_cast<int>(stats.state)},
-        {"current_round", current_round_},
+        {"current_round", current_round_.load()},
         {"commit_index", stats.commit_index},
         {"cluster_size", stats.cluster_size},
         {"total_proposals", stats.total_operations},
@@ -467,12 +471,42 @@ void PaxosConsensus::runProposer() {
 
 void PaxosConsensus::runAcceptor() {
     spdlog::debug("Paxos acceptor thread started");
-    
+
+    // PAX-4: The acceptor's core work (handlePrepare / handleAccept) is called
+    // synchronously from the RPC thread.  This background loop performs
+    // periodic housekeeping: it evicts promises that were made for rounds that
+    // are now stale (i.e. the proposer timed out and a higher ballot has been
+    // seen), and it applies any newly committed instances to the committed_log_.
     while (running_.load()) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        // Acceptor logic would process incoming prepare/accept requests
+
+        const uint64_t cur_round = current_round_.load();
+
+        std::lock_guard<std::mutex> lock(state_mutex_);
+
+        for (auto& [slot, instance] : instances_) {
+            // If this slot has been committed, ensure it's in committed_log_.
+            if (instance.is_committed &&
+                committed_log_.find(slot) == committed_log_.end()) {
+                committed_log_[slot] = instance.accepted_value;
+                spdlog::debug("Acceptor: applied committed slot {} to committed_log_", slot);
+            }
+
+            // Evict stale promises: if the promised round is far behind the
+            // current proposal round the proposer has given up; clear the
+            // promise so a subsequent proposer can make progress.
+            constexpr uint64_t kStaleRoundThreshold = 10;
+            if (!instance.is_committed &&
+                instance.promised_proposal.round > 0 &&
+                cur_round > instance.promised_proposal.round + kStaleRoundThreshold) {
+                spdlog::debug("Acceptor: evicting stale promise for slot {} "
+                              "(promised_round={}, cur_round={})",
+                              slot, instance.promised_proposal.round, cur_round);
+                instance.promised_proposal = {};
+            }
+        }
     }
-    
+
     spdlog::debug("Paxos acceptor thread stopped");
 }
 
@@ -502,31 +536,71 @@ void PaxosConsensus::runLearner() {
 
 void PaxosConsensus::leaderElectionThread() {
     spdlog::debug("Paxos leader election thread started");
-    
+
+    // PAX-2: Replace deterministic node-ID sort (split-brain risk) with a
+    // simple quorum-based ballot election.  Each candidate atomically bumps
+    // current_round_ and then asks all peers whether they accept it as leader
+    // for that ballot.  A node becomes leader only when it collects promises
+    // from a strict majority (quorum) of the cluster.
     while (running_.load()) {
-        // Simplified leader election
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
-        
-        if (cluster_nodes_.empty()) continue;
-        
-        // Simple deterministic leader selection based on node ID
-        std::string expected_leader = *std::min_element(
-            cluster_nodes_.begin(), cluster_nodes_.end()
-        );
-        
-        bool should_be_leader = (node_id_ == expected_leader);
-        bool is_current_leader = (state_.load() == ConsensusState::LEADER);
-        
-        if (should_be_leader && !is_current_leader) {
+
+        // PAX-6: Always hold state_mutex_ when reading/writing cluster_nodes_.
+        std::vector<std::string> nodes_snapshot;
+        {
+            std::lock_guard<std::mutex> lock(state_mutex_);
+            nodes_snapshot = cluster_nodes_;
+        }
+
+        if (nodes_snapshot.empty()) continue;
+
+        const bool is_leader = (state_.load() == ConsensusState::LEADER);
+
+        // If we are already leader, just refresh heartbeat awareness.
+        if (is_leader) {
+            continue;
+        }
+
+        // Propose ourselves as leader with the next ballot.
+        const uint64_t ballot = ++current_round_;
+
+        // Count how many nodes in the cluster accept us for this ballot.
+        // Self always accepts.
+        size_t promises = 1;
+        const size_t quorum = (nodes_snapshot.size() / 2) + 1;
+
+        PaxosPrepareCallback cb;
+        {
+            std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
+            cb = rpc_prepare_cb_;
+        }
+
+        if (cb) {
+            // Use slot 0 (reserved for leader election) to solicit promises.
+            constexpr uint64_t kLeaderElectionSlot = 0;
+            for (const auto& peer : nodes_snapshot) {
+                if (peer == node_id_) continue;
+                if (cb(peer, kLeaderElectionSlot, ballot, node_id_)) {
+                    ++promises;
+                    if (promises >= quorum) break;
+                }
+            }
+        } else if (nodes_snapshot.size() == 1) {
+            // Single-node cluster: we are implicitly the leader.
+            promises = quorum;
+        }
+
+        if (promises >= quorum) {
             state_.store(ConsensusState::LEADER);
-            current_leader_ = node_id_;
-            spdlog::info("Node {} became leader", node_id_);
-        } else if (!should_be_leader && is_current_leader) {
-            state_.store(ConsensusState::FOLLOWER);
-            current_leader_ = expected_leader;
+            {
+                std::lock_guard<std::mutex> lock(state_mutex_);
+                current_leader_ = node_id_;
+            }
+            spdlog::info("Node {} elected as leader (ballot={}, promises={}/{})",
+                         node_id_, ballot, promises, nodes_snapshot.size());
         }
     }
-    
+
     spdlog::debug("Paxos leader election thread stopped");
 }
 
@@ -783,6 +857,8 @@ size_t PaxosConsensus::getQuorumSize() const {
     if (config_.paxos_quorum_size > 0) {
         return config_.paxos_quorum_size;
     }
+    // PAX-6: callers of hasQuorum() always hold state_mutex_ already;
+    // cluster_nodes_ is therefore safe to read here without re-locking.
     return (cluster_nodes_.size() / 2) + 1;
 }
 
@@ -817,7 +893,7 @@ bool PaxosConsensus::loadPersistentState() {
         
         // Load basic state
         if (state_json.contains("current_round")) {
-            current_round_ = state_json["current_round"].get<uint64_t>();
+            current_round_.store(state_json["current_round"].get<uint64_t>());
         }
         
         if (state_json.contains("next_slot")) {
@@ -884,7 +960,7 @@ bool PaxosConsensus::loadPersistentState() {
         }
         
         spdlog::info("Loaded Paxos persistent state: round={}, next_slot={}, commit_index={}, instances={}, committed_entries={}",
-                     current_round_, next_slot_.load(), commit_index_.load(), 
+                     current_round_.load(), next_slot_.load(), commit_index_.load(), 
                      instances_.size(), committed_log_.size());
         
         return true;
@@ -905,7 +981,7 @@ bool PaxosConsensus::savePersistentState() {
         nlohmann::json state_json;
         
         // Save basic state
-        state_json["current_round"] = current_round_;
+        state_json["current_round"] = current_round_.load();
         state_json["next_slot"] = next_slot_.load();
         state_json["commit_index"] = commit_index_.load();
         
@@ -977,7 +1053,7 @@ bool PaxosConsensus::savePersistentState() {
         }
         
         spdlog::debug("Saved Paxos persistent state: round={}, next_slot={}, commit_index={}, instances={}, committed_entries={}",
-                      current_round_, next_slot_.load(), commit_index_.load(),
+                      current_round_.load(), next_slot_.load(), commit_index_.load(),
                       instances_.size(), committed_log_.size());
         
         return true;
@@ -1078,7 +1154,7 @@ bool PaxosConsensus::recoverFromWAL() {
             const auto& snapshot = snapshot_opt.value();
             
             // Restore state from snapshot
-            current_round_ = snapshot.current_round;
+            current_round_.store(snapshot.current_round);
             next_slot_.store(snapshot.last_committed_slot + 1);
             commit_index_.store(snapshot.last_committed_slot);
             last_applied_lsn_ = snapshot.last_applied_lsn;
@@ -1175,7 +1251,7 @@ bool PaxosConsensus::recoverFromWAL() {
         }
         
         spdlog::info("Paxos recovery complete: round={}, next_slot={}, commit_index={}",
-                    current_round_, next_slot_.load(), commit_index_.load());
+                    current_round_.load(), next_slot_.load(), commit_index_.load());
         
         return true;
         
@@ -1204,7 +1280,7 @@ void PaxosConsensus::createPeriodicSnapshot() {
             node_id_,
             last_applied_lsn_,
             commit_index_.load(),
-            current_round_,
+            current_round_.load(),
             instances_,
             committed_log_
         );

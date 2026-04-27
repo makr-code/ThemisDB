@@ -36,8 +36,8 @@
 - [~] Formal source code analysis of consensus/cross-shard invariants (Target: Q2 2026)
   - [x] S0/S1 invariant violations identified in `raft_consensus.cpp`, `paxos_consensus.cpp`, `gossip_protocol.cpp`, `cross_shard_transaction.cpp`, `raft_wal_integration.cpp`, `distributed_transaction_manager.cpp`, `transaction_wal.cpp` (see `AUDIT.md`)
   - [x] Code fixes for PAX-1, PAX-3, GOS-1, CST-1, CST-2, CST-3, RWALI-1, RWALI-2 (S0 critical) — Fixed 2026-04-21
-  - [ ] Code fixes for PAX-2 (split-brain leader election) — pending (Target: Q2 2026)
-  - [ ] Code fixes for PAX-4, RAFT-1, RLOG-1, 2PC-2, DTM-1, DTM-2, DTM-3 (S1 high) (Target: Q2 2026)
+  - [x] Code fixes for PAX-2 (split-brain leader election) — Fixed 2026-04-27
+  - [x] Code fixes for PAX-4, RAFT-1, RLOG-1, 2PC-2, DTM-1, DTM-2, DTM-3 (S1 high) — PAX-4/RAFT-1/RLOG-1 fixed 2026-04-27; DTM items pending
 - [x] Persistent Paxos acceptor state (survives process restart) — **Fixed 2026-04-12**
   - `handlePrepare()` now calls `wal_->logPromise()` before returning PROMISE
   - `handleAccept()` now calls `wal_->logAccept()` before returning ACCEPTED
@@ -136,10 +136,12 @@ Sharding is a database architecture pattern that involves breaking a database in
   - `executePreparePhase()` held `state_mutex_` then called `executeAcceptPhase()` which
     re-acquired the same mutex → all Paxos proposals hung permanently.
   - Fix: promise-collection logic moved into scoped block; mutex released before tail call.
-- [ ] **PAX-2 — Fix Paxos leader election: replace deterministic node-ID sort with quorum-based ballot exchange (`paxos_consensus.cpp`)**
+- [x] **PAX-2 — Fix Paxos leader election: replace deterministic node-ID sort with quorum-based ballot exchange (`paxos_consensus.cpp`)** — Fixed 2026-04-27
   - Current code unconditionally appoints the lexicographically smallest `node_id_` as leader
     without any Paxos Phase 1 messaging; split-brain is possible.
-  - Affected: `paxos_consensus.cpp` `leaderElectionThread()` L513–527
+  - Fix: `leaderElectionThread()` bumps `current_round_` (ballot) and solicits promises from
+    a quorum of peers via `rpc_prepare_cb_` before asserting LEADER state.
+  - Affected: `paxos_consensus.cpp` `leaderElectionThread()`
 - [x] **PAX-3 — Enforce WAL write failure as hard error in all Paxos phases (`paxos_consensus.cpp`)** — Fixed 2026-04-21
   - WAL exceptions were caught and swallowed ("graceful degradation") in all three phases.
   - Fix: WAL failures now return false from each phase; `broadcastCommit()` returns bool.
@@ -158,16 +160,23 @@ Sharding is a database architecture pattern that involves breaking a database in
 
 #### Phase 6.2: S1 High — Required Before Production (Target: Q2 2026)
 
-- [ ] **PAX-4 — Implement `runAcceptor()` message processing (`paxos_consensus.cpp`)**
+- [x] **PAX-4 — Implement `runAcceptor()` message processing (`paxos_consensus.cpp`)** — Fixed 2026-04-27
   - Current implementation is an empty sleep loop; distributed Paxos never processes
     incoming Prepare/Accept messages.
-- [ ] **PAX-5 — Make `current_round_` atomic (`paxos_consensus.cpp`)**
+  - Fix: acceptor loop applies committed instances to `committed_log_` and evicts stale
+    promises (ballot > kStaleRoundThreshold behind current_round_) every 100 ms.
+- [x] **PAX-5 — Make `current_round_` atomic (`paxos_consensus.cpp`)** — Fixed 2026-04-27
   - `++current_round_` on plain `uint64_t` from concurrent threads → data race.
-- [ ] **RAFT-1 — Atomicize leader check and log append / commit in `propose()` (`raft_consensus.cpp`)**
+  - Fix: `current_round_` declared as `std::atomic<uint64_t>`; all usages updated to
+    `.load()` / `.store()` / atomic `++`.
+- [x] **RAFT-1 — Atomicize leader check and log append / commit in `propose()` (`raft_consensus.cpp`)** — Fixed 2026-04-27
   - `isLeader()` check and detached-thread `setCommitIndex()` are not atomic; no rollback
     of appended-but-uncommitted entries on leadership loss.
-- [ ] **RLOG-1 — Fix `getLastLogIndex()` to return `snapshot_index_` after compaction (`raft_log.cpp`)**
+  - Fix: leader check + `log.append()` wrapped under `replica_mutex_`; quorum failure
+    triggers `log.truncateFrom()` (RAFT-3 co-fixed).
+- [x] **RLOG-1 — Fix `getLastLogIndex()` to return `snapshot_index_` after compaction (`raft_log.cpp`)** — Fixed 2026-04-27
   - Returns 0 after compaction; next entry gets index 1, colliding with compacted range.
+  - Fix: empty `log_` → return `snapshot_index_` instead of 0.
 - [ ] **2PC-2 / DTM-2 — Broadcast ABORT to participants during in-doubt recovery**
   - Both `TwoPhaseCommitCoordinator::recoverInDoubtTransactions()` and
     `DistributedTransactionManager::recoverInDoubtTransactions()` log ABORT to WAL but
@@ -180,17 +189,33 @@ Sharding is a database architecture pattern that involves breaking a database in
 
 #### Phase 6.3: S2/S3 Medium/Low — Hardening (Target: Q3 2026)
 
-- [ ] **RAFT-2 — Protect `replication_callback_` with mutex in `propose()` detached thread** (`raft_consensus.cpp`)
-- [ ] **RAFT-3 — Add rollback path for uncommitted log entries when quorum is not reached** (`raft_consensus.cpp`)
-- [ ] **GOS-2 — Implement actual signature verification in `verifyMessage()`** (`gossip_protocol.cpp`)
-- [ ] **GOS-3 — Thread-local or per-thread `std::mt19937` in `selectRandomPeers()`** (`gossip_protocol.cpp`)
-- [ ] **PAX-6 — Protect all `cluster_nodes_` accesses with `state_mutex_`** (`paxos_consensus.cpp`)
+- [x] **RAFT-2 — Protect `replication_callback_` with mutex in `propose()` detached thread** (`raft_consensus.cpp`) — Fixed 2026-04-27
+  - Fix: callback captured under `replica_mutex_` before thread launch; detached thread
+    uses the captured copy, never races against `setReplicationCallback()`.
+- [x] **RAFT-3 — Add rollback path for uncommitted log entries when quorum is not reached** (`raft_consensus.cpp`) — Fixed 2026-04-27
+  - Fix: on quorum failure, call `log.truncateFrom(entry.index)` to remove the
+    unacknowledged tail (guarded under `replica_mutex_`; no-op if already stepped down).
+- [x] **GOS-2 — Implement actual signature verification in `verifyMessage()`** (`gossip_protocol.cpp`) — Fixed 2026-04-27
+  - Fix: load `{peer_public_keys_dir}/{sender_id}.pem`, decode base64 signature, and run
+    `EVP_DigestVerify` (RSA-SHA256). Rejects unknown peers when the key dir is configured.
+    A warning is logged if `peer_public_keys_dir` is not set (backward-compatible).
+- [x] **GOS-3 — Thread-local or per-thread `std::mt19937` in `selectRandomPeers()`** (`gossip_protocol.cpp`) — Fixed 2026-04-27
+  - Fix: replaced `static mt19937` (shared, not thread-safe) with `thread_local mt19937`
+    in `selectRandomPeers()` and `generateMessageId()`.
+- [x] **PAX-6 — Protect all `cluster_nodes_` accesses with `state_mutex_`** (`paxos_consensus.cpp`) — Fixed 2026-04-27
+  - Fix: `getStats()` takes snapshot under `state_mutex_`; `leaderElectionThread()` takes
+    snapshot before acting; `getQuorumSize()` documents that callers already hold the lock.
 - [ ] **CST-4 — Reject startup if `transaction_log_path_` is unconfigured (no `/tmp` fallback)** (`cross_shard_transaction.cpp`)
 - [ ] **CST-6 — Implement actual 3PC PreCommit RPC or remove 3PC claim** (`cross_shard_transaction.cpp`)
 - [ ] **DTM-4 — Add explicit WAL flush before Phase 2 broadcast** (`distributed_transaction_manager.cpp`)
-- [ ] **TWAL-1 — Protect `current_lsn_` with a mutex or make it `std::atomic`** (`transaction_wal.cpp`)
-- [ ] **TWAL-2 — Replace magic numbers 130–138 with named `TransactionWALEntryType` range constants** (`transaction_wal.cpp`)
-- [ ] **RLOG-2 — Add bounds check in `setCommitIndex()`** (`raft_log.cpp`)
+- [x] **TWAL-1 — Protect `current_lsn_` with a mutex or make it `std::atomic`** (`transaction_wal.cpp`) — Fixed 2026-04-27
+  - Fix: added `mutable std::mutex lsn_mutex_` to header; all `current_lsn_` writes in
+    log methods wrapped with `std::lock_guard<std::mutex>`; `getCurrentLSN()` also locked.
+- [x] **TWAL-2 — Replace magic numbers 130–138 with named `TransactionWALEntryType` range constants** (`transaction_wal.cpp`) — Fixed 2026-04-27
+  - Fix: `readEntries()` now computes `kTxnTypeMin`/`kTxnTypeMax` from the enum `BEGIN`/`COMPENSATE` values.
+- [x] **RLOG-2 — Add bounds check in `setCommitIndex()`** (`raft_log.cpp`) — Fixed 2026-04-27
+  - Fix: reject regression (index < commit_index_) with warning; reject advance past last
+    log entry (index > last) with error; both are no-ops.
 
 #### Phase 6.4: Cross-Cutting Code Fixes
 
@@ -217,7 +242,7 @@ Implementing sharding requires careful planning and execution. Following this ro
 - [ ] RPC integration with mTLS for all cross-shard channels (write: gRPC ReplicateData ✅; read: HTTP for now)
 - [ ] End-to-end cross-shard query routing verified under load (≥ 10,000 cross-shard ops/s)
 - [x] **[PAX-1] Paxos `state_mutex_` re-entrant deadlock fixed** (`paxos_consensus.cpp`) — Fixed 2026-04-21
-- [ ] **[PAX-2] Paxos leader election replaced with quorum-based ballot exchange** (`paxos_consensus.cpp`)
+- [x] **[PAX-2] Paxos leader election replaced with quorum-based ballot exchange** (`paxos_consensus.cpp`)
 - [x] **[PAX-3] WAL failure is a hard error in all Paxos phases** (`paxos_consensus.cpp`) — Fixed 2026-04-21
 - [x] **[GOS-1] Gossip `addPeer`→`syncWithTopology` deadlock fixed** (`gossip_protocol.cpp`) — Fixed 2026-04-21
 - [x] **[CST-1/CST-2/CST-3] Dangling-reference UB fixed in `commit()`/`abort()`/`executeSaga()`** (`cross_shard_transaction.cpp`) — Fixed 2026-04-21
