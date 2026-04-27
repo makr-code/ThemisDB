@@ -152,7 +152,7 @@ public:
      * @param memory_size   Size of linear_memory in bytes.
      * @return true on success.
      */
-    virtual bool instantiate(
+    [[nodiscard]] virtual bool instantiate(
         const std::vector<uint8_t>&         wasm_bytes,
         const std::vector<WasmHostFunction>& host_fns,
         uint8_t*                             linear_memory,
@@ -166,7 +166,7 @@ public:
      * @param out          Output blob filled by the runtime.
      * @return true on success; false on trap or missing export.
      */
-    virtual bool call(const std::string&          export_name,
+    [[nodiscard]] virtual bool call(const std::string&          export_name,
                       const std::vector<uint8_t>& args,
                       std::vector<uint8_t>&        out) = 0;
 
@@ -174,7 +174,7 @@ public:
     virtual void destroy() = 0;
 
     /// @brief Human-readable name of the engine (e.g. "wasmtime-0.35").
-    virtual std::string engineName() const = 0;
+    [[nodiscard]] virtual std::string engineName() const = 0;
 };
 
 // =============================================================================
@@ -294,10 +294,10 @@ public:
     void setRuntime(std::unique_ptr<WasmRuntime> runtime);
 
     /// @brief Return true if a runtime has been injected.
-    bool hasRuntime() const noexcept;
+    [[nodiscard]] bool hasRuntime() const noexcept;
 
     /// @brief Return the engine name (empty string if no runtime).
-    std::string engineName() const;
+    [[nodiscard]] std::string engineName() const;
 
     // ── Host-function allowlist ───────────────────────────────────────────
 
@@ -314,7 +314,7 @@ public:
     void clearHostFunctions();
 
     /// @brief Return the number of registered host functions.
-    size_t hostFunctionCount() const noexcept;
+    [[nodiscard]] size_t hostFunctionCount() const noexcept;
 
     // ── Loading ────────────────────────────────────────────────────────────
 
@@ -331,7 +331,7 @@ public:
      *
      * @return true on success.
      */
-    bool loadFromFile(const std::string& path);
+    [[nodiscard]] bool loadFromFile(const std::string& path);
 
     /**
      * @brief Validate and load a .wasm plugin from an in-memory byte buffer.
@@ -340,7 +340,7 @@ public:
      *
      * @return true on success.
      */
-    bool loadFromBytes(const std::vector<uint8_t>& bytes,
+    [[nodiscard]] bool loadFromBytes(const std::vector<uint8_t>& bytes,
                        const std::string& module_name = "anonymous");
 
     /**
@@ -359,19 +359,19 @@ public:
      * @param args         Serialised argument blob (format is plugin-defined).
      * @return WasmCallResult describing success, output, duration.
      */
-    WasmCallResult callExport(const std::string&          export_name,
+    [[nodiscard]] WasmCallResult callExport(const std::string&          export_name,
                               const std::vector<uint8_t>& args = {});
 
     // ── State ──────────────────────────────────────────────────────────────
 
-    bool isLoaded() const noexcept  { return loaded_; }
-    const std::string& lastError() const noexcept { return last_error_; }
+    [[nodiscard]] bool isLoaded() const noexcept  { return loaded_; }
+    [[nodiscard]] const std::string& lastError() const noexcept { return last_error_; }
 
     /// @brief Metadata parsed from the loaded .wasm binary.
-    const WasmModuleInfo& moduleInfo() const noexcept { return module_info_; }
+    [[nodiscard]] const WasmModuleInfo& moduleInfo() const noexcept { return module_info_; }
 
     /// @brief Warnings produced during load (e.g. sandbox limitations).
-    const std::vector<std::string>& loadWarnings() const noexcept {
+    [[nodiscard]] const std::vector<std::string>& loadWarnings() const noexcept {
         return load_warnings_;
     }
 
@@ -381,11 +381,11 @@ public:
      * @brief Return a pointer to the plugin's linear memory.
      * @return nullptr if not loaded.
      */
-    const uint8_t* linearMemory() const noexcept;
-    uint8_t*       linearMemory() noexcept;
+    [[nodiscard]] const uint8_t* linearMemory() const noexcept;
+    [[nodiscard]] uint8_t*       linearMemory() noexcept;
 
     /// @brief Byte size of the linear memory arena.
-    size_t linearMemorySize() const noexcept;
+    [[nodiscard]] size_t linearMemorySize() const noexcept;
 
     // ── Statistics ─────────────────────────────────────────────────────────
 
@@ -396,7 +396,7 @@ public:
         uint64_t total_call_us   = 0; ///< Accumulated call duration (µs)
     };
 
-    Stats stats() const noexcept { return stats_; }
+    [[nodiscard]] Stats stats() const noexcept { return stats_; }
 
     // ── Fuel / instruction metering ────────────────────────────────────────
 
@@ -409,7 +409,7 @@ public:
      * Fuel is reset to @ref Config::max_instructions when a new module is loaded
      * via loadFromBytes() / loadFromFile().
      */
-    uint64_t remainingFuel() const noexcept;
+    [[nodiscard]] uint64_t remainingFuel() const noexcept;
 
 private:
     Config                           config_;
@@ -451,15 +451,15 @@ public:
      *        supported version.
      * @return A WasmModuleInfo with valid==true on success.
      */
-    static WasmModuleInfo validate(const std::vector<uint8_t>& bytes);
+    [[nodiscard]] static WasmModuleInfo validate(const std::vector<uint8_t>& bytes);
 
     /**
      * @brief Convenience overload: read the file at @p path and validate.
      */
-    static WasmModuleInfo validateFile(const std::string& path);
+    [[nodiscard]] static WasmModuleInfo validateFile(const std::string& path);
 
     /// @brief Return the 4 WASM magic bytes { 0x00, 0x61, 0x73, 0x6d }.
-    static const uint8_t* magicBytes() noexcept;
+    [[nodiscard]] static const uint8_t* magicBytes() noexcept;
 };
 
 } // namespace modules

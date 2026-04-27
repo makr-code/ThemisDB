@@ -82,7 +82,7 @@ public:
      * @param data Blob data
      * @return Result<BlobRef> Reference to stored blob or error
      */
-    virtual Result<BlobRef> put(
+    [[nodiscard]] virtual Result<BlobRef> put(
         const std::string& blob_id,
         const std::vector<uint8_t>& data
     ) = 0;
@@ -92,7 +92,7 @@ public:
      * @param ref Blob reference
      * @return Result<vector<uint8_t>> Blob data or error if not found
      */
-    virtual Result<std::vector<uint8_t>> get(
+    [[nodiscard]] virtual Result<std::vector<uint8_t>> get(
         const BlobRef& ref
     ) = 0;
     
@@ -101,26 +101,26 @@ public:
      * @param ref Blob reference
      * @return Result<bool> Success or error
      */
-    virtual Result<void> remove(const BlobRef& ref) = 0;
+    [[nodiscard]] virtual Result<void> remove(const BlobRef& ref) = 0;
     
     /**
      * @brief Check if blob exists
      * @param ref Blob reference
      * @return true if exists
      */
-    virtual bool exists(const BlobRef& ref) = 0;
+    [[nodiscard]] virtual bool exists(const BlobRef& ref) = 0;
     
     /**
      * @brief Get backend name
      * @return Backend name (e.g., "filesystem", "s3", "webdav")
      */
-    virtual std::string name() const = 0;
+    [[nodiscard]] virtual std::string name() const = 0;
     
     /**
      * @brief Check if backend is available
      * @return true if backend can be used
      */
-    virtual bool isAvailable() const = 0;
+    [[nodiscard]] virtual bool isAvailable() const = 0;
 };
 
 /**

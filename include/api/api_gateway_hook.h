@@ -107,9 +107,10 @@ public:
     /// @deprecated No external callers confirmed. CANDIDATE_FOR_REMOVAL (see src/ROADMAP.md).
     [[deprecated("No external callers; CANDIDATE_FOR_REMOVAL – tracked in src/ROADMAP.md")]]
     virtual std::string hookId() const = 0;
+    [[nodiscard]] virtual std::string hookId() const = 0;
 
     /// Phase in which this hook executes.
-    virtual GatewayHookPhase phase() const = 0;
+    [[nodiscard]] virtual GatewayHookPhase phase() const = 0;
 
     /// Execution priority within the phase; lower value = earlier execution.
     virtual int priority() const { return 100; }
@@ -120,7 +121,7 @@ public:
      * @param ctx  Mutable request context; hooks may write to `ctx.metadata`.
      * @return GatewayHookResult indicating whether to proceed and any overrides.
      */
-    virtual GatewayHookResult execute(GatewayHookContext& ctx) = 0;
+    [[nodiscard]] virtual GatewayHookResult execute(GatewayHookContext& ctx) = 0;
 
     /// Return false to skip execution of this hook without unregistering it.
     virtual bool isEnabled() const { return true; }
@@ -150,6 +151,7 @@ public:
      */
     [[deprecated("No external callers; CANDIDATE_FOR_REMOVAL – tracked in src/ROADMAP.md")]]
     virtual bool registerHook(std::shared_ptr<IAPIGatewayHook> hook) = 0;
+    [[nodiscard]] virtual bool registerHook(std::shared_ptr<IAPIGatewayHook> hook) = 0;
 
     /**
      * @brief Unregister a hook by ID.
@@ -159,6 +161,7 @@ public:
      */
     [[deprecated("No external callers; CANDIDATE_FOR_REMOVAL – tracked in src/ROADMAP.md")]]
     virtual bool unregisterHook(const std::string& hook_id) = 0;
+    [[nodiscard]] virtual bool unregisterHook(const std::string& hook_id) = 0;
 
     /**
      * @brief Return enabled hooks for @p phase, sorted by priority (ascending).
@@ -166,6 +169,7 @@ public:
      */
     [[deprecated("No external callers; CANDIDATE_FOR_REMOVAL – tracked in src/ROADMAP.md")]]
     virtual std::vector<std::shared_ptr<IAPIGatewayHook>> getHooks(
+    [[nodiscard]] virtual std::vector<std::shared_ptr<IAPIGatewayHook>> getHooks(
         GatewayHookPhase phase
     ) const = 0;
 };

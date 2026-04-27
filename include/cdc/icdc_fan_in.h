@@ -153,14 +153,14 @@ public:
      * @param feed  Non-owning pointer to the Changefeed to subscribe from.
      * @return true if the source was added; false if id is already registered.
      */
-    virtual bool addSource(const CollectionId& id, Changefeed* feed) = 0;
+    [[nodiscard]] virtual bool addSource(const CollectionId& id, Changefeed* feed) = 0;
 
     /**
      * @brief Deregister a named CDC source.
      *
      * @return true if the source was found and removed; false otherwise.
      */
-    virtual bool removeSource(const CollectionId& id) = 0;
+    [[nodiscard]] virtual bool removeSource(const CollectionId& id) = 0;
 
     /**
      * @brief List all events from all (or a subset of) registered sources,
@@ -172,7 +172,7 @@ public:
      * @param collections    If non-empty, restrict to these collection IDs.
      * @return Merged, ordered event batch.
      */
-    virtual std::vector<FanInEvent> listEvents(
+    [[nodiscard]] virtual std::vector<FanInEvent> listEvents(
         uint64_t                         from_sequence  = 0,
         std::size_t                      limit          = 0,
         const std::vector<CollectionId>& collections    = {}) const = 0;
@@ -189,7 +189,7 @@ public:
     /**
      * @brief Return the list of registered collection IDs.
      */
-    virtual std::vector<CollectionId> sourceIds() const = 0;
+    [[nodiscard]] virtual std::vector<CollectionId> sourceIds() const = 0;
 };
 
 // ── InMemoryFanIn ─────────────────────────────────────────────────────────────

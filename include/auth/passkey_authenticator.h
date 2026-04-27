@@ -140,7 +140,7 @@ public:
      * Generates a challenge and stores it for verification.  The returned
      * PasskeyChallenge is sent to the client as publicKeyCredentialCreationOptions.
      */
-    virtual PasskeyChallenge beginRegistration(const std::string& user_id) = 0;
+    [[nodiscard]] virtual PasskeyChallenge beginRegistration(const std::string& user_id) = 0;
 
     /**
      * @brief Complete a passkey registration ceremony.
@@ -150,7 +150,7 @@ public:
      *
      * @return `true` if registration succeeded; `false` on validation failure.
      */
-    virtual bool completeRegistration(
+    [[nodiscard]] virtual bool completeRegistration(
         const std::string& challenge_id,
         const PasskeyCredential& credential
     ) = 0;
@@ -165,7 +165,7 @@ public:
      * @param user_id  User to authenticate.  Pass an empty string for the
      *                 discoverable (usernameless) resident-key flow.
      */
-    virtual PasskeyChallenge beginAuthentication(
+    [[nodiscard]] virtual PasskeyChallenge beginAuthentication(
         const std::string& user_id = ""
     ) = 0;
 
@@ -177,7 +177,7 @@ public:
      * @param out_user_id   Populated with the authenticated user ID on SUCCESS.
      * @return Verification result code.
      */
-    virtual PasskeyVerifyResult completeAuthentication(
+    [[nodiscard]] virtual PasskeyVerifyResult completeAuthentication(
         const std::string& challenge_id,
         const PasskeyAssertionResponse& response,
         std::string& out_user_id
@@ -188,7 +188,7 @@ public:
     // -----------------------------------------------------------------------
 
     /// Return all registered credentials for @p user_id.
-    virtual std::vector<PasskeyCredential> listCredentials(
+    [[nodiscard]] virtual std::vector<PasskeyCredential> listCredentials(
         const std::string& user_id
     ) const = 0;
 
@@ -197,7 +197,7 @@ public:
      *
      * @return `false` if the credential was not found.
      */
-    virtual bool revokeCredential(const std::string& credential_id) = 0;
+    [[nodiscard]] virtual bool revokeCredential(const std::string& credential_id) = 0;
 };
 
 } // namespace auth

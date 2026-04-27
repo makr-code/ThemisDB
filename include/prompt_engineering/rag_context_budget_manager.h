@@ -191,13 +191,13 @@ public:
      * @return A `BudgetHandle` that holds the reservation until released.
      * @throws BudgetExhaustedError if `tokens > remaining()`.
      */
-    virtual BudgetHandle allocate(size_t tokens) = 0;
+    [[nodiscard]] virtual BudgetHandle allocate(size_t tokens) = 0;
 
     /// Returns the number of tokens currently available for allocation.
-    virtual size_t remaining() const noexcept = 0;
+    [[nodiscard]] virtual size_t remaining() const noexcept = 0;
 
     /// Returns the total budget configured at construction.
-    virtual size_t totalBudget() const noexcept = 0;
+    [[nodiscard]] virtual size_t totalBudget() const noexcept = 0;
 
     /**
      * @brief Release all current allocations and reset counters.
@@ -213,7 +213,7 @@ public:
      * Does not block allocation; the snapshot may be slightly stale in the
      * presence of concurrent allocations.
      */
-    virtual BudgetSnapshot snapshot() const noexcept = 0;
+    [[nodiscard]] virtual BudgetSnapshot snapshot() const noexcept = 0;
 };
 
 // ── Concrete implementation ───────────────────────────────────────────────────

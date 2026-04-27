@@ -39,16 +39,16 @@ public:
     virtual ~ExportCursor() = default;
 
     /// Returns true if more pages are available.
-    virtual bool hasNext() const = 0;
+    [[nodiscard]] virtual bool hasNext() const = 0;
 
     /// Fetches the next page of entities. Must only be called when hasNext() is true.
-    virtual std::vector<BaseEntity> nextPage() = 0;
+    [[nodiscard]] virtual std::vector<BaseEntity> nextPage() = 0;
 
     /// Total number of entities in the collection (0 if unknown).
     virtual size_t totalCount() const { return 0; }
 
     /// Number of entities already consumed from the cursor.
-    virtual size_t currentOffset() const = 0;
+    [[nodiscard]] virtual size_t currentOffset() const = 0;
 
     /// Seek to a specific offset (for checkpoint resume). Returns false if unsupported.
     virtual bool seekTo([[maybe_unused]] size_t offset) { return false; }

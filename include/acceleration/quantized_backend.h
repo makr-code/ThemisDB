@@ -85,7 +85,7 @@ public:
      * @param config   Quantisation configuration (scheme, group_size, etc.).
      * @return QuantizedTensor ready for quantised kernels.
      */
-    virtual QuantizedTensor quantize(
+    [[nodiscard]] virtual QuantizedTensor quantize(
         const std::vector<float>& tensor,
         const std::vector<size_t>& shape,
         const QuantizationConfig& config
@@ -96,7 +96,7 @@ public:
      * @param qtensor  Previously quantised tensor.
      * @return Flat float values approximating the original tensor.
      */
-    virtual std::vector<float> dequantize(const QuantizedTensor& qtensor) = 0;
+    [[nodiscard]] virtual std::vector<float> dequantize(const QuantizedTensor& qtensor) = 0;
 
     /**
      * @brief Quantised matrix multiply: A (M×K) × B (K×N) → C (M×N, float32).
@@ -111,7 +111,7 @@ public:
      * @param N  Columns of B.
      * @return Flat float32 result of shape M×N.
      */
-    virtual std::vector<float> quantizedMatmul(
+    [[nodiscard]] virtual std::vector<float> quantizedMatmul(
         const QuantizedTensor& a,
         const QuantizedTensor& b,
         size_t M, size_t K, size_t N
@@ -127,16 +127,16 @@ public:
      * @param config   Quantisation configuration governing the calibration.
      * @return QuantizationStats with compression ratio, SNR, and error metrics.
      */
-    virtual QuantizationStats calibrate(
+    [[nodiscard]] virtual QuantizationStats calibrate(
         const std::vector<std::vector<float>>& samples,
         const QuantizationConfig& config
     ) = 0;
 
     /// Returns the list of QuantizationSchemes supported by this backend.
-    virtual std::vector<QuantizationScheme> supportedSchemes() const = 0;
+    [[nodiscard]] virtual std::vector<QuantizationScheme> supportedSchemes() const = 0;
 
     /// Returns true if INT4 operations are natively accelerated (not emulated).
-    virtual bool hasNativeInt4Support() const = 0;
+    [[nodiscard]] virtual bool hasNativeInt4Support() const = 0;
 };
 
 } // namespace acceleration

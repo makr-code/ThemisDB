@@ -295,7 +295,7 @@ public:
      * @param config Model configuration (JSON)
      * @return true if loaded successfully
      */
-    virtual bool loadModel(
+    [[nodiscard]] virtual bool loadModel(
         const std::string& model_path,
         const json& config = {}
     ) = 0;
@@ -308,12 +308,12 @@ public:
     /**
      * @brief Get current model information
      */
-    virtual std::optional<ModelInfo> getModelInfo() const = 0;
+    [[nodiscard]] virtual std::optional<ModelInfo> getModelInfo() const = 0;
     
     /**
      * @brief Check if model is loaded
      */
-    virtual bool isModelLoaded() const = 0;
+    [[nodiscard]] virtual bool isModelLoaded() const = 0;
     
     // ═══════════════════════════════════════════════════════════
     // LoRA Management
@@ -326,7 +326,7 @@ public:
      * @param scale LoRA scaling factor
      * @return true if loaded successfully
      */
-    virtual bool loadLoRA(
+    [[nodiscard]] virtual bool loadLoRA(
         const std::string& lora_id,
         const std::string& lora_path,
         float scale = 1.0f
@@ -335,12 +335,12 @@ public:
     /**
      * @brief Unload a LoRA adapter
      */
-    virtual bool unloadLoRA(const std::string& lora_id) = 0;
+    [[nodiscard]] virtual bool unloadLoRA(const std::string& lora_id) = 0;
     
     /**
      * @brief List loaded LoRA adapters
      */
-    virtual std::vector<LoRAInfo> listLoRAs() const = 0;
+    [[nodiscard]] virtual std::vector<LoRAInfo> listLoRAs() const = 0;
     
     // ═══════════════════════════════════════════════════════════
     // Inference
@@ -351,7 +351,7 @@ public:
      * @param request Inference parameters
      * @return Generated response
      */
-    virtual InferenceResponse generate(const InferenceRequest& request) = 0;
+    [[nodiscard]] virtual InferenceResponse generate(const InferenceRequest& request) = 0;
     
     /**
      * @brief RAG-enhanced generation
@@ -359,7 +359,7 @@ public:
      * @param request Generation parameters
      * @return Generated response
      */
-    virtual InferenceResponse generateRAG(
+    [[nodiscard]] virtual InferenceResponse generateRAG(
         const RAGContext& rag_context,
         const InferenceRequest& request
     ) = 0;
@@ -369,7 +369,7 @@ public:
      * @param text Text to embed
      * @return Embedding vector (typically 768 or 1024 dimensions)
      */
-    virtual std::vector<float> embed(const std::string& text) = 0;
+    [[nodiscard]] virtual std::vector<float> embed(const std::string& text) = 0;
     
     // ═══════════════════════════════════════════════════════════
     // Capabilities
@@ -378,17 +378,17 @@ public:
     /**
      * @brief Get plugin capabilities
      */
-    virtual LLMCapabilities getCapabilities() const = 0;
+    [[nodiscard]] virtual LLMCapabilities getCapabilities() const = 0;
     
     /**
      * @brief Get memory usage statistics
      */
-    virtual json getMemoryStats() const = 0;
+    [[nodiscard]] virtual json getMemoryStats() const = 0;
     
     /**
      * @brief Get performance statistics
      */
-    virtual json getPerformanceStats() const = 0;
+    [[nodiscard]] virtual json getPerformanceStats() const = 0;
     
     // ═══════════════════════════════════════════════════════════
     // Distributed Features (for sharding architecture)
@@ -399,7 +399,7 @@ public:
      * @param lora_id LoRA identifier
      * @return Serialized LoRA weights
      */
-    virtual std::vector<uint8_t> exportLoRA(const std::string& lora_id) = 0;
+    [[nodiscard]] virtual std::vector<uint8_t> exportLoRA(const std::string& lora_id) = 0;
     
     /**
      * @brief Import LoRA from another shard
@@ -407,7 +407,7 @@ public:
      * @param data Serialized LoRA weights
      * @return true if imported successfully
      */
-    virtual bool importLoRA(
+    [[nodiscard]] virtual bool importLoRA(
         const std::string& lora_id,
         const std::vector<uint8_t>& data
     ) = 0;

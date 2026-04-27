@@ -102,20 +102,20 @@ public:
     virtual ~IIso27001Control() = default;
 
     /// Short control identifier (e.g., "A.9.1.2")
-    virtual std::string id() const = 0;
+    [[nodiscard]] virtual std::string id() const = 0;
 
     /// Annex A section (e.g., "A.9", "A.12")
-    virtual std::string annexSection() const = 0;
+    [[nodiscard]] virtual std::string annexSection() const = 0;
 
     /// One-line title (e.g., "Access Control Policy")
-    virtual std::string title() const = 0;
+    [[nodiscard]] virtual std::string title() const = 0;
 
     /// Detailed description of what this control verifies
-    virtual std::string description() const = 0;
+    [[nodiscard]] virtual std::string description() const = 0;
 
     /// Evaluate the control against a single PolicyRule.
     /// Populates the returned Iso27001ControlResult with compliance status and evidence.
-    virtual Iso27001ControlResult evaluate(const PolicyRule& rule) const = 0;
+    [[nodiscard]] virtual Iso27001ControlResult evaluate(const PolicyRule& rule) const = 0;
 };
 
 // ============================================================================

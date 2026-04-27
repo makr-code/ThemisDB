@@ -198,7 +198,7 @@ public:
      * @param prompt  Formatted prompt produced by @c DspySignature::buildPrompt.
      * @return Model response text.
      */
-    virtual std::string complete(const std::string& prompt) = 0;
+    [[nodiscard]] virtual std::string complete(const std::string& prompt) = 0;
 };
 
 // ---------------------------------------------------------------------------

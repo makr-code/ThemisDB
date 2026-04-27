@@ -61,7 +61,7 @@ struct ILLMInferenceEngine {
      * @param prompt The full prompt text.
      * @return Generated response text.
      */
-    virtual std::string generate(const std::string& prompt) = 0;
+    [[nodiscard]] virtual std::string generate(const std::string& prompt) = 0;
 };
 
 /**

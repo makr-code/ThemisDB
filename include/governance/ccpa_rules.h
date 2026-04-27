@@ -39,17 +39,17 @@ public:
     virtual ~IComplianceRule() = default;
 
     /// Unique identifier for this rule (e.g., "ccpa_right_to_know")
-    virtual std::string id() const = 0;
+    [[nodiscard]] virtual std::string id() const = 0;
 
     /// Regulatory framework this rule belongs to (e.g., "CCPA")
-    virtual std::string framework() const = 0;
+    [[nodiscard]] virtual std::string framework() const = 0;
 
     /// Human-readable description of what this rule checks
-    virtual std::string description() const = 0;
+    [[nodiscard]] virtual std::string description() const = 0;
 
     /// Evaluate whether the given PolicyRule satisfies this compliance rule.
     /// @return true if the rule is compliant, false otherwise
-    virtual bool evaluate(const PolicyRule& rule) const = 0;
+    [[nodiscard]] virtual bool evaluate(const PolicyRule& rule) const = 0;
 };
 
 /// Result of a CCPA compliance rule evaluation for a single PolicyRule.

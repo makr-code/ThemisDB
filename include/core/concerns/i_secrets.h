@@ -62,7 +62,7 @@ public:
      * @param name  Secret name (e.g. "db.password", "api.key.stripe").
      * @return Active secret value, or std::nullopt if not found.
      */
-    virtual std::optional<std::string> getSecret(std::string_view name) const = 0;
+    [[nodiscard]] virtual std::optional<std::string> getSecret(std::string_view name) const = 0;
 
     /**
      * @brief Check whether a named secret exists and is available.
@@ -70,7 +70,7 @@ public:
      * @param name  Secret name.
      * @return true when getSecret(name) would return a non-empty value.
      */
-    virtual bool hasSecret(std::string_view name) const = 0;
+    [[nodiscard]] virtual bool hasSecret(std::string_view name) const = 0;
 
     /**
      * @brief Return the names of all secrets available through this provider.
@@ -83,7 +83,7 @@ public:
      *
      * @return Sorted list of available secret names.
      */
-    virtual std::vector<std::string> listSecretNames() const = 0;
+    [[nodiscard]] virtual std::vector<std::string> listSecretNames() const = 0;
 
     // -----------------------------------------------------------------------
     // Lifecycle hooks

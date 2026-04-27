@@ -88,7 +88,7 @@ public:
      * @param memory_limit_bytes  Maximum linear-memory bytes (0 = runtime default).
      * @return true on success; false if compilation or instantiation fails.
      */
-    virtual bool instantiate(const std::vector<uint8_t>&       wasm_bytes,
+    [[nodiscard]] virtual bool instantiate(const std::vector<uint8_t>&       wasm_bytes,
                               const std::vector<WasmHostFunction>& host_fns,
                               size_t                             memory_limit_bytes) = 0;
 
@@ -100,7 +100,7 @@ public:
      * @param out      Output blob written by the function.
      * @return true on success; false on trap or if the function is not exported.
      */
-    virtual bool call(const std::string&         fn_name,
+    [[nodiscard]] virtual bool call(const std::string&         fn_name,
                       const std::vector<uint8_t>& args,
                       std::vector<uint8_t>&       out) = 0;
 
@@ -109,22 +109,22 @@ public:
      *
      * Callers must not hold this pointer across calls to `call()`.
      */
-    virtual uint8_t* linearMemory(size_t& out_size) = 0;
+    [[nodiscard]] virtual uint8_t* linearMemory(size_t& out_size) = 0;
 
     /**
      * @brief Human-readable name of this runtime (e.g. "wasmtime").
      */
-    virtual std::string name() const = 0;
+    [[nodiscard]] virtual std::string name() const = 0;
 
     /**
      * @brief Runtime version string.
      */
-    virtual std::string version() const = 0;
+    [[nodiscard]] virtual std::string version() const = 0;
 
     /**
      * @brief True if the runtime compiled and instantiated successfully.
      */
-    virtual bool isInstantiated() const = 0;
+    [[nodiscard]] virtual bool isInstantiated() const = 0;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

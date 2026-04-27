@@ -16,6 +16,16 @@ cpp_best_practices:
     - "Use range-based for loops for container iteration."
     - "Prefer smart pointers (std::unique_ptr, std::shared_ptr) over raw pointers."
 
+  cpp_attributes:
+    - "Use [[nodiscard]] on all functions whose return value must not be silently ignored: Result<T>, bool success flags, factory methods returning pointers/smart-pointers, getters used for decisions, and any function where ignoring the return value is a bug."
+    - "Use [[deprecated(\"reason\")]] on any function, type, or variable that is superseded or should no longer be used. Always include a migration hint in the reason string (e.g., 'Use foo() instead')."
+    - "Use [[maybe_unused]] to suppress unused-variable/-parameter warnings for intentionally unused entities (e.g., platform-specific branches, callback parameters)."
+    - "Use [[noreturn]] on functions that unconditionally throw, call std::terminate(), or std::abort(). Never use [[noreturn]] on functions that may return."
+    - "Use [[likely]] / [[unlikely]] on branch conditions that are performance-critical and statistically skewed (e.g., fast-path cache hits, error branches)."
+    - "Use [[fallthrough]] in switch-case blocks where intentional fall-through is required; omitting it triggers -Wimplicit-fallthrough warnings."
+    - "Apply [[nodiscard]] at the interface level (virtual declarations) so overrides inherit the warning automatically."
+    - "Pair [[deprecated]] with a Doxygen @deprecated tag for documentation-tool visibility."
+
   resource_management_raii:
     - "Use RAII to bind resource lifetime to object lifetime."
     - "Use std::lock_guard or std::unique_lock for mutex locking."
@@ -62,6 +72,7 @@ cpp_best_practices:
     - "Write clear, const-correct, exception-safe functions."
     - "Optimize only after profiling and consider cache friendliness."
     - "If stubs, mocks, or simulation paths are introduced in source code, document them explicitly (purpose, activation conditions, production delta, and removal plan)."
+    - "Apply [[nodiscard]], [[deprecated]], [[maybe_unused]], [[noreturn]], [[likely]], [[unlikely]], and [[fallthrough]] consistently per the cpp_attributes rules above."
 ```
 
   Use this comment template directly above the stub/mock/simulation code path:
@@ -73,3 +84,14 @@ cpp_best_practices:
   // Production Delta: <how behavior differs from production>
   // Removal Plan: <when/how this path will be removed>
   ```
+
+## C++ Attribute Quick Reference
+
+| Attribute | When to use |
+|---|---|
+| `[[nodiscard]]` | All functions returning `Result<T>`, `bool` (success flag), factory pointers, getters used in decisions |
+| `[[deprecated("use X instead")]]` | Superseded APIs, research-only code not used in production; always pair with `@deprecated` Doxygen tag |
+| `[[maybe_unused]]` | Intentionally unused parameters/variables (platform guards, callbacks, debug-only vars) |
+| `[[noreturn]]` | Functions that always throw, call `std::terminate()`, or `std::abort()` |
+| `[[likely]]` / `[[unlikely]]` | Performance-critical branches with strong statistical bias (cache hit paths, error branches) |
+| `[[fallthrough]]` | Intentional fall-through in `switch` cases (required to silence `-Wimplicit-fallthrough`) |

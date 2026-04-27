@@ -186,7 +186,7 @@ public:
      * @throws MetadataSnapshotException if snapshot_id is empty or on I/O
      *         error.
      */
-    virtual std::string save(const MetadataSnapshot& snapshot) = 0;
+    [[nodiscard]] virtual std::string save(const MetadataSnapshot& snapshot) = 0;
 
     /**
      * @brief Load the snapshot identified by @p id.
@@ -194,12 +194,12 @@ public:
      * @param id  Snapshot ID.
      * @return    The loaded snapshot, or std::nullopt if @p id is not found.
      */
-    virtual std::optional<MetadataSnapshot> load(std::string_view id) = 0;
+    [[nodiscard]] virtual std::optional<MetadataSnapshot> load(std::string_view id) = 0;
 
     /**
      * @brief Return a sorted list of all stored snapshot IDs.
      */
-    virtual std::vector<std::string> listSnapshotIds() = 0;
+    [[nodiscard]] virtual std::vector<std::string> listSnapshotIds() = 0;
 
     /**
      * @brief Remove the snapshot identified by @p id.
@@ -207,12 +207,12 @@ public:
      * @return true if the snapshot existed and was removed; false if @p id
      *         was not found.
      */
-    virtual bool remove(std::string_view id) = 0;
+    [[nodiscard]] virtual bool remove(std::string_view id) = 0;
 
     /**
      * @brief Return the number of snapshots currently held in the store.
      */
-    virtual size_t size() = 0;
+    [[nodiscard]] virtual size_t size() = 0;
 };
 
 // ── InMemoryMetadataSnapshotStore ─────────────────────────────────────────────

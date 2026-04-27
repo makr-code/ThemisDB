@@ -172,19 +172,19 @@ public:
     /// @param entities Vector of entities to export
     /// @param options Export configuration
     /// @return Export statistics
-    virtual ExportStats exportEntities(
+    [[nodiscard]] virtual ExportStats exportEntities(
         const std::vector<BaseEntity>& entities,
         const ExportOptions& options
     ) = 0;
     
     /// Get supported output formats
-    virtual std::vector<std::string> getSupportedFormats() const = 0;
+    [[nodiscard]] virtual std::vector<std::string> getSupportedFormats() const = 0;
     
     /// Get exporter name
-    virtual std::string getName() const = 0;
+    [[nodiscard]] virtual std::string getName() const = 0;
     
     /// Get exporter version
-    virtual std::string getVersion() const = 0;
+    [[nodiscard]] virtual std::string getVersion() const = 0;
 };
 
 } // namespace themis::exporters

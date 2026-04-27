@@ -108,7 +108,7 @@ public:
      * @return FormatExtractResult with extracted text, metadata, and optional
      *         child paths.
      */
-    virtual FormatExtractResult extract(
+    [[nodiscard]] virtual FormatExtractResult extract(
         std::span<const std::byte> data,
         const std::string& mime_type,
         const std::string& filename_hint) = 0;
@@ -123,14 +123,14 @@ public:
      *
      * @return Immutable list of supported MIME type strings.
      */
-    virtual std::vector<std::string> supportedMimeTypes() const = 0;
+    [[nodiscard]] virtual std::vector<std::string> supportedMimeTypes() const = 0;
 
     /**
      * @brief Human-readable name of this extractor for logging and diagnostics.
      *
      * Example: "PdfExtractorAdapter", "OfficeExtractorAdapter".
      */
-    virtual const char* name() const noexcept = 0;
+    [[nodiscard]] virtual const char* name() const noexcept = 0;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -164,7 +164,7 @@ public:
      * @return Shared pointer to the registered extractor, or `nullptr` when
      *         no extractor is registered for that type.
      */
-    virtual std::shared_ptr<IFormatExtractor> extractorFor(
+    [[nodiscard]] virtual std::shared_ptr<IFormatExtractor> extractorFor(
         const std::string& mime_type) const = 0;
 
     /**
@@ -181,7 +181,7 @@ public:
     /**
      * @brief List all MIME types for which an extractor is registered.
      */
-    virtual std::vector<std::string> registeredMimeTypes() const = 0;
+    [[nodiscard]] virtual std::vector<std::string> registeredMimeTypes() const = 0;
 };
 
 } // namespace ingestion

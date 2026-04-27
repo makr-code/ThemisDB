@@ -93,7 +93,7 @@ public:
      * @return true on success; false if the operation failed (e.g. buffer
      *         pre-condition check failed).
      */
-    virtual bool pause(PauseReason reason = PauseReason::AdminRequest) = 0;
+    [[nodiscard]] virtual bool pause(PauseReason reason = PauseReason::AdminRequest) = 0;
 
     /**
      * @brief Resume the stream.
@@ -104,14 +104,14 @@ public:
      *
      * @return true on success; false if the operation failed.
      */
-    virtual bool resume() = 0;
+    [[nodiscard]] virtual bool resume() = 0;
 
     /**
      * @brief Non-blocking query of the current pause state.
      *
      * @return true if the stream is currently paused.
      */
-    virtual bool isPaused() const = 0;
+    [[nodiscard]] virtual bool isPaused() const = 0;
 
     /**
      * @brief Return the reason the stream was most recently paused.
@@ -119,12 +119,12 @@ public:
      * The return value is undefined when isPaused() == false; callers should
      * check isPaused() first.
      */
-    virtual PauseReason pauseReason() const = 0;
+    [[nodiscard]] virtual PauseReason pauseReason() const = 0;
 
     /**
      * @brief Number of events currently buffered during the pause.
      */
-    virtual std::size_t bufferedEventCount() const = 0;
+    [[nodiscard]] virtual std::size_t bufferedEventCount() const = 0;
 };
 
 // ── InMemoryPauseControl ──────────────────────────────────────────────────────

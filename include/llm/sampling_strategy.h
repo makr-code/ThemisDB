@@ -37,13 +37,13 @@ class ISamplingStrategy {
 public:
     virtual ~ISamplingStrategy() = default;
     
-    virtual llama_token sample(
+    [[nodiscard]] virtual llama_token sample(
         llama_context* ctx,
         const std::vector<llama_token>& last_tokens,
         int pos
     ) = 0;
     
-    virtual std::string name() const = 0;
+    [[nodiscard]] virtual std::string name() const = 0;
 };
 
 /**

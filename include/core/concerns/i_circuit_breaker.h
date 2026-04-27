@@ -80,7 +80,7 @@ public:
      * @return true if the request should be attempted, false if it should be
      *         short-circuited.
      */
-    virtual bool allowRequest() = 0;
+    [[nodiscard]] virtual bool allowRequest() = 0;
 
     /**
      * @brief Notify the circuit breaker that the last request succeeded.
@@ -100,17 +100,17 @@ public:
     /**
      * @brief Return the current circuit breaker state.
      */
-    virtual State getState() const = 0;
+    [[nodiscard]] virtual State getState() const = 0;
 
     /**
      * @brief Return the number of failures recorded in the current window.
      */
-    virtual size_t getFailureCount() const = 0;
+    [[nodiscard]] virtual size_t getFailureCount() const = 0;
 
     /**
      * @brief Return the number of consecutive successes in HALF_OPEN state.
      */
-    virtual size_t getSuccessCount() const = 0;
+    [[nodiscard]] virtual size_t getSuccessCount() const = 0;
 
     /**
      * @brief Force the circuit breaker back to CLOSED and clear all counters.

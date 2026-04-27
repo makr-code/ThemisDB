@@ -55,7 +55,7 @@ public:
      * @param category Category of the dilemma (e.g., "bioethics", "autonomous_systems")
      * @return Debate ID or error status
      */
-    virtual std::variant<DebateInitialization, Status> initializeDebate(
+    [[nodiscard]] virtual std::variant<DebateInitialization, Status> initializeDebate(
         const std::string& dilemma_description,
         const std::vector<std::string>& philosophy_schools,
         const std::string& category = "general"
@@ -69,7 +69,7 @@ public:
      * @param store_vector Whether to generate and store vector embedding
      * @return Status indicating success/failure
      */
-    virtual Status storeArgument(
+    [[nodiscard]] virtual Status storeArgument(
         const EthicalArgument& argument,
         bool store_vector = true
     ) = 0;
@@ -81,7 +81,7 @@ public:
      * @param limit Maximum number of results
      * @return List of arguments or error
      */
-    virtual std::variant<std::vector<EthicalArgument>, Status> getArgumentsByPhilosophy(
+    [[nodiscard]] virtual std::variant<std::vector<EthicalArgument>, Status> getArgumentsByPhilosophy(
         const std::string& philosophy_school,
         const std::vector<ArgumentType>& argument_types = {},
         size_t limit = 20
@@ -92,7 +92,7 @@ public:
      * @param argument_id Argument identifier
      * @return Argument or error
      */
-    virtual std::variant<EthicalArgument, Status> getArgumentById(
+    [[nodiscard]] virtual std::variant<EthicalArgument, Status> getArgumentById(
         const std::string& argument_id
     ) = 0;
     
@@ -101,14 +101,14 @@ public:
      * @param chain The argument chain to store
      * @return Status indicating success/failure
      */
-    virtual Status storeArgumentChain(const ArgumentChain& chain) = 0;
+    [[nodiscard]] virtual Status storeArgumentChain(const ArgumentChain& chain) = 0;
     
     /**
      * @brief Retrieve argument chain by ID
      * @param chain_id Chain identifier
      * @return Argument chain or error
      */
-    virtual std::variant<ArgumentChain, Status> getArgumentChain(
+    [[nodiscard]] virtual std::variant<ArgumentChain, Status> getArgumentChain(
         const std::string& chain_id
     ) = 0;
     
@@ -121,7 +121,7 @@ public:
      * @param category Dilemma category
      * @return RAG context or error
      */
-    virtual std::variant<RAGContext, Status> buildRAGContext(
+    [[nodiscard]] virtual std::variant<RAGContext, Status> buildRAGContext(
         const std::string& dilemma_description,
         const std::vector<std::string>& philosophy_schools,
         const std::string& category = "general"
@@ -134,7 +134,7 @@ public:
      * @param limit Maximum results
      * @return List of similar dilemma IDs
      */
-    virtual std::variant<std::vector<std::string>, Status> findSimilarDilemmas(
+    [[nodiscard]] virtual std::variant<std::vector<std::string>, Status> findSimilarDilemmas(
         const std::string& query_text,
         double threshold = 0.65,
         size_t limit = 10
@@ -147,7 +147,7 @@ public:
      * @param limit Maximum results
      * @return List of best practice decision IDs
      */
-    virtual std::variant<std::vector<std::string>, Status> getBestPractices(
+    [[nodiscard]] virtual std::variant<std::vector<std::string>, Status> getBestPractices(
         const std::string& category,
         double min_satisfaction = 0.8,
         size_t limit = 10
@@ -160,7 +160,7 @@ public:
      * @param limit Maximum results
      * @return List of argument IDs with similarity scores
      */
-    virtual std::variant<std::vector<std::pair<std::string, double>>, Status> 
+    [[nodiscard]] virtual std::variant<std::vector<std::pair<std::string, double>>, Status> 
     vectorSemanticSearch(
         const std::vector<float>& query_embedding,
         const std::string& philosophy_school = "",
@@ -174,7 +174,7 @@ public:
      * @param direction "supports" or "counters"
      * @return List of connected argument IDs
      */
-    virtual std::variant<std::vector<std::string>, Status> traverseArgumentChain(
+    [[nodiscard]] virtual std::variant<std::vector<std::string>, Status> traverseArgumentChain(
         const std::string& start_argument_id,
         size_t max_depth = 5,
         const std::string& direction = "both"
@@ -190,7 +190,7 @@ public:
      * @param use_rag Whether to use RAG context
      * @return Ethical decision or error
      */
-    virtual std::variant<EthicalDecision, Status> makeDecision(
+    [[nodiscard]] virtual std::variant<EthicalDecision, Status> makeDecision(
         const std::string& dilemma_description,
         const std::vector<std::string>& philosophy_schools,
         const std::string& category = "general",
@@ -202,14 +202,14 @@ public:
      * @param decision The decision to store
      * @return Status indicating success/failure
      */
-    virtual Status storeDecision(const EthicalDecision& decision) = 0;
+    [[nodiscard]] virtual Status storeDecision(const EthicalDecision& decision) = 0;
     
     /**
      * @brief Retrieve decision by ID
      * @param decision_id Decision identifier
      * @return Decision or error
      */
-    virtual std::variant<EthicalDecision, Status> getDecision(
+    [[nodiscard]] virtual std::variant<EthicalDecision, Status> getDecision(
         const std::string& decision_id
     ) = 0;
     
@@ -221,7 +221,7 @@ public:
      * @param arguments Arguments used in decision (optional)
      * @return Evaluation result or error
      */
-    virtual std::variant<EthicsEvaluationResult, Status> evaluateDecision(
+    [[nodiscard]] virtual std::variant<EthicsEvaluationResult, Status> evaluateDecision(
         const EthicalDecision& decision,
         const std::vector<EthicalArgument>& arguments = {}
     ) = 0;
@@ -233,7 +233,7 @@ public:
      * @param philosophy_dir Directory containing YAML files
      * @return Number of profiles loaded or error
      */
-    virtual std::variant<size_t, Status> loadPhilosophyProfiles(
+    [[nodiscard]] virtual std::variant<size_t, Status> loadPhilosophyProfiles(
         const std::string& philosophy_dir
     ) = 0;
     
@@ -242,7 +242,7 @@ public:
      * @param school_id School identifier
      * @return Philosophy profile or error
      */
-    virtual std::variant<PhilosophyProfile, Status> getPhilosophyProfile(
+    [[nodiscard]] virtual std::variant<PhilosophyProfile, Status> getPhilosophyProfile(
         const std::string& school_id
     ) = 0;
     
@@ -250,7 +250,7 @@ public:
      * @brief List all loaded philosophy schools
      * @return List of school IDs
      */
-    virtual std::vector<std::string> listPhilosophySchools() const = 0;
+    [[nodiscard]] virtual std::vector<std::string> listPhilosophySchools() const = 0;
     
     // ========== Monitoring ==========
     
@@ -258,19 +258,19 @@ public:
      * @brief Get current metrics in Prometheus format
      * @return Prometheus metrics string
      */
-    virtual std::string getPrometheusMetrics() const = 0;
+    [[nodiscard]] virtual std::string getPrometheusMetrics() const = 0;
     
     /**
      * @brief Get dashboard data in JSON format
      * @return JSON string with dashboard data
      */
-    virtual std::string getDashboardJSON() const = 0;
+    [[nodiscard]] virtual std::string getDashboardJSON() const = 0;
     
     /**
      * @brief Get plugin statistics
      * @return Statistics as key-value map
      */
-    virtual std::map<std::string, double> getStatistics() const = 0;
+    [[nodiscard]] virtual std::map<std::string, double> getStatistics() const = 0;
     
     // ========== Configuration ==========
     
@@ -280,14 +280,14 @@ public:
      * @param value Configuration value
      * @return Status indicating success/failure
      */
-    virtual Status setConfig(const std::string& key, const std::string& value) = 0;
+    [[nodiscard]] virtual Status setConfig(const std::string& key, const std::string& value) = 0;
     
     /**
      * @brief Get configuration option
      * @param key Configuration key
      * @return Configuration value or nullopt if not found
      */
-    virtual std::optional<std::string> getConfig(const std::string& key) const = 0;
+    [[nodiscard]] virtual std::optional<std::string> getConfig(const std::string& key) const = 0;
     
     // ========== Integration with Core System ==========
     

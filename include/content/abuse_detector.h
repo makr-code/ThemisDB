@@ -96,7 +96,7 @@ public:
      * @param metadata     Contextual metadata (mime_type, content_id, …).
      * @return AbuseDetectionResult with action ALLOW / FLAG / BLOCK.
      */
-    virtual AbuseDetectionResult detect(
+    [[nodiscard]] virtual AbuseDetectionResult detect(
         const std::string& content_data,
         const AbuseDetectorMetadata& metadata
     ) const = 0;
@@ -104,7 +104,7 @@ public:
     /**
      * @brief Human-readable name of this detector type.
      */
-    virtual std::string detectorType() const = 0;
+    [[nodiscard]] virtual std::string detectorType() const = 0;
 };
 
 // ============================================================================

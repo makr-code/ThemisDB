@@ -4,6 +4,9 @@ This directory contains research papers, draft manuscripts, architectural analys
 
 ## Contents
 
+### 🏆 Flagship System Paper (2026-04-27)
+- [THEMISDB_SYSTEM_PAPER_ARXIV_2026.md](THEMISDB_SYSTEM_PAPER_ARXIV_2026.md) — **ThemisDB: An ACID-Compliant Multi-Model Database with Native AI/LLM Integration** (v0.2). Target: arXiv cs.DB · VLDB 2027. Covers all four architectural tiers, ACID-constrained RAG pipeline, autonomous LoRA lifecycle (4-loop RLAIF), prompt engineering, 18 evidence IDs, 8 workloads (W1–W8), 23 references (IEEE+DOI), Figures 1–5 (ASCII schematics). Measured baselines: Graph 1.177 M ops/s ✅, TS 61.0 M pts/s ✅, AQL P99 9.67 ms ✅. Open: W5 isolation×faithfulness empirical run, GPU benchmarks, multi-node distributed benchmark.
+
 ### Full Draft v1.0 (Core, 2026-04-20)
 - [THEMIS_MULTIMODEL_INDEX_EVALUATION_V2.md](THEMIS_MULTIMODEL_INDEX_EVALUATION_V2.md) — **v1.0 full scientific paper**: ThemisDB multi-model database — nine individualized index families (HNSW, B-tree, IVF+PQ, Graph, R-tree+Z-order, Inverted, RMI, MRL, Adaptive Advisor), formal system evaluation protocol (W1/W2/W3 workloads, 6 RQs, 12 hypotheses with acceptance criteria), operational risk model (10 failure modes, security threat model, concurrency table), threats to validity, 24 references with DOIs, full traceability appendix. arXiv cs.DB / VLDB-ready.
 
@@ -45,6 +48,9 @@ This directory contains research papers, draft manuscripts, architectural analys
 - [LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS_DRAFT.md](LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS_DRAFT.md) — ArXiv-structured migration of LLM integration foundations from docs/research
 - [GPU_VECTOR_INDEXING_RESEARCH_DRAFT.md](GPU_VECTOR_INDEXING_RESEARCH_DRAFT.md) — ArXiv-structured migration of GPU vector indexing research from docs/research
 - [PRODUCT_QUANTIZATION_RESEARCH_DRAFT.md](PRODUCT_QUANTIZATION_RESEARCH_DRAFT.md) — ArXiv-structured migration of PQ research from docs/research
+
+### Financial AI & HFT Domain Research (2026-04-27)
+- [HFT_RAG_LLM_THEMISDB_TRADING_ORCHESTRATION_ARXIV_2026.md](HFT_RAG_LLM_THEMISDB_TRADING_ORCHESTRATION_ARXIV_2026.md) — RAG-LLM-orchestrated high-frequency trading on ThemisDB: multi-modal financial signal processing (news, central bank comms, geopolitical risk, social media), latency budget analysis (sub-200 ms RAG loop), regulatory feasibility (MiFID II, SEC 15c3-5, EU AI Act), 31-paper related work survey, 6 open research questions (cs.AI / q-fin.TR / cs.DB)
 
 ### Planned Research Topics
 - (See drafts above for current work-in-progress topics)

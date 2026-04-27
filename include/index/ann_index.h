@@ -78,7 +78,7 @@ public:
                        size_t count, size_t dim) = 0;
 
     /// Add a single vector with @p id to the index.
-    virtual bool add(int64_t id, const float* vector, size_t dim) = 0;
+    [[nodiscard]] virtual bool add(int64_t id, const float* vector, size_t dim) = 0;
 
     /// Return the @p k nearest neighbours of @p query.
     virtual std::vector<AnnSearchResult> search(const float* query, size_t dim,
@@ -91,7 +91,7 @@ public:
     virtual bool load(const std::string& /*path*/) { return false; }
 
     /// Number of vectors currently in the index.
-    virtual size_t size() const = 0;
+    [[nodiscard]] virtual size_t size() const = 0;
 };
 
 // ---------------------------------------------------------------------------

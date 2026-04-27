@@ -80,7 +80,7 @@ public:
      * @param event Inbound access event.
      * @return ThreatScore with level and explanation.
      */
-    virtual ThreatScore scoreEvent(const AccessEvent& event) = 0;
+    [[nodiscard]] virtual ThreatScore scoreEvent(const AccessEvent& event) = 0;
 
     /**
      * @brief Discard all state for a given session (e.g. on logout).

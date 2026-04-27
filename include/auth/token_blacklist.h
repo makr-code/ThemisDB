@@ -70,7 +70,7 @@ public:
      * @param jti JWT ID claim to check.
      * @return true if the token has been revoked and has not yet expired.
      */
-    virtual bool isRevoked(const std::string& jti) const = 0;
+    [[nodiscard]] virtual bool isRevoked(const std::string& jti) const = 0;
 
     /**
      * @brief Remove all entries whose token expiry is in the past.

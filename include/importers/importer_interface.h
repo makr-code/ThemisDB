@@ -755,20 +755,20 @@ public:
     /**
      * @brief Get importer name
      */
-    virtual const char* getName() const = 0;
+    [[nodiscard]] virtual const char* getName() const = 0;
     
     /**
      * @brief Get supported source types
      * @return List of supported types (e.g., "postgresql", "mysql", "csv")
      */
-    virtual std::vector<std::string> getSupportedTypes() const = 0;
+    [[nodiscard]] virtual std::vector<std::string> getSupportedTypes() const = 0;
     
     /**
      * @brief Initialize importer with configuration
      * @param config Configuration JSON
      * @return true if initialized successfully
      */
-    virtual bool initialize(const std::string& config) = 0;
+    [[nodiscard]] virtual bool initialize(const std::string& config) = 0;
     
     /**
      * @brief Validate source before import
@@ -776,7 +776,7 @@ public:
      * @param errors Output: validation errors
      * @return true if source is valid
      */
-    virtual bool validateSource(const std::string& source_path, std::vector<std::string>& errors) = 0;
+    [[nodiscard]] virtual bool validateSource(const std::string& source_path, std::vector<std::string>& errors) = 0;
     
     /**
      * @brief Import data from source (synchronous)
@@ -785,7 +785,7 @@ public:
      * @param progress_callback Optional progress callback
      * @return Import statistics
      */
-    virtual ImportStats importData(
+    [[nodiscard]] virtual ImportStats importData(
         const std::string& source_path,
         const ImportOptions& options,
         ProgressCallback progress_callback = nullptr
@@ -845,7 +845,7 @@ public:
      * @param options Import options
      * @return Shared handle; call `cancel()` then inspect `future` when done.
      */
-    virtual std::shared_ptr<ImportHandle> importDataAsync(
+    [[nodiscard]] virtual std::shared_ptr<ImportHandle> importDataAsync(
         const std::string& source_path,
         const ImportOptions& options
     ) = 0;
@@ -860,7 +860,7 @@ public:
      * @param source_path Path to source
      * @return Schema as JSON
      */
-    virtual json getSourceSchema(const std::string& source_path) = 0;
+    [[nodiscard]] virtual json getSourceSchema(const std::string& source_path) = 0;
 };
 
 } // namespace importers

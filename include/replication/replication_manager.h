@@ -342,7 +342,7 @@ public:
      * @param remote Remote version
      * @return Resolved document (merged or selected)
      */
-    virtual std::string resolve(
+    [[nodiscard]] virtual std::string resolve(
         const std::string& local,
         const std::string& remote,
         const std::string& collection,
@@ -1518,15 +1518,15 @@ public:
     virtual ~IArchivalBackend() = default;
 
     // Write a segment payload to the backend.  Returns true on success.
-    virtual bool putObject(const std::string& key,
+    [[nodiscard]] virtual bool putObject(const std::string& key,
                            const std::vector<uint8_t>& data) = 0;
 
     // Read a segment payload from the backend.  Returns nullopt on failure.
-    virtual std::optional<std::vector<uint8_t>> getObject(
+    [[nodiscard]] virtual std::optional<std::vector<uint8_t>> getObject(
         const std::string& key) const = 0;
 
     // Remove an object from the backend.
-    virtual bool deleteObject(const std::string& key) = 0;
+    [[nodiscard]] virtual bool deleteObject(const std::string& key) = 0;
 
     // Transition an object to a colder storage tier (e.g. "cold", "glacier").
     // A no-op on backends that do not support tiering.

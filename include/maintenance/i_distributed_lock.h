@@ -84,7 +84,7 @@ public:
      *                called — prevents orphaned locks when a node crashes.
      * @return true if this node successfully acquired the lock.
      */
-    virtual bool tryAcquire(const std::string& key, int64_t ttl_ms) = 0;
+    [[nodiscard]] virtual bool tryAcquire(const std::string& key, int64_t ttl_ms) = 0;
 
     /**
      * @brief Release the lock for @p key previously acquired by this node.
@@ -103,12 +103,12 @@ public:
      * @return Node ID string, or empty string if the lock is not currently held
      *         (e.g. expired or never acquired).
      */
-    virtual std::string getHolderNodeId(const std::string& key) const = 0;
+    [[nodiscard]] virtual std::string getHolderNodeId(const std::string& key) const = 0;
 
     /**
      * @brief Return the identifier of this node.
      */
-    virtual std::string nodeId() const = 0;
+    [[nodiscard]] virtual std::string nodeId() const = 0;
 };
 
 // ---------------------------------------------------------------------------

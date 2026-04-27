@@ -50,17 +50,17 @@ public:
     /**
      * @brief Plugin name (unique identifier)
      */
-    virtual std::string name() const = 0;
+    [[nodiscard]] virtual std::string name() const = 0;
     
     /**
      * @brief Plugin version
      */
-    virtual std::string version() const = 0;
+    [[nodiscard]] virtual std::string version() const = 0;
     
     /**
      * @brief Job types this plugin can handle
      */
-    virtual std::vector<IngestionJobType> supportedTypes() const = 0;
+    [[nodiscard]] virtual std::vector<IngestionJobType> supportedTypes() const = 0;
     
     /**
      * @brief Process an ingestion job
@@ -81,12 +81,12 @@ public:
      * 
      * @return Estimated number of items to process, or 0 if unknown
      */
-    virtual size_t estimateJobSize(const IngestionJob& job) = 0;
+    [[nodiscard]] virtual size_t estimateJobSize(const IngestionJob& job) = 0;
     
     /**
      * @brief Get plugin configuration
      */
-    virtual json getConfig() const = 0;
+    [[nodiscard]] virtual json getConfig() const = 0;
     
     /**
      * @brief Set plugin configuration

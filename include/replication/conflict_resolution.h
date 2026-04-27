@@ -101,14 +101,14 @@ public:
      *   - Must return one of the entries from conflicting_writes (no fabrication).
      *   - conflicting_writes.size() >= 2 is guaranteed by the caller.
      */
-    virtual MMWriteEntry resolve(
+    [[nodiscard]] virtual MMWriteEntry resolve(
         const std::string&                document_id,
         const std::vector<MMWriteEntry>&  conflicting_writes,
         const ResolutionContext&          context
     ) = 0;
 
     /** Human-readable name of this resolver strategy. */
-    virtual std::string strategyName() const = 0;
+    [[nodiscard]] virtual std::string strategyName() const = 0;
 };
 
 // ============================================================================

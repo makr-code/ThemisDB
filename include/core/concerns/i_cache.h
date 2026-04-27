@@ -69,7 +69,7 @@ public:
      * @return The cached CacheEntry if present and not expired, or std::nullopt
      *         on a cache miss.
      */
-    virtual std::optional<CacheEntry> get(std::string_view key) const = 0;
+    [[nodiscard]] virtual std::optional<CacheEntry> get(std::string_view key) const = 0;
 
     /**
      * @brief Insert or replace a cache entry.
@@ -80,7 +80,7 @@ public:
      * @return true on success, false if the entry could not be stored (e.g.
      *         the cache is full and no eviction is possible).
      */
-    virtual bool put(std::string_view key, const CacheEntry& entry, uint64_t ttl_ms = 0) = 0;
+    [[nodiscard]] virtual bool put(std::string_view key, const CacheEntry& entry, uint64_t ttl_ms = 0) = 0;
 
     /**
      * @brief Remove a single entry from the cache.
@@ -113,20 +113,20 @@ public:
     // -----------------------------------------------------------------------
 
     /// @brief Return the current number of entries in the cache.
-    virtual size_t size() const = 0;
+    [[nodiscard]] virtual size_t size() const = 0;
 
     /// @brief Return the cumulative number of successful cache hits.
-    virtual uint64_t hitCount() const = 0;
+    [[nodiscard]] virtual uint64_t hitCount() const = 0;
 
     /// @brief Return the cumulative number of cache misses.
-    virtual uint64_t missCount() const = 0;
+    [[nodiscard]] virtual uint64_t missCount() const = 0;
 
     /**
      * @brief Return the cache hit rate in [0.0, 1.0].
      *
      * Returns 0.0 if no lookups have been performed yet.
      */
-    virtual double hitRate() const = 0;
+    [[nodiscard]] virtual double hitRate() const = 0;
 
     // -----------------------------------------------------------------------
     // Configuration

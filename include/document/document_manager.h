@@ -94,10 +94,10 @@ public:
     virtual ~IEncryptedDocumentEntity() = default;
 
     /// @brief The document's unique identifier within its collection.
-    virtual const DocumentId&   documentId()   const noexcept = 0;
+    [[nodiscard]] virtual const DocumentId&   documentId()   const noexcept = 0;
 
     /// @brief The owning collection identifier.
-    virtual const CollectionId& collectionId() const noexcept = 0;
+    [[nodiscard]] virtual const CollectionId& collectionId() const noexcept = 0;
 
     /**
      * @brief Rotate the encryption key without exposing plaintext.
@@ -105,7 +105,7 @@ public:
      * @return ERR_DOC_INVALID_ARGUMENT if @p desc.new_key_id is empty.
      * @return ERR_DOC_ENCRYPT_FAILED   on key-provider or crypto failure.
      */
-    virtual Result<void> reencrypt(const KeyRotationDescriptor& desc) = 0;
+    [[nodiscard]] virtual Result<void> reencrypt(const KeyRotationDescriptor& desc) = 0;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -145,7 +145,7 @@ public:
      * @return ERR_DOC_INVALID_ID     if @p id is empty.
      * @return ERR_DOC_ALREADY_EXISTS if the id already exists.
      */
-    virtual Result<DocumentId> create(const CollectionId&   collection,
+    [[nodiscard]] virtual Result<DocumentId> create(const CollectionId&   collection,
                                       const DocumentId&     id,
                                       const nlohmann::json& body) = 0;
 
@@ -154,7 +154,7 @@ public:
      *
      * @return std::nullopt (success) if the document does not exist.
      */
-    virtual Result<std::optional<nlohmann::json>> get(
+    [[nodiscard]] virtual Result<std::optional<nlohmann::json>> get(
         const CollectionId& collection,
         const DocumentId&   id) const = 0;
 
@@ -163,7 +163,7 @@ public:
      *
      * @return ERR_DOC_NOT_FOUND if the document does not exist.
      */
-    virtual Result<void> update(const CollectionId&   collection,
+    [[nodiscard]] virtual Result<void> update(const CollectionId&   collection,
                                 const DocumentId&     id,
                                 const nlohmann::json& body) = 0;
 
@@ -172,13 +172,13 @@ public:
      *
      * @note  @c afterDelete is fired even if the underlying storage fails.
      */
-    virtual Result<void> remove(const CollectionId& collection,
+    [[nodiscard]] virtual Result<void> remove(const CollectionId& collection,
                                 const DocumentId&   id) = 0;
 
     /**
      * @brief List all document IDs in a collection.
      */
-    virtual Result<std::vector<DocumentId>> list(
+    [[nodiscard]] virtual Result<std::vector<DocumentId>> list(
         const CollectionId& collection) const = 0;
 
     // ── Encrypted entity factory ─────────────────────────────────────────
@@ -192,7 +192,7 @@ public:
      * @return ERR_DOC_INVALID_ID    if @p id is empty.
      * @return ERR_DOC_ENCRYPT_FAILED on key-provider failure.
      */
-    virtual Result<std::unique_ptr<IEncryptedDocumentEntity>> createEncrypted(
+    [[nodiscard]] virtual Result<std::unique_ptr<IEncryptedDocumentEntity>> createEncrypted(
         const CollectionId&   collection,
         const DocumentId&     id,
         const nlohmann::json& body) = 0;

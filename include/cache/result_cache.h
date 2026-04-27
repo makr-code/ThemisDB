@@ -45,7 +45,7 @@ public:
         uint64_t ttl_ms{0};       // time to live
     };
 
-    virtual std::optional<Entry> Get(const Key& k) const = 0;
+    [[nodiscard]] virtual std::optional<Entry> Get(const Key& k) const = 0;
     virtual void Put(const Key& k, const Entry& e) = 0;
     virtual void InvalidatePlan(const std::string& plan_hash) = 0;
 };

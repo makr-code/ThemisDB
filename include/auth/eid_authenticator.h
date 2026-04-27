@@ -342,12 +342,12 @@ public:
      * Must be called before any authentication attempt.
      * @return true on success; false if the configuration is invalid.
      */
-    virtual bool initialize(const EIDAuthConfig& config) = 0;
+    [[nodiscard]] virtual bool initialize(const EIDAuthConfig& config) = 0;
 
     /**
      * @brief Return true if the authenticator has been successfully initialised.
      */
-    virtual bool isInitialized() const = 0;
+    [[nodiscard]] virtual bool isInitialized() const = 0;
 
     /**
      * @brief Begin an eID authentication session.
@@ -358,7 +358,7 @@ public:
      * @param session_id  Caller-provided session identifier for correlation.
      * @return            The redirect URL (non-empty) or an empty string on error.
      */
-    virtual std::string beginAuthSession(std::string_view session_id) = 0;
+    [[nodiscard]] virtual std::string beginAuthSession(std::string_view session_id) = 0;
 
     /**
      * @brief Complete an eID authentication session.
@@ -371,7 +371,7 @@ public:
      * @return               Authentication result with the verified identity or
      *                       a structured error.
      */
-    virtual EIDAuthResult completeAuthSession(std::string_view session_id,
+    [[nodiscard]] virtual EIDAuthResult completeAuthSession(std::string_view session_id,
                                               std::string_view saml_response) = 0;
 
     /**
@@ -382,12 +382,12 @@ public:
     /**
      * @brief Return all active session IDs.
      */
-    virtual std::vector<std::string> activeSessions() const = 0;
+    [[nodiscard]] virtual std::vector<std::string> activeSessions() const = 0;
 
     /**
      * @brief Return the current configuration (copy).
      */
-    virtual EIDAuthConfig config() const = 0;
+    [[nodiscard]] virtual EIDAuthConfig config() const = 0;
 };
 
 // ── InMemoryEIDAuthenticator ──────────────────────────────────────────────────

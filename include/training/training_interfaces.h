@@ -267,28 +267,28 @@ public:
      * @return SHA-256-derived checkpoint identifier.
      * @throws std::runtime_error on I/O failure.
      */
-    virtual CheckpointId save(const LoRAWeights& weights) = 0;
+    [[nodiscard]] virtual CheckpointId save(const LoRAWeights& weights) = 0;
 
     /**
      * @brief Asynchronously load adapter weights by their content ID.
      * @param checkpoint_id  Identifier returned by save().
      * @return Future resolving to the loaded weights.
      */
-    virtual std::future<LoRAWeights> load(const CheckpointId& checkpoint_id) = 0;
+    [[nodiscard]] virtual std::future<LoRAWeights> load(const CheckpointId& checkpoint_id) = 0;
 
     /**
      * @brief Re-derive the content hash and confirm integrity.
      * @param checkpoint_id  Identifier to validate.
      * @return true if the stored file matches its SHA-256 digest.
      */
-    virtual bool verify(const CheckpointId& checkpoint_id) const = 0;
+    [[nodiscard]] virtual bool verify(const CheckpointId& checkpoint_id) const = 0;
 
     /**
      * @brief List all checkpoints associated with a base model.
      * @param model_id  Base model identifier.
      * @return Descriptors sorted newest-first.
      */
-    virtual std::vector<CheckpointDescriptor> listCheckpoints(
+    [[nodiscard]] virtual std::vector<CheckpointDescriptor> listCheckpoints(
         const std::string& model_id) const = 0;
 };
 
@@ -323,17 +323,17 @@ public:
      * @param sample_id  Sample to trace.
      * @return Lineage graph rooted at the training-ready sample.
      */
-    virtual LineageGraph queryLineage(const std::string& sample_id) const = 0;
+    [[nodiscard]] virtual LineageGraph queryLineage(const std::string& sample_id) const = 0;
 
     /**
      * @brief Total number of provenance records stored.
      */
-    virtual size_t totalRecords() const = 0;
+    [[nodiscard]] virtual size_t totalRecords() const = 0;
 
     /**
      * @brief Estimated storage footprint in bytes.
      */
-    virtual size_t storageEstimateBytes() const = 0;
+    [[nodiscard]] virtual size_t storageEstimateBytes() const = 0;
 };
 
 // ============================================================================
@@ -359,7 +359,7 @@ public:
      * @param entity  Entity reference identifying the enrichment query.
      * @return Enrichment result; result.cache_hit is true on cache hit.
      */
-    virtual EnrichmentResult enrich(const EntityRef& entity) = 0;
+    [[nodiscard]] virtual EnrichmentResult enrich(const EntityRef& entity) = 0;
 
     /**
      * @brief Invalidate the cached result for a specific entity.
@@ -375,7 +375,7 @@ public:
     /**
      * @brief Return hit/miss/eviction counters.
      */
-    virtual CacheStats cacheStats() const = 0;
+    [[nodiscard]] virtual CacheStats cacheStats() const = 0;
 };
 
 // ============================================================================
@@ -402,13 +402,13 @@ public:
      * @param dataset  Labelled (confidence, correct) pairs.
      * @return Future resolving to the calibration output.
      */
-    virtual std::future<CalibratorOutput> calibrate(
+    [[nodiscard]] virtual std::future<CalibratorOutput> calibrate(
         const CalibrationDataset& dataset) = 0;
 
     /**
      * @brief Return the currently active threshold map.
      */
-    virtual const ThresholdMap& currentThresholds() const = 0;
+    [[nodiscard]] virtual const ThresholdMap& currentThresholds() const = 0;
 
     /**
      * @brief Replace the active threshold map.
@@ -445,21 +445,21 @@ public:
      * @param job  Job specification (dataset, model config, optional LoRA config).
      * @return Future resolving to the training result.
      */
-    virtual std::future<AsyncTrainingResult> submit(const TrainingJob& job) = 0;
+    [[nodiscard]] virtual std::future<AsyncTrainingResult> submit(const TrainingJob& job) = 0;
 
     /**
      * @brief Request cancellation of a running or queued job.
      * @param job_id  Identifier returned by submit (or job.job_id if set).
      * @return Cancelled, AlreadyCompleted, or NotFound.
      */
-    virtual CancelResult cancel(const JobId& job_id) = 0;
+    [[nodiscard]] virtual CancelResult cancel(const JobId& job_id) = 0;
 
     /**
      * @brief Query the current lifecycle state of a job.
      * @param job_id  Job identifier.
      * @return Current JobStatus.
      */
-    virtual JobStatus status(const JobId& job_id) const = 0;
+    [[nodiscard]] virtual JobStatus status(const JobId& job_id) const = 0;
 };
 
 // ============================================================================
@@ -483,7 +483,7 @@ public:
      * @param model_id  Adapter version or model identifier.
      * @return Sample references sorted by contribution weight (descending).
      */
-    virtual std::vector<SampleRef> getProvenance(
+    [[nodiscard]] virtual std::vector<SampleRef> getProvenance(
         const std::string& model_id) const = 0;
 
     /**
@@ -491,7 +491,7 @@ public:
      * @param sample_id  Sample key.
      * @return Origin record; result.found is false when the sample is unknown.
      */
-    virtual OriginRecord getSampleOrigin(
+    [[nodiscard]] virtual OriginRecord getSampleOrigin(
         const std::string& sample_id) const = 0;
 };
 
