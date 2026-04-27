@@ -175,7 +175,7 @@ public:
      * @brief Return the current minimum severity level.
      * @return Active minimum level.
      */
-    virtual Level getLevel() const = 0;
+    [[nodiscard]] virtual Level getLevel() const = 0;
 
     /**
      * @brief Set the spdlog-compatible format pattern for log lines.

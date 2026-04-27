@@ -113,7 +113,7 @@ public:
          * No-op spans (from NoOpTracer) return false.
          * @return true for real spans, false for no-op spans.
          */
-        virtual bool isValid() const = 0;
+        [[nodiscard]] virtual bool isValid() const = 0;
     };
 
     virtual ~ITracer() = default;
@@ -131,7 +131,7 @@ public:
      * @param name Span name (e.g. "database.query").
      * @return Unique ownership of the new span; never null.
      */
-    virtual std::unique_ptr<ISpan> startSpan(const std::string& name) = 0;
+    [[nodiscard]] virtual std::unique_ptr<ISpan> startSpan(const std::string& name) = 0;
 
     /**
      * @brief Start a child span that continues a parent span's trace.
@@ -140,7 +140,7 @@ public:
      * @param parent Parent span whose trace context is propagated.
      * @return Unique ownership of the new child span; never null.
      */
-    virtual std::unique_ptr<ISpan> startChildSpan(const std::string& name, const ISpan& parent) = 0;
+    [[nodiscard]] virtual std::unique_ptr<ISpan> startChildSpan(const std::string& name, const ISpan& parent) = 0;
 
     /**
      * @brief Extract W3C TraceContext from inbound HTTP headers and start a
@@ -204,7 +204,7 @@ public:
      * @param endpoint    Exporter URL (e.g. "http://localhost:4318" for OTLP/HTTP).
      * @return true on success, false if initialization failed.
      */
-    virtual bool initialize(const std::string& serviceName, const std::string& endpoint) = 0;
+    [[nodiscard]] virtual bool initialize(const std::string& serviceName, const std::string& endpoint) = 0;
 
     /**
      * @brief Shut down the tracer and flush any pending spans.
@@ -217,7 +217,7 @@ public:
      * @brief Return true if the tracer has been successfully initialized.
      * @return true after a successful initialize() call.
      */
-    virtual bool isInitialized() const = 0;
+    [[nodiscard]] virtual bool isInitialized() const = 0;
 
     // -----------------------------------------------------------------------
     // Lifecycle hooks

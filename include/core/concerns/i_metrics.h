@@ -149,7 +149,7 @@ public:
      *
      * @return Prometheus-formatted metrics string.
      */
-    virtual std::string exportMetrics() const = 0;
+    [[nodiscard]] virtual std::string exportMetrics() const = 0;
 
     /**
      * @brief Reset all counters, gauges, and histograms to zero.
