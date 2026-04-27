@@ -334,6 +334,7 @@ public:
         //   no AWS SDK calls, no IAM auth, no request signing, no retries.
         // Roadmap ref: src/ingestion/ROADMAP.md § "Phase 3: Distributed Sources & Connectors"
         // Removal Plan: Not removed — remains the test-injection path.
+        // Roadmap ref: src/ingestion/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
         // -------------------------------------------------------------------
         if (list_fn_ && fetch_fn_) {
             ingestFromMock(stats, progress_callback,

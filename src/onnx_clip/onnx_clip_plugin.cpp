@@ -339,6 +339,7 @@ bool ONNXClipPlugin::initialize(const PluginConfig& config, BackendType backend)
         // Roadmap ref: src/onnx_clip/ROADMAP.md § "Planned Features"
         // Removal Plan: This branch remains as a build-configuration fallback; it is
         //               never removed but should be unreachable in hardened deployments.
+        // Roadmap ref: src/onnx_clip/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
         (void)model_path;
         (void)expected_sha256;
 #endif // THEMIS_HAS_OPENSSL

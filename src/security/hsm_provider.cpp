@@ -43,6 +43,7 @@
 // Removal Plan: Replaced at build time by hsm_provider_pkcs11.cpp when
 //               -DTHEMIS_ENABLE_HSM_REAL=ON is set. No v1.x production deployment ships
 //               without a real HSM backend.
+// Roadmap ref: src/security/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
 
 #include "security/hsm_provider.h"
 #include "core/production_mode.h"

@@ -334,6 +334,7 @@ void FederatedDistillationCoordinator::applyDPNoise(
     // Production Delta: CPU-only; GPU version would operate on tensors directly.
     // Roadmap ref: src/distributed_knowledge/ROADMAP.md § "Phase 3 — Layer B: Federated LoRA Integration"
     // Removal Plan: retain CPU path as fallback; add GPU path when CUDA is available.
+    // Roadmap ref: src/distributed_knowledge/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
     std::random_device rd;
     std::mt19937_64 rng(rd());
     std::normal_distribution<double> noise_dist(0.0, sigma);

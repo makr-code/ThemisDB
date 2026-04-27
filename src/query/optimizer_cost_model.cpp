@@ -590,6 +590,7 @@ void StatisticsManager::collectTableStatistics(const std::string& tableName) {
     //              src/query/FUTURE_ENHANCEMENTS.md § "Cost Model Statistics"
     // Removal Plan: Replace body with a storage-engine call once StorageEngine
     //   is injectable into StatisticsManager (Target: v2.0.0).
+    // Roadmap ref: src/query/FUTURE_ENHANCEMENTS.md § "QueryOptimizer: Wire Real MetadataShard, Prometheus, and Statistics"
     OptimizerCostModel::TableStatistics stats;
     stats.tableName = tableName;
     stats.rowCount = 0;

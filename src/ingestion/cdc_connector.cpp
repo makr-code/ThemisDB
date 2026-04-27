@@ -575,6 +575,7 @@ private:
     // Roadmap ref: src/ingestion/ROADMAP.md § "Phase 3: Distributed Sources & Connectors"
     // Removal Plan: Not removed — remains the test-injection path.  Production
     //   path (ingestFromLive) must be used when event_fetch_fn_ is null.
+    // Roadmap ref: src/ingestion/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
     // -----------------------------------------------------------------------
     void ingestFromMock(IngestionStats& stats,
                         ProgressCallback& progress_callback) {

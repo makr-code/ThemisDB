@@ -933,6 +933,7 @@ HybridEncryption::decryptHybrid(const EncryptedBlob& blob)
 //             64-byte Ed25519 signatures emitted here.  Key sizes also differ.
 // Removal Plan: Replace this block with #include <oqs/sig.h> and wire
 //             OQS_SIG_alg_sphincs_sha2_256s once liboqs is a vcpkg dep.
+// Roadmap ref: src/security/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
 
 namespace themis {
 namespace security {

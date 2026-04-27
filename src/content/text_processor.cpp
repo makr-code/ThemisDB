@@ -217,6 +217,7 @@ std::vector<float> TextProcessor::generateEmbedding(const std::string& chunk_dat
     // Removal Plan: Replace with an injected IEmbeddingBackend call (e.g.
     //   ONNXClipPlugin or a Sentence-BERT plugin) and remove this path once
     //   the embedding plugin interface is wired into TextProcessor.
+    // Roadmap ref: src/content/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
     
     const int EMBEDDING_DIM = 768; // Standard for all-mpnet-base-v2
     std::vector<float> embedding(EMBEDDING_DIM, 0.0f);

@@ -240,6 +240,7 @@ std::string LLMJudgeIntegration::defaultInference(const std::string& prompt) {
     // Removal Plan: Full removal when LLMTokenBudgetManager (Gap 6) and a real engine
     //               DI path are the only supported entry points.  Track in
     //               rag/FUTURE_ENHANCEMENTS.md §Gap 7.
+    // Roadmap ref: src/rag/FUTURE_ENHANCEMENTS.md § "LLMIntegration and LLMJudgeIntegration: Replace Stub/Mock Mode"
     (void)prompt; // unused in mock path — intentional
     THEMIS_DEBUG("Using mock inference function (for testing only)");
     

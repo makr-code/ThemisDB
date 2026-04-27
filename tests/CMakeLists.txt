@@ -12824,13 +12824,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_arrow_user_registration_plu
         ${THEMIS_ROOT_DIR}/src/utils/error_registry.cpp
     )
 
-    if(DEFINED THEMIS_ENABLE_DEV_STUBS AND THEMIS_ENABLE_DEV_STUBS)
-        target_sources(test_arrow_user_registration_plugin_focused PRIVATE
-            ${THEMIS_ROOT_DIR}/src/stubs.cpp
-        )
-        message(STATUS "  ArrowUserRegistrationPlugin: DEV stubs enabled (src/stubs.cpp)")
-    endif()
-
     target_include_directories(test_arrow_user_registration_plugin_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

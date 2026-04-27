@@ -140,6 +140,7 @@ PurgeResult CDCAdmin::purgeByTimestamp(uint64_t before_timestamp_ms) {
 //                   PurgeResult with events_deleted and elapsed_time_ms populated.
 // Removal Plan:     Replace throw with real implementation once TenantBufferManager
 //                   is available in the modular build (see src/cdc/ROADMAP.md).
+// Roadmap ref: src/cdc/FUTURE_ENHANCEMENTS.md § "CDC Admin purgeTenant Implementation"
 PurgeResult CDCAdmin::purgeTenant(const std::string& tenant_id) {
     THEMIS_INFO("CDC Admin: Purging tenant '{}'", tenant_id);
 
