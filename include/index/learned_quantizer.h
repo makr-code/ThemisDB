@@ -58,7 +58,7 @@ namespace themis {
  * Part of ThemisDB v1.4.1 - Feature: Vector Compression Research (#914)
  */
 class [[deprecated("LearnedQuantizer is a research-only implementation not used in production. "
-                   "See class documentation for details.")]] LearnedQuantizer {
+                   "See @deprecated tag in class Doxygen comment for details.")]] LearnedQuantizer {
 public:
     struct Config {
         int bits_per_dimension;       // Number of bits per dimension (2-8)

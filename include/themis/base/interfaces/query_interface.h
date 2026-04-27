@@ -29,11 +29,11 @@ namespace themis {
 /**
  * @brief Result of a query execution
  *
- * @deprecated Use Result<T> pattern instead.
+ * @deprecated Use Result<std::string> from utils/expected.h instead.
  *   Kept for backward compatibility during migration.
  *   All new code must use Result<std::string> from utils/expected.h.
  */
-struct [[deprecated("Use Result<T> (utils/expected.h) instead of QueryResult")]] QueryResult {
+struct [[deprecated("Use Result<std::string> from utils/expected.h instead of QueryResult")]] QueryResult {
     bool success = false;
     std::optional<std::string> error_message;
     
