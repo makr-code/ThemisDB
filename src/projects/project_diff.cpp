@@ -22,6 +22,8 @@
 
 #include "projects/project_diff.h"
 
+#include <chrono>
+#include <mutex>
 #include <unordered_map>
 #include <string>
 
@@ -75,6 +77,11 @@ DeltaSet DeltaSet::fromJson(const json& j) {
 ProjectDiff::ProjectDiff(std::shared_ptr<RocksDBWrapper> storage)
     : storage_(std::move(storage)) {}
 
+void ProjectDiff::setMetrics(std::shared_ptr<ProjectMetrics> metrics) {
+    std::lock_guard<std::mutex> lock(metrics_mutex_);
+    metrics_ = std::move(metrics);
+}
+
 void ProjectDiff::diffRecursive(
     const std::string&       path,
     const json&              from,
@@ -115,6 +122,8 @@ DeltaSet ProjectDiff::diff(
     const SnapshotId& from_snap,
     const SnapshotId& to_snap) const
 {
+    const auto t0 = std::chrono::steady_clock::now();
+
     DeltaSet ds;
 
     // Load content of both snapshots
@@ -158,6 +167,16 @@ DeltaSet ProjectDiff::diff(
         } else {
             diffRecursive("/" + id, from_map.at(id), doc, ds.entries);
         }
+    }
+
+    // Record latency in metrics sink (if set)
+    {
+        const auto t1     = std::chrono::steady_clock::now();
+        const auto dur_ms = static_cast<uint64_t>(
+            std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count());
+        std::lock_guard<std::mutex> lock(metrics_mutex_);
+        if (metrics_)
+            metrics_->recordDiff(dur_ms);
     }
 
     return ds;

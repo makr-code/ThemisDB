@@ -12,6 +12,8 @@
  */
 
 #include "toolbox/toolbox_builder.h"
+#include "aql/aql_ingestion_bridge.h"
+#include "rag/rag_ingestion_bridge.h"
 #include "ingestion/builtin_step_factories.h"
 #include "utils/logger.h"
 
@@ -31,6 +33,7 @@ struct ToolboxBuilder::Impl {
     std::shared_ptr<ingestion::WorkflowEngine>                   engine;
     std::shared_ptr<ingestion::ITextGenerationBackend>           text_backend;
     std::shared_ptr<ingestion::IGraphWriter>                     graph_writer;
+    std::shared_ptr<ingestion::IVectorWriter>                    vector_writer;
     std::vector<std::shared_ptr<ingestion::IFormatExtractor>>    format_extractors;
     bool                                                         built{false};
 };
@@ -57,6 +60,13 @@ ToolboxBuilder& ToolboxBuilder::withGraphWriter(
     std::shared_ptr<ingestion::IGraphWriter> writer)
 {
     impl_->graph_writer = std::move(writer);
+    return *this;
+}
+
+ToolboxBuilder& ToolboxBuilder::withVectorWriter(
+    std::shared_ptr<ingestion::IVectorWriter> writer)
+{
+    impl_->vector_writer = std::move(writer);
     return *this;
 }
 
@@ -200,8 +210,48 @@ std::shared_ptr<ingestion::IGraphWriter> ToolboxBuilder::graphWriter() const {
     return impl_->graph_writer;
 }
 
+std::shared_ptr<ingestion::IVectorWriter> ToolboxBuilder::vectorWriter() const {
+    return impl_->vector_writer;
+}
+
 std::size_t ToolboxBuilder::profileCount() const noexcept {
     return impl_->profile_paths.size();
+}
+
+// ── BuiltToolbox special members ─────────────────────────────────────────────
+
+ToolboxBuilder::BuiltToolbox::BuiltToolbox()  = default;
+ToolboxBuilder::BuiltToolbox::~BuiltToolbox() = default;
+ToolboxBuilder::BuiltToolbox::BuiltToolbox(BuiltToolbox&&) noexcept            = default;
+ToolboxBuilder::BuiltToolbox& ToolboxBuilder::BuiltToolbox::operator=(BuiltToolbox&&) noexcept = default;
+
+// ── buildWithBridges() ────────────────────────────────────────────────────────
+
+ToolboxBuilder::BuiltToolbox ToolboxBuilder::buildWithBridges() {
+    // Guard runs before build() — build() will set impl_->built = true, so any
+    // subsequent call to buildWithBridges() or build() will throw here or inside
+    // build() respectively, preventing double-initialisation.
+    if (impl_->built) {
+        throw std::logic_error(
+            "ToolboxBuilder::buildWithBridges() called after build() or buildWithBridges()");
+    }
+
+    auto toolbox = this->build();  // delegates to the existing build() path
+
+    BuiltToolbox out;
+    out.toolbox = toolbox;
+
+    if (impl_->graph_writer) {
+        out.aql_bridge = std::make_shared<aql::AQLIngestionBridge>(
+            toolbox, impl_->graph_writer);
+    }
+
+    if (impl_->vector_writer || impl_->graph_writer) {
+        out.rag_bridge = std::make_shared<rag::RAGIngestionBridge>(
+            toolbox, impl_->vector_writer, impl_->graph_writer);
+    }
+
+    return out;
 }
 
 } // namespace toolbox

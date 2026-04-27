@@ -24,6 +24,7 @@
 #include "acceleration/compute_backend.h"
 #include "acceleration/cpu_backend.h"
 #include "acceleration/cuda_backend.h"
+#include "acceleration/ai_hardware_dispatcher.h"
 #include <vector>
 #include <cmath>
 #include <limits>
@@ -940,4 +941,25 @@ TEST(CUDAGraphBackendTest, BatchBFS_WithHardware_GraphCaptureReusesSameResults) 
 #else
     GTEST_SKIP() << "CUDA not compiled in";
 #endif
+}
+
+// ---------------------------------------------------------------------------
+// AiHardwareDispatcher::logCapabilities — minimum coverage
+// (UNUSED_FUNCTIONS_REPORT KEEP → NUR_TESTS, Target v1.4.0)
+// ---------------------------------------------------------------------------
+
+// LC-01: logCapabilities() does not throw and returns successfully.
+TEST(AiHardwareDispatcherTest, LC01_LogCapabilitiesDoesNotThrow) {
+    EXPECT_NO_THROW({
+        themis::acceleration::AiHardwareDispatcher::instance().logCapabilities();
+    });
+}
+
+// LC-02: logCapabilities() can be called multiple times without crashing.
+TEST(AiHardwareDispatcherTest, LC02_LogCapabilitiesIdempotent) {
+    auto& disp = themis::acceleration::AiHardwareDispatcher::instance();
+    EXPECT_NO_THROW({
+        disp.logCapabilities();
+        disp.logCapabilities();
+    });
 }

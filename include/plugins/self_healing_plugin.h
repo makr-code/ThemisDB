@@ -145,7 +145,7 @@ public:
      * @note This method is called periodically by PluginHealthMonitor
      * @note Must be thread-safe
      */
-    virtual PluginDiagnostics performHealthCheck() = 0;
+    [[nodiscard]] virtual PluginDiagnostics performHealthCheck() = 0;
     
     /**
      * @brief Attempt automatic self-repair
@@ -165,7 +165,7 @@ public:
      * @note Must be thread-safe
      * @note Should complete within reasonable time (< 30 seconds)
      */
-    virtual bool attemptSelfRepair(const PluginDiagnostics& diagnostics) = 0;
+    [[nodiscard]] virtual bool attemptSelfRepair(const PluginDiagnostics& diagnostics) = 0;
     
     /**
      * @brief Clean up resources
@@ -179,7 +179,7 @@ public:
      * @return true if cleanup was successful
      * @note Must be thread-safe
      */
-    virtual bool cleanupResources() = 0;
+    [[nodiscard]] virtual bool cleanupResources() = 0;
     
     /**
      * @brief Rollback to last known good state
@@ -193,7 +193,7 @@ public:
      * @return true if rollback was successful
      * @note Must be thread-safe
      */
-    virtual bool rollbackToLastGoodState() = 0;
+    [[nodiscard]] virtual bool rollbackToLastGoodState() = 0;
     
     /**
      * @brief Save current state as a checkpoint
@@ -220,7 +220,7 @@ public:
      * @note This is informational and helps the health monitor
      *       decide which recovery action to trigger
      */
-    virtual std::vector<RecoveryAction> getRecoveryStrategies() const = 0;
+    [[nodiscard]] virtual std::vector<RecoveryAction> getRecoveryStrategies() const = 0;
     
     /**
      * @brief Execute specific recovery action

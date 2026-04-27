@@ -371,7 +371,9 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
     // Activation: Runtime – triggered whenever applyLoRA is called with context == nullptr
     //             (only happens in test code; production server always passes a valid ctx).
     // Production Delta: No actual llama.cpp adapter is applied. State change is in-memory.
+    // Roadmap ref: src/llm/ROADMAP.md § "Phase 4: LLM+RAID Integration Tests"
     // Removal Plan: Permanent test-gate; no removal needed. Protected by null guard below.
+    // Roadmap ref: src/llm/FUTURE_ENHANCEMENTS.md § "LoRA Training Integration"
     // In test mode, allow null context (mock inference)
     if (!context) {
         spdlog::warn("applyLoRA called with null context (test/mock mode)");
@@ -439,6 +441,7 @@ bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* con
     //          without calling llama_lora_adapter_remove() on a real context.
     // Activation: Runtime – null context only occurs in test code.
     // Production Delta: No llama.cpp adapter removal; state change is in-memory only.
+    // Roadmap ref: src/llm/ROADMAP.md § "Phase 4: LLM+RAID Integration Tests"
     // Removal Plan: Permanent test-gate; guarded by null check.
     if (!context) {
         spdlog::warn("removeLoRA called with null context (test/mock mode)");

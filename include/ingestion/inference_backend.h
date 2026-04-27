@@ -83,7 +83,7 @@ public:
      *         pipeline can degrade gracefully.  Exceptions are caught and
      *         wrapped by `LegalLlmAdapter`.
      */
-    virtual std::string generate(const std::string& prompt,
+    [[nodiscard]] virtual std::string generate(const std::string& prompt,
                                  int                max_tokens    = 512,
                                  double             temperature   = 0.1,
                                  const std::string& lora_adapter  = "") = 0;
@@ -95,14 +95,14 @@ public:
      * inference (e.g. model loaded, GPU memory available).
      * Returns `false` during warm-up or when the model has not been configured.
      */
-    virtual bool isAvailable() const = 0;
+    [[nodiscard]] virtual bool isAvailable() const = 0;
 
     /**
      * @brief Human-readable description of the backend for logging.
      *
      * Example: "llama.cpp/mistral-7b-Q4_K_M + legal-lora-v2"
      */
-    virtual std::string description() const = 0;
+    [[nodiscard]] virtual std::string description() const = 0;
 };
 
 // ============================================================================
@@ -168,24 +168,24 @@ public:
      *              Returns an empty vector on error; callers should
      *              check `isAvailable()` before calling.
      */
-    virtual std::vector<float> embed(const std::string& text) = 0;
+    [[nodiscard]] virtual std::vector<float> embed(const std::string& text) = 0;
 
     /**
      * @brief Number of dimensions in the embedding vector.
      */
-    virtual int dimensions() const = 0;
+    [[nodiscard]] virtual int dimensions() const = 0;
 
     /**
      * @brief Return true when the backend is ready for inference.
      */
-    virtual bool isAvailable() const = 0;
+    [[nodiscard]] virtual bool isAvailable() const = 0;
 
     /**
      * @brief Human-readable backend description for logging.
      *
      * Example: "multilingual-E5-base ONNX (768-d)"
      */
-    virtual std::string description() const = 0;
+    [[nodiscard]] virtual std::string description() const = 0;
 };
 
 // ============================================================================

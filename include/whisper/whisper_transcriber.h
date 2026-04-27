@@ -41,14 +41,14 @@ class IWhisperTranscriber {
 public:
     virtual ~IWhisperTranscriber() = default;
 
-    virtual bool initialize(const WhisperConfig& cfg) = 0;
-    virtual bool isInitialized() const = 0;
+    [[nodiscard]] virtual bool initialize(const WhisperConfig& cfg) = 0;
+    [[nodiscard]] virtual bool isInitialized() const = 0;
 
-    virtual audio::TranscriptionResult    transcribe(const std::vector<float>& pcm,
+    [[nodiscard]] virtual audio::TranscriptionResult    transcribe(const std::vector<float>& pcm,
                                                      float sample_rate) = 0;
-    virtual audio::LanguageDetectionResult detectLanguage(const std::vector<float>& pcm,
+    [[nodiscard]] virtual audio::LanguageDetectionResult detectLanguage(const std::vector<float>& pcm,
                                                           float sample_rate) = 0;
-    virtual std::string getModelId() const = 0;
+    [[nodiscard]] virtual std::string getModelId() const = 0;
 };
 
 // ---------------------------------------------------------------------------

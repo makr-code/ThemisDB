@@ -81,7 +81,7 @@ LSN TransactionWAL::logBegin(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = wal_manager_->getCurrentLSN();
+    { std::lock_guard<std::mutex> lsn_guard(lsn_mutex_); current_lsn_ = wal_manager_->getCurrentLSN(); }
     entry.lsn = lsn;
 
     spdlog::debug("Logged BEGIN for transaction {} at LSN {}", transaction_id, lsn.toString());
@@ -101,7 +101,7 @@ LSN TransactionWAL::logPrepare(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = wal_manager_->getCurrentLSN();
+    { std::lock_guard<std::mutex> lsn_guard(lsn_mutex_); current_lsn_ = wal_manager_->getCurrentLSN(); }
     entry.lsn = lsn;
 
     spdlog::debug("Logged PREPARE for transaction {} participant {} at LSN {}",
@@ -129,7 +129,7 @@ LSN TransactionWAL::logPrepared(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = wal_manager_->getCurrentLSN();
+    { std::lock_guard<std::mutex> lsn_guard(lsn_mutex_); current_lsn_ = wal_manager_->getCurrentLSN(); }
     entry.lsn = lsn;
 
     spdlog::debug("Logged PREPARED for transaction {} participant {} vote={} at LSN {}",
@@ -148,7 +148,7 @@ LSN TransactionWAL::logCommit(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = wal_manager_->getCurrentLSN();
+    { std::lock_guard<std::mutex> lsn_guard(lsn_mutex_); current_lsn_ = wal_manager_->getCurrentLSN(); }
     entry.lsn = lsn;
 
     spdlog::debug("Logged COMMIT for transaction {} at LSN {}", transaction_id, lsn.toString());
@@ -166,7 +166,7 @@ LSN TransactionWAL::logCommitted(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = wal_manager_->getCurrentLSN();
+    { std::lock_guard<std::mutex> lsn_guard(lsn_mutex_); current_lsn_ = wal_manager_->getCurrentLSN(); }
     entry.lsn = lsn;
 
     spdlog::debug("Logged COMMITTED for transaction {} participant {} at LSN {}",
@@ -189,7 +189,7 @@ LSN TransactionWAL::logAbort(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = wal_manager_->getCurrentLSN();
+    { std::lock_guard<std::mutex> lsn_guard(lsn_mutex_); current_lsn_ = wal_manager_->getCurrentLSN(); }
     entry.lsn = lsn;
 
     spdlog::debug("Logged ABORT for transaction {} reason='{}' at LSN {}",
@@ -208,7 +208,7 @@ LSN TransactionWAL::logAborted(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = wal_manager_->getCurrentLSN();
+    { std::lock_guard<std::mutex> lsn_guard(lsn_mutex_); current_lsn_ = wal_manager_->getCurrentLSN(); }
     entry.lsn = lsn;
 
     spdlog::debug("Logged ABORTED for transaction {} participant {} at LSN {}",
@@ -229,7 +229,7 @@ LSN TransactionWAL::logCompensate(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = wal_manager_->getCurrentLSN();
+    { std::lock_guard<std::mutex> lsn_guard(lsn_mutex_); current_lsn_ = wal_manager_->getCurrentLSN(); }
     entry.lsn = lsn;
 
     spdlog::debug("Logged COMPENSATE for transaction {} step {} at LSN {}",
@@ -244,9 +244,14 @@ std::vector<TransactionWALEntry> TransactionWAL::readEntries(LSN start_lsn) {
         auto wal_entries = wal_manager_->readRange(start_lsn);
         
         for (const auto& wal_entry : wal_entries) {
-            // Only process transaction-related entries (types 130-138)
+            // TWAL-2: Use the named enum boundaries instead of magic numbers.
+            // TransactionWALEntryType values range from BEGIN (130) to COMPENSATE (137).
             const auto wal_type = static_cast<uint8_t>(wal_entry.type);
-            if (wal_type >= 130 && wal_type <= 138) {
+            constexpr uint8_t kTxnTypeMin =
+                static_cast<uint8_t>(TransactionWALEntryType::BEGIN);
+            constexpr uint8_t kTxnTypeMax =
+                static_cast<uint8_t>(TransactionWALEntryType::COMPENSATE);
+            if (wal_type >= kTxnTypeMin && wal_type <= kTxnTypeMax) {
                 auto txn_entry = fromWALEntry(wal_entry);
                 if (txn_entry.has_value()) {
                     entries.push_back(txn_entry.value());
@@ -270,6 +275,7 @@ LSN TransactionWAL::getCurrentLSN() const {
     if (wal_manager_) {
         return wal_manager_->getCurrentLSN();
     }
+    std::lock_guard<std::mutex> lsn_guard(lsn_mutex_);
     return current_lsn_;
 }
 

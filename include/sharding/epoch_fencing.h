@@ -244,7 +244,7 @@ public:
      * @param deadline   Latest point at which fencing must be confirmed.
      * @return true if the node was successfully fenced, false otherwise.
      */
-    virtual bool fence(const NodeId& node_id,
+    [[nodiscard]] virtual bool fence(const NodeId& node_id,
                        const std::string& reason,
                        std::chrono::steady_clock::time_point deadline) = 0;
 
@@ -252,7 +252,7 @@ public:
      * @brief Check whether a previously fenced node has been confirmed offline.
      * @return true if the node is known to be offline / fenced.
      */
-    virtual bool isFenced(const NodeId& node_id) const = 0;
+    [[nodiscard]] virtual bool isFenced(const NodeId& node_id) const = 0;
 
     /// Symbolic name of this provider (for logging / metrics).
     [[nodiscard]] virtual std::string providerName() const = 0;

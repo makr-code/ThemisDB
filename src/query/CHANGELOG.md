@@ -10,11 +10,42 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-- Performance benchmarks for vectorized execution and federated query paths
 - Security audit: injection prevention hardening and resource exhaustion edge cases
 - AQL parser thread-safety refactor (per-thread instances or mutex protection)
 
+## [2.0.0] — 2026-04-27
+
+### Added
+- **Continuous Query Language (CQL) engine** (Phase 8.1–8.5) — production-grade standing-query support:
+  - `WindowSpec` — `slidingTime()`, `tumblingTime()`, `slidingCount()` factory methods; `nextTick()` and `startOf()` evaluation
+  - `SynopsisStore` — in-memory ring-buffer synopsis per query; `max_tuples` (10 M default) and `max_bytes` (1 GiB default) capacity limits; thread-safe via `std::mutex`
+  - `IncrementalAgg` — delta-based `SUM`, `COUNT`, `AVG`, `MIN`, `MAX` aggregation without full re-scan; MIN/MAX fallback re-scan on eviction
+  - `CQWatermark` — per-query watermark tracker; late-data detection; correction delta within `allowed_lateness_ms`
+  - `ContinuousQueryPlanner` — compiles `ContinuousQuerySpec` to `ContinuousPlan` with validation (zero-range check, empty-name check, slide ≤ range invariant)
+  - `ContinuousQueryRegistry` — thread-safe `std::unordered_map` of active queries; in-memory (RocksDB persistence planned in v2.1.0)
+  - `ContinuousQueryEngine` — abstract base; `ContinuousQueryEngineImpl` concrete implementation
+  - `CQResultStream` / `ResultQueue` — bounded per-subscriber result queue; overflow drops oldest entries
+  - Result modes: `DELTA` (additions + retractions), `SNAPSHOT` (full window state), `CHANGES` (additions only)
+  - `ContinuousQueryEngine::injectTuple()` — synchronous CDC-feed and test injection API
+  - 20 unit tests (`CQ-01..CQ-20`) in `tests/test_continuous_query_engine.cpp`; registered as CTest target `ContinuousQueryEngineTests`
+- **CQL performance benchmarks** (Phase 8.5) in `benchmarks/bench_continuous_query.cpp`:
+  - `BM_ContinuousQuery_Throughput` (CQ-PERF-01): sustained tuples/s for a sliding time-window query; target ≥ 500 k tuples/s
+  - `BM_ContinuousQuery_TupleLatency` (CQ-PERF-01): per-tuple p99 latency; target ≤ 5 ms
+  - `BM_ContinuousQuery_WindowTick` (CQ-PERF-02): empty-window tick overhead; target ≤ 1 µs
+  - `BM_ContinuousQuery_WindowTick_1k` / `BM_ContinuousQuery_WindowExpiry_10k` — additional hardening variants
+  - Registered as `bench_continuous_query` CMake target; mapped as CQ-PERF-01/02 in `benchmark_target_mapping.json`
+
+### Stability Guarantees (API — v2.0.0+)
+- `ContinuousQueryEngine::registerQuery()` — stable public API; breaking changes require major version bump
+- `ContinuousQueryEngine::dropQuery()` — stable
+- `ContinuousQueryEngine::subscribe()` — stable
+- `ContinuousQueryEngine::listQueries()` — stable
+
+### Research Foundation
+- Arasu, Babu, Widom (2006) — *CQL: A Language for Continuous Queries over Streams and Relations* — directly informs `WindowSpec` semantics and `ResultMode`; see `docs/research/papers/arasu_cql_2006.md`
+
 ## [1.9.0] — 2026-03-24
+
 
 ### Added
 - **`QueryFederation` shard-key routing** — eliminates the O(N shards) broadcast for queries containing a `_key` equality or range predicate:

@@ -221,6 +221,7 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
     //             stub echo string, making the failure invisible to callers.
     //             Now returns success=false + error_message="Model not loaded"
     //             so callers can programmatically detect and handle the error.
+    // Roadmap ref: src/llama_cpp/ROADMAP.md § "Planned Features"
     // See: llama_cpp/FUTURE_ENHANCEMENTS.md §6; AI_ML_IMPACT_ASSESSMENT.md §7 Gap 1.
 #ifdef THEMIS_LLAMA_CPP_STUB_MODE
     // Test-only path: retain the old echo behaviour when the test macro is set.

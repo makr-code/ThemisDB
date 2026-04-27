@@ -140,7 +140,7 @@ public:
      *
      * @return The new BatchId, or 0 if a batch is already open.
      */
-    virtual BatchId beginBatch() = 0;
+    [[nodiscard]] virtual BatchId beginBatch() = 0;
 
     /**
      * @brief Add an event to the currently open batch.
@@ -148,7 +148,7 @@ public:
      * @param event  The event to stage.
      * @return AddEventResult indicating success or the failure reason.
      */
-    virtual AddEventResult addEvent(const Changefeed::ChangeEvent& event) = 0;
+    [[nodiscard]] virtual AddEventResult addEvent(const Changefeed::ChangeEvent& event) = 0;
 
     /**
      * @brief Commit all staged events in the current batch.
@@ -166,24 +166,24 @@ public:
      *
      * @return CommitResult indicating success or the failure reason.
      */
-    virtual CommitResult commitBatch() = 0;
+    [[nodiscard]] virtual CommitResult commitBatch() = 0;
 
     /**
      * @brief Discard all staged events and close the current batch.
      *
      * @return RollbackResult indicating success or the failure reason.
      */
-    virtual RollbackResult rollbackBatch() = 0;
+    [[nodiscard]] virtual RollbackResult rollbackBatch() = 0;
 
     /**
      * @brief Return the current status of the coordinator.
      */
-    virtual BatchStatus status() const = 0;
+    [[nodiscard]] virtual BatchStatus status() const = 0;
 
     /**
      * @brief Return summary info for the current or most recently closed batch.
      */
-    virtual BatchInfo info() const = 0;
+    [[nodiscard]] virtual BatchInfo info() const = 0;
 
     /**
      * @brief Return the events committed in a specific batch.
@@ -191,13 +191,13 @@ public:
      * @param batch_id  ID of a previously committed batch.
      * @return Events in commit order, or an empty vector if not found.
      */
-    virtual std::vector<Changefeed::ChangeEvent> committedEvents(
+    [[nodiscard]] virtual std::vector<Changefeed::ChangeEvent> committedEvents(
         BatchId batch_id) const = 0;
 
     /**
      * @brief Return true if the given batch ID has been committed.
      */
-    virtual bool isCommitted(BatchId batch_id) const = 0;
+    [[nodiscard]] virtual bool isCommitted(BatchId batch_id) const = 0;
 };
 
 // ── InMemoryBatchCommitCoordinator ────────────────────────────────────────────

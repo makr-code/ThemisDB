@@ -152,7 +152,7 @@ public:
      * @param config  Redaction configuration; defaults are applied if omitted.
      * @return PIIRedactionResult with the redacted text and all detected matches.
      */
-    virtual PIIRedactionResult redact(
+    [[nodiscard]] virtual PIIRedactionResult redact(
         const std::string&      text,
         const PIIRedactionConfig& config = {}
     ) = 0;
@@ -162,7 +162,7 @@ public:
      *
      * Useful for pre-flight inspection before deciding whether to store content.
      */
-    virtual std::vector<PIIMatch> detect(const std::string& text) = 0;
+    [[nodiscard]] virtual std::vector<PIIMatch> detect(const std::string& text) = 0;
 
     /**
      * @brief Load or fine-tune a custom NER model for CUSTOM entity detection.
@@ -170,10 +170,10 @@ public:
      * @param custom_model_path  Path to the model artefact.
      * @return `true` if the model loaded successfully.
      */
-    virtual bool train(const std::string& custom_model_path) = 0;
+    [[nodiscard]] virtual bool train(const std::string& custom_model_path) = 0;
 
     /// Return the PIIType values this redactor can detect.
-    virtual std::vector<PIIType> supportedTypes() const = 0;
+    [[nodiscard]] virtual std::vector<PIIType> supportedTypes() const = 0;
 };
 
 } // namespace content

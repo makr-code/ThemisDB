@@ -39,10 +39,10 @@ This document covers planned enhancements to ThemisDB's shared utilities subsyst
 - Line 435: "Implement YAML serialization and file writing" — generated capabilities are not persisted to disk.
 
 **Implementation Notes:**
-- `[ ]` Use a small RocksDB key (`utils_capgen_state`) to persist `last_run_timestamp` and `last_document_count`; load on construction.
-- `[ ]` At line 193: compare `now - last_run_timestamp` against `config_.schedule_interval_s`; skip regeneration if within interval.
-- `[ ]` At line 373: persist the current `document_count` to the state key after each successful run.
-- `[ ]` At line 435: serialize the generated `CapabilitySet` to YAML using `yaml-cpp` and atomically write via `ConfigPathResolver::resolveWritable()`.
+- `[x]` Use a small RocksDB key (`utils_capgen_state`) to persist `last_run_timestamp` and `last_document_count`; load on construction.
+- `[x]` At line 193: compare `now - last_run_timestamp` against `config_.schedule_interval_s`; skip regeneration if within interval.
+- `[x]` At line 373: persist the current `document_count` to the state key after each successful run.
+- `[x]` At line 435: serialize the generated `CapabilitySet` to YAML using `yaml-cpp` and atomically write via `ConfigPathResolver::resolveWritable()`.
 
 ---
 

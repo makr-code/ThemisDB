@@ -151,7 +151,7 @@ public:
      * @param value Serialised record value.
      * @return true on success.
      */
-    virtual bool put(const std::string& key, const std::string& value) = 0;
+    [[nodiscard]] virtual bool put(const std::string& key, const std::string& value) = 0;
 
     /**
      * @brief Retrieve the value for a key.
@@ -159,14 +159,14 @@ public:
      * @param value  Output parameter filled on success.
      * @return true if the key exists, false if not found.
      */
-    virtual bool get(const std::string& key, std::string& value) = 0;
+    [[nodiscard]] virtual bool get(const std::string& key, std::string& value) = 0;
 
     /**
      * @brief Delete a key-value pair.
      * @param key Record key.
      * @return true on success (including when the key did not exist).
      */
-    virtual bool remove(const std::string& key) = 0;
+    [[nodiscard]] virtual bool remove(const std::string& key) = 0;
 
     /**
      * @brief Enumerate all stored keys into @p out.
@@ -193,9 +193,9 @@ class IMigrationIterator {
 public:
     virtual ~IMigrationIterator() = default;
 
-    virtual bool        valid() const = 0;  ///< true while the iterator points at a record.
-    virtual std::string key()   const = 0;  ///< Current record key.
-    virtual std::string value() const = 0;  ///< Current record value.
+    [[nodiscard]] virtual bool        valid() const = 0;  ///< true while the iterator points at a record.
+    [[nodiscard]] virtual std::string key()   const = 0;  ///< Current record key.
+    [[nodiscard]] virtual std::string value() const = 0;  ///< Current record value.
     virtual void        next()        = 0;  ///< Advance to the next record.
 };
 
@@ -233,7 +233,7 @@ struct MigrationContext {
      * @param table_name Table to scan.
      * @return Iterator positioned at the first record, or an exhausted iterator for an empty table.
      */
-    virtual std::unique_ptr<IMigrationIterator> createIterator(
+    [[nodiscard]] virtual std::unique_ptr<IMigrationIterator> createIterator(
         const std::string& table_name) = 0;
 
     virtual ~MigrationContext() = default;

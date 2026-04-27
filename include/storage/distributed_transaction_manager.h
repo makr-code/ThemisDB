@@ -99,7 +99,7 @@ public:
      * @param ops     Operations destined for this shard.
      * @return true → vote COMMIT; false → vote ABORT.
      */
-    virtual bool prepare(
+    [[nodiscard]] virtual bool prepare(
         const std::string&                       txn_id,
         const std::vector<DistributedOperation>& ops
     ) = 0;
@@ -126,7 +126,7 @@ public:
      * Used by DistributedTransaction::get() for cross-shard reads.
      * The default implementation returns std::nullopt (key not found).
      */
-    virtual std::optional<std::string> get(const std::string& /*key*/) {
+    [[nodiscard]] virtual std::optional<std::string> get(const std::string& /*key*/) {
         return std::nullopt;
     }
 };

@@ -130,19 +130,19 @@ public:
      * @param hint Optional allocation hint for optimization
      * @return Pointer to allocated memory or error
      */
-    virtual Result<void*> allocate(size_t size, AllocationHint hint = AllocationHint::NONE) = 0;
+    [[nodiscard]] virtual Result<void*> allocate(size_t size, AllocationHint hint = AllocationHint::NONE) = 0;
     
     /**
      * @brief Deallocate memory
      * @param ptr Pointer to memory to free
      * @return Success or error
      */
-    virtual Result<void> deallocate(void* ptr) = 0;
+    [[nodiscard]] virtual Result<void> deallocate(void* ptr) = 0;
     
     /**
      * @brief Get allocator statistics
      */
-    virtual const AllocationStats& getStats() const = 0;
+    [[nodiscard]] virtual const AllocationStats& getStats() const = 0;
     
     /**
      * @brief Reset allocator state (free all allocations)
@@ -151,12 +151,12 @@ public:
      * It should only be called when no other threads are actively using
      * the allocator. Typically used during shutdown or testing.
      */
-    virtual Result<void> reset() = 0;
+    [[nodiscard]] virtual Result<void> reset() = 0;
     
     /**
      * @brief Get allocator name for diagnostics
      */
-    virtual const char* getName() const = 0;
+    [[nodiscard]] virtual const char* getName() const = 0;
 };
 
 /**

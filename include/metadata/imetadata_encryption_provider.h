@@ -116,7 +116,7 @@ public:
      * @param field_name  Metadata field name (e.g. "connection_string").
      * @return true if this provider will encrypt values for that field.
      */
-    virtual bool shouldEncrypt(std::string_view field_name) const = 0;
+    [[nodiscard]] virtual bool shouldEncrypt(std::string_view field_name) const = 0;
 
     /**
      * @brief Encrypt @p value for the field identified by @p field_name.
@@ -126,7 +126,7 @@ public:
      * @return            Cipher-text representation (algorithm-specific encoding).
      * @throws MetadataEncryptionException on key / configuration errors.
      */
-    virtual std::string encrypt(std::string_view field_name,
+    [[nodiscard]] virtual std::string encrypt(std::string_view field_name,
                                 std::string_view value) const = 0;
 
     /**
@@ -138,13 +138,13 @@ public:
      * @throws MetadataEncryptionException on key / configuration errors or
      *         if the cipher-text is malformed.
      */
-    virtual std::string decrypt(std::string_view field_name,
+    [[nodiscard]] virtual std::string decrypt(std::string_view field_name,
                                 std::string_view cipher_text) const = 0;
 
     /**
      * @brief Returns the algorithm identifier for this provider.
      */
-    virtual MetadataEncryptionAlgorithm algorithm() const = 0;
+    [[nodiscard]] virtual MetadataEncryptionAlgorithm algorithm() const = 0;
 };
 
 // ── NoOpMetadataEncryptionProvider ────────────────────────────────────────────

@@ -7966,7 +7966,245 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_scheduled_edge_refresh.cpp")
 endif()
 
 # ============================================================================
-# Importer Plugin API Tests (standalone - avoids createPlugin/destroyPlugin
+# OntologyManager focused tests (OM-01..OM-12)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_ontology_manager.cpp")
+    message(STATUS "Adding OntologyManager focused tests (OM-01..OM-12)")
+
+    add_executable(test_ontology_manager_focused
+        graph/test_ontology_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/ontology_manager.cpp
+    )
+
+    target_include_directories(test_ontology_manager_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_ontology_manager_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ontology_manager_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OntologyManagerFocusedTests COMMAND test_ontology_manager_focused)
+
+    set_tests_properties(OntologyManagerFocusedTests PROPERTIES
+        LABELS "graph;ontology;semantic;constraints;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  OntologyManager: loadFromJson, isA transitive, allowedEdgeTypes, unknown concepts, thread-safety, round-trip")
+endif()
+
+# ============================================================================
+# PathConstraints semantic tests (SC-01..SC-10)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_path_constraints_semantic.cpp")
+    message(STATUS "Adding PathConstraints semantic focused tests (SC-01..SC-10)")
+
+    add_executable(test_path_constraints_semantic_focused
+        graph/test_path_constraints_semantic.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/ontology_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/parallel_traversal.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/distributed_graph.cpp
+    )
+
+    target_include_directories(test_path_constraints_semantic_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_path_constraints_semantic_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_path_constraints_semantic_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME PathConstraintsSemanticFocusedTests COMMAND test_path_constraints_semantic_focused)
+
+    set_tests_properties(PathConstraintsSemanticFocusedTests PROPERTIES
+        LABELS "graph;path;constraints;semantic;ontology;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PathConstraintsSemantic: addSemanticConstraint, validateSemanticPath, STRICT/WARN modes, isEdgeTypeAllowed, graceful degradation")
+endif()
+
+# ============================================================================
+# KnowledgeGraphReasoner tests (KGR-01..KGR-20)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_knowledge_graph_reasoner.cpp")
+    message(STATUS "Adding KnowledgeGraphReasoner focused tests (KGR-01..KGR-20)")
+
+    add_executable(test_knowledge_graph_reasoner_focused
+        graph/test_knowledge_graph_reasoner.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/knowledge_graph_reasoner.cpp
+    )
+
+    target_include_directories(test_knowledge_graph_reasoner_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_knowledge_graph_reasoner_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_knowledge_graph_reasoner_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME KnowledgeGraphReasonerFocusedTests
+             COMMAND test_knowledge_graph_reasoner_focused)
+
+    set_tests_properties(KnowledgeGraphReasonerFocusedTests PROPERTIES
+        LABELS "graph;knowledge;reasoning;forward-chaining;horn-clause;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  KnowledgeGraphReasoner: addRule, infer, explain, onCDCEvent, applyLoRAScore, InferenceStore TTL/eviction")
+endif()
+
+# ============================================================================
+# RAG Phase 10: OntologyAwareRetriever (OAR-01..OAR-08)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_ontology_aware_retriever.cpp")
+    message(STATUS "Adding OntologyAwareRetriever focused tests (OAR-01..OAR-08)")
+
+    add_executable(test_ontology_aware_retriever_focused
+        rag/test_ontology_aware_retriever.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/ontology_aware_retriever.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/knowledge_graph_retriever.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/ontology_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_ontology_aware_retriever_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_ontology_aware_retriever_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ontology_aware_retriever_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OntologyAwareRetrieverFocusedTests
+             COMMAND test_ontology_aware_retriever_focused)
+
+    set_tests_properties(OntologyAwareRetrieverFocusedTests PROPERTIES
+        LABELS "rag;ontology;knowledge-graph;retrieval;phase10;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  OntologyAwareRetriever: config/factory, entity expansion, edge filtering, graceful degradation")
+else()
+    message(STATUS "OntologyAwareRetriever focused tests not found")
+endif()
+
+# ============================================================================
+# RAG Phase 10: KnowledgeGraphRetriever + KnowledgeGraphReasoner (KGR-RAG-01..KGR-RAG-06)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_knowledge_graph_retriever_reasoning.cpp")
+    message(STATUS "Adding KGRetriever+Reasoner focused tests (KGR-RAG-01..KGR-RAG-06)")
+
+    add_executable(test_kg_retriever_reasoning_focused
+        rag/test_knowledge_graph_retriever_reasoning.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/knowledge_graph_retriever.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/knowledge_graph_reasoner.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_kg_retriever_reasoning_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_kg_retriever_reasoning_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_kg_retriever_reasoning_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME KGRetrieverReasoningFocusedTests
+             COMMAND test_kg_retriever_reasoning_focused)
+
+    set_tests_properties(KGRetrieverReasoningFocusedTests PROPERTIES
+        LABELS "rag;knowledge-graph;reasoning;multi-hop;inference;phase10;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  KGRetriever+Reasoner: setReasoner, inference chains, metadata, hop limit")
+else()
+    message(STATUS "KGRetriever+Reasoner focused tests not found")
+endif()
+
+# ============================================================================
+# RAG Phase 10: LoRAEnhancedRetriever (LER-01..LER-06)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_lora_enhanced_retriever.cpp")
+    message(STATUS "Adding LoRAEnhancedRetriever focused tests (LER-01..LER-06)")
+
+    add_executable(test_lora_enhanced_retriever_focused
+        rag/test_lora_enhanced_retriever.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/lora_enhanced_retriever.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_lora_enhanced_retriever_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_lora_enhanced_retriever_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_lora_enhanced_retriever_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LoRAEnhancedRetrieverFocusedTests
+             COMMAND test_lora_enhanced_retriever_focused)
+
+    set_tests_properties(LoRAEnhancedRetrieverFocusedTests PROPERTIES
+        LABELS "rag;lora;reranking;domain-retrieval;phase10;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  LoRAEnhancedRetriever: ILoRAScorer, HeuristicLoRAScorer, rerank, factory helpers")
+else()
+    message(STATUS "LoRAEnhancedRetriever focused tests not found")
+endif()
+
 # symbol collision with postgres_importer.cpp in themis_core)
 # ============================================================================
 
@@ -12824,13 +13062,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_arrow_user_registration_plu
         ${THEMIS_ROOT_DIR}/src/utils/error_registry.cpp
     )
 
-    if(DEFINED THEMIS_ENABLE_DEV_STUBS AND THEMIS_ENABLE_DEV_STUBS)
-        target_sources(test_arrow_user_registration_plugin_focused PRIVATE
-            ${THEMIS_ROOT_DIR}/src/stubs.cpp
-        )
-        message(STATUS "  ArrowUserRegistrationPlugin: DEV stubs enabled (src/stubs.cpp)")
-    endif()
-
     target_include_directories(test_arrow_user_registration_plugin_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
@@ -12879,6 +13110,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_arrow_user_registration_plu
     )
 
     message(STATUS "  ArrowUserRegistrationPlugin: bulkSyncFromArrow, authenticateFromArrow, 1000-user batch")
+endif()
+
+# AIPluginGenerator focused tests (UNUSED_FUNCTIONS_REPORT KEEP — minimum coverage)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ai_plugin_generator.cpp")
+    message(STATUS "Adding AIPluginGenerator focused tests")
+
+    add_executable(test_ai_plugin_generator_focused
+        test_ai_plugin_generator.cpp
+        ${THEMIS_ROOT_DIR}/src/plugins/ai/ai_plugin_generator.cpp
+    )
+
+    target_include_directories(test_ai_plugin_generator_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_ai_plugin_generator_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ai_plugin_generator_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AIPluginGeneratorFocusedTests COMMAND test_ai_plugin_generator_focused)
+
+    set_tests_properties(AIPluginGeneratorFocusedTests PROPERTIES
+        LABELS "plugins;ai;plugin-generator;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AIPluginGeneratorFocusedTests: APG-01..06 (validatePrompt, generatePlugin)")
 endif()
 
 
@@ -18614,6 +18881,31 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_query_federation.cpp")
     message(STATUS "  QueryFederation: shard-key routing, partition pruning, scatter-gather")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_continuous_query_engine.cpp")
+    message(STATUS "Adding Query: ContinuousQueryEngine unit tests (CQ-01..CQ-20)")
+    add_executable(test_continuous_query_engine_focused test_continuous_query_engine.cpp)
+    target_include_directories(test_continuous_query_engine_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_continuous_query_engine_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_continuous_query_engine_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ContinuousQueryEngineTests COMMAND test_continuous_query_engine_focused)
+    set_tests_properties(ContinuousQueryEngineTests PROPERTIES LABELS "query;cql;continuous;focused;unit" TIMEOUT 60)
+    message(STATUS "  ContinuousQueryEngine: window spec, synopsis, incremental agg, watermark, result modes")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/integration/test_continuous_query_e2e.cpp")
+    message(STATUS "Adding Query: ContinuousQuery E2E integration tests (CQI-01..05)")
+    add_executable(test_continuous_query_e2e integration/test_continuous_query_e2e.cpp)
+    target_include_directories(test_continuous_query_e2e PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_continuous_query_e2e PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_continuous_query_e2e PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ContinuousQueryE2ETests COMMAND test_continuous_query_e2e)
+    set_tests_properties(ContinuousQueryE2ETests PROPERTIES
+        LABELS "query;cql;continuous;integration;e2e"
+        TIMEOUT 120)
+    message(STATUS "  ContinuousQuery E2E: register, inject, stream, fan-out, late events, cancel/resume, drop/re-register")
+endif()
+
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_query_plan_visualizer.cpp")
     message(STATUS "Adding Query: QueryPlanVisualizer focused tests")
     add_executable(test_query_plan_visualizer_focused test_query_plan_visualizer.cpp)
@@ -24022,6 +24314,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_projects.cpp")
         ${CMAKE_SOURCE_DIR}/src/projects/project_lifecycle.cpp
         ${CMAKE_SOURCE_DIR}/src/projects/project_template.cpp
         ${CMAKE_SOURCE_DIR}/src/projects/collaboration_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/projects/project_metrics.cpp
     )
 
     target_include_directories(test_projects PRIVATE
@@ -24057,7 +24350,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_projects.cpp")
         TIMEOUT 60
     )
 
-    message(STATUS "  Projects: ProjectVersioning (PV-01..PV-06), ProjectDiff (PD-01..PD-07), ProjectLifecycle (PL-01..PL-07), ProjectTemplate (PT-01..PT-05), CollaborationManager (CM-01..CM-08)")
+    message(STATUS "  Projects: ProjectVersioning (PV-01..PV-06), ProjectDiff (PD-01..PD-07), ProjectLifecycle (PL-01..PL-07), ProjectTemplate (PT-01..PT-05), CollaborationManager (CM-01..CM-08), ProjectMetrics (PM-01..PM-06)")
 else()
     message(STATUS "Projects module tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_projects.cpp")
 endif()

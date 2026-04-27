@@ -332,7 +332,9 @@ public:
         //   not-supported error path.
         // Production Delta: Object keys and content come from injected lambdas;
         //   no AWS SDK calls, no IAM auth, no request signing, no retries.
+        // Roadmap ref: src/ingestion/ROADMAP.md § "Phase 3: Distributed Sources & Connectors"
         // Removal Plan: Not removed — remains the test-injection path.
+        // Roadmap ref: src/ingestion/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
         // -------------------------------------------------------------------
         if (list_fn_ && fetch_fn_) {
             ingestFromMock(stats, progress_callback,
@@ -497,6 +499,7 @@ private:
     //   setFetchFnForTesting()).
     // Production Delta: Object listing and fetching come from injected lambdas;
     //   no AWS SDK, no network I/O, no checksum verification.
+    // Roadmap ref: src/ingestion/ROADMAP.md § "Phase 3: Distributed Sources & Connectors"
     // Removal Plan: Not removed — remains the test-injection path.
     // -----------------------------------------------------------------------
     void ingestFromMock(IngestionStats& stats,

@@ -37,6 +37,7 @@
 //                   Timestamps are local system clock only. Not legally binding.
 // Removal Plan: Replaced at build time when -DTHEMIS_USE_OPENSSL_TSA=ON is set.
 //               All regulated/compliance deployments must use the real TSA backend.
+// Roadmap ref: src/security/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
 
 #include "security/timestamp_authority.h"
 #include "utils/logger.h"

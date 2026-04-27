@@ -250,10 +250,7 @@ public:
     /**
      * @brief Returns true if the server is currently running.
      */
-    virtual bool isRunning() const = 0;
-
-    /**
-     * @brief Register a dataset producer under the given path.
+    [[nodiscard]] virtual bool isRunning() const = 0;
      *
      * The @p producer callback is invoked each time a client calls doGet()
      * for this path.  The returned batch is sent to the client.
@@ -288,12 +285,12 @@ public:
     /**
      * @brief List currently registered datasets.
      */
-    virtual std::vector<FlightInfo> listRegisteredDatasets() const = 0;
+    [[nodiscard]] virtual std::vector<FlightInfo> listRegisteredDatasets() const = 0;
 
     /**
      * @brief Returns the server endpoint URL (e.g. "grpc://0.0.0.0:8815").
      */
-    virtual std::string endpointUrl() const = 0;
+    [[nodiscard]] virtual std::string endpointUrl() const = 0;
 };
 
 // ---------------------------------------------------------------------------
@@ -326,7 +323,7 @@ public:
      * @param call_opts Per-call options (timeout, metadata).
      * @return Vector of FlightInfo descriptors.
      */
-    virtual std::vector<FlightInfo> listFlights(
+    [[nodiscard]] virtual std::vector<FlightInfo> listFlights(
         const FlightCallOptions& call_opts = {}) = 0;
 
     /**
@@ -336,7 +333,7 @@ public:
      * @return The RecordBatch produced by the server.
      * @throws std::runtime_error if the dataset is not found or the call fails.
      */
-    virtual themis::analytics::ArrowRecordBatch doGet(
+    [[nodiscard]] virtual themis::analytics::ArrowRecordBatch doGet(
         const FlightDescriptor& descriptor,
         const FlightCallOptions& call_opts = {}) = 0;
 
@@ -347,7 +344,7 @@ public:
      * @param call_opts  Per-call options.
      * @return Result of the put operation.
      */
-    virtual FlightPutResult doPut(
+    [[nodiscard]] virtual FlightPutResult doPut(
         const themis::analytics::ArrowRecordBatch& batch,
         const FlightDescriptor& descriptor,
         const FlightCallOptions& call_opts = {}) = 0;
@@ -360,7 +357,7 @@ public:
     /**
      * @brief Returns true if the client is connected.
      */
-    virtual bool isConnected() const = 0;
+    [[nodiscard]] virtual bool isConnected() const = 0;
 };
 
 } // namespace analytics

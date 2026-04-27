@@ -406,8 +406,9 @@ std::vector<EntityLinkingMatch> EntityLinker::link(const std::string& text) cons
 // =============================================================================
 
 struct KnowledgeGraphRetriever::Impl {
-    const KnowledgeGraph* graph;
-    KGRetrieverConfig     config;
+    const KnowledgeGraph*                 graph;
+    KGRetrieverConfig                     config;
+    graph::KnowledgeGraphReasoner*        reasoner = nullptr;  ///< optional; not owned
 };
 
 // =============================================================================
@@ -432,6 +433,10 @@ const KGRetrieverConfig& KnowledgeGraphRetriever::getConfig() const {
 
 void KnowledgeGraphRetriever::setConfig(const KGRetrieverConfig& config) {
     impl_->config = config;
+}
+
+void KnowledgeGraphRetriever::setReasoner(graph::KnowledgeGraphReasoner* reasoner) {
+    impl_->reasoner = reasoner;
 }
 
 KGRetrievalResult KnowledgeGraphRetriever::retrieve(
@@ -485,6 +490,47 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
 
     THEMIS_DEBUG("KG traversal: {} nodes in query neighbourhood", query_neighbourhood.size());
 
+    // ── Step 2b: KnowledgeGraphReasoner multi-hop inference ─────────────────
+    // Run forward-chaining inference for each linked query entity when a
+    // reasoner has been attached and max_inference_hops > 0.
+    if (impl_->reasoner && cfg.max_inference_hops > 0) {
+        const auto r_start = std::chrono::steady_clock::now();
+
+        for (const auto& match : result.query_entity_links) {
+            if (!match.is_linked) continue;
+
+            // Guard against reasoning timeout using wall-clock budget.
+            const auto now = std::chrono::steady_clock::now();
+            const double elapsed_so_far =
+                std::chrono::duration<double, std::milli>(now - r_start).count();
+            if (elapsed_so_far > cfg.reasoning_timeout_ms) {
+                THEMIS_WARN("KnowledgeGraphRetriever: reasoning timeout ({:.1f}ms); "
+                            "falling back to direct KG query", elapsed_so_far);
+                break;
+            }
+
+            auto chain = impl_->reasoner->infer(match.node_id, cfg.max_inference_hops);
+            if (!chain.empty()) {
+                result.has_reasoning = true;
+                result.inference_chains.push_back(chain);
+
+                // Expand query neighbourhood with nodes reachable via inference.
+                for (const auto& edge : chain.edges) {
+                    query_neighbourhood.insert(edge.fact.subject);
+                    query_neighbourhood.insert(edge.fact.object);
+                }
+            }
+        }
+
+        result.reasoning_elapsed_ms =
+            std::chrono::duration<double, std::milli>(
+                std::chrono::steady_clock::now() - r_start).count();
+
+        THEMIS_DEBUG("KGR reasoning: {} chains, {:.2f}ms",
+                     result.inference_chains.size(),
+                     result.reasoning_elapsed_ms);
+    }
+
     // ── Step 3: Score each candidate document ────────────────────────────────
     result.documents.reserve(candidates.size());
 
@@ -520,6 +566,34 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
         const double w = cfg.kg_score_weight;
         aug_doc.final_score = doc.similarity_score * (1.0 - w) +
                               aug_doc.kg_boost * w;
+
+        // Attach reasoning chain to document metadata when requested.
+        if (cfg.attach_reasoning_chain_to_metadata && result.has_reasoning) {
+            std::string chain_text;
+            for (const auto& chain : result.inference_chains) {
+                for (const auto& edge : chain.edges) {
+                    // Only include edges relevant to this document.
+                    bool relevant = false;
+                    for (const auto& dm : aug_doc.entity_links) {
+                        if (dm.is_linked &&
+                            (edge.fact.subject == dm.node_id ||
+                             edge.fact.object  == dm.node_id)) {
+                            relevant = true;
+                            break;
+                        }
+                    }
+                    if (!relevant) continue;
+                    if (!chain_text.empty()) chain_text += "; ";
+                    chain_text += edge.fact.subject + " -[" +
+                                  edge.fact.predicate + "]-> " +
+                                  edge.fact.object +
+                                  " (rule=" + edge.rule_id + ")";
+                }
+            }
+            if (!chain_text.empty()) {
+                aug_doc.document.metadata["reasoning_chain"] = chain_text;
+            }
+        }
 
         THEMIS_DEBUG("Doc '{}': orig={:.3f}, kg_boost={:.3f}, final={:.3f}",
                      doc.id, doc.similarity_score, aug_doc.kg_boost,

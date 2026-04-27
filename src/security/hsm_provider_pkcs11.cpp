@@ -61,6 +61,7 @@ namespace themis { namespace security {
 //             fails). Controlled by THEMIS_ALLOW_HSM_STUB env var in production mode.
 // Production Delta: Fallback KEK is randomly generated in-memory, not HSM-protected.
 //                   Key material is not backed by hardware; wrap/unwrap is software-only.
+// Roadmap ref: src/security/ROADMAP.md § "Phase 2: ABAC & HSM Direct Integration"
 // Removal Plan: No removal needed – fallback is a runtime safety net. Real HSM usage is
 //               enforced in production mode (THEMIS_PRODUCTION_MODE=1) unless explicitly
 //               overridden. Fallback triggers a loud WARN log in every call.

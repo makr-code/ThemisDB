@@ -126,25 +126,25 @@ public:
      * @brief Get engine name
      * @return Engine identifier (e.g., "regex", "ner", "embedding")
      */
-    virtual std::string getName() const = 0;
+    [[nodiscard]] virtual std::string getName() const = 0;
     
     /**
      * @brief Get engine version
      * @return Semantic version string (e.g., "1.0.0")
      */
-    virtual std::string getVersion() const = 0;
+    [[nodiscard]] virtual std::string getVersion() const = 0;
     
     /**
      * @brief Check if engine is enabled
      * @return true if engine is active
      */
-    virtual bool isEnabled() const = 0;
+    [[nodiscard]] virtual bool isEnabled() const = 0;
     
     /**
      * @brief Get engine's signature metadata
      * @return Plugin signature for PKI verification
      */
-    virtual PluginSignature getSignature() const = 0;
+    [[nodiscard]] virtual PluginSignature getSignature() const = 0;
     
     /**
      * @brief Initialize engine with signed configuration
@@ -155,7 +155,7 @@ public:
      * @param config YAML configuration node for this engine
      * @return true on success, false on initialization failure
      */
-    virtual bool initialize(const nlohmann::json& config) = 0;
+    [[nodiscard]] virtual bool initialize(const nlohmann::json& config) = 0;
     
     /**
      * @brief Reload engine configuration at runtime
@@ -163,7 +163,7 @@ public:
      * @param config New YAML configuration node
      * @return true on success, false if reload failed (engine retains old config)
      */
-    virtual bool reload(const nlohmann::json& config) = 0;
+    [[nodiscard]] virtual bool reload(const nlohmann::json& config) = 0;
     
     /**
      * @brief Detect PII in plain text
@@ -171,7 +171,7 @@ public:
      * @param text Input text to scan
      * @return Vector of PII findings
      */
-    virtual std::vector<PIIFinding> detectInText(const std::string& text) const = 0;
+    [[nodiscard]] virtual std::vector<PIIFinding> detectInText(const std::string& text) const = 0;
     
     /**
      * @brief Classify field name for PII type
@@ -181,7 +181,7 @@ public:
      * @param field_name Field name to classify
      * @return PIIType if field suggests PII, PIIType::UNKNOWN otherwise
      */
-    virtual PIIType classifyFieldName(const std::string& field_name) const = 0;
+    [[nodiscard]] virtual PIIType classifyFieldName(const std::string& field_name) const = 0;
     
     /**
      * @brief Get recommended redaction mode for PII type
@@ -189,21 +189,21 @@ public:
      * @param type PII type
      * @return "strict", "partial", or "none"
      */
-    virtual std::string getRedactionRecommendation(PIIType type) const = 0;
+    [[nodiscard]] virtual std::string getRedactionRecommendation(PIIType type) const = 0;
     
     /**
      * @brief Get last error message
      * 
      * @return Error message from last failed operation
      */
-    virtual std::string getLastError() const = 0;
+    [[nodiscard]] virtual std::string getLastError() const = 0;
     
     /**
      * @brief Get engine-specific metadata (pattern count, model info, etc.)
      * 
      * @return JSON object with engine metadata
      */
-    virtual nlohmann::json getMetadata() const = 0;
+    [[nodiscard]] virtual nlohmann::json getMetadata() const = 0;
 
     /**
      * @brief Return the maximum number of bytes a single entity span can occupy.

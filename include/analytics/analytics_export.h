@@ -93,7 +93,7 @@ public:
      * @param options Export options
      * @return Export result
      */
-    virtual ExportResult exportToFile(
+    [[nodiscard]] virtual ExportResult exportToFile(
         const ArrowRecordBatch& batch,
         const std::string& output_path,
         const ExportOptions& options = ExportOptions()) = 0;
@@ -104,7 +104,7 @@ public:
      * @param options Export options
      * @return Exported data as string
      */
-    virtual std::string exportToString(
+    [[nodiscard]] virtual std::string exportToString(
         const ArrowRecordBatch& batch,
         const ExportOptions& options = ExportOptions()) = 0;
 
@@ -115,7 +115,7 @@ public:
      * @param options Export options
      * @return Export result
      */
-    virtual ExportResult exportWithCallback(
+    [[nodiscard]] virtual ExportResult exportWithCallback(
         const ArrowRecordBatch& batch,
         std::function<void(const std::vector<uint8_t>&)> callback,
         const ExportOptions& options = ExportOptions()) = 0;
@@ -123,12 +123,12 @@ public:
     /**
      * @brief Check if format is supported
      */
-    virtual bool supportsFormat(ExportFormat format) const = 0;
+    [[nodiscard]] virtual bool supportsFormat(ExportFormat format) const = 0;
 
     /**
      * @brief Get exporter name/version
      */
-    virtual std::string getExporterInfo() const = 0;
+    [[nodiscard]] virtual std::string getExporterInfo() const = 0;
 };
 
 /**

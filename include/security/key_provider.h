@@ -161,7 +161,7 @@ public:
      * @throws KeyNotFoundException if key does not exist
      * @throws KeyOperationException if key is not in ACTIVE or DEPRECATED status
      */
-    virtual std::vector<uint8_t> getKey(const std::string& key_id) = 0;
+    [[nodiscard]] virtual std::vector<uint8_t> getKey(const std::string& key_id) = 0;
     
     /**
      * @brief Retrieve a specific version of an encryption key
@@ -174,7 +174,7 @@ public:
      * @throws KeyNotFoundException if key version does not exist
      * @throws KeyOperationException if key is DELETED
      */
-    virtual std::vector<uint8_t> getKey(const std::string& key_id, uint32_t version) = 0;
+    [[nodiscard]] virtual std::vector<uint8_t> getKey(const std::string& key_id, uint32_t version) = 0;
     
     /**
      * @brief Create a new version of a key (rotation)
@@ -190,7 +190,7 @@ public:
      * @return New key version number
      * @throws KeyOperationException if rotation fails
      */
-    virtual uint32_t rotateKey(const std::string& key_id) = 0;
+    [[nodiscard]] virtual uint32_t rotateKey(const std::string& key_id) = 0;
     
     /**
      * @brief List all available keys with metadata
@@ -202,7 +202,7 @@ public:
      * 
      * @return Vector of key metadata (all versions)
      */
-    virtual std::vector<KeyMetadata> listKeys() = 0;
+    [[nodiscard]] virtual std::vector<KeyMetadata> listKeys() = 0;
     
     /**
      * @brief Get metadata for a specific key
@@ -212,7 +212,7 @@ public:
      * @return Key metadata
      * @throws KeyNotFoundException if key does not exist
      */
-    virtual KeyMetadata getKeyMetadata(const std::string& key_id, uint32_t version = 0) = 0;
+    [[nodiscard]] virtual KeyMetadata getKeyMetadata(const std::string& key_id, uint32_t version = 0) = 0;
     
     /**
      * @brief Mark a deprecated key for deletion
@@ -234,7 +234,7 @@ public:
      * @param version Key version (0 = check if any version exists)
      * @return true if key exists, false otherwise
      */
-    virtual bool hasKey(const std::string& key_id, uint32_t version = 0) = 0;
+    [[nodiscard]] virtual bool hasKey(const std::string& key_id, uint32_t version = 0) = 0;
     
     /**
      * @brief Create a new key from raw bytes
@@ -247,7 +247,7 @@ public:
      * @return Key version number
      * @throws KeyOperationException if key creation fails
      */
-    virtual uint32_t createKeyFromBytes(
+    [[nodiscard]] virtual uint32_t createKeyFromBytes(
         const std::string& key_id,
         const std::vector<uint8_t>& key_bytes,
         const KeyMetadata& metadata = KeyMetadata()) = 0;

@@ -109,14 +109,14 @@ public:
      * @param key Attribute name.
      * @return The attribute value if found, `std::nullopt` otherwise.
      */
-    virtual std::optional<std::string> get(std::string_view key) const = 0;
+    [[nodiscard]] virtual std::optional<std::string> get(std::string_view key) const = 0;
 
     /**
      * @brief Return true if the attribute exists in this context or any parent.
      * @param key Attribute name.
      * @return true when `get(key).has_value()`.
      */
-    virtual bool has(std::string_view key) const = 0;
+    [[nodiscard]] virtual bool has(std::string_view key) const = 0;
 
     // -----------------------------------------------------------------------
     // Child context creation
@@ -131,7 +131,7 @@ public:
      *
      * @return A new `IContext` whose parent is *this.
      */
-    virtual IContextPtr createChild() const = 0;
+    [[nodiscard]] virtual IContextPtr createChild() const = 0;
 
     // -----------------------------------------------------------------------
     // Bridge to existing logging API
@@ -147,7 +147,7 @@ public:
      * @return A `TraceContext` with trace_id and request_id populated
      *         (empty strings if the corresponding attributes are absent).
      */
-    virtual TraceContext toTraceContext() const = 0;
+    [[nodiscard]] virtual TraceContext toTraceContext() const = 0;
 };
 
 // ---------------------------------------------------------------------------

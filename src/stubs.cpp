@@ -21,50 +21,18 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-// Stub implementations for linking purposes
-// These stubs allow themis_tests to link successfully
-// They are minimal implementations that prevent linker errors
-
-#include <memory>
-#include <map>
-#include <string>
-#include <vector>
-
-namespace themis::llm::lora {
-
-struct Feedback {
-    // Stub
-};
-
-struct TrainingTriggerPlugin {
-    virtual ~TrainingTriggerPlugin() = default;
-};
-
-struct CacheAwareWeightingPlugin {
-    virtual ~CacheAwareWeightingPlugin() = default;
-    virtual void process(Feedback&) {}
-};
-
-struct LoRATrainingConfig {
-    static LoRATrainingConfig loadFromFile(const std::string&) {
-        return {};
-    }
-    
-    std::shared_ptr<TrainingTriggerPlugin> createTrainingTriggerPlugin(const std::string&) const {
-        return std::make_shared<TrainingTriggerPlugin>();
-    }
-    
-    std::shared_ptr<CacheAwareWeightingPlugin> createCacheWeightingPlugin(const std::string&) const {
-        return std::make_shared<CacheAwareWeightingPlugin>();
-    }
-};
-
-struct FeedbackStorageService {
-    std::vector<Feedback> getFeedbackForAdapter(const std::string&, unsigned __int64) const {
-        return {};
-    }
-};
-
-} // namespace themis::llm::lora
+// Reserved placeholder for future development stubs.
+//
+// All stub implementations that previously lived here have been migrated to
+// their canonical production source files:
+//
+//   themis::llm::lora::Feedback              → include/llm/lora_framework/lora_feedback.h
+//   themis::llm::lora::TrainingTriggerPlugin → src/llm/lora_framework/feedback_plugin.cpp
+//   themis::llm::lora::CacheAwareWeightingPlugin → src/llm/lora_framework/feedback_plugin.cpp
+//   themis::llm::lora::LoRATrainingConfig    → src/llm/lora_framework/lora_training_config.cpp
+//   themis::llm::lora::FeedbackStorageService → src/llm/lora_framework/lora_feedback_storage.cpp
+//
+// Migration completed: 2026-04-27 (v1.9.0)
+// See src/ROADMAP.md § "Consolidation Phase — Stub/Simulation Lifecycle"
 
 

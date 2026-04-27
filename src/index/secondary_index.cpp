@@ -46,6 +46,7 @@
 #include <cctype>
 #include <chrono>
 #include <thread>
+#include "utils/geometric_distances.h"
 
 namespace themis {
 
@@ -2271,19 +2272,7 @@ std::pair<double, double> SecondaryIndexManager::decodeGeohash(std::string_view 
 }
 
 double SecondaryIndexManager::haversineDistance(double lat1, double lon1, double lat2, double lon2) {
-	constexpr double R = 6371.0; // Earth radius in km
-	constexpr double PI = 3.14159265358979323846;
-	
-	double dLat = (lat2 - lat1) * PI / 180.0;
-	double dLon = (lon2 - lon1) * PI / 180.0;
-	
-	double a = std::sin(dLat / 2.0) * std::sin(dLat / 2.0) +
-	           std::cos(lat1 * PI / 180.0) * std::cos(lat2 * PI / 180.0) *
-	           std::sin(dLon / 2.0) * std::sin(dLon / 2.0);
-	
-	double c = 2.0 * std::atan2(std::sqrt(a), std::sqrt(1.0 - a));
-	
-	return R * c;
+	return themis::geo::haversine_km(lat1, lon1, lat2, lon2);
 }
 
 std::pair<SecondaryIndexManager::Status, std::vector<std::string>>

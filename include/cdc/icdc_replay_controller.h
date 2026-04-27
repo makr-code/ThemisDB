@@ -119,12 +119,12 @@ public:
      *
      * @return Up to ReplayOptions::batch_size events in sequence order.
      */
-    virtual std::vector<Changefeed::ChangeEvent> nextBatch() = 0;
+    [[nodiscard]] virtual std::vector<Changefeed::ChangeEvent> nextBatch() = 0;
 
     /**
      * @brief Return true when all events in the window have been delivered.
      */
-    virtual bool done() const = 0;
+    [[nodiscard]] virtual bool done() const = 0;
 
     /**
      * @brief Cancel the session before it is fully drained.
@@ -136,12 +136,12 @@ public:
     /**
      * @brief Return the current state of the session.
      */
-    virtual ReplaySessionState state() const = 0;
+    [[nodiscard]] virtual ReplaySessionState state() const = 0;
 
     /**
      * @brief Total events delivered across all nextBatch() calls so far.
      */
-    virtual std::size_t deliveredCount() const = 0;
+    [[nodiscard]] virtual std::size_t deliveredCount() const = 0;
 };
 
 // ── ICDCReplayController ──────────────────────────────────────────────────────
@@ -161,7 +161,7 @@ public:
      * @param options  Replay window and filter configuration.
      * @return A new IReplaySession; never null.
      */
-    virtual std::unique_ptr<IReplaySession> beginReplay(
+    [[nodiscard]] virtual std::unique_ptr<IReplaySession> beginReplay(
         const ReplayOptions& options) = 0;
 
     /**
@@ -171,7 +171,7 @@ public:
      * @param to_timestamp_ms    Inclusive upper bound (0 = no upper bound).
      * @return A new IReplaySession; never null.
      */
-    virtual std::unique_ptr<IReplaySession> replayFromTimestamp(
+    [[nodiscard]] virtual std::unique_ptr<IReplaySession> replayFromTimestamp(
         int64_t from_timestamp_ms,
         int64_t to_timestamp_ms = 0) = 0;
 
@@ -182,14 +182,14 @@ public:
      * @param to_sequence    Inclusive upper bound (0 = no upper bound).
      * @return A new IReplaySession; never null.
      */
-    virtual std::unique_ptr<IReplaySession> replayFromSequence(
+    [[nodiscard]] virtual std::unique_ptr<IReplaySession> replayFromSequence(
         uint64_t from_sequence,
         uint64_t to_sequence = 0) = 0;
 
     /**
      * @brief Number of replay sessions created since construction.
      */
-    virtual std::size_t totalSessionsCreated() const = 0;
+    [[nodiscard]] virtual std::size_t totalSessionsCreated() const = 0;
 };
 
 // ── InMemoryReplaySession ─────────────────────────────────────────────────────

@@ -27,6 +27,7 @@
 
 #include "rag/llm_judge_integration.h"
 #include "utils/logger.h"
+#include "utils/retry_policy.h"
 #include <thread>
 #include <chrono>
 #include <stdexcept>
@@ -101,29 +102,26 @@ ParsedResponse LLMJudgeIntegration::evaluateWithLLM(
     }
     
     // Call LLM with retries
-    std::string llm_response;
-    int attempts = 0;
-    
-    while (attempts < config_.max_retries) {
-        try {
-            llm_response = callLLM(prompt);
-            
-            if (!llm_response.empty()) {
-                break;
+    const themis::utils::RetryConfig llm_retry_cfg{
+        /* max_attempts       */ static_cast<uint32_t>(config_.max_retries),
+        /* initial_backoff_ms */ 100u,
+        /* max_backoff_ms     */ 30'000u,
+        /* multiplier         */ 2.0,
+        /* jitter_fraction    */ 0.0,
+    };
+    auto llm_result = themis::utils::retry_with_backoff(
+        [&]() -> std::optional<std::string> {
+            try {
+                auto r = callLLM(prompt);
+                if (!r.empty()) return r;
+            } catch (const std::exception& e) {
+                THEMIS_WARN("LLM call failed: {}", e.what());
             }
-        } catch (const std::exception& e) {
-            THEMIS_WARN("LLM call failed (attempt {}/{}): {}", 
-                       attempts + 1, config_.max_retries, e.what());
-        }
-        
-        attempts++;
-        
-        if (attempts < config_.max_retries) {
-            // Exponential backoff
-            int delay_ms = 100 * (1 << attempts);
-            std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
-        }
-    }
+            return std::nullopt;
+        },
+        llm_retry_cfg);
+
+    std::string llm_response = llm_result.value_or("");
     
     if (llm_response.empty()) {
         THEMIS_ERROR("LLM failed to respond after {} attempts", config_.max_retries);
@@ -157,29 +155,29 @@ std::string LLMJudgeIntegration::evaluateDimension(
     THEMIS_DEBUG("LLMJudgeIntegration::evaluateDimension dim={} prompt_len={}",
                  static_cast<int>(dimension), prompt.size());
 
-    int attempts = 0;
-    std::string response;
-
-    while (attempts < config_.max_retries) {
-        try {
-            response = callLLM(prompt);
-            if (!response.empty()) {
-                return response;
+    const themis::utils::RetryConfig dim_retry_cfg{
+        /* max_attempts       */ static_cast<uint32_t>(config_.max_retries),
+        /* initial_backoff_ms */ 100u,
+        /* max_backoff_ms     */ 30'000u,
+        /* multiplier         */ 2.0,
+        /* jitter_fraction    */ 0.0,
+    };
+    auto dim_result = themis::utils::retry_with_backoff(
+        [&]() -> std::optional<std::string> {
+            try {
+                auto r = callLLM(prompt);
+                if (!r.empty()) return r;
+            } catch (const std::exception& e) {
+                THEMIS_WARN("LLM call failed (dim={}): {}", static_cast<int>(dimension), e.what());
             }
-        } catch (const std::exception& e) {
-            THEMIS_WARN("LLM call failed (attempt {}/{}): {}",
-                        attempts + 1, config_.max_retries, e.what());
-        }
-        attempts++;
-        if (attempts < config_.max_retries) {
-            int delay_ms = 100 * (1 << attempts);
-            std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
-        }
-    }
+            return std::nullopt;
+        },
+        dim_retry_cfg);
+
+    if (dim_result) return *dim_result;
 
     THEMIS_ERROR("LLM failed to respond for dimension {}", static_cast<int>(dimension));
     return "{}";  // Return empty JSON object as safe fallback
-}
 
 void LLMJudgeIntegration::setInferenceFunction(
     std::function<std::string(const std::string&)> fn
@@ -238,9 +236,11 @@ std::string LLMJudgeIntegration::defaultInference(const std::string& prompt) {
     //                   sets ParsedResponse::is_mock=true on the parsed result so
     //                   callers can filter mock data from production dashboards
     //                   (AI_ML_IMPACT_ASSESSMENT.md §7, Gap 7 — implemented).
+    // Roadmap ref: src/rag/ROADMAP.md § "Phase 9: AI Reliability & Safety Evaluation Program"
     // Removal Plan: Full removal when LLMTokenBudgetManager (Gap 6) and a real engine
     //               DI path are the only supported entry points.  Track in
     //               rag/FUTURE_ENHANCEMENTS.md §Gap 7.
+    // Roadmap ref: src/rag/FUTURE_ENHANCEMENTS.md § "LLMIntegration and LLMJudgeIntegration: Replace Stub/Mock Mode"
     (void)prompt; // unused in mock path — intentional
     THEMIS_DEBUG("Using mock inference function (for testing only)");
     

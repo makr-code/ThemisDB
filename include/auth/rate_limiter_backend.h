@@ -68,7 +68,7 @@ public:
      * @param window_seconds Sliding-window duration in seconds.
      * @return               New request count (including this request) within the window.
      */
-    virtual int64_t increment(const std::string& key, uint32_t window_seconds) = 0;
+    [[nodiscard]] virtual int64_t increment(const std::string& key, uint32_t window_seconds) = 0;
 
     /**
      * @brief Return the current request count for the key without modifying state.
@@ -77,7 +77,7 @@ public:
      * @param window_seconds Sliding-window duration in seconds.
      * @return               Current count within the window (0 if key unknown).
      */
-    virtual int64_t getCount(const std::string& key, uint32_t window_seconds) const = 0;
+    [[nodiscard]] virtual int64_t getCount(const std::string& key, uint32_t window_seconds) const = 0;
 
     /**
      * @brief Clear all recorded requests for the given key.

@@ -32,6 +32,24 @@
         "primary_benchmark": "BM_Pagination_Cursor",
         "file": "bench_query.cpp",
         "status": "mapped"
+      },
+      "CQ-PERF-01": {
+        "label": "Continuous Query Throughput (≥ 500 k tuples/s)",
+        "primary_benchmark": "BM_ContinuousQuery_Throughput",
+        "primary_case": "BM_ContinuousQuery_Throughput",
+        "fallback_case": "BM_ContinuousQuery_TupleLatency",
+        "file": "bench_continuous_query.cpp",
+        "slo": "≥ 500 000 tuples/s; p99 per-tuple latency ≤ 5 ms",
+        "status": "mapped"
+      },
+      "CQ-PERF-02": {
+        "label": "Continuous Query Empty-Window Tick Overhead (≤ 1 µs)",
+        "primary_benchmark": "BM_ContinuousQuery_WindowTick",
+        "primary_case": "BM_ContinuousQuery_WindowTick",
+        "fallback_case": "BM_ContinuousQuery_WindowTick_1k",
+        "file": "bench_continuous_query.cpp",
+        "slo": "≤ 1 µs per empty-window tick",
+        "status": "mapped"
       }
     },
     "index": {

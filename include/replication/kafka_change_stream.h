@@ -61,12 +61,12 @@ struct KafkaStreamStats {
 class IKafkaChangeStreamExporter {
 public:
     virtual ~IKafkaChangeStreamExporter() = default;
-    virtual bool configure(const KafkaChangeStreamConfig& config) = 0;
-    virtual bool start() = 0;
-    virtual bool stop() = 0;
-    virtual bool isRunning() const = 0;
-    virtual KafkaStreamStats getStats() const = 0;
-    virtual bool flush(std::chrono::milliseconds timeout = std::chrono::milliseconds(5000)) = 0;
+    [[nodiscard]] virtual bool configure(const KafkaChangeStreamConfig& config) = 0;
+    [[nodiscard]] virtual bool start() = 0;
+    [[nodiscard]] virtual bool stop() = 0;
+    [[nodiscard]] virtual bool isRunning() const = 0;
+    [[nodiscard]] virtual KafkaStreamStats getStats() const = 0;
+    [[nodiscard]] virtual bool flush(std::chrono::milliseconds timeout = std::chrono::milliseconds(5000)) = 0;
 };
 
 }} // namespace themis::replication

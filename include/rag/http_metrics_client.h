@@ -209,8 +209,7 @@ private:
         HTTPMethod method,
         const std::string& path,
         const std::string& body,
-        const std::unordered_map<std::string, std::string>& headers,
-        int retry_count = 0
+        const std::unordered_map<std::string, std::string>& headers
     );
     
     std::string serializeMetric(const QualityMetricPayload& metric);

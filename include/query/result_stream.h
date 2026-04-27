@@ -91,20 +91,20 @@ public:
     /**
      * @brief Check if more results are available
      */
-    virtual bool hasNext() const = 0;
+    [[nodiscard]] virtual bool hasNext() const = 0;
     
     /**
      * @brief Get next result
      * @return Result<T> containing next item or error
      */
-    virtual Result<T> next() = 0;
+    [[nodiscard]] virtual Result<T> next() = 0;
     
     /**
      * @brief Get next batch of results
      * @param batch_size Size of batch to retrieve
      * @return Result<ResultBatch<T>> containing batch or error
      */
-    virtual Result<ResultBatch<T>> nextBatch(size_t batch_size) = 0;
+    [[nodiscard]] virtual Result<ResultBatch<T>> nextBatch(size_t batch_size) = 0;
     
     /**
      * @brief Reset iterator to beginning
@@ -114,12 +114,12 @@ public:
     /**
      * @brief Get current position/offset
      */
-    virtual size_t position() const = 0;
+    [[nodiscard]] virtual size_t position() const = 0;
     
     /**
      * @brief Skip ahead by count items
      */
-    virtual Result<void> skip(size_t count) = 0;
+    [[nodiscard]] virtual Result<void> skip(size_t count) = 0;
 };
 
 /**

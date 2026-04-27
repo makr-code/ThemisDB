@@ -213,9 +213,11 @@ std::vector<float> TextProcessor::generateEmbedding(const std::string& chunk_dat
     // Production Delta: Uses a hash-based deterministic formula instead of a
     //   real transformer model (e.g. Sentence-BERT / all-mpnet-base-v2).
     //   Output vectors are NOT semantically meaningful for similarity search.
+    // Roadmap ref: src/content/ROADMAP.md § "Phase 5: Performance / Hardening"
     // Removal Plan: Replace with an injected IEmbeddingBackend call (e.g.
     //   ONNXClipPlugin or a Sentence-BERT plugin) and remove this path once
     //   the embedding plugin interface is wired into TextProcessor.
+    // Roadmap ref: src/content/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
     
     const int EMBEDDING_DIM = 768; // Standard for all-mpnet-base-v2
     std::vector<float> embedding(EMBEDDING_DIM, 0.0f);

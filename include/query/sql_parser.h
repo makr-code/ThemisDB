@@ -67,8 +67,8 @@ enum class SQLExprType {
 
 struct SQLExpr {
     virtual ~SQLExpr() = default;
-    virtual SQLExprType type() const = 0;
-    virtual std::string toAQL(const std::string& var) const = 0;
+    [[nodiscard]] virtual SQLExprType type() const = 0;
+    [[nodiscard]] virtual std::string toAQL(const std::string& var) const = 0;
 };
 
 struct SQLLiteralExpr : SQLExpr {

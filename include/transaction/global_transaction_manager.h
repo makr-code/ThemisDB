@@ -92,7 +92,7 @@ public:
      * @param ops        JSON array of operations for this region
      * @return           true → vote COMMIT; false → vote ABORT
      */
-    virtual bool prepare(
+    [[nodiscard]] virtual bool prepare(
         const std::string&    txn_id,
         const nlohmann::json& ops
     ) = 0;

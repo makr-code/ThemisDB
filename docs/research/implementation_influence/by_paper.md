@@ -534,6 +534,35 @@ This file lists all research sources alphabetically, showing which ThemisDB modu
 
 ---
 
+## Marcus et al. (2021) — Bao: Learned Query Optimization
+
+**Type:** Paper  
+**File:** [papers/marcus_bao_learned_query_opt_2021.md](../papers/marcus_bao_learned_query_opt_2021.md)  
+**ThemisDB Version:** planned v2.0.0
+
+| Module | Status |
+|--------|--------|
+| `src/query/adaptive_optimizer.cpp` | 🔄 In Progress (TreeConv embedding planned Q3 2026) |
+| `src/query/runtime_reoptimizer.cpp` | 🔄 In Progress (Online-Feedback-Loop planned Q4 2026) |
+| `src/query/query_optimizer.cpp` | 🔄 In Progress (Plan-Feature-Extraktion) |
+| `src/training/` | ⏳ Planned (Modell-Persistierung) |
+
+---
+
+## Marcus et al. (2021) + Zhou et al. (2022) — AI-Driven Query Optimization
+
+**Type:** Best Practice  
+**File:** [best_practices/ai_driven_query_optimization.md](../best_practices/ai_driven_query_optimization.md)  
+**ThemisDB Version:** v2.0.0+
+
+| Module | Status |
+|--------|--------|
+| `src/query/adaptive_optimizer.cpp` | 🔄 Partially Adopted |
+| `src/query/runtime_reoptimizer.cpp` | 🔄 Partially Adopted |
+| `src/storage/index_analyzer.cpp` | ✅ IIndexAnalysisAdvisor-Hook |
+
+---
+
 ## Raasveldt & Mühleisen (2019) — DuckDB
 
 **Type:** Paper  
@@ -635,6 +664,34 @@ This file lists all research sources alphabetically, showing which ThemisDB modu
 
 ---
 
+## Sheng et al. (2023) — S-LoRA: Concurrent LoRA Adapter Serving
+
+**Type:** Paper  
+**File:** [papers/sheng_slora_concurrent_adapters_2023.md](../papers/sheng_slora_concurrent_adapters_2023.md)  
+**ThemisDB Version:** planned Q2/Q3 2026
+
+| Module | Status |
+|--------|--------|
+| `src/llm/lora/` | 🔄 In Progress (Adapter-Paging planned Q2 2026) |
+| `src/rag/streaming_retriever.cpp` | 🔄 In Progress (Hetero-Batching planned Q3 2026) |
+| `src/llm/llm_deployment_plugin.cpp` | 🔄 In Progress (Adapter-Prefetching) |
+| `src/gpu/` | ⏳ Planned (CUDA sgmv kernel Q3 2026) |
+
+---
+
+## Sheng et al. (2023) + Wang et al. (2024) — S-LoRA Near-Realtime RAG Serving
+
+**Type:** Best Practice  
+**File:** [best_practices/slora_realtime_rag_serving.md](../best_practices/slora_realtime_rag_serving.md)  
+**ThemisDB Version:** planned Q2 2026
+
+| Module | Status |
+|--------|--------|
+| `src/llm/lora/` | 🔄 Partially Adopted (Hot-Swap implemented; Paging planned) |
+| `src/rag/streaming_retriever.cpp` | ⏳ Planned (Draft-Verify pipeline Q1 2027) |
+
+---
+
 ## van der Aalst (2016) — Process Mining
 
 **Type:** Book  
@@ -657,6 +714,20 @@ This file lists all research sources alphabetically, showing which ThemisDB modu
 | Module | Status |
 |--------|--------|
 | `src/llm/` | ✅ Implemented |
+
+---
+
+## Wang et al. (2024) — Speculative RAG
+
+**Type:** Paper  
+**File:** [papers/wang_speculative_rag_2024.md](../papers/wang_speculative_rag_2024.md)  
+**ThemisDB Version:** planned Q1 2027
+
+| Module | Status |
+|--------|--------|
+| `src/rag/streaming_retriever.cpp` | ⏳ Planned (Draft-Verify pipeline) |
+| `src/rag/agentic_rag.cpp` | ⏳ Planned (Speculative iteration strategy) |
+| `src/llm/lora/` | ⏳ Planned (Domain-LoRA as Draft-Specialist) |
 
 ---
 
@@ -700,6 +771,22 @@ This file lists all research sources alphabetically, showing which ThemisDB modu
 
 ---
 
+## Zhou et al. (2022) — AI Meets Database (AI4DB Survey)
+
+**Type:** Paper  
+**File:** [papers/zhou_ai4db_survey_2022.md](../papers/zhou_ai4db_survey_2022.md)  
+**ThemisDB Version:** v2.0.0+ framework
+
+| Module | Status |
+|--------|--------|
+| `src/query/adaptive_optimizer.cpp` | 🔄 In Progress (Level-2 ML-Feedback-Loop) |
+| `src/query/query_optimizer.cpp` | 🔄 In Progress (Level-1 Cardinality + Statistics) |
+| `src/storage/index_analyzer.cpp` | ✅ Implemented (IIndexAnalysisAdvisor AI4DB-Hook) |
+| `src/cache/adaptive_query_cache.cpp` | ✅ Implemented (Workload-Adaptive Caching) |
+| `src/rag/`, `src/llm/` | ✅ Implemented (DB4AI: AQL LLM INFER directive) |
+
+---
+
 ## Zhou et al. (2022) — APE (Automatic Prompt Engineer)
 
 **Type:** Paper  
@@ -712,5 +799,206 @@ This file lists all research sources alphabetically, showing which ThemisDB modu
 
 ---
 
-*Last generated: see git log*
 
+
+
+## Khattab et al. (2023/2024) — DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines
+
+**Type:** Paper
+**File:** [papers/khattab_dspy_2023.md](../papers/khattab_dspy_2023.md)
+**ThemisDB Version:** v2.0.0+ (declaration layer); v2.2.0 (compiler)
+
+| Module | Status |
+|--------|--------|
+| `src/prompt_engineering/dspy_module.cpp` | ✅ Implemented (DspySignature, DspyPredict, DspyChainOfThought) |
+| `src/prompt_engineering/prompt_template_compiler.cpp` | ✅ Implemented (typed slot handling) |
+| `src/prompt_engineering/dspy_optimizer.cpp` | ⏳ Planned v2.2.0 (DspyOptimize compiler) |
+
+---
+
+## Madaan et al. (2023) + Shinn et al. (2023) — Self-Refine + Reflexion
+
+**Type:** Paper
+**File:** [papers/madaan_self_refine_2023.md](../papers/madaan_self_refine_2023.md)
+**ThemisDB Version:** v1.5.0+
+
+| Module | Status |
+|--------|--------|
+| `src/prompt_engineering/reflection_tuner.cpp` | ✅ Implemented (4 strategies, SelfAwareContext, HallucinationGuard) |
+| `src/prompt_engineering/llm_reflection_adapter.cpp` | ✅ Implemented |
+| `src/prompt_engineering/prompt_engineering_integration.cpp` | ✅ Implemented (afterExecution hook) |
+| `src/prompt_engineering/prompt_engineering_metrics.cpp` | ✅ Implemented (reflection counters) |
+
+---
+
+## Pryzant et al. (2023) — ProTeGi: Automatic Prompt Optimization with Textual Gradients
+
+**Type:** Paper
+**File:** [papers/pryzant_protegi_prompt_optimization_2023.md](../papers/pryzant_protegi_prompt_optimization_2023.md)
+**ThemisDB Version:** v2.0.0+
+
+| Module | Status |
+|--------|--------|
+| `src/prompt_engineering/protegi_optimizer.cpp` | ✅ Implemented (ProTeGiOptimizer, HeuristicProTeGiProvider) |
+| `src/prompt_engineering/self_improvement_orchestrator.cpp` | ✅ Implemented (ProTeGi as optimization back-end) |
+| `src/prompt_engineering/meta_prompt_generator.cpp` | ✅ Implemented (candidate prompt supply) |
+| `src/prompt_engineering/feedback_collector.cpp` | ✅ Implemented (mini-batch failure sampling) |
+
+---
+
+## ThemisDB Engineering (2026) — LLM-Driven Index Advisor
+
+**Type:** Paper (integration)
+**File:** [papers/llm_index_advisor_integrated_2024.md](../papers/llm_index_advisor_integrated_2024.md)
+**ThemisDB Version:** v1.9.0+
+
+| Module | Status |
+|--------|--------|
+| `src/storage/index_analyzer.cpp` | ✅ Implemented (IIndexAnalysisAdvisor hook, applyAdvisor, TierThresholds) |
+| `include/storage/index_analyzer.h` | ✅ Implemented (full public API) |
+| `src/storage/storage_layout_advisor.cpp` | ✅ Implemented (emitDecisionRecord → DecisionRecordYamlProcessor) |
+| `config/index_analyze.yaml` | ✅ Implemented (YAML-driven AI advisor config) |
+
+---
+
+## Yao et al. (2023) — Tree of Thoughts: Deliberate Problem Solving with LLMs
+
+**Type:** Paper
+**File:** [papers/yao_tree_of_thoughts_2023.md](../papers/yao_tree_of_thoughts_2023.md)
+**ThemisDB Version:** v2.0.0+
+
+| Module | Status |
+|--------|--------|
+| `src/prompt_engineering/tree_of_thoughts.cpp` | ✅ Implemented (BFS/DFS/BEAM, HeuristicThoughtGenerator) |
+| `src/prompt_engineering/chain_of_thought.cpp` | ✅ Implemented (CoT as degenerate ToT case) |
+| `src/prompt_engineering/prompt_engineering_integration.cpp` | ✅ Implemented (opt-in ToT via IntegrationConfig) |
+
+---
+
+## AI4DB + ISUM — LLM-Driven Index Optimization (Best Practice)
+
+**Type:** Best Practice
+**File:** [best_practices/llm_driven_index_optimization.md](../best_practices/llm_driven_index_optimization.md)
+**ThemisDB Version:** v1.9.0+
+
+| Module | Status |
+|--------|--------|
+| `src/storage/index_analyzer.cpp` | ✅ Adopted |
+| `include/storage/index_analyzer.h` | ✅ Adopted |
+| `config/index_analyze.yaml` | ✅ Adopted |
+
+---
+
+## ProTeGi + Self-Refine + ToT + DSPy — LLM Prompt Enhancement Pipeline (Best Practice)
+
+**Type:** Best Practice
+**File:** [best_practices/llm_prompt_enhancement_pipeline.md](../best_practices/llm_prompt_enhancement_pipeline.md)
+**ThemisDB Version:** v1.5.0+ / v2.0.0+
+
+| Module | Status |
+|--------|--------|
+| `src/prompt_engineering/protegi_optimizer.cpp` | ✅ Adopted |
+| `src/prompt_engineering/reflection_tuner.cpp` | ✅ Adopted |
+| `src/prompt_engineering/tree_of_thoughts.cpp` | ✅ Adopted |
+| `src/prompt_engineering/dspy_module.cpp` | 🔄 Partially Adopted |
+| `src/prompt_engineering/self_improvement_orchestrator.cpp` | ✅ Adopted |
+| `src/prompt_engineering/prompt_engineering_metrics.cpp` | ✅ Adopted |
+
+---
+
+
+
+## Bai et al. (2022) + Lee et al. (2023) — Constitutional AI + RLAIF
+
+**Type:** Paper
+**File:** [papers/bai_constitutional_ai_rlaif_2022.md](../papers/bai_constitutional_ai_rlaif_2022.md)
+**ThemisDB Version:** v1.6.0+
+
+| Module | Status |
+|--------|--------|
+| `src/rag/rlaif_trainer.cpp` | ✅ Implemented (IAIJudge, RewardModel, PreferenceDataset, RLAIFGuardrailPlugin) |
+| `src/rag/continuous_learning_orchestrator.cpp` | ✅ Implemented (Loop 4 = RLAIF; ILoRAFederationCoordinator) |
+| `src/prompt_engineering/reflection_tuner.cpp` | ✅ Implemented (CONSTITUTIONAL strategy = supervised CAI phase) |
+| `src/rag/bias_detector.cpp` | ✅ Implemented (constitutional compliance filter) |
+
+---
+
+## Liu et al. (2023) — G-Eval: NLG Evaluation using GPT-4 (EMNLP 2023)
+
+**Type:** Paper
+**File:** [papers/liu_geval_2023.md](../papers/liu_geval_2023.md)
+**ThemisDB Version:** v1.6.0+
+
+| Module | Status |
+|--------|--------|
+| `src/rag/geval_evaluator.cpp` | ✅ Implemented (token-probability expected-value scoring; llama_get_logits_ith) |
+| `src/rag/rag_judge.cpp` | ✅ Implemented (dispatches to GEvalEvaluator in BALANCED/THOROUGH mode) |
+| `src/rag/cot_evaluator.cpp` | ✅ Implemented (CoT criteria generation — first pass of G-Eval two-pass approach) |
+| `src/rag/calibration_manager.cpp` | ✅ Implemented (temperature/Platt/isotonic calibration of G-Eval scores) |
+| `src/rag/evaluation_cache.cpp` | ✅ Implemented (caches G-Eval results to avoid redundant LLM calls) |
+
+---
+
+## Yao et al. (2022) — ReAct: Synergizing Reasoning and Acting (ICLR 2023)
+
+**Type:** Paper
+**File:** [papers/yao_react_2022.md](../papers/yao_react_2022.md)
+**ThemisDB Version:** v1.8.0+
+
+| Module | Status |
+|--------|--------|
+| `src/rag/agentic_rag.cpp` | ✅ Implemented (full TAO loop; AgentTrace; tool registry; deduplication) |
+| `src/rag/multi_step_rag.cpp` | ✅ Implemented (multi-step iterative retrieval strategy) |
+| `src/rag/knowledge_gap_detector.cpp` | ✅ Implemented (three-level gap detection drives ReAct loop termination) |
+| `src/rag/knowledge_graph_retriever.cpp` | ✅ Implemented (graph-traversal tool action in ReAct loop) |
+
+---
+
+## Zheng et al. (2023) — Judging LLM-as-a-Judge / MT-Bench (NeurIPS 2023)
+
+**Type:** Paper
+**File:** [papers/zheng_llm_judge_2023.md](../papers/zheng_llm_judge_2023.md)
+**ThemisDB Version:** v1.6.0+
+
+| Module | Status |
+|--------|--------|
+| `src/rag/llm_judge_integration.cpp` | ✅ Implemented (ILLMInferenceEngine* injection; allow_mock guard; position-bias prompt) |
+| `src/rag/pairwise_comparator.cpp` | ✅ Implemented (head-to-head; randomised order; consistency check → TIE) |
+| `src/rag/distributed_rag_evaluator.cpp` | ✅ Implemented (N-judge ensemble; MEAN/WEIGHTED_MEAN/MAJORITY_VOTING/BEST_OF_N) |
+| `src/rag/calibration_manager.cpp` | ✅ Implemented (calibrates judge scores against human annotations) |
+| `src/rag/prompt_templates.cpp` | ✅ Implemented (verbosity-bias rubric injection in judge prompts) |
+
+---
+
+## G-Eval + LLM-as-Judge Ensemble + Calibration (Best Practice)
+
+**Type:** Best Practice
+**File:** [best_practices/llm_as_judge_rag_evaluation.md](../best_practices/llm_as_judge_rag_evaluation.md)
+**ThemisDB Version:** v1.6.0+
+
+| Module | Status |
+|--------|--------|
+| `src/rag/geval_evaluator.cpp` | ✅ Adopted |
+| `src/rag/pairwise_comparator.cpp` | ✅ Adopted |
+| `src/rag/distributed_rag_evaluator.cpp` | ✅ Adopted |
+| `src/rag/calibration_manager.cpp` | ✅ Adopted |
+| `src/rag/evaluation_cache.cpp` | ✅ Adopted |
+
+---
+
+## Constitutional AI / RLAIF Training Pipeline (Best Practice)
+
+**Type:** Best Practice
+**File:** [best_practices/constitutional_ai_rlaif_training.md](../best_practices/constitutional_ai_rlaif_training.md)
+**ThemisDB Version:** v1.6.0+
+
+| Module | Status |
+|--------|--------|
+| `src/rag/rlaif_trainer.cpp` | ✅ Adopted |
+| `src/rag/continuous_learning_orchestrator.cpp` | ✅ Adopted |
+| `src/prompt_engineering/reflection_tuner.cpp` | ✅ Adopted |
+| `config/prompts/constitutional_principles.yaml` | ✅ Adopted |
+
+---
+
+*Last generated: see git log*

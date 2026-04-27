@@ -59,7 +59,7 @@ public:
      * @param name Flag name (UTF-8, not required to be NUL-terminated).
      * @return true when the flag is enabled, false when disabled or unknown.
      */
-    virtual bool isEnabled(std::string_view name) const = 0;
+    [[nodiscard]] virtual bool isEnabled(std::string_view name) const = 0;
 
     // -----------------------------------------------------------------------
     // Mutation
@@ -84,7 +84,7 @@ public:
      *
      * The returned map is a copy; modifications do not affect the provider.
      */
-    virtual std::unordered_map<std::string, bool> getAllFlags() const = 0;
+    [[nodiscard]] virtual std::unordered_map<std::string, bool> getAllFlags() const = 0;
 
     // -----------------------------------------------------------------------
     // Lifecycle hooks

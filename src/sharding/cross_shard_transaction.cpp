@@ -55,11 +55,17 @@ CrossShardTransactionCoordinator::CrossShardTransactionCoordinator(
     , transaction_log_path_(config.transaction_log_path)
 {
     // If log path is not absolute, use a safe default
+    // CST-4 fix: Reject startup if transaction_log_path_ is not an absolute
+    // path.  A /tmp fallback could silently lose transaction logs after a
+    // reboot and mask misconfiguration in production.
     if (transaction_log_path_.empty() || transaction_log_path_[0] != '/') {
-        // Fall back to /tmp for development (should be configured in production)
-        transaction_log_path_ = "/tmp/themisdb_transaction_log.jsonl";
-        spdlog::warn("Transaction log path not configured, using temporary path: {}", 
-                     transaction_log_path_);
+        const std::string msg =
+            "CrossShardTransactionCoordinator: transaction_log_path is not "
+            "configured with an absolute path (got: '" + transaction_log_path_ +
+            "'). Set CrossShardTransactionConfig::transaction_log_path to an "
+            "absolute filesystem path before constructing the coordinator.";
+        spdlog::error("{}", msg);
+        throw std::invalid_argument(msg);
     }
     
     // Create TrueTime instance if not provided (for MVCC timestamp guarantees)
@@ -863,12 +869,26 @@ bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
 }
 
 bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
-    // Three-Phase Commit Protocol
+    // STUB/SIMULATION NOTE (CST-6):
+    // Purpose: Three-Phase Commit (3PC) protocol skeleton — Phase 2 (PreCommit)
+    //          does NOT send an actual PreCommit RPC to participants.  It reuses
+    //          the Phase-1 PREPARED state as a proxy for precommit acknowledgement.
+    // Activation: when CrossShardTransactionConfig::default_protocol is set to
+    //             THREE_PHASE_COMMIT.
+    // Production Delta: a real 3PC implementation requires a separate
+    //                   sendPreCommit(shard_id, txn_id) RPC that instructs each
+    //                   participant to durably store its prepared state before
+    //                   the coordinator proceeds to Phase 3.  Without this RPC
+    //                   the coordinator is functionally equivalent to 2PC and
+    //                   does not gain 3PC's non-blocking property.
+    // Removal Plan: implement sendPreCommit() in the shard RPC layer
+    //               (see src/sharding/rpc/) and replace the stub branch below.
+    //               Track in ROADMAP.md item CST-6 (Target: Q3 2026).
+    spdlog::warn("execute3PC [{}]: PreCommit RPC is not implemented (CST-6 stub). "
+                 "Falling back to 2PC-equivalent behaviour — 3PC non-blocking "
+                 "property is NOT guaranteed.", txn.transaction_id);
+
     // Phase 1: Prepare (CanCommit)
-    // Phase 2: PreCommit
-    // Phase 3: DoCommit
-    
-    // Phase 1: Prepare - check if all participants can commit
     if (txn.state != TransactionState::PREPARED) {
         if (!prepare(txn.transaction_id)) {
             spdlog::error("3PC Phase 1 (Prepare) failed for transaction {}", 
@@ -877,18 +897,18 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
         }
     }
     
-    // Phase 2: PreCommit - participants write to stable storage but don't commit
-    txn.state = TransactionState::COMMITTING;  // Using COMMITTING state for PreCommit phase
+    // Phase 2: PreCommit (STUB — no actual RPC sent)
+    txn.state = TransactionState::COMMITTING;
     
-    spdlog::info("3PC Phase 2 (PreCommit) starting for transaction {}", 
+    spdlog::info("3PC Phase 2 (PreCommit stub) starting for transaction {}", 
                 txn.transaction_id);
     
-    // Phase 2.3.4: Log PRE_COMMIT decision to WAL (using COMMIT type with 3PC marker)
     if (transaction_wal_) {
         try {
             nlohmann::json precommit_data = {
                 {"protocol", "3PC"},
                 {"phase", "PRE_COMMIT"},
+                {"stub", true},
                 {"participants", nlohmann::json::array()}
             };
             for (const auto& [shard_id, participant] : txn.participants) {
@@ -897,62 +917,52 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
             transaction_wal_->logCommit(txn.transaction_id, precommit_data);
             operations_since_snapshot_++;
         } catch (const std::exception& e) {
-            spdlog::warn("Failed to log PRE_COMMIT to WAL: {}", e.what());
+            spdlog::error("Failed to log PRE_COMMIT to WAL for txn={}: {}",
+                          txn.transaction_id, e.what());
+            return false;
         }
     }
     
+    // Without a real PreCommit RPC, use prepare state as proxy.
     bool all_precommitted = true;
     for (auto& [shard_id, participant] : txn.participants) {
-        // Send PreCommit message to each participant
-        // In a full implementation, this would be a separate RPC call
-        // For now, we'll log the intent and mark as precommitted
-        spdlog::debug("Sending PreCommit to shard {} for transaction {}", 
-                     shard_id, txn.transaction_id);
-        
-        // In production, you would:
-        // bool precommitted = sendPreCommit(shard_id, txn.transaction_id);
-        // For now, we assume precommit succeeds if prepare succeeded
-        bool precommitted = participant.prepared;
-        
-        // Phase 2.3.4: Log PRE_COMMITTED response to WAL (using PREPARED type with marker)
+        // CST-6 stub: real implementation would call sendPreCommit(shard_id, txn_id)
+        const bool precommitted = participant.prepared;
+
         if (transaction_wal_ && precommitted) {
             try {
-                transaction_wal_->logPrepared(txn.transaction_id, shard_id, true, "pre_committed");
+                transaction_wal_->logPrepared(txn.transaction_id, shard_id, true, "pre_committed_stub");
                 operations_since_snapshot_++;
             } catch (const std::exception& e) {
-                spdlog::warn("Failed to log PRE_COMMITTED to WAL: {}", e.what());
+                spdlog::error("Failed to log PRE_COMMITTED to WAL for txn={} shard={}: {}",
+                              txn.transaction_id, shard_id, e.what());
             }
         }
         
         if (!precommitted) {
             all_precommitted = false;
-            spdlog::error("PreCommit failed for shard {} in transaction {}", 
+            spdlog::error("PreCommit (stub) failed for shard {} in transaction {}", 
                          shard_id, txn.transaction_id);
         }
     }
     
     if (!all_precommitted) {
-        spdlog::error("3PC Phase 2 (PreCommit) failed for transaction {}", 
+        spdlog::error("3PC Phase 2 (PreCommit stub) failed for transaction {}", 
                      txn.transaction_id);
-        
-        // In 3PC, if PreCommit fails, we can still abort
-        // Send abort to all participants
         for (auto& [shard_id, participant] : txn.participants) {
             sendAbort(shard_id, txn.transaction_id);
             participant.aborted = true;
         }
-        
         return false;
     }
     
-    spdlog::info("3PC Phase 2 (PreCommit) succeeded for transaction {}", 
+    spdlog::info("3PC Phase 2 (PreCommit stub) succeeded for transaction {}", 
                 txn.transaction_id);
     
-    // Phase 3: DoCommit - final commit
+    // Phase 3: DoCommit
     spdlog::info("3PC Phase 3 (DoCommit) starting for transaction {}", 
                 txn.transaction_id);
     
-    // Phase 2.3.4: Log COMMIT decision to WAL
     if (transaction_wal_) {
         try {
             nlohmann::json commit_data = {
@@ -966,7 +976,9 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
             transaction_wal_->logCommit(txn.transaction_id, commit_data);
             operations_since_snapshot_++;
         } catch (const std::exception& e) {
-            spdlog::warn("Failed to log DO_COMMIT to WAL: {}", e.what());
+            spdlog::error("Failed to log DO_COMMIT to WAL for txn={}: {}",
+                          txn.transaction_id, e.what());
+            return false;
         }
     }
     
@@ -975,7 +987,6 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
         bool committed = sendCommit(shard_id, txn.transaction_id);
         participant.committed = committed;
         
-        // Phase 2.3.4: Log COMMITTED response to WAL
         if (transaction_wal_ && committed) {
             try {
                 transaction_wal_->logCommitted(txn.transaction_id, shard_id);
@@ -992,7 +1003,6 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
         }
     }
     
-    // Phase 2.3.4: Check if snapshot needed
     if (transaction_wal_ && transaction_wal_->shouldCreateSnapshot(operations_since_snapshot_.load())) {
         createPeriodicSnapshot();
     }

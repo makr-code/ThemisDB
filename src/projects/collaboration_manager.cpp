@@ -200,6 +200,12 @@ void CollaborationManager::clearAuditLog()
     audit_log_.reset();
 }
 
+void CollaborationManager::setMetrics(std::shared_ptr<ProjectMetrics> metrics)
+{
+    std::unique_lock lock(metrics_mutex_);
+    metrics_ = std::move(metrics);
+}
+
 // ── Change feed ───────────────────────────────────────────────────────────────
 
 std::vector<Change> CollaborationManager::getChanges(
@@ -255,6 +261,13 @@ void CollaborationManager::notifyChange(const Change& change) {
             entry.details["field_path"] = change.field_path;
             audit_log_->record(entry);
         }
+    }
+
+    // Increment collaboration-change metrics counter
+    {
+        std::shared_lock m_lock(metrics_mutex_);
+        if (metrics_)
+            metrics_->recordChange();
     }
 }
 

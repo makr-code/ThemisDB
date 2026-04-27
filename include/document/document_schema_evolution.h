@@ -170,7 +170,7 @@ public:
      * @return ERR_DOC_SCHEMA_SEALED         if already sealed.
      * @return ERR_DOC_SCHEMA_VERSION_EXISTS if @p version is already registered.
      */
-    virtual Result<void> registerVersion(SchemaVersion           version,
+    [[nodiscard]] virtual Result<void> registerVersion(SchemaVersion           version,
                                          const SchemaDescriptor& descriptor) = 0;
 
     /**
@@ -182,19 +182,19 @@ public:
     /**
      * @brief Return true iff the registry has been sealed.
      */
-    virtual bool isSealed() const noexcept = 0;
+    [[nodiscard]] virtual bool isSealed() const noexcept = 0;
 
     /**
      * @brief List all registered version numbers in ascending order.
      */
-    virtual std::vector<SchemaVersion> registeredVersions() const = 0;
+    [[nodiscard]] virtual std::vector<SchemaVersion> registeredVersions() const = 0;
 
     /**
      * @brief Validate @p document_body against @p version.
      *
      * @return ERR_DOC_SCHEMA_VERSION_NOT_FOUND if @p version is unknown.
      */
-    virtual Result<ValidationReport> validate(
+    [[nodiscard]] virtual Result<ValidationReport> validate(
         const DocumentId&     document_id,
         const nlohmann::json& document_body,
         SchemaVersion         version) const = 0;

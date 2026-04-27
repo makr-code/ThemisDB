@@ -28,6 +28,12 @@
  *   TB-08  ToolboxBuilder: build() returns non-null IngestionToolbox
  *   TB-09  ToolboxBuilder: build() twice throws logic_error
  *   TB-10  ToolboxBuilder: graphWriter() returns nullptr when not set
+ *   TB-11  ToolboxBuilder: withFormatExtractor(valid) registers step in toolbox
+ *   TB-12  ToolboxBuilder: withFormatExtractorFactory registers all extractors
+ *   TB-13  ToolboxBuilder: vectorWriter() returns nullptr when not set
+ *   TB-14  ToolboxBuilder: buildWithBridges() without sinks returns null bridges
+ *   TB-15  ToolboxBuilder: buildWithBridges() with graph writer populates aql_bridge
+ *   TB-16  ToolboxBuilder: buildWithBridges() called twice throws logic_error
  *   CTB-01 ContentToolboxBridge: null toolbox throws invalid_argument
  *   CTB-02 ContentToolboxBridge: null content_manager throws invalid_argument
  *   CTB-03 ContentToolboxBridge: toolbox() accessor returns set value
@@ -47,7 +53,10 @@
 #include "toolbox/ingestion_toolbox.h"
 #include "toolbox/toolbox_builder.h"
 #include "toolbox/content_toolbox_bridge.h"
+#include "aql/aql_ingestion_bridge.h"
+#include "rag/rag_ingestion_bridge.h"
 #include "ingestion/format_extractor.h"
+#include "ingestion/ingestion_sinks.h"
 #include "ingestion/builtin_step_factories.h"
 #include "ingestion/extraction_context.h"
 
@@ -276,6 +285,35 @@ TEST(ToolboxBuilderTest, TB12_WithFormatExtractorFactoryRegistersAll) {
     ASSERT_NE(toolbox, nullptr);
     EXPECT_TRUE(toolbox->stepRegistry().hasStep("builtin.parse_pdf"));
     EXPECT_TRUE(toolbox->stepRegistry().hasStep("builtin.parse_audio"));
+}
+
+TEST(ToolboxBuilderTest, TB13_VectorWriterNullByDefault) {
+    ToolboxBuilder b;
+    EXPECT_EQ(b.vectorWriter(), nullptr);
+}
+
+TEST(ToolboxBuilderTest, TB14_BuildWithBridgesNoSinksNullBridges) {
+    ToolboxBuilder b;
+    auto result = b.buildWithBridges();
+    EXPECT_NE(result.toolbox, nullptr);
+    EXPECT_EQ(result.aql_bridge, nullptr);
+    EXPECT_EQ(result.rag_bridge, nullptr);
+}
+
+TEST(ToolboxBuilderTest, TB15_BuildWithBridgesGraphWriterPopulatesAqlBridge) {
+    auto graph_writer = std::make_shared<themis::ingestion::InMemoryGraphWriter>();
+    ToolboxBuilder b;
+    b.withGraphWriter(graph_writer);
+    auto result = b.buildWithBridges();
+    EXPECT_NE(result.toolbox, nullptr);
+    EXPECT_NE(result.aql_bridge, nullptr);
+    EXPECT_NE(result.rag_bridge, nullptr);
+}
+
+TEST(ToolboxBuilderTest, TB16_BuildWithBridgesTwiceThrows) {
+    ToolboxBuilder b;
+    b.buildWithBridges();
+    EXPECT_THROW(b.buildWithBridges(), std::logic_error);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

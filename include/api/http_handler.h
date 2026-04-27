@@ -214,7 +214,7 @@ public:
      * @return `Result<HttpResponse>` — an `HttpResponse` on success or an
      *         `HttpError` on failure (the framework serializes errors).
      */
-    virtual themis::Result<HttpResponse> handle(const HttpRequest& request) = 0;
+    [[nodiscard]] virtual themis::Result<HttpResponse> handle(const HttpRequest& request) = 0;
 
     /**
      * @brief Return `true` if this handler requires a valid JWT/API-key before
@@ -227,7 +227,7 @@ public:
     virtual bool requiresAuthentication() const noexcept { return true; }
 
     /// Human-readable handler name used in logs and metrics labels.
-    virtual std::string_view handlerName() const noexcept = 0;
+    [[nodiscard]] virtual std::string_view handlerName() const noexcept = 0;
 };
 
 // ---------------------------------------------------------------------------

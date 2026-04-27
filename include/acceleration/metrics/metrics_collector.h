@@ -61,7 +61,7 @@ public:
     const std::string& description() const { return description_; }
     MetricType type() const { return type_; }
     
-    virtual std::string serialize() const = 0;
+    [[nodiscard]] virtual std::string serialize() const = 0;
     
 protected:
     std::string name_;

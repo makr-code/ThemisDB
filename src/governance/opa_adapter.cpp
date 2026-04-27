@@ -223,9 +223,11 @@ std::optional<PolicyDecision> OpaAdapter::evaluate(
 // Production Delta: This stub checks only that the bundle file exists, then
 //   returns a permissive PolicyDecision. A real implementation would invoke
 //   a WASM runtime (e.g. wasmer/wasmtime) to evaluate the Rego bundle.
+// Roadmap ref: src/ROADMAP.md § "Consolidation Phase — OPA WASM Stub"
+//              src/governance/FUTURE_ENHANCEMENTS.md § "OPA WASM Evaluation"
 // Removal Plan: Replace with actual WASM runtime call when
 //   THEMIS_ENABLE_OPA_WASM is added to the build system and a WASM runtime
-//   dependency is approved.
+//   dependency is approved (Target: v1.6.0).
 std::optional<PolicyDecision> OpaAdapter::evaluateWasm(
     const std::unordered_map<std::string, std::string>& /*headers*/,
     const std::string& /*route*/) const

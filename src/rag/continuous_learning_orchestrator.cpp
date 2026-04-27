@@ -801,8 +801,10 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
     // Activation: Always active until IMPL-A2 Phase 2 wires real signal sources.
     // Production Delta: Real impl calls IncrementalLoRATrainer::runIncremental()
     //                   and checks actual ECE / hot_coverage metrics.
+    // Roadmap ref: src/rag/ROADMAP.md § "Phase 8: Loop 1–4 Explicit Orchestration & Federated RLAIF"
     // Removal Plan: Replace signal stubs with real accessor calls when adapters
     //               are available in the orchestrator's dependency graph.
+    // Roadmap ref: src/rag/FUTURE_ENHANCEMENTS.md § "LLMIntegration and LLMJudgeIntegration: Replace Stub/Mock Mode"
 
     const auto next_adapter_revision = impl_->stats.lora_retraining_count + 1;
     const auto baseline_accuracy = impl_->stats.accuracy_7d_avg > 0.0

@@ -106,14 +106,14 @@ public:
      * @return ERR_DOC_ALREADY_EXISTS if a record with the same id already
      *         exists in the same collection.
      */
-    virtual Result<DocumentId> put(const DocumentRecord& record) = 0;
+    [[nodiscard]] virtual Result<DocumentId> put(const DocumentRecord& record) = 0;
 
     /**
      * @brief Retrieve a document by collection and id.
      *
      * @return std::nullopt if the document does not exist (not an error).
      */
-    virtual Result<std::optional<DocumentRecord>> get(
+    [[nodiscard]] virtual Result<std::optional<DocumentRecord>> get(
         const CollectionId& collection, const DocumentId& id) const = 0;
 
     /**
@@ -121,14 +121,14 @@ public:
      *
      * @return ERR_DOC_NOT_FOUND if the document does not exist.
      */
-    virtual Result<void> update(const CollectionId& collection,
+    [[nodiscard]] virtual Result<void> update(const CollectionId& collection,
                                 const DocumentId&   id,
                                 const nlohmann::json& body) = 0;
 
     /**
      * @brief Remove a document.  No-op and success if not found.
      */
-    virtual Result<void> remove(const CollectionId& collection,
+    [[nodiscard]] virtual Result<void> remove(const CollectionId& collection,
                                 const DocumentId&   id) = 0;
 
     /**
@@ -137,7 +137,7 @@ public:
      * @return Empty vector (not an error) if the collection is empty or
      *         does not exist.
      */
-    virtual Result<std::vector<DocumentId>> list(
+    [[nodiscard]] virtual Result<std::vector<DocumentId>> list(
         const CollectionId& collection) const = 0;
 
     /**
@@ -145,7 +145,7 @@ public:
      *
      * @return 0 (not an error) if the collection is empty or does not exist.
      */
-    virtual Result<std::size_t> count(
+    [[nodiscard]] virtual Result<std::size_t> count(
         const CollectionId& collection) const = 0;
 };
 

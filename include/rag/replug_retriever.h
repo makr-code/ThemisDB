@@ -97,11 +97,11 @@ public:
      * @param document Candidate document content.
      * @return Score in [0, 1].
      */
-    virtual double score(const std::string& query,
+    [[nodiscard]] virtual double score(const std::string& query,
                          const std::string& document) const = 0;
 
     /** @brief Human-readable name for logging. */
-    virtual std::string name() const = 0;
+    [[nodiscard]] virtual std::string name() const = 0;
 };
 
 // ============================================================

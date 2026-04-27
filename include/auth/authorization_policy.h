@@ -143,7 +143,7 @@ public:
      * @param environment  Optional contextual attributes.
      * @return PolicyEvaluationResult containing the decision and audit metadata.
      */
-    virtual PolicyEvaluationResult evaluate(
+    [[nodiscard]] virtual PolicyEvaluationResult evaluate(
         const SubjectAttributes&     subject,
         const ResourceAttributes&    resource,
         const std::string&           action,
@@ -151,17 +151,17 @@ public:
     ) const = 0;
 
     /// Unique identifier for this policy (used for logging and combining).
-    virtual std::string policyId() const = 0;
+    [[nodiscard]] virtual std::string policyId() const = 0;
 
     /// Policy document version string (e.g., semver or git SHA).
-    virtual std::string policyVersion() const = 0;
+    [[nodiscard]] virtual std::string policyVersion() const = 0;
 
     /**
      * @brief Hot-reload the policy document from its backing store.
      *
      * @return `true` if the reload succeeded; `false` on parse/validation error.
      */
-    virtual bool reload() = 0;
+    [[nodiscard]] virtual bool reload() = 0;
 };
 
 } // namespace auth

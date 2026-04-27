@@ -59,7 +59,7 @@ public:
      *         or an Error on failure (the orchestrator will propagate the
      *         error message to the job's error_message field).
      */
-    virtual Result<std::string> execute(const std::string& job_id,
+    [[nodiscard]] virtual Result<std::string> execute(const std::string& job_id,
                                         MaintenanceTaskType task_type) = 0;
 
     /**
@@ -68,7 +68,7 @@ public:
      * Returned by GET /api/v1/maintenance/task-handlers.
      * Should be unique and stable across restarts (e.g. "StorageCompactionHandler").
      */
-    virtual std::string handlerName() const = 0;
+    [[nodiscard]] virtual std::string handlerName() const = 0;
 };
 
 } // namespace maintenance

@@ -55,7 +55,7 @@ public:
      * @param db_path Path to database directory
      * @return Result<void> - success or error with details
      */
-    virtual Result<void> open(const std::string& db_path) = 0;
+    [[nodiscard]] virtual Result<void> open(const std::string& db_path) = 0;
     
     /**
      * @brief Close the storage engine
@@ -69,7 +69,7 @@ public:
      * @param value The value
      * @return Result<void> - success or error with details
      */
-    virtual Result<void> put(const std::string& key, const std::string& value) = 0;
+    [[nodiscard]] virtual Result<void> put(const std::string& key, const std::string& value) = 0;
     
     /**
      * @brief Get a value by key
@@ -77,7 +77,7 @@ public:
      * @param key The key
      * @return Result<std::string> - The value if found, or error with details
      */
-    virtual Result<std::string> get(const std::string& key) = 0;
+    [[nodiscard]] virtual Result<std::string> get(const std::string& key) = 0;
     
     /**
      * @brief Delete a key-value pair
@@ -85,7 +85,7 @@ public:
      * @param key The key to delete
      * @return Result<void> - success or error with details
      */
-    virtual Result<void> del(const std::string& key) = 0;
+    [[nodiscard]] virtual Result<void> del(const std::string& key) = 0;
 
     /**
      * @brief Scan a key range [start_key, end_key).
@@ -102,7 +102,7 @@ public:
      * @param callback   Called for each key-value pair; return false to stop.
      * @return Result<void> – ok on success, error on failure.
      */
-    virtual Result<void> scanRange(
+    [[nodiscard]] virtual Result<void> scanRange(
         [[maybe_unused]] std::string_view start_key,
         [[maybe_unused]] std::string_view end_key,
         [[maybe_unused]] std::function<bool(std::string_view key, [[maybe_unused]] std::string_view value)> callback)
@@ -122,7 +122,7 @@ public:
      * @param callback  Called for each key-value pair; return false to stop.
      * @return Result<void> – ok on success, error on failure.
      */
-    virtual Result<void> scanPrefix(
+    [[nodiscard]] virtual Result<void> scanPrefix(
         [[maybe_unused]] std::string_view prefix,
         [[maybe_unused]] std::function<bool(std::string_view key, [[maybe_unused]] std::string_view value)> callback)
     {
@@ -154,7 +154,7 @@ public:
      * @param callback  Called for each key-value pair; return false to stop.
      * @return Result<void> – ok on success, error on first failure.
      */
-    virtual Result<void> scanMultiRange(
+    [[nodiscard]] virtual Result<void> scanMultiRange(
         const std::vector<ScanRange>& ranges,
         std::function<bool(std::string_view key, std::string_view value)> callback)
     {
@@ -188,7 +188,7 @@ public:
      * @param db_path Path to database directory
      * @return Shared pointer to storage engine
      */
-    virtual IStorageEnginePtr create(const std::string& db_path) = 0;
+    [[nodiscard]] virtual IStorageEnginePtr create(const std::string& db_path) = 0;
 };
 
 } // namespace themis

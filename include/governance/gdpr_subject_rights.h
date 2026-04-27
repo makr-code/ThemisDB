@@ -94,7 +94,7 @@ public:
     /**
      * @brief Return a stable identifier for this store (used in ErasureReport).
      */
-    virtual std::string storeId() const = 0;
+    [[nodiscard]] virtual std::string storeId() const = 0;
 
     /**
      * @brief Delete or pseudonymise all records belonging to subject_id.
@@ -108,7 +108,7 @@ public:
      * @param regulation  Regulatory context (GDPR or CCPA).
      * @return StoreErasureResult describing what was done.
      */
-    virtual StoreErasureResult eraseSubject(const std::string& subject_id,
+    [[nodiscard]] virtual StoreErasureResult eraseSubject(const std::string& subject_id,
                                              Regulation regulation) = 0;
 
     /**
@@ -118,7 +118,7 @@ public:
      * @param format     "json" or "csv".
      * @return Serialised export as a byte vector (empty on failure).
      */
-    virtual std::vector<uint8_t> exportSubjectData(
+    [[nodiscard]] virtual std::vector<uint8_t> exportSubjectData(
         const std::string& subject_id,
         const std::string& format) = 0;
 };

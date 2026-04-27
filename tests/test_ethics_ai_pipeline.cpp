@@ -163,3 +163,49 @@ TEST_F(EthicsAiPipelineTest, MakeDecisionRejectsEmptySchoolList) {
     const auto& status = std::get<Status>(result);
     EXPECT_FALSE(status.isOK());
 }
+
+// ---------------------------------------------------------------------------
+// EthicsEvaluator::computeConfidence — minimum coverage
+// (Exercises static strengthToScore; UNUSED_FUNCTIONS_REPORT KEEP Target v1.5.0)
+// ---------------------------------------------------------------------------
+
+// CC-01: Empty argument list returns default confidence (0.5).
+TEST(EthicsEvaluatorComputeConfidenceTest, CC01_EmptyArgumentsReturnsDefault) {
+    std::vector<EthicalArgument> args;
+    double conf = EthicsEvaluator::computeConfidence(args);
+    EXPECT_DOUBLE_EQ(conf, 0.5);
+}
+
+// CC-02: All WEAK arguments produce confidence < 0.5 (score = 0.25 each).
+TEST(EthicsEvaluatorComputeConfidenceTest, CC02_AllWeakProducesLowConfidence) {
+    std::vector<EthicalArgument> args(3);
+    for (auto& a : args) a.strength = ArgumentStrength::WEAK;
+    double conf = EthicsEvaluator::computeConfidence(args);
+    EXPECT_NEAR(conf, 0.25, 1e-9);
+}
+
+// CC-03: All STRONG arguments produce confidence of 0.75.
+TEST(EthicsEvaluatorComputeConfidenceTest, CC03_AllStrongProducesHighConfidence) {
+    std::vector<EthicalArgument> args(4);
+    for (auto& a : args) a.strength = ArgumentStrength::STRONG;
+    double conf = EthicsEvaluator::computeConfidence(args);
+    EXPECT_NEAR(conf, 0.75, 1e-9);
+}
+
+// CC-04: All DECISIVE arguments produce maximum confidence of 1.0.
+TEST(EthicsEvaluatorComputeConfidenceTest, CC04_AllDecisiveProducesMaxConfidence) {
+    std::vector<EthicalArgument> args(2);
+    for (auto& a : args) a.strength = ArgumentStrength::DECISIVE;
+    double conf = EthicsEvaluator::computeConfidence(args);
+    EXPECT_NEAR(conf, 1.0, 1e-9);
+}
+
+// CC-05: Mixed strengths average correctly.
+TEST(EthicsEvaluatorComputeConfidenceTest, CC05_MixedStrengthsAverage) {
+    // WEAK(0.25) + DECISIVE(1.0) → average = 0.625
+    std::vector<EthicalArgument> args(2);
+    args[0].strength = ArgumentStrength::WEAK;
+    args[1].strength = ArgumentStrength::DECISIVE;
+    double conf = EthicsEvaluator::computeConfidence(args);
+    EXPECT_NEAR(conf, 0.625, 1e-9);
+}

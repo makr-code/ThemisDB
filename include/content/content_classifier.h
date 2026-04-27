@@ -127,13 +127,13 @@ public:
     ) = 0;
 
     /// Return the taxonomy identifiers supported by this classifier.
-    virtual std::vector<std::string> supportedTaxonomies() const = 0;
+    [[nodiscard]] virtual std::vector<std::string> supportedTaxonomies() const = 0;
 
     /// Return the ISO 639-1 language codes supported by this classifier.
-    virtual std::vector<std::string> supportedLanguages() const = 0;
+    [[nodiscard]] virtual std::vector<std::string> supportedLanguages() const = 0;
 
     /// Return `false` if the underlying model or service is unavailable.
-    virtual bool isAvailable() const = 0;
+    [[nodiscard]] virtual bool isAvailable() const = 0;
 };
 
 } // namespace content

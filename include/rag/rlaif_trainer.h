@@ -211,7 +211,7 @@ public:
      * @param response_b  Second candidate response.
      * @return Score in [0, 1]; >0.5 ⟹ prefer response_a.
      */
-    virtual double judge(const std::string& prompt,
+    [[nodiscard]] virtual double judge(const std::string& prompt,
                          const std::string& response_a,
                          const std::string& response_b) const = 0;
 
@@ -223,7 +223,7 @@ public:
      * @param principle   The constitutional principle to apply.
      * @return A critique text (may be empty if no violation detected).
      */
-    virtual std::string critique(
+    [[nodiscard]] virtual std::string critique(
         const std::string& prompt,
         const std::string& response,
         const AIPrinciple& principle) const = 0;
@@ -237,14 +237,14 @@ public:
      * @param principle     The constitutional principle being applied.
      * @return A revised response (may equal the original if no change).
      */
-    virtual std::string revise(
+    [[nodiscard]] virtual std::string revise(
         const std::string& prompt,
         const std::string& response,
         const std::string& critique_text,
         const AIPrinciple& principle) const = 0;
 
     /** @brief Human-readable name for logging. */
-    virtual std::string name() const = 0;
+    [[nodiscard]] virtual std::string name() const = 0;
 };
 
 // ============================================================

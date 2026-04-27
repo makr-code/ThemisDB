@@ -151,14 +151,14 @@ public:
      * @brief Get RPC protocol type
      * @return Protocol type
      */
-    virtual RPCProtocol getProtocol() const = 0;
+    [[nodiscard]] virtual RPCProtocol getProtocol() const = 0;
     
     /**
      * @brief Initialize RPC server with configuration
      * @param config Server configuration
      * @return true if initialization was successful
      */
-    virtual bool initialize(const RPCServerConfig& config) = 0;
+    [[nodiscard]] virtual bool initialize(const RPCServerConfig& config) = 0;
     
     /**
      * @brief Start RPC server (non-blocking)
@@ -168,7 +168,7 @@ public:
      * 
      * @return true if server started successfully
      */
-    virtual bool start() = 0;
+    [[nodiscard]] virtual bool start() = 0;
     
     /**
      * @brief Stop RPC server gracefully
@@ -182,13 +182,13 @@ public:
      * @brief Check if server is running
      * @return true if server is running
      */
-    virtual bool isRunning() const = 0;
+    [[nodiscard]] virtual bool isRunning() const = 0;
     
     /**
      * @brief Get server statistics
      * @return Current server statistics
      */
-    virtual RPCServerStats getStats() const = 0;
+    [[nodiscard]] virtual RPCServerStats getStats() const = 0;
     
     /**
      * @brief Register a service implementation
@@ -205,7 +205,7 @@ public:
      * @brief Get server address (host:port)
      * @return Server address as string
      */
-    virtual std::string getAddress() const = 0;
+    [[nodiscard]] virtual std::string getAddress() const = 0;
     
     /**
      * @brief Reset statistics
@@ -225,25 +225,25 @@ public:
      * @brief Create RPC server instance
      * @return Unique pointer to RPC server
      */
-    virtual std::unique_ptr<IRPCServer> createServer() = 0;
+    [[nodiscard]] virtual std::unique_ptr<IRPCServer> createServer() = 0;
     
     /**
      * @brief Get RPC protocol supported by this plugin
      * @return RPC protocol type
      */
-    virtual RPCProtocol getProtocol() const = 0;
+    [[nodiscard]] virtual RPCProtocol getProtocol() const = 0;
     
     /**
      * @brief Get default port for this RPC protocol
      * @return Default port number
      */
-    virtual uint16_t getDefaultPort() const = 0;
+    [[nodiscard]] virtual uint16_t getDefaultPort() const = 0;
     
     /**
      * @brief Get protocol description
      * @return Human-readable protocol description
      */
-    virtual const char* getProtocolDescription() const = 0;
+    [[nodiscard]] virtual const char* getProtocolDescription() const = 0;
 };
 
 /**
@@ -263,7 +263,7 @@ public:
      * @param response Response buffer (to be filled)
      * @return true if method was handled successfully
      */
-    virtual bool handleMethod(
+    [[nodiscard]] virtual bool handleMethod(
         const std::string& method,
         const std::vector<uint8_t>& params,
         std::vector<uint8_t>& response

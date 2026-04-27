@@ -232,10 +232,10 @@ public:
     virtual ~IPromptTemplate() = default;
 
     /** @brief Return the raw source string that was compiled. */
-    virtual const std::string& source() const noexcept = 0;
+    [[nodiscard]] virtual const std::string& source() const noexcept = 0;
 
     /** @brief Return the list of declared slot definitions. */
-    virtual const std::vector<SlotDefinition>& slots() const noexcept = 0;
+    [[nodiscard]] virtual const std::vector<SlotDefinition>& slots() const noexcept = 0;
 
     /**
      * @brief Render the template using the supplied context.
@@ -243,7 +243,7 @@ public:
      * @throws PromptTemplateMissingSlotError  if a required slot is absent.
      * @throws PromptTemplateTypeMismatchError if a slot value has the wrong type.
      */
-    virtual std::string render(const PromptContext& ctx) const = 0;
+    [[nodiscard]] virtual std::string render(const PromptContext& ctx) const = 0;
 
     /**
      * @brief Validate the context without rendering.
@@ -251,7 +251,7 @@ public:
      * Returns an empty vector on success; returns error messages when required
      * slots are missing or types are wrong.  Never throws.
      */
-    virtual std::vector<std::string> validate(const PromptContext& ctx) const noexcept = 0;
+    [[nodiscard]] virtual std::vector<std::string> validate(const PromptContext& ctx) const noexcept = 0;
 };
 
 // ============================================================================

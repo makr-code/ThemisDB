@@ -112,24 +112,24 @@ public:
     virtual ~IGraphEmbeddingProvider() = default;
 
     /// @brief Train the embedding model over the current graph.
-    virtual GraphEmbeddingStats train(const GraphEmbeddingConfig& config) = 0;
+    [[nodiscard]] virtual GraphEmbeddingStats train(const GraphEmbeddingConfig& config) = 0;
 
     /// @brief Retrieve the embedding vector for a single node.
-    virtual NodeEmbedding getEmbedding(const std::string& node_id) = 0;
+    [[nodiscard]] virtual NodeEmbedding getEmbedding(const std::string& node_id) = 0;
 
     /// @brief Retrieve embedding vectors for multiple nodes.
-    virtual std::vector<NodeEmbedding> getEmbeddings(
+    [[nodiscard]] virtual std::vector<NodeEmbedding> getEmbeddings(
         const std::vector<std::string>& node_ids) = 0;
 
     /**
      * @brief Find the k nearest nodes to the given node in embedding space.
      * @return Pairs of (node_id, cosine_similarity) sorted descending by similarity.
      */
-    virtual std::vector<std::pair<std::string, float>> findSimilarNodes(
+    [[nodiscard]] virtual std::vector<std::pair<std::string, float>> findSimilarNodes(
         const std::string& node_id, size_t k) = 0;
 
     /// @brief Return true if a model has been successfully trained.
-    virtual bool isModelTrained() const = 0;
+    [[nodiscard]] virtual bool isModelTrained() const = 0;
 };
 
 } // namespace graph

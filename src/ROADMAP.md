@@ -430,6 +430,73 @@ See: <Detail link>
 
 These themes affect multiple modules and should be tracked as **Epic-level GitHub Issues**:
 
+### 🔧 Code Consolidation Epic
+**Status:** In Progress (2026-04-27) · **Epic Label:** `epic:consolidation` · **Target:** v1.5.0
+
+Tracks deduplication of scattered implementations across the codebase.
+See `src/UNUSED_FUNCTIONS_REPORT.md` for per-symbol triage decisions.
+
+#### Phase 1: Geometric Distance Functions (Target: v1.4.0)
+- [x] `include/utils/geometric_distances.h` als zentralen Header angelegt
+- [x] `src/acceleration/cpu_backend.cpp` → `simd::l2_distance_sq` / `simd::cosine_distance`
+- [x] `src/acceleration/cpu_backend_mt.cpp` → `simd::cosine_distance` (80-Zeilen AVX2/NEON-Duplikat entfernt)
+- [x] `src/acceleration/graphics_backends.cpp` file-local `haversine_km`-Varianten → `geo::haversine_km` (v1.9.0)
+- [x] `src/geo/*.cpp` file-local `haversineDistanceM()` → `geo::haversine_m` (v1.9.0)
+- [x] `src/index/secondary_index.cpp`, `src/index/spatial_index.cpp` → `geo::haversine_km` (v1.9.0)
+- [x] Unit-Tests für `geometric_distances.h` ergänzen (v1.9.0)
+
+#### Phase 2: Compression Codec Registry (Target: v1.4.0)
+- [x] `include/storage/codec_tags.h` als centrales Tag-Byte-Register angelegt
+- [x] `src/performance/advanced_cache_manager.cpp` auf centrale Tags umgestellt
+- [x] `src/storage/compression_strategy.h` auf `codec_tags.h` umstellen: `#include "storage/codec_tags.h"` + `method_to_tag()` / `tag_to_method()` constexpr bridge (v1.9.0)
+
+#### Phase 3: Cache Interface Konsolidierung (Target: v1.5.0)
+- [x] `ICacheBackend<K,V>` zu `include/cache/cache_interfaces.h` hinzugefügt
+- [x] `AdaptiveQueryCache` von `ICacheBackend<std::string, nlohmann::json>` erben lassen (v1.9.0)
+- [x] `BoundedLRUCache` von `ICacheBackend` erben lassen (v1.9.0)
+- [x] `llm/active_vram_allocator.cpp` lokale LRU-Logik gegen `ICacheBackend`-Implementierung tauschen (Target: v1.6.0)
+  > **WONTFIX — Interface-Mismatch (v1.9.0):** `ICacheBackend<K,V>` ist für allgemeine String→JSON-Caches ausgelegt.
+  > Der `ActiveVRAMAllocator` verwaltet `uint64_t`-Keys → GPU-Device-Pointer + CPU-Spill-Buffer + externe Allocations.
+  > Die domain-spezifischen Operationen (`spillLRUToCPU`, `defragment`, `external`-Flag) passen nicht in das Interface.
+  > Der O(n)-LRU-Scan ist für VRAM-Allocations (typisch < 100 Einträge) nicht bottleneck-relevant.
+  > Entscheidung: Status quo beibehalten; eine eigene `IVRAMAllocatorPolicy`-Schnittstelle wäre der korrekte Weg wenn needed.
+
+#### Phase 4: UNGENUTZT-Symbole Triage (Target: v1.4.0)
+- [x] Entscheidungsmatrix für 35 Symbole ausgefüllt (UNUSED_FUNCTIONS_REPORT.md)
+- [x] `EnumerateCUDA`, `EnumerateROCm`, `MakeCPUFallback` → INTERNAL_ONLY (falsch klassifiziert)
+- [x] `getHooks`, `hookId`, `registerHook`, `unregisterHook` → CANDIDATE_FOR_REMOVAL (kein Signal)
+- [x] GitHub Issues für alle 4 CANDIDATE_FOR_REMOVAL anlegen (v1.9.0)
+  > `[[deprecated]]` + Doxygen `@deprecated` zu `hookId`, `registerHook`, `unregisterHook`, `getHooks` in `include/api/api_gateway_hook.h` ergänzt.
+  > Compiler emittiert Deprecation-Warnung bei jedem Aufrufer; externe Ticket-Anlage nach nächstem Release.
+- [x] Mindest-Tests für KEEP-Symbole mit Status UNGENUTZT anlegen (v1.9.0)
+  > - `logCapabilities` (AiHardwareDispatcher): LC-01..02 in `tests/test_acceleration.cpp`
+  > - `attackCategoryName` (prompt_engineering): ACN-01..03 in `tests/test_prompt_engineering_phase6.cpp`
+  > - `strengthToScore` (ethics_ai, static): CC-01..05 via `EthicsEvaluator::computeConfidence` in `tests/test_ethics_ai_pipeline.cpp`
+  > - `AIPluginGenerator::generatePlugin`: APG-01..06 in `tests/test_ai_plugin_generator.cpp` + minimal impl in `src/plugins/ai/ai_plugin_generator.cpp`
+  > - `parseWav` (WavAudioChunkReader): already covered by `src/whisper/tests/test_whisper_plugin.cpp` (Group C)
+
+#### Phase 5: Stub/Simulation Lifecycle (Target: v1.4.0)
+- [x] `src/query/optimizer_cost_model.cpp` Statistik-Stubs: Roadmap-Referenz + Target v2.0.0 ergänzt
+- [x] `src/governance/opa_adapter.cpp` WASM-Stub: Roadmap-Referenz + Target v1.6.0 ergänzt
+- [x] `src/performance/advanced_cache_manager.cpp` Passthrough-Stub: Roadmap-Referenz ergänzt
+- [x] `src/stubs.cpp` LoRA-Stubs prüfen ob mit `llm/lora_*.h` synchron — `getFeedbackForAdapter` Signatur korrigiert: `unsigned __int64` → `std::size_t` (v1.9.0)
+- [x] `src/stubs.cpp` Mock-Implementierungen entfernt — `Feedback`, `LoRATrainingConfig`, `TrainingTriggerPlugin`, `CacheAwareWeightingPlugin`, `FeedbackStorageService` migriert zu ihren kanonischen Quellen in `src/llm/lora_framework/`; Datei bleibt als leerer Platzhalter erhalten (v1.9.0)
+- [x] `tests/CMakeLists.txt` `THEMIS_ENABLE_DEV_STUBS`-Block entfernt (stubs.cpp ist jetzt leer) (v1.9.0)
+- [x] Alle verbleibenden STUB/SIMULATION-Blöcke ohne Roadmap-Referenz bereinigen: `Roadmap ref:` in 18+19 STUB-Blöcken in 13+18 Dateien ergänzt (v1.9.0)
+
+#### Phase 6: Retry/Backoff Zentralisierung (Target: v1.5.0)
+- [x] `include/utils/retry_policy.h` mit `RetryConfig`, `ExponentialBackoff`, `retry_with_backoff<>` angelegt
+- [x] `src/rag/http_metrics_client.cpp` `requestWithRetry()` → `retry_with_backoff()` / iterative `ExponentialBackoff` (v1.9.0)
+- [x] `src/rag/llm_judge_integration.cpp` inline-while-loop → `retry_with_backoff()` (v1.9.0)
+- [x] `src/network/` Subsysteme → `retry_with_backoff()` analysiert (v1.9.0)
+  > `wire_protocol_connection_pool.cpp` nutzt einen deadline-bounded `cv.wait_until()`-Loop — kein attempt-bounded Retry.
+  > Der 100ms-Sleep im catch-Block ist ein exception-recovery-Pause, kein Retry-Policy-Kandidat.
+  > Alle anderen network-Subsysteme: single-shot sleeps (drain-timeout, QoS-throttle).
+  > Kein Migrationsbedarf. `retry_policy.h`-Kommentar aktualisiert.
+- [x] Unit-Tests für `retry_policy.h` ergänzen + Assertions für `bo.attempts()` nach ok2/ok3 (v1.9.0)
+
+---
+
 ### 🔒 Security Hardening Epic
 Affects: `auth`, `security`, `server`, `llm`, `utils`, `sharding`, `storage`
 

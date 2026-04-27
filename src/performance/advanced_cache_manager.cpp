@@ -26,6 +26,7 @@
 // Licensed under MIT License
 
 #include "performance/advanced_cache_manager.h"
+#include "storage/codec_tags.h"
 
 #include <algorithm>
 #include <cstdint>
@@ -90,34 +91,32 @@ void AdvancedCacheManager::BloomFilter::clear() noexcept {
 // Compression helpers
 //
 // STUB/SIMULATION NOTE:
-// Purpose:     passthrough (tag 0x00) path is a safe dev/CI fallback when no
-//              compression library is compiled in.
+// Purpose:     passthrough (kTagPassthrough) path is a safe dev/CI fallback
+//              when no compression library is compiled in.
 // Activation:  default when THEMIS_ENABLE_LZ4, THEMIS_ENABLE_SNAPPY, and
 //              THEMIS_ENABLE_ZSTD are all absent from the build.
 // Production Delta: passthrough means no size reduction — wire-format is
 //              1 byte larger than the original value (the algorithm tag byte).
-// Removal Plan: install vcpkg features lz4, snappy, or zstd and define the
-//              corresponding THEMIS_ENABLE_* flag; the passthrough path
-//              remains as a graceful fallback only.
+// Roadmap ref: src/ROADMAP.md § "Consolidation Phase — Compression Codec"
+//              (Target: v1.5.0 — install vcpkg features lz4/snappy/zstd)
+// Removal Plan: define THEMIS_ENABLE_LZ4 / _SNAPPY / _ZSTD; the passthrough
+//              path remains as a graceful fallback, not for removal.
 //
-// Wire-format: a single leading byte encodes the algorithm used so that
-// decompress() can reconstruct the value without out-of-band metadata.
-//
-//   0x00 = passthrough (no library available or CompressionAlgorithm::None)
-//   0x01 = LZ4 HC      (THEMIS_ENABLE_LZ4)
-//   0x02 = Snappy      (THEMIS_ENABLE_SNAPPY)
-//   0x03 = Zstd        (THEMIS_ENABLE_ZSTD, level 3)
-//
-// The original (uncompressed) 4-byte little-endian size is appended after the
-// tag byte for algorithms that need it at decompression time (LZ4, Zstd).
+// Wire-format defined in include/storage/codec_tags.h (canonical reference):
+//   kTagPassthrough (0x00) = no compression
+//   kTagLZ4         (0x01) = LZ4 HC + 4-byte LE original size header
+//   kTagSnappy      (0x02) = Snappy
+//   kTagZstd        (0x03) = Zstd level 3 + 4-byte LE original size header
 // ---------------------------------------------------------------------------
 
 namespace {
 
-constexpr uint8_t kTagPassthrough = 0x00;
-constexpr uint8_t kTagLZ4        = 0x01;
-constexpr uint8_t kTagSnappy     = 0x02;
-constexpr uint8_t kTagZstd       = 0x03;
+// Import canonical tag constants; using-declarations keep the existing code
+// below readable without adding a namespace qualifier to every use.
+using themis::compression::kTagPassthrough;
+using themis::compression::kTagLZ4;
+using themis::compression::kTagSnappy;
+using themis::compression::kTagZstd;
 
 [[maybe_unused]] static void write_le32(uint8_t* dst, uint32_t v) noexcept {
     dst[0] = static_cast<uint8_t>(v & 0xFFu);
