@@ -72,6 +72,61 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [1.9.0] - 2026-04-11
+
+> **Release Aggregation Document:** [`docs/de/releases/RELEASE_NOTES_v1.9.0.md`](docs/de/releases/RELEASE_NOTES_v1.9.0.md)
+> **Aggregation Issue:** [#3071](https://github.com/makr-code/ThemisDB/issues/3071)
+
+### Added
+- **Chimera Multi-Model Adapter** — Streaming Result Sets, Prepared Statements, Connection-Pool-Adapter-Schnittstellen; Simulationsmodus für alle 4 Datenbankmodelle (PR #4478, Issue #3509)
+- **Governance Compliance Evaluatoren** — ISO 27001 Annex A `Iso27001ControlSet` + HIPAA Security Rule `HipaaRuleSet` (PR #4484, Issue #3515)
+- **Vollständige IPv6 Dual-Stack-Unterstützung** im Wire Protocol Server (PR #3769, Issue #3754)
+- **QUIC/HTTP3 Transportschicht** (PR #3291, Issue #1994)
+- **Nativer gRPC-Transport** für Binary Wire Protocol (PR #3299, Issue #2024)
+- **Kernel Bypass DPDK/io_uring** — `DPDKServer`, `IoUringServer`, `CpuPinner`, `NumaAllocator`, `ZeroCopyDmaBuffer` (Issue #4057)
+- **FAISS GPU Backend** — IVF_SQ8 + HNSW_FLAT; 50 Tests; `getCapabilities()` meldet INT8/L2/IP (Issue #4052)
+- **BackendRegistry O(1) Selektion** — `typeIndex_` map eliminiert O(n²) + alle `dynamic_cast` im Hot-Path (Issue #4066)
+- **Workload-Adaptive Optimizer** — OLTP/OLAP/MIXED/GRAPH/VECTOR/TIMESERIES Klassifikation, Predictive Scaling (Issue #4060)
+- **Advanced Cache Optimization** — Multi-Partition, Bloom-Filter, adaptive Eviction (LRU/LIRS/ARC/2Q), LZ4-Kompression (Issue #4059)
+- **NUMA-Aware Memory Manager** — `NUMAMemoryManager` mit Topology-Detection + Affinity-Allokation (Issue #4058, PR #4505)
+- **mTLS Zertifikatsauthentifizierung** (PR #2777, Issue #1549)
+- **GDPR Art. 17 PII Purge Propagation** im Cache (PR #2815, Issue #1591)
+- **Authenticode/GPG Signaturverifizierung** für ModuleLoader (PR #2654, Issue #2473)
+- **InputValidator Security API** (PR #4513)
+- **Istio/Envoy Sidecar-Kompatibilität** (PR #3337, Issue #2208)
+- **LZ4/Zstd Verbindungskompression** für Wire Protocol V2 (PR #2925, Issue #2206)
+- **Per-Tenant Bandbreiten-Quotas** (PR #2924, Issue #2205)
+- **KafkaCDCProducer + ICDCTransport** (Issue #3992; `cdc_kafka.yaml`)
+- **Stable Importer Plugin ABI** `THEMIS_IMPORTER_PLUGIN_V1` — `PluginSandboxConfig`, `V1ImporterAdapter` (Importers Phase 10)
+- **Lock-Free L1 Cache Read Path** — `l1_mutex_` → `std::shared_mutex`; Lazy-Expiry via CAS
+- **gRPC Factory Wiring** für `ExecuteAQL`/`StreamAQL`; `GrpcApiServer` mutex + 30-Sekunden Shutdown-Deadline
+- **MqttClientService + MqttCDCTransport** — MQTT CDC Bridge (Server ROADMAP)
+- **DecisionRecordYamlProcessor** in `LoraRouter`, `AdapterLoadBalancer`, `LoraOrchestrator` (LLM ROADMAP)
+- **Multi-field Boosting** `MultiFieldBoostedSearch`; Phase 5: `ConversationalSearch`, `FederatedSearch` (Search)
+- **MultiHopReasoner + AdaptiveRetrieval** für Knowledge Graph RAG (PR #4509)
+- **Knowledge Graph-augmentiertes Retrieval** mit Entity Linking (PR #2748, Issue #2242)
+- **Forecasting Batch/Streaming** — `predictBatch()`, O(1)-`update()`, parallele Auto-Tune, FNV-1a Cache; 17 Tests (Issue #4054)
+- **NCCL/RCCL Distributed `mergeTopK`** Integration (Issue #3867, PR #4568)
+- **QueryFederation Shard-Key-Routing** (Point-Lookup + Range); `QueryEngine::createDefault()` (Query ROADMAP)
+- **Adaptive Deadlock Prevention** (Issue #4091)
+- **Automatische Indexierungs-Empfehlungen** (Issue #4084)
+- **AdaptiveFlushController** in TSStore integriert (PR #4500)
+- **PMU non-Linux Stub-Abdeckung** — macOS kpc, Windows QueryThreadCycleTime, RDTSC/CNTVCT_EL0 (Issue #4086)
+- **Multi-Environment Config Overlay** dev/staging/prod (Issue #3997)
+- **AQL Query-Migrations-Assistent** ArangoDB → ThemisDB AQL (PR #2694, Issue #1360)
+- **Speaker-Verifizierung** für Voice-Biometrics (PR #2605, Issue #2494)
+- **Per-Tenant Metric-Namespacing** + strukturiertes Log-Search (PR #4503)
+- **Runtime Capability Escalation Blocking** (PR #4504)
+- **WiscKey GC/Log Compaction** (Issue #940)
+- **PERF-D1..D7 Benchmark-Suite** — Adaptive Flush, Parallel Batch Insert, SIMD Distance, Lock-Free 2PC, Streaming Blob Write, Query Lazy-Eval (PRs #4493–#4498)
+
+### ⚠️ Breaking Changes
+- **`QueryEngine::createDefault()`** wirft `std::runtime_error` wenn keine Storage/Index-Adapter injiziert sind — Konstruktor-Injektion verwenden
+- **Cache L1** — `L1Entry`-Felder atomicisiert; eigene Subklassen müssen auf `std::shared_mutex`-Muster umgestellt werden
+- **Importer Plugin ABI** — ältere DSO-Plugins ohne `THEMIS_IMPORTER_PLUGIN_V1`-Export werden nicht mehr geladen
+
+---
+
 ## [1.8.1-rc1] - 2026-04-04
 
 > **Release Notes:** [`docs/de/releases/RELEASE_NOTES_v1.8.1-rc1.md`](docs/de/releases/RELEASE_NOTES_v1.8.1-rc1.md)
