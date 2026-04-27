@@ -57,12 +57,12 @@ ThemisDB v2.0.0 ships a production-grade CQL engine (Phase 8.1–8.5). The engin
 
 ### Performance Impact
 
-| Metric | CQL / STREAM Claim | ThemisDB Target | Status |
-|--------|--------------------|-----------------|--------|
-| Per-tuple latency | < 1 ms (mid-2000s hardware) | ≤ 5 ms p99 end-to-end | 📋 Target set; benchmark `BM_ContinuousQuery_TupleLatency` |
-| Window evaluation overhead | O(window size) | O(delta) with `IncrementalAgg` | ✅ Implemented (Phase 8.2) |
-| Concurrent continuous queries | Not specified | ≥ 1 000 active queries | ✅ Unit test CQ-20 |
-| Throughput | ~100 k tuples/s (STREAM prototype) | ≥ 500 k tuples/s | 📋 Target set; benchmark `BM_ContinuousQuery_Throughput` (CQ-PERF-01) |
+| Metric | CQL / STREAM Claim | ThemisDB Target | Baseline Measurement | Status |
+|--------|--------------------|-----------------|---------------------|--------|
+| Per-tuple latency | < 1 ms (mid-2000s hardware) | ≤ 5 ms p99 end-to-end | Pending (`BM_ContinuousQuery_TupleLatency`) | 📋 Benchmark defined; measurement pending hardware run |
+| Window evaluation overhead | O(window size) | O(delta) with `IncrementalAgg` | — | ✅ Implemented (Phase 8.2) |
+| Concurrent continuous queries | Not specified | ≥ 1 000 active queries | — | ✅ Unit test CQ-20 |
+| Throughput | ~100 k tuples/s (STREAM prototype) | ≥ 500 k tuples/s | Pending (`BM_ContinuousQuery_Throughput`) | 📋 Benchmark defined (CQ-PERF-01); measurement pending hardware run |
 
 ## ⚠️ Limitations & Open Questions
 
