@@ -271,7 +271,7 @@ Implementing sharding requires careful planning and execution. Following this ro
 - `[?]` Adaptive rebalancer not yet implemented; rebalancing is currently manual-only.
 - `[?]` Focused chaos tests are in CI, but full cluster-level chaos/failover scenarios are not yet part of the default production-readiness gate.
 - `[x]` **PAX-1** `paxos_consensus.cpp::executePreparePhase()` — Fixed 2026-04-21: state_mutex_ released before tail call to executeAcceptPhase().
-- `[!]` **PAX-2** `paxos_consensus.cpp::leaderElectionThread()` performs no quorum-based election; smallest node-ID wins unconditionally — split-brain risk.
+- `[x]` **PAX-2** `paxos_consensus.cpp::leaderElectionThread()` replaced with quorum-based ballot exchange — Fixed 2026-04-27: `leaderElectionThread()` bumps `current_round_` (ballot) and collects promises from a strict majority before asserting LEADER state.
 - `[x]` **PAX-3** `paxos_consensus.cpp` WAL write failures — Fixed 2026-04-21: hard errors in all three phases; broadcastCommit() returns bool.
 - `[x]` **GOS-1** `gossip_protocol.cpp::addPeer()` deadlock — Fixed 2026-04-21: syncWithTopologyLocked() helper added.
 - `[x]` **CST-1/CST-2/CST-3** `cross_shard_transaction.cpp::commit()`/`abort()`/`executeSaga()` — Fixed 2026-04-21: copy-by-value before lock release; re-lookup after re-lock.
