@@ -69,6 +69,7 @@
 #include "server/spatial_api_handler.h"
 #include "server/monitoring_api_handler.h"
 #include "server/query_api_handler.h"
+#include "server/continuous_query_api_handler.h"
 #include "server/policy_api_handler.h"
 #include "server/prompt_api_handler.h"
 #include "server/graph_api_handler.h"
@@ -154,6 +155,10 @@ class PITRManager;
 class TaskScheduler;
 class QueryEngine;
 class MVCCStore;
+
+namespace query {
+class ContinuousQueryEngine;
+}
 
 namespace prompt_engineering {
 class PromptManager;
@@ -505,6 +510,25 @@ public:
     modules::ModuleLoader* getModuleLoader() const {
         return module_loader_;
     }
+
+    /**
+     * @brief Wire a ContinuousQueryEngine and activate the CQL REST endpoints.
+     *
+     * Registers the engine with the internal ContinuousQueryApiHandler so that
+     * the following endpoints become active:
+     *   POST   /v1/queries/continuous
+     *   DELETE /v1/queries/continuous/:name
+     *   GET    /v1/queries/continuous
+     *   GET    /v1/queries/continuous/:name/results   (SSE)
+     *
+     * Must be called after construction and before start().
+     * Calling it multiple times replaces the previous engine.
+     *
+     * @param engine  Shared engine instance; passing nullptr disables the endpoints.
+     */
+    void setContinuousQueryEngine(
+        std::shared_ptr<themis::query::ContinuousQueryEngine> engine);
+
 
     /**
      * @brief Registered endpoint information (dynamically assembled from config)
@@ -956,6 +980,9 @@ private:
     std::shared_ptr<core::concerns::ConcernsContext> concerns_;
     // Query API Handler
     std::unique_ptr<themis::server::QueryApiHandler> query_api_;
+    // Continuous Query API Handler (CQL Phase 8 REST/SSE endpoints)
+    std::unique_ptr<themis::server::ContinuousQueryApiHandler> continuous_query_api_;
+    std::shared_ptr<themis::query::ContinuousQueryEngine> continuous_query_engine_;
     // Policy API Handler
     std::unique_ptr<themis::server::PolicyApiHandler> policy_api_;
     // Prompt API Handler

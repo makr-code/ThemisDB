@@ -251,7 +251,7 @@ Adds a production-grade Continuous Query Language (CQL) engine to ThemisDB, enab
 - [x] Define `ContinuousQueryHandle` (opaque registration token) and `ResultStreamPtr` (typed iterator with `next()`, `cancel()`, `stats()`) — `include/query/continuous_query_engine.h`
 - [x] Define `WindowSpec` with three subtypes: `TimeWindow{range_ms, slide_ms}`, `CountWindow{rows, slide, partition_by}`, `TumblingWindow{interval_ms}` — `include/query/window_spec.h`
 - [x] Define `ContinuousQueryInfo` for `SHOW CONTINUOUS QUERIES` output: `name`, `source`, `window`, `result_mode`, `registered_at`, `last_tick_at`, `tuples_processed`, `result_queue_depth` — `include/query/continuous_query_registry.h`
-- [ ] AQL DDL grammar additions in `src/query/aql_parser.cpp`: `CREATE CONTINUOUS QUERY`, `DROP CONTINUOUS QUERY`, `SHOW CONTINUOUS QUERIES`, `DESCRIBE CONTINUOUS QUERY <name>` — parse to `ContinuousQueryDDL` AST node
+- [x] AQL DDL grammar additions in `src/query/aql_parser.cpp`: `CREATE CONTINUOUS QUERY`, `DROP CONTINUOUS QUERY`, `SHOW CONTINUOUS QUERIES`, `DESCRIBE CONTINUOUS QUERY <name>` — parse to `ContinuousQueryDDL` AST node
 - [x] API stability contract: `ContinuousQueryEngine::registerQuery()`, `::dropQuery()`, `::subscribe()`, `::listQueries()` are v2.0.0 stable
 
 #### Phase 8.2 — Core Implementation (Target: Q3 2026) ✅
@@ -266,7 +266,7 @@ Adds a production-grade Continuous Query Language (CQL) engine to ThemisDB, enab
 - [x] Incremental aggregation: delta-based `SUM`, `COUNT`, `AVG`, `MIN`, `MAX` updates applied on `added_tuples` and `expired_tuples` without full re-scan — `src/query/incremental_agg.cpp`
 - [x] Watermark engine: per-query watermark tracker; late-data detection; correction delta within `allowed_lateness_ms` — `src/query/cq_watermark.cpp`
 - [x] Result delivery: bounded `ResultQueue` per `(query_name, subscriber_id)` via `CQResultStreamImpl`; overflow drops oldest entries
-- [ ] Wiring: `HttpServer::setContinuousQueryEngine()` called from `main_server.cpp`; expose `/v1/queries/continuous` REST endpoints: `POST /register`, `DELETE /:name`, `GET /` (list), `GET /:name/results` (SSE stream)
+- [x] Wiring: `HttpServer::setContinuousQueryEngine()` called from `main_server.cpp`; expose `/v1/queries/continuous` REST endpoints: `POST /register`, `DELETE /:name`, `GET /` (list), `GET /:name/results` (SSE stream)
 
 #### Phase 8.3 — Error Handling & Edge Cases (Target: Q3 2026) ✅
 
@@ -285,7 +285,7 @@ Adds a production-grade Continuous Query Language (CQL) engine to ThemisDB, enab
   - CQ-14..15: watermark advancement and late-data correction
   - CQ-16..18: `DELTA` / `SNAPSHOT` / `CHANGES` result mode output
   - CQ-19..20: validation rejections (zero range_ms, empty name)
-- [ ] Integration tests `CQI-01..05` — `tests/integration/test_continuous_query_e2e.cpp`:
+- [x] Integration tests `CQI-01..05` — `tests/integration/test_continuous_query_e2e.cpp`:
   - CQI-01: `CREATE CONTINUOUS QUERY` → inject events → verify SSE delta stream
   - CQI-02: multi-subscriber fan-out; both subscribers receive identical deltas
   - CQI-03: late event within `allowed_lateness_ms`; correction delta emitted

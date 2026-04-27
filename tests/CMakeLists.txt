@@ -18892,6 +18892,20 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_continuous_query_engine.cpp")
     message(STATUS "  ContinuousQueryEngine: window spec, synopsis, incremental agg, watermark, result modes")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/integration/test_continuous_query_e2e.cpp")
+    message(STATUS "Adding Query: ContinuousQuery E2E integration tests (CQI-01..05)")
+    add_executable(test_continuous_query_e2e integration/test_continuous_query_e2e.cpp)
+    target_include_directories(test_continuous_query_e2e PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_continuous_query_e2e PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_continuous_query_e2e PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ContinuousQueryE2ETests COMMAND test_continuous_query_e2e)
+    set_tests_properties(ContinuousQueryE2ETests PROPERTIES
+        LABELS "query;cql;continuous;integration;e2e"
+        TIMEOUT 120)
+    message(STATUS "  ContinuousQuery E2E: register, inject, stream, fan-out, late events, cancel/resume, drop/re-register")
+endif()
+
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_query_plan_visualizer.cpp")
     message(STATUS "Adding Query: QueryPlanVisualizer focused tests")
     add_executable(test_query_plan_visualizer_focused test_query_plan_visualizer.cpp)

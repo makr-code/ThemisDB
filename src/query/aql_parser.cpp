@@ -1317,5 +1317,276 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
     }
 }
 
+// ============================================================================
+// CQL DDL Parser (Phase 8.1)
+// ============================================================================
+
+/**
+ * @brief Tokenise @p input into whitespace-separated uppercase words plus
+ *        special single-character tokens: '(', ')', ','.
+ *
+ * This is deliberately simpler than the full AQL Tokenizer: DDL statements
+ * have a fixed keyword structure and only require the RETURN body to be
+ * preserved verbatim.  We therefore split until we hit "RETURN", then
+ * capture everything that follows as the AQL body.
+ */
+static std::vector<std::string> tokeniseDdl(const std::string& input) {
+    std::vector<std::string> tokens;
+    size_t i = 0;
+    const size_t n = input.size();
+
+    // Convert the part before RETURN to uppercase tokens; capture RETURN body.
+    while (i < n) {
+        // Skip whitespace
+        while (i < n && std::isspace(static_cast<unsigned char>(input[i]))) ++i;
+        if (i >= n) break;
+
+        char ch = input[i];
+
+        if (ch == '(' || ch == ')' || ch == ',') {
+            tokens.push_back(std::string(1, ch));
+            ++i;
+            continue;
+        }
+
+        // Collect a word token
+        size_t start = i;
+        while (i < n && !std::isspace(static_cast<unsigned char>(input[i]))
+               && input[i] != '(' && input[i] != ')' && input[i] != ',') {
+            ++i;
+        }
+
+        std::string word = input.substr(start, i - start);
+        // Uppercase for keyword comparison
+        std::string upper = word;
+        std::transform(upper.begin(), upper.end(), upper.begin(),
+                       [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
+
+        tokens.push_back(std::move(upper));
+    }
+    return tokens;
+}
+
+Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
+    // ── helpers ──────────────────────────────────────────────────────────────
+    auto make_err = [](const std::string& msg) -> Result<ContinuousQueryDDL> {
+        return Err<ContinuousQueryDDL>(
+            errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX, msg);
+    };
+
+    // Strip leading/trailing whitespace
+    std::string trimmed = input;
+    {
+        size_t s = trimmed.find_first_not_of(" \t\n\r");
+        if (s == std::string::npos) {
+            return make_err("Empty DDL statement");
+        }
+        size_t e = trimmed.find_last_not_of(" \t\n\r");
+        trimmed = trimmed.substr(s, e - s + 1);
+    }
+
+    // Convert to uppercase for keyword matching
+    std::string upper = trimmed;
+    std::transform(upper.begin(), upper.end(), upper.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
+
+    // ── SHOW CONTINUOUS QUERIES ───────────────────────────────────────────────
+    if (upper == "SHOW CONTINUOUS QUERIES" ||
+        upper.rfind("SHOW CONTINUOUS QUERIES", 0) == 0) {
+        ContinuousQueryDDL ddl;
+        ddl.ddl_type = ContinuousQueryDDLType::SHOW;
+        return Ok(std::move(ddl));
+    }
+
+    auto tokens = tokeniseDdl(trimmed);
+    if (tokens.empty()) {
+        return make_err("Empty DDL statement");
+    }
+
+    // Peek helper — returns empty string when out of range
+    auto tok = [&](size_t idx) -> const std::string& {
+        static const std::string empty;
+        return idx < tokens.size() ? tokens[idx] : empty;
+    };
+
+    const std::string& kw0 = tok(0);
+
+    // ── DROP CONTINUOUS QUERY <name> ─────────────────────────────────────────
+    if (kw0 == "DROP") {
+        if (tok(1) != "CONTINUOUS" || tok(2) != "QUERY") {
+            return make_err("Expected: DROP CONTINUOUS QUERY <name>");
+        }
+        if (tok(3).empty()) {
+            return make_err("DROP CONTINUOUS QUERY requires a query name");
+        }
+        ContinuousQueryDDL ddl;
+        ddl.ddl_type   = ContinuousQueryDDLType::DROP;
+        ddl.query_name = tok(3);
+        return Ok(std::move(ddl));
+    }
+
+    // ── DESCRIBE CONTINUOUS QUERY <name> ─────────────────────────────────────
+    if (kw0 == "DESCRIBE") {
+        if (tok(1) != "CONTINUOUS" || tok(2) != "QUERY") {
+            return make_err("Expected: DESCRIBE CONTINUOUS QUERY <name>");
+        }
+        if (tok(3).empty()) {
+            return make_err("DESCRIBE CONTINUOUS QUERY requires a query name");
+        }
+        ContinuousQueryDDL ddl;
+        ddl.ddl_type   = ContinuousQueryDDLType::DESCRIBE;
+        ddl.query_name = tok(3);
+        return Ok(std::move(ddl));
+    }
+
+    // ── SHOW CONTINUOUS QUERIES (tokenised path) ──────────────────────────────
+    if (kw0 == "SHOW") {
+        if (tok(1) != "CONTINUOUS" || tok(2) != "QUERIES") {
+            return make_err("Expected: SHOW CONTINUOUS QUERIES");
+        }
+        ContinuousQueryDDL ddl;
+        ddl.ddl_type = ContinuousQueryDDLType::SHOW;
+        return Ok(std::move(ddl));
+    }
+
+    // ── CREATE CONTINUOUS QUERY <name> ON <collection>
+    //         WINDOW TIME(<r>,<s>) | COUNT(<rows>,<slide>) | TUMBLING(<i>)
+    //         RETURN <aql_body> ────────────────────────────────────────────────
+    if (kw0 != "CREATE") {
+        return make_err(
+            fmt::format("Unknown CQL DDL keyword '{}'; expected CREATE, DROP, SHOW, or DESCRIBE",
+                        kw0));
+    }
+
+    if (tok(1) != "CONTINUOUS" || tok(2) != "QUERY") {
+        return make_err("Expected: CREATE CONTINUOUS QUERY <name> ...");
+    }
+
+    const std::string& query_name = tok(3);
+    if (query_name.empty() || query_name == "ON") {
+        return make_err("CREATE CONTINUOUS QUERY requires a non-empty query name");
+    }
+
+    if (tok(4) != "ON") {
+        return make_err("Expected ON <collection> after query name");
+    }
+
+    const std::string& collection = tok(5);
+    if (collection.empty() || collection == "WINDOW") {
+        return make_err("CREATE CONTINUOUS QUERY requires a non-empty source collection");
+    }
+
+    if (tok(6) != "WINDOW") {
+        return make_err("Expected WINDOW keyword after collection name");
+    }
+
+    // tok(7) = window function name: TIME | COUNT | TUMBLING
+    const std::string& win_func = tok(7);
+
+    // tok(8) = '('
+    if (tok(8) != "(") {
+        return make_err("Expected '(' after WINDOW function name");
+    }
+
+    ContinuousQueryDDL ddl;
+    ddl.ddl_type   = ContinuousQueryDDLType::CREATE;
+    ddl.query_name = query_name;
+    ddl.spec.source_collection = collection;
+    ddl.spec.window_type       = win_func;
+
+    // Parse WINDOW arguments; find matching ')'
+    // We expect a flat comma-separated list of integer literals.
+    size_t arg_start = 9;  // first token after '('
+    std::vector<int64_t> args;
+    size_t ti = arg_start;
+    while (ti < tokens.size() && tok(ti) != ")") {
+        const std::string& t = tok(ti);
+        if (t == ",") { ++ti; continue; }
+        // Must be an integer literal
+        bool is_num = !t.empty() &&
+                      std::all_of(t.begin(), t.end(),
+                                  [](char c){ return std::isdigit(static_cast<unsigned char>(c)); });
+        if (!is_num) {
+            return make_err(fmt::format("Non-numeric window argument '{}' in WINDOW clause", t));
+        }
+        try {
+            args.push_back(std::stoll(t));
+        } catch (...) {
+            return make_err(fmt::format("Invalid window argument '{}' in WINDOW clause", t));
+        }
+        ++ti;
+    }
+
+    if (tok(ti) != ")") {
+        return make_err("Unterminated WINDOW argument list — missing ')'");
+    }
+    size_t after_paren = ti + 1;  // token index after the closing ')'
+
+    if (win_func == "TIME") {
+        if (args.size() < 2) {
+            return make_err("WINDOW TIME requires two arguments: TIME(<range_ms>, <slide_ms>)");
+        }
+        ddl.spec.range_ms = args[0];
+        ddl.spec.slide_ms = args[1];
+    } else if (win_func == "COUNT") {
+        if (args.size() < 2) {
+            return make_err("WINDOW COUNT requires two arguments: COUNT(<rows>, <slide_rows>)");
+        }
+        ddl.spec.rows       = args[0];
+        ddl.spec.slide_rows = args[1];
+    } else if (win_func == "TUMBLING") {
+        if (args.empty()) {
+            return make_err("WINDOW TUMBLING requires one argument: TUMBLING(<interval_ms>)");
+        }
+        ddl.spec.range_ms = args[0];
+    } else {
+        return make_err(
+            fmt::format("Unknown window type '{}'; expected TIME, COUNT, or TUMBLING", win_func));
+    }
+
+    // Expect RETURN keyword next
+    if (tok(after_paren) != "RETURN") {
+        return make_err(
+            fmt::format("Expected RETURN after WINDOW clause, got '{}'", tok(after_paren)));
+    }
+
+    // The AQL body is everything after the RETURN keyword in the *original* input,
+    // preserving case and whitespace for correct AQL evaluation later.
+    {
+        // Find the position of "RETURN" in the original (case-insensitive search)
+        std::string::size_type return_pos = std::string::npos;
+        // Walk upper string to find standalone RETURN keyword
+        std::string needle = "RETURN";
+        size_t search_from = 0;
+        while (true) {
+            size_t found = upper.find(needle, search_from);
+            if (found == std::string::npos) break;
+            // Check word boundary
+            bool left_ok  = (found == 0) || !std::isalnum(static_cast<unsigned char>(upper[found - 1]));
+            bool right_ok = (found + needle.size() >= upper.size()) ||
+                            !std::isalnum(static_cast<unsigned char>(upper[found + needle.size()]));
+            if (left_ok && right_ok) {
+                return_pos = found;
+                break;
+            }
+            search_from = found + 1;
+        }
+
+        if (return_pos == std::string::npos) {
+            return make_err("CREATE CONTINUOUS QUERY is missing a RETURN clause");
+        }
+
+        std::string body = trimmed.substr(return_pos + needle.size());
+        // Trim leading whitespace from body
+        size_t bs = body.find_first_not_of(" \t\n\r");
+        ddl.spec.aql_body = (bs == std::string::npos) ? "" : body.substr(bs);
+        if (ddl.spec.aql_body.empty()) {
+            return make_err("RETURN clause must not be empty");
+        }
+    }
+
+    return Ok(std::move(ddl));
+}
+
 }  // namespace query
 }  // namespace themis

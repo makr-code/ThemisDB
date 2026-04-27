@@ -179,6 +179,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "query/query_optimizer.h"
 #include "query/aql_parser.h"
 #include "query/aql_translator.h"
+#include "query/continuous_query_engine.h"
 
 #include "security/signing.h"
 #include "utils/input_validator.h"
@@ -194,6 +195,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "server/api_version.h"
 #include "server/api_version_config.h"
 #include "server/route_version_router.h"
+#include "server/continuous_query_api_handler.h"
 #include "scheduler/task_scheduler.h"
 #include "maintenance/maintenance_task_handler_impls.h"
 #include "storage/compaction_manager.h"
@@ -2728,6 +2730,12 @@ namespace {
     SAGABatchVerifyPost,            // POST   /api/saga/batches/{id}/verify
     SAGAFlushPost,                  // POST   /api/saga/flush
 
+    // Continuous Query (CQL Phase 8) REST/SSE API
+    ContinuousQueryRegisterPost,    // POST   /v1/queries/continuous
+    ContinuousQueryDropDelete,      // DELETE /v1/queries/continuous/:name
+    ContinuousQueryListGet,         // GET    /v1/queries/continuous
+    ContinuousQueryStreamSseGet,    // GET    /v1/queries/continuous/:name/results
+
         NotFound
     };
 
@@ -3401,6 +3409,32 @@ namespace {
                 std::string action = rest.substr(slash_pos + 1);
                 if (method == http::verb::post && action == "verify")
                     return Route::SAGABatchVerifyPost;
+            }
+        }
+
+        // ── CQL Phase 8: Continuous Query endpoints ────────────────────────
+        // POST   /v1/queries/continuous
+        if (path_only == "/v1/queries/continuous") {
+            if (method == http::verb::post)   return Route::ContinuousQueryRegisterPost;
+            if (method == http::verb::get)    return Route::ContinuousQueryListGet;
+        }
+        // /v1/queries/continuous/:name
+        // /v1/queries/continuous/:name/results
+        if (path_only.size() > 23 &&
+            path_only.substr(0, 23) == "/v1/queries/continuous/")
+        {
+            const std::string rest_cq = path_only.substr(23);  // ":name" or ":name/results"
+            const auto slash_cq = rest_cq.find('/');
+            if (slash_cq == std::string::npos) {
+                // /v1/queries/continuous/:name
+                if (method == http::verb::delete_) return Route::ContinuousQueryDropDelete;
+            } else {
+                // /v1/queries/continuous/:name/results
+                if (slash_cq + 1 < rest_cq.size()) {
+                    const std::string suffix = rest_cq.substr(slash_cq + 1);
+                    if (method == http::verb::get && suffix == "results")
+                        return Route::ContinuousQueryStreamSseGet;
+                }
             }
         }
 
@@ -6845,6 +6879,77 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             response = makeResponse(http::status::ok,
                                     saga_api_->flushCurrentBatch().dump(), req);
+            break;
+        }
+
+        // ── CQL Phase 8: Continuous Query endpoints ───────────────────────
+        case Route::ContinuousQueryRegisterPost: {
+            if (auto auth_err = requireAccess(req, "user", "cq.register",
+                                              "/v1/queries/continuous")) {
+                response = *auth_err; break;
+            }
+            if (!continuous_query_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Continuous query engine not initialized", req);
+                break;
+            }
+            response = continuous_query_api_->handleRegister(req);
+            break;
+        }
+
+        case Route::ContinuousQueryListGet: {
+            if (auto auth_err = requireAccess(req, "user", "cq.list",
+                                              "/v1/queries/continuous")) {
+                response = *auth_err; break;
+            }
+            if (!continuous_query_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Continuous query engine not initialized", req);
+                break;
+            }
+            response = continuous_query_api_->handleList(req);
+            break;
+        }
+
+        case Route::ContinuousQueryDropDelete: {
+            // Extract :name from /v1/queries/continuous/:name
+            std::string cq_path = std::string(req.target());
+            auto qpos = cq_path.find('?');
+            if (qpos != std::string::npos) cq_path = cq_path.substr(0, qpos);
+            const std::string cq_name = cq_path.substr(23);  // strip "/v1/queries/continuous/"
+            if (auto auth_err = requireAccess(req, "user", "cq.drop",
+                                              "/v1/queries/continuous")) {
+                response = *auth_err; break;
+            }
+            if (!continuous_query_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Continuous query engine not initialized", req);
+                break;
+            }
+            response = continuous_query_api_->handleDrop(req, cq_name);
+            break;
+        }
+
+        case Route::ContinuousQueryStreamSseGet: {
+            // Extract :name from /v1/queries/continuous/:name/results
+            std::string cq_path = std::string(req.target());
+            auto qpos = cq_path.find('?');
+            if (qpos != std::string::npos) cq_path = cq_path.substr(0, qpos);
+            const std::string rest_cq = cq_path.substr(23);  // strip prefix
+            const auto slash_pos = rest_cq.find('/');
+            const std::string cq_name = (slash_pos != std::string::npos)
+                ? rest_cq.substr(0, slash_pos)
+                : rest_cq;
+            if (auto auth_err = requireAccess(req, "user", "cq.stream",
+                                              "/v1/queries/continuous")) {
+                response = *auth_err; break;
+            }
+            if (!continuous_query_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Continuous query engine not initialized", req);
+                break;
+            }
+            response = continuous_query_api_->handleStreamSse(req, cq_name);
             break;
         }
 
@@ -12499,6 +12604,21 @@ http::response<http::string_body> HttpServer::handleContentFsDelete(
             result.error().message(), req);
     }
     return makeResponse(http::status::no_content, "", req);
+}
+
+void HttpServer::setContinuousQueryEngine(
+    std::shared_ptr<themis::query::ContinuousQueryEngine> engine)
+{
+    continuous_query_engine_ = engine;
+    if (engine) {
+        continuous_query_api_ =
+            std::make_unique<themis::server::ContinuousQueryApiHandler>(std::move(engine));
+        THEMIS_INFO("ContinuousQueryEngine wired — CQL REST/SSE endpoints active "
+                    "at /v1/queries/continuous");
+    } else {
+        continuous_query_api_.reset();
+        THEMIS_INFO("ContinuousQueryEngine removed — CQL REST/SSE endpoints disabled");
+    }
 }
 
 } // namespace server

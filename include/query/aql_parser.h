@@ -589,6 +589,76 @@ struct ParseError {
 // Note: ParseResult struct removed - now using Result<std::shared_ptr<Query>> directly
 
 // ============================================================================
+// Continuous Query DDL AST (Phase 8.1)
+// ============================================================================
+
+/// DDL command type for continuous queries.
+enum class ContinuousQueryDDLType {
+    CREATE,    ///< CREATE CONTINUOUS QUERY …
+    DROP,      ///< DROP   CONTINUOUS QUERY <name>
+    SHOW,      ///< SHOW   CONTINUOUS QUERIES
+    DESCRIBE   ///< DESCRIBE CONTINUOUS QUERY <name>
+};
+
+/**
+ * @brief AST node for continuous-query DDL statements.
+ *
+ * Produced by AQLParser::parseDDL() for the following surface syntax:
+ *
+ *   CREATE CONTINUOUS QUERY <name> ON <collection>
+ *       WINDOW TIME(<range_ms>, <slide_ms>) | COUNT(<rows>, <slide>) | TUMBLING(<interval_ms>)
+ *       RETURN <aql_body>
+ *
+ *   DROP      CONTINUOUS QUERY <name>
+ *   SHOW      CONTINUOUS QUERIES
+ *   DESCRIBE  CONTINUOUS QUERY <name>
+ */
+struct ContinuousQueryDDL {
+    ContinuousQueryDDLType ddl_type{ContinuousQueryDDLType::SHOW};
+
+    /// Query name — populated for CREATE / DROP / DESCRIBE; empty for SHOW.
+    std::string query_name;
+
+    /// Full ContinuousQuerySpec — populated only for CREATE.
+    /// Other DDL types leave this default-constructed.
+    struct CreateSpec {
+        std::string source_collection;  ///< ON <collection>
+        std::string window_type;        ///< "TIME" | "COUNT" | "TUMBLING"
+        int64_t     range_ms{0};        ///< TIME/TUMBLING: window width ms
+        int64_t     slide_ms{0};        ///< TIME: slide interval ms
+        int64_t     rows{0};            ///< COUNT: window width in tuples
+        int64_t     slide_rows{0};      ///< COUNT: slide step in tuples
+        std::string aql_body;           ///< AQL expression after RETURN
+    };
+    CreateSpec spec;
+
+    nlohmann::json toJSON() const {
+        auto type_str = [&]() -> std::string {
+            switch (ddl_type) {
+                case ContinuousQueryDDLType::CREATE:   return "CREATE";
+                case ContinuousQueryDDLType::DROP:     return "DROP";
+                case ContinuousQueryDDLType::SHOW:     return "SHOW";
+                case ContinuousQueryDDLType::DESCRIBE: return "DESCRIBE";
+            }
+            return "UNKNOWN";
+        };
+        nlohmann::json j{{"ddl_type", type_str()}, {"query_name", query_name}};
+        if (ddl_type == ContinuousQueryDDLType::CREATE) {
+            j["spec"] = {
+                {"source_collection", spec.source_collection},
+                {"window_type",       spec.window_type},
+                {"range_ms",          spec.range_ms},
+                {"slide_ms",          spec.slide_ms},
+                {"rows",              spec.rows},
+                {"slide_rows",        spec.slide_rows},
+                {"aql_body",          spec.aql_body}
+            };
+        }
+        return j;
+    }
+};
+
+// ============================================================================
 // Multi-Statement Transaction AQL
 // ============================================================================
 
@@ -671,6 +741,25 @@ public:
      * construct a local AQLParser and call this method directly.
      */
     std::shared_ptr<Expression> parseExpression(const std::string& expr_str);
+
+    /**
+     * @brief Parse a Continuous Query DDL statement.
+     *
+     * Recognises:
+     *   CREATE CONTINUOUS QUERY <name> ON <collection>
+     *       WINDOW TIME(<range_ms>, <slide_ms>) RETURN <aql_body>
+     *   CREATE CONTINUOUS QUERY <name> ON <collection>
+     *       WINDOW COUNT(<rows>, <slide_rows>) RETURN <aql_body>
+     *   CREATE CONTINUOUS QUERY <name> ON <collection>
+     *       WINDOW TUMBLING(<interval_ms>) RETURN <aql_body>
+     *   DROP      CONTINUOUS QUERY <name>
+     *   SHOW      CONTINUOUS QUERIES
+     *   DESCRIBE  CONTINUOUS QUERY <name>
+     *
+     * @param input  The DDL statement string (case-insensitive keywords).
+     * @return       Parsed ContinuousQueryDDL node, or an Error.
+     */
+    [[nodiscard]] Result<ContinuousQueryDDL> parseDDL(const std::string& input);
 
 private:
     // Helper methods (implemented in aql_parser.cpp)
