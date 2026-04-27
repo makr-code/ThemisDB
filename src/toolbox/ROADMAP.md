@@ -24,7 +24,7 @@
 
 ## Planned Features
 
-- [ ] `ToolboxBuilder::buildWithBridges()` — returns `BuiltToolbox` with auto-wired AQL/RAG bridges (Target: Q3 2026)
+- [x] `ToolboxBuilder::buildWithBridges()` — returns `BuiltToolbox` with auto-wired AQL/RAG bridges (v1.9.0)
 - [x] `extractEntitiesStream()` — chunked streaming enrichment API (Target: Q4 2026)
 - [x] `ToolboxComposite` + `ToolboxCompositeBuilder` — MIME-routing composite toolbox for multi-format pipelines (Target: Q4 2026)
 
@@ -64,7 +64,7 @@
   → `IngestionToolbox::extractEntitySet()` returns full `BaseEntitySet` including `chunks`; `ContentToolboxBridge::ingest()` + `enrichExisting()` now populate `BridgeResult::vectors` from `entity_set.chunks`; tests VEC-01..03 in `tests/test_toolbox_phase5.cpp`
 
 ### Phase 6: Dokumentation & Abnahme
-- [ ] Update include-level docs once `buildWithBridges()` is implemented (Target: Q4 2026)
+- [x] Update include-level docs once `buildWithBridges()` is implemented (v1.9.0)
 - [x] Add ROADMAP entries + test coverage for all v0.3.0 primitives (Target: Q2 2026)
 
 ## Production Readiness Checklist
@@ -81,7 +81,6 @@
 - [x] `extractEntitiesStream()` — callback-based streaming extraction, tests TCS-01..04
 
 ## Known Issues & Limitations
-- `ToolboxBuilder::withGraphWriter(writer)` stores the writer but the auto-wiring to AQL/RAG bridges is not yet implemented in `build()`.
 - `ContentToolboxBridge::BridgeResult::vectors` is populated from `BaseEntitySet::chunks` (the embedding pipeline); chunks are only non-empty when a real `IEmbeddingBackend` is wired in via `builtin.chunk_embed`.
 
 ## Breaking Changes
