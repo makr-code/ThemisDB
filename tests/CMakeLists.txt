@@ -8084,6 +8084,127 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_knowledge_graph_reasoner.cpp")
     message(STATUS "  KnowledgeGraphReasoner: addRule, infer, explain, onCDCEvent, applyLoRAScore, InferenceStore TTL/eviction")
 endif()
 
+# ============================================================================
+# RAG Phase 10: OntologyAwareRetriever (OAR-01..OAR-08)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_ontology_aware_retriever.cpp")
+    message(STATUS "Adding OntologyAwareRetriever focused tests (OAR-01..OAR-08)")
+
+    add_executable(test_ontology_aware_retriever_focused
+        rag/test_ontology_aware_retriever.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/ontology_aware_retriever.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/knowledge_graph_retriever.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/ontology_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_ontology_aware_retriever_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_ontology_aware_retriever_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ontology_aware_retriever_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OntologyAwareRetrieverFocusedTests
+             COMMAND test_ontology_aware_retriever_focused)
+
+    set_tests_properties(OntologyAwareRetrieverFocusedTests PROPERTIES
+        LABELS "rag;ontology;knowledge-graph;retrieval;phase10;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  OntologyAwareRetriever: config/factory, entity expansion, edge filtering, graceful degradation")
+else()
+    message(STATUS "OntologyAwareRetriever focused tests not found")
+endif()
+
+# ============================================================================
+# RAG Phase 10: KnowledgeGraphRetriever + KnowledgeGraphReasoner (KGR-RAG-01..KGR-RAG-06)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_knowledge_graph_retriever_reasoning.cpp")
+    message(STATUS "Adding KGRetriever+Reasoner focused tests (KGR-RAG-01..KGR-RAG-06)")
+
+    add_executable(test_kg_retriever_reasoning_focused
+        rag/test_knowledge_graph_retriever_reasoning.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/knowledge_graph_retriever.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/knowledge_graph_reasoner.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_kg_retriever_reasoning_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_kg_retriever_reasoning_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_kg_retriever_reasoning_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME KGRetrieverReasoningFocusedTests
+             COMMAND test_kg_retriever_reasoning_focused)
+
+    set_tests_properties(KGRetrieverReasoningFocusedTests PROPERTIES
+        LABELS "rag;knowledge-graph;reasoning;multi-hop;inference;phase10;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  KGRetriever+Reasoner: setReasoner, inference chains, metadata, hop limit")
+else()
+    message(STATUS "KGRetriever+Reasoner focused tests not found")
+endif()
+
+# ============================================================================
+# RAG Phase 10: LoRAEnhancedRetriever (LER-01..LER-06)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_lora_enhanced_retriever.cpp")
+    message(STATUS "Adding LoRAEnhancedRetriever focused tests (LER-01..LER-06)")
+
+    add_executable(test_lora_enhanced_retriever_focused
+        rag/test_lora_enhanced_retriever.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/lora_enhanced_retriever.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_lora_enhanced_retriever_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_lora_enhanced_retriever_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_lora_enhanced_retriever_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LoRAEnhancedRetrieverFocusedTests
+             COMMAND test_lora_enhanced_retriever_focused)
+
+    set_tests_properties(LoRAEnhancedRetrieverFocusedTests PROPERTIES
+        LABELS "rag;lora;reranking;domain-retrieval;phase10;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  LoRAEnhancedRetriever: ILoRAScorer, HeuristicLoRAScorer, rerank, factory helpers")
+else()
+    message(STATUS "LoRAEnhancedRetriever focused tests not found")
+endif()
+
 # symbol collision with postgres_importer.cpp in themis_core)
 # ============================================================================
 

@@ -157,7 +157,7 @@
   - Runtime: Graph-Kontext → LoRA-Adapter-Selektion → Konfidenzwert (0.0–1.0) pro Inferenzkante
   - Guard: `THEMIS_ENABLE_LLM`; deterministischer Regel-Fallback wenn LoRA nicht geladen
   - Perf: LoRA-Scoring 1 000 Kanten ≤ 500 ms
-- [ ] RAG-Integration: `KnowledgeGraphRetriever` nutzt `KnowledgeGraphReasoner` für Multi-Hop-Reasoning (Target: Q3 2027)
+- [x] RAG-Integration: `KnowledgeGraphRetriever` nutzt `KnowledgeGraphReasoner` für Multi-Hop-Reasoning (Target: Q3 2027)
   - Affected: `include/rag/knowledge_graph_retriever.h`, `src/rag/knowledge_graph_retriever.cpp`
   - Detail: `src/graph/FUTURE_ENHANCEMENTS.md` → Knowledge Graph Reasoning with Ontology & ML/LoRA
 
