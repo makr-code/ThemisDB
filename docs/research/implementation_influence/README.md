@@ -8,9 +8,9 @@ This is the authoritative cross-reference between research sources (papers, best
 
 | Category | Documented | Target |
 |----------|-----------|--------|
-| Scientific Papers | 54 | 28+ |
-| Best Practices | 17 | 15+ |
-| Architecture Decisions | 8 | 8+ |
+| Scientific Papers | 63 | 28+ |
+| Best Practices | 26 | 15+ |
+| Architecture Decisions | 9 | 8+ |
 | Modules with Research Links | 39 | 39 |
 | Orphaned Research References | 0 | 0 |
 
@@ -71,6 +71,13 @@ This is the authoritative cross-reference between research sources (papers, best
 | Boost.Asio Docs — Proactor Async I/O | Best Practice | `src/server/` | v1.0.0+ | ✅ Adopted | [ref](../best_practices/boost_asio_async_io.md) |
 | Marcus et al. (2021) + Zhou et al. (2022) — AI-Driven Query Optimization | Best Practice | `src/query/adaptive_optimizer.cpp`, `src/storage/index_analyzer.cpp` | v2.0.0+ | 🔄 Partially Adopted | [ref](../best_practices/ai_driven_query_optimization.md) |
 | Sheng et al. (2023) + Wang et al. (2024) — S-LoRA Near-Realtime RAG | Best Practice | `src/llm/lora/`, `src/rag/streaming_retriever.cpp` | planned Q2 2026 | 🔄 Partially Adopted | [ref](../best_practices/slora_realtime_rag_serving.md) |
+| Pryzant et al. (2023) — ProTeGi Textual-Gradient Prompt Optimization | Paper | `src/prompt_engineering/protegi_optimizer.cpp`, `src/prompt_engineering/self_improvement_orchestrator.cpp` | v2.0.0+ | ✅ Implemented | [ref](../papers/pryzant_protegi_prompt_optimization_2023.md) |
+| Madaan et al. (2023) — Self-Refine + Shinn et al. (2023) — Reflexion | Paper | `src/prompt_engineering/reflection_tuner.cpp`, `src/prompt_engineering/llm_reflection_adapter.cpp` | v1.5.0+ | ✅ Implemented | [ref](../papers/madaan_self_refine_2023.md) |
+| Yao et al. (2023) — Tree of Thoughts (NeurIPS Spotlight) | Paper | `src/prompt_engineering/tree_of_thoughts.cpp` | v2.0.0+ | ✅ Implemented | [ref](../papers/yao_tree_of_thoughts_2023.md) |
+| Khattab et al. (2023/2024) — DSPy: Declarative LLM Pipelines (ICLR 2024 Oral) | Paper | `src/prompt_engineering/dspy_module.cpp` | v2.0.0+ (decl); v2.2.0 (compiler) | 🔄 Partially Implemented | [ref](../papers/khattab_dspy_2023.md) |
+| ThemisDB Engineering (2026) — LLM-Driven Index Advisor (IIndexAnalysisAdvisor + StorageLayoutAdvisor) | Paper | `src/storage/index_analyzer.cpp`, `src/storage/storage_layout_advisor.cpp` | v1.9.0+ | ✅ Implemented | [ref](../papers/llm_index_advisor_integrated_2024.md) |
+| AI4DB + ISUM — LLM-Driven Index Optimization | Best Practice | `src/storage/index_analyzer.cpp`, `include/storage/index_analyzer.h`, `config/index_analyze.yaml` | v1.9.0+ | ✅ Fully Adopted | [ref](../best_practices/llm_driven_index_optimization.md) |
+| ProTeGi + Self-Refine + ToT + DSPy — LLM Prompt Enhancement Pipeline | Best Practice | `src/prompt_engineering/` (all four enhancement layers) | v1.5.0+ / v2.0.0+ | ✅ Fully Adopted | [ref](../best_practices/llm_prompt_enhancement_pipeline.md) |
 | Stonebraker, Rowe & Hirohama (1990) — Implementation of Postgres (WAL/CDC) | Paper | `src/cdc/` | v1.0.0+ | ✅ Implemented | — |
 | Mohan et al. (1992) — ARIES Write-Ahead Logging | Paper | `src/cdc/`, `src/transaction/` | v1.0.0+ | ✅ Implemented | — |
 | Kleppmann (2017) — Designing Data-Intensive Applications | Book | `src/cdc/`, `src/ingestion/` | v1.0.0+ | ✅ Adopted | — |

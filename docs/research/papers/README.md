@@ -97,7 +97,17 @@ Each paper that serves as a foundation for a ThemisDB algorithm, data structure,
 | Paper | Module(s) | Version | Status |
 |-------|-----------|---------|--------|
 | [Prompt Pattern Catalog — White et al. (2023)](prompt_patterns_catalog_2023.md) | `src/prompt_engineering/` | v1.2.0+ | ✅ Implemented |
+| [ProTeGi — Pryzant et al. (2023)](pryzant_protegi_prompt_optimization_2023.md) | `src/prompt_engineering/protegi_optimizer.cpp`, `src/prompt_engineering/self_improvement_orchestrator.cpp` | v2.0.0+ | ✅ Implemented |
+| [Self-Refine + Reflexion — Madaan & Shinn (2023)](madaan_self_refine_2023.md) | `src/prompt_engineering/reflection_tuner.cpp`, `src/prompt_engineering/llm_reflection_adapter.cpp` | v1.5.0+ | ✅ Implemented |
+| [Tree of Thoughts — Yao et al. (2023)](yao_tree_of_thoughts_2023.md) | `src/prompt_engineering/tree_of_thoughts.cpp` | v2.0.0+ | ✅ Implemented |
+| [DSPy — Khattab et al. (2023/2024)](khattab_dspy_2023.md) | `src/prompt_engineering/dspy_module.cpp` | v2.0.0+ (declaration); v2.2.0 (compiler) | 🔄 Partially Implemented |
 | [LMQL — Beurer-Kellner et al. (2023)](lmql_beurer_kellner_2023.md) | `src/prompt_engineering/`, `src/llm/` | planned v2.x | ⏳ Planned |
+
+**AI-Driven Index & Storage Optimization:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [LLM Index Advisor Integration — ThemisDB (2026)](llm_index_advisor_integrated_2024.md) | `src/storage/index_analyzer.cpp`, `src/storage/storage_layout_advisor.cpp` | v1.9.0+ | ✅ Implemented |
 
 **Verwaltungs-IT / Administrative IT:**
 

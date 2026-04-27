@@ -4,171 +4,89 @@
 - Author(en): Shunyu Yao, Dian Yu, Jeffrey Zhao, Izhak Shafran, Tom Griffiths, Yuan Cao, Karthik Narasimhan
 - Konferenz/Journal: NeurIPS 2023 (Spotlight)
 - Jahr: 2023
-- Link: [arXiv:2305.10601](https://arxiv.org/abs/2305.10601) · [GitHub](https://github.com/princeton-nlp/tree-of-thought-llm)
+- Link: [arXiv:2305.10601](https://arxiv.org/abs/2305.10601) · [GitHub: princeton-nlp/tree-of-thought-llm](https://github.com/princeton-nlp/tree-of-thought-llm)
 - Zitierweise: `yao2023tot`
-- Tags: `tree-of-thoughts`, `deliberate-reasoning`, `beam-search`, `BFS`, `DFS`, `thought-evaluation`, `multi-path-reasoning`, `ToT`
-- ThemisDB-Versionen: v2.0.0+ (`src/prompt_engineering/tree_of_thoughts.cpp`)
-- Status: [x] Implementiert (v2.0.0, `TreeOfThoughtsBuilder`, BFS/DFS/BEAM, 30 Unit-Tests)
+- Tags: `tree-of-thoughts`, `deliberate-reasoning`, `beam-search`, `BFS`, `DFS`, `thought-evaluation`, `multi-path-reasoning`, `ToT`, `llm`
+- ThemisDB-Versionen: v2.0.0+ (implemented in `src/prompt_engineering/tree_of_thoughts.cpp`)
+- Status: [x] Fully Implemented
 
 ## 📋 Executive Summary
 
-Tree of Thoughts (ToT) generalisiert Chain-of-Thought (CoT) Prompting zu einer **Baumsuche über Denk-Zwischenschritte**: Statt eines linearen Reasoning-Pfads erkundet ToT einen **Baum von Gedanken** (intermediate reasoning steps). Ein Evaluator bewertet jeden Zwischenschritt auf Vielversprechend-keit; Suchstrategien (BFS, DFS, Beam Search) navigieren den Baum. Das Ergebnis ist eine fundamentale Verbesserung bei Aufgaben, die explorative, vorausschauende und korrigierende Überlegungen erfordern.
-
-**ThemisDB-Status:** Vollständig implementiert als `TreeOfThoughtsBuilder` mit BFS-, DFS- und BEAM-Suchstrategien, pluggablem `IToTThoughtGenerator`- und `IToTEvaluator`-Interface, Tiefen-beschränktem Pruning und Antwort-Synthese.
+Tree of Thoughts (ToT) generalizes Chain-of-Thought prompting to a **tree search over intermediate reasoning steps**: instead of one linear reasoning path, ToT explores a tree of thoughts (partial solutions), scores each node with an evaluator, and applies BFS, DFS, or Beam Search to navigate the tree. This enables deliberate, look-ahead, and backtracking reasoning that CoT cannot express. ThemisDB implements ToT as `TreeOfThoughtsBuilder` with all three search strategies, a pluggable `IToTThoughtGenerator`/`IToTEvaluator` interface, depth-bounded pruning, and answer synthesis from leaf nodes.
 
 ## 🎯 Key Findings
 
-- **Gedanken als Baumknoten**: Jeder Knoten repräsentiert einen partiellen Reasoning-Pfad. "Gedanken" sind typisch 1–3 Sätze; ThemisDB-Implementierung lässt Länge offen.
-- **Dreiteilige Suche**:
-  - **BFS**: Schichtweises Expandieren aller Knoten; findet optimalen Pfad bei schmalen Bäumen
-  - **DFS** mit Backtracking: Folgt dem vielversprechendsten Ast tief; eignet sich für sequentielle Entscheidungen
-  - **Beam Search**: Behält die B besten Knoten pro Ebene; Kompromiss zwischen Qualität und Rechenaufwand
-- **Evaluator-Integration**: Ein separater `Evaluator`-Prompt bewertet, ob ein Gedanke "sicher/unmöglich/möglicherweise korrekt" ist. Dies ermöglicht Pruning vor der Expansion.
-- **Dramatische Verbesserungen**: Game of 24 (Mathematikrätsel): GPT-4 direkt = 4%, CoT = 11%, ToT = **74%**. Creative Writing (Kohärenz): +27% gegenüber CoT.
-- **Kombinierbar mit Self-Refine**: ToT für Exploration, Self-Refine/Reflexion für Verfeinerung des besten Pfads.
+- **Thoughts as tree nodes**: Each node is a partial reasoning path; "thoughts" are typically 1–3 sentences. The tree explores different reasoning strategies in parallel.
+- **Three search strategies**: BFS (layer-by-layer optimal for narrow trees), DFS with backtracking (sequential decision chains), Beam Search (top-B nodes per layer — quality–compute trade-off).
+- **Evaluator-driven pruning**: A separate evaluator prompt scores each thought as *sure/maybe/impossible*; pruning before expansion prevents wasted LLM calls on dead-end paths.
+- **Dramatic improvement on hard tasks**: Game of 24 (arithmetic puzzle): GPT-4 direct = 4%, CoT = 11%, ToT = **74%**. Creative Writing coherence: +27% vs. CoT.
+- **Composable with Self-Refine**: ToT for exploration, Self-Refine/Reflexion for refining the best path found.
+- **No weight updates**: ToT is a pure prompting technique; only forward-pass LLM inference is required.
 
 ## 🔗 Direct Influence on ThemisDB
 
 ### Affected Modules
 
-- [x] Prompt Engineering → `src/prompt_engineering/tree_of_thoughts.cpp` (vollständige ToT-Implementierung)
-- [x] Prompt Engineering → `src/prompt_engineering/chain_of_thought.cpp` (CoT als Spezialfall: linearer ToT-Pfad)
-- [x] Prompt Engineering → `src/prompt_engineering/prompt_engineering_integration.cpp` (optionale ToT-Aktivierung per `IntegrationConfig`)
+- [x] Prompt Engineering → `src/prompt_engineering/tree_of_thoughts.cpp` (`TreeOfThoughtsBuilder`, `HeuristicThoughtGenerator`, BFS/DFS/BEAM)
+- [x] Prompt Engineering → `src/prompt_engineering/chain_of_thought.cpp` (`ChainOfThoughtBuilder`: CoT is the linear degenerate case of ToT with branching_factor=1)
+- [x] Prompt Engineering → `src/prompt_engineering/prompt_engineering_integration.cpp` (optional ToT activation via `IntegrationConfig::enable_tot`)
+- [x] Prompt Engineering → `src/prompt_engineering/context_window_manager.cpp` (`ContextWindowBudgetManager` limits path length to token budget)
 
-### Was wurde implementiert?
+### What Was Adopted?
 
-#### `TreeOfThoughtsBuilder` (vollständig implementiert)
-
-```cpp
-// include/prompt_engineering/tree_of_thoughts.h (vereinfacht)
-enum class ToTSearchStrategy {
-    BFS,   // Breadth-First Search: schichtweise Expansion
-    DFS,   // Depth-First Search mit Backtracking
-    BEAM   // Beam Search: Top-B Knoten pro Ebene
-};
-
-class IToTThoughtGenerator {
-public:
-    // Generiert k neue Gedanken aus aktuellem Pfad und Problem
-    virtual std::vector<std::string> generate(
-        const std::string& problem,
-        const std::vector<std::string>& path,
-        size_t k) = 0;
-};
-
-class IToTEvaluator {
-public:
-    // Bewertet einen Gedanken: Score 0.0–1.0; optional Pruning (< threshold = verwerfen)
-    virtual double evaluate(
-        const std::string& thought,
-        const std::string& problem,
-        const std::vector<std::string>& path) = 0;
-};
-
-class TreeOfThoughtsBuilder {
-public:
-    // Führt Baumsuche durch und gibt beste Antwort zurück
-    ToTResult search(
-        const std::string& problem,
-        const ToTConfig& config);
-
-    // Liefert den vollständigen Such-Baum für Observability
-    ToTSearchTree getLastSearchTree() const;
-};
-```
-
-**ToTConfig** (in ThemisDB):
-- `strategy`: BFS | DFS | BEAM
-- `max_depth` (default: 5): Maximale Baumtiefe
-- `branching_factor` (default: 3): Anzahl Gedanken pro Knoten
-- `beam_width` (default: 4): Für BEAM-Strategie: Anzahl behaltener Knoten pro Ebene
-- `pruning_threshold` (default: 0.3): Evaluator-Score unter dem Knoten verworfen wird
-- `answer_synthesis`: Aggregation-Methode für finale Antwort (BEST_LEAF / MAJORITY_VOTE / WEIGHTED)
-
-#### `HeuristicThoughtGenerator` (eingebetteter Fallback)
-
-```cpp
-// Generiert Gedanken ohne LLM: Variationen auf Basis von Tiefe und Problem-Auszug
-// Format: "Consider approach {depth}.{i}: {problem_excerpt} (variant {i})"
-class HeuristicThoughtGenerator : public IToTThoughtGenerator;
-```
-
-Aktiviert automatisch, wenn kein `IToTThoughtGenerator` registriert. Geeignet für Tests und Demonstrationen.
-
-#### BFS-Implementierung
-
-```
-Ebene 0: {problem}
-Ebene 1: [G1, G2, G3] (branching_factor=3 Gedanken)
-Ebene 2: [G1.1, G1.2, G1.3, G2.1, G2.2, G2.3, ...]
-→ Pruning per Evaluator nach jeder Ebene
-→ Abbruch bei max_depth oder wenn kein Knoten > pruning_threshold
-```
-
-#### DFS-Implementierung
-
-```
-Pfad: problem → G1 → G1.1 → G1.1.1 → ...
-→ Bei Sackgasse (Evaluator < pruning_threshold): Backtrack
-→ Expliziter Stack; Tiefenabbruch bei max_depth
-→ Bester Blattknoten per Score als Antwort
-```
-
-#### Beam Search (BEAM-Implementierung)
-
-```
-Ebene 0: {problem}
-Ebene 1: alle branching_factor Kandidaten → Evaluator-Score → Top-beam_width behalten
-Ebene 2: für jeden Beam-Knoten branching_factor neue Gedanken → Top-beam_width behalten
-...
-→ Bester Pfad am Ende als Antwort
-```
-
-#### Antwort-Synthese
-
-`ToTResult::synthesizeAnswer()` aggregiert die Blattknoten-Antworten:
-- `BEST_LEAF`: Antwort des am höchsten bewerteten Blatts
-- `MAJORITY_VOTE`: Häufigste Antwort unter Top-N Blättern (für geschlossene Antwortmengen)
-- `WEIGHTED`: Gewichtetes Ensemble aller Blätter über `ToTEvaluator`-Score (für offene Antworten)
+1. **Thought generation**: `IToTThoughtGenerator::generate(problem, path, k)` produces k new thoughts from the current reasoning path, mapping directly to the paper's thought generator.
+2. **Thought evaluation + pruning**: `IToTEvaluator::evaluate(thought, problem, path)` returns a 0.0–1.0 score; nodes below `pruning_threshold` (default 0.3) are discarded before expansion.
+3. **BFS implementation**: Layer-by-layer expansion with evaluator-based pruning after each layer; terminates at `max_depth` or when no node exceeds the threshold.
+4. **DFS with backtracking**: Explicit stack-based traversal; backtracks when the evaluator rejects a node; depth limit enforced.
+5. **Beam search**: Top-`beam_width` nodes retained per layer (default 4); per-layer expansion and scoring follow the paper's beam strategy.
+6. **Answer synthesis**: `ToTResult` supports `BEST_LEAF` (highest-score leaf), `MAJORITY_VOTE` (closed answer sets), and `WEIGHTED` ensemble (open-ended answers).
 
 ### How Was It Adapted?
 
-| ToT-Konzept | ThemisDB Adaptation | Rationale |
+| ToT Concept | ThemisDB Adaptation | Rationale |
 |---|---|---|
-| GPT-4 als Thought-Generator | `IToTThoughtGenerator` interface + `HeuristicThoughtGenerator` Fallback | LLM-Agnostizität; Fallback für edge-offline-Deployment |
-| GPT-4 als Evaluator | `IToTEvaluator` interface + Score-basiertes Pruning | Flexibel: PromptEvaluator, Embedding-Cosine-Similarity oder LLM-basierter Evaluator |
-| Game of 24 / Creative Writing | AQL-Abfrage-Dekomposition, juristische Reasoning-Ketten | ThemisDB-Domänen: komplexe Verwaltungsrechtsfragen, Mehrschritt-Datenbankabfragen |
-| Flacher Evaluations-Prompt | `IToTEvaluator::evaluate()` mit Pfad-Kontext | Vollständiger Reasoning-Pfad als Kontext verbessert Bewertungsqualität |
-| Globaler Problem-Kontext | `ToTConfig` + `PromptManager`-Integration | Prompt-Templates für Thought-Generation aus `PromptManager` geladen |
+| GPT-4 as thought generator | `IToTThoughtGenerator` interface + `HeuristicThoughtGenerator` fallback | LLM-agnostic; heuristic fallback for edge/offline deployments |
+| GPT-4 as evaluator | `IToTEvaluator` interface with score-based pruning | Flexible: `PromptEvaluator`, cosine-similarity, or LLM-based evaluator |
+| Game of 24, creative writing benchmarks | AQL query decomposition, multi-step legal reasoning | ThemisDB domains: complex administrative law questions, multi-step DB queries |
+| Flat evaluation prompt | `IToTEvaluator::evaluate()` receives full reasoning path as context | Full path context improves evaluation accuracy for ThemisDB's chained reasoning |
+| Global problem context | `ToTConfig` + `PromptManager` integration | Thought-generation templates loaded from `PromptManager`; reuse existing template infrastructure |
 
 ### Performance Impact
 
-| Metric | Paper Claim (GPT-4) | ThemisDB Target | Status |
-|--------|---------------------|-----------------|--------|
-| Game of 24 Erfolgsrate | CoT: 11% → ToT: 74% | +20–50 pp auf komplexen AQL-Reasoning-Tasks | ✅ Implemented |
-| Creative Writing Kohärenz | +27% über CoT | +10% auf Verwaltungsrecht-Erklärungen | ✅ Implemented |
-| Suchlatenz (ohne LLM, BEAM B=4, depth=3) | n/a | < 2 ms P99 (reines Traversal) | ✅ Implemented |
-| Unit-Test-Abdeckung | n/a | 30 Tests (AC-01..AC-30) | ✅ Implemented |
+| Metric | Paper Claim | ThemisDB Target | Delta | Reason |
+|--------|-------------|-----------------|-------|--------|
+| Game of 24 success rate (GPT-4) | CoT 11% → ToT 74% | +20–50 pp on complex AQL reasoning tasks | n/a | Domain differs; relative gain expected to be similar |
+| Creative writing coherence | +27% vs. CoT | +10% on administrative-law explanations | -17 pp | Narrower output space reduces absolute CoT gap |
+| Search latency (no LLM, BEAM B=4, depth=3) | n/a | < 2 ms P99 (pure traversal) | n/a | In-process heuristic; no I/O |
+| Token overhead vs. CoT | branching_factor × max_depth × inference calls | configurable; opt-in only | n/a | Standard inference path uses CoT; ToT is opt-in |
 
 ## ⚠️ Limitations & Open Questions
 
-- ToT erhöht den LLM-Aufruf-Overhead drastisch: `branching_factor × max_depth` Generierungs- plus `n_nodes` Evaluierungs-Calls.
-  - ThemisDB-Lösung: ToT ist opt-in per `IntegrationConfig::enable_tot`; Standard-Inference-Pfad nutzt CoT.
-  - Mikro-Caching: `PromptManager` cached Thought-Generator-Outputs für identische `(problem, path)` Paare.
-- Evaluator-Qualität ist entscheidend: Schwache Evaluatoren (Fallback = Heuristik) führen zu suboptimalem Pruning.
-  - Offen: Produktions-Evaluator auf Basis `PromptEvaluator::score()` + LoRA-fein-justiert für ThemisDB-Domänen.
-- Kontext-Fensterlänge begrenzt die maximale Pfadtiefe, da der vollständige Pfad im Kontext eingebettet ist.
-  - ThemisDB-Lösung: `ContextWindowBudgetManager` begrenzt Pfad-Einbettung auf Token-Budget; ältere Pfad-Knoten werden komprimiert.
+- ToT multiplies LLM call overhead by `branching_factor × max_depth` generations plus `n_nodes` evaluations.
+  - ThemisDB solution: ToT is opt-in via `IntegrationConfig::enable_tot`; standard inference uses CoT. Micro-caching of `(problem, path)` → thought pairs reduces redundant calls.
+- Evaluator quality is critical: heuristic fallback (`HeuristicThoughtGenerator`) leads to suboptimal pruning.
+  - Open: Production evaluator based on `PromptEvaluator::score()` + domain LoRA fine-tuned for ThemisDB query tasks.
+- Context window limits maximum path depth, since the full path is embedded in each generation prompt.
+  - ThemisDB solution: `ContextWindowBudgetManager` limits path embedding to the token budget; older path nodes are compressed with `PromptCompressor`.
+
+## 🔬 Validation
+
+- [x] Code reviewed against paper algorithm (BFS, DFS, Beam Search)
+- [x] Unit tests written (30 tests, AC-01..AC-30 in `tests/test_tree_of_thoughts.cpp`)
+- [ ] Benchmark executed (ToT vs. CoT on ThemisDB multi-step AQL reasoning tasks)
+- [x] Documentation updated (`src/prompt_engineering/ROADMAP.md` Phase 6)
+- [ ] Module README linked with paper reference
+- [x] implementation_influence index updated
 
 ## 📚 Related Work
 
-- [Self-Refine / Reflexion — Madaan & Shinn (2023)](madaan_self_refine_2023.md) — ToT für Exploration, Self-Refine für Verfeinerung
-- [ProTeGi — Pryzant et al. (2023)](pryzant_protegi_prompt_optimization_2023.md) — ProTeGi optimiert Prompts die in ToT verwendet werden
-- [DSPy — Khattab et al. (2023)](khattab_dspy_2023.md) — DSPy-Layer kann ToT als Reasoning-Modul integrieren
-- [Chain-of-Thought — Wei et al. (2022)](../LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md#42-chain-of-thought-cot-prompting) — CoT ist linearer Spezialfall von ToT
+- [Self-Refine / Reflexion — Madaan & Shinn (2023)](madaan_self_refine_2023.md) — ToT for exploration, Self-Refine for refinement of the best path
+- [ProTeGi — Pryzant et al. (2023)](pryzant_protegi_prompt_optimization_2023.md) — ProTeGi-optimized prompts feed the ToT thought generator
+- [Khattab et al. (2023) — DSPy](khattab_dspy_2023.md) — DSPy pipeline layer can integrate ToT as a reasoning module
+- [Wei et al. (2022) — Chain-of-Thought](../LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md#42-chain-of-thought-cot-prompting) — CoT is the linear degenerate case of ToT
 - [Best Practice: LLM Prompt Enhancement Pipeline](../best_practices/llm_prompt_enhancement_pipeline.md)
 - [`src/prompt_engineering/tree_of_thoughts.cpp`](../../../src/prompt_engineering/tree_of_thoughts.cpp)
 
 ---
-**Last Updated:** 2026-04-27  
+**Last Updated:** 2026-04-27
 **Next Review:** 2026-10-31

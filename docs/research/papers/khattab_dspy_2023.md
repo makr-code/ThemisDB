@@ -6,165 +6,89 @@
 - Jahr: 2023/2024
 - Link: [arXiv:2310.03714](https://arxiv.org/abs/2310.03714) · [GitHub: stanfordnlp/dspy](https://github.com/stanfordnlp/dspy)
 - Zitierweise: `khattab2023dspy`
-- Tags: `dspy`, `declarative-llm`, `prompt-optimization`, `pipeline-compilation`, `typed-signature`, `predict`, `chain-of-thought`, `module-composition`
-- ThemisDB-Versionen: v2.0.0+ (`src/prompt_engineering/dspy_module.cpp`)
-- Status: [x] Implementiert (v2.0.0, `DspySignature`, `DspyPredict`, `DspyChainOfThought`, 30 Unit-Tests)
+- Tags: `dspy`, `declarative-llm`, `prompt-optimization`, `pipeline-compilation`, `typed-signature`, `predict`, `chain-of-thought`, `module-composition`, `llm`
+- ThemisDB-Versionen: v2.0.0+ (declaration layer in `src/prompt_engineering/dspy_module.cpp`; compiler planned v2.2.0)
+- Status: [x] Partially Implemented (declaration layer ✅; compiler `DspyOptimize` ⏳ planned v2.2.0)
 
 ## 📋 Executive Summary
 
-DSPy (Declarative Self-Improving Language Programs) definiert ein **Programmierparadigma für LLM-Pipelines**: Statt Prompts manuell zu verfassen, spezifiziert der Entwickler **typisierte Input/Output-Signaturen** (`DspySignature`). Ein **Compiler** (`DspyOptimize`) übersetzt diese Signaturen in optimierte Prompts unter Nutzung von Trainingsdaten und Metric-Funktionen. Module wie `Predict`, `ChainOfThought`, `ReAct`, `Retrieve` werden zu einer Pipeline kombiniert. Dies trennt die **Programmlogik** (was das Modell tun soll) von der **Prompt-Implementierung** (wie es das tun soll).
-
-**ThemisDB-Status:** DSPy-kompatible Deklarationsschicht implementiert in `dspy_module.cpp` mit `DspySignature`, `DspyPredict`, `DspyChainOfThought`, `IDspyLLMProvider`, `EchoDspyLLMProvider` und `DspyMissingFieldError`. Der DSPy-Compiler (`DspyOptimize`) ist für v2.2.0 geplant.
+DSPy (Declarative Self-Improving Language Programs) introduces a **programming paradigm for LLM pipelines**: instead of hand-writing prompts, developers declare typed input/output signatures (`DspySignature`) and compose predefined modules (`Predict`, `ChainOfThought`, `ReAct`, `Retrieve`). A **compiler** (`dspy.compile`) translates these declarations into optimized prompts using training examples and a metric function — cleanly separating *what* the model should do (program logic) from *how* it should do it (prompt details). ThemisDB implements the DSPy-compatible declaration layer (`DspySignature`, `DspyPredict`, `DspyChainOfThought`) in C++; the compiler back-end (`DspyOptimize`) is planned for v2.2.0.
 
 ## 🎯 Key Findings
 
-- **Signaturen statt Prompts**: `question: str -> answer: str` ist eine DSPy-Signatur. Das System leitet daraus automatisch einen effektiven Prompt ab.
-- **Composable Module**: `Predict(sig)`, `ChainOfThought(sig)`, `Retrieve(k=3)`, `ReAct(tools)` werden wie Software-Komponenten zusammengesteckt.
-- **Compilation = Prompt-Optimierung**: `dspy.compile(program, trainset, metric)` führt automatische Prompt-Optimierung (über Bootstrap-Few-Shot oder ProTeGi-ähnliche Gradients) durch.
-- **Teleprompter (Teacher-Student)**: Ein leistungsstarkes Modell generiert Demonstrations für ein schwächeres Modell; der Compiler destilliert das Wissen in Few-Shot-Prompts.
-- **Metrische Optimierungsziele**: Jede Python-Funktion kann als Metrik dienen (`lambda pred, gold: pred.answer == gold.answer`).
-- **ICLR 2024 Oral**: Topbewertung; Community von >18.000 GitHub-Stars (April 2024); produktiver Einsatz bei Stanford, Databricks, JetBlue.
+- **Signatures instead of prompts**: `question: str -> answer: str` is a complete DSPy signature; the system derives an effective prompt automatically.
+- **Composable modules**: `Predict(sig)`, `ChainOfThought(sig)`, `Retrieve(k=3)`, `ReAct(tools)` compose like software components; pipelines are Python/C++ programs, not prompt strings.
+- **Compilation = prompt optimization**: `dspy.compile(program, trainset, metric)` runs automatic prompt optimization via Bootstrap Few-Shot or ProTeGi-style textual gradients.
+- **Teleprompter (teacher–student)**: A strong model generates demonstrations for a weaker model; the compiler distills this knowledge into few-shot prompts for deployment.
+- **ICLR 2024 Oral**: Top-scored paper; >18,000 GitHub stars (April 2024); adopted by Stanford, Databricks, JetBlue.
+- **+11% F1 on multi-hop QA** vs. manually tuned prompts; gains scale with trainset size and metric quality.
 
 ## 🔗 Direct Influence on ThemisDB
 
 ### Affected Modules
 
-- [x] Prompt Engineering → `src/prompt_engineering/dspy_module.cpp` (DspySignature, DspyPredict, DspyChainOfThought, IDspyLLMProvider)
-- [x] Prompt Engineering → `src/prompt_engineering/prompt_template_compiler.cpp` (DSL-Compiler verarbeitet DspySignature-artige Slots)
-- [x] Prompt Engineering → `src/prompt_engineering/chain_of_thought.cpp` (DspyChainOfThought-Adapter auf `ChainOfThoughtBuilder`)
-- [ ] Prompt Engineering → `src/prompt_engineering/dspy_optimizer.cpp` (DspyOptimize-Compiler — geplant v2.2.0)
+- [x] Prompt Engineering → `src/prompt_engineering/dspy_module.cpp` (`DspySignature`, `DspyPredict`, `DspyChainOfThought`, `IDspyLLMProvider`, `EchoDspyLLMProvider`, `DspyMissingFieldError`)
+- [x] Prompt Engineering → `src/prompt_engineering/prompt_template_compiler.cpp` (DSL compiler handles `DspySignature`-style typed slots)
+- [x] Prompt Engineering → `src/prompt_engineering/chain_of_thought.cpp` (`DspyChainOfThought` is an adapter over `ChainOfThoughtBuilder`)
+- [ ] Prompt Engineering → `src/prompt_engineering/dspy_optimizer.cpp` (`DspyOptimize` compiler — planned v2.2.0)
 
-### Was wurde implementiert?
+### What Was Adopted?
 
-#### `DspySignature` — Typisierte I/O-Beschreibung
-
-```cpp
-// include/prompt_engineering/dspy_module.h (vereinfacht)
-enum class DspyFieldType { STRING, REASONING, CODE, LIST };
-
-struct DspyField {
-    std::string name;
-    std::string description;  // Semantische Beschreibung für Prompt-Ableitung
-    DspyFieldType type;
-    bool required;
-    std::string default_value;
-};
-
-class DspySignature {
-public:
-    DspySignature(std::string name, std::string description);
-
-    DspySignature& addInputField(DspyField field);
-    DspySignature& addOutputField(DspyField field);
-
-    // Generiert den Basis-Prompt aus der Signatur
-    std::string toPromptTemplate() const;
-
-    const std::vector<DspyField>& inputFields() const;
-    const std::vector<DspyField>& outputFields() const;
-};
-```
-
-Beispiel einer ThemisDB-Signatur für AQL-Übersetzung:
-```cpp
-auto sig = DspySignature("AQLTranslator", "Translates natural language to AQL")
-    .addInputField({"query", "Natural language database query", DspyFieldType::STRING, true, ""})
-    .addInputField({"schema", "Available collections and fields", DspyFieldType::STRING, false, ""})
-    .addOutputField({"aql", "AQL query string", DspyFieldType::STRING, true, ""})
-    .addOutputField({"reasoning", "Step-by-step translation logic", DspyFieldType::REASONING, false, ""});
-```
-
-#### `DspyPredict` — Basis-Inferenz-Modul
-
-```cpp
-class DspyPredict {
-public:
-    explicit DspyPredict(DspySignature signature);
-    void setLLMProvider(std::shared_ptr<IDspyLLMProvider> provider);
-
-    // Führt Inferenz durch: Rendert Signatur → LLM-Aufruf → Parst Output-Felder
-    DspyPrediction forward(const DspyContext& input);
-};
-```
-
-`DspyPredict::forward()` folgt dem DSPy-Pattern:
-1. Rendere `toPromptTemplate()` mit `input`-Feldern
-2. Rufe `IDspyLLMProvider::generate(prompt)` auf
-3. Parse Output-Felder aus der LLM-Antwort (JSON-Extraktion oder Regex-Fallback)
-4. Gib `DspyPrediction` mit allen Output-Feldern zurück
-
-#### `DspyChainOfThought` — CoT-Erweiterung
-
-```cpp
-class DspyChainOfThought : public DspyPredict {
-public:
-    // Erweitert Signatur automatisch um REASONING-Output-Feld
-    // Rendert "Let's think step by step" Präambel
-    explicit DspyChainOfThought(DspySignature base_signature);
-};
-```
-
-Entspricht `dspy.ChainOfThought(sig)` in der Python-DSPy-API.
-
-#### `EchoDspyLLMProvider` — Test-Provider
-
-```cpp
-// Gibt Input-Prompt unverändert zurück (für deterministische Tests)
-class EchoDspyLLMProvider : public IDspyLLMProvider {
-public:
-    std::string generate(const std::string& prompt) override { return prompt; }
-};
-```
-
-#### `DspyMissingFieldError` — Typsicherer Fehler
-
-Wird geworfen, wenn ein required Output-Feld nicht in der LLM-Antwort gefunden wurde. Ermöglicht strukturierte Fehlerbehandlung in Pipelines.
-
-### Geplante DSPy-Compiler-Integration (v2.2.0)
-
-Der DSPy-Compiler (`DspyOptimize`) soll folgende Teleprompter implementieren:
-- `BootstrapFewShot`: Generiert Demonstrations aus `FeedbackCollector::getByType(SUCCESS)` für Few-Shot-Prompts
-- `LabeledFewShot`: Nutzt manuell annotierte `RegressionFixture`-Paare aus `PromptRegressionRunner`
-- `ProTeGiTeleprompter`: Verbindet `DspySignature` mit `ProTeGiOptimizer` für vollautomatische Prompt-Compilation
+1. **Typed I/O signatures**: `DspySignature::addInputField(DspyField{name, description, type, required, default})` and `addOutputField()` mirror DSPy's `dspy.Signature` with field-level semantics (`STRING`, `REASONING`, `CODE`, `LIST`).
+2. **Predict module**: `DspyPredict::forward(DspyContext)` renders the signature to a prompt, calls `IDspyLLMProvider::generate()`, parses output fields, and returns a `DspyPrediction` — the C++ equivalent of `dspy.Predict(sig)(input)`.
+3. **ChainOfThought module**: `DspyChainOfThought` extends `DspyPredict` by auto-appending a `REASONING`-type output field and injecting a "Let's think step by step" preamble — matching `dspy.ChainOfThought(sig)`.
+4. **Missing-field error handling**: `DspyMissingFieldError` is raised when a required output field is absent from the LLM response, enabling structured error recovery in pipeline callers.
+5. **Prompt template generation**: `DspySignature::toPromptTemplate()` generates a base prompt from field names and descriptions, analogous to DSPy's internal `Signature.instructions` generation.
 
 ### How Was It Adapted?
 
-| DSPy-Konzept | ThemisDB Adaptation | Rationale |
+| DSPy Concept | ThemisDB Adaptation | Rationale |
 |---|---|---|
-| Python `dspy.Signature` | C++ `DspySignature` mit `addInputField/addOutputField` | Native C++-Integration in ThemisDB; keine Python-Bindung erforderlich |
-| `dspy.Predict(sig)` | `DspyPredict` mit `IDspyLLMProvider` interface | Provider-Abstraktion wie im Rest des PromptEngineering-Moduls |
-| `dspy.ChainOfThought(sig)` | `DspyChainOfThought` als `DspyPredict`-Subklasse | Wiederverwendung von `ChainOfThoughtBuilder`-Infrastruktur |
-| Globaler `dspy.settings.lm` | `DspyPredict::setLLMProvider()` pro Instanz | ThemisDB: Multi-Tenant; verschiedene Provider pro Template möglich |
-| `dspy.compile()` | `DspyOptimize` — geplant v2.2.0 | Kompilierungs-Phase erfordert trainierte Bootstrap-Daten; Phase 1: Deklarationsschicht |
-| Python `dict`-basierte I/O | `DspyContext` (Map<string, string>) + typisierte `DspyField` | Type-Sicherheit; `DspyMissingFieldError` für fehlende Pflichtfelder |
+| Python `dspy.Signature` | C++ `DspySignature` with fluent builder API | Native C++ integration; no Python binding required |
+| `dspy.Predict(sig)` | `DspyPredict` with `IDspyLLMProvider` interface | Provider abstraction consistent with the rest of `src/prompt_engineering/` |
+| `dspy.ChainOfThought(sig)` | `DspyChainOfThought` subclasses `DspyPredict` | Reuses `ChainOfThoughtBuilder` infrastructure; single source of truth for CoT logic |
+| Global `dspy.settings.lm` | `DspyPredict::setLLMProvider()` per instance | Multi-tenant: different providers per template possible |
+| `dspy.compile()` | `DspyOptimize` — planned v2.2.0 | Phase 1 delivers the declaration layer; compiler needs `FeedbackCollector` training data |
+| Python `dict`-based I/O | `DspyContext` (map<string,string>) + typed `DspyField` | Type safety; `DspyMissingFieldError` replaces silent `KeyError` |
 
 ### Performance Impact
 
-| Metric | Paper Claim | ThemisDB Target | Status |
-|--------|-------------|-----------------|--------|
-| Prompt-Qualität nach Compilation (MultiHop QA) | +11% F1 gegenüber manuellen Prompts | +5–10% auf AQL-Translations-Tasks | ✅ Signatur-Schicht implementiert (Compiler folgt) |
-| `DspyPredict::forward()` Latenz (ohne LLM) | n/a | < 0.5 ms P99 | ✅ Implemented |
-| Unit-Test-Abdeckung | n/a | 30 Tests (AC-01..AC-30) | ✅ Implemented |
-| DSPy-Compiler (`DspyOptimize`) | +11–40% F1 | geplant Q3 2026 | ⏳ Planned |
+| Metric | Paper Claim | ThemisDB Target | Delta | Reason |
+|--------|-------------|-----------------|-------|--------|
+| Quality after compilation (multi-hop QA) | +11% F1 vs. manual prompts | +5–10% on AQL translation (after compiler, v2.2.0) | -1–6 pp | AQL is a narrower task; absolute F1 gain smaller |
+| `DspyPredict::forward()` latency (no LLM) | n/a | < 0.5 ms P99 | n/a | In-process string rendering and parsing |
+| Unit-test coverage (declaration layer) | n/a | 30 tests (AC-01..AC-30) | n/a | Full declaration layer covered |
+| Compiler (`DspyOptimize`) quality gain | +11–40% F1 | geplant Q3 2026 | n/a | Requires training data from `FeedbackCollector` |
 
 ## ⚠️ Limitations & Open Questions
 
-- Der DSPy-Compiler benötigt Trainingsdaten und eine Metrik-Funktion — nicht immer in Produktions-Deployments verfügbar.
-  - ThemisDB-Lösung: `FeedbackCollector` + `PromptRegressionRunner` liefern Trainingsdaten organisch.
-- Output-Feld-Parsing aus freiem LLM-Text ist fehleranfällig.
-  - ThemisDB-Lösung: `DspyMissingFieldError` + strukturiertes JSON-Output-Forcing via `structured_output.cpp`.
-- DSPy-Signaturen können nicht alle Prompt-Kontrollflüsse ausdrücken (z.B. bedingte Logik).
-  - ThemisDB-Lösung: Hybridansatz: `DspySignature` für einfache I/O; `PromptTemplateCompiler`-DSL für komplexe Logik.
+- The DSPy compiler requires training examples and a metric function — not always available in production deployments.
+  - ThemisDB solution: `FeedbackCollector` + `PromptRegressionRunner` organically accumulate training data for eventual compiler use.
+- Output field parsing from free-form LLM text is fragile.
+  - ThemisDB solution: `DspyMissingFieldError` + structured JSON output forcing via `src/prompt_engineering/structured_output.cpp`.
+- DSPy signatures cannot express conditional control flow (e.g., `if confidence < 0.7: retrieve_more`).
+  - ThemisDB solution: Hybrid approach — `DspySignature` for simple I/O modules; `PromptTemplateCompiler` DSL for complex conditional logic.
+- The v2.2.0 compiler is not yet implemented; ProTeGi-teleprompter integration is pending.
+  - Open: Define `BootstrapFewShot` and `ProTeGiTeleprompter` teleprompters using existing `FeedbackCollector` and `ProTeGiOptimizer` infrastructure.
+
+## 🔬 Validation
+
+- [x] Code reviewed against DSPy paper design (`DspySignature`, `DspyPredict`, `DspyChainOfThought`)
+- [x] Unit tests written (30 tests, AC-01..AC-30 in `tests/test_dspy_module.cpp`)
+- [ ] Benchmark executed (DSPy-compiled vs. manual AQL prompts, F1 comparison)
+- [x] Documentation updated (`src/prompt_engineering/ROADMAP.md` Phase 6)
+- [ ] Module README linked with paper reference
+- [x] implementation_influence index updated
 
 ## 📚 Related Work
 
-- [ProTeGi — Pryzant et al. (2023)](pryzant_protegi_prompt_optimization_2023.md) — DSPy-Compiler nutzt ProTeGi-ähnliche Textual Gradients
-- [Tree of Thoughts — Yao et al. (2023)](yao_tree_of_thoughts_2023.md) — ToT als DSPy-Reasoning-Modul integrierbar
-- [Zhou et al. (2022) — APE](../LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md#51-automatic-prompt-engineer-ape) — APE: erster Schritt zu automatischer Prompt-Generierung; DSPy erweitert dies zu vollständigen Pipelines
+- [ProTeGi — Pryzant et al. (2023)](pryzant_protegi_prompt_optimization_2023.md) — DSPy compiler uses ProTeGi-style textual gradients as a teleprompter
+- [Tree of Thoughts — Yao et al. (2023)](yao_tree_of_thoughts_2023.md) — ToT integrable as a DSPy reasoning module
+- [Zhou et al. (2022) — APE](../LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md#51-automatic-prompt-engineer-ape) — APE: first step toward automatic prompt generation; DSPy extends this to full pipelines
 - [Best Practice: LLM Prompt Enhancement Pipeline](../best_practices/llm_prompt_enhancement_pipeline.md)
 - [`src/prompt_engineering/dspy_module.cpp`](../../../src/prompt_engineering/dspy_module.cpp)
 - [`src/prompt_engineering/prompt_template_compiler.cpp`](../../../src/prompt_engineering/prompt_template_compiler.cpp)
 
 ---
-**Last Updated:** 2026-04-27  
+**Last Updated:** 2026-04-27
 **Next Review:** 2026-10-31

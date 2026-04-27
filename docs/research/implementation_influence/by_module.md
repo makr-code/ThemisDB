@@ -170,9 +170,15 @@ This file groups all research influences by ThemisDB module (`src/<module>`).
 | Paper | Wei et al. (2022) — Chain-of-Thought Prompting | v1.2.0+ | ✅ Implemented |
 | Paper | White et al. (2023) — Prompt Pattern Catalog | v1.2.0+ | ✅ Implemented |
 | Paper | Zhou et al. (2022) — APE (Automatic Prompt Engineer) | v1.4.0-alpha+ | ✅ Implemented |
+| Paper | Madaan et al. (2023) — Self-Refine (NeurIPS 2023) | v1.5.0+ | ✅ Implemented |
+| Paper | Shinn et al. (2023) — Reflexion (NeurIPS 2023) | v1.5.0+ | ✅ Implemented |
+| Paper | Pryzant et al. (2023) — ProTeGi (EMNLP 2023) | v2.0.0+ | ✅ Implemented |
+| Paper | Yao et al. (2023) — Tree of Thoughts (NeurIPS 2023 Spotlight) | v2.0.0+ | ✅ Implemented |
+| Paper | Khattab et al. (2023/2024) — DSPy (ICLR 2024 Oral) | v2.0.0+ (decl); v2.2.0 (compiler) | 🔄 Partially Implemented |
 | Paper | Beurer-Kellner et al. (2023) — LMQL | planned v2.x | ⏳ Planned |
 | Best Practice | Austin Appleby — MurmurHash3 Sharding | v1.9.0 | ✅ Adopted |
 | Best Practice | FNV — FNV-1a 64-bit Checksums | v2.0.0 | ✅ Adopted |
+| Best Practice | ProTeGi + Self-Refine + ToT + DSPy — LLM Prompt Enhancement Pipeline | v1.5.0+/v2.0.0+ | ✅ Adopted |
 
 ---
 
@@ -465,7 +471,10 @@ This file groups all research influences by ThemisDB module (`src/<module>`).
 | Paper | O'Neil et al. (1996) — The Log-Structured Merge-Tree (LSM-tree) | v1.0.0+ | ✅ Implemented |
 | Paper | Rosenblum & Ousterhout (1992) — Design and Implementation of a Log-Structured File System | v1.0.0+ | ✅ Adopted |
 | Paper | Dong et al. (2017) — Optimizing Space Amplification in RocksDB | v1.0.0+ | ✅ Adopted |
+| Paper | Zhou et al. (2022) — AI Meets Database (AI4DB) — index advisor framework | v1.9.0+ | ✅ Implemented |
+| Paper | ThemisDB Engineering (2026) — LLM-Driven Index Advisor (IIndexAnalysisAdvisor + StorageLayoutAdvisor) | v1.9.0+ | ✅ Implemented |
 | Best Practice | RocksDB Docs — WriteBatch Atomicity | v1.0.0+ | ✅ Adopted |
+| Best Practice | AI4DB + ISUM — LLM-Driven Index Optimization | v1.9.0+ | ✅ Adopted |
 | Architecture Decision | ADR-002 — RocksDB as Primary Storage Backend | v1.0.0+ | ✅ Accepted |
 
 ---

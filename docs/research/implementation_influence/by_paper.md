@@ -799,5 +799,111 @@ This file lists all research sources alphabetically, showing which ThemisDB modu
 
 ---
 
-*Last generated: see git log*
 
+
+
+## Khattab et al. (2023/2024) — DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines
+
+**Type:** Paper
+**File:** [papers/khattab_dspy_2023.md](../papers/khattab_dspy_2023.md)
+**ThemisDB Version:** v2.0.0+ (declaration layer); v2.2.0 (compiler)
+
+| Module | Status |
+|--------|--------|
+| `src/prompt_engineering/dspy_module.cpp` | ✅ Implemented (DspySignature, DspyPredict, DspyChainOfThought) |
+| `src/prompt_engineering/prompt_template_compiler.cpp` | ✅ Implemented (typed slot handling) |
+| `src/prompt_engineering/dspy_optimizer.cpp` | ⏳ Planned v2.2.0 (DspyOptimize compiler) |
+
+---
+
+## Madaan et al. (2023) + Shinn et al. (2023) — Self-Refine + Reflexion
+
+**Type:** Paper
+**File:** [papers/madaan_self_refine_2023.md](../papers/madaan_self_refine_2023.md)
+**ThemisDB Version:** v1.5.0+
+
+| Module | Status |
+|--------|--------|
+| `src/prompt_engineering/reflection_tuner.cpp` | ✅ Implemented (4 strategies, SelfAwareContext, HallucinationGuard) |
+| `src/prompt_engineering/llm_reflection_adapter.cpp` | ✅ Implemented |
+| `src/prompt_engineering/prompt_engineering_integration.cpp` | ✅ Implemented (afterExecution hook) |
+| `src/prompt_engineering/prompt_engineering_metrics.cpp` | ✅ Implemented (reflection counters) |
+
+---
+
+## Pryzant et al. (2023) — ProTeGi: Automatic Prompt Optimization with Textual Gradients
+
+**Type:** Paper
+**File:** [papers/pryzant_protegi_prompt_optimization_2023.md](../papers/pryzant_protegi_prompt_optimization_2023.md)
+**ThemisDB Version:** v2.0.0+
+
+| Module | Status |
+|--------|--------|
+| `src/prompt_engineering/protegi_optimizer.cpp` | ✅ Implemented (ProTeGiOptimizer, HeuristicProTeGiProvider) |
+| `src/prompt_engineering/self_improvement_orchestrator.cpp` | ✅ Implemented (ProTeGi as optimization back-end) |
+| `src/prompt_engineering/meta_prompt_generator.cpp` | ✅ Implemented (candidate prompt supply) |
+| `src/prompt_engineering/feedback_collector.cpp` | ✅ Implemented (mini-batch failure sampling) |
+
+---
+
+## ThemisDB Engineering (2026) — LLM-Driven Index Advisor
+
+**Type:** Paper (integration)
+**File:** [papers/llm_index_advisor_integrated_2024.md](../papers/llm_index_advisor_integrated_2024.md)
+**ThemisDB Version:** v1.9.0+
+
+| Module | Status |
+|--------|--------|
+| `src/storage/index_analyzer.cpp` | ✅ Implemented (IIndexAnalysisAdvisor hook, applyAdvisor, TierThresholds) |
+| `include/storage/index_analyzer.h` | ✅ Implemented (full public API) |
+| `src/storage/storage_layout_advisor.cpp` | ✅ Implemented (emitDecisionRecord → DecisionRecordYamlProcessor) |
+| `config/index_analyze.yaml` | ✅ Implemented (YAML-driven AI advisor config) |
+
+---
+
+## Yao et al. (2023) — Tree of Thoughts: Deliberate Problem Solving with LLMs
+
+**Type:** Paper
+**File:** [papers/yao_tree_of_thoughts_2023.md](../papers/yao_tree_of_thoughts_2023.md)
+**ThemisDB Version:** v2.0.0+
+
+| Module | Status |
+|--------|--------|
+| `src/prompt_engineering/tree_of_thoughts.cpp` | ✅ Implemented (BFS/DFS/BEAM, HeuristicThoughtGenerator) |
+| `src/prompt_engineering/chain_of_thought.cpp` | ✅ Implemented (CoT as degenerate ToT case) |
+| `src/prompt_engineering/prompt_engineering_integration.cpp` | ✅ Implemented (opt-in ToT via IntegrationConfig) |
+
+---
+
+## AI4DB + ISUM — LLM-Driven Index Optimization (Best Practice)
+
+**Type:** Best Practice
+**File:** [best_practices/llm_driven_index_optimization.md](../best_practices/llm_driven_index_optimization.md)
+**ThemisDB Version:** v1.9.0+
+
+| Module | Status |
+|--------|--------|
+| `src/storage/index_analyzer.cpp` | ✅ Adopted |
+| `include/storage/index_analyzer.h` | ✅ Adopted |
+| `config/index_analyze.yaml` | ✅ Adopted |
+
+---
+
+## ProTeGi + Self-Refine + ToT + DSPy — LLM Prompt Enhancement Pipeline (Best Practice)
+
+**Type:** Best Practice
+**File:** [best_practices/llm_prompt_enhancement_pipeline.md](../best_practices/llm_prompt_enhancement_pipeline.md)
+**ThemisDB Version:** v1.5.0+ / v2.0.0+
+
+| Module | Status |
+|--------|--------|
+| `src/prompt_engineering/protegi_optimizer.cpp` | ✅ Adopted |
+| `src/prompt_engineering/reflection_tuner.cpp` | ✅ Adopted |
+| `src/prompt_engineering/tree_of_thoughts.cpp` | ✅ Adopted |
+| `src/prompt_engineering/dspy_module.cpp` | 🔄 Partially Adopted |
+| `src/prompt_engineering/self_improvement_orchestrator.cpp` | ✅ Adopted |
+| `src/prompt_engineering/prompt_engineering_metrics.cpp` | ✅ Adopted |
+
+---
+
+*Last generated: see git log*
