@@ -31,6 +31,7 @@
 #include <nlohmann/json.hpp>
 #include "projects/DocumentManager/document_manager.h"
 #include "projects/project_audit_log.h"
+#include "projects/project_metrics.h"
 #include "storage/rocksdb_wrapper.h"
 
 namespace themis {
@@ -232,6 +233,19 @@ public:
      */
     void clearAuditLog();
 
+    // ── Metrics DI ────────────────────────────────────────────────────────
+
+    /**
+     * @brief Inject a metrics sink.
+     *
+     * When set, `notifyChange()` increments
+     * `ProjectMetrics::recordChange()` for every committed event.
+     * Pass `nullptr` to disable.
+     *
+     * Thread-safe.
+     */
+    void setMetrics(std::shared_ptr<ProjectMetrics> metrics);
+
     // ── Change feed ────────────────────────────────────────────────────────
 
     /**
@@ -264,6 +278,9 @@ private:
 
     mutable std::shared_mutex audit_mutex_;
     std::shared_ptr<IProjectAuditLog> audit_log_;
+
+    mutable std::shared_mutex metrics_mutex_;
+    std::shared_ptr<ProjectMetrics> metrics_;
 
     mutable std::shared_mutex subscribers_mutex_;
     std::vector<ProjectEventCallback> subscribers_;

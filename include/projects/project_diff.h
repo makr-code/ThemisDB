@@ -26,6 +26,7 @@
 #include <vector>
 #include <memory>
 #include <nlohmann/json.hpp>
+#include "projects/project_metrics.h"
 #include "projects/project_versioning.h"
 #include "storage/rocksdb_wrapper.h"
 
@@ -131,8 +132,19 @@ public:
      */
     DeltaSet diffDocuments(const json& from, const json& to) const;
 
+    /**
+     * @brief Inject a metrics sink.
+     *
+     * When set, every `diff()` call records its wall-clock latency via
+     * `ProjectMetrics::recordDiff()`.  Pass `nullptr` to disable.
+     * Thread-safe.
+     */
+    void setMetrics(std::shared_ptr<ProjectMetrics> metrics);
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
+    std::shared_ptr<ProjectMetrics> metrics_; // guarded by metrics_mutex_
+    mutable std::mutex metrics_mutex_;
 
     /// Recursively compare two JSON values, accumulating DeltaEntry records.
     void diffRecursive(

@@ -74,13 +74,20 @@ no REST endpoint exposes it.
 ### Observability: Metrics and Audit Hooks
 **Priority:** Medium
 **Target:** 2026-Q4
+**Status:** ✅ Implemented (2026-04-27, v1.9.0)
 
-No metrics are currently emitted by the projects module.
+`ProjectMetrics` class added to `include/projects/project_metrics.h` /
+`src/projects/project_metrics.cpp`:
+- `projects_changes_total` counter — incremented per `CollaborationManager::notifyChange()`.
+- `project_diff_calls_total` counter — incremented per `ProjectDiff::diff()` call.
+- `project_diff_duration_ms_total` counter — cumulative wall-clock diff latency.
+- `ProjectMetrics::getMetricsText()` emits Prometheus text v0.0.4.
+- DI setters: `CollaborationManager::setMetrics()`, `ProjectDiff::setMetrics()`.
+- Tests: PM-01..PM-06 in `tests/test_projects.cpp`.
 
-**Implementation Notes:**
-- Prometheus gauge: `projects_active_total` / `projects_archived_total` / `projects_deleted_total`
-- Prometheus histogram: `project_diff_duration_ms` (per `ProjectDiff::compute()` call)
-- Wire `IProjectAuditLog` into `ProjectLifecycle` so every state transition emits a `ProjectAuditEntry`
+**Remaining (not in scope for v1.9.0):**
+- Prometheus gauges `projects_active_total` / `projects_archived_total` / `projects_deleted_total` (require lifecycle state-change hooks — Target: v2.0.0)
+- Wire `IProjectAuditLog` into `ProjectLifecycle` (Target: v2.0.0)
 
 ---
 

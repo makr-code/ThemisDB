@@ -24051,6 +24051,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_projects.cpp")
         ${CMAKE_SOURCE_DIR}/src/projects/project_lifecycle.cpp
         ${CMAKE_SOURCE_DIR}/src/projects/project_template.cpp
         ${CMAKE_SOURCE_DIR}/src/projects/collaboration_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/projects/project_metrics.cpp
     )
 
     target_include_directories(test_projects PRIVATE
@@ -24086,7 +24087,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_projects.cpp")
         TIMEOUT 60
     )
 
-    message(STATUS "  Projects: ProjectVersioning (PV-01..PV-06), ProjectDiff (PD-01..PD-07), ProjectLifecycle (PL-01..PL-07), ProjectTemplate (PT-01..PT-05), CollaborationManager (CM-01..CM-08)")
+    message(STATUS "  Projects: ProjectVersioning (PV-01..PV-06), ProjectDiff (PD-01..PD-07), ProjectLifecycle (PL-01..PL-07), ProjectTemplate (PT-01..PT-05), CollaborationManager (CM-01..CM-08), ProjectMetrics (PM-01..PM-06)")
 else()
     message(STATUS "Projects module tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_projects.cpp")
 endif()

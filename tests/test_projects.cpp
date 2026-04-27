@@ -518,3 +518,77 @@ TEST_F(ProjectsTest, CM08_GetChangesFiltersByProjectAndTimestamp) {
     auto all_a = cm.getChanges("proj-A", 0);
     EXPECT_EQ(all_a.size(), 2u);
 }
+
+// ─── ProjectMetrics tests ─────────────────────────────────────────────────────
+
+#include "projects/project_metrics.h"
+
+// PM-01: Initial counters are all zero; getMetricsText() returns empty.
+TEST(ProjectMetricsTest, PM01_InitialStateIsEmpty) {
+    themis::projects::ProjectMetrics m;
+    EXPECT_EQ(m.changesTotal(), 0u);
+    EXPECT_EQ(m.diffCallsTotal(), 0u);
+    EXPECT_EQ(m.diffDurationMsTotal(), 0u);
+    EXPECT_EQ(m.getMetricsText(), "");
+}
+
+// PM-02: recordChange() increments the change counter.
+TEST(ProjectMetricsTest, PM02_RecordChangeIncrementsCounter) {
+    themis::projects::ProjectMetrics m;
+    m.recordChange();
+    m.recordChange();
+    m.recordChange();
+    EXPECT_EQ(m.changesTotal(), 3u);
+}
+
+// PM-03: recordDiff() increments both call count and duration.
+TEST(ProjectMetricsTest, PM03_RecordDiffAccumulatesCallsAndDuration) {
+    themis::projects::ProjectMetrics m;
+    m.recordDiff(10);
+    m.recordDiff(20);
+    EXPECT_EQ(m.diffCallsTotal(), 2u);
+    EXPECT_EQ(m.diffDurationMsTotal(), 30u);
+}
+
+// PM-04: getMetricsText() includes all three metric lines when non-zero.
+TEST(ProjectMetricsTest, PM04_GetMetricsTextContainsAllMetrics) {
+    themis::projects::ProjectMetrics m;
+    m.recordChange();
+    m.recordDiff(5);
+    const std::string text = m.getMetricsText();
+    EXPECT_NE(text.find("projects_changes_total"), std::string::npos);
+    EXPECT_NE(text.find("project_diff_calls_total"), std::string::npos);
+    EXPECT_NE(text.find("project_diff_duration_ms_total"), std::string::npos);
+    EXPECT_NE(text.find("1\n"), std::string::npos);  // changes = 1
+    EXPECT_NE(text.find("5\n"), std::string::npos);  // duration = 5
+}
+
+// PM-05: CollaborationManager::setMetrics() wires the counter so that
+//         notifyChange() increments projects_changes_total.
+TEST_F(ProjectsTest, PM05_CollaborationManagerIncrementsMetricsOnNotify) {
+    auto metrics = std::make_shared<themis::projects::ProjectMetrics>();
+    themis::projects::CollaborationManager cm(storage_);
+    cm.setMetrics(metrics);
+
+    themis::projects::Change c;
+    c.project_id  = "p1";
+    c.object_name = "obj";
+    c.actor       = "user1";
+    c.timestamp   = 1;
+    cm.notifyChange(c);
+    cm.notifyChange(c);
+
+    EXPECT_EQ(metrics->changesTotal(), 2u);
+}
+
+// PM-06: CollaborationManager with no metrics sink does not crash.
+TEST_F(ProjectsTest, PM06_NoMetricsSinkIsNoop) {
+    themis::projects::CollaborationManager cm(storage_);
+    // Do NOT call setMetrics(); notifyChange() must not crash.
+    themis::projects::Change c;
+    c.project_id  = "p1";
+    c.object_name = "obj";
+    c.actor       = "user1";
+    c.timestamp   = 1;
+    EXPECT_NO_THROW(cm.notifyChange(c));
+}
