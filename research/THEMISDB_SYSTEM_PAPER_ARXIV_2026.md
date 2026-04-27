@@ -453,16 +453,193 @@ containing partially visible writes, reducing consistency of retrieved evidence.
 **Status**: W5 measurement protocol defined; infrastructure ready; empirical execution
 pending dedicated experiment run.
 
-### E. Figure Plan
+### E. Figures
 
-- **Figure 1**: ThemisDB four-tier architecture diagram (§III).
-- **Figure 2**: Faithfulness × latency trade-off surface for W5 isolation sweep (§VII.D).
-- **Figure 3**: ContinuousLearningOrchestrator four-loop timeline showing feedback latency
-  from user interaction to LoRA adapter deployment (§IV.C).
-- **Figure 4**: RAG evaluation mode breakdown (FAST/BALANCED/THOROUGH) — component
-  breakdown of P99 latency: retrieval, reranking, generation, evaluation (§IV.B).
-- **Figure 5**: Secondary index insert throughput regression analysis across v1.3.0–v1.8.2
-  (§VII.B).
+**Figure 1 — ThemisDB Four-Tier Architecture**
+
+```
+  ┌──────────────────────────────────────────────────────────────────┐
+  │  External Interfaces                                             │
+  │  REST :8765  ·  WebSocket ws://  ·  gRPC :8766                  │
+  │  GraphQL  ·  MCP (Model Context Protocol)                        │
+  └───────────────────────────┬──────────────────────────────────────┘
+                              │
+  ┌───────────────────────────▼──────────────────────────────────────┐
+  │  Tier 4 — AI/ML Platform                                        │
+  │                                                                  │
+  │  LLM Engine (llama.cpp / ONNX)  ·  LoRA Adapter Router          │
+  │  ┌──────────────────────────────────────────────────────────┐   │
+  │  │  RAG Pipeline                                            │   │
+  │  │  HybridRetriever → ContextBudget → LLMPlugin → RAGJudge │   │
+  │  │  (BM25 + HNSW + RRF)   (Compress)   (generate)  (eval)  │   │
+  │  └──────────────────────────────────────────────────────────┘   │
+  │  ContinuousLearningOrchestrator (Loop 1–4)                      │
+  │  PromptEngineer (DSPy · ProTeGi · ToT · Self-Refine)            │
+  │  EthicsAI / BiasDetector / RLAIFGuardrailPlugin                 │
+  ├──────────────────────────────────────────────────────────────────┤
+  │  Tier 3 — Multi-Model Query Layer                               │
+  │                                                                  │
+  │  AQL (Relational)  │  HNSW/IVF (Vector)  │  Graph (BFS/GNN)    │
+  │  Gorilla (TimeSeries)  │  R-Tree/S2 (Geo)  │  JSON-BSON (Doc)  │
+  │                                                                  │
+  │  ┌─────────────────────────────────────────────────────────┐    │
+  │  │  Unified Query Planner (AQL IR → operator DAG)          │    │
+  │  │  Cost Model  ·  Index Selection  ·  Join Ordering       │    │
+  │  └─────────────────────────────────────────────────────────┘    │
+  ├──────────────────────────────────────────────────────────────────┤
+  │  Tier 2 — Transaction & Concurrency                             │
+  │                                                                  │
+  │  MVCC (snapshot isolation, default)                             │
+  │  OCC (optimistic, low-contention paths)                         │
+  │  2PC (cross-shard atomic writes)                                │
+  │  SAGA (compensating txns, long workflows)                       │
+  │  HLC (Hybrid Logical Clocks, global ordering)                   │
+  ├──────────────────────────────────────────────────────────────────┤
+  │  Tier 1 — Distributed Infrastructure                            │
+  │                                                                  │
+  │  Raft Consensus  ·  ConsistentHash Sharding                     │
+  │  WAL Replication  ·  Gossip Ring  ·  Auto-Failover              │
+  │  mTLS  ·  QUIC  ·  RaftLB                                       │
+  └───────────────────────────┬──────────────────────────────────────┘
+                              │
+  ┌───────────────────────────▼──────────────────────────────────────┐
+  │  Shared Storage Kernel                                           │
+  │  RocksDB LSM-Tree  ·  WAL  ·  AES-256-GCM Encryption            │
+  │  Column Families per Model  ·  Apache Arrow zero-copy I/O        │
+  └──────────────────────────────────────────────────────────────────┘
+```
+
+*Figure 1*: ThemisDB four-tier architecture. All tiers share the same RocksDB storage
+kernel and WAL; the transaction coordinator (Tier 2) governs MVCC visibility for all
+operators in Tiers 3 and 4 uniformly.
+
+---
+
+**Figure 2 — Predicted Faithfulness × Latency Trade-off Surface (W5, Schematic)**
+
+```
+  Faithfulness
+  (G-Eval, 0–1)
+  1.0 ┤                                          ●  SR high-contention
+      │                                   ●  SR  |
+  0.9 ┤                         ●  RR high-c     |
+      │               ●  RR                      |
+  0.8 ┤    ●  RC high-c                           |
+      │    ●  RC                                  |
+  0.7 ┤                                           |
+      │                                           |
+  0.6 ┤──────────────────────────────────────────┤
+      0        50       100       200       400  ms
+                          P99 Latency (ms)
+      ──────  Write mix 0%    ── ─ ─  Write mix 50%
+
+  Legend: RC = READ COMMITTED · RR = REPEATABLE READ · SR = SERIALIZABLE
+          Arrows indicate direction under increasing contention (write mix 0→50%).
+          Filled area (grey, pending W5 data) = expected Pareto frontier.
+```
+
+*Figure 2*: Schematic faithfulness × latency operating points per isolation policy.
+Empirical W5 data will fill this plot; the schematic illustrates the predicted trend
+shape based on H1 (§VII.D). Each point represents one (isolation level, write-mix)
+cell; error bars = 1 SD across n=30 runs.
+
+---
+
+**Figure 3 — ContinuousLearningOrchestrator Four-Loop Timeline**
+
+```
+  Time ──────────────────────────────────────────────────────────────►
+
+  User Query  ──[RAG Response]──────────────────────────────────────
+                     │
+                     ▼
+  RAGJudge    ──[EvalReport: f=0.72, rel=0.81, coh=0.90]───────────
+                     │
+       ┌─────────────┼──────────────────────────────────────────┐
+       │             │  Loop 1: HNSW Query Optimisation         │  ~10 ms
+       │             │  efSearch: 64→96, top_k: 5→7            │
+       │             │  (Bayesian step, triggered every eval)   │
+       │             ├──────────────────────────────────────────┘
+       │             │  Loop 2: Workload Adaptation              │  ~50 ms
+       │             │  retrieval params adjusted per class      │
+       │             ├──────────────────────────────────────────┘
+       │             │  Loop 3: Schema/Index (cron, IndexAnalyzer)│ ~1 s
+       │             │  tier thresholds, compaction strategy      │
+       │             ├──────────────────────────────────────────┘
+       │             │  Loop 4: RLAIF (feedback_count ≥ 500)     │  ~5–30 min
+       │             │  IAIJudge → pairwise prefs                │
+       │             │  RewardModel train → LoRA weight update    │
+       │             │  ILoRAFederationCoordinator → hot-swap    │
+       └─────────────┴──────────────────────────────────────────┘
+
+  All events: written to audit log (ACID, same WAL as user data)
+  Rollback:   possible at any loop stage (compensating txn / SAGA)
+```
+
+*Figure 3*: ContinuousLearningOrchestrator timeline. Loops 1–2 fire per evaluation
+report (~10–50 ms overhead); Loop 3 is cron-driven (minutes); Loop 4 accumulates
+feedback until threshold (hours), then triggers a transactional LoRA update.
+
+---
+
+**Figure 4 — RAG Pipeline P99 Latency Breakdown by Evaluation Mode**
+
+```
+  Mode        │ Retrieval │ Rerank │ Generation │ Evaluation │ Total P99
+  ────────────┼───────────┼────────┼────────────┼────────────┼──────────
+  FAST        │  ██  15ms │  5ms   │    70ms    │   10ms     │  < 100ms
+  BALANCED    │  ████30ms │  20ms  │   350ms    │  100ms     │  < 500ms
+  THOROUGH    │  ████ 50ms│  50ms  │  1200ms    │  700ms     │  < 2 000ms
+  ────────────┴───────────┴────────┴────────────┴────────────┴──────────
+  Unit: milliseconds (P99, design targets; empirical runs pending)
+
+  Stacked bar (schematic):
+  FAST     [===Ret===|=Re=|==========Gen==========|==Eval==|]  100ms
+  BALANCED [====Ret====|==Rerank==|==========Gen=============|====Eval====|]  500ms
+  THOROUGH [=Ret=|==Rerank==|====================Gen==================|=====Eval=====|]  2000ms
+```
+
+*Figure 4*: RAG pipeline latency breakdown by evaluation mode. FAST mode uses
+BM25-only retrieval, minimal reranking, and the G-Eval FAST scorer (10 token samples).
+BALANCED adds HNSW vector fusion (RRF) and the full evaluator suite. THOROUGH runs
+AgenticRAG (multi-hop ReAct loop) with THOROUGH calibration and position-bias
+de-biasing. All figures are design targets; empirical measurement pending.
+
+---
+
+**Figure 5 — Secondary Index Insert Throughput: v1.3.0–v1.8.2 Trend**
+
+```
+  k ops/s
+  1000 ┤  ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─  SLO target
+       │
+   800 ┤
+       │
+   600 ┤
+       │
+   400 ┤
+       │
+   300 ┤                                              ●  v1.8.2 (254.9)
+       │                    (measurement gap v1.4–v1.7)
+   200 ┤
+       │
+   100 ┤
+       │
+     0 ┤────────────────────────────────────────────────────────────────
+        v1.3.0   v1.3.3   v1.3.4   v1.4.0  ...  v1.7.0   v1.8.0  v1.8.2
+
+  ● measured   ○ pending   ─ ─ ─  SLO target (1.0 M ops/s)
+
+  Root cause: lock-contention in index-write path under multi-column concurrent updates.
+  Remediation target: v1.9.0 (IndexAnalyzer + StorageLayoutAdvisor background writer).
+```
+
+*Figure 5*: Secondary index insert throughput across five measurement releases.
+Current gap: 254.9 k/s vs. 1.0 M/s SLO target (−74.5%). Gap is hardware-independent
+(reproduced on x64 AVX2 and AVX-512); root cause is index-write lock contention,
+not instruction throughput.
+
+---
 
 ---
 
@@ -700,10 +877,10 @@ Stoica, I. (2023). Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena. *Neur
 - [x] Figures/tables are referenced in text
 - [x] References are complete (23 entries; DOI/URL where available)
 - [x] Artifact path and build commands documented (§IX)
-- [ ] W5 Mixed ACID+RAG experiment executed and results filled into §VII.D
+- [x] Figures 1–5 as ASCII diagrams embedded in §VII.E (schematics; empirical data pending)
+- [ ] W5 Mixed ACID+RAG experiment executed and Figure 2 filled with empirical data
 - [ ] GPU vector search measurements (RTX hardware required)
 - [ ] Multi-node distributed benchmark executed
-- [ ] Figure 2 (isolation × faithfulness surface) generated from W5 data
 
 ## Appendix B. Module Inventory (33 Production Modules)
 
@@ -727,3 +904,34 @@ Stoica, I. (2023). Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena. *Neur
 | v1.8.2 | **1.177 M/s** ✅ | **61.0 M/s** ✅ | **9.67 ms** ✅ | Current baseline |
 
 *Full raw Google Benchmark JSON at `artifacts/perf_nv/targeted_validation/`.*
+
+## Appendix D. Companion Paper Series
+
+This flagship paper is accompanied by a set of topic-focused companion papers in
+`research/`. Each companion paper drills into one subsystem with its own RQs,
+hypotheses, workloads, and claim-to-evidence appendix.
+
+| # | File | Topic | Target Venue | Status |
+|---|------|-------|-------------|--------|
+| C1 | `DB_NATIVE_RAG_EVALUATION_PAPER_DRAFT.md` | ACID-constrained RAG + quality evaluation | VLDB / ICDE | Draft v0.1 |
+| C2 | `HYBRID_ANN_RETRIEVAL_SYSTEMS_PAPER_DRAFT.md` | Cost-aware hybrid ANN (HNSW+BM25+RRF) | SIGMOD / VLDB | Draft v0.1 |
+| C3 | `LORA_QLORA_DATABASE_NATIVE_OPERATIONS_PAPER_DRAFT.md` | LoRA/QLoRA lifecycle SLOs in DB runtime | MLSys / VLDB Industry | Draft v0.1 |
+| C4 | `DB_NATIVE_LLM_SERVING_OPTIMIZATION_PAPER_DRAFT.md` | PagedKV + continuous batching + speculative decoding | MLSys / USENIX ATC | Draft v0.1 |
+| C5 | `DISTRIBUTED_ACID_MULTIMODEL_AI_DATABASE_PAPER_DRAFT.md` | Distributed ACID multi-model trade-offs | VLDB / SIGMOD | Draft v0.1 |
+| C6 | `SERIALIZABLE_RAG_UNDER_CONTENTION_DRAFT.md` | Isolation × faithfulness under concurrent writes | VLDB | Draft v0.1 |
+| C7 | `GOSSIP_DRIVEN_LORA_DOMAIN_ROUTING_DRAFT.md` | Domain-aware LoRA routing via gossip | MLSys | Draft v0.1 |
+| C8 | `CONTINUOUS_BATCHING_DATABASE_NATIVE_LLM_DRAFT.md` | Continuous batching DB-native LLM serving | MLSys / ATC | Draft v0.1 |
+| C9 | `THEMIS_MULTIMODEL_INDEX_EVALUATION_V2.md` | Nine index families: formal evaluation + risk model | VLDB cs.DB | Draft v1.0 |
+
+**Companion papers and this flagship paper form a coherent submission bundle:**
+
+- §IV.B of this paper → C1 (detailed RAG evaluation protocol)
+- §IV.A of this paper → C2 (ANN retrieval planner deep-dive)
+- §IV.C of this paper → C3 (LoRA lifecycle operational study)
+- §III Tier 4 of this paper → C4 (LLM serving optimisation)
+- §III Tier 1–2 of this paper → C5 (distributed ACID trade-offs)
+- §VII.D of this paper (W5) → C6 (serialisable RAG under contention)
+- §IV.C Loop 4 of this paper → C7 (gossip-driven LoRA routing)
+- §IV.A query planner → C8 (continuous batching integration)
+- §III Tier 3 of this paper → C9 (index method evaluation)
+
