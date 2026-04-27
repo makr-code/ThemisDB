@@ -282,20 +282,20 @@ public:
     virtual ~IReflectionProvider() = default;
 
     /** @brief Generate an initial response to @p prompt. */
-    virtual std::string generate(const std::string& prompt) const = 0;
+    [[nodiscard]] virtual std::string generate(const std::string& prompt) const = 0;
 
     /**
      * @brief Critique @p response in the context of @p original_prompt.
      * @return Critique text (actionable feedback).
      */
-    virtual std::string critique(const std::string& original_prompt,
+    [[nodiscard]] virtual std::string critique(const std::string& original_prompt,
                                  const std::string& response) const = 0;
 
     /**
      * @brief Revise @p response by applying @p critique.
      * @return Improved response text.
      */
-    virtual std::string revise(const std::string& original_prompt,
+    [[nodiscard]] virtual std::string revise(const std::string& original_prompt,
                                 const std::string& response,
                                 const std::string& critique) const = 0;
 
@@ -303,11 +303,11 @@ public:
      * @brief Evaluate the quality of @p response for @p prompt.
      * @return Quality score in [0.0, 1.0].
      */
-    virtual double score(const std::string& prompt,
+    [[nodiscard]] virtual double score(const std::string& prompt,
                          const std::string& response) const = 0;
 
     /** @brief Human-readable provider name (for logs and metadata). */
-    virtual std::string name() const = 0;
+    [[nodiscard]] virtual std::string name() const = 0;
 };
 
 // ============================================================================

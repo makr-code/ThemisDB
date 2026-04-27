@@ -90,7 +90,7 @@ public:
      * @param add_eos Add end-of-sequence token
      * @return Vector of token IDs
      */
-    virtual std::vector<int> encode(const std::string& text, 
+    [[nodiscard]] virtual std::vector<int> encode(const std::string& text, 
                                     bool add_bos = true, 
                                     bool add_eos = false) = 0;
     
@@ -99,31 +99,31 @@ public:
      * @param tokens Token IDs
      * @return Decoded text
      */
-    virtual std::string decode(const std::vector<int>& tokens) = 0;
+    [[nodiscard]] virtual std::string decode(const std::vector<int>& tokens) = 0;
     
     /**
      * @brief Get vocabulary size
      * @return Number of tokens in vocabulary
      */
-    virtual int vocab_size() const = 0;
+    [[nodiscard]] virtual int vocab_size() const = 0;
     
     /**
      * @brief Get BOS (beginning of sequence) token ID
      * @return BOS token ID
      */
-    virtual int bos_token_id() const = 0;
+    [[nodiscard]] virtual int bos_token_id() const = 0;
     
     /**
      * @brief Get EOS (end of sequence) token ID
      * @return EOS token ID
      */
-    virtual int eos_token_id() const = 0;
+    [[nodiscard]] virtual int eos_token_id() const = 0;
     
     /**
      * @brief Get PAD (padding) token ID
      * @return PAD token ID
      */
-    virtual int pad_token_id() const = 0;
+    [[nodiscard]] virtual int pad_token_id() const = 0;
 };
 
 /**

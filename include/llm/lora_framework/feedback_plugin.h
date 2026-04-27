@@ -58,7 +58,7 @@ public:
      * 
      * Example: Check for spam, required fields, valid ratings, etc.
      */
-    virtual bool validate(const Feedback& feedback) const = 0;
+    [[nodiscard]] virtual bool validate(const Feedback& feedback) const = 0;
     
     /**
      * @brief Process feedback after validation, before storage
@@ -77,12 +77,12 @@ public:
      * 
      * Example: Check batch size, quality score, time since last training, etc.
      */
-    virtual bool onTrainingTrigger(const std::vector<Feedback>& batch) const = 0;
+    [[nodiscard]] virtual bool onTrainingTrigger(const std::vector<Feedback>& batch) const = 0;
     
     /**
      * @brief Get plugin name for logging and debugging
      */
-    virtual std::string getName() const = 0;
+    [[nodiscard]] virtual std::string getName() const = 0;
 };
 
 /**

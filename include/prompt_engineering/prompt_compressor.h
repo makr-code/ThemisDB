@@ -112,7 +112,7 @@ public:
      * If `original_token_count <= target_token_budget`, the prompt is
      * returned unchanged with `compression_ratio == 0.0f`.
      */
-    virtual CompressionResult compress(
+    [[nodiscard]] virtual CompressionResult compress(
         const std::string&           prompt,
         const PromptCompressionConfig& config) = 0;
 
@@ -122,10 +122,10 @@ public:
      * Default: GPT-2 approximation (chars / 4).  Implementations may use a
      * proper tokeniser.
      */
-    virtual int estimateTokenCount(const std::string& text) = 0;
+    [[nodiscard]] virtual int estimateTokenCount(const std::string& text) = 0;
 
     /// Returns the set of strategies this compressor supports.
-    virtual std::vector<CompressionStrategy> supportedStrategies() const = 0;
+    [[nodiscard]] virtual std::vector<CompressionStrategy> supportedStrategies() const = 0;
 };
 
 // ── Concrete implementation ───────────────────────────────────────────────────

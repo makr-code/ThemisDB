@@ -43,18 +43,18 @@ public:
     virtual ~ITrainableLayer() = default;
     
     // Forward pass
-    virtual Tensor forward(const Tensor& input) = 0;
+    [[nodiscard]] virtual Tensor forward(const Tensor& input) = 0;
     
     // Backward pass (gradient computation)
-    virtual Tensor backward(const Tensor& grad_output) = 0;
+    [[nodiscard]] virtual Tensor backward(const Tensor& grad_output) = 0;
     
     // Parameter access
-    virtual std::vector<Tensor*> parameters() = 0;
+    [[nodiscard]] virtual std::vector<Tensor*> parameters() = 0;
     
     // Layer metadata
-    virtual std::string name() const = 0;
-    virtual size_t parameter_count() const = 0;
-    virtual size_t memory_bytes() const = 0;
+    [[nodiscard]] virtual std::string name() const = 0;
+    [[nodiscard]] virtual size_t parameter_count() const = 0;
+    [[nodiscard]] virtual size_t memory_bytes() const = 0;
 };
 
 /**

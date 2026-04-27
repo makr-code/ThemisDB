@@ -76,10 +76,10 @@ public:
     virtual ~IQueryRewriteRule() = default;
 
     /// Human-readable identifier, e.g. "PredicatePushdown".
-    virtual std::string name() const = 0;
+    [[nodiscard]] virtual std::string name() const = 0;
 
     /// Returns true when the rule can improve the given plan.
-    virtual bool applies(const nlohmann::json& plan, const RewriteContext& ctx) const = 0;
+    [[nodiscard]] virtual bool applies(const nlohmann::json& plan, const RewriteContext& ctx) const = 0;
 
     /**
      * @brief Apply the rule to a plan.
@@ -87,7 +87,7 @@ public:
      * @param ctx  Rewrite context with statistics.
      * @return Number of transformations performed (0 if none).
      */
-    virtual size_t apply(nlohmann::json& plan, const RewriteContext& ctx) const = 0;
+    [[nodiscard]] virtual size_t apply(nlohmann::json& plan, const RewriteContext& ctx) const = 0;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

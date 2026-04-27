@@ -56,12 +56,12 @@ public:
      * @param text Input text to embed
      * @return Dense embedding vector (any dimension); empty vector on error
      */
-    virtual std::vector<double> embed(const std::string& text) const = 0;
+    [[nodiscard]] virtual std::vector<double> embed(const std::string& text) const = 0;
 
     /**
      * @brief Human-readable name of this provider (for logging / metrics)
      */
-    virtual std::string name() const = 0;
+    [[nodiscard]] virtual std::string name() const = 0;
 };
 
 /**
