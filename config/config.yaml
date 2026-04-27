@@ -647,7 +647,11 @@ tenants:
 
 llm:
   enabled: true
-  required: false          # Server starts even if LLM init fails
+  # required: false — graceful degradation mode.
+  # If the model file or the LoRA adapter is missing the server will log
+  # warnings but continue to start.  Set to true to make a missing/failed
+  # LLM a hard startup error.
+  required: false
   default_plugin: "llamacpp"
   plugin_paths:
     - "./plugins"
@@ -666,7 +670,14 @@ llm_plugins:
       id: "tinyllama"
       auto_load: true
 
-    # GPU acceleration (0 = CPU-only; increase for GPU offload)
+    # GPU acceleration
+    # n_layers: 0  → CPU-only (safe default for any hardware).
+    # Increase to e.g. 22 to offload all TinyLlama layers to GPU:
+    #   n_layers: 22   # full GPU offload on TinyLlama 1.1B
+    # use_cuda and use_metal are mutually exclusive at runtime — llama.cpp
+    # activates whichever backend is available on the host (CUDA on NVIDIA,
+    # Metal on Apple Silicon). Having both flags true is harmless; only one
+    # will be selected during plugin initialisation.
     gpu:
       n_layers: 0
       use_cuda: true

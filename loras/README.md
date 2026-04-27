@@ -80,5 +80,5 @@ the adapter (graceful degradation, `llm.required: false`).
 
 Adapter files are signed at export time by the LoRA framework
 (`lora.security.enable_signatures: true` in `config/lora_training_config.yaml`).
-The signature is verified by `LloraSecurityValidator` on load.
+The signature is verified by `LoRASecurityValidator` on load.
 Do **not** place unsigned third-party adapter files in this directory.
