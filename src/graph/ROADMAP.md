@@ -45,13 +45,13 @@
 
 ### Long-term (6-12 months)
 - [I] GPU-accelerated BFS/DFS for massive graphs (Issue: #1829)
-- [ ] Ontologie-Integration: `OntologyManager` + semantische Pfad-Constraints (Target: Q3 2026)
+- [x] Ontologie-Integration: `OntologyManager` + semantische Pfad-Constraints (Target: Q3 2026)
   - Affected: `include/graph/ontology_manager.h`, `src/graph/ontology_manager.cpp`,
     `include/graph/path_constraints.h`, `src/graph/path_constraints.cpp`
   - Expected behavior: `PathConstraints::addSemanticConstraint(ontology, ruleset)` prüft
     Kanten- und Knotentypen gegen OWL-lite Konzepthierarchie; Violation-Liste zurückgeben
   - Errors: unbekannte Konzept-IDs → unconstrained (WARN); Parsing-Fehler → `Status::Error`
-  - Tests: OM-01..OM-12 (`test_ontology_manager.cpp`) + SC-01..SC-10 (`test_path_constraints_semantic.cpp`)
+  - Tests: OM-01..OM-12 (`tests/graph/test_ontology_manager.cpp`) + SC-01..SC-10 (`tests/graph/test_path_constraints_semantic.cpp`)
   - Perf: ≤ 5 µs per edge constraint check; Ontologie-Load ≤ 100 ms für 10 000 Konzepte
   - Detail: `src/graph/FUTURE_ENHANCEMENTS.md` → Ontology-based Semantic Constraints
 - [ ] Knowledge Graph Reasoning mit AI/ML + LoRA (Target: Q4 2026 – Q3 2027)

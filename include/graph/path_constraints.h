@@ -20,11 +20,13 @@
 #pragma once
 
 #include "utils/expected.h"
+#include "graph/ontology_manager.h"
 #include <string>
 #include <vector>
 #include <optional>
 #include <functional>
 #include <unordered_set>
+#include <memory>
 
 namespace themis {
 
@@ -270,9 +272,63 @@ public:
     ) const;
 
     /**
-     * @brief Get all active constraints
+     * @brief Represents a single semantic constraint violation.
+     *
+     * Returned by `validateSemanticPath()` when an edge in the discovered path
+     * violates the ontology-declared relationship axioms.
      */
-    const std::vector<Constraint>& getConstraints() const { return constraints_; }
+    struct ConstraintViolation {
+        /// The edge identifier that triggered the violation.
+        std::string edge_id;
+        /// Concept class of the source node of the violating edge.
+        std::string source_class;
+        /// Concept class of the target node of the violating edge.
+        std::string target_class;
+        /// The edge type that was found (not permitted by the ontology).
+        std::string edge_type;
+        /// Human-readable description of the violation.
+        std::string description;
+    };
+
+    /**
+     * @brief Attach an ontology-based semantic constraint to this path query.
+     *
+     * After this call, every edge explored during `findConstrainedPaths` is
+     * validated against @p ontology using the prune-first strategy: edges
+     * whose type is not permitted for the (sourceClass, targetClass) pair
+     * are pruned at the BFS frontier level, avoiding generation of invalid
+     * path candidates.
+     *
+     * `validateSemanticPath()` can be used post-discovery for a full
+     * structural check.
+     *
+     * @param ontology Non-owning pointer to a built `OntologyManager`.
+     *                 Must outlive this `PathConstraints` object.
+     * @param ruleset  `STRICT` (default) rejects violating paths; `WARN`
+     *                 records violations but keeps the path.
+     */
+    void addSemanticConstraint(const OntologyManager* ontology,
+                               OntologyManager::Ruleset ruleset = OntologyManager::Ruleset::STRICT);
+
+    /**
+     * @brief Validate a discovered path against all attached ontology constraints.
+     *
+     * Iterates over every edge in @p result and calls
+     * `ontology->isEdgeTypeAllowed(srcClass, tgtClass, edgeType)`.  The
+     * node-class lookup uses GraphIndexManager::getNodeField("_class") and
+     * defaults to the empty string (unconstrained) when the field is absent.
+     *
+     * @param result   A path result previously returned by `findConstrainedPaths`.
+     * @return Vector of violations; empty means the path is semantically valid.
+     */
+    std::vector<ConstraintViolation> validateSemanticPath(const PathResult& result) const;
+
+    /**
+     * @brief Return all violations recorded during the last `findConstrainedPaths` call.
+     */
+    const std::vector<ConstraintViolation>& lastViolations() const noexcept {
+        return last_violations_;
+    }
 
     /**
      * @brief Clear all constraints
@@ -301,6 +357,11 @@ private:
     std::unordered_set<std::string> forbidden_edges_;
     std::unordered_set<std::string> required_edges_;
     GraphIndexManager* graph_mgr_ = nullptr;
+
+    // ── Semantic constraint state ───────────────────────────────────────────
+    const OntologyManager* ontology_ = nullptr;
+    OntologyManager::Ruleset ontology_ruleset_ = OntologyManager::Ruleset::STRICT;
+    mutable std::vector<ConstraintViolation> last_violations_;
 
     /**
      * @brief Validate a node or edge identifier supplied as user input.

@@ -7966,7 +7966,86 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_scheduled_edge_refresh.cpp")
 endif()
 
 # ============================================================================
-# Importer Plugin API Tests (standalone - avoids createPlugin/destroyPlugin
+# OntologyManager focused tests (OM-01..OM-12)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_ontology_manager.cpp")
+    message(STATUS "Adding OntologyManager focused tests (OM-01..OM-12)")
+
+    add_executable(test_ontology_manager_focused
+        graph/test_ontology_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/ontology_manager.cpp
+    )
+
+    target_include_directories(test_ontology_manager_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_ontology_manager_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ontology_manager_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OntologyManagerFocusedTests COMMAND test_ontology_manager_focused)
+
+    set_tests_properties(OntologyManagerFocusedTests PROPERTIES
+        LABELS "graph;ontology;semantic;constraints;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  OntologyManager: loadFromJson, isA transitive, allowedEdgeTypes, unknown concepts, thread-safety, round-trip")
+endif()
+
+# ============================================================================
+# PathConstraints semantic tests (SC-01..SC-10)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_path_constraints_semantic.cpp")
+    message(STATUS "Adding PathConstraints semantic focused tests (SC-01..SC-10)")
+
+    add_executable(test_path_constraints_semantic_focused
+        graph/test_path_constraints_semantic.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/ontology_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/parallel_traversal.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/distributed_graph.cpp
+    )
+
+    target_include_directories(test_path_constraints_semantic_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_path_constraints_semantic_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_path_constraints_semantic_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME PathConstraintsSemanticFocusedTests COMMAND test_path_constraints_semantic_focused)
+
+    set_tests_properties(PathConstraintsSemanticFocusedTests PROPERTIES
+        LABELS "graph;path;constraints;semantic;ontology;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PathConstraintsSemantic: addSemanticConstraint, validateSemanticPath, STRICT/WARN modes, isEdgeTypeAllowed, graceful degradation")
+endif()
 # symbol collision with postgres_importer.cpp in themis_core)
 # ============================================================================
 
