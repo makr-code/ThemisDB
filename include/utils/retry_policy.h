@@ -54,11 +54,11 @@
  *   - `ExponentialBackoff` is a standalone helper for callers that need manual
  *     control over the wait (e.g. async code).
  *
- * ### Known callers to migrate (tracked in ROADMAP.md)
- *   - `src/rag/http_metrics_client.cpp`     — `requestWithRetry` recursive call
- *   - `src/rag/llm_judge_integration.cpp`  — inline while-loop with sleep
- *   - `src/network/` subsystems            — per-subsystem backoff
- *   - `src/storage/transaction_retry_manager` — already specialised; low priority
+ * ### Known callers — migration status (v1.9.0)
+ *   - `src/rag/http_metrics_client.cpp`    ✅ migrated: iterative loop with `ExponentialBackoff`
+ *   - `src/rag/llm_judge_integration.cpp` ✅ migrated: `retry_with_backoff` in evaluate/evaluateDimension
+ *   - `src/network/` subsystems           — single-shot sleeps; not retry loops; no migration needed
+ *   - `src/storage/transaction_retry_manager` — domain-specific policy; intentionally separate
  */
 
 #pragma once
