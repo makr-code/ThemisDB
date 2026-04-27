@@ -82,12 +82,12 @@ public:
      * @param event  The CDC change event to evaluate.
      * @return FilterResult::Pass to forward; FilterResult::Drop to discard.
      */
-    virtual FilterResult evaluate(const Changefeed::ChangeEvent& event) const noexcept = 0;
+    [[nodiscard]] virtual FilterResult evaluate(const Changefeed::ChangeEvent& event) const noexcept = 0;
 
     /**
      * @brief Human-readable name for this filter stage (for diagnostics).
      */
-    virtual std::string name() const = 0;
+    [[nodiscard]] virtual std::string name() const = 0;
 };
 
 // ── PredicateFilter ───────────────────────────────────────────────────────────
@@ -205,31 +205,31 @@ public:
      * @return true if added; false if a filter with the same name already
      *         exists.
      */
-    virtual bool addFilter(std::unique_ptr<IEventFilter> filter) = 0;
+    [[nodiscard]] virtual bool addFilter(std::unique_ptr<IEventFilter> filter) = 0;
 
     /**
      * @brief Remove a filter stage by name.
      *
      * @return true if the stage was found and removed; false otherwise.
      */
-    virtual bool removeFilter(const std::string& name) = 0;
+    [[nodiscard]] virtual bool removeFilter(const std::string& name) = 0;
 
     /**
      * @brief Return true if a filter with the given name is registered.
      */
-    virtual bool hasFilter(const std::string& name) const = 0;
+    [[nodiscard]] virtual bool hasFilter(const std::string& name) const = 0;
 
     /**
      * @brief Return the number of filter stages in the pipeline.
      */
-    virtual std::size_t size() const = 0;
+    [[nodiscard]] virtual std::size_t size() const = 0;
 
     /**
      * @brief Return true when the pipeline contains no filter stages.
      *
      * An empty pipeline passes all events.
      */
-    virtual bool empty() const = 0;
+    [[nodiscard]] virtual bool empty() const = 0;
 
     /**
      * @brief Run all stages against an event and return the verdict.
@@ -240,7 +240,7 @@ public:
      * @param event  The event to evaluate.
      * @return FilterResult::Pass or FilterResult::Drop.
      */
-    virtual FilterResult apply(const Changefeed::ChangeEvent& event) const = 0;
+    [[nodiscard]] virtual FilterResult apply(const Changefeed::ChangeEvent& event) const = 0;
 
     /**
      * @brief Filter a batch of events, returning only those that pass.
@@ -248,23 +248,23 @@ public:
      * @param events  Input batch.
      * @return New vector containing only passing events (order preserved).
      */
-    virtual std::vector<Changefeed::ChangeEvent> applyBatch(
+    [[nodiscard]] virtual std::vector<Changefeed::ChangeEvent> applyBatch(
         const std::vector<Changefeed::ChangeEvent>& events) const = 0;
 
     /**
      * @brief Names of registered filter stages, in pipeline order.
      */
-    virtual std::vector<std::string> filterNames() const = 0;
+    [[nodiscard]] virtual std::vector<std::string> filterNames() const = 0;
 
     /**
      * @brief Cumulative count of events that passed all stages.
      */
-    virtual std::size_t totalPassed() const = 0;
+    [[nodiscard]] virtual std::size_t totalPassed() const = 0;
 
     /**
      * @brief Cumulative count of events that were dropped by any stage.
      */
-    virtual std::size_t totalDropped() const = 0;
+    [[nodiscard]] virtual std::size_t totalDropped() const = 0;
 
     /**
      * @brief Reset the pass/drop counters to zero.

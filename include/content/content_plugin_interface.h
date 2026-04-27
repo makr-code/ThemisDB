@@ -275,7 +275,7 @@ public:
     /**
      * @brief Get plugin information
      */
-    virtual PluginInfo getInfo() const = 0;
+    [[nodiscard]] virtual PluginInfo getInfo() const = 0;
     
     /**
      * @brief Initialize plugin with configuration
@@ -285,7 +285,7 @@ public:
      * @param config Configuration from YAML
      * @return true if initialization successful
      */
-    virtual bool initialize(const PluginConfig& config) = 0;
+    [[nodiscard]] virtual bool initialize(const PluginConfig& config) = 0;
     
     /**
      * @brief Shutdown plugin
@@ -300,7 +300,7 @@ public:
      * @param mime_type MIME type string (e.g., "application/pdf")
      * @return true if plugin can handle this type
      */
-    virtual bool canProcess(const std::string& mime_type) const = 0;
+    [[nodiscard]] virtual bool canProcess(const std::string& mime_type) const = 0;
     
     /**
      * @brief Extract content from binary blob
@@ -313,7 +313,7 @@ public:
      * @param options Extraction options
      * @return Extraction result with text, metadata, etc.
      */
-    virtual ContentExtractionResult extract(
+    [[nodiscard]] virtual ContentExtractionResult extract(
         const std::vector<uint8_t>& blob,
         const std::string& mime_type,
         const ExtractionOptions& options = {}
@@ -330,7 +330,7 @@ public:
      * @param overlap Token overlap between chunks
      * @return Vector of content chunks
      */
-    virtual std::vector<ContentChunk> chunk(
+    [[nodiscard]] virtual std::vector<ContentChunk> chunk(
         const ContentExtractionResult& result,
         int max_tokens,
         int overlap
@@ -356,7 +356,7 @@ public:
      * 
      * @return true if healthy
      */
-    virtual bool healthCheck() const = 0;
+    [[nodiscard]] virtual bool healthCheck() const = 0;
     
     /**
      * @brief Get plugin statistics

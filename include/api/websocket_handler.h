@@ -161,7 +161,7 @@ public:
      * @param frame  Frame to send.
      * @return `true` on success, `false` if the send was rejected.
      */
-    virtual bool send(WebSocketFrame frame) = 0;
+    [[nodiscard]] virtual bool send(WebSocketFrame frame) = 0;
 
     /**
      * @brief Initiate a graceful close.
@@ -176,13 +176,13 @@ public:
                        std::string_view reason = {}) noexcept = 0;
 
     /// Return the remote peer's IP address as a string.
-    virtual std::string_view remoteAddress() const noexcept = 0;
+    [[nodiscard]] virtual std::string_view remoteAddress() const noexcept = 0;
 
     /// Return the unique session ID (matches the correlation ID if available).
-    virtual std::string_view sessionId() const noexcept = 0;
+    [[nodiscard]] virtual std::string_view sessionId() const noexcept = 0;
 
     /// Return `true` if the session is still open.
-    virtual bool isOpen() const noexcept = 0;
+    [[nodiscard]] virtual bool isOpen() const noexcept = 0;
 
 protected:
     WebSocketSession() = default;
@@ -230,14 +230,14 @@ public:
      *         (lifetime managed by the framework) on success, or an error on
      *         rejection (the error message is sent as the HTTP response body).
      */
-    virtual themis::Result<WebSocketSession*> upgrade(
+    [[nodiscard]] virtual themis::Result<WebSocketSession*> upgrade(
         std::string_view method,
         std::string_view path,
         const std::unordered_map<std::string, std::string>& headers,
         IWebSocketFrameCallback& callback) = 0;
 
     /// Human-readable handler name used in logs and metrics.
-    virtual std::string_view handlerName() const noexcept = 0;
+    [[nodiscard]] virtual std::string_view handlerName() const noexcept = 0;
 };
 
 } // namespace api

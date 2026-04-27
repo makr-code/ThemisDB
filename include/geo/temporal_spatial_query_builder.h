@@ -144,7 +144,7 @@ public:
      *
      * Replaces any previously set spatial constraint.
      */
-    virtual ITemporalSpatialQueryBuilder& withinBBox(const MBR& bbox) = 0;
+    [[nodiscard]] virtual ITemporalSpatialQueryBuilder& withinBBox(const MBR& bbox) = 0;
 
     /**
      * @brief Set the spatial constraint to a composable filter predicate.
@@ -182,14 +182,14 @@ public:
      *
      * @param width_ms  Window width in milliseconds (must be > 0).
      */
-    virtual ITemporalSpatialQueryBuilder& slidingWindow(int64_t width_ms) = 0;
+    [[nodiscard]] virtual ITemporalSpatialQueryBuilder& slidingWindow(int64_t width_ms) = 0;
 
     /**
      * @brief Set the name of the JSON field containing geometry data.
      *
      * Default is `TemporalSpatialQuery::kDefaultGeoField` ("location").
      */
-    virtual ITemporalSpatialQueryBuilder& withGeoField(const std::string& field) = 0;
+    [[nodiscard]] virtual ITemporalSpatialQueryBuilder& withGeoField(const std::string& field) = 0;
 
     /**
      * @brief Build and return an immutable `BuiltTemporalSpatialQuery`.

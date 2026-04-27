@@ -187,7 +187,7 @@ public:
      * @return Schema ID (>= 0).
      * @throws std::runtime_error on unrecoverable registration failures.
      */
-    virtual int32_t registerSchema(const std::string& subject,
+    [[nodiscard]] virtual int32_t registerSchema(const std::string& subject,
                                    const std::string& schema_json,
                                    SchemaFormat format) = 0;
 
@@ -195,13 +195,13 @@ public:
      * @brief Look up a schema by its ID.
      * @return SchemaInfo or nullopt when not found.
      */
-    virtual std::optional<SchemaInfo> getById(int32_t id) const = 0;
+    [[nodiscard]] virtual std::optional<SchemaInfo> getById(int32_t id) const = 0;
 
     /**
      * @brief Look up the latest schema version for a subject.
      * @return SchemaInfo or nullopt when not found.
      */
-    virtual std::optional<SchemaInfo> getLatest(
+    [[nodiscard]] virtual std::optional<SchemaInfo> getLatest(
         const std::string& subject) const = 0;
 };
 

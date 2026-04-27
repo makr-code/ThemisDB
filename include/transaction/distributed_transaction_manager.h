@@ -98,7 +98,7 @@ public:
      * @param affected_keys Keys this participant must lock for the transaction.
      * @return true → vote COMMIT; false → vote ABORT.
      */
-    virtual bool onPrepare(
+    [[nodiscard]] virtual bool onPrepare(
         const std::string&              txn_id,
         const std::set<std::string>&    affected_keys
     ) = 0;

@@ -1364,19 +1364,19 @@ public:
      * @param config Source configuration
      * @return true if initialization successful
      */
-    virtual bool initialize(const SourceConfig& config) = 0;
+    [[nodiscard]] virtual bool initialize(const SourceConfig& config) = 0;
     
     /**
      * @brief Check if source is available
      * @return true if source can be accessed
      */
-    virtual bool isAvailable() const = 0;
+    [[nodiscard]] virtual bool isAvailable() const = 0;
     
     /**
      * @brief Get total number of documents available
      * @return Document count (0 if unknown)
      */
-    virtual size_t getDocumentCount() const = 0;
+    [[nodiscard]] virtual size_t getDocumentCount() const = 0;
     
     /**
      * @brief Ingest documents from source
@@ -1384,7 +1384,7 @@ public:
      * @param progress_callback Progress callback
      * @return Ingestion statistics
      */
-    virtual IngestionStats ingest(const std::string& target_collection,
+    [[nodiscard]] virtual IngestionStats ingest(const std::string& target_collection,
                                   ProgressCallback progress_callback) = 0;
 
     /**

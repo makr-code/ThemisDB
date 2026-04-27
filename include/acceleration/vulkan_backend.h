@@ -124,7 +124,7 @@ public:
      * @param config      Pipeline configuration (workgroup dimensions, etc.).
      * @return Opaque handle; `handle.valid() == false` on failure.
      */
-    virtual VulkanPipelineHandle createPipeline(
+    [[nodiscard]] virtual VulkanPipelineHandle createPipeline(
             const uint32_t*            spirv,
             size_t                     spirv_size,
             const VulkanPipelineConfig& config) = 0;
@@ -146,7 +146,7 @@ public:
      *
      * @return One `VulkanDeviceInfo` entry per discovered physical device.
      */
-    virtual std::vector<VulkanDeviceInfo> enumerateDevices() const = 0;
+    [[nodiscard]] virtual std::vector<VulkanDeviceInfo> enumerateDevices() const = 0;
 
     /**
      * @brief Returns true when a Vulkan 1.1+ instance with compute support
@@ -154,7 +154,7 @@ public:
      *
      * Thread-safe; may be called at any time.
      */
-    virtual bool isVulkanAvailable() const noexcept = 0;
+    [[nodiscard]] virtual bool isVulkanAvailable() const noexcept = 0;
 };
 #endif // THEMIS_ENABLE_VULKAN
 

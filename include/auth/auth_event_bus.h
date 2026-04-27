@@ -113,7 +113,7 @@ public:
     virtual void onAuthEvent(const AuthEvent& event) = 0;
 
     /// Unique subscriber identifier used for (de)registration.
-    virtual std::string subscriberId() const = 0;
+    [[nodiscard]] virtual std::string subscriberId() const = 0;
 };
 
 // ---------------------------------------------------------------------------
@@ -147,17 +147,17 @@ public:
      *
      * @return `false` if a subscriber with the same `subscriberId()` is already registered.
      */
-    virtual bool subscribe(std::shared_ptr<IAuthEventSubscriber> subscriber) = 0;
+    [[nodiscard]] virtual bool subscribe(std::shared_ptr<IAuthEventSubscriber> subscriber) = 0;
 
     /**
      * @brief Unregister a subscriber by ID.
      *
      * @return `false` if no subscriber with @p subscriber_id was found.
      */
-    virtual bool unsubscribe(const std::string& subscriber_id) = 0;
+    [[nodiscard]] virtual bool unsubscribe(const std::string& subscriber_id) = 0;
 
     /// Return the current number of registered subscribers.
-    virtual size_t subscriberCount() const = 0;
+    [[nodiscard]] virtual size_t subscriberCount() const = 0;
 };
 
 } // namespace auth

@@ -53,12 +53,12 @@ public:
      * @param prompt The complete prompt text to send
      * @return The LLM-generated response, or an empty string on error
      */
-    virtual std::string complete(const std::string& prompt) const = 0;
+    [[nodiscard]] virtual std::string complete(const std::string& prompt) const = 0;
 
     /**
      * @brief Human-readable name of this provider (for logging / metrics)
      */
-    virtual std::string name() const = 0;
+    [[nodiscard]] virtual std::string name() const = 0;
 };
 
 /**

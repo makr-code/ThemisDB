@@ -291,7 +291,7 @@ public:
      * @param req  Timestamp request (data or pre-computed hash).
      * @return     TSAResponse; check response.success before using the token.
      */
-    virtual TSAResponse requestTimestamp(const TSARequest& req) = 0;
+    [[nodiscard]] virtual TSAResponse requestTimestamp(const TSARequest& req) = 0;
 
     /**
      * Verify a previously obtained timestamp token against the original data.
@@ -299,19 +299,19 @@ public:
      * @param req  Verification request containing the data and token.
      * @return     true when the token is a valid imprint of req.data.
      */
-    virtual bool verifyToken(const TSAVerifyRequest& req) = 0;
+    [[nodiscard]] virtual bool verifyToken(const TSAVerifyRequest& req) = 0;
 
     /**
      * Check whether the configured TSA endpoint is reachable.
      *
      * @return true when the TSA responds to a lightweight HEAD request.
      */
-    virtual bool isAvailable() = 0;
+    [[nodiscard]] virtual bool isAvailable() = 0;
 
     /**
      * Return the most recent error message, or an empty string.
      */
-    virtual std::string getLastError() const = 0;
+    [[nodiscard]] virtual std::string getLastError() const = 0;
 };
 
 // ============================================================================

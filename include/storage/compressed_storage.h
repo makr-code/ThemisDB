@@ -65,10 +65,10 @@ public:
     public:
         virtual ~IStorageBackend() = default;
         
-        virtual bool put(const std::string& key, const std::vector<uint8_t>& value) = 0;
-        virtual std::optional<std::vector<uint8_t>> get(const std::string& key) = 0;
-        virtual bool del(const std::string& key) = 0;
-        virtual bool exists(const std::string& key) = 0;
+        [[nodiscard]] virtual bool put(const std::string& key, const std::vector<uint8_t>& value) = 0;
+        [[nodiscard]] virtual std::optional<std::vector<uint8_t>> get(const std::string& key) = 0;
+        [[nodiscard]] virtual bool del(const std::string& key) = 0;
+        [[nodiscard]] virtual bool exists(const std::string& key) = 0;
     };
     
     /**

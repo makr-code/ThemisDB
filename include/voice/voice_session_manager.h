@@ -88,10 +88,10 @@ struct SessionTimeoutConfig {
 class ISessionPersistenceBackend {
 public:
     virtual ~ISessionPersistenceBackend() = default;
-    virtual bool save(const VoiceSessionData& session) = 0;
-    virtual std::optional<VoiceSessionData> load(const std::string& session_id) = 0;
-    virtual bool remove(const std::string& session_id) = 0;
-    virtual std::vector<std::string> listActiveSessions() = 0;
+    [[nodiscard]] virtual bool save(const VoiceSessionData& session) = 0;
+    [[nodiscard]] virtual std::optional<VoiceSessionData> load(const std::string& session_id) = 0;
+    [[nodiscard]] virtual bool remove(const std::string& session_id) = 0;
+    [[nodiscard]] virtual std::vector<std::string> listActiveSessions() = 0;
 };
 
 // In-memory persistence backend (default)

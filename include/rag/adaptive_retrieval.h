@@ -170,7 +170,7 @@ struct IComplexityScorer {
      * @param query  The user query to score.
      * @return       Complexity score in [0, 1]; higher means more complex.
      */
-    virtual double score(const std::string& query) = 0;
+    [[nodiscard]] virtual double score(const std::string& query) = 0;
 };
 
 // ---------------------------------------------------------------------------

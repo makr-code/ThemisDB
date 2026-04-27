@@ -113,24 +113,24 @@ public:
     /**
      * @brief Get plugin name
      */
-    virtual std::string getName() const = 0;
+    [[nodiscard]] virtual std::string getName() const = 0;
     
     /**
      * @brief Get plugin version
      */
-    virtual std::string getVersion() const = 0;
+    [[nodiscard]] virtual std::string getVersion() const = 0;
     
     /**
      * @brief Get plugin description
      */
-    virtual std::string getDescription() const = 0;
+    [[nodiscard]] virtual std::string getDescription() const = 0;
     
     /**
      * @brief Initialize plugin with configuration
      * @param config Plugin-specific configuration
      * @return true if initialization successful
      */
-    virtual bool initialize(const json& config) = 0;
+    [[nodiscard]] virtual bool initialize(const json& config) = 0;
     
     /**
      * @brief Validate and optionally preprocess feedback
@@ -144,7 +144,7 @@ public:
      * @param feedback Feedback data to validate
      * @return ValidationResponse with result and optional modifications
      */
-    virtual ValidationResponse validate(const FeedbackData& feedback) = 0;
+    [[nodiscard]] virtual ValidationResponse validate(const FeedbackData& feedback) = 0;
     
     /**
      * @brief Post-storage hook (optional)

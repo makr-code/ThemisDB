@@ -110,14 +110,14 @@ struct IEvictionPolicy {
      * The returned key must be present in the current live key set.
      * Behaviour when called on an empty key set is undefined.
      */
-    virtual std::string evict() = 0;
+    [[nodiscard]] virtual std::string evict() = 0;
 
     /**
      * @brief Human-readable policy name for observability and admin display.
      *
      * Examples: "LRU", "LFU", "ARC".
      */
-    virtual std::string_view name() const noexcept = 0;
+    [[nodiscard]] virtual std::string_view name() const noexcept = 0;
 };
 
 // ============================================================================
@@ -172,7 +172,7 @@ struct ICacheAdminOps {
      *
      * Must complete in ≤ 100 µs regardless of cache size.
      */
-    virtual CacheStats stats() const = 0;
+    [[nodiscard]] virtual CacheStats stats() const = 0;
 
     /**
      * @brief Resize the cache to @p new_capacity maximum entries.
@@ -187,7 +187,7 @@ struct ICacheAdminOps {
      *
      * Returns an empty vector when no keys match or the cache is empty.
      */
-    virtual std::vector<std::string> listKeys(const KeyFilter& filter) const = 0;
+    [[nodiscard]] virtual std::vector<std::string> listKeys(const KeyFilter& filter) const = 0;
 };
 
 // ============================================================================
@@ -241,7 +241,7 @@ struct IWarmupSource {
      * Implementations should return a non-empty batch on every call until
      * the source is exhausted.
      */
-    virtual std::vector<CacheEntry<std::string, std::string>> nextBatch() = 0;
+    [[nodiscard]] virtual std::vector<CacheEntry<std::string, std::string>> nextBatch() = 0;
 };
 
 /**
@@ -264,7 +264,7 @@ struct ICacheWarmup {
      *                an empty vector.
      * @return WarmupResult describing inserted/skipped counts and duration.
      */
-    virtual WarmupResult warm(IWarmupSource& source) = 0;
+    [[nodiscard]] virtual WarmupResult warm(IWarmupSource& source) = 0;
 };
 
 // ============================================================================
@@ -326,7 +326,7 @@ struct IGDPRPurgeHook {
      * @throws std::runtime_error when the audit-log write fails or when
      *         descriptor.subject_id is empty.
      */
-    virtual PurgeResult purge(const PurgeDescriptor& descriptor) = 0;
+    [[nodiscard]] virtual PurgeResult purge(const PurgeDescriptor& descriptor) = 0;
 };
 
 // ============================================================================
@@ -373,7 +373,7 @@ struct ITTLAdapter {
      * @param pattern  Access-pattern statistics for this key.
      * @return Adapted TTL clamped to [config.minTTL, config.maxTTL].
      */
-    virtual std::chrono::milliseconds computeTTL(const std::string& key,
+    [[nodiscard]] virtual std::chrono::milliseconds computeTTL(const std::string& key,
                                                  const AccessPattern& pattern) const = 0;
 
     /**

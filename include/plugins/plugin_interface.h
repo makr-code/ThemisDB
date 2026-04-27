@@ -157,29 +157,29 @@ public:
     /**
      * @brief Get plugin name
      */
-    virtual const char* getName() const = 0;
+    [[nodiscard]] virtual const char* getName() const = 0;
     
     /**
      * @brief Get plugin version (semantic versioning)
      */
-    virtual const char* getVersion() const = 0;
+    [[nodiscard]] virtual const char* getVersion() const = 0;
     
     /**
      * @brief Get plugin type
      */
-    virtual PluginType getType() const = 0;
+    [[nodiscard]] virtual PluginType getType() const = 0;
     
     /**
      * @brief Get plugin capabilities
      */
-    virtual PluginCapabilities getCapabilities() const = 0;
+    [[nodiscard]] virtual PluginCapabilities getCapabilities() const = 0;
     
     /**
      * @brief Initialize plugin with configuration JSON
      * @param config_json Configuration as JSON string
      * @return true if initialized successfully
      */
-    virtual bool initialize(const char* config_json) = 0;
+    [[nodiscard]] virtual bool initialize(const char* config_json) = 0;
     
     /**
      * @brief Shutdown plugin and release resources
@@ -194,7 +194,7 @@ public:
      * For BLOB_STORAGE: Cast to storage::IBlobStorageBackend*
      * For IMPORTER: Cast to importers::IImporter*
      */
-    virtual void* getInstance() = 0;
+    [[nodiscard]] virtual void* getInstance() = 0;
 };
 
 /**
@@ -219,7 +219,7 @@ public:
      * @return Serialized state as JSON string, or empty string if no state
      * @throws std::exception on serialization error (will be logged, not fatal)
      */
-    virtual std::string saveState() = 0;
+    [[nodiscard]] virtual std::string saveState() = 0;
     
     /**
      * @brief Restore plugin state after reload
@@ -231,7 +231,7 @@ public:
      * @return true if state restored successfully, false otherwise
      * @note If restoration fails, plugin remains loaded with default state
      */
-    virtual bool restoreState(const std::string& state) = 0;
+    [[nodiscard]] virtual bool restoreState(const std::string& state) = 0;
 };
 
 /**

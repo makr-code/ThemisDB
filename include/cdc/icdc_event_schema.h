@@ -188,7 +188,7 @@ public:
      * @return true if the schema was registered; false if a schema for this
      *         collection at this version already exists.
      */
-    virtual bool registerSchema(const std::string& collection,
+    [[nodiscard]] virtual bool registerSchema(const std::string& collection,
                                 const std::string& schema_def,
                                 SchemaFormat       format,
                                 int                version) = 0;
@@ -200,13 +200,13 @@ public:
      * @param version     Schema version (-1 = latest).
      * @return The schema definition string, or empty if not found.
      */
-    virtual std::string getSchema(const std::string& collection,
+    [[nodiscard]] virtual std::string getSchema(const std::string& collection,
                                   int                version = -1) const = 0;
 
     /**
      * @brief Current schema version for a collection (-1 if none registered).
      */
-    virtual int currentVersion(const std::string& collection) const = 0;
+    [[nodiscard]] virtual int currentVersion(const std::string& collection) const = 0;
 
     /**
      * @brief Register (or replace) the schema evolution callback for a collection.
@@ -226,7 +226,7 @@ public:
      *
      * @return true if a callback was registered and invoked; false otherwise.
      */
-    virtual bool triggerEvolution(const SchemaEvolutionDescriptor& descriptor) = 0;
+    [[nodiscard]] virtual bool triggerEvolution(const SchemaEvolutionDescriptor& descriptor) = 0;
 };
 
 // ── InMemoryCDCEventSchema ────────────────────────────────────────────────────

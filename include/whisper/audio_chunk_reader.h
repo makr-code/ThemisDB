@@ -43,13 +43,13 @@ public:
      *        native sample rate (set via out_sample_rate).
      * @throws std::runtime_error if the file cannot be read or format is unsupported.
      */
-    virtual std::vector<float> readFile(const std::string& path,
+    [[nodiscard]] virtual std::vector<float> readFile(const std::string& path,
                                         float& out_sample_rate) = 0;
 
     /**
      * @brief Return true if this reader can handle the given file path/extension.
      */
-    virtual bool canRead(const std::string& path) const = 0;
+    [[nodiscard]] virtual bool canRead(const std::string& path) const = 0;
 };
 
 /**

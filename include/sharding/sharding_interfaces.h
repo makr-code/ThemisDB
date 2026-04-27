@@ -376,12 +376,12 @@ public:
 
     /// Route a single partition key to the owning shard.
     /// @return The NodeId of the shard responsible for @p key.
-    virtual NodeId route(const ShardKey& key) const = 0;
+    [[nodiscard]] virtual NodeId route(const ShardKey& key) const = 0;
 
     /// Route a batch of partition keys to their respective owning shards.
     /// The result vector is 1-to-1 with the input span.
     /// @return Vector of NodeIds, one per key in @p keys.
-    virtual std::vector<NodeId> routeAll(std::span<const ShardKey> keys) const = 0;
+    [[nodiscard]] virtual std::vector<NodeId> routeAll(std::span<const ShardKey> keys) const = 0;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -406,7 +406,7 @@ public:
     /// Pure: no mutations, no network calls.
     /// @param stats  Current cluster telemetry.
     /// @return A RebalancePlan ready for submission to applyPlan().
-    virtual RebalancePlan planRebalance(const ClusterStats& stats) const = 0;
+    [[nodiscard]] virtual RebalancePlan planRebalance(const ClusterStats& stats) const = 0;
 
     /// Submit a plan for asynchronous execution.
     /// Requires a cluster-admin AdminContext; throws PermissionDeniedError if
@@ -415,7 +415,7 @@ public:
     /// @param plan     The plan to execute.
     /// @param context  Admin capability token.
     /// @return A future that resolves to the execution outcome.
-    virtual std::future<RebalanceResult> applyPlan(
+    [[nodiscard]] virtual std::future<RebalanceResult> applyPlan(
         const RebalancePlan& plan,
         const AdminContext& context
     ) = 0;
@@ -424,7 +424,7 @@ public:
     /// Cancellation is best-effort and safe to call from any thread.
     /// @return true if the plan was found and cancelled; false if it had
     ///         already completed or the id is unknown.
-    virtual bool cancel(const RebalancePlanId& plan_id) = 0;
+    [[nodiscard]] virtual bool cancel(const RebalancePlanId& plan_id) = 0;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -455,12 +455,12 @@ public:
 
     /// Begin a new distributed transaction.
     /// @return A move-only TxHandle referencing the new transaction.
-    virtual TxHandle begin() = 0;
+    [[nodiscard]] virtual TxHandle begin() = 0;
 
     /// Two-phase prepare: acquire locks and validate across all participants.
     /// @param handle  Active transaction handle (must satisfy isActive()).
     /// @return Prepared, ConflictError, or TimeoutError.
-    virtual PrepareResult prepare(TxHandle& handle) = 0;
+    [[nodiscard]] virtual PrepareResult prepare(TxHandle& handle) = 0;
 
     /// Commit the prepared transaction and release the handle.
     /// @param handle  Move-in handle; becomes invalid after this call.
@@ -471,10 +471,10 @@ public:
     virtual void abort(TxHandle&& handle) = 0;
 
     /// Maximum number of concurrent transactions this coordinator will accept.
-    virtual size_t maxConcurrentTx() const = 0;
+    [[nodiscard]] virtual size_t maxConcurrentTx() const = 0;
 
     /// Current number of active (begin()-but-not-committed/aborted) transactions.
-    virtual size_t activeTxCount() const = 0;
+    [[nodiscard]] virtual size_t activeTxCount() const = 0;
 
     /// Configurable TTL for abandoned transactions.
     /// The coordinator must abort any TxHandle whose begin()-to-now duration
@@ -482,7 +482,7 @@ public:
     /// committed or aborted.  Returns zero duration if no TTL enforcement
     /// is applied (transactions are never forcibly timed out by the
     /// coordinator, relying solely on explicit abort() or TxHandle destruction).
-    virtual std::chrono::milliseconds transactionTimeoutMs() const = 0;
+    [[nodiscard]] virtual std::chrono::milliseconds transactionTimeoutMs() const = 0;
 
     /// Always returns true: every cross-shard RPC must use mTLS.
     /// Non-virtual: the mTLS requirement cannot be relaxed by subclasses.
@@ -527,11 +527,11 @@ public:
     /// Initiate an asynchronous snapshot for the given shard.
     /// @param shard_id  Target shard.
     /// @return Future resolving to a SnapshotHandle upon completion.
-    virtual std::future<SnapshotHandle> initiateSnapshot(const ShardId& shard_id) = 0;
+    [[nodiscard]] virtual std::future<SnapshotHandle> initiateSnapshot(const ShardId& shard_id) = 0;
 
     /// Verify the integrity of an existing snapshot.
     /// Returns false if the snapshot's HMAC is invalid or the handle is empty.
-    virtual bool verifySnapshot(const SnapshotHandle& handle) const = 0;
+    [[nodiscard]] virtual bool verifySnapshot(const SnapshotHandle& handle) const = 0;
 
     /// Truncate the Raft log for shard @p shard_id up to the index recorded
     /// in @p snapshot.  Requires a valid AdminContext and a snapshot that
@@ -541,7 +541,7 @@ public:
     /// @param snapshot  Verified snapshot at the desired compaction point.
     /// @param context   Admin capability token.
     /// @return Future resolving to CompactionResult.
-    virtual std::future<CompactionResult> compactLog(
+    [[nodiscard]] virtual std::future<CompactionResult> compactLog(
         const ShardId& shard_id,
         const SnapshotHandle& snapshot,
         const AdminContext& context
@@ -569,11 +569,11 @@ public:
 
     /// Look up the primary node responsible for @p key.
     /// Thread-safe; lock-free on the read path.
-    virtual NodeId getNode(const ShardKey& key) const = 0;
+    [[nodiscard]] virtual NodeId getNode(const ShardKey& key) const = 0;
 
     /// Return up to @p replication_factor distinct successor nodes for @p key.
     /// Thread-safe; lock-free on the read path.
-    virtual std::vector<NodeId> getNodes(
+    [[nodiscard]] virtual std::vector<NodeId> getNodes(
         const ShardKey& key,
         size_t replication_factor
     ) const = 0;
@@ -581,14 +581,14 @@ public:
     /// Acquire a rebalance lock.  While the returned handle is alive the ring
     /// is frozen: addShard/removeShard on the underlying implementation will
     /// block until all outstanding handles are destroyed.
-    virtual RebalanceLockHandle acquireRebalanceLock() = 0;
+    [[nodiscard]] virtual RebalanceLockHandle acquireRebalanceLock() = 0;
 
     /// Total number of virtual nodes currently in the ring.
-    virtual size_t virtualNodes() const = 0;
+    [[nodiscard]] virtual size_t virtualNodes() const = 0;
 
     /// Ordered list of unique physical node identifiers.
     /// Does NOT enumerate keys per node.
-    virtual std::vector<NodeId> physicalNodes() const = 0;
+    [[nodiscard]] virtual std::vector<NodeId> physicalNodes() const = 0;
 
 protected:
     /// Helper for concrete implementations to create a RebalanceLockHandle.
@@ -615,20 +615,20 @@ public:
     /// Decompose a logical QueryPlan into one ShardQueryPlan per affected shard.
     /// @return One element per affected shard.  An empty vector means the
     ///         query can be satisfied locally with no cross-shard traffic.
-    virtual std::vector<ShardQueryPlan> fanOut(const QueryPlan& plan) const = 0;
+    [[nodiscard]] virtual std::vector<ShardQueryPlan> fanOut(const QueryPlan& plan) const = 0;
 
     /// Merge per-shard results according to @p strategy.
     /// @param results   Results collected from each shard's ShardQueryPlan.
     /// @param strategy  How to combine rows from multiple shards.
     /// @return The merged ResultSet ready for the client.
-    virtual ResultSet merge(
+    [[nodiscard]] virtual ResultSet merge(
         std::span<const ShardQueryResult> results,
         MergeStrategy strategy = MergeStrategy::Union
     ) const = 0;
 
     /// Estimate the cost of executing a QueryPlan across the cluster.
     /// Pure function; no network calls.
-    virtual QueryCostEstimate estimateCost(const QueryPlan& plan) const = 0;
+    [[nodiscard]] virtual QueryCostEstimate estimateCost(const QueryPlan& plan) const = 0;
 };
 
 } // namespace themis::sharding

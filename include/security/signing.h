@@ -39,8 +39,8 @@ struct SigningResult {
 class SigningService {
 public:
     virtual ~SigningService() = default;
-    virtual SigningResult sign(const std::vector<uint8_t>& data, const std::string& key_id) = 0;
-    virtual bool verify(const std::vector<uint8_t>& data,
+    [[nodiscard]] virtual SigningResult sign(const std::vector<uint8_t>& data, const std::string& key_id) = 0;
+    [[nodiscard]] virtual bool verify(const std::vector<uint8_t>& data,
                         const std::vector<uint8_t>& signature,
                         const std::string& key_id) = 0;
 };

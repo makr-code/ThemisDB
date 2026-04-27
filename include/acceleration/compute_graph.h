@@ -86,40 +86,40 @@ public:
     virtual ~IComputeGraph() = default;
 
     /// Add a kernel node. Returns false if node_id already exists.
-    virtual bool addNode(const ComputeGraphNode& node) = 0;
+    [[nodiscard]] virtual bool addNode(const ComputeGraphNode& node) = 0;
 
     /// Add a directed edge. Returns false on invalid node references.
-    virtual bool addEdge(const ComputeGraphEdge& edge) = 0;
+    [[nodiscard]] virtual bool addEdge(const ComputeGraphEdge& edge) = 0;
 
     /// Remove a node and all edges incident to it. Returns false if not found.
-    virtual bool removeNode(const std::string& node_id) = 0;
+    [[nodiscard]] virtual bool removeNode(const std::string& node_id) = 0;
 
     /// Topologically sort, validate, and apply optimisations (fusion, memory reuse).
     /// Must be called before execute(). Returns false on cycle or invalid topology.
-    virtual bool compile(const ComputeGraphConfig& config) = 0;
+    [[nodiscard]] virtual bool compile(const ComputeGraphConfig& config) = 0;
 
     /// Execute the compiled graph. Returns false on kernel error or timeout.
     /// @pre isCompiled() == true
-    virtual bool execute() = 0;
+    [[nodiscard]] virtual bool execute() = 0;
 
     /// Return execution statistics from the most recent execute() call.
-    virtual ComputeGraphStats getStats() const = 0;
+    [[nodiscard]] virtual ComputeGraphStats getStats() const = 0;
 
     /// Clear execution state, allowing execute() to be called again.
     /// Does not un-compile the graph.
     virtual void reset() = 0;
 
     /// Export the graph topology as a Graphviz DOT string for visualisation.
-    virtual std::string toDot() const = 0;
+    [[nodiscard]] virtual std::string toDot() const = 0;
 
     /// Returns true after a successful compile() call.
-    virtual bool isCompiled() const = 0;
+    [[nodiscard]] virtual bool isCompiled() const = 0;
 
     /// Number of nodes currently in the graph.
-    virtual size_t nodeCount() const = 0;
+    [[nodiscard]] virtual size_t nodeCount() const = 0;
 
     /// Number of edges currently in the graph.
-    virtual size_t edgeCount() const = 0;
+    [[nodiscard]] virtual size_t edgeCount() const = 0;
 };
 
 /// Factory for creating backend-specific IComputeGraph implementations.
@@ -129,7 +129,7 @@ public:
 
     /// Create a new IComputeGraph bound to the given backend.
     /// @param backend_id  Identifies the target compute backend (e.g. "cuda", "cpu").
-    virtual std::unique_ptr<IComputeGraph> create(const std::string& backend_id) = 0;
+    [[nodiscard]] virtual std::unique_ptr<IComputeGraph> create(const std::string& backend_id) = 0;
 };
 
 } // namespace acceleration

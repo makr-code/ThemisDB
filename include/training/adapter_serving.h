@@ -76,18 +76,18 @@ public:
      * @return true on success; false if the version is unknown to the router
      *         (the caller may retry after loading the adapter).
      */
-    virtual bool setAdapterWeight(const std::string& version, float weight) = 0;
+    [[nodiscard]] virtual bool setAdapterWeight(const std::string& version, float weight) = 0;
 
     /**
      * @brief Whether the router is reachable and ready to accept weight updates.
      */
-    virtual bool isAvailable() const = 0;
+    [[nodiscard]] virtual bool isAvailable() const = 0;
 
     /**
      * @brief Return the version identifier that currently receives 100% of
      *        traffic, or an empty string if no version is fully active.
      */
-    virtual std::string activeVersion() const = 0;
+    [[nodiscard]] virtual std::string activeVersion() const = 0;
 };
 
 // ============================================================================

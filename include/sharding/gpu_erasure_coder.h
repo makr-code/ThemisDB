@@ -217,29 +217,29 @@ class GPUErasureCoderImpl {
 public:
     virtual ~GPUErasureCoderImpl() = default;
     
-    virtual bool initialize(const GPUConfig& config) = 0;
+    [[nodiscard]] virtual bool initialize(const GPUConfig& config) = 0;
     virtual void shutdown() = 0;
     
-    virtual std::vector<std::vector<uint8_t>> encode(
+    [[nodiscard]] virtual std::vector<std::vector<uint8_t>> encode(
         const std::vector<uint8_t>& data,
         uint32_t data_shards,
         uint32_t parity_shards
     ) = 0;
     
-    virtual std::vector<uint8_t> decode(
+    [[nodiscard]] virtual std::vector<uint8_t> decode(
         const std::map<uint32_t, std::vector<uint8_t>>& available_chunks,
         const std::vector<uint32_t>& missing_indices,
         uint32_t data_shards,
         uint32_t parity_shards
     ) = 0;
     
-    virtual std::vector<std::vector<std::vector<uint8_t>>> batchEncode(
+    [[nodiscard]] virtual std::vector<std::vector<std::vector<uint8_t>>> batchEncode(
         const std::vector<std::vector<uint8_t>>& data_blocks,
         uint32_t data_shards,
         uint32_t parity_shards
     ) = 0;
     
-    virtual bool isAvailable() const = 0;
+    [[nodiscard]] virtual bool isAvailable() const = 0;
 };
 
 /**

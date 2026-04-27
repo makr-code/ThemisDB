@@ -130,7 +130,7 @@ public:
                              size_t io_reads = 0) = 0;
 
     /// Retrieve the accumulated profile for the most recent query.
-    virtual QueryProfile getProfile() const = 0;
+    [[nodiscard]] virtual QueryProfile getProfile() const = 0;
 
     /// Reset all accumulated state, ready for the next query.
     virtual void reset() = 0;

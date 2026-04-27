@@ -41,7 +41,7 @@ public:
      * @brief Get current time point
      * @return Current time as system_clock::time_point
      */
-    virtual std::chrono::system_clock::time_point now() const = 0;
+    [[nodiscard]] virtual std::chrono::system_clock::time_point now() const = 0;
     
     /**
      * @brief Sleep for specified duration

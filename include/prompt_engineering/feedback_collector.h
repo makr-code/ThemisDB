@@ -325,7 +325,7 @@ public:
      * raw query text — when cross-shard sync is enabled.
      */
     struct IEmbeddingModel {
-        virtual std::vector<float> embed(const std::string& text) const = 0;
+        [[nodiscard]] virtual std::vector<float> embed(const std::string& text) const = 0;
         virtual ~IEmbeddingModel() = default;
     };
 

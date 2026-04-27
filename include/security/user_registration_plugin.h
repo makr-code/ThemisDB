@@ -61,13 +61,13 @@ public:
      * @brief Get plugin name
      * @return Plugin name (e.g., "arrow", "webdav")
      */
-    virtual std::string getName() const = 0;
+    [[nodiscard]] virtual std::string getName() const = 0;
     
     /**
      * @brief Check if plugin is available and configured
      * @return true if plugin can be used
      */
-    virtual bool isAvailable() const = 0;
+    [[nodiscard]] virtual bool isAvailable() const = 0;
     
     /**
      * @brief Register user through plugin
@@ -82,7 +82,7 @@ public:
      * @param attributes Optional additional attributes
      * @return Result<UserRegistrationData> Registration data or error
      */
-    virtual Result<UserRegistrationData> registerUser(
+    [[nodiscard]] virtual Result<UserRegistrationData> registerUser(
         const std::string& user_id,
         const std::string& password,
         const std::unordered_map<std::string, std::string>& attributes = {}
@@ -98,7 +98,7 @@ public:
      * @param password Plain text password
      * @return Result<UserRegistrationData> User data if authenticated
      */
-    virtual Result<UserRegistrationData> authenticateUser(
+    [[nodiscard]] virtual Result<UserRegistrationData> authenticateUser(
         const std::string& user_id,
         const std::string& password
     ) = 0;
@@ -111,7 +111,7 @@ public:
      * 
      * @return Result<vector<UserRegistrationData>> List of users or error
      */
-    virtual Result<std::vector<UserRegistrationData>> syncUsers() = 0;
+    [[nodiscard]] virtual Result<std::vector<UserRegistrationData>> syncUsers() = 0;
     
     /**
      * @brief Update user information from external source
@@ -119,7 +119,7 @@ public:
      * @param user_id User identifier
      * @return Result<UserRegistrationData> Updated user data or error
      */
-    virtual Result<UserRegistrationData> updateUser(const std::string& user_id) = 0;
+    [[nodiscard]] virtual Result<UserRegistrationData> updateUser(const std::string& user_id) = 0;
 };
 
 /**

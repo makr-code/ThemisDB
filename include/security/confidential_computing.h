@@ -139,7 +139,7 @@ public:
      *
      * @return Detection result (type == NONE on ordinary hardware)
      */
-    virtual TeeDetectionResult detect() const = 0;
+    [[nodiscard]] virtual TeeDetectionResult detect() const = 0;
 
     /**
      * @brief Generate a TEE attestation report.
@@ -150,7 +150,7 @@ public:
      * @return             Attestation report; raw_report is empty and
      *                     is_genuine == false in software-fallback mode.
      */
-    virtual TeeAttestationReport getAttestationReport(
+    [[nodiscard]] virtual TeeAttestationReport getAttestationReport(
         const std::vector<uint8_t>& report_data) const = 0;
 
     /**
@@ -161,7 +161,7 @@ public:
      *                   (or compatible) TEE measurement.
      * @throws std::runtime_error on encryption failure.
      */
-    virtual SealedBlob seal(const std::vector<uint8_t>& plaintext) const = 0;
+    [[nodiscard]] virtual SealedBlob seal(const std::vector<uint8_t>& plaintext) const = 0;
 
     /**
      * @brief Unseal a previously sealed blob.
@@ -170,12 +170,12 @@ public:
      * @return      Recovered plaintext.
      * @throws std::runtime_error if authentication or measurement check fails.
      */
-    virtual std::vector<uint8_t> unseal(const SealedBlob& blob) const = 0;
+    [[nodiscard]] virtual std::vector<uint8_t> unseal(const SealedBlob& blob) const = 0;
 
     /**
      * @brief Human-readable name of the active TEE (or "Software fallback").
      */
-    virtual std::string name() const = 0;
+    [[nodiscard]] virtual std::string name() const = 0;
 
 protected:
     ConfidentialComputing() = default;
