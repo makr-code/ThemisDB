@@ -35,14 +35,14 @@
  * |---|---|---|
  * | `CPUVectorBackend::computeL2Distance` | cpu_backend.cpp | `simd::l2_distance_sq` |
  * | `CPUVectorBackend::computeCosineDistance` | cpu_backend.cpp | `simd::cosine_distance` |
- * | inline `haversine_km` / `haversine_m` | cpu_backend.cpp | `geo::haversine_km` |
  * | `opengl_haversine_km` / `vulkan_haversine_km` | graphics_backends.cpp | `geo::haversine_km` |
  * | `SecondaryIndexManager::haversineDistance` | secondary_index.cpp | `geo::haversine_km` |
  * | `SpatialIndexManager::haversineDistance` | spatial_index.cpp | `geo::haversine_km` |
  * | `haversineDistanceM()` (geo/*.cpp) | various | `geo::haversine_m` |
  *
  * ### Consolidation status
- * - `cpu_backend.cpp` — updated (commit: consolidation Phase 1)
+ * - `cpu_backend.cpp` — fully migrated: vector distances + anonymous-ns haversine removed
+ *   (commit: consolidation Phase 1 + Phase 1 follow-up)
  * - `cpu_backend_mt.cpp` — updated (commit: consolidation Phase 1)
  * - `graphics_backends.cpp` — file-local helpers retained; tracked in
  *   ROADMAP.md consolidation phase, target v1.5.0

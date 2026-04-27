@@ -328,24 +328,6 @@ std::vector<bool> CPUGeoBackend::batchPointInPolygon(
 namespace {
 
 // ---------------------------------------------------------------------------
-// File-local haversine helper (avoids calling 'this' from a static function)
-// ---------------------------------------------------------------------------
-inline double haversine_km(double lat1, double lon1, double lat2, double lon2) noexcept {
-    constexpr double R   = 6371.0;
-    constexpr double kPi = 3.141592653589793238462643383279502884;
-    lat1 *= kPi / 180.0;
-    lon1 *= kPi / 180.0;
-    lat2 *= kPi / 180.0;
-    lon2 *= kPi / 180.0;
-    const double dlat = lat2 - lat1;
-    const double dlon = lon2 - lon1;
-    const double a = std::sin(dlat / 2) * std::sin(dlat / 2) +
-                     std::cos(lat1) * std::cos(lat2) *
-                     std::sin(dlon / 2) * std::sin(dlon / 2);
-    return R * 2.0 * std::atan2(std::sqrt(a), std::sqrt(1.0 - a));
-}
-
-// ---------------------------------------------------------------------------
 // ANN dispatch functions
 // ---------------------------------------------------------------------------
 
@@ -451,7 +433,7 @@ static int cpu_geo_distance(
 {
     for (int i = 0; i < count; ++i) {
         out_distances[i] = static_cast<float>(
-            haversine_km(lats1[i], lons1[i], lats2[i], lons2[i]));
+            themis::geo::haversine_km(lats1[i], lons1[i], lats2[i], lons2[i]));
     }
     return 0;
 }
