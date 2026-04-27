@@ -8,8 +8,8 @@ This is the authoritative cross-reference between research sources (papers, best
 
 | Category | Documented | Target |
 |----------|-----------|--------|
-| Scientific Papers | 63 | 28+ |
-| Best Practices | 26 | 15+ |
+| Scientific Papers | 67 | 28+ |
+| Best Practices | 28 | 15+ |
 | Architecture Decisions | 9 | 8+ |
 | Modules with Research Links | 39 | 39 |
 | Orphaned Research References | 0 | 0 |
@@ -78,6 +78,12 @@ This is the authoritative cross-reference between research sources (papers, best
 | ThemisDB Engineering (2026) — LLM-Driven Index Advisor (IIndexAnalysisAdvisor + StorageLayoutAdvisor) | Paper | `src/storage/index_analyzer.cpp`, `src/storage/storage_layout_advisor.cpp` | v1.9.0+ | ✅ Implemented | [ref](../papers/llm_index_advisor_integrated_2024.md) |
 | AI4DB + ISUM — LLM-Driven Index Optimization | Best Practice | `src/storage/index_analyzer.cpp`, `include/storage/index_analyzer.h`, `config/index_analyze.yaml` | v1.9.0+ | ✅ Fully Adopted | [ref](../best_practices/llm_driven_index_optimization.md) |
 | ProTeGi + Self-Refine + ToT + DSPy — LLM Prompt Enhancement Pipeline | Best Practice | `src/prompt_engineering/` (all four enhancement layers) | v1.5.0+ / v2.0.0+ | ✅ Fully Adopted | [ref](../best_practices/llm_prompt_enhancement_pipeline.md) |
+| Liu et al. (2023) — G-Eval: NLG Evaluation with LLM (EMNLP 2023) | Paper | `src/rag/geval_evaluator.cpp`, `src/rag/rag_judge.cpp`, `src/rag/calibration_manager.cpp` | v1.6.0+ | ✅ Implemented | [ref](../papers/liu_geval_2023.md) |
+| Zheng et al. (2023) — Judging LLM-as-a-Judge / MT-Bench (NeurIPS 2023) | Paper | `src/rag/llm_judge_integration.cpp`, `src/rag/pairwise_comparator.cpp`, `src/rag/distributed_rag_evaluator.cpp` | v1.6.0+ | ✅ Implemented | [ref](../papers/zheng_llm_judge_2023.md) |
+| Yao et al. (2022) — ReAct: Synergizing Reasoning and Acting (ICLR 2023) | Paper | `src/rag/agentic_rag.cpp`, `src/rag/multi_step_rag.cpp`, `src/rag/knowledge_gap_detector.cpp` | v1.8.0+ | ✅ Implemented | [ref](../papers/yao_react_2022.md) |
+| Bai et al. (2022) + Lee et al. (2023) — Constitutional AI / RLAIF | Paper | `src/rag/rlaif_trainer.cpp`, `src/rag/continuous_learning_orchestrator.cpp` | v1.6.0+ | ✅ Implemented | [ref](../papers/bai_constitutional_ai_rlaif_2022.md) |
+| G-Eval + LLM-as-Judge Ensemble + Calibration | Best Practice | `src/rag/geval_evaluator.cpp`, `src/rag/pairwise_comparator.cpp`, `src/rag/distributed_rag_evaluator.cpp`, `src/rag/calibration_manager.cpp` | v1.6.0+ | ✅ Fully Adopted | [ref](../best_practices/llm_as_judge_rag_evaluation.md) |
+| Constitutional AI / RLAIF Training Pipeline | Best Practice | `src/rag/rlaif_trainer.cpp`, `src/rag/continuous_learning_orchestrator.cpp` | v1.6.0+ | ✅ Fully Adopted | [ref](../best_practices/constitutional_ai_rlaif_training.md) |
 | Stonebraker, Rowe & Hirohama (1990) — Implementation of Postgres (WAL/CDC) | Paper | `src/cdc/` | v1.0.0+ | ✅ Implemented | — |
 | Mohan et al. (1992) — ARIES Write-Ahead Logging | Paper | `src/cdc/`, `src/transaction/` | v1.0.0+ | ✅ Implemented | — |
 | Kleppmann (2017) — Designing Data-Intensive Applications | Book | `src/cdc/`, `src/ingestion/` | v1.0.0+ | ✅ Adopted | — |

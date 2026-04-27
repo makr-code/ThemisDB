@@ -109,6 +109,25 @@ Each paper that serves as a foundation for a ThemisDB algorithm, data structure,
 |-------|-----------|---------|--------|
 | [LLM Index Advisor Integration — ThemisDB (2026)](llm_index_advisor_integrated_2024.md) | `src/storage/index_analyzer.cpp`, `src/storage/storage_layout_advisor.cpp` | v1.9.0+ | ✅ Implemented |
 
+**RAG Evaluation / LLM-as-Judge:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [G-Eval — Liu et al. (2023)](liu_geval_2023.md) | `src/rag/geval_evaluator.cpp`, `src/rag/rag_judge.cpp`, `src/rag/calibration_manager.cpp` | v1.6.0+ | ✅ Implemented |
+| [Judging LLM-as-a-Judge / MT-Bench — Zheng et al. (2023)](zheng_llm_judge_2023.md) | `src/rag/llm_judge_integration.cpp`, `src/rag/pairwise_comparator.cpp`, `src/rag/distributed_rag_evaluator.cpp` | v1.6.0+ | ✅ Implemented |
+
+**Agentic RAG / Iterative Retrieval:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [ReAct — Yao et al. (2022)](yao_react_2022.md) | `src/rag/agentic_rag.cpp`, `src/rag/multi_step_rag.cpp`, `src/rag/knowledge_gap_detector.cpp` | v1.8.0+ | ✅ Implemented |
+
+**Constitutional AI / RLAIF / Continuous Learning:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [Constitutional AI + RLAIF — Bai et al. (2022) + Lee et al. (2023)](bai_constitutional_ai_rlaif_2022.md) | `src/rag/rlaif_trainer.cpp`, `src/rag/continuous_learning_orchestrator.cpp`, `src/prompt_engineering/reflection_tuner.cpp` | v1.6.0+ | ✅ Implemented |
+
 **Verwaltungs-IT / Administrative IT:**
 
 | Paper | Module(s) | Version | Status |

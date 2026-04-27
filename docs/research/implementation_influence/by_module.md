@@ -208,6 +208,12 @@ This file groups all research influences by ThemisDB module (`src/<module>`).
 | Paper | Sheng et al. (2023) — S-LoRA: Concurrent LoRA Adapter Serving | planned Q2/Q3 2026 | 🔄 In Progress |
 | Paper | Wang et al. (2024) — Speculative RAG | planned Q1 2027 | ⏳ Planned |
 | Paper | W3C / Baader et al. (2012/2003) — OWL 2 / Description Logic Handbook | v2.1.0+ planned | ⏳ Planned |
+| Paper | Liu et al. (2023) — G-Eval: NLG Evaluation with GPT-4 (EMNLP 2023) | v1.6.0+ | ✅ Implemented |
+| Paper | Zheng et al. (2023) — Judging LLM-as-a-Judge / MT-Bench (NeurIPS 2023) | v1.6.0+ | ✅ Implemented |
+| Paper | Yao et al. (2022) — ReAct: Synergizing Reasoning and Acting (ICLR 2023) | v1.8.0+ | ✅ Implemented |
+| Paper | Bai et al. (2022) + Lee et al. (2023) — Constitutional AI / RLAIF | v1.6.0+ | ✅ Implemented |
+| Best Practice | G-Eval + LLM-as-Judge Ensemble + Calibration | v1.6.0+ | ✅ Adopted |
+| Best Practice | Constitutional AI / RLAIF Training Pipeline | v1.6.0+ | ✅ Adopted |
 | Best Practice | S-LoRA Near-Realtime RAG Serving | planned Q2 2026 | 🔄 Partially Adopted |
 | Paper | Bordes et al. (2013) — TransE / Knowledge Graph Completion | v2.1.0+ planned | ⏳ Planned |
 | Best Practice | W3C OWL 2 RL — OWL-lite Ontology Constraints | v2.1.0+ planned | ⏳ Planned |

@@ -906,4 +906,99 @@ This file lists all research sources alphabetically, showing which ThemisDB modu
 
 ---
 
+
+
+## Bai et al. (2022) + Lee et al. (2023) — Constitutional AI + RLAIF
+
+**Type:** Paper
+**File:** [papers/bai_constitutional_ai_rlaif_2022.md](../papers/bai_constitutional_ai_rlaif_2022.md)
+**ThemisDB Version:** v1.6.0+
+
+| Module | Status |
+|--------|--------|
+| `src/rag/rlaif_trainer.cpp` | ✅ Implemented (IAIJudge, RewardModel, PreferenceDataset, RLAIFGuardrailPlugin) |
+| `src/rag/continuous_learning_orchestrator.cpp` | ✅ Implemented (Loop 4 = RLAIF; ILoRAFederationCoordinator) |
+| `src/prompt_engineering/reflection_tuner.cpp` | ✅ Implemented (CONSTITUTIONAL strategy = supervised CAI phase) |
+| `src/rag/bias_detector.cpp` | ✅ Implemented (constitutional compliance filter) |
+
+---
+
+## Liu et al. (2023) — G-Eval: NLG Evaluation using GPT-4 (EMNLP 2023)
+
+**Type:** Paper
+**File:** [papers/liu_geval_2023.md](../papers/liu_geval_2023.md)
+**ThemisDB Version:** v1.6.0+
+
+| Module | Status |
+|--------|--------|
+| `src/rag/geval_evaluator.cpp` | ✅ Implemented (token-probability expected-value scoring; llama_get_logits_ith) |
+| `src/rag/rag_judge.cpp` | ✅ Implemented (dispatches to GEvalEvaluator in BALANCED/THOROUGH mode) |
+| `src/rag/cot_evaluator.cpp` | ✅ Implemented (CoT criteria generation — first pass of G-Eval two-pass approach) |
+| `src/rag/calibration_manager.cpp` | ✅ Implemented (temperature/Platt/isotonic calibration of G-Eval scores) |
+| `src/rag/evaluation_cache.cpp` | ✅ Implemented (caches G-Eval results to avoid redundant LLM calls) |
+
+---
+
+## Yao et al. (2022) — ReAct: Synergizing Reasoning and Acting (ICLR 2023)
+
+**Type:** Paper
+**File:** [papers/yao_react_2022.md](../papers/yao_react_2022.md)
+**ThemisDB Version:** v1.8.0+
+
+| Module | Status |
+|--------|--------|
+| `src/rag/agentic_rag.cpp` | ✅ Implemented (full TAO loop; AgentTrace; tool registry; deduplication) |
+| `src/rag/multi_step_rag.cpp` | ✅ Implemented (multi-step iterative retrieval strategy) |
+| `src/rag/knowledge_gap_detector.cpp` | ✅ Implemented (three-level gap detection drives ReAct loop termination) |
+| `src/rag/knowledge_graph_retriever.cpp` | ✅ Implemented (graph-traversal tool action in ReAct loop) |
+
+---
+
+## Zheng et al. (2023) — Judging LLM-as-a-Judge / MT-Bench (NeurIPS 2023)
+
+**Type:** Paper
+**File:** [papers/zheng_llm_judge_2023.md](../papers/zheng_llm_judge_2023.md)
+**ThemisDB Version:** v1.6.0+
+
+| Module | Status |
+|--------|--------|
+| `src/rag/llm_judge_integration.cpp` | ✅ Implemented (ILLMInferenceEngine* injection; allow_mock guard; position-bias prompt) |
+| `src/rag/pairwise_comparator.cpp` | ✅ Implemented (head-to-head; randomised order; consistency check → TIE) |
+| `src/rag/distributed_rag_evaluator.cpp` | ✅ Implemented (N-judge ensemble; MEAN/WEIGHTED_MEAN/MAJORITY_VOTING/BEST_OF_N) |
+| `src/rag/calibration_manager.cpp` | ✅ Implemented (calibrates judge scores against human annotations) |
+| `src/rag/prompt_templates.cpp` | ✅ Implemented (verbosity-bias rubric injection in judge prompts) |
+
+---
+
+## G-Eval + LLM-as-Judge Ensemble + Calibration (Best Practice)
+
+**Type:** Best Practice
+**File:** [best_practices/llm_as_judge_rag_evaluation.md](../best_practices/llm_as_judge_rag_evaluation.md)
+**ThemisDB Version:** v1.6.0+
+
+| Module | Status |
+|--------|--------|
+| `src/rag/geval_evaluator.cpp` | ✅ Adopted |
+| `src/rag/pairwise_comparator.cpp` | ✅ Adopted |
+| `src/rag/distributed_rag_evaluator.cpp` | ✅ Adopted |
+| `src/rag/calibration_manager.cpp` | ✅ Adopted |
+| `src/rag/evaluation_cache.cpp` | ✅ Adopted |
+
+---
+
+## Constitutional AI / RLAIF Training Pipeline (Best Practice)
+
+**Type:** Best Practice
+**File:** [best_practices/constitutional_ai_rlaif_training.md](../best_practices/constitutional_ai_rlaif_training.md)
+**ThemisDB Version:** v1.6.0+
+
+| Module | Status |
+|--------|--------|
+| `src/rag/rlaif_trainer.cpp` | ✅ Adopted |
+| `src/rag/continuous_learning_orchestrator.cpp` | ✅ Adopted |
+| `src/prompt_engineering/reflection_tuner.cpp` | ✅ Adopted |
+| `config/prompts/constitutional_principles.yaml` | ✅ Adopted |
+
+---
+
 *Last generated: see git log*
