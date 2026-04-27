@@ -57,7 +57,11 @@
  * ### Known callers — migration status (v1.9.0)
  *   - `src/rag/http_metrics_client.cpp`    ✅ migrated: iterative loop with `ExponentialBackoff`
  *   - `src/rag/llm_judge_integration.cpp` ✅ migrated: `retry_with_backoff` in evaluate/evaluateDimension
- *   - `src/network/` subsystems           — single-shot sleeps; not retry loops; no migration needed
+ *   - `src/network/wire_protocol_connection_pool.cpp` — ✅ analysed (v1.9.0): uses a deadline-bounded
+ *       `cv.wait_until()` loop, not an attempt-bounded retry loop. The fixed 100ms pause on
+ *       connection-creation failure is an exception-recovery breath, not a retry policy; migrating
+ *       to `retry_with_backoff` (attempt-bounded) would change semantics. No migration applicable.
+ *   - `src/network/` other subsystems      — single-shot sleeps; not retry loops; no migration needed
  *   - `src/storage/transaction_retry_manager` — domain-specific policy; intentionally separate
  */
 

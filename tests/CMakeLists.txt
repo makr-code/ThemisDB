@@ -12881,6 +12881,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_arrow_user_registration_plu
     message(STATUS "  ArrowUserRegistrationPlugin: bulkSyncFromArrow, authenticateFromArrow, 1000-user batch")
 endif()
 
+# AIPluginGenerator focused tests (UNUSED_FUNCTIONS_REPORT KEEP — minimum coverage)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ai_plugin_generator.cpp")
+    message(STATUS "Adding AIPluginGenerator focused tests")
+
+    add_executable(test_ai_plugin_generator_focused
+        test_ai_plugin_generator.cpp
+        ${THEMIS_ROOT_DIR}/src/plugins/ai/ai_plugin_generator.cpp
+    )
+
+    target_include_directories(test_ai_plugin_generator_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_ai_plugin_generator_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ai_plugin_generator_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AIPluginGeneratorFocusedTests COMMAND test_ai_plugin_generator_focused)
+
+    set_tests_properties(AIPluginGeneratorFocusedTests PROPERTIES
+        LABELS "plugins;ai;plugin-generator;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AIPluginGeneratorFocusedTests: APG-01..06 (validatePrompt, generatePlugin)")
+endif()
+
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/attack-vectors/crypto/test_crypto_attack_vectors.cpp")
     message(STATUS "Adding Crypto Attack Vector tests")
