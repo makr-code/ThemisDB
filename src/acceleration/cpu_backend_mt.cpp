@@ -99,9 +99,12 @@ public:
         return "CPU Multi-Threaded (OpenMP + SIMD)";
     }
     
-    // Optimized L2 distance computation with SIMD (hides base class method)
+    // L2 distance — returns SQUARED distance (no sqrt), matching the contract of
+    // the base-class CPUVectorBackend::computeL2Distance().  This is intentional:
+    // callers that only need relative ordering (e.g. kNN ranking) skip the sqrt
+    // for performance.  The prior SIMD path called simd::l2_distance() (with sqrt)
+    // which was inconsistent with the non-SIMD fallback; this is now harmonised.
     float computeL2Distance(const float* a, const float* b, size_t dim) const {
-        // simd::l2_distance_sq dispatches to AVX-512/AVX2/NEON/scalar automatically.
         if (enableSIMD_) {
             return themis::simd::l2_distance_sq(a, b, dim);
         }
