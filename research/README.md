@@ -46,6 +46,9 @@ This directory contains research papers, draft manuscripts, architectural analys
 - [GPU_VECTOR_INDEXING_RESEARCH_DRAFT.md](GPU_VECTOR_INDEXING_RESEARCH_DRAFT.md) — ArXiv-structured migration of GPU vector indexing research from docs/research
 - [PRODUCT_QUANTIZATION_RESEARCH_DRAFT.md](PRODUCT_QUANTIZATION_RESEARCH_DRAFT.md) — ArXiv-structured migration of PQ research from docs/research
 
+### Financial AI & HFT Domain Research (2026-04-27)
+- [HFT_RAG_LLM_THEMISDB_TRADING_ORCHESTRATION_ARXIV_2026.md](HFT_RAG_LLM_THEMISDB_TRADING_ORCHESTRATION_ARXIV_2026.md) — RAG-LLM-orchestrated high-frequency trading on ThemisDB: multi-modal financial signal processing (news, central bank comms, geopolitical risk, social media), latency budget analysis (sub-200 ms RAG loop), regulatory feasibility (MiFID II, SEC 15c3-5, EU AI Act), 31-paper related work survey, 6 open research questions (cs.AI / q-fin.TR / cs.DB)
+
 ### Planned Research Topics
 - (See drafts above for current work-in-progress topics)
 
