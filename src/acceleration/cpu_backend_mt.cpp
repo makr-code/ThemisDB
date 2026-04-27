@@ -99,96 +99,27 @@ public:
         return "CPU Multi-Threaded (OpenMP + SIMD)";
     }
     
-    // Optimized L2 distance computation with SIMD (hides base class method)
+    // L2 distance — returns SQUARED distance (no sqrt), matching the contract of
+    // the base-class CPUVectorBackend::computeL2Distance().  This is intentional:
+    // callers that only need relative ordering (e.g. kNN ranking) skip the sqrt
+    // for performance.  The prior SIMD path called simd::l2_distance() (with sqrt)
+    // which was inconsistent with the non-SIMD fallback; this is now harmonised.
     float computeL2Distance(const float* a, const float* b, size_t dim) const {
-        // Use optimized SIMD implementation with cache prefetching
         if (enableSIMD_) {
-            return themis::simd::l2_distance(a, b, dim);
+            return themis::simd::l2_distance_sq(a, b, dim);
         }
-        // Fallback to base implementation
         return CPUVectorBackend::computeL2Distance(a, b, dim);
     }
-    
-    // Optimized cosine distance with SIMD (hides base class method)
+
+    // Optimized cosine distance — delegates to the centralized SIMD kernel
+    // (utils/simd_distance.h) which already covers AVX-512, AVX2, NEON and
+    // scalar paths.  The ~80-line custom AVX2/NEON implementation that was
+    // previously inlined here has been removed; simd::cosine_distance() is
+    // equivalent and carries prefetch hints for 1536-D embedding vectors.
     float computeCosineDistance(const float* a, const float* b, size_t dim) const {
-#if THEMIS_HAS_SIMD_X86 && defined(__AVX2__)
-        if (enableSIMD_ && dim >= 8) {
-            __m256 dot_vec = _mm256_setzero_ps();
-            __m256 normA_vec = _mm256_setzero_ps();
-            __m256 normB_vec = _mm256_setzero_ps();
-            size_t i = 0;
-            
-            for (; i + 7 < dim; i += 8) {
-                __m256 a_vec = _mm256_loadu_ps(a + i);
-                __m256 b_vec = _mm256_loadu_ps(b + i);
-                dot_vec = _mm256_fmadd_ps(a_vec, b_vec, dot_vec);
-                normA_vec = _mm256_fmadd_ps(a_vec, a_vec, normA_vec);
-                normB_vec = _mm256_fmadd_ps(b_vec, b_vec, normB_vec);
-            }
-            
-            // Horizontal sum
-            auto hsum = [](__m256 v) {
-                __m128 sum_high = _mm256_extractf128_ps(v, 1);
-                __m128 sum_low = _mm256_castps256_ps128(v);
-                __m128 sum = _mm_add_ps(sum_low, sum_high);
-                sum = _mm_hadd_ps(sum, sum);
-                sum = _mm_hadd_ps(sum, sum);
-                return _mm_cvtss_f32(sum);
-            };
-            
-            float dotProduct = hsum(dot_vec);
-            float normA = hsum(normA_vec);
-            float normB = hsum(normB_vec);
-            
-            // Handle remaining elements
-            for (; i < dim; ++i) {
-                dotProduct += a[i] * b[i];
-                normA += a[i] * a[i];
-                normB += b[i] * b[i];
-            }
-            
-            normA = std::sqrt(normA);
-            normB = std::sqrt(normB);
-            
-            if (normA < 1e-10f || normB < 1e-10f) return 1.0f;
-            
-            float cosine = dotProduct / (normA * normB);
-            return 1.0f - cosine;
+        if (enableSIMD_) {
+            return themis::simd::cosine_distance(a, b, dim);
         }
-#elif THEMIS_HAS_SIMD_ARM
-        if (enableSIMD_ && dim >= 4) {
-            float32x4_t dot_vec = vdupq_n_f32(0.0f);
-            float32x4_t normA_vec = vdupq_n_f32(0.0f);
-            float32x4_t normB_vec = vdupq_n_f32(0.0f);
-            size_t i = 0;
-            
-            for (; i + 3 < dim; i += 4) {
-                float32x4_t a_vec = vld1q_f32(a + i);
-                float32x4_t b_vec = vld1q_f32(b + i);
-                dot_vec = vmlaq_f32(dot_vec, a_vec, b_vec);
-                normA_vec = vmlaq_f32(normA_vec, a_vec, a_vec);
-                normB_vec = vmlaq_f32(normB_vec, b_vec, b_vec);
-            }
-            
-            float dotProduct = vaddvq_f32(dot_vec);
-            float normA = vaddvq_f32(normA_vec);
-            float normB = vaddvq_f32(normB_vec);
-            
-            for (; i < dim; ++i) {
-                dotProduct += a[i] * b[i];
-                normA += a[i] * a[i];
-                normB += b[i] * b[i];
-            }
-            
-            normA = std::sqrt(normA);
-            normB = std::sqrt(normB);
-            
-            if (normA < 1e-10f || normB < 1e-10f) return 1.0f;
-            
-            float cosine = dotProduct / (normA * normB);
-            return 1.0f - cosine;
-        }
-#endif
         return CPUVectorBackend::computeCosineDistance(a, b, dim);
     }
     

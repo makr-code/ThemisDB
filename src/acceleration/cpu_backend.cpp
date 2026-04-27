@@ -24,6 +24,7 @@
 #include "acceleration/cpu_backend.h"
 #include "acceleration/batch_validator.h"
 #include "acceleration/kernel_invocation.h"
+#include "utils/geometric_distances.h"
 #include <cmath>
 #include <algorithm>
 #include <queue>
@@ -36,36 +37,18 @@ namespace acceleration {
 // CPUVectorBackend Implementation
 // ============================================================================
 
-// Compute squared L2 distance between two vectors (no sqrt for performance and consistency)
+// Delegate to SIMD-optimised implementations from utils/geometric_distances.h.
+// Replaces the former scalar loops with hardware-accelerated kernels
+// (AVX-512 / AVX2 / ARM NEON / scalar fallback).
+
 float CPUVectorBackend::computeL2Distance(const float* a, const float* b, size_t dim) const {
-    float sum = 0.0f;
-    for (size_t i = 0; i < dim; ++i) {
-        float diff = a[i] - b[i];
-        sum += diff * diff;
-    }
-    return sum;  // Return squared distance (maintains monotonic ordering for ranking)
+    // Returns squared distance (no sqrt) to preserve monotonic ranking behaviour
+    // of callers; matches the contract of the previous scalar implementation.
+    return themis::simd::l2_distance_sq(a, b, dim);
 }
 
 float CPUVectorBackend::computeCosineDistance(const float* a, const float* b, size_t dim) const {
-    float dotProduct = 0.0f;
-    float normA = 0.0f;
-    float normB = 0.0f;
-    
-    for (size_t i = 0; i < dim; ++i) {
-        dotProduct += a[i] * b[i];
-        normA += a[i] * a[i];
-        normB += b[i] * b[i];
-    }
-    
-    normA = std::sqrt(normA);
-    normB = std::sqrt(normB);
-    
-    if (normA < 1e-10f || normB < 1e-10f) {
-        return 1.0f; // Maximum distance for zero vectors
-    }
-    
-    float cosine = dotProduct / (normA * normB);
-    return 1.0f - cosine; // Convert similarity to distance
+    return themis::simd::cosine_distance(a, b, dim);
 }
 
 std::vector<float> CPUVectorBackend::computeDistances(
@@ -232,26 +215,8 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(
 // CPUGeoBackend Implementation
 // ============================================================================
 
-constexpr double EARTH_RADIUS_KM = 6371.0;
-constexpr double PI = 3.14159265358979323846;
-
 double CPUGeoBackend::haversineDistance(double lat1, double lon1, double lat2, double lon2) const {
-    // Convert degrees to radians
-    lat1 = lat1 * PI / 180.0;
-    lon1 = lon1 * PI / 180.0;
-    lat2 = lat2 * PI / 180.0;
-    lon2 = lon2 * PI / 180.0;
-    
-    double dlat = lat2 - lat1;
-    double dlon = lon2 - lon1;
-    
-    double a = std::sin(dlat / 2) * std::sin(dlat / 2) +
-               std::cos(lat1) * std::cos(lat2) *
-               std::sin(dlon / 2) * std::sin(dlon / 2);
-    
-    double c = 2 * std::atan2(std::sqrt(a), std::sqrt(1 - a));
-    
-    return EARTH_RADIUS_KM * c;
+    return themis::geo::haversine_km(lat1, lon1, lat2, lon2);
 }
 
 double CPUGeoBackend::vincentyDistance(double lat1, double lon1, double lat2, double lon2) const {
@@ -343,24 +308,6 @@ std::vector<bool> CPUGeoBackend::batchPointInPolygon(
 // ============================================================================
 
 namespace {
-
-// ---------------------------------------------------------------------------
-// File-local haversine helper (avoids calling 'this' from a static function)
-// ---------------------------------------------------------------------------
-inline double haversine_km(double lat1, double lon1, double lat2, double lon2) noexcept {
-    constexpr double R   = 6371.0;
-    constexpr double kPi = 3.141592653589793238462643383279502884;
-    lat1 *= kPi / 180.0;
-    lon1 *= kPi / 180.0;
-    lat2 *= kPi / 180.0;
-    lon2 *= kPi / 180.0;
-    const double dlat = lat2 - lat1;
-    const double dlon = lon2 - lon1;
-    const double a = std::sin(dlat / 2) * std::sin(dlat / 2) +
-                     std::cos(lat1) * std::cos(lat2) *
-                     std::sin(dlon / 2) * std::sin(dlon / 2);
-    return R * 2.0 * std::atan2(std::sqrt(a), std::sqrt(1.0 - a));
-}
 
 // ---------------------------------------------------------------------------
 // ANN dispatch functions
@@ -468,7 +415,7 @@ static int cpu_geo_distance(
 {
     for (int i = 0; i < count; ++i) {
         out_distances[i] = static_cast<float>(
-            haversine_km(lats1[i], lons1[i], lats2[i], lons2[i]));
+            themis::geo::haversine_km(lats1[i], lons1[i], lats2[i], lons2[i]));
     }
     return 0;
 }

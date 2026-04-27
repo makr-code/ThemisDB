@@ -38,6 +38,7 @@
 
 #include <gtest/gtest.h>
 #include <algorithm>
+#include <cstring>
 #include <string>
 
 using namespace themis::prompt_engineering;
@@ -427,4 +428,40 @@ TEST(SimpleAdversarialTesterTest, APT06_CustomDetectorInvoked) {
     EXPECT_EQ(call_count, 2);
     EXPECT_EQ(report.blocked_count, 2u);
     EXPECT_EQ(report.passed_count,  2u);  // expected_blocked=true AND blocked=true
+}
+
+// ---------------------------------------------------------------------------
+// attackCategoryName — minimum coverage tests (UNUSED_FUNCTIONS_REPORT KEEP)
+// ---------------------------------------------------------------------------
+
+// ACN-01: Each AttackCategory value maps to a non-null, non-empty string.
+TEST(AttackCategoryNameTest, ACN01_AllValuesNonEmpty) {
+    const AttackCategory values[] = {
+        AttackCategory::JAILBREAK,
+        AttackCategory::ROLE_OVERRIDE,
+        AttackCategory::INDIRECT_INJECTION,
+        AttackCategory::PROMPT_LEAKING,
+        AttackCategory::DATA_EXTRACTION,
+    };
+    for (auto cat : values) {
+        const char* name = attackCategoryName(cat);
+        ASSERT_NE(name, nullptr) << "attackCategoryName returned nullptr";
+        EXPECT_GT(std::strlen(name), 0u) << "attackCategoryName returned empty string";
+    }
+}
+
+// ACN-02: Known enum values produce the expected string literals.
+TEST(AttackCategoryNameTest, ACN02_KnownMappings) {
+    EXPECT_STREQ(attackCategoryName(AttackCategory::JAILBREAK),          "JAILBREAK");
+    EXPECT_STREQ(attackCategoryName(AttackCategory::ROLE_OVERRIDE),      "ROLE_OVERRIDE");
+    EXPECT_STREQ(attackCategoryName(AttackCategory::INDIRECT_INJECTION), "INDIRECT_INJECTION");
+    EXPECT_STREQ(attackCategoryName(AttackCategory::PROMPT_LEAKING),     "PROMPT_LEAKING");
+    EXPECT_STREQ(attackCategoryName(AttackCategory::DATA_EXTRACTION),    "DATA_EXTRACTION");
+}
+
+// ACN-03: Return value is a compile-time string literal (pointer stability).
+TEST(AttackCategoryNameTest, ACN03_PointerStability) {
+    const char* a = attackCategoryName(AttackCategory::JAILBREAK);
+    const char* b = attackCategoryName(AttackCategory::JAILBREAK);
+    EXPECT_EQ(a, b) << "attackCategoryName must return a stable literal pointer";
 }

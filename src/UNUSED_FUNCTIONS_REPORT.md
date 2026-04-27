@@ -1,6 +1,6 @@
 # Unused Functions Report
 
-_Erstellt: 2026-04-20 10:51:55Z · Letzte Verifikation: 2026-04-20 (Quellcode-Grep + Git-Analyse)_
+_Erstellt: 2026-04-20 10:51:55Z · Letzte Verifikation: 2026-04-27 (Konsolidierungsphase)_
 
 Dieses Dokument benennt alle **Symbole ohne nachgewiesene externe Aufrufer** (laut
 `MODULE_FUNCTION_USAGE_MAP.md`) pro Modul – jetzt ergänzt um den **tatsächlichen Use-Case**
@@ -29,10 +29,60 @@ Ausgangsbasis: [`MODULE_FUNCTION_USAGE_MAP.md`](./MODULE_FUNCTION_USAGE_MAP.md)
 |--------|--------|--------|
 | ✅ AKTIV | 23 | 24 % |
 | 🧪 NUR_TESTS | 21 | 22 % |
-| ⚪ INTERNAL_ONLY | 23 | 24 % |
-| 🟡 UNGENUTZT | 35 | 36 % |
+| ⚪ INTERNAL_ONLY | 27 | 28 % |
+| 🟡 UNGENUTZT | 31 | 32 % |
+| 🗑️ CANDIDATE_FOR_REMOVAL | 4 | 4 % |
 
-> **Stand 2026-04-21 (Update):** `GossipAdapterPublisher` auf AKTIV gesetzt (LLMPluginManager::loadLoRA/unloadLoRA Wiring, commit 2026-04-21).
+> **Stand 2026-04-21:** `GossipAdapterPublisher` auf AKTIV gesetzt.
+> **Stand 2026-04-27:** GPU-Symbols `EnumerateCUDA`, `EnumerateROCm`, `MakeCPUFallback` auf INTERNAL_ONLY
+> gesetzt (sind `#ifdef`-gated Hilfsfunktionen in `device_discovery.cpp`, die von `EnumerateDevices()` aufgerufen werden).
+> `getHooks`, `hookId`, `registerHook`, `unregisterHook` auf CANDIDATE_FOR_REMOVAL gesetzt.
+
+---
+
+## Triage-Entscheidungsmatrix (Konsolidierung 2026-04-27)
+
+Alle 35 UNGENUTZT-Symbole wurden triagiert.  Ergebnis: 4 CANDIDATE_FOR_REMOVAL, 4 reklassifiziert
+nach INTERNAL_ONLY, 27 auf KEEP mit Roadmap-Ticket gesetzt.
+
+| Symbol | Modul | Entscheidung | Begründung | Target |
+|--------|-------|-------------|------------|--------|
+| `logCapabilities` | acceleration | **KEEP → NUR_TESTS** | Startup-Logging; Mindest-Test hinzufügen + in server-Init verdrahten | v1.4.0 |
+| `getHooks` | api | **CANDIDATE_FOR_REMOVAL** | Kein Roadmap-Signal, kein externer Aufrufer | — |
+| `hookId` | api | **CANDIDATE_FOR_REMOVAL** | Kein Roadmap-Signal, kein externer Aufrufer | — |
+| `registerHook` | api | **CANDIDATE_FOR_REMOVAL** | Kein Roadmap-Signal, kein externer Aufrufer | — |
+| `unregisterHook` | api | **CANDIDATE_FOR_REMOVAL** | Kein Roadmap-Signal, kein externer Aufrufer | — |
+| `configFromJson` | base | **KEEP** | REST-API-Deserialisierung für A/B-Test-Config; in http_server wirable | v1.4.0 |
+| `configToJson` | base | **KEEP** | REST-API-Serialisierung; symmetrisch zu configFromJson | v1.4.0 |
+| `statusFromString` | base | **KEEP** | Deserialisierung A/B-Test-Status; in AB-Test-API wirable | v1.4.0 |
+| `purgeTenant` | cdc | **KEEP** | GDPR Art. 17 Compliance; in changefeed_api_handler wire | v1.4.0 |
+| `createPdfExtractorAdapter` | content | **KEEP** | Content-Pipeline-Factory; mit ContentApiHandler verdrahten | v1.5.0 |
+| `detectorType` | content | **KEEP** | Observability-Accessor; in content_moderation_api wirable | v1.5.0 |
+| `strengthToScore` | ethics_ai | **KEEP** | ArgumentStrength-Score für Reasoning-Pipeline; Mindest-Test + Wiring | v1.5.0 |
+| `exportWithArrow` | exporters | **KEEP** | Arrow IPC Export; in export_api_handler als Content-Type variant | v1.5.0 |
+| `GeoFaissKnn` | geo | **KEEP** | GeoFaiss KNN-Suche; in geo_api_handler verdrahten (Phase 2) | v1.5.0 |
+| `knnSearch` | geo | **KEEP** | Teil von GeoFaissKnn (interne Implementierung) | v1.5.0 |
+| `EnumerateCUDA` | gpu | **INTERNAL_ONLY** | `#ifdef THEMIS_ENABLE_CUDA`-gated Helper in device_discovery.cpp; wird von `EnumerateDevices()` aufgerufen | — |
+| `EnumerateROCm` | gpu | **INTERNAL_ONLY** | `#ifdef THEMIS_ENABLE_HIP`-gated Helper in device_discovery.cpp; wird von `EnumerateDevices()` aufgerufen | — |
+| `MakeCPUFallback` | gpu | **INTERNAL_ONLY** | CPU-Sentinel-Factory in device_discovery.cpp; immer von `EnumerateDevices()` aufgerufen | — |
+| `resolveDevices` | gpu | **KEEP** | P2P-Transfer device resolution; in GPU-Transferpfad wirable | v1.5.0 |
+| `AIPluginGenerator` | plugins | **KEEP** | Plugin-Scaffolding; Mindest-Test + CLI-Tool verdrahten | v1.5.0 |
+| `generatePlugin` | plugins | **KEEP** | Teil von AIPluginGenerator; test + wire mit CLI | v1.5.0 |
+| `exportFromJson` | process | **KEEP** | BPMN-Export-API; in process_api_handler verdrahten | v1.5.0 |
+| `importFile` | process | **KEEP** | BPMN-Import; in process_api_handler verdrahten | v1.5.0 |
+| `getDocumentBlob` | projects | **KEEP** | Document-API Blob-Accessor; wire in document_api_handler | v1.5.0 |
+| `getDocumentChunks` | projects | **KEEP** | RAG-Pipeline-Input; wire in rag_ingestion_bridge | v1.5.0 |
+| `uploadDocument` | projects | **KEEP** | Document-Upload-API; wire in document_api_handler | v1.5.0 |
+| `attackCategoryName` | prompt_engineering | **KEEP** | Adversarial-Test-Observability; Mindest-Test hinzufügen | v1.5.0 |
+| `executeBroadcastJoin` | query | **KEEP** | Broadcast-Join-Strategie für kleine Lookup-Tabellen; wire in AdaptiveJoinExecutor | v1.5.0 |
+| `samplerFromString` | stable_diffusion | **KEEP** | SD-Sampler-Parsing; wird benötigt wenn SDPlugin in HTTP-Server verdrahtet wird | v1.6.0 |
+| `watermarkReached` | timeseries | **KEEP** | CQL Phase 8 (Sliding Window) benötigt Watermark-Support | v2.0.0 |
+| `watermarkThreshold` | timeseries | **KEEP** | CQL Phase 8 (Sliding Window) benötigt Watermark-Config | v2.0.0 |
+| `contentManager` | toolbox | **KEEP** | ContentToolboxBridge-Accessor; in RAG-Pipeline verdrahten | v1.5.0 |
+| `enrichExisting` | toolbox | **KEEP** | RAG-Enrichment-Step; in ingestion_pipeline verdrahten | v1.5.0 |
+| `applyRNNoiseSuppression` | voice | **KEEP** | Voice-Pipeline RNNoise; in voice_api_handler verdrahten | v1.6.0 |
+| `processRNNoiseFrames` | voice | **KEEP** | Voice-Pipeline Frame-Processor; in voice_api_handler verdrahten | v1.6.0 |
+| `parseWav` | whisper | **KEEP** | WAV-Parsing für Whisper-Plugin; Mindest-Test hinzufügen | v1.5.0 |
 
 ## Handlungsbedarf
 
@@ -63,10 +113,10 @@ Handlungsbedarf: im jeweiligen Modul-ROADMAP prüfen ob und wann die Integration
 
 | Symbol | Status | Use-Case | Tests | Externe Aufrufer |
 |--------|--------|----------|-------|-----------------|
-| `getHooks` | 🟡 UNGENUTZT | Gibt alle registrierten Hooks für einen Endpoint zurück | `–` | `–` |
-| `hookId` | 🟡 UNGENUTZT | Identifier für registrierte API-Lifecycle-Hooks | `–` | `–` |
-| `registerHook` | 🟡 UNGENUTZT | Registriert einen API-Gateway-Hook (Pre/Post-Request) | `–` | `–` |
-| `unregisterHook` | 🟡 UNGENUTZT | Entfernt einen registrierten Hook anhand der hookId | `–` | `–` |
+| `getHooks` | 🗑️ CANDIDATE_FOR_REMOVAL | Kein Roadmap-Signal; kein externer Aufrufer | `–` | `–` |
+| `hookId` | 🗑️ CANDIDATE_FOR_REMOVAL | Kein Roadmap-Signal; kein externer Aufrufer | `–` | `–` |
+| `registerHook` | 🗑️ CANDIDATE_FOR_REMOVAL | Kein Roadmap-Signal; kein externer Aufrufer | `–` | `–` |
+| `unregisterHook` | 🗑️ CANDIDATE_FOR_REMOVAL | Kein Roadmap-Signal; kein externer Aufrufer | `–` | `–` |
 
 ### `aql`
 
@@ -155,10 +205,10 @@ Handlungsbedarf: im jeweiligen Modul-ROADMAP prüfen ob und wann die Integration
 
 | Symbol | Status | Use-Case | Tests | Externe Aufrufer |
 |--------|--------|----------|-------|-----------------|
-| `EnumerateCUDA` | 🟡 UNGENUTZT | Zählt verfügbare CUDA-Devices auf | `–` | `–` |
-| `EnumerateROCm` | 🟡 UNGENUTZT | Zählt verfügbare ROCm/HIP-Devices auf | `–` | `–` |
-| `MakeCPUFallback` | 🟡 UNGENUTZT | Erzeugt CPU-Fallback-Device wenn keine GPU verfügbar | `–` | `–` |
-| `resolveDevices` | 🟡 UNGENUTZT | Löst Device-Liste für P2P-Transfer auf (src+dst Devices bestimmen) | `–` | `–` |
+| `EnumerateCUDA` | ⚪ INTERNAL_ONLY | `#ifdef THEMIS_ENABLE_CUDA`-gated Helper; aufgerufen von `EnumerateDevices()` in device_discovery.cpp | `–` | `EnumerateDevices()` (device_discovery.cpp) |
+| `EnumerateROCm` | ⚪ INTERNAL_ONLY | `#ifdef THEMIS_ENABLE_HIP`-gated Helper; aufgerufen von `EnumerateDevices()` | `–` | `EnumerateDevices()` (device_discovery.cpp) |
+| `MakeCPUFallback` | ⚪ INTERNAL_ONLY | CPU-Sentinel-Factory; immer von `EnumerateDevices()` aufgerufen wenn keine GPU verfügbar | `–` | `EnumerateDevices()` (device_discovery.cpp) |
+| `resolveDevices` | 🟡 UNGENUTZT | Löst Device-Liste für P2P-Transfer auf; noch nicht verdrahtet | `–` | `–` |
 
 ### `graph`
 

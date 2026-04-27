@@ -34,6 +34,7 @@
 #include <unordered_map>
 #include <atomic>
 #include <nlohmann/json.hpp>
+#include "cache/cache_interfaces.h"
 
 namespace themis {
 namespace cache {
@@ -47,7 +48,7 @@ namespace cache {
  * - TTL-based expiration
  * - Hit/miss statistics for monitoring
  */
-class BoundedLRUCache {
+class BoundedLRUCache : public ICacheBackend<std::string, nlohmann::json> {
 public:
     /**
      * @brief Configuration for the cache
@@ -74,28 +75,44 @@ public:
      * @param key Key to retrieve
      * @return Value if present and not expired, nullopt otherwise
      */
-    std::optional<nlohmann::json> get(const std::string& key);
+    std::optional<nlohmann::json> get(const std::string& key) override;
     
     /**
-     * @brief Put value with TTL
-     * @param key Key to store
-     * @param value Value to store
+     * @brief Put value with optional per-entry TTL
+     * @param key        Cache key
+     * @param value      Value to store
+     * @param ttl_seconds Per-entry TTL in seconds; 0 = use Config::ttl
      */
-    void put(const std::string& key, const nlohmann::json& value);
+    void put(const std::string& key, nlohmann::json value, uint32_t ttl_seconds = 0) override;
     
     /**
      * @brief Remove entry from cache
      * @param key Key to remove
      * @return true if entry was found and removed
      */
-    bool remove(const std::string& key);
-    
+    bool remove(const std::string& key) override;
+
+    /**
+     * @brief Check whether @p key is present (and not expired) without touching LRU order.
+     */
+    bool contains(const std::string& key) const override;
+
+    /**
+     * @brief Clear all entries
+     */
+    void clear() override;
+
+    /**
+     * @brief Return the number of entries currently in the cache.
+     */
+    std::size_t size() const override;
+
     /**
      * @brief Evict LRU entry if at capacity
      * @return true if an entry was evicted
      */
     bool evictLRUIfNeeded();
-    
+
     /**
      * @brief Cache statistics
      */
@@ -116,11 +133,6 @@ public:
      * @return Current statistics
      */
     Statistics getStatistics() const;
-    
-    /**
-     * @brief Clear all entries
-     */
-    void clear();
     
 private:
     /**

@@ -837,6 +837,32 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 ---
 
 
+##### 2.6 Continuous Query Engine — Performance Expectations (v2.0.0)
+
+> Implementierung: `include/query/continuous_query_engine.h` · `src/query/continuous_query_engine.cpp`  
+> ROADMAP: `src/query/ROADMAP.md` Phase 8.5  
+> Benchmarks: `benchmarks/bench_continuous_query.cpp`  
+> Benchmark-IDs: `CQ-PERF-01` (Throughput), `CQ-PERF-02` (WindowTick)
+
+Phase 8 (v2.0.0) adds a production-grade Continuous Query Language (CQL) engine.
+The performance targets below are based on single-node, 4-core host measurements with
+synthetic sensor-stream workloads (average tuple size ~100 B).
+
+| Ziel-ID | Benchmark | Bedingung | Ziel | Status |
+|---------|-----------|-----------|------|--------|
+| CQ-PERF-01 | `BM_ContinuousQuery_Throughput` | Single sliding time-window query, 4-core host | ≥ 500 000 tuples/s | 📋 Zielwert formuliert |
+| CQ-PERF-01 | `BM_ContinuousQuery_TupleLatency` | Per-tuple end-to-end latency | p99 ≤ 5 ms | 📋 Zielwert formuliert |
+| CQ-PERF-02 | `BM_ContinuousQuery_WindowTick` | Empty-window tick (no new events) | ≤ 1 µs/tick | 📋 Zielwert formuliert |
+| CQ-PERF-02 | `BM_ContinuousQuery_WindowTick_1k` | Tick with 1 000 active tuples | ≤ 2 µs/tick | 📋 Zielwert formuliert |
+| CQ-PERF-02 | `BM_ContinuousQuery_WindowExpiry_10k` | Full expiry of 10 000 tuples | ≤ 5 ms | 📋 Zielwert formuliert |
+
+**Offene Punkte:**
+- Benchmarks registriert in `bench_continuous_query.cpp` (Phase 8.5, v2.0.0); Messung auf Produktionshardware steht aus.
+- Concurrent active queries ≥ 1 000 (single node, mixed window types) — kein Benchmark vorhanden; Unit-Test CQ-20 deckt functional path ab.
+- Watermark correction latency ≤ 2 × tick_interval — covered by CQ-14/15 unit tests; no dedicated perf benchmark yet.
+
+---
+
 #### 3. Index-Modul
 
 > Quelle: `benchmark_summary.csv` (Run 2025-12-29), `baselines/acceleration/baseline.json` (v1.0.0)

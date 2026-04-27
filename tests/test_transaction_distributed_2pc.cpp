@@ -998,3 +998,99 @@ TEST(Distributed2PCPerfTests, ThroughputAtLeast10kOpsPerSec) {
     EXPECT_GE(ops_per_sec, 10000.0)
         << "Throughput " << ops_per_sec << " ops/s below 10k/s SLO";
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Correctness fix tests (DTM-1, DTM-2, DTM-3, DTM-4, CC-1)
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Helper: build a remote-only Participant (no callback, endpoint only).
+static Participant makeRemoteParticipant(
+    const std::string& node_id,
+    std::set<std::string> keys = {"key1"}
+) {
+    Participant p;
+    p.node_id       = node_id;
+    p.endpoint      = node_id + ":9090";
+    p.affected_keys = std::move(keys);
+    p.callback      = nullptr;  // remote — no in-process callback
+    return p;
+}
+
+// DTM-1: A remote participant without a registered callback must vote ABORT,
+// not COMMIT.  prepareDistributed() with a remote-only participant must fail.
+TEST_F(DistributedTxnManagerTest, DTM1_RemoteParticipantWithoutCallbackVotesAbort) {
+    const auto tid = mgr->beginDistributed({makeRemoteParticipant("remote-node-1")});
+    const auto status = mgr->prepareDistributed(tid);
+    EXPECT_FALSE(status.ok) << "Remote participant without callback must vote ABORT (DTM-1)";
+}
+
+// DTM-1: Mixed — one local (COMMIT vote) and one remote (ABORT vote) participant.
+// The transaction must be aborted because the remote cannot confirm.
+TEST_F(DistributedTxnManagerTest, DTM1_MixedLocalAndRemoteVotesAbort) {
+    const auto tid = mgr->beginDistributed({
+        makeParticipant("local-node",  p1.get()),
+        makeRemoteParticipant("remote-node-2"),
+    });
+    const auto status = mgr->prepareDistributed(tid);
+    EXPECT_FALSE(status.ok) << "Mixed local+remote must abort when remote has no callback (DTM-1)";
+    // Local participant must have been asked to prepare.
+    EXPECT_GE(p1->prepareCount(), 1);
+}
+
+// DTM-2: recoverInDoubtTransactions() must call onAbort on in-memory
+// participants, not just write to WAL and leave them locked.
+TEST_F(DistributedTxnManagerTest, DTM2_RecoveryBroadcastsAbortToInMemoryParticipants) {
+    // Create a transaction and advance it to PREPARED state.
+    const auto tid = mgr->beginDistributed({
+        makeParticipant("n1", p1.get()),
+        makeParticipant("n2", p2.get()),
+    });
+    ASSERT_TRUE(mgr->prepareDistributed(tid).ok);
+    // At this point the transaction is PREPARED (in-doubt if coordinator crashed here).
+
+    // Simulate coordinator re-processing in-doubt transactions.
+    const size_t resolved = mgr->recoverInDoubtTransactions();
+    EXPECT_GE(resolved, 1u) << "At least one in-doubt transaction should be recovered (DTM-2)";
+
+    // Both in-memory participants must have received an ABORT notification.
+    EXPECT_GE(p1->abortCount(), 1) << "Participant p1 must be notified of ABORT during recovery (DTM-2)";
+    EXPECT_GE(p2->abortCount(), 1) << "Participant p2 must be notified of ABORT during recovery (DTM-2)";
+}
+
+// DTM-3: isParticipantAlive() must return true for in-process participants and
+// false for remote participants (no callback).
+TEST_F(DistributedTxnManagerTest, DTM3_IsParticipantAliveDistinguishesLocalAndRemote) {
+    // Register a transaction with both an in-process and a remote participant.
+    const auto tid = mgr->beginDistributed({
+        makeParticipant("in-proc-node",  p1.get()),
+        makeRemoteParticipant("remote-node-dtm3"),
+    });
+
+    EXPECT_TRUE(mgr->isParticipantAlive("in-proc-node"))
+        << "In-process participant with callback must be alive (DTM-3)";
+    EXPECT_FALSE(mgr->isParticipantAlive("remote-node-dtm3"))
+        << "Remote participant without callback must be reported as not alive (DTM-3)";
+    EXPECT_TRUE(mgr->isParticipantAlive("unknown-node"))
+        << "Unknown node (not in any txn) must default to alive (DTM-3)";
+
+    // Clean up.
+    mgr->abortDistributed(tid);
+}
+
+// CC-1: logToWAL (via commitDistributed/abortDistributed) must propagate WAL
+// write errors rather than silently swallowing them.  We test this indirectly
+// by verifying that a successfully committed transaction was correctly recorded
+// (the positive case; negative/fault-injection testing requires a mock WAL).
+TEST_F(DistributedTxnManagerTest, CC1_SuccessfulWALWriteDoesNotSuppressPhase2) {
+    // Without a WAL configured (default test fixture), commit must still work.
+    const auto tid = mgr->beginDistributed({
+        makeParticipant("n1", p1.get()),
+        makeParticipant("n2", p2.get()),
+    });
+    ASSERT_TRUE(mgr->prepareDistributed(tid).ok);
+    ASSERT_TRUE(mgr->commitDistributed(tid).ok);
+
+    // Both participants must have received onCommit.
+    EXPECT_GE(p1->commitCount(), 1);
+    EXPECT_GE(p2->commitCount(), 1);
+}

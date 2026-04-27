@@ -52,6 +52,7 @@
 #include "geo/spatial_backend.h"
 #include "utils/geo/ewkb.h"
 #include "utils/logger.h"
+#include "utils/geometric_distances.h"
 
 #include <cmath>
 #include <stdexcept>
@@ -224,15 +225,7 @@ void GeoAccelerationBridge::shutdown() {}
 // static
 double GeoAccelerationBridge::haversineKm(double lat1, double lon1,
                                            double lat2, double lon2) noexcept {
-    const double dlat = (lat2 - lat1) * kDegToRad;
-    const double dlon = (lon2 - lon1) * kDegToRad;
-    const double rlat1 = lat1 * kDegToRad;
-    const double rlat2 = lat2 * kDegToRad;
-
-    const double a = std::sin(dlat / 2.0) * std::sin(dlat / 2.0) +
-                     std::cos(rlat1) * std::cos(rlat2) *
-                     std::sin(dlon / 2.0) * std::sin(dlon / 2.0);
-    return kEarthRadiusKm * 2.0 * std::atan2(std::sqrt(a), std::sqrt(1.0 - a));
+    return themis::geo::haversine_km(lat1, lon1, lat2, lon2);
 }
 
 std::vector<float> GeoAccelerationBridge::batchDistances(

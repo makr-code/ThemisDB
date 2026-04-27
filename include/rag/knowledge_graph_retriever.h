@@ -76,8 +76,10 @@
 #pragma once
 
 #include "rag/rag_judge.h"
+#include "graph/knowledge_graph_reasoner.h"
 
 #include <memory>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -190,6 +192,17 @@ struct KGRetrievalResult {
 
     /// Wall-clock time for the entire augmentation pass (milliseconds).
     double elapsed_ms = 0.0;
+
+    // ── Reasoning-chain fields (populated when a KnowledgeGraphReasoner is set) ──
+
+    /// Inference chains derived during this retrieval pass (one per linked query entity).
+    std::vector<graph::InferenceChain> inference_chains;
+
+    /// True when at least one inference chain produced derived triples.
+    bool has_reasoning = false;
+
+    /// Time spent on KnowledgeGraphReasoner::infer() calls (ms).
+    double reasoning_elapsed_ms = 0.0;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -234,6 +247,20 @@ struct KGRetrieverConfig {
 
     /// Entity linker configuration.
     EntityLinkerConfig linker_config;
+
+    // ── KnowledgeGraphReasoner integration ───────────────────────────────────
+
+    /// Maximum inference hops when a KnowledgeGraphReasoner is attached.
+    /// Set to 0 to disable reasoning even when a reasoner is registered.
+    int max_inference_hops = 5;
+
+    /// When true, the serialised InferenceChain for each query entity is
+    /// stored in `RetrievedDocument::metadata["reasoning_chain"]`.
+    bool attach_reasoning_chain_to_metadata = true;
+
+    /// Timeout budget for reasoning per query entity (ms).  Inference that
+    /// exceeds this budget is skipped gracefully (fallback to direct KG query).
+    double reasoning_timeout_ms = 200.0;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -459,6 +486,25 @@ public:
      * @brief Replace configuration.
      */
     void setConfig(const KGRetrieverConfig& config);
+
+    // ── KnowledgeGraphReasoner integration ────────────────────────────────────
+
+    /**
+     * @brief Attach a KnowledgeGraphReasoner for multi-hop inference.
+     *
+     * When set, `retrieve()` calls `KnowledgeGraphReasoner::infer()` for each
+     * linked query entity and includes the resulting `InferenceChain` in the
+     * `KGRetrievalResult::inference_chains` list.  When
+     * `KGRetrieverConfig::attach_reasoning_chain_to_metadata` is true, the
+     * chain is also serialised into
+     * `RetrievedDocument::metadata["reasoning_chain"]`.
+     *
+     * Pass `nullptr` to detach the current reasoner.
+     *
+     * @param reasoner  Pointer to a fully configured `KnowledgeGraphReasoner`
+     *                  (must outlive this retriever or be detached first).
+     */
+    void setReasoner(graph::KnowledgeGraphReasoner* reasoner);
 
 private:
     struct Impl;

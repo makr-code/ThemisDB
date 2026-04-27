@@ -36,6 +36,7 @@
 #include <unordered_set>
 #include <nlohmann/json.hpp>
 #include "cache/cache_metrics.h"
+#include "cache/cache_interfaces.h"
 #include "cache/cache_replication.h"
 #include "cache/eviction_policy.h"
 #include "cache/predictive_prefetcher.h"
@@ -73,7 +74,7 @@ class RocksDBWrapper;
  * - Internal mutexes protect cache structures
  * - Lock-free fast path for L1 hits
  */
-class AdaptiveQueryCache {
+class AdaptiveQueryCache : public cache::ICacheBackend<std::string, nlohmann::json> {
 public:
     enum class CacheLevel {
         HOT,   // L1: In-memory, fast, small
@@ -235,7 +236,7 @@ public:
      * @return Cached result if found and not expired, nullopt otherwise
      */
     std::optional<CacheEntry> get(const std::string& fingerprint,
-                                   const std::string& tenant_id = "");
+                                   const std::string& tenant_id);
     
     /**
      * @brief Store query result in cache
@@ -272,7 +273,41 @@ public:
     /**
      * @brief Clear all cache entries
      */
-    void clear();
+    void clear() override;
+    
+    // ========================================================================
+    // ICacheBackend<std::string, nlohmann::json> — simple adapter interface
+    //
+    // Maps the rich multi-level, multi-tenant API to a plain K→V facade so
+    // that cache-agnostic consumers (query optimisers, RAG pipelines, etc.)
+    // can use AdaptiveQueryCache through the uniform ICacheBackend contract.
+    //
+    // The adapter always operates against the default (empty) tenant and
+    // forwards to the rich API.  Prefer the rich API for production paths.
+    // ========================================================================
+
+    /// Adapter get: returns `entry.result` for the default tenant.
+    std::optional<nlohmann::json> get(const std::string& fingerprint) override;
+
+    /// Adapter put: stores @p result in the default tenant with empty query params.
+    /// @note @p ttl_seconds is **not honoured** — AdaptiveQueryCache applies its own
+    ///       tier-based TTL policy (Config::l1/l2/l3_ttl_seconds).  Use the rich
+    ///       `put(fp, params, result, tenant_id)` overload when per-call TTL control
+    ///       is required.
+    void put(const std::string& fingerprint, nlohmann::json result,
+             uint32_t ttl_seconds = 0) override;
+
+    /// Adapter remove: removes @p fingerprint from all cache tiers.
+    /// @return true if the key was found in at least one tier.
+    bool remove(const std::string& fingerprint) override;
+
+    /// Adapter contains: checks presence in all tiers without updating LRU.
+    bool contains(const std::string& fingerprint) const override;
+
+    /// Adapter size: returns the number of entries in L1 + L2.
+    /// @note L3 (RocksDB) entries are **not counted** to avoid an O(n) full-scan.
+    ///       The returned value is therefore a lower bound on the total cache size.
+    std::size_t size() const override;
     
     /**
      * @brief Clear expired entries from all levels

@@ -75,6 +75,7 @@ public:
 //             build with -DTHEMIS_ENABLE_S3=ON and link aws-sdk-cpp[s3] (vcpkg).
 // Production Delta: upload() / download() log a warning and return false. No data
 //                   is sent to or read from S3. Backup metadata is still recorded.
+// Roadmap ref: src/sharding/ROADMAP.md § "Planned Features"
 // Removal Plan: Future Enhancement – not a core function. Scheduled post-v1.3.0.
 //               See include/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
 // S3-compatible storage provider (AWS S3, MinIO, etc.)
@@ -224,6 +225,7 @@ private:
 //             -DTHEMIS_ENABLE_AZURE=ON and link azure-storage-blobs-cpp (vcpkg) for real.
 // Production Delta: upload() / download() log a warning and return false. No data reaches
 //                   Azure Blob Storage.
+// Roadmap ref: src/sharding/ROADMAP.md § "Planned Features"
 // Removal Plan: Future Enhancement – not a core function. Scheduled post-v1.3.0.
 //               See include/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
 // Azure Blob Storage provider
@@ -330,6 +332,7 @@ private:
 //             -DTHEMIS_ENABLE_GCS=ON and link google-cloud-cpp[storage] (vcpkg) for real.
 // Production Delta: upload() / download() log a warning and return false. No data reaches
 //                   Google Cloud Storage.
+// Roadmap ref: src/sharding/ROADMAP.md § "Planned Features"
 // Removal Plan: Future Enhancement – not a core function. Scheduled post-v1.3.0.
 //               See include/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
 // Google Cloud Storage provider

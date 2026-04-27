@@ -45,16 +45,16 @@
 
 ### Long-term (6-12 months)
 - [I] GPU-accelerated BFS/DFS for massive graphs (Issue: #1829)
-- [ ] Ontologie-Integration: `OntologyManager` + semantische Pfad-Constraints (Target: Q3 2026)
+- [x] Ontologie-Integration: `OntologyManager` + semantische Pfad-Constraints (Target: Q3 2026)
   - Affected: `include/graph/ontology_manager.h`, `src/graph/ontology_manager.cpp`,
     `include/graph/path_constraints.h`, `src/graph/path_constraints.cpp`
   - Expected behavior: `PathConstraints::addSemanticConstraint(ontology, ruleset)` prüft
     Kanten- und Knotentypen gegen OWL-lite Konzepthierarchie; Violation-Liste zurückgeben
   - Errors: unbekannte Konzept-IDs → unconstrained (WARN); Parsing-Fehler → `Status::Error`
-  - Tests: OM-01..OM-12 (`test_ontology_manager.cpp`) + SC-01..SC-10 (`test_path_constraints_semantic.cpp`)
+  - Tests: OM-01..OM-12 (`tests/graph/test_ontology_manager.cpp`) + SC-01..SC-10 (`tests/graph/test_path_constraints_semantic.cpp`)
   - Perf: ≤ 5 µs per edge constraint check; Ontologie-Load ≤ 100 ms für 10 000 Konzepte
   - Detail: `src/graph/FUTURE_ENHANCEMENTS.md` → Ontology-based Semantic Constraints
-- [ ] Knowledge Graph Reasoning mit AI/ML + LoRA (Target: Q4 2026 – Q3 2027)
+- [~] Knowledge Graph Reasoning mit AI/ML + LoRA (Target: Q4 2026 – Q3 2027)
   - Affected: `include/graph/knowledge_graph_reasoner.h`, `src/graph/knowledge_graph_reasoner.cpp`,
     `include/rag/knowledge_graph_retriever.h`, `src/rag/knowledge_graph_retriever.cpp`,
     Integration mit `src/llm/multi_lora_manager.cpp`
@@ -131,33 +131,33 @@
 - [x] Selective rule enablement via `RewriteConfig::enabled_rules`
 - [x] Wall-clock time budget via `RewriteConfig::rewrite_time_limit_ms`
 
-### Phase 6: Ontologie-Integration & Semantische Constraints (Status: Planned [ ])
-- [ ] `OntologyManager` — JSON/YAML-Loader, `isA()` transitive Konzepthierarchie, `allowedEdgeTypes()` (Target: Q3 2026)
+### Phase 6: Ontologie-Integration & Semantische Constraints (Status: Done [x])
+- [x] `OntologyManager` — JSON/YAML-Loader, `isA()` transitive Konzepthierarchie, `allowedEdgeTypes()` (Target: Q3 2026)
   - Affected: `include/graph/ontology_manager.h`, `src/graph/ontology_manager.cpp`
   - Runtime: immutable nach `build()`; thread-safe read-only; LRU-Cache für `isA()` (1 000 Einträge)
   - Error handling: unbekannte Konzept-IDs → unconstrained (WARN); Parsing-Fehler → `Status::Error`
   - Tests: `tests/graph/test_ontology_manager.cpp` (OM-01..OM-12)
   - Perf: Load ≤ 100 ms für 10 000 Konzepte; `isA()` ≤ 5 µs inkl. Cache-Lookup
-- [ ] `PathConstraints::addSemanticConstraint()` — OWL-lite Pfad-Validierung, prune-first BFS (Target: Q4 2026)
+- [x] `PathConstraints::addSemanticConstraint()` — OWL-lite Pfad-Validierung, prune-first BFS (Target: Q4 2026)
   - Affected: `include/graph/path_constraints.h`, `src/graph/path_constraints.cpp`
   - Runtime: `validateSemanticPath()` iteriert über alle Pfadkanten; Violation-Liste zurückgeben
   - Tests: `tests/graph/test_path_constraints_semantic.cpp` (SC-01..SC-10)
   - Detail: `src/graph/FUTURE_ENHANCEMENTS.md` → Ontology-based Semantic Constraints
 
-### Phase 7: Knowledge Graph Reasoning mit AI/ML + LoRA (Status: Planned [ ])
-- [ ] `KnowledgeGraphReasoner` — Horn-Klausel-Forward-Chaining + `InferenceStore` + Erklärungsketten (Target: Q4 2026)
+### Phase 7: Knowledge Graph Reasoning mit AI/ML + LoRA (Status: In Progress [~])
+- [x] `KnowledgeGraphReasoner` — Horn-Klausel-Forward-Chaining + `InferenceStore` + Erklärungsketten (Target: Q4 2026)
   - Affected: `include/graph/knowledge_graph_reasoner.h`, `src/graph/knowledge_graph_reasoner.cpp`
   - Runtime: `infer(subjectId, depth)` → `InferenceChain`; `explain(factId)` → Proof-Trace als Triple-Sequenz
   - Error handling: Regelwiderspruch → `ConflictError`; Zirkelbeweis → Depth-Limit mit `CycleDetected`
   - Tests: `tests/graph/test_knowledge_graph_reasoner.cpp` (KGR-01..KGR-20)
   - Perf: 1 M Kanten kalt ≤ 2 s; incremental CDC ≤ 50 ms
-- [ ] Incremental CDC-Trigger: `KnowledgeGraphReasoner::onCDCEvent()` für Forward-Chaining bei Kanten-Inserts (Target: Q1 2027)
+- [x] Incremental CDC-Trigger: `KnowledgeGraphReasoner::onCDCEvent()` für Forward-Chaining bei Kanten-Inserts (Target: Q1 2027)
 - [ ] LoRA-Adapter-Integration: `applyLoRAScore()` — Soft-Plausibility-Scoring via `MultiLoRAManager` für Mustererkennung (Target: Q2 2027)
   - Affected: Integration mit `src/llm/multi_lora_manager.cpp`
   - Runtime: Graph-Kontext → LoRA-Adapter-Selektion → Konfidenzwert (0.0–1.0) pro Inferenzkante
   - Guard: `THEMIS_ENABLE_LLM`; deterministischer Regel-Fallback wenn LoRA nicht geladen
   - Perf: LoRA-Scoring 1 000 Kanten ≤ 500 ms
-- [ ] RAG-Integration: `KnowledgeGraphRetriever` nutzt `KnowledgeGraphReasoner` für Multi-Hop-Reasoning (Target: Q3 2027)
+- [x] RAG-Integration: `KnowledgeGraphRetriever` nutzt `KnowledgeGraphReasoner` für Multi-Hop-Reasoning (Target: Q3 2027)
   - Affected: `include/rag/knowledge_graph_retriever.h`, `src/rag/knowledge_graph_retriever.cpp`
   - Detail: `src/graph/FUTURE_ENHANCEMENTS.md` → Knowledge Graph Reasoning with Ontology & ML/LoRA
 

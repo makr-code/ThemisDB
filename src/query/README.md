@@ -824,6 +824,125 @@ target_link_libraries(themisdb_query
    - Use EXPLAIN to verify predicate ordering in complex queries
    - Consider manual hints for queries where optimizer struggles
 
+## Continuous Query Language (CQL) — v2.0.0
+
+ThemisDB v2.0.0 introduces a production-grade **Continuous Query Language (CQL)** engine that evaluates standing queries continuously as new data arrives. The implementation is based on the formal semantics of Arasu, Babu & Widom (2006); see [arasu_cql_2006.md](../../docs/research/papers/arasu_cql_2006.md).
+
+### CQL Syntax Reference
+
+```aql
+-- Sliding time-window aggregate (10 s range, 1 s slide)
+CREATE CONTINUOUS QUERY sensor_avg
+  OVER sensor_readings
+  WINDOW [RANGE 10 SECONDS SLIDE 1 SECOND]
+  AS FOR t IN __window__
+     COLLECT AGGREGATE avg_v = AVG(t.value)
+     RETURN {ts: CURRENT_TIMESTAMP(), avg: avg_v}
+  OUTPUT DELTA;
+
+-- Count window (last 500 events)
+CREATE CONTINUOUS QUERY recent_events
+  OVER iot_stream
+  WINDOW [ROWS 500]
+  AS FOR t IN __window__
+     FILTER t.severity >= 3
+     SORT t.event_ts DESC
+     RETURN t
+  OUTPUT SNAPSHOT;
+
+-- Tumbling time-window (non-overlapping 1-minute buckets)
+CREATE CONTINUOUS QUERY minute_counts
+  OVER transactions
+  WINDOW [TUMBLING 1 MINUTE]
+  AS FOR t IN __window__
+     COLLECT AGGREGATE cnt = COUNT(t)
+     RETURN {minute: t.ts, count: cnt}
+  OUTPUT CHANGES;
+
+-- Drop a query
+DROP CONTINUOUS QUERY sensor_avg;
+
+-- List all active queries
+SHOW CONTINUOUS QUERIES;
+```
+
+### Window Types
+
+| Type | Syntax | Semantics |
+|------|--------|-----------|
+| Sliding time | `[RANGE T SLIDE S]` | Overlapping windows of duration T, advancing every S |
+| Tumbling time | `[TUMBLING T]` | Non-overlapping windows of fixed duration T |
+| Sliding count | `[ROWS N SLIDE K]` | Overlapping windows of N tuples, advancing K tuples |
+| Count (fixed) | `[ROWS N]` | Last N tuples (shorthand for sliding count, slide=1) |
+
+### Output Modes
+
+| Mode | Behaviour |
+|------|-----------|
+| `DELTA` | Emits `(+tuple)` additions and `(-tuple)` retractions each tick |
+| `SNAPSHOT` | Emits the full current window state each tick |
+| `CHANGES` | Emits only additions (no retractions) |
+
+### C++ API
+
+```cpp
+#include "query/continuous_query_engine.h"
+#include "query/continuous_query_engine_impl.h"
+
+using namespace themis::query;
+
+// Create engine
+auto engine = ContinuousQueryEngineImpl::create();
+
+// Register a query
+ContinuousQuerySpec spec;
+spec.name               = "my_query";
+spec.source_collection  = "sensor_data";
+spec.window             = WindowSpec::slidingTime(
+    std::chrono::seconds(10), std::chrono::seconds(1));
+spec.aql_body           = "FOR t IN __window__ COLLECT AGGREGATE s = SUM(t.v) RETURN s";
+spec.result_mode        = ResultMode::DELTA;
+spec.allowed_lateness_ms = 500;
+
+auto handle = engine->registerQuery(std::move(spec));
+
+// Subscribe to results
+auto stream = engine->subscribe("my_query", ResultMode::DELTA);
+while (stream->hasMore()) {
+    auto result = stream->next(std::chrono::seconds(1));
+    if (result) {
+        // result->payload  — JSON string
+        // result->is_retract — true for retractions
+    }
+}
+
+// Inject a tuple (CDC feed / test)
+engine->injectTuple("sensor_data",
+    R"({"ts":1714000000000000,"v":42.5})",
+    1714000000000000LL);  // event_ts in µs
+
+// Drop
+engine->dropQuery("my_query");
+```
+
+### Performance Targets
+
+| Metric | Target | Benchmark |
+|--------|--------|-----------|
+| Throughput | ≥ 500 000 tuples/s | `BM_ContinuousQuery_Throughput` (CQ-PERF-01) |
+| Per-tuple p99 latency | ≤ 5 ms | `BM_ContinuousQuery_TupleLatency` (CQ-PERF-01) |
+| Empty-window tick overhead | ≤ 1 µs | `BM_ContinuousQuery_WindowTick` (CQ-PERF-02) |
+| Concurrent active queries | ≥ 1 000 | Unit test CQ-20 |
+| Watermark correction latency | ≤ 2 × tick_interval | Unit tests CQ-14/15 |
+
+### Capacity Limits
+
+| Parameter | Default | Override |
+|-----------|---------|---------|
+| `max_tuples` per synopsis | 10 000 000 | `SynopsisStore` constructor |
+| `max_bytes` per synopsis | 1 GiB | `SynopsisStore` constructor |
+| `allowed_lateness_ms` | 0 (strict) | `ContinuousQuerySpec::allowed_lateness_ms` |
+
 ## Known Limitations
 
 1. **Parser Limitations**:
@@ -867,7 +986,7 @@ target_link_libraries(themisdb_query
 
 ## Status
 
-**Production Ready** (as of v1.5.0)
+**Production Ready** (as of v2.0.0)
 
 ✅ **Stable Features:**
 - AQL parsing and AST generation
@@ -890,6 +1009,7 @@ target_link_libraries(themisdb_query
 - Result type annotations (for SDK code generation)
 - Parallel collection scans (`ParallelScanner`)
 - Runtime re-optimization from execution statistics
+- **Continuous Query Language (CQL)** — `ContinuousQueryEngine`, `WindowSpec`, `SynopsisStore`, `IncrementalAgg`, `CQWatermark` (v2.0.0)
 
 ⚠️ **Beta Features:**
 - Adaptive query optimization (v1.5.0+)
@@ -910,10 +1030,11 @@ target_link_libraries(themisdb_query
 - [Query Optimization Guide](../../docs/query_optimization.md) - Performance tuning and best practices
 - [IMPLEMENTATION_SUMMARY_AQL_FUNCTIONS.md](../../IMPLEMENTATION_SUMMARY_AQL_FUNCTIONS.md) - AQL function implementation details
 - [IMPLEMENTATION_SUMMARY_OPTIMIZER.md](../../IMPLEMENTATION_SUMMARY_OPTIMIZER.md) - Query optimizer internals
+- [arasu_cql_2006.md](../../docs/research/papers/arasu_cql_2006.md) - CQL formal semantics (Arasu, Babu & Widom 2006)
 
 *Last Updated: April 2026*
-*Module Version: v1.5.0*
-*Next Review: v1.6.0 Release*
+*Module Version: v2.0.0*
+*Next Review: v2.1.0 Release*
 
 ## Scientific References
 
@@ -926,6 +1047,8 @@ target_link_libraries(themisdb_query
 4. Graefe, G. (1993). **Query Evaluation Techniques for Large Databases**. *ACM Computing Surveys*, 25(2), 73–170. https://doi.org/10.1145/152610.152611
 
 5. Leis, V., Gubichev, A., Mirchev, A., Boncz, P., Kemper, A., & Neumann, T. (2015). **How Good Are Query Optimizers, Really?** *Proceedings of the VLDB Endowment*, 9(3), 204–215. https://doi.org/10.14778/2850583.2850594
+
+6. Arasu, A., Babu, S., & Widom, J. (2006). **The CQL Continuous Query Language: Semantic Foundations and Query Execution**. *The VLDB Journal*, 15(2), 121–142. https://doi.org/10.1007/s00778-004-0147-z — foundational reference for ThemisDB CQL engine (Phase 8); see [`docs/research/papers/arasu_cql_2006.md`](../../docs/research/papers/arasu_cql_2006.md)
 
 ## Installation
 

@@ -469,10 +469,9 @@ std::vector<PeerInfo> GossipProtocol::selectRandomPeers(size_t count) {
         return selected;
     }
     
-    // Random selection
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    
+    // GOS-3: Use thread_local RNG to avoid data races on the shared generator.
+    thread_local std::mt19937 gen(std::random_device{}());
+
     std::shuffle(candidates.begin(), candidates.end(), gen);
     
     size_t select_count = std::min(count, candidates.size());
@@ -554,9 +553,9 @@ void GossipProtocol::syncWithTopologyLocked() {
 }
 
 std::string GossipProtocol::generateMessageId() const {
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    static std::uniform_int_distribution<uint64_t> dis;
+    // GOS-3: thread_local RNG to avoid data races on the shared generator.
+    thread_local std::mt19937 gen(std::random_device{}());
+    thread_local std::uniform_int_distribution<uint64_t> dis;
     
     std::stringstream ss;
     ss << "msg_" << std::hex << std::setfill('0') << std::setw(16) << dis(gen);
@@ -623,16 +622,84 @@ bool GossipProtocol::verifyMessage(const GossipMessage& message) const {
     if (!config_.validate_certificates) {
         return true;
     }
-    
+
     // If signature is empty, accept (peer may not have signing configured)
     if (message.signature.empty()) {
         return true;
     }
-    
-    // Full signature verification would require the peer's public key
-    // This would typically be retrieved from the certificate during mTLS handshake
-    // For now, return true if signature is present
-    return true;
+
+    // GOS-2: Attempt real RSA-SHA256 signature verification when a public key
+    // is available for the sender. Public key files are expected at:
+    //   {peer_public_keys_dir}/{sender_id}.pem
+    if (config_.peer_public_keys_dir.empty()) {
+        // No key directory configured — cannot verify; accept with warning.
+        spdlog::warn("GossipProtocol: cannot verify signature from '{}': "
+                     "peer_public_keys_dir not configured", message.sender_id);
+        return true;
+    }
+
+    const std::string key_path = config_.peer_public_keys_dir + "/" +
+                                 message.sender_id + ".pem";
+    FILE* fp = fopen(key_path.c_str(), "r");
+    if (!fp) {
+        spdlog::warn("GossipProtocol: no public key file '{}' for peer '{}' — "
+                     "rejecting signed message", key_path, message.sender_id);
+        return false;
+    }
+
+    EVP_PKEY* pkey = PEM_read_PUBKEY(fp, nullptr, nullptr, nullptr);
+    fclose(fp);
+
+    if (!pkey) {
+        spdlog::error("GossipProtocol: failed to load public key from '{}': {}",
+                      key_path, ERR_reason_error_string(ERR_get_error()));
+        return false;
+    }
+
+    // Reconstruct the signed payload (must match signMessage())
+    const std::string to_verify = message.message_id + message.sender_id +
+                                  message.message_type +
+                                  std::to_string(message.timestamp);
+
+    // Base64-decode the stored signature
+    const std::string& b64 = message.signature;
+    std::vector<unsigned char> sig(b64.size());
+    const int decoded_len = EVP_DecodeBlock(
+        sig.data(),
+        reinterpret_cast<const unsigned char*>(b64.data()),
+        static_cast<int>(b64.size())
+    );
+    if (decoded_len <= 0) {
+        EVP_PKEY_free(pkey);
+        spdlog::warn("GossipProtocol: base64 decode failed for signature from '{}'",
+                     message.sender_id);
+        return false;
+    }
+    // EVP_DecodeBlock pads to a multiple of 3 — strip trailing padding bytes.
+    int sig_len = decoded_len;
+    const size_t pad = std::count(b64.rbegin(), b64.rbegin() + 2, '=');
+    sig_len -= static_cast<int>(pad);
+
+    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    bool valid = false;
+
+    if (ctx) {
+        if (EVP_DigestVerifyInit(ctx, nullptr, EVP_sha256(), nullptr, pkey) == 1 &&
+            EVP_DigestVerifyUpdate(ctx, to_verify.data(), to_verify.size()) == 1 &&
+            EVP_DigestVerifyFinal(ctx,
+                                  sig.data(),
+                                  static_cast<size_t>(sig_len)) == 1) {
+            valid = true;
+        } else {
+            spdlog::warn("GossipProtocol: signature verification failed for "
+                         "message '{}' from '{}'",
+                         message.message_id, message.sender_id);
+        }
+        EVP_MD_CTX_free(ctx);
+    }
+
+    EVP_PKEY_free(pkey);
+    return valid;
 }
 
 bool GossipProtocol::checkRateLimit(const std::string& peer_id) {

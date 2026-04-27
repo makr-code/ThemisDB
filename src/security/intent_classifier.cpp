@@ -15,6 +15,7 @@
 // Purpose: Rule-based feature classification as placeholder for LoRA-adapted model
 // Activation: Always active in v1.0; LoRA adapter replaces rules post-IMPL-A2
 // Production Delta: Rule-based precision ~80%; LoRA target precision ≥ 92%
+// Roadmap ref: src/security/ROADMAP.md § "Phase 4: Zero-Trust & Post-Quantum Cryptography"
 // Removal Plan: Replace classify() internals with LoRA adapter call in IMPL-A2 Loop-1
 
 #include "security/intent_classifier.h"

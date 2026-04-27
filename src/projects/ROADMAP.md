@@ -31,7 +31,7 @@ versioning, structural diff/merge, template instantiation, and collaboration ses
 - [x] REST API endpoints for project bundle export/import via `IProjectBundleManager` (Target: 2026-Q3) — interface in `include/projects/project_bundle.h`
 
 ### Medium-term (2026-Q4)
-- [ ] Operational hardening: Prometheus metrics for collaboration session counts and diff computation latency (Target: 2026-Q4)
+- [x] Operational hardening: Prometheus metrics for collaboration session counts and diff computation latency (Target: 2026-Q4)
 - [ ] Security review: permission enforcement edge cases in `CollaborationManager` (Target: 2026-Q4)
 
 ## Implementation Phases
@@ -56,14 +56,14 @@ versioning, structural diff/merge, template instantiation, and collaboration ses
 ### Phase 4: Observability & Security Hardening (Status: In Progress 🚧)
 - [x] `InMemoryProjectAuditLog` concrete implementation — `include/projects/in_memory_project_audit_log.h` + `src/projects/in_memory_project_audit_log.cpp` (PAL-01..PAL-06 tests in `tests/test_project_collaboration_concurrent.cpp`)
 - [x] Audit log integration for all state-changing operations (Target: 2026-Q4) — `CollaborationManager::setAuditLog()` DI setter wires `notifyChange()` → `IProjectAuditLog::record()`
-- [ ] Prometheus metrics for collaboration session counts and diff computation latency (Target: 2026-Q4)
+- [x] Prometheus metrics for collaboration session counts and diff computation latency (Target: 2026-Q4)
 
 ## Production Readiness Checklist
 
 - [x] Core implementation complete (5 source files, 7 header interfaces)
 - [x] Test coverage for critical lifecycle and merge paths — `ProjectsModuleTests` + `ProjectCollaborationConcurrentTests` (CC-01..CC-08)
 - [x] Observability: audit logging hooked up via `setAuditLog()` DI on `CollaborationManager`; PAL-01..PAL-06 tests
-- [ ] Prometheus metrics: collaboration session counts and diff latency (2026-Q4)
+- [x] Prometheus metrics: collaboration session counts and diff latency (2026-Q4)
 - [ ] Security review complete
 
 ## Known Issues & Limitations

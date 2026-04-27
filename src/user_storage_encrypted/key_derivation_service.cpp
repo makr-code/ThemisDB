@@ -66,6 +66,7 @@ inline void secureZero(void* ptr, size_t len) {
 // Purpose: Keep Windows/community builds functional when libargon2 headers are unavailable.
 // Activation: THEMIS_HAS_ARGON2 == 0 at compile time.
 // Production Delta: Uses iterative SHA-256 KDF fallback instead of Argon2id.
+// Roadmap ref: src/user_storage_encrypted/ROADMAP.md § "Planned Features"
 // Removal Plan: Remove once Argon2 is available/linked in all supported build environments.
 std::vector<uint8_t> deriveFallbackSha256(
     const std::vector<uint8_t>& password,

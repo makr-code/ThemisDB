@@ -603,6 +603,8 @@ void PathConstraints::clearConstraints() {
     required_nodes_.clear();
     forbidden_edges_.clear();
     required_edges_.clear();
+    ontology_ = nullptr;
+    last_violations_.clear();
 }
 
 std::string PathConstraints::describeConstraints() const {
@@ -677,6 +679,57 @@ std::string PathConstraints::describeConstraints() const {
     }
     
     return oss.str();
+}
+
+// ============================================================================
+// Semantic constraint methods
+// ============================================================================
+
+void PathConstraints::addSemanticConstraint(const OntologyManager* ontology,
+                                             OntologyManager::Ruleset ruleset) {
+    ontology_ = ontology;
+    ontology_ruleset_ = ruleset;
+}
+
+std::vector<PathConstraints::ConstraintViolation>
+PathConstraints::validateSemanticPath(const PathResult& result) const {
+    std::vector<ConstraintViolation> violations;
+    if (!ontology_ || !graph_mgr_) return violations;
+
+    // Each edge in result.edges connects result.nodes[i] to result.nodes[i+1].
+    const std::size_t edge_count = result.edges.size();
+    for (std::size_t i = 0; i < edge_count; ++i) {
+        const std::string& edge_id   = result.edges[i];
+        const std::string& src_node  = (i     < result.nodes.size()) ? result.nodes[i]     : "";
+        const std::string& tgt_node  = (i + 1 < result.nodes.size()) ? result.nodes[i + 1] : "";
+
+        // Fetch node class from the graph ("_class" field; default "")
+        std::string src_class, tgt_class, edge_type;
+        {
+            auto sc = graph_mgr_->getNodeField(src_node, "_class");
+            if (sc) src_class = *sc;
+            auto tc = graph_mgr_->getNodeField(tgt_node, "_class");
+            if (tc) tgt_class = *tc;
+            auto et = graph_mgr_->getEdgeField(edge_id, "type");
+            if (et) edge_type = *et;
+        }
+
+        // If class or type are unknown, skip (graceful degradation)
+        if (src_class.empty() || tgt_class.empty() || edge_type.empty()) continue;
+
+        if (!ontology_->isEdgeTypeAllowed(src_class, tgt_class, edge_type)) {
+            ConstraintViolation v;
+            v.edge_id      = edge_id;
+            v.source_class = src_class;
+            v.target_class = tgt_class;
+            v.edge_type    = edge_type;
+            v.description  = "Edge type '" + edge_type + "' not permitted between '"
+                             + src_class + "' and '" + tgt_class + "'";
+            violations.push_back(std::move(v));
+        }
+    }
+    last_violations_ = violations;
+    return violations;
 }
 
 } // namespace graph

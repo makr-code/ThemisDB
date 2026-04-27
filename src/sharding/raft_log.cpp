@@ -107,6 +107,18 @@ void RaftLog::truncateFrom(uint64_t index) {
 
 void RaftLog::setCommitIndex(uint64_t index) {
     std::lock_guard<std::mutex> lock(mutex_);
+    // RLOG-2: Reject attempts to regress or jump past the last appended entry.
+    if (index < commit_index_) {
+        spdlog::warn("RaftLog::setCommitIndex: rejecting regression from {} to {}",
+                     commit_index_, index);
+        return;
+    }
+    const uint64_t last = log_.empty() ? snapshot_index_ : log_.rbegin()->first;
+    if (index > last) {
+        spdlog::error("RaftLog::setCommitIndex: index {} exceeds last log entry {} – ignored",
+                      index, last);
+        return;
+    }
     commit_index_ = index;
 }
 
@@ -118,7 +130,10 @@ uint64_t RaftLog::getCommitIndex() const {
 uint64_t RaftLog::getLastLogIndex() const {
     std::lock_guard<std::mutex> lock(mutex_);
     if (log_.empty()) {
-        return 0;
+        // RLOG-1: After snapshot compaction the in-memory log is empty but
+        // snapshot_index_ marks the last included entry. Return it so that
+        // callers (e.g. propose()) compute the correct next log slot.
+        return snapshot_index_;
     }
     return log_.rbegin()->first;
 }

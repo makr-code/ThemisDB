@@ -238,6 +238,8 @@ public:
 private:
     TransactionWALConfig config_;
     std::unique_ptr<WALManager> wal_manager_;
+    // TWAL-1: current_lsn_ is updated from any calling thread; protect with mutex.
+    mutable std::mutex lsn_mutex_;
     LSN current_lsn_;
 
     // Helper to convert TransactionWALEntry to WALEntry

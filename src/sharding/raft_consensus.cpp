@@ -75,38 +75,61 @@ void RaftConsensus::stop() {
 std::future<bool> RaftConsensus::propose(const std::string& command) {
     auto promise = std::make_shared<std::promise<bool>>();
     auto future = promise->get_future();
-    
-    if (!isLeader()) {
-        promise->set_value(false);
-        return future;
+
+    // RAFT-1: Leader check, log append, and reading the term must all happen
+    // atomically under replica_mutex_ so that a concurrent step-down cannot
+    // interleave between the isLeader() test and the log.append() call.
+    uint64_t index = 0;
+    {
+        std::lock_guard<std::mutex> lock(replica_mutex_);
+
+        if (!raft_state_.isLeader()) {
+            promise->set_value(false);
+            return future;
+        }
+
+        if (isReadOnly()) {
+            promise->set_value(false);
+            return future;
+        }
+
+        auto& log = raft_state_.getLog();
+        index = log.getLastLogIndex() + 1;
+        uint64_t term = raft_state_.getCurrentTerm();
+
+        LogEntry entry(term, index, command);
+        log.append(entry);
     }
-    
-    if (isReadOnly()) {
-        promise->set_value(false);
-        return future;
+
+    // RAFT-2: Capture the callback and entry snapshot under the lock so that
+    // the detached thread never races against setReplicationCallback().
+    ReplicationCallback cb;
+    LogEntry captured_entry;
+    {
+        std::lock_guard<std::mutex> lock(replica_mutex_);
+        cb = replication_callback_;
+        auto opt = raft_state_.getLog().getEntry(index);
+        if (opt) {
+            captured_entry = *opt;
+        } else {
+            // Entry was truncated already — give up.
+            promise->set_value(false);
+            return future;
+        }
     }
-    
-    // Create log entry
-    auto& log = raft_state_.getLog();
-    uint64_t index = log.getLastLogIndex() + 1;
-    uint64_t term = raft_state_.getCurrentTerm();
-    
-    LogEntry entry(term, index, command);
-    log.append(entry);
-    
-    // Replicate to followers asynchronously
+
     auto self = this;
-    std::thread([self, entry, promise]() {
+    std::thread([self, captured_entry, cb, promise]() {
         int acks = 1;  // Leader counts as one acknowledgment
         int required = static_cast<int>(self->raft_state_.getQuorumSize());
-        
-        if (self->replication_callback_) {
+
+        if (cb) {
             for (const auto& member : self->raft_state_.getClusterMembers()) {
                 if (member == self->raft_state_.getNodeId()) {
                     continue;  // Skip self
                 }
-                
-                if (self->replicateToFollower(member, entry)) {
+
+                if (self->replicateToFollower(member, captured_entry)) {
                     acks++;
                     if (acks >= required) {
                         break;
@@ -114,15 +137,24 @@ std::future<bool> RaftConsensus::propose(const std::string& command) {
                 }
             }
         }
-        
+
         bool success = (acks >= required);
         if (success) {
-            self->raft_state_.getLog().setCommitIndex(entry.index);
+            self->raft_state_.getLog().setCommitIndex(captured_entry.index);
+        } else {
+            // RAFT-3: Quorum was not reached. Truncate the uncommitted entry
+            // so that a future leader does not see an uncommitted tail.
+            std::lock_guard<std::mutex> lock(self->replica_mutex_);
+            if (!self->raft_state_.isLeader()) {
+                // Already stepped down; the new leader will handle truncation.
+            } else {
+                self->raft_state_.getLog().truncateFrom(captured_entry.index);
+            }
         }
-        
+
         promise->set_value(success);
-    }).detach();  // Safe: promise keeps context alive until thread completes
-    
+    }).detach();
+
     return future;
 }
 

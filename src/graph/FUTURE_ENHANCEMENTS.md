@@ -385,12 +385,12 @@ if they satisfy the declared class membership or property restrictions.
 - Constraint evaluation is side-effect-free and deterministic; no I/O during traversal
 
 **Design Constraints**
-- `[ ]` Ontology load time: ≤ 100 ms for schemas with ≤ 10 000 concepts (JSON/YAML)
-- `[ ]` Per-edge constraint check: ≤ 5 µs including class-membership lookup
-- `[ ]` Constraint violations must return a structured error (`ConstraintViolation`) containing
+- `[x]` Ontology load time: ≤ 100 ms for schemas with ≤ 10 000 concepts (JSON/YAML)
+- `[x]` Per-edge constraint check: ≤ 5 µs including class-membership lookup
+- `[x]` Constraint violations must return a structured error (`ConstraintViolation`) containing
   the violating edge ID, the expected class, and the actual class
-- `[ ]` `OntologyManager` must be immutable after `build()` (thread-safe read; no write locks during traversal)
-- `[ ]` Graceful degradation: unknown concept IDs are treated as unconstrained (warn, not fail)
+- `[x]` `OntologyManager` must be immutable after `build()` (thread-safe read; no write locks during traversal)
+- `[x]` Graceful degradation: unknown concept IDs are treated as unconstrained (warn, not fail)
 
 **Required Interfaces**
 
@@ -421,17 +421,17 @@ auto paths = constraints.findConstrainedPaths("case_001", "statute_42", 10);
 ```
 
 **Implementation Notes:**
-- `[ ]` Implement `OntologyManager` with a flat `std::unordered_map<std::string, ConceptNode>`
+- `[x]` Implement `OntologyManager` with a flat `std::unordered_map<std::string, ConceptNode>`
   where each `ConceptNode` stores `parents`, `allowed_edge_types_as_source`, and
   `allowed_edge_types_as_target`
-- `[ ]` `isA()` performs BFS over the ancestor chain (depth-limited to 20 hops) and caches
+- `[x]` `isA()` performs BFS over the ancestor chain (depth-limited to 20 hops) and caches
   results in a `std::unordered_map<std::pair<string,string>, bool>` LRU with 1 000 entries
-- `[ ]` `PathConstraints::validateSemanticPath()` iterates over all edges in the discovered
+- `[x]` `PathConstraints::validateSemanticPath()` iterates over all edges in the discovered
   path and calls `OntologyManager::allowedEdgeTypes(srcClass, dstClass)` for each edge;
   returns a `std::vector<ConstraintViolation>` (empty = valid)
-- `[ ]` BFS pruner in `findConstrainedPaths` calls `allowedEdgeTypes` at each frontier
+- `[x]` BFS pruner in `findConstrainedPaths` calls `allowedEdgeTypes` at each frontier
   expansion to avoid generating invalid paths early (prune-first strategy)
-- `[ ]` Serialisation: `OntologyManager::toJson()` / `toYaml()` round-trips for hot-reload
+- `[x]` Serialisation: `OntologyManager::toJson()` / `toYaml()` round-trips for hot-reload
 - `[ ]` LoRA-enhanced semantic constraint scoring (v2.2.0): a fine-tuned LoRA adapter
   on the `LLMPluginManager` provides a soft-plausibility score for each traversed edge
   (0.0–1.0); paths with cumulative score < threshold are pruned (see AI/ML + LoRA integration)
