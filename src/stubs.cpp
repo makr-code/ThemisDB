@@ -82,7 +82,8 @@ struct LoRATrainingConfig {
 };
 
 struct FeedbackStorageService {
-    std::vector<Feedback> getFeedbackForAdapter(const std::string&, std::size_t) const {
+    std::vector<Feedback> getFeedbackForAdapter(const std::string& /*adapter_id*/,
+                                                std::size_t /*max_count*/) const {
         return {};
     }
 };

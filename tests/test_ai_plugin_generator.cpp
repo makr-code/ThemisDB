@@ -22,7 +22,7 @@ namespace {
 
 AIPluginGenerator makeGenerator() {
     AIPluginGenerator::Config cfg;
-    cfg.llm_endpoint = "http://localhost:18080";  // unreachable in tests
+    cfg.llm_endpoint = "http://test.invalid:18080";  // unreachable, clearly-named test fixture
     return AIPluginGenerator(cfg);
 }
 
