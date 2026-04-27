@@ -74,9 +74,7 @@ std::optional<nlohmann::json> BoundedLRUCache::get(const std::string& key) {
 }
 
 void BoundedLRUCache::put(const std::string& key, nlohmann::json value, uint32_t ttl_seconds) {
-    const auto ttl = (ttl_seconds > 0)
-        ? std::chrono::seconds(ttl_seconds)
-        : config_.ttl;
+    const auto ttl = (ttl_seconds > 0) ? std::chrono::seconds(ttl_seconds) : config_.ttl;
 
     std::unique_lock<std::shared_mutex> lock(mutex_);
     

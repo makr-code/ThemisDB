@@ -289,8 +289,11 @@ public:
     /// Adapter get: returns `entry.result` for the default tenant.
     std::optional<nlohmann::json> get(const std::string& fingerprint) override;
 
-    /// Adapter put: stores @p result with an optional per-call TTL override
-    /// (0 = use the cache's configured TTL).  Operates in the default tenant.
+    /// Adapter put: stores @p result in the default tenant with empty query params.
+    /// @note @p ttl_seconds is **not honoured** — AdaptiveQueryCache applies its own
+    ///       tier-based TTL policy (Config::l1/l2/l3_ttl_seconds).  Use the rich
+    ///       `put(fp, params, result, tenant_id)` overload when per-call TTL control
+    ///       is required.
     void put(const std::string& fingerprint, nlohmann::json result,
              uint32_t ttl_seconds = 0) override;
 
@@ -301,8 +304,9 @@ public:
     /// Adapter contains: checks presence in all tiers without updating LRU.
     bool contains(const std::string& fingerprint) const override;
 
-    /// Adapter size: returns the number of entries in L1 + L2 (L3 not counted
-    /// to avoid a full RocksDB scan).
+    /// Adapter size: returns the number of entries in L1 + L2.
+    /// @note L3 (RocksDB) entries are **not counted** to avoid an O(n) full-scan.
+    ///       The returned value is therefore a lower bound on the total cache size.
     std::size_t size() const override;
     
     /**
