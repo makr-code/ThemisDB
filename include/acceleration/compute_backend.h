@@ -291,15 +291,15 @@ public:
     virtual ~IComputeBackend() = default;
     
     // Backend identification
-    virtual const char* name() const noexcept = 0;
-    virtual BackendType type() const noexcept = 0;
-    virtual bool isAvailable() const noexcept = 0;
+    [[nodiscard]] virtual const char* name() const noexcept = 0;
+    [[nodiscard]] virtual BackendType type() const noexcept = 0;
+    [[nodiscard]] virtual bool isAvailable() const noexcept = 0;
     
     // Capabilities
-    virtual BackendCapabilities getCapabilities() const = 0;
+    [[nodiscard]] virtual BackendCapabilities getCapabilities() const = 0;
     
     // Lifecycle
-    virtual bool initialize() = 0;
+    [[nodiscard]] virtual bool initialize() = 0;
     virtual void shutdown() = 0;
     
     // Error handling (Phase 2.2b)
@@ -447,7 +447,7 @@ public:
     virtual ~IVectorBackend() = default;
     
     // Distance computation
-    virtual std::vector<float> computeDistances(
+    [[nodiscard]] virtual std::vector<float> computeDistances(
         const float* queries,
         size_t numQueries,
         size_t dim,
@@ -459,7 +459,7 @@ public:
     // Batch KNN search — results sorted ascending by distance.
     // Tie-breaking rule: when two candidates share the same distance the one
     // with the lower vector index is placed first (deterministic ordering).
-    virtual std::vector<std::vector<std::pair<uint32_t, float>>> batchKnnSearch(
+    [[nodiscard]] virtual std::vector<std::vector<std::pair<uint32_t, float>>> batchKnnSearch(
         const float* queries,
         size_t numQueries,
         size_t dim,
@@ -497,7 +497,7 @@ public:
     virtual ~IGraphBackend() = default;
     
     // Batch BFS traversal
-    virtual std::vector<std::vector<uint32_t>> batchBFS(
+    [[nodiscard]] virtual std::vector<std::vector<uint32_t>> batchBFS(
         const uint32_t* adjacency,
         size_t numVertices,
         const uint32_t* startVertices,
@@ -506,7 +506,7 @@ public:
     ) = 0;
     
     // Batch shortest path
-    virtual std::vector<std::vector<uint32_t>> batchShortestPath(
+    [[nodiscard]] virtual std::vector<std::vector<uint32_t>> batchShortestPath(
         const uint32_t* adjacency,
         const float* weights,
         size_t numVertices,
@@ -522,7 +522,7 @@ public:
     virtual ~IGeoBackend() = default;
     
     // Batch distance calculations
-    virtual std::vector<float> batchDistances(
+    [[nodiscard]] virtual std::vector<float> batchDistances(
         const double* latitudes1,
         const double* longitudes1,
         const double* latitudes2,
@@ -532,7 +532,7 @@ public:
     ) = 0;
     
     // Batch point-in-polygon tests
-    virtual std::vector<bool> batchPointInPolygon(
+    [[nodiscard]] virtual std::vector<bool> batchPointInPolygon(
         const double* pointLats,
         const double* pointLons,
         size_t numPoints,
@@ -559,7 +559,7 @@ public:
     /// for GPU backends.  @p precision selects the arithmetic type; the
     /// implementation is free to fall back to a wider type if unsupported.
     /// Returns 0 on success, non-zero on failure.
-    virtual int matmul(const MatrixKernelParams& params, void* opaque_stream = nullptr) = 0;
+    [[nodiscard]] virtual int matmul(const MatrixKernelParams& params, void* opaque_stream = nullptr) = 0;
 
     /// Populate the frozen kernel dispatch table for this backend.
     virtual MatrixKernelDispatch populateMatrixDispatch() const { return {}; }
@@ -972,7 +972,7 @@ public:
      *         device index is invalid, the driver is not loaded, or the
      *         returned flags contain bits outside `KNOWN_VALID_MASK`.
      */
-    virtual DeviceCapabilityFlags queryCapabilities(int device_index) const noexcept = 0;
+    [[nodiscard]] virtual DeviceCapabilityFlags queryCapabilities(int device_index) const noexcept = 0;
 
     /**
      * @brief Query capabilities for all enumerated devices.
@@ -981,7 +981,7 @@ public:
      *         enumeration order.  An empty vector is returned when no GPU
      *         driver is present.
      */
-    virtual std::vector<DeviceCapabilityFlags> queryAll() const = 0;
+    [[nodiscard]] virtual std::vector<DeviceCapabilityFlags> queryAll() const = 0;
 };
 
 // =============================================================================
@@ -1023,14 +1023,14 @@ public:
      *         priority first).  Returns an empty `DeviceSet` when no suitable
      *         GPU device is available.
      */
-    virtual DeviceSet selectDevices(const WorkloadDescriptor& workload) const = 0;
+    [[nodiscard]] virtual DeviceSet selectDevices(const WorkloadDescriptor& workload) const = 0;
 
     /**
      * @brief Returns the number of GPU devices visible to this selector.
      *
      * Thread-safe.
      */
-    virtual uint32_t deviceCount() const noexcept = 0;
+    [[nodiscard]] virtual uint32_t deviceCount() const noexcept = 0;
 };
 
 // =============================================================================
@@ -1064,7 +1064,7 @@ public:
      * @param fn_ptr  Opaque function pointer to the kernel launcher.
      * @return true on success; false if @p name is already registered.
      */
-    virtual bool registerKernel(std::string name, void* fn_ptr) = 0;
+    [[nodiscard]] virtual bool registerKernel(std::string name, void* fn_ptr) = 0;
 
     /**
      * @brief Resolve a named kernel to its function pointer.
@@ -1072,21 +1072,21 @@ public:
      * @param name  Kernel identifier string.
      * @return Function pointer cast to `void*`, or `nullptr` if not registered.
      */
-    virtual void* resolveKernel(const std::string& name) const = 0;
+    [[nodiscard]] virtual void* resolveKernel(const std::string& name) const = 0;
 
     /**
      * @brief Returns true if a kernel with @p name is registered.
      *
      * Thread-safe (read-only lookup).
      */
-    virtual bool hasKernel(const std::string& name) const noexcept = 0;
+    [[nodiscard]] virtual bool hasKernel(const std::string& name) const noexcept = 0;
 
     /**
      * @brief Remove a kernel from the registry.
      *
      * @return true if the kernel was present and removed; false otherwise.
      */
-    virtual bool deregisterKernel(const std::string& name) noexcept = 0;
+    [[nodiscard]] virtual bool deregisterKernel(const std::string& name) noexcept = 0;
 };
 
 // =============================================================================
@@ -1126,7 +1126,7 @@ public:
      * @return A `ComputeFuture<SimilarityKernelResult>` that will carry the
      *         result once the kernel completes.
      */
-    virtual ComputeFuture<SimilarityKernelResult>
+    [[nodiscard]] virtual ComputeFuture<SimilarityKernelResult>
     submit(const KernelDescriptor& descriptor,
            CancellationToken        token = {}) = 0;
 };
