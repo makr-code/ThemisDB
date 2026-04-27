@@ -3,6 +3,7 @@
 #include <string>
 #include <string_view>
 #include <vector>
+#include <list>
 #include <unordered_map>
 #include <unordered_set>
 #include <memory>
@@ -248,7 +249,7 @@ private:
     // ── isA LRU cache ────────────────────────────────────────────────────────
     // Key: "concept\0superConcept" (null-byte separator avoids ambiguity)
     mutable std::unordered_map<std::string, bool> isa_cache_;
-    mutable std::vector<std::string> isa_cache_lru_;  // insertion-order eviction list
+    mutable std::list<std::string> isa_cache_lru_;  // front = oldest; O(1) eviction
     mutable std::shared_mutex isa_cache_mutex_;
 
     // ── Internal helpers ─────────────────────────────────────────────────────

@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <fstream>
+#include <list>
 #include <mutex>
 #include <queue>
 #include <sstream>
@@ -310,10 +311,10 @@ bool OntologyManager::isAUncached(std::string_view concept,
 }
 
 void OntologyManager::evictIsACacheEntry() const {
-    // Evict the oldest entry (front of the LRU list)
+    // O(1) eviction: remove the oldest entry (front of the list)
     if (!isa_cache_lru_.empty()) {
         isa_cache_.erase(isa_cache_lru_.front());
-        isa_cache_lru_.erase(isa_cache_lru_.begin());
+        isa_cache_lru_.pop_front();
     }
 }
 
