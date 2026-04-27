@@ -37,7 +37,7 @@ public:
 
     // Sign data using the key identified by key_id. Returns a SigningResult
     // containing signature bytes and algorithm metadata.
-    virtual SigningResult sign(const std::string& key_id, const std::vector<uint8_t>& data) = 0;
+    [[nodiscard]] virtual SigningResult sign(const std::string& key_id, const std::vector<uint8_t>& data) = 0;
 };
 
 } // namespace themis
