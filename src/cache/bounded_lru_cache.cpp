@@ -73,15 +73,19 @@ std::optional<nlohmann::json> BoundedLRUCache::get(const std::string& key) {
     return node->entry.value;
 }
 
-void BoundedLRUCache::put(const std::string& key, const nlohmann::json& value) {
+void BoundedLRUCache::put(const std::string& key, nlohmann::json value, uint32_t ttl_seconds) {
+    const auto ttl = (ttl_seconds > 0)
+        ? std::chrono::seconds(ttl_seconds)
+        : config_.ttl;
+
     std::unique_lock<std::shared_mutex> lock(mutex_);
     
     auto it = cache_.find(key);
     if (it != cache_.end()) {
         // Update existing entry
         auto node = it->second;
-        node->entry.value = value;
-        node->entry.expiry = std::chrono::steady_clock::now() + config_.ttl;
+        node->entry.value = std::move(value);
+        node->entry.expiry = std::chrono::steady_clock::now() + ttl;
         node->entry.last_access = std::chrono::steady_clock::now();
         moveToFront(node);
         return;
@@ -94,14 +98,14 @@ void BoundedLRUCache::put(const std::string& key, const nlohmann::json& value) {
     
     // Create new entry
     CacheEntry entry;
-    entry.value = value;
-    entry.expiry = std::chrono::steady_clock::now() + config_.ttl;
+    entry.value = std::move(value);
+    entry.expiry = std::chrono::steady_clock::now() + ttl;
     entry.last_access = std::chrono::steady_clock::now();
     
     // Create new node
     auto node = std::make_shared<Node>();
     node->key = key;
-    node->entry = entry;
+    node->entry = std::move(entry);
     
     // Add to cache and list
     cache_[key] = node;
@@ -232,6 +236,18 @@ void BoundedLRUCache::removeLRU() {
 
 bool BoundedLRUCache::isExpired(const CacheEntry& entry) const {
     return std::chrono::steady_clock::now() > entry.expiry;
+}
+
+bool BoundedLRUCache::contains(const std::string& key) const {
+    std::shared_lock<std::shared_mutex> lock(mutex_);
+    auto it = cache_.find(key);
+    if (it == cache_.end()) return false;
+    return !isExpired(it->second->entry);
+}
+
+std::size_t BoundedLRUCache::size() const {
+    std::shared_lock<std::shared_mutex> lock(mutex_);
+    return cache_.size();
 }
 
 } // namespace cache

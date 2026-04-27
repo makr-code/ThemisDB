@@ -440,9 +440,9 @@ See `src/UNUSED_FUNCTIONS_REPORT.md` for per-symbol triage decisions.
 - [x] `include/utils/geometric_distances.h` als zentralen Header angelegt
 - [x] `src/acceleration/cpu_backend.cpp` → `simd::l2_distance_sq` / `simd::cosine_distance`
 - [x] `src/acceleration/cpu_backend_mt.cpp` → `simd::cosine_distance` (80-Zeilen AVX2/NEON-Duplikat entfernt)
-- [ ] `src/acceleration/graphics_backends.cpp` file-local `haversine_km`-Varianten → `geo::haversine_km` (Target: v1.5.0)
-- [ ] `src/geo/*.cpp` file-local `haversineDistanceM()` → `geo::haversine_m` (Target: v1.5.0)
-- [ ] `src/index/secondary_index.cpp`, `src/index/spatial_index.cpp` → `geo::haversine_km` (Target: v1.5.0)
+- [x] `src/acceleration/graphics_backends.cpp` file-local `haversine_km`-Varianten → `geo::haversine_km` (v1.9.0)
+- [x] `src/geo/*.cpp` file-local `haversineDistanceM()` → `geo::haversine_m` (v1.9.0)
+- [x] `src/index/secondary_index.cpp`, `src/index/spatial_index.cpp` → `geo::haversine_km` (v1.9.0)
 - [ ] Unit-Tests für `geometric_distances.h` ergänzen (Target: v1.4.0)
 
 #### Phase 2: Compression Codec Registry (Target: v1.4.0)
@@ -452,8 +452,8 @@ See `src/UNUSED_FUNCTIONS_REPORT.md` for per-symbol triage decisions.
 
 #### Phase 3: Cache Interface Konsolidierung (Target: v1.5.0)
 - [x] `ICacheBackend<K,V>` zu `include/cache/cache_interfaces.h` hinzugefügt
-- [ ] `AdaptiveQueryCache` von `ICacheBackend<std::string, nlohmann::json>` erben lassen (Target: v1.5.0)
-- [ ] `BoundedLRUCache` von `ICacheBackend` erben lassen (Target: v1.5.0)
+- [x] `AdaptiveQueryCache` von `ICacheBackend<std::string, nlohmann::json>` erben lassen (v1.9.0)
+- [x] `BoundedLRUCache` von `ICacheBackend` erben lassen (v1.9.0)
 - [ ] `llm/active_vram_allocator.cpp` lokale LRU-Logik gegen `ICacheBackend`-Implementierung tauschen (Target: v1.6.0)
 
 #### Phase 4: UNGENUTZT-Symbole Triage (Target: v1.4.0)
@@ -472,8 +472,8 @@ See `src/UNUSED_FUNCTIONS_REPORT.md` for per-symbol triage decisions.
 
 #### Phase 6: Retry/Backoff Zentralisierung (Target: v1.5.0)
 - [x] `include/utils/retry_policy.h` mit `RetryConfig`, `ExponentialBackoff`, `retry_with_backoff<>` angelegt
-- [ ] `src/rag/http_metrics_client.cpp` `requestWithRetry()` → `retry_with_backoff()` (Target: v1.5.0)
-- [ ] `src/rag/llm_judge_integration.cpp` inline-while-loop → `retry_with_backoff()` (Target: v1.5.0)
+- [x] `src/rag/http_metrics_client.cpp` `requestWithRetry()` → `retry_with_backoff()` / iterative `ExponentialBackoff` (v1.9.0)
+- [x] `src/rag/llm_judge_integration.cpp` inline-while-loop → `retry_with_backoff()` (v1.9.0)
 - [ ] `src/network/` Subsysteme → `retry_with_backoff()` (Target: v1.5.0)
 - [ ] Unit-Tests für `retry_policy.h` ergänzen (Target: v1.4.0)
 

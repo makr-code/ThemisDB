@@ -153,7 +153,7 @@ std::optional<nlohmann::json> QueryCacheManager::get(
     } else if (adaptive_cache_) {
         // For adaptive cache, we need the fingerprint
         std::string fingerprint = generateFingerprint(query, params);
-        auto cache_entry = adaptive_cache_->get(fingerprint);
+        auto cache_entry = adaptive_cache_->get(fingerprint, "");
         if (cache_entry.has_value()) {
             result = cache_entry->result;
         }

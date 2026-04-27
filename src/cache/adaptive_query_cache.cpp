@@ -2363,3 +2363,119 @@ void AdaptiveQueryCache::setReplicationListener(
 }
 
 } // namespace themis
+
+// ============================================================================
+// ICacheBackend<std::string, nlohmann::json> adapter implementations
+// ============================================================================
+
+namespace themis {
+
+std::optional<nlohmann::json> AdaptiveQueryCache::get(const std::string& fingerprint) {
+    auto entry = get(fingerprint, "");
+    if (!entry.has_value()) return std::nullopt;
+    return entry->result;
+}
+
+void AdaptiveQueryCache::put(const std::string& fingerprint, nlohmann::json result,
+                              uint32_t /*ttl_seconds*/) {
+    // Note: ttl_seconds is not honoured here — AdaptiveQueryCache applies its
+    // own tier-based TTL policy (l1/l2/l3_ttl_seconds from Config).
+    // Use the rich put() overload directly when per-call TTL control is needed.
+    put(fingerprint, nlohmann::json{}, std::move(result), "");
+}
+
+bool AdaptiveQueryCache::remove(const std::string& fingerprint) {
+    bool found = false;
+
+    // L1 tier
+    {
+        std::unique_lock<std::shared_mutex> lock(l1_mutex_);
+        auto it = l1_cache_.find(fingerprint);
+        if (it != l1_cache_.end()) {
+            {
+                std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
+                l1_eviction_strategy_->onRemove(fingerprint);
+            }
+            l1_cache_.erase(it);
+            found = true;
+        }
+    }
+
+    // L2 tier
+    {
+        std::lock_guard<std::mutex> lock(l2_mutex_);
+        auto it = l2_cache_.find(fingerprint);
+        if (it != l2_cache_.end()) {
+            l2_eviction_strategy_->onRemove(fingerprint);
+            l2_cache_.erase(it);
+            found = true;
+        }
+    }
+
+    // L3 tier
+    if (l3_db_) {
+        const std::string l3_key = QUERY_CACHE_PREFIX + fingerprint;
+        bool l3_found = false;
+        try {
+            {
+                std::lock_guard<std::mutex> lock(l3_mutex_);
+                l3_found = l3_db_->get(l3_key).has_value();
+            }
+            if (l3_found) {
+                l3_db_->del(l3_key);
+                found = true;
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("AdaptiveQueryCache::remove: L3 operation failed: {}", e.what());
+        }
+    }
+
+    return found;
+}
+
+bool AdaptiveQueryCache::contains(const std::string& fingerprint) const {
+    // L1 — shared lock, no LRU update
+    {
+        std::shared_lock<std::shared_mutex> lock(l1_mutex_);
+        auto it = l1_cache_.find(fingerprint);
+        if (it != l1_cache_.end()) {
+            const L1Entry* e = it->second.get();
+            const bool expired = e->expired_flag.load(std::memory_order_acquire);
+            if (!expired) return true;
+        }
+    }
+
+    // L2 — plain mutex, no stats update
+    {
+        std::lock_guard<std::mutex> lock(l2_mutex_);
+        if (l2_cache_.count(fingerprint)) return true;
+    }
+
+    // L3 — best-effort check
+    if (l3_db_) {
+        try {
+            std::lock_guard<std::mutex> lock(l3_mutex_);
+            return l3_db_->get(QUERY_CACHE_PREFIX + fingerprint).has_value();
+        } catch (...) {}
+    }
+
+    return false;
+}
+
+std::size_t AdaptiveQueryCache::size() const {
+    std::size_t l1_sz = 0;
+    std::size_t l2_sz = 0;
+
+    {
+        std::shared_lock<std::shared_mutex> lock(l1_mutex_);
+        l1_sz = l1_cache_.size();
+    }
+    {
+        std::lock_guard<std::mutex> lock(l2_mutex_);
+        l2_sz = l2_cache_.size();
+    }
+    // L3 is not counted to avoid an O(n) RocksDB scan.
+    return l1_sz + l2_sz;
+}
+
+} // namespace themis
