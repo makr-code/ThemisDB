@@ -91,7 +91,7 @@ public:
     virtual ~ShardGraphExecutor() = default;
 
     /// Returns the unique identifier of this shard.
-    virtual std::string shardId() const = 0;
+    [[nodiscard]] virtual std::string shardId() const = 0;
 
     /**
      * @brief Execute a BFS traversal on this shard and return visited vertex IDs.
@@ -101,7 +101,7 @@ public:
      * @param constraints  Optional query constraints (edge type, forbidden vertices, …).
      * @return Visited vertex IDs, each qualified as "<id>@<shardId>".
      */
-    virtual Result<std::vector<std::string>> executeBFS(
+    [[nodiscard]] virtual Result<std::vector<std::string>> executeBFS(
         const std::string& start_vertex,
         int max_depth,
         const GraphQueryOptimizer::QueryConstraints& constraints) = 0;
@@ -115,7 +115,7 @@ public:
      * @return PathResult with node IDs qualified as "<id>@<shardId>" and total cost.
      *         Returns ERR_GRAPH_PATH_NOT_FOUND when no path exists on this shard.
      */
-    virtual Result<GraphIndexManager::PathResult> executeDijkstra(
+    [[nodiscard]] virtual Result<GraphIndexManager::PathResult> executeDijkstra(
         const std::string& start_vertex,
         const std::string& target_vertex,
         const GraphQueryOptimizer::QueryConstraints& constraints) = 0;

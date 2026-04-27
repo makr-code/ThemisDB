@@ -504,7 +504,7 @@ public:
     /**
      * @brief Return all registered experiment descriptors.
      */
-    virtual std::vector<ExperimentDescriptor> listExperiments() const = 0;
+    [[nodiscard]] virtual std::vector<ExperimentDescriptor> listExperiments() const = 0;
 };
 
 // ── Concrete implementation ───────────────────────────────────────────────────

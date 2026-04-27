@@ -52,7 +52,7 @@ public:
     /**
      * Return a human-readable type identifier (e.g., "log", "webhook", "slack").
      */
-    virtual std::string channelType() const = 0;
+    [[nodiscard]] virtual std::string channelType() const = 0;
 
     /**
      * Send a notification for the given alert.
@@ -61,7 +61,7 @@ public:
      *               (status == RESOLVED).
      * @return Result<void> on success, or an Error describing the failure.
      */
-    virtual Result<void> send(const Alert& alert) = 0;
+    [[nodiscard]] virtual Result<void> send(const Alert& alert) = 0;
 };
 
 // ============================================================================

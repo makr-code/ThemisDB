@@ -99,20 +99,20 @@ public:
     virtual ~ISoc2Control() = default;
 
     /// Short control identifier (e.g., "CC6.1")
-    virtual std::string id() const = 0;
+    [[nodiscard]] virtual std::string id() const = 0;
 
     /// Trust Services Criteria category (e.g., "CC6", "A1", "C1")
-    virtual std::string criteria() const = 0;
+    [[nodiscard]] virtual std::string criteria() const = 0;
 
     /// One-line title (e.g., "Logical Access Security – Encryption")
-    virtual std::string title() const = 0;
+    [[nodiscard]] virtual std::string title() const = 0;
 
     /// Detailed description of what this control verifies
-    virtual std::string description() const = 0;
+    [[nodiscard]] virtual std::string description() const = 0;
 
     /// Evaluate the control against a single PolicyRule.
     /// Populates the returned Soc2ControlResult with compliance status and evidence.
-    virtual Soc2ControlResult evaluate(const PolicyRule& rule) const = 0;
+    [[nodiscard]] virtual Soc2ControlResult evaluate(const PolicyRule& rule) const = 0;
 };
 
 // ============================================================================

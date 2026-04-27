@@ -146,7 +146,7 @@ private:
 struct IComplianceReport {
     virtual ~IComplianceReport() = default;
     /// Serialise the report as a CSV-formatted string.
-    virtual std::string toCSV() const = 0;
+    [[nodiscard]] virtual std::string toCSV() const = 0;
 };
 
 /// ComplianceReporter generates various audit reports

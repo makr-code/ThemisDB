@@ -65,7 +65,7 @@ public:
      * @brief Atomically write (or overwrite) a checkpoint.
      * @return true on success
      */
-    virtual bool write(const IngestionCheckpoint& cp) = 0;
+    [[nodiscard]] virtual bool write(const IngestionCheckpoint& cp) = 0;
 
     /**
      * @brief Read the checkpoint for a source.
@@ -73,19 +73,19 @@ public:
      * @param out        Populated on success
      * @return true if a checkpoint was found and read successfully
      */
-    virtual bool read(const std::string& source_id,
+    [[nodiscard]] virtual bool read(const std::string& source_id,
                       IngestionCheckpoint& out) const = 0;
 
     /**
      * @brief Remove the checkpoint for a source.
      * @return true if the checkpoint existed and was deleted
      */
-    virtual bool clear(const std::string& source_id) = 0;
+    [[nodiscard]] virtual bool clear(const std::string& source_id) = 0;
 
     /**
      * @brief Check whether a checkpoint exists for a source.
      */
-    virtual bool exists(const std::string& source_id) const = 0;
+    [[nodiscard]] virtual bool exists(const std::string& source_id) const = 0;
 };
 
 // ============================================================================
@@ -163,7 +163,7 @@ public:
     virtual ~IIngestionWorkerNode() = default;
 
     /// Return this node's unique identifier.
-    virtual const std::string& nodeId() const = 0;
+    [[nodiscard]] virtual const std::string& nodeId() const = 0;
 
     /**
      * @brief Ingest the assigned set of sources and return a partial report.
@@ -174,13 +174,13 @@ public:
      *                           underlying IngestionManager
      * @return Partial IngestionReport that will be aggregated by the coordinator
      */
-    virtual IngestionReport ingest(
+    [[nodiscard]] virtual IngestionReport ingest(
         const std::vector<SourceConfig>& sources,
         const std::string& target_collection,
         ProgressCallback progress_callback) = 0;
 
     /// Returns true when the node is idle and ready to accept work.
-    virtual bool isAvailable() const = 0;
+    [[nodiscard]] virtual bool isAvailable() const = 0;
 };
 
 // ============================================================================
@@ -230,11 +230,11 @@ public:
      * @param ttl      Lease duration; must be renewed before expiry
      * @return true if this node is now the leader
      */
-    virtual bool tryAcquireLease(const std::string& node_id,
+    [[nodiscard]] virtual bool tryAcquireLease(const std::string& node_id,
                                   std::chrono::milliseconds ttl) = 0;
 
     /// Return the current lease snapshot.
-    virtual LeaderLease getCurrentLease() const = 0;
+    [[nodiscard]] virtual LeaderLease getCurrentLease() const = 0;
 
     /**
      * @brief Voluntarily release the lease held by `node_id`.

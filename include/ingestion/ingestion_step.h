@@ -134,7 +134,7 @@ public:
      * @return `Result<void>` — success, or an error with an `ErrorCode` from
      *         the `ERR_WORKFLOW_*` range.
      */
-    virtual Result<void> execute(ExtractionContext& ctx,
+    [[nodiscard]] virtual Result<void> execute(ExtractionContext& ctx,
                                  const StepConfig& config) = 0;
 
     /**
@@ -143,7 +143,7 @@ public:
      * An empty vector means "any MIME type".  Used by `canHandle()` default
      * implementation.  Override `canHandle()` directly for more complex logic.
      */
-    virtual std::vector<std::string> supportedMimeTypes() const = 0;
+    [[nodiscard]] virtual std::vector<std::string> supportedMimeTypes() const = 0;
 
     /**
      * @brief Returns true when this step can process the current context.

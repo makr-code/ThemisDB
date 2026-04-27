@@ -182,7 +182,7 @@ struct IDistributedEviction {
      * @param listener  Callback invoked with the inbound event (non-blocking).
      * @return          Opaque registration handle.
      */
-    virtual uint64_t registerEvictionListener(DistributedEvictionListener listener) = 0;
+    [[nodiscard]] virtual uint64_t registerEvictionListener(DistributedEvictionListener listener) = 0;
 
     /**
      * @brief Remove a previously registered listener.
@@ -200,17 +200,17 @@ struct IDistributedEviction {
     /**
      * @brief Return a point-in-time snapshot of eviction statistics.
      */
-    virtual DistributedEvictionStats stats() const = 0;
+    [[nodiscard]] virtual DistributedEvictionStats stats() const = 0;
 
     /**
      * @brief Return the number of peer nodes currently registered.
      */
-    virtual uint64_t peerCount() const = 0;
+    [[nodiscard]] virtual uint64_t peerCount() const = 0;
 
     /**
      * @brief Return true when at least one peer is believed to be healthy.
      */
-    virtual bool isHealthy() const = 0;
+    [[nodiscard]] virtual bool isHealthy() const = 0;
 };
 
 } // namespace cache

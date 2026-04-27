@@ -122,7 +122,7 @@ public:
      * @param text Input string (UTF-8).
      * @return Estimated number of tokens (≥1 for non-empty input).
      */
-    virtual size_t count(const std::string& text) const = 0;
+    [[nodiscard]] virtual size_t count(const std::string& text) const = 0;
 };
 
 // ============================================================================

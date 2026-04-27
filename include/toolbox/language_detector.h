@@ -61,7 +61,7 @@ public:
      * @return ISO 639-1 language code (e.g. "en", "de") or "und" when the
      *         language cannot be determined.
      */
-    virtual std::string detect(std::string_view text) const = 0;
+    [[nodiscard]] virtual std::string detect(std::string_view text) const = 0;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

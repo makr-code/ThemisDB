@@ -168,19 +168,19 @@ public:
     /**
      * @brief Run all test cases and return an aggregated report.
      */
-    virtual AdversarialTestReport runAll() const = 0;
+    [[nodiscard]] virtual AdversarialTestReport runAll() const = 0;
 
     /**
      * @brief Run a single test case by id.
      *
      * @throws std::out_of_range if no case with @p id is registered.
      */
-    virtual AdversarialTestResult runOne(const std::string& id) const = 0;
+    [[nodiscard]] virtual AdversarialTestResult runOne(const std::string& id) const = 0;
 
     /**
      * @brief Return all registered test cases.
      */
-    virtual std::vector<AdversarialTestCase> testCases() const = 0;
+    [[nodiscard]] virtual std::vector<AdversarialTestCase> testCases() const = 0;
 };
 
 // ── Concrete implementation ───────────────────────────────────────────────────

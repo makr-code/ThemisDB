@@ -54,15 +54,15 @@ struct SpatialBatchResults {
 class ISpatialComputeBackend {
 public:
     virtual ~ISpatialComputeBackend() = default;
-    virtual const char* name() const noexcept = 0;
-    virtual bool isAvailable() const noexcept = 0;
+    [[nodiscard]] virtual const char* name() const noexcept = 0;
+    [[nodiscard]] virtual bool isAvailable() const noexcept = 0;
 
     // Example operation: batch Intersects exact-checks on prefiltered candidates
-    virtual SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) = 0;
+    [[nodiscard]] virtual SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) = 0;
     
     // Exact intersects check between two geometries (used by search path)
     // Returns true if geometries actually intersect, false otherwise
-    virtual bool exactIntersects(const GeometryInfo& geom1, const GeometryInfo& geom2) = 0;
+    [[nodiscard]] virtual bool exactIntersects(const GeometryInfo& geom1, const GeometryInfo& geom2) = 0;
 
     // ST_BUFFER: expand geometry by a fixed geodesic distance (metres).
     // Returns a Polygon approximating the buffered geometry, or an empty

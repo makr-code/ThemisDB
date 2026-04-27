@@ -106,7 +106,7 @@ struct ICachePartition {
      * @param tenant_id  Tenant identifier.
      * @return Partition ID string (never empty).
      */
-    virtual std::string getPartitionId(const std::string& tenant_id) const = 0;
+    [[nodiscard]] virtual std::string getPartitionId(const std::string& tenant_id) const = 0;
 
     /**
      * @brief Assign @p tenant_id to @p partition_id.
@@ -140,7 +140,7 @@ struct ICachePartition {
      *
      * @param partition_id  Partition to query.
      */
-    virtual std::vector<std::string> listTenants(
+    [[nodiscard]] virtual std::vector<std::string> listTenants(
         const std::string& partition_id) const = 0;
 
     // -----------------------------------------------------------------------
@@ -150,7 +150,7 @@ struct ICachePartition {
     /**
      * @brief Return all partition IDs managed by this instance.
      */
-    virtual std::vector<std::string> listPartitions() const = 0;
+    [[nodiscard]] virtual std::vector<std::string> listPartitions() const = 0;
 
     /**
      * @brief Resize @p partition_id to @p new_capacity maximum entries.
@@ -185,7 +185,7 @@ struct ICachePartition {
      *
      * @param partition_id  Partition to query.
      */
-    virtual std::optional<PartitionStats> getStats(
+    [[nodiscard]] virtual std::optional<PartitionStats> getStats(
         const std::string& partition_id) const = 0;
 
     /**
@@ -193,7 +193,7 @@ struct ICachePartition {
      *
      * Returned vector is ordered by partition ID lexicographically.
      */
-    virtual std::vector<PartitionStats> getAllStats() const = 0;
+    [[nodiscard]] virtual std::vector<PartitionStats> getAllStats() const = 0;
 
     /**
      * @brief Return the capacity of @p partition_id.
@@ -202,7 +202,7 @@ struct ICachePartition {
      *
      * @param partition_id  Partition to query.
      */
-    virtual size_t getCapacity(const std::string& partition_id) const = 0;
+    [[nodiscard]] virtual size_t getCapacity(const std::string& partition_id) const = 0;
 };
 
 } // namespace cache

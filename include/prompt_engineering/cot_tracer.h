@@ -135,7 +135,7 @@ public:
      * @brief Human-readable name of this tracer implementation.
      * @return Tracer name string, e.g. @c "recording-cot-tracer".
      */
-    virtual std::string name() const = 0;
+    [[nodiscard]] virtual std::string name() const = 0;
 };
 
 // ============================================================================

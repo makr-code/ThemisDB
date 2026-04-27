@@ -123,7 +123,7 @@ public:
      * @param event  Structured replication event.
      * @return true on success; false signals a transient failure.
      */
-    virtual bool onReplicationEvent(const CacheReplicationEvent& event) = 0;
+    [[nodiscard]] virtual bool onReplicationEvent(const CacheReplicationEvent& event) = 0;
 
     /**
      * @brief Called periodically so the listener can report its liveness.
@@ -134,7 +134,7 @@ public:
     /**
      * @brief Human-readable replica identifier (host:port, node ID, …).
      */
-    virtual std::string replicaId() const = 0;
+    [[nodiscard]] virtual std::string replicaId() const = 0;
 };
 
 // ---------------------------------------------------------------------------

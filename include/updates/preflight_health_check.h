@@ -116,13 +116,13 @@ public:
      * @brief Human-readable name used in HealthCheckResult::check_name.
      * @return Stable name string (e.g. "disk_space").
      */
-    virtual std::string name() const = 0;
+    [[nodiscard]] virtual std::string name() const = 0;
 
     /**
      * @brief Execute the check.
      * @return HealthCheckResult with @c passed set accordingly.
      */
-    virtual HealthCheckResult run() = 0;
+    [[nodiscard]] virtual HealthCheckResult run() = 0;
 };
 
 // ---------------------------------------------------------------------------

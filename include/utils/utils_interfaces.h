@@ -146,7 +146,7 @@ public:
      * @param chunk  Byte span of the document chunk to inspect.
      * @return       Detection result (no raw PII values).
      */
-    virtual PIIDetectionResult detect(std::span<const std::byte> chunk) const = 0;
+    [[nodiscard]] virtual PIIDetectionResult detect(std::span<const std::byte> chunk) const = 0;
 
     /**
      * @brief Replace all PII spans in a byte chunk with deterministic pseudonyms.
@@ -156,12 +156,12 @@ public:
      * @param chunk  Byte span of the document chunk to sanitise.
      * @return       Sanitised chunk (no raw PII values).
      */
-    virtual SanitisedChunk pseudonymise(std::span<const std::byte> chunk) const = 0;
+    [[nodiscard]] virtual SanitisedChunk pseudonymise(std::span<const std::byte> chunk) const = 0;
 
     /**
      * @brief Return the set of PII categories this implementation can detect.
      */
-    virtual std::span<const PIICategory> supportedCategories() const = 0;
+    [[nodiscard]] virtual std::span<const PIICategory> supportedCategories() const = 0;
 };
 
 
@@ -234,7 +234,7 @@ public:
      * @param event  The event to append.
      * @return       Sequence number assigned to the new entry.
      */
-    virtual EntryId append(const AuditEvent& event) = 0;
+    [[nodiscard]] virtual EntryId append(const AuditEvent& event) = 0;
 
     /**
      * @brief Verify the hash chain over a range of entries.
@@ -243,7 +243,7 @@ public:
      * @param to    Last entry to verify (inclusive).
      * @return      Verification result.
      */
-    virtual ChainVerifyResult verifyChain(EntryId from, EntryId to) const = 0;
+    [[nodiscard]] virtual ChainVerifyResult verifyChain(EntryId from, EntryId to) const = 0;
 
     /**
      * @brief Open a paginated, forward-only cursor for reading entries.
@@ -253,17 +253,17 @@ public:
      * @param query  Query parameters (range + optional filter).
      * @return       Cursor positioned at the first matching entry.
      */
-    virtual AuditCursor query(const AuditQuery& query) const = 0;
+    [[nodiscard]] virtual AuditCursor query(const AuditQuery& query) const = 0;
 
     /** @brief Total number of entries appended since the log was created. */
-    virtual size_t entryCount() const = 0;
+    [[nodiscard]] virtual size_t entryCount() const = 0;
 
     /**
      * @brief Sequence number of the most recently appended entry.
      *
      * Returns 0 when the log is empty.
      */
-    virtual EntryId lastEntryId() const = 0;
+    [[nodiscard]] virtual EntryId lastEntryId() const = 0;
 };
 
 
@@ -354,7 +354,7 @@ public:
      * @param ctx  Derivation context (IKM, salt, info, length).
      * @return     Move-only handle wrapping the derived key bytes.
      */
-    virtual KeyHandle derive(const KeyContext& ctx) = 0;
+    [[nodiscard]] virtual KeyHandle derive(const KeyContext& ctx) = 0;
 
     /**
      * @brief Explicitly invalidate the cache entry for @p ctx.
@@ -373,13 +373,13 @@ public:
      *
      * @return Remaining lifetime in milliseconds; 0 when expired or absent.
      */
-    virtual std::chrono::milliseconds ttl(const KeyContext& ctx) const = 0;
+    [[nodiscard]] virtual std::chrono::milliseconds ttl(const KeyContext& ctx) const = 0;
 
     /** @brief Current number of live (unexpired) cache entries. */
-    virtual size_t cacheSize() const = 0;
+    [[nodiscard]] virtual size_t cacheSize() const = 0;
 
     /** @brief Maximum number of entries the cache will hold before evicting LRU entries. */
-    virtual size_t maxCacheSize() const = 0;
+    [[nodiscard]] virtual size_t maxCacheSize() const = 0;
 };
 
 
@@ -436,7 +436,7 @@ public:
      *
      * Security contract: returns true unconditionally for Security-class entries.
      */
-    virtual bool shouldSample(const LogEntry& entry) noexcept = 0;
+    [[nodiscard]] virtual bool shouldSample(const LogEntry& entry) noexcept = 0;
 
     /**
      * @brief Provide feedback on whether @p entry was actually emitted.
@@ -452,7 +452,7 @@ public:
      *
      * noexcept.
      */
-    virtual double currentRate() const noexcept = 0;
+    [[nodiscard]] virtual double currentRate() const noexcept = 0;
 
     /**
      * @brief Request a new target sampling rate (fraction in [0.0, 1.0]).
@@ -466,14 +466,14 @@ public:
      *
      * noexcept.
      */
-    virtual size_t sampledCount() const noexcept = 0;
+    [[nodiscard]] virtual size_t sampledCount() const noexcept = 0;
 
     /**
      * @brief Total number of log entries passed to shouldSample() that were dropped.
      *
      * noexcept.
      */
-    virtual size_t droppedCount() const noexcept = 0;
+    [[nodiscard]] virtual size_t droppedCount() const noexcept = 0;
 };
 
 
@@ -529,14 +529,14 @@ public:
     virtual ~ReplayIterator() = default;
 
     /** @brief true when at least one more entry is available. */
-    virtual bool hasNext() const = 0;
+    [[nodiscard]] virtual bool hasNext() const = 0;
 
     /**
      * @brief Return the next entry and advance the cursor.
      *
      * Behaviour is undefined when hasNext() == false.
      */
-    virtual SAGALogEntry next() = 0;
+    [[nodiscard]] virtual SAGALogEntry next() = 0;
 
     /** @brief Rewind to the first entry in the segment. */
     virtual void reset() = 0;
@@ -564,7 +564,7 @@ public:
      * @param range  Segment range to compact.
      * @return       Future that resolves to a CompactionResult.
      */
-    virtual std::future<CompactionResult> compact(SegmentRange range) = 0;
+    [[nodiscard]] virtual std::future<CompactionResult> compact(SegmentRange range) = 0;
 
     /**
      * @brief Open a forward-only iterator over the entries in a compacted segment.
@@ -572,7 +572,7 @@ public:
      * @param segmentId  Identifier of the segment to replay.
      * @return           Owning pointer to a ReplayIterator; never null on success.
      */
-    virtual std::unique_ptr<ReplayIterator> replay(SegmentId segmentId) = 0;
+    [[nodiscard]] virtual std::unique_ptr<ReplayIterator> replay(SegmentId segmentId) = 0;
 };
 
 
@@ -597,14 +597,14 @@ public:
     virtual ~IUtilsStage() = default;
 
     /** @brief Human-readable stage name (for logging/diagnostics). */
-    virtual std::string name() const = 0;
+    [[nodiscard]] virtual std::string name() const = 0;
 
     /**
      * @brief Execute this stage.
      *
      * @return true on success; false causes the pipeline to record an error.
      */
-    virtual bool execute() = 0;
+    [[nodiscard]] virtual bool execute() = 0;
 
     /**
      * @brief Called by the pipeline during shutdown to release resources.
@@ -638,7 +638,7 @@ public:
      *
      * @return Future that resolves to a PipelineResult.
      */
-    virtual std::future<PipelineResult> run() = 0;
+    [[nodiscard]] virtual std::future<PipelineResult> run() = 0;
 
     /**
      * @brief Tear down all registered stages (reverse registration order).
