@@ -385,5 +385,88 @@ struct ITTLAdapter {
     virtual void configure(const TTLAdapterConfig& config) = 0;
 };
 
+// ============================================================================
+// ICacheBackend<K, V> — common read/write/management interface
+// ============================================================================
+
+/**
+ * @brief Generic typed cache backend interface.
+ *
+ * Provides a minimal, uniform API for all cache implementations in the
+ * ThemisDB cache module (AdaptiveQueryCache, BoundedLRUCache, EmbeddingCache,
+ * SemanticCache, …).  New cache implementations MUST inherit from this
+ * interface to ensure interoperability with cache-agnostic consumers such as
+ * query optimisers, RAG pipelines, and the admin API.
+ *
+ * @tparam K  Key type.  Must be equality-comparable and hashable.
+ * @tparam V  Value type.  Must be move-constructible.
+ *
+ * ### Contract
+ *   - `get()` returns `std::nullopt` on a cache miss; it must never block
+ *     indefinitely.
+ *   - `put()` may silently evict existing entries when capacity is exhausted.
+ *   - `remove()` is idempotent; returning false when the key is absent is
+ *     acceptable.
+ *   - `clear()` must complete in bounded time regardless of cache size.
+ *   - All methods must be thread-safe.
+ *
+ * ### Relation to other interfaces
+ *   - IEvictionPolicy handles the *which-to-evict* decision; ICacheBackend
+ *     handles the *get/put/remove* operations.
+ *   - ICacheAdminOps provides privileged management; obtain it through a
+ *     separate authenticated accessor, not via ICacheBackend.
+ *   - ITTLAdapter computes TTL values; ICacheBackend stores and honours them.
+ */
+template<typename K, typename V>
+struct ICacheBackend {
+    virtual ~ICacheBackend() = default;
+
+    /**
+     * @brief Look up @p key in the cache.
+     *
+     * @return The cached value, or `std::nullopt` on a miss.
+     */
+    virtual std::optional<V> get(const K& key) = 0;
+
+    /**
+     * @brief Insert or update @p key → @p value with optional TTL.
+     *
+     * @param key         Cache key (must not be empty for string keys).
+     * @param value       Value to store.
+     * @param ttl_seconds Time-to-live in seconds; 0 = use cache default.
+     */
+    virtual void put(const K& key, V value, uint32_t ttl_seconds = 0) = 0;
+
+    /**
+     * @brief Explicitly remove @p key from the cache.
+     *
+     * @return true  if the key existed and was removed.
+     * @return false if the key was not present (idempotent).
+     */
+    virtual bool remove(const K& key) = 0;
+
+    /**
+     * @brief Return true if @p key is currently held in the cache.
+     *
+     * Must complete in O(1) amortised time.
+     */
+    virtual bool contains(const K& key) const = 0;
+
+    /**
+     * @brief Remove all entries from the cache.
+     *
+     * After this call, `size() == 0`.
+     */
+    virtual void clear() = 0;
+
+    /**
+     * @brief Return the number of entries currently held.
+     *
+     * The returned value is a snapshot; concurrent modifications may change
+     * it immediately after the call returns.
+     */
+    virtual std::size_t size() const = 0;
+};
+
 } // namespace cache
 } // namespace themis

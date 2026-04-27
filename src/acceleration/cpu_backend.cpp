@@ -24,6 +24,7 @@
 #include "acceleration/cpu_backend.h"
 #include "acceleration/batch_validator.h"
 #include "acceleration/kernel_invocation.h"
+#include "utils/geometric_distances.h"
 #include <cmath>
 #include <algorithm>
 #include <queue>
@@ -36,36 +37,18 @@ namespace acceleration {
 // CPUVectorBackend Implementation
 // ============================================================================
 
-// Compute squared L2 distance between two vectors (no sqrt for performance and consistency)
+// Delegate to SIMD-optimised implementations from utils/geometric_distances.h.
+// Replaces the former scalar loops with hardware-accelerated kernels
+// (AVX-512 / AVX2 / ARM NEON / scalar fallback).
+
 float CPUVectorBackend::computeL2Distance(const float* a, const float* b, size_t dim) const {
-    float sum = 0.0f;
-    for (size_t i = 0; i < dim; ++i) {
-        float diff = a[i] - b[i];
-        sum += diff * diff;
-    }
-    return sum;  // Return squared distance (maintains monotonic ordering for ranking)
+    // Returns squared distance (no sqrt) to preserve monotonic ranking behaviour
+    // of callers; matches the contract of the previous scalar implementation.
+    return themis::simd::l2_distance_sq(a, b, dim);
 }
 
 float CPUVectorBackend::computeCosineDistance(const float* a, const float* b, size_t dim) const {
-    float dotProduct = 0.0f;
-    float normA = 0.0f;
-    float normB = 0.0f;
-    
-    for (size_t i = 0; i < dim; ++i) {
-        dotProduct += a[i] * b[i];
-        normA += a[i] * a[i];
-        normB += b[i] * b[i];
-    }
-    
-    normA = std::sqrt(normA);
-    normB = std::sqrt(normB);
-    
-    if (normA < 1e-10f || normB < 1e-10f) {
-        return 1.0f; // Maximum distance for zero vectors
-    }
-    
-    float cosine = dotProduct / (normA * normB);
-    return 1.0f - cosine; // Convert similarity to distance
+    return themis::simd::cosine_distance(a, b, dim);
 }
 
 std::vector<float> CPUVectorBackend::computeDistances(

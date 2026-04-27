@@ -586,8 +586,10 @@ void StatisticsManager::collectTableStatistics(const std::string& tableName) {
     //   engine for live row count, page count, and average row size.  The
     //   actual stats must be injected via updateTableStatistics() (e.g. from
     //   StatisticsCollector after a table scan) until that path is wired up.
+    // Roadmap ref: src/ROADMAP.md § "Consolidation Phase — Statistics Stubs"
+    //              src/query/FUTURE_ENHANCEMENTS.md § "Cost Model Statistics"
     // Removal Plan: Replace body with a storage-engine call once StorageEngine
-    //   is injectable into StatisticsManager (planned for v2.x).
+    //   is injectable into StatisticsManager (Target: v2.0.0).
     OptimizerCostModel::TableStatistics stats;
     stats.tableName = tableName;
     stats.rowCount = 0;
@@ -610,7 +612,9 @@ void StatisticsManager::collectColumnStatistics(
     // Activation: Called at schema-registration time or on first access.
     // Production Delta: Should scan existing index or sample storage to derive
     //   distinctValues, nullFraction, min/max, and histogram.
-    // Removal Plan: Replace with storage-engine scan once injectable (v2.x).
+    // Roadmap ref: src/ROADMAP.md § "Consolidation Phase — Statistics Stubs"
+    //              src/query/FUTURE_ENHANCEMENTS.md § "Cost Model Statistics"
+    // Removal Plan: Replace with storage-engine scan once injectable (Target: v2.0.0).
     OptimizerCostModel::ColumnStatistics stats;
     stats.columnName = columnName;
     stats.distinctValues = 0;
@@ -626,8 +630,10 @@ void StatisticsManager::collectIndexStatistics(const std::string& indexName) {
     // Activation: Called when a new index is registered with the optimizer.
     // Production Delta: Should query the index subsystem for actual entry
     //   count, tree depth, and selectivity histogram.
+    // Roadmap ref: src/ROADMAP.md § "Consolidation Phase — Statistics Stubs"
+    //              src/query/FUTURE_ENHANCEMENTS.md § "Cost Model Statistics"
     // Removal Plan: Replace with real index-metadata query once the index
-    //   subsystem exposes a stats API (v2.x).
+    //   subsystem exposes a stats API (Target: v2.0.0).
     OptimizerCostModel::IndexStatistics stats;
     stats.indexName = indexName;
     stats.indexType = "btree";

@@ -24,6 +24,22 @@
 // Stub implementations for linking purposes
 // These stubs allow themis_tests to link successfully
 // They are minimal implementations that prevent linker errors
+//
+// STUB/SIMULATION NOTE:
+// Purpose: Provides minimal link-time stubs for `themis::llm::lora` types that
+//   are referenced by the test executable but whose real implementations
+//   (llm/lora_framework/*) require optional GPU/training dependencies.
+// Activation: Included in the build by default via stubs.cpp being part of
+//   themis_tests sources.  The real headers exist under include/llm/lora_framework/
+//   and include/llm/feedback_store.h but are not unconditionally linkable.
+// Production Delta: Struct layouts are minimal (no fields, no real logic).
+//   `loadFromFile()` returns empty defaults instead of parsing YAML/JSON config.
+//   `getFeedbackForAdapter()` always returns empty vector.
+// Roadmap ref: src/ROADMAP.md § "Consolidation Phase — Stub/Simulation Lifecycle"
+//              src/llm/FUTURE_ENHANCEMENTS.md § "LoRA Training Integration"
+// Removal Plan: Replace stubs with proper conditional compilation (THEMIS_ENABLE_LORA_TRAINING)
+//   and forward-declare only; or link real implementations once dependency
+//   tree is resolved (Target: v1.5.0).
 
 #include <memory>
 #include <map>

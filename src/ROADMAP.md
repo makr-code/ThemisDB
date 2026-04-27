@@ -430,6 +430,55 @@ See: <Detail link>
 
 These themes affect multiple modules and should be tracked as **Epic-level GitHub Issues**:
 
+### 🔧 Code Consolidation Epic
+**Status:** In Progress (2026-04-27) · **Epic Label:** `epic:consolidation` · **Target:** v1.5.0
+
+Tracks deduplication of scattered implementations across the codebase.
+See `src/UNUSED_FUNCTIONS_REPORT.md` for per-symbol triage decisions.
+
+#### Phase 1: Geometric Distance Functions (Target: v1.4.0)
+- [x] `include/utils/geometric_distances.h` als zentralen Header angelegt
+- [x] `src/acceleration/cpu_backend.cpp` → `simd::l2_distance_sq` / `simd::cosine_distance`
+- [x] `src/acceleration/cpu_backend_mt.cpp` → `simd::cosine_distance` (80-Zeilen AVX2/NEON-Duplikat entfernt)
+- [ ] `src/acceleration/graphics_backends.cpp` file-local `haversine_km`-Varianten → `geo::haversine_km` (Target: v1.5.0)
+- [ ] `src/geo/*.cpp` file-local `haversineDistanceM()` → `geo::haversine_m` (Target: v1.5.0)
+- [ ] `src/index/secondary_index.cpp`, `src/index/spatial_index.cpp` → `geo::haversine_km` (Target: v1.5.0)
+- [ ] Unit-Tests für `geometric_distances.h` ergänzen (Target: v1.4.0)
+
+#### Phase 2: Compression Codec Registry (Target: v1.4.0)
+- [x] `include/storage/codec_tags.h` als centrales Tag-Byte-Register angelegt
+- [x] `src/performance/advanced_cache_manager.cpp` auf centrale Tags umgestellt
+- [ ] `src/storage/compression_strategy.cpp` auf `codec_tags.h` umstellen (Target: v1.4.0)
+
+#### Phase 3: Cache Interface Konsolidierung (Target: v1.5.0)
+- [x] `ICacheBackend<K,V>` zu `include/cache/cache_interfaces.h` hinzugefügt
+- [ ] `AdaptiveQueryCache` von `ICacheBackend<std::string, nlohmann::json>` erben lassen (Target: v1.5.0)
+- [ ] `BoundedLRUCache` von `ICacheBackend` erben lassen (Target: v1.5.0)
+- [ ] `llm/active_vram_allocator.cpp` lokale LRU-Logik gegen `ICacheBackend`-Implementierung tauschen (Target: v1.6.0)
+
+#### Phase 4: UNGENUTZT-Symbole Triage (Target: v1.4.0)
+- [x] Entscheidungsmatrix für 35 Symbole ausgefüllt (UNUSED_FUNCTIONS_REPORT.md)
+- [x] `EnumerateCUDA`, `EnumerateROCm`, `MakeCPUFallback` → INTERNAL_ONLY (falsch klassifiziert)
+- [x] `getHooks`, `hookId`, `registerHook`, `unregisterHook` → CANDIDATE_FOR_REMOVAL (kein Signal)
+- [ ] GitHub Issues für alle 4 CANDIDATE_FOR_REMOVAL anlegen (Target: v1.4.0)
+- [ ] Mindest-Tests für KEEP-Symbole mit Status UNGENUTZT anlegen (Target: v1.5.0)
+
+#### Phase 5: Stub/Simulation Lifecycle (Target: v1.4.0)
+- [x] `src/query/optimizer_cost_model.cpp` Statistik-Stubs: Roadmap-Referenz + Target v2.0.0 ergänzt
+- [x] `src/governance/opa_adapter.cpp` WASM-Stub: Roadmap-Referenz + Target v1.6.0 ergänzt
+- [x] `src/performance/advanced_cache_manager.cpp` Passthrough-Stub: Roadmap-Referenz ergänzt
+- [ ] `src/stubs.cpp` LoRA-Stubs prüfen ob mit `llm/lora_*.h` synchron (Target: v1.5.0)
+- [ ] Alle verbleibenden STUB/SIMULATION-Blöcke ohne Roadmap-Referenz bereinigen (Target: v1.5.0)
+
+#### Phase 6: Retry/Backoff Zentralisierung (Target: v1.5.0)
+- [x] `include/utils/retry_policy.h` mit `RetryConfig`, `ExponentialBackoff`, `retry_with_backoff<>` angelegt
+- [ ] `src/rag/http_metrics_client.cpp` `requestWithRetry()` → `retry_with_backoff()` (Target: v1.5.0)
+- [ ] `src/rag/llm_judge_integration.cpp` inline-while-loop → `retry_with_backoff()` (Target: v1.5.0)
+- [ ] `src/network/` Subsysteme → `retry_with_backoff()` (Target: v1.5.0)
+- [ ] Unit-Tests für `retry_policy.h` ergänzen (Target: v1.4.0)
+
+---
+
 ### 🔒 Security Hardening Epic
 Affects: `auth`, `security`, `server`, `llm`, `utils`, `sharding`, `storage`
 
