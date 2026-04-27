@@ -2108,6 +2108,39 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_temporal_queries.cpp")
 endif()
 
 # ============================================================================
+# Continuous Query Engine Benchmarks (Phase 8.5 — CQ-PERF-01/02)
+# ContinuousQueryEngine: injectTuple throughput (CQ-PERF-01),
+# SynopsisStore/IncrementalAgg window tick overhead (CQ-PERF-02)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_continuous_query.cpp")
+    message(STATUS "Adding Continuous Query Engine benchmarks (CQ-PERF-01/02)")
+
+    add_executable(bench_continuous_query
+        bench_continuous_query.cpp
+    )
+
+    target_link_libraries(bench_continuous_query PRIVATE
+        themis_core
+        ${BENCHMARK_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_continuous_query PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_continuous_query)
+
+    install(TARGETS bench_continuous_query
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  CQ: BM_ContinuousQuery_Throughput (CQ-PERF-01), BM_ContinuousQuery_WindowTick (CQ-PERF-02)")
+endif()
+
+# ============================================================================
 # Task Scheduler Benchmarks
 # TaskScheduler: registerTask, unregisterTask, executeTaskNow, listTasks,
 # getStats, concurrent registerTask

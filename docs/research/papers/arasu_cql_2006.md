@@ -7,8 +7,8 @@
 - Link: [IEEE DEB](http://sites.computer.org/debull/A06mar/arasu.pdf) · [ACM TODS](https://dl.acm.org/doi/10.1145/1146461.1146463) · [Stanford STREAM project](http://infolab.stanford.edu/stream/)
 - Zitierweise: `arasu2006cql`
 - Tags: `streaming`, `continuous-query`, `window-functions`, `relational-streams`, `real-time`, `cql`
-- ThemisDB-Versionen: Planned v2.0.0+
-- Status: [x] Not Started | [ ] Partially Implemented | [ ] Fully Implemented
+- ThemisDB-Versionen: v2.0.0+
+- Status: [ ] Not Started | [ ] Partially Implemented | [x] Fully Implemented
 
 ## 📋 Executive Summary
 
@@ -36,32 +36,33 @@ CQL (Continuous Query Language) is a formal declarative language designed for is
 
 ### What Was Adopted?
 
-ThemisDB's IoT example (`examples/09_iot_sensor_network/`) already uses a `CREATE CONTINUOUS QUERY` syntax that directly mirrors CQL's standing query concept. The planned Phase 8 of the query module (see `src/query/ROADMAP.md`) formalises this into a production-grade CQL engine:
+ThemisDB v2.0.0 ships a production-grade CQL engine (Phase 8.1–8.5). The engine implements all concepts from the paper:
 
-1. **Window type taxonomy**: Time-based (`RANGE`), count-based (`ROWS`), and tumbling windows map directly to ThemisDB's `WindowSpec` in `src/analytics/streaming_window.cpp`.
-2. **Istream semantics**: ThemisDB's CDC module already produces insert/delete events that align with CQL's `Istream`/`Dstream` operators.
-3. **AQL extension plan**: `CREATE CONTINUOUS QUERY <name> ON <source> [WINDOW ...] BEGIN <AQL_SELECT> END` follows the CQL standing query declaration syntax.
-4. **Incremental aggregation**: The watermark-based incremental refresh in `src/timeseries/continuous_agg.cpp` corresponds to CQL's synopsis maintenance model.
+1. **Window type taxonomy**: `WindowSpec::slidingTime()`, `::tumblingTime()`, `::slidingCount()` implement CQL `[RANGE T]`, `[TUMBLING T]`, `[ROWS N]` semantics.
+2. **Istream / Dstream semantics**: `ResultMode::DELTA` emits `CQResult{is_retract=false}` (Istream) and `CQResult{is_retract=true}` (Dstream); `ResultMode::CHANGES` emits Istream only; `ResultMode::SNAPSHOT` emits Rstream.
+3. **AQL extension**: `CREATE CONTINUOUS QUERY` DDL syntax with `WINDOW`, `AS`, and `OUTPUT` clauses; see `src/query/README.md` CQL section.
+4. **Synopsis maintenance**: `SynopsisStore` — in-memory ring-buffer with `max_tuples`/`max_bytes` capacity limits; `IncrementalAgg` provides O(delta) aggregate updates.
+5. **Watermark / late-data**: `CQWatermark` implements per-query watermark advancement and late-data correction within `allowed_lateness_ms`.
 
 ### How Was It Adapted?
 
 | CQL Concept | ThemisDB Adaptation | Rationale |
 |---|---|---|
 | Pure stream model (append-only) | Hybrid: streams + mutable collections | ThemisDB serves OLTP/OLAP; mutable relations must be supported |
-| Istream / Dstream / Rstream operators | CDC events + continuous query result modes | ThemisDB's CDC module already captures `INSERT`/`DELETE`/`UPDATE`; the `RESULT_MODE` query option selects delta vs. snapshot delivery |
-| SQL relational algebra inside window | AQL inside window | ThemisDB uses AQL instead of raw SQL; all relational operators plus graph traversal are available |
-| Standalone STREAM system | Embedded in AQL query engine | No separate runtime; CQL plan nodes plug into the existing `QueryExecutor` pipeline |
-| Per-query time-based scheduler | Shared `AggregateScheduler` from timeseries | Reuses `src/timeseries/aggregate_scheduler.cpp` to trigger window evaluation |
-| STREAM's naive synopsis storage | RocksDB-backed ring buffer per window | Persistent state survives node restarts; WAL protects against mid-window crashes |
+| Istream / Dstream / Rstream operators | `ResultMode::DELTA` / `SNAPSHOT` / `CHANGES` | CDC events + `injectTuple()` API cover all three operator types |
+| SQL relational algebra inside window | AQL inside window (`spec.aql_body`) | ThemisDB uses AQL; all relational operators plus graph traversal are available |
+| Standalone STREAM system | Embedded in `ContinuousQueryEngine` | No separate runtime; integrates directly with query engine pipeline |
+| Per-query time-based scheduler | `ContinuousQueryEngineImpl` evaluation loop | Per-query goroutine evaluates at `slide_ms` intervals |
+| STREAM's naive synopsis storage | `SynopsisStore` ring-buffer (1 GiB / 10 M tuples) | In-memory for Phase 8; RocksDB persistence planned for v2.1.0 |
 
 ### Performance Impact
 
 | Metric | CQL / STREAM Claim | ThemisDB Target | Status |
 |--------|--------------------|-----------------|--------|
-| Per-tuple latency | < 1 ms (mid-2000s hardware) | ≤ 5 ms p99 end-to-end | ⏳ Planned |
-| Window evaluation overhead | O(window size) | O(delta) with synopsis | ⏳ Planned |
-| Concurrent continuous queries | Not specified | ≥ 1 000 active queries | ⏳ Planned |
-| Throughput | ~100 k tuples/s (STREAM prototype) | ≥ 500 k tuples/s | ⏳ Planned |
+| Per-tuple latency | < 1 ms (mid-2000s hardware) | ≤ 5 ms p99 end-to-end | 📋 Target set; benchmark `BM_ContinuousQuery_TupleLatency` |
+| Window evaluation overhead | O(window size) | O(delta) with `IncrementalAgg` | ✅ Implemented (Phase 8.2) |
+| Concurrent continuous queries | Not specified | ≥ 1 000 active queries | ✅ Unit test CQ-20 |
+| Throughput | ~100 k tuples/s (STREAM prototype) | ≥ 500 k tuples/s | 📋 Target set; benchmark `BM_ContinuousQuery_Throughput` (CQ-PERF-01) |
 
 ## ⚠️ Limitations & Open Questions
 

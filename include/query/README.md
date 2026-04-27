@@ -687,6 +687,70 @@ auto result = federation.execute(plan);
 
 **Thread Safety:** Federation operations are thread-safe.
 
+### Continuous Query Engine (CQL — v2.0.0)
+**Location:** `continuous_query_engine.h`, `continuous_query_engine_impl.h`, `continuous_query_registry.h`  
+**Implementation:** `../../src/query/continuous_query_engine.cpp`
+
+Production-grade Continuous Query Language (CQL) engine for standing queries evaluated continuously as new data arrives.  
+Formal semantics based on Arasu, Babu & Widom (2006).
+
+**Key Types:**
+
+| Type | Header | Role |
+|------|--------|------|
+| `ContinuousQueryEngine` | `continuous_query_engine.h` | Abstract base — stable public API |
+| `ContinuousQueryEngineImpl` | `continuous_query_engine_impl.h` | Concrete implementation |
+| `ContinuousQuerySpec` | `continuous_query_engine.h` | Query registration parameters |
+| `ContinuousQueryInfo` | `continuous_query_engine.h` | Runtime statistics (per `listQueries()`) |
+| `CQResult` | `continuous_query_engine.h` | Single result item (`payload`, `is_retract`) |
+| `CQResultStream` | `continuous_query_engine.h` | Blocking iterator for subscriber |
+| `WindowSpec` | `window_spec.h` | Window definition (time/count, sliding/tumbling) |
+| `SynopsisStore` | `synopsis_store.h` | In-memory ring-buffer synopsis per query |
+| `IncrementalAgg` | `incremental_agg.h` | Delta-based SUM/COUNT/AVG/MIN/MAX |
+| `CQWatermark` | `cq_watermark.h` | Per-query watermark and late-data tracking |
+| `ContinuousQueryPlanner` | `continuous_query_planner.h` | Spec → Plan compilation + validation |
+| `ContinuousQueryRegistry` | `continuous_query_registry.h` | Thread-safe map of active queries |
+
+**Stable Public API (v2.0.0+):**
+```cpp
+class ContinuousQueryEngine {
+    // Register a new standing query.
+    [[nodiscard]] virtual Result<ContinuousQueryHandle>
+        registerQuery(ContinuousQuerySpec spec) = 0;
+
+    // Drop a registered query and release all resources.
+    virtual Result<void> dropQuery(const std::string& name) = 0;
+
+    // Subscribe to a query's result stream (multiple subscribers supported).
+    [[nodiscard]] virtual Result<ResultStreamPtr>
+        subscribe(const std::string& name, ResultMode mode) = 0;
+
+    // List all active queries with runtime statistics.
+    [[nodiscard]] virtual std::vector<ContinuousQueryInfo>
+        listQueries() const = 0;
+
+    // Inject a tuple into the evaluation loop (CDC feed / test).
+    virtual void injectTuple(const std::string& collection,
+                             const std::string& tuple,
+                             int64_t            event_ts) = 0;
+};
+```
+
+**ResultMode enum:**
+```cpp
+enum class ResultMode { DELTA, SNAPSHOT, CHANGES };
+```
+
+**Performance Targets (Phase 8.5):**
+
+| Metric | Target | Benchmark ID |
+|--------|--------|-------------|
+| Ingest throughput | ≥ 500 000 tuples/s | CQ-PERF-01 |
+| Per-tuple p99 latency | ≤ 5 ms | CQ-PERF-01 |
+| Empty-window tick | ≤ 1 µs | CQ-PERF-02 |
+
+**Thread Safety:** All public methods of `ContinuousQueryEngine`, `SynopsisStore`, and `ContinuousQueryRegistry` are thread-safe (internal `std::mutex` / `std::shared_mutex`).
+
 ### Window Functions
 **Location:** `window_evaluator.h`, `../../src/query/window_evaluator.cpp`
 

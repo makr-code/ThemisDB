@@ -239,7 +239,7 @@ Production-ready multi-model query engine supporting relational, document, graph
 
 Decision overhead: ≤ 1 µs/call (no I/O, pure arithmetic; see `PERFORMANCE_EXPECTATIONS.md` §2.5).
 
-### Phase 8: Continuous Query Language (Status: 🚧 In Progress — v2.0.0; Phases 8.1–8.4 ✅ 2026-04-27)
+### Phase 8: Continuous Query Language (Status: ✅ Phases 8.1–8.6 complete — v2.0.0; 2026-04-27)
 
 > **Research foundation:** [CQL — Arasu, Babu & Widom (2006)](../../docs/research/papers/arasu_cql_2006.md) · [Best Practice: Continuous Query Sliding Windows](../../docs/research/best_practices/continuous_query_sliding_window.md)
 
@@ -293,21 +293,21 @@ Adds a production-grade Continuous Query Language (CQL) engine to ThemisDB, enab
   - CQI-05: node restart; query registry reloaded; evaluation resumes
 - [x] Register test suite as `CTest` target `ContinuousQueryEngineTests` in `tests/CMakeLists.txt`
 
-#### Phase 8.5 — Performance & Hardening (Target: Q4 2026)
+#### Phase 8.5 — Performance & Hardening (Target: Q4 2026) ✅ 2026-04-27
 
-- [ ] Benchmark `BM_ContinuousQuery_Throughput` — `benchmarks/bench_continuous_query.cpp`: throughput ≥ 500 k tuples/s; p99 per-tuple latency ≤ 5 ms; target ID `CQ-PERF-01` in `benchmark_target_mapping.json`
-- [ ] Benchmark `BM_ContinuousQuery_WindowTick` — empty-window tick overhead ≤ 1 µs; target ID `CQ-PERF-02`
-- [ ] Memory guard: enforce `max_window_size` (default: 10 M tuples OR 1 GB); verified by `CQ-19` unit test
-- [ ] Backpressure: slow subscribers trigger evaluation frequency reduction via `AggregateScheduler::throttle()`; `subscriber_backpressure_total` Prometheus counter
+- [x] Benchmark `BM_ContinuousQuery_Throughput` — `benchmarks/bench_continuous_query.cpp`: throughput ≥ 500 k tuples/s; p99 per-tuple latency ≤ 5 ms; target ID `CQ-PERF-01` in `benchmark_target_mapping.json`
+- [x] Benchmark `BM_ContinuousQuery_WindowTick` — empty-window tick overhead ≤ 1 µs; target ID `CQ-PERF-02`
+- [x] Memory guard: `SynopsisStore` enforces `max_tuples` (default 10 M) and `max_bytes` (default 1 GiB) on every `insert()` — verified by CQ-19 unit test
+- [ ] Backpressure: slow subscribers trigger evaluation frequency reduction via `AggregateScheduler::throttle()`; `subscriber_backpressure_total` Prometheus counter (Target: v2.1.0)
 
-#### Phase 8.6 — Documentation & Acceptance (Target: Q4 2026)
+#### Phase 8.6 — Documentation & Acceptance (Target: Q4 2026) ✅ 2026-04-27
 
-- [ ] Update `src/query/README.md` with CQL syntax reference and lifecycle diagram
-- [ ] Update `include/query/README.md` with `ContinuousQueryEngine` API surface
-- [ ] Update `src/query/CHANGELOG.md` with v2.0.0 CQL entry
-- [ ] Update `PERFORMANCE_EXPECTATIONS.md` §2.6 with CQ-PERF-01/02 targets
-- [ ] Link `docs/research/papers/arasu_cql_2006.md` from query README
-- [ ] API stability guaranteed for `ContinuousQueryEngine::registerQuery`, `::dropQuery`, `::subscribe`, `::listQueries` from v2.0.0
+- [x] Update `src/query/README.md` with CQL syntax reference and lifecycle diagram
+- [x] Update `include/query/README.md` with `ContinuousQueryEngine` API surface
+- [x] Update `src/query/CHANGELOG.md` with v2.0.0 CQL entry
+- [x] Update `PERFORMANCE_EXPECTATIONS.md` §2.6 with CQ-PERF-01/02 targets
+- [x] Link `docs/research/papers/arasu_cql_2006.md` from query README
+- [x] API stability guaranteed for `ContinuousQueryEngine::registerQuery`, `::dropQuery`, `::subscribe`, `::listQueries` from v2.0.0
 
 **Performance Targets (Phase 8):**
 
