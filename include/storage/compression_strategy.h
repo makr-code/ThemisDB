@@ -26,6 +26,7 @@
 #include "utils/zstd_codec.h"
 #include "utils/lossless_vector_compression.h"
 #include "storage/gpu_compression.h"
+#include "storage/codec_tags.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -299,6 +300,68 @@ public:
      */
     static std::vector<uint8_t> decompress(const std::vector<uint8_t>& data);
 };
+
+} // namespace compression
+} // namespace themis
+
+// ============================================================================
+// Codec-tag bridge (compression_strategy ↔ codec_tags.h)
+//
+// Maps between CompressionMethod and the canonical wire-format tag bytes
+// defined in storage/codec_tags.h.  Use these in any code path that writes
+// or reads a tagged framed payload instead of defining a local mapping.
+// ============================================================================
+
+namespace themis {
+namespace compression {
+
+/**
+ * @brief Map a @c CompressionMethod to its canonical wire-format tag byte.
+ *
+ * GPU variants are mapped to the same tag as their CPU counterpart because
+ * the on-wire format is identical.  Methods without a tag-byte representation
+ * (RLE, DELTA, DICTIONARY, SPARSE_CSR, ADAPTIVE) fall back to
+ * @c kTagPassthrough so that payloads are always decodable.
+ *
+ * @param m  Method to convert.
+ * @return   One of the @c kTag* constants from @c storage/codec_tags.h.
+ */
+[[nodiscard]] constexpr uint8_t method_to_tag(CompressionMethod m) noexcept {
+    switch (m) {
+        case CompressionMethod::LZ4:
+        case CompressionMethod::GPU_LZ4:
+            return ::themis::compression::kTagLZ4;
+        case CompressionMethod::SNAPPY:
+        case CompressionMethod::GPU_SNAPPY:
+            return ::themis::compression::kTagSnappy;
+        case CompressionMethod::ZSTD:
+        case CompressionMethod::GPU_ZSTD:
+            return ::themis::compression::kTagZstd;
+        default:
+            // NONE / RLE / DELTA / DICTIONARY / SPARSE_CSR / ADAPTIVE
+            // These algorithms use internal framing and do not share the
+            // kTag* wire-format; expose them as passthrough to callers that
+            // only understand the tagged-payload protocol.
+            return ::themis::compression::kTagPassthrough;
+    }
+}
+
+/**
+ * @brief Map a canonical wire-format tag byte back to a @c CompressionMethod.
+ *
+ * @param tag  Leading tag byte from a framed payload.
+ * @return     The matching method, or @c std::nullopt for unknown tags.
+ */
+[[nodiscard]] constexpr std::optional<CompressionMethod>
+tag_to_method(uint8_t tag) noexcept {
+    switch (tag) {
+        case ::themis::compression::kTagPassthrough: return CompressionMethod::NONE;
+        case ::themis::compression::kTagLZ4:        return CompressionMethod::LZ4;
+        case ::themis::compression::kTagSnappy:     return CompressionMethod::SNAPPY;
+        case ::themis::compression::kTagZstd:       return CompressionMethod::ZSTD;
+        default:                                     return std::nullopt;
+    }
+}
 
 } // namespace compression
 } // namespace themis

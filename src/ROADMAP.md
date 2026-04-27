@@ -443,12 +443,12 @@ See `src/UNUSED_FUNCTIONS_REPORT.md` for per-symbol triage decisions.
 - [x] `src/acceleration/graphics_backends.cpp` file-local `haversine_km`-Varianten → `geo::haversine_km` (v1.9.0)
 - [x] `src/geo/*.cpp` file-local `haversineDistanceM()` → `geo::haversine_m` (v1.9.0)
 - [x] `src/index/secondary_index.cpp`, `src/index/spatial_index.cpp` → `geo::haversine_km` (v1.9.0)
-- [ ] Unit-Tests für `geometric_distances.h` ergänzen (Target: v1.4.0)
+- [x] Unit-Tests für `geometric_distances.h` ergänzen (v1.9.0)
 
 #### Phase 2: Compression Codec Registry (Target: v1.4.0)
 - [x] `include/storage/codec_tags.h` als centrales Tag-Byte-Register angelegt
 - [x] `src/performance/advanced_cache_manager.cpp` auf centrale Tags umgestellt
-- [ ] `src/storage/compression_strategy.cpp` auf `codec_tags.h` umstellen (Target: v1.4.0)
+- [x] `src/storage/compression_strategy.h` auf `codec_tags.h` umstellen: `#include "storage/codec_tags.h"` + `method_to_tag()` / `tag_to_method()` constexpr bridge (v1.9.0)
 
 #### Phase 3: Cache Interface Konsolidierung (Target: v1.5.0)
 - [x] `ICacheBackend<K,V>` zu `include/cache/cache_interfaces.h` hinzugefügt
@@ -475,7 +475,7 @@ See `src/UNUSED_FUNCTIONS_REPORT.md` for per-symbol triage decisions.
 - [x] `src/rag/http_metrics_client.cpp` `requestWithRetry()` → `retry_with_backoff()` / iterative `ExponentialBackoff` (v1.9.0)
 - [x] `src/rag/llm_judge_integration.cpp` inline-while-loop → `retry_with_backoff()` (v1.9.0)
 - [ ] `src/network/` Subsysteme → `retry_with_backoff()` (Target: v1.5.0)
-- [ ] Unit-Tests für `retry_policy.h` ergänzen (Target: v1.4.0)
+- [x] Unit-Tests für `retry_policy.h` ergänzen + Assertions für `bo.attempts()` nach ok2/ok3 (v1.9.0)
 
 ---
 
