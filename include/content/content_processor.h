@@ -89,7 +89,7 @@ public:
      * @param content_type Content type info
      * @return Extracted data (text, metadata, embeddings)
      */
-    virtual ExtractionResult extract(
+    [[nodiscard]] virtual ExtractionResult extract(
         const std::string& blob,
         const ContentType& content_type
     ) = 0;
@@ -102,7 +102,7 @@ public:
      * @param overlap Overlap between chunks
      * @return Vector of chunks with metadata
      */
-    virtual std::vector<json> chunk(
+    [[nodiscard]] virtual std::vector<json> chunk(
         const ExtractionResult& extraction_result,
         int chunk_size,
         int overlap
@@ -114,17 +114,17 @@ public:
      * @param chunk_data Chunk data (text or other representation)
      * @return Embedding vector
      */
-    virtual std::vector<float> generateEmbedding(const std::string& chunk_data) = 0;
+    [[nodiscard]] virtual std::vector<float> generateEmbedding(const std::string& chunk_data) = 0;
     
     /**
      * @brief Get processor name
      */
-    virtual std::string getName() const = 0;
+    [[nodiscard]] virtual std::string getName() const = 0;
     
     /**
      * @brief Get supported categories
      */
-    virtual std::vector<ContentCategory> getSupportedCategories() const = 0;
+    [[nodiscard]] virtual std::vector<ContentCategory> getSupportedCategories() const = 0;
 };
 
 /**

@@ -123,7 +123,7 @@ public:
      *               Column order: probe columns first, then build columns
      *               (excluding join-key duplicates).
      */
-    virtual ColumnBatch probe(const ColumnBatch& probe) = 0;
+    [[nodiscard]] virtual ColumnBatch probe(const ColumnBatch& probe) = 0;
 
     /**
      * @brief Reset the build-side state (hash table / event buffer).
@@ -136,7 +136,7 @@ public:
     /**
      * @brief Number of rows currently stored on the build side.
      */
-    virtual size_t buildSideSize() const noexcept = 0;
+    [[nodiscard]] virtual size_t buildSideSize() const noexcept = 0;
 };
 
 // ============================================================================

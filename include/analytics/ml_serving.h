@@ -143,13 +143,13 @@ public:
     virtual ~IMLServingBackend() = default;
 
     /** Human-readable name of this backend (e.g. "ONNX Runtime 1.17.0"). */
-    virtual std::string backendName() const = 0;
+    [[nodiscard]] virtual std::string backendName() const = 0;
 
     /** Returns true if the backend is usable (libraries found, server reachable, etc.). */
-    virtual bool isAvailable() const = 0;
+    [[nodiscard]] virtual bool isAvailable() const = 0;
 
     /** Run synchronous inference. */
-    virtual MLServingResponse infer(const MLServingRequest& req) = 0;
+    [[nodiscard]] virtual MLServingResponse infer(const MLServingRequest& req) = 0;
 };
 
 // ============================================================================
