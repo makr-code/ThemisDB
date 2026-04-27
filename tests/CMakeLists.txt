@@ -8046,6 +8046,44 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_path_constraints_semantic.cpp"
 
     message(STATUS "  PathConstraintsSemantic: addSemanticConstraint, validateSemanticPath, STRICT/WARN modes, isEdgeTypeAllowed, graceful degradation")
 endif()
+
+# ============================================================================
+# KnowledgeGraphReasoner tests (KGR-01..KGR-20)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_knowledge_graph_reasoner.cpp")
+    message(STATUS "Adding KnowledgeGraphReasoner focused tests (KGR-01..KGR-20)")
+
+    add_executable(test_knowledge_graph_reasoner_focused
+        graph/test_knowledge_graph_reasoner.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/knowledge_graph_reasoner.cpp
+    )
+
+    target_include_directories(test_knowledge_graph_reasoner_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_knowledge_graph_reasoner_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_knowledge_graph_reasoner_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME KnowledgeGraphReasonerFocusedTests
+             COMMAND test_knowledge_graph_reasoner_focused)
+
+    set_tests_properties(KnowledgeGraphReasonerFocusedTests PROPERTIES
+        LABELS "graph;knowledge;reasoning;forward-chaining;horn-clause;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  KnowledgeGraphReasoner: addRule, infer, explain, onCDCEvent, applyLoRAScore, InferenceStore TTL/eviction")
+endif()
+
 # symbol collision with postgres_importer.cpp in themis_core)
 # ============================================================================
 
