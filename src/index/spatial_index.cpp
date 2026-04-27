@@ -23,6 +23,7 @@
 
 #include "index/spatial_index.h"
 #include "utils/logger.h"
+#include "utils/geometric_distances.h"
 #include <cmath>
 #include <algorithm>
 #include <cstdio>
@@ -34,9 +35,6 @@ namespace index {
 using json = nlohmann::json;
 
 // Constants
-constexpr double EARTH_RADIUS_METERS = 6371000.0;
-constexpr double PI_CONST = 3.14159265358979323846;
-constexpr double DEG_TO_RAD = PI_CONST / 180.0;
 constexpr double Z_BUCKET_SIZE = 10.0;  // 10 meter buckets for elevation
 
 // ===== Morton Encoder Implementation =====
@@ -770,16 +768,7 @@ SpatialIndexManager::Status SpatialIndexManager::update(
 
 // Haversine distance
 double SpatialIndexManager::haversineDistance(double lat1, double lon1, double lat2, double lon2) const {
-    double dlat = (lat2 - lat1) * DEG_TO_RAD;
-    double dlon = (lon2 - lon1) * DEG_TO_RAD;
-    
-    double a = std::sin(dlat / 2) * std::sin(dlat / 2) +
-               std::cos(lat1 * DEG_TO_RAD) * std::cos(lat2 * DEG_TO_RAD) *
-               std::sin(dlon / 2) * std::sin(dlon / 2);
-    
-    double c = 2 * std::atan2(std::sqrt(a), std::sqrt(1 - a));
-    
-    return EARTH_RADIUS_METERS * c;
+    return themis::geo::haversine_m(lat1, lon1, lat2, lon2);
 }
 
 // Euclidean 3D distance

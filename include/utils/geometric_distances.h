@@ -29,26 +29,21 @@
  *      float vectors.  Not SIMD-optimised; use L2 or inner-product for
  *      performance-critical paths.
  *
- * ### Migration guide (existing duplicate implementations)
+ * ### Migration guide (existing duplicate implementations) — all migrated as of v1.9.0
  *
- * | Old symbol | Location | Replace with |
+ * | Old symbol | Location | Status |
  * |---|---|---|
- * | `CPUVectorBackend::computeL2Distance` | cpu_backend.cpp | `simd::l2_distance_sq` |
- * | `CPUVectorBackend::computeCosineDistance` | cpu_backend.cpp | `simd::cosine_distance` |
- * | `opengl_haversine_km` / `vulkan_haversine_km` | graphics_backends.cpp | `geo::haversine_km` |
- * | `SecondaryIndexManager::haversineDistance` | secondary_index.cpp | `geo::haversine_km` |
- * | `SpatialIndexManager::haversineDistance` | spatial_index.cpp | `geo::haversine_km` |
- * | `haversineDistanceM()` (geo/*.cpp) | various | `geo::haversine_m` |
+ * | `CPUVectorBackend::computeL2Distance` | cpu_backend.cpp | ✅ migrated → `simd::l2_distance_sq` |
+ * | `CPUVectorBackend::computeCosineDistance` | cpu_backend.cpp | ✅ migrated → `simd::cosine_distance` |
+ * | `CPUGeoBackend::haversineDistance` | cpu_backend.cpp | ✅ migrated → `geo::haversine_km` |
+ * | `opengl_haversine_km` / `vulkan_haversine_km` | graphics_backends.cpp | ✅ migrated → `geo::haversine_km` |
+ * | `SecondaryIndexManager::haversineDistance` | secondary_index.cpp | ✅ migrated → `geo::haversine_km` |
+ * | `SpatialIndexManager::haversineDistance` | spatial_index.cpp | ✅ migrated → `geo::haversine_m` |
+ * | `GeoAccelerationBridge::haversineKm` | geo_acceleration_bridge.cpp | ✅ migrated → `geo::haversine_km` |
+ * | `haversineDistanceM()` (geo/*.cpp) | various | ✅ canonical in geo/geo_math.h (no change needed) |
  *
  * ### Consolidation status
- * - `cpu_backend.cpp` — fully migrated: vector distances + anonymous-ns haversine removed
- *   (commit: consolidation Phase 1 + Phase 1 follow-up)
- * - `cpu_backend_mt.cpp` — updated (commit: consolidation Phase 1)
- * - `graphics_backends.cpp` — file-local helpers retained; tracked in
- *   ROADMAP.md consolidation phase, target v1.5.0
- * - `geo/*.cpp` — file-local helpers retained; tracked in ROADMAP.md, target v1.5.0
- * - `index/secondary_index.cpp`, `index/spatial_index.cpp` — tracked in
- *   ROADMAP.md, target v1.5.0
+ * - All acceleration, index, and geo files fully migrated (v1.9.0)
  */
 
 #pragma once

@@ -215,26 +215,8 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(
 // CPUGeoBackend Implementation
 // ============================================================================
 
-constexpr double EARTH_RADIUS_KM = 6371.0;
-constexpr double PI = 3.14159265358979323846;
-
 double CPUGeoBackend::haversineDistance(double lat1, double lon1, double lat2, double lon2) const {
-    // Convert degrees to radians
-    lat1 = lat1 * PI / 180.0;
-    lon1 = lon1 * PI / 180.0;
-    lat2 = lat2 * PI / 180.0;
-    lon2 = lon2 * PI / 180.0;
-    
-    double dlat = lat2 - lat1;
-    double dlon = lon2 - lon1;
-    
-    double a = std::sin(dlat / 2) * std::sin(dlat / 2) +
-               std::cos(lat1) * std::cos(lat2) *
-               std::sin(dlon / 2) * std::sin(dlon / 2);
-    
-    double c = 2 * std::atan2(std::sqrt(a), std::sqrt(1 - a));
-    
-    return EARTH_RADIUS_KM * c;
+    return themis::geo::haversine_km(lat1, lon1, lat2, lon2);
 }
 
 double CPUGeoBackend::vincentyDistance(double lat1, double lon1, double lat2, double lon2) const {

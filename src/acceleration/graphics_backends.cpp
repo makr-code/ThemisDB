@@ -25,6 +25,7 @@
  */
 
 #include "acceleration/graphics_backends.h"
+#include "utils/geometric_distances.h"
 #include "acceleration/error_codes.h"
 #include "acceleration/error_context.h"
 #include "acceleration/shader_integrity.h"
@@ -1775,20 +1776,10 @@ static void* libSym(void* lib, const char* sym) {
 }
 
 // CPU Haversine distance (degrees → km) used by the OpenGL geo CPU fallback.
+// Delegates to the canonical themis::geo::haversine_km from geometric_distances.h.
 inline double opengl_haversine_km(double lat1, double lon1,
                                    double lat2, double lon2) noexcept {
-    constexpr double R   = 6371.0;
-    constexpr double kPi = 3.141592653589793238462643383279502884;
-    lat1 *= kPi / 180.0;
-    lon1 *= kPi / 180.0;
-    lat2 *= kPi / 180.0;
-    lon2 *= kPi / 180.0;
-    const double dlat = lat2 - lat1;
-    const double dlon = lon2 - lon1;
-    const double a = std::sin(dlat / 2) * std::sin(dlat / 2) +
-                     std::cos(lat1) * std::cos(lat2) *
-                     std::sin(dlon / 2) * std::sin(dlon / 2);
-    return R * 2.0 * std::atan2(std::sqrt(a), std::sqrt(1.0 - a));
+    return themis::geo::haversine_km(lat1, lon1, lat2, lon2);
 }
 
 } // anonymous namespace
@@ -3765,21 +3756,11 @@ static int vulkan_ann_topk_dispatch(
 }
 
 // ---- Geospatial dispatch helpers (used by VulkanGeoBackend) ----
+// Delegates to the canonical themis::geo::haversine_km from geometric_distances.h.
 
 inline double vulkan_haversine_km(double lat1, double lon1,
                                    double lat2, double lon2) noexcept {
-    constexpr double R   = 6371.0;
-    constexpr double kPi = 3.141592653589793238462643383279502884;
-    lat1 *= kPi / 180.0;
-    lon1 *= kPi / 180.0;
-    lat2 *= kPi / 180.0;
-    lon2 *= kPi / 180.0;
-    const double dlat = lat2 - lat1;
-    const double dlon = lon2 - lon1;
-    const double a = std::sin(dlat / 2) * std::sin(dlat / 2) +
-                     std::cos(lat1) * std::cos(lat2) *
-                     std::sin(dlon / 2) * std::sin(dlon / 2);
-    return R * 2.0 * std::atan2(std::sqrt(a), std::sqrt(1.0 - a));
+    return themis::geo::haversine_km(lat1, lon1, lat2, lon2);
 }
 
 static int vulkan_geo_distance(
