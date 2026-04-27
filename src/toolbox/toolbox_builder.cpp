@@ -228,6 +228,9 @@ ToolboxBuilder::BuiltToolbox& ToolboxBuilder::BuiltToolbox::operator=(BuiltToolb
 // ── buildWithBridges() ────────────────────────────────────────────────────────
 
 ToolboxBuilder::BuiltToolbox ToolboxBuilder::buildWithBridges() {
+    // Guard runs before build() — build() will set impl_->built = true, so any
+    // subsequent call to buildWithBridges() or build() will throw here or inside
+    // build() respectively, preventing double-initialisation.
     if (impl_->built) {
         throw std::logic_error(
             "ToolboxBuilder::buildWithBridges() called after build() or buildWithBridges()");
