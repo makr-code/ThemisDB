@@ -63,7 +63,7 @@ public:
      *
      * @return true on success, false if initialisation failed.
      */
-    virtual bool start() = 0;
+    [[nodiscard]] virtual bool start() = 0;
 
     /**
      * @brief Stop the transport.
@@ -82,7 +82,7 @@ public:
      * @param event  The change event to publish.
      * @return true if the event was accepted for delivery, false on error.
      */
-    virtual bool publish(const Changefeed::ChangeEvent& event) = 0;
+    [[nodiscard]] virtual bool publish(const Changefeed::ChangeEvent& event) = 0;
 };
 
 } // namespace cdc
