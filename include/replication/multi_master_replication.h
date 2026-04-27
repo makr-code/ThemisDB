@@ -237,13 +237,13 @@ public:
     virtual ~ConflictResolver() = default;
     
     // Resolve a conflict, returns the winning write
-    virtual MMWriteEntry resolve(
+    [[nodiscard]] virtual MMWriteEntry resolve(
         const std::string& document_id,
         const std::vector<MMWriteEntry>& conflicting_writes
     ) = 0;
     
     // Get strategy name
-    virtual std::string strategyName() const = 0;
+    [[nodiscard]] virtual std::string strategyName() const = 0;
 };
 
 /**
