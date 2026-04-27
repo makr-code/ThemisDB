@@ -33,6 +33,13 @@ Each paper that serves as a foundation for a ThemisDB algorithm, data structure,
 |-------|-----------|---------|--------|
 | [DuckDB — Raasveldt & Mühleisen (2019)](duckdb_olap_2019.md) | `src/query/`, `src/exporters/` | planned v2.x | ⏳ Planned |
 
+**AI-Driven Query Optimization:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [Bao: Learned Query Optimization — Marcus et al. (2021)](marcus_bao_learned_query_opt_2021.md) | `src/query/adaptive_optimizer.cpp`, `src/query/runtime_reoptimizer.cpp` | planned v2.0.0 | 🔄 In Progress |
+| [AI Meets Database (AI4DB) — Zhou et al. (2022)](zhou_ai4db_survey_2022.md) | `src/query/`, `src/storage/index_analyzer.cpp`, `src/cache/` | v2.0.0+ framework | 🔄 In Progress |
+
 **Streaming & Continuous Queries:**
 
 | Paper | Module(s) | Version | Status |
@@ -71,6 +78,13 @@ Each paper that serves as a foundation for a ThemisDB algorithm, data structure,
 |-------|-----------|---------|--------|
 | [GraphRAG — Edge et al. (2024)](graphrag_edge_2024.md) | `src/process/`, `src/rag/`, `src/graph/` | planned Q3 2026 | ⏳ Planned |
 | [HippoRAG — Gutierrez et al. (2024)](hipporag_gutierrez_2024.md) | `src/process/`, `src/rag/` | planned Q2 2026 | ⏳ Planned |
+
+**Near-Realtime LLM Inferencing & RAG:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [S-LoRA — Sheng et al. (2023)](sheng_slora_concurrent_adapters_2023.md) | `src/llm/lora/`, `src/rag/` | planned Q2/Q3 2026 | 🔄 In Progress |
+| [Speculative RAG — Wang et al. (2024)](wang_speculative_rag_2024.md) | `src/rag/streaming_retriever.cpp`, `src/llm/` | planned Q1 2027 | ⏳ Planned |
 
 **LoRA / PEFT:**
 

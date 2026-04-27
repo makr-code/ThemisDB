@@ -182,6 +182,9 @@ This file groups all research influences by ThemisDB module (`src/<module>`).
 |----------|--------|---------|--------|
 | Paper | Kulkarni & Michels (2012) — SQL:2011 Temporal Features | v1.x+ | 🔄 Partial |
 | Paper | Raasveldt & Mühleisen (2019) — DuckDB | planned v2.x | ⏳ Planned |
+| Paper | Marcus et al. (2021) — Bao: Learned Query Optimization | planned v2.0.0 | 🔄 In Progress |
+| Paper | Zhou et al. (2022) — AI Meets Database (AI4DB) | v2.0.0+ framework | 🔄 In Progress |
+| Best Practice | AI-Driven Query Optimization | v2.0.0+ | 🔄 Partially Adopted |
 | Architecture Decision | ADR-004 — Native Multi-Model Data Model | v1.0.0+ | ✅ Accepted |
 
 ---
@@ -196,7 +199,10 @@ This file groups all research influences by ThemisDB module (`src/<module>`).
 | Paper | Malkov & Yashunin (2020) — HNSW | v1.0.0+ | ✅ Implemented |
 | Paper | Edge et al. (2024) — GraphRAG | planned Q3 2026 | ⏳ Planned |
 | Paper | Gutierrez et al. (2024) — HippoRAG | planned Q2 2026 | ⏳ Planned |
+| Paper | Sheng et al. (2023) — S-LoRA: Concurrent LoRA Adapter Serving | planned Q2/Q3 2026 | 🔄 In Progress |
+| Paper | Wang et al. (2024) — Speculative RAG | planned Q1 2027 | ⏳ Planned |
 | Paper | W3C / Baader et al. (2012/2003) — OWL 2 / Description Logic Handbook | v2.1.0+ planned | ⏳ Planned |
+| Best Practice | S-LoRA Near-Realtime RAG Serving | planned Q2 2026 | 🔄 Partially Adopted |
 | Paper | Bordes et al. (2013) — TransE / Knowledge Graph Completion | v2.1.0+ planned | ⏳ Planned |
 | Best Practice | W3C OWL 2 RL — OWL-lite Ontology Constraints | v2.1.0+ planned | ⏳ Planned |
 | Best Practice | Hu et al. / vLLM — Multi-LoRA Adapter Routing | v2.1.0+ planned | ⏳ Planned |

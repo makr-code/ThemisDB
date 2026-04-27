@@ -8,8 +8,8 @@ This is the authoritative cross-reference between research sources (papers, best
 
 | Category | Documented | Target |
 |----------|-----------|--------|
-| Scientific Papers | 50 | 28+ |
-| Best Practices | 15 | 15+ |
+| Scientific Papers | 54 | 28+ |
+| Best Practices | 17 | 15+ |
 | Architecture Decisions | 8 | 8+ |
 | Modules with Research Links | 39 | 39 |
 | Orphaned Research References | 0 | 0 |
@@ -38,6 +38,8 @@ This is the authoritative cross-reference between research sources (papers, best
 | Kwon et al. (2023) — PagedAttention | Paper | `src/llm/` | v1.4.0-alpha+ | ✅ Implemented | [ref](../LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md#85-pagedattention--continuous-batching) |
 | Kusupati et al. (2022) — Matryoshka Representation Learning | Paper | `src/vector/` | v1.4.1+ | ⏳ Planned | [ref](../LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md#34-matryoshka-representation-learning) |
 | Raasveldt & Mühleisen (2019) — DuckDB | Paper | `src/query/`, `src/exporters/` | planned v2.x | ⏳ Planned | [ref](../papers/duckdb_olap_2019.md) |
+| Marcus et al. (2021) — Bao: Learned Query Optimization | Paper | `src/query/adaptive_optimizer.cpp`, `src/query/runtime_reoptimizer.cpp` | planned v2.0.0 | 🔄 In Progress | [ref](../papers/marcus_bao_learned_query_opt_2021.md) |
+| Zhou et al. (2022) — AI Meets Database (AI4DB) | Paper | `src/query/`, `src/storage/index_analyzer.cpp`, `src/cache/` | v2.0.0+ framework | 🔄 In Progress | [ref](../papers/zhou_ai4db_survey_2022.md) |
 | Malkov & Yashunin (2020) — HNSW | Paper | `src/index/`, `src/vector/`, `src/rag/` | v1.0.0+ | ✅ Implemented | [ref](../papers/hnsw_efficient_ann_2020.md) |
 | Robinson, Webber & Eifrem (2015) — Graph Databases | Book | `src/graph/`, `src/aql/` | v1.0.0+ | 🔄 Partial | [ref](../papers/graph_databases_oreilly_2015.md) |
 | Kulkarni & Michels (2012) — SQL:2011 Temporal Features | Paper | `src/temporal/`, `src/query/` | v1.x+ | 🔄 Partial | [ref](../papers/temporal_sql2011_2012.md) |
@@ -46,6 +48,8 @@ This is the authoritative cross-reference between research sources (papers, best
 | Bukhsh et al. (2021) — ProcessTransformer | Paper | `src/process/`, `src/training/` | planned Q1 2027 | ⏳ Planned | [ref](../papers/processtransformer_bukhsh_2021.md) |
 | Edge et al. (2024) — GraphRAG | Paper | `src/process/`, `src/rag/`, `src/graph/` | planned Q3 2026 | ⏳ Planned | [ref](../papers/graphrag_edge_2024.md) |
 | Gutierrez et al. (2024) — HippoRAG | Paper | `src/process/`, `src/rag/` | planned Q2 2026 | ⏳ Planned | [ref](../papers/hipporag_gutierrez_2024.md) |
+| Sheng et al. (2023) — S-LoRA: Concurrent LoRA Adapter Serving | Paper | `src/llm/lora/`, `src/rag/` | planned Q2/Q3 2026 | 🔄 In Progress | [ref](../papers/sheng_slora_concurrent_adapters_2023.md) |
+| Wang et al. (2024) — Speculative RAG | Paper | `src/rag/streaming_retriever.cpp`, `src/llm/` | planned Q1 2027 | ⏳ Planned | [ref](../papers/wang_speculative_rag_2024.md) |
 | Hu et al. (2022) — LoRA | Paper | `src/llm/lora/`, `src/training/` | v1.3.0+ | ✅ Implemented | [ref](../papers/lora_low_rank_adaptation_2022.md) |
 | White et al. (2023) — Prompt Pattern Catalog | Paper | `src/prompt_engineering/` | v1.2.0+ | ✅ Implemented | [ref](../papers/prompt_patterns_catalog_2023.md) |
 | Beurer-Kellner et al. (2023) — LMQL | Paper | `src/prompt_engineering/`, `src/llm/` | planned v2.x | ⏳ Planned | [ref](../papers/lmql_beurer_kellner_2023.md) |
@@ -65,6 +69,8 @@ This is the authoritative cross-reference between research sources (papers, best
 | CERT C MSC06-C — Secure Key Zeroing | Best Practice | `plugins/user_storage_encrypted/`, `src/security/` | v0.1.0 | ✅ Adopted | [ref](../best_practices/secure_key_zeroing.md) |
 | C++17 §30.6.5 — std::shared_mutex R/W Locks | Best Practice | `src/cache/`, `src/config/` | v1.8.0+ | ✅ Adopted | [ref](../best_practices/shared_mutex_read_write_locks.md) |
 | Boost.Asio Docs — Proactor Async I/O | Best Practice | `src/server/` | v1.0.0+ | ✅ Adopted | [ref](../best_practices/boost_asio_async_io.md) |
+| Marcus et al. (2021) + Zhou et al. (2022) — AI-Driven Query Optimization | Best Practice | `src/query/adaptive_optimizer.cpp`, `src/storage/index_analyzer.cpp` | v2.0.0+ | 🔄 Partially Adopted | [ref](../best_practices/ai_driven_query_optimization.md) |
+| Sheng et al. (2023) + Wang et al. (2024) — S-LoRA Near-Realtime RAG | Best Practice | `src/llm/lora/`, `src/rag/streaming_retriever.cpp` | planned Q2 2026 | 🔄 Partially Adopted | [ref](../best_practices/slora_realtime_rag_serving.md) |
 | Stonebraker, Rowe & Hirohama (1990) — Implementation of Postgres (WAL/CDC) | Paper | `src/cdc/` | v1.0.0+ | ✅ Implemented | — |
 | Mohan et al. (1992) — ARIES Write-Ahead Logging | Paper | `src/cdc/`, `src/transaction/` | v1.0.0+ | ✅ Implemented | — |
 | Kleppmann (2017) — Designing Data-Intensive Applications | Book | `src/cdc/`, `src/ingestion/` | v1.0.0+ | ✅ Adopted | — |

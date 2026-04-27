@@ -534,6 +534,35 @@ This file lists all research sources alphabetically, showing which ThemisDB modu
 
 ---
 
+## Marcus et al. (2021) — Bao: Learned Query Optimization
+
+**Type:** Paper  
+**File:** [papers/marcus_bao_learned_query_opt_2021.md](../papers/marcus_bao_learned_query_opt_2021.md)  
+**ThemisDB Version:** planned v2.0.0
+
+| Module | Status |
+|--------|--------|
+| `src/query/adaptive_optimizer.cpp` | 🔄 In Progress (TreeConv embedding planned Q3 2026) |
+| `src/query/runtime_reoptimizer.cpp` | 🔄 In Progress (Online-Feedback-Loop planned Q4 2026) |
+| `src/query/query_optimizer.cpp` | 🔄 In Progress (Plan-Feature-Extraktion) |
+| `src/training/` | ⏳ Planned (Modell-Persistierung) |
+
+---
+
+## Marcus et al. (2021) + Zhou et al. (2022) — AI-Driven Query Optimization
+
+**Type:** Best Practice  
+**File:** [best_practices/ai_driven_query_optimization.md](../best_practices/ai_driven_query_optimization.md)  
+**ThemisDB Version:** v2.0.0+
+
+| Module | Status |
+|--------|--------|
+| `src/query/adaptive_optimizer.cpp` | 🔄 Partially Adopted |
+| `src/query/runtime_reoptimizer.cpp` | 🔄 Partially Adopted |
+| `src/storage/index_analyzer.cpp` | ✅ IIndexAnalysisAdvisor-Hook |
+
+---
+
 ## Raasveldt & Mühleisen (2019) — DuckDB
 
 **Type:** Paper  
@@ -635,6 +664,34 @@ This file lists all research sources alphabetically, showing which ThemisDB modu
 
 ---
 
+## Sheng et al. (2023) — S-LoRA: Concurrent LoRA Adapter Serving
+
+**Type:** Paper  
+**File:** [papers/sheng_slora_concurrent_adapters_2023.md](../papers/sheng_slora_concurrent_adapters_2023.md)  
+**ThemisDB Version:** planned Q2/Q3 2026
+
+| Module | Status |
+|--------|--------|
+| `src/llm/lora/` | 🔄 In Progress (Adapter-Paging planned Q2 2026) |
+| `src/rag/streaming_retriever.cpp` | 🔄 In Progress (Hetero-Batching planned Q3 2026) |
+| `src/llm/llm_deployment_plugin.cpp` | 🔄 In Progress (Adapter-Prefetching) |
+| `src/gpu/` | ⏳ Planned (CUDA sgmv kernel Q3 2026) |
+
+---
+
+## Sheng et al. (2023) + Wang et al. (2024) — S-LoRA Near-Realtime RAG Serving
+
+**Type:** Best Practice  
+**File:** [best_practices/slora_realtime_rag_serving.md](../best_practices/slora_realtime_rag_serving.md)  
+**ThemisDB Version:** planned Q2 2026
+
+| Module | Status |
+|--------|--------|
+| `src/llm/lora/` | 🔄 Partially Adopted (Hot-Swap implemented; Paging planned) |
+| `src/rag/streaming_retriever.cpp` | ⏳ Planned (Draft-Verify pipeline Q1 2027) |
+
+---
+
 ## van der Aalst (2016) — Process Mining
 
 **Type:** Book  
@@ -657,6 +714,20 @@ This file lists all research sources alphabetically, showing which ThemisDB modu
 | Module | Status |
 |--------|--------|
 | `src/llm/` | ✅ Implemented |
+
+---
+
+## Wang et al. (2024) — Speculative RAG
+
+**Type:** Paper  
+**File:** [papers/wang_speculative_rag_2024.md](../papers/wang_speculative_rag_2024.md)  
+**ThemisDB Version:** planned Q1 2027
+
+| Module | Status |
+|--------|--------|
+| `src/rag/streaming_retriever.cpp` | ⏳ Planned (Draft-Verify pipeline) |
+| `src/rag/agentic_rag.cpp` | ⏳ Planned (Speculative iteration strategy) |
+| `src/llm/lora/` | ⏳ Planned (Domain-LoRA as Draft-Specialist) |
 
 ---
 
@@ -697,6 +768,22 @@ This file lists all research sources alphabetically, showing which ThemisDB modu
 |--------|--------|
 | `config/prompts/` | ✅ Implemented |
 | `src/prompt_engineering/` | ✅ Implemented |
+
+---
+
+## Zhou et al. (2022) — AI Meets Database (AI4DB Survey)
+
+**Type:** Paper  
+**File:** [papers/zhou_ai4db_survey_2022.md](../papers/zhou_ai4db_survey_2022.md)  
+**ThemisDB Version:** v2.0.0+ framework
+
+| Module | Status |
+|--------|--------|
+| `src/query/adaptive_optimizer.cpp` | 🔄 In Progress (Level-2 ML-Feedback-Loop) |
+| `src/query/query_optimizer.cpp` | 🔄 In Progress (Level-1 Cardinality + Statistics) |
+| `src/storage/index_analyzer.cpp` | ✅ Implemented (IIndexAnalysisAdvisor AI4DB-Hook) |
+| `src/cache/adaptive_query_cache.cpp` | ✅ Implemented (Workload-Adaptive Caching) |
+| `src/rag/`, `src/llm/` | ✅ Implemented (DB4AI: AQL LLM INFER directive) |
 
 ---
 
