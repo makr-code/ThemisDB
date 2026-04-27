@@ -59,9 +59,9 @@ class IProjectAuditLog {
 public:
     virtual ~IProjectAuditLog() = default;
     virtual void record(const ProjectAuditEntry& entry) = 0;
-    virtual std::vector<ProjectAuditEntry> query(const AuditQueryOptions& opts) const = 0;
-    virtual size_t count(const AuditQueryOptions& opts) const = 0;
-    virtual bool purge(const std::string& project_id,
+    [[nodiscard]] virtual std::vector<ProjectAuditEntry> query(const AuditQueryOptions& opts) const = 0;
+    [[nodiscard]] virtual size_t count(const AuditQueryOptions& opts) const = 0;
+    [[nodiscard]] virtual bool purge(const std::string& project_id,
                        std::chrono::system_clock::time_point before) = 0;
 };
 

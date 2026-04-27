@@ -47,13 +47,13 @@ struct BundleImportResult {
 class IProjectBundleManager {
 public:
     virtual ~IProjectBundleManager() = default;
-    virtual bool exportToZip(const std::string& project_id,
+    [[nodiscard]] virtual bool exportToZip(const std::string& project_id,
                               const std::string& output_path,
                               const BundleExportOptions& options = {}) = 0;
-    virtual BundleImportResult importFromZip(const std::string& bundle_path,
+    [[nodiscard]] virtual BundleImportResult importFromZip(const std::string& bundle_path,
                                               const std::string& target_project_id = "") = 0;
-    virtual ProjectBundleManifest readManifest(const std::string& bundle_path) = 0;
-    virtual bool validateBundle(const std::string& bundle_path, std::vector<std::string>& errors) = 0;
+    [[nodiscard]] virtual ProjectBundleManifest readManifest(const std::string& bundle_path) = 0;
+    [[nodiscard]] virtual bool validateBundle(const std::string& bundle_path, std::vector<std::string>& errors) = 0;
 };
 
 }} // namespace themis::projects

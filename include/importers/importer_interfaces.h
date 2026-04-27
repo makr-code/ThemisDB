@@ -143,7 +143,7 @@ public:
      * @param incoming  The record from the current import source that conflicts.
      * @return          Resolution decision (outcome + optional merge spec).
      */
-    virtual ConflictResolutionResult resolve(
+    [[nodiscard]] virtual ConflictResolutionResult resolve(
         const json& existing,
         const json& incoming) const = 0;
 };
@@ -224,7 +224,7 @@ public:
      * @return             Detection result; confidence reflects how well the
      *                     sampled rows fit the inferred types.
      */
-    virtual SchemaDetectionResult detect(
+    [[nodiscard]] virtual SchemaDetectionResult detect(
         const std::string& file_path,
         size_t sample_rows = 0) const = 0;
 };
@@ -321,7 +321,7 @@ public:
      * @param[out] err Set to `KafkaError::OK` on success; error code on failure.
      * @return         Batch of records (may be empty on timeout).
      */
-    virtual KafkaBatch poll(
+    [[nodiscard]] virtual KafkaBatch poll(
         std::chrono::milliseconds timeout,
         KafkaError& err) = 0;
 
@@ -334,7 +334,7 @@ public:
      * @param offset  Offset to commit.
      * @return        `KafkaError::OK` on success; error code otherwise.
      */
-    virtual KafkaError commitOffset(const KafkaOffset& offset) = 0;
+    [[nodiscard]] virtual KafkaError commitOffset(const KafkaOffset& offset) = 0;
 
     /**
      * @brief Return the current lag (messages not yet consumed) for the
@@ -342,7 +342,7 @@ public:
      *
      * @return Estimated number of unconsumed messages; -1 if unknown.
      */
-    virtual int64_t lag() const = 0;
+    [[nodiscard]] virtual int64_t lag() const = 0;
 
     /**
      * @brief Close the consumer and release all broker connections.
@@ -449,7 +449,7 @@ public:
      *                    Empty on `END_OF_STREAM`, `CHECKPOINT_REQUIRED`, or `ERROR`.
      * @return            Status of the operation.
      */
-    virtual CursorStatus next(ImportBatch& batch) = 0;
+    [[nodiscard]] virtual CursorStatus next(ImportBatch& batch) = 0;
 
     /**
      * @brief Capture the current cursor position as a serializable token.
@@ -459,7 +459,7 @@ public:
      *
      * @return  Serializable checkpoint token.
      */
-    virtual CheckpointToken checkpoint() const = 0;
+    [[nodiscard]] virtual CheckpointToken checkpoint() const = 0;
 
     /**
      * @brief Estimated number of records remaining, or -1 if unknown.
@@ -467,7 +467,7 @@ public:
      * Streaming sources (e.g., Kafka) typically return -1.  File-backed
      * sources may return an estimate based on remaining file size.
      */
-    virtual int64_t estimatedRemainingRows() const = 0;
+    [[nodiscard]] virtual int64_t estimatedRemainingRows() const = 0;
 
     /**
      * @brief Close the cursor and release any held resources.
@@ -564,7 +564,7 @@ public:
     virtual ~IImporterPlugin() = default;
 
     /// Unique identifier for this plugin (snake_case recommended).
-    virtual const char* pluginId() const = 0;
+    [[nodiscard]] virtual const char* pluginId() const = 0;
 
     /**
      * @brief URI schemes handled by this plugin.
@@ -572,7 +572,7 @@ public:
      * The scheme is the part before "://" in a source URI.
      * Example: { "mysql", "mariadb" } for a MySQL/MariaDB plugin.
      */
-    virtual std::vector<std::string> supportedSchemes() const = 0;
+    [[nodiscard]] virtual std::vector<std::string> supportedSchemes() const = 0;
 
     /**
      * @brief Create a new, initialised importer for the given configuration.
@@ -581,7 +581,7 @@ public:
      * @return        Initialised `IImporter` instance, or `nullptr` on failure.
      *                Must **not** throw.
      */
-    virtual std::unique_ptr<IImporter> createImporter(
+    [[nodiscard]] virtual std::unique_ptr<IImporter> createImporter(
         const ImportConfig& config) const = 0;
 };
 
@@ -630,12 +630,12 @@ public:
      * @return            Matching plugin, or `nullptr` if none registered.
      *                    Never throws.
      */
-    virtual IImporterPlugin* resolve(const std::string& source_uri) const = 0;
+    [[nodiscard]] virtual IImporterPlugin* resolve(const std::string& source_uri) const = 0;
 
     /**
      * @brief List all registered plugin IDs.
      */
-    virtual std::vector<std::string> listPluginIds() const = 0;
+    [[nodiscard]] virtual std::vector<std::string> listPluginIds() const = 0;
 };
 
 // ============================================================================
