@@ -336,6 +336,7 @@ bool ONNXClipPlugin::initialize(const PluginConfig& config, BackendType backend)
         // Activation: When THEMIS_HAS_OPENSSL is not defined at compile time.
         // Production Delta: In production (OpenSSL available) the hash is verified;
         //                   here the check is skipped, allowing any model file to load.
+        // Roadmap ref: src/onnx_clip/ROADMAP.md § "Planned Features"
         // Removal Plan: This branch remains as a build-configuration fallback; it is
         //               never removed but should be unreachable in hardened deployments.
         (void)model_path;

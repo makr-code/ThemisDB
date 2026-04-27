@@ -236,6 +236,7 @@ std::string LLMJudgeIntegration::defaultInference(const std::string& prompt) {
     //                   sets ParsedResponse::is_mock=true on the parsed result so
     //                   callers can filter mock data from production dashboards
     //                   (AI_ML_IMPACT_ASSESSMENT.md §7, Gap 7 — implemented).
+    // Roadmap ref: src/rag/ROADMAP.md § "Phase 9: AI Reliability & Safety Evaluation Program"
     // Removal Plan: Full removal when LLMTokenBudgetManager (Gap 6) and a real engine
     //               DI path are the only supported entry points.  Track in
     //               rag/FUTURE_ENHANCEMENTS.md §Gap 7.

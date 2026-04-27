@@ -278,6 +278,7 @@ private:
     // Production Delta: Object keys and content come from injected lambdas
     //   instead of real HTTP/S3/GCS calls.  No authentication, no retries,
     //   no bandwidth throttling.
+    // Roadmap ref: src/ingestion/ROADMAP.md § "Phase 3: Distributed Sources & Connectors"
     // Removal Plan: Not removed — remains the test-injection path.
     // -----------------------------------------------------------------------
     void ingestFromMock(IngestionStats& stats,

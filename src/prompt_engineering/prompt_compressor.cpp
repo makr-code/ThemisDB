@@ -79,6 +79,7 @@ SimplePromptCompressor::SimplePromptCompressor() {
     // Activation: Used whenever setSummaryFn() has not been called.
     // Production Delta: A real deployment should inject an LLM call via
     //   setSummaryFn() to produce an actual semantic summary.
+    // Roadmap ref: src/prompt_engineering/ROADMAP.md § "Planned Features"
     // Removal Plan: Replace or supplement once an LLM inference integration
     //   is wired into the prompt-engineering pipeline.
     summary_fn_ = [](const std::string& omitted_text,

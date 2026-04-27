@@ -332,6 +332,7 @@ void FederatedDistillationCoordinator::applyDPNoise(
     //   GPU-based Gaussian noise kernel for batch efficiency.
     // Activation: always active in this build; no runtime gate.
     // Production Delta: CPU-only; GPU version would operate on tensors directly.
+    // Roadmap ref: src/distributed_knowledge/ROADMAP.md § "Phase 3 — Layer B: Federated LoRA Integration"
     // Removal Plan: retain CPU path as fallback; add GPU path when CUDA is available.
     std::random_device rd;
     std::mt19937_64 rng(rd());

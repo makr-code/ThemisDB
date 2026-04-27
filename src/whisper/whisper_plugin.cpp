@@ -40,6 +40,7 @@ WhisperPlugin::WhisperPlugin() {
     // Purpose: Keep the plugin loadable when Whisper support is not compiled in.
     // Activation: Compiled when THEMIS_ENABLE_WHISPER is not defined.
     // Production Delta: Transcription uses WhisperStubTranscriber behavior instead of whisper.cpp.
+    // Roadmap ref: src/whisper/ROADMAP.md § "Planned Features"
     // Removal Plan: Remove once Whisper becomes a mandatory dependency in all build targets.
     transcriber_ = std::make_unique<WhisperStubTranscriber>();
 #endif

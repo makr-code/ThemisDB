@@ -572,6 +572,7 @@ private:
     // Production Delta: Events come from the injected lambda instead of a real
     //   database change-data-capture connection.  No network I/O or
     //   authentication occurs.
+    // Roadmap ref: src/ingestion/ROADMAP.md § "Phase 3: Distributed Sources & Connectors"
     // Removal Plan: Not removed — remains the test-injection path.  Production
     //   path (ingestFromLive) must be used when event_fetch_fn_ is null.
     // -----------------------------------------------------------------------

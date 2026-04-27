@@ -242,6 +242,7 @@ private:
     //   KafkaConnector::setMessageFnForTesting()).
     // Production Delta: Messages come from the injected lambda instead of a
     //   real Kafka consumer.  No broker connection, no offset management.
+    // Roadmap ref: src/ingestion/ROADMAP.md § "Phase 3: Distributed Sources & Connectors"
     // Removal Plan: Not removed — remains the test-injection path.
     // -----------------------------------------------------------------------
     void ingestFromMock(IngestionStats& stats,

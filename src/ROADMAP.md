@@ -467,8 +467,8 @@ See `src/UNUSED_FUNCTIONS_REPORT.md` for per-symbol triage decisions.
 - [x] `src/query/optimizer_cost_model.cpp` Statistik-Stubs: Roadmap-Referenz + Target v2.0.0 ergänzt
 - [x] `src/governance/opa_adapter.cpp` WASM-Stub: Roadmap-Referenz + Target v1.6.0 ergänzt
 - [x] `src/performance/advanced_cache_manager.cpp` Passthrough-Stub: Roadmap-Referenz ergänzt
-- [ ] `src/stubs.cpp` LoRA-Stubs prüfen ob mit `llm/lora_*.h` synchron (Target: v1.5.0)
-- [ ] Alle verbleibenden STUB/SIMULATION-Blöcke ohne Roadmap-Referenz bereinigen (Target: v1.5.0)
+- [x] `src/stubs.cpp` LoRA-Stubs prüfen ob mit `llm/lora_*.h` synchron — `getFeedbackForAdapter` Signatur korrigiert: `unsigned __int64` → `std::size_t` (v1.9.0)
+- [x] Alle verbleibenden STUB/SIMULATION-Blöcke ohne Roadmap-Referenz bereinigen: `Roadmap ref:` in 18 STUB-Blöcken in 13 Dateien ergänzt (v1.9.0)
 
 #### Phase 6: Retry/Backoff Zentralisierung (Target: v1.5.0)
 - [x] `include/utils/retry_policy.h` mit `RetryConfig`, `ExponentialBackoff`, `retry_with_backoff<>` angelegt

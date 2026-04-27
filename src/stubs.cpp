@@ -37,6 +37,11 @@
 //   `getFeedbackForAdapter()` always returns empty vector.
 // Roadmap ref: src/ROADMAP.md § "Consolidation Phase — Stub/Simulation Lifecycle"
 //              src/llm/FUTURE_ENHANCEMENTS.md § "LoRA Training Integration"
+// Sync check (2026-04-27): Struct layouts and function signatures verified against
+//   include/llm/lora_framework/{lora_feedback.h,lora_feedback_storage.h,
+//   lora_training_config.h,feedback_plugin.h}.
+//   `getFeedbackForAdapter` signature updated: unsigned __int64 → std::size_t
+//   to match the real `FeedbackStorageService::getFeedbackForAdapter(const std::string&, size_t)`.
 // Removal Plan: Replace stubs with proper conditional compilation (THEMIS_ENABLE_LORA_TRAINING)
 //   and forward-declare only; or link real implementations once dependency
 //   tree is resolved (Target: v1.5.0).
@@ -45,6 +50,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <cstddef>
 
 namespace themis::llm::lora {
 
@@ -76,7 +82,7 @@ struct LoRATrainingConfig {
 };
 
 struct FeedbackStorageService {
-    std::vector<Feedback> getFeedbackForAdapter(const std::string&, unsigned __int64) const {
+    std::vector<Feedback> getFeedbackForAdapter(const std::string&, std::size_t) const {
         return {};
     }
 };
