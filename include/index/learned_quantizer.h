@@ -57,7 +57,8 @@ namespace themis {
  * 
  * Part of ThemisDB v1.4.1 - Feature: Vector Compression Research (#914)
  */
-class LearnedQuantizer {
+class [[deprecated("LearnedQuantizer is a research-only implementation not used in production. "
+                   "See class documentation for details.")]] LearnedQuantizer {
 public:
     struct Config {
         int bits_per_dimension;       // Number of bits per dimension (2-8)
@@ -80,8 +81,8 @@ public:
     struct Status {
         bool ok = true;
         std::string message;
-        static Status OK() { return {}; }
-        static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
+        [[nodiscard]] static Status OK() { return {}; }
+        [[nodiscard]] static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
     /**
@@ -97,21 +98,21 @@ public:
      * @param training_vectors Training data (num_vectors x dimension)
      * @return Status indicating success or failure
      */
-    Status train(const std::vector<std::vector<float>>& training_vectors);
+    [[nodiscard]] Status train(const std::vector<std::vector<float>>& training_vectors);
 
     /**
      * @brief Encode a vector using learned thresholds
      * @param vector Input vector (dimension floats)
      * @return Quantized codes (dimension * bits_per_dimension / 8 bytes)
      */
-    std::vector<uint8_t> encode(const std::vector<float>& vector) const;
+    [[nodiscard]] std::vector<uint8_t> encode(const std::vector<float>& vector) const;
 
     /**
      * @brief Decode quantized codes back to approximate vector
      * @param codes Quantized codes
      * @return Reconstructed vector (dimension floats)
      */
-    std::vector<float> decode(const std::vector<uint8_t>& codes) const;
+    [[nodiscard]] std::vector<float> decode(const std::vector<uint8_t>& codes) const;
 
     /**
      * @brief Compute asymmetric distance between query and quantized codes
@@ -119,33 +120,33 @@ public:
      * @param codes Quantized codes
      * @return Approximate L2 distance
      */
-    float asymmetricDistance(const std::vector<float>& query,
+    [[nodiscard]] float asymmetricDistance(const std::vector<float>& query,
                             const std::vector<uint8_t>& codes) const;
 
     /**
      * @brief Check if quantizer is trained
      */
-    bool isTrained() const { return trained_; }
+    [[nodiscard]] bool isTrained() const { return trained_; }
 
     /**
      * @brief Get compression ratio
      */
-    float getCompressionRatio() const;
+    [[nodiscard]] float getCompressionRatio() const;
 
     /**
      * @brief Get encoded size in bytes
      */
-    size_t getEncodedSize() const;
+    [[nodiscard]] size_t getEncodedSize() const;
 
     /**
      * @brief Get memory usage in bytes
      */
-    size_t getMemoryUsage() const;
+    [[nodiscard]] size_t getMemoryUsage() const;
 
     // Getters
-    int getDimension() const { return dimension_; }
-    int getBitsPerDimension() const { return config_.bits_per_dimension; }
-    int getNumBins() const { return num_bins_; }
+    [[nodiscard]] int getDimension() const { return dimension_; }
+    [[nodiscard]] int getBitsPerDimension() const { return config_.bits_per_dimension; }
+    [[nodiscard]] int getNumBins() const { return num_bins_; }
 
 private:
     int dimension_;
