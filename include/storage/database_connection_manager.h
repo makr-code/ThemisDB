@@ -117,9 +117,9 @@ public:
     public:
         virtual ~Connection() = default;
         
-        virtual bool isValid() const = 0;
-        virtual bool ping() = 0;
-        virtual std::string getError() const = 0;
+        [[nodiscard]] virtual bool isValid() const = 0;
+        [[nodiscard]] virtual bool ping() = 0;
+        [[nodiscard]] virtual std::string getError() const = 0;
         virtual void close() = 0;
         
         // Connection metadata
@@ -209,7 +209,7 @@ public:
     
 protected:
     // Factory method - override in subclass for specific connection type
-    virtual std::shared_ptr<Connection> createConnection() = 0;
+    [[nodiscard]] virtual std::shared_ptr<Connection> createConnection() = 0;
     
     // Reconnection helper
     std::shared_ptr<Connection> reconnect(
