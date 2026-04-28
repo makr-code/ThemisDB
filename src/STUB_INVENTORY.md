@@ -20,7 +20,7 @@
 
 ---
 
-## Stub Inventory (66 entries)
+## Stub Inventory (71 entries)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -90,6 +90,11 @@
 | 64 | `llama_cpp/llama_cpp_registrar.cpp` | Stub mode: `defaultReloadCallback()` returns `true` without reloading the llama.cpp model when `model_path` is absent/empty | model_path absent or empty in hot-plug config | Plugin remains in current state; inference fails or returns empty responses | `src/llm/FUTURE_ENHANCEMENTS.md` §LlamaCpp Plugin Model Reload | v1.8.0 |
 | 65 | `server/mcp_server.cpp` | `StdioTransport::start()` no-op on unsupported platforms: stdin reading silently skipped; WARN logged | Compiled when none of `_WIN32`, `__unix__`, `__APPLE__` are defined | MCP stdio clients receive no responses (transport deaf); only affects exotic/embedded targets | `src/server/FUTURE_ENHANCEMENTS.md` §MCP StdioTransport Platform Support | v1.9.0 |
 | 66 | `training/auto_labeler.cpp` | `fetchDocumentText()`: returns hardcoded 3-clause German legal text paragraph when no QueryEngine is wired and document_id is non-empty | `query_engine_` is null AND document_id non-empty | Auto-labeling always uses the same fixed text; results cannot be extrapolated to production without a real DB engine | `src/training/FUTURE_ENHANCEMENTS.md` §AutoLabeler Query Engine Integration | v1.7.0 |
+| 67 | `acceleration/nccl_vector_backend.cpp` | `!THEMIS_ENABLE_NCCL`: Pimpl empty; all collective ops (`allReduce`, `broadcast`, `allGather`, `reduce`, `reduceScatter`, `p2pSend`, `p2pRecv`, `mergeTopK`) return false; `isNCCLAvailable()` false | `THEMIS_ENABLE_NCCL` not defined (CPU-only, non-CUDA, or single-GPU builds) | Multi-GPU collective ops disabled; distributed ANN search (`mergeTopK`) unavailable; training gradient allReduce unavailable | `src/acceleration/FUTURE_ENHANCEMENTS.md` §NCCL/RCCL Activation | v1.5.0 |
+| 68 | `acceleration/rccl_vector_backend.cpp` | `!THEMIS_ENABLE_RCCL`: AMD counterpart — Pimpl empty; all collective ops return false; `isRCCLAvailable()` false | `THEMIS_ENABLE_RCCL` not defined (non-ROCm, CUDA-only, or CPU-only builds) | Multi-GPU AMD collective ops disabled; distributed ANN search on ROCm unavailable; RCCL gradient sync unavailable | `src/acceleration/FUTURE_ENHANCEMENTS.md` §NCCL/RCCL Activation | v1.5.0 |
+| 69 | `acceleration/opencl_backend.cpp` | `!THEMIS_ENABLE_OPENCL`: `computeDistances`/`batchKnnSearch` return empty; `isAvailable()` false | `THEMIS_ENABLE_OPENCL` not defined (CUDA-only or CPU-only builds) | Universal GPU support (AMD, Intel, Qualcomm, ARM Mali) via OpenCL unavailable; queries fall through to CPU | `src/acceleration/FUTURE_ENHANCEMENTS.md` §OpenCL Backend Activation | v1.5.0 |
+| 70 | `acceleration/oneapi_backend.cpp` | `!THEMIS_ENABLE_ONEAPI`: stub OneAPIVectorBackend class compiled in; `isAvailable()` false; `computeDistances`/`batchKnnSearch` return empty | `THEMIS_ENABLE_ONEAPI` not defined (non-Intel-GPU or CPU-only builds) | Intel Arc/Xe/XPU acceleration unavailable; workloads fall through to CPU | `src/acceleration/FUTURE_ENHANCEMENTS.md` §OneAPI Backend Activation | v1.5.0 |
+| 71 | `cdc/kafka_cdc_producer.cpp` | `!THEMIS_ENABLE_KAFKA`: TU intentionally empty; no-op stub defined inline in `include/cdc/kafka_cdc_producer.h`; `publish()` is a silent no-op | `THEMIS_ENABLE_KAFKA` not defined (builds without librdkafka) | All CDC change events silently discarded; downstream Kafka consumers receive no real-time feeds; `publish()` returns without error masking the absence of delivery semantics | `src/cdc/FUTURE_ENHANCEMENTS.md` §Kafka CDC Producer Activation | v1.6.0 |
 
 ---
 
@@ -120,4 +125,4 @@
 
 ---
 
-*Last updated: 2026-04-28 — 66 entries, 8 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-04-28 — 71 entries, 8 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

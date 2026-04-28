@@ -26,6 +26,23 @@
  * backed implementation.  When the macro is absent the translation unit is
  * intentionally empty; the no-op stub is defined inline in the header.
  *
+ * STUB/SIMULATION NOTE:
+ * Purpose: Allow ThemisDB to be built without librdkafka.  All
+ *   KafkaCdcProducer methods are defined inline as no-ops in
+ *   include/cdc/kafka_cdc_producer.h when `THEMIS_ENABLE_KAFKA` is not set.
+ *   This lets CDC change-event publishing be compiled out cleanly without
+ *   affecting the rest of the CDC pipeline.
+ * Activation: `THEMIS_ENABLE_KAFKA` not defined at compile time (default for
+ *   CPU-only / bare-metal builds without a Kafka broker).
+ * Production Delta: All CDC change events are silently discarded.  Downstream
+ *   consumers (stream processors, analytics pipelines) will not receive
+ *   real-time change feeds.  `publish()` returns without error, masking the
+ *   absence of Kafka delivery semantics.
+ * Removal Plan: Install librdkafka (e.g., `apt install librdkafka-dev`) and
+ *   set `-DTHEMIS_ENABLE_KAFKA=1` in CMake.  The full implementation in this
+ *   .cpp file will then be compiled and the inline header stubs skipped.
+ * Roadmap ref: src/cdc/FUTURE_ENHANCEMENTS.md §"Kafka CDC Producer Activation"
+ *
  * Copyright (c) 2025 ThemisDB Project
  * SPDX-License-Identifier: Apache-2.0
  */
