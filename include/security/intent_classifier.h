@@ -58,7 +58,11 @@ public:
         SQL_INJECTION,          ///< SQL injection pattern detected
         DATA_EXFILTRATION,      ///< Bulk data extraction attempt
         PRIVILEGE_ESCALATION,   ///< Attempt to access out-of-scope resources
-        ANOMALOUS_PATTERN       ///< Unusual structure not matching known patterns
+        ANOMALOUS_PATTERN,      ///< Unusual structure not matching known patterns
+        // AI Safety Layer — Schicht 4 (ASL-4)
+        // Docs: docs/de/security/ai_safety/AI_SAFETY_INTENT_CLASSIFIER.md
+        DATA_DESTRUCTION,       ///< AQL REMOVE / DROP COLLECTION / TRUNCATE
+        SCHEMA_MUTATION,        ///< AQL DDL: DROP INDEX, CREATE COLLECTION, etc.
     };
 
     /// Result of a single classification call.

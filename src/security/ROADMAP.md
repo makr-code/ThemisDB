@@ -231,18 +231,20 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 > Entwickler-Referenz: `src/security/AI_SAFETY_ARCHITECTURE.md`
 
 ### Phase 1 — Kritische Fixes (Target: Q2 2026)
-- [ ] **ASL-1:** `DATA_DESTRUCTION` + `SCHEMA_MUTATION` IntentType-Werte hinzufügen (Target: Q2 2026)
+- [x] **ASL-1:** `DATA_DESTRUCTION` + `SCHEMA_MUTATION` IntentType-Werte hinzufügen (Target: Q2 2026)
   - `src/security/intent_classifier.h` + `intent_classifier.cpp`
   - Neue Feature-Tabellen: `kDataDestructionFeatures[]`, `kSchemaMutationFeatures[]`
   - Spezialregel: `FOR...REMOVE` ohne `FILTER` → Confidence 0.90
   - Blockierungsschwellenwert: Confidence ≥ 0.65
-  - `riskDelta()`: DATA_DESTRUCTION=0.50, SCHEMA_MUTATION=0.45
-- [ ] **ASL-2:** `AqlSafetyValidator` implementieren (Target: Q2 2026)
+  - `riskDelta()`: DATA_DESTRUCTION=0.90, SCHEMA_MUTATION=0.75
+  - Tests: IC-09..IC-15 in `tests/test_intent_classifier.cpp`
+- [x] **ASL-2:** `AqlSafetyValidator` implementieren (Target: Q2 2026)
   - `include/query/aql_safety_validator.h` + `src/query/aql_safety_validator.cpp` [NEU]
   - Erkennung: REMOVE, INSERT, UPDATE, REPLACE, UPSERT, DROP, TRUNCATE, CREATE COLLECTION
   - Integration: `McpServer::toolQuery()` wenn `enforce_read_only: true` im Mode aktiv
   - Latenz-Ziel: p99 < 0.1ms bei 1 KB Queries
-- [ ] **ASL-3:** Dry-Run-Flag in `toolDeleteEntity()` + `toolDropIndex()` (Target: Q2 2026)
+  - Tests: ASV-01..ASV-16 in `tests/security/test_aql_safety_validator.cpp`
+- [x] **ASL-3:** Dry-Run-Flag in `toolDeleteEntity()` + `toolDropIndex()` (Target: Q2 2026)
   - `src/server/mcp_server.cpp`: args.value("dry_run", false) → Preview statt Execution
 
 ### Phase 2 — DOG + HILG (Target: Q3 2026)

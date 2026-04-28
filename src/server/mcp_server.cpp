@@ -26,6 +26,7 @@
 #include "index/secondary_index.h"
 #include "query/query_engine.h"
 #include "query/aql_runner.h"
+#include "query/aql_safety_validator.h"
 #include "query/cypher_parser.h"
 #include "index/graph_index.h"
 #include "llm/embedded_llm.h"
@@ -495,7 +496,9 @@ void McpServer::registerDefaultTools() {
         {
             {"type", "object"},
             {"properties", {
-                {"key", {{"type", "string"}}}
+                {"key", {{"type", "string"}}},
+                {"dry_run", {{"type", "boolean"}, {"default", false},
+                             {"description", "AI Safety: preview the delete without executing it (Phase 1 guard)"}}}
             }},
             {"required", {"key"}}
         },
@@ -531,7 +534,9 @@ void McpServer::registerDefaultTools() {
             {"properties", {
                 {"table", {{"type", "string"}, {"description", "Table/collection name"}}},
                 {"column", {{"type", "string"}, {"description", "Column/property name"}}},
-                {"type", {{"type", "string"}, {"enum", {"regular", "range", "sparse", "geo", "fulltext", "ttl"}}, {"default", "regular"}, {"description", "Index type"}}}
+                {"type", {{"type", "string"}, {"enum", {"regular", "range", "sparse", "geo", "fulltext", "ttl"}}, {"default", "regular"}, {"description", "Index type"}}},
+                {"dry_run", {{"type", "boolean"}, {"default", false},
+                             {"description", "AI Safety: preview the drop without executing it (Phase 1 guard)"}}}
             }},
             {"required", {"table", "column"}}
         },
@@ -654,6 +659,10 @@ void McpServer::registerDefaultTools() {
 json McpServer::toolQuery(const json& args) {
     std::string query = args["query"];
     std::string language = args.value("language", "aql");
+    // AI Safety Layer (Schicht 3): enforce_read_only flag carried in args
+    // when this tool is called from the `agentic` mode with aql_execute.
+    // The flag is set by the MCP tool spec (enforce_read_only: true in YAML).
+    const bool enforce_read_only = args.value("enforce_read_only", false);
     
     spdlog::info("MCP Tool 'query' called: {} ({})", query, language);
     
@@ -696,6 +705,30 @@ json McpServer::toolQuery(const json& args) {
                     {"query", query},
                     {"language", language}
                 };
+            }
+
+            // AI Safety Layer — Schicht 3: AQL Read-Only Enforcer (ASL-3)
+            // Activated when enforce_read_only=true is carried in the tool args
+            // (set by the `aql_execute` MCP tool spec in the agentic LLM mode).
+            // Docs: docs/de/security/ai_safety/AI_SAFETY_AQL_VALIDATOR.md
+            if (enforce_read_only) {
+                themis::query::AqlSafetyValidator aql_validator;
+                auto violation = aql_validator.validate(query);
+                if (violation.has_value()) {
+                    spdlog::warn("AI Safety Layer (ASL-3): AQL read-only violation "
+                                 "blocked: keyword='{}' pos={} query='{}'",
+                                 violation->keyword, violation->position, query);
+                    return {
+                        {"status", "error"},
+                        {"error_code", "AQL_READ_ONLY_VIOLATION"},
+                        {"message", violation->message},
+                        {"query", query},
+                        {"language", language},
+                        {"blocked_by", "AqlSafetyValidator"},
+                        {"violation_keyword", violation->keyword},
+                        {"violation_position", violation->position}
+                    };
+                }
             }
             
             // Execute AQL query
@@ -914,14 +947,30 @@ json McpServer::toolGetEntity(const json& args) {
 
 json McpServer::toolDeleteEntity(const json& args) {
     std::string key = args["key"];
+    // AI Safety Layer (Phase 1): dry_run flag — preview the operation without
+    // executing it. Phase 2 will replace this with the full HILG Approval-Flow.
+    const bool dry_run = args.value("dry_run", false);
     
-    spdlog::info("MCP Tool 'delete_entity' called: key={}", key);
+    spdlog::info("MCP Tool 'delete_entity' called: key={} dry_run={}", key, dry_run);
     
     if (!db_) {
         return {
             {"status", "error"},
             {"message", "Database not attached"},
             {"key", key}
+        };
+    }
+
+    // Dry-run mode: return a preview without touching the database.
+    if (dry_run) {
+        spdlog::info("AI Safety dry_run: delete_entity key={} — preview only", key);
+        return {
+            {"status", "dry_run"},
+            {"message", "Dry-run preview: entity would be deleted (not executed)"},
+            {"key", key},
+            {"dry_run", true},
+            {"classification", "DESTRUCTIVE"},
+            {"note", "Submit with dry_run=false after human approval to execute."}
         };
     }
 
@@ -1071,6 +1120,9 @@ json McpServer::toolDropIndex(const json& args) {
     std::string table = args.value("table", "");
     std::string column = args.value("column", "");
     std::string index_type = args.value("type", "regular");
+    // AI Safety Layer (Phase 1): dry_run flag — preview the drop without
+    // executing it. Phase 2 will replace this with the full HILG Approval-Flow.
+    const bool dry_run = args.value("dry_run", false);
     
     if (table.empty() || column.empty()) {
         return {
@@ -1078,7 +1130,24 @@ json McpServer::toolDropIndex(const json& args) {
             {"message", "Missing required parameters: table and column"}
         };
     }
-    
+
+    // Dry-run mode: return a preview without dropping the index.
+    if (dry_run) {
+        spdlog::info("AI Safety dry_run: drop_index {}.{} ({}) — preview only",
+                     table, column, index_type);
+        return {
+            {"status", "dry_run"},
+            {"message", fmt::format("Dry-run preview: index {}.{} ({}) would be dropped (not executed)",
+                                    table, column, index_type)},
+            {"table", table},
+            {"column", column},
+            {"index_type", index_type},
+            {"dry_run", true},
+            {"classification", "DESTRUCTIVE"},
+            {"note", "Submit with dry_run=false after human approval to execute."}
+        };
+    }
+
     try {
         SecondaryIndexManager::Status status;
         

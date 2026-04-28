@@ -84,6 +84,51 @@ static const Feature kPrivEscFeatures[] = {
     {"EXECUTE AS",        0.45},
 };
 
+// AI Safety Layer — Schicht 4 (ASL-4)
+// AQL-native destructive operation patterns.
+// Docs: docs/de/security/ai_safety/AI_SAFETY_INTENT_CLASSIFIER.md
+// Roadmap: src/security/ROADMAP.md § Phase 5 (ASL-4)
+//
+// Blocking threshold: confidence ≥ 0.65 (see maybeAlert default threshold
+// for AI Safety callers; standard callers keep 0.85 for backwards compat).
+
+static const Feature kDataDestructionFeatures[] = {
+    {"FOR ",              0.05},  // FOR alone is benign; weight raised by combos
+    {" REMOVE ",         0.65},  // REMOVE keyword in any AQL context
+    {"REMOVE @",         0.40},  // Parametrised single-key delete (bind var)
+    {"TRUNCATE ",        0.80},  // TRUNCATE collection
+    {"DROP COLLECTION",  0.95},  // Full collection drop → nearly always CRITICAL
+    {"DELETE FROM",      0.50},  // SQL-style DELETE leaking into AQL
+};
+
+static const Feature kSchemaMutationFeatures[] = {
+    {"DROP INDEX",       0.70},
+    {"DROP TABLE",       0.70},  // SQL DDL sometimes embedded in AQL queries
+    {"DROP VIEW",        0.65},
+    {"DROP DATABASE",    0.95},
+    {"CREATE COLLECTION",0.30},  // Creating is less dangerous than dropping
+    {"CREATE INDEX",     0.20},  // Index creation is acceptable but notable
+    {"ALTER COLLECTION", 0.60},
+};
+
+/// Helper: detect compound FOR…REMOVE without FILTER (full-collection delete).
+/// Returns extra weight to add on top of kDataDestructionFeatures score.
+double forRemoveWithoutFilterWeight(const std::string& upperQuery) {
+    const std::size_t forPos    = upperQuery.find("FOR ");
+    const std::size_t removePos = upperQuery.find(" REMOVE ");
+    if (forPos == std::string::npos || removePos == std::string::npos) {
+        return 0.0;
+    }
+    if (forPos >= removePos) {
+        return 0.0;  // REMOVE appears before FOR — not a FOR-REMOVE pattern
+    }
+    // Additional weight when there is no FILTER between FOR and REMOVE
+    const std::size_t filterPos = upperQuery.find("FILTER ");
+    const bool hasFilter = (filterPos != std::string::npos &&
+                            filterPos > forPos && filterPos < removePos);
+    return hasFilter ? 0.25 : 0.90;  // Unfiltered full-collection delete
+}
+
 /// Compute weighted-sum score against a feature table.
 template <std::size_t N>
 double scoreFeatures(const std::string& upperQuery, const Feature (&features)[N]) {
@@ -126,14 +171,21 @@ IntentClassifier::ClassificationResult IntentClassifier::classify(
     const std::string uq = toUpper(query);
 
     // Compute per-class feature scores.
-    const double injScore  = scoreFeatures(uq, kSqlInjectionFeatures);
+    const double injScore   = scoreFeatures(uq, kSqlInjectionFeatures);
     const double exfilScore = scoreFeatures(uq, kExfiltrationFeatures);
     const double privScore  = scoreFeatures(uq, kPrivEscFeatures);
 
+    // AI Safety Layer (Schicht 4): AQL-aware destructive operation scoring.
+    const double destroyScore = scoreFeatures(uq, kDataDestructionFeatures)
+                                + forRemoveWithoutFilterWeight(uq);
+    const double schemaScore  = scoreFeatures(uq, kSchemaMutationFeatures);
+
     // Convert to confidences.
-    const double injConf   = scoreToConfidence(injScore);
-    const double exfilConf = scoreToConfidence(exfilScore);
-    const double privConf  = scoreToConfidence(privScore);
+    const double injConf     = scoreToConfidence(injScore);
+    const double exfilConf   = scoreToConfidence(exfilScore);
+    const double privConf    = scoreToConfidence(privScore);
+    const double destroyConf = scoreToConfidence(destroyScore);
+    const double schemaConf  = scoreToConfidence(schemaScore);
 
     // Pick the dominant malicious class; fall back to LEGITIMATE.
     struct Candidate {
@@ -142,9 +194,11 @@ IntentClassifier::ClassificationResult IntentClassifier::classify(
         std::string indicator;
     };
     Candidate candidates[] = {
-        {IntentType::SQL_INJECTION,       injConf,   "SQL_INJECTION_FEATURES"},
-        {IntentType::DATA_EXFILTRATION,   exfilConf, "DATA_EXFILTRATION_FEATURES"},
-        {IntentType::PRIVILEGE_ESCALATION,privConf,  "PRIVILEGE_ESCALATION_FEATURES"},
+        {IntentType::SQL_INJECTION,       injConf,     "SQL_INJECTION_FEATURES"},
+        {IntentType::DATA_EXFILTRATION,   exfilConf,   "DATA_EXFILTRATION_FEATURES"},
+        {IntentType::PRIVILEGE_ESCALATION,privConf,    "PRIVILEGE_ESCALATION_FEATURES"},
+        {IntentType::DATA_DESTRUCTION,    destroyConf, "AQL_DATA_DESTRUCTION_FEATURES"},
+        {IntentType::SCHEMA_MUTATION,     schemaConf,  "AQL_SCHEMA_MUTATION_FEATURES"},
     };
 
     double      bestConf  = 0.0;
@@ -202,6 +256,9 @@ double IntentClassifier::riskDelta(IntentType t) noexcept {
         case IntentType::DATA_EXFILTRATION:   return 0.30;
         case IntentType::PRIVILEGE_ESCALATION:return 0.50;
         case IntentType::ANOMALOUS_PATTERN:   return 0.20;
+        // AI Safety Layer (Schicht 4): AQL-destructive operations get maximum risk
+        case IntentType::DATA_DESTRUCTION:    return 0.90;
+        case IntentType::SCHEMA_MUTATION:     return 0.75;
         case IntentType::LEGITIMATE:
         default:                              return 0.0;
     }
@@ -215,6 +272,8 @@ std::string IntentClassifier::intentName(IntentType t) {
         case IntentType::DATA_EXFILTRATION:     return "DATA_EXFILTRATION";
         case IntentType::PRIVILEGE_ESCALATION:  return "PRIVILEGE_ESCALATION";
         case IntentType::ANOMALOUS_PATTERN:     return "ANOMALOUS_PATTERN";
+        case IntentType::DATA_DESTRUCTION:      return "DATA_DESTRUCTION";
+        case IntentType::SCHEMA_MUTATION:       return "SCHEMA_MUTATION";
         default:                                return "UNKNOWN";
     }
 }
