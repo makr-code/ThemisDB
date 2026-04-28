@@ -724,14 +724,20 @@ bool FieldEncryption::needsReEncryption(const EncryptedBlob& blob, const std::st
         // Note: KeyProvider should track version numbers, but as a fallback
         // we can also check if the key_id has a newer version available
         
-        // Simple heuristic: if we can get a key without specifying version,
-        // compare the blob's version with what we assume is latest
-        
-        // For now, assume getKey without version returns latest
-        // We need a way to get the version number from the key itself
-        // This is a simplified implementation - in production, KeyProvider
-        // should expose a getCurrentVersion(key_id) method
-        
+        // STUB/SIMULATION NOTE:
+        // Purpose: Determines whether a blob needs re-encryption using a probe
+        //          heuristic (try getKey(key_id, blob_version+1)) because
+        //          KeyProvider does not expose a `getCurrentVersion(key_id)` method.
+        // Activation: Always — no `getCurrentVersion` API available on KeyProvider.
+        // Production Delta: The heuristic has a TOCTOU window: if two key rotations
+        //                   happen between the probe and the actual re-encryption
+        //                   decision, the blob may be re-encrypted to version+1 while
+        //                   version+2 is already current.  For most workloads this
+        //                   is acceptable; for strict rotation compliance it is not.
+        // Removal Plan: Add `KeyProvider::getCurrentVersion(key_id)` to the
+        //               interface; compare `blob.key_version < getCurrentVersion(key_id)`
+        //               directly.  See src/security/FUTURE_ENHANCEMENTS.md
+        //               §FieldEncryption needsReEncryption Version API.
         // Workaround: Try to get a key with version+1 and see if it exists
         try {
             auto next_key = key_provider_->getKey(key_id, blob.key_version + 1);

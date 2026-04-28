@@ -1155,3 +1155,15 @@ Interested in contributing to security features? See:
 - Query the `AuditLogger` for events of type `ACCESS_ATTEMPT`, `ACCESS_GRANTED`, `ACCESS_DENIED`.
 - Filter by `user_id`, `resource`, `since`, `until` parameters.
 - Return structured JSON with timestamp, user_id, resource, action, outcome, and session_id fields.
+
+---
+
+## FieldEncryption needsReEncryption Version API (Target: future milestone — stub improvement)
+
+**Stub:** `src/security/field_encryption.cpp::needsReEncryption()` — uses a probe heuristic (`getKey(key_id, blob_version+1)`) because `KeyProvider` lacks a `getCurrentVersion(key_id)` method.  
+**Risk:** TOCTOU window: two rapid key rotations between probe and re-encryption decision may cause blobs to be encrypted at version+1 while version+2 is already current.
+
+### Scope
+- Add `virtual uint32_t getCurrentVersion(const std::string& key_id) = 0` to `KeyProvider` interface.
+- Implement in `MockKeyProvider`, `VaultKeyProviderAdapter`, and `HsmKeyProviderAdapter`.
+- Replace the probe heuristic in `needsReEncryption()` with a direct comparison.

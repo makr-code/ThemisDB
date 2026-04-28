@@ -576,3 +576,20 @@ All planned features in this document are grounded in the following peer-reviewe
 ### Test Strategy
 - macOS: `probeAppleANE()` returns true → `dispatchAppleANE()` returns `success = true` and `result.tokens` non-empty.
 - Linux/Windows: `THEMIS_HAS_NPU_APPLE` not defined → `dispatchAppleANE()` not called; dispatcher routes to CPU/CUDA.
+
+---
+
+## Plugin Security Mach-O Signature Extraction (Target: future milestone — stub removal)
+
+**Stub:** `src/acceleration/plugin_security.cpp` Mach-O path in `extractEmbeddedSignature()` — Mach-O magic detected but LC_CODE_SIGNATURE load commands not parsed; returns `std::nullopt`.  
+**Risk:** macOS plugin code signatures are never extracted; Apple code-signing verification is skipped for all macOS dylib/bundle plugins.
+
+### Scope
+- Walk Mach-O load commands: iterate `mach_header.ncmds`.
+- Locate `LC_CODE_SIGNATURE` (cmd == 0x1D) and read `linkedit_data_command.dataoff` + `datasize`.
+- Return the blob bytes; use downstream signature verifier to validate against the Apple codesign chain.
+- Handle both 32-bit (`MH_MAGIC`) and 64-bit (`MH_MAGIC_64`) and fat binary (`FAT_MAGIC`) Mach-O formats.
+
+### Security / Reliability
+- Do not use `codesign` subprocess as the sole verification mechanism; parse the signature block directly to avoid TOCTOU and process-injection risks.
+- Validate the signature chain against the Apple root CA (or enterprise CA for internally signed bundles).
