@@ -237,3 +237,24 @@ std::string calculateMD5(const std::string& file_path);
 - MD5 collision attacks are feasible with commodity hardware (< 1 hour); SHA-256 has
   no known collision attacks
 - OpenSSL's EVP interface is FIPS 140-3 compliant when using the FIPS provider
+
+---
+
+## JSON Schema Validation Activation (Target: v1.5.0 — stub completion)
+
+**Stub:** `src/utils/input_validator.cpp` — `validateJsonStub()`: returns `nullopt` (accept-all) when schema file absent; no WARN logged  
+**Risk:** Arbitrary JSON payloads pass validation silently; missing schema file is a silent security gap in production.
+
+### Scope
+- Deploy JSON schema files to `THEMIS_SCHEMA_DIR` (env var or config YAML; default `/etc/themis/schemas/`).
+- Log WARN in `validateJsonStub()` when schema file is absent (currently silent).
+- Add `aql_request.json`, `query_request.json`, and `changefeed_request.json` schema files.
+
+### Security / Reliability
+- Schema files must be read-only on disk; validate file permissions on startup.
+- If schema file is malformed JSON, log ERROR and treat as "no schema" (fail-open) rather than crashing.
+
+### Test Strategy
+- With schema file: oversized query field → `validateAqlRequest()` returns error.
+- Without schema file: arbitrary payload passes `validateJsonStub()` but subsequent hard-coded checks still apply.
+- Warn in log: absent schema file → `WARN [InputValidator] schema file 'aql_request.json' not found in schema_dir`.

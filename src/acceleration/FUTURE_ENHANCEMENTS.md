@@ -555,3 +555,24 @@ All planned features in this document are grounded in the following peer-reviewe
 ### Test Strategy
 - Positive: build with oneAPI → `isAvailable()` true → `batchKnnSearch` returns correct KNN.
 - Negative: no Intel GPU → stub path → `isAvailable()` false; no crash.
+
+---
+
+## Apple ANE Core ML Activation (Target: v1.9.0 — stub completion)
+
+**Stub:** `src/acceleration/ai_hardware_dispatcher.cpp` — `dispatchAppleANE()` inside `#ifdef THEMIS_HAS_NPU_APPLE`: always returns `success = false`; Core ML session not created  
+**Risk:** Apple Neural Engine inference unavailable; ANE workloads route to CPU/GPU fallback; ANE power efficiency and throughput benefits lost.
+
+### Scope
+- Link `metal_backend.mm` with Objective-C++ compiler (`-x objective-c++`).
+- Set `-DTHEMIS_HAS_NPU_APPLE=1` in CMake.
+- Implement full Core ML path in `metal_backend.mm`: create `MLModel` session, prepare `MLMultiArray` from `req.input_data`, run prediction, extract results.
+- Remove stub body and delegate `dispatchAppleANE()` to the Obj-C++ implementation.
+
+### Performance Targets
+- ANE inference (INT8, 7B model): ≥ 3× throughput vs CPU (tokens/s); ≤ 30 % CPU overhead.
+- Latency first token: ≤ 200 ms for a 7B INT8 model on M2/M3 ANE.
+
+### Test Strategy
+- macOS: `probeAppleANE()` returns true → `dispatchAppleANE()` returns `success = true` and `result.tokens` non-empty.
+- Linux/Windows: `THEMIS_HAS_NPU_APPLE` not defined → `dispatchAppleANE()` not called; dispatcher routes to CPU/CUDA.

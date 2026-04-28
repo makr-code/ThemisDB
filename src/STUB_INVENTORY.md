@@ -20,7 +20,7 @@
 
 ---
 
-## Stub Inventory (81 entries)
+## Stub Inventory (86 entries)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -105,6 +105,11 @@
 | 79 | `importers/postgres_importer.cpp` | `parseExcludeConstraint()`: captures raw definition text and optional constraint name; does NOT parse individual EXCLUDE elements, access method (`USING`), or per-column `WITH` operators | Always active — called for every `CONSTRAINT … EXCLUDE …` DDL clause | Imported schema metadata for EXCLUDE constraints is incomplete; `elements`, `index_method`, `using_clause` not populated; index recreation and constraint validation may silently fail | `src/importers/FUTURE_ENHANCEMENTS.md` §Postgres EXCLUDE Constraint Parsing | v1.5.0 |
 | 80 | `geo/cpu_backend.cpp` | `pointInPolygon()` + geometry helpers: pure-C++ ray-casting and segment-intersection Boost.Geometry fallback; planar (Cartesian) only; no geodesic projection | Always active — no Boost.Geometry dependency compiled by default | No OGC-compliant geodesic / spherical geometry; self-intersecting polygons and rings with holes not correctly handled; O(n×m) edge-intersection check; approved for polygons ≤ 1 000 vertices | `src/geo/FUTURE_ENHANCEMENTS.md` §Boost.Geometry Integration | v1.6.0 |
 | 81 | `geo/device_detector.cpp` | `MakeCpuFallbackCapability()`: returns sentinel `GeoDeviceCapability` with `suitable_for_geo = false` and `reason = "no GPU device available; using CPU fallback"` when `DeviceDiscovery::queryDevices()` returns empty | No GPU driver or device detected at runtime | All geo operations route to CPU exact backend; GPU distance and containment kernels not invoked; expected ≥ 8× GPU speedup absent | `src/geo/FUTURE_ENHANCEMENTS.md` §CUDA Geospatial Kernels | v2.0.0 |
+| 82 | `llm/llama_grammar_adapter.cpp` | Runtime detection failure (`g_grammar_api_available = false`): all grammar ops (`init`, `apply`, `free`) log warning and return nullptr/no-op | `llama_grammar_init` / `llama_grammar_free` absent from linked llama.cpp library at runtime | Grammar-constrained generation (GBNF, JSON schema, regex) disabled; LLM output may not conform to expected formats (JSON, SQL, structured data) | `src/llm/FUTURE_ENHANCEMENTS.md` §LlamaCpp Grammar API Runtime Activation | v1.8.0 |
+| 83 | `acceleration/ai_hardware_dispatcher.cpp` | `dispatchAppleANE()` inside `#ifdef THEMIS_HAS_NPU_APPLE`: Core ML session not created; always returns `success = false` with error "Core ML dispatch requires Objective-C++ compilation" | `THEMIS_HAS_NPU_APPLE` defined but `metal_backend.mm` not linked as Obj-C++ or Core ML headers absent | Apple Neural Engine (ANE) / Core ML inference unavailable; workloads route to CPU/GPU fallback | `src/acceleration/FUTURE_ENHANCEMENTS.md` §Apple ANE Core ML Activation | v1.9.0 |
+| 84 | `api/http_server.cpp` | Entire TU is a deprecated legacy placeholder; `namespace themis {}` body is intentionally empty; HTTP server implementation lives in `src/server/http_server.cpp` | Always active (file included in some CMake targets for historical reasons) | Any code added here has no effect on the running server; all HTTP functionality is in `src/server/http_server.cpp` | `src/api/FUTURE_ENHANCEMENTS.md` §Legacy HTTP Server Stub Removal | — |
+| 85 | `utils/input_validator.cpp` | `validateJsonStub()`: returns `nullopt` (accept-all) when schema file is absent from `schema_dir_`; no warning logged | Schema file not deployed to `schema_dir_` at runtime (common in dev/CI) | Arbitrary JSON payloads pass validation silently; missing schema file is a silent security gap | `src/utils/FUTURE_ENHANCEMENTS.md` §JSON Schema Validation Activation | v1.5.0 |
+| 86 | `llm/lora_framework/quantization.cpp` | `THEMIS_NO_SPDLOG`: `spdlog::debug()` replaced by inline no-op template; all debug-level quantization logging suppressed | `THEMIS_NO_SPDLOG` defined at compile time (unit test CMake targets without spdlog) | Block quantization statistics, NF4 encoding trace, INT8 scale factor logging all silent | `src/llm/FUTURE_ENHANCEMENTS.md` §LoRA Quantization Logging | v1.4.0 |
 
 ---
 
@@ -135,4 +140,4 @@
 
 ---
 
-*Last updated: 2026-04-28 — 81 entries, 8 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-04-28 — 86 entries, 8 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

@@ -568,3 +568,30 @@ The following IEEE-formatted references support the research basis for features 
 - Positive: coherent news article → `estimateCoherence()` ≥ 0.7.
 - Negative: random word salad → `estimateCoherence()` ≤ 0.3.
 - Borderline: repeated phrase paragraph → `estimateCoherence()` < 0.5 (current heuristic detects, new model must also).
+
+---
+
+## LlamaCpp Grammar API Runtime Activation (Target: v1.8.0 — stub removal)
+
+**Stub:** `src/llm/llama_grammar_adapter.cpp` — runtime detection failure (`g_grammar_api_available = false`): all grammar ops return nullptr/no-op  
+**Risk:** Grammar-constrained generation (GBNF, JSON schema enforcement, regex tokens) disabled; LLM output may not conform to expected formats.
+
+### Scope
+- Rebuild llama.cpp with grammar support and ensure `llama_grammar_init` / `llama_grammar_free` are exported.
+- Verify via startup log "✓ llama.cpp Grammar API detected" that `g_grammar_api_available` is set to true.
+
+### Test Strategy
+- With grammar: `initializeGrammarAPI()` → `g_grammar_api_available = true` → `applyGrammar(ctx, "root ::= [0-9]+")` produces only digit tokens.
+- Without grammar: all calls log warning + return nullptr; inference proceeds without constraints.
+
+---
+
+## LoRA Quantization Logging (Target: v1.4.0 — stub removal)
+
+**Stub:** `src/llm/lora_framework/quantization.cpp` — `THEMIS_NO_SPDLOG`: `spdlog::debug()` replaced by inline no-op template  
+**Risk:** All debug-level quantization logging suppressed in test builds; block quantization statistics invisible.
+
+### Scope
+- Link spdlog in all build targets (header-only; negligible overhead).
+- Remove `THEMIS_NO_SPDLOG` guard from CMake test targets.
+- Optionally wrap in `THEMIS_DEBUG_LOGGING` instead to allow selective disable.

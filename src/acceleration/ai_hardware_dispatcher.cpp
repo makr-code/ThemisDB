@@ -530,6 +530,25 @@ AiInferenceResult AiHardwareDispatcher::dispatchAppleANE([[maybe_unused]] AiInfe
 
     // Apple Neural Engine dispatch via Core ML.
     // Full Core ML session management is in metal_backend.mm (Objective-C++).
+    //
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow the AI Hardware Dispatcher to compile on non-macOS
+    //   platforms or Apple builds without the Objective-C++ runtime.  The
+    //   dispatch succeeds structurally (timing measured) but always returns
+    //   `success = false` with an informative error message.
+    // Activation: `THEMIS_HAS_NPU_APPLE` defined but `metal_backend.mm` is not
+    //   linked as an Objective-C++ TU, or Core ML headers are absent.
+    // Production Delta: Apple Neural Engine (ANE) / Core ML inference is
+    //   unavailable.  Workloads that could run at ANE speeds (≥ 10 TOPS) route
+    //   to CPU/GPU fallback.  The dispatcher returns an error result; callers
+    //   must re-route to CPU/CUDA.
+    // Removal Plan: Link `metal_backend.mm` with Objective-C++ and ensure Core
+    //   ML framework is available (`-framework CoreML -framework Metal`).
+    //   Implement the full `MLModel` session, `MLMultiArray` preparation, and
+    //   result extraction in `metal_backend.mm`.  Remove this stub and delegate
+    //   directly to the Obj-C++ implementation.
+    // Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md §"Apple ANE Core ML Activation"
+
     // This stub delegates to the Metal backend which has Core ML integration.
     // A real implementation would create an MLModel session, prepare an
     // MLMultiArray from req.input_data, run prediction, and extract results.

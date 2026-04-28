@@ -362,3 +362,19 @@ if (!config_.tls_enabled) {
 ### Performance Targets
 - `PutDocument` gRPC unary (LAN): ≤ 3 ms p99.
 - `VectorSearch` gRPC unary (k=10, 1 M vectors, CPU HNSW): ≤ 50 ms p99.
+
+---
+
+## Legacy HTTP Server Stub Removal (Target: v1.3.0 — cleanup)
+
+**Stub:** `src/api/http_server.cpp` — deprecated legacy placeholder TU; entire namespace body intentionally empty  
+**Risk:** Build targets that still include this file waste compile time; any future code added here will silently have no effect.
+
+### Scope
+- Confirm no CMake target still compiles `src/api/http_server.cpp`.
+- Remove the file from CMakeLists.txt source lists.
+- Keep the file in version history (do not `git rm` permanently) for audit reference.
+
+### Test Strategy
+- CI build succeeds after removing `src/api/http_server.cpp` from all CMake targets.
+- No linker errors: no symbol defined here is referenced elsewhere.
