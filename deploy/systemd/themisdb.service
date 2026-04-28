@@ -12,7 +12,7 @@ User=themisdb
 Group=themisdb
 
 # --- Executable ---
-ExecStart=/usr/bin/themisdb-server --config /etc/themisdb/config.yaml
+ExecStart=/usr/bin/themis_server --config /etc/themisdb/config.yaml
 ExecReload=/bin/kill -HUP $MAINPID
 
 # --- Environment file (contains secrets) ---
