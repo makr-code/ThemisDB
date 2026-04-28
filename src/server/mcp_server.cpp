@@ -31,6 +31,7 @@
 #include "index/graph_index.h"
 #include "llm/embedded_llm.h"
 #include "prompt_engineering/prompt_manager.h"
+#include "security/ai_operation_guard.h"
 #include "utils/error_registry.h"
 #include "utils/string_utils.h"
 #include "config/config_path_resolver.h"
@@ -68,6 +69,20 @@ McpServer::McpServer(asio::io_context& io_context, const Config& config)
     : io_context_(io_context), config_(config) {
     spdlog::info("MCP Server initializing with transports: stdio={}, sse={}, websocket={}",
                  config_.enable_stdio, config_.enable_sse, config_.enable_websocket);
+
+    // AI Safety Layer — Schichten 1 & 2: Initialise Destructive Operation Guard.
+    // Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+    // Roadmap: src/security/ROADMAP.md § Phase 2 (ASL-4)
+    themis::security::AiOperationGuard::Config guard_cfg;
+    guard_cfg.enabled                = true;
+    guard_cfg.approval_threshold     = themis::security::OperationClass::DESTRUCTIVE;
+    guard_cfg.approval_timeout_s     = 60;
+    guard_cfg.auto_snapshot          = true;
+    guard_cfg.snapshot_dir           = "/var/themis/ai-snapshots";
+    guard_cfg.environment            = "development";  // Override via attachConfig()
+    guard_cfg.block_critical_in_prod = true;
+    operation_guard_ = std::make_unique<themis::security::AiOperationGuard>(std::move(guard_cfg));
+    spdlog::info("MCP AI Safety Guard initialised (DOG+HILG, threshold=DESTRUCTIVE)");
 }
 
 McpServer::~McpServer() {
@@ -730,7 +745,15 @@ json McpServer::toolQuery(const json& args) {
                     };
                 }
             }
-            
+
+            // AI Safety Layer — Schichten 1 & 2: DOG + HILG (ASL-4/5)
+            // For AQL write/delete operations: require approval before execution.
+            if (const auto guard_resp = checkOperationGuard(
+                    "query", args,
+                    /*ai_session_id=*/"", /*caller_role=*/"")) {
+                return *guard_resp;
+            }
+
             // Execute AQL query
             auto result = executeAql(query, *query_engine_);
             
@@ -950,15 +973,23 @@ json McpServer::toolDeleteEntity(const json& args) {
     // AI Safety Layer (Phase 1): dry_run flag — preview the operation without
     // executing it. Phase 2 will replace this with the full HILG Approval-Flow.
     const bool dry_run = args.value("dry_run", false);
-    
+
     spdlog::info("MCP Tool 'delete_entity' called: key={} dry_run={}", key, dry_run);
-    
+
     if (!db_) {
         return {
             {"status", "error"},
             {"message", "Database not attached"},
             {"key", key}
         };
+    }
+
+    // AI Safety Layer — Schichten 1 & 2: DOG + HILG (ASL-4/5)
+    // Guard intercept for DESTRUCTIVE operations.
+    if (const auto guard_resp = checkOperationGuard(
+            "delete_entity", args,
+            /*ai_session_id=*/"", /*caller_role=*/"")) {
+        return *guard_resp;
     }
 
     // Dry-run mode: return a preview without touching the database.
@@ -1129,6 +1160,13 @@ json McpServer::toolDropIndex(const json& args) {
             {"status", "error"},
             {"message", "Missing required parameters: table and column"}
         };
+    }
+
+    // AI Safety Layer — Schichten 1 & 2: DOG + HILG (ASL-4/5)
+    if (const auto guard_resp = checkOperationGuard(
+            "drop_index", args,
+            /*ai_session_id=*/"", /*caller_role=*/"")) {
+        return *guard_resp;
     }
 
     // Dry-run mode: return a preview without dropping the index.
@@ -2065,6 +2103,194 @@ json McpServer::createSuccessResponse(const json& result) {
         {"jsonrpc", "2.0"},
         {"result", result}
     };
+}
+
+// ============================================================================
+// AI Safety Layer — HILG: Approval Pipeline (ASL-4..6)
+// Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+// Roadmap: src/security/ROADMAP.md § Phase 2
+// ============================================================================
+
+std::optional<json> McpServer::checkOperationGuard(
+    const std::string& tool_name,
+    const json&        args,
+    const std::string& ai_session_id,
+    const std::string& caller_role
+) {
+    if (!operation_guard_) {
+        return std::nullopt;  // Guard not initialised — pass through
+    }
+
+    const auto decision = operation_guard_->evaluate(
+        tool_name, args, ai_session_id, caller_role);
+
+    // Hard block: return immediately without storing in queue
+    if (!decision.block_reason.empty()) {
+        spdlog::warn("AI Safety DOG: HARD BLOCK tool='{}' reason='{}'",
+                     tool_name, decision.block_reason);
+        return operation_guard_->buildBlockedResponse(decision);
+    }
+
+    // READ_ONLY / WRITE_SAFE: no interception needed
+    if (!decision.requires_approval) {
+        return std::nullopt;
+    }
+
+    // DESTRUCTIVE / CRITICAL: enter HILG queue
+    spdlog::warn("AI Safety HILG: requires_approval tool='{}' class='{}' op_id='{}'",
+                 tool_name,
+                 themis::security::operationClassName(decision.op_class),
+                 decision.operation_id);
+
+    // Build the approval response before locking
+    const json approval_resp = operation_guard_->buildRequiresApprovalResponse(decision);
+
+    {
+        std::lock_guard<std::mutex> lock(pending_approvals_mutex_);
+
+        // Purge stale entries to keep the map bounded
+        purgExpiredApprovals();
+
+        PendingApproval pa;
+        pa.operation_id      = decision.operation_id;
+        pa.ai_session_id     = ai_session_id;
+        pa.tool_name         = tool_name;
+        pa.operation_args    = args;
+        pa.classification    =
+            themis::security::operationClassName(decision.op_class);
+        pa.approval_response = approval_resp;
+        pa.created_at        = std::chrono::system_clock::now();
+        pa.expires_at        = pa.created_at +
+            std::chrono::seconds(operation_guard_->config().approval_timeout_s);
+        pa.is_executed       = false;
+
+        pending_approvals_.emplace(decision.operation_id, std::move(pa));
+    }
+
+    return approval_resp;
+}
+
+json McpServer::handleAiApprove(const std::string& operation_id) {
+    std::lock_guard<std::mutex> lock(pending_approvals_mutex_);
+    purgExpiredApprovals();
+
+    auto it = pending_approvals_.find(operation_id);
+    if (it == pending_approvals_.end()) {
+        return {
+            {"status",  "error"},
+            {"error_code", "OPERATION_NOT_FOUND"},
+            {"message", fmt::format(
+                "Operation '{}' not found. It may have expired or already been executed.",
+                operation_id)}
+        };
+    }
+
+    if (it->second.is_executed) {
+        return {
+            {"status",  "error"},
+            {"error_code", "ALREADY_EXECUTED"},
+            {"message", fmt::format("Operation '{}' was already executed.", operation_id)}
+        };
+    }
+
+    // Retrieve cached operation details
+    const std::string tool   = it->second.tool_name;
+    const json        op_args = it->second.operation_args;
+    it->second.is_executed = true;
+
+    spdlog::info("AI Safety HILG: APPROVED tool='{}' op_id='{}'", tool, operation_id);
+
+    // Execute the originally queued operation by re-dispatching through the
+    // normal tool handlers (with enforce_read_only=false, dry_run=false).
+    json mutable_args = op_args;
+    mutable_args["dry_run"]         = false;
+    mutable_args["enforce_read_only"] = false;
+
+    json exec_result;
+    try {
+        const auto tool_it = tools_.find(tool);
+        if (tool_it == tools_.end()) {
+            exec_result = {{"status","error"},{"message","Tool not found after approval"}};
+        } else {
+            exec_result = tool_it->second.handler(mutable_args);
+        }
+    } catch (const std::exception& e) {
+        exec_result = {{"status","error"},{"message", std::string("Execution failed: ") + e.what()}};
+    }
+
+    // Remove from pending map
+    pending_approvals_.erase(it);
+
+    return {
+        {"status",        "executed"},
+        {"operation_id",  operation_id},
+        {"approved_by",   "(http-approval-endpoint)"},
+        {"result",        exec_result}
+    };
+}
+
+json McpServer::handleAiDeny(const std::string& operation_id) {
+    std::lock_guard<std::mutex> lock(pending_approvals_mutex_);
+
+    auto it = pending_approvals_.find(operation_id);
+    if (it == pending_approvals_.end()) {
+        return {
+            {"status",     "error"},
+            {"error_code", "OPERATION_NOT_FOUND"},
+            {"message",    fmt::format("Operation '{}' not found.", operation_id)}
+        };
+    }
+
+    spdlog::info("AI Safety HILG: DENIED tool='{}' op_id='{}'",
+                 it->second.tool_name, operation_id);
+    pending_approvals_.erase(it);
+
+    return {
+        {"status",       "denied"},
+        {"operation_id", operation_id},
+        {"message",      "Operation was denied by operator."}
+    };
+}
+
+json McpServer::handleAiPendingApprovals() {
+    std::lock_guard<std::mutex> lock(pending_approvals_mutex_);
+    purgExpiredApprovals();
+
+    json list = json::array();
+    for (const auto& [op_id, pa] : pending_approvals_) {
+        if (!pa.is_executed) {
+            list.push_back({
+                {"operation_id",  pa.operation_id},
+                {"tool_name",     pa.tool_name},
+                {"classification",pa.classification},
+                {"ai_session_id", pa.ai_session_id},
+                {"created_at",    pa.approval_response.value("expires_at", "")},
+                {"expires_at",    pa.approval_response.value("expires_at", "")},
+                {"approve_url",   fmt::format("/v1/ai/approve/{}", pa.operation_id)},
+                {"deny_url",      fmt::format("/v1/ai/deny/{}", pa.operation_id)}
+            });
+        }
+    }
+
+    return {
+        {"status",  "success"},
+        {"count",   list.size()},
+        {"pending", list}
+    };
+}
+
+void McpServer::purgExpiredApprovals() {
+    // Caller holds pending_approvals_mutex_.
+    const auto now = std::chrono::system_clock::now();
+    for (auto it = pending_approvals_.begin(); it != pending_approvals_.end(); ) {
+        if (now >= it->second.expires_at) {
+            spdlog::debug("AI Safety HILG: expired op_id='{}' tool='{}'",
+                          it->second.operation_id, it->second.tool_name);
+            it = pending_approvals_.erase(it);
+        } else {
+            ++it;
+        }
+    }
 }
 
 // ============================================================================

@@ -106,6 +106,12 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "server/graphql_api_handler.h"
 #include "server/grpc_web_proxy_handler.h"
 #include "server/serverless_function_api_handler.h"
+
+// Forward declaration for AI Safety Layer HILG approval endpoints (ASL-6).
+// Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+#ifdef THEMIS_ENABLE_MCP
+namespace themis { namespace server { class McpServer; } }
+#endif
 #include "server/udf_api_handler.h"
 #include "server/task_scheduler_api_handler.h"
 #include "server/async_job_api_handler.h"
@@ -528,6 +534,15 @@ public:
      */
     void setContinuousQueryEngine(
         std::shared_ptr<themis::query::ContinuousQueryEngine> engine);
+
+    /**
+     * @brief Attach an MCP server instance to enable the AI Safety Layer
+     *        HILG approval endpoints (`/v1/ai/*`).
+     *
+     * The pointer must remain valid for the lifetime of the HttpServer.
+     * Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+     */
+    void setMcpServer(std::shared_ptr<themis::server::McpServer> mcp_server);
 
 
     /**
@@ -983,6 +998,8 @@ private:
     // Continuous Query API Handler (CQL Phase 8 REST/SSE endpoints)
     std::unique_ptr<themis::server::ContinuousQueryApiHandler> continuous_query_api_;
     std::shared_ptr<themis::query::ContinuousQueryEngine> continuous_query_engine_;
+    // MCP server reference for AI Safety Layer HILG endpoints (ASL-6)
+    std::shared_ptr<themis::server::McpServer> mcp_server_;
     // Policy API Handler
     std::unique_ptr<themis::server::PolicyApiHandler> policy_api_;
     // Prompt API Handler

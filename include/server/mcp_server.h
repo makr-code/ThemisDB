@@ -21,6 +21,7 @@
 
 #ifdef THEMIS_ENABLE_MCP
 
+#include <chrono>
 #include <string>
 #include <memory>
 #include <functional>
@@ -36,6 +37,13 @@
 #ifdef THEMIS_ENABLE_LLM
 namespace themis::llm { class AIOrchestrator; }
 #endif
+
+// Forward-declare AiOperationGuard for the AI Safety Layer (Schichten 1 & 2).
+// AI Safety Layer docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+namespace themis::security {
+class AiOperationGuard;
+struct GuardDecision;
+}
 
 namespace themis {
 namespace server {
@@ -273,6 +281,60 @@ private:
     #ifdef THEMIS_ENABLE_LLM
     std::shared_ptr<themis::llm::AIOrchestrator> orchestrator_;
     #endif
+
+    // ── AI Safety Layer — Schichten 1 & 2: DOG + HILG (ASL-4..6) ──────────
+    // Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+    // Roadmap: src/security/ROADMAP.md § Phase 2
+
+    /**
+     * @brief In-memory record for one pending HILG approval.
+     *
+     * Stored in `pending_approvals_` from the moment an AI-initiated
+     * DESTRUCTIVE/CRITICAL operation is classified until it either expires,
+     * is approved, or is denied.
+     */
+    struct PendingApproval {
+        std::string operation_id;   ///< UUID (matches GuardDecision::operation_id)
+        std::string ai_session_id;  ///< AI session that triggered the operation
+        std::string tool_name;      ///< MCP tool name
+        json        operation_args; ///< Original, unmodified args
+        std::string classification; ///< "DESTRUCTIVE" or "CRITICAL"
+        json        approval_response; ///< Pre-built requires_approval JSON
+        std::chrono::system_clock::time_point created_at;
+        std::chrono::system_clock::time_point expires_at;
+        bool        is_executed = false;
+    };
+
+    /// Map: operation_id → PendingApproval entry.
+    std::unordered_map<std::string, PendingApproval> pending_approvals_;
+    mutable std::mutex pending_approvals_mutex_;
+
+    /// AI Safety Layer guard (DOG).  Constructed once in the constructor.
+    std::unique_ptr<themis::security::AiOperationGuard> operation_guard_;
+
+    // ── HILG handler methods ───────────────────────────────────────────────
+
+    /// Dispatch a write tool through the DOG + HILG pipeline.
+    /// Returns a "requires_approval" or "blocked" JSON when the guard fires,
+    /// std::nullopt when the operation may proceed immediately.
+    std::optional<json> checkOperationGuard(
+        const std::string& tool_name,
+        const json&        args,
+        const std::string& ai_session_id = "",
+        const std::string& caller_role   = ""
+    );
+
+    /// Handle POST /v1/ai/approve/{operation_id}
+    json handleAiApprove(const std::string& operation_id);
+
+    /// Handle POST /v1/ai/deny/{operation_id}
+    json handleAiDeny(const std::string& operation_id);
+
+    /// Handle GET /v1/ai/pending-approvals
+    json handleAiPendingApprovals();
+
+    /// Remove expired entries from pending_approvals_.  Called on demand.
+    void purgExpiredApprovals();
 };
 
 /**

@@ -2736,6 +2736,12 @@ namespace {
     ContinuousQueryListGet,         // GET    /v1/queries/continuous
     ContinuousQueryStreamSseGet,    // GET    /v1/queries/continuous/:name/results
 
+    // AI Safety Layer — HILG Approval Endpoints (ASL-6)
+    // Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+    AiApprovePendingPost,           // POST /v1/ai/approve/{operation_id}
+    AiDenyPendingPost,              // POST /v1/ai/deny/{operation_id}
+    AiPendingApprovalsGet,          // GET  /v1/ai/pending-approvals
+
         NotFound
     };
 
@@ -3436,6 +3442,25 @@ namespace {
                         return Route::ContinuousQueryStreamSseGet;
                 }
             }
+        }
+
+        // ── AI Safety Layer — HILG Approval endpoints (ASL-6) ──────────────
+        // POST /v1/ai/approve/{operation_id}
+        if (path_only.rfind("/v1/ai/approve/", 0) == 0 &&
+            path_only.size() > 15 &&
+            method == http::verb::post) {
+            return Route::AiApprovePendingPost;
+        }
+        // POST /v1/ai/deny/{operation_id}
+        if (path_only.rfind("/v1/ai/deny/", 0) == 0 &&
+            path_only.size() > 12 &&
+            method == http::verb::post) {
+            return Route::AiDenyPendingPost;
+        }
+        // GET /v1/ai/pending-approvals
+        if (path_only == "/v1/ai/pending-approvals" &&
+            method == http::verb::get) {
+            return Route::AiPendingApprovalsGet;
         }
 
         return Route::NotFound;
@@ -6950,6 +6975,73 @@ http::response<http::string_body> HttpServer::routeRequest(
                 break;
             }
             response = continuous_query_api_->handleStreamSse(req, cq_name);
+            break;
+        }
+
+        // ── AI Safety Layer — HILG Approval Endpoints (ASL-6) ──────────────
+        // Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+        case Route::AiPendingApprovalsGet: {
+            if (auto auth_err = requireAccess(req, "admin", "ai.approvals.read",
+                                              "/v1/ai/pending-approvals")) {
+                response = *auth_err; break;
+            }
+            if (!mcp_server_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MCP server not initialized", req);
+                break;
+            }
+            const json result = mcp_server_->handleAiPendingApprovals();
+            response = makeJsonResponse(result, req);
+            break;
+        }
+
+        case Route::AiApprovePendingPost: {
+            if (auto auth_err = requireAccess(req, "admin", "ai.approvals.write",
+                                              "/v1/ai/approve/")) {
+                response = *auth_err; break;
+            }
+            if (!mcp_server_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MCP server not initialized", req);
+                break;
+            }
+            {
+                // Extract operation_id from /v1/ai/approve/{operation_id}
+                std::string ai_path = std::string(req.target());
+                const auto qp = ai_path.find('?');
+                if (qp != std::string::npos) ai_path = ai_path.substr(0, qp);
+                const std::string op_id = ai_path.substr(15);  // strip "/v1/ai/approve/"
+                const json result = mcp_server_->handleAiApprove(op_id);
+                const bool is_error = result.value("status", "") == "error";
+                response = makeJsonResponse(
+                    result, req,
+                    is_error ? http::status::not_found : http::status::ok);
+            }
+            break;
+        }
+
+        case Route::AiDenyPendingPost: {
+            if (auto auth_err = requireAccess(req, "admin", "ai.approvals.write",
+                                              "/v1/ai/deny/")) {
+                response = *auth_err; break;
+            }
+            if (!mcp_server_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MCP server not initialized", req);
+                break;
+            }
+            {
+                // Extract operation_id from /v1/ai/deny/{operation_id}
+                std::string ai_path = std::string(req.target());
+                const auto qp = ai_path.find('?');
+                if (qp != std::string::npos) ai_path = ai_path.substr(0, qp);
+                const std::string op_id = ai_path.substr(12);  // strip "/v1/ai/deny/"
+                const json result = mcp_server_->handleAiDeny(op_id);
+                const bool is_error = result.value("status", "") == "error";
+                response = makeJsonResponse(
+                    result, req,
+                    is_error ? http::status::not_found : http::status::ok);
+            }
             break;
         }
 
