@@ -26,7 +26,7 @@
 
 ---
 
-## Stub Inventory (136 entries)
+## Stub Inventory (143 entries)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -189,8 +189,14 @@
 | 133 | `content/archive_processor.cpp` TAR/other format metadata | libarchive not integrated for TAR parsing; returns basic metadata without TAR-specific fields | TAR and other non-ZIP/RAR/7z formats | Entry count, total uncompressed size, and first-entry-name fields are absent | `src/content/FUTURE_ENHANCEMENTS.md` §ArchiveProcessor TAR Metadata | future milestone |
 | 134 | `llm/distributed_training_coordinator.cpp` ETA estimation | Total training steps not propagated; always returns 0.0f | Always | Progress UIs and SLO monitors see 0 remaining time regardless of actual state | `src/llm/FUTURE_ENHANCEMENTS.md` §Distributed Training ETA | future milestone |
 | 135 | `observability/continuous_profiler.cpp` stack-trace fallback | `backtrace()` / `backtrace_symbols()` not available; returns "(stack-trace-unavailable)" | Platform without `HAVE_EXECINFO_H` (Windows, WASM, embedded) | Profiler flame graphs show no frames; crash reports have no call stack | `src/observability/FUTURE_ENHANCEMENTS.md` §Cross-Platform Stack Trace | future milestone |
-| 136 | `server/http_server.cpp::getClientIp()` socket fallback | `tcp::socket::remote_endpoint()` not threaded into helper; returns empty string for direct connections | Client connects without X-Forwarded-For or X-Real-IP headers | Per-IP rate limiting ineffective for direct (non-proxied) connections | `src/server/FUTURE_ENHANCEMENTS.md` §HttpServer getClientIp | future milestone |
+| 137 | `server/mqtt_session.cpp::MqttBroker::getAggregatedMetrics()` | Only session count reported; per-session metrics (bytes, publish counts, errors) not tracked | Always | Throughput, error-rate, and byte-rate metrics are always 0 | `src/server/FUTURE_ENHANCEMENTS.md` §MQTT Aggregated Metrics | future milestone |
+| 138 | `network/wire_protocol_server.cpp` task_id without colon | Token-only task_ids rejected (HTTP 400); no TaskRegistry lookup | task_id string lacks ':' separator | Clients using opaque task IDs cannot use the task completion endpoint | `src/server/FUTURE_ENHANCEMENTS.md` §WireProtocol Task ID Resolution | future milestone |
+| 139 | `auth/kerberos_security.cpp` service principal extraction | ASN.1 AP-REQ not parsed; returns empty string for all valid tokens | Always — no GSSAPI/KRB5 ASN.1 parser | Service-principal-based policy enforcement returns empty principal for all tokens | `src/auth/FUTURE_ENHANCEMENTS.md` §Kerberos Service Principal Extraction | future milestone |
+| 140 | `query/query_engine.cpp` spatial path reconstruction | BFS parent pointers not retained; all paths are trivial 2-hop (start→end) | Spatial path queries over BFS | Multi-hop intermediate nodes silently dropped; shortest-path semantics broken | `src/query/FUTURE_ENHANCEMENTS.md` §Query Engine Path Reconstruction | future milestone |
+| 141 | `sharding/redundancy_strategy.cpp::NEAREST` read preference | Returns first shard; no latency measurement | ReadPreference::NEAREST selected | Nearest-shard routing provides no latency benefit | `src/sharding/FUTURE_ENHANCEMENTS.md` §Redundancy Strategy Nearest Shard | future milestone |
+| 142 | `sharding/metadata_shard.cpp` consensus write | Returns success immediately without Raft/Paxos commit | Always — consensus module not wired | No durability; metadata entries lost on crash; no replication | `src/sharding/FUTURE_ENHANCEMENTS.md` §MetadataShard Consensus Write | future milestone |
+| 143 | `security/access_control.cpp::getAccessHistory()` | Audit-log query not wired; always returns empty JSON array | Always | Compliance access-history queries return no data | `src/security/FUTURE_ENHANCEMENTS.md` §AccessControl getAccessHistory | future milestone |
 
 ---
 
-*Last updated: 2026-04-28 — 136 entries, 9 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-04-28 — 143 entries, 9 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

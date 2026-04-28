@@ -508,3 +508,15 @@ if (allow_sha1_) {
 ### Test Strategy
 - Distributed: two `RedisRateLimiterBackend` instances sharing a real Redis → combined counter equals sum of increments.
 - Reconnect: simulate Redis restart → `reconnect()` succeeds → subsequent increments work.
+
+---
+
+## Kerberos Service Principal Extraction (Target: future milestone — stub removal)
+
+**Stub:** `src/auth/kerberos_security.cpp` — returns empty string for service principal; no ASN.1 GSSAPI token parsing.  
+**Risk:** Service-principal-based policy enforcement cannot distinguish between different Kerberos services; all tokens look identical.
+
+### Scope
+- Parse the GSSAPI token: check OID 1.2.840.113554.1.2.2 (KRB5).
+- Decode the AP-REQ DER structure using Heimdal or MIT KRB5 ASN.1 APIs.
+- Extract the service principal (sname) from the ticket's EncTicketPart.

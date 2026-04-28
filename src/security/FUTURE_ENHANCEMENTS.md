@@ -1143,3 +1143,15 @@ Interested in contributing to security features? See:
 ### Security / Reliability
 - Production `KeyProvider` must wrap the DEK under a Key Encryption Key (KEK) stored in HSM or Vault; never pass the raw DEK to `FieldEncryption` without wrapping.
 - Key material must not appear in logs, crash dumps, or core files.
+
+---
+
+## AccessControl getAccessHistory (Target: future milestone — stub removal)
+
+**Stub:** `src/security/access_control.cpp::getAccessHistory()` — always returns empty JSON array.  
+**Risk:** Compliance and investigation workflows that query access history receive no data; audit obligations cannot be met.
+
+### Scope
+- Query the `AuditLogger` for events of type `ACCESS_ATTEMPT`, `ACCESS_GRANTED`, `ACCESS_DENIED`.
+- Filter by `user_id`, `resource`, `since`, `until` parameters.
+- Return structured JSON with timestamp, user_id, resource, action, outcome, and session_id fields.

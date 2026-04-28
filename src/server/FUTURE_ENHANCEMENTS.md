@@ -1553,3 +1553,25 @@ inline bool checkBatchSize(const nlohmann::json& arr, size_t max,
 - Thread a `boost::asio::ip::address` or `std::string remote_ip` into the HTTP session context.
 - Pass it to `getClientIp()` as a fallback when no proxy header is present.
 - Validate the returned IP address format before using it as a rate-limiter key.
+
+---
+
+## MQTT Aggregated Metrics (Target: future milestone — stub removal)
+
+**Stub:** `src/server/mqtt_session.cpp::MqttBroker::getAggregatedMetrics()` — only `connectCount` populated; all other metrics are 0.  
+**Risk:** MQTT broker observability is blind to throughput, error rates, and byte volumes; SLO alerting has no data.
+
+### Scope
+- Track `bytes_rx`, `bytes_tx`, `publish_count`, `subscribe_count`, `error_count` per `MqttSession`.
+- Aggregate at broker level in `getAggregatedMetrics()` by iterating `persistentSessions_`.
+
+---
+
+## WireProtocol Task ID Resolution (Target: future milestone — stub removal)
+
+**Stub:** `src/network/wire_protocol_server.cpp` task_id without colon — rejects with HTTP 400.  
+**Risk:** Clients using opaque (non-colon-delimited) task IDs cannot complete tasks via this endpoint.
+
+### Scope
+- Implement a `TaskRegistry` that maps token-only `task_id` → `{instance_id, node_id}`.
+- Look up the registry before rejecting; fall back to HTTP 400 only if the token is unknown.

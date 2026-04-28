@@ -885,8 +885,17 @@ nlohmann::json AccessControl::getAuditLogs(
     [[maybe_unused]] std::optional<std::chrono::system_clock::time_point> until
 ) const {
     
-    // This would query the audit logger
-    // For now, return empty array
+    // STUB/SIMULATION NOTE:
+    // Purpose: Satisfies the getAccessHistory() API while audit-log storage
+    //          query is not wired into AccessControl.
+    // Activation: Always — audit logger integration for history queries is absent.
+    // Production Delta: Always returns empty JSON array; callers that rely on
+    //                   this for compliance or investigation cannot get access
+    //                   history for any user or resource.
+    // Removal Plan: Query the AuditLogger for events of type ACCESS_ATTEMPT /
+    //               ACCESS_GRANTED / ACCESS_DENIED filtered by `user_id`,
+    //               `resource`, `since`, `until`.  See
+    //               src/security/FUTURE_ENHANCEMENTS.md §AccessControl getAccessHistory.
     return nlohmann::json::array();
 }
 

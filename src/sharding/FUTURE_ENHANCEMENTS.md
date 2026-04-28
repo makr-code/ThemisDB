@@ -581,3 +581,26 @@ Handle the full lifecycle of migrating a ThemisDB shard node to replacement hard
 - Parse `not_before` and `not_after` as ASN.1 GeneralizedTime / UTCTime via `ASN1_TIME_to_tm()`.
 - Compare against `std::chrono::system_clock::now()`.
 - Return `false` if current time is outside the validity window.
+
+---
+
+## Redundancy Strategy Nearest Shard (Target: future milestone — stub removal)
+
+**Stub:** `src/sharding/redundancy_strategy.cpp::NEAREST` — returns first shard; no latency tracking.  
+**Risk:** NEAREST read preference provides no benefit; latency-sensitive clients are not routed to the closest shard.
+
+### Scope
+- Maintain a per-shard P50 latency moving average, updated from RPC RTT observations.
+- In NEAREST: select the shard with the lowest recent P50; break ties by shard index.
+
+---
+
+## MetadataShard Consensus Write (Target: future milestone — stub removal)
+
+**Stub:** `src/sharding/metadata_shard.cpp` consensus write — returns success immediately without Raft/Paxos commit.  
+**Risk:** Metadata writes appear to succeed but are not replicated; crashes lose the entry silently.
+
+### Scope
+- Submit the `{partition, key, value}` entry to the consensus module.
+- Block until quorum commits the entry; only then return `true`.
+- Propagate consensus errors as `false` return values with spdlog::error logging.

@@ -1632,3 +1632,15 @@ public:
 
 ### Performance Targets
 - Shuffle join for 1 M × 500 K rows (5 shards): P99 ≤ 2 s on GbE LAN.
+
+---
+
+## Query Engine Path Reconstruction (Target: future milestone — stub removal)
+
+**Stub:** `src/query/query_engine.cpp` spatial path queries — all paths are trivial 2-hop (start→end); full BFS path reconstruction missing.  
+**Risk:** Multi-hop path queries return incorrect results; intermediate nodes silently discarded; shortest-path semantics are wrong.
+
+### Scope
+- Modify `executeSpatialBFS()` to track `parent[node] = predecessor` during traversal.
+- Reconstruct full path via backtracking: `node → parent[node] → … → start_node`.
+- Push the full ordered path vector into `allPaths` instead of the trivial `{start, end}` pair.
