@@ -55,6 +55,7 @@
 | 29 | `ingestion/s3_connector.cpp` | Test-injection list/fetch callbacks | `list_fn_ && fetch_fn_` non-null | Real AWS not contacted | permanent test-gate | — |
 | 30 | `ingestion/object_storage_connector.cpp` | Test-injection list callback | `list_fn_` non-null | Real object store not contacted | permanent test-gate | — |
 | 31 | `user_storage_encrypted/key_derivation_service.cpp` | Software KDF fallback when libargon2 absent | `THEMIS_HAS_ARGON2 == 0` | PBKDF2 used instead of Argon2id | add argon2 to vcpkg | v1.6.0 |
+| 32 | `server/rpc/blob_transfer_handler.cpp` | Software CRC-32C checksums (no hardware acceleration) | Always active | ~3–5× slower than SSE4.2/ARM CRC32 hw | `FUTURE_ENHANCEMENTS.md` §Hardware CRC-32C | v1.6.0 |
 
 ---
 

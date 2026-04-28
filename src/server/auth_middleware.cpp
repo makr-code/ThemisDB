@@ -212,16 +212,12 @@ AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std
     const std::string token_str(token);
     for (const auto& kv : tokens_) {
         const std::string& stored = kv.first;
-        // Constant-time comparison: CRYPTO_memcmp returns 0 iff both inputs are
-        // byte-identical AND have the same length.  Length check is mandatory first
-        // to avoid short-circuit on size difference (length itself is not secret).
-        bool length_equal = (stored.size() == token_str.size());
-        // Pad to the longer length so CRYPTO_memcmp always runs for max(len) bytes.
-        size_t cmp_len = length_equal ? stored.size() : std::max(stored.size(), token_str.size());
-        std::string a_padded = stored;  a_padded.resize(cmp_len, '\0');
-        std::string b_padded = token_str; b_padded.resize(cmp_len, '\0');
-        bool content_equal = (CRYPTO_memcmp(a_padded.data(), b_padded.data(), cmp_len) == 0);
-        if (!length_equal || !content_equal) continue;
+        // Length is not a secret (tokens are randomly generated, not user-chosen).
+        // Short-circuit on length mismatch before CRYPTO_memcmp to avoid unnecessary copies.
+        if (stored.size() != token_str.size()) continue;
+        // Constant-time byte comparison: CRYPTO_memcmp takes equal-length inputs and
+        // runs in time proportional to len regardless of the first differing byte.
+        if (CRYPTO_memcmp(stored.data(), token_str.data(), stored.size()) != 0) continue;
 
         const auto& config = kv.second;
         // Build scopes string for diagnostics

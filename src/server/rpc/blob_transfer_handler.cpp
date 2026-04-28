@@ -21,10 +21,14 @@
 #include "utils/logger.h"
 #include <zstd.h>
 #include <lz4.h>
-// crc32c is not a separate vcpkg package: a software CRC-32C implementation is provided
-// locally below in CalculateChecksum() (polynomial 0x82F63B78, Castagnoli variant).
-// If hardware CRC-32C acceleration is desired in future, add the "crc32c" vcpkg port
-// (google/crc32c) and replace the software loop with crc32c::Crc32c().
+// STUB/SIMULATION NOTE:
+// Purpose: Software CRC-32C (Castagnoli) implementation provides chunk integrity
+//          checksums without requiring an external library.
+// Activation: Always active in this translation unit.
+// Production Delta: Software loop is ~3–5× slower than hardware-accelerated CRC-32C
+//                   (Intel SSE4.2 _mm_crc32_u64 or ARM CRC32 extension).
+// Removal Plan: Add the "crc32c" vcpkg port (google/crc32c) and replace the software
+//               loop in CalculateChecksum() with crc32c::Crc32c() for hardware acceleration.
 // Roadmap ref: src/server/rpc/FUTURE_ENHANCEMENTS.md § "Hardware CRC-32C (Target: v1.6.0)"
 #include <openssl/sha.h>
 #include <fstream>

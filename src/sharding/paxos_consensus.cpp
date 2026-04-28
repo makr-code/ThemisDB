@@ -730,9 +730,11 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
     } // state_mutex_ released here — executeAcceptPhase() re-acquires it safely
 
     // Apply highest-accepted-value override (Paxos Phase-1b safety property).
-    const ConsensusLogEntry& proposed_value =
-        (highest_accepted_value.has_value()) ? *highest_accepted_value : value;
+    // Copy the chosen value into a local variable to avoid conditional-reference
+    // lifetime complexity and to make the Phase-2 call unconditionally clear.
+    ConsensusLogEntry proposed_value = value;
     if (highest_accepted_value.has_value()) {
+        proposed_value = *highest_accepted_value;
         spdlog::debug("Node {} overriding proposed value with highest accepted value "
                       "from ballot {} for slot {} (Paxos safety)",
                       node_id_, highest_accepted_round, slot);
