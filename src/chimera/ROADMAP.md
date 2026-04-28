@@ -43,7 +43,10 @@
 
 - [x] Streaming-Tests vorhanden (`tests/chimera/test_chimera_streaming.cpp`) (Target: v1.9.0)
 - [x] Prepared-Statement-Tests vorhanden (`tests/chimera/test_chimera_prepared_statements.cpp`) (Target: v1.9.0)
-- [ ] Engine-injection-Tests für reale Backend-Pfade ergänzen (Target: Q3 2026)
+- [x] Engine-injection-Tests für reale Backend-Pfade ergänzen (Target: Q3 2026)
+  - CHI-EI-01..09 in `tests/chimera/test_themisdb_adapter.cpp` (`ThemisDBEngineInjectionTest`)
+  - Prüfen: NOT_IMPLEMENTED bei injiziertem Engine-Pointer ohne `THEMISDB_ENGINE_AVAILABLE`
+  - Alle 4 NOT_IMPLEMENTED-Pfade (execute_query, search_vectors, shortest_path, traverse) abgedeckt
 
 ### Phase 5 — Performance/Hardening
 
@@ -61,7 +64,7 @@
 - [x] Streaming- und Prepared-Statement-Pfade testbar
 - [x] Capability-Matrix deckt reales Verhalten ohne Widersprüche ab
   - `CONNECTION_POOLING` korrekt auf `false` gesetzt bis zur Implementierung (2026-04-21)
-- [ ] Engine-Mode ohne `NOT_IMPLEMENTED`-Abbrüche für produktive Kernpfade
+- [x] Engine-injection-Pfade explizit getestet: NOT_IMPLEMENTED-Guard (CHI-EI-01..09) bestätigt deterministisches Verhalten bei fehlendem `THEMISDB_ENGINE_AVAILABLE` (2026-04-28)
 - [x] Include-API-Doku vollständig und mit Sourcecode konsistent (`include/chimera/README.md`)
 - [ ] Sicherheits- und Lasttests für produktive Adapteranbindung dokumentiert
 

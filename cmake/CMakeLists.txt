@@ -1559,6 +1559,8 @@ set(THEMIS_CORE_SOURCES
     ../src/security/usb_volume_hardening.cpp
     ../src/security/aql_injection_detector.cpp
     ../src/security/intent_classifier.cpp
+    ../src/security/ai_operation_guard.cpp
+    ../src/security/ai_snapshot_cleanup.cpp
     ../src/core/security_initialization.cpp
     ../src/performance/cycle_metrics.cpp
     ../src/performance/numa_topology.cpp
@@ -1606,6 +1608,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/aql_parser_json.cpp
     ../src/query/aql_translator.cpp
     ../src/query/aql_runner.cpp
+    ../src/query/aql_safety_validator.cpp
     ../src/query/result_type_annotation.cpp
     ../src/query/query_plan_visualizer.cpp
     ../src/query/sql_parser.cpp
@@ -2441,6 +2444,11 @@ set(THEMIS_CORE_SOURCES
     ../src/process/vcc_vpb_importer.cpp
     ../src/process/process_linker.cpp
     ../src/process/process_graph_rag.cpp
+    ../src/process/process_community_detector.cpp
+    ../src/process/process_light_retriever.cpp
+    ../src/process/object_centric_tracer.cpp
+    ../src/process/fim_importer.cpp
+    ../src/process/cmmn_serializer.cpp
 
     # OLAP Analytics
     ../src/analytics/olap.cpp
@@ -3068,6 +3076,9 @@ if(MSVC)
         ../src/importers/postgres_importer.cpp
         ../src/importers/mongo_importer.cpp
         ../src/process/process_graph_rag.cpp
+        ../src/process/process_community_detector.cpp
+        ../src/process/process_light_retriever.cpp
+        ../src/process/object_centric_tracer.cpp
         ../src/process/process_model_manager.cpp
         PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
     )
@@ -5599,6 +5610,70 @@ if(THEMIS_BUILD_TESTS)
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_distributed_knowledge>
         EXTRA_ARGS --gtest_color=yes
     )
+
+    # =========================================================================
+    # CHIMERA adapter focused tests (Target: Q3 2026, ROADMAP Phase 4)
+    # Activated by -DTHEMIS_BUILD_CHIMERA=ON; requires the external/chimera
+    # submodule to be initialised.
+    # =========================================================================
+    if(THEMIS_BUILD_CHIMERA)
+        # ThemisDB adapter: simulation-mode and engine-injection guard tests
+        add_executable(ThemisDBAdapterFocusedTests
+            ${THEMIS_ROOT_DIR}/tests/chimera/test_themisdb_adapter.cpp
+        )
+        target_include_directories(ThemisDBAdapterFocusedTests
+            PRIVATE
+                ${CMAKE_SOURCE_DIR}/include
+                ${CMAKE_SOURCE_DIR}/external/chimera/include
+        )
+        target_link_libraries(ThemisDBAdapterFocusedTests
+            PRIVATE themis_core GTest::gtest GTest::gtest_main
+        )
+        gtest_discover_tests(ThemisDBAdapterFocusedTests
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:ThemisDBAdapterFocusedTests>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+
+        # Streaming result-set tests
+        add_executable(ChimeraStreamingFocusedTests
+            ${THEMIS_ROOT_DIR}/tests/chimera/test_chimera_streaming.cpp
+        )
+        target_include_directories(ChimeraStreamingFocusedTests
+            PRIVATE
+                ${CMAKE_SOURCE_DIR}/include
+                ${CMAKE_SOURCE_DIR}/external/chimera/include
+        )
+        target_link_libraries(ChimeraStreamingFocusedTests
+            PRIVATE themis_core GTest::gtest GTest::gtest_main
+        )
+        gtest_discover_tests(ChimeraStreamingFocusedTests
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:ChimeraStreamingFocusedTests>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+
+        # Prepared-statement tests
+        add_executable(ChimeraPreparedStatementFocusedTests
+            ${THEMIS_ROOT_DIR}/tests/chimera/test_chimera_prepared_statements.cpp
+        )
+        target_include_directories(ChimeraPreparedStatementFocusedTests
+            PRIVATE
+                ${CMAKE_SOURCE_DIR}/include
+                ${CMAKE_SOURCE_DIR}/external/chimera/include
+        )
+        target_link_libraries(ChimeraPreparedStatementFocusedTests
+            PRIVATE themis_core GTest::gtest GTest::gtest_main
+        )
+        gtest_discover_tests(ChimeraPreparedStatementFocusedTests
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:ChimeraPreparedStatementFocusedTests>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endif() # THEMIS_BUILD_CHIMERA
 
 endif()
 

@@ -19,12 +19,18 @@
 
 ### Implementation Notes
 - Build-Flag-abhängige `NOT_IMPLEMENTED`-Pfade in engine-backed Routen schrittweise ersetzen.
+  - Status 2026-04-28: Alle 4 Pfade mit STUB/SIMULATION NOTEs dokumentiert;
+    CHI-EI-01..09 bestätigen deterministisches Verhalten bei fehlendem `THEMISDB_ENGINE_AVAILABLE`.
+  - Nächster Schritt: cmake/ChimeraAdapters.cmake so erweitern, dass Engine-Injection
+    automatisch `THEMISDB_ENGINE_AVAILABLE` definiert (Target: Q3 2026).
 - Simulationspfad als deterministische Test-Basis beibehalten, aber klar gegen produktive Pfade abgrenzen.
 - Optionaler Engine-Dispatch (`query_engine_`, `vector_index_`, `graph_index_`) soll konsistente Fehlercodes und Semantik liefern.
 
 ### Test Strategy
 - Bestehende Tests (`tests/chimera/test_chimera_streaming.cpp`, `tests/chimera/test_chimera_prepared_statements.cpp`) als Regression-Basis.
-- Ergänzende Tests für Engine-Injection-Pfade und Capability-Verhalten einführen.
+- Engine-Injection-Tests CHI-EI-01..09 in `tests/chimera/test_themisdb_adapter.cpp` (`ThemisDBEngineInjectionTest`) eingeführt (2026-04-28).
+  - Prüfen: `ErrorCode::NOT_IMPLEMENTED` bei allen 4 engine-dispatched Methoden wenn `THEMISDB_ENGINE_AVAILABLE` fehlt.
+  - CMake-Ziel: `ThemisDBAdapterFocusedTests` (aktiv mit `-DTHEMIS_BUILD_CHIMERA=ON`).
 - Für neue Pooling-/Retry-Features: Unit-Tests + Fehlerpfadtests (Timeout, Cancel, Invalid Config).
 
 ### Performance Targets

@@ -27,6 +27,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <functional>
 
 namespace themis {
 namespace whisper {
@@ -48,6 +49,29 @@ public:
                                                      float sample_rate) = 0;
     [[nodiscard]] virtual audio::LanguageDetectionResult detectLanguage(const std::vector<float>& pcm,
                                                           float sample_rate) = 0;
+
+    /**
+     * @brief Transcribe with incremental token streaming.
+     *
+     * Default implementation calls transcribe() and emits the full text
+     * as one token.  Implementations backed by a real model should call
+     * the callback for every word or segment.
+     */
+    virtual audio::TranscriptionResult transcribeStream(
+            const std::vector<float>& pcm,
+            float sample_rate,
+            audio::StreamCallback callback) {
+        auto result = transcribe(pcm, sample_rate);
+        if (result.success && callback) {
+            audio::TranscriptionToken tok;
+            tok.text        = result.text;
+            tok.confidence  = result.confidence;
+            tok.token_index = 0;
+            callback(tok);
+        }
+        return result;
+    }
+
     [[nodiscard]] virtual std::string getModelId() const = 0;
 };
 
@@ -140,6 +164,10 @@ public:
     void setNextLanguage(audio::LanguageDetectionResult r) {
         next_lang_ = std::move(r);
     }
+    /** Pre-set tokens to emit during transcribeStream() instead of one bulk token. */
+    void setStreamTokens(std::vector<audio::TranscriptionToken> tokens) {
+        stream_tokens_ = std::move(tokens);
+    }
 
     bool initialize(const WhisperConfig& cfg) override {
         model_id_ = cfg.model_path.empty() ? "inmemory" : cfg.model_path;
@@ -157,6 +185,23 @@ public:
     audio::LanguageDetectionResult detectLanguage(const std::vector<float>&, float) override {
         return next_lang_;
     }
+
+    audio::TranscriptionResult transcribeStream(
+            const std::vector<float>& pcm,
+            float sample_rate,
+            audio::StreamCallback callback) override {
+        if (!stream_tokens_.empty() && callback) {
+            for (const auto& tok : stream_tokens_) {
+                callback(tok);
+            }
+            auto r = next_result_;
+            r.ingestion_source_type = "WHISPER";
+            r.model_id = model_id_;
+            return r;
+        }
+        return IWhisperTranscriber::transcribeStream(pcm, sample_rate, std::move(callback));
+    }
+
     std::string getModelId() const override { return model_id_; }
 
 private:
@@ -164,6 +209,7 @@ private:
     std::string model_id_ = "inmemory";
     audio::TranscriptionResult     next_result_;
     audio::LanguageDetectionResult next_lang_;
+    std::vector<audio::TranscriptionToken> stream_tokens_;
 };
 
 } // namespace whisper

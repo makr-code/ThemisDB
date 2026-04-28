@@ -400,6 +400,26 @@ The following IEEE-formatted references support the research basis for features 
 
 ---
 
+## AI Safety Layer — AI Orchestrator Integration (Cross-Reference)
+
+> KI-Agenten die über den AI Orchestrator und MCP-Server auf ThemisDB zugreifen,
+> sind durch den AI Safety Layer geschützt.
+> Vollständige Dokumentation: `docs/de/security/ai_safety/AI_SAFETY_ARCHITECTURE.md`
+
+### Betroffene Komponenten
+- `AIOrchestrator` — Alle Tool-Calls werden vor Execution durch `AiOperationGuard` klassifiziert
+- `McpServer::toolLLMOrchestrate()` — Agentic Mode Tools unterliegen dem Safety Layer
+- `McpServer::toolQuery()` — `aql_execute`-Tool hat `enforce_read_only: true`
+- Mode-Config (`agentic`): neue `safety:`-Sektion mit Approval- und Snapshot-Policy
+
+### Sicherheitsrelevante Touchpoints im LLM-Modul
+- `AIOrchestrator`: muss `ai_session_id` für Audit-Trail generieren und weiterleiten
+- `InlineTrainingEngine`: Training-Jobs über KI-Agenten müssen als `WRITE_SAFE` klassifiziert werden
+- LoRA-Adapter: IMPL-A2 erweitert `IntentClassifier` mit ML-basierter AQL-Klassifikation (Q4 2026)
+
+### Implementierungsplan
+- Phase 2 (Q3 2026): `ai_session_id`-Generierung in `AIOrchestrator`
+- Phase 4 (Q4 2026): LoRA-Adapter für `IntentClassifier` (IMPL-A2)
 ## InlineTrainingEngine Production Gradient Backend (Target: v1.8.0)
 
 **Stub:** `src/llm/inline_training_engine.cpp` — `computeGradients()` synthetic signal  

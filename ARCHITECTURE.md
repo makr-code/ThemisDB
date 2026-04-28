@@ -817,6 +817,28 @@ cmake -B build -DTHEMISDB_EDITION=ENTERPRISE
 - **Compliance Reports**: GDPR, HIPAA, SOC2 reporting
 - **Data Lineage**: Track data origin and transformations
 
+### 🛡️ AI Safety Layer (Planned: Q2–Q4 2026)
+
+KI-Agenten, die über MCP-Server oder AI Orchestrator auf ThemisDB zugreifen, werden durch
+einen mehrschichtigen **AI Safety Layer** vor unkontrollierten destruktiven Operationen geschützt.
+
+**Hintergrund:** Der Cursor-KI-Vorfall (April 2026) zeigte, dass KI-Agenten ohne geeignete
+Schutzmaßnahmen Produktionsdatenbanken unwiederbringlich löschen können.
+
+| Schicht | Name | Schutz |
+|---|---|---|
+| 1 | Destructive Operation Guard | Operationsklassifikation (READ_ONLY/WRITE_SAFE/DESTRUCTIVE/CRITICAL) |
+| 2 | Human-in-the-Loop Gate | Approval-Workflow vor destruktiven Operationen |
+| 3 | AQL Read-Only Enforcer | Blockiert Mutationen in `read-only`-deklarierten Tools |
+| 4 | IntentClassifier AQL-Awareness | Erkennt AQL-native Angriffsmuster (REMOVE/DROP) |
+| 5 | Pre-Operation Snapshot | Automatische Checkpoints vor genehmigten Writes |
+| 6 | Environment Isolation Guard | Produktions-/Entwicklungsisolation |
+| 7 | AI Session Audit Trail | Forensisch verwertbarer, manipulationssicherer KI-Log |
+
+**Vollständige Dokumentation:** `docs/de/security/ai_safety/AI_SAFETY_ARCHITECTURE.md`
+**Implementierungsplan:** `src/security/ROADMAP.md` — Phase 5 (ASL-1 bis ASL-15)
+**Konfiguration:** `config/security.yaml` → `environment:` + `ai_safety:` Blöcke
+
 ---
 
 ## Starting Points for Exploration

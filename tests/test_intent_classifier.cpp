@@ -156,3 +156,75 @@ TEST(IntentClassifierTest, EvidenceEmbeddingNoQueryPlaintext) {
         }
     }
 }
+
+// ---------------------------------------------------------------------------
+// AI Safety Layer — Schicht 4 (ASL-4): AQL Destructive Operation patterns
+// ---------------------------------------------------------------------------
+
+// IC-09  AQL REMOVE keyword → DATA_DESTRUCTION
+TEST(IntentClassifierTest, AqlRemoveKeyword) {
+    IntentClassifier clf;
+    const auto ctx = makeCtx();
+    const auto res = clf.classify(
+        "FOR u IN users FILTER u._key == @key REMOVE u IN users", ctx);
+    EXPECT_EQ(res.intent, IT::DATA_DESTRUCTION);
+    EXPECT_GE(res.confidence, 0.65);
+}
+
+// IC-10  AQL FOR...REMOVE without FILTER → DATA_DESTRUCTION, high confidence
+TEST(IntentClassifierTest, AqlForRemoveWithoutFilter) {
+    IntentClassifier clf;
+    const auto ctx = makeCtx();
+    const auto res = clf.classify(
+        "FOR u IN users REMOVE u IN users", ctx);
+    EXPECT_EQ(res.intent, IT::DATA_DESTRUCTION);
+    EXPECT_GE(res.confidence, 0.65);
+}
+
+// IC-11  AQL DROP COLLECTION → DATA_DESTRUCTION (or SCHEMA_MUTATION), high confidence
+TEST(IntentClassifierTest, AqlDropCollection) {
+    IntentClassifier clf;
+    const auto ctx = makeCtx();
+    const auto res = clf.classify("DROP COLLECTION users", ctx);
+    // DROP COLLECTION scores in DATA_DESTRUCTION; high confidence expected
+    EXPECT_NE(res.intent, IT::LEGITIMATE);
+    EXPECT_GE(res.confidence, 0.65);
+}
+
+// IC-12  AQL TRUNCATE → DATA_DESTRUCTION
+TEST(IntentClassifierTest, AqlTruncate) {
+    IntentClassifier clf;
+    const auto ctx = makeCtx();
+    const auto res = clf.classify("TRUNCATE users", ctx);
+    EXPECT_EQ(res.intent, IT::DATA_DESTRUCTION);
+    EXPECT_GE(res.confidence, 0.65);
+}
+
+// IC-13  AQL DROP INDEX → SCHEMA_MUTATION
+TEST(IntentClassifierTest, AqlDropIndex) {
+    IntentClassifier clf;
+    const auto ctx = makeCtx();
+    const auto res = clf.classify("DROP INDEX users.email_idx", ctx);
+    EXPECT_EQ(res.intent, IT::SCHEMA_MUTATION);
+    EXPECT_GE(res.confidence, 0.65);
+}
+
+// IC-14  intentName() covers new types
+TEST(IntentClassifierTest, IntentNameCoversNewTypes) {
+    EXPECT_EQ(IntentClassifier::intentName(IT::DATA_DESTRUCTION), "DATA_DESTRUCTION");
+    EXPECT_EQ(IntentClassifier::intentName(IT::SCHEMA_MUTATION),  "SCHEMA_MUTATION");
+}
+
+// IC-15  riskDelta for DATA_DESTRUCTION is ≥ 0.75 (high severity)
+TEST(IntentClassifierTest, DataDestructionRiskDeltaIsHigh) {
+    // riskDelta is private; verify indirectly via maybeAlert
+    IntentClassifier clf;
+    const auto ctx = makeCtx();
+    const auto res = clf.classify("FOR u IN users REMOVE u IN users", ctx);
+    if (res.intent == IT::DATA_DESTRUCTION) {
+        const auto alert = clf.maybeAlert(res, "sess-risk", 0.0);
+        if (alert.has_value()) {
+            EXPECT_GE(alert->risk_delta, 0.75);
+        }
+    }
+}

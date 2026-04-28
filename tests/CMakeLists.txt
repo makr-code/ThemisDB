@@ -23719,10 +23719,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/whisper/tests/test_whisper_plugin.
     target_compile_definitions(test_whisper_plugin PRIVATE THEMIS_PLUGIN_EXPORTS)
     add_test(NAME WhisperPluginFocusedTests COMMAND test_whisper_plugin)
     set_tests_properties(WhisperPluginFocusedTests PROPERTIES
-        LABELS "plugins;whisper;audio;v2.1.0"
+        LABELS "plugins;whisper;audio;v2.2.0"
         TIMEOUT 60
     )
-    message(STATUS "  WhisperPlugin: 44 tests (A-N)")
+    message(STATUS "  WhisperPlugin: 55 tests (A-Q)")
 else()
     message(STATUS "  WhisperPlugin tests not found - skipped")
 endif()
@@ -23775,6 +23775,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         fmt::fmt
+        Threads::Threads
     )
     target_compile_features(test_llama_cpp_plugin PRIVATE cxx_std_17)
     target_compile_definitions(test_llama_cpp_plugin PRIVATE
@@ -23789,7 +23790,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
         LABELS "plugins;llama_cpp;llm;v2.1.0"
         TIMEOUT 60
     )
-    message(STATUS "  LlamaCppPlugin: 50 tests (A-N)")
+    message(STATUS "  LlamaCppPlugin: 56 tests (A-O + P1-P3 concurrency)")
 else()
     message(STATUS "  LlamaCppPlugin tests not found - skipped")
 endif()
@@ -25256,4 +25257,327 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_project_collaboration_concurrent.cpp
     message(STATUS "  ProjectCollaborationConcurrent: CC-01..CC-08 (lock contention, concurrent subscribers/notify/permissions, lock/unlock race, late subscribe, consistent reads, lifecycle race)")
 else()
     message(STATUS "ProjectCollaborationConcurrent tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_project_collaboration_concurrent.cpp")
+endif()
+
+# =============================================================================
+# AI Safety Layer — Schichten 1 & 2: AiOperationGuard tests (ASL-4)
+# AOG-01..AOG-20: classification, approval flow, environment guard, hard-block
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_ai_operation_guard.cpp")
+    message(STATUS "Adding AiOperationGuard tests (ASL-4 — AOG-01..AOG-20)")
+
+    add_executable(test_ai_operation_guard
+        security/test_ai_operation_guard.cpp
+        ${CMAKE_SOURCE_DIR}/src/security/ai_operation_guard.cpp
+    )
+
+    target_include_directories(test_ai_operation_guard PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_ai_operation_guard PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ai_operation_guard PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    set_target_properties(test_ai_operation_guard PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME AiOperationGuardTests COMMAND test_ai_operation_guard)
+    set_tests_properties(AiOperationGuardTests PROPERTIES
+        LABELS "security;ai_safety;asl4;unit"
+        TIMEOUT 30
+    )
+    message(STATUS "  AiOperationGuard: AOG-01..AOG-20 (READ_ONLY, WRITE_SAFE, DESTRUCTIVE, CRITICAL, environment guard, hard-block, approval shape)")
+else()
+    message(STATUS "AiOperationGuard tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/security/test_ai_operation_guard.cpp")
+endif()
+
+# =============================================================================
+# AI Safety Layer — ASL-11: AiSnapshotCleanupJob tests
+# POS-01..POS-15: retention policy, size cap, listing, edge cases
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_ai_snapshot_cleanup.cpp")
+    message(STATUS "Adding AiSnapshotCleanup tests (ASL-11 — POS-01..POS-15)")
+
+    add_executable(test_ai_snapshot_cleanup
+        security/test_ai_snapshot_cleanup.cpp
+        ${CMAKE_SOURCE_DIR}/src/security/ai_snapshot_cleanup.cpp
+    )
+
+    target_include_directories(test_ai_snapshot_cleanup PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_ai_snapshot_cleanup PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        fmt::fmt
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ai_snapshot_cleanup PRIVATE THEMIS_TEST_BUILD=1)
+
+    set_target_properties(test_ai_snapshot_cleanup PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME AiSnapshotCleanupTests COMMAND test_ai_snapshot_cleanup)
+
+    set_tests_properties(AiSnapshotCleanupTests PROPERTIES
+        LABELS "security;ai_safety;asl11;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  AiSnapshotCleanup: POS-01..POS-15 (retention, size cap, listing, edge cases)")
+else()
+    message(STATUS "AiSnapshotCleanup tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/security/test_ai_snapshot_cleanup.cpp")
+endif()
+
+
+# =============================================================================
+# AI Safety Layer — ASL-14: Chaos Tests (CHAOS-01..CHAOS-12)
+# Validates AiOperationGuard, IntentClassifier, AqlSafetyValidator, and
+# AiSnapshotCleanupJob under adversarial / edge-case conditions.
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/ai_safety/test_ai_safety_chaos.cpp")
+    message(STATUS "Adding AiSafetyChaos tests (ASL-14 — CHAOS-01..CHAOS-12)")
+
+    add_executable(test_ai_safety_chaos
+        security/ai_safety/test_ai_safety_chaos.cpp
+    )
+    target_include_directories(test_ai_safety_chaos PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+    target_link_libraries(test_ai_safety_chaos PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        fmt::fmt
+        Threads::Threads
+    )
+    target_compile_definitions(test_ai_safety_chaos PRIVATE THEMIS_TEST_BUILD=1 THEMIS_ENABLE_MCP=1)
+    set_target_properties(test_ai_safety_chaos PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
+    add_test(NAME AiSafetyChaosTests COMMAND test_ai_safety_chaos)
+    set_tests_properties(AiSafetyChaosTests PROPERTIES LABELS "security;ai_safety;chaos;unit" TIMEOUT 30)
+    message(STATUS "  AiSafetyChaos: CHAOS-01..CHAOS-12 (DOG, HILG, IntentClassifier, AqlSafetyValidator, SnapshotCleanup, LoRA hook)")
+else()
+    message(STATUS "AiSafetyChaos tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/security/ai_safety/test_ai_safety_chaos.cpp")
+endif()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# P4: ProcessCommunityDetector focused tests (LCD-01..LCD-10)
+# ─────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_process_community_detector.cpp")
+    message(STATUS "Adding ProcessCommunityDetector focused tests (LCD-01..LCD-10)")
+    add_executable(ProcessCommunityDetectorTests
+        process/test_process_community_detector.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_community_detector.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+    )
+    target_include_directories(ProcessCommunityDetectorTests PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(ProcessCommunityDetectorTests PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(ProcessCommunityDetectorTests PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ProcessCommunityDetectorTests COMMAND ProcessCommunityDetectorTests)
+    set_tests_properties(ProcessCommunityDetectorTests PROPERTIES
+        LABELS "process;community;leiden;graphrag;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  ProcessCommunityDetector: LCD-01..LCD-10")
+endif()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# P5: ProcessLightRetriever focused tests (PLR-01..PLR-08)
+# ─────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_process_light_retriever.cpp")
+    message(STATUS "Adding ProcessLightRetriever focused tests (PLR-01..PLR-08)")
+    add_executable(ProcessLightRetrieverTests
+        process/test_process_light_retriever.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_light_retriever.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_community_detector.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+    )
+    target_include_directories(ProcessLightRetrieverTests PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(ProcessLightRetrieverTests PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(ProcessLightRetrieverTests PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ProcessLightRetrieverTests COMMAND ProcessLightRetrieverTests)
+    set_tests_properties(ProcessLightRetrieverTests PROPERTIES
+        LABELS "process;lightrag;retrieval;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  ProcessLightRetriever: PLR-01..PLR-08")
+endif()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# P6: ObjectCentricTracer focused tests (OCT-01..OCT-10)
+# ─────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_object_centric_tracer.cpp")
+    message(STATUS "Adding ObjectCentricTracer focused tests (OCT-01..OCT-10)")
+    add_executable(ObjectCentricTracerTests
+        process/test_object_centric_tracer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/object_centric_tracer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+    )
+    target_include_directories(ObjectCentricTracerTests PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(ObjectCentricTracerTests PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(ObjectCentricTracerTests PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ObjectCentricTracerTests COMMAND ObjectCentricTracerTests)
+    set_tests_properties(ObjectCentricTracerTests PROPERTIES
+        LABELS "process;ocpm;ocel;object-centric;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  ObjectCentricTracer: OCT-01..OCT-10")
+endif()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# P7: SLA Monitoring focused tests (SLA-01..SLA-08)
+# ─────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_sla_monitoring.cpp")
+    message(STATUS "Adding SLA Monitoring focused tests (SLA-01..SLA-08)")
+    add_executable(SlaMonitoringTests
+        process/test_sla_monitoring.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/cep_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+    )
+    target_include_directories(SlaMonitoringTests PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(SlaMonitoringTests PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(SlaMonitoringTests PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SlaMonitoringTests COMMAND SlaMonitoringTests)
+    set_tests_properties(SlaMonitoringTests PROPERTIES
+        LABELS "process;sla;cep;monitoring;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  SlaMonitoring: SLA-01..SLA-08")
+endif()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# P8: Bottleneck Analytics focused tests (BOT-01..BOT-08)
+# ─────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_bottleneck_analytics.cpp")
+    message(STATUS "Adding Bottleneck Analytics focused tests (BOT-01..BOT-08)")
+    add_executable(BottleneckAnalyticsTests
+        process/test_bottleneck_analytics.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/cep_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+    )
+    target_include_directories(BottleneckAnalyticsTests PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(BottleneckAnalyticsTests PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(BottleneckAnalyticsTests PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME BottleneckAnalyticsTests COMMAND BottleneckAnalyticsTests)
+    set_tests_properties(BottleneckAnalyticsTests PROPERTIES
+        LABELS "process;bottleneck;analytics;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  BottleneckAnalytics: BOT-01..BOT-08")
 endif()

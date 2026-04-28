@@ -223,6 +223,77 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - ~~**[E-1] `field_encryption.cpp`**: 8 raw encryption key bytes written to disk via `write_debug_dump()` when `THEMIS_DEBUG_ENC_DIR` is set; unconditional `fprintf(stderr)` in `decryptInternal()` leaks metadata.~~ ✅ **Fixed (v1.9.x)**: `key` parameter removed from `write_debug_dump()`; `key_fingerprint_prefix` JSON field removed; unconditional `fprintf(stderr)` and `THEMIS_INFO` replaced by `THEMIS_DEBUG` (suppressed in production builds).
 - ~~**[E-4] `field_encryption.cpp::createDefault()`**: Uses `MockKeyProvider` — any caller of `createDefault()` silently uses non-production key material.~~ ✅ **Documented (v1.9.x)**: `createDefault()` now emits `THEMIS_WARN` at runtime and carries a STUB/SIMULATION NOTE. Production callers must inject a real `KeyProvider` (VaultKeyProvider / HsmKeyProviderAdapter) via constructor.
 
+## Phase 5: AI Safety Layer (Status: Planned 📋)
+
+> **Hintergrund:** Cursor-KI-Vorfall (April 2026) — KI-Agent löschte Produktionsdatenbank
+> ohne Approval, Snapshot oder Umgebungsunterscheidung.
+> Vollständige Analyse: `docs/de/security/ai_safety/AI_SAFETY_ARCHITECTURE.md`
+> Entwickler-Referenz: `src/security/AI_SAFETY_ARCHITECTURE.md`
+
+### Phase 1 — Kritische Fixes (Target: Q2 2026)
+- [x] **ASL-1:** `DATA_DESTRUCTION` + `SCHEMA_MUTATION` IntentType-Werte hinzufügen (Target: Q2 2026)
+  - `src/security/intent_classifier.h` + `intent_classifier.cpp`
+  - Neue Feature-Tabellen: `kDataDestructionFeatures[]`, `kSchemaMutationFeatures[]`
+  - Spezialregel: `FOR...REMOVE` ohne `FILTER` → Confidence 0.90
+  - Blockierungsschwellenwert: Confidence ≥ 0.65
+  - `riskDelta()`: DATA_DESTRUCTION=0.90, SCHEMA_MUTATION=0.75
+  - Tests: IC-09..IC-15 in `tests/test_intent_classifier.cpp`
+- [x] **ASL-2:** `AqlSafetyValidator` implementieren (Target: Q2 2026)
+  - `include/query/aql_safety_validator.h` + `src/query/aql_safety_validator.cpp` [NEU]
+  - Erkennung: REMOVE, INSERT, UPDATE, REPLACE, UPSERT, DROP, TRUNCATE, CREATE COLLECTION
+  - Integration: `McpServer::toolQuery()` wenn `enforce_read_only: true` im Mode aktiv
+  - Latenz-Ziel: p99 < 0.1ms bei 1 KB Queries
+  - Tests: ASV-01..ASV-16 in `tests/security/test_aql_safety_validator.cpp`
+- [x] **ASL-3:** Dry-Run-Flag in `toolDeleteEntity()` + `toolDropIndex()` (Target: Q2 2026)
+  - `src/server/mcp_server.cpp`: args.value("dry_run", false) → Preview statt Execution
+
+### Phase 2 — DOG + HILG (Target: Q3 2026)
+- [x] **ASL-4:** `AiOperationGuard` Klassifikations-Engine (Target: Q3 2026)
+  - `include/security/ai_operation_guard.h` + `src/security/ai_operation_guard.cpp` [NEU]
+  - OperationClass: READ_ONLY, WRITE_SAFE, DESTRUCTIVE, CRITICAL
+  - `evaluate()` → GuardDecision{op_class, preview, requires_approval, operation_id}
+- [x] **ASL-5:** Approval-Queue in `McpServer` (Target: Q3 2026)
+  - `pending_approvals_` map + mutex; TTL-basierter Expiry
+  - Operation wird gecached bis Approval oder Expiry
+- [x] **ASL-6:** HTTP-Approval-Endpoints (Target: Q3 2026)
+  - `POST /v1/ai/approve/{operation_id}`
+  - `POST /v1/ai/deny/{operation_id}`
+  - `GET  /v1/ai/pending-approvals`
+  - `HttpServer::setMcpServer()` + route-enum Einträge + Handler in `routeRequest()`
+  - Registriert in `include/server/http_server.h` + `src/server/http_server.cpp`
+- [x] **ASL-7:** `safety:`-Sektion aus Mode-YAML auswerten (Target: Q3 2026)
+  - `config/ai_ml/llm/modes/default.yaml`: `safety:` Block für `agentic` Mode ✅
+  - `McpServer`: Guard-Konfiguration wird im Konstruktor nach ASL-9 geladen:
+    - `enabled`, `approval_timeout_s`, `auto_snapshot`, `snapshot_dir`, `dry_run_preview` direkt übernommen
+    - `require_approval_for: [DESTRUCTIVE, CRITICAL]` → `approval_threshold = DESTRUCTIVE` (Minimum)
+    - `dry_run_preview` als neues Feld in `AiOperationGuard::Config`
+    - Graceful fallback wenn YAML nicht gefunden (spdlog::warn)
+
+### Phase 3 — POS + Environment (Target: Q3 2026)
+- [x] **ASL-8:** Pre-Operation-Snapshot-Hook (Target: Q3 2026)
+  - `storage_->createCheckpoint(snap_dir)` vor jeder approved DESTRUCTIVE/CRITICAL Op
+  - MCP-Response enthält `"pre_operation_snapshot"` Pfad
+- [x] **ASL-9:** Environment-Konfiguration auswerten (Target: Q3 2026)
+  - `config/security.yaml`: `environment:` + `ai_agent_restrictions:` Block
+  - `McpServer`: production → hard-block CRITICAL ohne Rolle
+- [x] **ASL-10:** `POST /v1/ai/rollback/{snapshot_id}` (Target: Q3 2026)
+  - `storage_->restoreFromCheckpoint(path)` nach Operator-Bestätigung
+- [x] **ASL-11:** Snapshot-Cleanup-Job (Retention-Policy) (Target: Q3 2026)
+  - Retention: `snapshot_retention_days`, `snapshot_max_total_gb`
+
+### Phase 4 — Audit + LoRA-Classifier (Target: Q4 2026)
+- [x] **ASL-12:** AI-Session-Audit-Trail in `AuditLogger` (Target: Q4 2026)
+  - Neue Events: AI_TOOL_CALL, AI_APPROVAL_REQUIRED, AI_OPERATION_EXECUTED, AI_SNAPSHOT_CREATED, ...
+  - `ai_session_id` über alle MCP-Tool-Calls einer Session konsistent
+- [x] **ASL-13:** LoRA-Adapter für IntentClassifier — IMPL-A2 (Target: Q4 2026)
+  - Präzision: ≥ 92% (vs. ~80% regelbasiert)
+  - Trainingsdaten: Annotierte AQL-Queries
+- [x] **ASL-14:** Chaos-Tests für AI Safety Layer (Target: Q4 2026)
+  - `tests/security/ai_safety/` [NEU]
+  - Simulierter destruktiver KI-Agent gegen alle Guards
+- [x] **ASL-15:** Grafana-Dashboard AI Safety Metriken (Target: Q4 2026)
+  - `config/grafana/dashboards/ai-safety-monitoring.json`
+
 ## Breaking Changes
 - SecurityManager API is stable from v1.x.
 - Key management API is stable in v1.5.0; additional rotation hooks planned for v1.6.0+.

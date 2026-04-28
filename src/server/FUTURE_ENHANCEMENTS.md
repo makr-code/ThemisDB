@@ -1442,136 +1442,28 @@ inline bool checkBatchSize(const nlohmann::json& arr, size_t max,
 
 ---
 
-## gRPC Core Service Activation — ThemisCoreServiceImpl (Target: v2.0.0)
+## AI Safety Layer — HTTP-Endpunkte (Cross-Reference)
 
-**Stub:** `src/server/themis_core_grpc_service.cpp` — `!THEMIS_HAS_CORE_GRPC`: service instance is null; `getServiceInstance()` returns nullptr; ThemisCoreService absent from gRPC server  
-**Risk:** All database, transaction, and AQL operations exposed via ThemisCoreService are inaccessible via gRPC; clients receive UNIMPLEMENTED for every method.
+> Die folgenden HTTP-Endpunkte werden als Teil des AI Safety Layers im Server-Modul implementiert.
+> Vollständige Dokumentation: `docs/de/security/ai_safety/AI_SAFETY_ARCHITECTURE.md`
+> Implementierungsplan: `src/security/ROADMAP.md` — Phase 5 (ASL-6, ASL-10)
 
-### Scope
-- Run protoc with the gRPC plugin against `proto/themis_core.proto` to generate `src/gen/themis_core.grpc.pb.{h,cc}`.
-- Set `-DTHEMIS_HAS_CORE_GRPC=1` in CMake (or auto-detect via `find_package(gRPC)`).
-- Wire the generated service into `ThemisCoreServiceImpl::Impl` (already present in the `#if THEMIS_HAS_CORE_GRPC` block).
+### Scope (Phase 2, Q3 2026)
+- `POST /v1/ai/approve/{operation_id}` — Operator genehmigt wartende destruktive Operation
+- `POST /v1/ai/deny/{operation_id}` — Operator lehnt ab
+- `GET  /v1/ai/pending-approvals` — Liste aller wartenden Approvals
 
-### Design Constraints
-- `getServiceInstance()` must return a non-null pointer once initialized.
-- Service must be registered with the gRPC server in `HttpServer::startGrpcService()`.
-- Graceful startup failure: if gRPC initialization fails (port conflict, bad credentials), log FATAL and exit rather than silently serving HTTP only.
-
-### Test Strategy
-- Integration: gRPC client calls `ThemisCoreService.GetDocument` → response with correct document body.
-- Integration: `ThemisCoreService.ExecuteQuery` with AQL → result rows match HTTP endpoint.
-- Negative: `!THEMIS_HAS_CORE_GRPC` build → `getServiceInstance()` returns nullptr → gRPC server starts cleanly with no ThemisCoreService registered.
-
-### Performance Targets
-- gRPC unary call latency (LAN, document read): ≤ 2 ms p99.
-- Throughput: ≥ 5000 RPC/s (single-node, 4 vCPU).
-
----
-
-## MCP StdioTransport Platform Support (Target: v1.9.0)
-
-**Stub:** `src/server/mcp_server.cpp` — `StdioTransport::start()`: stdin reading silently skipped on platforms other than Windows/Unix/macOS  
-**Risk:** MCP stdio clients receive no responses on unsupported platforms; the transport reports "started" but is functionally deaf.
-
-### Scope
-- Identify target embedded/exotic platforms that may host ThemisDB MCP server.
-- Implement `readStdin()` for each new platform using the appropriate async I/O primitives.
-- Add the platform's preprocessor guard to the `#if defined(_WIN32) || defined(__unix__) || defined(__APPLE__)` condition.
-- Alternatively, promote the stub path to actively return an error so callers know stdio is unavailable, rather than silently ignoring input.
+### Scope (Phase 3, Q3 2026)
+- `POST /v1/ai/rollback/{snapshot_id}` — Datenbank-Rollback auf Pre-Op-Snapshot
 
 ### Design Constraints
-- `readStdin()` must be non-blocking; the async reader should run on a dedicated thread.
-- On platforms where stdin is genuinely unavailable, return an error from `start()` instead of silently no-oping.
+- Alle Endpunkte erfordern Authentifizierung (Operator-Level)
+- Rollback erfordert RBAC-Rolle `DBA_ROLLBACK`
+- Approval-Tokens sind zeitbegrenzt (TTL konfigurierbar) und einmalig verwendbar
+- Requests werden vollständig im AI Session Audit Trail geloggt
 
-### Test Strategy
-- Positive: on Linux/macOS/Windows, `StdioTransport::start()` → async read loop active → request routed.
-- Negative: on unsupported platform, WARN is logged and `start()` returns without crash.
-
----
-
-## gRPC-Web Proxy Activation (Target: v1.7.0 — stub removal)
-
-**Stub:** `src/server/grpc_web_proxy_handler.cpp` — `!THEMIS_ENABLE_GRPC`: `ensureChannel()` no-op; `handlePost()` returns HTTP 200 with gRPC status 12 (UNIMPLEMENTED)  
-**Risk:** All gRPC-Web requests are rejected with UNIMPLEMENTED; browser/frontend gRPC clients cannot use the proxy endpoint.
-
-### Scope
-- Install gRPC C++ libraries (grpcpp, grpc_unsecure, or grpc++) and set `-DTHEMIS_ENABLE_GRPC=1` in CMake.
-- Wire `GrpcWebProxyHandler` with `Config::backend_address` pointing to the gRPC server (e.g., `localhost:9090`).
-- The full blocking generic-unary proxy (`grpc::GenericStub::PrepareUnaryCall` via `CompletionQueue`) is already implemented above the `#else`.
-
-### Performance Targets
-- Unary gRPC-Web proxy round-trip (p99, local backend): ≤ 10 ms.
-
-### Test Strategy
-- With gRPC enabled: send a gRPC-Web encoded request → receive correct data frame + trailer.
-- Timeout propagation: set `grpc-timeout: 100m` header → `ClientContext::set_deadline` fires.
-- CORS preflight: OPTIONS → 200 with correct `Access-Control-Allow-*` headers.
-
----
-
-## Main Server Feature Activation (Target: v1.9.0 — minimum viable production build)
-
-**Stub:** `src/main_server.cpp` — 17 conditional compilation blocks gate HTTP server, gRPC, Prometheus, LLM, mimalloc, HSM, hyperscaler/enterprise features  
-**Risk:** Server starts in degraded mode without required flags; HTTP API, gRPC, LLM inference, metrics, and HSM protection may all be absent simultaneously.
-
-### Minimum Viable Production Build Flags
-```cmake
--DTHEMIS_ENABLE_HTTP_SERVER=1
--DTHEMIS_ENABLE_GRPC=1
--DTHEMIS_HAS_PROMETHEUS=1
--DTHEMIS_ENABLE_LLM=1
--DTHEMIS_ENABLE_MIMALLOC=1
-```
-
-### Required HSM Configuration
-- Set `hsm.provider = pkcs11` (not `stub`) in `config/security.yaml`.
-- Provide `library_path`, `slot_id`, `pin`, `token_label` for the PKCS#11 module.
-
-### Stub Inventory per Block
-| Flag | Absent behaviour |
-|---|---|
-| `THEMIS_ENABLE_HTTP_SERVER` | `g_server = null`; HTTP endpoints unreachable |
-| `THEMIS_ENABLE_GRPC` | WAL gRPC service not started; inter-node RPC absent |
-| `THEMIS_HAS_PROMETHEUS` | `g_config_prom_registry = null`; no scrape endpoint |
-| `THEMIS_ENABLE_LLM` | LLM plugin manager not init; LLM API returns 503 |
-| `THEMIS_ENABLE_MIMALLOC` | System allocator used; no memory performance benefit |
-| `hsm.provider = stub` | Software-only key protection; WARNING banner every 5 min |
-| `THEMIS_GEO_ENABLED` | Geo spatial backend logged as disabled |
-
-### Test Strategy
-- CI smoke test: start server with all flags → all subsystems initialised → health check returns HTTP 200.
-- Degraded mode: start without `THEMIS_ENABLE_LLM` → LLM API returns 503; other APIs unaffected.
-
----
-
-## HttpServer getClientIp (Target: future milestone — stub removal)
-
-**Stub:** `src/server/http_server.cpp::getClientIp()` socket fallback — returns empty string for direct (non-proxied) connections; `tcp::socket::remote_endpoint()` not threaded into this helper.  
-**Risk:** Per-IP rate limiting is ineffective for clients that do not send proxy headers.
-
-### Scope
-- Thread a `boost::asio::ip::address` or `std::string remote_ip` into the HTTP session context.
-- Pass it to `getClientIp()` as a fallback when no proxy header is present.
-- Validate the returned IP address format before using it as a rate-limiter key.
-
----
-
-## MQTT Aggregated Metrics (Target: future milestone — stub removal)
-
-**Stub:** `src/server/mqtt_session.cpp::MqttBroker::getAggregatedMetrics()` — only `connectCount` populated; all other metrics are 0.  
-**Risk:** MQTT broker observability is blind to throughput, error rates, and byte volumes; SLO alerting has no data.
-
-### Scope
-- Track `bytes_rx`, `bytes_tx`, `publish_count`, `subscribe_count`, `error_count` per `MqttSession`.
-- Aggregate at broker level in `getAggregatedMetrics()` by iterating `persistentSessions_`.
-
----
-
-## WireProtocol Task ID Resolution (Target: future milestone — stub removal)
-
-**Stub:** `src/network/wire_protocol_server.cpp` task_id without colon — rejects with HTTP 400.  
-**Risk:** Clients using opaque (non-colon-delimited) task IDs cannot complete tasks via this endpoint.
-
-### Scope
-- Implement a `TaskRegistry` that maps token-only `task_id` → `{instance_id, node_id}`.
-- Look up the registry before rejecting; fall back to HTTP 400 only if the token is unknown.
+### Required Interfaces
+- `McpServer::approvePendingOperation(operation_id, approved_by, reason) → ExecutionResult`
+- `McpServer::denyPendingOperation(operation_id, denied_by, reason)`
+- `McpServer::getPendingApprovals() → vector<PendingApproval>`
+- `RocksDBWrapper::restoreFromCheckpoint(snapshot_path) → bool`

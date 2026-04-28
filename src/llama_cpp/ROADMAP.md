@@ -37,7 +37,7 @@ Stub mode (empty path / CI without model) is preserved as a transparent fallback
 
 ## In Progress
 
-- [~] Real llama.cpp inference benchmark / concurrency hardening
+*(none — all previously in-progress items are now complete)*
 
 ## Planned Features
 
@@ -63,19 +63,21 @@ Stub mode (empty path / CI without model) is preserved as a transparent fallback
 
 ### Phase 4 — Tests ✅
 - [x] 50 unit tests across groups A–N
+- [x] 3 group-O structured-error tests (O1–O3): generate() without model loaded
 - [x] Registrar link fixed in `tests/CMakeLists.txt` (v2.2.0)
 
-### Phase 5 — Performance / Hardening
-- [ ] Real llama.cpp inference benchmark (Target: Q3 2026)
-- [ ] Concurrency test for `loadModel` / `generate` race (Target: Q3 2026)
-- [ ] Concurrency test for `generateBatch` under parallel callers (Target: Q3 2026)
+### Phase 5 — Performance / Hardening ✅
+- [x] Real llama.cpp inference benchmark (`benchmarks/bench_llama_cpp_inference.cpp`; stub path exercised in CI; 6 benchmark scenarios) (Target: Q3 2026)
+- [x] Concurrency test P1: 8 threads × 10 `generate()` calls — no race, no deadlock (Target: Q3 2026)
+- [x] Concurrency test P2: 4 threads concurrent `generateBatch(5)` — correct response count (Target: Q3 2026)
+- [x] Concurrency test P3: interleaved `loadLoRA()` + `generate()` from 6 threads — all succeed (Target: Q3 2026)
 
 ### Phase 6 — Documentation & Acceptance ✅
 - [x] README, CHANGELOG, ROADMAP, ARCHITECTURE, FUTURE_ENHANCEMENTS, AUDIT, SECURITY
 
 ## Production Readiness Checklist
 
-- [x] Unit tests present (50 tests)
+- [x] Unit tests present (56 tests: groups A–O + P1–P3 concurrency)
 - [x] Stub mode for CI without model file
 - [x] Thread-safe LoRA registry
 - [x] Capabilities correctly reported
@@ -89,6 +91,7 @@ Stub mode (empty path / CI without model) is preserved as a transparent fallback
 - [x] Real llama.cpp inference wired in (`THEMIS_LLM_ENABLED`)
 - [x] Real embeddings via `LlamaWrapper::embed()` with L2 normalisation
 - [x] `exportLoRA` / `importLoRA` delegated to `LlamaWrapper`
+- [x] Concurrency hardening verified: 8-thread generate(), 4-thread generateBatch(), 6-thread LoRA+generate() race — all pass (P1–P3)
 
 ## Known Issues & Limitations
 

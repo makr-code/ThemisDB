@@ -702,24 +702,18 @@ bool CacheMissAnalyzer::pmu_accessible() noexcept {
 #else // !THEMIS_ENABLE_PMU_COUNTERS
 
 // STUB/SIMULATION NOTE:
-// Purpose: Provide link-compatible no-op implementations of PmuCounter and
-//   CacheMissAnalyzer so that code that instruments hot paths with PMU
-//   counters can be compiled and tested on machines that have no perf_event
-//   subsystem or where kernel permission is denied.  All operations succeed
-//   silently; counter reads always return 0.
-// Activation: THEMIS_ENABLE_PMU_COUNTERS is 0 (default on non-Linux builds
-//   and on CI runners where /proc/sys/kernel/perf_event_paranoid > 2).
-// Production Delta: Cache-miss metrics are silently zero; the hot-path
-//   instrumentation in StorageEngine and QueryExecutor reads 0 for all PMU
-//   counters.  Any dashboard threshold that alerts on PMU-derived metrics
-//   will not fire.  CacheMissAnalyzer::pmu_accessible() returns false, so
-//   callers that check before using counters will skip PMU collection.
-// Removal Plan: Set -DTHEMIS_ENABLE_PMU_COUNTERS=ON at CMake configure time
-//   on Linux systems where the kernel PMU subsystem is available.  If the
-//   CI runner sets paranoid > 2, pass --allow-perf-event or run in a
-//   privileged container.  The #else block above then becomes dead code.
-// Roadmap ref: src/performance/FUTURE_ENHANCEMENTS.md §"PMU Counter Activation"
-// Stubs when PMU counters are disabled at compile time
+// Purpose:          Compile-time no-op stubs for PmuCounter and CacheMissAnalyzer.
+//                   Returned when the THEMIS_ENABLE_PMU_COUNTERS build flag is not set,
+//                   so the performance module still links on any platform without perf_event
+//                   support (Windows, macOS, embedded targets).
+// Activation:       Active when THEMIS_ENABLE_PMU_COUNTERS is NOT defined at compile time.
+//                   On Linux with kernel ≥ 3.4 and perf_event_paranoid ≤ 2, define the flag
+//                   to enable hardware PMU counters.
+// Production Delta: PmuCounter::open() returns false; read() returns 0.
+//                   CacheMissAnalyzer::stop() returns zero-valued CacheMissMetrics.
+//                   No perf_event file descriptors are opened; no kernel calls are made.
+// Removal Plan:     Enable THEMIS_ENABLE_PMU_COUNTERS in production Linux CI builds.
+//                   Tracked in src/performance/ROADMAP.md § Phase 4 (PMU Counters).
 
 namespace themis {
 namespace performance {

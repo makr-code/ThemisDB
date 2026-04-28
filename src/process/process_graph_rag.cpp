@@ -811,6 +811,42 @@ ProcessGraphRag::checkCompliance(std::string_view instance_id) const {
         ++passed;
     }
 
+    // Check 4: BPMN-S DSGVO annotation validation
+    // Reads dsgvo_annotation persisted in node metadata during BPMN-S import.
+    if (model_opt.has_value()) {
+        const json& norm = model_opt->normalized;
+        if (norm.contains("nodes") && norm["nodes"].is_array()) {
+            for (const auto& jn : norm["nodes"]) {
+                if (!jn.contains("metadata")) continue;
+                const auto& meta = jn["metadata"];
+                if (!meta.contains("dsgvo_annotation")) continue;
+                const auto& ann = meta["dsgvo_annotation"];
+                std::string node_name = jn.value("name", jn.value("id", "unknown"));
+                std::string cat       = ann.value("data_category", "");
+                std::string basis     = ann.value("legal_basis", "");
+                bool        consent   = ann.value("requires_consent", false);
+
+                ++checks;
+                bool node_ok = true;
+                if ((cat == "personal" || cat == "sensitive") && basis.empty()) {
+                    node_ok = false;
+                    result.is_compliant = false;
+                    result.violations.push_back(
+                        "Node '" + node_name +
+                        "' handles personal data but has no DSGVO legal basis");
+                }
+                if (consent && basis.find("Art. 6(1)(a)") == std::string::npos) {
+                    node_ok = false;
+                    result.is_compliant = false;
+                    result.violations.push_back(
+                        "Node '" + node_name +
+                        "' requires consent but legal_basis does not cite Art. 6(1)(a)");
+                }
+                if (node_ok) ++passed;
+            }
+        }
+    }
+
     // Compute score
     result.compliance_score = checks > 0
         ? static_cast<float>(passed) / static_cast<float>(checks)
@@ -1150,6 +1186,234 @@ std::string ProcessGraphRag::buildQueryPrompt(const ProcessRagContext& ctx) cons
         ss << "\n---\nFrage: " << ctx.query << "\n";
     }
     return ss.str();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SLA Monitoring (Q4 2026)
+// ─────────────────────────────────────────────────────────────────────────────
+
+void ProcessGraphRag::registerSlaRule(
+    std::string_view                  instance_id,
+    int64_t                           sla_ms,
+    std::string_view                  process_name,
+    themisdb::analytics::CEPEngine&   cep,
+    SlaAlertCallback                  on_alert)
+{
+    if (!cep.isInitialized() || sla_ms <= 0) return;
+
+    const std::string inst_id{instance_id};
+    const std::string proc_name{process_name};
+    const int64_t at_risk_ms = static_cast<int64_t>(static_cast<double>(sla_ms) * 0.8);
+
+    const std::string at_risk_id = "sla_at_risk_" + inst_id;
+    const std::string overdue_id = "sla_overdue_" + inst_id;
+    const std::string stream_id  = "_sla_" + inst_id;
+
+    // Create the instance-scoped stream (CEPEngine ignores duplicate calls)
+    themisdb::analytics::StreamConfig sc;
+    sc.stream_id   = stream_id;
+    sc.buffer_size = 64;
+    sc.partitions  = 1;
+    cep.createStream(sc);
+
+    // At-risk rule: window expires after 80% of sla_ms
+    {
+        themisdb::analytics::RuleConfig rc;
+        rc.rule_id   = at_risk_id;
+        rc.rule_name = "SLA at-risk: " + inst_id;
+        rc.streams   = {stream_id};
+        rc.tags["instance_id"]  = inst_id;
+        rc.tags["process_name"] = proc_name;
+        rc.tags["sla_ms"]       = std::to_string(sla_ms);
+        rc.tags["alert_type"]   = "at_risk";
+
+        themisdb::analytics::ActionConfig ac;
+        ac.type         = themisdb::analytics::ActionType::ALERT;
+        ac.retry_count  = 3;
+        ac.retry_delay  = std::chrono::milliseconds{1000};
+        ac.template_str = "SLA at-risk for instance " + inst_id;
+        rc.actions.push_back(std::move(ac));
+
+        themisdb::analytics::WindowConfig wc;
+        wc.type = themisdb::analytics::WindowType::SLIDING;
+        wc.size = std::chrono::milliseconds{at_risk_ms};
+        rc.window = wc;
+
+        cep.addRule(rc);
+    }
+
+    // Overdue rule: window expires after sla_ms
+    {
+        themisdb::analytics::RuleConfig rc;
+        rc.rule_id   = overdue_id;
+        rc.rule_name = "SLA overdue: " + inst_id;
+        rc.streams   = {stream_id};
+        rc.tags["instance_id"]  = inst_id;
+        rc.tags["process_name"] = proc_name;
+        rc.tags["sla_ms"]       = std::to_string(sla_ms);
+        rc.tags["alert_type"]   = "overdue";
+
+        themisdb::analytics::ActionConfig ac;
+        ac.type         = themisdb::analytics::ActionType::ALERT;
+        ac.retry_count  = 3;
+        ac.retry_delay  = std::chrono::milliseconds{1000};
+        ac.template_str = "SLA OVERDUE for instance " + inst_id;
+        rc.actions.push_back(std::move(ac));
+
+        themisdb::analytics::WindowConfig wc;
+        wc.type = themisdb::analytics::WindowType::SLIDING;
+        wc.size = std::chrono::milliseconds{sla_ms};
+        rc.window = wc;
+
+        cep.addRule(rc);
+    }
+
+    {
+        std::lock_guard<std::mutex> lock(sla_rules_mutex_);
+        sla_rules_[inst_id] = SlaRuleEntry{at_risk_id, overdue_id, std::move(on_alert)};
+    }
+
+    SPDLOG_DEBUG("ProcessGraphRag: registered SLA rules for instance '{}' sla={}ms",
+                 inst_id, sla_ms);
+}
+
+void ProcessGraphRag::deregisterSlaRule(
+    std::string_view                instance_id,
+    themisdb::analytics::CEPEngine& cep)
+{
+    const std::string inst_id{instance_id};
+    SlaRuleEntry entry;
+    {
+        std::lock_guard<std::mutex> lock(sla_rules_mutex_);
+        auto it = sla_rules_.find(inst_id);
+        if (it == sla_rules_.end()) return;
+        entry = std::move(it->second);
+        sla_rules_.erase(it);
+    }
+    if (cep.isInitialized()) {
+        cep.removeRule(entry.at_risk_rule_id);
+        cep.removeRule(entry.overdue_rule_id);
+        cep.removeStream("_sla_" + inst_id);
+    }
+    SPDLOG_DEBUG("ProcessGraphRag: deregistered SLA rules for instance '{}'", inst_id);
+}
+
+void ProcessGraphRag::fireSlaAlert_(
+    const std::string& instance_id,
+    const std::string& process_name,
+    int64_t            sla_ms,
+    int64_t            elapsed_ms,
+    const std::string& status)
+{
+    SlaAlert alert{instance_id, process_name, sla_ms, elapsed_ms, status};
+    std::lock_guard<std::mutex> lock(sla_rules_mutex_);
+    auto it = sla_rules_.find(instance_id);
+    if (it != sla_rules_.end() && it->second.callback) {
+        try {
+            it->second.callback(alert);
+        } catch (const std::exception& ex) {
+            SPDLOG_WARN("ProcessGraphRag: SLA alert callback threw: {}", ex.what());
+        }
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Cross-Case Bottleneck Analytics (Q4 2026)
+// ─────────────────────────────────────────────────────────────────────────────
+
+void ProcessGraphRag::recordNodeCompletion(
+    std::string_view model_id,
+    std::string_view node_id,
+    std::string_view node_name,
+    int64_t          dwell_ms)
+{
+    const std::string key = "proc:dwell:" + std::string(model_id)
+                          + ":" + std::string(node_id);
+
+    // Load existing aggregate
+    json agg = json::object();
+    {
+        std::string val;
+        if (db_.get(key, val) && !val.empty()) {
+            try { agg = json::parse(val); }
+            catch (...) { agg = json::object(); }
+        }
+    }
+
+    int64_t count   = agg.value("count", int64_t{0});
+    double  sum_ms  = agg.value("sum_ms", 0.0);
+    double  sum_sq  = agg.value("sum_sq_ms", 0.0);
+    auto    samples = agg.value("samples", std::vector<double>{});
+
+    count++;
+    sum_ms += static_cast<double>(dwell_ms);
+    sum_sq += static_cast<double>(dwell_ms) * static_cast<double>(dwell_ms);
+    samples.push_back(static_cast<double>(dwell_ms));
+
+    constexpr size_t kMaxSamples = 200;
+    if (samples.size() > kMaxSamples)
+        samples.erase(samples.begin());
+
+    agg["node_name"]  = std::string(node_name);
+    agg["count"]      = count;
+    agg["sum_ms"]     = sum_ms;
+    agg["sum_sq_ms"]  = sum_sq;
+    agg["samples"]    = samples;
+
+    db_.put(key, agg.dump());
+}
+
+std::vector<ProcessGraphRag::NodeDwellStats> ProcessGraphRag::analyzeBottlenecks(
+    std::string_view model_id,
+    int              top_n) const
+{
+    const std::string prefix = "proc:dwell:" + std::string(model_id) + ":";
+    std::vector<NodeDwellStats> result;
+
+    db_.scanPrefix(prefix,
+        [&](std::string_view key, std::string_view value) -> bool {
+            // Extract node_id from key suffix
+            std::string node_id = std::string(key).substr(prefix.size());
+
+            json agg;
+            try { agg = json::parse(value); }
+            catch (...) { return true; }
+
+            int64_t count  = agg.value("count", int64_t{0});
+            if (count <= 0) return true;
+
+            double sum_ms = agg.value("sum_ms", 0.0);
+            auto   samples = agg.value("samples", std::vector<double>{});
+
+            double avg = sum_ms / static_cast<double>(count);
+            double p95 = avg;
+            if (!samples.empty()) {
+                std::vector<double> sorted_samples = samples;
+                std::sort(sorted_samples.begin(), sorted_samples.end());
+                size_t idx = static_cast<size_t>(
+                    static_cast<double>(sorted_samples.size() - 1) * 0.95);
+                p95 = sorted_samples[idx];
+            }
+
+            NodeDwellStats stats;
+            stats.node_id      = std::move(node_id);
+            stats.node_name    = agg.value("node_name", stats.node_id);
+            stats.avg_dwell_ms = avg;
+            stats.p95_dwell_ms = p95;
+            stats.sample_count = static_cast<size_t>(count);
+            result.push_back(std::move(stats));
+            return true;
+        });
+
+    std::sort(result.begin(), result.end(),
+              [](const NodeDwellStats& a, const NodeDwellStats& b) {
+                  return a.avg_dwell_ms > b.avg_dwell_ms;
+              });
+
+    if (static_cast<int>(result.size()) > top_n)
+        result.resize(static_cast<size_t>(top_n));
+
+    return result;
 }
 
 } // namespace process

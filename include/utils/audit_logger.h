@@ -160,6 +160,17 @@ enum class SecurityEventType {
     SHARD_LIVE_MIGRATION_COMPLETED, ///< Dual-write live migration completed with atomic cutover
     SHARD_LIVE_MIGRATION_FAILED,   ///< Dual-write live migration failed
 
+    // AI Safety Layer Events (ASL-12)
+    // Docs: docs/de/security/ai_safety/AI_SAFETY_AUDIT_TRAIL.md
+    AI_TOOL_CALL,              ///< AI agent invoked an MCP tool
+    AI_APPROVAL_REQUIRED,      ///< HILG gate held op for operator approval
+    AI_OPERATION_EXECUTED,     ///< Operator approved; operation executed
+    AI_SNAPSHOT_CREATED,       ///< Pre-operation snapshot created (ASL-8)
+    AI_OPERATION_DENIED,       ///< Operator denied a pending operation
+    AI_OPERATION_EXPIRED,      ///< Pending approval TTL expired without action
+    AI_ROLLBACK_EXECUTED,      ///< Operator triggered DB rollback to snapshot (ASL-10)
+    AI_CLEANUP_EXECUTED,       ///< Snapshot cleanup job ran (ASL-11)
+
     // Generic
     CUSTOM_EVENT
 };

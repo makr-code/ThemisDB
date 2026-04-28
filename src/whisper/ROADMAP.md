@@ -35,9 +35,9 @@ v2.1.0 — Thread-safe. MP3/OGG input via FFmpeg adapter. Benchmarks wired.
 
 ## Planned Features
 
-- [ ] Streaming token output during transcription (Target: Q3 2026)
+- [x] Streaming token output during transcription (Target: Q3 2026)
+- [x] VAD pre-filter to skip silent segments (Target: Q3 2026)
 - [ ] Speaker diarisation — multi-speaker attribution (Target: Q4 2026)
-- [ ] VAD pre-filter to skip silent segments (Target: Q3 2026)
 - [x] Language-detection confidence threshold config (Target: Q3 2026)
 
 ## Implementation Phases
@@ -64,10 +64,15 @@ v2.1.0 — Thread-safe. MP3/OGG input via FFmpeg adapter. Benchmarks wired.
 - [x] 44 unit tests across groups A–N
 - [x] Group K: thread-safety (concurrent transcribe, atomic error/success counters, detectLanguage)
 - [x] Group L: FfmpegAudioChunkReader canRead, graceful degradation, composite routing
+- [x] Group O: streaming transcription — single-token fallback, multi-token, callback exception, uninit guard, provenance (WST-01..05)
+- [x] Group P: EnergyThresholdVad — all-silence, all-speech, mixed (VAD-01..03)
+- [x] Group Q: WhisperPlugin VAD integration — silent skip, speech pass-through, null VAD no-op (VAD-04..06)
 
 ### Phase 5 — Performance / Hardening ✅
 - [x] Thread-safety audit of `WhisperPlugin` for concurrent `transcribe()` calls
 - [x] Benchmark wired (`bench_whisper_transcription.cpp`, 9 scenarios)
+- [x] `transcribeStream()` with incremental token callback; callback-exception safety (Q3 2026)
+- [x] `EnergyThresholdVad` + `IVoiceActivityDetector` strategy; `WhisperPlugin::setVoiceActivityDetector()` (Q3 2026)
 - [ ] Benchmark against whisper.cpp CLI on real model (Target: Q3 2026)
 
 ### Phase 6 — Documentation & Acceptance ✅
@@ -82,6 +87,9 @@ v2.1.0 — Thread-safe. MP3/OGG input via FFmpeg adapter. Benchmarks wired.
 - [x] Thread-safety verified for concurrent access
 - [x] Performance benchmarks wired (stub path exercised in CI)
 - [x] PluginManager hot-plug integration (`WhisperPluginAdapter` / `WhisperPluginRegistrar`)
+- [x] `transcribeStream()` — incremental token callback with exception safety (v2.2.0)
+- [x] `EnergyThresholdVad` + `IVoiceActivityDetector` strategy injected via `setVoiceActivityDetector()` (v2.2.0)
+- [x] 55 unit tests (groups A–Q, including WST-01..05 + VAD-01..06)
 - [ ] Real whisper.cpp integration validated end-to-end (requires model file)
 
 ### Phase 7 — PluginManager Hot-Plug Integration ✅ (v2.1.0)

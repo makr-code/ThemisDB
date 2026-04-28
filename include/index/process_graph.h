@@ -321,6 +321,15 @@ struct ProcessNodeInfo {
     /// Optional graphical layout hints populated from BPMNDI (BPMNShape) on import.
     /// Schema: { "x": float, "y": float, "width": float, "height": float }
     nlohmann::json metadata;  ///< Extended key-value metadata (e.g. layout)
+
+    // ===== BPMN-S DSGVO Security Annotations =====
+    struct DsgvoAnnotation {
+        std::string data_category;       ///< "personal", "sensitive", "anonymised"
+        std::string legal_basis;         ///< e.g. "Art. 6(1)(e) DSGVO"
+        std::optional<int> retention_days;
+        bool requires_consent{false};
+    };
+    std::optional<DsgvoAnnotation> dsgvo_annotation; ///< BPMN-S DSGVO annotation (null if not annotated)
 };
 
 /**

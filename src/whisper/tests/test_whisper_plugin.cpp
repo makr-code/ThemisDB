@@ -44,6 +44,11 @@
  *   Group M (3)  – Language-detection confidence threshold (disabled, pass, suppress)
  *   Group N (5)  – Additional config/WAV edge cases (beam_size clamp, threshold round-trip,
  *                   threshold clamp, stereo 16-bit PCM decode, toJson key presence)
+ *   Group O (5)  – Streaming transcription (transcribeStream): single-token fallback,
+ *                   multi-token stream, callback exception, uninit guard, provenance
+ *   Group P (3)  – VAD: EnergyThresholdVad all-silence, all-speech, mixed
+ *   Group Q (3)  – VAD integration: WhisperPlugin with injected VAD (skip silent, pass speech,
+ *                   null VAD no-op)
  */
 
 #include <gtest/gtest.h>
@@ -51,12 +56,15 @@
 #include "whisper/audio_chunk_reader.h"
 #include "whisper/whisper_transcriber.h"
 #include "whisper/whisper_plugin.h"
+#include "whisper/voice_activity_detector.h"
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <stdexcept>
 #include <thread>
 #include <vector>
 #include <atomic>
+#include <memory>
+#include <mutex>
 
 using namespace themis::whisper;
 using namespace themis::audio;
@@ -625,4 +633,232 @@ TEST(WhisperPluginFocusedTests, N4_WavReaderParsesStereo16BitPcm) {
 TEST(WhisperPluginFocusedTests, N5_ToJsonContainsLanguageConfidenceThresholdKey) {
     const json j = WhisperConfig{}.toJson();
     EXPECT_TRUE(j.contains("language_confidence_threshold"));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Group O – Streaming transcription (transcribeStream) — WST-01..05
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Helper: PresetReader is already declared earlier in this file.
+
+TEST(WhisperPluginFocusedTests, O1_StreamSingleTokenFallback) {
+    // When no stream tokens are set the transcriber emits the full text as one token.
+    TranscriptionResult expected;
+    expected.text       = "hello world";
+    expected.confidence = 0.9f;
+    expected.success    = true;
+
+    auto t = std::make_unique<InMemoryWhisperTranscriber>();
+    t->initialize(WhisperConfig{});
+    t->setNextResult(expected);
+
+    WhisperPlugin p(std::move(t), std::make_unique<PresetReader>());
+    p.initialize("", json{});
+
+    std::vector<TranscriptionToken> received;
+    const auto result = p.transcribeStream({0.f}, 16000.f,
+        [&](const TranscriptionToken& tok) { received.push_back(tok); });
+
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(result.text, "hello world");
+    ASSERT_EQ(received.size(), 1u);
+    EXPECT_EQ(received[0].text, "hello world");
+    EXPECT_FLOAT_EQ(received[0].confidence, 0.9f);
+}
+
+TEST(WhisperPluginFocusedTests, O2_StreamMultipleTokens) {
+    // InMemoryWhisperTranscriber emits 3 preset tokens.
+    TranscriptionResult final_result;
+    final_result.text    = "one two three";
+    final_result.success = true;
+
+    std::vector<TranscriptionToken> preset = {
+        {"one",   0.f,  300.f, 0.9f, 0},
+        {"two",   300.f, 600.f, 0.85f, 1},
+        {"three", 600.f, 900.f, 0.8f,  2},
+    };
+
+    auto t = std::make_unique<InMemoryWhisperTranscriber>();
+    t->initialize(WhisperConfig{});
+    t->setNextResult(final_result);
+    t->setStreamTokens(preset);
+
+    WhisperPlugin p(std::move(t), std::make_unique<PresetReader>());
+    p.initialize("", json{});
+
+    std::vector<TranscriptionToken> received;
+    const auto result = p.transcribeStream({0.f}, 16000.f,
+        [&](const TranscriptionToken& tok) { received.push_back(tok); });
+
+    EXPECT_TRUE(result.success);
+    ASSERT_EQ(received.size(), 3u);
+    EXPECT_EQ(received[0].text, "one");
+    EXPECT_EQ(received[1].text, "two");
+    EXPECT_EQ(received[2].text, "three");
+    EXPECT_EQ(received[2].token_index, 2);
+}
+
+TEST(WhisperPluginFocusedTests, O3_StreamCallbackExceptionYieldsFailure) {
+    TranscriptionResult ok;
+    ok.text    = "boom";
+    ok.success = true;
+
+    auto t = std::make_unique<InMemoryWhisperTranscriber>();
+    t->initialize(WhisperConfig{});
+    t->setNextResult(ok);
+
+    WhisperPlugin p(std::move(t), std::make_unique<PresetReader>());
+    p.initialize("", json{});
+
+    const auto result = p.transcribeStream({0.f}, 16000.f,
+        [](const TranscriptionToken&) { throw std::runtime_error("test error"); });
+
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
+TEST(WhisperPluginFocusedTests, O4_StreamUninitGuard) {
+    // transcribeStream before initialize() must return success=false.
+    WhisperPlugin p;  // not initialized
+    const auto result = p.transcribeStream({0.f}, 16000.f, nullptr);
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.plugin_version, "2.0.0");
+    EXPECT_EQ(result.ingestion_source_type, "WHISPER");
+}
+
+TEST(WhisperPluginFocusedTests, O5_StreamProvenanceAlwaysSet) {
+    TranscriptionResult r;
+    r.text    = "test";
+    r.success = true;
+
+    auto t = std::make_unique<InMemoryWhisperTranscriber>();
+    t->initialize(WhisperConfig{});
+    t->setNextResult(r);
+
+    WhisperPlugin p(std::move(t), std::make_unique<PresetReader>());
+    p.initialize("mymodel", json{});
+
+    const auto result = p.transcribeStream({0.f}, 16000.f, nullptr);
+    EXPECT_EQ(result.ingestion_source_type, "WHISPER");
+    EXPECT_EQ(result.plugin_version, "2.0.0");
+    EXPECT_NE(result.generation_timestamp, 0);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Group P – EnergyThresholdVad: all-silence, all-speech, mixed — VAD-01..03
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(WhisperPluginFocusedTests, P1_VadAllSilenceYieldsNoSegments) {
+    EnergyThresholdVad vad;
+    VadConfig cfg;
+    cfg.energy_threshold = 0.01f;
+    cfg.min_speech_ms    = 0.0f;
+
+    // 16000 zero samples = 1 second of silence
+    std::vector<float> silence(16000, 0.0f);
+    const auto segs = vad.detect(silence, 16000.f, cfg);
+    EXPECT_TRUE(segs.empty());
+}
+
+TEST(WhisperPluginFocusedTests, P2_VadAllSpeechYieldsOneSegment) {
+    EnergyThresholdVad vad;
+    VadConfig cfg;
+    cfg.energy_threshold = 0.01f;
+    cfg.min_speech_ms    = 0.0f;
+
+    // 16000 samples at amplitude 0.5 → well above threshold
+    std::vector<float> speech(16000, 0.5f);
+    const auto segs = vad.detect(speech, 16000.f, cfg);
+    ASSERT_FALSE(segs.empty());
+    EXPECT_EQ(segs.front().start_sample, 0u);
+    EXPECT_EQ(segs.back().end_sample, speech.size());
+}
+
+TEST(WhisperPluginFocusedTests, P3_VadMixedYieldsSpeechSegments) {
+    EnergyThresholdVad vad;
+    VadConfig cfg;
+    cfg.energy_threshold = 0.01f;
+    cfg.min_speech_ms    = 10.0f;  // 10 ms minimum
+    cfg.frame_ms         = 10.0f;  // 10 ms frames
+
+    // 160 silence + 160 speech + 160 silence @ 16 kHz
+    std::vector<float> mixed(480, 0.0f);
+    for (std::size_t i = 160; i < 320; ++i) mixed[i] = 0.5f;
+
+    const auto segs = vad.detect(mixed, 16000.f, cfg);
+    ASSERT_FALSE(segs.empty());
+    // The speech segment should cover roughly [160, 320)
+    EXPECT_GE(segs[0].start_sample, 0u);
+    EXPECT_LE(segs[0].start_sample, 160u);
+    EXPECT_GE(segs[0].end_sample,   160u);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Group Q – VAD integration with WhisperPlugin — VAD-04..06
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(WhisperPluginFocusedTests, Q1_VadSkipsSilentInput) {
+    // Pure silence passed through transcribeStream with VAD → empty PCM → stub returns ""
+    TranscriptionResult ok;
+    ok.text    = "";
+    ok.success = true;
+
+    auto t = std::make_unique<InMemoryWhisperTranscriber>();
+    t->initialize(WhisperConfig{});
+    t->setNextResult(ok);
+
+    WhisperPlugin p(std::move(t), std::make_unique<PresetReader>());
+    p.initialize("", json{});
+
+    VadConfig cfg;
+    cfg.energy_threshold = 0.01f;
+    cfg.min_speech_ms    = 0.0f;
+    p.setVoiceActivityDetector(std::make_unique<EnergyThresholdVad>(), cfg);
+
+    std::vector<float> silence(16000, 0.0f);
+    const auto result = p.transcribeStream(silence, 16000.f, nullptr);
+    // VAD strips all samples; plugin still succeeds (empty text is a valid result)
+    EXPECT_EQ(result.ingestion_source_type, "WHISPER");
+}
+
+TEST(WhisperPluginFocusedTests, Q2_VadPassesSpeechThrough) {
+    TranscriptionResult ok;
+    ok.text    = "speech detected";
+    ok.success = true;
+
+    auto t = std::make_unique<InMemoryWhisperTranscriber>();
+    t->initialize(WhisperConfig{});
+    t->setNextResult(ok);
+
+    WhisperPlugin p(std::move(t), std::make_unique<PresetReader>());
+    p.initialize("", json{});
+
+    VadConfig cfg;
+    cfg.energy_threshold = 0.01f;
+    cfg.min_speech_ms    = 0.0f;
+    p.setVoiceActivityDetector(std::make_unique<EnergyThresholdVad>(), cfg);
+
+    std::vector<float> speech(16000, 0.5f);
+    const auto result = p.transcribeStream(speech, 16000.f, nullptr);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(result.text, "speech detected");
+}
+
+TEST(WhisperPluginFocusedTests, Q3_NullVadIsNoOp) {
+    // setVoiceActivityDetector(nullptr) must not crash and transcription proceeds normally.
+    TranscriptionResult ok;
+    ok.text    = "no vad";
+    ok.success = true;
+
+    auto t = std::make_unique<InMemoryWhisperTranscriber>();
+    t->initialize(WhisperConfig{});
+    t->setNextResult(ok);
+
+    WhisperPlugin p(std::move(t), std::make_unique<PresetReader>());
+    p.initialize("", json{});
+    p.setVoiceActivityDetector(nullptr);
+
+    const auto result = p.transcribeStream({0.5f, 0.5f}, 16000.f, nullptr);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(result.text, "no vad");
 }

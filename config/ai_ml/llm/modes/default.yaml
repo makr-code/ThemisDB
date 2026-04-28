@@ -54,6 +54,11 @@ tools:
   - name: aql_execute
     description: "Execute a read-only AQL query against the ThemisDB instance"
     timeout_ms: 10000
+    # AI Safety Layer: enforce_read_only=true activates AqlSafetyValidator.
+    # Any mutation operation (REMOVE, INSERT, UPDATE, REPLACE, UPSERT, DROP, TRUNCATE)
+    # in the query string will be rejected with an AQL_READ_ONLY_VIOLATION error.
+    # Full documentation: docs/de/security/ai_safety/AI_SAFETY_AQL_VALIDATOR.md
+    enforce_read_only: true
     schema:
       type: object
       properties:
@@ -183,6 +188,22 @@ modes:
       log_requests: true
       metrics: true
       trace: true
+    # ── AI Safety Layer (Schichten 1–6) ──────────────────────────────────────
+    # Prevents AI agents from executing destructive operations without human approval.
+    # Full documentation: docs/de/security/ai_safety/AI_SAFETY_ARCHITECTURE.md
+    safety:
+      enabled: true
+      # Operations requiring human approval before execution.
+      # DESTRUCTIVE: delete_entity, drop_index, REMOVE @key
+      # CRITICAL:    FOR x IN col REMOVE x IN col, DROP COLLECTION, TRUNCATE
+      require_approval_for: [DESTRUCTIVE, CRITICAL]
+      # Approval token TTL in seconds. Token expires if not approved/denied within this time.
+      approval_timeout_s: 60
+      # Return a dry-run preview before requesting approval (shows impact estimate).
+      dry_run_preview: true
+      # Automatically create a RocksDB checkpoint before executing approved destructive ops.
+      auto_snapshot: true
+      snapshot_dir: "/var/themis/ai-snapshots"
 
   # ── multi_agent ────────────────────────────────────────────────────────────
   - id: multi_agent

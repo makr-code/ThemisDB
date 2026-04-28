@@ -32,11 +32,14 @@
 
 #pragma once
 
+#include "analytics/cep_engine.h"
 #include "index/process_graph.h"
 #include "process/process_linker.h"
 #include "process/process_model_manager.h"
 #include "rag/knowledge_graph_retriever.h"
 #include "storage/rocksdb_wrapper.h"
+#include <functional>
+#include <mutex>
 #include <nlohmann/json.hpp>
 #include <optional>
 #include <string>
@@ -352,11 +355,89 @@ public:
         float            min_similarity = 0.6f
     ) const;
 
+    // ── SLA Monitoring (Q4 2026) ──────────────────────────────────────────
+
+    /// Payload delivered to callers when a SLA threshold is crossed.
+    struct SlaAlert {
+        std::string instance_id;
+        std::string process_name;
+        int64_t     sla_ms{0};
+        int64_t     elapsed_ms{0};
+        std::string status;   ///< "at_risk" (≥80 % sla) or "overdue" (≥100 % sla)
+    };
+
+    /// Callback type invoked on SLA threshold crossing.
+    using SlaAlertCallback = std::function<void(const SlaAlert&)>;
+
+    /// Register an SLA CEP rule for @p instance_id.
+    /// @param instance_id  Active process instance.
+    /// @param sla_ms       SLA deadline in milliseconds from process start.
+    /// @param process_name Human-readable name for alert messages.
+    /// @param cep          CEP engine to register the rule with.
+    /// @param on_alert     Optional callback invoked when alert fires (may be null).
+    void registerSlaRule(std::string_view instance_id,
+                         int64_t sla_ms,
+                         std::string_view process_name,
+                         themisdb::analytics::CEPEngine& cep,
+                         SlaAlertCallback on_alert = nullptr);
+
+    /// Deregister the SLA CEP rules for @p instance_id.
+    /// Safe to call if no rule was registered.
+    void deregisterSlaRule(std::string_view instance_id,
+                           themisdb::analytics::CEPEngine& cep);
+
+    // ── Cross-Case Bottleneck Analytics (Q4 2026) ─────────────────────────
+
+    /// Per-node dwell-time statistics aggregated across all completed instances.
+    struct NodeDwellStats {
+        std::string node_id;
+        std::string node_name;
+        double avg_dwell_ms{0.0};
+        double p95_dwell_ms{0.0};
+        size_t sample_count{0};
+    };
+
+    /// Record the completion of a node to update the cross-case aggregate.
+    /// Call this after each task/activity completes in an instance.
+    /// @param model_id   Process model identifier.
+    /// @param node_id    Node identifier within the model.
+    /// @param node_name  Human-readable node name (for display).
+    /// @param dwell_ms   Time spent at this node in milliseconds.
+    void recordNodeCompletion(std::string_view model_id,
+                              std::string_view node_id,
+                              std::string_view node_name,
+                              int64_t dwell_ms);
+
+    /// Return the top-@p top_n bottleneck nodes for @p model_id,
+    /// sorted descending by avg_dwell_ms.
+    /// Returns empty vector if no data is available.
+    [[nodiscard]] std::vector<NodeDwellStats> analyzeBottlenecks(
+        std::string_view model_id,
+        int top_n = 5
+    ) const;
+
 private:
     RocksDBWrapper&       db_;
     ProcessGraphManager&  engine_;
     ProcessModelManager&  models_;
     ProcessLinker&        linker_;
+
+    /// Active SLA rules: instance_id → {at_risk_rule_id, overdue_rule_id, callback}
+    struct SlaRuleEntry {
+        std::string      at_risk_rule_id;
+        std::string      overdue_rule_id;
+        SlaAlertCallback callback;
+    };
+    mutable std::mutex sla_rules_mutex_;
+    std::unordered_map<std::string, SlaRuleEntry> sla_rules_;
+
+    /// Fire an SLA alert to the registered callback (if any) for @p instance_id.
+    /// Exceptions from the callback are caught and logged.
+    void fireSlaAlert_(const std::string& instance_id,
+                       const std::string& process_name,
+                       int64_t sla_ms,
+                       int64_t elapsed_ms,
+                       const std::string& status);
 
     /// Score how relevant @p node_doc is to @p query given @p active_nodes.
     float scoreNodeRelevance_(

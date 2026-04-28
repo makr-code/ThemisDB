@@ -62,19 +62,18 @@ v1.8.0 – Production-grade persistent storage layer built on RocksDB with MVCC,
 - [x] `OnlineSchemaMigration` – zero-downtime DDL via `SchemaMigrator`; supports add/drop columns, rename, type change, add/drop indexes, partition (`online_schema_migration.h/.cpp`, `namespace themis::storage`)
 - [x] `SchemaDeadWeightDetector` – detects unused schema fields and stale indexes; `GdprFieldRegistry` for PII field tracking (`schema_dead_weight_detector.h/.cpp`, `namespace themis::storage`)
 - [x] `StorageLayoutAdvisor` – recommends layout type (row vs columnar vs tiered vs vector) based on `CollectionAccessStats` and `SchemaInfo` (`storage_layout_advisor.h/.cpp`, `namespace themis::storage`)
+- [x] `IndexAnalyzer` – per-index analyze function with tier-aware thresholds, cron scheduling, and AI/ML advisor hook (v1.9.0)
+  - `include/storage/index_analyzer.h`, `src/storage/index_analyzer.cpp`, `config/index_analyze.yaml`
+  - 15 focused tests (IA-01…IA-15) in `tests/test_index_analyzer.cpp` (`IndexAnalyzerFocusedTests`)
 
 ## In Progress 🚧
 
-*(All items completed — see Current Status section.)*
-
-## Completed Recently ✅
-
-- [x] `IndexAnalyzer` – per-index analyze function with tier-aware thresholds, cron scheduling, and AI/ML advisor hook (Target: v1.9.0) ✅
+*(none)*
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] `IndexAnalyzer` — hot/warm/cold-aware index analysis with cron scheduling and AI/ML intervention (Target: v1.9.0) ✅
+- [x] `IndexAnalyzer` — hot/warm/cold-aware index analysis with cron scheduling and AI/ML intervention (v1.9.0)
   - Inputs: `RocksDBWrapper` instance + YAML config (`config/index_analyze.yaml`)
   - Outputs: `IndexAnalysisReport` per index: `fragmentation_pct`, `recommendation` (NONE / UPDATE_STATS / REORGANIZE / PARTIAL_REBUILD / FULL_REBUILD), optional `ai_recommendation`
   - Affected files: `include/storage/index_analyzer.h`, `src/storage/index_analyzer.cpp`, `config/index_analyze.yaml`, `tests/test_index_analyzer.cpp`

@@ -1045,125 +1045,48 @@ Interested in contributing to security features? See:
 
 ---
 
-## IMPL-A2 – LoRA-Adapter Real IntentClassifier (Target: v1.6.0)
+## AI Safety Layer (ASL-1 bis ASL-15)
 
-**Stub:** `src/security/intent_classifier.cpp`
-**Status:** Stub (deterministic rule-based heuristic; not ML-backed)
+> **Hintergrund:** Cursor-KI-Vorfall (April 2026). Vollständige Analyse und Architektur:
+> `docs/de/security/ai_safety/AI_SAFETY_ARCHITECTURE.md`
 
 ### Scope
-- Replace the rule-based heuristics in `IntentClassifier::classify()` with a
-  LoRA-adapted language model inference path.
-- Affected files:
-  - `src/security/intent_classifier.cpp` — stub replacement
-  - `include/security/intent_classifier.h` — add `setLoRAAdapter(ILoRAInferenceAdapter*)` injection
-  - `src/llm/adapter_registry.cpp` — register the security LoRA adapter
-  - Integration with `MLModelManager` for hot-swapping
+- `include/security/ai_operation_guard.h` + `src/security/ai_operation_guard.cpp` [Phase 2]
+- `include/query/aql_safety_validator.h` + `src/query/aql_safety_validator.cpp` [Phase 1]
+- Erweiterungen: `intent_classifier.h/.cpp`, `mcp_server.cpp`, `http_server.cpp`, `audit_logger.cpp`
+- Neue Konfig-Blöcke: `config/security.yaml` (`environment:`), `config/ai_ml/llm/modes/default.yaml` (`safety:`)
 
 ### Design Constraints
-- **Precision ≥ 92%** on the OWASP Injection Attack classification benchmark
-  (labels: BENIGN / SQL_INJECTION / PROMPT_INJECTION / PATH_TRAVERSAL / XSS / OTHER)
-- Latency budget: ≤ 15 ms P99 per classification (single request, CPU inference)
-- Must operate without GPU in the default deployment (LoRA weights loaded via `llama.cpp` CPU path)
-- No regression on existing `test_intent_classifier.cpp` test cases
+- Kein LLM-Aufruf im Safety Layer (deterministisch, < 0.1ms Overhead für Klassifikation)
+- Synchroner RocksDB-Checkpoint (Hardlinks, O(1))
+- HMAC-gebundene Approval-Tokens (anti-replay, anti-substitution)
+- Rückwärtskompatibel: `enabled: false` deaktiviert den Layer ohne Breaking Changes
 
 ### Required Interfaces
-- `ILoRAInferenceAdapter::classify(const std::string& input) → IntentResult`
-  (already defined in `include/llm/adapter_registry.h` — wire into `IntentClassifier`)
-- `IntentClassifier::setLoRAAdapter(ILoRAInferenceAdapter*)` — runtime injection point
+- `AiOperationGuard::evaluate(tool, args, session_id, role) → GuardDecision`
+- `AqlSafetyValidator::validate(aql_query) → ValidationResult`
+- `IntentClassifier::classify()` erweitert um `DATA_DESTRUCTION`, `SCHEMA_MUTATION`
+- HTTP: `POST /v1/ai/approve/{id}`, `POST /v1/ai/deny/{id}`, `GET /v1/ai/pending-approvals`, `POST /v1/ai/rollback/{id}`
 
 ### Implementation Notes
-- Training dataset: OWASP Top-10 injection samples + in-house ThemisDB AQL
-  injection attempts (minimum 5,000 labeled examples per category)
-- Base model: `codellama:7b` or `deepseek-coder-v2:7b` (already in Ollama catalog)
-- LoRA rank: r=8, alpha=16 (starting point; tune against precision target)
-- Quantize to Q4_K_M for CPU deployment (≤ 200 MB adapter delta)
-- Fallback: if `ILoRAInferenceAdapter` is null, fall back to the current rule-based
-  heuristic (no silent failure, log WARN once per session)
+- Phase 1 (Q2 2026): IntentClassifier AQL-Patterns + AqlSafetyValidator + Dry-Run-Flags
+- Phase 2 (Q3 2026): AiOperationGuard + HILG Approval-Queue + HTTP-Endpunkte
+- Phase 3 (Q3 2026): Pre-Op-Snapshot + Environment Guard + Rollback-Endpoint
+- Phase 4 (Q4 2026): AI-Session-Audit-Trail + LoRA-Adapter (IMPL-A2) + Chaos-Tests
 
 ### Test Strategy
-- Unit: inject OWASP Top-10 samples; assert precision ≥ 92% and recall ≥ 88%
-- Regression: all existing `test_intent_classifier.cpp` tests must pass unchanged
-- Latency: 1,000 classify() calls on a single thread, assert P99 ≤ 15 ms
-- Fuzz: AFL++ on `classify()` with random byte strings; no crash, no hang
+- Unit: DOG-Klassifikation, HILG-Flow, AQL-Validator, IntentClassifier-AQL, Env-Guard
+- Integration: Snapshot + Rollback E2E, Concurrent Approval (Race Condition)
+- Chaos: Simulierter destruktiver KI-Agent gegen alle Guards (tests/security/ai_safety/)
 
 ### Performance Targets
-- P50 ≤ 8 ms, P99 ≤ 15 ms (CPU-only, Q4_K_M quantized LoRA)
-- Memory: adapter delta ≤ 200 MB resident
+- DOG-Klassifikation: p99 < 0.1ms
+- AQL-Validator: p99 < 0.1ms bei 1 KB Query
+- Pre-Op-Snapshot: p99 < 2s bei 100 GB DB (RocksDB Hardlinks)
+- HILG Approval-Latenz: menschlich (60s TTL Default)
 
 ### Security / Reliability
-- LoRA weights loaded from a signed artifact; signature verified via `ShaderIntegrity` or
-  equivalent (SHA-256 manifest check before first inference)
-- Classification results logged to `AIDecisionAuditor` for compliance trails
-- Circuit breaker: if 5 consecutive inference errors occur, revert to rule-based heuristic
-
----
-
-## OpenSSL TSA Activation (Target: v1.6.0 — stub removal)
-
-**Stub:** `src/security/timestamp_authority_openssl.cpp` — entire TU guarded by `#ifdef THEMIS_USE_OPENSSL_TSA`; when absent, RFC 3161 timestamp functionality is absent  
-**Risk:** All timestamp stamping and verification operations fall through to stub; eIDAS qualified timestamp validation unavailable; document provenance audit trail incomplete.
-
-### Scope
-- Install libcurl (`apt install libcurl4-openssl-dev`) and OpenSSL ≥ 1.0.2 with `<openssl/ts.h>`.
-- Set `-DTHEMIS_USE_OPENSSL_TSA=1` in CMake.
-- Configure `THEMIS_TSA_URL` env var or `security.yaml tsaUrl` to point to a real RFC 3161 TSA (e.g., `http://timestamp.digicert.com`).
-
-### Security / Reliability
-- TSA URL must use HTTPS; validate certificate chain against system trust store.
-- `CURLOPT_TIMEOUT` set to ≤ 5 s to avoid blocking inference hot path.
-- Failed TSA requests must return an error result (not silently succeed).
-
-### Test Strategy
-- With OpenSSL TSA: `stamp()` of a SHA-256 hash returns a valid DER-encoded RFC 3161 response; `verify()` returns true.
-- Network failure: TSA URL unreachable → `stamp()` returns error; provenance record marked as unverified.
-
----
-
-## Field Encryption Key Provider (Target: v1.6.0 — stub removal)
-
-**Stub:** `src/security/field_encryption.cpp::createDefault()` — returns a `FieldEncryption` backed by `MockKeyProvider` (in-memory only, keys lost on restart).  
-**Risk:** Any production code path that calls `createDefault()` silently operates with non-persistent, non-HSM-protected key material; ciphertext cannot be decrypted after process restart.
-
-### Scope
-- Implement `VaultKeyProviderAdapter` or reuse `HsmKeyProviderAdapter` as the production default in `createDefault()` when `THEMIS_KEY_BACKEND` env-var / config key is set.
-- `createDefault()` should throw `std::logic_error` in `#ifndef THEMIS_ALLOW_MOCK_KEY_PROVIDER` builds to prevent accidental production use.
-
-### Design Constraints
-- All `FieldEncryption` construction in main_server.cpp must inject an explicit `KeyProvider`; `createDefault()` must only be used from test/demo code paths.
-- Key rotation: the injected provider must implement `rotateKey()` and `getKey(key_id, version)` for versioned DEK retrieval.
-
-### Required Interfaces
-- `KeyProvider::getKey(key_id, version)` ← already part of the `KeyProvider` interface
-- `HsmKeyProviderAdapter` or new `VaultKeyProviderAdapter` fulfilling the same interface
-
-### Test Strategy
-- `createDefault()` in tests: assert `THEMIS_WARN` is emitted and MockKeyProvider is used.
-- In production integration tests: inject `VaultKeyProviderAdapter`; encrypt then restart; decrypt from new process; assert plaintext identity.
-
-### Security / Reliability
-- Production `KeyProvider` must wrap the DEK under a Key Encryption Key (KEK) stored in HSM or Vault; never pass the raw DEK to `FieldEncryption` without wrapping.
-- Key material must not appear in logs, crash dumps, or core files.
-
----
-
-## AccessControl getAccessHistory (Target: future milestone — stub removal)
-
-**Stub:** `src/security/access_control.cpp::getAccessHistory()` — always returns empty JSON array.  
-**Risk:** Compliance and investigation workflows that query access history receive no data; audit obligations cannot be met.
-
-### Scope
-- Query the `AuditLogger` for events of type `ACCESS_ATTEMPT`, `ACCESS_GRANTED`, `ACCESS_DENIED`.
-- Filter by `user_id`, `resource`, `since`, `until` parameters.
-- Return structured JSON with timestamp, user_id, resource, action, outcome, and session_id fields.
-
----
-
-## FieldEncryption needsReEncryption Version API (Target: future milestone — stub improvement)
-
-**Stub:** `src/security/field_encryption.cpp::needsReEncryption()` — uses a probe heuristic (`getKey(key_id, blob_version+1)`) because `KeyProvider` lacks a `getCurrentVersion(key_id)` method.  
-**Risk:** TOCTOU window: two rapid key rotations between probe and re-encryption decision may cause blobs to be encrypted at version+1 while version+2 is already current.
-
-### Scope
-- Add `virtual uint32_t getCurrentVersion(const std::string& key_id) = 0` to `KeyProvider` interface.
-- Implement in `MockKeyProvider`, `VaultKeyProviderAdapter`, and `HsmKeyProviderAdapter`.
-- Replace the probe heuristic in `needsReEncryption()` with a direct comparison.
+- Approval-Tokens: HMAC-SHA256, an (session_id + op_hash + timestamp) gebunden
+- Tokens: einmalig verwendbar, zeitbegrenzt (Default 60s), nicht übertragbar
+- Snapshot-Fehler → Operation wird ABGEBROCHEN (Fail-Safe)
+- Denied Collections: hard-gecoded, kein Approval-Bypass möglich

@@ -26,6 +26,7 @@
 #include "whisper/whisper_plugin.h"
 #include <chrono>
 #include <stdexcept>
+#include <numeric>
 
 namespace themis {
 namespace whisper {
@@ -153,6 +154,80 @@ audio::LanguageDetectionResult WhisperPlugin::detectLanguage(
         return {"unknown", result.confidence};
     }
     return result;
+}
+
+// ── transcribeStream ─────────────────────────────────────────────────────────
+
+audio::TranscriptionResult WhisperPlugin::transcribeStream(
+        const std::vector<float>& pcm_samples,
+        float sample_rate,
+        audio::StreamCallback callback) {
+    if (!initialized_.load(std::memory_order_acquire)) {
+        error_count_.fetch_add(1, std::memory_order_relaxed);
+        audio::TranscriptionResult err;
+        err.success               = false;
+        err.error_message         = "WhisperPlugin not initialized";
+        err.ingestion_source_type = "WHISPER";
+        err.plugin_version        = getPluginVersion();
+        return err;
+    }
+    try {
+        // Apply VAD to skip silent frames if a detector is installed
+        const auto& effective_pcm = vad_ ? applyVad(pcm_samples, sample_rate) : pcm_samples;
+
+        audio::TranscriptionResult result;
+        {
+            std::lock_guard<std::mutex> lock(transcriber_mutex_);
+            result = transcriber_->transcribeStream(effective_pcm, sample_rate, std::move(callback));
+        }
+        // Mandatory provenance override
+        result.ingestion_source_type = "WHISPER";
+        result.plugin_version        = getPluginVersion();
+        result.model_id              = getModelId();
+        if (result.generation_timestamp == 0) {
+            result.generation_timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count();
+        }
+        transcription_count_.fetch_add(1, std::memory_order_relaxed);
+        return result;
+    } catch (const std::exception& ex) {
+        error_count_.fetch_add(1, std::memory_order_relaxed);
+        audio::TranscriptionResult err;
+        err.success               = false;
+        err.error_message         = ex.what();
+        err.ingestion_source_type = "WHISPER";
+        err.plugin_version        = getPluginVersion();
+        return err;
+    }
+}
+
+// ── VAD ──────────────────────────────────────────────────────────────────────
+
+void WhisperPlugin::setVoiceActivityDetector(std::unique_ptr<IVoiceActivityDetector> vad,
+                                              const VadConfig& cfg) {
+    vad_     = std::move(vad);
+    vad_cfg_ = cfg;
+}
+
+std::vector<float> WhisperPlugin::applyVad(const std::vector<float>& pcm,
+                                            float sample_rate) const {
+    if (!vad_ || pcm.empty()) return pcm;
+    const auto segments = vad_->detect(pcm, sample_rate, vad_cfg_);
+    if (segments.empty()) return {};
+
+    // Concatenate all speech segments into a single buffer
+    std::size_t total = 0;
+    for (const auto& seg : segments) {
+        total += seg.end_sample - seg.start_sample;
+    }
+    std::vector<float> speech;
+    speech.reserve(total);
+    for (const auto& seg : segments) {
+        speech.insert(speech.end(),
+                      pcm.begin() + static_cast<std::ptrdiff_t>(seg.start_sample),
+                      pcm.begin() + static_cast<std::ptrdiff_t>(seg.end_sample));
+    }
+    return speech;
 }
 
 // ── getModelId / getStatistics ───────────────────────────────────────────────

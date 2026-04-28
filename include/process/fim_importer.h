@@ -1,0 +1,112 @@
+/*
+ * ThemisDB - Process Modeling Module
+ *
+ * File:    fim_importer.h
+ * Module:  include/process/
+ * Purpose: Import process models from the German FIM (Föderales
+ *          Informationsmanagement) Prozessbibliothek (FITKO 2024).
+ *
+ * FIM defines a reference catalogue of administrative process models in BPMN
+ * 2.0 XML.  This importer fetches or parses catalogue documents and converts
+ * them to ProcessModelRecord objects ready for storage by ProcessModelManager.
+ */
+
+#pragma once
+
+#include "index/process_graph.h"
+#include "process/bpmn_serializer.h"
+#include "process/process_model_manager.h"
+#include <string>
+#include <string_view>
+#include <vector>
+
+namespace themis {
+namespace process {
+
+/**
+ * @brief Result of a single FIM model import operation.
+ */
+struct FimModelResult {
+    bool              ok{false};      ///< True if import succeeded
+    std::string       message;        ///< Error description on failure
+    ProcessModelRecord record;        ///< Populated on success
+};
+
+/**
+ * @brief Imports process models from the FIM Prozessbibliothek (FITKO 2024).
+ *
+ * ## Supported input formats
+ * - FIM catalogue XML (`<prozessbibliothek>` root element) containing one or
+ *   more `<prozess>` entries whose body is a BPMN 2.0 XML fragment.
+ * - Individual FIM BPMN 2.0 XML files (delegated to BpmnSerializer).
+ * - FITKO REST API responses (JSON envelope wrapping a BPMN XML payload).
+ *
+ * ## Usage
+ * ```cpp
+ * FimImporter imp;
+ * auto results = imp.importFimCatalogue(xml_string, ProcessDomain::ADMINISTRATION);
+ * for (auto& r : results) {
+ *     if (r.ok) manager.save(r.record);
+ * }
+ * ```
+ */
+class FimImporter {
+public:
+    FimImporter() = default;
+
+    /**
+     * @brief Parse a FIM Prozessbibliothek XML catalogue document.
+     *
+     * The catalogue may contain multiple `<prozess>` elements.  Each element
+     * is converted to a separate ProcessModelRecord with notation BPMN_2_0 and
+     * the supplied @p domain classification.
+     *
+     * @param catalogue_xml  Raw catalogue XML string.
+     * @param domain         Domain to assign to imported models.
+     * @return One FimModelResult per `<prozess>` element found.
+     */
+    std::vector<FimModelResult> importFimCatalogue(
+        std::string_view catalogue_xml,
+        ProcessDomain    domain = ProcessDomain::ADMINISTRATION);
+
+    /**
+     * @brief Import a single FIM BPMN 2.0 XML document.
+     *
+     * Delegates BPMN parsing to BpmnSerializer and wraps the result in a
+     * ProcessModelRecord.
+     *
+     * @param bpmn_xml  BPMN 2.0 XML string (FIM-compliant).
+     * @param domain    Domain classification for the model.
+     * @return FimModelResult with populated record on success.
+     */
+    FimModelResult importSingleModel(
+        std::string_view bpmn_xml,
+        ProcessDomain    domain = ProcessDomain::ADMINISTRATION);
+
+    /**
+     * @brief Fetch and import process models from the FITKO REST API.
+     *
+     * Calls @p api_base_url + "/prozesse" to retrieve the catalogue JSON, then
+     * imports each embedded BPMN payload.  Requires libcurl at runtime — if not
+     * available, returns an error result.
+     *
+     * @param api_base_url  Base URL of the FITKO FIM API (without trailing slash).
+     * @param domain        Domain classification.
+     * @return One FimModelResult per model retrieved.
+     *
+     * @note This function emits SPDLOG_WARN entries for non-fatal API errors
+     *       (e.g. individual model payloads that fail to parse).
+     */
+    std::vector<FimModelResult> importFromFitkoApi(
+        std::string_view api_base_url,
+        ProcessDomain    domain = ProcessDomain::ADMINISTRATION);
+
+private:
+    // Internal helper — wraps a BpmnSerializer::ImportResult into a ProcessModelRecord.
+    static ProcessModelRecord buildRecord_(
+        const BpmnSerializer::ImportResult& ir,
+        ProcessDomain domain);
+};
+
+} // namespace process
+} // namespace themis
