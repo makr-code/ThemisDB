@@ -46,9 +46,11 @@
  *   Group N (6)  – registrar: createPlugin stub/config, defaultReloadCallback,
  *                  reload with empty path, generate after registrar load,
  *                  InferenceResponse trace_id/span_id echo
- *   Group O (3)  – structured error when no model loaded (non-stub mode)
- *   Group P (3)  – Phase 5 concurrency hardening: concurrent generate(), concurrent
- *                  generateBatch(), concurrent LoRA writes + generate() (P1–P3)
+ *   Group O (3)  – structured error when no model loaded: success=false, stub sanity,
+ *                  error_message contains "not loaded"
+ *   Group P (3)  – Phase 5 concurrency hardening: P1 8-thread generate() no race,
+ *                  P2 4-thread generateBatch() correct count, P3 LoRA+generate() race
+ *                  — 3 + 3 + 3 = 9 total for O+P; grand total A-P = 56
  */
 
 #include <gtest/gtest.h>
