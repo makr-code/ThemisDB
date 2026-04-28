@@ -25498,3 +25498,85 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_object_centric_tracer.cpp")
     )
     message(STATUS "  ObjectCentricTracer: OCT-01..OCT-10")
 endif()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# P7: SLA Monitoring focused tests (SLA-01..SLA-08)
+# ─────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_sla_monitoring.cpp")
+    message(STATUS "Adding SLA Monitoring focused tests (SLA-01..SLA-08)")
+    add_executable(SlaMonitoringTests
+        process/test_sla_monitoring.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/cep_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+    )
+    target_include_directories(SlaMonitoringTests PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(SlaMonitoringTests PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(SlaMonitoringTests PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SlaMonitoringTests COMMAND SlaMonitoringTests)
+    set_tests_properties(SlaMonitoringTests PROPERTIES
+        LABELS "process;sla;cep;monitoring;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  SlaMonitoring: SLA-01..SLA-08")
+endif()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# P8: Bottleneck Analytics focused tests (BOT-01..BOT-08)
+# ─────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_bottleneck_analytics.cpp")
+    message(STATUS "Adding Bottleneck Analytics focused tests (BOT-01..BOT-08)")
+    add_executable(BottleneckAnalyticsTests
+        process/test_bottleneck_analytics.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/cep_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+    )
+    target_include_directories(BottleneckAnalyticsTests PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(BottleneckAnalyticsTests PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(BottleneckAnalyticsTests PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME BottleneckAnalyticsTests COMMAND BottleneckAnalyticsTests)
+    set_tests_properties(BottleneckAnalyticsTests PROPERTIES
+        LABELS "process;bottleneck;analytics;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  BottleneckAnalytics: BOT-01..BOT-08")
+endif()

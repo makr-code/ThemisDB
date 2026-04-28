@@ -90,13 +90,13 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
   - Tests: compliance check correctly flags missing DSGVO annotations; integration test with a BPMN-S sample model
   - Constraints: must not break existing BPMN 2.0 import/export
 
-- [ ] Real-time SLA monitoring and alert dispatch (Target: Q4 2026)
+- [x] Real-time SLA monitoring and alert dispatch (Target: Q4 2026)
   - Affected: `process_graph_rag.cpp`, scheduler module, CEP engine (`analytics/cep_engine.cpp`)
   - Expected: register SLA CEP rule per active instance; dispatch alert (webhook/Slack/email) when instance is at risk or overdue; deregister on completion
   - Tests: CEP alert fires within 100 ms of SLA threshold crossing; no false positives
   - Errors: alert dispatch failure → log + retry with exponential back-off (max 3 retries)
 
-- [ ] Cross-case graph analytics: identify bottlenecks across all Vorgänge (Target: Q4 2026)
+- [x] Cross-case graph analytics: identify bottlenecks across all Vorgänge (Target: Q4 2026)
   - Affected: `ProcessGraphRag` + `analytics/process_mining.cpp`
   - Expected: aggregate token dwell-time per node across all completed instances; report top-5 bottleneck nodes; expose via AQL `PROCESS_BOTTLENECKS(model_id)` function
   - Tests: synthetic dataset of 1,000 instances with known bottleneck; detection accuracy ≥ 90 %
@@ -141,8 +141,8 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
 
 - [x] EPK ARIS-XML import (Target: Q3 2026) — `EpkArisXmlImporter` (`include/process/epk_aris_xml_importer.h`)
 - [x] BPMN-S security profile for DSGVO compliance (Target: Q4 2026)
-- [ ] Real-time SLA monitoring via CEP engine (Target: Q4 2026)
-- [ ] Cross-case bottleneck analytics (Target: Q4 2026)
+- [x] Real-time SLA monitoring via CEP engine (Target: Q4 2026)
+- [x] Cross-case bottleneck analytics (Target: Q4 2026)
 
 ### Phase 7: State-of-the-Art – SotA-Derived Features (Status: In Progress)
 
