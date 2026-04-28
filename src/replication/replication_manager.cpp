@@ -2805,8 +2805,20 @@ MultiMasterReplicationManager::ReadResult MultiMasterReplicationManager::read(
     [[maybe_unused]] const std::string& document_id,
     uint32_t /*read_quorum*/)
 {
-    // In a full implementation this would query read_quorum peers and merge
-    // results; for now we return a placeholder indicating local state.
+    // STUB/SIMULATION NOTE:
+    // Purpose: Satisfies the `read()` API contract while the multi-master quorum-read
+    //          protocol (fan-out to `read_quorum` peers, version-vector merge, and
+    //          conflict resolution) is not yet implemented in this module.
+    // Activation: Always — no build flag gates this path.
+    // Production Delta: The returned `data` field is always empty string; the real
+    //                   storage lookup is deferred to the calling layer.  No peers
+    //                   are consulted; `read_quorum` is ignored.  Vector-clock
+    //                   staleness and read-repair are not performed.
+    // Removal Plan: Implement peer fan-out via `sendToReplica()`, collect
+    //               `read_quorum` responses, resolve conflicts with
+    //               `resolveConflicts()`, and populate `result.data` from the
+    //               winning version.  See src/replication/FUTURE_ENHANCEMENTS.md
+    //               §Multi-Master Quorum Read.
     ReadResult result;
     result.success     = running_.load();
     result.source_node = config_.node_id;
@@ -3476,7 +3488,18 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
     }
 
     if (snapshot.empty()) {
-        // No replicas: single-node – return a placeholder success
+        // STUB/SIMULATION NOTE:
+        // Purpose: Returns a synthetic success result when there are no replicas,
+        //          allowing single-node deployments to proceed without crashing.
+        // Activation: `replicas_` list is empty (no replica endpoints configured).
+        // Production Delta: `data` field is not populated; `version = 0` ignores
+        //                   `required_version`; monotonic-read guarantees are NOT
+        //                   enforced.  In a real single-node path the document
+        //                   should be fetched from the local storage engine.
+        // Removal Plan: Replace with a local-storage read call; respect
+        //               `required_version` for monotonic reads; propagate actual
+        //               document content in the result.  See
+        //               src/replication/FUTURE_ENHANCEMENTS.md §Single-Node Quorum Read.
         QuorumReadResult sr;
         sr.success      = true;
         sr.version      = 0;

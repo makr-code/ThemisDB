@@ -189,9 +189,19 @@ bool TTSProcessor::streamSynthesize(
     std::function<void(const std::vector<uint8_t>&)> /*callback*/,
     const TTSOptions& /*options*/
 ) {
-    // Real-time streaming synthesis
-    // This would process text in chunks and call the callback for each audio segment
-    // For now, return placeholder
+    // STUB/SIMULATION NOTE:
+    // Purpose: Satisfies the API contract of streamSynthesize() while the
+    //          real streaming TTS pipeline (chunk-by-chunk Piper/ONNX inference
+    //          with callback-driven audio delivery) has not yet been wired up.
+    // Activation: Always — no build flag gates this path.
+    // Production Delta: The callback is never invoked; the caller receives no
+    //                   audio segments.  A full implementation would call
+    //                   synthesizeInternal() in chunks and invoke `callback`
+    //                   for each chunk so that the caller can begin playback
+    //                   before the full synthesis is complete.
+    // Removal Plan: Implement chunk-based Piper inference and call the callback
+    //               per audio frame.  See src/content/FUTURE_ENHANCEMENTS.md
+    //               §TTS Streaming Synthesis.
     return false;
 }
 
@@ -441,12 +451,28 @@ std::vector<uint8_t> TTSProcessor::convertToFormat(
         
         return wav_data;
     } else if (format == "mp3") {
-        // Real implementation would use LAME encoder
-        // For now, return PCM data (placeholder)
+        // STUB/SIMULATION NOTE:
+        // Purpose: Passes through raw PCM data when the LAME MP3 encoder is not
+        //          linked.  Keeps the API shape intact for callers that accept
+        //          audio/mpeg.
+        // Activation: Always — LAME encoder not yet integrated.
+        // Production Delta: Output bytes are raw 16-bit PCM, not MP3 frames.
+        //                   Any player expecting MPEG-1 Layer III audio will fail
+        //                   to decode this output.
+        // Removal Plan: Integrate libmp3lame; call lame_encode_buffer_ieee_float()
+        //               and return the resulting MP3 frame bytes.
+        //               See src/content/FUTURE_ENHANCEMENTS.md §TTS Audio Format Support.
         return pcm_data;
     } else if (format == "ogg") {
-        // Real implementation would use Opus/Vorbis encoder
-        // For now, return PCM data (placeholder)
+        // STUB/SIMULATION NOTE:
+        // Purpose: Passes through raw PCM data when libvorbis / libopus is not
+        //          linked.  Keeps the API shape intact for callers that accept
+        //          audio/ogg.
+        // Activation: Always — Opus/Vorbis encoder not yet integrated.
+        // Production Delta: Output bytes are raw 16-bit PCM, not an Ogg container.
+        // Removal Plan: Integrate libopus or libvorbis; wrap PCM into an Ogg stream
+        //               via op_write()/vorbis_analysis_wrote().
+        //               See src/content/FUTURE_ENHANCEMENTS.md §TTS Audio Format Support.
         return pcm_data;
     }
     

@@ -26,7 +26,7 @@
 
 ---
 
-## Stub Inventory (114 entries)
+## Stub Inventory (119 entries)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -171,8 +171,12 @@
 | `distributed_knowledge/federated_distillation_coordinator.cpp` | Production gRPC coordinator | ✅ Added to `src/distributed_knowledge/FUTURE_ENHANCEMENTS.md` §Production | v2.0.0 |
 | All ingestion connector stubs | SDK integration per connector | ✅ Exists in `src/ingestion/FUTURE_ENHANCEMENTS.md` §v1.6.0–v1.7.0 | v1.5.0–v1.7.0 |
 
-| 114 | `security/field_encryption.cpp::createDefault()` | `MockKeyProvider` used — AES-256 keys stored in plain process memory; no persistence, no HSM, no key rotation enforcement | Called without injecting an explicit `KeyProvider`; emits `THEMIS_WARN` at runtime | All ciphertext lost on restart; no key-wrapping or audit trail | `src/security/FUTURE_ENHANCEMENTS.md` §Field Encryption Key Provider | permanent optional-dep default (must be replaced in production) |
+| 115 | `content/tts_processor.cpp::streamSynthesize()` | Chunk-by-chunk Piper/ONNX TTS streaming not implemented; callback is never invoked; always returns `false` | Always — no build flag gates this path | Callers receive no audio segments; real-time TTS playback is broken | `src/content/FUTURE_ENHANCEMENTS.md` §TTS Streaming Synthesis | v1.7.0 |
+| 116 | `content/tts_processor.cpp::convertToFormat()` MP3 | Raw PCM bytes returned instead of LAME-encoded MP3; LAME encoder not linked | Format == "mp3" | Output is unplayable by any MP3 decoder | `src/content/FUTURE_ENHANCEMENTS.md` §TTS Audio Format Support | v1.7.0 |
+| 117 | `content/tts_processor.cpp::convertToFormat()` OGG | Raw PCM bytes returned instead of Opus/Vorbis Ogg stream; libopus/libvorbis not linked | Format == "ogg" | Output is unplayable as OGG audio | `src/content/FUTURE_ENHANCEMENTS.md` §TTS Audio Format Support | v1.7.0 |
+| 118 | `replication/replication_manager.cpp::MultiMasterReplicationManager::read()` | Quorum read fan-out not implemented; peers not queried; `data` always empty; `read_quorum` ignored | Always | No multi-master consistency; data field is empty on every call | `src/replication/FUTURE_ENHANCEMENTS.md` §Multi-Master Quorum Read | future milestone |
+| 119 | `replication/replication_manager.cpp::QuorumReadManager::read()` single-node path | Returns synthetic success with `version=0` when replica list is empty; local storage not queried; monotonic-read guarantees not enforced | `replicas_` list empty | Document data absent; monotonic reads may regress | `src/replication/FUTURE_ENHANCEMENTS.md` §Single-Node Quorum Read | future milestone |
 
 ---
 
-*Last updated: 2026-04-28 — 114 entries, 9 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-04-28 — 119 entries, 9 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
