@@ -25257,3 +25257,47 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_project_collaboration_concurrent.cpp
 else()
     message(STATUS "ProjectCollaborationConcurrent tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_project_collaboration_concurrent.cpp")
 endif()
+
+# =============================================================================
+# AI Safety Layer — Schichten 1 & 2: AiOperationGuard tests (ASL-4)
+# AOG-01..AOG-20: classification, approval flow, environment guard, hard-block
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_ai_operation_guard.cpp")
+    message(STATUS "Adding AiOperationGuard tests (ASL-4 — AOG-01..AOG-20)")
+
+    add_executable(test_ai_operation_guard
+        security/test_ai_operation_guard.cpp
+        ${CMAKE_SOURCE_DIR}/src/security/ai_operation_guard.cpp
+    )
+
+    target_include_directories(test_ai_operation_guard PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_ai_operation_guard PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ai_operation_guard PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    set_target_properties(test_ai_operation_guard PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME AiOperationGuardTests COMMAND test_ai_operation_guard)
+    set_tests_properties(AiOperationGuardTests PROPERTIES
+        LABELS "security;ai_safety;asl4;unit"
+        TIMEOUT 30
+    )
+    message(STATUS "  AiOperationGuard: AOG-01..AOG-20 (READ_ONLY, WRITE_SAFE, DESTRUCTIVE, CRITICAL, environment guard, hard-block, approval shape)")
+else()
+    message(STATUS "AiOperationGuard tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/security/test_ai_operation_guard.cpp")
+endif()

@@ -115,6 +115,9 @@
 #include "server/merge_api_handler.h"
 #include "server/feedback_api_handler.h"
 #include "server/http_type_adapter.h"  // TODO: Remove after migration to cpp-httplib (see HTTP_SERVER_REFACTORING_ACTION_PLAN.md)
+#ifdef THEMIS_ENABLE_MCP
+#include "server/mcp_server.h"
+#endif
 #include "analytics/diff_engine.h"
 #include "storage/pitr_manager.h"
 #include "sharding/multi_primary_coordinator.h"
@@ -6991,7 +6994,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 break;
             }
             const json result = mcp_server_->handleAiPendingApprovals();
-            response = makeJsonResponse(result, req);
+            response = makeResponse(http::status::ok, result.dump(), req);
             break;
         }
 
@@ -7013,9 +7016,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                 const std::string op_id = ai_path.substr(15);  // strip "/v1/ai/approve/"
                 const json result = mcp_server_->handleAiApprove(op_id);
                 const bool is_error = result.value("status", "") == "error";
-                response = makeJsonResponse(
-                    result, req,
-                    is_error ? http::status::not_found : http::status::ok);
+                response = makeResponse(
+                    is_error ? http::status::not_found : http::status::ok,
+                    result.dump(), req);
             }
             break;
         }
@@ -7038,9 +7041,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                 const std::string op_id = ai_path.substr(12);  // strip "/v1/ai/deny/"
                 const json result = mcp_server_->handleAiDeny(op_id);
                 const bool is_error = result.value("status", "") == "error";
-                response = makeJsonResponse(
-                    result, req,
-                    is_error ? http::status::not_found : http::status::ok);
+                response = makeResponse(
+                    is_error ? http::status::not_found : http::status::ok,
+                    result.dump(), req);
             }
             break;
         }
@@ -12712,6 +12715,19 @@ void HttpServer::setContinuousQueryEngine(
         THEMIS_INFO("ContinuousQueryEngine removed — CQL REST/SSE endpoints disabled");
     }
 }
+
+#ifdef THEMIS_ENABLE_MCP
+void HttpServer::setMcpServer(
+    std::shared_ptr<themis::server::McpServer> mcp_server)
+{
+    mcp_server_ = std::move(mcp_server);
+    if (mcp_server_) {
+        THEMIS_INFO("McpServer wired — AI Safety Layer HILG endpoints active at /v1/ai/*");
+    } else {
+        THEMIS_INFO("McpServer removed — AI Safety Layer HILG endpoints disabled");
+    }
+}
+#endif
 
 } // namespace server
 } // namespace themis

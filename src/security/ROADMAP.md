@@ -248,20 +248,22 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
   - `src/server/mcp_server.cpp`: args.value("dry_run", false) → Preview statt Execution
 
 ### Phase 2 — DOG + HILG (Target: Q3 2026)
-- [ ] **ASL-4:** `AiOperationGuard` Klassifikations-Engine (Target: Q3 2026)
+- [x] **ASL-4:** `AiOperationGuard` Klassifikations-Engine (Target: Q3 2026)
   - `include/security/ai_operation_guard.h` + `src/security/ai_operation_guard.cpp` [NEU]
   - OperationClass: READ_ONLY, WRITE_SAFE, DESTRUCTIVE, CRITICAL
   - `evaluate()` → GuardDecision{op_class, preview, requires_approval, operation_id}
-- [ ] **ASL-5:** Approval-Queue in `McpServer` (Target: Q3 2026)
+- [x] **ASL-5:** Approval-Queue in `McpServer` (Target: Q3 2026)
   - `pending_approvals_` map + mutex; TTL-basierter Expiry
   - Operation wird gecached bis Approval oder Expiry
-- [ ] **ASL-6:** HTTP-Approval-Endpoints (Target: Q3 2026)
+- [x] **ASL-6:** HTTP-Approval-Endpoints (Target: Q3 2026)
   - `POST /v1/ai/approve/{operation_id}`
   - `POST /v1/ai/deny/{operation_id}`
   - `GET  /v1/ai/pending-approvals`
-- [ ] **ASL-7:** `safety:`-Sektion aus Mode-YAML auswerten (Target: Q3 2026)
-  - `config/ai_ml/llm/modes/default.yaml`: `safety:` Block für `agentic` Mode
-  - `McpServer`: Konfiguration laden + Guards aktivieren
+  - `HttpServer::setMcpServer()` + route-enum Einträge + Handler in `routeRequest()`
+  - Registriert in `include/server/http_server.h` + `src/server/http_server.cpp`
+- [~] **ASL-7:** `safety:`-Sektion aus Mode-YAML auswerten (Target: Q3 2026)
+  - `config/ai_ml/llm/modes/default.yaml`: `safety:` Block für `agentic` Mode ✅
+  - `McpServer`: Guard-Konfiguration wird im Konstruktor geladen (Defaults); YAML-Override ausstehend
 
 ### Phase 3 — POS + Environment (Target: Q3 2026)
 - [ ] **ASL-8:** Pre-Operation-Snapshot-Hook (Target: Q3 2026)
