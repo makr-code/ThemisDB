@@ -151,7 +151,7 @@ private:
     static constexpr std::size_t kEmbeddingDim = 384;
 
     /// Risk score delta per severity class.
-    static double riskDelta(IntentType t) noexcept;
+    [[nodiscard]] static double riskDelta(IntentType t) noexcept;
 
     /// Build a deterministic, anonymised embedding from an intent + indicator.
     static std::vector<float> buildEmbedding(

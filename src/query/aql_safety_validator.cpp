@@ -37,7 +37,12 @@ struct MutationPattern {
 };
 
 /// DML and DDL mutation keywords that indicate a write operation.
-/// Trailing space prevents matching partial words (e.g. "REMOVES" or "REMOVE_BY").
+/// Trailing space is intentional: it prevents false-positive matches on
+/// partial tokens.  For example, "REMOVE " matches "REMOVE u IN col" but
+/// NOT "REMOVES" or "REMOVE_BY".  Every keyword that can appear directly
+/// before an identifier or collection name must carry this trailing space.
+/// "CREATE COLLECTION" and "DROP " are exceptions that use a longer prefix
+/// or rely on context to avoid false positives.
 static constexpr MutationPattern kMutationPatterns[] = {
     {"INSERT ",           "INSERT"},
     {"UPDATE ",           "UPDATE"},

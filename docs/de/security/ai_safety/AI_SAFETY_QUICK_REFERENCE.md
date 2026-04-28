@@ -85,8 +85,8 @@ curl -X POST https://themis:8443/v1/ai/rollback/snap-DATUM-op-ID \
 |---|---|---|
 | 1 DOG | 🔴 Geplant | Q3 2026 |
 | 2 HILG | 🔴 Geplant | Q3 2026 |
-| 3 AQL Validator | 🔴 Geplant | Q2 2026 |
-| 4 IntentClassifier | 🔴 Geplant | Q2 2026 |
+| 3 AQL Validator | 🟢 Implementiert | Q2 2026 ✅ |
+| 4 IntentClassifier | 🟢 Implementiert | Q2 2026 ✅ |
 | 5 POS Snapshot | 🔴 Geplant | Q3 2026 |
 | 6 Env Guard | 🔴 Geplant | Q3 2026 |
 | 7 Audit Trail | 🔴 Geplant | Q4 2026 |

@@ -32,10 +32,27 @@ using namespace themis::query;
 // ---------------------------------------------------------------------------
 TEST(AqlSafetyValidatorTest, SafeReadOnlyAql) {
     AqlSafetyValidator v;
+    // Basic FOR/FILTER/RETURN
     EXPECT_FALSE(v.validate("FOR u IN users FILTER u.age > 18 RETURN u").has_value());
     EXPECT_FALSE(v.validate("FOR d IN docs RETURN d.title").has_value());
     EXPECT_FALSE(v.validate("RETURN 1 + 1").has_value());
     EXPECT_FALSE(v.validate("FOR x IN col FILTER x.key == @k RETURN x").has_value());
+    // Nested FOR loops (read-only)
+    EXPECT_FALSE(v.validate(
+        "FOR u IN users FOR r IN roles FILTER r.user_id == u._key RETURN {u, r}"
+    ).has_value());
+    // SORT, LIMIT, LET
+    EXPECT_FALSE(v.validate(
+        "FOR d IN docs LET score = d.rank SORT score DESC LIMIT 10 RETURN d"
+    ).has_value());
+    // Multiple FILTER clauses
+    EXPECT_FALSE(v.validate(
+        "FOR p IN products FILTER p.active == true FILTER p.price < 100 RETURN p"
+    ).has_value());
+    // COLLECT / AGGREGATE
+    EXPECT_FALSE(v.validate(
+        "FOR u IN users COLLECT country = u.country AGGREGATE cnt = COUNT(1) RETURN {country, cnt}"
+    ).has_value());
 }
 
 // ---------------------------------------------------------------------------

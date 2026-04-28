@@ -82,10 +82,23 @@ public:
     [[nodiscard]] std::optional<Violation> validate(const std::string& aql_query) const;
 
     /**
+     * @brief Overload accepting `std::string_view` to avoid an extra copy when
+     *        the caller already holds a view or a temporary string.
+     */
+    [[nodiscard]] std::optional<Violation> validate(std::string_view aql_query) const {
+        return validate(std::string{aql_query});
+    }
+
+    /**
      * @brief Convenience wrapper: returns true when @p aql_query is safe
      *        (contains no mutation keywords).
      */
     [[nodiscard]] bool isSafe(const std::string& aql_query) const {
+        return !validate(aql_query).has_value();
+    }
+
+    /// @overload
+    [[nodiscard]] bool isSafe(std::string_view aql_query) const {
         return !validate(aql_query).has_value();
     }
 
