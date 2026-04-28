@@ -61,7 +61,10 @@ std::vector<AiSnapshotInfo> AiSnapshotCleanupJob::listSnapshots() const {
         std::time_t ts = 0;
         auto lwt = entry.last_write_time(ec);
         if (!ec) {
-            // Convert fs::file_time_type → system_clock → time_t
+            // Convert fs::file_time_type → system_clock → time_t.
+            // This uses the clock-offset formula to bridge the gap between the
+            // filesystem clock epoch (implementation-defined) and the system clock
+            // epoch (1970-01-01).  Equivalent to clock_cast in C++20.
             const auto sctp = std::chrono::time_point_cast<std::chrono::system_clock::duration>(
                 lwt - fs::file_time_type::clock::now() + std::chrono::system_clock::now());
             ts = std::chrono::system_clock::to_time_t(sctp);

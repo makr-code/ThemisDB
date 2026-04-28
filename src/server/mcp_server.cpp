@@ -2480,10 +2480,13 @@ json McpServer::toolAiCleanupSnapshots(const json& /*args*/) {
         ? operation_guard_->config().snapshot_dir
         : "/var/themis/ai-snapshots";
 
+    const int safe_retention_days = (snapshot_retention_days_ > 0) ? snapshot_retention_days_ : 7;
+    const int safe_max_gb         = (snapshot_max_total_gb_ > 0) ? snapshot_max_total_gb_ : 100;
+
     themis::security::AiSnapshotCleanupJob job({
         snap_dir,
-        snapshot_retention_days_,
-        static_cast<std::uint64_t>(snapshot_max_total_gb_)
+        safe_retention_days,
+        static_cast<std::uint64_t>(safe_max_gb)
     });
 
     try {

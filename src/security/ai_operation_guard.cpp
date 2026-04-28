@@ -50,6 +50,10 @@ const char* operationClassName(OperationClass c) noexcept {
 
 namespace {
 
+/// Worst-case estimated affected rows for a CRITICAL (full-scope) AQL operation.
+/// Used in operation previews when no query plan is available.
+constexpr uint64_t kCriticalOpMaxAffected = 9'999'999;
+
 /// Case-insensitive uppercase conversion.
 std::string toUpper(const std::string& s) {
     std::string out;
@@ -331,7 +335,7 @@ OperationPreview AiOperationGuard::buildPreview(
             "AQL-Query klassifiziert als {} — Ziel-Collection: '{}'",
             riskLabel, collection.empty() ? "(unbekannt)" : collection);
         if (op_class == OperationClass::CRITICAL) {
-            p.estimated_affected = 9999999;  // Worst-case estimate for full-scan delete
+            p.estimated_affected = kCriticalOpMaxAffected;
         } else if (op_class == OperationClass::DESTRUCTIVE) {
             p.estimated_affected = 1;
         }
