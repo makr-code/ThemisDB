@@ -84,7 +84,7 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
   - `ProcessModelManager::importArisXml()` wraps importer for high-level use
   - 10 tests: EAX-01..EAX-10 (`tests/test_process_aris_xml.cpp`); target: `test_process_aris_xml_focused`
 
-- [ ] BPMN-S (BPMN Security Profile) support (Target: Q4 2026)
+- [x] BPMN-S (BPMN Security Profile) support (Target: Q4 2026)
   - Affected: `bpmn_serializer.cpp`, `ProcessModelRecord`, `ProcessGraphRag::checkCompliance()`
   - Expected: annotate BPMN nodes with DSGVO data-handling requirements (personal data, retention period, legal basis); expose in compliance check
   - Tests: compliance check correctly flags missing DSGVO annotations; integration test with a BPMN-S sample model
@@ -140,7 +140,7 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
 ### Phase 5: Advanced Features (Status: Partially Complete)
 
 - [x] EPK ARIS-XML import (Target: Q3 2026) — `EpkArisXmlImporter` (`include/process/epk_aris_xml_importer.h`)
-- [ ] BPMN-S security profile for DSGVO compliance (Target: Q4 2026)
+- [x] BPMN-S security profile for DSGVO compliance (Target: Q4 2026)
 - [ ] Real-time SLA monitoring via CEP engine (Target: Q4 2026)
 - [ ] Cross-case bottleneck analytics (Target: Q4 2026)
 
@@ -185,11 +185,11 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
   - FEEL-Subset: numerische Vergleiche, Bereiche `[a..b]`, String-Gleichheit, null, boolean
   - Hit-Policies: UNIQUE, FIRST, COLLECT
   - DMN-01..DMN-10 Tests ✅
-- [ ] FIM-Prozessbibliothek-Import (FITKO 2024) (Target: Q4 2026)
+- [x] FIM-Prozessbibliothek-Import (FITKO 2024) (Target: Q4 2026)
   - `FimImporter::importFimXml()`, `importFimCatalogue()`, `importFromFitkoApi()`
   - 5.000+ standardisierte Verwaltungsprozesse aus dem Bundesportal importierbar
   - FIM-Leistungscode in `compliance_tags` erhalten
-- [ ] CMMN 1.1 Case Management Support (OMG 2016) (Target: Q4 2026)
+- [x] CMMN 1.1 Case Management Support (OMG 2016) (Target: Q4 2026)
   - `CmmnSerializer::importXml/exportXml()` für adaptive Fallmodelle
   - Discretionary Tasks: Sachbearbeiter entscheidet Reihenfolge zur Laufzeit
   - `ProcessNotation::CMMN_1_1` als neuer Notation-Typ

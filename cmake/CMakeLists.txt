@@ -2447,6 +2447,8 @@ set(THEMIS_CORE_SOURCES
     ../src/process/process_community_detector.cpp
     ../src/process/process_light_retriever.cpp
     ../src/process/object_centric_tracer.cpp
+    ../src/process/fim_importer.cpp
+    ../src/process/cmmn_serializer.cpp
 
     # OLAP Analytics
     ../src/analytics/olap.cpp
