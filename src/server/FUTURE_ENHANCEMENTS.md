@@ -1486,3 +1486,23 @@ inline bool checkBatchSize(const nlohmann::json& arr, size_t max,
 ### Test Strategy
 - Positive: on Linux/macOS/Windows, `StdioTransport::start()` → async read loop active → request routed.
 - Negative: on unsupported platform, WARN is logged and `start()` returns without crash.
+
+---
+
+## gRPC-Web Proxy Activation (Target: v1.7.0 — stub removal)
+
+**Stub:** `src/server/grpc_web_proxy_handler.cpp` — `!THEMIS_ENABLE_GRPC`: `ensureChannel()` no-op; `handlePost()` returns HTTP 200 with gRPC status 12 (UNIMPLEMENTED)  
+**Risk:** All gRPC-Web requests are rejected with UNIMPLEMENTED; browser/frontend gRPC clients cannot use the proxy endpoint.
+
+### Scope
+- Install gRPC C++ libraries (grpcpp, grpc_unsecure, or grpc++) and set `-DTHEMIS_ENABLE_GRPC=1` in CMake.
+- Wire `GrpcWebProxyHandler` with `Config::backend_address` pointing to the gRPC server (e.g., `localhost:9090`).
+- The full blocking generic-unary proxy (`grpc::GenericStub::PrepareUnaryCall` via `CompletionQueue`) is already implemented above the `#else`.
+
+### Performance Targets
+- Unary gRPC-Web proxy round-trip (p99, local backend): ≤ 10 ms.
+
+### Test Strategy
+- With gRPC enabled: send a gRPC-Web encoded request → receive correct data frame + trailer.
+- Timeout propagation: set `grpc-timeout: 100m` header → `ClientContext::set_deadline` fires.
+- CORS preflight: OPTIONS → 200 with correct `Access-Control-Allow-*` headers.

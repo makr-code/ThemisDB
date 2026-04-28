@@ -20,7 +20,7 @@
 
 ---
 
-## Stub Inventory (71 entries)
+## Stub Inventory (76 entries)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -95,6 +95,11 @@
 | 69 | `acceleration/opencl_backend.cpp` | `!THEMIS_ENABLE_OPENCL`: `computeDistances`/`batchKnnSearch` return empty; `isAvailable()` false | `THEMIS_ENABLE_OPENCL` not defined (CUDA-only or CPU-only builds) | Universal GPU support (AMD, Intel, Qualcomm, ARM Mali) via OpenCL unavailable; queries fall through to CPU | `src/acceleration/FUTURE_ENHANCEMENTS.md` §OpenCL Backend Activation | v1.5.0 |
 | 70 | `acceleration/oneapi_backend.cpp` | `!THEMIS_ENABLE_ONEAPI`: stub OneAPIVectorBackend class compiled in; `isAvailable()` false; `computeDistances`/`batchKnnSearch` return empty | `THEMIS_ENABLE_ONEAPI` not defined (non-Intel-GPU or CPU-only builds) | Intel Arc/Xe/XPU acceleration unavailable; workloads fall through to CPU | `src/acceleration/FUTURE_ENHANCEMENTS.md` §OneAPI Backend Activation | v1.5.0 |
 | 71 | `cdc/kafka_cdc_producer.cpp` | `!THEMIS_ENABLE_KAFKA`: TU intentionally empty; no-op stub defined inline in `include/cdc/kafka_cdc_producer.h`; `publish()` is a silent no-op | `THEMIS_ENABLE_KAFKA` not defined (builds without librdkafka) | All CDC change events silently discarded; downstream Kafka consumers receive no real-time feeds; `publish()` returns without error masking the absence of delivery semantics | `src/cdc/FUTURE_ENHANCEMENTS.md` §Kafka CDC Producer Activation | v1.6.0 |
+| 72 | `auth/rate_limiter_backend.cpp` | `!THEMIS_ENABLE_REDIS`: `increment()` returns 0 (fail-open); `getCount()` returns 0; `reset()` no-op; `isConnected()` / `reconnect()` false | `THEMIS_ENABLE_REDIS` not defined (builds without libhiredis) | Distributed rate limiting disabled; all requests allowed through Redis backend; DoS / rate-limit bypass possible; no cross-replica coordination | `src/auth/FUTURE_ENHANCEMENTS.md` §Redis Rate Limiter Activation | v1.3.0 |
+| 73 | `server/grpc_web_proxy_handler.cpp` | `!THEMIS_ENABLE_GRPC`: `ensureChannel()` no-op (channel/stub holders remain null); `handlePost()` returns HTTP 200 with gRPC status 12 (UNIMPLEMENTED) + "gRPC backend not available in this build" | `THEMIS_ENABLE_GRPC` not defined (builds without gRPC SDK) | All gRPC-Web proxy calls rejected with UNIMPLEMENTED; browser/frontend gRPC clients receive error for every RPC; CORS preflight and status endpoints remain functional | `src/server/FUTURE_ENHANCEMENTS.md` §gRPC-Web Proxy Activation | v1.7.0 |
+| 74 | `cache/grpc_remote_cache_peer.cpp` | `!THEMIS_ENABLE_GRPC`: entire TU excluded from compilation; `GrpcRemoteCachePeer` class absent at link time; header provides no-op stubs | `THEMIS_ENABLE_GRPC` not defined | Cross-node cache replication/invalidation via gRPC disabled; each ThemisDB instance is an isolated cache island; distributed invalidation events silently dropped | `src/cache/FUTURE_ENHANCEMENTS.md` §gRPC Remote Cache Peer Activation | v1.4.0 |
+| 75 | `llm/llama_lora_adapter.cpp` | Runtime detection failure (`g_lora_api_available = false`): all LoRA ops (`init`, `set_with_scale`, `remove`, `clear`, `free`) return -1 / nullptr; legacy `llama_lora_adapter_set_path()` always returns -1 (model pointer unavailable) | `llama_lora_adapter_init` / `llama_lora_adapter_set` absent from linked llama.cpp library at runtime | LoRA fine-tuned adapter hot-swapping disabled; all inference uses base model; per-client / per-jurisdiction LoRA personalisation silently skipped | `src/llm/FUTURE_ENHANCEMENTS.md` §LlamaCpp LoRA Adapter Runtime Activation | v1.8.0 |
+| 76 | `geo/gpu_backend_stub.cpp` | `!THEMIS_GEO_CUDA && !THEMIS_GEO_HIP`: `buildDispatchTable()` returns empty `GeoKernelDispatch{}`; all geo batch ops route to `getCpuExactBackend()`; `batch_fallbacks_` = 100 % | Neither `THEMIS_GEO_CUDA` nor `THEMIS_GEO_HIP` defined (CPU-only or GPU kernel-less builds) | GPU-accelerated geospatial distance and containment kernels unavailable; expected ≥ 8× GPU speedup absent; all spatial queries on CPU path | `src/geo/FUTURE_ENHANCEMENTS.md` §CUDA Geospatial Kernels | v2.0.0 |
 
 ---
 
@@ -125,4 +130,4 @@
 
 ---
 
-*Last updated: 2026-04-28 — 71 entries, 8 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-04-28 — 76 entries, 8 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

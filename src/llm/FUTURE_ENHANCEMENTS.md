@@ -519,3 +519,25 @@ The following IEEE-formatted references support the research basis for features 
 ### Test Strategy
 - Unit: hot-plug config without `model_path` → callback returns `true` AND a WARN is logged.
 - Integration: hot-plug config with valid `model_path` → plugin reloads model in ≤ 30 s.
+
+---
+
+## LlamaCpp LoRA Adapter Runtime Activation (Target: v1.8.0 — stub removal)
+
+**Stub:** `src/llm/llama_lora_adapter.cpp` — runtime detection via `dlsym`: `g_lora_api_available = false` when `llama_lora_adapter_init` / `llama_lora_adapter_set` are absent; all LoRA ops return -1 / nullptr  
+**Risk:** LoRA fine-tuned adapter hot-swapping disabled; all inference uses base model; per-client / per-jurisdiction LoRA personalisation silently skipped.
+
+### Scope
+- Rebuild llama.cpp with `-DLLAMA_LORA=ON` (requires llama.cpp ≥ build b1000).
+- Ensure the shared or static library exports `llama_lora_adapter_init` and `llama_lora_adapter_set`.
+- Confirm activation: ThemisDB log line "✓ llama.cpp LoRA API detected and loaded successfully" at startup.
+- Migrate callers off the legacy `llama_lora_adapter_set_path(ctx, path)` signature (always returns -1) to `MultiLoRAManager::applyLoRA()` which uses the modern 2-step `init` + `set_with_scale` API.
+
+### Performance Targets
+- LoRA adapter swap latency (≤ 16M parameter adapter, F16): ≤ 50 ms.
+- Concurrent inference with LoRA active: ≤ 5 % throughput overhead vs base model.
+
+### Test Strategy
+- Positive: llama.cpp with LoRA built → `g_lora_api_available = true` → `llama_lora_adapter_init()` returns non-null handle.
+- Negative: llama.cpp without LoRA → all ops return -1; no crash; spdlog WARN emitted.
+- Integration: apply LoRA → inference output differs from base model in a predictable direction (LoRA trained to add "THEMIS:" prefix).

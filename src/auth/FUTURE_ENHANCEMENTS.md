@@ -486,3 +486,25 @@ if (allow_sha1_) {
 
 ### Security / Reliability
 - Enable the LDAP injection fix (see §LDAP Injection in this file) before activating the library.
+
+---
+
+## Redis Rate Limiter Activation (Target: v1.3.0 — stub removal)
+
+**Stub:** `src/auth/rate_limiter_backend.cpp` — `!THEMIS_ENABLE_REDIS`: `increment()` returns 0 (fail-open); all Redis ops are no-ops  
+**Risk:** Distributed rate limiting disabled; DoS / rate-limit bypass possible; no cross-replica coordination.
+
+### Scope
+- Install libhiredis (`apt install libhiredis-dev` or vcpkg redis feature).
+- Set `-DTHEMIS_ENABLE_REDIS=1` in CMake.
+- The full Redis-backed `RedisRateLimiterBackend` (above `#else` in `rate_limiter_backend.cpp`) is then compiled.
+- Configure `THEMIS_REDIS_HOST` / `THEMIS_REDIS_PORT` env vars or set `RedisRateLimiterBackend::Config` from YAML.
+
+### Security / Reliability
+- `increment()` must be atomic: the Lua sorted-set script (`kIncrScript`) is already correct for atomicity.
+- Redis connection loss must fail-open (log WARN; allow request) to avoid blocking auth on cache outage.
+- Use `REQUIREPASS` or ACL + TLS in production Redis.
+
+### Test Strategy
+- Distributed: two `RedisRateLimiterBackend` instances sharing a real Redis → combined counter equals sum of increments.
+- Reconnect: simulate Redis restart → `reconnect()` succeeds → subsequent increments work.
