@@ -212,11 +212,16 @@ AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std
     const std::string token_str(token);
     for (const auto& kv : tokens_) {
         const std::string& stored = kv.first;
-        // Length is not a secret (tokens are randomly generated, not user-chosen).
-        // Short-circuit on length mismatch before CRYPTO_memcmp to avoid unnecessary copies.
+        // Length is not a secret — tokens are randomly generated with a fixed
+        // width (not user-chosen), so the length is public information.  The
+        // short-circuit here avoids calling CRYPTO_memcmp on differently-sized
+        // inputs (which would require zero-padding and may confuse static
+        // analysers), and does not expose any additional timing information
+        // beyond the publicly-known expected token length.
         if (stored.size() != token_str.size()) continue;
-        // Constant-time byte comparison: CRYPTO_memcmp takes equal-length inputs and
-        // runs in time proportional to len regardless of the first differing byte.
+        // Constant-time byte comparison: CRYPTO_memcmp runs in O(len) time
+        // regardless of the first differing byte, preventing content-based
+        // timing attacks.
         if (CRYPTO_memcmp(stored.data(), token_str.data(), stored.size()) != 0) continue;
 
         const auto& config = kv.second;

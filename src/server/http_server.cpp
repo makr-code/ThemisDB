@@ -3856,7 +3856,25 @@ http::response<http::string_body> HttpServer::routeRequest(
                         }
                         std::error_code ec;
                         auto canon = std::filesystem::weakly_canonical(model_path, ec);
-                        if (ec || !canon.string().starts_with(allowed_root.string())) {
+                        // Use filesystem::equivalent() or a normalised prefix check that is
+                        // case-insensitive on platforms with case-insensitive file systems
+                        // (Windows, macOS default APFS).  Plain starts_with() on the
+                        // string representations is sufficient on Linux (case-sensitive FS)
+                        // but could be bypassed on Windows/macOS if the caller supplies a
+                        // path that differs only in case.  We guard further with
+                        // lexically_normal() to collapse any remaining "..".
+                        auto canon_norm = canon.lexically_normal();
+                        auto root_norm  = allowed_root.lexically_normal();
+                        bool inside_root = false;
+                        if (!ec) {
+                            // Primary: check that canon is a subdirectory of allowed_root
+                            // by verifying the prefix at the path-component boundary.
+                            auto [mismatch_it, _] = std::mismatch(
+                                root_norm.begin(), root_norm.end(),
+                                canon_norm.begin(), canon_norm.end());
+                            inside_root = (mismatch_it == root_norm.end());
+                        }
+                        if (ec || !inside_root) {
                             auto response = makeErrorResponse(http::status::bad_request,
                                 "model path is outside the allowed directory", req);
                             applyGovernanceHeaders(req, response);

@@ -37,6 +37,9 @@
 namespace themis {
 
 // [E-1] key parameter removed: raw key bytes must never be passed into debug utilities.
+// SECURITY: THEMIS_DEBUG_ENC_DIR must NEVER be set in production — it writes ciphertext blobs
+// (IV, tag, ciphertext) to disk in plaintext JSON.  Enforce absence of this variable via
+// your deployment's environment guard or startup validation.
 static void write_debug_dump(const std::string& prefix, const EncryptedBlob& blob, bool success) {
     try {
         namespace fs = std::filesystem;
