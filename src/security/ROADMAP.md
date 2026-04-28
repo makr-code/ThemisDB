@@ -261,9 +261,13 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
   - `GET  /v1/ai/pending-approvals`
   - `HttpServer::setMcpServer()` + route-enum Einträge + Handler in `routeRequest()`
   - Registriert in `include/server/http_server.h` + `src/server/http_server.cpp`
-- [~] **ASL-7:** `safety:`-Sektion aus Mode-YAML auswerten (Target: Q3 2026)
+- [x] **ASL-7:** `safety:`-Sektion aus Mode-YAML auswerten (Target: Q3 2026)
   - `config/ai_ml/llm/modes/default.yaml`: `safety:` Block für `agentic` Mode ✅
-  - `McpServer`: Guard-Konfiguration wird im Konstruktor geladen (Defaults); YAML-Override ausstehend
+  - `McpServer`: Guard-Konfiguration wird im Konstruktor nach ASL-9 geladen:
+    - `enabled`, `approval_timeout_s`, `auto_snapshot`, `snapshot_dir`, `dry_run_preview` direkt übernommen
+    - `require_approval_for: [DESTRUCTIVE, CRITICAL]` → `approval_threshold = DESTRUCTIVE` (Minimum)
+    - `dry_run_preview` als neues Feld in `AiOperationGuard::Config`
+    - Graceful fallback wenn YAML nicht gefunden (spdlog::warn)
 
 ### Phase 3 — POS + Environment (Target: Q3 2026)
 - [x] **ASL-8:** Pre-Operation-Snapshot-Hook (Target: Q3 2026)

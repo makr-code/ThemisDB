@@ -151,6 +151,95 @@ McpServer::McpServer(asio::io_context& io_context, const Config& config)
     } catch (const std::exception& ex) {
         spdlog::warn("MCP AI Safety Guard: could not load security.yaml ({}), using defaults", ex.what());
     }
+
+    // ASL-7: Load the 'agentic' mode safety: block from the Mode-YAML spec.
+    // Overrides guard config fields (enabled, approval_threshold, approval_timeout_s,
+    // auto_snapshot, snapshot_dir, dry_run_preview) with values from the agentic mode.
+    // Falls back silently to the defaults already set by the security.yaml (ASL-9) load above.
+    // Docs:    src/security/ROADMAP.md § Phase 2 (ASL-7)
+    // Config:  config/ai_ml/llm/modes/default.yaml → modes[id=agentic].safety
+    try {
+        std::string mode_yaml_path;
+        const std::string kModeYamlKey = "config/ai_ml/llm/modes/default.yaml";
+        if (auto resolved = themis::config::ConfigPathResolver::tryResolve(kModeYamlKey)) {
+            mode_yaml_path = *resolved;
+        } else {
+            mode_yaml_path = kModeYamlKey;
+        }
+
+        const YAML::Node mode_root = YAML::LoadFile(mode_yaml_path);
+        const auto& modes_node = mode_root["modes"];
+        if (modes_node && modes_node.IsSequence()) {
+            themis::security::AiOperationGuard::Config mode_cfg = operation_guard_->config();
+            bool applied = false;
+            for (const auto& mode : modes_node) {
+                const auto& id_node = mode["id"];
+                if (!id_node || id_node.as<std::string>() != "agentic") continue;
+                const auto& safety = mode["safety"];
+                if (!safety || !safety.IsMap()) break;
+
+                if (safety["enabled"]) {
+                    mode_cfg.enabled = safety["enabled"].as<bool>(mode_cfg.enabled);
+                }
+                if (safety["approval_timeout_s"]) {
+                    mode_cfg.approval_timeout_s =
+                        safety["approval_timeout_s"].as<int>(mode_cfg.approval_timeout_s);
+                }
+                if (safety["auto_snapshot"]) {
+                    mode_cfg.auto_snapshot =
+                        safety["auto_snapshot"].as<bool>(mode_cfg.auto_snapshot);
+                }
+                if (safety["snapshot_dir"]) {
+                    mode_cfg.snapshot_dir =
+                        safety["snapshot_dir"].as<std::string>(mode_cfg.snapshot_dir);
+                }
+                if (safety["dry_run_preview"]) {
+                    mode_cfg.dry_run_preview =
+                        safety["dry_run_preview"].as<bool>(mode_cfg.dry_run_preview);
+                }
+                // require_approval_for: [DESTRUCTIVE, CRITICAL]
+                // → approval_threshold = lowest class in the list
+                if (safety["require_approval_for"] &&
+                    safety["require_approval_for"].IsSequence()) {
+                    themis::security::OperationClass min_threshold =
+                        themis::security::OperationClass::CRITICAL;
+                    for (const auto& cls : safety["require_approval_for"]) {
+                        const std::string cls_name = cls.as<std::string>();
+                        if (cls_name == "WRITE_SAFE") {
+                            min_threshold = themis::security::OperationClass::WRITE_SAFE;
+                            break;
+                        }
+                        if (cls_name == "DESTRUCTIVE") {
+                            // DESTRUCTIVE < CRITICAL, keep searching for lower
+                            min_threshold = themis::security::OperationClass::DESTRUCTIVE;
+                        }
+                    }
+                    mode_cfg.approval_threshold = min_threshold;
+                }
+
+                applied = true;
+                break;
+            }
+            if (applied) {
+                operation_guard_ =
+                    std::make_unique<themis::security::AiOperationGuard>(std::move(mode_cfg));
+                spdlog::info(
+                    "MCP ASL-7: agentic mode safety config applied from '{}' "
+                    "(threshold={}, timeout={}s, auto_snapshot={}, dry_run_preview={})",
+                    mode_yaml_path,
+                    themis::security::operationClassName(operation_guard_->config().approval_threshold),
+                    operation_guard_->config().approval_timeout_s,
+                    operation_guard_->config().auto_snapshot,
+                    operation_guard_->config().dry_run_preview);
+            } else {
+                spdlog::debug(
+                    "MCP ASL-7: no 'agentic' mode with safety: block in '{}', "
+                    "guard config unchanged", mode_yaml_path);
+            }
+        }
+    } catch (const std::exception& ex) {
+        spdlog::warn("MCP ASL-7: could not load mode YAML ({}), guard config unchanged", ex.what());
+    }
 }
 
 McpServer::~McpServer() {

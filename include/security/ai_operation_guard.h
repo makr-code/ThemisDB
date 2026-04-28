@@ -142,6 +142,10 @@ public:
         /// Directory for pre-operation snapshots (informational in response).
         std::string snapshot_dir = "/var/themis/ai-snapshots";
 
+        /// When true, return a dry-run preview in the approval response.
+        /// Loaded from the agentic mode's safety.dry_run_preview (ASL-7).
+        bool dry_run_preview = true;
+
         // Environment Guard
         std::string              environment = "development";
         bool                     block_critical_in_prod = true;

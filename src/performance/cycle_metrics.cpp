@@ -138,6 +138,16 @@ uint64_t HardwareCycleCounter::gpu_cycles_end(void* event) noexcept {
     return static_cast<uint64_t>(milliseconds * 1'500'000);
 }
 #else
+// STUB/SIMULATION NOTE:
+// Purpose:          No-op stubs for GPU cycle measurement when CUDA is not available.
+//                   gpu_cycles_start() returns nullptr; gpu_cycles_end() returns 0.
+//                   Allows the cycle_metrics interface to compile and link on non-CUDA hosts.
+// Activation:       Active when THEMIS_ENABLE_GPU_CYCLE_METRICS is defined but __CUDACC__
+//                   is not — i.e. non-CUDA compilation units that include the header.
+// Production Delta: No GPU timing data is collected; callers receive zero elapsed cycles.
+// Removal Plan:     Compile this translation unit with nvcc (or clang CUDA) and the CUDA
+//                   runtime linked to enable real GPU cycle measurement.
+//                   Tracked in src/performance/FUTURE_ENHANCEMENTS.md § GPU Cycle Metrics.
 void* HardwareCycleCounter::gpu_cycles_start() noexcept {
     return nullptr;
 }

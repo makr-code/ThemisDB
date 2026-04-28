@@ -1,6 +1,6 @@
 // Copyright 2026 ThemisDB — Licensed under MIT License
 // AI Safety Layer — Schichten 1 & 2: AiOperationGuard (DOG + HILG)
-// Roadmap: src/security/ROADMAP.md § Phase 2 (ASL-4)
+// Roadmap: src/security/ROADMAP.md § Phase 2 (ASL-4, ASL-7)
 //
 // Tests:
 //   AOG-01  READ_ONLY tool → no approval required
@@ -23,6 +23,9 @@
 //   AOG-18  buildBlockedResponse returns correct shape
 //   AOG-19  operation_id unique across two calls
 //   AOG-20  allowed_collections: tool targeting denied collection → hard-block
+//   AOG-21  dry_run_preview field defaults to true in Config (ASL-7)
+//   AOG-22  dry_run_preview can be set to false (ASL-7)
+//   AOG-23  approval_timeout_s is applied from Config (ASL-7)
 
 #include <gtest/gtest.h>
 #include "security/ai_operation_guard.h"
@@ -55,6 +58,7 @@ static AiOperationGuard makeGuard(
     cfg.allowed_collections    = std::move(allowed);
     cfg.critical_ops_role      = role;
     cfg.approval_timeout_s     = 30;
+    cfg.dry_run_preview        = true;
     return AiOperationGuard(std::move(cfg));
 }
 
@@ -331,4 +335,33 @@ TEST(AiOperationGuardTest, AllowedCollectionsEnforced) {
         {{"key", "orders:5"}}, "session-20");
     EXPECT_FALSE(d.block_reason.empty());
     EXPECT_FALSE(d.requires_approval);
+}
+
+// ---------------------------------------------------------------------------
+// AOG-21  dry_run_preview field defaults to true in Config (ASL-7)
+// ---------------------------------------------------------------------------
+TEST(AiOperationGuardTest, DryRunPreviewDefaultTrue) {
+    AiOperationGuard::Config cfg;
+    EXPECT_TRUE(cfg.dry_run_preview);
+}
+
+// ---------------------------------------------------------------------------
+// AOG-22  dry_run_preview can be set to false (ASL-7)
+// ---------------------------------------------------------------------------
+TEST(AiOperationGuardTest, DryRunPreviewSetFalse) {
+    AiOperationGuard::Config cfg;
+    cfg.dry_run_preview = false;
+    AiOperationGuard guard(std::move(cfg));
+    EXPECT_FALSE(guard.config().dry_run_preview);
+}
+
+// ---------------------------------------------------------------------------
+// AOG-23  approval_timeout_s is applied from Config (ASL-7)
+//          A guard constructed with timeout=120 should report 120.
+// ---------------------------------------------------------------------------
+TEST(AiOperationGuardTest, ApprovalTimeoutFromConfig) {
+    AiOperationGuard::Config cfg;
+    cfg.approval_timeout_s = 120;
+    AiOperationGuard guard(std::move(cfg));
+    EXPECT_EQ(guard.config().approval_timeout_s, 120);
 }
