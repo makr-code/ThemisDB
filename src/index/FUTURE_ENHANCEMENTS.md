@@ -976,3 +976,40 @@ Allow clients to search encrypted data without server seeing plaintext.
 - Index corruption detected via RocksDB checksum validation must trigger read-only mode and alert before serving queries
 - Partial (filtered) index predicates must be validated at creation time to prevent injection via predicate strings
 - Online rebuild must maintain a dual-index window (old + new) with atomic cutover; no gap in query coverage
+
+---
+
+## BaseEntity String-Array Field Support for PropertyGraph (Target: v1.7.0)
+
+**Constraint in:** `src/index/property_graph.cpp` — `getNodeLabels_()` (currently serializes multi-label nodes as comma-separated strings instead of native arrays)
+
+### Scope
+- Extend `BaseEntity` to support `std::vector<std::string>` as a native field type alongside the existing scalar types.
+- Update `PropertyGraphManager::getNodeLabels_()` to use `getFieldAsStringVector()` instead of parsing comma-separated values.
+- Affected files:
+  - `include/storage/base_entity.h` — add `setFieldVector(name, vector<string>)`, `getFieldAsStringVector(name) → optional<vector<string>>`
+  - `src/storage/base_entity.cpp` — serialization/deserialization of the new type
+  - `src/index/property_graph.cpp` — replace comma-parse with `getFieldAsStringVector("_labels")`
+  - `src/query/query_engine.cpp` — handle vector-typed predicates in ConjunctiveQuery
+
+### Design Constraints
+- Wire format must remain backward-compatible: existing single-string `_labels` entries must be read correctly by the new code (migration-free).
+- The new type must be round-trip serializable via `BaseEntity::serialize()` / `deserialize()`.
+- `getFieldAsString()` on a vector field must return the first element (or comma-joined string) for backward compatibility.
+
+### Implementation Notes
+- Use `std::variant` or a tagged union to extend the existing field value type.
+- RocksDB key encoding unchanged; only the value blob format gains a new type tag.
+- Migration: write new nodes with the new type; old nodes (comma-string) decoded on first read, re-written as native vectors on next `put()`.
+
+### Test Strategy
+- Unit: write a node with 3 labels; read back via `getFieldAsStringVector()`; assert exact match.
+- Regression: existing PropertyGraph tests (query, traversal) pass unchanged.
+- Migration: write old comma-string record directly to RocksDB; assert `getNodeLabels_()` returns all 3 labels.
+
+### Performance Targets
+- No performance regression for single-label nodes (most common case).
+- `getNodeLabels_()` for multi-label nodes: < 1 µs per call (no string parsing).
+
+### Security / Reliability
+- Malformed serialized arrays must not cause crash or data corruption; return empty vector with WARN log.

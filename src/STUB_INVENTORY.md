@@ -57,6 +57,11 @@
 | 31 | `user_storage_encrypted/key_derivation_service.cpp` | Software KDF fallback when libargon2 absent | `THEMIS_HAS_ARGON2 == 0` | PBKDF2 used instead of Argon2id | add argon2 to vcpkg | v1.6.0 |
 | 32 | `server/rpc/blob_transfer_handler.cpp` | Software CRC-32C checksums (no hardware acceleration) | Always active | ~3–5× slower than SSE4.2/ARM CRC32 hw | `FUTURE_ENHANCEMENTS.md` §Hardware CRC-32C | v1.6.0 |
 | 33 | `ethics_ai/argument_store.cpp` | Vector embedding of ethical arguments not wired; `IVectorWriter` injection missing | Always active (vector path commented-out) | Semantic similarity queries fall back to full prefix scan | `src/ethics_ai/FUTURE_ENHANCEMENTS.md` §Vector Search Integration | v1.6.0 |
+| 34 | `auth/redis_token_blacklist.cpp` | No-op when hiredis is not compiled in | `THEMIS_ENABLE_REDIS` not defined (default) | Token revocations not persisted; `isRevoked()` always returns false → revoked JWTs accepted until natural expiry | `src/auth/FUTURE_ENHANCEMENTS.md` §Distributed Token Blacklist | v1.6.0 |
+| 35 | `auth/ldap_authenticator.cpp` | No-op LDAP bind when libldap not compiled in | `THEMIS_HAS_LDAP` not defined (default) | All LDAP-based logins rejected with explicit error; no silent pass-through | `src/auth/FUTURE_ENHANCEMENTS.md` §LDAP Group Membership | v1.6.0 |
+| 36 | `index/advanced_vector_index.cpp` | Empty `faiss::` type stubs when FAISS not available | `THEMIS_HAS_FAISS` not defined (default) | `initializeIndex()` returns false; all vector search operations disabled | `src/index/FUTURE_ENHANCEMENTS.md` §FAISS Integration | v1.5.0 |
+| 37 | `llm/inline_training_engine.cpp` | Synthetic gradient signal (`kLoRAParamCount=256` proxy) when no real backend attached | Always active when no `IBackendGradientComputer` injected | Loss curve not meaningful; optimizer/checkpoint machinery can be tested but model quality cannot be validated | `src/llm/FUTURE_ENHANCEMENTS.md` §InlineTrainingEngine production gradient | v1.8.0 |
+| 38 | `analytics/olap.cpp` | Parquet export no-ops when Apache Arrow not compiled in | `ARROW_ENABLED` / `THEMIS_HAS_ARROW` not defined (default) | `exportToParquet()` and `exportCollectionToParquet()` return false; BI connector / Spark integration unavailable | `src/analytics/FUTURE_ENHANCEMENTS.md` §Parquet/Arrow Export | v1.7.0 |
 
 ---
 
@@ -70,7 +75,8 @@
 | `src/utils/checksum_utils.cpp` | GAP-005: `calculateMD5()` now delegates to SHA-256/EVP API (v1.9.x) |
 | `src/sharding/paxos_consensus.cpp` | PAX-4: highest-accepted-value propagated via `PaxosPrepareFullCallback` (v1.9.x) |
 | `src/server/http_type_adapter.cpp` | URL-decoding TODO resolved: RFC 3986-compliant `urlDecode()` with malformed-sequence passthrough (v1.9.x) |
-| `src/ethics_ai/argument_store.cpp` | AQL TODO resolved: `getArgumentsByPhilosophy()` now uses `ConjunctiveQuery` when `query_engine_` is available, falls back to prefix scan (v1.9.x) |
+| `src/ethics_ai/argument_store.cpp` | AQL TODO resolved: `getArgumentsByPhilosophy()` now uses `ConjunctiveQuery` when `query_engine_` is available, falls back to prefix scan (v1.9.x); stale TODO comment removed |
+| `src/utils/audit_logger.cpp` | Version TODO resolved: `THEMISDB_VERSION` now derives from `THEMIS_VERSION_STRING` macro (CMake-injected) with `"0.0.0-dev"` fallback (v1.9.x) |
 
 ---
 
@@ -86,4 +92,4 @@
 
 ---
 
-*Last updated: 2026-04-28 — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-04-28 — 38 entries, 8 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

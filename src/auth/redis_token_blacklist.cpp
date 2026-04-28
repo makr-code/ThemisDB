@@ -205,6 +205,23 @@ bool RedisTokenBlacklist::reconnect() {
 
 // ============================================================================
 // No-op stub — compiled when hiredis is not available
+//
+// STUB/SIMULATION NOTE:
+// Purpose: Provide a link-compatible implementation of RedisTokenBlacklist
+//   for builds without hiredis, so that the auth module compiles on systems
+//   where Redis is not available (e.g., embedded or air-gapped deployments).
+// Activation: Compiled when THEMIS_ENABLE_REDIS is NOT defined (default in
+//   minimal builds; set via -DTHEMIS_ENABLE_REDIS in CMake or the 'redis'
+//   vcpkg feature).
+// Production Delta: Token revocations are NEVER persisted — isRevoked() always
+//   returns false, so revoked JWTs will be accepted until they expire naturally.
+//   This is a security regression for multi-node deployments where a revocation
+//   on one node must propagate to all nodes.
+// Removal Plan: Enable hiredis via the 'redis' vcpkg feature and define
+//   THEMIS_ENABLE_REDIS; the real implementation above the #else takes effect.
+//   All unit tests under tests/test_redis_token_blacklist.cpp guard on
+//   THEMIS_ENABLE_REDIS and skip when the stub is active.
+// Roadmap ref: src/auth/FUTURE_ENHANCEMENTS.md § "Distributed Token Blacklist (v1.6.0)"
 // ============================================================================
 
 RedisTokenBlacklist::RedisTokenBlacklist(const Config& config)

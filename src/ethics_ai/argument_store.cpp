@@ -179,10 +179,6 @@ std::variant<std::vector<EthicalArgument>, Status> ArgumentStore::getArgumentsBy
         return results;
     }
     
-    // TODO: Use AQL query when query_engine_ is available:
-    // - FOR arg IN ethics_arguments FILTER arg.philosophy_school == @school ...
-    // For now, scan the key prefix
-
     // If the query engine is available, use ConjunctiveQuery for index-backed
     // retrieval instead of a full prefix scan (avoids deserializing every entity).
     if (query_engine_) {

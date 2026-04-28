@@ -440,3 +440,49 @@ if (allow_sha1_) {
 ### Security / Reliability
 - Fail-closed by default; no silent downgrade
 - Operator must opt-in explicitly; the env var is documented in SECURITY.md
+
+---
+
+## Distributed Token Blacklist — Redis Activation (Target: v1.6.0)
+
+**Stub:** `src/auth/redis_token_blacklist.cpp` — `#else !THEMIS_ENABLE_REDIS` block  
+**Risk:** Token revocations not persisted across restarts; revoked JWTs accepted until natural expiry.
+
+### Scope
+- Enable hiredis via the `redis` vcpkg feature → define `THEMIS_ENABLE_REDIS` in CMake.
+- The real implementation (above the `#else` block) already covers connection pooling,
+  `SETEX` + `EXISTS` semantics, TTL alignment with JWT expiry, and the `purgeExpired()` scheduler.
+- Add `tests/test_redis_token_blacklist.cpp` integration test against a Redis 7.x container
+  (Docker Compose or GitHub Actions service container).
+
+### Design Constraints
+- No breaking API changes to `ITokenBlacklist`; consumers (auth middleware) unchanged.
+- Reconnect logic must retry up to 3 times with exponential back-off before surfacing the error.
+
+### Test Strategy
+- Integration: `add("jti1", now+60s)` → `isRevoked("jti1")` returns true; after TTL: false.
+- Regression: `!THEMIS_ENABLE_REDIS` path continues to compile and `isRevoked()` returns false.
+
+### Security / Reliability
+- Redis connection must use TLS (AUTH + TLS_VERIFY_PEER) in production deployments.
+- If Redis is unavailable, fall back to in-memory blacklist with WARN log (fail-open, not fail-closed, by policy).
+
+---
+
+## LDAP Library Activation (Target: v1.6.0)
+
+**Stub:** `src/auth/ldap_authenticator.cpp` — `#else !THEMIS_HAS_LDAP` block  
+**Risk:** LDAP-based logins fail; organizations that use AD/LDAP cannot authenticate.
+
+### Scope
+- Install libldap-dev (OpenLDAP) and build with `-DTHEMIS_ENABLE_LDAP=ON`.
+- The real implementation already handles TLS/StartTLS, paging, group membership, and
+  RFC 4515-escaped attribute values.
+
+### Test Strategy
+- Integration: run against a Samba/OpenLDAP Docker container; assert successful bind
+  with a valid credential and rejected bind with an invalid one.
+- LDAP injection: supply username `*)(uid=*))(|(uid=*`; assert `performBind()` returns Failed.
+
+### Security / Reliability
+- Enable the LDAP injection fix (see §LDAP Injection in this file) before activating the library.

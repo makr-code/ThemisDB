@@ -719,7 +719,19 @@ void InlineTrainingEngine::computeGradients(
         return;
     }
 
-    // Determine gradient vector size from batch
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide a synthetic gradient signal so that the LoRA optimizer,
+    //   LR scheduling, checkpoint machinery, and training metrics can be
+    //   validated end-to-end without a real llama.cpp backend attached.
+    // Activation: Always active in InlineTrainingEngine::computeGradients()
+    //   when no IBackendGradientComputer is injected (null backend).
+    // Production Delta: Gradients are proportional to sequence length rather
+    //   than real loss; convergence is not meaningful.  Loss curve will appear
+    //   smooth but does not reflect actual model quality.
+    // Removal Plan: Implement IBackendGradientComputer for the llama.cpp GGUF
+    //   path and inject it via InlineTrainingEngine::setGradientComputer().
+    //   kLoRAParamCount will be replaced by backend_.paramCount() at that point.
+    // Roadmap ref: src/llm/FUTURE_ENHANCEMENTS.md § "InlineTrainingEngine production gradient (v1.8.0)"
     static constexpr size_t kLoRAParamCount = 256;  // placeholder LoRA rank dimension
     gradients.assign(kLoRAParamCount, 0.0f);
 

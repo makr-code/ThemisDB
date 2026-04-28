@@ -397,3 +397,38 @@ The following IEEE-formatted references support the research basis for features 
 [12] B. Scholak, N. Schucher, and D. Bahdanau, "PICARD: Parsing Incrementally for Constrained Auto-Regressive Decoding from Language Models," in *Proc. 2021 Conf. Empirical Methods in Natural Language Processing (EMNLP)*, 2021, pp. 9895–9901. https://arxiv.org/abs/2109.05093
 
 [13] N. Geng et al., "Grammar-Constrained Decoding for Structured NLP Tasks without Finetuning," in *Proc. 2023 Conf. Empirical Methods in Natural Language Processing (EMNLP)*, 2023. https://arxiv.org/abs/2305.13971
+
+---
+
+## InlineTrainingEngine Production Gradient Backend (Target: v1.8.0)
+
+**Stub:** `src/llm/inline_training_engine.cpp` — `computeGradients()` synthetic signal  
+**Risk:** Training metrics (loss curve, gradient norms) are not meaningful; model convergence cannot be validated.
+
+### Scope
+- Implement `IBackendGradientComputer` for the llama.cpp GGUF path using
+  `llama_get_logits()` + cross-entropy loss derivation for LoRA parameter gradients.
+- Wire via `InlineTrainingEngine::setGradientComputer(shared_ptr<IBackendGradientComputer>)`.
+- Replace `kLoRAParamCount = 256` placeholder with `backend_->paramCount()` returned
+  from the adapter layer.
+- Affected files:
+  - `include/llm/i_backend_gradient_computer.h` (new interface)
+  - `src/llm/inline_training_engine.cpp` — remove synthetic signal
+  - `src/llm/lora_framework/llama_gradient_computer.cpp` (new impl)
+
+### Design Constraints
+- `computeGradients()` signature unchanged; callers unaffected.
+- Must support mixed-precision (FP16 activations + FP32 gradients) for memory efficiency.
+- Gradient clipping threshold must be configurable (default `max_grad_norm = 1.0`).
+
+### Test Strategy
+- Unit: train 10 steps on a tiny synthetic dataset; assert loss decreases monotonically.
+- Regression: all existing `test_inline_training_engine.cpp` tests pass unchanged.
+- Performance: 1-step gradient computation for batch_size=4, seq_len=512: ≤ 200 ms on CPU.
+
+### Performance Targets
+- Per-step gradient computation: ≤ 200 ms (CPU, `codellama:7b-q4_k_m`)
+
+### Security / Reliability
+- Gradient computation must be deterministic for the same seed (reproducible training).
+- OOM guard: if gradient vector exceeds 1 GB, abort the step and log CRITICAL.
