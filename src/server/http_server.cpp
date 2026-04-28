@@ -2744,6 +2744,7 @@ namespace {
     AiApprovePendingPost,           // POST /v1/ai/approve/{operation_id}
     AiDenyPendingPost,              // POST /v1/ai/deny/{operation_id}
     AiPendingApprovalsGet,          // GET  /v1/ai/pending-approvals
+    AiRollbackPost,                 // POST /v1/ai/rollback/{snapshot_id}  (ASL-10)
 
         NotFound
     };
@@ -3464,6 +3465,12 @@ namespace {
         if (path_only == "/v1/ai/pending-approvals" &&
             method == http::verb::get) {
             return Route::AiPendingApprovalsGet;
+        }
+        // POST /v1/ai/rollback/{snapshot_id}  (ASL-10)
+        if (path_only.rfind("/v1/ai/rollback/", 0) == 0 &&
+            path_only.size() > 16 &&
+            method == http::verb::post) {
+            return Route::AiRollbackPost;
         }
 
         return Route::NotFound;
@@ -7043,6 +7050,32 @@ http::response<http::string_body> HttpServer::routeRequest(
                 const bool is_error = result.value("status", "") == "error";
                 response = makeResponse(
                     is_error ? http::status::not_found : http::status::ok,
+                    result.dump(), req);
+            }
+            break;
+        }
+
+        // ASL-10: Rollback endpoint
+        // Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+        case Route::AiRollbackPost: {
+            if (auto auth_err = requireAccess(req, "admin", "ai.approvals.write",
+                                              "/v1/ai/rollback/")) {
+                response = *auth_err; break;
+            }
+            if (!mcp_server_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MCP server not initialized", req);
+                break;
+            }
+            {
+                std::string ai_path = std::string(req.target());
+                const auto qp = ai_path.find('?');
+                if (qp != std::string::npos) ai_path = ai_path.substr(0, qp);
+                const std::string snap_id = ai_path.substr(16);  // strip "/v1/ai/rollback/"
+                const json result = mcp_server_->handleAiRollback(snap_id);
+                const bool is_error = result.value("status", "") != "success";
+                response = makeResponse(
+                    is_error ? http::status::bad_request : http::status::ok,
                     result.dump(), req);
             }
             break;

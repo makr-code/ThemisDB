@@ -25301,3 +25301,46 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_ai_operation_guard.cpp")
 else()
     message(STATUS "AiOperationGuard tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/security/test_ai_operation_guard.cpp")
 endif()
+
+# =============================================================================
+# AI Safety Layer — ASL-11: AiSnapshotCleanupJob tests
+# POS-01..POS-15: retention policy, size cap, listing, edge cases
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_ai_snapshot_cleanup.cpp")
+    message(STATUS "Adding AiSnapshotCleanup tests (ASL-11 — POS-01..POS-15)")
+
+    add_executable(test_ai_snapshot_cleanup
+        security/test_ai_snapshot_cleanup.cpp
+        ${CMAKE_SOURCE_DIR}/src/security/ai_snapshot_cleanup.cpp
+    )
+
+    target_include_directories(test_ai_snapshot_cleanup PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_ai_snapshot_cleanup PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        fmt::fmt
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ai_snapshot_cleanup PRIVATE THEMIS_TEST_BUILD=1)
+
+    set_target_properties(test_ai_snapshot_cleanup PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME AiSnapshotCleanupTests COMMAND test_ai_snapshot_cleanup)
+
+    set_tests_properties(AiSnapshotCleanupTests PROPERTIES
+        LABELS "security;ai_safety;asl11;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  AiSnapshotCleanup: POS-01..POS-15 (retention, size cap, listing, edge cases)")
+else()
+    message(STATUS "AiSnapshotCleanup tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/security/test_ai_snapshot_cleanup.cpp")
+endif()

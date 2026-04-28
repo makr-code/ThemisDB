@@ -35,10 +35,12 @@
 #include "utils/error_registry.h"
 #include "utils/string_utils.h"
 #include "config/config_path_resolver.h"
+#include "security/ai_snapshot_cleanup.h"
 #include "version.h"
 #ifdef THEMIS_ENABLE_LLM
 #include "llm/ai_orchestrator.h"
 #endif
+#include <yaml-cpp/yaml.h>
 #include <spdlog/spdlog.h>
 #include <iostream>
 #include <thread>
@@ -83,6 +85,70 @@ McpServer::McpServer(asio::io_context& io_context, const Config& config)
     guard_cfg.block_critical_in_prod = true;
     operation_guard_ = std::make_unique<themis::security::AiOperationGuard>(std::move(guard_cfg));
     spdlog::info("MCP AI Safety Guard initialised (DOG+HILG, threshold=DESTRUCTIVE)");
+
+    // ASL-9: Load security.yaml to override guard config with deployment settings.
+    // Docs: src/security/ROADMAP.md § Phase 3 (ASL-9)
+    try {
+        std::string yaml_path;
+        if (auto resolved = themis::config::ConfigPathResolver::tryResolve("config/security.yaml")) {
+            yaml_path = *resolved;
+        } else {
+            yaml_path = "config/security.yaml";
+        }
+
+        const YAML::Node root = YAML::LoadFile(yaml_path);
+
+        themis::security::AiOperationGuard::Config new_cfg = operation_guard_->config();
+
+        if (const auto& env = root["environment"]) {
+            if (env["name"]) {
+                new_cfg.environment = env["name"].as<std::string>(new_cfg.environment);
+            }
+            if (const auto& restrictions = env["ai_agent_restrictions"]) {
+                if (restrictions["block_destructive"]) {
+                    new_cfg.block_critical_in_prod = restrictions["block_destructive"].as<bool>(
+                        new_cfg.block_critical_in_prod);
+                }
+                if (restrictions["denied_collections"]) {
+                    new_cfg.denied_collections.clear();
+                    for (const auto& c : restrictions["denied_collections"]) {
+                        new_cfg.denied_collections.push_back(c.as<std::string>());
+                    }
+                }
+                if (restrictions["allowed_collections"]) {
+                    new_cfg.allowed_collections.clear();
+                    for (const auto& c : restrictions["allowed_collections"]) {
+                        new_cfg.allowed_collections.push_back(c.as<std::string>());
+                    }
+                }
+                if (restrictions["require_role_for_critical"]) {
+                    new_cfg.critical_ops_role = restrictions["require_role_for_critical"].as<std::string>(
+                        new_cfg.critical_ops_role);
+                }
+            }
+        }
+
+        if (const auto& ai_safety = root["ai_safety"]) {
+            if (const auto& snapshot = ai_safety["snapshot"]) {
+                if (snapshot["dir"]) {
+                    new_cfg.snapshot_dir = snapshot["dir"].as<std::string>(new_cfg.snapshot_dir);
+                }
+                if (snapshot["retention_days"]) {
+                    snapshot_retention_days_ = snapshot["retention_days"].as<int>(snapshot_retention_days_);
+                }
+                if (snapshot["max_total_size_gb"]) {
+                    snapshot_max_total_gb_ = snapshot["max_total_size_gb"].as<int>(snapshot_max_total_gb_);
+                }
+            }
+        }
+
+        operation_guard_ = std::make_unique<themis::security::AiOperationGuard>(std::move(new_cfg));
+        spdlog::info("MCP AI Safety Guard: config loaded from '{}' (env='{}', snapshot_dir='{}')",
+                     yaml_path, operation_guard_->config().environment,
+                     operation_guard_->config().snapshot_dir);
+    } catch (const std::exception& ex) {
+        spdlog::warn("MCP AI Safety Guard: could not load security.yaml ({}), using defaults", ex.what());
+    }
 }
 
 McpServer::~McpServer() {
@@ -563,6 +629,12 @@ void McpServer::registerDefaultTools() {
             {"properties", {}}
         },
         [this](const json& args) { return toolListIndexes(args); });
+
+    // ASL-11: AI snapshot cleanup tool
+    registerTool("ai_cleanup_snapshots",
+        "Delete expired AI pre-operation snapshots (retention policy enforcement)",
+        json::object(),
+        [this](const json& args) { return toolAiCleanupSnapshots(args); });
 
     // ========================================================================
     // LLM Tools (NEW)
@@ -2200,6 +2272,30 @@ json McpServer::handleAiApprove(const std::string& operation_id) {
 
     spdlog::info("AI Safety HILG: APPROVED tool='{}' op_id='{}'", tool, operation_id);
 
+    // ASL-8: Pre-operation snapshot for DESTRUCTIVE/CRITICAL operations.
+    // Docs: src/security/ROADMAP.md § Phase 3 (ASL-8)
+    std::string pre_snapshot_path;
+    const bool needs_snapshot = db_ && operation_guard_ &&
+        (it->second.classification == "DESTRUCTIVE" || it->second.classification == "CRITICAL");
+    if (needs_snapshot) {
+        pre_snapshot_path = operation_guard_->config().snapshot_dir +
+                            "/" + operation_id + "_pre_op";
+        try {
+            if (db_->createCheckpoint(pre_snapshot_path)) {
+                it->second.pre_snapshot_path = pre_snapshot_path;
+                spdlog::info("AI Safety ASL-8: pre-op snapshot created at '{}' for op_id='{}'",
+                             pre_snapshot_path, operation_id);
+            } else {
+                pre_snapshot_path.clear();
+                spdlog::warn("AI Safety ASL-8: createCheckpoint returned false for op_id='{}'",
+                             operation_id);
+            }
+        } catch (const std::exception& ex) {
+            pre_snapshot_path.clear();
+            spdlog::error("AI Safety ASL-8: snapshot failed for op_id='{}': {}", operation_id, ex.what());
+        }
+    }
+
     // Execute the originally queued operation by re-dispatching through the
     // normal tool handlers (with enforce_read_only=false, dry_run=false).
     json mutable_args = op_args;
@@ -2222,10 +2318,11 @@ json McpServer::handleAiApprove(const std::string& operation_id) {
     pending_approvals_.erase(it);
 
     return {
-        {"status",        "executed"},
-        {"operation_id",  operation_id},
-        {"approved_by",   "(http-approval-endpoint)"},
-        {"result",        exec_result}
+        {"status",                  "executed"},
+        {"operation_id",            operation_id},
+        {"approved_by",             "(http-approval-endpoint)"},
+        {"pre_operation_snapshot",  pre_snapshot_path},
+        {"result",                  exec_result}
     };
 }
 
@@ -2290,6 +2387,95 @@ void McpServer::purgeExpiredApprovals() {
         } else {
             ++it;
         }
+    }
+}
+
+// ============================================================================
+// ASL-10: Rollback endpoint
+// Docs: src/security/ROADMAP.md § Phase 3 (ASL-10)
+// ============================================================================
+
+json McpServer::handleAiRollback(const std::string& snapshot_id) {
+    if (!db_) {
+        spdlog::warn("AI Safety ASL-10: rollback requested but database not attached");
+        return {
+            {"status",  "error"},
+            {"error_code", "NO_DATABASE"},
+            {"message", "Database not attached"}
+        };
+    }
+
+    // Security: reject path traversal and absolute paths.
+    if (snapshot_id.find("..") != std::string::npos || (!snapshot_id.empty() && snapshot_id[0] == '/')) {
+        spdlog::warn("AI Safety ASL-10: rejected invalid snapshot_id='{}'", snapshot_id);
+        return {
+            {"status",  "error"},
+            {"error_code", "INVALID_SNAPSHOT_ID"},
+            {"message", "Invalid snapshot ID"}
+        };
+    }
+
+    const std::string snapshot_path = operation_guard_
+        ? (operation_guard_->config().snapshot_dir + "/" + snapshot_id)
+        : ("/var/themis/ai-snapshots/" + snapshot_id);
+
+    spdlog::info("AI Safety ASL-10: restoring checkpoint snapshot_id='{}' path='{}'",
+                 snapshot_id, snapshot_path);
+
+    try {
+        if (db_->restoreFromCheckpoint(snapshot_path)) {
+            spdlog::info("AI Safety ASL-10: restore succeeded for snapshot_id='{}'", snapshot_id);
+            return {
+                {"status",      "success"},
+                {"snapshot_id", snapshot_id},
+                {"message",     "Database restored from checkpoint"}
+            };
+        }
+        spdlog::error("AI Safety ASL-10: restoreFromCheckpoint returned false for snapshot_id='{}'",
+                      snapshot_id);
+        return {
+            {"status",  "error"},
+            {"error_code", "RESTORE_FAILED"},
+            {"message", "Checkpoint restore failed"}
+        };
+    } catch (const std::exception& ex) {
+        spdlog::error("AI Safety ASL-10: restore threw exception for snapshot_id='{}': {}",
+                      snapshot_id, ex.what());
+        return {
+            {"status",  "error"},
+            {"error_code", "RESTORE_EXCEPTION"},
+            {"message", std::string("Checkpoint restore failed: ") + ex.what()}
+        };
+    }
+}
+
+// ============================================================================
+// ASL-11: Snapshot cleanup tool
+// Docs: src/security/ROADMAP.md § Phase 3 (ASL-11)
+// ============================================================================
+
+json McpServer::toolAiCleanupSnapshots(const json& /*args*/) {
+    const std::string snap_dir = operation_guard_
+        ? operation_guard_->config().snapshot_dir
+        : "/var/themis/ai-snapshots";
+
+    themis::security::AiSnapshotCleanupJob job({
+        snap_dir,
+        snapshot_retention_days_,
+        static_cast<std::uint64_t>(snapshot_max_total_gb_)
+    });
+
+    try {
+        const int deleted = job.runCleanup();
+        spdlog::info("AI Safety ASL-11: snapshot cleanup complete, deleted={}", deleted);
+        return {{"status", "success"}, {"deleted_count", deleted}};
+    } catch (const std::exception& ex) {
+        spdlog::error("AI Safety ASL-11: snapshot cleanup failed: {}", ex.what());
+        return {
+            {"status",  "error"},
+            {"error_code", "CLEANUP_FAILED"},
+            {"message", std::string("Snapshot cleanup failed: ") + ex.what()}
+        };
     }
 }
 

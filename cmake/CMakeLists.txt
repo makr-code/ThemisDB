@@ -1560,6 +1560,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/aql_injection_detector.cpp
     ../src/security/intent_classifier.cpp
     ../src/security/ai_operation_guard.cpp
+    ../src/security/ai_snapshot_cleanup.cpp
     ../src/core/security_initialization.cpp
     ../src/performance/cycle_metrics.cpp
     ../src/performance/numa_topology.cpp

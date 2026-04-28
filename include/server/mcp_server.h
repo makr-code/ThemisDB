@@ -294,15 +294,16 @@ private:
      * is approved, or is denied.
      */
     struct PendingApproval {
-        std::string operation_id;   ///< UUID (matches GuardDecision::operation_id)
-        std::string ai_session_id;  ///< AI session that triggered the operation
-        std::string tool_name;      ///< MCP tool name
-        json        operation_args; ///< Original, unmodified args
-        std::string classification; ///< "DESTRUCTIVE" or "CRITICAL"
-        json        approval_response; ///< Pre-built requires_approval JSON
+        std::string operation_id;       ///< UUID (matches GuardDecision::operation_id)
+        std::string ai_session_id;      ///< AI session that triggered the operation
+        std::string tool_name;          ///< MCP tool name
+        json        operation_args;     ///< Original, unmodified args
+        std::string classification;     ///< "DESTRUCTIVE" or "CRITICAL"
+        json        approval_response;  ///< Pre-built requires_approval JSON
         std::chrono::system_clock::time_point created_at;
         std::chrono::system_clock::time_point expires_at;
         bool        is_executed = false;
+        std::string pre_snapshot_path;  ///< ASL-8: path of pre-op snapshot (empty if not taken)
     };
 
     /// Map: operation_id → PendingApproval entry.
@@ -333,8 +334,18 @@ private:
     /// Handle GET /v1/ai/pending-approvals
     json handleAiPendingApprovals();
 
+    /// Handle POST /v1/ai/rollback/{snapshot_id}  (ASL-10)
+    json handleAiRollback(const std::string& snapshot_id);
+
+    /// Cleanup expired AI pre-operation snapshots (ASL-11)
+    json toolAiCleanupSnapshots(const json& args);
+
     /// Remove expired entries from pending_approvals_.  Called on demand.
     void purgeExpiredApprovals();
+
+private:
+    int snapshot_retention_days_ = 7;   ///< ASL-9/11: from security.yaml
+    int snapshot_max_total_gb_   = 100; ///< ASL-9/11: from security.yaml
 };
 
 /**

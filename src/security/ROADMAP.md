@@ -266,15 +266,15 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
   - `McpServer`: Guard-Konfiguration wird im Konstruktor geladen (Defaults); YAML-Override ausstehend
 
 ### Phase 3 — POS + Environment (Target: Q3 2026)
-- [ ] **ASL-8:** Pre-Operation-Snapshot-Hook (Target: Q3 2026)
+- [x] **ASL-8:** Pre-Operation-Snapshot-Hook (Target: Q3 2026)
   - `storage_->createCheckpoint(snap_dir)` vor jeder approved DESTRUCTIVE/CRITICAL Op
   - MCP-Response enthält `"pre_operation_snapshot"` Pfad
-- [ ] **ASL-9:** Environment-Konfiguration auswerten (Target: Q3 2026)
+- [x] **ASL-9:** Environment-Konfiguration auswerten (Target: Q3 2026)
   - `config/security.yaml`: `environment:` + `ai_agent_restrictions:` Block
   - `McpServer`: production → hard-block CRITICAL ohne Rolle
-- [ ] **ASL-10:** `POST /v1/ai/rollback/{snapshot_id}` (Target: Q3 2026)
+- [x] **ASL-10:** `POST /v1/ai/rollback/{snapshot_id}` (Target: Q3 2026)
   - `storage_->restoreFromCheckpoint(path)` nach Operator-Bestätigung
-- [ ] **ASL-11:** Snapshot-Cleanup-Job (Retention-Policy) (Target: Q3 2026)
+- [x] **ASL-11:** Snapshot-Cleanup-Job (Retention-Policy) (Target: Q3 2026)
   - Retention: `snapshot_retention_days`, `snapshot_max_total_gb`
 
 ### Phase 4 — Audit + LoRA-Classifier (Target: Q4 2026)
