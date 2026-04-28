@@ -164,19 +164,22 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
   - Event-Objekt-Beziehungen aus ProcessLinker-Anhängen
   - Tests: OCEL 2.0 JSON-Schema-Validierung; Round-trip mit PM4Py
   - OCEL-01..OCEL-04 Tests ✅
-- [ ] Leiden-Community-Detection für Prozesscluster (GraphRAG, Edge 2024) (Target: Q3 2026)
+- [x] Leiden-Community-Detection für Prozesscluster (GraphRAG, Edge 2024) (Target: Q3 2026)
   - `ProcessCommunityDetector::detect()` → thematische Knotengruppen
   - LLM-Community-Reports pro Cluster, gecacht unter `proc:community:`
   - Globale Anfragen ("Beschreibe den Genehmigungsablauf") über Reports statt Knotentraversal
   - Perf: Recompute < 500 ms für 500 Knoten
-- [ ] Duales Retrieval Local/Global (LightRAG, Guo 2024) (Target: Q3 2026)
+  - LCD-01..LCD-10 Tests ✅
+- [x] Duales Retrieval Local/Global (LightRAG, Guo 2024) (Target: Q3 2026)
   - `ProcessLightRetriever::retrieve(query, instance_id, mode: LOW|HIGH|AUTO)`
   - Low = Entity-zentriert (Sachbearbeiter-Anfragen), High = Community-zentriert (Bürger-Anfragen)
   - AUTO wählt Modus basierend auf Anfrage-Typ (spezifisch vs. konzeptuell)
-- [ ] Object-Centric Process Mining / OCPM (van der Aalst 2022) (Target: Q3 2026)
+  - PLR-01..PLR-08 Tests ✅
+- [x] Object-Centric Process Mining / OCPM (van der Aalst 2022) (Target: Q3 2026)
   - `ObjectCentricTracer`: OCEL 2.0 Log aus Instanz + Anhängen; DFG pro Objekttyp
   - Konvergenz/Divergenz-Analyse für Verwaltungsvorgänge (Antragsteller, Dokument, Prüfer)
   - Perf: DFG-Berechnung ≤ 5 s für 10.000 Events
+  - OCT-01..OCT-10 Tests ✅
 - [x] DMN 1.5 Entscheidungstabellen (OMG 2023) (Target: Q3 2026)
   - `DmnEvaluator::loadFromXml/Json()`, `evaluate()`, `evaluateFeel()`
   - FEEL-Subset: numerische Vergleiche, Bereiche `[a..b]`, String-Gleichheit, null, boolean

@@ -2444,6 +2444,9 @@ set(THEMIS_CORE_SOURCES
     ../src/process/vcc_vpb_importer.cpp
     ../src/process/process_linker.cpp
     ../src/process/process_graph_rag.cpp
+    ../src/process/process_community_detector.cpp
+    ../src/process/process_light_retriever.cpp
+    ../src/process/object_centric_tracer.cpp
 
     # OLAP Analytics
     ../src/analytics/olap.cpp
@@ -3071,6 +3074,9 @@ if(MSVC)
         ../src/importers/postgres_importer.cpp
         ../src/importers/mongo_importer.cpp
         ../src/process/process_graph_rag.cpp
+        ../src/process/process_community_detector.cpp
+        ../src/process/process_light_retriever.cpp
+        ../src/process/object_centric_tracer.cpp
         ../src/process/process_model_manager.cpp
         PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
     )

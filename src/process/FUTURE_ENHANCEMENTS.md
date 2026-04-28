@@ -320,6 +320,73 @@ public:
 
 ---
 
+### 0d2. Duales Retrieval Local/Global (LightRAG-Ansatz)
+
+**Priority:** Very High
+**Target:** Q3 2026
+**Wissenschaftliche Basis:** Guo, Z. et al. (2024). *LightRAG: Simple and Fast
+Retrieval-Augmented Generation.* arXiv:2410.05779.
+
+**Scope:**
+Implement `ProcessLightRetriever` with three retrieval modes:
+- **LOCAL** (entity-centric): expands a query across graph neighbours via `ProcessGraphRag::query()`
+- **GLOBAL** (community-centric): aggregates top-k community reports via `ProcessCommunityDetector`
+- **AUTO**: routes the query automatically based on whether it is specific or conceptual
+
+**Design Constraints:**
+- Must delegate to `ProcessGraphRag` for LOCAL path (no duplicate graph traversal).
+- Community reports are fetched from RocksDB under `proc:community:<model_id>:<idx>`.
+- AUTO routing is keyword-based (no LLM call required at routing time); LLM-based routing is a future extension.
+- Thread-safe for concurrent `retrieve()` calls (no mutable shared state beyond the injected references).
+
+**Required Interfaces:**
+```cpp
+namespace themis::process {
+
+enum class RetrievalMode { LOCAL, GLOBAL, AUTO };
+
+struct LightRetrievalResult {
+    std::string answer;
+    RetrievalMode mode_used;
+    std::vector<std::string> sources;
+};
+
+class ProcessLightRetriever {
+public:
+    ProcessLightRetriever(::themis::RocksDBWrapper& db,
+                          ProcessGraphRag& graph_rag,
+                          ProcessCommunityDetector& detector);
+
+    std::pair<Status, LightRetrievalResult>
+    retrieve(const std::string& query,
+             const std::string& instance_id,
+             RetrievalMode mode = RetrievalMode::AUTO);
+};
+
+} // namespace themis::process
+```
+
+**Implementation Notes:**
+- AUTO routing scans the query for entity-type keywords ("wer", "welcher", "Sachbearbeiter", "Dokument", etc.) → LOCAL; conceptual/broad queries → GLOBAL.
+- GLOBAL path calls `detector_.loadCommunities(model_id)` and returns concatenated summaries of the top-3 communities (by modularity score).
+- If no communities are persisted yet, GLOBAL falls back to LOCAL and logs a warning.
+- `model_id` for a given `instance_id` is resolved via `db_.get("proc:inst:<instance_id>", model_id)`.
+
+**Test Strategy:**
+- PLR-01..PLR-08 cover: explicit LOCAL, explicit GLOBAL, AUTO routing (both branches), fallback when no communities, empty query, invalid instance, multi-community ranking, result sources populated.
+- Use in-memory RocksDB (`InMemoryRocksDB` fixture or real RocksDB with temp dir).
+
+**Performance Targets:**
+- LOCAL retrieve: ≤ 50 ms for 1 000-node graph.
+- GLOBAL retrieve: ≤ 200 ms for 50 communities.
+- AUTO routing decision: < 1 ms (pure string scan).
+
+**Security / Reliability:**
+- Query string is passed through to `ProcessGraphRag`; no SQL/shell injection surface.
+- RocksDB key format validated before write (`proc:inst:<id>` — alphanumeric + dash/underscore only enforced by caller).
+
+---
+
 ### 0e. Object-Centric Process Mining (OCPM)
 
 **Priority:** Very High

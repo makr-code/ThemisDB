@@ -25375,3 +25375,126 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/ai_safety/test_ai_safety_chaos.c
 else()
     message(STATUS "AiSafetyChaos tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/security/ai_safety/test_ai_safety_chaos.cpp")
 endif()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# P4: ProcessCommunityDetector focused tests (LCD-01..LCD-10)
+# ─────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_process_community_detector.cpp")
+    message(STATUS "Adding ProcessCommunityDetector focused tests (LCD-01..LCD-10)")
+    add_executable(ProcessCommunityDetectorTests
+        process/test_process_community_detector.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_community_detector.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+    )
+    target_include_directories(ProcessCommunityDetectorTests PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(ProcessCommunityDetectorTests PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(ProcessCommunityDetectorTests PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ProcessCommunityDetectorTests COMMAND ProcessCommunityDetectorTests)
+    set_tests_properties(ProcessCommunityDetectorTests PROPERTIES
+        LABELS "process;community;leiden;graphrag;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  ProcessCommunityDetector: LCD-01..LCD-10")
+endif()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# P5: ProcessLightRetriever focused tests (PLR-01..PLR-08)
+# ─────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_process_light_retriever.cpp")
+    message(STATUS "Adding ProcessLightRetriever focused tests (PLR-01..PLR-08)")
+    add_executable(ProcessLightRetrieverTests
+        process/test_process_light_retriever.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_light_retriever.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_community_detector.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+    )
+    target_include_directories(ProcessLightRetrieverTests PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(ProcessLightRetrieverTests PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(ProcessLightRetrieverTests PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ProcessLightRetrieverTests COMMAND ProcessLightRetrieverTests)
+    set_tests_properties(ProcessLightRetrieverTests PROPERTIES
+        LABELS "process;lightrag;retrieval;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  ProcessLightRetriever: PLR-01..PLR-08")
+endif()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# P6: ObjectCentricTracer focused tests (OCT-01..OCT-10)
+# ─────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_object_centric_tracer.cpp")
+    message(STATUS "Adding ObjectCentricTracer focused tests (OCT-01..OCT-10)")
+    add_executable(ObjectCentricTracerTests
+        process/test_object_centric_tracer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/object_centric_tracer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+    )
+    target_include_directories(ObjectCentricTracerTests PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(ObjectCentricTracerTests PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(ObjectCentricTracerTests PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ObjectCentricTracerTests COMMAND ObjectCentricTracerTests)
+    set_tests_properties(ObjectCentricTracerTests PROPERTIES
+        LABELS "process;ocpm;ocel;object-centric;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  ObjectCentricTracer: OCT-01..OCT-10")
+endif()
