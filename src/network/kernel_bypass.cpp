@@ -292,6 +292,26 @@ ZeroCopyDmaBuffer::ZeroCopyDmaBuffer(size_t size_bytes, int numa_node) {
     // Both attempts failed.
     THEMIS_WARN("ZeroCopyDmaBuffer: mmap failed: {}", std::strerror(errno));
 #else
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow ZeroCopyDmaBuffer to be used on Windows and other non-Linux
+    //   platforms by falling back to a plain heap allocation instead of the
+    //   Linux mmap(MAP_HUGETLB) or mmap(MAP_ANONYMOUS) paths.  The object is
+    //   constructible and usable; data() returns a valid aligned pointer.
+    // Activation: Not on Linux (i.e., !defined(__linux__)).  On Linux the
+    //   two mmap() attempts above are tried first; this #else is only reached
+    //   on Windows/macOS/BSDs.
+    // Production Delta: huge_page_ is always false; the allocation is a
+    //   standard heap allocation with no NUMA affinity and no kernel-bypass DMA
+    //   mapping.  Zero-copy network I/O (DPDK / io_uring) cannot be performed
+    //   because there is no DMA-mapped memory; any attempt to pass this buffer
+    //   to a DPDK mbuf or io_uring fixed buffer registration will fail or be
+    //   silently ignored.  Effective bandwidth will be limited by an additional
+    //   kernel copy on every I/O operation.
+    // Removal Plan: DPDK and io_uring are Linux-only.  For Windows, use a
+    //   different kernel-bypass library (e.g., RDMA/NDIS) or accept the
+    //   additional copy overhead.  No source change is required; this path is
+    //   correct for the intended platform.
+    // Roadmap ref: src/network/FUTURE_ENHANCEMENTS.md §"Kernel Bypass Windows Support"
     // Windows / other: plain aligned allocation.
     data_      = NumaAllocator::allocate(size_bytes, -1);
     size_      = size_bytes;

@@ -855,3 +855,29 @@ See `CONTRIBUTING.md` for guidelines.
 - GPU metric paths must handle CUDA context loss (device reset) without crashing the host process; affected metrics are marked as stale and cleared
 - Persistent memory layout must use checksums per 4 KB page; silent data corruption is detected on next read and triggers a fallback to the WAL for recovery
 - Feature flag changes at runtime must be atomic (std::atomic) to prevent torn reads on multi-core systems
+
+---
+
+## PMU Counter Activation — THEMIS_ENABLE_PMU_COUNTERS (Target: v1.5.0)
+
+**Stub:** `src/performance/phase4/pmu_counters.cpp` — `!THEMIS_ENABLE_PMU_COUNTERS` block: all `PmuCounter` and `CacheMissAnalyzer` methods are no-ops; reads always return 0  
+**Risk:** Cache-miss monitoring is silently disabled in all non-Linux builds and in CI. Performance regressions caused by cache thrashing go undetected until manual profiling.
+
+### Scope
+- Enable `THEMIS_ENABLE_PMU_COUNTERS=ON` in CI runners on Linux (use a privileged container or set `perf_event_paranoid ≤ 2`).
+- The existing Linux implementation (the `#if THEMIS_ENABLE_PMU_COUNTERS` block above the stub) opens `perf_event_open` with `PERF_COUNT_HW_CACHE_MISSES`; this is complete and correct.
+- Add a startup check: if `PMU_COUNTERS=ON` but `pmu_accessible()` returns false (permission denied), log WARN once at startup and disable PMU collection automatically rather than failing the server.
+
+### Design Constraints
+- PMU counter reads must be non-blocking and safe to call from hot-path storage engine code.
+- `PmuCounter::read()` must return 0 on any error without throwing.
+- On macOS, use `kperf` (Apple PMU framework) as a future extension; no stub needed.
+
+### Test Strategy
+- Unit: assert `pmu_accessible()` returns true in a privileged Linux CI job.
+- Unit: assert all stub methods return 0 / false in the `!THEMIS_ENABLE_PMU_COUNTERS` build.
+- Integration: run a cache-miss benchmark; assert `CacheMissAnalyzer` reports non-zero cache misses.
+
+### Performance Targets
+- `PmuCounter::read()` (hot path): ≤ 50 ns (1× `ioctl(perf_event_ioc_read)` syscall).
+- PMU counter overhead on total query latency: ≤ 2%.

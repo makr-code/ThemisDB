@@ -20,7 +20,7 @@
 
 ---
 
-## Stub Inventory (51 entries)
+## Stub Inventory (56 entries)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -75,6 +75,11 @@
 | 49 | `server/wal_grpc_service.cpp` | `WalGrpcService` is a no-op when `THEMIS_HAS_SHARD_GRPC=0` | `THEMIS_HAS_SHARD_GRPC` not set (default in minimal builds without protoc code-gen step) | WAL replication to replica shards silently disabled; replica nodes diverge from primary over time | `src/sharding/FUTURE_ENHANCEMENTS.md` §WAL gRPC Replication | v1.6.0 |
 | 50 | `server/prompt_engineering_grpc_service.cpp` | Entire gRPC service is a stub (constructor only); `service()` returns `nullptr` | Always active until `THEMIS_HAS_PROMPT_GRPC=1` and protoc generates stubs | All gRPC calls to prompt-engineering endpoint return UNIMPLEMENTED; REST endpoints unaffected | `src/prompt_engineering/FUTURE_ENHANCEMENTS.md` §gRPC Service | v1.7.0 |
 | 51 | `training/provenance_tracker.cpp` | In-process lineage tree fallback when `graph_db_` is null or AQL traversal returns empty | `graph_db_` not set, or AQL result empty (offline / test mode) | Only captures samples registered in current process lifetime; cross-process/restart lineage lost; graph relationships flattened to parent–child pairs | `src/training/FUTURE_ENHANCEMENTS.md` §Provenance Graph Integration | v1.8.0 |
+| 52 | `performance/phase4/pmu_counters.cpp` | `!THEMIS_ENABLE_PMU_COUNTERS` block: all `PmuCounter` and `CacheMissAnalyzer` methods are no-ops; reads always return 0 | `THEMIS_ENABLE_PMU_COUNTERS=0` (default on non-Linux or paranoid CI) | Cache-miss metrics silently zero; PMU-derived dashboard alerts do not fire; `pmu_accessible()` returns false | `src/performance/FUTURE_ENHANCEMENTS.md` §PMU Counter Activation | v1.5.0 |
+| 53 | `geo/gpu_kernel_dispatcher_cpu.cpp` | Entire file is no-op for non-CUDA builds; `dispatch()` always returns `dispatched=false` | `THEMIS_GEO_CUDA=OFF` (default without CUDA toolkit) | All geospatial kernels (distance matrix, containment bitset) execute on CPU; 10–100× throughput reduction for large batch requests (≥ 1M points) | `src/geo/FUTURE_ENHANCEMENTS.md` §CUDA Geospatial Kernels | v2.0.0 |
+| 54 | `index/gpu_vector_index_vulkan.cpp` | `!THEMIS_HAS_VULKAN_IMPL` Pimpl: all methods return `false` or empty; `isInitialized()` returns false | `THEMIS_HAS_VULKAN_IMPL=0` (no Vulkan SDK / GPU driver) | GPU-accelerated ANN search disabled; all vector queries fall back to CPU HNSW/FAISS; 5–20× throughput reduction for ≥ 1M vectors | `src/index/FUTURE_ENHANCEMENTS.md` §GPU Vector Index (Vulkan) | v1.9.0 |
+| 55 | `network/kernel_bypass.cpp` | `ZeroCopyDmaBuffer` Windows path: plain heap allocation, no huge pages or DMA mapping | `!defined(__linux__)` | Zero-copy network I/O unavailable; kernel copy on every I/O operation; DPDK/io_uring fixed-buffer registration silently fails | `src/network/FUTURE_ENHANCEMENTS.md` §Kernel Bypass Windows Support | v1.6.0 |
+| 56 | `index/process_graph.cpp` | Multi-Model Query Stubs: `queryTasksByFormData`, `queryForeignKeyJoin`, `queryAggregation` run O(n) full scans over RocksDB in-process store instead of AQL index-backed traversal | Always active (no AQL engine wired into `ProcessGraphManager`) | O(n) and O(n×m) scan degradation for > 10K tokens per process; no server-side index acceleration | `src/index/FUTURE_ENHANCEMENTS.md` §Process Graph Multi-Model Query Engine | v2.0.0 |
 
 ---
 
@@ -105,4 +110,4 @@
 
 ---
 
-*Last updated: 2026-04-28 — 51 entries, 8 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-04-28 — 56 entries, 8 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

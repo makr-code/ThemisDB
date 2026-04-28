@@ -1013,3 +1013,63 @@ Allow clients to search encrypted data without server seeing plaintext.
 
 ### Security / Reliability
 - Malformed serialized arrays must not cause crash or data corruption; return empty vector with WARN log.
+
+---
+
+## GPU Vector Index (Vulkan) — VulkanVectorIndexBackend Activation (Target: v1.9.0)
+
+**Stub:** `src/index/gpu_vector_index_vulkan.cpp` — `!THEMIS_HAS_VULKAN_IMPL` Pimpl: all methods return `false` or empty; `isInitialized()` returns false  
+**Risk:** GPU-accelerated ANN search (HNSW on Vulkan compute shaders) is silently disabled. All vector queries fall through to CPU HNSW/FAISS, giving 5–20× lower throughput for corpora ≥ 1 M vectors.
+
+### Scope
+- Install the Vulkan SDK (≥ 1.3) and a compatible GPU driver; rebuild with `-DTHEMIS_HAS_VULKAN_IMPL=1`.
+- The Pimpl implementation block (inside `#if THEMIS_HAS_VULKAN_IMPL`) is then compiled.
+- Implement `uploadVectors()` using a staging buffer + `vkCmdCopyBuffer`; implement `searchIndices()` using a compute shader that evaluates L2 or cosine distance over the uploaded embedding matrix.
+
+### Required Interfaces
+- `VulkanVectorIndexBackend::initialize(device_index)` → creates Vulkan instance, selects device, allocates index buffer.
+- `uploadVectors(vecs)` → copies embeddings to GPU-local memory (DEVICE_LOCAL heap).
+- `search(query, k)` → dispatches compute shader, returns top-k results with scores.
+
+### Design Constraints
+- Auto-fallback: if `initialize()` returns false (no compatible GPU), callers fall through to CPU HNSW transparently.
+- Thread safety: `searchIndices()` must support concurrent callers (multiple VkQueue submissions).
+- Memory: pre-allocate GPU buffer for `max_vectors * dim * sizeof(float)` at `initialize()` time; reject `uploadVectors()` that would exceed this limit.
+
+### Test Strategy
+- Unit: compile with `THEMIS_HAS_VULKAN_IMPL=0`; assert all methods return false/empty (stub path).
+- Integration: Vulkan GPU available; assert `initialize()` returns true, `search()` returns correct top-k neighbors.
+- Regression: CPU HNSW results match Vulkan results within float tolerance ε = 1e-4.
+
+### Performance Targets
+- `search()` (1 M vectors, 768-dim, k=10, RTX-class GPU): ≤ 10 ms p99.
+- Throughput: ≥ 1000 concurrent query/s (Vulkan async submit).
+
+---
+
+## Process Graph Multi-Model Query Engine (Target: v2.0.0)
+
+**Stub:** `src/index/process_graph.cpp` — `queryTasksByFormData`, `queryForeignKeyJoin`, `queryAggregation` run O(n) full scans over RocksDB in-process store  
+**Risk:** Performance degrades severely with large process instances (> 10K tokens per process); production workflows with millions of process tokens will be untenable.
+
+### Scope
+- Wire a `ThemisDB` AQL query engine reference into `ProcessGraphManager` via a new `setQueryEngine(std::shared_ptr<QueryEngine>)` method.
+- When `query_engine_` is set, delegate `queryTasksByFormData`, `queryForeignKeyJoin`, and `queryAggregation` to AQL queries that use the server-side BRIN/hash index on `process_id` and `token_type` fields.
+- Keep the in-process RocksDB scan implementations as fallback (when `query_engine_` is null) for offline/test mode.
+
+### Required Interfaces
+- `ProcessGraphManager::setQueryEngine(std::shared_ptr<QueryEngine>)` — inject at server startup.
+- AQL collection: `process_tokens` with indexes on `process_id` (hash), `token_type` (hash), `form_data.*` (inverted, for filter pushdown).
+
+### Design Constraints
+- `queryTasksByFormData` filter semantics must be identical between the in-process and AQL paths (same JSON pointer traversal logic).
+- Fallback to in-process scan must emit a WARN log so operators know the AQL engine is not configured.
+
+### Test Strategy
+- Unit: inject a mock `QueryEngine`; assert AQL path is taken when engine is set.
+- Integration: 50K tokens in a process; assert `queryTasksByFormData` with a common field filter returns results in ≤ 50 ms.
+- Regression: in-process fallback path passes all existing `test_process_graph.cpp` tests unchanged.
+
+### Performance Targets
+- `queryTasksByFormData` (10K tokens, AQL-backed): ≤ 10 ms p99.
+- `queryForeignKeyJoin` (10K tokens × 1K foreign docs, AQL-backed): ≤ 50 ms p99.
