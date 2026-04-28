@@ -22,7 +22,7 @@
 
 #include "llm/llama_resource_manager.h"
 // BackendRegistry is declared in acceleration/compute_backend.h.
-// The original source had a commented-out include for the non-existent
+// The original source had a commented-out include for the nonexistent
 // "acceleration/backend_registry.h" — fixed to use the correct header.
 #include "acceleration/compute_backend.h"
 #include <spdlog/spdlog.h>

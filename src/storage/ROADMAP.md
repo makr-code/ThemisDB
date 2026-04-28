@@ -76,7 +76,6 @@ v1.8.0 – Production-grade persistent storage layer built on RocksDB with MVCC,
 ### Short-term (Next 3-6 months)
 - [x] `IndexAnalyzer` — hot/warm/cold-aware index analysis with cron scheduling and AI/ML intervention (Target: v1.9.0) ✅
   - Inputs: `RocksDBWrapper` instance + YAML config (`config/index_analyze.yaml`)
-  - Inputs: `RocksDBWrapper` instance + YAML config (`config/index_analyze.yaml`)
   - Outputs: `IndexAnalysisReport` per index: `fragmentation_pct`, `recommendation` (NONE / UPDATE_STATS / REORGANIZE / PARTIAL_REBUILD / FULL_REBUILD), optional `ai_recommendation`
   - Affected files: `include/storage/index_analyzer.h`, `src/storage/index_analyzer.cpp`, `config/index_analyze.yaml`, `tests/test_index_analyzer.cpp`
   - Tier thresholds: hot (10/20/35%), warm (18/32/50%), cold (30/50/70%); all configurable per-tier and per-index via YAML

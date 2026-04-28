@@ -730,9 +730,12 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
     } // state_mutex_ released here — executeAcceptPhase() re-acquires it safely
 
     // Apply highest-accepted-value override (Paxos Phase-1b safety property).
-    // Construct proposed_value inside the if-block when an override is needed
-    // (avoids an unnecessary copy of `value` on the common path where every
-    // node starts fresh and no prior value needs to be propagated).
+    // proposed_value_override is declared outside the if-block for lifetime
+    // reasons (it must outlive the if-block to be referenced by the final
+    // proposed_value const-ref), but is only assigned inside the if-block
+    // when an earlier accepted value must override our own proposal (Paxos
+    // Phase-1b safety): this avoids an unconditional copy of `value` on the
+    // common fast path where no prior value was accepted.
     std::optional<ConsensusLogEntry> proposed_value_override;
     if (highest_accepted_value.has_value()) {
         proposed_value_override = *highest_accepted_value;

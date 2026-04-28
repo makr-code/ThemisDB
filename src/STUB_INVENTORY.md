@@ -20,7 +20,7 @@
 
 ---
 
-## Stub Inventory (31 entries)
+## Stub Inventory (44 entries)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
