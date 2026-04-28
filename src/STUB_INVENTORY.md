@@ -1,8 +1,11 @@
 # ThemisDB — Stub & Simulation Inventory
 
-> **Auto-scan command** (run from repo root to refresh the list):
+> **Auto-scan commands** (run from repo root to refresh the list):
 > ```bash
+> # Files containing stubs:
 > grep -rn "STUB/SIMULATION NOTE" src/ --include="*.cpp" -l | sort
+> # Total count (should match inventory header):
+> grep -rn "STUB/SIMULATION NOTE" src/ --include="*.cpp" | wc -l
 > ```
 > Keep this document in sync with ROADMAP changes.
 
