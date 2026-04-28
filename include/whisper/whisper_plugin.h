@@ -28,6 +28,7 @@
 #include "whisper/whisper_config.h"
 #include "whisper/whisper_transcriber.h"
 #include "whisper/audio_chunk_reader.h"
+#include "whisper/voice_activity_detector.h"
 #include <memory>
 #include <atomic>
 #include <mutex>
@@ -73,6 +74,20 @@ public:
 
     audio::TranscriptionResult transcribeFile(const std::string& path) override;
 
+    /**
+     * @brief Transcribe with incremental token streaming.
+     *
+     * If a VAD is installed, silent segments are skipped before the PCM is
+     * forwarded to the transcriber.  The @p callback is invoked once per
+     * token emitted by the underlying transcriber.  Any exception thrown by
+     * the callback aborts the stream and the returned result has
+     * success=false.
+     */
+    audio::TranscriptionResult transcribeStream(
+            const std::vector<float>& pcm_samples,
+            float sample_rate,
+            audio::StreamCallback callback) override;
+
     audio::LanguageDetectionResult detectLanguage(const std::vector<float>& pcm_samples,
                                                   float sample_rate) override;
 
@@ -80,9 +95,25 @@ public:
     std::string getPluginVersion() const override { return "2.0.0"; }
     nlohmann::json getStatistics() const override;
 
+    // ── VAD injection ──────────────────────────────────────────────────────
+    /**
+     * @brief Inject a custom Voice Activity Detector.
+     *
+     * If set, transcribeStream() (and transcribe() when vad_config is non-
+     * default) uses the VAD to skip silent segments before inference.
+     * Passing nullptr disables VAD.
+     */
+    void setVoiceActivityDetector(std::unique_ptr<IVoiceActivityDetector> vad,
+                                  const VadConfig& cfg = {});
+
 private:
+    // Applies VAD: returns only speech samples if a VAD is installed, otherwise pcm unchanged.
+    std::vector<float> applyVad(const std::vector<float>& pcm, float sample_rate) const;
+
     std::unique_ptr<IWhisperTranscriber> transcriber_;
     std::unique_ptr<IAudioChunkReader>   reader_;
+    std::unique_ptr<IVoiceActivityDetector> vad_;
+    VadConfig vad_cfg_;
     std::atomic<bool>     initialized_{false};
     std::atomic<uint64_t> transcription_count_{0};
     std::atomic<uint64_t> error_count_{0};

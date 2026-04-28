@@ -27,12 +27,36 @@
 #include <vector>
 #include <memory>
 #include <cstdint>
+#include <functional>
 #include <nlohmann/json.hpp>
 
 namespace themis {
 namespace audio {
 
 using json = nlohmann::json;
+
+/**
+ * @brief A single streamed transcription token emitted during streaming transcription.
+ *
+ * Each token represents one word or segment produced during incremental inference.
+ * The callback registered with transcribeStream() is invoked once per token.
+ */
+struct TranscriptionToken {
+    std::string text;               ///< Token text (word, segment, or punctuation)
+    float       start_ms = 0.0f;    ///< Token start offset in milliseconds
+    float       end_ms   = 0.0f;    ///< Token end offset in milliseconds
+    float       confidence = 0.0f;  ///< Per-token confidence [0..1]
+    int         token_index = 0;    ///< Sequential index within the current stream
+};
+
+/**
+ * @brief Callback type for streaming transcription.
+ *
+ * Invoked once per token on the transcription worker thread.
+ * The callback must not block; throwing from the callback is allowed and will
+ * cause transcribeStream() to return a result with success=false.
+ */
+using StreamCallback = std::function<void(const TranscriptionToken&)>;
 
 /**
  * @brief Result of a transcription operation.
@@ -93,6 +117,39 @@ public:
      * @param path  Absolute or relative path to a WAV/FLAC file.
      */
     virtual TranscriptionResult transcribeFile(const std::string& path) = 0;
+
+    /**
+     * @brief Transcribe PCM samples with incremental token streaming.
+     *
+     * The @p callback is invoked once per token on the worker thread as
+     * tokens are produced.  The callback must not block; any exception thrown
+     * from the callback causes the method to return with success=false.
+     *
+     * Default implementation calls transcribe() and emits the full text as a
+     * single token before returning.
+     *
+     * @param pcm_samples  Mono float32 audio data.
+     * @param sample_rate  Sample rate (e.g. 16000.0f).
+     * @param callback     Invoked once per token; must not block.
+     * @return Final TranscriptionResult (aggregated full text + provenance).
+     */
+    virtual TranscriptionResult transcribeStream(const std::vector<float>& pcm_samples,
+                                                 float sample_rate,
+                                                 StreamCallback callback) {
+        auto result = transcribe(pcm_samples, sample_rate);
+        if (result.success && callback) {
+            TranscriptionToken tok;
+            tok.text        = result.text;
+            tok.confidence  = result.confidence;
+            tok.token_index = 0;
+            try { callback(tok); }
+            catch (...) {
+                result.success       = false;
+                result.error_message = "transcribeStream: callback threw an exception";
+            }
+        }
+        return result;
+    }
 
     /**
      * @brief Detect the spoken language in PCM samples.
