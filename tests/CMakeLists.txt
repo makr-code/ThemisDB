@@ -23775,6 +23775,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         fmt::fmt
+        Threads::Threads
     )
     target_compile_features(test_llama_cpp_plugin PRIVATE cxx_std_17)
     target_compile_definitions(test_llama_cpp_plugin PRIVATE
@@ -23789,7 +23790,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
         LABELS "plugins;llama_cpp;llm;v2.1.0"
         TIMEOUT 60
     )
-    message(STATUS "  LlamaCppPlugin: 50 tests (A-N)")
+    message(STATUS "  LlamaCppPlugin: 56 tests (A-O + P1-P3 concurrency)")
 else()
     message(STATUS "  LlamaCppPlugin tests not found - skipped")
 endif()
