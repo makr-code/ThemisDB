@@ -45,6 +45,14 @@ class AiOperationGuard;
 struct GuardDecision;
 }
 
+// Forward-declare AuditLogger for the AI Session Audit Trail (ASL-12).
+// Docs: docs/de/security/ai_safety/AI_SAFETY_AUDIT_TRAIL.md
+// NOTE: Do NOT include audit_logger.h here; mcp_server.cpp includes it.
+namespace themis::utils {
+class AuditLogger;
+enum class SecurityEventType : int;
+}
+
 namespace themis {
 namespace server {
 
@@ -141,6 +149,18 @@ public:
     // Transport management
     void attachHttpServer(std::shared_ptr<HttpServer> http_server);
     void attachDatabase(std::shared_ptr<RocksDBWrapper> db);
+
+    /**
+     * @brief Attach an AuditLogger for AI Session Audit Trail (ASL-12).
+     *
+     * When attached, all AI Safety Layer events (tool calls, approvals, denials,
+     * rollbacks, etc.) are recorded via the audit logger.
+     *
+     * Docs: docs/de/security/ai_safety/AI_SAFETY_AUDIT_TRAIL.md
+     *
+     * @param logger Shared pointer to a fully initialised AuditLogger.
+     */
+    void setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> logger);
 
     /**
      * @brief Attach an AIOrchestrator to expose mode-based LLM pipelines as MCP tools.
@@ -313,6 +333,9 @@ private:
     /// AI Safety Layer guard (DOG).  Constructed once in the constructor.
     std::unique_ptr<themis::security::AiOperationGuard> operation_guard_;
 
+    /// AI Session Audit Logger (ASL-12).  Optional — null if not attached.
+    std::shared_ptr<themis::utils::AuditLogger> audit_logger_;
+
     // ── HILG handler methods ───────────────────────────────────────────────
 
     /// Dispatch a write tool through the DOG + HILG pipeline.
@@ -342,6 +365,15 @@ private:
 
     /// Remove expired entries from pending_approvals_.  Called on demand.
     void purgeExpiredApprovals();
+
+    /// Log an AI Safety Layer audit event (ASL-12).
+    /// No-op when audit_logger_ is null.
+    void logAiEvent(
+        themis::utils::SecurityEventType type,
+        const std::string&               tool_name,
+        const std::string&               ai_session_id,
+        const nlohmann::json&            details = {}
+    );
 
 private:
     int snapshot_retention_days_ = 7;   ///< ASL-9/11: from security.yaml

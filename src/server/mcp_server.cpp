@@ -36,6 +36,7 @@
 #include "utils/string_utils.h"
 #include "config/config_path_resolver.h"
 #include "security/ai_snapshot_cleanup.h"
+#include "utils/audit_logger.h"
 #include "version.h"
 #ifdef THEMIS_ENABLE_LLM
 #include "llm/ai_orchestrator.h"
@@ -259,6 +260,33 @@ void McpServer::attachDatabase(std::shared_ptr<RocksDBWrapper> db) {
     } else {
         spdlog::info("MCP Server attached to RocksDB database (not open yet)");
     }
+}
+
+// ============================================================================
+// ASL-12: AI Session Audit Trail — setAuditLogger + logAiEvent
+// Docs: docs/de/security/ai_safety/AI_SAFETY_AUDIT_TRAIL.md
+// Roadmap: src/security/ROADMAP.md § Phase 4 (ASL-12)
+// ============================================================================
+
+void McpServer::setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> logger) {
+    audit_logger_ = std::move(logger);
+}
+
+void McpServer::logAiEvent(
+    themis::utils::SecurityEventType type,
+    const std::string&               tool_name,
+    const std::string&               ai_session_id,
+    const nlohmann::json&            details
+) {
+    if (!audit_logger_) [[unlikely]] {
+        return;
+    }
+    audit_logger_->logSecurityEvent(
+        type,
+        ai_session_id,
+        "mcp://" + tool_name,
+        details
+    );
 }
 
 // ============================================================================
@@ -2201,11 +2229,17 @@ std::optional<json> McpServer::checkOperationGuard(
     if (!decision.block_reason.empty()) {
         spdlog::warn("AI Safety DOG: HARD BLOCK tool='{}' reason='{}'",
                      tool_name, decision.block_reason);
+        logAiEvent(themis::utils::SecurityEventType::AI_OPERATION_DENIED,
+                   tool_name, ai_session_id,
+                   {{"reason", decision.block_reason}, {"op_class", themis::security::operationClassName(decision.op_class)}});
         return operation_guard_->buildBlockedResponse(decision);
     }
 
     // READ_ONLY / WRITE_SAFE: no interception needed
     if (!decision.requires_approval) {
+        logAiEvent(themis::utils::SecurityEventType::AI_TOOL_CALL,
+                   tool_name, ai_session_id,
+                   {{"op_class", themis::security::operationClassName(decision.op_class)}});
         return std::nullopt;
     }
 
@@ -2239,6 +2273,11 @@ std::optional<json> McpServer::checkOperationGuard(
 
         pending_approvals_.emplace(decision.operation_id, std::move(pa));
     }
+
+    logAiEvent(themis::utils::SecurityEventType::AI_APPROVAL_REQUIRED,
+               tool_name, ai_session_id,
+               {{"operation_id", decision.operation_id},
+                {"op_class", themis::security::operationClassName(decision.op_class)}});
 
     return approval_resp;
 }
@@ -2286,6 +2325,9 @@ json McpServer::handleAiApprove(const std::string& operation_id) {
                 it->second.pre_snapshot_path = pre_snapshot_path;
                 spdlog::info("AI Safety ASL-8: pre-op snapshot created at '{}' for op_id='{}'",
                              pre_snapshot_path, operation_id);
+                logAiEvent(themis::utils::SecurityEventType::AI_SNAPSHOT_CREATED,
+                           tool, it->second.ai_session_id,
+                           {{"operation_id", operation_id}, {"snapshot_path", pre_snapshot_path}});
             } else {
                 pre_snapshot_path.clear();
                 spdlog::warn("AI Safety ASL-8: createCheckpoint returned false for op_id='{}'",
@@ -2316,7 +2358,12 @@ json McpServer::handleAiApprove(const std::string& operation_id) {
     }
 
     // Remove from pending map
+    const std::string approved_session = it->second.ai_session_id;
     pending_approvals_.erase(it);
+
+    logAiEvent(themis::utils::SecurityEventType::AI_OPERATION_EXECUTED,
+               tool, approved_session,
+               {{"operation_id", operation_id}, {"pre_snapshot", pre_snapshot_path}});
 
     return {
         {"status",                  "executed"},
@@ -2341,7 +2388,13 @@ json McpServer::handleAiDeny(const std::string& operation_id) {
 
     spdlog::info("AI Safety HILG: DENIED tool='{}' op_id='{}'",
                  it->second.tool_name, operation_id);
+    const std::string denied_tool    = it->second.tool_name;
+    const std::string denied_session = it->second.ai_session_id;
     pending_approvals_.erase(it);
+
+    logAiEvent(themis::utils::SecurityEventType::AI_OPERATION_DENIED,
+               denied_tool, denied_session,
+               {{"operation_id", operation_id}});
 
     return {
         {"status",       "denied"},
@@ -2384,6 +2437,9 @@ void McpServer::purgeExpiredApprovals() {
         if (now >= it->second.expires_at) {
             spdlog::debug("AI Safety HILG: expired op_id='{}' tool='{}'",
                           it->second.operation_id, it->second.tool_name);
+            logAiEvent(themis::utils::SecurityEventType::AI_OPERATION_EXPIRED,
+                       it->second.tool_name, it->second.ai_session_id,
+                       {{"operation_id", it->second.operation_id}});
             it = pending_approvals_.erase(it);
         } else {
             ++it;
@@ -2446,6 +2502,9 @@ json McpServer::handleAiRollback(const std::string& snapshot_id) {
     try {
         if (db_->restoreFromCheckpoint(snap_str)) {
             spdlog::info("AI Safety ASL-10: restore succeeded for snapshot_id='{}'", snapshot_id);
+            logAiEvent(themis::utils::SecurityEventType::AI_ROLLBACK_EXECUTED,
+                       "ai_rollback", "",
+                       {{"snapshot_id", snapshot_id}, {"snapshot_path", snap_str}});
             return {
                 {"status",      "success"},
                 {"snapshot_id", snapshot_id},
@@ -2492,6 +2551,9 @@ json McpServer::toolAiCleanupSnapshots(const json& /*args*/) {
     try {
         const int deleted = job.runCleanup();
         spdlog::info("AI Safety ASL-11: snapshot cleanup complete, deleted={}", deleted);
+        logAiEvent(themis::utils::SecurityEventType::AI_CLEANUP_EXECUTED,
+                   "ai_cleanup_snapshots", "",
+                   {{"deleted_count", deleted}, {"snapshot_dir", snap_dir}});
         return {{"status", "success"}, {"deleted_count", deleted}};
     } catch (const std::exception& ex) {
         spdlog::error("AI Safety ASL-11: snapshot cleanup failed: {}", ex.what());

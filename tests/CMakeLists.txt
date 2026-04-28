@@ -25344,3 +25344,34 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_ai_snapshot_cleanup.cpp")
 else()
     message(STATUS "AiSnapshotCleanup tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/security/test_ai_snapshot_cleanup.cpp")
 endif()
+
+
+# =============================================================================
+# AI Safety Layer — ASL-14: Chaos Tests (CHAOS-01..CHAOS-12)
+# Validates AiOperationGuard, IntentClassifier, AqlSafetyValidator, and
+# AiSnapshotCleanupJob under adversarial / edge-case conditions.
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/ai_safety/test_ai_safety_chaos.cpp")
+    message(STATUS "Adding AiSafetyChaos tests (ASL-14 — CHAOS-01..CHAOS-12)")
+
+    add_executable(test_ai_safety_chaos
+        security/ai_safety/test_ai_safety_chaos.cpp
+    )
+    target_include_directories(test_ai_safety_chaos PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+    target_link_libraries(test_ai_safety_chaos PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        fmt::fmt
+        Threads::Threads
+    )
+    target_compile_definitions(test_ai_safety_chaos PRIVATE THEMIS_TEST_BUILD=1 THEMIS_ENABLE_MCP=1)
+    set_target_properties(test_ai_safety_chaos PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
+    add_test(NAME AiSafetyChaosTests COMMAND test_ai_safety_chaos)
+    set_tests_properties(AiSafetyChaosTests PROPERTIES LABELS "security;ai_safety;chaos;unit" TIMEOUT 30)
+    message(STATUS "  AiSafetyChaos: CHAOS-01..CHAOS-12 (DOG, HILG, IntentClassifier, AqlSafetyValidator, SnapshotCleanup, LoRA hook)")
+else()
+    message(STATUS "AiSafetyChaos tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/security/ai_safety/test_ai_safety_chaos.cpp")
+endif()

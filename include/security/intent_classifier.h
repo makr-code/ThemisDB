@@ -144,8 +144,39 @@ public:
     /// Human-readable name for a given IntentType.
     static std::string intentName(IntentType t);
 
+    // ── LoRA-Adapter API (ASL-13 / IMPL-A2) ───────────────────────────────
+    //
+    // STUB/SIMULATION NOTE:
+    // Purpose: Extension point for replacing the rule-based classifier with a
+    //          LoRA-fine-tuned embedding model (target precision ≥ 92%).
+    // Activation: Active only when setLoraModelPath() is called with a valid
+    //             .bin file AND THEMIS_ENABLE_LLM is defined.
+    // Production Delta: Without LoRA model, classify() uses the rule-based engine
+    //                   (~80% precision). With LoRA, inference replaces the rules.
+    // Removal Plan: Remove rule-based fallback after IMPL-A2 Loop-1 validation.
+    // Roadmap: src/security/ROADMAP.md § Phase 4 (ASL-13)
+
+    enum class LoraLoadResult {
+        kSuccess,              ///< Model loaded and active
+        kEmptyPath,            ///< Empty path provided; graceful no-op
+        kFileNotAccessible,    ///< File not found or not readable
+    };
+
+    /// Convenience wrapper: calls loadLoraModel() and returns true on kSuccess.
+    [[nodiscard]] bool setLoraModelPath(const std::string& model_path);
+    /// Load a LoRA model binary from @p model_path.
+    [[nodiscard]] LoraLoadResult loadLoraModel(const std::string& model_path);
+    /// Returns true when a LoRA model is loaded and active.
+    [[nodiscard]] bool isLoraActive() const noexcept;
+    /// Returns the path of the currently loaded LoRA model (empty if none).
+    [[nodiscard]] const std::string& loraModelPath() const noexcept;
+
 private:
     std::string shard_id_;
+
+    // ── LoRA adapter state (ASL-13) ───────────────────────────────────────
+    std::string lora_model_path_;
+    bool        lora_active_ = false;
 
     /// Evidence embedding dimension (fixed at 384 for Layer-11 compatibility).
     static constexpr std::size_t kEmbeddingDim = 384;

@@ -278,16 +278,16 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
   - Retention: `snapshot_retention_days`, `snapshot_max_total_gb`
 
 ### Phase 4 — Audit + LoRA-Classifier (Target: Q4 2026)
-- [ ] **ASL-12:** AI-Session-Audit-Trail in `AuditLogger` (Target: Q4 2026)
+- [x] **ASL-12:** AI-Session-Audit-Trail in `AuditLogger` (Target: Q4 2026)
   - Neue Events: AI_TOOL_CALL, AI_APPROVAL_REQUIRED, AI_OPERATION_EXECUTED, AI_SNAPSHOT_CREATED, ...
   - `ai_session_id` über alle MCP-Tool-Calls einer Session konsistent
-- [ ] **ASL-13:** LoRA-Adapter für IntentClassifier — IMPL-A2 (Target: Q4 2026)
+- [x] **ASL-13:** LoRA-Adapter für IntentClassifier — IMPL-A2 (Target: Q4 2026)
   - Präzision: ≥ 92% (vs. ~80% regelbasiert)
   - Trainingsdaten: Annotierte AQL-Queries
-- [ ] **ASL-14:** Chaos-Tests für AI Safety Layer (Target: Q4 2026)
+- [x] **ASL-14:** Chaos-Tests für AI Safety Layer (Target: Q4 2026)
   - `tests/security/ai_safety/` [NEU]
   - Simulierter destruktiver KI-Agent gegen alle Guards
-- [ ] **ASL-15:** Grafana-Dashboard AI Safety Metriken (Target: Q4 2026)
+- [x] **ASL-15:** Grafana-Dashboard AI Safety Metriken (Target: Q4 2026)
   - `config/grafana/dashboards/ai-safety-monitoring.json`
 
 ## Breaking Changes

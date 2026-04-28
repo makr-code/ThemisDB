@@ -23,9 +23,12 @@
 #include <algorithm>
 #include <cctype>
 #include <cmath>
+#include <fstream>
 #include <regex>
 #include <sstream>
 #include <unordered_map>
+
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace security {
@@ -168,6 +171,16 @@ IntentClassifier::ClassificationResult IntentClassifier::classify(
     const std::string&      query,
     const ZeroTrustContext& /*session_context*/
 ) const {
+    // STUB/SIMULATION NOTE:
+    // Purpose: Placeholder for LoRA model inference call (ASL-13)
+    // Activation: lora_active_ == true
+    // Production Delta: Would call llama.cpp / GGUF inference pipeline here.
+    //                   Currently falls through to rule-based classifier.
+    // Removal Plan: Wire actual inference in IMPL-A2 Loop-1.
+    if (lora_active_) {
+        spdlog::debug("IntentClassifier: LoRA model active but inference not yet wired (ASL-13 IMPL-A2); using rule-based fallback");
+    }
+
     const std::string uq = toUpper(query);
 
     // Compute per-class feature scores.
@@ -308,6 +321,41 @@ std::vector<float> IntentClassifier::buildEmbedding(
         for (auto& v : emb) v /= norm;
     }
     return emb;
+}
+
+// ── LoRA-Adapter API (ASL-13 / IMPL-A2) ─────────────────────────────────────
+
+IntentClassifier::LoraLoadResult IntentClassifier::loadLoraModel(
+    const std::string& model_path
+) {
+    if (model_path.empty()) {
+        lora_active_ = false;
+        return LoraLoadResult::kEmptyPath;
+    }
+
+    std::ifstream probe(model_path, std::ios::binary);
+    if (!probe.is_open()) {
+        lora_active_ = false;
+        spdlog::warn("IntentClassifier: LoRA model not accessible at '{}' (ASL-13)", model_path);
+        return LoraLoadResult::kFileNotAccessible;
+    }
+
+    lora_model_path_ = model_path;
+    lora_active_     = true;
+    spdlog::info("IntentClassifier: LoRA model loaded from '{}' (ASL-13)", model_path);
+    return LoraLoadResult::kSuccess;
+}
+
+bool IntentClassifier::setLoraModelPath(const std::string& model_path) {
+    return loadLoraModel(model_path) == LoraLoadResult::kSuccess;
+}
+
+bool IntentClassifier::isLoraActive() const noexcept {
+    return lora_active_;
+}
+
+const std::string& IntentClassifier::loraModelPath() const noexcept {
+    return lora_model_path_;
 }
 
 } // namespace security
