@@ -134,8 +134,7 @@ TEST_F(AiSnapshotCleanupTest, POS06_SizeWithinLimit) {
 // POS-07: Total size exceeds limit → oldest deleted first
 // ============================================================================
 TEST_F(AiSnapshotCleanupTest, POS07_SizeExceedsLimit_OldestDeleted) {
-    // Two 10 MiB snapshots; limit 1 byte (effectively 0 GiB rounded to 0)
-    // Use a limit of 0 GiB (0 bytes cap) → both should be deleted.
+    // Two 10 MiB snapshots; limit 0 GiB (0 bytes cap) → both should be deleted.
     makeSnapshot("op-older_pre_op", 10u * 1024u * 1024u, /*age_seconds=*/7200);
     makeSnapshot("op-newer_pre_op", 10u * 1024u * 1024u, /*age_seconds=*/3600);
     AiSnapshotCleanupJob::Config cfg = defaultConfig();

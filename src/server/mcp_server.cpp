@@ -42,6 +42,7 @@
 #endif
 #include <yaml-cpp/yaml.h>
 #include <spdlog/spdlog.h>
+#include <filesystem>
 #include <iostream>
 #include <thread>
 #include <chrono>
@@ -2406,7 +2407,11 @@ json McpServer::handleAiRollback(const std::string& snapshot_id) {
     }
 
     // Security: reject path traversal and absolute paths.
-    if (snapshot_id.find("..") != std::string::npos || (!snapshot_id.empty() && snapshot_id[0] == '/')) {
+    // Use lexically_normal() to normalise the path and verify it stays
+    // within the allowed snapshot directory after resolution.
+    if (snapshot_id.find("..") != std::string::npos ||
+        snapshot_id.find('%') != std::string::npos ||
+        (!snapshot_id.empty() && (snapshot_id[0] == '/' || snapshot_id[0] == '\\'))) {
         spdlog::warn("AI Safety ASL-10: rejected invalid snapshot_id='{}'", snapshot_id);
         return {
             {"status",  "error"},
@@ -2415,15 +2420,31 @@ json McpServer::handleAiRollback(const std::string& snapshot_id) {
         };
     }
 
-    const std::string snapshot_path = operation_guard_
-        ? (operation_guard_->config().snapshot_dir + "/" + snapshot_id)
-        : ("/var/themis/ai-snapshots/" + snapshot_id);
+    const std::string snap_base = operation_guard_
+        ? operation_guard_->config().snapshot_dir
+        : "/var/themis/ai-snapshots";
+    const std::filesystem::path snapshot_path =
+        (std::filesystem::path(snap_base) / snapshot_id).lexically_normal();
+
+    // Verify the resolved path stays within the snapshot directory.
+    const std::filesystem::path base_normal =
+        std::filesystem::path(snap_base).lexically_normal();
+    const std::string snap_str  = snapshot_path.string();
+    const std::string base_str  = base_normal.string();
+    if (snap_str.rfind(base_str, 0) != 0) {
+        spdlog::warn("AI Safety ASL-10: path escape attempt, snapshot_id='{}'", snapshot_id);
+        return {
+            {"status",  "error"},
+            {"error_code", "INVALID_SNAPSHOT_ID"},
+            {"message", "Invalid snapshot ID"}
+        };
+    }
 
     spdlog::info("AI Safety ASL-10: restoring checkpoint snapshot_id='{}' path='{}'",
-                 snapshot_id, snapshot_path);
+                 snapshot_id, snap_str);
 
     try {
-        if (db_->restoreFromCheckpoint(snapshot_path)) {
+        if (db_->restoreFromCheckpoint(snap_str)) {
             spdlog::info("AI Safety ASL-10: restore succeeded for snapshot_id='{}'", snapshot_id);
             return {
                 {"status",      "success"},
