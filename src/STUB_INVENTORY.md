@@ -2,10 +2,13 @@
 
 > **Auto-scan commands** (run from repo root to refresh the list):
 > ```bash
-> # Files containing stubs:
+> # Files containing stubs (source files):
 > grep -rn "STUB/SIMULATION NOTE" src/ --include="*.cpp" -l | sort
+> # Files containing stubs (headers):
+> grep -rn "STUB/SIMULATION NOTE" include/ --include="*.h" -l | sort
 > # Total count (should match inventory header):
 > grep -rn "STUB/SIMULATION NOTE" src/ --include="*.cpp" | wc -l
+> grep -rn "STUB/SIMULATION NOTE" include/ --include="*.h" | wc -l
 > ```
 > Keep this document in sync with ROADMAP changes.
 
@@ -23,7 +26,7 @@
 
 ---
 
-## Stub Inventory (92 entries)
+## Stub Inventory (113 entries)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -119,6 +122,27 @@
 | 90 | `index/vector_auto_buffer.cpp` | `estimateVectorSize()` catch block: returns hardcoded 768 × sizeof(float) = 3072 bytes when `extractVector("embedding")` throws | `extractVector()` throws (field absent or wrong type) | Memory accounting inaccurate for non-768-dim embeddings; buffer flush threshold may trigger too early or too late; minor performance impact | `src/index/FUTURE_ENHANCEMENTS.md` §VectorAutoBuffer Dynamic Dimension | v1.5.0 |
 | 91 | `main_server.cpp` | 17 conditional compilation blocks gate HTTP server, gRPC, Prometheus, LLM, mimalloc, HSM stub, hyperscaler/enterprise features (see comprehensive note in file) | Multiple build flags absent; HSM provider set to `stub` in config | Server starts in degraded mode: HTTP API and/or gRPC, LLM, metrics endpoints absent; HSM keys not hardware-protected | `src/server/FUTURE_ENHANCEMENTS.md` §Main Server Feature Activation | v1.9.0 |
 | 92 | `stubs.cpp` | All 3 former stubs migrated to canonical production files by v1.9.0; TU is now an intentionally empty placeholder with migration log | Always (TU exists for historical reference; contains only comments) | No functional effect; compile time only | — (migration complete) | — |
+| 93 | `llama_cpp/llama_cpp_plugin.cpp` | `inferText()` returns `success=false + error_message="Model not loaded"` when llama.cpp is not compiled in or model not loaded | `!THEMIS_ENABLE_LLAMA_CPP` or `wrapper_==nullptr` at runtime | Previously returned `success=true` with stub echo string, making failure invisible to callers; now fails explicitly | `src/llama_cpp/ROADMAP.md` §Planned Features | permanent fallback |
+| 94 | `onnx_clip/onnx_clip_plugin.cpp` | SHA-256 model-file integrity check skipped when OpenSSL unavailable | `!THEMIS_HAS_OPENSSL` at compile time | Any model file loads without hash verification; hardened deployments must ensure OpenSSL is linked | `src/onnx_clip/FUTURE_ENHANCEMENTS.md` §Stub/Simulation Lifecycle | permanent build-cfg fallback |
+| 95 | `utils/build_info.cpp` | HSM PKCS#11 reported as `not-enabled` in module list; in-memory AES-256-GCM stub KEK used for DEK wrap/unwrap | `!THEMIS_ENABLE_HSM_REAL` (default dev/CI build) | DEK wrapping uses software AES-GCM KEK instead of hardware-protected HSM key; blocked at startup by `HSMSecurityChecker` unless `--allow-stub-hsm` | `src/security/FUTURE_ENHANCEMENTS.md` §HSM Key Provider Production | v2.0.0 |
+| 96 | `whisper/whisper_plugin.cpp` | `WhisperStubTranscriber` used — transcription always returns empty result | `!THEMIS_ENABLE_WHISPER` at compile time | No speech-to-text; pipeline continues with empty transcript | `src/whisper/FUTURE_ENHANCEMENTS.md` §Stub/Simulation Lifecycle | permanent optional-dep fallback |
+| 97 | `include/api/themisdb_grpc_service.h` | gRPC wrapper type available even when generated protobuf stubs are absent; `service()` returns nullptr | Generated themisdb gRPC headers not on include path | RPC registration is skipped instead of serving requests | `src/api/FUTURE_ENHANCEMENTS.md` §gRPC API Activation | v2.0.0 |
+| 98 | `include/cdc/kafka_cdc_producer.h` (header-only fallback) | Compile-time API compatibility stub when librdkafka is absent; `start()/publish()` return false | `!THEMIS_ENABLE_KAFKA` | No CDC events emitted to Kafka even though API compiles | `src/cdc/FUTURE_ENHANCEMENTS.md` §Kafka CDC Activation | permanent optional-dep fallback |
+| 99 | `include/cdc/schema_registry.h` | JSON fallback serialiser used when Avro/Protobuf binary encoders unavailable | Event format AVRO or PROTOBUF without corresponding binary serialiser | Payload bytes are JSON text rather than native binary; schema evolution unsupported | `src/cdc/FUTURE_ENHANCEMENTS.md` §Schema Registry Binary Serialization | v1.7.0 |
+| 100 | `include/document/document_manager.h` | `InMemoryDocumentManager::reencrypt()` is a no-op — no cipher applied | Always active in `InMemoryDocumentManager` | No field-level encryption at rest; test-only/in-memory only | `src/document/FUTURE_ENHANCEMENTS.md` | v1.6.0 |
+| 101 | `include/governance/opa_adapter.h` | WASM-mode OPA bundle eval path returns stub `PolicyDecision(allow=true)` | `Config::mode == EvalMode::WASM` and `wasm_bundle_path` is set, but `THEMIS_ENABLE_OPA_WASM` absent | All WASM policy checks silently pass instead of evaluating the bundle | `src/governance/FUTURE_ENHANCEMENTS.md` §OPA WASM Runtime | v2.0.0 |
+| 102 | `include/ingestion/inference_backend.h` (LLM stub) | `NullTextGenerationBackend`: `isAvailable()=false`; all LLM-dependent ingestion paths return empty strings | Default when no `ITextGenerationBackend` is injected into ingestion components | NER, deontic, quality-judge steps all produce empty/default outputs | `src/ingestion/FUTURE_ENHANCEMENTS.md` §LLM Ingestion Backend | v1.6.0 |
+| 103 | `include/ingestion/inference_backend.h` (embedding stub) | `NullEmbeddingBackend`: returns zero-filled vector; `isAvailable()=false` | Default in `ChunkEmbedStep` when no `IEmbeddingBackend` injected | No semantic embedding; similarity search disabled | `src/ingestion/FUTURE_ENHANCEMENTS.md` §Embedding Backend | permanent no-config default |
+| 104 | `include/ingestion/ingestion_coordinator.h` | `InMemorySharedCheckpointStore`: process-local checkpoint state, lost on restart | Default when no external `ISharedCheckpointStore` is injected | No cross-worker dedup; offset progress lost on process restart | `src/ingestion/FUTURE_ENHANCEMENTS.md` §Checkpoint Store | v1.6.0 |
+| 105 | `include/ingestion/ingestion_sinks.h` (graph) | `InMemoryGraphWriter`: non-persistent graph; data lost on destruction | Explicitly instantiated by test/dry-run code | No ACID guarantees, no replication, no persistence | `src/ingestion/FUTURE_ENHANCEMENTS.md` §Ingestion Sinks | test/dry-run only |
+| 106 | `include/ingestion/ingestion_sinks.h` (vector) | `InMemoryVectorWriter`: non-persistent vector store; no ANN index | Explicitly instantiated by test/dry-run code | No persistence, no ANN similarity search | `src/ingestion/FUTURE_ENHANCEMENTS.md` §Ingestion Sinks | test/dry-run only |
+| 107 | `include/ingestion/ingestion_sinks.h` (doc) | `InMemoryDocWriter`: non-persistent JSON-snapshot store | Explicitly instantiated by test/dry-run code | No schema evolution, no versioning, no encryption | `src/ingestion/FUTURE_ENHANCEMENTS.md` §Ingestion Sinks | test/dry-run only |
+| 108 | `include/llm/kv_prefix_transfer_manager.h` (serialiser path) | `NullKVStateSerializer`: produces zero-byte payload; KV warm-up has no effect | Default / CI build without llama.cpp linked | Prefix-transfer delivers empty payload; receiving node re-computes from scratch | `src/llm/FUTURE_ENHANCEMENTS.md` §KV Prefix Transfer | v2.2.0 |
+| 109 | `include/llm/kv_prefix_transfer_manager.h` (transfer manager) | `KVPrefixTransferManager` compiles but transfers nothing without a serialiser | No `IKVStateSerializer` injected | No KV-cache warm-up across nodes; no latency benefit from prefix sharing | `src/llm/FUTURE_ENHANCEMENTS.md` §KV Prefix Transfer | v2.2.0 |
+| 110 | `include/rag/explainability_reason_builder.h` (NL generation) | Template-based NL generation instead of LoRA-adapted prose | Always active v1.0; LoRA adapter replaces post-IMPL-A2 | Deterministic template text; no context-sensitive detail | `src/rag/FUTURE_ENHANCEMENTS.md` §ExplainabilityReasonBuilder | post-IMPL-A2 |
+| 111 | `include/rag/explainability_reason_builder.h` (shard records) | `shard_records_` map uses only in-memory data; no federated cross-shard fetch | DK-4 Federated RAG Merge not yet wired | Remote-shard records inaccessible; retrieval limited to local node | `src/rag/FUTURE_ENHANCEMENTS.md` §Federated RAG Merge | DK-4 / v2.1.0 |
+| 112 | `include/rag/lora_enhanced_retriever.h` | Heuristic scorer used by default; real LoRA scoring requires `THEMIS_ENABLE_LLM` + `MultiLoRAManager` | `THEMIS_ENABLE_LLM` absent or `MultiLoRAManagerScorer` not registered | Retrieval reranking uses rule-based heuristics, not model-inferred scores | `src/rag/FUTURE_ENHANCEMENTS.md` §LoRA Enhanced Retriever | v2.2.0 |
+| 113 | `include/temporal/temporal_tier_manager.h` | `decision_fn` hook is a no-op placeholder; built-in thresholds are the production path | `decision_fn` left null (default) | LoRA advisor (future) will replace threshold logic; currently static thresholds only | `src/temporal/FUTURE_ENHANCEMENTS.md` §LoRA Tier Advisor | v2.1.0 |
 
 ---
 
@@ -149,4 +173,4 @@
 
 ---
 
-*Last updated: 2026-04-28 — 92 entries, 9 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-04-28 — 113 entries, 9 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
