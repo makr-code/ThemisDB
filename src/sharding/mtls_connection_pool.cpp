@@ -217,6 +217,22 @@ void EndpointConnectionPool::closeAll() {
 }
 
 std::optional<std::unique_ptr<SSL, SSLDeleter>> EndpointConnectionPool::createNewConnection() {
+// STUB/SIMULATION NOTE:
+    // Purpose: Deferred placeholder for the actual mTLS connection creation path.
+    //   SSL context setup, TCP connect, and TLS handshake are managed by
+    //   MTLSClient (the pool's owner); this pool-level factory method is reserved
+    //   for a future refactor that moves connection creation into the pool itself.
+    // Activation: Always active — the current design delegates creation to
+    //   MTLSClient::connect() instead.  The pool is used for reuse only.
+    // Production Delta: createNewConnection() always returns nullopt; callers
+    //   that call it directly get no connection and must fall back to
+    //   MTLSClient::connect().  The pool's acquireConnection() path is unaffected
+    //   because it only calls createNewConnection() as a last-resort extension
+    //   point (currently never reached in production code paths).
+    // Removal Plan: Refactor mTLS connection lifecycle so that pool owns
+    //   creation.  Implement TCP+SSL setup here using the stored ssl_ctx_ member.
+    //   Remove this note once the refactor is complete (v2.0.0 target).
+    // Roadmap ref: src/sharding/FUTURE_ENHANCEMENTS.md § "mTLS Pool Connection Ownership"
     // Note: This is a stub implementation
     // In production, this would:
     // 1. Parse endpoint to get host and port

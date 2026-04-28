@@ -62,6 +62,12 @@
 | 36 | `index/advanced_vector_index.cpp` | Empty `faiss::` type stubs when FAISS not available | `THEMIS_HAS_FAISS` not defined (default) | `initializeIndex()` returns false; all vector search operations disabled | `src/index/FUTURE_ENHANCEMENTS.md` §FAISS Integration | v1.5.0 |
 | 37 | `llm/inline_training_engine.cpp` | Synthetic gradient signal (`kLoRAParamCount=256` proxy) when no real backend attached | Always active when no `IBackendGradientComputer` injected | Loss curve not meaningful; optimizer/checkpoint machinery can be tested but model quality cannot be validated | `src/llm/FUTURE_ENHANCEMENTS.md` §InlineTrainingEngine production gradient | v1.8.0 |
 | 38 | `analytics/olap.cpp` | Parquet export no-ops when Apache Arrow not compiled in | `ARROW_ENABLED` / `THEMIS_HAS_ARROW` not defined (default) | `exportToParquet()` and `exportCollectionToParquet()` return false; BI connector / Spark integration unavailable | `src/analytics/FUTURE_ENHANCEMENTS.md` §Parquet/Arrow Export | v1.7.0 |
+| 39 | `analytics/process_mining.cpp` | Windows stub: all `ProcessMining` methods return `Status::Error` | `_WIN32 && THEMIS_PROCESS_MINING_WINDOWS_STUB` (opt-in CMake flag) | BPM conformance checking and Petri-net analysis unavailable on Windows nodes; mixed-cluster Windows nodes cannot run PM operations | `src/analytics/FUTURE_ENHANCEMENTS.md` §Process Mining Windows Port | Q4 2026 |
+| 40 | `acceleration/graphics_backends.cpp` | Vulkan empty `Pimpl` placeholder when Vulkan SDK absent | `THEMIS_ENABLE_VULKAN` not defined (default) | Vulkan-accelerated vector operations disabled; falls back to CPU backend | `src/acceleration/FUTURE_ENHANCEMENTS.md` §Vulkan Vector Backend | v1.6.0 |
+| 41 | `acceleration/graphics_backends.cpp` | DirectX 12 empty `Pimpl` + no-op methods on non-Windows or non-DX12 | `!_WIN32 \|\| !THEMIS_ENABLE_DIRECTX` | `isAvailable()=false`; DX12 vector acceleration unavailable; falls back to CPU/Vulkan | `src/acceleration/FUTURE_ENHANCEMENTS.md` §DirectX Vector Backend | v1.6.0 |
+| 42 | `cache/redis_cache_coordinator.cpp` | hiredis absent: `connectPublish/Subscribe/subscribeLoop` no-ops | `THEMIS_ENABLE_REDIS` not defined (default) | Cross-node cache invalidation disabled; stale reads propagate for full cache TTL across multi-node deployments | `src/cache/FUTURE_ENHANCEMENTS.md` §Redis Pub/Sub Invalidation | v1.6.0 |
+| 43 | `utils/pki_client.cpp` | `THEMIS_TEST_MODE` signing + verification fallback (base64-hash equality) | `THEMIS_TEST_MODE` defined at compile time (never in production presets) | Signatures are not cryptographically valid; cert_serial is `"DEMO-CERT-SERIAL"`; not a security regression because the flag is test-only | `src/utils/FUTURE_ENHANCEMENTS.md` §PKI Client Production Signing | v1.6.0 |
+| 44 | `sharding/mtls_connection_pool.cpp` | `createNewConnection()` always returns `nullopt`; connection creation delegated to `MTLSClient` | Always active in current design | Pool cannot pre-warm or self-create connections; `acquireConnection()` falls back to `MTLSClient::connect()` on every cache miss | `src/sharding/FUTURE_ENHANCEMENTS.md` §mTLS Pool Connection Ownership | v2.0.0 |
 
 ---
 
@@ -92,4 +98,4 @@
 
 ---
 
-*Last updated: 2026-04-28 — 38 entries, 8 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-04-28 — 44 entries, 8 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

@@ -403,3 +403,37 @@ Handle the full lifecycle of migrating a ThemisDB shard node to replacement hard
 - The `node_identity.json` file must be protected with filesystem permissions `0600` to prevent unauthorised reading of the shard assignment.
 - Hardware migration requests from the admin API must require a signed operator certificate validated by the cluster CA.
 - The `createAndSaveIdentity()` method refuses to overwrite an existing identity file to prevent accidental re-assignment of a shard.
+
+---
+
+## mTLS Pool Connection Ownership — createNewConnection() Implementation (Target: v2.0.0)
+
+**Stub:** `src/sharding/mtls_connection_pool.cpp` — `EndpointConnectionPool::createNewConnection()` returns `nullopt`  
+**Risk:** Connection creation is fully delegated to `MTLSClient`; the pool cannot create connections independently, reducing its ability to pre-warm or replace expired connections proactively.
+
+### Scope
+- Implement `createNewConnection()` to:
+  1. Parse the `endpoint_` string (host:port).
+  2. Create a non-blocking TCP socket (`O_NONBLOCK` on POSIX).
+  3. Wrap the socket with the stored `ssl_ctx_` via `SSL_new()` + `SSL_set_fd()`.
+  4. Perform the TLS handshake with `connect_timeout_` deadline.
+  5. Verify peer certificate (CN/SAN match against endpoint hostname).
+  6. Return `unique_ptr<SSL, SSLDeleter>` on success, `nullopt` on failure.
+- Move `ssl_ctx_` ownership from `MTLSClient` into `EndpointConnectionPool` so the pool
+  can manage the full lifecycle.
+
+### Design Constraints
+- mTLS requires client certificate (`THEMIS_NODE_CERT`) + private key (`THEMIS_NODE_KEY`) +
+  CA bundle (`THEMIS_CA_BUNDLE`); fail-closed if any are missing.
+- `validateConnection()` must perform an `SSL_read` with `MSG_PEEK` to detect half-closed
+  connections (current "assume valid" implementation is insufficient).
+- Certificate rotation events (from `utils/pki_client.cpp`) must drain the pool gracefully.
+
+### Test Strategy
+- Unit: mock OpenSSL; assert `createNewConnection()` calls `SSL_connect()` once.
+- Integration: connect to a local stunnel server with a test CA; verify peer-cert check.
+- Regression: all existing `test_transaction_distributed_2pc.cpp` tests pass.
+
+### Performance Targets
+- Connection creation latency (loopback mTLS): ≤ 10 ms p99.
+- Pool pre-warm (10 connections at startup): ≤ 100 ms.

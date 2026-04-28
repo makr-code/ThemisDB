@@ -837,6 +837,17 @@ public:
 
 #else // !THEMIS_ENABLE_VULKAN
 
+// STUB/SIMULATION NOTE:
+// Purpose: Provide empty Pimpl placeholder so VulkanVectorBackend compiles and
+//   links on systems without the Vulkan SDK.  All public methods on the backend
+//   return false/empty so callers can detect unavailability.
+// Activation: THEMIS_ENABLE_VULKAN is not defined (default on non-GPU or
+//   non-Vulkan hosts).  Enable via -DTHEMIS_ENABLE_VULKAN=ON + Vulkan SDK.
+// Production Delta: Vulkan-accelerated vector operations unavailable; the
+//   acceleration dispatcher falls back to the CPU backend.
+// Removal Plan: Install the Vulkan SDK and build with THEMIS_ENABLE_VULKAN=ON.
+//   The full Vulkan implementation lives in graphics_backends_vulkan.cpp.
+// Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md § "Vulkan Vector Backend"
 class VulkanVectorBackend::VulkanVectorBackendImpl {
     // Empty placeholder when Vulkan is not compiled in
 };
@@ -845,8 +856,17 @@ class VulkanVectorBackend::VulkanVectorBackendImpl {
 
 // ============================================================================
 // DirectXVectorBackend — stub implementation for non-DirectX builds
-// Full Windows implementation is in directx_backend_full.cpp
-// (compiled when _WIN32 && THEMIS_ENABLE_DIRECTX)
+// STUB/SIMULATION NOTE:
+// Purpose: Provide empty Pimpl + link-compatible method bodies so the
+//   DirectXVectorBackend class compiles on Linux/macOS/non-DX12 Windows.
+// Activation: Compiled when _WIN32 is not defined, or THEMIS_ENABLE_DIRECTX
+//   is not set.  The full DX12 implementation is in directx_backend_full.cpp
+//   (compiled when _WIN32 && THEMIS_ENABLE_DIRECTX).
+// Production Delta: isAvailable() returns false; getCapabilities() returns {}.
+//   All vector operations fall back to CPU or Vulkan backend.
+// Removal Plan: Windows-only — enable by building with
+//   -DTHEMIS_ENABLE_DIRECTX=ON on a Windows host with DirectX 12 SDK.
+// Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md § "DirectX Vector Backend"
 // ============================================================================
 
 #if !defined(_WIN32) || !defined(THEMIS_ENABLE_DIRECTX)
