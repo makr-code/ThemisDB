@@ -334,3 +334,27 @@ Implement end-to-end provenance tracking for every training sample from source d
 ### Performance Targets
 - `recordSample()` write latency: ≤ 10 ms p99 (local ThemisDB instance).
 - `getLineageTree()` AQL traversal (depth 5, 100 nodes): ≤ 50 ms p99.
+
+---
+
+## AutoLabeler Query Engine Integration (Target: v1.7.0)
+
+**Stub:** `src/training/auto_labeler.cpp` — `fetchDocumentText()` returns a hardcoded German legal text paragraph when no QueryEngine is wired and document_id is non-empty  
+**Risk:** Offline auto-labeling always uses the same 3-clause sample text; precision/recall metrics cannot be extrapolated to production.
+
+### Scope
+- Inject a `QueryEngine` at `AutoLabeler` construction time via `AutoLabelerConfig::query_engine` or the two-argument constructor.
+- The AQL-backed branch (`FOR doc IN ... FILTER doc._key == @id RETURN doc.text`) already exists and is correct.
+- Remove or guard the hardcoded fallback string with a compile-time or runtime flag to avoid silent offline mode in production.
+
+### Design Constraints
+- `fetchDocumentText()` must not throw; on DB error it should log WARN and return "".
+- Input: `document_id` must be validated with `InputValidator::validateEntityKey()` before interpolation into AQL (already done via `safe_id`).
+
+### Test Strategy
+- Unit: inject mock QueryEngine returning known text → `fetchDocumentText("doc1")` returns mock text.
+- Negative: QueryEngine returns error → `fetchDocumentText()` returns "" (no crash, no fallback text in production builds).
+- Integration: live DB with `source_collection` populated → `labelDocument(doc_id)` produces correct labels.
+
+### Performance Targets
+- `fetchDocumentText()` (AQL path, LAN DB, indexed _key): ≤ 5 ms p99.

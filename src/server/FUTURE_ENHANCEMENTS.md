@@ -1465,3 +1465,24 @@ inline bool checkBatchSize(const nlohmann::json& arr, size_t max,
 ### Performance Targets
 - gRPC unary call latency (LAN, document read): ≤ 2 ms p99.
 - Throughput: ≥ 5000 RPC/s (single-node, 4 vCPU).
+
+---
+
+## MCP StdioTransport Platform Support (Target: v1.9.0)
+
+**Stub:** `src/server/mcp_server.cpp` — `StdioTransport::start()`: stdin reading silently skipped on platforms other than Windows/Unix/macOS  
+**Risk:** MCP stdio clients receive no responses on unsupported platforms; the transport reports "started" but is functionally deaf.
+
+### Scope
+- Identify target embedded/exotic platforms that may host ThemisDB MCP server.
+- Implement `readStdin()` for each new platform using the appropriate async I/O primitives.
+- Add the platform's preprocessor guard to the `#if defined(_WIN32) || defined(__unix__) || defined(__APPLE__)` condition.
+- Alternatively, promote the stub path to actively return an error so callers know stdio is unavailable, rather than silently ignoring input.
+
+### Design Constraints
+- `readStdin()` must be non-blocking; the async reader should run on a dedicated thread.
+- On platforms where stdin is genuinely unavailable, return an error from `start()` instead of silently no-oping.
+
+### Test Strategy
+- Positive: on Linux/macOS/Windows, `StdioTransport::start()` → async read loop active → request routed.
+- Negative: on unsupported platform, WARN is logged and `start()` returns without crash.

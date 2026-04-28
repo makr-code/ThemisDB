@@ -20,7 +20,7 @@
 
 ---
 
-## Stub Inventory (61 entries)
+## Stub Inventory (66 entries)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -85,6 +85,11 @@
 | 59 | `api/themisdb_grpc_service.cpp` | `!THEMIS_HAS_API_GRPC`: service instance is null; `service()` returns nullptr; ThemisDBService absent from gRPC server | `THEMIS_HAS_API_GRPC == 0` (themisdb.grpc.pb.h not generated) | All ThemisDBService methods (document CRUD, transactions, vector search) return UNIMPLEMENTED to gRPC clients | `src/api/FUTURE_ENHANCEMENTS.md` §gRPC API Service Activation | v1.9.0 |
 | 60 | `sharding/gossip_config_manager.cpp` | `sendGossipMessage()`: network call and protobuf serialization skipped; only `messages_sent_++` counter incremented | Always active (HTTP/gRPC gossip transport not wired in) | No gossip messages are sent to peers; config updates never propagate across the cluster | `src/sharding/FUTURE_ENHANCEMENTS.md` §Gossip Config Propagation | v1.7.0 |
 | 61 | `cache/distributed_cache_coordinator.cpp` | `!THEMIS_POSIX_SOCKETS` block: all `RedisCacheCoordinator` methods no-ops; `publish_errors_` incremented per call | `THEMIS_POSIX_SOCKETS` not defined (non-POSIX / Windows builds) | Cache invalidation pub/sub disabled; all nodes are independent local caches; stale reads in multi-node deployments | `src/cache/FUTURE_ENHANCEMENTS.md` §Redis Pub/Sub Activation | v1.6.0 |
+| 62 | `whisper/whisper_plugin_registrar.cpp` | Stub mode: `WhisperPluginAdapter::initialize()` returns `true` without loading the Whisper model when config_json is null/empty or has no `model_path` | config_json null, empty, or `model_path` absent/empty | `transcribe()` returns empty strings; no speech-to-text available | `src/llm/FUTURE_ENHANCEMENTS.md` §Whisper Plugin Activation | v1.8.0 |
+| 63 | `stable_diffusion/sd_plugin_registrar.cpp` | Stub mode: `SDPluginAdapter::initialize()` returns `true` without loading the SD model when config_json is null/empty or has no `model_path` | config_json null, empty, or `model_path` absent/empty | `generate()` returns empty/error responses; no image generation available | `src/llm/FUTURE_ENHANCEMENTS.md` §Stable Diffusion Plugin Activation | v1.8.0 |
+| 64 | `llama_cpp/llama_cpp_registrar.cpp` | Stub mode: `defaultReloadCallback()` returns `true` without reloading the llama.cpp model when `model_path` is absent/empty | model_path absent or empty in hot-plug config | Plugin remains in current state; inference fails or returns empty responses | `src/llm/FUTURE_ENHANCEMENTS.md` §LlamaCpp Plugin Model Reload | v1.8.0 |
+| 65 | `server/mcp_server.cpp` | `StdioTransport::start()` no-op on unsupported platforms: stdin reading silently skipped; WARN logged | Compiled when none of `_WIN32`, `__unix__`, `__APPLE__` are defined | MCP stdio clients receive no responses (transport deaf); only affects exotic/embedded targets | `src/server/FUTURE_ENHANCEMENTS.md` §MCP StdioTransport Platform Support | v1.9.0 |
+| 66 | `training/auto_labeler.cpp` | `fetchDocumentText()`: returns hardcoded 3-clause German legal text paragraph when no QueryEngine is wired and document_id is non-empty | `query_engine_` is null AND document_id non-empty | Auto-labeling always uses the same fixed text; results cannot be extrapolated to production without a real DB engine | `src/training/FUTURE_ENHANCEMENTS.md` §AutoLabeler Query Engine Integration | v1.7.0 |
 
 ---
 
@@ -115,4 +120,4 @@
 
 ---
 
-*Last updated: 2026-04-28 — 61 entries, 8 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-04-28 — 66 entries, 8 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

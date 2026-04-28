@@ -2019,6 +2019,20 @@ void StdioTransport::start() {
     // Start async stdin reading
     readStdin();
 #else
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow McpServer StdioTransport to be compiled and linked on
+    //   platforms other than Windows, Unix, and macOS (e.g., embedded or
+    //   exotic toolchain targets).  On those platforms, async stdin reading
+    //   via platform threads is not implemented; the transport runs but
+    //   silently ignores all stdin input.
+    // Activation: Compiled when none of _WIN32, __unix__, __APPLE__ are defined.
+    // Production Delta: MCP clients connected via stdio receive no responses
+    //   because request bytes from stdin are never read.  The transport reports
+    //   "started" but is functionally deaf.
+    // Removal Plan: Implement `readStdin()` for the target platform using the
+    //   appropriate async I/O primitives, then add the platform's preprocessor
+    //   guard to the `#if` condition above.
+    // Roadmap ref: src/server/FUTURE_ENHANCEMENTS.md §"MCP StdioTransport Platform Support"
     spdlog::warn("MCP stdio transport: Unsupported platform, stdin reading not implemented");
 #endif
 }

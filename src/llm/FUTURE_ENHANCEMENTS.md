@@ -465,3 +465,57 @@ The following IEEE-formatted references support the research basis for features 
 
 ### Performance Targets
 - `isSupported()` call after first query: ≤ 100 ns (cached, no CUDA call).
+
+---
+
+## Whisper Plugin Activation (Target: v2.0.0)
+
+**Stub:** `src/whisper/whisper_plugin_registrar.cpp` — stub mode: `initialize()` returns `true` without loading the Whisper model when no `model_path` is provided  
+**Risk:** `transcribe()` returns empty strings; speech-to-text is unavailable.
+
+### Scope
+- Download or build a whisper.cpp model checkpoint (e.g., `ggml-base.en.bin`).
+- Set `model_path` in the WhisperPlugin configuration (JSON or CMake env var `THEMIS_WHISPER_MODEL`).
+- The stub mode path remains as an optional "no-op" for environments without speech-to-text requirements.
+
+### Test Strategy
+- Integration: inject valid model_path → `transcribe(wav_bytes)` returns non-empty text.
+- Negative: no model_path → `transcribe()` returns "" (stub mode, no crash).
+
+### Performance Targets
+- `transcribe()` (30-second audio clip, ggml-base model, CPU): ≤ 10 s real-time.
+
+---
+
+## Stable Diffusion Plugin Activation (Target: v2.0.0)
+
+**Stub:** `src/stable_diffusion/sd_plugin_registrar.cpp` — stub mode: `initialize()` returns `true` without loading the SD model when no `model_path` is provided  
+**Risk:** `generate()` returns empty/error responses; image generation unavailable.
+
+### Scope
+- Download a supported SD checkpoint (e.g., `v1-5-pruned.safetensors`).
+- Set `model_path` in the SDPlugin configuration or `THEMIS_SD_MODEL` env var.
+- The stub mode path remains as optional no-op.
+
+### Test Strategy
+- Integration: inject valid model_path → `generate(prompt)` returns non-empty PNG bytes.
+- Negative: no model_path → `generate()` returns {} (stub mode, no crash).
+
+### Performance Targets
+- `generate()` (512×512, 20 steps, CPU): ≤ 120 s (no GPU acceleration path tested).
+
+---
+
+## LlamaCpp Plugin Model Reload (Target: v2.0.0)
+
+**Stub:** `src/llama_cpp/llama_cpp_registrar.cpp` — `defaultReloadCallback()` returns `true` without reloading when `model_path` is absent/empty  
+**Risk:** Hot-plug config updates that omit a model_path silently no-op; the plugin remains in its current (possibly stale) model state.
+
+### Scope
+- Validate that hot-plug configs always include `model_path` before calling the reload callback.
+- Add a WARN log when the stub path is taken (model_path absent during hot-plug reload).
+- Consider returning `false` instead of `true` when no model_path is provided, so callers know the reload was skipped.
+
+### Test Strategy
+- Unit: hot-plug config without `model_path` → callback returns `true` AND a WARN is logged.
+- Integration: hot-plug config with valid `model_path` → plugin reloads model in ≤ 30 s.
