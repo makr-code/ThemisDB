@@ -20,7 +20,7 @@
 
 ---
 
-## Stub Inventory (86 entries)
+## Stub Inventory (90 entries)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -110,6 +110,10 @@
 | 84 | `api/http_server.cpp` | Entire TU is a deprecated legacy placeholder; `namespace themis {}` body is intentionally empty; HTTP server implementation lives in `src/server/http_server.cpp` | Always active (file included in some CMake targets for historical reasons) | Any code added here has no effect on the running server; all HTTP functionality is in `src/server/http_server.cpp` | `src/api/FUTURE_ENHANCEMENTS.md` §Legacy HTTP Server Stub Removal | — |
 | 85 | `utils/input_validator.cpp` | `validateJsonStub()`: returns `nullopt` (accept-all) when schema file is absent from `schema_dir_`; no warning logged | Schema file not deployed to `schema_dir_` at runtime (common in dev/CI) | Arbitrary JSON payloads pass validation silently; missing schema file is a silent security gap | `src/utils/FUTURE_ENHANCEMENTS.md` §JSON Schema Validation Activation | v1.5.0 |
 | 86 | `llm/lora_framework/quantization.cpp` | `THEMIS_NO_SPDLOG`: `spdlog::debug()` replaced by inline no-op template; all debug-level quantization logging suppressed | `THEMIS_NO_SPDLOG` defined at compile time (unit test CMake targets without spdlog) | Block quantization statistics, NF4 encoding trace, INT8 scale factor logging all silent | `src/llm/FUTURE_ENHANCEMENTS.md` §LoRA Quantization Logging | v1.4.0 |
+| 87 | `security/timestamp_authority_openssl.cpp` | `!THEMIS_USE_OPENSSL_TSA`: entire TU excluded from compilation; RFC 3161 TSA stamping, verification, and eIDAS qualified validation all absent | `THEMIS_USE_OPENSSL_TSA` not defined at compile time (builds without libcurl or OpenSSL TS headers) | Timestamp stamping/verification falls to stub; eIDAS qualified timestamp unavailable; provenance audit trail incomplete | `src/security/FUTURE_ENHANCEMENTS.md` §OpenSSL TSA Activation | v1.6.0 |
+| 88 | `config/config_metrics_exporter.cpp` | `THEMIS_TEST_BUILD`: `syncFromPathResolver()` returns immediately without reading any counters or calling `MetricsCollector::setGauge()` | `THEMIS_TEST_BUILD` defined in focused unit test CMake targets | Config-path resolution metrics not updated in test builds; `themis_config_*` Prometheus gauges show 0 or stale values | `src/config/FUTURE_ENHANCEMENTS.md` §Config Metrics Exporter Test Build Stub | v1.4.0 |
+| 89 | `ingestion/legal_domain.cpp` | `buildHierarchy()` Teil-grouping block: all paragraphs placed at root when `teile` non-empty (simplified; paragraph→Teil containment not tracked because `extractParagraphs()` returns no byte offsets) | Always active when `teile` is non-empty | German legal document hierarchy is structurally flat when Teil sections exist; Teil node `children` are empty; downstream traversal sees no paragraphs per Teil | `src/ingestion/FUTURE_ENHANCEMENTS.md` §German Legal Hierarchy Position Tracking | v1.7.0 |
+| 90 | `index/vector_auto_buffer.cpp` | `estimateVectorSize()` catch block: returns hardcoded 768 × sizeof(float) = 3072 bytes when `extractVector("embedding")` throws | `extractVector()` throws (field absent or wrong type) | Memory accounting inaccurate for non-768-dim embeddings; buffer flush threshold may trigger too early or too late; minor performance impact | `src/index/FUTURE_ENHANCEMENTS.md` §VectorAutoBuffer Dynamic Dimension | v1.5.0 |
 
 ---
 
@@ -140,4 +144,4 @@
 
 ---
 
-*Last updated: 2026-04-28 — 86 entries, 8 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-04-28 — 90 entries, 8 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

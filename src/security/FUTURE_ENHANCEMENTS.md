@@ -1095,3 +1095,24 @@ Interested in contributing to security features? See:
   equivalent (SHA-256 manifest check before first inference)
 - Classification results logged to `AIDecisionAuditor` for compliance trails
 - Circuit breaker: if 5 consecutive inference errors occur, revert to rule-based heuristic
+
+---
+
+## OpenSSL TSA Activation (Target: v1.6.0 — stub removal)
+
+**Stub:** `src/security/timestamp_authority_openssl.cpp` — entire TU guarded by `#ifdef THEMIS_USE_OPENSSL_TSA`; when absent, RFC 3161 timestamp functionality is absent  
+**Risk:** All timestamp stamping and verification operations fall through to stub; eIDAS qualified timestamp validation unavailable; document provenance audit trail incomplete.
+
+### Scope
+- Install libcurl (`apt install libcurl4-openssl-dev`) and OpenSSL ≥ 1.0.2 with `<openssl/ts.h>`.
+- Set `-DTHEMIS_USE_OPENSSL_TSA=1` in CMake.
+- Configure `THEMIS_TSA_URL` env var or `security.yaml tsaUrl` to point to a real RFC 3161 TSA (e.g., `http://timestamp.digicert.com`).
+
+### Security / Reliability
+- TSA URL must use HTTPS; validate certificate chain against system trust store.
+- `CURLOPT_TIMEOUT` set to ≤ 5 s to avoid blocking inference hot path.
+- Failed TSA requests must return an error result (not silently succeed).
+
+### Test Strategy
+- With OpenSSL TSA: `stamp()` of a SHA-256 hash returns a valid DER-encoded RFC 3161 response; `verify()` returns true.
+- Network failure: TSA URL unreachable → `stamp()` returns error; provenance record marked as unverified.

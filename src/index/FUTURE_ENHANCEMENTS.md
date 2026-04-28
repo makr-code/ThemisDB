@@ -1073,3 +1073,23 @@ Allow clients to search encrypted data without server seeing plaintext.
 ### Performance Targets
 - `queryTasksByFormData` (10K tokens, AQL-backed): ≤ 10 ms p99.
 - `queryForeignKeyJoin` (10K tokens × 1K foreign docs, AQL-backed): ≤ 50 ms p99.
+
+---
+
+## VectorAutoBuffer Dynamic Dimension (Target: v1.5.0 — stub removal)
+
+**Stub:** `src/index/vector_auto_buffer.cpp` — `estimateVectorSize()` catch block: returns hardcoded 768 × sizeof(float) (3072 bytes) when `extractVector("embedding")` fails  
+**Risk:** Memory accounting inaccurate for non-768-dim models; incorrect buffer flush decisions; performance impact minor but non-zero.
+
+### Scope
+- Accept `size_t embedding_dim` as a constructor parameter of `VectorAutoBuffer`.
+- Use `embedding_dim_ * sizeof(float)` as the fallback in `estimateVectorSize()` instead of hardcoded 768.
+- Default constructor uses 768 for backward compatibility.
+
+### Performance Targets
+- `estimateVectorSize()` must remain O(1) with zero heap allocation.
+- Buffer flush threshold accuracy: within ± 5 % of actual size for models with 256–4096 dims.
+
+### Test Strategy
+- Construct with `embedding_dim = 1024` → catch-block fallback returns 4096 bytes (not 3072).
+- Entity with correct `"embedding"` field → `extractVector()` succeeds; fallback not taken.

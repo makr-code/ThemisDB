@@ -312,3 +312,20 @@ The following IEEE-formatted references support the research basis for features 
 [12] F. Naumann and M. Herschel, "An Introduction to Duplicate Detection," *Synthesis Lectures on Data Management*, vol. 2, no. 1, pp. 1–87, 2010. https://doi.org/10.2200/S00262ED1V01Y201003DTM003
 
 [13] X. L. Dong, E. Gabrilovich, G. Heitz, W. Horn, N. Lao, K. Murphy, T. Strohmann, S. Sun, and W. Zhang, "Knowledge Vault: A Web-Scale Approach to Probabilistic Knowledge Fusion," in *Proc. 20th ACM SIGKDD Int. Conf. Knowledge Discovery and Data Mining*, 2014, pp. 601–610. https://doi.org/10.1145/2623330.2623623
+
+---
+
+## German Legal Hierarchy Position Tracking (Target: v1.7.0 — stub completion)
+
+**Stub:** `src/ingestion/legal_domain.cpp` — `buildHierarchy()` Teil-grouping block: all paragraphs placed at root when `teile` are present; paragraph→Teil containment lost  
+**Risk:** Downstream consumers that traverse Teil children see empty lists; German legal document hierarchy is structurally flat when Teil sections exist.
+
+### Scope
+- Extend `extractParagraphs()` to return `std::vector<std::pair<GesetzNode, std::size_t>>` (node + byte offset).
+- In `buildHierarchy()`, use offsets to assign each paragraph to the nearest preceding Teil start position.
+- Paragraphs before the first Teil go under the root; paragraphs after each Teil go under that Teil.
+
+### Test Strategy
+- Document with 2 Teil sections and 3 paragraphs: §1 belongs to Teil 1, §2–§3 belong to Teil 2.
+- `buildHierarchy()` result: `root.children = [Teil1, Teil2]`; `Teil1.children = [§1]`; `Teil2.children = [§2, §3]`.
+- Document without Teil sections: all paragraphs under root (existing behaviour; must not regress).
