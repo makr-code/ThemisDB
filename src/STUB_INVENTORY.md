@@ -26,7 +26,7 @@
 
 ---
 
-## Stub Inventory (113 entries)
+## Stub Inventory (114 entries)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -171,6 +171,8 @@
 | `distributed_knowledge/federated_distillation_coordinator.cpp` | Production gRPC coordinator | ✅ Added to `src/distributed_knowledge/FUTURE_ENHANCEMENTS.md` §Production | v2.0.0 |
 | All ingestion connector stubs | SDK integration per connector | ✅ Exists in `src/ingestion/FUTURE_ENHANCEMENTS.md` §v1.6.0–v1.7.0 | v1.5.0–v1.7.0 |
 
+| 114 | `security/field_encryption.cpp::createDefault()` | `MockKeyProvider` used — AES-256 keys stored in plain process memory; no persistence, no HSM, no key rotation enforcement | Called without injecting an explicit `KeyProvider`; emits `THEMIS_WARN` at runtime | All ciphertext lost on restart; no key-wrapping or audit trail | `src/security/FUTURE_ENHANCEMENTS.md` §Field Encryption Key Provider | permanent optional-dep default (must be replaced in production) |
+
 ---
 
-*Last updated: 2026-04-28 — 113 entries, 9 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-04-28 — 114 entries, 9 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

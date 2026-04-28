@@ -36,7 +36,8 @@
 
 namespace themis {
 
-static void write_debug_dump(const std::string& prefix, const EncryptedBlob& blob, const std::vector<uint8_t>& key, bool success) {
+// [E-1] key parameter removed: raw key bytes must never be passed into debug utilities.
+static void write_debug_dump(const std::string& prefix, const EncryptedBlob& blob, bool success) {
     try {
         namespace fs = std::filesystem;
 
@@ -57,13 +58,12 @@ static void write_debug_dump(const std::string& prefix, const EncryptedBlob& blo
         auto now = std::chrono::system_clock::now();
         auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
 
-        // short key fingerprint (first 8 bytes hex)
-        std::ostringstream kf;
-        kf << std::hex << std::setfill('0');
-        for (size_t i = 0; i < key.size() && i < 8; ++i) kf << std::setw(2) << static_cast<int>(key[i]);
-
         nlohmann::json j = blob.toJson();
-        j["key_fingerprint_prefix"] = kf.str();
+        // [E-1] Do NOT include key material in debug dumps.
+        // key_fingerprint_prefix was removed because it embeds the first 8 bytes
+        // of the raw encryption key in a plain-text on-disk file, violating the
+        // principle of minimum key exposure.  Use key_id/key_version (already
+        // present via blob.toJson()) to correlate dumps with the key registry.
         j["success"] = success;
         j["ts_ms"] = ms;
 
@@ -279,9 +279,7 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
                     out[i] = encryptWithKey(ent.second, key_id, metadata.version, base_key);
                     // best-effort debug write (opt-in via env)
                     try {
-                        write_debug_dump("encrypt", out[i], base_key, true);
-                    } catch (const std::exception& ex) {
-                        logDebugDumpFailure(i, true, &ex);
+                        write_debug_dump("encrypt", out[i], true);
                     } catch (...) {
                         logDebugDumpFailure(i, true, nullptr);
                     }
@@ -302,9 +300,7 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
                 out[i] = encryptWithKey(ent.second, key_id, metadata.version, base_key);
                 // best-effort debug write (opt-in via env)
                 try {
-                    write_debug_dump("encrypt", out[i], base_key, true);
-                } catch (const std::exception& ex) {
-                    logDebugDumpFailure(i, false, &ex);
+                    write_debug_dump("encrypt", out[i], true);
                 } catch (...) {
                     logDebugDumpFailure(i, false, nullptr);
                 }
@@ -336,6 +332,22 @@ FieldEncryption::FieldEncryption(std::shared_ptr<KeyProvider> key_provider)
 FieldEncryption::~FieldEncryption() = default;
 
 std::shared_ptr<FieldEncryption> FieldEncryption::createDefault() {
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provides a zero-dependency factory for unit tests and demo code
+    //          that have no external key-management infrastructure available.
+    // Activation: Called by code paths that do not supply an explicit KeyProvider
+    //             (e.g. test harnesses, demo_encryption.cpp, some legacy startup paths).
+    // Production Delta: MockKeyProvider stores AES-256 keys in plain process memory
+    //                   with NO persistence, NO HSM protection, and NO key rotation
+    //                   enforcement.  Any restart silently loses all keys.  Ciphertext
+    //                   produced by this factory cannot be decrypted after restart.
+    // Removal Plan: Production callers must inject a real KeyProvider (VaultKeyProvider,
+    //               HsmKeyProviderAdapter, or similar) via the constructor.
+    //               This factory should only be invoked through explicit test/demo paths.
+    //               See src/security/FUTURE_ENHANCEMENTS.md §Field Encryption Key Provider.
+    THEMIS_WARN("FieldEncryption::createDefault() is using MockKeyProvider — "
+                "keys are in-memory only and will NOT survive restarts. "
+                "Inject a production KeyProvider for any persistent data.");
     auto mock_provider = std::make_shared<MockKeyProvider>();
     return std::make_shared<FieldEncryption>(mock_provider);
 }
@@ -585,8 +597,8 @@ EncryptedBlob FieldEncryption::encryptInternal(const std::vector<uint8_t>& plain
     }
     THEMIS_INFO("encryptInternal: key_id={}, key_ver={}, iv_len={}, ciphertext_len={}, tag_len={}",
                 blob.key_id, blob.key_version, blob.iv.size(), blob.ciphertext.size(), blob.tag.size());
-    // Write debug dump (best-effort)
-    write_debug_dump("encrypt", blob, key, true);
+    // Write debug dump (best-effort, opt-in via THEMIS_DEBUG_ENC_DIR env var)
+    write_debug_dump("encrypt", blob, true);
 
     return blob;
 }
@@ -640,22 +652,18 @@ std::vector<uint8_t> FieldEncryption::decryptInternal(const EncryptedBlob& blob,
             throw DecryptionException("Failed to set authentication tag");
         }
         
-        // Finalize decryption (verifies tag)
-        // Also print to stderr so test runner captures sizes even if logger is not fully initialized
-        THEMIS_INFO("decryptInternal: key_id={}, key_ver={}, ciphertext_len={}, tag_len={}, iv_len={}, key_len={}",
+        // Finalize decryption (verifies authentication tag)
+        THEMIS_DEBUG("decryptInternal: key_id={}, key_ver={}, ciphertext_len={}, tag_len={}, iv_len={}, key_len={}",
                     blob.key_id, blob.key_version, blob.ciphertext.size(), blob.tag.size(), blob.iv.size(), key.size());
-        fprintf(stderr, "decryptInternal: ciphertext_len=%zu, tag_len=%zu, iv_len=%zu, key_len=%zu\n",
-            blob.ciphertext.size(), blob.tag.size(), blob.iv.size(), key.size());
         int ret = EVP_DecryptFinal_ex(ctx, plaintext.data() + len, &len);
         if (ret <= 0) {
-            // write debug dump showing failure
-            write_debug_dump("decrypt_failed", blob, key, false);
-            fprintf(stderr, "decryptInternal: EVP_DecryptFinal_ex returned %d (auth failed)\n", ret);
+            // write debug dump showing failure (opt-in via THEMIS_DEBUG_ENC_DIR)
+            write_debug_dump("decrypt_failed", blob, false);
             THEMIS_ERROR("decryptInternal: EVP_DecryptFinal_ex returned {} (auth failed)", ret);
             throw DecryptionException("Authentication failed - data may have been tampered with");
         }
-        // write debug dump showing success
-        write_debug_dump("decrypt_ok", blob, key, true);
+        // write debug dump showing success (opt-in via THEMIS_DEBUG_ENC_DIR)
+        write_debug_dump("decrypt_ok", blob, true);
         plaintext_len += len;
         plaintext.resize(plaintext_len);
         

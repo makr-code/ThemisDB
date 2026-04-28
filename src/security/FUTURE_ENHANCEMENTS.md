@@ -1116,3 +1116,30 @@ Interested in contributing to security features? See:
 ### Test Strategy
 - With OpenSSL TSA: `stamp()` of a SHA-256 hash returns a valid DER-encoded RFC 3161 response; `verify()` returns true.
 - Network failure: TSA URL unreachable → `stamp()` returns error; provenance record marked as unverified.
+
+---
+
+## Field Encryption Key Provider (Target: v1.6.0 — stub removal)
+
+**Stub:** `src/security/field_encryption.cpp::createDefault()` — returns a `FieldEncryption` backed by `MockKeyProvider` (in-memory only, keys lost on restart).  
+**Risk:** Any production code path that calls `createDefault()` silently operates with non-persistent, non-HSM-protected key material; ciphertext cannot be decrypted after process restart.
+
+### Scope
+- Implement `VaultKeyProviderAdapter` or reuse `HsmKeyProviderAdapter` as the production default in `createDefault()` when `THEMIS_KEY_BACKEND` env-var / config key is set.
+- `createDefault()` should throw `std::logic_error` in `#ifndef THEMIS_ALLOW_MOCK_KEY_PROVIDER` builds to prevent accidental production use.
+
+### Design Constraints
+- All `FieldEncryption` construction in main_server.cpp must inject an explicit `KeyProvider`; `createDefault()` must only be used from test/demo code paths.
+- Key rotation: the injected provider must implement `rotateKey()` and `getKey(key_id, version)` for versioned DEK retrieval.
+
+### Required Interfaces
+- `KeyProvider::getKey(key_id, version)` ← already part of the `KeyProvider` interface
+- `HsmKeyProviderAdapter` or new `VaultKeyProviderAdapter` fulfilling the same interface
+
+### Test Strategy
+- `createDefault()` in tests: assert `THEMIS_WARN` is emitted and MockKeyProvider is used.
+- In production integration tests: inject `VaultKeyProviderAdapter`; encrypt then restart; decrypt from new process; assert plaintext identity.
+
+### Security / Reliability
+- Production `KeyProvider` must wrap the DEK under a Key Encryption Key (KEK) stored in HSM or Vault; never pass the raw DEK to `FieldEncryption` without wrapping.
+- Key material must not appear in logs, crash dumps, or core files.
