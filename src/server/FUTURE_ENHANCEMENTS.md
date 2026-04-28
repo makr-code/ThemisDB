@@ -1506,3 +1506,38 @@ inline bool checkBatchSize(const nlohmann::json& arr, size_t max,
 - With gRPC enabled: send a gRPC-Web encoded request → receive correct data frame + trailer.
 - Timeout propagation: set `grpc-timeout: 100m` header → `ClientContext::set_deadline` fires.
 - CORS preflight: OPTIONS → 200 with correct `Access-Control-Allow-*` headers.
+
+---
+
+## Main Server Feature Activation (Target: v1.9.0 — minimum viable production build)
+
+**Stub:** `src/main_server.cpp` — 17 conditional compilation blocks gate HTTP server, gRPC, Prometheus, LLM, mimalloc, HSM, hyperscaler/enterprise features  
+**Risk:** Server starts in degraded mode without required flags; HTTP API, gRPC, LLM inference, metrics, and HSM protection may all be absent simultaneously.
+
+### Minimum Viable Production Build Flags
+```cmake
+-DTHEMIS_ENABLE_HTTP_SERVER=1
+-DTHEMIS_ENABLE_GRPC=1
+-DTHEMIS_HAS_PROMETHEUS=1
+-DTHEMIS_ENABLE_LLM=1
+-DTHEMIS_ENABLE_MIMALLOC=1
+```
+
+### Required HSM Configuration
+- Set `hsm.provider = pkcs11` (not `stub`) in `config/security.yaml`.
+- Provide `library_path`, `slot_id`, `pin`, `token_label` for the PKCS#11 module.
+
+### Stub Inventory per Block
+| Flag | Absent behaviour |
+|---|---|
+| `THEMIS_ENABLE_HTTP_SERVER` | `g_server = null`; HTTP endpoints unreachable |
+| `THEMIS_ENABLE_GRPC` | WAL gRPC service not started; inter-node RPC absent |
+| `THEMIS_HAS_PROMETHEUS` | `g_config_prom_registry = null`; no scrape endpoint |
+| `THEMIS_ENABLE_LLM` | LLM plugin manager not init; LLM API returns 503 |
+| `THEMIS_ENABLE_MIMALLOC` | System allocator used; no memory performance benefit |
+| `hsm.provider = stub` | Software-only key protection; WARNING banner every 5 min |
+| `THEMIS_GEO_ENABLED` | Geo spatial backend logged as disabled |
+
+### Test Strategy
+- CI smoke test: start server with all flags → all subsystems initialised → health check returns HTTP 200.
+- Degraded mode: start without `THEMIS_ENABLE_LLM` → LLM API returns 503; other APIs unaffected.

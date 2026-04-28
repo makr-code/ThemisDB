@@ -20,7 +20,7 @@
 
 ---
 
-## Stub Inventory (90 entries)
+## Stub Inventory (92 entries)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -114,6 +114,8 @@
 | 88 | `config/config_metrics_exporter.cpp` | `THEMIS_TEST_BUILD`: `syncFromPathResolver()` returns immediately without reading any counters or calling `MetricsCollector::setGauge()` | `THEMIS_TEST_BUILD` defined in focused unit test CMake targets | Config-path resolution metrics not updated in test builds; `themis_config_*` Prometheus gauges show 0 or stale values | `src/config/FUTURE_ENHANCEMENTS.md` §Config Metrics Exporter Test Build Stub | v1.4.0 |
 | 89 | `ingestion/legal_domain.cpp` | `buildHierarchy()` Teil-grouping block: all paragraphs placed at root when `teile` non-empty (simplified; paragraph→Teil containment not tracked because `extractParagraphs()` returns no byte offsets) | Always active when `teile` is non-empty | German legal document hierarchy is structurally flat when Teil sections exist; Teil node `children` are empty; downstream traversal sees no paragraphs per Teil | `src/ingestion/FUTURE_ENHANCEMENTS.md` §German Legal Hierarchy Position Tracking | v1.7.0 |
 | 90 | `index/vector_auto_buffer.cpp` | `estimateVectorSize()` catch block: returns hardcoded 768 × sizeof(float) = 3072 bytes when `extractVector("embedding")` throws | `extractVector()` throws (field absent or wrong type) | Memory accounting inaccurate for non-768-dim embeddings; buffer flush threshold may trigger too early or too late; minor performance impact | `src/index/FUTURE_ENHANCEMENTS.md` §VectorAutoBuffer Dynamic Dimension | v1.5.0 |
+| 91 | `main_server.cpp` | 17 conditional compilation blocks gate HTTP server, gRPC, Prometheus, LLM, mimalloc, HSM stub, hyperscaler/enterprise features (see comprehensive note in file) | Multiple build flags absent; HSM provider set to `stub` in config | Server starts in degraded mode: HTTP API and/or gRPC, LLM, metrics endpoints absent; HSM keys not hardware-protected | `src/server/FUTURE_ENHANCEMENTS.md` §Main Server Feature Activation | v1.9.0 |
+| 92 | `stubs.cpp` | All 3 former stubs migrated to canonical production files by v1.9.0; TU is now an intentionally empty placeholder with migration log | Always (TU exists for historical reference; contains only comments) | No functional effect; compile time only | — (migration complete) | — |
 
 ---
 
@@ -144,4 +146,4 @@
 
 ---
 
-*Last updated: 2026-04-28 — 90 entries, 8 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-04-28 — 92 entries, 9 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
