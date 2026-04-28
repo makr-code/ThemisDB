@@ -432,3 +432,36 @@ The following IEEE-formatted references support the research basis for features 
 ### Security / Reliability
 - Gradient computation must be deterministic for the same seed (reproducible training).
 - OOM guard: if gradient vector exceeds 1 GB, abort the step and log CRITICAL.
+
+---
+
+## Mixed Precision Hardware Capability Check (Target: v1.7.0)
+
+**Stub:** `src/llm/mixed_precision_inference.cpp` — `MixedPrecisionInference::isSupported()` assumes all modes supported  
+**Risk:** BFLOAT16 and INT8 ops will launch on pre-Ampere GPUs and fail at the CUDA kernel level with an illegal instruction, causing opaque runtime crashes rather than a clean "precision mode not supported" error.
+
+### Scope
+- Replace the static switch with a CUDA runtime query:
+  ```cpp
+  int major, minor;
+  cudaDeviceGetAttribute(&major, cudaDevAttrComputeCapabilityMajor, device_id);
+  cudaDeviceGetAttribute(&minor, cudaDevAttrComputeCapabilityMinor, device_id);
+  ```
+- Mapping policy:
+  - FP32/FP16: all GPUs (SM ≥ 5.0).
+  - BFLOAT16: SM ≥ 8.0 (Ampere) only.
+  - INT8 Tensor Cores: SM ≥ 7.5 (Turing) only.
+  - Q4/Q3: CPU fallback always supported.
+- Gate the entire CUDA path on `THEMIS_HAS_CUDA=1`.
+- CPU fallback for `THEMIS_HAS_CUDA=0`: FP32/Q4/Q3 supported; FP16/BF16/INT8 not.
+
+### Design Constraints
+- `isSupported()` is a static method — use `cudaGetDeviceCount()` + lazy initialization with `std::once_flag` to cache the query result.
+- Must not call CUDA runtime if no GPU is present (handle `cudaErrorNoDevice` gracefully).
+
+### Test Strategy
+- Unit: mock `cudaDeviceGetAttribute`; assert correct mapping for SM 7.0, 7.5, 8.0, 9.0.
+- Integration: run on actual GPU; assert BFLOAT16 is supported iff SM ≥ 8.0.
+
+### Performance Targets
+- `isSupported()` call after first query: ≤ 100 ns (cached, no CUDA call).

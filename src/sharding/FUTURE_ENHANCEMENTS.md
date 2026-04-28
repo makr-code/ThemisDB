@@ -437,3 +437,35 @@ Handle the full lifecycle of migrating a ThemisDB shard node to replacement hard
 ### Performance Targets
 - Connection creation latency (loopback mTLS): ≤ 10 ms p99.
 - Pool pre-warm (10 connections at startup): ≤ 100 ms.
+
+---
+
+## WAL gRPC Replication — WalGrpcService Activation (Target: v1.6.0)
+
+**Stub:** `src/server/wal_grpc_service.cpp` — `WalGrpcService` constructor is a no-op when `THEMIS_HAS_SHARD_GRPC=0`  
+**Risk:** WAL entries are not replicated to replica shards; replicas diverge from the primary silently, violating replication guarantees.
+
+### Scope
+- Run `protoc` on `proto/shard.proto` as part of the CMake build
+  (the gRPC target is already wired; ensure the code-gen output path is on
+  the include path so the `THEMIS_HAS_SHARD_GRPC` check resolves to 1).
+- Wire `WalGrpcService` into the server startup path so it is registered with
+  the gRPC server alongside the other shard services.
+- `WALApplier::applyToReplicas()` must call the WalGrpcService stub methods
+  on each replica endpoint.
+
+### Design Constraints
+- WAL replication must be asynchronous (fire-and-forget with a delivery guarantee
+  via the Raft log); WAL apply must not block the primary write path.
+- Replica acknowledgement timeout: 500 ms; on timeout, log WARN and continue
+  (Raft will eventually deliver the entry).
+- mTLS between primary and replicas is mandatory; use `mtls_connection_pool.cpp`.
+
+### Test Strategy
+- Unit: mock `WALApplier`; assert `WalGrpcService::applyWALEntry()` is called on replica.
+- Integration: 3-node cluster; write to primary; assert WAL appears on replicas within 1 s.
+- Regression: `test_transaction_distributed_2pc.cpp` all pass unchanged.
+
+### Performance Targets
+- WAL replication fan-out latency (primary → 2 replicas, LAN): ≤ 5 ms p99.
+- WAL apply throughput: ≥ 50 K entries/s.

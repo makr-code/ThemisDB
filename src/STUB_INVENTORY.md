@@ -20,7 +20,7 @@
 
 ---
 
-## Stub Inventory (44 entries)
+## Stub Inventory (51 entries)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -68,6 +68,13 @@
 | 42 | `cache/redis_cache_coordinator.cpp` | hiredis absent: `connectPublish/Subscribe/subscribeLoop` no-ops | `THEMIS_ENABLE_REDIS` not defined (default) | Cross-node cache invalidation disabled; stale reads propagate for full cache TTL across multi-node deployments | `src/cache/FUTURE_ENHANCEMENTS.md` §Redis Pub/Sub Invalidation | v1.6.0 |
 | 43 | `utils/pki_client.cpp` | `THEMIS_TEST_MODE` signing + verification fallback (base64-hash equality) | `THEMIS_TEST_MODE` defined at compile time (never in production presets) | Signatures are not cryptographically valid; cert_serial is `"DEMO-CERT-SERIAL"`; not a security regression because the flag is test-only | `src/utils/FUTURE_ENHANCEMENTS.md` §PKI Client Production Signing | v1.6.0 |
 | 44 | `sharding/mtls_connection_pool.cpp` | `createNewConnection()` always returns `nullopt`; connection creation delegated to `MTLSClient` | Always active in current design | Pool cannot pre-warm or self-create connections; `acquireConnection()` falls back to `MTLSClient::connect()` on every cache miss | `src/sharding/FUTURE_ENHANCEMENTS.md` §mTLS Pool Connection Ownership | v2.0.0 |
+| 45 | `updates/parallel_downloader.cpp` | `defaultFetch()` no-op stub: returns false + error "No HTTP transport configured" when no FetchFn injected | Always active until `setFetchFunction()` is called | All downloads fail immediately; `out_bytes=0`, `out_total=0`; update subsystem non-functional without custom transport | `src/updates/FUTURE_ENHANCEMENTS.md` §Parallel Downloader HTTP Transport | v1.6.0 |
+| 46 | `llm/mixed_precision_inference.cpp` | `isSupported()` assumes all precision modes supported; no CUDA capability check | Always active (no THEMIS_HAS_CUDA gate) | BFLOAT16/Q4/INT8 reported supported on any hardware; BF16 kernel launch will fail at runtime on pre-Ampere GPUs | `src/llm/FUTURE_ENHANCEMENTS.md` §Mixed Precision Hardware Capability Check | v1.7.0 |
+| 47 | `security/hsm_key_provider_adapter.cpp` | `wrapDEK()`: in-memory AES-256-GCM stub KEK used when no real HSM | `HSMProvider::isStubProvider()` == true (empty library_path) | Stub KEK lost on process restart → encrypted blobs permanently inaccessible after restart; blocked at startup by HSMSecurityChecker | `src/security/FUTURE_ENHANCEMENTS.md` §HSM Key Provider Production | v1.4.0 |
+| 48 | `security/hsm_key_provider_adapter.cpp` | `unwrapDEK()`: same in-memory AES-256-GCM stub KEK path | Same as entry 47 | If process restarted between wrap and unwrap, unwrap will fail with "HSM failed to unwrap DEK" | `src/security/FUTURE_ENHANCEMENTS.md` §HSM Key Provider Production | v1.4.0 |
+| 49 | `server/wal_grpc_service.cpp` | `WalGrpcService` is a no-op when `THEMIS_HAS_SHARD_GRPC=0` | `THEMIS_HAS_SHARD_GRPC` not set (default in minimal builds without protoc code-gen step) | WAL replication to replica shards silently disabled; replica nodes diverge from primary over time | `src/sharding/FUTURE_ENHANCEMENTS.md` §WAL gRPC Replication | v1.6.0 |
+| 50 | `server/prompt_engineering_grpc_service.cpp` | Entire gRPC service is a stub (constructor only); `service()` returns `nullptr` | Always active until `THEMIS_HAS_PROMPT_GRPC=1` and protoc generates stubs | All gRPC calls to prompt-engineering endpoint return UNIMPLEMENTED; REST endpoints unaffected | `src/prompt_engineering/FUTURE_ENHANCEMENTS.md` §gRPC Service | v1.7.0 |
+| 51 | `training/provenance_tracker.cpp` | In-process lineage tree fallback when `graph_db_` is null or AQL traversal returns empty | `graph_db_` not set, or AQL result empty (offline / test mode) | Only captures samples registered in current process lifetime; cross-process/restart lineage lost; graph relationships flattened to parent–child pairs | `src/training/FUTURE_ENHANCEMENTS.md` §Provenance Graph Integration | v1.8.0 |
 
 ---
 
@@ -98,4 +105,4 @@
 
 ---
 
-*Last updated: 2026-04-28 — 44 entries, 8 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-04-28 — 51 entries, 8 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

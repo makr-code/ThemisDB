@@ -542,6 +542,20 @@ BuildConfiguration getBuildConfiguration() {
         "Hardware Security Module integration"
     });
 #else
+    // STUB/SIMULATION NOTE:
+    // Purpose: Report HSM PKCS#11 as not-enabled in the build-info module list
+    //   so that operators can detect that the server is running with the
+    //   in-process stub HSM (HSMProvider::isStubProvider() == true).
+    // Activation: THEMIS_ENABLE_HSM_REAL is not defined (default in dev builds
+    //   and when no PKCS#11 library is available).
+    // Production Delta: HSM operations (DEK wrapping/unwrapping, firmware
+    //   signing) use an in-memory AES-256-GCM stub KEK instead of the HSM's
+    //   hardware-protected key.  Blocked at startup by HSMSecurityChecker
+    //   unless --allow-stub-hsm is passed.
+    // Removal Plan: Configure a real PKCS#11 library (library_path) and build
+    //   with -DTHEMIS_ENABLE_HSM_REAL=ON; the `#ifdef THEMIS_ENABLE_HSM_REAL`
+    //   branch above becomes active.
+    // Roadmap ref: src/security/FUTURE_ENHANCEMENTS.md §"HSM Key Provider Production"
     config.modules.push_back({
         "HSM PKCS#11",
         false,

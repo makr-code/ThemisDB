@@ -302,3 +302,35 @@ Implement end-to-end provenance tracking for every training sample from source d
 - Differential privacy accounting (`epsilon`, `delta`) is enforced per round and audited.
 - Cross-border/policy checks can block aggregation prior to global delta release.
 - Local rollback/fallback remains available if policy, quality, or availability checks fail.
+
+---
+
+## Provenance Graph Integration — getLineageTree Production Path (Target: v1.8.0)
+
+**Stub:** `src/training/provenance_tracker.cpp` — in-process lineage tree fallback when `graph_db_` is null or AQL traversal returns empty  
+**Risk:** In multi-process or multi-node deployments, training provenance is silently incomplete because the in-process store only contains samples registered in the current process lifetime.
+
+### Scope
+- Ensure `setGraphDB()` is called at server startup (wire in `main_server.cpp`) so
+  `graph_db_` is always non-null in production.
+- Ensure `recordSample()` persists every sample to the graph DB (collection
+  `training_provenance`) atomically at ingest time.
+- The AQL traversal in `getLineageTree()` then always finds data; the in-process
+  fallback branch becomes unreachable in production.
+- Add a `ProvenanceTracker::setFallbackPolicy(FallbackPolicy)` enum to explicitly
+  control whether the in-process fallback is allowed (TEST_ONLY / FAIL_FAST / DEGRADE).
+
+### Design Constraints
+- AQL traversal depth is configurable but defaults to 5 hops to prevent unbounded lineage queries.
+- `recordSample()` must be exception-safe: if the graph DB write fails, fall back to
+  in-process store with a WARN log, never silently swallow the error.
+- The in-process store is kept as a read-only cache after a successful graph DB write.
+
+### Test Strategy
+- Unit: inject a mock `graph_db_`; assert `getLineageTree()` calls AQL traversal.
+- Integration: write 3 samples, query lineage; assert all 3 appear in graph DB.
+- Regression: with `graph_db_=nullptr`, assert fallback path still works (test mode).
+
+### Performance Targets
+- `recordSample()` write latency: ≤ 10 ms p99 (local ThemisDB instance).
+- `getLineageTree()` AQL traversal (depth 5, 100 nodes): ≤ 50 ms p99.
