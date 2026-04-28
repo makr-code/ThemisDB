@@ -149,10 +149,10 @@ std::shared_ptr<Entry>
 ModelServingEngine::lookupEntryOrThrow_(const std::string& name,
                                          const std::string& version) const {
     std::shared_lock lock(impl_->mu);
-    auto it = impl_->registry.find(makeModelKey(name, version));
+    const std::string key = makeModelKey(name, version);
+    auto it = impl_->registry.find(key);
     if (it == impl_->registry.end())
-        throw std::out_of_range("ModelServingEngine: model not found: " +
-                                makeModelKey(name, version));
+        throw std::out_of_range("ModelServingEngine: model not found: " + key);
     return it->second;
 }
 

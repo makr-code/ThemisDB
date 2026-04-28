@@ -125,15 +125,15 @@ std::vector<GPUTensor> DistributedDataLoader::load_batch(size_t batch_idx) {
                 // Shape mismatch: pad with zeros so the batch tensor stays rectangular.
                 // Log a warning with full dimensions so operators can identify
                 // corrupted samples in the training data.
-                const auto& got = batch_samples[i].shape();
-                std::string expected_str, got_str;
-                for (size_t d = 0; d < sample_shape.size(); ++d)
-                    expected_str += (d ? "×" : "") + std::to_string(sample_shape[d]);
-                for (size_t d = 0; d < got.size(); ++d)
-                    got_str += (d ? "×" : "") + std::to_string(got[d]);
+                auto shapeStr = [](const std::vector<size_t>& sh) {
+                    std::string s;
+                    for (size_t d = 0; d < sh.size(); ++d)
+                        s += (d ? "×" : "") + std::to_string(sh[d]);
+                    return s;
+                };
                 spdlog::warn("DistributedDataLoader: sample {} has unexpected shape — "
                              "expected [{}], got [{}]; padding with zeros",
-                             i, expected_str, got_str);
+                             i, shapeStr(sample_shape), shapeStr(batch_samples[i].shape()));
                 std::vector<float> zeros(per_sample_size, 0.0f);
                 batch_data.insert(batch_data.end(), zeros.begin(), zeros.end());
                 continue;
