@@ -26,7 +26,7 @@
 
 ---
 
-## Stub Inventory (124 entries)
+## Stub Inventory (129 entries)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -179,8 +179,12 @@
 | 121 | `sharding/shard_resource_manager.cpp::getVramUsage()` | No GPU API queried; returns (0,0) | Always — no CUDA/HIP/Vulkan linked | VRAM-aware shard scheduling ignores actual GPU memory | `src/sharding/FUTURE_ENHANCEMENTS.md` §VRAM Usage Monitoring | future milestone |
 | 122 | `sharding/shard_resource_manager.cpp::getNetworkUsage()` | No NIC counter queried; returns (0,0) | Always — platform network APIs not integrated | Network-bandwidth-aware routing ignores actual NIC utilisation | `src/sharding/FUTURE_ENHANCEMENTS.md` §Network Usage Monitoring | future milestone |
 | 123 | `query/query_federation.cpp` broadcast join | Returns metadata-only JSON; no actual join rows produced | Broadcast-join strategy selected | Zero join results returned to caller; federated broadcast joins are no-ops | `src/query/FUTURE_ENHANCEMENTS.md` §QueryFederation Broadcast Join | future milestone |
-| 124 | `query/query_federation.cpp` shuffle join | Returns metadata-only JSON; no actual join rows produced | Shuffle-join strategy selected | Zero join results returned to caller; federated shuffle joins are no-ops | `src/query/FUTURE_ENHANCEMENTS.md` §QueryFederation Shuffle Join | future milestone |
+| 125 | `sharding/signed_request.cpp::SignedRequestVerifier::verify()` | Signature presence check only; no public-key crypto performed; forged signatures pass | Always | Any request with a non-empty `signature_b64` is accepted regardless of correctness | `src/sharding/FUTURE_ENHANCEMENTS.md` §Signed Request Crypto Verification | future milestone |
+| 126 | `sharding/shard_router.cpp` broadcast-hash join Phase 2 | Right-side query not executed; join probe skipped; only left/build-side rows returned | Broadcast-hash join path in shard_router | Zero join matches; result is metadata + left rows only | `src/sharding/FUTURE_ENHANCEMENTS.md` §Shard Router Broadcast-Hash Join Phase 2 | future milestone |
+| 127 | `sharding/pki_shard_certificate.cpp::ShardCertificateInfo::isValidNow()` | Checks only for non-empty date strings; no date parsing or expiry comparison | Always | Expired and not-yet-valid certificates pass the validity check | `src/sharding/FUTURE_ENHANCEMENTS.md` §PKI Certificate Validity | future milestone |
+| 128 | `voice/voice_assistant.cpp::convertAudioFormat()` | Returns original bytes unchanged; no FFmpeg / audio codec integration | Always — THEMIS_ENABLE_FFMPEG not set | Callers requesting OGG/MP3/MP4 receive raw PCM bytes | `src/voice/FUTURE_ENHANCEMENTS.md` §Voice Audio Format Conversion | future milestone |
+| 129 | `timeseries/hypertable.cpp::Hypertable::listChunks()` | Returns empty list; RocksDB CF metadata scan not implemented | Always — StorageBackend::listCFs() not exposed | Chunk-level compaction/tiering/retention enforcement sees no chunks | `src/timeseries/FUTURE_ENHANCEMENTS.md` §Hypertable listChunks | future milestone |
 
 ---
 
-*Last updated: 2026-04-28 — 124 entries, 9 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-04-28 — 129 entries, 9 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

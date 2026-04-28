@@ -243,9 +243,17 @@ std::pair<int64_t, int64_t> Hypertable::parseChunkTimeRange(const std::string& c
 std::vector<Hypertable::ChunkInfo> Hypertable::listChunks() {
     std::vector<ChunkInfo> chunks;
     
-    // Note: In production, this would scan RocksDB CF metadata
-    // For now, return empty list as CF listing is not exposed in wrapper
-    
+    // STUB/SIMULATION NOTE:
+    // Purpose: Satisfies the listChunks() API while RocksDB column-family
+    //          metadata enumeration for the hypertable chunk registry is not
+    //          yet exposed through the storage wrapper.
+    // Activation: Always — no CF scan is performed.
+    // Production Delta: Callers always receive an empty list; chunk-level
+    //                   compaction, tiering, and retention enforcement that
+    //                   iterate over chunks will see no chunks to process.
+    // Removal Plan: Scan the hypertable metadata prefix in RocksDB to build
+    //               the ChunkInfo list; expose via `StorageBackend::listCFs()`.
+    //               See src/timeseries/FUTURE_ENHANCEMENTS.md §Hypertable listChunks.
     THEMIS_INFO("Listing chunks for hypertable '{}'", config_.table_name);
     
     return chunks;

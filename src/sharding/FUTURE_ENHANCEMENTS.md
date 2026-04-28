@@ -539,3 +539,45 @@ Handle the full lifecycle of migrating a ThemisDB shard node to replacement hard
 - Linux: parse `/proc/net/dev` RX/TX byte counters per interface.
 - Windows: `GetIfTable2()` from iphlpapi.h.
 - Return `{bytes_rx, bytes_tx}` since last call; rate is computed by callers.
+
+---
+
+## Signed Request Crypto Verification (Target: future milestone — stub removal)
+
+**Stub:** `src/sharding/signed_request.cpp::SignedRequestVerifier::verify()` — checks only for non-empty `signature_b64`; no public-key crypto performed.  
+**Risk:** An attacker can craft a request with any non-empty `signature_b64` string and it will pass verification. Shard-to-shard authentication is completely bypassed.
+
+### Scope
+- Extract the sender public key from `request.sender_cert_pem` via `X509_get_pubkey()`.
+- Compute SHA-256 of `getCanonicalString()`.
+- Call `EVP_DigestVerify()` to validate `signature_b64` (Base64-decode first).
+- Reject if certificate is expired (`isValidNow()` — fix that stub too).
+
+### Security / Reliability
+- Both certificate validity and signature correctness must pass before accepting a request.
+- Certificate chain must be validated against the cluster's root CA.
+- Replay protection: include `request.timestamp_ms` and `request.nonce` in the canonical string; reject replays > 5 s old.
+
+---
+
+## Shard Router Broadcast-Hash Join Phase 2 (Target: future milestone — stub removal)
+
+**Stub:** `src/sharding/shard_router.cpp` broadcast-hash join — Phase 2 right-side query never executed.  
+**Risk:** Broadcast-hash joins return only left-side rows; join results are always empty.
+
+### Scope
+- After building the hash table from the left side, execute the right-side `join_query` on all shards.
+- Probe the hash table with each right-side row's join-field value.
+- Emit matched pairs into the result rows.
+
+---
+
+## PKI Certificate Validity (Target: future milestone — stub removal)
+
+**Stub:** `src/sharding/pki_shard_certificate.cpp::ShardCertificateInfo::isValidNow()` — date-string presence check only; expiry not evaluated.  
+**Risk:** Expired certificates are accepted, allowing revoked or long-expired peer identities to authenticate.
+
+### Scope
+- Parse `not_before` and `not_after` as ASN.1 GeneralizedTime / UTCTime via `ASN1_TIME_to_tm()`.
+- Compare against `std::chrono::system_clock::now()`.
+- Return `false` if current time is outside the validity window.
