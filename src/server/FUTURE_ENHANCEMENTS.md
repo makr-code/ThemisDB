@@ -1439,3 +1439,29 @@ inline bool checkBatchSize(const nlohmann::json& arr, size_t max,
 
 ### Performance Targets
 - Size check: O(1) (nlohmann::json::size() is O(1))
+
+---
+
+## gRPC Core Service Activation — ThemisCoreServiceImpl (Target: v2.0.0)
+
+**Stub:** `src/server/themis_core_grpc_service.cpp` — `!THEMIS_HAS_CORE_GRPC`: service instance is null; `getServiceInstance()` returns nullptr; ThemisCoreService absent from gRPC server  
+**Risk:** All database, transaction, and AQL operations exposed via ThemisCoreService are inaccessible via gRPC; clients receive UNIMPLEMENTED for every method.
+
+### Scope
+- Run protoc with the gRPC plugin against `proto/themis_core.proto` to generate `src/gen/themis_core.grpc.pb.{h,cc}`.
+- Set `-DTHEMIS_HAS_CORE_GRPC=1` in CMake (or auto-detect via `find_package(gRPC)`).
+- Wire the generated service into `ThemisCoreServiceImpl::Impl` (already present in the `#if THEMIS_HAS_CORE_GRPC` block).
+
+### Design Constraints
+- `getServiceInstance()` must return a non-null pointer once initialized.
+- Service must be registered with the gRPC server in `HttpServer::startGrpcService()`.
+- Graceful startup failure: if gRPC initialization fails (port conflict, bad credentials), log FATAL and exit rather than silently serving HTTP only.
+
+### Test Strategy
+- Integration: gRPC client calls `ThemisCoreService.GetDocument` → response with correct document body.
+- Integration: `ThemisCoreService.ExecuteQuery` with AQL → result rows match HTTP endpoint.
+- Negative: `!THEMIS_HAS_CORE_GRPC` build → `getServiceInstance()` returns nullptr → gRPC server starts cleanly with no ThemisCoreService registered.
+
+### Performance Targets
+- gRPC unary call latency (LAN, document read): ≤ 2 ms p99.
+- Throughput: ≥ 5000 RPC/s (single-node, 4 vCPU).

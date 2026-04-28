@@ -469,3 +469,34 @@ Handle the full lifecycle of migrating a ThemisDB shard node to replacement hard
 ### Performance Targets
 - WAL replication fan-out latency (primary → 2 replicas, LAN): ≤ 5 ms p99.
 - WAL apply throughput: ≥ 50 K entries/s.
+
+---
+
+## Gossip Config Propagation — GossipConfigManager::sendGossipMessage (Target: v1.7.0)
+
+**Stub:** `src/sharding/gossip_config_manager.cpp` — `sendGossipMessage()`: network call and protobuf serialization skipped; only `messages_sent_++` counter incremented  
+**Risk:** Config updates (shard topology, routing rules) originating from this node never reach other nodes; cluster-wide configuration changes require manual restarts or out-of-band delivery.
+
+### Scope
+- Wire `ShardRPCClient` (or a dedicated lightweight HTTP client) into `GossipConfigManager::sendGossipMessage()`.
+- Serialize the `GossipMessage` using protobuf (proto/themis_gossip.proto) or JSON fallback.
+- Send the payload via HTTP POST or gRPC unary call to `peer_endpoint`.
+- Measure round-trip latency using the existing `now` variable; record in `propagation_latency_us_`.
+
+### Required Interfaces
+- `GossipConfigManager` must accept a `std::shared_ptr<ShardRPCClient>` (or `IGossipTransport`) via constructor or `setTransport()`.
+- `IGossipTransport::send(endpoint, payload) → bool` — returns false on network error, not exception.
+
+### Design Constraints
+- `sendGossipMessage()` must be non-blocking (fire-and-forget); use a background thread pool for retries.
+- Failures must be counted in `send_errors_` and logged at WARN; they must not propagate exceptions to callers.
+- Message deduplication: peers receiving a GossipMessage with a version ≤ their current version MUST ignore it.
+
+### Test Strategy
+- Unit: inject a mock `IGossipTransport`; assert `sendGossipMessage()` calls `transport.send()` with correct payload.
+- Integration: three-node cluster; update config on node A; assert nodes B and C reflect the change within 500 ms.
+- Negative: transport returns false; assert `send_errors_` incremented and no exception thrown.
+
+### Performance Targets
+- Gossip fan-out (1 → 3 peers, LAN): ≤ 5 ms total (fire-and-forget, not blocking caller).
+- Config propagation convergence (3-node cluster): ≤ 500 ms (2× gossip interval default = 250 ms).

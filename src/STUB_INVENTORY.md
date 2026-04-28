@@ -20,7 +20,7 @@
 
 ---
 
-## Stub Inventory (56 entries)
+## Stub Inventory (61 entries)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -80,6 +80,11 @@
 | 54 | `index/gpu_vector_index_vulkan.cpp` | `!THEMIS_HAS_VULKAN_IMPL` Pimpl: all methods return `false` or empty; `isInitialized()` returns false | `THEMIS_HAS_VULKAN_IMPL=0` (no Vulkan SDK / GPU driver) | GPU-accelerated ANN search disabled; all vector queries fall back to CPU HNSW/FAISS; 5–20× throughput reduction for ≥ 1M vectors | `src/index/FUTURE_ENHANCEMENTS.md` §GPU Vector Index (Vulkan) | v1.9.0 |
 | 55 | `network/kernel_bypass.cpp` | `ZeroCopyDmaBuffer` Windows path: plain heap allocation, no huge pages or DMA mapping | `!defined(__linux__)` | Zero-copy network I/O unavailable; kernel copy on every I/O operation; DPDK/io_uring fixed-buffer registration silently fails | `src/network/FUTURE_ENHANCEMENTS.md` §Kernel Bypass Windows Support | v1.6.0 |
 | 56 | `index/process_graph.cpp` | Multi-Model Query Stubs: `queryTasksByFormData`, `queryForeignKeyJoin`, `queryAggregation` run O(n) full scans over RocksDB in-process store instead of AQL index-backed traversal | Always active (no AQL engine wired into `ProcessGraphManager`) | O(n) and O(n×m) scan degradation for > 10K tokens per process; no server-side index acceleration | `src/index/FUTURE_ENHANCEMENTS.md` §Process Graph Multi-Model Query Engine | v2.0.0 |
+| 57 | `sharding/shard_rpc_client.cpp` | `sendRequestInProcess()`: hardcoded JSON responses simulate shard gRPC (prepare→commit, commit→committed, abort→aborted, ping→ok, etc.) | `THEMIS_HAS_SHARD_GRPC == 0` or loopback endpoint (`use_grpc = false`) | RPC never leaves process; all shard peers appear to respond successfully; 2PC failures, partial commit, and NACK responses never exercised; latency fixed at 10 ms | `src/sharding/FUTURE_ENHANCEMENTS.md` §WAL gRPC Replication | v1.9.0 |
+| 58 | `server/themis_core_grpc_service.cpp` | `!THEMIS_HAS_CORE_GRPC`: service instance is null; `getServiceInstance()` returns nullptr; ThemisCoreService absent from gRPC server | `THEMIS_HAS_CORE_GRPC == 0` (themis_core.grpc.pb.h not generated) | All ThemisCoreService methods return UNIMPLEMENTED to gRPC clients | `src/server/FUTURE_ENHANCEMENTS.md` §gRPC Core Service Activation | v1.9.0 |
+| 59 | `api/themisdb_grpc_service.cpp` | `!THEMIS_HAS_API_GRPC`: service instance is null; `service()` returns nullptr; ThemisDBService absent from gRPC server | `THEMIS_HAS_API_GRPC == 0` (themisdb.grpc.pb.h not generated) | All ThemisDBService methods (document CRUD, transactions, vector search) return UNIMPLEMENTED to gRPC clients | `src/api/FUTURE_ENHANCEMENTS.md` §gRPC API Service Activation | v1.9.0 |
+| 60 | `sharding/gossip_config_manager.cpp` | `sendGossipMessage()`: network call and protobuf serialization skipped; only `messages_sent_++` counter incremented | Always active (HTTP/gRPC gossip transport not wired in) | No gossip messages are sent to peers; config updates never propagate across the cluster | `src/sharding/FUTURE_ENHANCEMENTS.md` §Gossip Config Propagation | v1.7.0 |
+| 61 | `cache/distributed_cache_coordinator.cpp` | `!THEMIS_POSIX_SOCKETS` block: all `RedisCacheCoordinator` methods no-ops; `publish_errors_` incremented per call | `THEMIS_POSIX_SOCKETS` not defined (non-POSIX / Windows builds) | Cache invalidation pub/sub disabled; all nodes are independent local caches; stale reads in multi-node deployments | `src/cache/FUTURE_ENHANCEMENTS.md` §Redis Pub/Sub Activation | v1.6.0 |
 
 ---
 
@@ -110,4 +115,4 @@
 
 ---
 
-*Last updated: 2026-04-28 — 56 entries, 8 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-04-28 — 61 entries, 8 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
