@@ -3836,15 +3836,23 @@ http::response<http::string_body> HttpServer::routeRequest(
                     {
                         // Determine the allowed model root.
                         std::filesystem::path allowed_root;
-                        if (auto env_dir = themis_get_env("THEMIS_MODEL_DIR")) {
-                            allowed_root = std::filesystem::weakly_canonical(*env_dir);
-                        } else {
-                            allowed_root = std::filesystem::weakly_canonical(
-                                std::filesystem::current_path());
-                            THEMIS_WARN("THEMIS_MODEL_DIR is not set; using current working directory "
-                                        "as model root: '{}'. Set THEMIS_MODEL_DIR to the intended "
-                                        "model directory to avoid this warning.",
-                                        allowed_root.string());
+                        try {
+                            if (auto env_dir = themis_get_env("THEMIS_MODEL_DIR")) {
+                                allowed_root = std::filesystem::weakly_canonical(*env_dir);
+                            } else {
+                                allowed_root = std::filesystem::weakly_canonical(
+                                    std::filesystem::current_path());
+                                THEMIS_WARN("THEMIS_MODEL_DIR is not set; using current working directory "
+                                            "as model root: '{}'. Set THEMIS_MODEL_DIR to the intended "
+                                            "model directory to avoid this warning.",
+                                            allowed_root.string());
+                            }
+                        } catch (const std::filesystem::filesystem_error& fse) {
+                            auto response = makeErrorResponse(http::status::internal_server_error,
+                                "INTERNAL_ERROR",
+                                std::string("Model root canonicalization failed: ") + fse.what());
+                            res = std::move(response);
+                            break;
                         }
                         std::error_code ec;
                         auto canon = std::filesystem::weakly_canonical(model_path, ec);

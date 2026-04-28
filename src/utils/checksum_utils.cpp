@@ -63,7 +63,7 @@ static std::string computeFileHash(const std::string& file_path, const EVP_MD* m
 
     std::ostringstream oss;
     for (unsigned int i = 0; i < hash_len; i++) {
-        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned int>(hash[i]);
     }
     return oss.str();
 }
