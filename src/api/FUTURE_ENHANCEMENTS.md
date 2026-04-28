@@ -336,3 +336,45 @@ if (!config_.tls_enabled) {
 
 ### Security / Reliability
 - Production guard must not be bypassable by missing env var (default = deny in production)
+
+---
+
+## gRPC API Service Activation — ThemisDBGrpcService (Target: v2.0.0)
+
+**Stub:** `src/api/themisdb_grpc_service.cpp` — `!THEMIS_HAS_API_GRPC`: service instance is null; `service()` returns nullptr; ThemisDBService absent from gRPC server  
+**Risk:** All ThemisDBService methods (document CRUD, transaction management, vector search) return UNIMPLEMENTED to gRPC clients.
+
+### Scope
+- Run protoc with the gRPC plugin against `proto/themisdb.proto` to generate `src/gen/themisdb.grpc.pb.{h,cc}`.
+- Set `-DTHEMIS_HAS_API_GRPC=1` in CMake (auto-detect via `find_package(gRPC)`).
+- The `Impl::ServiceImpl` implementation block (inside `#if THEMIS_HAS_API_GRPC`) is already present and complete; activation is purely a build configuration change.
+
+### Design Constraints
+- `service()` must return a non-null pointer when `THEMIS_HAS_API_GRPC == 1` and buildImpl() has been called.
+- Document CRUD methods must share the same RocksDBWrapper instance as the HTTP API to ensure consistency.
+- Vector search via gRPC must use the same `IVectorIndex` as the HTTP vector search endpoint.
+
+### Test Strategy
+- Integration: gRPC client inserts a document via `PutDocument` → HTTP GET returns same document.
+- Integration: `VectorSearch` returns same top-k as HTTP `/v1/index/search`.
+- Negative: `!THEMIS_HAS_API_GRPC` build → `service()` returns nullptr → gRPC server starts cleanly.
+
+### Performance Targets
+- `PutDocument` gRPC unary (LAN): ≤ 3 ms p99.
+- `VectorSearch` gRPC unary (k=10, 1 M vectors, CPU HNSW): ≤ 50 ms p99.
+
+---
+
+## Legacy HTTP Server Stub Removal (Target: v1.3.0 — cleanup)
+
+**Stub:** `src/api/http_server.cpp` — deprecated legacy placeholder TU; entire namespace body intentionally empty  
+**Risk:** Build targets that still include this file waste compile time; any future code added here will silently have no effect.
+
+### Scope
+- Confirm no CMake target still compiles `src/api/http_server.cpp`.
+- Remove the file from CMakeLists.txt source lists.
+- Keep the file in version history (do not `git rm` permanently) for audit reference.
+
+### Test Strategy
+- CI build succeeds after removing `src/api/http_server.cpp` from all CMake targets.
+- No linker errors: no symbol defined here is referenced elsewhere.

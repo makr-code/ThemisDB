@@ -168,3 +168,18 @@ Add AES-256-GCM encryption to individual time series chunks in `tsstore.cpp` usi
 - [ ] `retention.cpp` chunk deletion must be atomic at the chunk boundary and logged to `utils/audit_logger.cpp`; partially deleted chunks must be detected and repaired on startup.
 - [?] Determine whether time series data containing legal event timestamps must be retained for a minimum period regardless of configured retention policy (regulatory constraint).
 - [x] `TSAutoBuffer` must not silently drop data under extreme backpressure: producers block on `backpressure_cv_` and receive `ERR_API_RESOURCE_EXHAUSTED` when the buffer is stopped during the wait. Non-adaptive mode still accepts data up to `max_memory_bytes` then forces a flush.
+
+---
+
+## Hypertable listChunks (Target: future milestone — stub removal)
+
+**Stub:** `src/timeseries/hypertable.cpp::Hypertable::listChunks()` — always returns empty list.  
+**Risk:** Chunk-level compaction, tiering, and retention enforcement receive an empty chunk list and do nothing, silently leaving old data uncompressed and unretained.
+
+### Scope
+- Expose `StorageBackend::listCFs()` or equivalent metadata scan.
+- Scan the hypertable metadata prefix in RocksDB (key pattern: `<table>:chunk:<time_range>`).
+- Populate `ChunkInfo` records (chunk_id, time_range, size_bytes, compression_type).
+
+### Performance Targets
+- `listChunks()` for a hypertable with 10 000 chunks: ≤ 50 ms.

@@ -44,8 +44,22 @@ size_t VectorAutoBuffer::BufferedOp::estimateVectorSize(const BaseEntity& entity
             return embedding->size() * sizeof(float);
         }
     } catch (...) {
-        // Fallback estimate
-        return 768 * sizeof(float);  // Typical embedding size
+        // STUB/SIMULATION NOTE:
+        // Purpose: Provide a safe default when `extractVector("embedding")` throws
+        //   or returns an empty optional.  Returns 768 × sizeof(float) = 3072 bytes,
+        //   matching the embedding dimension of many common models (BERT, all-MiniLM,
+        //   bge-small-en-v1.5).
+        // Activation: `extractVector()` throws an exception (e.g., field not present,
+        //   wrong type) or returns `std::nullopt` after the try block.
+        // Production Delta: Memory accounting in `VectorAutoBuffer` may be inaccurate
+        //   for entities with non-standard embedding dimensions (e.g., 512, 1024, 3072
+        //   float models).  Over- or under-counting causes incorrect buffer flush
+        //   decisions (too-early or too-late flushes); performance impact is minor.
+        // Removal Plan: Accept embedding dimension as a constructor parameter of
+        //   `VectorAutoBuffer` and use it in `estimateVectorSize()` as the fallback,
+        //   eliminating the hardcoded 768 constant.
+        // Roadmap ref: src/index/FUTURE_ENHANCEMENTS.md §"VectorAutoBuffer Dynamic Dimension"
+        return 768 * sizeof(float);  // Typical embedding size (fallback)
     }
     return 0;
 }

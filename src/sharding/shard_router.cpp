@@ -589,8 +589,17 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
         span.setAttribute("left_rows", static_cast<int64_t>(total_left_rows));
         span.setAttribute("hash_table_size", static_cast<int64_t>(hash_table.size()));
         
-        // Phase 2: If we have a right-side query, execute it
-        // For now, return the merged left results with hash table stats
+        // STUB/SIMULATION NOTE:
+        // Purpose: Returns Phase-1 (left-side) results + hash-table metadata while
+        //          the Phase-2 right-side broadcast-hash join execution is pending.
+        // Activation: Always — right-side shard query in broadcast-hash join path
+        //             is not yet implemented.
+        // Production Delta: Right-side documents are never fetched; join probe phase
+        //                   is skipped; result rows are only from the left/build side.
+        // Removal Plan: Execute the right-side query via `executeOnShards()`; probe
+        //               `hash_table` with each right-side row's join-field value;
+        //               emit matched row pairs.  See src/sharding/FUTURE_ENHANCEMENTS.md
+        //               §Shard Router Broadcast-Hash Join Phase 2.
         nlohmann::json result = {
             {"join_type", "broadcast_hash"},
             {"join_field", join_field},

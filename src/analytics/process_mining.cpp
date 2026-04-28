@@ -22,6 +22,22 @@
  */
 
 #if defined(_WIN32) && defined(THEMIS_PROCESS_MINING_WINDOWS_STUB)
+// STUB/SIMULATION NOTE:
+// Purpose: Provide a link-compatible implementation of all ProcessMining public
+//   methods for Windows builds where the native process-mining subsystem is not
+//   yet ported (BPMN runtime, Petri-net evaluator, and conformance checker each
+//   depend on POSIX APIs that are not yet wrapped for Win32).
+// Activation: Compiled when both _WIN32 and THEMIS_PROCESS_MINING_WINDOWS_STUB
+//   are defined.  The stub flag is set via CMake preset
+//   `THEMIS_PROCESS_MINING_WINDOWS_STUB=ON` (default on Windows CI).
+// Production Delta: Every ProcessMining call returns Status::Error immediately
+//   with a clear message.  No event logs are created, no conformance checks run,
+//   no BPMN models are evaluated.  Windows nodes in a mixed cluster cannot run
+//   process mining operations and must forward them to a Linux peer.
+// Removal Plan: Port POSIX-dependent internals to Win32 equivalents and remove
+//   the THEMIS_PROCESS_MINING_WINDOWS_STUB CMake option.  Tracking:
+//   src/analytics/FUTURE_ENHANCEMENTS.md § "Process Mining Windows Port"
+// Roadmap ref: src/analytics/ROADMAP.md § ProcessMining
 #include "analytics/process_mining.h"
 #include "utils/logger.h"
 #include <spdlog/spdlog.h>

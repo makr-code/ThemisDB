@@ -806,6 +806,10 @@ else()
     # SHLIBDEPS resolves shared-library deps automatically when dpkg-shlibdeps is available.
     # Falls back gracefully when the tool is absent (local builds without full dpkg stack).
     set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS   ON)
+    if(EXISTS "${CMAKE_SOURCE_DIR}/debian/themisdb.postinst" AND EXISTS "${CMAKE_SOURCE_DIR}/debian/themisdb.postrm")
+        set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA
+            "${CMAKE_SOURCE_DIR}/debian/themisdb.postinst;${CMAKE_SOURCE_DIR}/debian/themisdb.postrm")
+    endif()
 
     # RPM metadata
     set(CPACK_RPM_PACKAGE_NAME       "themisdb")

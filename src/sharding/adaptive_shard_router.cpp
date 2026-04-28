@@ -435,9 +435,16 @@ std::vector<ShardResult> AdaptiveShardRouter::executeOnShards(
                 continue;
             }
             
-            // Execute query on shard
-            // For now, return empty successful result as placeholder
-            // In production, this would use RemoteExecutor to actually query the shard
+            // STUB/SIMULATION NOTE:
+            // Purpose: Satisfies the per-shard execution API while the real RemoteExecutor
+            //          fan-out to the shard gRPC endpoint is not yet wired up.
+            // Activation: Always — RemoteExecutor integration is pending.
+            // Production Delta: No actual data is returned (`result.data` is always an
+            //                   empty JSON array); `execution_time_ms = 0` suppresses
+            //                   latency accounting.  Real shard results are not merged.
+            // Removal Plan: Call `RemoteExecutor::execute(shard_info.endpoint, query)`
+            //               here; deserialise the response into `result.data`.  See
+            //               src/sharding/FUTURE_ENHANCEMENTS.md §Adaptive Router Remote Execution.
             result.success = true;
             result.data = nlohmann::json::array();
             result.execution_time_ms = 0;

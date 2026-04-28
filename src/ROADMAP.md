@@ -483,6 +483,7 @@ See `src/UNUSED_FUNCTIONS_REPORT.md` for per-symbol triage decisions.
 - [x] `src/stubs.cpp` Mock-Implementierungen entfernt — `Feedback`, `LoRATrainingConfig`, `TrainingTriggerPlugin`, `CacheAwareWeightingPlugin`, `FeedbackStorageService` migriert zu ihren kanonischen Quellen in `src/llm/lora_framework/`; Datei bleibt als leerer Platzhalter erhalten (v1.9.0)
 - [x] `tests/CMakeLists.txt` `THEMIS_ENABLE_DEV_STUBS`-Block entfernt (stubs.cpp ist jetzt leer) (v1.9.0)
 - [x] Alle verbleibenden STUB/SIMULATION-Blöcke ohne Roadmap-Referenz bereinigen: `Roadmap ref:` in 18+19 STUB-Blöcken in 13+18 Dateien ergänzt (v1.9.0)
+- [x] **Zentrales STUB-Inventory**: `src/STUB_INVENTORY.md` mit 31 Einträgen erstellt; auto-scan Befehl dokumentiert (v1.9.x)
 
 #### Phase 6: Retry/Backoff Zentralisierung (Target: v1.5.0)
 - [x] `include/utils/retry_policy.h` mit `RetryConfig`, `ExponentialBackoff`, `retry_with_backoff<>` angelegt

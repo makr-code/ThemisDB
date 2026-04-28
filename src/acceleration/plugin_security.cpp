@@ -1795,7 +1795,19 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(
               header[2] == 0xED && header[3] == 0xFE) ||
              (header[0] == 0xCE && header[1] == 0xFA &&
               header[2] == 0xED && header[3] == 0xFE)) {
-        // Mach-O LC_CODE_SIGNATURE extraction not implemented.
+        // STUB/SIMULATION NOTE:
+        // Purpose: Identifies Mach-O magic bytes but does not parse LC_CODE_SIGNATURE
+        //          load commands; the full Mach-O header+load-command walking is
+        //          pending.
+        // Activation: Plugin binary has a Mach-O magic header (macOS dylib/bundle).
+        // Production Delta: `std::nullopt` is returned; no embedded Apple code
+        //                   signature is extracted; macOS plugin signature verification
+        //                   falls back to `codesign -v` subprocess (if configured) or
+        //                   is skipped entirely — unsigned macOS plugins pass unchecked.
+        // Removal Plan: Parse Mach-O load commands: iterate `mach_header.ncmds`;
+        //               locate `LC_CODE_SIGNATURE` (`cmd == 0x1D`); read the
+        //               `linkedit_data_command.dataoff/datasize` blob.  See
+        //               src/acceleration/FUTURE_ENHANCEMENTS.md §Plugin Security Mach-O Signature.
     }
 
     return std::nullopt;

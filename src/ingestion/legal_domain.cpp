@@ -173,6 +173,23 @@ Result<GesetzHierarchy> GesetzParser::parse(
         // paragraph position relative to Teil position is not tracked here
         // without full position info from extractParagraphs — put all under root
         // and attach Teil stubs for hierarchy completeness)
+        //
+        // STUB/SIMULATION NOTE:
+        // Purpose: Allow `buildHierarchy()` to produce a structurally complete
+        //   tree even when `extractParagraphs()` does not return per-paragraph
+        //   byte-offsets.  Without precise position info, paragraphs cannot be
+        //   assigned to their containing Teil section; all paragraphs are placed
+        //   at the root level alongside the Teil nodes.
+        // Activation: Always active (called when `teile` is non-empty; position
+        //   tracking is not yet implemented in `extractParagraphs()`).
+        // Production Delta: The resulting hierarchy has a flat structure: Teil
+        //   nodes and Paragraph nodes are siblings at the root.  Paragraph→Teil
+        //   containment is lost.  Downstream consumers that traverse Teil children
+        //   to find their paragraphs will see empty `children` lists for Teil nodes.
+        // Removal Plan: Extend `extractParagraphs()` to return `{paragraph, offset}`
+        //   pairs.  In `buildHierarchy()`, use offsets to assign each paragraph to
+        //   the nearest preceding Teil start position.
+        // Roadmap ref: src/ingestion/FUTURE_ENHANCEMENTS.md §"German Legal Hierarchy Position Tracking"
         for (auto& [pos, tn] : teile) {
             hier.root.children.push_back(std::move(tn));
         }

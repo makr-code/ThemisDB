@@ -651,3 +651,19 @@ The following references (IEEE & ACM citation format) support the future enhance
 
 *Last Updated: April 2026*
 *Module Version: v1.4.0*
+
+---
+
+## CUDA Stream Manager Activation (Target: v1.5.0 — stub removal)
+
+**Stub:** `src/gpu/stream_manager.cpp` — `!THEMIS_ENABLE_CUDA` in `createCudaStream()`: no `cudaStream_t` created; delegates to ROCm/CPU fallback  
+**Risk:** Named CUDA streams unavailable; work items routed to CPU; GPU stream execution semantics absent.
+
+### Scope
+- Install CUDA Toolkit and set `-DTHEMIS_ENABLE_CUDA=1` in CMake.
+- The existing `cudaStreamCreate` + `cudaStreamSynchronize` path (above `#else`) will then compile.
+- Verify via `GPUStreamManager::getAllStreamStats()` that `succeeded > 0` with GPU backend.
+
+### Test Strategy
+- With CUDA enabled: `createCudaStream()` returns true → `streamCount()` == 1 → `submit()` work item runs on GPU → `stats.succeeded == 1`.
+- Without CUDA: `createCudaStream()` still returns true (CPU fallback) → `submit()` succeeds via `std::async`.

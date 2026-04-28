@@ -266,8 +266,17 @@ std::optional<ArchiveMetadata> ArchiveProcessor::extractMetadata(
 #endif
     }
     
-    // For TAR and other formats, we would need additional libraries or manual parsing
-    // For now, return basic metadata
+    // STUB/SIMULATION NOTE:
+    // Purpose: Satisfies the TAR/other-format metadata path while manual TAR
+    //          header parsing (or integration of libarchive) is pending.
+    // Activation: TAR or non-ZIP/non-RAR/non-7z archive format.
+    // Production Delta: Returns `metadata` without TAR-specific fields (entry
+    //                   count, total uncompressed size, first entry name).  Any
+    //                   format-specific metadata that would normally be extracted
+    //                   is absent.
+    // Removal Plan: Integrate libarchive; use `archive_read_open_memory()` +
+    //               `archive_read_next_header()` to populate metadata fields.
+    //               See src/content/FUTURE_ENHANCEMENTS.md §ArchiveProcessor TAR Metadata.
     return metadata;
 }
 

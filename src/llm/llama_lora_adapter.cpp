@@ -48,6 +48,28 @@
 // - llama.cpp b1000+ (with LoRA adapter API)
 // - Older llama.cpp versions (graceful fallback)
 //
+// STUB/SIMULATION NOTE:
+// Purpose: Provide a graceful runtime fallback when llama.cpp is built
+//   without LoRA support.  At first call, `initializeLoRAAPI()` attempts to
+//   locate `llama_lora_adapter_init` and `llama_lora_adapter_set` via
+//   `dlsym`/`GetProcAddress`.  If either is absent, `g_lora_api_available` is
+//   set to false and all LoRA operations (init, set, remove, clear, free) log
+//   an error and return -1 / nullptr.  Additionally, the legacy
+//   `llama_lora_adapter_set_path(ctx, path)` signature always returns -1
+//   because the required `llama_model*` pointer is unavailable at that call site.
+// Activation: llama.cpp linked without LoRA support (pre-b1000 builds or builds
+//   without `LLAMA_LORA=ON`); or `llama_lora_adapter_init` not exported from
+//   the linked llama.cpp shared/static library.
+// Production Delta: LoRA fine-tuned adapter hot-swapping is disabled.
+//   All inference requests run the base model at full weight; per-client or
+//   per-jurisdiction LoRA personalisation is silently skipped.
+//   MultiLoRAManager will report all adapters as inactive.
+// Removal Plan: Rebuild llama.cpp with `-DLLAMA_LORA=ON` (≥ b1000) and ensure
+//   the shared library exports `llama_lora_adapter_init` / `llama_lora_adapter_set`.
+//   Verify by re-running ThemisDB — the log line
+//   "✓ llama.cpp LoRA API detected and loaded successfully" confirms activation.
+// Roadmap ref: src/llm/FUTURE_ENHANCEMENTS.md §"LlamaCpp LoRA Adapter Runtime Activation"
+//
 // ═══════════════════════════════════════════════════════════
 
 namespace {

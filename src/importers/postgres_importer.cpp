@@ -1507,6 +1507,25 @@ bool PostgreSQLImporter::parseCheckConstraint(const std::string& constraint_def,
  *
  * Records the constraint name and raw definition text (after the EXCLUDE
  * keyword) for informational purposes.
+ *
+ * STUB/SIMULATION NOTE:
+ * Purpose: Allow PostgreSQL DDL imports to succeed even when EXCLUDE
+ *   constraints are present.  The function captures the raw exclusion
+ *   definition text and the optional constraint name, but does NOT
+ *   parse the individual EXCLUDE elements (operator class, access method,
+ *   `USING` clause, or per-column `WITH` operators).
+ * Activation: Always active; called for every `CONSTRAINT … EXCLUDE …`
+ *   clause encountered during DDL parsing.
+ * Production Delta: Imported schema metadata for EXCLUDE constraints is
+ *   incomplete.  The `ExcludeConstraint::definition` field holds a raw
+ *   text blob; `elements` (operator + column pairs) and `index_method`
+ *   are not populated.  Index recreation, constraint validation, and
+ *   query-planner hints that rely on parsed EXCLUDE metadata will be
+ *   silently incorrect.
+ * Removal Plan: Implement full EXCLUDE constraint parsing using a
+ *   dedicated regex or a small PEG grammar.  Populate `elements`,
+ *   `index_method`, and `using_clause` in `ExcludeConstraint`.
+ * Roadmap ref: src/importers/FUTURE_ENHANCEMENTS.md §"Postgres EXCLUDE Constraint Parsing"
  */
 bool PostgreSQLImporter::parseExcludeConstraint(const std::string& constraint_def,
                                                  ExcludeConstraint& excl) {

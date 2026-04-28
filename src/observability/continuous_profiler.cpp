@@ -68,7 +68,18 @@ std::vector<std::string> captureStack([[maybe_unused]] int max_depth = 64) {
     }
     ::free(symbols);
 #else
-    // No backtrace support on this platform; return a placeholder.
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provides a safe no-crash fallback on platforms that lack
+    //          POSIX backtrace() (Windows, WebAssembly, some embedded targets).
+    // Activation: `HAVE_EXECINFO_H` not defined at compile time.
+    // Production Delta: Stack frames are not captured; profiler flame graphs
+    //                   and crash reports show "(stack-trace-unavailable)"
+    //                   instead of real symbol names.
+    // Removal Plan: On Windows integrate `CaptureStackBackTrace()` +
+    //               `SymFromAddr()` from DbgHelp.  On WASM/embedded consider
+    //               `__builtin_return_address()` loop with a platform-specific
+    //               symbol resolver.  Guard each backend with its detection macro.
+    //               See src/observability/FUTURE_ENHANCEMENTS.md §Cross-Platform Stack Trace.
     frames.emplace_back("(stack-trace-unavailable)");
 #endif
     return frames;

@@ -366,9 +366,17 @@ nlohmann::json QueryFederation::executeJoin(
         std::string fetch_query = "FOR doc IN " + small_table + " RETURN doc";
         auto small_table_data = shard_router_->executeQuery(fetch_query);
         
-        // 2. Broadcast to all shards and perform join
-        // This would require implementing broadcast mechanism in shard router
-        // For now, return simplified result
+        // STUB/SIMULATION NOTE:
+        // Purpose: Returns a metadata-only JSON result while the real broadcast
+        //          mechanism (replicate small table to all shard executors, perform
+        //          co-located join) is not implemented.
+        // Activation: Broadcast-join strategy selected (small_table estimated rows
+        //             < broadcast_threshold).
+        // Production Delta: No join results are produced; callers receive metadata
+        //                   about the join strategy, not actual document rows.
+        // Removal Plan: Implement broadcast via shard_router_->broadcastQuery();
+        //               collect per-shard join results; merge into unified result set.
+        //               See src/query/FUTURE_ENHANCEMENTS.md §QueryFederation Broadcast Join.
         result["type"] = "broadcast_join";
         result["left"] = left_collection;
         result["right"] = right_collection;
@@ -381,8 +389,17 @@ nlohmann::json QueryFederation::executeJoin(
         spdlog::info("Using shuffle join for {} ⋈ {}", 
                     left_collection, right_collection);
         
-        // This would require implementing shuffle mechanism
-        // For now, return simplified result
+        // STUB/SIMULATION NOTE:
+        // Purpose: Returns a metadata-only JSON result while the real shuffle-join
+        //          mechanism (repartition both sides by join key, execute co-located
+        //          joins per shard) is not implemented.
+        // Activation: Shuffle-join strategy selected (neither table fits broadcast
+        //             threshold).
+        // Production Delta: No join results are produced; callers receive metadata
+        //                   about the join strategy only.
+        // Removal Plan: Implement shuffle via shard_router_->shufflePartition();
+        //               drive per-shard equi-joins and collect results.
+        //               See src/query/FUTURE_ENHANCEMENTS.md §QueryFederation Shuffle Join.
         result["type"] = "shuffle_join";
         result["left"] = left_collection;
         result["right"] = right_collection;

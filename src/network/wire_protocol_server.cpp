@@ -2359,8 +2359,18 @@ void WireProtocolServer::Session::handleBpmnTaskComplete() {
             instance_id = task_id.substr(0, colon_pos);
             node_id = task_id.substr(colon_pos + 1);
         } else {
-            // If no colon, treat as token_id and we need to find the instance
-            // For now, return error - client should provide instance:node format
+            // STUB/SIMULATION NOTE:
+            // Purpose: Rejects task_ids that lack the expected "instance_id:node_id"
+            //          colon separator until a real task_id→instance mapping lookup
+            //          is implemented.
+            // Activation: `task_id` string contains no ':' character.
+            // Production Delta: A token-only task_id that could be resolved via a
+            //                   registry lookup is rejected with HTTP 400; clients
+            //                   that use opaque task IDs without the colon format
+            //                   cannot use this endpoint.
+            // Removal Plan: Implement a TaskRegistry lookup (task_id → {instance_id,
+            //               node_id}) so that token-only task_ids are also supported.
+            //               See src/server/FUTURE_ENHANCEMENTS.md §WireProtocol Task ID Resolution.
             sendError(400, "Invalid task_id format. Expected 'instance_id:node_id'");
             return;
         }

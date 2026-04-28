@@ -49,9 +49,13 @@
 namespace themis {
 namespace utils {
 
-// Version constant for CEF format (should match ThemisDB version)
-// TODO: In production, this should be derived from a central version header
-static const char* THEMISDB_VERSION = "1.5.0";
+// Version constant for CEF format.  Injected by CMake as THEMIS_VERSION_STRING
+// (-DTHEMIS_VERSION_STRING=...) so it always matches the build; falls back to
+// a generic sentinel string when building outside CMake (e.g., IDE or CI stub).
+#ifndef THEMIS_VERSION_STRING
+#define THEMIS_VERSION_STRING "0.0.0-dev"
+#endif
+static const char* THEMISDB_VERSION = THEMIS_VERSION_STRING;
 
 // Local base64 (kept minimal to avoid new deps here)
 static std::string base64_encode_local(const std::vector<uint8_t>& data) {

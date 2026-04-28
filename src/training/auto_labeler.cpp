@@ -545,7 +545,26 @@ private:
             return "";
         }
         if (!document_id.empty()) {
-            return "Die Behörde muss die Genehmigung erteilen, wenn alle "
+            // STUB/SIMULATION NOTE:
+        // Purpose: Allow AutoLabeler to produce plausible German legal text
+        //   samples for offline/test labeling passes when no QueryEngine is
+        //   wired in and document_id is provided.  The hardcoded paragraph
+        //   covers the three key deontic modalities (muss, soll, kann) so that
+        //   the NLP/modality pipeline can exercise all code paths in CI without
+        //   a live database connection.
+        // Activation: `query_engine_` is null AND document_id is non-empty
+        //   (i.e., the caller specified a document key but no DB engine was
+        //   injected at construction time).
+        // Production Delta: The returned text is always the same short German
+        //   paragraph, regardless of the actual document content.  Auto-labeling
+        //   results will be biased toward the three sample clauses; precision and
+        //   recall metrics from offline benchmarks must not be extrapolated to
+        //   production without a real query engine.
+        // Removal Plan: Inject a QueryEngine at AutoLabeler construction time
+        //   (via AutoLabelerConfig::query_engine or the two-argument constructor).
+        //   The AQL-backed branch in fetchDocumentText() will then take precedence.
+        // Roadmap ref: src/training/FUTURE_ENHANCEMENTS.md §"AutoLabeler Query Engine Integration"
+        return "Die Behörde muss die Genehmigung erteilen, wenn alle "
                    "Voraussetzungen erfüllt sind. Sie soll die Entscheidung "
                    "innerhalb von vier Wochen treffen. Sie kann die Frist "
                    "verlängern, wenn besondere Umstände vorliegen.";

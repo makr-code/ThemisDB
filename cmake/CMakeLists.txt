@@ -6806,11 +6806,19 @@ install(DIRECTORY ${THEMIS_ROOT_DIR}/include/
 if(DEFINED THEMIS_RELEASE_RUNTIME_DIRS)
     foreach(_themis_runtime_dir IN LISTS THEMIS_RELEASE_RUNTIME_DIRS)
         if(EXISTS "${THEMIS_ROOT_DIR}/${_themis_runtime_dir}")
-            install(DIRECTORY "${THEMIS_ROOT_DIR}/${_themis_runtime_dir}/"
-                DESTINATION ${_themis_runtime_dir}
-                COMPONENT runtime
-                OPTIONAL
-            )
+            if(UNIX AND NOT APPLE AND _themis_runtime_dir STREQUAL "config")
+                install(DIRECTORY "${THEMIS_ROOT_DIR}/${_themis_runtime_dir}/"
+                    DESTINATION etc/themisdb
+                    COMPONENT runtime
+                    OPTIONAL
+                )
+            else()
+                install(DIRECTORY "${THEMIS_ROOT_DIR}/${_themis_runtime_dir}/"
+                    DESTINATION ${_themis_runtime_dir}
+                    COMPONENT runtime
+                    OPTIONAL
+                )
+            endif()
 
             # Compatibility layout: when operators start the server from bin/, relative
             # config/* paths should still resolve without requiring a cwd change.
@@ -6823,6 +6831,14 @@ if(DEFINED THEMIS_RELEASE_RUNTIME_DIRS)
             endif()
         endif()
     endforeach()
+endif()
+
+if(UNIX AND NOT APPLE)
+    install(FILES "${THEMIS_ROOT_DIR}/debian/themisdb.service"
+        DESTINATION lib/systemd/system
+        COMPONENT runtime
+        OPTIONAL
+    )
 endif()
 
 if(WIN32)

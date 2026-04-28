@@ -420,3 +420,210 @@ The following IEEE-formatted references support the research basis for features 
 ### Implementierungsplan
 - Phase 2 (Q3 2026): `ai_session_id`-Generierung in `AIOrchestrator`
 - Phase 4 (Q4 2026): LoRA-Adapter für `IntentClassifier` (IMPL-A2)
+## InlineTrainingEngine Production Gradient Backend (Target: v1.8.0)
+
+**Stub:** `src/llm/inline_training_engine.cpp` — `computeGradients()` synthetic signal  
+**Risk:** Training metrics (loss curve, gradient norms) are not meaningful; model convergence cannot be validated.
+
+### Scope
+- Implement `IBackendGradientComputer` for the llama.cpp GGUF path using
+  `llama_get_logits()` + cross-entropy loss derivation for LoRA parameter gradients.
+- Wire via `InlineTrainingEngine::setGradientComputer(shared_ptr<IBackendGradientComputer>)`.
+- Replace `kLoRAParamCount = 256` placeholder with `backend_->paramCount()` returned
+  from the adapter layer.
+- Affected files:
+  - `include/llm/i_backend_gradient_computer.h` (new interface)
+  - `src/llm/inline_training_engine.cpp` — remove synthetic signal
+  - `src/llm/lora_framework/llama_gradient_computer.cpp` (new impl)
+
+### Design Constraints
+- `computeGradients()` signature unchanged; callers unaffected.
+- Must support mixed-precision (FP16 activations + FP32 gradients) for memory efficiency.
+- Gradient clipping threshold must be configurable (default `max_grad_norm = 1.0`).
+
+### Test Strategy
+- Unit: train 10 steps on a tiny synthetic dataset; assert loss decreases monotonically.
+- Regression: all existing `test_inline_training_engine.cpp` tests pass unchanged.
+- Performance: 1-step gradient computation for batch_size=4, seq_len=512: ≤ 200 ms on CPU.
+
+### Performance Targets
+- Per-step gradient computation: ≤ 200 ms (CPU, `codellama:7b-q4_k_m`)
+
+### Security / Reliability
+- Gradient computation must be deterministic for the same seed (reproducible training).
+- OOM guard: if gradient vector exceeds 1 GB, abort the step and log CRITICAL.
+
+---
+
+## Mixed Precision Hardware Capability Check (Target: v1.7.0)
+
+**Stub:** `src/llm/mixed_precision_inference.cpp` — `MixedPrecisionInference::isSupported()` assumes all modes supported  
+**Risk:** BFLOAT16 and INT8 ops will launch on pre-Ampere GPUs and fail at the CUDA kernel level with an illegal instruction, causing opaque runtime crashes rather than a clean "precision mode not supported" error.
+
+### Scope
+- Replace the static switch with a CUDA runtime query:
+  ```cpp
+  int major, minor;
+  cudaDeviceGetAttribute(&major, cudaDevAttrComputeCapabilityMajor, device_id);
+  cudaDeviceGetAttribute(&minor, cudaDevAttrComputeCapabilityMinor, device_id);
+  ```
+- Mapping policy:
+  - FP32/FP16: all GPUs (SM ≥ 5.0).
+  - BFLOAT16: SM ≥ 8.0 (Ampere) only.
+  - INT8 Tensor Cores: SM ≥ 7.5 (Turing) only.
+  - Q4/Q3: CPU fallback always supported.
+- Gate the entire CUDA path on `THEMIS_HAS_CUDA=1`.
+- CPU fallback for `THEMIS_HAS_CUDA=0`: FP32/Q4/Q3 supported; FP16/BF16/INT8 not.
+
+### Design Constraints
+- `isSupported()` is a static method — use `cudaGetDeviceCount()` + lazy initialization with `std::once_flag` to cache the query result.
+- Must not call CUDA runtime if no GPU is present (handle `cudaErrorNoDevice` gracefully).
+
+### Test Strategy
+- Unit: mock `cudaDeviceGetAttribute`; assert correct mapping for SM 7.0, 7.5, 8.0, 9.0.
+- Integration: run on actual GPU; assert BFLOAT16 is supported iff SM ≥ 8.0.
+
+### Performance Targets
+- `isSupported()` call after first query: ≤ 100 ns (cached, no CUDA call).
+
+---
+
+## Whisper Plugin Activation (Target: v2.0.0)
+
+**Stub:** `src/whisper/whisper_plugin_registrar.cpp` — stub mode: `initialize()` returns `true` without loading the Whisper model when no `model_path` is provided  
+**Risk:** `transcribe()` returns empty strings; speech-to-text is unavailable.
+
+### Scope
+- Download or build a whisper.cpp model checkpoint (e.g., `ggml-base.en.bin`).
+- Set `model_path` in the WhisperPlugin configuration (JSON or CMake env var `THEMIS_WHISPER_MODEL`).
+- The stub mode path remains as an optional "no-op" for environments without speech-to-text requirements.
+
+### Test Strategy
+- Integration: inject valid model_path → `transcribe(wav_bytes)` returns non-empty text.
+- Negative: no model_path → `transcribe()` returns "" (stub mode, no crash).
+
+### Performance Targets
+- `transcribe()` (30-second audio clip, ggml-base model, CPU): ≤ 10 s real-time.
+
+---
+
+## Stable Diffusion Plugin Activation (Target: v2.0.0)
+
+**Stub:** `src/stable_diffusion/sd_plugin_registrar.cpp` — stub mode: `initialize()` returns `true` without loading the SD model when no `model_path` is provided  
+**Risk:** `generate()` returns empty/error responses; image generation unavailable.
+
+### Scope
+- Download a supported SD checkpoint (e.g., `v1-5-pruned.safetensors`).
+- Set `model_path` in the SDPlugin configuration or `THEMIS_SD_MODEL` env var.
+- The stub mode path remains as optional no-op.
+
+### Test Strategy
+- Integration: inject valid model_path → `generate(prompt)` returns non-empty PNG bytes.
+- Negative: no model_path → `generate()` returns {} (stub mode, no crash).
+
+### Performance Targets
+- `generate()` (512×512, 20 steps, CPU): ≤ 120 s (no GPU acceleration path tested).
+
+---
+
+## LlamaCpp Plugin Model Reload (Target: v2.0.0)
+
+**Stub:** `src/llama_cpp/llama_cpp_registrar.cpp` — `defaultReloadCallback()` returns `true` without reloading when `model_path` is absent/empty  
+**Risk:** Hot-plug config updates that omit a model_path silently no-op; the plugin remains in its current (possibly stale) model state.
+
+### Scope
+- Validate that hot-plug configs always include `model_path` before calling the reload callback.
+- Add a WARN log when the stub path is taken (model_path absent during hot-plug reload).
+- Consider returning `false` instead of `true` when no model_path is provided, so callers know the reload was skipped.
+
+### Test Strategy
+- Unit: hot-plug config without `model_path` → callback returns `true` AND a WARN is logged.
+- Integration: hot-plug config with valid `model_path` → plugin reloads model in ≤ 30 s.
+
+---
+
+## LlamaCpp LoRA Adapter Runtime Activation (Target: v1.8.0 — stub removal)
+
+**Stub:** `src/llm/llama_lora_adapter.cpp` — runtime detection via `dlsym`: `g_lora_api_available = false` when `llama_lora_adapter_init` / `llama_lora_adapter_set` are absent; all LoRA ops return -1 / nullptr  
+**Risk:** LoRA fine-tuned adapter hot-swapping disabled; all inference uses base model; per-client / per-jurisdiction LoRA personalisation silently skipped.
+
+### Scope
+- Rebuild llama.cpp with `-DLLAMA_LORA=ON` (requires llama.cpp ≥ build b1000).
+- Ensure the shared or static library exports `llama_lora_adapter_init` and `llama_lora_adapter_set`.
+- Confirm activation: ThemisDB log line "✓ llama.cpp LoRA API detected and loaded successfully" at startup.
+- Migrate callers off the legacy `llama_lora_adapter_set_path(ctx, path)` signature (always returns -1) to `MultiLoRAManager::applyLoRA()` which uses the modern 2-step `init` + `set_with_scale` API.
+
+### Performance Targets
+- LoRA adapter swap latency (≤ 16M parameter adapter, F16): ≤ 50 ms.
+- Concurrent inference with LoRA active: ≤ 5 % throughput overhead vs base model.
+
+### Test Strategy
+- Positive: llama.cpp with LoRA built → `g_lora_api_available = true` → `llama_lora_adapter_init()` returns non-null handle.
+- Negative: llama.cpp without LoRA → all ops return -1; no crash; spdlog WARN emitted.
+- Integration: apply LoRA → inference output differs from base model in a predictable direction (LoRA trained to add "THEMIS:" prefix).
+
+---
+
+## LLM Output Coherence Model (Target: v2.1.0 — stub replacement)
+
+**Stub:** `src/llm/llamacpp_inference_engine.cpp` — `estimateCoherence()`: four surface-level heuristics (avg word length, words-per-sentence, character diversity, word diversity); always active  
+**Risk:** Semantically incoherent but syntactically plausible outputs (hallucinations with normal statistics) receive high coherence scores; false-positive acceptance rate unquantified.
+
+### Scope
+- Define `ICoherenceEstimator` interface and inject it into `LLMOutputValidator`.
+- Implement `EmbeddingCoherenceEstimator` that computes cosine similarity between sentence embeddings to detect topic drift.
+- Alternative: `PerplexityCoherenceEstimator` that measures per-token perplexity via the same llama.cpp model.
+- Fall back to the existing heuristic implementation if the estimator is not injected (backward compatibility).
+
+### Design Constraints
+- Must not block inference hot path; coherence estimation should run asynchronously or be sampled (e.g., 10 % of outputs in production).
+- Total overhead per check: ≤ 10 ms (embedding model, ≤ 50 M params) on CPU.
+
+### Performance Targets
+- Coherence estimation latency (embedding, CPU): ≤ 10 ms p99.
+- False-positive rate (coherent text flagged as incoherent): ≤ 5 %.
+- False-negative rate (hallucination accepted as coherent): ≤ 15 %.
+
+### Test Strategy
+- Positive: coherent news article → `estimateCoherence()` ≥ 0.7.
+- Negative: random word salad → `estimateCoherence()` ≤ 0.3.
+- Borderline: repeated phrase paragraph → `estimateCoherence()` < 0.5 (current heuristic detects, new model must also).
+
+---
+
+## LlamaCpp Grammar API Runtime Activation (Target: v1.8.0 — stub removal)
+
+**Stub:** `src/llm/llama_grammar_adapter.cpp` — runtime detection failure (`g_grammar_api_available = false`): all grammar ops return nullptr/no-op  
+**Risk:** Grammar-constrained generation (GBNF, JSON schema enforcement, regex tokens) disabled; LLM output may not conform to expected formats.
+
+### Scope
+- Rebuild llama.cpp with grammar support and ensure `llama_grammar_init` / `llama_grammar_free` are exported.
+- Verify via startup log "✓ llama.cpp Grammar API detected" that `g_grammar_api_available` is set to true.
+
+### Test Strategy
+- With grammar: `initializeGrammarAPI()` → `g_grammar_api_available = true` → `applyGrammar(ctx, "root ::= [0-9]+")` produces only digit tokens.
+- Without grammar: all calls log warning + return nullptr; inference proceeds without constraints.
+
+---
+
+## LoRA Quantization Logging (Target: v1.4.0 — stub removal)
+
+**Stub:** `src/llm/lora_framework/quantization.cpp` — `THEMIS_NO_SPDLOG`: `spdlog::debug()` replaced by inline no-op template  
+**Risk:** All debug-level quantization logging suppressed in test builds; block quantization statistics invisible.
+
+### Scope
+- Link spdlog in all build targets (header-only; negligible overhead).
+- Remove `THEMIS_NO_SPDLOG` guard from CMake test targets.
+- Optionally wrap in `THEMIS_DEBUG_LOGGING` instead to allow selective disable.
+
+---
+
+## Distributed Training ETA (Target: future milestone — stub removal)
+
+**Stub:** `src/llm/distributed_training_coordinator.cpp` ETA estimation — always returns 0.0f; total training steps not propagated.  
+**Risk:** Progress UIs and automated SLO monitors see 0 remaining time for all training jobs; no ETA-based alerting is possible.
+
+### Scope
+- Propagate `config_.total_steps` (or an equivalent field) into the coordinator at construction.
+- In `getEstimatedTimeRemaining()`: `remaining_steps = total_steps - stats_.total_steps_completed`; `return avg_time_per_step * remaining_steps`.
+- Add a minimum-steps guard: if `stats_.total_steps_completed < 10`, return `std::numeric_limits<float>::quiet_NaN()` to indicate insufficient data.

@@ -248,6 +248,22 @@ bool ParallelDownloader::defaultFetch(
     uint64_t*          out_total,
     std::string*       out_error)
 {
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide a default no-op HTTP fetch so that ParallelDownloader can be
+    //   constructed and unit-tested without a real HTTP client dependency.  Unit
+    //   tests call setFetchFunction() to inject a mock or a stub curl wrapper.
+    // Activation: Always active when no FetchFn has been injected via
+    //   setFetchFunction().  In production deployments the custom HTTP transport
+    //   (libcurl wrapper) must be injected at startup before any download is
+    //   triggered; the application startup log will warn if this has not happened.
+    // Production Delta: Returns false with an error message; no bytes are written to
+    //   the destination file; out_bytes and out_total are both set to 0.  Any
+    //   download initiated while this stub is active will fail immediately and be
+    //   treated as a permanent download error (no retry for unconfigured transport).
+    // Removal Plan: Provide a libcurl-based FetchFn in the server startup path and
+    //   inject it via ParallelDownloader::setFetchFunction() before use.
+    //   Tracking: src/updates/FUTURE_ENHANCEMENTS.md § "Parallel Downloader HTTP Transport"
+    // Roadmap ref: src/ROADMAP.md §Stub Lifecycle
     // This default implementation is a no-op stub suitable for unit tests
     // that inject a custom FetchFn.  Production deployments provide their
     // own HTTP transport via setFetchFunction().

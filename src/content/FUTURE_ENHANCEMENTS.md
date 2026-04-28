@@ -210,3 +210,62 @@ After text extraction (from documents, PDF, OCR output), automatically generate 
 **Test Strategy:**
 - Unit: `AudioProcessorTranscriptionTest` in `tests/test_content_audio_processor.cpp` covers init with transcription enabled, stat counter increments, and shutdown/reinit cycle; no external model required (fallback placeholder text).
 - Integration: enable `THEMIS_ENABLE_WHISPER=ON` with a bundled `ggml-tiny.bin` fixture to exercise the real Whisper path.
+
+---
+
+## TTS Streaming Synthesis (Target: v1.7.0 — stub removal)
+
+**Stub:** `src/content/tts_processor.cpp::streamSynthesize()` — callback is never invoked; always returns `false`.  
+**Risk:** Any caller expecting real-time audio streaming receives no audio data; live TTS playback is silently broken.
+
+### Scope
+- Call `synthesizeInternal()` per sentence/chunk and invoke the `callback` for each resulting PCM segment.
+- Target latency: first callback ≤ 500 ms for 10-word sentences (Piper on CPU).
+
+### Required Interfaces
+- `piper::SynthesisConfig::chunkFrames` — controls PCM chunk granularity.
+- `callback(std::vector<uint8_t>)` — already in the function signature; wire it up.
+
+### Security / Reliability
+- Ensure `callback` exceptions do not propagate into the synthesis loop; log and continue.
+- Rate-limit output callbacks to prevent memory pressure from back-pressure stalls.
+
+---
+
+## TTS Audio Format Support — MP3 / OGG (Target: v1.7.0 — stub removal)
+
+**Stubs:** `src/content/tts_processor.cpp::convertToFormat()` — MP3 and OGG paths return raw PCM without encoding.  
+**Risk:** Callers requesting `audio/mpeg` or `audio/ogg` receive corrupt/unplayable content.
+
+### Scope
+- **MP3**: integrate `libmp3lame`; call `lame_encode_buffer_ieee_float()` and flush.
+- **OGG**: integrate `libopus` or `libvorbis`; wrap PCM in an Ogg stream.
+- Add CMake optional-dependency detection: `THEMIS_ENABLE_LAME`, `THEMIS_ENABLE_OPUS`.
+
+### Performance Targets
+- MP3 encoding at ≥ 8× real-time on a single CPU core (128 kbps CBR).
+- OGG Opus encoding at ≥ 10× real-time at 32 kbps (speech codec).
+
+---
+
+## ContentManager getExtractedText (Target: future milestone — stub removal)
+
+**Stub:** `src/content/content_manager_llm.cpp::ContentManager::getExtractedText()` — always returns empty string.  
+**Risk:** LLM-driven content processing that calls `getExtractedText()` receives no text and generates empty or hallucinated outputs.
+
+### Scope
+- Look up content metadata by `content_id` from the storage layer.
+- Check `metadata.text_extracted == true`; return error if extraction not yet complete.
+- Retrieve the text chunk(s) from the storage field; concatenate and return.
+
+---
+
+## ArchiveProcessor TAR Metadata (Target: future milestone — stub removal)
+
+**Stub:** `src/content/archive_processor.cpp` TAR path — returns basic metadata without TAR-specific fields.  
+**Risk:** Metadata callers (entry count, total size, first entry name) receive empty / default values for TAR archives.
+
+### Scope
+- Integrate libarchive (`archive_read_open_memory()` + `archive_read_next_header()`).
+- Populate `entry_count`, `total_uncompressed_bytes`, and `first_entry_name` from the archive iteration.
+- Guard with `THEMIS_ENABLE_LIBARCHIVE` CMake option; fall back gracefully when absent.
