@@ -344,6 +344,113 @@ tls:
   require_client_cert: false
 
 # =============================================================================
+# AI Safety Layer Configuration
+# =============================================================================
+#
+# Protects production databases from uncontrolled destructive operations by
+# AI agents (MCP clients, AI Orchestrator, agentic LLM pipelines).
+#
+# Background: Cursor AI incident (April 2026) — an AI agent deleted a production
+# database without approval, snapshot, or environment differentiation.
+#
+# Full documentation: docs/de/security/ai_safety/AI_SAFETY_ARCHITECTURE.md
+# Developer reference: src/security/AI_SAFETY_ARCHITECTURE.md
+#
+# ⚠️  PRODUCTION RECOMMENDATION ⚠️
+#   Set environment.name: production and block_destructive: true for all
+#   production deployments that expose MCP or AI Orchestrator endpoints.
+#
+# =============================================================================
+
+environment:
+  # Deployment environment: production | staging | development
+  # Controls strictness of AI agent restrictions.
+  # Can be overridden via THEMIS_ENVIRONMENT environment variable.
+  name: development
+
+  ai_agent_restrictions:
+    # Hard-block ALL DESTRUCTIVE-class AI operations (no approval possible).
+    # Recommended: true in production, false in staging/development.
+    block_destructive: false
+
+    # Require human approval for DESTRUCTIVE and CRITICAL operations.
+    # Even when block_destructive is false, approval is still enforced.
+    require_approval: false
+
+    # Collection whitelist: AI agent may only modify listed collections.
+    # Empty list = all collections allowed (restricted further by denied_collections).
+    allowed_collections: []
+
+    # Collection blacklist: AI agent can NEVER write/delete these collections,
+    # even with operator approval. Hard-coded enforcement, no bypass.
+    # Recommended entries for production: users, audit_log, billing, _system
+    denied_collections: []
+
+    # RBAC role required to approve CRITICAL operations in production.
+    # CRITICAL operations remain hard-blocked if no role is configured.
+    # Assign only to DBA/platform-admin accounts, never to AI agents themselves.
+    require_role_for_critical: "AI_DESTRUCTIVE_PRODUCTION_OPS"
+
+    # Maximum AI-initiated operations per hour (rate limiting).
+    # 0 = unlimited
+    max_operations_per_hour: 0
+
+    # Maximum number of pending approval requests at one time.
+    # New operations are rejected if this limit is reached.
+    max_pending_approvals: 50
+
+# AI Safety snapshot configuration
+ai_safety:
+  snapshot:
+    # Directory where pre-operation RocksDB checkpoints are stored.
+    # Must be on the same filesystem as the data directory for hardlink support.
+    dir: "/var/themis/ai-snapshots"
+
+    # How long snapshots are retained before automated cleanup.
+    retention_days: 7
+
+    # Maximum total size of all snapshots combined (GiB).
+    # When exceeded, oldest snapshots are deleted first.
+    max_total_size_gb: 100
+
+    # Verify snapshot integrity with hash check after creation.
+    verify_on_create: true
+
+    # Cron schedule for snapshot cleanup job.
+    cleanup_schedule: "0 3 * * *"
+
+# =============================================================================
+# PRODUCTION CONFIGURATION EXAMPLE
+# =============================================================================
+#
+# Uncomment and adapt for production deployments:
+#
+# environment:
+#   name: production
+#   ai_agent_restrictions:
+#     block_destructive: true
+#     require_approval: true
+#     allowed_collections: []
+#     denied_collections:
+#       - users
+#       - audit_log
+#       - billing
+#       - _system
+#       - _graphs
+#     require_role_for_critical: AI_DESTRUCTIVE_PRODUCTION_OPS
+#     max_operations_per_hour: 100
+#     max_pending_approvals: 10
+#
+# ai_safety:
+#   snapshot:
+#     dir: "/var/themis/ai-snapshots"
+#     retention_days: 7
+#     max_total_size_gb: 100
+#     verify_on_create: true
+#
+# =============================================================================
+
+# =============================================================================
 # Documentation and Support
 # =============================================================================
 #

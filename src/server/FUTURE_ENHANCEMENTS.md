@@ -1439,3 +1439,31 @@ inline bool checkBatchSize(const nlohmann::json& arr, size_t max,
 
 ### Performance Targets
 - Size check: O(1) (nlohmann::json::size() is O(1))
+
+---
+
+## AI Safety Layer — HTTP-Endpunkte (Cross-Reference)
+
+> Die folgenden HTTP-Endpunkte werden als Teil des AI Safety Layers im Server-Modul implementiert.
+> Vollständige Dokumentation: `docs/de/security/ai_safety/AI_SAFETY_ARCHITECTURE.md`
+> Implementierungsplan: `src/security/ROADMAP.md` — Phase 5 (ASL-6, ASL-10)
+
+### Scope (Phase 2, Q3 2026)
+- `POST /v1/ai/approve/{operation_id}` — Operator genehmigt wartende destruktive Operation
+- `POST /v1/ai/deny/{operation_id}` — Operator lehnt ab
+- `GET  /v1/ai/pending-approvals` — Liste aller wartenden Approvals
+
+### Scope (Phase 3, Q3 2026)
+- `POST /v1/ai/rollback/{snapshot_id}` — Datenbank-Rollback auf Pre-Op-Snapshot
+
+### Design Constraints
+- Alle Endpunkte erfordern Authentifizierung (Operator-Level)
+- Rollback erfordert RBAC-Rolle `DBA_ROLLBACK`
+- Approval-Tokens sind zeitbegrenzt (TTL konfigurierbar) und einmalig verwendbar
+- Requests werden vollständig im AI Session Audit Trail geloggt
+
+### Required Interfaces
+- `McpServer::approvePendingOperation(operation_id, approved_by, reason) → ExecutionResult`
+- `McpServer::denyPendingOperation(operation_id, denied_by, reason)`
+- `McpServer::getPendingApprovals() → vector<PendingApproval>`
+- `RocksDBWrapper::restoreFromCheckpoint(snapshot_path) → bool`

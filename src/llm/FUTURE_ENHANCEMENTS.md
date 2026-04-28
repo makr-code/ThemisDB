@@ -397,3 +397,26 @@ The following IEEE-formatted references support the research basis for features 
 [12] B. Scholak, N. Schucher, and D. Bahdanau, "PICARD: Parsing Incrementally for Constrained Auto-Regressive Decoding from Language Models," in *Proc. 2021 Conf. Empirical Methods in Natural Language Processing (EMNLP)*, 2021, pp. 9895–9901. https://arxiv.org/abs/2109.05093
 
 [13] N. Geng et al., "Grammar-Constrained Decoding for Structured NLP Tasks without Finetuning," in *Proc. 2023 Conf. Empirical Methods in Natural Language Processing (EMNLP)*, 2023. https://arxiv.org/abs/2305.13971
+
+---
+
+## AI Safety Layer — AI Orchestrator Integration (Cross-Reference)
+
+> KI-Agenten die über den AI Orchestrator und MCP-Server auf ThemisDB zugreifen,
+> sind durch den AI Safety Layer geschützt.
+> Vollständige Dokumentation: `docs/de/security/ai_safety/AI_SAFETY_ARCHITECTURE.md`
+
+### Betroffene Komponenten
+- `AIOrchestrator` — Alle Tool-Calls werden vor Execution durch `AiOperationGuard` klassifiziert
+- `McpServer::toolLLMOrchestrate()` — Agentic Mode Tools unterliegen dem Safety Layer
+- `McpServer::toolQuery()` — `aql_execute`-Tool hat `enforce_read_only: true`
+- Mode-Config (`agentic`): neue `safety:`-Sektion mit Approval- und Snapshot-Policy
+
+### Sicherheitsrelevante Touchpoints im LLM-Modul
+- `AIOrchestrator`: muss `ai_session_id` für Audit-Trail generieren und weiterleiten
+- `InlineTrainingEngine`: Training-Jobs über KI-Agenten müssen als `WRITE_SAFE` klassifiziert werden
+- LoRA-Adapter: IMPL-A2 erweitert `IntentClassifier` mit ML-basierter AQL-Klassifikation (Q4 2026)
+
+### Implementierungsplan
+- Phase 2 (Q3 2026): `ai_session_id`-Generierung in `AIOrchestrator`
+- Phase 4 (Q4 2026): LoRA-Adapter für `IntentClassifier` (IMPL-A2)

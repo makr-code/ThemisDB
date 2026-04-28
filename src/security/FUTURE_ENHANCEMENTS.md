@@ -1042,3 +1042,51 @@ Interested in contributing to security features? See:
 
 ### Security / Reliability
 - Hard rejection by default; no silent downgrade
+
+---
+
+## AI Safety Layer (ASL-1 bis ASL-15)
+
+> **Hintergrund:** Cursor-KI-Vorfall (April 2026). Vollständige Analyse und Architektur:
+> `docs/de/security/ai_safety/AI_SAFETY_ARCHITECTURE.md`
+
+### Scope
+- `include/security/ai_operation_guard.h` + `src/security/ai_operation_guard.cpp` [Phase 2]
+- `include/query/aql_safety_validator.h` + `src/query/aql_safety_validator.cpp` [Phase 1]
+- Erweiterungen: `intent_classifier.h/.cpp`, `mcp_server.cpp`, `http_server.cpp`, `audit_logger.cpp`
+- Neue Konfig-Blöcke: `config/security.yaml` (`environment:`), `config/ai_ml/llm/modes/default.yaml` (`safety:`)
+
+### Design Constraints
+- Kein LLM-Aufruf im Safety Layer (deterministisch, < 0.1ms Overhead für Klassifikation)
+- Synchroner RocksDB-Checkpoint (Hardlinks, O(1))
+- HMAC-gebundene Approval-Tokens (anti-replay, anti-substitution)
+- Rückwärtskompatibel: `enabled: false` deaktiviert den Layer ohne Breaking Changes
+
+### Required Interfaces
+- `AiOperationGuard::evaluate(tool, args, session_id, role) → GuardDecision`
+- `AqlSafetyValidator::validate(aql_query) → ValidationResult`
+- `IntentClassifier::classify()` erweitert um `DATA_DESTRUCTION`, `SCHEMA_MUTATION`
+- HTTP: `POST /v1/ai/approve/{id}`, `POST /v1/ai/deny/{id}`, `GET /v1/ai/pending-approvals`, `POST /v1/ai/rollback/{id}`
+
+### Implementation Notes
+- Phase 1 (Q2 2026): IntentClassifier AQL-Patterns + AqlSafetyValidator + Dry-Run-Flags
+- Phase 2 (Q3 2026): AiOperationGuard + HILG Approval-Queue + HTTP-Endpunkte
+- Phase 3 (Q3 2026): Pre-Op-Snapshot + Environment Guard + Rollback-Endpoint
+- Phase 4 (Q4 2026): AI-Session-Audit-Trail + LoRA-Adapter (IMPL-A2) + Chaos-Tests
+
+### Test Strategy
+- Unit: DOG-Klassifikation, HILG-Flow, AQL-Validator, IntentClassifier-AQL, Env-Guard
+- Integration: Snapshot + Rollback E2E, Concurrent Approval (Race Condition)
+- Chaos: Simulierter destruktiver KI-Agent gegen alle Guards (tests/security/ai_safety/)
+
+### Performance Targets
+- DOG-Klassifikation: p99 < 0.1ms
+- AQL-Validator: p99 < 0.1ms bei 1 KB Query
+- Pre-Op-Snapshot: p99 < 2s bei 100 GB DB (RocksDB Hardlinks)
+- HILG Approval-Latenz: menschlich (60s TTL Default)
+
+### Security / Reliability
+- Approval-Tokens: HMAC-SHA256, an (session_id + op_hash + timestamp) gebunden
+- Tokens: einmalig verwendbar, zeitbegrenzt (Default 60s), nicht übertragbar
+- Snapshot-Fehler → Operation wird ABGEBROCHEN (Fail-Safe)
+- Denied Collections: hard-gecoded, kein Approval-Bypass möglich
