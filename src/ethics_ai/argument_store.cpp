@@ -198,8 +198,8 @@ std::variant<std::vector<EthicalArgument>, Status> ArgumentStore::getArgumentsBy
                     auto type_str = entity.getFieldAsString("argument_type");
                     if (!type_str) continue;
                     ArgumentType t = stringToArgumentType(*type_str);
-                    bool match = false;
-                    for (const auto& ft : argument_types) { if (t == ft) { match = true; break; } }
+                    bool match = std::any_of(argument_types.begin(), argument_types.end(),
+                                             [t](ArgumentType ft) { return t == ft; });
                     if (!match) continue;
                 }
                 out.push_back(EthicsBaseEntityAdapter::fromBaseEntity(entity));
@@ -239,15 +239,10 @@ std::variant<std::vector<EthicalArgument>, Status> ArgumentStore::getArgumentsBy
         if (!argument_types.empty()) {
             auto type_str = entity.getFieldAsString("argument_type");
             if (!type_str) return true;
-            
+
             ArgumentType type = stringToArgumentType(*type_str);
-            bool type_match = false;
-            for (const auto& filter_type : argument_types) {
-                if (type == filter_type) {
-                    type_match = true;
-                    break;
-                }
-            }
+            bool type_match = std::any_of(argument_types.begin(), argument_types.end(),
+                                          [type](ArgumentType ft) { return type == ft; });
             if (!type_match) return true;
         }
         

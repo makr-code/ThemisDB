@@ -3844,7 +3844,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                         }
                         std::error_code ec;
                         auto canon = std::filesystem::weakly_canonical(model_path, ec);
-                        if (ec || canon.string().rfind(allowed_root.string(), 0) != 0) {
+                        if (ec || !canon.string().starts_with(allowed_root.string())) {
                             auto response = makeErrorResponse(http::status::bad_request,
                                 "model path is outside the allowed directory", req);
                             applyGovernanceHeaders(req, response);
