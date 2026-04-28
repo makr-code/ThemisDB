@@ -738,7 +738,7 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
     // common fast path where no prior value was accepted.
     std::optional<ConsensusLogEntry> proposed_value_override;
     if (highest_accepted_value.has_value()) {
-        proposed_value_override = *highest_accepted_value;
+        proposed_value_override = std::move(*highest_accepted_value);
         spdlog::debug("Node {} overriding proposed value with highest accepted value "
                       "from ballot {} for slot {} (Paxos safety)",
                       node_id_, highest_accepted_round, slot);

@@ -3841,6 +3841,10 @@ http::response<http::string_body> HttpServer::routeRequest(
                         } else {
                             allowed_root = std::filesystem::weakly_canonical(
                                 std::filesystem::current_path());
+                            THEMIS_WARN("THEMIS_MODEL_DIR is not set; using current working directory "
+                                        "as model root: '{}'. Set THEMIS_MODEL_DIR to the intended "
+                                        "model directory to avoid this warning.",
+                                        allowed_root.string());
                         }
                         std::error_code ec;
                         auto canon = std::filesystem::weakly_canonical(model_path, ec);
