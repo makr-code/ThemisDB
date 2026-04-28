@@ -169,3 +169,49 @@ Expose operational metrics for the Ethics AI module via the ThemisDB Prometheus 
 
 ### Performance Targets
 - Metrics collection overhead ≤ 0.1 ms per decision.
+
+---
+
+## 7. Vector Search Integration for ArgumentStore (Target: v1.6.0)
+
+**Stub:** `src/ethics_ai/argument_store.cpp` — `storeArgument()` vector path
+
+### Scope
+- Add `IVectorWriter` injection to `ArgumentStore::initialize()`.
+- On `storeArgument(arg, store_vector=true)`: generate embedding via
+  `IEmbeddingBackend::embed(arg.content)` and write to the vector index via
+  `IVectorWriter::upsert(arg.id, embedding, metadata)`.
+- Add `ArgumentStore::searchSimilarArguments(query_text, k)` for semantic retrieval.
+- Affected files:
+  - `src/ethics_ai/argument_store.cpp` — remove STUB NOTE, implement vector path
+  - `include/ethics_ai/argument_store.h` — add `setVectorWriter(IVectorWriter*)`,
+    `setEmbeddingBackend(IEmbeddingBackend*)`, `searchSimilarArguments()` API
+
+### Design Constraints
+- `store_vector` parameter (default `true`) must be honoured; if `IVectorWriter`
+  is not set, log a one-time WARN and skip silently.
+- Vector dimension: 768 (all-mpnet-base-v2 compatible)
+- Embedding must be idempotent (same content → same vector)
+
+### Required Interfaces
+- `IVectorWriter::upsert(id, embedding, metadata)` — already in `include/rag/rag_ingestion_bridge.h`
+- `IEmbeddingBackend::embed(text) → std::vector<float>` — defined in `include/content/embedding_backend.h`
+
+### Implementation Notes
+- Use the same embedding backend already wired in `RAGIngestionBridge`; inject via
+  `ArgumentStore::setEmbeddingBackend(backend)`.
+- Metadata stored alongside embedding: `{philosophy_school, argument_type, confidence}`
+
+### Test Strategy
+- Unit: store 3 arguments; call `searchSimilarArguments("utilitarian harm reduction", k=2)`;
+  assert results are ordered by cosine similarity.
+- Regression: all existing `test_argument_store.cpp` tests pass with `store_vector=false`.
+
+### Performance Targets
+- `storeArgument()` overhead with embedding: ≤ 50 ms per argument (CPU inference)
+- `searchSimilarArguments()` P99 ≤ 20 ms for ≤ 100k stored arguments
+
+### Security / Reliability
+- Embeddings stored in the same security domain as the RocksDB entities; no separate auth boundary.
+- If embedding fails (backend error), storage still completes (no rollback); missing embedding
+  is logged at WARN.

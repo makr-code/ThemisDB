@@ -27,10 +27,15 @@
 #include "query/query_engine.h"
 #include <algorithm>
 #include <set>
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace plugins {
 namespace ethics {
+
+// Bring ConjunctiveQuery and PredicateEq into scope (defined in themis::)
+using themis::ConjunctiveQuery;
+using themis::PredicateEq;
 
 Status ArgumentStore::initialize(
     std::shared_ptr<RocksDBWrapper> storage,
@@ -78,16 +83,23 @@ Status ArgumentStore::storeArgument(const EthicalArgument& argument, [[maybe_unu
     // Store in RocksDB with proper key format
     std::string key = EthicsBaseEntityAdapter::makeArgumentKey(argument.id);
     auto blob = entity.serialize();
-    
+
     // Use ThemisDB storage directly
     storage_->put(key, blob);
-    
-    // TODO: When vector support is integrated:
-    // if (store_vector && !argument.content.empty()) {
-    //     // Generate embedding and store in vector index
-    //     // This will use ThemisDB's vector index manager
-    // }
-    
+
+    // STUB/SIMULATION NOTE:
+    // Purpose: Vector-embedding of ethical arguments (for semantic similarity search)
+    //   is not yet wired; this block stores the raw BaseEntity only.
+    // Activation: store_vector == true AND argument.content is non-empty, but
+    //   ArgumentStore has no IVectorWriter injection point yet.
+    // Production Delta: Semantic similarity queries (e.g. "find arguments similar to X")
+    //   will always fall back to a full RocksDB prefix scan until an embedding backend
+    //   is injected via setVectorWriter() (planned API).
+    // Removal Plan: Wire IVectorWriter in ArgumentStore::initialize(); generate
+    //   embedding via EmbeddingBackend::embed(argument.content) and write with
+    //   vectorWriter_->upsert(argument.id, embedding, metadata).
+    // Roadmap ref: src/ethics_ai/FUTURE_ENHANCEMENTS.md § "Vector Search Integration (v1.6.0)"
+
     return Status::OK();
 }
 
@@ -170,6 +182,36 @@ std::variant<std::vector<EthicalArgument>, Status> ArgumentStore::getArgumentsBy
     // TODO: Use AQL query when query_engine_ is available:
     // - FOR arg IN ethics_arguments FILTER arg.philosophy_school == @school ...
     // For now, scan the key prefix
+
+    // If the query engine is available, use ConjunctiveQuery for index-backed
+    // retrieval instead of a full prefix scan (avoids deserializing every entity).
+    if (query_engine_) {
+        ConjunctiveQuery q;
+        q.table = "ethics_arguments";
+        q.predicates.push_back({"philosophy_school", philosophy_school});
+
+        auto result = query_engine_->executeAndEntities(q);
+        if (result.has_value()) {
+            std::vector<EthicalArgument> out;
+            for (const auto& entity : result.value()) {
+                if (!argument_types.empty()) {
+                    auto type_str = entity.getFieldAsString("argument_type");
+                    if (!type_str) continue;
+                    ArgumentType t = stringToArgumentType(*type_str);
+                    bool match = false;
+                    for (const auto& ft : argument_types) { if (t == ft) { match = true; break; } }
+                    if (!match) continue;
+                }
+                out.push_back(EthicsBaseEntityAdapter::fromBaseEntity(entity));
+                if (out.size() >= limit) break;
+            }
+            return out;
+        }
+        // Fall through to prefix scan on query engine error.
+        spdlog::warn("ArgumentStore::getArgumentsByPhilosophy — query engine error ({}); "
+                     "falling back to prefix scan",
+                     result.error().message());
+    }
     
     std::vector<EthicalArgument> results;
     std::string prefix = "entity:ethics_arguments:";

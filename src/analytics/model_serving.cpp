@@ -137,6 +137,35 @@ ModelServingEngine::ModelServingEngine(ModelServingConfig config)
 ModelServingEngine::~ModelServingEngine() = default;
 
 // ============================================================================
+// lookupEntryOrThrow_ / lookupEntryOrNull_  (private helpers)
+//
+// Both helpers capture a reference-counted handle to the Entry under a brief
+// shared_lock and release the lock immediately.  This lets callers run
+// inference and metrics updates outside the registry lock, so that concurrent
+// register/unregister calls are never starved by long-running inference.
+// ============================================================================
+
+std::shared_ptr<Entry>
+ModelServingEngine::lookupEntryOrThrow_(const std::string& name,
+                                         const std::string& version) const {
+    std::shared_lock lock(impl_->mu);
+    auto it = impl_->registry.find(makeModelKey(name, version));
+    if (it == impl_->registry.end())
+        throw std::out_of_range("ModelServingEngine: model not found: " +
+                                makeModelKey(name, version));
+    return it->second;
+}
+
+std::shared_ptr<Entry>
+ModelServingEngine::lookupEntryOrNull_(const std::string& name,
+                                        const std::string& version) const noexcept {
+    std::shared_lock lock(impl_->mu);
+    auto it = impl_->registry.find(makeModelKey(name, version));
+    if (it == impl_->registry.end()) return nullptr;
+    return it->second;
+}
+
+// ============================================================================
 // registerModel
 // ============================================================================
 
@@ -196,29 +225,17 @@ bool ModelServingEngine::unregisterModel(const std::string& name,
 std::string ModelServingEngine::predict(const std::string& name,
                                          const std::string& version,
                                          const DataPoint&   point) const {
-    // (1) Brief critical section: capture a reference-counted handle to the
-    //     entry, then immediately release the registry lock.  Any concurrent
-    //     unregisterModel() may erase the map entry, but the Entry object
-    //     remains alive as long as we hold a shared_ptr to it.
-    std::shared_ptr<Entry> ep;
-    {
-        std::shared_lock lock(impl_->mu);
-        auto it = impl_->registry.find(makeModelKey(name, version));
-        if (it == impl_->registry.end())
-            throw std::out_of_range("ModelServingEngine: model not found: " +
-                                    makeModelKey(name, version));
-        ep = it->second;
-    } // registry lock released here
+    auto ep = lookupEntryOrThrow_(name, version);
 
-    // (2) Run inference outside the registry lock so that concurrent
-    //     registerModel() / unregisterModel() callers are not starved.
+    // Run inference outside the registry lock so that concurrent
+    // registerModel() / unregisterModel() callers are not starved.
     Entry& e = *ep;
     auto   t0 = std::chrono::steady_clock::now();
     auto   result = e.model.predictOne(point);
     double ms = elapsedMs(t0);
 
-    // (3) Update health metrics under the per-entry mutex only — no nested
-    //     lock-order dependency on impl_->mu.
+    // Update health metrics under the per-entry mutex only — no nested
+    // lock-order dependency on impl_->mu.
     {
         std::lock_guard<std::mutex> hlock(e.health_mu);
         ++e.health.total_predictions;
@@ -245,16 +262,7 @@ std::vector<std::string> ModelServingEngine::predictBatch(
             " exceeds max_batch_size=" +
             std::to_string(impl_->config.max_batch_size));
 
-    // Capture a reference-counted handle under a brief shared lock.
-    std::shared_ptr<Entry> ep;
-    {
-        std::shared_lock lock(impl_->mu);
-        auto it = impl_->registry.find(makeModelKey(name, version));
-        if (it == impl_->registry.end())
-            throw std::out_of_range("ModelServingEngine: model not found: " +
-                                    makeModelKey(name, version));
-        ep = it->second;
-    } // registry lock released here
+    auto ep = lookupEntryOrThrow_(name, version);
 
     // Run batch inference outside the registry lock.
     Entry& e  = *ep;
@@ -289,16 +297,7 @@ std::vector<std::map<std::string, double>> ModelServingEngine::predictProba(
             " exceeds max_batch_size=" +
             std::to_string(impl_->config.max_batch_size));
 
-    // Capture a reference-counted handle under a brief shared lock.
-    std::shared_ptr<Entry> ep;
-    {
-        std::shared_lock lock(impl_->mu);
-        auto it = impl_->registry.find(makeModelKey(name, version));
-        if (it == impl_->registry.end())
-            throw std::out_of_range("ModelServingEngine: model not found: " +
-                                    makeModelKey(name, version));
-        ep = it->second;
-    } // registry lock released here
+    auto ep = lookupEntryOrThrow_(name, version);
 
     // Run inference outside the registry lock.
     Entry& e  = *ep;
@@ -367,15 +366,8 @@ std::optional<ModelHealthMetrics> ModelServingEngine::healthMetrics(
     const std::string& name,
     const std::string& version) const {
 
-    // Capture a reference-counted handle under a brief shared lock to avoid
-    // holding impl_->mu while taking e.health_mu (nested lock-order dependency).
-    std::shared_ptr<Entry> ep;
-    {
-        std::shared_lock lock(impl_->mu);
-        auto it = impl_->registry.find(makeModelKey(name, version));
-        if (it == impl_->registry.end()) return std::nullopt;
-        ep = it->second;
-    } // registry lock released here
+    auto ep = lookupEntryOrNull_(name, version);
+    if (!ep) return std::nullopt;
 
     // Take a consistent snapshot of health metrics under the per-entry lock only.
     std::lock_guard<std::mutex> hlock(ep->health_mu);
@@ -398,17 +390,9 @@ bool ModelServingEngine::isRegistered(const std::string& name,
 
 std::string ModelServingEngine::serializeModel(const std::string& name,
                                                 const std::string& version) const {
-    // Capture a reference-counted handle under a brief shared lock so that
-    // serialization (which may be non-trivial) runs outside the registry lock.
-    std::shared_ptr<Entry> ep;
-    {
-        std::shared_lock lock(impl_->mu);
-        auto it = impl_->registry.find(makeModelKey(name, version));
-        if (it == impl_->registry.end())
-            throw std::out_of_range("ModelServingEngine: model not found: " +
-                                    makeModelKey(name, version));
-        ep = it->second;
-    } // registry lock released here
+    // Capture a reference-counted handle so that serialization (potentially
+    // non-trivial) runs outside the registry lock.
+    auto ep = lookupEntryOrThrow_(name, version);
     return ep->model.serialize();
 }
 

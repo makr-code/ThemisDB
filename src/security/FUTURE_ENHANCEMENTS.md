@@ -1042,3 +1042,56 @@ Interested in contributing to security features? See:
 
 ### Security / Reliability
 - Hard rejection by default; no silent downgrade
+
+---
+
+## IMPL-A2 – LoRA-Adapter Real IntentClassifier (Target: v1.6.0)
+
+**Stub:** `src/security/intent_classifier.cpp`
+**Status:** Stub (deterministic rule-based heuristic; not ML-backed)
+
+### Scope
+- Replace the rule-based heuristics in `IntentClassifier::classify()` with a
+  LoRA-adapted language model inference path.
+- Affected files:
+  - `src/security/intent_classifier.cpp` — stub replacement
+  - `include/security/intent_classifier.h` — add `setLoRAAdapter(ILoRAInferenceAdapter*)` injection
+  - `src/llm/adapter_registry.cpp` — register the security LoRA adapter
+  - Integration with `MLModelManager` for hot-swapping
+
+### Design Constraints
+- **Precision ≥ 92%** on the OWASP Injection Attack classification benchmark
+  (labels: BENIGN / SQL_INJECTION / PROMPT_INJECTION / PATH_TRAVERSAL / XSS / OTHER)
+- Latency budget: ≤ 15 ms P99 per classification (single request, CPU inference)
+- Must operate without GPU in the default deployment (LoRA weights loaded via `llama.cpp` CPU path)
+- No regression on existing `test_intent_classifier.cpp` test cases
+
+### Required Interfaces
+- `ILoRAInferenceAdapter::classify(const std::string& input) → IntentResult`
+  (already defined in `include/llm/adapter_registry.h` — wire into `IntentClassifier`)
+- `IntentClassifier::setLoRAAdapter(ILoRAInferenceAdapter*)` — runtime injection point
+
+### Implementation Notes
+- Training dataset: OWASP Top-10 injection samples + in-house ThemisDB AQL
+  injection attempts (minimum 5,000 labeled examples per category)
+- Base model: `codellama:7b` or `deepseek-coder-v2:7b` (already in Ollama catalog)
+- LoRA rank: r=8, alpha=16 (starting point; tune against precision target)
+- Quantize to Q4_K_M for CPU deployment (≤ 200 MB adapter delta)
+- Fallback: if `ILoRAInferenceAdapter` is null, fall back to the current rule-based
+  heuristic (no silent failure, log WARN once per session)
+
+### Test Strategy
+- Unit: inject OWASP Top-10 samples; assert precision ≥ 92% and recall ≥ 88%
+- Regression: all existing `test_intent_classifier.cpp` tests must pass unchanged
+- Latency: 1,000 classify() calls on a single thread, assert P99 ≤ 15 ms
+- Fuzz: AFL++ on `classify()` with random byte strings; no crash, no hang
+
+### Performance Targets
+- P50 ≤ 8 ms, P99 ≤ 15 ms (CPU-only, Q4_K_M quantized LoRA)
+- Memory: adapter delta ≤ 200 MB resident
+
+### Security / Reliability
+- LoRA weights loaded from a signed artifact; signature verified via `ShaderIntegrity` or
+  equivalent (SHA-256 manifest check before first inference)
+- Classification results logged to `AIDecisionAuditor` for compliance trails
+- Circuit breaker: if 5 consecutive inference errors occur, revert to rule-based heuristic

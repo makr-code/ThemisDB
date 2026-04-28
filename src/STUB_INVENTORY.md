@@ -56,6 +56,7 @@
 | 30 | `ingestion/object_storage_connector.cpp` | Test-injection list callback | `list_fn_` non-null | Real object store not contacted | permanent test-gate | — |
 | 31 | `user_storage_encrypted/key_derivation_service.cpp` | Software KDF fallback when libargon2 absent | `THEMIS_HAS_ARGON2 == 0` | PBKDF2 used instead of Argon2id | add argon2 to vcpkg | v1.6.0 |
 | 32 | `server/rpc/blob_transfer_handler.cpp` | Software CRC-32C checksums (no hardware acceleration) | Always active | ~3–5× slower than SSE4.2/ARM CRC32 hw | `FUTURE_ENHANCEMENTS.md` §Hardware CRC-32C | v1.6.0 |
+| 33 | `ethics_ai/argument_store.cpp` | Vector embedding of ethical arguments not wired; `IVectorWriter` injection missing | Always active (vector path commented-out) | Semantic similarity queries fall back to full prefix scan | `src/ethics_ai/FUTURE_ENHANCEMENTS.md` §Vector Search Integration | v1.6.0 |
 
 ---
 
@@ -68,18 +69,20 @@
 | `src/server/auth_middleware.cpp` | GAP-008: constant-time token comparison via `CRYPTO_memcmp` (v1.9.x) |
 | `src/utils/checksum_utils.cpp` | GAP-005: `calculateMD5()` now delegates to SHA-256/EVP API (v1.9.x) |
 | `src/sharding/paxos_consensus.cpp` | PAX-4: highest-accepted-value propagated via `PaxosPrepareFullCallback` (v1.9.x) |
+| `src/server/http_type_adapter.cpp` | URL-decoding TODO resolved: RFC 3986-compliant `urlDecode()` with malformed-sequence passthrough (v1.9.x) |
+| `src/ethics_ai/argument_store.cpp` | AQL TODO resolved: `getArgumentsByPhilosophy()` now uses `ConjunctiveQuery` when `query_engine_` is available, falls back to prefix scan (v1.9.x) |
 
 ---
 
 ## FUTURE_ENHANCEMENTS entries needed (Phase 5)
 
-| Stub | Required Entry | Target |
-|---|---|---|
-| `security/intent_classifier.cpp` | LoRA-Adapter IMPL-A2 with Precision ≥ 92% | v1.6.0 |
-| `graph/knowledge_graph_reasoner.cpp` | KGR real inference engine integration | v1.7.0 |
-| `rag/continuous_learning_orchestrator.cpp` | Live learning loop with real signal sources | v2.0.0 |
-| `distributed_knowledge/federated_distillation_coordinator.cpp` | Production DP coordinator with certified noise | v2.0.0 |
-| All ingestion connector stubs | SDK integration per connector | v1.5.0–v1.7.0 |
+| Stub | Required Entry | Status | Target |
+|---|---|---|---|
+| `security/intent_classifier.cpp` | LoRA-Adapter IMPL-A2 with Precision ≥ 92% | ✅ Added to `src/security/FUTURE_ENHANCEMENTS.md` §IMPL-A2 | v1.6.0 |
+| `graph/knowledge_graph_reasoner.cpp` | KGR real inference engine integration | ✅ Exists in `src/graph/FUTURE_ENHANCEMENTS.md` §KGR | v1.7.0 |
+| `rag/continuous_learning_orchestrator.cpp` | Live learning loop with real signal sources | ✅ Exists in `src/rag/FUTURE_ENHANCEMENTS.md` §ContinuousLearningOrchestrator | v2.0.0 |
+| `distributed_knowledge/federated_distillation_coordinator.cpp` | Production gRPC coordinator | ✅ Added to `src/distributed_knowledge/FUTURE_ENHANCEMENTS.md` §Production | v2.0.0 |
+| All ingestion connector stubs | SDK integration per connector | ✅ Exists in `src/ingestion/FUTURE_ENHANCEMENTS.md` §v1.6.0–v1.7.0 | v1.5.0–v1.7.0 |
 
 ---
 
