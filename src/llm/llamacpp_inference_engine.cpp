@@ -218,6 +218,25 @@ bool LLMOutputValidator::detectTruncation(const std::string& text) {
 // ═══════════════════════════════════════════════════════════
 
 double LLMOutputValidator::estimateCoherence(const std::string& text) {
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide a lightweight, zero-dependency coherence estimate for
+    //   LLM output validation without requiring a trained language model.
+    //   Uses four surface-level heuristics: average word length, words-per-
+    //   sentence ratio, character diversity, and word diversity.
+    // Activation: Always active (no build flag or runtime gate).  All calls to
+    //   `estimateCoherence()` use this heuristic path.
+    // Production Delta: Heuristic scoring is insensitive to semantic meaning,
+    //   topic drift, factual correctness, or grammar subtleties.  A model
+    //   generating plausible-but-incoherent text (e.g., hallucinations with
+    //   normal word and sentence statistics) will receive a high coherence score.
+    //   False-positive acceptance rate is unknown without empirical calibration.
+    // Removal Plan: Replace with an embedding-distance or perplexity-based
+    //   coherence model.  Candidate approaches: (a) small local BERT model via
+    //   llama.cpp CPU inference; (b) perplexity measurement using the same LLM.
+    //   Wire the replacement via a new `ICoherenceEstimator` interface injected
+    //   into `LLMOutputValidator`.
+    // Roadmap ref: src/llm/FUTURE_ENHANCEMENTS.md §"LLM Output Coherence Model"
+
     // Simple heuristic-based coherence estimation
     // In production, consider using a trained model
     

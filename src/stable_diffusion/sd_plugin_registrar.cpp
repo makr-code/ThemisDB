@@ -23,6 +23,20 @@ plugins::PluginCapabilities SDPluginAdapter::getCapabilities() const {
 
 bool SDPluginAdapter::initialize(const char* config_json) {
     if (!config_json || config_json[0] == '\0') {
+        // STUB/SIMULATION NOTE:
+        // Purpose: Allow SDPluginAdapter to be constructed and initialized
+        //   without a real Stable Diffusion model, for environments where
+        //   stable-diffusion.cpp is not installed or no model checkpoint is
+        //   available (CI, unit tests, development builds without image generation).
+        // Activation: config_json is null, empty, or contains no "model_path"
+        //   key (or model_path is empty).
+        // Production Delta: generate() will return empty/error responses because
+        //   no SD model is loaded; the SDPlugin object is in its default
+        //   (uninitialized) state.
+        // Removal Plan: Provide a valid model_path in the plugin configuration
+        //   (e.g., "model_path": "/opt/models/v1-5-pruned.safetensors").  The
+        //   real initialize() path will load the model via stable-diffusion.cpp.
+        // Roadmap ref: src/llm/FUTURE_ENHANCEMENTS.md §"Stable Diffusion Plugin Activation"
         // Stub mode — no model required
         return true;
     }

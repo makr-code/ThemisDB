@@ -39,6 +39,23 @@ namespace themis { namespace geo {
 static const double kCpuEpsilon = 1e-9;
 static const double kCpuPi = 3.14159265358979323846;
 
+// STUB/SIMULATION NOTE:
+// Purpose: Provide a pure-C++ point-in-polygon fallback when Boost.Geometry
+//   is not available.  Uses a ray-casting algorithm that handles simple,
+//   non-self-intersecting polygons correctly.
+// Activation: Always active (no Boost.Geometry dependency is compiled in by
+//   default; no build flag gate).
+// Production Delta: No support for geodesic / spherical projection — all
+//   coordinates are treated as planar (Cartesian).  Does not handle
+//   self-intersecting polygons, holes (inner rings), or polygons with > ~1 000
+//   vertices efficiently.  For production workloads requiring full OGC
+//   compliance or geodesic correctness, integrate Boost.Geometry and route
+//   through its `covered_by` / `intersects` predicates.
+// Removal Plan: Add Boost.Geometry as a CMake dependency and compile a
+//   `BoostGeometryBackend` that delegates to `boost::geometry::intersects`.
+//   Update BackendRegistry priority to prefer Boost over the CPU fallback.
+// Roadmap ref: src/geo/FUTURE_ENHANCEMENTS.md §"Boost.Geometry Integration"
+
 // Helper function to check point-in-polygon using ray casting algorithm
 // This provides a reasonable fallback when Boost.Geometry is not available
 static bool pointInPolygon(double px, double py, const std::vector<Coordinate>& polygon) {

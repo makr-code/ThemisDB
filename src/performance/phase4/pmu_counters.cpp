@@ -701,6 +701,24 @@ bool CacheMissAnalyzer::pmu_accessible() noexcept {
 
 #else // !THEMIS_ENABLE_PMU_COUNTERS
 
+// STUB/SIMULATION NOTE:
+// Purpose: Provide link-compatible no-op implementations of PmuCounter and
+//   CacheMissAnalyzer so that code that instruments hot paths with PMU
+//   counters can be compiled and tested on machines that have no perf_event
+//   subsystem or where kernel permission is denied.  All operations succeed
+//   silently; counter reads always return 0.
+// Activation: THEMIS_ENABLE_PMU_COUNTERS is 0 (default on non-Linux builds
+//   and on CI runners where /proc/sys/kernel/perf_event_paranoid > 2).
+// Production Delta: Cache-miss metrics are silently zero; the hot-path
+//   instrumentation in StorageEngine and QueryExecutor reads 0 for all PMU
+//   counters.  Any dashboard threshold that alerts on PMU-derived metrics
+//   will not fire.  CacheMissAnalyzer::pmu_accessible() returns false, so
+//   callers that check before using counters will skip PMU collection.
+// Removal Plan: Set -DTHEMIS_ENABLE_PMU_COUNTERS=ON at CMake configure time
+//   on Linux systems where the kernel PMU subsystem is available.  If the
+//   CI runner sets paranoid > 2, pass --allow-perf-event or run in a
+//   privileged container.  The #else block above then becomes dead code.
+// Roadmap ref: src/performance/FUTURE_ENHANCEMENTS.md §"PMU Counter Activation"
 // Stubs when PMU counters are disabled at compile time
 
 namespace themis {

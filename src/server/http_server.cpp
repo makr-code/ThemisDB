@@ -656,14 +656,9 @@ HttpServer::HttpServer(
         THEMIS_INFO("Auth: ADMIN token configured via env");
         try {
             auto v = auth_->validateToken(cfg.token);
-            // TODO(GAP-011): Token prefix+suffix logged at startup - exposes 8 chars of the
-            // real token value (4-char prefix + 4-char suffix).  Tokens ≤ 8 chars are logged
-            // in full.  Fix: log only the token length, no prefix/suffix.
-            //   THEMIS_INFO("token_len={}", cfg.token.size());
-            // Target: Q3 2026
-            THEMIS_INFO("Auth check after addToken: validateToken(token='{}') -> authorized={} user_id='{}' reason='{}'",
-                       cfg.token.size() > 8 ? (std::string(cfg.token).substr(0,4) + "..." + std::string(cfg.token).substr(cfg.token.size()-4)) : cfg.token,
-                       v.authorized, v.user_id, v.reason);
+            // GAP-011 fixed: log only token length, never prefix/suffix bytes.
+            THEMIS_INFO("Auth check after addToken: validateToken(token_len={}) -> authorized={} user_id='{}' reason='{}'",
+                       cfg.token.size(), v.authorized, v.user_id, v.reason);
         } catch(...) {}
     }
     // Read-only token
@@ -3828,18 +3823,63 @@ http::response<http::string_body> HttpServer::routeRequest(
 
                     const std::string model_id = payload.value("model_id", std::string{"default"});
                     const std::string model_path = payload.value("path", std::string{});
-                    // TODO(GAP-009): Path-traversal risk - model_path comes directly from the
-                    // HTTP request body and is only checked for emptiness.  An authenticated
-                    // admin can supply "../../../etc/shadow" or any arbitrary filesystem path.
-                    // Fix: canonicalize the path and assert it starts_with(config_.model_dir):
-                    //   auto canon = std::filesystem::weakly_canonical(model_path);
-                    //   if (!canon.string().starts_with(allowed_model_dir_)) { 400; }
-                    // Target: Q2 2026
+                    // GAP-009 fixed: canonicalize model_path and assert it does not escape
+                    // the allowed model directory (THEMIS_MODEL_DIR env var, or the process
+                    // working directory as a safe fallback).  This prevents path-traversal
+                    // attacks from authenticated admin users.
                     if (model_path.empty()) {
                         auto response = makeErrorResponse(http::status::bad_request,
                             "path is required", req);
                         applyGovernanceHeaders(req, response);
                         return response;
+                    }
+                    {
+                        // Determine the allowed model root.
+                        std::filesystem::path allowed_root;
+                        try {
+                            if (auto env_dir = themis_get_env("THEMIS_MODEL_DIR")) {
+                                allowed_root = std::filesystem::weakly_canonical(*env_dir);
+                            } else {
+                                allowed_root = std::filesystem::weakly_canonical(
+                                    std::filesystem::current_path());
+                                THEMIS_WARN("THEMIS_MODEL_DIR is not set; using current working directory "
+                                            "as model root: '{}'. Set THEMIS_MODEL_DIR to the intended "
+                                            "model directory to avoid this warning.",
+                                            allowed_root.string());
+                            }
+                        } catch (const std::filesystem::filesystem_error& fse) {
+                            auto response = makeErrorResponse(http::status::internal_server_error,
+                                "INTERNAL_ERROR",
+                                std::string("Model root canonicalization failed: ") + fse.what());
+                            res = std::move(response);
+                            break;
+                        }
+                        std::error_code ec;
+                        auto canon = std::filesystem::weakly_canonical(model_path, ec);
+                        // Use filesystem::equivalent() or a normalised prefix check that is
+                        // case-insensitive on platforms with case-insensitive file systems
+                        // (Windows, macOS default APFS).  Plain starts_with() on the
+                        // string representations is sufficient on Linux (case-sensitive FS)
+                        // but could be bypassed on Windows/macOS if the caller supplies a
+                        // path that differs only in case.  We guard further with
+                        // lexically_normal() to collapse any remaining "..".
+                        auto canon_norm = canon.lexically_normal();
+                        auto root_norm  = allowed_root.lexically_normal();
+                        bool inside_root = false;
+                        if (!ec) {
+                            // Primary: check that canon is a subdirectory of allowed_root
+                            // by verifying the prefix at the path-component boundary.
+                            auto [mismatch_it, _] = std::mismatch(
+                                root_norm.begin(), root_norm.end(),
+                                canon_norm.begin(), canon_norm.end());
+                            inside_root = (mismatch_it == root_norm.end());
+                        }
+                        if (ec || !inside_root) {
+                            auto response = makeErrorResponse(http::status::bad_request,
+                                "model path is outside the allowed directory", req);
+                            applyGovernanceHeaders(req, response);
+                            return response;
+                        }
                     }
 
                     bool load_ok = false;
@@ -11541,9 +11581,20 @@ std::string HttpServer::extractClientIP(const http::request<http::string_body>& 
         return std::string(req["X-Real-IP"]);
     }
     
-    // Fallback: would need to extract from socket (not directly available in Beast)
-    // For now, return empty string which will be handled by rate limiter
-    return ""; // In production, extract from Session's socket remote_endpoint()
+    // STUB/SIMULATION NOTE:
+    // Purpose: Returns empty string when neither X-Forwarded-For nor X-Real-IP
+    //          header is present; the real socket remote_endpoint() extraction
+    //          requires passing the Boost.Beast session context into this helper,
+    //          which is not yet threaded through the call chain.
+    // Activation: Request has no proxy-forwarding headers.
+    // Production Delta: Rate limiter receives an empty client IP and cannot
+    //                   distinguish between different direct-connection clients;
+    //                   per-IP rate limiting is ineffective for direct connections.
+    // Removal Plan: Thread the Boost.Beast `tcp::socket::remote_endpoint()` into
+    //               this function (or pass `Session*` as an additional parameter)
+    //               and return `endpoint.address().to_string()`.  See
+    //               src/server/FUTURE_ENHANCEMENTS.md §HttpServer getClientIp.
+    return "";
 }
 
 std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(

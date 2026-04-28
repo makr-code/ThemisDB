@@ -41,7 +41,18 @@
     #endif
     #include <faiss/index_io.h>
 #else
-    // Stub definitions for non-FAISS builds
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide empty faiss:: type stubs so the AdvancedVectorIndex
+    //   class can be compiled and linked on systems without FAISS installed.
+    //   All method bodies guarded by `#ifdef THEMIS_HAS_FAISS` fall back to
+    //   warn-and-return-false, so callers get a clear build-time error signal.
+    // Activation: THEMIS_HAS_FAISS is not defined (default); set via vcpkg
+    //   feature 'faiss' or -DTHEMIS_HAS_FAISS=ON in CMake.
+    // Production Delta: Vector search is fully disabled; initializeIndex()
+    //   returns false; train/add/search all log WARN and return false/empty.
+    // Removal Plan: Install FAISS via vcpkg and set THEMIS_HAS_FAISS=ON.
+    //   GPU path additionally requires -DTHEMIS_HAS_FAISS_GPU=ON.
+    // Roadmap ref: src/index/FUTURE_ENHANCEMENTS.md § "FAISS Integration (v1.5.0)"
     namespace faiss {
         class Index {};
         class IndexIVFPQ : public Index {};

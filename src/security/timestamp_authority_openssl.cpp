@@ -17,6 +17,24 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
+// STUB/SIMULATION NOTE:
+// Purpose: Allow the security module to be built without OpenSSL TSA or libcurl.
+//   When `THEMIS_USE_OPENSSL_TSA` is not defined, this entire translation unit
+//   is excluded from compilation.  Any RFC 3161 timestamp request (sign, verify,
+//   eIDAS qualified validation) is expected to be handled by an alternative stub
+//   implementation in `security/timestamp_authority.cpp` (or be unavailable).
+// Activation: `THEMIS_USE_OPENSSL_TSA` not defined at compile time (default for
+//   builds without libcurl and OpenSSL TS headers, or without
+//   `-DTHEMIS_USE_OPENSSL_TSA=1`).
+// Production Delta: RFC 3161 timestamp stamping and verification are unavailable.
+//   All `TimestampAuthority::stamp()` / `TimestampAuthority::verify()` calls will
+//   fall through to stub returns (unsigned/unverifiable timestamps).  eIDAS
+//   qualified timestamp validation (`eIDASTimestampValidator`) is also absent.
+// Removal Plan: Install libcurl + OpenSSL with TS support (≥ OpenSSL 1.0.2)
+//   and set `-DTHEMIS_USE_OPENSSL_TSA=1` in CMake.  Ensure `libcurl.h` and
+//   `<openssl/ts.h>` are on the include path.
+// Roadmap ref: src/security/FUTURE_ENHANCEMENTS.md §"OpenSSL TSA Activation"
+
 #ifdef THEMIS_USE_OPENSSL_TSA
 // OpenSSL/CURL based TimestampAuthority implementation (RFC 3161)
 // Separate from stub to avoid dependency bloat when not needed.

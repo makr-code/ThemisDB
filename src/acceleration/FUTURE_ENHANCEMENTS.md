@@ -498,3 +498,98 @@ All planned features in this document are grounded in the following peer-reviewe
 - [`src/index/`](../index/README.md) — Vector index layer; calls `IVectorBackend::batchKnnSearch()` for GPU ANN search.
 - [`src/performance/`](../performance/README.md) — Benchmarking infrastructure validating the ≥ 10× GPU speedup targets.
 - [`include/acceleration/FUTURE_ENHANCEMENTS.md`](../../include/acceleration/FUTURE_ENHANCEMENTS.md) — Complementary enhancements to the public header interfaces.
+
+---
+
+## NCCL/RCCL Activation (Target: v1.5.0)
+
+**Stubs:**
+- `src/acceleration/nccl_vector_backend.cpp` — `!THEMIS_ENABLE_NCCL`: all collective ops return false  
+- `src/acceleration/rccl_vector_backend.cpp` — `!THEMIS_ENABLE_RCCL`: all collective ops return false  
+**Risk:** Multi-GPU distributed ANN search (`mergeTopK`) and gradient allReduce unavailable; any multi-GPU training workload routes to CPU.
+
+### Scope
+- **NCCL (NVIDIA):** Install NCCL library, set `-DTHEMIS_ENABLE_NCCL=1`. Validate communicator init, multi-rank `mergeTopK` via `ncclAllGather`, `ncclBcast`.
+- **RCCL (AMD/ROCm):** Install ROCm + RCCL, set `-DTHEMIS_ENABLE_RCCL=1`. Mirror NCCL fix using `rcclAllGather` + `rcclBcast`.
+
+### Performance Targets
+- `allReduce` on 1 GB gradient tensor (4× A100 NVLink): ≤ 50 ms.
+- `mergeTopK` (1M vectors, top-100, 4 GPUs): ≤ 2× single-GPU search latency.
+
+### Test Strategy
+- Multi-GPU integration: 2–4 GPU testbed; verify all-reduce gradient matches single-GPU sum within float32 tolerance.
+- `mergeTopK`: distributed result matches sequential merge of per-GPU top-K.
+
+---
+
+## OpenCL Backend Activation (Target: v1.5.0)
+
+**Stub:** `src/acceleration/opencl_backend.cpp` — `!THEMIS_ENABLE_OPENCL`: `computeDistances`/`batchKnnSearch` return empty  
+**Risk:** Universal GPU support (AMD, Intel, Qualcomm, ARM Mali) via OpenCL 1.2+ unavailable; all queries fall through to CPU.
+
+### Scope
+- Install OpenCL runtime (Intel, ROCm OpenCL, or CUDA OpenCL) and set `-DTHEMIS_ENABLE_OPENCL=1`.
+- The existing OpenCL kernel (`openclKernelSource` L2 distance + KNN) is complete; only the build flag is missing.
+
+### Performance Targets
+- `batchKnnSearch` (1M vectors, d=512, top-10, Intel Arc GPU): ≥ 3× CPU baseline throughput.
+
+### Test Strategy
+- Positive: initialized with valid OpenCL device → `batchKnnSearch` returns correct KNN results (parity test vs CPU reference).
+- Negative: no OpenCL device → `isAvailable()` false; graceful fallback to CPU.
+
+---
+
+## OneAPI Backend Activation (Target: v1.5.0)
+
+**Stub:** `src/acceleration/oneapi_backend.cpp` — `!THEMIS_ENABLE_ONEAPI`: stub class compiled; `isAvailable()` false  
+**Risk:** Intel Arc / Xe / XPU (SYCL/DPC++) GPU acceleration unavailable.
+
+### Scope
+- Install Intel oneAPI Base Toolkit (DPC++ compiler + OpenCL runtime) and set `-DTHEMIS_ENABLE_ONEAPI=1`.
+- The real SYCL `OneAPIVectorBackend` class (above `#else`) is complete; only the build flag is missing.
+
+### Performance Targets
+- `batchKnnSearch` (1M vectors, d=512, top-10, Intel Arc A770): ≥ 3× CPU baseline throughput.
+
+### Test Strategy
+- Positive: build with oneAPI → `isAvailable()` true → `batchKnnSearch` returns correct KNN.
+- Negative: no Intel GPU → stub path → `isAvailable()` false; no crash.
+
+---
+
+## Apple ANE Core ML Activation (Target: v1.9.0 — stub completion)
+
+**Stub:** `src/acceleration/ai_hardware_dispatcher.cpp` — `dispatchAppleANE()` inside `#ifdef THEMIS_HAS_NPU_APPLE`: always returns `success = false`; Core ML session not created  
+**Risk:** Apple Neural Engine inference unavailable; ANE workloads route to CPU/GPU fallback; ANE power efficiency and throughput benefits lost.
+
+### Scope
+- Link `metal_backend.mm` with Objective-C++ compiler (`-x objective-c++`).
+- Set `-DTHEMIS_HAS_NPU_APPLE=1` in CMake.
+- Implement full Core ML path in `metal_backend.mm`: create `MLModel` session, prepare `MLMultiArray` from `req.input_data`, run prediction, extract results.
+- Remove stub body and delegate `dispatchAppleANE()` to the Obj-C++ implementation.
+
+### Performance Targets
+- ANE inference (INT8, 7B model): ≥ 3× throughput vs CPU (tokens/s); ≤ 30 % CPU overhead.
+- Latency first token: ≤ 200 ms for a 7B INT8 model on M2/M3 ANE.
+
+### Test Strategy
+- macOS: `probeAppleANE()` returns true → `dispatchAppleANE()` returns `success = true` and `result.tokens` non-empty.
+- Linux/Windows: `THEMIS_HAS_NPU_APPLE` not defined → `dispatchAppleANE()` not called; dispatcher routes to CPU/CUDA.
+
+---
+
+## Plugin Security Mach-O Signature Extraction (Target: future milestone — stub removal)
+
+**Stub:** `src/acceleration/plugin_security.cpp` Mach-O path in `extractEmbeddedSignature()` — Mach-O magic detected but LC_CODE_SIGNATURE load commands not parsed; returns `std::nullopt`.  
+**Risk:** macOS plugin code signatures are never extracted; Apple code-signing verification is skipped for all macOS dylib/bundle plugins.
+
+### Scope
+- Walk Mach-O load commands: iterate `mach_header.ncmds`.
+- Locate `LC_CODE_SIGNATURE` (cmd == 0x1D) and read `linkedit_data_command.dataoff` + `datasize`.
+- Return the blob bytes; use downstream signature verifier to validate against the Apple codesign chain.
+- Handle both 32-bit (`MH_MAGIC`) and 64-bit (`MH_MAGIC_64`) and fat binary (`FAT_MAGIC`) Mach-O formats.
+
+### Security / Reliability
+- Do not use `codesign` subprocess as the sole verification mechanism; parse the signature block directly to avoid TOCTOU and process-injection risks.
+- Validate the signature chain against the Apple root CA (or enterprise CA for internally signed bundles).

@@ -335,8 +335,19 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
     // Get canonical string
     std::string canonical = request.getCanonicalString();
     
-    // In production: verify signature with public key from certificate
-    // For now, return true if signature is present
+    // STUB/SIMULATION NOTE:
+    // Purpose: Satisfies the verifySignature() API while the real RSA/ECDSA
+    //          signature verification against the shard public-key certificate
+    //          is not yet implemented.
+    // Activation: Always — no public-key crypto call is made.
+    // Production Delta: Any `SignedRequest` with a non-empty (but invalid/forged)
+    //                   `signature_b64` field will pass verification.  An attacker
+    //                   that intercepts a request can modify the body and the
+    //                   signature field trivially.
+    // Removal Plan: Parse the certificate from `request.sender_cert_pem`; extract
+    //               the public key; compute SHA-256 of `getCanonicalString()`; call
+    //               EVP_DigestVerify to validate `signature_b64`.  See
+    //               src/sharding/FUTURE_ENHANCEMENTS.md §Signed Request Crypto Verification.
     return !request.signature_b64.empty();
 }
 

@@ -562,6 +562,24 @@ void GossipConfigManager::sendGossipMessage(
     if (!client_) return;
     
     try {
+        // STUB/SIMULATION NOTE:
+        // Purpose: Increment the messages_sent_ counter without performing a
+        //   real network call.  GossipConfigManager can be tested and linked
+        //   without a live HTTP/gRPC gossip peer.  The protobuf message is
+        //   serialized to JSON in production; here the serialization step is
+        //   skipped and the network call is omitted.
+        // Activation: Always — the real HTTP/gRPC gossip transport has not yet
+        //   been wired into GossipConfigManager::sendGossipMessage().
+        // Production Delta: No gossip messages are actually sent to peers.
+        //   Config updates originating here never propagate to other nodes.
+        //   Cluster-wide config changes (shard topology, routing rules) are
+        //   invisible to other nodes; manual restarts or out-of-band config
+        //   delivery are required.
+        // Removal Plan: Wire the ShardRPCClient (or a dedicated HTTP gossip
+        //   client) into this method; call client_->send(peer_endpoint, payload)
+        //   with the serialized GossipMessage.  Track round-trip latency with
+        //   the `now` variable below.
+        // Roadmap ref: src/sharding/FUTURE_ENHANCEMENTS.md §"Gossip Config Propagation"
         // Serialize message to JSON for HTTP POST
         // In a real implementation, this would use protobuf serialization
         // For now, we'll skip the actual network call

@@ -68,14 +68,15 @@ http::response<http::string_body> GraphApiHandler::handleTraverse(
         }
 
         std::string start_vertex = body_json["start_vertex"];
-        // TODO(GAP-010): max_depth taken directly from user without upper-bound cap.
-        // A request with max_depth=UINT_MAX triggers a full-graph BFS traversal, causing
-        // CPU saturation and OOM (Denial-of-Service).
-        // Fix: enforce a server-side cap, e.g.:
-        //   static constexpr size_t kMaxBfsDepth = 20;
-        //   if (max_depth > kMaxBfsDepth) { return makeErrorResponse(400, "max_depth exceeds limit"); }
-        // Target: Q2 2026
+        // GAP-010 fixed: cap max_depth to prevent BFS-induced CPU saturation / OOM.
+        static constexpr size_t kMaxBfsDepth = 50;
         size_t max_depth = body_json["max_depth"];
+        if (max_depth > kMaxBfsDepth) {
+            span.setAttribute("error", "max_depth_exceeded");
+            span.setStatus(false, "max_depth exceeds server limit");
+            return makeErrorResponse(http::status::bad_request,
+                "max_depth exceeds server limit of " + std::to_string(kMaxBfsDepth), req);
+        }
         
         span.setAttribute("graph.start_vertex", start_vertex);
         span.setAttribute("graph.max_depth", static_cast<int64_t>(max_depth));

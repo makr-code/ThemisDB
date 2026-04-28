@@ -278,3 +278,19 @@ DOI: 10.1023/B:JONS.0000024640.73622.f3.
 [9] M. Delaney and C. McKinley, "Configuration Management for Modern Distributed Systems,"
 *IEEE Software*, vol. 36, no. 2, pp. 42–47, Mar./Apr. 2019.
 DOI: 10.1109/MS.2018.2886726.
+
+---
+
+## Config Metrics Exporter Test Build Stub (Target: v1.4.0 — cleanup)
+
+**Stub:** `src/config/config_metrics_exporter.cpp` — `THEMIS_TEST_BUILD`: `syncFromPathResolver()` returns immediately without reading counters or updating any gauge  
+**Risk:** Config-path resolution metrics not updated in test builds; Prometheus `/metrics` scrape shows no `themis_config_*` counters.
+
+### Scope
+- Define a minimal `MockMetricsCollector` in test infrastructure that implements the `setGauge` interface.
+- Link the mock in unit test CMake targets instead of using `THEMIS_TEST_BUILD` early exit.
+- Remove `#ifdef THEMIS_TEST_BUILD` guard once mock is wired.
+
+### Test Strategy
+- With mock: `syncFromPathResolver()` calls `mock.setGauge()` → counter values verifiable in tests.
+- Without mock: `THEMIS_TEST_BUILD` guard still accepted (backward compat) until mock is fully deployed.

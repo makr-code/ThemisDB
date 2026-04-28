@@ -48,6 +48,24 @@
 // - llama.cpp with grammar support
 // - Older llama.cpp versions (graceful fallback)
 //
+// STUB/SIMULATION NOTE:
+// Purpose: Provide a graceful runtime fallback when llama.cpp is built without
+//   grammar-constrained generation support.  At first call, `initializeGrammarAPI()`
+//   attempts to locate `llama_grammar_init` and `llama_grammar_free` via
+//   `dlsym`/`GetProcAddress`.  If either is absent, `g_grammar_api_available`
+//   is set to false and all grammar operations (`init`, `apply`, `free`) log a
+//   warning and return nullptr / no-op.
+// Activation: llama.cpp linked without grammar support; or `llama_grammar_init`
+//   not exported from the linked llama.cpp shared/static library.
+// Production Delta: Grammar-constrained generation (GBNF, JSON schema enforcement,
+//   regex-constrained tokens) is disabled.  LLM inference proceeds without
+//   any token-level grammar constraints; output may not conform to expected
+//   formats (e.g., JSON, SQL, structured data).
+// Removal Plan: Rebuild llama.cpp with grammar support enabled and ensure the
+//   shared library exports `llama_grammar_init` / `llama_grammar_free`.
+//   Verify by checking the log line "✓ llama.cpp Grammar API detected" at startup.
+// Roadmap ref: src/llm/FUTURE_ENHANCEMENTS.md §"LlamaCpp Grammar API Runtime Activation"
+//
 // ═══════════════════════════════════════════════════════════
 
 namespace {

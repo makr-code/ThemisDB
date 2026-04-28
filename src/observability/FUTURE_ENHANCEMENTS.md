@@ -1307,3 +1307,15 @@ Integration with Elastic Observability stack.
 [19] N. Murphy, B. Beyer, C. Jones, and J. Petoff, "Site Reliability Engineering: How Google Runs Production Systems," *O'Reilly Media*, 2016, ISBN 978-1-4919-2909-4.
 
 [20] A. Iosup, S. Ostermann, M. N. Yigitbasi, R. Prodan, T. Fahringer, and D. Epema, "Performance Analysis of Cloud Computing Services for Many-Tasks Scientific Computing," *IEEE Transactions on Parallel and Distributed Systems*, vol. 22, no. 6, pp. 931–945, 2011. doi: 10.1109/TPDS.2011.66.
+
+---
+
+## Cross-Platform Stack Trace (Target: future milestone — stub removal)
+
+**Stub:** `src/observability/continuous_profiler.cpp` non-POSIX path — returns "(stack-trace-unavailable)" when `HAVE_EXECINFO_H` is absent.  
+**Risk:** Windows and WASM profiler flame graphs and crash reports have no call stack data.
+
+### Scope
+- Windows: `CaptureStackBackTrace()` + `SymFromAddr()` from DbgHelp.lib.
+- WASM/embedded: `__builtin_return_address(N)` loop with linker map resolution.
+- Guard each backend with its detection macro (`_WIN32`, `__EMSCRIPTEN__`, etc.).

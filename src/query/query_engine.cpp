@@ -3448,10 +3448,21 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			spatialSpan.setStatus(true);
 		}
 		
-		// For each reachable node, construct trivial 2-node path; future: enhance BFS to retain full paths.
+		// STUB/SIMULATION NOTE:
+		// Purpose: Returns trivial 2-hop paths (start_node → reachable_node) while
+		//          BFS-based full path reconstruction is not yet integrated into the
+		//          spatial-path query flow.
+		// Activation: Always — BFS returns a reachable-node set but does not retain
+		//             parent pointers needed for path reconstruction.
+		// Production Delta: All paths are length-1 (direct start→end); multi-hop
+		//                   intermediate nodes are silently dropped; shortest-path
+		//                   semantics are not preserved.
+		// Removal Plan: Modify executeSpatialBFS() to track parent pointers per node;
+		//               reconstruct the full path via backtracking before pushing
+		//               into `allPaths`.  See src/query/FUTURE_ENHANCEMENTS.md
+		//               §Query Engine Path Reconstruction.
 		for (const auto& node : reachableNodes) {
 			if (node != q.start_node) {
-				// For now, return single-node paths (path reconstruction would require BFS modification)
 				allPaths.push_back({q.start_node, node});
 			}
 		}

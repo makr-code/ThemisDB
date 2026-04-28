@@ -810,3 +810,31 @@ ACTION db_write(table="compliance_violations"), slack(channel="#legal");
 - Klassifikations-Outputs werden nie direkt in Datenbank-Writes ohne menschliche Bestätigung
   oder Confidence-Threshold verwendet
 - Adapter-Konfidenzwerte werden im Audit-Log protokolliert
+
+---
+
+## Process Mining Windows Port (Target: Q4 2026)
+
+**Stub:** `src/analytics/process_mining.cpp` — `THEMIS_PROCESS_MINING_WINDOWS_STUB` block  
+**Risk:** Windows nodes in a mixed cluster cannot execute process-mining operations. All ProcessMining public methods return `Status::Error` immediately, so BPM conformance checking and Petri-net analysis are unavailable on Windows.
+
+### Scope
+- Audit all POSIX dependencies in `process_mining.cpp` and `process_mining.h`:
+  - `fork()`/`exec()` — if used, replace with `CreateProcess()` or a cross-platform subprocess library.
+  - `mmap()`/`mprotect()` — replace with `MapViewOfFile()` or in-memory alternatives.
+  - `pread()`/`pwrite()` — replace with `ReadFile()`/`WriteFile()` with seek.
+- Remove `THEMIS_PROCESS_MINING_WINDOWS_STUB` CMake option once all blockers are resolved.
+- Add `test_process_mining_windows.yml` CI workflow on `windows-latest`.
+
+### Design Constraints
+- Cross-platform abstraction must not change the public API in `process_mining.h`.
+- Windows build must pass the full `ProcessMiningTests` test suite (`tests/test_process_mining.cpp`).
+- BPMN runtime and Petri-net evaluator must produce bit-identical results on Windows and Linux for deterministic event logs.
+
+### Test Strategy
+- Windows CI: build without `THEMIS_PROCESS_MINING_WINDOWS_STUB`; run all `ProcessMiningTests`.
+- Cross-platform parity: same event log → same conformance check output on Linux and Windows.
+
+### Security / Reliability
+- Windows subprocess handling must apply the same input validation as the Linux path.
+- No `PROCESS_CREATE_NO_WINDOW` races; subprocess output must be captured deterministically.

@@ -399,13 +399,10 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
         res.set(http::field::content_type, "text/event-stream");
         res.set(http::field::cache_control, "no-cache, no-transform");
         res.set(http::field::connection, "keep-alive");
-        // Best-effort proxies
-        // TODO(GAP-012): Hardcoded CORS wildcard bypasses the central CORS policy in
-        // HttpServer::applyCORSHeaders(). If cors_allow_credentials_ is enabled, browsers
-        // silently drop the Credentials flag, but the policy divergence is hard to audit.
-        // Fix: delegate to HttpServer::applyCORSHeaders() or replicate the origin-whitelist
-        // check here using the same cors_allowed_origins_ config list.  Target: Q3 2026
-        res.set(http::field::access_control_allow_origin, "*");
+        // GAP-012 fixed: CORS header is omitted here; the central CORS policy in
+        // HttpServer::applyCORSHeaders() (and the THEMIS_CORS_* env vars) governs
+        // which origins are allowed.  SSE responses go through the main dispatch
+        // loop which already applies CORS before reaching this handler.
         res.keep_alive(true);
         
         std::ostringstream body;

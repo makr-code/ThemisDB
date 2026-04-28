@@ -169,3 +169,55 @@ This document covers implementation-specific future enhancements for the Cache m
 
 *Last Updated: 2026-03-22*
 *Module Version: v1.9.0*
+
+---
+
+## Redis Pub/Sub Invalidation — Activation (Target: v1.6.0)
+
+**Stub:** `src/cache/redis_cache_coordinator.cpp` — `#else !THEMIS_ENABLE_REDIS` block  
+**Risk:** Cross-node cache invalidations not propagated; stale reads on multi-node clusters for the full cache TTL.
+
+### Scope
+- Enable hiredis via the `redis` vcpkg feature → define `THEMIS_ENABLE_REDIS`.
+- The real pub/sub loop (`connectPublish`, `connectSubscribe`, `subscribeLoop`) is already
+  implemented above the `#else` block.
+- Add TLS-authenticated Redis connection (AUTH + TLS_VERIFY_PEER).
+- Integration test: write key on node A, invalidate on node A, assert cache miss on node B
+  within 200 ms.
+
+### Design Constraints
+- HMAC signature verification on all received invalidation messages (already implemented
+  via `verifyHmac()`); malformed or unauthenticated messages must be silently dropped.
+- Re-subscribe on Redis disconnect with exponential back-off (max 30 s).
+- No performance regression on the hot cache-hit path (invalidation is async).
+
+### Test Strategy
+- Unit: mock `redisCommand`; assert PUBLISH called on `invalidate()`.
+- Integration: two-node in-process coordinator pair; assert invalidation fan-out.
+- Regression: single-node builds (THEMIS_ENABLE_REDIS=OFF) compile and all existing
+  tests pass unchanged.
+
+### Performance Targets
+- Invalidation propagation latency (publish → subscriber receive): ≤ 5 ms p99.
+- Subscribe thread CPU when idle: < 0.1%.
+
+---
+
+## gRPC Remote Cache Peer Activation (Target: v1.4.0 — stub removal)
+
+**Stub:** `src/cache/grpc_remote_cache_peer.cpp` — entire TU guarded by `#ifdef THEMIS_ENABLE_GRPC`; without it the class is absent and the header must provide no-op stubs  
+**Risk:** Cross-node cache replication and invalidation via gRPC is disabled; each node operates as an isolated cache island.
+
+### Scope
+- Install gRPC C++ libraries and set `-DTHEMIS_ENABLE_GRPC=1` in CMake.
+- The full `GrpcRemoteCachePeer` implementation (gRPC generic stub, health-check, get/set/invalidate RPCs) is then compiled.
+- Wire via `CacheReplicaCoordinator` which calls `GrpcRemoteCachePeer::sendGet()` and `sendSet()`.
+
+### Performance Targets
+- Cross-node cache `sendSet()` (p99): ≤ 5 ms on LAN.
+- Invalidation broadcast to 4 peers: ≤ 10 ms p99.
+
+### Test Strategy
+- Unit: mock gRPC channel; verify `sendGet()` deserialises JSON cache entry correctly.
+- Integration: 2-node testbed; write on node 1 → read on node 2 within 20 ms.
+- Fault: node 2 unreachable → `isHealthy()` false; no crash on node 1.

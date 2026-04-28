@@ -882,6 +882,21 @@ bool VulkanVectorIndexBackend::isInitialized() const {
 
 #else // !THEMIS_HAS_VULKAN_IMPL
 
+// STUB/SIMULATION NOTE:
+// Purpose: Provide link-compatible no-op implementations of
+//   VulkanVectorIndexBackend when the Vulkan SDK is not present, so that the
+//   vector search subsystem can be compiled and run without GPU drivers.
+//   All methods return false or empty containers; isInitialized() returns false.
+// Activation: THEMIS_HAS_VULKAN_IMPL is 0 — set when the Vulkan headers
+//   and loader library (libvulkan.so) are not found by CMake.
+// Production Delta: GPU-accelerated vector similarity search (HNSW on Vulkan
+//   compute shaders) is silently disabled.  All vector queries fall back to
+//   the CPU-based HNSW/FAISS index (AdvancedVectorIndex).  Throughput is
+//   reduced by 5–20× for ANN search on large corpora (≥ 1 M vectors).
+// Removal Plan: Install the Vulkan SDK and a compatible GPU driver; rebuild
+//   with -DTHEMIS_HAS_VULKAN_IMPL=1.  The Pimpl implementation block above
+//   (inside #if THEMIS_HAS_VULKAN_IMPL) is then compiled instead.
+// Roadmap ref: src/index/FUTURE_ENHANCEMENTS.md §"GPU Vector Index (Vulkan)"
 // Stub implementations when Vulkan is not available
 namespace themis {
 namespace index {

@@ -275,3 +275,24 @@ cardinality distributions without user configuration.
 **Scope:** Auto-generate Apollo Federation v2 SDL from relational schemas.
 **Required Interfaces:** `generateFederatedSchema()`, `generatePlainSchema()`
 **Implementation Notes:** PascalCase type names; `@key` from PKs; `@external` for remote entities; FK columns annotated.
+
+---
+
+## Postgres EXCLUDE Constraint Parsing (Target: v1.5.0 — stub completion)
+
+**Stub:** `src/importers/postgres_importer.cpp` — `parseExcludeConstraint()`: captures raw text + optional name; does NOT parse individual EXCLUDE elements, access method, or `WITH` operators  
+**Risk:** Imported schema metadata for EXCLUDE constraints is incomplete; `elements`, `index_method`, `using_clause` not populated; schema validation and index-recreation fail silently.
+
+### Scope
+- Implement full EXCLUDE constraint parsing in `parseExcludeConstraint()`.
+- Parse: `USING <method>` (e.g., `gist`), per-column `<expr> WITH <operator>` pairs, optional `WHERE (predicate)`.
+- Populate `ExcludeConstraint::elements`, `index_method`, and `using_clause` fields.
+- Add regex or PEG-based grammar for the complex EXCLUDE syntax.
+
+### Test Strategy
+- Parse `CONSTRAINT no_overlap EXCLUDE USING gist (period WITH &&, room_id WITH =)` → `index_method == "gist"`, `elements.size() == 2`.
+- Parse EXCLUDE without explicit constraint name → `name.empty()`.
+- Malformed EXCLUDE → `parseExcludeConstraint()` returns false.
+
+### Performance Targets
+- Parsing overhead: ≤ 50 µs per EXCLUDE constraint clause (regex or PEG, single-threaded).

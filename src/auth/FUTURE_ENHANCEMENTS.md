@@ -440,3 +440,83 @@ if (allow_sha1_) {
 ### Security / Reliability
 - Fail-closed by default; no silent downgrade
 - Operator must opt-in explicitly; the env var is documented in SECURITY.md
+
+---
+
+## Distributed Token Blacklist — Redis Activation (Target: v1.6.0)
+
+**Stub:** `src/auth/redis_token_blacklist.cpp` — `#else !THEMIS_ENABLE_REDIS` block  
+**Risk:** Token revocations not persisted across restarts; revoked JWTs accepted until natural expiry.
+
+### Scope
+- Enable hiredis via the `redis` vcpkg feature → define `THEMIS_ENABLE_REDIS` in CMake.
+- The real implementation (above the `#else` block) already covers connection pooling,
+  `SETEX` + `EXISTS` semantics, TTL alignment with JWT expiry, and the `purgeExpired()` scheduler.
+- Add `tests/test_redis_token_blacklist.cpp` integration test against a Redis 7.x container
+  (Docker Compose or GitHub Actions service container).
+
+### Design Constraints
+- No breaking API changes to `ITokenBlacklist`; consumers (auth middleware) unchanged.
+- Reconnect logic must retry up to 3 times with exponential back-off before surfacing the error.
+
+### Test Strategy
+- Integration: `add("jti1", now+60s)` → `isRevoked("jti1")` returns true; after TTL: false.
+- Regression: `!THEMIS_ENABLE_REDIS` path continues to compile and `isRevoked()` returns false.
+
+### Security / Reliability
+- Redis connection must use TLS (AUTH + TLS_VERIFY_PEER) in production deployments.
+- If Redis is unavailable, fall back to in-memory blacklist with WARN log (fail-open, not fail-closed, by policy).
+
+---
+
+## LDAP Library Activation (Target: v1.6.0)
+
+**Stub:** `src/auth/ldap_authenticator.cpp` — `#else !THEMIS_HAS_LDAP` block  
+**Risk:** LDAP-based logins fail; organizations that use AD/LDAP cannot authenticate.
+
+### Scope
+- Install libldap-dev (OpenLDAP) and build with `-DTHEMIS_ENABLE_LDAP=ON`.
+- The real implementation already handles TLS/StartTLS, paging, group membership, and
+  RFC 4515-escaped attribute values.
+
+### Test Strategy
+- Integration: run against a Samba/OpenLDAP Docker container; assert successful bind
+  with a valid credential and rejected bind with an invalid one.
+- LDAP injection: supply username `*)(uid=*))(|(uid=*`; assert `performBind()` returns Failed.
+
+### Security / Reliability
+- Enable the LDAP injection fix (see §LDAP Injection in this file) before activating the library.
+
+---
+
+## Redis Rate Limiter Activation (Target: v1.3.0 — stub removal)
+
+**Stub:** `src/auth/rate_limiter_backend.cpp` — `!THEMIS_ENABLE_REDIS`: `increment()` returns 0 (fail-open); all Redis ops are no-ops  
+**Risk:** Distributed rate limiting disabled; DoS / rate-limit bypass possible; no cross-replica coordination.
+
+### Scope
+- Install libhiredis (`apt install libhiredis-dev` or vcpkg redis feature).
+- Set `-DTHEMIS_ENABLE_REDIS=1` in CMake.
+- The full Redis-backed `RedisRateLimiterBackend` (above `#else` in `rate_limiter_backend.cpp`) is then compiled.
+- Configure `THEMIS_REDIS_HOST` / `THEMIS_REDIS_PORT` env vars or set `RedisRateLimiterBackend::Config` from YAML.
+
+### Security / Reliability
+- `increment()` must be atomic: the Lua sorted-set script (`kIncrScript`) is already correct for atomicity.
+- Redis connection loss must fail-open (log WARN; allow request) to avoid blocking auth on cache outage.
+- Use `REQUIREPASS` or ACL + TLS in production Redis.
+
+### Test Strategy
+- Distributed: two `RedisRateLimiterBackend` instances sharing a real Redis → combined counter equals sum of increments.
+- Reconnect: simulate Redis restart → `reconnect()` succeeds → subsequent increments work.
+
+---
+
+## Kerberos Service Principal Extraction (Target: future milestone — stub removal)
+
+**Stub:** `src/auth/kerberos_security.cpp` — returns empty string for service principal; no ASN.1 GSSAPI token parsing.  
+**Risk:** Service-principal-based policy enforcement cannot distinguish between different Kerberos services; all tokens look identical.
+
+### Scope
+- Parse the GSSAPI token: check OID 1.2.840.113554.1.2.2 (KRB5).
+- Decode the AP-REQ DER structure using Heimdal or MIT KRB5 ASN.1 APIs.
+- Extract the service principal (sname) from the ticket's EncTicketPart.

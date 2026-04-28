@@ -318,3 +318,40 @@ The planned enhancements are grounded in the following peer-reviewed literature 
 [21] S. Ji et al., "Survey of Hallucination in Natural Language Generation," *ACM Computing Surveys*, vol. 55, no. 12, pp. 1–38, 2023. [DOI: 10.1145/3571730] Available: https://arxiv.org/abs/2202.03629
 
 [22] Golem.de, "Reflection Tuning bei KI: Selbstkritik bis hin zur Halluzination," *Golem.de*, March 2026. Available: https://www.golem.de/news/reflection-tuning-bei-ki-selbstkritik-bis-hin-zur-halluzination-2603-206734.html
+
+---
+
+## gRPC Service for Prompt Engineering (Target: v1.7.0)
+
+**Stub:** `src/server/prompt_engineering_grpc_service.cpp` — entire gRPC service is a no-op shell; `service()` returns `nullptr`  
+**Risk:** gRPC clients cannot access any prompt-engineering functionality. All calls receive UNIMPLEMENTED status.
+
+### Scope
+- Define `proto/prompt_engineering.proto` with RPC methods mirroring the REST
+  API (PromptCreate, PromptGet, PromptOptimize, FeedbackSubmit, VersionList).
+- Run `protoc` to generate `prompt_engineering.grpc.pb.h` / `.cc`.
+- Implement the full gRPC handler in `src/server/prompt_engineering_grpc_service_impl.cpp`
+  delegating to `PromptManager`, `PromptOptimizer`, `FeedbackCollector`, etc.
+- Set `THEMIS_HAS_PROMPT_GRPC=1` in `CMakeLists.txt` once the generated stubs are available.
+- Register the service with the gRPC server in `main_server.cpp`.
+
+### Required Interfaces
+- `PromptManager::create()`, `get()`, `list()`
+- `PromptOptimizer::optimize()` (async — returns a job ID)
+- `FeedbackCollector::submit()`
+- `PromptVersionControl::listVersions()`, `checkout()`
+
+### Design Constraints
+- All methods require authenticated callers (JWT/mTLS token validation).
+- `optimize()` must be non-blocking: accept the request, return a job ID, and
+  report progress via a server-streaming RPC `WatchOptimization(job_id)`.
+- gRPC responses must be idempotent (safe to retry on transient network errors).
+
+### Test Strategy
+- Unit: mock `PromptManager`; assert gRPC handler routes to correct method.
+- Integration: gRPC client calls `PromptCreate` → verify record in DB.
+- Regression: REST endpoints (HTTP/1.1) continue to work unchanged.
+
+### Performance Targets
+- `PromptGet` p99 latency (1-hop DB read): ≤ 5 ms.
+- `PromptOptimize` enqueue latency: ≤ 10 ms (async, no optimization work on hot path).

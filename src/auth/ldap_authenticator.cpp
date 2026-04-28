@@ -691,7 +691,18 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
 
 #else
 // ---------------------------------------------------------------------------
-// Stub: LDAP library not compiled in
+// STUB/SIMULATION NOTE:
+// Purpose: Link-compatible LDAP stub for builds without libldap.  Returns a
+//   hard-failure from performBind() so any LDAP-gated authentication request
+//   is explicitly rejected rather than accidentally allowed.
+// Activation: Compiled when THEMIS_HAS_LDAP is NOT defined (set via
+//   -DTHEMIS_ENABLE_LDAP=ON in CMake to enable the real implementation).
+// Production Delta: All LDAP-based logins will fail with an explicit error
+//   message.  No silent pass-through; the rejection is logged and audited.
+// Removal Plan: Install libldap and build with -DTHEMIS_ENABLE_LDAP=ON.
+//   The real implementation in the #ifdef branch handles TLS, paging,
+//   group membership, and attribute mapping.
+// Roadmap ref: src/auth/FUTURE_ENHANCEMENTS.md § "LDAP Group Membership (v1.6.0)"
 // ---------------------------------------------------------------------------
 
 LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,

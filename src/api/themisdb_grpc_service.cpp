@@ -827,6 +827,22 @@ void ThemisDBGrpcService::buildImpl() {
 #if THEMIS_HAS_API_GRPC
     impl_ = std::make_unique<Impl>(db_, txn_mgr_, aql_engine_, vector_index_);
 #else
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow ThemisDBGrpcService to be constructed and linked without
+    //   the generated protobuf/gRPC stub files for themisdb.proto.  The
+    //   service instance is null; service() returns nullptr so the gRPC server
+    //   omits this service from its handler list.
+    // Activation: THEMIS_HAS_API_GRPC == 0 (default when protoc has not been
+    //   run against proto/themisdb.proto, or when themisdb.grpc.pb.h is not
+    //   on the include path).
+    // Production Delta: ThemisDBService is completely absent from the gRPC
+    //   server; gRPC clients receive UNIMPLEMENTED for every method.  Document
+    //   reads/writes, transaction operations, and vector search are inaccessible
+    //   via the primary gRPC API surface.
+    // Removal Plan: Run `cmake -DTHEMIS_ENABLE_GRPC=ON` with protoc installed;
+    //   themisdb.grpc.pb.{h,cc} will be generated and THEMIS_HAS_API_GRPC set
+    //   to 1.  This #else block becomes dead code.
+    // Roadmap ref: src/api/FUTURE_ENHANCEMENTS.md §"gRPC API Service Activation"
     THEMIS_WARN("ThemisDBGrpcService: themisdb.grpc.pb.h not found; "
                 "service will be a no-op until protoc generates the stubs");
 #endif

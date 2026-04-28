@@ -305,6 +305,21 @@ public:
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
+
+    // -------------------------------------------------------------------------
+    // Private helpers
+    // -------------------------------------------------------------------------
+
+    // Captures a reference-counted handle to the named entry under a brief
+    // shared_lock, then releases the lock immediately.  Throws std::out_of_range
+    // if the entry does not exist.  Callers run inference and metric updates
+    // *after* this call so that the registry lock is never held during I/O.
+    [[nodiscard]] std::shared_ptr<struct Entry>
+    lookupEntryOrThrow_(const std::string& name, const std::string& version) const;
+
+    // Same as lookupEntryOrThrow_ but returns nullptr instead of throwing.
+    [[nodiscard]] std::shared_ptr<struct Entry>
+    lookupEntryOrNull_(const std::string& name, const std::string& version) const noexcept;
 };
 
 // ============================================================================

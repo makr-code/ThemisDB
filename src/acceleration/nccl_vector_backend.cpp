@@ -572,6 +572,23 @@ bool NCCLVectorBackend::checkNVLinkSupport(const std::vector<int>& deviceIds) {
 
 #else // THEMIS_ENABLE_NCCL
 
+// STUB/SIMULATION NOTE:
+// Purpose: Satisfy the linker and allow ThemisDB to be built and run without
+//   NCCL (NVIDIA Collective Communications Library).  All multi-GPU collective
+//   operations (allReduce, broadcast, allGather, reduce, reduceScatter, p2pSend,
+//   p2pRecv, mergeTopK) return false, and isNCCLAvailable() returns false, so
+//   callers can gracefully fall back to single-GPU or CPU paths.
+// Activation: `THEMIS_ENABLE_NCCL` is not defined at compile time (default for
+//   CPU-only, non-CUDA, or single-GPU builds).
+// Production Delta: All multi-GPU collective operations are unavailable.
+//   Distributed ANN search (mergeTopK across GPUs) is completely disabled.
+//   Training workloads that require gradient allReduce will fail silently or
+//   must be routed to CPU paths.
+// Removal Plan: Install NCCL (e.g., via CUDA toolkit installer or conda) and
+//   set `-DTHEMIS_ENABLE_NCCL=1` in CMake.  The full NCCL implementation block
+//   (above `#else`) will then be compiled instead.
+// Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md §"NCCL/RCCL Activation"
+
 // Stub implementation when NCCL is not available
 // Define empty Impl class to satisfy unique_ptr
 class NCCLVectorBackend::Impl {

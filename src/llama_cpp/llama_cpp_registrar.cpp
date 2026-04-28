@@ -75,6 +75,20 @@ LlamaCppPluginRegistrar::defaultReloadCallback() {
                 return plugin.loadModel(path, config);
             }
         }
+        // STUB/SIMULATION NOTE:
+        // Purpose: Allow LlamaCppPlugin hot-plug reload to succeed without a
+        //   real llama.cpp model file, for environments where the model is not
+        //   installed or has been removed (CI, development builds, model
+        //   swap operations in progress).
+        // Activation: config contains no "model_path" key, or model_path is
+        //   empty.
+        // Production Delta: The plugin remains in its current (possibly
+        //   uninitialized) state; subsequent inference calls will fail or
+        //   return empty responses.  No model is loaded.
+        // Removal Plan: Ensure the hot-plug config always provides a valid
+        //   model_path before invoking reload.  Once THEMIS_MODEL_DIR is set
+        //   and model files are present, this path should never be reached.
+        // Roadmap ref: src/llm/FUTURE_ENHANCEMENTS.md §"LlamaCpp Plugin Model Reload"
         // Stub mode — no model to load; treat as success
         return true;
     };

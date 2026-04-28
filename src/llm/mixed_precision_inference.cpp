@@ -233,6 +233,22 @@ std::string MixedPrecisionInference::toString(PrecisionMode precision) {
 }
 
 bool MixedPrecisionInference::isSupported(PrecisionMode precision) {
+    // STUB/SIMULATION NOTE:
+    // Purpose: Placeholder hardware-capability check that returns true for all
+    //   precision modes except Q3 (experimental), so that the rest of the
+    //   mixed-precision pipeline can be exercised without a GPU or CUDA runtime.
+    // Activation: Always active — no compile-time gate.  CUDA compute capability
+    //   is not queried at runtime (requires CUDA SDK + GPU).
+    // Production Delta: BFLOAT16 is reported as supported even on pre-Ampere GPUs
+    //   (SM < 8.0); in production this would cause a CUDA illegal instruction at
+    //   the first BF16 kernel launch.  Similarly, Q4 and INT8 are marked supported
+    //   regardless of whether Tensor Cores are present.
+    // Removal Plan: Replace this function with a CUDA-runtime query using
+    //   cudaDeviceGetAttribute(cudaDevAttrComputeCapabilityMajor) and map
+    //   compute capability to supported precision modes.  Gate on
+    //   THEMIS_HAS_CUDA=1.  Tracking:
+    //   src/llm/FUTURE_ENHANCEMENTS.md § "Mixed Precision Hardware Capability Check"
+    // Roadmap ref: src/ROADMAP.md §GPU/Acceleration stub lifecycle
     // Stub implementation - would check hardware capabilities
     // In production, would check CUDA compute capability, tensor cores, etc.
     

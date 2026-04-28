@@ -352,6 +352,21 @@ std::vector<std::vector<std::pair<uint32_t, float>>> OpenCLVectorBackend::batchK
 
 #else // THEMIS_ENABLE_OPENCL not defined
 
+// STUB/SIMULATION NOTE:
+// Purpose: Satisfy the linker and allow ThemisDB to be built without an OpenCL
+//   SDK.  All vector backend methods return false/empty so that the
+//   BackendRegistry can probe and skip this backend gracefully.
+// Activation: `THEMIS_ENABLE_OPENCL` is not defined at compile time (default
+//   for CUDA-only builds and CPU-only builds).
+// Production Delta: `computeDistances()` and `batchKnnSearch()` return empty
+//   vectors; `isAvailable()` returns false.  Any query routed to the OpenCL
+//   backend will fail silently and fall through to the next registered backend
+//   (typically CPU).  Universal GPU support (AMD, Intel, Qualcomm, ARM Mali)
+//   via OpenCL is completely unavailable.
+// Removal Plan: Install an OpenCL SDK (e.g., Intel OpenCL Runtime, ROCm OpenCL,
+//   or CUDA OpenCL) and set `-DTHEMIS_ENABLE_OPENCL=1` in CMake.
+// Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md §"OpenCL Backend Activation"
+
 // Stub method definitions when OpenCL is not available
 BackendType OpenCLVectorBackend::type() const noexcept { return BackendType::OPENCL; }
 const char* OpenCLVectorBackend::name() const noexcept { return "OpenCL (Not Available)"; }
