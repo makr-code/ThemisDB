@@ -20,7 +20,7 @@
 
 ---
 
-## Stub Inventory (76 entries)
+## Stub Inventory (81 entries)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -100,6 +100,11 @@
 | 74 | `cache/grpc_remote_cache_peer.cpp` | `!THEMIS_ENABLE_GRPC`: entire TU excluded from compilation; `GrpcRemoteCachePeer` class absent at link time; header provides no-op stubs | `THEMIS_ENABLE_GRPC` not defined | Cross-node cache replication/invalidation via gRPC disabled; each ThemisDB instance is an isolated cache island; distributed invalidation events silently dropped | `src/cache/FUTURE_ENHANCEMENTS.md` §gRPC Remote Cache Peer Activation | v1.4.0 |
 | 75 | `llm/llama_lora_adapter.cpp` | Runtime detection failure (`g_lora_api_available = false`): all LoRA ops (`init`, `set_with_scale`, `remove`, `clear`, `free`) return -1 / nullptr; legacy `llama_lora_adapter_set_path()` always returns -1 (model pointer unavailable) | `llama_lora_adapter_init` / `llama_lora_adapter_set` absent from linked llama.cpp library at runtime | LoRA fine-tuned adapter hot-swapping disabled; all inference uses base model; per-client / per-jurisdiction LoRA personalisation silently skipped | `src/llm/FUTURE_ENHANCEMENTS.md` §LlamaCpp LoRA Adapter Runtime Activation | v1.8.0 |
 | 76 | `geo/gpu_backend_stub.cpp` | `!THEMIS_GEO_CUDA && !THEMIS_GEO_HIP`: `buildDispatchTable()` returns empty `GeoKernelDispatch{}`; all geo batch ops route to `getCpuExactBackend()`; `batch_fallbacks_` = 100 % | Neither `THEMIS_GEO_CUDA` nor `THEMIS_GEO_HIP` defined (CPU-only or GPU kernel-less builds) | GPU-accelerated geospatial distance and containment kernels unavailable; expected ≥ 8× GPU speedup absent; all spatial queries on CPU path | `src/geo/FUTURE_ENHANCEMENTS.md` §CUDA Geospatial Kernels | v2.0.0 |
+| 77 | `gpu/stream_manager.cpp` | `!THEMIS_ENABLE_CUDA` in `createCudaStream()`: no `cudaStream_t` created; delegates to `ROCmBackend::createBackendFn()` which further falls back to CPU async | `THEMIS_ENABLE_CUDA` not defined at compile time | Named CUDA streams unavailable; GPU stream execution semantics absent; all work items routed to ROCm/CPU path; `stats.succeeded` counts are CPU completions | `src/gpu/FUTURE_ENHANCEMENTS.md` §CUDA Stream Manager Activation | v1.5.0 |
+| 78 | `llm/llamacpp_inference_engine.cpp` | `estimateCoherence()`: four surface-level heuristics (avg word length, words-per-sentence ratio, character diversity, word diversity); always active; no trained model | Always active — no build flag or runtime gate | Semantically incoherent but syntactically plausible outputs (hallucinations with normal statistics) receive high coherence scores; false-positive acceptance rate unquantified | `src/llm/FUTURE_ENHANCEMENTS.md` §LLM Output Coherence Model | v2.1.0 |
+| 79 | `importers/postgres_importer.cpp` | `parseExcludeConstraint()`: captures raw definition text and optional constraint name; does NOT parse individual EXCLUDE elements, access method (`USING`), or per-column `WITH` operators | Always active — called for every `CONSTRAINT … EXCLUDE …` DDL clause | Imported schema metadata for EXCLUDE constraints is incomplete; `elements`, `index_method`, `using_clause` not populated; index recreation and constraint validation may silently fail | `src/importers/FUTURE_ENHANCEMENTS.md` §Postgres EXCLUDE Constraint Parsing | v1.5.0 |
+| 80 | `geo/cpu_backend.cpp` | `pointInPolygon()` + geometry helpers: pure-C++ ray-casting and segment-intersection Boost.Geometry fallback; planar (Cartesian) only; no geodesic projection | Always active — no Boost.Geometry dependency compiled by default | No OGC-compliant geodesic / spherical geometry; self-intersecting polygons and rings with holes not correctly handled; O(n×m) edge-intersection check; approved for polygons ≤ 1 000 vertices | `src/geo/FUTURE_ENHANCEMENTS.md` §Boost.Geometry Integration | v1.6.0 |
+| 81 | `geo/device_detector.cpp` | `MakeCpuFallbackCapability()`: returns sentinel `GeoDeviceCapability` with `suitable_for_geo = false` and `reason = "no GPU device available; using CPU fallback"` when `DeviceDiscovery::queryDevices()` returns empty | No GPU driver or device detected at runtime | All geo operations route to CPU exact backend; GPU distance and containment kernels not invoked; expected ≥ 8× GPU speedup absent | `src/geo/FUTURE_ENHANCEMENTS.md` §CUDA Geospatial Kernels | v2.0.0 |
 
 ---
 
@@ -130,4 +135,4 @@
 
 ---
 
-*Last updated: 2026-04-28 — 76 entries, 8 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-04-28 — 81 entries, 8 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

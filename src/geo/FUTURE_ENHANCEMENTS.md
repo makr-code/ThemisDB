@@ -414,3 +414,25 @@ Implement dedicated CUDA kernels for the set-operation ST_ functions so that the
 ### Performance Targets
 - Distance matrix (1 M points, RTX-class GPU): ≥ 8× speedup vs CPU baseline.
 - Containment bitset (1 M points, complex polygon): ≥ 5× speedup vs CPU baseline.
+
+---
+
+## Boost.Geometry Integration (Target: v1.6.0 — stub completion)
+
+**Stub:** `src/geo/cpu_backend.cpp` — `pointInPolygon()` + related geometry helpers: pure-C++ ray-casting and segment-intersection, no geodesic projection, planar only  
+**Risk:** No OGC-compliant geodesic / spherical geometry; self-intersecting polygons, holes, and very large polygons not handled correctly; no Boost.Geometry backend compiled by default.
+
+### Scope
+- Add `Boost.Geometry` as a CMake dependency (`find_package(Boost REQUIRED geometry)`).
+- Implement `BoostGeometryBackend : ISpatialComputeBackend` that delegates to `boost::geometry::intersects`, `boost::geometry::covered_by`, `boost::geometry::within`.
+- Register `BoostGeometryBackend` with higher priority than `ApproximateCpuBackend` in `GeoBackendRegistry`.
+- Support geodesic coordinate systems (WGS84 spherical) via `boost::geometry::srs::spheroid`.
+
+### Performance Targets
+- `batchIntersects` (1 000 polygon pairs, d ≤ 100 vertices): ≤ 5 ms on a single CPU core.
+- Point-in-polygon (single query): ≤ 1 µs.
+
+### Test Strategy
+- Positive: point inside concave polygon → `intersects` = true (ray-casting can fail for concave polygons; Boost handles correctly).
+- Geodesic: WGS84 point at lon=0.001 lat=51.5 inside a 1 km² London bounding box → true.
+- Negative: point outside polygon → false; no false positives for non-overlapping bounding boxes.

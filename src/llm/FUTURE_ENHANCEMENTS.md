@@ -541,3 +541,30 @@ The following IEEE-formatted references support the research basis for features 
 - Positive: llama.cpp with LoRA built → `g_lora_api_available = true` → `llama_lora_adapter_init()` returns non-null handle.
 - Negative: llama.cpp without LoRA → all ops return -1; no crash; spdlog WARN emitted.
 - Integration: apply LoRA → inference output differs from base model in a predictable direction (LoRA trained to add "THEMIS:" prefix).
+
+---
+
+## LLM Output Coherence Model (Target: v2.1.0 — stub replacement)
+
+**Stub:** `src/llm/llamacpp_inference_engine.cpp` — `estimateCoherence()`: four surface-level heuristics (avg word length, words-per-sentence, character diversity, word diversity); always active  
+**Risk:** Semantically incoherent but syntactically plausible outputs (hallucinations with normal statistics) receive high coherence scores; false-positive acceptance rate unquantified.
+
+### Scope
+- Define `ICoherenceEstimator` interface and inject it into `LLMOutputValidator`.
+- Implement `EmbeddingCoherenceEstimator` that computes cosine similarity between sentence embeddings to detect topic drift.
+- Alternative: `PerplexityCoherenceEstimator` that measures per-token perplexity via the same llama.cpp model.
+- Fall back to the existing heuristic implementation if the estimator is not injected (backward compatibility).
+
+### Design Constraints
+- Must not block inference hot path; coherence estimation should run asynchronously or be sampled (e.g., 10 % of outputs in production).
+- Total overhead per check: ≤ 10 ms (embedding model, ≤ 50 M params) on CPU.
+
+### Performance Targets
+- Coherence estimation latency (embedding, CPU): ≤ 10 ms p99.
+- False-positive rate (coherent text flagged as incoherent): ≤ 5 %.
+- False-negative rate (hallucination accepted as coherent): ≤ 15 %.
+
+### Test Strategy
+- Positive: coherent news article → `estimateCoherence()` ≥ 0.7.
+- Negative: random word salad → `estimateCoherence()` ≤ 0.3.
+- Borderline: repeated phrase paragraph → `estimateCoherence()` < 0.5 (current heuristic detects, new model must also).
