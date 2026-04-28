@@ -1541,3 +1541,15 @@ inline bool checkBatchSize(const nlohmann::json& arr, size_t max,
 ### Test Strategy
 - CI smoke test: start server with all flags → all subsystems initialised → health check returns HTTP 200.
 - Degraded mode: start without `THEMIS_ENABLE_LLM` → LLM API returns 503; other APIs unaffected.
+
+---
+
+## HttpServer getClientIp (Target: future milestone — stub removal)
+
+**Stub:** `src/server/http_server.cpp::getClientIp()` socket fallback — returns empty string for direct (non-proxied) connections; `tcp::socket::remote_endpoint()` not threaded into this helper.  
+**Risk:** Per-IP rate limiting is ineffective for clients that do not send proxy headers.
+
+### Scope
+- Thread a `boost::asio::ip::address` or `std::string remote_ip` into the HTTP session context.
+- Pass it to `getClientIp()` as a fallback when no proxy header is present.
+- Validate the returned IP address format before using it as a rate-limiter key.

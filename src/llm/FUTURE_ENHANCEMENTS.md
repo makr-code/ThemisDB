@@ -595,3 +595,15 @@ The following IEEE-formatted references support the research basis for features 
 - Link spdlog in all build targets (header-only; negligible overhead).
 - Remove `THEMIS_NO_SPDLOG` guard from CMake test targets.
 - Optionally wrap in `THEMIS_DEBUG_LOGGING` instead to allow selective disable.
+
+---
+
+## Distributed Training ETA (Target: future milestone — stub removal)
+
+**Stub:** `src/llm/distributed_training_coordinator.cpp` ETA estimation — always returns 0.0f; total training steps not propagated.  
+**Risk:** Progress UIs and automated SLO monitors see 0 remaining time for all training jobs; no ETA-based alerting is possible.
+
+### Scope
+- Propagate `config_.total_steps` (or an equivalent field) into the coordinator at construction.
+- In `getEstimatedTimeRemaining()`: `remaining_steps = total_steps - stats_.total_steps_completed`; `return avg_time_per_step * remaining_steps`.
+- Add a minimum-steps guard: if `stats_.total_steps_completed < 10`, return `std::numeric_limits<float>::quiet_NaN()` to indicate insufficient data.

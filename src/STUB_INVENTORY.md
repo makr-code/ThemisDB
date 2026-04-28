@@ -26,7 +26,7 @@
 
 ---
 
-## Stub Inventory (129 entries)
+## Stub Inventory (136 entries)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -183,8 +183,14 @@
 | 126 | `sharding/shard_router.cpp` broadcast-hash join Phase 2 | Right-side query not executed; join probe skipped; only left/build-side rows returned | Broadcast-hash join path in shard_router | Zero join matches; result is metadata + left rows only | `src/sharding/FUTURE_ENHANCEMENTS.md` §Shard Router Broadcast-Hash Join Phase 2 | future milestone |
 | 127 | `sharding/pki_shard_certificate.cpp::ShardCertificateInfo::isValidNow()` | Checks only for non-empty date strings; no date parsing or expiry comparison | Always | Expired and not-yet-valid certificates pass the validity check | `src/sharding/FUTURE_ENHANCEMENTS.md` §PKI Certificate Validity | future milestone |
 | 128 | `voice/voice_assistant.cpp::convertAudioFormat()` | Returns original bytes unchanged; no FFmpeg / audio codec integration | Always — THEMIS_ENABLE_FFMPEG not set | Callers requesting OGG/MP3/MP4 receive raw PCM bytes | `src/voice/FUTURE_ENHANCEMENTS.md` §Voice Audio Format Conversion | future milestone |
-| 129 | `timeseries/hypertable.cpp::Hypertable::listChunks()` | Returns empty list; RocksDB CF metadata scan not implemented | Always — StorageBackend::listCFs() not exposed | Chunk-level compaction/tiering/retention enforcement sees no chunks | `src/timeseries/FUTURE_ENHANCEMENTS.md` §Hypertable listChunks | future milestone |
+| 130 | `replication/replication_manager.cpp::getMissingWrites()` | Multi-master write-log delta extraction not implemented; always returns empty set | Always — multi-master anti-entropy path | Peer replication gaps are never detected or healed via this path | `src/replication/FUTURE_ENHANCEMENTS.md` §Multi-Master getMissingWrites | future milestone |
+| 131 | `replication/replication_manager.cpp::QuorumReadManager::queryReplica()` | Simulates RPC response from in-memory health status; `data` always empty; no real network call | Always — gRPC/TCP replica RPC not implemented | Quorum-read data field is always empty; document content never fetched from replica | `src/replication/FUTURE_ENHANCEMENTS.md` §QuorumRead Replica RPC | future milestone |
+| 132 | `content/content_manager_llm.cpp::ContentManager::getExtractedText()` | Storage-backed text retrieval not wired; always returns empty string | Always | Any caller of getExtractedText() receives "" regardless of prior ingestion | `src/content/FUTURE_ENHANCEMENTS.md` §ContentManager getExtractedText | future milestone |
+| 133 | `content/archive_processor.cpp` TAR/other format metadata | libarchive not integrated for TAR parsing; returns basic metadata without TAR-specific fields | TAR and other non-ZIP/RAR/7z formats | Entry count, total uncompressed size, and first-entry-name fields are absent | `src/content/FUTURE_ENHANCEMENTS.md` §ArchiveProcessor TAR Metadata | future milestone |
+| 134 | `llm/distributed_training_coordinator.cpp` ETA estimation | Total training steps not propagated; always returns 0.0f | Always | Progress UIs and SLO monitors see 0 remaining time regardless of actual state | `src/llm/FUTURE_ENHANCEMENTS.md` §Distributed Training ETA | future milestone |
+| 135 | `observability/continuous_profiler.cpp` stack-trace fallback | `backtrace()` / `backtrace_symbols()` not available; returns "(stack-trace-unavailable)" | Platform without `HAVE_EXECINFO_H` (Windows, WASM, embedded) | Profiler flame graphs show no frames; crash reports have no call stack | `src/observability/FUTURE_ENHANCEMENTS.md` §Cross-Platform Stack Trace | future milestone |
+| 136 | `server/http_server.cpp::getClientIp()` socket fallback | `tcp::socket::remote_endpoint()` not threaded into helper; returns empty string for direct connections | Client connects without X-Forwarded-For or X-Real-IP headers | Per-IP rate limiting ineffective for direct (non-proxied) connections | `src/server/FUTURE_ENHANCEMENTS.md` §HttpServer getClientIp | future milestone |
 
 ---
 
-*Last updated: 2026-04-28 — 129 entries, 9 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-04-28 — 136 entries, 9 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

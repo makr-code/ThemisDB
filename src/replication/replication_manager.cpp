@@ -3309,10 +3309,19 @@ void MultiMasterReplicationManager::antiEntropySync(const std::string& peer_id) 
 std::vector<MMWriteEntry> MultiMasterReplicationManager::getMissingWrites(
     [[maybe_unused]] const VectorClock& peer_clock)
 {
-    // In a full implementation this would query a local write log and return
-    // all entries whose vector clock happens-after the peer's clock.
-    // For now we return an empty set (the WAL replay path is handled by
-    // ReplicationStream / WALManager on the Raft leader-follower path).
+    // STUB/SIMULATION NOTE:
+    // Purpose: Satisfies the getMissingWrites() API while the per-entry
+    //          vector-clock comparison against a local write log is not
+    //          implemented for the multi-master sync path.
+    // Activation: Always — WAL replay for multi-master anti-entropy is handled
+    //             by ReplicationStream / WALManager on the Raft leader-follower
+    //             path only; the multi-master delta-extraction path is absent.
+    // Production Delta: Zero entries returned; any gap in peer replication state
+    //                   is not detected and never healed by this code path.
+    // Removal Plan: Implement a queryable write log keyed by vector-clock;
+    //               return all entries where `entry.clock` happens-after
+    //               `peer_clock`.  See src/replication/FUTURE_ENHANCEMENTS.md
+    //               §Multi-Master getMissingWrites.
     return {};
 }
 
@@ -3670,9 +3679,18 @@ QuorumReadManager::ReplicaResponse QuorumReadManager::queryReplica(
     const std::string& /*collection*/,
     const std::string& /*document_id*/) const
 {
-    // In production this would send a read RPC to the replica endpoint.
-    // For now simulate: ACTIVE replicas return success with the replica's
-    // last_applied_sequence as the version.
+    // STUB/SIMULATION NOTE:
+    // Purpose: Simulates a quorum-read RPC response so that the quorum-read
+    //          aggregation logic can be unit-tested without a real replica
+    //          network.
+    // Activation: Always — no gRPC / TCP RPC call is made to the replica endpoint.
+    // Production Delta: `resp.data` is always empty string; a real RPC would
+    //                   return the document from the replica's storage layer.
+    //                   Health status is taken from the in-memory `replica`
+    //                   object without any network liveness check.
+    // Removal Plan: Implement a real replica RPC call (gRPC ReadDocument or
+    //               equivalent); populate `resp.data` from the response.  See
+    //               src/replication/FUTURE_ENHANCEMENTS.md §QuorumRead Replica RPC.
     ReplicaResponse resp;
     resp.endpoint = replica.endpoint;
     resp.ok       = (replica.health_status == HealthStatus::HEALTHY);

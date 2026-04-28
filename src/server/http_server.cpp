@@ -11563,9 +11563,20 @@ std::string HttpServer::extractClientIP(const http::request<http::string_body>& 
         return std::string(req["X-Real-IP"]);
     }
     
-    // Fallback: would need to extract from socket (not directly available in Beast)
-    // For now, return empty string which will be handled by rate limiter
-    return ""; // In production, extract from Session's socket remote_endpoint()
+    // STUB/SIMULATION NOTE:
+    // Purpose: Returns empty string when neither X-Forwarded-For nor X-Real-IP
+    //          header is present; the real socket remote_endpoint() extraction
+    //          requires passing the Boost.Beast session context into this helper,
+    //          which is not yet threaded through the call chain.
+    // Activation: Request has no proxy-forwarding headers.
+    // Production Delta: Rate limiter receives an empty client IP and cannot
+    //                   distinguish between different direct-connection clients;
+    //                   per-IP rate limiting is ineffective for direct connections.
+    // Removal Plan: Thread the Boost.Beast `tcp::socket::remote_endpoint()` into
+    //               this function (or pass `Session*` as an additional parameter)
+    //               and return `endpoint.address().to_string()`.  See
+    //               src/server/FUTURE_ENHANCEMENTS.md §HttpServer getClientIp.
+    return "";
 }
 
 std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(

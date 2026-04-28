@@ -893,3 +893,26 @@ themisdb-repl-doctor validate-wal --segment 12345
 - Perform a local storage read when `replicas_` is empty; populate `result.data` from the storage layer.
 - Enforce `required_version` from `parseSessionToken(session_token)` for monotonic reads.
 - Return meaningful `version` field from the local vector clock.
+
+---
+
+## Multi-Master getMissingWrites (Target: future milestone — stub removal)
+
+**Stub:** `src/replication/replication_manager.cpp::getMissingWrites()` — always returns empty set.  
+**Risk:** Multi-master anti-entropy never heals replication gaps; diverged replicas stay diverged.
+
+### Scope
+- Implement a queryable write log keyed by vector-clock entry (key: `{node_id, logical_ts}`).
+- Return all log entries where `entry.clock` happens-after `peer_clock` per the vector-clock ordering.
+
+---
+
+## QuorumRead Replica RPC (Target: future milestone — stub removal)
+
+**Stub:** `src/replication/replication_manager.cpp::QuorumReadManager::queryReplica()` — simulates in-memory response; no network call; `data` always empty.  
+**Risk:** Quorum reads return empty data for all documents regardless of actual replica state.
+
+### Scope
+- Implement a gRPC `ReadDocument(collection, document_id)` call to `replica.endpoint`.
+- Populate `resp.data` from the gRPC response; propagate `resp.version` from the replica's applied sequence.
+- Handle connection errors with exponential back-off; mark replica unhealthy on repeated failures.

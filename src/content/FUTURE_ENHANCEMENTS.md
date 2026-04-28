@@ -245,3 +245,27 @@ After text extraction (from documents, PDF, OCR output), automatically generate 
 ### Performance Targets
 - MP3 encoding at ≥ 8× real-time on a single CPU core (128 kbps CBR).
 - OGG Opus encoding at ≥ 10× real-time at 32 kbps (speech codec).
+
+---
+
+## ContentManager getExtractedText (Target: future milestone — stub removal)
+
+**Stub:** `src/content/content_manager_llm.cpp::ContentManager::getExtractedText()` — always returns empty string.  
+**Risk:** LLM-driven content processing that calls `getExtractedText()` receives no text and generates empty or hallucinated outputs.
+
+### Scope
+- Look up content metadata by `content_id` from the storage layer.
+- Check `metadata.text_extracted == true`; return error if extraction not yet complete.
+- Retrieve the text chunk(s) from the storage field; concatenate and return.
+
+---
+
+## ArchiveProcessor TAR Metadata (Target: future milestone — stub removal)
+
+**Stub:** `src/content/archive_processor.cpp` TAR path — returns basic metadata without TAR-specific fields.  
+**Risk:** Metadata callers (entry count, total size, first entry name) receive empty / default values for TAR archives.
+
+### Scope
+- Integrate libarchive (`archive_read_open_memory()` + `archive_read_next_header()`).
+- Populate `entry_count`, `total_uncompressed_bytes`, and `first_entry_name` from the archive iteration.
+- Guard with `THEMIS_ENABLE_LIBARCHIVE` CMake option; fall back gracefully when absent.
