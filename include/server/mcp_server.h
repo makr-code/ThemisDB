@@ -334,7 +334,7 @@ private:
     json handleAiPendingApprovals();
 
     /// Remove expired entries from pending_approvals_.  Called on demand.
-    void purgExpiredApprovals();
+    void purgeExpiredApprovals();
 };
 
 /**

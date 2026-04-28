@@ -2149,7 +2149,7 @@ std::optional<json> McpServer::checkOperationGuard(
         std::lock_guard<std::mutex> lock(pending_approvals_mutex_);
 
         // Purge stale entries to keep the map bounded
-        purgExpiredApprovals();
+        purgeExpiredApprovals();
 
         PendingApproval pa;
         pa.operation_id      = decision.operation_id;
@@ -2172,7 +2172,7 @@ std::optional<json> McpServer::checkOperationGuard(
 
 json McpServer::handleAiApprove(const std::string& operation_id) {
     std::lock_guard<std::mutex> lock(pending_approvals_mutex_);
-    purgExpiredApprovals();
+    purgeExpiredApprovals();
 
     auto it = pending_approvals_.find(operation_id);
     if (it == pending_approvals_.end()) {
@@ -2254,7 +2254,7 @@ json McpServer::handleAiDeny(const std::string& operation_id) {
 
 json McpServer::handleAiPendingApprovals() {
     std::lock_guard<std::mutex> lock(pending_approvals_mutex_);
-    purgExpiredApprovals();
+    purgeExpiredApprovals();
 
     json list = json::array();
     for (const auto& [op_id, pa] : pending_approvals_) {
@@ -2279,7 +2279,7 @@ json McpServer::handleAiPendingApprovals() {
     };
 }
 
-void McpServer::purgExpiredApprovals() {
+void McpServer::purgeExpiredApprovals() {
     // Caller holds pending_approvals_mutex_.
     const auto now = std::chrono::system_clock::now();
     for (auto it = pending_approvals_.begin(); it != pending_approvals_.end(); ) {
