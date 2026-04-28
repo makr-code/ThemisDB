@@ -656,14 +656,9 @@ HttpServer::HttpServer(
         THEMIS_INFO("Auth: ADMIN token configured via env");
         try {
             auto v = auth_->validateToken(cfg.token);
-            // TODO(GAP-011): Token prefix+suffix logged at startup - exposes 8 chars of the
-            // real token value (4-char prefix + 4-char suffix).  Tokens ≤ 8 chars are logged
-            // in full.  Fix: log only the token length, no prefix/suffix.
-            //   THEMIS_INFO("token_len={}", cfg.token.size());
-            // Target: Q3 2026
-            THEMIS_INFO("Auth check after addToken: validateToken(token='{}') -> authorized={} user_id='{}' reason='{}'",
-                       cfg.token.size() > 8 ? (std::string(cfg.token).substr(0,4) + "..." + std::string(cfg.token).substr(cfg.token.size()-4)) : cfg.token,
-                       v.authorized, v.user_id, v.reason);
+            // GAP-011 fixed: log only token length, never prefix/suffix bytes.
+            THEMIS_INFO("Auth check after addToken: validateToken(token_len={}) -> authorized={} user_id='{}' reason='{}'",
+                       cfg.token.size(), v.authorized, v.user_id, v.reason);
         } catch(...) {}
     }
     // Read-only token
@@ -3828,18 +3823,33 @@ http::response<http::string_body> HttpServer::routeRequest(
 
                     const std::string model_id = payload.value("model_id", std::string{"default"});
                     const std::string model_path = payload.value("path", std::string{});
-                    // TODO(GAP-009): Path-traversal risk - model_path comes directly from the
-                    // HTTP request body and is only checked for emptiness.  An authenticated
-                    // admin can supply "../../../etc/shadow" or any arbitrary filesystem path.
-                    // Fix: canonicalize the path and assert it starts_with(config_.model_dir):
-                    //   auto canon = std::filesystem::weakly_canonical(model_path);
-                    //   if (!canon.string().starts_with(allowed_model_dir_)) { 400; }
-                    // Target: Q2 2026
+                    // GAP-009 fixed: canonicalize model_path and assert it does not escape
+                    // the allowed model directory (THEMIS_MODEL_DIR env var, or the process
+                    // working directory as a safe fallback).  This prevents path-traversal
+                    // attacks from authenticated admin users.
                     if (model_path.empty()) {
                         auto response = makeErrorResponse(http::status::bad_request,
                             "path is required", req);
                         applyGovernanceHeaders(req, response);
                         return response;
+                    }
+                    {
+                        // Determine the allowed model root.
+                        std::filesystem::path allowed_root;
+                        if (auto env_dir = themis_get_env("THEMIS_MODEL_DIR")) {
+                            allowed_root = std::filesystem::weakly_canonical(*env_dir);
+                        } else {
+                            allowed_root = std::filesystem::weakly_canonical(
+                                std::filesystem::current_path());
+                        }
+                        std::error_code ec;
+                        auto canon = std::filesystem::weakly_canonical(model_path, ec);
+                        if (ec || canon.string().rfind(allowed_root.string(), 0) != 0) {
+                            auto response = makeErrorResponse(http::status::bad_request,
+                                "model path is outside the allowed directory", req);
+                            applyGovernanceHeaders(req, response);
+                            return response;
+                        }
                     }
 
                     bool load_ok = false;

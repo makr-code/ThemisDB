@@ -54,6 +54,14 @@ struct NoiseSuppressor::Impl {
     ~Impl() { if (state) rnnoise_destroy(state); }
 };
 #else
+// STUB/SIMULATION NOTE:
+// Purpose: Empty Impl when RNNoise is not compiled in. NoiseSuppressor still
+//          constructs successfully; suppress() is a no-op (audio passes through).
+// Activation: Compiled when THEMIS_ENABLE_RNNOISE is NOT defined (default builds).
+//             Build with -DTHEMIS_ENABLE_RNNOISE=ON and link rnnoise (vcpkg) for real.
+// Production Delta: No noise reduction is applied to audio frames.
+// Removal Plan: Not removed — kept as compile-time fallback alongside the real path.
+// Roadmap ref: src/voice/ROADMAP.md § "Phase 2: RNNoise integration"
 struct NoiseSuppressor::Impl {};  // placeholder when RNNoise is not available
 #endif
 

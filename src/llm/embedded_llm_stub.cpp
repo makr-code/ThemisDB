@@ -21,6 +21,23 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
+// STUB/SIMULATION NOTE:
+// Purpose: Provide a no-op EmbeddedLLM implementation that compiles and links when
+//          THEMIS_ENABLE_LLM=OFF (i.e. the llama.cpp / LlamaWrapper dependency is
+//          absent).  All generate/embed calls return empty or a "LLM disabled" string
+//          so that the rest of the server stack can boot without a model file.
+// Activation: Compiled when THEMIS_ENABLE_LLM is NOT defined (default CI/dev builds).
+//             Build with -DTHEMIS_ENABLE_LLM=ON to compile embedded_llm.cpp instead,
+//             which provides full inference via LlamaWrapper.
+// Production Delta: No actual token generation; embed() always returns {}.
+//                   isReady() always returns false; getStats() returns llm_enabled=false.
+//                   Any request relying on LLM output will receive the static fallback
+//                   string "LLM disabled at build time (THEMIS_ENABLE_LLM=OFF)."
+// Removal Plan: This file is permanently retained as the no-LLM build path.
+//               It is NOT removed when LLM is enabled — the build system selects
+//               either this file or embedded_llm.cpp via CMake source-list logic.
+// Roadmap ref: src/llm/ROADMAP.md § "Phase 1: EmbeddedLLM stub → full LlamaWrapper"
+
 #include "llm/embedded_llm.h"
 
 #include <stdexcept>

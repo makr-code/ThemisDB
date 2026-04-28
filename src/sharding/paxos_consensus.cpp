@@ -404,6 +404,11 @@ void PaxosConsensus::setPrepareRPCCallback(PaxosPrepareCallback cb) {
     rpc_prepare_cb_ = std::move(cb);
 }
 
+void PaxosConsensus::setPrepareFullRPCCallback(PaxosPrepareFullCallback cb) {
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    rpc_prepare_full_cb_ = std::move(cb);
+}
+
 void PaxosConsensus::setAcceptRPCCallback(PaxosAcceptCallback cb) {
     std::lock_guard<std::mutex> lock(callbacks_mutex_);
     rpc_accept_cb_ = std::move(cb);
@@ -639,11 +644,14 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
         instance.prepare_promises.insert(node_id_);
 
         // Send Phase-1 Prepare RPCs to all peer nodes.
-        // If a real RPC callback has been registered (via setPrepareRPCCallback),
-        // invoke it for every peer and count acknowledged promises.
-        // Without a callback we operate in single-node mode: only the self-promise
-        // counts, so quorum is only achievable when cluster_nodes_.size() == 1.
+        // If a real RPC callback has been registered (via setPrepareRPCCallback or
+        // setPrepareFullRPCCallback), invoke it for every peer and collect promises.
+        // Without a callback we operate in single-node mode.
         auto start_time = std::chrono::steady_clock::now();
+
+        // Track highest-ballot accepted value from all promises (Paxos Phase-1b safety).
+        uint64_t highest_accepted_round = 0;
+        std::optional<ConsensusLogEntry> highest_accepted_value;
 
         for (const auto& node : cluster_nodes_) {
             if (node == node_id_) continue;
@@ -656,18 +664,41 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
                 break;
             }
 
-            PaxosPrepareCallback cb;
+            PaxosPrepareFullCallback full_cb;
+            PaxosPrepareCallback     basic_cb;
             {
                 std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
-                cb = rpc_prepare_cb_;
+                full_cb  = rpc_prepare_full_cb_;
+                basic_cb = rpc_prepare_cb_;
             }
 
-            if (cb) {
-                // Real RPC path: ask the peer to promise
-                bool promised = cb(node, slot, proposal.round, node_id_);
-                if (promised) {
+            if (full_cb) {
+                // Extended RPC path: peer returns promise + highest accepted value.
+                auto result = full_cb(node, slot, proposal.round, node_id_);
+                if (result.promised) {
                     instance.prepare_promises.insert(node);
                     spdlog::debug("Node {} received promise from peer {} for slot {}",
+                                  node_id_, node, slot);
+                    // Phase 1b safe-value: track the highest-ballot accepted value
+                    // from all promises.  Paxos safety requires that if any acceptor
+                    // already accepted a value at a higher ballot, we MUST propose
+                    // that value in Phase 2 instead of our own.
+                    if (result.accepted_value.has_value() &&
+                        result.accepted_round > highest_accepted_round) {
+                        highest_accepted_round = result.accepted_round;
+                        highest_accepted_value = result.accepted_value;
+                    }
+                } else {
+                    spdlog::debug("Node {} peer {} rejected prepare for slot {}",
+                                  node_id_, node, slot);
+                }
+            } else if (basic_cb) {
+                // Basic RPC path: bool only — cannot propagate accepted value.
+                bool promised = basic_cb(node, slot, proposal.round, node_id_);
+                if (promised) {
+                    instance.prepare_promises.insert(node);
+                    spdlog::debug("Node {} received promise from peer {} for slot {} "
+                                  "(basic callback — accepted value not propagated)",
                                   node_id_, node, slot);
                 } else {
                     spdlog::debug("Node {} peer {} rejected prepare for slot {}",
@@ -675,8 +706,6 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
                 }
             } else {
                 // No RPC callback: single-node mode only.
-                // Do NOT auto-insert the peer — that would falsely simulate quorum
-                // in a multi-node cluster where peers have not actually been reached.
                 spdlog::warn("Node {} has no Paxos prepare RPC callback; "
                              "peer {} not counted (single-node mode)",
                              node_id_, node);
@@ -695,14 +724,22 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
                      cluster_nodes_.size(), slot);
 
         // Phase 1b complete: quorum of promises received.
-        // If any acceptor returned a previously accepted value, the highest-ballot
-        // value MUST be proposed instead of our own (RFC Paxos safety property).
-        // TODO: propagate highest accepted value from promise responses
-        // once the RPC callback returns the peer's accepted proposal/value.
+        // Per Paxos safety: if any acceptor returned a previously accepted value at
+        // a higher ballot, we MUST propose that value in Phase 2 instead of our own.
+        // highest_accepted_value is set above while collecting promises.
     } // state_mutex_ released here — executeAcceptPhase() re-acquires it safely
 
+    // Apply highest-accepted-value override (Paxos Phase-1b safety property).
+    const ConsensusLogEntry& proposed_value =
+        (highest_accepted_value.has_value()) ? *highest_accepted_value : value;
+    if (highest_accepted_value.has_value()) {
+        spdlog::debug("Node {} overriding proposed value with highest accepted value "
+                      "from ballot {} for slot {} (Paxos safety)",
+                      node_id_, highest_accepted_round, slot);
+    }
+
     // Move to accept phase
-    return executeAcceptPhase(slot, proposal, value);
+    return executeAcceptPhase(slot, proposal, proposed_value);
 }
 
 bool PaxosConsensus::executeAcceptPhase(

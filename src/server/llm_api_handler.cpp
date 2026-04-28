@@ -501,9 +501,8 @@ http::response<http::string_body> LLMApiHandler::handleStreamInference(
     res.set(http::field::content_type, "text/event-stream");
     res.set(http::field::cache_control, "no-cache, no-transform");
     res.set(http::field::connection, "keep-alive");
-    // TODO(GAP-012): Hardcoded CORS wildcard - bypasses central CORS policy.
-    // Fix: use the configured origin-whitelist from HttpServer config. Target: Q3 2026
-    res.set(http::field::access_control_allow_origin, "*");
+    // GAP-012 fixed: no hardcoded CORS wildcard; CORS is applied by the central
+    // HttpServer dispatch layer via THEMIS_CORS_* env vars.
     res.set(http::field::server, "ThemisDB-LLM/1.3.0");
     res.keep_alive(true);
     res.body() = std::move(sse_body);
@@ -570,9 +569,8 @@ http::response<http::string_body> LLMApiHandler::handleStreamExplainAql(
     res.set(http::field::content_type, "text/event-stream");
     res.set(http::field::cache_control, "no-cache, no-transform");
     res.set(http::field::connection, "keep-alive");
-    // TODO(GAP-012): Hardcoded CORS wildcard - bypasses central CORS policy.
-    // Fix: use the configured origin-whitelist from HttpServer config. Target: Q3 2026
-    res.set(http::field::access_control_allow_origin, "*");
+    // GAP-012 fixed: no hardcoded CORS wildcard; CORS is applied by the central
+    // HttpServer dispatch layer via THEMIS_CORS_* env vars.
     res.set(http::field::server, "ThemisDB-LLM/1.3.0");
     res.keep_alive(true);
     res.body() = std::move(sse_body);

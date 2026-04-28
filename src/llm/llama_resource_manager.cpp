@@ -21,7 +21,10 @@
  */
 
 #include "llm/llama_resource_manager.h"
-// #include "acceleration/backend_registry.h"  // TODO: Missing file
+// BackendRegistry is declared in acceleration/compute_backend.h.
+// The original source had a commented-out include for the non-existent
+// "acceleration/backend_registry.h" — fixed to use the correct header.
+#include "acceleration/compute_backend.h"
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <filesystem>

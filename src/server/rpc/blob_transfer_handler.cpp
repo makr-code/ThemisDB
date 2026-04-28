@@ -21,7 +21,11 @@
 #include "utils/logger.h"
 #include <zstd.h>
 #include <lz4.h>
-// #include <crc32c/crc32c.h>  // TODO: Missing vcpkg package
+// crc32c is not a separate vcpkg package: a software CRC-32C implementation is provided
+// locally below in CalculateChecksum() (polynomial 0x82F63B78, Castagnoli variant).
+// If hardware CRC-32C acceleration is desired in future, add the "crc32c" vcpkg port
+// (google/crc32c) and replace the software loop with crc32c::Crc32c().
+// Roadmap ref: src/server/rpc/FUTURE_ENHANCEMENTS.md § "Hardware CRC-32C (Target: v1.6.0)"
 #include <openssl/sha.h>
 #include <fstream>
 #include <sstream>

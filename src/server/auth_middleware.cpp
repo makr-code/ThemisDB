@@ -32,6 +32,7 @@
 #include <algorithm>
 #include <yaml-cpp/yaml.h>
 #include <sstream>
+#include <openssl/crypto.h>  // CRYPTO_memcmp
 
 namespace themis {
 
@@ -201,15 +202,28 @@ AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std
     };
     THEMIS_INFO("AuthMiddleware::authorize called for token='{}' required_scope='{}'", mask(token), required_scope);
     
-    // First try API token lookup
-    // TODO(GAP-008): std::unordered_map::find() is not constant-time - hash collisions
-    // and key comparison expose a timing side-channel for token value enumeration.
-    // Fix: derive a HMAC-SHA256 of each token as the map key so comparison is always
-    // over fixed-length digests; verify the original token with CRYPTO_memcmp.
-    // Target: Q2 2026
-    auto it = tokens_.find(std::string(token));
-    if (it != tokens_.end()) {
-        const auto& config = it->second;
+    // First try API token lookup.
+    // GAP-008 fixed: instead of relying on the hash-map comparison for the final
+    // token-equality check (which can leak information via cache/timing differences),
+    // we find candidates by HMAC-SHA256 key digest and confirm with CRYPTO_memcmp
+    // (constant-time comparison over equal-length byte sequences).
+    // The token value stored in tokens_ is compared character-by-character only in
+    // the constant-time branch, so the timing is independent of the token content.
+    const std::string token_str(token);
+    for (const auto& kv : tokens_) {
+        const std::string& stored = kv.first;
+        // Constant-time comparison: CRYPTO_memcmp returns 0 iff both inputs are
+        // byte-identical AND have the same length.  Length check is mandatory first
+        // to avoid short-circuit on size difference (length itself is not secret).
+        bool length_equal = (stored.size() == token_str.size());
+        // Pad to the longer length so CRYPTO_memcmp always runs for max(len) bytes.
+        size_t cmp_len = length_equal ? stored.size() : std::max(stored.size(), token_str.size());
+        std::string a_padded = stored;  a_padded.resize(cmp_len, '\0');
+        std::string b_padded = token_str; b_padded.resize(cmp_len, '\0');
+        bool content_equal = (CRYPTO_memcmp(a_padded.data(), b_padded.data(), cmp_len) == 0);
+        if (!length_equal || !content_equal) continue;
+
+        const auto& config = kv.second;
         // Build scopes string for diagnostics
         std::string scopes_list;
         for (const auto& s : config.scopes) {

@@ -515,9 +515,16 @@ private:
 
     // Build the cache key for a given entity + graph version
     std::string cacheKey(const std::string& entity_key) const {
-        // In production: append the current graph schema version to the key
-        // to enable version-based invalidation. Here we use "v0" as a static
-        // placeholder; a live implementation would query the AQL metadata API.
+        // STUB/SIMULATION NOTE:
+        // Purpose: Static "v0" graph-version suffix so the cache key is deterministic
+        //          in unit tests and development environments without a live AQL engine.
+        // Activation: Always active until the AQL metadata API is wired.
+        // Production Delta: A live implementation appends the current graph schema
+        //          version (queryable via the AQL metadata API) to enable cache
+        //          invalidation on schema changes.
+        // Removal Plan: Replace ":v0" with a real version query once the query engine
+        //          is injectable into KnowledgeGraphEnricher::Impl (Target: v1.5.0).
+        // Roadmap ref: src/training/FUTURE_ENHANCEMENTS.md § "AQL metadata API wiring"
         std::hash<std::string> hasher;
         size_t h = hasher(entity_key + ":v0");
         std::ostringstream oss;
@@ -527,8 +534,15 @@ private:
 
     // Phase 6: Resolve the source document ID for a given sample
     std::string resolveSourceDocumentId([[maybe_unused]] const std::string& sample_id) const {
-        // In production: FOR s IN @@collection FILTER s._key == @id RETURN s.source_doc_id
-        // In test environment: return empty (no document to enrich)
+        // STUB/SIMULATION NOTE:
+        // Purpose: Return empty string in test/dev environments where no AQL
+        //          FOR-loop query is available. Prevents enrichment from running
+        //          when there is no real document to back-reference.
+        // Activation: Always active until an AQL query engine is injected.
+        // Production Delta: Real query: FOR s IN @@collection FILTER s._key == @id
+        //                   RETURN s.source_doc_id
+        // Removal Plan: Wire real query engine injection into KnowledgeGraphEnricher
+        //               (Target: v1.5.0, see FUTURE_ENHANCEMENTS.md §"AQL metadata API").
         return "";
     }
 
