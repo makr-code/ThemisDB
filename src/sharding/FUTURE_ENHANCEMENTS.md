@@ -500,3 +500,42 @@ Handle the full lifecycle of migrating a ThemisDB shard node to replacement hard
 ### Performance Targets
 - Gossip fan-out (1 → 3 peers, LAN): ≤ 5 ms total (fire-and-forget, not blocking caller).
 - Config propagation convergence (3-node cluster): ≤ 500 ms (2× gossip interval default = 250 ms).
+
+---
+
+## Adaptive Router Remote Execution (Target: future milestone — stub removal)
+
+**Stub:** `src/sharding/adaptive_shard_router.cpp` per-shard execution — RemoteExecutor not wired; all shard queries return `{success=true, data=[]}`.  
+**Risk:** Federated multi-shard queries silently return empty data instead of routing to the responsible shards.
+
+### Scope
+- Wire `RemoteExecutor::execute(shard_info.endpoint, query)` into the per-shard execution loop.
+- Deserialise shard responses; merge into the unified `results` vector.
+- Handle gRPC transport errors: log + mark `result.success = false`.
+
+### Performance Targets
+- P99 fan-out latency (3 shards, LAN): ≤ 20 ms.
+
+---
+
+## VRAM Usage Monitoring (Target: future milestone — stub removal)
+
+**Stub:** `src/sharding/shard_resource_manager.cpp::getVramUsage()` — returns (0,0) always.  
+**Risk:** VRAM-aware shard scheduling is blind to actual GPU memory pressure; over-allocation possible.
+
+### Scope
+- CUDA: `nvmlDeviceGetMemoryInfo()`, guard with `THEMIS_ENABLE_CUDA`.
+- HIP: `hipMemGetInfo()`, guard with `THEMIS_ENABLE_HIP`.
+- Vulkan: `VK_EXT_memory_budget` device extension query, guard with `THEMIS_ENABLE_VULKAN`.
+
+---
+
+## Network Usage Monitoring (Target: future milestone — stub removal)
+
+**Stub:** `src/sharding/shard_resource_manager.cpp::getNetworkUsage()` — returns (0,0) always.  
+**Risk:** Network-bandwidth-aware shard routing ignores actual NIC saturation.
+
+### Scope
+- Linux: parse `/proc/net/dev` RX/TX byte counters per interface.
+- Windows: `GetIfTable2()` from iphlpapi.h.
+- Return `{bytes_rx, bytes_tx}` since last call; rate is computed by callers.

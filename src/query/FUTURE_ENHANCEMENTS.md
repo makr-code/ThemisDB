@@ -1601,3 +1601,34 @@ public:
 - `ContinuousQueryRegistry` persists to RocksDB with WAL; no lost registrations on crash
 - Result queues are bounded; slow consumers cannot cause unbounded memory growth
 - `SUBSCRIBER_QUEUE_OVERFLOW` emitted as structured log warning with `query_name` and `subscriber_id` fields for operator observability
+
+---
+
+## QueryFederation Broadcast Join (Target: future milestone — stub removal)
+
+**Stub:** `src/query/query_federation.cpp` broadcast-join path — returns metadata JSON only; no actual join rows.  
+**Risk:** Federated broadcast joins appear to succeed but return zero results.
+
+### Scope
+- Fetch the smaller ("broadcast") table completely via `shard_router_->executeQuery()`.
+- Broadcast the fetched rows to all shard executors via a new `broadcastQuery()` method.
+- Collect co-located join results per shard; merge into unified result set.
+- Return actual document rows (not just strategy metadata).
+
+### Performance Targets
+- Broadcast join for small table ≤ 10 000 rows: P99 ≤ 50 ms on 5-shard LAN cluster.
+
+---
+
+## QueryFederation Shuffle Join (Target: future milestone — stub removal)
+
+**Stub:** `src/query/query_federation.cpp` shuffle-join path — returns metadata JSON only; no actual join rows.  
+**Risk:** Federated shuffle joins appear to succeed but return zero results.
+
+### Scope
+- Repartition both sides by join key hash via `shard_router_->shufflePartition()`.
+- Execute equi-joins per receiving shard; collect and merge per-shard results.
+- Return actual document rows.
+
+### Performance Targets
+- Shuffle join for 1 M × 500 K rows (5 shards): P99 ≤ 2 s on GbE LAN.

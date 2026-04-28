@@ -26,7 +26,7 @@
 
 ---
 
-## Stub Inventory (119 entries)
+## Stub Inventory (124 entries)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -175,8 +175,12 @@
 | 116 | `content/tts_processor.cpp::convertToFormat()` MP3 | Raw PCM bytes returned instead of LAME-encoded MP3; LAME encoder not linked | Format == "mp3" | Output is unplayable by any MP3 decoder | `src/content/FUTURE_ENHANCEMENTS.md` §TTS Audio Format Support | v1.7.0 |
 | 117 | `content/tts_processor.cpp::convertToFormat()` OGG | Raw PCM bytes returned instead of Opus/Vorbis Ogg stream; libopus/libvorbis not linked | Format == "ogg" | Output is unplayable as OGG audio | `src/content/FUTURE_ENHANCEMENTS.md` §TTS Audio Format Support | v1.7.0 |
 | 118 | `replication/replication_manager.cpp::MultiMasterReplicationManager::read()` | Quorum read fan-out not implemented; peers not queried; `data` always empty; `read_quorum` ignored | Always | No multi-master consistency; data field is empty on every call | `src/replication/FUTURE_ENHANCEMENTS.md` §Multi-Master Quorum Read | future milestone |
-| 119 | `replication/replication_manager.cpp::QuorumReadManager::read()` single-node path | Returns synthetic success with `version=0` when replica list is empty; local storage not queried; monotonic-read guarantees not enforced | `replicas_` list empty | Document data absent; monotonic reads may regress | `src/replication/FUTURE_ENHANCEMENTS.md` §Single-Node Quorum Read | future milestone |
+| 120 | `sharding/adaptive_shard_router.cpp` per-shard execution | RemoteExecutor fan-out not wired; returns `{success=true, data=[]}` with no actual shard data | Always — RemoteExecutor integration pending | All federated shard queries return empty results; no real data from remote shards | `src/sharding/FUTURE_ENHANCEMENTS.md` §Adaptive Router Remote Execution | future milestone |
+| 121 | `sharding/shard_resource_manager.cpp::getVramUsage()` | No GPU API queried; returns (0,0) | Always — no CUDA/HIP/Vulkan linked | VRAM-aware shard scheduling ignores actual GPU memory | `src/sharding/FUTURE_ENHANCEMENTS.md` §VRAM Usage Monitoring | future milestone |
+| 122 | `sharding/shard_resource_manager.cpp::getNetworkUsage()` | No NIC counter queried; returns (0,0) | Always — platform network APIs not integrated | Network-bandwidth-aware routing ignores actual NIC utilisation | `src/sharding/FUTURE_ENHANCEMENTS.md` §Network Usage Monitoring | future milestone |
+| 123 | `query/query_federation.cpp` broadcast join | Returns metadata-only JSON; no actual join rows produced | Broadcast-join strategy selected | Zero join results returned to caller; federated broadcast joins are no-ops | `src/query/FUTURE_ENHANCEMENTS.md` §QueryFederation Broadcast Join | future milestone |
+| 124 | `query/query_federation.cpp` shuffle join | Returns metadata-only JSON; no actual join rows produced | Shuffle-join strategy selected | Zero join results returned to caller; federated shuffle joins are no-ops | `src/query/FUTURE_ENHANCEMENTS.md` §QueryFederation Shuffle Join | future milestone |
 
 ---
 
-*Last updated: 2026-04-28 — 119 entries, 9 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-04-28 — 124 entries, 9 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
