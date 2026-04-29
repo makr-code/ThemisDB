@@ -4,6 +4,9 @@ This directory contains research papers, draft manuscripts, architectural analys
 
 ## Contents
 
+### Ethics AI Module Research (2026-04-29, v0.4)
+- [ETHICS_AI_YAML_DISCOURSE_ENGINE_PAPER_DRAFT.md](ETHICS_AI_YAML_DISCOURSE_ENGINE_PAPER_DRAFT.md) — **Declarative Multi-Philosophy Ethical Reasoning in Database-Native AI Systems: YAML-Configured Ethics Schools and Structured Discourse in ThemisDB** (v0.4). Target: arXiv cs.AI / cs.CY. **Central pattern: Inference Trifecta** — RAG (7 AQL patterns) + **Ethical Monocle** (YAML→PromptScaffold, formal construction function `M(P,T_budget)`) + **LoRA Judge** (school-aware faithfulness evaluator, RLAIF loop). All principle citations grounded in actual `plugins/ethics_ai/philosophies/` YAML files: `kant:kategorischer_imperativ`, `kant:selbstzweck`, `utilitarianism:greatest_happiness`, `contractualism:original_position` / `reasonable_rejection`, `lebensphilosophie_nietzsche:will_to_power`, `socratic:socratic_method`. Appendix B: direct YAML excerpts from 5 profiles. Schema note: `nietzsche.yaml` uses `school:` (not `school_id:`) and map-style theses — both documented. 34 references, 5 RQs, 3 hypotheses, W1–W6 workloads, Tables R1–R4, 4-stage production path.
+
 ### 🏆 Flagship System Paper (2026-04-27)
 - [THEMISDB_SYSTEM_PAPER_ARXIV_2026.md](THEMISDB_SYSTEM_PAPER_ARXIV_2026.md) — **ThemisDB: An ACID-Compliant Multi-Model Database with Native AI/LLM Integration** (v0.2). Target: arXiv cs.DB · VLDB 2027. Covers all four architectural tiers, ACID-constrained RAG pipeline, autonomous LoRA lifecycle (4-loop RLAIF), prompt engineering, 18 evidence IDs, 8 workloads (W1–W8), 23 references (IEEE+DOI), Figures 1–5 (ASCII schematics). Measured baselines: Graph 1.177 M ops/s ✅, TS 61.0 M pts/s ✅, AQL P99 9.67 ms ✅. Open: W5 isolation×faithfulness empirical run, GPU benchmarks, multi-node distributed benchmark.
 
