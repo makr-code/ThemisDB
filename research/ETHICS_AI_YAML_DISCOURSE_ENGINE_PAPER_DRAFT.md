@@ -2618,6 +2618,13 @@ content). Architecture B prompt injection achieves DC ≈ 0.7–0.8 based on
 the prompt instruction alone. Architecture C (DSPy) with a DC-aware training
 metric achieves DC ≈ 0.85–0.90.
 
+The prompt engineering infrastructure required to implement multi-school
+interplay at scale — including `DiscoursePromptCoordinator`,
+budget-aware cross-round packing, re-injection detection on opponent arguments,
+and `ReflectionTuner::REFLEXION` episodic feedback — is specified in
+`src/prompt_engineering/FUTURE_ENHANCEMENTS.md` §"Multi-School Discourse-Level
+Prompt Coordination" (MSD-01..10, Target: Q3 2026).
+
 ---
 
 | Evidence ID | File | Scope | What It Proves | Status |
