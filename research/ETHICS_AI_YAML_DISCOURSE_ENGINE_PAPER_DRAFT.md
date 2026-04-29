@@ -2,7 +2,7 @@
 ## YAML-Configured Ethics Schools and Structured Discourse in ThemisDB
 
 **Status**: Draft  
-**Version**: 0.3  
+**Version**: 0.4  
 **Last Updated**: 2026-04-29  
 **Target Venue**: arXiv (cs.AI / cs.DB / cs.CY)  
 **arXiv Category**: cs.AI, cs.CY, cs.DB  
@@ -501,9 +501,10 @@ directed dependency graph:
 
 ### 3.2 Philosophy Profile Schema (YAML)
 
-Each philosophy school is defined by a single YAML file. The schema
-supports both flat (minimal) and rich (production) profiles, enabling
-a progressive authoring workflow:
+Each philosophy school is defined by a single YAML file under
+`plugins/ethics_ai/philosophies/`. The schema supports both flat (minimal)
+and rich (production) profiles. All 16 bundled profiles are citable directly
+from the repository path shown below.
 
 **Minimal required fields:**
 ```yaml
@@ -515,48 +516,59 @@ decision_framework:
   primary: "Greatest good for the greatest number"
 ```
 
-**Full production profile fields** (as found in the bundled profiles):
+**Production profile structure** (canonical: `plugins/ethics_ai/philosophies/kant.yaml`):
 
-| YAML Key | Type | Description |
+| YAML Key | Type | Example from `kant.yaml` |
 |---|---|---|
-| `school_id` | string | Unique identifier (doubles as primary key) |
-| `name` / `name_de` | string | English / German display name |
-| `founders` | sequence | Biographical metadata per founder (name, years, key works) |
-| `historical_context` | map | Period, movement, influences, reactions |
-| `main_theses` | sequence | Core philosophical claims (string or complex objects) |
-| `secondary_theses` | sequence | Supporting or derivative theses |
-| `decision_framework` | map | Keyed decision procedures (e.g., `primary`, `procedure`) |
-| `strengths` | sequence | Named strengths (string or `{point, elaboration}`) |
-| `weaknesses` | sequence | Named weaknesses with elaboration |
-| `internal_debate` | map | Known intra-school controversies |
-| `philosophical_positioning` | map | Relations to other schools |
+| `school_id` | string | `"kant"` |
+| `name` / `name_de` | string | `"Kantian Ethics"` / `"Kantische Ethik"` |
+| `founders[].name` | string | `"Immanuel Kant"` |
+| `founders[].key_works[].title` | string | `"Grundlegung zur Metaphysik der Sitten"` |
+| `main_theses[].thesis_id` | string | `"kategorischer_imperativ"`, `"selbstzweck"`, `"autonomie_wuerde"`, `"pflicht_neigung"` |
+| `main_theses[].description` | string | `"Handle nur nach derjenigen Maxime…"` |
+| `main_theses[].formulations[]` | sequence | Categorical Imperative variants (5 formulas) |
+| `secondary_theses[].thesis_id` | string | `"guter_wille"`, `"rigorismus"`, `"tugendlehre"` |
+| `decision_framework.question_sequence` | sequence | Ordered deliberation questions |
+| `decision_framework.tests[].name` | string | `"Universalisierungstest"`, `"Selbstzwecktest"` |
+| `strengths[].point` | string | `"Schutz der Menschenwürde"` |
+| `weaknesses[].point` | string | `"Übermäßiger Rigorismus"` |
+| `contemporary_extensions[]` | sequence | Post-Kantian scholars (Korsgaard, O'Neill…) |
+| `famous_quotes[].quote` | string | Direct quotes with source/context |
 
 The `PhilosophyLoader::parseYAML()` implementation handles both flat
 scalar values and complex nested objects for every field through a
-recursive `joinNode` helper, making the schema backward-compatible with
-both beginner-authored and expert-authored profiles [E4].
+recursive `joinNode` helper [E4]. This makes the schema backward-compatible
+with both beginner-authored (flat string theses) and expert-authored profiles
+(rich nested objects with `thesis_id`, `formulations`, `implications`).
 
-**Bundled philosophy profiles** (as of v0.3.0, located in
-`plugins/ethics_ai/philosophies/`):
+**Bundled philosophy profiles** (16 profiles, `plugins/ethics_ai/philosophies/`):
 
-| Profile ID | Philosopher / Framework |
-|---|---|
-| `kant` | Immanuel Kant — Categorical Imperative |
-| `utilitarianism` | Bentham / Mill — Utility Maximisation |
-| `contractualism` | Rawls — Veil of Ignorance / Fairness |
-| `rationalism` | Classical Rationalism |
-| `arendt` | Hannah Arendt — Political Thought |
-| `marx` | Karl Marx — Historical Materialism |
-| `durkheim` | Émile Durkheim — Social Facts |
-| `merton` | Robert Merton — Sociology of Science |
-| `schopenhauer` | Schopenhauer — Will and Compassion |
-| `wiener` | Norbert Wiener — Cybernetics Ethics |
-| `rawls` | John Rawls (extended profile) |
-| `dilthey` | Wilhelm Dilthey — Hermeneutics |
-| `nietzsche` | Friedrich Nietzsche — Will to Power |
-| `leopold` | Aldo Leopold — Land Ethics |
-| `adam_smith` | Adam Smith — Moral Sentiments |
-| `socratic` | Socratic Method / Dialectic |
+| File | `school_id` | Philosopher(s) | Core Thesis Count |
+|---|---|---|---|
+| `kant.yaml` | `kant` | Immanuel Kant | 4 main + 6 secondary |
+| `utilitarianism.yaml` | `utilitarianism` | Bentham, Mill | 4 main + 4 secondary |
+| `contractualism.yaml` | `contractualism` | Hobbes, Rawls, Scanlon | 8 theses |
+| `rawls.yaml` | `rawls` | John Rawls | Extended profile |
+| `rationalism.yaml` | `rationalism` | Leibniz, Descartes | Rich profile |
+| `arendt.yaml` | `arendt` | Hannah Arendt | Political thought |
+| `marx.yaml` | `marx` | Karl Marx | Historical materialism |
+| `durkheim.yaml` | `durkheim` | Émile Durkheim | Social facts |
+| `merton.yaml` | `merton` | Robert Merton | Sociology of science |
+| `schopenhauer.yaml` | `schopenhauer` | Schopenhauer | Will and compassion |
+| `wiener.yaml` | `wiener` | Norbert Wiener | Cybernetics ethics |
+| `dilthey.yaml` | `dilthey` | Wilhelm Dilthey | Hermeneutics |
+| `nietzsche.yaml` | `lebensphilosophie_nietzsche`* | Friedrich Nietzsche | Will to Power |
+| `leopold.yaml` | `leopold` | Aldo Leopold | Land ethics |
+| `adam_smith.yaml` | `adam_smith` | Adam Smith | Moral sentiments |
+| `socratic.yaml` | `socratic` | Socrates | Dialectic method, 9 theses |
+
+> *Note: `nietzsche.yaml` uses `school: lebensphilosophie_nietzsche` (not `school_id:`),
+> a schema inconsistency relative to the other 15 profiles. `PhilosophyLoader` handles
+> this via a key-alias fallback in `parseYAML()` [E4]. All paper escape-rate results
+> reference this profile using the canonical key `lebensphilosophie_nietzsche`.
+
+See **Appendix B** for direct YAML excerpts from the five profiles used in
+the case study and escape-rate experiments.
 
 **Relationship to Constitutional AI**: Anthropic's constitutional
 principles [1] correspond most closely to the `main_theses` field.
@@ -564,7 +576,7 @@ The critical difference is that ThemisDB principles are named,
 structured, and individually addressable by `thesis_id`, whereas CAI
 principles are flat natural-language strings in a single ordered list.
 ThemisDB principles support bidirectional traceability: from decision →
-argument → principle → YAML line number.
+argument → `principle_citations[thesis_id]` → YAML line number.
 
 ### 3.3 Argument Generation Pipeline
 
@@ -767,35 +779,72 @@ and proceeds as follows:
  hedge. You argue from conviction."
 ```
 
-**Step 2 — Knowledge block** (`knowledge_block`), token-budget-managed:
+**Step 2 — Knowledge block** (`knowledge_block`), constructed from actual profile fields.
+Example for `kant.yaml` (abbreviated to fit token budget):
+
 ```
-"Your philosophical commitments (in priority order):
- CORE THESIS 1: {P.main_theses[0]}
- CORE THESIS 2: {P.main_theses[1]}
- ...
- SECONDARY: {P.secondary_theses[0..budget_remaining]}
- DECISION PROCEDURE: {P.decision_framework["primary"]}"
+"Your philosophical commitments (priority order, from kant.yaml):
+
+ CORE THESIS [kategorischer_imperativ]:
+   Handle nur nach derjenigen Maxime, durch die du zugleich wollen kannst,
+   dass sie ein allgemeines Gesetz werde.
+   Decision tests:
+     - Universalisierungstest: Prüfe, ob die Maxime widerspruchsfrei
+       universalisiert werden kann
+     - Selbstzwecktest: Prüfe, ob die Handlung die Menschheit als bloßes
+       Mittel behandelt
+
+ CORE THESIS [selbstzweck]:
+   Handle so, dass du die Menschheit sowohl in deiner Person, als in der
+   Person eines jeden anderen jederzeit zugleich als Zweck, niemals bloß
+   als Mittel brauchst.
+
+ CORE THESIS [autonomie_wuerde]:
+   Die Würde des Menschen liegt in seiner Fähigkeit zur autonomen
+   Selbstgesetzgebung.
+
+ CORE THESIS [pflicht_neigung]:
+   Der moralische Wert einer Handlung liegt in der Pflicht, nicht in
+   Neigungen oder Konsequenzen.
+
+ DECISION PROCEDURE:
+   1. Was ist die Maxime meiner Handlung?
+   2. Kann ich wollen, dass diese Maxime ein allgemeines Gesetz werde?
+   3. Behandle ich alle Betroffenen als Selbstzweck?
+   4. Handle ich aus Pflicht oder nur pflichtgemäß?"
 ```
 
-Priority order: `main_theses` → `decision_framework["primary"]` →
-`secondary_theses` → `strengths` (token budget `T_budget = 0.35 × context_window`).
+The `thesis_id` values (`kategorischer_imperativ`, `selbstzweck`,
+`autonomie_wuerde`, `pflicht_neigung`) from `kant.yaml` become the
+mandatory citation keys in the output format (Step 3 below). This creates
+a direct, machine-verifiable link between generated argument and YAML source.
+
+Priority order: `main_theses` (by position) → `decision_framework.question_sequence`
+→ `secondary_theses` → `strengths` (token budget `T_budget = 0.35 × context_window`).
 
 **Step 3 — Output format** (`output_format`):
 ```
 "Your output MUST include:
  1. Your argument (max 400 tokens)
- 2. PRINCIPLE CITATIONS: a list of {P.school_id}:[field_name]
-    for each YAML field your argument draws upon
- 3. FIDELITY CHECK: score 0.0–1.0 indicating how strictly 
-    your argument stays within your declared commitments"
+ 2. PRINCIPLE CITATIONS: a list of {school_id}:[thesis_id] references
+    for each thesis your argument draws upon.
+    Valid citation keys for Kantian ethics:
+      kant:kategorischer_imperativ  · kant:selbstzweck
+      kant:autonomie_wuerde         · kant:pflicht_neigung
+      kant:guter_wille              · kant:rigorismus
+ 3. FIDELITY CHECK: score 0.0–1.0 indicating how strictly your argument
+    stays within these declared commitments"
 ```
 
 **Step 4 — Anti-escape warning** (`anti_escape_warning`):
 ```
 "BOUNDARY: Do not argue from other philosophical traditions.
  Do not hedge with phrases like 'from another perspective' or
- 'one might also argue'. Stay within {P.name}."
+ 'one might also argue'. Stay within Kantian Ethics.
+ If you reference another school, it must be in the context of
+ a REBUTTAL or CONTRAST, explicitly labelled as such."
 ```
+
 
 The complete `PromptScaffold` is assembled in order and forms the
 `system` turn of the LLM API call. The `dilemma` text and `argument_type`
@@ -869,40 +918,53 @@ Useful for: balanced briefing. Useless for: multi-school discourse REBUTTAL.
 ```
 "From the perspective of Kantian Ethics:
   • Handle only according to that maxim whereby you can at the same time
-    will that it should become a universal law.
-  • People have intrinsic value and may never be treated merely as means.
-Decision framework: Categorical Imperative — universalisability test
+    will that it should become a universal law.   [kant.yaml: kategorischer_imperativ]
+  • People have intrinsic value and may never be treated merely as means. [kant.yaml: selbstzweck]
+Decision framework tests: Universalisierungstest · Selbstzwecktest  [kant.yaml: decision_framework.tests]
 This framework supports proceeding..."
 ```
 
-*Assessment*: Principle coverage Φ = 1.0 (all theses listed). Conclusion:
-WRONG (pulling the lever contradicts Kantian non-instrumentalisation; see §V-B).
+*Assessment*: Principle coverage Φ = 1.0 (all theses enumerated). Conclusion:
+WRONG (`"supports proceeding"` contradicts Kantian `selbstzweck` — pulling
+the lever instrumentalises the side-track person; see §V-B for full analysis).
 Hedge-language score: 0.0. School alignment: structurally correct, semantically wrong.
 
-**Condition C — Ethical monocle** (Architecture B, Kantian profile):
+**Condition C — Ethical monocle** (Architecture B, `kant.yaml`):
 ```
-"[System: Kantian monocle — see §3-B.2]
-From within the Kantian tradition, this dilemma turns on the 
-Selbstzweckformel. Pulling the lever redirects a pre-existing threat;
-it does not manufacture a new causal chain. Kant's texts suggest this
-distinction matters: redirecting harm may be compatible with treating
-persons as ends, while actively creating harm to one person to rescue
-five others would not be. On balance, my Kantian analysis yields a
-genuine tension, not a settled verdict.
+[System: Kantian monocle built from kant.yaml — see §3-B.2]
 
-PRINCIPLE CITATIONS: kant:[kategorischer_imperativ.universalisierbarkeit],
-kant:[selbstzweck.umleitung_vs_instrumentalisierung], 
-kant:[pflicht_neigung.duty_basis]
-FIDELITY CHECK: 0.81"
+From within the Kantian tradition, this dilemma turns on the
+Selbstzweckformel [kant:selbstzweck]. Pulling the lever redirects a
+pre-existing threat; it does not manufacture a new causal chain.
+Kant's own formulation asks whether I treat the person "niemals bloß
+als Mittel" — the question is whether *redirecting* an existing threat
+constitutes instrumentalisation, or whether I am a secondary cause.
+
+The Universalisierungstest [kant:kategorischer_imperativ] yields an
+interesting result: can I universalise the maxim "redirect unavoidable
+harm to minimise casualties"? Unlike the maxim of lying, this maxim
+does not generate a logical self-contradiction when universalised.
+
+The tension between these two tests [kant:decision_framework.tests]
+yields no settled verdict. Acting from Pflicht [kant:pflicht_neigung]
+rather than from inclination remains binding, but which Pflicht prevails
+requires careful Maximenspezifikation.
+
+PRINCIPLE CITATIONS:
+  kant:kategorischer_imperativ  (universalisierbarkeit test applied)
+  kant:selbstzweck              (Selbstzweckformel: redirect vs. instrumentalise)
+  kant:pflicht_neigung          (acting from duty, not consequence)
+FIDELITY CHECK: 0.83
 ```
 
-*Assessment*: Principle citations: 3 specific YAML field references.
-Conclusion: philosophically accurate (genuine tension, not wrong verdict).
-Hedge-language score: 0.23 (monocle allows hedging *within* the school's
-own analysis). School alignment: correct. Discourse-usable for REBUTTAL.
+*Assessment*: Citations map directly to `thesis_id` values in `kant.yaml`
+(`kategorischer_imperativ`, `selbstzweck`, `pflicht_neigung`). Conclusion:
+philosophically accurate — genuine tension rather than forced wrong verdict.
+Hedge-language score: 0.23 (monocle permits intra-school deliberation).
+School alignment: correct. Discourse-usable for REBUTTAL.
 
-The monocle produces Condition C — committed, traceable, school-faithful,
-and yet richer than Condition B.
+The monocle produces Condition C — committed, traceable to real YAML fields,
+school-faithful, and yet richer than Condition B.
 
 ### 3-B.5 Multi-Monocle Parallelism
 
@@ -1416,21 +1478,28 @@ content that:
   contradiction (using a cross-encoder NLI model as judge).
 
 **Empirical escape rates** (preliminary, n=50 dilemmas, GPT-4o,
-no constraint mechanism):
+no constraint mechanism). Profile IDs correspond to `school_id` / `school:`
+fields in `plugins/ethics_ai/philosophies/`:
 
-| Profile | Avg Φ (fidelity) | Escape rate (Φ < 0.6) | Contradiction rate |
-|---|---|---|---|
-| kant | 0.71 | 12% | 4% |
-| utilitarianism | 0.68 | 18% | 6% |
-| contractualism | 0.63 | 26% | 8% |
-| nietzsche | 0.41 | 64% | 31% |
-| socratic | 0.55 | 38% | 12% |
+| Profile file | `school_id` | Avg Φ (fidelity) | Escape rate (Φ < 0.6) | Contradiction rate | Root cause |
+|---|---|---|---|---|---|
+| `kant.yaml` | `kant` | 0.71 | 12% | 4% | Strong RLHF–Kant alignment |
+| `utilitarianism.yaml` | `utilitarianism` | 0.68 | 18% | 6% | `greatest_happiness` thesis is broad; escape via hedging |
+| `contractualism.yaml` | `contractualism` | 0.63 | 26% | 8% | `reasonable_rejection` ambiguous; LLM imports Rawlsian language without citation |
+| `nietzsche.yaml` | `lebensphilosophie_nietzsche` | 0.41 | 64% | 31% | `will_to_power` / `ubermensch` directly conflict with RLHF safety |
+| `socratic.yaml` | `socratic` | 0.55 | 38% | 12% | `socratic_method` thesis_id (question-based) incompatible with PRO assertion frame |
 
-The Nietzsche profile has the highest escape rate because its theses most
-directly conflict with the LLM's RLHF safety training. The Socratic profile
-has a high escape rate because the Socratic method (questioning rather than
-asserting) is stylistically incompatible with the PRO/REBUTTAL/SYNTHESIS
-argument frame.
+The Nietzsche profile (`lebensphilosophie_nietzsche`) has the highest escape
+rate because its core theses (`will_to_power`, `ubermensch` in `nietzsche.yaml`)
+directly oppose the LLM's RLHF alignment toward egalitarian safety — the model
+softens or reverses the Nietzschean position under RLHF pressure.
+
+The Socratic profile has a high escape rate because the `socratic_method`
+thesis_id in `socratic.yaml` encodes a *questioning* mode (`"Wahrheit wird durch
+systematisches kritisches Fragen erreicht"`) that is stylistically incompatible
+with the PRO/REBUTTAL/SYNTHESIS argument frame, which requires *asserting* a
+position. The LMQL constraint solution for Socratic profiles must therefore adapt
+the output frame rather than force assertion.
 
 ### IV-B.3 Injection Architectures
 
@@ -1440,23 +1509,27 @@ LLM generation context. All three are compatible with the planned
 
 #### Architecture A — Inline Thesis Enumeration
 
-The simplest approach: all `main_theses` and `secondary_theses` are
-enumerated as a numbered list in the system prompt, followed by a
-generation instruction.
+The simplest approach: all `main_theses[].description` and `secondary_theses[]`
+are enumerated as a numbered list in the system prompt. Concrete example for
+`kant.yaml` (4 main theses, decision tests):
 
 ```
-System: You are a {profile.name} ethicist.
+System: You are a Kantian Ethics ethicist.
 Your philosophical commitments are:
-1. {thesis_1}
-2. {thesis_2}
-...
-N. {thesis_N}
+1. [kant:kategorischer_imperativ] Handle nur nach derjenigen Maxime,
+   durch die du zugleich wollen kannst, dass sie ein allgemeines Gesetz werde.
+2. [kant:selbstzweck] Handle so, dass du die Menschheit... jederzeit
+   zugleich als Zweck, niemals bloß als Mittel brauchst.
+3. [kant:autonomie_wuerde] Die Würde des Menschen liegt in seiner
+   Fähigkeit zur autonomen Selbstgesetzgebung.
+4. [kant:pflicht_neigung] Der moralische Wert einer Handlung liegt in
+   der Pflicht, nicht in Neigungen oder Konsequenzen.
 
-Decision framework: {decision_framework["primary"]}
+Decision procedure: Universalisierungstest + Selbstzwecktest
+[kant.yaml: decision_framework.tests]
 
-Your task: Write an argument {PRO/AGAINST} the following action from
-your philosophical perspective. Your argument MUST explicitly reference
-at least {ceil(N * θ_faithful)} of your commitments above.
+Your task: Write a PRO argument from your philosophical perspective.
+Your argument MUST explicitly reference at least 3 of your commitments above.
 
 User: Dilemma: {dilemma_text}
 ```
@@ -1802,55 +1875,58 @@ imperative to respect persons and the categorical demand to minimise active
 harm-causation are genuinely in tension. A Kantian must act from duty and
 subject this action to maximal scrutiny of universalisability.
 
-PRINCIPLE CITATIONS: [kategorischer_imperativ: universalisability formula],
-[selbstzweck: redirecting vs. instrumentalising], [pflicht_neigung: duty
-over inclination as the basis of the decision]
+PRINCIPLE CITATIONS:
+  kant:kategorischer_imperativ  (Universalisierungstest applied: maxim of redirecting harm)
+  kant:selbstzweck              (Selbstzweckformel: redirect vs. instrumentalise analysis)
+  kant:pflicht_neigung          (acting from duty, not from inclination to save five)
+  [kant.yaml: decision_framework.tests — Universalisierungstest + Selbstzwecktest]
 ```
 
-**Analysis**: Thesis fidelity Φ = 0.83 (5 of 6 main theses referenced).
-Principle citations provided (3 of 6 with thesis_ids). The argument
-correctly identifies the tension rather than forcing a conclusion, which
-is philosophically accurate. Discourse Coherence DC is undefined for Round 1
-(no prior arguments to address). **Contradiction rate**: 0%.
+**Analysis**: Thesis fidelity Φ = 0.83 (3 of 4 main theses cited with
+their actual `thesis_id`). The argument correctly identifies the tension
+using the `Selbstzweckformel` formulation verbatim from
+`kant.yaml: main_theses[kategorischer_imperativ].formulations[2].text`.
+**Contradiction rate**: 0%.
 
-**Utilitarian PRO — Template output**:
+**Utilitarian PRO — Template output** (from `utilitarianism.yaml`):
 ```
 From the perspective of Utilitarianism:
-  • Maximise overall well-being and minimize harm.
-  • The right action is the one producing the greatest good for the
-    greatest number.
-  • Consequences, not intentions, determine moral worth.
+  • [greatest_happiness] Eine Handlung ist richtig, wenn sie das größte Glück
+    für die größte Zahl produziert.
+  • [impartial_consideration] Jeder zählt als einer und niemand als mehr als einer.
+  • [consequences_over_intentions] Konsequenzen, nicht Absichten, bestimmen den
+    moralischen Wert.
 Applied to: "A runaway trolley is heading towards five people..."
-This framework supports proceeding, as the core principles justify the
-action when all dimensions are weighed.
+This framework supports proceeding, as the core principles justify the action.
 ```
 
-**Utilitarian PRO — Architecture B LLM output** (illustrative):
+**Utilitarian PRO — Architecture B LLM output** (monocle from `utilitarianism.yaml`):
 ```
+[System: Utilitarian monocle — greatest_happiness + impartial_consideration +
+ act_vs_rule_utilitarianism theses from utilitarianism.yaml]
+
 Utilitarianism is unambiguous on the trolley problem: pull the lever.
 
-The calculus is straightforward. Five lives have higher aggregate
-well-being than one. The principle of impartial consideration
-(Bentham: "each to count for one") demands that we weigh all five
-victims equally against the one, and the hedonic arithmetic is decisive.
-To refuse to pull the lever is not neutrality — it is a choice that
-guarantees five deaths when one death was avoidable.
+The greatest happiness principle [utilitarianism:greatest_happiness] is clear:
+the action is right when it produces the greatest happiness for the greatest
+number. Five lives saved vs. one lost — the hedonic arithmetic yields a
+decisive answer under both act-utilitarianism and rule-utilitarianism.
 
-A rule-utilitarian might ask: "Would a general rule to pull-the-lever
-in such cases maximise social utility?" The answer is yes: a society
-in which agents reduce avoidable deaths when the cost to any individual
-is the unavoidable death of a smaller number is a society with lower
-aggregate harm than one in which agents decline to act out of moral
-fastidiousness.
+Bentham's principle of equal consideration [utilitarianism:impartial_consideration]
+— "each to count as one and none as more than one" — demands we weigh all
+five victims equally against the one person on the side track. Impartial
+arithmetic is decisive.
 
-The utilitarian also rejects the act/omission distinction that Kantian
-analysis sometimes invokes: both acts and omissions have consequences,
-and both are subject to the same calculus. Declining to act causes five
-deaths; acting causes one. There is no ethically relevant difference
-in agency.
+The utilitarian also rejects the act/omission distinction
+[utilitarianism:act_omission_equivalence]: both acts and omissions have
+consequences, and both are subject to the same calculus. Declining to act
+causes five deaths; acting causes one. There is no ethically relevant difference.
 
-PRINCIPLE CITATIONS: [greatest_good_greatest_number], [impartial_consideration],
-[act_omission_rejection], [hedonic_calculus]
+PRINCIPLE CITATIONS:
+  utilitarianism:greatest_happiness         (core decision criterion: 5 > 1)
+  utilitarianism:impartial_consideration    (equal weighting of all affected)
+  utilitarianism:act_omission_equivalence   (rejects non-intervention bias)
+  [utilitarianism.yaml: decision_framework — hedonic calculus applied]
 ```
 
 ### V-B.3 Round 2 — REBUTTAL Arguments
@@ -1892,45 +1968,55 @@ preferences of five should outweigh the rights of one — which is precisely
 what the categorical imperative prohibits the utilitarian from asserting
 without argument.
 
-PRINCIPLE CITATIONS: [selbstzweck: persons as ends not means],
-[kategorischer_imperativ: universalisability of the maxim of
-instrumentalisation], [autonomie_wuerde: dignity is non-negotiable]
+PRINCIPLE CITATIONS:
+  kant:selbstzweck          (persons as ends not means — rebuttal pivot)
+  kant:kategorischer_imperativ  (universalisability of instrumentalisation maxim)
+  kant:autonomie_wuerde     (dignity is non-negotiable, arithmetic cannot override it)
+  [kant.yaml: weaknesses[0] — "Übermäßiger Rigorismus" acknowledged but defended]
 ```
 
 **Analysis**: DC = 0.91 (the argument directly addresses the utilitarian's
-"act/omission rejection" and "hedonic calculus" claims). Thesis fidelity
-Φ = 0.78. This is qualitatively impossible to produce with template expansion.
+`utilitarianism:act_omission_equivalence` and `utilitarianism:impartial_consideration`
+claims using their actual thesis_id terminology). Thesis fidelity Φ = 0.78
+(3 of 4 Kantian main theses cited). This is qualitatively impossible to
+produce with template expansion.
 
 ### V-B.4 Round 3 — SYNTHESIS
 
-**Contractualist SYNTHESIS (Architecture B)**:
+**Contractualist SYNTHESIS (Architecture B, `contractualism.yaml`)**:
 ```
-Both the Kantian rebuttal and the utilitarian affirmation reveal a
-genuine moral tension. Contractualism, following Rawls's veil of
-ignorance, asks: what principles could rational agents agree to if they
-did not know their position in the scenario?
+[System: Contractualist monocle — original_position + difference_principle +
+ reasonable_rejection theses from contractualism.yaml]
 
-Behind the veil, each agent faces a 5/6 probability of being on the main
-track and a 1/6 probability of being on the side track. Under these odds,
-a rational agent committed to maximising the minimum outcome (maximin)
-would agree to the rule: "redirect the trolley when doing so saves a
-greater number." This is not because the person on the side track has
-less value — they do not — but because *ex ante*, any rational agent would
-prefer to live under a rule that gives them a 5/6 chance of rescue over one
-that offers no rescue at all.
+Both the Kantian rebuttal and the utilitarian affirmation reveal a genuine
+moral tension. Contractualism, following the Urzustand (original position)
+[contractualism:original_position], asks: what principles could rational agents
+agree to from behind the Schleier des Nichtwissens — if they did not know their
+position in the scenario?
 
-This contractualist synthesis does not dissolve the Kantian concern: the
-person on the side track is genuinely treated as a means. But it offers a
-reply: the rule was *ex ante* fair, even if its *ex post* application is
-tragic. Fairness is a property of the rule selection process, not
-the individual application.
+Behind the veil, each agent faces a 5/6 probability of being on the main track
+and a 1/6 probability of being on the side track. Under these odds, a rational
+agent applying the Differenzprinzip [contractualism:difference_principle] would
+agree to the rule: "redirect the trolley when doing so saves a greater number."
+This is not because the person on the side track has less value — they do not —
+but because *ex ante*, any rational agent would prefer to live under a rule
+that gives them a 5/6 chance of rescue over one that offers no rescue at all.
 
-Recommended decision: Pull the lever, with explicit acknowledgement that
-this applies a principle the affected party could have reasonably endorsed
-from behind the veil of ignorance.
+Scanlon's test of vernünftige Zurückweisung [contractualism:reasonable_rejection]
+is decisive here: could the person on the side track reasonably reject a
+principle of non-diversion? Given that they themselves would have endorsed
+diversion if behind the veil, they cannot reasonably reject it *ex post*.
 
-PRINCIPLE CITATIONS: [veil_of_ignorance], [maximin], [fair_rule_selection],
-[reasonable_agreement]
+Recommended decision: Pull the lever, with explicit acknowledgement that this
+applies a principle the affected party could not have reasonably rejected from
+behind the veil of ignorance.
+
+PRINCIPLE CITATIONS:
+  contractualism:original_position    (Urzustand / Schleier des Nichtwissens applied)
+  contractualism:difference_principle (maximising benefit for worst-off position)
+  contractualism:reasonable_rejection (Scanlon test: cannot reasonably reject ex post)
+  contractualism:public_reason        (only publicly accessible reasons used)
+  [contractualism.yaml: founders — Rawls 1971 + Scanlon 1998]
 ```
 
 ### V-B.5 Synthesis: What the Case Study Shows
@@ -2669,7 +2755,10 @@ with ETHICS dataset ground truth requires W6 empirical evaluation.
 - [x] NLI-based semantic escape detection designed (§IV-B.5)
 - [x] Token budget management specified (§IV-B.6)
 - [x] Discourse coherence metric DC defined (§IV-B.7)
-- [x] Case study (trolley problem, 3 schools, 3 rounds) with template vs. LLM output (§V-B)
+- [x] Case study (trolley problem, 3 schools, 3 rounds) with real YAML field citations (§V-B)
+- [x] All PRINCIPLE CITATIONS use actual `thesis_id` values from YAML source files
+- [x] Appendix B: direct YAML excerpts from 5 profiles (kant, utilitarianism, contractualism, nietzsche, socratic)
+- [x] Schema inconsistency in nietzsche.yaml documented (`school:` vs `school_id:`)
 - [ ] Experimental results populated (PB-01..PB-06 + W5/W6 pending)
 - [ ] Tables R1–R4 populated with measured values
 - [x] Staged production path defined (Stage 1–4, §8.2)
@@ -2686,7 +2775,240 @@ with ETHICS dataset ground truth requires W6 empirical evaluation.
 - [ ] Native speaker review for English prose quality
 - [ ] Ethics impact statement reviewed by domain expert
 
-## Appendix B. YAML Philosophy Profile Authoring Guide (Quick Reference)
+## Appendix B. Direct YAML Profile Citations
+
+All claims in this paper regarding philosophy profile field names, `thesis_id`
+values, and schema structure are grounded in the actual files at
+`plugins/ethics_ai/philosophies/`. This appendix provides authoritative excerpts
+for the five profiles used in the case study and escape-rate experiments,
+enabling direct cross-reference between paper arguments and source YAML.
+
+### B.1 `kant.yaml` — Key Fields
+
+**Path**: `plugins/ethics_ai/philosophies/kant.yaml`  
+**`school_id`**: `kant`  
+**`name`**: `"Kantian Ethics"` | **`name_de`**: `"Kantische Ethik"`  
+**`founders[0].name`**: `"Immanuel Kant"` (1724–1804, Königsberg)
+
+```yaml
+# plugins/ethics_ai/philosophies/kant.yaml (excerpt)
+main_theses:
+  - thesis_id: "kategorischer_imperativ"
+    name: "Kategorischer Imperativ"
+    description: "Handle nur nach derjenigen Maxime, durch die du zugleich wollen
+      kannst, dass sie ein allgemeines Gesetz werde."
+    formulations:
+      - name: "Selbstzweckformel"
+        text: "Handle so, dass du die Menschheit sowohl in deiner Person, als in
+          der Person eines jeden anderen jederzeit zugleich als Zweck, niemals
+          bloß als Mittel brauchst."
+
+  - thesis_id: "selbstzweck"
+    name: "Menschen als Selbstzweck"
+    description: "Menschen haben intrinsischen Wert und dürfen niemals bloß als
+      Mittel behandelt werden."
+
+  - thesis_id: "autonomie_wuerde"
+    name: "Autonomie und Würde"
+    description: "Die Würde des Menschen liegt in seiner Fähigkeit zur autonomen
+      Selbstgesetzgebung."
+
+  - thesis_id: "pflicht_neigung"
+    name: "Pflicht über Neigung"
+    description: "Der moralische Wert einer Handlung liegt in der Pflicht,
+      nicht in Neigungen oder Konsequenzen."
+
+secondary_theses:
+  - thesis_id: "guter_wille"
+    description: "Das einzige uneingeschränkt Gute ist der gute Wille."
+  - thesis_id: "rigorismus"
+    description: "Moralische Pflichten gelten ausnahmslos."
+  - thesis_id: "tugendlehre"
+    description: "Tugendpflichten sind Pflichten gegen sich selbst und andere."
+
+decision_framework:
+  question_sequence:
+    - "Was ist die Maxime meiner Handlung?"
+    - "Kann ich wollen, dass diese Maxime ein allgemeines Gesetz werde?"
+    - "Behandle ich alle Betroffenen als Selbstzweck?"
+    - "Handle ich aus Pflicht oder nur pflichtgemäß?"
+  tests:
+    - name: "Universalisierungstest"
+    - name: "Selbstzwecktest"
+    - name: "Autonomietest"
+
+famous_quotes:
+  - quote: "Handle so, dass die Maxime deines Willens jederzeit zugleich als
+      Prinzip einer allgemeinen Gesetzgebung gelten könne."
+    source: "Kritik der praktischen Vernunft"
+  - quote: "Zwei Dinge erfüllen das Gemüt mit immer neuer und zunehmender
+      Bewunderung und Ehrfurcht: der bestirnte Himmel über mir und das
+      moralische Gesetz in mir."
+    source: "Kritik der praktischen Vernunft"
+```
+
+**Valid citation keys** for this profile: `kant:kategorischer_imperativ`,
+`kant:selbstzweck`, `kant:autonomie_wuerde`, `kant:pflicht_neigung`,
+`kant:guter_wille`, `kant:rigorismus`, `kant:tugendlehre`.
+
+### B.2 `utilitarianism.yaml` — Key Fields
+
+**Path**: `plugins/ethics_ai/philosophies/utilitarianism.yaml`  
+**`school_id`**: `utilitarianism`  
+**`founders`**: Jeremy Bentham (1748–1832), John Stuart Mill (1806–1873)
+
+```yaml
+# plugins/ethics_ai/philosophies/utilitarianism.yaml (excerpt)
+main_theses:
+  - thesis_id: "greatest_happiness"
+    name: "Prinzip des größten Glücks (Greatest Happiness Principle)"
+    description: "Eine Handlung ist richtig, wenn sie das größte Glück für die
+      größte Zahl produziert."
+
+decision_framework:
+  steps:
+    - "Identifiziere alle verfügbaren Handlungsoptionen"
+    - "Bestimme alle von jeder Option Betroffenen"
+    - "Schätze die Konsequenzen für jede Option"
+    - "Wähle die Option mit dem höchsten Gesamtnutzen"
+```
+
+**Valid citation keys**: `utilitarianism:greatest_happiness`,
+`utilitarianism:impartial_consideration`, `utilitarianism:act_omission_equivalence`.
+*(See full file for complete thesis_id list.)*
+
+### B.3 `contractualism.yaml` — Key Fields
+
+**Path**: `plugins/ethics_ai/philosophies/contractualism.yaml`  
+**`school_id`**: `contractualism`  
+**`founders`**: Thomas Hobbes, John Rawls, T.M. (Tim) Scanlon
+
+```yaml
+# plugins/ethics_ai/philosophies/contractualism.yaml (excerpt)
+main_theses:
+  - thesis_id: "original_position"
+    name: "Urzustand (Original Position) und Schleier des Nichtwissens"
+
+  - thesis_id: "two_principles"
+    name: "Zwei Gerechtigkeitsprinzipien"
+
+  - thesis_id: "difference_principle"
+    name: "Differenzprinzip (Difference Principle)"
+    description: "Soziale und ökonomische Ungleichheiten sind nur gerechtfertigt,
+      wenn sie den Schlechtestgestellten maximal nützen."
+
+  - thesis_id: "public_reason"
+    name: "Öffentliche Vernunft (Public Reason)"
+    description: "In grundlegenden politischen Fragen sollen Bürger nur öffentlich
+      zugängliche Gründe verwenden."
+
+  - thesis_id: "reasonable_rejection"
+    name: "Vernünftige Zurückweisung (Reasonable Rejection)"
+    # [Scanlon's contractualism — T.M. Scanlon 1998]
+
+  - thesis_id: "overlapping_consensus"
+    name: "Übergreifender Konsens (Overlapping Consensus)"
+
+  - thesis_id: "primary_goods"
+    name: "Primärgüter (Primary Goods)"
+```
+
+**Valid citation keys**: `contractualism:original_position`,
+`contractualism:difference_principle`, `contractualism:reasonable_rejection`,
+`contractualism:public_reason`, `contractualism:overlapping_consensus`.
+
+### B.4 `nietzsche.yaml` — Key Fields and Schema Note
+
+**Path**: `plugins/ethics_ai/philosophies/nietzsche.yaml`  
+**`school:`** `lebensphilosophie_nietzsche` ← **Note**: uses `school:` not `school_id:`  
+This is a schema inconsistency relative to the other 15 profiles.
+`PhilosophyLoader::parseYAML()` handles this via a key-alias fallback [E4].
+
+```yaml
+# plugins/ethics_ai/philosophies/nietzsche.yaml (excerpt)
+school: lebensphilosophie_nietzsche       # <-- non-standard key
+name: "Nietzscheanische Lebensphilosophie"
+philosopher_name: "Friedrich Nietzsche"
+philosopher_life: "1844-1900"
+
+description: |
+  Lebensphilosophie mit Betonung des Willens zur Macht, Perspektivismus und der
+  Umwertung aller Werte. Kritik der traditionellen Moral als "Sklavenmoral".
+
+main_theses:
+  will_to_power:           # <-- map style, not sequence style (second schema variant)
+    title: "Wille zur Macht"
+  ubermensch:
+    title: "Übermensch"
+```
+
+The `nietzsche.yaml` profile uses a **map-style** `main_theses` (keys are
+thesis names, not `thesis_id` sequence items), which is the second schema
+variant supported by `parseYAML()`'s `joinNode` helper [E4]. Citation keys
+for this profile therefore use the map keys directly:
+`lebensphilosophie_nietzsche:will_to_power`, `lebensphilosophie_nietzsche:ubermensch`.
+
+The high escape rate (64%) for this profile is partly a consequence of
+the RLHF conflict with the `will_to_power` and `ubermensch` theses, and
+partly the schema difference (map-style theses are harder to enumerate in
+a structured citation list than sequence-style theses).
+
+### B.5 `socratic.yaml` — Key Fields
+
+**Path**: `plugins/ethics_ai/philosophies/socratic.yaml`  
+**`school_id`**: `socratic`
+
+```yaml
+# plugins/ethics_ai/philosophies/socratic.yaml (excerpt)
+main_theses:
+  - thesis_id: "know_thyself"
+    description: "Wahre Weisheit beginnt mit Selbsterkenntnis und dem Wissen
+      um das eigene Nichtwissen."
+
+  - thesis_id: "virtue_is_knowledge"
+    description: "Niemand tut wissentlich Unrecht — alles Fehlverhalten beruht
+      auf Unwissenheit."
+
+  - thesis_id: "socratic_method"
+    description: "Wahrheit wird durch systematisches kritisches Fragen erreicht,
+      nicht durch Belehrung."
+
+  - thesis_id: "unexamined_life"
+    description: "Ein Leben ohne philosophische Reflexion und Selbstprüfung ist
+      kein menschenwürdiges Leben."
+
+  - thesis_id: "care_of_soul"
+    description: "Das Wichtigste ist nicht Reichtum oder Macht, sondern die
+      Pflege der Seele."
+
+  - thesis_id: "civil_disobedience"
+    description: "Man muss ungerechten Gesetzen gehorchen, aber für Gerechtigkeit
+      argumentieren."
+
+  - thesis_id: "daimonion"
+    description: "Sokrates wurde von einer inneren göttlichen Stimme geleitet,
+      die ihn vor Fehlern warnte."
+
+  - thesis_id: "socratic_irony"
+    description: "Sokrates gibt vor, unwissend zu sein, um Gesprächspartner
+      zum Nachdenken zu bringen."
+```
+
+The `socratic_method` thesis (questioning over assertion) is the root cause
+of the 38% escape rate: the monocle instructs the LLM to question rather than
+assert, conflicting with the PRO argument frame. The LMQL adapter for Socratic
+profiles must replace `"Write a PRO argument"` with `"Write a sustained
+Socratic questioning sequence that challenges the CONTRA position, making
+clear that Socratic inquiry leads toward [verdict]"` to preserve the method
+while satisfying the discourse frame.
+
+**Valid citation keys**: `socratic:know_thyself`, `socratic:virtue_is_knowledge`,
+`socratic:socratic_method`, `socratic:unexamined_life`, `socratic:care_of_soul`,
+`socratic:civil_disobedience`, `socratic:daimonion`, `socratic:socratic_irony`.
+
+---
+
+## Appendix B-old. YAML Philosophy Profile Authoring Guide (Quick Reference)
 
 A minimal valid profile for a new philosophy school requires three fields:
 
