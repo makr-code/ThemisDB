@@ -2901,6 +2901,15 @@ produces philosophically grounded, coherent discourse at the cost of latency.
 The design goal of Architecture B is to close this gap while maintaining
 YAML-enforced auditability.
 
+> **Extended evidence:** The complete 5-round dialectic evidence run across all
+> five paper dilemmas (trolley_001, trolley_002, medical_001, av_001, medical_002)
+> — including SURREBUTTAL (Round 3), SYNTHESIS (Round 4), and META-VERDICT (Round 5)
+> with confidence scores — is documented in
+> `research/DIALECTIC_EVIDENCE_PAPER.md` (Evidence Anchors E25–E44). Key additional
+> findings: (a) context window overflow is universal at Round 3 on 7B models [E40–E41];
+> (b) R5 META-VERDICT surfaces systematic YAML schema gaps addressed in
+> `src/ethics_ai/FUTURE_ENHANCEMENTS.md §9` [E42].
+
 ---
 
 ## V-C. Case Study: AI-Triage Liability — Legal LoRA Stack + Kantian Monocle
