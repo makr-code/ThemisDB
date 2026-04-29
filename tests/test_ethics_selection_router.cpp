@@ -21,6 +21,7 @@
 #include "ethics_profile_registry.h"
 #include "plugins/ethics_ai/ethics_ai_types.h"
 
+#include <chrono>
 #include <filesystem>
 #include <fstream>
 #include <mutex>
@@ -47,7 +48,8 @@ protected:
     std::unique_ptr<EthicsProfileRegistry> registry;
 
     void SetUp() override {
-        tmp_dir = (fs::temp_directory_path() / "test_esr").string();
+        const auto suffix = std::to_string(std::chrono::steady_clock::now().time_since_epoch().count());
+        tmp_dir = (fs::temp_directory_path() / ("test_esr_" + suffix)).string();
         fs::create_directories(tmp_dir);
 
         // Write minimal profiles covering the taxonomy classes used in tests
@@ -240,7 +242,9 @@ TEST_F(EthicsSelectionRouterTest, ESR10_ConcurrentRouteCalls) {
     EthicsSelectionRouter router(registry.get(), makeConfig(/*top_n=*/3));
 
     constexpr int kThreads = 4;
-    constexpr int kIterations = 25;
+    constexpr size_t kIterations = 25; // 25 iterations per thread provides adequate coverage under
+                                       // Thread Sanitizer to detect data-race regressions without
+                                       // extending CI runtime beyond the 30-second test timeout
     std::vector<size_t> counts(kThreads, 0);
     std::mutex           counts_mutex;
     std::vector<std::thread> threads;
@@ -248,7 +252,7 @@ TEST_F(EthicsSelectionRouterTest, ESR10_ConcurrentRouteCalls) {
     for (int i = 0; i < kThreads; ++i) {
         threads.emplace_back([&, i]() {
             size_t local_count = 0;
-            for (int j = 0; j < kIterations; ++j) {
+            for (size_t j = 0; j < kIterations; ++j) {
                 auto res = router.route("Ethical dilemma about AI in healthcare",
                                         "medical");
                 local_count += res.selected.size();

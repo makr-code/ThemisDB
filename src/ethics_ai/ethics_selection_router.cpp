@@ -76,6 +76,14 @@ double termOverlapSimilarity(
 /// Sigmoid mapping raw score to [0, 1].
 double sigmoid(double x) { return 1.0 / (1.0 + std::exp(-x)); }
 
+/// Steepness of the sigmoid applied to term-overlap similarity scores.
+/// Value 8.0 chosen empirically: at sim=0.25 (weak match) the output is ~0.50;
+/// at sim=0.50 (moderate) ~0.88; at sim=0.0 (no overlap) ~0.27.
+static constexpr double kSigmoidSteepness = 8.0;
+/// Bias shifts the sigmoid midpoint towards sim≈0.125, so unrelated profiles
+/// do not score near 0.5 by default.
+static constexpr double kSigmoidBias = 1.0;
+
 } // anonymous namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -257,7 +265,7 @@ std::vector<RouterCandidate> EthicsSelectionRouter::Impl::stage2(
 
         RouterCandidate cand;
         cand.school_id      = sid;
-        cand.semantic_score = sigmoid(sim * 8.0 - 1.0); // map to [0,1]
+        cand.semantic_score = sigmoid(sim * kSigmoidSteepness - kSigmoidBias);
         cand.taxonomy_score = 1.0;                       // set later by caller
         result.push_back(cand);
     }

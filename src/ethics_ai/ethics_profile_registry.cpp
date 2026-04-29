@@ -12,6 +12,11 @@ namespace themis {
 namespace plugins {
 namespace ethics {
 
+/// Maximum number of characters kept from a profile's `description` field
+/// in the lightweight metadata index.  150 chars is enough for semantic
+/// routing (Stage-2 term-overlap) while keeping index RAM at ~500 B/profile.
+static constexpr size_t kDescriptionSnippetMaxLength = 150;
+
 namespace {
 /// Helper: read a sequence of strings from a YAML node (scalar or sequence).
 std::vector<std::string> yamlStringSeq(const YAML::Node& node) {
@@ -250,7 +255,7 @@ EthicsProfileMeta EthicsProfileRegistry::scanHeader(const std::string& filepath)
         // Grab a short description snippet
         if (root["description"] && root["description"].IsScalar()) {
             std::string desc = root["description"].as<std::string>("");
-            meta.description_snippet = desc.substr(0, std::min(desc.size(), size_t{150}));
+            meta.description_snippet = desc.substr(0, std::min(desc.size(), kDescriptionSnippetMaxLength));
         }
     } catch (const std::exception& ex) {
         // Non-fatal: return what we have (school_id from filename)

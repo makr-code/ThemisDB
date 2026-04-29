@@ -22,6 +22,7 @@
 #include "ethics_profile_registry.h"
 #include "plugins/ethics_ai/ethics_ai_types.h"
 
+#include <chrono>
 #include <filesystem>
 #include <fstream>
 #include <string>
@@ -42,9 +43,9 @@ protected:
     std::string tmp_dir;
 
     void SetUp() override {
-        tmp_dir = (fs::temp_directory_path() / "test_epr_XXXXXX").string();
-        // create unique temp dir
-        tmp_dir = fs::temp_directory_path() / "test_epr";
+        // Use a time-based suffix to avoid collisions in parallel test runs
+        const auto suffix = std::to_string(std::chrono::steady_clock::now().time_since_epoch().count());
+        tmp_dir = (fs::temp_directory_path() / ("test_epr_" + suffix)).string();
         fs::create_directories(tmp_dir);
         writeProfile("school_a", "deontological", {"duty", "rights"}, {"medical"});
         writeProfile("school_b", "consequentialist", {"utility"}, {"ai_governance"});
