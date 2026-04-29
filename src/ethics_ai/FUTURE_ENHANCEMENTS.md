@@ -1477,3 +1477,645 @@ activation_conditions, domain_overrides, regulatory_constraints, and convergence
 - [ ] Ethics Community Graph via `ProcessCommunityDetector` on `ArgumentStore` co-occurrence
 - [ ] Multi-hop decomposition: `MultiHopReasoner` for sub-question routing to Ethics clusters
 - [ ] `OntologyAwareRetriever` ethics ontology (IS_A, SPECIALIZES, CONFLICTS_WITH, COMPLEMENTS)
+
+---
+
+## 12. Context-Window-Budget-Strategie: Komprimierung und Architekturelle Zerlegung (Target: Q3–Q4 2026)
+
+> **Motivation:** Evidence Anchor E40–E41 (DIALECTIC_EVIDENCE_PAPER.md §V-B.5) belegt,
+> dass der Context-Window-Overflow bei 7B-Modellen (8 K Token) universell ab Runde 3
+> des SURREBUTTAL auftritt, wenn ≥ 3 Schulen teilnehmen. Bei 4 Schulen bricht R3
+> bereits mit aggressiver Kompression an die 8 K-Grenze; R4 SYNTHESIS überschreitet sie
+> ohne jegliche Maßnahme vollständig. Beide Strategien — **Komprimierung** (weniger
+> Token bei gleicher Semantik) und **Architekturelle Zerlegung** (Aufteilung des
+> Diskurses in kleinere, eigenständig lösbare Schritte) — werden gleichrangig behandelt
+> und sind komplementär einzusetzen. Weder reicht Komprimierung allein (Informationsverlust
+> wächst mit Schulzahl), noch ist Zerlegung allein ausreichend (Kohärenzverlust bei
+> extremer Fragmentierung). Die kombinierte Anwendung beider Spuren ist der einzige
+> Weg, 4+-Schul-Diskurse auf 7B-Modellen mit akzeptablem Discourse-Coherence-Verlust
+> (ΔDC ≤ 0.10) zu betreiben.
+>
+> **Cross-Referenzen:**
+> - Evidence Paper §VI-B (4-Schul-Expansion Budget-Hochrechnung)
+> - `src/ethics_ai/FUTURE_ENHANCEMENTS.md §9.3` (`PriorRoundCompressor` — Kernkomponente der Komprimierungsspur)
+> - `src/prompt_engineering/FUTURE_ENHANCEMENTS.md §Multi-School Discourse-Level Prompt Coordination` (MSD-01..10)
+> - `include/prompt_engineering/context_window_manager.h` `selectThesesForRound()` (§9.1 ✅ implementiert)
+
+---
+
+### §12.1 Komprimierungsspur (Compression Track)
+
+**Design-Prinzip:** Dieselbe semantische Substanz wird mit weniger Token dargestellt.
+Keine Informationen werden weggelassen — sie werden in kompaktere Repräsentationsformen
+überführt, die vom LLM dennoch vollständig auswertbar sind.
+
+---
+
+#### §12.1.1 Monokel-Budget-Reduktion via `activation_rounds` + `token_budget` ✅ IMPLEMENTIERT (2026-04-29)
+
+> **Status:** `ContextWindowBudgetManager::selectThesesForRound()` + `PhilosophyThesis.token_budget`
+> + `PhilosophyThesis.activation_rounds` + `PhilosophyThesis.round_role_weights` vollständig
+> implementiert. Tests TBM-01..10 in `tests/test_thesis_budget_management.cpp`.
+
+**Wirkung:** Die Monokel-Seite (system-prompt-Block mit Schulthesen) wird von ~800 Token
+auf ~400–500 Token komprimiert, indem Thesen mit niedrigem `round_role_weights`-Wert für
+die aktuelle Runde auf 15-Token-Headlines reduziert werden.
+
+**Sofortige Aktivierung:** `kant.yaml`, `utilitarianism.yaml`, `contractualism.yaml`
+und alle neu erstellten Schulprofile müssen die folgenden Felder für alle Hauptthesen
+deklarieren:
+
+```yaml
+main_theses:
+  - thesis_id: "<school>:<thesis_key>"   # snake_case, Pflicht
+    token_budget: 180                    # max Token-Injektion für diese These
+    activation_rounds: [1, 2, 3]        # R4/R5: automatisch Headline-Only
+    round_role_weights:
+      PRO: 1.0
+      REBUTTAL: 0.9
+      SURREBUTTAL: 0.8
+      SYNTHESIS: 0.4     # Stark komprimiert — Kerne bereits debattiert
+      META_VERDICT: 0.2  # Nur Referenz auf These, kein voller Text
+```
+
+**Empfohlene Schwellenwerte für 4-Schul-Betrieb:**
+
+| Runde | `round_role_weights`-Schwelle | Injektionstiefe |
+|---|---|---|
+| R1 PRO | ≥ 0.8 → full, < 0.8 → headline | Kern-Thesen vollständig |
+| R2 REBUTTAL | ≥ 0.7 → full, < 0.7 → headline | Eine These weniger als R1 |
+| R3 SURREBUTTAL | ≥ 0.8 → full, < 0.8 → headline | Nur direkt angesprochene Thesen |
+| R4 SYNTHESIS | ≥ 0.5 → full, < 0.5 → headline | Max. 2 Thesen vollständig |
+| R5 META-VERDICT | Alle → headline | Keine vollständige Thesen-Injektion |
+
+---
+
+#### §12.1.2 `PriorRoundCompressor` — Komprimierung vorheriger Runden (→ §9.3)
+
+> **Status:** Vollständig spezifiziert in §9.3. Implementierung: Target Q3 2026.
+> Neue Datei: `include/ethics_ai/prior_round_compressor.h` +
+> `src/ethics_ai/prior_round_compressor.cpp`.
+
+**Wirkung:** Argumenttexte aus vergangenen Runden (der Haupttreiber des Token-Wachstums
+ab R3) werden vor der Injektion in `DiscoursePromptCoordinator` komprimiert.
+
+**Drei Kompressions-Modi mit messbaren Kennzahlen:**
+
+| Modus | Token-Reduktion | DC-Verlust | Aktivierung |
+|---|---|---|---|
+| `principle_citations_only` | ~75 % | ΔDC ≤ −0.05 | Standard bei 4+ Schulen ab R3 |
+| `structured_summary` | ~60 % | ΔDC ≤ −0.08 | 3 Schulen auf < 8 K-Modell ab R3 |
+| `headline` | ~80 % | ΔDC ≤ −0.15 | Nur wenn Token-Budget kritisch (< 500 Tokens frei) |
+
+**Budget nach Kompression (4 Schulen, `principle_citations_only`):**
+
+| Runde | Unkomprimiert | Nach `principle_citations_only` | Fits 8 K? |
+|---|---|---|---|
+| R3 SURREBUTTAL | ~6 300 Token | ~3 200 Token | ✅ |
+| R4 SYNTHESIS | ~9 000 Token | ~3 800 Token | ✅ |
+| R5 META-VERDICT | ~3 500 Token | ~3 500 Token (keine Komprimierung nötig) | ✅ |
+
+**Pflicht-Konfiguration in `discourse_config.yaml` für 4+ Schulen:**
+
+```yaml
+discourse_rounds:
+  - round: 3
+    name: "SURREBUTTAL"
+    compression_policy: "prior_round_summarization"
+    prior_round_summarization:
+      trigger_round: 3
+      mode: "principle_citations_only"      # Standard für 4+ Schulen
+      max_tokens_per_round: 300             # pro Schule und Runde
+      preserve: ["principle_citations", "verdict"]
+      cross_round_coherence_anchor: "thesis_ids"
+  - round: 4
+    name: "SYNTHESIS"
+    compression_policy: "prior_round_summarization"
+    prior_round_summarization:
+      trigger_round: 4
+      mode: "principle_citations_only"
+      max_tokens_per_round: 200
+```
+
+---
+
+#### §12.1.3 Selektive Gegner-Injektion via `CrossSchoolTensionResolver` (→ §9.2)
+
+> **Status:** Vollständig spezifiziert in §9.2. Implementierung: Target Q3 2026.
+
+**Wirkung:** Statt alle Gegner-Argumente vollständig einzubetten, wählt
+`CrossSchoolTensionResolver::getRelevantTensions()` nur die Thesen aus, die laut
+`cross_school_tensions.rebuttal_cite_weight` ≥ 0.6 eine direkte Tension zur aktuellen
+Schule aufweisen. Thesen mit niedrigerem Gewicht erscheinen als Headline-Token.
+
+**Token-Einsparung R2 REBUTTAL (4 Schulen):**
+- Ohne Selektion: 3 × ~600 Token Gegner-Argumente = ~1 800 Token
+- Mit Selektion (top-2 pro Gegner, `rebuttal_cite_weight ≥ 0.6`): ~600 Token (66 % Reduktion)
+
+**Konfiguration in Schulprofil-YAML:**
+
+```yaml
+cross_school_tensions:
+  - own_thesis: "selbstzweck"
+    opposing_school: "utilitarianism"
+    opposing_thesis: "greatest_happiness"
+    tension_type: "categorical_vs_aggregate"
+    rebuttal_cite_weight: 0.9    # → wird in R2 vollständig eingebettet
+  - own_thesis: "kategorischer_imperativ"
+    opposing_school: "islamische_ethik"
+    opposing_thesis: "maslaha"
+    tension_type: "deontological_vs_welfare"
+    rebuttal_cite_weight: 0.5    # → erscheint nur als Headline
+```
+
+---
+
+#### §12.1.4 Konvergenz-Matrix via `ConvergenceMarkerEngine` (→ §9.5)
+
+> **Status:** Vollständig spezifiziert in §9.5. Implementierung: Target Q3 2026.
+
+**Wirkung:** In R4 SYNTHESIS wird keine vollständige Wiedergabe aller
+Schulargumente eingebettet. Stattdessen erzeugt `ConvergenceMarkerEngine::buildConvergencePreamble()`
+eine kompakte 4×4-Positions-Matrix (~200 Token) die angibt, welche Schul-Thesis-Paare
+konvergieren oder divergieren:
+
+```
+[CONVERGENCE MATRIX — R4 SYNTHESIS]
+kant:kategorischer_imperativ ↔ contractualism:reasonable_rejection: CO_PROHIBITIVE (do_not_push)
+kant:kategorischer_imperativ ↔ utilitarianism:rule_utilitarianism: CONDITIONAL_CONVERGENT (policy_mode)
+islamische_ethik:la_darar ↔ schopenhauer:compassion_ethics: CO_PROHIBITIVE (minimize_harm)
+[PERSISTENT SPLITS]
+utilitarianism:act_utilitarianism ↔ kant:rigorismus: IRREDUCIBLE (arithmetic_vs_categorical)
+```
+
+Diese Darstellung ersetzt ~3 600 Token (4 × ~900 Token vollständige Schulargumente) durch
+~200 Token und bewahrt die für die SYNTHESIS entscheidende Inter-Schul-Struktur.
+
+---
+
+### §12.2 Architekturelle Zerlegungsspur (Decomposition Track)
+
+**Design-Prinzip:** Der Diskurs wird in eigenständig lösbare Einheiten aufgeteilt, von
+denen jede innerhalb des verfügbaren Context-Windows eines kleineren Modells lösbar ist.
+Zwischen den Einheiten werden nur kompakte Zustandsrepräsentationen weitergegeben,
+keine vollständigen Transkripte.
+
+---
+
+#### §12.2.1 LLM-Cascade-Routing
+
+> **Status:** Konzept aus Dohan et al. (2022) [2], für ThemisDB-Diskursstruktur angepasst.
+> Implementierung: Target Q3 2026. Integration in `DiscoursePromptCoordinator`.
+
+**Kern-Idee:** Nicht jede Diskursrunde erfordert das größte verfügbare Modell. Durch
+Routing auf das minimal nötige Modell werden Latenz und Kosten reduziert, ohne die
+Argumentqualität in den kritischen Runden zu beeinträchtigen.
+
+**Empfohlenes Routing-Schema (konfigurierbar in `discourse_config.yaml`):**
+
+```yaml
+# discourse_config.yaml — cascade routing
+llm_cascade:
+  enabled: true
+  round_model_map:
+    PRO:          {model: "small",  min_context_k: 4}   # R1: einfach, Monokel reicht
+    REBUTTAL:     {model: "medium", min_context_k: 8}   # R2: Gegner-Argument nötig
+    SURREBUTTAL:  {model: "medium", min_context_k: 8}   # R3: kritische Runde, mittleres Modell
+    SYNTHESIS:    {model: "large",  min_context_k: 16}  # R4: höchste Komplexität
+    META_VERDICT: {model: "small",  min_context_k: 4}   # R5: nur komprimierte Summary
+  model_aliases:
+    small:  "llama-3-8b-instruct"           # 4K–8K context, niedrige Latenz
+    medium: "mistral-7b-instruct-32k"       # 32K context, balanciert
+    large:  "gpt-4o"                        # Frontier-Modell, nur für R4 SYNTHESIS
+```
+
+**Erwartete Effizienzgewinne (4 Schulen, 5 Runden):**
+
+| Runde | Ohne Cascade | Mit Cascade | Latenz-Reduktion |
+|---|---|---|---|
+| R1 PRO | GPT-4o × 4 | small × 4 | ~80 % |
+| R2 REBUTTAL | GPT-4o × 4 | medium × 4 | ~50 % |
+| R3 SURREBUTTAL | GPT-4o × 4 | medium × 4 | ~50 % |
+| R4 SYNTHESIS | GPT-4o × 1 | large × 1 | 0 % (kritisch) |
+| R5 META-VERDICT | GPT-4o × 4 | small × 4 | ~80 % |
+
+**Gesamtkosten-Reduktion:** ~60 % (nur R4 nutzt Frontier-Modell).
+
+**Required Interfaces:**
+
+```cpp
+// Neues Interface: include/ethics_ai/llm_cascade_router.h
+
+enum class CascadeModelTier { SMALL, MEDIUM, LARGE };
+
+struct CascadeRoutingConfig {
+    std::map<std::string, CascadeModelTier> round_to_tier;  // "PRO" → SMALL, etc.
+    std::map<CascadeModelTier, std::string> tier_to_model;  // SMALL → "llama-3-8b-instruct"
+    std::map<CascadeModelTier, size_t>      tier_to_context_k; // SMALL → 4, etc.
+    bool                                    enabled{true};
+};
+
+class ILlmCascadeRouter {
+public:
+    virtual ~ILlmCascadeRouter() = default;
+
+    // Liefert das korrekte LLM-Backend für die aktuelle Diskursrunde
+    // round_role: "PRO" | "REBUTTAL" | "SURREBUTTAL" | "SYNTHESIS" | "META_VERDICT"
+    // estimated_prompt_tokens: Schätzung des Eingabe-Umfangs (von ContextWindowBudgetManager)
+    virtual std::shared_ptr<ILLMProvider>
+        routeForRound(const std::string& round_role,
+                      size_t estimated_prompt_tokens) const = 0;
+
+    // Gibt ModelTokenBudget für die gegebene Runde zurück
+    virtual ModelTokenBudget budgetForRound(const std::string& round_role) const = 0;
+};
+```
+
+---
+
+#### §12.2.2 Sequential Tournament Mode für R3 SURREBUTTAL
+
+> **Status:** Neu spezifiziert für §12.2. Implementierung: Target Q3 2026.
+> Integration in `DiscoursePromptCoordinator::buildArgumentPrompt()` für
+> `ArgumentType::SURREBUTTAL`.
+
+**Problem:** Im Standard-R3-Format muss jede Schule auf *alle* Gegner-Rebuttals antworten
+— das erzeugt O(N²) Token-Druck (N-1 vollständige Gegner-Argumenttexte).
+
+**Lösung:** Nur der relevanteste Gegner (laut `CrossSchoolTensionResolver` höchster
+`rebuttal_cite_weight`) wird vollständig im Kontext bereitgestellt. Alle anderen Gegner
+werden als 15-Token-Headline injiziert.
+
+**Token-Vergleich R3 (4 Schulen, N=3 Gegner pro Schule):**
+
+```
+Standard-Modus:  Schule A sieht R2(B), R2(C), R2(D) vollständig → 3 × ~600 = ~1800 Tokens
+Tournament-Modus: Schule A sieht R2(B) vollständig + "[C]: [headline]" + "[D]: [headline]"
+                 → ~600 + 30 = ~630 Tokens (−65 %)
+```
+
+**Konfiguration:**
+
+```yaml
+discourse_rounds:
+  - round: 3
+    name: "SURREBUTTAL"
+    opponent_injection_mode: "tournament"   # enum: "full" | "tournament" | "headline_only"
+    tournament_config:
+      primary_opponent_count: 1             # Anzahl vollständig eingebetteter Gegner
+      selection_criterion: "rebuttal_cite_weight"  # aus cross_school_tensions
+      fallback_criterion: "final_score"     # aus EthicsSelectionRouter wenn tension unbekannt
+      secondary_injection: "headline"       # alle anderen Gegner → headline
+```
+
+---
+
+#### §12.2.3 Position-Abstract-Schema
+
+> **Status:** Neu spezifiziert für §12.2. Implementierung: Target Q3 2026.
+> Erweiterung des `discourse_config.yaml`-Schemas + `DiscourseRoundConfig`.
+
+**Idee:** Nach jeder Runde (insbesondere R2) erstellt jede Schule einen strukturierten
+**Position Abstract** (≤ 100 Token), der Verdict, Kern-Thesis-IDs und den stärksten
+Einwand gegen den Hauptgegner zusammenfasst. Spätere Runden (R3–R5) operieren auf
+diesen Abstracts statt auf vollständigen Argumenttexten, es sei denn, das vollständige
+Argument wird durch Tournament-Selektion eingebettet.
+
+**Vorteil:** Kontrollierbare, vorhersagbare Größe des Prior-Context; LLM erzeugt
+strukturierten Output anstatt der `PriorRoundCompressor` heuristisch kürzen muss.
+
+**Output-Schema-Erweiterung in `discourse_config.yaml`:**
+
+```yaml
+discourse_rounds:
+  - round: 2
+    name: "REBUTTAL"
+    output_schema:
+      verdict: "string"                       # "PROHIBIT" | "PERMIT" | "CONDITIONAL" | "ABSTAIN"
+      confidence: "float[0.0,1.0]"
+      core_thesis_ids: "list[string]"         # ≤ 3 thesis_ids die das Argument trägt
+      primary_rebuttal_of: "string"           # thesis_id des Gegner-Arguments, das widerlegt wird
+      position_abstract: "string"             # ≤ 100 Token — kompakte Positionszusammenfassung
+    position_abstract_required: true          # Pflicht-Output; fehlt → SCHEMA_VIOLATION Error
+```
+
+**Injektionslogik in R3:**
+- Wenn Schule B primärer Gegner (Tournament-Selektion): vollständiger R2(B)-Text
+- Wenn Schule C/D sekundäre Gegner: `R2(C).position_abstract` (~100 Token statt ~600)
+
+**Gesamteffekt kombiniert mit Tournament-Mode (4 Schulen, R3):**
+
+```
+Ohne Maßnahmen:           ~6 300 Token
+Mit Tournament allein:    ~4 500 Token (−29 %)
+Mit Tournament + Abstract:~2 800 Token (−56 %)
+Mit zusätzlich §12.1.1:   ~2 200 Token (−65 %)
+```
+
+**Required Interface-Erweiterung:**
+
+```cpp
+// Erweiterung in include/ethics_ai/discourse_engine.h
+
+struct DiscourseRoundOutput {
+    std::string       school_id;
+    int               round_number;
+    std::string       content;               // vollständiger Argumenttext
+    std::string       verdict;               // strukturierter Output (PRE)
+    float             confidence{0.0f};
+    std::vector<std::string> core_thesis_ids;
+    std::string       primary_rebuttal_of;
+    std::string       position_abstract;     // ≤ 100 Tokens — neu
+    bool              schema_valid{false};   // true wenn alle Pflichtfelder vorhanden
+};
+```
+
+---
+
+#### §12.2.4 Multi-Agent-Memory-Externalisierung via `ReflectionTuner::REFLEXION` ✅ TEILIMPLEMENTIERT
+
+> **Status:** `ReflectionTuner` implementiert (v1.5.0). `REFLEXION`-Strategie mit
+> episodischem Puffer vorhanden. Erweiterung für Diskurs-Kontext: Target Q3 2026 via
+> `DiscoursePromptCoordinator`.
+
+**Kern-Idee (Shinn et al., NeurIPS 2023 [Ref. 23 in PE-FUTURE_ENHANCEMENTS]):**
+Statt den vollständigen Kontext aus früheren Runden in den Prompt einzubetten,
+wird das "Gedächtnis" der Schule in einen episodischen Puffer externalisiert.
+Der nächste Aufruf liest einen kompakten Eintrag (~50 Token) statt das vollständige
+Prior-Transkript (~1 600 Token).
+
+**Bestehende Infrastruktur (sofort nutzbar):**
+- `ReflectionTuner::REFLEXION`-Strategie speichert `(prior_argument, rebuttal, dc_score)`
+- `DiscoursePromptCoordinator` (PE §MSD-09) liest diesen Puffer und prepended Episoden-Feedback
+
+**Erweiterung für Multi-Schul-Diskurs:**
+
+```cpp
+// DiscoursePromptCoordinator::buildArgumentPrompt() — R3+:
+// Statt: embed full R1 + R2 opponent texts (~1 600 tokens)
+// Neu:   embed episodic_memory_entry per school pair (~50 tokens each)
+
+struct EpisodicMemoryEntry {
+    std::string school_id;
+    int         from_round;
+    std::string compressed_position;    // ≤ 50 tokens: "Verdict: X; Core: thesis_id1, thesis_id2"
+    float       dc_score;               // Discourse Coherence aus vorheriger Runde
+    std::string strongest_tension;      // thesis_id pair (eigene vs. Gegner)
+};
+
+// Speicherung nach R2:
+reflectionTuner_.storeEpisode(school_id, round=2, position_abstract, dc_score);
+
+// Lesen in R3:
+auto episodes = reflectionTuner_.getEpisodesForSchool(school_id, max_episodes=3);
+// → inject ~150 tokens statt ~1 600 tokens für 3-Schul-Prior-Kontext
+```
+
+**Token-Einsparung:** Pro Schule × Runde: ~1 600 Token (fulltext) → ~150 Token (3 Episoden)
+= ~90 % Reduktion des Prior-Kontexts.
+
+---
+
+#### §12.2.5 Strukturierte Positions-Matrix für R4 SYNTHESIS
+
+> **Status:** Konzept basierend auf `ConvergenceMarkerEngine` (§9.5). Implementierung
+> in Kombination mit `ConvergenceMarkerEngine::buildConvergencePreamble()`.
+> Target Q3 2026.
+
+**Problem:** R4 SYNTHESIS ohne Komprimierung erfordert alle vorherigen Runden aller
+Schulen (~9 000 Token bei 4 Schulen). Selbst nach `principle_citations_only`-Komprimierung
+bleiben ~3 800 Token — knapp für 8 K-Modelle wenn der Synthesis-Output selbst
+700 Token benötigt.
+
+**Lösung:** Die SYNTHESIS-Runde erhält als primären Eingabe-Block eine
+maschinell generierte **Positions-Matrix** statt der komprimierten Textblöcke.
+Diese Matrix fasst alle Schul-Positionen als strukturierte Daten zusammen:
+
+```
+[POSITIONS-MATRIX — R4 SYNTHESIS INPUT]
+Schule          | Verdict    | Confidence | Kern-Thesen (IDs)
+kant            | PROHIBIT   | 0.91       | kategorischer_imperativ, selbstzweck, rigorismus
+utilitarianism  | PERMIT     | 0.78       | greatest_happiness, impartiality, consequentialism
+contractualism  | PROHIBIT   | 0.89       | reasonable_rejection, original_position
+islamische_ethik| CONDITIONAL| 0.82       | la_darar, maslaha, darura
+
+[KONVERGENZ-PAARE]
+kant + contractualism: CO_PROHIBITIVE @ do_not_push (divergent_grounding)
+kant + islamische_ethik: CONDITIONAL_CONVERGENT @ harm_prevention (policy_mode)
+
+[IRREDUZIBLER SPLIT]
+utilitarianism ↔ kant: arithmetic_vs_categorical (persistent across all rounds)
+
+SYNTHESIS-AUFGABE: Identifiziere übergreifende Konsenspunkte und benenne
+die unauflösbaren Spaltungen mit je einem thesis_id-Referenzpaar.
+```
+
+**Token-Verbrauch dieser Matrix:** ~250 Token (vs. ~3 800 Token komprimierter Text)
+= **weitere 93 % Reduktion** auf der Prior-Context-Seite von R4.
+
+**R4 Gesamt-Budget nach Positions-Matrix + Komprimierung (4 Schulen, 8 K-Modell):**
+- System-Prompt (SYNTHESIS-Instruktion): ~400 Token
+- Positions-Matrix: ~250 Token
+- Monokel (Theses als Headlines): ~200 Token
+- Completion-Reserve: ~700 Token
+- **Gesamt: ~1 550 Token** — paßt komfortabel auf jedes 4 K-Modell
+
+**Required Interfaces:**
+
+```cpp
+// include/ethics_ai/synthesis_matrix_builder.h (neue Datei)
+
+struct SchoolPositionSummary {
+    std::string school_id;
+    std::string verdict;                        // "PROHIBIT" | "PERMIT" | "CONDITIONAL"
+    float       confidence;
+    std::vector<std::string> core_thesis_ids;  // ≤ 3 thesis_ids
+};
+
+class SynthesisMatrixBuilder {
+public:
+    // Erstellt die kompakte Positions-Matrix aus R1–R3-Outputs aller Schulen
+    std::string buildMatrix(
+        const std::vector<SchoolPositionSummary>& positions,
+        const std::vector<ConvergenceMarker>& convergences,
+        int max_tokens = 300) const;
+
+    // Extrahiert SchoolPositionSummary aus DiscourseRoundOutput (liest position_abstract)
+    SchoolPositionSummary extractSummary(
+        const DiscourseRoundOutput& round_output) const;
+};
+```
+
+---
+
+### §12.3 Kombinierte Budget-Profile nach Modellklasse
+
+Die folgende Tabelle definiert die empfohlene Kombination beider Spuren für jede
+Modellklasse. Alle Profile beziehen sich auf einen 4-Schul-5-Runden-Diskurs.
+
+| Profil | Modell | Context | Komprimierungsspur | Zerlegungsspur | 7B-viable? |
+|---|---|---|---|---|---|
+| `micro` | 3B / 4 K | 4 096 Token | §12.1.1 (Monokel-Reduktion) + §12.1.2 (`headline`) | §12.2.1 (Cascade: `small`) + §12.2.5 (Positions-Matrix) + §12.2.3 (Position Abstract) | ⚠️ nur R1+R5 vollständig |
+| `standard` | 7B / 8 K | 8 192 Token | §12.1.1 + §12.1.2 (`principle_citations_only`) + §12.1.3 (Selektiv) | §12.2.2 (Tournament) + §12.2.3 (Abstract) + §12.2.4 (REFLEXION) | ✅ alle 5 Runden |
+| `extended` | 13B / 32 K | 32 768 Token | §12.1.1 + §12.1.2 (`structured_summary`) | §12.2.1 (Cascade: R4 → large) | ✅ komfortabel |
+| `frontier` | 70B+ / 128 K | 128 K Token | §12.1.1 optional | Kein Cascade nötig | ✅ kein CW-Problem |
+
+**Konfigurationsdatei:** `config/ethics_ai/model_budget_profiles.yaml` (neu, Target Q3 2026)
+
+```yaml
+# config/ethics_ai/model_budget_profiles.yaml
+profiles:
+  - id: "micro"
+    model_class: "3B"
+    max_context_tokens: 4096
+    compression:
+      monocle_reduction: true
+      prior_round_mode: "headline"
+      selective_opponent: false
+      convergence_matrix: true
+    decomposition:
+      cascade_enabled: true
+      tournament_mode: false
+      position_abstract: true
+      reflexion_memory: true
+      synthesis_matrix: true
+
+  - id: "standard"
+    model_class: "7B"
+    max_context_tokens: 8192
+    compression:
+      monocle_reduction: true
+      prior_round_mode: "principle_citations_only"
+      selective_opponent: true
+      convergence_matrix: true
+    decomposition:
+      cascade_enabled: false       # Optional: cascade für R4 empfohlen
+      tournament_mode: true
+      position_abstract: true
+      reflexion_memory: true
+      synthesis_matrix: false      # principle_citations_only reicht für 8K
+
+  - id: "extended"
+    model_class: "13B"
+    max_context_tokens: 32768
+    compression:
+      monocle_reduction: true
+      prior_round_mode: "structured_summary"
+      selective_opponent: false
+      convergence_matrix: false
+    decomposition:
+      cascade_enabled: true        # R4 → large; alle anderen → medium
+      tournament_mode: false
+      position_abstract: false
+      reflexion_memory: false
+      synthesis_matrix: false
+```
+
+---
+
+### §12.4 Test-Strategie (CWB-01..15)
+
+**Neue Testdatei:** `tests/ethics_ai/test_context_window_budget_strategy.cpp`
+
+| Test-ID | Szenario | Akzeptanzkriterium |
+|---|---|---|
+| `CWB-01` | 4-Schul-R3 mit `standard`-Profil | `ContextWindowBudgetManager.fits() == true`; Gesamt-Tokens ≤ 8 000 |
+| `CWB-02` | `principle_citations_only` auf 3-Argument-Runde | Output ≤ 300 Tokens; `PRINCIPLE CITATIONS:`-Block verbatim erhalten |
+| `CWB-03` | `headline`-Modus | Jede These exakt `"[thesis_id: name]"` Format; Gesamt ≤ 100 Tokens |
+| `CWB-04` | Monokel-Reduktion R5: alle Thesen → Headline | `selectThesesForRound(round=5)` liefert nur `is_full=false`-Einträge |
+| `CWB-05` | Tournament-Mode R3 (4 Schulen) | Nur 1 vollständiger Gegner-Text; 2 als Headline; Token-Total ≤ 5 000 |
+| `CWB-06` | Position-Abstract-Schema: `position_abstract_required=true` | Fehlendes `position_abstract` → `SCHEMA_VIOLATION`-Status |
+| `CWB-07` | Position-Abstract-Injektion R3 | Sekundäre Gegner-Injektion = `position_abstract` (≤ 100 Tokens) statt Volltext |
+| `CWB-08` | REFLEXION-Episoden-Puffer nach R2 | `reflectionTuner_.getEpisodesForSchool()` liefert 1 Eintrag ≤ 50 Tokens |
+| `CWB-09` | REFLEXION-Puffer R3-Injektion | 3 Episoden × ≤ 50 Tokens = ≤ 150 Tokens total |
+| `CWB-10` | Positions-Matrix R4 (4 Schulen) | `SynthesisMatrixBuilder::buildMatrix()` ≤ 300 Tokens; alle 4 Schulen vertreten |
+| `CWB-11` | Cascade-Routing: R1 → `small`, R4 → `large` | `ILlmCascadeRouter::routeForRound("PRO")` liefert `small`-Provider |
+| `CWB-12` | Cascade deaktiviert | `cascade_enabled=false` → alle Runden erhalten denselben Provider |
+| `CWB-13` | `micro`-Profil end-to-end (4 Schulen, 5 Runden) | Alle 5 Runden abgeschlossen; Peak-Token ≤ 4 000 |
+| `CWB-14` | `standard`-Profil end-to-end (4 Schulen, 5 Runden) | Alle 5 Runden abgeschlossen; Peak-Token ≤ 8 000; ΔDC ≤ 0.10 vs. unkomprimiert |
+| `CWB-15` | Backward-Kompatibilität: 3-Schul-Debatte ohne §12-Konfiguration | Bestehende Tests TBM-01..10, DRE-01..05, PRC-01..06 weiterhin grün |
+
+**CMake-Target:** `test_context_window_budget_strategy_focused`
+
+---
+
+### §12.5 Performance-Ziele
+
+| Metrik | Ziel | Messmethode |
+|---|---|---|
+| `PriorRoundCompressor::compressPriorRound()` | ≤ 5 ms für ≤ 3 Argumente | CPU-only, kein LLM-Aufruf |
+| `SynthesisMatrixBuilder::buildMatrix()` | ≤ 2 ms für ≤ 6 Schulen | CPU-only |
+| `ILlmCascadeRouter::routeForRound()` | ≤ 0.1 ms | Map-Lookup |
+| `EpisodicMemoryEntry`-Schreibvorgang | ≤ 0.1 ms | In-Memory-Ringpuffer |
+| `EpisodicMemoryEntry`-Lesezugriff (3 Einträge) | ≤ 0.1 ms | |
+| `buildArgumentPrompt()` Gesamtlatenz (`standard`-Profil) | ≤ 5 ms | Ohne LLM-Aufruf (PE-MSD-Ziel) |
+| Peak-Tokens 4-Schul-R3 (`standard`-Profil) | ≤ 5 000 Token | `ContextWindowBudgetManager` |
+| Peak-Tokens 4-Schul-R4 (`standard`-Profil) | ≤ 3 800 Token | `ContextWindowBudgetManager` |
+| Peak-Tokens 4-Schul-R4 mit Positions-Matrix | ≤ 1 600 Token | `ContextWindowBudgetManager` |
+
+---
+
+### §12.6 Sicherheit / Zuverlässigkeit
+
+- **Compression-Loss-Monitoring:** `PromptEngineeringMetrics::recordCompressionDelta(dc_before, dc_after)`
+  muss nach jeder komprimierten Runde aufgerufen werden. Sinkt DC um > 0.15 in einer
+  einzelnen Runde, wird ein `WARN`-Ereignis emittiert und das Protokoll um den
+  unkomprimierten `PRINCIPLE CITATIONS:`-Block ergänzt.
+- **Cascade-Fallback:** Wenn das Routing-Modell (`small`/`medium`) für die aktuelle
+  Runde nicht verfügbar ist, MUSS `ILlmCascadeRouter` auf das nächste verfügbare Modell
+  eskalieren (nie schweigend scheitern). Die Eskalation wird in `AuditLogger` geloggt.
+- **Position-Abstract-Validation:** Der `position_abstract`-Feldinhalt MUSS durch
+  `PromptInjectionDetector::sanitize()` laufen, bevor er in R3-Prompts eingebettet wird —
+  der Abstract enthält LLM-generierten Text aus vorherigen Runden und ist damit ein
+  potentielles Injection-Vehikel.
+- **Episodischer Puffer:** Der `ReflectionTuner`-Ringpuffer ist session-scoped und
+  nicht persistent. Er darf keine personenbezogenen Daten (Dilemma-Texte mit PII) ohne
+  vorherigen `utils/pii_detector.cpp`-Durchlauf enthalten.
+- **Positions-Matrix:** Die Felder `verdict` und `core_thesis_ids` stammen aus
+  LLM-strukturierten Outputs (via `output_schema`). Der `SynthesisMatrixBuilder` validiert
+  beide Felder gegen Enum-Werte (`PROHIBIT | PERMIT | CONDITIONAL | ABSTAIN` für `verdict`;
+  `^<school>:<thesis_key>$`-Pattern für `thesis_ids`) — Freitextfelder sind unzulässig.
+
+---
+
+### §12.7 Breaking Changes
+
+Keine. Alle §12-Komponenten sind optional und greifen nur, wenn das jeweilige
+Konfigurationsfeld in `discourse_config.yaml` oder `model_budget_profiles.yaml` gesetzt ist.
+
+| Komponente | Backward-Compat | Aktivierungsbedingung |
+|---|---|---|
+| `PriorRoundCompressor` | ✅ | `compression_policy:` in `discourse_config.yaml` |
+| `SynthesisMatrixBuilder` | ✅ | `synthesis_matrix: true` in Budget-Profil |
+| `ILlmCascadeRouter` | ✅ | `llm_cascade.enabled: true` in `discourse_config.yaml` |
+| Tournament-Mode | ✅ | `opponent_injection_mode: "tournament"` |
+| Position-Abstract-Schema | ✅ | `position_abstract_required: true` in Runden-Konfiguration |
+| REFLEXION-Episoden | ✅ | `reflexion_memory: true` in Budget-Profil |
+
+---
+
+### §12.8 Wissenschaftliche Referenzen
+
+[A] D. Dohan et al., "Language Model Cascades," *arXiv preprint arXiv:2207.10342*, 2022.
+    → Grundlage §12.2.1 LLM-Cascade-Routing.
+    Available: https://arxiv.org/abs/2207.10342
+
+[B] N. Shinn et al., "Reflexion: Language Agents with Verbal Reinforcement Learning,"
+    in *Proc. NeurIPS*, vol. 36, 2023.
+    → Grundlage §12.2.4 Multi-Agent-Memory-Externalisierung (REFLEXION episodischer Puffer).
+    Available: https://arxiv.org/abs/2303.11366
+
+[C] D. Du et al., "Improving Factuality and Reasoning in Language Models through Multiagent Debate,"
+    in *Proc. ICML 2024*, 2024.
+    → Grundlage der 5-Runden-Diskursstruktur; Context-Window-Problem bei N > 3 Agenten.
+    Available: https://arxiv.org/abs/2305.14325
+
+[D] P. Lewis et al., "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks,"
+    in *Proc. NeurIPS*, vol. 33, pp. 9459–9474, 2020.
+    → Grundlage §12.1.3 Selektive Gegner-Injektion via RAG-ähnliches Relevanz-Ranking.
+    Available: https://arxiv.org/abs/2005.11401
+
+[E] Y. Gao et al., "Retrieval-Augmented Generation for Large Language Models: A Survey,"
+    *arXiv preprint arXiv:2312.10997*, 2023.
+    → Survey-Grundlage für RAG-basierte Komprimierungsansätze.
+    Available: https://arxiv.org/abs/2312.10997
