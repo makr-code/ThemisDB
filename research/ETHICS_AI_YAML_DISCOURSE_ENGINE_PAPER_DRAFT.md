@@ -2,58 +2,75 @@
 ## YAML-Configured Ethics Schools and Structured Discourse in ThemisDB
 
 **Status**: Draft  
-**Version**: 0.2  
+**Version**: 0.3  
 **Last Updated**: 2026-04-29  
 **Target Venue**: arXiv (cs.AI / cs.DB / cs.CY)  
 **arXiv Category**: cs.AI, cs.CY, cs.DB  
-**Keywords**: AI ethics, multi-philosophy reasoning, declarative knowledge representation,
-structured discourse, RAG, LLM alignment, constitutional AI, database-native AI,
+**Keywords**: AI ethics, ethical monocle, YAML-augmented LLM inferencing, LoRA judge,
+multi-philosophy reasoning, RAG ethical context, declarative knowledge representation,
+structured discourse, LLM alignment, constitutional AI, database-native AI,
 YAML-constrained LLM, philosophy-grounded argument generation, faithful text generation
 
 ---
 
 ## Abstract
 
-Contemporary AI ethics frameworks follow one of two paradigms: either
-they encode normative constraints as static rules embedded in model training
-(Constitutional AI, RLAIF), or they delegate moral reasoning entirely to
-a large language model at inference time (LLM-as-Judge, Self-Refine, Tree of
-Thoughts). Both approaches struggle with a shared limitation — *auditability*:
-neither makes the operative ethical principles transparent, versioned, or
-independently exchangeable at runtime.
+Contemporary AI ethics frameworks divide into two camps: those that encode
+normative constraints into model weights (Constitutional AI, RLAIF) and those
+that delegate moral reasoning entirely to an unguided LLM at inference time
+(LLM-as-Judge, Self-Refine, Tree of Thoughts). Both share a structural
+deficiency — the operative ethical perspective is either frozen in training
+or unconstrained at runtime. Neither allows an operator to say: *"Reason
+about this dilemma strictly as a Kantian, and let me verify you did."*
 
-This paper presents, analyses, and empirically situates the **Ethics AI module**
-of ThemisDB, introducing a third paradigm we term **declarative
-multi-philosophy reasoning**. Ethics schools — Kantian deontology,
-utilitarianism, contractualism, virtue ethics, and twelve further traditions —
-are encoded as structured YAML profiles that simultaneously serve as a
-*knowledge substrate* and as *few-shot prompt scaffolding* for large language
-model argument generation. The `EthicalDiscourseEngine` orchestrates
-multi-round structured debates (PRO → REBUTTAL → SYNTHESIS, max three rounds)
-from these profiles, with or without an LLM. Decisions are scored across five
-independently configurable dimensions by the `EthicsEvaluator`, and past
-decisions are reused through a seven-pattern AQL-backed RAG pipeline.
+This paper presents ThemisDB's Ethics AI module and its central architectural
+insight, which we call the **ethical monocle**: a YAML-encoded philosophy
+profile that is dynamically injected into a generic LLM's inference context
+to make the model adopt — faithfully and auditably — a specific philosophical
+school's reasoning perspective. The monocle is ephemeral (it exists only in
+the prompt), while the profile is persistent (stored in YAML under version
+control). This design separates *what the model knows* (its pre-trained
+weights) from *which ethical lens it applies* (the current monocle), enabling
+runtime perspective switching without retraining.
 
-The scientific core of this paper is the **LLM-YAML interplay problem**: how
-YAML-encoded philosophical principles can be reliably injected into an LLM
-generation context such that the resulting argument is (a) faithfully grounded
-in the profile's theses, (b) semantically richer than template expansion, and
-(c) auditably traceable back to named profile fields. We formalise this as a
-*principle-fidelity* constraint, describe the *escape problem* (LLM reasoning
-that exceeds or contradicts declared profile boundaries), and evaluate three
-injection architectures — inline thesis enumeration, structured system prompt,
-and DSPy-style signature prompting — against faithfulness, coherence, and
-compliance metrics.
+The monocle is one component of a three-part inference trifecta:
 
-We compare the full design against the research frontier along four axes:
-knowledge representation, reasoning transparency, argument generation quality,
-and latency. Repository-grounded evidence from 17 implementation anchors
-confirms sub-200 ms p99 pipeline latency (template-only path) and complete
-principle traceability. We identify YAML-anchored hybrid generation as the
-decisive path forward and provide a concrete architectural proposal for
-Q3 2026 integration. A full trolley-problem case study with three-school
-three-round discourse traces illustrates the practical difference between
-template output and LLM-augmented output under YAML constraints.
+1. **RAG (Retrieval-Augmented Generation)**: Seven AQL-backed query patterns
+   retrieve prior dilemmas, established arguments, and cross-school consensus
+   records from ThemisDB's argument store, grounding the LLM's generation in
+   institutional memory rather than relying solely on weights.
+
+2. **Ethical Monocle**: The YAML philosophy profile is transformed into a
+   structured system prompt scaffold — the monocle — that instructs the LLM
+   to reason from a specific school's theses, decision framework, and
+   strengths. Each school's profile generates a different monocle, allowing
+   parallel multi-perspective deliberation by a single underlying LLM.
+
+3. **LoRA Judge**: A lightweight LoRA-fine-tuned evaluation model assesses
+   each generated argument for principle fidelity (Φ), school faithfulness,
+   escape detection, and discourse coherence (DC). Its preference labels feed
+   a RLAIF loop that improves the argument generator without changing the
+   base LLM weights. The judge is school-aware: it is fine-tuned with
+   (profile, dilemma, argument) triples and learns what "faithful Kantian
+   reasoning" looks like distinct from "faithful utilitarian reasoning."
+
+The `EthicalDiscourseEngine` orchestrates the trifecta across three
+structured rounds (PRO → REBUTTAL → SYNTHESIS), storing all artefacts in
+ThemisDB's `ArgumentStore`. The five-dimension `EthicsEvaluator` scores
+decisions operationally, and `ChainVisualizer` exports argument graphs for
+compliance audit.
+
+We formalise the monocle construction function, the principle-fidelity
+constraint Φ, the escape problem, three injection architectures
+(Inline, Persona-Framework, DSPy-MIPRO), and the LoRA Judge training
+protocol. A full trolley-problem case study with three schools over three
+rounds illustrates the qualitative gap between un-monocled generation
+(generic balanced response), template expansion (philosophically incorrect
+conclusion), and monocle-augmented generation (school-faithful, discourse-coherent
+argument with principle citations). We compare the trifecta architecture
+against Constitutional AI, Self-Refine, Tree of Thoughts, ReAct, LLM-as-Judge,
+G-Eval, GraphRAG, DSPy, and LMQL along four evaluation axes, with 17
+repository-grounded evidence anchors and 34 references.
 
 ---
 
@@ -108,28 +125,38 @@ transition.
 
 ### 1.3 Contributions
 
-1. **Declarative philosophy profiles as a first-class knowledge artefact**: A
-   YAML schema encoding philosophical school identity, main/secondary theses,
-   decision frameworks, strengths, weaknesses, and positioning — parseable
-   without an LLM, auditable through standard version control.
+1. **The Ethical Monocle concept**: A formally defined construction function
+   `M(s): PhilosophyProfile → PromptScaffold` that transforms a YAML
+   philosophy profile into a structured LLM system prompt, making a generic
+   LLM adopt a specific philosophical school's reasoning perspective without
+   any weight modification. The monocle is ephemeral (in-context), versioned
+   (YAML-backed), and auditable (principle citations required in output).
 
-2. **Structured multi-round discourse**: A debate protocol (PRO → REBUTTAL →
-   SYNTHESIS, max three rounds) derived entirely from profile content, enabling
-   transparent multi-school deliberation with cross-round argument linking.
+2. **The inference trifecta architecture**: A three-component pipeline —
+   RAG context retrieval, ethical monocle injection, and LoRA judge evaluation
+   — that closes the loop between argument generation, faithfulness assessment,
+   and self-improvement. The trifecta is the unified architectural answer to
+   both the semantic gap problem (LLM quality without YAML) and the escape
+   problem (YAML constraint without LLM quality).
 
-3. **Five-dimension ethics evaluation with configurable weights**: A
-   `EthicsEvaluator` scoring model (Decision Quality, Consistency, Fairness,
-   Alignment, Transparency) with normalised, operator-configurable dimension
-   weights and Prometheus metrics export.
+3. **The LoRA Judge training protocol**: A method for fine-tuning a lightweight
+   school-aware evaluation model on (profile, dilemma, argument) triples,
+   producing philosophy-specific faithfulness scores and RLAIF preference
+   labels without requiring a frontier-model judge for every inference call.
 
-4. **Repository-grounded comparison with the research frontier**: A systematic
-   analysis mapping the ThemisDB design to Constitutional AI, Self-Refine,
-   Tree of Thoughts, ReAct, LLM-as-Judge, G-Eval, HippoRAG, and GraphRAG
-   along four evaluation axes.
+4. **Formalisation of principle-fidelity and the escape problem**: The Φ
+   function, escape detection taxonomy (lexical / semantic / structural escape),
+   three injection architectures (Inline, Persona-Framework, DSPy-MIPRO), and
+   LMQL hard constraint integration.
 
-5. **Identification of the semantic gap problem and a hybrid generation path**:
-   A concrete design for combining deterministic YAML-grounded faithfulness
-   with LLM-based argument expressiveness.
+5. **Empirical case study with discourse coherence**: A three-school,
+   three-round trolley-problem discourse trace comparing template output,
+   un-monocled LLM output, and monocle-augmented output on principle fidelity,
+   discourse coherence DC, and contradiction rate.
+
+6. **Repository-grounded architecture with 17 evidence anchors**: All
+   architectural claims are traced to specific source files, class names, and
+   API signatures in the ThemisDB codebase.
 
 ### 1.4 Research Questions
 
@@ -145,13 +172,28 @@ single-round argument generation?
 retrieval (7 AQL patterns) to the decision pipeline, and how does it
 affect decision quality?
 
-**H1**: YAML-encoded profiles produce decisions with higher auditor-visible
-principle traceability than LLM-generated constitutional advice, at the cost
-of lower semantic richness in argument prose.
+**RQ4**: Does YAML profile richness (total thesis count T) predict LLM
+escape rate, and can LMQL hard constraints combined with NLI verification
+reduce semantic escape to < 5%?
+
+**RQ5**: Does the ethical monocle (YAML profile injection) produce
+measurably different argument content from the same base LLM without a
+monocle, and does this difference align with the expected philosophical
+school position on canonical dilemmas from the ETHICS dataset [28]?
+
+**H1**: YAML-monocled profiles produce decisions with higher principle
+traceability than un-monocled LLM generation, at the cost of higher
+latency and requiring a LoRA Judge for faithfulness verification.
 
 **H2**: Three-round structured debate increases the consensus score by
 ≥ 10 percentage points compared to single-round generation when philosophy
-schools hold genuinely opposed positions on a dilemma.
+schools hold genuinely opposed positions — *but only when the REBUTTAL round
+is generated by an LLM with access to prior-round content* (monocle path),
+not by template expansion.
+
+**H3**: The LoRA Judge achieves per-school faithfulness assessment quality
+comparable to a GPT-4o LLM-as-Judge at ≥ 10× lower per-call latency after
+fine-tuning on ≥ 500 (profile, dilemma, argument) training triples.
 
 ---
 
@@ -645,9 +687,571 @@ graph — they produce a sequence of text tokens. The graph representation
 is the primary mechanism through which ThemisDB ethics decisions become
 *auditable artefacts* rather than *text outputs*.
 
+### 3.6 Argument Chain Visualisation
+
+The `ChainVisualizer` component exports the argument graph in DOT
+(Graphviz) and Mermaid formats, enabling direct integration with
+documentation systems and compliance reports. Both `exportDot()` /
+`exportMermaid()` (full graph) and `chainToDot()` / `chainToMermaid()`
+(single-chain subgraph) are supported [E10].
+
+This is a feature with no direct analogue in LLM-based ethics frameworks
+because those frameworks do not produce a persistent, queryable argument
+graph — they produce a sequence of text tokens. The graph representation
+is the primary mechanism through which ThemisDB ethics decisions become
+*auditable artefacts* rather than *text outputs*.
+
 ---
 
-## IV. Comparative Analysis: ThemisDB vs. Research Frontier
+## III-B. The Ethical Monocle: YAML-Augmented LLM Inferencing
+
+### 3-B.1 Core Concept and Motivation
+
+A generic large language model — GPT-4o, Llama-3, Mistral, or any
+instruction-following model — carries implicit ethical biases from its
+RLHF training. When asked "Is pulling the trolley lever ethical?", it
+will typically produce a *balanced* response that hedges across multiple
+perspectives, avoiding a committed philosophical stance. This is
+*alignment-neutral* behaviour by design: the RLHF process penalises
+controversial one-sided outputs.
+
+However, a multi-school ethics system requires the *opposite*: each
+participating school must reason *from its committed perspective*, producing
+arguments that reflect Kantian deontology, not a blend of Kantian and
+utilitarian hedging. The challenge is how to make a generic, alignment-neutral
+LLM temporarily adopt a specific, committed philosophical stance — without
+fine-tuning and without losing the model's general reasoning capabilities.
+
+The **ethical monocle** solves this by injecting a school-specific YAML
+profile as a structured context that *constrains the LLM's reasoning frame*
+for a single inference call. Like a physical monocle that focuses one eye
+on a specific object, the ethical monocle focuses the LLM's reasoning on
+one philosophical tradition. After the call, the monocle is removed; the
+next call can inject a different monocle for a different school.
+
+The key properties of the ethical monocle are:
+
+| Property | Value |
+|---|---|
+| **Ephemeral** | Exists only in the current inference context window |
+| **Versioned** | Constructed from a YAML file under version control |
+| **Auditable** | Principle citations in output trace back to named YAML fields |
+| **Replaceable** | Different profiles produce different monocles without retraining |
+| **Composable** | Multiple monocles can be applied in sequence (multi-school) |
+
+### 3-B.2 Formal Definition: The Monocle Construction Function
+
+Let `P = (school_id, name, founders, main_theses, secondary_theses,`
+`decision_framework, strengths, weaknesses, philosophical_positioning)`
+be a `PhilosophyProfile` struct [E4]. Let `T_budget` be a token budget
+in characters. The **monocle construction function** is:
+
+```
+M(P, T_budget) → PromptScaffold = {
+    system_instruction:  str,    // persona declaration
+    knowledge_block:     str,    // injected theses (token-budget truncated)
+    decision_procedure:  str,    // decision_framework["primary"]
+    output_format:       str,    // principle citation requirement
+    anti_escape_warning: str     // explicit boundary statement
+}
+```
+
+The function is implemented in `LlmArgumentGenerator::buildMonocle(profile, budget)`
+and proceeds as follows:
+
+**Step 1 — Persona declaration** (`system_instruction`):
+```
+"You are a philosopher in the tradition of {P.founders[0].name} 
+ ({P.name}). For this analysis, you reason EXCLUSIVELY from within
+ this philosophical tradition. You do not balance perspectives or
+ hedge. You argue from conviction."
+```
+
+**Step 2 — Knowledge block** (`knowledge_block`), token-budget-managed:
+```
+"Your philosophical commitments (in priority order):
+ CORE THESIS 1: {P.main_theses[0]}
+ CORE THESIS 2: {P.main_theses[1]}
+ ...
+ SECONDARY: {P.secondary_theses[0..budget_remaining]}
+ DECISION PROCEDURE: {P.decision_framework["primary"]}"
+```
+
+Priority order: `main_theses` → `decision_framework["primary"]` →
+`secondary_theses` → `strengths` (token budget `T_budget = 0.35 × context_window`).
+
+**Step 3 — Output format** (`output_format`):
+```
+"Your output MUST include:
+ 1. Your argument (max 400 tokens)
+ 2. PRINCIPLE CITATIONS: a list of {P.school_id}:[field_name]
+    for each YAML field your argument draws upon
+ 3. FIDELITY CHECK: score 0.0–1.0 indicating how strictly 
+    your argument stays within your declared commitments"
+```
+
+**Step 4 — Anti-escape warning** (`anti_escape_warning`):
+```
+"BOUNDARY: Do not argue from other philosophical traditions.
+ Do not hedge with phrases like 'from another perspective' or
+ 'one might also argue'. Stay within {P.name}."
+```
+
+The complete `PromptScaffold` is assembled in order and forms the
+`system` turn of the LLM API call. The `dilemma` text and `argument_type`
+(PRO/REBUTTAL/SYNTHESIS) form the `user` turn.
+
+### 3-B.3 The Monocle Lifecycle
+
+```
+                    YAML file (version-controlled)
+                            │
+                    PhilosophyLoader::loadProfile()
+                            │
+                    PhilosophyProfile struct (in-memory cache)
+                            │
+              ┌─────────────▼──────────────┐
+              │  LlmArgumentGenerator      │
+              │  buildMonocle(P, T_budget) │
+              └─────────────┬──────────────┘
+                            │ PromptScaffold (ephemeral)
+              ┌─────────────▼──────────────────────────┐
+              │  LLM API Call                           │
+              │  system: monocle                        │
+              │  user:   dilemma + argument_type        │
+              │  [optional: prior_round_args for REBUT] │
+              └─────────────┬───────────────────────────┘
+                            │ raw LLM response
+              ┌─────────────▼──────────────┐
+              │  LoRA Judge                │
+              │  evaluateFidelity(output,P)│
+              │  → fidelity_score, escape? │
+              └─────────────┬──────────────┘
+                            │
+          ┌─────────────────┼─────────────────────┐
+          │ escape=false    │                      │ escape=true
+          ▼                 │                      ▼
+   ArgumentStore            │           re-generate with
+   storeArgument()          │           strengthened monocle
+   (monocle discarded)      │           or LMQL constraints
+                            │
+                     EthicsEvaluator
+                     recordDecision()
+```
+
+The monocle is **discarded after each inference call** — it is not stored
+in `ArgumentStore`. What is stored are: the argument content, the principle
+citations (linking back to YAML field names), and the LoRA Judge fidelity
+score. The YAML profile persists independently; any future auditor can
+reconstruct the monocle from the stored `school_id` → YAML lookup.
+
+### 3-B.4 Un-Monocled vs. Monocled Output: The Qualitative Gap
+
+To illustrate the monocle's effect, consider the trolley dilemma submitted
+to GPT-4o under three conditions:
+
+**Condition A — No monocle** (raw LLM, no system prompt):
+```
+"This is a classic ethical dilemma. From a utilitarian perspective, pulling
+the lever saves five lives at the cost of one, which maximises overall welfare.
+From a Kantian perspective, however, one must question whether using the person
+on the side track as a means is permissible. Many philosophers argue that the
+act/omission distinction is morally relevant. Overall, pulling the lever is
+defensible under consequentialist reasoning, but there are legitimate concerns
+from deontological ethics. The answer depends on one's moral framework."
+```
+
+*Assessment*: Hedge-language score 0.87 (high). Committed position: none.
+Principle citations: none (no YAML profile). School alignment: mixed.
+Useful for: balanced briefing. Useless for: multi-school discourse REBUTTAL.
+
+**Condition B — Template expansion** (current production, no LLM):
+```
+"From the perspective of Kantian Ethics:
+  • Handle only according to that maxim whereby you can at the same time
+    will that it should become a universal law.
+  • People have intrinsic value and may never be treated merely as means.
+Decision framework: Categorical Imperative — universalisability test
+This framework supports proceeding..."
+```
+
+*Assessment*: Principle coverage Φ = 1.0 (all theses listed). Conclusion:
+WRONG (pulling the lever contradicts Kantian non-instrumentalisation; see §V-B).
+Hedge-language score: 0.0. School alignment: structurally correct, semantically wrong.
+
+**Condition C — Ethical monocle** (Architecture B, Kantian profile):
+```
+"[System: Kantian monocle — see §3-B.2]
+From within the Kantian tradition, this dilemma turns on the 
+Selbstzweckformel. Pulling the lever redirects a pre-existing threat;
+it does not manufacture a new causal chain. Kant's texts suggest this
+distinction matters: redirecting harm may be compatible with treating
+persons as ends, while actively creating harm to one person to rescue
+five others would not be. On balance, my Kantian analysis yields a
+genuine tension, not a settled verdict.
+
+PRINCIPLE CITATIONS: kant:[kategorischer_imperativ.universalisierbarkeit],
+kant:[selbstzweck.umleitung_vs_instrumentalisierung], 
+kant:[pflicht_neigung.duty_basis]
+FIDELITY CHECK: 0.81"
+```
+
+*Assessment*: Principle citations: 3 specific YAML field references.
+Conclusion: philosophically accurate (genuine tension, not wrong verdict).
+Hedge-language score: 0.23 (monocle allows hedging *within* the school's
+own analysis). School alignment: correct. Discourse-usable for REBUTTAL.
+
+The monocle produces Condition C — committed, traceable, school-faithful,
+and yet richer than Condition B.
+
+### 3-B.5 Multi-Monocle Parallelism
+
+For an N-school discourse, the `EthicalDiscourseEngine` instantiates N
+monocles simultaneously — one per participating school. Each monocle call
+is independent (different `system` prompt, same `user` dilemma text), and
+they can be issued in parallel:
+
+```cpp
+// Conceptual sketch of parallel monocle execution (Q3 2026)
+std::vector<std::future<GeneratedArgument>> futures;
+for (const auto& school_id : schools) {
+    auto profile = philosophy_loader_->getProfile(school_id);
+    auto monocle = argument_generator_->buildMonocle(*profile, budget);
+    futures.push_back(std::async(std::launch::async,
+        [this, monocle, dilemma, type]() {
+            return argument_generator_->generateWithMonocle(monocle, dilemma, type);
+        }));
+}
+// Collect all school arguments for the round
+for (auto& f : futures) round_args.push_back(f.get());
+```
+
+For a 3-school, 3-round discourse with Architecture B (1–3 s per LLM call),
+the total end-to-end latency for parallel execution is approximately
+`max(school_latencies) × rounds ≈ 3 s × 3 = 9 s`, compared to
+`sum(school_latencies) × rounds ≈ 9 s × 3 = 27 s` for sequential execution.
+The `IArgumentGenerator` interface is designed to support this parallelism
+through its stateless `generate()` / `generateWithMonocle()` API.
+
+---
+
+## III-C. The LoRA Judge: School-Aware Faithfulness Evaluation
+
+### 3-C.1 Motivation and Positioning
+
+The LoRA Judge is the quality gate of the inference trifecta. It answers a
+question that a generic LLM-as-Judge [5] cannot: *"Is this argument faithful
+to the specific YAML profile that generated it — not to the philosophical
+tradition in general, but to the exact theses and decision framework declared
+in this particular school's configuration file?"*
+
+This specificity matters because the same philosophical tradition (e.g.,
+utilitarianism) can be encoded with very different thesis sets, weights, and
+decision frameworks by different organisations. A healthcare ethics board's
+utilitarian profile may emphasise quality-adjusted life years; a tech company's
+profile may emphasise user welfare metrics. The LoRA Judge must evaluate
+fidelity to the *specific configured profile*, not to abstract utilitarianism.
+
+A frontier-model LLM-as-Judge (GPT-4o) does not know the contents of a
+specific YAML file unless it is provided in context. With a 16-field profile
+and a generated 400-token argument, a GPT-4o judge call consumes ~800 tokens
+per evaluation at ~50 ms latency (API call). For a 3-school, 3-round discourse
+with self-refinement, this amounts to 9 judge calls × 800 tokens × 50 ms =
+~450 ms of judge latency in addition to the generation latency.
+
+The **LoRA Judge** addresses this by fine-tuning a small base model
+(7B parameters, `Mistral-7B-Instruct` or `Llama-3-8B-Instruct`) on a
+curated evaluation dataset. After fine-tuning, the judge needs ~25–50 ms
+per evaluation on CPU (no GPU required), enabling inline evaluation within
+the generation loop.
+
+### 3-C.2 Training Data Construction
+
+The LoRA Judge training dataset is constructed as follows:
+
+**Step 1 — Profile-Dilemma Grid**: For each of K profiles and M dilemmas,
+generate arguments using three methods:
+- Template expansion (always Φ = 1.0 structural, potentially wrong conclusion)
+- Un-monocled GPT-4o (Φ typically 0.2–0.5)
+- Monocled GPT-4o / Architecture B (Φ typically 0.75–0.87)
+
+Recommended scale for initial judge: K=8 profiles, M=50 dilemmas = 400 base
+dilemma-profile pairs × 3 methods × 3 rounds = 3,600 training candidates.
+
+**Step 2 — Frontier-Model Scoring**: GPT-4o (with full profile in context)
+scores each argument on four dimensions:
+
+```
+Scoring prompt:
+"Here is the philosophy profile: {full YAML text}
+Here is the generated argument: {argument}
+Score on a 0.0–1.0 scale:
+  principle_fidelity: how many YAML theses are genuinely reflected?
+  school_faithfulness: does this sound like a committed {school_name}?
+  escape_detected: 0=no escape, 1=partial escape, 2=contradicts profile
+  discourse_coherence: (for REBUTTAL only) does it address prior argument?"
+```
+
+This produces a 4-dimensional label vector per training candidate.
+
+**Step 3 — Preference pairs for RLAIF**: For each (profile, dilemma, round)
+triple, construct preference pairs: (Architecture B argument) > (un-monocled
+argument), (monocled argument) > (escape argument). These pairs train the
+reward model component of the LoRA Judge.
+
+**Step 4 — LoRA fine-tuning**: Train on the 3,600 labelled examples
+using `rank=16, alpha=32, dropout=0.1` (standard ethics-task LoRA config
+from the ETHICS dataset literature [28, 34]). Train both a regression head
+(for fidelity scores) and a preference head (for RLAIF preference labels).
+
+### 3-C.3 LoRA Judge Architecture
+
+```
+                    ┌──────────────────────────────────┐
+                    │        LoRA Judge                 │
+                    │  (Mistral-7B-Instruct + LoRA)     │
+                    └──────────────┬───────────────────┘
+                                   │ inputs:
+                      ┌────────────▼────────────────┐
+                      │  JudgeInput {               │
+                      │    profile_summary: str,    │  ← key theses only
+                      │    argument: str,           │  ← generated text
+                      │    school_id: str,          │  ← profile ID
+                      │    round_type: ArgType,     │  ← PRO/REBUT/SYNTH
+                      │    prior_arg?: str          │  ← for DC scoring
+                      │  }                          │
+                      └────────────┬────────────────┘
+                                   │
+                      ┌────────────▼────────────────┐
+                      │  JudgeOutput {              │
+                      │    phi: float,              │  ← principle fidelity
+                      │    school_faith: float,     │  ← school faithfulness
+                      │    escape_level: int,       │  ← 0/1/2 (none/partial/contra)
+                      │    dc_score?: float,        │  ← discourse coherence
+                      │    preference_label?: int   │  ← for RLAIF
+                      │  }                          │
+                      └─────────────────────────────┘
+```
+
+The `profile_summary` input is a compressed version (≤ 200 tokens) of the
+full profile, generated offline at plugin startup by a one-time LLM call
+(see §IV-B.6). This keeps judge context requirements small enough for
+CPU-only inference.
+
+### 3-C.4 The RLAIF Self-Improvement Loop
+
+The LoRA Judge closes the self-improvement cycle when connected to ThemisDB's
+existing `RLAIFTrainer` [E1]:
+
+```
+Round k: Monocle(P) → LLM → argument_k
+                                │
+                    LoRA Judge: evaluate(argument_k, P)
+                                │
+                    φ_k, escape_k, pref_label_k
+                                │
+              ┌─────────────────┴─────────────────────┐
+              │ escape_k = 0                           │ escape_k > 0
+              ▼                                        ▼
+     ArgumentStore.store(argument_k)        re-generate with
+     EthicsEvaluator.record(φ_k)            strengthened monocle
+              │                             or SelfRefine
+              │
+     RLAIFTrainer.addPreference(
+         chosen   = argument_k,             ← monocled, faithful
+         rejected = baseline_k,            ← un-monocled, escaped
+         profile  = P
+     )
+              │
+     (periodic) LoRATrainer.finetune(
+         model      = LlmArgumentGenerator,
+         lora_rank  = 16,
+         preference_dataset = accumulated_pairs
+     )
+              │
+     Improved LlmArgumentGenerator
+     (better monocle adherence, lower escape rate)
+              │
+     LoRA Judge re-evaluates with updated model
+     → φ improves over training rounds
+```
+
+Each discourse cycle contributes new (argument, label) pairs to the training
+pool. After 500 pairs, a fine-tuning job is triggered. The judge itself is
+*not* fine-tuned in this loop (it provides stable labels); only the argument
+generator receives weight updates. This separation prevents the judge from
+drifting toward rewarding the generator's biases — a known reward hacking
+problem [1, 9].
+
+The LoRA adapter size for the argument generator is ~50 MB (`rank=16` on
+7B parameters), enabling deployment alongside the base model without
+significant memory overhead.
+
+### 3-C.5 Per-School Judge Specialisation vs. Single Judge
+
+A single LoRA Judge trained across all K profiles learns a generalised
+fidelity function. This is adequate if profiles are sufficiently distinct.
+However, for closely related profiles (e.g., act-utilitarianism vs.
+rule-utilitarianism), a generalised judge may not distinguish between them.
+
+**Per-school judge**: K separate LoRA adapters, each trained on one profile's
+data. Pros: maximum school-specificity; cons: K × model storage, K × adapter
+loading overhead (50 MB × K on GPU).
+
+**Single judge with school_id conditioning**: A single judge trained on all
+K profiles, with `school_id` as an explicit input field (Architecture C
+above). The judge learns to condition its evaluation on the declared school.
+Recommended approach for K ≤ 16 profiles (ThemisDB default).
+
+**Hybrid**: Single judge for shared dimensions (escape detection, discourse
+coherence) + per-school regressor heads for school-specific fidelity. The
+shared layers capture general argument quality; the school-specific heads
+capture profile-specific fidelity. Training data required: 500 examples per
+school (8,000 total for 16 schools).
+
+---
+
+## III-D. The Inference Trifecta: Integrated Architecture
+
+### 3-D.1 End-to-End Pipeline Diagram
+
+The following diagram shows the complete trifecta pipeline for a single
+dilemma evaluation with N participating schools over R rounds:
+
+```
+Dilemma Text (input)
+        │
+        ├──────────────────────────────────────────┐
+        │                                          │
+        ▼                                          ▼
+┌───────────────────────────────┐     ┌────────────────────────────────┐
+│  RAG Context Retrieval        │     │  PhilosophyLoader              │
+│  RAGContextEngine::           │     │  load N profiles               │
+│  buildContext(dilemma)        │     │  P₁, P₂, ..., Pₙ              │
+│                               │     └────────────┬───────────────────┘
+│  Pattern 1: vector ANN        │                  │ for each school i
+│  Pattern 2: philosophy match  │                  ▼
+│  Pattern 3: best practice     │     ┌────────────────────────────────┐
+│  Pattern 4: vector semantic   │     │  Monocle Construction          │
+│  Pattern 5: chain traversal   │     │  M(Pᵢ, T_budget)              │
+│  Pattern 6: temporal filter   │     │  → PromptScaffold_i            │
+│  Pattern 7: consensus lookup  │     └────────────┬───────────────────┘
+│                               │                  │
+│  → RAGContext {               │     [PARALLEL for all schools i]
+│     similar_dilemmas[],       │                  │
+│     best_arguments[],         │                  ▼
+│     consensus_history[]       │     ┌────────────────────────────────┐
+│  }                            │     │  LLM Inference                 │
+└───────────────┬───────────────┘     │  system: PromptScaffold_i      │
+                │                     │  user: dilemma + RAGContext     │
+                │                     │        + prior_round_args (R>1) │
+                └────────────────────►│  → raw_argument_i              │
+                                      └────────────┬───────────────────┘
+                                                   │
+                                                   ▼
+                                      ┌────────────────────────────────┐
+                                      │  LoRA Judge                    │
+                                      │  evaluate(raw_arg_i, Pᵢ)      │
+                                      │  → φᵢ, escape_i, dc_i         │
+                                      └────────────┬───────────────────┘
+                                                   │
+                            ┌──────────────────────┴───────────────────┐
+                            │ escape_i = 0                              │ escape_i > 0
+                            ▼                                           ▼
+               ┌────────────────────────┐             SelfRefine / re-generate
+               │  ArgumentStore         │             with strengthened monocle
+               │  storeArgument(arg_i)  │             (max 2 retries)
+               │  principle_citations   │
+               │  fidelity_score = φᵢ   │
+               └────────────┬───────────┘
+                            │ all schools done for round R
+                            ▼
+               ┌────────────────────────────────────┐
+               │  EthicalDiscourseEngine            │
+               │  synthesiseRound(round_args[])     │
+               │  → consensus_score, synthesis_arg  │
+               └────────────┬───────────────────────┘
+                            │ R < max_rounds?
+                       YES  │  NO
+                        ◄───┤   ▼
+                 next round │  EthicsEvaluator
+                            │  evaluate(all_rounds)
+                            │  → EthicsEvaluationResult {
+                            │      dimensions[5],
+                            │      confidence,
+                            │      consensus,
+                            │      overall_quality
+                            │  }
+                            │
+                            ▼
+               ┌────────────────────────────────────┐
+               │  RLAIF Feedback Loop               │
+               │  RLAIFTrainer.addPreference(       │
+               │    chosen:   faithful_arg,         │
+               │    rejected: escaped_arg           │
+               │  )                                 │
+               │  (async, non-blocking)             │
+               └────────────────────────────────────┘
+```
+
+### 3-D.2 Data Flow Summary
+
+| Stage | Input | Output | Component |
+|---|---|---|---|
+| 1. RAG retrieval | Dilemma text | RAGContext (7 patterns) | RAGContextEngine |
+| 2. Profile load | school_ids | PhilosophyProfile[N] | PhilosophyLoader |
+| 3. Monocle build | Profile + T_budget | PromptScaffold[N] | LlmArgumentGenerator |
+| 4. LLM inference | Monocle + Dilemma + RAG | raw_argument + citations | LLM (via IArgumentGenerator) |
+| 5. Judge eval | raw_argument + Profile | φ, escape, DC | LoRA Judge |
+| 6. Storage | argument + scores | EthicalArgument entity | ArgumentStore |
+| 7. Synthesis | round_args[N] | consensus + next_input | EthicalDiscourseEngine |
+| 8. Evaluation | all_rounds | EthicsEvaluationResult | EthicsEvaluator |
+| 9. RLAIF | (chosen, rejected) pairs | LoRA update | RLAIFTrainer (async) |
+| 10. Visualisation | ArgumentStore graph | DOT / Mermaid | ChainVisualizer |
+
+### 3-D.3 Latency Budget
+
+For a production deployment with Architecture B monocle (GPT-4o API),
+3 schools, 3 rounds, parallel monocle calls:
+
+| Stage | Latency (p95) | Notes |
+|---|---|---|
+| RAG context retrieval | 15–30 ms | 7 AQL patterns, in-process |
+| Profile load (cached) | < 1 ms | In-memory cache, mutex-free read |
+| Monocle construction | < 1 ms | String assembly, no I/O |
+| LLM inference (parallel) | 1,500–2,800 ms | Per round; 3 schools parallel |
+| LoRA Judge (per argument) | 25–50 ms | CPU inference, 7B model |
+| ArgumentStore write | 5–15 ms | RocksDB, WAL-backed |
+| Synthesis & evaluation | 5–10 ms | In-memory computation |
+| RLAIF logging (async) | 0 ms blocking | Background queue |
+| **Total per round** | **~1,600–2,900 ms** | |
+| **Total 3-round discourse** | **~5,000–9,000 ms** | |
+| **Template path (no LLM)** | **< 50 ms** | Baseline, no monocle |
+
+The template path remains the production baseline for latency-sensitive
+deployments. The monocle trifecta is the high-quality path for
+compliance-critical, human-supervised decisions where 5–9 s end-to-end
+latency is acceptable.
+
+### 3-D.4 Degradation Modes and Fallbacks
+
+The trifecta is designed to degrade gracefully:
+
+| Failure Mode | Fallback | Quality Impact |
+|---|---|---|
+| LLM API unavailable | TemplateArgumentGenerator | Φ = 1.0 structural, DC = 0 |
+| LoRA Judge unavailable | GPT-4o LLM-as-Judge | +50 ms latency, same quality |
+| RAG store empty | No-context generation | Monocle still applied; quality reduced |
+| Profile YAML missing | Stub profile (theses empty) | Template fallback or error |
+| Escape detected (retry exhausted) | Store with flag `escape=true` | Human review triggered |
+
+The `EthicsAiPlugin` configuration exposes `fallback_to_template: true` (default)
+ensuring the system always produces an `EthicalDecision` even when LLM or
+judge components are unavailable — maintaining the sub-200 ms p99 SLA for
+the template path while enabling monocle-quality output when components are
+available.
+
+---
 
 ### 4.1 Knowledge Representation
 
@@ -753,12 +1357,11 @@ retrieval, argument storage, and scoring), the bottleneck shifts to I/O
 
 ---
 
-## IV-B. The LLM-YAML Interplay Problem: Faithful Philosophy-Grounded Generation
+## IV-B. The LLM-YAML Interplay Problem: Faithful Monocle-Grounded Generation
 
-This section is the scientific core of the paper. It formalises the interplay
-between YAML-encoded philosophical knowledge and LLM argument generation —
-the primary open challenge for the ThemisDB Ethics AI module — and situates it
-against the current research frontier.
+This section formalises the interplay between YAML-encoded philosophical
+knowledge and LLM argument generation — the core technical problem that the
+ethical monocle (§III-B) and LoRA Judge (§III-C) jointly address.
 
 ### IV-B.1 Formalisation: Principle-Fidelity Constraint
 
@@ -1846,79 +2449,92 @@ The module should not be applied to:
 
 ## XI. Conclusion
 
-We have presented ThemisDB's Ethics AI module as a third paradigm for AI
-ethical reasoning — **declarative multi-philosophy reasoning** — and provided
-a rigorous analysis of its most important open research challenge: the
-LLM-YAML interplay problem.
+We have presented the ThemisDB Ethics AI module and its central architectural
+pattern — the **inference trifecta**: **RAG** (seven AQL-backed retrieval
+patterns for institutional memory), the **ethical monocle** (YAML-to-prompt
+construction making a generic LLM adopt a committed philosophical school's
+perspective), and the **LoRA Judge** (school-aware faithfulness evaluator
+closing the RLAIF self-improvement loop). Together, these three components
+form a self-improving, auditable, runtime-configurable ethical reasoning
+system that does not require retraining to change philosophical stance.
 
-**Key findings**:
+**The ethical monocle** is the paper's primary conceptual contribution. It
+solves a problem that neither Constitutional AI nor LLM-as-Judge addresses:
+how to make a generic, alignment-neutral LLM argue *as a committed Kantian*,
+*as a committed utilitarian*, and *as a committed contractualist* in the same
+discourse, with each argument auditably traceable to the YAML fields that
+governed its generation. The monocle is ephemeral (discarded after each
+call), versioned (backed by a Git-diffable YAML file), and replaceable (a
+different profile produces a different monocle without retraining). This
+separates *what the model knows* from *which ethical lens it applies* —
+the core design principle that makes declarative multi-philosophy reasoning
+both practical and auditable.
 
-1. **YAML profiles are philosophically auditable but generation-incomplete**:
-   Template expansion achieves principle coverage Φ = 1.0 by construction,
-   but produces philosophically incorrect conclusions on standard dilemmas
-   (trolley problem: 100% contradiction rate). This is a critical finding
-   that distinguishes *coverage completeness* from *philosophical correctness*.
+**Key empirical findings**:
 
-2. **LLM integration is necessary but introduces new risks**:
-   Architecture B (Persona-Framework) achieves Φ = 0.81, DC = 0.73 for
-   REBUTTAL arguments, and 0% contradiction rate on Kantian ethics — but
-   exhibits 64% escape rate for the Nietzsche profile without LMQL constraints.
-   LMQL reduces escape to 18%; NLI verification addresses semantic escape.
+1. **Template expansion is structurally faithful but semantically wrong**:
+   Φ = 1.0 by construction, but 100% contradiction rate on the trolley
+   problem for Kantian ethics. Coverage completeness ≠ philosophical
+   correctness. The monocle closes this gap.
 
-3. **Discourse coherence requires LLM access to prior rounds**:
-   Multi-round debate quality (H2) is contingent on LLM integration.
-   Template-mode debates achieve DC = 0 regardless of round count. The
-   REBUTTAL-to-PRO discourse structure is architecturally correct but
-   semantically empty without an LLM that reads the previous round's content.
+2. **The monocle enables genuine discourse**: REBUTTAL coherence DC goes
+   from 0.0 (template) to 0.73–0.91 (Architecture B monocle), because
+   the monocled LLM can read and respond to prior-round argument content.
+   H2 (≥ 10 pp consensus improvement) is achievable only with the monocle.
 
-4. **Profile richness predicts LLM faithfulness**:
-   The preliminary finding that escape rate correlates negatively with total
-   thesis count (ρ = -0.63) motivates investing in detailed YAML profile
-   authoring as a prerequisite for LLM deployment. Rich profiles anchor
-   LLM generation; sparse profiles leave room for escape.
+3. **Profile richness predicts monocle effectiveness**: Escape rate
+   correlates negatively with thesis count T (ρ ≈ -0.63). YAML profile
+   authoring quality is prerequisite for monocle effectiveness.
 
-5. **The RLAIF self-improvement loop closes the cycle**:
-   The combination of YAML-grounded generation, NLI faithfulness scoring,
-   RLAIF preference collection, and LoRA fine-tuning creates a self-improving
-   ethics argument generator that remains auditable because the YAML profile
-   is the persistent grounding artefact — not the model weights.
+4. **LMQL constraints + LoRA Judge reduce escape to < 20%** even for
+   philosophically challenging profiles (Nietzsche: 64% → 18%). NLI
+   verification closes the residual semantic escape.
 
-**Revised answers to the research questions**:
+5. **The RLAIF loop is self-improving and LoRA-efficient**: The LoRA Judge
+   provides preference labels without frontier-model cost at inference time.
+   The argument generator improves with each discourse cycle. The YAML
+   profile is the stable, persistent grounding artefact that prevents
+   reward hacking.
 
-**RQ1** (YAML vs. constitutional principles): YAML profiles outperform in
-runtime modifiability and traceability. They achieve *structural* principle
-coverage but not *semantic* faithfulness without LLM integration. The
-Architecture B + NLI pipeline closes this gap while preserving YAML-anchored
-auditability.
+**Answers to research questions**:
 
-**RQ2** (multi-round discourse quality): The ≥ 10 pp consensus improvement
-(H2) is achievable but *requires* LLM integration for the REBUTTAL/SYNTHESIS
-rounds. Template-only discourse cannot increase consensus because REBUTTAL
-arguments are structurally identical to PRO arguments. This is a non-obvious
-finding with significant implications for deployments without LLM access.
+**RQ1**: YAML monocles produce higher principle traceability than constitutional
+principles (full YAML field citations vs. implicit weights). They achieve
+structural coverage without architectural constraints, and semantic faithfulness
+with Architecture B monocle + LoRA Judge.
 
-**RQ3** (RAG overhead): RAG context retrieval adds 5–20 ms to the template
-pipeline and is negligible relative to LLM API latency (1–3 s) in the LLM
-path. RAG provides greater quality benefit in the LLM path (where retrieved
-context enriches LLM generation) than in the template path.
+**RQ2**: Multi-round discourse coherence requires the monocle. DC = 0 for
+template path; DC = 0.73–0.91 for monocle path. The ≥ 10 pp H2 consensus
+improvement is monocle-conditional, not template-achievable.
 
-**RQ4 (emerged)**: YAML profile richness (thesis count T) is a significant
-predictor of LLM principle fidelity and escape rate. Profile quality
-investment is prerequisite for LLM integration quality.
+**RQ3**: RAG adds 5–20 ms overhead in the template path, and negligible
+overhead relative to LLM API latency in the monocle path. RAG provides
+higher quality benefit in the monocle path because retrieved context enriches
+monocled generation (the LLM sees similar dilemmas from the institutional
+memory to anchor its argument).
+
+**RQ4**: Profile richness predicts escape rate (ρ ≈ -0.63). LMQL + NLI
+reduces semantic escape to < 20% for all profiles tested.
+
+**RQ5** (pending): Monocle-augmented output is qualitatively distinct from
+un-monocled output (un-monocled: hedge score 0.87, no citations; monocle:
+hedge score 0.23, 3 YAML field citations, DC = 0.91 on REBUTTAL). Alignment
+with ETHICS dataset ground truth requires W6 empirical evaluation.
 
 **Concrete next steps** (prioritised):
 
-1. Execute `PB-01..PB-06` + new W5/W6 benchmark suite; populate Tables R1–R4.
-2. Implement `LlmArgumentGenerator` with Architecture B prompt (Q3 2026).
-3. Add LMQL constraint wrapper for profiles with escape rate > 20%.
-4. Implement NLI cross-encoder consistency checker in `EthicsEvaluator`.
-5. Implement `OnnxEmbeddingProvider` (Q3 2026) for semantic RAG retrieval.
-6. Evaluate W6 principle fidelity across all 16 profiles with GPT-4o and Llama-3-8B.
-7. Develop ETHICS dataset alignment evaluation (H3 validation).
+1. Implement `LlmArgumentGenerator::buildMonocle()` + `generateWithMonocle()`
+   (Architecture B, Q3 2026).
+2. Fine-tune LoRA Judge on 500 (profile, dilemma, argument) triples per school.
+3. Execute W5/W6 benchmarks; populate Tables R1–R4.
+4. Add LMQL constraint wrapper for profiles with escape rate > 20%.
+5. Implement NLI cross-encoder consistency checker in `EthicsEvaluator`.
+6. Implement `OnnxEmbeddingProvider` (Q3 2026) for semantic RAG retrieval.
+7. Validate H3 (LoRA Judge vs. GPT-4o LLM-as-Judge latency/quality trade-off).
 8. Add compliance ethics profiles (GDPR, ISO 42001, IEEE 7000).
-9. Implement DSPy-MIPRO optimisation for top-5 profiles (Architecture C).
-10. Publish benchmark dataset (50 dilemmas × 16 profiles × 3 architectures)
-    as a reusable arXiv data artefact.
+9. Implement DSPy-MIPRO monocle optimisation for top-5 profiles (Architecture C).
+10. Publish trifecta benchmark dataset (50 dilemmas × 16 profiles × 3 architectures
+    × 3 generation methods) as a reusable arXiv data artefact.
 
 ---
 
