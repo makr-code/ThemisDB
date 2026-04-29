@@ -1,0 +1,303 @@
+school_id: rawls
+name: Political Ethics (Rawls)
+name_de: Politische Ethik (Rawls)
+taxonomy_class: deontological
+tags:
+- rawls
+- politische_philosophie
+- gerechtigkeit
+- fairness
+- differenzprinzip
+- schleier_des_nichtwissens
+- liberalismus
+- deliberative_demokratie
+applicable_domains:
+- social_justice
+- political_philosophy
+- ai_governance
+- legal
+- public_sector
+convergence_compatible:
+- contractualism
+- kant
+- habermas
+activation_conditions:
+- condition: dilemma.tags enthält distributive_justice ODER fairness ODER social_contract
+  effect: always_active
+- condition: dilemma.domains enthält social_justice ODER political_philosophy
+  effect: boost_weight
+regulatory_constraints:
+  override_permitted: false
+  applicable_regulations:
+  - grundgesetz_art20
+  - grundgesetz_art3
+  note: Sozialstaatsprinzip (Art. 20 GG) und Gleichheitssatz korrespondieren mit Differenzprinzip
+domain_overrides:
+  social_justice:
+    weight_boost: 0.4
+    note: 'Originäre Domäne: Gerechtigkeit als Fairness'
+  ai_governance:
+    weight_boost: 0.2
+    note: 'KI-Governance: Differenzprinzip als Maßstab für KI-Nutzenverteilung'
+founders:
+- name: John Rawls
+  years: 1921-2002
+  nationality: American
+  key_works:
+  - title: A Theory of Justice
+    year: 1971
+    significance: Revitalized political philosophy, justice as fairness
+  - title: Political Liberalism
+    year: 1993
+    significance: Pluralism and overlapping consensus
+  biography: Most influential political philosopher of 20th century, developed theory of justice as fairness
+- name: Jürgen Habermas
+  years: 1929-present
+  nationality: German
+  key_works:
+  - title: Theory of Communicative Action
+    year: 1981
+    significance: Discourse ethics and deliberative democracy
+  - title: Between Facts and Norms
+    year: 1992
+    significance: Procedural theory of democracy
+  biography: German philosopher, developed discourse ethics and deliberative democracy theory
+- name: Michael Walzer
+  years: 1935-present
+  nationality: American
+  key_works:
+  - title: Spheres of Justice
+    year: 1983
+    significance: Pluralistic theory of justice
+  - title: Just and Unjust Wars
+    year: 1977
+    significance: Ethics of war and peace
+  biography: Political theorist, known for pluralistic approach to justice
+historical_context:
+  period: Ancient Greece - Present
+  philosophical_movement: Political Philosophy, Democratic Theory
+  zeitgeist: Democracy, human rights, social justice, good governance
+  influences:
+  - source: Ancient Greek Philosophy
+    thinkers:
+    - Plato
+    - Aristotle
+    impact: Political justice and the good society
+  - source: Social Contract Theory
+    thinkers:
+    - Hobbes
+    - Locke
+    - Rousseau
+    impact: Legitimacy through consent
+  - source: Liberal Tradition
+    thinkers:
+    - Mill
+    - Berlin
+    impact: Individual rights and liberty
+  reactions_against:
+  - Authoritarianism and tyranny
+  - Political corruption
+  - Abuse of power
+  - Exclusion and disenfranchisement
+main_theses:
+- thesis_id: justice_as_fairness
+  name: Justice as Fairness (Rawls)
+  description: Principles of justice chosen behind 'veil of ignorance'
+  explanation: 'Two principles: (1) Equal basic liberties for all
+
+    (2) Social and economic inequalities arranged for greatest benefit to least advantaged
+
+    Political institutions must be fair to all citizens regardless of position.
+
+    '
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: deliberative_democracy
+  name: Deliberative Democracy (Habermas)
+  description: Legitimate decisions through reasoned public deliberation
+  explanation: 'Democratic legitimacy comes from free and equal deliberation among citizens.
+
+    Decisions should be justified through reasons all can accept.
+
+    Public sphere enables rational discourse on common concerns.
+
+    '
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: political_obligation
+  name: Political Obligation and Legitimacy
+  description: When is political authority justified?
+  explanation: 'Political power must be exercised in ways that citizens can reasonably accept.
+
+    Governments derive legitimacy from serving public interest and respecting rights.
+
+    '
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+secondary_theses:
+- Separation of powers prevents tyranny
+- Rule of law ensures equal treatment
+- Human rights as universal moral claims
+- Democratic accountability of leaders
+- Transparency in government
+- Civic participation as political virtue
+- Political compromise and coalition-building
+- International justice and global governance
+decision_framework:
+  primary_test: Public Justification Test
+  description: Does policy respect fundamental rights and liberties?
+  steps:
+  - Identify all affected stakeholders
+  - Consider policy from each perspective
+  - Develop reasons that respect all viewpoints
+  - Ensure policy treats all fairly
+  secondary_test: Rights and Liberty Test
+  criteria:
+  - Protects basic civil and political rights
+  - Does not unnecessarily restrict liberty
+  - Treats citizens as free and equal
+  - Provides fair opportunities
+strengths:
+- Provides framework for legitimate governance
+- Protects individual rights and freedoms
+- Promotes fairness and equality
+- Enables peaceful resolution of conflicts
+- Encourages civic participation
+- Holds leaders accountable
+- Applicable to domestic and international politics
+weaknesses:
+- Tension between individual rights and collective good
+- Difficulty achieving genuine deliberation at scale
+- Risk of majority tyranny
+- Challenge of political polarization
+- Influence of money and power in politics
+- Cultural differences in political values
+- Gap between ideal theory and practice
+internal_debate:
+  liberal_vs_communitarian:
+    issue: Should politics prioritize individual rights or community values?
+    positions:
+    - 'Liberalism: Individual rights and autonomy primary'
+    - 'Communitarianism: Community and shared values shape identity'
+    - 'Compromise: Balance individual and communal goods'
+  procedural_vs_substantive:
+    issue: Is democracy primarily about procedures or outcomes?
+    positions:
+    - 'Proceduralist: Fair process is what matters'
+    - 'Substantive: Democracy must deliver just outcomes'
+    - 'Both: Fair process tends to produce good outcomes'
+  ideal_vs_nonideal:
+    issue: Should political theory focus on ideal or realistic conditions?
+    positions:
+    - 'Ideal theory: Define perfect justice as aspiration'
+    - 'Non-ideal theory: Address actual injustices pragmatically'
+    - 'Both: Ideal guides action in non-ideal circumstances'
+philosophical_positioning:
+  relation_to_kantian: Respect for persons as autonomous moral agents
+  relation_to_utilitarian: Considers welfare but constrains by rights
+  relation_to_social_contract: Legitimacy through hypothetical or actual consent
+  relation_to_virtue_ethics: Importance of civic virtues and character
+practical_applications:
+  policy_making:
+    principle: Democratic legitimacy through deliberation
+    considerations:
+    - Public consultation and hearings
+    - Transparent decision-making processes
+    - Justification of policies with public reasons
+    - Impact assessment on all groups
+  electoral_systems:
+    principle: Fair representation
+    considerations:
+    - Equal voting rights
+    - Proportional representation vs. majority rule
+    - Campaign finance reform
+    - Access to political participation
+  rights_protection:
+    principle: Constitutional safeguards
+    considerations:
+    - Bill of rights
+    - Judicial review
+    - Protection of minorities
+    - Due process and rule of law
+  international_relations:
+    principle: Justice beyond borders
+    considerations:
+    - Human rights in foreign policy
+    - Just war theory
+    - Global distributive justice
+    - International institutions
+modern_developments:
+  deliberative_democracy:
+    description: Citizens' assemblies, deliberative polls, participatory budgeting
+    significance: New mechanisms for inclusive democratic deliberation
+  digital_democracy:
+    description: E-voting, online deliberation, digital transparency
+    significance: Technology enabling new forms of participation
+  global_governance:
+    description: International institutions, global justice movements
+    significance: Extending democratic principles beyond nation-state
+  populism_challenge:
+    description: Rise of populist movements challenging liberal democracy
+    significance: Tensions between popular sovereignty and liberal constitutionalism
+critiques:
+  realist_critique: Ignores realities of power politics
+  marxist_critique: Liberal democracy masks class domination
+  feminist_critique: Traditional political theory marginalizes women's concerns
+  postcolonial_critique: Western-centric assumptions about democracy
+  radical_democracy: Need for more participatory and egalitarian politics
+key_literature:
+- author: Rawls, John
+  title: A Theory of Justice
+  year: 1971
+- author: Habermas, Jürgen
+  title: Between Facts and Norms
+  year: 1992
+- author: Walzer, Michael
+  title: Spheres of Justice
+  year: 1983
+- author: Sen, Amartya
+  title: The Idea of Justice
+  year: 2009
+cross_school_tensions:
+- own_thesis: justice_as_fairness
+  opposing_school: utilitarianism
+  opposing_thesis: greatest_happiness
+  tension_type: procedural_justice_vs_aggregate_welfare
+  rebuttal_cite_weight: 0.9
+- own_thesis: difference_principle
+  opposing_school: kant
+  opposing_thesis: autonomie_wuerde
+  tension_type: distributive_vs_individual_autonomy
+  rebuttal_cite_weight: 0.65
+- own_thesis: veil_of_ignorance
+  opposing_school: islamische_ethik
+  opposing_thesis: maslaha
+  tension_type: neutral_procedure_vs_welfare_hierarchy
+  rebuttal_cite_weight: 0.55

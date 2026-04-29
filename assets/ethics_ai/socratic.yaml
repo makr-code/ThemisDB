@@ -1,0 +1,399 @@
+school_id: socratic
+name: Socratic Philosophy
+name_de: Sokratische Philosophie
+taxonomy_class: virtue
+tags:
+- sokrates
+- mäeutik
+- elenchus
+- tugend
+- wissen
+- ignoranz
+- athen
+applicable_domains:
+- education_ethics
+- ai_ethics
+- social_justice
+convergence_compatible:
+- aristotelian
+activation_conditions:
+- condition: dilemma.tags enthält knowledge ODER questioning ODER virtue
+  effect: boost_weight
+regulatory_constraints:
+  override_permitted: true
+  applicable_regulations: []
+  note: Keine bindenden regulatorischen Entsprechungen
+domain_overrides: {}
+founders:
+- name: Sokrates
+  years: 469-399 v. Chr.
+  nationality: Athenisch (Griechisch)
+  birthplace: Athen
+  death: Hinrichtung durch Schierlingsbecher in Athen
+  key_works:
+    note: Sokrates hat selbst nichts geschrieben - seine Philosophie ist durch Platon, Xenophon und andere überliefert
+    dialogues_by_plato:
+    - Apologie (Verteidigungsrede)
+    - Kriton (über Gesetz und Gehorsam)
+    - Phaidon (über Unsterblichkeit der Seele)
+    - Symposion (über Liebe und Schönheit)
+    - Euthyphron (über Frömmigkeit)
+  biography: 'Sokrates gilt als Begründer der abendländischen Philosophie und der Ethik.
+
+    Er wandelte durch Athen und führte philosophische Gespräche auf dem Marktplatz.
+
+    Seine Methode des kritischen Fragens (Elenchus) entlarvte Scheinwissen.
+
+    399 v. Chr. wurde er wegen "Verderbens der Jugend" und "Einführung neuer Götter"
+
+    zum Tode verurteilt. Er akzeptierte das Urteil und trank den Giftbecher.
+
+    '
+historical_context:
+  period: Klassisches Zeitalter Athens (5. Jh. v. Chr.)
+  philosophical_movement: Übergang von Naturphilosophie zu Ethik und Erkenntnistheorie
+  zeitgeist: Perikleisches Zeitalter, Demokratie, Sophisten als Lehrer der Rhetorik
+  influences:
+  - source: Vorsokratiker
+    thinkers:
+    - Heraklit
+    - Parmenides
+    impact: Interesse an fundamentalen Prinzipien
+  - source: Sophisten
+    impact: Reaktion gegen Relativismus und Rhetorik
+  reactions_against:
+  - Sophistischer Relativismus
+  - Bloße Rhetorik ohne Wahrheitssuche
+  - Ungeprüfte Meinungen (Doxa)
+  historical_events:
+  - Peloponnesischer Krieg (431-404 v. Chr.)
+  - Herrschaft der Dreißig Tyrannen
+  - Restauration der Demokratie
+  - Prozess und Hinrichtung 399 v. Chr.
+main_theses:
+- thesis_id: know_thyself
+  name: Erkenne dich selbst (Gnothi seauton)
+  description: Wahre Weisheit beginnt mit Selbsterkenntnis und dem Wissen um das eigene Nichtwissen.
+  explanation: 'Das delphische Orakel verkündete, niemand sei weiser als Sokrates. Sokrates
+
+    interpretierte dies: Seine Weisheit liegt darin, zu wissen, dass er nichts weiß.
+
+    Andere glauben fälschlich, sie wüssten. Selbsterkenntnis ist der erste Schritt
+
+    zur wahren Weisheit - Erkennen der Grenzen des eigenen Wissens.
+
+    '
+  oracle_story: 'Chairephon fragte das Orakel von Delphi: "Gibt es jemanden weiser als Sokrates?"
+
+    Antwort: "Niemand ist weiser." Sokrates war verwirrt und prüfte vermeintlich Weise
+
+    (Politiker, Dichter, Handwerker). Alle glaubten zu wissen, wussten aber nicht wirklich.
+
+    Sokrates'' Weisheit: Er weiß, dass er nicht weiß.
+
+    '
+  implications:
+  - Intellektuelle Bescheidenheit
+  - Kritisches Hinterfragen aller Gewissheiten
+  - Philosophie als Selbstprüfung
+  - Unterscheidung von Wissen und Meinung
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: virtue_is_knowledge
+  name: Tugend ist Wissen (Arete = Episteme)
+  description: Niemand tut wissentlich Unrecht - alles Fehlverhalten beruht auf Unwissenheit.
+  explanation: 'Sokratischer Intellektualismus: Wenn jemand wirklich wüsste, was gut ist,
+
+    würde er es tun. Laschen, Feigheit, Ungerechtigkeit entstehen durch mangelndes
+
+    Wissen über das Gute. Wer das Gute erkennt, handelt tugendhaft.
+
+    Dies impliziert: Ethik ist lehrbar durch Erkenntnis.
+
+    '
+  paradox: '"Akrasia-Problem": Kann man gegen besseres Wissen handeln? Sokrates verneint dies -
+
+    scheinbares Handeln gegen Wissen ist tatsächlich mangelndes Wissen.
+
+    Wenn ich esse, obwohl ich weiß, es ist ungesund, weiß ich es nicht wirklich/vollständig.
+
+    '
+  unity_of_virtues: 'Alle Tugenden sind letztlich eine: Wissen um das Gute. Mut, Gerechtigkeit,
+
+    Besonnenheit, Frömmigkeit sind verschiedene Aspekte derselben Erkenntnis.
+
+    '
+  implications:
+  - Moralische Erziehung ist möglich durch Lehre
+  - Sünde ist Unwissenheit
+  - Philosophie als therapeutisch - heilt moralische Fehler
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: socratic_method
+  name: Sokratische Methode (Elenchus/Maieutik)
+  description: Wahrheit wird durch systematisches kritisches Fragen erreicht, nicht durch Belehrung.
+  explanation: 'Sokrates lehrte nicht durch Vorträge, sondern durch Fragen. Seine Methode:
+
+    1. Elenchus (Widerlegung): Gesprächspartner gibt Definition (z.B. von Gerechtigkeit)
+
+    2. Sokrates stellt Fragen, die Widersprüche aufdecken
+
+    3. Aporie (Ratlosigkeit) wird erreicht - Partner erkennt, er weiß nicht wirklich
+
+    4. Maieutik (Hebammenkunst): Sokrates hilft, die Wahrheit selbst zu "gebären"
+
+    '
+  process:
+  - step: These aufstellen
+    example: Tapferkeit ist Standhaftigkeit
+  - step: Gegenbeispiel finden
+    example: Aber stures Ausharren in törichtem Handeln ist nicht tapfer
+  - step: Widerspruch erkennen
+    example: Also ist Standhaftigkeit nicht ausreichend für Tapferkeit
+  - step: Neue, geprüfte Erkenntnis
+    example: Tapferkeit erfordert Wissen um das Gute
+  characteristics:
+  - Dialogisch, nicht monologisch
+  - Ironisch - Sokrates gibt vor, nichts zu wissen
+  - Destruktiv und konstruktiv zugleich
+  - Zielt auf Selbsterkenntnis des Partners
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: unexamined_life
+  name: Das ungeprüfte Leben ist nicht lebenswert
+  description: Ein Leben ohne philosophische Reflexion und Selbstprüfung ist kein menschenwürdiges Leben.
+  explanation: 'Aus der Apologie (Verteidigungsrede): Sokrates erklärt, warum er nicht aufhören
+
+    kann zu philosophieren, selbst unter Todesdrohung. Das geprüfte, reflektierte Leben
+
+    (bios theoretikos) ist das einzig wahrhaft menschliche Leben. Unreflektiertes Dahinleben
+
+    unterscheidet sich nicht vom tierischen Existieren.
+
+    '
+  context_trial: 'Im Prozess bot man Sokrates an, freizukommen, wenn er aufhört zu philosophieren.
+
+    Seine Antwort: Das wäre schlimmer als der Tod. Die philosophische Lebensweise
+
+    ist nicht optional, sondern definiert wahres Menschsein.
+
+    '
+  implications:
+  - Philosophie als Lebensform, nicht bloße Theorie
+  - Kritische Vernunft als Kern der Menschenwürde
+  - Moralischer Imperativ zur Selbstprüfung
+  - Autonomie über bloßes Überleben
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+secondary_theses:
+- thesis_id: care_of_soul
+  name: Sorge um die Seele (Epimeleia tes psyches)
+  description: Das Wichtigste ist nicht Reichtum oder Macht, sondern die Pflege der Seele.
+  explanation: 'Gegen materialistische Werte: Nicht Geld, Ruhm, Macht sind wertvoll,
+
+    sondern der Zustand der Seele (psyche). Eine gute Seele ist eine wissende,
+
+    tugendhafte Seele. Alle äußeren Güter sind wertlos ohne innere Tugend.
+
+    '
+  famous_quote: Nicht vom Leben, sondern vom guten Leben ist die Rede.
+- thesis_id: daimonion
+  name: Daimonion - Innere Stimme
+  description: Sokrates wurde von einer inneren göttlichen Stimme geleitet, die ihn vor Fehlern warnte.
+  explanation: 'Sokrates berichtete von einem daimonion - einer inneren Stimme, die ihn
+
+    abhielt, wenn er im Begriff war, etwas Falsches zu tun. Nie positiv befehlend,
+
+    nur warnend. Dies wurde im Prozess als "Einführung neuer Götter" angeklagt.
+
+    '
+  interpretation: Frühform des Gewissens? Göttliche Inspiration? Intuitive Vernunft?
+- thesis_id: civil_disobedience
+  name: Gesetzestreue trotz Ungerechtigkeit
+  description: Man muss ungerechten Gesetzen gehorchen, aber für Gerechtigkeit argumentieren.
+  explanation: 'Im Dialog "Kriton" lehnt Sokrates Flucht aus dem Gefängnis ab, obwohl das
+
+    Urteil ungerecht war. Seine Begründung: Gesetze sind wie Eltern - man verdankt
+
+    ihnen alles. Flucht würde die Rechtsordnung untergraben. Man muss Gesetze
+
+    befolgen oder die Stadt verlassen.
+
+    '
+  paradox: Gehorsam auch gegenüber ungerechten Gesetzen, aber Pflicht zur Kritik
+- thesis_id: death_and_immortality
+  name: Tod als Befreiung
+  description: Der Tod ist entweder Schlaf oder Übergang zu besserem Leben.
+  explanation: 'Im Phaidon argumentiert Sokrates für Unsterblichkeit der Seele und sieht
+
+    den Tod gelassen entgegen. Philosophen bereiten sich ihr ganzes Leben auf
+
+    den Tod vor, indem sie sich von körperlichen Begierden lösen.
+
+    '
+- thesis_id: socratic_irony
+  name: Sokratische Ironie
+  description: Sokrates gibt vor, unwissend zu sein, um Gesprächspartner zum Nachdenken zu bringen.
+  explanation: 'Methodisches Mittel: Sokrates stellt sich dumm, bittet um Belehrung, stellt
+
+    ''naive'' Fragen. Dies entlarvt Scheinwissen des Partners und führt zur Aporie.
+
+    Echte Demut oder rhetorisches Mittel? Beides.
+
+    '
+socratic_method_extended:
+  phases:
+  - phase: Exhortation (Ermahnung)
+    description: Aufruf, sich mit Tugend und Wahrheit zu beschäftigen
+  - phase: Elenchus (Widerlegung)
+    description: Systematisches Aufdecken von Widersprüchen
+    steps:
+    - Partner gibt Definition
+    - Sokrates erhält Zustimmung zu Prämissen
+    - 'Sokrates zeigt: Definition widerspricht den Prämissen'
+    - 'Aporie: Partner erkennt Unwissenheit'
+  - phase: Maieutik (Hebammenkunst)
+    description: Helfen, wahre Erkenntnis selbst zu 'gebären'
+  - phase: Anamnesis (Wiedererinnerung)
+    description: 'Platonische Weiterentwicklung: Lernen ist Erinnern'
+  example_euthyphro:
+    question: Was ist Frömmigkeit?
+    euthyphro_answer_1: Fromm ist, was die Götter lieben
+    socratic_counter: Lieben die Götter es, weil es fromm ist, oder ist es fromm, weil sie es lieben?
+    dilemma: Euthyphro-Dilemma - fundamentale Frage über Grund moralischer Wahrheiten
+    result: Aporie - keine befriedigende Definition erreicht
+ethics_politics:
+  core_values:
+  - Gerechtigkeit über alles
+  - Lieber Unrecht leiden als Unrecht tun
+  - Keine Vergeltung - Böses mit Bösem vergelten ist immer falsch
+  relation_to_state:
+  - Gehorsam gegenüber Gesetzen
+  - Aber Pflicht zur kritischen Stimme
+  - Philosophischer Dialog als politische Aktivität
+  trial_and_death:
+    charges:
+    - Verderben der Jugend
+    - Nicht-Anerkennung der Staatsgötter
+    - Einführung neuer Götter (daimonion)
+    defense: Ich tue nur, was der Gott will - philosophieren
+    sentence: Tod durch Schierlingsbecher
+    significance: Märtyrertod für die Philosophie
+epistemology:
+  knowledge_vs_opinion:
+  - episteme: Wahres, begründetes Wissen
+  - doxa: Bloße Meinung, Scheinwissen
+  - criterion: Wissen erfordert Rechenschaft (logos didonai)
+  limits_of_knowledge:
+  - Nur das Wissen um Nichtwissen ist gewiss
+  - Menschliche Weisheit ist wenig wert
+  - Göttliche Weisheit unzugänglich
+  definition_method:
+    search_for: Allgemeine Definitionen (Was ist X?)
+    not_satisfied_with: Einzelbeispiele
+    goal: Essenz, allgemeines Wesen erfassen
+strengths:
+- point: Kritisches Denken
+  elaboration: Grundlegung kritischer Rationalität, Hinterfragen von Autoritäten
+- point: Dialogische Methode
+  elaboration: Wahrheit entsteht im Gespräch, nicht durch Monolog
+- point: Ethischer Intellektualismus
+  elaboration: Verknüpfung von Wissen und Tugend
+- point: Philosophie als Lebensform
+  elaboration: Nicht nur Theorie, sondern praktische Lebensführung
+- point: Demut und Ironie
+  elaboration: Ehrliches Eingeständnis von Unwissenheit
+weaknesses:
+- point: Akrasia-Problem
+  elaboration: Menschen handeln oft gegen besseres Wissen
+- point: Methode führt oft nur zu Aporie
+  elaboration: Destruktion ohne positive Lehre
+- point: Vernachlässigung von Emotionen
+  elaboration: Überschätzung der Vernunft, Unterschätzung der Gefühle
+- point: Elitismus
+  elaboration: Philosophie für wenige Fähige?
+- point: Unpraktisch
+  elaboration: Permanentes Hinterfragen kann handlungsunfähig machen
+historical_impact:
+- Begründer der westlichen Ethik
+- Vorbild des philosophischen Märtyrers
+- Sokratische Methode in Bildung und Recht
+- Einfluss auf Stoiker, Kyniker, Platoniker
+modern_applications:
+- Sokratische Seminare in Bildung
+- Kritisches Denken und Wissenschaft
+- Therapeutischer Dialog (Psychoanalyse)
+- Ziviler Ungehorsam (Thoreau, King)
+famous_quotes:
+- quote: Ich weiß, dass ich nichts weiß.
+  greek: Oida ouk eidos / Hen oida hoti ouden oida
+  source: Überliefert durch Platon
+  context: Sokratische Weisheit
+- quote: Das ungeprüfte Leben ist nicht lebenswert.
+  greek: Ho de anexetastos bios ou biotos anthropo
+  source: Apologie 38a
+  context: Verteidigung der Philosophie
+- quote: Erkenne dich selbst.
+  greek: Gnothi seauton
+  source: Delphisches Orakel, von Sokrates übernommen
+- quote: Ich bin ein Arzt der Seelen.
+  context: Philosophie als Therapie
+key_literature:
+  primary:
+  - Platon. Apologie (Verteidigungsrede des Sokrates)
+  - Platon. Kriton (über Gesetzestreue)
+  - Platon. Phaidon (über Tod und Unsterblichkeit)
+  - Platon. Frühe Dialoge (Euthyphron, Laches, Charmides)
+  - Xenophon. Memorabilien (Erinnerungen an Sokrates)
+  secondary:
+  - 'Vlastos, Gregory. Socrates: Ironist and Moral Philosopher (1991)'
+  - Brickhouse, Thomas & Smith, Nicholas. The Philosophy of Socrates (2000)
+  - 'Taylor, C.C.W. Socrates: A Very Short Introduction (2001)'
+  - Guthrie, W.K.C. A History of Greek Philosophy Vol. III (1969)
+cross_school_tensions:
+- own_thesis: socratic_method
+  opposing_school: utilitarianism
+  opposing_thesis: greatest_happiness
+  tension_type: dialectical_questioning_vs_utility_calculus
+  rebuttal_cite_weight: 0.7
+- own_thesis: know_thyself
+  opposing_school: kant
+  opposing_thesis: kategorischer_imperativ
+  tension_type: elenctic_self_knowledge_vs_universal_formal_law
+  rebuttal_cite_weight: 0.55

@@ -1,0 +1,199 @@
+school_id: dilthey
+name: Diltheysche Lebensphilosophie
+description: "Hermeneutische Philosophie, die das Verstehen menschlicher Ausdrucksformen und die \nMethodik der Geisteswissenschaften\
+  \ untersucht. Leben und Erleben als Ausgangspunkt.\n"
+main_theses:
+- thesis_id: geisteswissenschaften
+  name: Geisteswissenschaften vs. Naturwissenschaften
+  description: "Die Geisteswissenschaften (human sciences) unterscheiden sich grundlegend von den \nNaturwissenschaften in\
+    \ Gegenstand und Methode. Sie erforschen geistig-geschichtliche Welt.\n"
+  key_concepts:
+  - 'Geisteswissenschaften: Geschichte, Kultur, Gesellschaft'
+  - 'Naturwissenschaften: physikalische Welt'
+  - Eigenständige Methodik für Geisteswissenschaften
+  - Keine Reduktion auf Naturwissenschaft
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: verstehen_vs_erklaeren
+  name: Verstehen vs. Erklären
+  description: "Naturwissenschaften erklären (Erklären) durch Kausalgesetze. Geisteswissenschaften \nverstehen (Verstehen)\
+    \ durch Nacherleben und Interpretation von Bedeutungen.\n"
+  key_concepts:
+  - 'Verstehen: Nacherleben, Interpretation'
+  - 'Erklären: Kausalität, Gesetze'
+  - Sinnzusammenhänge vs. Ursache-Wirkungs-Ketten
+  - Hermeneutische Methode
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: erlebnis
+  name: Erlebnis (Lived Experience)
+  description: "Das Erlebnis ist die Grundeinheit der Geisteswissenschaften. Im Erleben ist das \nSubjekt unmittelbar mit\
+    \ sich selbst und der Welt verbunden.\n"
+  key_concepts:
+  - Unmittelbare Selbstgegebenheit
+  - Erlebnis als Basis des Verstehens
+  - Leben drückt sich in Erlebnissen aus
+  - Strukturzusammenhang des Erlebens
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: historical_consciousness
+  name: Geschichtliches Bewusstsein
+  description: "Der Mensch ist ein geschichtliches Wesen. Unser Denken und Handeln ist durchdrungen \nvon historischer Bedingtheit.\
+    \ Kein Standpunkt außerhalb der Geschichte.\n"
+  key_concepts:
+  - Geschichtlichkeit des Menschen
+  - Relativität historischer Standpunkte
+  - Geschichte als Selbstbesinnung des Menschen
+  - Keine überzeitlichen Wahrheiten
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: hermeneutic_circle
+  name: Hermeneutischer Zirkel
+  description: "Das Verstehen bewegt sich zirkulär zwischen Teil und Ganzem. Wir verstehen Teile \ndurch das Ganze und das\
+    \ Ganze durch die Teile.\n"
+  key_concepts:
+  - Wechselspiel von Teil und Ganzem
+  - Vorverständnis und Interpretation
+  - Horizontverschmelzung
+  - Zirkelstruktur des Verstehens
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+secondary_theses:
+  structural_psychology:
+    title: Strukturpsychologie
+    description: "Das Seelenleben ist ein Strukturzusammenhang, kein Bündel atomarer Elemente. \nVerstehen erfasst diesen\
+      \ ganzheitlichen Zusammenhang.\n"
+  types_of_worldview:
+    title: Weltanschauungstypen
+    description: "Drei Grundtypen der Weltanschauung: Naturalismus (Materialismus), Idealismus der \nFreiheit, objektiver\
+      \ Idealismus. Sie sind nicht widerlegbar, nur verstehbar.\n"
+  expression:
+    title: Ausdruck (Expression)
+    description: "Leben drückt sich aus in objektivierten Formen (Texte, Kunst, Institutionen). \nDiese Ausdrucksformen sind\
+      \ Gegenstand des Verstehens.\n"
+  autobiography:
+    title: Autobiographie und Biographie
+    description: "Die Selbstreflexion des Lebens in Autobiographie ist ein Modell für das \ngeschichtliche Verstehen überhaupt.\n"
+strengths:
+- Eigenständige Methodologie für Geisteswissenschaften
+- Anerkennung der Geschichtlichkeit menschlicher Existenz
+- Ganzheitlicher Ansatz - gegen Reduktionismus
+- Fundierung der Hermeneutik als Wissenschaft
+- Brücke zwischen Philosophie und Einzelwissenschaften
+weaknesses:
+- Gefahr des Historismus und Relativismus
+- Keine klaren Wahrheitskriterien
+- Verstehen schwer intersubjektiv zu validieren
+- Unterscheidung Verstehen/Erklären vielleicht zu scharf
+- Psychologismus-Vorwurf
+example_application: "Interkultureller Dialog: Um eine fremde Kultur zu verstehen, müssen wir ihre \nAusdrucksformen (Rituale,\
+  \ Texte, Institutionen) in ihrem Lebenszusammenhang erfassen, \nnicht durch unsere Kategorien erklären. Das Verstehen erfordert\
+  \ Einfühlung und die \nBereitschaft, den eigenen Horizont zu erweitern. Es gibt keinen neutralen Standpunkt \naußerhalb\
+  \ der Geschichte, von dem aus man urteilen könnte.\n"
+decision_framework: "Verstehe Handlungen in ihrem historischen und lebendigen Kontext. Interpretiere \nBedeutungen holistisch.\
+  \ Erkenne die Geschichtlichkeit aller Urteile an. Keine \nabstrakten Universalien, sondern kontextgebundenes Verstehen.\n"
+core_principles:
+- Geisteswissenschaften vs. Naturwissenschaften
+- Verstehen (Interpretation) vs. Erklären (Kausalität)
+- Erlebnis als Basis des Verstehens
+- Geschichtliches Bewusstsein - Mensch als historisches Wesen
+- Hermeneutischer Zirkel - Teil und Ganzes
+- Leben drückt sich in strukturierten Formen aus
+- Kontextabhängigkeit von Bedeutung
+key_works:
+- title: Einleitung in die Geisteswissenschaften
+  year: 1883
+  description: Grundlegung der Geisteswissenschaften
+- title: Der Aufbau der geschichtlichen Welt in den Geisteswissenschaften
+  year: 1910
+  description: Hauptwerk zur Hermeneutik
+- title: Ideen über eine beschreibende und zergliedernde Psychologie
+  year: 1894
+  description: Strukturpsychologie
+- title: Die Typen der Weltanschauung
+  year: 1911
+  description: Weltanschauungslehre
+relevant_dimensions:
+- epistemological
+- methodological
+- historical
+- hermeneutic
+- phenomenological
+name_de: Hermeneutik und Lebensphilosophie (Dilthey)
+taxonomy_class: non_mainstream
+tags:
+- dilthey
+- hermeneutik
+- geisteswissenschaften
+- lebensphilosophie
+- verstehen
+- historismus
+applicable_domains:
+- education_ethics
+- cultural_ethics
+- research
+convergence_compatible: []
+activation_conditions:
+- condition: dilemma.tags enthält interpretation ODER understanding ODER history
+  effect: boost_weight
+regulatory_constraints:
+  override_permitted: true
+  applicable_regulations: []
+  note: Keine bindenden regulatorischen Entsprechungen
+domain_overrides: {}
+cross_school_tensions:
+- own_thesis: hermeneutics
+  opposing_school: kant
+  opposing_thesis: kategorischer_imperativ
+  tension_type: interpretive_understanding_vs_universal_law
+  rebuttal_cite_weight: 0.7
+- own_thesis: lived_experience
+  opposing_school: utilitarianism
+  opposing_thesis: consequentialism
+  tension_type: subjective_lived_experience_vs_outcome_calculus
+  rebuttal_cite_weight: 0.6

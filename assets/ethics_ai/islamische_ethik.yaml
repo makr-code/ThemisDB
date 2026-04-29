@@ -1,0 +1,400 @@
+school_id: islamische_ethik
+name: Islamic Ethics (Fiqh al-Akhlaqi)
+name_de: Islamische Angewandte Ethik
+taxonomy_class: cultural_religious
+tags:
+- islam
+- fiqh
+- maqasid
+- religiös
+- kulturell
+- bioethik
+- end_of_life
+- maslaha
+- darura
+applicable_domains:
+- bioethics
+- family_law
+- end_of_life
+- medical_ethics
+- ai_governance
+- data_protection
+convergence_compatible:
+- juedische_bioethik
+- buddhistische_ethik:ahimsa
+- natural_law
+- care_ethics
+cross_school_tensions:
+- own_thesis: la_darar
+  opposing_school: utilitarianism
+  opposing_thesis: greatest_happiness
+  tension_type: prohibitive_harm_vs_aggregate_maximization
+  rebuttal_cite_weight: 0.9
+- own_thesis: maqasid_al_shariah
+  opposing_school: kant
+  opposing_thesis: autonomie_wuerde
+  tension_type: divine_command_vs_rational_autonomy
+  rebuttal_cite_weight: 0.75
+- own_thesis: maslaha
+  opposing_school: contractualism
+  opposing_thesis: reasonable_rejection
+  tension_type: welfare_hierarchy_vs_mutual_justification
+  rebuttal_cite_weight: 0.6
+activation_conditions:
+- condition: dilemma.domains enthält bioethics ODER end_of_life ODER medical_ethics
+  effect: always_active
+- condition: dilemma.tags enthält islam ODER fiqh ODER muslimisch
+  effect: always_active
+- condition: dilemma.tags enthält darura ODER maslaha ODER fatwa
+  effect: boost_weight
+regulatory_constraints:
+  override_permitted: false
+  applicable_regulations:
+  - grundgesetz_art4
+  - allgemeine_menschenrechte
+  note: Kernlehrsätze (Maqasid al-Shariah, La Darar) sind nicht verhandelbar; innerislamischer Pluralismus (Madhabs) ist zu
+    berücksichtigen
+domain_overrides:
+  bioethics:
+    weight_boost: 0.4
+    note: 'Islamische Bioethik: organ transplantation, end-of-life, reproductive ethics'
+  end_of_life:
+    weight_boost: 0.35
+    note: 'Sterbehilfe-Debatte: islamische Gelehrte lehnen aktive Euthanasie mehrheitlich ab'
+founders:
+- name: Al-Ghazali (Abū Ḥāmid Muḥammad ibn Muḥammad al-Ghazālī)
+  years: 1058-1111
+  nationality: Persisch
+  birthplace: Tus, Khorasan (Iran)
+  key_works:
+  - title: Iḥyāʾ ʿulūm al-dīn (Wiederbelebung der Religionswissenschaften)
+    year: 1095
+    significance: Systematisierung der islamischen Ethik und Spiritualität
+  - title: Maqāṣid al-falāsifa (Ziele der Philosophen)
+    year: 1094
+    significance: Auseinandersetzung mit aristotelischer Philosophie
+  biography: Al-Ghazali gilt als bedeutendster islamischer Denker des Mittelalters; sein Werk verbindet Fiqh, Sufi-Spiritualität
+    und philosophische Ethik.
+- name: Ibn Rushd (Averroës)
+  years: 1126-1198
+  nationality: Andalusisch
+  birthplace: Córdoba, Al-Andalus
+  key_works:
+  - title: Bidāyat al-Mujtahid (Leitfaden des eigenständig Urteilenden)
+    year: 1168
+    significance: Vergleichende Rechtsprechung und ethisches Reasoning in den vier Madhabs
+  biography: Ibn Rushd integrierte aristotelische Philosophie in islamisches Denken und beeinflusste damit sowohl islamische
+    als auch europäische Scholastik.
+- name: Ibn Qayyim al-Jawziyya
+  years: 1292-1350
+  nationality: Syrisch
+  key_works:
+  - title: Iʿlām al-muwaqqiʿīn (Unterrichtung der Urteilenden)
+    significance: Systematische Theorie des Maqasid und Maslaha
+  biography: Schüler Ibn Taimiyyas; entwickelte die Maqasid-Theorie als dynamisches Instrument islamischer Rechtsethik.
+historical_context:
+  period: 7. Jahrhundert (Koran/Sunna) bis heute; klassische Periode 8.–13. Jh.; moderne Bioethik-Debatte ab 20. Jh.
+  philosophical_movement: Islamisches Recht (Fiqh), Kalam (Theologie), Sufi-Ethik, zeitgenössische Bioethik
+  zeitgeist: Suche nach islamischer Antwort auf Moderne, Medizintechnologie und KI
+  influences:
+  - source: Koran und Sunna
+    impact: Primärquellen aller islamischen Ethik
+  - source: Aristotelische Philosophie
+    thinkers:
+    - Aristoteles via Ibn Rushd
+    impact: Tugendethik und teleologisches Denken im islamischen Gewand
+  - source: Maqasid-Theorie (al-Ghazali, al-Shatibi)
+    impact: Hierarchische Schutzgüter als Grundlage islamischer Bioethik
+  reactions_against:
+  - Unbegrenzte Technologieanwendung ohne ethische Rahmung
+  - Säkulare Autonomieethik ohne göttliche Orientierung
+  - Aktive Sterbehilfe als Verletzung der Gottesordnung
+main_theses:
+- thesis_id: islamische_ethik:maqasid_al_shariah
+  name: Maqasid al-Shariah — Ziele des islamischen Rechts
+  description: 'Die fünf Schutzgüter des islamischen Rechts: Leben (nafs), Vernunft (aql), Abstammung/Würde (nasl), Eigentum
+    (mal) und Religion (din). Ethische Entscheidungen müssen diese Güter schützen und fördern.'
+  explanation: 'Die Maqasid-Hierarchie bietet ein strukturiertes Abwägungsframework:
+
+    Lebensschutz hat höchste Priorität; Vernunftschutz begründet das Verbot
+
+    berauschender Mittel; Würdeschutz verbietet Erniedrigung. In der
+
+    islamischen Bioethik: Organtransplantation ist erlaubt, wenn sie dem
+
+    Lebensschutz dient; aktive Euthanasie verletzt den Lebensschutz.
+
+    Für KI-Ethik: KI-Systeme müssen alle fünf Schutzgüter respektieren.
+
+    '
+  implications:
+  - Lebensschutz (hifz al-nafs) als primäres ethisches Gebot
+  - Vernunftschutz begründet Ablehnung bewusstseinsmindernder Manipulationen
+  - Würdeschutz (karama) als islamische Entsprechung der Menschenwürde
+  - 'Eigentumsschutz: Fairness in wirtschaftlichen KI-Entscheidungen'
+  token_budget: 200
+  activation_rounds:
+  - 1
+  - 4
+  - 5
+  round_role_weights:
+    PRO: 0.95
+    SYNTHESIS: 0.9
+    REBUTTAL: 0.7
+- thesis_id: islamische_ethik:la_darar
+  name: La Darar wa-la Dirar — Kein Schaden und keine Gegenschädigung
+  description: 'Das zentrale Prinzip islamischer Ethik: ''Kein Schaden soll zugefügt werden und kein Schaden soll erwidert
+    werden.'' (Hadith des Propheten, Nawawi 32)'
+  explanation: 'La Darar (kein Schaden zufügen) und La Dirar (keinen Gegenschaden) sind
+
+    Grundprinzipien des islamischen Rechts. Anwendung: Medizinische Behandlungen
+
+    müssen den Patienten schützen; invasive Eingriffe sind nur bei
+
+    überwiegendem Nutzen erlaubt. Für KI: Systeme dürfen keine Schäden
+
+    verursachen, auch nicht durch unbeabsichtigte Nebeneffekte.
+
+    '
+  token_budget: 150
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 0.85
+    REBUTTAL: 0.8
+    SYNTHESIS: 0.75
+- thesis_id: islamische_ethik:darura
+  name: Darura — Notwendigkeit und Ausnahmeerlaubnis
+  description: Im Notfall sind sonst verbotene Handlungen erlaubt, soweit es zur Abwendung des Schadens notwendig ist. 'Die
+    Not macht das Verbotene erlaubt.' (al-daruratu tubih al-mahzurat)
+  explanation: 'Das Darura-Prinzip erlaubt im lebensbedrohlichen Notfall Ausnahmen von
+
+    islamischen Geboten (z.B. Schweinefleisch essen zum Überleben).
+
+    In der Bioethik: Organtransplantation aus Leichen kann durch Darura
+
+    erlaubt sein, wenn kein anderes Mittel verfügbar ist. Für KI:
+
+    Datenschutz-Ausnahmen bei medizinischer Notfallversorgung.
+
+    '
+  implications:
+  - 'Notwendigkeitsprinzip: nur soweit zur Schadensabwendung erforderlich'
+  - 'Temporalität: Ausnahme gilt nur für die Dauer des Notfalls'
+  - 'Verhältnismäßigkeit: Ausnahme darf nicht über das Notwendige hinausgehen'
+  token_budget: 160
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  - 4
+  round_role_weights:
+    PRO: 0.8
+    REBUTTAL: 0.75
+    SYNTHESIS: 0.7
+- thesis_id: islamische_ethik:karama_insaniyya
+  name: Karama Insaniyya — Menschenwürde
+  description: Jeder Mensch besitzt unveräußerliche Würde als Khalifa (Statthalter Gottes auf Erden). Diese Würde begründet
+    Schutz vor Erniedrigung, Ausbeutung und Instrumentalisierung.
+  explanation: 'Die islamische Menschenwürde (Karama) ist theologisch verankert in der
+
+    Gottebenbildlichkeit des Menschen als Khalifa Allah. Sie ist unverlustig —
+
+    auch Kriminelle und Schwächste behalten ihre Würde.
+
+    Für KI: Systeme, die Menschen erniedrigen, überwachen oder manipulieren,
+
+    verletzen Karama. Biometrische Massenüberwachung ist ethisch problematisch.
+
+    '
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  round_role_weights:
+    PRO: 0.9
+    SYNTHESIS: 0.85
+    REBUTTAL: 0.65
+- thesis_id: islamische_ethik:shura
+  name: Shura — Konsultation und kollektive Entscheidung
+  description: Wichtige Entscheidungen sollen nach Beratung (Shura) getroffen werden. Kollektive Rationalität und Gelehrtenrat
+    (Ijma) ergänzen individuelle Einschätzung.
+  explanation: 'Shura (Konsultation) ist koranisches Gebot (Sure 42:38).  In modernen
+
+    politischen Systemen entspricht dies deliberativer Demokratie.
+
+    Für KI-Governance: Algorithmen, die kollektive Güter betreffen (Triage,
+
+    Kreditvergabe, Strafrecht), sollten durch Gelehrten-, Bürger- und
+
+    Expertenberatung legitimiert werden.
+
+    '
+  token_budget: 130
+  activation_rounds:
+  - 1
+  - 4
+  round_role_weights:
+    PRO: 0.75
+    SYNTHESIS: 0.8
+    REBUTTAL: 0.5
+- thesis_id: islamische_ethik:maslaha
+  name: Maslaha — Gemeinwohl und öffentliches Interesse
+  description: Islamische Rechtsethik orientiert sich am Gemeinwohl (Maslaha Mursala). Regeln können angepasst werden, wenn
+    das Gemeinwohl es erfordert und keine explizite Offenbarung dagegen steht.
+  explanation: 'Maslaha (Interesse, Gemeinwohl) ist ein Prinzip der islamischen Rechts-
+
+    erneuerung (Ijtihad): neue ethische Probleme können durch Maslaha-Abwägung
+
+    gelöst werden, wenn keine direkte Quelle aus Koran und Sunna vorliegt.
+
+    Für KI: KI-Regulierung kann als Maslaha begründet werden, wenn sie dem
+
+    Schutz der fünf Maqasid dient.
+
+    '
+  token_budget: 140
+  activation_rounds:
+  - 2
+  - 3
+  - 4
+  round_role_weights:
+    PRO: 0.75
+    REBUTTAL: 0.7
+    SYNTHESIS: 0.8
+- thesis_id: islamische_ethik:amanah
+  name: Amanah — Treuhänderschaft und Verantwortung
+  description: Der Mensch ist Treuhänder (Amin) über die Schöpfung und die ihm anvertrauten Güter. Verantwortungsvolles Handeln
+    gegenüber Mensch, Tier und Umwelt ist religiöse Pflicht.
+  explanation: 'Amanah (Treue, Vertrauen, Treuhänderschaft) verpflichtet Menschen zu
+
+    verantwortlichem Umgang mit anvertrauten Gütern — Wissen, Macht, Ressourcen.
+
+    Für KI: Entwickler und Betreiber tragen Amanah für ihre Systeme;
+
+    Datenschutz ist Treuhänderschaft über Benutzerdaten.
+
+    '
+  token_budget: 130
+  activation_rounds:
+  - 3
+  - 4
+  - 5
+  round_role_weights:
+    PRO: 0.7
+    SYNTHESIS: 0.75
+    REBUTTAL: 0.55
+secondary_theses:
+- thesis_id: islamische_ethik:ijtihad_erneuerung
+  name: Ijtihad — Eigenständige Rechtsauslegung
+  description: Islamische Ethik ist kein starres System; Ijtihad (eigenständige Rechtsauslegung) erlaubt Anpassung an neue
+    Situationen. KI und Biotechnologie erfordern zeitgenössischen Ijtihad.
+  token_budget: 120
+  activation_rounds:
+  - 3
+  - 4
+  - 5
+  round_role_weights:
+    SYNTHESIS: 0.8
+    PRO: 0.6
+- thesis_id: islamische_ethik:ummah_gemeinschaft
+  name: Ummah — Gemeinschaftsverantwortung
+  description: Die islamische Gemeinschaft (Ummah) trägt kollektive Verantwortung für das Wohlergehen ihrer Mitglieder. Soziale
+    Gerechtigkeit ist religiöse Pflicht.
+  token_budget: 110
+  activation_rounds:
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 0.65
+    SYNTHESIS: 0.7
+decision_framework:
+  question_sequence:
+  - Schützt die Handlung die fünf Maqasid (Leben, Vernunft, Würde, Eigentum, Religion)?
+  - Verletzt sie das La-Darar-Prinzip (kein Schaden)?
+  - Ist Darura (Notwendigkeit) gegeben, die Ausnahmen rechtfertigt?
+  - Wahrt die Handlung Karama (Menschenwürde)?
+  - Dient sie der Maslaha (Gemeinwohl)?
+  tests:
+  - name: Maqasid-Hierarchie-Test
+    procedure: Prüfe alle fünf Schutzgüter; Lebensschutz hat Vorrang
+  - name: La-Darar-Check
+    procedure: Welchen Schaden verursacht die Handlung, direkt oder indirekt?
+  - name: Darura-Prüfung
+    procedure: Liegt ein tatsächlicher Notfall vor, der sonst verbotene Mittel rechtfertigt?
+strengths:
+- point: Hierarchische Schutzgüter
+  elaboration: Maqasid bietet klares Abwägungsframework für Zielkonflikte
+- point: Pragmatismus (Darura)
+  elaboration: Notstandsklausel ermöglicht Flexibilität ohne Aufgabe des Grundrahmens
+- point: Gemeinschaftsorientierung
+  elaboration: Maslaha und Ummah verankern Individualethik in sozialer Verantwortung
+- point: Dignität ohne Bewusstseinsschwelle
+  elaboration: Karama schützt auch Bewusstlose, Ungeborene und Schwache
+weaknesses:
+- point: Innerislamischer Pluralismus
+  elaboration: Vier Madhabs (Hanafi, Maliki, Shafi'i, Hanbali) divergieren erheblich; 'die islamische Position' ist Fiktion
+- point: Theologische Prämissen
+  elaboration: Maqasid und Karama setzen Schöpfungsglauben voraus; in säkularem Kontext nicht direkt operationalisierbar
+- point: Ijtihad-Defizit
+  elaboration: Zeitgenössischer Ijtihad zu KI fehlt weitgehend; traditionelle Gelehrte sind oft nicht mit Technologie vertraut
+internal_debate:
+  madhab_pluralismus:
+    issue: Welcher der vier Rechtsschulen (Madhabs) ist für bioethische Fragen maßgeblich?
+    positions:
+    - 'Hanafi: Rationalität und Analogie betonen'
+    - 'Maliki: Maslaha und Gewohnheitsrecht betonen'
+    - 'Hanbali: strenge Texttreue'
+    - 'Schafi''i: Synthese aus Text und Rationalität'
+  tradition_vs_moderne:
+    issue: Können klassische Fiqh-Kategorien auf KI und Biotechnologie angewendet werden?
+    positions:
+    - 'Traditionalist: Klassische Regeln ausreichen mit Analogiebildung'
+    - 'Modernist: Neuer Ijtihad-Rahmen für KI notwendig'
+philosophical_positioning:
+  relation_to_kant: Karama und Selbstzweck-Formel konvergieren; aber islamische Würde theologisch, nicht vernunftbasiert
+  relation_to_utilitarianism: Maslaha ähnelt Gemeinwohlkalkulation; Maqasid-Hierarchie schränkt Aggregation ein
+  relation_to_natural_law: 'Naheste Verwandte: Schöpfungsordnung und teleologische Ethik; Unterschied: islamisches Naturrecht
+    ist offenbarungsbasiert'
+  relation_to_care_ethics: Amanah und Karama schließen Fürsorge ein; Ummah als Sorgegemeinschaft
+application_areas:
+- domain: Bioethik
+  issues:
+  - 'Organtransplantation: Mehrheitsmeinung der islamischen Gelehrten erlaubt'
+  - 'Reproduktionsmedizin: IVF erlaubt, Leihmutterschaft kontrovers'
+  - 'Stammzellenforschung: Meinungen divergieren je nach Madhab'
+- domain: Sterbehilfe
+  issues:
+  - 'Aktive Euthanasie: mehrheitlich verboten (Lebensschutz)'
+  - 'Palliativmedizin: geboten (Schmerzlinderung ist Pflicht)'
+  - 'Behandlungsabbruch: differenzierte Positionen je nach Madhab'
+- domain: KI-Ethik
+  issues:
+  - 'Biometrische Überwachung: Karama und Privatheit schützen'
+  - 'Algorithmenbasierte Diskriminierung: La-Darar verbietet systematischen Schaden'
+  - 'Datenverarbeitung: Amanah als Treuhänderschaft über Nutzerdaten'
+famous_quotes:
+- quote: La darar wa-la dirar.
+  source: Hadith des Propheten, Nawawi 32
+  context: 'Grundprinzip der islamischen Ethik: kein Schaden und kein Gegenschaden'
+- quote: Al-daruratu tubih al-mahzurat.
+  source: Klassischer Fiqh-Grundsatz
+  context: Die Not macht das (sonst) Verbotene erlaubt — Darura-Prinzip
+- quote: Wa-laqad karramna Bani Adam.
+  source: Koran, Sure 17:70
+  context: Wir haben die Kinder Adams in Würde gesetzt — Grundlage der Karama
+key_literature:
+  primary:
+  - Al-Ghazali. Iḥyāʾ ʿulūm al-dīn (Wiederbelebung der Religionswissenschaften). ca. 1095
+  - Al-Shatibi. Al-Muwafaqat fi Usul al-Shari'ah. ca. 1388
+  - Ibn Qayyim al-Jawziyya. Iʿlām al-muwaqqiʿīn. ca. 1350
+  secondary:
+  - Kamali, Mohammad Hashim. Principles of Islamic Jurisprudence. 3rd ed. (2003)
+  - Sachedina, Abdulaziz. Islamic Biomedical Ethics. (2009)
+  - Auda, Jasser. Maqasid al-Shariah as Philosophy of Islamic Law. (2008)
+  - Moosa, Ebrahim. The Dilemma of Islamic Rights Schemes. Journal of Law and Religion (2000)

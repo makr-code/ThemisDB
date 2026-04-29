@@ -1,0 +1,185 @@
+school_id: marx
+name: Marxismus
+description: "Historischer Materialismus als Analyse der Gesellschaft durch Klassenkampf und ökonomische \nVerhältnisse. Kritik\
+  \ des Kapitalismus und Vision einer klassenlosen Gesellschaft.\n"
+main_theses:
+- thesis_id: historical_materialism
+  name: Historischer Materialismus
+  description: "Die ökonomische Basis (Produktionsverhältnisse) bestimmt den gesellschaftlichen Überbau \n(Politik, Recht,\
+    \ Kultur, Ideologie).\n"
+  key_concepts:
+  - Produktivkräfte und Produktionsverhältnisse
+  - Basis und Überbau
+  - Ökonomische Struktur als Fundament
+  - Gesellschaftsformationen (Feudalismus, Kapitalismus, Sozialismus)
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: class_struggle
+  name: Klassenkampf
+  description: 'Die Geschichte aller bisherigen Gesellschaft ist die Geschichte von Klassenkämpfen.
+
+    Der Widerspruch zwischen Bourgeoisie und Proletariat treibt die historische Entwicklung.
+
+    '
+  key_concepts:
+  - Bourgeoisie vs. Proletariat
+  - Motor der Geschichte
+  - Revolution als Aufhebung der Klassengegensätze
+  - Diktatur des Proletariats als Übergangsphase
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: alienation
+  name: Entfremdung (Alienation)
+  description: "Im Kapitalismus ist der Arbeiter von seinem Produkt, seiner Arbeit, seinem Gattungswesen \nund seinen Mitmenschen\
+    \ entfremdet.\n"
+  key_concepts:
+  - Entfremdung vom Produkt der Arbeit
+  - Entfremdung vom Arbeitsprozess
+  - Entfremdung vom Gattungswesen (species-being)
+  - Entfremdung von anderen Menschen
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: surplus_value
+  name: Mehrwert (Surplus Value)
+  description: "Kapitalist eignet sich den vom Arbeiter geschaffenen Mehrwert an - das ist die Quelle \nder Ausbeutung und\
+    \ des Profits.\n"
+  key_concepts:
+  - Arbeitskraft als Ware
+  - Mehrwertextraktion
+  - Ausbeutung durch Lohnarbeit
+  - Akkumulation des Kapitals
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+secondary_theses:
+  commodity_fetishism:
+    title: Warenfetischismus
+    description: "Im Kapitalismus erscheinen soziale Beziehungen zwischen Menschen als Beziehungen \nzwischen Dingen (Waren).\n"
+  ideology_critique:
+    title: Ideologiekritik
+    description: "Die herrschende Ideologie ist die Ideologie der herrschenden Klasse. Ideologie \nverschleiert die wahren\
+      \ ökonomischen Verhältnisse.\n"
+  communist_society:
+    title: Kommunistische Gesellschaft
+    description: "Klassenlose Gesellschaft ohne Privateigentum an Produktionsmitteln. \n\"Jeder nach seinen Fähigkeiten, jedem\
+      \ nach seinen Bedürfnissen.\"\n"
+  crisis_theory:
+    title: Krisentheorie
+    description: "Der Kapitalismus ist inhärent instabil und produziert zyklische Krisen durch \nÜberproduktion und fallende\
+      \ Profitraten.\n"
+strengths:
+- Analyse der ökonomischen Strukturen und ihrer Auswirkungen auf Gesellschaft
+- Aufdeckung von Machtstrukturen und Ausbeutungsverhältnissen
+- Historische Perspektive auf gesellschaftliche Entwicklung
+- Kritik der Ideologie und des falschen Bewusstseins
+- Emanzipatorisches Potential für unterdrückte Klassen
+weaknesses:
+- Ökonomischer Determinismus - unterschätzt Rolle von Kultur und Ideen
+- Vernachlässigung individueller Freiheit und Pluralität
+- Utopische Vision ohne klare Implementierungsstrategie
+- Historische Fehlschläge sozialistischer Experimente
+- Reduktion komplexer sozialer Phänomene auf Klassenkonflikt
+example_application: "Analyse von Arbeitsbedingungen in der Gig-Economy: Die Plattformökonomie (Uber, Deliveroo) \nreproduziert\
+  \ kapitalistische Ausbeutung in neuer Form. Arbeiter sind formal selbständig, \nfaktisch aber von der Plattform abhängig,\
+  \ die den Mehrwert extrahiert ohne soziale \nVerantwortung zu übernehmen. Die Entfremdung wird verstärkt durch algorithmische\
+  \ Kontrolle.\n"
+decision_framework: "Analysiere durch die Linse der Klassenverhältnisse, materiellen Bedingungen und \nökonomischen Interessen.\
+  \ Frage: Wem nützt es? Welche Klasse profitiert? Wie tragen \nEntscheidungen zur Überwindung oder Verfestigung von Ausbeutung\
+  \ bei?\n"
+core_principles:
+- Historischer Materialismus - ökonomische Basis bestimmt Überbau
+- Klassenkampf als Motor der Geschichte
+- Entfremdung unter kapitalistischen Produktionsverhältnissen
+- Ausbeutung durch Mehrwertextraktion
+- Kommunistische Gesellschaft als Ziel der Geschichte
+- Dialektische Entwicklung durch Widersprüche
+key_works:
+- title: Das Kapital
+  year: 1867
+  description: Hauptwerk zur Kritik der politischen Ökonomie
+- title: Manifest der Kommunistischen Partei
+  year: 1848
+  description: Mit Engels; revolutionäres Programm
+- title: Ökonomisch-philosophische Manuskripte
+  year: 1844
+  description: Frühe Schriften zur Entfremdung
+- title: Die deutsche Ideologie
+  year: 1845
+  description: Mit Engels; Materialistische Geschichtsauffassung
+relevant_dimensions:
+- political
+- social
+- economic
+- historical
+- normative
+name_de: Marxismus
+taxonomy_class: non_mainstream
+tags:
+- marx
+- marxismus
+- klassenkampf
+- entfremdung
+- kapitalismuskritik
+- historischer_materialismus
+applicable_domains:
+- social_justice
+- labor_ethics
+- economic_ethics
+convergence_compatible: []
+activation_conditions:
+- condition: dilemma.tags enthält labor ODER exploitation ODER class ODER capitalism
+  effect: boost_weight
+regulatory_constraints:
+  override_permitted: true
+  applicable_regulations: []
+  note: Keine bindenden regulatorischen Entsprechungen; Bezug zu Arbeitsrecht möglich
+domain_overrides:
+  social_justice:
+    weight_boost: 0.2
+    note: Verteilungsgerechtigkeit aus Klassenperspektive
+cross_school_tensions:
+- own_thesis: class_struggle
+  opposing_school: utilitarianism
+  opposing_thesis: consequentialism
+  tension_type: structural_conflict_vs_outcome_calculus
+  rebuttal_cite_weight: 0.85
+- own_thesis: alienation
+  opposing_school: kant
+  opposing_thesis: autonomie_wuerde
+  tension_type: structural_alienation_vs_individual_autonomy
+  rebuttal_cite_weight: 0.7
