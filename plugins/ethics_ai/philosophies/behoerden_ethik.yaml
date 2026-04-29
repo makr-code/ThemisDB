@@ -1,12 +1,10 @@
-# Behörden-Ethik — Institutional and Public-Authority Ethics
-# Applies to AI systems deployed in public administration, government agencies,
-# and regulated critical-infrastructure operators in Germany / EU.
+# Behörden-Ethik — Institutionelle und Verwaltungsethik
 
 school_id: behoerden_ethik
-name: "Behörden-Ethik"
+name: "Public Authority Ethics"
 name_de: "Behörden- und Verwaltungsethik"
 
-# Routing metadata (used by EthicsSelectionRouter Stage-1)
+## Routing-Metadaten (EthicsSelectionRouter Stufe 1)
 taxonomy_class: regulatory_authority
 tags:
   - public_sector
@@ -15,6 +13,7 @@ tags:
   - regulierung
   - compliance
   - kritis
+  - rechtsstaatlichkeit
 applicable_domains:
   - ai_governance
   - data_protection
@@ -22,187 +21,292 @@ applicable_domains:
   - public_sector
   - legal
 
-description: |
-  Ethics framework governing AI use within public authorities (Behörden) and
-  regulated critical-infrastructure operators. Grounds decisions in the rule of
-  law (Rechtsstaatsprinzip), proportionality (Verhältnismäßigkeit), equal
-  treatment (Gleichbehandlung), and democratic accountability. Requires that
-  algorithmic systems used in administrative proceedings are explainable,
-  auditable, and subject to meaningful human review.
-
-## Founding Principles
-
-founders:
-  - name: "Grundgesetz der Bundesrepublik Deutschland"
-    years: "1949–present"
-    key_works:
-      - title: "Grundgesetz (GG)"
-        year: 1949
-        significance: "Constitutional foundation: human dignity, rule of law, proportionality"
-      - title: "Verwaltungsverfahrensgesetz (VwVfG)"
-        year: 1976
-        significance: "Administrative procedure fairness requirements"
-      - title: "DSGVO / GDPR (EU Regulation 2016/679)"
-        year: 2018
-        significance: "Data protection as fundamental right in AI-assisted decisions"
-      - title: "EU AI Act (Regulation 2024/1689)"
-        year: 2024
-        significance: "High-risk AI system requirements for public sector deployments"
-      - title: "KRITIS-Dachgesetz"
-        year: 2024
-        significance: "Resilience and transparency requirements for critical infrastructure"
-
-## Historical Context
-
-historical_context:
-  period: "Rechtsstaat tradition, codified post-WWII"
-  philosophical_movement: "Verfassungsrecht und Verwaltungsrecht"
-  zeitgeist: "Rule of law, democratic accountability, protection of individual rights"
-  influences:
-    - source: "Kantian Rechtsphilosophie"
-      impact: "Universal applicability of rules; no person may be used merely as instrument"
-    - source: "Rawlsian fairness"
-      impact: "Procedural justice and equal treatment before administrative law"
-
-## Hauptthesen
-
-main_theses:
-  - thesis_id: "behoerden_ethik:rechtsstaatlichkeit"
-    name: "Rechtsstaatlichkeit"
-    description: |
-      All algorithmic decisions affecting citizens must have a clear legal basis
-      (Vorbehalt des Gesetzes), be bounded by the proportionality principle
-      (Verhältnismäßigkeit), and be subject to judicial review.
-    token_budget: 180
-    activation_rounds: [1, 2, 4]
-    activation_conditions:
-      - "public_sector: true"
-
-  - thesis_id: "behoerden_ethik:gleichbehandlung"
-    name: "Gleichbehandlung und Diskriminierungsfreiheit"
-    description: |
-      Art. 3 GG prohibits arbitrary discrimination. AI systems in public
-      administration must not create disparate impact on protected classes
-      and must be regularly audited for proxy discrimination.
-    token_budget: 150
-    activation_rounds: [1, 2, 3]
-
-  - thesis_id: "behoerden_ethik:transparenz_und_begruendungspflicht"
-    name: "Transparenz und Begründungspflicht"
-    description: |
-      Administrative decisions must be explainable (§ 39 VwVfG). An AI
-      system assisting in administrative proceedings must provide
-      human-readable reasoning that enables effective challenge (Widerspruch).
-    token_budget: 200
-    activation_rounds: [1, 3, 4, 5]
-
-  - thesis_id: "behoerden_ethik:menschliche_letztverantwortung"
-    name: "Menschliche Letztverantwortung"
-    description: |
-      Automated administrative decisions (vollautomatische Verwaltungsakte)
-      under § 35a VwVfG require explicit statutory authorisation. For all
-      high-risk AI systems (EU AI Act Annex III), human oversight is
-      mandatory before binding decisions affecting individuals.
-    token_budget: 180
-    activation_rounds: [1, 2, 3, 4, 5]
-
-secondary_theses:
-  - thesis_id: "behoerden_ethik:datensparsamkeit"
-    name: "Datensparsamkeit und Zweckbindung"
-    description: |
-      Data minimisation (Art. 5 GDPR) and purpose limitation restrict the
-      data inputs permissible for algorithmic government decisions.
-    activation_conditions:
-      - "data_protection: true"
-
-  - thesis_id: "behoerden_ethik:offentliche_rechenschaftspflicht"
-    name: "Öffentliche Rechenschaftspflicht"
-    description: |
-      Government AI systems must be auditable by oversight bodies
-      (Datenschutzbehörden, Bundesrechnungshof) and subject to freedom-of-
-      information requests where trade secrets do not apply.
-
-## Decision Framework
-
-decision_framework:
-  primary_question: "Hat das KI-System eine klare Rechtsgrundlage und respektiert es den Vorbehalt des Gesetzes?"
-  secondary_questions:
-    - "Ist die Entscheidung verhältnismäßig (geeignet, erforderlich, angemessen)?"
-    - "Werden alle Betroffenen gleich behandelt (Art. 3 GG)?"
-    - "Ist die Entscheidung ausreichend begründet und anfechtbar (§ 39 VwVfG)?"
-    - "Liegt eine menschliche Letztentscheidung bei grundrechtsrelevanten Maßnahmen vor?"
-  verdict_template: "Behörden-ethisch {verdict}: Die Maßnahme {reason}."
-
-## Cross-School Tensions
+convergence_compatible:
+  - kant                   # Gleichbehandlungsgebot ↔ Universalisierbarkeitsprinzip
+  - rawls                  # Öffentliche Rechtfertigung und Fairness
+  - gdpr                   # DSGVO als Compliance-Instrument
+  - eu_ai_act              # KI-Regulierung im öffentlichen Sektor
 
 cross_school_tensions:
-  - own_thesis: "menschliche_letztverantwortung"
-    opposing_school: "utilitarianism"
-    opposing_thesis: "greatest_happiness"
-    tension_type: "categorical_vs_aggregate"
-    tension_description: |
-      Utilitarian efficiency arguments for full automation conflict with the
-      Verfassung's requirement for individual rights protection and legal remedy.
-    rebuttal_cite_weight: 0.85
+  - utilitarianism: "Behördenhandeln ist an Recht gebunden, nicht nur an Nutzenmaximierung; Opportunitätsprinzip nur im Ermessensspielraum"
+  - care_ethics: "Fürsorge-Einzelfallentscheidungen dürfen Gleichbehandlungsgebot nicht verletzen"
 
-## Convergence Compatible
-
-convergence_compatible:
-  - school: "kant"
-    thesis: "autonomie_wuerde"
-    shared_conclusion: "human_oversight_required"
-    convergence_type: "co_prohibitive"
-    synthesis_note: "Both Kantian dignity and Rechtsstaatlichkeit independently require human oversight in binding decisions."
-
-  - school: "gdpr"
-    thesis: "data_minimisation"
-    shared_conclusion: "purpose_limitation_enforced"
-    convergence_type: "co_prohibitive"
-
-## Domain Overrides
-
-domain_overrides:
-  - domain: "ai_governance"
-    activate_theses: ["rechtsstaatlichkeit", "menschliche_letztverantwortung", "transparenz_und_begruendungspflicht"]
-    additional_requirements:
-      - "EU AI Act conformity assessment required for high-risk AI systems"
-      - "Fundamental rights impact assessment (FRIA) before deployment"
-
-  - domain: "data_protection"
-    activate_theses: ["datensparsamkeit", "rechtsstaatlichkeit"]
-    additional_requirements:
-      - "DPIA (Art. 35 GDPR) required for large-scale algorithmic processing"
-
-## Regulatory Constraints
+activation_conditions:
+  - condition: "dilemma.tags enthält public_sector ODER government ODER verwaltung"
+    effect: always_active
+  - condition: "dilemma.domains enthält ai_governance ODER data_protection"
+    effect: always_active
 
 regulatory_constraints:
   override_permitted: false
   applicable_regulations:
     - dsgvo
-    - gdpr
     - verwaltungsverfahrensgesetz
-    - grundgesetz
+    - kritis_verordnung
     - eu_ai_act
-    - kritis_dachgesetz
+  note: "Rechtsstaatsprinzip und Gesetzesbindung sind unveräußerliche Lehraussagen"
 
-## Strengths
+domain_overrides:
+  ai_governance:
+    weight_boost: 0.35
+    note: "KI-Einsatz in Verwaltungsverfahren unterliegt strengen Erklärbarkeits- und Nachvollziehbarkeitspflichten"
+  data_protection:
+    weight_boost: 0.3
+    note: "DSGVO-Konformität ist für Behörden rechtlich verpflichtend"
+
+## Hauptvertreter
+founders:
+  - name: "Max Weber"
+    years: "1864-1920"
+    nationality: "Deutsch"
+    birthplace: "Erfurt, Deutschland"
+    key_works:
+      - title: "Wirtschaft und Gesellschaft"
+        year: 1922
+        significance: "Bürokratietheorie und rationale Herrschaft als Grundlage moderner Verwaltungsethik"
+      - title: "Politik als Beruf"
+        year: 1919
+        significance: "Verantwortungsethik vs. Gesinnungsethik für Amtsträger"
+    biography: "Weber begründete die soziologische Verwaltungstheorie und analysierte die Eigenlogik bürokratischer Herrschaft."
+
+  - name: "Hans Herbert von Arnim"
+    years: "1938-present"
+    nationality: "Deutsch"
+    key_works:
+      - title: "Ämterpatronage und Parteienstaatlichkeit"
+        year: 1980
+        significance: "Kritik der politischen Einflussnahme auf Verwaltungshandeln"
+    biography: "Staatsrechtler und Verwaltungswissenschaftler; kritische Analyse des deutschen Verwaltungsrechts."
+
+## Historischer Kontext
+historical_context:
+  period: "19. Jahrhundert bis heute (besonders BRD-Verwaltungsrecht ab 1949)"
+  philosophical_movement: "Rechtspositivismus, Demokratietheorie, Verwaltungswissenschaft"
+  zeitgeist: "Rechtsstaat, Demokratisierung, Technologisierung der Verwaltung"
+  influences:
+    - source: "Kantische Pflichtenethik"
+      thinkers: ["Kant"]
+      impact: "Gleichbehandlung und Unparteilichkeit als kategorische Pflicht"
+    - source: "Webersche Bürokratietheorie"
+      thinkers: ["Weber"]
+      impact: "Rationale Herrschaft durch Regeln und Aktenführung"
+    - source: "Grundgesetz (1949)"
+      thinkers: ["Parlamentarischer Rat"]
+      impact: "Bindung der Verwaltung an Grundrechte und Gesetzmäßigkeit"
+  reactions_against:
+    - "Willkür und Korruption im Verwaltungshandeln"
+    - "Parteiinteressen über Bürgerinteressen"
+    - "Intransparente algorithmengestützte Entscheidungen"
+
+## Hauptthesen
+
+main_theses:
+  - thesis_id: "behoerden_ethik:rechtsstaatlichkeit"
+    name: "Rechtsstaatlichkeit und Gesetzesbindung"
+    description: "Behördliches Handeln ist ausschließlich an Recht und Gesetz gebunden. Kein Ermessen ohne gesetzliche Grundlage."
+    explanation: |
+      Das Rechtsstaatsprinzip (Art. 20 Abs. 3 GG) verpflichtet alle Behörden,
+      nur auf Basis gesetzlicher Ermächtigung tätig zu werden. Für KI-Systeme
+      bedeutet dies: Automatisierte Entscheidungen in Verwaltungsverfahren
+      bedürfen einer expliziten Rechtsgrundlage (§ 35a VwVfG).
+    implications:
+      - "Kein automatisierter Verwaltungsakt ohne gesetzliche Ermächtigung"
+      - "Begründungspflicht für alle Verwaltungsentscheidungen"
+      - "Rechtsbehelfe gegen algorithmische Entscheidungen müssen möglich sein"
+    token_budget: 180
+    activation_rounds: [1, 4, 5]
+    round_role_weights:
+      PRO: 0.95
+      SYNTHESIS: 0.85
+      REBUTTAL: 0.7
+
+  - thesis_id: "behoerden_ethik:gleichbehandlung"
+    name: "Gleichbehandlungsgebot"
+    description: "Gleiche Sachverhalte sind gleich, ungleiche Sachverhalte sind entsprechend ungleich zu behandeln (Art. 3 GG)."
+    explanation: |
+      Das Diskriminierungsverbot und der allgemeine Gleichheitssatz verpflichten
+      Behörden zur konsistenten Entscheidungspraxis. KI-Systeme dürfen keine
+      geschützten Merkmale (Rasse, Geschlecht, Herkunft) als Entscheidungsbasis
+      verwenden, auch nicht indirekt über Proxy-Variablen.
+    implications:
+      - "Algorithmen müssen auf Bias gegen geschützte Gruppen geprüft werden"
+      - "Einheitliche Anwendung identischer Kriterien bei identischen Fällen"
+      - "Mittelbare Diskriminierung durch Proxy-Variablen ist verboten"
+    token_budget: 170
+    activation_rounds: [1, 2, 3]
+    round_role_weights:
+      PRO: 0.9
+      REBUTTAL: 0.8
+      SYNTHESIS: 0.75
+
+  - thesis_id: "behoerden_ethik:verhaeltnismaessigkeit"
+    name: "Verhältnismäßigkeitsprinzip"
+    description: "Behördliche Maßnahmen müssen geeignet, erforderlich und angemessen sein. Kein überschießendes Handeln."
+    explanation: |
+      Das Verhältnismäßigkeitsprinzip (Art. 20 Abs. 3 GG i.V.m. Grundrechten)
+      verlangt dreistufige Prüfung: Geeignetheit (taugt das Mittel zum Zweck?),
+      Erforderlichkeit (ist es das mildeste Mittel?), Angemessenheit (steht Eingriff
+      im Verhältnis zum Ziel?). Bei KI-Systemen: Datensparsamkeit als Ausdruck
+      der Erforderlichkeit; Transparenz als Ausdruck der Angemessenheit.
+    token_budget: 160
+    activation_rounds: [1, 2, 4]
+    round_role_weights:
+      PRO: 0.85
+      REBUTTAL: 0.75
+      SYNTHESIS: 0.8
+
+  - thesis_id: "behoerden_ethik:transparenz_erklaerbarkeit"
+    name: "Transparenz und Erklärbarkeit algorithmischer Entscheidungen"
+    description: "Bürger haben Anspruch auf nachvollziehbare Begründung behördlicher Entscheidungen. Algorithmische Black Boxes verstoßen gegen Begründungspflicht."
+    explanation: |
+      Nach § 39 VwVfG müssen schriftliche Verwaltungsakte begründet werden.
+      Dies gilt auch für KI-unterstützte Entscheidungen: der Algorithmus selbst
+      ist keine ausreichende Begründung. Die Begründung muss die wesentlichen
+      Gesichtspunkte enthalten, von denen die Behörde ausgegangen ist.
+    token_budget: 150
+    activation_rounds: [2, 3, 4, 5]
+    round_role_weights:
+      PRO: 0.8
+      REBUTTAL: 0.85
+      SYNTHESIS: 0.7
+
+  - thesis_id: "behoerden_ethik:menschliche_letztverantwortung"
+    name: "Menschliche Letztverantwortung"
+    description: "Finale Entscheidungsverantwortung verbleibt beim Menschen. KI kann vorbereiten und unterstützen, aber nicht final entscheiden."
+    explanation: |
+      Vollautomatisierte Verwaltungsakte (§ 35a VwVfG) sind nur ausnahmsweise
+      zulässig. Bei Ermessensentscheidungen und Grundrechtseingriffen ist
+      menschliche Prüfung und Verantwortungsübernahme zwingend erforderlich.
+      Der EU AI Act stuft viele Behördenanwendungen als Hochrisiko-KI ein
+      und schreibt menschliche Überwachung vor.
+    token_budget: 190
+    activation_rounds: [1, 4, 5]
+    round_role_weights:
+      PRO: 0.9
+      SYNTHESIS: 0.9
+      REBUTTAL: 0.65
+
+## Nebenthesen
+
+secondary_theses:
+  - thesis_id: "behoerden_ethik:amtsverschwiegenheit"
+    name: "Amtsverschwiegenheit und Datenschutz"
+    description: "Beamte und Behörden unterliegen der Verschwiegenheitspflicht. Personenbezogene Daten sind nach DSGVO zweckgebunden zu verarbeiten."
+    token_budget: 120
+    activation_rounds: [2, 3]
+    round_role_weights:
+      PRO: 0.65
+      REBUTTAL: 0.7
+
+  - thesis_id: "behoerden_ethik:buergerorientierung"
+    name: "Bürgerorientierung und Servicegedanke"
+    description: "Moderne Verwaltungsethik versteht Bürger als Kunden und Partner, nicht als Objekte der Verwaltung. Partizipation und Zugänglichkeit sind ethische Gebote."
+    token_budget: 110
+    activation_rounds: [3, 4, 5]
+    round_role_weights:
+      SYNTHESIS: 0.75
+      PRO: 0.6
+
+## Entscheidungsrahmen
+
+decision_framework:
+  question_sequence:
+    - "Liegt eine gesetzliche Ermächtigungsgrundlage vor?"
+    - "Ist die Maßnahme verhältnismäßig (geeignet, erforderlich, angemessen)?"
+    - "Werden alle Betroffenen gleich behandelt?"
+    - "Ist die Entscheidung transparent begründbar?"
+    - "Trägt ein Mensch die finale Verantwortung?"
+  tests:
+    - name: "Rechtsgrundlagen-Check"
+      procedure: "Prüfe Ermächtigungsgrundlage im einschlägigen Fachgesetz und VwVfG"
+    - name: "Verhältnismäßigkeitsprüfung"
+      procedure: "Dreistufige Prüfung: Geeignetheit → Erforderlichkeit → Angemessenheit"
+    - name: "Diskriminierungsfolgenabschätzung"
+      procedure: "Prüfe mittelbare und unmittelbare Diskriminierung gemäß AGG und Art. 3 GG"
+
+## Stärken und Schwächen
 
 strengths:
-  - point: "Grounded in positive law — decisions are legally defensible"
-  - point: "Proportionality doctrine provides structured balancing of interests"
-  - point: "Democratic accountability through judicial review and oversight bodies"
-  - point: "Compatible with EU AI Act compliance as structural requirement"
-
-## Weaknesses
+  - point: "Rechtssicherheit"
+    elaboration: "Klare gesetzliche Bindung bietet berechenbare, angreifbare Entscheidungen"
+  - point: "Gleichbehandlung"
+    elaboration: "Systematische Gleichbehandlung schützt vor Willkür und Korruption"
+  - point: "Demokratische Legitimation"
+    elaboration: "Gesetzgebungsprozess verleiht Verwaltungshandeln demokratische Legitimation"
+  - point: "Rechtsschutz"
+    elaboration: "Betroffene können Entscheidungen vor Gerichten anfechten"
 
 weaknesses:
-  - point: "May under-weight aggregate welfare in emergency triage scenarios"
-  - point: "Legal text interpretation can be slow to adapt to novel AI capabilities"
-  - point: "Risk of formalism over substantive justice"
+  - point: "Bürokratismus"
+    elaboration: "Strikte Gesetzesbindung kann Flexibilität und schnelle Anpassung bremsen"
+  - point: "Ermessensspielräume"
+    elaboration: "Algorithmen können Ermessen nicht vollständig abbilden; menschliche Nachprüfung erforderlich"
+  - point: "Technologische Lücken"
+    elaboration: "Bestehendes Verwaltungsrecht war nicht für KI-Entscheidungen konzipiert; Lücken entstehen"
 
-## Philosophical Positioning
+## Interne Debatten
+
+internal_debate:
+  automatisierung_vs_kontrolle:
+    issue: "Wie weit darf Verwaltungshandeln automatisiert werden?"
+    positions:
+      - "Effizienz: Vollautomatisierung bei massengeschäftsähnlichen Vorgängen"
+      - "Rechtsschutz: Menschliche Prüfung bei jedem Grundrechtseingriff"
+      - "Kompromiss: § 35a VwVfG als Rechtsrahmen"
+  transparenz_vs_datenschutz:
+    issue: "Offenlegung von KI-Algorithmen vs. Betriebs- und Datenschutzgeheimnis"
+    positions:
+      - "Transparenz: Öffentliche Algorithmen für öffentliche Gewalt"
+      - "Schutz: Missbrauch durch Offenlegung ermöglicht"
+
+## Philosophische Positionierung
 
 philosophical_positioning:
-  relation_to_kant: "Operationalises Kantian universality through constitutional law"
-  relation_to_utilitarianism: "Rejects pure efficiency; constrains it with rights and procedural limits"
-  relation_to_contractualism: "Shares Rawlsian concern for equal treatment and procedural fairness"
+  relation_to_kant: "Gesetzesbindung = kategorialer Imperativ der Verwaltung: handle stets nach universalisierbaren Vorschriften"
+  relation_to_rawls: "Öffentliche Rechtfertigung aller Entscheidungen entspricht Rawlsianischer Transparenz"
+  relation_to_utilitarianism: "Opportunitätsprinzip als begrenzter Utilitarismus im Ermessen; Gesetzesbindung schlägt Nützlichkeit"
+  relation_to_care_ethics: "Bürgerorientierung integriert Sorge-Perspektive; Gleichbehandlung setzt Grenze"
+
+## Praktische Anwendungen
+
+application_areas:
+  - domain: "KI-gestützte Verwaltungsentscheidungen"
+    issues:
+      - "Automatisierte Bescheide (§ 35a VwVfG): Rechtmäßigkeit und Anfechtbarkeit"
+      - "Risiko-Scoring für Sozialtransfers: Diskriminierungsfreiheit"
+      - "Predictive Policing: Verhältnismäßigkeit und Unschuldsvermutung"
+  - domain: "Öffentliche Vergabe und Beschaffung"
+    issues:
+      - "KI-gestützte Angebotsbewertung: Gleichbehandlung der Bieter"
+      - "Transparenzanforderungen bei algorithmischen Vergabeentscheidungen"
+  - domain: "KRITIS-Sektoren"
+    issues:
+      - "Kritische Infrastrukturen: Ausfallsicherheit und staatliche Schutzpflichten"
+      - "Datensouveränität staatlicher Systeme"
+
+## Zitate
+
+famous_quotes:
+  - quote: "Die vollziehende Gewalt und die Rechtsprechung sind an Gesetz und Recht gebunden."
+    source: "Grundgesetz Art. 20 Abs. 3"
+    context: "Grundprinzip der Verwaltungsbindung im deutschen Rechtsstaat"
+  - quote: "Der Verwaltungsakt ist eine Verfügung, Entscheidung oder andere hoheitliche Maßnahme, die eine Behörde zur Regelung eines Einzelfalls auf dem Gebiet des öffentlichen Rechts trifft."
+    source: "§ 35 VwVfG"
+    context: "Legaldefinition — Grundlage der Begründungspflicht"
+  - quote: "Jeder hat das Recht auf Auskunft und auf Einsicht in das ihn betreffende automatisierte Profiling."
+    source: "DSGVO Art. 22"
+    context: "Recht auf menschliche Überprüfung automatisierter Entscheidungen"
+
+## Bibliographie
+
+key_literature:
+  primary:
+    - "Grundgesetz für die Bundesrepublik Deutschland (1949), Art. 20, 3, 19 Abs. 4"
+    - "Verwaltungsverfahrensgesetz (VwVfG), §§ 35, 35a, 39"
+    - "EU KI-Verordnung (AI Act) 2024/1689, Art. 14 (menschliche Überwachung)"
+    - "DSGVO (EU) 2016/679, Art. 22 (automatisierte Entscheidungen)"
+  secondary:
+    - "Weber, Max. Wirtschaft und Gesellschaft (1922)"
+    - "Maurer, Hartmut / Waldhoff, Christian. Allgemeines Verwaltungsrecht, 19. Aufl. (2017)"
+    - "Britz, Gabriele. Elektronische Verwaltung und Grundrechte (2006)"
+    - "Martini, Mario. Algorithmen als Herausforderung für die Rechtsordnung (2017)"

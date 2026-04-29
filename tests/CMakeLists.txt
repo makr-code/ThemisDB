@@ -24275,6 +24275,54 @@ elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
 endif()
 
 # ──────────────────────────────────────────────────────────────────────────────
+# ThesisBudgetManagement tests (TBM-01..10)  — §9.1 selectThesesForRound
+# ──────────────────────────────────────────────────────────────────────────────
+if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_thesis_budget_management.cpp")
+    message(STATUS "Adding ThesisBudgetManagement tests (TBM-01..10)")
+
+    add_executable(test_thesis_budget_management_focused
+        test_thesis_budget_management.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/prompt_engineering/context_window_manager.cpp
+    )
+
+    target_include_directories(test_thesis_budget_management_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+    )
+
+    target_link_libraries(test_thesis_budget_management_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    find_package(yaml-cpp QUIET)
+    if(yaml-cpp_FOUND)
+        target_link_libraries(test_thesis_budget_management_focused PRIVATE yaml-cpp::yaml-cpp)
+        target_compile_definitions(test_thesis_budget_management_focused PRIVATE HAVE_YAML_CPP)
+    elseif(TARGET yaml-cpp)
+        target_link_libraries(test_thesis_budget_management_focused PRIVATE yaml-cpp)
+        target_compile_definitions(test_thesis_budget_management_focused PRIVATE HAVE_YAML_CPP)
+    endif()
+
+    target_compile_definitions(test_thesis_budget_management_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        "THEMIS_PHILOSOPHIES_DIR=\"${CMAKE_SOURCE_DIR}/plugins/ethics_ai/philosophies\""
+    )
+
+    add_test(NAME ThesisBudgetManagementTests COMMAND test_thesis_budget_management_focused)
+    set_tests_properties(ThesisBudgetManagementTests PROPERTIES
+        LABELS "ethics;budget;discourse;unit"
+        TIMEOUT 30
+    )
+    message(STATUS "  ThesisBudgetManagement: TBM-01..10 (activation rounds, budget cap, role weights)")
+elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
+    message(STATUS "ThesisBudgetManagement tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
+endif()
+
+# ──────────────────────────────────────────────────────────────────────────────
 # PERF-D6: ConcurrentWriteController focused tests
 # ──────────────────────────────────────────────────────────────────────────────
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_concurrent_write_controller.cpp")

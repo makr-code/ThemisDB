@@ -1,25 +1,11 @@
-# ╔══════════════════════════════════════════════════════════════════════╗
-# ║  ThemisDB — Philosophy Profile                                       ║
-# ║  School: Konfuzianismus                                              ║
-# ║  Taxonomy Class: virtue + cultural_religious                         ║
-# ║  Version: 1.0.0 | Target: Q3 2026                                    ║
-# ╚══════════════════════════════════════════════════════════════════════╝
+# Konfuzianische Ethik — Rújiā (儒家)
 
-school_id: "konfuzianismus"
-name: "Konfuzianische Ethik"
-description: |
-  Die konfuzianische Ethik (儒家, Rújiā) wurde von Konfuzius (孔子, Kǒng Zǐ,
-  551–479 v. Chr.) und seinen Schülern Mencius (孟子), Xunzi (荀子) und
-  Dong Zhongshu begründet.  Sie ist keine Religionsethik im monotheistischen
-  Sinne, sondern eine normative Tugend- und Beziehungsethik, die auf den
-  fünf Grundbeziehungen (五倫, wǔlún) und den Kardinaltugenden Rén (仁,
-  Menschlichkeit/Humanität), Yì (義, Rechtschaffenheit), Lǐ (禮, Ritualität/
-  Sitte), Zhì (智, Weisheit) und Xìn (信, Integrität/Treue) aufbaut.
-  In der modernen Bioethik und KI-Ethik wird Konfuzianismus als Alternativ-
-  perspektive zur westlich-individualistischen Autonomieethik diskutiert,
-  die relationale Identität und kollektive Harmonie in den Vordergrund stellt.
+school_id: konfuzianismus
+name: "Confucian Ethics"
+name_de: "Konfuzianische Ethik"
 
-taxonomy_class: "virtue"
+## Routing-Metadaten (EthicsSelectionRouter Stufe 1)
+taxonomy_class: virtue
 tags:
   - konfuzianismus
   - ren_humanitaet
@@ -31,8 +17,6 @@ tags:
   - kollektivismus
   - asiatische_werte
   - ai_governance
-  - social_justice
-
 applicable_domains:
   - ai_governance
   - social_justice
@@ -42,15 +26,15 @@ applicable_domains:
   - bioethics
 
 convergence_compatible:
-  - aristotelian              # Tugendethik: Eudaimonia ↔ Harmonie; Tugendkatalog ähnlich
-  - care_ethics               # Beziehungsethik und Fürsorge; Familienorientierung
+  - aristotelian              # Tugendethik: Eudaimonia ↔ Harmonie
+  - care_ethics               # Beziehungsethik und Fürsorge
   - buddhistische_ethik       # Harmonie, Mitgefühl, Gemeinschaft
   - neo_aristotelian          # Communitarianism: Gemeinschaft vor Individuum
 
 cross_school_tensions:
-  - kant:                 "Konfuzianismus kennt keine universalen formalen Imperatives; kontextuelle Rollenpflichten ersetzen das kategorische Universalgesetz"
-  - liberal_individualism: "Individuelle Autonomie vs. relationale Identität: konfuzianische Ethik priorisiert soziale Harmonie und Rollenpflichten"
-  - utilitarianism:       "Aggregiertes Wohlbefinden vs. Erhalt relationaler Ordnung; Konfuzianismus lehnt Opfern von Beziehungsqualität für Gesamtnutzen ab"
+  - kant:                   "Konfuzianismus kennt keine universalen formalen Imperatives; kontextuelle Rollenpflichten ersetzen das kategorische Universalgesetz"
+  - liberal_individualism:  "Individuelle Autonomie vs. relationale Identität; Konfuzianismus priorisiert soziale Harmonie"
+  - utilitarianism:         "Aggregiertes Wohlbefinden vs. Erhalt relationaler Ordnung"
 
 activation_conditions:
   - condition: "dilemma.domains enthält ai_governance ODER organizational_ethics"
@@ -61,30 +45,92 @@ activation_conditions:
     effect: boost_weight
 
 regulatory_constraints:
-  override_permitted: true            # Kontextuelle Rollenpflichten sind anpassbar
+  override_permitted: true
   applicable_regulations: []
-  note: "Kernlehren Rén und Lǐ sind zentral, aber kontextuell variierbar; kein absoluter Override-Veto"
+  note: "Kernlehren Rén und Lǐ sind zentral, aber kontextuell variierbar"
 
 domain_overrides:
   ai_governance:
     weight_boost: 0.25
-    note: "Algorithmic authority, Zhengming (正名, Richtige Benennung) und kollektive Verantwortung"
+    note: "Zhengming (正名) und kollektive Verantwortung als Governance-Prinzipien"
   organizational_ethics:
     weight_boost: 0.3
-    note: "Führungsethik: Junzǐ (君子, Edler Mensch) als Leitbild für Manager und KI-Governance"
+    note: "Führungsethik: Jūnzǐ (君子, Edler Mensch) als Leitbild"
+
+## Hauptvertreter
+founders:
+  - name: "Kong Qiu (Konfuzius, 孔子)"
+    years: "551-479 v. Chr."
+    nationality: "Chinesisch"
+    birthplace: "Qufu, Staat Lu (heute Shandong)"
+    key_works:
+      - title: "Lunyu (論語, Analekten)"
+        year: "ca. 479-221 v. Chr. zusammengestellt"
+        significance: "Hauptquelle konfuzianischer Ethik; Gespräche des Meisters mit Schülern"
+    biography: "Kong Qiu war Staatsbeamter, Lehrer und Philosoph. Er lehrte nicht durch systematische Abhandlungen, sondern durch Gespräche und Vorbilder (Jūnzǐ-Ideal)."
+
+  - name: "Meng Ke (Mengzi/Mencius, 孟子)"
+    years: "372-289 v. Chr."
+    nationality: "Chinesisch"
+    key_works:
+      - title: "Mengzi (孟子)"
+        year: "ca. 320-300 v. Chr."
+        significance: "Begründung der angeborenen Tugendanlage; Rén-Ethik als Naturanlage"
+    biography: "Mencius systematisierte die Ethik des Konfuzius und begründete die These, dass Menschen von Natur aus gut sind und Tugend entfalten können."
+
+  - name: "Xun Kuang (Xunzi, 荀子)"
+    years: "313-238 v. Chr."
+    nationality: "Chinesisch"
+    key_works:
+      - title: "Xunzi (荀子)"
+        year: "ca. 280-240 v. Chr."
+        significance: "Kontrastposition: Menschennatur ist unkultiviert; Lǐ (Ritual) formt Tugend"
+    biography: "Xunzi argumentierte gegen Mencius: die menschliche Natur tendiert zu Eigennutz; Ritual und Bildung formen Tugend. Begründete den legalistischen Zweig."
+
+  - name: "Wang Yangming (王陽明)"
+    years: "1472-1529"
+    nationality: "Chinesisch"
+    key_works:
+      - title: "Chuanxilu (傳習錄)"
+        year: 1572
+        significance: "Neo-konfuzianische Einheit von Wissen und Handeln; Gewissen als moralische Instanz"
+    biography: "Begründer der Wang-Yangming-Schule des Neo-Konfuzianismus; sein Konzept des intuitiven Wissens (liangzhi) beeinflusste Japan und Korea."
+
+## Historischer Kontext
+historical_context:
+  period: "6. Jh. v. Chr. bis heute; Neo-Konfuzianismus (Song-Dynastiе 960-1279); moderner Neu-Konfuzianismus ab 20. Jh."
+  philosophical_movement: "Konfuzianismus, Neo-Konfuzianismus, zeitgenössischer Konfuzianismus"
+  zeitgeist: "Soziale Harmonie, gute Herrschaft, moralische Kultivierung"
+  influences:
+    - source: "Zhou-Rituale und Bronzezeit-Staatslehre"
+      impact: "Konfuzius als Bewahrer und Erneuerer der Zhou-Tradition"
+    - source: "Taoismus (Daoismus)"
+      thinkers: ["Laozi", "Zhuangzi"]
+      impact: "Dialog und gegenseitige Abgrenzung; Neo-Konfuzianismus integriert taoistische Naturphilosophie"
+    - source: "Buddhismus"
+      impact: "Neo-konfuzianische Synthese von konfuzianischer Ethik, taoistischer Metaphysik und buddhistischer Psychologie"
+  reactions_against:
+    - "Mohismus: universale Liebe ohne Differenzierung"
+    - "Legalismus: bloßer Rechtszwang ohne moralische Erziehung"
+    - "Taoistischer Rückzug aus gesellschaftlicher Verantwortung"
+
+## Hauptthesen
 
 main_theses:
   - thesis_id: "konfuzianismus:ren_humanitaet"
     name: "Rén (仁) — Menschlichkeit und Humanität"
     description: "Rén ist die höchste Tugend: die Fähigkeit, den anderen als Mensch anzuerkennen und mit ihm in authentischer, fürsorglich-liebender Beziehung zu stehen. Grundlage aller konfuzianischen Ethik."
     explanation: |
-      Rén (仁) ist das Herzstück der konfuzianischen Tugendethik.  Es bedeutet
-      zugleich: Humanität, Menschenliebe, Mitgefühl, Empathie, Integrität.
-      Ein Mensch handelt rén-voll, wenn er anderen gegenüber das wünscht, was
-      er sich selbst wünscht (Silberne Regel: 己所不欲，勿施於人 — was du nicht
-      willst, tue auch anderen nicht an, Analekten 12.2 und 15.24).
-      In der KI-Ethik: Systeme, die Rén verkörpern, fördern echte
-      menschliche Verbindungen statt Isolation.
+      Rén (仁) bedeutet zugleich: Humanität, Menschenliebe, Mitgefühl, Empathie.
+      Ein Mensch handelt rén-voll, wenn er anderen gegenüber das wünscht, was er
+      sich selbst wünscht (Silberne Regel: 己所不欲，勿施於人, Analekten 12.2).
+      In der KI-Ethik: Systeme, die Rén verkörpern, fördern echte menschliche
+      Verbindungen statt Isolation.
+    implications:
+      - "Empathie und aktives Mitgefühl als Grundlage aller Tugenden"
+      - "Silberne Regel als universalisierbare Handlungsmaxime"
+      - "Selbstkultivierung (修身 xiū shēn) als lebenslanger Prozess"
+      - "KI sollte Rén-förderliche Interaktionen unterstützen"
     token_budget: 180
     activation_rounds: [1, 4, 5]
     round_role_weights:
@@ -98,11 +144,13 @@ main_theses:
     explanation: |
       Jede der fünf Beziehungen definiert reziproke Pflichten: Loyalität (忠)
       gegenüber dem Herrscher, Pietät (孝) gegenüber Eltern, Gegenseitigkeit
-      (信) unter Freunden.  Ethische Urteile sind immer kontextuell und
-      relational — eine Handlung ist nicht abstrakt richtig, sondern richtig
-      in einer bestimmten Beziehungsrolle.
+      (信) unter Freunden.  Ethische Urteile sind immer kontextuell und relational.
       Implikation für KI: AI-Systeme sollten relationale Kontexte berücksichtigen,
       nicht nur individuelle Präferenzen aggregieren.
+    implications:
+      - "Ethische Entscheidungen sind immer kontextuell und relational"
+      - "Reziprokes Pflichten-System: keine unilaterale Autorität"
+      - "KI-Governance braucht relationale Verantwortungsstrukturen"
     token_budget: 160
     activation_rounds: [1, 2, 3]
     round_role_weights:
@@ -112,13 +160,12 @@ main_theses:
 
   - thesis_id: "konfuzianismus:yi_rechtschaffenheit"
     name: "Yì (義) — Rechtschaffenheit und Pflichterfüllung"
-    description: "Yì bezeichnet die Pflicht, das Richtige zu tun, unabhängig von persönlichem Vorteil. Edle Handlungen entspringen Yì, nicht Eigeninteresse oder blinder Loyalität."
+    description: "Yì bezeichnet die Pflicht, das Richtige zu tun, unabhängig von persönlichem Vorteil. Edle Handlungen entspringen Yì, nicht Eigeninteresse."
     explanation: |
       Yì (義) ergänzt Rén als Handlungsmotivation: nicht Eigennutz (利, lì),
-      sondern das Gerechte tun.  Dies unterscheidet Konfuzianismus von
-      Utilitarismus: Yì kann Eigeninteresse-Kalkulation übersteuern.
-      Mencius argumentiert: Menschen haben innate (angeboren) moralische
-      Sensitivität für das Rechte (Schamgefühl als Keim von Yì).
+      sondern das Gerechte tun.  Mencius argumentiert: Menschen haben angeborene
+      moralische Sensitivität für das Rechte (Schamgefühl als Keim von Yì).
+      Dies unterscheidet Konfuzianismus von Utilitarismus.
     token_budget: 150
     activation_rounds: [1, 2, 4]
     round_role_weights:
@@ -127,14 +174,13 @@ main_theses:
       SYNTHESIS: 0.7
 
   - thesis_id: "konfuzianismus:li_ritualitaet"
-    name: "Lǐ (禮) — Ritualität, Sitte und soziale Ordnung"
-    description: "Lǐ bezeichnet das System von Riten, Zeremonien und sozialen Normen, das Beziehungen strukturiert und gesellschaftliche Harmonie ermöglicht. Ritual ist verinnerlichte Ethik."
+    name: "Lǐ (禮) — Ritualität und soziale Ordnung"
+    description: "Lǐ bezeichnet das System von Riten, Zeremonien und sozialen Normen, das Beziehungen strukturiert. Ritual ist verinnerlichte Ethik und institutionalisiertes Rén."
     explanation: |
       Lǐ (禮) umfasst: formale Zeremonien, soziale Etikette, institutionelle
-      Normen.  Konfuzius versteht Lǐ nicht als leere Form, sondern als
-      externalisierte Rén: durch Rituale werden Menschen in tugendhafte
-      Gewohnheiten sozialisiert.  In der Governance-Ethik: institutionelle
-      Prozesse (Lǐ) sollen das Gute internalisieren, nicht nur erzwingen.
+      Normen.  Konfuzius versteht Lǐ als externalisierte Rén: durch Rituale werden
+      Menschen in tugendhafte Gewohnheiten sozialisiert.  In der Governance-Ethik:
+      institutionelle Prozesse sollen das Gute internalisieren, nicht nur erzwingen.
     token_budget: 140
     activation_rounds: [2, 3, 5]
     round_role_weights:
@@ -144,12 +190,12 @@ main_theses:
 
   - thesis_id: "konfuzianismus:zhengming_richtige_benennung"
     name: "Zhèngmíng (正名) — Richtige Benennung"
-    description: "Dinge, Rollen und Akteure müssen korrekt benannt werden, damit Handlungen angemessen sind. 'Wenn Begriffe nicht korrekt sind, stimmen Aussagen nicht; stimmen Aussagen nicht, gelingen Werke nicht.' (Analekten 13.3)"
+    description: "Dinge, Rollen und Akteure müssen korrekt benannt werden, damit Handlungen angemessen sind. 'Wenn Begriffe nicht korrekt sind, gelingen Werke nicht.' (Analekten 13.3)"
     explanation: |
       Zhèngmíng ist das Prinzip der Begriffsklarheit als ethische Verpflichtung.
-      Fehlbenennung (z.B. ein Algorithmus-Bias als "Effizienz" bezeichnen)
-      verzerrt moralisches Urteilen.  In der KI-Governance: präzise Benennung
-      von Systemverhalten, Verantwortlichkeiten und Wirkungen ist ethisch geboten.
+      Fehlbenennung (z.B. Algorithmus-Bias als 'Effizienz' bezeichnen) verzerrt
+      moralisches Urteilen.  In der KI-Governance: präzise Benennung von
+      Systemverhalten, Verantwortlichkeiten und Wirkungen ist ethisch geboten.
     token_budget: 130
     activation_rounds: [1, 3, 4]
     round_role_weights:
@@ -157,10 +203,12 @@ main_theses:
       REBUTTAL: 0.8
       SYNTHESIS: 0.6
 
+## Nebenthesen
+
 secondary_theses:
   - thesis_id: "konfuzianismus:junzi_idealer_mensch"
     name: "Jūnzǐ (君子) — Der edle Mensch als ethisches Ideal"
-    description: "Der Jūnzǐ verkörpert alle Tugenden (Rén, Yì, Lǐ, Zhì, Xìn) und dient als Vorbild für andere. Tugend ist erlernbar und erfordert kontinuierliche Selbstkultivierung."
+    description: "Der Jūnzǐ verkörpert alle Tugenden und dient als Vorbild. Tugend ist erlernbar und erfordert kontinuierliche Selbstkultivierung."
     token_budget: 120
     activation_rounds: [3, 4, 5]
     round_role_weights:
@@ -176,33 +224,119 @@ secondary_theses:
       PRO: 0.7
       REBUTTAL: 0.55
 
+## Entscheidungsrahmen
+
 decision_framework:
-  primary_question: "Welche Handlung stärkt Rén (Menschlichkeit) und die fünf Grundbeziehungen?"
-  secondary_question: "Entspricht die Handlung den Pflichten der jeweils relevanten Beziehungsrolle (Wǔlún)?"
-  tertiary_question: "Wird durch die Handlung die gesellschaftliche Harmonie (和諧, héxié) gefördert oder geschwächt?"
-  contextual_guidance: "Bei Rollenkonflikten (z.B. Loyalität vs. Rechtschaffenheit): Yì übertrumpft blinde Loyalität — auch Herrscher sind zur Kritik durch Edle verpflichtet."
+  question_sequence:
+    - "Welche Handlung stärkt Rén (Menschlichkeit) und die fünf Grundbeziehungen?"
+    - "Entspricht die Handlung den Pflichten der jeweils relevanten Beziehungsrolle (Wǔlún)?"
+    - "Wird durch die Handlung die gesellschaftliche Harmonie (和諧) gefördert?"
+    - "Entspringt die Handlung Yì (Rechtschaffenheit) oder Eigennutz?"
+    - "Sind alle Begriffe und Rollen korrekt benannt (Zhèngmíng)?"
+  tests:
+    - name: "Rén-Test"
+      procedure: "Wie würde ein Mensch mit vollentwickelter Rén handeln?"
+    - name: "Wǔlún-Rollen-Test"
+      procedure: "Welche Rollenpflichten sind in dieser Beziehung relevant?"
+    - name: "Harmoniefolgen-Test"
+      procedure: "Fördert oder gefährdet die Handlung die soziale Harmonie?"
+
+## Stärken und Schwächen
 
 strengths:
   - point: "Relationalität"
     elaboration: "Berücksichtigt soziale Einbettung von Entscheidungen; verhindert atomistischen Individualismus"
   - point: "Institutionelle Relevanz"
-    elaboration: "Starke Theorie guter Governance und Führung (Junzǐ); relevant für KI-Governance und Unternehmensethik"
+    elaboration: "Starke Theorie guter Governance und Führung; relevant für KI-Governance und Unternehmensethik"
   - point: "Kulturelle Resonanz"
-    elaboration: "Tief verwurzelt in ostasiatischen Kulturen; ermöglicht kulturell angepasste KI-Ethik jenseits westlicher Normen"
+    elaboration: "Tief verwurzelt in ostasiatischen Kulturen; ermöglicht kulturell angepasste KI-Ethik"
   - point: "Selbstkultivierung"
     elaboration: "Tugend als prozessuales Lernprojekt; Fehler sind Teil des Weges"
 
 weaknesses:
   - point: "Hierarchismus"
-    elaboration: "Wǔlún enthält patriarchale und hierarchische Strukturen, die unkritisch übernommen werden könnten"
+    elaboration: "Wǔlún enthält patriarchale und hierarchische Strukturen"
   - point: "Relativismus der Rollenpflichten"
-    elaboration: "Was in einer Rolle richtig ist, kann in einer anderen falsch sein — universale Standards sind schwer ableitbar"
+    elaboration: "Was in einer Rolle richtig ist, kann in einer anderen falsch sein"
   - point: "Konservatismus"
-    elaboration: "Lǐ-Betonung kann soziale Veränderungen bremsen; Tradition kann Unrechtserhalt legitimieren"
+    elaboration: "Lǐ-Betonung kann soziale Veränderungen bremsen"
+
+## Interne Debatten
+
+internal_debate:
+  mencius_vs_xunzi:
+    issue: "Ist die menschliche Natur gut (Mencius) oder unkultiviert (Xunzi)?"
+    positions:
+      - "Mencius: Tugendsamen sind angeboren; Kultivierung entfaltet sie"
+      - "Xunzi: Natur neigt zu Eigennutz; Lǐ und Bildung formen Tugend"
+  tradition_vs_reform:
+    issue: "Konfuzianismus und moderne Demokratie/Menschenrechte kompatibel?"
+    positions:
+      - "Traditionalismus: Harmonie geht vor individuelle Rechte"
+      - "Neu-Konfuzianismus: demokratische Institutionen als modernes Lǐ"
+      - "Konfuzianische Demokratie: Deliberation und Harmonie verbindbar"
+
+## Philosophische Positionierung
 
 philosophical_positioning:
-  vs_kant: "Konfuzianismus: relationale Pflichten vs. formale Universalgesetze; Silberne Regel ähnlich dem KI, aber kontextuell"
-  vs_utilitarianism: "Yì übertrumpft Nützlichkeitskalkulation; Beziehungsqualität nicht aggregierbar"
-  vs_virtue_ethics: "Nächste Verwandte: beide betonen Tugend und Charakter; Unterschied: Konfuzianismus ist relationaler, Aristoteles teleologischer"
-  vs_care_ethics: "Überschneidung: Beziehungssorge; Unterschied: Konfuzianismus normiert Rollen stärker als Care-Ethik"
-  vs_liberal_individualism: "Fundamentaler Gegensatz: relationale vs. atomistische Identität; kollektive Harmonie vs. individuelle Rechte"
+  relation_to_kant: "Silberne Regel ähnelt KI, aber kontextuell; relationale Pflichten vs. formale Universalgesetze"
+  relation_to_utilitarianism: "Yì übertrumpft Nützlichkeitskalkulation; Beziehungsqualität nicht aggregierbar"
+  relation_to_virtue_ethics: "Nächste Verwandte: beide betonen Tugend und Charakter; Unterschied: Konfuzianismus ist relationaler"
+  relation_to_care_ethics: "Überschneidung: Beziehungssorge; Konfuzianismus normiert Rollen stärker als Care-Ethik"
+  relation_to_liberal_individualism: "Fundamentaler Gegensatz: relationale vs. atomistische Identität"
+
+## Moderne Entwicklungen
+
+contemporary_extensions:
+  - thinker: "Tu Weiming"
+    contribution: "Konfuzianismus und Menschenrechte: Harmonie als Basis universaler Dignität"
+  - thinker: "Wm. Theodore de Bary"
+    contribution: "Neo-Konfuzianismus und Liberalismus: Selbstkultivierung als Bürgerfreiheit"
+  - thinker: "Kim Sung-Hae"
+    contribution: "Koreanischer Konfuzianismus und feministische Ethik: Chong (devotion) als weibliche Tugend"
+  - thinker: "Chenyang Li"
+    contribution: "Konfuzianismus und Care-Ethik: Rén als konfuzianisches Fürsorge-Fundament"
+
+## Praktische Anwendungen
+
+application_areas:
+  - domain: "KI-Governance"
+    issues:
+      - "Algorithmische Autorität: Zhengming — KI-Systeme müssen korrekt beschrieben werden"
+      - "Verantwortungsstrukturen: Wǔlún-Hierarchien für KI-Verantwortung"
+      - "Kollektiver Nutzen vor individuellem Vorteil: Maßstab für KI-Regulierung"
+  - domain: "Unternehmensethik"
+    issues:
+      - "Führungsethik: Jūnzǐ als Vorbild für Manager und Vorstände"
+      - "Organisationskultur: Lǐ als institutionelle Werte-Kodifizierung"
+  - domain: "Bildungsethik"
+    issues:
+      - "Selbstkultivierung als Bildungsziel"
+      - "Lehrer-Schüler-Beziehung als ethisch bedeutsame Wǔlún"
+
+## Zitate
+
+famous_quotes:
+  - quote: "己所不欲，勿施於人 — Was du nicht willst, dass man dir tue, tue das auch keinem anderen an."
+    source: "Analekten 15.24 und 12.2"
+    context: "Silberne Regel des Konfuzius — Grundlage von Rén als reziprokem Prinzip"
+  - quote: "名不正，則言不順；言不順，則事不成 — Wenn Begriffe nicht korrekt sind, stimmen Aussagen nicht; stimmen Aussagen nicht, gelingen Werke nicht."
+    source: "Analekten 13.3"
+    context: "Zhèngmíng — Begriffsklarheit als ethische und politische Pflicht"
+  - quote: "修身齊家治國平天下 — Kultiviere dich selbst, ordne dein Haus, regiere den Staat, bringe Frieden in der Welt unter dem Himmel."
+    source: "Daxue (大學, Die große Lehre)"
+    context: "Konfuzianische Fortschrittslinie: von der Selbstkultivierung zur Weltordnung"
+
+## Bibliographie
+
+key_literature:
+  primary:
+    - "Lunyu (論語, Analekten des Konfuzius). Übers. von Wilhelm, Richard (1910)"
+    - "Mengzi (孟子). Übers. von Legge, James (1895)"
+    - "Xunzi. Übers. von Watson, Burton (1963)"
+    - "Daxue (大學, Die große Lehre). Eines der Vier Bücher"
+  secondary:
+    - "Tu, Weiming. Confucian Thought: Selfhood as Creative Transformation (1985)"
+    - "Fingarette, Herbert. Confucius: The Secular as Sacred (1972)"
+    - "Ames, Roger T. / Rosemont, Henry. The Analects of Confucius: A Philosophical Translation (1998)"
+    - "Li, Chenyang. The Confucian Philosophy of Harmony (2014)"

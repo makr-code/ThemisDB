@@ -403,7 +403,11 @@ These gaps become critical when running ≥ 4 discourse rounds with 3+ schools:
 
 ---
 
-### 9.1 Per-Thesis `token_budget` and `activation_rounds`
+### 9.1 Per-Thesis `token_budget` and `activation_rounds`  ✅ IMPLEMENTED (2026-04-29)
+
+> **Status:** Implemented in `ethics_ai_types.h` (`PhilosophyThesis` struct + `PhilosophyProfile.typed_theses`),
+> `philosophy_loader.cpp` (YAML parsing), `context_window_manager.h/.cpp` (`selectThesesForRound()`).
+> Tests TBM-01..10 in `tests/test_thesis_budget_management.cpp`.
 
 #### Scope
 Add two optional fields to each `thesis_id` entry in every philosophy YAML profile:
