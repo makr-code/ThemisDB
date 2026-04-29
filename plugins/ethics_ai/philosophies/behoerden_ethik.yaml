@@ -1,0 +1,208 @@
+# Behörden-Ethik — Institutional and Public-Authority Ethics
+# Applies to AI systems deployed in public administration, government agencies,
+# and regulated critical-infrastructure operators in Germany / EU.
+
+school_id: behoerden_ethik
+name: "Behörden-Ethik"
+name_de: "Behörden- und Verwaltungsethik"
+
+# Routing metadata (used by EthicsSelectionRouter Stage-1)
+taxonomy_class: regulatory_authority
+tags:
+  - public_sector
+  - government
+  - verwaltung
+  - regulierung
+  - compliance
+  - kritis
+applicable_domains:
+  - ai_governance
+  - data_protection
+  - public_procurement
+  - public_sector
+  - legal
+
+description: |
+  Ethics framework governing AI use within public authorities (Behörden) and
+  regulated critical-infrastructure operators. Grounds decisions in the rule of
+  law (Rechtsstaatsprinzip), proportionality (Verhältnismäßigkeit), equal
+  treatment (Gleichbehandlung), and democratic accountability. Requires that
+  algorithmic systems used in administrative proceedings are explainable,
+  auditable, and subject to meaningful human review.
+
+## Founding Principles
+
+founders:
+  - name: "Grundgesetz der Bundesrepublik Deutschland"
+    years: "1949–present"
+    key_works:
+      - title: "Grundgesetz (GG)"
+        year: 1949
+        significance: "Constitutional foundation: human dignity, rule of law, proportionality"
+      - title: "Verwaltungsverfahrensgesetz (VwVfG)"
+        year: 1976
+        significance: "Administrative procedure fairness requirements"
+      - title: "DSGVO / GDPR (EU Regulation 2016/679)"
+        year: 2018
+        significance: "Data protection as fundamental right in AI-assisted decisions"
+      - title: "EU AI Act (Regulation 2024/1689)"
+        year: 2024
+        significance: "High-risk AI system requirements for public sector deployments"
+      - title: "KRITIS-Dachgesetz"
+        year: 2024
+        significance: "Resilience and transparency requirements for critical infrastructure"
+
+## Historical Context
+
+historical_context:
+  period: "Rechtsstaat tradition, codified post-WWII"
+  philosophical_movement: "Verfassungsrecht und Verwaltungsrecht"
+  zeitgeist: "Rule of law, democratic accountability, protection of individual rights"
+  influences:
+    - source: "Kantian Rechtsphilosophie"
+      impact: "Universal applicability of rules; no person may be used merely as instrument"
+    - source: "Rawlsian fairness"
+      impact: "Procedural justice and equal treatment before administrative law"
+
+## Hauptthesen
+
+main_theses:
+  - thesis_id: "behoerden_ethik:rechtsstaatlichkeit"
+    name: "Rechtsstaatlichkeit"
+    description: |
+      All algorithmic decisions affecting citizens must have a clear legal basis
+      (Vorbehalt des Gesetzes), be bounded by the proportionality principle
+      (Verhältnismäßigkeit), and be subject to judicial review.
+    token_budget: 180
+    activation_rounds: [1, 2, 4]
+    activation_conditions:
+      - "public_sector: true"
+
+  - thesis_id: "behoerden_ethik:gleichbehandlung"
+    name: "Gleichbehandlung und Diskriminierungsfreiheit"
+    description: |
+      Art. 3 GG prohibits arbitrary discrimination. AI systems in public
+      administration must not create disparate impact on protected classes
+      and must be regularly audited for proxy discrimination.
+    token_budget: 150
+    activation_rounds: [1, 2, 3]
+
+  - thesis_id: "behoerden_ethik:transparenz_und_begruendungspflicht"
+    name: "Transparenz und Begründungspflicht"
+    description: |
+      Administrative decisions must be explainable (§ 39 VwVfG). An AI
+      system assisting in administrative proceedings must provide
+      human-readable reasoning that enables effective challenge (Widerspruch).
+    token_budget: 200
+    activation_rounds: [1, 3, 4, 5]
+
+  - thesis_id: "behoerden_ethik:menschliche_letztverantwortung"
+    name: "Menschliche Letztverantwortung"
+    description: |
+      Automated administrative decisions (vollautomatische Verwaltungsakte)
+      under § 35a VwVfG require explicit statutory authorisation. For all
+      high-risk AI systems (EU AI Act Annex III), human oversight is
+      mandatory before binding decisions affecting individuals.
+    token_budget: 180
+    activation_rounds: [1, 2, 3, 4, 5]
+
+secondary_theses:
+  - thesis_id: "behoerden_ethik:datensparsamkeit"
+    name: "Datensparsamkeit und Zweckbindung"
+    description: |
+      Data minimisation (Art. 5 GDPR) and purpose limitation restrict the
+      data inputs permissible for algorithmic government decisions.
+    activation_conditions:
+      - "data_protection: true"
+
+  - thesis_id: "behoerden_ethik:offentliche_rechenschaftspflicht"
+    name: "Öffentliche Rechenschaftspflicht"
+    description: |
+      Government AI systems must be auditable by oversight bodies
+      (Datenschutzbehörden, Bundesrechnungshof) and subject to freedom-of-
+      information requests where trade secrets do not apply.
+
+## Decision Framework
+
+decision_framework:
+  primary_question: "Hat das KI-System eine klare Rechtsgrundlage und respektiert es den Vorbehalt des Gesetzes?"
+  secondary_questions:
+    - "Ist die Entscheidung verhältnismäßig (geeignet, erforderlich, angemessen)?"
+    - "Werden alle Betroffenen gleich behandelt (Art. 3 GG)?"
+    - "Ist die Entscheidung ausreichend begründet und anfechtbar (§ 39 VwVfG)?"
+    - "Liegt eine menschliche Letztentscheidung bei grundrechtsrelevanten Maßnahmen vor?"
+  verdict_template: "Behörden-ethisch {verdict}: Die Maßnahme {reason}."
+
+## Cross-School Tensions
+
+cross_school_tensions:
+  - own_thesis: "menschliche_letztverantwortung"
+    opposing_school: "utilitarianism"
+    opposing_thesis: "greatest_happiness"
+    tension_type: "categorical_vs_aggregate"
+    tension_description: |
+      Utilitarian efficiency arguments for full automation conflict with the
+      Verfassung's requirement for individual rights protection and legal remedy.
+    rebuttal_cite_weight: 0.85
+
+## Convergence Compatible
+
+convergence_compatible:
+  - school: "kant"
+    thesis: "autonomie_wuerde"
+    shared_conclusion: "human_oversight_required"
+    convergence_type: "co_prohibitive"
+    synthesis_note: "Both Kantian dignity and Rechtsstaatlichkeit independently require human oversight in binding decisions."
+
+  - school: "gdpr"
+    thesis: "data_minimisation"
+    shared_conclusion: "purpose_limitation_enforced"
+    convergence_type: "co_prohibitive"
+
+## Domain Overrides
+
+domain_overrides:
+  - domain: "ai_governance"
+    activate_theses: ["rechtsstaatlichkeit", "menschliche_letztverantwortung", "transparenz_und_begruendungspflicht"]
+    additional_requirements:
+      - "EU AI Act conformity assessment required for high-risk AI systems"
+      - "Fundamental rights impact assessment (FRIA) before deployment"
+
+  - domain: "data_protection"
+    activate_theses: ["datensparsamkeit", "rechtsstaatlichkeit"]
+    additional_requirements:
+      - "DPIA (Art. 35 GDPR) required for large-scale algorithmic processing"
+
+## Regulatory Constraints
+
+regulatory_constraints:
+  override_permitted: false
+  applicable_regulations:
+    - dsgvo
+    - gdpr
+    - verwaltungsverfahrensgesetz
+    - grundgesetz
+    - eu_ai_act
+    - kritis_dachgesetz
+
+## Strengths
+
+strengths:
+  - point: "Grounded in positive law — decisions are legally defensible"
+  - point: "Proportionality doctrine provides structured balancing of interests"
+  - point: "Democratic accountability through judicial review and oversight bodies"
+  - point: "Compatible with EU AI Act compliance as structural requirement"
+
+## Weaknesses
+
+weaknesses:
+  - point: "May under-weight aggregate welfare in emergency triage scenarios"
+  - point: "Legal text interpretation can be slow to adapt to novel AI capabilities"
+  - point: "Risk of formalism over substantive justice"
+
+## Philosophical Positioning
+
+philosophical_positioning:
+  relation_to_kant: "Operationalises Kantian universality through constitutional law"
+  relation_to_utilitarianism: "Rejects pure efficiency; constrains it with rights and procedural limits"
+  relation_to_contractualism: "Shares Rawlsian concern for equal treatment and procedural fairness"

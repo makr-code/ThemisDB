@@ -1,0 +1,253 @@
+# Islamische Ethik — Islamic Applied Ethics (Fiqh al-Akhlaqi)
+# Representative cultural-religious ethics framework for AI dilemma reasoning
+# in Muslim-majority contexts, bioethics, and end-of-life decisions.
+
+school_id: islamische_ethik
+name: "Islamische Ethik"
+name_de: "Islamische Angewandte Ethik (Fiqh al-Akhlaqi)"
+
+# Routing metadata
+taxonomy_class: cultural_religious
+tags:
+  - islam
+  - fiqh
+  - religiös
+  - kulturell
+  - bioethik
+  - end_of_life
+applicable_domains:
+  - bioethics
+  - family_law
+  - end_of_life
+  - medical
+  - ai_governance
+
+description: |
+  Islamic ethics grounds moral reasoning in the Maqasid al-Shariah (Objectives
+  of Islamic Law): protection of life (hifz al-nafs), reason (hifz al-aql),
+  lineage (hifz al-nasl), wealth (hifz al-mal), and religion (hifz al-din).
+  Applied through classical Fiqh principles: no harm and no reciprocating harm
+  (la darar wa-la dirar), necessity (darura), consultation (shura), and the
+  public interest (maslaha). Provides structured reasoning for AI dilemmas in
+  bioethics, clinical triage, and algorithmic governance contexts.
+
+## Founding Sources
+
+founders:
+  - name: "Al-Ghazali / Al-Shatibi (Maqasid Framework)"
+    years: "11th–14th c."
+    key_works:
+      - title: "Ihya Ulum al-Din (Al-Ghazali)"
+        year: 1096
+        significance: "Systematic Islamic ethics integrating reason and revelation"
+      - title: "Al-Muwafaqat (Al-Shatibi)"
+        year: 1388
+        significance: "Maqasid al-Shariah framework: five objectives of Islamic law"
+      - title: "OIC Fiqh Academy Resolutions on Bioethics"
+        year: 1986
+        significance: "Contemporary Islamic consensus on medical and bioethical questions"
+      - title: "Cairo Declaration on Human Rights in Islam (OIC)"
+        year: 1990
+        significance: "Islamic human rights framework for governance"
+
+## Historical Context
+
+historical_context:
+  period: "Classical period (7th–14th c.) to contemporary applied ethics"
+  philosophical_movement: "Kalam, Fiqh, Usul al-Fiqh"
+  zeitgeist: "Balance between divine command and human welfare (maslaha); reason within revelation"
+  influences:
+    - source: "Aristotelian philosophy (via Islamic Golden Age)"
+      impact: "Virtue-based reasoning incorporated into Fiqh through Al-Farabi and Ibn Rushd"
+    - source: "Natural law tradition"
+      impact: "Convergence on inherent human dignity (karama insaniyya)"
+
+## Hauptthesen
+
+main_theses:
+  - thesis_id: "islamische_ethik:maqasid_al_shariah"
+    name: "Maqasid al-Shariah — Objectives of Islamic Law"
+    description: |
+      Any decision must be assessed against the five objectives: preservation
+      of life, reason, lineage, wealth, and religion. Harm to any objective
+      requires strong justification and proportionate necessity.
+    token_budget: 200
+    activation_rounds: [1, 4, 5]
+
+  - thesis_id: "islamische_ethik:la_darar"
+    name: "La Darar wa-la Dirar — No Harm, No Reciprocating Harm"
+    description: |
+      The foundational prophetic maxim of Islamic law: harm must not be
+      inflicted nor reciprocated. AI systems causing foreseeable harm to
+      life, dignity, or welfare are impermissible (haram) regardless of
+      aggregate benefit claims.
+    token_budget: 150
+    activation_rounds: [1, 2, 3]
+
+  - thesis_id: "islamische_ethik:darura"
+    name: "Darura — Principle of Necessity"
+    description: |
+      Necessity (emergency) may permit what is otherwise prohibited, but only
+      to the extent required (al-darura tuqaddaru bi-qadarha). Applied to
+      triage and emergency AI decisions: the minimum necessary intervention
+      is permissible; excess is not.
+    token_budget: 160
+    activation_rounds: [1, 2, 3, 4]
+    activation_conditions:
+      - "emergency_context: true"
+      - "medical: true"
+
+  - thesis_id: "islamische_ethik:karama_insaniyya"
+    name: "Karama Insaniyya — Human Dignity"
+    description: |
+      Every human being possesses inherent dignity (karama) as God's vicegerent
+      (khalifa) on earth. Algorithms must not demean, reduce, or commodify
+      persons. Mass surveillance, discriminatory scoring, and dignity-
+      violating AI uses are impermissible.
+    token_budget: 180
+    activation_rounds: [1, 2, 3, 4, 5]
+
+  - thesis_id: "islamische_ethik:shura"
+    name: "Shura — Consultation and Collective Deliberation"
+    description: |
+      Decisions affecting communities must involve consultation with those
+      affected. Algorithmic governance systems that replace community shura
+      with opaque automated outputs violate this principle.
+    token_budget: 130
+    activation_rounds: [1, 4]
+
+secondary_theses:
+  - thesis_id: "islamische_ethik:maslaha"
+    name: "Maslaha — Public Interest"
+    description: |
+      Islamic law permits novel rulings (ijtihad) to secure public welfare
+      (maslaha) when classical texts provide no explicit guidance. Enables
+      proportionate accommodation of AI innovation while respecting core values.
+
+  - thesis_id: "islamische_ethik:amanah"
+    name: "Amanah — Trustworthiness and Stewardship"
+    description: |
+      Humans hold the natural world and social institutions as trust (amanah)
+      from God. AI developers and deployers bear trustee responsibility for
+      impacts on people, society, and the environment.
+
+## Decision Framework
+
+decision_framework:
+  primary_question: "Dient die KI-Entscheidung dem Schutz von Leben, Vernunft, Nachkommenschaft, Vermögen und Glauben (Maqasid) ohne unverhältnismäßigen Schaden anzurichten?"
+  secondary_questions:
+    - "Verstößt die Entscheidung gegen la darar — erzeugt sie Schaden?"
+    - "Liegt eine echte Notlage (darura) vor, die ansonsten Verbotenes erlaubt?"
+    - "Wahrt die Entscheidung die menschliche Würde (karama insaniyya)?"
+    - "Wurden Betroffene konsultiert (shura)?"
+  verdict_template: "Islamisch-ethisch {verdict}: Die Maßnahme {reason} gemäß Maqasid al-Shariah."
+
+## Cross-School Tensions
+
+cross_school_tensions:
+  - own_thesis: "la_darar"
+    opposing_school: "utilitarianism"
+    opposing_thesis: "greatest_happiness"
+    tension_type: "deontological_constraint_vs_aggregate"
+    tension_description: |
+      Utilitarian aggregation may justify harm to individuals for greater
+      collective benefit; la darar prohibits initiating harm even for
+      aggregate gain. Classical Islamic bioethics is non-utilitarian on
+      individual rights.
+    rebuttal_cite_weight: 0.90
+
+  - own_thesis: "karama_insaniyya"
+    opposing_school: "kant"
+    opposing_thesis: "autonomie_wuerde"
+    tension_type: "convergent_ground"
+    tension_description: |
+      Both Islamic and Kantian ethics prohibit using persons as mere means.
+      Karama grounds dignity in divine creation; Kantian dignity in rational
+      agency. Same practical constraint, different metaphysical basis.
+    synthesis_cite_weight: 0.85
+
+  - own_thesis: "darura"
+    opposing_school: "contractualism"
+    opposing_thesis: "reasonable_rejection"
+    tension_type: "emergency_exception_vs_principle"
+    tension_description: |
+      Islamic necessity doctrine provides structured emergency exceptions;
+      contractualist reasonable-rejection may be harder to override in crises.
+    rebuttal_cite_weight: 0.65
+
+## Convergence Compatible
+
+convergence_compatible:
+  - school: "kant"
+    thesis: "autonomie_wuerde"
+    shared_conclusion: "human_dignity_inviolable"
+    convergence_type: "co_prohibitive"
+    synthesis_note: "Karama and Kantian dignity independently prohibit reducing persons to algorithmic objects."
+
+  - school: "care_ethics"
+    thesis: null
+    shared_conclusion: "relational_context_matters"
+    convergence_type: "co_permissive"
+    synthesis_note: "Islamic emphasis on family and community relationships converges with care ethics' contextual reasoning."
+
+  - school: "contractualism"
+    thesis: "reasonable_rejection"
+    shared_conclusion: "no_individual_sacrificed_for_aggregate"
+    convergence_type: "conditional_co_prohibitive"
+    condition: "individual_rights_at_stake"
+
+## Domain Overrides
+
+domain_overrides:
+  - domain: "end_of_life"
+    activate_theses: ["maqasid_al_shariah", "la_darar", "karama_insaniyya"]
+    additional_requirements:
+      - "Extraordinary life-prolonging measures may be withdrawn when they cause harm without benefit (maslaha consideration)"
+      - "Family shura required before withdrawal of life support in Islamic medical ethics"
+    thesis_weight_adjustments:
+      darura: +0.3
+
+  - domain: "bioethics"
+    activate_theses: ["la_darar", "darura", "karama_insaniyya"]
+    additional_requirements:
+      - "Informed consent (rida) required; no experiment without patient knowledge"
+      - "Organ donation permissible under OIC Fiqh Academy Resolution 1 (1986) with restrictions"
+
+  - domain: "ai_governance"
+    activate_theses: ["shura", "karama_insaniyya", "amanah"]
+    additional_requirements:
+      - "Algorithmic decision systems must preserve human deliberative capacity (shura)"
+      - "Surveillance AI violates karama when deployed without consent or legal basis"
+
+## Regulatory Constraints
+
+regulatory_constraints:
+  override_permitted: false
+  core_inviolable_principles:
+    - "Human dignity (karama insaniyya) — no algorithmic dehumanisation"
+    - "La darar — no infliction of serious harm even for aggregate benefit"
+  applicable_regulations:
+    - oic_fiqh_academy_resolutions
+    - cairo_declaration_1990
+
+## Strengths
+
+strengths:
+  - point: "Maqasid framework provides structured multi-objective assessment"
+  - point: "Darura doctrine enables proportionate emergency exceptions without abandoning principles"
+  - point: "Strong protection for individual dignity as inviolable constraint"
+  - point: "Shura principle anticipates participatory AI governance requirements"
+
+## Weaknesses
+
+weaknesses:
+  - point: "Internal scholarly diversity (Sunni / Shia / Sufi fiqh traditions) may produce different verdicts"
+  - point: "Classical texts require ijtihad (scholarly reinterpretation) for novel AI scenarios"
+  - point: "Maslaha-based reasoning can be vulnerable to abuse by authorities claiming public interest"
+
+## Philosophical Positioning
+
+philosophical_positioning:
+  relation_to_kant: "Converges on human dignity; diverges on metaphysical grounding (revelation vs. reason)"
+  relation_to_utilitarianism: "Rejects utilitarian overriding of individual rights; permits consequentialist consideration only within Maqasid constraints"
+  relation_to_care_ethics: "Shares relational and contextual emphasis; both resist abstraction away from particular persons"

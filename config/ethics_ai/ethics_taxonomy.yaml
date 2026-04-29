@@ -1,0 +1,120 @@
+# ThemisDB Ethics AI — Taxonomy Hierarchy
+# Version: 1.0.0
+# Purpose: Two-level taxonomy mapping ethics classes to school_ids.
+#          Used by EthicsSelectionRouter Stage-1 (tag-based pre-filter).
+#
+# Format:
+#   taxonomy.<class>: [school_id, ...]
+#
+# Each philosophy YAML profile MUST declare:
+#   taxonomy_class: <class>       — primary class from this file
+#   tags: [...]                   — domain / topic tags for routing
+#   applicable_domains: [...]     — dilemma domains this school covers
+#
+# The router always appends the "compliance" class when the dilemma
+# carries regulatory_context: true.
+
+taxonomy:
+
+  # ── Classical normative ethics ─────────────────────────────────────────────
+  deontological:
+    - kant
+    - ross_prima_facie
+    - natural_law
+
+  consequentialist:
+    - utilitarianism
+    - negative_utilitarianism
+    - prioritarianism
+
+  virtue:
+    - aristotelian
+    - neo_aristotelian
+    - confucian
+    - socratic
+
+  contractualist:
+    - rawls
+    - contractualism
+    - scanlon
+
+  care:
+    - care_ethics
+    - feminist_ethics
+
+  discourse:
+    - habermas_diskursethik
+    - brandom
+
+  # ── Compliance & Regulatory ────────────────────────────────────────────────
+  compliance:
+    - gdpr
+    - iso_42001
+    - ieee_7000
+    - eu_ai_act
+
+  regulatory_authority:
+    - behoerden_ethik
+    - divi_triage
+    - bgh_civil
+
+  # ── Academic & Research Ethics ─────────────────────────────────────────────
+  academic:
+    - universitaere_ethik
+    - research_ethics_dfg
+    - tue_guidelines
+
+  # ── Cultural & Religious Ethics ────────────────────────────────────────────
+  cultural_religious:
+    - islamische_ethik
+    - buddhistische_ethik
+    - juedische_bioethik
+    - konfuzianismus
+    - christliche_sozialethik
+
+  # ── Non-Mainstream / Critical ──────────────────────────────────────────────
+  non_mainstream:
+    - marx
+    - arendt
+    - nietzsche
+    - schopenhauer
+
+  # ── Domain-Specific Applied Ethics ────────────────────────────────────────
+  domain_specific:
+    - medical_ethics
+    - ai_safety_ethics
+    - env_ethics
+    - legal_ethics
+    - adam_smith
+    - rationalism
+    - dilthey
+    - durkheim
+    - merton
+    - wiener
+    - leopold
+
+# ── Domain → primary taxonomy class mappings ───────────────────────────────
+# Used by Stage-1 to select candidate taxonomy classes when the dilemma
+# domain does not exactly match a school tag.
+domain_class_mapping:
+  ai_governance:         [compliance, regulatory_authority, deontological]
+  data_protection:       [compliance, regulatory_authority]
+  medical:               [deontological, care, contractualist, domain_specific]
+  bioethics:             [deontological, care, cultural_religious, domain_specific]
+  autonomous_systems:    [deontological, consequentialist, compliance]
+  public_procurement:    [regulatory_authority, compliance, contractualist]
+  labor:                 [non_mainstream, contractualist, care]
+  environmental:         [domain_specific, consequentialist, virtue]
+  research:              [academic, deontological]
+  legal:                 [domain_specific, regulatory_authority, deontological]
+  family_law:            [cultural_religious, care, contractualist]
+  end_of_life:           [cultural_religious, deontological, care, domain_specific]
+  public_sector:         [regulatory_authority, compliance, contractualist]
+  social_justice:        [non_mainstream, contractualist, care]
+  technology:            [compliance, deontological, consequentialist]
+
+# ── Always-include classes for specific dilemma flags ──────────────────────
+always_include_when:
+  regulatory_context: [compliance]
+  involves_public_institution: [regulatory_authority]
+  academic_context: [academic]

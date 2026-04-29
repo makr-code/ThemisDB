@@ -1,0 +1,244 @@
+# Universitäre Ethik — Academic and Research Ethics
+# Applies to AI systems used in research institutions, universities, and
+# publicly funded science; grounded in academic freedom, research integrity,
+# and the DFG Kodex "Leitlinien zur Sicherung guter wissenschaftlicher Praxis".
+
+school_id: universitaere_ethik
+name: "Universitäre Ethik"
+name_de: "Akademische Forschungsethik"
+
+# Routing metadata
+taxonomy_class: academic
+tags:
+  - research
+  - university
+  - wissenschaft
+  - akademisch
+  - forschungsethik
+  - dfg
+applicable_domains:
+  - research
+  - academic_context
+  - ai_governance
+  - bioethics
+  - technology
+
+description: |
+  Academic ethics framework governing AI use in research, teaching, and
+  technology transfer at universities and publicly funded institutions.
+  Grounds decisions in academic freedom (Wissenschaftsfreiheit, GG Art. 5 Abs. 3),
+  research integrity (DFG Kodex 2022), the protection of research participants
+  (Declaration of Helsinki), and epistemic honesty. Gives special weight to
+  reproducibility, open science, and the prevention of dual-use harms.
+
+## Founding Documents
+
+founders:
+  - name: "Deutsche Forschungsgemeinschaft (DFG)"
+    years: "2019/2022"
+    key_works:
+      - title: "Leitlinien zur Sicherung guter wissenschaftlicher Praxis (Kodex)"
+        year: 2022
+        significance: "17 guidelines for research integrity; binding for DFG-funded projects"
+      - title: "Declaration of Helsinki"
+        year: 1964
+        significance: "Ethical principles for medical/clinical research"
+      - title: "Grundgesetz Art. 5 Abs. 3"
+        year: 1949
+        significance: "Constitutional guarantee of academic freedom (Wissenschaftsfreiheit)"
+      - title: "EU General Data Protection Regulation (GDPR) Art. 89"
+        year: 2018
+        significance: "Special provisions for research data processing"
+
+## Historical Context
+
+historical_context:
+  period: "Enlightenment to present; codified post-WWII"
+  philosophical_movement: "Wissenschaftstheorie und Forschungsethik"
+  zeitgeist: "Truth-seeking, open discourse, non-maleficence in research"
+  influences:
+    - source: "Mertonian Norms (CUDOS)"
+      impact: "Communalism, universalism, disinterestedness, organised scepticism"
+    - source: "Kantian Aufklärung"
+      impact: "Sapere aude — intellectual courage; never instrumentalise research subjects"
+    - source: "Habermas Diskursethik"
+      impact: "Peer review as ideal speech situation; intersubjective validity of claims"
+
+## Hauptthesen
+
+main_theses:
+  - thesis_id: "universitaere_ethik:wissenschaftsfreiheit"
+    name: "Wissenschaftsfreiheit und Erkenntnisautonomie"
+    description: |
+      Art. 5 Abs. 3 GG protects research and teaching from state and
+      commercial interference. AI systems must not limit researchers'
+      ability to pursue any scientific question, including questions that
+      challenge current paradigms.
+    token_budget: 160
+    activation_rounds: [1, 4]
+
+  - thesis_id: "universitaere_ethik:forschungsintegritaet"
+    name: "Forschungsintegrität und Reproduzierbarkeit"
+    description: |
+      DFG Leitlinie 12 requires transparent, reproducible, and shareable
+      research practice. AI systems used in research must document training
+      data, model versions, and decision rationale to enable independent
+      replication and peer review.
+    token_budget: 200
+    activation_rounds: [1, 2, 3, 4]
+
+  - thesis_id: "universitaere_ethik:schutz_von_forschungssubjekten"
+    name: "Schutz von Forschungssubjekten"
+    description: |
+      Research involving human subjects requires informed consent, IRB/ethics
+      committee approval, and data anonymisation. AI training on personal
+      health or behaviour data requires GDPR Art. 89 compliance and equivalent
+      ethical safeguards.
+    token_budget: 180
+    activation_rounds: [1, 2, 3]
+    activation_conditions:
+      - "involves_human_subjects: true"
+      - "bioethics: true"
+
+  - thesis_id: "universitaere_ethik:dual_use_verantwortung"
+    name: "Dual-Use-Verantwortung"
+    description: |
+      Researchers bear responsibility for foreseeable misuse of their
+      findings. AI systems enabling dual-use applications (surveillance,
+      autonomous weapons, biometric mass screening) require formal dual-use
+      risk assessment and, where required, export-control review.
+    token_budget: 150
+    activation_rounds: [1, 2, 4, 5]
+    activation_conditions:
+      - "dual_use_risk: true"
+
+  - thesis_id: "universitaere_ethik:open_science"
+    name: "Open Science und Datenteilung"
+    description: |
+      Publicly funded research should maximise knowledge dissemination.
+      AI models trained on public funds should be released under open
+      licences where security considerations allow.
+    token_budget: 120
+    activation_rounds: [1, 4]
+
+secondary_theses:
+  - thesis_id: "universitaere_ethik:zitierungspflicht"
+    name: "Quellenintegrität und Zitierpflicht"
+    description: |
+      AI-generated content used in academic publications must be disclosed;
+      authorship integrity requires attribution and avoidance of AI hallucination
+      presented as factual claims.
+    activation_conditions:
+      - "academic_publication: true"
+
+  - thesis_id: "universitaere_ethik:conflicts_of_interest"
+    name: "Interessenkonflikte und Unabhängigkeit"
+    description: |
+      Commercial funding of AI research must be disclosed; conflicts of
+      interest between sponsor interests and scientific objectivity must
+      be managed and reported.
+
+## Decision Framework
+
+decision_framework:
+  primary_question: "Dient die KI-Nutzung dem Erkenntnisgewinn unter Wahrung von Forschungsintegrität und Schutz der Beteiligten?"
+  secondary_questions:
+    - "Ist das Vorgehen reproduzierbar und transparent dokumentiert (DFG Leitlinie 12)?"
+    - "Sind Forschungssubjekte informiert und zustimmend (Informed Consent)?"
+    - "Wurden Dual-Use-Risiken bewertet und gegebenenfalls gemeldet?"
+    - "Werden Ergebnisse offen zugänglich gemacht soweit möglich?"
+  verdict_template: "Forschungsethisch {verdict}: Das Vorgehen {reason}."
+
+## Cross-School Tensions
+
+cross_school_tensions:
+  - own_thesis: "wissenschaftsfreiheit"
+    opposing_school: "behoerden_ethik"
+    opposing_thesis: "rechtsstaatlichkeit"
+    tension_type: "autonomy_vs_regulation"
+    tension_description: |
+      State regulation of research (e.g. AI Act Art. 2 GPAI obligations) can
+      conflict with Art. 5 Abs. 3 Wissenschaftsfreiheit. Research exemptions
+      (EU AI Act Art. 2 para 6) partially resolve this tension.
+    rebuttal_cite_weight: 0.75
+
+  - own_thesis: "dual_use_verantwortung"
+    opposing_school: "utilitarianism"
+    opposing_thesis: "greatest_happiness"
+    tension_type: "precaution_vs_progress"
+    tension_description: |
+      Utilitarian arguments for rapid knowledge dissemination can conflict
+      with dual-use precaution. Research ethics requires proportionate
+      restrictions even when expected benefits are large.
+    rebuttal_cite_weight: 0.80
+
+  - own_thesis: "forschungsintegritaet"
+    opposing_school: "commercial_ethics"
+    opposing_thesis: null
+    tension_type: "independence_vs_commercialisation"
+    tension_description: |
+      Commercial pressures (publish-or-perish, sponsor interests) undermine
+      research independence. Academic ethics demands structural independence
+      and transparent conflict-of-interest management.
+    rebuttal_cite_weight: 0.70
+
+## Convergence Compatible
+
+convergence_compatible:
+  - school: "kant"
+    thesis: "autonomie_wuerde"
+    shared_conclusion: "informed_consent_required"
+    convergence_type: "co_prohibitive"
+    synthesis_note: "Both Kantian dignity and Declaration of Helsinki demand free, informed consent from research subjects."
+
+  - school: "habermas_diskursethik"
+    thesis: null
+    shared_conclusion: "peer_review_as_discursive_validity"
+    convergence_type: "co_permissive"
+    synthesis_note: "Habermasian discourse ethics and academic peer review both presuppose ideal speech: no power-based suppression of claims."
+
+## Domain Overrides
+
+domain_overrides:
+  - domain: "bioethics"
+    activate_theses: ["schutz_von_forschungssubjekten", "forschungsintegritaet"]
+    additional_requirements:
+      - "Ethics committee approval required before AI training on biomedical data"
+      - "Declaration of Helsinki compliance for clinical AI development"
+
+  - domain: "ai_governance"
+    activate_theses: ["forschungsintegritaet", "dual_use_verantwortung", "open_science"]
+    additional_requirements:
+      - "Model cards and datasheets mandatory for publicly funded AI models"
+
+## Regulatory Constraints
+
+regulatory_constraints:
+  override_permitted: false
+  applicable_regulations:
+    - dfg_kodex_2022
+    - declaration_of_helsinki
+    - gdpr_art89
+    - grundgesetz_art5_abs3
+    - eu_ai_act_art2_gpai
+
+## Strengths
+
+strengths:
+  - point: "Robust peer-review culture provides structured intersubjective validation"
+  - point: "DFG Kodex operationalises abstract principles into concrete 17 guidelines"
+  - point: "Strong protection for research subjects via established IRB processes"
+
+## Weaknesses
+
+weaknesses:
+  - point: "Can slow research velocity via extensive ethical review processes"
+  - point: "Dual-use assessment remains expert-dependent and imperfect"
+  - point: "Publish-or-perish pressures structurally undermine declared norms"
+
+## Philosophical Positioning
+
+philosophical_positioning:
+  relation_to_kant: "Extends Kantian non-instrumentalisation to research subjects and knowledge itself"
+  relation_to_habermas: "Peer review as institutionalisation of Diskursethik validity conditions"
+  relation_to_merton: "Operationalises Mertonian CUDOS norms for AI-assisted science"
