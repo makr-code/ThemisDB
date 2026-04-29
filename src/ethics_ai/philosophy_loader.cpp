@@ -159,6 +159,27 @@ Status PhilosophyLoader::loadFromFile(const std::string& filepath) {
             for (const auto& thesis : config["main_theses"]) {
                 std::string text = extractText(thesis);
                 if (!text.empty()) profile.main_theses.push_back(text);
+                // Also parse as typed thesis when the entry is a YAML map
+                // with a 'thesis_id' key so that token_budget /
+                // activation_rounds / round_role_weights are preserved.
+                if (thesis.IsMap() && thesis["thesis_id"]) {
+                    PhilosophyThesis pt;
+                    pt.thesis_id = thesis["thesis_id"].as<std::string>("");
+                    if (thesis["name"])        pt.name        = thesis["name"].as<std::string>("");
+                    if (thesis["description"]) pt.description = thesis["description"].as<std::string>("");
+                    if (thesis["token_budget"] && !thesis["token_budget"].IsNull())
+                        pt.token_budget = thesis["token_budget"].as<int>(-1);
+                    if (thesis["activation_rounds"] && thesis["activation_rounds"].IsSequence()) {
+                        for (const auto& r : thesis["activation_rounds"])
+                            pt.activation_rounds.push_back(r.as<int>());
+                    }
+                    if (thesis["round_role_weights"] && thesis["round_role_weights"].IsMap()) {
+                        for (const auto& kv : thesis["round_role_weights"])
+                            pt.round_role_weights[kv.first.as<std::string>()] =
+                                kv.second.as<float>(0.f);
+                    }
+                    if (!pt.thesis_id.empty()) profile.typed_theses.push_back(std::move(pt));
+                }
             }
         }
         
@@ -167,6 +188,24 @@ Status PhilosophyLoader::loadFromFile(const std::string& filepath) {
             for (const auto& thesis : config["secondary_theses"]) {
                 std::string text = extractText(thesis);
                 if (!text.empty()) profile.secondary_theses.push_back(text);
+                if (thesis.IsMap() && thesis["thesis_id"]) {
+                    PhilosophyThesis pt;
+                    pt.thesis_id = thesis["thesis_id"].as<std::string>("");
+                    if (thesis["name"])        pt.name        = thesis["name"].as<std::string>("");
+                    if (thesis["description"]) pt.description = thesis["description"].as<std::string>("");
+                    if (thesis["token_budget"] && !thesis["token_budget"].IsNull())
+                        pt.token_budget = thesis["token_budget"].as<int>(-1);
+                    if (thesis["activation_rounds"] && thesis["activation_rounds"].IsSequence()) {
+                        for (const auto& r : thesis["activation_rounds"])
+                            pt.activation_rounds.push_back(r.as<int>());
+                    }
+                    if (thesis["round_role_weights"] && thesis["round_role_weights"].IsMap()) {
+                        for (const auto& kv : thesis["round_role_weights"])
+                            pt.round_role_weights[kv.first.as<std::string>()] =
+                                kv.second.as<float>(0.f);
+                    }
+                    if (!pt.thesis_id.empty()) profile.typed_theses.push_back(std::move(pt));
+                }
             }
         }
         

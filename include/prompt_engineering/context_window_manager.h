@@ -48,12 +48,14 @@
 
 #include <cstddef>
 #include <functional>
+#include <map>
 #include <memory>
 #include <stdexcept>
 #include <string>
 #include <vector>
 
-#include "rag_prompt_builder.h"  // RetrievedChunk
+#include "rag_prompt_builder.h"           // RetrievedChunk
+#include "plugins/ethics_ai/ethics_ai_types.h"  // PhilosophyThesis, PhilosophyProfile
 
 namespace themis {
 namespace prompt_engineering {
@@ -202,6 +204,24 @@ struct BudgetAllocation {
 };
 
 // ============================================================================
+// Thesis budget selection types  (§9.1)
+// ============================================================================
+
+/**
+ * @brief Result of injecting one thesis into the discourse context window.
+ *
+ * When a thesis is fully active in the current round and its `token_budget`
+ * allows, it is injected at full length (`full_text`).  Otherwise a compact
+ * headline token is injected instead so the LLM still knows the thesis exists.
+ */
+struct ThesisInjection {
+    std::string thesis_id;      ///< Identifier of the injected thesis
+    std::string text;           ///< Actual injected text (full or headline)
+    bool        is_full{true};  ///< true = full text; false = headline only
+    int         tokens_used{0}; ///< Estimated token count for `text`
+};
+
+// ============================================================================
 // ContextWindowBudgetManager
 // ============================================================================
 
@@ -343,6 +363,46 @@ public:
      * @param cb  Callable accepting a `double` utilisation ratio.
      */
     void setUtilizationCallback(std::function<void(double)> cb);
+
+    // -------------------------------------------------------------------------
+    // Ethics discourse: per-thesis budget selection  (§9.1)
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Select and budget theses from @p profile for a single discourse round.
+     *
+     * Implements the §9.1 algorithm:
+     *  1. Filter `profile.typed_theses` to those whose `activation_rounds` list
+     *     contains @p round_number (or have an empty list → all rounds active).
+     *  2. Sort survivors by `round_role_weights[round_role]` descending
+     *     (unweighted theses receive weight 0.5 as neutral priority).
+     *  3. Greedily select theses in that order until @p available_tokens is
+     *     exhausted, respecting each thesis's individual `token_budget` cap.
+     *  4. Non-selected theses (not in their activation round or budget exceeded)
+     *     contribute a headline token: `"[{thesis_id}: {name}]"`.
+     *
+     * Theses that have no `token_budget` (value -1) are treated as if they
+     * require `countTokens(description)` tokens — they never get an artificial
+     * cap but still consume budget.
+     *
+     * When @p profile has no `typed_theses` the method returns an empty vector
+     * without error (backward compatible — caller falls back to plain string
+     * theses).
+     *
+     * @param profile           Philosophy profile whose theses to select.
+     * @param round_number      Current discourse round (1–5).
+     * @param round_role        Role label for the round (e.g. "PRO",
+     *                          "REBUTTAL", "SYNTHESIS").
+     * @param available_tokens  Total token budget available for thesis injection.
+     * @return List of `ThesisInjection` entries (full + headline combined).
+     *
+     * @note Performance: ≤ 0.5 ms for ≤ 20 theses per profile.
+     */
+    std::vector<ThesisInjection> selectThesesForRound(
+        const ::themis::plugins::ethics::PhilosophyProfile& profile,
+        int round_number,
+        const std::string& round_role,
+        int available_tokens) const;
 
 private:
     ModelTokenBudget               budget_;

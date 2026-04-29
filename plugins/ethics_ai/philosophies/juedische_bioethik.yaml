@@ -1,0 +1,209 @@
+# ╔══════════════════════════════════════════════════════════════════════╗
+# ║  ThemisDB — Philosophy Profile                                       ║
+# ║  School: Jüdische Bioethik                                           ║
+# ║  Taxonomy Class: cultural_religious                                  ║
+# ║  Version: 1.0.0 | Target: Q3 2026                                    ║
+# ╚══════════════════════════════════════════════════════════════════════╝
+
+school_id: "juedische_bioethik"
+name: "Jüdische Bioethik"
+description: |
+  Die jüdische Bioethik ist eine pluralistische halakhische Tradition, die
+  biomedizinische Fragen anhand des Talmud, der Responsa-Literatur und
+  rabbinischer Interpretation beantwortet.  Leitprinzipien: Pikuach Nefesh
+  (Lebensrettung hat Vorrang vor fast allen Geboten), Kavod HaBriot
+  (Menschenwürde), Tzelem Elohim (Gottebenbildlichkeit) und das Verbot,
+  den eigenen Körper zu beschädigen.  Die Tradition ist nicht monolithisch:
+  orthodoxe, konservative und reformjüdische Positionen divergieren
+  erheblich, insbesondere bei Stammzellenforschung, Abtreibung und
+  Sterbehilfe.  Gemeinsamer Nenner: das Leben ist heilig und schutzwürdig,
+  aber kein absolut unverfügbarer Wert (Pikuach Nefesh erlaubt Abwägungen).
+
+taxonomy_class: "cultural_religious"
+tags:
+  - judentum
+  - halakha
+  - pikuach_nefesh
+  - kavod_habriot
+  - tzelem_elohim
+  - bioethics
+  - end_of_life
+  - medical_ethics
+  - reproductive_ethics
+
+applicable_domains:
+  - bioethics
+  - end_of_life
+  - medical_ethics
+  - reproductive_ethics
+  - ai_ethics
+  - data_protection
+
+convergence_compatible:
+  - islamische_ethik:karama_insaniyya  # Menschenwürde (Kavod ↔ Karama)
+  - islamische_ethik:la_darar          # Nicht-Schaden-Prinzip
+  - natural_law                         # Gottebenbildlichkeit ↔ Naturgesetz
+  - care_ethics                         # Beziehungsethik und Fürsorge
+  - medical_ethics                      # Hippokratisches Primum non nocere
+
+cross_school_tensions:
+  - utilitarian_triage:    "Utilitaristische Triage widerspricht Kavod HaBriot; Menschenwürde ist nicht aggregierbar"
+  - nietzsche:             "Jüdische Ethik der Schöpfungsordnung steht im Kontrast zu Nietzsche's Umwertung aller Werte und Anti-Ressentiment-These"
+  - secular_bioethics:     "Autonomieprinzip der säkularen Bioethik wird durch Pikuach Nefesh und Halakha in einer Pflichtenordnung eingebettet"
+
+activation_conditions:
+  - condition: "dilemma.domains enthält bioethics ODER end_of_life ODER medical_ethics"
+    effect: always_active
+  - condition: "dilemma.tags enthält euthanasia ODER organ_transplant ODER stem_cell"
+    effect: always_active
+  - condition: "dilemma.tags enthält reproductive_ethics ODER genetic_engineering"
+    effect: boost_weight
+
+regulatory_constraints:
+  override_permitted: false          # Pikuach Nefesh und Tzelem Elohim sind unveräußerliche Lehraussagen
+  applicable_regulations:
+    - grundgesetz_art1               # Menschenwürde kompatibel
+    - gendiagnostikgesetz            # Genetische Untersuchungen
+  note: "Kernaussagen Pikuach Nefesh und Tzelem Elohim sind nicht verhandelbar"
+
+domain_overrides:
+  bioethics:
+    weight_boost: 0.4
+    note: "Originäre Domäne der jüdischen Bioethik; höchste Priorität"
+  end_of_life:
+    weight_boost: 0.35
+    note: "Halachische Diskussion über Goses (Sterbender), Euthanasie, Organspende"
+  medical_ethics:
+    weight_boost: 0.3
+    note: "Jüdische Medizinethik: Arzt als Heilungspflichtiger (Rafa yerape)"
+
+main_theses:
+  - thesis_id: "juedische_bioethik:pikuach_nefesh"
+    name: "Pikuach Nefesh — Lebensrettung hat Vorrang"
+    description: "Die Pflicht, ein Leben zu retten, suspendiert nahezu alle anderen Toragebote (außer den drei Verboten: Mord, Idolatrie, sexuelle Schwere). Dies begründet aktive medizinische Intervention."
+    explanation: |
+      Pikuach Nefesh (Bewahrung des Lebens) ist ein zentrales halakhisches
+      Prinzip.  Beispiel: Am Schabbat darf und muss medizinische Hilfe geleistet
+      werden.  Dreizehn Prinzipien der Tora werden suspendiert, wenn Leben
+      auf dem Spiel steht (Yoma 85b).  In der Bioethik bedeutet dies:
+      lebenserhaltende Maßnahmen sind im Zweifel zu ergreifen; der Arzt trägt
+      Heilungspflicht (Rafa yerape, Exodus 21:19).
+    token_budget: 200
+    activation_rounds: [1, 4, 5]
+    round_role_weights:
+      PRO: 0.95
+      SYNTHESIS: 0.85
+      REBUTTAL: 0.7
+
+  - thesis_id: "juedische_bioethik:tzelem_elohim"
+    name: "Tzelem Elohim — Gottebenbildlichkeit des Menschen"
+    description: "Jeder Mensch ist im Bilde Gottes geschaffen (Genesis 1:27). Daraus folgt absolute Menschenwürde: kein Mensch kann auf Basis von Nützlichkeit oder Würde-Verlust aufgegeben werden."
+    explanation: |
+      Tzelem Elohim begründet die Unverfügbarkeit menschlicher Würde in der
+      jüdischen Ethik — unabhängig von Bewusstseinsgrad, Behinderung oder
+      Lebensphase.  Im Unterschied zur kantischen Würde, die auf Rationalität
+      beruht, ist die jüdische Würde theologisch verankert: auch ein nicht-
+      rationaler oder leidender Mensch behält volle Würde.
+    token_budget: 180
+    activation_rounds: [1, 2, 4]
+    round_role_weights:
+      PRO: 0.9
+      REBUTTAL: 0.75
+      SYNTHESIS: 0.8
+
+  - thesis_id: "juedische_bioethik:kavod_habriot"
+    name: "Kavod HaBriot — Würde der Schöpfung"
+    description: "Die Würde aller Geschöpfe verpflichtet zur Leidensminderung und respektvollen Behandlung. Dies schließt würdiges Sterben, Respekt vor dem toten Körper und Tierschutz ein."
+    explanation: |
+      Kavod HaBriot ist breiter als Menschenwürde und umfasst alle Schöpfung.
+      In der Bioethik begründet es: Pflicht zur Schmerzlinderung (auch wenn
+      Lebensdauer dadurch verkürzt wird — palliative Medizin), Pflicht zur
+      würdevollen Behandlung unheilbar Kranker, Respekt vor menschlichen Überresten.
+    token_budget: 160
+    activation_rounds: [1, 2, 3, 5]
+    round_role_weights:
+      PRO: 0.8
+      SYNTHESIS: 0.85
+      REBUTTAL: 0.6
+
+  - thesis_id: "juedische_bioethik:lo_ta_amod"
+    name: "Lo Ta'amod — Pflicht zur Hilfeleistung"
+    description: "Du sollst nicht untätig bleiben, wenn dein Nächster in Gefahr ist (Levitikus 19:16). Diese positive Pflicht verpflichtet zur aktiven medizinischen Hilfe."
+    explanation: |
+      Das Gebot Lo Ta'amod Al Dam Re'ekha (Steh nicht untätig beim Blut
+      deines Nächsten) begründet eine positive Handlungspflicht — im Gegensatz
+      zu vielen westlichen Ethiken, die nur negative Pflichten (Unterlassung)
+      kennen.  Anwendung: Organtransplantation ist nicht nur erlaubt, sondern
+      geboten; Schweigepflicht des Arztes kann bei Lebensgefahr zurücktreten.
+    token_budget: 150
+    activation_rounds: [1, 3, 4]
+    round_role_weights:
+      PRO: 0.75
+      REBUTTAL: 0.7
+      SYNTHESIS: 0.65
+
+  - thesis_id: "juedische_bioethik:goses_sterbeprozess"
+    name: "Goses — Der Sterbende und seine besondere Schutzwürdigkeit"
+    description: "Ein Goses (Sterbender in den letzten Stunden/Tagen) darf in seinem Sterben nicht aktiv beschleunigt oder unnötig verzögert werden. Palliative Begleitung ist geboten."
+    explanation: |
+      Halakhische Quellen (Semachot 1:1-4) unterscheiden zwischen aktivem Töten
+      des Sterbenden (verboten) und Entfernung von Hindernissen des natürlichen
+      Sterbens (erlaubt/geboten).  Diese Unterscheidung ist für moderne
+      Bioethik-Debatten über Sterbehilfe und Behandlungsabbruch zentral.
+      Aktive Sterbehilfe ist verboten; Sterbebegleitung mit Schmerzlinderung
+      ist religiöse Pflicht.
+    token_budget: 170
+    activation_rounds: [2, 3, 4, 5]
+    round_role_weights:
+      PRO: 0.8
+      REBUTTAL: 0.85
+      SYNTHESIS: 0.7
+
+secondary_theses:
+  - thesis_id: "juedische_bioethik:bal_tashchit"
+    name: "Bal Tashchit — Verbot der Zerstörung"
+    description: "Das Verbot sinnloser Zerstörung (Deuteronomium 20:19) umfasst den eigenen Körper: medizinische Selbstschädigung und Suizid sind verboten."
+    token_budget: 120
+    activation_rounds: [2, 3]
+    round_role_weights:
+      REBUTTAL: 0.7
+      PRO: 0.55
+
+  - thesis_id: "juedische_bioethik:pluralismus_machloket"
+    name: "Machloket LeShem Shamayim — Streit um des Himmels willen"
+    description: "Legitimer Meinungsstreit (Machloket) in der Halakha ist positiv bewertet. Unterschiedliche rabbinische Positionen (Bet Hillel / Bet Shammai) können ko-existieren."
+    token_budget: 110
+    activation_rounds: [3, 4, 5]
+    round_role_weights:
+      SYNTHESIS: 0.8
+      PRO: 0.5
+
+decision_framework:
+  primary_question: "Ist Pikuach Nefesh (Lebensrettung) anwendbar? Wenn ja, hat sie nahezu absoluten Vorrang."
+  secondary_question: "Wahrt die Handlung Tzelem Elohim (Menschenwürde) und Kavod HaBriot (Würde der Schöpfung)?"
+  tertiary_question: "Entspricht die Handlung der positiven Pflicht Lo Ta'amod (aktive Hilfeleistung)?"
+  contextual_guidance: "Im Zweifel gilt die Heiligkeitsvermutung des Lebens; strittige Fälle erfordern rabbinischen Rat (Responsa-Methode)."
+
+strengths:
+  - point: "Lebensschutz-Fundamentum"
+    elaboration: "Pikuach Nefesh bietet starkes ethisches Fundament für aktive medizinische Hilfe und Ressourcenallokation zugunsten Lebensrettung"
+  - point: "Würde ohne Bewusstseinsschwelle"
+    elaboration: "Tzelem Elohim schützt auch Bewusstlose, schwer Behinderte und Sterbende vor Würdeverlust"
+  - point: "Tradition der Responsa"
+    elaboration: "Halakhisches Case-Law bietet reiches Präzedenzfall-Repertoire für neue bioethische Fragen (z.B. Organtransplantation, IVF, Gentherapie)"
+  - point: "Balancierte Kasuistik"
+    elaboration: "Differenzierte Unterscheidung zwischen aktivem Töten und Unterlassen ermöglicht nuancierte Sterbehilfe-Analyse"
+
+weaknesses:
+  - point: "Innerreligiöser Pluralismus"
+    elaboration: "Orthodoxe, konservative und reformjüdische Positionen divergieren erheblich; 'die jüdische Position' gibt es nicht"
+  - point: "Theologische Prämissen"
+    elaboration: "Gottebenbildlichkeit und Pikuach Nefesh setzen theologische Annahmen voraus, die in säkularem Kontext nicht direkt operationalisierbar sind"
+  - point: "Begrenzte Universalisierbarkeit"
+    elaboration: "Halakhische Pflichten gelten primär für Juden; Universalisierung erfordert Analogiearbeit"
+
+philosophical_positioning:
+  vs_consequentialism: "Pikuach Nefesh kann wie Konsequentialismus klingen, ist aber deontologisch verankert (Toragebote, nicht bloße Nutzenmaximierung)"
+  vs_deontology: "Näher als Konsequentialismus; aber keine formalen Universalgesetze — kontextuelle Halakha dominiert"
+  vs_virtue_ethics: "Tugenden (Midot) sind wichtig, aber Halakha (Gebot) hat Vorrang vor Charakterethik"
+  vs_care_ethics: "Beziehungsethik und Fürsorge sind implizit; expliziter Fokus liegt auf Pflichten und Geboten"

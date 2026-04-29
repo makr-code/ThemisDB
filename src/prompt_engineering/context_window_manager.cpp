@@ -174,5 +174,97 @@ void ContextWindowBudgetManager::setUtilizationCallback(
     utilization_cb_ = std::move(cb);
 }
 
+// -------------------------------------------------------------------------
+// Ethics discourse: per-thesis budget selection  (§9.1)
+// -------------------------------------------------------------------------
+
+std::vector<ThesisInjection> ContextWindowBudgetManager::selectThesesForRound(
+    const ::themis::plugins::ethics::PhilosophyProfile& profile,
+    int round_number,
+    const std::string& round_role,
+    int available_tokens) const {
+
+    using Thesis = ::themis::plugins::ethics::PhilosophyThesis;
+
+    if (profile.typed_theses.empty()) return {};
+
+    // ── Step 1: partition into active / inactive for this round ──────────────
+    // A thesis is active when:
+    //   • activation_rounds is empty (all rounds active), OR
+    //   • round_number is in activation_rounds
+    std::vector<const Thesis*> active;
+    std::vector<const Thesis*> inactive;
+
+    for (const auto& t : profile.typed_theses) {
+        bool is_active = t.activation_rounds.empty() ||
+            (std::find(t.activation_rounds.begin(),
+                       t.activation_rounds.end(),
+                       round_number) != t.activation_rounds.end());
+        if (is_active) active.push_back(&t);
+        else           inactive.push_back(&t);
+    }
+
+    // ── Step 2: sort active theses by round_role weight descending ───────────
+    // Theses without a weight for this role receive a neutral 0.5 priority.
+    std::stable_sort(active.begin(), active.end(),
+        [&round_role](const Thesis* a, const Thesis* b) {
+            auto get_w = [&round_role](const Thesis* t) -> float {
+                auto it = t->round_role_weights.find(round_role);
+                return (it != t->round_role_weights.end()) ? it->second : 0.5f;
+            };
+            return get_w(a) > get_w(b);
+        });
+
+    // ── Step 3: greedy selection up to available_tokens ──────────────────────
+    std::vector<ThesisInjection> result;
+    result.reserve(profile.typed_theses.size());
+
+    int remaining = available_tokens;
+
+    for (const Thesis* t : active) {
+        // The text we would inject: prefer description, fallback to name
+        const std::string full_text = t->description.empty() ? t->name : t->description;
+        int full_tokens = static_cast<int>(countTokens(full_text));
+
+        // Apply per-thesis cap (token_budget == -1 → no cap)
+        int capped_tokens = (t->token_budget >= 0)
+            ? std::min(full_tokens, t->token_budget)
+            : full_tokens;
+
+        if (capped_tokens <= remaining) {
+            // Full injection
+            ThesisInjection inj;
+            inj.thesis_id  = t->thesis_id;
+            inj.text       = full_text;
+            inj.is_full    = true;
+            inj.tokens_used = capped_tokens;
+            remaining      -= capped_tokens;
+            result.push_back(std::move(inj));
+        } else {
+            // Downgrade to headline
+            const std::string headline = "[" + t->thesis_id + ": " + t->name + "]";
+            ThesisInjection inj;
+            inj.thesis_id   = t->thesis_id;
+            inj.text        = headline;
+            inj.is_full     = false;
+            inj.tokens_used = static_cast<int>(countTokens(headline));
+            result.push_back(std::move(inj));
+        }
+    }
+
+    // ── Step 4: all inactive theses → headline ────────────────────────────────
+    for (const Thesis* t : inactive) {
+        const std::string headline = "[" + t->thesis_id + ": " + t->name + "]";
+        ThesisInjection inj;
+        inj.thesis_id   = t->thesis_id;
+        inj.text        = headline;
+        inj.is_full     = false;
+        inj.tokens_used = static_cast<int>(countTokens(headline));
+        result.push_back(std::move(inj));
+    }
+
+    return result;
+}
+
 } // namespace prompt_engineering
 } // namespace themis
