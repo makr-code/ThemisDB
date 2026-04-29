@@ -81,7 +81,7 @@ protected:
         ModelTokenBudget budget;
         budget.model_name    = "test-model";
         budget.max_tokens    = 4096;
-        budget.reserved_output = 512;
+        budget.reserved_completion_tokens = 512;
         mgr.setModel(budget);
     }
 };
@@ -319,13 +319,17 @@ secondary_theses:
     }
 
     PhilosophyLoader loader;
-    auto variant = loader.loadFromFile(yaml_path.string());
+    auto load_status = loader.loadFromFile(yaml_path.string());
 
     fs::remove_all(tmp_dir);
 
 #ifdef HAVE_YAML_CPP
+    ASSERT_TRUE(load_status.isOK())
+        << "TBM-10: loadFromFile must succeed for valid YAML: " << load_status.message;
+
+    auto variant = loader.getProfile("test_school");
     ASSERT_TRUE(std::holds_alternative<PhilosophyProfile>(variant))
-        << "TBM-10: loader must return PhilosophyProfile for valid YAML";
+        << "TBM-10: getProfile must return PhilosophyProfile after successful load";
 
     const auto& profile = std::get<PhilosophyProfile>(variant);
     ASSERT_EQ(profile.typed_theses.size(), 2u)
