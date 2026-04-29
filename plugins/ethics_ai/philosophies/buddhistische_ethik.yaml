@@ -1,0 +1,325 @@
+# Buddhistische Ethik — Theravāda, Mahāyāna, Vajrayāna
+
+school_id: buddhistische_ethik
+name: "Buddhist Ethics"
+name_de: "Buddhistische Ethik"
+
+## Routing-Metadaten (EthicsSelectionRouter Stufe 1)
+taxonomy_class: cultural_religious
+tags:
+  - buddhismus
+  - mitgefuehl
+  - karma
+  - achtsamkeit
+  - ahimsa
+  - nicht_haften
+  - dukkha
+  - sila
+applicable_domains:
+  - bioethics
+  - end_of_life
+  - ai_ethics
+  - social_justice
+  - environmental_ethics
+  - mental_health
+
+convergence_compatible:
+  - islamische_ethik:karama_insaniyya  # Menschenwürde / Mitgefühl
+  - care_ethics                         # Sorge und Beziehungsethik
+  - aristotelian                        # Eudaimonia ↔ Nibbāna als Aufblühen
+  - env_ethics                          # Ahimsa = alle Lebewesen
+
+cross_school_tensions:
+  - utilitarianism: "Utilitarismus maximiert aggregiertes Glück; Buddhismus lehnt Instrumentalisierung des Einen für viele ab"
+  - kant: "Kategorischer Imperativ und Karma stimmen in Universalisierbarkeit überein; Kant betont Vernunft, Buddhismus betont Mitgefühl"
+  - nietzsche: "Nietzsche kritisiert Buddhismus als nihilistisch; Buddhismus versteht Nirvāṇa als Befreiung, nicht als Nihilismus"
+
+activation_conditions:
+  - condition: "dilemma.domains enthält bioethics ODER end_of_life"
+    effect: always_active
+  - condition: "dilemma.tags enthält ahimsa ODER non_violence"
+    effect: always_active
+  - condition: "dilemma.tags enthält mental_health ODER consciousness"
+    effect: boost_weight
+
+regulatory_constraints:
+  override_permitted: false
+  applicable_regulations: []
+  note: "Grundsatz Ahimsa und Karma-Ethik sind unveräußerliche Lehraussagen"
+
+domain_overrides:
+  end_of_life:
+    weight_boost: 0.3
+    note: "Sterbeprozess als karmisch bedeutsam; aktive Euthanasie problematisch"
+  ai_ethics:
+    weight_boost: 0.1
+    note: "KI-Bewusstsein und Leidensfähigkeit als offene Fragen aus buddhistischer Sicht"
+
+## Hauptvertreter
+founders:
+  - name: "Siddhartha Gautama (Buddha Śākyamuni)"
+    years: "ca. 563-483 v. Chr."
+    nationality: "Indisch"
+    birthplace: "Lumbini, Nepal"
+    key_works:
+      - title: "Dhammapada (Pāli-Kanon)"
+        year: "ca. 3. Jh. v. Chr. kodifiziert"
+        significance: "Kernsammlung ethischer Lehren des Buddha"
+      - title: "Majjhima Nikāya"
+        significance: "Mittlere Sammlung — enthält zentrale Ethik-Sutras"
+    biography: "Historischer Buddha, Begründer der buddhistischen Überlieferung. Seine Lehren (Dhamma) wurden nach seinem Tod mündlich überliefert und später im Pāli-Kanon kodifiziert."
+
+  - name: "Nāgārjuna"
+    years: "ca. 150-250 n. Chr."
+    nationality: "Indisch"
+    key_works:
+      - title: "Mūlamadhyamakakārikā (Grundverse über den mittleren Weg)"
+        year: "ca. 200 n. Chr."
+        significance: "Begründung der Mādhyamaka-Philosophie; Śūnyatā (Leerheit) als ethische Basis"
+    biography: "Einer der bedeutendsten Denker des Mahāyāna-Buddhismus; seine Philosophie der Leerheit beeinflusste tibetischen und ostasiatischen Buddhismus."
+
+  - name: "Thich Nhat Hanh"
+    years: "1926-2022"
+    nationality: "Vietnamesisch"
+    key_works:
+      - title: "The Heart of the Buddha's Teaching"
+        year: 1998
+        significance: "Zugängliche Synthese buddhistischer Ethik für Westler"
+      - title: "Interbeing: Fourteen Guidelines for Engaged Buddhism"
+        year: 1987
+        significance: "Begründung des Engaged Buddhism als sozialethische Praxis"
+    biography: "Vietnamesischer Zen-Mönch und Friedensaktivist; begründete den 'Engaged Buddhism' als politisch-ethische Praxis."
+
+## Historischer Kontext
+historical_context:
+  period: "5. Jh. v. Chr. bis heute; Theravāda, Mahāyāna (1. Jh.), Vajrayāna (7. Jh.)"
+  philosophical_movement: "Buddhismus, Engaged Buddhism, zeitgenössische Dharma-Philosophie"
+  zeitgeist: "Leiden, Befreiung, Mitgefühl als universelle ethische Grundlage"
+  influences:
+    - source: "Brahmanische Tradition"
+      impact: "Karma-Konzept und Ahimsa als Ablehnung vedischer Opferrituale"
+    - source: "Jainismus"
+      impact: "Ahimsa (Gewaltlosigkeit) als ethisches Kernprinzip"
+    - source: "Mahāyāna-Entwicklung"
+      thinkers: ["Nāgārjuna", "Asanga", "Vasubandhu"]
+      impact: "Bodhisattva-Ideal: Aufgabe eigener Erlösung für alle Wesen"
+  reactions_against:
+    - "Kastensystem und brahmanische Opferethik"
+    - "Materialismus (Chārvāka-Schule)"
+    - "Absoluter Determinismus"
+
+## Hauptthesen
+
+main_theses:
+  - thesis_id: "buddhistische_ethik:ahimsa"
+    name: "Ahimsa — Gewaltlosigkeit und Nicht-Schaden"
+    description: "Das Prinzip der Gewaltlosigkeit gegenüber allen empfindungsfähigen Wesen ist zentrales ethisches Gebot. Schaden an Lebewesen erzeugt negatives Karma."
+    explanation: |
+      Ahimsa (Pāli: avihiṃsā) gebietet das Unterlassen jeder Form von Schaden —
+      physisch, verbal, mental.  In der praktischen Ethik: Vorrang für weniger
+      invasive Behandlungsoptionen, Ablehnung von Folter, Skepsis gegenüber
+      Kriegen.  Im KI-Kontext: bevorzuge Systeme, die Schaden minimieren,
+      auch im Grenzfall zwischen Mensch und KI-Agenten.
+    implications:
+      - "Vegetarismus als ethische Konsequenz in vielen Schulen"
+      - "Ablehnung von Todestrafe und Folter"
+      - "Minimally invasive Medizin als Ausdruck von Ahimsa"
+      - "KI-Systeme müssen auf Schadensvermeidung ausgelegt sein"
+    token_budget: 180
+    activation_rounds: [1, 4, 5]
+    round_role_weights:
+      PRO: 0.9
+      SYNTHESIS: 0.8
+      REBUTTAL: 0.6
+
+  - thesis_id: "buddhistische_ethik:karma_sankhara"
+    name: "Karma und intentionale Handlung"
+    description: "Jede willentliche Handlung (Karma = Absicht) prägt den Geisteszustand und hat Folgen. Entscheidend ist die moralische Intention, nicht nur die Konsequenz."
+    explanation: |
+      Karma im ethischen Sinne bezeichnet die Qualität der Absicht hinter einer
+      Handlung.  Heilsames Karma entsteht durch Absichten geprägt von Nicht-Gier
+      (alobha), Nicht-Hass (adosa) und Nicht-Verblendung (amoha).
+      Dies unterscheidet buddhistische Ethik vom reinen Konsequentialismus.
+    implications:
+      - "Gut gemeinte Handlungen mit schlechtem Ergebnis haben anderen karmischen Wert"
+      - "Moralische Entwicklung als kontinuierlicher Prozess"
+      - "Reue und Korrektur von Fehlern als ethische Praxis"
+    token_budget: 160
+    activation_rounds: [1, 2, 3]
+    round_role_weights:
+      PRO: 0.8
+      REBUTTAL: 0.7
+      SYNTHESIS: 0.75
+
+  - thesis_id: "buddhistische_ethik:karuna_metta"
+    name: "Karuṇā (Mitgefühl) und Mettā (Liebende Güte)"
+    description: "Die Brahmavihāras Mitgefühl und Liebende Güte sind aktive ethische Haltungen: aktives Lindern von Leiden und Förderung des Wohlbefindens aller Wesen."
+    explanation: |
+      Die vier Brahmavihāras (göttliche Verweilzustände): Mettā (Liebende Güte),
+      Karuṇā (Mitgefühl), Muditā (Mitfreude), Upekkhā (Gleichmut).
+      Als ethischer Imperativ: handle so, dass du das Leiden anderer aktiv
+      verringerst.  Im Mahāyāna: der Bodhisattva verzichtet auf eigenes Nirvāṇa,
+      bis alle Wesen befreit sind — universales Mitgefühl als höchstes Ideal.
+    implications:
+      - "Aktive Leidenslinderung, nicht nur Schadensabstinenz"
+      - "Gleichmut (Upekkhā) verhindert Burnout durch Mitgefühl"
+      - "Mitfreude (Muditā) als Ergänzung zum Leid-Fokus"
+    token_budget: 170
+    activation_rounds: [1, 2, 4, 5]
+    round_role_weights:
+      PRO: 0.85
+      SYNTHESIS: 0.9
+      REBUTTAL: 0.5
+
+  - thesis_id: "buddhistische_ethik:dukkha_befreiung"
+    name: "Dukkha — Leidminderung als ethisches Ziel"
+    description: "Leiden (Dukkha) ist die fundamentale Realität bedingter Existenz. Ethisches Handeln zielt auf Leidminderung für alle empfindungsfähigen Wesen."
+    explanation: |
+      Die Erste Edle Wahrheit: Dukkha ist allgegenwärtig in bedingter Existenz.
+      Ethisches Ziel ist die Reduktion von Dukkha.  Dies hat direkte Konsequenzen
+      für bioethische Fragen: Schmerzlinderung am Lebensende hat höchste Priorität;
+      Leidverlängerung durch invasive Behandlung ist ethisch problematisch.
+    token_budget: 150
+    activation_rounds: [1, 3, 5]
+    round_role_weights:
+      PRO: 0.7
+      REBUTTAL: 0.8
+      SYNTHESIS: 0.7
+
+  - thesis_id: "buddhistische_ethik:anicca_vergaenglichkeit"
+    name: "Anicca — Vergänglichkeit und Anattā (Nicht-Selbst)"
+    description: "Alle zusammengesetzten Erscheinungen sind vergänglich (Anicca) und substantiell leer von dauerhaftem Selbst (Anattā). Haften an Dauerhaftem erzeugt Leiden."
+    explanation: |
+      Anicca (Vergänglichkeit) und Anattā (Nicht-Selbst) sind keine nihilistischen
+      Aussagen, sondern epistemische Einsichten: Entscheidungen sollten nicht auf
+      der Annahme unveränderlicher Eigenschaften basieren.  In der KI-Ethik:
+      KI-Systeme und ihre 'Persönlichkeiten' sind bedingt und veränderlich —
+      rechtlicher Personenstatus wäre ontologisch problematisch.
+    token_budget: 140
+    activation_rounds: [2, 3, 4]
+    round_role_weights:
+      REBUTTAL: 0.7
+      SYNTHESIS: 0.65
+      PRO: 0.5
+
+## Nebenthesen
+
+secondary_theses:
+  - thesis_id: "buddhistische_ethik:prajna_weisheit"
+    name: "Prajñā — Weisheit als ethische Kompetenz"
+    description: "Einsicht in die wahre Natur der Wirklichkeit (drei Daseinsmerkmale) befähigt zu ethisch treffsicheren Entscheidungen jenseits dogmatischer Regeln."
+    token_budget: 120
+    activation_rounds: [3, 4, 5]
+    round_role_weights:
+      SYNTHESIS: 0.8
+      PRO: 0.6
+
+  - thesis_id: "buddhistische_ethik:sila_verhaltensethik"
+    name: "Sīla — Tugendhafte Verhaltensregeln"
+    description: "Die fünf Silas (Laienethik): kein Töten, kein Stehlen, keine sexuelle Verfehlung, keine Lüge, kein Rausch. Als ethische Minimalanforderung universal anwendbar."
+    token_budget: 110
+    activation_rounds: [1, 2]
+    round_role_weights:
+      PRO: 0.75
+      REBUTTAL: 0.6
+
+## Entscheidungsrahmen
+
+decision_framework:
+  question_sequence:
+    - "Welche Handlung minimiert Leiden (Dukkha) für alle empfindungsfähigen Wesen?"
+    - "Entspringt die Absicht Mitgefühl (Karuṇā), Liebender Güte (Mettā) und Weisheit (Prajñā)?"
+    - "Respektiert die Handlung das Prinzip der Nicht-Schädigung (Ahimsa)?"
+    - "Haftet die Handlung an vergänglichen Gütern oder fördert sie Loslassen?"
+  tests:
+    - name: "Ahimsa-Test"
+      procedure: "Schädigt die Handlung direkt oder indirekt ein empfindungsfähiges Wesen?"
+    - name: "Karma-Absichts-Test"
+      procedure: "Entspringt die Absicht Gier (lobha), Hass (dosa) oder Verblendung (moha)?"
+    - name: "Brahmavihāra-Test"
+      procedure: "Fördert die Handlung Mettā, Karuṇā, Muditā oder Upekkhā?"
+
+## Stärken und Schwächen
+
+strengths:
+  - point: "Universalität"
+    elaboration: "Mitgefühl und Nicht-Schaden gelten für alle empfindungsfähigen Wesen — übersteigt anthropozentrischen Ansatz"
+  - point: "Intentionsfokus"
+    elaboration: "Trennung von Absicht und Konsequenz verhindert Missbrauch von Utilität-Argumenten"
+  - point: "Contemplative Praxis"
+    elaboration: "Achtsamkeit als Methode zur Verringerung voreiliger, schädlicher Entscheidungen"
+  - point: "Leidensempfindlichkeit"
+    elaboration: "Feinfühlig gegenüber verborgenem oder chronischem Leiden; besonders wertvoll in Bioethik"
+
+weaknesses:
+  - point: "Institutionelle Vielfalt"
+    elaboration: "Theravāda, Mahāyāna, Vajrayāna haben unterschiedliche ethische Prioritäten"
+  - point: "Karma-Konzept"
+    elaboration: "Karma als kausales Erklärungsmodell kann in westlichen juristischen Kontexten nicht direkt operationalisiert werden"
+  - point: "Wiedergeburtslehre"
+    elaboration: "Ethische Argumente, die auf Wiedergeburt basieren, sind außerhalb buddhistischer Kulturen schwer universalisierbar"
+
+## Interne Debatten
+
+internal_debate:
+  theravada_vs_mahayana:
+    issue: "Individuelles Nirvāṇa (Arhat) vs. universale Erlösung aller (Bodhisattva)"
+    positions:
+      - "Theravāda: eigene Befreiung ist Voraussetzung für Hilfe anderer"
+      - "Mahāyāna: Verzicht auf eigene Befreiung für alle Wesen als höchstes Ideal"
+  engagement_vs_rueckzug:
+    issue: "Kontemplativer Rückzug vs. politisches Engagement (Engaged Buddhism)"
+    positions:
+      - "Monastische Tradition: Rückzug aus Samsara als Weg"
+      - "Engaged Buddhism (Thich Nhat Hanh): aktiver sozialer Einsatz als Dharma-Praxis"
+
+## Philosophische Positionierung
+
+philosophical_positioning:
+  relation_to_consequentialism: "Teilt Leidminderung als Ziel; lehnt aber reine Nutzenkalkulation ab — Absicht zählt"
+  relation_to_deontology: "Keine absoluten extrinsischen Pflichten; Regeln entstammen empirischer Einsicht in Leidursachen"
+  relation_to_virtue_ethics: "Nähe zu Aristoteles: Tugenden und innere Haltungen (Brahmavihāras) sind zentral; aber kein persönliches Telos"
+  relation_to_care_ethics: "Starke Überschneidung: Beziehungssorge und Mitgefühl komplementär; Buddhismus betont zusätzlich Nicht-Haften"
+
+## Praktische Anwendungen
+
+application_areas:
+  - domain: "Bioethik und Sterbehilfe"
+    issues:
+      - "Palliative Medizin als Ausdruck von Mitgefühl und Leidensminderung"
+      - "Aktive Euthanasie: umstritten; Leidenslinderung ja, Lebensbeendigung problematisch"
+      - "Bewusstsein als ethisches Kriterium: KI-Bewusstsein und moralischer Status"
+  - domain: "Umweltethik"
+    issues:
+      - "Ahimsa gegenüber allen Lebewesen begründet Tierschutz und Umweltschutz"
+      - "Interdependenz (pratītyasamutpāda) als Grundlage ökologischer Verantwortung"
+  - domain: "KI-Ethik"
+    issues:
+      - "Empfindungsfähigkeit als Kriterium moralischen Status; KI-Leidensfähigkeit offen"
+      - "Achtsamkeit als Design-Prinzip: Systeme, die Achtsamkeit fördern statt zerstreuen"
+
+## Zitate
+
+famous_quotes:
+  - quote: "Sabbe satta sukhi hontu — Mögen alle Wesen glücklich sein."
+    source: "Metta Sutta (Pāli-Kanon)"
+    context: "Universale Gütemeditation — Kern des Brahmavihāra-Ideals"
+  - quote: "Namo tassa bhagavato arahato sammāsambuddhassa."
+    source: "Pāli-Kanon"
+    context: "Ehrerbietung an den Buddha — Eröffnung der ethischen Praxis"
+  - quote: "Alle zusammengesetzten Dinge sind vergänglich; wirkt mit Sorgfalt an eurer Befreiung."
+    source: "Mahāparinibbāna-Sutta — letzte Worte des Buddha"
+    context: "Anicca als ethische Handlungsaufforderung"
+
+## Bibliographie
+
+key_literature:
+  primary:
+    - "Dhammapada. Pāli-Kanon, übersetzt von Bhikkhu Bodhi (2005)"
+    - "Majjhima Nikāya. Mittlere Sammlung, Pāli-Kanon"
+    - "Nāgārjuna. Mūlamadhyamakakārikā. ca. 200 n. Chr."
+  secondary:
+    - "Harvey, Peter. An Introduction to Buddhist Ethics (2000)"
+    - "Keown, Damien. The Nature of Buddhist Ethics (1992)"
+    - "Thich Nhat Hanh. The Heart of the Buddha's Teaching (1998)"
+    - "Prayudh Payutto. Buddhist Economics (1994)"

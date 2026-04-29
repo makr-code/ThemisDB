@@ -403,7 +403,11 @@ These gaps become critical when running ≥ 4 discourse rounds with 3+ schools:
 
 ---
 
-### 9.1 Per-Thesis `token_budget` and `activation_rounds`
+### 9.1 Per-Thesis `token_budget` and `activation_rounds`  ✅ IMPLEMENTED (2026-04-29)
+
+> **Status:** Implemented in `ethics_ai_types.h` (`PhilosophyThesis` struct + `PhilosophyProfile.typed_theses`),
+> `philosophy_loader.cpp` (YAML parsing), `context_window_manager.h/.cpp` (`selectThesesForRound()`).
+> Tests TBM-01..10 in `tests/test_thesis_budget_management.cpp`.
 
 #### Scope
 Add two optional fields to each `thesis_id` entry in every philosophy YAML profile:
@@ -1328,3 +1332,148 @@ when deploying 6+ school debates on models with ≤ 32 K token limits:
 - Evidence Paper §VII-8 (aggregate alignment scores motivating `regulatory_constraints`)
 - Evidence Paper E45, E46, E60, E64
 - `src/prompt_engineering/FUTURE_ENHANCEMENTS.md §Multi-School Discourse-Level Prompt Coordination`
+
+
+---
+
+## 11. Flexible Ethics Routing System for >100 Schools (Target: Q3 2026)
+
+> **Motivation:** As the philosophy YAML library grows beyond 16 profiles towards
+> 100+, the existing pattern of loading all profiles into a single `std::map` at
+> startup becomes a RAM and latency bottleneck. This section specifies the scalable
+> routing architecture implemented in `EthicsProfileRegistry` + `EthicsSelectionRouter`.
+
+---
+
+### §11.1 EthicsProfileRegistry — Lazy-Loading Metadata Index
+
+#### Scope
+Replace the direct `PhilosophyLoader` map with a two-layer architecture:
+(1) a lightweight metadata index always in RAM (~500 B/profile), and
+(2) on-demand full-profile loading with an LRU cache (default capacity: 20 warm profiles).
+
+#### Implemented Components
+- `include/plugins/ethics_ai/ethics_profile_registry.h` — public interface
+  - `EthicsProfileMeta` struct (school_id, name, taxonomy_class, tags, applicable_domains, yaml_path, description_snippet)
+  - `EthicsIndexQuery` struct (taxonomy_class, tags, domains, max_results)
+  - `IEthicsProfileRegistry` pure interface
+- `src/ethics_ai/ethics_profile_registry.h` — private implementation class
+- `src/ethics_ai/ethics_profile_registry.cpp` — concrete `EthicsProfileRegistry`
+  - `rebuildIndex(directory)`: recursive filesystem scan, header-only YAML parse
+  - `queryIndex(query)`: O(n) RAM scan with AND/ANY filter semantics
+  - `getProfile(school_id)`: LRU cache hit → O(1); miss → `PhilosophyLoader::loadFromFile()`
+  - `hasProfile(school_id)`: O(1) index lookup
+
+#### Scaling Guarantees
+- `queryIndex()` ≤ 2 ms for ≤ 1 000 profiles (O(n) RAM scan)
+- `getProfile()` ≤ 100 ms cold, ≤ 1 ms warm (LRU cache)
+- `rebuildIndex()` ≤ 500 ms for ≤ 200 profiles
+
+#### Test Strategy (EPR-01..12)
+New test file: `tests/test_ethics_profile_registry.cpp`
+
+| ID | Scenario |
+|---|---|
+| EPR-01 | `rebuildIndex()` counts all YAML files correctly |
+| EPR-02 | Empty query returns all profiles |
+| EPR-03 | `taxonomy_class` filter returns exact match only |
+| EPR-04 | Tag filter requires ALL tags (AND semantics) |
+| EPR-05 | Domain filter requires ANY match |
+| EPR-06 | `max_results` cap respected |
+| EPR-07 | `getProfile()` returns error for unknown school_id |
+| EPR-08 | `hasProfile()` returns false before, true after rebuild |
+| EPR-09 | Cold-load returns valid PhilosophyProfile |
+| EPR-10 | Second call is LRU cache hit |
+| EPR-11 | Non-existent directory returns Status::Error |
+| EPR-12 | LRU eviction at capacity=2 with 3 profiles |
+
+---
+
+### §11.2 EthicsSelectionRouter — Three-Stage Funnel
+
+#### Scope
+3-stage school selection funnel reducing >100 profiles to Top-N (default 5)
+for any given dilemma context.
+
+#### Implemented Components
+- `include/plugins/ethics_ai/ethics_selection_router.h` — public interface
+  - `RouterConfig`, `RouterCandidate`, `RouterResult` structs
+  - `EthicsSelectionRouter` class with `route()` + `recordDecisionOutcome()`
+- `src/ethics_ai/ethics_selection_router.cpp` — Pimpl implementation
+
+#### Three-Stage Funnel
+
+| Stage | Method | Latency target | Implementation |
+|---|---|---|---|
+| 1 | Tag/taxonomy filter | ≤ 2 ms | Loads `ethics_taxonomy.yaml`; maps domain + tags → taxonomy classes → school_ids |
+| 2 | Semantic overlap | ≤ 20 ms | TF cosine similarity (STUB: real embedding model planned Q3 2026) |
+| 3 | Precedent lookup | ≤ 50 ms | In-memory DC-score store (STUB: KG graph planned Q4 2026) |
+
+Aggregation: `final_score = semantic * 0.40 + precedent_dc * 0.40 + taxonomy * 0.20`
+
+#### STUB/SIMULATION Notes
+Two documented stubs in `ethics_selection_router.cpp`:
+1. **Stage-2 semantic overlap**: lightweight term-overlap proxy for embedding model
+   (replaces ONNX all-mpnet-base-v2; removal plan: Q3 2026 when §7 embedding is complete)
+2. **Stage-3 precedent store**: in-memory session-scoped map proxy for KnowledgeGraph
+   `_themis_ethics_precedents` collection (removal plan: Q4 2026)
+
+#### Test Strategy (ESR-01..10)
+New test file: `tests/test_ethics_selection_router.cpp`
+
+| ID | Scenario |
+|---|---|
+| ESR-01 | `route()` returns ≤ top_n results |
+| ESR-02 | Stage-1 domain mapping produces candidates |
+| ESR-03 | `regulatory_context=true` includes compliance schools |
+| ESR-04 | Direct school_id tag forces inclusion |
+| ESR-05 | Semantic scores in [0, 1] |
+| ESR-06 | `recordDecisionOutcome()` raises precedent_dc |
+| ESR-07 | Empty registry returns gracefully (no crash) |
+| ESR-08 | Weight normalisation with non-unit config |
+| ESR-09 | final_score always in [0, 1] |
+| ESR-10 | 4-thread concurrent `route()` calls race-free |
+
+---
+
+### §11.3 Ethics Taxonomy Configuration
+
+#### Scope
+`config/ethics_ai/ethics_taxonomy.yaml` — two-level taxonomy mapping 12 ethics
+classes (deontological, consequentialist, virtue, contractualist, care, discourse,
+compliance, regulatory_authority, academic, cultural_religious, non_mainstream,
+domain_specific) to school_ids, plus a `domain_class_mapping` section and
+`always_include_when` flags.
+
+#### New YAML Profile Requirements
+All new philosophy YAML profiles MUST declare:
+```yaml
+taxonomy_class: <class>        # from ethics_taxonomy.yaml
+tags: [...]                    # domain/topic tags for routing
+applicable_domains: [...]      # dilemma domains
+```
+
+---
+
+### §11.4 New YAML Profiles — Phase 1
+
+Three new profiles implementing the full §10-style schema with thesis_ids,
+activation_conditions, domain_overrides, regulatory_constraints, and convergence markers:
+
+| Profile | Class | Domains | Key Theses |
+|---|---|---|---|
+| `behoerden_ethik.yaml` | regulatory_authority | ai_governance, data_protection, public_procurement | Rechtsstaatlichkeit, Gleichbehandlung, Transparenz, Menschliche Letztverantwortung |
+| `universitaere_ethik.yaml` | academic | research, bioethics, ai_governance | Wissenschaftsfreiheit, Forschungsintegrität, Dual-Use, Open Science |
+| `islamische_ethik.yaml` | cultural_religious | bioethics, end_of_life, medical | Maqasid al-Shariah, La Darar, Darura, Karama Insaniyya, Shura |
+
+---
+
+### §11.5 Planned Next Steps (Q3–Q4 2026)
+
+- [ ] Replace Stage-2 STUB with ONNX embedding model (`all-mpnet-base-v2`) via `IEmbeddingProvider` (§7)
+- [ ] Replace Stage-3 STUB with `KnowledgeGraphRetriever` on `_themis_ethics_precedents` graph collection
+- [ ] `ReflectionTuner` feedback loop: `recordDecisionOutcome()` → adjust weight_semantic/weight_precedent
+- [ ] Add `buddhistische_ethik.yaml`, `juedische_bioethik.yaml`, `christliche_sozialethik.yaml` profiles
+- [ ] Ethics Community Graph via `ProcessCommunityDetector` on `ArgumentStore` co-occurrence
+- [ ] Multi-hop decomposition: `MultiHopReasoner` for sub-question routing to Ethics clusters
+- [ ] `OntologyAwareRetriever` ethics ontology (IS_A, SPECIALIZES, CONFLICTS_WITH, COMPLEMENTS)
