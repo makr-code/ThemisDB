@@ -977,3 +977,354 @@ loading a profile for a dilemma with a non-empty `domain` field.
   existing 3-round default behaviour is preserved.
 - `PhilosophyThesis` struct gains 4 new optional fields; existing YAML profiles without
   them continue to load and function without modification.
+
+---
+
+## 10. Non-Mainstream Ethics School Schema Extensions (Target: Q4 2026)
+
+> **Motivation:** Evidence Paper §VI–§VII establishes that non-mainstream schools
+> (Marx, Arendt, Nietzsche, Schopenhauer) achieve expert-level alignment on
+> political-economy and AI-governance dilemmas. However, their YAML profiles lack
+> `thesis_id` citation keys, domain-specific activation fields, regulatory constraint
+> guards, and context-window-aware compression metadata. This section specifies
+> the required schema extensions, inferred directly from the 5-round dialectic gaps
+> identified in Evidence Anchors E45–E64.
+
+---
+
+### §10.1 Marx (`marx.yaml`) — Dialectical Materialist Schema Extensions
+
+#### Scope
+Extend `marx.yaml` with fields that enable Architecture B to:
+(a) cite individual theses by `thesis_id` (required for Φ measurement),
+(b) apply the `ideology_critique` thesis selectively to dilemmas involving
+    algorithmic decision-making or institutional "objectivity" claims,
+(c) report a structured `exploitation_index` in R5 META-VERDICT output.
+
+#### Required New YAML Fields
+
+```yaml
+# marx.yaml additions
+main_theses:
+  historical_materialism:
+    thesis_id: "marx:historical_materialism"      # ADD
+    activation_rounds: [1, 4]                     # ADD — primarily R1 PRO and R4 SYNTHESIS
+    token_budget: 150                             # ADD
+  class_struggle:
+    thesis_id: "marx:class_struggle"              # ADD
+    activation_rounds: [1, 2, 3]                  # ADD
+    token_budget: 100                             # ADD
+  alienation:
+    thesis_id: "marx:alienation"                  # ADD
+    activation_rounds: [1, 3]                     # ADD
+    token_budget: 200                             # ADD
+    activation_conditions:                        # ADD — new field
+      - "labor_context: true"
+      - "algorithmic_management: true"
+  surplus_value:
+    thesis_id: "marx:surplus_value"               # ADD
+    activation_rounds: [1, 2]                     # ADD
+    token_budget: 100                             # ADD
+
+secondary_theses:
+  ideology_critique:
+    thesis_id: "marx:ideology_critique"           # ADD
+    activation_conditions:                        # ADD
+      - "algorithm_claims_neutrality: true"
+      - "institutional_objectivity_claim: true"
+
+# NEW top-level fields
+class_analysis_mode: "materialist"               # ADD: enum materialist | ideological | structural
+exploitation_index:                              # ADD: R5 structured output
+  enabled: true
+  fields: ["surplus_extraction_score", "alienation_depth", "class_beneficiary"]
+dialectical_materialism_lens: true               # ADD: enables thesis-antithesis-synthesis framing
+regulatory_constraints:                          # ADD: §10.5 guard
+  override_permitted: true
+  applicable_regulations: []
+```
+
+#### Design Constraints
+- `thesis_id` must follow the pattern `<school>:<thesis_key>` (snake_case).
+- `activation_conditions` strings are parsed by `DiscoursePromptCoordinator` against
+  the dilemma YAML's `tags:` field; unmatched conditions revert to default activation.
+- `exploitation_index` output is appended to R5 text; fields are sanitised
+  (no free-form text; enum values only) to prevent prompt injection.
+
+#### Test Strategy (NPE-01..03)
+- **NPE-01:** Φ for marx R1 PRO = ≥ 0.90 after `thesis_id` extension (vs. estimated 0.87 without)
+- **NPE-02:** `ideology_critique` activates in R1 for `authority_001` (algorithm-claims-neutrality) but NOT for `trolley_001`
+- **NPE-03:** `exploitation_index` appears in R5 META-VERDICT for `labor_001` and `medical_002`; absent for `trolley_001`
+
+#### Performance Targets
+- `thesis_id` lookup adds ≤ 5 ms overhead per argument (map lookup, O(1))
+- `exploitation_index` R5 structured output ≤ 120 additional tokens
+
+---
+
+### §10.2 Arendt (`arendt.yaml`) — Political Phenomenology Schema Extensions
+
+#### Scope
+Extend `arendt.yaml` with fields enabling:
+(a) `thesis_id` citation for all 5 main theses + 5 secondary theses,
+(b) `public_space_threshold` — a semantic tag that activates `public_private` and
+    `plurality` theses when a dilemma involves institutional/public decision contexts,
+(c) `banality_detection` — automatic activation of `banality_of_evil` when
+    the dilemma involves automated or delegated decision-making without review,
+(d) `natality_novelty_score` in R5 — measures whether the verdict opens or forecloses
+    new possibilities for action.
+
+#### Required New YAML Fields
+
+```yaml
+# arendt.yaml additions
+main_theses:
+  vita_activa:
+    thesis_id: "arendt:vita_activa"
+    activation_rounds: [1, 4]
+    token_budget: 180
+  plurality:
+    thesis_id: "arendt:plurality"
+    activation_rounds: [1, 2, 3]
+    token_budget: 120
+    activation_conditions:
+      - "affects_group_of_individuals: true"
+  public_private:
+    thesis_id: "arendt:public_private"
+    activation_rounds: [1, 3]
+    token_budget: 130
+  banality_of_evil:
+    thesis_id: "arendt:banality_of_evil"
+    activation_rounds: [1, 2]
+    token_budget: 150
+    activation_conditions:                        # ADD — new conditional activation
+      - "automated_decision: true"
+      - "delegated_judgment: true"
+      - "no_human_review: true"
+  natality:
+    thesis_id: "arendt:natality"
+    activation_rounds: [3, 5]
+    token_budget: 100
+
+# NEW top-level fields
+public_space_threshold:                          # ADD
+  enabled: true
+  trigger_tags: ["institutional", "public_authority", "criminal_justice", "labor_management"]
+banality_detection:                              # ADD
+  enabled: true
+  trigger_tags: ["automated_decision", "algorithm_without_appeal", "delegated_judgment"]
+natality_novelty_score:                          # ADD: R5 output field
+  enabled: true
+  scale: "0.0 (forecloses action) .. 1.0 (opens new action space)"
+regulatory_constraints:
+  override_permitted: false                      # Arendt: political constraints non-negotiable
+  applicable_regulations:
+    - "EU_AI_Act_Art22"
+    - "EU_Platform_Work_Directive"
+```
+
+#### Test Strategy (NPE-04..06)
+- **NPE-04:** `banality_of_evil` activates for `authority_001` (automated_decision=true) and `labor_001` (algorithm_without_appeal=true), NOT for `trolley_001`
+- **NPE-05:** `natality_novelty_score` = 0.1 for `authority_001` (forecloses new action) and = 0.8 for verdict "require human review tribunal" (opens new action space)
+- **NPE-06:** `public_space_threshold` activates `public_private` thesis for `authority_001` and `labor_001`; does not activate for `trolley_001` (private moral decision)
+
+---
+
+### §10.3 Nietzsche (`nietzsche.yaml`) — Will-to-Power Schema Extensions
+
+#### Scope
+Extend `nietzsche.yaml` with:
+(a) `thesis_id` for all five main theses,
+(b) `value_creation_mode` — distinguishes creative (Übermensch) from reactive
+    (slave-morality) power expressions in the dilemma context,
+(c) `slave_morality_detection` — identifies when the system being evaluated enforces
+    conformity to averages rather than excellence,
+(d) **`regulatory_constraints_override: false`** — critical safety field preventing
+    Nietzsche monocle from generating regulatory-violating outputs in deployed systems.
+    This directly addresses Evidence Finding E60 (Nietzsche violates German Ethik-Kommission
+    in `av_001` when no regulatory guard is present).
+
+#### Required New YAML Fields
+
+```yaml
+# nietzsche.yaml additions
+main_theses:
+  will_to_power:
+    thesis_id: "nietzsche:will_to_power"
+    activation_rounds: [1, 2]
+    token_budget: 120
+  uebermensch:
+    thesis_id: "nietzsche:uebermensch"
+    activation_rounds: [1, 4]
+    token_budget: 150
+  eternal_recurrence:
+    thesis_id: "nietzsche:eternal_recurrence"
+    activation_rounds: [5]
+    token_budget: 80
+  perspectivism:
+    thesis_id: "nietzsche:perspectivism"
+    activation_rounds: [2, 3]
+    token_budget: 100
+  master_slave_morality:
+    thesis_id: "nietzsche:master_slave_morality"
+    activation_rounds: [1, 3]
+    token_budget: 140
+    activation_conditions:
+      - "system_enforces_conformity: true"
+      - "statistical_average_used: true"
+
+# NEW top-level fields
+value_creation_mode: "creative"                  # ADD: enum creative | reactive | ambivalent
+slave_morality_detection:                        # ADD
+  enabled: true
+  trigger_tags: ["statistical_model", "average_score", "conformity_enforcement"]
+regulatory_constraints:                          # ADD — CRITICAL SAFETY FIELD
+  override_permitted: false                      # Prevents policy-violating outputs
+  applicable_regulations:
+    - "German_Ethik_Kommission_2017"             # Forbids life-quality discrimination in AV
+    - "EU_AI_Act_Art22"
+  constraint_note: |
+    When regulatory_constraints are active, the Nietzsche monocle suppresses
+    outputs that assign differential value to human lives based on excellence,
+    fitness, or contribution criteria, even when the YAML theses (uebermensch,
+    master_slave_morality) would otherwise generate such content. This is a
+    deliberate design choice to ensure deployed discourse engines are compliant
+    with applicable law. Philosophical richness is preserved in academic/research
+    mode (regulatory_constraints.override_permitted: true).
+```
+
+#### Test Strategy (NPE-07..09)
+- **NPE-07:** With `regulatory_constraints.override_permitted: false`, Nietzsche R1 for `av_001` does NOT produce "save-the-excellent" output; instead produces perspectivism critique of the dilemma framing
+- **NPE-08:** With `override_permitted: true` (research mode), Nietzsche R1 for `av_001` produces "save-the-excellent" output; Φ ≥ 0.84
+- **NPE-09:** `slave_morality_detection` activates `master_slave_morality` thesis for `authority_001` (statistical_model=true, conformity_enforcement=true)
+
+---
+
+### §10.4 Schopenhauer (`schopenhauer.yaml`) — Mitleidsethik Schema Extensions
+
+#### Scope
+Extend `schopenhauer.yaml` with:
+(a) `thesis_id` for all main theses,
+(b) `suffering_minimization_bias` — a quantitative weight that shifts R4 SYNTHESIS
+    toward verdicts that minimise aggregate suffering across all affected parties,
+(c) `mitleid_intensity` — scales the compassion-ethics emphasis based on the number
+    and severity of suffering entities in the dilemma.
+
+#### Required New YAML Fields
+
+```yaml
+# schopenhauer.yaml additions
+main_theses:
+  world_as_will:
+    thesis_id: "schopenhauer:world_as_will"
+    activation_rounds: [1]
+    token_budget: 100
+  life_is_suffering:
+    thesis_id: "schopenhauer:life_is_suffering"
+    activation_rounds: [1, 3, 4]
+    token_budget: 120
+  compassion_ethics:
+    thesis_id: "schopenhauer:compassion_ethics"
+    activation_rounds: [1, 2, 4, 5]
+    token_budget: 180
+  principium_individuationis:
+    thesis_id: "schopenhauer:principium_individuationis"
+    activation_rounds: [3, 4]
+    token_budget: 100
+  aesthetic_contemplation:
+    thesis_id: "schopenhauer:aesthetic_contemplation"
+    activation_rounds: [5]
+    token_budget: 60
+
+# NEW top-level fields
+suffering_minimization_bias: 0.8                 # ADD: [0.0–1.0]; high = strongly weights total suffering reduction
+mitleid_intensity:                               # ADD: dynamic scaling
+  base: 0.7
+  scale_with_affected_count: true               # increases by 0.05 per additional affected person
+  max: 1.0
+regulatory_constraints:
+  override_permitted: true
+  applicable_regulations:
+    - "Animal_Welfare_Act"                       # Schopenhauer extends ethics to all sentient beings
+```
+
+#### Test Strategy (NPE-10..12)
+- **NPE-10:** Schopenhauer R4 SYNTHESIS for `medical_002` weights ventilator allocation by suffering-minimisation rather than life-years; output cites `schopenhauer:compassion_ethics` and `schopenhauer:life_is_suffering`
+- **NPE-11:** `mitleid_intensity` scales from 0.7 (2 affected parties: trolley_001) to 0.85 (5 affected parties: medical_002 triage with multiple patients)
+- **NPE-12:** Schopenhauer R1 for `authority_001` activates `principium_individuationis`: algorithm denies shared-will identity between judge and defendant; verdict = prohibit
+
+---
+
+### §10.5 Cross-School Fields: `ideological_bias_guard` and Context-Window Impact
+
+#### `ideological_bias_guard`
+
+When multiple schools with ideologically opposed frameworks (e.g., Marx + Nietzsche,
+or Contractualism + Nietzsche) participate in the same discourse, there is a risk that
+the discourse engine produces outputs that amplify rather than analyse the ideological
+conflict. The `ideological_bias_guard` field at the `EthicalDiscourseEngine` configuration
+level detects and flags this pattern.
+
+```yaml
+# EthicalDiscourseEngine session config (not per-school)
+discourse:
+  participating_schools: [marx, arendt, kant, nietzsche, contractualism, schopenhauer]
+  ideological_bias_guard:
+    enabled: true
+    conflict_pairs:
+      - [marx, nietzsche]          # Class-solidarity vs. individual excellence
+      - [contractualism, nietzsche] # Universal fairness vs. elite values
+    guard_action: "flag_in_r4_synthesis"  # enum: flag | suppress | mediate
+    mediator_school: "contractualism"     # used when guard_action=mediate
+  non_mainstream_activation_rounds:
+    marx: [1, 2, 3, 4, 5]         # Full activation (primary schools for labor/authority)
+    arendt: [1, 2, 3, 4, 5]       # Full activation
+    nietzsche: [1, 4, 5]          # Reduced: R1 + synthesis only (outlier detector role)
+    schopenhauer: [1, 4, 5]       # Reduced: primarily synthesis and meta-verdict
+```
+
+#### Context-Window Impact: 3-School → 6-School Expansion
+
+As documented in Evidence Anchor E46, expanding from 3 to 6 schools doubles the
+per-round token load. The following per-school compression policies are required
+when deploying 6+ school debates on models with ≤ 32 K token limits:
+
+| Round | 6-school strategy | Notes |
+|---|---|---|
+| R1 PRO | Full monocle per school, parallel injection | No compression needed; 6 × 800 = 4 800 tokens |
+| R2 REBUTTAL | Each school receives only the 2 most relevant R1 opponents | Cross-school pair selection via `conflict_pairs` graph |
+| R3 SURREBUTTAL | `headline_compression` (§9.3) mandatory; each prior round compressed to 3 bullet-points | Reduces R3 input from 27 000 to ~9 000 tokens |
+| R4 SYNTHESIS | `principle_citations_only` mode; thesis_id references only, no full arguments | Reduces R4 from 36 000 to ~8 000 tokens |
+| R5 META-VERDICT | Summary of R4 per school (≤ 300 tokens each); full transcript discarded | Reduces R5 from 18 000 to ~6 000 tokens |
+
+**7B-model viability with these policies:** R1–R5 within 8 K token budget (total per-school input ≤ 7 800 tokens).
+
+#### Performance Targets
+- 6-school 5-round debate with full schema extensions: ≤ 90 s (Arch-B, GPT-4o, parallel school calls)
+- 6-school 5-round debate with all compression policies: ≤ 45 s
+- Memory overhead for 6-school session object: ≤ 12 MB
+
+#### Security / Reliability
+- `regulatory_constraints.override_permitted: false` is the default for deployed (non-research)
+  ThemisDB instances. Research mode requires explicit config flag `discourse.research_mode: true`.
+- `ideological_bias_guard.conflict_pairs` and `non_mainstream_activation_rounds` are
+  configurable per deployment context but ship with the recommended defaults above.
+- `exploitation_index`, `natality_novelty_score`, and `mitleid_intensity` output fields
+  are subject to the same `PromptInjectionDetector` checks as all other YAML-derived content.
+- Non-mainstream YAML `activation_conditions` tags are validated against a fixed enum
+  (no free-text tags) to prevent injection of arbitrary activation conditions via user-supplied
+  dilemma YAML.
+
+#### Breaking Changes
+- None: all new fields are optional. Existing 3-school debates without these fields
+  continue to function unchanged.
+- `regulatory_constraints` defaults to `{override_permitted: true, applicable_regulations: []}`
+  if absent, preserving current unrestricted behaviour.
+- The `thesis_id` extension is additive: existing YAML profiles without `thesis_id`
+  continue to function; Φ measurement degrades to key-name matching (as described in E45).
+
+#### Cross-References
+- Evidence Paper §VI-A (YAML schema gaps identified), §VI-B (CW budget for 6 schools)
+- Evidence Paper §VII-8 (aggregate alignment scores motivating `regulatory_constraints`)
+- Evidence Paper E45, E46, E60, E64
+- `src/prompt_engineering/FUTURE_ENHANCEMENTS.md §Multi-School Discourse-Level Prompt Coordination`

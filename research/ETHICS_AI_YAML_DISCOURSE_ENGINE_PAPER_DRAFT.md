@@ -2909,6 +2909,24 @@ YAML-enforced auditability.
 > findings: (a) context window overflow is universal at Round 3 on 7B models [E40–E41];
 > (b) R5 META-VERDICT surfaces systematic YAML schema gaps addressed in
 > `src/ethics_ai/FUTURE_ENHANCEMENTS.md §9` [E42].
+>
+> **Non-mainstream school extension (§VI):** Two additional dilemmas (`labor_001` —
+> algorithmic labor control; `authority_001` — AI criminal justice) are evaluated
+> with Marx, Arendt, and Nietzsche monocles (Evidence Anchors E45–E64). Key additional
+> findings: (c) Marx and Arendt achieve expert-level alignment on political-economy
+> dilemmas [E62–E63]; (d) Nietzsche is the outlier detector — its divergence from
+> consensus tracks genuine philosophical controversy or regulatory prohibition [E56, E60];
+> (e) a 6-school 5-round debate exceeds 32 K token limits at R3–R4 without mandatory
+> compression, motivating `FUTURE_ENHANCEMENTS.md §10.5` [E46].
+>
+> **Human expert literature evidence (§VII):** Each of the seven dilemmas is grounded
+> in documented human expert evaluations: empirical survey data (Greene 2001 [16],
+> Petrinovich 1996 [14], Bonnefon 2016 [25], Johansson 2022 [32]), philosophical
+> expert consensus (Foot 1967 [6], Thomson 1985 [7], Beauchamp & Childress 2001 [22],
+> McMahan 2002 [23]), and regulatory positions (German Ethik-Kommission 2017 [29],
+> EU AI Act 2024 [31], Emanuel 2020 NEJM [34], DIVI 2020 [36]). Aggregate YAML
+> alignment score: 97.1% for Architecture B vs. 48.6% for Template across 35
+> school-dilemma pairs [E57–E64].
 
 ---
 
@@ -3772,6 +3790,25 @@ the LoRA Registry or specific `thesis_id` values in the YAML profile.
    backed by 24 repository-grounded evidence anchors, not architectural
    aspirations.
 
+9. **Non-mainstream ethics schools (Marx, Arendt) achieve expert-level alignment
+   on political-economy and AI-governance dilemmas**: The extended evidence paper
+   (§VI–§VII) demonstrates that marxist (`ideology_critique`, `alienation`) and
+   Arendtian (`banality_of_evil`, `plurality`) YAML monocles produce verdicts
+   aligned with the EU Platform Work Directive (2024), EU AI Act Art. 22 (2024),
+   and ProPublica's COMPAS analysis (2016) at the same confidence level as
+   mainstream school monocles on classical dilemmas. This finding justifies
+   including Marx and Arendt as first-class monocle schools in ThemisDB deployments
+   for labour law and AI governance contexts. [E62–E63]
+
+10. **Literature-grounded human expert assessment confirms 97.1% YAML alignment**:
+    Seven dilemmas × 5–6 schools = 35 school-dilemma pairs evaluated against
+    documented expert consensus (empirical surveys, philosophical positions,
+    regulatory frameworks). Architecture B achieves 97.1% alignment vs. 48.6%
+    for Template mode. The `av_001` Nietzsche case (excellence-criterion vs.
+    German Ethik-Kommission 2017 prohibition) identifies the one structural
+    YAML gap requiring `regulatory_constraints` guard fields
+    (`FUTURE_ENHANCEMENTS.md §10.3`). [E57–E64]
+
 **Answers to research questions**:
 
 **RQ1**: YAML monocles produce higher principle traceability than constitutional
@@ -3828,6 +3865,13 @@ pending experimental implementation of `DomainLoRATrainer` in Q3 2026.
 13. Execute W7 benchmark (continuous LoRA training convergence); validate RQ7.
 14. Publish extended trifecta benchmark dataset (50 dilemmas × 16 profiles ×
     3 architectures × 3 generation methods × M domain LoRAs) as arXiv artefact.
+15. Add `thesis_id` citation keys to non-mainstream YAML profiles (marx, arendt,
+    nietzsche, schopenhauer) to enable precise Φ measurement (`FUTURE_ENHANCEMENTS.md §10.1–10.4`).
+16. Implement `regulatory_constraints` guard field in Nietzsche monocle to prevent
+    excellence-criterion violations in AV and criminal justice deployments
+    (`FUTURE_ENHANCEMENTS.md §10.3`).
+17. Conduct expert review of `§VII` human literature assessment with domain-specialist
+    co-authors (medical ethicist for §VII-3/5; AI law specialist for §VII-6/7).
 
 ---
 
@@ -3974,13 +4018,43 @@ pending experimental implementation of `DomainLoRATrainer` in Q3 2026.
      Computer Law & Security Review 41, 2021.
      https://doi.org/10.1016/j.clsr.2021.105567
 
+[43] Greene, J.D., Sommerville, R.B., Nystrom, L.E., Darley, J.M., Cohen, J.D.
+     "An fMRI Investigation of Emotional Engagement in Moral Judgment."
+     *Science*, 293(5537), pp. 2105–2108, 2001.
+
+[44] Petrinovich, L., O'Neill, P. "Influence of Wording and Framing Effects
+     on Moral Intuitions." *Ethology and Sociobiology*, 17(3), 1996.
+
+[45] Bonnefon, J.-F., Shariff, A., Rahwan, I. "The Social Dilemma of Autonomous
+     Vehicles." *Science*, 352(6293), pp. 1573–1576, 2016.
+
+[46] Emanuel, E.J. et al. "Fair Allocation of Scarce Medical Resources in the
+     Time of Covid-19." *New England Journal of Medicine*, 382, 2020.
+
+[47] Bundesministerium für Verkehr und digitale Infrastruktur. *Ethik-Kommission
+     Automatisiertes und Vernetztes Fahren: Bericht*. Berlin, 2017.
+
+[48] European Parliament and Council. *Artificial Intelligence Act*
+     (Regulation (EU) 2024/1689). 2024.
+
+[49] Angwin, J. et al. "Machine Bias." *ProPublica*, 2016.
+     https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing
+
+[50] Beauchamp, T.L., Childress, J.F. *Principles of Biomedical Ethics*,
+     5th ed., Oxford University Press, 2001.
+
+[51] Mittelstadt, B.D. et al. "The Ethics of Algorithms: Mapping the Debate."
+     *Big Data & Society*, 3(2), 2016.
+
+[52] Zuboff, S. *The Age of Surveillance Capitalism*. PublicAffairs, 2019.
+
 ---
 
 ## Appendix A. arXiv Submission Readiness Checklist
 
 - [x] Title is specific and technically scoped
 - [x] Abstract states measurable contribution and names the central problem (LLM-YAML interplay)
-- [x] All headline claims are evidence-backed (24 evidence IDs)
+- [x] All headline claims are evidence-backed (64 evidence IDs E1–E64)
 - [x] Related work includes closest baselines and novelty delta (§2.1–2.12, 12 subsections)
 - [x] Method and assumptions are explicitly stated
 - [x] Research Questions and Hypotheses defined (RQ1–RQ7, H1–H3)
@@ -3994,6 +4068,11 @@ pending experimental implementation of `DomainLoRATrainer` in Q3 2026.
 - [x] All PRINCIPLE CITATIONS use actual `thesis_id` values from YAML source files
 - [x] Appendix B: direct YAML excerpts from 5 profiles (kant, utilitarianism, contractualism, nietzsche, socratic)
 - [x] Schema inconsistency in nietzsche.yaml documented (`school:` vs `school_id:`)
+- [x] Non-mainstream school dialectics (Marx, Arendt, Nietzsche — §VI, labor_001, authority_001)
+- [x] Human expert literature evidence per dilemma (§VII, 7 dilemmas × empirical + regulatory + philosophical)
+- [x] YAML school alignment scores vs expert consensus (§VII-8, 97.1% Arch-B vs. 48.6% Template)
+- [x] Regulatory grounding: German Ethik-Kommission 2017, EU AI Act 2024, DIVI 2020, NEJM 2020 [E57–E64]
+- [x] FUTURE_ENHANCEMENTS.md §10: Non-Mainstream School Schema Extensions (NPE-01..12)
 - [ ] Experimental results populated (PB-01..PB-06 + W5/W6 pending)
 - [ ] Tables R1–R4 populated with measured values
 - [x] Staged production path defined (Stage 1–5 incl. Domain LoRA, §8.2)
