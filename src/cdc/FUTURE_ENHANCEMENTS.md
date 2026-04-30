@@ -573,3 +573,39 @@ References for the features described in this document. IEEE/ACM format, numbere
 
 [9] R. C. Richardson, *Microservices Patterns: With Examples in Java*. Shelter Island, NY: Manning Publications, 2018. ISBN: 978-1-617294549.
 *(Transactional outbox pattern (Chapter 3) and saga/event-driven design patterns directly applied in `OutboxWriter`/`OutboxRelay`.)*
+
+---
+
+## Kafka CDC Producer Activation (Target: v1.6.0)
+
+**Stub:** `src/cdc/kafka_cdc_producer.cpp` — `!THEMIS_ENABLE_KAFKA`: TU empty; no-op stub inline in `include/cdc/kafka_cdc_producer.h`; `publish()` silently no-ops  
+**Risk:** All CDC change events discarded; downstream Kafka consumers receive no real-time feeds; publish errors are masked (return without error).
+
+### Scope
+- Install librdkafka (`apt install librdkafka-dev` or equivalent).
+- Set `-DTHEMIS_ENABLE_KAFKA=1` in CMake.
+- The full librdkafka-backed implementation in `kafka_cdc_producer.cpp` will then be compiled.
+- Wire a Kafka broker address via `THEMIS_KAFKA_BOOTSTRAP_SERVERS` env var or config YAML.
+- Set `delivery_report_cb` to log/alert on delivery failures so they are no longer silent.
+
+### Design Constraints
+- `publish()` must be non-blocking; use librdkafka async producer (`RdKafka::Producer::produce()`).
+- Delivery failures must not crash the CDC pipeline; log WARN and increment `cdc_publish_errors` metric.
+- Support Debezium JSON envelope format (already implemented via `debezium_format.h`).
+
+### Required Interfaces
+- Kafka broker with topics pre-created: `themis.cdc.<collection>`.
+- Schema Registry (optional) for Avro serialization.
+
+### Test Strategy
+- Integration: start embedded Kafka (Testcontainers or embedded-kafka) → publish change event → consumer receives correct Debezium envelope within 1 s.
+- Negative: broker unreachable → `publish()` logs WARN; no crash; `cdc_publish_errors` counter incremented.
+- Exactly-once: enable idempotent producer (`enable.idempotence=true`) and verify no duplicates under producer retry.
+
+### Performance Targets
+- `publish()` async (fire-and-forget): ≤ 1 ms overhead per event on producer side.
+- End-to-end CDC latency (write → Kafka consumer receives): ≤ 100 ms p99 at 10k events/s.
+
+### Security / Reliability
+- Require TLS + SASL/SCRAM authentication for production brokers.
+- Enable SSL certificate pinning via `ssl.ca.location` config key.

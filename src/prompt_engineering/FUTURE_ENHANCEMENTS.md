@@ -318,3 +318,215 @@ The planned enhancements are grounded in the following peer-reviewed literature 
 [21] S. Ji et al., "Survey of Hallucination in Natural Language Generation," *ACM Computing Surveys*, vol. 55, no. 12, pp. 1–38, 2023. [DOI: 10.1145/3571730] Available: https://arxiv.org/abs/2202.03629
 
 [22] Golem.de, "Reflection Tuning bei KI: Selbstkritik bis hin zur Halluzination," *Golem.de*, March 2026. Available: https://www.golem.de/news/reflection-tuning-bei-ki-selbstkritik-bis-hin-zur-halluzination-2603-206734.html
+
+---
+
+### [ ] Multi-School Discourse-Level Prompt Coordination (Target: Q3 2026)
+**Priority:** High  
+**Target Version:** v2.3.0  
+**Status:** 🔲 Planned  
+**Reference:** Ethics AI paper §IV-B.7; `src/ethics_ai/discourse_engine.cpp`
+
+#### Scope
+
+The `DiscourseEngine` multi-round debate protocol (PRO → REBUTTAL → SYNTHESIS)
+requires *discourse-level* prompt construction: a REBUTTAL prompt for school
+`k` must embed the full prior-round PRO argument of the *opposing* schools so
+the LLM can produce a targeted, coherent counter-argument rather than a
+parallel monologue. This is the principal unsolved prompt engineering problem
+in the Ethics AI module (§IV-B.7).
+
+The PE subsystem is currently used for **single-argument** monocle construction
+(§III-G). This enhancement extends that use to **cross-round, cross-school
+prompt coordination** — a qualitatively different challenge requiring:
+
+- **Per-round context injection**: inject prior-round opponent arguments as
+  user-turn context without violating the `T_budget` token constraint.
+- **Dynamic prompt adaptation**: adapt the REBUTTAL vs. SYNTHESIS system
+  instruction using the same `SystemPromptManager` role infrastructure, but
+  with a discourse-role variable (`argument_type ∈ {PRO, REBUTTAL, SYNTHESIS}`).
+- **Budget-aware cross-round packing**: prior-round argument texts can exceed
+  the monocle budget when N > 3 schools are involved; `ContextWindowBudgetManager`
+  must rank and truncate opponent arguments by relevance to the current school's
+  thesis list.
+- **Injection-safe transcript embedding**: opponent argument texts retrieved
+  from `ArgumentStore` may contain injection patterns (e.g., a dilemma-player
+  crafting their own prompt as an adversarial argument). `PromptInjectionDetector`
+  must re-scan embedded prior-round texts.
+- **Discourse coherence tracking**: the DC metric (§IV-B.7) must be tracked
+  per school pair and per round in `PromptEngineeringMetrics` for observability.
+
+#### Design Constraints
+
+- The cross-round prompt assembly must stay within the same `T_budget` envelope
+  as single-round construction: `T_budget = 0.35 × context_window`. If
+  N−1 opponent arguments overflow the budget, truncate by relevance score
+  (cosine similarity of opponent argument to current school's main theses),
+  not by argument order.
+- The `DiscourseEngine` must remain oblivious to prompt construction details;
+  all prompt assembly must be encapsulated in a new
+  `DiscoursePromptCoordinator` class in `src/prompt_engineering/`.
+- `DiscoursePromptCoordinator` must be injectable into `DiscourseEngine` via
+  an `IDiscoursePromptCoordinator` interface to support unit testing with
+  mock implementations.
+- No new hard dependencies on LLM provider APIs; the coordinator delegates
+  to the existing `ILLMProvider` interface.
+
+#### Required Interfaces
+
+```cpp
+// New interface: src/prompt_engineering/discourse_prompt_coordinator.h
+class IDiscoursePromptCoordinator {
+public:
+    virtual ~IDiscoursePromptCoordinator() = default;
+
+    // Build a fully assembled, budget-validated prompt for one argument
+    // generation call.
+    // school:         the generating school's PhilosophyProfile
+    // dilemma:        sanitised dilemma text (post-PromptInjectionDetector)
+    // argument_type:  PRO | REBUTTAL | SYNTHESIS
+    // prior_args:     retrieved opponent arguments from ArgumentStore (may be empty)
+    // budget:         token budget for this call (from ContextWindowBudgetManager)
+    // Returns:        assembled prompt string ready for ILLMProvider::generate()
+    virtual std::string buildArgumentPrompt(
+        const PhilosophyProfile& school,
+        const std::string& dilemma,
+        ArgumentType argument_type,
+        const std::vector<EthicalArgument>& prior_args,
+        size_t budget) = 0;
+
+    // Track DC metric contribution after a REBUTTAL argument is generated.
+    // Implemented via PromptEngineeringMetrics::recordDiscourseCoherence().
+    virtual void recordCoherence(
+        const std::string& school_id,
+        int round,
+        double dc_score) noexcept = 0;
+};
+```
+
+The concrete `DiscoursePromptCoordinator` implementation:
+
+| Step | PE Component Used | Notes |
+|---|---|---|
+| 1. Sanitise dilemma | `PromptInjectionDetector::sanitize()` | Applied before every call, including REBUTTAL (re-scan prior-round texts) |
+| 2. Build system instruction | `SystemPromptManager::buildSystemPrompt()` | Role: `Persona`; variables: `philosopher_name`, `argument_type`, `core_commitments` |
+| 3. Pack prior-round context | `RAGPromptBuilder::addChunk()` + `ContextWindowBudgetManager::allocate()` | Chunks = opponent arguments, scored by cosine similarity to school theses |
+| 4. Add school thesis enumeration | `ChainOfThoughtBuilder::addStep()` | One step per `thesis_id` in `main_theses` |
+| 5. Append PRINCIPLE CITATION instruction | `PromptTemplateCompiler::render()` | `citation_instruction` slot filled from `output_format` template |
+| 6. Validate total budget | `ContextWindowBudgetManager::fits()` | Throws `PromptBudgetExceededError` if mandatory fields overflow |
+| 7. Track allocation | `PromptEngineeringMetrics::recordTokenAllocation()` | Per-school, per-round utilisation |
+
+#### Implementation Notes
+
+- **Prior-round relevance scoring**: score each opponent argument against the
+  current school's `main_theses` concatenation using
+  `PromptEvaluator::computeJaccard()` as a fast lexical proxy (the ONNX
+  sentence-transformer is Q3 2026; see E9 in the paper). Pack highest-scored
+  opponent arguments first until `T_budget` is exhausted.
+- **SYNTHESIS prompt variant**: for `ArgumentType::SYNTHESIS`, inject *all*
+  schools' round-2 REBUTTAL arguments (not just opponents') and add a
+  synthesis instruction template: find common ground between the listed
+  positions. Budget pressure is highest in SYNTHESIS; apply a 0.25 ×
+  `context_window` sub-budget for prior-round context (vs. 0.35 × for PRO/REBUTTAL).
+- **Re-injection detection**: `PromptInjectionDetector::detect()` must be
+  called on each `opponent_argument.content` string retrieved from
+  `ArgumentStore`. Detected injections are sanitised; the sanitised version
+  is embedded. A sanitisation event is logged via `PromptEngineeringMetrics`
+  for operator review.
+- **DC metric integration**: after the LLM returns a REBUTTAL argument, the
+  coordinator computes a fast DC proxy: check if any sentence of the response
+  shares ≥ 3 content tokens (stop-word filtered) with any sentence of the
+  referenced opponent arguments. This is a recall-based DC approximation;
+  the NLI cross-encoder DC (§IV-B.7) is computed in the background analytics
+  pipeline, not on the hot path.
+- **ReflectionTuner integration** (`REFLEXION` strategy): after each REBUTTAL
+  generation, the coordinator stores the `(prior_argument, rebuttal, dc_score)`
+  triple in `ReflectionTuner`'s episodic buffer. On the next call for the same
+  school × dilemma-type combination, the episodic feedback is prepended to the
+  critique prompt, enabling the school's argument generator to improve
+  across debate instances — exactly the Reflexion verbal reinforcement
+  learning loop.
+
+#### Test Strategy
+
+| Test ID | Description | Acceptance Criterion |
+|---|---|---|
+| MSD-01 | PRO prompt fits T_budget for 5-school debate | `ContextWindowBudgetManager` reports `fits() == true` |
+| MSD-02 | REBUTTAL embeds top-2 opponent args by relevance | Verify packed chunks match highest-scored opponent args |
+| MSD-03 | SYNTHESIS uses 0.25× budget for prior-round context | Budget allocation split verified via metrics |
+| MSD-04 | Injection in opponent arg is sanitised before embedding | `PromptInjectionDetector::detect()` called per opponent arg |
+| MSD-05 | DC proxy > 0 for REBUTTAL that references opponent thesis | Token overlap check returns ≥ 1 matching sentence |
+| MSD-06 | DC proxy == 0 for template-only REBUTTAL (no prior args) | Template path returns 0 shared tokens |
+| MSD-07 | `PromptBudgetExceededError` thrown when mandatory fields exceed budget | Mandatory-field overflow causes exception |
+| MSD-08 | `IDiscoursePromptCoordinator` mock injected into `DiscourseEngine` | Unit test for `DiscourseEngine` runs without real PE components |
+| MSD-09 | `ReflectionTuner::REFLEXION` episodic buffer populated after REBUTTAL | Triple stored and retrievable |
+| MSD-10 | Metrics record per-school, per-round token allocation | `recordTokenAllocation()` called N_schools × N_rounds times |
+
+#### Performance Targets
+
+| Metric | Target | Notes |
+|---|---|---|
+| `buildArgumentPrompt()` P99 (no LLM) | ≤ 3 ms | Includes sanitise + pack + validate |
+| Opponent arg relevance ranking (N=5) | ≤ 1 ms | Jaccard proxy; ONNX upgrade Q3 2026 |
+| DC proxy computation per REBUTTAL | ≤ 0.5 ms | Token-overlap check on ≤ 5 opponent sentences |
+| ReflectionTuner episodic buffer write | ≤ 0.1 ms | In-memory circular buffer, no I/O |
+
+#### Security / Reliability
+
+- Opponent argument texts are untrusted inputs (authored by other LLM calls or
+  potentially adversarial players). Re-scanning with `PromptInjectionDetector`
+  before embedding is mandatory; skipping this step is a security defect.
+- The `DiscoursePromptCoordinator` must never embed raw user-provided text
+  (e.g., the original dilemma submitted via the API) without first passing
+  through `PromptInjectionDetector::sanitize()`.
+- SYNTHESIS prompts that aggregate all schools' arguments create the highest
+  prompt injection surface of any ThemisDB LLM call; apply a stricter
+  `max_score_threshold` in `PromptInjectionDetector` for SYNTHESIS-role calls
+  (recommended: 0.4 vs. 0.5 default).
+
+---
+
+## gRPC Service for Prompt Engineering (Target: v1.7.0)  
+**Risk:** gRPC clients cannot access any prompt-engineering functionality. All calls receive UNIMPLEMENTED status.
+
+### Scope
+- Define `proto/prompt_engineering.proto` with RPC methods mirroring the REST
+  API (PromptCreate, PromptGet, PromptOptimize, FeedbackSubmit, VersionList).
+- Run `protoc` to generate `prompt_engineering.grpc.pb.h` / `.cc`.
+- Implement the full gRPC handler in `src/server/prompt_engineering_grpc_service_impl.cpp`
+  delegating to `PromptManager`, `PromptOptimizer`, `FeedbackCollector`, etc.
+- Set `THEMIS_HAS_PROMPT_GRPC=1` in `CMakeLists.txt` once the generated stubs are available.
+- Register the service with the gRPC server in `main_server.cpp`.
+
+### Required Interfaces
+- `PromptManager::create()`, `get()`, `list()`
+- `PromptOptimizer::optimize()` (async — returns a job ID)
+- `FeedbackCollector::submit()`
+- `PromptVersionControl::listVersions()`, `checkout()`
+
+### Design Constraints
+- All methods require authenticated callers (JWT/mTLS token validation).
+- `optimize()` must be non-blocking: accept the request, return a job ID, and
+  report progress via a server-streaming RPC `WatchOptimization(job_id)`.
+- gRPC responses must be idempotent (safe to retry on transient network errors).
+
+### Test Strategy
+- Unit: mock `PromptManager`; assert gRPC handler routes to correct method.
+- Integration: gRPC client calls `PromptCreate` → verify record in DB.
+- Regression: REST endpoints (HTTP/1.1) continue to work unchanged.
+
+### Performance Targets
+- `PromptGet` p99 latency (1-hop DB read): ≤ 5 ms.
+- `PromptOptimize` enqueue latency: ≤ 10 ms (async, no optimization work on hot path).
+
+---
+
+## Scientific References — Multi-School Discourse Prompt Coordination
+
+[23] N. Shinn et al., "Reflexion: Language Agents with Verbal Reinforcement Learning," in *Proc. NeurIPS*, vol. 36, 2023. Available: https://arxiv.org/abs/2303.11366
+
+[24] D. Du et al., "Improving Factuality and Reasoning in Language Models through Multiagent Debate," in *Proc. ICML 2024*, 2024. Available: https://arxiv.org/abs/2305.14325
+
+[25] S. Yao et al., "ReAct: Synergizing Reasoning and Acting in Language Models," in *Proc. ICLR 2023*, 2023. Available: https://arxiv.org/abs/2210.03629
+
+[26] C. Chan et al., "ChatEval: Towards Better LLM-based Evaluators through Multi-Agent Debate," *arXiv preprint arXiv:2308.07201*, 2023. Available: https://arxiv.org/abs/2308.07201

@@ -867,30 +867,30 @@ bool MLModelManager::shutdownInstance(const std::string& instance_id) {
     return false;
 }
 
-MLModelInstance* MLModelManager::selectInstance(const std::string& model_id) {
-    std::lock_guard<std::mutex> lock(models_mutex_);
-    
-    auto it = models_.find(model_id);
-    if (it == models_.end() || it->second->instances.empty()) {
-        return nullptr;
-    }
-    
-    auto& entry = it->second;
-    
-    // Simple round-robin selection
-    // TODO: Implement more sophisticated load balancing strategies
+MLModelInstance* MLModelManager::selectLeastBusy_(const ModelEntry& entry) const noexcept {
     MLModelInstance* selected = nullptr;
     size_t min_active = SIZE_MAX;
-    
-    for (auto& inst : entry->instances) {
-        if (inst->status == MLModelStatus::DEPLOYED && 
+    for (const auto& inst : entry.instances) {
+        if (inst->status == MLModelStatus::DEPLOYED &&
             inst->active_requests < min_active) {
             selected = inst.get();
             min_active = inst->active_requests;
         }
     }
-    
     return selected;
+    // Future enhancement: replace with Weighted-Round-Robin or P2C (Power-of-Two-Choices)
+    // once per-instance capacity weights are available (FUTURE_ENHANCEMENTS.md §"Load Balancing").
+}
+
+MLModelInstance* MLModelManager::selectInstance(const std::string& model_id) {
+    std::lock_guard<std::mutex> lock(models_mutex_);
+
+    auto it = models_.find(model_id);
+    if (it == models_.end() || it->second->instances.empty()) {
+        return nullptr;
+    }
+
+    return selectLeastBusy_(*it->second);
 }
 
 void MLModelManager::updateInstanceMetrics(

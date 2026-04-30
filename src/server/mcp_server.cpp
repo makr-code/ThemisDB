@@ -26,18 +26,24 @@
 #include "index/secondary_index.h"
 #include "query/query_engine.h"
 #include "query/aql_runner.h"
+#include "query/aql_safety_validator.h"
 #include "query/cypher_parser.h"
 #include "index/graph_index.h"
 #include "llm/embedded_llm.h"
 #include "prompt_engineering/prompt_manager.h"
+#include "security/ai_operation_guard.h"
 #include "utils/error_registry.h"
 #include "utils/string_utils.h"
 #include "config/config_path_resolver.h"
+#include "security/ai_snapshot_cleanup.h"
+#include "utils/audit_logger.h"
 #include "version.h"
 #ifdef THEMIS_ENABLE_LLM
 #include "llm/ai_orchestrator.h"
 #endif
+#include <yaml-cpp/yaml.h>
 #include <spdlog/spdlog.h>
+#include <filesystem>
 #include <iostream>
 #include <thread>
 #include <chrono>
@@ -67,6 +73,173 @@ McpServer::McpServer(asio::io_context& io_context, const Config& config)
     : io_context_(io_context), config_(config) {
     spdlog::info("MCP Server initializing with transports: stdio={}, sse={}, websocket={}",
                  config_.enable_stdio, config_.enable_sse, config_.enable_websocket);
+
+    // AI Safety Layer — Schichten 1 & 2: Initialise Destructive Operation Guard.
+    // Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+    // Roadmap: src/security/ROADMAP.md § Phase 2 (ASL-4)
+    themis::security::AiOperationGuard::Config guard_cfg;
+    guard_cfg.enabled                = true;
+    guard_cfg.approval_threshold     = themis::security::OperationClass::DESTRUCTIVE;
+    guard_cfg.approval_timeout_s     = 60;
+    guard_cfg.auto_snapshot          = true;
+    guard_cfg.snapshot_dir           = "/var/themis/ai-snapshots";
+    guard_cfg.environment            = "development";  // Override via attachConfig()
+    guard_cfg.block_critical_in_prod = true;
+    operation_guard_ = std::make_unique<themis::security::AiOperationGuard>(std::move(guard_cfg));
+    spdlog::info("MCP AI Safety Guard initialised (DOG+HILG, threshold=DESTRUCTIVE)");
+
+    // ASL-9: Load security.yaml to override guard config with deployment settings.
+    // Docs: src/security/ROADMAP.md § Phase 3 (ASL-9)
+    try {
+        std::string yaml_path;
+        if (auto resolved = themis::config::ConfigPathResolver::tryResolve("config/security.yaml")) {
+            yaml_path = *resolved;
+        } else {
+            yaml_path = "config/security.yaml";
+        }
+
+        const YAML::Node root = YAML::LoadFile(yaml_path);
+
+        themis::security::AiOperationGuard::Config new_cfg = operation_guard_->config();
+
+        if (const auto& env = root["environment"]) {
+            if (env["name"]) {
+                new_cfg.environment = env["name"].as<std::string>(new_cfg.environment);
+            }
+            if (const auto& restrictions = env["ai_agent_restrictions"]) {
+                if (restrictions["block_destructive"]) {
+                    new_cfg.block_critical_in_prod = restrictions["block_destructive"].as<bool>(
+                        new_cfg.block_critical_in_prod);
+                }
+                if (restrictions["denied_collections"]) {
+                    new_cfg.denied_collections.clear();
+                    for (const auto& c : restrictions["denied_collections"]) {
+                        new_cfg.denied_collections.push_back(c.as<std::string>());
+                    }
+                }
+                if (restrictions["allowed_collections"]) {
+                    new_cfg.allowed_collections.clear();
+                    for (const auto& c : restrictions["allowed_collections"]) {
+                        new_cfg.allowed_collections.push_back(c.as<std::string>());
+                    }
+                }
+                if (restrictions["require_role_for_critical"]) {
+                    new_cfg.critical_ops_role = restrictions["require_role_for_critical"].as<std::string>(
+                        new_cfg.critical_ops_role);
+                }
+            }
+        }
+
+        if (const auto& ai_safety = root["ai_safety"]) {
+            if (const auto& snapshot = ai_safety["snapshot"]) {
+                if (snapshot["dir"]) {
+                    new_cfg.snapshot_dir = snapshot["dir"].as<std::string>(new_cfg.snapshot_dir);
+                }
+                if (snapshot["retention_days"]) {
+                    snapshot_retention_days_ = snapshot["retention_days"].as<int>(snapshot_retention_days_);
+                }
+                if (snapshot["max_total_size_gb"]) {
+                    snapshot_max_total_gb_ = snapshot["max_total_size_gb"].as<int>(snapshot_max_total_gb_);
+                }
+            }
+        }
+
+        operation_guard_ = std::make_unique<themis::security::AiOperationGuard>(std::move(new_cfg));
+        spdlog::info("MCP AI Safety Guard: config loaded from '{}' (env='{}', snapshot_dir='{}')",
+                     yaml_path, operation_guard_->config().environment,
+                     operation_guard_->config().snapshot_dir);
+    } catch (const std::exception& ex) {
+        spdlog::warn("MCP AI Safety Guard: could not load security.yaml ({}), using defaults", ex.what());
+    }
+
+    // ASL-7: Load the 'agentic' mode safety: block from the Mode-YAML spec.
+    // Overrides guard config fields (enabled, approval_threshold, approval_timeout_s,
+    // auto_snapshot, snapshot_dir, dry_run_preview) with values from the agentic mode.
+    // Falls back silently to the defaults already set by the security.yaml (ASL-9) load above.
+    // Docs:    src/security/ROADMAP.md § Phase 2 (ASL-7)
+    // Config:  config/ai_ml/llm/modes/default.yaml → modes[id=agentic].safety
+    try {
+        std::string mode_yaml_path;
+        const std::string kModeYamlKey = "config/ai_ml/llm/modes/default.yaml";
+        if (auto resolved = themis::config::ConfigPathResolver::tryResolve(kModeYamlKey)) {
+            mode_yaml_path = *resolved;
+        } else {
+            mode_yaml_path = kModeYamlKey;
+        }
+
+        const YAML::Node mode_root = YAML::LoadFile(mode_yaml_path);
+        const auto& modes_node = mode_root["modes"];
+        if (modes_node && modes_node.IsSequence()) {
+            themis::security::AiOperationGuard::Config mode_cfg = operation_guard_->config();
+            bool applied = false;
+            for (const auto& mode : modes_node) {
+                const auto& id_node = mode["id"];
+                if (!id_node || id_node.as<std::string>() != "agentic") continue;
+                const auto& safety = mode["safety"];
+                if (!safety || !safety.IsMap()) break;
+
+                if (safety["enabled"]) {
+                    mode_cfg.enabled = safety["enabled"].as<bool>(mode_cfg.enabled);
+                }
+                if (safety["approval_timeout_s"]) {
+                    mode_cfg.approval_timeout_s =
+                        safety["approval_timeout_s"].as<int>(mode_cfg.approval_timeout_s);
+                }
+                if (safety["auto_snapshot"]) {
+                    mode_cfg.auto_snapshot =
+                        safety["auto_snapshot"].as<bool>(mode_cfg.auto_snapshot);
+                }
+                if (safety["snapshot_dir"]) {
+                    mode_cfg.snapshot_dir =
+                        safety["snapshot_dir"].as<std::string>(mode_cfg.snapshot_dir);
+                }
+                if (safety["dry_run_preview"]) {
+                    mode_cfg.dry_run_preview =
+                        safety["dry_run_preview"].as<bool>(mode_cfg.dry_run_preview);
+                }
+                // require_approval_for: [DESTRUCTIVE, CRITICAL]
+                // → approval_threshold = lowest class in the list
+                if (safety["require_approval_for"] &&
+                    safety["require_approval_for"].IsSequence()) {
+                    themis::security::OperationClass min_threshold =
+                        themis::security::OperationClass::CRITICAL;
+                    for (const auto& cls : safety["require_approval_for"]) {
+                        const std::string cls_name = cls.as<std::string>();
+                        if (cls_name == "WRITE_SAFE") {
+                            min_threshold = themis::security::OperationClass::WRITE_SAFE;
+                            break;
+                        }
+                        if (cls_name == "DESTRUCTIVE") {
+                            // DESTRUCTIVE < CRITICAL, keep searching for lower
+                            min_threshold = themis::security::OperationClass::DESTRUCTIVE;
+                        }
+                    }
+                    mode_cfg.approval_threshold = min_threshold;
+                }
+
+                applied = true;
+                break;
+            }
+            if (applied) {
+                operation_guard_ =
+                    std::make_unique<themis::security::AiOperationGuard>(std::move(mode_cfg));
+                spdlog::info(
+                    "MCP ASL-7: agentic mode safety config applied from '{}' "
+                    "(threshold={}, timeout={}s, auto_snapshot={}, dry_run_preview={})",
+                    mode_yaml_path,
+                    themis::security::operationClassName(operation_guard_->config().approval_threshold),
+                    operation_guard_->config().approval_timeout_s,
+                    operation_guard_->config().auto_snapshot,
+                    operation_guard_->config().dry_run_preview);
+            } else {
+                spdlog::debug(
+                    "MCP ASL-7: no 'agentic' mode with safety: block in '{}', "
+                    "guard config unchanged", mode_yaml_path);
+            }
+        }
+    } catch (const std::exception& ex) {
+        spdlog::warn("MCP ASL-7: could not load mode YAML ({}), guard config unchanged", ex.what());
+    }
 }
 
 McpServer::~McpServer() {
@@ -176,6 +349,33 @@ void McpServer::attachDatabase(std::shared_ptr<RocksDBWrapper> db) {
     } else {
         spdlog::info("MCP Server attached to RocksDB database (not open yet)");
     }
+}
+
+// ============================================================================
+// ASL-12: AI Session Audit Trail — setAuditLogger + logAiEvent
+// Docs: docs/de/security/ai_safety/AI_SAFETY_AUDIT_TRAIL.md
+// Roadmap: src/security/ROADMAP.md § Phase 4 (ASL-12)
+// ============================================================================
+
+void McpServer::setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> logger) {
+    audit_logger_ = std::move(logger);
+}
+
+void McpServer::logAiEvent(
+    themis::utils::SecurityEventType type,
+    const std::string&               tool_name,
+    const std::string&               ai_session_id,
+    const nlohmann::json&            details
+) {
+    if (!audit_logger_) [[unlikely]] {
+        return;
+    }
+    audit_logger_->logSecurityEvent(
+        type,
+        ai_session_id,
+        "mcp://" + tool_name,
+        details
+    );
 }
 
 // ============================================================================
@@ -495,7 +695,9 @@ void McpServer::registerDefaultTools() {
         {
             {"type", "object"},
             {"properties", {
-                {"key", {{"type", "string"}}}
+                {"key", {{"type", "string"}}},
+                {"dry_run", {{"type", "boolean"}, {"default", false},
+                             {"description", "AI Safety: preview the delete without executing it (Phase 1 guard)"}}}
             }},
             {"required", {"key"}}
         },
@@ -531,7 +733,9 @@ void McpServer::registerDefaultTools() {
             {"properties", {
                 {"table", {{"type", "string"}, {"description", "Table/collection name"}}},
                 {"column", {{"type", "string"}, {"description", "Column/property name"}}},
-                {"type", {{"type", "string"}, {"enum", {"regular", "range", "sparse", "geo", "fulltext", "ttl"}}, {"default", "regular"}, {"description", "Index type"}}}
+                {"type", {{"type", "string"}, {"enum", {"regular", "range", "sparse", "geo", "fulltext", "ttl"}}, {"default", "regular"}, {"description", "Index type"}}},
+                {"dry_run", {{"type", "boolean"}, {"default", false},
+                             {"description", "AI Safety: preview the drop without executing it (Phase 1 guard)"}}}
             }},
             {"required", {"table", "column"}}
         },
@@ -543,6 +747,12 @@ void McpServer::registerDefaultTools() {
             {"properties", {}}
         },
         [this](const json& args) { return toolListIndexes(args); });
+
+    // ASL-11: AI snapshot cleanup tool
+    registerTool("ai_cleanup_snapshots",
+        "Delete expired AI pre-operation snapshots (retention policy enforcement)",
+        json::object(),
+        [this](const json& args) { return toolAiCleanupSnapshots(args); });
 
     // ========================================================================
     // LLM Tools (NEW)
@@ -654,6 +864,10 @@ void McpServer::registerDefaultTools() {
 json McpServer::toolQuery(const json& args) {
     std::string query = args["query"];
     std::string language = args.value("language", "aql");
+    // AI Safety Layer (Schicht 3): enforce_read_only flag carried in args
+    // when this tool is called from the `agentic` mode with aql_execute.
+    // The flag is set by the MCP tool spec (enforce_read_only: true in YAML).
+    const bool enforce_read_only = args.value("enforce_read_only", false);
     
     spdlog::info("MCP Tool 'query' called: {} ({})", query, language);
     
@@ -697,7 +911,39 @@ json McpServer::toolQuery(const json& args) {
                     {"language", language}
                 };
             }
-            
+
+            // AI Safety Layer — Schicht 3: AQL Read-Only Enforcer (ASL-3)
+            // Activated when enforce_read_only=true is carried in the tool args
+            // (set by the `aql_execute` MCP tool spec in the agentic LLM mode).
+            // Docs: docs/de/security/ai_safety/AI_SAFETY_AQL_VALIDATOR.md
+            if (enforce_read_only) {
+                themis::query::AqlSafetyValidator aql_validator;
+                auto violation = aql_validator.validate(query);
+                if (violation.has_value()) {
+                    spdlog::warn("AI Safety Layer (ASL-3): AQL read-only violation "
+                                 "blocked: keyword='{}' pos={} query='{}'",
+                                 violation->keyword, violation->position, query);
+                    return {
+                        {"status", "error"},
+                        {"error_code", "AQL_READ_ONLY_VIOLATION"},
+                        {"message", violation->message},
+                        {"query", query},
+                        {"language", language},
+                        {"blocked_by", "AqlSafetyValidator"},
+                        {"violation_keyword", violation->keyword},
+                        {"violation_position", violation->position}
+                    };
+                }
+            }
+
+            // AI Safety Layer — Schichten 1 & 2: DOG + HILG (ASL-4/5)
+            // For AQL write/delete operations: require approval before execution.
+            if (const auto guard_resp = checkOperationGuard(
+                    "query", args,
+                    /*ai_session_id=*/"", /*caller_role=*/"")) {
+                return *guard_resp;
+            }
+
             // Execute AQL query
             auto result = executeAql(query, *query_engine_);
             
@@ -914,14 +1160,38 @@ json McpServer::toolGetEntity(const json& args) {
 
 json McpServer::toolDeleteEntity(const json& args) {
     std::string key = args["key"];
-    
-    spdlog::info("MCP Tool 'delete_entity' called: key={}", key);
-    
+    // AI Safety Layer (Phase 1): dry_run flag — preview the operation without
+    // executing it. Phase 2 will replace this with the full HILG Approval-Flow.
+    const bool dry_run = args.value("dry_run", false);
+
+    spdlog::info("MCP Tool 'delete_entity' called: key={} dry_run={}", key, dry_run);
+
     if (!db_) {
         return {
             {"status", "error"},
             {"message", "Database not attached"},
             {"key", key}
+        };
+    }
+
+    // AI Safety Layer — Schichten 1 & 2: DOG + HILG (ASL-4/5)
+    // Guard intercept for DESTRUCTIVE operations.
+    if (const auto guard_resp = checkOperationGuard(
+            "delete_entity", args,
+            /*ai_session_id=*/"", /*caller_role=*/"")) {
+        return *guard_resp;
+    }
+
+    // Dry-run mode: return a preview without touching the database.
+    if (dry_run) {
+        spdlog::info("AI Safety dry_run: delete_entity key={} — preview only", key);
+        return {
+            {"status", "dry_run"},
+            {"message", "Dry-run preview: entity would be deleted (not executed)"},
+            {"key", key},
+            {"dry_run", true},
+            {"classification", "DESTRUCTIVE"},
+            {"note", "Submit with dry_run=false after human approval to execute."}
         };
     }
 
@@ -1071,6 +1341,9 @@ json McpServer::toolDropIndex(const json& args) {
     std::string table = args.value("table", "");
     std::string column = args.value("column", "");
     std::string index_type = args.value("type", "regular");
+    // AI Safety Layer (Phase 1): dry_run flag — preview the drop without
+    // executing it. Phase 2 will replace this with the full HILG Approval-Flow.
+    const bool dry_run = args.value("dry_run", false);
     
     if (table.empty() || column.empty()) {
         return {
@@ -1078,7 +1351,31 @@ json McpServer::toolDropIndex(const json& args) {
             {"message", "Missing required parameters: table and column"}
         };
     }
-    
+
+    // AI Safety Layer — Schichten 1 & 2: DOG + HILG (ASL-4/5)
+    if (const auto guard_resp = checkOperationGuard(
+            "drop_index", args,
+            /*ai_session_id=*/"", /*caller_role=*/"")) {
+        return *guard_resp;
+    }
+
+    // Dry-run mode: return a preview without dropping the index.
+    if (dry_run) {
+        spdlog::info("AI Safety dry_run: drop_index {}.{} ({}) — preview only",
+                     table, column, index_type);
+        return {
+            {"status", "dry_run"},
+            {"message", fmt::format("Dry-run preview: index {}.{} ({}) would be dropped (not executed)",
+                                    table, column, index_type)},
+            {"table", table},
+            {"column", column},
+            {"index_type", index_type},
+            {"dry_run", true},
+            {"classification", "DESTRUCTIVE"},
+            {"note", "Submit with dry_run=false after human approval to execute."}
+        };
+    }
+
     try {
         SecondaryIndexManager::Status status;
         
@@ -1999,6 +2296,365 @@ json McpServer::createSuccessResponse(const json& result) {
 }
 
 // ============================================================================
+// AI Safety Layer — HILG: Approval Pipeline (ASL-4..6)
+// Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+// Roadmap: src/security/ROADMAP.md § Phase 2
+// ============================================================================
+
+std::optional<json> McpServer::checkOperationGuard(
+    const std::string& tool_name,
+    const json&        args,
+    const std::string& ai_session_id,
+    const std::string& caller_role
+) {
+    if (!operation_guard_) {
+        return std::nullopt;  // Guard not initialised — pass through
+    }
+
+    const auto decision = operation_guard_->evaluate(
+        tool_name, args, ai_session_id, caller_role);
+
+    // Hard block: return immediately without storing in queue
+    if (!decision.block_reason.empty()) {
+        spdlog::warn("AI Safety DOG: HARD BLOCK tool='{}' reason='{}'",
+                     tool_name, decision.block_reason);
+        logAiEvent(themis::utils::SecurityEventType::AI_OPERATION_DENIED,
+                   tool_name, ai_session_id,
+                   {{"reason", decision.block_reason}, {"op_class", themis::security::operationClassName(decision.op_class)}});
+        return operation_guard_->buildBlockedResponse(decision);
+    }
+
+    // READ_ONLY / WRITE_SAFE: no interception needed
+    if (!decision.requires_approval) {
+        logAiEvent(themis::utils::SecurityEventType::AI_TOOL_CALL,
+                   tool_name, ai_session_id,
+                   {{"op_class", themis::security::operationClassName(decision.op_class)}});
+        return std::nullopt;
+    }
+
+    // DESTRUCTIVE / CRITICAL: enter HILG queue
+    spdlog::warn("AI Safety HILG: requires_approval tool='{}' class='{}' op_id='{}'",
+                 tool_name,
+                 themis::security::operationClassName(decision.op_class),
+                 decision.operation_id);
+
+    // Build the approval response before locking
+    const json approval_resp = operation_guard_->buildRequiresApprovalResponse(decision);
+
+    {
+        std::lock_guard<std::mutex> lock(pending_approvals_mutex_);
+
+        // Purge stale entries to keep the map bounded
+        purgeExpiredApprovals();
+
+        PendingApproval pa;
+        pa.operation_id      = decision.operation_id;
+        pa.ai_session_id     = ai_session_id;
+        pa.tool_name         = tool_name;
+        pa.operation_args    = args;
+        pa.classification    =
+            themis::security::operationClassName(decision.op_class);
+        pa.approval_response = approval_resp;
+        pa.created_at        = std::chrono::system_clock::now();
+        pa.expires_at        = pa.created_at +
+            std::chrono::seconds(operation_guard_->config().approval_timeout_s);
+        pa.is_executed       = false;
+
+        pending_approvals_.emplace(decision.operation_id, std::move(pa));
+    }
+
+    logAiEvent(themis::utils::SecurityEventType::AI_APPROVAL_REQUIRED,
+               tool_name, ai_session_id,
+               {{"operation_id", decision.operation_id},
+                {"op_class", themis::security::operationClassName(decision.op_class)}});
+
+    return approval_resp;
+}
+
+json McpServer::handleAiApprove(const std::string& operation_id) {
+    std::lock_guard<std::mutex> lock(pending_approvals_mutex_);
+    purgeExpiredApprovals();
+
+    auto it = pending_approvals_.find(operation_id);
+    if (it == pending_approvals_.end()) {
+        return {
+            {"status",  "error"},
+            {"error_code", "OPERATION_NOT_FOUND"},
+            {"message", fmt::format(
+                "Operation '{}' not found. It may have expired or already been executed.",
+                operation_id)}
+        };
+    }
+
+    if (it->second.is_executed) {
+        return {
+            {"status",  "error"},
+            {"error_code", "ALREADY_EXECUTED"},
+            {"message", fmt::format("Operation '{}' was already executed.", operation_id)}
+        };
+    }
+
+    // Retrieve cached operation details
+    const std::string tool   = it->second.tool_name;
+    const json        op_args = it->second.operation_args;
+    it->second.is_executed = true;
+
+    spdlog::info("AI Safety HILG: APPROVED tool='{}' op_id='{}'", tool, operation_id);
+
+    // ASL-8: Pre-operation snapshot for DESTRUCTIVE/CRITICAL operations.
+    // Docs: src/security/ROADMAP.md § Phase 3 (ASL-8)
+    std::string pre_snapshot_path;
+    const bool needs_snapshot = db_ && operation_guard_ &&
+        (it->second.classification == "DESTRUCTIVE" || it->second.classification == "CRITICAL");
+    if (needs_snapshot) {
+        pre_snapshot_path = operation_guard_->config().snapshot_dir +
+                            "/" + operation_id + "_pre_op";
+        try {
+            if (db_->createCheckpoint(pre_snapshot_path)) {
+                it->second.pre_snapshot_path = pre_snapshot_path;
+                spdlog::info("AI Safety ASL-8: pre-op snapshot created at '{}' for op_id='{}'",
+                             pre_snapshot_path, operation_id);
+                logAiEvent(themis::utils::SecurityEventType::AI_SNAPSHOT_CREATED,
+                           tool, it->second.ai_session_id,
+                           {{"operation_id", operation_id}, {"snapshot_path", pre_snapshot_path}});
+            } else {
+                pre_snapshot_path.clear();
+                spdlog::warn("AI Safety ASL-8: createCheckpoint returned false for op_id='{}'",
+                             operation_id);
+            }
+        } catch (const std::exception& ex) {
+            pre_snapshot_path.clear();
+            spdlog::error("AI Safety ASL-8: snapshot failed for op_id='{}': {}", operation_id, ex.what());
+        }
+    }
+
+    // Execute the originally queued operation by re-dispatching through the
+    // normal tool handlers (with enforce_read_only=false, dry_run=false).
+    json mutable_args = op_args;
+    mutable_args["dry_run"]         = false;
+    mutable_args["enforce_read_only"] = false;
+
+    json exec_result;
+    try {
+        const auto tool_it = tools_.find(tool);
+        if (tool_it == tools_.end()) {
+            exec_result = {{"status","error"},{"message","Tool not found after approval"}};
+        } else {
+            exec_result = tool_it->second.handler(mutable_args);
+        }
+    } catch (const std::exception& e) {
+        exec_result = {{"status","error"},{"message", std::string("Execution failed: ") + e.what()}};
+    }
+
+    // Remove from pending map
+    const std::string approved_session = it->second.ai_session_id;
+    pending_approvals_.erase(it);
+
+    logAiEvent(themis::utils::SecurityEventType::AI_OPERATION_EXECUTED,
+               tool, approved_session,
+               {{"operation_id", operation_id}, {"pre_snapshot", pre_snapshot_path}});
+
+    return {
+        {"status",                  "executed"},
+        {"operation_id",            operation_id},
+        {"approved_by",             "(http-approval-endpoint)"},
+        {"pre_operation_snapshot",  pre_snapshot_path},
+        {"result",                  exec_result}
+    };
+}
+
+json McpServer::handleAiDeny(const std::string& operation_id) {
+    std::lock_guard<std::mutex> lock(pending_approvals_mutex_);
+
+    auto it = pending_approvals_.find(operation_id);
+    if (it == pending_approvals_.end()) {
+        return {
+            {"status",     "error"},
+            {"error_code", "OPERATION_NOT_FOUND"},
+            {"message",    fmt::format("Operation '{}' not found.", operation_id)}
+        };
+    }
+
+    spdlog::info("AI Safety HILG: DENIED tool='{}' op_id='{}'",
+                 it->second.tool_name, operation_id);
+    const std::string denied_tool    = it->second.tool_name;
+    const std::string denied_session = it->second.ai_session_id;
+    pending_approvals_.erase(it);
+
+    logAiEvent(themis::utils::SecurityEventType::AI_OPERATION_DENIED,
+               denied_tool, denied_session,
+               {{"operation_id", operation_id}});
+
+    return {
+        {"status",       "denied"},
+        {"operation_id", operation_id},
+        {"message",      "Operation was denied by operator."}
+    };
+}
+
+json McpServer::handleAiPendingApprovals() {
+    std::lock_guard<std::mutex> lock(pending_approvals_mutex_);
+    purgeExpiredApprovals();
+
+    json list = json::array();
+    for (const auto& [op_id, pa] : pending_approvals_) {
+        if (!pa.is_executed) {
+            list.push_back({
+                {"operation_id",  pa.operation_id},
+                {"tool_name",     pa.tool_name},
+                {"classification",pa.classification},
+                {"ai_session_id", pa.ai_session_id},
+                {"created_at",    pa.approval_response.value("expires_at", "")},
+                {"expires_at",    pa.approval_response.value("expires_at", "")},
+                {"approve_url",   fmt::format("/v1/ai/approve/{}", pa.operation_id)},
+                {"deny_url",      fmt::format("/v1/ai/deny/{}", pa.operation_id)}
+            });
+        }
+    }
+
+    return {
+        {"status",  "success"},
+        {"count",   list.size()},
+        {"pending", list}
+    };
+}
+
+void McpServer::purgeExpiredApprovals() {
+    // Caller holds pending_approvals_mutex_.
+    const auto now = std::chrono::system_clock::now();
+    for (auto it = pending_approvals_.begin(); it != pending_approvals_.end(); ) {
+        if (now >= it->second.expires_at) {
+            spdlog::debug("AI Safety HILG: expired op_id='{}' tool='{}'",
+                          it->second.operation_id, it->second.tool_name);
+            logAiEvent(themis::utils::SecurityEventType::AI_OPERATION_EXPIRED,
+                       it->second.tool_name, it->second.ai_session_id,
+                       {{"operation_id", it->second.operation_id}});
+            it = pending_approvals_.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+
+// ============================================================================
+// ASL-10: Rollback endpoint
+// Docs: src/security/ROADMAP.md § Phase 3 (ASL-10)
+// ============================================================================
+
+json McpServer::handleAiRollback(const std::string& snapshot_id) {
+    if (!db_) {
+        spdlog::warn("AI Safety ASL-10: rollback requested but database not attached");
+        return {
+            {"status",  "error"},
+            {"error_code", "NO_DATABASE"},
+            {"message", "Database not attached"}
+        };
+    }
+
+    // Security: reject path traversal and absolute paths.
+    // Use lexically_normal() to normalise the path and verify it stays
+    // within the allowed snapshot directory after resolution.
+    if (snapshot_id.find("..") != std::string::npos ||
+        snapshot_id.find('%') != std::string::npos ||
+        (!snapshot_id.empty() && (snapshot_id[0] == '/' || snapshot_id[0] == '\\'))) {
+        spdlog::warn("AI Safety ASL-10: rejected invalid snapshot_id='{}'", snapshot_id);
+        return {
+            {"status",  "error"},
+            {"error_code", "INVALID_SNAPSHOT_ID"},
+            {"message", "Invalid snapshot ID"}
+        };
+    }
+
+    const std::string snap_base = operation_guard_
+        ? operation_guard_->config().snapshot_dir
+        : "/var/themis/ai-snapshots";
+    const std::filesystem::path snapshot_path =
+        (std::filesystem::path(snap_base) / snapshot_id).lexically_normal();
+
+    // Verify the resolved path stays within the snapshot directory.
+    const std::filesystem::path base_normal =
+        std::filesystem::path(snap_base).lexically_normal();
+    const std::string snap_str  = snapshot_path.string();
+    const std::string base_str  = base_normal.string();
+    if (snap_str.rfind(base_str, 0) != 0) {
+        spdlog::warn("AI Safety ASL-10: path escape attempt, snapshot_id='{}'", snapshot_id);
+        return {
+            {"status",  "error"},
+            {"error_code", "INVALID_SNAPSHOT_ID"},
+            {"message", "Invalid snapshot ID"}
+        };
+    }
+
+    spdlog::info("AI Safety ASL-10: restoring checkpoint snapshot_id='{}' path='{}'",
+                 snapshot_id, snap_str);
+
+    try {
+        if (db_->restoreFromCheckpoint(snap_str)) {
+            spdlog::info("AI Safety ASL-10: restore succeeded for snapshot_id='{}'", snapshot_id);
+            logAiEvent(themis::utils::SecurityEventType::AI_ROLLBACK_EXECUTED,
+                       "ai_rollback", "",
+                       {{"snapshot_id", snapshot_id}, {"snapshot_path", snap_str}});
+            return {
+                {"status",      "success"},
+                {"snapshot_id", snapshot_id},
+                {"message",     "Database restored from checkpoint"}
+            };
+        }
+        spdlog::error("AI Safety ASL-10: restoreFromCheckpoint returned false for snapshot_id='{}'",
+                      snapshot_id);
+        return {
+            {"status",  "error"},
+            {"error_code", "RESTORE_FAILED"},
+            {"message", "Checkpoint restore failed"}
+        };
+    } catch (const std::exception& ex) {
+        spdlog::error("AI Safety ASL-10: restore threw exception for snapshot_id='{}': {}",
+                      snapshot_id, ex.what());
+        return {
+            {"status",  "error"},
+            {"error_code", "RESTORE_EXCEPTION"},
+            {"message", std::string("Checkpoint restore failed: ") + ex.what()}
+        };
+    }
+}
+
+// ============================================================================
+// ASL-11: Snapshot cleanup tool
+// Docs: src/security/ROADMAP.md § Phase 3 (ASL-11)
+// ============================================================================
+
+json McpServer::toolAiCleanupSnapshots(const json& /*args*/) {
+    const std::string snap_dir = operation_guard_
+        ? operation_guard_->config().snapshot_dir
+        : "/var/themis/ai-snapshots";
+
+    const int safe_retention_days = (snapshot_retention_days_ > 0) ? snapshot_retention_days_ : 7;
+    const int safe_max_gb         = (snapshot_max_total_gb_ > 0) ? snapshot_max_total_gb_ : 100;
+
+    themis::security::AiSnapshotCleanupJob job({
+        snap_dir,
+        safe_retention_days,
+        static_cast<std::uint64_t>(safe_max_gb)
+    });
+
+    try {
+        const int deleted = job.runCleanup();
+        spdlog::info("AI Safety ASL-11: snapshot cleanup complete, deleted={}", deleted);
+        logAiEvent(themis::utils::SecurityEventType::AI_CLEANUP_EXECUTED,
+                   "ai_cleanup_snapshots", "",
+                   {{"deleted_count", deleted}, {"snapshot_dir", snap_dir}});
+        return {{"status", "success"}, {"deleted_count", deleted}};
+    } catch (const std::exception& ex) {
+        spdlog::error("AI Safety ASL-11: snapshot cleanup failed: {}", ex.what());
+        return {
+            {"status",  "error"},
+            {"error_code", "CLEANUP_FAILED"},
+            {"message", std::string("Snapshot cleanup failed: ") + ex.what()}
+        };
+    }
+}
+
+// ============================================================================
 // StdioTransport Implementation
 // ============================================================================
 
@@ -2019,6 +2675,20 @@ void StdioTransport::start() {
     // Start async stdin reading
     readStdin();
 #else
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow McpServer StdioTransport to be compiled and linked on
+    //   platforms other than Windows, Unix, and macOS (e.g., embedded or
+    //   exotic toolchain targets).  On those platforms, async stdin reading
+    //   via platform threads is not implemented; the transport runs but
+    //   silently ignores all stdin input.
+    // Activation: Compiled when none of _WIN32, __unix__, __APPLE__ are defined.
+    // Production Delta: MCP clients connected via stdio receive no responses
+    //   because request bytes from stdin are never read.  The transport reports
+    //   "started" but is functionally deaf.
+    // Removal Plan: Implement `readStdin()` for the target platform using the
+    //   appropriate async I/O primitives, then add the platform's preprocessor
+    //   guard to the `#if` condition above.
+    // Roadmap ref: src/server/FUTURE_ENHANCEMENTS.md §"MCP StdioTransport Platform Support"
     spdlog::warn("MCP stdio transport: Unsupported platform, stdin reading not implemented");
 #endif
 }

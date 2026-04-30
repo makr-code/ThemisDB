@@ -501,10 +501,17 @@ std::vector<uint8_t> VoiceAssistant::convertAudioFormat(
     const std::vector<uint8_t>& audio_data,
     const std::string& target_format
 ) {
-    // Real implementation would use FFmpeg or similar library
-    // to convert between formats (WAV -> OGG/MP3/MP4)
-    
-    // For now, return original data (placeholder)
+    // STUB/SIMULATION NOTE:
+    // Purpose: Satisfies the convertAudioFormat() API while FFmpeg (or equivalent
+    //          audio transcoding library) is not linked.
+    // Activation: Always — no audio codec library is integrated.
+    // Production Delta: Audio data is returned unchanged regardless of
+    //                   `target_format`; a WAV caller requesting OGG/MP3/MP4
+    //                   receives the original PCM bytes.
+    // Removal Plan: Integrate libavformat/libavcodec (FFmpeg); implement
+    //               per-format conversion pipelines.  Guard with
+    //               THEMIS_ENABLE_FFMPEG.  See src/voice/FUTURE_ENHANCEMENTS.md
+    //               §Voice Audio Format Conversion.
     return audio_data;
 }
 

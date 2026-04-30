@@ -403,3 +403,204 @@ Handle the full lifecycle of migrating a ThemisDB shard node to replacement hard
 - The `node_identity.json` file must be protected with filesystem permissions `0600` to prevent unauthorised reading of the shard assignment.
 - Hardware migration requests from the admin API must require a signed operator certificate validated by the cluster CA.
 - The `createAndSaveIdentity()` method refuses to overwrite an existing identity file to prevent accidental re-assignment of a shard.
+
+---
+
+## mTLS Pool Connection Ownership — createNewConnection() Implementation (Target: v2.0.0)
+
+**Stub:** `src/sharding/mtls_connection_pool.cpp` — `EndpointConnectionPool::createNewConnection()` returns `nullopt`  
+**Risk:** Connection creation is fully delegated to `MTLSClient`; the pool cannot create connections independently, reducing its ability to pre-warm or replace expired connections proactively.
+
+### Scope
+- Implement `createNewConnection()` to:
+  1. Parse the `endpoint_` string (host:port).
+  2. Create a non-blocking TCP socket (`O_NONBLOCK` on POSIX).
+  3. Wrap the socket with the stored `ssl_ctx_` via `SSL_new()` + `SSL_set_fd()`.
+  4. Perform the TLS handshake with `connect_timeout_` deadline.
+  5. Verify peer certificate (CN/SAN match against endpoint hostname).
+  6. Return `unique_ptr<SSL, SSLDeleter>` on success, `nullopt` on failure.
+- Move `ssl_ctx_` ownership from `MTLSClient` into `EndpointConnectionPool` so the pool
+  can manage the full lifecycle.
+
+### Design Constraints
+- mTLS requires client certificate (`THEMIS_NODE_CERT`) + private key (`THEMIS_NODE_KEY`) +
+  CA bundle (`THEMIS_CA_BUNDLE`); fail-closed if any are missing.
+- `validateConnection()` must perform an `SSL_read` with `MSG_PEEK` to detect half-closed
+  connections (current "assume valid" implementation is insufficient).
+- Certificate rotation events (from `utils/pki_client.cpp`) must drain the pool gracefully.
+
+### Test Strategy
+- Unit: mock OpenSSL; assert `createNewConnection()` calls `SSL_connect()` once.
+- Integration: connect to a local stunnel server with a test CA; verify peer-cert check.
+- Regression: all existing `test_transaction_distributed_2pc.cpp` tests pass.
+
+### Performance Targets
+- Connection creation latency (loopback mTLS): ≤ 10 ms p99.
+- Pool pre-warm (10 connections at startup): ≤ 100 ms.
+
+---
+
+## WAL gRPC Replication — WalGrpcService Activation (Target: v1.6.0)
+
+**Stub:** `src/server/wal_grpc_service.cpp` — `WalGrpcService` constructor is a no-op when `THEMIS_HAS_SHARD_GRPC=0`  
+**Risk:** WAL entries are not replicated to replica shards; replicas diverge from the primary silently, violating replication guarantees.
+
+### Scope
+- Run `protoc` on `proto/shard.proto` as part of the CMake build
+  (the gRPC target is already wired; ensure the code-gen output path is on
+  the include path so the `THEMIS_HAS_SHARD_GRPC` check resolves to 1).
+- Wire `WalGrpcService` into the server startup path so it is registered with
+  the gRPC server alongside the other shard services.
+- `WALApplier::applyToReplicas()` must call the WalGrpcService stub methods
+  on each replica endpoint.
+
+### Design Constraints
+- WAL replication must be asynchronous (fire-and-forget with a delivery guarantee
+  via the Raft log); WAL apply must not block the primary write path.
+- Replica acknowledgement timeout: 500 ms; on timeout, log WARN and continue
+  (Raft will eventually deliver the entry).
+- mTLS between primary and replicas is mandatory; use `mtls_connection_pool.cpp`.
+
+### Test Strategy
+- Unit: mock `WALApplier`; assert `WalGrpcService::applyWALEntry()` is called on replica.
+- Integration: 3-node cluster; write to primary; assert WAL appears on replicas within 1 s.
+- Regression: `test_transaction_distributed_2pc.cpp` all pass unchanged.
+
+### Performance Targets
+- WAL replication fan-out latency (primary → 2 replicas, LAN): ≤ 5 ms p99.
+- WAL apply throughput: ≥ 50 K entries/s.
+
+---
+
+## Gossip Config Propagation — GossipConfigManager::sendGossipMessage (Target: v1.7.0)
+
+**Stub:** `src/sharding/gossip_config_manager.cpp` — `sendGossipMessage()`: network call and protobuf serialization skipped; only `messages_sent_++` counter incremented  
+**Risk:** Config updates (shard topology, routing rules) originating from this node never reach other nodes; cluster-wide configuration changes require manual restarts or out-of-band delivery.
+
+### Scope
+- Wire `ShardRPCClient` (or a dedicated lightweight HTTP client) into `GossipConfigManager::sendGossipMessage()`.
+- Serialize the `GossipMessage` using protobuf (proto/themis_gossip.proto) or JSON fallback.
+- Send the payload via HTTP POST or gRPC unary call to `peer_endpoint`.
+- Measure round-trip latency using the existing `now` variable; record in `propagation_latency_us_`.
+
+### Required Interfaces
+- `GossipConfigManager` must accept a `std::shared_ptr<ShardRPCClient>` (or `IGossipTransport`) via constructor or `setTransport()`.
+- `IGossipTransport::send(endpoint, payload) → bool` — returns false on network error, not exception.
+
+### Design Constraints
+- `sendGossipMessage()` must be non-blocking (fire-and-forget); use a background thread pool for retries.
+- Failures must be counted in `send_errors_` and logged at WARN; they must not propagate exceptions to callers.
+- Message deduplication: peers receiving a GossipMessage with a version ≤ their current version MUST ignore it.
+
+### Test Strategy
+- Unit: inject a mock `IGossipTransport`; assert `sendGossipMessage()` calls `transport.send()` with correct payload.
+- Integration: three-node cluster; update config on node A; assert nodes B and C reflect the change within 500 ms.
+- Negative: transport returns false; assert `send_errors_` incremented and no exception thrown.
+
+### Performance Targets
+- Gossip fan-out (1 → 3 peers, LAN): ≤ 5 ms total (fire-and-forget, not blocking caller).
+- Config propagation convergence (3-node cluster): ≤ 500 ms (2× gossip interval default = 250 ms).
+
+---
+
+## Adaptive Router Remote Execution (Target: future milestone — stub removal)
+
+**Stub:** `src/sharding/adaptive_shard_router.cpp` per-shard execution — RemoteExecutor not wired; all shard queries return `{success=true, data=[]}`.  
+**Risk:** Federated multi-shard queries silently return empty data instead of routing to the responsible shards.
+
+### Scope
+- Wire `RemoteExecutor::execute(shard_info.endpoint, query)` into the per-shard execution loop.
+- Deserialise shard responses; merge into the unified `results` vector.
+- Handle gRPC transport errors: log + mark `result.success = false`.
+
+### Performance Targets
+- P99 fan-out latency (3 shards, LAN): ≤ 20 ms.
+
+---
+
+## VRAM Usage Monitoring (Target: future milestone — stub removal)
+
+**Stub:** `src/sharding/shard_resource_manager.cpp::getVramUsage()` — returns (0,0) always.  
+**Risk:** VRAM-aware shard scheduling is blind to actual GPU memory pressure; over-allocation possible.
+
+### Scope
+- CUDA: `nvmlDeviceGetMemoryInfo()`, guard with `THEMIS_ENABLE_CUDA`.
+- HIP: `hipMemGetInfo()`, guard with `THEMIS_ENABLE_HIP`.
+- Vulkan: `VK_EXT_memory_budget` device extension query, guard with `THEMIS_ENABLE_VULKAN`.
+
+---
+
+## Network Usage Monitoring (Target: future milestone — stub removal)
+
+**Stub:** `src/sharding/shard_resource_manager.cpp::getNetworkUsage()` — returns (0,0) always.  
+**Risk:** Network-bandwidth-aware shard routing ignores actual NIC saturation.
+
+### Scope
+- Linux: parse `/proc/net/dev` RX/TX byte counters per interface.
+- Windows: `GetIfTable2()` from iphlpapi.h.
+- Return `{bytes_rx, bytes_tx}` since last call; rate is computed by callers.
+
+---
+
+## Signed Request Crypto Verification (Target: future milestone — stub removal)
+
+**Stub:** `src/sharding/signed_request.cpp::SignedRequestVerifier::verify()` — checks only for non-empty `signature_b64`; no public-key crypto performed.  
+**Risk:** An attacker can craft a request with any non-empty `signature_b64` string and it will pass verification. Shard-to-shard authentication is completely bypassed.
+
+### Scope
+- Extract the sender public key from `request.sender_cert_pem` via `X509_get_pubkey()`.
+- Compute SHA-256 of `getCanonicalString()`.
+- Call `EVP_DigestVerify()` to validate `signature_b64` (Base64-decode first).
+- Reject if certificate is expired (`isValidNow()` — fix that stub too).
+
+### Security / Reliability
+- Both certificate validity and signature correctness must pass before accepting a request.
+- Certificate chain must be validated against the cluster's root CA.
+- Replay protection: include `request.timestamp_ms` and `request.nonce` in the canonical string; reject replays > 5 s old.
+
+---
+
+## Shard Router Broadcast-Hash Join Phase 2 (Target: future milestone — stub removal)
+
+**Stub:** `src/sharding/shard_router.cpp` broadcast-hash join — Phase 2 right-side query never executed.  
+**Risk:** Broadcast-hash joins return only left-side rows; join results are always empty.
+
+### Scope
+- After building the hash table from the left side, execute the right-side `join_query` on all shards.
+- Probe the hash table with each right-side row's join-field value.
+- Emit matched pairs into the result rows.
+
+---
+
+## PKI Certificate Validity (Target: future milestone — stub removal)
+
+**Stub:** `src/sharding/pki_shard_certificate.cpp::ShardCertificateInfo::isValidNow()` — date-string presence check only; expiry not evaluated.  
+**Risk:** Expired certificates are accepted, allowing revoked or long-expired peer identities to authenticate.
+
+### Scope
+- Parse `not_before` and `not_after` as ASN.1 GeneralizedTime / UTCTime via `ASN1_TIME_to_tm()`.
+- Compare against `std::chrono::system_clock::now()`.
+- Return `false` if current time is outside the validity window.
+
+---
+
+## Redundancy Strategy Nearest Shard (Target: future milestone — stub removal)
+
+**Stub:** `src/sharding/redundancy_strategy.cpp::NEAREST` — returns first shard; no latency tracking.  
+**Risk:** NEAREST read preference provides no benefit; latency-sensitive clients are not routed to the closest shard.
+
+### Scope
+- Maintain a per-shard P50 latency moving average, updated from RPC RTT observations.
+- In NEAREST: select the shard with the lowest recent P50; break ties by shard index.
+
+---
+
+## MetadataShard Consensus Write (Target: future milestone — stub removal)
+
+**Stub:** `src/sharding/metadata_shard.cpp` consensus write — returns success immediately without Raft/Paxos commit.  
+**Risk:** Metadata writes appear to succeed but are not replicated; crashes lose the entry silently.
+
+### Scope
+- Submit the `{partition, key, value}` entry to the consensus module.
+- Block until quorum commits the entry; only then return `true`.
+- Propagate consensus errors as `false` return values with spdlog::error logging.

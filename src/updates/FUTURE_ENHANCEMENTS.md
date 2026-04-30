@@ -1082,3 +1082,34 @@ Have ideas for update improvements? We'd love to hear from you:
 - Update bundles are signed with hardware-backed HSM keys; the public trust anchor is embedded in the binary and cannot be overridden at runtime
 - Filesystem lock must prevent concurrent `HotReloadEngine` invocations on the same node; failed lock acquisition returns `UpdateError::ALREADY_IN_PROGRESS`
 - Pre-flight disk space check must confirm ≥ 2× the bundle size of free space is available before starting download to prevent mid-install space exhaustion
+
+---
+
+## Parallel Downloader HTTP Transport (Target: v1.6.0)
+
+**Stub:** `src/updates/parallel_downloader.cpp` — `defaultFetch()` no-op  
+**Risk:** Without a real HTTP transport injected via `setFetchFunction()`, all download operations fail immediately with "No HTTP transport configured". The update subsystem is non-functional in production until this is wired.
+
+### Scope
+- Implement a `libcurl`-based `FetchFn` (e.g., `CurlFetchFn`) in a new
+  `src/updates/curl_fetch.cpp` and inject it at server startup via
+  `ParallelDownloader::setFetchFunction()`.
+- Support: HTTP/HTTPS with TLS verification, HTTP Range (resume), configurable
+  connect and transfer timeouts, mTLS (client cert for authenticated CDNs).
+- Inject at startup: `downloader.setFetchFunction(makeCurlFetchFn(tls_config))`.
+
+### Design Constraints
+- `FetchFn` interface is already defined in `parallel_downloader.h`; no API change required.
+- TLS verification must validate the update server certificate against the
+  embedded trust anchor (`updates/trust_anchor.pem`); `CURLOPT_SSL_VERIFYPEER=1`.
+- Bandwidth throttle and concurrency controls already implemented — the FetchFn
+  is just the transport layer.
+
+### Test Strategy
+- Unit: inject a mock `FetchFn` (already supported in 29 existing tests).
+- Integration: download a real file from a local test HTTP server (httpd/nginx).
+- Security: verify that an HTTPS server with an invalid cert causes download to fail.
+
+### Performance Targets
+- Single-file download throughput: saturate available bandwidth (limited by network, not `FetchFn`).
+- Connect latency overhead: ≤ 50 ms p99 (local test server).

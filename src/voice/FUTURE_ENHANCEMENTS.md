@@ -1323,3 +1323,19 @@ For detailed guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.md).
 *Last Updated: April 2026*
 *Module Version: v1.0.0*
 *Next Review: v1.1.0 Release*
+
+---
+
+## Voice Audio Format Conversion (Target: future milestone — stub removal)
+
+**Stub:** `src/voice/voice_assistant.cpp::convertAudioFormat()` — returns original bytes unchanged; no FFmpeg integration.  
+**Risk:** Voice recordings that must be stored or transmitted in OGG/MP3/MP4 format silently contain raw PCM bytes, breaking any downstream consumer.
+
+### Scope
+- Integrate libavformat / libavcodec (FFmpeg): guard with `THEMIS_ENABLE_FFMPEG` CMake option.
+- Implement per-target-format pipelines: WAV → OGG (Opus), WAV → MP3 (libmp3lame), WAV → MP4.
+- Return properly encoded bytes; throw `std::runtime_error` for unsupported format strings.
+
+### Performance Targets
+- OGG Opus encoding: ≥ 10× real-time at 32 kbps (speech codec) on single CPU core.
+- MP3 encoding: ≥ 8× real-time at 128 kbps CBR.

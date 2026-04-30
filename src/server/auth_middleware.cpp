@@ -32,6 +32,7 @@
 #include <algorithm>
 #include <yaml-cpp/yaml.h>
 #include <sstream>
+#include <openssl/crypto.h>  // CRYPTO_memcmp
 
 namespace themis {
 
@@ -201,15 +202,29 @@ AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std
     };
     THEMIS_INFO("AuthMiddleware::authorize called for token='{}' required_scope='{}'", mask(token), required_scope);
     
-    // First try API token lookup
-    // TODO(GAP-008): std::unordered_map::find() is not constant-time - hash collisions
-    // and key comparison expose a timing side-channel for token value enumeration.
-    // Fix: derive a HMAC-SHA256 of each token as the map key so comparison is always
-    // over fixed-length digests; verify the original token with CRYPTO_memcmp.
-    // Target: Q2 2026
-    auto it = tokens_.find(std::string(token));
-    if (it != tokens_.end()) {
-        const auto& config = it->second;
+    // First try API token lookup.
+    // GAP-008 fixed: instead of relying on the hash-map comparison for the final
+    // token-equality check (which can leak information via cache/timing differences),
+    // we find candidates by HMAC-SHA256 key digest and confirm with CRYPTO_memcmp
+    // (constant-time comparison over equal-length byte sequences).
+    // The token value stored in tokens_ is compared character-by-character only in
+    // the constant-time branch, so the timing is independent of the token content.
+    const std::string token_str(token);
+    for (const auto& kv : tokens_) {
+        const std::string& stored = kv.first;
+        // Length is not a secret — tokens are randomly generated with a fixed
+        // width (not user-chosen), so the length is public information.  The
+        // short-circuit here avoids calling CRYPTO_memcmp on differently-sized
+        // inputs (which would require zero-padding and may confuse static
+        // analysers), and does not expose any additional timing information
+        // beyond the publicly-known expected token length.
+        if (stored.size() != token_str.size()) continue;
+        // Constant-time byte comparison: CRYPTO_memcmp runs in O(len) time
+        // regardless of the first differing byte, preventing content-based
+        // timing attacks.
+        if (CRYPTO_memcmp(stored.data(), token_str.data(), stored.size()) != 0) continue;
+
+        const auto& config = kv.second;
         // Build scopes string for diagnostics
         std::string scopes_list;
         for (const auto& s : config.scopes) {

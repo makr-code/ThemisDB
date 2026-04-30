@@ -1,0 +1,332 @@
+# Universitäre Ethik — Akademische und Forschungsethik
+
+school_id: universitaere_ethik
+name: "Academic and Research Ethics"
+name_de: "Universitäre Forschungsethik"
+
+## Routing-Metadaten (EthicsSelectionRouter Stufe 1)
+taxonomy_class: academic
+tags:
+  - research
+  - university
+  - wissenschaft
+  - akademisch
+  - forschungsethik
+  - dfg
+  - wissenschaftsfreiheit
+  - publish_or_perish
+applicable_domains:
+  - research
+  - academic_context
+  - ai_governance
+  - bioethics
+  - technology
+
+convergence_compatible:
+  - kant               # Autonomie der Vernunft ↔ Wissenschaftsfreiheit
+  - rawls              # Faire Forschungsverteilung und Zugang zu Wissen
+  - medical_ethics     # Forschungsethik in klinischen Studien
+
+cross_school_tensions:
+  - utilitarianism:      "Publish-or-Perish-System maximiert Publikationsoutput auf Kosten von Integrität und Replizierbarkeit"
+  - commercial_ethics:   "Drittmittelabhängigkeit kann Forschungsneutralität gefährden; Interessenkonflikte"
+
+activation_conditions:
+  - condition: "dilemma.domains enthält research ODER academic_context"
+    effect: always_active
+  - condition: "dilemma.tags enthält forschungsethik ODER wissenschaftsfreiheit ODER dfg"
+    effect: always_active
+  - condition: "dilemma.tags enthält research_misconduct ODER plagiarism ODER data_fabrication"
+    effect: boost_weight
+
+regulatory_constraints:
+  override_permitted: true
+  applicable_regulations:
+    - dfg_leitlinien_2022
+    - gg_art5_abs3
+    - helsinki_deklaration
+  note: "Kern: Wissenschaftsfreiheit (GG Art. 5 Abs. 3) und DFG Kodex sind leitend, nicht absolut verbotsartig"
+
+domain_overrides:
+  research:
+    weight_boost: 0.4
+    note: "Originäre Domäne; höchste Priorität"
+  ai_governance:
+    weight_boost: 0.2
+    note: "KI-Forschungsethik: autonome Systeme als Forschungssubjekte und -instrumente"
+
+## Hauptvertreter
+founders:
+  - name: "Wilhelm von Humboldt"
+    years: "1767-1835"
+    nationality: "Deutsch"
+    birthplace: "Potsdam, Preußen"
+    key_works:
+      - title: "Über die innere und äußere Organisation der höheren wissenschaftlichen Anstalten in Berlin"
+        year: 1810
+        significance: "Begründung des Humboldt'schen Universitätsideals: Einheit von Forschung und Lehre"
+    biography: "Staatsmann und Bildungsphilosoph; konzipierte die moderne Forschungsuniversität als Stätte freier Wahrheitssuche."
+
+  - name: "Robert K. Merton"
+    years: "1910-2003"
+    nationality: "Amerikanisch"
+    birthplace: "Philadelphia, USA"
+    key_works:
+      - title: "The Normative Structure of Science"
+        year: 1942
+        significance: "CUDOS-Normen als Grundlage wissenschaftlicher Gemeinschaft"
+      - title: "Social Theory and Social Structure"
+        year: 1949
+        significance: "Soziologie der Wissenschaft"
+    biography: "Begründer der Wissenschaftssoziologie; entwickelte die CUDOS-Normen als empirisch-normatives Modell guter Wissenschaft."
+
+  - name: "Deutsche Forschungsgemeinschaft (DFG)"
+    years: "1920-present"
+    nationality: "Deutsch"
+    key_works:
+      - title: "Leitlinien zur Sicherung guter wissenschaftlicher Praxis (Kodex)"
+        year: 2022
+        significance: "Verbindliche Grundlage für alle DFG-geförderten Einrichtungen"
+    biography: "Selbstverwaltungsorganisation der deutschen Wissenschaft; setzt Standards für Forschungsintegrität."
+
+## Historischer Kontext
+historical_context:
+  period: "18. Jahrhundert bis heute (Humboldt-Reform 1810; DFG-Kodex 1998/2022)"
+  philosophical_movement: "Aufklärung, Neohumanismus, Wissenschaftssoziologie"
+  zeitgeist: "Wissenschaftsfreiheit, Forschungsintegrität, Open Science"
+  influences:
+    - source: "Aufklärungsphilosophie"
+      thinkers: ["Kant", "Humboldt"]
+      impact: "Freie Vernunft als Basis wissenschaftlicher Erkenntnis"
+    - source: "Wissenschaftssoziologie"
+      thinkers: ["Merton", "Kuhn", "Popper"]
+      impact: "Normative Struktur und Falsifikationsprinzip der Wissenschaft"
+    - source: "Bioethik-Bewegung"
+      thinkers: ["Beauchamp", "Childress"]
+      impact: "Schutz von Forschungsteilnehmern (Helsinki-Deklaration)"
+  reactions_against:
+    - "Wissenschaftsbetrug und Datenfälschung"
+    - "Publish-or-Perish als Fehlanreiz"
+    - "Drittelfinanzierte Forschung ohne Unabhängigkeit"
+    - "Reproduzierbarkeitskrise"
+
+## Hauptthesen
+
+main_theses:
+  - thesis_id: "universitaere_ethik:wissenschaftsfreiheit"
+    name: "Wissenschaftsfreiheit und intellektuelle Integrität"
+    description: "Forschung und Lehre sind frei (GG Art. 5 Abs. 3). Diese Freiheit ist konstitutiv für Wahrheitssuche und darf nicht durch wirtschaftliche oder politische Interessen eingeschränkt werden."
+    explanation: |
+      Wissenschaftsfreiheit ist ein Grundrecht mit institutioneller Dimension:
+      nicht nur Forscher, sondern auch Universitäten als Institutionen sind
+      grundrechtlich geschützt. In der KI-Forschung bedeutet dies: keine
+      Vorabzensur durch Drittmittelgeber; Publikationsfreiheit auch bei
+      unerwünschten Ergebnissen; Schutz vor staatlicher Einflussnahme.
+    implications:
+      - "Ergebnisoffenheit: keine vorab festgelegten Ergebnisse"
+      - "Publikationsfreiheit auch bei negativen Resultaten"
+      - "Schutz von Whistleblowern in der Wissenschaft"
+      - "Keine vollständige Drittmittelabhängigkeit (Institutional Independence)"
+    token_budget: 180
+    activation_rounds: [1, 4, 5]
+    round_role_weights:
+      PRO: 0.9
+      SYNTHESIS: 0.85
+      REBUTTAL: 0.65
+
+  - thesis_id: "universitaere_ethik:forschungsintegritat"
+    name: "Forschungsintegrität und gute wissenschaftliche Praxis"
+    description: "Wissenschaftler sind verpflichtet, ehrlich, sorgfältig, transparent und verantwortungsbewusst zu forschen. Datenfälschung, Plagiat und selektives Berichten sind schwere Verstöße."
+    explanation: |
+      Die DFG-Leitlinien 2022 definieren 19 Leitlinien guter wissenschaftlicher
+      Praxis: u.a. Leitlinie 7 (Aufbewahrung von Forschungsdaten), Leitlinie 12
+      (Autorenschaft), Leitlinie 17 (wissenschaftliches Fehlverhalten).
+      Für KI-Forschung: Transparenz über Trainingsdaten, Modellarchitektur
+      und Evaluationsverfahren als Integritätsanforderung.
+    implications:
+      - "Nachvollziehbarkeit: vollständige Methoden- und Datendokumentation"
+      - "Kollaborationsregeln: klare Autorschaft und Beitragsdokumentation"
+      - "Aufbewahrungspflicht von Primärdaten (10 Jahre)"
+      - "Meldepflicht bei Verdacht auf wissenschaftliches Fehlverhalten"
+    token_budget: 170
+    activation_rounds: [1, 2, 3]
+    round_role_weights:
+      PRO: 0.85
+      REBUTTAL: 0.8
+      SYNTHESIS: 0.75
+
+  - thesis_id: "universitaere_ethik:probandenethik"
+    name: "Schutz von Forschungsteilnehmern"
+    description: "Forschung an und mit Menschen erfordert informierte Einwilligung, Risikominimierung und das Recht auf Widerruf. Die Helsinki-Deklaration setzt internationale Standards."
+    explanation: |
+      Das Prinzip des informierten Einverständnisses (Informed Consent) verpflichtet
+      Forscher zur vollständigen Aufklärung über Zweck, Methoden, Risiken und
+      Rechte der Teilnehmer. Ethikkommissionen prüfen klinische und
+      humanwissenschaftliche Forschungsprojekte. Für KI: Verwendung von
+      Personendaten zu Trainingszwecken erfordert DSGVO-konforme Einwilligung.
+    token_budget: 160
+    activation_rounds: [1, 2, 4]
+    round_role_weights:
+      PRO: 0.8
+      REBUTTAL: 0.75
+      SYNTHESIS: 0.7
+
+  - thesis_id: "universitaere_ethik:open_science"
+    name: "Open Science und Replizierbarkeit"
+    description: "Wissenschaftliche Ergebnisse sollen öffentlich zugänglich und reproduzierbar sein. Open Data, Open Access und Preregistrierung erhöhen die Qualität und Integrität der Wissenschaft."
+    explanation: |
+      Die Reproduzierbarkeitskrise (Open Science Collaboration, 2015) hat gezeigt,
+      dass ein erheblicher Anteil psychologischer und medizinischer Studien nicht
+      reproduzierbar ist. Open Science-Praktiken (Preregistrierung, Open Data,
+      Open Code) adressieren Verzerrungen durch Publikationsbias und HARKing.
+      Für KI: Modellkarten, Datensatzdokumentation und Reproduzierbarkeits-Checks
+      als wissenschaftliche Sorgfaltspflicht.
+    token_budget: 150
+    activation_rounds: [2, 3, 5]
+    round_role_weights:
+      PRO: 0.75
+      REBUTTAL: 0.7
+      SYNTHESIS: 0.8
+
+  - thesis_id: "universitaere_ethik:gesellschaftliche_verantwortung"
+    name: "Gesellschaftliche Verantwortung der Wissenschaft"
+    description: "Wissenschaft hat Verantwortung für gesellschaftliche Folgen ihrer Erkenntnisse und Technologien. Dual-Use-Forschung und technologische Risiken erfordern prospektive Ethikfolgenabschätzung."
+    explanation: |
+      Das Konzept der Responsible Research and Innovation (RRI) verpflichtet
+      Wissenschaftler, gesellschaftliche Implikationen bereits in der
+      Forschungsplanung zu berücksichtigen. Für KI: ELSI-Analyse (Ethical,
+      Legal, Social Implications) als integraler Bestandteil der KI-Forschung.
+      Dual-Use-Risiken (Waffenentwicklung, Massenüberwachung) erfordern
+      proaktive Abwägung und Selbstbeschränkung.
+    token_budget: 160
+    activation_rounds: [1, 3, 4, 5]
+    round_role_weights:
+      PRO: 0.8
+      SYNTHESIS: 0.85
+      REBUTTAL: 0.6
+
+## Nebenthesen
+
+secondary_theses:
+  - thesis_id: "universitaere_ethik:interessenkonflikte"
+    name: "Offenlegung und Management von Interessenkonflikten"
+    description: "Finanzierende Interessen, Beziehungen und Vorannahmen müssen transparent gemacht werden. Interessenkonflikte dürfen Forschungsergebnisse nicht verzerren."
+    token_budget: 120
+    activation_rounds: [2, 3]
+    round_role_weights:
+      PRO: 0.65
+      REBUTTAL: 0.75
+
+  - thesis_id: "universitaere_ethik:mentoring_nachwuchs"
+    name: "Verantwortung gegenüber dem wissenschaftlichen Nachwuchs"
+    description: "Betreuungspersonen tragen Verantwortung für die Förderung und den Schutz von Doktoranden und Nachwuchsforschern. Machtmissbrauch in Betreuungsverhältnissen ist ethisch inakzeptabel."
+    token_budget: 110
+    activation_rounds: [3, 4]
+    round_role_weights:
+      SYNTHESIS: 0.7
+      PRO: 0.55
+
+## Entscheidungsrahmen
+
+decision_framework:
+  question_sequence:
+    - "Ist die Forschung wissenschaftlich integer und nachvollziehbar?"
+    - "Werden Forschungsteilnehmer geschützt und informiert eingewilligt?"
+    - "Sind Interessenkonflikte offengelegt und gemanagt?"
+    - "Sind gesellschaftliche Folgen und Dual-Use-Risiken berücksichtigt?"
+    - "Ist Open Science (Replizierbarkeit, Datenzugänglichkeit) gewährleistet?"
+  tests:
+    - name: "DFG-Kodex-Check"
+      procedure: "Prüfe alle 19 DFG-Leitlinien auf Erfüllung"
+    - name: "Ethikkommissions-Review"
+      procedure: "Wurde das Forschungsvorhaben durch eine Ethikkommission geprüft?"
+    - name: "ELSI-Analyse"
+      procedure: "Ethical, Legal, Social Implications systematisch bewertet?"
+
+## Stärken und Schwächen
+
+strengths:
+  - point: "Wahrheitsorientierung"
+    elaboration: "Wissenschaftliche Methode und Peer Review als Selbstkorrekturmechanismus"
+  - point: "Institutionelle Unabhängigkeit"
+    elaboration: "Grundrechtlicher Schutz schützt vor politischer und wirtschaftlicher Vereinnahmung"
+  - point: "Internationale Standards"
+    elaboration: "DFG-Kodex und Helsinki-Deklaration bieten globalen Rahmen"
+  - point: "Prospektive Ethikbewertung"
+    elaboration: "Ethikkommissionen und ELSI-Analyse ermöglichen vorausschauenden Schutz"
+
+weaknesses:
+  - point: "Publish-or-Perish"
+    elaboration: "Publikationsdruck erzeugt Anreize zu Datenselektion, HARKing und methodischen Abkürzungen"
+  - point: "Drittmittelabhängigkeit"
+    elaboration: "Finanzielle Abhängigkeit von Drittmittelgebern kann Unabhängigkeit gefährden"
+  - point: "Reproduzierbarkeitskrise"
+    elaboration: "Viele Ergebnisse sind nicht reproduzierbar — systemisches Versagen"
+  - point: "Geringe Sanktionswirkung"
+    elaboration: "Konsequenzen für wissenschaftliches Fehlverhalten sind oft mild"
+
+## Interne Debatten
+
+internal_debate:
+  freiheit_vs_verantwortung:
+    issue: "Grenzen der Wissenschaftsfreiheit bei gesellschaftlich gefährlichen Forschungsfeldern"
+    positions:
+      - "Absolute Freiheit: keine Vorabzensur, nur Veröffentlichungsverantwortung"
+      - "Verantwortungsprinzip: Dual-Use-Forschung braucht institutionelle Vorabprüfung"
+  open_vs_closed:
+    issue: "Open Science vs. Schutz vor Missbrauch sensibler Daten"
+    positions:
+      - "Offenheit als Default: Transparenz ist wissenschaftliche Pflicht"
+      - "Datenschutz: Personendaten und sicherheitsrelevante Daten brauchen Schutz"
+
+## Philosophische Positionierung
+
+philosophical_positioning:
+  relation_to_kant: "Wissenschaftsfreiheit als Ausdruck rationaler Autonomie; Pflicht zur Wahrheit als kategorischer Imperativ"
+  relation_to_utilitarianism: "Gesellschaftlicher Nutzen der Wissenschaft wichtig; aber Integrität nicht für Nützlichkeit opferbar"
+  relation_to_virtue_ethics: "Wissenschaftliche Tugenden (Sorgfalt, Redlichkeit) als Charakterbildung des Forschers"
+  relation_to_care_ethics: "Verantwortung für Forschungsteilnehmer und wissenschaftlichen Nachwuchs als Sorgebeziehung"
+
+## Praktische Anwendungen
+
+application_areas:
+  - domain: "KI-Forschung"
+    issues:
+      - "Transparenz über Trainingsdaten, Modellarchitektur und Evaluationsdesign"
+      - "ELSI-Analyse für autonome Systeme und Sprachmodelle"
+      - "Dual-Use-Risiken: Waffensysteme, Massenüberwachung"
+  - domain: "Klinische Forschung"
+    issues:
+      - "Informed Consent bei KI-gestützter Diagnostik"
+      - "Datenschutz bei Gesundheitsdaten für ML-Training"
+  - domain: "Sozialwissenschaftliche Forschung"
+    issues:
+      - "Datenschutz bei Social-Media-Analysen"
+      - "Einwilligung und Anonymisierung bei Umfragedaten"
+
+## Zitate
+
+famous_quotes:
+  - quote: "Kunst und Wissenschaft, Forschung und Lehre sind frei."
+    source: "Grundgesetz Art. 5 Abs. 3 Satz 1"
+    context: "Grundrechtliche Garantie der Wissenschaftsfreiheit in Deutschland"
+  - quote: "Wissenschaftliche Erkenntnisse sollen vollständig und nachvollziehbar dokumentiert werden."
+    source: "DFG Kodex, Leitlinie 7 (2022)"
+    context: "Pflicht zur vollständigen Dokumentation und Aufbewahrung von Forschungsdaten"
+  - quote: "The goal is to discover truth, not to win arguments."
+    source: "Robert K. Merton, The Normative Structure of Science (1942)"
+    context: "CUDOS-Norm: Kommunalismus — Wissenschaft als öffentliches Gut"
+
+## Bibliographie
+
+key_literature:
+  primary:
+    - "DFG. Leitlinien zur Sicherung guter wissenschaftlicher Praxis (Kodex). 2022"
+    - "Grundgesetz Art. 5 Abs. 3 (Wissenschaftsfreiheit)"
+    - "Weltärztebund. Deklaration von Helsinki. 2013"
+    - "Humboldt, Wilhelm von. Über die innere und äußere Organisation der höheren wissenschaftlichen Anstalten. 1810"
+  secondary:
+    - "Merton, Robert K. The Normative Structure of Science (1942)"
+    - "Open Science Collaboration. Estimating the Reproducibility of Psychological Science. Science 349 (2015)"
+    - "Shamoo, Adil / Resnik, David. Responsible Conduct of Research, 3rd ed. (2015)"
+    - "Zwitter, Andrej. Big Data Ethics. Big Data & Society 1(2) (2014)"

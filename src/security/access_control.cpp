@@ -375,7 +375,26 @@ Result<void> AccessControl::changePassword(
 
 Result<nlohmann::json> AccessControl::enrollMFA(const std::string& user_id) {
     std::lock_guard<std::mutex> lock(mutex_);
-    
+
+    // [A-3] Guard: prevent silent overwrite of an active MFA enrollment.
+    // An attacker who can call enrollMFA() with an arbitrary user_id must not be
+    // able to replace a live TOTP secret without first disabling the existing
+    // enrollment. Production callers are expected to enforce RBAC / session checks
+    // before reaching this point; this check is a defence-in-depth backstop.
+    auto existing_it = mfa_enrollments_.find(user_id);
+    if (existing_it != mfa_enrollments_.end() && existing_it->second.enabled) {
+        logSecurityEvent(
+            utils::SecurityEventType::MFA_ENROLLED,
+            user_id,
+            "mfa",
+            {{"action", "MFA enrollment rejected — existing enrollment active"}}
+        );
+        return themis::ErrVoid(
+            themis::errors::ErrorCode::ERR_API_INVALID_REQUEST,
+            "MFA is already enrolled for this user. Disable existing MFA before re-enrolling."
+        );
+    }
+
     auto enrollment = mfa_authenticator_->generateEnrollment(user_id);
     auto uri = mfa_authenticator_->generateProvisioningURI(enrollment);
     
@@ -866,8 +885,17 @@ nlohmann::json AccessControl::getAuditLogs(
     [[maybe_unused]] std::optional<std::chrono::system_clock::time_point> until
 ) const {
     
-    // This would query the audit logger
-    // For now, return empty array
+    // STUB/SIMULATION NOTE:
+    // Purpose: Satisfies the getAccessHistory() API while audit-log storage
+    //          query is not wired into AccessControl.
+    // Activation: Always — audit logger integration for history queries is absent.
+    // Production Delta: Always returns empty JSON array; callers that rely on
+    //                   this for compliance or investigation cannot get access
+    //                   history for any user or resource.
+    // Removal Plan: Query the AuditLogger for events of type ACCESS_ATTEMPT /
+    //               ACCESS_GRANTED / ACCESS_DENIED filtered by `user_id`,
+    //               `resource`, `since`, `until`.  See
+    //               src/security/FUTURE_ENHANCEMENTS.md §AccessControl getAccessHistory.
     return nlohmann::json::array();
 }
 

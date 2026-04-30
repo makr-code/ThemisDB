@@ -217,6 +217,21 @@ public:
 
 #else
 
+// STUB/SIMULATION NOTE:
+// Purpose: Satisfy the linker and allow ThemisDB to be built without the Intel
+//   oneAPI DPC++/SYCL toolkit.  The stub OneAPIVectorBackend class is compiled
+//   in place of the real SYCL-backed class; all methods return false/empty so
+//   that the BackendRegistry can probe and skip this backend gracefully.
+// Activation: `THEMIS_ENABLE_ONEAPI` is not defined at compile time (default
+//   for non-Intel-GPU builds and CPU-only builds).
+// Production Delta: Intel Arc / Xe / XPU acceleration is unavailable.
+//   `computeDistances()` and `batchKnnSearch()` return empty vectors;
+//   `isAvailable()` returns false.  Any workload routed to this backend falls
+//   through to the next registered backend (typically CPU).
+// Removal Plan: Install Intel oneAPI Base Toolkit (including DPC++ compiler and
+//   OpenCL runtime) and set `-DTHEMIS_ENABLE_ONEAPI=1` in CMake.
+// Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md §"OneAPI Backend Activation"
+
 // Stub implementation when OneAPI is not available
 class OneAPIVectorBackend : public IVectorBackend {
 public:

@@ -1400,8 +1400,19 @@ float DistributedTrainingCoordinator::estimateRemainingTime() const {
     
     float avg_time_per_step = elapsed_minutes / stats_.total_steps_completed;
     
-    // Assuming we know total steps from training config
-    // For now, just return 0 as we don't have this info
+    // STUB/SIMULATION NOTE:
+    // Purpose: Satisfies the estimated-time-remaining API while the total
+    //          training step count is not yet exposed from the training
+    //          configuration to this coordinator.
+    // Activation: Always — total steps are unknown at this call site.
+    // Production Delta: Returns 0.0f instead of a meaningful time estimate;
+    //                   progress UIs and automated SLO monitors will see 0
+    //                   remaining regardless of actual training progress.
+    // Removal Plan: Propagate `config_.total_steps` (or equivalent) into the
+    //               coordinator at construction; compute:
+    //               `remaining_steps = total_steps - stats_.total_steps_completed`
+    //               `return avg_time_per_step * remaining_steps`.
+    //               See src/llm/FUTURE_ENHANCEMENTS.md §Distributed Training ETA.
     return 0.0f;
 }
 

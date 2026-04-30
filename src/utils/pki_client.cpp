@@ -688,8 +688,20 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
         }
     }
 
-    // Fallback: stub behavior (base64 of hash).
-    // Guarded by THEMIS_TEST_MODE so it cannot be compiled into production builds.
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow unit tests to exercise the signing call path (CSR submission,
+    //   JSON response parsing, cert chain assembly) without a real SCEP/EST/ACME
+    //   endpoint.  Returns a self-certified base64(SHA-256(csr)) as a synthetic
+    //   signature so tests can assert non-empty output.
+    // Activation: THEMIS_TEST_MODE must be defined at compile time
+    //   (-DTHEMIS_TEST_MODE=1).  NEVER defined in production CMake presets.
+    // Production Delta: Signature is not cryptographically valid; verification
+    //   against any real CA certificate will fail.  The cert_serial is a
+    //   hardcoded sentinel "DEMO-CERT-SERIAL".
+    // Removal Plan: Wire a real SCEP/EST/ACME client and remove the
+    //   THEMIS_TEST_MODE block.  Production builds with no endpoint configured
+    //   already return ok=false (the #else branch below).
+    // Roadmap ref: src/utils/FUTURE_ENHANCEMENTS.md § "PKI Client Production Signing"
 #ifdef THEMIS_TEST_MODE
     res.ok = true;
     res.signature_b64 = base64_encode(hash_bytes);
@@ -821,8 +833,18 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
         }
     }
 
-    // Fallback stub verification: compare base64(hash) equality.
-    // Guarded by THEMIS_TEST_MODE — never compiled into production builds.
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow unit tests to verify round-trip signing/verification without
+    //   a real CA.  Treats base64(SHA-256(cert_bytes)) equality as a valid
+    //   "signature" so the test can assert that sign()+verify() returns true.
+    // Activation: THEMIS_TEST_MODE defined at compile time; never in production.
+    // Production Delta: Does NOT verify a real X.509 signature; any cert signed
+    //   by a real CA will fail this check (false negative) and any random
+    //   base64 blob that happens to match will pass (false positive).
+    // Removal Plan: Replace with real EVP_DigestVerify call once a production
+    //   PKI endpoint is configured.  The #else branch already returns false for
+    //   production builds without a cert/endpoint.
+    // Roadmap ref: src/utils/FUTURE_ENHANCEMENTS.md § "PKI Client Production Signing"
 #ifdef THEMIS_TEST_MODE
     {
         std::string expected = base64_encode(hash_bytes);

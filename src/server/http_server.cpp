@@ -115,6 +115,9 @@
 #include "server/merge_api_handler.h"
 #include "server/feedback_api_handler.h"
 #include "server/http_type_adapter.h"  // TODO: Remove after migration to cpp-httplib (see HTTP_SERVER_REFACTORING_ACTION_PLAN.md)
+#ifdef THEMIS_ENABLE_MCP
+#include "server/mcp_server.h"
+#endif
 #include "analytics/diff_engine.h"
 #include "storage/pitr_manager.h"
 #include "sharding/multi_primary_coordinator.h"
@@ -656,14 +659,9 @@ HttpServer::HttpServer(
         THEMIS_INFO("Auth: ADMIN token configured via env");
         try {
             auto v = auth_->validateToken(cfg.token);
-            // TODO(GAP-011): Token prefix+suffix logged at startup - exposes 8 chars of the
-            // real token value (4-char prefix + 4-char suffix).  Tokens ≤ 8 chars are logged
-            // in full.  Fix: log only the token length, no prefix/suffix.
-            //   THEMIS_INFO("token_len={}", cfg.token.size());
-            // Target: Q3 2026
-            THEMIS_INFO("Auth check after addToken: validateToken(token='{}') -> authorized={} user_id='{}' reason='{}'",
-                       cfg.token.size() > 8 ? (std::string(cfg.token).substr(0,4) + "..." + std::string(cfg.token).substr(cfg.token.size()-4)) : cfg.token,
-                       v.authorized, v.user_id, v.reason);
+            // GAP-011 fixed: log only token length, never prefix/suffix bytes.
+            THEMIS_INFO("Auth check after addToken: validateToken(token_len={}) -> authorized={} user_id='{}' reason='{}'",
+                       cfg.token.size(), v.authorized, v.user_id, v.reason);
         } catch(...) {}
     }
     // Read-only token
@@ -2736,6 +2734,13 @@ namespace {
     ContinuousQueryListGet,         // GET    /v1/queries/continuous
     ContinuousQueryStreamSseGet,    // GET    /v1/queries/continuous/:name/results
 
+    // AI Safety Layer — HILG Approval Endpoints (ASL-6)
+    // Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+    AiApprovePendingPost,           // POST /v1/ai/approve/{operation_id}
+    AiDenyPendingPost,              // POST /v1/ai/deny/{operation_id}
+    AiPendingApprovalsGet,          // GET  /v1/ai/pending-approvals
+    AiRollbackPost,                 // POST /v1/ai/rollback/{snapshot_id}  (ASL-10)
+
         NotFound
     };
 
@@ -3438,6 +3443,31 @@ namespace {
             }
         }
 
+        // ── AI Safety Layer — HILG Approval endpoints (ASL-6) ──────────────
+        // POST /v1/ai/approve/{operation_id}
+        if (path_only.rfind("/v1/ai/approve/", 0) == 0 &&
+            path_only.size() > 15 &&
+            method == http::verb::post) {
+            return Route::AiApprovePendingPost;
+        }
+        // POST /v1/ai/deny/{operation_id}
+        if (path_only.rfind("/v1/ai/deny/", 0) == 0 &&
+            path_only.size() > 12 &&
+            method == http::verb::post) {
+            return Route::AiDenyPendingPost;
+        }
+        // GET /v1/ai/pending-approvals
+        if (path_only == "/v1/ai/pending-approvals" &&
+            method == http::verb::get) {
+            return Route::AiPendingApprovalsGet;
+        }
+        // POST /v1/ai/rollback/{snapshot_id}  (ASL-10)
+        if (path_only.rfind("/v1/ai/rollback/", 0) == 0 &&
+            path_only.size() > 16 &&
+            method == http::verb::post) {
+            return Route::AiRollbackPost;
+        }
+
         return Route::NotFound;
     }
 }
@@ -3828,18 +3858,63 @@ http::response<http::string_body> HttpServer::routeRequest(
 
                     const std::string model_id = payload.value("model_id", std::string{"default"});
                     const std::string model_path = payload.value("path", std::string{});
-                    // TODO(GAP-009): Path-traversal risk - model_path comes directly from the
-                    // HTTP request body and is only checked for emptiness.  An authenticated
-                    // admin can supply "../../../etc/shadow" or any arbitrary filesystem path.
-                    // Fix: canonicalize the path and assert it starts_with(config_.model_dir):
-                    //   auto canon = std::filesystem::weakly_canonical(model_path);
-                    //   if (!canon.string().starts_with(allowed_model_dir_)) { 400; }
-                    // Target: Q2 2026
+                    // GAP-009 fixed: canonicalize model_path and assert it does not escape
+                    // the allowed model directory (THEMIS_MODEL_DIR env var, or the process
+                    // working directory as a safe fallback).  This prevents path-traversal
+                    // attacks from authenticated admin users.
                     if (model_path.empty()) {
                         auto response = makeErrorResponse(http::status::bad_request,
                             "path is required", req);
                         applyGovernanceHeaders(req, response);
                         return response;
+                    }
+                    {
+                        // Determine the allowed model root.
+                        std::filesystem::path allowed_root;
+                        try {
+                            if (auto env_dir = themis_get_env("THEMIS_MODEL_DIR")) {
+                                allowed_root = std::filesystem::weakly_canonical(*env_dir);
+                            } else {
+                                allowed_root = std::filesystem::weakly_canonical(
+                                    std::filesystem::current_path());
+                                THEMIS_WARN("THEMIS_MODEL_DIR is not set; using current working directory "
+                                            "as model root: '{}'. Set THEMIS_MODEL_DIR to the intended "
+                                            "model directory to avoid this warning.",
+                                            allowed_root.string());
+                            }
+                        } catch (const std::filesystem::filesystem_error& fse) {
+                            auto response = makeErrorResponse(http::status::internal_server_error,
+                                "INTERNAL_ERROR",
+                                std::string("Model root canonicalization failed: ") + fse.what());
+                            res = std::move(response);
+                            break;
+                        }
+                        std::error_code ec;
+                        auto canon = std::filesystem::weakly_canonical(model_path, ec);
+                        // Use filesystem::equivalent() or a normalised prefix check that is
+                        // case-insensitive on platforms with case-insensitive file systems
+                        // (Windows, macOS default APFS).  Plain starts_with() on the
+                        // string representations is sufficient on Linux (case-sensitive FS)
+                        // but could be bypassed on Windows/macOS if the caller supplies a
+                        // path that differs only in case.  We guard further with
+                        // lexically_normal() to collapse any remaining "..".
+                        auto canon_norm = canon.lexically_normal();
+                        auto root_norm  = allowed_root.lexically_normal();
+                        bool inside_root = false;
+                        if (!ec) {
+                            // Primary: check that canon is a subdirectory of allowed_root
+                            // by verifying the prefix at the path-component boundary.
+                            auto [mismatch_it, _] = std::mismatch(
+                                root_norm.begin(), root_norm.end(),
+                                canon_norm.begin(), canon_norm.end());
+                            inside_root = (mismatch_it == root_norm.end());
+                        }
+                        if (ec || !inside_root) {
+                            auto response = makeErrorResponse(http::status::bad_request,
+                                "model path is outside the allowed directory", req);
+                            applyGovernanceHeaders(req, response);
+                            return response;
+                        }
                     }
 
                     bool load_ok = false;
@@ -6950,6 +7025,102 @@ http::response<http::string_body> HttpServer::routeRequest(
                 break;
             }
             response = continuous_query_api_->handleStreamSse(req, cq_name);
+            break;
+        }
+
+        // ── AI Safety Layer — HILG Approval Endpoints (ASL-6) ──────────────
+        // Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+        case Route::AiPendingApprovalsGet: {
+            if (auto auth_err = requireAccess(req, "admin", "ai.approvals.read",
+                                              "/v1/ai/pending-approvals")) {
+                response = *auth_err; break;
+            }
+            if (!mcp_server_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MCP server not initialized", req);
+                break;
+            }
+            const json result = mcp_server_->handleAiPendingApprovals();
+            response = makeResponse(http::status::ok, result.dump(), req);
+            break;
+        }
+
+        case Route::AiApprovePendingPost: {
+            if (auto auth_err = requireAccess(req, "admin", "ai.approvals.write",
+                                              "/v1/ai/approve/")) {
+                response = *auth_err; break;
+            }
+            if (!mcp_server_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MCP server not initialized", req);
+                break;
+            }
+            {
+                // Extract operation_id from /v1/ai/approve/{operation_id}
+                std::string ai_path = std::string(req.target());
+                const auto qp = ai_path.find('?');
+                if (qp != std::string::npos) ai_path = ai_path.substr(0, qp);
+                constexpr std::size_t kApproveRouteLen = 15;  // strlen("/v1/ai/approve/")
+                const std::string op_id = ai_path.substr(kApproveRouteLen);
+                const json result = mcp_server_->handleAiApprove(op_id);
+                const bool is_error = result.value("status", "") == "error";
+                response = makeResponse(
+                    is_error ? http::status::not_found : http::status::ok,
+                    result.dump(), req);
+            }
+            break;
+        }
+
+        case Route::AiDenyPendingPost: {
+            if (auto auth_err = requireAccess(req, "admin", "ai.approvals.write",
+                                              "/v1/ai/deny/")) {
+                response = *auth_err; break;
+            }
+            if (!mcp_server_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MCP server not initialized", req);
+                break;
+            }
+            {
+                // Extract operation_id from /v1/ai/deny/{operation_id}
+                std::string ai_path = std::string(req.target());
+                const auto qp = ai_path.find('?');
+                if (qp != std::string::npos) ai_path = ai_path.substr(0, qp);
+                constexpr std::size_t kDenyRouteLen = 12;  // strlen("/v1/ai/deny/")
+                const std::string op_id = ai_path.substr(kDenyRouteLen);
+                const json result = mcp_server_->handleAiDeny(op_id);
+                const bool is_error = result.value("status", "") == "error";
+                response = makeResponse(
+                    is_error ? http::status::not_found : http::status::ok,
+                    result.dump(), req);
+            }
+            break;
+        }
+
+        // ASL-10: Rollback endpoint
+        // Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+        case Route::AiRollbackPost: {
+            if (auto auth_err = requireAccess(req, "admin", "ai.approvals.write",
+                                              "/v1/ai/rollback/")) {
+                response = *auth_err; break;
+            }
+            if (!mcp_server_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MCP server not initialized", req);
+                break;
+            }
+            {
+                std::string ai_path = std::string(req.target());
+                const auto qp = ai_path.find('?');
+                if (qp != std::string::npos) ai_path = ai_path.substr(0, qp);
+                constexpr std::size_t kRollbackRouteLen = 16;  // strlen("/v1/ai/rollback/")
+                const std::string snap_id = ai_path.substr(kRollbackRouteLen);
+                const json result = mcp_server_->handleAiRollback(snap_id);
+                const bool is_error = result.value("status", "") != "success";
+                response = makeResponse(
+                    is_error ? http::status::bad_request : http::status::ok,
+                    result.dump(), req);
+            }
             break;
         }
 
@@ -11541,9 +11712,20 @@ std::string HttpServer::extractClientIP(const http::request<http::string_body>& 
         return std::string(req["X-Real-IP"]);
     }
     
-    // Fallback: would need to extract from socket (not directly available in Beast)
-    // For now, return empty string which will be handled by rate limiter
-    return ""; // In production, extract from Session's socket remote_endpoint()
+    // STUB/SIMULATION NOTE:
+    // Purpose: Returns empty string when neither X-Forwarded-For nor X-Real-IP
+    //          header is present; the real socket remote_endpoint() extraction
+    //          requires passing the Boost.Beast session context into this helper,
+    //          which is not yet threaded through the call chain.
+    // Activation: Request has no proxy-forwarding headers.
+    // Production Delta: Rate limiter receives an empty client IP and cannot
+    //                   distinguish between different direct-connection clients;
+    //                   per-IP rate limiting is ineffective for direct connections.
+    // Removal Plan: Thread the Boost.Beast `tcp::socket::remote_endpoint()` into
+    //               this function (or pass `Session*` as an additional parameter)
+    //               and return `endpoint.address().to_string()`.  See
+    //               src/server/FUTURE_ENHANCEMENTS.md §HttpServer getClientIp.
+    return "";
 }
 
 std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
@@ -12620,6 +12802,19 @@ void HttpServer::setContinuousQueryEngine(
         THEMIS_INFO("ContinuousQueryEngine removed — CQL REST/SSE endpoints disabled");
     }
 }
+
+#ifdef THEMIS_ENABLE_MCP
+void HttpServer::setMcpServer(
+    std::shared_ptr<themis::server::McpServer> mcp_server)
+{
+    mcp_server_ = std::move(mcp_server);
+    if (mcp_server_) {
+        THEMIS_INFO("McpServer wired — AI Safety Layer HILG endpoints active at /v1/ai/*");
+    } else {
+        THEMIS_INFO("McpServer removed — AI Safety Layer HILG endpoints disabled");
+    }
+}
+#endif
 
 } // namespace server
 } // namespace themis

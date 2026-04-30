@@ -496,6 +496,20 @@ void RedisCacheCoordinator::subscribeLoop() {
 
 #else  // !THEMIS_ENABLE_REDIS
 
+// STUB/SIMULATION NOTE:
+// Purpose: Provide link-compatible no-op bodies for the three private methods
+//   that depend on hiredis so that RedisCacheCoordinator compiles and links on
+//   systems without hiredis.  The constructor (above) logs a WARN and sets
+//   pub_connected_ = false so any caller can detect the degraded state.
+// Activation: THEMIS_ENABLE_REDIS is not defined (default in minimal builds).
+//   Enable via vcpkg feature 'redis' or -DTHEMIS_ENABLE_REDIS=ON.
+// Production Delta: Cross-node cache invalidation is disabled; each node
+//   maintains an independent in-process cache.  Invalidations issued on one
+//   node are NOT propagated to peers, potentially causing stale reads across
+//   a distributed deployment for the duration of the cache TTL.
+// Removal Plan: Enable hiredis and set THEMIS_ENABLE_REDIS=ON; the real
+//   pub/sub path above the #else branch becomes active.
+// Roadmap ref: src/cache/FUTURE_ENHANCEMENTS.md § "Redis Pub/Sub Invalidation (v1.6.0)"
 bool RedisCacheCoordinator::connectPublish()  { return false; }
 bool RedisCacheCoordinator::connectSubscribe(){ return false; }
 void RedisCacheCoordinator::subscribeLoop()   {}

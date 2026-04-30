@@ -152,6 +152,27 @@ v0.3.0 — `PhilosophyLoader::reloadProfiles()` atomic hot-reload with mutex. `E
 - [ ] LLM argument content generation (Target: Q3 2026)
 - [x] Benchmark: decision pipeline ≤ 200 ms at p99 (excl. LLM) (Target: Q4 2026)
   - `tests/test_ethics_ai_benchmark.cpp` PB-01..PB-06 registered as EthicsAIBenchmarkTests
+- [x] EthicsProfileRegistry — lazy-loading metadata index + LRU cache (Target: Q3 2026)
+  - `include/plugins/ethics_ai/ethics_profile_registry.h`, `src/ethics_ai/ethics_profile_registry.cpp`
+  - Scales to 1 000+ profiles; RAM: ~500 B/profile index; LRU cap: 20 warm profiles
+  - Tests: EPR-01..12 in `tests/test_ethics_profile_registry.cpp`
+- [x] EthicsSelectionRouter — 3-stage funnel for >100 schools (Target: Q3 2026)
+  - `include/plugins/ethics_ai/ethics_selection_router.h`, `src/ethics_ai/ethics_selection_router.cpp`
+  - Stage-1 tag/taxonomy (≤2 ms), Stage-2 semantic overlap (≤20 ms), Stage-3 precedent DC (≤50 ms)
+  - Tests: ESR-01..10 in `tests/test_ethics_selection_router.cpp`
+  - STUB: Stage-2 uses term-overlap proxy (real embedding model planned Q3 2026)
+  - STUB: Stage-3 uses in-memory precedent map (KG graph integration planned Q4 2026)
+- [x] Ethics Taxonomy Configuration `config/ethics_ai/ethics_taxonomy.yaml` (12 classes, 40+ schools)
+- [x] New YAML profiles: `behoerden_ethik.yaml`, `universitaere_ethik.yaml`, `islamische_ethik.yaml`
+- [x] New YAML profiles (canonical format): `buddhistische_ethik.yaml`, `juedische_bioethik.yaml`, `konfuzianismus.yaml` (Target: Q3 2026)
+  - All 6 new profiles follow canonical YAML format (founders, historical_context, application_areas, famous_quotes, key_literature, section headers)
+  - All 6 include routing metadata (taxonomy_class, tags, applicable_domains, convergence_compatible, regulatory_constraints, domain_overrides)
+- [x] §9.1 Per-thesis `token_budget` + `activation_rounds` + `selectThesesForRound()` (Target: Q3 2026)
+  - `PhilosophyThesis` struct in `ethics_ai_types.h` (thesis_id, name, description, token_budget, activation_rounds, round_role_weights)
+  - `PhilosophyProfile.typed_theses` additive field — backward compatible
+  - `philosophy_loader.cpp` parses typed thesis objects → `typed_theses`
+  - `ContextWindowBudgetManager::selectThesesForRound()` in `context_window_manager.h/.cpp`
+  - Tests TBM-01..10 in `tests/test_thesis_budget_management.cpp`
 
 ### Phase 6: Documentation & Acceptance [ ]
 - [x] README, ARCHITECTURE, AUDIT, CHANGELOG, ROADMAP, SECURITY, FUTURE_ENHANCEMENTS
@@ -181,6 +202,8 @@ v0.3.0 — `PhilosophyLoader::reloadProfiles()` atomic hot-reload with mutex. `E
 | Debate transcript | ✅ | `storeDebateRound()` + `getDebateTranscript()` ordered by round_number |
 | Profile hot-reload | ✅ | `reloadProfiles()` atomic mutex-protected swap |
 | Prometheus metrics | ✅ | `recordDecision()` + `getMetricsText()` — 5 families, std::atomic backed |
+| Profile registry (>100 schools) | ✅ | `EthicsProfileRegistry` lazy-loading + LRU cache; EPR-01..12 |
+| School selection routing | ✅ | `EthicsSelectionRouter` 3-stage funnel; ESR-01..10 |
 
 ---
 

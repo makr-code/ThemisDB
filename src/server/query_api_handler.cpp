@@ -527,23 +527,30 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         
     // Cursor-Pagination: Wir verlagern Cursor-Handling in die Engine (Anker-basiert)
         
-        // Optional: Frontier-Limits f�r Traversal (Soft-Limit)
-        // TODO(GAP-021): max_frontier_size and max_results are taken from user without a
-        // server-side upper cap.  A request with max_frontier_size=999999999 causes a
-        // massive traversal and OOM.  Fix: add server-side caps from config/env.
-        // static constexpr size_t kMaxFrontierSizeCap = 500000;
-        // max_frontier_size = std::min(max_frontier_size, kMaxFrontierSizeCap);  Target: Q2 2026
-        size_t max_frontier_size = body.contains("max_frontier_size") ? body["max_frontier_size"].get<size_t>() : 100000;
-        size_t max_results = body.contains("max_results") ? body["max_results"].get<size_t>() : 10000;
+        // Optional: Frontier-Limits für Traversal (Soft-Limit)
+        // GAP-021 fixed: cap max_frontier_size and max_results with server-side defaults
+        // to prevent OOM from adversarial large traversal requests.
+        static constexpr size_t kMaxFrontierSizeCap = 500'000;
+        static constexpr size_t kDefaultFrontierSize = 100'000;
+        static constexpr size_t kMaxResultsCap       = 50'000;
+        static constexpr size_t kDefaultMaxResults   = 10'000;
+        size_t max_frontier_size = body.contains("max_frontier_size")
+            ? std::min(body["max_frontier_size"].get<size_t>(), kMaxFrontierSizeCap)
+            : kDefaultFrontierSize;
+        size_t max_results = body.contains("max_results")
+            ? std::min(body["max_results"].get<size_t>(), kMaxResultsCap)
+            : kDefaultMaxResults;
 
         // Per-query resource limits (max rows, max memory, timeout)
         query::QueryResourceLimits resource_limits;
-        // TODO(GAP-022): max_memory_bytes=0 means unlimited (aql_runner.cpp:826 skips the check
-        // when 0).  A user can bypass the default by explicitly sending {"max_memory_bytes": 0}.
-        // Fix: if user sends 0 OR omits the field, apply a server-side default (e.g. 256 MB).
-        // Target: Q2 2026
+        // GAP-022 fixed: when the user sends 0 OR omits max_memory_bytes, apply a
+        // server-side default of 256 MiB so the check in aql_runner.cpp is never skipped.
+        static constexpr size_t kDefaultMaxMemoryBytes = 256ULL * 1024 * 1024; // 256 MiB
         resource_limits.max_rows         = body.contains("max_rows")         ? body["max_rows"].get<size_t>()         : 0;
-        resource_limits.max_memory_bytes = body.contains("max_memory_bytes") ? body["max_memory_bytes"].get<size_t>() : 0;
+        {
+            size_t user_mem = body.contains("max_memory_bytes") ? body["max_memory_bytes"].get<size_t>() : 0;
+            resource_limits.max_memory_bytes = (user_mem > 0) ? user_mem : kDefaultMaxMemoryBytes;
+        }
         resource_limits.timeout_ms       = body.contains("timeout_ms")       ? body["timeout_ms"].get<uint32_t>()     : 0;
         auto resource_limit_start = std::chrono::steady_clock::now();
         
@@ -3453,9 +3460,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
         res.set(http::field::content_type, "text/event-stream");
         res.set(http::field::cache_control, "no-cache, no-transform");
         res.set(http::field::connection, "keep-alive");
-        // TODO(GAP-012): Hardcoded CORS wildcard - bypasses central CORS policy.
-        // Fix: use the configured origin-whitelist from HttpServer config. Target: Q3 2026
-        res.set(http::field::access_control_allow_origin, "*");
+        // GAP-012 fixed: no hardcoded CORS wildcard; CORS is applied by the central
+        // HttpServer dispatch layer via THEMIS_CORS_* env vars.
         res.keep_alive(true);
 
         std::ostringstream body;

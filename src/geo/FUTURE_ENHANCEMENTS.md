@@ -387,3 +387,52 @@ Implement dedicated CUDA kernels for the set-operation ST_ functions so that the
 [R9] Brinkhoff, T., Kriegel, H.-P., & Seeger, B. (1993). Efficient Processing of Spatial Joins Using R-Trees. *Proceedings of the 1993 ACM SIGMOD International Conference on Management of Data*, 237–246. https://doi.org/10.1145/170035.170075
 
 [R10] Open Geospatial Consortium. (2010). OpenGIS® Implementation Standard for Geographic Information – Simple Feature Access – Part 1: Common Architecture (Version 1.2.1). OGC 06-103r4. https://www.ogc.org/standards/sfa
+
+---
+
+## CUDA Geospatial Kernels — GpuKernelDispatcher Activation (Target: Q3 2026 / v2.0.0)
+
+**Stub:** `src/geo/gpu_kernel_dispatcher_cpu.cpp` — entire file is no-op for non-CUDA builds; `dispatch()` always returns `dispatched=false`  
+**Risk:** All geospatial distance-matrix and containment-bitset computations run on CPU regardless of available GPU; batch geo queries are 10–100× slower than achievable with CUDA kernels.
+
+### Scope
+- The CUDA kernel implementations (`gpu/cuda_kernels.cu`, distance/containment kernels) already exist and are guarded by `THEMIS_GEO_CUDA`.
+- The `GpuKernelDispatcher` (non-CPU version: `gpu_kernel_dispatcher.cpp`) dispatches to these kernels when `THEMIS_GEO_CUDA=ON` and a CUDA device is detected.
+- To activate: install CUDA toolkit ≥ 11.2, rebuild with `-DTHEMIS_GEO_CUDA=ON`; CMake then compiles `gpu_kernel_dispatcher.cpp` (real) instead of `gpu_kernel_dispatcher_cpu.cpp` (stub).
+
+### Design Constraints
+- Inputs: WGS84 points/polygons, batch size up to 1 M.
+- Outputs: distance matrix (double, Haversine) + containment bitset.
+- Deterministic FP tolerance: max absolute error ≤ 1 mm for WGS-84 distances.
+- CPU fallback: always available via `dispatched=false` → `boost_cpu_exact_backend`.
+
+### Test Strategy
+- Unit: compile with `THEMIS_GEO_CUDA=OFF`; assert `dispatch()` returns `dispatched=false` for all inputs.
+- Integration: compile with `THEMIS_GEO_CUDA=ON` on a CUDA GPU; run 1 M-point batch; assert p99 latency ≤ target.
+- Parity: GPU results ≤ 1 mm from CPU results on a 10 K point reference dataset.
+
+### Performance Targets
+- Distance matrix (1 M points, RTX-class GPU): ≥ 8× speedup vs CPU baseline.
+- Containment bitset (1 M points, complex polygon): ≥ 5× speedup vs CPU baseline.
+
+---
+
+## Boost.Geometry Integration (Target: v1.6.0 — stub completion)
+
+**Stub:** `src/geo/cpu_backend.cpp` — `pointInPolygon()` + related geometry helpers: pure-C++ ray-casting and segment-intersection, no geodesic projection, planar only  
+**Risk:** No OGC-compliant geodesic / spherical geometry; self-intersecting polygons, holes, and very large polygons not handled correctly; no Boost.Geometry backend compiled by default.
+
+### Scope
+- Add `Boost.Geometry` as a CMake dependency (`find_package(Boost REQUIRED geometry)`).
+- Implement `BoostGeometryBackend : ISpatialComputeBackend` that delegates to `boost::geometry::intersects`, `boost::geometry::covered_by`, `boost::geometry::within`.
+- Register `BoostGeometryBackend` with higher priority than `ApproximateCpuBackend` in `GeoBackendRegistry`.
+- Support geodesic coordinate systems (WGS84 spherical) via `boost::geometry::srs::spheroid`.
+
+### Performance Targets
+- `batchIntersects` (1 000 polygon pairs, d ≤ 100 vertices): ≤ 5 ms on a single CPU core.
+- Point-in-polygon (single query): ≤ 1 µs.
+
+### Test Strategy
+- Positive: point inside concave polygon → `intersects` = true (ray-casting can fail for concave polygons; Boost handles correctly).
+- Geodesic: WGS84 point at lon=0.001 lat=51.5 inside a 1 km² London bounding box → true.
+- Negative: point outside polygon → false; no false positives for non-overlapping bounding boxes.

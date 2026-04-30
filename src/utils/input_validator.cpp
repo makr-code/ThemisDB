@@ -253,6 +253,25 @@ std::optional<std::string> InputValidator::validateJsonStub(
     const nlohmann::json& payload,
     const std::string& schema_name
 ) const {
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide a lightweight JSON-schema validation path that silently
+    //   accepts requests when the schema file is not present on disk.  If the
+    //   schema file `<schema_dir>/<schema_name>.json` exists, the payload is
+    //   validated against it via `validateJson()`.  If the file is absent,
+    //   `validateJsonStub()` returns `std::nullopt` (no error) and the request
+    //   is accepted unconditionally.
+    // Activation: Schema file not deployed to `schema_dir_` at runtime (the
+    //   common case in development and CI builds).
+    // Production Delta: Without a schema file, arbitrary JSON payloads (including
+    //   malformed or adversarial requests) pass validation silently.  The only
+    //   protection in effect is the surrounding hard-coded structural checks in
+    //   `validateAqlRequest()`.  Missing schema files are a silent security gap:
+    //   no warning is logged when the file is absent.
+    // Removal Plan: (1) Deploy schema files to `schema_dir_` in production
+    //   (controlled via `THEMIS_SCHEMA_DIR` env var or config YAML).
+    //   (2) Log WARN when a requested schema file is not found so the gap is
+    //   visible in logs.
+    // Roadmap ref: src/utils/FUTURE_ENHANCEMENTS.md §"JSON Schema Validation Activation"
     auto schema = loadSchema(schema_name);
     if (!schema.has_value()) {
         return std::nullopt; // no schema file present -> accept

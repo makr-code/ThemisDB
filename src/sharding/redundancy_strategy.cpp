@@ -2277,8 +2277,17 @@ std::string RedundancyStrategy::selectReadShard(
             return available_shards[0];
             
         case ReadPreference::NEAREST:
-            // For now, just return first shard
-            // In production, calculate based on network latency
+            // STUB/SIMULATION NOTE:
+            // Purpose: Falls back to first available shard while network-latency
+            //          measurement to each shard is not yet implemented.
+            // Activation: ReadPreference::NEAREST selected without latency tracking.
+            // Production Delta: Returns the first available shard regardless of
+            //                   actual network latency; nearest-shard routing does
+            //                   not reduce read latency as intended.
+            // Removal Plan: Maintain per-shard latency histogram (e.g. from
+            //               periodic ping or moving average of RPC RTTs); select
+            //               the shard with the minimum recent P50 latency.  See
+            //               src/sharding/FUTURE_ENHANCEMENTS.md §Redundancy Strategy Nearest Shard.
             return available_shards[0];
             
         case ReadPreference::ROUND_ROBIN: {

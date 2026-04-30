@@ -1343,3 +1343,169 @@ TEST_F(ThemisDBIntegrationTest, TraverseThreeLabelsAllReachable) {
     EXPECT_TRUE(found_Y) << "Y via T2 must be reachable";
     EXPECT_TRUE(found_Z) << "Z via T3 must be reachable";
 }
+
+// ============================================================================
+// CHI-EI: Engine-Injection NOT_IMPLEMENTED guard tests
+// ============================================================================
+//
+// These tests verify that injecting engine pointers (query_engine_,
+// vector_index_, graph_index_) while THEMISDB_ENGINE_AVAILABLE is NOT defined
+// at compile time causes the adapter to return ErrorCode::NOT_IMPLEMENTED
+// deterministically — rather than silently falling back to simulation or
+// exhibiting undefined behaviour.
+//
+// Design: a non-null sentinel pointer is constructed from the address of a
+// statically-allocated placeholder object.  This address is never dereferenced
+// inside the adapter because the #else branch (active when
+// THEMISDB_ENGINE_AVAILABLE is absent) returns the error immediately without
+// touching the pointer value.
+//
+// Removal Plan: when THEMISDB_ENGINE_AVAILABLE is universally defined by the
+// build system for engine-linked configurations, these tests should be replaced
+// by integration tests against a real engine (ChimeraAdapters.cmake, Q3 2026).
+
+namespace {
+// Shared address-of-static sentinel used as a non-null, non-dereferenceable
+// engine pointer for the tests below.
+static int g_engine_sentinel = 0;
+} // namespace
+
+class ThemisDBEngineInjectionTest : public ::testing::Test {
+protected:
+    // Helper: produce a non-null sentinel cast to the requested engine type.
+    // The sentinel is NEVER dereferenced — it only makes the adapter's
+    // `if (query_engine_)` / `if (vector_index_)` / `if (graph_index_)` guards
+    // evaluate to true so that the #else NOT_IMPLEMENTED branch is exercised.
+    static themis::QueryEngine* fake_qe() {
+        return reinterpret_cast<themis::QueryEngine*>(&g_engine_sentinel);
+    }
+    static themis::VectorIndexManager* fake_vi() {
+        return reinterpret_cast<themis::VectorIndexManager*>(&g_engine_sentinel);
+    }
+    static themis::GraphIndexManager* fake_gi() {
+        return reinterpret_cast<themis::GraphIndexManager*>(&g_engine_sentinel);
+    }
+};
+
+// CHI-EI-01: execute_query returns NOT_IMPLEMENTED when QueryEngine is
+//            injected but THEMISDB_ENGINE_AVAILABLE is absent.
+TEST_F(ThemisDBEngineInjectionTest, ExecuteQueryNotImplementedWithoutEngineHeaders) {
+    ThemisDBAdapter adapter(fake_qe());
+    ASSERT_TRUE(adapter.connect("themisdb://localhost:7777").is_ok());
+
+    auto res = adapter.execute_query("FOR doc IN items RETURN doc");
+    EXPECT_TRUE(res.is_err());
+    EXPECT_EQ(res.error_code, ErrorCode::NOT_IMPLEMENTED);
+}
+
+// CHI-EI-02: execute_query with empty query string and injected QueryEngine.
+TEST_F(ThemisDBEngineInjectionTest, ExecuteQueryEmptyQueryNotImplemented) {
+    ThemisDBAdapter adapter(fake_qe());
+    ASSERT_TRUE(adapter.connect("themisdb://localhost:7777").is_ok());
+
+    auto res = adapter.execute_query("");
+    EXPECT_TRUE(res.is_err());
+    EXPECT_EQ(res.error_code, ErrorCode::NOT_IMPLEMENTED);
+}
+
+// CHI-EI-03: execute_query with params and injected QueryEngine.
+TEST_F(ThemisDBEngineInjectionTest, ExecuteQueryWithParamsNotImplemented) {
+    ThemisDBAdapter adapter(fake_qe());
+    ASSERT_TRUE(adapter.connect("themisdb://localhost:7777").is_ok());
+
+    auto res = adapter.execute_query("SELECT ?", {Scalar{int64_t(42)}});
+    EXPECT_TRUE(res.is_err());
+    EXPECT_EQ(res.error_code, ErrorCode::NOT_IMPLEMENTED);
+}
+
+// CHI-EI-04: search_vectors returns NOT_IMPLEMENTED when VectorIndexManager
+//            is injected but THEMISDB_ENGINE_AVAILABLE is absent.
+TEST_F(ThemisDBEngineInjectionTest, SearchVectorsNotImplementedWithoutEngineHeaders) {
+    ThemisDBAdapter adapter(nullptr, fake_vi());
+    ASSERT_TRUE(adapter.connect("themisdb://localhost:7777").is_ok());
+
+    Vector qv;
+    qv.data = {1.0f, 0.0f, 0.0f};
+    auto res = adapter.search_vectors("embeddings", qv, 5);
+    EXPECT_TRUE(res.is_err());
+    EXPECT_EQ(res.error_code, ErrorCode::NOT_IMPLEMENTED);
+}
+
+// CHI-EI-05: search_vectors with k=0 and injected VectorIndexManager.
+TEST_F(ThemisDBEngineInjectionTest, SearchVectorsKZeroNotImplemented) {
+    ThemisDBAdapter adapter(nullptr, fake_vi());
+    ASSERT_TRUE(adapter.connect("themisdb://localhost:7777").is_ok());
+
+    Vector qv;
+    qv.data = {0.5f, 0.5f};
+    auto res = adapter.search_vectors("col", qv, 0);
+    EXPECT_TRUE(res.is_err());
+    EXPECT_EQ(res.error_code, ErrorCode::NOT_IMPLEMENTED);
+}
+
+// CHI-EI-06: shortest_path returns NOT_IMPLEMENTED when GraphIndexManager
+//            is injected but THEMISDB_ENGINE_AVAILABLE is absent.
+TEST_F(ThemisDBEngineInjectionTest, ShortestPathNotImplementedWithoutEngineHeaders) {
+    ThemisDBAdapter adapter(nullptr, nullptr, fake_gi());
+    ASSERT_TRUE(adapter.connect("themisdb://localhost:7777").is_ok());
+
+    auto res = adapter.shortest_path("A", "B");
+    EXPECT_TRUE(res.is_err());
+    EXPECT_EQ(res.error_code, ErrorCode::NOT_IMPLEMENTED);
+}
+
+// CHI-EI-07: shortest_path with custom max_depth and injected GraphIndexManager.
+TEST_F(ThemisDBEngineInjectionTest, ShortestPathCustomDepthNotImplemented) {
+    ThemisDBAdapter adapter(nullptr, nullptr, fake_gi());
+    ASSERT_TRUE(adapter.connect("themisdb://localhost:7777").is_ok());
+
+    auto res = adapter.shortest_path("src", "dst", 3);
+    EXPECT_TRUE(res.is_err());
+    EXPECT_EQ(res.error_code, ErrorCode::NOT_IMPLEMENTED);
+}
+
+// CHI-EI-08: traverse returns NOT_IMPLEMENTED when GraphIndexManager is
+//            injected but THEMISDB_ENGINE_AVAILABLE is absent.
+TEST_F(ThemisDBEngineInjectionTest, TraverseNotImplementedWithoutEngineHeaders) {
+    ThemisDBAdapter adapter(nullptr, nullptr, fake_gi());
+    ASSERT_TRUE(adapter.connect("themisdb://localhost:7777").is_ok());
+
+    // No edge labels — unfiltered BFS path
+    auto res = adapter.traverse("root", 3);
+    EXPECT_TRUE(res.is_err());
+    EXPECT_EQ(res.error_code, ErrorCode::NOT_IMPLEMENTED);
+}
+
+// CHI-EI-08b: traverse with edge labels and injected GraphIndexManager.
+TEST_F(ThemisDBEngineInjectionTest, TraverseWithLabelsNotImplemented) {
+    ThemisDBAdapter adapter(nullptr, nullptr, fake_gi());
+    ASSERT_TRUE(adapter.connect("themisdb://localhost:7777").is_ok());
+
+    auto res = adapter.traverse("root", 2, {"KNOWS", "LIKES"});
+    EXPECT_TRUE(res.is_err());
+    EXPECT_EQ(res.error_code, ErrorCode::NOT_IMPLEMENTED);
+}
+
+// CHI-EI-09: All three engines injected simultaneously — each of the three
+//            engine-dispatched methods must return NOT_IMPLEMENTED.
+TEST_F(ThemisDBEngineInjectionTest, AllEnginesInjectedEachMethodReturnsNotImplemented) {
+    ThemisDBAdapter adapter(fake_qe(), fake_vi(), fake_gi());
+    ASSERT_TRUE(adapter.connect("themisdb://localhost:7777").is_ok());
+
+    auto q_res = adapter.execute_query("SELECT 1");
+    EXPECT_TRUE(q_res.is_err());
+    EXPECT_EQ(q_res.error_code, ErrorCode::NOT_IMPLEMENTED);
+
+    Vector qv; qv.data = {1.0f};
+    auto v_res = adapter.search_vectors("col", qv, 1);
+    EXPECT_TRUE(v_res.is_err());
+    EXPECT_EQ(v_res.error_code, ErrorCode::NOT_IMPLEMENTED);
+
+    auto g_res = adapter.shortest_path("X", "Y");
+    EXPECT_TRUE(g_res.is_err());
+    EXPECT_EQ(g_res.error_code, ErrorCode::NOT_IMPLEMENTED);
+
+    auto t_res = adapter.traverse("X", 1);
+    EXPECT_TRUE(t_res.is_err());
+    EXPECT_EQ(t_res.error_code, ErrorCode::NOT_IMPLEMENTED);
+}

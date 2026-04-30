@@ -293,9 +293,19 @@ std::string KerberosSecurityValidator::extractServicePrincipal(
     // GSSAPI tokens typically start with OID for Kerberos mechanism
     // Followed by AP-REQ structure containing ticket with service principal
     
-    // For now, return empty if can't extract
-    // Full implementation would parse ASN.1 structure
-    
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provides a minimal length-gate while full ASN.1 GSSAPI/Kerberos
+    //          token parsing (to extract the service principal from the AP-REQ
+    //          structure) is not yet implemented.
+    // Activation: Always — no ASN.1 OID / AP-REQ parser is invoked.
+    // Production Delta: Returns empty string for all valid Kerberos tokens
+    //                   longer than 10 bytes; service-principal-based policy
+    //                   enforcement cannot function.
+    // Removal Plan: Parse the GSSAPI token OID (1.2.840.113554.1.2.2 for
+    //               KRB5); decode the AP-REQ DER structure; extract the
+    //               service principal from the ticket's sname field.  Use
+    //               Heimdal or MIT KRB5 ASN.1 APIs.  See
+    //               src/auth/FUTURE_ENHANCEMENTS.md §Kerberos Service Principal Extraction.
     if (token_data.size() < 10) {
         return "";
     }

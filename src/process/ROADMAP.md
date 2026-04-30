@@ -84,19 +84,19 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
   - `ProcessModelManager::importArisXml()` wraps importer for high-level use
   - 10 tests: EAX-01..EAX-10 (`tests/test_process_aris_xml.cpp`); target: `test_process_aris_xml_focused`
 
-- [ ] BPMN-S (BPMN Security Profile) support (Target: Q4 2026)
+- [x] BPMN-S (BPMN Security Profile) support (Target: Q4 2026)
   - Affected: `bpmn_serializer.cpp`, `ProcessModelRecord`, `ProcessGraphRag::checkCompliance()`
   - Expected: annotate BPMN nodes with DSGVO data-handling requirements (personal data, retention period, legal basis); expose in compliance check
   - Tests: compliance check correctly flags missing DSGVO annotations; integration test with a BPMN-S sample model
   - Constraints: must not break existing BPMN 2.0 import/export
 
-- [ ] Real-time SLA monitoring and alert dispatch (Target: Q4 2026)
+- [x] Real-time SLA monitoring and alert dispatch (Target: Q4 2026)
   - Affected: `process_graph_rag.cpp`, scheduler module, CEP engine (`analytics/cep_engine.cpp`)
   - Expected: register SLA CEP rule per active instance; dispatch alert (webhook/Slack/email) when instance is at risk or overdue; deregister on completion
   - Tests: CEP alert fires within 100 ms of SLA threshold crossing; no false positives
   - Errors: alert dispatch failure → log + retry with exponential back-off (max 3 retries)
 
-- [ ] Cross-case graph analytics: identify bottlenecks across all Vorgänge (Target: Q4 2026)
+- [x] Cross-case graph analytics: identify bottlenecks across all Vorgänge (Target: Q4 2026)
   - Affected: `ProcessGraphRag` + `analytics/process_mining.cpp`
   - Expected: aggregate token dwell-time per node across all completed instances; report top-5 bottleneck nodes; expose via AQL `PROCESS_BOTTLENECKS(model_id)` function
   - Tests: synthetic dataset of 1,000 instances with known bottleneck; detection accuracy ≥ 90 %
@@ -140,9 +140,9 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
 ### Phase 5: Advanced Features (Status: Partially Complete)
 
 - [x] EPK ARIS-XML import (Target: Q3 2026) — `EpkArisXmlImporter` (`include/process/epk_aris_xml_importer.h`)
-- [ ] BPMN-S security profile for DSGVO compliance (Target: Q4 2026)
-- [ ] Real-time SLA monitoring via CEP engine (Target: Q4 2026)
-- [ ] Cross-case bottleneck analytics (Target: Q4 2026)
+- [x] BPMN-S security profile for DSGVO compliance (Target: Q4 2026)
+- [x] Real-time SLA monitoring via CEP engine (Target: Q4 2026)
+- [x] Cross-case bottleneck analytics (Target: Q4 2026)
 
 ### Phase 7: State-of-the-Art – SotA-Derived Features (Status: In Progress)
 
@@ -164,29 +164,32 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
   - Event-Objekt-Beziehungen aus ProcessLinker-Anhängen
   - Tests: OCEL 2.0 JSON-Schema-Validierung; Round-trip mit PM4Py
   - OCEL-01..OCEL-04 Tests ✅
-- [ ] Leiden-Community-Detection für Prozesscluster (GraphRAG, Edge 2024) (Target: Q3 2026)
+- [x] Leiden-Community-Detection für Prozesscluster (GraphRAG, Edge 2024) (Target: Q3 2026)
   - `ProcessCommunityDetector::detect()` → thematische Knotengruppen
   - LLM-Community-Reports pro Cluster, gecacht unter `proc:community:`
   - Globale Anfragen ("Beschreibe den Genehmigungsablauf") über Reports statt Knotentraversal
   - Perf: Recompute < 500 ms für 500 Knoten
-- [ ] Duales Retrieval Local/Global (LightRAG, Guo 2024) (Target: Q3 2026)
+  - LCD-01..LCD-10 Tests ✅
+- [x] Duales Retrieval Local/Global (LightRAG, Guo 2024) (Target: Q3 2026)
   - `ProcessLightRetriever::retrieve(query, instance_id, mode: LOW|HIGH|AUTO)`
   - Low = Entity-zentriert (Sachbearbeiter-Anfragen), High = Community-zentriert (Bürger-Anfragen)
   - AUTO wählt Modus basierend auf Anfrage-Typ (spezifisch vs. konzeptuell)
-- [ ] Object-Centric Process Mining / OCPM (van der Aalst 2022) (Target: Q3 2026)
+  - PLR-01..PLR-08 Tests ✅
+- [x] Object-Centric Process Mining / OCPM (van der Aalst 2022) (Target: Q3 2026)
   - `ObjectCentricTracer`: OCEL 2.0 Log aus Instanz + Anhängen; DFG pro Objekttyp
   - Konvergenz/Divergenz-Analyse für Verwaltungsvorgänge (Antragsteller, Dokument, Prüfer)
   - Perf: DFG-Berechnung ≤ 5 s für 10.000 Events
+  - OCT-01..OCT-10 Tests ✅
 - [x] DMN 1.5 Entscheidungstabellen (OMG 2023) (Target: Q3 2026)
   - `DmnEvaluator::loadFromXml/Json()`, `evaluate()`, `evaluateFeel()`
   - FEEL-Subset: numerische Vergleiche, Bereiche `[a..b]`, String-Gleichheit, null, boolean
   - Hit-Policies: UNIQUE, FIRST, COLLECT
   - DMN-01..DMN-10 Tests ✅
-- [ ] FIM-Prozessbibliothek-Import (FITKO 2024) (Target: Q4 2026)
+- [x] FIM-Prozessbibliothek-Import (FITKO 2024) (Target: Q4 2026)
   - `FimImporter::importFimXml()`, `importFimCatalogue()`, `importFromFitkoApi()`
   - 5.000+ standardisierte Verwaltungsprozesse aus dem Bundesportal importierbar
   - FIM-Leistungscode in `compliance_tags` erhalten
-- [ ] CMMN 1.1 Case Management Support (OMG 2016) (Target: Q4 2026)
+- [x] CMMN 1.1 Case Management Support (OMG 2016) (Target: Q4 2026)
   - `CmmnSerializer::importXml/exportXml()` für adaptive Fallmodelle
   - Discretionary Tasks: Sachbearbeiter entscheidet Reihenfolge zur Laufzeit
   - `ProcessNotation::CMMN_1_1` als neuer Notation-Typ

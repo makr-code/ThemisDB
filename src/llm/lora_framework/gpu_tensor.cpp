@@ -339,11 +339,18 @@ GPUTensor GPUTensor::to_dtype(DType target_dtype) const {
     
     // For GPU tensors, use GPU conversion kernels
     GPUTensor result(shape_, device_, target_dtype);
-    
+
 #ifdef THEMIS_ENABLE_CUDA
     if (device_.type == DeviceType::CUDA) {
-        // TODO: Implement GPU dtype conversion kernels
-        // For now, fallback to CPU conversion
+        // STUB/SIMULATION NOTE:
+        // Purpose: CPU round-trip fallback for dtype conversion on CUDA tensors when
+        //          dedicated CUDA dtype-cast kernels are not yet implemented.
+        // Activation: Always active for CUDA path (real kernels not yet written).
+        // Production Delta: download() + upload() incur PCIe round-trip overhead;
+        //                   a native CUDA kernel (e.g. thrust::transform) is 10-50×
+        //                   faster and avoids peak-VRAM doubling.
+        // Removal Plan: Implement a CUDA __global__ cast kernel and remove this
+        //               CPU path (Target: v1.7.0, FUTURE_ENHANCEMENTS.md §"CUDA dtype kernels").
         auto cpu_data = download();
         GPUTensor temp(shape_, Device::cpu(), dtype_);
         temp.upload(cpu_data);
@@ -355,7 +362,11 @@ GPUTensor GPUTensor::to_dtype(DType target_dtype) const {
 
 #ifdef THEMIS_ENABLE_HIP
     if (device_.type == DeviceType::HIP) {
-        // TODO: Implement GPU dtype conversion kernels for HIP
+        // STUB/SIMULATION NOTE:
+        // Purpose: CPU round-trip fallback for dtype conversion on HIP/ROCm tensors.
+        // Activation: Always active for HIP path (real kernels not yet written).
+        // Production Delta: Same PCIe round-trip overhead as the CUDA path above.
+        // Removal Plan: Implement a HIP __global__ cast kernel (Target: v1.7.0).
         auto cpu_data = download();
         GPUTensor temp(shape_, Device::cpu(), dtype_);
         temp.upload(cpu_data);
@@ -940,7 +951,17 @@ GPUTensor ones(const std::vector<size_t>& shape, const Device& device, DType dty
     return GPUTensor(shape, 1.0f, device, dtype);
 }
 
-// TODO: Tensor type forward-declared but not defined - functions disabled for now
+// STUB/SIMULATION NOTE:
+// Purpose: from_legacy_tensor / to_legacy_tensor bridge functions are disabled because
+//          the `Tensor` type is forward-declared in the translation unit but its full
+//          definition is not available here (Tensor is defined in a separate module).
+// Activation: Disabled at compile time via this block comment.
+// Production Delta: Without these functions, callers must manually upload/download data
+//                   between Tensor and GPUTensor rather than using a convenience bridge.
+// Removal Plan: Include the Tensor header once the include graph allows it without
+//               circular dependencies (Target: v1.6.0). Replace the block comment with
+//               real function bodies and remove this note.
+// Roadmap ref: src/llm/lora_framework/FUTURE_ENHANCEMENTS.md § "GPUTensor legacy bridge"
 /*
 GPUTensor from_legacy_tensor(const Tensor& tensor, const Device& device, DType dtype) {
     GPUTensor result(tensor.shape(), device, dtype);

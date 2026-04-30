@@ -105,24 +105,43 @@ std::vector<GPUTensor> DistributedDataLoader::load_batch(size_t batch_idx) {
         
         size_t num_samples = gpu_end - gpu_start;
         auto sample_shape = batch_samples[gpu_start].shape();
-        
-        // Create batched shape (add batch dimension)
+
+        // Create batched shape: prepend batch dimension to the per-sample shape.
         std::vector<size_t> batch_shape = {num_samples};
         batch_shape.insert(batch_shape.end(), sample_shape.begin(), sample_shape.end());
-        
+
         GPUTensor batched_tensor(batch_shape, ctx_.get_device(gpu_idx));
-        
-        // TODO: Properly concatenate all samples
-        // For now, copy first sample's data repeated
-        auto first_data = batch_samples[gpu_start].cpu_data();
+
+        // Concatenate all samples along the batch dimension.
+        // Each sample must have the same shape; mismatched shapes are skipped with a
+        // warning so that one corrupt sample does not abort the entire mini-batch.
         std::vector<float> batch_data;
-        batch_data.reserve(first_data.size() * num_samples);
-        
-        for (size_t i = 0; i < num_samples; ++i) {
-            auto sample_data = batch_samples[gpu_start + i].cpu_data();
+        size_t per_sample_size = 1;
+        for (size_t d : sample_shape) per_sample_size *= d;
+        batch_data.reserve(per_sample_size * num_samples);
+
+        for (size_t i = gpu_start; i < gpu_end; ++i) {
+            if (batch_samples[i].shape() != sample_shape) {
+                // Shape mismatch: pad with zeros so the batch tensor stays rectangular.
+                // Log a warning with full dimensions so operators can identify
+                // corrupted samples in the training data.
+                auto shapeStr = [](const std::vector<size_t>& sh) {
+                    std::string s;
+                    for (size_t d = 0; d < sh.size(); ++d)
+                        s += (d ? "×" : "") + std::to_string(sh[d]);
+                    return s;
+                };
+                spdlog::warn("DistributedDataLoader: sample {} has unexpected shape — "
+                             "expected [{}], got [{}]; padding with zeros",
+                             i, shapeStr(sample_shape), shapeStr(batch_samples[i].shape()));
+                std::vector<float> zeros(per_sample_size, 0.0f);
+                batch_data.insert(batch_data.end(), zeros.begin(), zeros.end());
+                continue;
+            }
+            auto sample_data = batch_samples[i].cpu_data();
             batch_data.insert(batch_data.end(), sample_data.begin(), sample_data.end());
         }
-        
+
         batched_tensor.upload(batch_data);
         sharded_batch.push_back(std::move(batched_tensor));
     }

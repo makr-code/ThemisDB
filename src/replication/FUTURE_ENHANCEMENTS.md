@@ -858,3 +858,61 @@ themisdb-repl-doctor validate-wal --segment 12345
 - CRDT conflict resolution must never silently discard writes; all conflicts must be logged with their HLC timestamps for audit purposes
 - Selective replication filter patterns must be validated at configuration load time; invalid patterns must reject the configuration with a descriptive error
 - Cascading replication chains must enforce a maximum depth of 5 hops; exceeding this limit triggers an error to prevent unbounded lag accumulation
+
+---
+
+## Multi-Master Quorum Read (Target: future milestone — stub removal)
+
+**Stub:** `src/replication/replication_manager.cpp::MultiMasterReplicationManager::read()` — no peers are queried; `data` field is always empty string; `read_quorum` parameter is ignored.  
+**Risk:** Applications that rely on `read()` to retrieve consistent data will silently receive empty results.
+
+### Scope
+- Fan out `queryReplica()` to `read_quorum` peers concurrently.
+- Collect responses, resolve conflicts with `resolveConflicts()`, and return the winning version's data.
+- Enforce `read_quorum` availability: if fewer than `read_quorum` replicas respond, return failure.
+
+### Required Interfaces
+- `sendToReplica()` / `queryReplica()` — already in the file; wire to the `read()` call path.
+- `resolveConflicts()` — already implemented; call it after collecting quorum responses.
+
+### Performance Targets
+- Quorum read latency: P99 ≤ 10 ms on a 3-node LAN cluster (excluding storage lookup).
+
+### Security / Reliability
+- Read repair: stale replicas must be healed asynchronously after the quorum read.
+- Monotonic reads: use the `required_version` from the session token to reject stale data.
+
+---
+
+## Single-Node Quorum Read (Target: future milestone — stub removal)
+
+**Stub:** `src/replication/replication_manager.cpp::QuorumReadManager::read()` empty-replica path — returns synthetic `success=true` with `version=0` and empty data; local storage not queried; monotonic reads not enforced.  
+**Risk:** Single-node deployments return no document data; applications may mis-interpret the empty result as an authoritative empty document.
+
+### Scope
+- Perform a local storage read when `replicas_` is empty; populate `result.data` from the storage layer.
+- Enforce `required_version` from `parseSessionToken(session_token)` for monotonic reads.
+- Return meaningful `version` field from the local vector clock.
+
+---
+
+## Multi-Master getMissingWrites (Target: future milestone — stub removal)
+
+**Stub:** `src/replication/replication_manager.cpp::getMissingWrites()` — always returns empty set.  
+**Risk:** Multi-master anti-entropy never heals replication gaps; diverged replicas stay diverged.
+
+### Scope
+- Implement a queryable write log keyed by vector-clock entry (key: `{node_id, logical_ts}`).
+- Return all log entries where `entry.clock` happens-after `peer_clock` per the vector-clock ordering.
+
+---
+
+## QuorumRead Replica RPC (Target: future milestone — stub removal)
+
+**Stub:** `src/replication/replication_manager.cpp::QuorumReadManager::queryReplica()` — simulates in-memory response; no network call; `data` always empty.  
+**Risk:** Quorum reads return empty data for all documents regardless of actual replica state.
+
+### Scope
+- Implement a gRPC `ReadDocument(collection, document_id)` call to `replica.endpoint`.
+- Populate `resp.data` from the gRPC response; propagate `resp.version` from the replica's applied sequence.
+- Handle connection errors with exponential back-off; mark replica unhealthy on repeated failures.

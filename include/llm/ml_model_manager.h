@@ -487,6 +487,9 @@ private:
     bool shutdownInstance(const std::string& instance_id);
     
     MLModelInstance* selectInstance(const std::string& model_id);
+    /// Selects the least-busy DEPLOYED instance from an already-locked ModelEntry.
+    /// Caller MUST hold models_mutex_.  Returns nullptr when no DEPLOYED instance exists.
+    [[nodiscard]] MLModelInstance* selectLeastBusy_(const ModelEntry& entry) const noexcept;
     void updateInstanceMetrics(MLModelInstance* instance, float latency_ms, bool success);
     
     std::string generateInstanceId(const std::string& model_id);

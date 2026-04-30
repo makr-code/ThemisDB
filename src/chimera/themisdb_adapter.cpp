@@ -184,7 +184,22 @@ Result<RelationalTable> ThemisDBAdapter::execute_query(
         }
         return Result<RelationalTable>::ok(std::move(table));
 #else
-        // ThemisDB engine linked but headers not compiled in — return error.
+        // STUB/SIMULATION NOTE:
+        // Purpose: Guard against misconfigured builds where query_engine_ is
+        //          injected (non-null) but THEMISDB_ENGINE_AVAILABLE was not
+        //          defined at compile time.  In that configuration the AQL
+        //          engine headers are absent so the dispatch code above this
+        //          #else cannot be compiled.
+        // Activation: Only reachable when (a) query_engine_ != nullptr AND
+        //             (b) THEMISDB_ENGINE_AVAILABLE is not defined.  The normal
+        //             production path defines THEMISDB_ENGINE_AVAILABLE when
+        //             ThemisDB engine objects are linked in.
+        // Production Delta: Production builds always define
+        //             THEMISDB_ENGINE_AVAILABLE; this branch is dead code in
+        //             production and only surfaces in misconfigured builds.
+        // Removal Plan: Remove when the build system enforces that injecting
+        //             engine pointers implies THEMISDB_ENGINE_AVAILABLE
+        //             (cmake/ChimeraAdapters.cmake, Target: Q3 2026).
         return Result<RelationalTable>::err(
             ErrorCode::NOT_IMPLEMENTED,
             "THEMISDB_ENGINE_AVAILABLE must be defined to use QueryEngine dispatch"
@@ -335,6 +350,16 @@ Result<std::vector<std::pair<Vector, double>>> ThemisDBAdapter::search_vectors(
         return Result<std::vector<std::pair<Vector, double>>>::ok(
             std::move(results));
 #else
+        // STUB/SIMULATION NOTE:
+        // Purpose: Guard against misconfigured builds where vector_index_ is
+        //          injected but THEMISDB_ENGINE_AVAILABLE is not defined, making
+        //          VectorIndexManager dispatch code uncompilable.
+        // Activation: Only when vector_index_ != nullptr AND
+        //             THEMISDB_ENGINE_AVAILABLE is absent at compile time.
+        // Production Delta: Dead code in production builds; all production
+        //             configurations define THEMISDB_ENGINE_AVAILABLE alongside
+        //             engine injection.
+        // Removal Plan: Enforce via cmake guard (ChimeraAdapters.cmake, Target: Q3 2026).
         return Result<std::vector<std::pair<Vector, double>>>::err(
             ErrorCode::NOT_IMPLEMENTED,
             "THEMISDB_ENGINE_AVAILABLE must be defined to use VectorIndexManager dispatch"
@@ -497,6 +522,14 @@ Result<GraphPath> ThemisDBAdapter::shortest_path(
         }
         return Result<GraphPath>::ok(std::move(path));
 #else
+        // STUB/SIMULATION NOTE:
+        // Purpose: Guard against misconfigured builds where graph_index_ is
+        //          injected but THEMISDB_ENGINE_AVAILABLE is not defined, making
+        //          Dijkstra/GraphIndexManager dispatch code uncompilable.
+        // Activation: Only when graph_index_ != nullptr AND
+        //             THEMISDB_ENGINE_AVAILABLE is absent at compile time.
+        // Production Delta: Dead code in all properly configured production builds.
+        // Removal Plan: Enforce via cmake guard (ChimeraAdapters.cmake, Target: Q3 2026).
         return Result<GraphPath>::err(
             ErrorCode::NOT_IMPLEMENTED,
             "THEMISDB_ENGINE_AVAILABLE must be defined to use GraphIndexManager dispatch"
@@ -647,6 +680,14 @@ Result<std::vector<GraphNode>> ThemisDBAdapter::traverse(
         }
         return Result<std::vector<GraphNode>>::ok(std::move(nodes));
 #else
+        // STUB/SIMULATION NOTE:
+        // Purpose: Guard against misconfigured builds where graph_index_ is
+        //          injected but THEMISDB_ENGINE_AVAILABLE is not defined, making
+        //          BFS/GraphIndexManager dispatch code uncompilable.
+        // Activation: Only when graph_index_ != nullptr AND
+        //             THEMISDB_ENGINE_AVAILABLE is absent at compile time.
+        // Production Delta: Dead code in all properly configured production builds.
+        // Removal Plan: Enforce via cmake guard (ChimeraAdapters.cmake, Target: Q3 2026).
         return Result<std::vector<GraphNode>>::err(
             ErrorCode::NOT_IMPLEMENTED,
             "THEMISDB_ENGINE_AVAILABLE must be defined to use GraphIndexManager dispatch"

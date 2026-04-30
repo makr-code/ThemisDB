@@ -257,3 +257,55 @@ observed system state and federation health.
 - RAID-6 regional coordinators introduce a new trust boundary — mTLS required between regional and global coordinator
 - Budget reset protocol must be tested for replay attack resistance (nonce in approval token)
 - Streaming RAG partial results must not reveal shard order (privacy side-channel)
+
+---
+
+## Production FederatedDistillationCoordinator – Full gRPC Transport (Target: v2.0.0)
+
+**Stub:** `src/distributed_knowledge/federated_distillation_coordinator.cpp`
+**Status:** Stub — RPC callbacks are function-pointer hooks; no real gRPC transport.
+
+### Scope
+- Replace the in-process callback hooks with real gRPC bidirectional streaming:
+  - `FederatedDistillationCoordinator::broadcastKnowledge()` → gRPC broadcast
+  - `FederatedDistillationCoordinator::aggregateKnowledge()` → streaming aggregation
+  - `FederatedDistillationCoordinator::synchronizeGlobalModel()` → gRPC model transfer
+- Affected files:
+  - `src/distributed_knowledge/federated_distillation_coordinator.cpp`
+  - `include/distributed_knowledge/federated_distillation_coordinator.h` — add gRPC channel injection
+  - Proto: `proto/federated_distillation.proto` (new file; define `BroadcastRequest`,
+    `AggregateResponse`, `SyncModelRequest`)
+  - CMakeLists: wire `grpc_cpp_plugin` for the new proto
+
+### Design Constraints
+- Wire-compatible with existing `FederationConfig` struct (no breaking config changes)
+- Maintain the `FedDistillCallback`/`AggregationCallback` function-pointer API as an
+  optional in-process fast path (for single-node testing without a gRPC stack)
+- Target: N=64 participant nodes, model payload ≤ 2 GB per sync round
+
+### Required Interfaces
+- `IFederationTransport` (new interface): `broadcast()`, `aggregate()`, `syncModel()`
+  → default impl: `GRPCFederationTransport`; in-process impl: `InProcessFederationTransport`
+- `FederatedDistillationCoordinator::setTransport(IFederationTransport*)` injection point
+
+### Implementation Notes
+- gRPC channel: mTLS required; channel credentials via `grpc::SslChannelCredentials`
+- Model delta compression: apply LZ4 before transmitting weight tensors (already used in
+  `raft_log.cpp`)
+- Aggregation strategy: FedAvg baseline; hook for future Weighted-FedAvg and SCAFFOLD
+
+### Test Strategy
+- Unit: `InProcessFederationTransport` with 4 simulated participants; assert
+  `synchronizeGlobalModel()` produces weights within 1% of FedAvg reference
+- Integration: 3-node Docker Compose cluster; assert round completes within 30 s
+- Chaos: inject 1 node failure mid-round; assert coordinator retries or excludes
+  the failed node and completes successfully
+
+### Performance Targets
+- Round-trip (broadcast + aggregate + sync) ≤ 60 s for N=16, 1 GB model payload
+- gRPC channel throughput ≥ 1 GB/s on localhost (LZ4 compressed)
+
+### Security / Reliability
+- mTLS enforced for all gRPC channels; plain-text channels rejected at startup
+- Participant authentication via X.509 certificates issued by the ThemisDB CA
+- Aggregation result signed before distribution (SHA-256 manifest)

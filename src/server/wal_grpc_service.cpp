@@ -174,6 +174,21 @@ WalGrpcService::WalGrpcService(std::shared_ptr<sharding::WALApplier> wal_applier
 #if THEMIS_HAS_SHARD_GRPC
     impl_ = std::make_unique<Impl>(wal_applier_);
 #else
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow WalGrpcService to be constructed and linked when the
+    //   protoc-generated shard gRPC stubs (from proto/shard.proto) have not
+    //   been compiled into the build.  WAL replication over gRPC is therefore
+    //   disabled; WAL entries are only applied locally.
+    // Activation: THEMIS_HAS_SHARD_GRPC is 0 (default in minimal builds or when
+    //   the gRPC code-gen step has not been run).  Set it to 1 by running protoc
+    //   on proto/shard.proto and compiling the generated files.
+    // Production Delta: WAL replication to replica shards is silently disabled;
+    //   this means replica nodes will not receive WAL entries and will diverge
+    //   from the primary over time.  Only use in single-node or test deployments.
+    // Removal Plan: Run the protoc code-gen step as part of the CMake build
+    //   (already wired in the CMakeLists.txt gRPC target) and ensure the output
+    //   is on the include path so THEMIS_HAS_SHARD_GRPC is set to 1.
+    // Roadmap ref: src/sharding/FUTURE_ENHANCEMENTS.md § "WAL gRPC Replication"
     (void)wal_applier_;
     THEMIS_INFO("Shard gRPC stubs not found; WalGrpcService is a no-op");
 #endif

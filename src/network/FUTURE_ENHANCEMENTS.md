@@ -890,3 +890,35 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) for guidelines.
 - v2 frame flow control (WINDOW_UPDATE) prevents unbounded memory growth from slow consumers; connection is terminated if receive buffer exceeds `max_frame_buffer_bytes`
 - Service mesh sidecar health probes must not be accessible from external network interfaces (bind to loopback or pod-local address only)
 - Authentication tokens must not appear in structured network audit logs; log only token hash (SHA-256 truncated to 16 hex chars)
+
+---
+
+## Kernel Bypass Windows Support — ZeroCopyDmaBuffer (Target: v1.6.0 or "accept as-is")
+
+**Stub:** `src/network/kernel_bypass.cpp` — `ZeroCopyDmaBuffer` Windows/non-Linux path: plain heap allocation, no huge pages or DMA mapping  
+**Risk:** On Windows, ZeroCopyDmaBuffer is constructible and returns a valid pointer, but any code that passes it to DPDK or io_uring will silently receive non-zero-copy semantics (additional kernel copies on every I/O operation).
+
+### Scope
+Two options:
+
+**Option A — Accept non-Linux limitation (recommended)**
+- Document clearly that DPDK and io_uring are Linux-only; mark Windows builds as "development/testing only".
+- Add a `static_assert(false, "Kernel bypass not supported on this platform")` in the DPDKServer constructor on non-Linux to fail fast rather than silently degrading.
+- The `ZeroCopyDmaBuffer` Windows path remains as a build-compat shim for unit tests.
+
+**Option B — WinPkt / NDIS/WSK kernel-bypass (future)**
+- Implement a Windows kernel-bypass path using NDIS WFP filter driver or Winsock Kernel (WSK).
+- Requires a kernel driver (KMDF/WDF), a kernel signing certificate, and Windows HLK testing.
+- Much higher complexity than the Linux DPDK path.
+
+### Design Constraints
+- Windows users can run unit tests and integration tests against the plain-heap fallback.
+- No functional regression on Linux (Linux path unchanged).
+
+### Test Strategy
+- CI: Linux build uses the real mmap() path; Windows build uses the heap fallback and compiles cleanly.
+- Unit test: `KBP-41 — ZeroCopyDmaBuffer Windows path allocates aligned memory correctly`.
+
+### Performance Targets
+- Windows (plain heap): no performance SLO — development/test use only.
+- Linux: existing SLOs (see §Kernel-Bypass Networking above) unchanged.

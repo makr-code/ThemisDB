@@ -23719,10 +23719,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/whisper/tests/test_whisper_plugin.
     target_compile_definitions(test_whisper_plugin PRIVATE THEMIS_PLUGIN_EXPORTS)
     add_test(NAME WhisperPluginFocusedTests COMMAND test_whisper_plugin)
     set_tests_properties(WhisperPluginFocusedTests PROPERTIES
-        LABELS "plugins;whisper;audio;v2.1.0"
+        LABELS "plugins;whisper;audio;v2.2.0"
         TIMEOUT 60
     )
-    message(STATUS "  WhisperPlugin: 44 tests (A-N)")
+    message(STATUS "  WhisperPlugin: 55 tests (A-Q)")
 else()
     message(STATUS "  WhisperPlugin tests not found - skipped")
 endif()
@@ -23775,6 +23775,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         fmt::fmt
+        Threads::Threads
     )
     target_compile_features(test_llama_cpp_plugin PRIVATE cxx_std_17)
     target_compile_definitions(test_llama_cpp_plugin PRIVATE
@@ -23789,7 +23790,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
         LABELS "plugins;llama_cpp;llm;v2.1.0"
         TIMEOUT 60
     )
-    message(STATUS "  LlamaCppPlugin: 50 tests (A-N)")
+    message(STATUS "  LlamaCppPlugin: 56 tests (A-O + P1-P3 concurrency)")
 else()
     message(STATUS "  LlamaCppPlugin tests not found - skipped")
 endif()
@@ -24173,6 +24174,152 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_a
     message(STATUS "  EthicsAIPlugin: getName, initialize, shutdown, re-init, guards, metrics, config, getStatistics")
 elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
     message(STATUS "EthicsAI Plugin lifecycle tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
+endif()
+
+# ──────────────────────────────────────────────────────────────────────────────
+# EthicsProfileRegistry tests (EPR-01..12)
+# ──────────────────────────────────────────────────────────────────────────────
+if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_profile_registry.cpp")
+    message(STATUS "Adding EthicsProfileRegistry tests (EPR-01..12)")
+
+    add_executable(test_ethics_profile_registry_focused
+        test_ethics_profile_registry.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_profile_registry.cpp
+    )
+
+    target_include_directories(test_ethics_profile_registry_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+    )
+
+    target_link_libraries(test_ethics_profile_registry_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    find_package(yaml-cpp QUIET)
+    if(yaml-cpp_FOUND)
+        target_link_libraries(test_ethics_profile_registry_focused PRIVATE yaml-cpp::yaml-cpp)
+        target_compile_definitions(test_ethics_profile_registry_focused PRIVATE HAVE_YAML_CPP)
+    elseif(TARGET yaml-cpp)
+        target_link_libraries(test_ethics_profile_registry_focused PRIVATE yaml-cpp)
+        target_compile_definitions(test_ethics_profile_registry_focused PRIVATE HAVE_YAML_CPP)
+    endif()
+
+    target_compile_definitions(test_ethics_profile_registry_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        "THEMIS_PHILOSOPHIES_DIR=\"${CMAKE_SOURCE_DIR}/plugins/ethics_ai/philosophies\""
+    )
+
+    add_test(NAME EthicsProfileRegistryTests COMMAND test_ethics_profile_registry_focused)
+    set_tests_properties(EthicsProfileRegistryTests PROPERTIES
+        LABELS "ethics;registry;routing;unit"
+        TIMEOUT 30
+    )
+    message(STATUS "  EthicsProfileRegistry: EPR-01..12 (index rebuild, query, LRU, error handling)")
+elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
+    message(STATUS "EthicsProfileRegistry tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
+endif()
+
+# ──────────────────────────────────────────────────────────────────────────────
+# EthicsSelectionRouter tests (ESR-01..10)
+# ──────────────────────────────────────────────────────────────────────────────
+if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_selection_router.cpp")
+    message(STATUS "Adding EthicsSelectionRouter tests (ESR-01..10)")
+
+    add_executable(test_ethics_selection_router_focused
+        test_ethics_selection_router.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_profile_registry.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_selection_router.cpp
+    )
+
+    target_include_directories(test_ethics_selection_router_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+    )
+
+    target_link_libraries(test_ethics_selection_router_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    find_package(yaml-cpp QUIET)
+    if(yaml-cpp_FOUND)
+        target_link_libraries(test_ethics_selection_router_focused PRIVATE yaml-cpp::yaml-cpp)
+        target_compile_definitions(test_ethics_selection_router_focused PRIVATE HAVE_YAML_CPP)
+    elseif(TARGET yaml-cpp)
+        target_link_libraries(test_ethics_selection_router_focused PRIVATE yaml-cpp)
+        target_compile_definitions(test_ethics_selection_router_focused PRIVATE HAVE_YAML_CPP)
+    endif()
+
+    target_compile_definitions(test_ethics_selection_router_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        "THEMIS_PHILOSOPHIES_DIR=\"${CMAKE_SOURCE_DIR}/plugins/ethics_ai/philosophies\""
+        "THEMIS_ETHICS_TAXONOMY_PATH=\"${CMAKE_SOURCE_DIR}/config/ethics_ai/ethics_taxonomy.yaml\""
+    )
+
+    add_test(NAME EthicsSelectionRouterTests COMMAND test_ethics_selection_router_focused)
+    set_tests_properties(EthicsSelectionRouterTests PROPERTIES
+        LABELS "ethics;registry;routing;unit;concurrent"
+        TIMEOUT 30
+    )
+    message(STATUS "  EthicsSelectionRouter: ESR-01..10 (3-stage funnel, precedent, concurrency)")
+elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
+    message(STATUS "EthicsSelectionRouter tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
+endif()
+
+# ──────────────────────────────────────────────────────────────────────────────
+# ThesisBudgetManagement tests (TBM-01..10)  — §9.1 selectThesesForRound
+# ──────────────────────────────────────────────────────────────────────────────
+if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_thesis_budget_management.cpp")
+    message(STATUS "Adding ThesisBudgetManagement tests (TBM-01..10)")
+
+    add_executable(test_thesis_budget_management_focused
+        test_thesis_budget_management.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/prompt_engineering/context_window_manager.cpp
+    )
+
+    target_include_directories(test_thesis_budget_management_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+    )
+
+    target_link_libraries(test_thesis_budget_management_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    find_package(yaml-cpp QUIET)
+    if(yaml-cpp_FOUND)
+        target_link_libraries(test_thesis_budget_management_focused PRIVATE yaml-cpp::yaml-cpp)
+        target_compile_definitions(test_thesis_budget_management_focused PRIVATE HAVE_YAML_CPP)
+    elseif(TARGET yaml-cpp)
+        target_link_libraries(test_thesis_budget_management_focused PRIVATE yaml-cpp)
+        target_compile_definitions(test_thesis_budget_management_focused PRIVATE HAVE_YAML_CPP)
+    endif()
+
+    target_compile_definitions(test_thesis_budget_management_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        "THEMIS_PHILOSOPHIES_DIR=\"${CMAKE_SOURCE_DIR}/plugins/ethics_ai/philosophies\""
+    )
+
+    add_test(NAME ThesisBudgetManagementTests COMMAND test_thesis_budget_management_focused)
+    set_tests_properties(ThesisBudgetManagementTests PROPERTIES
+        LABELS "ethics;budget;discourse;unit"
+        TIMEOUT 30
+    )
+    message(STATUS "  ThesisBudgetManagement: TBM-01..10 (activation rounds, budget cap, role weights)")
+elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
+    message(STATUS "ThesisBudgetManagement tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
 endif()
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -25256,4 +25403,327 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_project_collaboration_concurrent.cpp
     message(STATUS "  ProjectCollaborationConcurrent: CC-01..CC-08 (lock contention, concurrent subscribers/notify/permissions, lock/unlock race, late subscribe, consistent reads, lifecycle race)")
 else()
     message(STATUS "ProjectCollaborationConcurrent tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_project_collaboration_concurrent.cpp")
+endif()
+
+# =============================================================================
+# AI Safety Layer — Schichten 1 & 2: AiOperationGuard tests (ASL-4)
+# AOG-01..AOG-20: classification, approval flow, environment guard, hard-block
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_ai_operation_guard.cpp")
+    message(STATUS "Adding AiOperationGuard tests (ASL-4 — AOG-01..AOG-20)")
+
+    add_executable(test_ai_operation_guard
+        security/test_ai_operation_guard.cpp
+        ${CMAKE_SOURCE_DIR}/src/security/ai_operation_guard.cpp
+    )
+
+    target_include_directories(test_ai_operation_guard PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_ai_operation_guard PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ai_operation_guard PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    set_target_properties(test_ai_operation_guard PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME AiOperationGuardTests COMMAND test_ai_operation_guard)
+    set_tests_properties(AiOperationGuardTests PROPERTIES
+        LABELS "security;ai_safety;asl4;unit"
+        TIMEOUT 30
+    )
+    message(STATUS "  AiOperationGuard: AOG-01..AOG-20 (READ_ONLY, WRITE_SAFE, DESTRUCTIVE, CRITICAL, environment guard, hard-block, approval shape)")
+else()
+    message(STATUS "AiOperationGuard tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/security/test_ai_operation_guard.cpp")
+endif()
+
+# =============================================================================
+# AI Safety Layer — ASL-11: AiSnapshotCleanupJob tests
+# POS-01..POS-15: retention policy, size cap, listing, edge cases
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_ai_snapshot_cleanup.cpp")
+    message(STATUS "Adding AiSnapshotCleanup tests (ASL-11 — POS-01..POS-15)")
+
+    add_executable(test_ai_snapshot_cleanup
+        security/test_ai_snapshot_cleanup.cpp
+        ${CMAKE_SOURCE_DIR}/src/security/ai_snapshot_cleanup.cpp
+    )
+
+    target_include_directories(test_ai_snapshot_cleanup PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_ai_snapshot_cleanup PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        fmt::fmt
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ai_snapshot_cleanup PRIVATE THEMIS_TEST_BUILD=1)
+
+    set_target_properties(test_ai_snapshot_cleanup PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME AiSnapshotCleanupTests COMMAND test_ai_snapshot_cleanup)
+
+    set_tests_properties(AiSnapshotCleanupTests PROPERTIES
+        LABELS "security;ai_safety;asl11;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  AiSnapshotCleanup: POS-01..POS-15 (retention, size cap, listing, edge cases)")
+else()
+    message(STATUS "AiSnapshotCleanup tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/security/test_ai_snapshot_cleanup.cpp")
+endif()
+
+
+# =============================================================================
+# AI Safety Layer — ASL-14: Chaos Tests (CHAOS-01..CHAOS-12)
+# Validates AiOperationGuard, IntentClassifier, AqlSafetyValidator, and
+# AiSnapshotCleanupJob under adversarial / edge-case conditions.
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/ai_safety/test_ai_safety_chaos.cpp")
+    message(STATUS "Adding AiSafetyChaos tests (ASL-14 — CHAOS-01..CHAOS-12)")
+
+    add_executable(test_ai_safety_chaos
+        security/ai_safety/test_ai_safety_chaos.cpp
+    )
+    target_include_directories(test_ai_safety_chaos PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+    target_link_libraries(test_ai_safety_chaos PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        fmt::fmt
+        Threads::Threads
+    )
+    target_compile_definitions(test_ai_safety_chaos PRIVATE THEMIS_TEST_BUILD=1 THEMIS_ENABLE_MCP=1)
+    set_target_properties(test_ai_safety_chaos PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
+    add_test(NAME AiSafetyChaosTests COMMAND test_ai_safety_chaos)
+    set_tests_properties(AiSafetyChaosTests PROPERTIES LABELS "security;ai_safety;chaos;unit" TIMEOUT 30)
+    message(STATUS "  AiSafetyChaos: CHAOS-01..CHAOS-12 (DOG, HILG, IntentClassifier, AqlSafetyValidator, SnapshotCleanup, LoRA hook)")
+else()
+    message(STATUS "AiSafetyChaos tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/security/ai_safety/test_ai_safety_chaos.cpp")
+endif()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# P4: ProcessCommunityDetector focused tests (LCD-01..LCD-10)
+# ─────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_process_community_detector.cpp")
+    message(STATUS "Adding ProcessCommunityDetector focused tests (LCD-01..LCD-10)")
+    add_executable(ProcessCommunityDetectorTests
+        process/test_process_community_detector.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_community_detector.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+    )
+    target_include_directories(ProcessCommunityDetectorTests PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(ProcessCommunityDetectorTests PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(ProcessCommunityDetectorTests PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ProcessCommunityDetectorTests COMMAND ProcessCommunityDetectorTests)
+    set_tests_properties(ProcessCommunityDetectorTests PROPERTIES
+        LABELS "process;community;leiden;graphrag;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  ProcessCommunityDetector: LCD-01..LCD-10")
+endif()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# P5: ProcessLightRetriever focused tests (PLR-01..PLR-08)
+# ─────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_process_light_retriever.cpp")
+    message(STATUS "Adding ProcessLightRetriever focused tests (PLR-01..PLR-08)")
+    add_executable(ProcessLightRetrieverTests
+        process/test_process_light_retriever.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_light_retriever.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_community_detector.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+    )
+    target_include_directories(ProcessLightRetrieverTests PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(ProcessLightRetrieverTests PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(ProcessLightRetrieverTests PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ProcessLightRetrieverTests COMMAND ProcessLightRetrieverTests)
+    set_tests_properties(ProcessLightRetrieverTests PROPERTIES
+        LABELS "process;lightrag;retrieval;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  ProcessLightRetriever: PLR-01..PLR-08")
+endif()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# P6: ObjectCentricTracer focused tests (OCT-01..OCT-10)
+# ─────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_object_centric_tracer.cpp")
+    message(STATUS "Adding ObjectCentricTracer focused tests (OCT-01..OCT-10)")
+    add_executable(ObjectCentricTracerTests
+        process/test_object_centric_tracer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/object_centric_tracer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+    )
+    target_include_directories(ObjectCentricTracerTests PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(ObjectCentricTracerTests PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(ObjectCentricTracerTests PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ObjectCentricTracerTests COMMAND ObjectCentricTracerTests)
+    set_tests_properties(ObjectCentricTracerTests PROPERTIES
+        LABELS "process;ocpm;ocel;object-centric;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  ObjectCentricTracer: OCT-01..OCT-10")
+endif()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# P7: SLA Monitoring focused tests (SLA-01..SLA-08)
+# ─────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_sla_monitoring.cpp")
+    message(STATUS "Adding SLA Monitoring focused tests (SLA-01..SLA-08)")
+    add_executable(SlaMonitoringTests
+        process/test_sla_monitoring.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/cep_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+    )
+    target_include_directories(SlaMonitoringTests PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(SlaMonitoringTests PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(SlaMonitoringTests PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SlaMonitoringTests COMMAND SlaMonitoringTests)
+    set_tests_properties(SlaMonitoringTests PROPERTIES
+        LABELS "process;sla;cep;monitoring;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  SlaMonitoring: SLA-01..SLA-08")
+endif()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# P8: Bottleneck Analytics focused tests (BOT-01..BOT-08)
+# ─────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_bottleneck_analytics.cpp")
+    message(STATUS "Adding Bottleneck Analytics focused tests (BOT-01..BOT-08)")
+    add_executable(BottleneckAnalyticsTests
+        process/test_bottleneck_analytics.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/cep_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+    )
+    target_include_directories(BottleneckAnalyticsTests PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(BottleneckAnalyticsTests PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(BottleneckAnalyticsTests PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME BottleneckAnalyticsTests COMMAND BottleneckAnalyticsTests)
+    set_tests_properties(BottleneckAnalyticsTests PROPERTIES
+        LABELS "process;bottleneck;analytics;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  BottleneckAnalytics: BOT-01..BOT-08")
 endif()

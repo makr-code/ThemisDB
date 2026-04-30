@@ -26,7 +26,7 @@
  * @file test_llama_cpp_plugin.cpp
  * @brief Unit tests for the llama_cpp LLM plugin
  *
- * Test suite: LlamaCppPluginFocusedTests (50 tests)
+ * Test suite: LlamaCppPluginFocusedTests (56 tests)
  *   Group A (3)  – loadModel: succeeds, double-load, unload
  *   Group B (3)  – getModelInfo: before/after load, model_id
  *   Group C (3)  – isModelLoaded: initially false, after load, after unload
@@ -46,12 +46,20 @@
  *   Group N (6)  – registrar: createPlugin stub/config, defaultReloadCallback,
  *                  reload with empty path, generate after registrar load,
  *                  InferenceResponse trace_id/span_id echo
+ *   Group O (3)  – structured error when no model loaded: success=false, stub sanity,
+ *                  error_message contains "not loaded"
+ *   Group P (3)  – Phase 5 concurrency hardening: P1 8-thread generate() no race,
+ *                  P2 4-thread generateBatch() correct count, P3 LoRA+generate() race
+ *                  — 3 + 3 + 3 = 9 total for O+P; grand total A-P = 56
  */
 
 #include <gtest/gtest.h>
 #include "llama_cpp/llama_cpp_plugin.h"
 #include "llama_cpp/llama_cpp_registrar.h"
 #include <nlohmann/json.hpp>
+#include <atomic>
+#include <thread>
+#include <vector>
 
 using namespace themis::llamacpp;
 using namespace themis::llm;
@@ -509,4 +517,128 @@ TEST(LlamaCppPluginFocusedTests, O3_NotLoadedErrorMessageDescriptive) {
     EXPECT_FALSE(resp.success);
     EXPECT_NE(resp.error_message.find("not loaded"), std::string::npos)
         << "error_message should mention 'not loaded'; got: " << resp.error_message;
+}
+
+// ── Group P – Phase 5: Concurrency hardening ──────────────────────────────────
+// P1: Concurrent generate() calls from multiple threads do not race or deadlock.
+// P2: Concurrent generateBatch() from multiple threads returns correct response counts.
+// P3: Thread-safe LoRA registry under concurrent loadLoRA() + generate() access.
+//
+// All tests operate in STUB_MODE (no real model required) and set a generous
+// timeout via thread join — they fail by hanging, not by assertion.
+
+TEST(LlamaCppPluginFocusedTests, P1_ConcurrentGenerateNoRaceOrDeadlock) {
+    constexpr int kThreads  = 8;
+    constexpr int kPerThread = 10;
+
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", {});  // stub mode
+
+    std::atomic<int> success_count{0};
+    std::atomic<int> failure_count{0};
+
+    auto worker = [&]() {
+        for (int i = 0; i < kPerThread; ++i) {
+            InferenceRequest req;
+            req.prompt = "concurrent prompt " + std::to_string(i);
+            const auto resp = plugin.generate(req);
+            if (resp.success) {
+                ++success_count;
+            } else {
+                ++failure_count;
+            }
+        }
+    };
+
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+    for (int t = 0; t < kThreads; ++t) {
+        threads.emplace_back(worker);
+    }
+    for (auto& th : threads) {
+        th.join();
+    }
+
+    EXPECT_EQ(success_count.load(), kThreads * kPerThread)
+        << "All concurrent generate() calls must succeed in stub mode";
+    EXPECT_EQ(failure_count.load(), 0);
+}
+
+TEST(LlamaCppPluginFocusedTests, P2_ConcurrentGenerateBatchCorrectResponseCount) {
+    constexpr int kThreads    = 4;
+    constexpr int kBatchSize  = 5;
+
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", {});
+
+    std::atomic<int> wrong_size_count{0};
+
+    auto worker = [&]() {
+        std::vector<InferenceRequest> batch;
+        batch.reserve(kBatchSize);
+        for (int i = 0; i < kBatchSize; ++i) {
+            InferenceRequest req;
+            req.prompt = "batch item " + std::to_string(i);
+            batch.push_back(req);
+        }
+        const auto results = plugin.generateBatch(batch);
+        if (static_cast<int>(results.size()) != kBatchSize) {
+            ++wrong_size_count;
+        }
+    };
+
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+    for (int t = 0; t < kThreads; ++t) {
+        threads.emplace_back(worker);
+    }
+    for (auto& th : threads) {
+        th.join();
+    }
+
+    EXPECT_EQ(wrong_size_count.load(), 0)
+        << "generateBatch() must return exactly batch_size responses under parallel callers";
+}
+
+TEST(LlamaCppPluginFocusedTests, P3_ConcurrentLoraRegistryAndGenerate) {
+    constexpr int kThreads = 6;
+
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", {});
+
+    // Half the threads load LoRA adapters; the other half call generate().
+    // No deadlock or crash is expected.
+    std::atomic<int> generate_ok{0};
+
+    auto lora_writer = [&](int id) {
+        const std::string path = "/stub/lora_" + std::to_string(id) + ".bin";
+        const std::string name = "lora_" + std::to_string(id);
+        plugin.loadLoRA(path, name, 1.0f);
+    };
+
+    auto generator = [&]() {
+        InferenceRequest req;
+        req.prompt = "lora race test";
+        const auto resp = plugin.generate(req);
+        if (resp.success) {
+            ++generate_ok;
+        }
+    };
+
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+    for (int t = 0; t < kThreads; ++t) {
+        if (t % 2 == 0) {
+            threads.emplace_back(lora_writer, t);
+        } else {
+            threads.emplace_back(generator);
+        }
+    }
+    for (auto& th : threads) {
+        th.join();
+    }
+
+    // generator threads: kThreads/2 = 3 success expected
+    EXPECT_EQ(generate_ok.load(), kThreads / 2)
+        << "generate() threads must all succeed despite concurrent LoRA writes";
 }

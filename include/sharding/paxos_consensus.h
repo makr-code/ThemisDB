@@ -201,6 +201,21 @@ public:
                            uint64_t round,
                            const std::string& proposer_id)>;
 
+    /// Extended prepare callback that, on success, returns the acceptor's
+    /// highest-ballot accepted value (Paxos Phase-1b safe-value propagation).
+    /// When the acceptor has never accepted a value, the optional is empty.
+    /// If this callback is registered it takes priority over PaxosPrepareCallback.
+    struct PreparePromiseResult {
+        bool promised = false;                           ///< true = acceptor promised
+        uint64_t accepted_round = 0;                     ///< ballot of the last accepted proposal
+        std::optional<ConsensusLogEntry> accepted_value; ///< value accepted at that ballot
+    };
+    using PaxosPrepareFullCallback =
+        std::function<PreparePromiseResult(const std::string& peer,
+                                           uint64_t slot,
+                                           uint64_t round,
+                                           const std::string& proposer_id)>;
+
     using PaxosAcceptCallback =
         std::function<bool(const std::string& peer,
                            uint64_t slot,
@@ -214,6 +229,15 @@ public:
      * Not required for single-node operation.
      */
     void setPrepareRPCCallback(PaxosPrepareCallback cb);
+
+    /**
+     * @brief Inject the extended Phase-1 Prepare RPC callback.
+     *
+     * When registered this callback supersedes the basic PaxosPrepareCallback and
+     * enables correct highest-accepted-value propagation (Paxos Phase-1b safety).
+     * Prefer this over setPrepareRPCCallback in multi-node deployments.
+     */
+    void setPrepareFullRPCCallback(PaxosPrepareFullCallback cb);
 
     /**
      * @brief Inject the RPC callback used to send Phase-2 Accept messages.
@@ -351,8 +375,9 @@ private:
     std::function<void(const std::string&, const std::string&)> on_leader_change_callback_;
 
     // RPC peer callbacks (optional; nil → single-node / test mode)
-    PaxosPrepareCallback rpc_prepare_cb_;
-    PaxosAcceptCallback  rpc_accept_cb_;
+    PaxosPrepareCallback     rpc_prepare_cb_;
+    PaxosPrepareFullCallback rpc_prepare_full_cb_; ///< Extended callback with safe-value return
+    PaxosAcceptCallback      rpc_accept_cb_;
     
     // Background threads
     std::thread proposer_thread_;

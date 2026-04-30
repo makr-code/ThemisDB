@@ -588,8 +588,17 @@ std::pair<uint64_t, uint64_t> ShardResourceManager::getRamUsage() const {
 }
 
 std::pair<uint64_t, uint64_t> ShardResourceManager::getVramUsage() const {
-    // VRAM detection would require GPU-specific APIs (CUDA, HIP, Vulkan, etc.)
-    // For now, return zeros
+    // STUB/SIMULATION NOTE:
+    // Purpose: Satisfies the VRAM usage query API on platforms without a GPU
+    //          runtime (no CUDA / HIP / Vulkan available at link time).
+    // Activation: Always — no GPU API is queried.
+    // Production Delta: Returns (0, 0); resource-aware shard scheduling decisions
+    //                   that rely on VRAM headroom will not account for actual GPU
+    //                   memory consumption.
+    // Removal Plan: Add CUDA (nvmlDeviceGetMemoryInfo) / HIP (hipMemGetInfo) /
+    //               Vulkan (VK_EXT_memory_budget) backends, guarded by
+    //               THEMIS_ENABLE_CUDA / THEMIS_ENABLE_HIP / THEMIS_ENABLE_VULKAN.
+    //               See src/sharding/FUTURE_ENHANCEMENTS.md §VRAM Usage Monitoring.
     return {0, 0};
 }
 
@@ -616,9 +625,16 @@ std::pair<uint64_t, uint64_t> ShardResourceManager::getDiskUsage() const {
 }
 
 std::pair<uint64_t, uint64_t> ShardResourceManager::getNetworkUsage() const {
-    // Network I/O measurement would require platform-specific APIs
-    // Linux: /proc/net/dev, Windows: Performance Counters
-    // For now, return zeros
+    // STUB/SIMULATION NOTE:
+    // Purpose: Satisfies the network I/O usage API while platform-specific
+    //          counters are not yet integrated.
+    // Activation: Always — no platform API is queried.
+    // Production Delta: Returns (0, 0); network-bandwidth-aware shard routing
+    //                   decisions will not account for actual NIC utilisation.
+    // Removal Plan: On Linux parse /proc/net/dev (rx/tx bytes); on Windows use
+    //               `GetIfTable2()` / Performance Counters.  Guard per-platform
+    //               behind compile-time detection or runtime feature flags.
+    //               See src/sharding/FUTURE_ENHANCEMENTS.md §Network Usage Monitoring.
     return {0, 0};
 }
 

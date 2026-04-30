@@ -96,6 +96,33 @@ struct ArgumentChain {
 };
 
 /**
+ * @brief Per-thesis budget and activation metadata.
+ *
+ * Each thesis in a philosophy profile may declare how many tokens it may
+ * consume in a discourse context window and during which rounds it is fully
+ * active.  These fields are optional (defaults: unlimited / all rounds) so
+ * that profiles without them continue to behave exactly as before.
+ */
+struct PhilosophyThesis {
+    std::string thesis_id;                      ///< Unique thesis identifier (e.g. "kant:kategorischer_imperativ")
+    std::string name;                           ///< Short display name
+    std::string description;                    ///< Core statement of the thesis
+
+    /// Maximum tokens to inject for this thesis in the LLM context.
+    /// -1 = unlimited (default, backward compatible).
+    int token_budget{-1};
+
+    /// Discourse rounds (1–5) in which this thesis is fully injected.
+    /// Empty = active in all rounds (default, backward compatible).
+    std::vector<int> activation_rounds;
+
+    /// Per-round-role priority weights.  Key = role name (e.g. "PRO",
+    /// "REBUTTAL", "SYNTHESIS"), value = weight in [0, 1].  Higher weight
+    /// → selected earlier when budget is tight.
+    std::map<std::string, float> round_role_weights;
+};
+
+/**
  * @brief Philosophy Profile Definition
  * 
  * Defines a philosophical school with its theses and decision framework.
@@ -103,8 +130,12 @@ struct ArgumentChain {
 struct PhilosophyProfile {
     std::string school_id;                              ///< Unique school identifier
     std::string name;                                   ///< Display name
-    std::vector<std::string> main_theses;              ///< Core theses
-    std::vector<std::string> secondary_theses;         ///< Supporting theses
+    std::vector<std::string> main_theses;              ///< Core theses (plain-text, backward compat)
+    std::vector<std::string> secondary_theses;         ///< Supporting theses (plain-text, backward compat)
+    /// Typed thesis objects parsed from YAML; populated when YAML theses are
+    /// complex objects (with thesis_id field).  Plain-string theses in
+    /// `main_theses` / `secondary_theses` are NOT duplicated here.
+    std::vector<PhilosophyThesis> typed_theses;
     std::map<std::string, std::string> decision_framework;  ///< Decision-making rules
     std::vector<std::string> strengths;                ///< Philosophical strengths
     std::vector<std::string> weaknesses;               ///< Philosophical weaknesses

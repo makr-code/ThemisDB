@@ -706,6 +706,17 @@ nav:
   - stemming: de/search/stemming.md
 - Security:
   - Übersicht: de/security/README.md
+  - 🛡️ AI Safety Layer:
+    - Übersicht: de/security/ai_safety/README.md
+    - Architektur (7 Schichten): de/security/ai_safety/AI_SAFETY_ARCHITECTURE.md
+    - Destructive Operation Guard: de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+    - AQL Read-Only Enforcer: de/security/ai_safety/AI_SAFETY_AQL_VALIDATOR.md
+    - IntentClassifier AQL-Erweiterung: de/security/ai_safety/AI_SAFETY_INTENT_CLASSIFIER.md
+    - Pre-Operation Snapshot: de/security/ai_safety/AI_SAFETY_SNAPSHOT.md
+    - Environment Isolation Guard: de/security/ai_safety/AI_SAFETY_ENVIRONMENT.md
+    - AI Session Audit Trail: de/security/ai_safety/AI_SAFETY_AUDIT_TRAIL.md
+    - Betriebshandbuch: de/security/ai_safety/AI_SAFETY_RUNBOOK.md
+    - Schnellreferenz: de/security/ai_safety/AI_SAFETY_QUICK_REFERENCE.md
   - BSI C5 COLUMN ENCRYPTION COMPLIANCE: de/security/BSI_C5_COLUMN_ENCRYPTION_COMPLIANCE.md
   - BSI C5 EXECUTIVE SUMMARY: de/security/BSI_C5_EXECUTIVE_SUMMARY.md
   - BSI C5 MULTI MODEL ENCRYPTION ANALYSIS: de/security/BSI_C5_MULTI_MODEL_ENCRYPTION_ANALYSIS.md

@@ -390,6 +390,11 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
     // Deduplication guard (duplicate IDs can appear in sub-process copies).
     std::unordered_set<std::string> seen_node_ids;
 
+    // ── BPMN-S state ──────────────────────────────────────────────────────
+    std::string current_flow_node_id;   ///< Non-self-closing flow node being parsed
+    bool        in_extension_elements{false};
+    std::unordered_map<std::string, ProcessNodeInfo::DsgvoAnnotation> dsgvo_map;
+
     auto tag_cb = [&](const XmlTag& t) {
         const std::string& tn = t.name;
 
@@ -415,6 +420,12 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
             // ── BPMNDI closing tags ───────────────────────────────────────
             if (tn == "BPMNDiagram" || tn == "BPMNPlane") in_bpmndi = false;
             if (tn == "BPMNShape") { in_shape = false; shape_elem_ref.clear(); }
+            // ── BPMN-S closing tags ───────────────────────────────────────
+            if (tn == "extensionElements") { in_extension_elements = false; return; }
+            if (!current_flow_node_id.empty() && kFlowNodeTags.count(tn)) {
+                current_flow_node_id.clear();
+                return;
+            }
             return;
         }
 
@@ -469,8 +480,29 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
             return;
         }
 
-        // ── sequenceFlow ──────────────────────────────────────────────────
-        if (tn == "sequenceFlow") {
+        // ── extensionElements / BPMN-S SecurityAnnotation ─────────────────
+        if (tn == "extensionElements" && !current_flow_node_id.empty()) {
+            if (!t.self_closing) in_extension_elements = true;
+            return;
+        }
+        if (in_extension_elements && tn == "SecurityAnnotation") {
+            auto get = [&](const char* k) -> std::string {
+                auto it = t.attrs.find(k);
+                return (it != t.attrs.end()) ? it->second : std::string{};
+            };
+            ProcessNodeInfo::DsgvoAnnotation ann;
+            ann.data_category    = get("dataCategory");
+            ann.legal_basis      = get("legalBasis");
+            std::string rd       = get("retentionDays");
+            if (!rd.empty()) {
+                try { ann.retention_days = std::stoi(rd); } catch (...) {}
+            }
+            ann.requires_consent = (get("requiresConsent") == "true");
+            dsgvo_map[current_flow_node_id] = std::move(ann);
+            return;
+        }
+
+        // ── sequenceFlow ──────────────────────────────────────────────────        if (tn == "sequenceFlow") {
             auto get = [&](const char* k) -> std::string {
                 auto it = t.attrs.find(k);
                 return (it != t.attrs.end()) ? it->second : std::string{};
@@ -565,6 +597,10 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
             }
 
             result.nodes.push_back(std::move(node));
+
+            // Track non-self-closing flow nodes so extensionElements children can
+            // be associated with this node (e.g. BPMN-S SecurityAnnotation).
+            if (!t.self_closing) current_flow_node_id = nid;
         }
     };
 
@@ -598,6 +634,22 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
 
     // Apply BPMNDI graphical layout hints (x/y/width/height) to nodes.
     applyBpmndiLayout();
+
+    // Apply BPMN-S DSGVO annotations to nodes; also persist in metadata JSON
+    // so the annotation survives serialisation to the normalized graph in RocksDB.
+    for (auto& node : result.nodes) {
+        auto it = dsgvo_map.find(node.node_id);
+        if (it == dsgvo_map.end()) continue;
+        node.dsgvo_annotation = it->second;
+        nlohmann::json ann_json;
+        ann_json["data_category"]    = it->second.data_category;
+        ann_json["legal_basis"]      = it->second.legal_basis;
+        ann_json["requires_consent"] = it->second.requires_consent;
+        if (it->second.retention_days.has_value()) {
+            ann_json["retention_days"] = *it->second.retention_days;
+        }
+        node.metadata["dsgvo_annotation"] = std::move(ann_json);
+    }
 
     if (result.process_id.empty()) {
         result.process_id   = "imported_process";
@@ -680,7 +732,24 @@ std::string BpmnSerializer::exportXml(
         if (n.is_async) {
             xml << " themis:isAsync=\"true\"";
         }
-        xml << "/>\n";
+
+        if (n.dsgvo_annotation.has_value()) {
+            xml << ">\n";
+            xml << "      <extensionElements>\n";
+            xml << "        <bpmns:SecurityAnnotation"
+                << " xmlns:bpmns=\"http://bpmn-s.org/schema\""
+                << " dataCategory=\"" << escapeXml_(n.dsgvo_annotation->data_category) << "\""
+                << " legalBasis=\"" << escapeXml_(n.dsgvo_annotation->legal_basis) << "\"";
+            if (n.dsgvo_annotation->retention_days.has_value()) {
+                xml << " retentionDays=\"" << *n.dsgvo_annotation->retention_days << "\"";
+            }
+            xml << " requiresConsent=\"" << (n.dsgvo_annotation->requires_consent ? "true" : "false") << "\"";
+            xml << "/>\n";
+            xml << "      </extensionElements>\n";
+            xml << "    </" << tag << ">\n";
+        } else {
+            xml << "/>\n";
+        }
     }
 
     // Edges

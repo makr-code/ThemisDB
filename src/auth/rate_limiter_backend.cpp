@@ -267,6 +267,23 @@ bool RedisRateLimiterBackend::reconnect()
 
 #else // !THEMIS_ENABLE_REDIS
 
+// STUB/SIMULATION NOTE:
+// Purpose: Allow ThemisDB to be built without hiredis.  All Redis-backed
+//   distributed rate-limiting operations become no-ops: `increment()` returns 0
+//   (fail-open — every request is allowed), `getCount()` returns 0, `reset()`
+//   is a no-op, and `isConnected()` / `reconnect()` always return false.
+// Activation: `THEMIS_ENABLE_REDIS` is not defined at compile time (default for
+//   builds without the 'redis' vcpkg feature or without libhiredis).
+// Production Delta: Distributed rate limiting is completely disabled.  Every
+//   request is allowed through regardless of per-key call volume.  This creates
+//   a security gap: DoS/rate-limit bypass is possible when deployed in this
+//   build configuration.  `InMemoryRateLimiterBackend` can be used as a
+//   single-node in-process fallback, but it does not share state across
+//   ThemisDB replicas.
+// Removal Plan: Install libhiredis (`apt install libhiredis-dev` or enable the
+//   'redis' vcpkg feature) and set `-DTHEMIS_ENABLE_REDIS=1` in CMake.
+// Roadmap ref: src/auth/FUTURE_ENHANCEMENTS.md §"Redis Rate Limiter Activation"
+
 RedisRateLimiterBackend::RedisRateLimiterBackend(const Config& config)
     : config_(config)
 {

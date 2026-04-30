@@ -18,15 +18,56 @@
  */
 
 #include "server/http_type_adapter.h"
+#include <array>
 #include <sstream>
 
-// TODO: Consider using proper URL decoding library (e.g., Boost.URL or cpp-url) in production
-// Current implementation handles basic %XX encoding and + as space
-// Limitations: doesn't handle Unicode/UTF-8 multi-byte sequences, malformed percent-encoding,
-// or reserved characters per RFC 3986
+// RFC 3986-compliant percent-decoder.  Decodes %XX sequences (case-insensitive
+// hex digits) and maps '+' to space (application/x-www-form-urlencoded).
+// Malformed sequences (%XX where XX is not valid hex, or a lone %) are passed
+// through unchanged so callers can detect and reject bad input if needed.
+// UTF-8 multi-byte characters are decoded byte-by-byte — the resulting string
+// is a valid UTF-8 byte sequence as long as the original URL was UTF-8 encoded
+// (mandated by RFC 3986 §2.5 and HTML5 §application/x-www-form-urlencoded).
 
 namespace themis {
 namespace server {
+
+namespace {
+
+// Returns the decimal value of a hex nibble [-1, 15].
+// int is intentional: the caller computes `(hi << 4) | lo` with standard
+// integer arithmetic and then casts to char; using int avoids implicit
+// signed-char promotion surprises on platforms where char is unsigned.
+constexpr int hexDigit(char c) noexcept {
+    if (c >= '0' && c <= '9') return c - '0';
+    if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+    if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+    return -1;
+}
+
+std::string urlDecode(const std::string& str) {
+    std::string out;
+    out.reserve(str.size());
+    for (size_t i = 0; i < str.size(); ++i) {
+        if (str[i] == '+') {
+            out += ' ';
+        } else if (str[i] == '%' && i + 2 < str.size()) {
+            int hi = hexDigit(str[i + 1]);
+            int lo = hexDigit(str[i + 2]);
+            if (hi >= 0 && lo >= 0) {
+                out += static_cast<char>((hi << 4) | lo);
+                i += 2;
+            } else {
+                out += str[i]; // malformed: pass through the bare '%'
+            }
+        } else {
+            out += str[i];
+        }
+    }
+    return out;
+}
+
+} // anonymous namespace
 
 httplib::Request HttpTypeAdapter::beastToHttplib(
     const http::request<http::string_body>& beast_req
@@ -44,43 +85,20 @@ httplib::Request HttpTypeAdapter::beastToHttplib(
     if (query_pos != std::string::npos) {
         httplib_req.path = target.substr(0, query_pos);
         
-        // Parse query parameters (with URL decoding)
-        // URL decode helper function
-        auto url_decode = [](const std::string& str) -> std::string {
-            std::string decoded;
-            for (size_t i = 0; i < str.length(); ++i) {
-                if (str[i] == '%' && i + 2 < str.length()) {
-                    int value;
-                    std::istringstream is(str.substr(i + 1, 2));
-                    if (is >> std::hex >> value) {
-                        decoded += static_cast<char>(value);
-                        i += 2;
-                    } else {
-                        decoded += str[i];
-                    }
-                } else if (str[i] == '+') {
-                    decoded += ' ';
-                } else {
-                    decoded += str[i];
-                }
-            }
-            return decoded;
-        };
-        
+        // Parse query parameters with RFC 3986-compliant percent-decoding.
         std::string query_string = target.substr(query_pos + 1);
         size_t start = 0;
         while (start < query_string.length()) {
             size_t eq_pos = query_string.find('=', start);
             size_t amp_pos = query_string.find('&', start);
-            
+
             if (eq_pos != std::string::npos && (amp_pos == std::string::npos || eq_pos < amp_pos)) {
                 std::string key = query_string.substr(start, eq_pos - start);
                 size_t value_end = (amp_pos != std::string::npos) ? amp_pos : query_string.length();
                 std::string value = query_string.substr(eq_pos + 1, value_end - eq_pos - 1);
-                
-                // URL decode key and value using helper function
-                httplib_req.params.emplace(url_decode(key), url_decode(value));
-                
+
+                httplib_req.params.emplace(urlDecode(key), urlDecode(value));
+
                 start = (amp_pos != std::string::npos) ? amp_pos + 1 : query_string.length();
             } else {
                 break;

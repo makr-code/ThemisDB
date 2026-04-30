@@ -745,8 +745,16 @@ MqttMetrics MqttBroker::getAggregatedMetrics() {
     std::lock_guard<std::mutex> lock(mutex_);
     MqttMetrics aggregated;
     
-    // Aggregate metrics from all sessions would require tracking sessions
-    // For now, return broker-level stats
+    // STUB/SIMULATION NOTE:
+    // Purpose: Satisfies the getAggregatedMetrics() API while per-session metric
+    //          accumulation is not implemented in MqttBroker; only the session
+    //          count (from the `persistentSessions_` map size) is available.
+    // Activation: Always — no per-session metrics are tracked.
+    // Production Delta: All counters except `connectCount` are 0; message
+    //                   throughput, byte rates, error counts are not reported.
+    // Removal Plan: Track metrics per session (bytes_rx, bytes_tx, publish_count,
+    //               error_count); aggregate at broker level in getAggregatedMetrics().
+    //               See src/server/FUTURE_ENHANCEMENTS.md §MQTT Aggregated Metrics.
     aggregated.connectCount = persistentSessions_.size();
     
     return aggregated;

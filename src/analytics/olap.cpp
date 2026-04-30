@@ -1740,7 +1740,18 @@ bool OLAPEngine::exportCollectionToParquet(
     return exportToParquet(result, path, compression);
 }
 #else
-// Arrow not available - stub implementations
+// STUB/SIMULATION NOTE:
+// Purpose: Provide link-compatible no-ops for Parquet export when Arrow is
+//   not compiled in.  Both methods log a clear WARN and return false so
+//   callers can distinguish "Arrow disabled" from an I/O error.
+// Activation: ARROW_ENABLED (or THEMIS_HAS_ARROW) not defined; default in
+//   minimal builds.  Enable via vcpkg feature 'arrow' or
+//   -DTHEMIS_HAS_ARROW=ON in CMake.
+// Production Delta: All exportToParquet() and exportCollectionToParquet()
+//   calls return false immediately; no file is written.  Query results that
+//   depend on Parquet export (e.g. BI connectors, Spark integration) will fail.
+// Removal Plan: Install Apache Arrow via vcpkg and rebuild with ARROW_ENABLED.
+// Roadmap ref: src/analytics/FUTURE_ENHANCEMENTS.md § "Parquet/Arrow Export (v1.7.0)"
 bool OLAPEngine::exportToParquet(
     const OLAPResult&,
     const std::string&,

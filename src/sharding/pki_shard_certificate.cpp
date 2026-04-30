@@ -90,9 +90,17 @@ namespace {
 }
 
 bool ShardCertificateInfo::isValidNow() const {
-    // For Phase 2, we'll implement a simple check
-    // In production, this should parse not_before/not_after and compare with current time
-    // For now, return true if both dates are set
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provides a minimal date-field-presence check until full
+    //          X.509 not_before / not_after parsing with time-zone-aware
+    //          comparison is implemented.
+    // Activation: Always — no date parsing or system-clock comparison performed.
+    // Production Delta: Any certificate with non-empty date strings passes,
+    //                   including expired or not-yet-valid certificates.
+    // Removal Plan: Parse `not_before` and `not_after` as RFC 5280 ASN.1
+    //               GeneralizedTime / UTCTime via OpenSSL ASN1_TIME; compare
+    //               against `std::chrono::system_clock::now()`.  See
+    //               src/sharding/FUTURE_ENHANCEMENTS.md §PKI Certificate Validity.
     return !not_before.empty() && !not_after.empty();
 }
 

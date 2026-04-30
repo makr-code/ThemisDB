@@ -78,6 +78,27 @@ namespace cache {
 
 #if !defined(THEMIS_POSIX_SOCKETS)
 
+// STUB/SIMULATION NOTE:
+// Purpose: Provide link-compatible no-op implementations of RedisCacheCoordinator
+//   on platforms that do not have POSIX socket support (e.g., some embedded or
+//   Windows SDK builds without POSIX compatibility shims).  The coordinator
+//   object is constructible; all publish/subscribe operations are accepted
+//   silently but no data is transmitted to Redis.  publish_errors_ is
+//   incremented on every call so metrics dashboards can detect the no-op mode.
+// Activation: THEMIS_POSIX_SOCKETS is not defined.  On Linux and macOS this
+//   symbol is always defined; this block is compiled only on Windows/other
+//   platforms where <sys/socket.h> is not available.
+// Production Delta: Cache invalidation pub/sub is completely disabled; all
+//   distributed cache nodes operate as independent local caches.  A write to
+//   one node is never propagated to other nodes via Redis pub/sub; stale reads
+//   will occur in a multi-node deployment.  publish_errors_ monotonically
+//   increases so any cache-miss alerting threshold will trip.
+// Removal Plan: Ensure THEMIS_POSIX_SOCKETS is set (or use the platform Winsock
+//   shim) on all supported build targets.  The full POSIX implementation of
+//   RedisCacheCoordinator (in redis_cache_coordinator.cpp) is then compiled
+//   instead.  This #if block becomes dead code on POSIX-capable builds.
+// Roadmap ref: src/cache/FUTURE_ENHANCEMENTS.md §"Redis Pub/Sub Activation"
+
 RedisCacheCoordinator::RedisCacheCoordinator(const RedisCacheCoordinatorConfig& config)
     : config_(config) {
     THEMIS_DEBUG("RedisCacheCoordinator: POSIX socket support unavailable – "

@@ -976,3 +976,120 @@ Allow clients to search encrypted data without server seeing plaintext.
 - Index corruption detected via RocksDB checksum validation must trigger read-only mode and alert before serving queries
 - Partial (filtered) index predicates must be validated at creation time to prevent injection via predicate strings
 - Online rebuild must maintain a dual-index window (old + new) with atomic cutover; no gap in query coverage
+
+---
+
+## BaseEntity String-Array Field Support for PropertyGraph (Target: v1.7.0)
+
+**Constraint in:** `src/index/property_graph.cpp` — `getNodeLabels_()` (currently serializes multi-label nodes as comma-separated strings instead of native arrays)
+
+### Scope
+- Extend `BaseEntity` to support `std::vector<std::string>` as a native field type alongside the existing scalar types.
+- Update `PropertyGraphManager::getNodeLabels_()` to use `getFieldAsStringVector()` instead of parsing comma-separated values.
+- Affected files:
+  - `include/storage/base_entity.h` — add `setFieldVector(name, vector<string>)`, `getFieldAsStringVector(name) → optional<vector<string>>`
+  - `src/storage/base_entity.cpp` — serialization/deserialization of the new type
+  - `src/index/property_graph.cpp` — replace comma-parse with `getFieldAsStringVector("_labels")`
+  - `src/query/query_engine.cpp` — handle vector-typed predicates in ConjunctiveQuery
+
+### Design Constraints
+- Wire format must remain backward-compatible: existing single-string `_labels` entries must be read correctly by the new code (migration-free).
+- The new type must be round-trip serializable via `BaseEntity::serialize()` / `deserialize()`.
+- `getFieldAsString()` on a vector field must return the first element (or comma-joined string) for backward compatibility.
+
+### Implementation Notes
+- Use `std::variant` or a tagged union to extend the existing field value type.
+- RocksDB key encoding unchanged; only the value blob format gains a new type tag.
+- Migration: write new nodes with the new type; old nodes (comma-string) decoded on first read, re-written as native vectors on next `put()`.
+
+### Test Strategy
+- Unit: write a node with 3 labels; read back via `getFieldAsStringVector()`; assert exact match.
+- Regression: existing PropertyGraph tests (query, traversal) pass unchanged.
+- Migration: write old comma-string record directly to RocksDB; assert `getNodeLabels_()` returns all 3 labels.
+
+### Performance Targets
+- No performance regression for single-label nodes (most common case).
+- `getNodeLabels_()` for multi-label nodes: < 1 µs per call (no string parsing).
+
+### Security / Reliability
+- Malformed serialized arrays must not cause crash or data corruption; return empty vector with WARN log.
+
+---
+
+## GPU Vector Index (Vulkan) — VulkanVectorIndexBackend Activation (Target: v1.9.0)
+
+**Stub:** `src/index/gpu_vector_index_vulkan.cpp` — `!THEMIS_HAS_VULKAN_IMPL` Pimpl: all methods return `false` or empty; `isInitialized()` returns false  
+**Risk:** GPU-accelerated ANN search (HNSW on Vulkan compute shaders) is silently disabled. All vector queries fall through to CPU HNSW/FAISS, giving 5–20× lower throughput for corpora ≥ 1 M vectors.
+
+### Scope
+- Install the Vulkan SDK (≥ 1.3) and a compatible GPU driver; rebuild with `-DTHEMIS_HAS_VULKAN_IMPL=1`.
+- The Pimpl implementation block (inside `#if THEMIS_HAS_VULKAN_IMPL`) is then compiled.
+- Implement `uploadVectors()` using a staging buffer + `vkCmdCopyBuffer`; implement `searchIndices()` using a compute shader that evaluates L2 or cosine distance over the uploaded embedding matrix.
+
+### Required Interfaces
+- `VulkanVectorIndexBackend::initialize(device_index)` → creates Vulkan instance, selects device, allocates index buffer.
+- `uploadVectors(vecs)` → copies embeddings to GPU-local memory (DEVICE_LOCAL heap).
+- `search(query, k)` → dispatches compute shader, returns top-k results with scores.
+
+### Design Constraints
+- Auto-fallback: if `initialize()` returns false (no compatible GPU), callers fall through to CPU HNSW transparently.
+- Thread safety: `searchIndices()` must support concurrent callers (multiple VkQueue submissions).
+- Memory: pre-allocate GPU buffer for `max_vectors * dim * sizeof(float)` at `initialize()` time; reject `uploadVectors()` that would exceed this limit.
+
+### Test Strategy
+- Unit: compile with `THEMIS_HAS_VULKAN_IMPL=0`; assert all methods return false/empty (stub path).
+- Integration: Vulkan GPU available; assert `initialize()` returns true, `search()` returns correct top-k neighbors.
+- Regression: CPU HNSW results match Vulkan results within float tolerance ε = 1e-4.
+
+### Performance Targets
+- `search()` (1 M vectors, 768-dim, k=10, RTX-class GPU): ≤ 10 ms p99.
+- Throughput: ≥ 1000 concurrent query/s (Vulkan async submit).
+
+---
+
+## Process Graph Multi-Model Query Engine (Target: v2.0.0)
+
+**Stub:** `src/index/process_graph.cpp` — `queryTasksByFormData`, `queryForeignKeyJoin`, `queryAggregation` run O(n) full scans over RocksDB in-process store  
+**Risk:** Performance degrades severely with large process instances (> 10K tokens per process); production workflows with millions of process tokens will be untenable.
+
+### Scope
+- Wire a `ThemisDB` AQL query engine reference into `ProcessGraphManager` via a new `setQueryEngine(std::shared_ptr<QueryEngine>)` method.
+- When `query_engine_` is set, delegate `queryTasksByFormData`, `queryForeignKeyJoin`, and `queryAggregation` to AQL queries that use the server-side BRIN/hash index on `process_id` and `token_type` fields.
+- Keep the in-process RocksDB scan implementations as fallback (when `query_engine_` is null) for offline/test mode.
+
+### Required Interfaces
+- `ProcessGraphManager::setQueryEngine(std::shared_ptr<QueryEngine>)` — inject at server startup.
+- AQL collection: `process_tokens` with indexes on `process_id` (hash), `token_type` (hash), `form_data.*` (inverted, for filter pushdown).
+
+### Design Constraints
+- `queryTasksByFormData` filter semantics must be identical between the in-process and AQL paths (same JSON pointer traversal logic).
+- Fallback to in-process scan must emit a WARN log so operators know the AQL engine is not configured.
+
+### Test Strategy
+- Unit: inject a mock `QueryEngine`; assert AQL path is taken when engine is set.
+- Integration: 50K tokens in a process; assert `queryTasksByFormData` with a common field filter returns results in ≤ 50 ms.
+- Regression: in-process fallback path passes all existing `test_process_graph.cpp` tests unchanged.
+
+### Performance Targets
+- `queryTasksByFormData` (10K tokens, AQL-backed): ≤ 10 ms p99.
+- `queryForeignKeyJoin` (10K tokens × 1K foreign docs, AQL-backed): ≤ 50 ms p99.
+
+---
+
+## VectorAutoBuffer Dynamic Dimension (Target: v1.5.0 — stub removal)
+
+**Stub:** `src/index/vector_auto_buffer.cpp` — `estimateVectorSize()` catch block: returns hardcoded 768 × sizeof(float) (3072 bytes) when `extractVector("embedding")` fails  
+**Risk:** Memory accounting inaccurate for non-768-dim models; incorrect buffer flush decisions; performance impact minor but non-zero.
+
+### Scope
+- Accept `size_t embedding_dim` as a constructor parameter of `VectorAutoBuffer`.
+- Use `embedding_dim_ * sizeof(float)` as the fallback in `estimateVectorSize()` instead of hardcoded 768.
+- Default constructor uses 768 for backward compatibility.
+
+### Performance Targets
+- `estimateVectorSize()` must remain O(1) with zero heap allocation.
+- Buffer flush threshold accuracy: within ± 5 % of actual size for models with 256–4096 dims.
+
+### Test Strategy
+- Construct with `embedding_dim = 1024` → catch-block fallback returns 4096 bytes (not 3072).
+- Entity with correct `"embedding"` field → `extractVector()` succeeds; fallback not taken.

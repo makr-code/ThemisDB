@@ -23,6 +23,54 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
+// STUB/SIMULATION NOTE (main_server.cpp — comprehensive):
+// Purpose: `main_server.cpp` is the top-level server entry point.  It contains
+//   17 stub/conditional compilation blocks that gate entire subsystems depending
+//   on build flags.  The key stubs are:
+//
+//   1. `THEMIS_ENABLE_HTTP_SERVER` (lines ~54, 139, 1159, 1613, 1714, 2068, 2401):
+//      When absent, the HTTP/REST API server (`HttpServer`) is not instantiated;
+//      `g_server` is null; all HTTP/REST API endpoints are unreachable.
+//
+//   2. `THEMIS_ENABLE_GRPC` (lines ~119, 143, 1888):
+//      When absent, WAL gRPC service is not started; gRPC-based WAL replication
+//      and inter-node RPC are unavailable.
+//
+//   3. `THEMIS_HAS_PROMETHEUS` (lines ~88, 135, 510):
+//      When absent, Prometheus registry not created; no Prometheus scrape endpoint;
+//      `g_config_prom_registry` is null.
+//
+//   4. `THEMIS_ENABLE_LLM` (lines ~92, 1007):
+//      When absent, LLM plugin manager and all local LLM inference components are
+//      not initialised; LLM API endpoints return 503.
+//
+//   5. `THEMIS_ENABLE_MIMALLOC` (lines ~316, 695):
+//      When absent, default system allocator is used; mimalloc 20–40 % memory
+//      improvement and reduced fragmentation are unavailable.
+//
+//   6. HSM stub provider (lines ~870–941):
+//      When `hsm.provider = stub` in config (or no HSM config found), an in-process
+//      software-only stub HSM is used.  Master encryption keys are NOT hardware-
+//      protected.  A WARNING banner is emitted every 5 minutes.  Do NOT use in
+//      production.
+//
+//   7. `THEMIS_HYPERSCALER_EDITION` / `THEMIS_ENTERPRISE_EDITION` (lines ~590–628):
+//      When absent, hyperscaler and enterprise-specific startup steps are skipped.
+//
+//   8. `THEMIS_GEO_ENABLED` / `THEMIS_GEO_BOOST_BACKEND` (lines ~2483–2490):
+//      When absent, geo spatial backend type logged as "disabled" or "CPU fallback".
+//
+// Activation: All conditions above are evaluated at compile time; the relevant
+//   features are simply absent rather than returning errors to callers.
+// Production Delta: Without the required build flags, the server starts in a
+//   degraded mode.  Minimum viable production build requires at least:
+//   `-DTHEMIS_ENABLE_HTTP_SERVER=1 -DTHEMIS_ENABLE_GRPC=1 -DTHEMIS_HAS_PROMETHEUS=1
+//    -DTHEMIS_ENABLE_LLM=1 -DTHEMIS_ENABLE_MIMALLOC=1` and a real HSM provider.
+// Removal Plan: Each stub block maps to a specific feature activation; see the
+//   relevant FUTURE_ENHANCEMENTS.md files under `src/server/`, `src/llm/`,
+//   `src/performance/`, and `src/security/`.
+// Roadmap ref: src/server/FUTURE_ENHANCEMENTS.md §"Main Server Feature Activation"
+
 // v1.1.0: mimalloc integration (20-40% memory boost, drop-in replacement)
 // NOTE: Mimalloc is lazy-loaded after CRT initialization to avoid crashes during
 // static object construction. This prevents exit code -1073741502 (0xC0000142).

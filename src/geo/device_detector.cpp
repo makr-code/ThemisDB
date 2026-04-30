@@ -39,6 +39,22 @@ namespace geo {
 namespace {
 
 /// Build a GeoDeviceCapability for the CPU-fallback sentinel device.
+/// STUB/SIMULATION NOTE:
+/// Purpose: Return a well-defined "no GPU available" sentinel so that callers
+///   of `GeoDeviceDetector::Detect()` can always inspect the device list
+///   without special-casing an empty result.  The sentinel device has
+///   `suitable_for_geo = false` and `reason = "no GPU device available; using
+///   CPU fallback"`, causing `GpuBatchBackend` to route all geo ops to the
+///   CPU path.
+/// Activation: Called when `themis::gpu::DeviceDiscovery::queryDevices()`
+///   returns an empty list (no GPU drivers or devices detected at runtime).
+/// Production Delta: All geo spatial operations run on the CPU exact backend.
+///   GPU distance and containment kernels are not invoked; expected ≥ 8× GPU
+///   speedup is absent.
+/// Removal Plan: Ensure a CUDA or HIP-capable GPU is present and that the
+///   CUDA/ROCm driver is installed.  `DeviceDiscovery::queryDevices()` will
+///   then return real devices and this sentinel path will not be taken.
+/// Roadmap ref: src/geo/FUTURE_ENHANCEMENTS.md §"CUDA Geospatial Kernels"
 static GeoDeviceCapability MakeCpuFallbackCapability() {
     GeoDeviceCapability cap;
     cap.device.index          = -1;
