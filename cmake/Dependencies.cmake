@@ -389,8 +389,12 @@ else()
 endif()
 
 # ONNX Runtime (ML model inference)
-find_package(onnxruntime QUIET CONFIG)
-if(onnxruntime_FOUND)
+# Guard repeated CONFIG loads: onnxruntimeConfig.cmake defines
+# safeint_interface without existence checks.
+if(NOT onnxruntime_FOUND AND NOT TARGET onnxruntime::onnxruntime AND NOT TARGET safeint_interface)
+    find_package(onnxruntime QUIET CONFIG)
+endif()
+if(onnxruntime_FOUND OR TARGET onnxruntime::onnxruntime)
     message(STATUS "ONNX Runtime found - enabling ONNX model serving backend")
     add_compile_definitions(THEMIS_HAS_ONNX=1)
 else()

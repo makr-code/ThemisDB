@@ -102,6 +102,12 @@ SeriesProfile profileSeries(const std::vector<TSStore::DataPoint>& points) {
 // HeuristicCompressionSelector
 // ============================================================================
 
+HeuristicCompressionSelector::HeuristicCompressionSelector()
+    : config_{} {}
+
+HeuristicCompressionSelector::HeuristicCompressionSelector(Config cfg)
+    : config_(cfg) {}
+
 CompressionStrategy HeuristicCompressionSelector::select(
     const SeriesProfile& profile) const {
 

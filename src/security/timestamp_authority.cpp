@@ -429,8 +429,12 @@ std::vector<uint8_t> TimestampAuthority::createTSPRequest(
         BIGNUM* bn = BN_bin2bn(
             nonce_bytes.data(), static_cast<int>(nonce_bytes.size()), nullptr);
         if (bn) {
-            TS_REQ_set_nonce(req, bn);
+            ASN1_INTEGER* asn1_nonce = BN_to_ASN1_INTEGER(bn, nullptr);
             BN_free(bn);
+            if (asn1_nonce) {
+                TS_REQ_set_nonce(req, asn1_nonce);
+                ASN1_INTEGER_free(asn1_nonce);
+            }
         }
     }
 
@@ -661,7 +665,7 @@ TimestampToken TimestampAuthority::parseTSPResponse(
         }
 
         // Hash algorithm from MessageImprint
-        const TS_MSG_IMPRINT* imprint = TS_TST_INFO_get_msg_imprint(tst_info);
+        TS_MSG_IMPRINT* imprint = TS_TST_INFO_get_msg_imprint(tst_info);
         if (imprint) {
             const X509_ALGOR* alg = TS_MSG_IMPRINT_get_algo(imprint);
             if (alg) {
@@ -803,7 +807,7 @@ bool TimestampAuthority::verifyTimestampForHash(
     TS_TST_INFO* tst_info = PKCS7_to_TS_TST_INFO(pkcs7);
     bool match = false;
     if (tst_info) {
-        const TS_MSG_IMPRINT* imprint = TS_TST_INFO_get_msg_imprint(tst_info);
+        TS_MSG_IMPRINT* imprint = TS_TST_INFO_get_msg_imprint(tst_info);
         if (imprint) {
             const ASN1_OCTET_STRING* token_hash = TS_MSG_IMPRINT_get_msg(imprint);
             if (token_hash) {
@@ -936,7 +940,7 @@ bool eIDASTimestampValidator::validateeIDASTimestamp(
         return false;
     }
 
-    TS_VERIFY_CTX_set_flags(ctx, TS_VFY_SIGNATURE | TS_VFY_SIGNER_CERT);
+    TS_VERIFY_CTX_set_flags(ctx, TS_VFY_SIGNATURE | TS_VFY_SIGNER);
     TS_VERIFY_CTX_set_store(ctx, store); // TS_VERIFY_CTX_free will free the store
 
     int ok = TS_RESP_verify_token(ctx, pkcs7);

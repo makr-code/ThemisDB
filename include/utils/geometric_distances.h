@@ -52,6 +52,7 @@
 
 #include <cmath>
 #include <cstddef>
+#include <numbers>
 
 // ============================================================================
 // Re-export of SIMD vector distance API (themis::simd namespace)
@@ -100,7 +101,7 @@ constexpr double EARTH_RADIUS_KM = 6'371.0;
     double lat1, double lon1,
     double lat2, double lon2) noexcept
 {
-    constexpr double DEG_TO_RAD = M_PI / 180.0;
+    constexpr double DEG_TO_RAD = std::numbers::pi_v<double> / 180.0;
     const double dlat = (lat2 - lat1) * DEG_TO_RAD;
     const double dlon = (lon2 - lon1) * DEG_TO_RAD;
     const double rlat1 = lat1 * DEG_TO_RAD;

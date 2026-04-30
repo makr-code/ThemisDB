@@ -22,6 +22,7 @@
  */
 
 #include "server/lora_api_handler.h"
+#include "server/auth_middleware.h"
 #include "auth/jwt_validator.h"
 #include "llm/lora_framework/lora_orchestrator.h"
 #include "llm/lora_framework/lora_storage_service.h"
@@ -990,7 +991,12 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAHealth(
 // ═══════════════════════════════════════════════════════════
 
 bool LoRAApiHandler::validateBearerToken(const http::request<http::string_body>& req) {
-    auto token = extractBearerToken(req);
+    const auto auth_it = req.find(http::field::authorization);
+    if (auth_it == req.end()) {
+        return false;
+    }
+
+    auto token = AuthMiddleware::extractBearerToken(auth_it->value());
     if (!token) {
         return false;
     }

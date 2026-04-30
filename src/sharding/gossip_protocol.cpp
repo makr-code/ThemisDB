@@ -25,6 +25,7 @@
 #include <sstream>
 #include <iomanip>
 #include <iostream>
+#include <spdlog/spdlog.h>
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/err.h>

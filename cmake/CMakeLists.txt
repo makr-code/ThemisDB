@@ -772,10 +772,12 @@ if(Git_FOUND)
         COMMAND ${GIT_EXECUTABLE} status --porcelain
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
         OUTPUT_VARIABLE _git_dirty_output
+            RESULT_VARIABLE _git_dirty_result
+            TIMEOUT 20
         OUTPUT_STRIP_TRAILING_WHITESPACE
         ERROR_QUIET
     )
-    if(_git_dirty_output)
+    if(_git_dirty_result EQUAL 0 AND _git_dirty_output)
         set(_THEMIS_GIT_DIRTY 1)
     endif()
 endif()
@@ -1751,6 +1753,9 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/maintenance/maintenance_schedule_store.cpp>
     ../src/server/hot_reload_api_handler.cpp
     ../src/server/export_api_handler.cpp
+    ../src/server/continuous_query_api_handler.cpp
+    ../src/server/shard_repair_api_handler.cpp
+    ../src/server/hsm_provider_global.cpp
     $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/feedback_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/snapshot_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/pitr_api_handler.cpp>
@@ -2082,13 +2087,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/embedded_user_registration_plugin.cpp
     ../src/security/hsm_provider.cpp
     ../src/security/hsm_key_provider_adapter.cpp
-    # STUB/OPENSSL3: timestamp_authority temporarily disabled
-    # Purpose: OpenSSL 3.0 API incompatibility (BIGNUM→ASN1_INTEGER cast, const-correctness)
-    # Activation: monolithic build (THEMIS_BUILD_MODULAR=OFF)
-    # Production Delta: Timestamp Authority (TSA) requests unavailable in monolith tests
-    # Removal Plan: Refactor to OpenSSL 3.0 EVP_*_CTX const API, run tests
-    # ../src/security/timestamp_authority.cpp
-    # ../src/security/timestamp_authority_openssl.cpp
+    ../src/security/timestamp_authority.cpp
     ../src/security/tsa_api.cpp
     ../src/security/vram_secure_clear.cpp
     ../src/security/vcc_pki_client.cpp
@@ -3612,6 +3611,9 @@ endif()
 
 if(THEMIS_ENABLE_GPU)
     target_link_libraries(themis_core PUBLIC faiss)
+    if(UNIX AND NOT APPLE)
+        target_link_libraries(themis_core PUBLIC gfortran quadmath)
+    endif()
     target_compile_definitions(themis_core PUBLIC THEMIS_GPU_ENABLED)
 elseif(hnswlib_FOUND)
     target_link_libraries(themis_core PUBLIC hnswlib::hnswlib)
@@ -4026,6 +4028,7 @@ if(THEMIS_ENABLE_LLM)
         
         # AI Decision Auditing and Explainability (EU AI Act, GDPR Compliance)
         ../src/llm/ai_decision_auditor.cpp        # AI decision auditing with cryptographic signing
+        ../src/llm/decision_record_yaml_processor.cpp # YAML-backed AI decision record persistence
         ../src/llm/explanation_generator.cpp      # Human-readable explanation generation
         ../src/llm/ethical_guidelines_manager.cpp # Ethical guidelines management
         ../src/llm/constitutional_reasoning_engine.cpp # Constitutional-AI constraint checking

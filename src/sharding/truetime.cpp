@@ -423,7 +423,8 @@ uint64_t TrueTime::calculateUncertainty() const {
     uint64_t total_uncertainty = base_uncertainty + drift_uncertainty;
     
     // Cap at max drift
-    return std::min(total_uncertainty, static_cast<uint64_t>(config_.max_drift_us) * 1000ULL);
+    const auto max_drift_ns = static_cast<uint64_t>(config_.max_drift_us) * static_cast<uint64_t>(1000);
+    return std::min<uint64_t>(total_uncertainty, max_drift_ns);
 }
 
 void TrueTime::syncThreadFunc() {

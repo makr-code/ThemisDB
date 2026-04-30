@@ -40,6 +40,13 @@ namespace timeseries {
 
 Result<std::unique_ptr<TsStreamCursor>> TsStreamCursor::open(
     TSStore& store,
+    TSStore::QueryOptions options)
+{
+    return open(store, std::move(options), Config{});
+}
+
+Result<std::unique_ptr<TsStreamCursor>> TsStreamCursor::open(
+    TSStore& store,
     TSStore::QueryOptions options,
     Config cfg)
 {

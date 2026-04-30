@@ -251,6 +251,9 @@ public:
      * @brief Returns true if the server is currently running.
      */
     [[nodiscard]] virtual bool isRunning() const = 0;
+
+    /**
+     * @brief Register a dataset producer under the given path.
      *
      * The @p producer callback is invoked each time a client calls doGet()
      * for this path.  The returned batch is sent to the client.

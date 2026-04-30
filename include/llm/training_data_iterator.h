@@ -87,8 +87,13 @@ public:
     
     explicit TrainingDataIterator(
         std::shared_ptr<RocksDBWrapper> db,
+        std::shared_ptr<exporters::JSONLLLMExporter> exporter
+    );
+
+    explicit TrainingDataIterator(
+        std::shared_ptr<RocksDBWrapper> db,
         std::shared_ptr<exporters::JSONLLLMExporter> exporter,
-        Config config = Config{}
+        Config config
     );
     
     // Iterator Operations

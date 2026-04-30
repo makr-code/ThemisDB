@@ -181,7 +181,7 @@ public:
      * @param superConcept Candidate ancestor concept.
      * @return true if @p concept is-a @p superConcept.
      */
-    bool isA(std::string_view concept, std::string_view superConcept) const;
+    bool isA(std::string_view conceptName, std::string_view superConcept) const;
 
     /**
      * @brief Return the set of edge types permitted between a source and target class.
@@ -253,7 +253,7 @@ private:
     mutable std::shared_mutex isa_cache_mutex_;
 
     // ── Internal helpers ─────────────────────────────────────────────────────
-    bool isAUncached(std::string_view concept, std::string_view superConcept) const;
+    bool isAUncached(std::string_view conceptName, std::string_view superConcept) const;
     void evictIsACacheEntry() const;
 
     /// Parse JSON text into concepts_ + axioms_ (shared by file and string loaders).

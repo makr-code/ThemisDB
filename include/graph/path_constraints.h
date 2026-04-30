@@ -340,6 +340,13 @@ public:
      */
     std::string describeConstraints() const;
 
+    /**
+     * @brief Access configured constraints for optimization/planning.
+     */
+    [[nodiscard]] const std::vector<Constraint>& getConstraints() const noexcept {
+        return constraints_;
+    }
+
     // ── Security constants ──────────────────────────────────────────────────
     /// Maximum allowed byte length for a node or edge identifier.
     static constexpr size_t MAX_ID_LENGTH = 1024;

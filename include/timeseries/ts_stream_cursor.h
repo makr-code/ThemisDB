@@ -104,8 +104,12 @@ public:
      */
     static Result<std::unique_ptr<TsStreamCursor>> open(
         TSStore& store,
-        TSStore::QueryOptions options,
-        Config cfg = {});
+      TSStore::QueryOptions options);
+
+    static Result<std::unique_ptr<TsStreamCursor>> open(
+      TSStore& store,
+      TSStore::QueryOptions options,
+      Config cfg);
 
     // ── Iterator interface ─────────────────────────────────────────────────
 

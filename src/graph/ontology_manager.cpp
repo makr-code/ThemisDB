@@ -281,14 +281,14 @@ void OntologyManager::build() {
 
 // ── isA ─────────────────────────────────────────────────────────────────────
 
-bool OntologyManager::isAUncached(std::string_view concept,
+bool OntologyManager::isAUncached(std::string_view conceptName,
                                    std::string_view superConcept) const {
-    if (concept == superConcept) return true;
+    if (conceptName == superConcept) return true;
     // BFS over the parent chain
     std::queue<std::string_view> frontier;
     std::unordered_set<std::string_view> visited;
-    frontier.push(concept);
-    visited.insert(concept);
+    frontier.push(conceptName);
+    visited.insert(conceptName);
     int depth = 0;
     while (!frontier.empty() && depth < kMaxIsADepth) {
         std::size_t level_size = frontier.size();
@@ -318,9 +318,9 @@ void OntologyManager::evictIsACacheEntry() const {
     }
 }
 
-bool OntologyManager::isA(std::string_view concept,
+bool OntologyManager::isA(std::string_view conceptName,
                            std::string_view superConcept) const {
-    std::string cache_key = std::string(concept) + '\0' + std::string(superConcept);
+    std::string cache_key = std::string(conceptName) + '\0' + std::string(superConcept);
 
     {
         std::shared_lock<std::shared_mutex> rl(isa_cache_mutex_);
@@ -328,7 +328,7 @@ bool OntologyManager::isA(std::string_view concept,
         if (it != isa_cache_.end()) return it->second;
     }
 
-    bool result = isAUncached(concept, superConcept);
+    bool result = isAUncached(conceptName, superConcept);
 
     {
         std::unique_lock<std::shared_mutex> wl(isa_cache_mutex_);

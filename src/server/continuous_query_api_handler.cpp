@@ -232,7 +232,6 @@ http::response<http::string_body> ContinuousQueryApiHandler::handleList(
     const auto queries = engine_->listQueries();
 
     json arr = json::array();
-    arr.reserve(queries.size());
     for (const auto& info : queries) {
         arr.push_back(infoToJson(info));
     }

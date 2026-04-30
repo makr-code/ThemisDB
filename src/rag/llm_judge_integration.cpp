@@ -178,6 +178,7 @@ std::string LLMJudgeIntegration::evaluateDimension(
 
     THEMIS_ERROR("LLM failed to respond for dimension {}", static_cast<int>(dimension));
     return "{}";  // Return empty JSON object as safe fallback
+}
 
 void LLMJudgeIntegration::setInferenceFunction(
     std::function<std::string(const std::string&)> fn

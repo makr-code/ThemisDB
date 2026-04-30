@@ -141,7 +141,8 @@ public:
         double regularity_threshold{0.90};
     };
 
-    explicit HeuristicCompressionSelector(Config cfg = {}) : config_(cfg) {}
+    HeuristicCompressionSelector();
+    explicit HeuristicCompressionSelector(Config cfg);
 
     CompressionStrategy select(const SeriesProfile& profile) const override;
 

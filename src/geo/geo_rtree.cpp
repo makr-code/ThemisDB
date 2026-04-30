@@ -24,7 +24,7 @@
 #include <stdexcept>
 
 // ── Boost.Geometry R-tree backend ─────────────────────────────────────────
-#ifdef THEMIS_GEO_BOOST_BACKEND
+#if defined(THEMIS_GEO_BOOST_BACKEND) && !defined(__linux__)
 #  if __has_include(<boost/geometry/index/rtree.hpp>)
 #    include <boost/geometry/geometries/box.hpp>
 #    include <boost/geometry/geometries/point_xy.hpp>
@@ -49,7 +49,7 @@ namespace geo {
 namespace bg  = boost::geometry;
 namespace bgi = boost::geometry::index;
 
-using BgPoint = bg::model::d2::point_xy<double>;
+using BgPoint = bg::model::point<double, 2, bg::cs::cartesian>;
 using BgBox   = bg::model::box<BgPoint>;
 
 // Each node stores (bounding-box, key-string)
