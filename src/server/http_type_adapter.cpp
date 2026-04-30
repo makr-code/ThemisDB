@@ -45,7 +45,7 @@ constexpr int hexDigit(char c) noexcept {
     return -1;
 }
 
-std::string urlDecode(const std::string& str) {
+std::string urlDecodeTypeAdapter(const std::string& str) {
     std::string out;
     out.reserve(str.size());
     for (size_t i = 0; i < str.size(); ++i) {
@@ -97,7 +97,7 @@ httplib::Request HttpTypeAdapter::beastToHttplib(
                 size_t value_end = (amp_pos != std::string::npos) ? amp_pos : query_string.length();
                 std::string value = query_string.substr(eq_pos + 1, value_end - eq_pos - 1);
 
-                httplib_req.params.emplace(urlDecode(key), urlDecode(value));
+                httplib_req.params.emplace(urlDecodeTypeAdapter(key), urlDecodeTypeAdapter(value));
 
                 start = (amp_pos != std::string::npos) ? amp_pos + 1 : query_string.length();
             } else {

@@ -308,7 +308,7 @@ public:
      *                 records violations but keeps the path.
      */
     void addSemanticConstraint(const OntologyManager* ontology,
-                               OntologyManager::Ruleset ruleset = OntologyManager::Ruleset::STRICT);
+                               OntologyManager::Ruleset ruleset = OntologyManager::Ruleset::Strict);
 
     /**
      * @brief Validate a discovered path against all attached ontology constraints.
@@ -367,7 +367,7 @@ private:
 
     // ── Semantic constraint state ───────────────────────────────────────────
     const OntologyManager* ontology_ = nullptr;
-    OntologyManager::Ruleset ontology_ruleset_ = OntologyManager::Ruleset::STRICT;
+    OntologyManager::Ruleset ontology_ruleset_ = OntologyManager::Ruleset::Strict;
     mutable std::vector<ConstraintViolation> last_violations_;
 
     /**

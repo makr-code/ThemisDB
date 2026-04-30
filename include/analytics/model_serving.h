@@ -78,6 +78,7 @@ namespace analytics {
 // ============================================================================
 
 class ModelServingEngine;
+struct ModelServingEntry;
 
 // ============================================================================
 // Configuration
@@ -314,11 +315,11 @@ private:
     // shared_lock, then releases the lock immediately.  Throws std::out_of_range
     // if the entry does not exist.  Callers run inference and metric updates
     // *after* this call so that the registry lock is never held during I/O.
-    [[nodiscard]] std::shared_ptr<struct Entry>
+    [[nodiscard]] std::shared_ptr<ModelServingEntry>
     lookupEntryOrThrow_(const std::string& name, const std::string& version) const;
 
     // Same as lookupEntryOrThrow_ but returns nullptr instead of throwing.
-    [[nodiscard]] std::shared_ptr<struct Entry>
+    [[nodiscard]] std::shared_ptr<ModelServingEntry>
     lookupEntryOrNull_(const std::string& name, const std::string& version) const noexcept;
 };
 

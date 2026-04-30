@@ -502,7 +502,8 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
             return;
         }
 
-        // ── sequenceFlow ──────────────────────────────────────────────────        if (tn == "sequenceFlow") {
+        // ── sequenceFlow ──────────────────────────────────────────────────
+        if (tn == "sequenceFlow") {
             auto get = [&](const char* k) -> std::string {
                 auto it = t.attrs.find(k);
                 return (it != t.attrs.end()) ? it->second : std::string{};

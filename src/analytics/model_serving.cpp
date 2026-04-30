@@ -51,6 +51,17 @@
 namespace themisdb {
 namespace analytics {
 
+struct ModelServingEntry {
+    AutoMLModel          model;
+    ModelInfo            info;
+    ModelHealthMetrics   health;
+
+    // Latency window - protected by its own mutex so concurrent inference
+    // threads can update metrics without needing the global exclusive lock.
+    mutable std::mutex   health_mu;
+    std::deque<double>   latency_buf;
+};
+
 namespace {
 
 // ----------------------------------------------------------------------------
@@ -75,25 +86,10 @@ inline double elapsedMs(std::chrono::steady_clock::time_point start) noexcept {
 }
 
 // ----------------------------------------------------------------------------
-// Per-model runtime entry
-// ----------------------------------------------------------------------------
-
-struct Entry {
-    AutoMLModel          model;
-    ModelInfo            info;
-    ModelHealthMetrics   health;
-
-    // Latency window – protected by its own mutex so concurrent inference
-    // threads can update metrics without needing the global exclusive lock.
-    mutable std::mutex   health_mu;
-    std::deque<double>   latency_buf;
-};
-
-// ----------------------------------------------------------------------------
 // Latency helpers (caller must hold entry.health_mu)
 // ----------------------------------------------------------------------------
 
-void recordLatency(Entry& e, double ms, size_t window) {
+void recordLatency(ModelServingEntry& e, double ms, size_t window) {
     if (window == 0) return;
 
     e.latency_buf.push_back(ms);
@@ -122,7 +118,7 @@ void recordLatency(Entry& e, double ms, size_t window) {
 struct ModelServingEngine::Impl {
     ModelServingConfig                                        config;
     mutable std::shared_mutex                                 mu;
-    std::unordered_map<std::string, std::shared_ptr<Entry>>   registry;
+    std::unordered_map<std::string, std::shared_ptr<ModelServingEntry>> registry;
 
     explicit Impl(ModelServingConfig cfg) : config(std::move(cfg)) {}
 };
@@ -145,7 +141,7 @@ ModelServingEngine::~ModelServingEngine() = default;
 // register/unregister calls are never starved by long-running inference.
 // ============================================================================
 
-std::shared_ptr<Entry>
+std::shared_ptr<ModelServingEntry>
 ModelServingEngine::lookupEntryOrThrow_(const std::string& name,
                                          const std::string& version) const {
     std::shared_lock lock(impl_->mu);
@@ -156,7 +152,7 @@ ModelServingEngine::lookupEntryOrThrow_(const std::string& name,
     return it->second;
 }
 
-std::shared_ptr<Entry>
+std::shared_ptr<ModelServingEntry>
 ModelServingEngine::lookupEntryOrNull_(const std::string& name,
                                         const std::string& version) const noexcept {
     std::shared_lock lock(impl_->mu);
@@ -200,7 +196,7 @@ void ModelServingEngine::registerModel(const std::string& name,
     health.name    = name;
     health.version = version;
 
-    auto e = std::make_shared<Entry>();
+    auto e = std::make_shared<ModelServingEntry>();
     e->model  = std::move(model);
     e->info   = std::move(info);
     e->health = std::move(health);
@@ -229,7 +225,7 @@ std::string ModelServingEngine::predict(const std::string& name,
 
     // Run inference outside the registry lock so that concurrent
     // registerModel() / unregisterModel() callers are not starved.
-    Entry& e = *ep;
+    ModelServingEntry& e = *ep;
     auto   t0 = std::chrono::steady_clock::now();
     auto   result = e.model.predictOne(point);
     double ms = elapsedMs(t0);
@@ -265,7 +261,7 @@ std::vector<std::string> ModelServingEngine::predictBatch(
     auto ep = lookupEntryOrThrow_(name, version);
 
     // Run batch inference outside the registry lock.
-    Entry& e  = *ep;
+    ModelServingEntry& e  = *ep;
     auto   t0 = std::chrono::steady_clock::now();
     auto   results = e.model.predict(data);
     double ms = elapsedMs(t0);
@@ -300,7 +296,7 @@ std::vector<std::map<std::string, double>> ModelServingEngine::predictProba(
     auto ep = lookupEntryOrThrow_(name, version);
 
     // Run inference outside the registry lock.
-    Entry& e  = *ep;
+    ModelServingEntry& e  = *ep;
     auto   t0 = std::chrono::steady_clock::now();
 
     std::vector<std::map<std::string, double>> out;

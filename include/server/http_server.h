@@ -109,9 +109,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 
 // Forward declaration for AI Safety Layer HILG approval endpoints (ASL-6).
 // Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
-#ifdef THEMIS_ENABLE_MCP
 namespace themis { namespace server { class McpServer; } }
-#endif
 #include "server/udf_api_handler.h"
 #include "server/task_scheduler_api_handler.h"
 #include "server/async_job_api_handler.h"

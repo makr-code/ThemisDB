@@ -112,7 +112,7 @@ struct InferenceChain {
 struct CDCEvent {
     enum class Op : uint8_t {
         INSERT,  ///< A new edge was added.
-        DELETE   ///< An existing edge was removed.
+        REMOVE   ///< An existing edge was removed.
     };
     Op op = Op::INSERT;
     /// The inserted or deleted edge as a ground triple.
@@ -339,7 +339,7 @@ public:
      * pass of all rules that involve the new triple, deriving any newly
      * entailed conclusions without a full re-evaluation.
      *
-     * For `CDCEvent::Op::DELETE`: removes the edge from base facts and clears
+    * For `CDCEvent::Op::REMOVE`: removes the edge from base facts and clears
      * any derived triples whose premise set included the deleted edge.
      *
      * @note This method acquires an exclusive lock and may block concurrent

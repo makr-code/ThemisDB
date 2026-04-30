@@ -47,7 +47,7 @@ TEST(PathConstraintsSemanticFocusedTests, SC01_AddSemanticConstraintSmokeTest) {
     PathConstraints pc;
     auto onto = makeTestOntology();
     // Must not throw
-    EXPECT_NO_THROW(pc.addSemanticConstraint(onto.get(), OntologyManager::Ruleset::STRICT));
+    EXPECT_NO_THROW(pc.addSemanticConstraint(onto.get(), OntologyManager::Ruleset::Strict));
     // Violations list starts empty
     EXPECT_TRUE(pc.lastViolations().empty());
 }
@@ -58,7 +58,7 @@ TEST(PathConstraintsSemanticFocusedTests, SC01_AddSemanticConstraintSmokeTest) {
 TEST(PathConstraintsSemanticFocusedTests, SC02_ValidateWithoutGraphMgrIsEmpty) {
     PathConstraints pc;
     auto onto = makeTestOntology();
-    pc.addSemanticConstraint(onto.get(), OntologyManager::Ruleset::STRICT);
+    pc.addSemanticConstraint(onto.get(), OntologyManager::Ruleset::Strict);
 
     PathConstraints::PathResult result;
     result.nodes = {"node_a", "node_b"};
@@ -100,10 +100,10 @@ TEST(PathConstraintsSemanticFocusedTests, SC05_RulesetStoredCorrectly) {
     auto onto = makeTestOntology();
 
     PathConstraints pc_strict;
-    pc_strict.addSemanticConstraint(onto.get(), OntologyManager::Ruleset::STRICT);
+    pc_strict.addSemanticConstraint(onto.get(), OntologyManager::Ruleset::Strict);
 
     PathConstraints pc_warn;
-    pc_warn.addSemanticConstraint(onto.get(), OntologyManager::Ruleset::WARN);
+    pc_warn.addSemanticConstraint(onto.get(), OntologyManager::Ruleset::Warn);
 
     // Both can call validateSemanticPath without crash (no graph_mgr → empty)
     PathConstraints::PathResult dummy;
@@ -167,7 +167,7 @@ TEST(PathConstraintsSemanticFocusedTests, SC10_ClearConstraintsPreservesSemantic
     PathConstraints pc;
     auto onto = makeTestOntology();
     pc.addMinLength(1);
-    pc.addSemanticConstraint(onto.get(), OntologyManager::Ruleset::STRICT);
+    pc.addSemanticConstraint(onto.get(), OntologyManager::Ruleset::Strict);
 
     // Standard constraints should be present
     EXPECT_FALSE(pc.getConstraints().empty());

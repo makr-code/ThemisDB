@@ -389,7 +389,7 @@ Result<nlohmann::json> AccessControl::enrollMFA(const std::string& user_id) {
             "mfa",
             {{"action", "MFA enrollment rejected — existing enrollment active"}}
         );
-        return themis::ErrVoid(
+        return themis::Err<nlohmann::json>(
             themis::errors::ErrorCode::ERR_API_INVALID_REQUEST,
             "MFA is already enrolled for this user. Disable existing MFA before re-enrolling."
         );

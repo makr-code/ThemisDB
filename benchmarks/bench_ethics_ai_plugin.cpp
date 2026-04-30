@@ -1,4 +1,4 @@
-/*
+﻿/*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -138,8 +138,7 @@ static void BM_PhilosophyLoader_ListSchools(benchmark::State& state) {
 
 static void BM_ArgumentStore_StoreArgument(benchmark::State& state) {
     ArgumentStore store;
-    std::map<std::string, std::string> config;
-    store.initialize(config);
+    store.initialize(nullptr, nullptr);
     
     int index = 0;
     for (auto _ : state) {
@@ -154,8 +153,7 @@ static void BM_ArgumentStore_StoreArgument(benchmark::State& state) {
 
 static void BM_ArgumentStore_GetArgument(benchmark::State& state) {
     ArgumentStore store;
-    std::map<std::string, std::string> config;
-    store.initialize(config);
+    store.initialize(nullptr, nullptr);
     
     // Pre-populate with arguments
     std::vector<std::string> ids;
@@ -179,8 +177,7 @@ static void BM_ArgumentStore_GetArgument(benchmark::State& state) {
 
 static void BM_ArgumentStore_GetArgumentsByPhilosophy(benchmark::State& state) {
     ArgumentStore store;
-    std::map<std::string, std::string> config;
-    store.initialize(config);
+    store.initialize(nullptr, nullptr);
     
     // Pre-populate with arguments
     for (int i = 0; i < state.range(0); i++) {
@@ -199,8 +196,7 @@ static void BM_ArgumentStore_GetArgumentsByPhilosophy(benchmark::State& state) {
 
 static void BM_ArgumentStore_StoreDecision(benchmark::State& state) {
     ArgumentStore store;
-    std::map<std::string, std::string> config;
-    store.initialize(config);
+    store.initialize(nullptr, nullptr);
     
     for (auto _ : state) {
         auto decision = createBenchmarkDecision();
@@ -218,8 +214,7 @@ static void BM_ArgumentStore_StoreDecision(benchmark::State& state) {
 
 static void BM_RAGContextEngine_BuildContext(benchmark::State& state) {
     auto store = std::make_shared<ArgumentStore>();
-    std::map<std::string, std::string> config;
-    store->initialize(config);
+    store->initialize(nullptr, nullptr);
     
     // Pre-populate with arguments
     for (int i = 0; i < 50; i++) {
@@ -244,8 +239,7 @@ static void BM_RAGContextEngine_BuildContext(benchmark::State& state) {
 
 static void BM_RAGContextEngine_FindSimilarDilemmas(benchmark::State& state) {
     auto store = std::make_shared<ArgumentStore>();
-    std::map<std::string, std::string> config;
-    store->initialize(config);
+    store->initialize(nullptr, nullptr);
     
     RAGContextEngine engine(store);
     
@@ -264,8 +258,7 @@ static void BM_RAGContextEngine_FindSimilarDilemmas(benchmark::State& state) {
 
 static void BM_RAGContextEngine_TraverseArgumentChain(benchmark::State& state) {
     auto store = std::make_shared<ArgumentStore>();
-    std::map<std::string, std::string> config;
-    store->initialize(config);
+    store->initialize(nullptr, nullptr);
     
     RAGContextEngine engine(store);
     
@@ -287,8 +280,7 @@ static void BM_DiscourseEngine_InitializeDebate(benchmark::State& state) {
     auto store = std::make_shared<ArgumentStore>();
     auto rag_engine = std::make_shared<RAGContextEngine>(store);
     
-    std::map<std::string, std::string> config;
-    store->initialize(config);
+    store->initialize(nullptr, nullptr);
     loader->loadFromDirectory("plugins/ethics_ai/philosophies");
     
     EthicalDiscourseEngine engine(loader, store, rag_engine);
@@ -311,8 +303,7 @@ static void BM_DiscourseEngine_MakeDecision(benchmark::State& state) {
     auto store = std::make_shared<ArgumentStore>();
     auto rag_engine = std::make_shared<RAGContextEngine>(store);
     
-    std::map<std::string, std::string> config;
-    store->initialize(config);
+    store->initialize(nullptr, nullptr);
     loader->loadFromDirectory("plugins/ethics_ai/philosophies");
     
     EthicalDiscourseEngine engine(loader, store, rag_engine);
@@ -336,8 +327,7 @@ static void BM_DiscourseEngine_MakeDecisionWithRAG(benchmark::State& state) {
     auto store = std::make_shared<ArgumentStore>();
     auto rag_engine = std::make_shared<RAGContextEngine>(store);
     
-    std::map<std::string, std::string> config;
-    store->initialize(config);
+    store->initialize(nullptr, nullptr);
     loader->loadFromDirectory("plugins/ethics_ai/philosophies");
     
     // Pre-populate with context

@@ -1484,6 +1484,7 @@ set(THEMIS_NETWORK_SOURCES
     ../src/server/update_api_handler.cpp
     ../src/server/hot_reload_api_handler.cpp
     ../src/server/export_api_handler.cpp
+    ../src/server/continuous_query_api_handler.cpp
     ../src/server/shard_repair_api_handler.cpp
     ../src/server/tenant_manager.cpp
     ../src/server/sharding_metrics_handler.cpp
@@ -1682,6 +1683,8 @@ set(THEMIS_GRAPH_SOURCES
     ../src/index/graph_analytics.cpp
     ../src/graph/graph_query_optimizer.cpp
     ../src/graph/explain_plan.cpp
+    ../src/graph/ontology_manager.cpp
+    ../src/graph/knowledge_graph_reasoner.cpp
     ../src/query/result_stream.cpp
     ../src/graph/path_constraints.cpp
     ../src/graph/distributed_graph.cpp

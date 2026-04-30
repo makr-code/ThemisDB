@@ -25,12 +25,9 @@ function(add_integration_test TEST_NAME TEST_SOURCE)
         GTest::gtest
         GTest::gtest_main
         nlohmann_json::nlohmann_json
-        # Add other dependencies as needed:
-        # themis_core
-        # themis_storage
-        # themis_query
-        # themis_rpc
-        # themis_security
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
     )
     
     target_compile_definitions(${TEST_NAME} PRIVATE

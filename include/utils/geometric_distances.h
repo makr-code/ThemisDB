@@ -48,11 +48,11 @@
 
 #pragma once
 
+#include "geo/geo_math.h"
 #include "utils/simd_distance.h"
 
 #include <cmath>
 #include <cstddef>
-#include <numbers>
 
 // ============================================================================
 // Re-export of SIMD vector distance API (themis::simd namespace)
@@ -97,23 +97,7 @@ constexpr double EARTH_RADIUS_KM = 6'371.0;
  * @param lon2  Longitude of point B.
  * @return Great-circle distance in kilometres (always ≥ 0).
  */
-[[nodiscard]] inline double haversine_km(
-    double lat1, double lon1,
-    double lat2, double lon2) noexcept
-{
-    constexpr double DEG_TO_RAD = std::numbers::pi_v<double> / 180.0;
-    const double dlat = (lat2 - lat1) * DEG_TO_RAD;
-    const double dlon = (lon2 - lon1) * DEG_TO_RAD;
-    const double rlat1 = lat1 * DEG_TO_RAD;
-    const double rlat2 = lat2 * DEG_TO_RAD;
-
-    const double sin_dlat = std::sin(dlat * 0.5);
-    const double sin_dlon = std::sin(dlon * 0.5);
-    const double a = sin_dlat * sin_dlat
-                   + std::cos(rlat1) * std::cos(rlat2) * sin_dlon * sin_dlon;
-    const double c = 2.0 * std::atan2(std::sqrt(a), std::sqrt(1.0 - a));
-    return EARTH_RADIUS_KM * c;
-}
+using ::themis::geo::haversine_km;
 
 /**
  * @brief Haversine great-circle distance in **metres**.

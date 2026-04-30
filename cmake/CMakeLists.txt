@@ -1600,6 +1600,8 @@ set(THEMIS_CORE_SOURCES
     ../src/graph/graph_query_optimizer.cpp
     ../src/graph/graph_query_rewriter.cpp
     ../src/graph/explain_plan.cpp
+    ../src/graph/ontology_manager.cpp
+    ../src/graph/knowledge_graph_reasoner.cpp
     ../src/graph/path_constraints.cpp
     ../src/graph/gpu_traversal.cpp
     ../src/graph/parallel_traversal.cpp

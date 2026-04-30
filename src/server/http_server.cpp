@@ -115,9 +115,7 @@
 #include "server/merge_api_handler.h"
 #include "server/feedback_api_handler.h"
 #include "server/http_type_adapter.h"  // TODO: Remove after migration to cpp-httplib (see HTTP_SERVER_REFACTORING_ACTION_PLAN.md)
-#ifdef THEMIS_ENABLE_MCP
 #include "server/mcp_server.h"
-#endif
 #include "analytics/diff_engine.h"
 #include "storage/pitr_manager.h"
 #include "sharding/multi_primary_coordinator.h"
@@ -3872,8 +3870,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                         // Determine the allowed model root.
                         std::filesystem::path allowed_root;
                         try {
-                            if (auto env_dir = themis_get_env("THEMIS_MODEL_DIR")) {
-                                allowed_root = std::filesystem::weakly_canonical(*env_dir);
+                            const char* env_dir = std::getenv("THEMIS_MODEL_DIR");
+                            if (env_dir && env_dir[0] != '\0') {
+                                allowed_root = std::filesystem::weakly_canonical(env_dir);
                             } else {
                                 allowed_root = std::filesystem::weakly_canonical(
                                     std::filesystem::current_path());
@@ -3884,10 +3883,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                             }
                         } catch (const std::filesystem::filesystem_error& fse) {
                             auto response = makeErrorResponse(http::status::internal_server_error,
-                                "INTERNAL_ERROR",
-                                std::string("Model root canonicalization failed: ") + fse.what());
-                            res = std::move(response);
-                            break;
+                                std::string("Model root canonicalization failed: ") + fse.what(), req);
+                            applyGovernanceHeaders(req, response);
+                            return response;
                         }
                         std::error_code ec;
                         auto canon = std::filesystem::weakly_canonical(model_path, ec);
@@ -7030,6 +7028,7 @@ http::response<http::string_body> HttpServer::routeRequest(
 
         // ── AI Safety Layer — HILG Approval Endpoints (ASL-6) ──────────────
         // Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+#ifdef THEMIS_ENABLE_MCP
         case Route::AiPendingApprovalsGet: {
             if (auto auth_err = requireAccess(req, "admin", "ai.approvals.read",
                                               "/v1/ai/pending-approvals")) {
@@ -7123,6 +7122,15 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         }
+#else  // !THEMIS_ENABLE_MCP
+        case Route::AiPendingApprovalsGet:
+        case Route::AiApprovePendingPost:
+        case Route::AiDenyPendingPost:
+        case Route::AiRollbackPost:
+            response = makeErrorResponse(http::status::not_implemented,
+                "MCP support not enabled in this build", req);
+            break;
+#endif  // THEMIS_ENABLE_MCP
 
         case Route::NotFound:
         default:

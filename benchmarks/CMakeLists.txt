@@ -101,6 +101,85 @@ set(BENCHMARK_LIBS
     benchmark::benchmark_main
 )
 
+function(themis_add_standard_benchmark target_name source_file)
+    if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${source_file}")
+        message(STATUS "Benchmark source not found at ${CMAKE_CURRENT_SOURCE_DIR}/${source_file}")
+        return()
+    endif()
+
+    if(TARGET ${target_name})
+        return()
+    endif()
+
+    add_executable(${target_name}
+        ${source_file}
+    )
+
+    target_link_libraries(${target_name} PRIVATE
+        themis_core
+        ${BENCHMARK_LIBS}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(${target_name} PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(${target_name})
+
+    install(TARGETS ${target_name}
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+endfunction()
+
+themis_add_standard_benchmark(bench_aql_functions bench_aql_functions.cpp)
+themis_add_standard_benchmark(bench_branch_manager bench_branch_manager.cpp)
+themis_add_standard_benchmark(bench_diff_engine bench_diff_engine.cpp)
+themis_add_standard_benchmark(bench_query bench_query.cpp)
+themis_add_standard_benchmark(bench_transaction_throughput bench_transaction_throughput.cpp)
+themis_add_standard_benchmark(bench_ycsb bench_ycsb.cpp)
+themis_add_standard_benchmark(bench_core_performance bench_core_performance.cpp)
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_module.cpp" AND NOT TARGET bench_gpu_module)
+    message(STATUS "Adding GPU Module benchmarks")
+
+    add_executable(bench_gpu_module
+        bench_gpu_module.cpp
+    )
+
+    target_link_libraries(bench_gpu_module PRIVATE
+        themis_core
+        ${BENCHMARK_LIBS}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_gpu_module PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(THEMIS_ENABLE_GPU)
+        target_compile_definitions(bench_gpu_module PRIVATE THEMIS_ENABLE_GPU=1)
+    endif()
+
+    themis_apply_benchmark_release_flags(bench_gpu_module)
+
+    install(TARGETS bench_gpu_module
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+endif()
+
 # ============================================================================
 # LoRA Framework Benchmarks (NEW)
 # ============================================================================
@@ -4085,7 +4164,7 @@ endif()
 # BM_FeedbackDedup_Throughput, BM_PublishFeedback_Latency
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_distributed_knowledge.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_distributed_knowledge.cpp" AND NOT TARGET bench_distributed_knowledge)
     message(STATUS "Adding Distributed Knowledge Federation benchmarks (DK-8, Session 9)")
 
     add_executable(bench_distributed_knowledge
@@ -4125,7 +4204,7 @@ endif()
 # Distributed Knowledge Operational Resilience Benchmarks (DK-OR / Session 11)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_distributed_knowledge_or.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_distributed_knowledge_or.cpp" AND NOT TARGET bench_distributed_knowledge_or)
     message(STATUS "Adding Distributed Knowledge OR benchmarks (DK-OR, Session 11)")
 
     add_executable(bench_distributed_knowledge_or
@@ -4164,7 +4243,7 @@ endif()
 # LLM+RAID Pipeline Benchmarks (Phase 3 + Phase 6 Distributed Inference Cases)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_raid_pipeline.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_raid_pipeline.cpp" AND NOT TARGET bench_llm_raid_pipeline)
     message(STATUS "Adding LLM+RAID pipeline benchmarks (Phase 3 LoRA/RAID + Phase 6 Distributed Inference)")
 
     add_executable(bench_llm_raid_pipeline
@@ -4205,4 +4284,140 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_raid_pipeline.cpp")
     message(STATUS "  BM_CompletePipeline_EndToEnd")
     message(STATUS "  BM_DomainRouting_OverheadPerRequest (Phase 6 distributed inference)")
     message(STATUS "  BM_BatchFanOut_LatencyScaling (Phase 6 distributed inference)")
+endif()
+
+# ============================================================================
+# Batch-wired benchmarks (standard Google Benchmark targets)
+# ============================================================================
+
+themis_add_standard_benchmark(bench_arm_memory             bench_arm_memory.cpp)
+themis_add_standard_benchmark(bench_arm_simd               bench_arm_simd.cpp)
+themis_add_standard_benchmark(bench_async_io_multiscan     bench_async_io_multiscan.cpp)
+themis_add_standard_benchmark(bench_batch_insert           bench_batch_insert.cpp)
+themis_add_standard_benchmark(bench_blob_zstd              bench_blob_zstd.cpp)
+themis_add_standard_benchmark(bench_changefeed_throughput  bench_changefeed_throughput.cpp)
+themis_add_standard_benchmark(bench_comprehensive          bench_comprehensive.cpp)
+themis_add_standard_benchmark(bench_compression            bench_compression.cpp)
+themis_add_standard_benchmark(bench_cross_functional_end_to_end bench_cross_functional_end_to_end.cpp)
+themis_add_standard_benchmark(bench_crud                   bench_crud.cpp)
+themis_add_standard_benchmark(bench_edge_cases_comprehensive bench_edge_cases_comprehensive.cpp)
+themis_add_standard_benchmark(bench_embedded_llm           bench_embedded_llm.cpp)
+themis_add_standard_benchmark(bench_encryption             bench_encryption.cpp)
+if(THEMIS_PLUGIN_ETHICS_AI AND TARGET ethics_ai_plugin)
+    if(NOT TARGET bench_ethics_ai_plugin)
+        add_executable(bench_ethics_ai_plugin bench_ethics_ai_plugin.cpp)
+        target_link_libraries(bench_ethics_ai_plugin PRIVATE ethics_ai_plugin themis_core ${BENCHMARK_LIBS} Threads::Threads)
+        target_include_directories(bench_ethics_ai_plugin PRIVATE ${CMAKE_SOURCE_DIR}/include)
+        install(TARGETS bench_ethics_ai_plugin RUNTIME DESTINATION bin/benchmarks)
+    endif()
+endif()
+themis_add_standard_benchmark(bench_extended_context       bench_extended_context.cpp)
+themis_add_standard_benchmark(bench_flash_attention        bench_flash_attention.cpp)
+themis_add_standard_benchmark(bench_gnn_embeddings         bench_gnn_embeddings.cpp)
+themis_add_standard_benchmark(bench_gorilla_codec          bench_gorilla_codec.cpp)
+themis_add_standard_benchmark(bench_gossip_config          bench_gossip_config.cpp)
+themis_add_standard_benchmark(bench_gpu_erasure            bench_gpu_erasure.cpp)
+themis_add_standard_benchmark(bench_hsm_provider           bench_hsm_provider.cpp)
+themis_add_standard_benchmark(bench_hybrid_aql_sugar       bench_hybrid_aql_sugar.cpp)
+themis_add_standard_benchmark(bench_image_analysis         bench_image_analysis.cpp)
+themis_add_standard_benchmark(bench_image_analysis_latency bench_image_analysis_latency.cpp)
+themis_add_standard_benchmark(bench_insert_profiling       bench_insert_profiling.cpp)
+themis_add_standard_benchmark(bench_latency_comprehensive  bench_latency_comprehensive.cpp)
+themis_add_standard_benchmark(bench_legal_lora_pipeline    bench_legal_lora_pipeline.cpp)
+themis_add_standard_benchmark(bench_llm_infrastructure     bench_llm_infrastructure.cpp)
+themis_add_standard_benchmark(bench_llm_judge_integration  bench_llm_judge_integration.cpp)
+themis_add_standard_benchmark(bench_llm_real_models        bench_llm_real_models.cpp)
+themis_add_standard_benchmark(bench_llm_response_cache     bench_llm_response_cache.cpp)
+themis_add_standard_benchmark(bench_locality_aware_router  bench_locality_aware_router.cpp)
+themis_add_standard_benchmark(bench_lock_contention        bench_lock_contention.cpp)
+themis_add_standard_benchmark(bench_lora_inline            bench_lora_inline.cpp)
+themis_add_standard_benchmark(bench_lora_training          bench_lora_training.cpp)
+themis_add_standard_benchmark(bench_mmdb                   bench_mmdb.cpp)
+themis_add_standard_benchmark(bench_multithreading_comprehensive bench_multithreading_comprehensive.cpp)
+themis_add_standard_benchmark(bench_mvcc                   bench_mvcc.cpp)
+themis_add_standard_benchmark(bench_pagerank               bench_pagerank.cpp)
+themis_add_standard_benchmark(bench_phase1_flash_attention bench_phase1_flash_attention.cpp)
+themis_add_standard_benchmark(bench_plugin_hot_plug        bench_plugin_hot_plug.cpp)
+themis_add_standard_benchmark(bench_plugin_system          bench_plugin_system.cpp)
+themis_add_standard_benchmark(bench_postgres_e2e           bench_postgres_e2e.cpp)
+themis_add_standard_benchmark(bench_postgres_protocol      bench_postgres_protocol.cpp)
+themis_add_standard_benchmark(bench_postgres_transactions  bench_postgres_transactions.cpp)
+themis_add_standard_benchmark(bench_qlora_gpu_kernels      bench_qlora_gpu_kernels.cpp)
+themis_add_standard_benchmark(bench_raid_lora              bench_raid_lora.cpp)
+themis_add_standard_benchmark(bench_saga_compensation      bench_saga_compensation.cpp)
+themis_add_standard_benchmark(bench_sanity                 bench_sanity.cpp)
+themis_add_standard_benchmark(bench_scalability_comprehensive bench_scalability_comprehensive.cpp)
+themis_add_standard_benchmark(bench_shard_resource_manager bench_shard_resource_manager.cpp)
+themis_add_standard_benchmark(bench_simd_distance          bench_simd_distance.cpp)
+themis_add_standard_benchmark(bench_simple_insert_test     bench_simple_insert_test.cpp)
+themis_add_standard_benchmark(bench_stream_protocol        bench_stream_protocol.cpp)
+themis_add_standard_benchmark(bench_tpcc                   bench_tpcc.cpp)
+themis_add_standard_benchmark(bench_tpch                   bench_tpch.cpp)
+themis_add_standard_benchmark(bench_v1_3_0_features        bench_v1_3_0_features.cpp)
+themis_add_standard_benchmark(bench_v1_3_4_optimizations   bench_v1_3_4_optimizations.cpp)
+themis_add_standard_benchmark(bench_video_processor        bench_video_processor.cpp)
+themis_add_standard_benchmark(bench_wal_apply_grpc         bench_wal_apply_grpc.cpp)
+themis_add_standard_benchmark(bench_wal_stress             bench_wal_stress.cpp)
+themis_add_standard_benchmark(benchmark_distributed_hybrid_search benchmark_distributed_hybrid_search.cpp)
+themis_add_standard_benchmark(benchmark_hybrid_search      benchmark_hybrid_search.cpp)
+themis_add_standard_benchmark(benchmark_image_analysis     benchmark_image_analysis.cpp)
+themis_add_standard_benchmark(kernel_block_size_bench      kernel_block_size_bench.cpp)
+
+# ============================================================================
+# Benchmarks with custom main() (plain executables, not Google Benchmark)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_cycle_metrics.cpp" AND NOT TARGET bench_cycle_metrics)
+    add_executable(bench_cycle_metrics bench_cycle_metrics.cpp)
+    target_include_directories(bench_cycle_metrics PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/../include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src
+    )
+    target_link_libraries(bench_cycle_metrics PRIVATE themis_core Threads::Threads)
+    themis_apply_benchmark_release_flags(bench_cycle_metrics)
+    install(TARGETS bench_cycle_metrics RUNTIME DESTINATION bin/benchmarks COMPONENT benchmarks)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_auto_buffers.cpp" AND NOT TARGET bench_auto_buffers)
+    add_executable(bench_auto_buffers bench_auto_buffers.cpp)
+    target_include_directories(bench_auto_buffers PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/../include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src
+    )
+    target_link_libraries(bench_auto_buffers PRIVATE themis_core Threads::Threads)
+    themis_apply_benchmark_release_flags(bench_auto_buffers)
+    install(TARGETS bench_auto_buffers RUNTIME DESTINATION bin/benchmarks COMPONENT benchmarks)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_docker_raid_comprehensive.cpp" AND NOT TARGET bench_docker_raid_comprehensive)
+    add_executable(bench_docker_raid_comprehensive bench_docker_raid_comprehensive.cpp)
+    target_include_directories(bench_docker_raid_comprehensive PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/../include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src
+    )
+    target_link_libraries(bench_docker_raid_comprehensive PRIVATE themis_core Threads::Threads)
+    themis_apply_benchmark_release_flags(bench_docker_raid_comprehensive)
+    install(TARGETS bench_docker_raid_comprehensive RUNTIME DESTINATION bin/benchmarks COMPONENT benchmarks)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_lossy_vs_lossless.cpp" AND NOT TARGET bench_lossy_vs_lossless)
+    add_executable(bench_lossy_vs_lossless bench_lossy_vs_lossless.cpp)
+    target_include_directories(bench_lossy_vs_lossless PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/../include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src
+    )
+    target_link_libraries(bench_lossy_vs_lossless PRIVATE themis_core Threads::Threads)
+    themis_apply_benchmark_release_flags(bench_lossy_vs_lossless)
+    install(TARGETS bench_lossy_vs_lossless RUNTIME DESTINATION bin/benchmarks COMPONENT benchmarks)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_spatial_join.cpp" AND NOT TARGET bench_spatial_join)
+    add_executable(bench_spatial_join bench_spatial_join.cpp)
+    target_include_directories(bench_spatial_join PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/../include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src
+    )
+    target_link_libraries(bench_spatial_join PRIVATE themis_core Threads::Threads)
+    themis_apply_benchmark_release_flags(bench_spatial_join)
+    install(TARGETS bench_spatial_join RUNTIME DESTINATION bin/benchmarks COMPONENT benchmarks)
 endif()

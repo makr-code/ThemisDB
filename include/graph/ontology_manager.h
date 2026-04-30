@@ -66,9 +66,9 @@ public:
     /// Controls how constraint violations are reported.
     enum class Ruleset {
         /// Constraint violations cause path rejection (default).
-        STRICT,
+        Strict,
         /// Constraint violations emit a warning but do not reject the path.
-        WARN
+        Warn
     };
 
     // ── Internal data structures ────────────────────────────────────────────

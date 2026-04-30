@@ -277,7 +277,7 @@ TEST(KnowledgeGraphReasonerTest, KGR12_CDCDeleteRemovesBaseFact) {
     EXPECT_EQ(kgr.factCount(), 1u);
 
     CDCEvent ev;
-    ev.op   = CDCEvent::Op::DELETE;
+    ev.op   = CDCEvent::Op::REMOVE;
     ev.edge = {"alice", "knows", "bob"};
     kgr.onCDCEvent(ev);
 

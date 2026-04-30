@@ -624,6 +624,10 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
             return false;
         }
     }
+
+    // Track highest-ballot accepted value from all promises (Paxos Phase-1b safety).
+    uint64_t highest_accepted_round = 0;
+    std::optional<ConsensusLogEntry> highest_accepted_value;
     
     // Scoped lock: initialize instance and collect promises, then release before
     // calling executeAcceptPhase() to avoid re-acquiring the same non-recursive mutex.
@@ -648,10 +652,6 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
         // setPrepareFullRPCCallback), invoke it for every peer and collect promises.
         // Without a callback we operate in single-node mode.
         auto start_time = std::chrono::steady_clock::now();
-
-        // Track highest-ballot accepted value from all promises (Paxos Phase-1b safety).
-        uint64_t highest_accepted_round = 0;
-        std::optional<ConsensusLogEntry> highest_accepted_value;
 
         for (const auto& node : cluster_nodes_) {
             if (node == node_id_) continue;
