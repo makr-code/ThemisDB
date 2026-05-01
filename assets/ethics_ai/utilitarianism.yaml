@@ -1,0 +1,507 @@
+school_id: utilitarianism
+name: Utilitarianism
+name_de: Utilitarismus
+taxonomy_class: consequentialist
+tags:
+- utilitarismus
+- konsequentialistisch
+- wohlfahrt
+- nutzenmaximierung
+- aggregation
+- impartialitaet
+- kosten_nutzen
+applicable_domains:
+- ai_governance
+- bioethics
+- public_health
+- technology
+- legal
+- social_justice
+convergence_compatible:
+- rawls
+- preference_utilitarianism
+- effective_altruism
+activation_conditions:
+- condition: dilemma.tags enthält welfare ODER aggregate ODER cost_benefit
+  effect: always_active
+- condition: dilemma.domains enthält public_health ODER technology
+  effect: boost_weight
+regulatory_constraints:
+  override_permitted: true
+  applicable_regulations: []
+  note: Keine absoluten regulatorischen Verbote; Kosten-Nutzen-Abwägung ist rechtlich zulässig
+domain_overrides:
+  public_health:
+    weight_boost: 0.35
+    note: 'QALY-basierte Triage und Ressourcenallokation: originäre Domäne'
+  ai_governance:
+    weight_boost: 0.2
+    note: 'KI-Nutzenabwägung: gesellschaftlicher Gesamtnutzen als Maßstab'
+founders:
+- name: Jeremy Bentham
+  years: 1748-1832
+  nationality: Englisch
+  birthplace: London, England
+  key_works:
+  - title: An Introduction to the Principles of Morals and Legislation
+    year: 1789
+    significance: Grundlegung des klassischen Utilitarismus
+  - title: The Rationale of Reward
+    year: 1825
+    significance: Anwendung auf Rechtssystem
+  biography: 'Bentham war Jurist, Philosoph und Sozialreformer. Er entwickelte den klassischen
+
+    hedonistischen Utilitarismus und setzte sich für Gefängnisreform, Tierschutz
+
+    und demokratische Reformen ein.
+
+    '
+  notable: Bentham ließ sich selbst präparieren - sein 'Auto-Icon' sitzt im University College London
+- name: John Stuart Mill
+  years: 1806-1873
+  nationality: Englisch
+  birthplace: London, England
+  key_works:
+  - title: Utilitarianism
+    year: 1863
+    significance: Verfeinerung und Verteidigung des Utilitarismus
+  - title: On Liberty
+    year: 1859
+    significance: Liberale politische Philosophie
+  - title: The Subjection of Women
+    year: 1869
+    significance: Feministische politische Theorie
+  biography: 'Mill erhielt eine intensive Erziehung durch seinen Vater James Mill. Er verfeinerte
+
+    Benthams Utilitarismus durch die Unterscheidung von Lustqualitäten und verteidigte
+
+    individuelle Freiheit.
+
+    '
+- name: Henry Sidgwick
+  years: 1838-1900
+  nationality: Englisch
+  key_works:
+  - title: The Methods of Ethics
+    year: 1874
+    significance: Systematische Darstellung ethischer Methoden
+  biography: 'Sidgwick versuchte, utilitaristische Ethik mit intuitionistischen Elementen
+
+    zu versöhnen und entwickelte eine differenzierte Version des Utilitarismus.
+
+    '
+historical_context:
+  period: 19. Jahrhundert (Britische Aufklärung und Industrialisierung)
+  philosophical_movement: Britischer Empirismus, Sozialreform-Bewegung
+  zeitgeist: Industrialisierung, soziale Probleme, Streben nach wissenschaftlicher Ethik
+  influences:
+  - source: Epikureismus
+    impact: Betonung von Lust und Leidvermeidung
+  - source: Britischer Empirismus
+    thinkers:
+    - Hume
+    - Locke
+    impact: Erfahrungsbasierte, nicht-metaphysische Ethik
+  - source: Aufklärung
+    impact: Vernunft, Gleichheit, Sozialreform
+  - source: Industrialisierung
+    impact: Fokus auf gesellschaftliches Wohlergehen und soziale Fragen
+  reactions_against:
+  - Intuitionistische Ethik ohne rationale Grundlage
+  - Religiös begründete Moral
+  - Soziale Ungerechtigkeit des Status quo
+main_theses:
+- thesis_id: greatest_happiness
+  name: Prinzip des größten Glücks (Greatest Happiness Principle)
+  description: Eine Handlung ist richtig, wenn sie das größte Glück für die größte Zahl produziert.
+  explanation: 'Das zentrale Prinzip: Die moralische Qualität einer Handlung bemisst sich
+
+    ausschließlich an ihren Konsequenzen für das Wohlergehen (Glück, Lust, Nutzen)
+
+    aller Betroffenen. Die richtige Handlung maximiert den Gesamtnutzen.
+
+    '
+  formulations:
+    bentham: Das größte Glück der größten Zahl ist das Maß für richtig und falsch.
+    mill: Handlungen sind richtig im Maße, wie sie das Glück fördern, falsch, wie sie das Gegenteil von Glück hervorbringen.
+  key_components:
+  - 'Konsequentialismus: Nur Folgen zählen'
+  - 'Aggregation: Nutzen aller wird summiert'
+  - 'Maximierung: Streben nach größtmöglichem Gesamtnutzen'
+  - 'Impartialität: Jeder zählt als einer, niemand als mehr'
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: consequentialism
+  name: Konsequentialismus
+  description: Die Moralität einer Handlung wird ausschließlich durch ihre Folgen bestimmt.
+  explanation: 'Intentionen, Motive, Handlungstypen sind moralisch irrelevant. Allein die
+
+    tatsächlichen oder erwartbaren Konsequenzen für das Wohlergehen bestimmen,
+
+    ob eine Handlung richtig ist. Es gibt keine intrinsisch guten oder schlechten Handlungen.
+
+    '
+  implications:
+  - Lügen kann richtig sein, wenn es bessere Konsequenzen hat
+  - Regelbruch ist gerechtfertigt bei besserem Resultat
+  - Keine absoluten moralischen Verbote
+  - Fokus auf vorausschauende Beurteilung
+  practical_consideration: 'Da wir Konsequenzen nicht perfekt vorhersehen können, nutzen Utilitaristen
+
+    oft "erwartbaren Nutzen" - gewichtete Wahrscheinlichkeiten verschiedener Ausgänge.
+
+    '
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: hedonistic_calculus
+  name: Hedonistisches Kalkül (Bentham)
+  description: Lust und Leid sind messbar und vergleichbar; ethische Entscheidungen erfordern Kalkulation.
+  explanation: 'Bentham entwickelte ein "hedonistisches Kalkül" zur Messung von Lust und Leid.
+
+    Sieben Dimensionen: Intensität, Dauer, Gewissheit, Nähe, Fruchtbarkeit,
+
+    Reinheit, Ausmaß. Durch diese Parameter lässt sich der Nutzen quantifizieren.
+
+    '
+  felicific_calculus_dimensions:
+  - dimension: Intensität
+    question: Wie stark ist die Lust/Leid?
+  - dimension: Dauer
+    question: Wie lange dauert sie?
+  - dimension: Gewissheit
+    question: Wie wahrscheinlich tritt sie ein?
+  - dimension: Nähe
+    question: Wie bald tritt sie ein?
+  - dimension: Fruchtbarkeit
+    question: Führt sie zu weiterer Lust?
+  - dimension: Reinheit
+    question: Ist sie frei von Leidbeimischung?
+  - dimension: Ausmaß
+    question: Wie viele Personen sind betroffen?
+  criticism: Quantitative Messung von Lust erscheint oft unpraktikabel oder inadäquat
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: impartiality
+  name: Unparteilichkeit und Gleichheit
+  description: Jeder zählt als einer und niemand als mehr als einer.
+  explanation: 'Das Wohlergehen jeder Person hat gleiches Gewicht. Es gibt keine moralisch
+
+    privilegierte Perspektive. Mein eigenes Wohlergehen zählt nicht mehr als das
+
+    eines Fremden. Dies führt zu radikalem moralischen Egalitarismus.
+
+    '
+  implications:
+  - Keine Sonderpflichten gegenüber Nahen
+  - Kosmopolitische Verpflichtungen
+  - Radikale Forderungen der Wohltätigkeit (Singer)
+  - Keine Diskriminierung nach Rasse, Geschlecht, etc.
+  controversial_aspects: 'Diese strikte Impartialität kollidiert mit intuitions über besondere
+
+    Verpflichtungen gegenüber Familie, Freunden, Mitbürgern.
+
+    '
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+secondary_theses:
+- thesis_id: mill_quality
+  name: Qualitätsunterschiede der Lust (Mill)
+  description: Manche Lustformen sind qualitativ höherwertig als andere.
+  explanation: 'Mill modifizierte Benthams rein quantitativen Hedonismus: "Es ist besser,
+
+    ein unzufriedener Sokrates zu sein als ein zufriedenes Schwein." Geistige
+
+    Freuden sind höherwertiger als körperliche. Diese Unterscheidung wird durch
+
+    kompetente Richter bestimmt.
+
+    '
+  famous_quote: Es ist besser, ein unzufriedener Mensch zu sein als ein zufriedenes Schwein; besser ein unzufriedener Sokrates
+    als ein zufriedener Narr.
+  competent_judge_criterion: 'Wer beide Arten von Vergnügen erfahren hat, präferiert höhere Freuden.
+
+    Diese kompetenten Richter definieren Qualitätshierarchie.
+
+    '
+  problems:
+  - Wie misst man Qualität objektiv?
+  - Ist dies noch wahrer Utilitarismus oder versteckte Tugendethik?
+  - Was, wenn kompetente Richter sich nicht einig sind?
+- thesis_id: rule_utilitarianism
+  name: Regel-Utilitarismus
+  description: Regeln, deren allgemeine Befolgung den Nutzen maximiert, sollten befolgt werden.
+  explanation: 'Eine Antwort auf Kritiken am Handlungs-Utilitarismus: Statt einzelne Handlungen
+
+    zu beurteilen, prüft man, welche Regeln bei allgemeiner Akzeptanz den Nutzen
+
+    maximieren würden. Diese Regeln sind dann zu befolgen, auch wenn Einzelverletzungen
+
+    höheren Nutzen brächten.
+
+    '
+  advantages:
+  - Berücksichtigt indirekte Effekte und Präzedenzwirkung
+  - Mehr Übereinstimmung mit moralischer Intuition
+  - Praktikabel - erfordert nicht permanente Nützlichkeitsberechnung
+  criticism: 'Wenn Regelbefolgung wirklich schlechteren Nutzen bringt, scheint sie
+
+    utilitaristisch irrational. Kollaps in Handlungs-Utilitarismus?
+
+    '
+- thesis_id: preference_utilitarianism
+  name: Präferenz-Utilitarismus
+  description: Nicht Lust/Leid, sondern Präferenzerfüllung ist das Gute.
+  explanation: 'Moderne Variante (Hare, Singer): Das Gute ist nicht hedonistisch definiert,
+
+    sondern als Erfüllung von Präferenzen. Dies vermeidet Probleme der Lustmessung
+
+    und respektiert verschiedene Konzeptionen des guten Lebens.
+
+    '
+  advantages:
+  - Pluralistischer - verschiedene Werte möglich
+  - Respektiert Autonomie
+  - Weniger paternalistisch
+  problems:
+  - Was ist mit irrationalen Präferenzen?
+  - Zählen nur informierte Präferenzen?
+  - Wie aggregiert man verschiedene Präferenzen?
+- thesis_id: act_utilitarianism
+  name: Handlungs-Utilitarismus
+  description: Jede einzelne Handlung ist direkt durch ihren Nutzen zu beurteilen.
+  explanation: 'Die ursprüngliche Form: In jeder Situation soll man die Handlung wählen,
+
+    die den größten Nettonutzen erzeugt. Keine vermittelnden Regeln, direkte
+
+    Konsequenzenbewertung.
+
+    '
+  strengths:
+  - Theoretisch einfach und direkt
+  - Flexibel für komplexe Situationen
+  - Keine arbiträren Regeln
+  weaknesses:
+  - Kann zu kontraintuitiven Urteilen führen
+  - Epistemisch überfordernd
+  - Ignoriert Fairness und Rechte
+- thesis_id: negative_utilitarianism
+  name: Negativer Utilitarismus
+  description: Priorität hat die Minimierung von Leid über Maximierung von Lust.
+  explanation: 'Eine radikale Variante (Popper, Smart): Leidminimierung ist wichtiger als
+
+    Lustmaximierung. Extremform: Einziges Ziel ist Leidvermeidung.
+
+    '
+  motivation: Leid wiegt moralisch schwerer als Lust - asymmetrische Bewertung
+  extreme_implication: Könnte Antinatalism oder sogar Aussterben der Menschheit empfehlen
+- thesis_id: two_level_utilitarianism
+  name: Zwei-Ebenen-Utilitarismus (Hare)
+  description: Intuitive und kritische Ebenen moralischen Denkens.
+  explanation: 'R.M. Hare unterscheidet:
+
+    - Intuitive Ebene: Alltägliche Moralregeln für schnelle Entscheidungen
+
+    - Kritische Ebene: Utilitaristische Berechnung zur Reflexion und Ausnahmen
+
+    Dies vereint Praktikabilität mit theoretischer Konsistenz.
+
+    '
+decision_framework:
+  steps:
+  - Identifiziere alle verfügbaren Handlungsoptionen
+  - Bestimme alle von jeder Option Betroffenen
+  - Schätze die erwarteten Konsequenzen für jede Option
+  - Bewerte den Nutzen/Schaden für jede betroffene Person
+  - Aggregiere den Gesamtnutzen jeder Option
+  - Wähle die Option mit maximalem Nettonutzen
+  considerations:
+  - Langfristige vs. kurzfristige Konsequenzen
+  - Direkte vs. indirekte Effekte
+  - Unsicherheit und Risiko
+  - Präzedenzwirkung
+  - Kosten der Entscheidungsfindung selbst
+strengths:
+- point: Intuitiv plausibel
+  elaboration: Konsequenzen scheinen moralisch relevant - gute Ergebnisse sind wichtig
+- point: Demokratisch und egalitär
+  elaboration: Alle zählen gleich, keine privilegierten Perspektiven
+- point: Pragmatisch anwendbar
+  elaboration: Bietet klare Grundlage für Politik und Recht
+- point: Flexibel
+  elaboration: Kann neue Situationen und Informationen berücksichtigen
+- point: Fokus auf Leiden
+  elaboration: Nimmt reales Leid ernst, motiviert zu Hilfeleistung
+weaknesses:
+- point: Schwierigkeit der Nutzenmessung
+  elaboration: Interpersonelle Nutzenvergleiche sind problematisch
+- point: Demandingness Problem
+  elaboration: Fordert möglicherweise extreme Opfer
+- point: Verletzung von Rechten
+  elaboration: Kann Minderheitenrechte für Mehrheitswohl opfern
+- point: Unvorhersehbarkeit
+  elaboration: Können wir Konsequenzen wirklich gut genug einschätzen?
+- point: Ignoriert Fairness
+  elaboration: Verteilung des Nutzens ist irrelevant, nur Gesamtsumme zählt
+- point: Vernachlässigt persönliche Beziehungen
+  elaboration: Strikte Impartialität scheint Freundschaft, Familie zu untergraben
+contemporary_extensions:
+- thinker: Peter Singer
+  contribution: 'Präferenz-Utilitarismus, angewandte Ethik (Tierrechte, globale Armut, Euthanasie).
+
+    Fordert radikale Wohltätigkeit: Wohlhabende sollten bis zur Grenze der Vergleichbarkeit
+
+    mit eigenen Opfern spenden.
+
+    '
+- thinker: Derek Parfit
+  contribution: 'Analyse von Identität und Personhood, "Repugnant Conclusion", Konvergenz
+
+    verschiedener ethischer Theorien.
+
+    '
+- thinker: R.M. Hare
+  contribution: 'Universelle Präskriptivismus, Zwei-Ebenen-Theorie, Versöhnung von Utilitarismus
+
+    mit moralischer Intuition.
+
+    '
+- thinker: J.J.C. Smart
+  contribution: Verteidigung des Handlungs-Utilitarismus, Kritik an Regel-Utilitarismus
+application_areas:
+- domain: Bioethik
+  issues:
+  - QALY-basierte Gesundheitspolitik (Quality-Adjusted Life Years)
+  - Triage-Entscheidungen in Krisen
+  - Kosten-Nutzen-Analyse medizinischer Interventionen
+  - Aktive Sterbehilfe bei unerträglichem Leiden
+  example: Impfprogramme rechtfertigt durch Nutzen für Population
+- domain: Tierethik
+  issues:
+  - Berücksichtigung tierischen Leidens (Singer)
+  - Ablehnung von Speziesismus
+  - Vegetarismus/Veganismus aus Leidvermeidung
+  famous_quote: The question is not, Can they reason?, nor Can they talk?, but, Can they suffer? (Bentham)
+- domain: Globale Armut
+  issues:
+  - Verpflichtung zur effektiven Hilfe (Singer, Effective Altruism)
+  - Umverteilung von Reich zu Arm
+  - Kosmopolitische Verantwortung
+  movement: Effective Altruism - Fokus auf evidenzbasierte, wirkungsmaximierende Wohltätigkeit
+- domain: Umweltethik
+  issues:
+  - Klimawandel als Nutzenproblem für zukünftige Generationen
+  - Kosten-Nutzen von Umweltschutz
+  - Existential Risks (Bostrom)
+- domain: Recht und Politik
+  issues:
+  - Rechtsfolgenabschätzung
+  - Wohlfahrtsökonomie
+  - Strafrecht als Abschreckung und Rehabilitation
+major_criticisms:
+- criticism: Repugnant Conclusion (Parfit)
+  description: 'Eine Welt mit riesiger Population bei niedrigem aber positivem Wohlergehen
+
+    wäre besser als kleinere Population mit hohem Wohlergehen.
+
+    '
+  response: 'Verschiedene Antworten: Durchschnitts- statt Total-Utilitarismus,
+
+    Zurückweisung der Repugnanz, Komplexere Aggregationsfunktionen.
+
+    '
+- criticism: Organ-Harvesting-Beispiel
+  description: 'Utilitarismus könnte rechtfertigen, einen Gesunden zu töten, um fünf Organbedürftige zu retten.
+
+    '
+  response: 'Regel-Utilitarismus, indirekte Effekte (Angst in Gesellschaft), langfristige Konsequenzen,
+
+    Vertrauensschaden im Gesundheitssystem überwiegt Nutzen.
+
+    '
+- criticism: Demandingness Objection
+  description: Utilitarismus fordert zu viel - permanente Selbstaufopferung
+  response: 'Differenz zwischen ideal und satisfaktionistisch, Skalierbarkeit von Pflichten,
+
+    Zwei-Ebenen-Utilitarismus erlaubt pragmatische Kompromisse.
+
+    '
+famous_quotes:
+- quote: Es ist das größte Glück der größten Zahl, was das Maß von richtig und falsch ist.
+  author: Jeremy Bentham
+  source: A Fragment on Government (1776)
+- quote: Handlungen sind richtig in dem Maße, wie sie die Tendenz haben, Glück zu befördern, falsch, wie sie die Tendenz haben,
+    das Gegenteil von Glück zu bewirken.
+  author: John Stuart Mill
+  source: Utilitarianism (1863)
+- quote: 'Die Frage ist nicht: Können sie denken? oder Können sie sprechen?, sondern: Können sie leiden?'
+  author: Jeremy Bentham
+  source: Introduction to the Principles of Morals and Legislation
+  context: Über Tierrechte
+key_literature:
+  primary:
+  - Bentham, Jeremy. An Introduction to the Principles of Morals and Legislation (1789)
+  - Mill, John Stuart. Utilitarianism (1863)
+  - Sidgwick, Henry. The Methods of Ethics (1874)
+  secondary:
+  - Singer, Peter. Practical Ethics (1979)
+  - 'Smart, J.J.C. & Williams, Bernard. Utilitarianism: For and Against (1973)'
+  - Parfit, Derek. Reasons and Persons (1984)
+  - Hare, R.M. Moral Thinking (1981)
+  - Kagan, Shelly. The Limits of Morality (1989)
+cross_school_tensions:
+- own_thesis: greatest_happiness
+  opposing_school: kant
+  opposing_thesis: selbstzweck
+  tension_type: aggregate_vs_categorical
+  rebuttal_cite_weight: 0.9
+- own_thesis: consequentialism
+  opposing_school: kant
+  opposing_thesis: rigorismus
+  tension_type: consequentialist_vs_deontological
+  rebuttal_cite_weight: 0.85
+- own_thesis: greatest_happiness
+  opposing_school: contractualism
+  opposing_thesis: original_position
+  tension_type: aggregate_vs_procedural
+  rebuttal_cite_weight: 0.75
+- own_thesis: impartiality
+  opposing_school: islamische_ethik
+  opposing_thesis: la_darar
+  tension_type: impartial_aggregation_vs_prohibitive_harm
+  rebuttal_cite_weight: 0.6

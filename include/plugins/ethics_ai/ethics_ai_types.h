@@ -269,6 +269,37 @@ ArgumentType stringToArgumentType(const std::string& str);
 const char* argumentStrengthToString(ArgumentStrength strength);
 ArgumentStrength stringToArgumentStrength(const std::string& str);
 
+/**
+ * @brief Output record for a single school in one discourse round.
+ *
+ * Produced by EthicalDiscourseEngine::runRound(). The `position_abstract`
+ * field implements the DSPy TypedPredictor-equivalent output schema (§12.2.3).
+ */
+struct DiscourseRoundOutput {
+    std::string  school_id;
+    int          round_number{0};
+    std::string  content;                          ///< Full argument text
+    std::string  verdict;                          ///< "PROHIBIT"|"PERMIT"|"CONDITIONAL"|"ABSTAIN"
+    float        confidence{0.0f};
+    std::vector<std::string> core_thesis_ids;      ///< ≤ 3 thesis_ids
+    std::string  primary_rebuttal_of;              ///< thesis_id rebutted (R2+)
+    std::string  position_abstract;               ///< ≤ 100 tokens — §12.2.3
+    bool         schema_valid{false};
+};
+
+/**
+ * @brief Episodic memory entry for REFLEXION-based memory externalization.
+ *
+ * Implements the MemGPT Recall Storage pattern (§12.2.4).
+ */
+struct EpisodicMemoryEntry {
+    std::string school_id;
+    int         from_round{0};
+    std::string compressed_position;  ///< ≤ 50 tokens
+    float       dc_score{0.0f};
+    std::string strongest_tension;    ///< thesis_id pair "own:thesis ↔ opponent:thesis"
+};
+
 } // namespace ethics
 } // namespace plugins
 } // namespace themis

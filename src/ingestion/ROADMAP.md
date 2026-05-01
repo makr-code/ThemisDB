@@ -200,8 +200,8 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
 - [x] `config/ingestion/workflows/geo-data.json` — SHP/GeoJSON/KML (2026-04-15)
 - [x] `config/ingestion/workflows/image-document.json` — PNG/JPG + OCR + CLIP (2026-04-15)
 - [x] `config/ingestion/workflows/spreadsheet.json` — XLSX/CSV (2026-04-15)
-- [ ] Migrate YAML format with native yaml-cpp parser (currently JSON subset only) (Target: Q3 2026)
-- [ ] DLL step plugin sandbox (manifest `allowedPaths`, `allowedMime`) (Target: Q3 2026)
+- [x] Migrate YAML format with native yaml-cpp parser (currently JSON subset only) (Target: Q3 2026)
+- [x] DLL step plugin sandbox (manifest `allowedPaths`, `allowedMime`) (Target: Q3 2026)
 
 ### Phase 4: NER + LLM Integration (Status: Completed ✅)
 - [x] `builtin.ner_de` — NER via `ITextGenerationBackend` (spaCy-wrapper or LLM-based) — `src/ingestion/steps/ner_step.cpp` (2026-04-15)

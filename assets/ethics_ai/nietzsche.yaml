@@ -1,0 +1,211 @@
+school_id: nietzsche
+name: Nietzscheanische Lebensphilosophie
+description: "Lebensphilosophie mit Betonung des Willens zur Macht, Perspektivismus und der \nUmwertung aller Werte. Kritik\
+  \ der traditionellen Moral als \"Sklavenmoral\".\n"
+main_theses:
+- thesis_id: will_to_power
+  name: Wille zur Macht
+  description: "Der fundamentale Trieb alles Lebendigen ist der Wille zur Macht - das Streben \nnach Selbststeigerung, Wachstum\
+    \ und Überwindung von Widerständen.\n"
+  key_concepts:
+  - Grundtrieb des Lebens
+  - Selbststeigerung und Wachstum
+  - Macht als Schaffenskraft
+  - Überwindung von Hindernissen
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: uebermensch
+  name: Übermensch (Overman)
+  description: "Der Übermensch ist derjenige, der eigene Werte schafft, sich selbst überwindet \nund das Leben in allen Aspekten\
+    \ bejaht. Er ist das Ziel der menschlichen Entwicklung.\n"
+  key_concepts:
+  - Selbstüberwindung
+  - Schöpfung eigener Werte
+  - Jenseits von Gut und Böse
+  - Affirmation des Lebens
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: eternal_recurrence
+  name: Ewige Wiederkunft
+  description: "Die Vorstellung, dass alles ewig wiederkehrt. Teste deine Entscheidungen: \nWürdest du wollen, dass sie sich\
+    \ ewig wiederholen? Amor fati - liebe dein Schicksal.\n"
+  key_concepts:
+  - Ewige Wiederkehr des Gleichen
+  - Amor fati - Liebe zum Schicksal
+  - Test der Lebensentscheidungen
+  - Bejahung der Existenz
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: perspectivism
+  name: Perspektivismus
+  description: "Es gibt keine absolute Wahrheit, nur Interpretationen aus verschiedenen Perspektiven. \nErkenntnis ist perspektivisch\
+    \ gebunden.\n"
+  key_concepts:
+  - Keine absoluten Wahrheiten
+  - Interpretationen statt Fakten
+  - Wille zur Wahrheit als Wille zur Macht
+  - Vielfalt der Perspektiven
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: master_slave_morality
+  name: Herren- und Sklavenmoral
+  description: 'Herrenmoral: gut = edel, mächtig, schön; schlecht = gemein, schwach, hässlich.
+
+    Sklavenmoral: gut = demütig, mitleidig, gehorsam; böse = mächtig, egoistisch.
+
+    Das Christentum ist Sklavenmoral.
+
+    '
+  key_concepts:
+  - Herrenmoral der Aristokraten
+  - Sklavenmoral der Schwachen
+  - Ressentiment als Quelle der Sklavenmoral
+  - Umwertung durch Judentum/Christentum
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+secondary_theses:
+  death_of_god:
+    title: Tod Gottes
+    description: "\"Gott ist tot\" - die christlich-metaphysische Weltordnung ist zusammengebrochen. \nNihilismus droht, aber\
+      \ auch neue Möglichkeiten der Wertsetzung.\n"
+  transvaluation:
+    title: Umwertung aller Werte
+    description: "Die bestehenden Werte (christlich, demokratisch) müssen umgewertet werden. \nNeue, lebensaffirmierende Werte\
+      \ sind nötig.\n"
+  dionysian_apollonian:
+    title: Dionysisch und Apollinisch
+    description: "Zwei Grundtriebe der Kunst und des Lebens: Das Dionysische (Rausch, Chaos, Einheit) \nund das Apollinische\
+      \ (Traum, Form, Individuation).\n"
+  nihilism:
+    title: Nihilismus
+    description: "Der Zusammenbruch aller Werte führt zunächst zum Nihilismus. Dieser muss aber \nüberwunden werden durch\
+      \ aktive Wertsetzung.\n"
+  genealogy_of_morals:
+    title: Genealogie der Moral
+    description: "Historische Untersuchung der Entstehung moralischer Werte aus Machtkonstellationen \nund psychologischen\
+      \ Motiven (Ressentiment).\n"
+strengths:
+- Radikale Hinterfragung traditioneller Werte und Moral
+- Psychologische Tiefe in der Analyse menschlicher Motive
+- Betonung von Individualität und Selbstschöpfung
+- Lebensaffirmation statt asketischer Verneinung
+- Kritik des Dogmatismus und der 'Herdenmoral'
+weaknesses:
+- Gefahr des moralischen Relativismus und Nihilismus
+- Elitismus - Verachtung der 'Schwachen'
+- Fehlende konkrete ethische Orientierung
+- Missbrauchspotential durch autoritäre Ideologien (Faschismus)
+- Überschätzung individueller Autonomie
+example_application: "Selbstoptimierungskultur: Die moderne Obsession mit Selbstoptimierung kann als Ausdruck \ndes Willens\
+  \ zur Macht verstanden werden. Aber wird hier der Übermensch angestrebt oder \nnur die Konformität zu Leistungsidealen der\
+  \ Herdenmoral? Echte Selbstüberwindung würde \nbedeuten, eigene Werte zu schaffen, nicht die Werte des Marktes zu internalisieren.\n"
+decision_framework: "Bejahe das Leben in allen seinen Aspekten. Schaffe deine eigenen Werte. Strebe nach \nSelbstüberwindung\
+  \ und Exzellenz. Frage: Würde ich wollen, dass diese Entscheidung \nsich ewig wiederholt? Vermeide Herdenmoral und Ressentiment.\n"
+core_principles:
+- Wille zur Macht als Grundtrieb des Lebens
+- Übermensch - Schöpfung eigener Werte
+- Ewige Wiederkunft - Amor fati
+- Perspektivismus - keine absoluten Wahrheiten
+- Kritik der Sklavenmoral
+- Umwertung aller Werte
+- Lebensbejahung über Nihilismus hinaus
+key_works:
+- title: Also sprach Zarathustra
+  year: 1883-1885
+  description: Philosophischer Roman über den Übermenschen
+- title: Jenseits von Gut und Böse
+  year: 1886
+  description: Kritik der Moral und Perspektivismus
+- title: Zur Genealogie der Moral
+  year: 1887
+  description: Historische Analyse der Moralentstehung
+- title: Die fröhliche Wissenschaft
+  year: 1882
+  description: Tod Gottes und Lebensbejahung
+- title: Der Antichrist
+  year: 1888
+  description: Radikale Kritik des Christentums
+relevant_dimensions:
+- ethical
+- metaphysical
+- existential
+- psychological
+- cultural
+name_de: Nietzscheanische Lebensphilosophie
+taxonomy_class: non_mainstream
+tags:
+- nietzsche
+- lebensphilosophie
+- wille_zur_macht
+- uebermensch
+- perspektivismus
+- nihilismus
+applicable_domains:
+- social_justice
+- ai_ethics
+- cultural_ethics
+convergence_compatible: []
+activation_conditions:
+- condition: dilemma.tags enthält power ODER nihilism ODER value_creation
+  effect: boost_weight
+regulatory_constraints:
+  override_permitted: true
+  applicable_regulations: []
+  note: Keine bindenden regulatorischen Entsprechungen
+domain_overrides: {}
+cross_school_tensions:
+- own_thesis: will_to_power
+  opposing_school: kant
+  opposing_thesis: kategorischer_imperativ
+  tension_type: power_assertion_vs_categorical_duty
+  rebuttal_cite_weight: 0.9
+- own_thesis: uebermensch
+  opposing_school: utilitarianism
+  opposing_thesis: greatest_happiness
+  tension_type: individual_excellence_vs_aggregate_welfare
+  rebuttal_cite_weight: 0.85

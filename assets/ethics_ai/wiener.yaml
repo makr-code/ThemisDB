@@ -1,0 +1,290 @@
+school_id: wiener
+name: Technology Ethics (Wiener)
+name_de: Technikethik (Wiener)
+taxonomy_class: non_mainstream
+tags:
+- wiener
+- kybernetik
+- feedback
+- information
+- kontrolle
+- technologie_ethik
+- maschine_mensch
+applicable_domains:
+- ai_governance
+- technology
+- ai_ethics
+convergence_compatible: []
+activation_conditions:
+- condition: dilemma.tags enthält cybernetics ODER feedback ODER control_systems
+  effect: boost_weight
+- condition: dilemma.domains enthält ai_governance ODER technology
+  effect: boost_weight
+regulatory_constraints:
+  override_permitted: true
+  applicable_regulations: []
+  note: Frühe Technologieethik; Relevanz für KI-Governance
+domain_overrides:
+  ai_governance:
+    weight_boost: 0.15
+    note: 'KI als Kybernetik: Wiener als Vordenker'
+founders:
+- name: Norbert Wiener
+  years: 1894-1964
+  nationality: American
+  key_works:
+  - title: Cybernetics
+    year: 1948
+    significance: Control and communication theory
+  - title: The Human Use of Human Beings
+    year: 1950
+    significance: Social implications of automation and AI
+  biography: Mathematician and philosopher, father of cybernetics, pioneer in thinking about machine ethics
+- name: Langdon Winner
+  years: 1944-present
+  nationality: American
+  key_works:
+  - title: Autonomous Technology
+    year: 1977
+    significance: Technology as form of life
+  - title: The Whale and the Reactor
+    year: 1986
+    significance: Do artifacts have politics?
+  biography: Political theorist, examines social and political dimensions of technology
+- name: Sherry Turkle
+  years: 1948-present
+  nationality: American
+  key_works:
+  - title: The Second Self
+    year: 1984
+    significance: Computers and the human spirit
+  - title: Alone Together
+    year: 2011
+    significance: Technology and human connection
+  biography: Sociologist and psychologist, studies human-technology relationships
+historical_context:
+  period: 20th Century - Present
+  philosophical_movement: Philosophy of Technology, Computer Ethics
+  zeitgeist: Digital revolution, AI, automation, privacy concerns, algorithmic governance
+  influences:
+  - source: Pragmatism
+    thinkers:
+    - Dewey
+    impact: Technology as tool for human purposes
+  - source: Critical Theory
+    thinkers:
+    - Heidegger
+    - Marcuse
+    impact: Technology as shaping human existence
+  - source: Information Theory
+    thinkers:
+    - Shannon
+    - Wiener
+    impact: Cybernetics and communication systems
+  reactions_against:
+  - Technological determinism
+  - Uncritical technology adoption
+  - Privacy violations
+  - Algorithmic bias and discrimination
+main_theses:
+- thesis_id: technological_values
+  name: Technologies Embody Values
+  description: Technologies are not neutral tools but embody and promote specific values
+  explanation: 'Design choices in technology reflect and reinforce particular social values.
+
+    Technologies shape human behavior, relationships, and possibilities.
+
+    Ethical evaluation must examine embedded values and social impacts.
+
+    '
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: algorithmic_fairness
+  name: Algorithmic Fairness and Accountability
+  description: AI systems must be fair, transparent, and accountable
+  explanation: 'Algorithms making decisions about people must not discriminate,
+
+    should be explainable, and subject to human oversight.
+
+    Developers and deployers bear responsibility for AI impacts.
+
+    '
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: digital_rights
+  name: Digital Rights and Autonomy
+  description: Humans have rights to privacy, data sovereignty, and technological autonomy
+  explanation: 'Privacy is fundamental right in digital age.
+
+    Individuals should control their personal data.
+
+    Technology should enhance rather than diminish human autonomy.
+
+    '
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+secondary_theses:
+- Human dignity in technological society
+- Transparency and explainability in AI
+- Bias and fairness in algorithms
+- Surveillance and privacy protection
+- Automation and labor disruption
+- Digital divide and access equity
+- Cybersecurity and digital safety
+- Social media and democratic discourse
+decision_framework:
+  primary_test: Value-Sensitive Design Test
+  description: Is system fair, accountable, and transparent?
+  steps:
+  - Identify stakeholders and their values
+  - Analyze how technology affects these values
+  - Design to support important human values
+  - Test for unintended consequences
+  secondary_test: Fairness, Accountability, Transparency (FAT) Test
+  criteria:
+  - No discriminatory bias
+  - Clear responsibility chains
+  - Explainable decisions
+  - Human oversight possible
+strengths:
+- Addresses urgent contemporary challenges
+- Practical guidance for technology development
+- Interdisciplinary approach (tech + ethics + law)
+- Growing institutional adoption
+- Proactive rather than reactive
+- Considers systemic impacts
+- Applicable across technology domains
+weaknesses:
+- Rapid technological change outpaces ethical reflection
+- Difficulty enforcing ethical standards globally
+- Tension between innovation and caution
+- Challenge of predicting long-term impacts
+- Economic pressures may override ethics
+- Cultural variations in technological values
+- Complexity of sociotechnical systems
+internal_debate:
+  regulation_vs_innovation:
+    issue: Should technology be heavily regulated or allowed to innovate freely?
+    positions:
+    - 'Precautionary: Regulate before deployment'
+    - 'Permissive: Allow innovation, regulate harms'
+    - 'Adaptive: Context-specific governance'
+  human_vs_technological:
+    issue: Should humans adapt to technology or technology to humans?
+    positions:
+    - 'Human-centered: Technology must serve human needs'
+    - 'Co-evolution: Humans and technology co-adapt'
+    - 'Posthumanist: Technology transforms what it means to be human'
+  privacy_vs_utility:
+    issue: Balance between data privacy and technological benefits?
+    positions:
+    - 'Privacy maximalism: Strong privacy protections'
+    - 'Utilitarian: Trade privacy for benefits'
+    - 'Privacy by design: Both privacy and functionality'
+philosophical_positioning:
+  relation_to_kantian: Respect for persons in technological contexts, human dignity
+  relation_to_utilitarian: Assess technology impacts on overall welfare
+  relation_to_virtue_ethics: Cultivate technological virtues and responsible innovation
+  relation_to_care_ethics: Technology should support caring relationships
+practical_applications:
+  ai_development:
+    principle: Responsible AI development
+    considerations:
+    - Bias testing and mitigation
+    - Transparency and explainability
+    - Human oversight mechanisms
+    - Impact assessment
+  data_governance:
+    principle: Privacy and data protection
+    considerations:
+    - Informed consent for data collection
+    - Purpose limitation and data minimization
+    - Right to access and deletion
+    - Security and breach prevention
+  social_media:
+    principle: Healthy digital public sphere
+    considerations:
+    - Content moderation policies
+    - Misinformation prevention
+    - User well-being and mental health
+    - Platform accountability
+  automation:
+    principle: Just transition in workplace
+    considerations:
+    - Worker retraining and support
+    - Meaningful work preservation
+    - Fair distribution of automation benefits
+    - Human-machine collaboration
+modern_developments:
+  ai_ethics_principles:
+    description: Major organizations adopting AI ethics frameworks
+    significance: Mainstream recognition of ethical AI importance
+  gdpr_and_data_protection:
+    description: Comprehensive data protection regulations (EU GDPR, etc.)
+    significance: Legal enforcement of digital rights
+  explainable_ai:
+    description: Technical methods for AI transparency and interpretability
+    significance: Making AI decisions understandable
+  tech_ethics_boards:
+    description: Companies and institutions establishing ethics oversight
+    significance: Institutional embedding of ethics in tech development
+critiques:
+  technological_solutionism: Over-reliance on technology to solve social problems
+  surveillance_capitalism: Business models based on behavioral data extraction
+  digital_colonialism: Technology imposing Western values globally
+  ethics_washing: Superficial ethics talk without meaningful change
+  power_asymmetries: Technology concentrating power in few hands
+key_literature:
+- author: Wiener, Norbert
+  title: The Human Use of Human Beings
+  year: 1950
+- author: Winner, Langdon
+  title: The Whale and the Reactor
+  year: 1986
+- author: Turkle, Sherry
+  title: Alone Together
+  year: 2011
+- author: O'Neil, Cathy
+  title: Weapons of Math Destruction
+  year: 2016
+- author: Zuboff, Shoshana
+  title: The Age of Surveillance Capitalism
+  year: 2019
+cross_school_tensions:
+- own_thesis: cybernetics
+  opposing_school: utilitarianism
+  opposing_thesis: greatest_happiness
+  tension_type: systemic_feedback_vs_aggregate_welfare
+  rebuttal_cite_weight: 0.7
+- own_thesis: feedback_control
+  opposing_school: kant
+  opposing_thesis: kategorischer_imperativ
+  tension_type: adaptive_systems_vs_fixed_categorical_norms
+  rebuttal_cite_weight: 0.6

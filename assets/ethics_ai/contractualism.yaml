@@ -1,0 +1,474 @@
+school_id: contractualism
+name: Contractualism
+name_de: Kontraktualismus
+taxonomy_class: deontological
+tags:
+- kontraktualismus
+- sozialvertrag
+- vernuenftige_zurueckweisung
+- fairness
+- gerechtigkeit
+- rawls
+- scanlon
+- original_position
+applicable_domains:
+- social_justice
+- ai_governance
+- legal
+- political_philosophy
+- bioethics
+convergence_compatible:
+- kant
+- rawls
+- juedische_bioethik
+activation_conditions:
+- condition: dilemma.tags enthält fairness ODER social_contract ODER procedural_justice
+  effect: always_active
+- condition: dilemma.domains enthält social_justice ODER legal
+  effect: boost_weight
+regulatory_constraints:
+  override_permitted: false
+  applicable_regulations:
+  - grundgesetz_art3
+  - eu_charta_art20
+  note: Gleichbehandlungsgebot und Diskriminierungsverbot korrespondieren mit dem Fairness-Prinzip
+domain_overrides:
+  social_justice:
+    weight_boost: 0.35
+    note: 'Originäre Domäne: Verteilungsgerechtigkeit und Grundfreiheiten'
+  ai_governance:
+    weight_boost: 0.25
+    note: 'KI-Governance: Begründungspflicht als kontraktualistisches Transparenzgebot'
+founders:
+- name: Thomas Hobbes
+  years: 1588-1679
+  nationality: Englisch
+  role: Früher politischer Kontraktualismus
+  key_works:
+  - title: Leviathan
+    year: 1651
+    significance: Grundlegung der Sozialvertragstheorie
+  note: Hobbes' Vertrag ist egoistisch-prudentiell, nicht moralisch im engeren Sinne
+- name: John Rawls
+  years: 1921-2002
+  nationality: Amerikanisch
+  birthplace: Baltimore, Maryland, USA
+  key_works:
+  - title: A Theory of Justice
+    year: 1971
+    significance: Wiederbelebung der Vertragstheorie, Gerechtigkeitsprinzipien
+  - title: Political Liberalism
+    year: 1993
+    significance: Politischer Liberalismus, overlapping consensus
+  - title: The Law of Peoples
+    year: 1999
+    significance: Internationale Gerechtigkeit
+  biography: 'Rawls revolutionierte die politische Philosophie im 20. Jahrhundert durch
+
+    "A Theory of Justice". Seine Theorie verbindet kantische Moralphilosophie
+
+    mit der Vertragsidee, um Prinzipien sozialer Gerechtigkeit zu begründen.
+
+    '
+  awards: Schock Prize in Logic and Philosophy (1999), National Humanities Medal (1999)
+- name: T.M. (Tim) Scanlon
+  years: 1940-heute
+  nationality: Amerikanisch
+  key_works:
+  - title: What We Owe to Each Other
+    year: 1998
+    significance: Kontraktualistische Moraltheorie, vernünftige Zurückweisung
+  - title: The Difficulty of Tolerance
+    year: 2003
+    significance: Anwendungen auf Toleranz und Meinungsfreiheit
+  biography: 'Scanlon entwickelte eine kontraktualistische Ethik, die nicht auf Eigeninteresse
+
+    basiert, sondern auf dem Wunsch nach gegenseitiger Rechtfertigung. Seine
+
+    Theorie ist explizit moralisch, nicht politisch.
+
+    '
+historical_context:
+  period: 17. Jahrhundert (Hobbes); 20. Jahrhundert (Rawls, Scanlon)
+  philosophical_movement: Sozialvertragstheorie, Politischer Liberalismus, Analytische Ethik
+  zeitgeist: 'Frühe Neuzeit: Religiöse Kriege, Suche nach säkularen Legitimationsgrundlagen
+
+    20. Jahrhundert: Post-WWII, Menschenrechte, pluralistische Demokratien
+
+    '
+  influences:
+  - source: Kant
+    impact: Autonomie, Selbstgesetzgebung, Menschenwürde
+  - source: Hobbes, Locke, Rousseau
+    impact: Vertragsidee, Legitimation durch Zustimmung
+  - source: Liberalismus
+    impact: Individuelle Rechte, Neutralität, Pluralismus
+  reactions_against:
+  - 'Utilitarismus (Rawls: ''Utilitarianism doesn''t take seriously the distinction between persons'')'
+  - Intuitionism ohne Begründung
+  - Perfektionismus und religiöse Moral in Politik
+main_theses:
+- thesis_id: original_position
+  name: Urzustand (Original Position) und Schleier des Nichtwissens
+  description: 'Gerechte Prinzipien sind solche, die rationale Personen im Urzustand hinter einem
+
+    Schleier des Nichtwissens wählen würden.
+
+    '
+  explanation: 'Der Urzustand ist ein hypothetischer Vertragsszenario. Teilnehmer sind rational
+
+    und wissen allgemeine Fakten über Gesellschaft, aber nicht ihre eigene Position
+
+    (Klasse, Talente, Werte). Der Schleier des Nichtwissens erzwingt Fairness:
+
+    Man wählt Prinzipien, ohne zu wissen, ob man davon profitiert oder benachteiligt wird.
+
+    '
+  veil_of_ignorance_excludes:
+  - Die eigene soziale Klasse oder Status
+  - Natürliche Talente und Fähigkeiten
+  - Umfassende Konzeption des Guten
+  - Psychologische Neigungen
+  - Welcher Generation man angehört
+  veil_includes:
+  - Allgemeine Fakten über menschliche Gesellschaft
+  - Ökonomische und politische Theorie
+  - Psychologie der menschlichen Natur
+  - Rationality und primäre Güter
+  rationale: 'Hinter dem Schleier eliminiert man Verhandlungsvorteile aus kontingenten
+
+    Faktoren. Die gewählten Prinzipien sind fair, weil niemand die Regeln zu
+
+    seinem Vorteil manipulieren kann.
+
+    '
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: two_principles
+  name: Zwei Gerechtigkeitsprinzipien
+  description: '1. Gleiche Grundfreiheiten für alle
+
+    2. Soziale und ökonomische Ungleichheiten nur wenn: (a) fair gleiche Chancen (b) Differenzprinzip
+
+    '
+  explanation: '**Erstes Prinzip (Freiheitsprinzip):**
+
+    Jede Person hat gleiches Recht auf das umfangreichste System gleicher Grundfreiheiten,
+
+    vereinbar mit einem gleichen System für alle.
+
+
+    **Zweites Prinzip:**
+
+    (a) Fair Equality of Opportunity: Positionen müssen unter Bedingungen fairer Chancengleichheit allen offenstehen
+
+    (b) Differenzprinzip: Soziale und ökonomische Ungleichheiten so zu gestalten, dass sie den am wenigsten Begünstigten den
+    größtmöglichen Vorteil bringen.
+
+    '
+  lexical_priority: 'Die Prinzipien sind lexikalisch geordnet: Freiheit hat Priorität vor Gleichheit,
+
+    faire Chancen vor Differenzprinzip. Grundfreiheiten dürfen nicht für ökonomische
+
+    Vorteile geopfert werden.
+
+    '
+  basic_liberties:
+  - Politische Freiheit (Wahlrecht, Kandidatur)
+  - Rede- und Versammlungsfreiheit
+  - Gewissens- und Gedankenfreiheit
+  - Persönliche Freiheit und Eigentumsrecht
+  - Freiheit von willkürlicher Verhaftung
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: difference_principle
+  name: Differenzprinzip (Difference Principle)
+  description: Soziale und ökonomische Ungleichheiten sind nur gerechtfertigt, wenn sie den Schlechtestgestellten maximal
+    nützen.
+  explanation: 'Ungleichheit ist nicht per se ungerecht, aber sie muss so strukturiert sein,
+
+    dass sie die Position der am meisten Benachteiligten verbessert. Nicht Gleichheit
+
+    ist das Ziel, sondern maximin - Maximierung der Minimalposition.
+
+    '
+  maximin_strategy: 'Im Urzustand, unter Unsicherheit über die eigene Position, würde man risikoavers
+
+    handeln: Man sorgt dafür, dass die schlechteste mögliche Position so gut wie möglich ist.
+
+    '
+  implications:
+  - Progressive Besteuerung gerechtfertigt
+  - Umverteilung zugunsten Benachteiligter
+  - 'Aber: Nicht totale Gleichheit erforderlich'
+  - Anreize sind erlaubt, wenn sie allen nützen
+  controversies: 'Kritiker fragen: Warum maximin statt Nutzenmaximierung? Ist extreme Risikoaversion
+
+    rational? Vernachlässigt es jene knapp über dem Minimum?
+
+    '
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: public_reason
+  name: Öffentliche Vernunft (Public Reason)
+  description: In grundlegenden politischen Fragen sollen Bürger nur öffentlich zugängliche Gründe verwenden.
+  explanation: 'In einer pluralistischen Demokratie vertreten Bürger verschiedene umfassende
+
+    Doktrinen (religiöse, philosophische). Bei verfassungsrechtlichen Fragen und
+
+    Grundfragen der Gerechtigkeit sollen aber nur Gründe verwendet werden, die
+
+    alle vernünftigerweise akzeptieren können - unabhängig von ihrer Doktrin.
+
+    '
+  scope: 'Öffentliche Vernunft gilt primär für: Verfassungsessenzialia, grundlegende
+
+    Gerechtigkeit, öffentlichen politischen Diskurs. Nicht für: persönliche Ethik,
+
+    Vereinsregeln, allgemeinen öffentlichen Diskurs.
+
+    '
+  proviso: 'Bürger dürfen umfassende Doktrinen einbringen, sofern sie "in due course"
+
+    öffentliche Gründe nachliefern.
+
+    '
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+scanlon_theses:
+- thesis_id: reasonable_rejection
+  name: Vernünftige Zurückweisung (Reasonable Rejection)
+  description: 'Eine Handlung ist falsch, wenn sie Prinzipien folgt, die niemand vernünftigerweise
+
+    zurückweisen könnte, der nach Prinzipien sucht, die andere nicht vernünftigerweise
+
+    zurückweisen könnten.
+
+    '
+  explanation: 'Moral ist definiert durch wechselseitige Rechtfertigung. Ein Prinzip ist gültig,
+
+    wenn niemand einen hinreichenden Grund hat, es abzulehnen - vorausgesetzt, alle
+
+    suchen nach Prinzipien wechselseitiger Rechtfertigung. Dies ist zirkulär, aber
+
+    nicht viziös zirkulär: Es definiert Moral durch moralische Motivation.
+
+    '
+  key_features:
+  - 'Individueller Standpunkt: Jede Person kann zurückweisen'
+  - 'Vernünftigkeit: Nicht jede Zurückweisung zählt'
+  - 'Wechselseitigkeit: Alle suchen nach akzeptablen Prinzipien'
+  - 'Non-aggregativ: Nicht Gesamtnutzen, sondern individuelle Einwände zählen'
+  difference_to_rawls: 'Scanlons Test ist moralisch (Was schulden wir einander?), nicht politisch.
+
+    Es geht um interpersonale Moral, nicht primär um Gerechtigkeit von Institutionen.
+
+    '
+- thesis_id: buck_passing
+  name: Buck-Passing Account of Value
+  description: Gut sein bedeutet, Eigenschaften zu haben, die Gründe für Pro-Einstellungen liefern.
+  explanation: 'Scanlon lehnt Moore''s Intuitionismus ab. "Gut" ist nicht eine nicht-natürliche
+
+    Eigenschaft. Vielmehr: X ist gut = X hat Eigenschaften, die Gründe geben, X zu wünschen,
+
+    zu fördern, zu schätzen. "Gut" leitet Normativität an zugrundeliegende Gründe weiter ("passes the buck").
+
+    '
+- thesis_id: well_being
+  name: Objektive Listen-Theorie des Wohlergehens
+  description: Wohlergehen besteht in objektiven Gütern, nicht nur Lust oder Präferenzerfüllung.
+  explanation: 'Gegen Hedonismus und Desire-Satisfaction Theorien: Wohlergehen umfasst objektive
+
+    Güter wie Freundschaft, Wissen, Leistung - unabhängig davon, ob sie Lust oder
+
+    Präferenzerfüllung bringen.
+
+    '
+secondary_theses:
+- thesis_id: overlapping_consensus
+  name: Übergreifender Konsens (Overlapping Consensus)
+  description: 'Politische Konzeption der Gerechtigkeit kann von Bürgern mit verschiedenen
+
+    umfassenden Doktrinen aus je eigenen Gründen bejaht werden.
+
+    '
+  explanation: 'Rawls'' Lösung des Stabilitätsproblems: Eine Gesellschaft ist stabil, wenn
+
+    Bürger verschiedener Weltanschauungen die politischen Prinzipien jeweils
+
+    aus ihren eigenen umfassenden Gründen unterstützen. Katholiken, Kantianer,
+
+    Utilitaristen können alle Rawls'' Prinzipien bejahen.
+
+    '
+- thesis_id: primary_goods
+  name: Primäre Güter (Primary Goods)
+  description: Güter, die jeder rationale Mensch will, unabhängig von seiner Lebenskonzeption.
+  explanation: 'Grundfreiheiten, Chancen, Einkommen, Wohlstand, soziale Grundlagen der Selbstachtung.
+
+    Diese ermöglichen pursuit jeder Lebenskonzeption. Rawls nutzt sie statt subjektiven
+
+    Nutzens zur Beurteilung von Verteilungen.
+
+    '
+- thesis_id: reflective_equilibrium
+  name: Überlegungsgleichgewicht (Reflective Equilibrium)
+  description: Methode zur Rechtfertigung moralischer Prinzipien durch Abgleich mit Intuitionen.
+  explanation: 'Man gleicht Prinzipien mit wohlüberlegten Urteilen ab, revidiert bei Konflikten
+
+    entweder Prinzip oder Urteil, bis Kohärenz erreicht ist. Nicht foundationalist,
+
+    sondern kohärentistisch.
+
+    '
+- thesis_id: fair_equality_opportunity
+  name: Faire Chancengleichheit (Fair Equality of Opportunity)
+  description: 'Nicht nur formelle Chancengleichheit, sondern echte Chancen für gleich Talentierte,
+
+    unabhängig von sozialer Herkunft.
+
+    '
+  explanation: 'Geht über "Karrieren offen für Talente" hinaus: Gleich Begabte sollen gleiche
+
+    Aussichten auf Erfolg haben, unabhängig von Herkunft. Erfordert Bildungsgerechtigkeit,
+
+    soziale Unterstützung.
+
+    '
+decision_framework:
+  rawls_method:
+  - Identifiziere grundlegende Strukturen und Institutionen
+  - 'Frage: Welche Prinzipien würden im Urzustand gewählt?'
+  - Teste Prinzipien durch Überlegungsgleichgewicht
+  - Prüfe, ob die schlechteste Position maximal verbessert wird
+  - Stelle sicher, dass Grundfreiheiten respektiert sind
+  scanlon_method:
+  - Identifiziere relevante Handlungsprinzipien
+  - 'Frage: Könnte jemand dieses Prinzip vernünftigerweise zurückweisen?'
+  - Berücksichtige Standpunkt jedes Betroffenen individuell
+  - Suche nach Prinzipien wechselseitiger Rechtfertigung
+  - Keine Aggregation - individuelle Einwände zählen
+strengths:
+- point: Fairness zentral
+  elaboration: Berücksichtigt strukturelle Gerechtigkeit und faire Verfahren
+- point: Respektiert Pluralismus
+  elaboration: Anerkennt verschiedene Konzeptionen des guten Lebens
+- point: Individuelle Standpunkte
+  elaboration: Scanlons Ansatz vermeidet Aggregation, respektiert jeden einzelnen
+- point: Schutz der Schwächsten
+  elaboration: Differenzprinzip schützt am meisten Benachteiligte
+- point: Systematisch und klar
+  elaboration: Gut ausgearbeitete Theorie mit klaren Prinzipien
+weaknesses:
+- point: Idealisierung
+  elaboration: Urzustand und vernünftige Zurückweisung sind hochgradig idealisiert
+- point: Anwendung unklar
+  elaboration: Wie wendet man Prinzipien auf konkrete Fälle an?
+- point: Konservativ?
+  elaboration: Könnte Status quo begünstigen, radikale Änderungen schwer zu rechtfertigen
+- point: Kulturelle Beschränktheit
+  elaboration: Rawls' Konzeption ist westlich-liberal, universelle Gültigkeit fraglich
+- point: Komplexität
+  elaboration: Theorie ist komplex und erfordert philosophische Expertise
+contemporary_extensions:
+- thinker: Martha Nussbaum
+  contribution: Capabilities Approach als Alternative zu primary goods
+- thinker: Thomas Nagel
+  contribution: Entwicklung Scanlons Kontraktualismus, Anwendung auf Gleichheit
+- thinker: Gerald Cohen
+  contribution: Sozialistische Kritik an Rawls, luck egalitarianism
+- thinker: Rainer Forst
+  contribution: Recht auf Rechtfertigung, kritische Theorie und Kontraktualismus
+application_areas:
+- domain: Politische Institutionen
+  issues:
+  - Verfassungsdesign
+  - Sozialstaat und Umverteilung
+  - Gesundheitssysteme
+  - Bildungspolitik
+- domain: Globale Gerechtigkeit
+  issues:
+  - Menschenrechte international
+  - Entwicklungshilfe
+  - Klimagerechtigkeit
+  - Migration und Grenzen
+- domain: Wirtschaftsethik
+  issues:
+  - Progressive Besteuerung
+  - Arbeitsmarktregulierung
+  - Soziale Sicherungssysteme
+famous_quotes:
+- quote: Gerechtigkeit ist die erste Tugend sozialer Institutionen, so wie Wahrheit die erste Tugend von Denksystemen ist.
+  author: John Rawls
+  source: A Theory of Justice
+- quote: Each person possesses an inviolability founded on justice that even the welfare of society as a whole cannot override.
+  author: John Rawls
+  source: A Theory of Justice
+- quote: An act is wrong if its performance under the circumstances would be disallowed by any set of principles for the general
+    regulation of behaviour that no one could reasonably reject.
+  author: T.M. Scanlon
+  source: What We Owe to Each Other
+key_literature:
+  primary:
+  - Rawls, John. A Theory of Justice (1971)
+  - Rawls, John. Political Liberalism (1993)
+  - Scanlon, T.M. What We Owe to Each Other (1998)
+  - Hobbes, Thomas. Leviathan (1651)
+  secondary:
+  - Freeman, Samuel. Rawls (2007)
+  - Pogge, Thomas. Realizing Rawls (1989)
+  - Nagel, Thomas. Equality and Partiality (1991)
+  - Cohen, G.A. Rescuing Justice and Equality (2008)
+  - Nussbaum, Martha. Frontiers of Justice (2006)
+cross_school_tensions:
+- own_thesis: reasonable_rejection
+  opposing_school: utilitarianism
+  opposing_thesis: greatest_happiness
+  tension_type: individual_rejection_vs_aggregate
+  rebuttal_cite_weight: 0.9
+- own_thesis: original_position
+  opposing_school: utilitarianism
+  opposing_thesis: impartiality
+  tension_type: procedural_vs_impartial_summation
+  rebuttal_cite_weight: 0.75
+- own_thesis: reasonable_rejection
+  opposing_school: kant
+  opposing_thesis: kategorischer_imperativ
+  tension_type: mutual_justification_vs_universal_law
+  rebuttal_cite_weight: 0.6
