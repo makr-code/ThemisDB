@@ -28,6 +28,8 @@
  *   WorkflowEngine profile loading  (YAML/JSON profiles)   WE-01..WE-06
  *   WorkflowEngine profile selection (MIME + glob)         WE-07..WE-10
  *   WorkflowEngine execution        (step dispatch)        WE-11..WE-15
+ *   YAML-native features                                   WE-16
+ *   DLL sandbox                                            SBX-01..SBX-03
  *
  * Acceptance criteria:
  *
@@ -58,6 +60,10 @@
  *   WE-13  execute() skips step when canHandle() returns false
  *   WE-14  execute() skips step on failure when on_failure=skip
  *   WE-15  executeWithProfile() uses the named profile regardless of MIME
+ *   WE-16  YAML comment lines tolerated when yaml-cpp is available
+ *   SBX-01 loadStepPlugin() rejects path outside allowedPaths
+ *   SBX-02 loadStepPlugin() rejects missing sidecar when allowedMime is set
+ *   SBX-03 empty manifest is permissive; normal load error for missing .so
  */
 
 #include <gtest/gtest.h>
@@ -405,4 +411,99 @@ TEST(WorkflowEngine, WE15_ExecuteWithProfileByName) {
     auto res = engine.executeWithProfile("custom", ctx);
     ASSERT_TRUE(res.has_value()) << res.error().message();
     EXPECT_EQ(ctx.raw_text, "custom");
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// WorkflowEngineFocusedTests fixture — provides tmp_dir_ + writeFile() helper
+// ─────────────────────────────────────────────────────────────────────────────
+
+class WorkflowEngineFocusedTests : public ::testing::Test {
+protected:
+    void SetUp() override {
+        tmp_dir_ = (std::filesystem::temp_directory_path()
+                    / "themis_focused_tests").string();
+        std::filesystem::create_directories(tmp_dir_);
+        engine_ = std::make_unique<WorkflowEngine>();
+    }
+
+    void TearDown() override {
+        std::filesystem::remove_all(tmp_dir_);
+    }
+
+    void writeFile(const std::string& path, const std::string& content) {
+        std::ofstream f(path);
+        f << content;
+    }
+
+    std::string tmp_dir_;
+    std::unique_ptr<WorkflowEngine> engine_;
+};
+
+// WE-16: YAML-native feature — YAML comment lines are tolerated
+// (nlohmann/json can't parse them in the YAML node position; yaml-cpp handles them natively)
+TEST_F(WorkflowEngineFocusedTests, WE16_YamlNativeCommentToleratedOrFallback) {
+    const std::string yaml_content = R"(
+# This is a YAML comment — valid YAML, invalid JSON
+name: yaml_comment_test
+steps:
+  - name: step_one
+    plugin: builtin.parse_text
+)";
+    const std::string path = tmp_dir_ + "/yaml_comment_test.yaml";
+    writeFile(path, yaml_content);
+    auto result = engine_->loadProfile(path);
+#ifdef HAVE_YAML_CPP
+    EXPECT_TRUE(result.has_value()) << "yaml-cpp should parse YAML comments; error: "
+                                    << (result ? "" : result.error().message());
+    auto profiles = engine_->listProfiles();
+    EXPECT_NE(std::find(profiles.begin(), profiles.end(), "yaml_comment_test"), profiles.end());
+#else
+    // Without yaml-cpp the comment may cause parse failure — that's acceptable
+    [[maybe_unused]] auto& unused = result;
+#endif
+}
+
+// SBX-01: DLL sandbox — path outside allowedPaths rejected
+TEST_F(WorkflowEngineFocusedTests, SBX01_SandboxRejectsPathOutsideAllowedPaths) {
+    StepRegistry registry;
+    StepPluginManifest manifest;
+    manifest.allowed_paths = {"/opt/themis/plugins"};  // not /tmp
+    auto result = registry.loadStepPlugin(
+        "test.plugin",
+        "/tmp/some_plugin.so",
+        manifest);
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), ErrorCode::ERR_WORKFLOW_PLUGIN_LOAD_FAILED);
+    EXPECT_NE(result.error().message().find("allowedPaths"), std::string::npos);
+}
+
+// SBX-02: DLL sandbox — missing sidecar .manifest.json when allowedMime is set
+TEST_F(WorkflowEngineFocusedTests, SBX02_SandboxRejectsMissingSidecar) {
+    StepRegistry registry;
+    StepPluginManifest manifest;
+    // Allow any path but restrict MIME
+    manifest.allowed_mime_types = {"application/x-themis-step"};
+    auto result = registry.loadStepPlugin(
+        "test.plugin",
+        "/tmp/no_sidecar_plugin.so",
+        manifest);
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), ErrorCode::ERR_WORKFLOW_PLUGIN_LOAD_FAILED);
+    EXPECT_NE(result.error().message().find("manifest.json"), std::string::npos);
+}
+
+// SBX-03: DLL sandbox — empty manifest allows any path; normal load error for missing .so
+TEST_F(WorkflowEngineFocusedTests, SBX03_EmptyManifestPermissive) {
+    StepRegistry registry;
+    StepPluginManifest empty_manifest;  // no constraints
+    // Sandbox should not reject — normal load failure expected for missing .so
+    auto result = registry.loadStepPlugin(
+        "test.plugin",
+        "/tmp/nonexistent_plugin_xyz.so",
+        empty_manifest);
+    // Must fail with library load error, NOT sandbox error
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), ErrorCode::ERR_WORKFLOW_PLUGIN_LOAD_FAILED);
+    // Must NOT mention allowedPaths
+    EXPECT_EQ(result.error().message().find("allowedPaths"), std::string::npos);
 }

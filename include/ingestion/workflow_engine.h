@@ -3,7 +3,7 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            workflow_engine.h                                  ║
-  Version:         0.0.2                                              ║
+  Version:         0.1.0                                              ║
   Last Modified:   2026-04-15 18:45:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -95,6 +95,35 @@ struct WorkflowProfile {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
+// StepPluginManifest — sandbox configuration for DLL step plugins
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Sandbox manifest for DLL step plugin loading.
+ *
+ * Implements §Phase 3 DLL step plugin sandbox (ROADMAP Q3 2026).
+ * Before `loadStepPlugin()` dlopen()s any library, the manifest is
+ * validated:
+ *   1. The library path must be under one of the `allowed_paths` prefixes.
+ *   2. If `allowed_mime_types` is non-empty, the plugin's reported MIME
+ *      type (declared in the manifest, read from a sidecar `.manifest.json`
+ *      file next to the .so) must be in the allowed set.
+ *
+ * An empty `StepPluginManifest` (default) is permissive — all paths and
+ * MIME types are accepted (backwards compatibility).
+ */
+struct StepPluginManifest {
+    /// Directory prefixes that are allowed for plugin .so files.
+    /// Matched as path prefix (canonical). Empty → any path allowed.
+    std::vector<std::string> allowed_paths;
+
+    /// MIME type allowlist for the plugin. Matched against
+    /// the "mime_type" key in the sidecar <plugin>.manifest.json.
+    /// Empty → any MIME type allowed.
+    std::vector<std::string> allowed_mime_types;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
 // StepRegistry — name → IIngestionStep factory
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -130,14 +159,19 @@ public:
      * @brief Load a dynamic step plugin from a shared library.
      *
      * Calls `themis_create_step()` from the .so/.dll.
+     * If @p manifest is provided, the library path and MIME type are
+     * validated before dlopen() (§Phase 3 DLL sandbox).
      *
      * @param plugin_name  Logical name to register the plugin under.
      * @param library_path Absolute filesystem path to the shared library.
-     * @return Error when the library cannot be loaded or the entry point is
-     *         missing.
+     * @param manifest     Optional sandbox constraints.  Empty manifest
+     *                     (default) permits any path and MIME type.
+     * @return Error when the library cannot be loaded, the entry point is
+     *         missing, or sandbox validation fails.
      */
     Result<void> loadStepPlugin(const std::string& plugin_name,
-                                const std::string& library_path);
+                                const std::string& library_path,
+                                const StepPluginManifest& manifest = {});
 
     /**
      * @brief Retrieve a registered step by name.

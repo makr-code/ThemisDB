@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            workflow_engine.cpp                                ║
-  Version:         0.0.2                                              ║
+  Version:         0.1.0                                              ║
   Last Modified:   2026-04-15 18:49:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     515                                            ║
+    • Total Lines:     ~620                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -24,6 +24,9 @@
 #include "utils/error_registry.h"
 
 #include <nlohmann/json.hpp>
+#ifdef HAVE_YAML_CPP
+#include <yaml-cpp/yaml.h>
+#endif
 #include <fstream>
 #include <sstream>
 #include <algorithm>
@@ -192,7 +195,63 @@ Result<void> StepRegistry::registerStep(
 
 Result<void> StepRegistry::loadStepPlugin(
         const std::string& plugin_name,
-        const std::string& library_path) {
+        const std::string& library_path,
+        const StepPluginManifest& manifest) {
+    // §Phase 3 DLL sandbox — validate path and MIME constraints
+    if (!manifest.allowed_paths.empty()) {
+        namespace fs = std::filesystem;
+        std::error_code ec;
+        const auto canonical = fs::weakly_canonical(library_path, ec);
+        const std::string canon_str = ec ? library_path : canonical.string();
+        bool path_allowed = false;
+        for (const auto& prefix : manifest.allowed_paths) {
+            const auto canon_prefix = fs::weakly_canonical(prefix, ec);
+            const std::string prefix_str = ec ? prefix : canon_prefix.string();
+            if (canon_str.rfind(prefix_str, 0) == 0) {
+                path_allowed = true;
+                break;
+            }
+        }
+        if (!path_allowed) {
+            return tl::make_unexpected(
+                Error{ErrorCode::ERR_WORKFLOW_PLUGIN_LOAD_FAILED,
+                      "Plugin path '" + library_path
+                      + "' is not in the allowedPaths sandbox manifest"});
+        }
+    }
+
+    if (!manifest.allowed_mime_types.empty()) {
+        // Read sidecar manifest: <library_path>.manifest.json with {"mime_type":"..."}
+        const std::string sidecar_path = library_path + ".manifest.json";
+        std::string plugin_mime;
+        {
+            std::ifstream sf(sidecar_path);
+            if (sf.is_open()) {
+                try {
+                    const json sidecar = json::parse(sf, nullptr, true, true);
+                    if (sidecar.contains("mime_type") && sidecar["mime_type"].is_string())
+                        plugin_mime = sidecar["mime_type"].get<std::string>();
+                } catch (...) {}
+            }
+        }
+        if (plugin_mime.empty()) {
+            return tl::make_unexpected(
+                Error{ErrorCode::ERR_WORKFLOW_PLUGIN_LOAD_FAILED,
+                      "Plugin '" + library_path
+                      + "' has no sidecar .manifest.json with 'mime_type' field "
+                        "(required by allowedMime sandbox)"});
+        }
+        const bool mime_allowed = std::any_of(
+            manifest.allowed_mime_types.begin(), manifest.allowed_mime_types.end(),
+            [&](const std::string& allowed) { return allowed == plugin_mime; });
+        if (!mime_allowed) {
+            return tl::make_unexpected(
+                Error{ErrorCode::ERR_WORKFLOW_PLUGIN_LOAD_FAILED,
+                      "Plugin MIME type '" + plugin_mime
+                      + "' is not in the allowedMime sandbox manifest"});
+        }
+    }
+
     DynamicLibHandle handle = openDynamicLibrary(library_path);
     if (!handle) {
         return tl::make_unexpected(
@@ -343,6 +402,104 @@ WorkflowProfile parseProfile(const json& doc, const std::string& source_path) {
     return p;
 }
 
+#ifdef HAVE_YAML_CPP
+/**
+ * @brief Convert a YAML node to a flat nlohmann::json object (one level deep).
+ *
+ * Scalar values are converted to their native JSON types (bool, int64, double,
+ * or string).  Sequences become JSON arrays of strings.  Nested maps and other
+ * complex nodes are serialized as their YAML string representation.
+ */
+static nlohmann::json yamlNodeToJson(const YAML::Node& node) {
+    nlohmann::json obj = nlohmann::json::object();
+    if (!node || !node.IsMap()) return obj;
+    for (const auto& kv : node) {
+        const std::string key = kv.first.as<std::string>("");
+        if (key.empty()) continue;
+        const YAML::Node& val = kv.second;
+        if (val.IsScalar()) {
+            try { obj[key] = val.as<bool>(); continue; } catch (...) {}
+            try { obj[key] = val.as<int64_t>(); continue; } catch (...) {}
+            try { obj[key] = val.as<double>(); continue; } catch (...) {}
+            obj[key] = val.as<std::string>("");
+        } else if (val.IsSequence()) {
+            auto arr = nlohmann::json::array();
+            for (const auto& item : val) {
+                if (item.IsScalar()) arr.push_back(item.as<std::string>(""));
+            }
+            obj[key] = arr;
+        } else {
+            obj[key] = val.as<std::string>("");
+        }
+    }
+    return obj;
+}
+
+WorkflowProfile parseProfileFromYaml(const YAML::Node& root,
+                                      const std::string& source_path) {
+    WorkflowProfile p;
+    p.source_path = source_path;
+    auto asStr = [](const YAML::Node& n, const std::string& def = "") -> std::string {
+        return (n && n.IsScalar()) ? n.as<std::string>(def) : def;
+    };
+    auto asBool = [](const YAML::Node& n, bool def = false) -> bool {
+        return (n && n.IsScalar()) ? n.as<bool>(def) : def;
+    };
+
+    p.api_version = asStr(root["apiVersion"]);
+    p.kind        = asStr(root["kind"]);
+    p.name        = asStr(root["name"]);
+    p.description = asStr(root["description"]);
+
+    // file_patterns
+    const auto& fp = root["file_patterns"];
+    if (fp && fp.IsMap()) {
+        const auto& mt = fp["mime_types"];
+        if (mt && mt.IsSequence()) {
+            for (const auto& m : mt)
+                if (m.IsScalar()) p.file_patterns.mime_types.push_back(m.as<std::string>(""));
+        }
+        const auto& fn = fp["filename_patterns"];
+        if (fn && fn.IsSequence()) {
+            for (const auto& f : fn)
+                if (f.IsScalar()) p.file_patterns.filename_patterns.push_back(f.as<std::string>(""));
+        }
+    }
+
+    // steps
+    const auto& steps = root["steps"];
+    if (steps && steps.IsSequence()) {
+        for (const auto& s : steps) {
+            if (!s.IsMap()) continue;
+            StepConfig sc;
+            sc.name       = asStr(s["name"]);
+            sc.plugin     = asStr(s["plugin"]);
+            sc.condition  = asStr(s["condition"]);
+            sc.on_failure = asStr(s["on_failure"], "abort");
+            sc.parallel   = asBool(s["parallel"], false);
+            sc.config     = yamlNodeToJson(s["config"]);
+            p.steps.push_back(std::move(sc));
+        }
+    }
+
+    // output
+    const auto& out = root["output"];
+    if (out && out.IsMap()) {
+        p.output_graph           = asBool(out["graph"], true);
+        p.output_vector          = asBool(out["vector"], true);
+        p.output_document_store  = asBool(out["document_store"], true);
+        const auto& qg = out["quality_gate"];
+        if (qg && qg.IsMap()) {
+            if (qg["min_entities"] && qg["min_entities"].IsScalar())
+                p.quality_gate_min_entities = qg["min_entities"].as<std::size_t>(0);
+            if (qg["min_quality_score"] && qg["min_quality_score"].IsScalar())
+                p.quality_gate_min_quality_score = qg["min_quality_score"].as<double>(0.0);
+        }
+    }
+    return p;
+}
+#endif // HAVE_YAML_CPP
+
 } // anonymous namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -456,11 +613,31 @@ Result<void> WorkflowEngine::loadProfile(const std::string& yaml_path) {
     ss << file.rdbuf();
     const std::string content = ss.str();
 
-    // Parse JSON (nlohmann/json also parses YAML-subset when compiled with
-    // the YAML parser feature; for pure YAML we use a simple pre-processor
-    // approach — the production path uses a yaml-cpp wrapper).
-    // For robustness we attempt JSON parse first (workflow YAML is also valid
-    // JSON in most cases when no YAML-only features are used).
+    // Parse the profile: prefer native yaml-cpp when available, fall back to
+    // nlohmann/json (which handles JSON and simple YAML subsets).
+    WorkflowProfile profile;
+#ifdef HAVE_YAML_CPP
+    // Primary path: native yaml-cpp parser (supports full YAML syntax)
+    try {
+        YAML::Node root = YAML::Load(content);
+        if (!root["name"] || !root["name"].IsScalar() || root["name"].as<std::string>("").empty()) {
+            return tl::make_unexpected(
+                Error{ErrorCode::ERR_WORKFLOW_PROFILE_INVALID,
+                      "Profile '" + yaml_path + "' is missing 'name' field"});
+        }
+        if (!root["steps"] || !root["steps"].IsSequence()) {
+            return tl::make_unexpected(
+                Error{ErrorCode::ERR_WORKFLOW_PROFILE_INVALID,
+                      "Profile '" + yaml_path + "' is missing 'steps' array"});
+        }
+        profile = parseProfileFromYaml(root, yaml_path);
+    } catch (const YAML::Exception& e) {
+        return tl::make_unexpected(
+            Error{ErrorCode::ERR_WORKFLOW_PROFILE_INVALID,
+                  std::string("YAML parse error in '") + yaml_path + "': " + e.what()});
+    }
+#else
+    // Fallback path: nlohmann/json (handles JSON and simple YAML subsets)
     json doc;
     try {
         doc = json::parse(content, nullptr, /*allow_exceptions=*/true,
@@ -484,7 +661,8 @@ Result<void> WorkflowEngine::loadProfile(const std::string& yaml_path) {
                   "Profile '" + yaml_path + "' is missing 'steps' array"});
     }
 
-    WorkflowProfile profile = parseProfile(doc, yaml_path);
+    profile = parseProfile(doc, yaml_path);
+#endif // HAVE_YAML_CPP
 
     std::unique_lock<std::shared_mutex> lock(impl_->profiles_mutex_);
     // Idempotent: skip if already loaded
