@@ -378,6 +378,8 @@ tools/*/bin/
 **/bin/
 **/obj/**
 **/bin/**
+!tools/bin/
+!tools/bin/**
 **/obj/**/*.AssemblyInfo.cs
 **/obj/**/*.AssemblyInfoInputs.cache
 **/obj/**/*.GeneratedMSBuildEditorConfig.editorconfig
