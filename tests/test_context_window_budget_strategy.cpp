@@ -541,6 +541,15 @@ TEST(TournamentModeSelector, CWB19_TournamentMode_PrimaryFull_SecondaryHeadline)
     EXPECT_FALSE(result.assembled_context.empty());
     // Primary opponent's full content should appear in assembled context
     EXPECT_NE(result.assembled_context.find("utilitarianism"), std::string::npos);
+
+    // Verify token reduction vs full injection mode
+    TournamentConfig full_cfg;
+    full_cfg.mode = OpponentInjectionMode::FULL;
+    auto full_result = selector.selectOpponents("kant", opponents, tensions, full_cfg);
+
+    // Tournament mode must use fewer tokens than full injection (−65% claim)
+    EXPECT_LT(result.total_tokens_estimated, full_result.total_tokens_estimated)
+        << "Tournament mode should use fewer tokens than full injection";
 }
 
 // ---------------------------------------------------------------------------
