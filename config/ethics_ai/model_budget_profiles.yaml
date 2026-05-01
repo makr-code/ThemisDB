@@ -1,0 +1,67 @@
+# model_budget_profiles.yaml
+# §12 Context-Window-Budget-Strategie — Model Budget Profiles
+# Four profiles covering the range from 3B/4K to 70B+/128K LLMs.
+# Used by LlmCascadeRouter and ContextWindowBudgetManager to select
+# compression strategy and decomposition mode per model class.
+
+profiles:
+  - id: "micro"
+    model_class: "3B"
+    max_context_tokens: 4096
+    description: "Minimal 3B model, 4K context. Only R1+R5 fully supported."
+    compression:
+      monocle_reduction: true
+      prior_round_mode: "headline"
+      selective_opponent: false
+      convergence_matrix: true
+    decomposition:
+      cascade_enabled: true
+      tournament_mode: false
+      position_abstract: true
+      reflexion_memory: true
+
+  - id: "standard"
+    model_class: "7B"
+    max_context_tokens: 8192
+    description: "7B/8K context. All 5 rounds fully supported."
+    compression:
+      monocle_reduction: true
+      prior_round_mode: "principle_citations_only"
+      selective_opponent: true
+      convergence_matrix: false
+    decomposition:
+      cascade_enabled: false
+      tournament_mode: true
+      position_abstract: true
+      reflexion_memory: true
+
+  - id: "extended"
+    model_class: "13B"
+    max_context_tokens: 32768
+    description: "13B/32K context. Comfortable for 4-school 5-round debates."
+    compression:
+      monocle_reduction: true
+      prior_round_mode: "structured_summary"
+      selective_opponent: false
+      convergence_matrix: false
+    decomposition:
+      cascade_enabled: true
+      cascade_r4_large: true
+      tournament_mode: false
+      position_abstract: false
+      reflexion_memory: false
+
+  - id: "frontier"
+    model_class: "70B+"
+    max_context_tokens: 131072
+    description: "70B+/128K context. No CW constraints. Optional monocle reduction only."
+    compression:
+      monocle_reduction: false
+      prior_round_mode: "none"
+      selective_opponent: false
+      convergence_matrix: false
+    decomposition:
+      cascade_enabled: false
+      tournament_mode: false
+      position_abstract: false
+      reflexion_memory: false

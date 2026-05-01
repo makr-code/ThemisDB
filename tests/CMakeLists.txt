@@ -24322,6 +24322,38 @@ elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
     message(STATUS "ThesisBudgetManagement tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
 endif()
 
+if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_context_window_budget_strategy.cpp")
+    message(STATUS "Adding Ethics AI CWB strategy test: test_context_window_budget_strategy_focused")
+    add_executable(test_context_window_budget_strategy_focused
+        test_context_window_budget_strategy.cpp
+        ../src/ethics_ai/prior_round_compressor.cpp
+        ../src/ethics_ai/cross_school_tension_resolver.cpp
+        ../src/ethics_ai/convergence_marker_engine.cpp
+        ../src/ethics_ai/llm_cascade_router.cpp
+        ../src/ethics_ai/synthesis_matrix_builder.cpp
+    )
+    target_include_directories(test_context_window_budget_strategy_focused PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/../include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/ethics_ai
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src
+    )
+    target_link_libraries(test_context_window_budget_strategy_focused PRIVATE
+        GTest::GTest GTest::Main
+    )
+    if(yaml-cpp_FOUND)
+        target_link_libraries(test_context_window_budget_strategy_focused PRIVATE yaml-cpp::yaml-cpp)
+        target_compile_definitions(test_context_window_budget_strategy_focused PRIVATE HAVE_YAML_CPP)
+    elseif(TARGET yaml-cpp)
+        target_link_libraries(test_context_window_budget_strategy_focused PRIVATE yaml-cpp)
+        target_compile_definitions(test_context_window_budget_strategy_focused PRIVATE HAVE_YAML_CPP)
+    endif()
+    target_compile_features(test_context_window_budget_strategy_focused PRIVATE cxx_std_17)
+    target_compile_definitions(test_context_window_budget_strategy_focused PRIVATE
+        THEMIS_PLUGIN_ETHICS_AI=1
+    )
+    add_test(NAME ContextWindowBudgetStrategyTests COMMAND test_context_window_budget_strategy_focused)
+endif()
+
 # ──────────────────────────────────────────────────────────────────────────────
 # PERF-D6: ConcurrentWriteController focused tests
 # ──────────────────────────────────────────────────────────────────────────────

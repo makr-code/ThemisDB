@@ -184,23 +184,23 @@ v0.3.0 — `PhilosophyLoader::reloadProfiles()` atomic hot-reload with mutex. `E
 - [x] §12.1.1 Monokel-Budget-Reduktion via `activation_rounds` + `token_budget` — ✅ implementiert (§9.1)
   - Monokel-Größe R3–R5: von ~800 Token auf ~400–500 Token komprimiert
   - Alle neuen Schulprofile MÜSSEN `activation_rounds`, `token_budget`, `round_role_weights` deklarieren
-- [ ] §12.1.2 `PriorRoundCompressor` — 3 Kompressions-Modi (Target: Q3 2026)
+- [x] §12.1.2 `PriorRoundCompressor` — 3 Kompressions-Modi (Target: Q3 2026)
   - Neue Datei: `include/ethics_ai/prior_round_compressor.h` + `src/ethics_ai/prior_round_compressor.cpp`
   - Inputs: `std::vector<EthicalArgument>` pro Runde, `CompressionConfig`, `current_round`
   - Outputs: komprimierter String; Modus `principle_citations_only` (−75 % Token, ΔDC ≤ −0.05) Pflicht-Standard ab 4 Schulen
   - Tests: PRC-01..06 (→ §9.3)
-- [ ] §12.1.3 Selektive Gegner-Injektion via `CrossSchoolTensionResolver` (Target: Q3 2026)
+- [x] §12.1.3 Selektive Gegner-Injektion via `CrossSchoolTensionResolver` (Target: Q3 2026)
   - Neue Datei: `include/ethics_ai/cross_school_tension_resolver.h` + `src/ethics_ai/cross_school_tension_resolver.cpp`
   - Selektion via `rebuttal_cite_weight ≥ 0.6`; sekundäre Gegner → Headline-Token (−66 % R2-Kontext)
   - Tests: CST-01..06 (→ §9.2)
-- [ ] §12.1.4 Konvergenz-Matrix via `ConvergenceMarkerEngine::buildConvergencePreamble()` (Target: Q3 2026)
+- [x] §12.1.4 Konvergenz-Matrix via `ConvergenceMarkerEngine::buildConvergencePreamble()` (Target: Q3 2026)
   - Neue Datei: `include/ethics_ai/convergence_marker_engine.h` + `src/ethics_ai/convergence_marker_engine.cpp`
   - R4-Input: ~250 Token kompakte Matrix statt ~3 600 Token vollständiger Schulargumente
   - Tests: CME-01..06 (→ §9.5)
 
 **Architekturelle Zerlegungsspur:**
 
-- [ ] §12.2.1 `ILlmCascadeRouter` — Modell-Routing pro Diskursrunde (Target: Q3 2026)
+- [x] §12.2.1 `ILlmCascadeRouter` — Modell-Routing pro Diskursrunde (Target: Q3 2026)
   - Neue Datei: `include/ethics_ai/llm_cascade_router.h` + `src/ethics_ai/llm_cascade_router.cpp`
   - Inputs: `round_role`, `estimated_prompt_tokens`; Outputs: `std::shared_ptr<ILLMProvider>`, `ModelTokenBudget`
   - Konfiguration via `discourse_config.yaml::llm_cascade`
@@ -212,16 +212,16 @@ v0.3.0 — `PhilosophyLoader::reloadProfiles()` atomic hot-reload with mutex. `E
   - Konfiguration: `opponent_injection_mode: "tournament"` in `discourse_config.yaml`
   - Tests: CWB-05
 - [ ] §12.2.3 Position-Abstract-Schema (Target: Q3 2026)
-  - Erweiterung `DiscourseRoundOutput` um `position_abstract: string` (≤ 100 Token)
-  - `position_abstract_required: true` in R2-Runden-Konfiguration → `SCHEMA_VIOLATION` bei fehlendem Feld
-  - Token-Einsparung kombiniert mit Tournament: −56 % R3 gegenüber unkomprimiert
+  - `position_abstract` field added to `DiscourseRoundOutput` in `ethics_ai_types.h` ✅
+  - `EpisodicMemoryEntry` struct added to `ethics_ai_types.h` ✅ (§12.2.4)
+  - Full coordinator integration pending — see FUTURE_ENHANCEMENTS.md §12.2.3
   - Tests: CWB-06, CWB-07
 - [ ] §12.2.4 Multi-Agent-Memory-Externalisierung via `ReflectionTuner::REFLEXION` (Target: Q3 2026)
   - Integration in `DiscoursePromptCoordinator` — `EpisodicMemoryEntry` nach R2 schreiben
   - R3-Injektion: 3 Episoden × ≤ 50 Token = ≤ 150 Token statt ~1 600 Token Volltext
   - `ReflectionTuner`-Infrastruktur bereits implementiert; nur Diskurs-Brücke fehlt
   - Tests: CWB-08, CWB-09
-- [ ] §12.2.5 `SynthesisMatrixBuilder` — Positions-Matrix für R4 (Target: Q3 2026)
+- [x] §12.2.5 `SynthesisMatrixBuilder` — Positions-Matrix für R4 (Target: Q3 2026)
   - Neue Datei: `include/ethics_ai/synthesis_matrix_builder.h` + `src/ethics_ai/synthesis_matrix_builder.cpp`
   - Inputs: `SchoolPositionSummary[]` + `ConvergenceMarker[]`; Output: ≤ 300 Token kompakte Matrix
   - Peak-Tokens R4 mit Matrix: ~1 600 Token (4K-tauglich) statt ~3 800 Token
@@ -229,16 +229,20 @@ v0.3.0 — `PhilosophyLoader::reloadProfiles()` atomic hot-reload with mutex. `E
 
 **Budget-Profile + End-to-End-Tests:**
 
-- [ ] `config/ethics_ai/model_budget_profiles.yaml` — 4 Profile (`micro`/`standard`/`extended`/`frontier`) (Target: Q3 2026)
+- [x] `config/ethics_ai/model_budget_profiles.yaml` — 4 Profile (`micro`/`standard`/`extended`/`frontier`) (Target: Q3 2026)
   - `micro` (3B/4K): Monokel-Reduktion + `headline` + Positions-Matrix + REFLEXION
   - `standard` (7B/8K): `principle_citations_only` + Tournament + Position-Abstract + REFLEXION
   - `extended` (13B/32K): `structured_summary` + Cascade R4→large
   - `frontier` (70B+/128K): nur §12.1.1 optional
-- [ ] `tests/ethics_ai/test_context_window_budget_strategy.cpp` — CWB-01..15 (Target: Q3 2026)
+- [x] `tests/test_context_window_budget_strategy.cpp` — CWB-01..15 (Target: Q3 2026)
   - CMake-Target: `test_context_window_budget_strategy_focused`
   - CWB-13 (`micro` end-to-end 4 Schulen, Peak ≤ 4 000 Token)
   - CWB-14 (`standard` end-to-end 4 Schulen, Peak ≤ 8 000 Token, ΔDC ≤ 0.10)
   - CWB-15 (Backward-Kompatibilität: bestehende TBM/DRE/PRC-Tests weiterhin grün)
+
+> **Note §12.2.2/§12.2.3/§12.2.4:** Full DiscoursePromptCoordinator integration for
+> Tournament Mode, Position-Abstract schema enforcement, and REFLEXION memory bridge
+> is specified in `FUTURE_ENHANCEMENTS.md §12`. Implementation Target: Q3 2026.
 
 ### Phase 6: Documentation & Acceptance [ ]
 - [x] README, ARCHITECTURE, AUDIT, CHANGELOG, ROADMAP, SECURITY, FUTURE_ENHANCEMENTS
