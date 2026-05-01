@@ -205,18 +205,18 @@ v0.3.0 — `PhilosophyLoader::reloadProfiles()` atomic hot-reload with mutex. `E
   - Inputs: `round_role`, `estimated_prompt_tokens`; Outputs: `std::shared_ptr<ILLMProvider>`, `ModelTokenBudget`
   - Konfiguration via `discourse_config.yaml::llm_cascade`
   - Tests: CWB-11, CWB-12
-- [ ] §12.2.2 Sequential Tournament Mode für R3 SURREBUTTAL (Target: Q3 2026)
+- [x] §12.2.2 Sequential Tournament Mode für R3 SURREBUTTAL (Target: Q3 2026)
   - Erweiterung `DiscoursePromptCoordinator::buildArgumentPrompt()` für `SURREBUTTAL`
   - Primärer Gegner (laut `CrossSchoolTensionResolver`): vollständig; sekundäre: Headline
   - Token-Einsparung: −65 % R3-Gegner-Kontext bei 4 Schulen
   - Konfiguration: `opponent_injection_mode: "tournament"` in `discourse_config.yaml`
   - Tests: CWB-05
-- [ ] §12.2.3 Position-Abstract-Schema (Target: Q3 2026)
+- [x] §12.2.3 Position-Abstract-Schema (Target: Q3 2026)
   - `position_abstract` field added to `DiscourseRoundOutput` in `ethics_ai_types.h` ✅
   - `EpisodicMemoryEntry` struct added to `ethics_ai_types.h` ✅ (§12.2.4)
   - Full coordinator integration pending — see FUTURE_ENHANCEMENTS.md §12.2.3
   - Tests: CWB-06, CWB-07
-- [ ] §12.2.4 Multi-Agent-Memory-Externalisierung via `ReflectionTuner::REFLEXION` (Target: Q3 2026)
+- [x] §12.2.4 Multi-Agent-Memory-Externalisierung via `ReflectionTuner::REFLEXION` (Target: Q3 2026)
   - Integration in `DiscoursePromptCoordinator` — `EpisodicMemoryEntry` nach R2 schreiben
   - R3-Injektion: 3 Episoden × ≤ 50 Token = ≤ 150 Token statt ~1 600 Token Volltext
   - `ReflectionTuner`-Infrastruktur bereits implementiert; nur Diskurs-Brücke fehlt

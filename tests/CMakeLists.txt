@@ -24331,6 +24331,9 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_context_
         ../src/ethics_ai/convergence_marker_engine.cpp
         ../src/ethics_ai/llm_cascade_router.cpp
         ../src/ethics_ai/synthesis_matrix_builder.cpp
+        ../src/ethics_ai/tournament_mode_selector.cpp
+        ../src/ethics_ai/position_abstract_validator.cpp
+        ../src/ethics_ai/discourse_memory_store.cpp
     )
     target_include_directories(test_context_window_budget_strategy_focused PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/../include

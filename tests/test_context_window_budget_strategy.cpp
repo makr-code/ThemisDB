@@ -1,6 +1,6 @@
 /**
  * @file test_context_window_budget_strategy.cpp
- * @brief Unit tests CWB-01..CWB-15 for §12 Context-Window-Budget-Strategie components.
+ * @brief Unit tests CWB-01..CWB-20 for §12 Context-Window-Budget-Strategie components.
  *
  * Covers:
  *  - PriorRoundCompressor (CWB-01..CWB-05)
@@ -8,6 +8,9 @@
  *  - ConvergenceMarkerEngine (CWB-10..CWB-12)
  *  - LlmCascadeRouter (CWB-13..CWB-14)
  *  - SynthesisMatrixBuilder (CWB-15)
+ *  - DiscourseMemoryStore (CWB-16..CWB-18)
+ *  - TournamentModeSelector (CWB-19)
+ *  - PositionAbstractValidator (CWB-20)
  */
 
 #include <gtest/gtest.h>
@@ -17,6 +20,9 @@
 #include "plugins/ethics_ai/convergence_marker_engine.h"
 #include "plugins/ethics_ai/llm_cascade_router.h"
 #include "plugins/ethics_ai/synthesis_matrix_builder.h"
+#include "plugins/ethics_ai/tournament_mode_selector.h"
+#include "plugins/ethics_ai/position_abstract_validator.h"
+#include "plugins/ethics_ai/discourse_memory_store.h"
 
 using namespace themis::plugins::ethics;
 
@@ -424,4 +430,146 @@ TEST(SynthesisMatrixBuilder, CWB15_BuildMatrix_ContentsAndConvergence) {
     EXPECT_EQ(extracted.school_id, "virtue_ethics");
     EXPECT_EQ(extracted.verdict,   "CONDITIONAL");
     EXPECT_NO_THROW(builder.validateSummary(extracted));
+}
+
+// ---------------------------------------------------------------------------
+// CWB-16: DiscourseMemoryStore — storeEpisode from DiscourseRoundOutput
+// ---------------------------------------------------------------------------
+TEST(DiscourseMemoryStore, CWB16_StoreFromRoundOutput) {
+    DiscourseMemoryStore store;
+    DiscourseRoundOutput output;
+    output.school_id = "kant";
+    output.round_number = 2;
+    output.verdict = "PROHIBIT";
+    output.confidence = 0.85f;
+    output.position_abstract = "Verdict: PROHIBIT. Core: kategorischer_imperativ. Rebutted: greatest_happiness.";
+    output.schema_valid = true;
+    store.storeEpisode(output);
+    EXPECT_EQ(store.episodeCount("kant"), 1u);
+    auto eps = store.getEpisodesForSchool("kant", 3);
+    ASSERT_EQ(eps.size(), 1u);
+    EXPECT_EQ(eps[0].school_id, "kant");
+    EXPECT_EQ(eps[0].from_round, 2);
+    EXPECT_FLOAT_EQ(eps[0].dc_score, 0.85f);
+}
+
+// ---------------------------------------------------------------------------
+// CWB-17: DiscourseMemoryStore — ring buffer eviction
+// ---------------------------------------------------------------------------
+TEST(DiscourseMemoryStore, CWB17_RingBufferEviction) {
+    DiscourseMemoryConfig cfg;
+    cfg.max_episodes_per_school = 3;
+    DiscourseMemoryStore store(cfg);
+    for (int r = 1; r <= 5; ++r) {
+        EpisodicMemoryEntry e;
+        e.school_id = "utilitarianism";
+        e.from_round = r;
+        e.compressed_position = "round " + std::to_string(r);
+        e.dc_score = 0.7f;
+        store.storeEpisode(e);
+    }
+    EXPECT_EQ(store.episodeCount("utilitarianism"), 3u);
+    auto eps = store.getEpisodesForSchool("utilitarianism", 3);
+    // newest first: rounds 5, 4, 3
+    EXPECT_EQ(eps[0].from_round, 5);
+    EXPECT_EQ(eps[2].from_round, 3);
+}
+
+// ---------------------------------------------------------------------------
+// CWB-18: DiscourseMemoryStore — buildEpisodicContext token budget
+// ---------------------------------------------------------------------------
+TEST(DiscourseMemoryStore, CWB18_BuildEpisodicContext_TokenBudget) {
+    DiscourseMemoryConfig cfg;
+    cfg.max_episodes_per_school = 3;
+    cfg.max_tokens_per_episode = 20;
+    DiscourseMemoryStore store(cfg);
+    for (int r = 1; r <= 3; ++r) {
+        EpisodicMemoryEntry e;
+        e.school_id = "kant";
+        e.from_round = r;
+        e.compressed_position = "Short episode text for round " + std::to_string(r);
+        e.dc_score = 0.8f;
+        store.storeEpisode(e);
+    }
+    auto ctx = store.buildEpisodicContext("kant", 3);
+    EXPECT_FALSE(ctx.empty());
+    // Total tokens should be manageable (≤ 3 episodes × (20 + overhead))
+    int tokens = static_cast<int>((ctx.size() + 3) / 4);
+    EXPECT_LT(tokens, 200); // generous bound
+}
+
+// ---------------------------------------------------------------------------
+// CWB-19: TournamentModeSelector — tournament mode: primary full, secondary headline
+// ---------------------------------------------------------------------------
+TEST(TournamentModeSelector, CWB19_TournamentMode_PrimaryFull_SecondaryHeadline) {
+    TournamentModeSelector selector;
+
+    // Build opponent arguments
+    std::vector<EthicalArgument> opponents;
+    for (const auto& school : std::vector<std::string>{"utilitarianism", "contractualism", "islamische_ethik"}) {
+        EthicalArgument arg;
+        arg.philosophy_school = school;
+        arg.content = "Full detailed argument from " + school + " school about the dilemma.";
+        arg.argument_type = ArgumentType::REBUTTAL;
+        opponents.push_back(arg);
+    }
+
+    // Tensions: utilitarianism has high weight
+    std::vector<SchoolTension> tensions;
+    SchoolTension t1;
+    t1.own_thesis_id = "kategorischer_imperativ";
+    t1.opposing_school_id = "utilitarianism";
+    t1.opposing_thesis_id = "greatest_happiness";
+    t1.rebuttal_cite_weight = 0.9f;
+    tensions.push_back(t1);
+
+    SchoolTension t2;
+    t2.own_thesis_id = "kategorischer_imperativ";
+    t2.opposing_school_id = "contractualism";
+    t2.opposing_thesis_id = "reasonable_rejection";
+    t2.rebuttal_cite_weight = 0.4f;
+    tensions.push_back(t2);
+
+    TournamentConfig cfg;
+    cfg.primary_opponent_count = 1;
+    auto result = selector.selectOpponents("kant", opponents, tensions, cfg);
+
+    EXPECT_EQ(result.own_school_id, "kant");
+    ASSERT_EQ(result.primary_opponents.size(), 1u);
+    EXPECT_EQ(result.primary_opponents[0], "utilitarianism");
+    EXPECT_EQ(result.secondary_opponents.size(), 2u);
+    EXPECT_FALSE(result.assembled_context.empty());
+    // Primary opponent's full content should appear in assembled context
+    EXPECT_NE(result.assembled_context.find("utilitarianism"), std::string::npos);
+}
+
+// ---------------------------------------------------------------------------
+// CWB-20: PositionAbstractValidator — validate valid output; autoRepair fills missing verdict
+// ---------------------------------------------------------------------------
+TEST(PositionAbstractValidator, CWB20_ValidateValid_AndAutoRepairMissingVerdict) {
+    PositionAbstractValidator validator;
+
+    // Valid output
+    DiscourseRoundOutput valid_out;
+    valid_out.school_id = "kant";
+    valid_out.round_number = 2;
+    valid_out.verdict = "PROHIBIT";
+    valid_out.confidence = 0.9f;
+    valid_out.core_thesis_ids = {"kategorischer_imperativ"};
+    valid_out.position_abstract = "PROHIBIT. Core: kategorischer_imperativ. Rebutted: greatest_happiness.";
+
+    EXPECT_TRUE(validator.validate(valid_out));
+    EXPECT_TRUE(valid_out.schema_valid);
+
+    // Auto-repair missing verdict
+    DiscourseRoundOutput broken_out;
+    broken_out.school_id = "utilitarianism";
+    broken_out.round_number = 2;
+    broken_out.verdict = "";  // missing
+    broken_out.core_thesis_ids = {"greatest_happiness"};
+    broken_out.position_abstract = "The action PERMITS maximizing utility.";
+    broken_out.content = "We PERMIT the action because of greatest happiness principle.";
+
+    EXPECT_TRUE(validator.autoRepair(broken_out));
+    EXPECT_FALSE(broken_out.verdict.empty());
 }
