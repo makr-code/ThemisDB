@@ -34,7 +34,11 @@
 namespace {
 
 using namespace themis::query;
+using themis::Result;
 using namespace std::chrono_literals;
+
+namespace beast = boost::beast;
+namespace http  = beast::http;
 
 // ─── MockCQResultStream ───────────────────────────────────────────────────────
 

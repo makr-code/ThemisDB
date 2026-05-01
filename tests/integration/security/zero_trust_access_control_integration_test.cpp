@@ -84,10 +84,11 @@ static std::unique_ptr<security::AccessControlManager> makeAcm(
 
 /// Build a ZeroTrustPolicyEnforcer that accepts tokens of the form "tok:<user_id>"
 /// and allows only the "10.0.0.0/8" network for the given identity.
-static security::ZeroTrustPolicyEnforcer makeEnforcer(const std::string& identity,
-                                                       const std::string& token)
+static std::unique_ptr<security::ZeroTrustPolicyEnforcer> makeEnforcer(
+    const std::string& identity,
+    const std::string& token)
 {
-    security::ZeroTrustPolicyEnforcer enforcer(
+    auto enforcer = std::make_unique<security::ZeroTrustPolicyEnforcer>(
         [token](const std::string& tok, const std::string&) {
             return tok == token;
         });
@@ -97,7 +98,7 @@ static security::ZeroTrustPolicyEnforcer makeEnforcer(const std::string& identit
     policy.identity      = identity;
     policy.allowed_cidrs = {"10.0.0.0/8"};
     policy.default_deny  = true;
-    enforcer.addNetworkPolicy(policy);
+    enforcer->addNetworkPolicy(policy);
     return enforcer;
 }
 
@@ -122,22 +123,22 @@ TEST(ZeroTrustAccessControlIntegrationTest, ZeroTrustDisabledFlowIsUnchanged) {
 TEST(ZeroTrustAccessControlIntegrationTest, ZeroTrustEnabledAllowedNetworkPasses) {
     auto acm     = makeAcm(/*enable_zero_trust=*/true, "alice", "alice-token");
     auto enforcer = makeEnforcer("alice", "alice-token");
-    acm->setZeroTrustEnforcer(&enforcer);
+    acm->setZeroTrustEnforcer(enforcer.get());
 
     auto decision = acm->checkAccess("alice-token", "data", "read", "10.5.6.7");
     EXPECT_TRUE(decision.granted) << decision.reason;
 
     // Zero-trust counters: one allowed request
-    EXPECT_EQ(enforcer.getMetrics().requests_total.load(),   1u);
-    EXPECT_EQ(enforcer.getMetrics().requests_allowed.load(), 1u);
-    EXPECT_EQ(enforcer.getMetrics().requests_denied.load(),  0u);
+    EXPECT_EQ(enforcer->getMetrics().requests_total.load(),   1u);
+    EXPECT_EQ(enforcer->getMetrics().requests_allowed.load(), 1u);
+    EXPECT_EQ(enforcer->getMetrics().requests_denied.load(),  0u);
 }
 
 /// Zero-trust enabled: valid identity from blocked network → denied before RBAC.
 TEST(ZeroTrustAccessControlIntegrationTest, ZeroTrustEnabledBlockedNetworkDenies) {
     auto acm     = makeAcm(/*enable_zero_trust=*/true, "alice", "alice-token");
     auto enforcer = makeEnforcer("alice", "alice-token");
-    acm->setZeroTrustEnforcer(&enforcer);
+    acm->setZeroTrustEnforcer(enforcer.get());
 
     // alice is authenticated but comes from 192.168.x.x → zero-trust denies
     auto decision = acm->checkAccess("alice-token", "data", "read", "192.168.1.1");
@@ -145,9 +146,9 @@ TEST(ZeroTrustAccessControlIntegrationTest, ZeroTrustEnabledBlockedNetworkDenies
     EXPECT_NE(decision.reason.find("Zero-trust"), std::string::npos) << decision.reason;
 
     // Verify the network-policy denial counter was incremented
-    EXPECT_EQ(enforcer.getMetrics().network_policy_denials.load(), 1u);
-    EXPECT_EQ(enforcer.getMetrics().requests_denied.load(),        1u);
-    EXPECT_EQ(enforcer.getMetrics().requests_allowed.load(),       0u);
+    EXPECT_EQ(enforcer->getMetrics().network_policy_denials.load(), 1u);
+    EXPECT_EQ(enforcer->getMetrics().requests_denied.load(),        1u);
+    EXPECT_EQ(enforcer->getMetrics().requests_allowed.load(),       0u);
 }
 
 /// Zero-trust enabled: invalid token → identity failure logged in enforcer.
@@ -173,7 +174,7 @@ TEST(ZeroTrustAccessControlIntegrationTest, ZeroTrustEnabledBadTokenDenies) {
 TEST(ZeroTrustAccessControlIntegrationTest, SetNullptrDisablesZeroTrust) {
     auto acm     = makeAcm(/*enable_zero_trust=*/true, "alice", "alice-token");
     auto enforcer = makeEnforcer("alice", "alice-token");
-    acm->setZeroTrustEnforcer(&enforcer);
+    acm->setZeroTrustEnforcer(enforcer.get());
 
     // With enforcer set: blocked IP → denied
     auto denied = acm->checkAccess("alice-token", "data", "read", "192.168.1.1");

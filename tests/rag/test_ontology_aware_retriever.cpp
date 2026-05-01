@@ -34,14 +34,12 @@ static KnowledgeGraph makeGraph() {
     return g;
 }
 
-static themis::graph::OntologyManager makeOntology() {
-    themis::graph::OntologyManager om;
+static void configureOntology(themis::graph::OntologyManager& om) {
     om.addConcept("Entity");
     om.addConcept("Concept",      {"Entity"});
     om.addConcept("TechConcept",  {"Concept"});
     om.addAxiom("Concept", "RELATED_TO", "Concept");
     om.build();
-    return om;
 }
 
 static RetrievedDocument makeDoc(const std::string& id,
@@ -66,7 +64,7 @@ TEST(OntologyAwareRetrieverTests, OAR01_DefaultConfig) {
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(OntologyAwareRetrieverTests, OAR02_FactoryShallow) {
     auto g = makeGraph();
-    auto o = makeOntology();
+    themis::graph::OntologyManager o; configureOntology(o);
     auto r = OntologyAwareRetrieverFactory::createShallow(g, o);
     ASSERT_NE(r, nullptr);
     EXPECT_EQ(r->config().max_traversal_depth, 1u);
@@ -79,7 +77,7 @@ TEST(OntologyAwareRetrieverTests, OAR02_FactoryShallow) {
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(OntologyAwareRetrieverTests, OAR03_FactoryBalanced) {
     auto g = makeGraph();
-    auto o = makeOntology();
+    themis::graph::OntologyManager o; configureOntology(o);
     auto r = OntologyAwareRetrieverFactory::createBalanced(g, o);
     ASSERT_NE(r, nullptr);
     EXPECT_EQ(r->config().max_traversal_depth, 2u);
@@ -92,7 +90,7 @@ TEST(OntologyAwareRetrieverTests, OAR03_FactoryBalanced) {
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(OntologyAwareRetrieverTests, OAR04_FactoryDeep) {
     auto g = makeGraph();
-    auto o = makeOntology();
+    themis::graph::OntologyManager o; configureOntology(o);
     auto r = OntologyAwareRetrieverFactory::createDeep(g, o);
     ASSERT_NE(r, nullptr);
     EXPECT_GE(r->config().max_traversal_depth, 3u);
@@ -105,7 +103,7 @@ TEST(OntologyAwareRetrieverTests, OAR04_FactoryDeep) {
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(OntologyAwareRetrieverTests, OAR05_EmptyCandidates) {
     auto g = makeGraph();
-    auto o = makeOntology();
+    themis::graph::OntologyManager o; configureOntology(o);
     OntologyAwareRetriever r(g, o);
 
     auto res = r.retrieve("HNSW search", {});
@@ -118,7 +116,7 @@ TEST(OntologyAwareRetrieverTests, OAR05_EmptyCandidates) {
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(OntologyAwareRetrieverTests, OAR06_UnknownEntityDegradation) {
     auto g = makeGraph();
-    auto o = makeOntology();
+    themis::graph::OntologyManager o; configureOntology(o);
     OntologyAwareRetriever r(g, o);
 
     std::vector<RetrievedDocument> cands = {
@@ -174,3 +172,4 @@ TEST(OntologyAwareRetrieverTests, OAR08_FilterDisabled) {
     // Should not throw even with an unbuilt ontology.
     EXPECT_NO_THROW({ auto res = r.retrieve("HNSW", cands); });
 }
+

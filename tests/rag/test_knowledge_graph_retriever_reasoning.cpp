@@ -31,15 +31,13 @@ static KnowledgeGraph makeGraph() {
     return g;
 }
 
-static KnowledgeGraphReasoner makeReasoner() {
-    KnowledgeGraphReasoner kgr;
+static void configureReasoner(KnowledgeGraphReasoner& kgr) {
     // Rule: if A reports_to B and B reports_to C then A indirectly_reports_to C
     kgr.addRule({ "transitive_reports_to",
                   {{"?A","reports_to","?B"}, {"?B","reports_to","?C"}},
                   {{"?A","indirectly_reports_to","?C"}} });
     kgr.addFact({"alice", "reports_to", "bob"});
     kgr.addFact({"bob",   "reports_to", "carol"});
-    return kgr;
 }
 
 static RetrievedDocument makeDoc(const std::string& id,
@@ -78,7 +76,8 @@ TEST(KGRetrieverReasoningTests, KGRRAG02_NoChainsWithoutReasoner) {
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(KGRetrieverReasoningTests, KGRRAG03_ChainsWithReasoner) {
     auto g   = makeGraph();
-    auto kgr = makeReasoner();
+    KnowledgeGraphReasoner kgr;
+    configureReasoner(kgr);
 
     KGRetrieverConfig cfg;
     cfg.max_inference_hops              = 3;
@@ -121,7 +120,8 @@ TEST(KGRetrieverReasoningTests, KGRRAG04_HasReasoningFlag) {
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(KGRetrieverReasoningTests, KGRRAG05_MetadataReasoningChain) {
     auto g   = makeGraph();
-    auto kgr = makeReasoner();
+    KnowledgeGraphReasoner kgr;
+    configureReasoner(kgr);
 
     KGRetrieverConfig cfg;
     cfg.max_inference_hops              = 3;
@@ -153,7 +153,8 @@ TEST(KGRetrieverReasoningTests, KGRRAG05_MetadataReasoningChain) {
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(KGRetrieverReasoningTests, KGRRAG06_ZeroHopsDisablesInference) {
     auto g   = makeGraph();
-    auto kgr = makeReasoner();
+    KnowledgeGraphReasoner kgr;
+    configureReasoner(kgr);
 
     KGRetrieverConfig cfg;
     cfg.max_inference_hops = 0;  // disable

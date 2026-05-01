@@ -36,7 +36,12 @@
 #include "storage/rocksdb_wrapper.h"
 #include <gtest/gtest.h>
 #include <nlohmann/json.hpp>
+#include <algorithm>
+#include <chrono>
+#include <future>
+#include <map>
 #include <memory>
+#include <vector>
 
 using json = nlohmann::json;
 
@@ -63,6 +68,20 @@ public:
         metadata_[full_key] = meta;
     }
     
+    std::vector<uint8_t> getKey(const std::string& key_id) override {
+        uint32_t max_version = 0;
+        for (const auto& [full_key, _] : keys_) {
+            if (full_key.find(key_id + "_v") == 0) {
+                uint32_t ver = std::stoi(full_key.substr(key_id.length() + 2));
+                max_version = std::max(max_version, ver);
+            }
+        }
+        if (max_version == 0) {
+            throw KeyNotFoundException(key_id, 0);
+        }
+        return getKey(key_id, max_version);
+    }
+
     std::vector<uint8_t> getKey(const std::string& key_id, uint32_t version) override {
         std::string full_key = key_id + "_v" + std::to_string(version);
         auto it = keys_.find(full_key);
@@ -81,8 +100,7 @@ public:
         return it->second;
     }
     
-    std::vector<uint8_t> getLatestKey(const std::string& key_id) override {
-        // Find highest version
+    uint32_t rotateKey(const std::string& key_id) override {
         uint32_t max_version = 0;
         for (const auto& [full_key, _] : keys_) {
             if (full_key.find(key_id + "_v") == 0) {
@@ -93,11 +111,59 @@ public:
         if (max_version == 0) {
             throw KeyNotFoundException(key_id, 0);
         }
-        return getKey(key_id, max_version);
+
+        const uint32_t new_version = max_version + 1;
+        addKey(key_id, new_version, getKey(key_id, max_version));
+        return new_version;
     }
-    
-    void rotateKey(const std::string& key_id) override {
-        // Simplified rotation: just increment version
+
+    std::vector<KeyMetadata> listKeys() override {
+        std::vector<KeyMetadata> out;
+        out.reserve(metadata_.size());
+        for (const auto& [_, meta] : metadata_) {
+            out.push_back(meta);
+        }
+        return out;
+    }
+
+    void deleteKey(const std::string& key_id, uint32_t version) override {
+        std::string full_key = key_id + "_v" + std::to_string(version);
+        keys_.erase(full_key);
+        metadata_.erase(full_key);
+    }
+
+    bool hasKey(const std::string& key_id, uint32_t version = 0) override {
+        if (version == 0) {
+            for (const auto& [full_key, _] : keys_) {
+                if (full_key.find(key_id + "_v") == 0) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        std::string full_key = key_id + "_v" + std::to_string(version);
+        return keys_.find(full_key) != keys_.end();
+    }
+
+    uint32_t createKeyFromBytes(const std::string& key_id,
+                                const std::vector<uint8_t>& key_bytes,
+                                const KeyMetadata& metadata = KeyMetadata()) override {
+        uint32_t max_version = 0;
+        for (const auto& [full_key, _] : keys_) {
+            if (full_key.find(key_id + "_v") == 0) {
+                uint32_t ver = std::stoi(full_key.substr(key_id.length() + 2));
+                max_version = std::max(max_version, ver);
+            }
+        }
+
+        const uint32_t new_version = max_version + 1;
+        addKey(key_id, new_version, key_bytes);
+        if (!metadata.key_id.empty()) {
+            const std::string full_key = key_id + "_v" + std::to_string(new_version);
+            metadata_[full_key] = metadata;
+        }
+        return new_version;
     }
     
 private:

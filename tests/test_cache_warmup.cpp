@@ -152,7 +152,7 @@ TEST_F(CacheWarmupTest, WarmupFromLog_BasicRoundTrip) {
     EXPECT_EQ(loaded.entries_loaded, 1u);
 
     // The entry should now be retrievable.
-    auto result = cache.get(key);
+    auto result = cache.get(key, "");
     ASSERT_TRUE(result.has_value());
     EXPECT_EQ(result->result, value);
 }
@@ -178,7 +178,7 @@ TEST_F(CacheWarmupTest, WarmupFromLog_MultipleEntries) {
     EXPECT_EQ(loaded.entries_loaded, static_cast<size_t>(count));
 
     for (int i = 0; i < count; ++i) {
-        auto result = cache.get(makeKey(i));
+        auto result = cache.get(makeKey(i), "");
         ASSERT_TRUE(result.has_value()) << "Entry " << i << " not found";
         EXPECT_EQ(result->result["n"], i);
     }
@@ -313,7 +313,7 @@ TEST_F(CacheWarmupTest, WarmupFromLog_HeadroomCapLimitsLoadedEntries) {
     // Headroom limits L1 placement only; additional warmup entries may be
     // admitted to L2 and remain retrievable through cache.get().
     for (int i = 0; i < 4; ++i) {
-        auto result = cache.get(makeKey(i));
+        auto result = cache.get(makeKey(i), "");
         EXPECT_TRUE(result.has_value()) << "Entry " << i << " not found";
     }
 }
@@ -349,7 +349,7 @@ TEST_F(CacheWarmupTest, ExportSnapshot_RoundTrip) {
 
     // All entries should be retrievable in the new cache.
     for (int i = 0; i < count; ++i) {
-        auto result = cache2.get(makeKey(i));
+        auto result = cache2.get(makeKey(i), "");
         ASSERT_TRUE(result.has_value()) << "Entry " << i << " missing after round-trip";
         EXPECT_EQ(result->result["n"], i);
     }
@@ -446,7 +446,7 @@ TEST_F(CacheWarmupTest, WarmupFromLog_DuplicateKeySkipped) {
     EXPECT_GE(m.warmup_entries_skipped.load(), 1u);
 
     // The stored value should be the first occurrence.
-    auto result = cache.get(key);
+    auto result = cache.get(key, "");
     ASSERT_TRUE(result.has_value());
     EXPECT_EQ(result->result["v"], 1);
 }
@@ -619,7 +619,7 @@ TEST_F(CacheWarmupTest, WarmupFromLog_ParallelWorkers_CorrectResults) {
 
     // Every entry must be retrievable after parallel warmup.
     for (int i = 0; i < count; ++i) {
-        auto entry = cache.get(makeKey(i));
+        auto entry = cache.get(makeKey(i), "");
         ASSERT_TRUE(entry.has_value()) << "Entry " << i << " missing after parallel warmup";
         EXPECT_EQ(entry->result["idx"], i);
     }
@@ -657,8 +657,8 @@ TEST_F(CacheWarmupTest, WarmupFromLog_SingleWorker_SameAsDefault) {
 
     // Both caches must hold the same entries.
     for (int i = 0; i < count; ++i) {
-        auto ep = cache_par.get(makeKey(i));
-        auto es = cache_seq.get(makeKey(i));
+        auto ep = cache_par.get(makeKey(i), "");
+        auto es = cache_seq.get(makeKey(i), "");
         ASSERT_TRUE(ep.has_value()) << "Parallel cache missing entry " << i;
         ASSERT_TRUE(es.has_value()) << "Sequential cache missing entry " << i;
         EXPECT_EQ(ep->result, es->result);

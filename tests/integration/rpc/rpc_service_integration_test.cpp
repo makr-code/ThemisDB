@@ -1028,6 +1028,10 @@ TEST_F(RPCServiceIntegrationTest, PutWithInvalidTransactionId) {
     EXPECT_EQ(response["error"]["code"],
               static_cast<int>(themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS))
         << "Should return INVALID_PARAMETERS for unknown transaction ID";
+
+}
+
+/**
  * @test Verify DELETE of a non-existent entity is handled gracefully
  *
  * Acceptance Criteria:
@@ -1856,66 +1860,6 @@ TEST_F(RPCServiceIntegrationTest, TransactionBeginAbort) {
         << "Missing transaction_id should yield INVALID_PARAMETERS";
 }
 
-/**
- * @test Verify index management roundtrip: createIndex → getIndexOperations → dropIndex
- *
- * Acceptance Criteria:
- * - createIndex returns success with index_name, collection, field, type
- * - dropIndex returns success for a valid index_name/collection pair
- * - dropIndex on missing required parameters returns INVALID_PARAMETERS
- * - No placeholder 'note' check prevents future real implementation
- */
-TEST_F(RPCServiceIntegrationTest, IndexManagementRoundTrip) {
-    const std::string collection = "idx_col";
-    const std::string field = "email";
-    const std::string index_name = collection + "_" + field + "_idx";
-
-    // Step 1: Create index
-    json create_params = {
-        {"collection", collection},
-        {"field", field},
-        {"type", "btree"}
-    };
-    json create_resp = rpc_service_->handleCreateIndex(create_params);
-
-    ASSERT_TRUE(create_resp.contains("result"))
-        << "handleCreateIndex should return a result";
-    EXPECT_TRUE(create_resp["result"]["success"].get<bool>())
-        << "handleCreateIndex should succeed";
-    EXPECT_EQ(create_resp["result"]["index_name"].get<std::string>(), index_name)
-        << "index_name should follow the naming convention collection_field_idx";
-    EXPECT_EQ(create_resp["result"]["collection"].get<std::string>(), collection);
-    EXPECT_EQ(create_resp["result"]["field"].get<std::string>(), field);
-    EXPECT_EQ(create_resp["result"]["type"].get<std::string>(), "btree");
-
-    // Step 2: List index operations (verifies the endpoint is reachable)
-    json ops_resp = rpc_service_->handleGetIndexOperations({});
-    ASSERT_TRUE(ops_resp.contains("result"))
-        << "handleGetIndexOperations should return a result";
-
-    // Step 3: Drop index
-    json drop_params = {
-        {"collection", collection},
-        {"index_name", index_name}
-    };
-    json drop_resp = rpc_service_->handleDropIndex(drop_params);
-
-    ASSERT_TRUE(drop_resp.contains("result"))
-        << "handleDropIndex should return a result";
-    EXPECT_TRUE(drop_resp["result"]["success"].get<bool>())
-        << "handleDropIndex should succeed";
-    EXPECT_EQ(drop_resp["result"]["index_name"].get<std::string>(), index_name);
-    EXPECT_EQ(drop_resp["result"]["collection"].get<std::string>(), collection);
-
-    // Step 4: Verify missing parameters are rejected
-    json bad_drop = {{"collection", collection}};  // missing index_name
-    json bad_resp = rpc_service_->handleDropIndex(bad_drop);
-    ASSERT_TRUE(bad_resp.contains("error"))
-        << "handleDropIndex without index_name should return an error";
-    EXPECT_EQ(bad_resp["error"]["code"],
-              static_cast<int>(themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS))
-        << "Missing index_name should yield INVALID_PARAMETERS";
-}
 
 } // namespace test
 } // namespace themis

@@ -994,7 +994,19 @@ if(MSVC)
     add_compile_definitions($<$<CONFIG:Release>:_ITERATOR_DEBUG_LEVEL=0>)
     # Note: AVX2 optimization moved to cmake/platforms/ArchitectureOptimizations.cmake
     # Disable LTCG to avoid file locking issues on Windows with Ninja
+    # Globally disable interprocedural optimization (LTCG/IPO) to prevent /GL flag conflicts
+    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION FALSE)
+    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE FALSE)
+    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO FALSE)
+    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_MINSIZEREL FALSE)
+    # Disable /GL (IPO) globally in Release for all targets to prevent compiler conflicts
+    add_compile_options($<$<CONFIG:Release>:/GL->)
+    add_compile_options($<$<CONFIG:RelWithDebInfo>:/GL->)
+    add_compile_options($<$<CONFIG:MinSizeRel>:/GL->)
     add_link_options($<$<CONFIG:Release>:/INCREMENTAL:NO>)
+    add_link_options($<$<CONFIG:Release>:/LTCG:OFF>)
+    add_link_options($<$<CONFIG:RelWithDebInfo>:/LTCG:OFF>)
+    add_link_options($<$<CONFIG:MinSizeRel>:/LTCG:OFF>)
 else()
     add_compile_options(-Wall -Wextra -Wpedantic)
     if(THEMIS_STRICT_BUILD)
@@ -5413,6 +5425,7 @@ if(THEMIS_BUILD_TESTS)
             PRIVATE
                 themis_core
                 GTest::gtest
+                GTest::gtest_main
         )
         gtest_discover_tests(test_collective_backends
             DISCOVERY_MODE PRE_TEST

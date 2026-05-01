@@ -55,6 +55,25 @@
 using json = nlohmann::json;
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Local test helpers: flag() and optval() wrappers
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// Returns true if @p key appears in @p args.
+static bool flag(const std::vector<std::string>& args, const std::string& key) {
+    return std::find(args.begin(), args.end(), key) != args.end();
+}
+
+/// Returns the value following @p key in @p args, or @p def if not found / at end.
+static std::string optval(const std::vector<std::string>& args,
+                           const std::string& key,
+                           const std::string& def = "") {
+    for (std::size_t i = 0; i + 1 < args.size(); ++i) {
+        if (args[i] == key) return args[i + 1];
+    }
+    return def;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Helper: Argument parsing utilities
 // ─────────────────────────────────────────────────────────────────────────────
 

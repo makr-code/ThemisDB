@@ -35,6 +35,7 @@
 #include "storage/backup_manager.h"
 #include <gtest/gtest.h>
 #include <nlohmann/json.hpp>
+#include <fstream>
 #include <iomanip>
 #include <sstream>
 

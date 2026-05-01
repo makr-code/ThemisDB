@@ -39,7 +39,7 @@ using themis::PredicateEq;
 
 Status ArgumentStore::initialize(
     std::shared_ptr<RocksDBWrapper> storage,
-    std::shared_ptr<query::QueryEngine> query_engine) {
+    std::shared_ptr<QueryEngine> query_engine) {
     
     std::lock_guard<std::mutex> lock(mutex_);
     

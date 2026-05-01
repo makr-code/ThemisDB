@@ -30,7 +30,7 @@
 // Forward declarations for ThemisDB components
 namespace themis {
 class RocksDBWrapper;
-namespace query { class QueryEngine; }
+class QueryEngine;
 }
 
 namespace themis {
@@ -67,7 +67,7 @@ public:
      */
     Status initialize(
         std::shared_ptr<RocksDBWrapper> storage,
-        std::shared_ptr<query::QueryEngine> query_engine = nullptr
+        std::shared_ptr<QueryEngine> query_engine = nullptr
     );
     
     /**
@@ -172,7 +172,7 @@ private:
     
     // Direct ThemisDB storage - no wrappers
     std::shared_ptr<RocksDBWrapper> storage_;
-    std::shared_ptr<query::QueryEngine> query_engine_;
+    std::shared_ptr<QueryEngine> query_engine_;
     
     // Fallback in-memory storage for standalone mode (testing)
     bool standalone_mode_ = false;

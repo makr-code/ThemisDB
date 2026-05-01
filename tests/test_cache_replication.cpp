@@ -211,7 +211,7 @@ TEST_F(CacheReplicationCoordIntegrationTest, PutOnAReplicatesToB) {
     // Replication is asynchronous; allow a short propagation window.
     std::optional<AdaptiveQueryCache::CacheEntry> entry;
     for (int i = 0; i < 20; ++i) {
-        entry = cache_b->get(fp);
+        entry = cache_b->get(fp, "");
         if (entry.has_value()) {
             break;
         }
@@ -229,7 +229,7 @@ TEST_F(CacheReplicationCoordIntegrationTest, InvalidateOnAPropagatestoB) {
 
     // Put in both caches directly so B has the entry
     cache_b->put(fp, {}, result);
-    ASSERT_TRUE(cache_b->get(fp).has_value());
+    ASSERT_TRUE(cache_b->get(fp, "").has_value());
 
     // Invalidate from A – should propagate to B
     cache_a->invalidate(".*");  // matches everything
@@ -237,7 +237,7 @@ TEST_F(CacheReplicationCoordIntegrationTest, InvalidateOnAPropagatestoB) {
     // Replication is asynchronous; allow a short propagation window.
     bool removed = false;
     for (int i = 0; i < 20; ++i) {
-        if (!cache_b->get(fp).has_value()) {
+        if (!cache_b->get(fp, "").has_value()) {
             removed = true;
             break;
         }
@@ -255,10 +255,10 @@ TEST_F(CacheReplicationCoordIntegrationTest, GracefulDegradationWhenCoordinatorR
     json result = {{"val", 7}};
     std::string fp = cache_a->generateFingerprint("SELECT 7", {});
     EXPECT_TRUE(cache_a->put(fp, {}, result));
-    EXPECT_TRUE(cache_a->get(fp).has_value());
+    EXPECT_TRUE(cache_a->get(fp, "").has_value());
 
     // B should NOT have received the entry (coordinator is gone)
-    EXPECT_FALSE(cache_b->get(fp).has_value());
+    EXPECT_FALSE(cache_b->get(fp, "").has_value());
 }
 
 TEST_F(CacheReplicationCoordIntegrationTest, GetReplicationStatsReturnsEnabled) {
@@ -361,7 +361,7 @@ TEST(CacheReplicationThreeNodeTest, EntryReplicatesToAllPeers) {
     std::string fp = cache_a->generateFingerprint("SELECT 3", {});
     cache_a->put(fp, {}, {{"nodes", 3}});
 
-    EXPECT_TRUE(cache_b->get(fp).has_value());
+    EXPECT_TRUE(cache_b->get(fp, "").has_value());
     EXPECT_TRUE(cache_c->get(fp).has_value());
 
     cache_a.reset(); cache_b.reset(); cache_c.reset();
@@ -849,7 +849,7 @@ TEST(RedisCacheCoordinatorTest, AdaptiveCacheCoordinatorIntegration_LocalOpsUnaf
     std::string fp = cache.generateFingerprint("SELECT local", {});
     // Local put and get must work regardless of coordinator state.
     ASSERT_TRUE(cache.put(fp, {}, {{"local", true}}));
-    auto entry = cache.get(fp);
+    auto entry = cache.get(fp, "");
     ASSERT_TRUE(entry.has_value());
     EXPECT_EQ(entry->result["local"].get<bool>(), true);
 

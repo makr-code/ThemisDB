@@ -24,8 +24,25 @@
 #include "query/aql_safety_validator.h"
 
 #include <string>
+#include <string_view>
 
 using namespace themis::query;
+using namespace std::literals;
+
+namespace {
+using ViolationOpt = std::optional<AqlSafetyValidator::Violation>;
+
+ViolationOpt validateSV(const AqlSafetyValidator& validator, std::string_view query) {
+    static constexpr auto kValidateSv =
+        static_cast<ViolationOpt (AqlSafetyValidator::*)(std::string_view) const>(
+            &AqlSafetyValidator::validate);
+    return (validator.*kValidateSv)(query);
+}
+
+bool isSafeSV(const AqlSafetyValidator& validator, std::string_view query) {
+    return !validateSV(validator, query).has_value();
+}
+}  // namespace
 
 // ---------------------------------------------------------------------------
 // ASV-01  Safe read-only AQL → nullopt
@@ -33,25 +50,25 @@ using namespace themis::query;
 TEST(AqlSafetyValidatorTest, SafeReadOnlyAql) {
     AqlSafetyValidator v;
     // Basic FOR/FILTER/RETURN
-    EXPECT_FALSE(v.validate("FOR u IN users FILTER u.age > 18 RETURN u").has_value());
-    EXPECT_FALSE(v.validate("FOR d IN docs RETURN d.title").has_value());
-    EXPECT_FALSE(v.validate("RETURN 1 + 1").has_value());
-    EXPECT_FALSE(v.validate("FOR x IN col FILTER x.key == @k RETURN x").has_value());
+    EXPECT_FALSE(validateSV(v, "FOR u IN users FILTER u.age > 18 RETURN u"sv).has_value());
+    EXPECT_FALSE(validateSV(v, "FOR d IN docs RETURN d.title"sv).has_value());
+    EXPECT_FALSE(validateSV(v, "RETURN 1 + 1"sv).has_value());
+    EXPECT_FALSE(validateSV(v, "FOR x IN col FILTER x.key == @k RETURN x"sv).has_value());
     // Nested FOR loops (read-only)
-    EXPECT_FALSE(v.validate(
-        "FOR u IN users FOR r IN roles FILTER r.user_id == u._key RETURN {u, r}"
+    EXPECT_FALSE(validateSV(v,
+        "FOR u IN users FOR r IN roles FILTER r.user_id == u._key RETURN {u, r}"sv
     ).has_value());
     // SORT, LIMIT, LET
-    EXPECT_FALSE(v.validate(
-        "FOR d IN docs LET score = d.rank SORT score DESC LIMIT 10 RETURN d"
+    EXPECT_FALSE(validateSV(v,
+        "FOR d IN docs LET score = d.rank SORT score DESC LIMIT 10 RETURN d"sv
     ).has_value());
     // Multiple FILTER clauses
-    EXPECT_FALSE(v.validate(
-        "FOR p IN products FILTER p.active == true FILTER p.price < 100 RETURN p"
+    EXPECT_FALSE(validateSV(v,
+        "FOR p IN products FILTER p.active == true FILTER p.price < 100 RETURN p"sv
     ).has_value());
     // COLLECT / AGGREGATE
-    EXPECT_FALSE(v.validate(
-        "FOR u IN users COLLECT country = u.country AGGREGATE cnt = COUNT(1) RETURN {country, cnt}"
+    EXPECT_FALSE(validateSV(v,
+        "FOR u IN users COLLECT country = u.country AGGREGATE cnt = COUNT(1) RETURN {country, cnt}"sv
     ).has_value());
 }
 
@@ -60,8 +77,8 @@ TEST(AqlSafetyValidatorTest, SafeReadOnlyAql) {
 // ---------------------------------------------------------------------------
 TEST(AqlSafetyValidatorTest, RemoveKeywordBlocked) {
     AqlSafetyValidator v;
-    const auto r = v.validate(
-        "FOR u IN users FILTER u._key == '42' REMOVE u IN users");
+    const auto r = validateSV(v,
+        "FOR u IN users FILTER u._key == '42' REMOVE u IN users"sv);
     ASSERT_TRUE(r.has_value());
     EXPECT_EQ(r->keyword, "REMOVE");
 }
@@ -71,7 +88,7 @@ TEST(AqlSafetyValidatorTest, RemoveKeywordBlocked) {
 // ---------------------------------------------------------------------------
 TEST(AqlSafetyValidatorTest, InsertKeywordBlocked) {
     AqlSafetyValidator v;
-    const auto r = v.validate("INSERT {name: 'Eve'} INTO users");
+    const auto r = validateSV(v, "INSERT {name: 'Eve'} INTO users"sv);
     ASSERT_TRUE(r.has_value());
     EXPECT_EQ(r->keyword, "INSERT");
 }
@@ -81,7 +98,7 @@ TEST(AqlSafetyValidatorTest, InsertKeywordBlocked) {
 // ---------------------------------------------------------------------------
 TEST(AqlSafetyValidatorTest, UpdateKeywordBlocked) {
     AqlSafetyValidator v;
-    const auto r = v.validate("UPDATE '42' WITH {status: 'banned'} IN users");
+    const auto r = validateSV(v, "UPDATE '42' WITH {status: 'banned'} IN users"sv);
     ASSERT_TRUE(r.has_value());
     EXPECT_EQ(r->keyword, "UPDATE");
 }
@@ -91,7 +108,7 @@ TEST(AqlSafetyValidatorTest, UpdateKeywordBlocked) {
 // ---------------------------------------------------------------------------
 TEST(AqlSafetyValidatorTest, ReplaceKeywordBlocked) {
     AqlSafetyValidator v;
-    const auto r = v.validate("REPLACE '42' WITH {name: 'X'} IN users");
+    const auto r = validateSV(v, "REPLACE '42' WITH {name: 'X'} IN users"sv);
     ASSERT_TRUE(r.has_value());
     EXPECT_EQ(r->keyword, "REPLACE");
 }
@@ -101,8 +118,8 @@ TEST(AqlSafetyValidatorTest, ReplaceKeywordBlocked) {
 // ---------------------------------------------------------------------------
 TEST(AqlSafetyValidatorTest, UpsertKeywordBlocked) {
     AqlSafetyValidator v;
-    const auto r = v.validate(
-        "UPSERT {_key: '42'} INSERT {name: 'X'} UPDATE {name: 'X'} IN users");
+    const auto r = validateSV(v,
+        "UPSERT {_key: '42'} INSERT {name: 'X'} UPDATE {name: 'X'} IN users"sv);
     ASSERT_TRUE(r.has_value());
     EXPECT_EQ(r->keyword, "UPSERT");
 }
@@ -112,7 +129,7 @@ TEST(AqlSafetyValidatorTest, UpsertKeywordBlocked) {
 // ---------------------------------------------------------------------------
 TEST(AqlSafetyValidatorTest, DropCollectionBlocked) {
     AqlSafetyValidator v;
-    const auto r = v.validate("DROP COLLECTION users");
+    const auto r = validateSV(v, "DROP COLLECTION users"sv);
     ASSERT_TRUE(r.has_value());
     EXPECT_EQ(r->keyword, "DROP");
 }
@@ -122,7 +139,7 @@ TEST(AqlSafetyValidatorTest, DropCollectionBlocked) {
 // ---------------------------------------------------------------------------
 TEST(AqlSafetyValidatorTest, TruncateBlocked) {
     AqlSafetyValidator v;
-    const auto r = v.validate("TRUNCATE users");
+    const auto r = validateSV(v, "TRUNCATE users"sv);
     ASSERT_TRUE(r.has_value());
     EXPECT_EQ(r->keyword, "TRUNCATE");
 }
@@ -133,7 +150,7 @@ TEST(AqlSafetyValidatorTest, TruncateBlocked) {
 TEST(AqlSafetyValidatorTest, ForRemoveWithoutFilterBlocked) {
     AqlSafetyValidator v;
     // This variant has REMOVE detected as single keyword first — still a violation
-    const auto r = v.validate("FOR u IN users REMOVE u IN users");
+    const auto r = validateSV(v, "FOR u IN users REMOVE u IN users"sv);
     ASSERT_TRUE(r.has_value());
 }
 
@@ -142,8 +159,8 @@ TEST(AqlSafetyValidatorTest, ForRemoveWithoutFilterBlocked) {
 // ---------------------------------------------------------------------------
 TEST(AqlSafetyValidatorTest, ForRemoveWithFilterStillBlocked) {
     AqlSafetyValidator v;
-    const auto r = v.validate(
-        "FOR u IN users FILTER u.role == 'guest' REMOVE u IN users");
+    const auto r = validateSV(v,
+        "FOR u IN users FILTER u.role == 'guest' REMOVE u IN users"sv);
     ASSERT_TRUE(r.has_value());  // REMOVE keyword is blocked regardless of FILTER
 }
 
@@ -154,10 +171,12 @@ TEST(AqlSafetyValidatorTest, IsSafeMirrorsValidate) {
     AqlSafetyValidator v;
     const std::string safe_query  = "FOR u IN users RETURN u";
     const std::string unsafe_query = "REMOVE '1' IN users";
-    EXPECT_TRUE(v.isSafe(safe_query));
-    EXPECT_FALSE(v.isSafe(unsafe_query));
-    EXPECT_EQ(v.isSafe(safe_query),  !v.validate(safe_query).has_value());
-    EXPECT_EQ(v.isSafe(unsafe_query), !v.validate(unsafe_query).has_value());
+    EXPECT_TRUE(isSafeSV(v, std::string_view{safe_query}));
+    EXPECT_FALSE(isSafeSV(v, std::string_view{unsafe_query}));
+    EXPECT_EQ(isSafeSV(v, std::string_view{safe_query}),
+              !validateSV(v, std::string_view{safe_query}).has_value());
+    EXPECT_EQ(isSafeSV(v, std::string_view{unsafe_query}),
+              !validateSV(v, std::string_view{unsafe_query}).has_value());
 }
 
 // ---------------------------------------------------------------------------
@@ -165,7 +184,7 @@ TEST(AqlSafetyValidatorTest, IsSafeMirrorsValidate) {
 // ---------------------------------------------------------------------------
 TEST(AqlSafetyValidatorTest, ViolationMessageContainsErrorCode) {
     AqlSafetyValidator v;
-    const auto r = v.validate("INSERT {x:1} INTO col");
+    const auto r = validateSV(v, "INSERT {x:1} INTO col"sv);
     ASSERT_TRUE(r.has_value());
     EXPECT_NE(r->message.find("AQL_READ_ONLY_VIOLATION"), std::string::npos);
 }
@@ -175,7 +194,7 @@ TEST(AqlSafetyValidatorTest, ViolationMessageContainsErrorCode) {
 // ---------------------------------------------------------------------------
 TEST(AqlSafetyValidatorTest, ViolationKeywordPopulated) {
     AqlSafetyValidator v;
-    const auto r = v.validate("UPDATE '1' WITH {a:1} IN col");
+    const auto r = validateSV(v, "UPDATE '1' WITH {a:1} IN col"sv);
     ASSERT_TRUE(r.has_value());
     EXPECT_FALSE(r->keyword.empty());
 }
@@ -186,7 +205,7 @@ TEST(AqlSafetyValidatorTest, ViolationKeywordPopulated) {
 TEST(AqlSafetyValidatorTest, ViolationPositionInBounds) {
     AqlSafetyValidator v;
     const std::string query = "FOR u IN col REMOVE u IN col";
-    const auto r = v.validate(query);
+    const auto r = validateSV(v, std::string_view{query});
     ASSERT_TRUE(r.has_value());
     EXPECT_LT(r->position, query.size());
 }
@@ -196,8 +215,8 @@ TEST(AqlSafetyValidatorTest, ViolationPositionInBounds) {
 // ---------------------------------------------------------------------------
 TEST(AqlSafetyValidatorTest, EmptyQueryIsSafe) {
     AqlSafetyValidator v;
-    EXPECT_FALSE(v.validate("").has_value());
-    EXPECT_TRUE(v.isSafe(""));
+    EXPECT_FALSE(validateSV(v, ""sv).has_value());
+    EXPECT_TRUE(isSafeSV(v, ""sv));
 }
 
 // ---------------------------------------------------------------------------
@@ -205,7 +224,7 @@ TEST(AqlSafetyValidatorTest, EmptyQueryIsSafe) {
 // ---------------------------------------------------------------------------
 TEST(AqlSafetyValidatorTest, CreateCollectionBlocked) {
     AqlSafetyValidator v;
-    const auto r = v.validate("CREATE COLLECTION new_users");
+    const auto r = validateSV(v, "CREATE COLLECTION new_users"sv);
     ASSERT_TRUE(r.has_value());
     EXPECT_EQ(r->keyword, "CREATE COLLECTION");
 }

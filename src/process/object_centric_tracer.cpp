@@ -59,7 +59,7 @@ json ObjectCentricTracer::buildOcelLog(std::string_view instance_id) const {
         json ev;
         ev["ocel:id"]        = att.id;
         ev["ocel:activity"]  = std::string(toString(att.link_type));
-        ev["ocel:timestamp"] = att.timestamp_ms;
+        ev["ocel:timestamp"] = att.attached_at_ms;
 
         // ocel:omap — object map: {collection: [object_id]}
         json omap;

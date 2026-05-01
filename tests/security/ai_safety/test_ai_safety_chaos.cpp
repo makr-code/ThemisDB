@@ -107,7 +107,7 @@ TEST_F(AiSafetyChaosTest, CHAOS03_DropCollectionIsSchemaMutation) {
 // ---------------------------------------------------------------------------
 TEST_F(AiSafetyChaosTest, CHAOS04_ValidatorRejectsRemoveInReadOnly) {
     const auto violation = validator_.validate(
-        "FOR doc IN users REMOVE doc IN users");
+        std::string_view{"FOR doc IN users REMOVE doc IN users"});
 
     ASSERT_TRUE(violation.has_value())
         << "Expected validator to reject REMOVE query";
@@ -118,7 +118,7 @@ TEST_F(AiSafetyChaosTest, CHAOS04_ValidatorRejectsRemoveInReadOnly) {
 // CHAOS-05: AqlSafetyValidator rejects DROP INDEX in read-only mode
 // ---------------------------------------------------------------------------
 TEST_F(AiSafetyChaosTest, CHAOS05_ValidatorRejectsDropIndexInReadOnly) {
-    const auto violation = validator_.validate("DROP INDEX users/idx_email");
+    const auto violation = validator_.validate(std::string_view{"DROP INDEX users/idx_email"});
 
     ASSERT_TRUE(violation.has_value())
         << "Expected validator to reject DROP INDEX";

@@ -45,7 +45,7 @@ protected:
 
         mgr_    = std::make_unique<themis::process::ProcessModelManager>(*db_);
         linker_ = std::make_unique<themis::process::ProcessLinker>(*db_);
-        engine_ = std::make_unique<themis::process::ProcessGraphManager>(*db_);
+        engine_ = std::make_unique<themis::ProcessGraphManager>(*db_);
 
         rag_ = std::make_unique<themis::process::ProcessGraphRag>(
             *db_, *engine_, *mgr_, *linker_);
@@ -64,7 +64,7 @@ protected:
     std::unique_ptr<themis::RocksDBWrapper>               db_;
     std::unique_ptr<themis::process::ProcessModelManager> mgr_;
     std::unique_ptr<themis::process::ProcessLinker>       linker_;
-    std::unique_ptr<themis::process::ProcessGraphManager> engine_;
+    std::unique_ptr<themis::ProcessGraphManager> engine_;
     std::unique_ptr<themis::process::ProcessGraphRag>     rag_;
 };
 
