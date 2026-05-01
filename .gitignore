@@ -16,6 +16,10 @@ build-*/
 
 # Temporary files from editors/IDEs
 **/*.tmp
+.tmp_issue_*.md
+
+# Local workflow event payloads for act (developer-local only)
+.act-event-*.json
 
 # Generated code (e.g., from codegen tools, not manually maintained)
 **/generated/
@@ -47,6 +51,7 @@ tools/wix311/
 .vscode/tasks.json
 .vscode/extensions.json
 .vscode/.ropeproject
+themis.code-workspace
 
 # Example binaries
 examples/**/usage_example
