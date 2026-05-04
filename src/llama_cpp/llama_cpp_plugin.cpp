@@ -314,7 +314,18 @@ std::vector<float> LlamaCppPlugin::embed(const std::string& text) {
         }
     }
 #endif
-    // Stub: return a fixed-size zero vector
+    // STUB/SIMULATION NOTE:
+    // Purpose: Return a syntactically valid embedding vector when llama.cpp is not
+    //          compiled in (THEMIS_LLM_ENABLED absent) or the model wrapper is null.
+    // Activation: Reached when `wrapper_` is nullptr (model not loaded or
+    //             THEMIS_LLM_ENABLED not set at build time).
+    // Production Delta: Every embed() call returns a 384-dimensional zero vector.
+    //                   Cosine similarity between any two texts becomes 0/NaN;
+    //                   semantic search, ANN indexing, and RAG retrieval all
+    //                   produce meaningless results.
+    // Removal Plan: Build with THEMIS_LLM_ENABLED and call loadModel() before
+    //               embed(); the wrapper_->embed() path then returns real vectors.
+    //               See src/llama_cpp/FUTURE_ENHANCEMENTS.md §LlamaCppPlugin Embed.
     return std::vector<float>(384, 0.0f);
 }
 

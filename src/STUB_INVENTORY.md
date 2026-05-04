@@ -28,7 +28,7 @@
 
 ---
 
-## Stub Inventory (197 entries — 11 resolved, 186 active)
+## Stub Inventory (205 entries — 11 resolved, 194 active)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -222,7 +222,15 @@
 | 195 | `query/let_evaluator.cpp::ST_Within()` | MBR containment check instead of actual polygon `within()` predicate | Always — no Boost.Geometry or GEOS linked | Non-rectangular polygons produce false positives for all points inside the MBR but outside the true polygon boundary | `src/query/FUTURE_ENHANCEMENTS.md` §ST_Within Geometry Library | future milestone |
 | 196 | `llm/lora_framework/feedback_plugin.cpp::containsProfanity()` | Always returns false; no word-list or classifier loaded | Always — no profanity filter bundled | All training data or user text passes the profanity gate; profanity is never filtered | `src/llm/FUTURE_ENHANCEMENTS.md` §ContentValidation Profanity Filter | future milestone |
 | 197 | `llm/applications/themis_help_lora.cpp` — version predecessor | `vN.0 → v(N-1).0`; no version history registry; intermediate minor versions skipped | Always — no version list maintained | UI version pickers or diff tools skip intermediate minor versions when stepping back across major boundaries | `src/llm/FUTURE_ENHANCEMENTS.md` §ThemisHelpLoRA VersionHistory | future milestone |
+| 198 | `acceleration/zluda_backend.cpp` — `caps.maxMemoryBytes` | Hardcoded 8 GiB; no cuDeviceTotalMem ZLUDA call made | Always when `initialized_` is true | Reports 8 GiB for all AMD GPUs; batch-fit decisions wrong for GPUs with ≠ 8 GiB VRAM | `src/acceleration/FUTURE_ENHANCEMENTS.md` §ZLUDA DeviceQuery | future milestone |
+| 199 | `utils/self_awareness.cpp` — Linux `open_file_descriptors` | Always 0 on Linux; no /proc/self/fd scan performed (Windows path has STUB note, Linux path does not) | Always on Linux builds | FD-leak detectors and dashboards that track open descriptors never fire on Linux nodes | `src/utils/FUTURE_ENHANCEMENTS.md` §SelfAwareness LinuxFD | future milestone |
+| 200 | `llama_cpp/llama_cpp_plugin.cpp::embed()` | Returns `std::vector<float>(384, 0.0f)` when model wrapper is null | `wrapper_` is nullptr (THEMIS_LLM_ENABLED absent or loadModel() not called) | Cosine similarity between any two texts is 0/NaN; semantic search and RAG retrieval are non-functional | `src/llama_cpp/FUTURE_ENHANCEMENTS.md` §LlamaCppPlugin Embed | load model via loadModel() |
+| 201 | `storage/index_analyzer.cpp::kPlaceholderStatsAgeHours` | `stats_age_hours` always 2; no metadata CF timestamp read | Always — no per-index stats-update timestamp stored | Staleness detection fires or stays silent based on hardcoded 2-hour value; maintenance scheduling may be wrong | `src/storage/FUTURE_ENHANCEMENTS.md` §IndexAnalyzer StatsTimestamp | future milestone |
+| 202 | `sharding/distributed_transaction.cpp` — `participant.endpoint` | Endpoint always `"shard://<shard_id>"`; no service-discovery lookup | Always — no shard-registry injected | 2PC prepare/commit RPCs fail to connect at runtime; multi-shard transactions cannot complete | `src/sharding/FUTURE_ENHANCEMENTS.md` §DTX Endpoint | future milestone |
+| 203 | `server/rpc/rpc_service_impl.cpp` — `getCollectionInfo` indexes field | `"indexes"` always `[]`; no index CF enumeration performed | Always | Clients that display or route based on available indexes always see none; ANN/full-text index listing broken | `src/server/FUTURE_ENHANCEMENTS.md` §RPC CollectionInfo Indexes | future milestone |
+| 204 | `plugins/wasm_plugin_loader.cpp` — `!THEMIS_WASM_SUPPORT` block | `loadWasmPlugin()` returns nullptr; all `themis_plugin_*` C-ABI stubs return 0/empty | `THEMIS_WASM_SUPPORT` not defined (default build) | No WASM plugin can be loaded or executed; plugin-manager requests for WASM plugins fail gracefully | `src/plugins/FUTURE_ENHANCEMENTS.md` §WASMRuntime | build with `-DTHEMIS_WASM_SUPPORT=ON` |
+| 205 | `llm/continuous_batch_scheduler.cpp` — deferred block allocation | `allocated_blocks` filled with `-1` sentinels when block table absent for sequence | First request for each new sequence ID | Code treating `allocated_blocks` as real block addresses before first KV-store reads invalid indices; canAddToBatch() may over-commit | `src/llm/FUTURE_ENHANCEMENTS.md` §ContinuousBatch BlockPrealloc | future milestone |
 
 ---
 
-*Last updated: 2026-05-04 — 197 entries, 11 resolved, 186 active — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-05-04 — 205 entries, 11 resolved, 194 active — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

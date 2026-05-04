@@ -2252,7 +2252,18 @@ json ThemisRPCService::handleGetCollectionMetadata(const json& params) {
             {"document_count", document_count},
             {"total_size_bytes", total_size},
             {"models", models_array},
-            {"indexes", json::array()}  // Placeholder for index metadata
+            // STUB/SIMULATION NOTE:
+            // Purpose: Return a syntactically valid getCollectionInfo response
+            //          while index-metadata enumeration is not yet wired to the
+            //          collection's RocksDB column family.
+            // Activation: Always — no index CF listing call is made.
+            // Production Delta: The `indexes` field is always an empty array.
+            //                   Clients that display or route based on available
+            //                   indexes (ANN, full-text, etc.) will always see none.
+            // Removal Plan: Enumerate index column families for the collection;
+            //               serialize name/type/vector_dim per index into the array.
+            //               See src/server/FUTURE_ENHANCEMENTS.md §RPC CollectionInfo Indexes.
+            {"indexes", json::array()}  // STUB: index metadata not yet enumerated
         };
         
         return createSuccess(result);

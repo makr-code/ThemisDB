@@ -591,12 +591,24 @@ void ContinuousBatchScheduler::allocateKVCacheBlocks(ScheduledRequest* request) 
     // Get block table for this sequence
     auto block_table = kv_cache_->getBlockTable(request->sequence_id);
     if (!block_table) {
-        // Block table doesn't exist yet, it will be created when we store KV data
-        // Reserve the blocks by tracking them in allocated_blocks
-        // This ensures consistency with canAddToBatch() availability check
+        // STUB/SIMULATION NOTE:
+        // Purpose: Allow KV-cache block reservation to proceed when no block table
+        //          exists yet for the sequence (first request for a new sequence ID).
+        //          Sentinel value -1 is used as a deferred-allocation token.
+        // Activation: Whenever kv_cache_->getBlockTable(sequence_id) returns nullptr
+        //             (no prior KV-cache state for this sequence).
+        // Production Delta: `allocated_blocks` contains -1 sentinel IDs instead of
+        //                   real block indices.  Any code that treats allocated_blocks
+        //                   as actual physical block addresses before the first
+        //                   KV-cache store will read invalid block indices.
+        //                   canAddToBatch() size accounting relies on these sentinels
+        //                   and may over-commit if the block table creation fails.
+        // Removal Plan: Pre-create the block table on sequence registration so that
+        //               getBlockTable() always returns a valid object.  See
+        //               src/llm/FUTURE_ENHANCEMENTS.md §ContinuousBatch BlockPrealloc.
         request->allocated_blocks.reserve(blocks_needed);
         for (size_t i = 0; i < blocks_needed; ++i) {
-            request->allocated_blocks.push_back(-1);  // Placeholder, actual allocation on store
+            request->allocated_blocks.push_back(-1);  // deferred: real index assigned on first store
         }
         spdlog::debug("Reserved {} blocks for request {} (sequence {}), will allocate on first store",
                       blocks_needed, request->request_id, request->sequence_id);

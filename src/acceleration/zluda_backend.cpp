@@ -101,7 +101,18 @@ public:
         if (initialized_) {
             // Query device properties through ZLUDA
             caps.deviceName = "AMD Radeon (ZLUDA)";
-            caps.maxMemoryBytes = 8ULL * 1024 * 1024 * 1024; // Placeholder
+            // STUB/SIMULATION NOTE:
+            // Purpose: Return a plausible VRAM capacity while ZLUDA device-query
+            //          APIs (cuDeviceTotalMem) are not called.
+            // Activation: Always when `initialized_` is true — no cuDeviceTotalMem
+            //             call is made through the ZLUDA dlopen handles.
+            // Production Delta: Reports 8 GiB regardless of actual AMD GPU VRAM.
+            //                   Scheduling decisions (e.g., whether a batch fits)
+            //                   may be wrong for GPUs with less or more than 8 GiB.
+            // Removal Plan: Call fnDeviceTotalMem_() after loadFunctions(); store
+            //               the result in a member field; return it here.  See
+            //               src/acceleration/FUTURE_ENHANCEMENTS.md §ZLUDA DeviceQuery.
+            caps.maxMemoryBytes = 8ULL * 1024 * 1024 * 1024; // STUB: hardcoded 8 GiB
         }
         
         return caps;

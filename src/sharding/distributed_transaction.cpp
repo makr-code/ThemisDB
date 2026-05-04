@@ -106,10 +106,21 @@ std::string DistributedTransactionCoordinator::beginTransaction(
     txn.start_time = truetime_->now().latest;
     
     // Add participants
+    // STUB/SIMULATION NOTE:
+    // Purpose: Populate TransactionParticipant.endpoint with a syntactically valid
+    //          URI while the actual shard gRPC endpoint registry is not wired in.
+    // Activation: Always — no shard-registry or service-discovery lookup is performed.
+    // Production Delta: The endpoint is always `"shard://<shard_id>"` regardless of
+    //                   the actual network address of the shard.  2PC prepare/commit
+    //                   RPCs sent to this URI will fail to connect, making any
+    //                   multi-shard distributed transaction uncomplete-able at runtime.
+    // Removal Plan: Inject a shard-endpoint map (or service-discovery client) into
+    //               DistributedTransactionCoordinator; look up the real gRPC address
+    //               for each shard_id.  See src/sharding/FUTURE_ENHANCEMENTS.md §DTX Endpoint.
     for (const auto& shard_id : shard_ids) {
         TransactionParticipant participant;
         participant.shard_id = shard_id;
-        participant.endpoint = "shard://" + shard_id; // Placeholder
+        participant.endpoint = "shard://" + shard_id; // STUB: placeholder URI, not a real address
         participant.prepared = false;
         participant.committed = false;
         txn.participants.push_back(participant);

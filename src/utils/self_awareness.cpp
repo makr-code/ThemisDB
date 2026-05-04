@@ -270,7 +270,17 @@ SelfAwareness::HealthMetrics SelfAwareness::collectHealthMetrics() const {
     metrics.cpu_usage_percent = metrics.cpu_load_1min / std::thread::hardware_concurrency();
     
     // Get open file descriptors
-    metrics.open_file_descriptors = 0;  // Placeholder
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide a compilable Linux health-metrics path while /proc/self/fd
+    //          directory counting (or getrlimit(RLIMIT_NOFILE)) is not implemented.
+    // Activation: Always on Linux builds — no /proc/self/fd scan is performed.
+    // Production Delta: `open_file_descriptors` is always 0 on Linux; FD-leak
+    //                   detectors and dashboards that track this metric will never
+    //                   alert even under heavy descriptor pressure.
+    // Removal Plan: Count entries in /proc/self/fd via opendir/readdir or
+    //               read /proc/self/status "FDSize:"; use POSIX getrlimit for
+    //               the ceiling.  See src/utils/FUTURE_ENHANCEMENTS.md §SelfAwareness LinuxFD.
+    metrics.open_file_descriptors = 0;  // STUB: /proc/self/fd not scanned
 #endif
     
     return metrics;
