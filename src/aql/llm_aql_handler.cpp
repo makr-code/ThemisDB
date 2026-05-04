@@ -1423,9 +1423,11 @@ static void checkGeneratedAQLCollectionScope(
     if (!parse_result) {
         // If the AQL cannot be parsed we cannot determine the collection set;
         // fail closed to prevent privilege escalation via malformed queries.
+        spdlog::warn("LLM-generated AQL failed collection ACL check: parse error — {}",
+                     parse_result.error().message());
         throw LLMException(LLMErrorCode::ACCESS_DENIED,
-            "Generated AQL could not be parsed for collection ACL check; "
-            "query rejected as a security precaution");
+            "Generated AQL could not be parsed for collection ACL check ("
+            + parse_result.error().message() + "); query rejected as a security precaution");
     }
 
     const auto& query = *parse_result.value();
