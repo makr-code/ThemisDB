@@ -26,7 +26,7 @@
 
 ---
 
-## Stub Inventory (145 entries — 9 resolved, 136 active)
+## Stub Inventory (147 entries — 9 resolved, 138 active)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -143,6 +143,8 @@
 | 111 | `include/rag/explainability_reason_builder.h` (shard records) | `shard_records_` map uses only in-memory data; no federated cross-shard fetch | DK-4 Federated RAG Merge not yet wired | Remote-shard records inaccessible; retrieval limited to local node | `src/rag/FUTURE_ENHANCEMENTS.md` §Federated RAG Merge | DK-4 / v2.1.0 |
 | 112 | `include/rag/lora_enhanced_retriever.h` | Heuristic scorer used by default; real LoRA scoring requires `THEMIS_ENABLE_LLM` + `MultiLoRAManager` | `THEMIS_ENABLE_LLM` absent or `MultiLoRAManagerScorer` not registered | Retrieval reranking uses rule-based heuristics, not model-inferred scores | `src/rag/FUTURE_ENHANCEMENTS.md` §LoRA Enhanced Retriever | v2.2.0 |
 | 113 | `include/temporal/temporal_tier_manager.h` | `decision_fn` hook is a no-op placeholder; built-in thresholds are the production path | `decision_fn` left null (default) | LoRA advisor (future) will replace threshold logic; currently static thresholds only | `src/temporal/FUTURE_ENHANCEMENTS.md` §LoRA Tier Advisor | v2.1.0 |
+| 146 | `ethics_ai/ethics_selection_router.cpp:223` Stage 2 semantic filter | Term-overlap TF cosine used as proxy for semantic embedding similarity; underestimates synonymy by ~15–20% (e.g. "duty" vs "obligation") | Always active — no ONNX embedding model wired | Semantic stage 2 filtering less precise than real all-mpnet-base-v2 embeddings | `src/ethics_ai/FUTURE_ENHANCEMENTS.md` §Semantic Embedding Stage | Q3 2026 |
+| 147 | `ethics_ai/ethics_selection_router.cpp:287` Stage 3 precedent lookup | In-memory precedent map used instead of ArangoDB `_themis_ethics_precedents` graph traversal; session-scoped only (not persistent across restarts) | Always active — full KG path guarded by `THEMIS_ETHICS_KG_PRECEDENTS` | Precedent DC scores lost on process restart; no persistent cross-dilemma learning | `src/ethics_ai/FUTURE_ENHANCEMENTS.md` §Precedent KG Integration | Q4 2026 |
 
 ---
 
@@ -158,6 +160,9 @@
 | `src/server/http_type_adapter.cpp` | URL-decoding TODO resolved: RFC 3986-compliant `urlDecode()` with malformed-sequence passthrough (v1.9.x) |
 | `src/ethics_ai/argument_store.cpp` | AQL TODO resolved: `getArgumentsByPhilosophy()` now uses `ConjunctiveQuery` when `query_engine_` is available, falls back to prefix scan (v1.9.x); stale TODO comment removed |
 | `src/utils/audit_logger.cpp` | Version TODO resolved: `THEMISDB_VERSION` now derives from `THEMIS_VERSION_STRING` macro (CMake-injected) with `"0.0.0-dev"` fallback (v1.9.x) |
+| `src/sharding/signed_request.cpp` | STUB #125 resolved (v2.0.0): `verifySignature()` now performs real EVP_DigestVerifyFinal using the peer cert loaded from `trusted_certs_dir/<serial>.pem`, CA trust check via `PKIShardCertificate::verifyCertificate()`, and optional CRL check. |
+| `src/auth/rate_limiter_backend.cpp` | STUB #72 partially resolved (v2.0.0): `!THEMIS_ENABLE_REDIS` stub changed to fail-closed (returns `INT64_MAX`) — was fail-open (returned 0). DoS bypass eliminated; use `InMemoryRateLimiterBackend` for single-node fallback. |
+| `src/utils/input_validator.cpp` | STUB #85 partially resolved (v2.0.0): `validateJsonStub()` now logs `THEMIS_WARN` and returns a validation error when the schema file is absent — was silent accept-all. |
 
 ---
 
@@ -199,4 +204,4 @@
 
 ---
 
-*Last updated: 2026-04-28 — 145 entries, 9 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-05-04 — 147 entries, 9 resolved, 138 active — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

@@ -1111,7 +1111,10 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/lora_framework/lora_training_config.cpp
     ../src/llm/lora_framework/feedback_plugin.cpp
     ../src/llm/lora_framework/lora_provenance.cpp
-    ../src/llm/lora_framework/lora_storage_service.cpp
+    # Use the ThemisDB-integrated storage service (BaseEntity + RocksDB + BlobStorage + encryption).
+    # lora_storage_service.cpp (filesystem-only) is intentionally excluded here to avoid duplicate
+    # symbol errors.  See cmake/CMakeLists.txt comment and src/llm/lora_framework/ for details.
+    ../src/llm/lora_framework/lora_storage_service_themisdb.cpp
     ../src/llm/lora_framework/lora_checkpoint_manager.cpp
     ../src/llm/lora_framework/lora_training_service.cpp
     ../src/llm/lora_framework/adapter_consistency_checker.cpp

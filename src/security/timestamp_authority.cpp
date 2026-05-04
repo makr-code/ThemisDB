@@ -95,6 +95,9 @@ static TimestampToken makeProductionError() {
     return tok;
 }
 
+// Stub placeholder: Impl is stateless in the software (non-OpenSSL) path.
+// The real Impl with connection-pool state is defined below under
+// #ifdef THEMIS_USE_OPENSSL_TSA.
 class TimestampAuthority::Impl { };
 
 // Helper: hex encode
