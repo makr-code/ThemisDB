@@ -186,15 +186,19 @@ void NUMAMemoryManager::deallocate(void* ptr, size_t size) noexcept {
     size_t tracked_size = size;
     if (untrack_alloc(ptr, &node, &tracked_size)) {
         if (static_cast<size_t>(node) < num_nodes_) {
-            // Saturating subtract: never go below zero.
-            int64_t delta = -static_cast<int64_t>(tracked_size);
-            int64_t prev  = per_node_bytes_[static_cast<size_t>(node)].fetch_add(
-                delta, std::memory_order_relaxed);
-            if (prev < static_cast<int64_t>(tracked_size)) {
-                // Wrapped below zero; clamp.
-                per_node_bytes_[static_cast<size_t>(node)].store(
-                    0, std::memory_order_relaxed);
-            }
+            // Saturating subtract via CAS loop — avoids a race where a concurrent
+            // fetch_add on another thread fills back the count between our
+            // fetch_sub and the unconditional store(0).
+            auto& atom = per_node_bytes_[static_cast<size_t>(node)];
+            int64_t expected = atom.load(std::memory_order_relaxed);
+            int64_t desired;
+            do {
+                desired = (expected >= static_cast<int64_t>(tracked_size))
+                        ? expected - static_cast<int64_t>(tracked_size)
+                        : 0;
+            } while (!atom.compare_exchange_weak(
+                expected, desired,
+                std::memory_order_relaxed, std::memory_order_relaxed));
         }
     }
     std::free(ptr);
@@ -207,11 +211,17 @@ void NUMAMemoryManager::migrate_to_node(void* ptr, size_t size, int target_node)
     size_t old_size = size;
     if (untrack_alloc(ptr, &old_node, &old_size)) {
         if (static_cast<size_t>(old_node) < num_nodes_) {
-            int64_t delta = -static_cast<int64_t>(old_size);
-            int64_t prev  = per_node_bytes_[static_cast<size_t>(old_node)].fetch_add(
-                delta, std::memory_order_relaxed);
-            if (prev < static_cast<int64_t>(old_size))
-                per_node_bytes_[static_cast<size_t>(old_node)].store(0, std::memory_order_relaxed);
+            // Saturating subtract via CAS loop (same pattern as deallocate).
+            auto& atom = per_node_bytes_[static_cast<size_t>(old_node)];
+            int64_t expected = atom.load(std::memory_order_relaxed);
+            int64_t desired;
+            do {
+                desired = (expected >= static_cast<int64_t>(old_size))
+                        ? expected - static_cast<int64_t>(old_size)
+                        : 0;
+            } while (!atom.compare_exchange_weak(
+                expected, desired,
+                std::memory_order_relaxed, std::memory_order_relaxed));
         }
         int resolved_target = resolve_node(target_node);
         track_alloc(ptr, resolved_target, old_size);

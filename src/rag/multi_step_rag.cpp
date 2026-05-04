@@ -31,6 +31,7 @@
 #include "llm/context_window_budget.h"
 
 #include <algorithm>
+#include <exception>
 #include <future>
 #include <sstream>
 
@@ -243,7 +244,13 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
 
     if (config_.enable_parallel_map && batches.size() > 1u) {
         // F-029: Launch all map steps in parallel.
-        // Requires the InferenceFn to be thread-safe (documented in the config).
+        // LIFETIME: batches and query are local variables / parameters that
+        // outlive all futures — get() is called before returning.
+        // infer is captured by reference; callers must ensure the InferenceFn
+        // lives at least as long as this call (standard for std::function refs).
+        // EXCEPTIONS: if infer() throws, the exception is stored in the future.
+        // We collect all futures (to avoid leaking threads) and re-throw the
+        // first exception after draining.
         std::vector<std::future<std::string>> futures;
         futures.reserve(batches.size());
         for (size_t bi = 0; bi < batches.size(); ++bi) {
@@ -253,10 +260,16 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
                 }));
         }
         result.steps.reserve(futures.size());
+        std::exception_ptr first_exc;
         for (auto& f : futures) {
-            result.steps.push_back(f.get());
-            ++result.steps_executed;
+            try {
+                result.steps.push_back(f.get());
+                ++result.steps_executed;
+            } catch (...) {
+                if (!first_exc) first_exc = std::current_exception();
+            }
         }
+        if (first_exc) std::rethrow_exception(first_exc);
     } else {
         // Sequential map phase (default).
         for (const auto& batch : batches) {

@@ -765,9 +765,10 @@ void AuthRateLimiter::updateConfig(const AuthRateLimitConfig& config) {
     // A side-effect is that any IP currently being tracked will restart from zero.
     // Callers that need continuity should trigger cleanup() before updateConfig().
     //
-    // Lock hierarchy: stats_mutex_ must always be acquired before stuffing_mutex_
-    // when both are needed simultaneously (only here in updateConfig).  Hot paths
-    // (allowAuthAttempt / recordFailedAuth) acquire them sequentially, never nested.
+    // stats_mutex_ is held here; we then acquire stuffing_mutex_ — the one place
+    // in the codebase where both locks are nested.  The hierarchy (stats_mutex_
+    // before stuffing_mutex_) is documented in include/auth/auth_rate_limiter.h.
+    // Hot paths (allowAuthAttempt / recordFailedAuth) never nest these two locks.
     std::unique_lock<std::mutex> slock(stuffing_mutex_);
     stuffing_state_.clear();
 }
