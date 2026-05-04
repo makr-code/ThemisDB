@@ -29,6 +29,7 @@
 #include <random>
 #include <algorithm>
 #include <fstream>
+#include <filesystem>
 
 // OpenSSL for signing / verification
 #include <openssl/pem.h>
@@ -333,9 +334,9 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
         // Cannot verify without a cert directory; reject the request.
         return false;
     }
-    std::string cert_path = config_.trusted_certs_dir;
-    if (cert_path.back() != '/' && cert_path.back() != '\\') cert_path += '/';
-    cert_path += request.cert_serial + ".pem";
+    // Use std::filesystem::path for safe concatenation (avoids UB from .back() on empty strings).
+    namespace fs = std::filesystem;
+    fs::path cert_path = fs::path(config_.trusted_certs_dir) / (request.cert_serial + ".pem");
 
     std::ifstream cert_file(cert_path);
     if (!cert_file.good()) {
@@ -355,7 +356,7 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
 
     // Step 3: Verify the certificate against the CA (if ca_cert_path is configured).
     if (!config_.ca_cert_path.empty() &&
-        !PKIShardCertificate::verifyCertificate(cert_path, config_.ca_cert_path)) {
+        !PKIShardCertificate::verifyCertificate(cert_path.string(), config_.ca_cert_path)) {
         return false;
     }
 

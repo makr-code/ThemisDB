@@ -308,11 +308,12 @@ protected:
     std::unique_ptr<InputValidator> v_;
 };
 
-TEST_F(JSONSchemaValidationTest, NoSchema_AcceptsAnything) {
-    // No schema file -> stub mode, accept
+TEST_F(JSONSchemaValidationTest, NoSchema_RejectsFailClosed) {
+    // No schema file -> fail-closed: request is rejected with an error message.
     nlohmann::json payload = {{"anything", "goes"}};
     auto err = v_->validateJsonStub(payload, "nonexistent_schema");
-    EXPECT_FALSE(err.has_value());
+    EXPECT_TRUE(err.has_value());
+    EXPECT_NE(err->find("nonexistent_schema"), std::string::npos);
 }
 
 TEST_F(JSONSchemaValidationTest, RequiredField_Present_Accepted) {
