@@ -1,15 +1,15 @@
-> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
-
-<!-- Status: CRITICAL FINDINGS | validated: 2026-04-21 (full source code analysis of wire_protocol_server.cpp) -->
+<!-- Status: S0+S1 fixed 2026-05-04 | validated: 2026-04-21 (full source code analysis of wire_protocol_server.cpp) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Network Module
 
-**Last Audit:** 2026-04-21 | **Status:** 🔴 Critical — 1×S0 unauthenticated TS reads + 4×S1 (auth bypass, integer overflow, missing frame validation)
+**Last Audit:** 2026-04-21 | **Status:** ✅ S0+S1 fixed — 0 S0, 0 S1, see below
 
 > **Note:** Previous audit claimed "Status: ✅ Complete" for `wire_protocol_server.cpp`.
 > Direct source analysis found an unauthenticated opcode handler, an integer overflow in the
 > frame size guard, a development-mode auth bypass, and missing frame magic validation.
+> **2026-05-04:** WPS-1 (missing auth), WPS-2 (timing), WPS-3 (dev-mode bypass), WPS-4 (magic),
+> WPS-5 (overflow) all fixed.
 
 ## Module Overview
 

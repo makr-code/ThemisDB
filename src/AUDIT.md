@@ -100,7 +100,7 @@
 | storage | `src/storage/AUDIT.md` | 0 (R-1 fixed 2026-05-04) | 1 | ✅ S0 resolved |
 | security | `src/security/AUDIT.md` | 0 (A-1/A-2 fixed) | 5 | ⚠️ S1 remain |
 | cache | `src/cache/AUDIT.md` | 0 (D-1 fixed 2026-05-04) | 3 | ⚠️ S1 remain |
-| network | `src/network/AUDIT.md` | 0 (WPS-1 fixed) | 4 | ⚠️ S1 remain |
+| network | `src/network/AUDIT.md` | 0 (WPS-1..5 fixed 2026-05-04) | 0 | ✅ S0+S1 resolved |
 | server | `src/server/AUDIT.md` | 0 (HS-1/HS-2 fixed) | 8 | ⚠️ S1 remain |
 | query | `src/query/AUDIT.md` | 0 (QE-1, PA-1 fixed 2026-05-04) | 6 | ⚠️ S1 remain |
 | aql | `src/aql/AUDIT.md` | 0 (LLM-1/LLM-2 addressed) | 1 | ⚠️ S1 remain |

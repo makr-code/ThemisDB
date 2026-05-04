@@ -50,8 +50,10 @@
 #else
     #include <arpa/inet.h>  // For ntohl/htonl on Unix
 #endif
+#include <openssl/crypto.h>  // For CRYPTO_memcmp (WPS-2: constant-time token comparison)
 #include <map>  // For multi-bucket aggregation
 #include <algorithm>  // For std::min/max
+#include <spdlog/spdlog.h>  // For WPS-3 misconfiguration error log
 
 using json = nlohmann::json;
 
@@ -533,6 +535,19 @@ void WireProtocolServer::Session::asyncReadHeader() {
             if (!ec) {
                 // Parse header to get payload size, then read payload
                 if (header_buffer_.size() >= 12) {
+                    // WPS-4 fix: Validate 4-byte magic field "TMDB" (0x544D4442) before
+                    // dispatching any further reads.  An invalid magic closes the connection
+                    // immediately to prevent unknown clients from reaching the opcode dispatcher.
+                    uint32_t magic_recv = 0;
+                    std::memcpy(&magic_recv, &header_buffer_[0], sizeof(uint32_t));
+                    magic_recv = ntohl(magic_recv);
+                    static constexpr uint32_t kExpectedMagic = 0x544D4442u; // "TMDB"
+                    if (magic_recv != kExpectedMagic) {
+                        sendError(0x0008, "Invalid frame magic");
+                        socket_.close();
+                        return;
+                    }
+
                     // Extract flags (bytes 6-7, big-endian)
                     uint16_t flags = 0;
                     std::memcpy(&flags, &header_buffer_[6], sizeof(uint16_t));
@@ -545,8 +560,10 @@ void WireProtocolServer::Session::asyncReadHeader() {
                     std::memcpy(&payload_size, &header_buffer_[8], sizeof(uint32_t));
                     payload_size = ntohl(payload_size);
                     
-                    // Validate payload size
-                    if (payload_size > server_->config_.max_frame_size_mb * 1024 * 1024) {
+                    // WPS-5 fix: cast to uint64_t before multiplication to prevent integer
+                    // overflow when max_frame_size_mb >= 4096 (wraps to 0 → check disabled).
+                    if (static_cast<uint64_t>(payload_size) >
+                            static_cast<uint64_t>(server_->config_.max_frame_size_mb) * 1024 * 1024) {
                         sendError(0x0001, "Payload size exceeds maximum allowed");
                         asyncReadHeader();  // Continue reading
                         return;
@@ -612,6 +629,19 @@ void WireProtocolServer::Session::asyncReadRemainingHeader() {
         net::buffer(header_buffer_.data() + 4, 8),
         [this, self](const boost::system::error_code& ec, std::size_t /*bytes*/) {
             if (!ec) {
+                // WPS-4 fix: validate the magic bytes that were peeked in asyncDetectProtocol.
+                // bytes [0..3] are already in header_buffer_; check them now that the full
+                // 12-byte header is available.
+                uint32_t magic_recv = 0;
+                std::memcpy(&magic_recv, &header_buffer_[0], sizeof(uint32_t));
+                magic_recv = ntohl(magic_recv);
+                static constexpr uint32_t kExpectedMagic = 0x544D4442u; // "TMDB"
+                if (magic_recv != kExpectedMagic) {
+                    sendError(0x0008, "Invalid frame magic");
+                    socket_.close();
+                    return;
+                }
+
                 // Same logic as asyncReadHeader callback
                 uint16_t flags = 0;
                 std::memcpy(&flags, &header_buffer_[6], sizeof(uint16_t));
@@ -622,7 +652,9 @@ void WireProtocolServer::Session::asyncReadRemainingHeader() {
                 std::memcpy(&payload_size, &header_buffer_[8], sizeof(uint32_t));
                 payload_size = ntohl(payload_size);
 
-                if (payload_size > server_->config_.max_frame_size_mb * 1024 * 1024) {
+                // WPS-5 fix: cast to uint64_t before multiplication (same as asyncReadHeader).
+                if (static_cast<uint64_t>(payload_size) >
+                        static_cast<uint64_t>(server_->config_.max_frame_size_mb) * 1024 * 1024) {
                     sendError(0x0001, "Payload size exceeds maximum allowed");
                     asyncReadHeader();
                     return;
@@ -1066,11 +1098,22 @@ void WireProtocolServer::Session::handleAuthRequest() {
             // Auth disabled – accept all clients.
             accepted = true;
         } else if (!server_->config_.auth_token.empty()) {
-            // Validate against the configured pre-shared token.
-            accepted = (token == server_->config_.auth_token);
+            // WPS-2 fix: use CRYPTO_memcmp for constant-time comparison to prevent
+            // timing side-channel attacks that leak the pre-shared token prefix/length.
+            const auto& stored = server_->config_.auth_token;
+            if (token.size() == stored.size()) {
+                accepted = (CRYPTO_memcmp(token.data(), stored.data(), stored.size()) == 0);
+            }
+            // Different lengths → accepted stays false (no timing leak from size mismatch
+            // because the size comparison itself is O(1) and constant).
         } else {
-            // No token configured: accept any non-empty token (development mode).
-            accepted = !token.empty();
+            // WPS-3 fix: auth_token is empty but require_auth=true — this is a
+            // misconfiguration (missing secret env-var). Reject all connections with a
+            // configuration error rather than silently accepting any non-empty token.
+            spdlog::error("[SEC/WPS-3] require_auth=true but auth_token is empty — "
+                          "all connections rejected. Set the auth_token configuration "
+                          "parameter or disable require_auth for development use.");
+            accepted = false;
         }
 
         if (accepted) {
