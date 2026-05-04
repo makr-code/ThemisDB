@@ -77,6 +77,28 @@ namespace utils {
 namespace geo = ::themis::geo;
 }
 
+// QE-4 fix: hard safety cap on the number of entities returned by any single
+// execute*Entities call.  Prevents unbounded memory allocation when keys.size()
+// is very large (e.g. a full-collection scan on a multi-million row table).
+static constexpr size_t kMaxEntityResultCap = 1'000'000ULL;
+
+// QE-2 fix: helper that gates every public execute* call.
+// Returns an error Result when the caller is denied access to `collection`.
+// When no checker is injected the method is a no-op (permissive).
+static inline std::optional<std::string>
+checkCollectionAccess(
+    const std::function<bool(const std::string&, const std::string&)>& checker,
+    const std::string& caller_id,
+    const std::string& collection)
+{
+    if (!checker) return std::nullopt;  // no checker → allow
+    if (!checker(collection, caller_id)) {
+        return "Access denied: collection '" + collection +
+               "' is not accessible to caller '" + caller_id + "'";
+    }
+    return std::nullopt;  // allowed
+}
+
 QueryEngine::QueryEngine(RocksDBWrapper& db, SecondaryIndexManager& secIdx)
 	: db_(&db), secIdx_(&secIdx) {}
 
@@ -219,6 +241,10 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 	span.setAttribute("query.fulltext", q.fulltextPredicate.has_value());
 	span.setAttribute("query.phrase", q.phrasePredicate.has_value());
 	span.setAttribute("query.fuzzy", q.fuzzyPredicate.has_value());
+	// QE-2: check collection-level access before any I/O.
+	if (auto deny = checkCollectionAccess(collection_access_checker_, collection_access_caller_id_, q.table)) {
+		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_ACCESS_DENIED, *deny);
+	}
 	if (q.table.empty()) {
 		return Err<std::vector<std::string>>(
 			errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
@@ -586,6 +612,10 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndKeysWithScores");
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.fulltext", q.fulltextPredicate.has_value());
+	// QE-2: collection-access gate.
+	if (auto deny = checkCollectionAccess(collection_access_checker_, collection_access_caller_id_, q.table)) {
+		return Err<KeysWithScores>(errors::ErrorCode::ERR_QUERY_ACCESS_DENIED, *deny);
+	}
 	
 	// If no FULLTEXT predicate, delegate to standard method (no scores)
 	if (!q.fulltextPredicate.has_value()) {
@@ -695,6 +725,10 @@ Result<std::vector<BaseEntity>>
 QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndEntities");
 	span.setAttribute("query.table", q.table);
+	// QE-2: collection-access gate.
+	if (auto deny = checkCollectionAccess(collection_access_checker_, collection_access_caller_id_, q.table)) {
+		return Err<std::vector<BaseEntity>>(errors::ErrorCode::ERR_QUERY_ACCESS_DENIED, *deny);
+	}
 
 	// ── Primary-key fast path ──────────────────────────────────────────────
 	// Avoid the double storage round-trip (executeAndKeys checks existence,
@@ -719,6 +753,14 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 	auto keysResult = executeAndKeys(q);
 	if (!keysResult) return Err<std::vector<BaseEntity>>(keysResult.error().code(), keysResult.error().context());
 	auto keys = std::move(keysResult.value());
+
+	// QE-4: guard against unbounded result sets.
+	if (keys.size() > kMaxEntityResultCap) {
+		return Err<std::vector<BaseEntity>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			fmt::format("executeAndEntities: result set size {} exceeds maximum cap {}",
+			            keys.size(), kMaxEntityResultCap));
+	}
 
 	// Paralleles Entity-Loading für große Ergebnismengen (Batch-Verarbeitung)
 	constexpr size_t PARALLEL_THRESHOLD = 100;
@@ -812,6 +854,10 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeOrKeys");
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.disjuncts", static_cast<int64_t>(q.disjuncts.size()));
+	// QE-2: collection-access gate.
+	if (auto deny = checkCollectionAccess(collection_access_checker_, collection_access_caller_id_, q.table)) {
+		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_ACCESS_DENIED, *deny);
+	}
 	if (q.table.empty()) {
 		return Err<std::vector<std::string>>(
 			ErrorCode::ERR_QUERY_INVALID_INPUT,
@@ -827,19 +873,24 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 
 	// Execute each disjunct (AND-block) and collect results
 	std::vector<std::vector<std::string>> all_lists(q.disjuncts.size());
+	// QE-1 fix: protect errors vector from concurrent TBB writes.
+	std::mutex errors_mutex;
 	std::vector<std::string> errors;
 	tbb::task_group tg;
 
 	for (size_t i = 0; i < q.disjuncts.size(); ++i) {
 		const auto& disjunct = q.disjuncts[i];
-		tg.run([this, &disjunct, &all_lists, i, &errors]() {
+		tg.run([this, &disjunct, &all_lists, i, &errors, &errors_mutex]() {
 			auto child = Tracer::startSpan("or.disjunct.execute");
 			child.setAttribute("disjunct.eq_count", static_cast<int64_t>(disjunct.predicates.size()));
 			child.setAttribute("disjunct.range_count", static_cast<int64_t>(disjunct.rangePredicates.size()));
 			auto result = executeAndKeys(disjunct);
 			if (!result) {
 				THEMIS_ERROR("Parallel OR disjunct error: {}", result.error().context());
-				errors.push_back(result.error().context());
+				{
+					std::lock_guard<std::mutex> lk(errors_mutex);
+					errors.push_back(result.error().context());
+				}
 				child.setStatus(false, result.error().context());
 				return;
 			}
@@ -872,6 +923,10 @@ QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize)
 	auto span = Tracer::startSpan("QueryEngine.executeOrKeysWithFallback");
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.disjuncts", static_cast<int64_t>(q.disjuncts.size()));
+	// QE-2: collection-access gate.
+	if (auto deny = checkCollectionAccess(collection_access_checker_, collection_access_caller_id_, q.table)) {
+		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_ACCESS_DENIED, *deny);
+	}
 	if (q.table.empty()) {
 		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, "executeOrKeysWithFallback: table darf nicht leer sein");
 	}
@@ -879,19 +934,26 @@ QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize)
 		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, "executeOrKeysWithFallback: keine Disjunkte");
 	}
 
+	// QE-3 fix: collect disjunct errors and propagate instead of silently returning empty.
 	std::vector<std::vector<std::string>> all_lists(q.disjuncts.size());
+	std::mutex fb_errors_mutex;
+	std::vector<std::string> fb_errors;
 	tbb::task_group tg;
 	for (size_t i = 0; i < q.disjuncts.size(); ++i) {
 		const auto& disjunct = q.disjuncts[i];
-		tg.run([this, &disjunct, &all_lists, i, optimize]() {
+		tg.run([this, &disjunct, &all_lists, i, optimize, &fb_errors, &fb_errors_mutex]() {
 			auto child = Tracer::startSpan("or.disjunct.execute_fallback");
 			child.setAttribute("disjunct.eq_count", static_cast<int64_t>(disjunct.predicates.size()));
 			child.setAttribute("disjunct.range_count", static_cast<int64_t>(disjunct.rangePredicates.size()));
 			auto result = executeAndKeysWithFallback(disjunct, optimize);
 			if (!result) {
 				THEMIS_ERROR("Parallel OR (fallback) disjunct error: {}", result.error().message());
+				{
+					std::lock_guard<std::mutex> lk(fb_errors_mutex);
+					fb_errors.push_back(result.error().message());
+				}
 				child.setStatus(false, result.error().message());
-				return; // Dieser Disjunkt liefert keine Ergebnisse
+				return;
 			}
 			auto keys = std::move(*result);
 			tbb::parallel_sort(keys.begin(), keys.end());
@@ -901,6 +963,12 @@ QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize)
 		});
 	}
 	tg.wait();
+
+	if (!fb_errors.empty()) {
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			"executeOrKeysWithFallback: " + fb_errors.front());
+	}
 
 	auto keys = unionSortedLists_(std::move(all_lists));
 	span.setAttribute("query.result_count", static_cast<int64_t>(keys.size()));
@@ -912,11 +980,24 @@ Result<std::vector<BaseEntity>>
 QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optimize) const {
 	auto span = Tracer::startSpan("QueryEngine.executeOrEntitiesWithFallback");
 	span.setAttribute("query.table", q.table);
+	// QE-2: collection-access gate (checked here before delegating to executeOrKeysWithFallback
+	// so that the error code is consistent regardless of which path is taken).
+	if (auto deny = checkCollectionAccess(collection_access_checker_, collection_access_caller_id_, q.table)) {
+		return Err<std::vector<BaseEntity>>(errors::ErrorCode::ERR_QUERY_ACCESS_DENIED, *deny);
+	}
 	auto result = executeOrKeysWithFallback(q, optimize);
 	if (!result) {
 		return Err<std::vector<BaseEntity>>(result.error().code(), result.error().message());
 	}
 	auto keys = std::move(*result);
+
+	// QE-4: guard against unbounded result sets.
+	if (keys.size() > kMaxEntityResultCap) {
+		return Err<std::vector<BaseEntity>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			fmt::format("executeOrEntitiesWithFallback: result set size {} exceeds maximum cap {}",
+			            keys.size(), kMaxEntityResultCap));
+	}
 
 	// Parallel entity loading (analog zu executeOrEntities)
 	constexpr size_t PARALLEL_THRESHOLD = 100;
@@ -966,11 +1047,23 @@ Result<std::vector<BaseEntity>>
 QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeOrEntities");
 	span.setAttribute("query.table", q.table);
+	// QE-2: collection-access gate.
+	if (auto deny = checkCollectionAccess(collection_access_checker_, collection_access_caller_id_, q.table)) {
+		return Err<std::vector<BaseEntity>>(errors::ErrorCode::ERR_QUERY_ACCESS_DENIED, *deny);
+	}
 	auto result = executeOrKeys(q);
 	if (!result) {
 		return Err<std::vector<BaseEntity>>(result.error().code(), result.error().context());
 	}
 	auto keys = *result;
+
+	// QE-4: guard against unbounded result sets.
+	if (keys.size() > kMaxEntityResultCap) {
+		return Err<std::vector<BaseEntity>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			fmt::format("executeOrEntities: result set size {} exceeds maximum cap {}",
+			            keys.size(), kMaxEntityResultCap));
+	}
 
 	// Parallel entity loading (same logic as executeAndEntities)
 	constexpr size_t PARALLEL_THRESHOLD = 100;
@@ -1027,6 +1120,10 @@ QueryEngine::executeAndKeysSequential(const std::string& table,
 	auto span = Tracer::startSpan("QueryEngine.executeAndKeysSequential");
 	span.setAttribute("query.table", table);
 	span.setAttribute("query.eq_count", static_cast<int64_t>(orderedPredicates.size()));
+	// QE-2: collection-access gate.
+	if (auto deny = checkCollectionAccess(collection_access_checker_, collection_access_caller_id_, table)) {
+		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_ACCESS_DENIED, *deny);
+	}
 	if (table.empty()) {
 		return Err<std::vector<std::string>>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, 
 			"executeAndKeysSequential: table is empty");
@@ -1526,10 +1623,12 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		if (!pRes) return Err<nlohmann::json>(pRes.error().code(), pRes.error().message());
 		auto mRes = extractMBR(g2);
 		if (!mRes) {
-			// Fail-open: return true to avoid rejecting docs on parse errors
-			// This preserves backward compatibility for edge cases where geometry parsing is ambiguous
-			spdlog::debug("ST_Within: Failed to extract MBR (backward compat: failing open, returning true)");
-			return Ok(nlohmann::json(true));
+			// QE-5 fix: fail-closed — reject the document when the MBR cannot be
+			// extracted from the geometry argument.  Failing open here would allow
+			// all records to bypass a geo-fence filter when the polygon is malformed.
+			return Err<nlohmann::json>(
+				ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+				"ST_Within: failed to extract MBR from geometry argument (fail-closed)");
 		}
 		auto p = *pRes;
 		auto m = *mRes;

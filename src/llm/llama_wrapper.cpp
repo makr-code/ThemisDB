@@ -776,6 +776,19 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             if (!reload_ok) {
                 spdlog::error("Lazy reload failed for model {}", reload_model_path);
             }
+
+            // F2-4: After re-acquiring the lock, verify that the model identity
+            // has not been changed by a concurrent hot-swap between the unlock
+            // and the lock.  If the identity changed, infer under whatever model
+            // is now active (READY state re-checked below) rather than silently
+            // proceeding with a stale identity.
+            if (!reload_model_id.empty() &&
+                !current_model_id_.empty() &&
+                current_model_id_ != reload_model_id) {
+                spdlog::warn("F2-4: model swapped during reload (expected '{}', now '{}'); "
+                             "proceeding with active model",
+                             reload_model_id, current_model_id_);
+            }
         }
 
         if (current_state_ != WrapperState::READY) {
@@ -844,30 +857,37 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     }
 #endif
     try {
+        // F2-2: Check response cache BEFORE calling generateRegular().
+        // The cache check was previously placed after this return statement,
+        // making it dead code — the cache was permanently bypassed and grew
+        // without bound.
+        // F2-3: Include tenant_id in the cache key to prevent cross-tenant
+        // cache sharing (two tenants with identical prompts must not share
+        // inference results).
+        if (response_cache_) {
+            const std::string cache_key = request.tenant_id.empty()
+                ? request.prompt
+                : request.tenant_id + "\x1F" + request.prompt;  // US (unit separator)
+            auto cached_response = response_cache_->get(cache_key);
+            if (cached_response) {
+                spdlog::debug("Cache hit for prompt (tenant='{}'): {}",
+                              request.tenant_id, request.prompt.substr(0, 50));
+                cached_response->request_id = request.request_id;
+                if (metrics_collector_) {
+                    metrics_collector_->recordInferenceRequest(current_model_id_);
+                    metrics_collector_->recordInferenceSuccess(current_model_id_, 1.0);
+                    metrics_collector_->recordTokensGenerated(current_model_id_,
+                                                              cached_response->tokens_generated);
+                }
+                return *cached_response;
+            }
+        }
         return generateRegular(request);
     } catch (const std::exception& e) {
         spdlog::error("Regular inference error: {}", e.what());
         throw;
     }
-    // Check response cache first (if enabled)
-    if (response_cache_) {
-        auto cached_response = response_cache_->get(request.prompt);
-        if (cached_response) {
-            spdlog::debug("Cache hit for prompt: {}", request.prompt.substr(0, 50));
-            
-            // Update request_id to match current request
-            cached_response->request_id = request.request_id;
-            
-            // Record cache hit in inference metrics too
-            if (metrics_collector_) {
-                metrics_collector_->recordInferenceRequest(current_model_id_);
-                metrics_collector_->recordInferenceSuccess(current_model_id_, 1.0); // Cached responses are ~1ms
-                metrics_collector_->recordTokensGenerated(current_model_id_, cached_response->tokens_generated);
-            }
-            
-            return *cached_response;
-        }
-    }
+    // (dead code removed — was the old cache check block)
     
     // Record inference request
     if (metrics_collector_) {
@@ -1140,8 +1160,12 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         }
         
         // Cache the successful response
+        // F2-3: Use tenant-scoped key (consistent with the get() call in generate()).
         if (response_cache_) {
-            response_cache_->put(request.prompt, response);
+            const std::string cache_key = request.tenant_id.empty()
+                ? request.prompt
+                : request.tenant_id + "\x1F" + request.prompt;
+            response_cache_->put(cache_key, response);
         }
 
         // Tool call parsing: if tools were specified, parse the model output

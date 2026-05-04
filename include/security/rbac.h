@@ -117,6 +117,14 @@ private:
     RBACConfig config_;
     mutable std::mutex mutex_;
     std::unordered_map<std::string, Role> roles_;
+
+    // RB-1: Grace-period state for license-server outages.
+    // When a license check passes, we record the timestamp.  If a subsequent
+    // check fails, we allow access for up to kLicenseGracePeriodMs before
+    // finally denying.  This prevents a transient license-server outage from
+    // locking out ALL users system-wide.
+    static constexpr int64_t kLicenseGracePeriodMs = 5 * 60 * 1000;  // 5 minutes
+    mutable std::atomic<int64_t> license_last_ok_ms_{0};  // epoch ms of last passing check
     
     /// Helper: expand role with inheritance
     std::vector<Permission> expandRolePermissions(const std::string& role_name, std::unordered_set<std::string>& visited) const;

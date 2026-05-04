@@ -27,6 +27,7 @@
 #include "server/rate_limiter.h"
 #include "utils/audit_logger.h"
 #include <string>
+#include <atomic>
 #include <unordered_map>
 #include <unordered_set>
 #include <mutex>
@@ -462,8 +463,9 @@ private:
 
     // Track credential-stuffing for a given (ip, user_id) pair.
     // Returns true if the credential-stuffing alert threshold was just crossed.
-    // Must be called with stats_mutex_ held.
-    bool trackCredentialStuffing(const std::string& ip, const std::string& user_id);
+    // Must be called with stuffing_mutex_ held.
+    bool trackCredentialStuffing(const std::string& ip, const std::string& user_id,
+                                  const AuthRateLimitConfig& cfg);
 
     // ── Per-user persistent breach-count tracking ────────────────────────
     // Build the Redis/in-memory key for a user on the current UTC day.
@@ -499,9 +501,26 @@ private:
     bool connectCsRedis();
 #endif
 
-    // Statistics
-    mutable Statistics stats_;
+    // Statistics — individual counters are atomic so they can be updated without
+    // holding stats_mutex_, which is reserved for config_ and backend_.
+    // getStatistics() snapshots all atomics into a Statistics struct.
+    mutable std::atomic<size_t> stat_total_auth_attempts_{0};
+    mutable std::atomic<size_t> stat_allowed_attempts_{0};
+    mutable std::atomic<size_t> stat_rate_limited_attempts_{0};
+    mutable std::atomic<size_t> stat_lockout_blocked_attempts_{0};
+    mutable std::atomic<size_t> stat_successful_auths_{0};
+    mutable std::atomic<size_t> stat_failed_auths_{0};
+    mutable std::atomic<size_t> stat_currently_locked_accounts_{0};
+
+    // Protects config_ and backend_.
+    // Lock hierarchy: stats_mutex_ must be acquired BEFORE stuffing_mutex_ when
+    // both are needed simultaneously.  Hot paths acquire them sequentially (never
+    // nested) to avoid holding stats_mutex_ during I/O.
     mutable std::shared_mutex stats_mutex_;
+
+    // Protects stuffing_state_ only (separate from stats_mutex_ so rate-limiter
+    // calls and backend I/O are never serialised against stuffing detection).
+    mutable std::mutex stuffing_mutex_;
 };
 
 } // namespace auth

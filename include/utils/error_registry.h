@@ -133,6 +133,7 @@ enum class ErrorCode {
     ERR_CACHE_FULL = 6111,
     ERR_QUERY_INVALID_INPUT = 6150,
     ERR_QUERY_INSUFFICIENT_DATA = 6151,
+    ERR_QUERY_ACCESS_DENIED = 6152,  ///< Caller not permitted to access the requested collection (QE-2)
     
     // API Errors (6200-6299)
     ERR_API_INVALID_REQUEST = 6200,

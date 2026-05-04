@@ -260,21 +260,28 @@ void SseConnectionManager::backgroundPollTask() {
     }
     
     try {
-        // Poll changefeed for new events
-        std::unique_lock<std::shared_mutex> lock(connections_mutex_);
-        
-        for (auto& [id, conn] : connections_) {
-            if (!conn->active) {
-                continue;
+        // Snapshot the active connection list under a brief read lock so that
+        // addConnection() / removeConnection() are not blocked for the full
+        // changefeed poll duration (which may involve I/O and JSON serialisation).
+        std::vector<std::pair<uint64_t, std::shared_ptr<Connection>>> active_conns;
+        {
+            std::shared_lock<std::shared_mutex> lock(connections_mutex_);
+            active_conns.reserve(connections_.size());
+            for (auto& [id, conn] : connections_) {
+                if (conn->active) {
+                    active_conns.emplace_back(id, conn);
+                }
             }
-            
+        }
+
+        for (auto& [id, conn] : active_conns) {
             // If buffer is full, apply backpressure policy
             if (conn->buffered_events.size() >= config_.max_buffered_events && !config_.drop_oldest_on_overflow) {
                 THEMIS_WARN("SSE connection {} buffer full, skipping poll", id);
                 continue;
             }
             
-            // Query new events since last sequence
+            // Query new events since last sequence — without holding connections_mutex_.
             Changefeed::ListOptions options;
             options.from_sequence = conn->current_sequence;
             options.limit = 100;
@@ -289,14 +296,22 @@ void SseConnectionManager::backgroundPollTask() {
             
             auto events = changefeed_->listEvents(options);
             
-            // Format events as SSE data lines and buffer (with id)
+            if (events.empty()) continue;
+
+            // Re-acquire write lock briefly to append events to the connection buffer.
+            std::unique_lock<std::shared_mutex> lock(connections_mutex_);
+            // Re-check active flag: the connection may have been removed while we polled.
+            auto it = connections_.find(id);
+            if (it == connections_.end() || !it->second->active) continue;
+            auto& c = *it->second;
+
             for (const auto& event : events) {
                 // Ensure capacity: drop oldest if configured
-                while (conn->buffered_events.size() >= config_.max_buffered_events) {
+                while (c.buffered_events.size() >= config_.max_buffered_events) {
                     if (config_.drop_oldest_on_overflow) {
-                        if (!conn->buffered_events.empty()) {
-                            conn->buffered_events.erase(conn->buffered_events.begin());
-                            conn->dropped_events++;
+                        if (!c.buffered_events.empty()) {
+                            c.buffered_events.erase(c.buffered_events.begin());
+                            c.dropped_events++;
                             total_dropped_events_++;
                         } else {
                             break;
@@ -308,8 +323,8 @@ void SseConnectionManager::backgroundPollTask() {
 
                 std::string sse_line = "id: " + std::to_string(event.sequence) + "\n";
                 sse_line += "data: " + event.toJson().dump() + "\n\n";
-                conn->buffered_events.push_back(std::move(sse_line));
-                conn->current_sequence = std::max(conn->current_sequence, event.sequence);
+                c.buffered_events.push_back(std::move(sse_line));
+                c.current_sequence = std::max(c.current_sequence, event.sequence);
             }
         }
         

@@ -998,43 +998,68 @@ bool RocksDBWrapper::putBlob(std::string_view key, const std::vector<uint8_t>& d
         }
     }
 
-    // ── Phase 2: Atomic WriteBatch commit ─────────────────────────────────────
-    // All chunk keys and the manifest are written in a single WriteBatch so
-    // that a reader never sees a partially written blob.  WriteBatch bypasses
-    // the per-write transaction overhead (no lock acquisition / MVCC bookkeeping)
-    // which is the primary source of the throughput improvement.
-    rocksdb::WriteBatch batch;
-
-    // Write chunk keys.
-    for (uint32_t i = 0; i < num_chunks; ++i) {
-        const std::string ck = blobChunkKey(key, i);
-        batch.Put(
-            rocksdb::Slice(ck),
-            rocksdb::Slice(
-                reinterpret_cast<const char*>(encoded_chunks[i].data()),
-                encoded_chunks[i].size()));
-    }
-
-    // Write manifest (20 bytes, little-endian).
-    uint8_t manifest_buf[20];
+    // ── Phase 2: Atomic Transaction commit ────────────────────────────────────
+    // R-2: Use an explicit rocksdb::Transaction so that MVCC prevents any
+    // concurrent snapshot-isolated reader from observing chunk keys without the
+    // corresponding manifest entry.  A WriteBatch applied via db_->Write() gets
+    // a single LSM sequence number but is NOT registered with the
+    // TransactionDB's conflict-detection layer; a GetForUpdate() in a concurrent
+    // transaction can still read a chunk key after our batch hits the LSN but
+    // before the caller's snapshot advances, giving it an apparently-committed
+    // partial view.  Wrapping in a Transaction with the default MVCC write
+    // policy closes this window.
     {
-        uint32_t n  = num_chunks;
-        uint64_t cs = static_cast<uint64_t>(chunk_size);
-        uint64_t ts = static_cast<uint64_t>(total_size);
-        std::memcpy(manifest_buf,      &n,  4);
-        std::memcpy(manifest_buf + 4,  &cs, 8);
-        std::memcpy(manifest_buf + 12, &ts, 8);
-    }
-    const std::string mk = blobManifestKey(key);
-    batch.Put(rocksdb::Slice(mk),
-              rocksdb::Slice(reinterpret_cast<const char*>(manifest_buf), 20));
+        std::unique_ptr<rocksdb::Transaction> txn(
+            db_->BeginTransaction(*write_options_));
+        if (!txn) {
+            THEMIS_ERROR("putBlob: BeginTransaction failed for key '{}'",
+                         std::string(key));
+            return false;
+        }
 
-    const bool ok = commitBatch(&batch);
-    if (!ok) {
-        THEMIS_ERROR("putBlob: WriteBatch commit failed for key '{}'",
-                     std::string(key));
+        // Write chunk keys.
+        for (uint32_t i = 0; i < num_chunks; ++i) {
+            const std::string ck = blobChunkKey(key, i);
+            rocksdb::Status s = txn->Put(
+                rocksdb::Slice(ck),
+                rocksdb::Slice(
+                    reinterpret_cast<const char*>(encoded_chunks[i].data()),
+                    encoded_chunks[i].size()));
+            if (!s.ok()) {
+                THEMIS_ERROR("putBlob: Transaction Put chunk {} failed: {}", i, s.ToString());
+                txn->Rollback();
+                return false;
+            }
+        }
+
+        // Write manifest (20 bytes, little-endian).
+        uint8_t manifest_buf[20];
+        {
+            uint32_t n  = num_chunks;
+            uint64_t cs = static_cast<uint64_t>(chunk_size);
+            uint64_t ts = static_cast<uint64_t>(total_size);
+            std::memcpy(manifest_buf,      &n,  4);
+            std::memcpy(manifest_buf + 4,  &cs, 8);
+            std::memcpy(manifest_buf + 12, &ts, 8);
+        }
+        const std::string mk = blobManifestKey(key);
+        rocksdb::Status ms = txn->Put(
+            rocksdb::Slice(mk),
+            rocksdb::Slice(reinterpret_cast<const char*>(manifest_buf), 20));
+        if (!ms.ok()) {
+            THEMIS_ERROR("putBlob: Transaction Put manifest failed: {}", ms.ToString());
+            txn->Rollback();
+            return false;
+        }
+
+        rocksdb::Status commit_status = txn->Commit();
+        if (!commit_status.ok()) {
+            THEMIS_ERROR("putBlob: Transaction Commit failed for key '{}': {}",
+                         std::string(key), commit_status.ToString());
+            return false;
+        }
     }
-    return ok;
+    return true;
 }
 
 std::optional<std::vector<uint8_t>> RocksDBWrapper::getBlob(std::string_view key) {

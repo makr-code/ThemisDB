@@ -69,19 +69,25 @@ std::string PromptTemplate::format(
     }
     
     // Build complete prompt
-    std::ostringstream oss;
+    // F-018: replace ostringstream with reserve+append to avoid heap overhead.
+    std::string prompt;
+    prompt.reserve(system_prompt.size() + few_shot_examples.size() +
+                   result.size() + output_format_instruction.size() + 8);
     if (!system_prompt.empty()) {
-        oss << system_prompt << "\n\n";
+        prompt += system_prompt;
+        prompt += "\n\n";
     }
     if (!few_shot_examples.empty()) {
-        oss << few_shot_examples << "\n\n";
+        prompt += few_shot_examples;
+        prompt += "\n\n";
     }
-    oss << result;
+    prompt += result;
     if (!output_format_instruction.empty()) {
-        oss << "\n\n" << output_format_instruction;
+        prompt += "\n\n";
+        prompt += output_format_instruction;
     }
-    
-    return oss.str();
+
+    return prompt;
 }
 
 // ============================================================================

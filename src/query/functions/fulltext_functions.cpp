@@ -27,7 +27,11 @@
  * @brief Implementation of fulltext search functions for ThemisDB AQL
  * 
  * This file provides implementations for fulltext search capabilities.
- * Most functions are placeholders that need to be wired to the SecondaryIndexManager.
+ * FULLTEXT(), PHRASE(), and FUZZY() delegate to SecondaryIndexManager when one
+ * is present in the FunctionContext; they return a diagnostic note object when
+ * no index manager is wired.  String-utility functions (HIGHLIGHT,
+ * FULLTEXT_SNIPPET, TOKENS, SOUNDEX, METAPHONE, NGRAM_MATCH) work purely
+ * in-memory and do not require an index.
  */
 
 #include "query/functions/function_registry.h"

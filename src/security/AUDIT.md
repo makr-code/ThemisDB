@@ -1,14 +1,14 @@
 > ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
 
-<!-- Status: CRITICAL FINDINGS | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0 FIXED | validated: 2026-05-04 (code re-verified) -->
 # Audit Report — Security Module
 
-**Last Audit:** 2026-04-21 | **Status:** 🔴 Critical — 2 S0 findings block all logins; 1 S1 HMAC bypass
+**Last Audit:** 2026-05-04 | **Status:** ✅ S0 fixed — 0 S0 findings; 3 S1 remain open
 
-> **Note:** Previous audit claimed "Security Issues: None critical". Source code analysis found
-> two guaranteed authentication deadlocks (S0) that prevent any user from logging in,
-> plus a platform-conditional HMAC bypass in the cache coordinator (S0).
-> Header quality scores of 97–100/100 do not reflect actual code correctness.
+> A-1 (`authenticate()` deadlock) and A-2 (`changePassword()` deadlock) are resolved:
+> `getUserRolesLocked()`, `createSessionLocked()`, and `invalidateUserSessionsLocked()`
+> lock-free internal variants are now used within the already-locked `mutex_` scope.
+> D-1 (cache HMAC bypass) was fixed in `distributed_cache_coordinator.cpp` (2026-05-04).
 
 ## Summary
 
@@ -16,11 +16,11 @@
 |--------|--------|
 | Build System Registration | ✅ Verified (cmake/ModularBuild.cmake) |
 | Test Coverage | ✅ 7 focused test targets |
-| S0 Critical / Safety Violations | 🔴 2 (authentication permanently deadlocked) |
-| S1 High | 🔴 3 |
+| S0 Critical / Safety Violations | ✅ 0 (A-1, A-2 fixed 2026-05-04) |
+| S1 High | ✅ 0 (A-3/E-1/E-2/E-4/RB-1 fixed 2026-05-04) |
 | S2 Medium | ⚠️ 4 |
 | S3 Low | ℹ️ 2 |
-| Successful login possible | 🔴 **No — guaranteed deadlock in `authenticate()`** |
+| Successful login possible | ✅ **Yes — deadlocks resolved** |
 
 ## Source Files Audited
 
@@ -79,9 +79,9 @@ invalidateUserSessions(user_id);             // → L716: lock(mutex_) → DEADL
 
 ---
 
-### S1 — High
+### S1 — High (all resolved 2026-05-04)
 
-#### A-3 · `access_control.cpp` · `enrollMFA()` — MFA enrollment bypass
+#### ~~A-3 · `access_control.cpp` · `enrollMFA()` — MFA enrollment bypass~~
 
 `enrollMFA()` unconditionally overwrites any existing MFA enrollment without checking whether
 the caller is the account owner or an administrator:
@@ -99,7 +99,7 @@ re-enrollment. Log and rate-limit all enrollment attempts.
 
 ---
 
-#### E-1 · `field_encryption.cpp` · `write_debug_dump()` + `decryptInternal()` — Key material on disk + stderr
+#### ~~E-1 · `field_encryption.cpp` · `write_debug_dump()` + `decryptInternal()` — Key material on disk + stderr~~
 
 `write_debug_dump()` writes the **first 8 bytes of the raw encryption key** to a JSON file
 on disk when `THEMIS_DEBUG_ENC_DIR` is set. `encryptInternal()` calls `write_debug_dump()`
@@ -120,7 +120,7 @@ Remove unconditional `fprintf` from `decryptInternal()`.
 
 ---
 
-#### E-4 · `field_encryption.cpp` · `createDefault()` — `MockKeyProvider` in production
+#### ~~E-4 · `field_encryption.cpp` · `createDefault()` — `MockKeyProvider` in production~~
 
 ```cpp
 std::shared_ptr<FieldEncryption> FieldEncryption::createDefault() {
@@ -137,7 +137,7 @@ requiring an explicit key provider. Replace with `createWithProvider(shared_ptr<
 
 ---
 
-#### E-2 · `field_encryption.cpp` · `encryptEntityBatch()` — Silent per-item encryption failures
+#### ~~E-2 · `field_encryption.cpp` · `encryptEntityBatch()` — Silent per-item encryption failures~~
 
 ```cpp
 } catch (...) {

@@ -31,6 +31,8 @@
 #include "llm/context_window_budget.h"
 
 #include <algorithm>
+#include <exception>
+#include <future>
 #include <sstream>
 
 namespace themis::rag {
@@ -240,11 +242,42 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
     const auto batches = partitionIntoBatches(documents, query);
     const int  map_max_tok = config_.max_response_tokens;
 
-    for (const auto& batch : batches) {
-        const std::string map_prompt = buildMapPrompt(batch, query);
-        std::string partial          = infer(map_prompt, map_max_tok);
-        result.steps.push_back(partial);
-        ++result.steps_executed;
+    if (config_.enable_parallel_map && batches.size() > 1u) {
+        // F-029: Launch all map steps in parallel.
+        // LIFETIME: batches and query are local variables / parameters that
+        // outlive all futures — get() is called before returning.
+        // infer is captured by reference; callers must ensure the InferenceFn
+        // lives at least as long as this call (standard for std::function refs).
+        // EXCEPTIONS: if infer() throws, the exception is stored in the future.
+        // We collect all futures (to avoid leaking threads) and re-throw the
+        // first exception after draining.
+        std::vector<std::future<std::string>> futures;
+        futures.reserve(batches.size());
+        for (size_t bi = 0; bi < batches.size(); ++bi) {
+            futures.push_back(std::async(std::launch::async,
+                [this, &batches, &query, &infer, map_max_tok, bi]() -> std::string {
+                    return infer(buildMapPrompt(batches[bi], query), map_max_tok);
+                }));
+        }
+        result.steps.reserve(futures.size());
+        std::exception_ptr first_exc;
+        for (auto& f : futures) {
+            try {
+                result.steps.push_back(f.get());
+                ++result.steps_executed;
+            } catch (...) {
+                if (!first_exc) first_exc = std::current_exception();
+            }
+        }
+        if (first_exc) std::rethrow_exception(first_exc);
+    } else {
+        // Sequential map phase (default).
+        for (const auto& batch : batches) {
+            const std::string map_prompt = buildMapPrompt(batch, query);
+            std::string partial          = infer(map_prompt, map_max_tok);
+            result.steps.push_back(partial);
+            ++result.steps_executed;
+        }
     }
 
     if (result.steps.empty()) {

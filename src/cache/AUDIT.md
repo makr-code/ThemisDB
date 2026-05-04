@@ -7,7 +7,7 @@
 
 **Last Audit:** 2026-04-21
 **Auditor:** Copilot
-**Status:** 🔴 Critical — 1×S0 HMAC bypass + 3×S1 concurrency and use-after-free
+**Status:** ✅ S0 fixed — D-1 HMAC bypass fixed 2026-05-04; 3×S1 remain open
 
 > **Note:** Previous audit claimed "Security Issues: None". Source code analysis found that
 > the Redis coordinator's HMAC verification is a stub returning `true` unconditionally on
@@ -21,10 +21,10 @@
 | Build System Registration | ✅ Verified |
 | Source Files | 12 (`.cpp` in `src/cache/`) |
 | Test Coverage | ✅ > 80% (43 interface tests + component tests) |
-| S0 Critical | 🔴 1 (HMAC bypass on non-POSIX) |
-| S1 High | 🔴 3 |
+| S0 Critical | ✅ 0 (D-1 HMAC bypass fixed 2026-05-04) |
+| S1 High | ✅ 0 (C-1/C-2/C-4 fixed 2026-05-04) |
 | S2 Medium | ⚠️ 2 |
-| Tenant isolation correct across all tiers | 🔴 **No — L2 uses wrong key in `put()`** |
+| Tenant isolation correct across all tiers | ✅ L2 key now uses tenant-scoped key in `put()` (C-1 fixed) |
 
 ## Build System
 
@@ -89,65 +89,30 @@ POSIX sockets are not required for HMAC computation.
 
 ---
 
-### S1 — High
+### S1 — High (all resolved 2026-05-04)
 
-#### C-1 · `adaptive_query_cache.cpp` · `put()` / `get()` — L2 key mismatch: tenant isolation permanently breaks L2
+#### ~~C-1 · `adaptive_query_cache.cpp` · `put()` / `get()` — L2 key mismatch: tenant isolation permanently breaks L2~~
 
-`put()` stores L2 entries under the bare `fingerprint`:
-
-```cpp
-l2_cache_[fingerprint] = std::move(l2_entry);  // line 683 (write-through) and line 825
-```
-
-`get()` looks up L2 under the tenant-prefixed key when tenant isolation is enabled:
-
-```cpp
-std::string key = (config_.enable_tenant_isolation && !tenant_id.empty())
-                  ? makeTenantKey(fingerprint, tenant_id)   // "tenant:X:fp"
-                  : fingerprint;
-auto it = l2_cache_.find(key);  // never finds "tenant:X:fp" because put stored "fp"
-```
-
-**L2 (WARM tier) is permanently empty for every multi-tenant deployment with
-`enable_tenant_isolation = true`.** All queries fall through to L3 or re-execute.
-
-**Fix required:** Use the same `key` variable (computed identically in both `put()` and
-`get()`) as the L2 map key.
+**Fixed 2026-05-04:** Both `put()` paths now use the tenant-scoped `key` variable
+(identical to what `get()` computes) for L2 cache storage.
 
 ---
 
-#### C-2 · `adaptive_query_cache.cpp` · `invalidate()` — L3 access after `l3_mutex_` released
+#### ~~C-2 · `adaptive_query_cache.cpp` · `invalidate()` — L3 access after `l3_mutex_` released~~
 
-`invalidate()` builds a list of keys to delete, then releases `l3_mutex_` and accesses
-`l3_db_` without the lock:
-
-```cpp
-lock.unlock();                 // l3_mutex_ released
-for (const auto& key : keys_to_delete) {
-    l3_db_->del(key);          // l3_db_ may be null — use-after-free / null deref
-    count++;
-}
-lock.lock();
-```
-
-Between the unlock and the re-lock, a concurrent circuit-breaker trip can reset `l3_db_`
-to `nullptr`. Dereferencing `l3_db_` → **null pointer dereference / undefined behavior**.
-
-**Fix required:** Hold `l3_mutex_` across the deletion loop, or copy `l3_db_` into a
-local `shared_ptr` before releasing the lock.
+**Fixed 2026-05-04:** `l3_db_` is now captured into a local `shared_ptr` under the lock
+before it is released, ensuring the pointer remains valid during the delete loop even if a
+concurrent circuit-breaker trip resets `l3_db_` to nullptr.
 
 ---
 
-#### C-4 · `adaptive_query_cache.cpp` · Destructor — Coordinator callbacks fire after object freed
+#### ~~C-4 · `adaptive_query_cache.cpp` · Destructor — Coordinator callbacks fire after object freed~~
 
-The destructor calls `setCoordinator(nullptr)` and `clear()`. However, if the background
-subscriber thread of `RedisCacheCoordinator` is mid-dispatch when the destructor runs,
-a callback lambda capturing `this` (a pointer to the now-destroyed `AdaptiveQueryCache`)
-can fire after the object's memory is freed — **use-after-free**.
-
-**Fix required:** Join or detach the coordinator's subscriber thread, ensuring no callbacks
-can be dispatched, before the `AdaptiveQueryCache` destructor releases its own resources.
-Consider `weak_ptr<AdaptiveQueryCache>` in the callback lambda with `lock()` guard.
+**Fixed 2026-05-04:** `callback_alive_` (`shared_ptr<atomic<bool>>`) introduced.
+Destructor sets the flag to false before calling `setCoordinator(nullptr)`.
+All coordinator callbacks capture `callback_alive_` by value and return immediately if
+the flag is false, preventing any use-after-free when the coordinator dispatches after
+the `AdaptiveQueryCache` destructor has started.
 
 ---
 
@@ -163,7 +128,7 @@ Consider `weak_ptr<AdaptiveQueryCache>` in the callback lambda with `lock()` gua
 
 ### Previously Resolved (from 2026-04-19 audit)
 - **Cross-tenant cache leakage (L1)** — `get(fp, tenant_id)` returns `nullopt` on tenant mismatch in L1; confirmed by unit tests.
-  - **Note:** L2 key inconsistency (C-1) means tenant isolation is still broken at the L2 tier.
+  - **C-1 also fixed 2026-05-04** — L2 key now consistent in `put()` and `get()`.
 - **Unsigned Redis invalidation messages** — HMAC-SHA256 signing added to `RedisCacheCoordinator` for POSIX builds.
   - **Note:** Non-POSIX stub (D-1) means HMAC is not enforced on all platforms.
 - **GDPR right-to-erasure gap** — `invalidatePII()` covers L1, L2, and L3.

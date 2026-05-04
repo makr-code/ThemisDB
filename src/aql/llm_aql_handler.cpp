@@ -33,6 +33,7 @@
 #include "aql/llm_timeout_manager.h"
 #include "aql/llm_metrics_collector.h"
 #include "aql/llm_token_estimator.h"
+#include "query/aql_parser.h"
 #include "distributed_knowledge/adapter_capability_announcement.h"
 #include "sharding/adaptive_shard_router.h"
 #include "sharding/circuit_breaker.h"
@@ -335,6 +336,9 @@ public:
     LLMTimeoutManager timeout_manager_;
     RetryPolicy retry_policy_;
 
+    // Optional collection-level access checker (LLM-2: privilege isolation for generated AQL)
+    std::function<bool(const std::string&)> collection_access_checker_;
+
     // Post-generation AQL validation enforcement level
     TranslationValidationMode validation_mode_ = TranslationValidationMode::WARN_ONLY;
 
@@ -395,6 +399,12 @@ void LLMAQLHandler::setValidationMode(TranslationValidationMode mode) {
 
 TranslationValidationMode LLMAQLHandler::getValidationMode() const {
     return impl_->validation_mode_;
+}
+
+void LLMAQLHandler::setCollectionAccessChecker(
+    std::function<bool(const std::string&)> checker)
+{
+    impl_->collection_access_checker_ = std::move(checker);
 }
 
 void LLMAQLHandler::setValidationLimits(const ValidationLimitsConfig& config) {
@@ -1398,6 +1408,44 @@ void LLMAQLHandler::logAnnotations(
     spdlog::warn("{}", warn_msg.str());
 }
 
+// LLM-2: Post-generation collection-level ACL guard.
+// Parses the generated AQL and checks every referenced collection against the
+// caller-supplied access checker.  Throws LLMException(ACCESS_DENIED) if any
+// collection is denied; no-ops when no checker is registered.
+static void checkGeneratedAQLCollectionScope(
+    const std::string& aql_query,
+    const std::function<bool(const std::string&)>& checker)
+{
+    if (!checker) return;
+
+    query::AQLParser parser;
+    auto parse_result = parser.parse(aql_query);
+    if (!parse_result) {
+        // If the AQL cannot be parsed we cannot determine the collection set;
+        // fail closed to prevent privilege escalation via malformed queries.
+        spdlog::warn("LLM-generated AQL failed collection ACL check: parse error — {}",
+                     parse_result.error().message());
+        throw LLMException(LLMErrorCode::ACCESS_DENIED,
+            "Generated AQL could not be parsed for collection ACL check ("
+            + parse_result.error().message() + "); query rejected as a security precaution");
+    }
+
+    const auto& query = *parse_result.value();
+    // Collect all collection names from every FOR clause.
+    // Note: for_node (backwards-compat field) is always for_nodes[0],
+    // so iterating for_nodes alone is sufficient.
+    for (const auto& fn : query.for_nodes) {
+        if (fn.collection.empty()) continue;
+        if (!checker(fn.collection)) {
+            spdlog::warn("LLM-generated AQL denied: caller lacks access to collection '{}'",
+                         fn.collection);
+            throw LLMException(LLMErrorCode::ACCESS_DENIED,
+                "Generated AQL references collection '" + fn.collection +
+                "' which the caller is not authorised to access");
+        }
+    }
+}
+
 std::string LLMAQLHandler::translateNLToAQL(
     const std::string& nl_query,
     const std::string& schema_context
@@ -1467,6 +1515,9 @@ std::string LLMAQLHandler::translateNLToAQL(
             AQLSyntaxHighlighter validator(/*use_ansi=*/false);
             logAnnotations(validator.annotateErrors(aql_query),
                            nl_query, "translateNLToAQL");
+
+            // LLM-2: enforce collection-level ACL before returning the query.
+            checkGeneratedAQLCollectionScope(aql_query, impl_->collection_access_checker_);
 
             return aql_query;
 
@@ -1563,6 +1614,9 @@ std::string LLMAQLHandler::translateNLToAQLStreaming(
             AQLSyntaxHighlighter validator(/*use_ansi=*/false);
             logAnnotations(validator.annotateErrors(aql_query),
                            nl_query, "translateNLToAQLStreaming");
+
+            // LLM-2: enforce collection-level ACL before returning the query.
+            checkGeneratedAQLCollectionScope(aql_query, impl_->collection_access_checker_);
 
             return aql_query;
         }
@@ -1855,6 +1909,9 @@ std::string LLMAQLHandler::translateNLToAQLWithExamples(
             spdlog::debug("translateNLToAQLWithExamples: injected {} examples for query \"{}\"",
                           injected_count,
                           nl_query.size() > 60 ? nl_query.substr(0, 60) + "..." : nl_query);
+
+            // LLM-2: enforce collection-level ACL before returning the query.
+            checkGeneratedAQLCollectionScope(aql_query, impl_->collection_access_checker_);
 
             return aql_query;
 

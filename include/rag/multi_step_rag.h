@@ -123,6 +123,13 @@ struct MultiStepRAGConfig {
     /// Maximum number of map steps (document batches).
     size_t max_map_steps = 8u;
 
+    /// When true, all map-step inferences are launched in parallel via
+    /// std::async(std::launch::async).  The InferenceFn callback MUST be
+    /// thread-safe when this flag is set (e.g. each call uses its own HTTP
+    /// connection or is backed by a thread-safe client).  Defaults to false
+    /// (sequential) for backwards compatibility.
+    bool enable_parallel_map = false;
+
     /// Prompt template for the map step.
     /// Placeholders: {context} = assembled docs, {query} = original query.
     std::string map_prompt_template =

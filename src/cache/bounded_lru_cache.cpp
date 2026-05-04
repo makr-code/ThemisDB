@@ -37,10 +37,28 @@ BoundedLRUCache::~BoundedLRUCache() {
 }
 
 std::optional<nlohmann::json> BoundedLRUCache::get(const std::string& key) {
+    // Fast miss path: a shared (read) lock is sufficient to check whether the
+    // key is absent.  This allows concurrent reads without any write contention.
+    {
+        std::shared_lock<std::shared_mutex> rlock(mutex_);
+        if (cache_.find(key) == cache_.end()) {
+            if (config_.enable_statistics) {
+                misses_.fetch_add(1, std::memory_order_relaxed);
+            }
+            return std::nullopt;
+        }
+    }
+
+    // Hit or possibly-expired path: need an exclusive lock to update last_access,
+    // call moveToFront, or remove an expired entry.  Re-check under the write lock
+    // because the entry may have been evicted between the two lock acquisitions.
     std::unique_lock<std::shared_mutex> lock(mutex_);
-    
+
     auto it = cache_.find(key);
     if (it == cache_.end()) {
+        // Expected race: another thread may have evicted this entry between
+        // releasing the shared_lock and acquiring the unique_lock.  Treat as a
+        // miss — this is correct and not a bug.
         if (config_.enable_statistics) {
             misses_.fetch_add(1, std::memory_order_relaxed);
         }

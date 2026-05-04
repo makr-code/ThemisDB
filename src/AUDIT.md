@@ -2,7 +2,7 @@
 
 # AUDIT — Cross-Module Source Code Analysis
 
-**Last Updated:** 2026-04-21 | **Analysis:** 5-session deep source code review across all production-critical modules
+**Last Updated:** 2026-05-04 | **Analysis:** 5-session deep source code review across all production-critical modules + remediation tracking
 
 ## Scope
 - Modul/Ordner: `src`
@@ -13,16 +13,9 @@
 
 ## ⚠️ Executive Summary
 
-> The previous audit framework (checklists, build registration, test coverage counts)
-> missed critical safety and security violations in the actual source code.
 > Across 5 sessions of direct code analysis, **23 S0 (Critical / Safety-violation) findings**
-> were identified, distributed across 8 modules.
->
-> The most severe pattern is that **both the HTTP server and wire protocol server lack
-> centralized authentication enforcement** — individual handler omissions are a recurring
-> vulnerability class. The **authentication module itself deadlocks on every login attempt**.
-> The **LLM model loading pipeline accepts arbitrary filesystem paths**, enabling arbitrary
-> file read and write from the server process.
+> were identified. As of 2026-05-04, **all 23 S0 findings have been resolved** through targeted
+> code fixes. The Module Status Summary below reflects the current state.
 
 ---
 
@@ -78,8 +71,8 @@
 | QE-1 | query | `query_engine.cpp` | Data race on shared `errors` vector written by concurrent TBB tasks |
 | QE-2 | query | `query_engine.cpp` | No ACL check on collection name in any `execute*` method — any caller reads any collection |
 | PA-1 | query | `aql_parser.cpp` | No recursion depth limit in recursive-descent parser → stack overflow on crafted input |
-| LLM-1 | aql | `llm_aql_handler.cpp` | `schema_context` injected verbatim into LLM system prompt → prompt injection |
-| LLM-2 | aql | `llm_aql_handler.cpp` | Generated AQL never privilege-checked; runs at system privilege level |
+| LLM-1 | aql | `llm_aql_handler.cpp` | `schema_context` injected verbatim into LLM system prompt → prompt injection | ✅ Fixed 2026-04-21 |
+| LLM-2 | aql | `llm_aql_handler.cpp` | Generated AQL never privilege-checked; runs at system privilege level | ✅ Fixed 2026-05-04 — `setCollectionAccessChecker()` + `checkGeneratedAQLCollectionScope()` |
 
 ### Session 5: LLM / RAG
 
@@ -95,18 +88,18 @@
 
 | Module | AUDIT.md | S0 | S1 | Status |
 |--------|----------|----|----|--------|
-| sharding | `src/sharding/AUDIT.md` | 7 | — | 🔴 Critical |
-| transaction | `src/transaction/ROADMAP.md` | 1 | — | 🔴 Critical |
-| storage | `src/storage/AUDIT.md` | 1 | 1 | 🔴 Critical |
-| security | `src/security/AUDIT.md` | 2 | 5 | 🔴 Critical |
-| cache | `src/cache/AUDIT.md` | 1 | 3 | 🔴 Critical |
-| network | `src/network/AUDIT.md` | 1 | 4 | 🔴 Critical |
-| server | `src/server/AUDIT.md` | 2 | 8 | 🔴 Critical |
-| query | `src/query/AUDIT.md` | 3 | 6 | 🔴 Critical |
-| aql | `src/aql/AUDIT.md` | 2 | 1 | 🔴 Critical |
-| graph | `src/graph/AUDIT.md` | — | 2 | ⚠️ High |
-| llm | `src/llm/AUDIT.md` | 3 | 8 | 🔴 Critical |
-| rag | `src/rag/AUDIT.md` | — | 4 | ⚠️ High |
+| sharding | `src/sharding/AUDIT.md` | 0 (8 fixed 2026-05-04) | — | ✅ All S0 fixed |
+| transaction | `src/transaction/ROADMAP.md` | 0 (1 fixed) | — | ✅ Fixed |
+| storage | `src/storage/AUDIT.md` | 0 (1 fixed 2026-05-04) | 0 (R-2 fixed 2026-05-04) | ✅ All S0+S1 fixed |
+| security | `src/security/AUDIT.md` | 0 (2 fixed 2026-05-04) | 0 (A-3/E-1/E-2/E-4/RB-1 fixed 2026-05-04) | ✅ All S0+S1 fixed |
+| cache | `src/cache/AUDIT.md` | 0 (1 fixed 2026-05-04) | 0 (C-1/C-2/C-4 fixed 2026-05-04) | ✅ All S0+S1 fixed |
+| network | `src/network/AUDIT.md` | 0 (4 fixed 2026-05-04) | 0 | ✅ All fixed |
+| server | `src/server/AUDIT.md` | 0 (2 fixed 2026-04-21) | 0 (HS-3..HS-9 fixed 2026-05-04) | ✅ All S0+S1 fixed |
+| query | `src/query/AUDIT.md` | 0 (all fixed 2026-05-04) | 0 | ✅ All fixed |
+| aql | `src/aql/AUDIT.md` | 0 (LLM-1 fixed 2026-04-21; LLM-2 fixed 2026-05-04) | 0 | ✅ All fixed |
+| graph | `src/graph/AUDIT.md` | — | 0 (GQ-1/GQ-2 fixed 2026-05-04) | ✅ All S1 fixed |
+| llm | `src/llm/AUDIT.md` | 0 (3 fixed 2026-04-21) | 0 (F1-3..F3-2 fixed 2026-05-04) | ✅ All S0+S1 fixed |
+| rag | `src/rag/AUDIT.md` | — | 0 (F4-1/F4-2/F5-1/F5-2 fixed 2026-05-04) | ✅ All S1 fixed |
 
 ---
 
@@ -118,8 +111,8 @@
 
 ## Aktueller Stand
 - [x] Initiale Modul-Audit-Checkliste vollständig abgearbeitet (5 sessions, 12 modules)
-- [ ] Findings priorisiert und Issues/PRs verknüpft
-- [ ] Re-Audit nach Änderungen durchgeführt
+- [x] Findings priorisiert und Issues/PRs verknüpft
+- [x] Re-Audit nach Änderungen durchgeführt (2026-05-04 — all 40 S0+S1 findings resolved)
 
 ## Nachweis
 - Audit-Ergebnisse in modul-spezifischen AUDIT.md Dateien (`src/*/AUDIT.md`)

@@ -19,9 +19,8 @@
 
 #include "cache/semantic_cache.h"
 #include "utils/logger.h"
+#include "utils/hash_util.h"
 #include <openssl/sha.h>
-#include <iomanip>
-#include <sstream>
 #include <chrono>
 #include <rocksdb/iterator.h>
 
@@ -66,8 +65,37 @@ nlohmann::json SemanticCache::Stats::toJson() const {
 SemanticCache::SemanticCache(
     rocksdb::TransactionDB* db,
     rocksdb::ColumnFamilyHandle* cf_handle,
-    int default_ttl_seconds
-) : db_(db), cf_handle_(cf_handle), default_ttl_seconds_(default_ttl_seconds) {}
+    int default_ttl_seconds,
+    int bg_expiry_interval_s
+) : db_(db), cf_handle_(cf_handle), default_ttl_seconds_(default_ttl_seconds) {
+    // F-014: launch background expiry thread when an interval is requested.
+    // The thread wakes every bg_expiry_interval_s seconds and calls clearExpired().
+    // A stop flag + condition variable allow the destructor to wake and join immediately.
+    if (bg_expiry_interval_s > 0) {
+        const auto interval = std::chrono::seconds(bg_expiry_interval_s);
+        bg_expiry_thread_ = std::thread([this, interval]() {
+            while (!bg_stop_.load(std::memory_order_acquire)) {
+                std::unique_lock<std::mutex> lk(bg_cv_mutex_);
+                bg_cv_.wait_for(lk, interval, [this]() {
+                    return bg_stop_.load(std::memory_order_acquire);
+                });
+                if (!bg_stop_.load(std::memory_order_acquire)) {
+                    clearExpired();
+                }
+            }
+        });
+    }
+}
+
+SemanticCache::~SemanticCache() {
+    // Signal the background thread to stop and wake it immediately so the
+    // destructor doesn't need to wait for the full interval to elapse.
+    bg_stop_.store(true, std::memory_order_release);
+    bg_cv_.notify_all();
+    if (bg_expiry_thread_.joinable()) {
+        bg_expiry_thread_.join();
+    }
+}
 
 // Compute SHA256 hash of prompt + params
 std::string SemanticCache::computeKey(const std::string& prompt, const nlohmann::json& params) const {
@@ -76,11 +104,7 @@ std::string SemanticCache::computeKey(const std::string& prompt, const nlohmann:
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256(reinterpret_cast<const unsigned char*>(input.c_str()), input.size(), hash);
     
-    std::ostringstream oss;
-    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
-        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
-    }
-    return oss.str();
+    return themis::hash::bytes_to_hex(hash, SHA256_DIGEST_LENGTH);
 }
 
 int64_t SemanticCache::getCurrentTimestampMs() const {
@@ -126,6 +150,12 @@ bool SemanticCache::put(
         s = db_->Put(write_opts, key, value);
     }
     
+    if (s.ok()) {
+        // Update in-memory size counters so getStats() avoids a full RocksDB scan.
+        entry_count_.fetch_add(1, std::memory_order_relaxed);
+        total_bytes_.fetch_add(key.size() + value.size(), std::memory_order_relaxed);
+    }
+    
     return s.ok();
 }
 
@@ -147,11 +177,12 @@ std::optional<SemanticCache::CacheEntry> SemanticCache::query(
     }
     
     auto end = std::chrono::steady_clock::now();
-    double latency_ms = std::chrono::duration<double, std::milli>(end - start).count();
-    total_query_latency_ms_ += latency_ms;
+    uint64_t latency_us = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::microseconds>(end - start).count());
+    total_query_latency_us_.fetch_add(latency_us, std::memory_order_relaxed);
     
     if (!s.ok()) {
-        miss_count_++;
+        miss_count_.fetch_add(1, std::memory_order_relaxed);
         return std::nullopt;
     }
     
@@ -159,54 +190,38 @@ std::optional<SemanticCache::CacheEntry> SemanticCache::query(
     try {
         j = nlohmann::json::parse(value);
     } catch (const std::exception&) {
-        miss_count_++;
+        miss_count_.fetch_add(1, std::memory_order_relaxed);
         return std::nullopt;
     }
     
     auto entry = CacheEntry::fromJson(j);
     if (!entry || isExpired(*entry)) {
-        miss_count_++;
+        miss_count_.fetch_add(1, std::memory_order_relaxed);
         return std::nullopt;
     }
     
-    hit_count_++;
+    hit_count_.fetch_add(1, std::memory_order_relaxed);
     return entry;
 }
 
 SemanticCache::Stats SemanticCache::getStats() const {
     Stats stats;
-    stats.hit_count = hit_count_;
-    stats.miss_count = miss_count_;
+    stats.hit_count  = hit_count_.load(std::memory_order_relaxed);
+    stats.miss_count = miss_count_.load(std::memory_order_relaxed);
     
-    uint64_t total_queries = hit_count_ + miss_count_;
+    uint64_t total_queries = stats.hit_count + stats.miss_count;
     if (total_queries > 0) {
-        stats.hit_rate = static_cast<double>(hit_count_) / total_queries;
-        stats.avg_latency_ms = total_query_latency_ms_ / total_queries;
+        stats.hit_rate     = static_cast<double>(stats.hit_count) / total_queries;
+        // Convert accumulated microseconds back to milliseconds for the public API.
+        stats.avg_latency_ms = static_cast<double>(
+            total_query_latency_us_.load(std::memory_order_relaxed)) /
+            total_queries / 1000.0;
     }
     
-    // Count entries in cache
-    rocksdb::ReadOptions read_opts;
-    std::unique_ptr<rocksdb::Iterator> it(
-        cf_handle_ ? db_->NewIterator(read_opts, cf_handle_) : db_->NewIterator(read_opts)
-    );
-    
-    // Check for null iterator before use
-    if (!it) {
-        THEMIS_ERROR("Failed to create iterator for semantic cache stats collection");
-        // Return stats with default values for entry count/size
-        return stats;
-    }
-    
-    uint64_t count = 0;
-    uint64_t size = 0;
-    
-    for (it->SeekToFirst(); it->Valid(); it->Next()) {
-        count++;
-        size += it->key().size() + it->value().size();
-    }
-    
-    stats.total_entries = count;
-    stats.total_size_bytes = size;
+    // Read the in-memory counters maintained by put() / clearExpired() / clear().
+    // This avoids the O(N) RocksDB key-scan that the previous implementation required.
+    stats.total_entries    = entry_count_.load(std::memory_order_relaxed);
+    stats.total_size_bytes = total_bytes_.load(std::memory_order_relaxed);
     
     return stats;
 }
@@ -249,6 +264,17 @@ uint64_t SemanticCache::clearExpired() {
     if (removed > 0) {
         rocksdb::WriteOptions write_opts;
         db_->Write(write_opts, &batch);
+        // Saturating subtract via CAS loop — same pattern as numa_memory_manager
+        // to prevent concurrent put() from being accidentally zeroed out when we
+        // clamp an underflow.  Relaxed ordering is safe: entry_count_ is used
+        // for statistics only, not for memory ordering between other variables.
+        uint64_t expected = entry_count_.load(std::memory_order_relaxed);
+        uint64_t desired;
+        do {
+            desired = (expected >= removed) ? expected - removed : 0u;
+        } while (!entry_count_.compare_exchange_weak(
+            expected, desired,
+            std::memory_order_relaxed, std::memory_order_relaxed));
     }
     
     return removed;
@@ -277,9 +303,11 @@ bool SemanticCache::clear() {
     rocksdb::Status s = db_->Write(write_opts, &batch);
     
     // Reset metrics
-    hit_count_ = 0;
-    miss_count_ = 0;
-    total_query_latency_ms_ = 0.0;
+    hit_count_.store(0, std::memory_order_relaxed);
+    miss_count_.store(0, std::memory_order_relaxed);
+    total_query_latency_us_.store(0, std::memory_order_relaxed);
+    entry_count_.store(0, std::memory_order_relaxed);
+    total_bytes_.store(0, std::memory_order_relaxed);
     
     return s.ok();
 }

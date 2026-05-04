@@ -24,8 +24,11 @@
 
 #include <atomic>
 #include <chrono>
+#include <condition_variable>
+#include <deque>
 #include <mutex>
 #include <unordered_map>
+#include <vector>
 #include <string>
 #include <memory>
 #include <functional>
@@ -70,6 +73,12 @@ struct RedisRateLimiterConfig {
     /// TTL (in seconds) for rate-limit keys stored in Redis.
     /// Should be at least capacity / refill_rate seconds.
     int key_ttl_seconds = 3600;
+
+    /// F-008: Number of pooled Redis connections.  Each connection can
+    /// execute one EVALSHA call concurrently, so pool_size determines the
+    /// maximum concurrency of distributed rate-limit checks.
+    /// Minimum: 1.  Recommended: number of worker threads / 4.
+    int pool_size = 4;
 };
 
 /**
@@ -203,18 +212,21 @@ private:
     /// Build the Redis key for a given priority lane.
     std::string redisKey(const std::string& bucket_id, Priority prio) const;
 
-    /// Ensure the publish/command connection is open; returns false on failure.
+    /// Initialise all pool slots (connect + load Lua script).  Returns false
+    /// if no slot could be connected; redis_healthy_ is set accordingly.
     bool redisConnect();
 
     /// Execute the EVALSHA token-bucket Lua script on Redis.
+    /// Borrows a connection from the pool, executes, and returns it.
     /// Returns -1 on Redis error (triggers local fallback), 1 if allowed, 0 if rejected.
     int redisEvalBucket(Priority prio, size_t capacity, size_t refill_rate,
                         size_t consume_count);
 
-    /// Execute the EVALSHA command with the current redis_ctx_ (must hold redis_mutex_).
+    /// Execute EVALSHA on a borrowed slot (caller holds the slot exclusively).
     /// Returns -1 on error, 1 if allowed, 0 if rejected.
-    int redisExecEvalsha(const std::string& key, size_t capacity, size_t refill_rate,
-                         size_t consume_count);
+    int redisExecEvalsha(RedisConnectionPool::Slot& slot,
+                         const std::string& key, size_t capacity,
+                         size_t refill_rate, size_t consume_count);
 
     /// Mark Redis as unhealthy; increments error counter and, if max_errors
     /// reached, sets redis_healthy_ = false and emits a WARN log.
@@ -234,10 +246,21 @@ private:
     std::atomic<uint64_t> total_rejections_{0};
 
 #ifdef THEMIS_ENABLE_REDIS
-    mutable std::mutex redis_mutex_;
-    redisContext* redis_ctx_{nullptr};
-    std::string evalsha_;          ///< SHA1 of the loaded Lua script.
-    bool script_loaded_{false};
+    // F-008: Connection pool — one mutex/cv guards the pool of redisContext* slots.
+    // Each slot can be borrowed by one thread at a time; concurrent EVALSHA calls
+    // are dispatched from separate connections instead of serialising on a single one.
+    struct RedisConnectionPool {
+        struct Slot {
+            redisContext* ctx{nullptr};
+            std::string   evalsha;       ///< SHA1 loaded on this connection.
+            bool          script_loaded{false};
+        };
+        std::vector<Slot>               slots;
+        std::deque<size_t>              available; ///< Indices of idle slots.
+        mutable std::mutex              pool_mu;
+        std::condition_variable         pool_cv;
+    };
+    mutable RedisConnectionPool redis_pool_;
 #endif
     std::atomic<bool> redis_healthy_{false};
     std::atomic<int>  redis_errors_{0};

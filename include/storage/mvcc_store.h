@@ -26,8 +26,10 @@
 #include "storage/rocksdb_wrapper.h"
 #include <cstdint>
 #include <optional>
+#include <shared_mutex>
 #include <string>
 #include <string_view>
+#include <unordered_map>
 #include <vector>
 #include <functional>
 #include <memory>
@@ -285,6 +287,17 @@ public:
 private:
     std::shared_ptr<RocksDBWrapper>     db_;
     std::shared_ptr<HybridLogicalClock> clock_;
+
+    // F-010: Latest-version cache — maps base key → HLC timestamp of the most
+    // recent non-transactional write.  Allows getLatest() to perform a direct
+    // db_->get() point-read instead of creating a RocksDB iterator every time.
+    //
+    // Invariant: latest_ts_map_[key] == ts of the last put()/putWithTimestamp()
+    // call for that key, provided ts >= any previous value in the map.
+    // Keys written exclusively via putInTxn()/delInTxn() will NOT be in the
+    // map; getLatest() falls back to the iterator path for those (safe).
+    mutable std::shared_mutex                    latest_mu_;
+    std::unordered_map<std::string, HLCTimestamp> latest_ts_map_;
 };
 
 } // namespace themis

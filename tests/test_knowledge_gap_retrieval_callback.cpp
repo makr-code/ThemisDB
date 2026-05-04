@@ -91,7 +91,7 @@ TEST_F(KnowledgeGapRetrievalCallbackTest, CallbackIsInvoked) {
     std::atomic<int> call_count{0};
 
     detector_->setRetrievalCallback(
-        [&](const std::string&, size_t) -> std::vector<RetrievedDocument> {
+        [&](const std::string&, size_t, const std::string&) -> std::vector<RetrievedDocument> {
             ++call_count;
             return {};  // Return empty to stop loop after first call
         });
@@ -110,7 +110,7 @@ TEST_F(KnowledgeGapRetrievalCallbackTest, NewDocumentsMergedWithDeduplication) {
 
     int call_round = 0;
     detector_->setRetrievalCallback(
-        [&](const std::string&, size_t) -> std::vector<RetrievedDocument> {
+        [&](const std::string&, size_t, const std::string&) -> std::vector<RetrievedDocument> {
             ++call_round;
             if (call_round == 1) {
                 // First round: return one new doc + a duplicate of the initial doc
@@ -141,7 +141,7 @@ TEST_F(KnowledgeGapRetrievalCallbackTest, NewDocumentsMergedWithDeduplication) {
 TEST_F(KnowledgeGapRetrievalCallbackTest, NullCallbackDisablesRetrieval) {
     // First set a callback, then clear it
     detector_->setRetrievalCallback(
-        [](const std::string&, size_t) -> std::vector<RetrievedDocument> {
+        [](const std::string&, size_t, const std::string&) -> std::vector<RetrievedDocument> {
             return {makeDoc("extra", "extra doc", 0.9)};
         });
     detector_->setRetrievalCallback({}); // clear
@@ -161,7 +161,7 @@ TEST_F(KnowledgeGapRetrievalCallbackTest, NullCallbackDisablesRetrieval) {
 TEST_F(KnowledgeGapRetrievalCallbackTest, ExceptionInCallbackIsCaught) {
     std::atomic<bool> threw{false};
     detector_->setRetrievalCallback(
-        [&](const std::string&, size_t) -> std::vector<RetrievedDocument> {
+        [&](const std::string&, size_t, const std::string&) -> std::vector<RetrievedDocument> {
             threw = true;
             throw std::runtime_error("simulated retrieval failure");
         });
@@ -180,7 +180,7 @@ TEST(KnowledgeGapDetectorFlareDisabled, CallbackNotCalledWhenFlareOff) {
 
     bool callback_called = false;
     detector->setRetrievalCallback(
-        [&](const std::string&, size_t) -> std::vector<RetrievedDocument> {
+        [&](const std::string&, size_t, const std::string&) -> std::vector<RetrievedDocument> {
             callback_called = true;
             return {};
         });
@@ -198,7 +198,7 @@ TEST_F(KnowledgeGapRetrievalCallbackTest, RespectsMaxRetrievalRounds) {
     // Always return a new document so the loop never satisfies coverage
     // (coverage_threshold = 0.99 from fixture).
     detector_->setRetrievalCallback(
-        [&](const std::string& q, size_t) -> std::vector<RetrievedDocument> {
+        [&](const std::string& q, size_t, const std::string&) -> std::vector<RetrievedDocument> {
             ++call_count;
             return {makeDoc("new-" + std::to_string(call_count.load()), q, 0.4)};
         });

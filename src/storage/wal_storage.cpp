@@ -29,6 +29,7 @@
 #include "utils/error_registry.h"
 
 #include <algorithm>
+#include <array>
 #include <cassert>
 #include <cerrno>
 #include <cstddef>
@@ -98,21 +99,25 @@ static constexpr size_t   HEADER_SIZE  = 4 + 8 + 1 + 4 + 4; // magic+seq+type+kl
 // CRC32 (simple table-based implementation; no external dependency)
 // ──────────────────────────────────────────────────────────────────────────────
 
-static uint32_t crc32_update(uint32_t crc, const void* data, size_t len) {
-    // Build the CRC32 table on first call (constexpr-safe, no lambda).
-    static uint32_t table[256];
-    static bool initialized = false;
-    if (!initialized) {
+// Build the 256-entry CRC32 lookup table exactly once, using C++11 guaranteed
+// thread-safe static-local initialisation.  No explicit flag or mutex needed.
+static const uint32_t* crc32_table() {
+    static const auto table = [] {
+        std::array<uint32_t, 256> t{};
         for (uint32_t i = 0; i < 256; ++i) {
             uint32_t c = i;
             for (int k = 0; k < 8; ++k) {
                 c = (c & 1u) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
             }
-            table[i] = c;
+            t[i] = c;
         }
-        initialized = true;
-    }
+        return t;
+    }();
+    return table.data();
+}
 
+static uint32_t crc32_update(uint32_t crc, const void* data, size_t len) {
+    const uint32_t* table = crc32_table();
     crc = ~crc;
     const uint8_t* p = static_cast<const uint8_t*>(data);
     for (size_t i = 0; i < len; ++i) {
@@ -398,12 +403,30 @@ Result<uint64_t> WALStorage::appendEntryLocked(EntryType type,
     uint8_t crc_buf[4];
     encode_u32(crc_buf, crc);
 
-    // Write header, key, value and CRC in sequence.
-    themis_ssize_t total = static_cast<themis_ssize_t>(HEADER_SIZE + klen + vlen + 4);
-    if (!write_all_fd(fd_, hdr, HEADER_SIZE) ||
-        !write_all_fd(fd_, key.data(), klen) ||
-        !write_all_fd(fd_, value.data(), vlen) ||
-        !write_all_fd(fd_, crc_buf, 4)) {
+    // Assemble the full record (header + key + value + CRC) into a single
+    // contiguous buffer and issue one write syscall instead of four.
+    // For compact records (≤ kStackBufSize) the buffer lives on the stack to
+    // avoid a heap allocation on the hot write path.  512 bytes comfortably
+    // covers typical WAL records (21-byte header + short key + small JSON value
+    // + 4-byte CRC); larger records fall back to heap allocation.
+    const size_t total = HEADER_SIZE + klen + vlen + 4;
+    constexpr size_t kStackBufSize = 512;
+    uint8_t stack_buf[kStackBufSize];
+    std::vector<uint8_t> heap_buf;
+    uint8_t* buf;
+    if (total <= kStackBufSize) {
+        buf = stack_buf;
+    } else {
+        heap_buf.resize(total);
+        buf = heap_buf.data();
+    }
+    uint8_t* p = buf;
+    std::memcpy(p, hdr,           HEADER_SIZE); p += HEADER_SIZE;
+    std::memcpy(p, key.data(),    klen);        p += klen;
+    std::memcpy(p, value.data(),  vlen);        p += vlen;
+    std::memcpy(p, crc_buf,       4);
+
+    if (!write_all_fd(fd_, buf, total)) {
         return Err<uint64_t>(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
                              "WAL write failed (expected " + std::to_string(total) +
                                  " bytes)");

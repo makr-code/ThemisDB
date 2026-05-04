@@ -65,6 +65,7 @@
 #include "performance/prefetch_hints.h"
 
 #include <algorithm>
+#include <atomic>
 #include <cmath>
 #include <deque>
 #include <numeric>
@@ -108,19 +109,23 @@ public:
     explicit Impl(PrefetchConfig cfg)
         : config_(std::move(cfg)),
           adaptive_distance_(std::min(size_t{8}, config_.max_prefetch_distance)),
-          latency_ema_ns_(0.0) {}
+          latency_ema_ns_(0.0)
+        // F-005: stat counters are atomics; mu_ is held only for history/pending/pattern.
+        {}
 
     // ── record_access ────────────────────────────────────────────────────────
 
     void record_access(uint64_t address, uint64_t timestamp) {
-        std::lock_guard<std::mutex> lk(mu_);
+        // F-005: increment total_accesses without holding mu_
+        stat_total_accesses_.fetch_add(1, std::memory_order_relaxed);
 
-        stats_.total_accesses++;
+        std::lock_guard<std::mutex> lk(mu_);
 
         // Feedback loop: check if this address was predicted.
         auto it = pending_.find(address);
         if (it != pending_.end()) {
-            stats_.useful_prefetches++;
+            // F-005: useful_prefetches updated atomically (read in get_stats without lock)
+            stat_useful_prefetches_.fetch_add(1, std::memory_order_relaxed);
             pending_.erase(it);
         }
 
@@ -188,7 +193,8 @@ public:
         std::lock_guard<std::mutex> lk(mu_);
 
         for (uint64_t addr : addresses) {
-            stats_.total_prefetches++;
+            // F-005: atomic increments (visible to get_stats() without mu_)
+            stat_total_prefetches_.fetch_add(1, std::memory_order_relaxed);
 
             // Determine target cache level from current pattern confidence.
             CacheLevel level = confidence_to_level(pattern_.confidence);
@@ -202,13 +208,11 @@ public:
                 pending_.insert(addr);
             } else {
                 // Set is full – evict one arbitrary entry as wasted.
-                stats_.wasted_prefetches++;
+                stat_wasted_prefetches_.fetch_add(1, std::memory_order_relaxed);
                 pending_.erase(pending_.begin());
                 pending_.insert(addr);
             }
         }
-
-        update_derived_stats();
     }
 
     // ── current_pattern ──────────────────────────────────────────────────────
@@ -228,28 +232,37 @@ public:
     // ── stats ────────────────────────────────────────────────────────────────
 
     PrefetchStats get_stats() const {
-        std::lock_guard<std::mutex> lk(mu_);
-        PrefetchStats s = stats_;
-        if (s.total_prefetches > 0) {
+        // F-005: stat counters are atomics — no lock needed for the hot counters.
+        // Pattern confidence/addresses still require mu_ for consistency.
+        PrefetchStats s;
+        s.total_accesses    = stat_total_accesses_.load(std::memory_order_relaxed);
+        s.useful_prefetches = stat_useful_prefetches_.load(std::memory_order_relaxed);
+        s.total_prefetches  = stat_total_prefetches_.load(std::memory_order_relaxed);
+        s.wasted_prefetches = stat_wasted_prefetches_.load(std::memory_order_relaxed);
+        if (s.total_prefetches > 0)
             s.accuracy = static_cast<double>(s.useful_prefetches) /
                          static_cast<double>(s.total_prefetches);
-        }
-        if (s.total_accesses > 0) {
+        if (s.total_accesses > 0)
             s.coverage = static_cast<double>(s.useful_prefetches) /
                          static_cast<double>(s.total_accesses);
-        }
         return s;
     }
 
     void reset_stats() {
+        stat_total_accesses_.store(0, std::memory_order_relaxed);
+        stat_useful_prefetches_.store(0, std::memory_order_relaxed);
+        stat_total_prefetches_.store(0, std::memory_order_relaxed);
+        stat_wasted_prefetches_.store(0, std::memory_order_relaxed);
         std::lock_guard<std::mutex> lk(mu_);
-        stats_ = {};
         pending_.clear();
     }
 
     void reset() {
+        stat_total_accesses_.store(0, std::memory_order_relaxed);
+        stat_useful_prefetches_.store(0, std::memory_order_relaxed);
+        stat_total_prefetches_.store(0, std::memory_order_relaxed);
+        stat_wasted_prefetches_.store(0, std::memory_order_relaxed);
         std::lock_guard<std::mutex> lk(mu_);
-        stats_            = {};
         pattern_          = {};
         history_.clear();
         pending_.clear();
@@ -353,17 +366,6 @@ private:
         }
     }
 
-    void update_derived_stats() {
-        if (stats_.total_prefetches > 0) {
-            stats_.accuracy = static_cast<double>(stats_.useful_prefetches) /
-                              static_cast<double>(stats_.total_prefetches);
-        }
-        if (stats_.total_accesses > 0) {
-            stats_.coverage = static_cast<double>(stats_.useful_prefetches) /
-                              static_cast<double>(stats_.total_accesses);
-        }
-    }
-
     // ── Members ───────────────────────────────────────────────────────────────
 
     mutable std::mutex mu_;
@@ -377,7 +379,13 @@ private:
     size_t adaptive_distance_;
     double latency_ema_ns_;
 
-    PrefetchStats                       stats_;
+    // F-005: hot counters use atomics so record_access and get_stats() don't
+    // contend on mu_.  pending_ still requires mu_ for its set operations.
+    std::atomic<uint64_t> stat_total_accesses_{0};
+    std::atomic<uint64_t> stat_useful_prefetches_{0};
+    std::atomic<uint64_t> stat_total_prefetches_{0};
+    std::atomic<uint64_t> stat_wasted_prefetches_{0};
+
     std::unordered_set<uint64_t>        pending_;  ///< Outstanding predictions
 };
 

@@ -177,5 +177,29 @@ inline constexpr uint64_t kFnv64Prime       = 1099511628211ULL;
     return fnv1a64_hex(std::string_view{s});
 }
 
+// ---------------------------------------------------------------------------
+// SHA-256 hex encoding helper
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Encode @p n raw bytes as a lowercase hexadecimal string.
+ *
+ * Intended for encoding SHA-256 (32 bytes → 64 chars) and similar digests.
+ * Uses a nibble-lookup table; avoids the overhead of std::ostringstream.
+ *
+ * @param data  Pointer to the raw bytes.
+ * @param n     Number of bytes to encode.
+ * @return      Lowercase hex string of length 2*n.
+ */
+[[nodiscard]] inline std::string bytes_to_hex(const unsigned char* data, std::size_t n) {
+    static constexpr char kHex[] = "0123456789abcdef";
+    std::string out(n * 2, '\0');
+    for (std::size_t i = 0; i < n; ++i) {
+        out[2 * i]     = kHex[data[i] >> 4];
+        out[2 * i + 1] = kHex[data[i] & 0x0f];
+    }
+    return out;
+}
+
 } // namespace hash
 } // namespace themis

@@ -646,19 +646,40 @@ void StatisticsManager::collectIndexStatistics(const std::string& indexName) {
 }
 
 void StatisticsManager::refreshAllStatistics() {
-    // Refresh statistics for all tables
+    // F-023: Improvement over the old implementation that called
+    // collectTableStatistics() (which zeros out all counts).  Now:
+    //  • If a row_count_provider_ is registered, use it to populate real
+    //    approximate row counts for each tracked table.
+    //  • If no provider is registered, retain existing stats as-is rather
+    //    than destroying them.  The only time an entry is zeroed is at
+    //    first registration via collectTableStatistics().
+    int64_t now = getCurrentTimestamp();
     for (auto& [tableName, stats] : tableStats_) {
-        collectTableStatistics(tableName);
+        if (row_count_provider_) {
+            int64_t count = row_count_provider_(tableName);
+            if (count >= 0) {
+                stats.rowCount = count;
+            }
+        }
+        // Mark as freshly updated so areStatisticsStale() returns false.
+        stats.lastUpdated = now;
+        stats.isStale     = false;
     }
 }
 
 void StatisticsManager::refreshStaleStatistics() {
-    int64_t threshold = 3600;  // 1 hour in seconds
-    
+    constexpr int64_t kStaleThresholdSeconds = 3600;  // 1 hour
+    int64_t now = getCurrentTimestamp();
     for (auto& [tableName, stats] : tableStats_) {
-        if (areStatisticsStale(tableName, threshold)) {
-            collectTableStatistics(tableName);
+        if (!areStatisticsStale(tableName, kStaleThresholdSeconds)) continue;
+        if (row_count_provider_) {
+            int64_t count = row_count_provider_(tableName);
+            if (count >= 0) {
+                stats.rowCount = count;
+            }
         }
+        stats.lastUpdated = now;
+        stats.isStale     = false;
     }
 }
 
