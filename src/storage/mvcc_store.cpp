@@ -145,7 +145,7 @@ std::optional<std::vector<uint8_t>> MVCCStore::getLatest(std::string_view key) {
         auto it = latest_ts_map_.find(std::string(key));
         if (it != latest_ts_map_.end()) {
             std::string vkey = encodeVersionedKey(key, it->second);
-            lk.unlock();
+            lk.unlock();  // Release before RocksDB I/O; concurrent writers may proceed.
             auto val = db_->get(vkey);
             if (val) {
                 // Empty value signals a tombstone (deleted key).

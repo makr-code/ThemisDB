@@ -189,6 +189,9 @@ void NUMAMemoryManager::deallocate(void* ptr, size_t size) noexcept {
             // Saturating subtract via CAS loop — avoids a race where a concurrent
             // fetch_add on another thread fills back the count between our
             // fetch_sub and the unconditional store(0).
+            // Relaxed memory order is safe: per-node byte counts are used for
+            // statistics only (get_stats() / reset_stats()), not for synchronisation
+            // or load/store ordering guarantees between other variables.
             auto& atom = per_node_bytes_[static_cast<size_t>(node)];
             int64_t expected = atom.load(std::memory_order_relaxed);
             int64_t desired;
