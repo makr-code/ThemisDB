@@ -96,7 +96,7 @@ float l2_distance(const std::vector<float>& a, const std::vector<float>& b) {
  * @brief Generate synthetic image with specific pattern
  */
 std::vector<uint8_t> generate_pattern_image(int width, int height, const std::string& pattern) {
-    std::vector<uint8_t> data(width * height * 3);
+    std::vector<uint8_t> data(static_cast<size_t>(width) * static_cast<size_t>(height) * 3u);
     
     if (pattern == "gradient") {
         for (int y = 0; y < height; ++y) {
