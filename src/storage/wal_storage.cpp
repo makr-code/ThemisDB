@@ -35,6 +35,7 @@
 #include <cstring>
 #include <filesystem>
 #include <fstream>
+#include <mutex>
 #include <regex>
 #include <sstream>
 #include <stdexcept>
@@ -99,10 +100,12 @@ static constexpr size_t   HEADER_SIZE  = 4 + 8 + 1 + 4 + 4; // magic+seq+type+kl
 // ──────────────────────────────────────────────────────────────────────────────
 
 static uint32_t crc32_update(uint32_t crc, const void* data, size_t len) {
-    // Build the CRC32 table on first call (constexpr-safe, no lambda).
+    // Build the CRC32 table exactly once, thread-safely, via std::call_once.
+    // The previous non-atomic `if (!initialized)` pattern is a data race under
+    // concurrent WALStorage::open() calls (UB per C++ memory model — W-1 fix).
+    static std::once_flag crc32_init_flag;
     static uint32_t table[256];
-    static bool initialized = false;
-    if (!initialized) {
+    std::call_once(crc32_init_flag, []() {
         for (uint32_t i = 0; i < 256; ++i) {
             uint32_t c = i;
             for (int k = 0; k < 8; ++k) {
@@ -110,8 +113,7 @@ static uint32_t crc32_update(uint32_t crc, const void* data, size_t len) {
             }
             table[i] = c;
         }
-        initialized = true;
-    }
+    });
 
     crc = ~crc;
     const uint8_t* p = static_cast<const uint8_t*>(data);
@@ -444,6 +446,14 @@ Result<uint64_t> WALStorage::appendBatch(std::vector<BatchEntry> entries) {
     for (const auto& e : entries) {
         // Rotate if needed before each entry so no entry straddles a segment boundary.
         if (auto r = rotateIfNeeded(); !r) {
+            // [DURABILITY] W-2: Segment rotation failed mid-batch. Entries written to the
+            // previous segment before this failure are durable. Entries in this batch after
+            // the failure point are lost. Recovery must handle partial batch replay
+            // idempotently — there is no atomic batch boundary marker in the WAL format.
+            THEMIS_WARN("[DURABILITY] WAL appendBatch: segment rotation failed mid-batch. "
+                        "Entries before rotation point are durable; remaining entries are lost. "
+                        "Recovery must handle partial batch replay idempotently. "
+                        "Error: {}", r.error().context());
             return Err<uint64_t>(r.error().code(), r.error().context());
         }
 

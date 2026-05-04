@@ -37,6 +37,7 @@
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <algorithm>
+#include <mutex>
 #include <numeric>
 #include <chrono>
 #include <sstream>
@@ -189,6 +190,19 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
     auto start_time = std::chrono::steady_clock::now();
     
     THEMIS_DEBUG("Evaluating RAG output for query: {}", input.query);
+
+    // F4-3 fix: warn once on contradictory ethical configuration.
+    // ethical_veto_power=true has no effect when enable_ethical_evaluation=false
+    // because the evaluation is skipped entirely, making the veto a no-op.
+    if (impl_->config.ethical_veto_power && !impl_->config.enable_ethical_evaluation) {
+        static std::once_flag warn_contradictory_ethical_config;
+        std::call_once(warn_contradictory_ethical_config, [this]() {
+            THEMIS_WARN("[CONFIG] RAGJudge: ethical_veto_power=true but "
+                        "enable_ethical_evaluation=false. Ethical veto is DISABLED because "
+                        "evaluation is skipped. This configuration is contradictory — "
+                        "ethical veto has no effect. Enable ethical evaluation or disable veto.");
+        });
+    }
     
     // Check cache
     if (impl_->config.cache_evaluations) {
@@ -842,8 +856,13 @@ int RAGJudge::countMoralPerspectives(const std::string& text) {
 }
 
 bool RAGJudge::detectBias(const std::string& text) {
-    // Simple heuristic for bias detection
-    // Check for absolute statements without nuance
+    // STUB/LIMITATION NOTE:
+    // Purpose: Basic English keyword bias heuristic — detects absolute/overgeneralizing language
+    // Activation: Always active when enable_bias_detection=true
+    // Production Delta: Does not detect bias in non-English text, paraphrasing, subtle framing,
+    //   or domain-specific bias (medical, legal, etc.). Trivially bypassed.
+    // Removal Plan: Replace with LLM-based or embedding-based bias detection (Target: v2.0.0)
+    // This is a defense-in-depth heuristic, not a comprehensive bias detector.
     std::vector<std::string> bias_indicators = {
         "always",
         "never",
@@ -853,7 +872,11 @@ bool RAGJudge::detectBias(const std::string& text) {
         "no one",
         "absolutely",
         "certainly",
-        "definitely"
+        "definitely",
+        "discriminat",
+        "prejudic",
+        "stereotyp",
+        "bigot"
     };
     
     std::string lower_text = text;

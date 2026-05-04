@@ -317,21 +317,32 @@ DetectionResult KnowledgeGapDetector::detectGap(
     const std::string& generated_answer,
     const GenerationContext& context
 ) {
-    // Check for ethical perspective gap first if enabled
+    // F5-4 fix: ethical perspective gap check no longer short-circuits the other checks.
+    // Previously, a positive ethical keyword match returned immediately, skipping
+    // similarity and coverage pre-generation checks. Now all checks run and any
+    // gap (ethical or coverage/similarity) triggers a retrieval.
+    bool ethical_gap_detected = false;
+    DetectionResult ethical_result;
     if (impl_->config.enable_ethical_gap_detection) {
-        auto ethical_result = detectEthicalPerspectiveGap(query, documents);
+        ethical_result = detectEthicalPerspectiveGap(query, documents);
         if (ethical_result.gap_detected) {
+            ethical_gap_detected = true;
             if (impl_->gap_callback) {
                 impl_->gap_callback(ethical_result);
             }
-            return ethical_result;
+            // Do not return here — continue running coverage/similarity checks below.
         }
     }
     
-    // Comprehensive detection based on mode
+    // Comprehensive detection based on mode; merge ethical gap into final result.
     switch (impl_->config.mode) {
-        case DetectionMode::FAST:
-            return detectPreGeneration(query, documents);
+        case DetectionMode::FAST: {
+            auto pre_result = detectPreGeneration(query, documents);
+            if (ethical_gap_detected && !pre_result.gap_detected) {
+                return ethical_result;
+            }
+            return pre_result;
+        }
             
         case DetectionMode::BALANCED: {
             auto pre_result = detectPreGeneration(query, documents);
@@ -344,6 +355,12 @@ DetectionResult KnowledgeGapDetector::detectGap(
                 if (during_result.gap_detected) {
                     return during_result;
                 }
+            }
+
+            // If ethical gap was detected but coverage/similarity checks were clean,
+            // still report the ethical gap to trigger retrieval.
+            if (ethical_gap_detected) {
+                return ethical_result;
             }
             
             return pre_result;
@@ -375,12 +392,17 @@ DetectionResult KnowledgeGapDetector::detectGap(
                 }
                 return post_result;
             }
+
+            // If ethical gap was detected but all other checks were clean, report it.
+            if (ethical_gap_detected) {
+                return ethical_result;
+            }
             
             return pre_result;
         }
     }
     
-    return DetectionResult{};
+    return ethical_gap_detected ? ethical_result : DetectionResult{};
 }
 
 DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
@@ -807,7 +829,12 @@ bool KnowledgeGapDetector::verifyClaim(
     }
     
     if (claim_terms.empty()) {
-        return true; // No specific claims to verify
+        // F5-3 fix: fail-closed — empty term list (stop-word-only or very short claim)
+        // cannot be verified against documents. Returning true here would pass any
+        // short sentence through verification unconditionally.
+        THEMIS_DEBUG("verifyClaim: empty term list after stop-word removal — "
+                     "claim '{}' cannot be verified; treating as unverified.", claim);
+        return false;
     }
     
     // Check how many terms are found in documents

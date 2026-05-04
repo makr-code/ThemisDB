@@ -34,11 +34,17 @@
 #include "security/encryption.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
+#include <cerrno>
 #include <chrono>
 #include <cmath>
+#include <cstring>
 #include <sstream>
 #include <fstream>
 #include <filesystem>
+#include <fcntl.h>
+#if !defined(_WIN32)
+#include <unistd.h>
+#endif
 #include <llama.h>
 
 // Forward declarations for llama.cpp LoRA API (from llama_lora_adapter.cpp)
@@ -561,15 +567,40 @@ bool LlamaWrapper::loadModelFromThemisDB(
             }
         }
 
-        // Write model data to file
-        std::ofstream out_file(temp_model_path, std::ios::binary);
-        if (!out_file) {
-            spdlog::error("Failed to create temporary model file: {}", temp_model_path.string());
-            return false;
+        // F2-6 fix: write with 0600 permissions (owner read/write only) using open(2)
+        // to prevent world-readable exposure of decrypted model data in /tmp.
+        {
+            int fd = ::open(temp_model_path.c_str(),
+                            O_WRONLY | O_CREAT | O_EXCL | O_CLOEXEC,
+                            0600);
+            if (fd < 0) {
+                // File may already exist from a previous run; try overwriting with correct perms
+                ::unlink(temp_model_path.c_str());
+                fd = ::open(temp_model_path.c_str(),
+                            O_WRONLY | O_CREAT | O_EXCL | O_CLOEXEC,
+                            0600);
+            }
+            if (fd < 0) {
+                spdlog::error("Failed to create temporary model file (0600): {}: {}",
+                              temp_model_path.string(), std::strerror(errno));
+                return false;
+            }
+            const uint8_t* ptr = model_data.data();
+            size_t remaining = model_data.size();
+            while (remaining > 0) {
+                ssize_t written = ::write(fd, ptr, remaining);
+                if (written <= 0) {
+                    spdlog::error("Failed to write model data to temp file: {}",
+                                  std::strerror(errno));
+                    ::close(fd);
+                    ::unlink(temp_model_path.c_str());
+                    return false;
+                }
+                ptr += static_cast<size_t>(written);
+                remaining -= static_cast<size_t>(written);
+            }
+            ::close(fd);
         }
-        
-        out_file.write(reinterpret_cast<const char*>(model_data.data()), model_data.size());
-        out_file.close();
         
         if (!std::filesystem::exists(temp_model_path)) {
             spdlog::error("Temporary model file was not created: {}", temp_model_path.string());
@@ -585,7 +616,7 @@ bool LlamaWrapper::loadModelFromThemisDB(
             return false;
         }
         
-        spdlog::info("✓ Model written to temporary file: {}", temp_model_path.string());
+        spdlog::info("✓ Model written to temporary file (0600): {}", temp_model_path.string());
         spdlog::info("  File size: {} bytes", file_size);
         
         // Step 5: Load model using standard loadModel() method
@@ -593,18 +624,16 @@ bool LlamaWrapper::loadModelFromThemisDB(
         
         bool load_success = loadModel(temp_model_path.string(), config);
         
+        // F2-6 fix: always remove the temp file after loading (success or failure)
+        // to avoid indefinite persistence of decrypted model data on disk.
+        std::filesystem::remove(temp_model_path);
+        
         if (!load_success) {
             spdlog::error("Failed to load model from temporary file");
-            // Clean up temp file on failure
-            std::filesystem::remove(temp_model_path);
             return false;
         }
         
         spdlog::info("✓ Model loaded successfully from ThemisDB: {}", model_id);
-        
-        // Note: Temp file is kept in cache directory for potential reuse
-        // Cleanup policy: Files older than 7 days should be purged by a maintenance task
-        // Manual cleanup can be done via: rm -rf /tmp/themisdb_models/*
         
         // Update usage statistics in ThemisDB
         // Note: updateUsageStats requires tokens_generated parameter
@@ -1872,6 +1901,30 @@ void LlamaWrapper::clearPrefixCache() {
 // ═══════════════════════════════════════════════════════════
 
 bool LlamaWrapper::loadDraftModel(const std::string& draft_path) {
+    // F2-5 fix: validate draft model path is within the parent directory of the
+    // main model to prevent loading arbitrary files as speculative decode models.
+    if (!draft_path.empty() && !current_model_path_.empty()) {
+        namespace fs = std::filesystem;
+        try {
+            fs::path allowed_dir = fs::weakly_canonical(
+                fs::path(current_model_path_).parent_path());
+            fs::path canonical_draft = fs::weakly_canonical(fs::path(draft_path));
+            auto [base_it, child_it] = std::mismatch(
+                allowed_dir.begin(), allowed_dir.end(),
+                canonical_draft.begin(), canonical_draft.end());
+            if (base_it != allowed_dir.end()) {
+                spdlog::error("[SECURITY] loadDraftModel: draft model path '{}' is outside "
+                              "the allowed models directory '{}'. Refusing to load.",
+                              draft_path, allowed_dir.string());
+                return false;
+            }
+        } catch (const std::filesystem::filesystem_error& fse) {
+            spdlog::error("[SECURITY] loadDraftModel: path validation failed for '{}': {}",
+                          draft_path, fse.what());
+            return false;
+        }
+    }
+
     spdlog::info("Loading draft model for speculative decoding: {}", draft_path);
     
     // Initialize llama.cpp model parameters for draft

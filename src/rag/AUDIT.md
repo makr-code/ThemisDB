@@ -25,7 +25,7 @@
 | Test Coverage | ✅ Present (38 dedicated test files in `tests/`) |
 | S0 Critical | ✅ None in RAG module itself |
 | S1 High | ✅ 0 open (F4-1, F4-2, F5-1, F5-2 fixed 2026-05-04) |
-| S2 Medium | ⚠️ 4 |
+| S2 Medium | ✅ 0 (F4-3, F4-4, F5-3, F5-4 fixed 2026-05-04) |
 | S3 Low | ℹ️ 1 |
 | Faithfulness judge prompt-injection-safe | ✅ Fixed — hard delimiters applied in judge prompts |
 
@@ -217,10 +217,10 @@ tenant corpus can be returned and included in another tenant's gap analysis.
 
 | ID | File | Function | Description |
 |----|------|----------|-------------|
-| F4-3 | rag_judge.cpp | `evaluate()` | `ethical_veto_power=true` + `enable_ethical_evaluation=false` silently passes everything — no warning for contradictory config |
-| F4-4 | rag_judge.cpp | `detectBias()` | Hardcoded English word list trivially bypassed by paraphrasing or other languages |
-| F5-3 | knowledge_gap_detector.cpp | `verifyClaim()` | Returns `true` for empty term list (stop-word-only claims) — short sentences always verified |
-| F5-4 | knowledge_gap_detector.cpp | `detectGap()` | Ethical keyword match short-circuits similarity/coverage pre-generation checks |
+| ~~F4-3~~ | ~~rag_judge.cpp~~ | ~~`evaluate()`~~ | ~~`ethical_veto_power=true` + `enable_ethical_evaluation=false` silently passes everything — no warning for contradictory config~~ ✅ Fixed 2026-05-04 — `std::call_once` WARN added |
+| ~~F4-4~~ | ~~rag_judge.cpp~~ | ~~`detectBias()`~~ | ~~Hardcoded English word list trivially bypassed by paraphrasing or other languages~~ ✅ Fixed 2026-05-04 — stub comment added; word list expanded (discriminat, prejudic, stereotyp, bigot) |
+| ~~F5-3~~ | ~~knowledge_gap_detector.cpp~~ | ~~`verifyClaim()`~~ | ~~Returns `true` for empty term list (stop-word-only claims) — short sentences always verified~~ ✅ Fixed 2026-05-04 — returns `false` (fail-closed) for empty term lists |
+| ~~F5-4~~ | ~~knowledge_gap_detector.cpp~~ | ~~`detectGap()`~~ | ~~Ethical keyword match short-circuits similarity/coverage pre-generation checks~~ ✅ Fixed 2026-05-04 — ethical check accumulates into boolean OR; all checks run |
 
 ### S3 — Low
 

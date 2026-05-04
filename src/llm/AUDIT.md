@@ -21,7 +21,7 @@
 | Estimated test coverage | > 80 % |
 | S0 Critical | ✅ 0 (F1-1, F1-2, F2-1 fixed 2026-04-21) |
 | S1 High | ✅ 0 (F1-3, F1-4, F1-5, F2-2, F2-3, F2-4, F3-1, F3-2 fixed 2026-05-04) |
-| S2 Medium | ⚠️ 4 |
+| S2 Medium | ✅ 0 (F2-5, F2-6 fixed 2026-05-04) |
 | Trusted-directory enforcement on model loading | 🔴 **None** |
 | Build system registration | ✅ All files registered in CMakeLists.txt |
 | Documentation completeness | ✅ CHANGELOG, SECURITY, AUDIT present |
@@ -243,8 +243,8 @@ is an arbitrary file write for any path writable by the server process.
 
 | ID | File | Function | Description |
 |----|------|----------|-------------|
-| F2-5 | llama_wrapper.cpp | `loadDraftModel` | Draft model path unvalidated — arbitrary file loaded as speculative decode draft model |
-| F2-6 | llama_wrapper.cpp | `loadModelFromThemisDB` | Decrypted model binary persists in world-readable `/tmp/themisdb_models/` indefinitely with predictable names |
+| ~~F2-5~~ | ~~llama_wrapper.cpp~~ | ~~`loadDraftModel`~~ | ~~Draft model path unvalidated — arbitrary file loaded as speculative decode draft model~~ ✅ Fixed 2026-05-04 — trusted-directory check against main model's parent dir |
+| ~~F2-6~~ | ~~llama_wrapper.cpp~~ | ~~`loadModelFromThemisDB`~~ | ~~Decrypted model binary persists in world-readable `/tmp/themisdb_models/` indefinitely with predictable names~~ ✅ Fixed 2026-05-04 — 0600 permissions, cleanup after load |
 
 ---
 
@@ -263,7 +263,8 @@ is an arbitrary file write for any path writable by the server process.
 | F2-3 | Response cache keyed on prompt only — cross-tenant leakage | Cache key changed to `request.prompt + "\|" + request.model_id` in both `get` and `put` | 2026-05-04 |
 | F2-4 | TOCTOU during model reload — concurrent swap corrupts inference identity | Added model identity check after re-acquiring lock; mismatch logged as warning | 2026-05-04 |
 | F3-1 | Unsigned underflow in `freeGPU`/`freeCPU`/`freeModel` | Saturating subtract with `spdlog::error` on underflow, clamp to 0 | 2026-05-04 |
-| F3-2 | `defragmentModelGPU` erase predicate too broad (by device_id) | Replaced with `unordered_set<void*>` of specific allocation pointers from `device_allocs` | 2026-05-04 |
+| F2-5 | Draft model path unvalidated — arbitrary file loaded as speculative decode draft model | Trusted-directory check against main model's parent directory added in `loadDraftModel` | 2026-05-04 |
+| F2-6 | Decrypted model persists in world-readable `/tmp/themisdb_models/` indefinitely | 0600 file permissions via `open(O_CREAT,0600)`; temp file removed immediately after load | 2026-05-04 |
 
 ### Open (carried forward)
 

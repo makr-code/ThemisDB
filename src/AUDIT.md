@@ -97,7 +97,7 @@
 |--------|----------|----|----|--------|
 | sharding | `src/sharding/AUDIT.md` | 0 (PAX-1/2/3, GOS-1, CST-1/2/3, RWALI-1/2 fixed) | — | ✅ S0 resolved; ✅ S2: RAFT-2, GOS-2, GOS-3, PAX-6, CST-4, CST-5, TWAL-1, DTM-4 fixed 2026-05-04 (1 S2 open: CST-6) |
 | transaction | `src/transaction/ROADMAP.md` | 0 (SH-8 fixed) | — | ✅ S0 resolved |
-| storage | `src/storage/AUDIT.md` | 0 (R-1 fixed 2026-05-04) | 0 (R-2 fixed 2026-05-04) | ✅ S0+S1 resolved |
+| storage | `src/storage/AUDIT.md` | 0 (R-1 fixed 2026-05-04) | 0 (R-2 fixed 2026-05-04) | ✅ S0+S1+S2 resolved (R-3, R-4, R-5, W-1, W-2 fixed 2026-05-04) |
 | security | `src/security/AUDIT.md` | 0 (A-1/A-2 fixed) | 0 (A-3, E-1, E-2, E-4, RB-1 fixed 2026-05-04) | 0 (A-4, A-5, E-3, RB-2 fixed 2026-05-04) — ✅ S0+S1+S2 resolved |
 | cache | `src/cache/AUDIT.md` | 0 (D-1 fixed 2026-05-04) | 0 (C-1, C-2, C-4 fixed 2026-05-04) | 0 (C-3, D-2, D-3 fixed 2026-05-04) — ✅ S0+S1+S2 resolved |
 | network | `src/network/AUDIT.md` | 0 (WPS-1..5 fixed 2026-05-04) | 0 | 0 (WPS-6..10 fixed 2026-05-04) — ✅ S0+S1+S2 resolved |
@@ -105,8 +105,8 @@
 | query | `src/query/AUDIT.md` | 0 (QE-1, PA-1 fixed 2026-05-04) | 0 (QE-3, QE-4, QE-5, PA-2, TR-1, TR-2 fixed 2026-05-04) | ✅ S0+S1 resolved |
 | aql | `src/aql/AUDIT.md` | 0 (LLM-1/LLM-2 addressed) | 0 (LLM-3 fixed 2026-05-04) | 0 (LLM-4 fixed 2026-05-04) — ✅ S0+S1+S2 resolved |
 | graph | `src/graph/AUDIT.md` | — | 0 (GQ-1, GQ-2 fixed 2026-05-04) | ✅ S1 resolved |
-| llm | `src/llm/AUDIT.md` | 0 (F1-1/F1-2/F2-1 fixed) | 0 (F1-3..F3-2 fixed 2026-05-04) | ✅ S0+S1 resolved |
-| rag | `src/rag/AUDIT.md` | — | 0 (F4-1, F4-2, F5-1, F5-2 fixed 2026-05-04) | ✅ S1 resolved |
+| llm | `src/llm/AUDIT.md` | 0 (F1-1/F1-2/F2-1 fixed) | 0 (F1-3..F3-2 fixed 2026-05-04) | ✅ S0+S1+S2 resolved (F2-5, F2-6 fixed 2026-05-04) |
+| rag | `src/rag/AUDIT.md` | — | 0 (F4-1, F4-2, F5-1, F5-2 fixed 2026-05-04) | ✅ S1+S2 resolved (F4-3, F4-4, F5-3, F5-4 fixed 2026-05-04) |
 
 ---
 

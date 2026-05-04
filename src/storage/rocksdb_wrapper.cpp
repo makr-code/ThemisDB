@@ -416,6 +416,14 @@ void RocksDBWrapper::configureOptions() {
     // faults.  For full power-loss durability also enable force_sync_on_write or
     // wal_bytes_per_sync.
     write_options_->sync = false;
+    // [DURABILITY] write_options_->sync=false: acknowledged writes may be lost on power failure
+    // between db_->Write() returning OK and the next OS fsync. This is the default for
+    // performance (throughput limited by disk IOPS when sync=true). Set
+    // THEMIS_ROCKSDB_SYNC=1 or config 'force_sync_on_write: true' for full durability.
+    // Only appropriate for non-critical data or testing environments.
+    THEMIS_WARN("[DURABILITY] write_options_->sync=false: power loss between Write() and OS fsync "
+                "may cause acknowledged-write loss. Set THEMIS_ROCKSDB_SYNC=1 or "
+                "'force_sync_on_write: true' for power-loss durability.");
     write_options_->disableWAL = config_.disable_wal_for_benchmark;  // Phase 2F: Benchmark optimization
     if (!config_.wal_dir.empty()) {
         options_->wal_dir = config_.wal_dir;
@@ -647,7 +655,11 @@ bool RocksDBWrapper::open() {
                           std::string(sharding_enabled) == "1");
     
     if (sharding_mode && cf_descriptors.size() > 1) {
-        THEMIS_WARN("Sharding mode detected: opening only default column family to prevent MVCC deadlock");
+        THEMIS_WARN("[CONFIG] THEMIS_ENABLE_SHARDING=1: non-default column families will be dropped. "
+                    "This is a destructive operation. Ensure this is intentional and authorized. "
+                    "All non-default column family data will be inaccessible until re-created.");
+        THEMIS_WARN("[AUDIT] Sharding mode detected: opening only default column family to prevent MVCC deadlock. "
+                    "Non-default CFs dropped: count={}", cf_descriptors.size() - 1);
         // Keep only the default CF
         cf_descriptors.erase(
             std::remove_if(cf_descriptors.begin(), cf_descriptors.end(),
@@ -1399,6 +1411,10 @@ RocksDBWrapper::TransactionWrapper::~TransactionWrapper() {
             txn_.reset();  // Safe to destroy when DB is open
         } else {
             // DB is closed, just release without destroying to avoid crash
+            THEMIS_WARN("[RESOURCE] TransactionWrapper::~TransactionWrapper: leaking active transaction "
+                        "because DB is closed. This is expected during shutdown but should not "
+                        "accumulate under normal operation. "
+                        "Consider committing or rolling back transactions before closing the DB.");
             txn_.release();  // Intentional leak in rare edge case (DB shutdown)
         }
     }

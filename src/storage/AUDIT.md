@@ -23,9 +23,9 @@
 | Test Coverage | ✅ 21 focused standalone test targets |
 | S0 Critical / Safety Violations | ✅ 0 (R-1 fixed 2026-05-04) |
 | S1 High | ✅ 0 (R-2 fixed 2026-05-04) |
-| S2 Medium | ⚠️ 5 |
+| S2 Medium | ✅ 0 (R-3, R-4, R-5, W-1, W-2 fixed 2026-05-04) |
 | S3 Low | ℹ️ 2 |
-| Durability-by-default | 🔴 `write_options_->sync = false` — power-loss loses acknowledged writes |
+| Durability-by-default | 🔴 `write_options_->sync = false` — power-loss loses acknowledged writes (warning now emitted at startup) |
 
 ## Source Files Audited
 
@@ -138,11 +138,11 @@ that no concurrent snapshot can observe any partial blob state.
 
 | ID | Function | Description |
 |----|----------|-------------|
-| R-3 | `open()` | `THEMIS_ENABLE_SHARDING` environment variable silently drops all non-default column families with no audit log and no authorization check |
-| R-4 | `TransactionWrapper::~TransactionWrapper()` | Intentional `txn_.release()` (explicit leak) when DB closes while transaction is active; accumulates under rapid restart cycles |
-| R-5 | `configureOptions()` | `write_options_->sync = false` default — power failure between `db_->Write()` returning OK and the next OS `fsync` loses acknowledged writes; default is silent |
-| W-1 | `crc32_update()` in `wal_storage.cpp` | Static CRC table uses non-atomic `if (!initialized)` pattern — data race under concurrent `WALStorage` opens (UB per C++ memory model); fix: `std::call_once` or `constexpr` table |
-| W-2 | `appendBatch()` in `wal_storage.cpp` | Segment rotation failure mid-batch leaves earlier segment entries durable; recovery of partial batch requires idempotent replay logic not verified to exist |
+| ~~R-3~~ | ~~`open()`~~ | ~~`THEMIS_ENABLE_SHARDING` environment variable silently drops all non-default column families with no audit log and no authorization check~~ ✅ Fixed 2026-05-04 — added WARN + AUDIT log before drop |
+| ~~R-4~~ | ~~`TransactionWrapper::~TransactionWrapper()`~~ | ~~Intentional `txn_.release()` (explicit leak) when DB closes while transaction is active; accumulates under rapid restart cycles~~ ✅ Fixed 2026-05-04 — added WARN log on leak path |
+| ~~R-5~~ | ~~`configureOptions()`~~ | ~~`write_options_->sync = false` default — power failure between `db_->Write()` returning OK and the next OS `fsync` loses acknowledged writes; default is silent~~ ✅ Fixed 2026-05-04 — WARN emitted at startup when sync=false |
+| ~~W-1~~ | ~~`crc32_update()` in `wal_storage.cpp`~~ | ~~Static CRC table uses non-atomic `if (!initialized)` pattern — data race under concurrent `WALStorage` opens (UB per C++ memory model); fix: `std::call_once` or `constexpr` table~~ ✅ Fixed 2026-05-04 — replaced with `std::call_once` |
+| ~~W-2~~ | ~~`appendBatch()` in `wal_storage.cpp`~~ | ~~Segment rotation failure mid-batch leaves earlier segment entries durable; recovery of partial batch requires idempotent replay logic not verified to exist~~ ✅ Fixed 2026-05-04 — WARN logged on rotation failure with durability context |
 
 ### S3 — Low
 
