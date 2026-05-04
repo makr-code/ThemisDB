@@ -495,16 +495,23 @@ Result<FragmentationMetrics> IndexMaintenanceManager::calculateFragmentation(
         // Calculate fragmentation based on compaction stats
         std::string stats_str;
         if (db->GetProperty("rocksdb.stats", &stats_str)) {
-            // Parse stats for fragmentation indicators
-            // In production, this would parse actual RocksDB metrics
-            
-            // For now, simulate fragmentation calculation
-            // Real implementation would check:
-            // - Number of SST files
-            // - Overlap between levels
-            // - Delete markers vs live keys
-            // - File size distribution
-            
+            // STUB/SIMULATION NOTE:
+            // Purpose: Provide a non-zero fragmentation estimate while the full
+            //          RocksDB compaction-stats parser (SST overlap, dead-key ratio,
+            //          file-size distribution) is not yet implemented.
+            // Activation: Always — no RocksDB internal stats parser is invoked.
+            // Production Delta: Fragmentation is estimated solely from the L0 file
+            //                   count via a linear formula (file_count * 1.5–2.0%).
+            //                   Real fragmentation caused by L1-LN overlap, large
+            //                   delete-marker ratios, or skewed file sizes is not
+            //                   captured.  False negatives (under-reporting) will
+            //                   suppress compaction triggers; false positives are
+            //                   unlikely but possible for write-heavy L0.
+            // Removal Plan: Parse `rocksdb.stats` property; derive delete-marker
+            //               ratio via rocksdb.estimate-num-keys vs
+            //               rocksdb.estimate-live-data-size; compute weighted score.
+            //               See src/storage/FUTURE_ENHANCEMENTS.md §IndexFragmentation.
+
             std::string file_count_str;
             if (db->GetProperty("rocksdb.num-files-at-level0", &file_count_str)) {
                 try {
@@ -513,7 +520,7 @@ Result<FragmentationMetrics> IndexMaintenanceManager::calculateFragmentation(
                     metrics.file_count = 0;
                 }
             }
-            
+
             // Estimate fragmentation (simplified)
             if (metrics.file_count > 10) {
                 metrics.fragmentation_percentage = std::min(50.0, metrics.file_count * 2.0);

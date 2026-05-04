@@ -353,10 +353,22 @@ bool KerberosSecurityValidator::isTicketExpired(const std::vector<uint8_t>& toke
 KerberosSecurityValidator::TokenInfo 
 KerberosSecurityValidator::getTokenInfo(const std::vector<uint8_t>& /*token_data*/) {
     TokenInfo info;
-    
-    // Simplified implementation
-    // In production, would fully parse GSSAPI/Kerberos token
-    
+
+    // STUB/SIMULATION NOTE:
+    // Purpose: Return a usable TokenInfo with plausible default values while the
+    //          full GSSAPI/Kerberos token parser (AP-REQ DER decoding) is not
+    //          implemented.
+    // Activation: Always — token_data is unused; no ASN.1 or MIT KRB5 parser invoked.
+    // Production Delta: All fields are hardcoded or derived from config, not from
+    //                   the actual token: `client_principal` is always
+    //                   `"unknown@REALM"`, `realm` is `"REALM"`, auth/start/end
+    //                   times are based on the current wall clock (not the ticket
+    //                   values).  Revoked or expired tokens appear valid because
+    //                   `end_time` is set to `now + 3600`.  Replay-detection and
+    //                   clock-skew checks are unreliable.
+    // Removal Plan: Decode token_data using Heimdal or MIT KRB5 ASN.1 APIs;
+    //               populate all TokenInfo fields from the AP-REQ structure.  See
+    //               src/auth/FUTURE_ENHANCEMENTS.md §Kerberos Token Info Parser.
     info.service_principal = config_.expected_service_principal;
     info.client_principal = "unknown@REALM";
     info.realm = "REALM";

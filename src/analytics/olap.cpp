@@ -732,8 +732,23 @@ std::vector<OLAPEngine::WindowResult> OLAPEngine::evaluateWindowFunctions(
 
 OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery& query) {
     QueryPlan plan;
-    
-    plan.estimated_rows = 1000;  // Placeholder
+
+    // STUB/SIMULATION NOTE:
+    // Purpose: Return a syntactically valid QueryPlan while real cost estimation
+    //          (row-count statistics from RocksDB / column histograms) is not
+    //          wired into the OLAP engine.
+    // Activation: Always — no statistics-based cardinality estimator is connected.
+    // Production Delta: `estimated_rows` is always 1000, and `estimated_cost` is
+    //                   always 1.0 regardless of the actual collection size.
+    //                   Query optimizer decisions that depend on these values (e.g.,
+    //                   whether to use parallel execution or GPU acceleration) will
+    //                   be wrong for collections that are much larger or smaller
+    //                   than 1 000 rows.
+    // Removal Plan: Call `OLAPEngine::collectStatistics()` to obtain per-collection
+    //               row counts and column histograms; use those to compute a cost
+    //               model estimate.  See src/analytics/FUTURE_ENHANCEMENTS.md
+    //               §OLAP Cost Estimator.
+    plan.estimated_rows = 1000;  // STUB: hardcoded until statistics are available
     plan.estimated_cost = 1.0;
     
     // Check for index usage
@@ -774,7 +789,17 @@ OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery& query) {
 }
 
 void OLAPEngine::collectStatistics([[maybe_unused]] std::string_view collection) {
-    // Placeholder for statistics collection
+    // STUB/SIMULATION NOTE:
+    // Purpose: Satisfy the IStatisticsCollector API while no RocksDB column
+    //          histogram or row-count collection is implemented.
+    // Activation: Always — no statistics scan is performed.
+    // Production Delta: Any caller that invokes collectStatistics() before
+    //                   explain() expects the cost model to improve; the
+    //                   statistics remain unset and explain() still returns
+    //                   estimated_rows=1000.
+    // Removal Plan: Scan the collection; populate per-column min/max/histogram
+    //               buckets; store in OLAPEngine::Impl::stats_cache_.  See
+    //               src/analytics/FUTURE_ENHANCEMENTS.md §OLAP Statistics Collector.
 }
 
 double OLAPEngine::computeAggregate(

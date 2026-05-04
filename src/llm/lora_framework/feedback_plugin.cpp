@@ -148,8 +148,20 @@ bool ContentValidationPlugin::containsSpam(const std::string& text) const {
 }
 
 bool ContentValidationPlugin::containsProfanity([[maybe_unused]] const std::string& text) const {
-    // Placeholder - can be implemented with a profanity filter library
-    // or word list if needed
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow the ContentValidationPlugin to compile and pass all
+    //          non-profanity content checks while a profanity word-list or
+    //          classifier is not bundled with ThemisDB.
+    // Activation: Always — no word-list or ML classifier is loaded.
+    // Production Delta: All text inputs pass the profanity check regardless of
+    //                   content.  Training data or user-submitted text containing
+    //                   profanity will not be filtered.
+    // Removal Plan: Embed a configurable word-list (loaded at startup from a
+    //               file path in ContentValidationPlugin::Config); scan
+    //               `text` for any listed word (case-insensitive, with word-
+    //               boundary matching).  Optionally integrate a compact ML
+    //               classifier.  See src/llm/FUTURE_ENHANCEMENTS.md
+    //               §ContentValidation Profanity Filter.
     return false;
 }
 

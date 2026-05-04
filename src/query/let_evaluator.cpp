@@ -601,7 +601,20 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         auto g1 = evaluateExpression(args[0], currentDoc);
         auto g2 = evaluateExpression(args[1], currentDoc);
         
-        // Simplified implementation: Check if Point g1 is within Polygon g2 using MBR
+        // STUB/SIMULATION NOTE:
+        // Purpose: Allow ST_Within() queries to compile and return plausible results
+        //          while a full geometry-library integration (Boost.Geometry or GEOS)
+        //          is not linked.
+        // Activation: Always — no Boost.Geometry `within()` or GEOS predicate invoked.
+        // Production Delta: Containment is tested using the minimum bounding rectangles
+        //                   (MBRs) of both geometries, not the actual polygon boundary.
+        //                   Points on the outer edge of the MBR but outside the real
+        //                   polygon shape produce false positives.  Non-rectangular
+        //                   polygons (triangles, concave shapes, etc.) will have
+        //                   significantly inflated false-positive rates.
+        // Removal Plan: Link Boost.Geometry; call `boost::geometry::within(g1, g2)`
+        //               after deserialising GeoJSON to Boost geometry types.  See
+        //               src/query/FUTURE_ENHANCEMENTS.md §ST_Within Geometry Library.
         // Full implementation would use Boost.Geometry within()
         
         std::function<std::pair<double, double>(const nlohmann::json&)> extractPoint = [&](const nlohmann::json& geojson) -> std::pair<double, double> {

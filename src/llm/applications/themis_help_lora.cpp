@@ -642,11 +642,19 @@ std::string ThemisHelpLoRA::decrementVersion(const std::string& version) {
             // Decrement minor version
             return "v" + major + "." + std::to_string(minor_num - 1);
         } else if (major_num > 1) {
-            // Minor is 0, decrement major and reset minor to 0
-            // TODO: In a production system, implement proper version history tracking
-            // to determine the actual previous version (e.g., v2.0 -> v1.5 if v1.5
-            // was the last v1.x version). For now, this simplified approach is
-            // sufficient for the initial implementation.
+            // STUB/SIMULATION NOTE:
+            // Purpose: Provide a syntactically valid "previous version" string when
+            //          navigating LoRA adapter version history, while an actual
+            //          version registry is not maintained.
+            // Activation: Always — ThemisHelpLoRA has no version history store.
+            // Production Delta: Decrementing from `vN.0` (where N>1) returns
+            //                   `v(N-1).0` instead of the real last v(N-1).x
+            //                   version (e.g., `v2.0 → v1.0` instead of `v1.5`).
+            //                   Diff views or UI pickers that rely on this function
+            //                   may skip intermediate minor versions entirely.
+            // Removal Plan: Maintain a sorted `std::vector<Version>` of published
+            //               adapter versions; find the predecessor in that list.
+            //               See src/llm/FUTURE_ENHANCEMENTS.md §ThemisHelpLoRA VersionHistory.
             return "v" + std::to_string(major_num - 1) + ".0";
         } else {
             // Already at minimum version v1.0

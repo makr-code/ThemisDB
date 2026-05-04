@@ -1120,7 +1120,19 @@ bool BackupManager::compressPath(const std::string& src_path, const std::string&
 
 bool BackupManager::decompressPath(const std::string& src_path, const std::string& dest_path,
                                    [[maybe_unused]] CompressionType type, std::error_code& ec) {
-    // Placeholder implementation
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow the backup pipeline to link without zstd/lz4/zlib.  Files
+    //          are simply copied byte-for-byte regardless of the compression type.
+    // Activation: Always — no decompression library (zstd, lz4, zlib) is linked.
+    // Production Delta: Compressed backup archives are not decompressed.  If the
+    //                   corresponding compressPath() call was a real compressor,
+    //                   restored data will be the compressed bytestream, not the
+    //                   original data → restore is silently broken.
+    //                   If compressPath() is also a stub (raw copy) then
+    //                   round-tripping works only in the all-stub scenario.
+    // Removal Plan: Link zstd/lz4 (vcpkg features 'zstd'/'lz4'); dispatch on
+    //               `type` to the correct decompressor.  See
+    //               src/storage/FUTURE_ENHANCEMENTS.md §Backup Compression.
     namespace fs = std::filesystem;
     try {
         THEMIS_INFO("Decompressing {} to {}", src_path, dest_path);
@@ -1231,7 +1243,18 @@ bool BackupManager::downloadFromCloud(const std::string& cloud_path, [[maybe_unu
                                       StorageBackend backend,
                                       const std::map<std::string, std::string>& /*config*/,
                                       std::error_code& ec) {
-    // Placeholder implementation
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow the restore pipeline to compile when no cloud SDK is linked.
+    //          Simulates a successful download without transferring any data.
+    // Activation: Always — no AWS SDK / GCS SDK / Azure SDK is linked.
+    // Production Delta: Always returns true but writes nothing to local_path.
+    //                   Any subsequent restore step that reads local_path will
+    //                   operate on stale/empty data, silently producing a corrupt
+    //                   or incomplete restore.
+    // Removal Plan: Dispatch on `backend` to the matching ICloudStorageProvider
+    //               implementation (S3StorageProvider, GCSStorageProvider, …);
+    //               call provider->download(cloud_path, local_path).  See
+    //               src/storage/FUTURE_ENHANCEMENTS.md §Cloud Backup Download.
     try {
         THEMIS_INFO("Downloading {} from cloud backend {}", cloud_path, static_cast<int>(backend));
         // Simulate successful download
@@ -1352,7 +1375,20 @@ bool BackupManager::restoreFromBackup(const std::string& src_dir, std::error_cod
 
 bool BackupManager::performPITR(const std::string& dest_dir, [[maybe_unused]] const PITROptions& pitr_options,
                                 std::error_code& ec, RecoveryStats* stats) {
-    // Placeholder implementation for PITR
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow PITR to link without a WAL reader / timestamp-parsing library.
+    //          Restores the lexicographically last backup in the directory without
+    //          parsing timestamps or replaying WAL segments.
+    // Activation: Always — no WAL replay engine or backup-manifest timestamp parser
+    //             is implemented.
+    // Production Delta: `pitr_options.target_time` is completely ignored.  The
+    //                   restored state is the last snapshot, not the exact requested
+    //                   point in time.  Any WAL delta between the snapshot and
+    //                   pitr_options.target_time is lost.
+    // Removal Plan: (1) Parse ISO-8601 timestamps from backup-manifest files;
+    //               (2) Select the latest snapshot ≤ target_time;
+    //               (3) Replay WAL segments up to target_time using the WAL reader.
+    //               See src/storage/FUTURE_ENHANCEMENTS.md §PITR WAL Replay.
     namespace fs = std::filesystem;
     try {
         THEMIS_INFO("Performing PITR to target time");
@@ -1387,7 +1423,18 @@ bool BackupManager::performPITR(const std::string& dest_dir, [[maybe_unused]] co
 bool BackupManager::restoreCollections([[maybe_unused]] const std::string& src_dir, 
                                        const std::vector<std::string>& collections,
                                        std::error_code& ec) {
-    // Placeholder implementation for partial recovery
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow the partial-recovery code path to compile while selective
+    //          collection restore is not yet implemented.
+    // Activation: Always — no per-collection filtering of backup data is coded.
+    // Production Delta: Always returns true without actually restoring any
+    //                   collection data.  The `collections` argument is silently
+    //                   ignored.  Callers expecting named collections to be
+    //                   available after a partial restore will find empty state.
+    // Removal Plan: Open the backup at src_dir; iterate its collection manifests;
+    //               for each name in `collections`, copy only those SST files and
+    //               replay their WAL.  See
+    //               src/storage/FUTURE_ENHANCEMENTS.md §Partial Collection Restore.
     try {
         THEMIS_INFO("Restoring {} collections from backup", collections.size());
         
