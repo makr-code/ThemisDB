@@ -391,7 +391,18 @@ std::vector<uint8_t> TTSProcessor::generatePCM(
         return pcm_data;
     }
     #else
-    // Placeholder: generate silence based on text length
+    // STUB/SIMULATION NOTE:
+    // Purpose: Return a byte-valid PCM buffer so callers that depend on
+    //          synthesizeSpeech() do not crash when TTS backend is absent.
+    // Activation: THEMIS_TTS_ENABLED is NOT defined (default build without
+    //             espeak-ng or compatible TTS library).
+    // Production Delta: Every synthesizeSpeech() call returns silence.
+    //                   Audio players and streaming endpoints receive zeros;
+    //                   no audible speech is ever produced.  Duration is
+    //                   approximated as text.length() * 100 samples (crude).
+    // Removal Plan: Build with -DTHEMIS_TTS_ENABLED and link espeak-ng (or
+    //               equivalent); the real synthesis path above the #else replaces
+    //               this stub.  See src/content/FUTURE_ENHANCEMENTS.md §TTS Backend.
     size_t duration_samples = text.length() * 100;  // ~100 samples per character
     std::vector<uint8_t> pcm_data(duration_samples * 2);  // 16-bit samples
     

@@ -266,9 +266,19 @@ bool BlobRedundancyManager::isRunning() const {
 bool BlobRedundancyManager::loadConfig(const std::string& path) {
     spdlog::info("Loading blob redundancy configuration from: {}", path);
     
-    // Simplified implementation
-    // In production, parse YAML configuration file
-    
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow BlobRedundancyManager to start without a YAML parser
+    //          dependency; the `path` argument is accepted but never read.
+    // Activation: Always — no YAML parser is invoked.
+    // Production Delta: Redundancy configuration (replication factor, erasure
+    //                   coding parameters, tier assignments, per-collection
+    //                   overrides) is never applied; the manager runs with
+    //                   compile-time defaults regardless of what the config
+    //                   file contains.  Changes to the YAML file at runtime
+    //                   have zero effect.
+    // Removal Plan: Parse the YAML at `path` using yaml-cpp; populate
+    //               `config_` fields.  See
+    //               src/storage/FUTURE_ENHANCEMENTS.md §BlobRedundancy ConfigLoader.
     return true;
 }
 
@@ -451,9 +461,20 @@ bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
     
     const auto& metadata = it->second;
     
-    // Verify checksums, location health, etc.
-    // Simplified implementation
-    
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow validateBlob() to return a result while checksum
+    //          verification and storage-location health probing are not
+    //          implemented.  Delegates entirely to BlobMetadata::isHealthy()
+    //          which only checks the in-memory healthy_ flag.
+    // Activation: Always — no I/O or checksum computation is performed.
+    // Production Delta: A blob whose backing shards are corrupted, missing, or
+    //                   unreachable will still appear healthy if `isHealthy()`
+    //                   is true.  Corruption detection, erasure-coding repair
+    //                   triggers, and geo-redundancy checks are bypassed.
+    // Removal Plan: Read each shard from storage, compute and compare checksums,
+    //               probe shard-node health; fail if any shard is unreachable or
+    //               checksum mismatches.  See
+    //               src/storage/FUTURE_ENHANCEMENTS.md §BlobRedundancy ValidateBlob.
     return metadata.isHealthy();
 }
 
@@ -822,9 +843,18 @@ void BlobRedundancyManager::runScrub(bool full) {
     std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
     
     for (const auto& [blob_id, metadata] : blobs_) {
-        // Verify checksums
-        // Check location health
-        // Simplified implementation
+        // STUB/SIMULATION NOTE:
+        // Purpose: Allow runScrub() to iterate blobs without performing any
+        //          I/O so the method is safe to call in development and CI.
+        // Activation: Always — no checksum read or location health probe issued.
+        // Production Delta: The scrub loop body is a no-op.  Corrupted blobs,
+        //                   missing shards, checksum mismatches, and geo-
+        //                   redundancy violations are never detected or logged.
+        //                   Automated repair via `repair_queue_` is never populated.
+        // Removal Plan: For each blob, compute checksum from shards; compare
+        //               against stored checksum; enqueue for repair on mismatch.
+        //               See src/storage/FUTURE_ENHANCEMENTS.md §BlobRedundancy Scrub.
+        (void)blob_id; (void)metadata; // suppress unused-variable warnings until implemented
     }
 }
 

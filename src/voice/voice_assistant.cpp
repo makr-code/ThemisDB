@@ -606,7 +606,19 @@ std::string VoiceAssistant::createRevisionEntry(
     // 4. Add audit log entry
     // 5. Return revision ID
     
-    // Placeholder
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow createRevisionEntry() to return a well-formed ID string
+    //          while the ThemisDB revision-tracking collection is not yet wired in.
+    // Activation: Always — no database write is performed.
+    // Production Delta: The caller receives a timestamp-based revision ID but no
+    //                   revision record is stored in ThemisDB.  History queries,
+    //                   version diffing, and audit-log entries that depend on
+    //                   revision records will find nothing.  Every subsequent
+    //                   "step back" operation for the entity will fail silently.
+    // Removal Plan: Implement with ThemisDB document API (insert revision entry,
+    //               store previous version, update current version, write audit log)
+    //               and return the actual inserted document ID.  See
+    //               src/voice/FUTURE_ENHANCEMENTS.md §VoiceAssistant RevisionStore.
     auto now = std::chrono::system_clock::now().time_since_epoch().count();
     std::stringstream ss;
     ss << "revision:" << std::hex << now;

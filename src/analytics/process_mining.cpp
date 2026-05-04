@@ -1979,7 +1979,20 @@ std::vector<float> ProcessMining::embedActivities(const std::vector<std::string>
     return embedding;
 }
 
-// Stub implementations for remaining methods
+// STUB/SIMULATION NOTE (clusterVariants and methods below):
+// Purpose: Provide compilable implementations of process-mining algorithms
+//          that have not yet received their full production implementations.
+//          clusterVariants uses a naive round-robin-by-variant-signature strategy
+//          instead of a proper K-means or hierarchical algorithm.
+// Activation: Always — no iterative centroid update is performed.
+// Production Delta: clusterVariants does not minimize intra-cluster distance;
+//                   cluster assignments are deterministic but not optimal.
+//                   For num_clusters < variant_count, traces are assigned
+//                   round-robin and cluster quality metrics (silhouette score,
+//                   within-cluster distance) will be arbitrary.
+// Removal Plan: Implement K-means with edit-distance between trace variant
+//               vectors, or integrate an external clustering library.  See
+//               src/analytics/FUTURE_ENHANCEMENTS.md §ProcessMining Clustering.
 std::pair<ProcessMining::Status, std::map<int, std::vector<int>>> 
 ProcessMining::clusterVariants(const EventLog& log, int num_clusters) {
     // Simple K-means style clustering based on variant signatures

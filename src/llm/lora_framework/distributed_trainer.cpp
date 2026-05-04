@@ -228,12 +228,19 @@ void DistributedTrainer::allreduce_cpu(std::vector<float>& data) {
 
 // CPU-based Broadcast (simplified)
 void DistributedTrainer::broadcast_cpu(std::vector<float>& /*data*/) {
-    // Placeholder: In real implementation, this would:
-    // 1. Master (rank 0) sends data to all other ranks
-    // 2. Non-master ranks receive data from master
-    
-    // For Phase 3, we skip actual communication
-    // This assumes parameters are already synchronized via shared storage
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow multi-rank training to proceed past the broadcast call in
+    //          single-process CPU mode where actual inter-process communication
+    //          is not needed (all "ranks" share the same address space).
+    // Activation: Called whenever NCCL/RCCL/Gloo are absent or
+    //             config_.backend == DistributedBackend::NONE.
+    // Production Delta: No data is sent to any rank.  In a true multi-process
+    //                   setup (e.g. mpirun with world_size > 1) all non-master
+    //                   ranks will continue with stale parameters; training
+    //                   diverges immediately.  Single-process builds are unaffected.
+    // Removal Plan: Implement with MPI_Bcast (when MPI backend is active) or
+    //               with Gloo broadcast collective.  Guard with backend check.
+    //               See src/llm/FUTURE_ENHANCEMENTS.md §DistributedTrainer BroadcastCPU.
 }
 
 // ============================================================================

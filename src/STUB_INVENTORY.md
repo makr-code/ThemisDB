@@ -28,7 +28,7 @@
 
 ---
 
-## Stub Inventory (205 entries — 11 resolved, 194 active)
+## Stub Inventory (212 entries — 11 resolved, 201 active)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -230,7 +230,14 @@
 | 203 | `server/rpc/rpc_service_impl.cpp` — `getCollectionInfo` indexes field | `"indexes"` always `[]`; no index CF enumeration performed | Always | Clients that display or route based on available indexes always see none; ANN/full-text index listing broken | `src/server/FUTURE_ENHANCEMENTS.md` §RPC CollectionInfo Indexes | future milestone |
 | 204 | `plugins/wasm_plugin_loader.cpp` — `!THEMIS_WASM_SUPPORT` block | `loadWasmPlugin()` returns nullptr; all `themis_plugin_*` C-ABI stubs return 0/empty | `THEMIS_WASM_SUPPORT` not defined (default build) | No WASM plugin can be loaded or executed; plugin-manager requests for WASM plugins fail gracefully | `src/plugins/FUTURE_ENHANCEMENTS.md` §WASMRuntime | build with `-DTHEMIS_WASM_SUPPORT=ON` |
 | 205 | `llm/continuous_batch_scheduler.cpp` — deferred block allocation | `allocated_blocks` filled with `-1` sentinels when block table absent for sequence | First request for each new sequence ID | Code treating `allocated_blocks` as real block addresses before first KV-store reads invalid indices; canAddToBatch() may over-commit | `src/llm/FUTURE_ENHANCEMENTS.md` §ContinuousBatch BlockPrealloc | future milestone |
+| 206 | `storage/blob_redundancy_manager.cpp::loadConfig()` | Ignores `path` argument; no YAML file is read; always returns true | Always — no YAML parser invoked | Redundancy configuration (replication factor, erasure-coding params, tier assignments) never applied; manager runs with compile-time defaults regardless of YAML content | `src/storage/FUTURE_ENHANCEMENTS.md` §BlobRedundancy ConfigLoader | future milestone |
+| 207 | `storage/blob_redundancy_manager.cpp::validateBlob()` | Delegates to `metadata.isHealthy()` only; no checksum computation or shard-node health probe | Always | Corrupted or missing shards are invisible; erasure-coding repair triggers and geo-redundancy checks are bypassed | `src/storage/FUTURE_ENHANCEMENTS.md` §BlobRedundancy ValidateBlob | future milestone |
+| 208 | `storage/blob_redundancy_manager.cpp::runScrub()` | Loop body is a no-op; no checksum read, no location probe, no repair-queue population | Always | Corrupted blobs, missing shards, and geo-redundancy violations are never detected or reported; repair queue stays empty | `src/storage/FUTURE_ENHANCEMENTS.md` §BlobRedundancy Scrub | future milestone |
+| 209 | `content/tts_processor.cpp` — non-TTS build silence path | Returns silence (zeros) proportional to text length; no speech synthesis | `THEMIS_TTS_ENABLED` not defined (default build) | Every `synthesizeSpeech()` call returns silence; no audible speech produced in builds without TTS backend | `src/content/FUTURE_ENHANCEMENTS.md` §TTS Backend | build with `-DTHEMIS_TTS_ENABLED` |
+| 210 | `voice/voice_assistant.cpp::createRevisionEntry()` | Returns timestamp-based ID string; no DB write performed | Always — no ThemisDB document insert | Revision records are never stored; history queries, version diffs, and audit logs for voice entities find nothing | `src/voice/FUTURE_ENHANCEMENTS.md` §VoiceAssistant RevisionStore | future milestone |
+| 211 | `llm/lora_framework/distributed_trainer.cpp::broadcast_cpu()` | Complete no-op; no data sent to any rank | Always when `backend == NONE` or MPI/Gloo absent | In true multi-process setups, non-master ranks keep stale parameters; training diverges immediately (harmless in single-process builds) | `src/llm/FUTURE_ENHANCEMENTS.md` §DistributedTrainer BroadcastCPU | future milestone |
+| 212 | `analytics/process_mining.cpp::clusterVariants()` | Naive round-robin-by-variant-signature; no K-means centroid update | Always | Cluster assignments are deterministic but not optimal; silhouette score and intra-cluster distance are arbitrary | `src/analytics/FUTURE_ENHANCEMENTS.md` §ProcessMining Clustering | future milestone |
 
 ---
 
-*Last updated: 2026-05-04 — 205 entries, 11 resolved, 194 active — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-05-04 — 212 entries, 11 resolved, 201 active — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
