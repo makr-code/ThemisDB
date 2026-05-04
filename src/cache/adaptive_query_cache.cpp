@@ -151,6 +151,12 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
 }
 
 AdaptiveQueryCache::~AdaptiveQueryCache() {
+    // C-4: Signal all coordinator callbacks that this object is being destroyed.
+    // The callbacks capture callback_alive_ by value (shared_ptr).  Setting the
+    // flag to false here, before we call setCoordinator(nullptr) and clear(), means
+    // any dispatch that races the destructor will see the flag false and return
+    // without touching any member of the now-partially-destroyed object.
+    callback_alive_->store(false, std::memory_order_release);
     // Phase 4: Deregister coordinator callbacks before releasing memory.
     // Any coordinator that outlives this cache would otherwise hold a [this]
     // lambda pointing to freed memory, causing use-after-free on the next
@@ -672,8 +678,12 @@ bool AdaptiveQueryCache::put(
                 l2_entry.window_start_ms = now_ms;
                 l2_entry.window_count = 0;
                 enhanced_metrics_.total_bytes_compressed += l2_entry.compressed_result.size();
-                l2_cache_[fingerprint] = std::move(l2_entry);
-                l2_eviction_strategy_->onInsert(fingerprint, static_cast<uint64_t>(now_ms));
+                // C-1: Use the same tenant-scoped key that get() uses so L2 lookups
+                // succeed when enable_tenant_isolation is active.  Previously storing
+                // under the bare fingerprint meant get() could never find the entry
+                // (it looked up "tenant:X:fp" while put() stored "fp").
+                l2_cache_[key] = std::move(l2_entry);
+                l2_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
                 any_written = true;
             } else {
                 enhanced_metrics_.compression_failures++;
@@ -814,8 +824,10 @@ bool AdaptiveQueryCache::put(
             entry.window_start_ms = now_ms;
             entry.window_count = 0;
             compressed_size = entry.compressed_result.size();
-            l2_cache_[fingerprint] = std::move(entry);
-            l2_eviction_strategy_->onInsert(fingerprint, static_cast<uint64_t>(now_ms));
+            // C-1: Use tenant-scoped key (consistent with get()) so the entry is
+            // actually found on subsequent lookups in multi-tenant deployments.
+            l2_cache_[key] = std::move(entry);
+            l2_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
             enhanced_metrics_.total_bytes_cached += result_size;
             enhanced_metrics_.total_bytes_compressed += compressed_size;
         }
@@ -951,12 +963,18 @@ size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
                     return true;  // Continue iteration
                 });
 
+                // C-2: Copy the shared_ptr under the lock so that if a concurrent
+                // circuit-breaker trip resets l3_db_ to nullptr after we release
+                // the lock, our local reference remains valid for the duration of
+                // the deletion loop.
+                auto l3_db_local = l3_db_;
+
                 // Release lock before issuing bulk deletes so readers are not
                 // blocked during the I/O-intensive delete phase.
                 lock.unlock();
 
                 for (const auto& key : keys_to_delete) {
-                    l3_db_->del(key);
+                    l3_db_local->del(key);
                     count++;
                 }
                 
@@ -2206,13 +2224,15 @@ void AdaptiveQueryCache::setCoordinator(
 
     // Subscribe for entries replicated from peer nodes
     coordinator_->subscribeEntries(
-        [this](const cache::ReplicationMessage& msg) {
+        [this, alive = callback_alive_](const cache::ReplicationMessage& msg) {
+            if (!alive->load(std::memory_order_acquire)) return;
             applyReplicatedEntry(msg);
         });
 
     // Subscribe for invalidations propagated from peer nodes
     coordinator_->subscribeInvalidations(
-        [this](const cache::ReplicationMessage& msg) {
+        [this, alive = callback_alive_](const cache::ReplicationMessage& msg) {
+            if (!alive->load(std::memory_order_acquire)) return;
             applyReplicatedInvalidation(msg);
         });
 

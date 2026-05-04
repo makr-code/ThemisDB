@@ -17,8 +17,8 @@
 | Source Files | 8 |
 | Test Coverage | ⚠️ >80% target per ROADMAP; GPU paths not yet covered |
 | S0 Critical | ✅ None from graph_query_optimizer.cpp |
-| S1 High | ⚠️ 2 (bidirectional BFS hangs; VF2 exponential) |
-| Traversal timeout enforcement | 🔴 **Bidirectional BFS has no timeout** |
+| S1 High | ✅ 0 (GQ-1 + GQ-2 fixed 2026-05-04) |
+| Traversal timeout enforcement | ✅ Bidirectional BFS and VF2 both have per-iteration timeout (fixed 2026-05-04) |
 
 ## Build System
 
@@ -46,49 +46,24 @@ The graph module is registered in the top-level `CMakeLists.txt` as a static lib
 
 ## Findings
 
-### S1 — High (from source code analysis of `graph_query_optimizer.cpp`)
+### S1 — High (all resolved 2026-05-04)
 
-#### GQ-1 · `graph_query_optimizer.cpp` · `executeBidirectional()` — No timeout check inside BFS loop
+#### ~~GQ-1 · `graph_query_optimizer.cpp` · `executeBidirectional()` — No timeout check inside BFS loop~~
 
-Unlike `executeBFS()` and `executeDFS()`, the bidirectional BFS implementation has **no
-timeout check** inside its `while` loop:
-
-```cpp
-while (!forward_queue.empty() || !backward_queue.empty()) {
-    // ← No: if (timedOut()) return Err(ERR_QUERY_TIMEOUT, ...)
-    if (meeting_point.has_value()) {
-        break;
-    }
-}
-```
-
-On a dense or cyclic graph (`max_depth = INT_MAX`, default `constraints.timeout_ms = 0`),
-this loop runs indefinitely, permanently blocking the handling thread.
-
-**Fix required:** Add `if (constraints.timeout_ms > 0 && timedOut()) { return Err(...); }`
-at the top of the while loop, consistent with `executeBFS` and `executeDFS`.
+**Fixed 2026-05-04:** Timeout check added at the top of the `while` loop in
+`executeBidirectional()`, consistent with `executeBFS()` and `executeDFS()`.
+Returns `ERR_QUERY_TIMEOUT` when `constraints.timeout_ms > 0` and the elapsed
+time exceeds the limit.
 
 ---
 
-#### GQ-2 · `graph_query_optimizer.cpp` · `executeSubgraphIsomorphism()` — VF2 exponential without hard resource limit
+#### ~~GQ-2 · `graph_query_optimizer.cpp` · `executeSubgraphIsomorphism()` — VF2 exponential without hard resource limit~~
 
-The VF2 backtracking is O(|V|^|pattern|). The only stopping conditions are `max_results`
-and `timeout_ms`, both of which are `0` in the default `QueryConstraints{}`. A 5-vertex
-pattern on a 1,000-node graph explores up to 10^15 candidate pairs:
-
-```cpp
-std::function<void(size_t)> backtrack = [&](size_t depth) {
-    if (timedOut()) { ... return; }  // only if timeout_ms > 0
-    for (const auto& dv : data_vertices) {
-        backtrack(depth + 1);  // O(|V|^|pattern|) blow-up when timeout = 0
-    }
-};
-backtrack(0);  // called with default QueryConstraints{}
-```
-
-**Fix required:** Enforce a hard maximum on pattern size (e.g., 8 vertices) at the API
-entry point, and set a non-zero default `timeout_ms` for isomorphism queries even when
-the caller does not specify one.
+**Fixed 2026-05-04:**
+1. Pattern size is validated against `kMaxPatternVertices = 10` at the entry point;
+   larger patterns are rejected with `ERR_INVALID_ARGUMENT`.
+2. When the caller passes `timeout_ms == 0` (default), `effective_constraints.timeout_ms`
+   is set to 30000 ms (30-second hard cap) so the `timedOut()` helper is always active.
 
 ---
 

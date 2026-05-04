@@ -29,6 +29,7 @@
 #include "rag/knowledge_gap_detector.h"
 #include "utils/logger.h"
 #include <algorithm>
+#include <mutex>
 #include <numeric>
 #include <cmath>
 #include <chrono>
@@ -382,7 +383,8 @@ DetectionResult KnowledgeGapDetector::detectGap(
 
 DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
     const std::string& query,
-    std::vector<RetrievedDocument>& initial_documents
+    std::vector<RetrievedDocument>& initial_documents,
+    const std::string& tenant_id
 ) {
     // Phase 2: FLARE-style active retrieval implementation
     
@@ -391,7 +393,7 @@ DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
         return detectPreGeneration(query, initial_documents);
     }
     
-    THEMIS_DEBUG("FLARE active retrieval for query: {}", query);
+    THEMIS_DEBUG("FLARE active retrieval for query: {} (tenant={})", query, tenant_id);
     
     DetectionResult result;
     result.num_retrieved_docs = initial_documents.size();
@@ -441,7 +443,8 @@ DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
         THEMIS_DEBUG("Reformulated query: {}", reformulated);
         
         // Retrieve additional documents for the reformulated query
-        auto new_documents = performDynamicRetrieval(reformulated);
+        // F5-2: Pass tenant_id so the callback queries the correct tenant's corpus.
+        auto new_documents = performDynamicRetrieval(reformulated, tenant_id);
         
         // Deduplicate and merge
         for (auto& new_doc : new_documents) {
@@ -1004,14 +1007,39 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
     const std::vector<RetrievedDocument>& docs,
     size_t num_samples
 ) {
-    // Without a live LLM engine we generate heuristic variations that exercise
-    // the consistency-checking logic with content drawn from the retrieved docs.
-    // A production implementation would call:
+    // STUB/SIMULATION NOTE:
+    // Purpose: Heuristic fallback used when no LLM inference engine is wired.
+    // Activation: When impl_->llm_engine is nullptr (current state — no LLM
+    //   client is injected into KnowledgeGapDetector).
+    // Production Delta: The stub generates simple phrase variations from document
+    //   snippets.  All variations draw from the same source material, so
+    //   detectContradiction() will rarely fire and checkSelfConsistency() will
+    //   almost always return true — making F5-1 a real consistency bypass risk.
+    //   A production implementation must call the LLM engine with varying
+    //   temperature/seed to produce genuinely independent answer candidates:
+    //
     //   InferenceRequest req;
     //   req.prompt = formatPrompt(query, docs);
-    //   req.temperature = config.temperature_range[i % config.temperature_range.size()];
+    //   req.temperature = config.temperature_range[i % range_size];
     //   req.seed = static_cast<uint32_t>(i);
     //   samples.push_back(llm->generate(req).text);
+    //
+    // Removal Plan: Replace with real LLM inference when a KnowledgeGapDetector
+    //   LLM client injection API is added (see ROADMAP.md Phase 2 self-consistency).
+    //
+    // F5-1 mitigation: Emit a one-time warning so operators know that the
+    // self-consistency check is running in heuristic/stub mode and is NOT
+    // detecting real LLM inconsistencies.
+    {
+        static std::once_flag f5_1_warned;
+        std::call_once(f5_1_warned, [](){
+            THEMIS_WARN("[F5-1] KnowledgeGapDetector::generateMultipleSamples is operating "
+                        "in STUB MODE — no LLM engine is wired.  Self-consistency checks "
+                        "will produce trivially passing results and CANNOT detect real "
+                        "LLM output inconsistencies.  Wire an LLM client via "
+                        "KnowledgeGapDetector::setLLMClient() when available.");
+        });
+    }
 
     std::vector<std::string> samples;
     samples.reserve(num_samples);
@@ -1265,9 +1293,10 @@ std::string KnowledgeGapDetector::reformulateQuery(
 }
 
 std::vector<RetrievedDocument> KnowledgeGapDetector::performDynamicRetrieval(
-    const std::string& query
+    const std::string& query,
+    const std::string& tenant_id
 ) {
-    THEMIS_DEBUG("Dynamic retrieval for query: {}", query);
+    THEMIS_DEBUG("Dynamic retrieval for query: {} (tenant={})", query, tenant_id);
 
     if (!impl_->retrieval_fn) {
         // No retrieval callback wired — caller must provide documents upfront or
@@ -1278,7 +1307,8 @@ std::vector<RetrievedDocument> KnowledgeGapDetector::performDynamicRetrieval(
     // Use top_k from config (min_documents serves as a reasonable per-round budget).
     const size_t k = std::max(impl_->config.min_documents, size_t{1});
     try {
-        return impl_->retrieval_fn(query, k);
+        // F5-2: Pass tenant_id so the callback queries the correct tenant corpus.
+        return impl_->retrieval_fn(query, k, tenant_id);
     } catch (const std::exception& ex) {
         THEMIS_DEBUG("Dynamic retrieval callback threw: {}", ex.what());
         return {};

@@ -195,7 +195,8 @@
 | 141 | `sharding/redundancy_strategy.cpp::NEAREST` read preference | Returns first shard; no latency measurement | ReadPreference::NEAREST selected | Nearest-shard routing provides no latency benefit | `src/sharding/FUTURE_ENHANCEMENTS.md` §Redundancy Strategy Nearest Shard | future milestone |
 | 142 | `sharding/metadata_shard.cpp` consensus write | Returns success immediately without Raft/Paxos commit | Always — consensus module not wired | No durability; metadata entries lost on crash; no replication | `src/sharding/FUTURE_ENHANCEMENTS.md` §MetadataShard Consensus Write | future milestone |
 | 145 | `security/field_encryption.cpp::needsReEncryption()` | Probe heuristic (`getKey(version+1)`) used because `KeyProvider::getCurrentVersion()` absent; TOCTOU window on rapid rotations | Always — no `getCurrentVersion` API on KeyProvider | Blobs may lag one rotation behind in fast-rotation scenarios | `src/security/FUTURE_ENHANCEMENTS.md` §FieldEncryption needsReEncryption Version API | future milestone |
+| 146 | `rag/knowledge_gap_detector.cpp::generateMultipleSamples()` | Heuristic variations from document snippets; no LLM inference called | Always — no LLM client wired into KnowledgeGapDetector | Self-consistency check passes trivially; real LLM inconsistencies are NOT detected; one-time THEMIS_WARN emitted | Wire LLM client via `setLLMClient()` when API added (see ROADMAP.md Phase 2 self-consistency) | ROADMAP Phase 2 |
 
 ---
 
-*Last updated: 2026-04-28 — 145 entries, 9 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-05-04 — 146 entries, 9 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

@@ -20,7 +20,7 @@
 | Test targets | 28 focused targets |
 | Estimated test coverage | > 80 % |
 | S0 Critical | ✅ 0 (F1-1, F1-2, F2-1 fixed 2026-04-21) |
-| S1 High | 🔴 8 |
+| S1 High | ✅ 0 (F1-3..F3-2 fixed 2026-05-04) |
 | S2 Medium | ⚠️ 4 |
 | Trusted-directory enforcement on model loading | 🔴 **None** |
 | Build system registration | ✅ All files registered in CMakeLists.txt |
@@ -224,18 +224,18 @@ is an arbitrary file write for any path writable by the server process.
 
 ---
 
-### S1 — High
+### S1 — High (all resolved 2026-05-04)
 
-| ID | File | Function | Lines | Description |
-|----|------|----------|-------|-------------|
-| F1-3 | multi_lora_manager.cpp | `applyLoRA`, `removeLoRA` | 401–414, 463–470 | Pointer-to-int cast: `adapter_handle` range check always fails on 64-bit (heap addr > INT_MAX) — LoRA permanently non-functional in production |
-| F1-4 | multi_lora_manager.cpp | `loadLoRAMultiGPU` | 1826–1840 | DATA_PARALLEL VRAM undercount: `total_vram_bytes_` incremented once but each GPU is charged separately — OOM possible |
-| F1-5 | multi_lora_manager.cpp | `batchInferenceMultiLoRA` | 609–614 | KV cache not cleared between tenant requests — cross-tenant context leaks into generation |
-| F2-2 | llama_wrapper.cpp | `generate` | 829–853 | Dead `return` before response cache read — cache permanently bypassed, unbounded memory growth |
-| F2-3 | llama_wrapper.cpp | `generate`, `generateRegular` | 836, 1126–1128 | Response cache keyed on prompt only (no tenant ID) — cross-tenant inference leakage when dead code fixed |
-| F2-4 | llama_wrapper.cpp | `generate` | 755–757 | TOCTOU: mutex released during model reload — concurrent model swap corrupts inference identity |
-| F3-1 | gpu_memory_manager.cpp | `freeGPU` / `freeCPU` | ~495 | Unsigned underflow on `total_vram_used_` — pool permanently unavailable after any accounting mismatch |
-| F3-2 | gpu_memory_manager.cpp | `defragmentModelGPU` | 833–838 | Erase predicate matches all allocations by device_id, not only fragmented ones — silent accounting corruption |
+| ID | File | Function | Description | Status |
+|----|------|----------|-------------|--------|
+| F1-3 | multi_lora_manager.cpp | `applyLoRA`, `removeLoRA` | Pointer-to-int cast (heap addr > INT_MAX) → LoRA non-functional | ✅ Fixed: `llama_lora_adapter_set` declaration changed to `void*`; pointer passed directly |
+| F1-4 | multi_lora_manager.cpp | `loadLoRAMultiGPU` | DATA_PARALLEL VRAM undercount (incremented once, charged N times) | ✅ Fixed: `total_vram_bytes_ += vram_bytes * num_gpus` for DATA_PARALLEL |
+| F1-5 | multi_lora_manager.cpp | `batchInferenceMultiLoRA` | KV cache not cleared between tenant requests | ✅ Fixed: `llama_kv_cache_clear(model_context)` called before each request prefill |
+| F2-2 | llama_wrapper.cpp | `generate` | Dead return before response cache read | ✅ Fixed: cache check moved before `generateRegular()` call |
+| F2-3 | llama_wrapper.cpp | `generate`, `generateRegular` | Cache keyed on prompt only — cross-tenant leakage | ✅ Fixed: `tenant_id` added to `InferenceRequest`; cache key = `tenant_id\x1Fprompt` |
+| F2-4 | llama_wrapper.cpp | `generate` | TOCTOU — mutex released during model reload | ✅ Fixed: post-reload model identity verified under re-acquired lock |
+| F3-1 | gpu_memory_manager.cpp | `freeGPU` / `freeCPU` / `freeModel` | Unsigned underflow on `total_vram_used_` | ✅ Fixed: underflow-safe subtraction in all three free functions |
+| F3-2 | gpu_memory_manager.cpp | `defragmentModelGPU` | Erase predicate silently removes fragment entries without updating accounting | ✅ Fixed: `total_vram_used_` decremented before erase, incremented after consolidated push_back |
 
 ### S2 — Medium
 

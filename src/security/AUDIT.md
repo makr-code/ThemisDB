@@ -17,7 +17,7 @@
 | Build System Registration | ✅ Verified (cmake/ModularBuild.cmake) |
 | Test Coverage | ✅ 7 focused test targets |
 | S0 Critical / Safety Violations | ✅ 0 (A-1, A-2 fixed 2026-05-04) |
-| S1 High | 🔴 3 |
+| S1 High | ✅ 0 (A-3/E-1/E-2/E-4/RB-1 fixed 2026-05-04) |
 | S2 Medium | ⚠️ 4 |
 | S3 Low | ℹ️ 2 |
 | Successful login possible | ✅ **Yes — deadlocks resolved** |
@@ -79,9 +79,9 @@ invalidateUserSessions(user_id);             // → L716: lock(mutex_) → DEADL
 
 ---
 
-### S1 — High
+### S1 — High (all resolved 2026-05-04)
 
-#### A-3 · `access_control.cpp` · `enrollMFA()` — MFA enrollment bypass
+#### ~~A-3 · `access_control.cpp` · `enrollMFA()` — MFA enrollment bypass~~
 
 `enrollMFA()` unconditionally overwrites any existing MFA enrollment without checking whether
 the caller is the account owner or an administrator:
@@ -99,7 +99,7 @@ re-enrollment. Log and rate-limit all enrollment attempts.
 
 ---
 
-#### E-1 · `field_encryption.cpp` · `write_debug_dump()` + `decryptInternal()` — Key material on disk + stderr
+#### ~~E-1 · `field_encryption.cpp` · `write_debug_dump()` + `decryptInternal()` — Key material on disk + stderr~~
 
 `write_debug_dump()` writes the **first 8 bytes of the raw encryption key** to a JSON file
 on disk when `THEMIS_DEBUG_ENC_DIR` is set. `encryptInternal()` calls `write_debug_dump()`
@@ -120,7 +120,7 @@ Remove unconditional `fprintf` from `decryptInternal()`.
 
 ---
 
-#### E-4 · `field_encryption.cpp` · `createDefault()` — `MockKeyProvider` in production
+#### ~~E-4 · `field_encryption.cpp` · `createDefault()` — `MockKeyProvider` in production~~
 
 ```cpp
 std::shared_ptr<FieldEncryption> FieldEncryption::createDefault() {
@@ -137,7 +137,7 @@ requiring an explicit key provider. Replace with `createWithProvider(shared_ptr<
 
 ---
 
-#### E-2 · `field_encryption.cpp` · `encryptEntityBatch()` — Silent per-item encryption failures
+#### ~~E-2 · `field_encryption.cpp` · `encryptEntityBatch()` — Silent per-item encryption failures~~
 
 ```cpp
 } catch (...) {

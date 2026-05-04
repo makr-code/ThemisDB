@@ -90,16 +90,16 @@
 |--------|----------|----|----|--------|
 | sharding | `src/sharding/AUDIT.md` | 0 (8 fixed 2026-05-04) | — | ✅ All S0 fixed |
 | transaction | `src/transaction/ROADMAP.md` | 0 (1 fixed) | — | ✅ Fixed |
-| storage | `src/storage/AUDIT.md` | 0 (1 fixed 2026-05-04) | 1 | ✅ S0 fixed |
-| security | `src/security/AUDIT.md` | 0 (2 fixed 2026-05-04) | 3 | ✅ S0 fixed |
-| cache | `src/cache/AUDIT.md` | 0 (1 fixed 2026-05-04) | 3 | ✅ S0 fixed |
+| storage | `src/storage/AUDIT.md` | 0 (1 fixed 2026-05-04) | 0 (R-2 fixed 2026-05-04) | ✅ All S0+S1 fixed |
+| security | `src/security/AUDIT.md` | 0 (2 fixed 2026-05-04) | 0 (A-3/E-1/E-2/E-4/RB-1 fixed 2026-05-04) | ✅ All S0+S1 fixed |
+| cache | `src/cache/AUDIT.md` | 0 (1 fixed 2026-05-04) | 0 (C-1/C-2/C-4 fixed 2026-05-04) | ✅ All S0+S1 fixed |
 | network | `src/network/AUDIT.md` | 0 (4 fixed 2026-05-04) | 0 | ✅ All fixed |
-| server | `src/server/AUDIT.md` | 0 (2 fixed 2026-04-21) | 8 | ✅ S0 fixed |
+| server | `src/server/AUDIT.md` | 0 (2 fixed 2026-04-21) | 0 (HS-3..HS-9 fixed 2026-05-04) | ✅ All S0+S1 fixed |
 | query | `src/query/AUDIT.md` | 0 (all fixed 2026-05-04) | 0 | ✅ All fixed |
 | aql | `src/aql/AUDIT.md` | 0 (LLM-1 fixed 2026-04-21; LLM-2 fixed 2026-05-04) | 0 | ✅ All fixed |
-| graph | `src/graph/AUDIT.md` | — | 2 | ⚠️ S1 open |
-| llm | `src/llm/AUDIT.md` | 0 (3 fixed 2026-04-21) | 8 | ✅ S0 fixed |
-| rag | `src/rag/AUDIT.md` | — | 4 | ⚠️ S1 open |
+| graph | `src/graph/AUDIT.md` | — | 0 (GQ-1/GQ-2 fixed 2026-05-04) | ✅ All S1 fixed |
+| llm | `src/llm/AUDIT.md` | 0 (3 fixed 2026-04-21) | 0 (F1-3..F3-2 fixed 2026-05-04) | ✅ All S0+S1 fixed |
+| rag | `src/rag/AUDIT.md` | — | 0 (F4-1/F4-2/F5-1/F5-2 fixed 2026-05-04) | ✅ All S1 fixed |
 
 ---
 
@@ -111,8 +111,8 @@
 
 ## Aktueller Stand
 - [x] Initiale Modul-Audit-Checkliste vollständig abgearbeitet (5 sessions, 12 modules)
-- [ ] Findings priorisiert und Issues/PRs verknüpft
-- [ ] Re-Audit nach Änderungen durchgeführt
+- [x] Findings priorisiert und Issues/PRs verknüpft
+- [x] Re-Audit nach Änderungen durchgeführt (2026-05-04 — all 40 S0+S1 findings resolved)
 
 ## Nachweis
 - Audit-Ergebnisse in modul-spezifischen AUDIT.md Dateien (`src/*/AUDIT.md`)

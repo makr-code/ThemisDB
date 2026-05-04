@@ -37,7 +37,11 @@
 
 // llama.cpp forward declarations (newer API may not be present in headers)
 extern "C" {
-    int llama_lora_adapter_set(struct llama_context* ctx, int adapter_index, float scale);
+    // F1-3 fix: pass the adapter handle as a pointer (void*) rather than a
+    // pointer-to-int cast.  On 64-bit platforms any heap address lies above
+    // INT_MAX so the old range-check always failed, permanently preventing
+    // LoRA activation in production.
+    int llama_lora_adapter_set(struct llama_context* ctx, void* adapter, float scale);
     void llama_lora_adapter_free(void* adapter);
     bool themis_llama_lora_available();
     void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora);
@@ -399,22 +403,9 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
     
     // Apply LoRA adapter to context using modern llama.cpp API
     if (lora->adapter_handle && context) {
-        // FIND-017: Fixed narrowing conversion with range validation
-        // Get adapter index from handle (safe conversion for pointer arithmetic)
-        intptr_t adapter_ptr = reinterpret_cast<intptr_t>(lora->adapter_handle);
-        
-        // Validate that the pointer value fits in int (llama.cpp API constraint)
-        if (adapter_ptr < std::numeric_limits<int>::min() || 
-            adapter_ptr > std::numeric_limits<int>::max()) {
-            spdlog::error("LoRA adapter handle out of range for int conversion");
-            return false;
-        }
-        
-        int adapter_index = static_cast<int>(adapter_ptr);
-        
-        // Apply adapter with scale factor using llama.cpp API
-        // This sets the adapter for subsequent decode/inference calls
-        int result = llama_lora_adapter_set(context, adapter_index, lora->scale);
+        // F1-3 fixed: pass the adapter pointer directly instead of casting to
+        // int (which always fails on 64-bit where heap addresses > INT_MAX).
+        int result = llama_lora_adapter_set(context, lora->adapter_handle, lora->scale);
         
         if (result != 0) {
             spdlog::error("Failed to apply LoRA {} (error: {})", lora_id, result);
@@ -462,20 +453,9 @@ bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* con
     
     // Remove LoRA adapter from context using llama.cpp API
     if (lora->adapter_handle && context) {
-        // FIND-017: Fixed narrowing conversion with range validation
-        // Set adapter with scale 0.0 to effectively disable it
-        intptr_t adapter_ptr = reinterpret_cast<intptr_t>(lora->adapter_handle);
-        
-        // Validate that the pointer value fits in int (llama.cpp API constraint)
-        if (adapter_ptr < std::numeric_limits<int>::min() || 
-            adapter_ptr > std::numeric_limits<int>::max()) {
-            spdlog::warn("LoRA adapter handle out of range for int conversion, marking inactive");
-            lora->is_active = false;
-            return true;  // Mark as inactive even if we can't call the API
-        }
-        
-        int adapter_index = static_cast<int>(adapter_ptr);
-        int result = llama_lora_adapter_set(context, adapter_index, 0.0f);
+        // F1-3 fixed: pass adapter pointer directly (see applyLoRA fix above).
+        // Set scale to 0.0f to effectively disable the adapter.
+        int result = llama_lora_adapter_set(context, lora->adapter_handle, 0.0f);
         
         if (result != 0) {
             spdlog::warn("Failed to remove LoRA {} cleanly (error: {}), marking inactive", lora_id, result);
@@ -611,8 +591,11 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
             response.tokens_prompt = n_prompt;
 
             // --- Prefill (process prompt) ---
-            // Some llama.cpp builds do not expose a public KV-clear API.
-            // Proceed without explicit cache reset here.
+            // F1-5: Clear the KV cache before processing each request to prevent
+            // context from a previous tenant's request leaking into this one.
+            // Without this reset, tokens from the preceding inference persist in
+            // the cached KV state and are visible to the next decode call.
+            llama_kv_cache_clear(model_context);
             struct llama_batch batch = llama_batch_get_one(
                 prompt_tokens.data(), n_prompt);
             if (llama_decode(model_context, batch) != 0) {
@@ -2085,9 +2068,20 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
             return nullptr;
         }
     }
-    
-    // Update totals
-    total_vram_bytes_ += lora->vram_bytes;
+
+    // F1-4: Charge the correct aggregate VRAM for the chosen placement.
+    // DATA_PARALLEL replicates the adapter on every GPU, so the actual total
+    // memory consumed is vram_bytes * num_gpus — not just vram_bytes.
+    // Other strategies (MODEL_PARALLEL, SINGLE_GPU) consume vram_bytes once.
+    {
+        size_t vram_charge = lora->vram_bytes;
+        if (placement == GPUPlacement::MULTI_GPU && config_.multi_gpu.enabled &&
+            config_.multi_gpu.strategy == MultiGPUStrategy::DATA_PARALLEL &&
+            !config_.multi_gpu.devices.empty()) {
+            vram_charge = lora->vram_bytes * config_.multi_gpu.devices.size();
+        }
+        total_vram_bytes_ += vram_charge;
+    }
     
     auto* result = lora.get();
     loras_[lora_id] = std::move(lora);

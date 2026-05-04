@@ -275,6 +275,12 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
     };
 
     if (do_parallel) {
+        // E-2: Collect the first failure from the parallel path so that callers
+        // can detect failures instead of receiving silent default-constructed blobs.
+        std::atomic<bool> any_failure{false};
+        std::exception_ptr first_exception;
+        std::mutex exception_mutex;
+
         tbb::parallel_for(tbb::blocked_range<size_t>(0, items.size()), [&](const tbb::blocked_range<size_t>& r) {
             for (size_t i = r.begin(); i != r.end(); ++i) {
                 const auto& ent = items[i];
@@ -289,12 +295,27 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
                 } catch (const std::exception& ex) {
                     THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
                                 "(parallel item {}): {}", i, ex.what());
+                    any_failure.store(true, std::memory_order_relaxed);
+                    std::lock_guard<std::mutex> lk(exception_mutex);
+                    if (!first_exception) {
+                        first_exception = std::current_exception();
+                    }
                 } catch (...) {
                     THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
                                 "(parallel item {}) with unknown exception", i);
+                    any_failure.store(true, std::memory_order_relaxed);
+                    std::lock_guard<std::mutex> lk(exception_mutex);
+                    if (!first_exception) {
+                        first_exception = std::current_exception();
+                    }
                 }
             }
         });
+        // E-2: Propagate the first failure so callers cannot silently receive
+        // a result vector with corrupt (default-constructed) entries.
+        if (any_failure.load(std::memory_order_relaxed) && first_exception) {
+            std::rethrow_exception(first_exception);
+        }
     } else {
         // Use sequential loop to avoid potential threading issues with OpenSSL in tests.
         for (size_t i = 0; i < items.size(); ++i) {
@@ -308,13 +329,16 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
                     logDebugDumpFailure(i, false, nullptr);
                 }
             } catch (const std::exception& ex) {
-                // On error, leave default constructed blob; caller can inspect failures
-                // via empty output entries.
+                // E-2: Propagate the first per-item failure.  Callers must not
+                // silently receive a result vector with default-constructed (invalid)
+                // blobs — that would cause corrupt records to be stored undetected.
                 THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
                             "(item {}): {}", i, ex.what());
+                throw;  // propagate — caller is responsible for transactional rollback
             } catch (...) {
                 THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
                             "(item {}) with unknown exception", i);
+                throw;  // propagate
             }
         }
     }

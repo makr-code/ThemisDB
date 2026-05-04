@@ -20,7 +20,7 @@
 | Source Files | 51 (`.cpp` in `src/storage/`) |
 | Test Coverage | ✅ 21 focused standalone test targets |
 | S0 Critical / Safety Violations | ✅ 0 (R-1 fixed 2026-05-04 — `OperationGuard` + `active_operations_` counter) |
-| S1 High | ⚠️ 1 (partial blob visibility) |
+| S1 High | ✅ 0 (R-2 fixed 2026-05-04 — `putBlob()` now uses explicit Transaction) |
 | S2 Medium | ⚠️ 5 |
 | S3 Low | ℹ️ 2 |
 | Durability-by-default | 🔴 `write_options_->sync = false` — power-loss loses acknowledged writes |
@@ -115,20 +115,14 @@ so that `OperationGuard` constructors observe it and fail fast.
 
 ---
 
-### S1 — High
+### S1 — High (resolved 2026-05-04)
 
-#### R-2 · `rocksdb_wrapper.cpp` · `putBlob()` — Partial blob visible to concurrent snapshot readers
+#### ~~R-2 · `rocksdb_wrapper.cpp` · `putBlob()` — Partial blob visible to concurrent snapshot readers~~
 
-`putBlob()` builds a `WriteBatch` containing all chunk entries plus a manifest key, then
-commits via `commitBatch()` which calls `db_->Write()` directly on the `TransactionDB`.
-The `WriteBatch` becomes visible atomically at the LSM level **after the write**, but
-concurrent snapshot-isolated reads (`GetForUpdate`, `GetWithSnapshot`) taken between chunk
-writes and manifest commit can read chunks that belong to an incomplete multi-chunk blob.
-A concurrent `getBlob()` assembling from those partial chunks constructs a corrupt object.
-
-**Fix required:** Wrap the multi-chunk blob write in an explicit `rocksdb::Transaction`
-(`db_->BeginTransaction(write_options_)`) and commit it as a single transaction, so MVCC
-prevents mid-write snapshots from observing partial state.
+**Fixed 2026-05-04:** `putBlob()` now wraps all chunk writes + manifest write in an
+explicit `rocksdb::Transaction` (`db_->BeginTransaction()`). The transaction is committed
+atomically; concurrent snapshot-isolated readers see either the complete blob (all chunks
++ manifest) or nothing — partial views are no longer possible.
 
 ---
 

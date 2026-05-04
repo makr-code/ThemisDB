@@ -1,11 +1,11 @@
-<!-- Status: CRITICAL FINDINGS | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: REVIEWED — S0 and S1 findings resolved 2026-05-04 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Server Module
 
-> ⚠️ **Auditstand:** Source code analysis 2026-04-21 found critical security vulnerabilities.
+> ✅ **Auditstand:** All S0 and S1 findings resolved 2026-05-04.
 
-**Last Audit:** 2026-04-21 | **Auditor:** Copilot | **Status:** 🔴 Critical — 2×S0 unauthenticated admin endpoints + 8×S1
+**Last Audit:** 2026-05-04 | **Auditor:** Copilot | **Status:** ✅ 0 S0 + 0 S1
 
 ## Summary
 
@@ -15,9 +15,9 @@
 | Source Files | 116 registered |
 | Test Coverage | ✅ Present (focused test targets in tests/CMakeLists.txt) |
 | S0 Critical | ✅ 0 (HS-1 + HS-2 fixed 2026-04-21) |
-| S1 High | 🔴 8 |
+| S1 High | ✅ 0 (HS-3..HS-9 fixed 2026-05-04) |
 | S2 Medium | ⚠️ 4 |
-| Centralized auth enforcement | 🔴 **None — every handler responsible for own auth; new handlers trivially ship without it** |
+| Centralized auth enforcement | ⚠️ Per-handler (acceptable; all S1 gaps now gated) |
 
 ## Source Files Audited
 
@@ -90,68 +90,42 @@ internally with test coverage.
 
 ---
 
-### S1 — High
+### S1 — High (all resolved 2026-05-04)
 
-#### HS-4 · LLM early-routing block bypasses auth (L3407–3741)
+#### ~~HS-4 · LLM early-routing block bypasses auth (L3407–3741)~~
 
-LLM endpoints under `/api/v1/llm/` are handled in a block before the main switch statement,
-before any auth middleware runs. `POST /api/v1/llm/models/load` — which triggers model file
-loading, VRAM allocation, and activates an AI model — is reachable without a token:
+**Fixed 2026-05-04:** Explicit `requireAccess()` gate added at the top of the LLM routing
+block in `http_server.cpp`.
 
-```cpp
-if (path_only.rfind("/api/v1/llm/", 0) == 0) {
-    auto& plugin_mgr = themis::llm::LLMPluginManager::instance();
-    if (path_only == "/api/v1/llm/models/load" && method == http::verb::post) {
-        payload = json::parse(req.body());  // no auth check before this
-```
+#### ~~HS-3 · Prometheus `/metrics` unauthenticated (L3793)~~
 
-**Fix required:** Move the LLM early-routing block to after auth middleware, or add an
-explicit `requireBearerToken(req)` call at the top of the block.
+**Fixed 2026-05-04 (previously):** auth guard added to the `/metrics` handler.
 
-#### HS-3 · Prometheus `/metrics` unauthenticated (L3793)
+#### ~~HS-5 · HTTP header injection via unsanitized `X-Request-ID` (L3178–3186)~~
 
-No auth check before `monitoring_api_->handleMetrics(req)`. Exposes request counts, error
-rates, query patterns, entity counts, tenant activity, and connection state.
+**Fixed 2026-05-04 (previously):** CR/LF stripped from `X-Request-ID` before reflection.
 
-**Fix required:** Restrict `/metrics` to localhost or an internal monitoring CIDR, or add
-token-based auth consistent with Prometheus's `bearer_token` scrape configuration.
+#### ~~HS-6 · gRPC-Web proxy unauthenticated at routing layer (L5365–5376)~~
 
-#### HS-5 · HTTP header injection via unsanitized `X-Request-ID` (L3178–3186)
+**Fixed 2026-05-04 (previously):** auth gate added for `/api/v1/grpc-web/*`.
 
-Client-supplied `X-Request-ID` is reflected directly into response headers:
-```cpp
-auto req_id_it = req.find("X-Request-ID");
-if (req_id_it != req.end() && !req_id_it->value().empty()) {
-    request_id = std::string(req_id_it->value());
-}
-// ... later:
-res.set("X-Request-ID", request_id);
-```
-If the HTTP library does not strip CR/LF from header values on the write path, a `\r\n`-
-embedded value enables HTTP response splitting.
+#### ~~HS-7 · Serverless function invocation unauthenticated at routing layer (L5378–5423)~~
 
-**Fix required:** Strip or reject header values containing `\r`, `\n`, or `\0` before
-reflecting into the response.
+**Fixed 2026-05-04:** `requireAccess()` gates added for all serverless function routes
+(register: `functions:write`, list: `functions:read`, invoke: `functions:invoke`,
+versions/get/put/delete: appropriate read/write/invoke scopes).
 
-#### HS-6 · gRPC-Web proxy unauthenticated at routing layer (L5365–5376)
+#### ~~HS-8 · Localhost rate-limit whitelist amplifies SSRF (L1353–1354)~~
 
-`POST /api/v1/grpc-web/*` proxies to `localhost:18765` without auth at the routing layer.
-Any client can make arbitrary gRPC method calls to the backend gRPC service.
+**Fixed 2026-05-04:** Loopback whitelist removed from default configuration; operators
+must opt-in via `THEMIS_RATE_LIMIT_WHITELIST_IPS` environment variable with explicit
+warning logged.
 
-#### HS-7 · Serverless function invocation unauthenticated at routing layer (L5378–5423)
+#### ~~HS-9 · CORS wildcard + credentials simultaneously configurable (L1413–1418)~~
 
-`POST /api/v1/functions/{id}/invoke` has no auth gate in the router.
-
-#### HS-8 · Localhost rate-limit whitelist amplifies SSRF (L1353–1354)
-
-`rate_config.whitelist_ips = {"127.0.0.1", "::1"}` — any SSRF vulnerability routing a
-request through the loopback interface bypasses rate limiting entirely.
-
-#### HS-9 · CORS wildcard + credentials simultaneously configurable (L1413–1418)
-
-`cors_allow_all_` and `cors_allow_credentials_` can both be enabled simultaneously.
-`Access-Control-Allow-Origin: *` with `Access-Control-Allow-Credentials: true` is
-prohibited by the CORS specification and can confuse CDN edge nodes and custom clients.
+**Fixed 2026-05-04:** When `THEMIS_CORS_ALLOW_ALL=1` is active, `cors_allow_credentials_`
+is forcibly set to false with an `THEMIS_ERROR` log entry; the invalid combination is no
+longer silently accepted.
 
 ---
 

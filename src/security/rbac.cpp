@@ -24,6 +24,7 @@
 #include "security/rbac.h"
 #include "themis/runtime_license_gate.h"
 #include "utils/logger.h"
+#include <chrono>
 #include <fstream>
 #include <sstream>
 #include <algorithm>
@@ -309,8 +310,29 @@ bool RBAC::checkPermission(
     // Runtime license gate: RBAC is an Enterprise/Hyperscaler feature.
     std::string license_error;
     if (!license::RuntimeLicenseGate::instance().isFeatureAllowed("rbac", license_error)) {
-        THEMIS_WARN("RBAC::checkPermission blocked – {}", license_error);
-        return false;
+        // RB-1: Apply a grace period before denying all permissions.
+        // A transient license-server outage must not lock out every user
+        // system-wide.  If the last successful check was within
+        // kLicenseGracePeriodMs, continue to allow access and emit a warning.
+        const auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now().time_since_epoch()).count();
+        const auto last_ok = license_last_ok_ms_.load(std::memory_order_relaxed);
+        if (last_ok > 0 && (now_ms - last_ok) < kLicenseGracePeriodMs) {
+            THEMIS_WARN("RBAC::checkPermission: license check failed ({}), "
+                        "operating in grace period ({}/{}ms remaining) — RB-1 mitigation",
+                        license_error,
+                        kLicenseGracePeriodMs - (now_ms - last_ok),
+                        kLicenseGracePeriodMs);
+            // Fall through to normal permission evaluation.
+        } else {
+            THEMIS_WARN("RBAC::checkPermission blocked – {}", license_error);
+            return false;
+        }
+    } else {
+        // Update the last-known-good timestamp.
+        const auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now().time_since_epoch()).count();
+        license_last_ok_ms_.store(now_ms, std::memory_order_relaxed);
     }
 
     std::lock_guard<std::mutex> lock(mutex_);
