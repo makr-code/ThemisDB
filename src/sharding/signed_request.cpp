@@ -342,6 +342,15 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
     // Certs are stored as <trusted_certs_dir>/<cert_serial>.pem.
     if (config_.trusted_certs_dir.empty()) {
         // Cannot verify without a cert directory; reject the request.
+        // Warn once per process so operators know why verification is failing.
+        static std::once_flag s_no_cert_dir_warn;
+        std::call_once(s_no_cert_dir_warn, [] {
+            spdlog::warn("SignedRequestVerifier: trusted_certs_dir is not configured — "
+                         "all signature verifications will be REJECTED.  Set "
+                         "Config::trusted_certs_dir to the directory containing "
+                         "peer certificate PEM files.  "
+                         "(This warning is printed once per process.)");
+        });
         return false;
     }
 

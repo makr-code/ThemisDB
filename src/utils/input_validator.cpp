@@ -260,16 +260,22 @@ std::optional<std::string> InputValidator::validateJsonStub(
     if (!schema.has_value()) {
         // Fail-closed: reject the request.  Warn once per unique schema_name to
         // avoid log spam when schemas are intentionally not deployed in an env.
+        // Thread-safety: the static mutex and unordered_set are initialized at
+        // first entry (C++11 static init is thread-safe).  All subsequent accesses
+        // are serialized through s_warned_mutex before touching s_warned_schemas.
         {
             static std::mutex s_warned_mutex;
             static std::unordered_set<std::string> s_warned_schemas;
             std::lock_guard<std::mutex> lock(s_warned_mutex);
             if (s_warned_schemas.find(schema_name) == s_warned_schemas.end()) {
                 s_warned_schemas.insert(schema_name);
-                THEMIS_WARN("InputValidator::validateJsonStub: schema '{}' not found in '{}' — "
-                            "request rejected (fail-closed).  Deploy schema files or set "
-                            "THEMIS_SCHEMA_DIR.  (Subsequent occurrences for this schema are suppressed.)",
-                            schema_name, schema_dir_);
+                THEMIS_WARN("InputValidator::validateJsonStub: schema '{}' not found — "
+                            "expected file: '{}/{}.json'.  "
+                            "Place the JSON Schema file in that directory or set "
+                            "THEMIS_SCHEMA_DIR to the correct path.  "
+                            "Request rejected (fail-closed).  "
+                            "(Subsequent occurrences for this schema are suppressed.)",
+                            schema_name, schema_dir_, schema_name);
             }
         }
         return std::string("schema '" + schema_name + "' not found in '" +

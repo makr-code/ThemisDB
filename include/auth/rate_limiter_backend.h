@@ -61,6 +61,17 @@ public:
     virtual ~IRateLimiterBackend() = default;
 
     /**
+     * @brief Sentinel value returned by increment() and getCount() when the
+     *        backend is unavailable (e.g. Redis not reachable).
+     *
+     * Callers MUST check for this value to distinguish "backend unavailable"
+     * (fail-closed: treat every call as over-limit) from a legitimately high
+     * but finite count.  All concrete implementations that operate in a
+     * degraded mode MUST return this constant rather than an ad-hoc value.
+     */
+    static constexpr int64_t kBackendUnavailable = INT64_MAX;
+
+    /**
      * @brief Atomically record a new request for the given key and return
      *        the total request count within the sliding window.
      *
