@@ -760,8 +760,20 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 // Multiple FILTERs with OR: AND-combine via cartesian product (DNF expansion).
                 // If existing disjuncts = [A, B] and new disjuncts = [C, D], the result is
                 // [A∧C, A∧D, B∧C, B∧D] — each pair of conjuncts is merged.
+                //
+                // TR-2 fix: guard against exponential blowup (M^N disjuncts) that would
+                // exhaust memory during query planning.
+                static constexpr size_t kMaxDNFDisjuncts = 1000;
+                const size_t expandedSize = disjQuery.disjuncts.size() * disjuncts.size();
+                if (expandedSize > kMaxDNFDisjuncts) {
+                    return TranslationResult::Error(
+                        "DNF expansion would produce " + std::to_string(expandedSize) +
+                        " disjuncts, exceeding the limit " +
+                        std::to_string(kMaxDNFDisjuncts) +
+                        ". Simplify the query by reducing nested OR clauses across multiple FILTER statements.");
+                }
                 std::vector<ConjunctiveQuery> merged;
-                merged.reserve(disjQuery.disjuncts.size() * disjuncts.size());
+                merged.reserve(expandedSize);
                 for (const auto& existing : disjQuery.disjuncts) {
                     for (const auto& incoming : disjuncts) {
                         ConjunctiveQuery combined;
@@ -1063,9 +1075,13 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     };
                     continue; // Skip normal predicate extraction for this filter
                 } else {
-                    // Cannot compute bbox - log warning and skip spatial predicate
-                    THEMIS_WARN("Spatial predicate {} requires bbox but could not compute from expression", 
-                                funcName);
+                    // TR-1 fix: fail-closed — reject the translation when bbox cannot
+                    // be computed from the geometry expression.  Silently dropping the
+                    // spatial predicate would allow all records to bypass the geo-fence.
+                    return TranslationResult::Error(
+                        funcName + "(): cannot compute bounding box from geometry expression. "
+                        "Only literal bbox strings in the form [[minx,miny],[maxx,maxy]] are "
+                        "currently supported as the second argument.");
                 }
             }
         }
@@ -1330,9 +1346,11 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                         
                         continue; // Successfully handled ST_* AND <predicates>
                     } else {
-                        // Cannot compute bbox - log warning and fall through to normal processing
-                        THEMIS_WARN("Spatial predicate {} in AND requires bbox but could not compute from expression", 
-                                    funcName);
+                        // TR-1 fix: fail-closed — reject translation when bbox cannot be computed.
+                        return TranslationResult::Error(
+                            funcName + "(): cannot compute bounding box from geometry expression. "
+                            "Only literal bbox strings in the form [[minx,miny],[maxx,maxy]] are "
+                            "currently supported as the second argument.");
                     }
                 }
             }

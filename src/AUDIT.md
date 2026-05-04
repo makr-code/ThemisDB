@@ -102,7 +102,7 @@
 | cache | `src/cache/AUDIT.md` | 1 | 3 | 🔴 Critical |
 | network | `src/network/AUDIT.md` | 1 | 4 | 🔴 Critical |
 | server | `src/server/AUDIT.md` | 2 | 8 | 🔴 Critical |
-| query | `src/query/AUDIT.md` | 3 | 6 | 🔴 Critical |
+| query | `src/query/AUDIT.md` | 3 | 6 | ✅ All fixed (2026-05-04) |
 | aql | `src/aql/AUDIT.md` | 2 | 1 | 🔴 Critical |
 | graph | `src/graph/AUDIT.md` | — | 2 | ⚠️ High |
 | llm | `src/llm/AUDIT.md` | 3 | 8 | 🔴 Critical |

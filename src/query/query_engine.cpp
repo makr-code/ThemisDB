@@ -77,6 +77,11 @@ namespace utils {
 namespace geo = ::themis::geo;
 }
 
+// QE-4 fix: hard safety cap on the number of entities returned by any single
+// execute*Entities call.  Prevents unbounded memory allocation when keys.size()
+// is very large (e.g. a full-collection scan on a multi-million row table).
+static constexpr size_t kMaxEntityResultCap = 1'000'000ULL;
+
 // QE-2 fix: helper that gates every public execute* call.
 // Returns an error Result when the caller is denied access to `collection`.
 // When no checker is injected the method is a no-op (permissive).
@@ -749,6 +754,14 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 	if (!keysResult) return Err<std::vector<BaseEntity>>(keysResult.error().code(), keysResult.error().context());
 	auto keys = std::move(keysResult.value());
 
+	// QE-4: guard against unbounded result sets.
+	if (keys.size() > kMaxEntityResultCap) {
+		return Err<std::vector<BaseEntity>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			fmt::format("executeAndEntities: result set size {} exceeds maximum cap {}",
+			            keys.size(), kMaxEntityResultCap));
+	}
+
 	// Paralleles Entity-Loading für große Ergebnismengen (Batch-Verarbeitung)
 	constexpr size_t PARALLEL_THRESHOLD = 100;
 	constexpr size_t BATCH_SIZE = 50;
@@ -860,19 +873,24 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 
 	// Execute each disjunct (AND-block) and collect results
 	std::vector<std::vector<std::string>> all_lists(q.disjuncts.size());
+	// QE-1 fix: protect errors vector from concurrent TBB writes.
+	std::mutex errors_mutex;
 	std::vector<std::string> errors;
 	tbb::task_group tg;
 
 	for (size_t i = 0; i < q.disjuncts.size(); ++i) {
 		const auto& disjunct = q.disjuncts[i];
-		tg.run([this, &disjunct, &all_lists, i, &errors]() {
+		tg.run([this, &disjunct, &all_lists, i, &errors, &errors_mutex]() {
 			auto child = Tracer::startSpan("or.disjunct.execute");
 			child.setAttribute("disjunct.eq_count", static_cast<int64_t>(disjunct.predicates.size()));
 			child.setAttribute("disjunct.range_count", static_cast<int64_t>(disjunct.rangePredicates.size()));
 			auto result = executeAndKeys(disjunct);
 			if (!result) {
 				THEMIS_ERROR("Parallel OR disjunct error: {}", result.error().context());
-				errors.push_back(result.error().context());
+				{
+					std::lock_guard<std::mutex> lk(errors_mutex);
+					errors.push_back(result.error().context());
+				}
 				child.setStatus(false, result.error().context());
 				return;
 			}
@@ -916,19 +934,26 @@ QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize)
 		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, "executeOrKeysWithFallback: keine Disjunkte");
 	}
 
+	// QE-3 fix: collect disjunct errors and propagate instead of silently returning empty.
 	std::vector<std::vector<std::string>> all_lists(q.disjuncts.size());
+	std::mutex fb_errors_mutex;
+	std::vector<std::string> fb_errors;
 	tbb::task_group tg;
 	for (size_t i = 0; i < q.disjuncts.size(); ++i) {
 		const auto& disjunct = q.disjuncts[i];
-		tg.run([this, &disjunct, &all_lists, i, optimize]() {
+		tg.run([this, &disjunct, &all_lists, i, optimize, &fb_errors, &fb_errors_mutex]() {
 			auto child = Tracer::startSpan("or.disjunct.execute_fallback");
 			child.setAttribute("disjunct.eq_count", static_cast<int64_t>(disjunct.predicates.size()));
 			child.setAttribute("disjunct.range_count", static_cast<int64_t>(disjunct.rangePredicates.size()));
 			auto result = executeAndKeysWithFallback(disjunct, optimize);
 			if (!result) {
 				THEMIS_ERROR("Parallel OR (fallback) disjunct error: {}", result.error().message());
+				{
+					std::lock_guard<std::mutex> lk(fb_errors_mutex);
+					fb_errors.push_back(result.error().message());
+				}
 				child.setStatus(false, result.error().message());
-				return; // Dieser Disjunkt liefert keine Ergebnisse
+				return;
 			}
 			auto keys = std::move(*result);
 			tbb::parallel_sort(keys.begin(), keys.end());
@@ -938,6 +963,12 @@ QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize)
 		});
 	}
 	tg.wait();
+
+	if (!fb_errors.empty()) {
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			"executeOrKeysWithFallback: " + fb_errors.front());
+	}
 
 	auto keys = unionSortedLists_(std::move(all_lists));
 	span.setAttribute("query.result_count", static_cast<int64_t>(keys.size()));
@@ -959,6 +990,14 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 		return Err<std::vector<BaseEntity>>(result.error().code(), result.error().message());
 	}
 	auto keys = std::move(*result);
+
+	// QE-4: guard against unbounded result sets.
+	if (keys.size() > kMaxEntityResultCap) {
+		return Err<std::vector<BaseEntity>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			fmt::format("executeOrEntitiesWithFallback: result set size {} exceeds maximum cap {}",
+			            keys.size(), kMaxEntityResultCap));
+	}
 
 	// Parallel entity loading (analog zu executeOrEntities)
 	constexpr size_t PARALLEL_THRESHOLD = 100;
@@ -1017,6 +1056,14 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 		return Err<std::vector<BaseEntity>>(result.error().code(), result.error().context());
 	}
 	auto keys = *result;
+
+	// QE-4: guard against unbounded result sets.
+	if (keys.size() > kMaxEntityResultCap) {
+		return Err<std::vector<BaseEntity>>(
+			errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+			fmt::format("executeOrEntities: result set size {} exceeds maximum cap {}",
+			            keys.size(), kMaxEntityResultCap));
+	}
 
 	// Parallel entity loading (same logic as executeAndEntities)
 	constexpr size_t PARALLEL_THRESHOLD = 100;
@@ -1576,10 +1623,12 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		if (!pRes) return Err<nlohmann::json>(pRes.error().code(), pRes.error().message());
 		auto mRes = extractMBR(g2);
 		if (!mRes) {
-			// Fail-open: return true to avoid rejecting docs on parse errors
-			// This preserves backward compatibility for edge cases where geometry parsing is ambiguous
-			spdlog::debug("ST_Within: Failed to extract MBR (backward compat: failing open, returning true)");
-			return Ok(nlohmann::json(true));
+			// QE-5 fix: fail-closed — reject the document when the MBR cannot be
+			// extracted from the geometry argument.  Failing open here would allow
+			// all records to bypass a geo-fence filter when the polygon is malformed.
+			return Err<nlohmann::json>(
+				ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+				"ST_Within: failed to extract MBR from geometry argument (fail-closed)");
 		}
 		auto p = *pRes;
 		auto m = *mRes;

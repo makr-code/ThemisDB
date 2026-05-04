@@ -553,7 +553,14 @@ private:
 
         if (match(TokenType::INTEGER)) {
             // Parse min..max
+            // PA-2 fix: enforce an upper bound on graph traversal depth to prevent
+            // BFS/DFS from being triggered with values like INT_MAX.
+            static constexpr int kMaxTraversalDepth = 1000;
+
             int minDepth = std::stoi(current().value);
+            if (minDepth < 0) {
+                throw std::runtime_error("Graph traversal min depth must be >= 0");
+            }
             advance();
             // Expect '..' as two DOT tokens
             if (!match(TokenType::DOT) || peek().type != TokenType::DOT) {
@@ -565,6 +572,11 @@ private:
                 throw std::runtime_error("Expected max depth integer after '..'");
             }
             int maxDepth = std::stoi(current().value);
+            if (maxDepth > kMaxTraversalDepth) {
+                throw std::runtime_error(
+                    "Graph traversal max depth " + std::to_string(maxDepth) +
+                    " exceeds limit " + std::to_string(kMaxTraversalDepth));
+            }
             advance();
 
             // Direction
