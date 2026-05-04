@@ -322,9 +322,12 @@ int TokenBucketRateLimiter::redisEvalBucket([[maybe_unused]] Priority prio,
     std::string key = redisKey(config_.bucket_id, prio);
     int result = redisExecEvalsha(slot, key, capacity, refill_rate, consume_count);
 
-    // If the slot died, try to reconnect it in-place before returning it.
-    if (result < 0 && !slot.ctx) {
-        // Re-connect attempt without holding pool_mu (connect can be slow).
+    // If the slot is dead after the call, attempt an inline reconnect.
+    // If reconnect also fails the slot is returned with ctx == nullptr;
+    // redisExecEvalsha() checks for that on the next borrow and returns -1
+    // immediately, so borrowers won't block on a dead socket.
+    if (!slot.ctx) {
+        // Reconnect attempt is made outside pool_mu (connect can be slow).
         struct timeval tv{ config_.redis.timeout_ms / 1000,
                            (config_.redis.timeout_ms % 1000) * 1000 };
         slot.ctx = redisConnectWithTimeout(
@@ -350,6 +353,13 @@ int TokenBucketRateLimiter::redisEvalBucket([[maybe_unused]] Priority prio,
                 if (r) freeReplyObject(r);
                 redisFree(slot.ctx); slot.ctx = nullptr;
             }
+        }
+        if (!slot.ctx) {
+            // Reconnect failed; mark the backend unhealthy so the caller
+            // switches to the local fallback.  The dead slot is still returned
+            // to the pool — redisExecEvalsha() will detect ctx==nullptr and
+            // return -1 instantly, avoiding any blocking on a dead socket.
+            markRedisError();
         }
     }
 

@@ -193,12 +193,11 @@ void NUMAMemoryManager::deallocate(void* ptr, size_t size) noexcept {
             // statistics only (get_stats() / reset_stats()), not for synchronisation
             // or load/store ordering guarantees between other variables.
             auto& atom = per_node_bytes_[static_cast<size_t>(node)];
+            const int64_t sz = static_cast<int64_t>(tracked_size);
             int64_t expected = atom.load(std::memory_order_relaxed);
             int64_t desired;
             do {
-                desired = (expected >= static_cast<int64_t>(tracked_size))
-                        ? expected - static_cast<int64_t>(tracked_size)
-                        : 0;
+                desired = (expected >= sz) ? expected - sz : 0;
             } while (!atom.compare_exchange_weak(
                 expected, desired,
                 std::memory_order_relaxed, std::memory_order_relaxed));
