@@ -23,6 +23,7 @@
 #include <rocksdb/utilities/transaction_db.h>
 #include <string>
 #include <optional>
+#include <atomic>
 #include <chrono>
 #include <memory>
 #include <nlohmann/json.hpp>
@@ -159,10 +160,14 @@ private:
     rocksdb::ColumnFamilyHandle* cf_handle_;
     int default_ttl_seconds_;
 
-    // Metrics (thread-safe via atomic or mutex)
-    mutable uint64_t hit_count_ = 0;
-    mutable uint64_t miss_count_ = 0;
-    mutable double total_query_latency_ms_ = 0.0;
+    // Metrics — all updated from concurrent threads; must be atomic.
+    // memory_order_relaxed is sufficient: exact ordering between individual
+    // hit/miss increments and latency accumulation is not required for
+    // statistical aggregation (no happens-before dependency across counters).
+    mutable std::atomic<uint64_t> hit_count_{0};
+    mutable std::atomic<uint64_t> miss_count_{0};
+    // Accumulated in microseconds (integer) to allow lock-free fetch_add.
+    mutable std::atomic<uint64_t> total_query_latency_us_{0};
 };
 
 } // namespace themis

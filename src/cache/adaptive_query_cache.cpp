@@ -28,11 +28,10 @@
 #include "storage/rocksdb_wrapper.h"
 #include "utils/zstd_codec.h"
 #include "utils/logger.h"
+#include "utils/hash_util.h"
 #include "observability/metrics_collector.h"
 #include <algorithm>
 #include <cmath>
-#include <sstream>
-#include <iomanip>
 #include <fstream>
 #include <thread>
 #include <shared_mutex>
@@ -181,14 +180,7 @@ std::string AdaptiveQueryCache::generateFingerprint(
     SHA256(reinterpret_cast<const unsigned char*>(input.data()), 
            input.size(), hash);
     
-    // Convert to hex string
-    std::ostringstream ss;
-    ss << std::hex << std::setfill('0');
-    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-        ss << std::setw(2) << static_cast<int>(hash[i]);
-    }
-    
-    return ss.str();
+    return themis::hash::bytes_to_hex(hash, SHA256_DIGEST_LENGTH);
 }
 
 std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(

@@ -37,7 +37,7 @@ stubs masquerading as functional code on critical paths.
 
 ## 1. Lock Contention
 
-### F-001 · `BoundedLRUCache::get()` takes exclusive write-lock for reads
+### F-001 ✅ · `BoundedLRUCache::get()` takes exclusive write-lock for reads
 - **File:** `src/cache/bounded_lru_cache.cpp` · ~Line 40
 - **Severity:** 🔴 Critical
 
@@ -57,7 +57,7 @@ auto it = cache_.find(key);  // read-only; doesn't need exclusive lock
 
 ---
 
-### F-002 · `AccountLockoutManager::getLockoutInfo()` uses exclusive lock on a pure-read path
+### F-002 ✅ · `AccountLockoutManager::getLockoutInfo()` uses exclusive lock on a pure-read path
 - **File:** `src/auth/auth_rate_limiter.cpp` · ~Line 142
 - **Severity:** 🟠 High
 
@@ -237,7 +237,7 @@ for (auto it = v.begin(); it != v.end(); ++it) {
 
 ## 3. I/O Patterns
 
-### F-012 · `WALStorage::appendEntryLocked()` makes 4 separate `write()` syscalls per record
+### F-012 ✅ · `WALStorage::appendEntryLocked()` makes 4 separate `write()` syscalls per record
 - **File:** `src/storage/wal_storage.cpp` · ~Lines 403–406
 - **Severity:** 🟠 High
 
@@ -293,7 +293,7 @@ to eliminate manual expiry entirely.
 
 ## 4. String Handling
 
-### F-015 · `SemanticCache::computeKey()` uses `std::ostringstream` in a 32-iteration hex loop
+### F-015 ✅ · `SemanticCache::computeKey()` uses `std::ostringstream` in a 32-iteration hex loop
 - **File:** `src/cache/semantic_cache.cpp` · ~Lines 73–82
 - **Severity:** 🟠 High
 
@@ -326,7 +326,7 @@ return std::string(result, 64);
 
 ---
 
-### F-016 · Same `ostringstream` SHA-256 pattern in `AdaptiveQueryCache::computeFingerprint()`
+### F-016 ✅ · Same `ostringstream` SHA-256 pattern in `AdaptiveQueryCache::computeFingerprint()`
 - **File:** `src/cache/adaptive_query_cache.cpp` · ~Lines 184–189
 - **Severity:** 🟠 High
 
@@ -422,7 +422,7 @@ scan.
 
 ---
 
-### F-022 · `GorillaSIMDDecoder` calls `gorilla_simd_has_avx2()` (full CPUID instruction) on every decode invocation
+### F-022 ✅ · `GorillaSIMDDecoder` calls `gorilla_simd_has_avx2()` (full CPUID instruction) on every decode invocation
 - **File:** `src/timeseries/gorilla_simd.cpp` · ~Lines 248–262
 - **Severity:** 🟡 Medium
 
@@ -592,7 +592,7 @@ avoid saturating the LLM endpoint.
 
 ## 9. Data Races
 
-### F-030 · `SemanticCache` stats counters are bare non-atomic integers with no synchronisation
+### F-030 ✅ · `SemanticCache` stats counters are bare non-atomic integers with no synchronisation
 - **File:** `src/cache/semantic_cache.cpp` · ~Lines 152–172
 - **Severity:** 🔴 Critical
 
@@ -611,7 +611,7 @@ atomic integer in microseconds or a `std::mutex`-guarded stats struct.
 
 ---
 
-### F-031 · `WALStorage::crc32_update()` double-checked initialisation uses a plain (non-atomic) `bool`
+### F-031 ✅ · `WALStorage::crc32_update()` double-checked initialisation uses a plain (non-atomic) `bool`
 - **File:** `src/storage/wal_storage.cpp` · ~Lines 103–118
 - **Severity:** 🟠 High
 
@@ -650,41 +650,42 @@ a static `bool`.
 
 ## 11. Summary Table
 
-| ID | File(s) | Category | Severity |
-|----|---------|----------|----------|
-| F-001 | `cache/bounded_lru_cache.cpp:40` | Lock Contention | 🔴 Critical |
-| F-002 | `auth/auth_rate_limiter.cpp:142` | Lock Contention | 🟠 High |
-| F-003 | `auth/auth_rate_limiter.cpp:298–596` | Lock Contention | 🟠 High |
-| F-004 | `cache/embedding_cache.cpp:108` | Lock Contention | 🔴 Critical |
-| F-005 | `performance/intelligent_prefetcher.cpp:116–369` | Lock Contention | 🟡 Medium |
-| F-006 | `performance/numa_memory_manager.cpp:126` | Lock Contention | 🟡 Medium |
-| F-007 | `server/sse_connection_manager.cpp:258` | Lock Contention / I/O | 🟠 High |
-| F-008 | `server/rate_limiter_v2.cpp:116–313` | Lock Contention | 🟠 High |
-| F-009 | `cache/embedding_cache.cpp:243` | Algorithmic / Memory | 🟠 High |
-| F-010 | `storage/mvcc_store.cpp:158` | Memory / I/O | 🟠 High |
-| F-011 | `performance/numa_memory_manager.cpp:151` | Container / Memory | 🟡 Medium |
-| F-012 | `storage/wal_storage.cpp:403–406` | I/O | 🟠 High |
-| F-013 | `cache/semantic_cache.cpp:196–213` | I/O / Algorithmic | 🟠 High |
-| F-014 | `cache/semantic_cache.cpp:213–252` | I/O / Algorithmic | 🟡 Medium |
-| F-015 | `cache/semantic_cache.cpp:73–82` | String / Memory | 🟠 High |
-| F-016 | `cache/adaptive_query_cache.cpp:184–189` | String / Memory | 🟠 High |
-| F-017 | `sharding/consistent_hash.cpp:60–64` | String / Memory | 🟡 Medium |
-| F-018 | `rag/*.cpp` (≥ 20 files) | String / Memory | 🟡 Medium |
-| F-019 | `sharding/consistent_hash.cpp:144,211` | Container | 🟡 Medium |
-| F-020 | `index/hnsw_layer_optimizer.cpp:83,118` | Container | 🟡 Medium |
-| F-021 | `cache/embedding_cache.cpp:170–200` | Algorithmic | 🟡 Medium |
-| F-022 | `timeseries/gorilla_simd.cpp:248` | CPU / SIMD | 🟡 Medium |
-| F-023 | `query/optimizer_cost_model.cpp:580–634` | Stub-in-critical-path | 🔴 Critical |
-| F-024 | `storage/storage_engine.cpp:67–86` | Stub-in-critical-path | 🔴 Critical |
-| F-025 | `sharding/adaptive_shard_router.cpp`, `query/query_federation.cpp:369–395` | Stub-in-critical-path | 🔴 Critical |
-| F-026 | `query/functions/fulltext_functions.cpp` | Stub-in-critical-path | 🟠 High |
-| F-027 | `query/functions/process_mining_functions.cpp:36` | Stub-in-critical-path | 🟠 High |
-| F-028 | `query/functions/ethics_functions.cpp:163,190,214` | Stub-in-critical-path | 🟡 Medium |
-| F-029 | `rag/multi_step_rag.cpp:237–248` | Parallelism | 🟠 High |
-| F-030 | `cache/semantic_cache.cpp:152–172` | Data Race | 🔴 Critical |
-| F-031 | `storage/wal_storage.cpp:103–118` | Data Race | 🟠 High |
+| ID | File(s) | Category | Severity | Status |
+|----|---------|----------|----------|--------|
+| F-001 | `cache/bounded_lru_cache.cpp:40` | Lock Contention | 🔴 Critical | ✅ Fixed |
+| F-002 | `auth/auth_rate_limiter.cpp:142` | Lock Contention | 🟠 High | ✅ Fixed |
+| F-003 | `auth/auth_rate_limiter.cpp:298–596` | Lock Contention | 🟠 High | Open |
+| F-004 | `cache/embedding_cache.cpp:108` | Lock Contention | 🔴 Critical | Open |
+| F-005 | `performance/intelligent_prefetcher.cpp:116–369` | Lock Contention | 🟡 Medium | Open |
+| F-006 | `performance/numa_memory_manager.cpp:126` | Lock Contention | 🟡 Medium | Open |
+| F-007 | `server/sse_connection_manager.cpp:258` | Lock Contention / I/O | 🟠 High | Open |
+| F-008 | `server/rate_limiter_v2.cpp:116–313` | Lock Contention | 🟠 High | Open |
+| F-009 | `cache/embedding_cache.cpp:243` | Algorithmic / Memory | 🟠 High | Open |
+| F-010 | `storage/mvcc_store.cpp:158` | Memory / I/O | 🟠 High | Open |
+| F-011 | `performance/numa_memory_manager.cpp:151` | Container / Memory | 🟡 Medium | Open |
+| F-012 | `storage/wal_storage.cpp:403–406` | I/O | 🟠 High | ✅ Fixed |
+| F-013 | `cache/semantic_cache.cpp:196–213` | I/O / Algorithmic | 🟠 High | Open |
+| F-014 | `cache/semantic_cache.cpp:213–252` | I/O / Algorithmic | 🟡 Medium | Open |
+| F-015 | `cache/semantic_cache.cpp:73–82` | String / Memory | 🟠 High | ✅ Fixed |
+| F-016 | `cache/adaptive_query_cache.cpp:184–189` | String / Memory | 🟠 High | ✅ Fixed |
+| F-017 | `sharding/consistent_hash.cpp:60–64` | String / Memory | 🟡 Medium | Open |
+| F-018 | `rag/*.cpp` (≥ 20 files) | String / Memory | 🟡 Medium | Open |
+| F-019 | `sharding/consistent_hash.cpp:144,211` | Container | 🟡 Medium | Open |
+| F-020 | `index/hnsw_layer_optimizer.cpp:83,118` | Container | 🟡 Medium | Open |
+| F-021 | `cache/embedding_cache.cpp:170–200` | Algorithmic | 🟡 Medium | Open |
+| F-022 | `timeseries/gorilla_simd.cpp:248` | CPU / SIMD | 🟡 Medium | ✅ Fixed |
+| F-023 | `query/optimizer_cost_model.cpp:580–634` | Stub-in-critical-path | 🔴 Critical | Open |
+| F-024 | `storage/storage_engine.cpp:67–86` | Stub-in-critical-path | 🔴 Critical | Open |
+| F-025 | `sharding/adaptive_shard_router.cpp`, `query/query_federation.cpp:369–395` | Stub-in-critical-path | 🔴 Critical | Open |
+| F-026 | `query/functions/fulltext_functions.cpp` | Stub-in-critical-path | 🟠 High | Open |
+| F-027 | `query/functions/process_mining_functions.cpp:36` | Stub-in-critical-path | 🟠 High | Open |
+| F-028 | `query/functions/ethics_functions.cpp:163,190,214` | Stub-in-critical-path | 🟡 Medium | Open |
+| F-029 | `rag/multi_step_rag.cpp:237–248` | Parallelism | 🟠 High | Open |
+| F-030 | `cache/semantic_cache.cpp:152–172` | Data Race | 🔴 Critical | ✅ Fixed |
+| F-031 | `storage/wal_storage.cpp:103–118` | Data Race | 🟠 High | ✅ Fixed |
 
-**Total:** 31 findings — 7 Critical, 14 High, 10 Medium
+**Total:** 31 findings — 7 Critical, 14 High, 10 Medium  
+**Fixed (this PR):** 7 (F-001, F-002, F-012, F-015, F-016, F-022, F-030, F-031)
 
 ---
 
@@ -692,25 +693,25 @@ a static `bool`.
 
 ### Tier 1 — Fix immediately (correctness / UB)
 
-| # | Item | Reason |
-|---|------|--------|
-| F-030 | SemanticCache data race on stats | Undefined behaviour in production |
-| F-031 | WAL CRC32 initialisation data race | UB; can corrupt WAL records |
-| F-024 | DefaultExpressionEvaluator always-true | Silent silent wrong query results |
-| F-025 | Cross-shard join stub returns empty data | Silent wrong results on distributed queries |
-| F-023 | Cost model statistics stubs | Causes suboptimal query plans for every query |
+| # | Item | Reason | Status |
+|---|------|--------|--------|
+| F-030 | SemanticCache data race on stats | Undefined behaviour in production | ✅ Fixed |
+| F-031 | WAL CRC32 initialisation data race | UB; can corrupt WAL records | ✅ Fixed |
+| F-024 | DefaultExpressionEvaluator always-true | Silent wrong query results | Open |
+| F-025 | Cross-shard join stub returns empty data | Silent wrong results on distributed queries | Open |
+| F-023 | Cost model statistics stubs | Causes suboptimal query plans for every query | Open |
 
 ### Tier 2 — High-impact, low-effort wins
 
-| # | Item | Effort |
-|---|------|--------|
-| F-001 | `BoundedLRUCache::get()` shared_lock | 2-line change |
-| F-002 | `getLockoutInfo()` shared_lock | 1-line change |
-| F-003 | Auth stats → `std::atomic` | 3-line change |
-| F-015 | SHA-256 hex formatting via table | ~10-line change |
-| F-016 | Same fix in `AdaptiveQueryCache` | ~10-line change |
-| F-022 | Cache `gorilla_simd_has_avx2()` result | 1-line change |
-| F-012 | WAL: single `writev()` per record | ~20-line change |
+| # | Item | Effort | Status |
+|---|------|--------|--------|
+| F-001 | `BoundedLRUCache::get()` shared_lock | 2-line change | ✅ Fixed |
+| F-002 | `getLockoutInfo()` shared_lock | 1-line change | ✅ Fixed |
+| F-003 | Auth stats → `std::atomic` | 3-line change | Open |
+| F-015 | SHA-256 hex formatting via table | ~10-line change | ✅ Fixed |
+| F-016 | Same fix in `AdaptiveQueryCache` | ~10-line change | ✅ Fixed |
+| F-022 | Cache `gorilla_simd_has_avx2()` result | 1-line change | ✅ Fixed |
+| F-012 | WAL: single write per record (buffer+1 syscall) | ~20-line change | ✅ Fixed |
 
 ### Tier 3 — Structural improvements
 

@@ -139,7 +139,7 @@ bool AccountLockoutManager::isAccountLocked(const std::string& user_id) const {
 std::optional<LockoutInfo> AccountLockoutManager::getLockoutInfo(
     const std::string& user_id) const
 {
-    std::unique_lock<std::shared_mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     
     auto it = lockout_state_.find(user_id);
     if (it == lockout_state_.end()) {
