@@ -324,8 +324,23 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
             }
         }
         
-        bool prepared = sendPrepare(shard_id, transaction_id);
-        
+        // CST-5: sendPrepare() performs network I/O outside the lock.
+        // Wrap the call so that any exception still re-acquires the lock,
+        // keeping the unique_lock in a defined (locked) state for cleanup.
+        bool prepared = false;
+        try {
+            prepared = sendPrepare(shard_id, transaction_id);
+        } catch (...) {
+            lock.lock();
+            participant.prepared = false;
+            participant.error_message = "sendPrepare threw an exception";
+            all_prepared = false;
+            spdlog::error("sendPrepare threw for shard {} in transaction {}",
+                         shard_id, transaction_id);
+            // Leave lock held; the outer loop will break naturally.
+            throw;
+        }
+
         lock.lock();
         participant.prepared = prepared;
         

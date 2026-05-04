@@ -95,7 +95,7 @@
 
 | Module | AUDIT.md | S0 | S1 | Status |
 |--------|----------|----|----|--------|
-| sharding | `src/sharding/AUDIT.md` | 0 (PAX-1/2/3, GOS-1, CST-1/2/3, RWALI-1/2 fixed) | — | ✅ S0 resolved |
+| sharding | `src/sharding/AUDIT.md` | 0 (PAX-1/2/3, GOS-1, CST-1/2/3, RWALI-1/2 fixed) | — | ✅ S0 resolved; ✅ S2: RAFT-2, GOS-2, GOS-3, PAX-6, CST-4, CST-5, TWAL-1, DTM-4 fixed 2026-05-04 (1 S2 open: CST-6) |
 | transaction | `src/transaction/ROADMAP.md` | 0 (SH-8 fixed) | — | ✅ S0 resolved |
 | storage | `src/storage/AUDIT.md` | 0 (R-1 fixed 2026-05-04) | 0 (R-2 fixed 2026-05-04) | ✅ S0+S1 resolved |
 | security | `src/security/AUDIT.md` | 0 (A-1/A-2 fixed) | 0 (A-3, E-1, E-2, E-4, RB-1 fixed 2026-05-04) | 0 (A-4, A-5, E-3, RB-2 fixed 2026-05-04) — ✅ S0+S1+S2 resolved |

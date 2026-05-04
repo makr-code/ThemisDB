@@ -16,7 +16,7 @@
 | Test Coverage | ✅ Present (unit; distributed integration coverage gaps) |
 | S0 Critical / Safety Violations | 🔴 8 |
 | S1 High | 🔴 10 |
-| S2 Medium | ⚠️ 9 |
+| S2 Medium | ⚠️ 1 (CST-6 open) |
 | S3 Low | ℹ️ 3 |
 | Distributed correctness under concurrent access | 🔴 **Not guaranteed** |
 
@@ -26,7 +26,7 @@
 |-----------|-------|---------------|
 | Consensus — Raft | `raft_consensus.cpp`, `raft_log.cpp`, `raft_wal_integration.cpp` | 🔴 S0+S1 findings |
 | Consensus — Paxos | `paxos_consensus.cpp` | 🔴 S0 (3×): permanent deadlock, broken election, WAL degradation |
-| Consensus — Gossip | `gossip_protocol.cpp` | 🔴 S0: deadlock in `addPeer`→`syncWithTopology`; S2: no-op signature verification |
+| Consensus — Gossip | `gossip_protocol.cpp` | 🔴 S0: deadlock in `addPeer`→`syncWithTopology`; ✅ S2 GOS-2/GOS-3 fixed 2026-05-04 |
 | Distributed transactions | `cross_shard_transaction.cpp`, `two_phase_commit_coordinator.cpp`, `transaction_wal.cpp` | 🔴 S0 (3×): dangling-reference UB in commit/abort/saga |
 | WAL & replication | `raft_wal_integration.cpp`, `transaction_wal.cpp` | 🔴 S0: self-deadlock; ⚠️ non-atomic LSN |
 | Shard routing | `adaptive_shard_router.cpp`, `consistent_hash.cpp`, `shard_router.cpp` | ✅ No critical findings |
@@ -226,16 +226,16 @@ succeed). **Correct operation is impossible for any cluster size other than 3.**
 
 | ID | File | Function | Description |
 |----|------|----------|-------------|
-| RAFT-2 | `raft_consensus.cpp` | `propose()` | `replication_callback_` read in detached thread without lock while `setReplicationCallback()` can mutate it — data race on `std::function` |
+| ~~RAFT-2~~ | ✅ fixed 2026-05-04 | `raft_consensus.cpp` | `setReplicationCallback()` | `replication_callback_` write now protected by `replica_mutex_`; read-side in `propose()` was already locked |
 | RAFT-3 | `raft_consensus.cpp` | `propose()` | Entry appended to log before quorum is confirmed; no rollback path if ACK count falls short |
-| GOS-2 | `gossip_protocol.cpp` | `verifyMessage()` | Signature verification always returns `true` regardless of `validate_certificates` setting — any node can inject gossip messages and poison cluster membership |
-| GOS-3 | `gossip_protocol.cpp` | `selectRandomPeers()` | Static `std::mt19937` shared between `gossipLoop` and `cleanupLoop` threads — data race |
-| PAX-6 | `paxos_consensus.cpp` | Various | `cluster_nodes_` protected by `state_mutex_` in `addNode()`/`removeNode()` but read without lock in `leaderElectionThread()` and `getStats()` — data race |
-| CST-4 | `cross_shard_transaction.cpp` | Constructor | Transaction log falls back to `/tmp/themisdb_transaction_log.jsonl` on unconfigured path; `/tmp` is often `tmpfs` — recovery data silently lost on reboot |
-| CST-5 | `cross_shard_transaction.cpp` | `prepare()` | Repeated lock/unlock pattern in prepare loop is not exception-safe; a `sendPrepare()` exception leaves lock state undefined |
+| ~~GOS-2~~ | ✅ fixed 2026-05-04 | `gossip_protocol.cpp` | `verifyMessage()` | Empty-signature and missing-key-dir paths now fail-closed when `validate_certificates=true`; real RSA-SHA256 verification wired |
+| ~~GOS-3~~ | ✅ fixed 2026-05-04 | `gossip_protocol.cpp` | `selectRandomPeers()` | Replaced `static std::mt19937` with `thread_local` |
+| ~~PAX-6~~ | ✅ fixed 2026-05-04 | `paxos_consensus.cpp` | Various | `cluster_nodes_` reads in `leaderElectionThread()` and `getStats()` now guarded by `state_mutex_` |
+| ~~CST-4~~ | ✅ fixed 2026-05-04 | `cross_shard_transaction.cpp` | Constructor | `/tmp` fallback removed; constructor now throws `std::invalid_argument` when `transaction_log_path` is not an absolute path |
+| ~~CST-5~~ | ✅ fixed 2026-05-04 | `cross_shard_transaction.cpp` | `prepare()` | `sendPrepare()` call wrapped in try/catch; exception now re-acquires the `unique_lock` before propagating |
 | CST-6 | `cross_shard_transaction.cpp` | `execute3PC()` | 3PC PreCommit phase is simulated: `bool precommitted = participant.prepared;` — no actual PreCommit RPC; 3PC provides no correctness benefit over 2PC as implemented |
-| DTM-4 | `distributed_transaction_manager.cpp` | `commitDistributed()` | COMMIT decision WAL-written but not explicitly flushed before Phase 2 broadcast; coordinator crash between WAL write and fsync loses the COMMIT decision |
-| TWAL-1 | `transaction_wal.cpp` | All `log*()` methods | `current_lsn_` updated without mutex; concurrent callers from prepare loops can race on LSN tracking |
+| ~~DTM-4~~ | ✅ fixed 2026-05-04 | `distributed_transaction.cpp` | `commit()` | COMMIT intent now written to WAL and flushed via `wal_manager_->flush()` before `retryCommitPhase()` (Phase 2 broadcast) |
+| ~~TWAL-1~~ | ✅ fixed 2026-05-04 | `transaction_wal.cpp` | All `log*()` methods | `current_lsn_` updates now protected by `lsn_mutex_` |
 
 ---
 
@@ -270,7 +270,7 @@ transition is durable under WAL failure.
 |---|---|
 | `raft_wal_integration.cpp write()` | ✅ WAL written first (but self-deadlocks before quorum) |
 | `two_phase_commit_coordinator.cpp commit()` | ✅ WAL before Phase 2 — but no explicit flush |
-| `distributed_transaction_manager.cpp commitDistributed()` | ✅ WAL before Phase 2 — but no explicit flush |
+| `distributed_transaction.cpp commit()` | ✅ WAL before Phase 2 — COMMIT intent written and flushed before `retryCommitPhase()` (DTM-4 fixed 2026-05-04) |
 | `cross_shard_transaction.cpp commit()` | ⚠️ WAL writes present but not verified before lock release |
 | `paxos_consensus.cpp broadcastCommit()` | ❌ WAL failure silently ignored; can broadcast commit without durable WAL entry |
 

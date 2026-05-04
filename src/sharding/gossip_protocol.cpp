@@ -624,19 +624,26 @@ bool GossipProtocol::verifyMessage(const GossipMessage& message) const {
         return true;
     }
 
-    // If signature is empty, accept (peer may not have signing configured)
+    // If signature is empty and validation is enabled, fail-closed: an
+    // unsigned message from a peer must not be accepted when the operator
+    // has explicitly enabled certificate validation.
     if (message.signature.empty()) {
-        return true;
+        spdlog::warn("GossipProtocol: rejecting unsigned message '{}' from '{}': "
+                     "validate_certificates is enabled",
+                     message.message_id, message.sender_id);
+        return false;
     }
 
     // GOS-2: Attempt real RSA-SHA256 signature verification when a public key
     // is available for the sender. Public key files are expected at:
     //   {peer_public_keys_dir}/{sender_id}.pem
     if (config_.peer_public_keys_dir.empty()) {
-        // No key directory configured — cannot verify; accept with warning.
-        spdlog::warn("GossipProtocol: cannot verify signature from '{}': "
-                     "peer_public_keys_dir not configured", message.sender_id);
-        return true;
+        // No key directory configured — fail-closed: cannot verify signature.
+        spdlog::warn("GossipProtocol: rejecting message '{}' from '{}': "
+                     "validate_certificates is enabled but peer_public_keys_dir "
+                     "is not configured",
+                     message.message_id, message.sender_id);
+        return false;
     }
 
     const std::string key_path = config_.peer_public_keys_dir + "/" +
