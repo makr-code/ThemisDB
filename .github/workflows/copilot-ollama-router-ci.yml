@@ -9,6 +9,9 @@ on:
       - 'tools/copilot-ollama-router/**'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 defaults:
   run:
     working-directory: tools/copilot-ollama-router
