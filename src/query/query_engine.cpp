@@ -77,6 +77,23 @@ namespace utils {
 namespace geo = ::themis::geo;
 }
 
+// QE-2 fix: helper that gates every public execute* call.
+// Returns an error Result when the caller is denied access to `collection`.
+// When no checker is injected the method is a no-op (permissive).
+static inline std::optional<std::string>
+checkCollectionAccess(
+    const std::function<bool(const std::string&, const std::string&)>& checker,
+    const std::string& caller_id,
+    const std::string& collection)
+{
+    if (!checker) return std::nullopt;  // no checker → allow
+    if (!checker(collection, caller_id)) {
+        return "Access denied: collection '" + collection +
+               "' is not accessible to caller '" + caller_id + "'";
+    }
+    return std::nullopt;  // allowed
+}
+
 QueryEngine::QueryEngine(RocksDBWrapper& db, SecondaryIndexManager& secIdx)
 	: db_(&db), secIdx_(&secIdx) {}
 
@@ -219,6 +236,10 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 	span.setAttribute("query.fulltext", q.fulltextPredicate.has_value());
 	span.setAttribute("query.phrase", q.phrasePredicate.has_value());
 	span.setAttribute("query.fuzzy", q.fuzzyPredicate.has_value());
+	// QE-2: check collection-level access before any I/O.
+	if (auto deny = checkCollectionAccess(collection_access_checker_, collection_access_caller_id_, q.table)) {
+		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_ACCESS_DENIED, *deny);
+	}
 	if (q.table.empty()) {
 		return Err<std::vector<std::string>>(
 			errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
@@ -586,6 +607,10 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndKeysWithScores");
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.fulltext", q.fulltextPredicate.has_value());
+	// QE-2: collection-access gate.
+	if (auto deny = checkCollectionAccess(collection_access_checker_, collection_access_caller_id_, q.table)) {
+		return Err<KeysWithScores>(errors::ErrorCode::ERR_QUERY_ACCESS_DENIED, *deny);
+	}
 	
 	// If no FULLTEXT predicate, delegate to standard method (no scores)
 	if (!q.fulltextPredicate.has_value()) {
@@ -695,6 +720,10 @@ Result<std::vector<BaseEntity>>
 QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndEntities");
 	span.setAttribute("query.table", q.table);
+	// QE-2: collection-access gate.
+	if (auto deny = checkCollectionAccess(collection_access_checker_, collection_access_caller_id_, q.table)) {
+		return Err<std::vector<BaseEntity>>(errors::ErrorCode::ERR_QUERY_ACCESS_DENIED, *deny);
+	}
 
 	// ── Primary-key fast path ──────────────────────────────────────────────
 	// Avoid the double storage round-trip (executeAndKeys checks existence,
@@ -812,6 +841,10 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeOrKeys");
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.disjuncts", static_cast<int64_t>(q.disjuncts.size()));
+	// QE-2: collection-access gate.
+	if (auto deny = checkCollectionAccess(collection_access_checker_, collection_access_caller_id_, q.table)) {
+		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_ACCESS_DENIED, *deny);
+	}
 	if (q.table.empty()) {
 		return Err<std::vector<std::string>>(
 			ErrorCode::ERR_QUERY_INVALID_INPUT,
@@ -872,6 +905,10 @@ QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize)
 	auto span = Tracer::startSpan("QueryEngine.executeOrKeysWithFallback");
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.disjuncts", static_cast<int64_t>(q.disjuncts.size()));
+	// QE-2: collection-access gate.
+	if (auto deny = checkCollectionAccess(collection_access_checker_, collection_access_caller_id_, q.table)) {
+		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_ACCESS_DENIED, *deny);
+	}
 	if (q.table.empty()) {
 		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, "executeOrKeysWithFallback: table darf nicht leer sein");
 	}
@@ -912,6 +949,11 @@ Result<std::vector<BaseEntity>>
 QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optimize) const {
 	auto span = Tracer::startSpan("QueryEngine.executeOrEntitiesWithFallback");
 	span.setAttribute("query.table", q.table);
+	// QE-2: collection-access gate (checked here before delegating to executeOrKeysWithFallback
+	// so that the error code is consistent regardless of which path is taken).
+	if (auto deny = checkCollectionAccess(collection_access_checker_, collection_access_caller_id_, q.table)) {
+		return Err<std::vector<BaseEntity>>(errors::ErrorCode::ERR_QUERY_ACCESS_DENIED, *deny);
+	}
 	auto result = executeOrKeysWithFallback(q, optimize);
 	if (!result) {
 		return Err<std::vector<BaseEntity>>(result.error().code(), result.error().message());
@@ -966,6 +1008,10 @@ Result<std::vector<BaseEntity>>
 QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeOrEntities");
 	span.setAttribute("query.table", q.table);
+	// QE-2: collection-access gate.
+	if (auto deny = checkCollectionAccess(collection_access_checker_, collection_access_caller_id_, q.table)) {
+		return Err<std::vector<BaseEntity>>(errors::ErrorCode::ERR_QUERY_ACCESS_DENIED, *deny);
+	}
 	auto result = executeOrKeys(q);
 	if (!result) {
 		return Err<std::vector<BaseEntity>>(result.error().code(), result.error().context());
@@ -1027,6 +1073,10 @@ QueryEngine::executeAndKeysSequential(const std::string& table,
 	auto span = Tracer::startSpan("QueryEngine.executeAndKeysSequential");
 	span.setAttribute("query.table", table);
 	span.setAttribute("query.eq_count", static_cast<int64_t>(orderedPredicates.size()));
+	// QE-2: collection-access gate.
+	if (auto deny = checkCollectionAccess(collection_access_checker_, collection_access_caller_id_, table)) {
+		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_ACCESS_DENIED, *deny);
+	}
 	if (table.empty()) {
 		return Err<std::vector<std::string>>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, 
 			"executeAndKeysSequential: table is empty");
