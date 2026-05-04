@@ -375,8 +375,15 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
     // the subsequent ifstream open below.  This is mitigated by (a) the regex
     // filter which rejects any non-hex character before path construction, and
     // (b) running ThemisDB under a process user that has no write access to
-    // trusted_certs_dir.  A fully atomic solution would require openat(2) with
-    // O_NOFOLLOW or equivalent, which is left to the OS-hardening layer.
+    // trusted_certs_dir.
+    // DEPLOYMENT REQUIREMENT: the process user MUST NOT have write access to
+    // trusted_certs_dir (enforce via OS-level ACLs / container security context).
+    // If this cannot be guaranteed, the administrator MUST use the fully atomic
+    // openat(2)+O_NOFOLLOW approach (left to the OS-hardening layer) or mount the
+    // directory read-only.  This requirement is documented in
+    // docs/deployment/security_hardening.md §TrustedCertsDir.
+    // A fully atomic solution would require openat(2) with O_NOFOLLOW or equivalent,
+    // which is left to the OS-hardening layer.
     fs::path canonical_dir;
     fs::path canonical_cert;
     try {
