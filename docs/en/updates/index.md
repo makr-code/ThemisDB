@@ -105,7 +105,7 @@ The Updates module is ThemisDB's **zero-downtime update and migration system**. 
 
 ## Known Limitations
 
-See **[`docs/de/updates/missing-implementations.md`](../de/updates/missing-implementations.md)** for the full findings report.
+See **[`docs/de/updates/MISSING_IMPLEMENTATIONS.md`](../de/updates/MISSING_IMPLEMENTATIONS.md)** for the full findings report.
 
 Summary (as of 2026-03-20, all addressed in this PR):
 - README.md referenced 4 non-existent files (fixed)

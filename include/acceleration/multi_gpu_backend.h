@@ -68,7 +68,7 @@ struct ShardDescriptor {
  * conditionally registers this backend so it is offered by getBestVectorBackend()
  * ahead of single-GPU CUDA in the fallback chain.
  *
- * @see future_enhancements.md — "Multi-GPU Sharding for Large Embedding Datasets"
+ * @see FUTURE_ENHANCEMENTS.md — "Multi-GPU Sharding for Large Embedding Datasets"
  * @version v1.9.0 (Target)
  */
 class MultiGPUVectorBackend : public IVectorBackend {

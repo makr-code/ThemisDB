@@ -127,7 +127,7 @@ Bereits vorhandene Archivdokumente in `docs/ARCHIVED/` und `docs/de/archive/` be
 
 ## Strategie: Root-Level-Markdown-Dateien
 
-Viele historische Markdown-Dateien liegen direkt im Root-Verzeichnis (`roadmap.md`, `ARCHITECTURE.md`, etc.) oder in `docs/` ohne Sprach-Präfix. Diese folgen der folgenden Lifecycle-Regel:
+Viele historische Markdown-Dateien liegen direkt im Root-Verzeichnis (`ROADMAP.md`, `ARCHITECTURE.md`, etc.) oder in `docs/` ohne Sprach-Präfix. Diese folgen der folgenden Lifecycle-Regel:
 
 | Typ | Aktion |
 |-----|--------|

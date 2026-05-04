@@ -93,7 +93,7 @@ reality-check status above as the authoritative implementation state.
 - [x] Module headers (4 files) with full Doxygen documentation
 - [x] Module implementations (3 core .cpp files — adapter_capability, lora_coordinator, rag_merger, feedback_sync)
 - [x] Module ARCHITECTURE.md, ROADMAP.md, FUTURE_ENHANCEMENTS.md
-- [x] Global `roadmap.md` entry for `distributed_knowledge` module
+- [x] Global `ROADMAP.md` entry for `distributed_knowledge` module
 
 ---
 
@@ -369,8 +369,8 @@ and `RLAIFTrainer` (receive).
 - [x] `src/distributed_knowledge/CHANGELOG.md` — v0.1.0 entry (Target: Session 10)
 - [x] `src/distributed_knowledge/AUDIT.md` — stubless implementation verification (Target: Session 10)
 - [x] Docs-lint pass: `python3 scripts/docs-lint.py docs/de/research/VERTEILTES_WISSEN_FEDERATION.md docs/en/research/DISTRIBUTED_KNOWLEDGE_FEDERATION.md` (Target: Session 10)
-- [x] Update global `roadmap.md` module status from `🚧 In Progress` to `✅ Production-ready` (Target: Session 10)
-- [x] Update `roadmap.md` module table with v0.2.0 production status entry (Target: Session 10)
+- [x] Update global `ROADMAP.md` module status from `🚧 In Progress` to `✅ Production-ready` (Target: Session 10)
+- [x] Update `ROADMAP.md` module table with v0.2.0 production status entry (Target: Session 10)
 
 ---
 

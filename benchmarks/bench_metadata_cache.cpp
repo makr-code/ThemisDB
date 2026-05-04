@@ -26,7 +26,7 @@
  *
  * Closes the Production Readiness Checklist item:
  *   `[?] Performance benchmarks (cache hit rate, scan latency) – planned for v1.6.0`
- * Reference: META-MISSING-001 / docs/de/metadata/missing-implementations.md
+ * Reference: META-MISSING-001 / docs/de/metadata/MISSING_IMPLEMENTATIONS.md
  *
  * Benchmarked scenarios:
  * - Cold RocksDB scan latency (cache miss — initial discovery path)

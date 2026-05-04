@@ -102,7 +102,7 @@ This documentation suite covers the complete design and implementation plan for 
 
 ---
 
-### 5. [bpmn_future_enhancements.md](./bpmn_future_enhancements.md)
+### 5. [BPMN_FUTURE_ENHANCEMENTS.md](./BPMN_FUTURE_ENHANCEMENTS.md)
 **Future Enhancements** - Planned improvements for BPMN/process engine
 
 **Contents**:

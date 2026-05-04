@@ -229,5 +229,5 @@ cmake --build build --target bench_metadata_cache
 - `benchmarks/bench_metadata_cache.cpp` – Benchmark implementation
 - `src/metadata/ROADMAP.md` – Production Readiness Checklist (item now `[x]`)
 - `include/metadata/schema_manager.h` – `SchemaManager` public API
-- `docs/de/metadata/missing-implementations.md` – Befund 1 (resolved)
+- `docs/de/metadata/MISSING_IMPLEMENTATIONS.md` – Befund 1 (resolved)
 - Issue reference: META-MISSING-001

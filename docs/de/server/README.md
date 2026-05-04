@@ -252,7 +252,7 @@ Details: [`src/server/FUTURE_ENHANCEMENTS.md`](../../../src/server/FUTURE_ENHANC
 
 ## Fehlende Implementierungen
 
-Vollständiger Report: [`missing-implementations.md`](./missing-implementations.md)
+Vollständiger Report: [`MISSING_IMPLEMENTATIONS.md`](./MISSING_IMPLEMENTATIONS.md)
 
 Zusammenfassung der wichtigsten Befunde:
 
@@ -279,7 +279,7 @@ Zusammenfassung der wichtigsten Befunde:
 
 ### Dieses Modul (Secondary/German docs)
 - [inventory.md](./inventory.md) — Primär-Inventar aller Dateien
-- [missing-implementations.md](./missing-implementations.md) — Reality-Check Befunde (6 Findings)
+- [MISSING_IMPLEMENTATIONS.md](./MISSING_IMPLEMENTATIONS.md) — Reality-Check Befunde (6 Findings)
 - [missing-implementations.json](./missing-implementations.json) — Maschinenlesbar
 
 ### Secondary (Nutzerdocs)

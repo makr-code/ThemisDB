@@ -100,7 +100,7 @@ pwsh -File scripts/operations/Invoke-LocalProductionReadiness.ps1 -BuildPreset m
 
 - [x] All module checklists above completed
 	- Status (2026-04-04): api, content, geo, gpu, process, sharding — alle 5 Checkpunkte je Modul auf `[x]` gesetzt mit Evidence-Referenzen.
-- [x] `roadmap.md` module table no longer lists those modules as beta
-	- Status (2026-04-04): api, content, geo, gpu, process, sharding in `roadmap.md` auf `✅ Production-ready` aktualisiert.
+- [x] `ROADMAP.md` module table no longer lists those modules as beta
+	- Status (2026-04-04): api, content, geo, gpu, process, sharding in `ROADMAP.md` auf `✅ Production-ready` aktualisiert.
 - [x] Local readiness summary shows only expected waivers (if any)
 	- Status (2026-04-04): `ShardingCoreFocusedTests` (ShardTopologyTest — benötigt Live-Metadatastore) als dokumentierter Waiver erfasst; alle anderen Gates bestehen ohne Waiver.

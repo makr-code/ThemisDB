@@ -107,9 +107,9 @@ scopes:
       - '.github/SECURITY.md'
       - '.github/LABELS.md'
       - '.github/RELEASE.md'
-      - 'roadmap.md'
       - 'ROADMAP.md'
-      - 'FUTURE_ENHANCEMENTS.MD'
+      - 'ROADMAP.md'
+      - 'FUTURE_ENHANCEMENTS.md'
       - 'future_enhancement.md'
 
   # ── Config/CMake changes ──────────────────────────────────────────────────

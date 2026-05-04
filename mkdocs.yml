@@ -150,7 +150,7 @@ nav:
   - PROCESS MINING RESEARCH AND ROADMAP: de/analytics/PROCESS_MINING_RESEARCH_AND_ROADMAP.md
   - PROCESS MINING SUMMARY: de/analytics/PROCESS_MINING_SUMMARY.md
   - README PROCESS MINING: de/analytics/README_PROCESS_MINING.md
-  - BPMN Future Enhancements: de/analytics/bpmn_future_enhancements.md
+  - BPMN Future Enhancements: de/analytics/BPMN_FUTURE_ENHANCEMENTS.md
 - Apis:
   - Übersicht: de/apis/README.md
   - ACTUALIZATION SUMMARY: de/apis/ACTUALIZATION_SUMMARY.md
@@ -367,7 +367,7 @@ nav:
   - implementation status: de/development/implementation_status.md
   - pki eidas: de/development/pki-eidas.md
   - priorities: de/development/priorities.md
-  - roadmap: de/development/roadmap.md
+  - roadmap: de/development/ROADMAP.md
   - saga api implementation: de/development/saga_api_implementation.md
   - search gap analysis: de/development/search_gap_analysis.md
   - sprint summary 2025 11 17: de/development/sprint_summary_2025-11-17.md

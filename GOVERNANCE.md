@@ -98,7 +98,7 @@ Handled privately per [SECURITY.md](SECURITY.md) and [SOP.md §SOP-05](SOP.md#so
 
 - Bug fixes (all sizes)
 - Documentation improvements
-- New features aligned with the [roadmap](roadmap.md) or previously discussed in an Issue
+- New features aligned with the [roadmap](ROADMAP.md) or previously discussed in an Issue
 - Performance improvements with benchmark evidence
 - New client SDKs or plugins (reviewed for security and quality)
 

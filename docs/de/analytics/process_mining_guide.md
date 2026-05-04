@@ -108,7 +108,7 @@ for (const auto& dev : conformance.deviations)
 
 - [Analytics Docs Hub](./README.md)
 - [PROCESS_MINING_AQL_EXAMPLES](./PROCESS_MINING_AQL_EXAMPLES.md)
-- [BPMN Future Enhancements](./bpmn_future_enhancements.md)
+- [BPMN Future Enhancements](./BPMN_FUTURE_ENHANCEMENTS.md)
 - [OLAP Guide](./olap_guide.md)
 - [Forecasting Guide](./forecasting_guide.md)
 - [API Reference](../../../include/analytics/README.md)

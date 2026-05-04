@@ -329,7 +329,7 @@ Status: **Production-ready for Phase 4 scope** ✅
 
 ### Key Documents
 
-1. `roadmap.md` - Complete aggregated roadmap (all 50 modules, v1.8.0 current)
+1. `ROADMAP.md` - Complete aggregated roadmap (all 50 modules, v1.8.0 current)
 2. `CHANGELOG.md` - Root-level changelog
 3. `DEVELOPMENT_STATUS.md` - Development phase history
 4. `CURRENT_STATUS.md` - This document

@@ -1061,9 +1061,9 @@ src\llm\ARCHITECTURE.md|1
 src\llm\AUDIT.md|1
 src\llm\CHANGELOG.md|1
 src\llm\FUTURE_ENHANCEMENTS.md|1
-src\llm\gguf_loader_README.md|1
+src\llm\GGUF_LOADER_README.md|1
 src\llm\grammars\README.md|1
-src\llm\llama_lora_adapter_README.md|1
+src\llm\LLAMA_LORA_ADAPTER_README.md|1
 src\llm\README.md|1
 src\llm\ROADMAP.md|1
 src\llm\SECURITY.md|1

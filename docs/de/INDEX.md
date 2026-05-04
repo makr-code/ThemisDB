@@ -12,7 +12,7 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 **Vollständige Informationen:**
 - [Changelog](../../CHANGELOG.md) - Vollständige Änderungsliste
 - [Release Notes v1.8.0](../releases/RELEASE_NOTES_v1.8.0.md) - Feature Release
-- [Roadmap](../../roadmap.md) - Aggregierte Roadmap über alle 46 Module
+- [Roadmap](../../ROADMAP.md) - Aggregierte Roadmap über alle 46 Module
 
 **Highlights in v1.8.0-rc1:**
 - 🌍 **Geo-Modul**: Vollständiges GeoJSON RFC 7946 Parsing + In-Memory R-Tree Spatial Index

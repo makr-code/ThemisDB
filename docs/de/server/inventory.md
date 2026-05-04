@@ -133,7 +133,7 @@ Wichtigste Headers (Auswahl):
 | Datei | Beschreibung |
 |-------|-------------|
 | `docs/de/server/README.md` | Deutsche Überblicks-Dokumentation (Protokolle, Komponenten, Endpunkte, Security, Performance) |
-| `docs/de/server/missing-implementations.md` | Reality-Check Report (6 Findings, Stand 2026-03-10) |
+| `docs/de/server/MISSING_IMPLEMENTATIONS.md` | Reality-Check Report (6 Findings, Stand 2026-03-10) |
 | `docs/de/server/missing-implementations.json` | Maschinenlesbare Version (6 Findings) |
 | `docs/de/server/inventory.md` | Dieses Dokument |
 
@@ -147,4 +147,4 @@ Wichtigste Headers (Auswahl):
 - [include/server/README.md](../../../include/server/README.md) — Public API Referenz
 - [src/server/FUTURE_ENHANCEMENTS.md](../../../src/server/FUTURE_ENHANCEMENTS.md) — Geplante Erweiterungen + IEEE-Referenzen
 - [docs/de/server/README.md](README.md) — Sekundäre Dokumentation (Deutsch)
-- [docs/de/server/missing-implementations.md](missing-implementations.md) — Befund-Report
+- [docs/de/server/MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md) — Befund-Report

@@ -175,7 +175,7 @@ config_migration_scanner --root /srv/themis --fix
 | Datei | Beschreibung |
 |-------|--------------|
 | [README.md](README.md) | Diese Seite — Einstieg und Schnellübersicht |
-| [missing-implementations.md](missing-implementations.md) | Fehlende Implementierungen: Claim vs. Ist-Stand |
+| [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md) | Fehlende Implementierungen: Claim vs. Ist-Stand |
 
 ---
 

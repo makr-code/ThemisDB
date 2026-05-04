@@ -48,4 +48,4 @@ Decisions:
 1. Apply only factual primary corrections with direct code evidence.
 2. Keep open roadmap items visible instead of force-closing without implementation proof.
 3. Track unresolved implementation gaps in the DE report:
-   [docs/de/themis/missing-implementations.md](../../de/themis/missing-implementations.md)
+   [docs/de/themis/MISSING_IMPLEMENTATIONS.md](../../de/themis/MISSING_IMPLEMENTATIONS.md)

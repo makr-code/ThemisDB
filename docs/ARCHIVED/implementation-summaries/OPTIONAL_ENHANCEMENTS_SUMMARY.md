@@ -549,7 +549,7 @@ The API is now suitable for:
 
 ## References
 
-- [ThemisDB API Roadmap](roadmap.md)
+- [ThemisDB API Roadmap](ROADMAP.md)
 - [P0 Implementation Summary](implementation-history/summaries/P0_IMPLEMENTATION_SUMMARY.md)
 - [P1/P2 Implementation Summary](implementation-history/summaries/P1_P2_IMPLEMENTATION_SUMMARY.md)
 - [GraphQL Best Practices](https://graphql.org/learn/best-practices/)

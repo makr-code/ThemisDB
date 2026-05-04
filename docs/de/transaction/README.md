@@ -74,7 +74,7 @@ Read-Only Fast Path und ein Transaction Audit Trail.
 | `SnapshotManager::serialize/deserialize` | Lokal implementiert; Cross-Shard-Import nicht verdrahtet | niedrig |
 | Async Saga Steps (`co_await`) | Nicht implementiert; geplant Q3 2026 | offen |
 
-Detaillierter Report: [`missing-implementations.md`](./missing-implementations.md) · [`missing-implementations.json`](./missing-implementations.json)
+Detaillierter Report: [`MISSING_IMPLEMENTATIONS.md`](./MISSING_IMPLEMENTATIONS.md) · [`missing-implementations.json`](./missing-implementations.json)
 
 ---
 

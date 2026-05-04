@@ -561,7 +561,7 @@ Phase 1 (Observability & SLO Framework) is **COMPLETE** and **PRODUCTION READY**
 - Metadata shard durability
 - Transaction coordinator state persistence
 
-See `roadmap.md` for complete Phase 2 details.
+See `ROADMAP.md` for complete Phase 2 details.
 
 ---
 

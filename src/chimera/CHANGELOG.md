@@ -5,4 +5,4 @@
 ## 2026-04-16
 - Konsolidierte Primary-Dokumentation für `src/chimera/` ergänzt (`ARCHITECTURE.md`, `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`).
 - Secondary-Dokumentation für `docs/de/chimera/` und `docs/en/chimera/` zur Doku-Migration vorbereitet.
-- Missing-Implementations-Report für `chimera` initialisiert (`docs/de/chimera/missing-implementations.md`).
+- Missing-Implementations-Report für `chimera` initialisiert (`docs/de/chimera/MISSING_IMPLEMENTATIONS.md`).

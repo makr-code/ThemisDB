@@ -1,7 +1,7 @@
 # Ingestion-Modul
 
 <!-- Status: current | validated: 2026-04-06 | Primary: ../../../src/ingestion/ | ../../../include/ingestion/ -->
-<!-- Links: ../../../src/ingestion/README.md · ../../../src/ingestion/ROADMAP.md · inventory.md · missing-implementations.md -->
+<!-- Links: ../../../src/ingestion/README.md · ../../../src/ingestion/ROADMAP.md · inventory.md · MISSING_IMPLEMENTATIONS.md -->
 
 **Stand:** 6. April 2026  
 **Version:** 1.7.x (Production-ready)  
@@ -86,13 +86,13 @@ Vollständiges Inventar aller Quelldateien: **[inventory.md](./inventory.md)**
 - [ARCHITECTURE.md](../../../src/ingestion/ARCHITECTURE.md)
 - [FUTURE_ENHANCEMENTS.md](../../../src/ingestion/FUTURE_ENHANCEMENTS.md)
 - [inventory.md](./inventory.md) — Vollständiges Modul-Inventar
-- [missing-implementations.md](./missing-implementations.md) — Bekannte Lücken
+- [MISSING_IMPLEMENTATIONS.md](./MISSING_IMPLEMENTATIONS.md) — Bekannte Lücken
 
 ---
 
 ## Bekannte Einschränkungen
 
-Detaillierter Report: **[missing-implementations.md](./missing-implementations.md)**
+Detaillierter Report: **[MISSING_IMPLEMENTATIONS.md](./MISSING_IMPLEMENTATIONS.md)**
 
 Kurzfassung (Stand 2026-03-10 — alle Items gelöst):
 - Alle ROADMAP-Aufgaben implementiert. Keine offenen Items.

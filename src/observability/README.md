@@ -48,7 +48,7 @@ Provides the metrics, distributed tracing, and structured logging infrastructure
 
 **Maturity:** 🟢 Production-Ready — Enterprise-grade observability stack operational. Prometheus metrics, query/storage profiling, continuous profiling, eBPF tracing, distributed flame graph, performance analysis, Alertmanager integration, standalone tracer and log aggregator, OpenTelemetry full integration (`OpenTelemetryTracer` with OTLP gRPC/HTTP export), structured log search, per-tenant metric namespacing, real-time metric streaming, advanced custom metric types, root cause analyzer, and SLO reporter are all fully implemented. The OTLP exemplar interface (`otlp_exemplar.h`) is a planned interface header targeting Q3 2026.
 
-**Validated:** 2026-03-11 (Reality-Check against Sourcecode; see [docs/de/observability/missing-implementations.md](../../docs/de/observability/missing-implementations.md))
+**Validated:** 2026-03-11 (Reality-Check against Sourcecode; see [docs/de/observability/MISSING_IMPLEMENTATIONS.md](../../docs/de/observability/MISSING_IMPLEMENTATIONS.md))
 
 ## Table of Contents
 

@@ -20,7 +20,7 @@ This page is now language-neutral. Please choose your language:
 
 **Documentation:**
 - [Changelog](../CHANGELOG.md)
-- [Roadmap](../roadmap.md)
+- [Roadmap](../ROADMAP.md)
 - [Release Notes v1.8.0](de/releases/RELEASE_NOTES_v1.8.0.md)
 
 **Highlights:**

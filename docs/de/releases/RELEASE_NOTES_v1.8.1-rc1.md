@@ -260,7 +260,7 @@ Betroffene Tags: `themisdb/themisdb:latest`, `themisdb/themisdb:1.8.1-rc1` (beid
 ## 🔗 Links
 
 - **Changelog:** [CHANGELOG.md](../../../CHANGELOG.md#181-rc1---2026-04-04)
-- **Roadmap:** [roadmap.md](../../../roadmap.md)
+- **Roadmap:** [ROADMAP.md](../../../ROADMAP.md)
 - **Migration Guide Config:** [config/MIGRATION_GUIDE.md](../../../config/MIGRATION_GUIDE.md)
 - **HSM Setup:** [docs/security/HSM_PRODUCTION_SETUP.md](../../security/HSM_PRODUCTION_SETUP.md)
 - **Multi-GPU API:** [docs/MULTI_GPU_VECTOR_INDEXING.md](../../MULTI_GPU_VECTOR_INDEXING.md)

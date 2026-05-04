@@ -77,7 +77,7 @@ python3 tools/perf_coverage_top10_audit.py --format json --no-color
 | M03 | ✅ OK | ERLEDIGT – alle drei CMake-Targets vorhanden |
 | M04 | ❌ FAIL | CMake-Target vorhanden, aber kein CI-Job mit `THEMIS_ENABLE_VOICE_ASSISTANT=ON` gefunden |
 | M05 | ✅ OK | GPU-Workflow `02-feature-modules_llm_llm-cuda-gpu-ci.yml` mit GPU-Runner und CUDA=ON vorhanden |
-| M06 | ⚠️ WARN | Dokumentation vorhanden (`gguf_loader_README.md`, `BENCHMARK_RUNBOOK.md`), aber kein dediziertes Setup-Script |
+| M06 | ⚠️ WARN | Dokumentation vorhanden (`GGUF_LOADER_README.md`, `BENCHMARK_RUNBOOK.md`), aber kein dediziertes Setup-Script |
 | M07 | ❌ FAIL | Keine maschinenlesbare `goal_benchmark_mapping.json` vorhanden |
 | M08 | ⚠️ WARN | `cmake-source-coverage-audit.yml` vorhanden, prüft aber nicht explizit bench_*.cpp vs Targets (80/169 ohne Target) |
 | M09 | ❌ FAIL | 11 Dateien mit `*_Disabled`-Stubs, davon mind. eine ohne Issue-Referenz/Deadline |

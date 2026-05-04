@@ -10,7 +10,7 @@
 [![Docs](https://img.shields.io/badge/docs-online-blue)](https://makr-code.github.io/ThemisDB/)
 [![Contributing](https://img.shields.io/badge/contributions-welcome-brightgreen)](CONTRIBUTING.md)
 
-[📚 Documentation](docs/Home.md) · [🚀 Quick Start](QUICKSTART.md) · [❓ FAQ](docs/FAQ.md) · [Release Notes](CHANGELOG.md) · [Roadmap](roadmap.md)
+[📚 Documentation](docs/Home.md) · [🚀 Quick Start](QUICKSTART.md) · [❓ FAQ](docs/FAQ.md) · [Release Notes](CHANGELOG.md) · [Roadmap](ROADMAP.md)
 
 </div>
 
@@ -20,7 +20,7 @@
 
 ThemisDB is an enterprise-grade, multi-model database engine that combines relational, graph, vector, document, geospatial, and time-series storage in a single system — with native AI/LLM integration built in. It is designed for workloads that require strong transactional guarantees, distributed operation, and advanced analytical capabilities alongside modern machine-learning workflows.
 
-ThemisDB has **comprehensive documentation for all 50 modules** with production-ready standards:
+ThemisDB has **comprehensive documentation for all 58 modules** with production-ready standards:
 
 **Key capabilities at a glance:**
 
@@ -88,7 +88,7 @@ See [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) for the full feature comparison a
 
 ## Architecture
 
-ThemisDB is organised into 55 source modules under `src/`, grouped into four logical layers:
+ThemisDB is organised into 58 source modules under `src/`, grouped into four logical layers:
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -103,7 +103,7 @@ ThemisDB is organised into 55 source modules under `src/`, grouped into four log
 ```
 
 → Full architecture reference: [ARCHITECTURE.md](ARCHITECTURE.md)  
-→ Module list and status: [roadmap.md](roadmap.md)
+→ Module list and status: [ROADMAP.md](ROADMAP.md)
 
 ---
 

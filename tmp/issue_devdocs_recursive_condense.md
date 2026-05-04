@@ -107,7 +107,7 @@ Die folgenden Dateinamen kommen im Scope vor und sind jeweils mit der definierte
 | FINAL_BENCHMARK_REPORT.md | Reproduzierbare Methodik, Parameter, Metriken, Limits. | Methodik reproduzierbar machen; alte Zahlen als historisch markieren. |
 | FINAL_SUMMARY.md | Verifizierter Ist-Stand, Delta, offene Punkte, Quellen. | Ist-Stand verifizieren; veraltete Reports in Historie markieren/verschieben. |
 | FUTURE_ENHANCEMENTS.md | Messbare Erweiterungen inkl. Constraints, Interfaces, Teststrategie. | Nur messbare Enhancements mit klaren Interfaces/Tests/Perf-Zielen. |
-| gguf_loader_README.md | Zweck, Modulgrenzen, Abhaengigkeiten, Build/Run/Test, Einstieg. | Mit aktuellem Modulcode synchronisieren; falsche Pfade/Kommandos korrigieren. |
+| GGUF_LOADER_README.md | Zweck, Modulgrenzen, Abhaengigkeiten, Build/Run/Test, Einstieg. | Mit aktuellem Modulcode synchronisieren; falsche Pfade/Kommandos korrigieren. |
 | GOOGLE_TEST_WIRKSAMKEIT_ZUSAMMENFASSUNG.md | Teststrategie, Ausfuehrung, Fixtures, Flake-Hinweise, Coverage-Regeln. | Testbefehle/Fixtures/Coverage-Hinweise mit aktuellem Testlayout synchronisieren. |
 | GRAPH_THEORY.md | Dateizweck klar; Aussagen nur mit Codebezug. | Inhalt rekursiv validieren, verdichten und klare ToDos hinterlassen. |
 | GRPC_IMPLEMENTATION_STATUS.md | Verifizierter Ist-Stand, Delta, offene Punkte, Quellen. | Ist-Stand verifizieren; veraltete Reports in Historie markieren/verschieben. |
@@ -144,7 +144,7 @@ Die folgenden Dateinamen kommen im Scope vor und sind jeweils mit der definierte
 | LARGE_SCALE_BENCHMARK_STRATEGY.md | Reproduzierbare Methodik, Parameter, Metriken, Limits. | Methodik reproduzierbar machen; alte Zahlen als historisch markieren. |
 | legal-ingestion-example.md | Dateizweck klar; Aussagen nur mit Codebezug. | Inhalt rekursiv validieren, verdichten und klare ToDos hinterlassen. |
 | LIBRARY_INTEGRATION_TEST_ANALYSIS.md | Teststrategie, Ausfuehrung, Fixtures, Flake-Hinweise, Coverage-Regeln. | Testbefehle/Fixtures/Coverage-Hinweise mit aktuellem Testlayout synchronisieren. |
-| llama_lora_adapter_README.md | Zweck, Modulgrenzen, Abhaengigkeiten, Build/Run/Test, Einstieg. | Mit aktuellem Modulcode synchronisieren; falsche Pfade/Kommandos korrigieren. |
+| LLAMA_LORA_ADAPTER_README.md | Zweck, Modulgrenzen, Abhaengigkeiten, Build/Run/Test, Einstieg. | Mit aktuellem Modulcode synchronisieren; falsche Pfade/Kommandos korrigieren. |
 | LLM_ETHICS_PROJECTS.md | Dateizweck klar; Aussagen nur mit Codebezug. | Inhalt rekursiv validieren, verdichten und klare ToDos hinterlassen. |
 | LLM_INTEGRATION.md | Integrationsvertrag, Kompatibilitaet, End-to-End-Pfade. | Integrationsannahmen gegen reale Module und Schnittstellen pruefen. |
 | LLM_NLP_INTEGRATION_FRAMEWORK.md | Integrationsvertrag, Kompatibilitaet, End-to-End-Pfade. | Integrationsannahmen gegen reale Module und Schnittstellen pruefen. |

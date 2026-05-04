@@ -172,7 +172,7 @@ docs/
 ### Statut & Planification
 - [DEVELOPMENT_AUDITLOG.md](development/DEVELOPMENT_SUMMARY.md) - Audit de développement
 - [development/implementation_status.md](development/implementation_status.md) - Statut
-- [development/roadmap.md](development/roadmap.md) - Feuille de route
+- [development/ROADMAP.md](development/ROADMAP.md) - Feuille de route
 - [development/priorities.md](development/priorities.md) - Priorités
 
 ### Implémentations API

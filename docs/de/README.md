@@ -232,7 +232,7 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 
 ### Übersichtsdokumente
 - **[Changelog](releases/CHANGELOG.md)** - Vollständige Versionshistorie (v1.8.0-rc1, v1.5.0, v1.4.0, v1.3.0, …)
-- **[🆕 Roadmap v2.0](../../roadmap.md)** - **AKTUALISIERT:** Aggregierte Roadmap über alle 46 Module
+- **[🆕 Roadmap v2.0](../../ROADMAP.md)** - **AKTUALISIERT:** Aggregierte Roadmap über alle 46 Module
 - **[Architecture Overview](architecture/ARCHITECTURE_OVERVIEW.md)** - Komplette Systemarchitektur mit Diagrammen
 - **[Source Code Changes v1.0](development/SOURCE_CODE_CHANGES_v1.0.md)** - Detaillierte Quellcode-Dokumentation (191 Dateien, 44 Module)
 - **[Features Liste](features/features_overview.md)** - Vollständige Feature-Übersicht mit Status

@@ -17,7 +17,7 @@ Dieses Verzeichnis enthält die produktive Implementierung von ThemisDB.
 ## Einstieg
 
 - Root-Überblick: [`../README.md`](../README.md)
-- Modulstatus: [`../roadmap.md`](../roadmap.md)
+- Modulstatus: [`../ROADMAP.md`](../ROADMAP.md)
 - Öffentliche Header-Gegenstücke: [`../include/README.md`](../include/README.md)
 
 ## Installation

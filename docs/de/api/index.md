@@ -104,7 +104,7 @@ in interne Request-Objekte und delegiert alle Business-Logik an die `server`-Mod
 - GraphQL `Parser` unterstützt noch keine Fragments, Directives oder Inline-Fragments (dokumentiert in `graphql.h`).
 - `WsChangeHandler::validate()` dekodiert Query-String-Parameter (`from_sequence`, `key_prefix`) nicht URL-konform.
 
-Vollständige Liste: [`docs/de/api/missing-implementations.md`](./missing-implementations.md)
+Vollständige Liste: [`docs/de/api/MISSING_IMPLEMENTATIONS.md`](./MISSING_IMPLEMENTATIONS.md)
 
 ---
 

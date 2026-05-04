@@ -39,7 +39,7 @@ TOOL_VERSION = "1.0.0"
 SPECIAL_DOC_FILENAMES = {"REVIEW_SUMMARY.txt"}
 IGNORE_FILENAMES = {
     "CMakeLists.txt",
-    "copilot_instructions.md",
+    "COPILOT_INSTRUCTIONS.md",
     "requirements-docs.txt",
     "requirements.txt",
     "sec_block.txt",
@@ -52,7 +52,7 @@ KEEP_ALLOWLIST = {
     "CODE_OF_CONDUCT.md",
     "CONTRIBUTING.md",
     "CTEST.md",
-    "FUTURE_ENHANCEMENTS.MD",
+    "FUTURE_ENHANCEMENTS.md",
     "GOVERNANCE.md",
     "INDEX.md",
     "MAINTAINERS.md",
@@ -65,7 +65,7 @@ KEEP_ALLOWLIST = {
     "SOP.md",
     "SUPPORT.md",
     "VERSIONING.md",
-    "feature_enhancement.md",
+    "FEATURE_ENHANCEMENT.md",
     "roadmap.md",
 }
 

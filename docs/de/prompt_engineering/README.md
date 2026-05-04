@@ -5,7 +5,7 @@
 **Stand:** 6. April 2026  
 **Version:** 1.1  
 **Kategorie:** LLM Prompt-Management  
-**Validated:** 2026-03-09 (Reality-Check gegen Sourcecode; siehe [missing-implementations.md](missing-implementations.md))
+**Validated:** 2026-03-09 (Reality-Check gegen Sourcecode; siehe [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md))
 
 ---
 
@@ -247,5 +247,5 @@ Testdateien in `tests/`:
 
 ### Reality-Check & Offene Implementierungen
 
-- [missing-implementations.md](missing-implementations.md) — Reality-Check: fehlende/unvollständige Implementierungen mit Evidence und Issue-Vorschlägen (Stand 2026-03-09)
+- [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md) — Reality-Check: fehlende/unvollständige Implementierungen mit Evidence und Issue-Vorschlägen (Stand 2026-03-09)
 - [missing-implementations.json](missing-implementations.json) — Maschinenlesbares Format

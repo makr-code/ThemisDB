@@ -439,4 +439,4 @@ Das FEM-Modul (`include/enterprise/fem_metadata_generator.h`) ist bereits implem
 
 - [Geospatial Module Overview](../geo/README.md) - Current implementation
 - [Geospatial Architecture](../geo/geo_architecture.md) - System design
-- [Future Enhancements for Geospatial Implementation](../../geospatial_future_enhancements.md) - Comprehensive roadmap including expanded 3D support
+- [Future Enhancements for Geospatial Implementation](../../GEOSPATIAL_FUTURE_ENHANCEMENTS.md) - Comprehensive roadmap including expanded 3D support

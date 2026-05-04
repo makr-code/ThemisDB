@@ -16,9 +16,9 @@
 - `src/llm/README.md`
 - `src/llm/ROADMAP.md`
 - `src/llm/SECURITY.md`
-- `src/llm/gguf_loader_README.md`
+- `src/llm/GGUF_LOADER_README.md`
 - `src/llm/grammars/README.md`
-- `src/llm/llama_lora_adapter_README.md`
+- `src/llm/LLAMA_LORA_ADAPTER_README.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -55,8 +55,8 @@ This index lists all Markdown documentation files for module **`llm`** from the 
 | `README.md` | [`src/llm/README.md`](../../../src/llm/README.md) |
 | `ROADMAP.md` | [`src/llm/ROADMAP.md`](../../../src/llm/ROADMAP.md) |
 | `SECURITY.md` | [`src/llm/SECURITY.md`](../../../src/llm/SECURITY.md) |
-| `gguf_loader_README.md` | [`src/llm/gguf_loader_README.md`](../../../src/llm/gguf_loader_README.md) |
-| `llama_lora_adapter_README.md` | [`src/llm/llama_lora_adapter_README.md`](../../../src/llm/llama_lora_adapter_README.md) |
+| `GGUF_LOADER_README.md` | [`src/llm/GGUF_LOADER_README.md`](../../../src/llm/GGUF_LOADER_README.md) |
+| `LLAMA_LORA_ADAPTER_README.md` | [`src/llm/LLAMA_LORA_ADAPTER_README.md`](../../../src/llm/LLAMA_LORA_ADAPTER_README.md) |
 
 ### `src/llm/grammars/`
 

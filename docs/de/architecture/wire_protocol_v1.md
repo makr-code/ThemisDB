@@ -518,7 +518,7 @@ client.close()
 
 ## Related Documentation
 
-- [Future Enhancements](../analytics/bpmn_future_enhancements.md) - Planned improvements for wire protocol and BPMN/process engine
+- [Future Enhancements](../analytics/BPMN_FUTURE_ENHANCEMENTS.md) - Planned improvements for wire protocol and BPMN/process engine
 
 ## Next Steps
 

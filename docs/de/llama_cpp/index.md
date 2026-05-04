@@ -23,4 +23,4 @@ Diese Sekundärdoku fasst den Reality-Check des Moduls `llama_cpp` gegen den akt
 - [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
 - [Reality-Check](./reality-check.md)
 - [ROADMAP/FUTURE-Verifikation](./roadmap-future-verification.md)
-- [Missing Implementations](./missing-implementations.md)
+- [Missing Implementations](./MISSING_IMPLEMENTATIONS.md)

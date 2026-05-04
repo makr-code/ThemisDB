@@ -44,4 +44,4 @@ Core classes (`FaultInjector`, `ChaosScheduler`) are implemented and covered by 
 - ABI compatibility matrix for external include consumers is still open (`include/chaos/ROADMAP.md`, Production Readiness Checklist).
 
 German detailed gap report:
-- `docs/de/chaos/missing-implementations.md`
+- `docs/de/chaos/MISSING_IMPLEMENTATIONS.md`

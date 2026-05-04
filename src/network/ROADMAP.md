@@ -18,7 +18,7 @@ v2.0.0 – Production-grade networking layer. All transport paths (TCP, WebSocke
 - [x] Connection limits (global and per-IP)
 - [x] Circuit breaker pattern for socket timeouts
 - [x] Protocol buffer wire format helpers (lightweight parser/serializer)
-- [x] Authentication (token-based) with configurable auth timeout — `handleAuthRequest()` validates token, sets `authenticated_` flag; new `Config::auth_token` field; see NETWORK-MISSING-002 in `docs/de/network/missing-implementations.md` (resolved 2026-03-10)
+- [x] Authentication (token-based) with configurable auth timeout — `handleAuthRequest()` validates token, sets `authenticated_` flag; new `Config::auth_token` field; see NETWORK-MISSING-002 in `docs/de/network/MISSING_IMPLEMENTATIONS.md` (resolved 2026-03-10)
 - [x] Wire Protocol V1 opcode handlers — HELLO, AUTH, GET, PUT, DELETE, QUERY_AQL, VECTOR_SEARCH, GEO_QUERY fully implemented; see NETWORK-MISSING-001 (resolved 2026-03-10)
 - [x] Health checking and keepalive mechanisms
 - [x] Automatic retry logic with configurable back-off

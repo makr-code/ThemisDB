@@ -180,7 +180,7 @@ public:
 - **Key Pinning**: Der Remote-Registry-Client prüft TLS-Zertifikate (CA-basiert); Public-Key-Pinning ist noch nicht implementiert.
 - **Test-Coverage**: Unit-Tests (> 80 %), Integrationstests und Performance-Benchmarks sind noch offen (Issues #1573, #1574, #1575, Target Q2 2026).
 
-Detaillierter Report: [missing-implementations.md](./missing-implementations.md)
+Detaillierter Report: [MISSING_IMPLEMENTATIONS.md](./MISSING_IMPLEMENTATIONS.md)
 
 ---
 
@@ -200,7 +200,7 @@ Detaillierter Report: [missing-implementations.md](./missing-implementations.md)
 
 | Dokument | Inhalt |
 |----------|--------|
-| [missing-implementations.md](./missing-implementations.md) | Detaillierter Report aller Diskrepanzen ROADMAP vs. Code (Markdown) |
+| [MISSING_IMPLEMENTATIONS.md](./MISSING_IMPLEMENTATIONS.md) | Detaillierter Report aller Diskrepanzen ROADMAP vs. Code (Markdown) |
 | [missing-implementations.json](./missing-implementations.json) | Maschinenlesbare Fassung desselben Reports (JSON) |
 
 ### Verwandte Module

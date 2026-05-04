@@ -349,7 +349,7 @@ The API subsystem is now **partially production ready** with critical security g
 
 ## References
 
-- [ThemisDB API Roadmap](roadmap.md)
+- [ThemisDB API Roadmap](ROADMAP.md)
 - [GraphQL Specification](https://spec.graphql.org/)
 - [WGS84 Coordinate System](https://en.wikipedia.org/wiki/World_Geodetic_System)
 - [OWASP API Security Top 10](https://owasp.org/www-project-api-security/)

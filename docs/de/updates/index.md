@@ -1,7 +1,7 @@
 # Updates-Modul
 
 <!-- Status: current | validated: 2026-04-06 | Primary: ../../../src/updates/ | ../../../include/updates/ -->
-<!-- Links: ../../../src/updates/README.md · ../../../src/updates/ROADMAP.md · PRIMARY_SOURCES.md · missing-implementations.md -->
+<!-- Links: ../../../src/updates/README.md · ../../../src/updates/ROADMAP.md · PRIMARY_SOURCES.md · MISSING_IMPLEMENTATIONS.md -->
 
 **Stand:** 6. April 2026  
 **Version:** v1.8.0 (Production-ready)  
@@ -100,13 +100,13 @@ Das Updates-Modul ist ThemisDB's **Zero-Downtime-Update- und Migrations-System**
 - [SECURITY.md](../../../src/updates/SECURITY.md)
 - [CHANGELOG.md](../../../src/updates/CHANGELOG.md)
 - [PRIMARY_SOURCES.md](./PRIMARY_SOURCES.md) — Vollständiges Primärquellen-Inventar
-- [missing-implementations.md](./missing-implementations.md) — Reality-Check-Befunde
+- [MISSING_IMPLEMENTATIONS.md](./MISSING_IMPLEMENTATIONS.md) — Reality-Check-Befunde
 
 ---
 
 ## Bekannte Einschränkungen
 
-Detaillierter Report: **[missing-implementations.md](./missing-implementations.md)**
+Detaillierter Report: **[MISSING_IMPLEMENTATIONS.md](./MISSING_IMPLEMENTATIONS.md)**
 
 Kurzfassung (Stand 2026-03-20):
 - README.md referenzierte 4 nicht existierende Dateien (behoben in diesem PR)

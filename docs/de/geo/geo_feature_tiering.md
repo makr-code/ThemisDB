@@ -95,4 +95,4 @@ Plugin-Discovery
 
 - [Geospatial Module Overview](README.md) - Current implementation
 - [Geospatial Architecture](geo_architecture.md) - System design
-- [Future Enhancements for Geospatial Implementation](../../geospatial_future_enhancements.md) - Planned improvements and roadmap
+- [Future Enhancements for Geospatial Implementation](../../GEOSPATIAL_FUTURE_ENHANCEMENTS.md) - Planned improvements and roadmap

@@ -872,7 +872,7 @@ def main() -> int:
 
     tracking_path = root / '.github' / 'version_tracking.json'
     # Use the provided --report-path, falling back to the canonical docs location.
-    # The old default (feature_enhancement.md) was semantically incorrect as that
+    # The old default (FEATURE_ENHANCEMENT.md) was semantically incorrect as that
     # file is the product roadmap/feature wishlist, not a code quality report.
     if args.report_path:
         report_path = Path(args.report_path)

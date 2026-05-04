@@ -5,7 +5,7 @@
 **Stand:** 6. April 2026  
 **Version:** 1.1  
 **Kategorie:** 💾 Persistenz & Speicher  
-**Validated:** 2026-03-10 (Reality-Check gegen Sourcecode; siehe [missing-implementations.md](missing-implementations.md))
+**Validated:** 2026-03-10 (Reality-Check gegen Sourcecode; siehe [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md))
 
 ---
 
@@ -243,7 +243,7 @@ storage:
 | `ColumnarFormat` Parquet-Export | ROADMAP v2.0.0 – noch nicht implementiert |
 | Vectorized Execution (SIMD) | ROADMAP v2.0.0 – AVX2-Scan noch nicht implementiert |
 
-Vollständige Details: [missing-implementations.md](missing-implementations.md)
+Vollständige Details: [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md)
 
 ---
 
@@ -253,7 +253,7 @@ Vollständige Details: [missing-implementations.md](missing-implementations.md)
 - **Architektur:** [`src/storage/ARCHITECTURE.md`](../../../src/storage/ARCHITECTURE.md)
 - **Roadmap:** [`src/storage/ROADMAP.md`](../../../src/storage/ROADMAP.md)
 - **Geplante Features:** [`src/storage/FUTURE_ENHANCEMENTS.md`](../../../src/storage/FUTURE_ENHANCEMENTS.md)
-- **Fehlende Implementierungen:** [missing-implementations.md](missing-implementations.md)
+- **Fehlende Implementierungen:** [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md)
 - **RocksDB Hardening Audit:** [ROCKSDB_HARDENING_AUDIT.md](ROCKSDB_HARDENING_AUDIT.md)
 - **Blob-Redundanz (Detail):** [storage_blob_redundancy.md](storage_blob_redundancy.md)
 - **Cloud-Backends (Detail):** [storage_cloud_backends.md](storage_cloud_backends.md)

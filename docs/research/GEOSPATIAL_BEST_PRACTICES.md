@@ -658,7 +658,7 @@ private:
 
 ## 5. Recommended Enhancements
 
-**Note:** For detailed planning and specification of future enhancements, see [Future Enhancements for Geospatial Implementation](../geospatial_future_enhancements.md).
+**Note:** For detailed planning and specification of future enhancements, see [Future Enhancements for Geospatial Implementation](../GEOSPATIAL_FUTURE_ENHANCEMENTS.md).
 
 ### Implementation Roadmap
 

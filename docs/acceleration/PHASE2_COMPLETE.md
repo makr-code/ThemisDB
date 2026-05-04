@@ -394,7 +394,7 @@ Phase 2 successfully transforms ThemisDB's acceleration module error handling an
 - [Production Readiness Assessment](production_readiness.md)
 - [Error Code Reference](error_codes.md)
 - [RAII Usage Guide](../include/acceleration/raii/README.md)
-- [Roadmap](../../roadmap.md)
+- [Roadmap](../../ROADMAP.md)
 
 ---
 

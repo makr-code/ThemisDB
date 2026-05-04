@@ -49,4 +49,4 @@ Primary docs were checked against implementation reality. This page records:
 ## Related Secondary Docs
 
 - [PRIMARY_SOURCES.md](./PRIMARY_SOURCES.md)
-- [DE Missing Implementations](../../de/stable_diffusion/missing-implementations.md)
+- [DE Missing Implementations](../../de/stable_diffusion/MISSING_IMPLEMENTATIONS.md)

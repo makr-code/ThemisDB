@@ -45,9 +45,9 @@ The module is part of the standard ThemisDB build; no separate installation step
 
 - Use `AutoFailoverManager::start/stop/triggerManualFailover` for failover orchestration control.
 - Use `DisasterRecoveryManager::executePlan` for DR execution.
-- See [Missing implementations report (DE)](../../de/failover/missing-implementations.md) for open delivery gaps.
+- See [Missing implementations report (DE)](../../de/failover/MISSING_IMPLEMENTATIONS.md) for open delivery gaps.
 
 ## Related Documents
 
 - [PRIMARY_SOURCES.md](./PRIMARY_SOURCES.md)
-- [Missing implementations report (DE)](../../de/failover/missing-implementations.md)
+- [Missing implementations report (DE)](../../de/failover/MISSING_IMPLEMENTATIONS.md)

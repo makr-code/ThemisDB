@@ -16,7 +16,7 @@
 - **pentest-report-local**: FAIL
   - Details: Skipped by user
 - **beta-module-exit**: FAIL
-  - Details: 6 beta modules still listed in roadmap.md
+  - Details: 6 beta modules still listed in ROADMAP.md
   - Evidence: C:\VCC\themis\artifacts\production-readiness\20260403_191454\beta_modules.txt
 
 ## Result

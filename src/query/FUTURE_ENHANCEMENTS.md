@@ -1028,7 +1028,7 @@ auto result = executeAql(aql_query.value(), engine);
 - Implement as a standalone module (`src/query/sql_parser.cpp`) separate from AQL parser
 - Full unit and integration test coverage required before merging
 - Performance and security review mandatory
-- See also: top-level `roadmap.md` for cross-module roadmap context
+- See also: top-level `ROADMAP.md` for cross-module roadmap context
 
 ---
 

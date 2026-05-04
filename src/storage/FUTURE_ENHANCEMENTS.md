@@ -890,7 +890,7 @@ All planned features in this document are grounded in the following peer-reviewe
 - [`src/storage/ARCHITECTURE.md`](ARCHITECTURE.md) — Component diagram and data flow
 - [`src/storage/ROADMAP.md`](ROADMAP.md) — Implementation phases and planned milestones
 - [`docs/de/storage/README.md`](../../../docs/de/storage/README.md) — German-language secondary documentation
-- [`docs/de/storage/missing-implementations.md`](../../../docs/de/storage/missing-implementations.md) — Reality-check findings
+- [`docs/de/storage/MISSING_IMPLEMENTATIONS.md`](../../../docs/de/storage/MISSING_IMPLEMENTATIONS.md) — Reality-check findings
 
 ---
 
