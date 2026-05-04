@@ -7,7 +7,7 @@
 
 **Last Audit:** 2026-04-21
 **Auditor:** Copilot
-**Status:** 🔴 Critical — 1×S0 HMAC bypass + 3×S1 concurrency and use-after-free
+**Status:** ✅ S0 fixed — D-1 HMAC bypass fixed 2026-05-04; 3×S1 remain open
 
 > **Note:** Previous audit claimed "Security Issues: None". Source code analysis found that
 > the Redis coordinator's HMAC verification is a stub returning `true` unconditionally on
@@ -21,7 +21,7 @@
 | Build System Registration | ✅ Verified |
 | Source Files | 12 (`.cpp` in `src/cache/`) |
 | Test Coverage | ✅ > 80% (43 interface tests + component tests) |
-| S0 Critical | 🔴 1 (HMAC bypass on non-POSIX) |
+| S0 Critical | ✅ 0 (D-1 HMAC bypass fixed 2026-05-04) |
 | S1 High | 🔴 3 |
 | S2 Medium | ⚠️ 2 |
 | Tenant isolation correct across all tiers | 🔴 **No — L2 uses wrong key in `put()`** |

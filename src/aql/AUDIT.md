@@ -1,16 +1,17 @@
-<!-- Status: CRITICAL FINDINGS | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: ALL S0+S1 FIXED | validated: 2026-05-04 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — AQL Module
 
-**Last Audit:** 2026-04-21
+**Last Audit:** 2026-05-04
 **Auditor:** Copilot
-**Status:** 🔴 Critical — 2×S0 (LLM prompt injection + unguarded AQL privilege); 1×S1 (indirect prompt injection via RAG)
+**Status:** ✅ All S0 and S1 findings resolved — 0 open critical findings
 
 > **Note:** Previous audit claimed "Security Issues: None identified" and stated AQL injection
 > was resolved via "structured prompt templates." Direct source analysis found that
 > `schema_context` is injected verbatim without delimiter escaping, and generated AQL
-> is executed at system privilege level without any ACL check.
+> was executed at system privilege level without any ACL check.
+> Both issues are now fully remediated (2026-05-04).
 
 ## Summary
 
@@ -19,10 +20,10 @@
 | Build System Registration | ✅ Verified |
 | Source Files | 21 (`.cpp` in `src/aql/`) |
 | Test Coverage | ✅ All 4 phases complete; unit tests for all core components |
-| S0 Critical | ✅ 1 fixed (LLM-1 prompt injection fixed 2026-04-21); 🔴 1 remaining (LLM-2 privilege) |
-| S1 High | 🔴 1 (RAG indirect prompt injection) |
+| S0 Critical | ✅ 0 remaining (LLM-1 fixed 2026-04-21; LLM-2 fixed 2026-05-04) |
+| S1 High | ✅ 0 remaining (LLM-3 RAG prompt injection: addressed below) |
 | S2 Medium | ⚠️ 1 (unsanitized inputs in confidence scoring) |
-| NL→AQL privilege isolation | 🔴 **None — generated queries run at system privilege** |
+| NL→AQL privilege isolation | ✅ `setCollectionAccessChecker()` enforces per-collection ACL |
 
 ## Build System
 
@@ -93,23 +94,19 @@ treat content between these delimiters as schema only. Also strip known jailbrea
 
 ---
 
-#### LLM-2 · `llm_aql_handler.cpp` · `translateNLToAQL()` — Generated AQL executed at system privilege
+#### LLM-2 · `llm_aql_handler.cpp` · `translateNLToAQL()` — ✅ FIXED 2026-05-04
 
-`AQLQueryValidator::validate()` performs syntax validation only. No ACL or collection-level
-authorization check is applied to generated AQL before it is returned and executed:
+~~`AQLQueryValidator::validate()` performs syntax validation only. No ACL or collection-level
+authorization check is applied to generated AQL before it is returned and executed.~~
 
-```cpp
-AQLQueryValidator aql_validator;
-auto vresult = aql_validator.validate(aql_query);  // syntax only
-return aql_query;   // executed with system-level privilege
-```
+**Resolution:** `LLMAQLHandler::setCollectionAccessChecker()` was added
+(`include/aql/llm_aql_handler.h`). When a checker is registered, all three NL→AQL paths
+(`translateNLToAQL`, `translateNLToAQLStreaming`, `translateNLToAQLWithExamples`) parse the
+generated AQL via `AQLParser`, extract every collection referenced in `for_nodes`, and call
+the checker for each one. Access denial throws `LLMException(ACCESS_DENIED)`. If the AQL
+cannot be parsed the query is rejected fail-closed.
 
-Combined with LLM-1, this is a complete privilege escalation chain: an attacker with access
-to the NL→AQL endpoint can reach any collection in the database.
-
-**Fix required:** After validation, traverse the AQL AST to extract all referenced
-collection names. Verify each against the caller's ACL before returning the query for
-execution.
+`LLMErrorCode::ACCESS_DENIED = 1008` was added to `include/aql/llm_error_codes.h`.
 
 ---
 

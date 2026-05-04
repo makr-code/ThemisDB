@@ -43,6 +43,7 @@ enum class LLMErrorCode {
     INVALID_COLLECTION = 1005,
     INVALID_OPTIONS = 1006,
     PROMPT_INJECTION = 1007,   // Input rejected due to detected prompt injection attempt
+    ACCESS_DENIED    = 1008,   // Generated AQL references a collection the caller may not access
     
     // Model errors (2xxx)
     MODEL_NOT_FOUND = 2001,
@@ -112,6 +113,7 @@ public:
             case LLMErrorCode::INVALID_LORA_ID: return "LLM_INVALID_LORA_ID";
             case LLMErrorCode::INVALID_COLLECTION: return "LLM_INVALID_COLLECTION";
             case LLMErrorCode::INVALID_OPTIONS: return "LLM_INVALID_OPTIONS";
+            case LLMErrorCode::ACCESS_DENIED: return "LLM_ACCESS_DENIED";
             case LLMErrorCode::MODEL_NOT_FOUND: return "LLM_MODEL_NOT_FOUND";
             case LLMErrorCode::MODEL_LOAD_FAILED: return "LLM_MODEL_LOAD_FAILED";
             case LLMErrorCode::MODEL_UNLOAD_FAILED: return "LLM_MODEL_UNLOAD_FAILED";
@@ -157,6 +159,8 @@ private:
                 return "Invalid options provided";
             case LLMErrorCode::PROMPT_INJECTION:
                 return "Input rejected: potentially unsafe content detected";
+            case LLMErrorCode::ACCESS_DENIED:
+                return "Access denied: generated query references unauthorized collection(s)";
             case LLMErrorCode::MODEL_NOT_FOUND:
                 return "Requested model not found";
             case LLMErrorCode::MODEL_LOAD_FAILED:

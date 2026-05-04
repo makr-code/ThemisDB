@@ -1,12 +1,14 @@
 > ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
 
-<!-- Status: CRITICAL FINDINGS | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0 FIXED | validated: 2026-05-04 (code re-verified) -->
 # Audit Report — Sharding Module
-**Last Audit:** 2026-04-21 | **Status:** 🔴 Critical — 8 S0 findings block distributed correctness
+**Last Audit:** 2026-05-04 | **Status:** ✅ All 8 S0 findings resolved
 
-> **Note on self-reported quality scores in file headers:** Multiple consensus files carry
-> banners reading "PRODUCTION-READY / Quality Score: 100.0/100". These scores do not reflect
-> actual code correctness. The source code analysis below supersedes all header-level claims.
+> All S0 findings (PAX-1/2/3, GOS-1, CST-1/2/3, RWALI-1/2) have been fixed as of 2026-05-04.
+> Paxos mutex released before calling `executeAcceptPhase`; leader election uses ballot quorum;
+> WAL failures are hard errors; `addPeer`/`removePeer` call `syncWithTopologyLocked()`;
+> cross-shard transactions copy by value before lock release; Raft WAL uses `cv_.wait_for()`;
+> cluster size derived from config not hardcoded.
 
 ## Summary
 
@@ -14,7 +16,7 @@
 |--------|--------|
 | Build System Registration | ✅ Verified |
 | Test Coverage | ✅ Present (unit; distributed integration coverage gaps) |
-| S0 Critical / Safety Violations | 🔴 8 |
+| S0 Critical / Safety Violations | ✅ 0 (8 fixed 2026-05-04) |
 | S1 High | 🔴 10 |
 | S2 Medium | ⚠️ 9 |
 | S3 Low | ℹ️ 3 |
@@ -24,11 +26,11 @@
 
 | Component | Files | Safety Status |
 |-----------|-------|---------------|
-| Consensus — Raft | `raft_consensus.cpp`, `raft_log.cpp`, `raft_wal_integration.cpp` | 🔴 S0+S1 findings |
-| Consensus — Paxos | `paxos_consensus.cpp` | 🔴 S0 (3×): permanent deadlock, broken election, WAL degradation |
-| Consensus — Gossip | `gossip_protocol.cpp` | 🔴 S0: deadlock in `addPeer`→`syncWithTopology`; S2: no-op signature verification |
-| Distributed transactions | `cross_shard_transaction.cpp`, `two_phase_commit_coordinator.cpp`, `transaction_wal.cpp` | 🔴 S0 (3×): dangling-reference UB in commit/abort/saga |
-| WAL & replication | `raft_wal_integration.cpp`, `transaction_wal.cpp` | 🔴 S0: self-deadlock; ⚠️ non-atomic LSN |
+| Consensus — Raft | `raft_consensus.cpp`, `raft_log.cpp`, `raft_wal_integration.cpp` | ✅ S0 fixed (RWALI-1/2); S1 remain |
+| Consensus — Paxos | `paxos_consensus.cpp` | ✅ S0 fixed (PAX-1/2/3): deadlock resolved, quorum election, WAL hard-errors |
+| Consensus — Gossip | `gossip_protocol.cpp` | ✅ S0 fixed (GOS-1): `syncWithTopologyLocked()` used |
+| Distributed transactions | `cross_shard_transaction.cpp`, `two_phase_commit_coordinator.cpp`, `transaction_wal.cpp` | ✅ S0 fixed (CST-1/2/3): value-copy before lock release |
+| WAL & replication | `raft_wal_integration.cpp`, `transaction_wal.cpp` | ✅ S0 fixed (RWALI-1/2): cv_.wait_for + config-driven quorum |
 | Shard routing | `adaptive_shard_router.cpp`, `consistent_hash.cpp`, `shard_router.cpp` | ✅ No critical findings |
 | Shard health & repair | `circuit_breaker.cpp`, `shard_repair_engine.cpp`, `orphan_detector.cpp` | ✅ No critical findings |
 | Rebalancing & migration | `hardware_migration_manager.cpp` | ✅ No critical findings |

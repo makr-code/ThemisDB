@@ -1,11 +1,11 @@
 > ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
 
-<!-- Status: CRITICAL FINDINGS | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0 FIXED | validated: 2026-05-04 (code re-verified) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Storage Module
 
-**Last Audit:** 2026-04-21 | **Auditor:** Copilot | **Status:** 🔴 Critical — 1 S0 use-after-free in `close()`
+**Last Audit:** 2026-05-04 | **Auditor:** Copilot | **Status:** ✅ S0 fixed — `OperationGuard` + `active_operations_` prevents use-after-free in `close()`
 
 > **Note:** Previous audit claimed "Security Issues: None critical". Source code analysis found
 > a TOCTOU race in `RocksDBWrapper::close()` that causes use-after-free under concurrent load,
@@ -19,7 +19,7 @@
 | Build System Registration | ✅ Verified (`cmake/CMakeLists.txt`, `cmake/StorageEnhancements.cmake`, `cmake/BlobStorage.cmake`) |
 | Source Files | 51 (`.cpp` in `src/storage/`) |
 | Test Coverage | ✅ 21 focused standalone test targets |
-| S0 Critical / Safety Violations | 🔴 1 (use-after-free in `close()`) |
+| S0 Critical / Safety Violations | ✅ 0 (R-1 fixed 2026-05-04 — `OperationGuard` + `active_operations_` counter) |
 | S1 High | ⚠️ 1 (partial blob visibility) |
 | S2 Medium | ⚠️ 5 |
 | S3 Low | ℹ️ 2 |
