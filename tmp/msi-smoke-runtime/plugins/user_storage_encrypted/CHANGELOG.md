@@ -46,4 +46,4 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-*See also: [`roadmap.md`](roadmap.md) · [`future_enhancements.md`](future_enhancements.md)*
+*See also: [`ROADMAP.md`](ROADMAP.md) · [`future_enhancements.md`](future_enhancements.md)*

@@ -2141,7 +2141,7 @@ docs/
 ### Status & Planning
 - [DEVELOPMENT_AUDITLOG.md](../development/DEVELOPMENT_SUMMARY.md) - Development Audit
 - [development/implementation_status.md](../development/implementation_status.md) - Status
-- [development/roadmap.md](../development/roadmap.md) - Roadmap
+- [development/ROADMAP.md](../development/ROADMAP.md) - Roadmap
 - [development/priorities.md](../development/priorities.md) - Prioritäten
 
 ### API Implementations

@@ -1,6 +1,6 @@
 # CUDA Acceleration Plugin – Future Enhancements
 
-> **Note:** Items here are *not* on the active roadmap. They are ideas and backlog entries for later consideration. See [`roadmap.md`](roadmap.md) for committed near-term work.
+> **Note:** Items here are *not* on the active roadmap. They are ideas and backlog entries for later consideration. See [`ROADMAP.md`](ROADMAP.md) for committed near-term work.
 
 ---
 

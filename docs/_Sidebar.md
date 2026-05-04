@@ -250,7 +250,7 @@
 - [Core Feature Todo](development/core_feature_todo.md)
 - [Priorities](development/priorities.md)
 - [Implementation Status](development/implementation_status.md)
-- [Roadmap](development/roadmap.md)
+- [Roadmap](development/ROADMAP.md)
 - [Future Work](development/future_work.md)
 - [Next Steps Analysis](development/NEXT_STEPS_ANALYSIS.md)
 - [AQL LET Implementation](development/aql_let_implementation_guide.md)
@@ -356,7 +356,7 @@
 ---
 
 ### 🗺️ Roadmap & Changelog
-- [Roadmap](roadmap.md)
+- [Roadmap](ROADMAP.md)
 - [Changelog](changelog.md)
 
 ---

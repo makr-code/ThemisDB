@@ -41,7 +41,7 @@ Successfully implemented **~40% of the complete production-hardening roadmap** f
 
 | Document | Lines | Purpose |
 |----------|-------|---------|
-| roadmap.md | 781 | 5-phase complete roadmap |
+| ROADMAP.md | 781 | 5-phase complete roadmap |
 | PHASE1_COMPLETE.md | 500+ | Phase 1 summary |
 | PHASE1_IMPLEMENTATION_SUMMARY.md | 400+ | Phase 1 details |
 | PHASE2.1_COMPLETE.md | 500+ | Paxos durability |
@@ -475,7 +475,7 @@ data/
 
 ### Primary Documents
 
-1. **[roadmap.md](../roadmap.md)** - Complete 5-phase roadmap (781 lines)
+1. **[ROADMAP.md](../ROADMAP.md)** - Complete 5-phase roadmap (781 lines)
 2. **[PHASE1_COMPLETE.md](implementation-history/phases/PHASE1_COMPLETE.md)** - Phase 1 complete summary
 3. **[PHASE1_IMPLEMENTATION_SUMMARY.md](implementation-history/summaries/PHASE1_IMPLEMENTATION_SUMMARY.md)** - Phase 1 details
 4. **[PHASE2.1_COMPLETE.md](implementation-history/phases/PHASE2.1_COMPLETE.md)** - Paxos durability complete

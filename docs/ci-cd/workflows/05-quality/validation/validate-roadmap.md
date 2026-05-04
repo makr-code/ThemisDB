@@ -15,8 +15,8 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Validate Road
 
 ## Auslöser (Triggers)
 
-- **`push`** — Automatisch bei jedem Push auf die konfigurierten Branches (Branches: `main`, `develop`) (Pfade: `roadmap.md`, `ROADMAP.md`, `future_enhancement.md`)
-- **`pull_request`** — Automatisch bei Pull Requests (opened, synchronize, reopened) (Pfade: `roadmap.md`, `ROADMAP.md`, `future_enhancement.md`)
+- **`push`** — Automatisch bei jedem Push auf die konfigurierten Branches (Branches: `main`, `develop`) (Pfade: `ROADMAP.md`, `ROADMAP.md`, `future_enhancement.md`)
+- **`pull_request`** — Automatisch bei Pull Requests (opened, synchronize, reopened) (Pfade: `ROADMAP.md`, `ROADMAP.md`, `future_enhancement.md`)
 - **`workflow_dispatch`** — Manuell über die GitHub Actions UI ausführbar
 
 ## Nebenläufigkeit

@@ -95,6 +95,6 @@ For individual module work items, refer to each module's `src/<module>/CHANGELOG
 
 - **v1.9.0 release:** Q2 2026 (target)
 - **Phase 5 operational tooling baseline:** Q2/Q3 2026 (target)
-- **v2.0 feature goals:** GPU-accelerated vector search production deployment, hyperscale operations, advanced AI hardening — see [roadmap.md](roadmap.md)
+- **v2.0 feature goals:** GPU-accelerated vector search production deployment, hyperscale operations, advanced AI hardening — see [ROADMAP.md](ROADMAP.md)
 
-For further updates, refer to the official repository, [roadmap.md](roadmap.md), and individual module changelogs in `src/`.
+For further updates, refer to the official repository, [ROADMAP.md](ROADMAP.md), and individual module changelogs in `src/`.

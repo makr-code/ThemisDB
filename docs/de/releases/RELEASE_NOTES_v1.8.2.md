@@ -4,7 +4,7 @@
 **Type:** Patch / Stabilisierung
 **Previous Version:** v1.8.0
 **Milestone:** current (`milestone:current`)
-**Aggregation Scope:** Retrospektive Zuordnung aller Feature-Wellen zwischen v1.8.0 und v1.8.2 auf Basis von `roadmap.md` und Merge-Liste.
+**Aggregation Scope:** Retrospektive Zuordnung aller Feature-Wellen zwischen v1.8.0 und v1.8.2 auf Basis von `ROADMAP.md` und Merge-Liste.
 
 ---
 
@@ -36,7 +36,7 @@ v1.8.2 konsolidiert die seit v1.8.0 ausgelieferten funktionalen Erweiterungen in
 
 | Roadmap-Quelle | Zuordnung in dieser Aggregation |
 |---|---|
-| [`roadmap.md` — Milestone v1.8.0](../../../roadmap.md) | Basis-Feature-Stand aus v1.8.0 bleibt erhalten |
+| [`ROADMAP.md` — Milestone v1.8.0](../../../ROADMAP.md) | Basis-Feature-Stand aus v1.8.0 bleibt erhalten |
 | [`docs/de/releases/RELEASE_NOTES_v1.8.1-rc1.md`](./RELEASE_NOTES_v1.8.1-rc1.md) | Vollständige RC1-Welle zwischen v1.8.0 und v1.8.2 referenziert |
 | Modul-Roadmaps ([`src/rag/ROADMAP.md`](../../../src/rag/ROADMAP.md), [`src/storage/ROADMAP.md`](../../../src/storage/ROADMAP.md), [`src/process/ROADMAP.md`](../../../src/process/ROADMAP.md), [`src/llm/ROADMAP.md`](../../../src/llm/ROADMAP.md), [`src/sharding/ROADMAP.md`](../../../src/sharding/ROADMAP.md)) | Post-RC-Erweiterungen durch PRs #4697, #4711, #4713, #4723, #4726 zugeordnet |
 
@@ -68,7 +68,7 @@ v1.8.2 konsolidiert die seit v1.8.0 ausgelieferten funktionalen Erweiterungen in
 
 - [RELEASE_NOTES_v1.8.0.md](./RELEASE_NOTES_v1.8.0.md) — vorherige Aggregation
 - [RELEASE_NOTES_v1.8.1-rc1.md](./RELEASE_NOTES_v1.8.1-rc1.md) — RC1-Funktionswelle
-- [roadmap.md](../../../roadmap.md) — Top-level Roadmap und Milestone-Zuordnung
+- [ROADMAP.md](../../../ROADMAP.md) — Top-level Roadmap und Milestone-Zuordnung
 - [CHANGELOG.md](../../../CHANGELOG.md) — fortlaufende Änderungsdokumentation
 
 ---

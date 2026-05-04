@@ -146,4 +146,4 @@ enhancement catalogue in
 | [`docs/observability/llm_metrics_schema.md`](observability/llm_metrics_schema.md) | LLM-specific metric schema |
 | [`docs/PROMETHEUS_INTEGRATION_COMPLETE.md`](PROMETHEUS_INTEGRATION_COMPLETE.md) | Prometheus integration status |
 | [`docs/GRAFANA_METRICS_COMPLETE.md`](../../ARCHIVED/implementation-summaries/GRAFANA_METRICS_COMPLETE.md) | Grafana dashboard status |
-| [`roadmap.md`](../roadmap.md) | Top-level product roadmap |
+| [`ROADMAP.md`](../ROADMAP.md) | Top-level product roadmap |

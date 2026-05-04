@@ -107,7 +107,7 @@ scopes:
       - '.github/SECURITY.md'
       - '.github/LABELS.md'
       - '.github/RELEASE.md'
-      - 'roadmap.md'
+      - 'ROADMAP.md'
       - 'ROADMAP.md'
       - 'FUTURE_ENHANCEMENTS.MD'
       - 'future_enhancement.md'

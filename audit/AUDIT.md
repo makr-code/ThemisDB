@@ -275,7 +275,7 @@ See [ARCHITECTURE.md § Acceleration Module ROADMAP Audit](../ARCHITECTURE.md#ac
 
 - [../SECURITY.md](../SECURITY.md) — Security policy and vulnerability reporting
 - [../ARCHITECTURE.md](../ARCHITECTURE.md) — System architecture
-- [../roadmap.md](../roadmap.md) — Development roadmap
+- [../ROADMAP.md](../ROADMAP.md) — Development roadmap
 - [../docs/de/compliance/compliance_full_checklist.md](../docs/de/compliance/compliance_full_checklist.md) — Full BSI C5, ISO 27001, DSGVO checklist
 - [../docs/security/](../docs/security/) — Security guides and reference documentation
 - [../docs/production/SECURITY_POSTURE.md](../docs/production/SECURITY_POSTURE.md) — Production hardening guide

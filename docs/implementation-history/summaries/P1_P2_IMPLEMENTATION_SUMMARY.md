@@ -604,7 +604,7 @@ The API is now suitable for production deployment with appropriate operational m
 
 ## References
 
-- [ThemisDB API Roadmap](roadmap.md)
+- [ThemisDB API Roadmap](ROADMAP.md)
 - [P0 Implementation Summary](implementation-history/summaries/P0_IMPLEMENTATION_SUMMARY.md)
 - [GraphQL Specification](https://spec.graphql.org/)
 - [OWASP API Security Top 10](https://owasp.org/www-project-api-security/)

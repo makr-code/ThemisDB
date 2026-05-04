@@ -224,7 +224,7 @@ The documentation has been restructured for better clarity:
 
 ### Overview Documents
 - **[Changelog](../CHANGELOG.md)** - Complete version history (v1.8.0-rc1, v1.5.0, v1.4.0, v1.3.0, …)
-- **[🆕 Roadmap v2.0](../../roadmap.md)** - **UPDATED:** Aggregated roadmap across all 46 modules
+- **[🆕 Roadmap v2.0](../../ROADMAP.md)** - **UPDATED:** Aggregated roadmap across all 46 modules
 - **[Architecture Overview](architecture/ARCHITECTURE_OVERVIEW.md)** - Complete system architecture with diagrams
 - **[Source Code Changes v1.0](development/SOURCE_CODE_CHANGES_v1.0.md)** - Detailed source code documentation (191 files, 26 modules)
 - **[Features List](features/features_overview.md)** - Complete feature overview with status

@@ -31,7 +31,7 @@
     {
       "name": "beta-module-exit",
       "passed": false,
-      "details": "6 beta modules still listed in roadmap.md",
+      "details": "6 beta modules still listed in ROADMAP.md",
       "evidence": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_191024\\beta_modules.txt"
     }
   ],

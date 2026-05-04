@@ -7,7 +7,7 @@ This directory contains automation scripts for operational tasks addressing audi
 ### Invoke-LocalProductionReadiness.ps1
 
 **Purpose:** Execute production-readiness gates locally without CI integration  
-**Addresses:** System-wide readiness gates in `roadmap.md` (chaos/fault-injection, SLA validation proxy, penetration-test evidence)  
+**Addresses:** System-wide readiness gates in `ROADMAP.md` (chaos/fault-injection, SLA validation proxy, penetration-test evidence)  
 **Schedule:** On-demand before release cut
 
 **Usage:**

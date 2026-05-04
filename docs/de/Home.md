@@ -21,7 +21,7 @@
 
 **Documentation:**
 - [Changelog](../../CHANGELOG.md)
-- [Roadmap](../../roadmap.md)
+- [Roadmap](../../ROADMAP.md)
 - [Compendium Update Notes](../reports/V1.4.0_ALPHA_UPDATE_NOTES.md)
 
 ---

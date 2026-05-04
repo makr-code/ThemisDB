@@ -40,7 +40,7 @@ pwsh -File scripts/operations/Invoke-LocalProductionReadiness.ps1 \
 
 - [ ] Gate D: Beta-module exit check is green
   - Artifact: `artifacts/production-readiness/<timestamp>/beta_modules.txt`
-  - Pass criteria: no beta modules listed in `roadmap.md` (or explicit waiver documented)
+  - Pass criteria: no beta modules listed in `ROADMAP.md` (or explicit waiver documented)
 
 ## Manual follow-up (release manager)
 

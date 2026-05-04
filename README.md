@@ -10,7 +10,7 @@
 [![Docs](https://img.shields.io/badge/docs-online-blue)](https://makr-code.github.io/ThemisDB/)
 [![Contributing](https://img.shields.io/badge/contributions-welcome-brightgreen)](CONTRIBUTING.md)
 
-[📚 Documentation](docs/Home.md) · [🚀 Quick Start](QUICKSTART.md) · [❓ FAQ](docs/FAQ.md) · [Release Notes](CHANGELOG.md) · [Roadmap](roadmap.md)
+[📚 Documentation](docs/Home.md) · [🚀 Quick Start](QUICKSTART.md) · [❓ FAQ](docs/FAQ.md) · [Release Notes](CHANGELOG.md) · [Roadmap](ROADMAP.md)
 
 </div>
 
@@ -103,7 +103,7 @@ ThemisDB is organised into 58 source modules under `src/`, grouped into four log
 ```
 
 → Full architecture reference: [ARCHITECTURE.md](ARCHITECTURE.md)  
-→ Module list and status: [roadmap.md](roadmap.md)
+→ Module list and status: [ROADMAP.md](ROADMAP.md)
 
 ---
 

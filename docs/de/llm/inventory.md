@@ -202,7 +202,7 @@
 |---|---|
 | `docs/llm_roadmap.md` | Produktionsreife-Bewertung und Roadmap (älterer Stand) |
 | `docs/en/llm/LLM_IMPLEMENTATION_PLAN_100_PERCENT.md` | Implementierungsplan (historisch) |
-| `roadmap.md` (Root) | Aggregierte Roadmap aller Module; LLM-Status: v1.16.0 |
+| `ROADMAP.md` (Root) | Aggregierte Roadmap aller Module; LLM-Status: v1.16.0 |
 
 ---
 

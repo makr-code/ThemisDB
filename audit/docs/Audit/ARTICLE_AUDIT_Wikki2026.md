@@ -637,7 +637,7 @@ Alle im Artikel genannten Parameter sind exakt im Code hinterlegt (`include/rag/
 
 **Befund:** ✅ **ARCHITECTURAL DESIGN GOALS – konsistent mit Roadmap-Dokumentation**
 
-Die Kennzahlen stammen aus der CHIMERA Benchmark Suite. Sie sind in der Roadmap (`roadmap.md`) dokumentiert und entsprechen dem Design-Ziel der In-Process-Architektur. Eine unabhängige Verifikation der konkreten Messwerte erfordert Ausführung der Benchmarks auf der Referenzhardware (Intel Core i9-12900K, 64 GB DDR5, NVMe PCIe 4.0 SSD, Windows x64, MSVC 14.44 -O3).
+Die Kennzahlen stammen aus der CHIMERA Benchmark Suite. Sie sind in der Roadmap (`ROADMAP.md`) dokumentiert und entsprechen dem Design-Ziel der In-Process-Architektur. Eine unabhängige Verifikation der konkreten Messwerte erfordert Ausführung der Benchmarks auf der Referenzhardware (Intel Core i9-12900K, 64 GB DDR5, NVMe PCIe 4.0 SSD, Windows x64, MSVC 14.44 -O3).
 
 Relevante Infrastruktur:
 
@@ -645,7 +645,7 @@ Relevante Infrastruktur:
 |---|---|
 | `src/chimera/` | CHIMERA Benchmark Suite |
 | `benchmarks/` | Benchmark-Infrastruktur |
-| `roadmap.md` | KPI-Tabelle mit identischen Werten |
+| `ROADMAP.md` | KPI-Tabelle mit identischen Werten |
 
 ---
 
@@ -727,7 +727,7 @@ Die PKCS#11-Direktanbindung befindet sich im Draft-Stadium (24 Stubs, Score 0/10
 | 50 | Knowledge Gap Detector (TPT/FLARE) | ✅ | `src/rag/knowledge_gap_detector.cpp` |
 | 51 | Spezifische Schwellenwerte (0.7/0.8/etc.) | ✅ | `include/rag/knowledge_gap_detector.h` |
 | 52 | ThemisHelpLoRA Feedback-Loop | ✅ | `include/llm/applications/themis_help_lora.h` |
-| 53 | Performance <15ms / 0.008ms P50 | ✅ | `roadmap.md` + `src/chimera/` |
+| 53 | Performance <15ms / 0.008ms P50 | ✅ | `ROADMAP.md` + `src/chimera/` |
 
 ---
 

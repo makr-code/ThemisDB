@@ -62,59 +62,59 @@ plugins/
 ├── CMakeLists.txt                      (Compatibility and manifest entry point)
 ├── blob_storage/                       ✅ Production
 │   ├── README.md
-│   ├── roadmap.md
+│   ├── ROADMAP.md
 │   ├── future_enhancements.md
 │   ├── azure/                          (Azure Blob Storage plugin)
 │   └── s3/                             (Amazon S3 plugin)
 ├── cuda/                               📋 Example/Template
 │   ├── README.md
-│   ├── roadmap.md
+│   ├── ROADMAP.md
 │   ├── future_enhancements.md
 │   ├── CMakeLists.txt.example
 │   ├── cuda_plugin.cpp.example
 │   └── cuda_plugin.json
 ├── ethics_ai/                          🔧 WIP / compatibility shim to src/ethics_ai
 │   ├── README.md
-│   ├── roadmap.md
+│   ├── ROADMAP.md
 │   └── future_enhancements.md
 ├── exporters/                          ✅ Production
 │   ├── README.md
-│   ├── roadmap.md
+│   ├── ROADMAP.md
 │   ├── future_enhancements.md
 │   └── jsonl_llm/                      (JSONL LLM exporter)
 ├── huggingface/                        ✅ Ready for use
 │   ├── README.md
-│   ├── roadmap.md
+│   ├── ROADMAP.md
 │   └── future_enhancements.md
 ├── image_analysis/                     ✅ Production / compatibility shim to src/onnx_clip
 │   ├── README.md
-│   ├── roadmap.md
+│   ├── ROADMAP.md
 │   ├── future_enhancements.md
 │   └── onnx_clip/                      (ONNX CLIP embedding plugin)
 ├── importers/                          ✅ Production
 │   ├── README.md
-│   ├── roadmap.md
+│   ├── ROADMAP.md
 │   ├── future_enhancements.md
 │   └── postgres/                       (PostgreSQL importer)
 ├── rpc/                                ✅ Production / compatibility shim to src/rpc_grpc
 │   ├── README.md
-│   ├── roadmap.md
+│   ├── ROADMAP.md
 │   ├── future_enhancements.md
 │   └── grpc/                           (gRPC plugin)
 ├── scraper/                            ✅ Production v1.1.0 — agentic gap-detection web scraping
 │   ├── CHANGELOG.md
 │   ├── README.md
-│   ├── roadmap.md
+│   ├── ROADMAP.md
 │   ├── future_enhancements.md
 │   └── config/                         (knowledge_sources.yaml, scraper_urls.yaml, gov_sources.yaml)
 └── user_storage_encrypted/             🔧 Implemented v0.2.0 — 4-tier gocryptfs encrypted storage
     ├── CHANGELOG.md
     ├── README.md
-    ├── roadmap.md
+    ├── ROADMAP.md
     └── future_enhancements.md
 
 > 📄 **Per-plugin documentation:** Every plugin subdirectory contains three standard
-> Markdown files: `README.md` (status, architecture, references), `roadmap.md`
+> Markdown files: `README.md` (status, architecture, references), `ROADMAP.md`
 > (planned work), and `future_enhancements.md` (ideas backlog).
 
 Note: Hardware acceleration backends (CUDA, Vulkan, etc.) are implemented

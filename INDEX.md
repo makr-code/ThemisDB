@@ -19,7 +19,7 @@ Dieser Index ist auf die Entwickler-Primärquellen fokussiert und ersetzt veralt
 ## Root-Einstiege
 
 - [`README.md`](README.md) – Produkt- und Build-Überblick
-- [`roadmap.md`](roadmap.md) – Modulübergreifender Umsetzungsstand
+- [`ROADMAP.md`](ROADMAP.md) – Modulübergreifender Umsetzungsstand
 - [`CHANGELOG.md`](CHANGELOG.md) – verifizierte Änderungen
 - [`CMakePresets.json`](CMakePresets.json) – Build-/Test-Quelle der Wahrheit
 

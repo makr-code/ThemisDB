@@ -621,7 +621,7 @@ infrastructure.
 ## 🔗 Related Documentation
 
 - [CHANGELOG.md](../../../CHANGELOG.md) — Full change log
-- [roadmap.md](../../../roadmap.md) — Top-level project roadmap
+- [ROADMAP.md](../../../ROADMAP.md) — Top-level project roadmap
 - [docs/de/releases/RELEASE_NOTES_v1.7.0.md](RELEASE_NOTES_v1.7.0.md) — Previous release aggregation
 - [.github/WORKFLOW_REGISTRY.md](../../../.github/WORKFLOW_REGISTRY.md) — CI workflow path mapping (post-reorganisation)
 - [config/MIGRATION_GUIDE.md](../../../config/MIGRATION_GUIDE.md) — Config path migration guide

@@ -45035,7 +45035,7 @@
     {
       "number": 2894,
       "type": "pr",
-      "title": "docs: aggregate all 44 src/ modules into top-level ARCHITECTURE.md, README.md, and roadmap.md",
+      "title": "docs: aggregate all 44 src/ modules into top-level ARCHITECTURE.md, README.md, and ROADMAP.md",
       "state": "merged",
       "createdAt": "2026-02-25T13:13:10Z",
       "closedAt": "2026-02-25T13:27:30Z",

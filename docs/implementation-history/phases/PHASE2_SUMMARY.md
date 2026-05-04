@@ -239,7 +239,7 @@ if (error.code == AccelerationErrorCode::NoDevicesFound) {
 2. `src/acceleration/cuda_backend.cpp` (+35 / -10 lines)
 3. `src/acceleration/hip_backend.cpp` (+40 / -3 lines)
 4. `src/acceleration/opencl_backend.cpp` (+60 / -50 lines)
-5. `roadmap.md` (updated Phase 2 status)
+5. `ROADMAP.md` (updated Phase 2 status)
 
 **Net Impact:** +2,995 lines (production code + tests + docs)
 
@@ -345,7 +345,7 @@ Phase 2 successfully transformed ThemisDB's acceleration module from ad-hoc erro
 - [Error Code Reference](docs/acceleration/error_codes.md)
 - [RAII Usage Guide](include/acceleration/raii/README.md)
 - [Phase 2 Complete Report](docs/acceleration/PHASE2_COMPLETE.md)
-- [Roadmap](roadmap.md)
+- [Roadmap](ROADMAP.md)
 
 **GitHub PR:** copilot/production-readiness-review-themisdb
 

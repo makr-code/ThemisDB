@@ -2,7 +2,7 @@
 
 ## Scope
 
-Planned improvements beyond `roadmap.md` for the `plugins/scraper/` agentic
+Planned improvements beyond `ROADMAP.md` for the `plugins/scraper/` agentic
 scraper module covering search-form handling, result-list parsing, government
 database integration, JS-rendered page support, and LLM evaluation.
 

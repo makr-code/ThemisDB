@@ -224,7 +224,7 @@ Alle Source-Code-Komponenten haben dedizierte Dokumentation:
 **README.md:**
 | Alter Pfad | Neuer Pfad |
 |------------|------------|
-| `docs/ROADMAP.md` | `docs/roadmap.md` |
+| `docs/ROADMAP.md` | `docs/ROADMAP.md` |
 | `docs/TLS_SETUP.md` | `docs/guides/tls_setup.md` |
 | `docs/CERTIFICATE_PINNING.md` | `docs/security/certificate_pinning.md` |
 | `docs/SECRETS_MANAGEMENT.md` | `docs/guides/vault.md` |
@@ -349,7 +349,7 @@ Die folgenden Ordner wurden erstellt, um die Dokumentationsstruktur an die Sourc
 - [ ] Veraltete Features aktualisieren
 
 ### 2.3 Roadmap-Dokumente
-- [ ] `/docs/roadmap.md` - Roadmap aktualisieren
+- [ ] `/docs/ROADMAP.md` - Roadmap aktualisieren
 - [ ] `/docs/NEXT_IMPLEMENTATION_PRIORITIES.md` - Prioritäten prüfen
 
 ---
@@ -635,7 +635,7 @@ Die folgenden Ordner wurden erstellt, um die Dokumentationsstruktur an die Sourc
 **Dateien zu prüfen:**
 - [ ] `developers.md` - Developer Guide
 - [ ] `implementation_status.md` - Impl. Status
-- [ ] `roadmap.md` - Dev Roadmap
+- [ ] `ROADMAP.md` - Dev Roadmap
 - [ ] `priorities.md` - Prioritäten
 - [ ] Changefeed-Doku (`/docs/development/changefeed/`)
 - [ ] Security-Doku (`/docs/development/security/`)
@@ -777,7 +777,7 @@ linkchecker https://makr-code.github.io/ThemisDB/
 
 | Broken Link | Korrekter Pfad | Status |
 |-------------|----------------|--------|
-| `docs/ROADMAP.md` | `docs/roadmap.md` (case-sensitive) | ❌ Broken |
+| `docs/ROADMAP.md` | `docs/ROADMAP.md` (case-sensitive) | ❌ Broken |
 | `docs/TLS_SETUP.md` | Nicht gefunden - erstellen oder entfernen | ❌ Missing |
 | `docs/CERTIFICATE_PINNING.md` | Nicht gefunden - erstellen oder entfernen | ❌ Missing |
 | `docs/SECRETS_MANAGEMENT.md` | Nicht gefunden - erstellen oder entfernen | ❌ Missing |

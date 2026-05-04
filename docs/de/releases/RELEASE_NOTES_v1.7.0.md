@@ -439,7 +439,7 @@ All 44 source module docs were audited and updated to match their actual impleme
 ## 🔗 Related Documentation
 
 - [CHANGELOG.md](../../../CHANGELOG.md) — Full change log
-- [roadmap.md](../../../roadmap.md) — Top-level project roadmap
+- [ROADMAP.md](../../../ROADMAP.md) — Top-level project roadmap
 - [config/MIGRATION_GUIDE.md](../../../config/MIGRATION_GUIDE.md) — Config path migration guide
 - [docs/MULTI_GPU_VECTOR_INDEXING.md](../../MULTI_GPU_VECTOR_INDEXING.md) — Multi-GPU API documentation
 - [docs/en/rag/RAG_SCIENTIFIC_FOUNDATIONS.md](../../en/rag/RAG_SCIENTIFIC_FOUNDATIONS.md) — RAG scientific reference

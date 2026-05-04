@@ -23,11 +23,11 @@ This document provides a comprehensive review of the ThemisDB acceleration modul
 **Required:**
 - Review all acceleration backends under `src/acceleration`
 - Summarize production gaps in `docs/acceleration/production_readiness.md`
-- Add `roadmap.md` at repository root with implementation plan
+- Add `ROADMAP.md` at repository root with implementation plan
 
 **Delivered:**
 - ✅ `docs/acceleration/production_readiness.md` (11.2KB) - Comprehensive gap analysis
-- ✅ `roadmap.md` (root level) - 6-month implementation roadmap
+- ✅ `ROADMAP.md` (root level) - 6-month implementation roadmap
 - ✅ **Bonus:** Additional 100KB+ documentation including:
   - `PHASE2_COMPLETE.md` - Phase 2 detailed report
   - `PHASE2_SUMMARY.md` - Executive summary
@@ -188,7 +188,7 @@ All backends now consistently return **squared L2 distance** (no sqrt):
 | **Updated code (L2 consistency)** | Yes | ✅ Complete |
 | **Updated code (error logging)** | Yes | ✅ Complete |
 | **`docs/acceleration/production_readiness.md`** | Yes | ✅ Complete |
-| **`roadmap.md` (root level)** | Yes | ✅ Complete |
+| **`ROADMAP.md` (root level)** | Yes | ✅ Complete |
 | **L2 consistency tests** | Yes | ✅ Complete |
 
 ### Bonus Deliverables: ✅ SIGNIFICANT VALUE-ADD
@@ -318,7 +318,7 @@ All backends now consistently return **squared L2 distance** (no sqrt):
 ### Added Files (19)
 
 #### Documentation (9 files, ~100KB)
-1. `roadmap.md` (root)
+1. `ROADMAP.md` (root)
 2. `PHASE2_SUMMARY.md` (root)
 3. `docs/acceleration/production_readiness.md` (11.2KB)
 4. `docs/acceleration/PHASE2_COMPLETE.md` (11.4KB)

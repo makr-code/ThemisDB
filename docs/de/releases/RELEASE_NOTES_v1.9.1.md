@@ -13,4 +13,4 @@ Status: Milestone-Stand nach Merge-Lauf am 11.04.2026
 ## Hinweise
 
 - Dieser Stand basiert auf den gemergten PRs im Milestone v1.9.1.
-- Weiterfuehrende Projektaggregation: siehe roadmap.md (Milestone Delta 2026-04-11).
+- Weiterfuehrende Projektaggregation: siehe ROADMAP.md (Milestone Delta 2026-04-11).

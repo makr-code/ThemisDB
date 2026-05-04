@@ -262,7 +262,7 @@ A deliverable is **complete** for v1.5.0 when ALL of the following are satisfied
 | C-04 | Performance-critical features benchmarked | Baseline stored under `benchmarks/baselines/`; no regression beyond threshold |
 | C-05 | Documentation present | Doxygen/comment blocks in headers; CHANGELOG.md updated; module ROADMAP.md updated |
 | C-06 | Migration guide for breaking changes | Every breaking change has a migration note in CHANGELOG.md and RELEASE_NOTES |
-| C-07 | Roadmap item linkage | Every PR traced to at least one roadmap item in `roadmap.md` or module `ROADMAP.md` |
+| C-07 | Roadmap item linkage | Every PR traced to at least one roadmap item in `ROADMAP.md` or module `ROADMAP.md` |
 
 ---
 
@@ -412,7 +412,7 @@ The following roles must sign off before v1.5.0 can be tagged and shipped:
 |----------|------|
 | Release Aggregation (post-release summary) | [`docs/de/releases/RELEASE_NOTES_v1.5.0.md`](./RELEASE_NOTES_v1.5.0.md) |
 | Release Candidate Checklist | [`docs/de/releases/RC_CHECKLIST.md`](./RC_CHECKLIST.md) |
-| Top-Level Project Roadmap | [`roadmap.md`](../../../roadmap.md) |
+| Top-Level Project Roadmap | [`ROADMAP.md`](../../../ROADMAP.md) |
 | Geo Module Roadmap | [`src/geo/ROADMAP.md`](../../../src/geo/ROADMAP.md) |
 | GPU Module Roadmap | [`src/gpu/ROADMAP.md`](../../../src/gpu/ROADMAP.md) |
 | Security Module Roadmap | [`src/security/ROADMAP.md`](../../../src/security/ROADMAP.md) |

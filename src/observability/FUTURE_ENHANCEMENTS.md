@@ -1245,7 +1245,7 @@ Integration with Elastic Observability stack.
 ## See Also
 
 - [README.md](README.md) - Current observability features
-- [../../docs/roadmap.md](../../docs/roadmap.md) - Product roadmap
+- [../../docs/ROADMAP.md](../../docs/ROADMAP.md) - Product roadmap
 - [../core/README.md](../core/README.md) - Core interfaces
 
 ---

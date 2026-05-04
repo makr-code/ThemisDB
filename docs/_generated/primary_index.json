@@ -1486,7 +1486,7 @@
       "size_bytes": 2725
     },
     {
-      "path": "src/query/roadmap.md",
+      "path": "src/query/ROADMAP.md",
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
