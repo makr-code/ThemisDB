@@ -119,6 +119,7 @@ private:
     RBACConfig config_;
     mutable std::mutex mutex_;
     std::unordered_map<std::string, Role> roles_;
+    bool hierarchy_valid_ = true;  // set to false when a cyclic role hierarchy is detected; fail-closed
 
     // [RB-1] Grace period for license server outages: track last successful check.
     // Stored as milliseconds since steady_clock epoch.

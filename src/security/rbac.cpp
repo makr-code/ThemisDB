@@ -168,7 +168,9 @@ RBAC::RBAC(const RBACConfig& config) : config_(config) {
     
     // Validate role hierarchy
     if (!validateRoleHierarchy()) {
-        THEMIS_ERROR("RBAC role hierarchy validation failed (cyclic dependencies detected)");
+        THEMIS_ERROR("[SECURITY] RBAC: cyclic role hierarchy detected. "
+                     "RBAC system marked invalid — all permission checks will be DENIED.");
+        hierarchy_valid_ = false;
     }
 }
 
@@ -306,6 +308,14 @@ bool RBAC::checkPermission(
     const std::string& resource,
     const std::string& action
 ) const {
+    // Fail-closed: if the role hierarchy is invalid (cycle detected), deny all access.
+    if (!hierarchy_valid_) {
+        THEMIS_WARN("[SECURITY] RBAC: checkPermission called but hierarchy is invalid "
+                    "(cyclic dependency detected). Denying access to resource='{}' action='{}'.",
+                    resource, action);
+        return false;
+    }
+
     // Runtime license gate: RBAC is an Enterprise/Hyperscaler feature.
     // [RB-1] Grace period: a transient license server outage must not immediately
     // lock out all users. If the last successful check is within the grace window,

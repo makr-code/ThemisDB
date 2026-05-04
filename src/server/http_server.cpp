@@ -3613,19 +3613,40 @@ http::response<http::string_body> HttpServer::routeRequest(
         return res;
     }
 
-    // Path traversal checks for entity paths
+    // Path traversal checks for parameterized route paths
     {
-        if (path_only.rfind("/entities/", 0) == 0 && validator_) {
-            std::string key = path_only.substr(std::string("/entities/").size());
-            if (!validator_->validatePathSegment(key)) {
-                http::response<http::string_body> res{http::status::bad_request, req.version()};
-                res.set(http::field::content_type, "application/json");
-                nlohmann::json body = {{"error", true},{"message","invalid entity key"},{"status_code",400}};
-                res.body() = body.dump();
-                applyGovernanceHeaders(req, res);
-                res.prepare_payload();
-                recordLatency(std::chrono::microseconds(0));
-                return res;
+        // Helper: extract and validate a path segment after a known prefix.
+        // Returns a 400 response if the segment is invalid; otherwise continues.
+        auto checkSegment = [&](const std::string& prefix) -> std::optional<http::response<http::string_body>> {
+            if (path_only.rfind(prefix, 0) == 0 && validator_) {
+                std::string segment = path_only.substr(prefix.size());
+                // Strip any trailing sub-path (e.g., /versions) for the check
+                auto slash_pos = segment.find('/');
+                if (slash_pos != std::string::npos) segment = segment.substr(0, slash_pos);
+                if (!segment.empty() && !validator_->validatePathSegment(segment)) {
+                    http::response<http::string_body> res{http::status::bad_request, req.version()};
+                    res.set(http::field::content_type, "application/json");
+                    nlohmann::json body = {{"error", true},{"message","invalid path segment"},{"status_code",400}};
+                    res.body() = body.dump();
+                    applyGovernanceHeaders(req, res);
+                    res.prepare_payload();
+                    recordLatency(std::chrono::microseconds(0));
+                    return res;
+                }
+            }
+            return std::nullopt;
+        };
+
+        static const std::array<std::string_view, 5> kParameterizedPrefixes = {
+            "/entities/",
+            "/pii/",
+            "/pii/reveal/",
+            "/api/v1/content/fs/",
+            "/api/v1/mvcc/keys/"
+        };
+        for (const auto& prefix : kParameterizedPrefixes) {
+            if (auto err = checkSegment(std::string(prefix))) {
+                return *err;
             }
         }
     }
@@ -3772,6 +3793,10 @@ http::response<http::string_body> HttpServer::routeRequest(
         auto qpos = path_only.find('?');
         if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
         if (path_only.rfind("/ethics/", 0) == 0 || path_only.rfind("/api/ethics/", 0) == 0) {
+            // HS-12: Ethics routes require auth — check before any early dispatch.
+            if (auto auth_err = requireAccess(req, "ethics", "ethics.query", path_only)) {
+                return *auth_err;
+            }
             if (ethics_api_) {
                 http::response<http::string_body> response = ethics_api_->handle(req, target);
                 applyGovernanceHeaders(req, response);

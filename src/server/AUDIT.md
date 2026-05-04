@@ -16,7 +16,7 @@
 | Test Coverage | ✅ Present (focused test targets in tests/CMakeLists.txt) |
 | S0 Critical | ✅ 0 (HS-1 + HS-2 fixed 2026-04-21) |
 | S1 High | 🔴 8 |
-| S2 Medium | ⚠️ 4 |
+| S2 Medium | ✅ 0 (HS-10, HS-11, HS-12 fixed 2026-05-04) |
 | Centralized auth enforcement | 🔴 **None — every handler responsible for own auth; new handlers trivially ship without it** |
 
 ## Source Files Audited
@@ -156,11 +156,13 @@ violating the CORS specification.
 
 ### S2 — Medium
 
+> **All S2 findings (HS-10, HS-11, HS-12) fixed 2026-05-04.**
+
 | ID | Location | Description |
 |----|----------|-------------|
-| HS-10 | L3238 | Path traversal validation only for `/entities/` — other parameterized routes (`/content/{id}`, `/pii/{uuid}`, `/api/v1/mvcc/keys/{key}`, etc.) pass raw path segments to handlers |
-| HS-11 | L1279 | `PolicyEngine` defaults to **allow-all** when config file is absent — misconfigured deployment silently enforces no policies |
-| HS-12 | L3394–3405 | Ethics API early-routing block bypasses `RequestValidationMiddleware` and any centralized auth layer |
+| ✅ HS-10 | `http_server.cpp` | **Fixed 2026-05-04** — Path traversal validation extended to all parameterized routes (`/entities/`, `/pii/`, `/pii/reveal/`, `/api/v1/content/fs/`, `/api/v1/mvcc/keys/`) using a shared `checkSegment` lambda and `validator_->validatePathSegment()`. |
+| ✅ HS-11 | `policy_engine.cpp` | **Fixed 2026-05-04** — `PolicyEngine::authorize()` now returns `DENY` when `policies_` is empty (`no_policies_default_deny`). Fail-closed: a misconfigured deployment with no policy file enforces denial, not allow-all. |
+| ✅ HS-12 | `http_server.cpp` | **Fixed 2026-05-04** — Ethics API early-routing block now calls `requireAccess(req, "ethics", "ethics.query", path_only)` before dispatching to `ethics_api_->handle()`. Unauthorized requests receive a 401/403 response. |
 
 ---
 

@@ -773,9 +773,13 @@ bool FieldEncryption::needsReEncryption(const EncryptedBlob& blob, const std::st
         }
         
     } catch (const std::exception& e) {
-        THEMIS_WARN("needsReEncryption check failed for key_id={}: {}", key_id, e.what());
-        // On error, assume no re-encryption needed (safe default)
-        return false;
+        THEMIS_WARN("[SECURITY] needsReEncryption: KMS unavailable for key lookup — "
+                    "cannot determine re-encryption need. Error: {}. "
+                    "Re-encryption check will be retried on next cycle.", e.what());
+        // Fail-safe: assume re-encryption is needed when KMS is unavailable.
+        // Silently skipping re-encryption on KMS error would leave stale key versions
+        // in production and suppress the underlying availability problem.
+        return true;
     }
 }
 

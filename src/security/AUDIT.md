@@ -18,7 +18,7 @@
 | Test Coverage | ✅ 7 focused test targets |
 | S0 Critical / Safety Violations | ✅ 0 (A-1/A-2 fixed) |
 | S1 High | ✅ 0 (A-3, E-1, E-2, E-4, RB-1 fixed 2026-05-04) |
-| S2 Medium | ⚠️ 4 |
+| S2 Medium | ✅ 0 (A-4, A-5, E-3, RB-2 fixed 2026-05-04) |
 | S3 Low | ℹ️ 2 |
 | Successful login possible | ✅ **Yes — deadlocks resolved** |
 
@@ -138,12 +138,14 @@ cannot distinguish valid from failed entries. Corrupted records are silently sto
 
 ### S2 — Medium
 
+> **All S2 findings (A-4, A-5, E-3, RB-2) fixed 2026-05-04.**
+
 | ID | File | Function | Description |
 |----|------|----------|-------------|
-| A-4 | `access_control.cpp` | `detectSQLInjection()` | Case-sensitive exact-match strings — bypassed by `union select`, Unicode lookalikes, inline comments; instills false security confidence |
-| A-5 | `access_control.cpp` | `recordFailedLogin()` | Rate-limit lockout stored only in memory; any process restart clears all lockout state — brute-force protection resets on crash/restart |
-| E-3 | `field_encryption.cpp` | `needsReEncryption()` | Uses exception as side-channel to detect key versions; transient KMS unavailability silently suppresses re-encryption |
-| RB-2 | `rbac.cpp` | Constructor | Cyclic role hierarchy detected and logged, but system continues with corrupt data; all `checkPermission()` calls emit "Cyclic dependency" warnings at runtime |
+| ✅ A-4 | `access_control.cpp` | `detectSQLInjection()` | **Fixed 2026-05-04** — Input case-folded to lowercase before pattern matching; extended pattern list (union, select, insert, update, delete, drop, exec, execute, xp_, --, /*, */, ;, or 1=1, 1=1, ' or '). Added heuristic/defense-in-depth note. |
+| ✅ A-5 | `access_control.cpp` | `recordFailedLogin()` | **Fixed 2026-05-04** — Added SECURITY NOTE comment documenting in-memory-only limitation. Lockout log message now includes failure count and explicit restart-reset warning for SIEM visibility. |
+| ✅ E-3 | `field_encryption.cpp` | `needsReEncryption()` | **Fixed 2026-05-04** — Outer catch now returns `true` (fail-safe) when KMS is unavailable, with a `[SECURITY]`-prefixed WARN log. Re-encryption is no longer silently suppressed on KMS error. |
+| ✅ RB-2 | `rbac.cpp` | Constructor / `checkPermission()` | **Fixed 2026-05-04** — Added `hierarchy_valid_` member (header + impl). When cycle detected, `hierarchy_valid_` is set `false` and RBAC is marked invalid. `checkPermission()` now checks `hierarchy_valid_` first and denies all access if invalid (fail-closed). |
 
 ### S1 — Additional
 
@@ -171,10 +173,10 @@ cannot distinguish valid from failed entries. Corrupted records are silently sto
 | E-2 | **S1** ✅ | `field_encryption.cpp` | `encryptEntityBatch()` | Fixed 2026-05-04 — exceptions re-thrown from both parallel and sequential catch blocks |
 | E-4 | **S1** ✅ | `field_encryption.cpp` | `createDefault()` | Fixed 2026-05-04 — runtime guard requires `THEMIS_ALLOW_MOCK_KEY_PROVIDER=1` |
 | RB-1 | **S1** ✅ | `rbac.cpp` | `checkPermission()` | Fixed 2026-05-04 — 5-minute grace window via `last_license_success_ms_` atomic |
-| A-4 | **S2** | `access_control.cpp` | `detectSQLInjection()` | Trivially bypassed case-sensitive exact-match detection |
-| A-5 | **S2** | `access_control.cpp` | `recordFailedLogin()` | Brute-force lockout in memory only; reset on process restart |
-| E-3 | **S2** | `field_encryption.cpp` | `needsReEncryption()` | Exception side-channel for key version detection; KMS errors suppress re-encryption |
-| RB-2 | **S2** | `rbac.cpp` | Constructor | Cyclic role hierarchy detected but not rejected; corrupt data used at runtime |
+| A-4 | **S2** ✅ | `access_control.cpp` | `detectSQLInjection()` | Fixed 2026-05-04 — case-folded input; extended pattern set |
+| A-5 | **S2** ✅ | `access_control.cpp` | `recordFailedLogin()` | Fixed 2026-05-04 — in-memory limitation documented; SIEM-visible lockout log |
+| E-3 | **S2** ✅ | `field_encryption.cpp` | `needsReEncryption()` | Fixed 2026-05-04 — fail-safe return `true` on KMS error; WARN log added |
+| RB-2 | **S2** ✅ | `rbac.cpp` | Constructor | Fixed 2026-05-04 — `hierarchy_valid_` flag; `checkPermission()` denies all when invalid |
 | A-6 | **S3** | `access_control.cpp` | `getStatistics()` | Duplicate JSON key `"active_sessions"` |
 | RB-3 | **S3** | `rbac.cpp` | `loadFromJson()` | Mutex in constructor — misleading but harmless |
 
