@@ -18,7 +18,7 @@
  */
 
 #include "llm/ethical_guidelines_manager.h"
-#include "plugins/ethics_ai/ethics_ai_types.h"
+#include "ethics_ai/ethics_ai_types.h"
 #include <gtest/gtest.h>
 #include <memory>
 

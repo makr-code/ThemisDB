@@ -629,7 +629,7 @@ target_sources(themis_tests PRIVATE
     # LoRA-enhanced retrieval (test_lora_enhanced_retriever.cpp)
     ${THEMIS_ROOT_DIR}/src/rag/lora_enhanced_retriever.cpp
     # AI plugin generator (test_ai_plugin_generator.cpp)
-    ${THEMIS_ROOT_DIR}/src/plugins/ai/ai_plugin_generator.cpp
+    ${THEMIS_ROOT_DIR}/src/ai/ai_plugin_generator.cpp
     # Continuous query engine helpers (test_continuous_query_engine.cpp)
     ${THEMIS_ROOT_DIR}/src/query/synopsis_store.cpp
     ${THEMIS_ROOT_DIR}/src/query/incremental_agg.cpp
@@ -13186,7 +13186,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ai_plugin_generator.cpp")
 
     add_executable(test_ai_plugin_generator_focused
         test_ai_plugin_generator.cpp
-        ${THEMIS_ROOT_DIR}/src/plugins/ai/ai_plugin_generator.cpp
+        ${THEMIS_ROOT_DIR}/src/ai/ai_plugin_generator.cpp
     )
 
     target_include_directories(test_ai_plugin_generator_focused PRIVATE

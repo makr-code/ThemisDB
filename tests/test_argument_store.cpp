@@ -21,7 +21,7 @@
  */
 
 #include <gtest/gtest.h>
-#include "plugins/ethics_ai/argument_store.h"
+#include "ethics_ai/argument_store.h"
 #include "storage/rocksdb_wrapper.h"
 #include "query/query_engine.h"
 #include <thread>

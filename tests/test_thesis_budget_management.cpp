@@ -19,7 +19,7 @@
 #include <gtest/gtest.h>
 
 #include "prompt_engineering/context_window_manager.h"
-#include "plugins/ethics_ai/ethics_ai_types.h"
+#include "ethics_ai/ethics_ai_types.h"
 #include "philosophy_loader.h"
 
 #include <chrono>

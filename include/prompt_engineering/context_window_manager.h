@@ -55,7 +55,7 @@
 #include <vector>
 
 #include "rag_prompt_builder.h"           // RetrievedChunk
-#include "plugins/ethics_ai/ethics_ai_types.h"  // PhilosophyThesis, PhilosophyProfile
+#include "ethics_ai/ethics_ai_types.h"  // PhilosophyThesis, PhilosophyProfile
 
 namespace themis {
 namespace prompt_engineering {

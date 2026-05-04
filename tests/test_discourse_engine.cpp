@@ -26,7 +26,7 @@
 #include "ethics_ai/philosophy_loader.h"
 #include "ethics_ai/argument_store.h"
 #include "ethics_ai/rag_context_engine.h"
-#include "plugins/ethics_ai/ethics_ai_types.h"
+#include "ethics_ai/ethics_ai_types.h"
 
 #include <memory>
 #include <variant>

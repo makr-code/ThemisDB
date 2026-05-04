@@ -2314,7 +2314,7 @@ set(THEMIS_CORE_SOURCES
     ../src/plugins/plugin_metrics.cpp
     ../src/plugins/plugin_health_monitor.cpp
     ../src/plugins/signed_plugin_repository.cpp
-    ../src/plugins/huggingface_ingestion_plugin.cpp
+    ../src/importers/huggingface_ingestion_plugin.cpp
     ../src/plugins/oci_registry_client.cpp
     ../src/plugins/rpc_service_registry.cpp
     
@@ -6753,6 +6753,13 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
     if(THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED AND EXISTS "${THEMIS_ROOT_DIR}/src/user_storage_encrypted/CMakeLists.txt")
         add_subdirectory(${THEMIS_ROOT_DIR}/src/user_storage_encrypted
                          ${CMAKE_CURRENT_BINARY_DIR}/src/user_storage_encrypted)
+    endif()
+
+    # Scraper Plugin – src/scraper/
+    # -------------------------------------------------------------------------
+    if(EXISTS "${THEMIS_ROOT_DIR}/src/scraper/CMakeLists.txt")
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/scraper
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/scraper)
     endif()
 
     # Distributed Knowledge Federation module (Session 1, 2026-04-19)

@@ -1,4 +1,4 @@
-#include "plugins/ethics_ai/synthesis_matrix_builder.h"
+#include "ethics_ai/synthesis_matrix_builder.h"
 
 #include <algorithm>
 #include <iomanip>

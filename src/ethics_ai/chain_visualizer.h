@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "plugins/ethics_ai/ethics_ai_types.h"
+#include "ethics_ai/ethics_ai_types.h"
 #include "argument_store.h"
 
 #include <string>

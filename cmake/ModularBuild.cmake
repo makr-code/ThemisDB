@@ -1340,7 +1340,7 @@ set(THEMIS_CONTENT_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/bulk_upload_interface.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/async_bulk_uploader.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/multimodal_chunker.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/plugins/huggingface_ingestion_plugin.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/importers/huggingface_ingestion_plugin.cpp>
 )
 
 set(THEMIS_TIMESERIES_SOURCES

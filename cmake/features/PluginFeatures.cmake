@@ -95,7 +95,7 @@ endif()
 message(STATUS "    Blob Storage Plugins (s3/azure):    configured per flag")
 
 # ---------------------------------------------------------------------------
-# HuggingFace Ingestion Plugin (integrated in src/plugins/huggingface_ingestion_plugin.cpp)
+# HuggingFace Ingestion Plugin (integrated in src/importers/huggingface_ingestion_plugin.cpp)
 # ---------------------------------------------------------------------------
 option(THEMIS_PLUGIN_HUGGINGFACE "Build the HuggingFace model ingestion plugin" ON)
 if(THEMIS_PLUGIN_HUGGINGFACE)

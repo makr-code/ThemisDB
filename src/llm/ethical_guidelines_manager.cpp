@@ -18,7 +18,7 @@
  */
 
 #include "llm/ethical_guidelines_manager.h"
-#include "plugins/ethics_ai/ethics_ai_types.h"
+#include "ethics_ai/ethics_ai_types.h"
 #include "utils/logger.h"
 #include <yaml-cpp/yaml.h>
 #include <fstream>

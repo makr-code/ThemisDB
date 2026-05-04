@@ -1,4 +1,4 @@
-#include "plugins/ethics_ai/tournament_mode_selector.h"
+#include "ethics_ai/tournament_mode_selector.h"
 
 #include <algorithm>
 #include <map>

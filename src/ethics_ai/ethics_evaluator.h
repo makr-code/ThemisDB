@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include "plugins/ethics_ai/ethics_ai_types.h"
+#include "ethics_ai/ethics_ai_types.h"
 #include <atomic>
 #include <cstdint>
 #include <memory>

@@ -21,7 +21,7 @@
  */
 
 #include <gtest/gtest.h>
-#include "plugins/ethics_ai/ethics_evaluator.h"
+#include "ethics_ai/ethics_evaluator.h"
 
 using namespace themis::plugins::ethics;
 

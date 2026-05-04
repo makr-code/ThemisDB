@@ -1,6 +1,6 @@
 #pragma once
 
-#include "plugins/ethics_ai/ethics_profile_registry.h"
+#include "ethics_ai/ethics_profile_registry.h"
 #include "philosophy_loader.h"
 
 #include <list>
