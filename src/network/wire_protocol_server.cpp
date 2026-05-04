@@ -1073,7 +1073,9 @@ void WireProtocolServer::Session::handleHello() {
         response["wire_protocol_version"] = 1;
         response["server_version"] = "1.7.0";
         response["auth_required"] = server_->config_.require_auth;
-        response["auth_mechanism"] = server_->config_.auth_mechanism;
+        // WPS-11: Do not leak the internal auth mechanism identifier to
+        // unauthenticated clients. Indicate only whether auth is supported.
+        response["auth_supported"] = true;
         response["capabilities"] = json::array({
             "GET", "PUT", "DELETE", "QUERY_AQL",
             "VECTOR_SEARCH", "TIMESERIES_QUERY",

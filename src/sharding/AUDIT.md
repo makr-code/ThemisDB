@@ -17,7 +17,7 @@
 | S0 Critical / Safety Violations | 🔴 8 |
 | S1 High | 🔴 10 |
 | S2 Medium | ⚠️ 1 (CST-6 open) |
-| S3 Low | ℹ️ 3 |
+| S3 Low | ✅ 0 (2PC-3, RLOG-2, TWAL-2 fixed 2026-05-04) |
 | Distributed correctness under concurrent access | 🔴 **Not guaranteed** |
 
 ## Source Files Audited (Deep Analysis — 2026-04-21)

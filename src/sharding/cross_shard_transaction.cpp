@@ -23,6 +23,14 @@
 
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
+//
+// CC-5 NOTE: ThemisDB contains three independent 2PC implementations with
+// different state machines, WAL integration depths, and recovery logic:
+//   1. two_phase_commit_coordinator.cpp  — standalone coordinator
+//   2. cross_shard_transaction.cpp       (this file) — CrossShardTransactionCoordinator
+//   3. distributed_transaction.cpp       — DistributedTransactionCoordinator
+// A transaction begun with one coordinator CANNOT be recovered by another.
+// Future work: unify under a single 2PC engine (Target: v2.0.0).
 
 #include "sharding/cross_shard_transaction.h"
 #include "sharding/shard_rpc_client.h"
@@ -837,6 +845,9 @@ bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
     txn.state = TransactionState::COMMITTING;
     
     // Phase 2.3.3: Log COMMIT decision to WAL
+    // CC-3: WAL write must succeed (or WAL be absent) before we send commit RPCs
+    // to participants; otherwise a coordinator crash could leave participants
+    // committed with no recovery record.
     if (transaction_wal_) {
         try {
             nlohmann::json commit_data = {
@@ -849,7 +860,9 @@ bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
             transaction_wal_->logCommit(txn.transaction_id, commit_data);
             operations_since_snapshot_++;
         } catch (const std::exception& e) {
-            spdlog::warn("Failed to log COMMIT to WAL: {}", e.what());
+            spdlog::error("execute2PC [{}]: WAL COMMIT log failed: {} — aborting to preserve durability",
+                          txn.transaction_id, e.what());
+            return false;
         }
     }
     

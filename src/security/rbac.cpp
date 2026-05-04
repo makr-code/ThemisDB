@@ -158,6 +158,11 @@ RBAC::RBAC(const RBACConfig& config) : config_(config) {
     
     // Load custom roles from config file
     if (!config_.config_path.empty()) {
+        // RB-3: loadConfig() → loadFromJson() acquires mutex_ internally.
+        // This is intentional: the constructor is the sole owner of *this at
+        // this point (the object has not yet been shared with other threads),
+        // so the lock is logically redundant but harmless — it keeps the
+        // locking discipline consistent with all other RBAC mutating paths.
         if (loadConfig(config_.config_path)) {
             THEMIS_INFO("Loaded RBAC configuration from {}", config_.config_path);
         } else {

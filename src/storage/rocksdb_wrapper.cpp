@@ -962,6 +962,46 @@ inline std::string blobChunkKey(std::string_view key, uint32_t idx) {
     return ck;
 }
 
+// R-6: Explicit little-endian serialisation helpers so that blob manifests are
+// portable across mixed-endian architectures (e.g., big-endian POWER/SPARC
+// reading a manifest written on x86).  Plain memcpy() would use the host byte
+// order, producing a manifest that cannot be decoded on a different-endian host.
+inline void writeLE32(uint8_t* dst, uint32_t v) {
+    dst[0] = static_cast<uint8_t>(v);
+    dst[1] = static_cast<uint8_t>(v >> 8);
+    dst[2] = static_cast<uint8_t>(v >> 16);
+    dst[3] = static_cast<uint8_t>(v >> 24);
+}
+
+inline void writeLE64(uint8_t* dst, uint64_t v) {
+    dst[0] = static_cast<uint8_t>(v);
+    dst[1] = static_cast<uint8_t>(v >> 8);
+    dst[2] = static_cast<uint8_t>(v >> 16);
+    dst[3] = static_cast<uint8_t>(v >> 24);
+    dst[4] = static_cast<uint8_t>(v >> 32);
+    dst[5] = static_cast<uint8_t>(v >> 40);
+    dst[6] = static_cast<uint8_t>(v >> 48);
+    dst[7] = static_cast<uint8_t>(v >> 56);
+}
+
+inline uint32_t readLE32(const uint8_t* src) {
+    return static_cast<uint32_t>(src[0])
+         | (static_cast<uint32_t>(src[1]) << 8)
+         | (static_cast<uint32_t>(src[2]) << 16)
+         | (static_cast<uint32_t>(src[3]) << 24);
+}
+
+inline uint64_t readLE64(const uint8_t* src) {
+    return static_cast<uint64_t>(src[0])
+         | (static_cast<uint64_t>(src[1]) << 8)
+         | (static_cast<uint64_t>(src[2]) << 16)
+         | (static_cast<uint64_t>(src[3]) << 24)
+         | (static_cast<uint64_t>(src[4]) << 32)
+         | (static_cast<uint64_t>(src[5]) << 40)
+         | (static_cast<uint64_t>(src[6]) << 48)
+         | (static_cast<uint64_t>(src[7]) << 56);
+}
+
 } // anonymous namespace
 
 bool RocksDBWrapper::putBlob(std::string_view key, const std::vector<uint8_t>& data) {
@@ -1057,9 +1097,10 @@ bool RocksDBWrapper::putBlob(std::string_view key, const std::vector<uint8_t>& d
         uint32_t n  = num_chunks;
         uint64_t cs = static_cast<uint64_t>(chunk_size);
         uint64_t ts = static_cast<uint64_t>(total_size);
-        std::memcpy(manifest_buf,      &n,  4);
-        std::memcpy(manifest_buf + 4,  &cs, 8);
-        std::memcpy(manifest_buf + 12, &ts, 8);
+        // R-6: Use explicit little-endian helpers (portable across architectures).
+        writeLE32(manifest_buf,      n);
+        writeLE64(manifest_buf + 4,  cs);
+        writeLE64(manifest_buf + 12, ts);
     }
     const std::string mk = blobManifestKey(key);
     {
@@ -1093,13 +1134,11 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::getBlob(std::string_view key
         *read_options_, rocksdb::Slice(mk), &manifest_raw);
 
     if (ms.ok() && manifest_raw.size() == 20) {
-        // Decode manifest.
-        uint32_t num_chunks = 0;
-        uint64_t chunk_size = 0;
-        uint64_t total_size = 0;
-        std::memcpy(&num_chunks, manifest_raw.data(),      4);
-        std::memcpy(&chunk_size, manifest_raw.data() + 4,  8);
-        std::memcpy(&total_size, manifest_raw.data() + 12, 8);
+        // Decode manifest using explicit little-endian helpers (R-6).
+        const auto* raw = reinterpret_cast<const uint8_t*>(manifest_raw.data());
+        uint32_t num_chunks = readLE32(raw);
+        uint64_t chunk_size = readLE64(raw + 4);
+        uint64_t total_size = readLE64(raw + 12);
 
         if (num_chunks == 0 || total_size == 0) {
             THEMIS_WARN("getBlob: corrupt manifest for key '{}'",

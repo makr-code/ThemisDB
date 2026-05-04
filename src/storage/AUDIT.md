@@ -24,7 +24,7 @@
 | S0 Critical / Safety Violations | ✅ 0 (R-1 fixed 2026-05-04) |
 | S1 High | ✅ 0 (R-2 fixed 2026-05-04) |
 | S2 Medium | ✅ 0 (R-3, R-4, R-5, W-1, W-2 fixed 2026-05-04) |
-| S3 Low | ℹ️ 2 |
+| S3 Low | ✅ 0 (W-3, R-6 fixed 2026-05-04) |
 | Durability-by-default | 🔴 `write_options_->sync = false` — power-loss loses acknowledged writes (warning now emitted at startup) |
 
 ## Source Files Audited
@@ -148,8 +148,8 @@ that no concurrent snapshot can observe any partial blob state.
 
 | ID | Function | Description |
 |----|----------|-------------|
-| W-3 | `checkpoint()` in `wal_storage.cpp` | Double mutex acquisition: `appendEntry()` and then `checkpoint()` re-acquire `mutex_`; short window allows other writers to append after the checkpoint marker |
-| R-6 | `putBlob()` manifest | Manifest uses host-endian `memcpy` without explicit little-endian enforcement — non-portable across mixed-endian architectures |
+| W-3 | `checkpoint()` in `wal_storage.cpp` | ✅ **Fixed 2026-05-04** — `checkpoint()` now acquires `mutex_` once for the full operation, calling `appendEntryLocked()` + `syncIfRequired()` inside the lock before segment cleanup; the race window between checkpoint marker and cleanup is eliminated. |
+| R-6 | `putBlob()` manifest | ✅ **Fixed 2026-05-04** — Added `writeLE32`/`writeLE64`/`readLE32`/`readLE64` helpers with explicit byte-order serialisation; manifest writes and reads now use these helpers instead of `memcpy` from host-order integers. |
 
 ---
 

@@ -206,7 +206,7 @@ via timing side-channel.
 
 | ID | Location | Description |
 |----|----------|-------------|
-| WPS-11 | L991–993 | `HELLO` response leaks `auth_required` and `auth_mechanism` to unauthenticated clients |
+| WPS-11 | L991–993 | ✅ **Fixed 2026-05-04** — Removed `auth_mechanism` from HELLO response; replaced with generic `"auth_supported": true` so the internal mechanism identifier is no longer exposed to unauthenticated clients. |
 
 ---
 

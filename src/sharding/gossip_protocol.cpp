@@ -532,10 +532,10 @@ void GossipProtocol::syncWithTopology() {
 // Called only when peers_mutex_ is already held by the current thread.
 void GossipProtocol::syncWithTopologyLocked() {
     if (!topology_) return;
-    
+
     for (const auto& [id, peer] : peers_) {
         if (!peer.is_healthy) continue;
-        
+
         // Check if already in topology
         if (!topology_->hasShard(peer.peer_id)) {
             ShardInfo shard;
@@ -544,7 +544,18 @@ void GossipProtocol::syncWithTopologyLocked() {
             shard.datacenter = peer.datacenter;
             shard.is_healthy = peer.is_healthy;
             shard.certificate_serial = peer.certificate_serial;
-            
+
+            // CC-4: Gossip-discovered peers are added to the topology for
+            // routing awareness, but this does NOT constitute a Raft membership
+            // change.  Adding a node here does NOT grant it quorum voting rights.
+            // TODO (v2.0.0): Route quorum membership changes exclusively through
+            // Raft joint-consensus to prevent rogue nodes from influencing quorum
+            // by advertising themselves via gossip (CC-4).
+            spdlog::warn("[GOSSIP] Adding gossip-discovered peer '{}' to topology. "
+                         "This peer has NOT been admitted through Raft membership "
+                         "change and MUST NOT affect quorum calculations. "
+                         "Ensure quorum is computed only from Raft-confirmed members.",
+                         peer.peer_id);
             topology_->addShard(shard);
         } else {
             // Update health status

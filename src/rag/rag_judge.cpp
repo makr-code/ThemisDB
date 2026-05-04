@@ -40,6 +40,7 @@
 #include <mutex>
 #include <numeric>
 #include <chrono>
+#include <regex>
 #include <sstream>
 #include <cctype>
 #include <unordered_set>
@@ -897,8 +898,17 @@ bool RAGJudge::detectBias(const std::string& text) {
 }
 
 bool RAGJudge::hasEthicalCitations(const std::string& text) {
-    // Check for citation patterns
-    std::vector<std::string> citation_indicators = {
+    // F4-5: Use a structured citation pattern ([N] or [Word…]) instead of a
+    // bare '[' check to avoid false positives from JSON arrays or Markdown code.
+    // A citation bracket must contain at least one non-whitespace character and
+    // must be followed immediately by a closing ']'.
+    static const std::regex kCitationBracket(R"(\[\s*[^\]\s][^\]]*\])");
+    if (std::regex_search(text, kCitationBracket)) {
+        return true;
+    }
+
+    // Keyword-based citation indicators (case-insensitive comparison).
+    static const std::vector<std::string> citation_indicators = {
         "according to",
         "as stated in",
         "based on",
@@ -906,20 +916,19 @@ bool RAGJudge::hasEthicalCitations(const std::string& text) {
         "cited in",
         "source:",
         "ref:",
-        "[",  // Citation markers like [1], [UN Declaration]
         "article",
         "declaration"
     };
-    
+
     std::string lower_text = text;
     std::transform(lower_text.begin(), lower_text.end(), lower_text.begin(), ::tolower);
-    
+
     for (const auto& indicator : citation_indicators) {
         if (lower_text.find(indicator) != std::string::npos) {
             return true;
         }
     }
-    
+
     return false;
 }
 

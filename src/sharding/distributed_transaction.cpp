@@ -25,6 +25,14 @@
 //
 // Distributed Transaction Coordinator with Two-Phase Commit (2PC)
 //
+// CC-5 NOTE: ThemisDB contains three independent 2PC implementations with
+// different state machines, WAL integration depths, and recovery logic:
+//   1. two_phase_commit_coordinator.cpp  — standalone coordinator
+//   2. cross_shard_transaction.cpp       — CrossShardTransactionCoordinator
+//   3. distributed_transaction.cpp       (this file) — DistributedTransactionCoordinator
+// A transaction begun with one coordinator CANNOT be recovered by another.
+// Future work: unify under a single 2PC engine (Target: v2.0.0).
+//
 // This implementation provides ACID guarantees for transactions spanning multiple
 // shards using the classical 2PC protocol enhanced with TrueTime for external
 // consistency.

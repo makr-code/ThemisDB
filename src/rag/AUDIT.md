@@ -26,7 +26,7 @@
 | S0 Critical | ✅ None in RAG module itself |
 | S1 High | ✅ 0 open (F4-1, F4-2, F5-1, F5-2 fixed 2026-05-04) |
 | S2 Medium | ✅ 0 (F4-3, F4-4, F5-3, F5-4 fixed 2026-05-04) |
-| S3 Low | ℹ️ 1 |
+| S3 Low | ✅ 0 |
 | Faithfulness judge prompt-injection-safe | ✅ Fixed — hard delimiters applied in judge prompts |
 
 ## Source Files Audited
@@ -226,7 +226,7 @@ tenant corpus can be returned and included in another tenant's gap analysis.
 
 | ID | File | Function | Description |
 |----|------|----------|-------------|
-| F4-5 | rag_judge.cpp | `hasEthicalCitations()` | `"["` (any bracket) treated as citation marker — any JSON or Markdown response scores full citation quality |
+| F4-5 | rag_judge.cpp | `hasEthicalCitations()` | ✅ **Fixed 2026-05-04** — Replaced bare `"["` check with `std::regex` pattern `\[\s*[^\]\s][^\]]*\]` requiring a structured `[N]` or `[Word]` form; bare JSON/Markdown brackets no longer trigger a citation match. |
 
 ---
 

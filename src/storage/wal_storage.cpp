@@ -469,11 +469,22 @@ Result<uint64_t> WALStorage::appendBatch(std::vector<BatchEntry> entries) {
 }
 
 Result<uint64_t> WALStorage::checkpoint(bool delete_old_segments) {
-    auto res = appendEntry(EntryType::CHECKPOINT, {}, {});
+    // W-3: Acquire the mutex once for the full checkpoint operation.
+    // Previously checkpoint() called appendEntry() (which locks/unlocks) and
+    // then re-locked for segment cleanup, leaving a window where other writers
+    // could append entries between the CHECKPOINT marker and the cleanup.
+    // Using appendEntryLocked() inside a single lock eliminates that window.
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    if (auto r = rotateIfNeeded(); !r)
+        return Err<uint64_t>(r.error().code(), r.error().context());
+
+    auto res = appendEntryLocked(EntryType::CHECKPOINT, {}, {});
     if (!res) return res;
 
+    syncIfRequired();
+
     if (delete_old_segments) {
-        std::lock_guard<std::mutex> lock(mutex_);
         // Remove all segments except the current one.
         std::vector<uint64_t> to_remove;
         for (uint64_t sid : segments_) {

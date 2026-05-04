@@ -19,7 +19,7 @@
 | S0 Critical / Safety Violations | ✅ 0 (A-1/A-2 fixed) |
 | S1 High | ✅ 0 (A-3, E-1, E-2, E-4, RB-1 fixed 2026-05-04) |
 | S2 Medium | ✅ 0 (A-4, A-5, E-3, RB-2 fixed 2026-05-04) |
-| S3 Low | ℹ️ 2 |
+| S3 Low | ✅ 0 (A-6, RB-3 fixed 2026-05-04) |
 | Successful login possible | ✅ **Yes — deadlocks resolved** |
 
 ## Source Files Audited
@@ -157,8 +157,8 @@ cannot distinguish valid from failed entries. Corrupted records are silently sto
 
 | ID | File | Function | Description |
 |----|------|----------|-------------|
-| A-6 | `access_control.cpp` | `getStatistics()` | Duplicate `"active_sessions"` key in JSON output; second silently shadows first |
-| RB-3 | `rbac.cpp` | `loadFromJson()` | Mutex acquired inside constructor before object is shared — misleading but harmless |
+| A-6 | `access_control.cpp` | `getStatistics()` | ✅ **Fixed 2026-05-04** — Removed duplicate `"active_sessions"` key; JSON output now has a single unique entry. |
+| RB-3 | `rbac.cpp` | `loadFromJson()` | ✅ **Fixed 2026-05-04** — Added constructor comment explaining that mutex acquisition in `loadFromJson()` during construction is intentional and harmless (object not yet shared). |
 
 ---
 
@@ -177,8 +177,8 @@ cannot distinguish valid from failed entries. Corrupted records are silently sto
 | A-5 | **S2** ✅ | `access_control.cpp` | `recordFailedLogin()` | Fixed 2026-05-04 — in-memory limitation documented; SIEM-visible lockout log |
 | E-3 | **S2** ✅ | `field_encryption.cpp` | `needsReEncryption()` | Fixed 2026-05-04 — fail-safe return `true` on KMS error; WARN log added |
 | RB-2 | **S2** ✅ | `rbac.cpp` | Constructor | Fixed 2026-05-04 — `hierarchy_valid_` flag; `checkPermission()` denies all when invalid |
-| A-6 | **S3** | `access_control.cpp` | `getStatistics()` | Duplicate JSON key `"active_sessions"` |
-| RB-3 | **S3** | `rbac.cpp` | `loadFromJson()` | Mutex in constructor — misleading but harmless |
+| A-6 | **S3** ✅ | `access_control.cpp` | `getStatistics()` | Fixed 2026-05-04 — duplicate `"active_sessions"` key removed |
+| RB-3 | **S3** ✅ | `rbac.cpp` | `loadFromJson()` | Fixed 2026-05-04 — constructor comment added explaining intentional mutex use |
 
 ---
 
