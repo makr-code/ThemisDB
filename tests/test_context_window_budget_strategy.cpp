@@ -15,14 +15,14 @@
 
 #include <gtest/gtest.h>
 
-#include "plugins/ethics_ai/prior_round_compressor.h"
-#include "plugins/ethics_ai/cross_school_tension_resolver.h"
-#include "plugins/ethics_ai/convergence_marker_engine.h"
-#include "plugins/ethics_ai/llm_cascade_router.h"
-#include "plugins/ethics_ai/synthesis_matrix_builder.h"
-#include "plugins/ethics_ai/tournament_mode_selector.h"
-#include "plugins/ethics_ai/position_abstract_validator.h"
-#include "plugins/ethics_ai/discourse_memory_store.h"
+#include "ethics_ai/prior_round_compressor.h"
+#include "ethics_ai/cross_school_tension_resolver.h"
+#include "ethics_ai/convergence_marker_engine.h"
+#include "ethics_ai/llm_cascade_router.h"
+#include "ethics_ai/synthesis_matrix_builder.h"
+#include "ethics_ai/tournament_mode_selector.h"
+#include "ethics_ai/position_abstract_validator.h"
+#include "ethics_ai/discourse_memory_store.h"
 
 using namespace themis::plugins::ethics;
 

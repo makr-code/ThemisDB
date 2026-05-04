@@ -1,4 +1,4 @@
-#include "plugins/ethics_ai/ethics_selection_router.h"
+#include "ethics_ai/ethics_selection_router.h"
 #include "utils/logger.h"
 
 #include <algorithm>

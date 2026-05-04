@@ -1,4 +1,4 @@
-#include "plugins/ethics_ai/position_abstract_validator.h"
+#include "ethics_ai/position_abstract_validator.h"
 
 #include <algorithm>
 #include <cctype>

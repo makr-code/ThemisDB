@@ -1,4 +1,4 @@
-#include "plugins/ethics_ai/convergence_marker_engine.h"
+#include "ethics_ai/convergence_marker_engine.h"
 
 #include <algorithm>
 #include <map>

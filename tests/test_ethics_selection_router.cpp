@@ -17,9 +17,9 @@
 
 #include <gtest/gtest.h>
 
-#include "plugins/ethics_ai/ethics_selection_router.h"
+#include "ethics_ai/ethics_selection_router.h"
 #include "ethics_profile_registry.h"
-#include "plugins/ethics_ai/ethics_ai_types.h"
+#include "ethics_ai/ethics_ai_types.h"
 
 #include <chrono>
 #include <filesystem>

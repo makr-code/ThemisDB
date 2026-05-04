@@ -23,8 +23,8 @@
 
 #include <gtest/gtest.h>
 
-#include "plugins/ethics_ai/ethics_ai_plugin_interface.h"
-#include "plugins/ethics_ai/ethics_ai_types.h"
+#include "ethics_ai/ethics_ai_plugin_interface.h"
+#include "ethics_ai/ethics_ai_types.h"
 #include "plugins/plugin_interface.h"
 
 #include <memory>

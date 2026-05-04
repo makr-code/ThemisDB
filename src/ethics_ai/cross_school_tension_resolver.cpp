@@ -1,4 +1,4 @@
-#include "plugins/ethics_ai/cross_school_tension_resolver.h"
+#include "ethics_ai/cross_school_tension_resolver.h"
 
 #include <algorithm>
 #include <sstream>

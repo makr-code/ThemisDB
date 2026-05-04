@@ -32,11 +32,11 @@
  */
 
 #include <benchmark/benchmark.h>
-#include "plugins/ethics_ai/philosophy_loader.h"
-#include "plugins/ethics_ai/argument_store.h"
-#include "plugins/ethics_ai/rag_context_engine.h"
-#include "plugins/ethics_ai/discourse_engine.h"
-#include "plugins/ethics_ai/ethics_evaluator.h"
+#include "ethics_ai/philosophy_loader.h"
+#include "ethics_ai/argument_store.h"
+#include "ethics_ai/rag_context_engine.h"
+#include "ethics_ai/discourse_engine.h"
+#include "ethics_ai/ethics_evaluator.h"
 #include <memory>
 #include <random>
 #include <sstream>
@@ -89,7 +89,7 @@ static void BM_PhilosophyLoader_LoadSingleProfile(benchmark::State& state) {
         loader.clear();
         state.ResumeTiming();
         
-        auto result = loader.loadFromDirectory("plugins/ethics_ai/philosophies");
+        auto result = loader.loadFromDirectory("ethics_ai/philosophies");
         benchmark::DoNotOptimize(result);
     }
     
@@ -98,7 +98,7 @@ static void BM_PhilosophyLoader_LoadSingleProfile(benchmark::State& state) {
 
 static void BM_PhilosophyLoader_GetProfile(benchmark::State& state) {
     PhilosophyLoader loader;
-    loader.loadFromDirectory("plugins/ethics_ai/philosophies");
+    loader.loadFromDirectory("ethics_ai/philosophies");
     
     for (auto _ : state) {
         auto result = loader.getProfile("kant");
@@ -110,7 +110,7 @@ static void BM_PhilosophyLoader_GetProfile(benchmark::State& state) {
 
 static void BM_PhilosophyLoader_HasProfile(benchmark::State& state) {
     PhilosophyLoader loader;
-    loader.loadFromDirectory("plugins/ethics_ai/philosophies");
+    loader.loadFromDirectory("ethics_ai/philosophies");
     
     for (auto _ : state) {
         bool result = loader.hasProfile("kant");
@@ -122,7 +122,7 @@ static void BM_PhilosophyLoader_HasProfile(benchmark::State& state) {
 
 static void BM_PhilosophyLoader_ListSchools(benchmark::State& state) {
     PhilosophyLoader loader;
-    loader.loadFromDirectory("plugins/ethics_ai/philosophies");
+    loader.loadFromDirectory("ethics_ai/philosophies");
     
     for (auto _ : state) {
         auto result = loader.getSchoolIds();
@@ -281,7 +281,7 @@ static void BM_DiscourseEngine_InitializeDebate(benchmark::State& state) {
     auto rag_engine = std::make_shared<RAGContextEngine>(store);
     
     store->initialize(nullptr, nullptr);
-    loader->loadFromDirectory("plugins/ethics_ai/philosophies");
+    loader->loadFromDirectory("ethics_ai/philosophies");
     
     EthicalDiscourseEngine engine(loader, store, rag_engine);
     
@@ -304,7 +304,7 @@ static void BM_DiscourseEngine_MakeDecision(benchmark::State& state) {
     auto rag_engine = std::make_shared<RAGContextEngine>(store);
     
     store->initialize(nullptr, nullptr);
-    loader->loadFromDirectory("plugins/ethics_ai/philosophies");
+    loader->loadFromDirectory("ethics_ai/philosophies");
     
     EthicalDiscourseEngine engine(loader, store, rag_engine);
     
@@ -328,7 +328,7 @@ static void BM_DiscourseEngine_MakeDecisionWithRAG(benchmark::State& state) {
     auto rag_engine = std::make_shared<RAGContextEngine>(store);
     
     store->initialize(nullptr, nullptr);
-    loader->loadFromDirectory("plugins/ethics_ai/philosophies");
+    loader->loadFromDirectory("ethics_ai/philosophies");
     
     // Pre-populate with context
     for (int i = 0; i < 20; i++) {

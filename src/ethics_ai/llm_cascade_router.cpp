@@ -1,4 +1,4 @@
-#include "plugins/ethics_ai/llm_cascade_router.h"
+#include "ethics_ai/llm_cascade_router.h"
 
 namespace themis {
 namespace plugins {

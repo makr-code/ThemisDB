@@ -1,4 +1,4 @@
-#include "plugins/ethics_ai/discourse_memory_store.h"
+#include "ethics_ai/discourse_memory_store.h"
 
 #include <algorithm>
 #include <iomanip>

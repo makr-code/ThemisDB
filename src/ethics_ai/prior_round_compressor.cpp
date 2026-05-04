@@ -1,4 +1,4 @@
-#include "plugins/ethics_ai/prior_round_compressor.h"
+#include "ethics_ai/prior_round_compressor.h"
 
 #include <algorithm>
 #include <cctype>

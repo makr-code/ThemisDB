@@ -32,8 +32,8 @@
 
 #include <gtest/gtest.h>
 
-#include "plugins/ethics_ai/argument_store.h"
-#include "plugins/ethics_ai/ethics_ai_types.h"
+#include "ethics_ai/argument_store.h"
+#include "ethics_ai/ethics_ai_types.h"
 #include "storage/rocksdb_wrapper.h"
 
 #include <chrono>

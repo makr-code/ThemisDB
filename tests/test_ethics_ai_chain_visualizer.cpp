@@ -24,7 +24,7 @@
 
 #include "ethics_ai/argument_store.h"
 #include "ethics_ai/chain_visualizer.h"
-#include "plugins/ethics_ai/ethics_ai_types.h"
+#include "ethics_ai/ethics_ai_types.h"
 
 #include <memory>
 #include <string>

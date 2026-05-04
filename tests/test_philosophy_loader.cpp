@@ -21,7 +21,7 @@
  */
 
 #include <gtest/gtest.h>
-#include "plugins/ethics_ai/philosophy_loader.h"
+#include "ethics_ai/philosophy_loader.h"
 #include <filesystem>
 #include <fstream>
 

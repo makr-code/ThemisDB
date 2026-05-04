@@ -13,7 +13,7 @@
  */
 
 #include <gtest/gtest.h>
-#include "plugins/ai/ai_plugin_generator.h"
+#include "ai/ai_plugin_generator.h"
 #include <string>
 
 using namespace themis::plugins::ai;
