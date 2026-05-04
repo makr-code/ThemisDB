@@ -24,7 +24,8 @@
 #include "utils/logger.h"
 #include <algorithm>
 #include <cmath>
-#include <mutex>
+#include <queue>
+#include <shared_mutex>
 #include <unordered_map>
 
 namespace themis {
@@ -41,10 +42,21 @@ struct EmbeddingCacheImpl {
     std::unique_ptr<RocksDBWrapper> db;  // Keep DB alive
     std::unique_ptr<VectorIndexManager> vector_index;
     std::unordered_map<std::string, EmbeddingCache::CacheEntry> entries; // pk -> entry
-    mutable std::mutex mutex;
+
+    // F-004: shared_mutex allows concurrent query() calls (all read-only under shared_lock).
+    // store() / clearExpired() / clear() take unique_lock.
+    mutable std::shared_mutex entry_mutex;
     uint64_t next_id = 0;
     VectorIndexManager::Metric metric = VectorIndexManager::Metric::COSINE;
     std::string cache_dir = "/tmp/themis_embedding_cache";  // Configurable cache directory
+
+    // F-009: min-heap for O(log N) eviction. Entry = {timestamp_ms, pk}.
+    // Entries are not removed from the heap on erase — use lazy deletion (check if
+    // the pk still exists in entries with the same timestamp before evicting).
+    using EvictionEntry = std::pair<int64_t, std::string>;
+    std::priority_queue<EvictionEntry,
+                        std::vector<EvictionEntry>,
+                        std::greater<EvictionEntry>> eviction_heap;
 };
 
 EmbeddingCache::EmbeddingCache(const Config& config)
@@ -104,9 +116,13 @@ std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(
                     query_embedding.size(), config_.embedding_dim);
         return std::nullopt;
     }
-    
-    std::lock_guard<std::mutex> lock(impl_->mutex);
-    
+
+    // F-004: Use shared_lock so multiple concurrent query() calls can run the
+    // HNSW search (and brute-force fallback) in parallel.  VectorIndexManager
+    // is internally thread-safe for concurrent read calls.
+    // write operations (store / clearExpired / clear) take unique_lock.
+    std::shared_lock<std::shared_mutex> lock(impl_->entry_mutex);
+
     // Search using vector index if available
     if (impl_->vector_index) {
         auto [status, results] = impl_->vector_index->searchKnn(query_embedding, 1);
@@ -135,12 +151,19 @@ std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(
                     
                     // Check if entry is expired
                     if (isExpired(entry)) {
-                        // RACE CONDITION FIX #2: Remove from vector index before erasing from map
-                        if (impl_->vector_index) {
-                            impl_->vector_index->removeByPk(it->first);
+                        // Expired entry found under shared_lock — upgrade to unique_lock
+                        // to remove it.  Release shared_lock first (no shared→unique upgrade
+                        // in C++ standard library).
+                        lock.unlock();
+                        std::unique_lock<std::shared_mutex> wlock(impl_->entry_mutex);
+                        auto wit = impl_->entries.find(result.pk);
+                        if (wit != impl_->entries.end() && isExpired(wit->second)) {
+                            if (impl_->vector_index) {
+                                impl_->vector_index->removeByPk(wit->first);
+                            }
+                            impl_->entries.erase(wit);
+                            stats_.miss_count++;
                         }
-                        impl_->entries.erase(it);
-                        stats_.miss_count++;
                         THEMIS_DEBUG("Cache miss (expired entry)");
                         return std::nullopt;
                     }
@@ -234,37 +257,51 @@ bool EmbeddingCache::store(
                     embedding.size(), config_.embedding_dim);
         return false;
     }
-    
-    std::lock_guard<std::mutex> lock(impl_->mutex);
-    
-    // Check if cache is full
-    if (impl_->entries.size() >= config_.max_entries) {
-        // Evict oldest entry
-        auto oldest_it = impl_->entries.end();
-        int64_t oldest_time = std::numeric_limits<int64_t>::max();
-        
-        for (auto it = impl_->entries.begin(); it != impl_->entries.end(); ++it) {
-            if (it->second.timestamp_ms < oldest_time) {
-                oldest_time = it->second.timestamp_ms;
-                oldest_it = it;
+
+    std::unique_lock<std::shared_mutex> lock(impl_->entry_mutex);
+
+    // F-009: O(log N) eviction via min-heap.  Pop the root (oldest by
+    // timestamp) and skip stale heap entries (lazy deletion).
+    while (impl_->entries.size() >= config_.max_entries) {
+        if (impl_->eviction_heap.empty()) {
+            // Heap and map are out of sync — fall back to O(N) scan once.
+            auto oldest_it = impl_->entries.end();
+            int64_t oldest_time = std::numeric_limits<int64_t>::max();
+            for (auto it = impl_->entries.begin(); it != impl_->entries.end(); ++it) {
+                if (it->second.timestamp_ms < oldest_time) {
+                    oldest_time = it->second.timestamp_ms;
+                    oldest_it = it;
+                }
             }
-        }
-        
-        if (oldest_it != impl_->entries.end()) {
+            if (oldest_it == impl_->entries.end()) break;
             THEMIS_DEBUG("Cache full, evicting oldest entry: pk={}", oldest_it->first);
-            
-            // Remove from vector index
-            if (impl_->vector_index) {
-                impl_->vector_index->removeByPk(oldest_it->first);
-            }
-            
+            if (impl_->vector_index) impl_->vector_index->removeByPk(oldest_it->first);
             impl_->entries.erase(oldest_it);
+            break;
         }
+
+        auto [ts, pk] = impl_->eviction_heap.top();
+        impl_->eviction_heap.pop();
+
+        auto it = impl_->entries.find(pk);
+        if (it == impl_->entries.end()) {
+            // Stale heap entry (already erased by clearExpired or a prior eviction).
+            continue;
+        }
+        if (it->second.timestamp_ms != ts) {
+            // Entry was re-inserted with a new timestamp; skip this stale record.
+            continue;
+        }
+
+        THEMIS_DEBUG("Cache full, evicting oldest entry: pk={}", pk);
+        if (impl_->vector_index) impl_->vector_index->removeByPk(pk);
+        impl_->entries.erase(it);
+        break;
     }
-    
+
     // Generate unique PK for this entry
     std::string pk = "emb_" + std::to_string(impl_->next_id++);
-    
+
     // Create cache entry
     CacheEntry entry;
     entry.query_text = query_text;
@@ -273,10 +310,13 @@ bool EmbeddingCache::store(
     entry.timestamp_ms = getCurrentTimestampMs();
     entry.access_count = 0;
     entry.last_similarity = 1.0f;
-    
+
+    // Record in eviction heap before inserting into the map.
+    impl_->eviction_heap.push({entry.timestamp_ms, pk});
+
     // Store in map
     impl_->entries[pk] = entry;
-    
+
     // Add to vector index if available
     if (impl_->vector_index) {
         BaseEntity entity;
@@ -286,14 +326,14 @@ bool EmbeddingCache::store(
         entity.setField("timestamp_ms", Value{static_cast<int64_t>(entry.timestamp_ms)});
         // Store embedding as vector<float>
         entity.setField("embedding", Value{embedding});
-        
+
         auto status = impl_->vector_index->addEntity(entity, "embedding");
         if (!status.ok) {
             THEMIS_WARN("Failed to add entry to vector index: {}", status.message);
             // Continue anyway - entry is in map
         }
     }
-    
+
     // Update stats
     stats_.total_entries = impl_->entries.size();
     
@@ -303,7 +343,7 @@ bool EmbeddingCache::store(
 }
 
 uint64_t EmbeddingCache::clearExpired() {
-    std::lock_guard<std::mutex> lock(impl_->mutex);
+    std::unique_lock<std::shared_mutex> lock(impl_->entry_mutex);
     
     uint64_t cleared = 0;
     // Scan and remove expired entries
@@ -329,10 +369,12 @@ uint64_t EmbeddingCache::clearExpired() {
 }
 
 void EmbeddingCache::clear() {
-    std::lock_guard<std::mutex> lock(impl_->mutex);
-    
+    std::unique_lock<std::shared_mutex> lock(impl_->entry_mutex);
+
     impl_->entries.clear();
-    
+    // Discard all stale heap entries too.
+    impl_->eviction_heap = {};
+
     // Reinitialize vector index
     if (impl_->vector_index) {
         impl_->vector_index->shutdown();

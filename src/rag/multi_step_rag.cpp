@@ -31,6 +31,7 @@
 #include "llm/context_window_budget.h"
 
 #include <algorithm>
+#include <future>
 #include <sstream>
 
 namespace themis::rag {
@@ -240,11 +241,30 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
     const auto batches = partitionIntoBatches(documents, query);
     const int  map_max_tok = config_.max_response_tokens;
 
-    for (const auto& batch : batches) {
-        const std::string map_prompt = buildMapPrompt(batch, query);
-        std::string partial          = infer(map_prompt, map_max_tok);
-        result.steps.push_back(partial);
-        ++result.steps_executed;
+    if (config_.enable_parallel_map && batches.size() > 1u) {
+        // F-029: Launch all map steps in parallel.
+        // Requires the InferenceFn to be thread-safe (documented in the config).
+        std::vector<std::future<std::string>> futures;
+        futures.reserve(batches.size());
+        for (size_t bi = 0; bi < batches.size(); ++bi) {
+            futures.push_back(std::async(std::launch::async,
+                [this, &batches, &query, &infer, map_max_tok, bi]() -> std::string {
+                    return infer(buildMapPrompt(batches[bi], query), map_max_tok);
+                }));
+        }
+        result.steps.reserve(futures.size());
+        for (auto& f : futures) {
+            result.steps.push_back(f.get());
+            ++result.steps_executed;
+        }
+    } else {
+        // Sequential map phase (default).
+        for (const auto& batch : batches) {
+            const std::string map_prompt = buildMapPrompt(batch, query);
+            std::string partial          = infer(map_prompt, map_max_tok);
+            result.steps.push_back(partial);
+            ++result.steps_executed;
+        }
     }
 
     if (result.steps.empty()) {

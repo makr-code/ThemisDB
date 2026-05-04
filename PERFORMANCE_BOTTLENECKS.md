@@ -655,12 +655,12 @@ a static `bool`.
 | F-001 | `cache/bounded_lru_cache.cpp:40` | Lock Contention | 🔴 Critical | ✅ Fixed |
 | F-002 | `auth/auth_rate_limiter.cpp:142` | Lock Contention | 🟠 High | ✅ Fixed |
 | F-003 | `auth/auth_rate_limiter.cpp:298–596` | Lock Contention | 🟠 High | ✅ Fixed |
-| F-004 | `cache/embedding_cache.cpp:108` | Lock Contention | 🔴 Critical | Open |
+| F-004 | `cache/embedding_cache.cpp:108` | Lock Contention | 🔴 Critical | ✅ Fixed |
 | F-005 | `performance/intelligent_prefetcher.cpp:116–369` | Lock Contention | 🟡 Medium | Open |
-| F-006 | `performance/numa_memory_manager.cpp:126` | Lock Contention | 🟡 Medium | Open |
+| F-006 | `performance/numa_memory_manager.cpp:126` | Lock Contention | 🟡 Medium | ✅ Fixed |
 | F-007 | `server/sse_connection_manager.cpp:258` | Lock Contention / I/O | 🟠 High | ✅ Fixed |
 | F-008 | `server/rate_limiter_v2.cpp:116–313` | Lock Contention | 🟠 High | Open |
-| F-009 | `cache/embedding_cache.cpp:243` | Algorithmic / Memory | 🟠 High | Open |
+| F-009 | `cache/embedding_cache.cpp:243` | Algorithmic / Memory | 🟠 High | ✅ Fixed |
 | F-010 | `storage/mvcc_store.cpp:158` | Memory / I/O | 🟠 High | Open |
 | F-011 | `performance/numa_memory_manager.cpp:151` | Container / Memory | 🟡 Medium | ✅ Fixed |
 | F-012 | `storage/wal_storage.cpp:403–406` | I/O | 🟠 High | ✅ Fixed |
@@ -680,12 +680,12 @@ a static `bool`.
 | F-026 | `query/functions/fulltext_functions.cpp` | Stub-in-critical-path | 🟠 High | Open |
 | F-027 | `query/functions/process_mining_functions.cpp:36` | Stub-in-critical-path | 🟠 High | Open |
 | F-028 | `query/functions/ethics_functions.cpp:163,190,214` | Stub-in-critical-path | 🟡 Medium | Open |
-| F-029 | `rag/multi_step_rag.cpp:237–248` | Parallelism | 🟠 High | Open |
+| F-029 | `rag/multi_step_rag.cpp:237–248` | Parallelism | 🟠 High | ✅ Fixed |
 | F-030 | `cache/semantic_cache.cpp:152–172` | Data Race | 🔴 Critical | ✅ Fixed |
 | F-031 | `storage/wal_storage.cpp:103–118` | Data Race | 🟠 High | ✅ Fixed |
 
 **Total:** 31 findings — 7 Critical, 14 High, 10 Medium  
-**Fixed (this PR):** 15 (F-001, F-002, F-003, F-007, F-011, F-012, F-013, F-015, F-016, F-017, F-019, F-020, F-021, F-022, F-030, F-031)
+**Fixed (this PR):** 19 (F-001..004, F-006, F-007, F-009, F-011..013, F-015..017, F-019..022, F-029..031)
 
 ---
 

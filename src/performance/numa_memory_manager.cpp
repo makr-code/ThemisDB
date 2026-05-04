@@ -94,8 +94,13 @@ static NUMATopologyInfo detect_topology() noexcept {
 
 NUMAMemoryManager::NUMAMemoryManager()
     : topology_(detect_topology())
+    , num_nodes_(topology_.num_nodes > 0 ? topology_.num_nodes : 1)
+    , per_node_bytes_(std::make_unique<std::atomic<int64_t>[]>(
+          topology_.num_nodes > 0 ? topology_.num_nodes : 1))
 {
-    stats_.per_node_allocations.resize(topology_.num_nodes, 0);
+    // Initialise per-node atomics to zero (atomic default-ctor already does this,
+    // but be explicit for clarity).
+    for (size_t i = 0; i < num_nodes_; ++i) per_node_bytes_[i].store(0);
 }
 
 NUMAMemoryManager::~NUMAMemoryManager() = default;
@@ -123,19 +128,16 @@ void* NUMAMemoryManager::do_allocate(size_t size, [[maybe_unused]] int node, boo
 }
 
 void NUMAMemoryManager::update_alloc_stats(int node, size_t size) {
-    std::lock_guard<std::mutex> lk(stats_mutex_);
+    // F-006: lock-free atomic update — no mutex needed.
     int local = get_current_node();
     if (node == local) {
-        ++stats_.local_accesses;
+        stat_local_.fetch_add(1, std::memory_order_relaxed);
     } else {
-        ++stats_.remote_accesses;
+        stat_remote_.fetch_add(1, std::memory_order_relaxed);
     }
-    uint64_t total = stats_.local_accesses + stats_.remote_accesses;
-    stats_.locality_ratio = (total > 0)
-        ? static_cast<double>(stats_.local_accesses) / static_cast<double>(total)
-        : 1.0;
-    if (static_cast<size_t>(node) < stats_.per_node_allocations.size())
-        stats_.per_node_allocations[static_cast<size_t>(node)] += size;
+    if (static_cast<size_t>(node) < num_nodes_)
+        per_node_bytes_[static_cast<size_t>(node)].fetch_add(
+            static_cast<int64_t>(size), std::memory_order_relaxed);
 }
 
 void NUMAMemoryManager::track_alloc(void* ptr, int node, size_t size) {
@@ -183,11 +185,16 @@ void NUMAMemoryManager::deallocate(void* ptr, size_t size) noexcept {
     int node = 0;
     size_t tracked_size = size;
     if (untrack_alloc(ptr, &node, &tracked_size)) {
-        std::lock_guard<std::mutex> lk(stats_mutex_);
-        if (static_cast<size_t>(node) < stats_.per_node_allocations.size()) {
-            auto& cnt = stats_.per_node_allocations[static_cast<size_t>(node)];
-            if (cnt >= tracked_size) cnt -= tracked_size;
-            else cnt = 0;
+        if (static_cast<size_t>(node) < num_nodes_) {
+            // Saturating subtract: never go below zero.
+            int64_t delta = -static_cast<int64_t>(tracked_size);
+            int64_t prev  = per_node_bytes_[static_cast<size_t>(node)].fetch_add(
+                delta, std::memory_order_relaxed);
+            if (prev < static_cast<int64_t>(tracked_size)) {
+                // Wrapped below zero; clamp.
+                per_node_bytes_[static_cast<size_t>(node)].store(
+                    0, std::memory_order_relaxed);
+            }
         }
     }
     std::free(ptr);
@@ -199,10 +206,12 @@ void NUMAMemoryManager::migrate_to_node(void* ptr, size_t size, int target_node)
     int old_node = 0;
     size_t old_size = size;
     if (untrack_alloc(ptr, &old_node, &old_size)) {
-        {
-            std::lock_guard<std::mutex> lk(stats_mutex_);
-            if (static_cast<size_t>(old_node) < stats_.per_node_allocations.size())
-                stats_.per_node_allocations[static_cast<size_t>(old_node)] -= std::min(old_size, stats_.per_node_allocations[static_cast<size_t>(old_node)]);
+        if (static_cast<size_t>(old_node) < num_nodes_) {
+            int64_t delta = -static_cast<int64_t>(old_size);
+            int64_t prev  = per_node_bytes_[static_cast<size_t>(old_node)].fetch_add(
+                delta, std::memory_order_relaxed);
+            if (prev < static_cast<int64_t>(old_size))
+                per_node_bytes_[static_cast<size_t>(old_node)].store(0, std::memory_order_relaxed);
         }
         int resolved_target = resolve_node(target_node);
         track_alloc(ptr, resolved_target, old_size);
@@ -232,17 +241,27 @@ bool NUMAMemoryManager::is_numa_available() const noexcept {
 }
 
 NUMAStats NUMAMemoryManager::get_stats() const {
-    std::lock_guard<std::mutex> lk(stats_mutex_);
-    return stats_;
+    // F-006: build snapshot from atomics — no lock needed.
+    NUMAStats s;
+    s.local_accesses  = stat_local_.load(std::memory_order_relaxed);
+    s.remote_accesses = stat_remote_.load(std::memory_order_relaxed);
+    uint64_t total = s.local_accesses + s.remote_accesses;
+    s.locality_ratio  = (total > 0)
+        ? static_cast<double>(s.local_accesses) / static_cast<double>(total)
+        : 1.0;
+    s.per_node_allocations.resize(num_nodes_, 0);
+    for (size_t i = 0; i < num_nodes_; ++i) {
+        int64_t bytes = per_node_bytes_[i].load(std::memory_order_relaxed);
+        s.per_node_allocations[i] = (bytes > 0) ? static_cast<uint64_t>(bytes) : 0u;
+    }
+    return s;
 }
 
 void NUMAMemoryManager::reset_stats() {
-    std::lock_guard<std::mutex> lk(stats_mutex_);
-    stats_.local_accesses  = 0;
-    stats_.remote_accesses = 0;
-    stats_.locality_ratio  = 1.0;
-    std::fill(stats_.per_node_allocations.begin(),
-              stats_.per_node_allocations.end(), 0);
+    stat_local_.store(0, std::memory_order_relaxed);
+    stat_remote_.store(0, std::memory_order_relaxed);
+    for (size_t i = 0; i < num_nodes_; ++i)
+        per_node_bytes_[i].store(0, std::memory_order_relaxed);
 }
 
 }  // namespace performance

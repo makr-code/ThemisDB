@@ -194,11 +194,18 @@ private:
 
     NUMATopologyInfo topology_;
 
-    mutable std::mutex stats_mutex_;
-    NUMAStats          stats_;
+    // F-006: Replace stats_mutex_ with lock-free atomics on the hot allocation
+    // path.  stats_mutex_ is removed.  getStats() reads the atomics and
+    // assembles a NUMAStats snapshot without any lock.
+    std::atomic<uint64_t> stat_local_{0};
+    std::atomic<uint64_t> stat_remote_{0};
+    // Per-node byte counts.  Size = topology_.num_nodes, allocated in the ctor.
+    // std::atomic is not movable, so we use a unique_ptr to a raw array.
+    size_t                            num_nodes_{0};
+    std::unique_ptr<std::atomic<int64_t>[]> per_node_bytes_;
 
     // Per-allocation tracking: map raw pointer -> (node, size).
-    // Protected by alloc_mutex_.
+    // Protected by bucket mutexes.
     mutable std::mutex alloc_mutex_;
     struct AllocEntry { int node; size_t size; };
     // Use a simple flat array of buckets to avoid heavy dependencies.
