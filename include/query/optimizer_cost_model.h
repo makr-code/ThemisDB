@@ -22,6 +22,7 @@
 #include <string>
 #include <thread>
 #include <vector>
+#include <functional>
 #include <map>
 #include <memory>
 #include <cstddef>
@@ -344,36 +345,47 @@ private:
 class StatisticsManager {
 public:
     StatisticsManager() = default;
-    
+
     // Statistics collection
     void collectTableStatistics(const std::string& tableName);
-    void collectColumnStatistics(const std::string& tableName, 
+    void collectColumnStatistics(const std::string& tableName,
                                 const std::string& columnName);
     void collectIndexStatistics(const std::string& indexName);
-    
+
     // Statistics refresh
     void refreshAllStatistics();
     void refreshStaleStatistics();
-    
+
+    // F-023: inject a row-count provider so refreshAllStatistics() can populate
+    // real approximate counts without depending on a concrete StorageEngine type.
+    // Signature: (tableName) → approximate row count, or -1 if unknown.
+    using RowCountProvider = std::function<int64_t(const std::string&)>;
+    void setRowCountProvider(RowCountProvider provider) {
+        row_count_provider_ = std::move(provider);
+    }
+
     // Statistics retrieval
     OptimizerCostModel::TableStatistics getTableStatistics(const std::string& tableName) const;
     OptimizerCostModel::ColumnStatistics getColumnStatistics(const std::string& tableName,
                                                             const std::string& columnName) const;
     OptimizerCostModel::IndexStatistics getIndexStatistics(const std::string& indexName) const;
-    
+
     // Statistics management
     void invalidateStatistics(const std::string& tableName);
     bool areStatisticsStale(const std::string& tableName, int64_t threshold) const;
-    
+
     // Manual update
     void updateTableStatistics(const std::string& tableName,
                               const OptimizerCostModel::TableStatistics& stats);
-    
+
 private:
     std::map<std::string, OptimizerCostModel::TableStatistics> tableStats_;
     std::map<std::string, std::map<std::string, OptimizerCostModel::ColumnStatistics>> columnStats_;
     std::map<std::string, OptimizerCostModel::IndexStatistics> indexStats_;
-    
+
+    // F-023: optional callback injected by the owner; nullptr = no provider.
+    RowCountProvider row_count_provider_;
+
     int64_t getCurrentTimestamp() const;
 };
 

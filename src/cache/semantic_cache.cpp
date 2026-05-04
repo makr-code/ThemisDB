@@ -65,8 +65,37 @@ nlohmann::json SemanticCache::Stats::toJson() const {
 SemanticCache::SemanticCache(
     rocksdb::TransactionDB* db,
     rocksdb::ColumnFamilyHandle* cf_handle,
-    int default_ttl_seconds
-) : db_(db), cf_handle_(cf_handle), default_ttl_seconds_(default_ttl_seconds) {}
+    int default_ttl_seconds,
+    int bg_expiry_interval_s
+) : db_(db), cf_handle_(cf_handle), default_ttl_seconds_(default_ttl_seconds) {
+    // F-014: launch background expiry thread when an interval is requested.
+    // The thread wakes every bg_expiry_interval_s seconds and calls clearExpired().
+    // A stop flag + condition variable allow the destructor to wake and join immediately.
+    if (bg_expiry_interval_s > 0) {
+        const auto interval = std::chrono::seconds(bg_expiry_interval_s);
+        bg_expiry_thread_ = std::thread([this, interval]() {
+            while (!bg_stop_.load(std::memory_order_acquire)) {
+                std::unique_lock<std::mutex> lk(bg_cv_mutex_);
+                bg_cv_.wait_for(lk, interval, [this]() {
+                    return bg_stop_.load(std::memory_order_acquire);
+                });
+                if (!bg_stop_.load(std::memory_order_acquire)) {
+                    clearExpired();
+                }
+            }
+        });
+    }
+}
+
+SemanticCache::~SemanticCache() {
+    // Signal the background thread to stop and wake it immediately so the
+    // destructor doesn't need to wait for the full interval to elapse.
+    bg_stop_.store(true, std::memory_order_release);
+    bg_cv_.notify_all();
+    if (bg_expiry_thread_.joinable()) {
+        bg_expiry_thread_.join();
+    }
+}
 
 // Compute SHA256 hash of prompt + params
 std::string SemanticCache::computeKey(const std::string& prompt, const nlohmann::json& params) const {
