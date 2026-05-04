@@ -170,7 +170,6 @@
 | `rag/continuous_learning_orchestrator.cpp` | Live learning loop with real signal sources | ✅ Exists in `src/rag/FUTURE_ENHANCEMENTS.md` §ContinuousLearningOrchestrator | v2.0.0 |
 | `distributed_knowledge/federated_distillation_coordinator.cpp` | Production gRPC coordinator | ✅ Added to `src/distributed_knowledge/FUTURE_ENHANCEMENTS.md` §Production | v2.0.0 |
 | All ingestion connector stubs | SDK integration per connector | ✅ Exists in `src/ingestion/FUTURE_ENHANCEMENTS.md` §v1.6.0–v1.7.0 | v1.5.0–v1.7.0 |
-
 | 115 | `content/tts_processor.cpp::streamSynthesize()` | Chunk-by-chunk Piper/ONNX TTS streaming not implemented; callback is never invoked; always returns `false` | Always — no build flag gates this path | Callers receive no audio segments; real-time TTS playback is broken | `src/content/FUTURE_ENHANCEMENTS.md` §TTS Streaming Synthesis | v1.7.0 |
 | 116 | `content/tts_processor.cpp::convertToFormat()` MP3 | Raw PCM bytes returned instead of LAME-encoded MP3; LAME encoder not linked | Format == "mp3" | Output is unplayable by any MP3 decoder | `src/content/FUTURE_ENHANCEMENTS.md` §TTS Audio Format Support | v1.7.0 |
 | 117 | `content/tts_processor.cpp::convertToFormat()` OGG | Raw PCM bytes returned instead of Opus/Vorbis Ogg stream; libopus/libvorbis not linked | Format == "ogg" | Output is unplayable as OGG audio | `src/content/FUTURE_ENHANCEMENTS.md` §TTS Audio Format Support | v1.7.0 |
