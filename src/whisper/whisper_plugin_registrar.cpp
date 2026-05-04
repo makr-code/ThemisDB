@@ -94,12 +94,18 @@ WhisperPluginRegistrar::defaultReloadCallback() {
                 return plugin.initialize(path, config);
             }
         }
-        // Stub mode — no model to reload; treat as success
-        return true;
-    };
-}
-
-bool WhisperPluginRegistrar::enableHotPlug(
+        // STUB/SIMULATION NOTE:
+        // Purpose: Allow makeReloadCallback() to return a functional callback even
+        //          when no Whisper model was loaded during initialize() (stub mode).
+        // Activation: Called when config contains no "model_path" or model_path is
+        //          empty (same condition as the stub initialize() path above).
+        // Production Delta: The reload callback returns true without re-loading any
+        //          model; subsequent transcribe() calls continue to return empty
+        //          results (no speech recognition).
+        // Removal Plan: Provide a valid model_path; the non-stub initialize() path
+        //          then sets the loaded model, and the reload callback re-initializes
+        //          it correctly.  See src/llm/FUTURE_ENHANCEMENTS.md §"Whisper Reload".
+        // Stub mode — no model to reload; treat as successbool WhisperPluginRegistrar::enableHotPlug(
         plugins::PluginManager& manager,
         const std::string& directory) {
     plugins::HotPlugConfig cfg;

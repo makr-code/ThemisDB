@@ -349,6 +349,21 @@ GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryVulkan() {
     Metrics metrics;
     
 #ifdef THEMIS_ENABLE_VULKAN
+    // STUB/SIMULATION NOTE:
+    // Purpose: Return plausible-looking GPU metrics when VK_EXT_memory_budget is
+    //          not available (or has not been implemented yet); prevents callers
+    //          from receiving all-zero utilisation values.
+    // Activation: `THEMIS_ENABLE_VULKAN` is defined AND VK_EXT_memory_budget
+    //          query is NOT yet implemented (TODO at the line below).
+    // Production Delta: Metrics are pseudo-random estimates (70–90% util,
+    //          65–90% mem).  Real GPU occupancy and memory footprint are not
+    //          read; values vary non-deterministically between calls.  Dashboards
+    //          and auto-scaling decisions that rely on these metrics will behave
+    //          incorrectly.
+    // Removal Plan: Implement VkPhysicalDeviceMemoryBudgetPropertiesEXT query
+    //          via vkGetPhysicalDeviceMemoryProperties2KHR; pair with a suitable
+    //          GPU-utilisation source (NVML / ROCm SMI / VK_AMD_device_coherent_memory).
+    //          See src/llm/FUTURE_ENHANCEMENTS.md §GPUUtilizationMonitor VulkanMetrics.
     // Vulkan provides memory usage but not GPU utilization percentage
     // We estimate utilization based on memory usage patterns
     
@@ -391,6 +406,20 @@ GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryDirectX() {
     Metrics metrics;
     
 #ifdef THEMIS_ENABLE_DIRECTX
+    // STUB/SIMULATION NOTE:
+    // Purpose: Return plausible-looking GPU metrics on DirectX builds while the
+    //          DXGI memory-budget query is not yet implemented.
+    // Activation: `THEMIS_ENABLE_DIRECTX` is defined AND
+    //          IDXGIAdapter3::QueryVideoMemoryInfo() query is NOT yet implemented
+    //          (TODO comment below).
+    // Production Delta: Metrics are pseudo-random estimates (72–90% util,
+    //          68–90% mem).  Neither DXGI memory budgets nor D3D12 GPU-occupancy
+    //          counters are read; values are non-deterministic between calls.
+    // Removal Plan: Implement DXGI adapter memory query via
+    //          IDXGIAdapter3::QueryVideoMemoryInfo(DXGI_MEMORY_SEGMENT_GROUP_LOCAL);
+    //          combine with D3D12 timestamp queries or DXGI debug layer for GPU
+    //          occupancy.  See
+    //          src/llm/FUTURE_ENHANCEMENTS.md §GPUUtilizationMonitor DirectXMetrics.
     // DirectX provides memory info via DXGI but not direct GPU utilization
     // We can query DXGI_QUERY_VIDEO_MEMORY_INFO for memory usage
     
