@@ -84,6 +84,14 @@ namespace {
         decoded.resize(decoded_len);
         return decoded;
     }
+
+    // Certificate serial number pattern: up to 80 hex chars (RFC 5280 §4.1.2.2 caps
+    // at 20 octets = 40 chars; 80 accommodates non-conformant enterprise CAs).
+    // Static local — initialised exactly once (C++11 guarantee).
+    const std::regex& certSerialPattern() {
+        static const std::regex kPattern("^[0-9A-Fa-f]{1,80}$");
+        return kPattern;
+    }
 }
 
 // ============================================================================
@@ -342,8 +350,7 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
     // be used to escape the trusted_certs_dir via path traversal (e.g. "../",
     // absolute paths, null bytes).  RFC 5280 caps at 20 octets (40 hex chars);
     // allow up to 80 to accommodate non-conformant enterprise CAs.
-    static const std::regex kSerialPattern("^[0-9A-Fa-f]{1,80}$");
-    if (!std::regex_match(request.cert_serial, kSerialPattern)) {
+    if (!std::regex_match(request.cert_serial, certSerialPattern())) {
         return false;
     }
 
@@ -355,6 +362,12 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
     // (defence-in-depth).  Compare parent_path() rather than doing string-prefix
     // matching, which can be fooled by directory names that share a prefix
     // (e.g. /trusted/certs vs /trusted/certs_evil).
+    // Note on TOCTOU: there is an inherent window between weakly_canonical() and
+    // the subsequent ifstream open below.  This is mitigated by (a) the regex
+    // filter which rejects any non-hex character before path construction, and
+    // (b) running ThemisDB under a process user that has no write access to
+    // trusted_certs_dir.  A fully atomic solution would require openat(2) with
+    // O_NOFOLLOW or equivalent, which is left to the OS-hardening layer.
     auto canonical_dir  = fs::weakly_canonical(fs::path(config_.trusted_certs_dir));
     auto canonical_cert = fs::weakly_canonical(cert_path);
     if (canonical_cert.parent_path() != canonical_dir) {

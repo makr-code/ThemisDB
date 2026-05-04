@@ -267,11 +267,16 @@ bool RedisRateLimiterBackend::reconnect()
 
 #else // !THEMIS_ENABLE_REDIS
 
+// Named sentinel value for fail-closed rate limiting.  Using a named constant
+// makes it easier for callers to distinguish "backend unavailable" from an
+// arithmetically-computed rate-limit count.
+static constexpr int64_t kRateLimitFailClosed = INT64_MAX;
+
 // STUB/SIMULATION NOTE:
 // Purpose: Allow ThemisDB to be built without hiredis.  All Redis-backed
 //   distributed rate-limiting operations are now fail-CLOSED: `increment()`
-//   returns INT64_MAX so that every call appears to exceed the rate limit,
-//   `getCount()` returns INT64_MAX, `reset()` is a no-op, and
+//   returns kRateLimitFailClosed so that every call appears to exceed the rate
+//   limit, `getCount()` returns kRateLimitFailClosed, `reset()` is a no-op, and
 //   `isConnected()` / `reconnect()` always return false.
 // Activation: `THEMIS_ENABLE_REDIS` is not defined at compile time (default for
 //   builds without the 'redis' vcpkg feature or without libhiredis).
@@ -298,13 +303,13 @@ RedisRateLimiterBackend::~RedisRateLimiterBackend() = default;
 int64_t RedisRateLimiterBackend::increment(const std::string& /*key*/,
                                             uint32_t /*window_seconds*/)
 {
-    return INT64_MAX; // fail-closed: report maximum count so callers reject the request
+    return kRateLimitFailClosed; // fail-closed: report maximum count so callers reject the request
 }
 
 int64_t RedisRateLimiterBackend::getCount(const std::string& /*key*/,
                                            uint32_t /*window_seconds*/) const
 {
-    return INT64_MAX; // fail-closed: appear at maximum rate
+    return kRateLimitFailClosed; // fail-closed: appear at maximum rate
 }
 
 void RedisRateLimiterBackend::reset(const std::string& /*key*/)
