@@ -105,7 +105,7 @@
 | query | `src/query/AUDIT.md` | 0 (QE-1, PA-1 fixed 2026-05-04) | 6 | ⚠️ S1 remain |
 | aql | `src/aql/AUDIT.md` | 0 (LLM-1/LLM-2 addressed) | 1 | ⚠️ S1 remain |
 | graph | `src/graph/AUDIT.md` | — | 0 (GQ-1, GQ-2 fixed 2026-05-04) | ✅ S1 resolved |
-| llm | `src/llm/AUDIT.md` | 0 (F1-1/F1-2/F2-1 fixed) | 8 | ⚠️ S1 remain |
+| llm | `src/llm/AUDIT.md` | 0 (F1-1/F1-2/F2-1 fixed) | 0 (F1-3..F3-2 fixed 2026-05-04) | ✅ S0+S1 resolved |
 | rag | `src/rag/AUDIT.md` | — | 4 | ⚠️ High |
 
 ---

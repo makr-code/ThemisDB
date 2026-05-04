@@ -26,6 +26,7 @@
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cstring>
+#include <unordered_set>
 
 // Include actual CUDA headers when CUDA support is built
 #ifdef THEMIS_ENABLE_CUDA
@@ -492,7 +493,13 @@ bool GPUMemoryManager::freeGPU(const std::string& model_id, void* ptr) {
     // The holder's destructor will automatically handle cleanup via RAII
     for (auto alloc_it = it->second.begin(); alloc_it != it->second.end(); ++alloc_it) {
         if (alloc_it->gpu_ptr == ptr) {
-            total_vram_used_ -= alloc_it->vram_bytes;
+            if (alloc_it->vram_bytes > total_vram_used_) {
+                spdlog::error("GPUMemoryManager::freeGPU: VRAM accounting underflow for model '{}'; "
+                              "clamping to 0", model_id);
+                total_vram_used_ = 0;
+            } else {
+                total_vram_used_ -= alloc_it->vram_bytes;
+            }
             
             // Erase triggers holder destructor for automatic cleanup
             it->second.erase(alloc_it);
@@ -520,7 +527,13 @@ bool GPUMemoryManager::freeCPU(const std::string& model_id, void* ptr) {
     // The holder's destructor will automatically handle cleanup via RAII
     for (auto alloc_it = it->second.begin(); alloc_it != it->second.end(); ++alloc_it) {
         if (alloc_it->cpu_ptr == ptr) {
-            total_ram_used_ -= alloc_it->ram_bytes;
+            if (alloc_it->ram_bytes > total_ram_used_) {
+                spdlog::error("GPUMemoryManager::freeCPU: RAM accounting underflow for model '{}'; "
+                              "clamping to 0", model_id);
+                total_ram_used_ = 0;
+            } else {
+                total_ram_used_ -= alloc_it->ram_bytes;
+            }
             
             // Erase triggers holder destructor for automatic cleanup
             it->second.erase(alloc_it);
@@ -553,8 +566,20 @@ bool GPUMemoryManager::freeModel(const std::string& model_id) {
         freed_ram += alloc.ram_bytes;
     }
     
-    total_vram_used_ -= freed_vram;
-    total_ram_used_ -= freed_ram;
+    if (freed_vram > total_vram_used_) {
+        spdlog::error("GPUMemoryManager::freeModel: VRAM accounting underflow for model '{}'; "
+                      "clamping to 0", model_id);
+        total_vram_used_ = 0;
+    } else {
+        total_vram_used_ -= freed_vram;
+    }
+    if (freed_ram > total_ram_used_) {
+        spdlog::error("GPUMemoryManager::freeModel: RAM accounting underflow for model '{}'; "
+                      "clamping to 0", model_id);
+        total_ram_used_ = 0;
+    } else {
+        total_ram_used_ -= freed_ram;
+    }
     
     // Erase all allocations for this model
     // Holders will automatically clean up via RAII
@@ -828,12 +853,17 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
 #endif
 
         // Update allocations list for this model/device
-        // Remove old allocations (which will trigger cleanup via RAII)
+        // Remove only the allocations that were identified as fragmented (device_allocs),
+        // not all allocations for this device_id.
         auto& model_allocs = allocations_[model_id];
+        std::unordered_set<void*> ptrs_to_erase;
+        for (const auto& alloc : device_allocs) {
+            ptrs_to_erase.insert(alloc.gpu_ptr);
+        }
         model_allocs.erase(
             std::remove_if(model_allocs.begin(), model_allocs.end(),
-                [device_id](const MemoryAllocation& alloc) {
-                    return alloc.gpu_device_id == device_id && alloc.vram_bytes > 0;
+                [&ptrs_to_erase](const MemoryAllocation& alloc) {
+                    return ptrs_to_erase.count(alloc.gpu_ptr) > 0;
                 }),
             model_allocs.end());
 

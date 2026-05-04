@@ -20,7 +20,7 @@
 | Test targets | 28 focused targets |
 | Estimated test coverage | > 80 % |
 | S0 Critical | ✅ 0 (F1-1, F1-2, F2-1 fixed 2026-04-21) |
-| S1 High | 🔴 8 |
+| S1 High | ✅ 0 (F1-3, F1-4, F1-5, F2-2, F2-3, F2-4, F3-1, F3-2 fixed 2026-05-04) |
 | S2 Medium | ⚠️ 4 |
 | Trusted-directory enforcement on model loading | 🔴 **None** |
 | Build system registration | ✅ All files registered in CMakeLists.txt |
@@ -228,14 +228,16 @@ is an arbitrary file write for any path writable by the server process.
 
 | ID | File | Function | Lines | Description |
 |----|------|----------|-------|-------------|
-| F1-3 | multi_lora_manager.cpp | `applyLoRA`, `removeLoRA` | 401–414, 463–470 | Pointer-to-int cast: `adapter_handle` range check always fails on 64-bit (heap addr > INT_MAX) — LoRA permanently non-functional in production |
-| F1-4 | multi_lora_manager.cpp | `loadLoRAMultiGPU` | 1826–1840 | DATA_PARALLEL VRAM undercount: `total_vram_bytes_` incremented once but each GPU is charged separately — OOM possible |
-| F1-5 | multi_lora_manager.cpp | `batchInferenceMultiLoRA` | 609–614 | KV cache not cleared between tenant requests — cross-tenant context leaks into generation |
-| F2-2 | llama_wrapper.cpp | `generate` | 829–853 | Dead `return` before response cache read — cache permanently bypassed, unbounded memory growth |
-| F2-3 | llama_wrapper.cpp | `generate`, `generateRegular` | 836, 1126–1128 | Response cache keyed on prompt only (no tenant ID) — cross-tenant inference leakage when dead code fixed |
-| F2-4 | llama_wrapper.cpp | `generate` | 755–757 | TOCTOU: mutex released during model reload — concurrent model swap corrupts inference identity |
-| F3-1 | gpu_memory_manager.cpp | `freeGPU` / `freeCPU` | ~495 | Unsigned underflow on `total_vram_used_` — pool permanently unavailable after any accounting mismatch |
-| F3-2 | gpu_memory_manager.cpp | `defragmentModelGPU` | 833–838 | Erase predicate matches all allocations by device_id, not only fragmented ones — silent accounting corruption |
+| ~~F1-3~~ | ~~multi_lora_manager.cpp~~ | ~~`applyLoRA`, `removeLoRA`~~ | ~~401–414, 463–470~~ | ~~Pointer-to-int cast: `adapter_handle` range check always fails on 64-bit — LoRA permanently non-functional~~ |
+| ~~F1-4~~ | ~~multi_lora_manager.cpp~~ | ~~`loadLoRAMultiGPU`~~ | ~~1826–1840~~ | ~~DATA_PARALLEL VRAM undercount: `total_vram_bytes_` incremented once but each GPU is charged separately~~ |
+| ~~F1-5~~ | ~~multi_lora_manager.cpp~~ | ~~`batchInferenceMultiLoRA`~~ | ~~609–614~~ | ~~KV cache not cleared between tenant requests — cross-tenant context leakage~~ |
+| ~~F2-2~~ | ~~llama_wrapper.cpp~~ | ~~`generate`~~ | ~~829–853~~ | ~~Dead `return` before response cache read — cache permanently bypassed~~ |
+| ~~F2-3~~ | ~~llama_wrapper.cpp~~ | ~~`generate`, `generateRegular`~~ | ~~836, 1126–1128~~ | ~~Response cache keyed on prompt only — cross-tenant inference leakage~~ |
+| ~~F2-4~~ | ~~llama_wrapper.cpp~~ | ~~`generate`~~ | ~~755–757~~ | ~~TOCTOU: mutex released during model reload — concurrent model swap corrupts inference identity~~ |
+| ~~F3-1~~ | ~~gpu_memory_manager.cpp~~ | ~~`freeGPU` / `freeCPU`~~ | ~~~495~~ | ~~Unsigned underflow on `total_vram_used_` — pool permanently unavailable after accounting mismatch~~ |
+| ~~F3-2~~ | ~~gpu_memory_manager.cpp~~ | ~~`defragmentModelGPU`~~ | ~~833–838~~ | ~~Erase predicate matches all allocations by device_id, not only fragmented ones — silent accounting corruption~~ |
+
+**All 8 S1 findings resolved 2026-05-04.**
 
 ### S2 — Medium
 
@@ -246,21 +248,28 @@ is an arbitrary file write for any path writable by the server process.
 
 ---
 
-### Resolved (from 2026-04-19 audit)
+### Resolved (from 2026-04-19 and 2026-05-04 audits)
 
-| ID | Description | Resolution | Version |
-|----|-------------|------------|---------|
+| ID | Description | Resolution | Date |
+|----|-------------|------------|------|
 | LLM-001 | Residual VRAM activations not zeroed on hot-swap | `vram_secure_clear.cpp` called unconditionally in hot-swap path | v1.16.0 |
 | LLM-002 | Stale deduplication cache returned after hot-swap | Cache invalidated on every successful hot-swap | v1.16.0 |
 | LLM-003 | SSE connection not closed on empty-response | Generator exhaustion check added | v1.16.0 |
 | LLM-004 | Grammar constrained generation stack overflow on recursive BNF | Recursion depth bounded | v1.15.0 |
+| F1-3 | LoRA applyLoRA/removeLoRA pointer-to-int cast (always fails on 64-bit) | Removed pointer-to-int conversion; `llama_lora_adapter_set` signature changed to `void*`; direct handle pass | 2026-05-04 |
+| F1-4 | DATA_PARALLEL VRAM undercount in `loadLoRAMultiGPU` | Added `total_vram_bytes_ += lora->vram_bytes * (num_replicas - 1)` after replica loop | 2026-05-04 |
+| F1-5 | KV cache not cleared between tenant requests in `batchInferenceMultiLoRA` | Added `llama_kv_cache_clear(model_context)` call before each request's prefill | 2026-05-04 |
+| F2-2 | Dead `return` before response cache read in `generate` | Moved cache lookup block before `generateRegular` call | 2026-05-04 |
+| F2-3 | Response cache keyed on prompt only — cross-tenant leakage | Cache key changed to `request.prompt + "\|" + request.model_id` in both `get` and `put` | 2026-05-04 |
+| F2-4 | TOCTOU during model reload — concurrent swap corrupts inference identity | Added model identity check after re-acquiring lock; mismatch logged as warning | 2026-05-04 |
+| F3-1 | Unsigned underflow in `freeGPU`/`freeCPU`/`freeModel` | Saturating subtract with `spdlog::error` on underflow, clamp to 0 | 2026-05-04 |
+| F3-2 | `defragmentModelGPU` erase predicate too broad (by device_id) | Replaced with `unordered_set<void*>` of specific allocation pointers from `device_allocs` | 2026-05-04 |
 
-### Open (carried forward + new)
+### Open (carried forward)
 
 | ID | Description | Priority | Target |
 |----|-------------|----------|--------|
 | **LLM-NEW-1** | **Trusted-directory enforcement missing for all model/LoRA loading paths (F1-1, F1-2, F2-1)** | **Critical** | **Immediate** |
-| **LLM-NEW-2** | **Fix LoRA applyLoRA/removeLoRA pointer-to-int cast (F1-3)** | **Critical** | **Immediate** |
 | LLM-005 | Federated inference not yet implemented | High | v2.0.0 |
 | LLM-006 | Request cancellation is best-effort; GPU kernel may complete | Medium | v1.17.0 |
 | LLM-007 | Speculative decoding uses synthetic draft-model logits | Medium | v1.17.0 |

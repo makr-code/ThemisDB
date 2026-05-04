@@ -773,6 +773,13 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             const bool reload_ok = loadModel(reload_model_path);
             lock.lock();
 
+            // TOCTOU guard: verify model identity didn't change during reload
+            if (current_model_id_ != reload_model_id && !current_model_id_.empty()) {
+                spdlog::warn("Model identity changed during reload: expected {}, got {}. "
+                             "Proceeding with current model.",
+                             reload_model_id, current_model_id_);
+            }
+
             if (!reload_ok) {
                 spdlog::error("Lazy reload failed for model {}", reload_model_path);
             }
@@ -843,15 +850,10 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         }
     }
 #endif
-    try {
-        return generateRegular(request);
-    } catch (const std::exception& e) {
-        spdlog::error("Regular inference error: {}", e.what());
-        throw;
-    }
-    // Check response cache first (if enabled)
+    // Check response cache first (if enabled); key includes model_id to prevent cross-tenant leakage
     if (response_cache_) {
-        auto cached_response = response_cache_->get(request.prompt);
+        const std::string cache_key = request.prompt + "|" + request.model_id;
+        auto cached_response = response_cache_->get(cache_key);
         if (cached_response) {
             spdlog::debug("Cache hit for prompt: {}", request.prompt.substr(0, 50));
             
@@ -867,6 +869,12 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             
             return *cached_response;
         }
+    }
+    try {
+        return generateRegular(request);
+    } catch (const std::exception& e) {
+        spdlog::error("Regular inference error: {}", e.what());
+        throw;
     }
     
     // Record inference request
@@ -1139,9 +1147,10 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             }
         }
         
-        // Cache the successful response
+        // Cache the successful response; key includes model_id to prevent cross-tenant leakage
         if (response_cache_) {
-            response_cache_->put(request.prompt, response);
+            const std::string cache_key = request.prompt + "|" + request.model_id;
+            response_cache_->put(cache_key, response);
         }
 
         // Tool call parsing: if tools were specified, parse the model output
