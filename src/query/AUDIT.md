@@ -1,4 +1,4 @@
-<!-- Status: CRITICAL FINDINGS | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0 fixed 2026-05-04 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · SECURITY.md -->
 
 # Audit Record — Query Module
@@ -9,9 +9,12 @@
 |--------------|--------------------------------------------|
 | Module       | query                                      |
 | Source path  | `src/query/`                               |
-| Audit date   | 2026-04-21                                 |
+| Audit date   | 2026-04-21 (S0 fixes: 2026-05-04)         |
 | Audited by   | Copilot (source code analysis)             |
-| Status       | 🔴 Critical — 3×S0: data race, missing ACL, parser stack overflow |
+| Status       | ✅ S0 fixed — 0 S0, S1 open (QE-3/QE-4) |
+
+> **2026-05-04:** QE-1 fixed (errors_mutex), QE-2 addressed, PA-1 fixed (depth limit 500 in
+> `parseExpression()`). See finding details below for confirmation.
 
 ## Source File Inventory
 

@@ -1,16 +1,18 @@
 > ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
 
-<!-- Status: CRITICAL FINDINGS | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0 fixed 2026-05-04 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Storage Module
 
-**Last Audit:** 2026-04-21 | **Auditor:** Copilot | **Status:** 🔴 Critical — 1 S0 use-after-free in `close()`
+**Last Audit:** 2026-04-21 | **Auditor:** Copilot | **Status:** ✅ S0 fixed — 0 S0, 1 S1, see below
 
 > **Note:** Previous audit claimed "Security Issues: None critical". Source code analysis found
 > a TOCTOU race in `RocksDBWrapper::close()` that causes use-after-free under concurrent load,
 > a blob atomicity gap (partial blob visible to snapshot readers), and a non-durable write
 > default. Header quality scores do not reflect actual correctness.
+> **2026-05-04:** R-1 fixed — `closing_` atomic flag added; `OperationGuard` checks it under
+> `db_lifecycle_mutex_` so no new guard can start after `close()` sets the flag.
 
 ## Summary
 
@@ -19,7 +21,7 @@
 | Build System Registration | ✅ Verified (`cmake/CMakeLists.txt`, `cmake/StorageEnhancements.cmake`, `cmake/BlobStorage.cmake`) |
 | Source Files | 51 (`.cpp` in `src/storage/`) |
 | Test Coverage | ✅ 21 focused standalone test targets |
-| S0 Critical / Safety Violations | 🔴 1 (use-after-free in `close()`) |
+| S0 Critical / Safety Violations | ✅ 0 (R-1 fixed 2026-05-04) |
 | S1 High | ⚠️ 1 (partial blob visibility) |
 | S2 Medium | ⚠️ 5 |
 | S3 Low | ℹ️ 2 |

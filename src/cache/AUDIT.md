@@ -1,18 +1,19 @@
 > ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
 
-<!-- Status: CRITICAL FINDINGS | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0 fixed 2026-05-04 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Cache Module
 
 **Last Audit:** 2026-04-21
 **Auditor:** Copilot
-**Status:** 🔴 Critical — 1×S0 HMAC bypass + 3×S1 concurrency and use-after-free
+**Status:** ✅ S0 fixed — 0 S0, 3 S1, see below
 
 > **Note:** Previous audit claimed "Security Issues: None". Source code analysis found that
 > the Redis coordinator's HMAC verification is a stub returning `true` unconditionally on
 > non-POSIX platforms (S0), the L2 cache is permanently broken with tenant isolation enabled (S1),
 > and the L3 invalidation path accesses `l3_db_` after releasing its lock (S1).
+> **2026-05-04:** D-1 fixed — non-POSIX `verifyHmac()` stub now returns `false` (fail-closed).
 
 ## Summary
 
@@ -21,7 +22,7 @@
 | Build System Registration | ✅ Verified |
 | Source Files | 12 (`.cpp` in `src/cache/`) |
 | Test Coverage | ✅ > 80% (43 interface tests + component tests) |
-| S0 Critical | 🔴 1 (HMAC bypass on non-POSIX) |
+| S0 Critical | ✅ 0 (D-1 fixed 2026-05-04) |
 | S1 High | 🔴 3 |
 | S2 Medium | ⚠️ 2 |
 | Tenant isolation correct across all tiers | 🔴 **No — L2 uses wrong key in `put()`** |

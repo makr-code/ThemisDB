@@ -686,7 +686,13 @@ bool RocksDBWrapper::open() {
         close();
     }
     
-    db_.reset(txn_db_ptr);
+    // Reset closing_ flag under db_lifecycle_mutex_ before assigning the new db_,
+    // so that OperationGuards created after this point are allowed to proceed (R-1 fix).
+    {
+        std::lock_guard<std::mutex> lock(db_lifecycle_mutex_);
+        closing_.store(false, std::memory_order_release);
+        db_.reset(txn_db_ptr);
+    }
     
     // RACE CONDITION FIX #1: Protect cf_handles_ during initialization
     {
@@ -713,14 +719,18 @@ void RocksDBWrapper::close() {
     if (db_) {
         THEMIS_INFO("Closing RocksDB");
         
-        // RACE CONDITION FIX #3: Wait for active operations to complete before closing
+        // RACE CONDITION FIX #3 + R-1: Set closing_ flag under db_lifecycle_mutex_ so
+        // that OperationGuard constructors observe it while holding the same lock and
+        // refuse to start new operations.  This eliminates the TOCTOU window where a
+        // new guard could start after the lock was released but before db_.reset().
         {
             std::lock_guard<std::mutex> lock(db_lifecycle_mutex_);
-            // After acquiring lock, new operations can't start (OperationGuard checks db_ under lock)
-            // Now we just need to wait for existing operations to finish
+            closing_.store(true, std::memory_order_release);
         }
         
-        // Busy-wait for active operations to complete
+        // Busy-wait for already-started operations to complete.
+        // No new OperationGuards can be created after closing_ is set (above), so
+        // active_operations_ is guaranteed to reach zero.
         int wait_count = 0;
         while (active_operations_.load(std::memory_order_acquire) > 0) {
             std::this_thread::sleep_for(std::chrono::milliseconds(10));

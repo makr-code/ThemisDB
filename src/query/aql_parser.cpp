@@ -399,6 +399,10 @@ private:
     std::vector<Token> tokens_;
     size_t pos_;
     std::shared_ptr<Query::TraversalNode> lastTraversal_;
+    // PA-1 fix: tracks current expression parse depth to prevent unbounded recursion
+    // (stack overflow via crafted queries with thousands of nested NOT / subexpressions).
+    int depth_{0};
+    static constexpr int kMaxExprDepth = 500;
     
     const Token& current() const {
         return (pos_ < tokens_.size()) ? tokens_[pos_] : tokens_.back();
@@ -792,6 +796,15 @@ private:
     }
     
     std::shared_ptr<Expression> parseExpression() {
+        // PA-1 fix: guard against unbounded recursion from crafted deeply-nested queries.
+        if (depth_ >= kMaxExprDepth) {
+            throw std::runtime_error(
+                fmt::format("Query expression exceeds maximum nesting depth of {}; "
+                            "simplify the query.", kMaxExprDepth)
+            );
+        }
+        ++depth_;
+        struct DepthGuard { int& d; ~DepthGuard() { --d; } } guard{depth_};
         return parseLogicalOr();
     }
     

@@ -725,7 +725,11 @@ private:
             : wrapper_(wrapper), db_(nullptr) {
             if (wrapper_) {
                 std::lock_guard<std::mutex> lock(wrapper_->db_lifecycle_mutex_);
-                if (wrapper_->db_) {
+                // Refuse to start a new operation once close() has begun (R-1 fix):
+                // closing_ is set under db_lifecycle_mutex_ before db_.reset(), so
+                // checking it here (while holding the same lock) makes the check
+                // and the db_.reset() in close() mutually exclusive and race-free.
+                if (wrapper_->db_ && !wrapper_->closing_.load(std::memory_order_relaxed)) {
                     wrapper_->active_operations_.fetch_add(1, std::memory_order_acquire);
                     db_ = wrapper_->db_.get();
                 }
@@ -765,6 +769,9 @@ private:
     mutable std::mutex db_lifecycle_mutex_;
     // Active operations counter for safe close (race condition fix #3)
     mutable std::atomic<int> active_operations_{0};
+    // Set to true inside db_lifecycle_mutex_ when close() starts so that new
+    // OperationGuards see it under the same lock and refuse to start (R-1 fix).
+    mutable std::atomic<bool> closing_{false};
     // NVMe optimizations manager (null when enable_nvme_optimizations=false)
     std::unique_ptr<storage::NVMeManager> nvme_manager_;
     

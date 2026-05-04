@@ -50,6 +50,7 @@
 #include <atomic>
 #include <cctype>
 #include <future>
+#include <regex>
 #include <thread>
 #include <spdlog/spdlog.h>
 
@@ -255,6 +256,65 @@ std::string buildAQLExplanationPrompt(
 }
 
 } // anonymous namespace
+
+// LLM-2 fix: extract collection names referenced in a generated AQL query via
+// FOR <var> IN <collection> patterns, and verify each against the caller-supplied
+// schema_context.  Returns a non-empty error message when a collection outside the
+// schema scope is found; returns "" when the scope check passes (or is skipped).
+static std::string checkGeneratedAQLCollectionScope(
+    const std::string& aql_query,
+    const std::string& schema_context)
+{
+    if (schema_context.empty()) {
+        // No schema provided by the caller — scope check cannot be performed.
+        // Log a security advisory so operators are aware (LLM-2 residual risk).
+        spdlog::warn("[SEC/LLM-2] translateNLToAQL: no schema_context supplied; "
+                     "generated AQL collection scope cannot be verified. "
+                     "Ensure callers provide schema_context to restrict accessible collections.");
+        return {};
+    }
+
+    // Extract all word tokens that follow "FOR <var> IN" in the AQL (case-insensitive).
+    // This covers basic and graph traversal patterns:
+    //   FOR doc IN myCollection
+    //   FOR v, e, p IN 1..3 OUTBOUND startId GRAPH myGraph
+    static const std::regex kForInPattern(
+        R"(\bFOR\s+\w+\s+IN\s+(\w+))",
+        std::regex_constants::icase
+    );
+
+    std::vector<std::string> referenced_collections;
+    {
+        auto begin = std::sregex_iterator(aql_query.begin(), aql_query.end(), kForInPattern);
+        const auto end = std::sregex_iterator{};
+        for (auto it = begin; it != end; ++it) {
+            referenced_collections.push_back((*it)[1].str());
+        }
+    }
+
+    if (referenced_collections.empty()) {
+        return {};  // No FOR..IN found — nothing to check.
+    }
+
+    // Check each referenced collection appears somewhere in schema_context as a word.
+    // This is a heuristic: if the caller's schema lists only allowed collections, any
+    // collection name absent from it was not in scope and is likely an injection result.
+    for (const auto& coll : referenced_collections) {
+        // Word-boundary search in schema_context (case-insensitive).
+        const std::regex word_re(
+            std::string(R"(\b)") + coll + R"(\b)",
+            std::regex_constants::icase
+        );
+        if (!std::regex_search(schema_context, word_re)) {
+            return "Generated AQL references collection '" + coll +
+                   "' which is not present in the provided schema context. "
+                   "Request rejected to prevent privilege escalation (LLM-2).";
+        }
+    }
+
+    return {};  // All referenced collections are within schema scope.
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // AQLConversationSession
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1468,6 +1528,17 @@ std::string LLMAQLHandler::translateNLToAQL(
             logAnnotations(validator.annotateErrors(aql_query),
                            nl_query, "translateNLToAQL");
 
+            // LLM-2 fix: verify that the generated AQL only references collections
+            // present in the caller-supplied schema_context to prevent privilege
+            // escalation via injected or hallucinated collection names.
+            {
+                std::string scope_err =
+                    checkGeneratedAQLCollectionScope(aql_query, schema_context);
+                if (!scope_err.empty()) {
+                    throw LLMException(LLMErrorCode::INVALID_RESPONSE, scope_err);
+                }
+            }
+
             return aql_query;
 
         } catch (const LLMException&) {
@@ -1563,6 +1634,15 @@ std::string LLMAQLHandler::translateNLToAQLStreaming(
             AQLSyntaxHighlighter validator(/*use_ansi=*/false);
             logAnnotations(validator.annotateErrors(aql_query),
                            nl_query, "translateNLToAQLStreaming");
+
+            // LLM-2 fix: scope check (same as translateNLToAQL).
+            {
+                std::string scope_err =
+                    checkGeneratedAQLCollectionScope(aql_query, schema_context);
+                if (!scope_err.empty()) {
+                    throw LLMException(LLMErrorCode::INVALID_RESPONSE, scope_err);
+                }
+            }
 
             return aql_query;
         }

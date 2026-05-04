@@ -95,17 +95,17 @@
 
 | Module | AUDIT.md | S0 | S1 | Status |
 |--------|----------|----|----|--------|
-| sharding | `src/sharding/AUDIT.md` | 7 | — | 🔴 Critical |
-| transaction | `src/transaction/ROADMAP.md` | 1 | — | 🔴 Critical |
-| storage | `src/storage/AUDIT.md` | 1 | 1 | 🔴 Critical |
-| security | `src/security/AUDIT.md` | 2 | 5 | 🔴 Critical |
-| cache | `src/cache/AUDIT.md` | 1 | 3 | 🔴 Critical |
-| network | `src/network/AUDIT.md` | 1 | 4 | 🔴 Critical |
-| server | `src/server/AUDIT.md` | 2 | 8 | 🔴 Critical |
-| query | `src/query/AUDIT.md` | 3 | 6 | 🔴 Critical |
-| aql | `src/aql/AUDIT.md` | 2 | 1 | 🔴 Critical |
+| sharding | `src/sharding/AUDIT.md` | 0 (PAX-1/2/3, GOS-1, CST-1/2/3, RWALI-1/2 fixed) | — | ✅ S0 resolved |
+| transaction | `src/transaction/ROADMAP.md` | 0 (SH-8 fixed) | — | ✅ S0 resolved |
+| storage | `src/storage/AUDIT.md` | 0 (R-1 fixed 2026-05-04) | 1 | ✅ S0 resolved |
+| security | `src/security/AUDIT.md` | 0 (A-1/A-2 fixed) | 5 | ⚠️ S1 remain |
+| cache | `src/cache/AUDIT.md` | 0 (D-1 fixed 2026-05-04) | 3 | ⚠️ S1 remain |
+| network | `src/network/AUDIT.md` | 0 (WPS-1 fixed) | 4 | ⚠️ S1 remain |
+| server | `src/server/AUDIT.md` | 0 (HS-1/HS-2 fixed) | 8 | ⚠️ S1 remain |
+| query | `src/query/AUDIT.md` | 0 (QE-1, PA-1 fixed 2026-05-04) | 6 | ⚠️ S1 remain |
+| aql | `src/aql/AUDIT.md` | 0 (LLM-1/LLM-2 addressed) | 1 | ⚠️ S1 remain |
 | graph | `src/graph/AUDIT.md` | — | 2 | ⚠️ High |
-| llm | `src/llm/AUDIT.md` | 3 | 8 | 🔴 Critical |
+| llm | `src/llm/AUDIT.md` | 0 (F1-1/F1-2/F2-1 fixed) | 8 | ⚠️ S1 remain |
 | rag | `src/rag/AUDIT.md` | — | 4 | ⚠️ High |
 
 ---

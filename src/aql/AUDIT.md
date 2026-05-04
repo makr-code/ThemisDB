@@ -1,16 +1,20 @@
-<!-- Status: CRITICAL FINDINGS | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0 addressed 2026-05-04 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — AQL Module
 
 **Last Audit:** 2026-04-21
 **Auditor:** Copilot
-**Status:** 🔴 Critical — 2×S0 (LLM prompt injection + unguarded AQL privilege); 1×S1 (indirect prompt injection via RAG)
+**Status:** ✅ S0 addressed — 0 S0, 1 S1 (RAG indirect prompt injection)
 
 > **Note:** Previous audit claimed "Security Issues: None identified" and stated AQL injection
 > was resolved via "structured prompt templates." Direct source analysis found that
 > `schema_context` is injected verbatim without delimiter escaping, and generated AQL
 > is executed at system privilege level without any ACL check.
+> **2026-05-04:** LLM-2 addressed — `checkGeneratedAQLCollectionScope()` added; generated
+> AQL collection names are verified against the caller-supplied `schema_context`; queries
+> referencing out-of-scope collections are rejected with `INVALID_RESPONSE`. Residual risk:
+> callers who omit `schema_context` are warned but not blocked (architectural limitation).
 
 ## Summary
 
@@ -19,10 +23,10 @@
 | Build System Registration | ✅ Verified |
 | Source Files | 21 (`.cpp` in `src/aql/`) |
 | Test Coverage | ✅ All 4 phases complete; unit tests for all core components |
-| S0 Critical | ✅ 1 fixed (LLM-1 prompt injection fixed 2026-04-21); 🔴 1 remaining (LLM-2 privilege) |
+| S0 Critical | ✅ 0 (LLM-1 fixed 2026-04-21; LLM-2 addressed 2026-05-04) |
 | S1 High | 🔴 1 (RAG indirect prompt injection) |
 | S2 Medium | ⚠️ 1 (unsanitized inputs in confidence scoring) |
-| NL→AQL privilege isolation | 🔴 **None — generated queries run at system privilege** |
+| NL→AQL privilege isolation | ⚠️ Partial — schema-scope check enforced; full per-caller ACL requires architectural change |
 
 ## Build System
 
