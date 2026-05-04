@@ -1,15 +1,17 @@
-<!-- Status: S0+S1 fixed 2026-05-04 | validated: 2026-04-21 (full source code analysis of wire_protocol_server.cpp) -->
+<!-- Status: S0+S1+S2 fixed 2026-05-04 | validated: 2026-04-21 (full source code analysis of wire_protocol_server.cpp) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Network Module
 
-**Last Audit:** 2026-04-21 | **Status:** ✅ S0+S1 fixed — 0 S0, 0 S1, see below
+**Last Audit:** 2026-04-21 | **Status:** ✅ S0+S1+S2 fixed — 0 S0, 0 S1, 0 S2, see below
 
 > **Note:** Previous audit claimed "Status: ✅ Complete" for `wire_protocol_server.cpp`.
 > Direct source analysis found an unauthenticated opcode handler, an integer overflow in the
 > frame size guard, a development-mode auth bypass, and missing frame magic validation.
 > **2026-05-04:** WPS-1 (missing auth), WPS-2 (timing), WPS-3 (dev-mode bypass), WPS-4 (magic),
 > WPS-5 (overflow) all fixed.
+> **2026-05-04:** WPS-6 (rate counter window), WPS-7 (batch element cap), WPS-8 (vector k cap),
+> WPS-9 (rate_limits_ map growth), WPS-10 (active_sessions_ overwrite) all fixed.
 
 ## Module Overview
 
@@ -194,11 +196,11 @@ via timing side-channel.
 
 | ID | Location | Description |
 |----|----------|-------------|
-| WPS-6 | L325–328 | Per-minute rate counter reset every second — `max_requests_per_minute` limit is inoperative |
-| WPS-7 | L1245, L1320 | No element count cap on `BATCH_GET`/`BATCH_PUT` arrays — DoS via large batches |
-| WPS-8 | L1686 | Vector search `k` has no upper bound — allocation DoS |
-| WPS-9 | L318 | `rate_limits_` map grows without bound — memory exhaustion via IP cycling |
-| WPS-10 | L443 | Same-IP sessions overwrite in `active_sessions_` — connection counter corruption |
+| WPS-6 | L325–328 | ✅ **Fixed 2026-05-04** — Separate `minute_window_start_ms` field added to `RateLimitState`; per-minute counter now resets on a 60-second window independent of the 1-second window. |
+| WPS-7 | L1245, L1320 | ✅ **Fixed 2026-05-04** — `constexpr size_t kMaxBatchElements = 1000` guard added to both `BATCH_GET` (keys array) and `BATCH_PUT` (items array); returns HTTP 400 on excess. |
+| WPS-8 | L1686 | ✅ **Fixed 2026-05-04** — `constexpr size_t kMaxVectorSearchK = 10000` guard added; returns HTTP 400 if `k` exceeds limit. |
+| WPS-9 | L318 | ✅ **Fixed 2026-05-04** — `rate_limits_` map is cleared when it reaches `kMaxRateLimitEntries = 100'000` entries, preventing unbounded memory growth from IP cycling. |
+| WPS-10 | L443 | ✅ **Fixed 2026-05-04** — Changed `active_sessions_[remote_ip] = session` to `active_sessions_.try_emplace(remote_ip, session)` so existing entries are never overwritten. |
 
 ### S3 — Low
 

@@ -917,7 +917,22 @@ bool AdaptiveQueryCache::put(
 
 size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
     size_t count = 0;
-    std::regex re(pattern);
+
+    // C-3: Limit pattern length to mitigate ReDoS; C++ stdlib regex has no
+    // backtracking budget API, so length capping is the primary mitigation.
+    constexpr size_t kMaxRegexPatternLen = 256;
+    if (pattern.size() > kMaxRegexPatternLen) {
+        THEMIS_WARN("Cache invalidate: pattern too long ({} chars), rejecting to prevent ReDoS",
+                    pattern.size());
+        return 0;
+    }
+    std::regex re;
+    try {
+        re = std::regex(pattern, std::regex::ECMAScript | std::regex::optimize);
+    } catch (const std::regex_error& e) {
+        THEMIS_WARN("Cache invalidate: invalid regex pattern '{}': {}", pattern, e.what());
+        return 0;
+    }
     
     // Invalidate L1
     {

@@ -255,7 +255,7 @@ private:
     // Publisher connection
     mutable std::mutex pub_mutex_;
     SocketFd           pub_fd_   = kInvalidSocket;
-    bool               pub_ok_   = false;
+    std::atomic<bool>  pub_ok_{false};  // D-3: atomic for lock-free reads in isConnected()
 
     // Subscriber thread
     std::thread        sub_thread_;

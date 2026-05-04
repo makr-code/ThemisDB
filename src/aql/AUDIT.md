@@ -1,11 +1,11 @@
-<!-- Status: S0 addressed 2026-05-04 | S1 fixed 2026-05-04 | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0 addressed 2026-05-04 | S1 fixed 2026-05-04 | S2 fixed 2026-05-04 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — AQL Module
 
 **Last Audit:** 2026-04-21
 **Auditor:** Copilot
-**Status:** ✅ S0+S1 resolved — 0 S0, 0 S1
+**Status:** ✅ S0+S1+S2 resolved — 0 S0, 0 S1, 0 S2
 
 > **Note:** Previous audit claimed "Security Issues: None identified" and stated AQL injection
 > was resolved via "structured prompt templates." Direct source analysis found that
@@ -18,6 +18,8 @@
 > **2026-05-04:** LLM-3 fixed — retrieved document content is sanitized via
 > `sanitizePromptInput()` and wrapped in `[DOCUMENT_START]/[DOCUMENT_END]` delimiters
 > before inclusion in the LLM RAG context.
+> **2026-05-04:** LLM-4 fixed — `sanitizePromptInput()` applied to `original_intent` and
+> `aql_query` in `scoreQueryConfidence()`; both wrapped in `[USERINPUT_START]/[USERINPUT_END]`.
 
 ## Summary
 
@@ -28,7 +30,7 @@
 | Test Coverage | ✅ All 4 phases complete; unit tests for all core components |
 | S0 Critical | ✅ 0 (LLM-1 fixed 2026-04-21; LLM-2 addressed 2026-05-04) |
 | S1 High | 🔴 1 (RAG indirect prompt injection) |
-| S2 Medium | ⚠️ 1 (unsanitized inputs in confidence scoring) |
+| S2 Medium | ✅ 0 (LLM-4 fixed 2026-05-04) |
 | NL→AQL privilege isolation | ⚠️ Partial — schema-scope check enforced; full per-caller ACL requires architectural change |
 
 ## Build System
@@ -145,15 +147,9 @@ can hijack the RAG response to the next user querying overlapping data.
 
 #### LLM-4 · `llm_aql_handler.cpp` · `scoreQueryConfidence()` — Unsanitized inputs in prompt
 
-`original_intent` and `aql_query` are embedded in the scoring prompt without calling
-`sanitizePromptInput`:
+✅ **Fixed 2026-05-04** — `sanitizePromptInput()` is now called on both `original_intent` and `aql_query` before they are embedded in the prompt. Both fields are wrapped in `[USERINPUT_START]/[USERINPUT_END]` delimiters.
 
-```cpp
-prompt << "The user intended: \"" << original_intent << "\"\n\n";
-prompt << "AQL query to evaluate:\n```\n" << aql_query << "\n```\n\n";
-```
-
-**Fix required:** Apply `sanitizePromptInput()` to both before embedding.
+~~`original_intent` and `aql_query` were embedded in the scoring prompt without calling `sanitizePromptInput`.~~
 
 ---
 

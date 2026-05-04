@@ -321,16 +321,28 @@ bool WireProtocolServer::checkRateLimit(const std::string& remote_ip) {
     auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
     
-    auto& state = rate_limits_[remote_ip];
-    if (state.window_start_ms == 0) {
-        state.window_start_ms = now_ms;
+    // WPS-9: prune map before inserting to prevent unbounded growth from IP cycling
+    constexpr size_t kMaxRateLimitEntries = 100'000;
+    if (rate_limits_.size() >= kMaxRateLimitEntries) {
+        rate_limits_.clear();
     }
 
-    // Reset if window expired
+    auto& state = rate_limits_[remote_ip];
+    if (state.window_start_ms == 0) {
+        state.window_start_ms        = now_ms;
+        state.minute_window_start_ms = now_ms;
+    }
+
+    // Reset per-second window
     if (now_ms - state.window_start_ms >= 1000) {
-        state.window_start_ms = now_ms;
+        state.window_start_ms     = now_ms;
         state.request_count_second = 0;
-        state.request_count_minute = 0;
+    }
+
+    // Reset per-minute window (WPS-6: was incorrectly reusing the 1-second window)
+    if (now_ms - state.minute_window_start_ms >= 60000) {
+        state.minute_window_start_ms = now_ms;
+        state.request_count_minute   = 0;
     }
 
     // Check rate limits
@@ -446,7 +458,7 @@ void WireProtocolServer::handleAccept(std::shared_ptr<Session> session, const bo
 
         {
             std::lock_guard<std::mutex> lock(connections_mutex_);
-            active_sessions_[remote_ip] = session;
+            active_sessions_.try_emplace(remote_ip, session);
         }
 
         session->start();
@@ -1321,6 +1333,12 @@ void WireProtocolServer::Session::handleBatchGet() {
             return;
         }
 
+        constexpr size_t kMaxBatchElements = 1000;
+        if (keys_arr.size() > kMaxBatchElements) {
+            sendError(400, "BATCH_GET exceeds maximum of 1000 keys per request");
+            return;
+        }
+
         std::vector<std::string> client_keys;
         client_keys.reserve(keys_arr.size());
         std::vector<std::string> storage_keys;
@@ -1400,6 +1418,12 @@ void WireProtocolServer::Session::handleBatchPut() {
         const auto& items_arr = request["items"];
         if (items_arr.empty()) {
             sendError(400, "Empty 'items' array in BATCH_PUT request");
+            return;
+        }
+
+        constexpr size_t kMaxBatchElements = 1000;
+        if (items_arr.size() > kMaxBatchElements) {
+            sendError(400, "BATCH_PUT exceeds maximum of 1000 items per request");
             return;
         }
 
@@ -1923,6 +1947,12 @@ void WireProtocolServer::Session::handleVectorSearch() {
 
         size_t k = request.value("k", static_cast<size_t>(10));
         if (k == 0) k = 10;
+
+        constexpr size_t kMaxVectorSearchK = 10000;
+        if (k > kMaxVectorSearchK) {
+            sendError(400, "VECTOR_SEARCH 'k' exceeds maximum value of 10000");
+            return;
+        }
 
         auto [status, results] = server_->vector_index_->searchKnn(query_vector, k);
 

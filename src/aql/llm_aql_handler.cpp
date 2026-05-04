@@ -1985,6 +1985,12 @@ LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(
     }
 
     try {
+        // LLM-4: sanitize user-supplied inputs before embedding in prompt
+        if (!original_intent.empty()) {
+            sanitizePromptInput(original_intent, "original_intent");
+        }
+        sanitizePromptInput(aql_query, "aql_query");
+
         // Build a structured prompt that asks the LLM to respond in a parseable format
         std::ostringstream prompt;
         prompt << "You are an expert in AQL (ArangoDB Query Language) for ThemisDB.\n\n";
@@ -1994,10 +2000,10 @@ LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(
         }
 
         if (!original_intent.empty()) {
-            prompt << "The user intended: \"" << original_intent << "\"\n\n";
+            prompt << "The user intended:\n[USERINPUT_START]\n" << original_intent << "\n[USERINPUT_END]\n\n";
         }
 
-        prompt << "AQL query to evaluate:\n```\n" << aql_query << "\n```\n\n";
+        prompt << "AQL query to evaluate:\n[USERINPUT_START]\n" << aql_query << "\n[USERINPUT_END]\n\n";
         prompt << "Evaluate this AQL query on a scale from 0.0 to 1.0 and respond in EXACTLY "
                << "this format (no extra text):\n"
                << "SCORE: <float between 0.0 and 1.0>\n"
