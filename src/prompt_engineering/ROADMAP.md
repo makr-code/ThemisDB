@@ -98,7 +98,7 @@ v2.0.0 – Full lifecycle management for LLM prompt templates is production-read
 - [x] `PromptEngineeringIntegration` wired: `setReflectionTuner()`, `setMetrics()`, optional reflection pass in `afterExecution()`
 - [x] `IntegrationConfig::enable_reflection_tuning` / `reflection_max_iterations`
 - [x] 28 focused integration tests; CI: `reflection-integration-ci.yml`
-- [x] German docs updated (README, missing-implementations.md)
+- [x] German docs updated (README, MISSING_IMPLEMENTATIONS.md)
 
 ### Phase 5: Tracing, Regression & Experiments (Status: In Progress 🚧)
 - [x] CoT execution tracer — `IChainOfThoughtTracer` + `RecordingCoTTracer` + `CoTTraceCollector`; `ChainOfThoughtBuilder::attachTracer()`; per-step latency attribution; 30 tests; CI: `cot-tracer-ci.yml`

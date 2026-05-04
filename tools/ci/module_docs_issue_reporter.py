@@ -253,7 +253,7 @@ im Modell **Primary (`src/**`, `include/**`) → Secondary (`docs/*`) → Compen
 
 ### Task 4 — Missing-Implementations-Report
 
-- [ ] `docs/de/{module}/missing-implementations.md` erstellen/aktualisieren
+- [ ] `docs/de/{module}/MISSING_IMPLEMENTATIONS.md` erstellen/aktualisieren
 - [ ] Offene Lücken mit Impact, Evidence, Priorisierung und Folge-Issues aufführen
 
 ## Primärquellen (Auszug)
@@ -265,7 +265,7 @@ im Modell **Primary (`src/**`, `include/**`) → Secondary (`docs/*`) → Compen
 - [ ] Scope (Primary/Secondary) erfüllt
 - [ ] Tasks 1–4 nachvollziehbar abgeschlossen
 - [ ] Secondary-Doku in DE/EN aktualisiert und verlinkt
-- [ ] `missing-implementations.md` vorhanden und konsistent
+- [ ] `MISSING_IMPLEMENTATIONS.md` vorhanden und konsistent
 - [ ] Validierung dokumentiert (z. B. `scripts/validate-docs.sh`, relevante Tests)
 
 ## Abschlussformat für Online-Agenten

@@ -828,7 +828,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 - [ROADMAP.md](ROADMAP.md) - Implementation phases and planned features
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned storage improvements
 - [Secondary Docs (docs/de)](../../../docs/de/storage/README.md) - German-language overview
-- [Missing Implementations Report](../../../docs/de/storage/missing-implementations.md) - Reality-check findings
+- [Missing Implementations Report](../../../docs/de/storage/MISSING_IMPLEMENTATIONS.md) - Reality-check findings
 - [Core Module](../core/README.md) - Cross-cutting concerns
 - [Server Module](../server/README.md) - Network protocols and APIs
 

@@ -118,4 +118,4 @@ Entry-point: `plugins/image_analysis/onnx_clip/CMakeLists.txt` (compatibility sh
 
 ---
 
-*See also: [`future_enhancements.md`](future_enhancements.md)*
+*See also: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)*

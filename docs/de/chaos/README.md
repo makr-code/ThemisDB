@@ -44,4 +44,4 @@ Die Kernklassen `FaultInjector` und `ChaosScheduler` sind produktiv vorhanden un
 - ABI-Kompatibilitätsmatrix für externe Include-Consumer ist weiterhin offen (`include/chaos/ROADMAP.md`, Production Readiness Checklist).
 
 Details und Priorisierung sind im Report dokumentiert:
-- [`missing-implementations.md`](./missing-implementations.md)
+- [`MISSING_IMPLEMENTATIONS.md`](./MISSING_IMPLEMENTATIONS.md)

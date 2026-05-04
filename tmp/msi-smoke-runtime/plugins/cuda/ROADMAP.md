@@ -118,4 +118,4 @@ Build flag: `-DTHEMIS_ENABLE_CUDA=ON`
 
 ---
 
-*See also: [`future_enhancements.md`](future_enhancements.md) · [`PLANNED_ACCELERATION_PLUGINS.md`](../PLANNED_ACCELERATION_PLUGINS.md)*
+*See also: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) · [`PLANNED_ACCELERATION_PLUGINS.md`](../PLANNED_ACCELERATION_PLUGINS.md)*

@@ -9,7 +9,7 @@
 > extracted from `src/*/FUTURE_ENHANCEMENTS.md` and sorted by release risk.
 >
 > **Scope:** `src/` and `include/` modules. Plugin stubs in `plugins/` follow the same pattern
-> but are tracked separately in each plugin's `future_enhancements.md`.
+> but are tracked separately in each plugin's `FUTURE_ENHANCEMENTS.md`.
 >
 > **Filename convention:** `.MD` (uppercase) for root-level strategy documents.
 > Module-level files use `FUTURE_ENHANCEMENTS.md` (uppercase name, lowercase extension).
@@ -866,7 +866,7 @@ A stub replacement item is **Done** (`[x]`) when ALL of the following are true:
 | `src/ROADMAP.md` | Master backlog (276 items, all modules) |
 | `src/<module>/FUTURE_ENHANCEMENTS.md` | Module-level detail, acceptance criteria, API sketches |
 | `src/<module>/AUDIT.md` | Per-module audit trail, open items, security findings |
-| `FUTURE_ENHANCEMENTS.MD` (this file) | Root-level stub replacement matrix, wave prioritisation |
+| `FUTURE_ENHANCEMENTS.md` (this file) | Root-level stub replacement matrix, wave prioritisation |
 | GitHub Issues `#3825–#4092` | One issue per backlog item; label `stub-replacement` |
 
 **Issue template:**

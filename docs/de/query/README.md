@@ -176,7 +176,7 @@ Result<std::string>    explainAqlDot(const std::string& aql, QueryEngine& engine
 - [Filtered Vector Queries](query_filtered_vector.md) — Gefilterte Vektorsuche
 - [Hybrid Overview](query_hybrid_overview.md) — Übersicht Hybrid-Queries
 - [Query Benchmarks](query_hybrid_benchmarks.md) — Performance-Messungen
-- [Missing Implementations](missing-implementations.md) — Bekannte Lücken und geplante Arbeiten
+- [Missing Implementations](MISSING_IMPLEMENTATIONS.md) — Bekannte Lücken und geplante Arbeiten
 
 ---
 

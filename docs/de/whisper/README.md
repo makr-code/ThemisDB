@@ -76,4 +76,4 @@ Abweichungen (in dieser Migration korrigiert):
 ## Weiterführende Secondary-Dokumente
 
 - [PRIMARY_SOURCES.md](./PRIMARY_SOURCES.md)
-- [missing-implementations.md](./missing-implementations.md)
+- [MISSING_IMPLEMENTATIONS.md](./MISSING_IMPLEMENTATIONS.md)

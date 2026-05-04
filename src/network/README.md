@@ -44,7 +44,7 @@ The Network module implements ThemisDB's high-performance, secure networking lay
 
 **Maturity:** 🟢 Production-Ready — Transport infrastructure, connection pooling, multiplexing, compression, WebSocket, QUIC, gRPC, and service mesh operational. Core Wire Protocol V1 operation handlers (HELLO, AUTH, GET, PUT, DELETE, VECTOR_SEARCH) fully implemented; QUERY_AQL and GEO_QUERY return structured errors directing clients to the HTTP REST API (engine integration pending).
 
-**Validated:** 2026-03-10 (Reality-Check against Sourcecode; see [docs/de/network/missing-implementations.md](../../docs/de/network/missing-implementations.md))
+**Validated:** 2026-03-10 (Reality-Check against Sourcecode; see [docs/de/network/MISSING_IMPLEMENTATIONS.md](../../docs/de/network/MISSING_IMPLEMENTATIONS.md))
 
 ## Scope
 

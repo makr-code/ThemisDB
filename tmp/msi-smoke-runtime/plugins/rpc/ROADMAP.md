@@ -119,4 +119,4 @@ Entry-point: `plugins/rpc/grpc/CMakeLists.txt` (compatibility shim) · implement
 
 ---
 
-*See also: [`future_enhancements.md`](future_enhancements.md) · [RPC Architecture](../../docs/de/plugins/RPC_PLUGIN_ARCHITECTURE.md)*
+*See also: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) · [RPC Architecture](../../docs/de/plugins/RPC_PLUGIN_ARCHITECTURE.md)*

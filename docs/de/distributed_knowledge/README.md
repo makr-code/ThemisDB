@@ -49,4 +49,4 @@ Query und RLAIF/Prompt-Engineering (siehe Primärquellen und Testreferenzen).
 ## Navigationslinks
 
 - Primärquellenindex: [`PRIMARY_SOURCES.md`](./PRIMARY_SOURCES.md)
-- Gap-Report: [`missing-implementations.md`](./missing-implementations.md)
+- Gap-Report: [`MISSING_IMPLEMENTATIONS.md`](./MISSING_IMPLEMENTATIONS.md)

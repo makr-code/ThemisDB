@@ -136,7 +136,7 @@ Entry-point: `plugins/ethics_ai/CMakeLists.txt` (compatibility shim) · implemen
 
 ---
 
-*See also: [`future_enhancements.md`](future_enhancements.md) · [`FUTURE_WORK.md`](FUTURE_WORK.md)*
+*See also: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) · [`FUTURE_WORK.md`](FUTURE_WORK.md)*
 ### Zuordnung zu ThemisDB-Validierung
 - **Toxizität / Content Safety**: [1] als Regression-Benchmark für `/ethics/decision` Safeguards.
 - **Bias-Messung**: [2] (HolisticBias) & [3] (BBQ) für demographische Fairness-Gates.

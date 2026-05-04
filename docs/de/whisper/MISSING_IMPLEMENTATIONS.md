@@ -1,4 +1,4 @@
-[docs](../../README.md) > [de](../README.md) > [whisper](./README.md) > [missing-implementations](./missing-implementations.md)
+[docs](../../README.md) > [de](../README.md) > [whisper](./README.md) > [missing-implementations](./MISSING_IMPLEMENTATIONS.md)
 **Datum:** 2026-04-16
 **Status:** review
 **Primary (Quelle der Wahrheit):**

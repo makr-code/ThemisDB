@@ -96,4 +96,4 @@ Das Maintenance-Modul orchestriert geplante Datenbankwartungsaufgaben: Index-Reb
 | [`src/maintenance/FUTURE_ENHANCEMENTS.md`](../../../src/maintenance/FUTURE_ENHANCEMENTS.md) | Geplante Verbesserungen |
 | [`docs/maintenance/ORCHESTRATOR_DESIGN.md`](../../maintenance/ORCHESTRATOR_DESIGN.md) | Orchestrator-Designdokument |
 | [`docs/maintenance/MODULE_INTEGRATION_GUIDE.md`](../../maintenance/MODULE_INTEGRATION_GUIDE.md) | Modul-Integrationsleitfaden |
-| [`docs/de/maintenance/missing-implementations.md`](./missing-implementations.md) | Fehlende Implementierungen |
+| [`docs/de/maintenance/MISSING_IMPLEMENTATIONS.md`](./MISSING_IMPLEMENTATIONS.md) | Fehlende Implementierungen |

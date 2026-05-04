@@ -62,7 +62,7 @@
 | perf_expectations_audit | `python3 tools/perf_expectations_audit.py --output-dir /tmp/themis_perf_audit --strict` | ✅ Pass with warnings (`7 pass / 3 warn / 0 fail`) |
 | benchmark_mapping | `python3 tools/verify_benchmark_mapping.py` | ✅ Pass (fixed in Wave-1 remediation) |
 | perf_expectations_audit | `python3 tools/perf_expectations_audit.py --strict` | ✅ 9 Pass / 1 Warn / 0 Fail (fixed in Wave-1 remediation) |
-| docs-lint | `python3 scripts/docs-lint.py AUDIT.md FUTURE_ENHANCEMENTS.MD` | ⚠️ Warnings only (pre-existing formatting) |
+| docs-lint | `python3 scripts/docs-lint.py AUDIT.md FUTURE_ENHANCEMENTS.md` | ⚠️ Warnings only (pre-existing formatting) |
 
 ### 4.2 Dynamische Analyse
 

@@ -81,4 +81,4 @@
 
 3. **Missing-Implementations separat priorisieren**
    - Offene Implementierungen sind im dedizierten Report zusammengeführt:
-     [missing-implementations.md](./missing-implementations.md).
+     [MISSING_IMPLEMENTATIONS.md](./MISSING_IMPLEMENTATIONS.md).

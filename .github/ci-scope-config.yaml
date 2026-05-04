@@ -109,7 +109,7 @@ scopes:
       - '.github/RELEASE.md'
       - 'ROADMAP.md'
       - 'ROADMAP.md'
-      - 'FUTURE_ENHANCEMENTS.MD'
+      - 'FUTURE_ENHANCEMENTS.md'
       - 'future_enhancement.md'
 
   # ── Config/CMake changes ──────────────────────────────────────────────────

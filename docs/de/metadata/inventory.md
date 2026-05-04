@@ -66,7 +66,7 @@
 
 > **Hinweis:** `system_catalog.cpp` existiert nicht. Die SystemCatalog-Funktionalität
 > (Persistenz via RocksDB) ist in `schema_manager.cpp` implementiert. Siehe META-MISSING-006
-> in [`missing-implementations.md`](missing-implementations.md).
+> in [`MISSING_IMPLEMENTATIONS.md`](MISSING_IMPLEMENTATIONS.md).
 
 ---
 
@@ -75,7 +75,7 @@
 | Datei | Beschreibung |
 |-------|-------------|
 | `docs/de/metadata/README.md` | Deutsche Überblicks-Dokumentation mit Schnellstart, Feature-Matrix, Tests |
-| `docs/de/metadata/missing-implementations.md` | Befund-Report aus Reality-Check (6 Findings) |
+| `docs/de/metadata/MISSING_IMPLEMENTATIONS.md` | Befund-Report aus Reality-Check (6 Findings) |
 | `docs/de/metadata/missing-implementations.json` | Maschinenlesbare Version (6 Findings) |
 | `docs/de/metadata/inventory.md` | Dieses Dokument |
 
@@ -87,4 +87,4 @@
 - [src/metadata/ROADMAP.md](../../../src/metadata/ROADMAP.md) — Feature-Status und Planung
 - [include/metadata/README.md](../../../include/metadata/README.md) — Public API Referenz
 - [docs/de/metadata/README.md](README.md) — Sekundäre Dokumentation (Deutsch)
-- [docs/de/metadata/missing-implementations.md](missing-implementations.md) — Befund-Report
+- [docs/de/metadata/MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md) — Befund-Report

@@ -18,4 +18,4 @@
 
 - [README](./README.md)
 - [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
-- [German missing-implementations report](../../de/chimera/missing-implementations.md)
+- [German missing-implementations report](../../de/chimera/MISSING_IMPLEMENTATIONS.md)

@@ -119,7 +119,7 @@
 ### Phase 6: Documentation & Release (Status: In Progress 🚧)
 - [x] Architecture guide (`src/content/ARCHITECTURE.md`)
 - [x] FUTURE_ENHANCEMENTS.md with design constraints and required interfaces
-- [x] Missing-implementations audit report (`docs/de/content/missing-implementations.md`)
+- [x] Missing-implementations audit report (`docs/de/content/MISSING_IMPLEMENTATIONS.md`)
 - [x] German developer docs (`docs/de/content/`)
 - [x] OCR language-pack path convention documented and defaulted to `config/ai_ml/tesseract_lang/` (CON-004)
 - [x] API reference for `ContentManager::ingestStream()` back-pressure behaviour

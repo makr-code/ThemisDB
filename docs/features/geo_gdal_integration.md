@@ -361,7 +361,7 @@ ctest -R geo
 
 ## Future Enhancements
 
-**For a comprehensive list of planned enhancements, see [Future Enhancements for Geospatial Implementation](../geospatial_future_enhancements.md).**
+**For a comprehensive list of planned enhancements, see [Future Enhancements for Geospatial Implementation](../GEOSPATIAL_FUTURE_ENHANCEMENTS.md).**
 
 Key upcoming features include:
 - [ ] Support for compressed formats (e.g., .shp.zip)
@@ -377,7 +377,7 @@ Key upcoming features include:
 - [OGR Vector API](https://gdal.org/api/vector_c_api.html)
 - [GeoTIFF Format Specification](https://docs.ogc.org/is/19-008r4/19-008r4.html)
 - [Shapefile Format Specification](https://www.esri.com/content/dam/esrisites/sitecore-archive/Files/Pdfs/library/whitepapers/pdfs/shapefile.pdf)
-- [Future Enhancements for Geospatial Implementation](../geospatial_future_enhancements.md) - Comprehensive roadmap
+- [Future Enhancements for Geospatial Implementation](../GEOSPATIAL_FUTURE_ENHANCEMENTS.md) - Comprehensive roadmap
 
 ## Support
 

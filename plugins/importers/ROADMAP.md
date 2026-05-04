@@ -130,4 +130,4 @@ Entry-point: `plugins/importers/` · implementations in `src/importers/`
 
 ---
 
-*See also: [`future_enhancements.md`](future_enhancements.md)*
+*See also: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)*

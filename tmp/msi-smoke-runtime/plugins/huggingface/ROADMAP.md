@@ -119,4 +119,4 @@ Entry-point: `plugins/huggingface/plugin.json` · implementation: `src/plugins/h
 
 ---
 
-*See also: [`future_enhancements.md`](future_enhancements.md) · [Full docs](../../docs/plugins/HUGGINGFACE_INGESTION.md)*
+*See also: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) · [Full docs](../../docs/plugins/HUGGINGFACE_INGESTION.md)*

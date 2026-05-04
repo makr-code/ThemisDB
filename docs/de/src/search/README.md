@@ -184,4 +184,4 @@ Erklärende Dokumentation und Reality-Check in `docs/de/`:
 
 | Dokument | Pfad | Inhalt |
 |----------|------|--------|
-| **Fehlende Implementierungen** | [`docs/de/src/search/missing-implementations.md`](missing-implementations.md) | Reality-Check: offene Punkte (nur Distributed Search, Issue #2280) |
+| **Fehlende Implementierungen** | [`docs/de/src/search/MISSING_IMPLEMENTATIONS.md`](MISSING_IMPLEMENTATIONS.md) | Reality-Check: offene Punkte (nur Distributed Search, Issue #2280) |

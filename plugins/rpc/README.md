@@ -54,4 +54,4 @@ gRPC Backend  (src/rpc_grpc/)
 
 > Each plugin has its own documentation:
 > - [`ROADMAP.md`](ROADMAP.md) – planned work
-> - [`future_enhancements.md`](future_enhancements.md) – ideas backlog
+> - [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) – ideas backlog

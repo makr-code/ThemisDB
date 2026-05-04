@@ -49,4 +49,4 @@ RLAIF/prompt-engineering components (see primary docs and referenced tests).
 ## Navigation
 
 - Primary source index: [`PRIMARY_SOURCES.md`](./PRIMARY_SOURCES.md)
-- Gap report (DE): [`../../de/distributed_knowledge/missing-implementations.md`](../../de/distributed_knowledge/missing-implementations.md)
+- Gap report (DE): [`../../de/distributed_knowledge/MISSING_IMPLEMENTATIONS.md`](../../de/distributed_knowledge/MISSING_IMPLEMENTATIONS.md)

@@ -20,7 +20,7 @@
  *   EMB_04  makeEmbeddingBridge() factory returns a usable IEmbeddingProvider
  *   EMB_05  Library with bridge uses semantic path (provider present vs absent)
  *
- * Source: src/aql/FUTURE_ENHANCEMENTS.md §8, FUTURE_ENHANCEMENTS.MD §B-07
+ * Source: src/aql/FUTURE_ENHANCEMENTS.md §8, FUTURE_ENHANCEMENTS.md §B-07
  */
 
 #include <gtest/gtest.h>

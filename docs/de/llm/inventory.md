@@ -17,8 +17,8 @@
 | `src/llm/ARCHITECTURE.md` | Detaillierte Architektur: Design-Prinzipien, Komponententabelle, Datenfluß, Threading, Performance, Sicherheit, Konfiguration, Fehlerbehandlung |
 | `src/llm/ROADMAP.md` | Implementierungsstatus, abgeschlossene Features, geplante Features (v1.16.0), Phasenmodell, Production-Readiness-Checkliste, Breaking Changes |
 | `src/llm/FUTURE_ENHANCEMENTS.md` | Geplante Erweiterungen (Scope: federated inference), Design-Constraints, IEEE-Referenzen |
-| `src/llm/gguf_loader_README.md` | GGUF-Modelllader: Format, Validierung, Fehlerbehandlung |
-| `src/llm/llama_lora_adapter_README.md` | LoRA-Adapter-Integration mit llama.cpp: API-Erkennung, Lifecycle |
+| `src/llm/GGUF_LOADER_README.md` | GGUF-Modelllader: Format, Validierung, Fehlerbehandlung |
+| `src/llm/LLAMA_LORA_ADAPTER_README.md` | LoRA-Adapter-Integration mit llama.cpp: API-Erkennung, Lifecycle |
 | `include/llm/README.md` | Übersicht der öffentlichen Header-Dateien; Architekturhinweis |
 | `include/llm/FUTURE_ENHANCEMENTS.md` | Header-Interface-Enhancements (Streaming, OpenAI-Adapter, LoRA Hot-Swap – alle implementiert) |
 
@@ -186,7 +186,7 @@
 |---|---|
 | `docs/de/llm/README.md` | Deutsche LLM-Übersicht; Quicklinks auf englische Feature-Docs |
 | `docs/de/llm/inventory.md` | Dieses Inventardokument |
-| `docs/de/llm/missing-implementations.md` | Report fehlender/unvollständiger Implementierungen |
+| `docs/de/llm/MISSING_IMPLEMENTATIONS.md` | Report fehlender/unvollständiger Implementierungen |
 | `docs/de/llm/README_PLUGINS.md` | Plugin-Entwicklung: Quickstart & Beispiele |
 | `docs/de/llm/README_QLORA.md` | QLoRA-Integration |
 | `docs/de/llm/LORA_DOKUMENTATIONS_HUB.md` | LoRA-Dokumentationshub |
@@ -234,4 +234,4 @@
 - Federated Inference: Nicht implementiert (Issue: #1928)
 - `production_validator.cpp`: 🟠 Beta — 14 Test-TODOs; Produktionslogik implementiert, Integration-Tests fehlen noch
 
-Detaillierter Report: [`missing-implementations.md`](missing-implementations.md)
+Detaillierter Report: [`MISSING_IMPLEMENTATIONS.md`](MISSING_IMPLEMENTATIONS.md)

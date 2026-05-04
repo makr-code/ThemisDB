@@ -118,4 +118,4 @@ Entry-point: `plugins/exporters/` (plugin manifests) · implementation in `src/e
 
 ---
 
-*See also: [`future_enhancements.md`](future_enhancements.md)*
+*See also: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)*

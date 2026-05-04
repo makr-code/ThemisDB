@@ -100,5 +100,5 @@ Vollständige Dokumentation: Compendium Kapitel 21.1.
 
 | Datei | Beschreibung |
 |-------|--------------|
-| [missing-implementations.md](missing-implementations.md) | Fehlende Implementierungen — Reality-Check-Ergebnis (Issue #3525) |
+| [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md) | Fehlende Implementierungen — Reality-Check-Ergebnis (Issue #3525) |
 | [missing-implementations.json](missing-implementations.json) | Machine-readable Findings |

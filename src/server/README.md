@@ -1442,7 +1442,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 - [Core Module](../core/README.md) - Dependency injection and concerns
 - [Storage Module](../storage/README.md) - Data persistence layer
 - [docs/de/server/README.md](../../docs/de/server/README.md) - German secondary documentation (Übersicht, Komponenten, Protokolle)
-- [docs/de/server/missing-implementations.md](../../docs/de/server/missing-implementations.md) - Reality-check findings (March 2026)
+- [docs/de/server/MISSING_IMPLEMENTATIONS.md](../../docs/de/server/MISSING_IMPLEMENTATIONS.md) - Reality-check findings (March 2026)
 
 ## Scientific References
 

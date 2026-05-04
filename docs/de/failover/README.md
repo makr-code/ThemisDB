@@ -37,7 +37,7 @@ Offene Punkte betreffen primär Roadmap-/Enhancement-Themen (z. B. Cross-Region-
 
 ### Dokumentierte Abweichungen / offene Lücken
 
-Siehe detailliert: [`missing-implementations.md`](./missing-implementations.md)
+Siehe detailliert: [`MISSING_IMPLEMENTATIONS.md`](./MISSING_IMPLEMENTATIONS.md)
 
 ## Installation
 
@@ -47,7 +47,7 @@ Das Modul ist Teil des regulären ThemisDB-Builds; keine separate Installation e
 
 - Laufzeitsteuerung über `AutoFailoverManager::start/stop/triggerManualFailover`
 - DR-Ausführung über `DisasterRecoveryManager::executePlan`
-- Details zu offenen Lücken: [`missing-implementations.md`](./missing-implementations.md)
+- Details zu offenen Lücken: [`MISSING_IMPLEMENTATIONS.md`](./MISSING_IMPLEMENTATIONS.md)
 
 ## Task 2 — ROADMAP / FUTURE_ENHANCEMENTS Verifikation
 
@@ -74,4 +74,4 @@ Das Modul ist Teil des regulären ThemisDB-Builds; keine separate Installation e
 ## Verwandte Dokumente
 
 - [PRIMARY_SOURCES.md](./PRIMARY_SOURCES.md)
-- [Fehlende Implementierungen](./missing-implementations.md)
+- [Fehlende Implementierungen](./MISSING_IMPLEMENTATIONS.md)

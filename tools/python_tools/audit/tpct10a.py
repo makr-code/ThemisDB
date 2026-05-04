@@ -440,8 +440,8 @@ def _m06_llm_model_artifact_preparation(repo_root: Path) -> List[Finding]:
 
     # Check for LLM benchmark docs mentioning setup
     llm_doc_paths = [
-        "src/llm/gguf_loader_README.md",
-        "src/llm/llama_lora_adapter_README.md",
+        "src/llm/GGUF_LOADER_README.md",
+        "src/llm/LLAMA_LORA_ADAPTER_README.md",
         "docs/BENCHMARK_RUNBOOK.md",
         "benchmarks/QUICKSTART.md",
         "benchmarks/README.md",

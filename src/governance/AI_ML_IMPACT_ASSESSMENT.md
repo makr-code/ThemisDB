@@ -291,7 +291,7 @@ references the concrete file and mechanism found during code review.
 | `AgenticRAG` + `AQLAgent` haben max_iterations-Limit, aber kein Budget-CAP fuer Token-Gesamtkosten pro Session | Medium | `src/rag/agentic_rag.cpp`, `src/aql/aql_agent.cpp` | BudgetSpec-Integration analog zu `ai_orchestrator.h` |
 | `PromptInjectionDetector` in `src/rag/` und `src/prompt_engineering/` sind zwei unabhaengige Implementierungen ohne gemeinsamen Muster-Stand | Medium | `src/rag/prompt_injection_detector.cpp`, `src/prompt_engineering/prompt_injection_detector.cpp` | Konsolidierung oder gemeinsame Muster-Registry |
 | Kein zentrales ML/AI-Rate-Limit fuer externe Token-Kosten (z.B. OpenAI-API-Calls) | High | `src/llm/`, `src/aql/` | Token-Kostenbudget-Tracking + Alert |
-| `LLMJudgeIntegration` gibt Mock-Scores zurueck wenn kein LLM verfuegbar (statt `RAGError::JudgeUnavailable`) | Medium | `src/rag/llm_judge_integration.cpp` | FUTURE_ENHANCEMENTS.MD B-11 offen |
+| `LLMJudgeIntegration` gibt Mock-Scores zurueck wenn kein LLM verfuegbar (statt `RAGError::JudgeUnavailable`) | Medium | `src/rag/llm_judge_integration.cpp` | FUTURE_ENHANCEMENTS.md B-11 offen |
 | `HuggingFaceConnector` holt Daten von externer Quelle ohne Datenschutz-Review | Medium | `src/ingestion/huggingface_connector.cpp` | Datenklassifikations-Gate vor Ingestion |
 
 ## 8) KPIs / Zielwerte

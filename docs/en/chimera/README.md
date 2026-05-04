@@ -52,4 +52,4 @@ Streaming and prepared statements are implemented and covered by dedicated tests
 - Engine-backed paths still include `NOT_IMPLEMENTED` outcomes when build flags are unavailable.
 
 Detailed gap report (DE):
-- `docs/de/chimera/missing-implementations.md`
+- `docs/de/chimera/MISSING_IMPLEMENTATIONS.md`

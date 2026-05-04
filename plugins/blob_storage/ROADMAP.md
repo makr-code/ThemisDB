@@ -115,4 +115,4 @@ Entry-points: `plugins/blob_storage/azure/` · `plugins/blob_storage/s3/`
 
 ---
 
-*See also: [`future_enhancements.md`](future_enhancements.md)*
+*See also: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)*

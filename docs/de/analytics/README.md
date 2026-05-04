@@ -30,7 +30,7 @@ Zeitreihenprognose, ML-Integration, Anomalieerkennung und Complex Event Processi
 | [NLP Text Analyzer](./NLP_TEXT_ANALYZER.md) | Tokenisierung, TF-IDF, NER, Sentiment | 🟢 Fertig |
 | [Process Mining AQL Examples](./PROCESS_MINING_AQL_EXAMPLES.md) | AQL-Abfragebeispiele | 🟢 Fertig |
 | [Process Mining Research & Roadmap](./PROCESS_MINING_RESEARCH_AND_ROADMAP.md) | Forschungsgrundlagen | 📋 Referenz |
-| [BPMN Future Enhancements](./bpmn_future_enhancements.md) | Geplante BPMN-Erweiterungen | 📋 Geplant |
+| [BPMN Future Enhancements](./BPMN_FUTURE_ENHANCEMENTS.md) | Geplante BPMN-Erweiterungen | 📋 Geplant |
 
 ---
 

@@ -3,7 +3,7 @@
 **Stand:** 6. April 2026  
 **Version:** 1.1  
 **Kategorie:** Datenexport / LLM-Training  
-**Validated:** 2026-03-22 (Reality-Check gegen Sourcecode; siehe [missing-implementations.md](missing-implementations.md))
+**Validated:** 2026-03-22 (Reality-Check gegen Sourcecode; siehe [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md))
 
 ---
 
@@ -172,7 +172,7 @@ std::string redacted = detector.redactPII(raw_text);
 
 ### Reality-Check & Offene Implementierungen
 
-- [missing-implementations.md](missing-implementations.md) — Reality-Check-Bericht: fehlende/unvollständige Implementierungen mit Evidence, Impact und Issue-Vorschlägen (Stand 2026-03-09)
+- [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md) — Reality-Check-Bericht: fehlende/unvollständige Implementierungen mit Evidence, Impact und Issue-Vorschlägen (Stand 2026-03-09)
 - [missing-implementations.json](missing-implementations.json) — Maschinenlesbares Format des obigen Berichts
 
 ### Verwandte Module

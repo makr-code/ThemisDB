@@ -1,4 +1,4 @@
-[docs](../INDEX.md) > [de](../INDEX.md) > [stable_diffusion](./index.md) > [missing-implementations](./missing-implementations.md)
+[docs](../INDEX.md) > [de](../INDEX.md) > [stable_diffusion](./index.md) > [missing-implementations](./MISSING_IMPLEMENTATIONS.md)
 **Datum:** 2026-04-16
 **Status:** review
 **Primary (Quelle der Wahrheit):**

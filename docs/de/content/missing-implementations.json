@@ -131,7 +131,7 @@
       "evidence": [
         "src/content/office_processor.cpp: posix_spawn flags, minimal envp[], absolute-path check",
         "tests/test_office_processor.cpp: LibreOfficeSecurityTest (7 tests)",
-        "docs/de/content/missing-implementations.md: CON-007 marked BEHOBEN"
+        "docs/de/content/MISSING_IMPLEMENTATIONS.md: CON-007 marked BEHOBEN"
       ],
       "impact": "A malicious document cannot compromise the ThemisDB data directory via the LibreOffice subprocess."
     }

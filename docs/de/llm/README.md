@@ -1,7 +1,7 @@
 # LLM & AI Integration Documentation
 
 <!-- Status: current | validated: 2026-04-09 | Primary: ../../../src/llm/ | ../../../include/llm/ -->
-<!-- Links: ../../../src/llm/README.md · ../../../src/llm/ROADMAP.md · inventory.md · missing-implementations.md -->
+<!-- Links: ../../../src/llm/README.md · ../../../src/llm/ROADMAP.md · inventory.md · MISSING_IMPLEMENTATIONS.md -->
 
 **Stand:** 9. April 2026  
 **Version:** 1.16.0 (Production-ready)  
@@ -54,7 +54,7 @@ Ab v1.16.0 bietet ThemisDB ein **vollständiges, produktionsreifes LLM-Modul** m
 - [🔧 Feature Implementation Guide](./LLAMA_CPP_FEATURE_IMPLEMENTATION_GUIDE.md)
 - [README_PLUGINS.md](./README_PLUGINS.md) – Plugin-Schnellstart
 - [inventory.md](./inventory.md) – Vollständiges Modul-Inventar
-- [missing-implementations.md](./missing-implementations.md) – Bekannte Lücken
+- [MISSING_IMPLEMENTATIONS.md](./MISSING_IMPLEMENTATIONS.md) – Bekannte Lücken
 
 ## 📚 Feature-Dokumentation (v1.16.0)
 

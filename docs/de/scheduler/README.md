@@ -21,7 +21,7 @@
 | [DATA_RETENTION_DOWNSAMPLING.md](DATA_RETENTION_DOWNSAMPLING.md) | Downsampling-Algorithmen und -Konfiguration |
 | [SYSTEM_IMPACT_ANALYSIS.md](SYSTEM_IMPACT_ANALYSIS.md) | Systemauswirkungsanalyse des Schedulers auf ThemisDB |
 | [IMPLEMENTATION_SUMMARY.md](implementation-history/summaries/IMPLEMENTATION_SUMMARY.md) | Historische Implementierungszusammenfassung (v0.0.x) |
-| [missing-implementations.md](missing-implementations.md) | Reality-Check-Befunde: fehlende oder unvollständige Implementierungen |
+| [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md) | Reality-Check-Befunde: fehlende oder unvollständige Implementierungen |
 
 ---
 
@@ -56,7 +56,7 @@ Aufgaben in ThemisDB. Er unterstützt:
 ## Fehlende Implementierungen
 
 Beim Reality-Check wurden Abweichungen zwischen Dokumentation und Sourcecode identifiziert.
-Details: → [missing-implementations.md](missing-implementations.md)
+Details: → [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md)
 
 ---
 

@@ -1,4 +1,4 @@
-[docs](../../README.md) > [de](../README.md) > [distributed_knowledge](./README.md) > [reference](./missing-implementations.md)
+[docs](../../README.md) > [de](../README.md) > [distributed_knowledge](./README.md) > [reference](./MISSING_IMPLEMENTATIONS.md)
 **Datum:** 2026-04-17
 **Status:** review
 **Primary (Quelle der Wahrheit):**
@@ -28,7 +28,7 @@
 |---|---|---|---|---|
 | P1 | `AUDIT.md` im Primärmodul fehlt | Release-Readiness/Nachvollziehbarkeit (stubless verification) unvollständig | `src/distributed_knowledge/ROADMAP.md` (Phase 9 Task), Datei nicht vorhanden in `src/distributed_knowledge/` | [ ] DK-DOC-01: `src/distributed_knowledge/AUDIT.md` erstellen und checklistengestützt befüllen |
 | P2 | Historische Session-Checkboxen in `ROADMAP.md` bleiben bewusst als Plan-Artefakt erhalten | Potenzielle Fehlinterpretation beim schnellen Lesen des Dokuments | `src/distributed_knowledge/ROADMAP.md` enthält unveränderten historischen Plan + neue Reality-Check-Sektion | [ ] DK-DOC-02: Historischen Plan in separates `ROADMAP_HISTORY.md` auslagern (optional) |
-| P3 | EN-seitiger dedizierter Missing-Implementations-Report fehlt | EN-Nutzer müssen auf DE-Report ausweichen | `docs/en/distributed_knowledge/` enthält aktuell keinen eigenen `missing-implementations.md` | [ ] DK-DOC-03: `docs/en/distributed_knowledge/missing-implementations.md` ergänzen |
+| P3 | EN-seitiger dedizierter Missing-Implementations-Report fehlt | EN-Nutzer müssen auf DE-Report ausweichen | `docs/en/distributed_knowledge/` enthält aktuell keinen eigenen `MISSING_IMPLEMENTATIONS.md` | [ ] DK-DOC-03: `docs/en/distributed_knowledge/MISSING_IMPLEMENTATIONS.md` ergänzen |
 
 ## Verifizierte, bereits implementierte Punkte (Auszug)
 

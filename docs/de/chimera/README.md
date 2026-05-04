@@ -52,4 +52,4 @@ Streaming und Prepared Statements sind implementiert und durch dedizierte Tests 
 - Engine-backed Pfade enthalten weiterhin `NOT_IMPLEMENTED`-Fehlerpfade bei fehlender Build-Flag-Aktivierung.
 
 Details und Priorisierung:
-- [missing-implementations.md](./missing-implementations.md)
+- [MISSING_IMPLEMENTATIONS.md](./MISSING_IMPLEMENTATIONS.md)

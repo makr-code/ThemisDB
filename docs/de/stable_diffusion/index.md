@@ -51,4 +51,4 @@ Der Abgleich gegen den Realstand ist durchgeführt. Die Secondary-Doku verankert
 ## Verknüpfte Secondary-Dokumente
 
 - [PRIMARY_SOURCES.md](./PRIMARY_SOURCES.md)
-- [missing-implementations.md](./missing-implementations.md)
+- [MISSING_IMPLEMENTATIONS.md](./MISSING_IMPLEMENTATIONS.md)

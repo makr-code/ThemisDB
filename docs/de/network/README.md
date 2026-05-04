@@ -2,12 +2,12 @@
 
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Primärdokumentation: ../../../src/network/ -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · missing-implementations.md -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · MISSING_IMPLEMENTATIONS.md -->
 
 **Stand:** 6. April 2026  
 **Version:** 1.1  
 **Kategorie:** Netzwerk / Transportunfrastruktur  
-**Validated:** 2026-03-09 (Reality-Check gegen Sourcecode; siehe [missing-implementations.md](missing-implementations.md))
+**Validated:** 2026-03-09 (Reality-Check gegen Sourcecode; siehe [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md))
 
 ---
 
@@ -95,7 +95,7 @@ Das Network-Modul implementiert ThemisDBs hochperformante, sichere Netzwerkschic
 1. **QUERY_AQL und GEO_QUERY noch nicht mit Wire-Protocol integriert** — Beide Handler geben strukturierte Fehlerantworten zurück (`error_code: "AQL_NOT_INTEGRATED"` / `"GEO_NOT_INTEGRATED"`) und verweisen Clients auf die HTTP-REST-API (`POST /api/v1/query` / `GET /api/v1/geo/query`). Vollständige Engine-Integration geplant.
 2. **WebSocket-Binary-Frames nicht dispatched** — Nur JSON-Text-Frames funktionieren vollständig.
 
-Vollständige Details: → [missing-implementations.md](missing-implementations.md)
+Vollständige Details: → [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md)
 
 ### ✅ Vollständig implementiert
 
@@ -216,4 +216,4 @@ quic.start();
 - [Roadmap](../../../src/network/ROADMAP.md)
 - [Future Enhancements](../../../src/network/FUTURE_ENHANCEMENTS.md)
 - [Header-README](../../../include/network/README.md)
-- [Fehlende Implementierungen](missing-implementations.md) ← Dieser Report
+- [Fehlende Implementierungen](MISSING_IMPLEMENTATIONS.md) ← Dieser Report

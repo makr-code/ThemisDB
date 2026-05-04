@@ -68,7 +68,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   (AC-1 through AC-30).
 - CI: `.github/workflows/prompt-ab-experiment-ci.yml` (GCC-12/14, Clang-15).
 - German docs updated: `docs/de/prompt_engineering/README.md` +
-  `missing-implementations.md` item #4 resolved.
+  `MISSING_IMPLEMENTATIONS.md` item #4 resolved.
 
 
 
@@ -94,7 +94,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   exceptions are suppressed so the runner is never interrupted.
 - 30 focused unit tests in `tests/test_prompt_regression_runner.cpp` (AC-1 through AC-30).
 - CI: `.github/workflows/prompt-regression-runner-ci.yml` (GCC-12/14, Clang-15).
-- German docs updated: `docs/de/prompt_engineering/README.md` + `missing-implementations.md`
+- German docs updated: `docs/de/prompt_engineering/README.md` + `MISSING_IMPLEMENTATIONS.md`
   item #4 resolved.
 
 ### Added
@@ -116,7 +116,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - 30 focused unit tests in `tests/test_cot_tracer.cpp` (AC-1 through AC-30).
 - CI: `.github/workflows/cot-tracer-ci.yml` (GCC-12/14, Clang-15).
 - German docs updated: `docs/de/prompt_engineering/README.md` (CoT Tracer
-  components); `missing-implementations.md` (item #3 resolved).
+  components); `MISSING_IMPLEMENTATIONS.md` (item #3 resolved).
 
 ### Added
 - `ILLMProviderReflectionAdapter` — adapter bridging any `ILLMProvider` to `IReflectionProvider`;
@@ -134,7 +134,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - 28 focused unit tests in `tests/test_reflection_integration.cpp` (AC-1 through AC-28).
 - CI: `.github/workflows/reflection-integration-ci.yml` (GCC-12/14, Clang-15).
 - German docs updated: `docs/de/prompt_engineering/README.md` (new components table, architecture
-  diagram) and `missing-implementations.md` (items 2 + 7 resolved).
+  diagram) and `MISSING_IMPLEMENTATIONS.md` (items 2 + 7 resolved).
 
 ### Added
 - `ReflectionTuner` — iterative self-critique and revision cycle for LLM responses,

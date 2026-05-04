@@ -100,7 +100,7 @@ Weitere Beispiele: [`src/training/README.md`](../../../src/training/README.md#us
 
 ## Fehlende Implementierungen
 
-Siehe [`missing-implementations.md`](missing-implementations.md) für den vollständigen
+Siehe [`MISSING_IMPLEMENTATIONS.md`](MISSING_IMPLEMENTATIONS.md) für den vollständigen
 Reality-Check-Bericht.
 
 ---
