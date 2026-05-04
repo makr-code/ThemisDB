@@ -30,6 +30,8 @@
 #include <algorithm>
 #include <fstream>
 #include <filesystem>
+#include <regex>
+#include <spdlog/spdlog.h>
 
 // OpenSSL for signing / verification
 #include <openssl/pem.h>
@@ -334,9 +336,25 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
         // Cannot verify without a cert directory; reject the request.
         return false;
     }
-    // Use std::filesystem::path for safe concatenation (avoids UB from .back() on empty strings).
+
+    // Sanitize cert_serial: only allow hexadecimal characters (certificate serial
+    // numbers are hex strings).  Reject anything that could be used to escape the
+    // trusted_certs_dir via path traversal (e.g. "../", absolute paths, null bytes).
+    static const std::regex kSerialPattern("^[0-9A-Fa-f]{1,64}$");
+    if (!std::regex_match(request.cert_serial, kSerialPattern)) {
+        return false;
+    }
+
+    // Use std::filesystem::path for safe concatenation.
     namespace fs = std::filesystem;
     fs::path cert_path = fs::path(config_.trusted_certs_dir) / (request.cert_serial + ".pem");
+
+    // Verify the resolved path is actually inside trusted_certs_dir (defence-in-depth).
+    auto canonical_dir  = fs::weakly_canonical(fs::path(config_.trusted_certs_dir));
+    auto canonical_cert = fs::weakly_canonical(cert_path);
+    if (canonical_cert.string().find(canonical_dir.string()) != 0) {
+        return false;
+    }
 
     std::ifstream cert_file(cert_path);
     if (!cert_file.good()) {
@@ -355,8 +373,13 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
     if (!cert) return false;
 
     // Step 3: Verify the certificate against the CA (if ca_cert_path is configured).
-    if (!config_.ca_cert_path.empty() &&
-        !PKIShardCertificate::verifyCertificate(cert_path.string(), config_.ca_cert_path)) {
+    // Note: if ca_cert_path is empty, chain validation is skipped.  Production
+    // deployments MUST configure ca_cert_path; log a warning when it is absent.
+    if (config_.ca_cert_path.empty()) {
+        spdlog::warn("SignedRequestVerifier: ca_cert_path not configured — "
+                     "certificate chain validation is SKIPPED.  Set Config::ca_cert_path "
+                     "to the CA certificate to enable full chain validation.");
+    } else if (!PKIShardCertificate::verifyCertificate(cert_path.string(), config_.ca_cert_path)) {
         return false;
     }
 

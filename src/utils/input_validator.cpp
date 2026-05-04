@@ -262,7 +262,8 @@ std::optional<std::string> InputValidator::validateJsonStub(
                     "request rejected (fail-closed).  Deploy schema files or set "
                     "THEMIS_SCHEMA_DIR to enable validation.",
                     schema_name, schema_dir_);
-        return std::string("schema '" + schema_name + "' not found — validation failed");
+        return std::string("schema '" + schema_name + "' not found in '" +
+                           schema_dir_ + "' — validation failed");
     }
     return validateJson(payload, *schema);
 }

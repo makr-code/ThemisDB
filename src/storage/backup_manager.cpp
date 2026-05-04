@@ -1152,11 +1152,15 @@ bool BackupManager::encryptFile(const std::string& src_path, const std::string& 
     // Removal Plan: Build with `-DTHEMIS_ENABLE_OPENSSL=ON`; the real AES-256-GCM
     //               implementation replaces this path.  See
     //               src/storage/FUTURE_ENHANCEMENTS.md §Backup Encryption.
+    static std::once_flag s_encrypt_warn;
+    std::call_once(s_encrypt_warn, [] {
+        THEMIS_WARN("BackupManager::encryptFile: STUB — files will be copied without "
+                    "AES-256-GCM encryption (THEMIS_ENABLE_OPENSSL not set). "
+                    "Build with -DTHEMIS_ENABLE_OPENSSL=ON for encrypted backups. "
+                    "(This warning is printed once per process.)");
+    });
     namespace fs = std::filesystem;
     try {
-        THEMIS_WARN("BackupManager::encryptFile: STUB — copying file without encryption "
-                    "(THEMIS_ENABLE_OPENSSL not set). Build with -DTHEMIS_ENABLE_OPENSSL=ON "
-                    "to enable AES-256-GCM backup encryption.");
         fs::copy(src_path, dest_path, fs::copy_options::recursive, ec);
         if (ec) {
             THEMIS_ERROR("Failed to copy for encryption: {}", ec.message());
@@ -1183,10 +1187,14 @@ bool BackupManager::decryptFile(const std::string& src_path, const std::string& 
     //                   ciphertext, and restore will silently produce garbage data.
     // Removal Plan: Build with `-DTHEMIS_ENABLE_OPENSSL=ON`.  See
     //               src/storage/FUTURE_ENHANCEMENTS.md §Backup Encryption.
+    static std::once_flag s_decrypt_warn;
+    std::call_once(s_decrypt_warn, [] {
+        THEMIS_WARN("BackupManager::decryptFile: STUB — files will be copied without "
+                    "AES-256-GCM decryption (THEMIS_ENABLE_OPENSSL not set). "
+                    "(This warning is printed once per process.)");
+    });
     namespace fs = std::filesystem;
     try {
-        THEMIS_WARN("BackupManager::decryptFile: STUB — copying file without decryption "
-                    "(THEMIS_ENABLE_OPENSSL not set).");
         fs::copy(src_path, dest_path, fs::copy_options::recursive, ec);
         if (ec) {
             THEMIS_ERROR("Failed to copy for decryption: {}", ec.message());
