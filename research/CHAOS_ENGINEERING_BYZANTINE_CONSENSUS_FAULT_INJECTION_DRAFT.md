@@ -75,33 +75,70 @@ pruneExpired() → called on every getActiveFaults() access
 
 ### B. ChaosScheduler: Time-Driven Fault Orchestration
 
-`ChaosScheduler` fires scheduled faults from a background thread. Two wake strategies are supported:
+`ChaosScheduler` fires scheduled faults from a background thread. Two wake strategies are supported, documented verbatim in `include/chaos/chaos_framework.h`:
 
-**`FIXED_TICK`** (original):
+```cpp
+enum class WakeStrategy {
+    FIXED_TICK,  ///< Plain sleep_for(tick_interval) — simple, deterministic
+    CONDVAR      ///< Condition-variable with tick_interval timeout — lower latency stop
+};
+
+struct ChaosSchedulerConfig {
+    std::chrono::milliseconds tick_interval{10};  // default: 10 ms
+    WakeStrategy wake_strategy{WakeStrategy::FIXED_TICK};
+};
 ```
+
+**`FIXED_TICK`** loop (from `include/chaos/chaos_framework.h` design):
+```cpp
 while (running_) {
     sleep_for(tick_interval);  // default: 10ms
     fire_due_entries();
 }
 ```
-Properties: simple, deterministic, predictable overhead.
+Properties: simple, deterministic, predictable overhead. Stop latency: O(tick_interval) — worst-case 10 ms before background thread exits.
 
-**`CONDVAR`** (v2.0):
-```
+**`CONDVAR`** loop (from `include/chaos/chaos_framework.h` design):
+```cpp
 while (running_) {
     wait_for(sched_cv_, tick_interval,
              [this]{ return has_due_entries() || !running_; });
     fire_due_entries();
 }
 ```
-Properties: wakes immediately when `schedule()` adds a near-future entry or `stop()` is called; reduces stop latency from O(tick_interval) to O(1).
+Properties: wakes immediately when `schedule()` adds a near-future entry or `stop()` is called. **Reduces stop latency from O(tick_interval) to O(1)** — the condition variable is notified on `stop()`, allowing instant thread exit. This is the recommended wake strategy for test harnesses with tight time budgets.
+
+**Phase 4+5 implementation evidence** (verbatim from `src/chaos/ROADMAP.md`):
+> "Commit `1f070f992b` (2026-04-12): 'chaos: Phase 4+5 — configurable scheduler tick/wake strat...'"
 
 **`scheduleIn(delay, fault)`** converts relative delays to absolute `steady_clock::time_point` entries, enabling test sequences like:
 
 ```cpp
-scheduler.scheduleIn(100ms, leader_crash_spec);
-scheduler.scheduleIn(600ms, network_partition_spec);
-scheduler.scheduleIn(1200ms, node_recovery_spec);
+ChaosScheduler scheduler(injector,
+    {.tick_interval = 5ms, .wake_strategy = WakeStrategy::CONDVAR});
+scheduler.start();
+// T=0ms: crash leader
+scheduler.scheduleIn(0ms, {FaultType::LEADER_CRASH, "node_1"});
+// T=50ms: partition 2 of remaining 4 nodes (concurrent with re-election)
+scheduler.scheduleIn(50ms, {FaultType::NETWORK_PARTITION, "node_3"});
+scheduler.scheduleIn(50ms, {FaultType::NETWORK_PARTITION, "node_4"});
+// T=500ms: heal partition
+scheduler.scheduleIn(500ms, recover_all_spec);
+// stop() with CONDVAR: returns in O(1) instead of O(10ms)
+scheduler.stop();
+```
+
+**Expired fault pruning** (from header design):
+```cpp
+isExpired() → steady_clock::now() >= expires_at
+// pruneExpired() called on every getActiveFaults() access
+```
+
+**Event callback registration** (from `include/chaos/chaos_framework.h`):
+```cpp
+void registerEventCallback(EventCallback cb);
+// EventCallback fires on every inject() and recoverFault() call
+// Enables test harness notification and metrics emission
 ```
 
 ### C. Deterministic Chaos Mode
@@ -141,27 +178,47 @@ The `ChaosFramework` integrates with three consensus protocols in ThemisDB's sha
 
 The distributed_knowledge module implements Byzantine-resilient gradient aggregation (Blanchard et al., 2017 — Krum algorithm). Chaos injection enables systematic Byzantine poisoning tests:
 
-**Gradient Outlier Filter (L2-norm)**:
+**Gradient Outlier Filter (L2-norm)** [SRC: `src/training/ROADMAP.md`, `FederatedDistillationCoordinator`]:
 ```
 For each participant i: compute ||∇i||₂
 Filter condition: ||∇i||₂ > μ + k·σ  →  reject as Byzantine
 Tolerance: f = ⌊(n-1)/3⌋ Byzantine participants
 ```
 
-**Chaos injection scenario**:
-```cpp
-// Simulate Byzantine participant sending outlier gradients
-FaultSpec byzantine_spec{
-    FaultType::RANDOM_FAILURE,
-    "federation_node_3",
-    duration::max(),
-    probability = 1.0
-};
-injector.injectFault(byzantine_spec);
-// federated_aggregator.checkByzantine() → rejects node_3's gradient
-```
+**Differential Privacy + Byzantine FL interaction**:
 
-**Differential Privacy interaction**: Byzantine participants attempting to exploit DP noise are detected via the Rényi Differential Privacy accountant: legitimate participants satisfy `(ε, δ)`-DP budget; Byzantine participants with outlier gradients exceed the DP norm bound and are filtered.
+Rényi Differential Privacy (Mironov, CSF 2017) provides a privacy accounting mechanism for Gaussian DP noise. In ThemisDB's `FederatedDistillationCoordinator`, the two mechanisms interact as follows [SRC: `src/training/ROADMAP.md`, `src/distributed_knowledge/ROADMAP.md`]:
+
+1. **DP noise addition**: Gaussian noise calibrated to the L2 sensitivity of the gradient is added before aggregation. The `(ε, δ)`-DP budget is tracked per federation round via the Rényi DP accountant.
+2. **Byzantine detection after DP**: The L2-norm filter (`||∇i||₂ > μ + k·σ`) is applied *after* DP noise addition — this means legitimate participants with correctly-noised gradients remain within the filter threshold, while Byzantine participants submitting adversarially inflated gradients (norm >> μ + k·σ) are rejected even under DP noise.
+3. **Security interaction**: A Byzantine participant cannot use DP noise as cover: DP noise is zero-mean Gaussian with variance proportional to sensitivity/ε, which does not systematically inflate the L2 norm beyond the filter threshold. Only adversarially chosen outlier gradients (with systematically inflated L2 norm) are rejected.
+
+This design prevents Byzantine participants from exploiting DP noise to submit poisoned gradients that appear legitimate [SRC: `docs/en/security/FEDERATED_DISTILLATION_THREAT_MODEL.md`, threat T-1..T-6].
+
+**Chaos injection scenario for Byzantine sweep**:
+```cpp
+// Register event callback to log Byzantine rejections
+injector.registerEventCallback([](const FaultEvent& e) {
+    if (e.type == FaultType::RANDOM_FAILURE)
+        log("Byzantine simulation: node=" + e.target_node_id);
+});
+
+// Sweep from 1 to n Byzantine participants
+for (int f = 1; f <= n/2; ++f) {
+    injector.clearAllFaults();
+    for (int i = 0; i < f; ++i) {
+        injector.injectFault({
+            FaultType::RANDOM_FAILURE,
+            "fed_node_" + std::to_string(i),
+            std::chrono::milliseconds{0},  // permanent
+            1.0  // 100% trigger probability
+        });
+    }
+    auto result = federated_aggregator.trainRound();
+    // Theoretical tolerance: f ≤ ⌊(n-1)/3⌋ → model converges
+    // f > ⌊(n-1)/3⌋ → Byzantine fault tolerance exceeded
+}
+```
 
 ### F. Disaster Recovery Drill
 
@@ -307,12 +364,25 @@ FoundationDB (Huang et al., 2021) uses a deterministic simulation framework with
 3. **Fault-Aware Adaptive Timeout Tuning**: Use chaos test results to auto-tune Raft election timeouts and Paxos ballot preparation timeouts for the measured cluster latency distribution.
 4. **Temporal Fault Injection**: Integrate chaos faults with the temporal module's bi-temporal versioning — inject faults during time-travel query execution to expose temporal isolation violations.
 5. **Formal Verification Loop**: Use TLA+ model checking to generate minimal fault witnesses, then validate them in the chaos framework.
+6. **CONDVAR → Cross-Platform Consistency**: Verify that `CONDVAR` wake strategy's O(1) stop guarantee holds under POSIX and Windows condition variable implementations (relevant for cross-platform ThemisDB builds).
 
 ---
 
 ## VII. Conclusion
 
-We presented ThemisDB's Chaos Engineering Framework — the first database-native system combining deterministic fault injection with Byzantine federated learning validation and multi-protocol consensus integration (Raft, Paxos, Gossip). Our experimental evaluation demonstrates: Raft leader re-election within 500 ms p99 across all cluster sizes; zero linearizability violations under Paxos partition for all k ≤ ⌊(n-1)/2⌋ configurations; Byzantine gradient filter tolerance up to the theoretical f = ⌊(n-1)/3⌋ limit; and ChaosScheduler overhead < 0.02% CPU idle. The seeded deterministic execution mode enables regression-grade reproducibility of previously undiscovered fault scenarios. We open-source this framework as a contribution to the systems community's toolkit for resilience validation.
+We presented ThemisDB's Chaos Engineering Framework — the first database-native system combining deterministic fault injection with Byzantine federated learning validation and multi-protocol consensus integration (Raft, Paxos, Gossip).
+
+**Source-backed claims** (every claim references concrete source code):
+
+1. **Seven fault types** [SRC: `include/chaos/chaos_framework.h`]: `FaultType` enum with `NODE_FAILURE`, `NETWORK_PARTITION`, `LEADER_CRASH`, `DELAYED_RESPONSE`, `DISK_FAILURE`, `RANDOM_FAILURE`, `DISASTER_RECOVERY_DRILL` — verbatim from header.
+2. **FaultSpec struct** [SRC: `include/chaos/chaos_framework.h`]: `type`, `target_node_id`, `duration{0}` (permanent when 0), `probability{1.0}`, `description` — verbatim from header.
+3. **CONDVAR stop latency** [SRC: `include/chaos/chaos_framework.h`]: `WakeStrategy::CONDVAR` with `wait_for(sched_cv_, tick_interval, [this]{ return has_due_entries() || !running_; })` — reduces stop latency from O(tick_interval=10ms) to O(1).
+4. **Implementation phase completion** [SRC: `src/chaos/ROADMAP.md`, commit `1f070f992b`, 2026-04-12]: "chaos: Phase 4+5 — configurable scheduler tick/wake strat..."
+5. **Byzantine tolerance** [SRC: `src/training/ROADMAP.md`, `src/distributed_knowledge/ROADMAP.md`]: `f = ⌊(n-1)/3⌋` maximum Byzantine participants — documented theoretical bound used in `FederatedDistillationCoordinator`.
+6. **Replication performance gates** [SRC: `src/chaos/PERFORMANCE_EXPECTATIONS.md`]: R-1 (≤ 50 ms replication lag @ 10K writes/s), R-4 (< 5 µs/write WAL serialization), R-7 (≤ 1 ms commit→CDC queue), R-8 (≤ 200 ms P99 at 50 ms RTT WAN).
+7. **In-process design** [SRC: `include/chaos/chaos_framework.h`]: "Does NOT perform real network/disk manipulation — designed for unit and integration tests where the SUT queries `isFaultActive()` before performing cluster operations."
+
+The seeded deterministic execution mode enables regression-grade reproducibility of previously undiscovered fault scenarios. We open-source this framework as a contribution to the systems community's toolkit for resilience validation.
 
 ---
 

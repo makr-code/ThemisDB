@@ -38,14 +38,22 @@ BPMN process models contain tasks that process personal data. EU GDPR requires d
 
 **Source**: `include/process/object_centric_tracer.h` (Purpose: "Object-Centric Process Mining — OCEL 2.0 log builder, Directly-Follows Multigraph, and convergence/divergence analysis. P6 implementation (van der Aalst 2022).")
 
-**OcelEvent** structure (from header):
+**OcelEvent struct** (verbatim from `include/process/object_centric_tracer.h`):
 ```cpp
 struct OcelEvent {
-    std::string event_id;      ///< "attach:<inst>:<obj>"
-    std::string activity;      ///< toString(link_type)
-    int64_t     timestamp_ms;  ///< attached_at_ms
+    std::string event_id;                                           ///< "attach:<inst>:<obj>"
+    std::string activity;                                           ///< toString(link_type)
+    int64_t     timestamp_ms{0};                                    ///< attached_at_ms
     std::unordered_map<std::string, std::vector<std::string>> object_refs; ///< {type→[ids]}
-    nlohmann::json attributes; ///< Additional fields
+    nlohmann::json attributes;                                      ///< Additional fields
+};
+```
+
+**ConvergenceDivergenceResult struct** (verbatim from `include/process/object_centric_tracer.h`):
+```cpp
+struct ConvergenceDivergenceResult {
+    std::vector<std::string> convergence_nodes; ///< Nodes with > 1 incoming object links
+    std::vector<std::string> divergence_nodes;  ///< Nodes with > 1 outgoing object links
 };
 ```
 
@@ -54,7 +62,46 @@ struct OcelEvent {
 2. **`computeDfmg()`** — Build the Directly-Follows Multigraph (DFMG) for a given object type across a process model
 3. **`analyze()`** — Identify convergence (many→one) and divergence (one→many) nodes by object type
 
-**Performance target** (from header): `computeDfmg()` must handle 10,000 events in < 5 s (O(n) frequency map computation).
+**Performance target** (verbatim from header Doxygen `@par Performance`):
+> "`computeDfmg()` must handle 10,000 events in < 5 s (O(n) frequency map)."
+
+**OCEL 2.0 JSON format** (documented in header):
+```json
+{
+  "ocel:global-log": {
+    "ocel:attribute-names": [],
+    "ocel:object-types": ["documents", "provisions"]
+  },
+  "ocel:events": [
+    {
+      "ocel:id": "attach:inst-1:doc-1",
+      "ocel:activity": "ATTACH_DOCUMENT",
+      "ocel:timestamp": 1700000000000,
+      "ocel:omap": {"documents": ["doc-1"], "provisions": ["prov-42"]},
+      "ocel:vmap": {}
+    }
+  ],
+  "ocel:objects": {
+    "doc-1": {"ocel:type": "documents"},
+    "prov-42": {"ocel:type": "provisions"}
+  }
+}
+```
+
+**DFMG JSON output format** (from header):
+```json
+{
+  "object_type": "documents",
+  "nodes": ["ATTACH_DOCUMENT", "REVIEW_DOCUMENT", "APPROVE"],
+  "arcs": [
+    {"from": "ATTACH_DOCUMENT", "to": "REVIEW_DOCUMENT", "frequency": 42},
+    {"from": "REVIEW_DOCUMENT", "to": "APPROVE", "frequency": 38}
+  ]
+}
+```
+
+**Convergence definition**: in-degree per object type > 1 — multiple source activities produce events referencing the same object [SRC: `include/process/object_centric_tracer.h`].  
+**Divergence definition**: out-degree per object type > 1 — one source activity produces events referencing multiple objects of the same type [SRC: `include/process/object_centric_tracer.h`].
 
 ### B. ProcessLightRetriever (LightRAG)
 
@@ -100,14 +147,30 @@ Louvain algorithm applies community detection to the process graph: nodes are ac
 
 **Source**: `include/index/process_graph.h`, `src/process/bpmn_serializer.cpp`
 
-**DsgvoAnnotation** (BPMN-S DSGVO annotation struct — from ROADMAP): Embedded directly in BPMN task definitions:
-- Legal basis (GDPR Art. 6)
-- Processing purpose
-- Data categories
-- Retention period
-- Third-party transfers
+**DsgvoAnnotation struct** (verbatim from `include/index/process_graph.h`):
+```cpp
+struct DsgvoAnnotation {
+    std::string data_category;       ///< "personal", "sensitive", "anonymised"
+    std::string legal_basis;         ///< e.g. "Art. 6(1)(e) DSGVO"
+    std::optional<int> retention_days;
+    bool requires_consent{false};
+};
+// Embedded in ProcessNodeInfo:
+std::optional<DsgvoAnnotation> dsgvo_annotation; ///< BPMN-S DSGVO annotation (null if not annotated)
+```
 
-**`checkCompliance()`** API: Validates that all process tasks have complete DSGVO annotations and that annotations are internally consistent (e.g., retention period consistent with legal basis) [SRC: `src/process/ROADMAP.md`, BMS-01..BMS-08 tests].
+This struct is embedded in `ProcessNodeInfo` — every BPMN task node can carry a typed GDPR annotation with four fields:
+- `data_category`: classification of processed data ("personal", "sensitive", "anonymised")
+- `legal_basis`: GDPR Art. 6(1) justification string (e.g., "Art. 6(1)(e) DSGVO")
+- `retention_days`: optional retention period; `nullopt` = not specified
+- `requires_consent`: true when GDPR Art. 6(1)(a) consent applies
+
+**`checkCompliance()` API** [SRC: `include/process/process_graph_rag.h`]:
+```cpp
+[[nodiscard]] ComplianceCheckResult checkCompliance(
+    std::string_view instance_id) const;
+```
+Validates that all process tasks have complete DSGVO annotations and that annotations are internally consistent (e.g., `requires_consent=true` when `legal_basis="Art. 6(1)(a) DSGVO"`) [SRC: `src/process/ROADMAP.md`, BMS-01..BMS-08 tests].
 
 **Test coverage**: BMS-01..BMS-08 tests in `tests/process/test_bpmn_s.cpp` [SRC: `src/process/ROADMAP.md`, commit `2525122a75`, 2026-04-28].
 
@@ -125,16 +188,41 @@ Louvain algorithm applies community detection to the process graph: nodes are ac
 
 **Source**: `include/process/process_graph_rag.h`, `src/process/process_graph_rag.cpp`
 
-**SLA Monitoring** (ROADMAP Q4 2026, Status: [x]):
+**SlaAlert struct** (verbatim from `include/process/process_graph_rag.h`):
 ```cpp
-void registerSlaRule(const std::string& rule_id, const SlaRule& rule);
-void deregisterSlaRule(const std::string& rule_id);
-// SlaAlert emitted when CEP Engine detects at-risk/overdue patterns
+struct SlaAlert {
+    std::string instance_id;
+    std::string process_name;
+    int64_t     sla_ms{0};
+    int64_t     elapsed_ms{0};
+    std::string status;   ///< "at_risk" (≥80 % sla) or "overdue" (≥100 % sla)
+};
+using SlaAlertCallback = std::function<void(const SlaAlert&)>;
+```
+
+**SLA monitoring API** (verbatim from `include/process/process_graph_rag.h`):
+```cpp
+/// Register an SLA CEP rule for instance_id.
+/// @param instance_id  Active process instance.
+/// @param sla_ms       SLA deadline in milliseconds from process start.
+/// @param process_name Human-readable name for alert messages.
+/// @param cep          CEP engine to register the rule with.
+/// @param on_alert     Optional callback invoked when alert fires (may be null).
+void registerSlaRule(std::string_view instance_id,
+                     int64_t sla_ms,
+                     std::string_view process_name,
+                     themisdb::analytics::CEPEngine& cep,
+                     SlaAlertCallback on_alert = nullptr);
+
+/// Deregister the SLA CEP rules for instance_id.
+/// Safe to call if no rule was registered.
+void deregisterSlaRule(std::string_view instance_id,
+                       themisdb::analytics::CEPEngine& cep);
 ```
 
 CEP Engine rules for SLA:
-- `at-risk` rule: instance dwell time > threshold_warn_ms
-- `overdue` rule: instance dwell time > threshold_breach_ms
+- `at_risk` status: `elapsed_ms ≥ 80% of sla_ms` — early warning threshold
+- `overdue` status: `elapsed_ms ≥ 100% of sla_ms` — SLA breach threshold
 
 **Test coverage**: SLA-01..SLA-08 tests in `tests/process/test_sla_monitoring.cpp` [SRC: `src/process/ROADMAP.md`, commit `018c461fa6`, 2026-04-28].
 
@@ -142,12 +230,35 @@ CEP Engine rules for SLA:
 
 **Source**: `src/process/process_graph_rag.cpp`
 
-**API** (ROADMAP Q4 2026, Status: [x]):
+**NodeDwellStats struct** (verbatim from `include/process/process_graph_rag.h`):
 ```cpp
-void recordNodeCompletion(const std::string& node_id, int64_t duration_ms);
-NodeDwellStats analyzeBottlenecks();
-// NodeDwellStats: per-node p95 aggregate from RocksDB
+struct NodeDwellStats {
+    std::string node_id;
+    std::string node_name;
+    double avg_dwell_ms{0.0};
+    double p95_dwell_ms{0.0};    ///< RocksDB p95 aggregate across all instances
+    size_t sample_count{0};
+};
 ```
+
+**Bottleneck analytics API** (verbatim from header):
+```cpp
+/// Record the completion of a node to update the cross-case aggregate.
+/// Call this after each task/activity completes in an instance.
+void recordNodeCompletion(std::string_view model_id,
+                          std::string_view node_id,
+                          std::string_view node_name,
+                          int64_t dwell_ms);
+
+/// Return the top-N bottleneck nodes for model_id,
+/// sorted descending by avg_dwell_ms.
+/// Returns empty vector if no data is available.
+[[nodiscard]] std::vector<NodeDwellStats> analyzeBottlenecks(
+    std::string_view model_id,
+    int top_n = 5) const;
+```
+
+The `p95_dwell_ms` field is computed from RocksDB-persisted dwell time aggregates — enabling cross-restart bottleneck analysis. The default `top_n=5` returns the five worst-performing nodes by average dwell time.
 
 **Test coverage**: BOT-01..BOT-08 tests in `tests/process/test_bottleneck_analytics.cpp` [SRC: `src/process/ROADMAP.md`].
 
@@ -255,7 +366,20 @@ Blondel et al. (2008) introduced the Louvain algorithm for community detection. 
 
 ## VII. Conclusion
 
-We presented ThemisDB's integrated process mining engine — the first database-native system combining OCEL 2.0 object-centric event logging (`ObjectCentricTracer`), LightRAG dual-mode retrieval (`ProcessLightRetriever`, AUTO < 5 ms routing), BPMN-S GDPR annotations (`DsgvoAnnotation` + `checkCompliance()`), Louvain community detection (`ProcessCommunityDetector`), and CEP-based SLA monitoring in a single production C++ runtime. All components are fully implemented (38 dedicated process tests across OCT/PLR/LCD/BMS/CMN/SLA/BOT suites) with commit-level provenance. The `computeDfmg()` function handles 10,000 events in < 5 s (O(n) complexity, documented in header). This establishes database-native process mining as a viable alternative to external PM tools for organizations with GDPR-sensitive process data.
+We presented ThemisDB's integrated process mining engine — the first database-native system combining OCEL 2.0 object-centric event logging, LightRAG dual-mode retrieval, BPMN-S GDPR annotations, Louvain community detection, and CEP-based SLA monitoring.
+
+**Source-backed claims** (every claim references concrete source code):
+
+1. **OcelEvent struct** [SRC: `include/process/object_centric_tracer.h`]: `event_id="attach:<inst>:<obj>"`, `activity=toString(link_type)`, `timestamp_ms=attached_at_ms`, `object_refs={type→[ids]}`, `attributes=nlohmann::json`.
+2. **OCEL 2.0 format** [SRC: `include/process/object_centric_tracer.h`]: JSON keys `ocel:global-log`, `ocel:events` (with `ocel:id`, `ocel:activity`, `ocel:timestamp`, `ocel:omap`, `ocel:vmap`), `ocel:objects`.
+3. **ConvergenceDivergenceResult** [SRC: `include/process/object_centric_tracer.h`]: `convergence_nodes` (in-degree > 1 per object type), `divergence_nodes` (out-degree > 1 per object type).
+4. **computeDfmg() performance target** [SRC: `include/process/object_centric_tracer.h` Doxygen `@par Performance`]: "10,000 events in < 5 s (O(n) frequency map)" — only documented absolute performance target for this module.
+5. **DsgvoAnnotation struct** [SRC: `include/index/process_graph.h`]: `data_category` ("personal"/"sensitive"/"anonymised"), `legal_basis` (e.g., "Art. 6(1)(e) DSGVO"), `retention_days` (optional), `requires_consent` (bool).
+6. **SlaAlert struct** [SRC: `include/process/process_graph_rag.h`]: `instance_id`, `process_name`, `sla_ms`, `elapsed_ms`, `status` ("at_risk" ≥80% or "overdue" ≥100%).
+7. **NodeDwellStats struct** [SRC: `include/process/process_graph_rag.h`]: `node_id`, `node_name`, `avg_dwell_ms`, `p95_dwell_ms` (RocksDB p95 aggregate), `sample_count`.
+8. **LightRAG AUTO routing** [SRC: `include/process/process_light_retriever.h` Doxygen]: "< 5 ms, no LLM required" — only documented absolute latency target for the retrieval module.
+9. **Test coverage** [SRC: `src/process/ROADMAP.md`]: OCT-01..10, PLR-01..08, LCD-01..10, BMS-01..08, CMN-01..07, FIM-01..07, SLA-01..08, BOT-01..08 = 66 dedicated process tests total.
+10. **General performance gates** [SRC: `src/process/PERFORMANCE_EXPECTATIONS.md`]: Throughput regression ≤ 10%, P95 regression ≤ 15%, P99/P50 ≤ 2.5×, peak memory ≤ 120% vs. baseline.
 
 ---
 

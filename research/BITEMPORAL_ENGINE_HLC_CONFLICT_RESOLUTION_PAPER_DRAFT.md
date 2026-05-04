@@ -413,11 +413,9 @@ We presented a complete bi-temporal database engine combining SQL:2011 §4.16 co
 2. **CRDT_MERGE commutativity and idempotency** [SRC: `include/temporal/temporal_conflict_resolver.h`]: Properties are contractually required by the `MergeResolver` interface and verified for both built-in implementations:
    > "Properties: commutative ✓, idempotent ✓. Commutativity: merge(a, b) == merge(b, a). Idempotency: merge(a, a).data == a.data."
 
-3. **Five compression algorithms** [SRC: `include/temporal/temporal_compressor.h`]: `CompressionAlgorithm` enum documents DELTA, ZSTD, GORILLA, DICTIONARY, LZ4. The Gorilla algorithm's 10–20× numeric compression ratio is documented in `src/timeseries/ROADMAP.md` (same implementation shared between modules).
+3. **Five compression algorithms** [SRC: `include/temporal/temporal_compressor.h`]: `CompressionAlgorithm` enum documents DELTA, ZSTD, GORILLA, DICTIONARY, LZ4. The GORILLA algorithm achieves 10–20× compression for floating-point time series via XOR-delta encoding, as established in Pelkonen et al. (VLDB 2015) and cross-referenced in `include/timeseries/gorilla_simd.h`. No fabricated payload-reduction ratio for the temporal module's DELTA or combined DELTA/GORILLA path is claimed here — only the Gorilla algorithm's independently documented compression factor applies.
 
-4. **Benchmark release gates** [SRC: `src/temporal/PERFORMANCE_EXPECTATIONS.md`]: TM-1..TM-6 define throughput regression ≤ 10% and P95 regression ≤ 15% vs. baseline for `BM_BiTemporalTable_Insert`, `BM_BiTemporalTable_QueryBiTemporal`, and related benchmark cases.
-
-**Note on performance numbers**: The specific claims of "sub-10 ms latency on 1M-record tables," "5–10× speedup over linear scan," "100% conflict resolution correctness," "68–72 K writes/s," and "14–20× payload reduction" are **aspirational targets** not yet documented in `src/temporal/PERFORMANCE_EXPECTATIONS.md`. The documented release gates are regression-relative (≤ 10%/15% regression vs. baseline), not absolute throughput targets. Absolute benchmarks are tracked in `benchmarks/bench_temporal_queries.cpp` and will be published when available.
+4. **Benchmark release gates** [SRC: `src/temporal/PERFORMANCE_EXPECTATIONS.md`]: TM-1..TM-6 define the only documented performance contract for this module: **Throughput regression ≤ 10%, P95 regression ≤ 15% vs. baseline** for `BM_BiTemporalTable_Insert`, `BM_BiTemporalTable_QueryBiTemporal`, and related benchmark cases. No absolute write-throughput figure (e.g., K writes/s) or absolute latency figure (e.g., sub-N ms on M-record tables) is documented in `src/temporal/PERFORMANCE_EXPECTATIONS.md` and therefore no such number is claimed in this paper.
 
 ---
 

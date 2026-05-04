@@ -49,8 +49,34 @@ Graph databases (Neo4j, Amazon Neptune, TigerGraph) use rule-based planners (BFS
 
 ### A. GraphQueryOptimizer: EMA-Driven Cost Learning
 
-The `GraphQueryOptimizer` maintains per-algorithm execution statistics accumulated over all historical queries:
+**Source**: `include/graph/graph_query_optimizer.h`
 
+**GraphStatistics struct** (verbatim from `include/graph/graph_query_optimizer.h`):
+```cpp
+struct GraphStatistics {
+    size_t vertex_count = 0;
+    size_t edge_count = 0;
+    double avg_degree = 0.0;
+    double avg_branching_factor = 0.0;
+    size_t max_depth = 0;
+    bool has_edge_index = false;
+    bool has_adjacency_cache = false;
+
+    // Edge type statistics
+    std::unordered_map<std::string, size_t> edge_type_counts;
+    std::unordered_map<std::string, double> edge_type_selectivity;
+
+    // Node label statistics for schema-aware cost estimation.
+    // node_label_counts["Person"] = number of nodes with label "Person".
+    // node_label_selectivity["Person"] = fraction of all nodes with that label [0,1].
+    std::unordered_map<std::string, size_t> node_label_counts;
+    std::unordered_map<std::string, double> node_label_selectivity;
+};
+```
+
+The `node_label_counts` and `node_label_selectivity` maps enable schema-aware cardinality estimation during cost-based plan selection: the optimizer divides `edge_count` by the label selectivity to estimate the effective traversal frontier for label-filtered queries.
+
+The `ExecutionStats` struct maintained per algorithm:
 ```
 ExecutionStats {
     algorithm:          GraphAlgorithm  // BFS, DFS, DIJKSTRA, A_STAR, BIDIRECTIONAL
@@ -250,7 +276,100 @@ Datei `include/graph/gpu_traversal.h` existiert (bestätigt via `ls`). CUDA-Impl
 
 Einzige dokumentierte absolute Performance-Ziele für dieses Modul: **≤ 5 µs pro Edge-Constraint-Check**, **≤ 100 ms Ontologie-Load (10.000 Konzepte)**.
 
----
+### H. QueryConstraints: Temporal Range and GPU Acceleration
+
+**Source**: `include/graph/graph_query_optimizer.h`
+
+**QueryConstraints struct** (verbatim from `include/graph/graph_query_optimizer.h`):
+```cpp
+struct QueryConstraints {
+    size_t max_depth    = std::numeric_limits<size_t>::max();
+    size_t max_results  = std::numeric_limits<size_t>::max();
+    bool   directed     = true;
+    bool   allow_cycles = false;
+
+    // Temporal range filter: only traverse edges/nodes with timestamps in [start, end].
+    // Milliseconds since Unix epoch. Set end=0 to disable temporal filtering.
+    int64_t time_range_start_ms = 0;
+    int64_t time_range_end_ms   = 0;
+    bool    time_range_require_containment = false;
+
+    // GPU-acceleration hint.
+    // use_gpu=false: automatic fallback to CPU path when no GPU available
+    //                or graph < GPUGraphTraversal::Config::min_vertices_for_gpu.
+    bool use_gpu    = false;
+    int  gpu_device = 0;
+
+    bool hasTemporalRange() const noexcept {
+        return time_range_end_ms > time_range_start_ms;
+    }
+};
+```
+
+**Temporal semantics**:
+- `time_range_start_ms=0, time_range_end_ms=0` → no temporal filter (all edges/nodes included)
+- `require_containment=false` → edge/node included if it **overlaps** `[start, end]`
+- `require_containment=true` → edge/node included only if **fully contained** within `[start, end]`
+- `hasTemporalRange()` — recommended check before applying temporal filters in traversal code
+
+**GPU selection**: `use_gpu=false` is default; traversal engine auto-promotes to GPU when `vertex_count ≥ GPUGraphTraversal::Config::min_vertices_for_gpu` and a CUDA device is available. `gpu_device=0` selects CUDA device index.
+
+### I. GraphQueryMetrics and LatencyHistogram
+
+**Source**: `include/graph/graph_query_optimizer.h`
+
+**GraphQueryMetrics struct** (verbatim from `include/graph/graph_query_optimizer.h`):
+```cpp
+struct GraphQueryMetrics {
+    std::atomic<uint64_t> queries_total{0};
+    std::atomic<uint64_t> queries_cache_hits{0};
+    std::atomic<uint64_t> queries_gpu_routed{0};
+    std::atomic<uint64_t> queries_temporal_filtered{0};
+    std::atomic<uint64_t> queries_rate_limited{0};
+    std::atomic<uint64_t> plan_cache_evictions{0};
+    LatencyHistogram       latency_histogram;
+};
+```
+
+All counters are `std::atomic<uint64_t>` — lock-free thread-safe increment.
+
+**LatencyHistogram** (verbatim from `include/graph/graph_query_optimizer.h`):
+```cpp
+struct LatencyHistogram {
+    // Bucket upper bounds in milliseconds:
+    // [1, 5, 10, 25, 50, 100, 250, 500, 1000, +Inf]
+    std::array<std::atomic<uint64_t>, 10> buckets{};
+    std::atomic<uint64_t> total_count{0};
+    std::atomic<double>   total_sum_ms{0.0};  // for mean computation
+
+    void record(double latency_ms);
+
+    /// Linear interpolation within the bucket containing percentile p.
+    double percentileMs(double p) const;
+};
+```
+
+10 buckets with bounds **[1, 5, 10, 25, 50, 100, 250, 500, 1000, +Inf] ms**. `percentileMs(p)` uses linear interpolation within the containing bucket.
+
+### J. QueryRateLimiter
+
+**Source**: `include/graph/graph_query_optimizer.h`
+
+**QueryRateLimiter** (verbatim from `include/graph/graph_query_optimizer.h`):
+```cpp
+struct QueryRateLimiter {
+    uint32_t max_qps{0};  // 0 = unlimited
+
+    // 1-second sliding window using atomic epoch reset.
+    // When max_qps > 0, allowQuery() returns false for excess queries.
+    bool allowQuery();
+    void reset();
+};
+```
+
+- `max_qps=0` → no rate limiting (all queries allowed)
+- `max_qps>0` → per-second sliding window with atomic epoch reset; `allowQuery()` returns `false` when the per-second budget is exhausted
+- `queries_rate_limited` counter in `GraphQueryMetrics` tracks rejected queries
 
 ## V. Related Work
 
@@ -284,7 +403,20 @@ Pregel (Malewicz et al., SIGMOD 2010) introduced the vertex-centric BSP model fo
 
 ## VII. Conclusion
 
-We presented ThemisDB's adaptive graph query optimizer — the first cost model for graph traversal algorithm selection using EMA-based online learning with confidence-weighted plan selection. Our production implementation delivers (all `[x]` in `src/graph/ROADMAP.md`): EMA-calibrated algorithm selection per graph topology; `GraphQueryRewriter` predicate pushdown/CSE/join-reordering/view-utilization; parallel multi-source traversal with configurable `fan_out_threshold`; EXPLAIN endpoint (`POST /api/v1/graph/query/explain`); and subgraph isomorphism. Documented benchmark release gates (`src/graph/PERFORMANCE_EXPECTATIONS.md`): GR-BFS, GR-SparseEdge, GR-DenseNeighbor. Ontology integration (`OntologyManager`, `include/graph/ontology_manager.h`) defines the only module-level absolute performance target: ≤ 5 µs per edge constraint check and ≤ 100 ms ontology load for 10,000 concepts. This establishes the feasibility of online learning-based cost models for graph query optimization — extending the Cascades/Orca paradigm beyond relational algebra.
+We presented ThemisDB's adaptive graph query optimizer — the first cost model for graph traversal algorithm selection using EMA-based online learning with confidence-weighted plan selection.
+
+**Source-backed claims** (every claim references concrete source code):
+
+1. **GraphStatistics struct** [SRC: `include/graph/graph_query_optimizer.h`]: 11 fields — `vertex_count`, `edge_count`, `avg_degree`, `avg_branching_factor`, `max_depth`, `has_edge_index`, `has_adjacency_cache`, `edge_type_counts` (map), `edge_type_selectivity` (map), `node_label_counts` (map), `node_label_selectivity` (map).
+2. **ExecutionStats** [SRC: `include/graph/graph_query_optimizer.h`]: `ema_alpha=0.15` fixed decay factor; `confidence = min(1.0, total_executions / 50)` — CONVERGENCE_THRESHOLD=50 queries.
+3. **QueryConstraints temporal filtering** [SRC: `include/graph/graph_query_optimizer.h`]: `time_range_start_ms`, `time_range_end_ms`, `time_range_require_containment` (overlap vs. containment); `hasTemporalRange()` — `end_ms > start_ms`.
+4. **QueryConstraints GPU fields** [SRC: `include/graph/graph_query_optimizer.h`]: `use_gpu=false` (default), `gpu_device=0`; auto-promotion when graph ≥ `GPUGraphTraversal::Config::min_vertices_for_gpu` and CUDA available.
+5. **GraphQueryMetrics** [SRC: `include/graph/graph_query_optimizer.h`]: 6 `std::atomic<uint64_t>` counters — `queries_total`, `queries_cache_hits`, `queries_gpu_routed`, `queries_temporal_filtered`, `queries_rate_limited`, `plan_cache_evictions` — all lock-free.
+6. **LatencyHistogram** [SRC: `include/graph/graph_query_optimizer.h`]: 10 buckets, bounds [1,5,10,25,50,100,250,500,1000,+Inf] ms; `percentileMs(p)` uses linear interpolation within bucket.
+7. **QueryRateLimiter** [SRC: `include/graph/graph_query_optimizer.h`]: `max_qps=0` = no limit; `max_qps>0` → per-second sliding window, atomic epoch reset, `allowQuery()` returns false when budget exhausted.
+8. **ROADMAP status** [SRC: `src/graph/ROADMAP.md`]: All optimizer features marked `[x]` including EXPLAIN endpoint (`POST /api/v1/graph/query/explain`, Issue #1816), GraphQueryRewriter (predicate pushdown/CSE/join-reorder/view-utilization).
+9. **Performance gates** [SRC: `src/graph/PERFORMANCE_EXPECTATIONS.md`]: Regression limits ≤10% throughput, ≤15% P95 — no absolute numbers documented except OntologyManager (≤5 µs/edge-check, ≤100 ms ontology load for 10,000 concepts).
+10. **GPU traversal status** [SRC: `src/graph/ROADMAP.md`]: `[~]` In Progress — CPU fallback active; real CUDA kernels planned for `THEMIS_ENABLE_CUDA`.
 
 ---
 

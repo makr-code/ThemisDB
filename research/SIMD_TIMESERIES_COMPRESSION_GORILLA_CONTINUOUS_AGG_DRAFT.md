@@ -90,20 +90,94 @@ enum class CompressionStrategy {
 };
 ```
 
-**SeriesProfile** structure (from header):
+**SeriesProfile struct** (verbatim from `include/timeseries/compression_selector.h`):
 ```cpp
 struct SeriesProfile {
     size_t  sample_count{0};
     double  value_variance{0.0};         // High variance → Gorilla
+
+    /// Regularity of inter-sample timestamps: 1.0 = perfectly regular intervals,
+    /// 0.0 = completely irregular (irregular → Gorilla preferred over DeltaOfDelta).
     double  timestamp_regularity{0.0};   // 0=irregular, 1=perfectly regular
+
+    /// Fraction of adjacent value pairs that are identical (runs). Values
+    /// close to 1 indicate RLE will compress well.
     double  run_length_ratio{0.0};       // Near 1 → RLE wins
+
+    /// Mean absolute delta-of-delta for timestamps (ms). Small values
+    /// indicate a near-constant inter-sample interval → DeltaOfDelta wins.
     double  dod_mean_abs{0.0};           // Small → DeltaOfDelta wins
 };
 ```
 
-**Profile computation**: `computeSeriesProfile(points)` — computes all five metrics in one pass over the data points.
+**`profileSeries(points)`** — computes all five metrics in one pass over the data points.
 
-**Strategy selection** (`HeuristicCompressionSelector`): Selects strategy based on SeriesProfile thresholds — per-series statistical decision, not global per-type heuristic.
+**HeuristicCompressionSelector Config** (verbatim from `include/timeseries/compression_selector.h`):
+```cpp
+struct Config {
+    /// Minimum number of samples required to enable compression.
+    size_t min_samples{4};
+
+    /// Fraction of identical adjacent values above which RLE is preferred.
+    double rle_run_ratio_threshold{0.70};
+
+    /// Mean absolute DoD (ms) below which DeltaOfDelta is preferred.
+    double dod_mean_abs_threshold{1.0};
+
+    /// Timestamp regularity score (0–1) required to prefer DeltaOfDelta.
+    double regularity_threshold{0.90};
+};
+```
+
+**Decision tree** (verbatim from `include/timeseries/compression_selector.h` class Doxygen, evaluated in order):
+```
+1. sample_count < min_samples (4)
+   → None  (too little data to compress)
+2. run_length_ratio > rle_run_ratio_threshold (0.70)
+   → RLE   (step-function / binary state series)
+3. dod_mean_abs ≤ dod_mean_abs_threshold (1.0 ms)
+   AND timestamp_regularity ≥ regularity_threshold (0.90)
+   → DeltaOfDelta  (near-constant interval integer counters)
+4. default
+   → Gorilla  (floating-point metrics with any variance)
+```
+
+**Concrete decision examples** with threshold values:
+- Gorilla selected when: `sample_count ≥ 4` AND `run_length_ratio ≤ 0.70` AND NOT (`dod_mean_abs ≤ 1.0 ms` AND `regularity ≥ 0.90`). Example: temperature sensor with 4.7 variance, 0.12 run ratio, 3.5 ms DoD → Gorilla.
+- DeltaOfDelta selected when: `sample_count ≥ 4` AND `run_length_ratio ≤ 0.70` AND `dod_mean_abs ≤ 1.0 ms` AND `regularity ≥ 0.90`. Example: event counter with 0ms DoD, 0.95 regularity → DeltaOfDelta.
+- RLE selected when: `sample_count ≥ 4` AND `run_length_ratio > 0.70`. Example: boolean circuit-breaker state with 0.85 run ratio → RLE.
+- None selected when: `sample_count < 4`. Example: 2-point trace during bootstrap → None.
+
+**`PerSeriesCompressionRegistry`** (verbatim thread-safety note from `include/timeseries/compression_selector.h`):
+> "Thread safety: NOT thread-safe. External synchronisation is required when called from multiple threads."
+
+**Priority lookup semantics** (verbatim from header Doxygen):
+> "Priority: pinned > cached > freshly-selected (result is then cached)."
+
+**API**:
+```cpp
+class PerSeriesCompressionRegistry {
+public:
+    using SeriesKey = std::string;  ///< "metric:entity"
+    // Lookup (pinned > cached > freshly-selected):
+    CompressionStrategy strategyFor(const std::string& metric,
+                                    const std::string& entity,
+                                    const std::vector<TSStore::DataPoint>& sample);
+    // Manual override (survives clearCache()):
+    void pinStrategy(const std::string& metric,
+                     const std::string& entity,
+                     CompressionStrategy strategy);
+    void clearPin(const std::string& metric, const std::string& entity);
+    // Evict all cached (non-pinned) selections:
+    void clearCache();
+    // Replace selector (also clears cache, preserves pins):
+    void setSelector(std::unique_ptr<ICompressionSelector> selector);
+};
+```
+
+⚠️ **Thread-safety warning**: `PerSeriesCompressionRegistry` is explicitly documented as NOT thread-safe [SRC: `include/timeseries/compression_selector.h`]. Any multi-threaded ingestion pipeline must guard all `strategyFor()` / `pinStrategy()` / `clearCache()` calls with an external mutex.
+
+**Profile computation**: `computeSeriesProfile(points)` — computes all five metrics in one pass over the data points.
 
 ### C. Named Continuous Aggregates
 
@@ -225,7 +299,19 @@ Willhalm et al. (2009) applied SSE2 to bitpacking decompression. Langdale and Le
 
 ### C. Adaptive Compression in Databases
 
-PostgreSQL's TOAST uses a fixed algorithm per column type. InfluxDB 3.0 uses per-type algorithm assignment. ThemisDB's `HeuristicCompressionSelector` performs per-series, per-chunk statistical profiling — the first per-series adaptive strategy in a production database time-series engine.
+| System | Compression Selection | Per-Series? | Statistical Profiling? |
+|--------|----------------------|-------------|------------------------|
+| PostgreSQL TOAST | Fixed per column type | ✗ | ✗ |
+| TimescaleDB | LZ4 default (configurable) | ✗ | ✗ |
+| InfluxDB | Per data type (float→Gorilla, bool→RLE, ts→DoD) | ✗ | ✗ |
+| InfluxDB 3.0 | Per-type assignment | ✗ | ✗ |
+| **ThemisDB (this work)** | **Per-series, per-chunk** | **✓** | **✓ (5-metric SeriesProfile)** |
+
+ThemisDB's `HeuristicCompressionSelector` performs per-series, per-chunk statistical profiling with four concrete thresholds (`min_samples=4`, `rle_run_ratio_threshold=0.70`, `dod_mean_abs_threshold=1.0 ms`, `regularity_threshold=0.90`) — the first per-series adaptive strategy in a production database time-series engine with documented threshold values [SRC: `include/timeseries/compression_selector.h`].
+
+**Algorithmic differences vs. TimescaleDB**: TimescaleDB's Continuous Aggregates store materialized views refreshed on a schedule. ThemisDB adds multi-shard partial aggregation (`AggShardResult` + `mergeShardResults()`) enabling parallel per-shard computation with coordinator-level merge — a capability absent from single-node TimescaleDB deployments.
+
+**Algorithmic differences vs. InfluxDB**: InfluxDB's type-based algorithm assignment (floats→Gorilla, booleans→RLE) uses no runtime profiling. ThemisDB's `strategyFor()` profiles actual data distribution at ingestion time: a boolean-typed series with low run_length_ratio (< 0.70) would be assigned Gorilla by ThemisDB's heuristic, while InfluxDB would always use RLE. Whether this improves compression depends on the actual data — ThemisDB's per-series approach allows the data to determine the strategy [SRC: `include/timeseries/compression_selector.h`].
 
 ### D. Continuous Aggregates
 
@@ -240,12 +326,23 @@ TimescaleDB's Continuous Aggregates (Freedman et al., 2018) introduced materiali
 3. **GPU-Accelerated Decompression**: Extend the GPU time-series path (`include/timeseries/gpu_timeseries.h`) to use CUDA parallel Gorilla decode for bulk historical range scans.
 4. **Prometheus Remote Write Authentication**: Add HMAC-SHA256 authentication to Prometheus Remote Write for multi-tenant security.
 5. **Columnar Storage Integration**: Store continuous aggregate results in Apache Arrow columnar format for direct consumption by analytics engines.
+6. **`PerSeriesCompressionRegistry` Thread Safety**: The registry is documented as NOT thread-safe [SRC: `include/timeseries/compression_selector.h`]. A concurrent variant using per-series fine-grained locks or a lock-free design would enable safe multi-threaded ingestion without external mutex.
 
 ---
 
 ## VII. Conclusion
 
-We presented ThemisDB's SIMD-accelerated time-series engine — a database-native stack combining a two-phase AVX2/NEON Gorilla decoder (byte-for-byte identical to scalar output), a statistical per-series adaptive compression selector (Gorilla/DeltaOfDelta/RLE/None), named continuous aggregates with four-level rollup hierarchy, out-of-order late-arrival handling, and Prometheus Remote Write bridge. All five components are production-ready (Quality Score: 100/100 per header metadata). The GorillaSIMDDecoder's correctness guarantee (byte-for-byte identity) and error-handling (partial result preservation on corrupt input) make it deployable in safety-critical monitoring systems.
+We presented ThemisDB's SIMD-accelerated time-series engine — a database-native stack combining:
+
+**Source-backed claims** (every claim references concrete source code):
+
+1. **Two-phase GorillaSIMDDecoder** [SRC: `include/timeseries/gorilla_simd.h`, v0.0.13, Quality Score: 100/100]: Phase 1 (scalar bit-stream parsing), Phase 2 (AVX2/NEON prefix-sum/prefix-XOR reconstruction). AVX2 detected at runtime via CPUID leaf 7, EBX bit 5; NEON always present on AArch64. Correctness: "output of `decodeAll()` is byte-for-byte identical to `GorillaDecoder::next()` called in a loop."
+2. **HeuristicCompressionSelector decision tree** [SRC: `include/timeseries/compression_selector.h`, v0.0.10, Quality Score: 100/100]: Four thresholds — `min_samples=4`, `rle_run_ratio_threshold=0.70`, `dod_mean_abs_threshold=1.0 ms`, `regularity_threshold=0.90` — fully documented in header Doxygen.
+3. **PerSeriesCompressionRegistry thread-safety** [SRC: `include/timeseries/compression_selector.h`]: "NOT thread-safe. External synchronisation is required." Priority: pinned > cached > freshly-selected.
+4. **Benchmark regression gates** [SRC: `src/timeseries/PERFORMANCE_EXPECTATIONS.md`]: TS-2 (Gorilla decode throughput regression ≤ 10%), TS-7 (compression ratio regression ≤ 10%), TS-1 (adaptive flush throughput). No absolute throughput numbers documented.
+5. **Named Continuous Aggregates** [SRC: `include/timeseries/continuous_agg.h`, v0.0.47, Quality Score: 100/100]: Four-level rollup hierarchy (1m → 5m → 1h → 1d), multi-shard `AggShardResult` + `mergeShardResults()`.
+6. **Prometheus Remote Write** [SRC: `include/timeseries/prometheus_remote_write.h`, v0.0.15, Quality Score: 100/100]: protobuf-over-HTTP bidirectional bridge.
+7. **StreamingIngestManager** [SRC: commit `040083b025`, 2026-04-12]: LZ4 hot-path compression, backpressure-aware batch ingestion.
 
 ---
 
