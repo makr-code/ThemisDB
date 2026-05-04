@@ -15,7 +15,7 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 
 ## Main Directory Structure
 
-### `/src/` - Implementation (55 Core Components)
+### `/src/` - Implementation (58 Core Components)
 
 | Directory | Purpose | Key Classes |
 |-----------|---------|-------------|
@@ -32,6 +32,7 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 | **config/** | Backward-compatible config path resolution, LRU caching, JSON Schema validation | ConfigPathResolver, ConfigSchemaValidator, ConfigAuditLog |
 | **content/** | Multimodal ingestion (PDF, images, audio, video, CAD) | ContentManager, AsyncIngestionWorker |
 | **core/** | Security initialization, concerns context (logging, tracing) | ConcernsContext, SecurityInit |
+| **distributed_knowledge/** | Federation flows: adapter capability gossip, federated LoRA gradient aggregation, cross-shard RAG merge, cross-shard RLAIF feedback sync; zero raw-data egress | AdapterCapabilityAnnouncement, LoRAFederationCoordinator, FederatedRAGMerger, CrossShardFeedbackSync |
 | **ethics_ai/** | Ethical discourse engine, 5-dimension decision scoring, RAG context retrieval | EthicsEvaluator, EthicalDiscourseEngine, RAGContextEngine |
 | **exporters/** | Data export in various formats | JsonlLlmExporter |
 | **failover/** | Automatic failover orchestration and disaster recovery plan execution | AutoFailoverManager, DisasterRecoveryOrchestrator |
@@ -52,6 +53,7 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 | **performance/** | Advanced data structures (RCU, LIRS, lock-free buffers, lock-free histograms) | PerformanceOptimizations, LockFreeHistogram, LirsCache |
 | **plugins/** | Plugin system, hot-plugging, RPC interfaces | PluginManager, PluginRegistry |
 | **process/** | BPMN 2.0, EPK, VCC-VPB process model management; LLM descriptors; Graph-RAG for Verwaltungsvorgänge | ProcessModelManager, BpmnSerializer, EpkSerializer, ProcessLinker, ProcessGraphRag |
+| **projects/** | Project management layer: lifecycle state machine, snapshot versioning, structural diff/merge, template instantiation, collaboration session management | ProjectLifecycle, ProjectVersioning, ProjectDiff, ProjectMerge, ProjectTemplate, CollaborationManager |
 | **prompt_engineering/** | Prompt template lifecycle, version control, A/B testing, self-optimization, injection detection | PromptManager, PromptOptimizer, SelfImprovementOrchestrator, PromptInjectionDetector |
 | **query/** | AQL parser, optimizer, execution engine | QueryEngine, AqlParser, QueryOptimizer |
 | **rag/** | RAG evaluation (faithfulness, relevance, bias detection) | RagJudge, CoherenceEvaluator |
@@ -65,7 +67,9 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 | **stable_diffusion/** | Stable Diffusion image generation plugin with content-policy sanitizer | SDGenerator, SDPromptSanitizer, IImageGenerationBackend |
 | **storage/** | RocksDB wrapper, compression, blob storage, transactions, streaming ingest, columnar cache | StorageEngine, BlobStorageManager, StreamingIngestManager, ColumnarCache |
 | **temporal/** | Conflict resolution for temporal data; LZ4 compression for temporal histories | TemporalConflictResolver, TemporalCompressor |
+| **themis/** | Core framework: build info, edition management, license validation, secure module loading (Linux/Windows), Wire Protocol V2 | EditionManager, ModuleLoader, ModuleSecurityVerifier, WireProtocolServer |
 | **timeseries/** | Time series compression (Gorilla), aggregates, retention, streaming cursor, batch writes | TimeSeriesManager, GorillaEncoder, GorillaDecoder, TsStreamCursor |
+| **toolbox/** | System-wide integration layer bridging ingestion pipeline with content storage; process-global IngestionToolbox registry for all modules | IngestionToolbox, ToolboxBuilder, ContentToolboxBridge, ToolboxRegistry |
 | **training/** | Domain-specific LLM fine-tuning, LoRA adapter management, knowledge graph enrichment | LegalAutoLabeler, IncrementalLoRATrainer, KnowledgeGraphEnricher |
 | **transaction/** | ACID transactions, SAGA pattern, branching | TransactionManager, SagaManager |
 | **updates/** | Hot reload, manifest management, version control | HotReloadEngine, ReleaseManifest |

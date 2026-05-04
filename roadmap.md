@@ -4,7 +4,7 @@
 
 **Version:** 2.1  
 **Last Updated:** 2026-04-13  
-**Scope:** Aggregated roadmap across all 55 modules in `src/`
+**Scope:** Aggregated roadmap across all 58 modules in `src/`
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
 
@@ -12,7 +12,7 @@
 
 ## Overview
 
-ThemisDB is a high-performance multi-model database with native AI/LLM integration. This top-level roadmap aggregates the status and planned work across all 46 source modules. The project follows a phased approach: stabilise core infrastructure first, then harden distributed and AI layers, and finally deliver operational excellence at hyperscale.
+ThemisDB is a high-performance multi-model database with native AI/LLM integration. This top-level roadmap aggregates the status and planned work across all 58 source modules. The project follows a phased approach: stabilise core infrastructure first, then harden distributed and AI layers, and finally deliver operational excellence at hyperscale.
 
 **Overall Timeline:** Q1 2026 – Q4 2027  
 **Current Release:** v1.8.1-rc2
@@ -57,6 +57,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **performance** | ✅ Production-ready | [src/performance/ROADMAP.md](src/performance/ROADMAP.md) |
 | **plugins** | ✅ Production-ready | [src/plugins/ROADMAP.md](src/plugins/ROADMAP.md) |
 | **process** | ✅ Production-ready — BPMN/EPK/VCC-VPB import, Graph-RAG, ProcessLinker, HNSW + full-text retrieval operational; ARIS-XML import (AML v9/v10) + AgenticRAG iterative Q&A (2026-04-17) | [src/process/ROADMAP.md](src/process/ROADMAP.md) |
+| **projects** | ✅ Production-ready (v1.0.0) — Project lifecycle state machine, snapshot versioning, structural diff/merge, template instantiation (`BLANK/ANALYTICS/ML_PIPELINE/REPORT`), concurrent collaboration session management | [src/projects/ROADMAP.md](src/projects/ROADMAP.md) |
 | **prompt_engineering** | ✅ Production-ready (v1.x) | [src/prompt_engineering/ROADMAP.md](src/prompt_engineering/ROADMAP.md) |
 | **query** | ✅ Production-ready | [src/query/ROADMAP.md](src/query/ROADMAP.md) |
 | **rag** | ✅ Production-ready | [src/rag/ROADMAP.md](src/rag/ROADMAP.md) |
@@ -72,6 +73,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **temporal** | ✅ Production-ready (v1.2.0 C++ engine) — System-versioned + bi-temporal queries, time-travel, temporal joins, index acceleration | [src/temporal/ROADMAP.md](src/temporal/ROADMAP.md) |
 | **themis** | ✅ Production-ready — All core components migrated to `src/themis/`; Wire Protocol V2 delivered; integration tests added (v1.8.0) | [src/themis/ROADMAP.md](src/themis/ROADMAP.md) |
 | **timeseries** | ✅ Production-ready | [src/timeseries/ROADMAP.md](src/timeseries/ROADMAP.md) |
+| **toolbox** | ✅ Production-ready — System-wide integration layer: `IngestionToolbox`, `ToolboxBuilder`, `ContentToolboxBridge`, `ToolboxRegistry` (process-global); text-processing primitives (chunker, normalizer, fingerprinter, quality scorer, language detector) | [src/toolbox/ROADMAP.md](src/toolbox/ROADMAP.md) |
 | **training** | ✅ Production-ready (v1.x) | [src/training/ROADMAP.md](src/training/ROADMAP.md) |
 | **transaction** | ✅ Production-ready | [src/transaction/ROADMAP.md](src/transaction/ROADMAP.md) |
 | **updates** | ✅ Production-ready | [src/updates/ROADMAP.md](src/updates/ROADMAP.md) |
@@ -80,7 +82,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **voice** | ✅ Production-ready | [src/voice/ROADMAP.md](src/voice/ROADMAP.md) |
 | **whisper** | ✅ Production-ready (v2.1.0) — Thread-safe; FFmpeg audio chunk reader (MP3/OGG); CompositeAudioChunkReader; `WhisperPluginAdapter`+`WhisperPluginRegistrar` PluginManager hot-plug integration; 44+12 tests | [src/whisper/ROADMAP.md](src/whisper/ROADMAP.md) |
 
-**Legend:** ✅ Production-ready · 🟡 Beta · 🔴 Alpha · 🚧 In active hardening · *(55 modules total)*
+**Legend:** ✅ Production-ready · 🟡 Beta · 🔴 Alpha · 🚧 In active hardening · *(58 modules total)*
 
 ---
 
@@ -452,7 +454,7 @@ Focus: Hyperscale distributed operations, multi-region support, and advanced con
 Focus: Enterprise-grade monitoring, alerting, and automated operations.
 
 #### 4.1 Observability — Extended Tracing
-- [I] End-to-end distributed trace correlation across all 46 modules (Target: Q4 2026)
+- [I] End-to-end distributed trace correlation across all 58 modules (Target: Q4 2026)
 - [I] Anomaly-driven alerting with root cause analysis hints (Target: Q4 2026)
 - [I] Continuous profiling integration (eBPF / perf) (Target: Q4 2026)
 
@@ -590,7 +592,7 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 
 #### 6.2 Documentation
 - [I] Interactive API reference (Swagger UI / Redoc) (Target: Q2 2027)
-- [I] Module-level architecture decision records (ADRs) for all 46 modules (Target: Q3 2027)
+- [I] Module-level architecture decision records (ADRs) for all 58 modules (Target: Q3 2027)
 - [I] End-to-end tutorial series (20+ guides) (Target: Q3 2027)
 
 #### 6.3 Plugin Ecosystem
@@ -608,7 +610,7 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 
 ## Production Readiness Checklist
 
-### Per-Module Requirements (applied to all 46 modules)
+### Per-Module Requirements (applied to all 58 modules)
 - [x] Module has `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`
 - [x] Current Status section with maturity indicator (Alpha / Beta / Production-ready)
 - [x] Unit test coverage target defined
@@ -619,7 +621,7 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 - [x] Prometheus metrics exported where applicable
 
 ### System-Wide Requirements
-- [x] All 46 modules integrated into the CMake build system
+- [x] All 58 modules integrated into the CMake build system
 - [x] Edition matrix (MINIMAL / COMMUNITY / ENTERPRISE / HYPERSCALER) enforced at build time
 - [x] Docker image builds for all supported editions
 - [x] CI pipeline covers core module matrix

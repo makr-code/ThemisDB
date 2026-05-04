@@ -20,7 +20,7 @@
 
 ThemisDB is an enterprise-grade, multi-model database engine that combines relational, graph, vector, document, geospatial, and time-series storage in a single system — with native AI/LLM integration built in. It is designed for workloads that require strong transactional guarantees, distributed operation, and advanced analytical capabilities alongside modern machine-learning workflows.
 
-ThemisDB has **comprehensive documentation for all 50 modules** with production-ready standards:
+ThemisDB has **comprehensive documentation for all 58 modules** with production-ready standards:
 
 **Key capabilities at a glance:**
 
@@ -88,7 +88,7 @@ See [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) for the full feature comparison a
 
 ## Architecture
 
-ThemisDB is organised into 55 source modules under `src/`, grouped into four logical layers:
+ThemisDB is organised into 58 source modules under `src/`, grouped into four logical layers:
 
 ```
 ┌─────────────────────────────────────────────────────┐
