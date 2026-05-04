@@ -391,7 +391,13 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
         return false;
     }
 
-    std::ifstream cert_file(cert_path);
+    // Open the file using the canonicalized path to reduce the TOCTOU window
+    // between weakly_canonical() and the read (the cert_path variable retains
+    // the non-canonical form; using canonical_cert here means the fd refers to
+    // the resolved inode, not a symlink that could be swapped after canonicalization).
+    // A fully atomic solution would require openat(2)/O_NOFOLLOW; that is left
+    // to the OS-hardening layer as noted above.
+    std::ifstream cert_file(canonical_cert);
     if (!cert_file.good()) {
         // Log only the serial number to avoid leaking internal directory paths.
         spdlog::warn("SignedRequestVerifier: certificate not found or unreadable for serial='{}'",

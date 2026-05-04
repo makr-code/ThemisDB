@@ -267,18 +267,12 @@ bool RedisRateLimiterBackend::reconnect()
 
 #else // !THEMIS_ENABLE_REDIS
 
-// Use the interface sentinel constant (IRateLimiterBackend::kBackendUnavailable)
-// for fail-closed rate limiting so callers can distinguish "backend unavailable"
-// from an arithmetically-computed rate-limit count.
-static constexpr int64_t kRateLimitFailClosed = IRateLimiterBackend::kBackendUnavailable;
-
 // STUB/SIMULATION NOTE:
 // Purpose: Allow ThemisDB to be built without hiredis.  All Redis-backed
 //   distributed rate-limiting operations are now fail-CLOSED: `increment()`
-//   returns kRateLimitFailClosed (== IRateLimiterBackend::kBackendUnavailable)
-//   so that every call appears to exceed the rate limit, `getCount()` returns
-//   kRateLimitFailClosed, `reset()` is a no-op, and `isConnected()` /
-//   `reconnect()` always return false.
+//   returns IRateLimiterBackend::kBackendUnavailable so that every call appears
+//   to exceed the rate limit, `getCount()` returns kBackendUnavailable, `reset()`
+//   is a no-op, and `isConnected()` / `reconnect()` always return false.
 // Activation: `THEMIS_ENABLE_REDIS` is not defined at compile time (default for
 //   builds without the 'redis' vcpkg feature or without libhiredis).
 // Production Delta: Distributed rate limiting is disabled and all requests are
@@ -304,13 +298,13 @@ RedisRateLimiterBackend::~RedisRateLimiterBackend() = default;
 int64_t RedisRateLimiterBackend::increment(const std::string& /*key*/,
                                             uint32_t /*window_seconds*/)
 {
-    return kRateLimitFailClosed; // fail-closed: report maximum count so callers reject the request
+    return IRateLimiterBackend::kBackendUnavailable; // fail-closed: exceed limit on every call
 }
 
 int64_t RedisRateLimiterBackend::getCount(const std::string& /*key*/,
                                            uint32_t /*window_seconds*/) const
 {
-    return kRateLimitFailClosed; // fail-closed: appear at maximum rate
+    return IRateLimiterBackend::kBackendUnavailable; // fail-closed: appear at maximum rate
 }
 
 void RedisRateLimiterBackend::reset(const std::string& /*key*/)

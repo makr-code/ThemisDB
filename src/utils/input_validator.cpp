@@ -261,9 +261,10 @@ std::optional<std::string> InputValidator::validateJsonStub(
         // Fail-closed: reject the request.  Warn once per unique schema_name to
         // avoid log spam when schemas are intentionally not deployed in an env.
         // Thread-safety: static locals are zero-initialized before any thread
-        // reaches this point (C++11 §6.7).  The mutex serializes all subsequent
-        // read/write accesses to s_warned_schemas; no additional synchronization
-        // is needed.  emplace() combines lookup and insert atomically under the lock.
+        // reaches this point (C++11 §6.7[stmt.dcl]p4).  The mutex serializes all
+        // subsequent read/write accesses to s_warned_schemas; no additional
+        // synchronization is needed.  emplace() combines lookup and insert
+        // atomically under the lock.
         {
             static std::mutex s_warned_mutex;
             static std::unordered_set<std::string> s_warned_schemas;
