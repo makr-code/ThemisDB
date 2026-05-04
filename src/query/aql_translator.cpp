@@ -760,6 +760,13 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 // Multiple FILTERs with OR: AND-combine via cartesian product (DNF expansion).
                 // If existing disjuncts = [A, B] and new disjuncts = [C, D], the result is
                 // [A∧C, A∧D, B∧C, B∧D] — each pair of conjuncts is merged.
+                constexpr size_t kMaxDNFDisjuncts = 1000;
+                if (disjQuery.disjuncts.size() * disjuncts.size() > kMaxDNFDisjuncts) {
+                    return TranslationResult::Error(
+                        "OR query too complex: DNF expansion would produce " +
+                        std::to_string(disjQuery.disjuncts.size() * disjuncts.size()) +
+                        " disjuncts (limit: " + std::to_string(kMaxDNFDisjuncts) + ")");
+                }
                 std::vector<ConjunctiveQuery> merged;
                 merged.reserve(disjQuery.disjuncts.size() * disjuncts.size());
                 for (const auto& existing : disjQuery.disjuncts) {
@@ -1063,9 +1070,11 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     };
                     continue; // Skip normal predicate extraction for this filter
                 } else {
-                    // Cannot compute bbox - log warning and skip spatial predicate
-                    THEMIS_WARN("Spatial predicate {} requires bbox but could not compute from expression", 
-                                funcName);
+                    // Non-literal geometry expressions cannot be resolved at translation time.
+                    // Silently dropping the spatial filter would bypass the geo-fence entirely.
+                    return TranslationResult::Error(
+                        "ST_* spatial filter with non-literal geometry is not supported; "
+                        "use a literal coordinate string or WKT geometry (e.g. [[minx,miny],[maxx,maxy]])");
                 }
             }
         }

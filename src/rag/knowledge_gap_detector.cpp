@@ -281,15 +281,18 @@ DetectionResult KnowledgeGapDetector::detectPostGeneration(
     // Self-consistency check: detect conflicting information across
     // multiple candidate generations using the configured consistency threshold.
     if (impl_->config.enable_self_consistency_check) {
-        bool is_consistent = checkSelfConsistency(query, documents);
-        if (!is_consistent) {
-            result.gap_detected = true;
-            result.gap_type = GapType::CONFLICTING_INFO;
-            result.confidence_score = 0.75;
-            result.recommendation = FallbackStrategy::REFORMULATE_QUERY;
-            result.explanation = "Generated answers lack self-consistency";
-            return result;
-        }
+        // STUB/SIMULATION NOTE:
+        // Purpose: generateMultipleSamples() uses heuristic document-snippet cycling,
+        //          not real LLM sampling. Self-consistency scores are trivially ~1.0.
+        // Activation: enable_self_consistency_check = true in KnowledgeGapConfig
+        // Production Delta: A real implementation calls the LLM with temperature > 0
+        //                   and varied seeds; results would reflect genuine answer diversity.
+        // Removal Plan: Replace generateMultipleSamples() with live LLM calls before
+        //               re-enabling this gate in production configurations.
+        THEMIS_WARN("[STUB] knowledge_gap_detector: enable_self_consistency_check is ON but "
+                    "generateMultipleSamples() uses heuristic sampling (not LLM). "
+                    "Self-consistency results are not meaningful. Skipping check.");
+        // Skip the self-consistency scoring until real LLM sampling is wired.
     }
     
     result.gap_detected = false;
@@ -1277,8 +1280,23 @@ std::vector<RetrievedDocument> KnowledgeGapDetector::performDynamicRetrieval(
 
     // Use top_k from config (min_documents serves as a reasonable per-round budget).
     const size_t k = std::max(impl_->config.min_documents, size_t{1});
+
+    if (impl_->config.tenant_id.empty()) {
+        THEMIS_WARN("performDynamicRetrieval: no tenant_id configured — retrieval callback "
+                    "cannot enforce tenant isolation. Set KnowledgeGapConfig::tenant_id.");
+    } else {
+        THEMIS_DEBUG("performDynamicRetrieval: tenant_id={}", impl_->config.tenant_id);
+    }
+
+    // Prepend tenant_id to the query so tenant-aware callbacks can enforce isolation.
+    // Callbacks that are not tenant-aware will receive a slightly modified query;
+    // callers MUST configure a tenant-aware RetrievalCallback when multi-tenancy is required.
+    const std::string scoped_query = impl_->config.tenant_id.empty()
+        ? query
+        : "[tenant:" + impl_->config.tenant_id + "] " + query;
+
     try {
-        return impl_->retrieval_fn(query, k);
+        return impl_->retrieval_fn(scoped_query, k);
     } catch (const std::exception& ex) {
         THEMIS_DEBUG("Dynamic retrieval callback threw: {}", ex.what());
         return {};

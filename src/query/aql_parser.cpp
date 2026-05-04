@@ -571,6 +571,17 @@ private:
             int maxDepth = std::stoi(current().value);
             advance();
 
+            // Enforce traversal depth limits to prevent BFS/DFS runaway
+            constexpr int kMaxTraversalDepth = 100;
+            if (minDepth < 0) {
+                throw std::runtime_error("Graph traversal min_depth must be non-negative");
+            }
+            if (maxDepth > kMaxTraversalDepth) {
+                throw std::runtime_error(
+                    "Graph traversal max_depth " + std::to_string(maxDepth) +
+                    " exceeds limit of " + std::to_string(kMaxTraversalDepth));
+            }
+
             // Direction
             Query::TraversalNode::Direction dir;
             if (match(TokenType::OUTBOUND)) { dir = Query::TraversalNode::Direction::Outbound; advance(); }

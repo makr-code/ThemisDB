@@ -221,6 +221,7 @@ struct EvaluationInput {
     std::vector<RetrievedDocument> documents;
     std::string generated_answer;
     std::unordered_map<std::string, std::string> metadata;
+    std::string tenant_id; ///< Tenant identifier for cache isolation; empty means global/anonymous
 };
 
 /**

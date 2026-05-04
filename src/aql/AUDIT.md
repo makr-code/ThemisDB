@@ -1,11 +1,11 @@
-<!-- Status: S0 addressed 2026-05-04 | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0 addressed 2026-05-04 | S1 fixed 2026-05-04 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — AQL Module
 
 **Last Audit:** 2026-04-21
 **Auditor:** Copilot
-**Status:** ✅ S0 addressed — 0 S0, 1 S1 (RAG indirect prompt injection)
+**Status:** ✅ S0+S1 resolved — 0 S0, 0 S1
 
 > **Note:** Previous audit claimed "Security Issues: None identified" and stated AQL injection
 > was resolved via "structured prompt templates." Direct source analysis found that
@@ -15,6 +15,9 @@
 > AQL collection names are verified against the caller-supplied `schema_context`; queries
 > referencing out-of-scope collections are rejected with `INVALID_RESPONSE`. Residual risk:
 > callers who omit `schema_context` are warned but not blocked (architectural limitation).
+> **2026-05-04:** LLM-3 fixed — retrieved document content is sanitized via
+> `sanitizePromptInput()` and wrapped in `[DOCUMENT_START]/[DOCUMENT_END]` delimiters
+> before inclusion in the LLM RAG context.
 
 ## Summary
 
@@ -119,7 +122,7 @@ execution.
 
 ### S1 — High
 
-#### LLM-3 · `llm_aql_handler.cpp` · `executeRAG()` — Indirect prompt injection via retrieved documents
+#### LLM-3 · `llm_aql_handler.cpp` · `executeRAG()` — Indirect prompt injection via retrieved documents ✅ fixed 2026-05-04
 
 RAG-retrieved document content (including stored user data) is passed directly to the LLM
 as context without sanitization for injection markers:
@@ -132,9 +135,9 @@ auto response = plugin_mgr.generateRAG(context, request);
 An attacker who stores a document containing `"\nASSISTANT: Ignore previous instructions..."`
 can hijack the RAG response to the next user querying overlapping data.
 
-**Fix required:** Insert hard delimiters around each retrieved document in the RAG context
-(e.g., `[DOCUMENT_START]\n...\n[DOCUMENT_END]`), and instruct the model in the system
-prompt not to follow instructions within document context.
+**Fix applied 2026-05-04:** Each retrieved document's content is sanitized via
+`sanitizePromptInput()` (injection markers trigger content redaction), then wrapped in
+`[DOCUMENT_START]/[DOCUMENT_END]` delimiters before being added to the RAG context.
 
 ---
 

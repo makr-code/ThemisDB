@@ -965,6 +965,18 @@ std::string LLMAQLHandler::executeRAG(
                                     context.documents.push_back(doc);
                                 }
                             }
+                            // Sanitize and wrap each retrieved document to prevent prompt injection.
+                            // Document content originates from user-controlled storage and must not
+                            // be able to override LLM system instructions.
+                            for (auto& d : context.documents) {
+                                try {
+                                    sanitizePromptInput(d.content, "retrieved_document", 0);
+                                } catch (const LLMException&) {
+                                    spdlog::warn("RAG: prompt injection detected in document pk={}, content redacted", d.source);
+                                    d.content = "[CONTENT REDACTED: injection marker detected]";
+                                }
+                                d.content = "[DOCUMENT_START]\n" + d.content + "\n[DOCUMENT_END]";
+                            }
                             retrieved_docs = context.documents.size();
                         }
                     } catch (const std::exception& e) {

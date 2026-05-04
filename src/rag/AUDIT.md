@@ -1,16 +1,20 @@
-<!-- Status: CRITICAL FINDINGS | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S1 fixed 2026-05-04 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — RAG Module
 
-> ⚠️ **Auditstand:** Source code analysis 2026-04-21 found high-severity security vulnerabilities.
+> ✅ **Auditstand:** All 4 S1 high-severity vulnerabilities fixed 2026-05-04.
 
-**Last Audit:** 2026-04-21 | **Auditor:** Copilot | **Status:** ⚠️ High — 4×S1 (prompt injection, cache cross-tenant, self-consistency stub, retrieval no tenant ID)
+**Last Audit:** 2026-04-21 | **Auditor:** Copilot | **Status:** ✅ S1 resolved — 0 S1 open
 
 > **Note:** Previous audit claimed "Security Issues: None critical" and "Prompt injection detection
 > implemented." Direct source analysis found that document content is still injected verbatim into
 > LLM judge prompts (`rag_judge.cpp`), bypassing the `PromptInjectionDetector` which is applied only
 > at inference boundary, not at the evaluation judge prompt construction layer.
+> **2026-05-04:** F4-1 fixed (hard delimiters + data-only note in extractClaimsViaLLM/verifyClaimViaLLM),
+> F4-2 fixed (tenant_id added to EvaluationInput and computeCacheKey),
+> F5-1 fixed (self-consistency gate disabled with WARN when stub is active),
+> F5-2 fixed (tenant_id threaded through performDynamicRetrieval via config).
 
 ## Summary
 
@@ -20,10 +24,10 @@
 | Source Files | 55 `.cpp` in `src/rag/` |
 | Test Coverage | ✅ Present (38 dedicated test files in `tests/`) |
 | S0 Critical | ✅ None in RAG module itself |
-| S1 High | 🔴 4 (prompt injection in judge, eval cache cross-tenant, self-consistency stub, FLARE no tenant) |
+| S1 High | ✅ 0 open (F4-1, F4-2, F5-1, F5-2 fixed 2026-05-04) |
 | S2 Medium | ⚠️ 4 |
 | S3 Low | ℹ️ 1 |
-| Faithfulness judge prompt-injection-safe | 🔴 **No — document content verbatim in LLM judge prompt** |
+| Faithfulness judge prompt-injection-safe | ✅ Fixed — hard delimiters applied in judge prompts |
 
 ## Source Files Audited
 
@@ -131,7 +135,7 @@
 
 ### S1 — High
 
-#### F4-1 · `rag_judge.cpp` · `extractClaimsViaLLM()` + `verifyClaimViaLLM()` — Prompt injection via document content
+#### F4-1 · `rag_judge.cpp` · `extractClaimsViaLLM()` + `verifyClaimViaLLM()` — Prompt injection via document content ✅ fixed 2026-05-04
 
 RAG-retrieved document content is concatenated verbatim into LLM judge prompts:
 
@@ -153,7 +157,7 @@ The `PromptInjectionDetector` from `prompt_injection_detector.cpp` is applied at
 
 ---
 
-#### F4-2 · `rag_judge.cpp` · `evaluate()` — Evaluation cache has no tenant isolation (L349–353)
+#### F4-2 · `rag_judge.cpp` · `evaluate()` — Evaluation cache has no tenant isolation (L349–353) ✅ fixed 2026-05-04
 
 Cache key is `computeCacheKey(query, answer)` with no tenant ID. Tenant A's evaluation result
 — including `ethical_violations`, `verified_claims`, `unverified_claims`, bias scores — is
@@ -169,7 +173,7 @@ wrapper (consistent with how the query cache is supposed to work in `adaptive_qu
 
 ---
 
-#### F5-1 · `knowledge_gap_detector.cpp` · `generateMultipleSamples()` — Self-consistency stub (L1007–1039)
+#### F5-1 · `knowledge_gap_detector.cpp` · `generateMultipleSamples()` — Self-consistency stub (L1007–1039) ✅ fixed 2026-05-04
 
 `generateMultipleSamples()` creates near-identical strings by cycling document snippets,
 not by calling the LLM. `calculateConsistencyScore()` returns ~1.0 for all sample pairs.
@@ -194,7 +198,7 @@ or disable `enable_self_consistency_check` feature flag until the implementation
 
 ---
 
-#### F5-2 · `knowledge_gap_detector.cpp` · `performDynamicRetrieval()` — FLARE retrieval passes no tenant ID (L1267–1285)
+#### F5-2 · `knowledge_gap_detector.cpp` · `performDynamicRetrieval()` — FLARE retrieval passes no tenant ID (L1267–1285) ✅ fixed 2026-05-04
 
 ```cpp
 const size_t k = std::max(impl_->config.min_documents, size_t{1});

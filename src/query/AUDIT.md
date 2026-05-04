@@ -1,4 +1,4 @@
-<!-- Status: S0 fixed 2026-05-04 | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · SECURITY.md -->
 
 # Audit Record — Query Module
@@ -9,12 +9,17 @@
 |--------------|--------------------------------------------|
 | Module       | query                                      |
 | Source path  | `src/query/`                               |
-| Audit date   | 2026-04-21 (S0 fixes: 2026-05-04)         |
+| Audit date   | 2026-04-21 (S0 fixes: 2026-05-04, S1 fixes: 2026-05-04) |
 | Audited by   | Copilot (source code analysis)             |
-| Status       | ✅ S0 fixed — 0 S0, S1 open (QE-3/QE-4) |
+| Status       | ✅ S0+S1 fixed — 0 S0, 0 S1 open |
 
 > **2026-05-04:** QE-1 fixed (errors_mutex), QE-2 addressed, PA-1 fixed (depth limit 500 in
 > `parseExpression()`). See finding details below for confirmation.
+> **2026-05-04:** QE-3 fixed (atomic error tracking in executeOrKeysWithFallback), QE-4 fixed
+> (kMaxResultSetSize cap in executeAndEntities + executeOrEntitiesWithFallback), QE-5 fixed
+> (ST_Within fail-closed), PA-2 fixed (kMaxTraversalDepth=100 in parseForClause),
+> TR-1 fixed (non-literal ST_* geometry returns TranslationResult::Error),
+> TR-2 fixed (kMaxDNFDisjuncts=1000 guard before cartesian product).
 
 ## Source File Inventory
 
@@ -152,14 +157,14 @@ parse error rather than recursing further.
 
 ### S1 — High
 
-| ID | Function | Description |
-|----|----------|-------------|
-| QE-3 | `executeOrKeysWithFallback()` | Disjunct storage errors silently swallowed → false-negative results indistinguishable from "no data" |
-| QE-4 | `executeAndEntities()` et al. | No result-set size cap — `out.reserve(keys.size())` with no upper bound → memory exhaustion |
-| QE-5 | `qe_evalFunction()` / `ST_Within` | Geometry parse failure returns `true` (fail-open) — all records pass a broken spatial filter |
-| PA-2 | `parseForClause()` | No upper bound on parsed graph traversal depth → `INT_MAX` passed as `max_depth` to BFS/DFS |
-| TR-1 | `translate()` in `aql_translator.cpp` | ST_* spatial filter silently dropped for non-literal geometry expressions → geo-fence bypass |
-| TR-2 | `translate()` in `aql_translator.cpp` | DNF cartesian product of OR-clauses is O(M^N) with no size limit → query planning OOM |
+| ID | Function | Description | Status |
+|----|----------|-------------|--------|
+| QE-3 | `executeOrKeysWithFallback()` | Disjunct storage errors silently swallowed → false-negative results indistinguishable from "no data" | ✅ fixed 2026-05-04 |
+| QE-4 | `executeAndEntities()` et al. | No result-set size cap — `out.reserve(keys.size())` with no upper bound → memory exhaustion | ✅ fixed 2026-05-04 |
+| QE-5 | `qe_evalFunction()` / `ST_Within` | Geometry parse failure returns `true` (fail-open) — all records pass a broken spatial filter | ✅ fixed 2026-05-04 |
+| PA-2 | `parseForClause()` | No upper bound on parsed graph traversal depth → `INT_MAX` passed as `max_depth` to BFS/DFS | ✅ fixed 2026-05-04 |
+| TR-1 | `translate()` in `aql_translator.cpp` | ST_* spatial filter silently dropped for non-literal geometry expressions → geo-fence bypass | ✅ fixed 2026-05-04 |
+| TR-2 | `translate()` in `aql_translator.cpp` | DNF cartesian product of OR-clauses is O(M^N) with no size limit → query planning OOM | ✅ fixed 2026-05-04 |
 
 ---
 

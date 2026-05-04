@@ -159,6 +159,9 @@ struct KnowledgeGapConfig {
         FallbackStrategy::REFORMULATE_QUERY,
         FallbackStrategy::INSUFFICIENT_DATA_RESPONSE
     };
+
+    // Tenant isolation
+    std::string tenant_id; ///< Tenant identifier threaded through retrieval calls; empty = global/anonymous
 };
 
 /**
