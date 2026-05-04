@@ -22,10 +22,9 @@
  */
 
 #include "sharding/consistent_hash.h"
-#include <sstream>
 #include <algorithm>
 #include <cmath>
-#include <set>
+#include <unordered_set>
 
 namespace themis::sharding {
 
@@ -58,10 +57,14 @@ void ConsistentHashRing::addShard(const std::string& shard_id, size_t virtual_no
     // Collisions are possible with any finite hash width; if we overwrite an
     // existing token in ring_, we silently lose virtual nodes and skew load.
     // Resolve collisions with deterministic probing to preserve ring density.
+    // Build the virtual-node key as "<shard_id>#<i>" without ostringstream.
+    std::string vnode_key;
+    vnode_key.reserve(shard_id.size() + 1 + 20); // 20 digits covers uint64_t max
     for (size_t i = 0; i < virtual_nodes; ++i) {
-        std::ostringstream oss;
-        oss << shard_id << "#" << i;
-        uint64_t token = hash(oss.str());
+        vnode_key = shard_id;
+        vnode_key += '#';
+        vnode_key += std::to_string(i);
+        uint64_t token = hash(vnode_key);
 
         size_t probe = 0;
         while (ring_.find(token) != ring_.end()) {
@@ -141,7 +144,9 @@ std::vector<std::string> ConsistentHashRing::getSuccessors(uint64_t hash, size_t
     }
     
     std::vector<std::string> result;
-    std::set<std::string> seen; // Track unique shards
+    std::unordered_set<std::string> seen; // Track unique shards; O(1) avg vs O(log n) for std::set
+    result.reserve(count);
+    seen.reserve(count);
     
     // Start from the position at or after the hash
     auto it = ring_.lower_bound(hash);
@@ -208,7 +213,7 @@ std::vector<std::string> ConsistentHashRing::getShardsInRange(
     }
 
     std::vector<std::string> result;
-    std::set<std::string> seen;
+    std::unordered_set<std::string> seen;
 
     auto collect = [&](auto from, auto to_exclusive) {
         // Walk from 'from' to just before 'to_exclusive', collecting shards.

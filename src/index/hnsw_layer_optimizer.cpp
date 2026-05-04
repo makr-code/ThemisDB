@@ -80,7 +80,7 @@ int HnswLayerOptimizer::getOptimalEntryLayer() const {
     if (recent_queries_.empty() || layer_stats_.empty()) return -1;
     
     // Calculate average efficiency for each entry layer based on recent queries
-    std::map<int, std::pair<double, int>> entry_layer_performance;  // layer -> (total_time, count)
+    std::unordered_map<int, std::pair<double, int>> entry_layer_performance;  // layer -> (total_time, count)
     
     for (const auto& query : recent_queries_) {
         auto& perf = entry_layer_performance[query.entry_layer];
@@ -115,7 +115,7 @@ int HnswLayerOptimizer::getOptimalEf(size_t k) const {
     if (recent_queries_.empty()) return -1;
     
     // Calculate average performance for different ef values for similar k
-    std::map<int, std::pair<double, int>> ef_performance;  // ef -> (total_time, count)
+    std::unordered_map<int, std::pair<double, int>> ef_performance;  // ef -> (total_time, count)
     
     for (const auto& query : recent_queries_) {
         // Only consider queries with similar k (within 50%)
@@ -162,7 +162,7 @@ bool HnswLayerOptimizer::shouldPruneLayer(int current_layer, size_t candidate_co
     return should_prune;
 }
 
-std::map<int, HnswLayerOptimizer::LayerStats> HnswLayerOptimizer::getLayerStats() const {
+std::unordered_map<int, HnswLayerOptimizer::LayerStats> HnswLayerOptimizer::getLayerStats() const {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return layer_stats_;
 }

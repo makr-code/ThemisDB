@@ -188,11 +188,11 @@ std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(
             if (similarity > best_similarity) {
                 best_similarity = similarity;
                 best_pk = pk;
-                
-                // Early termination if we found a near-perfect match
-                if (best_similarity >= EARLY_TERMINATION_THRESHOLD) {
-                    break;
-                }
+                // Note: we intentionally do NOT break early here.
+                // The unordered_map iteration order is not sorted by similarity,
+                // so breaking on the first entry above EARLY_TERMINATION_THRESHOLD
+                // would not guarantee the globally best match.  The full scan
+                // is required to find the true maximum.
             }
         }
         

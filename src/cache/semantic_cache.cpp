@@ -121,6 +121,12 @@ bool SemanticCache::put(
         s = db_->Put(write_opts, key, value);
     }
     
+    if (s.ok()) {
+        // Update in-memory size counters so getStats() avoids a full RocksDB scan.
+        entry_count_.fetch_add(1, std::memory_order_relaxed);
+        total_bytes_.fetch_add(key.size() + value.size(), std::memory_order_relaxed);
+    }
+    
     return s.ok();
 }
 
@@ -183,29 +189,10 @@ SemanticCache::Stats SemanticCache::getStats() const {
             total_queries / 1000.0;
     }
     
-    // Count entries in cache
-    rocksdb::ReadOptions read_opts;
-    std::unique_ptr<rocksdb::Iterator> it(
-        cf_handle_ ? db_->NewIterator(read_opts, cf_handle_) : db_->NewIterator(read_opts)
-    );
-    
-    // Check for null iterator before use
-    if (!it) {
-        THEMIS_ERROR("Failed to create iterator for semantic cache stats collection");
-        // Return stats with default values for entry count/size
-        return stats;
-    }
-    
-    uint64_t count = 0;
-    uint64_t size = 0;
-    
-    for (it->SeekToFirst(); it->Valid(); it->Next()) {
-        count++;
-        size += it->key().size() + it->value().size();
-    }
-    
-    stats.total_entries = count;
-    stats.total_size_bytes = size;
+    // Read the in-memory counters maintained by put() / clearExpired() / clear().
+    // This avoids the O(N) RocksDB key-scan that the previous implementation required.
+    stats.total_entries    = entry_count_.load(std::memory_order_relaxed);
+    stats.total_size_bytes = total_bytes_.load(std::memory_order_relaxed);
     
     return stats;
 }
@@ -248,6 +235,11 @@ uint64_t SemanticCache::clearExpired() {
     if (removed > 0) {
         rocksdb::WriteOptions write_opts;
         db_->Write(write_opts, &batch);
+        // Adjust the in-memory counters.  Because we don't know the exact byte
+        // size of deleted entries without a second scan, cap entry_count_ at zero
+        // and leave total_bytes_ as a high-water approximation that clear() resets.
+        uint64_t prev = entry_count_.load(std::memory_order_relaxed);
+        entry_count_.store(prev > removed ? prev - removed : 0, std::memory_order_relaxed);
     }
     
     return removed;
@@ -279,6 +271,8 @@ bool SemanticCache::clear() {
     hit_count_.store(0, std::memory_order_relaxed);
     miss_count_.store(0, std::memory_order_relaxed);
     total_query_latency_us_.store(0, std::memory_order_relaxed);
+    entry_count_.store(0, std::memory_order_relaxed);
+    total_bytes_.store(0, std::memory_order_relaxed);
     
     return s.ok();
 }

@@ -168,6 +168,9 @@ private:
     mutable std::atomic<uint64_t> miss_count_{0};
     // Accumulated in microseconds (integer) to allow lock-free fetch_add.
     mutable std::atomic<uint64_t> total_query_latency_us_{0};
+    // Maintained in put() / clearExpired() / clear() to avoid full RocksDB scans in getStats().
+    mutable std::atomic<uint64_t> entry_count_{0};
+    mutable std::atomic<uint64_t> total_bytes_{0};
 };
 
 } // namespace themis

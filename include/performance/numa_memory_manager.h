@@ -30,6 +30,7 @@
 #include <cstdint>
 #include <mutex>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace themis {
@@ -204,8 +205,8 @@ private:
     // The map is keyed by (ptr >> 3) % kBuckets for O(1) average lookup.
     static constexpr size_t kBuckets = 1024;
     struct Bucket {
-        std::mutex         mtx;
-        std::vector<std::pair<void*, AllocEntry>> entries;
+        std::mutex                          mtx;
+        std::unordered_map<void*, AllocEntry> entries;
     };
     Bucket buckets_[kBuckets];
 

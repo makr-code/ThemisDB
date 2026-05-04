@@ -141,22 +141,21 @@ void NUMAMemoryManager::update_alloc_stats(int node, size_t size) {
 void NUMAMemoryManager::track_alloc(void* ptr, int node, size_t size) {
     size_t idx = (reinterpret_cast<uintptr_t>(ptr) >> 3) % kBuckets;
     std::lock_guard<std::mutex> lk(buckets_[idx].mtx);
-    buckets_[idx].entries.push_back({ptr, {node, size}});
+    buckets_[idx].entries[ptr] = {node, size};
 }
 
 bool NUMAMemoryManager::untrack_alloc(void* ptr, int* out_node, size_t* out_size) noexcept {
     size_t idx = (reinterpret_cast<uintptr_t>(ptr) >> 3) % kBuckets;
     std::lock_guard<std::mutex> lk(buckets_[idx].mtx);
-    auto& v = buckets_[idx].entries;
-    for (auto it = v.begin(); it != v.end(); ++it) {
-        if (it->first == ptr) {
-            if (out_node)  *out_node  = it->second.node;
-            if (out_size)  *out_size  = it->second.size;
-            v.erase(it);
-            return true;
-        }
+    auto& map = buckets_[idx].entries;
+    auto it = map.find(ptr);
+    if (it == map.end()) {
+        return false;
     }
-    return false;
+    if (out_node)  *out_node  = it->second.node;
+    if (out_size)  *out_size  = it->second.size;
+    map.erase(it);
+    return true;
 }
 
 void* NUMAMemoryManager::allocate_on_node(size_t size, int node) {

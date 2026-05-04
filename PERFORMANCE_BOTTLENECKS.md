@@ -654,25 +654,25 @@ a static `bool`.
 |----|---------|----------|----------|--------|
 | F-001 | `cache/bounded_lru_cache.cpp:40` | Lock Contention | 🔴 Critical | ✅ Fixed |
 | F-002 | `auth/auth_rate_limiter.cpp:142` | Lock Contention | 🟠 High | ✅ Fixed |
-| F-003 | `auth/auth_rate_limiter.cpp:298–596` | Lock Contention | 🟠 High | Open |
+| F-003 | `auth/auth_rate_limiter.cpp:298–596` | Lock Contention | 🟠 High | ✅ Fixed |
 | F-004 | `cache/embedding_cache.cpp:108` | Lock Contention | 🔴 Critical | Open |
 | F-005 | `performance/intelligent_prefetcher.cpp:116–369` | Lock Contention | 🟡 Medium | Open |
 | F-006 | `performance/numa_memory_manager.cpp:126` | Lock Contention | 🟡 Medium | Open |
-| F-007 | `server/sse_connection_manager.cpp:258` | Lock Contention / I/O | 🟠 High | Open |
+| F-007 | `server/sse_connection_manager.cpp:258` | Lock Contention / I/O | 🟠 High | ✅ Fixed |
 | F-008 | `server/rate_limiter_v2.cpp:116–313` | Lock Contention | 🟠 High | Open |
 | F-009 | `cache/embedding_cache.cpp:243` | Algorithmic / Memory | 🟠 High | Open |
 | F-010 | `storage/mvcc_store.cpp:158` | Memory / I/O | 🟠 High | Open |
-| F-011 | `performance/numa_memory_manager.cpp:151` | Container / Memory | 🟡 Medium | Open |
+| F-011 | `performance/numa_memory_manager.cpp:151` | Container / Memory | 🟡 Medium | ✅ Fixed |
 | F-012 | `storage/wal_storage.cpp:403–406` | I/O | 🟠 High | ✅ Fixed |
-| F-013 | `cache/semantic_cache.cpp:196–213` | I/O / Algorithmic | 🟠 High | Open |
+| F-013 | `cache/semantic_cache.cpp:196–213` | I/O / Algorithmic | 🟠 High | ✅ Fixed |
 | F-014 | `cache/semantic_cache.cpp:213–252` | I/O / Algorithmic | 🟡 Medium | Open |
 | F-015 | `cache/semantic_cache.cpp:73–82` | String / Memory | 🟠 High | ✅ Fixed |
 | F-016 | `cache/adaptive_query_cache.cpp:184–189` | String / Memory | 🟠 High | ✅ Fixed |
-| F-017 | `sharding/consistent_hash.cpp:60–64` | String / Memory | 🟡 Medium | Open |
+| F-017 | `sharding/consistent_hash.cpp:60–64` | String / Memory | 🟡 Medium | ✅ Fixed |
 | F-018 | `rag/*.cpp` (≥ 20 files) | String / Memory | 🟡 Medium | Open |
-| F-019 | `sharding/consistent_hash.cpp:144,211` | Container | 🟡 Medium | Open |
-| F-020 | `index/hnsw_layer_optimizer.cpp:83,118` | Container | 🟡 Medium | Open |
-| F-021 | `cache/embedding_cache.cpp:170–200` | Algorithmic | 🟡 Medium | Open |
+| F-019 | `sharding/consistent_hash.cpp:144,211` | Container | 🟡 Medium | ✅ Fixed |
+| F-020 | `index/hnsw_layer_optimizer.cpp:83,118` | Container | 🟡 Medium | ✅ Fixed |
+| F-021 | `cache/embedding_cache.cpp:170–200` | Algorithmic | 🟡 Medium | ✅ Fixed |
 | F-022 | `timeseries/gorilla_simd.cpp:248` | CPU / SIMD | 🟡 Medium | ✅ Fixed |
 | F-023 | `query/optimizer_cost_model.cpp:580–634` | Stub-in-critical-path | 🔴 Critical | Open |
 | F-024 | `storage/storage_engine.cpp:67–86` | Stub-in-critical-path | 🔴 Critical | Open |
@@ -685,7 +685,7 @@ a static `bool`.
 | F-031 | `storage/wal_storage.cpp:103–118` | Data Race | 🟠 High | ✅ Fixed |
 
 **Total:** 31 findings — 7 Critical, 14 High, 10 Medium  
-**Fixed (this PR):** 7 (F-001, F-002, F-012, F-015, F-016, F-022, F-030, F-031)
+**Fixed (this PR):** 15 (F-001, F-002, F-003, F-007, F-011, F-012, F-013, F-015, F-016, F-017, F-019, F-020, F-021, F-022, F-030, F-031)
 
 ---
 
