@@ -218,12 +218,23 @@ SelfAwareness::HealthMetrics SelfAwareness::collectHealthMetrics() const {
     
     // CPU and thread info
     metrics.thread_count = std::thread::hardware_concurrency();
-    metrics.cpu_usage_percent = 0.0;  // Placeholder - would need performance counters
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide a compilable Windows health-metrics path while PDH
+    //   (Performance Data Helper) or NtQuerySystemInformation-based CPU-usage
+    //   sampling is not yet integrated.
+    // Activation: `_WIN32` build target (always on Windows).
+    // Production Delta: cpu_usage_percent / cpu_load_* always 0.0;
+    //   open_file_descriptors always 0.  Dashboards and SLA alerts that rely
+    //   on these counters will never fire on Windows nodes.
+    // Removal Plan: Use PDH (PdhOpenQuery / PdhAddCounter / PdhGetFormattedCounterValue)
+    //   for CPU % and GetProcessHandleCount() for open handles.  See
+    //   src/utils/FUTURE_ENHANCEMENTS.md §SelfAwareness Windows CPU Metrics.
+    metrics.cpu_usage_percent = 0.0;
     metrics.cpu_load_1min = 0.0;
     metrics.cpu_load_5min = 0.0;
     metrics.cpu_load_15min = 0.0;
     metrics.uptime_seconds = GetTickCount64() / 1000;  // System uptime in seconds
-    metrics.open_file_descriptors = 0;  // Placeholder for Windows
+    metrics.open_file_descriptors = 0;  // STUB: use GetProcessHandleCount() in production
     
 #else
     // Linux implementation using system calls

@@ -1332,9 +1332,20 @@ Result<MLInferenceResponse> MLModelManager::infer(const MLInferenceRequest& requ
     auto infer_start = std::chrono::steady_clock::now();
     
     // TODO: Actual inference logic based on model type
-    // For now, simulate inference
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow MLModelManager::runInference() to return a successful response
+    //          while real model-type dispatch (llama_cpp, ONNX, TensorRT, etc.) is
+    //          not yet wired.
+    // Activation: Always — no model-type-specific inference backend is dispatched.
+    // Production Delta: Returns `{"result": "simulated"}` with a fixed 10ms sleep
+    //                   instead of actual model output.  Any caller consuming
+    //                   output_data receives a constant stub value regardless of
+    //                   the input; model quality metrics are meaningless.
+    // Removal Plan: Dispatch to the appropriate backend based on instance->model_type
+    //               (e.g. LlamaPlugin::generate(), OnnxRuntime::run(), etc.).  See
+    //               src/llm/FUTURE_ENHANCEMENTS.md §MLModelManager Inference Dispatch.
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    
+
     response.success = true;
     response.output_data = json{{"result", "simulated"}};
     

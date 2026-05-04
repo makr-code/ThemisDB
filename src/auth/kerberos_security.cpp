@@ -275,13 +275,26 @@ bool KerberosSecurityValidator::verifyChannelBinding(
     if (channel_binding.empty()) {
         return true;  // No binding to verify
     }
-    
-    // Simplified implementation: assumes token contains channel binding
-    // In production, would parse GSSAPI token structure to extract CB data
-    
-    utils::Logger::info("Channel binding verification: {} bytes", channel_binding.size());
-    
-    return true;  // Placeholder - full implementation needed
+
+    // STUB/SIMULATION NOTE:
+    // Purpose: Satisfies the verifyChannelBinding() API while actual GSSAPI
+    //          channel-binding token parsing (RFC 5929 tls-unique / tls-server-end-point)
+    //          is not yet implemented.
+    // Activation: Always — config_.enable_channel_bindings may be true but this
+    //             function never rejects a non-empty binding.
+    // Production Delta: Any Kerberos token presented with a channel-binding value
+    //                   is unconditionally accepted regardless of whether the binding
+    //                   actually matches the TLS channel in use.  Channel-binding
+    //                   replay attacks (token forwarded across connections) are not
+    //                   detected.
+    // Removal Plan: Parse the GSSAPI ChannelBindings structure from token_data;
+    //               compute RFC 5929 tls-unique or tls-server-end-point hash from
+    //               the active TLS channel; compare against channel_binding bytes.
+    //               See src/auth/FUTURE_ENHANCEMENTS.md §Kerberos Channel Binding.
+    utils::Logger::info("Channel binding verification: {} bytes (STUB — binding not checked)",
+                        channel_binding.size());
+
+    return true;  // STUB: always passes
 }
 
 std::string KerberosSecurityValidator::extractServicePrincipal(

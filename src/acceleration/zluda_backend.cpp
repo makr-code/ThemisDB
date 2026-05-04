@@ -176,15 +176,22 @@ public:
             return {};
         }
         
-        // ZLUDA allows using CUDA kernels directly
-        // For now, we'll use a simplified CPU fallback
-        // In production, we'd compile CUDA kernels and run them through ZLUDA
-        
-        std::cerr << "ZLUDA: Kernel execution requires CUDA-compiled PTX" << std::endl;
-        std::cerr << "ZLUDA: Falling back to CPU for now" << std::endl;
-        std::cerr << "ZLUDA: To enable GPU execution, compile CUDA kernels and load PTX" << std::endl;
-        
-        return {}; // Placeholder - would execute CUDA kernels via ZLUDA
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allows ZLUDABackend to compile and report initialization success
+    //          while actual CUDA PTX kernel loading and execution via ZLUDA is
+    //          not yet implemented.
+    // Activation: Always — no PTX binary is compiled into or loaded by ThemisDB.
+    // Production Delta: computeDistances() and batchKnnSearch() return empty
+    //                   results; all vector distance computations fall through
+    //                   to CPU paths.  AMD GPU acceleration via ZLUDA is
+    //                   completely non-functional at runtime.
+    // Removal Plan: Compile CUDA kernel sources to PTX; load PTX via cuModuleLoadData();
+    //               launch kernels via cuLaunchKernel() through the ZLUDA dlopen
+    //               handles.  See src/acceleration/FUTURE_ENHANCEMENTS.md §ZLUDA Activation.
+    std::cerr << "ZLUDA: Kernel execution requires CUDA-compiled PTX" << std::endl;
+    std::cerr << "ZLUDA: Falling back to CPU (STUB — no PTX loaded)" << std::endl;
+
+    return {}; // STUB: no GPU kernel executed
     }
     
     std::vector<std::vector<std::pair<uint32_t, float>>> batchKnnSearch(

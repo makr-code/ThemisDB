@@ -1139,14 +1139,24 @@ bool BackupManager::decompressPath(const std::string& src_path, const std::strin
 
 bool BackupManager::encryptFile(const std::string& src_path, const std::string& dest_path,
                                 [[maybe_unused]] const std::string& key, std::error_code& ec) {
-    // When THEMIS_ENABLE_OPENSSL is defined, use AES-256-GCM authenticated encryption:
-    //   EVP_CIPHER_CTX with EVP_aes_256_gcm()
-    //   Reference: https://wiki.openssl.org/index.php/EVP_Authenticated_Encryption_and_Decryption
-    // Without the flag, the file is copied without encryption (development-only).
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow the backup pipeline to run end-to-end in development/CI builds
+    //          that do not have OpenSSL enabled.  Copies the file unencrypted.
+    // Activation: `THEMIS_ENABLE_OPENSSL` is not defined at compile time (default
+    //             for builds without `-DTHEMIS_ENABLE_OPENSSL=ON`).
+    // Production Delta: Backup data is written to disk in **plaintext** even when
+    //                   the caller provides an encryption key.  Any party with
+    //                   filesystem read access can read the full backup.
+    //                   Production path: EVP_CIPHER_CTX with EVP_aes_256_gcm(),
+    //                   per-file IV, GCM tag appended.
+    // Removal Plan: Build with `-DTHEMIS_ENABLE_OPENSSL=ON`; the real AES-256-GCM
+    //               implementation replaces this path.  See
+    //               src/storage/FUTURE_ENHANCEMENTS.md §Backup Encryption.
     namespace fs = std::filesystem;
     try {
-        THEMIS_INFO("Encrypting {} to {}", src_path, dest_path);
-        // used by the real OpenSSL path
+        THEMIS_WARN("BackupManager::encryptFile: STUB — copying file without encryption "
+                    "(THEMIS_ENABLE_OPENSSL not set). Build with -DTHEMIS_ENABLE_OPENSSL=ON "
+                    "to enable AES-256-GCM backup encryption.");
         fs::copy(src_path, dest_path, fs::copy_options::recursive, ec);
         if (ec) {
             THEMIS_ERROR("Failed to copy for encryption: {}", ec.message());
@@ -1162,10 +1172,21 @@ bool BackupManager::encryptFile(const std::string& src_path, const std::string& 
 
 bool BackupManager::decryptFile(const std::string& src_path, const std::string& dest_path,
                                 [[maybe_unused]] const std::string& key, std::error_code& ec) {
-    // Placeholder implementation
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow the restore pipeline to run in development/CI builds without
+    //          OpenSSL.  Copies the source file unchanged (no AES-256-GCM decryption).
+    // Activation: `THEMIS_ENABLE_OPENSSL` is not defined at compile time.
+    // Production Delta: A backup that was "encrypted" by the encryptFile() stub
+    //                   (plain copy) can be "decrypted" by this stub.  A backup
+    //                   produced by the real AES-256-GCM encryptFile() will NOT
+    //                   be recoverable through this stub — file content will be
+    //                   ciphertext, and restore will silently produce garbage data.
+    // Removal Plan: Build with `-DTHEMIS_ENABLE_OPENSSL=ON`.  See
+    //               src/storage/FUTURE_ENHANCEMENTS.md §Backup Encryption.
     namespace fs = std::filesystem;
     try {
-        THEMIS_INFO("Decrypting {} to {}", src_path, dest_path);
+        THEMIS_WARN("BackupManager::decryptFile: STUB — copying file without decryption "
+                    "(THEMIS_ENABLE_OPENSSL not set).");
         fs::copy(src_path, dest_path, fs::copy_options::recursive, ec);
         if (ec) {
             THEMIS_ERROR("Failed to copy for decryption: {}", ec.message());

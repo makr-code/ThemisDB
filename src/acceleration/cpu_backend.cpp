@@ -157,32 +157,38 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchBFS(
         return {};
     }
 
-    // Placeholder implementation
+    // STUB/SIMULATION NOTE:
+    // Purpose: Skeleton BFS that visits the start vertex only; full CSR-based
+    //          adjacency traversal is not yet implemented.
+    // Activation: Always — no CSR adjacency format decoder is integrated.
+    // Production Delta: Results contain only the start vertex (depth-0); all
+    //                   reachable vertices at depth 1…maxDepth are missing.
+    //                   Callers that require full BFS subgraph data (e.g. SPARQL
+    //                   path queries, community detection) receive incomplete results.
+    // Removal Plan: Decode `adjacency` as a CSR offset array; iterate neighbour
+    //               lists at each depth level; populate results[s] fully.  See
+    //               src/acceleration/FUTURE_ENHANCEMENTS.md §CPU Graph BFS/SSSP.
     std::vector<std::vector<uint32_t>> results(numStarts);
-    
     for (size_t s = 0; s < numStarts; ++s) {
         uint32_t start = startVertices[s];
         std::vector<bool> visited(numVertices, false);
         std::queue<std::pair<uint32_t, uint32_t>> queue; // (vertex, depth)
-        
+
         queue.push({start, 0});
         visited[start] = true;
         results[s].push_back(start);
-        
+
         while (!queue.empty()) {
             auto [current, depth] = queue.front();
             queue.pop();
-            
+
             if (depth >= maxDepth) {
                 continue;
             }
-            
-            // Note: This assumes adjacency is stored as an offset array
-            // In a real implementation, you'd need a proper adjacency list structure
-            // For now, this is a simplified placeholder
+            // CSR neighbour iteration not yet implemented; break traversal here.
+            (void)current;
         }
     }
-    
     return results;
 }
 
@@ -202,12 +208,20 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(
         return {};
     }
 
-    // Placeholder implementation
+    // STUB/SIMULATION NOTE:
+    // Purpose: Satisfies the batchShortestPath() API while Dijkstra / Bellman-Ford
+    //          over a CSR adjacency structure is not yet integrated.
+    // Activation: Always — no graph data structure is decoded from `adjacency`.
+    // Production Delta: Returns an empty path vector for every (start, end) pair;
+    //                   callers receive zero-length paths regardless of actual graph
+    //                   connectivity.  Geospatial route planning and knowledge-graph
+    //                   traversal queries are silently broken.
+    // Removal Plan: Implement Dijkstra over the CSR adjacency array using a
+    //               std::priority_queue; return the reconstructed path from `parent`
+    //               arrays.  See src/acceleration/FUTURE_ENHANCEMENTS.md §CPU Graph BFS/SSSP.
     std::vector<std::vector<uint32_t>> results(numPairs);
-    
-    // Simplified Dijkstra implementation placeholder
-    // Full implementation would require proper graph data structures
-    
+    (void)adjacency; (void)weights; (void)numVertices;
+    (void)startVertices; (void)endVertices;
     return results;
 }
 

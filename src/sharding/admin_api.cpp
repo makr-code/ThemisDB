@@ -151,9 +151,19 @@ nlohmann::json AdminAPI::handleRequest(const std::string& method,
 }
 
 bool AdminAPI::authorizeRequest(const std::string& operator_cert) {
-    // Placeholder - would validate operator certificate
-    // Check certificate has "admin" capability
-    // Verify signature if required
+    // STUB/SIMULATION NOTE:
+    // Purpose: Minimal authorization gate that prevents empty-cert requests from
+    //          proceeding, while full X.509 admin-capability verification is not
+    //          yet implemented.
+    // Activation: Always — no actual certificate parsing is performed.
+    // Production Delta: Any non-empty string is accepted as a valid operator
+    //                   certificate.  An attacker who can send any non-empty
+    //                   Authorization header gains full administrative access
+    //                   (config reset, shard rebalance, etc.).
+    // Removal Plan: Parse the PEM certificate; extract OID / SAN or custom
+    //               extension that marks admin capability; verify the certificate
+    //               chain against the configured admin CA.  See
+    //               src/sharding/FUTURE_ENHANCEMENTS.md §Admin API Certificate Auth.
     return !operator_cert.empty();
 }
 

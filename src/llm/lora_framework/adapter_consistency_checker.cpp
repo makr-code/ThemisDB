@@ -89,8 +89,23 @@ public:
         if (!config_.enable_signatures || signature.empty()) {
             return true;  // Skip if disabled or no signature
         }
-        
-        // Placeholder verification - real implementation would verify cryptographically
+
+        // STUB/SIMULATION NOTE:
+        // Purpose: Allow adapter-consistency signature checking to compile and run
+        //          while real Ed25519/ECDSA public-key verification is not yet
+        //          integrated.  Uses the same HMAC-less checksum that generates
+        //          signatures, so the check is deterministic but not secure.
+        // Activation: Always — `public_key` parameter is ignored; no asymmetric
+        //             crypto is invoked.
+        // Production Delta: Any attacker who knows the `generateSignature` checksum
+        //                   algorithm can forge a valid signature without holding the
+        //                   private key.  The verification provides no security
+        //                   guarantee against tampered LoRA adapter data.
+        // Removal Plan: Replace `calculateChecksum(data)` in generateSignature() with
+        //               Ed25519 signing; replace this verifySignature() with
+        //               Ed25519_verify() / EVP_DigestVerifyFinal() using the provided
+        //               public_key PEM.  See src/llm/FUTURE_ENHANCEMENTS.md
+        //               §LoRA Adapter Signature Verification.
         std::string computed = generateSignature(data, "");
         return computed == signature;
     }

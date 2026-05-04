@@ -157,9 +157,19 @@ void DistributedTrainer::barrier() {
     if (!is_distributed()) {
         return;
     }
-    
-    // Placeholder: Real implementation would use NCCL/MPI barrier
-    spdlog::debug("Barrier synchronization (rank {})", config_.rank);
+
+    // STUB/SIMULATION NOTE:
+    // Purpose: No-op barrier that lets distributed training loops compile and
+    //          run on single-node / non-NCCL / non-MPI builds.
+    // Activation: Always when is_distributed() is true but no NCCL/MPI backend
+    //             is linked (default build).
+    // Production Delta: No actual synchronization occurs; ranks are not held
+    //                   until all peers reach the same point.  In true multi-GPU
+    //                   or multi-node training this leads to gradient staleness
+    //                   and divergent model weights.
+    // Removal Plan: Call ncclAllReduce / MPI_Barrier depending on the configured
+    //               backend.  See src/llm/FUTURE_ENHANCEMENTS.md §Distributed Trainer Barrier.
+    spdlog::debug("Barrier synchronization (rank {}) — STUB no-op", config_.rank);
 }
 
 DistributedStats DistributedTrainer::stats() const {

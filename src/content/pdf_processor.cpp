@@ -568,8 +568,17 @@ std::vector<json> PDFProcessor::chunk(
 }
 
 std::vector<float> PDFProcessor::generateEmbedding(const std::string& /*chunk_data*/) {
-    // Placeholder: Return empty embedding
-    // In production, this would call an embedding service
+    // STUB/SIMULATION NOTE:
+    // Purpose: Satisfies the generateEmbedding() API while no embedding backend
+    //          (ONNX model / remote embedding service) is wired into PDFProcessor.
+    // Activation: Always — no `IEmbeddingBackend` is injected into PDFProcessor.
+    // Production Delta: Returns an empty vector; callers that store or compare
+    //                   embeddings receive zero-length vectors.  PDF documents
+    //                   indexed via this path have no semantic vector representation
+    //                   and cannot participate in vector-similarity search.
+    // Removal Plan: Inject an IEmbeddingBackend via PDFProcessor constructor;
+    //               call backend->embed(chunk_data) here.  See
+    //               src/content/FUTURE_ENHANCEMENTS.md §PDF Embedding Integration.
     return std::vector<float>();
 }
 
