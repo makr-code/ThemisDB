@@ -260,15 +260,15 @@ std::optional<std::string> InputValidator::validateJsonStub(
     if (!schema.has_value()) {
         // Fail-closed: reject the request.  Warn once per unique schema_name to
         // avoid log spam when schemas are intentionally not deployed in an env.
-        // Thread-safety: the static mutex and unordered_set are initialized at
-        // first entry (C++11 static init is thread-safe).  All subsequent accesses
-        // are serialized through s_warned_mutex before touching s_warned_schemas.
+        // Thread-safety: static locals are zero-initialized before any thread
+        // reaches this point (C++11 §6.7).  The mutex serializes all subsequent
+        // read/write accesses to s_warned_schemas; no additional synchronization
+        // is needed.  emplace() combines lookup and insert atomically under the lock.
         {
             static std::mutex s_warned_mutex;
             static std::unordered_set<std::string> s_warned_schemas;
             std::lock_guard<std::mutex> lock(s_warned_mutex);
-            if (s_warned_schemas.find(schema_name) == s_warned_schemas.end()) {
-                s_warned_schemas.insert(schema_name);
+            if (s_warned_schemas.emplace(schema_name).second) {
                 THEMIS_WARN("InputValidator::validateJsonStub: schema '{}' not found — "
                             "expected file: '{}/{}.json'.  "
                             "Place the JSON Schema file in that directory or set "

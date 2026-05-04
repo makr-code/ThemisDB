@@ -309,11 +309,15 @@ protected:
 };
 
 TEST_F(JSONSchemaValidationTest, NoSchema_RejectsFailClosed) {
-    // No schema file -> fail-closed: request is rejected with an error message.
+    // No schema file -> fail-closed: request is rejected with an error message
+    // that names the missing schema.
     nlohmann::json payload = {{"anything", "goes"}};
     auto err = v_->validateJsonStub(payload, "nonexistent_schema");
     EXPECT_TRUE(err.has_value());
     EXPECT_NE(err->find("nonexistent_schema"), std::string::npos);
+    // The error message should reference the schema directory so the operator
+    // can determine where to place the missing file.
+    EXPECT_NE(err->find(tmp_dir_.string()), std::string::npos);
 }
 
 TEST_F(JSONSchemaValidationTest, RequiredField_Present_Accepted) {

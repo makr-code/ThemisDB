@@ -377,16 +377,25 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
     // (b) running ThemisDB under a process user that has no write access to
     // trusted_certs_dir.  A fully atomic solution would require openat(2) with
     // O_NOFOLLOW or equivalent, which is left to the OS-hardening layer.
-    auto canonical_dir  = fs::weakly_canonical(fs::path(config_.trusted_certs_dir));
-    auto canonical_cert = fs::weakly_canonical(cert_path);
+    fs::path canonical_dir;
+    fs::path canonical_cert;
+    try {
+        canonical_dir  = fs::weakly_canonical(fs::path(config_.trusted_certs_dir));
+        canonical_cert = fs::weakly_canonical(cert_path);
+    } catch (const fs::filesystem_error& e) {
+        spdlog::warn("SignedRequestVerifier: path canonicalization failed for cert_serial='{}': {}",
+                     request.cert_serial, e.what());
+        return false;
+    }
     if (canonical_cert.parent_path() != canonical_dir) {
         return false;
     }
 
     std::ifstream cert_file(cert_path);
     if (!cert_file.good()) {
-        spdlog::warn("SignedRequestVerifier: certificate file not found or unreadable: {}",
-                     cert_path.string());
+        // Log only the serial number to avoid leaking internal directory paths.
+        spdlog::warn("SignedRequestVerifier: certificate not found or unreadable for serial='{}'",
+                     request.cert_serial);
         return false;
     }
     std::string cert_pem((std::istreambuf_iterator<char>(cert_file)),
