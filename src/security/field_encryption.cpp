@@ -287,11 +287,15 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
                         logDebugDumpFailure(i, true, nullptr);
                     }
                 } catch (const std::exception& ex) {
+                    // [E-2] Partial encryption is unsafe — propagate failures so callers
+                    // cannot silently store default-constructed (empty) EncryptedBlobs.
                     THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
                                 "(parallel item {}): {}", i, ex.what());
+                    throw;
                 } catch (...) {
                     THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
                                 "(parallel item {}) with unknown exception", i);
+                    throw;
                 }
             }
         });
@@ -308,13 +312,15 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
                     logDebugDumpFailure(i, false, nullptr);
                 }
             } catch (const std::exception& ex) {
-                // On error, leave default constructed blob; caller can inspect failures
-                // via empty output entries.
+                // [E-2] Partial encryption is unsafe — propagate failures so callers
+                // cannot silently store default-constructed (empty) EncryptedBlobs.
                 THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
                             "(item {}): {}", i, ex.what());
+                throw;
             } catch (...) {
                 THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
                             "(item {}) with unknown exception", i);
+                throw;
             }
         }
     }
@@ -348,6 +354,21 @@ std::shared_ptr<FieldEncryption> FieldEncryption::createDefault() {
     //               HsmKeyProviderAdapter, or similar) via the constructor.
     //               This factory should only be invoked through explicit test/demo paths.
     //               See src/security/FUTURE_ENHANCEMENTS.md §Field Encryption Key Provider.
+
+    // [E-4] Runtime guard: refuse to use MockKeyProvider unless explicitly opted in.
+    // Set THEMIS_ALLOW_MOCK_KEY_PROVIDER=1 only in test/demo environments.
+    const char* allow_env = std::getenv("THEMIS_ALLOW_MOCK_KEY_PROVIDER");
+    const bool allow_mock = (allow_env != nullptr) &&
+                            (std::string_view(allow_env) == "1" ||
+                             std::string_view(allow_env) == "true");
+    if (!allow_mock) {
+        throw std::runtime_error(
+            "FieldEncryption::createDefault() uses MockKeyProvider which is unsafe in "
+            "production (keys are in-memory only and will NOT survive restarts). "
+            "Inject a real KeyProvider via the constructor. "
+            "To explicitly opt in for testing, set THEMIS_ALLOW_MOCK_KEY_PROVIDER=1.");
+    }
+
     THEMIS_WARN("FieldEncryption::createDefault() is using MockKeyProvider — "
                 "keys are in-memory only and will NOT survive restarts. "
                 "Inject a production KeyProvider for any persistent data.");

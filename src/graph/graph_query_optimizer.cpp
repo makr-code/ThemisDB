@@ -1527,7 +1527,32 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeBidirectional(
     std::optional<std::string> meeting_point;
     int best_distance = std::numeric_limits<int>::max();
     
+    // [GQ-1] Hard timeout for bidirectional BFS: unlike executeBFS/executeDFS, this
+    // loop had no timeout check, causing indefinite blocking on dense or cyclic graphs.
+    // Apply a 30-second default when the caller does not specify a timeout.
+    constexpr int64_t BIDIRECTIONAL_BFS_DEFAULT_TIMEOUT_MS = 30'000;
+    const int64_t bidi_timeout_ms = (constraints.timeout_ms > 0)
+        ? static_cast<int64_t>(constraints.timeout_ms)
+        : BIDIRECTIONAL_BFS_DEFAULT_TIMEOUT_MS;
+    auto bidiTimedOut = [&]() -> bool {
+        return std::chrono::duration_cast<std::chrono::milliseconds>(
+                   std::chrono::steady_clock::now() - start_time).count() > bidi_timeout_ms;
+    };
+
     while (!forward_queue.empty() || !backward_queue.empty()) {
+        if (bidiTimedOut()) {
+            local_stats.early_terminated = true;
+            auto end_time = std::chrono::steady_clock::now();
+            local_stats.execution_time_ms =
+                std::chrono::duration<double, std::milli>(end_time - start_time).count();
+            if (stats) *stats = local_stats;
+            recordExecution(local_stats);
+            metrics_.timed_out_queries.fetch_add(1, std::memory_order_relaxed);
+            return Err<GraphIndexManager::PathResult>(
+                errors::ErrorCode::ERR_QUERY_TIMEOUT,
+                "Bidirectional BFS exceeded timeout of " +
+                    std::to_string(bidi_timeout_ms) + "ms");
+        }
         // Expand forward
         if (!forward_queue.empty()) {
             std::string current = forward_queue.front();
@@ -1781,8 +1806,15 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
     };
 
     // Recursive backtracking
+    // [GQ-2] Hard iteration limit to bound the exponential VF2 blow-up when neither
+    // max_results nor timeout_ms is set by the caller.
+    constexpr size_t VF2_MAX_CANDIDATE_PAIRS = 10'000'000;
+    size_t vf2_iteration_count = 0;
+    bool vf2_limit_exceeded = false;
+
     std::function<void(size_t)> backtrack = [&](size_t depth) {
         if (timedOut()) { local_stats.early_terminated = true; return; }
+        if (local_stats.early_terminated) return;
         if (depth == n_pattern) {
             result.matches.push_back(mapping);
             local_stats.paths_found++;
@@ -1797,6 +1829,12 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
             if (std::find(constraints.forbidden_vertices.begin(),
                           constraints.forbidden_vertices.end(), dv) !=
                 constraints.forbidden_vertices.end()) continue;
+            // [GQ-2] Enforce hard iteration cap before expensive feasibility check
+            if (++vf2_iteration_count > VF2_MAX_CANDIDATE_PAIRS) {
+                vf2_limit_exceeded = true;
+                local_stats.early_terminated = true;
+                return;
+            }
             result.candidate_pairs_checked++;
             local_stats.nodes_explored++;
             if (!isFeasible(depth, dv)) continue;
@@ -1826,15 +1864,23 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
     if (stats) *stats = local_stats;
     recordExecution(local_stats);
 
-    // Return a timeout error only if we timed out and found no matches at all
-    if (local_stats.early_terminated && result.matches.empty() &&
-        constraints.timeout_ms > 0) {
+    // Return an error if terminated early with no matches
+    if (local_stats.early_terminated && result.matches.empty()) {
         metrics_.timed_out_queries.fetch_add(1, std::memory_order_relaxed);
-        return Err<SubgraphIsomorphismResult>(
-            errors::ErrorCode::ERR_QUERY_TIMEOUT,
-            "SubgraphIsomorphism query exceeded timeout of " +
-                std::to_string(constraints.timeout_ms) + "ms"
-        );
+        if (vf2_limit_exceeded) {
+            return Err<SubgraphIsomorphismResult>(
+                errors::ErrorCode::ERR_QUERY_TIMEOUT,
+                "SubgraphIsomorphism aborted: exceeded hard candidate-pair limit of " +
+                    std::to_string(VF2_MAX_CANDIDATE_PAIRS) + " pairs (pattern may be too large)"
+            );
+        }
+        if (constraints.timeout_ms > 0) {
+            return Err<SubgraphIsomorphismResult>(
+                errors::ErrorCode::ERR_QUERY_TIMEOUT,
+                "SubgraphIsomorphism query exceeded timeout of " +
+                    std::to_string(constraints.timeout_ms) + "ms"
+            );
+        }
     }
 
     return Ok(result);

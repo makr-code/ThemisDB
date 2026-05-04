@@ -662,6 +662,16 @@ private:
     std::shared_ptr<cache::ICacheCoordinator> coordinator_;
     mutable std::mutex coordinator_mutex_;
 
+    // [C-4] Alive guard: prevents coordinator callbacks from accessing a destroyed
+    // AdaptiveQueryCache. The guard is shared between the object and any captured
+    // callbacks. The destructor marks it inactive (under the guard mutex) before
+    // teardown; callbacks acquire the guard mutex and check the flag before use.
+    struct AliveGuard {
+        std::mutex mutex;
+        bool alive = true;
+    };
+    std::shared_ptr<AliveGuard> alive_guard_{std::make_shared<AliveGuard>()};
+
     // Internal: apply a replicated entry received from a peer
     void applyReplicatedEntry(const cache::ReplicationMessage& msg);
     // Internal: apply a replicated invalidation received from a peer
@@ -702,7 +712,7 @@ private:
     std::unique_ptr<core::concerns::IEvictionStrategy> l2_eviction_strategy_;
     
     // L3: RocksDB persistent cache
-    std::unique_ptr<RocksDBWrapper> l3_db_;
+    std::shared_ptr<RocksDBWrapper> l3_db_;
     mutable std::mutex l3_mutex_;
 
     // Phase 4: Predictive pre-fetcher (Markov-chain query sequence model)

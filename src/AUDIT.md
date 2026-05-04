@@ -98,13 +98,13 @@
 | sharding | `src/sharding/AUDIT.md` | 0 (PAX-1/2/3, GOS-1, CST-1/2/3, RWALI-1/2 fixed) | — | ✅ S0 resolved |
 | transaction | `src/transaction/ROADMAP.md` | 0 (SH-8 fixed) | — | ✅ S0 resolved |
 | storage | `src/storage/AUDIT.md` | 0 (R-1 fixed 2026-05-04) | 1 | ✅ S0 resolved |
-| security | `src/security/AUDIT.md` | 0 (A-1/A-2 fixed) | 5 | ⚠️ S1 remain |
-| cache | `src/cache/AUDIT.md` | 0 (D-1 fixed 2026-05-04) | 3 | ⚠️ S1 remain |
+| security | `src/security/AUDIT.md` | 0 (A-1/A-2 fixed) | 0 (A-3, E-1, E-2, E-4, RB-1 fixed 2026-05-04) | ✅ S0+S1 resolved |
+| cache | `src/cache/AUDIT.md` | 0 (D-1 fixed 2026-05-04) | 0 (C-1, C-2, C-4 fixed 2026-05-04) | ✅ S0+S1 resolved |
 | network | `src/network/AUDIT.md` | 0 (WPS-1..5 fixed 2026-05-04) | 0 | ✅ S0+S1 resolved |
 | server | `src/server/AUDIT.md` | 0 (HS-1/HS-2 fixed) | 8 | ⚠️ S1 remain |
 | query | `src/query/AUDIT.md` | 0 (QE-1, PA-1 fixed 2026-05-04) | 6 | ⚠️ S1 remain |
 | aql | `src/aql/AUDIT.md` | 0 (LLM-1/LLM-2 addressed) | 1 | ⚠️ S1 remain |
-| graph | `src/graph/AUDIT.md` | — | 2 | ⚠️ High |
+| graph | `src/graph/AUDIT.md` | — | 0 (GQ-1, GQ-2 fixed 2026-05-04) | ✅ S1 resolved |
 | llm | `src/llm/AUDIT.md` | 0 (F1-1/F1-2/F2-1 fixed) | 8 | ⚠️ S1 remain |
 | rag | `src/rag/AUDIT.md` | — | 4 | ⚠️ High |
 

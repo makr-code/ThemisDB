@@ -307,10 +307,29 @@ bool RBAC::checkPermission(
     const std::string& action
 ) const {
     // Runtime license gate: RBAC is an Enterprise/Hyperscaler feature.
+    // [RB-1] Grace period: a transient license server outage must not immediately
+    // lock out all users. If the last successful check is within the grace window,
+    // allow access and log a warning. Update the timestamp on every success.
     std::string license_error;
     if (!license::RuntimeLicenseGate::instance().isFeatureAllowed("rbac", license_error)) {
-        THEMIS_WARN("RBAC::checkPermission blocked – {}", license_error);
-        return false;
+        const auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now().time_since_epoch()).count();
+        const int64_t last_success = last_license_success_ms_.load(std::memory_order_relaxed);
+        if (last_success > 0 && (now_ms - last_success) < LICENSE_GRACE_PERIOD_MS) {
+            THEMIS_WARN("RBAC::checkPermission: license check failed ({}) — "
+                        "operating within grace period ({} s remaining)",
+                        license_error,
+                        (LICENSE_GRACE_PERIOD_MS - (now_ms - last_success)) / 1000);
+            // Fall through to normal permission evaluation
+        } else {
+            THEMIS_WARN("RBAC::checkPermission blocked – {}", license_error);
+            return false;
+        }
+    } else {
+        // Record successful license check timestamp
+        const auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now().time_since_epoch()).count();
+        last_license_success_ms_.store(now_ms, std::memory_order_relaxed);
     }
 
     std::lock_guard<std::mutex> lock(mutex_);

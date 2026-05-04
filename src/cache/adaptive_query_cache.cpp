@@ -124,7 +124,7 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
             db_config.block_cache_size_mb = 256;  // small cache for query cache
             db_config.max_background_jobs = 2;
             
-            l3_db_ = std::make_unique<RocksDBWrapper>(db_config);
+            l3_db_ = std::make_shared<RocksDBWrapper>(db_config);
             THEMIS_INFO("L3 cache (RocksDB) initialized at: {}", config_.l3_db_path);
             break;  // Success
         } catch (const std::exception& e) {
@@ -152,6 +152,15 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
 }
 
 AdaptiveQueryCache::~AdaptiveQueryCache() {
+    // [C-4] Mark this object inactive BEFORE unregistering the coordinator.
+    // Any in-flight callback that has already captured alive_guard_ will block
+    // until this lock is released; once it sees alive=false it returns without
+    // touching `this`. This acts as a synchronisation barrier between the
+    // destructor and any concurrent coordinator callback.
+    {
+        std::lock_guard<std::mutex> alive_lock(alive_guard_->mutex);
+        alive_guard_->alive = false;
+    }
     // Phase 4: Deregister coordinator callbacks before releasing memory.
     // Any coordinator that outlives this cache would otherwise hold a [this]
     // lambda pointing to freed memory, causing use-after-free on the next
@@ -680,8 +689,8 @@ bool AdaptiveQueryCache::put(
                 l2_entry.window_start_ms = now_ms;
                 l2_entry.window_count = 0;
                 enhanced_metrics_.total_bytes_compressed += l2_entry.compressed_result.size();
-                l2_cache_[fingerprint] = std::move(l2_entry);
-                l2_eviction_strategy_->onInsert(fingerprint, static_cast<uint64_t>(now_ms));
+                l2_cache_[key] = std::move(l2_entry);
+                l2_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
                 any_written = true;
             } else {
                 enhanced_metrics_.compression_failures++;
@@ -822,8 +831,8 @@ bool AdaptiveQueryCache::put(
             entry.window_start_ms = now_ms;
             entry.window_count = 0;
             compressed_size = entry.compressed_result.size();
-            l2_cache_[fingerprint] = std::move(entry);
-            l2_eviction_strategy_->onInsert(fingerprint, static_cast<uint64_t>(now_ms));
+            l2_cache_[key] = std::move(entry);
+            l2_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
             enhanced_metrics_.total_bytes_cached += result_size;
             enhanced_metrics_.total_bytes_compressed += compressed_size;
         }
@@ -959,12 +968,17 @@ size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
                     return true;  // Continue iteration
                 });
 
+                // [C-2] Copy l3_db_ into a local shared_ptr while holding the lock so
+                // that the pointer remains valid even if a concurrent circuit-breaker
+                // trip resets l3_db_ between the unlock and the bulk delete loop.
+                auto local_l3_db = l3_db_;
+
                 // Release lock before issuing bulk deletes so readers are not
                 // blocked during the I/O-intensive delete phase.
                 lock.unlock();
 
                 for (const auto& key : keys_to_delete) {
-                    l3_db_->del(key);
+                    local_l3_db->del(key);
                     count++;
                 }
                 
@@ -2212,15 +2226,23 @@ void AdaptiveQueryCache::setCoordinator(
         return;
     }
 
-    // Subscribe for entries replicated from peer nodes
+    // Subscribe for entries replicated from peer nodes.
+    // [C-4] Capture alive_guard_ by value (shared_ptr copy) so the guard struct
+    // outlives the callback. The lock+flag check prevents use-after-free when the
+    // AdaptiveQueryCache destructor has started but this callback fires concurrently.
+    auto guard = alive_guard_;
     coordinator_->subscribeEntries(
-        [this](const cache::ReplicationMessage& msg) {
+        [this, guard](const cache::ReplicationMessage& msg) {
+            std::lock_guard<std::mutex> alive_lock(guard->mutex);
+            if (!guard->alive) return;
             applyReplicatedEntry(msg);
         });
 
     // Subscribe for invalidations propagated from peer nodes
     coordinator_->subscribeInvalidations(
-        [this](const cache::ReplicationMessage& msg) {
+        [this, guard](const cache::ReplicationMessage& msg) {
+            std::lock_guard<std::mutex> alive_lock(guard->mutex);
+            if (!guard->alive) return;
             applyReplicatedInvalidation(msg);
         });
 

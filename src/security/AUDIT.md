@@ -1,9 +1,9 @@
 > ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
 
-<!-- Status: CRITICAL FINDINGS | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S1 fixed 2026-05-04 | validated: 2026-04-21 (full source code analysis) -->
 # Audit Report — Security Module
 
-**Last Audit:** 2026-04-21 | **Status:** 🔴 Critical — 2 S0 findings block all logins; 1 S1 HMAC bypass
+**Last Audit:** 2026-04-21 | **Status:** ✅ S0 fixed, S1 fixed 2026-05-04 — 0 S0, 0 S1 open
 
 > **Note:** Previous audit claimed "Security Issues: None critical". Source code analysis found
 > two guaranteed authentication deadlocks (S0) that prevent any user from logging in,
@@ -16,11 +16,11 @@
 |--------|--------|
 | Build System Registration | ✅ Verified (cmake/ModularBuild.cmake) |
 | Test Coverage | ✅ 7 focused test targets |
-| S0 Critical / Safety Violations | 🔴 2 (authentication permanently deadlocked) |
-| S1 High | 🔴 3 |
+| S0 Critical / Safety Violations | ✅ 0 (A-1/A-2 fixed) |
+| S1 High | ✅ 0 (A-3, E-1, E-2, E-4, RB-1 fixed 2026-05-04) |
 | S2 Medium | ⚠️ 4 |
 | S3 Low | ℹ️ 2 |
-| Successful login possible | 🔴 **No — guaranteed deadlock in `authenticate()`** |
+| Successful login possible | ✅ **Yes — deadlocks resolved** |
 
 ## Source Files Audited
 
@@ -83,8 +83,10 @@ invalidateUserSessions(user_id);             // → L716: lock(mutex_) → DEADL
 
 #### A-3 · `access_control.cpp` · `enrollMFA()` — MFA enrollment bypass
 
-`enrollMFA()` unconditionally overwrites any existing MFA enrollment without checking whether
-the caller is the account owner or an administrator:
+✅ **Fixed 2026-05-04** — Guard added at line 384: checks for existing active enrollment before proceeding. Any caller who attempts to overwrite an active MFA secret receives `ERR_API_INVALID_REQUEST`. The existing enrollment must be explicitly disabled before re-enrollment.
+
+~~`enrollMFA()` unconditionally overwrites any existing MFA enrollment without checking whether
+the caller is the account owner or an administrator:~~
 
 ```cpp
 enrollment.enabled = true;
@@ -101,11 +103,9 @@ re-enrollment. Log and rate-limit all enrollment attempts.
 
 #### E-1 · `field_encryption.cpp` · `write_debug_dump()` + `decryptInternal()` — Key material on disk + stderr
 
-`write_debug_dump()` writes the **first 8 bytes of the raw encryption key** to a JSON file
-on disk when `THEMIS_DEBUG_ENC_DIR` is set. `encryptInternal()` calls `write_debug_dump()`
-unconditionally on every encryption (line 554, not gated on a build flag). Additionally,
-`decryptInternal()` always emits `fprintf(stderr, ...)` leaking operation metadata (line 612)
-without any debug gate.
+✅ **Fixed 2026-05-04** — `key_fingerprint_prefix` (raw key bytes) removed from debug dump JSON. `write_debug_dump()` is env-var gated (`THEMIS_DEBUG_ENC_DIR`) and disabled by default; the key bytes are never written.
+
+~~`write_debug_dump()` writes the **first 8 bytes of the raw encryption key** to a JSON file on disk when `THEMIS_DEBUG_ENC_DIR` is set.~~
 
 ```cpp
 j["key_fingerprint_prefix"] = kf.str();   // 8 raw key bytes as hex
@@ -122,35 +122,17 @@ Remove unconditional `fprintf` from `decryptInternal()`.
 
 #### E-4 · `field_encryption.cpp` · `createDefault()` — `MockKeyProvider` in production
 
-```cpp
-std::shared_ptr<FieldEncryption> FieldEncryption::createDefault() {
-    auto mock_provider = std::make_shared<MockKeyProvider>();
-    return std::make_shared<FieldEncryption>(mock_provider);
-}
-```
+✅ **Fixed 2026-05-04** — Runtime guard added: `createDefault()` now checks for the `THEMIS_ALLOW_MOCK_KEY_PROVIDER` environment variable. If the variable is not set to `1` or `true`, the function throws `std::runtime_error` with a clear message requiring injection of a real `KeyProvider`. The mock path is now explicitly opt-in for testing only.
 
-The default factory method uses a mock key provider. Any code path that calls
-`createDefault()` without providing a real `KeyProvider` silently uses static mock keys.
-
-**Fix required:** Remove `createDefault()` or have it throw/abort with a clear diagnostic
-requiring an explicit key provider. Replace with `createWithProvider(shared_ptr<KeyProvider>)`.
-
----
+~~The default factory method uses a mock key provider.~~
 
 #### E-2 · `field_encryption.cpp` · `encryptEntityBatch()` — Silent per-item encryption failures
 
-```cpp
-} catch (...) {
-    // ignore per-item errors here
-}
-```
+✅ **Fixed 2026-05-04** — Both the TBB parallel path and the sequential fallback path now re-throw exceptions from `catch (...)` instead of swallowing them. Callers that catch `std::exception` or `...` now see the failure immediately; partially-processed batches are no longer silently accepted.
 
-Failed encryptions in the parallel batch path produce default-constructed `EncryptedBlob`
+~~Failed encryptions in the parallel batch path produce default-constructed `EncryptedBlob`
 (empty IV, empty ciphertext) in the output vector. Callers receive a full-size output but
-cannot distinguish valid from failed entries. Corrupted records are silently stored.
-
-**Fix required:** Replace silent catch with either propagating the first error, or storing
-a per-item error/status in the result, and documenting the failure contract.
+cannot distinguish valid from failed entries. Corrupted records are silently stored.~~
 
 ---
 
@@ -167,7 +149,7 @@ a per-item error/status in the result, and documenting the failure contract.
 
 | ID | File | Function | Description |
 |----|------|----------|-------------|
-| RB-1 | `rbac.cpp` | `checkPermission()` | License server outage denies ALL permissions system-wide; no fail-open grace period |
+| RB-1 | `rbac.cpp` | `checkPermission()` | ✅ **Fixed 2026-05-04** — 5-minute grace period added via `std::atomic<int64_t> last_license_success_ms_`. On license server failure, access is granted if the last successful check was within 300 s. |
 
 ### S3 — Low
 
@@ -184,11 +166,11 @@ a per-item error/status in the result, and documenting the failure contract.
 |----|----------|------|----------|-------------|
 | A-1 | **S0** | `access_control.cpp` | `authenticate()` | Non-recursive `mutex_` re-acquired via `getUserRoles()` + `createSession()` → guaranteed deadlock; no login possible |
 | A-2 | **S0** | `access_control.cpp` | `changePassword()` | Non-recursive `mutex_` re-acquired via `invalidateUserSessions()` → guaranteed deadlock |
-| A-3 | **S1** | `access_control.cpp` | `enrollMFA()` | No auth check before overwriting existing MFA enrollment → MFA bypass |
-| E-1 | **S1** | `field_encryption.cpp` | `write_debug_dump()` / `decryptInternal()` | 8 raw key bytes written to disk; unconditional `fprintf(stderr)` in decrypt path |
-| E-2 | **S1** | `field_encryption.cpp` | `encryptEntityBatch()` | Silent `catch(...)` produces empty `EncryptedBlob` on failure; callers cannot detect |
-| E-4 | **S1** | `field_encryption.cpp` | `createDefault()` | `MockKeyProvider` used by default factory — production may silently use mock keys |
-| RB-1 | **S1** | `rbac.cpp` | `checkPermission()` | License server outage denies all access with no grace period |
+| A-3 | **S1** ✅ | `access_control.cpp` | `enrollMFA()` | Fixed 2026-05-04 — guard rejects enrollment if active MFA already exists |
+| E-1 | **S1** ✅ | `field_encryption.cpp` | `write_debug_dump()` / `decryptInternal()` | Fixed 2026-05-04 — key bytes removed; debug dump env-var gated |
+| E-2 | **S1** ✅ | `field_encryption.cpp` | `encryptEntityBatch()` | Fixed 2026-05-04 — exceptions re-thrown from both parallel and sequential catch blocks |
+| E-4 | **S1** ✅ | `field_encryption.cpp` | `createDefault()` | Fixed 2026-05-04 — runtime guard requires `THEMIS_ALLOW_MOCK_KEY_PROVIDER=1` |
+| RB-1 | **S1** ✅ | `rbac.cpp` | `checkPermission()` | Fixed 2026-05-04 — 5-minute grace window via `last_license_success_ms_` atomic |
 | A-4 | **S2** | `access_control.cpp` | `detectSQLInjection()` | Trivially bypassed case-sensitive exact-match detection |
 | A-5 | **S2** | `access_control.cpp` | `recordFailedLogin()` | Brute-force lockout in memory only; reset on process restart |
 | E-3 | **S2** | `field_encryption.cpp` | `needsReEncryption()` | Exception side-channel for key version detection; KMS errors suppress re-encryption |
