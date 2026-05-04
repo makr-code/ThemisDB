@@ -10,7 +10,7 @@
 
 ## I. Abstract
 
-Database query caches must simultaneously satisfy conflicting requirements: lock-free high-throughput on the hot path, semantic equivalence detection for semantically similar (but textually distinct) queries, GDPR Article 17 right-to-erasure propagation, and multi-tenant isolation. We present ThemisDB's **AdaptiveQueryCache** — a three-tier hierarchical cache integrating five novel mechanisms: (1) a **lock-free L1 read path** achieving ≥ 5M ops/s per core under 16-thread contention via `std::shared_mutex` + atomicized `L1Entry` fields with lazy CAS expiry; (2) a **Semantic Cache** using SHA-256 fingerprint matching plus cosine-similarity vector search for semantically equivalent query detection; (3) a **Singleflight RequestCoalescer** (Go-style) that deduplicates concurrent requests for identical cache keys, guaranteeing exactly one backend evaluation per in-flight key group; (4) an **Adaptive TTL Policy** with logarithmic scaling based on per-key access frequency; and (5) a **GDPR-Aware Invalidation** system propagating PII purge events via `PIIPseudonymizer::erasePII()` callback integration, HMAC-SHA256 signed Redis pub/sub messages, and a `cdc_redactions` column family audit trail. We report: L1 hit latency 0.12 µs at ≥ 5M ops/s; semantic cache query deduplication rate 38%; GDPR purge propagation < 5 ms end-to-end; and parallel warmup throughput ≥ 500K entries/s. Our design is the first to unify lock-free multi-tier caching, semantic equivalence detection, and GDPR-compliant invalidation in a production database cache.
+Database query caches must simultaneously satisfy conflicting requirements: lock-free high-throughput on the hot path, semantic equivalence detection for semantically similar (but textually distinct) queries, GDPR Article 17 right-to-erasure propagation, and multi-tenant isolation. We present ThemisDB's **AdaptiveQueryCache** — a three-tier hierarchical cache integrating five novel mechanisms: (1) a **lock-free L1 read path** (v1.9.0) via `std::shared_mutex` + atomicized `L1Entry` fields with lazy CAS expiry (documented in `src/cache/ROADMAP.md`: "l1_mutex_ → std::shared_mutex; L1Entry fields atomicised; lazy expiry via CAS on expired_flag; onAccess() removed from hot path"); (2) a **Semantic Cache** using SHA-256 fingerprint matching plus cosine-similarity vector search (`include/cache/semantic_cache.h`); (3) a **Singleflight RequestCoalescer** (14 RC tests in `tests/test_request_coalescer.cpp`) with promise/shared_future deduplication; (4) an **Adaptive TTL Policy** with logarithmic scaling based on per-key access frequency; and (5) a **GDPR-Aware Invalidation** system via `PIIPseudonymizer::registerCacheInvalidator()` callback, HMAC-SHA256 signed Redis invalidation, and `cdc_redactions` CF audit trail. All features are implemented and `[x]`-complete in `src/cache/ROADMAP.md`. Our design is the first to unify lock-free multi-tier caching, semantic equivalence detection, and GDPR-compliant invalidation in a production database cache.
 
 ---
 
@@ -54,10 +54,10 @@ No existing database cache system addresses all three simultaneously.
 ```
 ┌────────────────────────────────────────────────────────┐
 │  L1: In-Memory Lock-Free LRU (≤ 1 KB/entry)           │
-│  ≥ 5M ops/s | std::shared_mutex | atomic L1Entry       │
+│  lock-free | std::shared_mutex | atomic L1Entry         │
 ├────────────────────────────────────────────────────────┤
 │  L2: zstd/lz4 Compressed In-Memory (≤ 10 KB/entry)    │
-│  ≥ 500K ops/s | LRU + LFU + ARC eviction policies     │
+│  LRU + LFU + ARC eviction policies                     │
 ├────────────────────────────────────────────────────────┤
 │  L3: RocksDB Persistent Cache (unbounded)              │
 │  ≤ 5 ms p99 | Circuit Breaker (CLOSED/OPEN/HALF_OPEN)  │
@@ -380,7 +380,7 @@ Shastri et al. (2020) presented Karmasphere, a GDPR-compliant storage system. Po
 
 ## VII. Conclusion
 
-We presented ThemisDB's AdaptiveQueryCache — the first database query cache simultaneously providing: lock-free L1 reads (≥ 5M ops/s, 44× latency improvement vs. mutex-protected), semantic similarity deduplication (38% additional hit rate for NL-to-SQL workloads), Singleflight request coalescing (eliminating thundering herd under 1000× concurrent request storms), adaptive logarithmic TTL (9.9 pp higher hit rate vs. static TTL), and GDPR Article 17 invalidation propagation (< 5 ms end-to-end across all tiers and replicas). Our RequestCoalescer (RC-01..RC-14 test suite) and GDPR-aware invalidation chain (7 unit tests) represent the first production implementation of these patterns in a C++ database cache system.
+We presented ThemisDB's AdaptiveQueryCache — the first database query cache simultaneously providing: lock-free L1 reads (v1.9.0, `std::shared_mutex` + atomic `L1Entry`; benchmark cases `BM_Cache_L1_Get_Hit`, `BM_Cache_Mixed_ReadWrite` — release gate: regression ≤ 10%/15%), semantic similarity deduplication (`include/cache/semantic_cache.h`), Singleflight request coalescing (RC-01..RC-14 test suite in `tests/test_request_coalescer.cpp`), adaptive logarithmic TTL, and GDPR Article 17 invalidation propagation (7 unit tests, HMAC-signed Redis, `cdc_redactions` CF audit). Parallel warmup uses `std::thread::hardware_concurrency()` workers (documented in `src/cache/ROADMAP.md`: `WarmupResult::warmup_entries_per_second`). All features are `[x]`-complete in `src/cache/ROADMAP.md` with > 80% unit test coverage (`CacheInterfacesFocusedTests`, 43 tests).
 
 ---
 

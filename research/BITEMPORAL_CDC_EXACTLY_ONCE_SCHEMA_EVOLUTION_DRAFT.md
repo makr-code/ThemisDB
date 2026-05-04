@@ -12,7 +12,17 @@
 
 ## I. Abstract
 
-Change Data Capture (CDC) systems face three compounding challenges when deployed in bi-temporal databases: (1) **Delivery semantics** — downstream consumers require exactly-once delivery, but network failures and consumer restarts create duplicate-delivery scenarios; (2) **Schema evolution** — the structure of change events must evolve without breaking downstream consumers; and (3) **GDPR right-to-erasure** — personal data in historical change events must be redactable without breaking the append-only log invariant. We present ThemisDB's **bi-temporal CDC engine** — the first complete implementation of all three guarantees in a production database system. Our system comprises 11 production-ready components: a **Debezium-compatible ChangeEvent formatter** (23 unit tests); a **Dead-Letter Queue** backed by RocksDB; a **BatchCommitCoordinator** with FIFO commit history; a **FilterPipeline** with composable fail-fast stages; a **DeliveryGuaranteeConfig** with rolling dedup hash window for ExactlyOnce mode; a **ReplayController** for historical replay sessions; a **Schema Evolution Hook** with `MigrationStrategy` enum; an **OutboxWriter/OutboxRelay** for transactional event publishing; a **Kafka CDC Producer** (opt-in via `THEMIS_ENABLE_KAFKA`); a **GDPR redaction audit log** in the `cdc_redactions` RocksDB column family; and a **Kafka tombstone propagator** for post-GDPR-redaction downstream cleanup. All components are production-ready (v2.0.0, Quality Score: 100/100).
+Change Data Capture (CDC) systems face three compounding challenges when deployed in bi-temporal databases: (1) **Delivery semantics** — downstream consumers require exactly-once delivery, but network failures and consumer restarts create duplicate-delivery scenarios; (2) **Schema evolution** — the structure of change events must evolve without breaking downstream consumers; and (3) **GDPR right-to-erasure** — personal data in historical change events must be redactable without breaking the append-only log invariant.
+
+We present ThemisDB's **bi-temporal CDC engine** — the first complete implementation of all three guarantees in a production database system. The engine comprises 11 production-ready components (all `[x]`-complete in `src/cdc/ROADMAP.md`, v2.0.0):
+
+**Delivery guarantees**: Debezium-compatible `ChangeEvent` formatter (23 unit tests), Dead-Letter Queue (RocksDB `dlq:` prefix), `BatchCommitCoordinator` with FIFO commit history (16 tests), and `IDeliveryGuaranteeConfig` with rolling dedup hash window for `ExactlyOnce` mode.
+
+**Schema and replay**: `ICDCFilterPipeline` with composable fail-fast stages (15 tests), `ICDCReplayController` for temporal replay sessions (15 tests), and `ICDCEventSchema` with `MigrationStrategy` enum.
+
+**Transactional and GDPR**: `OutboxWriter/OutboxRelay` for atomic transactional publishing (16 tests), Kafka CDC Producer (opt-in `THEMIS_ENABLE_KAFKA`), GDPR redaction audit log in the `cdc_redactions` RocksDB column family, and Kafka tombstone propagation for post-redaction downstream cleanup.
+
+Documented benchmark target (`src/chaos/PERFORMANCE_EXPECTATIONS.md`): ≤ 1 ms Commit→CDC Queue latency (`ChangefeedBenchmarkFixture_EventRecordingThroughput`, R-7). All components carry Production Readiness Checklist `[x]`: > 80% unit coverage, integration tests, performance benchmarks, and security audit complete.
 
 ---
 
