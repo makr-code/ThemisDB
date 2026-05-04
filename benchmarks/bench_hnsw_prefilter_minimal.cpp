@@ -43,7 +43,7 @@ struct Dataset {
             for (int j=0;j<dim;j++) row[j] /= norm; // unit vectors for cosine
         }
     }
-    const float* row(int i) const { return &data[i*dim]; }
+    const float* row(int i) const { return &data[static_cast<std::size_t>(i) * static_cast<std::size_t>(dim)]; }
 };
 
 // Build an HNSW index over the dataset
