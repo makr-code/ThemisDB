@@ -464,7 +464,8 @@ private:
     // Track credential-stuffing for a given (ip, user_id) pair.
     // Returns true if the credential-stuffing alert threshold was just crossed.
     // Must be called with stuffing_mutex_ held.
-    bool trackCredentialStuffing(const std::string& ip, const std::string& user_id);
+    bool trackCredentialStuffing(const std::string& ip, const std::string& user_id,
+                                  const AuthRateLimitConfig& cfg);
 
     // ── Per-user persistent breach-count tracking ────────────────────────
     // Build the Redis/in-memory key for a user on the current UTC day.
@@ -512,6 +513,9 @@ private:
     mutable std::atomic<size_t> stat_currently_locked_accounts_{0};
 
     // Protects config_ and backend_.
+    // Lock hierarchy: stats_mutex_ must be acquired BEFORE stuffing_mutex_ when
+    // both are needed simultaneously.  Hot paths acquire them sequentially (never
+    // nested) to avoid holding stats_mutex_ during I/O.
     mutable std::shared_mutex stats_mutex_;
 
     // Protects stuffing_state_ only (separate from stats_mutex_ so rate-limiter

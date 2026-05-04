@@ -358,7 +358,7 @@ bool AuthRateLimiter::allowAuthAttempt(
     bool stuffing_alert = false;
     if (!user_id.empty()) {
         std::unique_lock<std::mutex> slock(stuffing_mutex_);
-        stuffing_alert = trackCredentialStuffing(ip_address, user_id);
+        stuffing_alert = trackCredentialStuffing(ip_address, user_id, cfg);
     }
 
     stat_allowed_attempts_.fetch_add(1, std::memory_order_relaxed);
@@ -389,10 +389,19 @@ void AuthRateLimiter::recordFailedAuth(
 
     stat_failed_auths_.fetch_add(1, std::memory_order_relaxed);
 
+    // Snapshot config_ under a brief read lock before acquiring stuffing_mutex_.
+    // This avoids a nested lock acquisition (stuffing_mutex_ then stats_mutex_)
+    // in trackCredentialStuffing().
+    AuthRateLimitConfig cfg;
+    {
+        std::shared_lock<std::shared_mutex> lock(stats_mutex_);
+        cfg = config_;
+    }
+
     // Track stuffing state under its own mutex (not stats_mutex_).
     if (!user_id.empty()) {
         std::unique_lock<std::mutex> slock(stuffing_mutex_);
-        stuffing_alert = trackCredentialStuffing(ip_address, user_id);
+        stuffing_alert = trackCredentialStuffing(ip_address, user_id, cfg);
     }
 
     if (!user_id.empty()) {
@@ -697,16 +706,11 @@ void AuthRateLimiter::fireAuthAnomaly(AuthAnomalyEvent::Type type,
 }
 
 bool AuthRateLimiter::trackCredentialStuffing(const std::string& ip,
-                                              const std::string& user_id) {
-    // Called with stuffing_mutex_ held.  config_ is read through the snapshotted
-    // values captured by the caller before acquiring stuffing_mutex_.
-    // Re-read config_ under a brief shared lock since we're no longer holding
-    // stats_mutex_ when this function is called.
-    AuthRateLimitConfig cfg;
-    {
-        std::shared_lock<std::shared_mutex> lock(stats_mutex_);
-        cfg = config_;
-    }
+                                              const std::string& user_id,
+                                              const AuthRateLimitConfig& cfg) {
+    // Called with stuffing_mutex_ held.
+    // cfg is a snapshot captured by the caller before acquiring stuffing_mutex_,
+    // so no further lock on stats_mutex_ is needed here.
     if (!cfg.enable_credential_stuffing_detection || user_id.empty()) return false;
 
     auto now = std::chrono::steady_clock::now();
@@ -760,6 +764,10 @@ void AuthRateLimiter::updateConfig(const AuthRateLimitConfig& config) {
     // ensures the new threshold and window take effect immediately for all IPs.
     // A side-effect is that any IP currently being tracked will restart from zero.
     // Callers that need continuity should trigger cleanup() before updateConfig().
+    //
+    // Lock hierarchy: stats_mutex_ must always be acquired before stuffing_mutex_
+    // when both are needed simultaneously (only here in updateConfig).  Hot paths
+    // (allowAuthAttempt / recordFailedAuth) acquire them sequentially, never nested.
     std::unique_lock<std::mutex> slock(stuffing_mutex_);
     stuffing_state_.clear();
 }

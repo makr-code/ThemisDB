@@ -235,11 +235,17 @@ uint64_t SemanticCache::clearExpired() {
     if (removed > 0) {
         rocksdb::WriteOptions write_opts;
         db_->Write(write_opts, &batch);
-        // Adjust the in-memory counters.  Because we don't know the exact byte
-        // size of deleted entries without a second scan, cap entry_count_ at zero
-        // and leave total_bytes_ as a high-water approximation that clear() resets.
-        uint64_t prev = entry_count_.load(std::memory_order_relaxed);
-        entry_count_.store(prev > removed ? prev - removed : 0, std::memory_order_relaxed);
+        // Saturating fetch_sub: atomically decrement entry_count_ and clamp at zero.
+        // Concurrent put() calls may temporarily make the counter drift; it is
+        // self-correcting and is only used for statistics, not for correctness.
+        uint64_t prev = entry_count_.fetch_sub(removed, std::memory_order_relaxed);
+        if (prev < removed) {
+            // Wrapped below zero — restore to zero.  A concurrent put() between
+            // the fetch_sub and this store is benign: it would have re-incremented
+            // the counter and the store would incorrectly reset it.  We accept this
+            // rare statistical inaccuracy rather than incurring a CAS loop here.
+            entry_count_.store(0, std::memory_order_relaxed);
+        }
     }
     
     return removed;
