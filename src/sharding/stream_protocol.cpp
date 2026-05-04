@@ -555,11 +555,19 @@ bool StreamSession::initialize() {
     
     transitionState(StreamSessionState::PREPARING);
     
-    // In real implementation:
-    // 1. Establish mTLS connection to remote
-    // 2. Send PREPARE_REQUEST with file list
-    // 3. Wait for PREPARE_ACK
-    
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow stream-transfer preparation to compile and return success
+    //          while the real mTLS connection + PREPARE_REQUEST/PREPARE_ACK
+    //          protocol is not yet implemented.
+    // Activation: Always — no network transport is established.
+    // Production Delta: Always returns true without establishing any connection
+    //                   or negotiating file-list with the remote end.  Any actual
+    //                   data transfer that follows will have no matching prepared
+    //                   session on the remote side, causing transfer failures.
+    // Removal Plan: Establish mTLS connection; exchange PREPARE_REQUEST /
+    //               PREPARE_ACK messages; return false on rejection.  See
+    //               src/sharding/FUTURE_ENHANCEMENTS.md §Stream Protocol PrepareTransfer.
+
     // For now, simulate successful preparation
     return true;
 }

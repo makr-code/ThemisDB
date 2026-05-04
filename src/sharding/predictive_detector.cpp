@@ -36,32 +36,40 @@ namespace sharding {
 struct PredictiveFailureDetector::ModelImpl {
     bool loaded = false;
     std::string model_path;
-    
-    // In production, this would contain ONNX Runtime session
-    // For now, we use a simple heuristic-based model
-    
+
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow PredictiveFailureDetector to return plausible-looking failure
+    //          probabilities while an ONNX Runtime model is not yet integrated.
+    // Activation: Always — no ONNX session is created; `loaded` is always false
+    //             from the ThemisDB build perspective.
+    // Production Delta: Failure probability is derived from a simple weighted sum
+    //                   of input features rather than a trained ML model.  Predictions
+    //                   will have poor calibration and miss non-linear failure patterns.
+    //                   False negatives on real hardware failures are expected.
+    // Removal Plan: Add ONNX Runtime as a dependency; load a pre-trained .onnx model
+    //               into an `Ort::Session`; replace the heuristic with a real
+    //               `session.Run()` call.  See
+    //               src/sharding/FUTURE_ENHANCEMENTS.md §PredictiveDetector ONNX Model.
+
     std::vector<float> predict(const std::vector<float>& features) {
-        // Placeholder: Simple heuristic-based prediction
-        // In production, this would call ONNX Runtime inference
-        
         if (features.empty()) {
             return {0.0f, 30.0f};  // probability, days
         }
-        
+
         // Simple scoring: higher feature values = higher risk
         float score = 0.0f;
         for (size_t i = 0; i < features.size(); ++i) {
             score += features[i] * (1.0f / (i + 1));  // Weight earlier features more
         }
         score = score / features.size();
-        
+
         // Clamp to [0, 1]
         score = std::max(0.0f, std::min(1.0f, score));
-        
+
         // Estimate days to failure (inverse relationship)
         float days = 30.0f * (1.0f - score);
         days = std::max(1.0f, std::min(30.0f, days));
-        
+
         return {score, days};
     }
 };

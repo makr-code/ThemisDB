@@ -178,7 +178,18 @@ std::string AdminOperations::triggerRebalance() {
 nlohmann::json AdminOperations::getRebalanceStatus(
     const std::string& operation_id
 ) const {
-    // Placeholder implementation
+    // STUB/SIMULATION NOTE:
+    // Purpose: Return a valid-looking status JSON so callers don't crash while
+    //          a real in-memory / persistent rebalance operation tracker is not
+    //          yet implemented.
+    // Activation: Always — no operation registry is maintained.
+    // Production Delta: Every operation_id always reports `"status":"completed"`,
+    //                   `"progress":100`.  Monitoring tools and REST clients cannot
+    //                   distinguish between a running, failed, and completed
+    //                   rebalance operation.
+    // Removal Plan: Maintain an `std::map<std::string, RebalanceState>` of active
+    //               operations; populate the response from actual state.  See
+    //               src/sharding/FUTURE_ENHANCEMENTS.md §AdminOps RebalanceTracker.
     return {
         {"operation_id", operation_id},
         {"status", "completed"},

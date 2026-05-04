@@ -103,8 +103,20 @@ MigrationResult DataMigrator::migrate(
     std::string operation_id = source_shard_id + "_to_" + target_shard_id;
     
     try {
-        // Estimate total records (would query source shard in real implementation)
-        progress.total_records = 10000; // Placeholder
+        // STUB/SIMULATION NOTE:
+        // Purpose: Provide a non-zero total_records estimate so the migration
+        //          progress calculation is non-trivial, while a real record-count
+        //          query against the source shard is not yet implemented.
+        // Activation: Always — no source-shard query is issued.
+        // Production Delta: Progress percentage is computed against 10 000 records
+        //                   regardless of actual shard size.  Very small shards
+        //                   will show >100% progress; very large shards will show
+        //                   <1% progress throughout the migration.  Monitoring
+        //                   dashboards will display misleading progress values.
+        // Removal Plan: Issue a COUNT query to the source shard and assign the
+        //               result to progress.total_records.  See
+        //               src/sharding/FUTURE_ENHANCEMENTS.md §DataMigrator RecordCount.
+        progress.total_records = 10000; // STUB: hardcoded estimate
         
         uint32_t offset = 0;
         uint32_t batch_index = 0;

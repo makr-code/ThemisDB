@@ -140,30 +140,40 @@ void CustomAllReduce::barrier() {
 }
 
 bool CustomAllReduce::ring_allreduce(GPUTensor& tensor, bool average) {
-    // Simplified all-reduce implementation for single-process multi-GPU
-    // Note: Real ring all-reduce with multiple processes would use MPI or
-    // network communication. For single-process, we use a simpler approach.
-    
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow single-process multi-GPU training to run an all-reduce step
+    //          without NCCL or MPI by doing peer reads through the CPU.
+    // Activation: Always when world_size_ > 1 and no NCCL backend is linked.
+    // Production Delta: For `world_size_ > 1`, all ranks read the same in-process
+    //                   `tensor.cpu_data()` snapshot — peer-to-peer GPU copies are
+    //                   not performed.  Gradients from ranks ≠ rank_ are the
+    //                   initiating rank's own gradients, not their real gradients.
+    //                   The "all-reduce" is mathematically incorrect for true
+    //                   multi-process distributed training.
+    // Removal Plan: Replace peer-GPU reads with `cudaMemcpyPeerAsync()` or NCCL
+    //               `ncclAllReduce()`.  See src/llm/FUTURE_ENHANCEMENTS.md
+    //               §CustomAllReduce NCCL Integration.
+
     if (world_size_ == 1) {
         return true;  // No reduction needed
     }
-    
+
     // For single-process multi-GPU, we can directly access all GPU memories
     // Collect data from all GPUs
     std::vector<std::vector<float>> all_gpu_data;
     all_gpu_data.reserve(world_size_);
-    
+
     for (int i = 0; i < world_size_; ++i) {
         Device device = ctx_.get_device(i);
         GPUTensor gpu_tensor({tensor.size()}, device);
-        
+
         // In real implementation, this would be the gradient tensor on each GPU
         // For now, copy the current tensor (assumes same layout on all GPUs)
         if (i == rank_) {
             all_gpu_data.push_back(tensor.cpu_data());
         } else {
-            // In real implementation: peer-to-peer GPU copy
-            all_gpu_data.push_back(tensor.cpu_data());  // Placeholder
+            // STUB: peer-to-peer GPU copy not implemented; using rank_ data as proxy
+            all_gpu_data.push_back(tensor.cpu_data());
         }
     }
     

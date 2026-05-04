@@ -1113,7 +1113,17 @@ std::vector<json> OfficeProcessor::chunk(
 }
 
 std::vector<float> OfficeProcessor::generateEmbedding(const std::string& /*chunk_data*/) {
-    // Placeholder
+    // STUB/SIMULATION NOTE:
+    // Purpose: Satisfy the IContentProcessor::generateEmbedding() contract while
+    //          no embedding backend is wired into OfficeProcessor.
+    // Activation: Always — no IEmbeddingBackend is injected into OfficeProcessor.
+    // Production Delta: Office documents (DOCX, XLSX, PPTX) are stored without
+    //                   vector embeddings; they cannot participate in semantic
+    //                   similarity search.  Calls to similarity_search() will
+    //                   never return Office document results.
+    // Removal Plan: Inject an IEmbeddingBackend; call embed(chunk_data) and return
+    //               the result.  See src/content/FUTURE_ENHANCEMENTS.md
+    //               §OfficeProcessor Embedding Integration.
     return std::vector<float>();
 }
 

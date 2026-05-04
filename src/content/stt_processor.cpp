@@ -871,13 +871,23 @@ TranscriptionResult STTProcessor::transcribeInternal(
         return result;
     }
     #else
-    // Placeholder implementation when Whisper.cpp is not enabled
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow STTProcessor::transcribe() to return a well-formed result
+    //          when compiled without Whisper.cpp (THEMIS_ENABLE_WHISPER=OFF).
+    // Activation: `THEMIS_ENABLE_WHISPER` not defined at compile time.
+    // Production Delta: Transcription result contains a fixed notice string
+    //                   instead of real speech-to-text output.  All confidence
+    //                   scores are 0.  Applications relying on transcribed text
+    //                   will receive useless content.
+    // Removal Plan: Build with `-DTHEMIS_ENABLE_WHISPER=ON` and supply a
+    //               whisper.cpp model path; this `#else` branch is then dead.
+    //               See src/content/FUTURE_ENHANCEMENTS.md §STTProcessor WhisperActivation.
     result.success = true;
     result.full_text = "[Transcription requires Whisper.cpp - enable THEMIS_ENABLE_WHISPER in CMake]";
     result.detected_language = "en";
     result.average_confidence = 0.0f;
     result.audio_duration_ms = static_cast<int64_t>(pcm_data.size() / 16.0);  // 16kHz sample rate
-    
+
     // Create placeholder segment
     TranscriptionSegment segment;
     segment.text = result.full_text;

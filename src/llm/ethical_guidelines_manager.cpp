@@ -587,18 +587,24 @@ Analyze the above text and context. Respond in JSON format:
 }
 )";
     
-    // Note: Actual LLM inference would be called here
-    // For now, this is a placeholder that demonstrates the pattern
-    // The actual implementation would use the llm_wrapper to generate a response
-    // and parse the JSON to populate the result
-    
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow the LLM-as-ethical-judge code path to compile and return
+    //          a well-formed result struct while LLM inference is not yet wired.
+    // Activation: Always — no `llm_wrapper` call is made.
+    // Production Delta: `llm_confidence` is 0.0; `llm_reasoning` is a fixed
+    //                   `"LLM judge integration pending"` string; `has_ethical_context`
+    //                   is false.  Any caller that gates decisions on LLM judge
+    //                   output will always see a null/zero ethical analysis,
+    //                   defeating the purpose of the judge.
+    // Removal Plan: Call llm_wrapper->generate(prompt) with the system prompt and
+    //               case JSON; parse the returned JSON into the AnalysisResult fields.
+    //               See src/llm/FUTURE_ENHANCEMENTS.md §EthicalGuidelinesManager LLM Judge.
     LogInfo("LLM-as-ethical-judge analysis requested (implementation pending LLM integration)");
-    
-    // Placeholder: In real implementation, parse LLM response JSON
+
     result.llm_confidence = 0.0f;
     result.llm_reasoning = "LLM judge integration pending";
     result.has_ethical_context = false;
-    
+
     return result;
 }
 

@@ -361,7 +361,16 @@ PerformanceIssue PerformanceAnalyzer::check_slow_queries(const QueryProfiler& qu
 
 PerformanceIssue PerformanceAnalyzer::check_full_scans(const QueryProfiler& query_profiler) {
     (void)query_profiler;
-    // Placeholder - would need to inspect operator stats
+    // STUB/SIMULATION NOTE:
+    // Purpose: Satisfy the check_full_scans() API while operator-level scan-type
+    //          statistics are not yet exposed by QueryProfiler.
+    // Activation: Always — QueryProfiler does not expose a `full_scan_count` field.
+    // Production Delta: Always returns an empty (non-issue) PerformanceIssue;
+    //                   full-table-scan alerts are never raised regardless of
+    //                   actual query execution plans.
+    // Removal Plan: Extend QueryProfiler::Statistics with a `full_scan_count` field;
+    //               compare against impl_->config.full_scan_threshold.  See
+    //               src/observability/FUTURE_ENHANCEMENTS.md §FullScanDetection.
     return PerformanceIssue{};
 }
 

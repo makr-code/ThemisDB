@@ -83,19 +83,42 @@ bool BlobMetadata::canRecover() const {
 }
 
 std::vector<std::string> BlobMetadata::getMissingShards() const {
+    // STUB/SIMULATION NOTE:
+    // Purpose: Return an empty missing-shards list until the storage layer can
+    //          track which shard copies are present vs absent per blob.
+    // Activation: Always — no shard-presence registry is wired into BlobMetadata.
+    // Production Delta: All blobs are reported as having zero missing shards;
+    //                   redundancy health checks based on this function will always
+    //                   return "OK" regardless of actual shard availability.
+    // Removal Plan: Iterate `shard_ids` and compare against the shard-presence
+    //               map from the redundancy manager.  See
+    //               src/storage/FUTURE_ENHANCEMENTS.md §BlobRedundancy MissingShards.
     std::vector<std::string> missing;
-    // Simplified implementation
     return missing;
 }
 
 std::string BlobMetadata::toJson() const {
-    // Simplified JSON serialization
-    // In production, use nlohmann::json or similar
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow BlobMetadata to serialize without pulling in a JSON library
+    //          dependency in the storage layer stub build.
+    // Activation: Always — no nlohmann::json serialization is implemented.
+    // Production Delta: Returns `"{}"` regardless of actual field values; any
+    //                   caller persisting metadata via toJson() / fromJson() will
+    //                   lose all blob fields (id, shard_ids, checksum, size, etc.)
+    //                   on a round-trip.  Redundancy-metadata persistence is broken.
+    // Removal Plan: Implement with nlohmann::json; populate all BlobMetadata fields.
+    //               See src/storage/FUTURE_ENHANCEMENTS.md §BlobMetadata JSON.
     return "{}";
 }
 
 std::optional<BlobMetadata> BlobMetadata::fromJson([[maybe_unused]] const std::string& json) {
-    // Simplified JSON deserialization
+    // STUB/SIMULATION NOTE:
+    // Purpose: Matching stub for toJson(); always fails gracefully.
+    // Activation: Always.
+    // Production Delta: Always returns nullopt — every deserialization attempt fails.
+    //                   Restoring blob redundancy metadata from a checkpoint is impossible.
+    // Removal Plan: Parse nlohmann::json from `json` and populate all BlobMetadata fields.
+    //               See src/storage/FUTURE_ENHANCEMENTS.md §BlobMetadata JSON.
     return std::nullopt;
 }
 

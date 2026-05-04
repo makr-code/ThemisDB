@@ -94,7 +94,17 @@ PartialTranscript runPartialStt([[maybe_unused]] const std::string& session_id,
                                  bool   is_final,
                                  uint32_t seq)
 {
-    // Placeholder: emit placeholder text proportional to audio length
+    // STUB/SIMULATION NOTE:
+    // Purpose: Return a recognisable placeholder transcript while no real STT
+    //          backend is wired into the browser streaming pipeline.
+    // Activation: Always — no IWhisperTranscriber or equivalent is injected here.
+    // Production Delta: All browser-stream transcripts contain synthetic text like
+    //                   `[partial#N:MBB]` instead of actual speech content.
+    //                   Applications that consume these transcripts receive
+    //                   meaningless captions regardless of audio input.
+    // Removal Plan: Inject an IWhisperTranscriber; call transcribeStream() per
+    //               audio chunk; populate pt.text from the real transcript token.
+    //               See src/voice/FUTURE_ENHANCEMENTS.md §Browser STT Backend.
     PartialTranscript pt;
     pt.stream_id  = stream_id;
     pt.is_final   = is_final;

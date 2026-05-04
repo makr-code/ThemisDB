@@ -348,8 +348,16 @@ void SipCallSession::injectDtmf(const DtmfEvent& event) {
 
 std::vector<std::vector<uint8_t>>
 SipCallSession::synthesizeTts(const std::string& text) {
-    // Placeholder: return text as a single RTP-like packet per 20 ms frame
-    // In production: feed text through TTS → G.711 encoder → RTP packetiser
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow SIP call sessions to compile and run without a real TTS →
+    //          G.711 encoder → RTP packetiser pipeline.
+    // Activation: Always — no TTS/ITU-T G.711 encoder is linked.
+    // Production Delta: Raw UTF-8 text bytes are wrapped in a minimal RTP header
+    //                   instead of encoded PCM audio.  The remote SIP endpoint will
+    //                   receive undecodable data and produce garbled or silent audio.
+    // Removal Plan: Inject an ITtsBackend; encode text to G.711 µ-law PCM; packetise
+    //               per 20 ms frame with correct RTP payload type 0 (PCMU).  See
+    //               src/voice/FUTURE_ENHANCEMENTS.md §SIP TTS G.711 Encoder.
     std::vector<std::vector<uint8_t>> packets;
     if (text.empty()) return packets;
 
@@ -526,7 +534,16 @@ void WebRtcCallSession::injectDtmf(const DtmfEvent& event) {
 
 std::vector<std::vector<uint8_t>>
 WebRtcCallSession::synthesizeTts(const std::string& text) {
-    // Placeholder: return text content as Opus-style RTP packet
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow WebRTC sessions to compile without a real TTS → Opus encoder
+    //          → RTP packetiser pipeline.
+    // Activation: Always — no TTS/Opus encoder is linked.
+    // Production Delta: UTF-8 text bytes are stuffed into a fake Opus RTP packet
+    //                   (PT=111).  The remote WebRTC endpoint will receive an
+    //                   invalid Opus frame and produce silent or garbled audio.
+    // Removal Plan: Inject an ITtsBackend; encode text to Opus frames; packetise
+    //               per 20 ms frame with correct Opus payload type.  See
+    //               src/voice/FUTURE_ENHANCEMENTS.md §WebRTC TTS Opus Encoder.
     std::vector<std::vector<uint8_t>> packets;
     if (text.empty()) return packets;
 

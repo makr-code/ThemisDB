@@ -48,7 +48,21 @@ namespace security {
 // Implementation class
 class USBAdminAuthenticator::Impl {
 public:
-    // Placeholder for any platform-specific state
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide an Impl class shell so USBAdminAuthenticator compiles on
+    //          all platforms while the platform-specific USB enumeration and
+    //          license-key cryptography are not yet implemented.
+    // Activation: Always — no USB device enumeration library (e.g. libusb) is
+    //             integrated and no HMAC/RSA license-key verification is present.
+    // Production Delta: USBAdminAuthenticator::authenticate() will succeed based
+    //                   solely on the presence of a non-empty `license_key` and
+    //                   `signature` string (see USBAdminLicense::isValid()) —
+    //                   no actual USB hardware is probed, and the signature is
+    //                   not cryptographically verified.  Any forged string pair
+    //                   grants admin access.
+    // Removal Plan: Add libusb/platform USB API; enumerate connected USB devices;
+    //               compare serial numbers; verify license_key HMAC/RSA signature.
+    //               See src/security/FUTURE_ENHANCEMENTS.md §USBAdminAuthenticator Impl.
 };
 
 // USBAdminLicense methods

@@ -112,11 +112,25 @@ std::vector<std::pair<uint64_t, uint64_t>> MortonEncoder::getRanges(
     const geo::MBR& total_bounds,
     [[maybe_unused]] int max_ranges
 ) {
-    // unused parameter
-    // Simplified implementation: compute min/max Morton codes
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide a minimal spatial range query implementation that is
+    //          correct for simple bounding-box lookups while the full Morton-code
+    //          range decomposition (which avoids false positives) is not implemented.
+    // Activation: Always — no multi-range decomposition algorithm is coded.
+    // Production Delta: Returns a single [min_code, max_code] range that covers
+    //                   the entire query bounding box but also includes all
+    //                   Morton-code interleaving artefacts (false positives) within
+    //                   that range.  Spatial queries return a superset of the
+    //                   correct results; a post-filter step is required (and is
+    //                   present in the calling layer as a safeguard).
+    //                   Query performance degrades for large bounding boxes since
+    //                   no space is excluded by range decomposition.
+    // Removal Plan: Implement quadtree-style recursive range decomposition up to
+    //               `max_ranges` sub-ranges.  See
+    //               src/index/FUTURE_ENHANCEMENTS.md §MortonEncoder RangeDecomposition.
     uint64_t min_code = encode2D(query_bbox.minx, query_bbox.miny, total_bounds);
     uint64_t max_code = encode2D(query_bbox.maxx, query_bbox.maxy, total_bounds);
-    
+
     // For accurate query, we'd need to decompose into multiple ranges
     // For MVP, use single range (may include false positives)
     return {{min_code, max_code}};
