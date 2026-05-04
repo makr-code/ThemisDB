@@ -230,72 +230,121 @@ verify HMAC → if valid → apply invalidatePII(pii_uuid) locally
 
 ---
 
-## IV. Measured Evidence
+## IV. Source Code Evidence
 
-### A. L1 Lock-Free Throughput (16-Thread Contention)
+> **Methodische Anmerkung**: Alle API-Signaturen, Feature-Flags und Implementierungsdetails sind direkt aus `include/cache/` und `src/cache/ROADMAP.md` entnommen. Performance-Targets aus `src/cache/PERFORMANCE_EXPECTATIONS.md`. Keine fabricierten Messwerte.
 
-| Configuration | Throughput (ops/s) | Avg. Latency | p99 Latency |
-|---|---|---|---|
-| v1.8.x (std::mutex) | 1.82M | 5.3 µs | 28.1 µs |
-| v1.9.0 (shared_mutex) | 5.14M | 0.12 µs | 0.84 µs |
-| **Improvement** | **2.83×** | **44×** | **33×** |
+### A. Lock-Free L1 Read Path (v1.9.0) — Implementierungsbeleg
 
-*Workload: 90% reads, 10% writes; 16 concurrent threads; L1 capacity: 10K entries*
+**Quelle**: `src/cache/ROADMAP.md` (Completion-Eintrag)
 
-### B. Semantic Cache Deduplication Rate
+```markdown
+[x] Lock-Free L1 Read Path (v1.9.0) —
+    l1_mutex_ → std::shared_mutex;
+    L1Entry fields atomicised;
+    l1_cache_ stores unique_ptr<L1Entry>;
+    l1_eviction_mutex_ guards eviction strategy;
+    lazy expiry via CAS on expired_flag;
+    onAccess() removed from hot path
+```
 
-| Query Corpus | Exact-Match Rate | Semantic-Match Rate | Total Cache Hit Rate |
-|---|---|---|---|
-| OLTP point queries | 61% | 7% | 68% |
-| Parameterized analytics | 44% | 31% | 75% |
-| NL-to-SQL queries (LLM) | 18% | 38% | 56% |
-| Mixed workload | 42% | 19% | 61% |
+### B. RequestCoalescer — Implementierungsbeleg
 
-Semantic matching adds 7–38% additional hit rate on top of exact matching, with the highest improvement for NL-to-SQL queries (natural language variations of the same underlying query).
+**Quelle**: `src/cache/ROADMAP.md` (Completion-Eintrag)
 
-### C. RequestCoalescer Impact Under Read Storm
+```markdown
+[x] RequestCoalescer — real Singleflight implementation (Issue: #4580) (2026-04-12)
+    include/cache/request_coalescer.h; promise/shared_future inflight map
+    fn() called exactly once per concurrent in-flight key group;
+    results broadcast to all waiters
+    Exception from fn() propagated as success=false + error message to all waiters
+    14 focused tests (RC-01…RC-14) in tests/test_request_coalescer.cpp
+```
 
-Workload: 1000 concurrent threads requesting the same uncached key simultaneously.
+**Quelle**: `include/cache/request_coalescer.h` (bestätigt via `ls`)
 
-| Mechanism | Backend Evaluations | Result Latency (mean) |
-|---|---|---|
-| Without Coalescer | 1000 | 82 ms (thundering herd) |
-| With Coalescer | 1 | 41 ms (first caller) + 0.8 ms (waiters) |
-| **Reduction** | **1000×** | **Thundering herd eliminated** |
+### C. Semantic Cache — Implementierungsbeleg
 
-### D. Adaptive TTL vs. Static TTL
+**Quelle**: `src/cache/ROADMAP.md`
 
-Workload: 10K keys with access frequency Zipf distribution (s=1.0); measured hit rate over 24 hours with 1-hour window rotation.
+```markdown
+[x] Semantic-aware query result caching with vector similarity lookups —
+    semantic_cache.h/cpp; SHA-256 fingerprint + cosine similarity;
+    tests in tests/test_semantic_cache.cpp
+```
 
-| TTL Policy | Hit Rate | Stale Result Rate | Mean TTL |
-|---|---|---|---|
-| Static 300s | 64.2% | 0.8% | 300 s |
-| Static 3600s | 71.8% | 4.3% | 3600 s |
-| Adaptive (log-scale) | 74.1% | 0.9% | 847 s |
+### D. GDPR-Aware Cache Invalidation — Implementierungsbeleg
 
-Adaptive TTL achieves +9.9 pp higher hit rate vs. static 300s while maintaining near-static-300s stale result rate.
+**Quelle**: `src/cache/ROADMAP.md`
 
-### E. GDPR Invalidation Latency
+```markdown
+[x] GDPR-aware cache invalidation (PII purge propagation)
+    invalidatePII(pii_uuid) in adaptive_query_cache.h line ~360;
+    put(fp, params, result, tenant_id, pii_uuids) override at line ~248;
+    7 unit tests in tests/test_adaptive_query_cache.cpp
+[x] Auto-trigger invalidatePII() from PIIPseudonymizer::erasePII()
+    via registered callback — PIIPseudonymizer::registerCacheInvalidator()
+    in include/utils/pii_pseudonymizer.h
+[x] HMAC-SHA256 signed invalidation messages for RedisCacheCoordinator —
+    Config::hmac_secret field; computeHmac()/verifyHmac() in
+    src/cache/redis_cache_coordinator.cpp;
+    unsigned messages rejected when secret configured
+```
 
-| Tier | Invalidation Latency | Keys Invalidated |
-|---|---|---|
-| L1 | 0.08 ms | Up to 10K keys |
-| L2 | 0.41 ms | Up to 10K keys |
-| L3 (RocksDB) | 4.21 ms | Up to 100K keys |
-| Redis pub/sub | 2.8 ms (network) | All replicas |
-| **End-to-end (L1+L2+L3+Redis)** | **4.92 ms** | **All tiers + replicas** |
+GDPR-Audit-Trail in `cdc_redactions` Column Family — **Beleg**: `src/cache/ROADMAP.md` erwähnt nicht explizit `cdc_redactions`; dieser Audit-Trail ist in `src/cdc/ROADMAP.md` dokumentiert für CDC-GDPR-Redaktion. Die Cache-GDPR-Invalidierung schreibt einen Audit-Record via `CDCAdmin::setAuditStorage()`.
 
-All invalidations complete within 5 ms — meeting GDPR erasure propagation targets.
+### E. Adaptive TTL — Implementierungsbeleg
 
-### F. Parallel Warmup Throughput
+**Quelle**: `src/cache/ROADMAP.md`
 
-| Workers | Warmup Throughput | Duration (100K entries) |
-|---|---|---|
-| 1 (sequential) | 52K entries/s | 1.92 s |
-| 4 | 198K entries/s | 0.51 s |
-| 8 | 387K entries/s | 0.26 s |
-| 16 | 531K entries/s | 0.19 s |
-| 32 (default: hw_concurrency) | 548K entries/s | 0.18 s |
+```markdown
+[x] Adaptive TTL tuning based on access patterns (Issue: #1581) —
+    Config::enable_adaptive_ttl, adaptive_ttl_min_seconds,
+    adaptive_ttl_max_seconds, adaptive_ttl_scaling_factor
+    in adaptive_query_cache.h;
+    calculateAdaptiveTTL(access_count) private method;
+    logarithmic-scaling formula
+```
+
+### F. Parallele Warmup — Implementierungsbeleg
+
+**Quelle**: `src/cache/ROADMAP.md`
+
+```markdown
+[x] Warmup: Parallel Bulk Load (v1.8.0, Issue: #244) —
+    src/cache/warmup.cpp rewrites warmupFromLog() with N std::async workers
+    (one per CPU core); Config::max_parallel_workers
+    (default: std::thread::hardware_concurrency());
+    WarmupResult::warmup_duration_ms + warmup_entries_per_second;
+    4 new tests in tests/test_cache_warmup.cpp
+```
+
+### G. Öffentliche Cache-Abstraktions-Interfaces — Beleg
+
+**Quelle**: `src/cache/ROADMAP.md`
+
+```markdown
+[x] Public cache abstraction interfaces — include/cache/cache_interfaces.h;
+    IEvictionPolicy, ICacheAdminOps, ICacheWarmup, IGDPRPurgeHook,
+    ITTLAdapter with value types CacheStats, KeyFilter, WarmupStats,
+    PurgeDescriptor, PurgeResult, AccessPattern, TTLAdapterConfig
+[x] Unit tests coverage > 80% (Issue: #1596) — tests/test_cache_interfaces.cpp;
+    43 unit tests for all 5 interfaces
+```
+
+**Quelle**: `include/cache/cache_interfaces.h` (bestätigt via `ls`)
+
+### H. Dokumentierte Performance-Targets
+
+**Quelle**: `src/cache/PERFORMANCE_EXPECTATIONS.md`
+
+| Ziel-ID | Beschreibung | Benchmark-Case |
+|---------|-------------|----------------|
+| C-4 | Keine absolute Zielzahl; Regression ≤ 10%/15% | `BM_Cache_L1_Put` |
+| C-6 | Keine absolute Zielzahl; Regression ≤ 10%/15% | `BM_Cache_L1_Get_Hit` |
+| C-7 | Keine absolute Zielzahl; Regression ≤ 10%/15% | `BM_Cache_Mixed_ReadWrite` |
+
+Benchmark-Datei: `benchmarks/bench_adaptive_query_cache.cpp` (belegt durch PERFORMANCE_EXPECTATIONS.md)
 
 ---
 

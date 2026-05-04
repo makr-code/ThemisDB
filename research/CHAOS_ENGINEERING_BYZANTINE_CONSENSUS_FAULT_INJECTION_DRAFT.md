@@ -175,68 +175,108 @@ This is integrated with ThemisDB's `AutomaticFailoverOrchestrator` and `EpochFen
 
 ---
 
-## IV. Measured Evidence
+## IV. Source Code Evidence
 
-### A. Raft Leader Re-election Under LEADER_CRASH
+> **Methodische Anmerkung**: Alle Fault-Typen, API-Signaturen und Verhaltensbeschreibungen sind direkt aus `include/chaos/chaos_framework.h` entnommen und zitiert. Performance-Ziele beziehen sich auf dokumentierte Replikations-Benchmarks aus `src/chaos/PERFORMANCE_EXPECTATIONS.md`. Keine Zahl ohne Quellenbeleg.
 
-| Cluster Size | Election Timeout | Re-election Time (p50) | Re-election Time (p99) |
-|---|---|---|---|
-| n = 3 | 150–300 ms | 182 ms | 298 ms |
-| n = 5 | 150–300 ms | 241 ms | 441 ms |
-| n = 7 | 150–300 ms | 312 ms | 499 ms |
-| n = 9 | 150–300 ms | 389 ms | 498 ms |
+### A. FaultType-Enum — vollständiger Beleg
 
-All configurations meet the < 500 ms p99 target. The slight increase with cluster size reflects higher vote-collection round-trip times.
+**Quelle**: `include/chaos/chaos_framework.h`
 
-### B. Paxos Consistency Under NETWORK_PARTITION
+```cpp
+enum class FaultType {
+    NODE_FAILURE,            ///< Simulate a complete node crash
+    NETWORK_PARTITION,       ///< Isolate a node from the cluster network
+    LEADER_CRASH,            ///< Kill the current leader abruptly
+    DELAYED_RESPONSE,        ///< Add artificial latency to responses
+    DISK_FAILURE,            ///< Simulate storage I/O failure
+    RANDOM_FAILURE,          ///< Inject random failure with configurable probability
+    DISASTER_RECOVERY_DRILL  ///< Simulate DR restore procedure
+};
+```
 
-Experimental setup: n = 7 Paxos cluster; partition isolates k nodes; 1000 commit attempts during partition; measured linearizability violations.
+### B. FaultSpec und ActiveFault — Beleg
 
-| Nodes Isolated (k) | Quorum Available | Commits Successful | Linearizability Violations |
-|---|---|---|---|
-| 1 | Yes (6/7) | 100% | 0 |
-| 2 | Yes (5/7) | 100% | 0 |
-| 3 (= n/2 - 1/2) | No (4/7 needed) | 0% (blocks) | 0 |
-| 4 | No | 0% | 0 |
+**Quelle**: `include/chaos/chaos_framework.h`
 
-Paxos correctly blocks progress (rather than violating consistency) when quorum is unavailable. Zero linearizability violations observed across 10,000 partition trials.
+```cpp
+struct FaultSpec {
+    FaultType   type;
+    std::string target_node_id;
+    std::chrono::milliseconds duration{0};  ///< 0 = permanent until manually cleared
+    double      probability{1.0};           ///< [0.0, 1.0] — used for RANDOM_FAILURE
+    std::string description;
+};
 
-### C. Byzantine Gradient Aggregation Tolerance
+struct ActiveFault {
+    FaultSpec spec;
+    std::chrono::steady_clock::time_point injected_at;
+    std::chrono::steady_clock::time_point expires_at;  ///< max() if permanent
+    bool isExpired() const noexcept { ... }
+};
+```
 
-Setup: 12-node federation; f Byzantine nodes inject scaled gradient outliers (100× normal L2 norm).
+### C. FaultInjector-API — Beleg
 
-| Byzantine Nodes (f) | f ≤ ⌊(n-1)/3⌋? | Global Model Accuracy | Gradient Filter Recall |
-|---|---|---|---|
-| 1 | Yes (≤ 3) | 94.2% (baseline: 94.8%) | 100% |
-| 2 | Yes | 93.9% | 100% |
-| 3 | Yes (= limit) | 93.1% | 100% |
-| 4 | No (> limit) | 61.4% (diverged) | 72% |
-| 5 | No | 38.2% (diverged) | 48% |
+**Quelle**: `include/chaos/chaos_framework.h`
 
-The Krum filter effectively rejects all Byzantine participants within the theoretical tolerance bound of f ≤ ⌊(n-1)/3⌋.
+```cpp
+bool injectFault(const FaultSpec& fault);
+bool recoverFault(const std::string& target_node_id);
+bool recoverFault(const std::string& target_node_id, FaultType type);
+bool isFaultActive(const std::string& target_node_id) const;
+bool isFaultActive(const std::string& target_node_id, FaultType type) const;
+std::vector<ActiveFault> getActiveFaults();
+size_t activeFaultCount();
+void clearAllFaults();
+void registerEventCallback(EventCallback cb);
+```
 
-### D. RANDOM_FAILURE Sweep: Monte Carlo Resilience
+In-process Design (belegt durch Header-Kommentar):
+> "Does NOT perform real network/disk manipulation — designed for unit and integration tests where the SUT queries isFaultActive() before performing cluster operations."
 
-10,000 random fault injection trials; each trial randomly selects 1–3 fault types with probability p ∈ [0.1, 0.9]; measured system availability (% of requests successfully processed).
+### D. ChaosScheduler Wake-Strategies — Beleg
 
-| p (failure probability) | Availability | Consensus Violations | Failover Triggered |
-|---|---|---|---|
-| 0.1 | 99.97% | 0 | 3 |
-| 0.3 | 99.81% | 0 | 28 |
-| 0.5 | 99.12% | 0 | 147 |
-| 0.7 | 97.44% | 0 | 412 |
-| 0.9 | 94.21% | 2 | 891 |
+**Quelle**: `include/chaos/chaos_framework.h`
 
-At p = 0.9 (90% fault probability), 2 consensus violations occurred — exposing a known edge case in the Gossip convergence timer that was subsequently patched.
+```cpp
+enum class WakeStrategy {
+    FIXED_TICK,  ///< Plain sleep_for(tick_interval) — simple, deterministic
+    CONDVAR      ///< Condition-variable with tick_interval timeout — lower latency stop
+};
 
-### E. ChaosScheduler Overhead
+struct ChaosSchedulerConfig {
+    std::chrono::milliseconds tick_interval{10};  // default: 10 ms
+    WakeStrategy wake_strategy{WakeStrategy::FIXED_TICK};
+};
+```
 
-| Wake Strategy | Idle CPU | Stop Latency | Schedule Precision |
-|---|---|---|---|
-| FIXED_TICK (10 ms) | 0.02% | 10 ms | ±10 ms |
-| CONDVAR | 0.01% | < 1 ms | ±2 ms |
+`scheduleIn(delay, fault)` API (belegt durch ChaosScheduler-Interface in Header).
 
-Both strategies stay well below the 1% overhead target.
+### E. Dokumentierte Performance-Targets (Chaos/Replikation)
+
+**Quelle**: `src/chaos/PERFORMANCE_EXPECTATIONS.md`
+
+| Ziel-ID | Dokumentiertes Target | Benchmark-Case |
+|---------|----------------------|----------------|
+| R-1 | ≤ 50 ms Replikations-Lag @ 10K Writes/s (LAN) | `WalBenchFixture_Append` |
+| R-4 | < 5 µs/Write (WAL-Entry Serialisierung) | `BM_WALEntry_Serialize` |
+| R-7 | ≤ 1 ms (Commit → CDC Queue) | `ChangefeedBenchmarkFixture_EventRecordingThroughput` |
+| R-8 | ≤ 200 ms P99 bei 50 ms RTT WAN | `WalBenchFixture_ReadFrom` |
+
+### F. Implementierungsstatus laut ROADMAP — Beleg
+
+**Quelle**: `src/chaos/ROADMAP.md`
+
+ChaosScheduler Phase 4+5 (configurable scheduler tick/wake strategy) implementiert laut Commit `1f070f992b` (2026-04-12): "chaos: Phase 4+5 — configurable scheduler tick/wake strat..."
+
+Deadlock/Blocking-IO-Fix: Commit `e963d4e9ba` und `71d99c4f28` (2026-04-14): "fix(concurrency): eliminate deadlocks, blocking I/O under..."
+
+### G. Byzantine Federated Learning — Integrations-Beleg
+
+**Quelle**: `src/distributed_knowledge/` (aus Training-ROADMAP):
+
+`LoRAFederationCoordinator` + `IncrementalLoRATrainer::exportGradient()/applyGlobalDelta()` implementiert (`src/training/ROADMAP.md`, Eintrag: "Federated learning for privacy-preserving cross-institution training (Target: Q2 2026) — Status: [x]"). `FederatedDistillationCoordinator` mit `PolicyGate` + Rollback-Trigger implementiert (`src/training/ROADMAP.md`, FDF-01..10 Tests).
 
 ---
 

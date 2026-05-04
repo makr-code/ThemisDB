@@ -165,68 +165,90 @@ Pattern matching queries (`MATCH (a)-[r1]->(b)-[r2]->(c) WHERE ...`) use the `Su
 
 ---
 
-## IV. Measured Evidence
+## IV. Source Code Evidence
 
-### A. EMA Convergence Rate
+> **Methodische Anmerkung**: Alle technischen Aussagen zu API-Signaturen, Datentypen und Algorithmen sind aus `include/graph/` und `src/graph/ROADMAP.md` belegt. Performance-Targets aus `src/graph/PERFORMANCE_EXPECTATIONS.md`. Keine fabricierten Messwerte.
 
-Setup: synthetic graph workload with known optimal algorithm (Dijkstra on weighted 1M-node graph); optimizer initialized with uniform prior costs; measured regret = (selected_algorithm_cost − optimal_cost) / optimal_cost.
+### A. Implementierungsstand laut ROADMAP — vollständig belegt
 
-| Queries Observed | Regret (mean) | Optimal Selection Rate |
-|---|---|---|
-| 1 | 142% | 18% |
-| 10 | 67% | 41% |
-| 25 | 31% | 68% |
-| 50 | 8% | 89% |
-| 100 | 2% | 97% |
-| 200 | 0.4% | 99.2% |
+**Quelle**: `src/graph/ROADMAP.md`
 
-Convergence to > 90% optimal selection within 50 observations; < 3% regret within 100 observations.
+Alle folgenden Features sind mit `[x]` (erledigt) markiert:
 
-### B. Query Rewriting Impact
+```markdown
+[x] Graph query optimizer with cost-based algorithm selection
+[x] Traversal algorithm selection: BFS, DFS, Dijkstra, A*, Bidirectional
+[x] Adaptive cost model: EMA-based per-algorithm learning, enabled by default
+[x] Adaptive plan selection using execution feedback (cost model learning) (Issue: #1812)
+[x] Cost model calibration from real execution feedback (Issue: #2386)
+[x] Parallel multi-source traversal for large fan-out queries —
+    fan_out_threshold + intra-frontier parallelism (Issue: #1811)
+[x] Subgraph isomorphism queries (pattern matching) (Issue: #2390)
+[x] EXPLAIN HTTP endpoint (POST /api/v1/graph/query/explain) (Issue: #1816)
+[x] Query Rewriting: GraphQueryRewriter with predicate pushdown, CSE,
+    join reordering, materialized view utilisation, query decomposition
+```
 
-| Rewrite Rule | Queries Improved | Avg. Latency Reduction | Max. Reduction |
-|---|---|---|---|
-| Predicate Pushdown | 78% | 34% | 81% |
-| CSE | 41% | 52% | 94% |
-| Join Reordering | 29% | 28% | 67% |
-| Materialized View | 22% | 8.3× latency reduction | 41× |
-| Query Decomposition | 15% | 3.2× (parallel speedup) | 7.1× |
+### B. GraphQueryRewriter — Implementierungsbeleg
 
-Predicate pushdown has the broadest applicability; CSE delivers the highest per-query improvement.
+**Quelle**: `src/graph/ROADMAP.md` (Completion-Eintrag)
 
-### C. Parallel Traversal Speedup vs. Fan-Out Degree
+> "`GraphQueryRewriter` with predicate pushdown, CSE, join reordering, materialized view utilisation, and query decomposition for parallelism (`include/graph/graph_query_rewriter.h`, `src/graph/graph_query_rewriter.cpp`)"
 
-| Avg. Out-Degree | Sequential (ms) | Parallel (ms) | Speedup | Parallel Beneficial? |
-|---|---|---|---|---|
-| 5 | 12.1 | 14.3 | 0.85× | No (overhead dominates) |
-| 20 | 28.4 | 22.1 | 1.28× | Marginal |
-| 50 (threshold) | 94.2 | 31.8 | 2.96× | Yes |
-| 100 | 312.4 | 42.3 | 7.39× | Yes |
-| 500 | 3,241 ms | 421 ms | 7.70× | Yes |
+**Quelle**: `include/graph/graph_query_rewriter.h` (Dateiexistenz bestätigt via `ls`)
 
-Fan-out threshold of 50 neighbours is empirically optimal: below it, thread-pool overhead exceeds parallelism benefit.
+### C. PathConstraints-API — Beleg
 
-### D. Plan Cache Hit Rate
+**Quelle**: `include/graph/path_constraints.h` (Dateiexistenz bestätigt)
 
-Workload: 10,000 production graph queries from a social network dataset (Stanford SNAP).
+Aus ROADMAP-Beschreibung:
+> "Affected: `include/graph/path_constraints.h`, `src/graph/path_constraints.cpp`"
+> "PathConstraints::addSemanticConstraint(ontology, ruleset) prüft Kanten- und Knotentypen gegen OWL-lite Konzepthierarchie"
 
-| Query Type | Cache Hit Rate | Planning Time Saved |
-|---|---|---|
-| `shortest_path` (same topology) | 64% | 8.3× |
-| `neighbors_of_n_hops` (k=2) | 71% | 9.1× |
-| `pattern_match` (3-node pattern) | 48% | 6.2× |
-| `pattern_match` (5-node pattern) | 28% | 4.1× |
-| Mixed workload | 52% | 7.2× |
+Min/max length, required/forbidden nodes und edge types: Standardfeatures laut ROADMAP-Completions.
 
-### E. Algorithm Selection by Graph Topology
+### D. GPU-Traversal — Implementierungsstatus-Beleg
 
-| Graph Type | Selected Algorithm | Correct (ground truth) | Success Rate |
-|---|---|---|---|
-| Sparse unweighted (social) | BFS | BFS | 96% |
-| Dense weighted (road) | Dijkstra | Dijkstra | 94% |
-| Sparse with heuristic (geo) | A* | A* | 91% |
-| Large diameter (protein) | Bidirectional | Bidirectional | 89% |
-| Very dense (citation) | DFS | BFS or DFS | 84% |
+**Quelle**: `src/graph/ROADMAP.md`
+
+```markdown
+[~] GPU-accelerated BFS/DFS for massive graphs
+    (`graph/gpu_traversal.cpp`, CPU fallback active;
+     real CUDA kernels planned for THEMIS_ENABLE_CUDA)
+```
+
+Datei `include/graph/gpu_traversal.h` existiert (bestätigt via `ls`). CUDA-Implementierung: **In Progress**, CPU-Fallback aktiv.
+
+### E. EXPLAIN-Endpoint — Beleg
+
+**Quelle**: `src/graph/ROADMAP.md`
+
+> "[x] EXPLAIN HTTP endpoint (`POST /api/v1/graph/query/explain`) for all query types (Issue: #1816)"
+
+### F. Dokumentierte Performance-Targets
+
+**Quelle**: `src/graph/PERFORMANCE_EXPECTATIONS.md`
+
+| Ziel-ID | Dokumentiertes Target | Benchmark-Case |
+|---------|----------------------|----------------|
+| GR-SparseEdge | Throughput-Regression ≤ 10%, P95-Regression ≤ 15% | `GraphTraversalBenchmarkFixture_SparseEdgeAddition` |
+| GR-DenseNeighbor | Throughput-Regression ≤ 10%, P95-Regression ≤ 15% | `GraphTraversalBenchmarkFixture_DenseNeighborQuery` |
+| GR-BFS | Siehe Zielbeschreibung (BFS Depth-3 Target) | `GraphTraversalBenchmarkFixture_BFSTraversal` |
+
+**Keine absoluten Zielzahlen in PERFORMANCE_EXPECTATIONS.md dokumentiert** — Release-Gate: Regression-Limits gegenüber Baseline.
+
+### G. OntologyManager — offener Implementierungsstatus
+
+**Quelle**: `src/graph/ROADMAP.md`
+
+```markdown
+[x] Ontologie-Integration: OntologyManager + semantische Pfad-Constraints (Target: Q3 2026)
+    - Affected: include/graph/ontology_manager.h, src/graph/ontology_manager.cpp
+    - Perf: ≤ 5 µs per edge constraint check; Ontologie-Load ≤ 100 ms für 10.000 Konzepte
+    - Tests: OM-01..OM-12 + SC-01..SC-10
+```
+
+Einzige dokumentierte absolute Performance-Ziele für dieses Modul: **≤ 5 µs pro Edge-Constraint-Check**, **≤ 100 ms Ontologie-Load (10.000 Konzepte)**.
 
 ---
 

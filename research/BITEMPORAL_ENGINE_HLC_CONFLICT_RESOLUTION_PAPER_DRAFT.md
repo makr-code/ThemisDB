@@ -153,57 +153,94 @@ Events are stored in a ring-buffer enabling **replay-from-offset** — a CDC con
 
 ---
 
-## IV. Measured Evidence
+## IV. Source Code Evidence
 
-### A. Interval-Tree Index Performance
+> **Methodische Anmerkung**: Die folgenden Abschnitte belegen jede technische Aussage durch konkrete Quellcode-Referenzen. Performance-Kennzahlen entstammen ausschließlich den dokumentierten Benchmark-Zielen (`src/temporal/PERFORMANCE_EXPECTATIONS.md`). Absolute Messwerte liegen zur Veröffentlichungszeit nicht vor; die Release-Gates definieren Regressionsgrenzen (≤ 10% Throughput-Regression, ≤ 15% P95-Regression gegenüber Baseline).
 
-| Operation | N = 10K | N = 100K | N = 1M | Speedup vs. Linear Scan |
-|---|---|---|---|---|
-| Insert (amortized) | 0.08 ms | 0.12 ms | 0.18 ms | — |
-| Point query (k=1) | 0.02 ms | 0.04 ms | 0.07 ms | 142× |
-| Overlap query (k=10) | 0.05 ms | 0.08 ms | 0.15 ms | 67× |
-| Overlap query (k=100) | 0.19 ms | 0.31 ms | 0.52 ms | 19× |
+### A. Interval-Tree Index — Algorithmus-Beleg
 
-*Platform: 32-core AMD EPYC 7702, 256 GB DDR4 ECC*
+**Quelle**: `include/temporal/interval_tree_index.h`
 
-The index sustains O(log n + k) empirically: doubling N from 500K to 1M increases latency by ≤ 1 unit step, confirming logarithmic scaling.
+Die Klasse `IntervalTreeIndex` dokumentiert explizit die Komplexitätsgarantien im Datei-Header:
 
-### B. Time-Travel Query Latency
+```
+* An augmented BST-based interval tree with per-node max-end tracking,
+* providing O(log n) insert/remove and O(log n + k) overlap-query
+* performance where k is the number of matching intervals.
+```
 
-| Query Type | N = 1M rows | Index | No Index | Speedup |
-|---|---|---|---|---|
-| `AS OF` point query | 0.8 ms | 8.2 ms | 10.2× | |
-| `FROM … TO` range | 3.1 ms | 28.4 ms | 9.2× | |
-| `SEQUENCED` predicate scan | 6.4 ms | 61.2 ms | 9.6× | |
-| `NON_SEQUENCED` full scan | 12.1 ms | 112.3 ms | 9.3× | |
+Thread-Safety: `std::shared_mutex` (concurrent reads / exclusive writes), belegt durch die Member-Deklaration in `include/temporal/interval_tree_index.h`.
 
-All time-travel queries complete well within the 10 ms target on 1M-record tables when using the interval-tree index. The 5–10× speedup factor is consistent across query types.
+Benchmark-Target (TM-1 bis TM-6): `src/temporal/PERFORMANCE_EXPECTATIONS.md` — Benchmark-Cases `BM_BiTemporalTable_Insert`, `BM_BiTemporalTable_QueryBiTemporal`, `BM_BiTemporalTable_QueryCurrentByValidTime`; **keine absoluten Zielzahlen dokumentiert**, Release-Gate: Throughput-Regression ≤ 10%, P95-Regression ≤ 15% gegenüber Baseline.
 
-### C. Conflict Resolution Under Clock Skew
+### B. BiTemporalTable DML API — Beleg
 
-Experimental setup: 4-node cluster with simulated NTP skew ≤ 50 ms; 10 K concurrent conflicting write pairs; measured data consistency score = (correct resolutions / total conflicts).
+**Quelle**: `include/temporal/bi_temporal.h`
 
-| Policy | Consistency Score | Throughput | CRDT Safety |
-|---|---|---|---|
-| `LAST_WRITE_WINS` | 99.7% | 85 K writes/s | No |
-| `FIRST_WRITE_WINS` | 99.7% | 85 K writes/s | No |
-| `CRDT_MERGE` (LWW-field) | 100% | 72 K writes/s | Yes (comm. + idemp.) |
-| `CRDT_MERGE` (Union) | 100% | 68 K writes/s | Yes |
-| `MANUAL` | 100% (by definition) | 2 K writes/s | Yes |
+```cpp
+// Belegt: insertWithValidTime() mit Überlappungsprüfung via IntervalTreeIndex
+bool insertWithValidTime(const std::string& key,
+                         const Document& doc,
+                         const TimeRange& valid_time);
+```
 
-`CRDT_MERGE` achieves perfect consistency at the cost of 15% throughput reduction vs. LWW.
+Dokumentiertes Verhalten (aus Header-Kommentar):
+> "Returns false and leaves the table unchanged when the valid-time period would overlap with an existing current row for the same key."
 
-### D. Compression Ratios (JSON Version Payloads, N=1M)
+### C. Temporal Conflict Resolver — Policy-Enum-Beleg
 
-| Algorithm | Original Size | Compressed | Ratio | Decomp. Latency |
-|---|---|---|---|---|
-| `DELTA` | 4.2 GB | 291 MB | 14.8× | 2.1 ms/MB |
-| `GORILLA` | 4.2 GB | 214 MB | 19.6× | 1.8 ms/MB |
-| `ZSTD` | 4.2 GB | 812 MB | 5.2× | 0.9 ms/MB |
-| `DICTIONARY` | 4.2 GB | 524 MB | 8.0× | 0.7 ms/MB |
-| `LZ4` | 4.2 GB | 1.12 GB | 3.8× | 0.4 ms/MB |
+**Quelle**: `include/temporal/temporal_conflict_resolver.h`
 
-DELTA and GORILLA provide the highest ratios for their respective payload types; LZ4 provides the fastest decompression for hot history.
+```cpp
+enum class ConflictPolicy {
+    LAST_WRITE_WINS,   // Highest HLC wins
+    FIRST_WRITE_WINS,  // Lowest HLC wins
+    NODE_PRIORITY,     // Configured Node-Priority tiebreaker
+    MANUAL,            // Queued for manual resolution
+    CRDT_MERGE         // Automatic Merge via CRDT
+};
+```
+
+CRDT-Korrektheitseigenschaften (belegt durch `LWWFieldMergeResolver`-Dokumentation im Header):
+> "Properties: commutative ✓, idempotent ✓."
+> "Commutativity: merge(a, b) == merge(b, a)"
+> "Idempotency: merge(a, a).data == a.data"
+
+### D. Temporal Compressor — Algorithm-Enum-Beleg
+
+**Quelle**: `include/temporal/temporal_compressor.h`
+
+```cpp
+enum class CompressionAlgorithm {
+    DELTA,       // JSON field-level delta between consecutive versions
+    ZSTD,        // General-purpose LZ-family byte-level compression
+    GORILLA,     // XOR-delta encoding for numeric (double) columns
+    DICTIONARY,  // Value-table encoding for repeated string fields
+    LZ4          // LZ4 block compression — high-throughput, low-latency path
+};
+```
+
+Gorilla-Kompressions-Effizienz für numerische Payload-Spalten: Grundlage ist die XOR-Delta-Kodierung (belegt durch `include/timeseries/gorilla.h` und `include/timeseries/gorilla_simd.h` — dieselbe Gorilla-Implementierung, die im Timeseries-Modul 10–20× Kompressionsratio erzielt, laut `src/timeseries/ROADMAP.md`: "Gorilla compression for 10–20× space reduction").
+
+### E. TemporalQueryEngine — Predicate-Enum-Beleg
+
+**Quelle**: `include/temporal/temporal_query_engine.h`
+
+```cpp
+enum class TemporalOperator {
+    CONTAINS, OVERLAPS, PRECEDES, SUCCEEDS, MEETS, EQUALS
+};
+enum class TemporalSemantics {
+    SEQUENCED,     // SQL:2011 §4.16 period-aware evaluation
+    NON_SEQUENCED  // Atemporal: all versions returned flat
+};
+```
+
+### F. Temporal CDC — Event-Typ-Beleg
+
+**Quelle**: `include/temporal/temporal_cdc.h` (bestätigt durch `src/temporal/temporal_cdc.cpp`)
+
+Vier dokumentierte Event-Typen: `INSERT`, `UPDATE`, `DELETE`, `VERSION_CREATED` — belegt durch Klassen-Interface in `temporal_cdc.h`.
 
 ---
 

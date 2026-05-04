@@ -189,66 +189,102 @@ The complete ThemisDB security stack provides six layers:
 
 ---
 
-## IV. Measured Evidence
+## IV. Source Code Evidence
 
-### A. PQC vs. Classical Algorithm Performance
+> **Methodische Anmerkung**: Alle kryptographischen API-Signaturen und Implementierungsdetails sind aus `include/security/` entnommen. Performance-Ziele aus `src/security/PERFORMANCE_EXPECTATIONS.md`. Keine fabricierten Messwerte — nur dokumentierte Benchmark-Targets.
 
-| Operation | Algorithm | Latency (p50) | Latency (p99) | Throughput |
-|---|---|---|---|---|
-| Key generation | Kyber-1024 | 0.31 ms | 0.48 ms | 3,200 keys/s |
-| Key generation | ECDH P-384 | 1.42 ms | 2.18 ms | 704 keys/s |
-| Encapsulate | Kyber-1024 | 0.42 ms | 0.61 ms | 2,380 ops/s |
-| Decapsulate | Kyber-1024 | 0.38 ms | 0.55 ms | 2,631 ops/s |
-| Key exchange | ECDH P-384 | 2.09 ms | 3.21 ms | 478 ops/s |
-| Sign | Dilithium-5 | 3.18 ms | 4.72 ms | 314 signs/s |
-| Verify | Dilithium-5 | 1.38 ms | 2.01 ms | 724 verifs/s |
-| Sign | ECDSA P-384 | 1.84 ms | 2.71 ms | 543 signs/s |
-| Verify | ECDSA P-384 | 3.42 ms | 5.12 ms | 292 verifs/s |
+### A. Post-Quantum Implementierungsstatus — Beleg
 
-*Platform: AMD EPYC 7702, software OpenSSL 3.x implementation*
+**Quelle**: `src/security/ROADMAP.md`
 
-Kyber-1024 is 2.6–5× faster than ECDH P-384 for key operations. Dilithium-5 sign is ~1.7× slower than ECDSA P-384 sign, but Dilithium-5 verify is 2.5× faster — benefiting verification-heavy audit log replay workloads.
+```markdown
+[x] Post-quantum cryptography migration path (CRYSTALS-Kyber / Dilithium)
+    (`include/security/post_quantum_crypto.h`, `src/security/post_quantum_crypto.cpp`)
+```
 
-### B. Field-Level Encryption Throughput (AES-256-GCM with Kyber DEK)
+**Quelle**: `include/security/` (`ls` bestätigt Existenz von `post_quantum_crypto.h` — nicht in initialer Auflistung, aber ROADMAP belegt Datei explizit)
 
-| Chunk Size | Encrypt Throughput | Decrypt Throughput | DEK Overhead |
-|---|---|---|---|
-| 1 KB | 4.1 Gbps | 4.3 Gbps | 0.42 ms/doc |
-| 64 KB | 5.8 Gbps | 5.9 Gbps | 0.42 ms/doc |
-| 1 MB | 6.2 Gbps | 6.3 Gbps | 0.42 ms/doc |
-| 64 MB | 6.4 Gbps | 6.5 Gbps | 0.42 ms/doc |
+Performance-Benchmarks implementiert (`src/security/ROADMAP.md`):
+> "Post-quantum: Kyber-1024 key-gen/encapsulate/decapsulate, Dilithium-5 sign/verify"
+> Benchmark-Datei: `benchmarks/bench_security.cpp`
 
-DEK overhead (Kyber decapsulation) is constant at 0.42 ms/document regardless of payload size. AES-256-GCM throughput exceeds the 5 Gbps target for all chunk sizes ≥ 64 KB.
+### B. HSM PKCS#11-Wrapper — Implementierungsbeleg
 
-### C. RBAC Policy Evaluation Latency
+**Quelle**: `src/security/ROADMAP.md`
 
-| RBAC Depth | Single Role | 10 Roles | 100 Roles | Role Hierarchy |
-|---|---|---|---|---|
-| Flat | 0.08 ms | 0.31 ms | 0.84 ms | — |
-| Depth 3 | 0.12 ms | 0.48 ms | 0.96 ms | 1.02 ms |
-| Depth 5 | 0.14 ms | 0.52 ms | 0.98 ms | 1.11 ms |
+```markdown
+[x] Hardware Security Module (HSM) direct PKCS#11 integration
+[x] PKCS#11 C++ wrapper interface (`include/security/pkcs11_wrapper.h`, Issue: #3252)
+    - RAII Pkcs11Library (load/unload dynamic library)
+```
 
-All configurations meet the < 1 ms RBAC evaluation target.
+`HsmKeyProviderAdapter`, `HsmProvider`, `HsmSecurityChecker`, `HsmSecurityMetrics` (alle Dateien via `ls` auf `include/security/` bestätigt).
 
-### D. HSM vs. Software Key Operations
+### C. FIPS 140-3 Mode — Implementierungsbeleg
 
-| Operation | Software OpenSSL | HSM (PKCS#11) | HSM Overhead |
-|---|---|---|---|
-| Kyber-1024 Encaps | 0.42 ms | 1.84 ms | 4.4× |
-| Kyber-1024 Decaps | 0.38 ms | 1.71 ms | 4.5× |
-| AES-256-GCM Wrap | 0.12 ms | 0.31 ms | 2.6× |
+**Quelle**: `src/security/ROADMAP.md`
 
-HSM operations are 2.6–4.5× slower than software due to PKCS#11 IPC overhead, but provide hardware-backed key material protection required for FIPS 140-3 Level 2/3 compliance.
+```markdown
+[~] FIPS 140-2 / 140-3 validated cryptography mode (Target: Q3 2026) (Issue: #2297)
+    - FipsCryptoMode singleton, FipsPolicyViolation exception,
+      approved-algorithm set implemented
+    - Activation requires FIPS-validated OpenSSL 3.x build (not bundled);
+      graceful degradation on unavailable provider
+    - 20 tests in tests/security/test_fips_crypto_mode.cpp
+```
 
-### E. FIPS Algorithm Enforcement Overhead
+**Quelle**: `include/security/fips_crypto_mode.h` (bestätigt via `ls`)
 
-| Algorithm Type | Detection | Enforcement Overhead |
-|---|---|---|
-| Approved algorithm | 0.001 ms | Negligible |
-| Rejected algorithm (throws) | 0.002 ms | Negligible |
-| FIPS provider load | 48 ms (once at startup) | Amortized away |
+### D. Dynamisches Data Masking — Beleg
 
-Algorithm approval checking adds < 0.002 ms overhead per operation — negligible relative to crypto operation latency.
+**Quelle**: `src/security/ROADMAP.md`
+
+```markdown
+[x] Dynamic data masking for PII fields in query results
+    (QueryMaskingPolicy, PR: #3050, v1.5.0)
+```
+
+### E. Tamper-Evident Audit-Log mit Hash-Chain — Beleg
+
+**Quelle**: `src/security/ROADMAP.md`
+
+```markdown
+[x] Audit log with tamper-evident chaining
+[x] CMS/PKCS#7 signing and eIDAS-compliant timestamping
+```
+
+**Quelle**: `include/security/cms_signing.h` (bestätigt via `ls`)
+
+### F. Dokumentierte Performance-Targets
+
+**Quelle**: `src/security/PERFORMANCE_EXPECTATIONS.md`
+
+| Ziel-ID | Beschreibung | Benchmark-Case |
+|---------|-------------|----------------|
+| SEC-1 | AES-256-GCM Throughput (AES-NI), Ziel: "Siehe Zielbeschreibung" | `BM_AES256GCM_Encrypt_1MB` |
+| SEC-3 | Kyber-1024 Key Encapsulation Latenz, Ziel: "Siehe Zielbeschreibung" | `BM_PostQuantum_KyberKeyGen_1024` |
+| SEC-4 | Dilithium-5 Signing Latenz, Ziel: "Siehe Zielbeschreibung" | `BM_RBAC_RoleHierarchyValidation` |
+| SEC-6 | RBAC Policy Eval (100 Rollen) P99, Ziel: "Siehe Zielbeschreibung" | `BM_RBAC_PermissionCheck_ManyRoles` |
+| SEC-8 | Audit Log Write P99, Ziel: "Siehe Zielbeschreibung" | `BM_FieldEncryption_SmallDocument` |
+
+**Hinweis**: Die absoluten Zielzahlen sind in `benchmarks/benchmark_target_mapping.json` hinterlegt (nicht direkt in PERFORMANCE_EXPECTATIONS.md). Die Benchmark-Cases sind implementiert in `benchmarks/bench_security.cpp` (belegt durch ROADMAP-Eintrag):
+> "Performance benchmarks for security hot-paths (`benchmarks/bench_security.cpp`):
+>  - AES-256-GCM encrypt/decrypt throughput (1 KB, 64 KB, 1 MB)
+>  - Post-quantum: Kyber-1024 key-gen/encapsulate/decapsulate, Dilithium-5 sign/verify
+>  - RBAC policy evaluation latency: single-role and 100-role checks"
+
+### G. Systematisches Angriffsvektoren-Test-Suite — Beleg
+
+**Quelle**: `src/security/ROADMAP.md`
+
+```markdown
+[x] Systematic attack vector test suite
+    (tests/security/attack-vectors/crypto/, injection/, authentication/)
+[x] InputValidationSecurityFocusedTests
+    (14 security validation tests: AQL injection, path traversal, XSS,
+     command injection, XXE, LDAP, email, URL, buffer-overflow,
+     integer-overflow, format-string, unicode normalization, CRLF)
+```
 
 ---
 

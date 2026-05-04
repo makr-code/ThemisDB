@@ -170,64 +170,90 @@ All geometry types integrate with the spatial filter and index systems.
 
 ---
 
-## IV. Measured Evidence
+## IV. Source Code Evidence
 
-### A. FAISS GPU k-NN vs. CPU BruteForce
+> **Methodische Anmerkung**: Alle Performance-Kennzahlen entstammen ausschließlich `src/geo/PERFORMANCE_EXPECTATIONS.md`. Ziel-IDs referenzieren die dokumentierten Benchmark-Cases. Absolute Messwerte sind Release-Gate-Targets; keine Messung ohne laufenden Benchmark wird behauptet.
 
-| N Points | k | FAISS GPU | CPU BruteForce | Speedup |
-|---|---|---|---|---|
-| 100K | 10 | 3.2 ms | 41.8 ms | 13.1× |
-| 500K | 10 | 18.4 ms | 412.3 ms | 22.4× |
-| 1M | 20 | 47.1 ms | 1,102.6 ms | 23.4× |
-| 1M | 100 | 89.3 ms | 5,482.1 ms | 61.4× |
+### A. FAISS-GPU k-NN — API- und Implementierungsbeleg
 
-*Platform: NVIDIA RTX 4090 (24 GB VRAM), AMD Ryzen 9 7950X (CPU baseline)*
+**Quelle**: `include/geo/geo_faiss_knn.h`
 
-GPU advantage increases with larger k, confirming that the FAISS GPU index benefits from batching k candidates together in a single CUDA kernel launch.
+Implementierungsdetails (belegt durch Header-Kommentar):
+```
+* Points are projected to the unit sphere in ECEF:
+*   x = cos(lat) × cos(lon)
+*   y = cos(lat) × sin(lon)
+*   z = sin(lat)
+* Euclidean (chord) distance in this space approximates geodesic distance
+* with < 0.5 % error for distances ≤ 5000 km
+```
 
-### B. GPU DBSCAN vs. CPU DBSCAN
+GPU-CPU-Fallback (belegt durch Header):
+```
+* When CUDA is not available the CPU FAISS FLAT_L2 index is used instead,
+* maintaining API compatibility. The `getBackendName()` method reports
+* whether GPU or CPU execution is active.
+```
 
-| N Points | ε (m) | min_samples | GPU Time | CPU Time | Speedup |
-|---|---|---|---|---|---|
-| 5K | 500 | 3 | 24 ms | 186 ms | 7.8× |
-| 15K | 500 | 3 | 98 ms | 1,841 ms | 18.8× |
-| 30K | 500 | 3 | 421 ms | 7,203 ms | 17.1× |
-| 32K (limit) | 500 | 3 | 489 ms | 7,894 ms | 16.1× |
-| 33K (fallback) | 500 | 3 | 8,120 ms (CPU) | — | Circuit breaker |
+Öffentliche API:
+```cpp
+bool build(const std::vector<GeometryInfo>& dataset);
+std::vector<GeoKnnResult> knnSearch(const GeometryInfo& query, std::size_t k) const;
+std::vector<GeoKnnResult> radiusSearch(const GeometryInfo& query, double radius_m,
+                                        std::size_t max_results = 0) const;
+const char* getBackendName() const noexcept;  // "faiss_gpu" | "faiss_cpu"
+```
 
-At n = 32,769 the system automatically falls back to CPU DBSCAN after detecting VRAM pressure.
+### B. GPU DBSCAN — Clustering-Implementierungsbeleg
 
-### C. GPU ST_BUFFER Throughput
+**Quelle**: `include/geo/geo_clustering.h`
 
-| Batch Size | GPU Throughput | CPU Throughput | Speedup |
-|---|---|---|---|
-| 10K points | 780K pts/s | 62K pts/s | 12.6× |
-| 100K points | 1.18M pts/s | 64K pts/s | 18.4× |
-| 500K points | 1.24M pts/s | 65K pts/s | 19.1× |
-| 1M points | 1.22M pts/s | 63K pts/s | 19.4× |
+Dokumentierte Konstanten:
+```cpp
+static constexpr int kDbscanNoise = -1;        // Noise point label
+static constexpr int kDbscanUnclassified = -2; // Unclassified point label
+```
 
-GPU throughput saturates at ~1.2M pts/s (memory bandwidth bound); CPU throughput is stable at ~64K pts/s (single-threaded).
+`GeoClusterResult`-Struktur (belegt):
+```cpp
+struct GeoClusterResult {
+    std::vector<int> labels;  // cluster_id (≥0) or kDbscanNoise
+    int num_clusters{0};       // excludes DBSCAN noise
+};
+```
 
-### D. ECEF Projection Error vs. Geodesic Distance
+### C. Dokumentierte Performance-Targets (Geo-Modul)
 
-| True Distance (km) | Chord Error | Relative Error |
-|---|---|---|
-| 100 | 0.21 m | 0.00021% |
-| 500 | 5.24 m | 0.00105% |
-| 1000 | 20.9 m | 0.00209% |
-| 2500 | 130 m | 0.0052% |
-| 5000 | 521 m | 0.0104% (< 0.02%) |
-| 10000 | 2,083 m | 0.0208% |
+**Quelle**: `src/geo/PERFORMANCE_EXPECTATIONS.md`
 
-Error remains below 0.5% for distances up to 10,000 km; for typical urban/regional spatial queries (< 500 km), error is negligible.
+| Ziel-ID | Dokumentiertes Target | Benchmark-Case |
+|---------|----------------------|----------------|
+| GEO-1 | ≥ 20 M Haversine-Distanzen/s | `BM_GeoDistance_Haversine` |
+| GEO-2 | ≥ 30 M R-Tree Contains-Queries/s | `BM_RTree_Contains` |
+| GEO-3 | ≤ 5 ms (R-Tree Intersects) | `BM_RTree_Intersects` |
+| GEO-4 | ≤ 3 s (R-Tree Bulk Load) | `BM_RTree_BulkLoad` |
+| GEO-5 | ≤ 200 ms/Core (ST_Buffer CPU) | `BM_GeoCPUExact_StBuffer` |
+| GEO-6 | ≤ 500 ms (Spatial Join erste 1000) | `BM_SpatialJoin_First1000` |
+| GEO-8 | ≤ 50 ms (GPU Batch Intersects) | `BM_GeoGPU_BatchIntersects` |
+| GEO-9 | > 100× GPU vs. CPU Speedup-Target | n/a (aspirational) |
 
-### E. Temporal-Spatial Fusion Query Latency
+### D. ECEF-Projektionsfehler — Mathematisch belegt
 
-| Query Type | N = 10K Entities | N = 1M Entities |
-|---|---|---|
-| `LocationAtTime` (point) | 1.2 ms | 4.8 ms |
-| `LocationAtTime` + `Within(polygon)` | 3.1 ms | 12.4 ms |
-| `LocationAtTime` + `DWithin(r)` + k-NN | 18.2 ms | 52.3 ms |
+**Quelle**: `include/geo/geo_faiss_knn.h` (Header-Kommentar, zitiert):
+
+Chord-Distanz-Formel: `chord_dist = 2R × arcsin(chord / 2)` → Fehler < 0.5% für d ≤ 5000 km (belegt durch Header-Kommentar, mathematisch ableitbar).
+
+### E. R-Tree Cursor — Stale-Detection-Beleg
+
+**Quelle**: `include/geo/rtree_cursor.h`
+
+Dokumentiertes Verhalten: Jeder Cursor erfasst einen `version_counter`-Snapshot bei `open()`; bei Modifikation des R-Trees während eines offenen Cursors gibt `next()` `CursorError::STALE` zurück.
+
+### F. Temporal-Spatial Query Fusion — Implementierungsbeleg
+
+**Quelle**: `include/geo/temporal_spatial_query_builder.h`, `include/geo/temporal_spatial_query.h`
+
+Query-Builder-Interface und `LocationAtTime`-Query-Semantik belegt durch Header-Deklarationen.
 
 ---
 
