@@ -298,7 +298,7 @@ RedisRateLimiterBackend::~RedisRateLimiterBackend() = default;
 int64_t RedisRateLimiterBackend::increment(const std::string& /*key*/,
                                             uint32_t /*window_seconds*/)
 {
-    return IRateLimiterBackend::kBackendUnavailable; // fail-closed: exceed limit on every call
+    return IRateLimiterBackend::kBackendUnavailable; // fail-closed: return sentinel; callers must treat this as a rate-limit breach
 }
 
 int64_t RedisRateLimiterBackend::getCount(const std::string& /*key*/,

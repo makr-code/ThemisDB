@@ -260,11 +260,11 @@ std::optional<std::string> InputValidator::validateJsonStub(
     if (!schema.has_value()) {
         // Fail-closed: reject the request.  Warn once per unique schema_name to
         // avoid log spam when schemas are intentionally not deployed in an env.
-        // Thread-safety: C++11 guarantees that the initialization of a block-scope
-        // static variable is performed exactly once, even under concurrent access
-        // (C++11 §6.7[stmt.dcl]p4, "magic statics").  The mutex then serializes all
-        // subsequent accesses to s_warned_schemas.  emplace() combines lookup and
-        // insert atomically under the lock.
+        // Thread-safety: C++17 §9.7[stmt.dcl]p4 (formerly C++11 §6.7[stmt.dcl]p4)
+        // guarantees that the initialization of a block-scope static variable is
+        // performed exactly once, even under concurrent access ("magic statics").
+        // The mutex then serializes all subsequent accesses to s_warned_schemas.
+        // emplace() combines lookup and insert atomically under the lock.
         {
             static std::mutex s_warned_mutex;
             static std::unordered_set<std::string> s_warned_schemas;

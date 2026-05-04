@@ -360,6 +360,8 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
     // absolute paths, null bytes).  RFC 5280 caps at 20 octets (40 hex chars);
     // allow up to 80 to accommodate non-conformant enterprise CAs.
     if (!std::regex_match(request.cert_serial, certSerialPattern())) {
+        THEMIS_WARN("verifySignature: rejected invalid cert_serial (path-traversal guard): '{}'",
+                    request.cert_serial);
         return false;
     }
 
