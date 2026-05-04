@@ -338,9 +338,11 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
     }
 
     // Sanitize cert_serial: only allow hexadecimal characters (certificate serial
-    // numbers are hex strings).  Reject anything that could be used to escape the
-    // trusted_certs_dir via path traversal (e.g. "../", absolute paths, null bytes).
-    static const std::regex kSerialPattern("^[0-9A-Fa-f]{1,64}$");
+    // numbers are hex strings per RFC 5280 §4.1.2.2).  Reject anything that could
+    // be used to escape the trusted_certs_dir via path traversal (e.g. "../",
+    // absolute paths, null bytes).  RFC 5280 caps at 20 octets (40 hex chars);
+    // allow up to 80 to accommodate non-conformant enterprise CAs.
+    static const std::regex kSerialPattern("^[0-9A-Fa-f]{1,80}$");
     if (!std::regex_match(request.cert_serial, kSerialPattern)) {
         return false;
     }
@@ -349,15 +351,20 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
     namespace fs = std::filesystem;
     fs::path cert_path = fs::path(config_.trusted_certs_dir) / (request.cert_serial + ".pem");
 
-    // Verify the resolved path is actually inside trusted_certs_dir (defence-in-depth).
+    // Verify the resolved certificate path is actually inside trusted_certs_dir
+    // (defence-in-depth).  Compare parent_path() rather than doing string-prefix
+    // matching, which can be fooled by directory names that share a prefix
+    // (e.g. /trusted/certs vs /trusted/certs_evil).
     auto canonical_dir  = fs::weakly_canonical(fs::path(config_.trusted_certs_dir));
     auto canonical_cert = fs::weakly_canonical(cert_path);
-    if (canonical_cert.string().find(canonical_dir.string()) != 0) {
+    if (canonical_cert.parent_path() != canonical_dir) {
         return false;
     }
 
     std::ifstream cert_file(cert_path);
     if (!cert_file.good()) {
+        spdlog::warn("SignedRequestVerifier: certificate file not found or unreadable: {}",
+                     cert_path.string());
         return false;
     }
     std::string cert_pem((std::istreambuf_iterator<char>(cert_file)),
@@ -374,11 +381,15 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
 
     // Step 3: Verify the certificate against the CA (if ca_cert_path is configured).
     // Note: if ca_cert_path is empty, chain validation is skipped.  Production
-    // deployments MUST configure ca_cert_path; log a warning when it is absent.
+    // deployments MUST configure ca_cert_path; warn once per process when absent.
     if (config_.ca_cert_path.empty()) {
-        spdlog::warn("SignedRequestVerifier: ca_cert_path not configured — "
-                     "certificate chain validation is SKIPPED.  Set Config::ca_cert_path "
-                     "to the CA certificate to enable full chain validation.");
+        static std::once_flag s_ca_warn;
+        std::call_once(s_ca_warn, [] {
+            spdlog::warn("SignedRequestVerifier: ca_cert_path not configured — "
+                         "certificate chain validation is SKIPPED.  Set Config::ca_cert_path "
+                         "to the CA certificate to enable full chain validation. "
+                         "(This warning is printed once per process.)");
+        });
     } else if (!PKIShardCertificate::verifyCertificate(cert_path.string(), config_.ca_cert_path)) {
         return false;
     }
