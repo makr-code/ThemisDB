@@ -1515,9 +1515,24 @@ HttpServer::HttpServer(
     rate_config.per_ip_enabled = true;
     rate_config.per_user_enabled = true;
     
-    // Whitelist localhost for development
-    rate_config.whitelist_ips = {"127.0.0.1", "::1"};
-    
+    // HS-8: Do NOT whitelist localhost by default — an SSRF vulnerability could route
+    // requests through loopback to bypass rate limiting. Populate the whitelist only
+    // from the THEMIS_RATE_LIMIT_WHITELIST env var (comma-separated IPs).
+    if (const char* wl_env = std::getenv("THEMIS_RATE_LIMIT_WHITELIST")) {
+        std::istringstream wl_stream{wl_env};
+        std::string wl_ip;
+        while (std::getline(wl_stream, wl_ip, ',')) {
+            if (!wl_ip.empty()) rate_config.whitelist_ips.push_back(wl_ip);
+        }
+        // Warn when localhost is explicitly whitelisted — SSRF risk.
+        for (const auto& ip : rate_config.whitelist_ips) {
+            if (ip == "127.0.0.1" || ip == "::1") {
+                THEMIS_WARN("[SECURITY] Rate-limit whitelist includes loopback address '{}'. "
+                            "This exempts requests routed via SSRF from rate limiting (HS-8).", ip);
+            }
+        }
+    }
+
     // Load custom limits from environment
     if (auto limit_str = themis_get_env("THEMIS_RATE_LIMIT_PER_MINUTE")) {
         try {
@@ -1632,6 +1647,14 @@ HttpServer::HttpServer(
         THEMIS_INFO("CORS: allowed origins configured ({} entries)", cors_allowed_origins_.size());
     } else {
         THEMIS_INFO("CORS: no origins allowed by default (set THEMIS_CORS_ALLOW_ALL=1 for dev)");
+    }
+    // HS-9: Combining wildcard origin with allow-credentials is prohibited by the CORS spec
+    // and can confuse CDN/browser behaviour. Forcibly disable credentials in this case.
+    if (cors_allow_all_ && cors_allow_credentials_) {
+        THEMIS_WARN("[SECURITY] CORS: Access-Control-Allow-Origin: * combined with "
+                    "Access-Control-Allow-Credentials: true is prohibited by the CORS "
+                    "specification. Disabling allow-credentials to enforce safe CORS policy.");
+        cors_allow_credentials_ = false;
     }
 
     // Initialize Input Validator (schema dir from env or default config/schemas)
@@ -3527,10 +3550,17 @@ http::response<http::string_body> HttpServer::routeRequest(
     span.setAttribute("correlation.id", correlation_id);
 
     // Extract or generate request ID for tracing
+    // HS-5: Strip CR, LF, NUL from client-supplied header to prevent HTTP response splitting.
+    auto sanitize_header_value = [](std::string s) {
+        s.erase(std::remove_if(s.begin(), s.end(), [](char c) {
+            return c == '\r' || c == '\n' || c == '\0';
+        }), s.end());
+        return s;
+    };
     std::string request_id;
     auto req_id_it = req.find("X-Request-ID");
     if (req_id_it != req.end() && !req_id_it->value().empty()) {
-        request_id = std::string(req_id_it->value());
+        request_id = sanitize_header_value(std::string(req_id_it->value()));
     } else {
         // Generate a simple request ID from timestamp + counter
         request_id = std::to_string(
@@ -3762,6 +3792,10 @@ http::response<http::string_body> HttpServer::routeRequest(
         if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
 
         if (path_only.rfind("/api/v1/llm/", 0) == 0) {
+            // HS-4: LLM routes require auth — check before any payload parsing or dispatch.
+            if (auto auth_err = requireAccess(req, "llm", "llm", path_only)) {
+                return *auth_err;
+            }
             try {
                 auto& plugin_mgr = themis::llm::LLMPluginManager::instance();
 
@@ -4192,10 +4226,33 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::CapabilitiesGet:
             response = monitoring_api_->handleCapabilities(req);
             break;
-        case Route::Metrics:
+        case Route::Metrics: {
+            // HS-3: Restrict metrics to localhost or valid bearer token.
+            {
+                const std::string client_ip_str = extractClientIP(req);
+                const bool from_loopback = (client_ip_str == "127.0.0.1" || client_ip_str == "::1");
+                bool token_ok = false;
+                if (const char* tok_env = std::getenv("THEMIS_METRICS_TOKEN")) {
+                    const std::string expected_tok{tok_env};
+                    if (!expected_tok.empty()) {
+                        auto it = req.find(http::field::authorization);
+                        if (it != req.end()) {
+                            auto bearer = themis::AuthMiddleware::extractBearerToken(
+                                std::string_view(it->value().data(), it->value().size()));
+                            token_ok = (bearer && *bearer == expected_tok);
+                        }
+                    }
+                }
+                if (!from_loopback && !token_ok) {
+                    response = makeErrorResponse(http::status::forbidden,
+                        "Metrics endpoint requires local access or valid THEMIS_METRICS_TOKEN", req);
+                    break;
+                }
+            }
             // Delegate to MonitoringApiHandler for Prometheus metrics export
             response = monitoring_api_->handleMetrics(req);
             break;
+        }
         case Route::MetricsHtml:
             response = monitoring_api_->handleMetricsHtml(req);
             break;
@@ -5986,6 +6043,11 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         }
         case Route::GrpcWebPost: {
+            // HS-6: gRPC-Web proxy requires auth before proxying.
+            if (auto auth_err = requireAccess(req, "grpc", "grpc.proxy", path_only)) {
+                response = *auth_err;
+                break;
+            }
             // Extract gRPC method path from /grpc-web/<method>
             const std::string target_str{req.target()};
             const auto qpos = target_str.find('?');
@@ -6012,6 +6074,11 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::ServerlessFnDelete:
         case Route::ServerlessFnInvokePost:
         case Route::ServerlessFnVersionsGet: {
+            // HS-7: Serverless function invocation requires auth.
+            if (auto auth_err = requireAccess(req, "functions", "functions.invoke", path_only)) {
+                response = *auth_err;
+                break;
+            }
             // Extract function {id} from /api/v1/functions/{id}[/invoke|/versions]
             static constexpr std::string_view kFnPrefix{"/api/v1/functions/"};
             const std::string target_str{req.target()};

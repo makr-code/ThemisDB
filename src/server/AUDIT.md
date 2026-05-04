@@ -92,66 +92,65 @@ internally with test coverage.
 
 ### S1 — High
 
-#### HS-4 · LLM early-routing block bypasses auth (L3407–3741)
+> **All S1 findings (HS-3 through HS-9) fixed 2026-05-04.**
+
+#### ✅ HS-4 · LLM early-routing block bypasses auth (L3407–3741) — fixed 2026-05-04
 
 LLM endpoints under `/api/v1/llm/` are handled in a block before the main switch statement,
 before any auth middleware runs. `POST /api/v1/llm/models/load` — which triggers model file
-loading, VRAM allocation, and activates an AI model — is reachable without a token:
+loading, VRAM allocation, and activates an AI model — is reachable without a token.
 
-```cpp
-if (path_only.rfind("/api/v1/llm/", 0) == 0) {
-    auto& plugin_mgr = themis::llm::LLMPluginManager::instance();
-    if (path_only == "/api/v1/llm/models/load" && method == http::verb::post) {
-        payload = json::parse(req.body());  // no auth check before this
-```
+**Fix applied:** Added `requireAccess(req, "llm", "llm", path_only)` at the very top of the
+LLM routing block, before any payload parsing or handler dispatch.
 
-**Fix required:** Move the LLM early-routing block to after auth middleware, or add an
-explicit `requireBearerToken(req)` call at the top of the block.
-
-#### HS-3 · Prometheus `/metrics` unauthenticated (L3793)
+#### ✅ HS-3 · Prometheus `/metrics` unauthenticated (L3793) — fixed 2026-05-04
 
 No auth check before `monitoring_api_->handleMetrics(req)`. Exposes request counts, error
 rates, query patterns, entity counts, tenant activity, and connection state.
 
-**Fix required:** Restrict `/metrics` to localhost or an internal monitoring CIDR, or add
-token-based auth consistent with Prometheus's `bearer_token` scrape configuration.
+**Fix applied:** The `Route::Metrics` case now checks that the request originates from
+`127.0.0.1` / `::1` (via `extractClientIP`) or supplies a bearer token matching
+`THEMIS_METRICS_TOKEN`. All other requests receive 403.
 
-#### HS-5 · HTTP header injection via unsanitized `X-Request-ID` (L3178–3186)
+#### ✅ HS-5 · HTTP header injection via unsanitized `X-Request-ID` (L3178–3186) — fixed 2026-05-04
 
-Client-supplied `X-Request-ID` is reflected directly into response headers:
-```cpp
-auto req_id_it = req.find("X-Request-ID");
-if (req_id_it != req.end() && !req_id_it->value().empty()) {
-    request_id = std::string(req_id_it->value());
-}
-// ... later:
-res.set("X-Request-ID", request_id);
-```
-If the HTTP library does not strip CR/LF from header values on the write path, a `\r\n`-
-embedded value enables HTTP response splitting.
+Client-supplied `X-Request-ID` was reflected directly into response headers without
+sanitization, enabling HTTP response splitting via embedded CR/LF.
 
-**Fix required:** Strip or reject header values containing `\r`, `\n`, or `\0` before
-reflecting into the response.
+**Fix applied:** A `sanitize_header_value` lambda strips `\r`, `\n`, and `\0` from the
+value immediately after it is read from the request.
 
-#### HS-6 · gRPC-Web proxy unauthenticated at routing layer (L5365–5376)
+#### ✅ HS-6 · gRPC-Web proxy unauthenticated at routing layer (L5365–5376) — fixed 2026-05-04
 
-`POST /api/v1/grpc-web/*` proxies to `localhost:18765` without auth at the routing layer.
-Any client can make arbitrary gRPC method calls to the backend gRPC service.
+`POST /api/v1/grpc-web/*` proxied to `localhost:18765` without auth at the routing layer.
 
-#### HS-7 · Serverless function invocation unauthenticated at routing layer (L5378–5423)
+**Fix applied:** Added `requireAccess(req, "grpc", "grpc.proxy", path_only)` at the top of
+the `Route::GrpcWebPost` case before the proxy call.
 
-`POST /api/v1/functions/{id}/invoke` has no auth gate in the router.
+#### ✅ HS-7 · Serverless function invocation unauthenticated at routing layer (L5378–5423) — fixed 2026-05-04
 
-#### HS-8 · Localhost rate-limit whitelist amplifies SSRF (L1353–1354)
+`POST /api/v1/functions/{id}/invoke` had no auth gate in the router.
+
+**Fix applied:** Added `requireAccess(req, "functions", "functions.invoke", path_only)` at
+the top of the serverless function case block.
+
+#### ✅ HS-8 · Localhost rate-limit whitelist amplifies SSRF (L1353–1354) — fixed 2026-05-04
 
 `rate_config.whitelist_ips = {"127.0.0.1", "::1"}` — any SSRF vulnerability routing a
-request through the loopback interface bypasses rate limiting entirely.
+request through the loopback interface bypassed rate limiting entirely.
 
-#### HS-9 · CORS wildcard + credentials simultaneously configurable (L1413–1418)
+**Fix applied:** The default whitelist is now empty. IPs are only added when the operator
+sets `THEMIS_RATE_LIMIT_WHITELIST` (comma-separated). A `THEMIS_WARN` is emitted if a
+loopback address is explicitly listed.
 
-`cors_allow_all_` and `cors_allow_credentials_` can both be enabled simultaneously.
-`Access-Control-Allow-Origin: *` with `Access-Control-Allow-Credentials: true` is
-prohibited by the CORS specification and can confuse CDN edge nodes and custom clients.
+#### ✅ HS-9 · CORS wildcard + credentials simultaneously configurable (L1413–1418) — fixed 2026-05-04
+
+`cors_allow_all_` and `cors_allow_credentials_` could both be enabled simultaneously,
+violating the CORS specification.
+
+**Fix applied:** After both flags are read from environment variables, a guard resets
+`cors_allow_credentials_` to `false` whenever `cors_allow_all_` is also `true`, and emits a
+`THEMIS_WARN`.
 
 ---
 
