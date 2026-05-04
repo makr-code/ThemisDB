@@ -1725,6 +1725,19 @@ MLModelInstance* MLModelManager::selectInstance(const std::string& model_id) {
     
     auto& entry = it->second;
     
+    // STUB/SIMULATION NOTE (selectInstance — lower half of file, second definition):
+    // Purpose: Instance selection uses a simple least-active-requests scan as a
+    //          stand-in for proper weighted round-robin, latency-aware, or
+    //          locality-aware load balancing.
+    // Activation: Always active; no build flag.  This is the second definition of
+    //          selectInstance (first at line ~885) — they must remain in sync.
+    // Production Delta: The algorithm ignores GPU memory pressure, NUMA topology,
+    //          thermal throttling, and per-instance queue depth.  Under heterogeneous
+    //          instance configurations the least-loaded instance is not necessarily
+    //          the fastest.
+    // Removal Plan: Implement a pluggable LoadBalancingStrategy interface with
+    //          at least: ROUND_ROBIN, LEAST_ACTIVE, WEIGHTED_RANDOM policies.
+    //          See src/llm/FUTURE_ENHANCEMENTS.md §MLModelManagerLoadBalancing.
     // Simple round-robin selection
     // TODO: Implement more sophisticated load balancing strategies
     MLModelInstance* selected = nullptr;

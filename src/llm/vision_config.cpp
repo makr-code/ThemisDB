@@ -374,6 +374,17 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromFile(const std::string& conf
 }
 
 std::shared_ptr<VisionConfig> VisionConfig::loadFromJson(const nlohmann::json& config) {
+    // STUB/SIMULATION NOTE (VisionConfig::loadFromJson):
+    // Purpose: Satisfies the public API surface so callers can pass JSON configs
+    //          without an error at compile time. Actual JSON field parsing is not
+    //          yet implemented.
+    // Activation: Always; there is no build flag gate.  The function exists as a
+    //          forward-compatibility shim for the upcoming JSON config path.
+    // Production Delta: All JSON fields in `config` are silently ignored; the
+    //          returned VisionConfig uses default values only.  Vision API stability,
+    //          version, and model settings will NOT reflect the caller's JSON.
+    // Removal Plan: Implement field parsing when the vision module's config story
+    //          is finalized.  See src/llm/FUTURE_ENHANCEMENTS.md §VisionConfigJson.
     // TODO: Implement JSON loading if needed
     auto vision_config = std::shared_ptr<VisionConfig>(new VisionConfig());
     return vision_config;

@@ -95,6 +95,17 @@ static TimestampToken makeProductionError() {
     return tok;
 }
 
+// STUB/SIMULATION NOTE (TimestampAuthority::Impl — software-only stub):
+// Purpose: Provide an empty Impl class so that TimestampAuthority's pimpl
+//          pattern compiles when OpenSSL TSA is absent.  The real Impl
+//          (defined in the `#ifdef THEMIS_USE_OPENSSL_TSA` block below) holds
+//          a libcurl connection pool and OpenSSL context.
+// Activation: `THEMIS_USE_OPENSSL_TSA` not defined (same as the outer stub block).
+// Production Delta: Impl has no state.  All TimestampAuthority methods operate
+//          on a stateless object; caching, connection re-use, and async dispatch
+//          are absent.
+// Removal Plan: Compile with -DTHEMIS_USE_OPENSSL_TSA=ON; the real Impl replaces
+//          this empty class at link time.
 // Stub placeholder: Impl is stateless in the software (non-OpenSSL) path.
 // The real Impl with connection-pool state is defined below under
 // #ifdef THEMIS_USE_OPENSSL_TSA.
@@ -293,6 +304,10 @@ bool eIDASTimestampValidator::isQualifiedTSA(
     
     validation_errors_.clear();
     
+    // STUB/SIMULATION NOTE (isQualifiedTSA — supplement to the eIDASTimestampValidator
+    // class-level note above): Always returns false; cannot validate QTSP certificate
+    // chains without OpenSSL.  See the class-level note for activation conditions and
+    // removal plan.
     // Stub implementation - default to false for security
     // Without OpenSSL, we cannot properly validate certificates
     // In production builds with OpenSSL, proper validation is performed

@@ -1204,6 +1204,19 @@ bool ThemisDBAdapter::has_capability(Capability cap) const {
         case Capability::PREPARED_STATEMENTS:
             return true;
         case Capability::CONNECTION_POOLING:
+            // STUB/SIMULATION NOTE (ThemisDBAdapter CONNECTION_POOLING capability):
+            // Purpose: Return false for CONNECTION_POOLING so callers that inspect
+            //          adapter capabilities do not attempt to use a connection pool
+            //          API that does not yet exist in this adapter.
+            // Activation: Always; no build flag.  The ThemisDB native adapter performs
+            //          direct calls and relies on the server's internal connection
+            //          management instead of an explicit pool.
+            // Production Delta: No connection pool → higher per-request overhead for
+            //          clients that spin up many short-lived connections.  Throughput
+            //          under high concurrency will be lower than pool-enabled adapters.
+            // Removal Plan: Implement a ConnectionPool class in the chimera adapter and
+            //          flip this capability to true.  Target Q3 2026.
+            //          See src/chimera/ROADMAP.md and FUTURE_ENHANCEMENTS.md §ConnectionPool.
             // Not yet implemented; no dedicated pooling API exists in this adapter.
             // Tracked: src/chimera/ROADMAP.md — Target Q3 2026.
             return false;

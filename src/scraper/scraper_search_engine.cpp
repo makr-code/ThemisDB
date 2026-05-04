@@ -126,6 +126,18 @@ std::string buildQueryString(
                                                   const std::string& name,
                                                   const std::string& id,
                                                   const std::string& placeholder) {
+    // STUB/SIMULATION NOTE (isSearchInput placeholder heuristic):
+    // Purpose: HTML-form input-field classification uses string-matching heuristics
+    //          (name/id/placeholder keywords) as a stand-in for a trained classifier
+    //          or a browser-engine-level semantic signal.
+    // Activation: Always active (no build flag); the heuristic is the permanent fallback
+    //          for the text/type branches.  The keyword list is intentionally minimal.
+    // Production Delta: False-positive / false-negative rate on non-English or obfuscated
+    //          HTML forms is high.  A proper ML-based form-field detector is not yet
+    //          implemented.  See src/scraper/FUTURE_ENHANCEMENTS.md §FormFieldClassifier.
+    // Removal Plan: Future milestone — replace the placeholder/name/id keyword list with
+    //          a lightweight trained model when the scraper module reaches production
+    //          readiness (src/scraper/ROADMAP.md Phase 3).
     const std::string tl = toLower(type);
     if (tl == "search") return true;
     if (tl != "text" && tl != "") return false;
