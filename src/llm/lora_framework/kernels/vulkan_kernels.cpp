@@ -233,9 +233,9 @@ void launch_matmul_shader(
     VulkanComputePipeline* pipeline = get_pipeline("matmul", sizeof(PushConstants));
     
     // Create buffers
-    size_t size_A = M * K * sizeof(float);
-    size_t size_B = K * N * sizeof(float);
-    size_t size_C = M * N * sizeof(float);
+    size_t size_A = static_cast<size_t>(M) * static_cast<size_t>(K) * sizeof(float);
+    size_t size_B = static_cast<size_t>(K) * static_cast<size_t>(N) * sizeof(float);
+    size_t size_C = static_cast<size_t>(M) * static_cast<size_t>(N) * sizeof(float);
     
     VulkanBuffer buf_A(g_vulkan_state.context.get(), size_A, VulkanBuffer::Usage::DeviceLocal);
     VulkanBuffer buf_B(g_vulkan_state.context.get(), size_B, VulkanBuffer::Usage::DeviceLocal);
