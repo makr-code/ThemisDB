@@ -269,16 +269,15 @@ bool RedisRateLimiterBackend::reconnect()
 
 // STUB/SIMULATION NOTE:
 // Purpose: Allow ThemisDB to be built without hiredis.  All Redis-backed
-//   distributed rate-limiting operations become no-ops: `increment()` returns 0
-//   (fail-open — every request is allowed), `getCount()` returns 0, `reset()`
-//   is a no-op, and `isConnected()` / `reconnect()` always return false.
+//   distributed rate-limiting operations are now fail-CLOSED: `increment()`
+//   returns INT64_MAX so that every call appears to exceed the rate limit,
+//   `getCount()` returns INT64_MAX, `reset()` is a no-op, and
+//   `isConnected()` / `reconnect()` always return false.
 // Activation: `THEMIS_ENABLE_REDIS` is not defined at compile time (default for
 //   builds without the 'redis' vcpkg feature or without libhiredis).
-// Production Delta: Distributed rate limiting is completely disabled.  Every
-//   request is allowed through regardless of per-key call volume.  This creates
-//   a security gap: DoS/rate-limit bypass is possible when deployed in this
-//   build configuration.  `InMemoryRateLimiterBackend` can be used as a
-//   single-node in-process fallback, but it does not share state across
+// Production Delta: Distributed rate limiting is disabled and all requests are
+//   REJECTED (fail-closed) to prevent DoS/bypass.  Use InMemoryRateLimiterBackend
+//   for a single-node in-process fallback that does not share state across
 //   ThemisDB replicas.
 // Removal Plan: Install libhiredis (`apt install libhiredis-dev` or enable the
 //   'redis' vcpkg feature) and set `-DTHEMIS_ENABLE_REDIS=1` in CMake.
@@ -288,9 +287,10 @@ RedisRateLimiterBackend::RedisRateLimiterBackend(const Config& config)
     : config_(config)
 {
     THEMIS_WARN("RedisRateLimiterBackend: built without hiredis (THEMIS_ENABLE_REDIS not "
-                "defined).  Distributed rate limiting is unavailable; all requests are "
-                "allowed through this backend.  Enable the 'redis' vcpkg feature to "
-                "activate distributed rate limiting.");
+                "defined).  Distributed rate limiting is unavailable; all requests will be "
+                "REJECTED (fail-closed).  Use InMemoryRateLimiterBackend for single-node "
+                "rate limiting, or enable the 'redis' vcpkg feature to activate distributed "
+                "rate limiting.");
 }
 
 RedisRateLimiterBackend::~RedisRateLimiterBackend() = default;
@@ -298,13 +298,13 @@ RedisRateLimiterBackend::~RedisRateLimiterBackend() = default;
 int64_t RedisRateLimiterBackend::increment(const std::string& /*key*/,
                                             uint32_t /*window_seconds*/)
 {
-    return 0; // fail-open
+    return INT64_MAX; // fail-closed: report maximum count so callers reject the request
 }
 
 int64_t RedisRateLimiterBackend::getCount(const std::string& /*key*/,
                                            uint32_t /*window_seconds*/) const
 {
-    return 0;
+    return INT64_MAX; // fail-closed: appear at maximum rate
 }
 
 void RedisRateLimiterBackend::reset(const std::string& /*key*/)

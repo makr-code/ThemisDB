@@ -28,14 +28,16 @@
 #include <chrono>
 #include <random>
 #include <algorithm>
+#include <fstream>
 
-// OpenSSL for signing
+// OpenSSL for signing / verification
 #include <openssl/pem.h>
 #include <openssl/rsa.h>
 #include <openssl/sha.h>
 #include <openssl/evp.h>
 #include <openssl/bio.h>
 #include <openssl/buffer.h>
+#include <openssl/x509.h>
 
 namespace themis::sharding {
 
@@ -319,36 +321,65 @@ bool SignedRequestVerifier::verifyNonce(uint64_t nonce, [[maybe_unused]] uint64_
 }
 
 bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
-    // For Phase 2, we provide the structure
-    // Full implementation would:
-    // 1. Load certificate by serial number
-    // 2. Extract public key
-    // 3. Verify signature against canonical string
-    // 4. Check certificate is not revoked (CRL)
-    
-    // Decode signature
+    // Decode base64 signature; reject if empty or malformed
     auto signature_bytes = base64DecodeBytes(request.signature_b64);
-    if (!signature_bytes) {
+    if (!signature_bytes || signature_bytes->empty()) {
         return false;
     }
-    
-    // Get canonical string
-    std::string canonical = request.getCanonicalString();
-    
-    // STUB/SIMULATION NOTE:
-    // Purpose: Satisfies the verifySignature() API while the real RSA/ECDSA
-    //          signature verification against the shard public-key certificate
-    //          is not yet implemented.
-    // Activation: Always — no public-key crypto call is made.
-    // Production Delta: Any `SignedRequest` with a non-empty (but invalid/forged)
-    //                   `signature_b64` field will pass verification.  An attacker
-    //                   that intercepts a request can modify the body and the
-    //                   signature field trivially.
-    // Removal Plan: Parse the certificate from `request.sender_cert_pem`; extract
-    //               the public key; compute SHA-256 of `getCanonicalString()`; call
-    //               EVP_DigestVerify to validate `signature_b64`.  See
-    //               src/sharding/FUTURE_ENHANCEMENTS.md §Signed Request Crypto Verification.
-    return !request.signature_b64.empty();
+
+    // Step 1: Locate the peer certificate by serial number.
+    // Certs are stored as <trusted_certs_dir>/<cert_serial>.pem.
+    if (config_.trusted_certs_dir.empty()) {
+        // Cannot verify without a cert directory; reject the request.
+        return false;
+    }
+    std::string cert_path = config_.trusted_certs_dir;
+    if (cert_path.back() != '/' && cert_path.back() != '\\') cert_path += '/';
+    cert_path += request.cert_serial + ".pem";
+
+    std::ifstream cert_file(cert_path);
+    if (!cert_file.good()) {
+        return false;
+    }
+    std::string cert_pem((std::istreambuf_iterator<char>(cert_file)),
+                          std::istreambuf_iterator<char>());
+    if (cert_pem.empty()) {
+        return false;
+    }
+
+    // Step 2: Parse the certificate and extract the public key.
+    auto bio = utils::make_bio_mem_buf(cert_pem.c_str(), static_cast<int>(cert_pem.size()));
+    if (!bio) return false;
+    auto cert = utils::read_x509_from_bio(bio.get());
+    if (!cert) return false;
+
+    // Step 3: Verify the certificate against the CA (if ca_cert_path is configured).
+    if (!config_.ca_cert_path.empty() &&
+        !PKIShardCertificate::verifyCertificate(cert_path, config_.ca_cert_path)) {
+        return false;
+    }
+
+    // Step 4: Check Certificate Revocation List if configured.
+    if (!config_.crl_path.empty() &&
+        PKIShardCertificate::isRevoked(request.cert_serial, config_.crl_path)) {
+        return false;
+    }
+
+    // Step 5: Extract public key from the parsed certificate.
+    auto pubkey = utils::EVPKeyPtr(X509_get_pubkey(cert.get()));
+    if (!pubkey) return false;
+
+    // Step 6: Verify RSA/ECDSA-SHA-256 signature against the canonical request string.
+    const std::string canonical = request.getCanonicalString();
+    auto md_ctx = utils::make_evp_md_ctx();
+    if (!md_ctx) return false;
+    if (EVP_DigestVerifyInit(md_ctx.get(), nullptr, EVP_sha256(), nullptr, pubkey.get()) != 1) {
+        return false;
+    }
+    if (EVP_DigestVerifyUpdate(md_ctx.get(), canonical.c_str(), canonical.size()) != 1) {
+        return false;
+    }
+    return EVP_DigestVerifyFinal(md_ctx.get(), signature_bytes->data(), signature_bytes->size()) == 1;
 }
 
 uint64_t SignedRequestVerifier::getCurrentTimestampMs() const {

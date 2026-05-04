@@ -142,7 +142,11 @@ public:
      * Configuration for request verification
      */
     struct Config {
-        std::string ca_cert_path;   // Root CA certificate path
+        std::string ca_cert_path;       // Root CA certificate path (used to validate peer certs)
+        std::string trusted_certs_dir;  // Directory of trusted shard certificates (PEM files),
+                                        // named <cert_serial>.pem.  Required for signature
+                                        // verification; verifySignature() returns false when empty.
+        std::string crl_path;           // Optional: path to CRL file (PEM) for revocation checks
         uint64_t max_time_skew_ms = 60000;  // Max timestamp deviation (60s default)
         size_t max_nonce_cache = 10000;     // Max nonces to track
         uint64_t nonce_expiry_ms = 300000;  // Nonce expiry time (5 min default)
