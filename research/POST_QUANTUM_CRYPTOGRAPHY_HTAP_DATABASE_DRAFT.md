@@ -150,27 +150,41 @@ EncryptedField FieldEncryption::encryptField(
 
 ### F. FIPS 140-3 Crypto Mode
 
-`FipsCryptoMode` enforces approved-algorithm-only operation:
+`FipsCryptoMode` enforces approved-algorithm-only operation [SRC: `include/security/fips_crypto_mode.h`]:
 
 ```cpp
 class FipsCryptoMode {  // Singleton
 public:
     void enable(const std::string& openssl_provider_path);
+    void disable();
     bool isEnabled() const noexcept;
-    void assertAlgorithmApproved(const std::string& algorithm) const;
+    bool isAvailable() const noexcept; // Probe without activating
+    void validateAlgorithm(const std::string& algorithm) const;
     // Throws FipsPolicyViolation if algorithm not in approved set
+    void runSelfTests(); // Calls OSSL_PROVIDER_self_test()
+    void zeroize(void* ptr, std::size_t len); // Calls OPENSSL_cleanse()
 };
 ```
 
-**FIPS 140-3 approved set** (as configured in ThemisDB):
-- Symmetric: AES-128-GCM, AES-256-GCM, AES-128-CBC, AES-256-CBC
-- Hash: SHA-256, SHA-384, SHA-512, SHA3-256, SHA3-512
-- Asymmetric (classical): RSA-3072+, ECDSA-P384, ECDSA-P521
-- Asymmetric (PQC): Kyber-1024, Dilithium-5
-- MAC: HMAC-SHA-256, HMAC-SHA-512
+**FIPS 140-3 approved algorithm set** (verbatim from `include/security/fips_crypto_mode.h` header comment):
 
-**Rejected algorithms** (throw `FipsPolicyViolation`):
-- MD5, SHA-1, DES, 3DES, RC4, RSA-1024, RSA-2048, ECDSA-P256
+```
+Symmetric:  AES-128/192/256-CBC, AES-128/192/256-CTR, AES-128/192/256-GCM,
+            AES-128/192/256-CCM, AES-128/192/256-XTS, AES-128/192/256-KW
+Hash:       SHA-256, SHA-384, SHA-512, SHA-224, SHA-512/224, SHA-512/256,
+            SHA3-256, SHA3-384, SHA3-512
+MAC:        HMAC-SHA-256, HMAC-SHA-384, HMAC-SHA-512, HMAC-SHA-224,
+            CMAC-AES-128, CMAC-AES-256
+Asymmetric: RSA-2048, RSA-3072, RSA-4096, ECDSA-P256, ECDSA-P384,
+            ECDSA-P521, ECDH-P256, ECDH-P384, ECDH-P521,
+            DH-2048, DH-3072, DH-4096
+KDF:        PBKDF2, HKDF, SP800-108-CTR, SP800-108-FEEDBACK, SP800-108-PIPELINE
+DRBG:       CTR_DRBG(AES-256), HASH_DRBG(SHA-512), HMAC_DRBG(SHA-512)
+```
+
+**Blocked algorithms** (throw `FipsPolicyViolation`): MD5, SHA-1 (new signatures), RC4, DES, 3DES, Blowfish, IDEA, CAST5, ChaCha20-Poly1305 [SRC: `include/security/fips_crypto_mode.h`].
+
+> **Note**: The paper's earlier draft erroneously listed RSA-2048 and ECDSA-P256 as blocked. The source code (`include/security/fips_crypto_mode.h`) explicitly approves RSA-2048/3072/4096 and ECDSA P256/P384/P521 — FIPS 140-3 does not remove these classical algorithms.
 
 FIPS mode requires a FIPS-validated OpenSSL 3.x provider; graceful degradation logs a warning and disables FIPS enforcement if the provider is unavailable (non-FIPS-validated builds).
 
@@ -202,7 +216,30 @@ The complete ThemisDB security stack provides six layers:
     (`include/security/post_quantum_crypto.h`, `src/security/post_quantum_crypto.cpp`)
 ```
 
-**Quelle**: `include/security/` (`ls` bestätigt Existenz von `post_quantum_crypto.h` — nicht in initialer Auflistung, aber ROADMAP belegt Datei explizit)
+**Quelle**: `include/security/post_quantum_crypto.h` (verbatim, Quality Score: 100/100):
+
+```cpp
+/// Available security levels for Kyber KEM
+enum class SecurityLevel {
+    KYBER_512  = 512,  ///< 128-bit quantum security (NIST Level 1)
+    KYBER_768  = 768,  ///< 192-bit quantum security (NIST Level 3)
+    KYBER_1024 = 1024, ///< 256-bit quantum security (NIST Level 5) — recommended
+};
+```
+
+**SIMULATION NOTE** (verbatim from `include/security/post_quantum_crypto.h`):
+> "This implementation uses an OpenSSL-backed software simulation (X25519 ECDH + HKDF) that is API-compatible with the full liboqs backend. Once liboqs is added as a vcpkg dependency the backend will be transparently replaced while the public interface remains stable. The simulation is labeled KYBER_SIM in diagnostic output."
+
+This is a critical transparency annotation: the current implementation is a simulation, NOT a liboqs/FIPS 203-compliant implementation. Production quantum security requires the full liboqs backend. The < 0.1ms / > 10,000 ops/s performance claims in the header refer to the X25519 ECDH simulation path, not the full Kyber lattice-based implementation [SRC: `include/security/post_quantum_crypto.h`].
+
+**DilithiumSigner::SecurityLevel enum** [SRC: `include/security/post_quantum_crypto.h`]:
+```cpp
+enum class SecurityLevel {
+    DILITHIUM_2 = 2, ///< 128-bit quantum security (NIST Level 2)
+    DILITHIUM_3 = 3, ///< 192-bit quantum security (NIST Level 3)
+    DILITHIUM_5 = 5, ///< 256-bit quantum security (NIST Level 5) — recommended
+};
+```
 
 Performance-Benchmarks implementiert (`src/security/ROADMAP.md`):
 > "Post-quantum: Kyber-1024 key-gen/encapsulate/decapsulate, Dilithium-5 sign/verify"
@@ -216,6 +253,49 @@ Performance-Benchmarks implementiert (`src/security/ROADMAP.md`):
 [x] Hardware Security Module (HSM) direct PKCS#11 integration
 [x] PKCS#11 C++ wrapper interface (`include/security/pkcs11_wrapper.h`, Issue: #3252)
     - RAII Pkcs11Library (load/unload dynamic library)
+```
+
+**HSMConfig struct** (verbatim from `include/security/hsm_provider.h`, Quality Score: 100/100):
+
+```cpp
+struct HSMConfig {
+    std::string library_path;           ///< Path to PKCS#11 shared library (.so / .dll)
+    uint32_t    slot_id{0};             ///< PKCS#11 slot index to use
+    std::string pin;                    ///< HSM user PIN
+    std::string token_label;            ///< Token label for logging / selection
+    std::string signature_algorithm{"RSA-SHA256"}; ///< Signing algorithm
+    std::string key_label{"themis-signing-key"};   ///< Key label on the HSM
+    bool        verbose{false};         ///< Enable verbose PKCS#11 diagnostics
+    uint32_t    session_pool_size{1};   ///< Session pool size (concurrent operations)
+};
+```
+
+**HSMSignatureResult struct** (verbatim from `include/security/hsm_provider.h`):
+
+```cpp
+struct HSMSignatureResult {
+    std::vector<uint8_t> signature;
+    std::string          algorithm;        ///< Algorithm used for signing
+    std::string          key_label;        ///< Key label on the HSM
+    int64_t              timestamp_utc_ms; ///< Timestamp of signature creation
+    bool                 success{false};
+    std::string          error_message;
+};
+```
+
+**HSMPerformanceStats struct** (verbatim from `include/security/hsm_provider.h`):
+
+```cpp
+struct HSMPerformanceStats {
+    uint64_t sign_count{0};             ///< Total sign operations
+    uint64_t verify_count{0};           ///< Total verify operations
+    uint64_t sign_errors{0};            ///< Failed sign operations
+    uint64_t verify_errors{0};          ///< Failed verify operations
+    uint64_t total_sign_time_us{0};     ///< Cumulative sign latency (microseconds)
+    uint64_t total_verify_time_us{0};   ///< Cumulative verify latency (microseconds)
+    uint32_t pool_size{0};              ///< Active session pool size
+    uint64_t pool_round_robin_hits{0};  ///< Sessions served via round-robin pool
+};
 ```
 
 `HsmKeyProviderAdapter`, `HsmProvider`, `HsmSecurityChecker`, `HsmSecurityMetrics` (alle Dateien via `ls` auf `include/security/` bestätigt).
@@ -233,7 +313,41 @@ Performance-Benchmarks implementiert (`src/security/ROADMAP.md`):
     - 20 tests in tests/security/test_fips_crypto_mode.cpp
 ```
 
-**Quelle**: `include/security/fips_crypto_mode.h` (bestätigt via `ls`)
+**FipsCryptoMode full API** (verbatim from `include/security/fips_crypto_mode.h`, Quality Score: 100/100):
+
+```cpp
+class FipsCryptoMode {
+public:
+    static FipsCryptoMode& instance();   ///< Singleton accessor
+    void enable(const std::string& openssl_provider_path = "");
+    void disable();
+    bool isEnabled() const noexcept;
+    bool isAvailable() const noexcept;   ///< Probe without activating
+    void validateAlgorithm(const std::string& algorithm) const;
+    ///< throws FipsPolicyViolation if not in approved set
+    void runSelfTests();   ///< Calls OSSL_PROVIDER_self_test()
+    static void zeroize(void* ptr, std::size_t len); ///< Calls OPENSSL_cleanse()
+};
+```
+
+**Complete FIPS 140-3 approved algorithm set** (verbatim from `include/security/fips_crypto_mode.h`):
+
+```
+Symmetric:   AES-128/192/256 in modes CBC, CTR, GCM, CCM, XTS, KW
+Hash:        SHA-256, SHA-384, SHA-512, SHA-224, SHA-512/224, SHA-512/256,
+             SHA3-256, SHA3-384, SHA3-512
+MAC:         HMAC-SHA-{224,256,384,512}, CMAC-AES-{128,256}
+Asymmetric:  RSA-{2048,3072,4096}, ECDSA-P{256,384,521},
+             ECDH-P{256,384,521}, DH-{2048,3072,4096}
+KDF:         PBKDF2, HKDF, SP800-108-CTR, SP800-108-FEEDBACK, SP800-108-PIPELINE
+DRBG:        CTR_DRBG(AES-256), HASH_DRBG(SHA-512), HMAC_DRBG(SHA-512)
+```
+
+**Blocked (throws `FipsPolicyViolation`)**: MD5, SHA-1 (new signatures), RC4, DES, 3DES, Blowfish, IDEA, CAST5, ChaCha20-Poly1305 [SRC: `include/security/fips_crypto_mode.h`].
+
+> **Correction to prior draft**: RSA-2048 and ECDSA-P256 are **approved** under FIPS 140-3 (not blocked). The source code is authoritative.
+
+`zeroize()` via `OPENSSL_cleanse()` ensures sensitive key material is overwritten before deallocation, resisting compiler optimization that might elide `memset()`.
 
 ### D. Dynamisches Data Masking — Beleg
 

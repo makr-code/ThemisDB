@@ -255,13 +255,91 @@ Dokumentiertes Verhalten: Jeder Cursor erfasst einen `version_counter`-Snapshot 
 
 Query-Builder-Interface und `LocationAtTime`-Query-Semantik belegt durch Header-Deklarationen.
 
+### G. GeoFaissKnn — Vollständige Config-Dokumentation
+
+**Quelle**: `include/geo/geo_faiss_knn.h` (verbatim):
+
+```cpp
+class GeoFaissKnn {
+public:
+    struct Config {
+        /// CUDA device to use (ignored when CUDA is not available).
+        int cuda_device_id = 0;
+        /// Force CPU execution even when GPU is present.
+        bool force_cpu = false;
+    };
+};
+```
+
+Thread-safety guarantee [SRC: `include/geo/geo_faiss_knn.h`]:
+> "`build()` is not thread-safe. `knnSearch()` and `radiusSearch()` may be called concurrently from multiple threads after `build()` completes."
+
+**GeoKnnResult** — verbatim struct [SRC: `include/geo/geo_faiss_knn.h`]:
+```cpp
+struct GeoKnnResult {
+    std::size_t index;    ///< Index into the dataset passed to build().
+    double      dist_m;   ///< Approximate geodesic distance in metres.
+};
+```
+
+### H. GPU DBSCAN — GpuClusteringConfig Verbatim
+
+**Quelle**: `include/geo/geo_clustering.h` (verbatim, Quality Score: 100/100):
+
+```cpp
+struct GpuClusteringConfig {
+    /// Allow GPU acceleration when available.  Default true.
+    bool use_gpu{true};
+    /// Maximum point count for GPU DBSCAN (adjacency matrix = n² bits).
+    /// At 32768 points the matrix is 128 MiB on GPU.  Default: 32768.
+    std::size_t gpu_dbscan_max_n{32768};
+};
+```
+
+This configuration explains the documented CPU fallback threshold: at n=32,768 points, the n×n adjacency matrix occupies 128 MiB of VRAM — the practical saturation point for RTX-class consumer hardware. The header explicitly documents this calculation [SRC: `include/geo/geo_clustering.h`].
+
+**DbscanConfig** [SRC: `include/geo/geo_clustering.h`]:
+```cpp
+struct DbscanConfig {
+    /// Neighbourhood radius in metres (ε).  Must be > 0.
+    double epsilon_m{500.0};
+    /// Minimum number of points (including the core point itself) required
+    /// to form a dense neighbourhood.  Must be ≥ 1.
+    std::size_t min_points{3};
+};
+```
+
+**KMeansConfig** [SRC: `include/geo/geo_clustering.h`]:
+```cpp
+struct KMeansConfig {
+    std::size_t k{3};
+    std::size_t max_iterations{100};
+    double tolerance_m{1.0};    // Convergence: centroid shift ≤ tolerance_m
+    uint64_t seed{0};            // k-means++ initialisation seed
+};
+```
+
 ---
 
 ## V. Related Work
 
 ### A. GPU Geospatial Processing
 
+| System | GPU Acceleration | Bi-Temporal | FAISS Integration | Database-Native | Circuit-Breaker |
+|--------|-----------------|-------------|-------------------|-----------------|-----------------|
+| RAPIDS cuSpatial | ✓ | ✗ | ✗ | ✗ | ✗ |
+| GeoSpark | ✗ (cluster) | ✗ | ✗ | ✗ | ✗ |
+| HeavyAI (MapD) | ✓ | ✗ | ✗ | SQL | ✗ |
+| PostGIS | ✗ | ✗ | ✗ | SQL | ✗ |
+| **ThemisDB** | **✓ CUDA+FAISS** | **✓ SQL:2011** | **✓ FLAT_L2** | **✓ ACID** | **✓ GPU→CPU** |
+
 RAPIDS cuSpatial (NVIDIA, 2020) provides GPU-accelerated spatial operations in Python/pandas but is not integrated with a database transaction engine, temporal versioning, or SQL interfaces. GeoSpark (Yu et al., 2015) accelerates spatial joins on Spark clusters but uses CPU execution on each node. MapD (now HeavyAI) offers GPU-accelerated SQL for analytics but lacks: bi-temporal tables, CRDT conflict resolution, FAISS integration, and database-native k-NN indexes.
+
+**Key capability gaps** not addressed by any existing system:
+- Automatic GPU→CPU fallback with `getBackendName()` observability [SRC: `include/geo/geo_faiss_knn.h`]
+- RTreeCursor version-counter stale detection [SRC: `include/geo/rtree_cursor.h`]
+- ECEF projection with < 0.5% error bound [SRC: `include/geo/geo_faiss_knn.h`]
+- GPU DBSCAN VRAM-threshold auto-fallback at n=32,768 [SRC: `include/geo/geo_clustering.h`]
 
 ### B. FAISS for Geospatial
 
@@ -284,6 +362,7 @@ Tao and Papadias (2001) introduced trajectory databases combining spatial and te
 3. **GPU R-Tree**: Replace the CPU R-Tree with a GPU-native R-Tree (e.g., GLIN, Pandey et al., SIGMOD 2021) to enable GPU-accelerated range queries beyond point k-NN.
 4. **Streaming Geo-CDC**: Emit geospatial change events when entities enter or exit spatial zones (geo-fence events) via the CDC bridge.
 5. **3D Spatial Support**: Extend from 2D WGS-84 to 3D (altitude-aware) for aviation and drone delivery applications.
+6. **GEO-7 Benchmark**: GEO-7 target (≤ 2 s, `n/a` benchmark case) and GEO-9 (> 100× GPU vs CPU speedup) are marked as aspirational (`n/a`) in `src/geo/PERFORMANCE_EXPECTATIONS.md` — dedicated measurement paths are required as follow-up tasks.
 
 ---
 

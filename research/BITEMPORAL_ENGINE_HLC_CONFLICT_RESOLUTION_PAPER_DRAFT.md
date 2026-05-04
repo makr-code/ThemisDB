@@ -270,13 +270,124 @@ PostgreSQL's MVCC retains old row versions in heap pages for snapshot isolation.
 
 A bank's risk system requires regulatory-grade audit logs. Using `SEQUENCED` semantics with `AS OF` queries, auditors can reconstruct the exact state of any account at any past point in system time, while `valid_time` tracks when the transaction actually occurred vs. when it was posted.
 
+**Source-backed API usage** [SRC: `include/temporal/bi_temporal.h`]:
+```cpp
+// Insert a ledger correction backdated to the effective date
+BiTemporalTable ledger("accounts", "node-1");
+TimeRange effective{parse("2024-01-01"), parse("2024-01-31")};
+ledger.insertWithValidTime("acct:99201", correction_data, effective);
+// Returns false if valid-time period overlaps with an existing current row
+
+// Retrieve what the system knew at audit checkpoint T_sys
+// about what was valid at time T_valid
+auto rows = ledger.queryBiTemporal("acct:99201",
+    sys_as_of   = T_sys,   // FOR SYSTEM_TIME AS OF T_sys
+    valid_at    = T_valid); // WHERE valid_time CONTAINS T_valid
+```
+
+The `insertWithValidTime()` method's non-overlap guarantee is contractually documented [SRC: `include/temporal/bi_temporal.h`]:
+> "Returns false and leaves the table unchanged when the valid-time period would overlap with an existing current row for the same key."
+
 ### B. Healthcare Record Correction
 
 Clinical systems routinely backdate lab results arriving after preliminary discharge. The bi-temporal model records both when the result was entered (`sys_time`) and when the lab measurement was actually taken (`valid_time`), allowing time-travel queries that distinguish "what the system knew at time T" from "what was true at time T."
 
+**Source-backed API usage** [SRC: `include/temporal/temporal_query_engine.h`]:
+```cpp
+// TemporalQuerySpec factories — convenience constructors from header:
+auto spec_as_of = TemporalQuerySpec::asOf(checkpoint_time);
+auto spec_range = TemporalQuerySpec::fromTo(admission_t, discharge_t);
+auto spec_all   = TemporalQuerySpec::containedIn(study_start, study_end);
+```
+
+The `TemporalQuerySpec` struct documents five SQL:2011 clause types [SRC: `include/temporal/temporal_query_engine.h`]:
+```cpp
+enum class TemporalClause {
+    AS_OF,        // FOR SYSTEM_TIME AS OF <timestamp>
+    FROM_TO,      // FOR SYSTEM_TIME FROM <start> TO <end>
+    BETWEEN_AND,  // FOR SYSTEM_TIME BETWEEN <start> AND <end>
+    CONTAINED_IN, // FOR SYSTEM_TIME CONTAINED IN PERIOD (<start>, <end>)
+    ALL           // FOR SYSTEM_TIME ALL
+};
+```
+
 ### C. Multi-Master IoT Data Ingestion
 
 Edge nodes ingest sensor readings independently and sync periodically. Concurrent writes to the same entity from two nodes are resolved via `CRDT_MERGE` (LWW-per-field), preserving all field values and achieving convergent state without a central coordinator.
+
+**Source-backed CRDT API** [SRC: `include/temporal/temporal_conflict_resolver.h`]:
+```cpp
+// TemporalConflictResolver with injected custom merge strategy
+TemporalConflictResolver resolver;
+resolver.setMergeResolver(std::make_unique<LWWFieldMergeResolver>());
+// Alternatively inject domain-specific logic:
+resolver.setMergeResolver(std::make_unique<CustomMergeResolver>(
+    [](const TemporalSnapshot& local, const TemporalSnapshot& remote) {
+        // Custom merge: caller-supplied function adapter
+        // Must satisfy: commutative ∧ idempotent ∧ deterministic
+        return resolveByBusinessRule(local, remote);
+    }
+));
+```
+
+The `TemporalSnapshot` struct carries full HLC metadata [SRC: `include/temporal/temporal_conflict_resolver.h`]:
+```cpp
+struct TemporalSnapshot {
+    std::string snapshot_id;
+    replication::HybridLogicalClock::Timestamp hlc;
+    std::string source_node_id;
+    nlohmann::json data;
+    std::string checksum;  // SHA-256
+};
+```
+
+**Conflict record logging** [SRC: `include/temporal/temporal_conflict_resolver.h`]:
+```cpp
+struct ConflictRecord {
+    std::string conflict_id;
+    std::string entity_id;
+    TemporalSnapshot local_version;
+    TemporalSnapshot remote_version;
+    ConflictPolicy resolution_policy;
+    std::string winner;  // "local" | "remote" | "merged"
+    std::chrono::system_clock::time_point detected_at;
+    bool resolved;
+};
+```
+
+### D. CDC-Driven Event Sourcing with Temporal Replay
+
+System-versioned tables emit `VersionedDocument` events for downstream event-sourcing systems via `TemporalCDC` [SRC: `include/temporal/temporal_cdc.h`]:
+
+```cpp
+// Subscribe to change events for a specific table
+TemporalCDC cdc;
+std::string sub_id = cdc.subscribeToChanges("employees",
+    [](const ChangeEvent& ev) {
+        // ev.type ∈ {INSERT, UPDATE, DELETE, VERSION_CREATED}
+        // ev.before_value / ev.after_value carry full payloads
+        // ev.transaction_time: system-time timestamp of the change
+    });
+
+// Replay historical changes for point-in-time audit
+auto events = cdc.replayChanges("employees", {t_start, t_end});
+// Ring-buffer: default 65536 events; overflow policy: OVERWRITE|DROP
+```
+
+The four `ChangeType` values and three overflow policies are documented [SRC: `include/temporal/temporal_cdc.h`]:
+```cpp
+enum class ChangeType {
+    INSERT,          // A new row was inserted (no before_value)
+    UPDATE,          // An existing row was updated
+    DELETE,          // A row was logically deleted (no after_value)
+    VERSION_CREATED  // A new historical version was closed (sys_end set)
+};
+enum class OverflowPolicy {
+    OVERWRITE, // Evict oldest event (default, never blocks)
+    BLOCK,     // Block until consumer frees space (reserved)
+    DROP       // Silently discard new events when buffer full
+};
+```
 
 ---
 
@@ -292,11 +403,93 @@ Edge nodes ingest sensor readings independently and sync periodically. Concurren
 
 ## VIII. Conclusion
 
-We presented a complete bi-temporal database engine combining SQL:2011 §4.16 compliance, HLC-based pluggable CRDT conflict resolution, interval-tree indexed time-travel queries, and multi-algorithm historical compression. Our production implementation in ThemisDB demonstrates that: (1) O(log n + k) interval-tree queries sustain sub-10 ms latency on 1M-record tables with 5–10× speedup over linear scan; (2) CRDT_MERGE achieves 100% conflict resolution correctness under 50 ms clock skew at 68–72 K writes/s; and (3) DELTA/GORILLA compression achieves 14–20× payload reduction for appropriate data types. These results establish ThemisDB's bi-temporal engine as the most feature-complete open-design implementation of SQL:2011 temporal semantics with distributed conflict resolution.
+We presented a complete bi-temporal database engine combining SQL:2011 §4.16 compliance, HLC-based pluggable CRDT conflict resolution, interval-tree indexed time-travel queries, and multi-algorithm historical compression.
+
+**Source-backed claims** (every claim references concrete source code):
+
+1. **O(log n + k) interval-tree queries** [SRC: `include/temporal/interval_tree_index.h`]: The complexity guarantee is explicitly documented in the module header:
+   > "An augmented BST-based interval tree with per-node max-end tracking, providing O(log n) insert/remove and O(log n + k) overlap-query performance where k is the number of matching intervals."
+
+2. **CRDT_MERGE commutativity and idempotency** [SRC: `include/temporal/temporal_conflict_resolver.h`]: Properties are contractually required by the `MergeResolver` interface and verified for both built-in implementations:
+   > "Properties: commutative ✓, idempotent ✓. Commutativity: merge(a, b) == merge(b, a). Idempotency: merge(a, a).data == a.data."
+
+3. **Five compression algorithms** [SRC: `include/temporal/temporal_compressor.h`]: `CompressionAlgorithm` enum documents DELTA, ZSTD, GORILLA, DICTIONARY, LZ4. The Gorilla algorithm's 10–20× numeric compression ratio is documented in `src/timeseries/ROADMAP.md` (same implementation shared between modules).
+
+4. **Benchmark release gates** [SRC: `src/temporal/PERFORMANCE_EXPECTATIONS.md`]: TM-1..TM-6 define throughput regression ≤ 10% and P95 regression ≤ 15% vs. baseline for `BM_BiTemporalTable_Insert`, `BM_BiTemporalTable_QueryBiTemporal`, and related benchmark cases.
+
+**Note on performance numbers**: The specific claims of "sub-10 ms latency on 1M-record tables," "5–10× speedup over linear scan," "100% conflict resolution correctness," "68–72 K writes/s," and "14–20× payload reduction" are **aspirational targets** not yet documented in `src/temporal/PERFORMANCE_EXPECTATIONS.md`. The documented release gates are regression-relative (≤ 10%/15% regression vs. baseline), not absolute throughput targets. Absolute benchmarks are tracked in `benchmarks/bench_temporal_queries.cpp` and will be published when available.
 
 ---
 
-## References
+## IX. Implementation Notes
+
+### A. Class Hierarchy and Module Structure
+
+The bi-temporal engine is organized across three namespaces [SRC: `include/temporal/`]:
+
+```
+themisdb::temporal
+├── IntervalTreeIndex          — augmented BST (O(log n) insert, O(log n+k) query)
+│   ├── IntervalEntry          — [key, TimeRange, JSON payload]
+│   └── IntervalTreeStats      — total_entries, min_start, max_end, query counts, height
+├── BiTemporalTable            — dual-axis DML + time-travel queries
+│   └── TemporalForeignKey     — period-aware referential integrity
+├── TemporalConflictResolver   — HLC-based conflict mediation
+│   ├── ConflictPolicy         — LAST_WRITE_WINS | FIRST_WRITE_WINS | NODE_PRIORITY
+│   │                           | MANUAL | CRDT_MERGE
+│   ├── MergeResolver          — abstract strategy (commutative ∧ idempotent)
+│   │   ├── LWWFieldMergeResolver   — per-field LWW (default)
+│   │   ├── UnionMergeResolver      — OR-Set union semantics
+│   │   └── CustomMergeResolver     — std::function adapter
+│   ├── TemporalSnapshot       — {snapshot_id, HLC, source_node_id, data, SHA-256}
+│   └── ConflictRecord         — {conflict_id, entity_id, local, remote, winner, resolved}
+├── TemporalQueryEngine        — SQL:2011 time-travel query executor
+│   ├── TemporalOperator       — CONTAINS | OVERLAPS | PRECEDES | SUCCEEDS | MEETS | EQUALS
+│   ├── TemporalSemantics      — SEQUENCED | NON_SEQUENCED
+│   ├── TemporalClause         — AS_OF | FROM_TO | BETWEEN_AND | CONTAINED_IN | ALL
+│   └── TemporalQuerySpec      — structured SQL:2011 FOR SYSTEM_TIME clause
+├── TemporalCompressor         — multi-algorithm history compression
+│   ├── CompressionAlgorithm   — DELTA | ZSTD | GORILLA | DICTIONARY | LZ4
+│   ├── CompressionConfig      — algorithm, level, compress_immediately, grace window
+│   └── CompressionStats       — versions_processed/compressed/skipped, ratio, bytes
+└── TemporalCDC                — version-aware change event streaming
+    ├── ChangeType             — INSERT | UPDATE | DELETE | VERSION_CREATED
+    └── OverflowPolicy         — OVERWRITE | BLOCK | DROP
+```
+
+### B. Thread-Safety Contract
+
+All public methods across the temporal module are documented as thread-safe [SRC: each respective header]:
+
+- `IntervalTreeIndex`: shared reads via `std::shared_mutex`; exclusive writes [SRC: `include/temporal/interval_tree_index.h`]
+- `TemporalCompressor`: internal `std::mutex` per instance [SRC: `include/temporal/temporal_compressor.h`]
+- `TemporalCDC`: all public methods safe for concurrent callers [SRC: `include/temporal/temporal_cdc.h`]
+
+### C. Key Design Invariants
+
+1. **Non-overlap constraint** [SRC: `include/temporal/bi_temporal.h`]: `insertWithValidTime()` returns `false` (not throws) on overlap — callers must check the return value.
+2. **AVL-balanced interval tree** [SRC: `include/temporal/interval_tree_index.h`]: The `subtree_max_end` augmentation field is updated atomically during each AVL rotation (LL, RR, LR, RL cases) preserving the invariant at all times.
+3. **CRDT_MERGE determinism** [SRC: `include/temporal/temporal_conflict_resolver.h`]: "Thread-safety of the implementation is the responsibility of the concrete subclass. `TemporalConflictResolver` does NOT hold a lock while calling `merge()`."
+4. **Grace window** [SRC: `include/temporal/temporal_compressor.h`]: `CompressionConfig::delay_before_compression` (default: 24 hours) — "versions younger than this age are left untouched" to prevent compressing hot conflict-resolution candidates.
+
+### D. TemporalForeignKey — Period-Aware Referential Integrity
+
+[SRC: `include/temporal/bi_temporal.h`]
+
+```cpp
+struct TemporalForeignKey {
+    std::string parent_table_name;
+    // Returns true if parent_table has a current row for parent_key
+    // whose valid-time period CONTAINS child_period
+    bool validate(const BiTemporalTable& parent_table,
+                  const std::string& parent_key,
+                  const TimeRange& child_period) const;
+};
+```
+
+This enables period-based cascading constraints: a child row is valid only when the referenced parent has an overlapping valid-time window — a capability absent from all SQL:2011 partial implementations listed in §V.
+
+---
 
 [1] International Organization for Standardization. *ISO/IEC 9075-2:2011 Information technology — Database languages — SQL — Part 2: Foundation (SQL/Foundation)*. ISO, 2011.
 

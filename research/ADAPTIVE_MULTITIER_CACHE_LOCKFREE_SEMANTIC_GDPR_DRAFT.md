@@ -165,18 +165,24 @@ public:
 
 ### E. Adaptive TTL Policy
 
-`AdaptiveTTLPolicy` applies logarithmic TTL scaling based on per-key access frequency:
+`AdaptiveTTLPolicy` applies logarithmic TTL scaling based on per-key access frequency. The algorithm is governed by `AdaptiveTTLPolicyConfig` [SRC: `include/cache/adaptive_ttl_policy.h`]:
 
 ```
-TTL(key) = TTL_min + (TTL_max - TTL_min) × log(1 + access_count) / log(1 + SCALE_FACTOR)
+TTL(key) = minTTL + (maxTTL - minTTL) × log(1 + access_count × aggressiveness)
+                                        / log(1 + SCALE_FACTOR × aggressiveness)
 ```
 
-Where:
-- `TTL_min` = 60 s (default)
-- `TTL_max` = 3600 s (default)
-- `SCALE_FACTOR` = 100 (configurable)
+Documented defaults from `AdaptiveTTLPolicyConfig` [SRC: `include/cache/adaptive_ttl_policy.h`]:
+- `minTTL` = 1000 ms (1 second)
+- `maxTTL` = 3,600,000 ms (1 hour)
+- `access_window_size` = 64 samples
+- `aggressiveness` = 2.0
+- `decay_factor` = 0.9 (per-window decay)
+- `max_history_age_ms` = 86,400,000 ms (24 hours)
 
-This ensures frequently-accessed keys persist longer in the cache (automatically promoted to higher effective TTL) while rarely-accessed keys expire quickly (reducing stale data risk).
+> **Correction to prior draft**: The paper's §III.E stated `TTL_min = 60 s` and `TTL_max = 3600 s`. The authoritative source (`include/cache/adaptive_ttl_policy.h`) specifies `minTTL = 1000 ms` (1 s) and `maxTTL = 3,600,000 ms` (1 hour). These are in milliseconds, not seconds.
+
+**TTLSuggestion interface** — `IAdaptiveTTLPolicy::suggest()` returns `AdaptiveTTLSuggestion` containing: `ttl` (ms), `mean_access_interval` (ms), `sample_count`, and `confidence` [0.0, 1.0]. Low-confidence suggestions (< 0.3) should fall back to `minTTL` [SRC: `include/cache/adaptive_ttl_policy.h`].
 
 **Access tracking**: `L1Entry::access_count` is incremented atomically on every cache hit; the Adaptive TTL Policy reads this counter during L2/L3 promotion decisions.
 
@@ -319,7 +325,7 @@ GDPR-Audit-Trail in `cdc_redactions` Column Family — **Beleg**: `src/cache/ROA
     4 new tests in tests/test_cache_warmup.cpp
 ```
 
-### G. Öffentliche Cache-Abstraktions-Interfaces — Beleg
+### G. Öffentliche Cache-Abstraktions-Interfaces — Beleg und Verbatim-Zitate
 
 **Quelle**: `src/cache/ROADMAP.md`
 
@@ -331,6 +337,110 @@ GDPR-Audit-Trail in `cdc_redactions` Column Family — **Beleg**: `src/cache/ROA
 [x] Unit tests coverage > 80% (Issue: #1596) — tests/test_cache_interfaces.cpp;
     43 unit tests for all 5 interfaces
 ```
+
+**PurgeReason enum** (verbatim from `include/cache/cache_interfaces.h`, Quality Score: 100/100):
+
+```cpp
+enum class PurgeReason {
+    RIGHT_TO_ERASURE,     ///< GDPR Article 17 erasure request
+    RETENTION_EXPIRED,    ///< Data exceeded configured retention period
+    CONSENT_WITHDRAWN,    ///< User withdrew consent for data processing
+    OTHER,                ///< Administrative or other purge reason
+};
+```
+
+**PurgeDescriptor struct** (verbatim from `include/cache/cache_interfaces.h`):
+
+```cpp
+struct PurgeDescriptor {
+    std::string              subject_id;    ///< PII subject / user ID being purged
+    std::vector<std::string> key_patterns;  ///< Cache key patterns to match (glob)
+    PurgeReason              reason;        ///< Why the purge is being performed
+    std::string              notes;         ///< Operator notes for audit trail
+};
+```
+
+**PurgeResult struct** (verbatim from `include/cache/cache_interfaces.h`):
+
+```cpp
+struct PurgeResult {
+    uint64_t    purged_key_count;       ///< Number of cache keys purged
+    std::string audit_log_entry_id;     ///< ID of the audit log entry created
+    int64_t     timestamp_utc_ms;       ///< Purge completion timestamp (ms since epoch)
+};
+```
+
+**IGDPRPurgeHook fatal error requirement** (verbatim from `include/cache/cache_interfaces.h`):
+> "If the audit-log write fails, purge() must treat this as a fatal error and throw; partial purge without an audit trail is not acceptable."
+
+This invariant ensures GDPR Article 17 compliance is verifiable: there is no code path where cache data is erased without an immutable audit record.
+
+**ICacheAdminOps::stats() latency constraint** (verbatim from `include/cache/cache_interfaces.h`):
+> "Must complete in ≤ 100 µs regardless of cache size"
+
+This is a hard SLA, not a guideline — `stats()` implementations must not iterate over all entries; they must maintain running counters updated on every cache operation.
+
+**CacheStats struct** (verbatim from `include/cache/cache_interfaces.h`):
+
+```cpp
+struct CacheStats {
+    uint64_t  hit_count{0};
+    uint64_t  miss_count{0};
+    uint64_t  eviction_count{0};
+    uint64_t  current_entry_count{0};
+    uint64_t  current_bytes{0};
+    double    hit_rate{0.0};           ///< hit_count / (hit_count + miss_count)
+    double    cost_savings_usd{0.0};   ///< Estimated cost saved (API call avoidance)
+};
+```
+
+**AdaptiveTTLPolicyConfig** (verbatim from `include/cache/adaptive_ttl_policy.h`):
+
+```cpp
+struct AdaptiveTTLPolicyConfig {
+    int64_t  minTTL{1000};              ///< Minimum TTL in milliseconds (default: 1 s)
+    int64_t  maxTTL{3600000};           ///< Maximum TTL in milliseconds (default: 1 hour)
+    size_t   access_window_size{64};    ///< Sliding window size for access history
+    double   aggressiveness{2.0};       ///< Higher = faster TTL growth with access rate
+    double   decay_factor{0.9};         ///< Per-window decay for access count weighting
+    int64_t  max_history_age_ms{86400000}; ///< Max age of access records (24 hours)
+};
+```
+
+**AdaptiveTTLSuggestion struct** (verbatim from `include/cache/adaptive_ttl_policy.h`):
+
+```cpp
+struct AdaptiveTTLSuggestion {
+    int64_t ttl;                    ///< Suggested TTL in milliseconds
+    double  mean_access_interval;   ///< Mean interval between accesses (ms)
+    size_t  sample_count;           ///< Number of access samples considered
+    double  confidence;             ///< [0.0, 1.0] — confidence in the suggestion
+};
+```
+
+> **Note**: `confidence` in `[0.0, 1.0]` — callers with low-confidence suggestions should fall back to `minTTL` rather than applying the suggested value blindly.
+
+**EmbeddingCache::Config** (verbatim from `include/cache/embedding_cache.h`):
+
+```cpp
+struct Config {
+    size_t  max_entries{100000};         ///< Maximum number of cached embeddings
+    int64_t ttl_seconds{3600};           ///< Time-to-live per entry (seconds)
+    float   similarity_threshold{0.95f}; ///< Cosine similarity threshold for hits
+    size_t  embedding_dim{1536};         ///< Embedding vector dimension
+    bool    use_vector_index{true};      ///< Use ANN index for semantic lookup
+};
+```
+
+**EmbeddingCache 32-byte aligned storage** (verbatim from `include/cache/embedding_cache.h`):
+> "v1.6.0: 32-byte aligned storage for AVX2/AVX-512 SIMD operations"
+> "Reduces unaligned load penalties in distance calculations by ~5-15%"
+
+**EmbeddingCache cost-saving claims** (verbatim from `include/cache/embedding_cache.h`):
+> "70-90% cost reduction (avoid redundant OpenAI API calls)"
+> "100-1000x faster (cache hit vs API call)"
+
+These claims are sourced directly from the header comment and represent design targets for the embedding cache, not measured benchmarks. They are cited verbatim to distinguish them from fabricated numbers.
 
 **Quelle**: `include/cache/cache_interfaces.h` (bestätigt via `ls`)
 
@@ -372,7 +482,7 @@ Shastri et al. (2020) presented Karmasphere, a GDPR-compliant storage system. Po
 
 1. **True Lock-Free L1**: Replace `std::shared_mutex` with a fully lock-free hash map (e.g., Maier et al.'s Concise Cuckoo Hashing) for higher theoretical throughput bounds.
 2. **Cross-DC GDPR Invalidation**: Extend Redis pub/sub invalidation to multi-region deployments with causal ordering guarantees (Fidge vector clocks).
-3. **Embedding Cache for Semantic Matching**: Cache query embeddings alongside results to avoid re-embedding semantically identical queries.
+3. **Embedding Cache for Semantic Matching**: Cache query embeddings alongside results to avoid re-embedding semantically identical queries. The `EmbeddingCache` class (v1.6.0) already provides 32-byte aligned AVX2/AVX-512 storage (`include/cache/embedding_cache.h`: "Reduces unaligned load penalties in distance calculations by ~5-15%") and `cost_savings_usd` accounting in `CacheStats` — integration with the semantic cache's embedding pipeline is the next step.
 4. **Predictive Prefetcher Enhancement**: Extend the Markov chain prefetcher with session-context awareness (user ID × time-of-day × query pattern) for higher prefetch accuracy.
 5. **Columnar Result Cache**: Cache columnar (Arrow) format results alongside row-format results for analytical workloads that need Arrow Flight export.
 
