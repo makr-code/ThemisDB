@@ -74,12 +74,18 @@ public:
     }
 
     bool evaluate(const std::string& expression, [[maybe_unused]] const void* context) override {
-        // Default implementation: always return true (no filtering)
-        // Real implementation would parse and evaluate the expression
-        if (is_production_mode() && !expression.empty()) {
-            spdlog::error("StorageEngine: Expression evaluation attempted with default evaluator in PRODUCTION mode: '{}'", expression);
+        if (expression.empty()) {
+            // No predicate → every document matches; this is intentional.
+            return true;
         }
-        return true;
+        // F-024: A non-empty expression with the default (no-op) evaluator
+        // would silently pass every document, causing full collection scans
+        // instead of filtered results.  Throw so the bug is immediately visible
+        // rather than causing silent incorrect query results.
+        throw std::logic_error(
+            "StorageEngine: DefaultExpressionEvaluator cannot evaluate non-empty "
+            "expression '" + expression + "'. Provide a real IExpressionEvaluator "
+            "via dependency injection (StorageEngine::setExpressionEvaluator()).");
     }
     
     std::string get_expression_type() const override {

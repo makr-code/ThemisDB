@@ -12,6 +12,7 @@
 
 #include "query/functions/process_mining_functions.h"
 #include <nlohmann/json.hpp>
+#include <stdexcept>
 #include <string>
 
 namespace themis {
@@ -33,7 +34,10 @@ json makeError(const std::string& msg) {
 }
 
 json makeNotImplemented(const std::string& name) {
-    return makeError(name + " not implemented");
+    // F-027: throw so the AQL runtime surfaces a real error instead of
+    // returning a silent {"error":"… not implemented"} JSON result that
+    // callers may fail to detect.
+    throw std::runtime_error(name + ": function not implemented");
 }
 
 // ---------------------------------------------------------------------------

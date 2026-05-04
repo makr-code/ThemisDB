@@ -32,7 +32,6 @@
 #include "utils/logger.h"
 
 #include <functional>
-#include <sstream>
 
 namespace themis::rag::judge {
 
@@ -58,14 +57,13 @@ EvaluationCache::~EvaluationCache() = default;
 
 EvaluationCache::CacheKey EvaluationCache::computeKey(
     const std::string& query, const std::string& answer) {
-    // Simple deterministic key: hash query+answer concatenation
+    // F-018: replace ostringstream with direct integer-to-string conversion.
+    // std::to_string(size_t) is allocation-free on the stack then moves.
     std::size_t h1 = std::hash<std::string>{}(query);
     std::size_t h2 = std::hash<std::string>{}(answer);
     // Combine hashes with a mixing constant (golden ratio)
     std::size_t combined = h1 ^ (h2 * 0x9e3779b9ULL + (h1 << 6) + (h1 >> 2));
-    std::ostringstream oss;
-    oss << combined;
-    return oss.str();
+    return std::to_string(combined);
 }
 
 bool EvaluationCache::isExpired(const CacheEntry& entry) const {

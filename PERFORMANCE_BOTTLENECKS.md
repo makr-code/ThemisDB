@@ -656,12 +656,12 @@ a static `bool`.
 | F-002 | `auth/auth_rate_limiter.cpp:142` | Lock Contention | 🟠 High | ✅ Fixed |
 | F-003 | `auth/auth_rate_limiter.cpp:298–596` | Lock Contention | 🟠 High | ✅ Fixed |
 | F-004 | `cache/embedding_cache.cpp:108` | Lock Contention | 🔴 Critical | ✅ Fixed |
-| F-005 | `performance/intelligent_prefetcher.cpp:116–369` | Lock Contention | 🟡 Medium | Open |
+| F-005 | `performance/intelligent_prefetcher.cpp:116–369` | Lock Contention | 🟡 Medium | ✅ Fixed |
 | F-006 | `performance/numa_memory_manager.cpp:126` | Lock Contention | 🟡 Medium | ✅ Fixed |
 | F-007 | `server/sse_connection_manager.cpp:258` | Lock Contention / I/O | 🟠 High | ✅ Fixed |
 | F-008 | `server/rate_limiter_v2.cpp:116–313` | Lock Contention | 🟠 High | Open |
 | F-009 | `cache/embedding_cache.cpp:243` | Algorithmic / Memory | 🟠 High | ✅ Fixed |
-| F-010 | `storage/mvcc_store.cpp:158` | Memory / I/O | 🟠 High | Open |
+| F-010 | `storage/mvcc_store.cpp:158` | Memory / I/O | 🟠 High | ✅ Fixed |
 | F-011 | `performance/numa_memory_manager.cpp:151` | Container / Memory | 🟡 Medium | ✅ Fixed |
 | F-012 | `storage/wal_storage.cpp:403–406` | I/O | 🟠 High | ✅ Fixed |
 | F-013 | `cache/semantic_cache.cpp:196–213` | I/O / Algorithmic | 🟠 High | ✅ Fixed |
@@ -669,23 +669,23 @@ a static `bool`.
 | F-015 | `cache/semantic_cache.cpp:73–82` | String / Memory | 🟠 High | ✅ Fixed |
 | F-016 | `cache/adaptive_query_cache.cpp:184–189` | String / Memory | 🟠 High | ✅ Fixed |
 | F-017 | `sharding/consistent_hash.cpp:60–64` | String / Memory | 🟡 Medium | ✅ Fixed |
-| F-018 | `rag/*.cpp` (≥ 20 files) | String / Memory | 🟡 Medium | Open |
+| F-018 | `rag/*.cpp` (≥ 20 files) | String / Memory | 🟡 Medium | ✅ Fixed |
 | F-019 | `sharding/consistent_hash.cpp:144,211` | Container | 🟡 Medium | ✅ Fixed |
 | F-020 | `index/hnsw_layer_optimizer.cpp:83,118` | Container | 🟡 Medium | ✅ Fixed |
 | F-021 | `cache/embedding_cache.cpp:170–200` | Algorithmic | 🟡 Medium | ✅ Fixed |
 | F-022 | `timeseries/gorilla_simd.cpp:248` | CPU / SIMD | 🟡 Medium | ✅ Fixed |
 | F-023 | `query/optimizer_cost_model.cpp:580–634` | Stub-in-critical-path | 🔴 Critical | Open |
-| F-024 | `storage/storage_engine.cpp:67–86` | Stub-in-critical-path | 🔴 Critical | Open |
-| F-025 | `sharding/adaptive_shard_router.cpp`, `query/query_federation.cpp:369–395` | Stub-in-critical-path | 🔴 Critical | Open |
+| F-024 | `storage/storage_engine.cpp:67–86` | Stub-in-critical-path | 🔴 Critical | ✅ Fixed |
+| F-025 | `sharding/adaptive_shard_router.cpp`, `query/query_federation.cpp:369–395` | Stub-in-critical-path | 🔴 Critical | ✅ Fixed |
 | F-026 | `query/functions/fulltext_functions.cpp` | Stub-in-critical-path | 🟠 High | Open |
-| F-027 | `query/functions/process_mining_functions.cpp:36` | Stub-in-critical-path | 🟠 High | Open |
-| F-028 | `query/functions/ethics_functions.cpp:163,190,214` | Stub-in-critical-path | 🟡 Medium | Open |
+| F-027 | `query/functions/process_mining_functions.cpp:36` | Stub-in-critical-path | 🟠 High | ✅ Fixed |
+| F-028 | `query/functions/ethics_functions.cpp:163,190,214` | Stub-in-critical-path | 🟡 Medium | ✅ Fixed |
 | F-029 | `rag/multi_step_rag.cpp:237–248` | Parallelism | 🟠 High | ✅ Fixed |
 | F-030 | `cache/semantic_cache.cpp:152–172` | Data Race | 🔴 Critical | ✅ Fixed |
 | F-031 | `storage/wal_storage.cpp:103–118` | Data Race | 🟠 High | ✅ Fixed |
 
 **Total:** 31 findings — 7 Critical, 14 High, 10 Medium  
-**Fixed (this PR):** 19 (F-001..004, F-006, F-007, F-009, F-011..013, F-015..017, F-019..022, F-029..031)
+**Fixed (this PR):** 26 (F-001..007, F-009..013, F-015..022, F-024..025, F-027..031)
 
 ---
 

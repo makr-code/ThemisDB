@@ -377,10 +377,16 @@ nlohmann::json QueryFederation::executeJoin(
         // Removal Plan: Implement broadcast via shard_router_->broadcastQuery();
         //               collect per-shard join results; merge into unified result set.
         //               See src/query/FUTURE_ENHANCEMENTS.md §QueryFederation Broadcast Join.
-        result["type"] = "broadcast_join";
-        result["left"] = left_collection;
-        result["right"] = right_collection;
-        result["strategy"] = "broadcast";
+        // F-025: make the stub failure explicit so callers cannot silently receive
+        //        zero rows without noticing.
+        result["type"]         = "broadcast_join";
+        result["left"]         = left_collection;
+        result["right"]        = right_collection;
+        result["strategy"]     = "broadcast";
+        result["data"]         = nlohmann::json::array();
+        result["_error"]       = "ERR_NOT_IMPLEMENTED";
+        result["_error_detail"] = "Broadcast join is not yet implemented; "
+                                  "no result rows were produced.";
         
     } else {
         // Shuffle join: Redistribute data based on join key
@@ -400,10 +406,16 @@ nlohmann::json QueryFederation::executeJoin(
         // Removal Plan: Implement shuffle via shard_router_->shufflePartition();
         //               drive per-shard equi-joins and collect results.
         //               See src/query/FUTURE_ENHANCEMENTS.md §QueryFederation Shuffle Join.
-        result["type"] = "shuffle_join";
-        result["left"] = left_collection;
-        result["right"] = right_collection;
-        result["strategy"] = "shuffle";
+        // F-025: make the stub failure explicit so callers cannot silently receive
+        //        zero rows without noticing.
+        result["type"]         = "shuffle_join";
+        result["left"]         = left_collection;
+        result["right"]        = right_collection;
+        result["strategy"]     = "shuffle";
+        result["data"]         = nlohmann::json::array();
+        result["_error"]       = "ERR_NOT_IMPLEMENTED";
+        result["_error_detail"] = "Shuffle join is not yet implemented; "
+                                  "no result rows were produced.";
     }
     
     return result;

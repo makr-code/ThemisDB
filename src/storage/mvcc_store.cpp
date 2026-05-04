@@ -96,6 +96,17 @@ void MVCCStore::putWithTimestamp(
     clock_->update(ts);
     std::string vkey = encodeVersionedKey(key, ts);
     db_->put(vkey, value);
+
+    // F-010: Update the latest-version cache so getLatest() can use a direct
+    // point-read.  Only update if ts is >= the currently cached timestamp so
+    // that concurrent writes don't regress the cache to an older version.
+    {
+        std::unique_lock<std::shared_mutex> lk(latest_mu_);
+        auto it = latest_ts_map_.find(std::string(key));
+        if (it == latest_ts_map_.end() || ts.value >= it->second.value) {
+            latest_ts_map_[std::string(key)] = ts;
+        }
+    }
 }
 
 HLCTimestamp MVCCStore::putInTxn(
@@ -125,7 +136,27 @@ HLCTimestamp MVCCStore::delInTxn(
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::optional<std::vector<uint8_t>> MVCCStore::getLatest(std::string_view key) {
-    // Use MAX timestamp to hit the upper bound of the version range.
+    // F-010: fast path — if we have a cached latest timestamp for this key,
+    // perform a direct db_->get() point-read instead of creating an iterator.
+    // This is valid for keys written via put()/putWithTimestamp(); keys written
+    // exclusively through transactions fall through to the iterator path.
+    {
+        std::shared_lock<std::shared_mutex> lk(latest_mu_);
+        auto it = latest_ts_map_.find(std::string(key));
+        if (it != latest_ts_map_.end()) {
+            std::string vkey = encodeVersionedKey(key, it->second);
+            lk.unlock();
+            auto val = db_->get(vkey);
+            if (val) {
+                // Empty value signals a tombstone (deleted key).
+                if (val->empty()) return std::nullopt;
+                return val;
+            }
+            // Key not found in RocksDB (e.g. compacted away) — fall through
+            // to the slow iterator path which will also return nullopt cleanly.
+        }
+    }
+    // Slow path: iterator-based seek for time-travel reads or cache misses.
     return getAtTimestamp(key, HLCTimestamp{UINT64_MAX});
 }
 
