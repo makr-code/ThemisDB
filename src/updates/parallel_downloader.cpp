@@ -43,6 +43,9 @@
 #include <vector>
 
 #include <openssl/evp.h>
+#ifdef THEMIS_ENABLE_CURL
+#  include <curl/curl.h>
+#endif
 
 namespace themis {
 namespace updates {
@@ -239,38 +242,83 @@ std::string ParallelDownloader::computeSha256(const std::string& path) {
 // ============================================================================
 
 bool ParallelDownloader::defaultFetch(
-    [[maybe_unused]] const std::string& url,
-    [[maybe_unused]] const std::string& dest,
-    [[maybe_unused]] uint64_t           resume_offset,
-    long               /*connect_timeout_s*/,
-    long               /*transfer_timeout_s*/,
+    const std::string& url,
+    const std::string& dest,
+    uint64_t           resume_offset,
+    long               connect_timeout_s,
+    long               transfer_timeout_s,
     uint64_t*          out_bytes,
     uint64_t*          out_total,
     std::string*       out_error)
 {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Provide a default no-op HTTP fetch so that ParallelDownloader can be
-    //   constructed and unit-tested without a real HTTP client dependency.  Unit
-    //   tests call setFetchFunction() to inject a mock or a stub curl wrapper.
-    // Activation: Always active when no FetchFn has been injected via
-    //   setFetchFunction().  In production deployments the custom HTTP transport
-    //   (libcurl wrapper) must be injected at startup before any download is
-    //   triggered; the application startup log will warn if this has not happened.
-    // Production Delta: Returns false with an error message; no bytes are written to
-    //   the destination file; out_bytes and out_total are both set to 0.  Any
-    //   download initiated while this stub is active will fail immediately and be
-    //   treated as a permanent download error (no retry for unconfigured transport).
-    // Removal Plan: Provide a libcurl-based FetchFn in the server startup path and
-    //   inject it via ParallelDownloader::setFetchFunction() before use.
-    //   Tracking: src/updates/FUTURE_ENHANCEMENTS.md § "Parallel Downloader HTTP Transport"
-    // Roadmap ref: src/ROADMAP.md §Stub Lifecycle
-    // This default implementation is a no-op stub suitable for unit tests
-    // that inject a custom FetchFn.  Production deployments provide their
-    // own HTTP transport via setFetchFunction().
     if (out_bytes)  *out_bytes  = 0;
     if (out_total)  *out_total  = 0;
-    if (out_error)  *out_error  = "No HTTP transport configured; call setFetchFunction()";
+
+#ifdef THEMIS_ENABLE_CURL
+    // ── libcurl-backed HTTP/HTTPS fetch with optional byte-range resume ────
+    struct WriteCtx {
+        FILE*     fp;
+        uint64_t  written = 0;
+    };
+
+    auto write_cb = [](char* ptr, size_t sz, size_t nmemb, void* ud) -> size_t {
+        auto* ctx = static_cast<WriteCtx*>(ud);
+        size_t n = fwrite(ptr, sz, nmemb, ctx->fp);
+        ctx->written += n;
+        return n;
+    };
+
+    const char* open_mode = (resume_offset > 0) ? "ab" : "wb";
+    FILE* fp = fopen(dest.c_str(), open_mode);
+    if (!fp) {
+        if (out_error) *out_error = "Failed to open destination file: " + dest;
+        return false;
+    }
+
+    CURL* curl = curl_easy_init();
+    if (!curl) {
+        fclose(fp);
+        if (out_error) *out_error = "curl_easy_init() failed";
+        return false;
+    }
+
+    WriteCtx ctx{fp};
+    curl_easy_setopt(curl, CURLOPT_URL,             url.c_str());
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,   static_cast<curl_write_callback>(write_cb));
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA,       &ctx);
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION,  1L);
+    curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT,  connect_timeout_s);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT,         transfer_timeout_s);
+    curl_easy_setopt(curl, CURLOPT_USERAGENT,       "ThemisDB-ParallelDownloader/1.0");
+    if (resume_offset > 0) {
+        curl_easy_setopt(curl, CURLOPT_RESUME_FROM_LARGE,
+                         static_cast<curl_off_t>(resume_offset));
+    }
+
+    CURLcode res = curl_easy_perform(curl);
+
+    // Retrieve content-length for out_total
+    curl_off_t cl = -1;
+    curl_easy_getinfo(curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD_T, &cl);
+
+    curl_easy_cleanup(curl);
+    fclose(fp);
+
+    if (res != CURLE_OK) {
+        if (out_error) *out_error = std::string("curl error: ") + curl_easy_strerror(res);
+        fs::remove(dest);
+        return false;
+    }
+
+    if (out_bytes) *out_bytes = ctx.written;
+    if (out_total) *out_total = (cl >= 0) ? static_cast<uint64_t>(cl) + resume_offset
+                                           : ctx.written + resume_offset;
+    return true;
+#else
+    if (out_error) *out_error = "No HTTP transport: build with -DTHEMIS_ENABLE_CURL=ON "
+                                "or inject a custom FetchFn via setFetchFunction()";
     return false;
+#endif
 }
 
 // ============================================================================
