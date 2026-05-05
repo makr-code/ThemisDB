@@ -130,17 +130,6 @@ PurgeResult CDCAdmin::purgeByTimestamp(uint64_t before_timestamp_ms) {
     return result;
 }
 
-// STUB/SIMULATION NOTE:
-// Purpose:          purgeTenant() API surface is defined to allow GDPR/tenant-isolation
-//                   callers to compile; the TenantBufferManager dependency is not yet
-//                   linked in the modular build configuration.
-// Activation:       Always active (no build-flag gate). Throws unconditionally.
-// Production Delta: Real implementation must drain and delete all CDC events for the
-//                   given tenant via TenantBufferManager, then return an accurate
-//                   PurgeResult with events_deleted and elapsed_time_ms populated.
-// Removal Plan:     Replace throw with real implementation once TenantBufferManager
-//                   is available in the modular build (see src/cdc/ROADMAP.md).
-// Roadmap ref: src/cdc/FUTURE_ENHANCEMENTS.md § "CDC Admin purgeTenant Implementation"
 PurgeResult CDCAdmin::purgeTenant(const std::string& tenant_id) {
     THEMIS_INFO("CDC Admin: Purging tenant '{}'", tenant_id);
 
@@ -155,15 +144,32 @@ PurgeResult CDCAdmin::purgeTenant(const std::string& tenant_id) {
     auto start = steady_clock::now();
     PurgeResult result;
 
-    // Tenant purge via TenantBufferManager is currently unavailable in modular build.
-    // Keep API deterministic and fail explicitly instead of linking against unavailable implementation.
-    throw error::internalError(
-        "Tenant purge requires tenant buffer manager implementation in current build");
-    
+    // Capture pre-flush event count for the return value.
+    // events_recorded tracks everything that entered the buffer for this tenant.
+    uint64_t pre_recorded = 0;
+    if (auto stats = tenant_manager_->getTenantStats(tenant_id)) {
+        pre_recorded = stats->events_recorded;
+    }
+
+    // Drain any in-memory buffered events to the underlying changefeed.
+    size_t flushed = tenant_manager_->flushTenant(tenant_id);
+
+    // Remove the tenant buffer entirely (also performs an internal flush as
+    // a safety net before destruction).
+    tenant_manager_->removeTenant(tenant_id);
+
+    // Report deleted = flushed events (what was drained), falling back to the
+    // pre-flush recorded count when the buffer was already empty.
+    result.events_deleted = (flushed > 0)
+        ? static_cast<uint64_t>(flushed)
+        : pre_recorded;
+
     auto end = steady_clock::now();
-    result.elapsed_time_ms = duration_cast<milliseconds>(end - start).count();
-    
-    THEMIS_INFO("Purged tenant '{}' in {}ms", tenant_id, result.elapsed_time_ms);
+    result.elapsed_time_ms = static_cast<uint64_t>(
+        duration_cast<milliseconds>(end - start).count());
+
+    THEMIS_INFO("CDC Admin: purgeTenant '{}' complete — deleted={} elapsed_ms={}",
+                tenant_id, result.events_deleted, result.elapsed_time_ms);
     return result;
 }
 
