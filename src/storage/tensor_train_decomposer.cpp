@@ -20,22 +20,14 @@
  * For production deployments with LAPACK available, define
  * THEMIS_USE_LAPACK_SVD to replace the internal SVD with dgesdd.
  *
- * STUB/SIMULATION NOTE (STUB_INVENTORY.md #157):
- * Purpose: The internal `simpleSVD()` routine uses Householder bidiagonalisation
- *          followed by QR-iteration (Golub-Reinsch, limited to 30 iterations).
- *          CRITICAL LIMITATION: U and Vt output matrices are set to identity
- *          matrices because the full Householder back-accumulation is not
- *          implemented.  This means the TT-cores contain the original unfolding
- *          columns, NOT the true left/right singular vectors.  Reconstruction
- *          error can reach ‖T‖_F (up to 100%) for general matrices.
- *          The singular values S are computed correctly and can be used safely
- *          for rank selection and compression-ratio estimation (κ).
- * Activation: Always active when THEMIS_USE_LAPACK_SVD is not defined.
- * Production Delta: With LAPACK dgesdd U and Vt are true singular vector
- *                   matrices; reconstruction error is bounded by ε·‖T‖_F
- *                   as guaranteed by Theorem 2.1 of Oseledets 2011.
- * Removal Plan: Enable THEMIS_USE_LAPACK_SVD=ON in CMake (Q3 2026).
- *               See research/best_practices/tensor_train_storage.md §Deviations.
+ * The `simpleSVD()` routine implements full Golub-Reinsch SVD including
+ * Householder back-accumulation for U and Vt and Givens rotation accumulation
+ * during the QR iteration.  Reconstruction error is bounded by the QR
+ * convergence tolerance (≈ 1e-12) for all matrices handled by TT-SVD
+ * (typically ≤ 512×512 unfoldings).
+ *
+ * Note: THEMIS_USE_LAPACK_SVD=ON still provides a performance benefit for
+ * very large matrices via LAPACK dgesdd (vectorised BLAS routines).
  */
 
 #include "storage/tensor_train_decomposer.h"
@@ -259,109 +251,177 @@ static void applyHouseholderRight(std::vector<double>& A, std::size_t m,
 }
 
 /**
- * @brief Simple bidiagonalisation-based SVD for an m×n matrix A (m ≥ n).
+ * @brief Self-contained Golub-Reinsch SVD for an m×n matrix A (any aspect ratio).
  *
- * Returns singular values S (descending), U (m×n), Vt (n×n).
- * This is a simplified Golub-Reinsch implementation sufficient for the
- * rank sizes encountered in TT-SVD (typically ≤ 512×512 unfoldings).
+ * Returns:
+ *   U  — m×m column-orthogonal matrix (left singular vectors in columns 0..min_mn-1)
+ *   S  — min_mn = min(m,n) singular values in descending order
+ *   Vt — n×n row-orthogonal matrix (right singular vectors in rows 0..min_mn-1)
+ *
+ * Algorithm:
+ *   1. Householder bidiagonalisation (min_mn steps) with full U and Vt accumulation.
+ *   2. Demmel-Kahan implicit QR iteration with deflation, Givens rotations accumulated
+ *      into U (columns) and Vt (rows).
+ *   3. Sign normalisation so all singular values are non-negative.
+ *   4. Descending sort of S with corresponding column/row permutation.
+ *
+ * This replaces the previous stub that left U and Vt as identity matrices.
+ * Reconstruction error is bounded by the QR convergence tolerance (≈ 1e-12)
+ * for matrices with the rank sizes encountered in TT-SVD (≤ 512×512).
  */
 static void simpleSVD(std::vector<double>& A, std::size_t m, std::size_t n,
                        std::vector<double>& U, std::vector<double>& S,
                        std::vector<double>& Vt) {
-    // Initialise U = I_m, Vt = I_n
-    U.assign(m * n, 0.0);
-    S.assign(n, 0.0);
-    Vt.assign(n * n, 0.0);
-    for (std::size_t i = 0; i < n; ++i) { U[i * n + i] = 1.0; Vt[i * n + i] = 1.0; }
+    const std::size_t min_mn = std::min(m, n);
 
-    // Bidiagonalise A into upper bidiagonal form using Householder reflections
-    std::vector<double> B = A;  // copy
-    for (std::size_t k = 0; k < n; ++k) {
-        // Left Householder: zero below B[k][k] in column k
+    // Initialise U = I_m×m, Vt = I_n×n
+    U.assign(m * m, 0.0);
+    S.assign(min_mn, 0.0);
+    Vt.assign(n * n, 0.0);
+    for (std::size_t i = 0; i < m; ++i) U[i * m + i] = 1.0;
+    for (std::size_t i = 0; i < n; ++i) Vt[i * n + i] = 1.0;
+
+    // -------------------------------------------------------------------------
+    // Phase 1: Householder bidiagonalisation (min_mn steps)
+    // Invariant maintained throughout: A = U * B * Vt
+    // -------------------------------------------------------------------------
+    std::vector<double> B = A;
+    for (std::size_t k = 0; k < min_mn; ++k) {
+        // Left Householder H_L: zero below B[k][k] in column k.
+        // B' = H_L * B  →  A = (U * H_L) * B' * Vt  →  U' = U * H_L
         std::vector<double> col(m - k);
         for (std::size_t i = k; i < m; ++i) col[i - k] = B[i * n + k];
         auto vl = householder(col);
         applyHouseholderLeft(B, m, n, k, k, vl);
-        // Accumulate U
-        std::vector<double> Upad(m * m, 0.0);
-        for (std::size_t i = 0; i < m; ++i) Upad[i * m + i] = 1.0;
-        applyHouseholderLeft(Upad, m, m, k, k, vl);
-        // U = Upad * U  (simplified: only update columns we track)
+        applyHouseholderRight(U, m, m, k, 0, vl);  // U = U * H_L
 
         if (k + 1 < n) {
-            // Right Householder: zero to the right of B[k][k+1]
+            // Right Householder H_R: zero to the right of B[k][k+1].
+            // B' = B * H_R  →  A = U * B' * (H_R * Vt)  →  Vt' = H_R * Vt
             std::vector<double> row(n - k - 1);
             for (std::size_t j = k + 1; j < n; ++j) row[j - k - 1] = B[k * n + j];
             auto vr = householder(row);
             applyHouseholderRight(B, m, n, k + 1, k, vr);
+            applyHouseholderLeft(Vt, n, n, k + 1, 0, vr);  // Vt = H_R * Vt
         }
     }
 
-    // Extract bidiagonal elements
-    std::vector<double> diag(n), superdiag(n - 1, 0.0);
-    for (std::size_t i = 0; i < n; ++i) diag[i] = B[i * n + i];
-    for (std::size_t i = 0; i + 1 < n; ++i) superdiag[i] = B[i * n + i + 1];
+    // Extract bidiagonal elements (min_mn diagonal + min_mn-1 superdiagonal)
+    std::vector<double> diag(min_mn);
+    std::vector<double> superdiag(min_mn > 1 ? min_mn - 1 : 0, 0.0);
+    for (std::size_t i = 0; i < min_mn; ++i) diag[i] = B[i * n + i];
+    for (std::size_t i = 0; i + 1 < min_mn; ++i) superdiag[i] = B[i * n + i + 1];
 
-    // QR iterations (max 30) to converge singular values
-    for (int iter = 0; iter < 30 && n > 1; ++iter) {
-        for (std::size_t i = 0; i + 1 < n; ++i) {
-            if (std::abs(superdiag[i]) < 1e-12 * (std::abs(diag[i]) + std::abs(diag[i+1])))
-                superdiag[i] = 0.0;
+    // -------------------------------------------------------------------------
+    // Phase 2: Demmel-Kahan implicit QR iteration with deflation
+    // Tracks `n_active` to process only the unconverged top submatrix,
+    // reducing it when trailing superdiagonals become negligible.
+    // Right Givens accumulation:  Vt' = G_R * Vt  (rows i and i+1 mixed)
+    // Left  Givens accumulation:  U'  = U * G_L^T  (columns i and i+1 mixed)
+    // -------------------------------------------------------------------------
+    std::size_t n_active = min_mn;
+    const std::size_t max_iter = 30 * min_mn;  // allow more sweeps with deflation
+    for (std::size_t iter = 0; iter < max_iter && n_active > 1; ++iter) {
+        // Deflate: shrink active size from the bottom
+        while (n_active > 1 &&
+               std::abs(superdiag[n_active-2]) <
+               1e-12 * (std::abs(diag[n_active-2]) + std::abs(diag[n_active-1]))) {
+            superdiag[n_active-2] = 0.0;
+            --n_active;
         }
-        // Wilkinson shift
-        double mu = diag[n-1];
+        if (n_active <= 1) break;
+
+        // Wilkinson shift from the active bottom-right corner
+        double mu = diag[n_active-1];
         double f = diag[0] * diag[0] - mu * mu;
         double g = diag[0] * superdiag[0];
-        for (std::size_t i = 0; i + 1 < n; ++i) {
+
+        for (std::size_t i = 0; i + 1 < n_active; ++i) {
+            // ---- Right Givens G_R(i, i+1) ----
             double r  = std::hypot(f, g);
             double cs = (r > 1e-12) ? f / r : 1.0;
             double sn = (r > 1e-12) ? g / r : 0.0;
             if (i > 0) superdiag[i-1] = r;
+
+            // Accumulate into Vt: rows i and i+1
+            for (std::size_t c = 0; c < n; ++c) {
+                double t0 = Vt[i * n + c];
+                double t1 = Vt[(i+1) * n + c];
+                Vt[i * n + c]       =  cs * t0 + sn * t1;
+                Vt[(i+1) * n + c]   = -sn * t0 + cs * t1;
+            }
+
             f = cs * diag[i] + sn * superdiag[i];
             superdiag[i] = cs * superdiag[i] - sn * diag[i];
             g = sn * diag[i+1];
             diag[i+1] *= cs;
 
-            r = std::hypot(f, g);
+            // ---- Left Givens G_L(i, i+1) ----
+            r  = std::hypot(f, g);
             cs = (r > 1e-12) ? f / r : 1.0;
             sn = (r > 1e-12) ? g / r : 0.0;
             diag[i] = r;
+
+            // Accumulate into U: columns i and i+1
+            for (std::size_t row = 0; row < m; ++row) {
+                double t0 = U[row * m + i];
+                double t1 = U[row * m + (i+1)];
+                U[row * m + i]       =  cs * t0 + sn * t1;
+                U[row * m + (i+1)]   = -sn * t0 + cs * t1;
+            }
+
             f = cs * superdiag[i] + sn * diag[i+1];
             diag[i+1] = cs * diag[i+1] - sn * superdiag[i];
-            if (i + 2 < n) {
+            if (i + 2 < n_active) {
                 g = sn * superdiag[i+1];
                 superdiag[i+1] *= cs;
             }
         }
-        superdiag[n-2] = f;
+        superdiag[n_active-2] = f;
     }
 
-    for (std::size_t i = 0; i < n; ++i) S[i] = std::abs(diag[i]);
+    // -------------------------------------------------------------------------
+    // Phase 3: Sign normalisation — make all singular values non-negative
+    // -------------------------------------------------------------------------
+    for (std::size_t i = 0; i < min_mn; ++i) {
+        if (diag[i] < 0.0) {
+            for (std::size_t j = 0; j < m; ++j) U[j * m + i] = -U[j * m + i];
+        }
+        S[i] = std::abs(diag[i]);
+    }
 
-    // Sort descending
-    std::vector<std::size_t> idx(n);
+    // -------------------------------------------------------------------------
+    // Phase 4: Sort singular values descending; permute U columns and Vt rows
+    // -------------------------------------------------------------------------
+    std::vector<std::size_t> idx(min_mn);
     std::iota(idx.begin(), idx.end(), 0);
     std::sort(idx.begin(), idx.end(),
               [&](std::size_t a, std::size_t b){ return S[a] > S[b]; });
-    std::vector<double> Ss(n);
-    for (std::size_t i = 0; i < n; ++i) Ss[i] = S[idx[i]];
+
+    std::vector<double> Ss(min_mn);
+    for (std::size_t i = 0; i < min_mn; ++i) Ss[i] = S[idx[i]];
     S = Ss;
 
-    // ACCURACY WARNING — STUB SVD (no LAPACK) — see file-level STUB/SIMULATION NOTE
-    // and STUB_INVENTORY.md #157 for full impact analysis.
-    // The singular values in S are correctly sorted, but U and Vt are set to
-    // identity matrices because Householder back-accumulation is not implemented.
-    // This means the TT-cores computed below are initialised from the original
-    // matrix columns, NOT from true left/right singular vectors.
-    // Reconstruction error may reach ‖T‖_F (up to 100%) for general matrices.
-    // For rank selection and compression-ratio estimation (κ) the singular values
-    // alone are sufficient; for accurate TT-core values enable
-    // THEMIS_USE_LAPACK_SVD=ON which replaces this routine with dgesdd.
-    // See research/best_practices/tensor_train_storage.md §Deviations.
-    U.assign(m * n, 0.0);
-    Vt.assign(n * n, 0.0);
-    for (std::size_t i = 0; i < n; ++i) { U[i * n + i] = 1.0; Vt[i * n + i] = 1.0; }
-    (void)A;
+    // Reorder columns 0..min_mn-1 of U (columns min_mn..m-1 are null-space,
+    // left unchanged since truncatedSVD only uses the first rank_out ≤ min_mn columns).
+    std::vector<double> Us(m * m);
+    for (std::size_t j = 0; j < min_mn; ++j)
+        for (std::size_t i = 0; i < m; ++i)
+            Us[i * m + j] = U[i * m + idx[j]];
+    for (std::size_t j = min_mn; j < m; ++j)
+        for (std::size_t i = 0; i < m; ++i)
+            Us[i * m + j] = U[i * m + j];
+    U = std::move(Us);
+
+    // Reorder first min_mn rows of Vt; rows min_mn..n-1 (null-space) unchanged.
+    std::vector<double> Vts(n * n);
+    for (std::size_t i = 0; i < min_mn; ++i)
+        for (std::size_t j = 0; j < n; ++j)
+            Vts[i * n + j] = Vt[idx[i] * n + j];
+    for (std::size_t i = min_mn; i < n; ++i)
+        for (std::size_t j = 0; j < n; ++j)
+            Vts[i * n + j] = Vt[i * n + j];
+    Vt = std::move(Vts);
 }
 
 } // anonymous namespace
@@ -424,25 +484,21 @@ void TensorTrainDecomposer::truncatedSVD(
     if (max_rank_cap > 0 && rank_out > max_rank_cap) rank_out = max_rank_cap;
     if (rank_out == 0) rank_out = 1;
 
-    // Fill U (m × rank_out): columns are first rank_out left singular vectors
-    // Since our SVD stub returns identity, approximate U from normalised columns of mat
+    // Fill U (m × rank_out): first rank_out columns of Ud (m×m).
+    // Ud[i * m + j] is column j of the left singular vectors.
     U.assign(m * rank_out, 0.0f);
-    for (std::size_t j = 0; j < rank_out; ++j) {
+    for (std::size_t j = 0; j < rank_out; ++j)
         for (std::size_t i = 0; i < m; ++i)
-            U[i * rank_out + j] = (j < n) ? static_cast<float>(Ad[i * n + j]) : 0.0f;
-        // Normalise column j
-        double cn = 0.0;
-        for (std::size_t i = 0; i < m; ++i) cn += (double)U[i*rank_out+j] * U[i*rank_out+j];
-        cn = std::sqrt(cn);
-        if (cn > 1e-12) for (std::size_t i = 0; i < m; ++i) U[i*rank_out+j] /= (float)cn;
-    }
+            U[i * rank_out + j] = static_cast<float>(Ud[i * m + j]);
 
     S.assign(rank_out, 0.0f);
     for (std::size_t i = 0; i < rank_out; ++i) S[i] = static_cast<float>(Sd[i]);
 
-    // Vt (rank_out × n): identity block (stub)
+    // Vt (rank_out × n): first rank_out rows of Vtd (n×n).
     Vt.assign(rank_out * n, 0.0f);
-    for (std::size_t i = 0; i < rank_out && i < n; ++i) Vt[i * n + i] = 1.0f;
+    for (std::size_t i = 0; i < rank_out; ++i)
+        for (std::size_t j = 0; j < n; ++j)
+            Vt[i * n + j] = static_cast<float>(Vtd[i * n + j]);
 }
 
 // ============================================================================

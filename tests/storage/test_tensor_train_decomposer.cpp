@@ -119,7 +119,7 @@ TEST_F(TensorTrainDecomposerTest, TTD02_2DMatrixReconstructionEps) {
     auto recon = train.reconstruct();
     ASSERT_EQ(recon.size(), data.size());
     double rel = relError(data, recon);
-    EXPECT_LE(rel, 0.05);  // ≤ 5% (generous for internal SVD stub)
+    EXPECT_LE(rel, 0.02);  // ≤ 2% (full Golub-Reinsch SVD with back-accumulation)
 }
 
 // TTD-03: core shapes are correct
