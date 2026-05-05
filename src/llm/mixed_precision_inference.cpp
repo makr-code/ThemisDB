@@ -241,8 +241,10 @@ bool MixedPrecisionInference::isSupported(PrecisionMode precision) {
     // are natively accelerated.  Falls back to CPU-safe modes if no device is present.
     int dev = 0;
     if (cudaGetDevice(&dev) != cudaSuccess) {
-        // No GPU or driver error — report only CPU-safe modes.
-        return precision == PrecisionMode::FP32 || precision == PrecisionMode::AUTO;
+        // No CUDA device accessible at runtime even though the CUDA runtime is
+        // linked.  Report no modes supported — the non-CUDA branch handles the
+        // CPU-only case and is not reached here.
+        return false;
     }
     int major = 0, minor_ver = 0;
     cudaDeviceGetAttribute(&major, cudaDevAttrComputeCapabilityMajor, dev);
