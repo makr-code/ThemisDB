@@ -105,6 +105,19 @@ struct StoredTensorRecord {
 
     /// Cosine similarity to the reference (0.0 for canonical tensors).
     double similarity_to_reference = 0.0;
+
+    // ─── Storage key fields (populated by TensorDeduplicationManager::store) ──
+
+    /// Tenant namespace used as the storage key.
+    std::string tenant;
+
+    /// Collection name used as the storage key.
+    std::string collection;
+
+    /// Field name used as the storage key.
+    /// For delta-encoded tensors this is the *original* field name (the delta
+    /// is stored under `field + "__delta__" + reference_id`).
+    std::string field;
 };
 
 // ============================================================================

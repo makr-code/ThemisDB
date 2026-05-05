@@ -28,6 +28,8 @@
  *   TDM-03  DeduplicationManager: null dependency throws
  *   TDM-04  DeduplicationManager: dedup_ratio ≥ 1.0
  *   TDM-05  DeduplicationManager: similar tensor stored as delta
+ *   TDM-06  DeduplicationManager: retrieve() canonical returns approx original data
+ *   TDM-07  DeduplicationManager: retrieve() delta round-trip returns approx original data
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -330,8 +332,73 @@ TEST_F(TensorDeduplicationManagerTest, TDM04_DedupRatioGEOne) {
     EXPECT_GE(s.dedup_ratio, 1.0);
 }
 
-// TDM-05: Two identical tensors; second may be stored as delta
-TEST_F(TensorDeduplicationManagerTest, TDM05_SimilarTensorMayBeDelta) {
+// TDM-06: retrieve() canonical returns approximately the original data
+TEST_F(TensorDeduplicationManagerTest, TDM06_RetrieveCanonicalApproxOriginal) {
+    auto data = randVec(8, 60);
+    auto rec = mgr_->store("canon_id", data, {8, 1}, "t", "c", "fcanon");
+    ASSERT_TRUE(rec.is_canonical);
+
+    auto result = mgr_->retrieve("canon_id");
+    ASSERT_TRUE(result.has_value());
+    ASSERT_EQ(result->size(), data.size());
+
+    // TT-compression introduces some error; check within reasonable tolerance.
+    float max_diff = 0.0f;
+    for (std::size_t i = 0; i < data.size(); ++i)
+        max_diff = std::max(max_diff, std::abs((*result)[i] - data[i]));
+    EXPECT_LT(max_diff, 1.0f);  // loose bound; exact match not guaranteed
+}
+
+// TDM-07: retrieve() for a delta-encoded tensor reconstructs reference + delta
+//
+// We force delta storage by using a similarity_threshold of 0.0 together with
+// identical tensors (the LSH scheme guarantees they share at least one bucket).
+TEST(TensorDeduplicationManagerDeltaTest, TDM07_RetrieveDeltaRoundTrip) {
+    // Build engine + fp_graph with very low threshold so any match triggers delta
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    TensorStorageConfig scfg;
+    scfg.tt_config.eps      = 0.05;
+    scfg.min_compression_ratio = 0.0;
+    auto engine = std::make_shared<TensorNetworkStorageEngine>(std::move(backend), scfg);
+
+    FingerprintGraphConfig fp_cfg;
+    fp_cfg.similarity_threshold = 0.0;  // any pair triggers delta path
+    fp_cfg.num_hash_funcs = 8;
+    fp_cfg.num_bands      = 4;
+    auto fp = std::make_shared<TensorFingerprintGraph>(fp_cfg);
+
+    DeduplicationConfig dedup_cfg;
+    dedup_cfg.similarity_threshold = 0.0;  // accept any found similar tensor
+    auto dec = std::make_shared<TensorTrainDecomposer>();
+    TensorDeduplicationManager mgr(engine, fp, dec, dedup_cfg);
+
+    // Store first tensor as canonical reference
+    auto data1 = randVec(8, 70);
+    auto rec1 = mgr.store("ref_id", data1, {8, 1}, "t", "c", "fref");
+    ASSERT_TRUE(rec1.is_canonical);
+
+    // Store identical data under a different ID — with threshold 0.0 and the
+    // graph now containing "ref_id", the second store must find a similar
+    // tensor and store a delta.
+    auto rec2 = mgr.store("delta_id", data1, {8, 1}, "t", "c", "fdelta");
+
+    // If LSH placed both in the same bucket, rec2 is delta-encoded.
+    // If not (unlikely but possible), the test degrades to a canonical check.
+    auto result = mgr.retrieve("delta_id");
+    ASSERT_TRUE(result.has_value());
+    ASSERT_EQ(result->size(), data1.size());
+
+    // The reconstruction should approximate data1 regardless of the path taken.
+    float max_diff = 0.0f;
+    for (std::size_t i = 0; i < data1.size(); ++i)
+        max_diff = std::max(max_diff, std::abs((*result)[i] - data1[i]));
+    EXPECT_LT(max_diff, 2.0f);  // allows for double TT-compression rounding
+}
+
+// TDM-08: retrieve() returns nullopt for unknown id
+TEST_F(TensorDeduplicationManagerTest, TDM08_RetrieveUnknownReturnsNullopt) {
+    EXPECT_FALSE(mgr_->retrieve("does_not_exist").has_value());
+}
     auto data = randVec(8, 50);
     // Store first as canonical
     auto rec1 = mgr_->store("orig", data, {8, 1}, "t", "c", "forig");

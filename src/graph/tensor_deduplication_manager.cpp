@@ -183,6 +183,11 @@ store_canonical:
     // Insert into fingerprint graph
     fp_graph_->insert(tensor_id, new_train, tenant, collection, field);
 
+    // Persist key fields so retrieve() can look up the tensor without an extra index
+    record.tenant     = tenant;
+    record.collection = collection;
+    record.field      = field;
+
     // Store record
     std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
     records_[tensor_id] = record;
@@ -196,23 +201,48 @@ store_canonical:
 
 std::optional<std::vector<float>>
 TensorDeduplicationManager::retrieve(const std::string& tensor_id) const {
-    std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
-    auto it = records_.find(tensor_id);
-    if (it == records_.end()) return std::nullopt;
-
-    const auto& rec = it->second;
-
-    if (rec.is_canonical) {
-        // Extract tenant/collection/field from the stored record's tensor_id
-        // In production this would use a proper index; for now we fall back
-        // to scanning records for the canonical field.
-        // This is sufficient for unit tests.
-        return std::nullopt;  // Caller should use TensorNetworkStorageEngine directly
+    // Copy the record while holding the shared lock so that we do NOT hold
+    // the lock while calling storage_->get() — mixing the rw_mutex_ shared
+    // lock with the storage engine's own write lock (held during put()) would
+    // otherwise create a potential deadlock.
+    StoredTensorRecord rec;
+    {
+        std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
+        auto it = records_.find(tensor_id);
+        if (it == records_.end()) return std::nullopt;
+        rec = it->second;
     }
 
-    // Delta-encoded: load reference + delta
-    // (similar to store path but reversed)
-    return std::nullopt;  // full reconstruction deferred to Phase 2
+    if (rec.is_canonical) {
+        return storage_->get(makeKey(rec.tenant, rec.collection, rec.field));
+    }
+
+    // ── Delta path ───────────────────────────────────────────────────────────
+    // 1. Load the canonical reference record.
+    StoredTensorRecord ref_rec;
+    {
+        std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
+        auto ref_it = records_.find(rec.reference_id);
+        if (ref_it == records_.end()) return std::nullopt;
+        ref_rec = ref_it->second;
+    }
+
+    // 2. Load canonical reference dense vector from storage.
+    auto ref_opt = storage_->get(makeKey(ref_rec.tenant, ref_rec.collection, ref_rec.field));
+    if (!ref_opt) return std::nullopt;
+
+    // 3. Load delta (stored under field + "__delta__" + reference_id).
+    const std::string delta_field = rec.field + "__delta__" + rec.reference_id;
+    auto delta_opt = storage_->get(makeKey(rec.tenant, rec.collection, delta_field));
+    if (!delta_opt) return std::nullopt;
+
+    if (ref_opt->size() != delta_opt->size()) return std::nullopt;
+
+    // 4. Reconstruct: result = reference + delta (element-wise).
+    std::vector<float> result(ref_opt->size());
+    for (std::size_t i = 0; i < result.size(); ++i)
+        result[i] = (*ref_opt)[i] + (*delta_opt)[i];
+    return result;
 }
 
 std::optional<StoredTensorRecord>
