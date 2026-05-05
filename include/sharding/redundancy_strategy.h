@@ -676,7 +676,7 @@ public:
      * @param shard_id  Identifier of the shard that was contacted
      * @param latency_ms Observed round-trip latency in milliseconds
      */
-    void recordShardLatency(const std::string& shard_id, double latency_ms) noexcept;
+    void recordShardLatency(const std::string& shard_id, double latency_ms);
 
 private:
     RedundancyConfig config_;

@@ -1326,7 +1326,7 @@ void RedundancyStrategy::setRaftShardManager(std::shared_ptr<themisdb::sharding:
     spdlog::info("RaftShardManager set for RedundancyStrategy");
 }
 
-void RedundancyStrategy::recordShardLatency(const std::string& shard_id, double latency_ms) noexcept {
+void RedundancyStrategy::recordShardLatency(const std::string& shard_id, double latency_ms) {
     std::lock_guard<std::mutex> lock(latency_mutex_);
     auto it = shard_latency_ewma_ms_.find(shard_id);
     if (it == shard_latency_ewma_ms_.end()) {
