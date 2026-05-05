@@ -26,7 +26,7 @@
 
 ---
 
-## Stub Inventory (153 entries — 9 resolved, 144 active)
+## Stub Inventory (153 entries — 10 resolved, 143 active)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -198,7 +198,7 @@
 | 142 | `sharding/metadata_shard.cpp` consensus write | Returns success immediately without Raft/Paxos commit | Always — consensus module not wired | No durability; metadata entries lost on crash; no replication | `src/sharding/FUTURE_ENHANCEMENTS.md` §MetadataShard Consensus Write | future milestone |
 | ~~145~~ | ~~`security/field_encryption.cpp::needsReEncryption()`~~ | ~~Probe heuristic (`getKey(version+1)`) used because `KeyProvider::getCurrentVersion()` absent; TOCTOU window on rapid rotations~~ | ~~Always — no `getCurrentVersion` API on KeyProvider~~ | ~~Blobs may lag one rotation behind in fast-rotation scenarios~~ | ~~`src/security/FUTURE_ENHANCEMENTS.md` §FieldEncryption needsReEncryption Version API~~ | ~~future milestone~~ | **resolved 2026-05-05**: replaced probe heuristic with `getKeyMetadata(key_id,0).version`; TOCTOU eliminated |
 | 146 | `rag/knowledge_gap_detector.cpp::generateMultipleSamples()` | Heuristic variations from document snippets; no LLM inference called | Always — no LLM client wired into KnowledgeGapDetector | Self-consistency check passes trivially; real LLM inconsistencies are NOT detected; one-time THEMIS_WARN emitted | Wire LLM client via `setLLMClient()` when API added (see ROADMAP.md Phase 2 self-consistency) | ROADMAP Phase 2 |
-| 147 | `training/adalora_tt_bridge.cpp::findSimilarAdapters()` | Returns empty vector; TensorFingerprintGraph::findSimilar() not yet wired | Phase 3 not started (Q3 2027) | FLARE adapter-switch returns no candidates; falls back to current adapter | Wire `TensorFingerprintGraph::findSimilar()` in Phase 3 | Phase 3 Q3 2027 |
+| ~~147~~ | ~~`training/adalora_tt_bridge.cpp::findSimilarAdapters()`~~ | ~~Returns empty vector; TensorFingerprintGraph::findSimilar() not yet wired~~ | ~~Phase 3 not started (Q3 2027)~~ | ~~FLARE adapter-switch returns no candidates; falls back to current adapter~~ | ~~Wire `TensorFingerprintGraph::findSimilar()` in Phase 3~~ | ~~Phase 3 Q3 2027~~ | **resolved 2026-05-05**: `TensorFingerprintGraph` added as member of `AdaLoraTTBridge::Impl`; `store()` calls `fingerprint_graph.insert()` per layer when `auto_deduplicate=true`; `findSimilarAdapters()` queries all layers via `findSimilar()`, aggregates max-similarity per (tenant, adapter) pair, and returns top-k sorted results |
 | 148 | `training/adalora_tt_bridge.cpp::store()` / `loadAdapter()` | Delegates to TensorNetworkStorageEngine::put()/get()/listKeys() which are Phase 2+ stubs | TensorNetworkStorageEngine not yet backed by RocksDB | Store silently no-ops; load returns nullopt | Complete TensorNetworkStorageEngine RocksDB backend (storage Phase 8, Q3 2026) | Phase 8 storage Q3 2026 |
 | 149 | `storage/tensor_router.cpp::runPilot()` | κ compressibility metric uses approx log-ratio; no real TT-SVD on corpus sample | κ estimated from pilot TT-rank only | κ may differ from true tensor rank by up to 20% for borderline cases | Validate κ empirically on LLM embedding datasets (Q3 2026 benchmark) | Q3 2026 benchmark |
 | 150 | `tensor/tensor_index.cpp::FlatTensorIndex::save()` | No-op; emits THEMIS_WARN; RocksDB persistence not wired | Always (Phase 1) | All save() calls return false and log a warning; data not persisted | Wire to TensorNetworkStorageEngine in Phase 2 (Q4 2026) — TTI-01 | Phase 2 Q4 2026 |

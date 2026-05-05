@@ -21,11 +21,13 @@
 // Removal Plan: Not removed — permanent bridge component.
 
 #include "training/adalora_tt_bridge.h"
+#include "graph/tensor_fingerprint_graph.h"
 #include "utils/logger.h"
 
 #include <algorithm>
 #include <cmath>
 #include <cstring>
+#include <map>
 #include <sstream>
 #include <stdexcept>
 
@@ -183,6 +185,8 @@ struct AdaLoraTTBridge::Impl {
     std::shared_ptr<storage::TensorNetworkStorageEngine> engine;
     AdaLoraTTBridgeConfig                                cfg;
     mutable BridgeStats                                  stats_data{};
+    // TensorFingerprintGraph: keyed by "<tenant>:<adapter_name>:<layer_name>"
+    mutable graph::TensorFingerprintGraph                fingerprint_graph{};
 };
 
 // ============================================================================
@@ -383,6 +387,16 @@ bool AdaLoraTTBridge::store(const AdaLoraTTExport& exp)
                            lexp.train.cores.at(0).shape);
         impl_->engine->put(make_key(1), lexp.train.cores.at(1).data,
                            lexp.train.cores.at(1).shape);
+
+        // Register in fingerprint graph for cross-adapter similarity queries
+        if (impl_->cfg.auto_deduplicate) {
+            const std::string graph_id = exp.tenant + ":"
+                                       + exp.adapter_name + ":"
+                                       + lexp.layer_name;
+            impl_->fingerprint_graph.insert(
+                graph_id, lexp.train,
+                exp.tenant, exp.adapter_name, lexp.layer_name);
+        }
     }
 
     ++impl_->stats_data.stores_total;
@@ -486,13 +500,56 @@ AdaLoraTTBridge::findSimilarAdapters(const AdaLoraTTExport& query_exp,
                                       std::size_t            top_k,
                                       const std::string&     tenant) const
 {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Stub pending TensorFingerprintGraph::findSimilar() integration (Phase 3).
-    // Activation: Returns empty until Phase 3 completes.
-    // Production Delta: Will call graph.findSimilar(core_fingerprint, top_k).
-    // Removal Plan: Replace stub with real call in Q3 2027.
-    (void)query_exp; (void)top_k; (void)tenant;
-    return {};
+    if (top_k == 0) top_k = 5;
+
+    // Per-adapter aggregate score: adapter_key → {max_similarity, layer_name}
+    struct AdapterScore {
+        double      max_sim  = 0.0;
+        std::string best_layer;
+    };
+    std::map<std::string, AdapterScore> adapter_scores;
+
+    // Query the fingerprint graph for each layer in the query export
+    for (const auto& lexp : query_exp.layers) {
+        auto hits = impl_->fingerprint_graph.findSimilar(
+            lexp.train, top_k * 4);
+
+        for (const auto& hit : hits) {
+            // hit.collection = adapter_name, hit.field = layer_name
+            // hit.tenant = tenant of the stored adapter
+            if (!tenant.empty() && hit.tenant != tenant) continue;
+
+            // Aggregate by (tenant, adapter_name)
+            const std::string adapter_key = hit.tenant + ":" + hit.collection;
+            auto& sc = adapter_scores[adapter_key];
+            if (hit.similarity > sc.max_sim) {
+                sc.max_sim    = hit.similarity;
+                sc.best_layer = hit.field;
+            }
+        }
+    }
+
+    // Build sorted result list
+    std::vector<SimilarAdapter> results;
+    results.reserve(adapter_scores.size());
+    for (const auto& [key, sc] : adapter_scores) {
+        // Parse "tenant:adapter_name" back out
+        auto colon = key.find(':');
+        std::string adapter_name = (colon != std::string::npos)
+                                 ? key.substr(colon + 1) : key;
+        SimilarAdapter sa;
+        sa.adapter_name = adapter_name;
+        sa.layer_name   = sc.best_layer;
+        sa.similarity   = sc.max_sim;
+        results.push_back(sa);
+    }
+
+    std::sort(results.begin(), results.end(),
+        [](const SimilarAdapter& a, const SimilarAdapter& b){
+            return a.similarity > b.similarity;
+        });
+    if (results.size() > top_k) results.resize(top_k);
+    return results;
 }
 
 // ============================================================================
