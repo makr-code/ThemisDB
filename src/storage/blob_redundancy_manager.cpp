@@ -33,6 +33,7 @@
 #include "utils/expected.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
+#include <nlohmann/json.hpp>
 #include <random>
 #include <sstream>
 #include <iomanip>
@@ -83,43 +84,188 @@ bool BlobMetadata::canRecover() const {
 }
 
 std::vector<std::string> BlobMetadata::getMissingShards() const {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Return an empty missing-shards list until the storage layer can
-    //          track which shard copies are present vs absent per blob.
-    // Activation: Always — no shard-presence registry is wired into BlobMetadata.
-    // Production Delta: All blobs are reported as having zero missing shards;
-    //                   redundancy health checks based on this function will always
-    //                   return "OK" regardless of actual shard availability.
-    // Removal Plan: Iterate `shard_ids` and compare against the shard-presence
-    //               map from the redundancy manager.  See
-    //               src/storage/FUTURE_ENHANCEMENTS.md §BlobRedundancy MissingShards.
     std::vector<std::string> missing;
+    for (const auto& loc : locations) {
+        if (!loc.is_healthy) {
+            missing.push_back(loc.shard_id);
+        }
+    }
     return missing;
 }
 
-std::string BlobMetadata::toJson() const {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Allow BlobMetadata to serialize without pulling in a JSON library
-    //          dependency in the storage layer stub build.
-    // Activation: Always — no nlohmann::json serialization is implemented.
-    // Production Delta: Returns `"{}"` regardless of actual field values; any
-    //                   caller persisting metadata via toJson() / fromJson() will
-    //                   lose all blob fields (id, shard_ids, checksum, size, etc.)
-    //                   on a round-trip.  Redundancy-metadata persistence is broken.
-    // Removal Plan: Implement with nlohmann::json; populate all BlobMetadata fields.
-    //               See src/storage/FUTURE_ENHANCEMENTS.md §BlobMetadata JSON.
-    return "{}";
+// ── local helpers for enum ↔ int ──────────────────────────────────────────
+namespace {
+
+// time_point → seconds since epoch (int64)
+template<typename Clock, typename Dur>
+int64_t tp_to_epoch(const std::chrono::time_point<Clock, Dur>& tp) {
+    return std::chrono::duration_cast<std::chrono::seconds>(
+               tp.time_since_epoch()).count();
 }
 
-std::optional<BlobMetadata> BlobMetadata::fromJson([[maybe_unused]] const std::string& json) {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Matching stub for toJson(); always fails gracefully.
-    // Activation: Always.
-    // Production Delta: Always returns nullopt — every deserialization attempt fails.
-    //                   Restoring blob redundancy metadata from a checkpoint is impossible.
-    // Removal Plan: Parse nlohmann::json from `json` and populate all BlobMetadata fields.
-    //               See src/storage/FUTURE_ENHANCEMENTS.md §BlobMetadata JSON.
-    return std::nullopt;
+// seconds since epoch (int64) → system_clock::time_point
+std::chrono::system_clock::time_point epoch_to_tp(int64_t secs) {
+    return std::chrono::system_clock::time_point{std::chrono::seconds{secs}};
+}
+
+nlohmann::json location_to_json(const BlobLocation& loc) {
+    return {
+        {"shard_id",    loc.shard_id},
+        {"path",        loc.path},
+        {"tier",        static_cast<int>(loc.tier)},
+        {"checksum",    loc.checksum},
+        {"size_bytes",  loc.size_bytes},
+        {"is_parity",   loc.is_parity},
+        {"chunk_index", loc.chunk_index},
+        {"is_healthy",  loc.is_healthy},
+        {"datacenter",  loc.datacenter},
+        {"created_at",  tp_to_epoch(loc.created_at)},
+        {"last_verified", tp_to_epoch(loc.last_verified)}
+    };
+}
+
+BlobLocation location_from_json(const nlohmann::json& j) {
+    BlobLocation loc;
+    loc.shard_id    = j.value("shard_id",   std::string{});
+    loc.path        = j.value("path",        std::string{});
+    loc.tier        = static_cast<StorageTier>(j.value("tier", 0));
+    loc.checksum    = j.value("checksum",    std::string{});
+    loc.size_bytes  = j.value("size_bytes",  uint64_t{0});
+    loc.is_parity   = j.value("is_parity",   false);
+    loc.chunk_index = j.value("chunk_index", uint32_t{0});
+    loc.is_healthy  = j.value("is_healthy",  true);
+    loc.datacenter  = j.value("datacenter",  std::string{});
+    loc.created_at  = epoch_to_tp(j.value("created_at",    int64_t{0}));
+    loc.last_verified = epoch_to_tp(j.value("last_verified", int64_t{0}));
+    return loc;
+}
+
+nlohmann::json erasure_config_to_json(const ErasureCodingConfig& ec) {
+    return {
+        {"data_shards",   ec.data_shards},
+        {"parity_shards", ec.parity_shards},
+        {"algorithm",     static_cast<int>(ec.algorithm)}
+    };
+}
+
+ErasureCodingConfig erasure_config_from_json(const nlohmann::json& j) {
+    ErasureCodingConfig ec;
+    ec.data_shards   = j.value("data_shards",   uint32_t{4});
+    ec.parity_shards = j.value("parity_shards", uint32_t{2});
+    ec.algorithm     = static_cast<ErasureCodingAlgorithm>(j.value("algorithm", 0));
+    return ec;
+}
+
+nlohmann::json blob_config_to_json(const BlobRedundancyConfig& c) {
+    return {
+        {"mode",               static_cast<int>(c.mode)},
+        {"replication_factor", c.replication_factor},
+        {"tier",               static_cast<int>(c.tier)},
+        {"sync_write",         c.sync_write},
+        {"priority",           static_cast<int>(c.priority)},
+        {"geo_replicate",      c.geo_replicate},
+        {"geo_replicate_async",c.geo_replicate_async},
+        {"auto_tier_down",     c.auto_tier_down},
+        {"tier_down_after_days",c.tier_down_after_days},
+        {"tier_down_target",   static_cast<int>(c.tier_down_target)},
+        {"archive_after_days", c.archive_after_days},
+        {"retention_days",     c.retention_days},
+        {"rebuild_on_loss",    c.rebuild_on_loss},
+        {"backup_on_change",   c.backup_on_change},
+        {"version_history",    c.version_history},
+        {"stripe_enabled",     c.stripe_enabled},
+        {"stripe_size_kb",     c.stripe_size_kb},
+        {"min_size_mb",        c.min_size_mb},
+        {"max_size_mb",        c.max_size_mb},
+        {"compression",        c.compression},
+        {"compression_level",  c.compression_level},
+        {"erasure_coding",     erasure_config_to_json(c.erasure_coding)}
+    };
+}
+
+BlobRedundancyConfig blob_config_from_json(const nlohmann::json& j) {
+    BlobRedundancyConfig c;
+    c.mode               = static_cast<RedundancyMode>(j.value("mode", 0));
+    c.replication_factor = j.value("replication_factor", uint32_t{2});
+    c.tier               = static_cast<StorageTier>(j.value("tier", 0));
+    c.sync_write         = j.value("sync_write", false);
+    c.priority           = static_cast<BlobPriority>(j.value("priority", 2));
+    c.geo_replicate      = j.value("geo_replicate", false);
+    c.geo_replicate_async= j.value("geo_replicate_async", true);
+    c.auto_tier_down     = j.value("auto_tier_down", false);
+    c.tier_down_after_days=j.value("tier_down_after_days", uint32_t{30});
+    c.tier_down_target   = static_cast<StorageTier>(j.value("tier_down_target", 1));
+    c.archive_after_days = j.value("archive_after_days", uint32_t{0});
+    c.retention_days     = j.value("retention_days", uint32_t{0});
+    c.rebuild_on_loss    = j.value("rebuild_on_loss", false);
+    c.backup_on_change   = j.value("backup_on_change", false);
+    c.version_history    = j.value("version_history", uint32_t{0});
+    c.stripe_enabled     = j.value("stripe_enabled", false);
+    c.stripe_size_kb     = j.value("stripe_size_kb", uint32_t{64});
+    c.min_size_mb        = j.value("min_size_mb", uint32_t{0});
+    c.max_size_mb        = j.value("max_size_mb", uint32_t{0});
+    c.compression        = j.value("compression", std::string{"NONE"});
+    c.compression_level  = j.value("compression_level", int32_t{0});
+    if (j.contains("erasure_coding") && j["erasure_coding"].is_object()) {
+        c.erasure_coding = erasure_config_from_json(j["erasure_coding"]);
+    }
+    return c;
+}
+
+} // anonymous namespace
+
+std::string BlobMetadata::toJson() const {
+    nlohmann::json j;
+    j["blob_id"]       = blob_id;
+    j["type"]          = static_cast<int>(type);
+    j["collection"]    = collection;
+    j["document_id"]   = document_id;
+    j["total_chunks"]  = total_chunks;
+    j["total_size"]    = total_size;
+    j["created_at"]    = tp_to_epoch(created_at);
+    j["last_accessed"] = tp_to_epoch(last_accessed);
+    j["last_modified"] = tp_to_epoch(last_modified);
+    j["scheduled_tier_down"] = tp_to_epoch(scheduled_tier_down);
+    j["config"]        = blob_config_to_json(config);
+
+    nlohmann::json locs = nlohmann::json::array();
+    for (const auto& loc : locations) {
+        locs.push_back(location_to_json(loc));
+    }
+    j["locations"] = std::move(locs);
+
+    return j.dump();
+}
+
+std::optional<BlobMetadata> BlobMetadata::fromJson(const std::string& json) {
+    try {
+        const nlohmann::json j = nlohmann::json::parse(json);
+
+        BlobMetadata m;
+        m.blob_id     = j.value("blob_id",     std::string{});
+        m.type        = static_cast<BlobType>(j.value("type", 0));
+        m.collection  = j.value("collection",  std::string{});
+        m.document_id = j.value("document_id", std::string{});
+        m.total_chunks= j.value("total_chunks", uint32_t{1});
+        m.total_size  = j.value("total_size",   uint64_t{0});
+        m.created_at         = epoch_to_tp(j.value("created_at",    int64_t{0}));
+        m.last_accessed      = epoch_to_tp(j.value("last_accessed", int64_t{0}));
+        m.last_modified      = epoch_to_tp(j.value("last_modified", int64_t{0}));
+        m.scheduled_tier_down= epoch_to_tp(j.value("scheduled_tier_down", int64_t{0}));
+
+        if (j.contains("config") && j["config"].is_object()) {
+            m.config = blob_config_from_json(j["config"]);
+        }
+        if (j.contains("locations") && j["locations"].is_array()) {
+            for (const auto& lj : j["locations"]) {
+                m.locations.push_back(location_from_json(lj));
+            }
+        }
+        return m;
+    } catch (const nlohmann::json::exception& ex) {
+        spdlog::warn("BlobMetadata::fromJson parse error: {}", ex.what());
+        return std::nullopt;
+    }
 }
 
 // ═══════════════════════════════════════════════════════════

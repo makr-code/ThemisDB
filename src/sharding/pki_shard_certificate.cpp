@@ -90,18 +90,30 @@ namespace {
 }
 
 bool ShardCertificateInfo::isValidNow() const {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Provides a minimal date-field-presence check until full
-    //          X.509 not_before / not_after parsing with time-zone-aware
-    //          comparison is implemented.
-    // Activation: Always — no date parsing or system-clock comparison performed.
-    // Production Delta: Any certificate with non-empty date strings passes,
-    //                   including expired or not-yet-valid certificates.
-    // Removal Plan: Parse `not_before` and `not_after` as RFC 5280 ASN.1
-    //               GeneralizedTime / UTCTime via OpenSSL ASN1_TIME; compare
-    //               against `std::chrono::system_clock::now()`.  See
-    //               src/sharding/FUTURE_ENHANCEMENTS.md §PKI Certificate Validity.
-    return !not_before.empty() && !not_after.empty();
+    if (not_before.empty() || not_after.empty()) {
+        return false;
+    }
+
+    // Parse the string produced by ASN1_TIME_print(), e.g. "Apr 15 10:30:00 2025 GMT".
+    // strptime %e handles space-padded single-digit days; timegm interprets the
+    // broken-down time as UTC, matching the "GMT" suffix.
+    auto parse_asn1_print_time = [](const std::string& s) -> time_t {
+        struct tm t{};
+        if (strptime(s.c_str(), "%b %e %H:%M:%S %Y", &t) == nullptr) {
+            return static_cast<time_t>(-1);
+        }
+        return timegm(&t);
+    };
+
+    const time_t t_before = parse_asn1_print_time(not_before);
+    const time_t t_after  = parse_asn1_print_time(not_after);
+
+    if (t_before == static_cast<time_t>(-1) || t_after == static_cast<time_t>(-1)) {
+        return false;
+    }
+
+    const time_t now = std::time(nullptr);
+    return now >= t_before && now <= t_after;
 }
 
 std::optional<ShardCertificateInfo> PKIShardCertificate::parseCertificate(const std::string& cert_path) {
