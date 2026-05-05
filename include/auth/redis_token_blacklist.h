@@ -27,6 +27,8 @@
 #include <string>
 #include <mutex>
 #include <cstdint>
+#include <unordered_map>
+#include <chrono>
 
 // Full hiredis types are only needed in the implementation; forward-declare
 // here so the header compiles regardless of THEMIS_ENABLE_REDIS.
@@ -129,6 +131,12 @@ private:
     bool connect();
     void disconnect();
     std::string makeKey(const std::string& jti) const;
+#else
+    // In-memory fallback: revocations are not shared across processes but
+    // are honoured within the lifetime of this process.
+    mutable std::mutex fallback_mutex_;
+    mutable std::unordered_map<std::string,
+                               std::chrono::system_clock::time_point> fallback_map_;
 #endif
 };
 

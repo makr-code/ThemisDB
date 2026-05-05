@@ -3470,21 +3470,31 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			spatialSpan.setStatus(true);
 		}
 		
-		// STUB/SIMULATION NOTE:
-		// Purpose: Returns trivial 2-hop paths (start_node → reachable_node) while
-		//          BFS-based full path reconstruction is not yet integrated into the
-		//          spatial-path query flow.
-		// Activation: Always — BFS returns a reachable-node set but does not retain
-		//             parent pointers needed for path reconstruction.
-		// Production Delta: All paths are length-1 (direct start→end); multi-hop
-		//                   intermediate nodes are silently dropped; shortest-path
-		//                   semantics are not preserved.
-		// Removal Plan: Modify executeSpatialBFS() to track parent pointers per node;
-		//               reconstruct the full path via backtracking before pushing
-		//               into `allPaths`.  See src/query/FUTURE_ENHANCEMENTS.md
-		//               §Query Engine Path Reconstruction.
-		for (const auto& node : reachableNodes) {
-			if (node != q.start_node) {
+		// Reconstruct actual multi-hop paths from start_node to each reachable
+		// node using Dijkstra.  For large result sets we cap the number of
+		// individual path lookups to avoid O(N²) worst-case runtime; nodes
+		// beyond the cap are represented as trivial 2-hop paths.
+		static constexpr size_t kMaxPathLookups = 500;
+		for (size_t i = 0; i < reachableNodes.size(); ++i) {
+			const auto& node = reachableNodes[i];
+			if (node == q.start_node) {
+				continue;
+			}
+			if (i < kMaxPathLookups) {
+				// Attempt to reconstruct the full path via Dijkstra.
+				bool hasTypeFilter = !q.edge_type.empty();
+				std::string graphId = q.graph_id.empty() ? std::string("default") : q.graph_id;
+				auto [st, pathResult] = hasTypeFilter
+					? graphIdx_->dijkstra(q.start_node, node, q.edge_type, graphId)
+					: graphIdx_->dijkstra(q.start_node, node);
+				if (st.ok && !pathResult.path.empty()) {
+					allPaths.push_back(std::move(pathResult.path));
+				} else {
+					// Dijkstra unavailable for this pair — fall back to 2-hop
+					allPaths.push_back({q.start_node, node});
+				}
+			} else {
+				// Beyond lookup cap: emit a minimal reachability path
 				allPaths.push_back({q.start_node, node});
 			}
 		}

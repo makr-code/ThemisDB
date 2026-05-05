@@ -19,8 +19,10 @@
 
 #include "llm/ethical_guidelines_manager.h"
 #include "ethics_ai/ethics_ai_types.h"
+#include "llm/llm_plugin_interface.h"
 #include "utils/logger.h"
 #include <yaml-cpp/yaml.h>
+#include <nlohmann/json.hpp>
 #include <fstream>
 #include <sstream>
 #include <algorithm>
@@ -587,23 +589,57 @@ Analyze the above text and context. Respond in JSON format:
 }
 )";
     
-    // STUB/SIMULATION NOTE:
-    // Purpose: Allow the LLM-as-ethical-judge code path to compile and return
-    //          a well-formed result struct while LLM inference is not yet wired.
-    // Activation: Always — no `llm_wrapper` call is made.
-    // Production Delta: `llm_confidence` is 0.0; `llm_reasoning` is a fixed
-    //                   `"LLM judge integration pending"` string; `has_ethical_context`
-    //                   is false.  Any caller that gates decisions on LLM judge
-    //                   output will always see a null/zero ethical analysis,
-    //                   defeating the purpose of the judge.
-    // Removal Plan: Call llm_wrapper->generate(prompt) with the system prompt and
-    //               case JSON; parse the returned JSON into the AnalysisResult fields.
-    //               See src/llm/FUTURE_ENHANCEMENTS.md §EthicalGuidelinesManager LLM Judge.
-    LogInfo("LLM-as-ethical-judge analysis requested (implementation pending LLM integration)");
+    // Call the LLM wrapper to run the ethical judge analysis.
+    auto* llm = static_cast<ILLMPlugin*>(llm_wrapper_ptr);
 
-    result.llm_confidence = 0.0f;
-    result.llm_reasoning = "LLM judge integration pending";
-    result.has_ethical_context = false;
+    InferenceRequest req;
+    req.prompt = judge_prompt;
+    req.max_tokens = 512;
+    req.temperature = 0.1f;  // Low temperature for deterministic ethical analysis
+
+    InferenceResponse resp;
+    try {
+        resp = llm->generate(req);
+    } catch (const std::exception& ex) {
+        LogWarning("LLM judge inference failed: {}", ex.what());
+        return result;
+    }
+
+    if (!resp.success || resp.text.empty()) {
+        LogWarning("LLM judge returned empty or failed response: {}",
+                   resp.error_message);
+        return result;
+    }
+
+    // Parse JSON response from model output — the prompt asked for JSON only.
+    // Strip any markdown code fences the model may have emitted.
+    std::string json_text = resp.text;
+    {
+        static const std::regex kFence("```(?:json)?\\s*([\\s\\S]*?)```",
+                                       std::regex_constants::icase);
+        std::smatch m;
+        if (std::regex_search(json_text, m, kFence)) {
+            json_text = m[1].str();
+        }
+        // Trim leading/trailing whitespace
+        auto ltrim = json_text.find('{');
+        auto rtrim = json_text.rfind('}');
+        if (ltrim != std::string::npos && rtrim != std::string::npos) {
+            json_text = json_text.substr(ltrim, rtrim - ltrim + 1);
+        }
+    }
+
+    try {
+        auto j = nlohmann::json::parse(json_text);
+        result.has_ethical_context =
+            j.value("has_ethical_implications", false);
+        result.llm_confidence = j.value("confidence", 0.0f);
+        result.llm_reasoning  = j.value("reasoning", std::string{});
+    } catch (const nlohmann::json::exception& je) {
+        LogWarning("LLM judge JSON parse error: {} — raw output: {}",
+                   je.what(), resp.text.substr(0, 200));
+        // Treat as no ethical implications if we can't parse the response
+    }
 
     return result;
 }
