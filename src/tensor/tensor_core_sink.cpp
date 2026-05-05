@@ -23,6 +23,7 @@
 #include "storage/tensor_network_storage_engine.h"
 #include "utils/error_registry.h"
 #include "utils/expected.h"
+#include <algorithm>
 #include <stdexcept>
 #include <string>
 
@@ -56,7 +57,10 @@ void TensorCoreStorageSink::validateTenantId(const std::string& tenant_id) {
         throw std::invalid_argument(
             "TensorCoreStorageSink: tenant_id contains '/' — not allowed");
     }
-    if (tenant_id.find('\0') != std::string::npos) {
+    // Use std::any_of to scan all bytes including embedded nulls, avoiding any
+    // ambiguity with C-string null-terminator semantics.
+    if (std::any_of(tenant_id.begin(), tenant_id.end(),
+                    [](unsigned char c) { return c == '\0'; })) {
         throw std::invalid_argument(
             "TensorCoreStorageSink: tenant_id contains '\\0' — not allowed");
     }
@@ -89,7 +93,8 @@ ingestion::Result<void> TensorCoreStorageSink::write(
                        "TensorCoreStorageSink::write: tenant_id is empty");
     }
     if (tenant_id.find('/') != std::string::npos ||
-        tenant_id.find('\0') != std::string::npos) {
+        std::any_of(tenant_id.begin(), tenant_id.end(),
+                    [](unsigned char c) { return c == '\0'; })) {
         return ingestion::ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
                        "TensorCoreStorageSink::write: tenant_id contains "
                        "illegal characters");

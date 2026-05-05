@@ -21,6 +21,7 @@
  */
 
 #include "ingestion/ingestion_sinks.h"
+#include <algorithm>
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <chrono>
@@ -353,7 +354,8 @@ Result<void> InMemoryTensorCoreSink::write(const TensorCoreRecord& record,
                        "InMemoryTensorCoreSink::write: tenant_id is empty");
     }
     if (tenant_id.find('/') != std::string::npos ||
-        tenant_id.find('\0') != std::string::npos) {
+        std::any_of(tenant_id.begin(), tenant_id.end(),
+                    [](unsigned char c) { return c == '\0'; })) {
         return ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
                        "InMemoryTensorCoreSink::write: tenant_id contains "
                        "illegal characters ('/' or '\\0')");
