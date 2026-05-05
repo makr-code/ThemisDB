@@ -185,24 +185,36 @@ TTSResult TTSProcessor::synthesize(
 }
 
 bool TTSProcessor::streamSynthesize(
-    const std::string& /*text*/,
-    std::function<void(const std::vector<uint8_t>&)> /*callback*/,
-    const TTSOptions& /*options*/
+    const std::string& text,
+    std::function<void(const std::vector<uint8_t>&)> callback,
+    const TTSOptions& options
 ) {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Satisfies the API contract of streamSynthesize() while the
-    //          real streaming TTS pipeline (chunk-by-chunk Piper/ONNX inference
-    //          with callback-driven audio delivery) has not yet been wired up.
-    // Activation: Always — no build flag gates this path.
-    // Production Delta: The callback is never invoked; the caller receives no
-    //                   audio segments.  A full implementation would call
-    //                   synthesizeInternal() in chunks and invoke `callback`
-    //                   for each chunk so that the caller can begin playback
-    //                   before the full synthesis is complete.
-    // Removal Plan: Implement chunk-based Piper inference and call the callback
-    //               per audio frame.  See src/content/FUTURE_ENHANCEMENTS.md
-    //               §TTS Streaming Synthesis.
-    return false;
+    if (!initialized_ || !callback) return false;
+
+    // Synthesise the complete audio via the existing pipeline, then deliver
+    // the result to the caller in fixed-size chunks so that downstream
+    // consumers receive audio data through the callback interface.
+    //
+    // Production note: true frame-by-frame streaming would interleave
+    // Piper/ONNX inference and audio delivery so that playback can begin
+    // before synthesis completes (see src/content/FUTURE_ENHANCEMENTS.md
+    // §TTS Streaming Synthesis).  This "batch-then-chunk" path requires the
+    // full synthesis to finish before the first callback fires, but it
+    // correctly invokes the callback with real audio data, enabling all
+    // callers that consume streaming audio to work end-to-end.
+    const TTSResult result = synthesizeInternal(text, options);
+    if (!result.success || result.audio_data.empty()) {
+        return false;
+    }
+
+    constexpr size_t kChunkBytes = 8192; // 8 KiB per delivery (≈ ~186 ms at 22 050 Hz mono 16-bit)
+    const auto& data = result.audio_data;
+    for (size_t offset = 0; offset < data.size(); offset += kChunkBytes) {
+        const size_t end = std::min(offset + kChunkBytes, data.size());
+        callback({data.begin() + static_cast<ptrdiff_t>(offset),
+                  data.begin() + static_cast<ptrdiff_t>(end)});
+    }
+    return true;
 }
 
 json TTSProcessor::getAvailableVoices() const {
