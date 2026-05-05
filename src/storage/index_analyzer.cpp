@@ -53,23 +53,13 @@ constexpr uint64_t kBytesPerMB           = 1024ULL * 1024ULL;
 /// metadata column family.
 constexpr uint64_t kEstimatedOrphansPerMB = 1000ULL;
 
-// STUB/SIMULATION NOTE:
-// Purpose: Provide a non-zero statistics-age value while a real per-index
-//          stats-update timestamp stored in a dedicated metadata CF is not
-//          implemented.  Every analysis report will show stats_age_hours=2.
-// Activation: Always — no metadata CF key is read.
-// Production Delta: `stats_age_hours` is always 2.  `stats_stale` is computed
-//                   from this constant, so staleness detection fires or stays
-//                   quiet based on the hardcoded value rather than the actual
-//                   time since the last statistics update.  Maintenance
-//                   scheduling relying on staleness may be wrong.
-// Removal Plan: Write a timestamp to a dedicated metadata CF key at every
-//               statistics update; read it here; compute age from wall clock.
-//               See src/storage/FUTURE_ENHANCEMENTS.md §IndexAnalyzer StatsTimestamp.
-/// Placeholder statistics-age value used until a dedicated stats-timestamp
-/// metadata key is introduced.  Replace this constant once proper staleness
-/// tracking is wired through the metadata CF.
-constexpr uint32_t kPlaceholderStatsAgeHours = 2;
+/// RocksDB key prefix used to persist per-index stats-update timestamps.
+/// Key format: "__ia_stats_ts__:<index_name>"  Value: decimal epoch seconds.
+static const std::string kStatsTimestampPrefix = "__ia_stats_ts__:";
+
+/// Fallback statistics-age used when the RocksDB metadata key cannot be read
+/// (e.g., first analysis ever run, or DB write failure).
+constexpr uint32_t kFallbackStatsAgeHours = 72;
 
 storage::StorageTierLevel tierFromString(const std::string& s) {
     if (s == "warm") return storage::StorageTierLevel::WARM;
@@ -478,10 +468,35 @@ IndexAnalysisReport IndexAnalyzer::computeReport(const std::string& index_name,
     report.orphan_entries = (pending_compact_bytes / kBytesPerMB) * kEstimatedOrphansPerMB;
 
     // ── Statistics staleness ──────────────────────────────────────────────
-    // Use kPlaceholderStatsAgeHours until a per-index stats-update timestamp
-    // is stored in a dedicated metadata CF.
-    report.stats_age_hours = kPlaceholderStatsAgeHours;
-    report.stats_stale     = (report.stats_age_hours >= thresholds.stats_stale_hours);
+    // Read the per-index stats-update timestamp from RocksDB to compute the
+    // real age.  If the key is missing (first run) or the DB is unavailable,
+    // fall back to kFallbackStatsAgeHours so that stale detection fires and
+    // triggers an initial statistics update.
+    {
+        const std::string ts_key = kStatsTimestampPrefix + index_name;
+        std::string ts_str;
+        uint32_t age_hours = kFallbackStatsAgeHours;
+        if (db_wrapper_->get(ts_key, ts_str) && !ts_str.empty()) {
+            try {
+                const int64_t stored_epoch = std::stoll(ts_str);
+                const auto now_epoch = std::chrono::duration_cast<std::chrono::seconds>(
+                    std::chrono::system_clock::now().time_since_epoch()).count();
+                const int64_t age_secs = now_epoch - stored_epoch;
+                age_hours = (age_secs > 0)
+                    ? static_cast<uint32_t>(age_secs / 3600)
+                    : 0u;
+            } catch (...) {
+                age_hours = kFallbackStatsAgeHours;
+            }
+        }
+        report.stats_age_hours = age_hours;
+
+        // Persist current timestamp so the next analysis sees the real age.
+        const auto now_epoch = std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        db_wrapper_->put(ts_key, std::to_string(now_epoch));
+    }
+    report.stats_stale = (report.stats_age_hours >= thresholds.stats_stale_hours);
 
     // ── Rule-based recommendation ─────────────────────────────────────────
     report.recommendation = classify(frag_pct, report.stats_stale, thresholds);

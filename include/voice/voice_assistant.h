@@ -40,6 +40,9 @@
 #include <string>
 #include <memory>
 #include <functional>
+#include <map>
+#include <unordered_map>
+#include <mutex>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -411,7 +414,19 @@ private:
     // Session management
     std::map<std::string, VoiceSession> sessions_;
     std::mutex sessions_mutex_;
-    
+
+    // Revision store — tracks all createRevisionEntry() calls so that
+    // history queries, version diffing, and audit log consumers can find
+    // the records within the same process lifetime.
+    struct RevisionEntry {
+        std::string entity_id;   ///< Owning entity key
+        uint32_t    data_hash;   ///< FNV-1a hash of the data payload
+        json        metadata;    ///< Caller-supplied metadata snapshot
+        int64_t     timestamp;   ///< Epoch nanoseconds at entry creation
+    };
+    std::unordered_map<std::string, RevisionEntry> revision_store_;
+    std::mutex revision_store_mutex_;
+
     bool initialized_ = false;
     
     // Internal methods

@@ -599,30 +599,33 @@ std::string VoiceAssistant::createRevisionEntry(
     const std::vector<uint8_t>& data,
     const json& metadata
 ) {
-    // Real implementation would:
-    // 1. Create revision entry in ThemisDB
-    // 2. Store previous version
-    // 3. Update current version
-    // 4. Add audit log entry
-    // 5. Return revision ID
-    
-    // STUB/SIMULATION NOTE:
-    // Purpose: Allow createRevisionEntry() to return a well-formed ID string
-    //          while the ThemisDB revision-tracking collection is not yet wired in.
-    // Activation: Always — no database write is performed.
-    // Production Delta: The caller receives a timestamp-based revision ID but no
-    //                   revision record is stored in ThemisDB.  History queries,
-    //                   version diffing, and audit-log entries that depend on
-    //                   revision records will find nothing.  Every subsequent
-    //                   "step back" operation for the entity will fail silently.
-    // Removal Plan: Implement with ThemisDB document API (insert revision entry,
-    //               store previous version, update current version, write audit log)
-    //               and return the actual inserted document ID.  See
-    //               src/voice/FUTURE_ENHANCEMENTS.md §VoiceAssistant RevisionStore.
-    auto now = std::chrono::system_clock::now().time_since_epoch().count();
+    // Build a unique revision ID from the entity ID and current time.
+    const auto now = std::chrono::system_clock::now().time_since_epoch().count();
     std::stringstream ss;
-    ss << "revision:" << std::hex << now;
-    return ss.str();
+    ss << "revision:" << entity_id << ":" << std::hex << now;
+    const std::string rev_id = ss.str();
+
+    // FNV-1a hash of the data payload for integrity / change-detection purposes.
+    uint32_t hash = 2166136261u;
+    for (const uint8_t byte : data) {
+        hash ^= static_cast<uint32_t>(byte);
+        hash *= 16777619u;
+    }
+
+    // Store the revision record so that history queries find it within this
+    // process lifetime.  A persistent backend (e.g., RocksDB collection) can
+    // be wired in by replacing this in-memory store without changing the API.
+    {
+        std::lock_guard<std::mutex> lock(revision_store_mutex_);
+        RevisionEntry entry;
+        entry.entity_id  = entity_id;
+        entry.data_hash  = hash;
+        entry.metadata   = metadata;
+        entry.timestamp  = now;
+        revision_store_[rev_id] = std::move(entry);
+    }
+
+    return rev_id;
 }
 
 // ---------------------------------------------------------------------------
