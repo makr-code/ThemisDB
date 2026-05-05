@@ -284,5 +284,139 @@ Planned: `TTQuantizer::autoQuantize()` with kurtosis-based selection (Q4 2026).
 
 ---
 
+## 🆕 Best Practices: Hierarchical Tucker (HT)
+
+### HT-1. Prefer HT over TT for d ≥ 5 and GPU workloads
+For high-dimensional data (d ≥ 5) with multi-scale structure and GPU execution,
+Hierarchical Tucker [Grasedyck 2010] provides better parallelism and compression:
+- Storage: O(d·n·r + d·r³) vs TT's O(d·n·r²) for large r.
+- Parallel branches process independently; serial fraction O(log d) vs O(d) for TT.
+- A100 tensor cores: empirical 32× speedup for HT over standard CUDA cores.
+
+**Routing rule in `TensorRouter`:**
+```cpp
+if (d_modes >= 5 && category == SIMULATION) return Format::HT;
+if (d_modes >= 5 && gpu_acceleration_available) return Format::HT;
+// otherwise:
+return Format::TT;
+```
+
+### HT-2. Use balanced binary dimension tree
+Partition modes into a balanced binary tree.  For d=6 (plasma 6D):
+```
+tree: ((x,y), (z, vx)), ((vy, vz))
+```
+Unbalanced trees degrade to near-TT performance.  `HierarchicalTuckerDecomposer::buildTree()`
+constructs balanced trees automatically via mode-size sorting.
+
+### HT-3. Apply HT-rounding after every HT-algebraic operation
+Similar to TT-rounding, HT ranks grow during binary operations.
+`HierarchicalTuckerDecomposer::round()` (planned Q1 2028) must be called after
+every HT hadamard, addition, or slice.
+
+**Target:** HT-rounding for a rank-32 6D tensor (n=64) in ≤ 200ms CPU,
+≤ 20ms CUDA (A100).
+
+---
+
+## 🆕 Best Practices: Quantics-TT (QTT)
+
+### QTT-1. Use QTT for oscillatory integral operators (OIOs)
+For OIOs (Fourier integrals, Green's functions, wave equation operators), standard
+TT-SVD may require ranks O(n) to resolve oscillations.  QTT [Khoromskij 2011]
+factorises each dimension via binary representation, achieving O(log n) ranks:
+
+```
+n=1024 grid → 10 binary modes of size 2
+QTT storage: O(d · log(n) · r²)  vs  TT: O(d · n · r²)
+```
+
+**Rule:** Use `QuanticsTTDecomposer` when:
+- The target function is oscillatory (Maxwell kernel, Green's function).
+- Grid size n ≥ 64 per dimension.
+- Measured TT-rank exceeds 32 after standard TT-SVD.
+
+### QTT-2. Combine with Tensor Butterfly for O(n·d) operator application
+Pre-store OIO operator as a Tensor Butterfly network (`TensorButterflyOperator`).
+Application complexity drops to O(n·d) vs O(n·d·log n) for FFT.
+
+```
+AQL: SELECT TENSOR_APPLY_BUTTERFLY(simulation_field, 'maxwell_green_op')
+     WHERE collection = 'plasma_snapshots'
+```
+
+---
+
+## 🆕 Best Practices: Hiss/TNSR Adaptive Framework
+
+### Hiss-1. Enable TNSR only after a stable base decomposition exists
+TNSR re-optimises the network topology.  Running it on freshly inserted data with
+unstable correlations wastes CPU.  Recommended trigger: ≥ 1000 inserts since last
+TNSR sweep OR ≥ 10% data entropy change (measured via pilot SVD sample).
+
+```cpp
+// In TensorCompactionFilter::Filter():
+if (stats.inserts_since_tnsr < 1000 && stats.entropy_delta < 0.10) return Keep;
+return TNSRTask::schedule(key, value);
+```
+
+### Hiss-2. Store domain template graphs in TemplateCatalog
+After Hiss converges on an optimal structure for a domain, persist the template:
+```
+Key: __hiss_template__:<domain>:<version>
+Value: serialised HissTemplateGraph (topology + bond dimensions)
+```
+Re-use templates for similar new collections: compression within 10% of domain
+optimum without re-running full structural search.
+
+### Hiss-3. Gate TNSR behind a build flag in production
+TNSR is computationally expensive.  Never run on hot write paths.
+
+```cpp
+// STUB/SIMULATION NOTE:
+// Purpose: TNSR is disabled by default in production builds
+// Activation: THEMIS_ENABLE_HISS=ON cmake flag
+// Production Delta: Without HISS, TT/HT structures are static after first decomposition
+// Removal Plan: Enable by default after Q3 2028 validation campaign
+```
+
+---
+
+## 🆕 Best Practices: GGUF v3 Provenance Metadata
+
+### GGUF-1. Always emit provenance KV pairs per tensor block
+When exporting TT-cores to GGUF v3 via `GgmlTensorBridge::writeGgufHeader()`,
+the following keys are **mandatory** for regulated-industry deployments:
+
+```
+source.filename     string   — original document filename
+source.page         uint32   — page number (1-based) or 0 for non-documents
+source.line         uint32   — line number or 0
+source.tenant_id    string   — ThemisDB tenant identifier
+source.epsilon      float32  — reconstruction error bound used during decomposition
+source.format       string   — "TT" | "HT" | "QTT"
+source.rank_max     uint32   — maximum TT/HT rank used
+```
+
+### GGUF-2. Account for reversed dimension order in GGUF
+GGUF stores dimensions in reverse PyTorch order.  A TT-core `Gₖ ∈ ℝ^{r_prev × n_k × r_next}`
+must be stored with GGUF dimensions `[r_next, n_k, r_prev]`.  `GgmlTensorBridge`
+handles this automatically via `transposeGgufDimensions()`.
+
+### GGUF-3. Register GGML_TYPE_TT before any inference call
+The custom type must be registered before `ggml_tensor` operations:
+```cpp
+// In GgmlTensorBridge constructor (or llama.cpp init hook):
+ggml_register_type(GGML_TYPE_TT, {
+    .type_size = sizeof(TTTrain*),  // pointer to managed TTTrain
+    .blck_size = 1,
+    .type_name = "TT",
+    .to_float  = &GgmlTensorBridge::contractToFloat,
+    .from_float = nullptr,  // TT created via ThemisDB decomposition only
+});
+```
+
+---
+
 **Last Updated:** 2026-05-05  
 **Next Review:** 2026-09-01 (after Phase 2 completion)

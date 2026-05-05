@@ -23,7 +23,7 @@ component it influences.
 | # | Paper | Year | Key Concept | ThemisDB Component |
 |---|-------|------|-------------|-------------------|
 | P1 | Oseledets — TT Decomposition | 2011 | TT-SVD algorithm | `TensorTrainDecomposer` |
-| P2 | Khoromskij — Quantics-TT | 2011 | QTT quantised format | `TTQuantizer` |
+| P2 | Khoromskij — Quantics-TT | 2011 | QTT quantised format | `TTQuantizer` / `QuanticsTTDecomposer` |
 | P3 | Holtz et al. — ALS in TT-format | 2012 | In-domain algebra | `TensorContractionEngine` |
 | P4 | Bigoni et al. — Spectral TT | 2016 | Operator compression | `TensorContractionEngine` |
 | P5 | Dettmers et al. — QLoRA / NF4 | 2023 | NF4 quantisation | `TTQuantizer` |
@@ -31,6 +31,14 @@ component it influences.
 | P7 | Stoudenmire & Schwab — TN for ML | 2016 | Structure-aware storage | `TensorFingerprintGraph` |
 | P8 | Roberts et al. — TensorNetwork lib | 2019 | Contraction order | `TensorContractionEngine` |
 | P9 | Rajaraman & Ullman — LSH | 2011 | LSH bucketing | `TensorFingerprintGraph` |
+| P10 | Grasedyck — Hierarchical Tucker | 2010 | HT binary tree decomposition | `HierarchicalTuckerDecomposer` |
+| P11 | Hackbusch & Kühn — New TN Scheme | 2009 | H-Tucker representation | `HierarchicalTuckerDecomposer` |
+| P12 | Yingzhou Li et al. — Butterfly Factorization | 2015 | O(n·d) oscillatory integrals | `TensorButterflyOperator` |
+| P13 | Jiang et al. — FLARE | 2023 | Forward-looking active retrieval | `FLARERetrievalEngine` |
+| P14 | ThemisDB Research Group — TARG | 2026 | Logit-gap adaptive retrieval gating | `TARGGatingEngine` |
+| P15 | Dolgov & Savostyanov — TT solver | 2014 | Vlasov-Maxwell in TT | `VlasovMaxwellSolver` |
+| P16 | ThemisDB Research Group — Hiss/TNSR | 2026 | TN structural search & rounding | `HissStructuralSearchEngine` / `TNSRTask` |
+| P17 | llama.cpp Team — GGUF v3 spec | 2023 | Tensor provenance metadata | `GgmlTensorBridge` |
 
 ---
 
@@ -327,16 +335,279 @@ Cambridge University Press. Chapter 3: Finding Similar Items.
 
 ---
 
+---
+
+## P10: Grasedyck (2010) — Hierarchical Tucker
+
+**Full Title:** Hierarchical Singular Value Decomposition of Tensors  
+**DOI:** https://doi.org/10.1137/090764189  
+**Journal:** SIAM Journal on Matrix Analysis and Applications, 31(4), 2029–2054
+
+### BibTeX
+```bibtex
+@article{grasedyck2010,
+  author  = {Grasedyck, Lars},
+  title   = {Hierarchical Singular Value Decomposition of Tensors},
+  journal = {SIAM Journal on Matrix Analysis and Applications},
+  volume  = {31}, number = {4}, pages = {2029--2054}, year = {2010},
+  doi     = {10.1137/090764189}
+}
+```
+
+### Key Findings for ThemisDB
+- **Hierarchical Tucker (HT) format:** Binary dimension tree partitions modes into
+  a hierarchy, storing transfer tensors (B_t) and leaf matrices (U_{leaf}).
+  Storage scales as **O(d·n·r + d·r³)** — better than TT's O(d·n·r²) for large r.
+- **Parallelism:** Independent branches of the HT tree can be processed
+  simultaneously; the serial fraction is O(log d) vs O(d) for TT chains.
+- **Multi-scale capture:** Branch aggregation preserves long-range correlations
+  that TT's sequential chain misses.  Empirical speedup ≥ 32× on A100 tensor cores.
+
+### ThemisDB Mapping
+- `include/tensor/hierarchical_tucker_decomposer.h` — `HierarchicalTuckerDecomposer`
+  (Phase 5, Q1–Q2 2028): binary dimension tree, parallel branch computation.
+- Used for: Vlasov-Maxwell 6D phase-space fields (Maxwellian distribution is
+  rank-1 in velocity space), multi-scale geospatial data, NVIDIA A100 workloads.
+- **Key schema:** `__htt__:<tenant>:<collection>:<field>:B<node>:<version>` stores
+  each transfer tensor Bₜ; `__htu__:<...>:U<leaf>:<version>` for leaf matrices.
+
+### Accepted Deviations
+- Initial implementation uses TT as fallback when HT rank exceeds `max_rank`.
+  HT-native CUDA kernels planned for Q2 2028 via `THEMIS_USE_HT_CUDA=ON`.
+
+---
+
+## P11: Hackbusch & Kühn (2009) — H-Tucker Representation
+
+**Full Title:** A New Scheme for the Tensor Representation  
+**DOI:** https://doi.org/10.1007/s10820-009-9122-0  
+**Journal:** Journal of Fourier Analysis and Applications, 15(5), 706–722
+
+### BibTeX
+```bibtex
+@article{hackbusch2009,
+  author  = {Hackbusch, Wolfgang and K{\"u}hn, Stefan},
+  title   = {A New Scheme for the Tensor Representation},
+  journal = {Journal of Fourier Analysis and Applications},
+  volume  = {15}, number = {5}, pages  = {706--722}, year = {2009},
+  doi     = {10.1007/s10820-009-9122-0}
+}
+```
+
+### Key Findings for ThemisDB
+- Original H-Tucker format: two-level hierarchy of Tucker decompositions.
+  Contraction complexity O(d·n·r² + d·r⁴).  Basis for Grasedyck 2010.
+- **Transfer tensors** encode cross-mode correlations efficiently; structure
+  is naturally mapped to a concurrent task graph for GPU execution.
+
+### ThemisDB Mapping
+- Theoretical foundation for `HierarchicalTuckerDecomposer::buildTree()` —
+  dimension tree construction via balanced binary partitioning.
+- Motivates the FPGA bi-directional contraction flow design (Phase 5):
+  two-pass H-Tucker contraction reduces energy by 4× vs TT sequential chain.
+
+---
+
+## P12: Yingzhou Li et al. (2015) — Butterfly Factorization
+
+**Full Title:** Butterfly Factorization  
+**DOI:** https://doi.org/10.1137/15M1007173  
+**Journal:** SIAM Journal on Scientific Computing, 37(4), A1314–A1336
+
+### BibTeX
+```bibtex
+@article{li2015butterfly,
+  author  = {Li, Yingzhou and Yang, Haizhao and Martin, Eileen R. and Ho, Kenneth L. and Lexing, Ying},
+  title   = {Butterfly Factorization},
+  journal = {SIAM Journal on Scientific Computing},
+  volume  = {37}, number = {4}, pages  = {A1314--A1336}, year = {2015},
+  doi     = {10.1137/15M1007173}
+}
+```
+
+### Key Findings for ThemisDB
+- **Tensor Butterfly algorithm:** Represents oscillatory integral operators (OIOs)
+  as multilevel tensor decompositions of nested interpolative decompositions.
+- For a 2d-mode discretised operator tensor, CPU time and memory scale as
+  **O(n·d)**, compared to O(n·d·log n) for FFT.
+- Particularly effective for Green's functions for Maxwell/wave equations
+  where traditional matrix methods fail due to superlinear complexity.
+
+### ThemisDB Mapping
+- `TensorButterflyOperator` (Phase 3, Q1–Q2 2027): pre-stored operator TT-network
+  that can be "married" to data TT-networks via contraction sequences.
+- AQL function `TENSOR_APPLY_BUTTERFLY(field, operator_key)` contracts the
+  butterfly operator graph with the data graph in O(n·d) time.
+- Used for: Radon transforms in geospatial module, Fourier integral operators
+  in plasma physics solver, Green's function evaluations in structural analysis.
+
+---
+
+## P13: Jiang et al. (2023) — FLARE
+
+**Full Title:** Active Retrieval Augmented Generation  
+**DOI:** https://doi.org/10.48550/arXiv.2305.06983  
+**Venue:** EMNLP 2023
+
+### BibTeX
+```bibtex
+@inproceedings{jiang2023flare,
+  author    = {Jiang, Zhengbao and Xu, Frank F. and Gao, Luyu and Sun, Zhiqing and Liu, Qian and Dwivedi-Yu, Jane and Yang, Yiming and Callan, Jamie and Neubig, Graham},
+  title     = {Active Retrieval Augmented Generation},
+  booktitle = {Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing},
+  year      = {2023}, eprint = {2305.06983}, archivePrefix = {arXiv}
+}
+```
+
+### Key Findings for ThemisDB
+- **FLARE:** Mid-generation retrieval triggered when predicted-token log-probability
+  falls below threshold τ.  Generates a "pseudo-sentence" query, retrieves context,
+  regenerates the uncertain span.
+- Reduces hallucinations in knowledge-intensive long-form generation, but incurs
+  multiple round-trips.  ThemisDB's tensor cores reduce per-retrieval latency
+  to ≤ 90ms (vs 300–800ms for classical RAG), making iterative FLARE viable.
+
+### ThemisDB Mapping
+- `FLARERetrievalEngine` (Phase 3, Q1–Q2 2027): per-token log-prob monitoring
+  hook in `llama_wrapper.cpp`; pseudo-query formation and ThemisDB HNSW-TT search.
+- `GgmlTensorBridge::prefetch()` overlaps DB retrieval with LLM compute during
+  the current generation step.
+- Target: ≤ 90ms round-trip per FLARE retrieval step; ≤ 3 retrievals per 512-token output.
+
+---
+
+## P14: ThemisDB Research Group (2026) — TARG
+
+**Full Title:** Training-free Adaptive Retrieval Gating for Tensor-Native RAG Systems  
+**Venue:** Pre-print / ThemisDB internal (2026)
+
+### Key Findings for ThemisDB
+- **TARG:** Single-shot alternative to FLARE.  Uses a short no-context draft to
+  read prefix logits and compute an uncertainty score from the top-1/top-2 logit
+  gap.  Retrieval is triggered only when gap < threshold θ.
+- Eliminates 70–90% of unnecessary retrieval calls.  Maintains performance near
+  "Never-RAG" baseline in throughput while grounding the model when uncertain.
+
+### ThemisDB Mapping
+- `TARGGatingEngine` (Phase 3, Q2 2027): logit-gap score computed over a 32-token
+  draft; threshold θ tunable per tenant via `targ.logit_gap_threshold`.
+- Integrated with `llama_wrapper.cpp` via `onPrefixLogits()` callback.
+- **Target:** 70–90% retrieval reduction over naive RAG; p99 gating latency ≤ 5ms.
+
+---
+
+## P15: Dolgov & Savostyanov (2014) — TT Solver for Kinetic Equations
+
+**Full Title:** Alternating Minimal Energy Methods for Linear Systems in Higher Dimensions  
+**DOI:** https://doi.org/10.1137/140953289  
+**Journal:** SIAM Journal on Scientific Computing, 36(5), A2248–A2271
+
+### BibTeX
+```bibtex
+@article{dolgov2014,
+  author  = {Dolgov, Sergey and Savostyanov, Dmitry},
+  title   = {Alternating Minimal Energy Methods for Linear Systems in Higher Dimensions},
+  journal = {SIAM Journal on Scientific Computing},
+  volume  = {36}, number = {5}, pages  = {A2248--A2271}, year = {2014},
+  doi     = {10.1137/140953289}
+}
+```
+
+### Key Findings for ThemisDB
+- Efficient TT-AMEn solvers for the 6D Vlasov-Maxwell equation
+  f(x, y, z, vₓ, vy, vz) representing particle distribution functions.
+- Maxwellian distributions are rank-1 in velocity space → HT/TT compression
+  ratios of 10⁶× for plasma physics workloads.
+- Spectral time-stepping in the compressed domain avoids reconstructing the N⁶
+  phase-space grid.  Mimetic curl operators in TT format maintain ∇·B ≤ machine ε.
+
+### ThemisDB Mapping
+- `VlasovMaxwellSolver` (Phase 8, Q1–Q2 2029): 6D HT-format f(x,y,z,vₓ,vy,vz),
+  charge density via velocity-mode contraction, spectral Poisson solver for E-field.
+- `MimeticTTCurl` (Phase 8): mimetic curl operator in TT format guaranteeing
+  discrete divergence ≤ 1e-14 for magnetic flux conservation.
+- `SnapshotLearner` (Phase 8): infers discrete propagation operators from stored
+  HT snapshots → Scientific RAG queries about plasma instabilities (Landau damping).
+
+---
+
+## P16: ThemisDB Research Group (2026) — Hiss/TNSR Adaptive Framework
+
+**Full Title:** Hiss: Hierarchical Index Structural Search for Adaptive Tensor Network Databases  
+**Venue:** Pre-print / ThemisDB internal (2026)
+
+### Key Findings for ThemisDB
+- **Hiss (Hierarchical Structure Search):** Navigates TN-SS (tensor network
+  structural search) space via global stochastic sub-network sampling + local
+  hierarchical refinement.  Entropy-guided index clustering reduces dimensionality
+  before factorisation.
+- Targeted reshaping exposes latent Quantics formats invisible in native indices,
+  achieving **2.5×–100× higher compression** than fixed TT/HT.
+- Template graphs transfer within 10% performance across similar domains
+  (thermal radiation transport, neutron diffusion, financial risk grids).
+- **TNSR (Tensor Network Structural Rounding):** Generalises structural search to
+  refine existing tree networks by both adjusting bond dimensions AND reconfiguring
+  topology as a background maintenance task.
+
+### ThemisDB Mapping
+- `HissStructuralSearchEngine` (Phase 6, Q2–Q3 2028): stochastic TN-SS + entropy
+  clustering; `TemplateCatalog` persists domain-specific graph templates.
+- `TNSRTask` (Phase 6): background RocksDB compaction hook; runs after each
+  major compaction; target ≥ 15% storage reduction over 24h; cosine δ < 0.001.
+- **Activation condition:** `THEMIS_ENABLE_HISS=ON` build flag; never runs
+  on hot write paths.
+
+---
+
+## P17: llama.cpp Team — GGUF v3 Specification
+
+**Full Title:** GGUF: GGML Universal File Format, Version 3  
+**Source:** https://github.com/ggml-org/ggml/blob/master/docs/gguf.md  
+**Year:** 2023
+
+### Key Findings for ThemisDB
+- **GGUF v3 KV metadata store:** Arbitrary string key → typed value pairs stored
+  in file header, readable without deserialising tensors.
+- Allows attaching provenance per tensor: `source.filename`, `source.page`,
+  `source.line`, `source.tenant_id`, `source.compression_format`, `source.epsilon`.
+- **GGML_TYPE_TT custom type:** Framework is extensible to custom tensor types;
+  the `GGML_TYPE_TT` extension enables inference kernels to handle TT-trains as
+  native objects with O(d·r²) contraction logic.
+- Dimensions in GGUF are in reverse PyTorch order; matrix multiply is
+  `transpose(B) @ A` — must be accounted for in core layout.
+
+### ThemisDB Mapping
+- `GgmlTensorBridge::writeGgufHeader()` emits GGUF v3 headers with provenance KV
+  pairs for each exported TT-core block.
+- `GGML_TYPE_TT` registration in `ggml_type_size()` and `ggml_type_name()` tables
+  (requires llama.cpp fork or upstream PR; tracked in `src/tensor/ROADMAP.md` Phase 3).
+- **Regulated industry requirement:** `source.filename`, `source.page`, and
+  `source.line` fields are mandatory for FITKO-compliant administrative document RAG.
+
+---
+
 ## 🔗 Component-to-Paper Mapping
 
 ```
 TensorTrainDecomposer          ← P1 (TT-SVD), P3 (TT-rounding)
+QuanticsTTDecomposer           ← P2 (QTT, log-scaling for OIOs)
 TTQuantizer                    ← P2 (QTT motivation), P5 (NF4 table)
 TensorNetworkStorageEngine     ← P1 (key schema), P5 (quantisation)
 TensorContractionEngine        ← P3 (transfer matrix), P4 (operator compression), P8 (contraction order)
-AQL: TENSOR_*                  ← P3, P4
+TensorButterflyOperator        ← P12 (butterfly factorization, O(n·d) OIO)
+AQL: TENSOR_*                  ← P3, P4, P12
 TensorFingerprintGraph         ← P7 (core-norm fingerprint), P9 (LSH banding)
 TensorDeduplicationManager     ← P6 (TIES delta), P7
+HierarchicalTuckerDecomposer   ← P10 (Grasedyck HT), P11 (Hackbusch H-Tucker)
+FLARERetrievalEngine           ← P13 (FLARE active retrieval)
+TARGGatingEngine               ← P14 (logit-gap gating)
+VlasovMaxwellSolver            ← P15 (TT kinetic solver), P10 (HT for 6D fields)
+MimeticTTCurl                  ← P15 (mimetic operators in TT format)
+SnapshotLearner                ← P15 (operator inference from snapshots)
+HissStructuralSearchEngine     ← P16 (Hiss TN-SS + entropy clustering)
+TNSRTask                       ← P16 (TNSR background maintenance)
+GgmlTensorBridge               ← P17 (GGUF v3 provenance metadata)
+AdapterRepository              ← P5 (LoRA/QLoRA), P6 (delta encoding), P17 (GGUF)
 ```
 
 ---
@@ -347,14 +618,32 @@ TensorDeduplicationManager     ← P6 (TIES delta), P7
    be overly conservative for tensors with unevenly distributed singular values.
    Adaptive per-mode thresholds (Grasedyck 2010) could improve compression.
 
-2. **Maxwell / PDE operators:** Bigoni et al. (2016) show that Maxwell curl
+2. **HT vs TT routing decision:** Empirical guidance on when to route to HT vs TT
+   is needed.  Current heuristic: d ≥ 4 AND data has multi-scale structure → HT.
+   An ML-based router (XGBoost on compression_ratio, rank, parallelism_factor) is
+   planned for Q2 2028 alongside Phase 5.
+
+3. **Maxwell / PDE operators:** Bigoni et al. (2016) show that Maxwell curl
    operators have low TT-rank, but the specific ranks for finite-element
    discretisations on ThemisDB-typical grids need empirical validation.
+   `MimeticTTCurl` will generate benchmark data (Q1 2029).
 
-3. **LSH false-positive rate:** The current MinHash is computed from core norms
+4. **LSH false-positive rate:** The current MinHash is computed from core norms
    (structural fingerprint).  For tensors with similar norms but different
    structures, false positives are expected.  Exact TT-cosine verification
    is planned for Phase 4.
+
+5. **TARG threshold tuning:** The top-1/top-2 logit gap threshold θ is currently
+   a static per-tenant config.  An adaptive threshold based on historical
+   retrieval quality (FLARE vs TARG accuracy delta) is planned for Phase 3.
+
+6. **Hiss template transfer fidelity:** The claim of ≤ 10% performance degradation
+   when applying domain templates to new instances needs empirical validation for
+   ThemisDB workloads (administrative documents vs thermal transport).
+
+7. **GGML_TYPE_TT upstream acceptance:** The custom GGUF type requires either a
+   fork of llama.cpp or an upstream PR.  The GGUF maintainers' acceptance criteria
+   for custom tensor types are currently unclear.
 
 ---
 

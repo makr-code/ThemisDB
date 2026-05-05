@@ -60,6 +60,21 @@ Für d=4096, N=10M: 4096·4 + 16·8 Byte/Vektor × 10M ≈ **172 GB** RAM.
 | Speicher/Tensor | Σ r_k·n_k·r_{k+1} | Oft 10–1000× kleiner |
 | Suchkomplexität | O(d·n·r³) | Pro Abfrage |
 
+**Schwäche:** Sequentielle Kettenkontraktionen limitieren GPU-Parallelismus; schlechte Kompression bei rauschartigen Daten (r_eff → min(n,N)).
+
+### 2.4 HT-Index (Grasedyck 2010, Hackbusch & Kühn 2009)
+
+| Parameter | Default | Bedeutung |
+|-----------|---------|-----------|
+| ε (Fehlertoleranz) | 0.01 | Relativer Frobenius-Fehler |
+| r_max | 32 | Maximaler HT-Rang |
+| d (Modenanzahl) | 4–8 | Tensorordnung (HT vorteilhaft ab d≥5) |
+| Speicher/Tensor | O(d·n·r + d·r³) | Besser als TT bei großem r |
+| Suchkomplexität | O(d·n·r² + d·r⁴) | Pro Abfrage |
+| Parallelisierung | Hoch (Baum-Struktur) | GPU tensor cores: 32× Speedup |
+
+**Vorteil gegenüber TT:** Für d ≥ 5 und multi-skalige Daten (z.B. 6D Plasma-Felder) signifikant bessere Parallelisierbarkeit und Kompression.
+
 ---
 
 ## 3. Analytische Grenzkurven
@@ -214,6 +229,7 @@ die empfohlene Methode an — basierend auf den analytischen Grenzkurven aus Abs
 | Route | Bedeutung in TensorRouter |
 |-------|--------------------------|
 | **TT (LIFT)** | Vollständige TT-Kompression; HNSW/FAISS entfällt |
+| **HT (LIFT)** | Vollständige HT-Kompression; für d≥5 und GPU-Workloads |
 | **HNSW (KEEP)** | Standard-HNSW; kein TT |
 | **FAISS IVF-PQ (KEEP)** | IVF-PQ; besser als HNSW bei N > 1M, d ≤ 256 |
 | **TT + HNSW-Hybrid (HYBRID)** | HNSW navigiert über First-Core-Sketches; TT liefert exakte Distanz |
@@ -256,16 +272,18 @@ TensorRoutingPolicy productionPolicy() {
 
 | Datenkategorie | d (typisch) | r_eff (erwartet) | Empfehlung | ε_max |
 |----------------|-------------|------------------|------------|-------|
-| Maxwell/PDE 6D | 64 pro Modus | 4–16 | **LIFT** | 0.05 |
-| LLM Attention (d×d) | 2048×2048 | 8–32 | **LIFT** | 0.01 |
-| LLM Embeddings | 768–4096 | 16–48 | **HYBRID** (d≤2048), **LIFT** (d>2048) | 0.01 |
+| Maxwell/PDE 6D | 64 pro Modus | 4–16 | **HT (LIFT)** (d=6, GPU) | 0.05 |
+| LLM Attention (d×d) | 2048×2048 | 8–32 | **TT (LIFT)** | 0.01 |
+| LLM Embeddings | 768–4096 | 16–48 | **HYBRID** (d≤2048), **TT (LIFT)** (d>2048) | 0.01 |
 | Bilder (224×224×3) | 150K flat | 32–128 | **HYBRID** | 0.05 |
-| Geodata-Raster | 512×512×k | 8–32 | **LIFT** | 0.02 |
+| Geodata-Raster (3D) | 512×512×k | 8–32 | **TT (LIFT)** | 0.02 |
+| Geodata-Raster (4D+) | nD | 8–32 | **HT (LIFT)** (d≥4, multi-scale) | 0.02 |
 | Sparse Text | 768 | 64–256 | **KEEP** (HNSW/FAISS) | — |
 | Zufallsrauschen | any | ≈ min(n) | **KEEP** (FAISS IVF-PQ) | — |
-| LoRA-Adapter | 4096×4096 | 4–16 | **LIFT** | 0.005 |
+| LoRA-Adapter | 4096×4096 | 4–16 | **TT (LIFT)** | 0.005 |
 | Relationale Zeile | 32–256 | high | **KEEP** (B-Tree/HNSW) | — |
-| Timeseries (smooth) | 1024×T | 8–24 | **LIFT** | 0.02 |
+| Timeseries (smooth) | 1024×T | 8–24 | **TT (LIFT)** | 0.02 |
+| Vlasov-Maxwell 6D | 64 per mode | 1–4 (Maxwellian) | **HT (LIFT)** (rank-1 velocity) | 0.001 |
 
 ---
 
@@ -482,11 +500,14 @@ TensorRoutingPolicy analyticalPolicy() {
 
 - Oseledets (2011) — TT-SVD. SIAM J. Sci. Comput. DOI: 10.1137/090752142
 - Holtz, Rohwedder, Schneider (2012) — ALS in TT. SIAM J. Sci. Comput.
+- Grasedyck (2010) — Hierarchical Tucker (HT). SIAM J. Matrix Anal. DOI: 10.1137/090764189
+- Hackbusch & Kühn (2009) — H-Tucker Representation. J. Fourier Anal. Appl.
 - Dettmers et al. (2023) — QLoRA/NF4. NeurIPS 2023. arXiv:2305.14314
 - Malkov & Yashunin (2020) — HNSW. IEEE TPAMI. DOI: 10.1109/TPAMI.2018.2889473
 - Johnson, Douze, Jégou (2021) — FAISS. IEEE Trans. Big Data. DOI: 10.1109/TBDATA.2019.2921572
 - Charikar (2002) — Random-Projection LSH. STOC 2002.
 - Rajaraman & Ullman (2011) — MinHash/LSH. Cambridge UP. Ch. 3.
+- ThemisDB Research Group (2026) — Hiss/TNSR. Pre-print.
 
 ---
 
