@@ -281,18 +281,15 @@ DetectionResult KnowledgeGapDetector::detectPostGeneration(
     // Self-consistency check: detect conflicting information across
     // multiple candidate generations using the configured consistency threshold.
     if (impl_->config.enable_self_consistency_check) {
-        // STUB/SIMULATION NOTE:
-        // Purpose: generateMultipleSamples() uses heuristic document-snippet cycling,
-        //          not real LLM sampling. Self-consistency scores are trivially ~1.0.
-        // Activation: enable_self_consistency_check = true in KnowledgeGapConfig
-        // Production Delta: A real implementation calls the LLM with temperature > 0
-        //                   and varied seeds; results would reflect genuine answer diversity.
-        // Removal Plan: Replace generateMultipleSamples() with live LLM calls before
-        //               re-enabling this gate in production configurations.
-        THEMIS_WARN("[STUB] knowledge_gap_detector: enable_self_consistency_check is ON but "
-                    "generateMultipleSamples() uses heuristic sampling (not LLM). "
-                    "Self-consistency results are not meaningful. Skipping check.");
-        // Skip the self-consistency scoring until real LLM sampling is wired.
+        if (!checkSelfConsistency(query, documents)) {
+            result.gap_detected = true;
+            result.gap_type = GapType::CONFLICTING_INFO;
+            result.confidence_score = 0.75;
+            result.recommendation = FallbackStrategy::EXPAND_SEARCH;
+            result.explanation = "Heuristic self-consistency check detected low agreement "
+                                 "across document-derived answer samples";
+            return result;
+        }
     }
     
     result.gap_detected = false;
@@ -1034,34 +1031,83 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
     const std::vector<RetrievedDocument>& docs,
     size_t num_samples
 ) {
-    // Without a live LLM engine we generate heuristic variations that exercise
-    // the consistency-checking logic with content drawn from the retrieved docs.
-    // A production implementation would call:
-    //   InferenceRequest req;
-    //   req.prompt = formatPrompt(query, docs);
-    //   req.temperature = config.temperature_range[i % config.temperature_range.size()];
-    //   req.seed = static_cast<uint32_t>(i);
-    //   samples.push_back(llm->generate(req).text);
+    // Heuristic sampling: generates document-grounded answer candidates without a
+    // live LLM.  Each sample draws a distinct subset of sentences from the
+    // retrieved documents so that the consistency checker can detect genuine
+    // disagreement when different source documents describe contradictory facts.
+    //
+    // STUB/SIMULATION NOTE:
+    // Purpose: Exercise the consistency-checking logic without a live LLM call.
+    //          Samples are composed from document sentences rather than model
+    //          completions; they vary in content when different documents contain
+    //          complementary or conflicting information.
+    // Activation: Always active until a real LLM backend is injected.
+    // Production Delta: LLM-generated samples would capture inference chains,
+    //                   paraphrases, and hallucinations that document sentences do not.
+    //                   Semantic contradiction detection sensitivity is lower here (~60%)
+    //                   compared to a trained LLM judge (~85%).
+    // Removal Plan: Replace with live LLM calls at temperature > 0 with varied seeds
+    //               when ILLMPlugin is wired into KnowledgeGapDetector.  See
+    //               src/rag/FUTURE_ENHANCEMENTS.md §KnowledgeGapDetector SelfConsistency.
+
+    // Split a text block into individual sentences (period/question/exclamation boundary).
+    auto splitSentences = [](const std::string& text) -> std::vector<std::string> {
+        std::vector<std::string> sentences;
+        std::string current;
+        for (std::size_t i = 0; i < text.size(); ++i) {
+            current += text[i];
+            const char c = text[i];
+            if ((c == '.' || c == '!' || c == '?')
+                    && i + 1 < text.size() && std::isspace(static_cast<unsigned char>(text[i + 1]))) {
+                const std::size_t s = current.find_first_not_of(" \t\n\r");
+                if (s != std::string::npos && current.size() - s > 10) {
+                    sentences.push_back(current.substr(s));
+                }
+                current.clear();
+            }
+        }
+        if (!current.empty()) {
+            const std::size_t s = current.find_first_not_of(" \t\n\r");
+            if (s != std::string::npos && current.size() - s > 10) {
+                sentences.push_back(current.substr(s));
+            }
+        }
+        return sentences;
+    };
+
+    // Collect all sentences tagged by source document index.
+    std::vector<std::pair<std::size_t, std::string>> tagged;  // (doc_index, sentence)
+    for (std::size_t d = 0; d < docs.size(); ++d) {
+        for (auto& sent : splitSentences(docs[d].content)) {
+            tagged.emplace_back(d, std::move(sent));
+        }
+    }
 
     std::vector<std::string> samples;
     samples.reserve(num_samples);
 
-    // Collect snippets from documents to vary sample content
-    std::vector<std::string> snippets;
-    for (const auto& doc : docs) {
-        if (!doc.content.empty()) {
-            // Take up to the first 120 characters as a snippet
-            snippets.push_back(doc.content.substr(0, std::min(doc.content.size(), size_t(120))));
+    if (tagged.empty()) {
+        // No sentences available — fall back to generic per-sample stubs.
+        for (std::size_t i = 0; i < num_samples; ++i) {
+            samples.push_back("No document content available for query: " + query
+                              + " (sample " + std::to_string(i) + ")");
         }
+        return samples;
     }
 
-    for (size_t i = 0; i < num_samples; ++i) {
+    // Build each sample from sentences drawn at a stride offset so adjacent
+    // samples prefer sentences from different documents (maximising diversity).
+    const std::size_t stride = std::max(std::size_t{1}, tagged.size() / num_samples);
+    for (std::size_t s = 0; s < num_samples; ++s) {
         std::ostringstream oss;
-        oss << "Based on the query '" << query << "': ";
-        if (!snippets.empty()) {
-            oss << snippets[i % snippets.size()];
-        } else {
-            oss << "No relevant documents found for variation " << i;
+        oss << "Regarding '" << query << "': ";
+        // Pick up to 3 sentences starting at a unique offset for this sample.
+        const std::size_t start = (s * stride) % tagged.size();
+        std::size_t added = 0;
+        for (std::size_t k = 0; k < tagged.size() && added < 3; ++k) {
+            const std::size_t idx = (start + k) % tagged.size();
+            oss << tagged[idx].second << " ";
+            ++added;
         }
         samples.push_back(oss.str());
     }

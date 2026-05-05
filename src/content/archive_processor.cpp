@@ -266,17 +266,103 @@ std::optional<ArchiveMetadata> ArchiveProcessor::extractMetadata(
 #endif
     }
     
-    // STUB/SIMULATION NOTE:
-    // Purpose: Satisfies the TAR/other-format metadata path while manual TAR
-    //          header parsing (or integration of libarchive) is pending.
-    // Activation: TAR or non-ZIP/non-RAR/non-7z archive format.
-    // Production Delta: Returns `metadata` without TAR-specific fields (entry
-    //                   count, total uncompressed size, first entry name).  Any
-    //                   format-specific metadata that would normally be extracted
-    //                   is absent.
-    // Removal Plan: Integrate libarchive; use `archive_read_open_memory()` +
-    //               `archive_read_next_header()` to populate metadata fields.
-    //               See src/content/FUTURE_ENHANCEMENTS.md §ArchiveProcessor TAR Metadata.
+    // TAR format: walk POSIX ustar 512-byte header blocks to extract
+    // entry names, sizes, and counts without requiring libarchive.
+    // Each header block is 512 bytes; the file data follows in 512-byte
+    // padded blocks.  Two consecutive all-zero blocks mark end-of-archive.
+    if (format == ArchiveFormat::TAR || format == ArchiveFormat::TAR_GZ
+            || format == ArchiveFormat::TAR_BZ2 || format == ArchiveFormat::TAR_XZ) {
+
+        // For compressed variants (TAR_GZ / TAR_BZ2 / TAR_XZ) we cannot
+        // decompress in-process without the compression library.  We still
+        // attempt to parse raw TAR (the outer gzip/bzip2 wrapper is skipped);
+        // for a plain .tar the parse succeeds; for compressed tarballs the
+        // magic-byte check below will reject non-ustar data and we fall through
+        // to the default "no entries found" path.
+
+        static constexpr std::size_t kBlockSize   = 512;
+        static constexpr std::size_t kNameOffset  = 0;
+        static constexpr std::size_t kNameLen     = 100;
+        static constexpr std::size_t kSizeOffset  = 124;
+        static constexpr std::size_t kSizeLen     = 12;   // octal, null-terminated
+        static constexpr std::size_t kTypeOffset  = 156;
+        static constexpr std::size_t kMagicOffset = 257;
+
+        std::size_t offset = 0;
+        int zero_blocks    = 0;
+
+        // Portable bounded-string-length helper (strnlen is POSIX, not C++ standard).
+        const auto bounded_len = [](const char* s, std::size_t max) -> std::size_t {
+            for (std::size_t i = 0; i < max; ++i)
+                if (s[i] == '\0') return i;
+            return max;
+        };
+
+        while (offset + kBlockSize <= blob.size()) {
+            const char* block = blob.data() + offset;
+
+            // Detect end-of-archive: two consecutive all-zero blocks.
+            const bool all_zero = std::all_of(block, block + kBlockSize,
+                                              [](char c) { return c == '\0'; });
+            if (all_zero) {
+                if (++zero_blocks >= 2) break;
+                offset += kBlockSize;
+                continue;
+            }
+            zero_blocks = 0;
+
+            // Validate ustar magic ("ustar" at offset 257; may have trailing space or NUL).
+            if (std::memcmp(block + kMagicOffset, "ustar", 5) != 0) {
+                // Not a ustar header — either corrupted data or a compressed stream.
+                break;
+            }
+
+            // Extract entry name (null-terminated, max 100 bytes).
+            const std::string name(block + kNameOffset,
+                                   bounded_len(block + kNameOffset, kNameLen));
+
+            // Parse octal file size.
+            const std::string size_str(block + kSizeOffset,
+                                       bounded_len(block + kSizeOffset, kSizeLen));
+            uint64_t file_size = 0;
+            try {
+                file_size = std::stoull(size_str, nullptr, 8);
+            } catch (...) {
+                file_size = 0;
+            }
+
+            // Determine entry type from typeflag (byte 156):
+            //   '0'/NUL = regular file, '5' = directory, '2' = symlink, etc.
+            const char typeflag = block[kTypeOffset];
+            const bool is_dir   = (typeflag == '5');
+
+            if (!name.empty() && name != "./" && name != ".") {
+                ArchiveMember member;
+                member.path              = name;
+                member.uncompressed_size = file_size;
+                member.compressed_size   = file_size;  // TAR does not compress
+                member.is_directory      = is_dir;
+                member.is_encrypted      = false;
+
+                if (is_dir) {
+                    ++metadata.directory_count;
+                } else {
+                    ++metadata.file_count;
+                    metadata.total_uncompressed_size += file_size;
+                }
+                ++metadata.member_count;
+                metadata.members.push_back(std::move(member));
+            }
+
+            // Advance past header + data blocks (rounded up to kBlockSize).
+            const std::size_t data_blocks = (file_size + kBlockSize - 1) / kBlockSize;
+            offset += kBlockSize * (1 + data_blocks);
+        }
+
+        return metadata;
+    }
+
+    // Default path for formats not handled above (RAR, unknown).
     return metadata;
 }
 
