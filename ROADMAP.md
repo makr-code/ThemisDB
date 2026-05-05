@@ -608,6 +608,63 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 
 ---
 
+### Phase 7: Tensor-Native Index & Zero-Copy Inference (Q3 2026 – Q4 2027) — 📋 Planned
+
+Focus: Tensor-Train (TT) compressed ANN indexing as a first-class SOC module
+parallel to HNSW/FAISS, with a zero-copy bridge to llama.cpp for RAG/FLARE
+inference and an AdaLoRA adapter sovereignty layer.
+
+**Scientific basis:**
+Oseledets 2011 (TT-SVD); Holtz et al. 2012 (TT-rounding); Malkov & Yashunin 2020 (HNSW);
+Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (compressed-domain queries).
+
+**Research documentation:**
+- `docs/research/TENSOR_NETWORK_DATABASE_ARXIV_DRAFT.md`
+- `docs/research/ADALORA_TT_BRIDGE_ARXIV_DRAFT.md`
+- `docs/research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`
+- `docs/research/papers/tensor_networks_themisdb.md`
+- `docs/research/best_practices/tensor_train_storage.md`
+
+#### 7.1 Storage — Tensor-Native Storage Engine (Phase 8, Q3 2026)
+- [~] `TensorTrainDecomposer` — TT-SVD (Oseledets 2011); LAPACK `dgesvd`; cuSOLVER under `THEMIS_ENABLE_CUDA` (Target: Q3 2026)
+- [~] `TensorNetworkStorageEngine` — RocksDB-backed TT-core persistence; key schema `__ttn__:<tenant>:<collection>:<field>:G<k>:<version>` (Target: Q3 2026)
+- [~] `TTQuantizer` — INT8/NF4 quantization of TT cores per-core channel-wise scaling (Target: Q3 2026)
+- [~] `TensorRouter` — κ compressibility metric; decides TENSOR_TRAIN / HNSW / HYBRID per data profile (Target: Q3 2026)
+- [~] `GgmlTensorBridge` — header spec complete; full mmap implementation (Target: Q1 2027)
+
+#### 7.2 Tensor Index — SOC Module src/tensor/ (Phase 1 complete, Phase 2 Q4 2026)
+- [x] `ITensorIndex` interface — add/search/norm/innerProduct/save/load (Target: Q3 2026)
+- [x] `FlatTensorIndex` — Phase-1 linear-scan reference implementation (Target: Q3 2026)
+- [x] `TensorIndexManager` — lifecycle registry, routing, tenant isolation (Target: Q3 2026)
+- [x] `HnswTTBridge` — HYBRID two-layer index (HNSW nav + TT re-rank) header + skeleton (Target: Q3 2026)
+- [ ] hnswlib integration in `HnswTTBridge::HnswLayer` (Target: Q4 2026)
+- [ ] RocksDB persistence for `FlatTensorIndex` and `HnswTTBridge` (Target: Q4 2026)
+- [ ] CMakeLists.txt `themis_tensor` library target (Target: Q4 2026)
+- [ ] Test suite `tests/tensor/` — 30 unit tests TTX-01..30 (Target: Q4 2026)
+
+#### 7.3 Query — Tensor Algebra Query Engine (Phase 9, Q4 2026)
+- [~] `TensorContractionEngine` — in-compressed-domain inner-products, norms, contractions O(d·n·r³) (Target: Q4 2026)
+- [~] AQL built-ins: `TENSOR_SIMILARITY`, `TENSOR_NORM`, `TENSOR_SLICE`, `TENSOR_COMPRESS` (Target: Q4 2026)
+- [ ] `TensorAwareQueryOptimizer` — `TENSOR_CONTRACTION` plan-node in EXPLAIN (Target: Q1 2027)
+- [~] `TensorRagCostModel` — 5-phase RAG cost model with `TENSOR_RAG` WorkloadType (Target: Q4 2026)
+
+#### 7.4 Graph — Cross-Tensor Redundancy Mapping (Phase 8, Q2 2027)
+- [~] `TensorFingerprintGraph` — Frobenius-norm-hash + MinHash 128-function LSH; CDC-changefeed integration (Target: Q2 2027)
+- [~] `TensorDeduplicationManager` — single-instance TT storage; delta-TT residuals; similarity threshold 0.999 (Target: Q2 2027)
+
+#### 7.5 Training — AdaLoRA ↔ TT Bridge (Q2–Q4 2027)
+- [~] `AdaLoRATTBridge::exportLayer()` — convert AdaLoRA (B, Λ, A) triplet to TTTrain (Target: Q2 2027)
+- [~] `AdaLoRATTBridge::importFromTT()` — reconstruct (B, A) from TT approximation (Target: Q2 2027)
+- [ ] `AdaLoRATTBridge::findSimilarAdapters()` — wire TensorFingerprintGraph (Target: Q3 2027)
+- [ ] Just-in-time adapter loading via GGML bridge null-pointer protocol (Target: Q3 2027)
+
+#### 7.6 Boundary Analysis & Cost Model
+- [x] HNSW/FAISS/TT boundary analysis: κ compressibility threshold; dim/n phase diagram (Target: Q3 2026)
+- [x] RAG retrieval cost model: 5-phase C_RAG formula; TTFT comparison (150–400ms vs. 40–90ms) (Target: Q3 2026)
+- [x] Research arXiv drafts: tensor networks in multi-model DBs; AdaLoRA↔TT bijection theorem (Target: Q3 2026)
+
+---
+
 ## Production Readiness Checklist
 
 ### Per-Module Requirements (applied to all 58 modules)
