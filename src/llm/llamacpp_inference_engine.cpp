@@ -339,12 +339,13 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
         }
         if (tokens.size() >= 4) {
             std::unordered_map<std::string, int> bigram_count;
-            for (size_t i = 0; i + 1 < tokens.size(); ++i) {
-                bigram_count[tokens[i] + " " + tokens[i + 1]]++;
-            }
             int repeated = 0;
-            for (const auto& [bg, cnt] : bigram_count) {
-                if (cnt > 1) repeated += (cnt - 1);
+            for (size_t i = 0; i + 1 < tokens.size(); ++i) {
+                // Increment count and check: if the bigram has already been seen
+                // (new count > 1) this occurrence is a repetition.
+                if (++bigram_count[tokens[i] + " " + tokens[i + 1]] > 1) {
+                    ++repeated;
+                }
             }
             double bigram_repeat_ratio = static_cast<double>(repeated) /
                                          static_cast<double>(tokens.size() - 1);

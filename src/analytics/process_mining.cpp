@@ -2063,7 +2063,8 @@ ProcessMining::clusterVariants(const EventLog& log, int num_clusters) {
     };
 
     std::vector<int> assignments(n_variants, 0);
-    const int MAX_ITERS = 20;
+    constexpr int MAX_ITERS = 20;
+    bool converged = false;
     for (int iter = 0; iter < MAX_ITERS; ++iter) {
         bool changed = false;
 
@@ -2078,7 +2079,7 @@ ProcessMining::clusterVariants(const EventLog& log, int num_clusters) {
             if (assignments[vi] != best_c) { assignments[vi] = best_c; changed = true; }
         }
 
-        if (!changed) break;
+        if (!changed) { converged = true; break; }
 
         // Update step: recompute centroids as mean of assigned embeddings
         std::vector<std::vector<float>> new_centroids(k, std::vector<float>(emb_dim, 0.0f));
@@ -2098,6 +2099,11 @@ ProcessMining::clusterVariants(const EventLog& log, int num_clusters) {
                 centroids[c] = new_centroids[c];
             }
         }
+    }
+    if (!converged) {
+        THEMIS_INFO("clusterVariants: K-means did not fully converge after {} iterations "
+                    "({} variants, k={}); using best-effort assignments",
+                    MAX_ITERS, n_variants, k);
     }
 
     // ── 6. Map trace indices to clusters ──
