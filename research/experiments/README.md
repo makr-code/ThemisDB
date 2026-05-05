@@ -60,7 +60,7 @@ experiments/
 
 ## Nächste Schritte
 
-- [ ] ADR erstellen: `docs/research/architecture_decisions/adr_<NNN>_….md`
+- [ ] ADR erstellen: `research/architecture_decisions/adr_<NNN>_….md`
 - [ ] CI-Gate anlegen: `.github/workflows/performance-regression-<modul>-<ziel_id>.yml`
 - [ ] Roadmap aktualisieren: `src/<modul>/ROADMAP.md`
 ```

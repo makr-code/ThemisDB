@@ -183,7 +183,7 @@ struct TensorRouter::Impl {
 
     // -----------------------------------------------------------------------
     // Route decision (analytically derived thresholds — see
-    // docs/research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md §3 & §5)
+    // research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md §3 & §5)
     // -----------------------------------------------------------------------
 
     TensorRouteDecision decide(

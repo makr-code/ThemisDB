@@ -229,8 +229,8 @@
 
 #### Phase 8.6 — Documentation (Target: Q2 2027)
 
-- [x] `docs/research/papers/tensor_networks_themisdb.md` — P6 (TIES-Merging), P7 (Stoudenmire), P9 (LSH) entries
-- [x] `docs/research/best_practices/tensor_train_storage.md` — delta encoding guidelines
+- [x] `research/papers/tensor_networks_themisdb.md` — P6 (TIES-Merging), P7 (Stoudenmire), P9 (LSH) entries
+- [x] `research/best_practices/tensor_train_storage.md` — delta encoding guidelines
 
 **Acceptance Criteria:**
 - Fingerprint + LSH insert ≤ 10ms per tensor

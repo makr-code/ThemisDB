@@ -14,7 +14,7 @@ This research deliverable provides a comprehensive analysis and proof-of-concept
 
 ### 1. Research Document (1,410 lines)
 
-**File:** `docs/research/SELF_HEALING_PLUGIN_ARCHITECTURE.md`
+**File:** `research/SELF_HEALING_PLUGIN_ARCHITECTURE.md`
 
 **Contents:**
 - Executive summary and research questions
@@ -260,7 +260,7 @@ class AIPluginGenerator {
 ## Files Changed
 
 ```
-docs/research/SELF_HEALING_PLUGIN_ARCHITECTURE.md    (NEW, 1410 lines)
+research/SELF_HEALING_PLUGIN_ARCHITECTURE.md    (NEW, 1410 lines)
 include/plugins/self_healing_plugin.h                 (NEW, 268 lines)
 include/plugins/plugin_health_monitor.h               (NEW, 320 lines)
 include/plugins/ai/ai_plugin_generator.h              (NEW, 104 lines)

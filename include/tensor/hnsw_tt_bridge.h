@@ -18,7 +18,7 @@
  * ## The HNSW-on-TT-Cores Pattern
  *
  * This class implements the "two-layer" architecture described in
- * `docs/research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md §HYBRID regime`:
+ * `research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md §HYBRID regime`:
  *
  * ```
  *  Query (flat vector)
@@ -57,7 +57,7 @@
  * ## Scientific basis
  * - Malkov & Yashunin 2020 (HNSW, DOI:10.1109/TPAMI.2018.2889473)
  * - Oseledets 2011 (TT-SVD)
- * - Boundary analysis: `docs/research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`
+ * - Boundary analysis: `research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`
  */
 
 #pragma once

@@ -71,8 +71,8 @@ Scaling analysis captures both control-plane and data-plane overhead as active a
 
 | Evidence ID | File | Scope | What It Proves | Status |
 |-------------|------|-------|----------------|--------|
-| E1 | `docs/research/implementation_influence/by_paper.md` | Hu et al. (LoRA) entry | LoRA influence mapped to implemented modules | ready |
-| E2 | `docs/research/implementation_influence/by_paper.md` | Dettmers et al. (QLoRA) entry | QLoRA influence mapped to implemented modules | ready |
+| E1 | `research/implementation_influence/by_paper.md` | Hu et al. (LoRA) entry | LoRA influence mapped to implemented modules | ready |
+| E2 | `research/implementation_influence/by_paper.md` | Dettmers et al. (QLoRA) entry | QLoRA influence mapped to implemented modules | ready |
 | E3 | `ARCHITECTURE.md` | LLM Integration + LoRA framework sections | Architecture-level LoRA capabilities and components | ready |
 | E4 | `README.md` | AI/LLM capability line | Product-level claim of LoRA fine-tuning support | ready |
 | E5 | `PERFORMANCE_EXPECTATIONS.md` | v1.8.2 abstract + methodology scope | Root-level measured baselines and explicit note on pending AI/ML module wave runs | ready |

@@ -48,9 +48,9 @@ This directory contains research papers, draft manuscripts, architectural analys
 - [LLM_PROCESSING_OPTIMIZATION_PATTERNS.md](LLM_PROCESSING_OPTIMIZATION_PATTERNS.md) — Inference optimization patterns from llama.cpp (batching, speculative decoding, KV-cache)
 - [CONTINUOUS_BATCHING_DATABASE_NATIVE_LLM_DRAFT.md](CONTINUOUS_BATCHING_DATABASE_NATIVE_LLM_DRAFT.md) — Scheduler/KV cache trade-offs for DB-native LLM serving
 - [COST_AWARE_HYBRID_RETRIEVAL_PLANNING_AQL_DRAFT.md](COST_AWARE_HYBRID_RETRIEVAL_PLANNING_AQL_DRAFT.md) — Cost-based plan selection for lexical+vector+graph retrieval
-- [LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS_DRAFT.md](LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS_DRAFT.md) — ArXiv-structured migration of LLM integration foundations from docs/research
-- [GPU_VECTOR_INDEXING_RESEARCH_DRAFT.md](GPU_VECTOR_INDEXING_RESEARCH_DRAFT.md) — ArXiv-structured migration of GPU vector indexing research from docs/research
-- [PRODUCT_QUANTIZATION_RESEARCH_DRAFT.md](PRODUCT_QUANTIZATION_RESEARCH_DRAFT.md) — ArXiv-structured migration of PQ research from docs/research
+- [LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS_DRAFT.md](LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS_DRAFT.md) — ArXiv-structured migration of LLM integration foundations from research/
+- [GPU_VECTOR_INDEXING_RESEARCH_DRAFT.md](GPU_VECTOR_INDEXING_RESEARCH_DRAFT.md) — ArXiv-structured migration of GPU vector indexing research from research/
+- [PRODUCT_QUANTIZATION_RESEARCH_DRAFT.md](PRODUCT_QUANTIZATION_RESEARCH_DRAFT.md) — ArXiv-structured migration of PQ research from research/
 
 ### Financial AI & HFT Domain Research (2026-04-27)
 - [HFT_RAG_LLM_THEMISDB_TRADING_ORCHESTRATION_ARXIV_2026.md](HFT_RAG_LLM_THEMISDB_TRADING_ORCHESTRATION_ARXIV_2026.md) — RAG-LLM-orchestrated high-frequency trading on ThemisDB: multi-modal financial signal processing (news, central bank comms, geopolitical risk, social media), latency budget analysis (sub-200 ms RAG loop), regulatory feasibility (MiFID II, SEC 15c3-5, EU AI Act), 31-paper related work survey, 6 open research questions (cs.AI / q-fin.TR / cs.DB)
@@ -90,3 +90,19 @@ Papers should include version and status information:
 ---
 
 *Last Updated: 2026-04-20 (THEMIS_IT_IS_OKAY_TO_FAIL v0.7: Section XI + Bibliography added)*
+
+---
+
+## 🗂️ Structured Research System
+
+| Directory | Purpose |
+|-----------|---------|
+| [`papers/`](papers/README.md) | External scientific papers influencing ThemisDB algorithms |
+| [`best_practices/`](best_practices/README.md) | Engineering patterns from open-source & industry |
+| [`architecture_decisions/`](architecture_decisions/README.md) | ADR-style records of design choices |
+| [`implementation_influence/`](implementation_influence/README.md) | Cross-reference: source → module → version |
+| [`stand_der_technik/`](stand_der_technik/README.md) | Quarterly state-of-the-art landscape reviews |
+| [`experiments/`](experiments/README.md) | Experimental results and benchmarks |
+| [`schema/`](schema/README.md) | Schema examples and YAML references |
+
+📖 New contributor? Start with [RESEARCH_GUIDE.md](RESEARCH_GUIDE.md).

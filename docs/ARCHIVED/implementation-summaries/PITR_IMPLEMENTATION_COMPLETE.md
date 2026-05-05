@@ -445,8 +445,8 @@ This implementation provides ThemisDB with:
 ## Acknowledgments
 
 **Based on Research:**
-- `docs/research/GIT_LIKE_FEATURES_FOR_MVCC.md`
-- `docs/research/IMPLEMENTATION_PLAN_GIT_FEATURES.md`
+- `research/GIT_LIKE_FEATURES_FOR_MVCC.md`
+- `research/IMPLEMENTATION_PLAN_GIT_FEATURES.md`
 - `GIT_FEATURES_ZUSAMMENFASSUNG.md`
 
 **Inspired by:**

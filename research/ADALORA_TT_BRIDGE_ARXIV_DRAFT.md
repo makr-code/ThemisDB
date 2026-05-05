@@ -4,7 +4,7 @@
 **Draft for:** arXiv cs.LG / cs.DB  
 **Target Venue:** VLDB 2028 / NeurIPS 2027 Workshop on Efficient LLM Systems  
 **Status:** Pre-submission draft — 2026-05-05  
-**Repository:** `docs/research/ADALORA_TT_BRIDGE_ARXIV_DRAFT.md`
+**Repository:** `research/ADALORA_TT_BRIDGE_ARXIV_DRAFT.md`
 
 ---
 
@@ -556,6 +556,6 @@ promising direction for sovereign, hardware-efficient AI infrastructure.
 
 ---
 
-**Correspondence:** ThemisDB Research, `docs/research/`  
+**Correspondence:** ThemisDB Research, `research/`  
 **Code:** `include/training/adalora_tt_bridge.h`, `src/training/adalora_tt_bridge.cpp`  
 **Status:** Implementation Phase 1 complete (Q2 2027 target)

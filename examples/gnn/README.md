@@ -228,7 +228,7 @@ python tools/gnn/export_to_onnx.py --model models/social.pth --output models/soc
 
 ## Siehe auch
 
-- [GNN Research Document](../../docs/research/GNN_BASED_INDEXING_AND_EMBEDDINGS.md)
+- [GNN Research Document](../../research/GNN_BASED_INDEXING_AND_EMBEDDINGS.md)
 - [GNN Tools README](../../tools/gnn/README.md)
 - [Vector Index Documentation](../../docs/features/VECTOR_SEARCH.md) <!-- TODO: verify -->
 - [Property Graph Documentation](../../docs/features/PROPERTY_GRAPH.md) <!-- TODO: verify -->

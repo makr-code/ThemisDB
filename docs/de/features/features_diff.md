@@ -494,7 +494,7 @@ GET /api/v1/diff?from=0&to=200
 - [Changefeed Dokumentation](../cdc/changefeed.md)
 - [Named Snapshots](./features_snapshots.md)
 - [Point-in-Time Recovery](./features_pitr.md)
-- [Git-ähnliche Features Forschung](../../docs/research/GIT_LIKE_FEATURES_FOR_MVCC.md)
+- [Git-ähnliche Features Forschung](../../research/GIT_LIKE_FEATURES_FOR_MVCC.md)
 
 ---
 

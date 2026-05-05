@@ -260,8 +260,8 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
 - Oseledets (2011) TT-SVD: SIAM J. Sci. Comput. 33(5), 2295-2317 — deterministic decomposition: same data + same ε → identical TT-cores (no benefit in re-computing)
 - Edge et al. (2024) GraphRAG — offline knowledge-graph construction at ingestion time saves 3–7× query latency at retrieval time; direct analogy: pre-compute TT-cores during write
 - Jiang et al. (2023) FLARE — mid-generation retrieval requires ≤ 90 ms per round; only possible with pre-computed TT-cores + mmap zero-copy (see GgmlTensorBridge Phase 3)
-- `docs/research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md` §κ-boundary (κ ≥ 1.3 for table / geo / LLM-weight embeddings)
-- `docs/research/ADALORA_TT_BRIDGE_RESEARCH.md` §3.1 — zero-copy adapter serving requires cores in storage before inference
+- `research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md` §κ-boundary (κ ≥ 1.3 for table / geo / LLM-weight embeddings)
+- `research/ADALORA_TT_BRIDGE_RESEARCH.md` §3.1 — zero-copy adapter serving requires cores in storage before inference
 
 **Components added:**
 - [x] `ITensorDecompositionBackend` — pure abstract interface in `include/ingestion/inference_backend.h`

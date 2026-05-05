@@ -168,7 +168,7 @@ encoding — it has zero CPU overhead.
 
 ## ⚠️ Trade-offs & Limitations
 
-> Full quantitative analysis: [`docs/research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`](../HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md)
+> Full quantitative analysis: [`research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`](../HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md)
 
 ### 1. Reconstruction error accumulates across algebraic operations
 

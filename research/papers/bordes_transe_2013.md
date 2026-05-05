@@ -9,7 +9,7 @@
 - Tags: `knowledge-graph`, `embeddings`, `link-prediction`, `kg-completion`, `translational-model`, `multi-relational`, `entity-resolution`
 - ThemisDB-Versionen: v2.1.0+ (planned — `KnowledgeGraphReasoner`, LoRA-Plausibility-Scoring)
 - Status: [ ] Not Started | [ ] Partially Implemented | [ ] Fully Implemented  
-  *(Planned Q4 2026; existierende KGE-Research: `docs/research/KNOWLEDGE_GRAPH_EMBEDDINGS_RESEARCH.md`)*
+  *(Planned Q4 2026; existierende KGE-Research: `research/KNOWLEDGE_GRAPH_EMBEDDINGS_RESEARCH.md`)*
 
 ## 📋 Executive Summary
 
@@ -87,7 +87,7 @@ Für ThemisDB ist TransE relevant als **Soft-Plausibility-Scoring**-Methode im `
 - [LoRA — Hu et al. (2022)](lora_low_rank_adaptation_2022.md) — LoRA-Adapter als lernbare KGE-Alternative
 - [HippoRAG — Gutierrez et al. (2024)](hipporag_gutierrez_2024.md) — PPR-basiertes Multi-Hop-Retrieval
 - [GraphRAG — Edge et al. (2024)](graphrag_edge_2024.md) — LLM-basiertes KG-Reasoning
-- [`docs/research/KNOWLEDGE_GRAPH_EMBEDDINGS_RESEARCH.md`](../KNOWLEDGE_GRAPH_EMBEDDINGS_RESEARCH.md) — RotatE, QuatE, ComplEx
+- [`research/KNOWLEDGE_GRAPH_EMBEDDINGS_RESEARCH.md`](../KNOWLEDGE_GRAPH_EMBEDDINGS_RESEARCH.md) — RotatE, QuatE, ComplEx
 - [`src/graph/FUTURE_ENHANCEMENTS.md`](../../../src/graph/FUTURE_ENHANCEMENTS.md) — KG Reasoning + LoRA Scoring
 - [Best Practice: Multi-LoRA Adapter Routing](../best_practices/multi_lora_adapter_routing.md)
 

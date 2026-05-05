@@ -52,7 +52,7 @@
  * - Oseledets (2011) TT-SVD — T_dist TT model
  * - Holtz et al. (2012) — transfer-matrix algorithm
  * - Johnson et al. (2021) FAISS — T_idx IVF model
- * - `docs/research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md` §3 — derived constants
+ * - `research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md` §3 — derived constants
  */
 
 #include "query/optimizer_cost_model.h"

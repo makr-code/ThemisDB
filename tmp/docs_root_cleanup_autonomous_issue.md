@@ -65,7 +65,7 @@ Kandidaten:
 - PROMPT_*, RAG_*, ggf. LLM-Analyse-/Framework-Dokus aus Root
 
 Vorgehen:
-- Nach `docs/llm/`, `docs/llm_orchestration/` oder `docs/research/` verschieben (inhaltsbasiert).
+- Nach `docs/llm/`, `docs/llm_orchestration/` oder `research/` verschieben (inhaltsbasiert).
 
 Akzeptanzkriterien:
 - Root enthält keine isolierten Prompt-/Experiment-Snapshots ohne Hub-Bezug.

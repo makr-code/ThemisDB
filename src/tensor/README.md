@@ -16,7 +16,7 @@ clean Separation of Concerns (SOC) boundary:
 | `src/index`   | Sub-ms queries, float32 vectors, n ≥ 1 M      | dim ≤ 4096, κ < 2×, standard ANN    |
 | `src/tensor`  | Structured compressibility, zero-copy GGML    | dim > 4096, κ ≥ 2×, LLM / science  |
 
-Boundary analysis: `docs/research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`
+Boundary analysis: `research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`
 
 ## Files
 
@@ -78,5 +78,5 @@ auto results = idx->searchFlat(query.data(), 4096, 10);
 - Oseledets 2011 — TT-SVD (DOI:10.1137/090752142)
 - Holtz et al. 2012 — TT-rounding (DOI:10.1137/100818893)
 - Malkov & Yashunin 2020 — HNSW (DOI:10.1109/TPAMI.2018.2889473)
-- `docs/research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`
-- `docs/research/TENSOR_NETWORK_DATABASE_ARXIV_DRAFT.md`
+- `research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`
+- `research/TENSOR_NETWORK_DATABASE_ARXIV_DRAFT.md`

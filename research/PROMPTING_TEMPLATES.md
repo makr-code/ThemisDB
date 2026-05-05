@@ -197,20 +197,20 @@ Nach Ausfüllen des Templates und Erhalt der LLM-Antwort:
 
 ```
 1. Research-Dokumente anlegen
-   cp docs/research/papers/_template_paper.md \
-      docs/research/papers/<kandidat>_<jahr>.md
+   cp research/papers/_template_paper.md \
+      research/papers/<kandidat>_<jahr>.md
    # (oder best_practices/ je nach Quelle)
 
 2. Experiment-Protokoll vorbereiten
-   mkdir -p docs/research/experiments/<ziel_id>/
+   mkdir -p research/experiments/<ziel_id>/
    # Protokoll-Format: siehe ALGORITHM_VALIDATION_PROCESS.md Schritt 4
 
 3. Kandidaten-Benchmarks bauen & messen
    # Schritt 4 aus ALGORITHM_VALIDATION_PROCESS.md
 
 4. ADR erstellen (nach Experiment)
-   cp docs/research/architecture_decisions/_template_decision.md \
-      docs/research/architecture_decisions/adr_<NNN>_<kandidat>_fuer_<modul>.md
+   cp research/architecture_decisions/_template_decision.md \
+      research/architecture_decisions/adr_<NNN>_<kandidat>_fuer_<modul>.md
 
 5. Roadmap aktualisieren
    # Checkboxen in src/<modul>/ROADMAP.md setzen

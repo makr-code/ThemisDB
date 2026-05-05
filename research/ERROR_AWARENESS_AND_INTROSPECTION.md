@@ -443,7 +443,7 @@ void ErrorRegistry::registerDefaultErrors() {
         "2. Replace MCP stub implementations\n"
         "3. Enable schema caching\n"
         "4. Verify database is initialized",
-        {"/docs/research/DETAILED_IMPLEMENTATION_GUIDE.md"},
+        {"/research/DETAILED_IMPLEMENTATION_GUIDE.md"},
         {"mcp", "schema", "unavailable", "stub"}
     });
     

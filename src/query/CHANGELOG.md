@@ -42,7 +42,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `ContinuousQueryEngine::listQueries()` — stable
 
 ### Research Foundation
-- Arasu, Babu, Widom (2006) — *CQL: A Language for Continuous Queries over Streams and Relations* — directly informs `WindowSpec` semantics and `ResultMode`; see `docs/research/papers/arasu_cql_2006.md`
+- Arasu, Babu, Widom (2006) — *CQL: A Language for Continuous Queries over Streams and Relations* — directly informs `WindowSpec` semantics and `ResultMode`; see `research/papers/arasu_cql_2006.md`
 
 ## [1.9.0] — 2026-03-24
 

@@ -33,7 +33,7 @@ Gesamtscore:
   - RAG im Capability-Block des Projekts aufgefuehrt
 
 Relevante Quellen:
-- docs/research/implementation_influence/by_paper.md (Lewis et al., Es et al.)
+- research/implementation_influence/by_paper.md (Lewis et al., Es et al.)
 - ARCHITECTURE.md
 - README.md
 
@@ -46,7 +46,7 @@ Relevante Quellen:
   - HNSW, FAISS-Integration und Hybrid Search explizit dokumentiert
 
 Relevante Quellen:
-- docs/research/implementation_influence/by_paper.md (ADR-001, Malkov/Yashunin)
+- research/implementation_influence/by_paper.md (ADR-001, Malkov/Yashunin)
 - ARCHITECTURE.md
 - README.md
 
@@ -59,7 +59,7 @@ Relevante Quellen:
   - LoRA-Framework und Multi-LoRA-Management als Kernfaehigkeit dokumentiert
 
 Relevante Quellen:
-- docs/research/implementation_influence/by_paper.md (Hu et al., Dettmers et al.)
+- research/implementation_influence/by_paper.md (Hu et al., Dettmers et al.)
 - ARCHITECTURE.md
 - README.md
 
@@ -72,7 +72,7 @@ Relevante Quellen:
   - Continuous batching, paged KV-cache, Flash Attention dokumentiert
 
 Relevante Quellen:
-- docs/research/implementation_influence/by_paper.md (Kwon et al., Chen et al., Dao et al.)
+- research/implementation_influence/by_paper.md (Kwon et al., Chen et al., Dao et al.)
 - ARCHITECTURE.md
 
 ### 5) Verteilte transaktionale Multi-Model-DB fuer AI

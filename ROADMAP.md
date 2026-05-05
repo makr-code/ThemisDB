@@ -619,11 +619,11 @@ Oseledets 2011 (TT-SVD); Holtz et al. 2012 (TT-rounding); Malkov & Yashunin 2020
 Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (compressed-domain queries).
 
 **Research documentation:**
-- `docs/research/TENSOR_NETWORK_DATABASE_ARXIV_DRAFT.md`
-- `docs/research/ADALORA_TT_BRIDGE_ARXIV_DRAFT.md`
-- `docs/research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`
-- `docs/research/papers/tensor_networks_themisdb.md`
-- `docs/research/best_practices/tensor_train_storage.md`
+- `research/TENSOR_NETWORK_DATABASE_ARXIV_DRAFT.md`
+- `research/ADALORA_TT_BRIDGE_ARXIV_DRAFT.md`
+- `research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`
+- `research/papers/tensor_networks_themisdb.md`
+- `research/best_practices/tensor_train_storage.md`
 
 #### 7.1 Storage — Tensor-Native Storage Engine (Phase 8, Q3 2026)
 - [~] `TensorTrainDecomposer` — TT-SVD (Oseledets 2011); LAPACK `dgesvd`; cuSOLVER under `THEMIS_ENABLE_CUDA` (Target: Q3 2026)

@@ -433,4 +433,4 @@ ctest -R "Prompt.*Tests"
 
 - [Testing and Benchmarking Guide](TESTING_AND_BENCHMARKING_GUIDE.md)
 - [Production Deployment Checklist](PRODUCTION_DEPLOYMENT_CHECKLIST.md)
-- Original research papers in `docs/research/`
+- Original research papers in `research/`

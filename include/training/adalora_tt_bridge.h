@@ -68,7 +68,7 @@
  *
  * - Zhang et al. (2023) AdaLoRA. ICLR 2023. arXiv:2303.10512
  * - Oseledets (2011) TT-SVD. SIAM J. Sci. Comput. DOI:10.1137/090752142
- * - `docs/research/ADALORA_TT_BRIDGE_RESEARCH.md` — full derivation
+ * - `research/ADALORA_TT_BRIDGE_RESEARCH.md` — full derivation
  * - `include/storage/ggml_tensor_bridge.h` — mmap inject interface
  * - `include/training/ada_lora_adapter.h` — AdaLoRA weight format
  */

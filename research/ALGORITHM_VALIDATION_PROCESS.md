@@ -86,7 +86,7 @@ eingefroren werden, bevor irgendeine Alternative getestet wird.
 |----------|-------------|--------|
 | Benchmark-Ergebnis (JSON) | `benchmarks/baselines/<modul>/<id>_baseline.json` | Google Benchmark JSON-Output |
 | Hardware-Profil | `benchmarks/baselines/<modul>/<id>_hw_profile.md` | CPU, Kerne, Takt, L3-Cache, DRAM, OS |
-| Algorithmus-Beschreibung | `docs/research/FUTURE_ENHANCEMENTS.md` im Modul | Komplexität, Hot Path, bekannte Limitierungen |
+| Algorithmus-Beschreibung | `research/FUTURE_ENHANCEMENTS.md` im Modul | Komplexität, Hot Path, bekannte Limitierungen |
 | Commit-SHA | Im `<id>_baseline.json` als Metadatum | Exakte Code-Version der Baseline |
 
 ### Checkliste
@@ -122,7 +122,7 @@ eingefroren werden, bevor irgendeine Alternative getestet wird.
 ### Was zu tun ist
 
 Mindestens **5 Kandidaten** aus der aktuellen Literatur (2023–heute bevorzugt) werden
-systematisch erfasst. Jeder Kandidat erhält einen **Research-Eintrag** im `docs/research/`-System.
+systematisch erfasst. Jeder Kandidat erhält einen **Research-Eintrag** im `research/`-System.
 
 ### Quellen
 
@@ -131,13 +131,13 @@ systematisch erfasst. Jeder Kandidat erhält einen **Research-Eintrag** im `docs
 | Konferenz-Papers | SIGMOD, VLDB, OSDI, SOSP, NeurIPS, ICML (ArXiv-Preprints akzeptiert) |
 | Bibliotheken / Frameworks | GitHub Stars ≥ 1k, produktiv eingesetzt in ClickHouse, RocksDB, DuckDB, PostgreSQL |
 | Best Practices | AWS Builder's Library, Google SRE, CNCF Guides |
-| Quarterly Landscape | `docs/research/stand_der_technik/` (vierteljährlich aktualisiert) |
+| Quarterly Landscape | `research/stand_der_technik/` (vierteljährlich aktualisiert) |
 
 ### Kandidaten-Steckbrief (pro Kandidat)
 
 Für jeden Kandidaten wird ein Steckbrief angelegt — entweder als:
-- `docs/research/papers/<name>_<jahr>.md` (aus `_template_paper.md`), oder
-- `docs/research/best_practices/<name>.md` (aus `_template_best_practice.md`)
+- `research/papers/<name>_<jahr>.md` (aus `_template_paper.md`), oder
+- `research/best_practices/<name>.md` (aus `_template_best_practice.md`)
 
 Der Steckbrief enthält mindestens:
 
@@ -214,7 +214,7 @@ python3 tools/benchmark_compare.py \
 
 ### Experiment-Protokoll
 
-Pro Experiment wird ein **Protokoll** in `docs/research/experiments/<ziel_id>/` angelegt:
+Pro Experiment wird ein **Protokoll** in `research/experiments/<ziel_id>/` angelegt:
 
 ```markdown
 # Experiment: <Ziel-ID> — <Kandidat>
@@ -247,7 +247,7 @@ Pro Experiment wird ein **Protokoll** in `docs/research/experiments/<ziel_id>/` 
 - [ ] ≥ 5 Runs pro Kandidat auf selber Hardware wie Baseline
 - [ ] Welch's t-Test + Mann-Whitney U berechnet (p < 0.05 gilt als signifikant)
 - [ ] P50 / P95 / P99 Latenz + Throughput + Peak RSS dokumentiert
-- [ ] Experiment-Protokoll nach `docs/research/experiments/<ziel_id>/` eingecheckt
+- [ ] Experiment-Protokoll nach `research/experiments/<ziel_id>/` eingecheckt
 
 ---
 
@@ -325,8 +325,8 @@ Jede abgeschlossene Experiment-Runde — ob Adopt oder Reject — wird als
 ### ADR-Vorlage für Algorithmus-Entscheidungen
 
 ```bash
-cp docs/research/architecture_decisions/_template_decision.md \
-   docs/research/architecture_decisions/adr_<NNN>_<algorithmus>_fuer_<modul>.md
+cp research/architecture_decisions/_template_decision.md \
+   research/architecture_decisions/adr_<NNN>_<algorithmus>_fuer_<modul>.md
 ```
 
 Der ADR enthält mindestens:
@@ -350,7 +350,7 @@ Der ADR enthält mindestens:
 
 ### Implementation Influence Index aktualisieren
 
-Der Eintrag muss in `docs/research/implementation_influence/README.md` ergänzt werden:
+Der Eintrag muss in `research/implementation_influence/README.md` ergänzt werden:
 
 ```markdown
 | <Paper/Lib-Titel> | Paper/Best Practice | `src/<modul>/` | v<Version>+ | ✅ Implemented | [ref](...) |
@@ -358,10 +358,10 @@ Der Eintrag muss in `docs/research/implementation_influence/README.md` ergänzt 
 
 ### Checkliste
 
-- [ ] ADR erstellt unter `docs/research/architecture_decisions/adr_<NNN>_…md`
-- [ ] `docs/research/architecture_decisions/decision_log.md` aktualisiert
+- [ ] ADR erstellt unter `research/architecture_decisions/adr_<NNN>_…md`
+- [ ] `research/architecture_decisions/decision_log.md` aktualisiert
 - [ ] Research-Dokumente für alle adoptierten Kandidaten vollständig
-- [ ] `docs/research/implementation_influence/README.md` aktualisiert
+- [ ] `research/implementation_influence/README.md` aktualisiert
 - [ ] `src/<modul>/ROADMAP.md` Checkbox auf `[x]` gesetzt
 - [ ] `src/<modul>/FUTURE_ENHANCEMENTS.md` Status aktualisiert
 - [ ] Modul-README: Abschnitt *Wissenschaftliche Grundlagen & Einflüsse* ergänzt
@@ -403,11 +403,11 @@ Für die konkrete Nutzung mit Copilot / Ollama / anderen LLMs: → [`PROMPTING_T
 | `benchmarks/performance_regression_detector.py` | Regression-Erkennung (Schritt 5) |
 | `.github/workflows/07-quality_nightly-benchmark-sweep.yml` | Nightly Sweep (Schritt 5) |
 | `.github/workflows/performance-regression-check.yml` | PR-Gate (Schritt 5) |
-| `docs/research/papers/` | Kandidaten-Papers (Schritt 3) |
-| `docs/research/best_practices/` | Kandidaten-Best-Practices (Schritt 3) |
-| `docs/research/architecture_decisions/` | ADR für Entscheidung (Schritt 6) |
-| `docs/research/implementation_influence/README.md` | Master-Index (Schritt 6) |
-| `docs/research/stand_der_technik/` | Vierteljährliche Kandidaten-Recherche (Schritt 3) |
+| `research/papers/` | Kandidaten-Papers (Schritt 3) |
+| `research/best_practices/` | Kandidaten-Best-Practices (Schritt 3) |
+| `research/architecture_decisions/` | ADR für Entscheidung (Schritt 6) |
+| `research/implementation_influence/README.md` | Master-Index (Schritt 6) |
+| `research/stand_der_technik/` | Vierteljährliche Kandidaten-Recherche (Schritt 3) |
 | `src/<modul>/ROADMAP.md` | Tracking + Status (Schritte 1, 6) |
 | `src/<modul>/FUTURE_ENHANCEMENTS.md` | Acceptance-Kriterien (Schritte 1, 6) |
 

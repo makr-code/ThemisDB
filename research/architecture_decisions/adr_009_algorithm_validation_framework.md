@@ -61,7 +61,7 @@ Das Framework formalisiert den mimalloc-Erfolgsweg als wiederholbares Verfahren:
 3. **Kandidaten sammeln** — ≥5, aus Literatur 2023–heute, mit Research-Steckbrief
 4. **Experiment standardisieren** — Welch's t-Test, ≥5 Runs, P50/P95/P99 + Throughput + RSS
 5. **CI-Gate** — Workflow-Datei + Mapping in `benchmark_target_mapping.json`
-6. **ADR + Research-Doku** — dauerhaft in `docs/research/`
+6. **ADR + Research-Doku** — dauerhaft in `research/`
 
 Beide Prompt-Templates (modul-spezifisch + cross-module) sind in `PROMPTING_TEMPLATES.md`
 kodifiziert und in das bestehende Ollama-Routing-Framework des Teams integriert.
@@ -74,7 +74,7 @@ kodifiziert und in das bestehende Ollama-Routing-Framework des Teams integriert.
 - **Regressionen blockiert:** CI-Gates stellen sicher, dass spätere Code-Änderungen keine Verbesserungen rückgängig machen können.
 - **Entscheidungen nachvollziehbar:** ADRs dokumentieren Adopt/Reject-Entscheidungen mit quantitativer Begründung.
 - **LLM-Effizienz:** Standardisierte Prompt-Templates vermeiden doppelte Recherche und produzieren konsistente Ausgaben.
-- **Kandidaten-Pool skaliert:** Das Research-System (`docs/research/papers/`, `docs/research/best_practices/`) aggregiert Kandidaten modulartig — spätere Module profitieren von frühen Evaluierungen.
+- **Kandidaten-Pool skaliert:** Das Research-System (`research/papers/`, `research/best_practices/`) aggregiert Kandidaten modulartig — spätere Module profitieren von frühen Evaluierungen.
 
 ### Negative / Trade-offs
 
@@ -90,8 +90,8 @@ kodifiziert und in das bestehende Ollama-Routing-Framework des Teams integriert.
 
 ## Validation
 
-- [x] Framework-Dokument erstellt: `docs/research/ALGORITHM_VALIDATION_PROCESS.md`
-- [x] Prompt-Templates erstellt: `docs/research/PROMPTING_TEMPLATES.md`
+- [x] Framework-Dokument erstellt: `research/ALGORITHM_VALIDATION_PROCESS.md`
+- [x] Prompt-Templates erstellt: `research/PROMPTING_TEMPLATES.md`
 - [x] Kompatibilität mit bestehendem Research-System geprüft (`_template_paper.md`, `_template_decision.md`)
 - [x] Kompatibilität mit bestehendem CI-System geprüft (`07-quality_nightly-benchmark-sweep.yml`, `performance_regression_detector.py`, `verify_benchmark_mapping.py`)
 - [x] Kompatibilität mit Ollama-Routing-Framework geprüft (`tools/copilot-ollama-router/`)
@@ -102,9 +102,9 @@ kodifiziert und in das bestehende Ollama-Routing-Framework des Teams integriert.
 
 - [ ] Pilotanwendung: Template A auf `src/index/` für Ziel-ID `I-L2Distance` anwenden (Target: Q3 2026)
 - [ ] Pilotanwendung: Template B für Module `src/index/`, `src/query/`, `src/cache/` (Target: Q3 2026)
-- [ ] Experiment-Verzeichnis anlegen: `docs/research/experiments/` mit README (Target: Q3 2026)
+- [ ] Experiment-Verzeichnis anlegen: `research/experiments/` mit README (Target: Q3 2026)
 - [ ] CI-Integration: Experiment-Protokoll-Validierung in nightly sweep (Target: Q4 2026)
-- [ ] Quarterly Update: Framework-Erfahrungen in `docs/research/stand_der_technik/2026_q2_landscape.md` (Target: 2026-06-30)
+- [ ] Quarterly Update: Framework-Erfahrungen in `research/stand_der_technik/2026_q2_landscape.md` (Target: 2026-06-30)
 
 ## Related Decisions
 

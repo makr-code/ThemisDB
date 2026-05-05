@@ -189,7 +189,7 @@ implemented on top of the production-ready v1.x multi-source import pipeline.
 - [x] `ColumnImportanceAnalyzer::findRedundantColumns()` – Pearson correlation-based redundancy detection (Target: Q2 2026)
 - [x] `CRDTTableState::importWithCRDT()` – LWW CRDT with Lamport + wall-clock timestamps (Target: Q2 2026)
 - [x] 12 test suites (72 tests) in `tests/test_postgres_importer_v2.cpp`; `PostgresImporterV2FocusedTests` CTest target (Target: Q2 2026)
-- [x] Research docs: `docs/research/SCHEMA_INFERENCE_ALGORITHM.md`, `docs/research/CARDINALITY_ESTIMATION.md` (Target: Q2 2026)
+- [x] Research docs: `research/SCHEMA_INFERENCE_ALGORITHM.md`, `research/CARDINALITY_ESTIMATION.md` (Target: Q2 2026)
 
 ### Phase 7: Enterprise Features – v2.2 (Status: Completed ✅, Target: Q3 2026)
 - [x] `PostgreSQLCDC::LogicalDecoder` – logical decoding interface (pgoutput protocol); publication + slot lifecycle (Target: Q3 2026)
@@ -205,7 +205,7 @@ implemented on top of the production-ready v1.x multi-source import pipeline.
 - [x] `PolyglotPersistenceMapper::ModelTransformer::tableToDocument()` and `tableToGraph()` (Target: Q4 2026)
 - [x] `TemporalDatabaseSupport::detectTemporalDimensions()` – SQL:2011 VALID_TIME/TRANSACTION_TIME/BI_TEMPORAL detection (Target: Q4 2026)
 - [x] `TemporalDatabaseSupport::TemporalQueryBuilder::buildPointInTimeQuery()` (Target: Q4 2026)
-- [x] Research docs: `docs/research/TEMPORAL_DATABASE_SUPPORT.md` (Target: Q4 2026)
+- [x] Research docs: `research/TEMPORAL_DATABASE_SUPPORT.md` (Target: Q4 2026)
 
 ### Phase 9: Emerging Technologies – v3.0 (Status: Completed ✅, Target: 2027)
 - [x] `BlockchainIntegrityVerifier::MerkleTreeBuilder::buildMerkleTree()` – SHA-256 Merkle tree (Target: 2027)
@@ -213,7 +213,7 @@ implemented on top of the production-ready v1.x multi-source import pipeline.
 - [x] `FederatedImportCoordinator::FederatedAggregator::aggregateUpdates()` – FedAvg + coordinate-wise median (Target: 2027)
 - [x] `FederatedImportCoordinator::DifferentialPrivacyManager` – Gaussian mechanism ε-δ DP with budget tracking (Target: 2027)
 - [x] `GraphQLFederationSupport::GraphQLSchemaGenerator::generateFederatedSchema()` – Apollo Federation v2 SDL (Target: 2027)
-- [x] Research docs: `docs/research/FEDERATED_LEARNING_DESIGN.md`, `docs/research/BLOCKCHAIN_VERIFICATION.md` (Target: 2027)
+- [x] Research docs: `research/FEDERATED_LEARNING_DESIGN.md`, `research/BLOCKCHAIN_VERIFICATION.md` (Target: 2027)
 - [ ] Quantum-safe cryptography (NIST PQC) for audit trail signatures (Target: 2027)
 - [ ] Zero-Knowledge Proofs for privacy-preserving data validation (Target: 2027)
 
@@ -227,7 +227,7 @@ implemented on top of the production-ready v1.x multi-source import pipeline.
 - [x] New tests in `tests/test_importer_plugin_api.cpp` covering V1 ABI, loadPlugin error paths, sandbox config, `V1ImporterAdapter` lifecycle (Target: v1.9.0)
 
 ## Production Readiness Checklist
-- [x] All 12 v2.1+ modules designd & documented (research docs in `docs/research/`)
+- [x] All 12 v2.1+ modules designd & documented (research docs in `research/`)
 - [I] Unit tests coverage > 80% for v2.1+ modules (Issue: #1857)
 - [x] Integration tests against live PostgreSQL (Issue: #1858)
 - [I] Performance benchmarks (rows/sec, GB/hr) vs. Apache NiFi / Talend (Issue: #1859)

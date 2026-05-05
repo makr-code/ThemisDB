@@ -1143,7 +1143,7 @@ private:
 
 ✅ **Non-Intrusive:** Kann bestehenden HNSW erweitern (kein Re-Build)  
 ✅ **Performance Gain:** 5-10% Recall-Verbesserung oder 20% Latenz-Reduktion  
-✅ **Synergie mit ThemisDB:** Nutzt bestehende GNN-Research (siehe `docs/research/GNN_BASED_INDEXING_AND_EMBEDDINGS.md`)  
+✅ **Synergie mit ThemisDB:** Nutzt bestehende GNN-Research (siehe `research/GNN_BASED_INDEXING_AND_EMBEDDINGS.md`)  
 ✅ **Robust:** Fallback auf Standard-HNSW bei Fehler
 
 #### Nachteile
@@ -2167,7 +2167,7 @@ class BenchmarkSuite:
 **Deliverables:**
 - `src/ml/torch_integration.cpp` - LibTorch wrapper
 - `benchmarks/learned_index_benchmark.py` - Benchmark suite
-- `docs/research/LEARNED_INDEX_BASELINE_RESULTS.md` - Baseline performance
+- `research/LEARNED_INDEX_BASELINE_RESULTS.md` - Baseline performance
 
 **Success Criteria:**
 - LibTorch models can be loaded and executed in C++
@@ -2445,7 +2445,7 @@ models/neural_codebook_vae.pt
 
 #### Documentation
 ```
-docs/research/LEARNED_INDEX_FINAL_REPORT.md
+research/LEARNED_INDEX_FINAL_REPORT.md
 docs/api/learned_index_usage.md
 docs/performance/learned_index_benchmarks.md
 ```
@@ -2938,7 +2938,7 @@ public:
 
 ### 11.2 Synergy mit GNN Research
 
-**Existing:** ThemisDB hat GNN research (siehe `docs/research/GNN_BASED_INDEXING_AND_EMBEDDINGS.md`)
+**Existing:** ThemisDB hat GNN research (siehe `research/GNN_BASED_INDEXING_AND_EMBEDDINGS.md`)
 
 ```cpp
 // src/index/gnn_embeddings.cpp (existing)

@@ -261,7 +261,7 @@ private:
  * SVD on a small random sample) and returns `true` only when the data is
  * expected to achieve a compression ratio κ ≥ `min_kappa`.  The default
  * `min_kappa = 1.3` is the boundary identified in
- * `docs/research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`.
+ * `research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`.
  *
  * Thread safety: all methods MUST be thread-safe.
  */

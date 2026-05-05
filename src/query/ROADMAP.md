@@ -241,7 +241,7 @@ Decision overhead: ≤ 1 µs/call (no I/O, pure arithmetic; see `PERFORMANCE_EXP
 
 ### Phase 8: Continuous Query Language (Status: ✅ Phases 8.1–8.6 complete — v2.0.0; 2026-04-27)
 
-> **Research foundation:** [CQL — Arasu, Babu & Widom (2006)](../../docs/research/papers/arasu_cql_2006.md) · [Best Practice: Continuous Query Sliding Windows](../../docs/research/best_practices/continuous_query_sliding_window.md)
+> **Research foundation:** [CQL — Arasu, Babu & Widom (2006)](../../research/papers/arasu_cql_2006.md) · [Best Practice: Continuous Query Sliding Windows](../../research/best_practices/continuous_query_sliding_window.md)
 
 Adds a production-grade Continuous Query Language (CQL) engine to ThemisDB, enabling standing queries that are evaluated continuously as new data arrives. CQL is the formal language underlying the `CREATE CONTINUOUS QUERY` syntax already present in IoT examples (`examples/09_iot_sensor_network/`). Phase 8 wires it into the main query engine, timeseries scheduler, and push-delivery transport.
 
@@ -306,7 +306,7 @@ Adds a production-grade Continuous Query Language (CQL) engine to ThemisDB, enab
 - [x] Update `include/query/README.md` with `ContinuousQueryEngine` API surface
 - [x] Update `src/query/CHANGELOG.md` with v2.0.0 CQL entry
 - [x] Update `PERFORMANCE_EXPECTATIONS.md` §2.6 with CQ-PERF-01/02 targets
-- [x] Link `docs/research/papers/arasu_cql_2006.md` from query README
+- [x] Link `research/papers/arasu_cql_2006.md` from query README
 - [x] API stability guaranteed for `ContinuousQueryEngine::registerQuery`, `::dropQuery`, `::subscribe`, `::listQueries` from v2.0.0
 
 **Performance Targets (Phase 8):**
@@ -371,7 +371,7 @@ Adds a production-grade Continuous Query Language (CQL) engine to ThemisDB, enab
 
 #### Phase 9.6 — Documentation (Target: Q1 2027)
 
-- [x] `docs/research/papers/tensor_networks_themisdb.md` — P3 (Holtz), P4 (Bigoni) entries
+- [x] `research/papers/tensor_networks_themisdb.md` — P3 (Holtz), P4 (Bigoni) entries
 - [x] AQL function descriptions in `tensor_functions.cpp` registration block
 
 **Acceptance Criteria:**

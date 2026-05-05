@@ -69,8 +69,8 @@ Edge-case handling is explicit in the protocol: bounded retries for transient fa
 
 | Evidence ID | File | Scope | What It Proves | Status |
 |-------------|------|-------|----------------|--------|
-| E1 | `docs/research/implementation_influence/by_paper.md` | Lewis et al. (RAG) entry | RAG influence mapped to implemented module | ready |
-| E2 | `docs/research/implementation_influence/by_paper.md` | Es et al. (RAGAS) entry | Evaluation/monitoring influence mapped to implementation | ready |
+| E1 | `research/implementation_influence/by_paper.md` | Lewis et al. (RAG) entry | RAG influence mapped to implemented module | ready |
+| E2 | `research/implementation_influence/by_paper.md` | Es et al. (RAGAS) entry | Evaluation/monitoring influence mapped to implementation | ready |
 | E3 | `ARCHITECTURE.md` | `rag/` and transaction sections | Co-location of RAG and transaction capabilities | ready |
 | E4 | `README.md` | capability matrix | Product-level statement of AI/LLM + ACID functionality | ready |
 | E5 | `PERFORMANCE_EXPECTATIONS.md` | v1.8.2 abstract + benchmark summary | Root-level measured system baselines and known performance gaps | ready |

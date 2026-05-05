@@ -68,8 +68,8 @@
  * - Oseledets (2011) TT-SVD: SIAM J. Sci. Comput. 33(5), 2295-2317
  * - Edge et al. (2024) GraphRAG — offline pre-computation pattern
  * - Jiang et al. (2023) FLARE — pre-computed cores needed for ≤90 ms retrieval
- * - docs/research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md §κ-boundary
- * - docs/research/ADALORA_TT_BRIDGE_RESEARCH.md §3.1 (zero-copy rationale)
+ * - research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md §κ-boundary
+ * - research/ADALORA_TT_BRIDGE_RESEARCH.md §3.1 (zero-copy rationale)
  */
 
 #include "ingestion/inference_backend.h"

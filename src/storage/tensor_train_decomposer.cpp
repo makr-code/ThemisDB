@@ -35,7 +35,7 @@
  *                   matrices; reconstruction error is bounded by ε·‖T‖_F
  *                   as guaranteed by Theorem 2.1 of Oseledets 2011.
  * Removal Plan: Enable THEMIS_USE_LAPACK_SVD=ON in CMake (Q3 2026).
- *               See docs/research/best_practices/tensor_train_storage.md §Deviations.
+ *               See research/best_practices/tensor_train_storage.md §Deviations.
  */
 
 #include "storage/tensor_train_decomposer.h"
@@ -357,7 +357,7 @@ static void simpleSVD(std::vector<double>& A, std::size_t m, std::size_t n,
     // For rank selection and compression-ratio estimation (κ) the singular values
     // alone are sufficient; for accurate TT-core values enable
     // THEMIS_USE_LAPACK_SVD=ON which replaces this routine with dgesdd.
-    // See docs/research/best_practices/tensor_train_storage.md §Deviations.
+    // See research/best_practices/tensor_train_storage.md §Deviations.
     U.assign(m * n, 0.0);
     Vt.assign(n * n, 0.0);
     for (std::size_t i = 0; i < n; ++i) { U[i * n + i] = 1.0; Vt[i * n + i] = 1.0; }

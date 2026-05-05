@@ -27,7 +27,7 @@
  *   - Oseledets (2011) TT-SVD: SIAM J. Sci. Comput. 33(5), 2295-2317
  *   - Edge et al. (2024) GraphRAG offline graph construction pattern
  *   - Jiang et al. (2023) FLARE: latency targets require pre-computed cores
- *   - docs/research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md (κ boundary = 1.3)
+ *   - research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md (κ boundary = 1.3)
  *
  * Ordering constraint:
  *   This step MUST follow `builtin.chunk_embed` in the workflow YAML so that

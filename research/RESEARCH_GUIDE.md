@@ -30,10 +30,10 @@ Document a source whenever you:
 
 | Source Type | Where to document |
 |-------------|-------------------|
-| Scientific paper (journal, conference, ArXiv) | `docs/research/papers/` |
-| Best practice (open-source project, blog, standard) | `docs/research/best_practices/` |
-| Architecture / design decision | `docs/research/architecture_decisions/` |
-| Broad landscape review | `docs/research/stand_der_technik/` |
+| Scientific paper (journal, conference, ArXiv) | `research/papers/` |
+| Best practice (open-source project, blog, standard) | `research/best_practices/` |
+| Architecture / design decision | `research/architecture_decisions/` |
+| Broad landscape review | `research/stand_der_technik/` |
 
 ### Step 2 — Create the documentation file
 
@@ -41,16 +41,16 @@ Copy the appropriate template:
 
 ```bash
 # For a paper
-cp docs/research/papers/_template_paper.md \
-   docs/research/papers/<topic>_<year>.md
+cp research/papers/_template_paper.md \
+   research/papers/<topic>_<year>.md
 
 # For a best practice
-cp docs/research/best_practices/_template_best_practice.md \
-   docs/research/best_practices/<short_name>.md
+cp research/best_practices/_template_best_practice.md \
+   research/best_practices/<short_name>.md
 
 # For an architecture decision
-cp docs/research/architecture_decisions/_template_decision.md \
-   docs/research/architecture_decisions/adr_<NNN>_<short_title>.md
+cp research/architecture_decisions/_template_decision.md \
+   research/architecture_decisions/adr_<NNN>_<short_title>.md
 ```
 
 Fill in **all required fields**. Empty fields should be filled or removed — no placeholder text in committed files.
@@ -64,9 +64,9 @@ Add a row to the *Wissenschaftliche Grundlagen & Einflüsse* table in the releva
 
 | Kategorie | Quelle | Status | Links |
 |-----------|--------|--------|-------|
-| **Paper** | [HNSW (2018)](../../docs/research/papers/hnsw_efficient_ann_2018.md) | ✅ v1.4.1+ | [Influence Index](../../docs/research/implementation_influence/by_module.md#src-index) |
-| **Best Practice** | [Zero-Copy I/O](../../docs/research/best_practices/zero_copy_io.md) | ✅ v1.4.1+ | - |
-| **Architecture** | [ADR-001: Vector Index Choice](../../docs/research/architecture_decisions/adr_001_vector_index_hnsw_vs_faiss.md) | ✅ v1.4.1+ | - |
+| **Paper** | [HNSW (2018)](../../research/papers/hnsw_efficient_ann_2018.md) | ✅ v1.4.1+ | [Influence Index](../../research/implementation_influence/by_module.md#src-index) |
+| **Best Practice** | [Zero-Copy I/O](../../research/best_practices/zero_copy_io.md) | ✅ v1.4.1+ | - |
+| **Architecture** | [ADR-001: Vector Index Choice](../../research/architecture_decisions/adr_001_vector_index_hnsw_vs_faiss.md) | ✅ v1.4.1+ | - |
 ```
 
 If the module README does not yet have this section, add it before the last section.
@@ -74,7 +74,7 @@ If the module README does not yet have this section, add it before the last sect
 ### Step 4 — Update the master influence index
 
 Add a row to the influence matrix in  
-[`docs/research/implementation_influence/README.md`](implementation_influence/README.md).
+[`research/implementation_influence/README.md`](implementation_influence/README.md).
 
 ### Step 5 — Use the correct commit message prefix
 
@@ -94,9 +94,9 @@ ref(research): Add HNSW (2018) to src/index/
 Before submitting a PR that contains algorithm/design work, confirm:
 
 - [ ] Does this PR base work on a scientific paper, best practice, or architecture decision?
-- [ ] If yes: Is the research file created in `docs/research/<type>/`?
+- [ ] If yes: Is the research file created in `research/<type>/`?
 - [ ] Is the module README updated with the *Wissenschaftliche Grundlagen & Einflüsse* section?
-- [ ] Is `docs/research/implementation_influence/README.md` updated?
+- [ ] Is `research/implementation_influence/README.md` updated?
 
 **For PRs that introduce or replace an algorithm / method:**
 
@@ -104,7 +104,7 @@ Before submitting a PR that contains algorithm/design work, confirm:
 - [ ] Is a Ziel-ID from `PERFORMANCE_EXPECTATIONS.md §1.2` referenced in the PR and ROADMAP?
 - [ ] Is the baseline frozen in `benchmarks/baselines/<modul>/`?
 - [ ] Does a CI-Gate exist for the affected Ziel-ID?
-- [ ] Is the ADR created under `docs/research/architecture_decisions/`?
+- [ ] Is the ADR created under `research/architecture_decisions/`?
 
 ---
 
@@ -112,18 +112,18 @@ Before submitting a PR that contains algorithm/design work, confirm:
 
 ### Example: Implementing HNSW-based vector index
 
-1. Create `docs/research/papers/hnsw_efficient_ann_2018.md` from the paper template
+1. Create `research/papers/hnsw_efficient_ann_2018.md` from the paper template
 2. Fill in author (Malkov & Yashunin), ArXiv link, tags `vector-search graph-index`
 3. Add to `src/index/README.md` under *Wissenschaftliche Grundlagen*
-4. Add row to `docs/research/implementation_influence/README.md`
+4. Add row to `research/implementation_influence/README.md`
 5. Commit: `ref(research): Add HNSW (2018) to src/index/`
 
 ### Example: Architecture decision between RocksDB and LMDB
 
-1. Create `docs/research/architecture_decisions/adr_002_storage_engine_choice.md`
+1. Create `research/architecture_decisions/adr_002_storage_engine_choice.md`
 2. Document context, options considered, decision (RocksDB), and trade-offs
 3. Add to `src/storage/README.md` under *Wissenschaftliche Grundlagen*
-4. Add row to `docs/research/implementation_influence/README.md`
+4. Add row to `research/implementation_influence/README.md`
 
 ---
 
@@ -163,7 +163,7 @@ Framework-ADR: **[ADR-009](architecture_decisions/adr_009_algorithm_validation_f
 ## Directory Structure Reference
 
 ```
-docs/research/
+research/
 ├── README.md                              ← You are here (overview)
 ├── RESEARCH_GUIDE.md                      ← This file (contributor guide)
 ├── ALGORITHM_VALIDATION_PROCESS.md        ← 6-Schritte-Framework für Algorithmus-Validierung

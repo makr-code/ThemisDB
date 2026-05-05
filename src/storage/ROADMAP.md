@@ -300,8 +300,8 @@ v1.8.0 – Production-grade persistent storage layer built on RocksDB with MVCC,
 
 #### Phase 8.6 — Documentation & Acceptance (Target: Q4 2026)
 
-- [x] `docs/research/papers/tensor_networks_themisdb.md` — DOI + BibTeX for all 9 papers
-- [x] `docs/research/best_practices/tensor_train_storage.md` — implementation guidelines
+- [x] `research/papers/tensor_networks_themisdb.md` — DOI + BibTeX for all 9 papers
+- [x] `research/best_practices/tensor_train_storage.md` — implementation guidelines
 - [ ] API Stability declaration for `TensorTrainDecomposer`, `TTQuantizer`, `TensorNetworkStorageEngine` (Target: Q4 2026)
 
 **Acceptance Criteria:**

@@ -44,7 +44,7 @@
  * - Holtz et al. 2012 (TT-rounding, DOI:10.1137/100818893)
  * - Bigoni et al. 2016 (compressed-domain queries)
  * - This work: boundary analysis in
- *   `docs/research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`
+ *   `research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`
  */
 
 #pragma once

@@ -64,7 +64,7 @@ v1.6.0 – AdaLoRA (adaptive rank pruning), LoRAAdapterMerger (TIES + linear), a
 - [?] Export labeled datasets in standard formats (JSONL, Hugging Face datasets)
 
 ### AdaLoRA ↔ Tensor-Train Bridge (Q2–Q4 2027)
-> Full research: `docs/research/ADALORA_TT_BRIDGE_RESEARCH.md`  
+> Full research: `research/ADALORA_TT_BRIDGE_RESEARCH.md`  
 > Specification: `include/training/adalora_tt_bridge.h`
 
 - [ ] **Phase 1 (Q2 2027):** Core conversion `AdaLoRA ↔ TT` — `AdaLoraTTBridge::exportToTT()` / `importFromTT()`

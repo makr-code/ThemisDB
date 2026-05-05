@@ -460,10 +460,10 @@ curl -X POST \
 ## 📖 Related Documentation
 
 ### Research Documents Analyzed
-- `docs/research/AGENTIC_AI_SELF_AWARENESS_RESEARCH.md`
-- `docs/research/IMPLEMENTATION_CHECKLIST.md`
-- `docs/research/README.md`
-- `docs/research/AGENTIC_AI_IMPLEMENTATION_EXAMPLE.md`
+- `research/AGENTIC_AI_SELF_AWARENESS_RESEARCH.md`
+- `research/IMPLEMENTATION_CHECKLIST.md`
+- `research/README.md`
+- `research/AGENTIC_AI_IMPLEMENTATION_EXAMPLE.md`
 
 ### Gap Analysis Documents
 - `docs/de/development/GAPS_STUBS_SUMMARY.md`
