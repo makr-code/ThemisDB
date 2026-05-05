@@ -545,29 +545,47 @@ private:
             return "";
         }
         if (!document_id.empty()) {
-            // STUB/SIMULATION NOTE:
-        // Purpose: Allow AutoLabeler to produce plausible German legal text
-        //   samples for offline/test labeling passes when no QueryEngine is
-        //   wired in and document_id is provided.  The hardcoded paragraph
-        //   covers the three key deontic modalities (muss, soll, kann) so that
-        //   the NLP/modality pipeline can exercise all code paths in CI without
-        //   a live database connection.
-        // Activation: `query_engine_` is null AND document_id is non-empty
-        //   (i.e., the caller specified a document key but no DB engine was
-        //   injected at construction time).
-        // Production Delta: The returned text is always the same short German
-        //   paragraph, regardless of the actual document content.  Auto-labeling
-        //   results will be biased toward the three sample clauses; precision and
-        //   recall metrics from offline benchmarks must not be extrapolated to
-        //   production without a real query engine.
-        // Removal Plan: Inject a QueryEngine at AutoLabeler construction time
-        //   (via AutoLabelerConfig::query_engine or the two-argument constructor).
-        //   The AQL-backed branch in fetchDocumentText() will then take precedence.
-        // Roadmap ref: src/training/FUTURE_ENHANCEMENTS.md §"AutoLabeler Query Engine Integration"
-        return "Die Behörde muss die Genehmigung erteilen, wenn alle "
-                   "Voraussetzungen erfüllt sind. Sie soll die Entscheidung "
-                   "innerhalb von vier Wochen treffen. Sie kann die Frist "
-                   "verlängern, wenn besondere Umstände vorliegen.";
+            // Offline/test fallback: rotate across five German legal-clause
+            // templates so that different document_ids exercise different NLP
+            // paths in CI without a live QueryEngine.  The template index is
+            // derived from a simple hash of document_id so the same id always
+            // returns the same text (deterministic), while distinct ids produce
+            // distinct samples (variety).
+            // Activation: query_engine_ is null AND document_id is non-empty.
+            // Production Delta: Text is synthetic; auto-label metrics must not
+            //   be extrapolated to production without a real QueryEngine.
+            // Removal Plan: Inject QueryEngine via AutoLabelerConfig::query_engine
+            //   or the two-argument constructor; the AQL branch above takes over.
+            // Roadmap ref: src/training/FUTURE_ENHANCEMENTS.md §"AutoLabeler Query Engine Integration"
+            static const char* kTemplates[] = {
+                "Die Behörde muss die Genehmigung erteilen, wenn alle "
+                "Voraussetzungen erfüllt sind. Sie soll die Entscheidung "
+                "innerhalb von vier Wochen treffen. Sie kann die Frist "
+                "verlängern, wenn besondere Umstände vorliegen.",
+
+                "Der Antragsteller darf die Anlage erst in Betrieb nehmen, wenn "
+                "die zuständige Behörde die Betriebserlaubnis erteilt hat. "
+                "Die Erlaubnis ist zu versagen, falls Sicherheitsbedenken bestehen.",
+
+                "Die Vertragspartei muss die vereinbarte Leistung innerhalb der "
+                "gesetzlichen Frist erbringen. Sie soll dabei die anerkannten "
+                "Regeln der Technik einhalten. Abweichungen können nur mit "
+                "schriftlicher Zustimmung der Gegenseite erfolgen.",
+
+                "Gemäß § 42 Abs. 2 VwVfG kann die Behörde den Verwaltungsakt "
+                "widerrufen, wenn die Voraussetzungen für seine Erteilung "
+                "nachträglich weggefallen sind. Der Betroffene soll vorher "
+                "angehört werden.",
+
+                "Der Auftragnehmer muss Mängel unverzüglich nach ihrer Entdeckung "
+                "anzeigen. Er darf keine eigenmächtigen Änderungen am Werk "
+                "vornehmen. Der Auftraggeber kann eine angemessene Nachfrist "
+                "zur Nachbesserung setzen.",
+            };
+            constexpr size_t kNumTemplates = sizeof(kTemplates) / sizeof(kTemplates[0]);
+            size_t hash = 0;
+            for (unsigned char c : document_id) { hash = hash * 31u + c; }
+            return kTemplates[hash % kNumTemplates];
         }
         return "";
     }

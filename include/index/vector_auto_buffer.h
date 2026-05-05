@@ -84,6 +84,11 @@ struct VectorAutoBufferConfig {
 
     // Vector field name (default: "embedding")
     std::string vector_field = "embedding";
+
+    // Fallback dimension used in estimateVectorSize() when the embedding field
+    // is absent or throws.  Defaults to 768 (BERT / all-MiniLM / bge-small).
+    // Override to match the actual model output dimension (e.g. 512, 1024, 3072).
+    size_t fallback_vector_dim = 768;
 };
 
 /**
@@ -254,11 +259,11 @@ private:
         std::chrono::steady_clock::time_point timestamp;
         size_t memory_bytes = 0;
         
-        BufferedOp(OpType t, const BaseEntity& e) 
+        BufferedOp(OpType t, const BaseEntity& e, size_t fallback_dim = 768)
             : type(t), entity(e), timestamp(std::chrono::steady_clock::now()) {
             // Rough memory estimate
             memory_bytes = sizeof(BaseEntity) + entity.getPrimaryKey().size() + 
-                          estimateVectorSize(entity);
+                          estimateVectorSize(entity, fallback_dim);
         }
         
         BufferedOp(OpType t, const std::string& p)
@@ -266,7 +271,7 @@ private:
             memory_bytes = sizeof(std::string) + pk.size();
         }
         
-        static size_t estimateVectorSize(const BaseEntity& entity);
+        static size_t estimateVectorSize(const BaseEntity& entity, size_t fallback_dim = 768);
     };
     
     // Per-namespace buffer

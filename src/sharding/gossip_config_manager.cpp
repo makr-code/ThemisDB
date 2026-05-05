@@ -26,6 +26,8 @@
 #include "sharding/mtls_client.h"
 #include "sharding/prometheus_metrics.h"
 #include "shard_rpc.pb.h"
+#include <nlohmann/json.hpp>
+#include <iostream>
 #include <random>
 #include <algorithm>
 #include <sstream>
@@ -556,42 +558,46 @@ std::vector<std::string> GossipConfigManager::selectRandomPeers(size_t count) {
 }
 
 void GossipConfigManager::sendGossipMessage(
-    const std::string& peer_endpoint [[maybe_unused]],
-    const proto::GossipMessage& message [[maybe_unused]]
+    const std::string& peer_endpoint,
+    const proto::GossipMessage& message
 ) {
     if (!client_) return;
-    
+
     try {
-        // STUB/SIMULATION NOTE:
-        // Purpose: Increment the messages_sent_ counter without performing a
-        //   real network call.  GossipConfigManager can be tested and linked
-        //   without a live HTTP/gRPC gossip peer.  The protobuf message is
-        //   serialized to JSON in production; here the serialization step is
-        //   skipped and the network call is omitted.
-        // Activation: Always — the real HTTP/gRPC gossip transport has not yet
-        //   been wired into GossipConfigManager::sendGossipMessage().
-        // Production Delta: No gossip messages are actually sent to peers.
-        //   Config updates originating here never propagate to other nodes.
-        //   Cluster-wide config changes (shard topology, routing rules) are
-        //   invisible to other nodes; manual restarts or out-of-band config
-        //   delivery are required.
-        // Removal Plan: Wire the ShardRPCClient (or a dedicated HTTP gossip
-        //   client) into this method; call client_->send(peer_endpoint, payload)
-        //   with the serialized GossipMessage.  Track round-trip latency with
-        //   the `now` variable below.
-        // Roadmap ref: src/sharding/FUTURE_ENHANCEMENTS.md §"Gossip Config Propagation"
-        // Serialize message to JSON for HTTP POST
-        // In a real implementation, this would use protobuf serialization
-        // For now, we'll skip the actual network call
-        messages_sent_++;
-        
-        // Track propagation latency
-        auto now = std::chrono::steady_clock::now();
-        // In a real implementation, we'd measure round-trip time
-        
-    } catch ([[maybe_unused]] const std::exception& e) {
-        // silence unused warning in stub
-        // Log error (in production, use proper logging)
+        // Build a JSON representation of the proto::GossipMessage so the
+        // receiving shard can decode it via its own handleGossipMessage()
+        // REST endpoint.  We avoid the protobuf JSON transcoding library to
+        // keep the build dependency-free; the field names match the proto
+        // definition in proto/sharding/shard_rpc.proto.
+        nlohmann::json body;
+        body["sender_shard_id"] = message.sender_shard_id();
+        body["timestamp_ns"]    = message.timestamp_ns();
+        body["message_type"]    = message.message_type();
+
+        if (message.has_vector_clock()) {
+            nlohmann::json vc;
+            for (const auto& [shard, clock] : message.vector_clock().clocks()) {
+                vc[shard] = clock;
+            }
+            body["vector_clock"] = vc;
+        }
+
+        const auto response = client_->post(peer_endpoint, "/api/gossip", body);
+        if (response.success) {
+            messages_sent_++;
+            if (metrics_) {
+                metrics_->recordGossipMessage(message.message_type());
+                metrics_->recordGossipMessageSize(
+                    static_cast<int64_t>(body.dump().size()));
+            }
+        } else {
+            std::cerr << "[GossipConfigManager] POST to " << peer_endpoint
+                      << " /api/gossip failed: " << response.error
+                      << " (status=" << response.status_code << ")\n";
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "[GossipConfigManager] sendGossipMessage exception: "
+                  << e.what() << "\n";
     }
 }
 
