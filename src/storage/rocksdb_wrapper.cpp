@@ -2171,6 +2171,28 @@ Result<rocksdb::ColumnFamilyHandle*> RocksDBWrapper::getOrCreateColumnFamily(con
     return Ok(cf_handle);
 }
 
+std::vector<RocksDBWrapper::CFInfo> RocksDBWrapper::listColumnFamilies() const {
+    std::vector<CFInfo> result;
+    std::lock_guard<std::mutex> lock(cf_handles_mutex_);
+    if (!db_) return result;
+    result.reserve(cf_handles_.size());
+    for (auto* handle : cf_handles_) {
+        if (!handle) continue;
+        CFInfo info;
+        info.name = handle->GetName();
+        uint64_t keys = 0;
+        if (db_->GetIntProperty(handle, "rocksdb.estimate-num-keys", &keys)) {
+            info.estimated_keys = keys;
+        }
+        uint64_t size = 0;
+        if (db_->GetIntProperty(handle, "rocksdb.total-sst-files-size", &size)) {
+            info.approx_size_bytes = size;
+        }
+        result.push_back(std::move(info));
+    }
+    return result;
+}
+
 // ===== v1.1.0: Advanced RocksDB Features =====
 
 bool RocksDBWrapper::createIncrementalBackup(const std::string& backup_dir, bool flush_before_backup) {

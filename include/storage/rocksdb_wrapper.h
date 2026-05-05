@@ -709,6 +709,19 @@ public:
     /// @error ERR_INDEX_NOT_INITIALIZED if database is not open
     /// @error ERR_INDEX_CREATION_FAILED if column family creation fails
     Result<rocksdb::ColumnFamilyHandle*> getOrCreateColumnFamily(const std::string& cf_name);
+
+    /// Lightweight metadata snapshot for one column family
+    struct CFInfo {
+        std::string name;             ///< Column family name
+        uint64_t estimated_keys = 0;  ///< rocksdb.estimate-num-keys
+        uint64_t approx_size_bytes = 0; ///< rocksdb.total-sst-files-size
+    };
+
+    /// Enumerate all open column families with lightweight statistics.
+    /// The returned snapshot is consistent under cf_handles_mutex_ but the
+    /// statistics are approximate and may lag by one compaction cycle.
+    /// @return Vector of CFInfo (empty if DB not open)
+    std::vector<CFInfo> listColumnFamilies() const;
     
     /// Get raw RocksDB pointer for advanced operations
     rocksdb::TransactionDB* getRawDB() { return db_.get(); }
