@@ -226,6 +226,32 @@ public:
     void setVectorIndex(VectorIndexManager* vim);
 
     /**
+     * @brief Set the graph schema version used for cache-key generation.
+     *
+     * The version string is appended to every cache key so that schema changes
+     * can be reflected immediately without clearing the entire cache.  Defaults
+     * to `"v0"` (deterministic for offline/test builds).  In production, call
+     * this with the current schema version after connecting to the graph DB.
+     *
+     * @param version Non-empty version string (e.g. `"v3"`, `"2026-05-05"`).
+     *                Ignored if empty.
+     */
+    void setGraphVersion(const std::string& version);
+
+    /**
+     * @brief Register a sample → source-document mapping for offline use.
+     *
+     * When no AQL query engine is wired, `enrichSample()` resolves the source
+     * document ID of a sample by looking up this in-process registry.  Entries
+     * must be registered before calling `enrichSample()`.
+     *
+     * @param sample_id   Training sample key.
+     * @param document_id Corresponding source document ID / URN.
+     */
+    void registerSourceDocument(const std::string& sample_id,
+                                const std::string& document_id);
+
+    /**
      * @brief Set custom graph traversal query
      * @param query_name Query name (e.g., "find_provisions")
      * @param aql_query AQL query template with placeholders

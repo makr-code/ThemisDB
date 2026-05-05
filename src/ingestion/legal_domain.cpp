@@ -150,8 +150,8 @@ Result<GesetzHierarchy> GesetzParser::parse(
         hier.root.heading = hier.full_title;
     }
 
-    // Extract §-paragraphs
-    auto paragraphs = extractParagraphs(text);
+    // Extract §-paragraphs with byte offsets for Teil assignment
+    auto positioned_paras = extractParagraphsWithOffsets(text);
 
     // Build Teil / Abschnitt containers (simple grouping by order in text)
     // Find all Teil positions
@@ -167,55 +167,58 @@ Result<GesetzHierarchy> GesetzParser::parse(
 
     if (teile.empty()) {
         // Flat structure: all paragraphs under root
-        hier.root.children = std::move(paragraphs);
+        for (auto& [offset, para] : positioned_paras) {
+            (void)offset;
+            hier.root.children.push_back(std::move(para));
+        }
     } else {
-        // Group paragraphs into their Teil sections (simplified: round-robin by
-        // paragraph position relative to Teil position is not tracked here
-        // without full position info from extractParagraphs — put all under root
-        // and attach Teil stubs for hierarchy completeness)
-        //
-        // STUB/SIMULATION NOTE:
-        // Purpose: Allow `buildHierarchy()` to produce a structurally complete
-        //   tree even when `extractParagraphs()` does not return per-paragraph
-        //   byte-offsets.  Without precise position info, paragraphs cannot be
-        //   assigned to their containing Teil section; all paragraphs are placed
-        //   at the root level alongside the Teil nodes.
-        // Activation: Always active (called when `teile` is non-empty; position
-        //   tracking is not yet implemented in `extractParagraphs()`).
-        // Production Delta: The resulting hierarchy has a flat structure: Teil
-        //   nodes and Paragraph nodes are siblings at the root.  Paragraph→Teil
-        //   containment is lost.  Downstream consumers that traverse Teil children
-        //   to find their paragraphs will see empty `children` lists for Teil nodes.
-        // Removal Plan: Extend `extractParagraphs()` to return `{paragraph, offset}`
-        //   pairs.  In `buildHierarchy()`, use offsets to assign each paragraph to
-        //   the nearest preceding Teil start position.
-        // Roadmap ref: src/ingestion/FUTURE_ENHANCEMENTS.md §"German Legal Hierarchy Position Tracking"
+        // Assign each paragraph to the last Teil whose start position precedes
+        // the paragraph's start position in the source text.  Paragraphs that
+        // appear before the first Teil are placed directly under the root.
+        for (auto& [para_pos, para] : positioned_paras) {
+            // Find the last teil_pos <= para_pos (teile are in document order)
+            GesetzNode* target_teil = nullptr;
+            for (auto& [teil_pos, tn] : teile) {
+                if (teil_pos <= para_pos) {
+                    target_teil = &tn;
+                } else {
+                    break;
+                }
+            }
+            if (target_teil) {
+                target_teil->children.push_back(std::move(para));
+            } else {
+                // Paragraph precedes the first Teil — attach to root directly
+                hier.root.children.push_back(std::move(para));
+            }
+        }
+        // Add Teil nodes (now with children assigned) to root
         for (auto& [pos, tn] : teile) {
             hier.root.children.push_back(std::move(tn));
-        }
-        // Also attach paragraphs at root level
-        for (auto& p : paragraphs) {
-            hier.root.children.push_back(std::move(p));
         }
     }
 
     return hier;
 }
 
-std::vector<GesetzNode> GesetzParser::extractParagraphs(
+std::vector<std::pair<std::size_t, GesetzNode>> GesetzParser::extractParagraphsWithOffsets(
     const std::string& text) const
 {
-    std::vector<GesetzNode> result;
+    std::vector<std::pair<std::size_t, GesetzNode>> result;
 
-    // Split on §-boundaries
+    // Split on §-boundaries; capture (match_start, body_start)
     const std::regex para_split(
         R"((?:^|\n)(§§?\s*\d+[a-zA-Z]?(?:\s+\w+)?)\s*\n)",
         std::regex::multiline);
 
-    // Collect all paragraph header positions
+    // headers[i] = { heading_text, body_start_offset }
+    // match_starts[i] = byte offset of the § match start in text
     std::vector<std::pair<std::string, std::size_t>> headers;
+    std::vector<std::size_t> match_starts;
+
     auto it = std::sregex_iterator(text.begin(), text.end(), para_split);
     for (auto e = std::sregex_iterator(); it != e; ++it) {
+        match_starts.push_back(static_cast<std::size_t>((*it).position()));
         headers.emplace_back(trim((*it)[1].str()),
                              static_cast<std::size_t>((*it).position() + (*it).length()));
     }
@@ -245,9 +248,22 @@ std::vector<GesetzNode> GesetzParser::extractParagraphs(
             para.children.push_back(std::move(abs));
         }
 
-        result.push_back(std::move(para));
+        result.emplace_back(match_starts[i], std::move(para));
     }
 
+    return result;
+}
+
+std::vector<GesetzNode> GesetzParser::extractParagraphs(
+    const std::string& text) const
+{
+    auto positioned = extractParagraphsWithOffsets(text);
+    std::vector<GesetzNode> result;
+    result.reserve(positioned.size());
+    for (auto& [offset, node] : positioned) {
+        (void)offset;
+        result.push_back(std::move(node));
+    }
     return result;
 }
 
