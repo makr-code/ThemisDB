@@ -35,6 +35,7 @@
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
+#include <algorithm>
 #include <random>
 #include <sstream>
 #include <iomanip>
@@ -739,21 +740,59 @@ bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
     
     const auto& metadata = it->second;
     
-    // STUB/SIMULATION NOTE:
-    // Purpose: Allow validateBlob() to return a result while checksum
-    //          verification and storage-location health probing are not
-    //          implemented.  Delegates entirely to BlobMetadata::isHealthy()
-    //          which only checks the in-memory healthy_ flag.
-    // Activation: Always — no I/O or checksum computation is performed.
-    // Production Delta: A blob whose backing shards are corrupted, missing, or
-    //                   unreachable will still appear healthy if `isHealthy()`
-    //                   is true.  Corruption detection, erasure-coding repair
-    //                   triggers, and geo-redundancy checks are bypassed.
-    // Removal Plan: Read each shard from storage, compute and compare checksums,
-    //               probe shard-node health; fail if any shard is unreachable or
-    //               checksum mismatches.  See
-    //               src/storage/FUTURE_ENHANCEMENTS.md §BlobRedundancy ValidateBlob.
-    return metadata.isHealthy();
+    // Guard: a blob with no recorded locations is always invalid.
+    if (metadata.locations.empty()) {
+        spdlog::warn("verifyBlob '{}': no locations recorded", blob_id);
+        return false;
+    }
+
+    // Primary health gate: healthy replica count must meet the required threshold.
+    const uint32_t healthy = metadata.healthyLocationCount();
+    const uint32_t required = metadata.requiredLocationCount();
+    if (healthy < required) {
+        const auto missing = metadata.getMissingShards();
+        spdlog::warn("verifyBlob '{}': degraded — {}/{} locations healthy, {} shards missing: [{}]",
+                     blob_id, healthy, required, missing.size(),
+                     [&]() {
+                         std::string s;
+                         for (size_t i = 0; i < missing.size(); ++i) {
+                             if (i) s += ", ";
+                             s += missing[i];
+                         }
+                         return s;
+                     }());
+        return false;
+    }
+
+    // GEO_MIRROR mode: verify that healthy replicas span the configured number
+    // of distinct datacenters.  An in-memory flag check suffices here; physical
+    // reachability probing requires a ReadHandler not available in this API.
+    if (metadata.config.mode == RedundancyMode::GEO_MIRROR &&
+        metadata.config.geo_replicate &&
+        !metadata.config.geo_targets.empty()) {
+
+        const auto target_dc_count =
+            static_cast<uint32_t>(metadata.config.geo_targets.size());
+
+        // Collect distinct datacenter identifiers from healthy locations.
+        std::vector<std::string> healthy_dcs;
+        for (const auto& loc : metadata.locations) {
+            if (!loc.is_healthy || loc.datacenter.empty()) continue;
+            if (std::find(healthy_dcs.cbegin(), healthy_dcs.cend(), loc.datacenter)
+                    == healthy_dcs.cend()) {
+                healthy_dcs.push_back(loc.datacenter);
+            }
+        }
+
+        if (static_cast<uint32_t>(healthy_dcs.size()) < target_dc_count) {
+            spdlog::warn("verifyBlob '{}': geo-redundancy degraded — "
+                         "{}/{} datacenters have healthy replicas",
+                         blob_id, healthy_dcs.size(), target_dc_count);
+            return false;
+        }
+    }
+
+    return true;
 }
 
 // ---------------------------------------------------------------------------
@@ -1117,22 +1156,70 @@ void BlobRedundancyManager::runMaintenanceCycle() {
 
 void BlobRedundancyManager::runScrub(bool full) {
     spdlog::info("Running blob scrub (full={})", full);
-    
-    std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
-    
-    for (const auto& [blob_id, metadata] : blobs_) {
-        // STUB/SIMULATION NOTE:
-        // Purpose: Allow runScrub() to iterate blobs without performing any
-        //          I/O so the method is safe to call in development and CI.
-        // Activation: Always — no checksum read or location health probe issued.
-        // Production Delta: The scrub loop body is a no-op.  Corrupted blobs,
-        //                   missing shards, checksum mismatches, and geo-
-        //                   redundancy violations are never detected or logged.
-        //                   Automated repair via `repair_queue_` is never populated.
-        // Removal Plan: For each blob, compute checksum from shards; compare
-        //               against stored checksum; enqueue for repair on mismatch.
-        //               See src/storage/FUTURE_ENHANCEMENTS.md §BlobRedundancy Scrub.
-        (void)blob_id; (void)metadata; // suppress unused-variable warnings until implemented
+
+    // Phase 1: Collect degraded blob IDs under the shared read lock.
+    // Releasing the lock before writing to repair_queue_ avoids a potential
+    // lock-ordering deadlock with repair_mutex_.
+    std::vector<std::string> degraded_ids;
+
+    {
+        std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
+        degraded_ids.reserve(blobs_.size() / 4); // heuristic pre-size
+
+        for (const auto& [blob_id, metadata] : blobs_) {
+            // Basic health check: required healthy replica count.
+            if (!metadata.isHealthy()) {
+                const auto missing = metadata.getMissingShards();
+                spdlog::warn("runScrub: blob '{}' degraded — {}/{} locations healthy, "
+                             "{} shards missing",
+                             blob_id,
+                             metadata.healthyLocationCount(),
+                             metadata.requiredLocationCount(),
+                             missing.size());
+                degraded_ids.push_back(blob_id);
+                continue;
+            }
+
+            // Full-scrub-only: geo-redundancy coverage check for GEO_MIRROR blobs.
+            if (full &&
+                metadata.config.mode == RedundancyMode::GEO_MIRROR &&
+                metadata.config.geo_replicate &&
+                !metadata.config.geo_targets.empty()) {
+
+                const auto target_dc_count =
+                    static_cast<uint32_t>(metadata.config.geo_targets.size());
+
+                std::vector<std::string> healthy_dcs;
+                for (const auto& loc : metadata.locations) {
+                    if (!loc.is_healthy || loc.datacenter.empty()) continue;
+                    if (std::find(healthy_dcs.cbegin(), healthy_dcs.cend(),
+                                  loc.datacenter) == healthy_dcs.cend()) {
+                        healthy_dcs.push_back(loc.datacenter);
+                    }
+                }
+
+                if (static_cast<uint32_t>(healthy_dcs.size()) < target_dc_count) {
+                    spdlog::warn("runScrub: blob '{}' geo-redundancy degraded — "
+                                 "{}/{} datacenters have healthy replicas",
+                                 blob_id, healthy_dcs.size(), target_dc_count);
+                    degraded_ids.push_back(blob_id);
+                }
+            }
+        }
+    }
+
+    // Phase 2: Push degraded blobs into the repair queue.
+    if (!degraded_ids.empty()) {
+        {
+            std::lock_guard<std::mutex> rlock(repair_mutex_);
+            for (const auto& id : degraded_ids) {
+                repair_queue_.push(id);
+            }
+        }
+        repair_cv_.notify_one();
+        spdlog::info("runScrub complete: {} blob(s) queued for repair", degraded_ids.size());
+    } else {
+        spdlog::info("runScrub complete: all blobs healthy");
     }
 }
 

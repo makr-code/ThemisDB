@@ -32,6 +32,7 @@
 #include <filesystem>
 #include <fstream>
 #include <chrono>
+#include <ctime>
 #include <iomanip>
 #include <sstream>
 #include <algorithm>
@@ -1515,46 +1516,73 @@ bool BackupManager::restoreFromBackup(const std::string& src_dir, std::error_cod
     }
 }
 
-bool BackupManager::performPITR(const std::string& dest_dir, [[maybe_unused]] const PITROptions& pitr_options,
+bool BackupManager::performPITR(const std::string& dest_dir, const PITROptions& pitr_options,
                                 std::error_code& ec, RecoveryStats* stats) {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Allow PITR to link without a WAL reader / timestamp-parsing library.
-    //          Restores the lexicographically last backup in the directory without
-    //          parsing timestamps or replaying WAL segments.
-    // Activation: Always — no WAL replay engine or backup-manifest timestamp parser
-    //             is implemented.
-    // Production Delta: `pitr_options.target_time` is completely ignored.  The
-    //                   restored state is the last snapshot, not the exact requested
-    //                   point in time.  Any WAL delta between the snapshot and
-    //                   pitr_options.target_time is lost.
-    // Removal Plan: (1) Parse ISO-8601 timestamps from backup-manifest files;
-    //               (2) Select the latest snapshot ≤ target_time;
-    //               (3) Replay WAL segments up to target_time using the WAL reader.
-    //               See src/storage/FUTURE_ENHANCEMENTS.md §PITR WAL Replay.
     namespace fs = std::filesystem;
     try {
-        THEMIS_INFO("Performing PITR to target time");
-        
-        // Find backups before target time
-        auto backups = listBackups(dest_dir);
-        std::string target_backup;
-        
-        for (const auto& backup : backups) {
-            // Parse timestamp from backup name and compare with target
-            // This is simplified - production would need proper timestamp parsing
-            target_backup = backup;
+        THEMIS_INFO("Performing PITR restore to requested target time");
+
+        // Convert target_time to a comparable std::time_t value.
+        const std::time_t target_tt =
+            std::chrono::system_clock::to_time_t(pitr_options.target_time);
+
+        // Enumerate all backups and parse the embedded timestamp from directory names.
+        // Expected naming convention (set by createFullBackup): "full_YYYYMMDD_HHMMSS"
+        const auto backups = listBackups(dest_dir);
+
+        std::string  best_backup;
+        std::time_t  best_time = 0;
+
+        for (const auto& backup_name : backups) {
+            // Only consider full backups (incremental replay not yet implemented).
+            static constexpr std::string_view kPrefix = "full_";
+            if (backup_name.size() < kPrefix.size() + 15u) continue;
+            if (backup_name.compare(0, kPrefix.size(), kPrefix) != 0) continue;
+
+            // Parse the timestamp portion: "YYYYMMDD_HHMMSS"
+            const std::string ts_str = backup_name.substr(kPrefix.size());
+            std::tm tm{};
+            std::istringstream iss(ts_str);
+            iss >> std::get_time(&tm, "%Y%m%d_%H%M%S");
+            if (iss.fail()) {
+                THEMIS_INFO("PITR: skipping '{}' — timestamp parse failed", backup_name);
+                continue;
+            }
+            tm.tm_isdst = -1;
+            const std::time_t backup_time = std::mktime(&tm);
+            if (backup_time == static_cast<std::time_t>(-1)) continue;
+
+            // Keep the latest snapshot whose boundary is at or before target_time.
+            if (backup_time <= target_tt && backup_time > best_time) {
+                best_time   = backup_time;
+                best_backup = backup_name;
+            }
         }
-        
-        if (target_backup.empty()) {
-            THEMIS_ERROR("No suitable backup found for PITR");
+
+        if (best_backup.empty()) {
+            THEMIS_ERROR("PITR: no full backup found at or before the requested target time");
             ec = std::make_error_code(std::errc::no_such_file_or_directory);
             return false;
         }
-        
-        // Restore the base backup
-        auto backup_path = fs::path(dest_dir) / target_backup;
+
+        THEMIS_INFO("PITR: selected base snapshot '{}' as closest anchor ≤ target time",
+                    best_backup);
+
+        // Restore the selected snapshot.
+        // STUB/SIMULATION NOTE:
+        // Purpose: Provide timestamp-aware snapshot selection while WAL replay
+        //          is not yet implemented.
+        // Activation: Always — no WAL reader or segment-apply engine is integrated.
+        // Production Delta: Data written between the selected snapshot boundary and
+        //                   pitr_options.target_time is not replayed; restore accuracy
+        //                   is bounded by snapshot granularity (typically minutes).
+        // Removal Plan: After restoring the base snapshot, open WAL segments in
+        //               dest_dir, apply records with sequence numbers ≤ the one
+        //               corresponding to target_time, then close the WAL reader.
+        //               See src/storage/FUTURE_ENHANCEMENTS.md §PITR WAL Replay.
+        auto backup_path = fs::path(dest_dir) / best_backup;
         return restoreFromBackup(backup_path.string(), ec, stats);
-        
+
     } catch (const std::exception& e) {
         ec = std::make_error_code(std::errc::io_error);
         THEMIS_ERROR("Exception during PITR: {}", e.what());
@@ -1562,30 +1590,81 @@ bool BackupManager::performPITR(const std::string& dest_dir, [[maybe_unused]] co
     }
 }
 
-bool BackupManager::restoreCollections([[maybe_unused]] const std::string& src_dir, 
+bool BackupManager::restoreCollections(const std::string& src_dir,
                                        const std::vector<std::string>& collections,
                                        std::error_code& ec) {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Allow the partial-recovery code path to compile while selective
-    //          collection restore is not yet implemented.
-    // Activation: Always — no per-collection filtering of backup data is coded.
-    // Production Delta: Always returns true without actually restoring any
-    //                   collection data.  The `collections` argument is silently
-    //                   ignored.  Callers expecting named collections to be
-    //                   available after a partial restore will find empty state.
-    // Removal Plan: Open the backup at src_dir; iterate its collection manifests;
-    //               for each name in `collections`, copy only those SST files and
-    //               replay their WAL.  See
-    //               src/storage/FUTURE_ENHANCEMENTS.md §Partial Collection Restore.
+    namespace fs = std::filesystem;
     try {
-        THEMIS_INFO("Restoring {} collections from backup", collections.size());
-        
-        // In production, this would:
-        // 1. Load the backup
-        // 2. Filter data by collection names
-        // 3. Restore only specified collections
-        
+        THEMIS_INFO("Restoring {} collection(s) from backup at '{}'",
+                    collections.size(), src_dir);
+
+        if (!fs::exists(src_dir)) {
+            THEMIS_ERROR("restoreCollections: source directory '{}' does not exist", src_dir);
+            ec = std::make_error_code(std::errc::no_such_file_or_directory);
+            return false;
+        }
+
+        // Validate backup manifest.
+        std::string type;
+        uint64_t seq = 0;
+        auto manifest_result = readManifest(src_dir, type, seq);
+        if (!manifest_result) {
+            THEMIS_ERROR("restoreCollections: cannot read backup manifest in '{}'", src_dir);
+            ec = std::make_error_code(std::errc::io_error);
+            return false;
+        }
+
+        if (type != "full") {
+            THEMIS_ERROR("restoreCollections: only full backups support collection restore "
+                         "(backup type is '{}')", type);
+            ec = std::make_error_code(std::errc::invalid_argument);
+            return false;
+        }
+
+        // Verify the checkpoint directory exists.
+        const auto checkpoint_dir = fs::path(src_dir) / "checkpoint";
+        if (!fs::exists(checkpoint_dir)) {
+            THEMIS_ERROR("restoreCollections: checkpoint directory not found at '{}'",
+                         checkpoint_dir.string());
+            ec = std::make_error_code(std::errc::no_such_file_or_directory);
+            return false;
+        }
+
+        // Log requested collection names for operator visibility.
+        if (!collections.empty()) {
+            std::string coll_list;
+            for (size_t i = 0; i < collections.size(); ++i) {
+                if (i) coll_list += ", ";
+                coll_list += collections[i];
+            }
+            THEMIS_INFO("restoreCollections: requested collections: [{}]", coll_list);
+        }
+
+        // STUB/SIMULATION NOTE:
+        // Purpose: Provide a validated, non-silent restore path while per-column-family
+        //          selective restore (via rocksdb::DB::IngestExternalFile) is not yet
+        //          implemented.  Restores the full checkpoint so that all requested
+        //          collections are available after the call.
+        // Activation: Always — per-CF SST ingest is not yet wired.
+        // Production Delta: All column families in the checkpoint are restored, not
+        //                   only the named collections.  Existing collections not in
+        //                   `collections` will be overwritten from the backup.
+        // Removal Plan: Map collection names to CF names from the backup MANIFEST;
+        //               for each match, call db_wrapper_->getRawDB()->IngestExternalFile()
+        //               with the SST files from checkpoint/ that belong to that CF.
+        //               See src/storage/FUTURE_ENHANCEMENTS.md §Partial Collection Restore.
+        if (!db_wrapper_->restoreFromCheckpoint(checkpoint_dir.string())) {
+            THEMIS_ERROR("restoreCollections: checkpoint restore failed for '{}'",
+                         checkpoint_dir.string());
+            ec = std::make_error_code(std::errc::io_error);
+            return false;
+        }
+
+        THEMIS_INFO("restoreCollections: checkpoint restored from '{}' "
+                    "({} collection(s) requested; full checkpoint applied)",
+                    checkpoint_dir.string(), collections.size());
         return true;
+
     } catch (const std::exception& e) {
         ec = std::make_error_code(std::errc::io_error);
         THEMIS_ERROR("Exception during partial restore: {}", e.what());
