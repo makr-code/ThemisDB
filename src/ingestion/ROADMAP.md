@@ -254,6 +254,55 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
 - [x] Tests: IT-01..IT-10, AB-01..AB-10, QB-01..QB-04, LH-01..LH-03 (27 tests) — `tests/test_toolbox_ingestion.cpp` (2026-04-15)
 - [x] ARCHITECTURE.md updated — "Global Ingestion Toolbox" section + `toolbox::` in namespace hierarchy
 
+### Phase 9: Tensor-Train Ingestion Bridge (Status: Completed ✅ — 2026-05-05)
+
+**Scientific basis:**
+- Oseledets (2011) TT-SVD: SIAM J. Sci. Comput. 33(5), 2295-2317 — deterministic decomposition: same data + same ε → identical TT-cores (no benefit in re-computing)
+- Edge et al. (2024) GraphRAG — offline knowledge-graph construction at ingestion time saves 3–7× query latency at retrieval time; direct analogy: pre-compute TT-cores during write
+- Jiang et al. (2023) FLARE — mid-generation retrieval requires ≤ 90 ms per round; only possible with pre-computed TT-cores + mmap zero-copy (see GgmlTensorBridge Phase 3)
+- `docs/research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md` §κ-boundary (κ ≥ 1.3 for table / geo / LLM-weight embeddings)
+- `docs/research/ADALORA_TT_BRIDGE_RESEARCH.md` §3.1 — zero-copy adapter serving requires cores in storage before inference
+
+**Components added:**
+- [x] `ITensorDecompositionBackend` — pure abstract interface in `include/ingestion/inference_backend.h`
+  - `decompose(embedding, chunk_id, source_file_id, epsilon, max_rank)` → `TensorCoreRecord`
+  - `shouldDecompose(embedding, min_kappa)` → bool (κ-gate)
+  - `isAvailable()` / `description()` (mirrors `IEmbeddingBackend` contract)
+- [x] `NullTensorDecompositionBackend` — always-unavailable stub (STUB_INVENTORY #158)
+- [x] `TensorCoreRecord` struct in `include/ingestion/extraction_context.h`
+  - Fields: `chunk_id`, `source_file_id`, `order`, `max_rank`, `compression_ratio`, `achieved_eps`, `serialized_train`, `metadata`
+- [x] `ExtractionContext::tensor_cores` field + `hasTensorCores()` helper
+- [x] `builtin.chunk_tt_decompose` step — `src/ingestion/steps/chunk_tt_decompose_step.cpp`
+  - Reads `ctx.embeddings`; writes `ctx.tensor_cores`
+  - Config: `skip_when_unavailable` (default true), `epsilon` (default 0.01), `max_rank` (default 0), `min_kappa` (default 1.3)
+  - Provenance propagation: `section_ref`, `page`, `source_file`, `tenant_id` carried into `TensorCoreRecord::metadata`
+- [x] `createChunkTtDecomposeStep()` factory in `include/ingestion/builtin_step_factories.h`
+- [x] `TensorIngestionBridge` — concrete backend in `include/tensor/tensor_ingestion_bridge.h` + `src/tensor/tensor_ingestion_bridge.cpp`
+  - κ-gate: pilot decomposition (stride sub-sampling for dim > 1024; STUB_INVENTORY #159)
+  - Mode-shape: balanced 2D factorisation of embedding dim (order-2 TT = AdaLoRA SVD format)
+  - Diagnostic counters: `decomposeCount()` / `kappaSkipCount()` (thread-safe atomics)
+  - Configuration: `setEpsilon()`, `setMaxRank()`, `setMinKappa()`
+- [x] 20 unit tests in `tests/test_tensor_ingestion_bridge.cpp` (TIB-01..TIB-20)
+- [x] STUB_INVENTORY #158–#159 registered
+
+**Wiring (bootstrap):**
+```cpp
+#include "tensor/tensor_ingestion_bridge.h"
+#include "ingestion/builtin_step_factories.h"
+
+auto bridge = std::make_shared<themis::tensor::TensorIngestionBridge>(
+    /* epsilon= */ 0.01, /* max_rank= */ 0, /* min_kappa= */ 1.3);
+auto step = ingestion::builtin::createChunkTtDecomposeStep(bridge);
+// register step AFTER builtin.chunk_embed in WorkflowEngine YAML profile
+```
+
+**Known limitations (Phase 9 scope):**
+- TT-cores are produced but not yet written to `TensorNetworkStorageEngine` — downstream sinks must consume `ctx.tensor_cores` explicitly (Phase 10 target).
+- Pilot sub-sampling uses stride, not Gaussian projection (STUB_INVENTORY #159 — Q4 2026).
+- `simpleSVD()` in `TensorTrainDecomposer` uses identity U/Vt without LAPACK (STUB_INVENTORY #157 — Q3 2026); κ estimates are valid but core quality degrades for non-constant matrices.
+
+
+
 ## Breaking Changes
 - `IngestionBuilder` fluent API is stable from v1.x.
 - Source connector interface may gain new lifecycle hooks in v1.6.0.

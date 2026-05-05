@@ -24,6 +24,7 @@
 
 #include "ingestion/file_manifest.h"
 #include "ingestion/base_entity.h"
+#include "ingestion/inference_backend.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -134,6 +135,12 @@ struct ExtractionContext {
     // ── Embeddings (chunk_embed step) ─────────────────────────────────────────
     std::vector<VectorRecord> embeddings;
 
+    // ── TT-cores (chunk_tt_decompose step) ───────────────────────────────────
+    /// Tensor-Train cores produced by `builtin.chunk_tt_decompose`.
+    /// Populated only when a `TensorIngestionBridge` is injected and the
+    /// embedding data passes the κ-gate (shouldDecompose() == true).
+    std::vector<TensorCoreRecord> tensor_cores;
+
     // ── Geo features (parse_geo step) ────────────────────────────────────────
     std::vector<GeoFeature> geo_features;
 
@@ -167,6 +174,9 @@ struct ExtractionContext {
 
     /// Returns true when at least one embedding was produced.
     bool hasEmbeddings() const { return !embeddings.empty(); }
+
+    /// Returns true when at least one TT-core record was produced.
+    bool hasTensorCores() const { return !tensor_cores.empty(); }
 
     /// Returns true when at least one geo feature was extracted.
     bool hasGeoFeatures() const { return !geo_features.empty(); }

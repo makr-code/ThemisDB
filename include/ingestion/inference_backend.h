@@ -222,5 +222,165 @@ private:
     int dims_;
 };
 
+// ============================================================================
+// ITensorDecompositionBackend — pure abstraction for Tensor-Train decomposition
+// ============================================================================
+
+/**
+ * @brief Abstract interface for Tensor-Train (TT) decomposition used by the
+ *        ingestion pipeline.
+ *
+ * ## Motivation (SoC / DIP)
+ *
+ * The ingestion module must not depend on any concrete tensor-storage backend.
+ * Instead it depends only on this lightweight interface.  The binding to the
+ * real `TensorTrainDecomposer` (stored in `storage/`) is performed in the
+ * `tensor` module through `TensorIngestionBridge` and injected at construction
+ * time — the ingestion engine never sees a single `storage/` or `tensor/` header.
+ *
+ * ## Dependency graph (SoC / DIP compliant)
+ * @code
+ *   ingestion  →  ITensorDecompositionBackend  (this file)
+ *                         ↑ implemented by
+ *   tensor/    →  TensorIngestionBridge : ITensorDecompositionBackend
+ *                         ↓ calls
+ *               →  TensorTrainDecomposer::decompose()
+ * @endcode
+ *
+ * ## Returned record format
+ *
+ * `decompose()` returns a `TensorCoreRecord` (defined in extraction_context.h)
+ * that wraps the flattened TT-core bytes produced by `TTTrain::serialize()`.
+ * The record also carries provenance metadata from `ExtractionContext::manifest`
+ * so that regulated-industry consumers (FITKO, eJustice) can trace every
+ * core back to its source document.
+ *
+ * ## κ-gate (avoid wasteful decomposition)
+ *
+ * `shouldDecompose()` performs a cheap pilot check (Frobenius norm + pilot
+ * SVD on a small random sample) and returns `true` only when the data is
+ * expected to achieve a compression ratio κ ≥ `min_kappa`.  The default
+ * `min_kappa = 1.3` is the boundary identified in
+ * `docs/research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`.
+ *
+ * Thread safety: all methods MUST be thread-safe.
+ */
+
+/// @brief Opaque byte blob for one TT-train serialised by TTTrain::serialize().
+using SerializedTTTrain = std::vector<uint8_t>;
+
+/**
+ * @brief One TT-decomposed record produced by `builtin.chunk_tt_decompose`.
+ *
+ * Kept as a forward-declared-friendly struct so `ExtractionContext` does not
+ * need to include any tensor headers.
+ */
+struct TensorCoreRecord {
+    std::string  chunk_id;        ///< Matches VectorRecord::chunk_id (file_id:seq)
+    std::string  source_file_id;  ///< SHA-256 of the originating file
+    std::size_t  order{0};        ///< TT order (number of cores / modes)
+    std::size_t  max_rank{0};     ///< Maximum bond dimension achieved
+    double       compression_ratio{0.0}; ///< dense_elements / tt_parameters
+    double       achieved_eps{0.0};      ///< ‖T-T_approx‖_F / ‖T‖_F
+    SerializedTTTrain serialized_train;  ///< Raw bytes from TTTrain::serialize()
+    std::unordered_map<std::string, std::string> metadata;
+    ///< Provenance: "source_file", "page", "section_ref", "tenant_id", etc.
+};
+
+class ITensorDecompositionBackend {
+public:
+    virtual ~ITensorDecompositionBackend() = default;
+
+    /**
+     * @brief Decompose a dense embedding vector into TT-format.
+     *
+     * @param embedding    Dense float32 embedding from a prior `chunk_embed` step.
+     * @param chunk_id     Identifier linking result to the originating chunk.
+     * @param source_file_id  SHA-256 digest of the originating file.
+     * @param epsilon      Relative reconstruction error tolerance ε ∈ (0, 1].
+     *                     Passed directly to `TensorTrainDecomposer`.
+     * @param max_rank     Hard bond-dimension cap (0 = no cap).
+     * @return Populated `TensorCoreRecord`.  On error, returns a record with
+     *         empty `serialized_train` so callers can degrade gracefully.
+     */
+    [[nodiscard]] virtual TensorCoreRecord decompose(
+        const std::vector<float>& embedding,
+        const std::string&        chunk_id,
+        const std::string&        source_file_id,
+        double                    epsilon  = 0.01,
+        std::size_t               max_rank = 0) = 0;
+
+    /**
+     * @brief κ-gate: estimate whether decomposition is worthwhile.
+     *
+     * Returns `true` when the pilot compressibility estimate κ ≥ `min_kappa`.
+     * Implementations are permitted to use a randomised approximation.
+     *
+     * @param embedding  The dense vector to probe.
+     * @param min_kappa  Minimum compression ratio to justify decomposition.
+     *                   Default: 1.3 (boundary from TT boundary analysis).
+     */
+    [[nodiscard]] virtual bool shouldDecompose(
+        const std::vector<float>& embedding,
+        double min_kappa = 1.3) const = 0;
+
+    /**
+     * @brief Return true when the backend is configured and operational.
+     */
+    [[nodiscard]] virtual bool isAvailable() const = 0;
+
+    /**
+     * @brief Human-readable description of the backend for logging.
+     *
+     * Example: "TensorIngestionBridge → TensorTrainDecomposer (ε=0.01)"
+     */
+    [[nodiscard]] virtual std::string description() const = 0;
+};
+
+// ============================================================================
+// NullTensorDecompositionBackend — always-unavailable stub
+// ============================================================================
+
+// STUB/SIMULATION NOTE:
+// Purpose: Safe default when no real tensor decomposer is configured; keeps
+//   ChunkTtDecomposeStep compilable without a live TensorTrainDecomposer.
+// Activation: Default in ChunkTtDecomposeStep when no
+//   ITensorDecompositionBackend is injected.
+// Production Delta: isAvailable() returns false; decompose() returns an empty
+//   TensorCoreRecord; shouldDecompose() always returns false.
+// Removal Plan: Not removed — remains the no-config default.
+//   Inject a real TensorIngestionBridge for production use.
+
+/**
+ * @brief No-op backend that signals unavailability.
+ *
+ * Used as the default when no real tensor decomposer is configured.
+ */
+class NullTensorDecompositionBackend : public ITensorDecompositionBackend {
+public:
+    TensorCoreRecord decompose(
+        const std::vector<float>& /*embedding*/,
+        const std::string&        chunk_id,
+        const std::string&        source_file_id,
+        double   /*epsilon*/,
+        std::size_t /*max_rank*/) override
+    {
+        TensorCoreRecord rec;
+        rec.chunk_id       = chunk_id;
+        rec.source_file_id = source_file_id;
+        return rec;
+    }
+
+    bool shouldDecompose(const std::vector<float>& /*embedding*/,
+                         double /*min_kappa*/) const override {
+        return false;
+    }
+
+    bool        isAvailable() const override { return false; }
+    std::string description() const override {
+        return "NullTensorDecompositionBackend (no-op)";
+    }
+};
+
 } // namespace ingestion
 } // namespace themis

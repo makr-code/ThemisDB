@@ -25,9 +25,11 @@ Boundary analysis: `docs/research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`
 | `include/tensor/tensor_index.h` | `ITensorIndex` interface — all TT-based index backends |
 | `include/tensor/tensor_index_manager.h` | Lifecycle manager, routing, GGML bridge entry-point |
 | `include/tensor/hnsw_tt_bridge.h` | Hybrid HNSW navigation + TT re-ranking (HYBRID regime) |
+| **`include/tensor/tensor_ingestion_bridge.h`** | **`TensorIngestionBridge`** — `ITensorDecompositionBackend` for the ingestion pipeline |
 | `src/tensor/tensor_index.cpp` | `FlatTensorIndex` (Phase-1 linear scan reference impl) |
 | `src/tensor/tensor_index_manager.cpp` | Manager implementation |
 | `src/tensor/hnsw_tt_bridge.cpp` | HNSW+TT bridge implementation |
+| **`src/tensor/tensor_ingestion_bridge.cpp`** | `TensorIngestionBridge` implementation |
 
 ## Dependencies
 
@@ -36,6 +38,7 @@ Boundary analysis: `docs/research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`
 - `src/storage/tensor_router` — routing decisions
 - `src/index` — HNSW navigation layer for HYBRID mode (Phase 2)
 - `src/utils/logger` — THEMIS_WARN macros
+- `include/ingestion/inference_backend.h` — `ITensorDecompositionBackend` interface (ingestion SoC boundary)
 
 ## Quick Start
 

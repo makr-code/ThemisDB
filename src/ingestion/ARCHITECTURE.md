@@ -54,6 +54,45 @@ queue for bad records, and Prometheus metrics export.
 | `cdc_connector.cpp` | Change-data-capture source for live database streams (stream backend gated behind `THEMIS_ENABLE_CDC_STREAM`) |
 | `ingestion_coordinator.cpp` | Distributed ingestion coordinator with work-stealing thread pool |
 
+### 3.1-B Bridge Components (SoC / DIP layer)
+
+| File | Role |
+|---|---|
+| `include/ingestion/inference_backend.h` | `ITextGenerationBackend`, `IEmbeddingBackend`, **`ITensorDecompositionBackend`** — pure abstract interfaces keeping `ingestion/` free from `llm/`, `storage/`, `tensor/` headers |
+| `include/llm/llm_ingestion_bridge.h` | `LlmIngestionBridge` — concrete `ITextGenerationBackend` in `llm/` |
+| **`include/tensor/tensor_ingestion_bridge.h`** | **`TensorIngestionBridge`** — concrete `ITensorDecompositionBackend` in `tensor/`; delegates to `storage::TensorTrainDecomposer` |
+| `include/aql/aql_ingestion_bridge.h` | `AQLIngestionBridge` — enriches INSERT/UPSERT payloads with extracted entities |
+
+**Dependency rule:** `ingestion/` may only `#include` its own headers and `utils/`.
+All cross-module coupling goes through the abstract interfaces above, wired by `main.cpp` / server bootstrap.
+
+#### TensorIngestionBridge dependency graph
+```
+  ingestion/  →  ITensorDecompositionBackend  (include/ingestion/inference_backend.h)
+                        ↑ implemented by
+  tensor/     →  TensorIngestionBridge         (include/tensor/tensor_ingestion_bridge.h)
+                        ↓ calls
+              →  storage::TensorTrainDecomposer::decompose()
+```
+
+#### builtin.chunk_tt_decompose data flow
+```
+  ctx.embeddings (from builtin.chunk_embed)
+       │
+       ▼  for each VectorRecord:
+  backend->shouldDecompose()  ←─ κ-gate (pilot decomposition)
+       │ true
+       ▼
+  backend->decompose()        ←─ TT-SVD, balanced 2D mode-shape
+       │
+       ▼
+  ctx.tensor_cores.push_back(TensorCoreRecord{
+      chunk_id, source_file_id, order, max_rank,
+      compression_ratio, achieved_eps, serialized_train,
+      metadata{section_ref, page, source_file, ...}
+  })
+```
+
 ### 3.2 Component Diagram
 
 ```

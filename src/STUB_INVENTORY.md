@@ -207,7 +207,9 @@
 | 155 | `tensor/hnsw_tt_bridge.cpp::HnswTTBridge::save()` | No-op; emits THEMIS_WARN | Always (Phase 1) | HNSW graph and TT-cores not persisted | Implement in Phase 2 (Q4 2026) — HTB-02 | Phase 2 Q4 2026 |
 | 156 | `tensor/hnsw_tt_bridge.cpp::HnswTTBridge::load()` | No-op; emits THEMIS_WARN | Always (Phase 1) | Index empty after restart | Implement in Phase 2 (Q4 2026) — HTB-03 | Phase 2 Q4 2026 |
 | 157 | `storage/tensor_train_decomposer.cpp::simpleSVD()` | U and Vt are set to identity matrices; Householder back-accumulation not implemented; reconstruction error may reach ‖T‖_F (≤ 100%) for general matrices | Always when THEMIS_USE_LAPACK_SVD not defined | TT-cores contain original unfolding columns, not true singular vectors; compress ratio / rank selection (κ) is unaffected because singular values S are correct | Enable THEMIS_USE_LAPACK_SVD=ON in CMake; wire LAPACK dgesdd (Q3 2026) — STUB_INVENTORY #157 | Q3 2026 |
+| 158 | `ingestion/inference_backend.h::NullTensorDecompositionBackend` | Always-unavailable stub; decompose() returns empty TensorCoreRecord; shouldDecompose() always returns false | Default when no TensorIngestionBridge is injected into ChunkTtDecomposeStep | No TT-cores produced; chunk_tt_decompose step is skipped silently | Inject a real TensorIngestionBridge at server bootstrap — TIB-null | Not removed — permanent no-config default |
+| 159 | `tensor/tensor_ingestion_bridge.cpp::shouldDecompose()::pilot` | Pilot uses stride-based deterministic sub-sampling (not true random projection) for dim > 1024; κ estimate may deviate ±15% for adversarial embeddings | Always when embedding.size() > 1024 | κ over/underestimated for high-frequency structured embeddings; gate may admit slightly incompressible data or reject slightly compressible data | Replace with Gaussian random projection matrix (Q4 2026) — TIB-pilot | Q4 2026 |
 
 ---
 
-*Last updated: 2026-05-05 — 157 entries, 20 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-05-05 — 159 entries, 20 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

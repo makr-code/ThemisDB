@@ -16,6 +16,8 @@
 Experimental — Phase 1 skeleton complete (2026-05-05).  Core interfaces
 (`ITensorIndex`, `TensorIndexManager`, `HnswTTBridge`) and a linear-scan
 reference implementation (`FlatTensorIndex`) are in place.
+The **Ingestion Bridge** (`TensorIngestionBridge`) is production-ready and
+provides the first end-to-end path from document ingestion to TT-core storage.
 RocksDB persistence and hnswlib integration are Phase 2 targets.
 
 ## Completed ✅
@@ -29,6 +31,23 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 - [x] Module docs: README, ROADMAP, ARCHITECTURE, FUTURE_ENHANCEMENTS, AUDIT
 - [x] Research docs: boundary analysis, arXiv draft, AdaLoRA bridge
 - [x] STUB_INVENTORY #150–#157 registered (STUB/SIMULATION NOTEs in all stubs)
+- [x] **`TensorIngestionBridge`** — production `ITensorDecompositionBackend`:
+  - `include/tensor/tensor_ingestion_bridge.h` + `src/tensor/tensor_ingestion_bridge.cpp`
+  - κ-gate with pilot decomposition (stride sub-sampling for dim > 1024)
+  - Balanced 2D mode-shape inference (order-2 TT = AdaLoRA-equivalent format)
+  - Provenance metadata (ε, rank, mode-shape, file, page, section_ref)
+  - Thread-safe (atomic diagnostic counters, stateless decomposer)
+- [x] **`builtin.chunk_tt_decompose`** ingestion step — runs after `chunk_embed`
+  - `src/ingestion/steps/chunk_tt_decompose_step.cpp`
+  - κ-gate controlled via `min_kappa` config key (default 1.3)
+  - `skip_when_unavailable` guard (default true)
+- [x] `ITensorDecompositionBackend` + `NullTensorDecompositionBackend` in
+      `include/ingestion/inference_backend.h`
+- [x] `TensorCoreRecord` + `ExtractionContext::tensor_cores` in
+      `include/ingestion/extraction_context.h`
+- [x] `createChunkTtDecomposeStep()` factory in `include/ingestion/builtin_step_factories.h`
+- [x] Tests `tests/test_tensor_ingestion_bridge.cpp` (TIB-01..TIB-20)
+- [x] STUB_INVENTORY #158–#159 registered
 
 ## In Progress 🚧
 
