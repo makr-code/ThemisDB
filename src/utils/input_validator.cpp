@@ -21,6 +21,7 @@
  */
 
 #include "utils/input_validator.h"
+#include "utils/logger.h"
 #include <fstream>
 #include <sstream>
 #include <cctype>
@@ -253,27 +254,17 @@ std::optional<std::string> InputValidator::validateJsonStub(
     const nlohmann::json& payload,
     const std::string& schema_name
 ) const {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Provide a lightweight JSON-schema validation path that silently
-    //   accepts requests when the schema file is not present on disk.  If the
-    //   schema file `<schema_dir>/<schema_name>.json` exists, the payload is
-    //   validated against it via `validateJson()`.  If the file is absent,
-    //   `validateJsonStub()` returns `std::nullopt` (no error) and the request
-    //   is accepted unconditionally.
-    // Activation: Schema file not deployed to `schema_dir_` at runtime (the
-    //   common case in development and CI builds).
-    // Production Delta: Without a schema file, arbitrary JSON payloads (including
-    //   malformed or adversarial requests) pass validation silently.  The only
-    //   protection in effect is the surrounding hard-coded structural checks in
-    //   `validateAqlRequest()`.  Missing schema files are a silent security gap:
-    //   no warning is logged when the file is absent.
-    // Removal Plan: (1) Deploy schema files to `schema_dir_` in production
-    //   (controlled via `THEMIS_SCHEMA_DIR` env var or config YAML).
-    //   (2) Log WARN when a requested schema file is not found so the gap is
-    //   visible in logs.
-    // Roadmap ref: src/utils/FUTURE_ENHANCEMENTS.md §"JSON Schema Validation Activation"
+    // Previously (stub #85): no warning was emitted when the schema file was
+    // absent, making this a silent security gap.  A THEMIS_WARN is now logged
+    // whenever the schema file cannot be found so that the gap is visible in
+    // operator logs.  The accept-all fallback remains until schema files are
+    // deployed to `schema_dir_` in production (THEMIS_SCHEMA_DIR env var or
+    // config YAML).  See src/utils/FUTURE_ENHANCEMENTS.md §JSON Schema Validation.
     auto schema = loadSchema(schema_name);
     if (!schema.has_value()) {
+        THEMIS_WARN("validateJsonStub: schema '{}' not found in '{}'; "
+                    "accepting payload without schema validation (security gap)",
+                    schema_name, schema_dir_);
         return std::nullopt; // no schema file present -> accept
     }
     return validateJson(payload, *schema);
