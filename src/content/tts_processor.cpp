@@ -185,24 +185,28 @@ TTSResult TTSProcessor::synthesize(
 }
 
 bool TTSProcessor::streamSynthesize(
-    const std::string& /*text*/,
-    std::function<void(const std::vector<uint8_t>&)> /*callback*/,
-    const TTSOptions& /*options*/
+    const std::string& text,
+    std::function<void(const std::vector<uint8_t>&)> callback,
+    const TTSOptions& options
 ) {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Satisfies the API contract of streamSynthesize() while the
-    //          real streaming TTS pipeline (chunk-by-chunk Piper/ONNX inference
-    //          with callback-driven audio delivery) has not yet been wired up.
-    // Activation: Always — no build flag gates this path.
-    // Production Delta: The callback is never invoked; the caller receives no
-    //                   audio segments.  A full implementation would call
-    //                   synthesizeInternal() in chunks and invoke `callback`
-    //                   for each chunk so that the caller can begin playback
-    //                   before the full synthesis is complete.
-    // Removal Plan: Implement chunk-based Piper inference and call the callback
-    //               per audio frame.  See src/content/FUTURE_ENHANCEMENTS.md
-    //               §TTS Streaming Synthesis.
-    return false;
+    // Synthesize the full audio first, then deliver it to the caller in
+    // fixed-size chunks so that playback can start before all bytes arrive.
+    // When Piper streaming inference is available this loop can be replaced
+    // with per-frame callback invocations from within synthesizeInternal().
+    static constexpr std::size_t kChunkBytes = 4096; // ~93 ms at 22 050 Hz / 16-bit
+
+    TTSResult result = synthesizeInternal(text, options);
+    if (!result.success || result.audio_data.empty()) {
+        return false;
+    }
+
+    const auto& audio = result.audio_data;
+    for (std::size_t offset = 0; offset < audio.size(); offset += kChunkBytes) {
+        std::size_t len = std::min(kChunkBytes, audio.size() - offset);
+        callback(std::vector<uint8_t>(audio.begin() + static_cast<std::ptrdiff_t>(offset),
+                                      audio.begin() + static_cast<std::ptrdiff_t>(offset + len)));
+    }
+    return true;
 }
 
 json TTSProcessor::getAvailableVoices() const {

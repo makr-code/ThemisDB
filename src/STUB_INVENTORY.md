@@ -26,7 +26,7 @@
 
 ---
 
-## Stub Inventory (153 entries — 10 resolved, 143 active)
+## Stub Inventory (162 entries — 31 resolved, 131 active)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -48,7 +48,7 @@
 | 16 | `governance/opa_adapter.cpp` | WASM OPA evaluation placeholder | `Config::mode == WASM` and `wasm_bundle_path` set | Real WASM runtime not yet integrated | `src/governance/ROADMAP.md` | v1.6.0 |
 | 17 | `sharding/cross_shard_transaction.cpp` (3PC) | 3PC Phase-2 skeleton (PreCommit) | `default_protocol == THREE_PHASE_COMMIT` | 3PC not yet safe for production | `src/sharding/ROADMAP.md` CST-6 | v1.5.0 |
 | 18 | `sharding/cloud_backup.cpp` | S3-compatible backup provider placeholder | `THEMIS_ENABLE_S3` not defined | No real cloud upload | `src/sharding/ROADMAP.md` | post-v1.3.0 |
-| 19 | `cdc/cdc_admin.cpp` | `purgeTenant()` always throws (unimplemented) | Always active | GDPR purge not executed | `src/cdc/ROADMAP.md` | v1.5.0 |
+| ~~19~~ | ~~`cdc/cdc_admin.cpp`~~ | ~~`purgeTenant()` always throws (unimplemented)~~ | ~~Always active~~ | ~~GDPR purge not executed~~ | ~~`src/cdc/ROADMAP.md`~~ | ~~v1.5.0~~ | **resolved 2026-05-05**: captures pre-purge `events_recorded` from `getTenantStats()`, flushes via `flushTenant()`, then calls `disableTenant()` + `removeTenant()`; returns accurate `PurgeResult` |
 | 20 | `training/knowledge_graph_enricher.cpp` (cache key) | Static `":v0"` graph-version suffix | Always active; AQL metadata API not wired | No version-based cache invalidation | `src/training/FUTURE_ENHANCEMENTS.md` | v1.5.0 |
 | 21 | `training/knowledge_graph_enricher.cpp` (docId) | Returns `""` for source document ID | Always active; AQL engine not injected | Enrichment silently skipped | `FUTURE_ENHANCEMENTS.md` §AQL metadata | v1.5.0 |
 | 22 | `distributed_knowledge/federated_distillation_coordinator.cpp` | Gaussian DP noise simulation | Always active; no GPU path | Not privacy-certified; random noise only | `FUTURE_ENHANCEMENTS.md` §Federated DP | v2.0.0 |
@@ -160,6 +160,10 @@
 | `src/utils/audit_logger.cpp` | Version TODO resolved: `THEMISDB_VERSION` now derives from `THEMIS_VERSION_STRING` macro (CMake-injected) with `"0.0.0-dev"` fallback (v1.9.x) |
 | `src/server/rpc/blob_transfer_handler.cpp` | Stub #32 resolved 2026-05-05: 256-entry `constexpr` CRC-32 LUT + SSE4.2 hardware CRC-32C path added; bit-by-bit loop removed |
 | `src/ethics_ai/argument_store.cpp` | Stub #33 resolved 2026-05-05: `setVectorWriter(IVectorWriter*, embedding_fn)` injection API added; `storeArgument()` writes hash-based/real embedding vector when writer is set |
+| `src/cdc/cdc_admin.cpp` | Stub #19 resolved 2026-05-05: `purgeTenant()` now captures pre-purge `events_recorded`, flushes via `flushTenant()`, disables and removes tenant; returns accurate `PurgeResult` |
+| `src/content/tts_processor.cpp` | Stub #115 resolved 2026-05-05: `streamSynthesize()` calls `synthesizeInternal()` then delivers audio in 4 096-byte chunks to caller callback; returns `true` on success |
+| `src/sharding/pki_shard_certificate.cpp` | Stub #127 resolved 2026-05-05: `isValidNow()` parses ASN1_TIME_print format via `strptime`+`timegm` (POSIX) / `sscanf`+`_mkgmtime` (Windows) and compares to `time(nullptr)` |
+| `src/content/content_manager_llm.cpp` | Stub #132 resolved 2026-05-05: `getExtractedText()` delegates to `assembleContent(content_id, true)` and returns concatenated chunk text from RocksDB storage |
 
 ---
 
@@ -172,7 +176,7 @@
 | `rag/continuous_learning_orchestrator.cpp` | Live learning loop with real signal sources | ✅ Exists in `src/rag/FUTURE_ENHANCEMENTS.md` §ContinuousLearningOrchestrator | v2.0.0 |
 | `distributed_knowledge/federated_distillation_coordinator.cpp` | Production gRPC coordinator | ✅ Added to `src/distributed_knowledge/FUTURE_ENHANCEMENTS.md` §Production | v2.0.0 |
 | All ingestion connector stubs | SDK integration per connector | ✅ Exists in `src/ingestion/FUTURE_ENHANCEMENTS.md` §v1.6.0–v1.7.0 | v1.5.0–v1.7.0 |
-| 115 | `content/tts_processor.cpp::streamSynthesize()` | Chunk-by-chunk Piper/ONNX TTS streaming not implemented; callback is never invoked; always returns `false` | Always — no build flag gates this path | Callers receive no audio segments; real-time TTS playback is broken | `src/content/FUTURE_ENHANCEMENTS.md` §TTS Streaming Synthesis | v1.7.0 |
+| ~~115~~ | ~~`content/tts_processor.cpp::streamSynthesize()`~~ | ~~Chunk-by-chunk Piper/ONNX TTS streaming not implemented; callback is never invoked; always returns `false`~~ | ~~Always — no build flag gates this path~~ | ~~Callers receive no audio segments; real-time TTS playback is broken~~ | ~~`src/content/FUTURE_ENHANCEMENTS.md` §TTS Streaming Synthesis~~ | ~~v1.7.0~~ | **resolved 2026-05-05**: calls `synthesizeInternal()` for full audio then delivers it to the caller in 4 096-byte chunks via the callback; returns `true` when at least one chunk was emitted |
 | 116 | `content/tts_processor.cpp::convertToFormat()` MP3 | Raw PCM bytes returned instead of LAME-encoded MP3; LAME encoder not linked | Format == "mp3" | Output is unplayable by any MP3 decoder | `src/content/FUTURE_ENHANCEMENTS.md` §TTS Audio Format Support | v1.7.0 |
 | 117 | `content/tts_processor.cpp::convertToFormat()` OGG | Raw PCM bytes returned instead of Opus/Vorbis Ogg stream; libopus/libvorbis not linked | Format == "ogg" | Output is unplayable as OGG audio | `src/content/FUTURE_ENHANCEMENTS.md` §TTS Audio Format Support | v1.7.0 |
 | 118 | `replication/replication_manager.cpp::MultiMasterReplicationManager::read()` | Quorum read fan-out not implemented; peers not queried; `data` always empty; `read_quorum` ignored | Always | No multi-master consistency; data field is empty on every call | `src/replication/FUTURE_ENHANCEMENTS.md` §Multi-Master Quorum Read | future milestone |
@@ -182,11 +186,11 @@
 | 123 | `query/query_federation.cpp` broadcast join | Returns metadata-only JSON; no actual join rows produced | Broadcast-join strategy selected | Zero join results returned to caller; federated broadcast joins are no-ops | `src/query/FUTURE_ENHANCEMENTS.md` §QueryFederation Broadcast Join | future milestone |
 | ~~125~~ | `sharding/signed_request.cpp::SignedRequestVerifier::verify()` | Signature presence check only; no public-key crypto performed; forged signatures pass | Always | Any request with a non-empty `signature_b64` is accepted regardless of correctness | `src/sharding/FUTURE_ENHANCEMENTS.md` §Signed Request Crypto Verification | future milestone |
 | 126 | `sharding/shard_router.cpp` broadcast-hash join Phase 2 | Right-side query not executed; join probe skipped; only left/build-side rows returned | Broadcast-hash join path in shard_router | Zero join matches; result is metadata + left rows only | `src/sharding/FUTURE_ENHANCEMENTS.md` §Shard Router Broadcast-Hash Join Phase 2 | future milestone |
-| 127 | `sharding/pki_shard_certificate.cpp::ShardCertificateInfo::isValidNow()` | Checks only for non-empty date strings; no date parsing or expiry comparison | Always | Expired and not-yet-valid certificates pass the validity check | `src/sharding/FUTURE_ENHANCEMENTS.md` §PKI Certificate Validity | future milestone |
+| ~~127~~ | ~~`sharding/pki_shard_certificate.cpp::ShardCertificateInfo::isValidNow()`~~ | ~~Checks only for non-empty date strings; no date parsing or expiry comparison~~ | ~~Always~~ | ~~Expired and not-yet-valid certificates pass the validity check~~ | ~~`src/sharding/FUTURE_ENHANCEMENTS.md` §PKI Certificate Validity~~ | ~~future milestone~~ | **resolved 2026-05-05**: parses `not_before`/`not_after` (ASN1_TIME_print format "Mon DD HH:MM:SS YYYY GMT") via `strptime`+`timegm` (POSIX) / `sscanf`+`_mkgmtime` (Windows); compares to `time(nullptr)`; falls back to non-empty check on parse failure |
 | 128 | `voice/voice_assistant.cpp::convertAudioFormat()` | Returns original bytes unchanged; no FFmpeg / audio codec integration | Always — THEMIS_ENABLE_FFMPEG not set | Callers requesting OGG/MP3/MP4 receive raw PCM bytes | `src/voice/FUTURE_ENHANCEMENTS.md` §Voice Audio Format Conversion | future milestone |
 | 130 | `replication/replication_manager.cpp::getMissingWrites()` | Multi-master write-log delta extraction not implemented; always returns empty set | Always — multi-master anti-entropy path | Peer replication gaps are never detected or healed via this path | `src/replication/FUTURE_ENHANCEMENTS.md` §Multi-Master getMissingWrites | future milestone |
 | 131 | `replication/replication_manager.cpp::QuorumReadManager::queryReplica()` | Simulates RPC response from in-memory health status; `data` always empty; no real network call | Always — gRPC/TCP replica RPC not implemented | Quorum-read data field is always empty; document content never fetched from replica | `src/replication/FUTURE_ENHANCEMENTS.md` §QuorumRead Replica RPC | future milestone |
-| 132 | `content/content_manager_llm.cpp::ContentManager::getExtractedText()` | Storage-backed text retrieval not wired; always returns empty string | Always | Any caller of getExtractedText() receives "" regardless of prior ingestion | `src/content/FUTURE_ENHANCEMENTS.md` §ContentManager getExtractedText | future milestone |
+| ~~132~~ | ~~`content/content_manager_llm.cpp::ContentManager::getExtractedText()`~~ | ~~Storage-backed text retrieval not wired; always returns empty string~~ | ~~Always~~ | ~~Any caller of getExtractedText() receives "" regardless of prior ingestion~~ | ~~`src/content/FUTURE_ENHANCEMENTS.md` §ContentManager getExtractedText~~ | ~~future milestone~~ | **resolved 2026-05-05**: delegates to `assembleContent(content_id, true)` and returns `assembled_text.value_or("")`; all chunk text is now concatenated from RocksDB storage |
 | 133 | `content/archive_processor.cpp` TAR/other format metadata | libarchive not integrated for TAR parsing; returns basic metadata without TAR-specific fields | TAR and other non-ZIP/RAR/7z formats | Entry count, total uncompressed size, and first-entry-name fields are absent | `src/content/FUTURE_ENHANCEMENTS.md` §ArchiveProcessor TAR Metadata | future milestone |
 | 134 | `llm/distributed_training_coordinator.cpp` ETA estimation | Total training steps not propagated; always returns 0.0f | Always | Progress UIs and SLO monitors see 0 remaining time regardless of actual state | `src/llm/FUTURE_ENHANCEMENTS.md` §Distributed Training ETA | future milestone |
 | ~~135~~ | `observability/continuous_profiler.cpp` stack-trace fallback | `backtrace()` / `backtrace_symbols()` not available; returns "(stack-trace-unavailable)" | Platform without `HAVE_EXECINFO_H` (Windows, WASM, embedded) | Profiler flame graphs show no frames; crash reports have no call stack | `src/observability/FUTURE_ENHANCEMENTS.md` §Cross-Platform Stack Trace | future milestone |
@@ -217,4 +221,4 @@
 
 ---
 
-*Last updated: 2026-05-05 — 162 entries, 27 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-05-05 — 162 entries, 31 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

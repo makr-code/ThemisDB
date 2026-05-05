@@ -442,20 +442,13 @@ json ContentManager::parseEntities(const std::string& entities_text) {
 /**
  * @brief Get extracted text from content
  */
-std::string ContentManager::getExtractedText(const std::string& /*content_id*/) {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Satisfies the getExtractedText() API while storage-backed text
-    //          retrieval (metadata lookup → chunk scan → text reassembly) is not
-    //          wired into ContentManager.
-    // Activation: Always — no storage call is made.
-    // Production Delta: Always returns empty string; any caller that relies on
-    //                   the extracted text of an ingested document receives "".
-    // Removal Plan: 1. Look up content metadata by `content_id`.
-    //               2. Check `metadata.text_extracted == true`.
-    //               3. Retrieve text from the storage chunk / field.
-    //               4. Return concatenated text.
-    //               See src/content/FUTURE_ENHANCEMENTS.md §ContentManager getExtractedText.
-    return "";
+std::string ContentManager::getExtractedText(const std::string& content_id) {
+    auto assembly = assembleContent(content_id, /*include_text=*/true);
+    if (!assembly) {
+        return "";
+    }
+    return assembly->assembled_text.value_or("");
+}
 }
 
 } // namespace content
