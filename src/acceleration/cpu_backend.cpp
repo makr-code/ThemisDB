@@ -179,9 +179,14 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchBFS(
                 continue;
             }
 
-            // Dense adjacency matrix row for vertex `current`:
-            // adjacency[current * numVertices + v] != 0  →  edge current→v exists.
-            const uint32_t* row = adjacency + current * numVertices;
+        // Dense adjacency matrix row for vertex `current`.
+        // Interface contract: `adjacency` is a row-major N×N matrix where
+        // adjacency[u * N + v] != 0 denotes an edge u→v (confirmed by the
+        // CUDA backend which allocates numVertices * numVertices elements).
+        // Complexity per BFS is therefore O(N²) in the number of vertices;
+        // this is inherent to the dense-matrix representation and acceptable
+        // for graphs where the caller already uses a dense format.
+        const uint32_t* row = adjacency + current * numVertices;
             for (uint32_t v = 0; v < static_cast<uint32_t>(numVertices); ++v) {
                 if (row[v] != 0u && !visited[v]) {
                     visited[v] = true;
@@ -255,7 +260,17 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(
                 if (adjRow[v] == 0u) {
                     continue;
                 }
-                const float w  = std::max(0.0f, wRow[v]); // clamp negative weights
+                const float raw_w = wRow[v];
+                // Dijkstra requires non-negative edge weights.  Negative
+                // weights in the input indicate invalid/corrupt weight data;
+                // clamp to 0 to remain correct (zero-cost edge) rather than
+                // silently producing a wrong shortest path.
+                if (raw_w < 0.0f) {
+                    std::cerr << "[CPUGraph] batchShortestPath: negative weight "
+                              << raw_w << " on edge " << u << "→" << v
+                              << "; clamped to 0\n";
+                }
+                const float w  = std::max(0.0f, raw_w);
                 const float nd = dist[u] + w;
                 if (nd < dist[v]) {
                     dist[v]   = nd;

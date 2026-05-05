@@ -803,20 +803,23 @@ OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery& query) {
 void OLAPEngine::collectStatistics(std::string_view collection) {
     const std::string key(collection);
 
+    // Hold stats_mutex for the entire operation so that the row count and
+    // the cache update are atomic with respect to any concurrent reader of
+    // stats_cache_ (e.g., explain()).  In production, collections would be
+    // accessed via a storage backend with its own concurrency guarantees;
+    // for the in-memory store used here, a single lock is sufficient.
+    std::lock_guard<std::mutex> lock(impl_->stats_mutex);
+
     Impl::CollectionStats stats;
     stats.valid = false;
 
-    {
-        // Count rows in the in-memory collection store.
-        auto it = impl_->collections.find(key);
-        if (it != impl_->collections.end()) {
-            stats.row_count = it->second.size();
-            stats.valid = true;
-        }
+    auto it = impl_->collections.find(key);
+    if (it != impl_->collections.end()) {
+        stats.row_count = it->second.size();
+        stats.valid = true;
     }
     stats.updated = std::chrono::steady_clock::now();
 
-    std::lock_guard<std::mutex> lock(impl_->stats_mutex);
     impl_->stats_cache_[key] = stats;
 }
 

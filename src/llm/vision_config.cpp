@@ -418,6 +418,10 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromJson(const nlohmann::json& c
         for (const auto& lic : config["allowed_licenses"]) {
             if (lic.is_string()) {
                 vision_config->allowed_licenses_.push_back(lic.get<std::string>());
+            } else {
+                spdlog::warn("VisionConfig::loadFromJson: non-string entry in "
+                             "'allowed_licenses' (type={}) — entry skipped",
+                             static_cast<int>(lic.type()));
             }
         }
     }
@@ -510,6 +514,10 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromJson(const nlohmann::json& c
         for (const auto& [key, val] : config["feature_flags"].items()) {
             if (val.is_boolean()) {
                 vision_config->feature_flags_[key] = val.get<bool>();
+            } else {
+                spdlog::warn("VisionConfig::loadFromJson: non-boolean value for "
+                             "feature flag '{}' (type={}) — flag skipped",
+                             key, static_cast<int>(val.type()));
             }
         }
     }
@@ -519,6 +527,10 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromJson(const nlohmann::json& c
         for (const auto& [key, val] : config["experimental_features"].items()) {
             if (val.is_boolean()) {
                 vision_config->experimental_features_[key] = val.get<bool>();
+            } else {
+                spdlog::warn("VisionConfig::loadFromJson: non-boolean value for "
+                             "experimental feature '{}' (type={}) — entry skipped",
+                             key, static_cast<int>(val.type()));
             }
         }
     }
