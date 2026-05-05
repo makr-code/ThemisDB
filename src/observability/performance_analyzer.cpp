@@ -360,18 +360,43 @@ PerformanceIssue PerformanceAnalyzer::check_slow_queries(const QueryProfiler& qu
 }
 
 PerformanceIssue PerformanceAnalyzer::check_full_scans(const QueryProfiler& query_profiler) {
-    (void)query_profiler;
-    // STUB/SIMULATION NOTE:
-    // Purpose: Satisfy the check_full_scans() API while operator-level scan-type
-    //          statistics are not yet exposed by QueryProfiler.
-    // Activation: Always — QueryProfiler does not expose a `full_scan_count` field.
-    // Production Delta: Always returns an empty (non-issue) PerformanceIssue;
-    //                   full-table-scan alerts are never raised regardless of
-    //                   actual query execution plans.
-    // Removal Plan: Extend QueryProfiler::Statistics with a `full_scan_count` field;
-    //               compare against impl_->config.full_scan_threshold.  See
-    //               src/observability/FUTURE_ENHANCEMENTS.md §FullScanDetection.
-    return PerformanceIssue{};
+    auto stats = query_profiler.get_statistics();
+
+    // Derive a full-scan proxy from queries that ran without index support.
+    // QueryProfiler does not expose an explicit full_scan_count field yet;
+    // queries_with_index == 0 means the executor fell back to a sequential scan.
+    const size_t total_queries     = stats.value("total_queries", static_cast<size_t>(0));
+    const size_t queries_with_index = stats.value("queries_with_index", static_cast<size_t>(0));
+    const size_t full_scan_proxy   = (total_queries > queries_with_index)
+                                     ? (total_queries - queries_with_index)
+                                     : 0u;
+
+    if (full_scan_proxy == 0 || full_scan_proxy < impl_->config.max_full_scan_threshold) {
+        return PerformanceIssue{};
+    }
+
+    PerformanceIssue issue;
+    issue.severity  = (full_scan_proxy > impl_->config.max_full_scan_threshold * 10)
+                      ? IssueSeverity::CRITICAL
+                      : IssueSeverity::WARNING;
+    issue.category  = IssueCategory::QUERY_OPTIMIZATION;
+    issue.title     = "High Full-Scan Query Rate";
+    issue.description =
+        std::to_string(full_scan_proxy) + " of " + std::to_string(total_queries) +
+        " recent queries ran without index support (potential full-table scans).";
+    issue.recommendations = {
+        "Add indexes on frequently filtered columns",
+        "Review query predicates with EXPLAIN",
+        "Ensure statistics are up-to-date",
+        "Consider partial or composite indexes"
+    };
+    issue.metrics = json{
+        {"total_queries",      total_queries},
+        {"queries_with_index", queries_with_index},
+        {"full_scan_proxy",    full_scan_proxy},
+        {"threshold",          impl_->config.max_full_scan_threshold}
+    };
+    return issue;
 }
 
 PerformanceIssue PerformanceAnalyzer::check_index_usage(const QueryProfiler& query_profiler) {

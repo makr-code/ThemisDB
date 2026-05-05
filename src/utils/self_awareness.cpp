@@ -38,6 +38,7 @@
     #include <sys/sysinfo.h>
     #include <sys/statvfs.h>
     #include <unistd.h>
+    #include <dirent.h>
 #endif
 
 namespace themis::util {
@@ -218,23 +219,45 @@ SelfAwareness::HealthMetrics SelfAwareness::collectHealthMetrics() const {
     
     // CPU and thread info
     metrics.thread_count = std::thread::hardware_concurrency();
-    // STUB/SIMULATION NOTE:
-    // Purpose: Provide a compilable Windows health-metrics path while PDH
-    //   (Performance Data Helper) or NtQuerySystemInformation-based CPU-usage
-    //   sampling is not yet integrated.
-    // Activation: `_WIN32` build target (always on Windows).
-    // Production Delta: cpu_usage_percent / cpu_load_* always 0.0;
-    //   open_file_descriptors always 0.  Dashboards and SLA alerts that rely
-    //   on these counters will never fire on Windows nodes.
-    // Removal Plan: Use PDH (PdhOpenQuery / PdhAddCounter / PdhGetFormattedCounterValue)
-    //   for CPU % and GetProcessHandleCount() for open handles.  See
-    //   src/utils/FUTURE_ENHANCEMENTS.md §SelfAwareness Windows CPU Metrics.
-    metrics.cpu_usage_percent = 0.0;
-    metrics.cpu_load_1min = 0.0;
-    metrics.cpu_load_5min = 0.0;
-    metrics.cpu_load_15min = 0.0;
-    metrics.uptime_seconds = GetTickCount64() / 1000;  // System uptime in seconds
-    metrics.open_file_descriptors = 0;  // STUB: use GetProcessHandleCount() in production
+
+    // CPU usage computed from two GetSystemTimes snapshots via a thread_local
+    // static to avoid blocking the caller with a sleep().  The first call always
+    // returns 0; subsequent calls return the correct interval-averaged value.
+    {
+        auto ft_to_u64 = [](const FILETIME& ft) -> uint64_t {
+            return (static_cast<uint64_t>(ft.dwHighDateTime) << 32) | ft.dwLowDateTime;
+        };
+        thread_local FILETIME tl_idle{}, tl_kernel{}, tl_user{};
+        FILETIME idle, kernel, user;
+        if (GetSystemTimes(&idle, &kernel, &user)) {
+            uint64_t idle_diff   = ft_to_u64(idle)   - ft_to_u64(tl_idle);
+            uint64_t kernel_diff = ft_to_u64(kernel) - ft_to_u64(tl_kernel);
+            uint64_t user_diff   = ft_to_u64(user)   - ft_to_u64(tl_user);
+            uint64_t total_diff  = kernel_diff + user_diff;
+            if (total_diff > 0) {
+                metrics.cpu_usage_percent =
+                    1.0 - static_cast<double>(idle_diff) / static_cast<double>(total_diff);
+            }
+            tl_idle   = idle;
+            tl_kernel = kernel;
+            tl_user   = user;
+        }
+        // Windows has no direct load-average concept; approximate with instant CPU %.
+        metrics.cpu_load_1min  = metrics.cpu_usage_percent;
+        metrics.cpu_load_5min  = metrics.cpu_usage_percent;
+        metrics.cpu_load_15min = metrics.cpu_usage_percent;
+    }
+
+    metrics.uptime_seconds = GetTickCount64() / 1000;
+
+    // Open handle count via GetProcessHandleCount (kernel objects, including sockets
+    // and file handles).
+    {
+        DWORD handle_count = 0;
+        if (GetProcessHandleCount(GetCurrentProcess(), &handle_count)) {
+            metrics.open_file_descriptors = static_cast<uint32_t>(handle_count);
+        }
+    }
     
 #else
     // Linux implementation using system calls
@@ -269,18 +292,20 @@ SelfAwareness::HealthMetrics SelfAwareness::collectHealthMetrics() const {
     // CPU usage (simplified - would need more complex calculation)
     metrics.cpu_usage_percent = metrics.cpu_load_1min / std::thread::hardware_concurrency();
     
-    // Get open file descriptors
-    // STUB/SIMULATION NOTE:
-    // Purpose: Provide a compilable Linux health-metrics path while /proc/self/fd
-    //          directory counting (or getrlimit(RLIMIT_NOFILE)) is not implemented.
-    // Activation: Always on Linux builds — no /proc/self/fd scan is performed.
-    // Production Delta: `open_file_descriptors` is always 0 on Linux; FD-leak
-    //                   detectors and dashboards that track this metric will never
-    //                   alert even under heavy descriptor pressure.
-    // Removal Plan: Count entries in /proc/self/fd via opendir/readdir or
-    //               read /proc/self/status "FDSize:"; use POSIX getrlimit for
-    //               the ceiling.  See src/utils/FUTURE_ENHANCEMENTS.md §SelfAwareness LinuxFD.
-    metrics.open_file_descriptors = 0;  // STUB: /proc/self/fd not scanned
+    // Get open file descriptors by counting entries in /proc/self/fd.
+    // opendir() itself opens one fd that will appear in the listing, so we
+    // subtract 3 (for ".", "..", and the opendir fd) from the raw count.
+    {
+        DIR* fd_dir = opendir("/proc/self/fd");
+        if (fd_dir != nullptr) {
+            uint32_t raw = 0;
+            while (readdir(fd_dir) != nullptr) {
+                ++raw;
+            }
+            closedir(fd_dir);
+            metrics.open_file_descriptors = (raw > 3u) ? (raw - 3u) : 0u;
+        }
+    }
 #endif
     
     return metrics;

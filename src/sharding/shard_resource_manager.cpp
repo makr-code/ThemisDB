@@ -625,17 +625,35 @@ std::pair<uint64_t, uint64_t> ShardResourceManager::getDiskUsage() const {
 }
 
 std::pair<uint64_t, uint64_t> ShardResourceManager::getNetworkUsage() const {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Satisfies the network I/O usage API while platform-specific
-    //          counters are not yet integrated.
-    // Activation: Always — no platform API is queried.
-    // Production Delta: Returns (0, 0); network-bandwidth-aware shard routing
-    //                   decisions will not account for actual NIC utilisation.
-    // Removal Plan: On Linux parse /proc/net/dev (rx/tx bytes); on Windows use
-    //               `GetIfTable2()` / Performance Counters.  Guard per-platform
-    //               behind compile-time detection or runtime feature flags.
-    //               See src/sharding/FUTURE_ENHANCEMENTS.md §Network Usage Monitoring.
+#ifdef _WIN32
+    // Windows: GetIfTable2 / Performance Counter integration deferred.
+    // Returns (0, 0) on Windows until iphlpapi-based counters are wired in.
     return {0, 0};
+#else
+    // Linux: aggregate rx_bytes and tx_bytes across all interfaces from
+    // /proc/net/dev.  Format (after two header lines):
+    //   <iface>: rx_bytes rx_pkts rx_errs rx_drop … tx_bytes tx_pkts …
+    std::ifstream net_dev("/proc/net/dev");
+    if (!net_dev.is_open()) {
+        return {0, 0};
+    }
+    uint64_t total_rx = 0, total_tx = 0;
+    std::string line;
+    int line_num = 0;
+    while (std::getline(net_dev, line)) {
+        if (++line_num <= 2) continue; // skip the two header lines
+        const auto colon = line.find(':');
+        if (colon == std::string::npos) continue;
+        std::istringstream iss(line.substr(colon + 1));
+        uint64_t rx = 0, pkts = 0, errs = 0, drop = 0,
+                 fifo = 0, frame = 0, comp = 0, mcast = 0, tx = 0;
+        if (iss >> rx >> pkts >> errs >> drop >> fifo >> frame >> comp >> mcast >> tx) {
+            total_rx += rx;
+            total_tx += tx;
+        }
+    }
+    return {total_rx, total_tx};
+#endif
 }
 
 } // namespace themis::sharding

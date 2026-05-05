@@ -33,6 +33,7 @@
 #include <iomanip>
 #include <sstream>
 #include <iostream>
+#include <limits>
 
 namespace themis {
 namespace sharding {
@@ -103,20 +104,27 @@ MigrationResult DataMigrator::migrate(
     std::string operation_id = source_shard_id + "_to_" + target_shard_id;
     
     try {
-        // STUB/SIMULATION NOTE:
-        // Purpose: Provide a non-zero total_records estimate so the migration
-        //          progress calculation is non-trivial, while a real record-count
-        //          query against the source shard is not yet implemented.
-        // Activation: Always — no source-shard query is issued.
-        // Production Delta: Progress percentage is computed against 10 000 records
-        //                   regardless of actual shard size.  Very small shards
-        //                   will show >100% progress; very large shards will show
-        //                   <1% progress throughout the migration.  Monitoring
-        //                   dashboards will display misleading progress values.
-        // Removal Plan: Issue a COUNT query to the source shard and assign the
-        //               result to progress.total_records.  See
-        //               src/sharding/FUTURE_ENHANCEMENTS.md §DataMigrator RecordCount.
-        progress.total_records = 10000; // STUB: hardcoded estimate
+        // Query the source shard for the actual record count in the token range
+        // so that progress percentages are accurate.  Fall back to a conservative
+        // 10 000 estimate if the endpoint is not available or returns a bad response.
+        {
+            auto count_client = createMTLSClient(config_);
+            std::ostringstream count_path;
+            count_path << "/api/v1/data/migrate/count"
+                       << "?token_range_start=" << token_range_start
+                       << "&token_range_end=" << token_range_end
+                       << "&shard_id=" << source_shard_id;
+            uint64_t shard_count = 10000;
+            if (count_client->isReady()) {
+                auto resp = count_client->get(config_.source_endpoint, count_path.str());
+                if (resp.success && resp.body.is_object() &&
+                    resp.body.contains("count") && resp.body["count"].is_number()) {
+                    shard_count = resp.body["count"].get<uint64_t>();
+                }
+            }
+            progress.total_records = static_cast<uint32_t>(
+                std::min<uint64_t>(shard_count, std::numeric_limits<uint32_t>::max()));
+        }
         
         uint32_t offset = 0;
         uint32_t batch_index = 0;

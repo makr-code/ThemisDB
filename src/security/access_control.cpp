@@ -894,23 +894,37 @@ void AccessControl::logSecurityEvent(
 }
 
 nlohmann::json AccessControl::getAuditLogs(
-    [[maybe_unused]] const std::string& user_id,
-    [[maybe_unused]] std::optional<std::chrono::system_clock::time_point> since,
-    [[maybe_unused]] std::optional<std::chrono::system_clock::time_point> until
+    const std::string& user_id,
+    std::optional<std::chrono::system_clock::time_point> since,
+    std::optional<std::chrono::system_clock::time_point> until
 ) const {
-    
-    // STUB/SIMULATION NOTE:
-    // Purpose: Satisfies the getAccessHistory() API while audit-log storage
-    //          query is not wired into AccessControl.
-    // Activation: Always — audit logger integration for history queries is absent.
-    // Production Delta: Always returns empty JSON array; callers that rely on
-    //                   this for compliance or investigation cannot get access
-    //                   history for any user or resource.
-    // Removal Plan: Query the AuditLogger for events of type ACCESS_ATTEMPT /
-    //               ACCESS_GRANTED / ACCESS_DENIED filtered by `user_id`,
-    //               `resource`, `since`, `until`.  See
-    //               src/security/FUTURE_ENHANCEMENTS.md §AccessControl getAccessHistory.
-    return nlohmann::json::array();
+    auto result = nlohmann::json::array();
+
+    if (!audit_logger_) {
+        return result;
+    }
+
+    const auto entries = audit_logger_->enumerateEntries();
+    for (const auto& entry : entries) {
+        // Apply time-range filters
+        if (since.has_value() && entry.timestamp < *since) {
+            continue;
+        }
+        if (until.has_value() && entry.timestamp > *until) {
+            continue;
+        }
+        // Filter by user_id when provided (empty means "all users")
+        if (!user_id.empty()) {
+            const auto& rec = entry.record;
+            if (!rec.contains("user_id") ||
+                rec["user_id"].get<std::string>() != user_id) {
+                continue;
+            }
+        }
+        result.push_back(entry.record);
+    }
+
+    return result;
 }
 
 // ============================================================================
