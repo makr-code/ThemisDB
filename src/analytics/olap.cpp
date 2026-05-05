@@ -92,6 +92,17 @@ public:
     std::unique_ptr<themis::analytics::detail::AnalyticsMemoryPool> pool;
 
     // -------------------------------------------------------------------------
+    // Per-collection statistics cache used by explain() / collectStatistics().
+    // -------------------------------------------------------------------------
+    struct CollectionStats {
+        size_t row_count = 0;
+        std::chrono::steady_clock::time_point updated;
+        bool valid = false;
+    };
+    mutable std::mutex                                    stats_mutex;
+    std::unordered_map<std::string, CollectionStats>      stats_cache_;
+
+    // -------------------------------------------------------------------------
     // O(1) LRU result cache — doubly-linked list + unordered_map.
     // Front of list = MRU (most recently used), back = LRU (eviction candidate).
     // -------------------------------------------------------------------------
@@ -733,23 +744,24 @@ std::vector<OLAPEngine::WindowResult> OLAPEngine::evaluateWindowFunctions(
 OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery& query) {
     QueryPlan plan;
 
-    // STUB/SIMULATION NOTE:
-    // Purpose: Return a syntactically valid QueryPlan while real cost estimation
-    //          (row-count statistics from RocksDB / column histograms) is not
-    //          wired into the OLAP engine.
-    // Activation: Always — no statistics-based cardinality estimator is connected.
-    // Production Delta: `estimated_rows` is always 1000, and `estimated_cost` is
-    //                   always 1.0 regardless of the actual collection size.
-    //                   Query optimizer decisions that depend on these values (e.g.,
-    //                   whether to use parallel execution or GPU acceleration) will
-    //                   be wrong for collections that are much larger or smaller
-    //                   than 1 000 rows.
-    // Removal Plan: Call `OLAPEngine::collectStatistics()` to obtain per-collection
-    //               row counts and column histograms; use those to compute a cost
-    //               model estimate.  See src/analytics/FUTURE_ENHANCEMENTS.md
-    //               §OLAP Cost Estimator.
-    plan.estimated_rows = 1000;  // STUB: hardcoded until statistics are available
-    plan.estimated_cost = 1.0;
+    // Use cached collection statistics when available; fall back to 1000 rows.
+    {
+        std::lock_guard<std::mutex> lock(impl_->stats_mutex);
+        auto it = impl_->stats_cache_.find(query.collection);
+        if (it != impl_->stats_cache_.end() && it->second.valid) {
+            plan.estimated_rows = static_cast<size_t>(it->second.row_count);
+        } else {
+            // No statistics collected yet — use the in-memory store directly if
+            // it holds data for this collection.
+            auto cit = impl_->collections.find(query.collection);
+            if (cit != impl_->collections.end() && !cit->second.empty()) {
+                plan.estimated_rows = cit->second.size();
+            } else {
+                plan.estimated_rows = 1000; // default when no data available
+            }
+        }
+    }
+    plan.estimated_cost = static_cast<double>(plan.estimated_rows);
     
     // Check for index usage
     if (query.filters.empty()) {
@@ -788,18 +800,24 @@ OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery& query) {
     return plan;
 }
 
-void OLAPEngine::collectStatistics([[maybe_unused]] std::string_view collection) {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Satisfy the IStatisticsCollector API while no RocksDB column
-    //          histogram or row-count collection is implemented.
-    // Activation: Always — no statistics scan is performed.
-    // Production Delta: Any caller that invokes collectStatistics() before
-    //                   explain() expects the cost model to improve; the
-    //                   statistics remain unset and explain() still returns
-    //                   estimated_rows=1000.
-    // Removal Plan: Scan the collection; populate per-column min/max/histogram
-    //               buckets; store in OLAPEngine::Impl::stats_cache_.  See
-    //               src/analytics/FUTURE_ENHANCEMENTS.md §OLAP Statistics Collector.
+void OLAPEngine::collectStatistics(std::string_view collection) {
+    const std::string key(collection);
+
+    Impl::CollectionStats stats;
+    stats.valid = false;
+
+    {
+        // Count rows in the in-memory collection store.
+        auto it = impl_->collections.find(key);
+        if (it != impl_->collections.end()) {
+            stats.row_count = it->second.size();
+            stats.valid = true;
+        }
+    }
+    stats.updated = std::chrono::steady_clock::now();
+
+    std::lock_guard<std::mutex> lock(impl_->stats_mutex);
+    impl_->stats_cache_[key] = stats;
 }
 
 double OLAPEngine::computeAggregate(

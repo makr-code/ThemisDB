@@ -157,36 +157,38 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchBFS(
         return {};
     }
 
-    // STUB/SIMULATION NOTE:
-    // Purpose: Skeleton BFS that visits the start vertex only; full CSR-based
-    //          adjacency traversal is not yet implemented.
-    // Activation: Always — no CSR adjacency format decoder is integrated.
-    // Production Delta: Results contain only the start vertex (depth-0); all
-    //                   reachable vertices at depth 1…maxDepth are missing.
-    //                   Callers that require full BFS subgraph data (e.g. SPARQL
-    //                   path queries, community detection) receive incomplete results.
-    // Removal Plan: Decode `adjacency` as a CSR offset array; iterate neighbour
-    //               lists at each depth level; populate results[s] fully.  See
-    //               src/acceleration/FUTURE_ENHANCEMENTS.md §CPU Graph BFS/SSSP.
     std::vector<std::vector<uint32_t>> results(numStarts);
     for (size_t s = 0; s < numStarts; ++s) {
-        uint32_t start = startVertices[s];
-        std::vector<bool> visited(numVertices, false);
-        std::queue<std::pair<uint32_t, uint32_t>> queue; // (vertex, depth)
+        const uint32_t start = startVertices[s];
+        if (start >= static_cast<uint32_t>(numVertices)) {
+            continue;
+        }
 
-        queue.push({start, 0});
+        std::vector<bool> visited(numVertices, false);
+        std::queue<std::pair<uint32_t, uint32_t>> bfsQueue; // (vertex, depth)
+
         visited[start] = true;
+        bfsQueue.push({start, 0u});
         results[s].push_back(start);
 
-        while (!queue.empty()) {
-            auto [current, depth] = queue.front();
-            queue.pop();
+        while (!bfsQueue.empty()) {
+            auto [current, depth] = bfsQueue.front();
+            bfsQueue.pop();
 
             if (depth >= maxDepth) {
                 continue;
             }
-            // CSR neighbour iteration not yet implemented; break traversal here.
-            (void)current;
+
+            // Dense adjacency matrix row for vertex `current`:
+            // adjacency[current * numVertices + v] != 0  →  edge current→v exists.
+            const uint32_t* row = adjacency + current * numVertices;
+            for (uint32_t v = 0; v < static_cast<uint32_t>(numVertices); ++v) {
+                if (row[v] != 0u && !visited[v]) {
+                    visited[v] = true;
+                    results[s].push_back(v);
+                    bfsQueue.push({v, depth + 1u});
+                }
+            }
         }
     }
     return results;
@@ -208,20 +210,73 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(
         return {};
     }
 
-    // STUB/SIMULATION NOTE:
-    // Purpose: Satisfies the batchShortestPath() API while Dijkstra / Bellman-Ford
-    //          over a CSR adjacency structure is not yet integrated.
-    // Activation: Always — no graph data structure is decoded from `adjacency`.
-    // Production Delta: Returns an empty path vector for every (start, end) pair;
-    //                   callers receive zero-length paths regardless of actual graph
-    //                   connectivity.  Geospatial route planning and knowledge-graph
-    //                   traversal queries are silently broken.
-    // Removal Plan: Implement Dijkstra over the CSR adjacency array using a
-    //               std::priority_queue; return the reconstructed path from `parent`
-    //               arrays.  See src/acceleration/FUTURE_ENHANCEMENTS.md §CPU Graph BFS/SSSP.
     std::vector<std::vector<uint32_t>> results(numPairs);
-    (void)adjacency; (void)weights; (void)numVertices;
-    (void)startVertices; (void)endVertices;
+
+    const auto N = static_cast<uint32_t>(numVertices);
+
+    for (size_t p = 0; p < numPairs; ++p) {
+        const uint32_t src = startVertices[p];
+        const uint32_t dst = endVertices[p];
+
+        if (src >= N || dst >= N) {
+            continue;
+        }
+
+        if (src == dst) {
+            results[p] = {src};
+            continue;
+        }
+
+        // Dijkstra over dense N×N adjacency / weight matrices.
+        // adjacency[u * N + v] != 0  →  edge u→v exists.
+        // weights[u * N + v]          →  non-negative edge weight u→v.
+        std::vector<float> dist(numVertices, std::numeric_limits<float>::infinity());
+        std::vector<int64_t> parent(numVertices, -1);
+        dist[src] = 0.0f;
+
+        using DV = std::pair<float, uint32_t>; // (distance, vertex)
+        std::priority_queue<DV, std::vector<DV>, std::greater<DV>> pq;
+        pq.push({0.0f, src});
+
+        while (!pq.empty()) {
+            auto [d, u] = pq.top();
+            pq.pop();
+
+            if (d > dist[u]) {
+                continue; // stale entry
+            }
+            if (u == dst) {
+                break; // target reached
+            }
+
+            const uint32_t* adjRow = adjacency + u * N;
+            const float*    wRow   = weights   + u * N;
+            for (uint32_t v = 0; v < N; ++v) {
+                if (adjRow[v] == 0u) {
+                    continue;
+                }
+                const float w  = std::max(0.0f, wRow[v]); // clamp negative weights
+                const float nd = dist[u] + w;
+                if (nd < dist[v]) {
+                    dist[v]   = nd;
+                    parent[v] = static_cast<int64_t>(u);
+                    pq.push({nd, v});
+                }
+            }
+        }
+
+        if (std::isinf(dist[dst])) {
+            continue; // no path
+        }
+
+        // Reconstruct path from destination back to source via parent chain.
+        std::vector<uint32_t> path;
+        for (int64_t v = static_cast<int64_t>(dst); v != -1; v = parent[v]) {
+            path.push_back(static_cast<uint32_t>(v));
+        }
+        std::reverse(path.begin(), path.end());
+        results[p] = std::move(path);
+    }
     return results;
 }
 

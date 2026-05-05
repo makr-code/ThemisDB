@@ -374,19 +374,159 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromFile(const std::string& conf
 }
 
 std::shared_ptr<VisionConfig> VisionConfig::loadFromJson(const nlohmann::json& config) {
-    // STUB/SIMULATION NOTE (VisionConfig::loadFromJson):
-    // Purpose: Satisfies the public API surface so callers can pass JSON configs
-    //          without an error at compile time. Actual JSON field parsing is not
-    //          yet implemented.
-    // Activation: Always; there is no build flag gate.  The function exists as a
-    //          forward-compatibility shim for the upcoming JSON config path.
-    // Production Delta: All JSON fields in `config` are silently ignored; the
-    //          returned VisionConfig uses default values only.  Vision API stability,
-    //          version, and model settings will NOT reflect the caller's JSON.
-    // Removal Plan: Implement field parsing when the vision module's config story
-    //          is finalized.  See src/llm/FUTURE_ENHANCEMENTS.md §VisionConfigJson.
-    // TODO: Implement JSON loading if needed
-    auto vision_config = std::shared_ptr<VisionConfig>(new VisionConfig());
+    // Start from defaults so unspecified fields have sensible values.
+    auto vision_config = getDefault();
+
+    auto get_str = [&](const nlohmann::json& j, const char* key, std::string& out) {
+        if (j.contains(key) && j[key].is_string()) {
+            out = j[key].get<std::string>();
+        }
+    };
+    auto get_bool = [&](const nlohmann::json& j, const char* key, bool& out) {
+        if (j.contains(key) && j[key].is_boolean()) {
+            out = j[key].get<bool>();
+        }
+    };
+    auto get_size = [&](const nlohmann::json& j, const char* key, size_t& out) {
+        if (j.contains(key) && j[key].is_number_unsigned()) {
+            out = j[key].get<size_t>();
+        }
+    };
+
+    // API configuration
+    get_str(config, "api_version", vision_config->api_version_);
+    get_str(config, "api_prefix",  vision_config->api_prefix_);
+    get_bool(config, "backward_compatible", vision_config->backward_compatible_);
+
+    if (config.contains("api_stability") && config["api_stability"].is_string()) {
+        const std::string stability = config["api_stability"].get<std::string>();
+        if (stability == "experimental") {
+            vision_config->api_stability_ = VisionAPIStability::EXPERIMENTAL;
+        } else if (stability == "beta") {
+            vision_config->api_stability_ = VisionAPIStability::BETA;
+        } else if (stability == "stable") {
+            vision_config->api_stability_ = VisionAPIStability::STABLE;
+        } else if (stability == "deprecated") {
+            vision_config->api_stability_ = VisionAPIStability::DEPRECATED;
+        }
+    }
+
+    // License configuration
+    get_bool(config, "enforce_licenses", vision_config->enforce_licenses_);
+    if (config.contains("allowed_licenses") && config["allowed_licenses"].is_array()) {
+        vision_config->allowed_licenses_.clear();
+        for (const auto& lic : config["allowed_licenses"]) {
+            if (lic.is_string()) {
+                vision_config->allowed_licenses_.push_back(lic.get<std::string>());
+            }
+        }
+    }
+
+    // Resource limits
+    if (config.contains("resource_limits") && config["resource_limits"].is_object()) {
+        const auto& rl = config["resource_limits"];
+        get_size(rl, "max_memory_mb",              vision_config->resource_limits_.max_memory_mb);
+        get_size(rl, "max_memory_per_request_mb",  vision_config->resource_limits_.max_memory_per_request_mb);
+        get_size(rl, "max_vram_mb",                vision_config->resource_limits_.max_vram_mb);
+        get_size(rl, "max_vram_per_model_mb",      vision_config->resource_limits_.max_vram_per_model_mb);
+        get_size(rl, "max_concurrent_requests",    vision_config->resource_limits_.max_concurrent_requests);
+        get_size(rl, "max_concurrent_models",      vision_config->resource_limits_.max_concurrent_models);
+        get_size(rl, "max_queue_size",             vision_config->resource_limits_.max_queue_size);
+        if (rl.contains("max_inference_time_s") && rl["max_inference_time_s"].is_number()) {
+            vision_config->resource_limits_.max_inference_time =
+                std::chrono::seconds(rl["max_inference_time_s"].get<int64_t>());
+        }
+        if (rl.contains("max_model_load_time_s") && rl["max_model_load_time_s"].is_number()) {
+            vision_config->resource_limits_.max_model_load_time =
+                std::chrono::seconds(rl["max_model_load_time_s"].get<int64_t>());
+        }
+        if (rl.contains("request_timeout_s") && rl["request_timeout_s"].is_number()) {
+            vision_config->resource_limits_.request_timeout =
+                std::chrono::seconds(rl["request_timeout_s"].get<int64_t>());
+        }
+    }
+
+    // Rate limits
+    if (config.contains("rate_limits") && config["rate_limits"].is_object()) {
+        const auto& ratel = config["rate_limits"];
+        get_bool(ratel, "enabled",               vision_config->rate_limits_.enabled);
+        get_size(ratel, "requests_per_minute",   vision_config->rate_limits_.requests_per_minute);
+        get_size(ratel, "requests_per_hour",     vision_config->rate_limits_.requests_per_hour);
+        get_size(ratel, "requests_per_day",      vision_config->rate_limits_.requests_per_day);
+        get_size(ratel, "burst_size",            vision_config->rate_limits_.burst_size);
+        get_str(ratel, "on_limit_exceeded",      vision_config->rate_limits_.on_limit_exceeded);
+    }
+
+    // Monitoring
+    if (config.contains("monitoring") && config["monitoring"].is_object()) {
+        const auto& mon = config["monitoring"];
+        get_bool(mon, "enabled",              vision_config->monitoring_config_.enabled);
+        get_bool(mon, "track_latency",        vision_config->monitoring_config_.track_latency);
+        get_bool(mon, "track_throughput",     vision_config->monitoring_config_.track_throughput);
+        get_bool(mon, "track_error_rate",     vision_config->monitoring_config_.track_error_rate);
+        get_bool(mon, "track_resource_usage", vision_config->monitoring_config_.track_resource_usage);
+        get_bool(mon, "track_model_usage",    vision_config->monitoring_config_.track_model_usage);
+        if (mon.contains("audit") && mon["audit"].is_object()) {
+            const auto& audit = mon["audit"];
+            get_bool(audit, "enabled",          vision_config->monitoring_config_.audit.enabled);
+            get_bool(audit, "include_pii",      vision_config->monitoring_config_.audit.include_pii);
+            get_str(audit,  "storage_type",     vision_config->monitoring_config_.audit.storage_type);
+            get_str(audit,  "compliance_mode",  vision_config->monitoring_config_.audit.compliance_mode);
+            if (audit.contains("retention_days") && audit["retention_days"].is_number_integer()) {
+                vision_config->monitoring_config_.audit.retention_days =
+                    audit["retention_days"].get<int>();
+            }
+        }
+    }
+
+    // Security configuration
+    if (config.contains("security") && config["security"].is_object()) {
+        const auto& sec = config["security"];
+        if (sec.contains("validation") && sec["validation"].is_object()) {
+            const auto& val = sec["validation"];
+            get_bool(val, "enabled",                  vision_config->security_config_.validation.enabled);
+            get_size(val, "max_image_size_mb",        vision_config->security_config_.validation.max_image_size_mb);
+            get_bool(val, "validate_image_integrity",  vision_config->security_config_.validation.validate_image_integrity);
+            get_bool(val, "sanitize_prompts",          vision_config->security_config_.validation.sanitize_prompts);
+            get_bool(val, "block_injection_attempts",  vision_config->security_config_.validation.block_injection_attempts);
+        }
+        if (sec.contains("sandboxing") && sec["sandboxing"].is_object()) {
+            const auto& sb = sec["sandboxing"];
+            get_bool(sb, "enabled",          vision_config->security_config_.sandboxing.enabled);
+            get_bool(sb, "isolate_memory",   vision_config->security_config_.sandboxing.isolate_memory);
+            get_bool(sb, "isolate_network",  vision_config->security_config_.sandboxing.isolate_network);
+            get_str(sb,  "type",             vision_config->security_config_.sandboxing.type);
+        }
+    }
+
+    // Pipeline configuration
+    if (config.contains("pipeline") && config["pipeline"].is_object()) {
+        const auto& pip = config["pipeline"];
+        get_str(pip, "stability", vision_config->pipeline_config_.stability);
+    }
+
+    // Feature flags
+    if (config.contains("feature_flags") && config["feature_flags"].is_object()) {
+        for (const auto& [key, val] : config["feature_flags"].items()) {
+            if (val.is_boolean()) {
+                vision_config->feature_flags_[key] = val.get<bool>();
+            }
+        }
+    }
+
+    // Experimental feature flags
+    if (config.contains("experimental_features") && config["experimental_features"].is_object()) {
+        for (const auto& [key, val] : config["experimental_features"].items()) {
+            if (val.is_boolean()) {
+                vision_config->experimental_features_[key] = val.get<bool>();
+            }
+        }
+    }
+
+    spdlog::info("VisionConfig loaded from JSON (api_version={}, stability={})",
+                 vision_config->api_version_,
+                 static_cast<int>(vision_config->api_stability_));
+
     return vision_config;
 }
 
