@@ -365,11 +365,15 @@ PerformanceIssue PerformanceAnalyzer::check_full_scans(const QueryProfiler& quer
     // Derive a full-scan proxy from queries that ran without index support.
     // QueryProfiler does not expose an explicit full_scan_count field yet;
     // queries_with_index == 0 means the executor fell back to a sequential scan.
-    const size_t total_queries     = stats.value("total_queries", static_cast<size_t>(0));
+    // Note: this is an approximation — partial-index or covering-index usage
+    // still sets `used_index = true`, so the proxy may undercount.  If the
+    // counters are inconsistent (queries_with_index > total_queries) we treat
+    // the situation conservatively as zero full scans rather than underflowing.
+    const size_t total_queries      = stats.value("total_queries",      static_cast<size_t>(0));
     const size_t queries_with_index = stats.value("queries_with_index", static_cast<size_t>(0));
-    const size_t full_scan_proxy   = (total_queries > queries_with_index)
-                                     ? (total_queries - queries_with_index)
-                                     : 0u;
+    const size_t full_scan_proxy    = (queries_with_index <= total_queries)
+                                      ? (total_queries - queries_with_index)
+                                      : 0u;
 
     if (full_scan_proxy == 0 || full_scan_proxy < impl_->config.max_full_scan_threshold) {
         return PerformanceIssue{};
