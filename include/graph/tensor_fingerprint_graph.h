@@ -1,0 +1,269 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            tensor_fingerprint_graph.h                         ║
+  Version:         1.0.0                                              ║
+  Last Modified:   2026-05-05                                         ║
+  Author:          copilot                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/**
+ * @file tensor_fingerprint_graph.h
+ * @brief Cross-Tensor Redundancy Graph using LSH-based fingerprinting.
+ *
+ * `TensorFingerprintGraph` builds and maintains a graph where nodes represent
+ * stored TT-tensors and edges represent structural similarity above a
+ * configurable threshold.  It enables "Single-Instance-Storage": when two
+ * models or simulations contain structurally equivalent tensors, the graph
+ * identifies them and the deduplication manager can store the shared tensor
+ * once plus a lightweight residual.
+ *
+ * ### Algorithm
+ * 1. **Fingerprinting** — For each TT-train, compute a 128-dimensional
+ *    MinHash signature from the Frobenius norms of its cores and a
+ *    Simhash of the top-singular-values.
+ * 2. **LSH bucketing** — Map the MinHash signature to `kNumBands` buckets
+ *    using Locality-Sensitive Hashing (LSH).  Tensors that hash to the same
+ *    bucket in ≥ 1 band are candidate neighbours.
+ * 3. **Verification** — Compute exact TT-domain cosine similarity for each
+ *    candidate pair.  Add a graph edge when similarity ≥ `similarity_threshold`.
+ * 4. **CDC integration** — Subscribes to the CDC changefeed so that newly
+ *    inserted or updated tensors trigger incremental fingerprinting.
+ *
+ * ### References
+ * - Yadav, P. et al. (2023). TIES-Merging: Resolving Interference When
+ *   Merging Models. NeurIPS 2023.
+ * - Stoudenmire, E. M. & Schwab, D. J. (2016). Supervised Learning with
+ *   Tensor Networks. NeurIPS 2016.
+ * - Rajaraman, A. & Ullman, J. D. (2011). Mining of Massive Datasets, Ch. 3.
+ *
+ * ### Performance targets (Phase 4, Q2 2027)
+ * - Fingerprint + LSH insert ≤ 10 ms per tensor
+ * - Similar-tensor graph query ≤ 50 ms for 100 K nodes
+ */
+
+#pragma once
+
+#include "storage/tensor_train_decomposer.h"
+
+#include <atomic>
+#include <cstddef>
+#include <cstdint>
+#include <functional>
+#include <memory>
+#include <mutex>
+#include <optional>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
+
+namespace themis {
+namespace graph {
+
+// ============================================================================
+// TensorFingerprint — MinHash + Simhash signature of a TTTrain
+// ============================================================================
+
+/**
+ * @brief 128-bit MinHash + Frobenius-norm-based fingerprint.
+ *
+ * Two tensors with similar fingerprints are candidate duplicates; exact
+ * cosine similarity is computed to confirm.
+ */
+struct TensorFingerprint {
+    /// 128-element MinHash signature (each element is a 64-bit hash)
+    std::array<uint64_t, 128> minhash{};
+
+    /// Frobenius norm of each TT-core (length = TT-order)
+    std::vector<float> core_norms;
+
+    /// Total Frobenius norm of the tensor
+    float total_norm = 0.0f;
+
+    /// Tensor order (d)
+    std::size_t order = 0;
+
+    /// Maximum TT-rank
+    std::size_t max_rank = 0;
+};
+
+// ============================================================================
+// SimilarTensorResult
+// ============================================================================
+
+/**
+ * @brief One entry in a similar-tensor query result.
+ */
+struct SimilarTensorResult {
+    std::string tensor_id;      ///< Identifier of the similar tensor
+    double      similarity = 0; ///< Cosine similarity ∈ [−1, 1]
+    std::string tenant;
+    std::string collection;
+    std::string field;
+};
+
+// ============================================================================
+// FingerprintGraphConfig
+// ============================================================================
+
+/**
+ * @brief Configuration for TensorFingerprintGraph.
+ */
+struct FingerprintGraphConfig {
+    /// Cosine similarity threshold for adding an edge (default: 0.95)
+    double similarity_threshold = 0.95;
+
+    /// Number of MinHash hash functions (default: 128)
+    std::size_t num_hash_funcs  = 128;
+
+    /// Number of LSH bands (default: 32; rows_per_band = num_hash_funcs / bands)
+    std::size_t num_bands       = 32;
+
+    /// Maximum candidates to verify per query before early-stopping
+    std::size_t max_candidates  = 1000;
+
+    /// Maximum number of similar tensors to return per query
+    std::size_t top_k           = 50;
+};
+
+// ============================================================================
+// TensorFingerprintGraph
+// ============================================================================
+
+/**
+ * @brief Directed similarity graph over TT-compressed tensors.
+ *
+ * Nodes are identified by a string `tensor_id` (typically
+ * `"<tenant>/<collection>/<field>@<version>"`).  Edges are added
+ * automatically when fingerprint similarity exceeds `similarity_threshold`.
+ *
+ * ### Thread safety
+ * All public methods are protected by an internal `std::mutex`.  The graph
+ * supports concurrent inserts and queries, but updates during a query may
+ * cause the query to see a partially-updated adjacency list (acceptable for
+ * approximate similarity search).
+ */
+class TensorFingerprintGraph {
+public:
+    /**
+     * @brief Construct with configuration.
+     * @throws std::invalid_argument if num_hash_funcs % num_bands != 0.
+     */
+    explicit TensorFingerprintGraph(
+        const FingerprintGraphConfig& cfg = {});
+
+    ~TensorFingerprintGraph() = default;
+
+    // ─── Insert / Update ──────────────────────────────────────────────────
+
+    /**
+     * @brief Add or update a tensor in the graph.
+     *
+     * 1. Computes the TensorFingerprint.
+     * 2. Performs LSH lookup to find candidate neighbours.
+     * 3. Computes exact cosine similarity for each candidate.
+     * 4. Adds edges for pairs with similarity ≥ threshold.
+     *
+     * @param tensor_id  Unique identifier for this tensor.
+     * @param train      TT-train to fingerprint.
+     * @param tenant     Owning tenant (metadata).
+     * @param collection Collection name (metadata).
+     * @param field      Field name (metadata).
+     */
+    void insert(const std::string&           tensor_id,
+                const storage::TTTrain&       train,
+                const std::string&           tenant     = "",
+                const std::string&           collection = "",
+                const std::string&           field      = "");
+
+    /**
+     * @brief Remove a tensor and all its edges from the graph.
+     *
+     * @return True if the tensor_id existed, false otherwise.
+     */
+    bool remove(const std::string& tensor_id);
+
+    // ─── Query ────────────────────────────────────────────────────────────
+
+    /**
+     * @brief Find tensors most similar to the given train.
+     *
+     * Uses LSH for candidate selection + exact cosine similarity ranking.
+     *
+     * @param train   Query tensor (does not need to be in the graph).
+     * @param top_k   Number of results to return (overrides config if > 0).
+     * @return        Sorted result list (descending similarity).
+     */
+    std::vector<SimilarTensorResult>
+    findSimilar(const storage::TTTrain& train,
+                std::size_t top_k = 0) const;
+
+    /**
+     * @brief Get graph neighbours of an already-stored tensor.
+     *
+     * Returns tensors directly connected to `tensor_id` by a similarity edge.
+     *
+     * @return Sorted result list (descending similarity), or empty if not found.
+     */
+    std::vector<SimilarTensorResult>
+    neighbours(const std::string& tensor_id) const;
+
+    // ─── Statistics ───────────────────────────────────────────────────────
+
+    /// Number of nodes in the graph.
+    std::size_t nodeCount()  const noexcept;
+
+    /// Number of directed edges in the graph.
+    std::size_t edgeCount()  const noexcept;
+
+    /// Configuration.
+    const FingerprintGraphConfig& config() const noexcept { return cfg_; }
+
+private:
+    FingerprintGraphConfig cfg_;
+
+    // Node metadata + fingerprint
+    struct NodeEntry {
+        TensorFingerprint  fingerprint;
+        std::string        tenant;
+        std::string        collection;
+        std::string        field;
+    };
+    std::unordered_map<std::string, NodeEntry> nodes_;
+
+    // Adjacency list: tensor_id → {neighbour_id, similarity}
+    struct Edge { std::string to; double similarity; };
+    std::unordered_map<std::string, std::vector<Edge>> adj_;
+
+    // LSH buckets: band_idx:bucket_hash → set of tensor_ids
+    std::unordered_map<uint64_t, std::unordered_set<std::string>> lsh_buckets_;
+
+    mutable std::mutex mutex_;
+    std::atomic<std::size_t> edge_count_{0};
+
+    std::size_t rows_per_band_ = 4;
+
+    // ─── Fingerprinting ───────────────────────────────────────────────────
+
+    TensorFingerprint computeFingerprint(const storage::TTTrain& train) const;
+
+    void insertIntoBuckets(const std::string& id, const TensorFingerprint& fp);
+
+    std::unordered_set<std::string>
+    lshCandidates(const TensorFingerprint& fp) const;
+
+    static uint64_t bandHash(const TensorFingerprint& fp,
+                             std::size_t band_start,
+                             std::size_t rows_per_band,
+                             std::size_t band_idx) noexcept;
+
+    static uint64_t fnv1a64(const void* data, std::size_t len) noexcept;
+};
+
+} // namespace graph
+} // namespace themis

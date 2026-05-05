@@ -319,6 +319,66 @@ Adds a production-grade Continuous Query Language (CQL) engine to ThemisDB, enab
 | Concurrent active queries | ≥ 1 000 | Mixed window types, single node |
 | Watermark correction latency | ≤ 2 × tick_interval | Late event within `allowed_lateness_ms` |
 
+### Phase 9: Tensor Algebra Query Engine (Status: [~] In Progress — Phase 1 complete 2026-05-05)
+
+**Wissenschaftliche Basis:** Holtz et al. 2012 (SIAM J. Sci. Comput.); Bigoni et al. 2016 (Spectral TT)
+
+#### Phase 9.1 — Design / API Contract (Target: Q4 2026) ✅
+
+- [x] `TensorContractionEngine` — stateless algebraic engine; all methods `static`
+- [x] AQL `tensor` category: 5 built-in functions registered in `function_registry.cpp`
+- [x] Function signatures:
+  - `TENSOR_SIMILARITY(a, b)` → Float ∈ [-1, 1] (cosine similarity)
+  - `TENSOR_NORM(a)` → Float ≥ 0 (Frobenius norm)
+  - `TENSOR_SLICE(a, dim, idx)` → `{data, shape, compression_ratio, max_rank}`
+  - `TENSOR_COMPRESS(a, eps, max_rank)` → `{data, shape, compression_ratio, achieved_eps}`
+  - `TENSOR_INFO(a)` → `{order, shape, max_rank, total_params, compression_ratio, achieved_eps, original_norm}`
+- [x] `TensorAwareQueryOptimizer` routing stub: `TENSOR_CONTRACTION` plan-node recognition (Target: Q1 2027)
+
+#### Phase 9.2 — Core Implementation (Target: Q4 2026) ✅
+
+- [x] `TensorContractionEngine::innerProduct()` — Holtz 2012 transfer-matrix, O(d·n·r³)
+- [x] `TensorContractionEngine::frobeniusNorm()` — sqrt(innerProduct(T, T))
+- [x] `TensorContractionEngine::cosineSimilarity()` — innerProduct / (norm_a · norm_b)
+- [x] `TensorContractionEngine::slice()` — fixes mode `dim` to `idx`, reduces order by 1
+- [x] `TensorContractionEngine::hadamardProduct()` — Kronecker product of cores + TT-rounding
+- [x] `TensorContractionEngine::recompress()` — delegate to `TensorTrainDecomposer::round()`
+- [x] `TensorContractionEngine::isCompatible()` — mode_sizes equality check
+- [x] AQL function helpers: `buildTrain()` from JSON `{data, shape, eps}`, `jsonToFloats()`
+- [x] Registration in `function_registry.cpp` via `registerTensorFunctions()`
+
+#### Phase 9.3 — Error Handling (Target: Q4 2026) ✅
+
+- [x] `TENSOR_SIMILARITY` with < 2 args → `std::invalid_argument`
+- [x] `innerProduct` with incompatible mode_sizes → `std::invalid_argument`
+- [x] `slice` out-of-range dim/idx → `std::out_of_range`
+- [x] Zero-norm cosine similarity returns 0.0 (no NaN)
+
+#### Phase 9.4 — Tests (Target: Q4 2026) ✅
+
+- [x] 14 unit tests (TCE-01..TCE-14) in `tests/query/test_tensor_contraction_engine.cpp`
+- [x] 6 AQL integration tests (TCE-15..TCE-20) covering all 5 TENSOR_* functions
+
+#### Phase 9.5 — Performance & Hardening (Target: Q1 2027)
+
+- [ ] `TensorAwareQueryOptimizer` — detect TT-stored operands and route to `TensorContractionEngine` (Target: Q1 2027)
+  - Inputs: AQL plan with `TENSOR_*` function nodes
+  - Outputs: `TENSOR_CONTRACTION` plan node visible in `EXPLAIN` output
+  - Guard: only activated when field is stored in `TensorNetworkStorageEngine`
+- [ ] Inner product rank-32 TT-train (6D, n=10) ≤ 5ms CPU, ≤ 0.5ms GPU (Target: Q1 2027)
+- [ ] `TENSOR_SIMILARITY` result identical to decompression-based reference (±ε) (Target: Q1 2027)
+- [ ] CUDA cuBLAS-accelerated transfer-matrix (Target: Q1 2027, `THEMIS_ENABLE_CUDA`)
+
+#### Phase 9.6 — Documentation (Target: Q1 2027)
+
+- [x] `docs/research/papers/tensor_networks_themisdb.md` — P3 (Holtz), P4 (Bigoni) entries
+- [x] AQL function descriptions in `tensor_functions.cpp` registration block
+
+**Acceptance Criteria:**
+- Inner product of two rank-32 6D TT-trains (n=10) ≤ 5ms CPU
+- `TENSOR_SIMILARITY` result matches decompression-based reference ±ε
+- 20 unit tests (TCE-01..TCE-20) passing
+
 ## Production Readiness Checklist
 
 - [x] Unit test coverage ≥ 80 % across `AQLParser`, `QueryOptimizer`, `QueryExecutor`, `QueryCache`, and `UDFRegistry`
