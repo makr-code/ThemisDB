@@ -39,6 +39,10 @@
 #include <nlohmann/json.hpp>
 #include <cstdlib>
 #include <openssl/sha.h>
+#ifdef THEMIS_ENABLE_OPENSSL
+#  include <openssl/evp.h>
+#  include <openssl/rand.h>
+#endif
 #ifndef _WIN32
 #  include <sys/types.h>
 #  include <sys/wait.h>
@@ -1150,20 +1154,82 @@ bool BackupManager::decompressPath(const std::string& src_path, const std::strin
 }
 
 bool BackupManager::encryptFile(const std::string& src_path, const std::string& dest_path,
-                                [[maybe_unused]] const std::string& key, std::error_code& ec) {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Allow the backup pipeline to run end-to-end in development/CI builds
-    //          that do not have OpenSSL enabled.  Copies the file unencrypted.
-    // Activation: `THEMIS_ENABLE_OPENSSL` is not defined at compile time (default
-    //             for builds without `-DTHEMIS_ENABLE_OPENSSL=ON`).
-    // Production Delta: Backup data is written to disk in **plaintext** even when
-    //                   the caller provides an encryption key.  Any party with
-    //                   filesystem read access can read the full backup.
-    //                   Production path: EVP_CIPHER_CTX with EVP_aes_256_gcm(),
-    //                   per-file IV, GCM tag appended.
-    // Removal Plan: Build with `-DTHEMIS_ENABLE_OPENSSL=ON`; the real AES-256-GCM
-    //               implementation replaces this path.  See
-    //               src/storage/FUTURE_ENHANCEMENTS.md §Backup Encryption.
+                                const std::string& key, std::error_code& ec) {
+#ifdef THEMIS_ENABLE_OPENSSL
+    // AES-256-GCM encryption.  File format:
+    //   [4 bytes magic "TENC"] [12 bytes IV] [ciphertext] [16 bytes GCM tag]
+    static constexpr int IV_LEN  = 12;
+    static constexpr int TAG_LEN = 16;
+    static constexpr uint8_t MAGIC[4] = {'T','E','N','C'};
+
+    // Derive 32-byte AES key from the caller-supplied string via SHA-256.
+    unsigned char aes_key[32];
+    SHA256(reinterpret_cast<const unsigned char*>(key.data()), key.size(), aes_key);
+
+    // Generate random IV.
+    unsigned char iv[IV_LEN];
+    if (RAND_bytes(iv, IV_LEN) != 1) {
+        ec = std::make_error_code(std::errc::io_error);
+        THEMIS_ERROR("encryptFile: RAND_bytes failed");
+        return false;
+    }
+
+    std::ifstream in(src_path, std::ios::binary);
+    if (!in) {
+        ec = std::make_error_code(std::errc::no_such_file_or_directory);
+        THEMIS_ERROR("encryptFile: cannot open source: {}", src_path);
+        return false;
+    }
+    std::ofstream out(dest_path, std::ios::binary);
+    if (!out) {
+        ec = std::make_error_code(std::errc::permission_denied);
+        THEMIS_ERROR("encryptFile: cannot open dest: {}", dest_path);
+        return false;
+    }
+
+    out.write(reinterpret_cast<const char*>(MAGIC), 4);
+    out.write(reinterpret_cast<const char*>(iv), IV_LEN);
+
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    if (!ctx) { ec = std::make_error_code(std::errc::io_error); return false; }
+
+    bool ok = true;
+    if (EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, aes_key, iv) != 1) {
+        ok = false;
+    }
+    static constexpr size_t BUF = 64 * 1024;
+    std::vector<unsigned char> plain(BUF), cipher(BUF + 16);
+    while (ok && in) {
+        in.read(reinterpret_cast<char*>(plain.data()), BUF);
+        int rd = static_cast<int>(in.gcount());
+        if (rd <= 0) break;
+        int outl = 0;
+        if (EVP_EncryptUpdate(ctx, cipher.data(), &outl, plain.data(), rd) != 1) {
+            ok = false; break;
+        }
+        out.write(reinterpret_cast<const char*>(cipher.data()), outl);
+    }
+    int outl = 0;
+    if (ok && EVP_EncryptFinal_ex(ctx, cipher.data(), &outl) == 1) {
+        out.write(reinterpret_cast<const char*>(cipher.data()), outl);
+        unsigned char tag[TAG_LEN];
+        EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, TAG_LEN, tag);
+        out.write(reinterpret_cast<const char*>(tag), TAG_LEN);
+    } else {
+        ok = false;
+    }
+    EVP_CIPHER_CTX_free(ctx);
+
+    if (!ok) {
+        ec = std::make_error_code(std::errc::io_error);
+        THEMIS_ERROR("encryptFile: AES-256-GCM encryption failed for {}", src_path);
+        namespace fs = std::filesystem;
+        std::error_code ignored;
+        fs::remove(dest_path, ignored);
+        return false;
+    }
+    return true;
+#else
     static std::once_flag s_encrypt_warn;
     std::call_once(s_encrypt_warn, [] {
         THEMIS_WARN("BackupManager::encryptFile: STUB — files will be copied without "
@@ -1184,21 +1250,96 @@ bool BackupManager::encryptFile(const std::string& src_path, const std::string& 
         THEMIS_ERROR("Exception during encryption: {}", e.what());
         return false;
     }
+#endif
 }
 
 bool BackupManager::decryptFile(const std::string& src_path, const std::string& dest_path,
-                                [[maybe_unused]] const std::string& key, std::error_code& ec) {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Allow the restore pipeline to run in development/CI builds without
-    //          OpenSSL.  Copies the source file unchanged (no AES-256-GCM decryption).
-    // Activation: `THEMIS_ENABLE_OPENSSL` is not defined at compile time.
-    // Production Delta: A backup that was "encrypted" by the encryptFile() stub
-    //                   (plain copy) can be "decrypted" by this stub.  A backup
-    //                   produced by the real AES-256-GCM encryptFile() will NOT
-    //                   be recoverable through this stub — file content will be
-    //                   ciphertext, and restore will silently produce garbage data.
-    // Removal Plan: Build with `-DTHEMIS_ENABLE_OPENSSL=ON`.  See
-    //               src/storage/FUTURE_ENHANCEMENTS.md §Backup Encryption.
+                                const std::string& key, std::error_code& ec) {
+#ifdef THEMIS_ENABLE_OPENSSL
+    // AES-256-GCM decryption — mirrors encryptFile() format:
+    //   [4 bytes magic "TENC"] [12 bytes IV] [ciphertext] [16 bytes GCM tag]
+    static constexpr int IV_LEN  = 12;
+    static constexpr int TAG_LEN = 16;
+    static constexpr uint8_t MAGIC[4] = {'T','E','N','C'};
+
+    std::ifstream in(src_path, std::ios::binary | std::ios::ate);
+    if (!in) {
+        ec = std::make_error_code(std::errc::no_such_file_or_directory);
+        THEMIS_ERROR("decryptFile: cannot open source: {}", src_path);
+        return false;
+    }
+    const auto file_size = static_cast<size_t>(in.tellg());
+    in.seekg(0);
+    if (file_size < static_cast<size_t>(4 + IV_LEN + TAG_LEN)) {
+        ec = std::make_error_code(std::errc::invalid_argument);
+        THEMIS_ERROR("decryptFile: file too short to be a valid TENC archive: {}", src_path);
+        return false;
+    }
+
+    // Verify magic.
+    uint8_t magic_buf[4];
+    in.read(reinterpret_cast<char*>(magic_buf), 4);
+    if (std::memcmp(magic_buf, MAGIC, 4) != 0) {
+        ec = std::make_error_code(std::errc::invalid_argument);
+        THEMIS_ERROR("decryptFile: bad magic — file was not encrypted by encryptFile(): {}", src_path);
+        return false;
+    }
+
+    unsigned char iv[IV_LEN];
+    in.read(reinterpret_cast<char*>(iv), IV_LEN);
+
+    // Read ciphertext (everything except trailing tag).
+    const size_t cipher_len = file_size - 4 - IV_LEN - TAG_LEN;
+    std::vector<unsigned char> ciphertext(cipher_len);
+    in.read(reinterpret_cast<char*>(ciphertext.data()), cipher_len);
+    unsigned char tag[TAG_LEN];
+    in.read(reinterpret_cast<char*>(tag), TAG_LEN);
+
+    // Derive AES key via SHA-256.
+    unsigned char aes_key[32];
+    SHA256(reinterpret_cast<const unsigned char*>(key.data()), key.size(), aes_key);
+
+    std::ofstream out(dest_path, std::ios::binary);
+    if (!out) {
+        ec = std::make_error_code(std::errc::permission_denied);
+        THEMIS_ERROR("decryptFile: cannot open dest: {}", dest_path);
+        return false;
+    }
+
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    if (!ctx) { ec = std::make_error_code(std::errc::io_error); return false; }
+
+    bool ok = true;
+    std::vector<unsigned char> plain(cipher_len + 16);
+    int outl = 0;
+    if (EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, aes_key, iv) != 1) {
+        ok = false;
+    }
+    if (ok) {
+        EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, TAG_LEN, tag);
+        if (EVP_DecryptUpdate(ctx, plain.data(), &outl,
+                              ciphertext.data(), static_cast<int>(cipher_len)) != 1) {
+            ok = false;
+        }
+    }
+    int finl = 0;
+    if (ok && EVP_DecryptFinal_ex(ctx, plain.data() + outl, &finl) <= 0) {
+        ok = false;  // authentication tag mismatch
+    }
+    EVP_CIPHER_CTX_free(ctx);
+
+    if (!ok) {
+        ec = std::make_error_code(std::errc::io_error);
+        THEMIS_ERROR("decryptFile: AES-256-GCM decryption/authentication failed for {}", src_path);
+        namespace fs = std::filesystem;
+        std::error_code ignored;
+        fs::remove(dest_path, ignored);
+        return false;
+    }
+
+    out.write(reinterpret_cast<const char*>(plain.data()), outl + finl);
+    return true;
+#else
     static std::once_flag s_decrypt_warn;
     std::call_once(s_decrypt_warn, [] {
         THEMIS_WARN("BackupManager::decryptFile: STUB — files will be copied without "
@@ -1218,6 +1359,7 @@ bool BackupManager::decryptFile(const std::string& src_path, const std::string& 
         THEMIS_ERROR("Exception during decryption: {}", e.what());
         return false;
     }
+#endif
 }
 
 bool BackupManager::uploadToCloud(const std::string& local_path, [[maybe_unused]] const std::string& cloud_path,
