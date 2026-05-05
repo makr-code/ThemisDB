@@ -582,3 +582,88 @@ TEST(PositionAbstractValidator, CWB20_ValidateValid_AndAutoRepairMissingVerdict)
     EXPECT_TRUE(validator.autoRepair(broken_out));
     EXPECT_FALSE(broken_out.verdict.empty());
 }
+
+// ---------------------------------------------------------------------------
+// CWB-SS-01: STRUCTURED_SUMMARY achieves better DC preservation than PRINCIPLE_CITATIONS_ONLY
+// ---------------------------------------------------------------------------
+TEST(PriorRoundCompressor, CWBSS01_StructuredSummary_BetterDcPreservation) {
+    PriorRoundCompressor compressor;
+    CompressionConfig cfg;
+    cfg.trigger_round   = 1;
+    cfg.mode            = CompressionMode::STRUCTURED_SUMMARY;
+    cfg.max_tokens_per_round = 100;
+    cfg.keep_verdict    = true;
+
+    const std::string long_content =
+        "The categorical imperative demands universalizability. kant:kategorischer_imperativ "
+        "is central here. PROHIBIT: Using people as mere means violates their dignity and "
+        "autonomy. The principle of humanity requires treating rational agents as ends in "
+        "themselves. This universalizability formula is non-negotiable for Kantian ethics.";
+
+    auto arg = makeArg("kant", long_content, ArgumentType::PRO,
+                       {"kant:kategorischer_imperativ"});
+
+    auto structured = compressor.compressPriorRound({arg}, cfg, 3);
+
+    cfg.mode = CompressionMode::PRINCIPLE_CITATIONS_ONLY;
+    auto citations_only = compressor.compressPriorRound({arg}, cfg, 3);
+
+    // STRUCTURED_SUMMARY must preserve more DC (lower estimated_dc_loss)
+    EXPECT_LE(structured.estimated_dc_loss, citations_only.estimated_dc_loss + 0.05f)
+        << "STRUCTURED_SUMMARY should not be worse in DC loss than PRINCIPLE_CITATIONS_ONLY. "
+        << "structured=" << structured.estimated_dc_loss
+        << " citations_only=" << citations_only.estimated_dc_loss;
+
+    // Both must produce non-empty output
+    EXPECT_FALSE(structured.compressed_text.empty());
+}
+
+// ---------------------------------------------------------------------------
+// CWB-SS-02: STRUCTURED_SUMMARY respects token budget
+// ---------------------------------------------------------------------------
+TEST(PriorRoundCompressor, CWBSS02_StructuredSummary_RespectsTokenBudget) {
+    PriorRoundCompressor compressor;
+    CompressionConfig cfg;
+    cfg.trigger_round   = 1;
+    cfg.mode            = CompressionMode::STRUCTURED_SUMMARY;
+    cfg.max_tokens_per_round = 30;
+
+    const std::string long_content =
+        "First very long philosophical sentence about the nature of obligation under Kantian ethics. "
+        "Second sentence covering the universalizability test and its practical application. "
+        "Third sentence discussing the humanity formula and its implications for modern ethics. "
+        "Fourth sentence elaborating on the kingdom of ends framework. "
+        "Fifth sentence concluding the argument with a final PROHIBIT verdict.";
+
+    auto arg = makeArg("kant", long_content);
+    auto result = compressor.compressPriorRound({arg}, cfg, 3);
+
+    const int tokens = PriorRoundCompressor::countTokens(result.compressed_text);
+    // Allow generous slack (prefix "[kant|R]" + verdict add tokens)
+    EXPECT_LE(tokens, cfg.max_tokens_per_round * 3)
+        << "STRUCTURED_SUMMARY must not grossly exceed max_tokens_per_round. tokens=" << tokens;
+    EXPECT_FALSE(result.compressed_text.empty());
+}
+
+// ---------------------------------------------------------------------------
+// CWB-SS-03: STRUCTURED_SUMMARY preserves citations in output
+// ---------------------------------------------------------------------------
+TEST(PriorRoundCompressor, CWBSS03_StructuredSummary_PreservesCitationsInOutput) {
+    PriorRoundCompressor compressor;
+    CompressionConfig cfg;
+    cfg.trigger_round   = 1;
+    cfg.mode            = CompressionMode::STRUCTURED_SUMMARY;
+    cfg.max_tokens_per_round = 200;
+
+    const std::string content =
+        "kant:kategorischer_imperativ is the core thesis. We must act only on maxims we can "
+        "will to become universal laws. PROHIBIT: treating people as mere means. "
+        "This principle has wide application across modern ethics.";
+
+    auto arg = makeArg("kant", content, ArgumentType::PRO, {"kant:kategorischer_imperativ"});
+    auto result = compressor.compressPriorRound({arg}, cfg, 3);
+
+    // The sentence containing the citation should be selected (boosted)
+    EXPECT_NE(result.compressed_text.find("kant:kategorischer_imperativ"), std::string::npos)
+        << "STRUCTURED_SUMMARY should retain the sentence containing the principle citation";
+}

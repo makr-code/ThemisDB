@@ -2434,20 +2434,16 @@ void WireProtocolServer::Session::handleBpmnTaskComplete() {
             instance_id = task_id.substr(0, colon_pos);
             node_id = task_id.substr(colon_pos + 1);
         } else {
-            // STUB/SIMULATION NOTE:
-            // Purpose: Rejects task_ids that lack the expected "instance_id:node_id"
-            //          colon separator until a real task_id→instance mapping lookup
-            //          is implemented.
-            // Activation: `task_id` string contains no ':' character.
-            // Production Delta: A token-only task_id that could be resolved via a
-            //                   registry lookup is rejected with HTTP 400; clients
-            //                   that use opaque task IDs without the colon format
-            //                   cannot use this endpoint.
-            // Removal Plan: Implement a TaskRegistry lookup (task_id → {instance_id,
-            //               node_id}) so that token-only task_ids are also supported.
-            //               See src/server/FUTURE_ENHANCEMENTS.md §WireProtocol Task ID Resolution.
-            sendError(400, "Invalid task_id format. Expected 'instance_id:node_id'");
-            return;
+            // Resolve a token-only task_id via ProcessGraphManager.
+            // Scans active tokens to find the matching token_id and extracts
+            // instance_id + current_node.  Stub #138 resolution.
+            auto resolved = server_->process_graph_->findTokenByTokenId(task_id);
+            if (!resolved) {
+                sendError(400, "Invalid task_id: not found or not active");
+                return;
+            }
+            instance_id = resolved->first;
+            node_id     = resolved->second;
         }
 
         // Complete the task

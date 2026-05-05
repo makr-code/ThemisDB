@@ -1286,6 +1286,42 @@ ProcessGraphManager::Status ProcessGraphManager::signalEvent(
     return Status::OK();
 }
 
+std::optional<std::pair<std::string, std::string>>
+ProcessGraphManager::findTokenByTokenId(std::string_view token_id) const {
+    if (!db_.isOpen() || token_id.empty()) return std::nullopt;
+
+    std::optional<std::pair<std::string, std::string>> found;
+    const std::string token_id_str(token_id);
+
+    db_.scanPrefix("process:token:", [&](std::string_view key, std::string_view val) -> bool {
+        if (found) return false; // already found, stop scan
+
+        // Key format: "process:token:<instance_id>:<token_id>"
+        const std::string keyStr(key);
+        // After "process:token:" (14 chars) find the colon separating instance from token
+        const size_t prefix_len = 14; // strlen("process:token:")
+        const size_t second_colon = keyStr.find(':', prefix_len);
+        if (second_colon == std::string::npos) return true;
+
+        const std::string stored_token_id = keyStr.substr(second_colon + 1);
+        if (stored_token_id != token_id_str) return true;
+
+        // Found a key with matching token_id — check it's READY or ACTIVE
+        std::vector<uint8_t> blob(val.begin(), val.end());
+        BaseEntity tokenEntity = BaseEntity::deserialize(stored_token_id, blob);
+        const auto stateStr = tokenEntity.getFieldAsString("state").value_or("");
+        if (stateStr != "READY" && stateStr != "ACTIVE") return true;
+
+        const std::string instance_id = keyStr.substr(prefix_len, second_colon - prefix_len);
+        const std::string current_node =
+            tokenEntity.getFieldAsString("current_node").value_or("");
+        found = std::make_pair(instance_id, current_node);
+        return false; // stop scan
+    });
+
+    return found;
+}
+
 std::pair<ProcessGraphManager::Status, std::vector<ProcessToken>> 
 ProcessGraphManager::findActiveTasks(std::string_view assignee_or_role) const {
     std::vector<ProcessToken> result;

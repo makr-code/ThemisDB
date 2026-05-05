@@ -617,6 +617,21 @@ public:
     // ===== Process Queries =====
     
     /**
+     * @brief Resolve a token-only task_id to its (instance_id, current_node) pair.
+     *
+     * Scans all stored tokens and returns the instance_id and current_node for
+     * the first READY or ACTIVE token whose token_id matches @p token_id.
+     * Used by WireProtocolServer to accept task_ids without the
+     * "instance_id:node_id" colon format.  Stub #138 resolution.
+     *
+     * @param token_id  The token identifier (without instance prefix).
+     * @return A pair {instance_id, current_node} if a matching active token is
+     *         found; std::nullopt otherwise.
+     */
+    [[nodiscard]] std::optional<std::pair<std::string, std::string>>
+    findTokenByTokenId(std::string_view token_id) const;
+
+    /**
      * @brief Find all active tasks for a user/role
      */
     std::pair<Status, std::vector<ProcessToken>> findActiveTasks(
