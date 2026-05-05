@@ -239,12 +239,10 @@ bool RedisTokenBlacklist::isRevoked(const std::string& jti) const {
     if (it == fallback_map_.end()) {
         return false;
     }
-    // Honour natural expiry — if past expiry, treat as not-revoked
-    if (std::chrono::system_clock::now() >= it->second) {
-        fallback_map_.erase(it);
-        return false;
-    }
-    return true;
+    // Honour natural expiry — expired entries are not considered revoked.
+    // Cleanup of expired entries is deferred to purgeExpired() to keep
+    // isRevoked() semantically read-only (no map mutation).
+    return std::chrono::system_clock::now() < it->second;
 }
 
 void RedisTokenBlacklist::purgeExpired() {
