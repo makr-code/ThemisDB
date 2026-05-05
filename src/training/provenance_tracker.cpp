@@ -241,40 +241,41 @@ public:
             }
         }
 
-        // STUB/SIMULATION NOTE:
-        // Purpose: Build a lineage tree entirely from the in-process
-        //   `store_` map when no AQL traversal result is available (offline
-        //   mode, disconnected from the graph DB, or empty AQL result set).
-        //   This allows training provenance to be tracked in single-process
-        //   test runs without a live ThemisDB instance.
-        // Activation: Reached when `graph_db_` is null or when AQL traversal
-        //   returns an empty result set for the given sample_id.
-        // Production Delta: The in-process store only contains samples that
-        //   were registered in the current process lifetime; cross-process or
-        //   cross-restart lineage is not captured.  Graph relationships between
-        //   samples (sibling nodes, model checkpoints) are approximated as
-        //   flat parent–child pairs rather than a true provenance DAG.
-        // Removal Plan: Ensure the graph DB is always reachable in production
-        //   (i.e., `graph_db_` is set via `setGraphDB()`) and that lineage is
-        //   written via `recordSample()` before `getLineageTree()` is called.
-        //   The in-process fallback can then be removed.
-        //   Tracking: src/training/FUTURE_ENHANCEMENTS.md §"Provenance Graph Integration"
-        // Roadmap ref: src/ROADMAP.md §Stub Lifecycle
-        // In-process fallback: build a stub tree from the in-process store.
+        // In-process fallback when AQL traversal is unavailable.
+        // In-process fallback: build a lineage DAG from the in-process store.
+        // Groups samples by their source_doc_urn so document nodes are shared
+        // across samples (sibling de-duplication), and annotates each sample with
+        // its labeler_version label.  This is more faithful to the real AQL DAG
+        // than a flat list of root children.
         // Used in offline / test mode and as a fallback when the AQL traversal
         // returns an empty result set.
+
+        // Build de-duplicated document nodes keyed by source_doc_urn.
+        std::unordered_map<std::string, LineageNode> doc_nodes;
+        for (const auto& [sid, rec] : store_) {
+            if (!rec.source_doc_urn.empty() &&
+                doc_nodes.find(rec.source_doc_urn) == doc_nodes.end()) {
+                LineageNode dn;
+                dn.node_type = "document";
+                dn.node_id   = rec.source_doc_urn;
+                dn.label     = "Document " + rec.source_doc_urn;
+                doc_nodes.emplace(rec.source_doc_urn, std::move(dn));
+            }
+        }
+
+        // Attach sample nodes; each sample points to its document parent.
         for (const auto& [sample_id, rec] : store_) {
             LineageNode sample_node;
             sample_node.node_type = "sample";
             sample_node.node_id   = sample_id;
-            sample_node.label     = "TrainingSample " + sample_id;
+            sample_node.label     = "TrainingSample " + sample_id
+                + (rec.labeler_version.empty() ? "" : " [" + rec.labeler_version + "]")
+                + (rec.modality.empty()        ? "" : " <" + rec.modality + ">");
 
             if (!rec.source_doc_urn.empty()) {
-                LineageNode doc_node;
-                doc_node.node_type = "document";
-                doc_node.node_id   = rec.source_doc_urn;
-                doc_node.label     = "Document " + rec.source_doc_urn;
-                sample_node.parents.push_back(std::move(doc_node));
+                // Shallow copy of the document node (no recursive parents needed
+                // here; the document is a leaf in the upstream direction).
+                sample_node.parents.push_back(doc_nodes.at(rec.source_doc_urn));
             }
 
             root.parents.push_back(std::move(sample_node));

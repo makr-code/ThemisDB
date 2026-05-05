@@ -36,8 +36,10 @@
 #if defined(__linux__) || defined(__APPLE__)
 #  include <execinfo.h>
 #  define THEMIS_HAS_BACKTRACE 1
-#else
-#  define THEMIS_HAS_BACKTRACE 0
+#elif defined(_WIN32)
+#  include <windows.h>
+#  include <dbghelp.h>
+#  define THEMIS_HAS_WIN_BACKTRACE 1
 #endif
 
 namespace themis {
@@ -52,7 +54,7 @@ namespace {
 /** Collect a raw call stack, up to @p max_depth frames. */
 std::vector<std::string> captureStack([[maybe_unused]] int max_depth = 64) {
     std::vector<std::string> frames;
-#if THEMIS_HAS_BACKTRACE
+#if defined(THEMIS_HAS_BACKTRACE)
     std::vector<void*> buffer(static_cast<size_t>(max_depth));
     int count = ::backtrace(buffer.data(), max_depth);
     if (count <= 0) {
@@ -67,19 +69,45 @@ std::vector<std::string> captureStack([[maybe_unused]] int max_depth = 64) {
         frames.emplace_back(symbols[i] ? symbols[i] : "??");
     }
     ::free(symbols);
+#elif defined(THEMIS_HAS_WIN_BACKTRACE)
+    // Windows DbgHelp-based stack capture.
+    // SymInitialize is thread-safe on Windows 8.1+ when called once per process.
+    // We use a static flag to avoid repeated initialisation.
+    static bool sym_initialized = []() {
+        return SymInitialize(GetCurrentProcess(), nullptr, TRUE) == TRUE;
+    }();
+    (void)sym_initialized;
+
+    std::vector<void*> stack(static_cast<size_t>(max_depth));
+    WORD captured = CaptureStackBackTrace(
+        0,
+        static_cast<DWORD>(max_depth),
+        stack.data(),
+        nullptr);
+    if (captured == 0) {
+        return frames;
+    }
+
+    // SYMBOL_INFO requires trailing storage for the name string.
+    constexpr DWORD kMaxNameLen = 256;
+    alignas(SYMBOL_INFO) char sym_buf[sizeof(SYMBOL_INFO) + kMaxNameLen * sizeof(CHAR)];
+    SYMBOL_INFO* sym = reinterpret_cast<SYMBOL_INFO*>(sym_buf);
+    sym->SizeOfStruct = sizeof(SYMBOL_INFO);
+    sym->MaxNameLen   = kMaxNameLen;
+
+    frames.reserve(captured);
+    HANDLE process = GetCurrentProcess();
+    for (WORD i = 0; i < captured; ++i) {
+        DWORD64 addr = reinterpret_cast<DWORD64>(stack[i]);
+        if (SymFromAddr(process, addr, nullptr, sym)) {
+            frames.emplace_back(sym->Name, sym->NameLen);
+        } else {
+            frames.emplace_back("??");
+        }
+    }
 #else
-    // STUB/SIMULATION NOTE:
-    // Purpose: Provides a safe no-crash fallback on platforms that lack
-    //          POSIX backtrace() (Windows, WebAssembly, some embedded targets).
-    // Activation: `HAVE_EXECINFO_H` not defined at compile time.
-    // Production Delta: Stack frames are not captured; profiler flame graphs
-    //                   and crash reports show "(stack-trace-unavailable)"
-    //                   instead of real symbol names.
-    // Removal Plan: On Windows integrate `CaptureStackBackTrace()` +
-    //               `SymFromAddr()` from DbgHelp.  On WASM/embedded consider
-    //               `__builtin_return_address()` loop with a platform-specific
-    //               symbol resolver.  Guard each backend with its detection macro.
-    //               See src/observability/FUTURE_ENHANCEMENTS.md §Cross-Platform Stack Trace.
+    // Fallback for WASM / unsupported embedded targets where neither
+    // POSIX execinfo.h nor Windows DbgHelp is available.
     frames.emplace_back("(stack-trace-unavailable)");
 #endif
     return frames;
