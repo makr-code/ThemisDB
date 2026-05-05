@@ -20,6 +20,11 @@
 #include "sharding/admin_api.h"
 #include "sharding/shard_repair_engine.h"
 #include "sharding/hardware_migration_manager.h"
+#include "sharding/pki_shard_certificate.h"
+#include <openssl/bio.h>
+#include <openssl/pem.h>
+#include <openssl/x509.h>
+#include <openssl/x509_vfy.h>
 #include <fstream>
 #include <chrono>
 #include <iomanip>
@@ -151,20 +156,93 @@ nlohmann::json AdminAPI::handleRequest(const std::string& method,
 }
 
 bool AdminAPI::authorizeRequest(const std::string& operator_cert) {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Minimal authorization gate that prevents empty-cert requests from
-    //          proceeding, while full X.509 admin-capability verification is not
-    //          yet implemented.
-    // Activation: Always — no actual certificate parsing is performed.
-    // Production Delta: Any non-empty string is accepted as a valid operator
-    //                   certificate.  An attacker who can send any non-empty
-    //                   Authorization header gains full administrative access
-    //                   (config reset, shard rebalance, etc.).
-    // Removal Plan: Parse the PEM certificate; extract OID / SAN or custom
-    //               extension that marks admin capability; verify the certificate
-    //               chain against the configured admin CA.  See
-    //               src/sharding/FUTURE_ENHANCEMENTS.md §Admin API Certificate Auth.
-    return !operator_cert.empty();
+    if (operator_cert.empty()) {
+        return false;
+    }
+
+    // Parse the PEM certificate from the caller-supplied string.
+    BIO* bio = BIO_new_mem_buf(operator_cert.data(),
+                               static_cast<int>(operator_cert.size()));
+    if (!bio) return false;
+
+    X509* cert = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
+    BIO_free(bio);
+    if (!cert) {
+        return false;  // Not a valid PEM certificate.
+    }
+
+    // Verify certificate validity window (not-before / not-after vs. now).
+    const int nb_cmp = X509_cmp_current_time(X509_get0_notBefore(cert));
+    const int na_cmp = X509_cmp_current_time(X509_get0_notAfter(cert));
+    if (nb_cmp > 0 || na_cmp < 0) {
+        // Certificate is not yet valid or has expired.
+        X509_free(cert);
+        return false;
+    }
+
+    // If a CA certificate path is configured, verify the certificate chain.
+    if (!config_.ca_cert_path.empty()) {
+        X509_STORE* store = X509_STORE_new();
+        bool chain_ok = false;
+        if (store) {
+            if (X509_STORE_load_locations(store, config_.ca_cert_path.c_str(), nullptr) == 1) {
+                X509_STORE_CTX* ctx = X509_STORE_CTX_new();
+                if (ctx && X509_STORE_CTX_init(ctx, store, cert, nullptr) == 1) {
+                    chain_ok = (X509_verify_cert(ctx) == 1);
+                }
+                X509_STORE_CTX_free(ctx);
+            }
+            X509_STORE_free(store);
+        }
+        if (!chain_ok) {
+            X509_free(cert);
+            return false;
+        }
+    }
+
+    // Check for admin-capability indicator: look for "admin" or "themis-admin"
+    // in the Subject CN or SAN DNS names.
+    bool has_admin_cap = false;
+
+    // Check Subject CN.
+    X509_NAME* subject = X509_get_subject_name(cert);
+    if (subject) {
+        char cn_buf[256] = {};
+        X509_NAME_get_text_by_NID(subject, NID_commonName, cn_buf, sizeof(cn_buf));
+        std::string cn(cn_buf);
+        if (cn.find("admin") != std::string::npos) {
+            has_admin_cap = true;
+        }
+    }
+
+    // Check Subject Alternative Name DNS entries.
+    if (!has_admin_cap) {
+        GENERAL_NAMES* sans = static_cast<GENERAL_NAMES*>(
+            X509_get_ext_d2i(cert, NID_subject_alt_name, nullptr, nullptr));
+        if (sans) {
+            for (int i = 0; i < sk_GENERAL_NAME_num(sans); ++i) {
+                GENERAL_NAME* gn = sk_GENERAL_NAME_value(sans, i);
+                if (gn->type == GEN_DNS) {
+                    ASN1_STRING* dns = gn->d.dNSName;
+                    std::string dns_str(
+                        reinterpret_cast<const char*>(ASN1_STRING_get0_data(dns)),
+                        ASN1_STRING_length(dns));
+                    if (dns_str.find("admin") != std::string::npos) {
+                        has_admin_cap = true;
+                        break;
+                    }
+                }
+            }
+            GENERAL_NAMES_free(sans);
+        }
+    }
+
+    X509_free(cert);
+
+    // When no CA is configured, any structurally valid, non-expired certificate
+    // with an admin indicator in CN/SAN is accepted (development / test mode).
+    // In production, `ca_cert_path` should always be set.
+    return has_admin_cap;
 }
 
 void AdminAPI::auditLog(const std::string& method, const std::string& path, const std::string& operator_cert) {
