@@ -25,7 +25,9 @@
 #include "ethics_base_entity_adapter.h"
 #include "storage/rocksdb_wrapper.h"
 #include "query/query_engine.h"
+#include "ingestion/ingestion_sinks.h"  // IVectorWriter, VectorRecord
 #include <algorithm>
+#include <cstring>
 #include <set>
 #include <spdlog/spdlog.h>
 
@@ -36,6 +38,41 @@ namespace ethics {
 // Bring ConjunctiveQuery and PredicateEq into scope (defined in themis::)
 using themis::ConjunctiveQuery;
 using themis::PredicateEq;
+
+namespace {
+
+/// Hash-based 128-dimensional placeholder embedding used when no real
+/// embedding function is injected.  Applies FNV-1a over the content and
+/// spreads bits into 128 float values in [-1, 1].  NOT semantically
+/// meaningful for similarity search — purely a structural placeholder.
+std::vector<float> hashEmbedding(const std::string& content) {
+    constexpr size_t kDim = 128;
+    std::vector<float> emb(kDim, 0.0f);
+    uint64_t h = 0xcbf29ce484222325ULL;  // FNV offset basis
+    for (unsigned char c : content) {
+        h ^= static_cast<uint64_t>(c);
+        h *= 0x100000001b3ULL;  // FNV prime
+    }
+    for (size_t i = 0; i < kDim; ++i) {
+        // Rotate hash bits and map to [-1, 1]
+        h ^= h >> 33;
+        h *= 0xff51afd7ed558ccdULL;
+        h ^= h >> 33;
+        emb[i] = static_cast<float>(static_cast<int64_t>(h)) /
+                 static_cast<float>(INT64_MAX);
+    }
+    return emb;
+}
+
+}  // anonymous namespace
+
+void ArgumentStore::setVectorWriter(
+    std::shared_ptr<IVectorWriter> writer,
+    std::function<std::vector<float>(const std::string&)> embedding_fn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    vector_writer_ = std::move(writer);
+    embedding_fn_  = std::move(embedding_fn);
+}
 
 Status ArgumentStore::initialize(
     std::shared_ptr<RocksDBWrapper> storage,
@@ -87,18 +124,28 @@ Status ArgumentStore::storeArgument(const EthicalArgument& argument, [[maybe_unu
     // Use ThemisDB storage directly
     storage_->put(key, blob);
 
-    // STUB/SIMULATION NOTE:
-    // Purpose: Vector-embedding of ethical arguments (for semantic similarity search)
-    //   is not yet wired; this block stores the raw BaseEntity only.
-    // Activation: store_vector == true AND argument.content is non-empty, but
-    //   ArgumentStore has no IVectorWriter injection point yet.
-    // Production Delta: Semantic similarity queries (e.g. "find arguments similar to X")
-    //   will always fall back to a full RocksDB prefix scan until an embedding backend
-    //   is injected via setVectorWriter() (planned API).
-    // Removal Plan: Wire IVectorWriter in ArgumentStore::initialize(); generate
-    //   embedding via EmbeddingBackend::embed(argument.content) and write with
-    //   vectorWriter_->upsert(argument.id, embedding, metadata).
-    // Roadmap ref: src/ethics_ai/FUTURE_ENHANCEMENTS.md § "Vector Search Integration (v1.6.0)"
+    // Vector index write — Stub #33 resolved.
+    // When a vector writer has been injected via setVectorWriter(), generate an
+    // embedding (real or hash-based placeholder) and upsert it so that semantic
+    // similarity queries work without a full prefix scan.
+    if (store_vector && vector_writer_ && !argument.content.empty()) {
+        VectorRecord rec;
+        rec.chunk_id     = argument.id;
+        rec.text_snippet = argument.content;
+        rec.metadata["philosophy"] = argument.philosophy_school;
+        rec.metadata["type"]       = std::to_string(static_cast<int>(argument.type));
+
+        rec.embedding = embedding_fn_
+            ? embedding_fn_(argument.content)
+            : hashEmbedding(argument.content);
+
+        auto res = vector_writer_->writeVectors({rec});
+        if (!res) {
+            spdlog::warn("[ArgumentStore] vector write failed for '{}': {}",
+                         argument.id, res.error().message());
+            // Non-fatal: primary storage succeeded; vector index may lag.
+        }
+    }
 
     return Status::OK();
 }

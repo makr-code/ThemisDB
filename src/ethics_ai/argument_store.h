@@ -24,6 +24,7 @@
 
 #include "ethics_ai/ethics_ai_types.h"
 #include "storage/base_entity.h"
+#include <functional>
 #include <memory>
 #include <mutex>
 
@@ -31,6 +32,7 @@
 namespace themis {
 class RocksDBWrapper;
 class QueryEngine;
+class IVectorWriter;
 }
 
 namespace themis {
@@ -165,6 +167,24 @@ public:
      * @brief Shutdown the store
      */
     void shutdown();
+
+    /**
+     * @brief Inject a vector-index writer for semantic similarity search.
+     *
+     * When set, `storeArgument()` generates a deterministic embedding from the
+     * argument content and persists it via the writer.  Callers can replace
+     * the default hash-based embedding by providing @p embedding_fn.
+     *
+     * @param writer      Vector index writer (must outlive the store, or be kept
+     *                    alive by the shared_ptr).
+     * @param embedding_fn Optional embedding function: content → float vector.
+     *                    If nullptr, a hash-based 128-dim placeholder is used
+     *                    (not semantically meaningful for similarity search).
+     */
+    void setVectorWriter(
+        std::shared_ptr<IVectorWriter> writer,
+        std::function<std::vector<float>(const std::string&)> embedding_fn = nullptr
+    );
     
 private:
     std::mutex mutex_;
@@ -182,6 +202,10 @@ private:
     std::map<std::string, ArgumentChain> chains_; ///< In-memory chain cache
     /// Key = debate_id; value = rounds ordered by round_number
     std::map<std::string, std::vector<DebateRound>> debate_rounds_;
+
+    // Vector index integration (Stub #33 resolved)
+    std::shared_ptr<IVectorWriter> vector_writer_;
+    std::function<std::vector<float>(const std::string&)> embedding_fn_;
 };
 
 } // namespace ethics

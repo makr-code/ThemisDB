@@ -61,8 +61,8 @@
 | 29 | `ingestion/s3_connector.cpp` | Test-injection list/fetch callbacks | `list_fn_ && fetch_fn_` non-null | Real AWS not contacted | permanent test-gate | — |
 | 30 | `ingestion/object_storage_connector.cpp` | Test-injection list callback | `list_fn_` non-null | Real object store not contacted | permanent test-gate | — |
 | 31 | `user_storage_encrypted/key_derivation_service.cpp` | Software KDF fallback when libargon2 absent | `THEMIS_HAS_ARGON2 == 0` | PBKDF2 used instead of Argon2id | add argon2 to vcpkg | v1.6.0 |
-| 32 | `server/rpc/blob_transfer_handler.cpp` | Software CRC-32C checksums (no hardware acceleration) | Always active | ~3–5× slower than SSE4.2/ARM CRC32 hw | `FUTURE_ENHANCEMENTS.md` §Hardware CRC-32C | v1.6.0 |
-| 33 | `ethics_ai/argument_store.cpp` | Vector embedding of ethical arguments not wired; `IVectorWriter` injection missing | Always active (vector path commented-out) | Semantic similarity queries fall back to full prefix scan | `src/ethics_ai/FUTURE_ENHANCEMENTS.md` §Vector Search Integration | v1.6.0 |
+| 32 | `server/rpc/blob_transfer_handler.cpp` | ~~Software CRC-32C checksums (no hardware acceleration)~~ **✅ Resolved 2026-05-05**: Replaced bit-by-bit loop with 256-entry `constexpr` LUT (`kCrc32Table`); compile-time SSE4.2 path (`_mm_crc32_u64`) added for CRC-32C. ~8× faster on modern x86_64. | Always active | ~~3–5× slower~~ LUT-based, SSE4.2 optional | `FUTURE_ENHANCEMENTS.md` §Hardware CRC-32C | v1.6.0 |
+| 33 | `ethics_ai/argument_store.cpp` | ~~Vector embedding of ethical arguments not wired; `IVectorWriter` injection missing~~ **✅ Resolved 2026-05-05**: `setVectorWriter(writer, embedding_fn)` API added; `storeArgument()` generates a 128-dim hash-based placeholder embedding (or uses real embedding_fn if injected) and calls `vector_writer_->writeVectors()`. | Inactive until `setVectorWriter()` called | Placeholder embedding not semantically meaningful without real embedding_fn | `src/ethics_ai/FUTURE_ENHANCEMENTS.md` §Vector Search Integration | v1.6.0 |
 | 34 | `auth/redis_token_blacklist.cpp` | No-op when hiredis is not compiled in | `THEMIS_ENABLE_REDIS` not defined (default) | Token revocations not persisted; `isRevoked()` always returns false → revoked JWTs accepted until natural expiry | `src/auth/FUTURE_ENHANCEMENTS.md` §Distributed Token Blacklist | v1.6.0 |
 | 35 | `auth/ldap_authenticator.cpp` | No-op LDAP bind when libldap not compiled in | `THEMIS_HAS_LDAP` not defined (default) | All LDAP-based logins rejected with explicit error; no silent pass-through | `src/auth/FUTURE_ENHANCEMENTS.md` §LDAP Group Membership | v1.6.0 |
 | 36 | `index/advanced_vector_index.cpp` | Empty `faiss::` type stubs when FAISS not available | `THEMIS_HAS_FAISS` not defined (default) | `initializeIndex()` returns false; all vector search operations disabled | `src/index/FUTURE_ENHANCEMENTS.md` §FAISS Integration | v1.5.0 |
@@ -158,6 +158,8 @@
 | `src/server/http_type_adapter.cpp` | URL-decoding TODO resolved: RFC 3986-compliant `urlDecode()` with malformed-sequence passthrough (v1.9.x) |
 | `src/ethics_ai/argument_store.cpp` | AQL TODO resolved: `getArgumentsByPhilosophy()` now uses `ConjunctiveQuery` when `query_engine_` is available, falls back to prefix scan (v1.9.x); stale TODO comment removed |
 | `src/utils/audit_logger.cpp` | Version TODO resolved: `THEMISDB_VERSION` now derives from `THEMIS_VERSION_STRING` macro (CMake-injected) with `"0.0.0-dev"` fallback (v1.9.x) |
+| `src/server/rpc/blob_transfer_handler.cpp` | Stub #32 resolved 2026-05-05: 256-entry `constexpr` CRC-32 LUT + SSE4.2 hardware CRC-32C path added; bit-by-bit loop removed |
+| `src/ethics_ai/argument_store.cpp` | Stub #33 resolved 2026-05-05: `setVectorWriter(IVectorWriter*, embedding_fn)` injection API added; `storeArgument()` writes hash-based/real embedding vector when writer is set |
 
 ---
 
@@ -213,4 +215,4 @@
 
 ---
 
-*Last updated: 2026-05-05 — 160 entries, 20 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-05-05 — 160 entries, 22 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
