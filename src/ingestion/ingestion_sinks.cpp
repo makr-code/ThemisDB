@@ -336,5 +336,67 @@ std::size_t DocumentStoreSinkAdapter::documentCount() const {
     return count_;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// InMemoryTensorCoreSink
+// ─────────────────────────────────────────────────────────────────────────────
+
+std::string InMemoryTensorCoreSink::makeKey(const std::string& tenant_id,
+                                             const std::string& chunk_id) {
+    return tenant_id + ":" + chunk_id;
+}
+
+Result<void> InMemoryTensorCoreSink::write(const TensorCoreRecord& record,
+                                            const std::string&      tenant_id) {
+    // Validate tenant_id: non-empty and no path-separator characters.
+    if (tenant_id.empty()) {
+        return ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
+                       "InMemoryTensorCoreSink::write: tenant_id is empty");
+    }
+    if (tenant_id.find('/') != std::string::npos ||
+        tenant_id.find('\0') != std::string::npos) {
+        return ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
+                       "InMemoryTensorCoreSink::write: tenant_id contains "
+                       "illegal characters ('/' or '\\0')");
+    }
+    if (record.chunk_id.empty()) {
+        return ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
+                       "InMemoryTensorCoreSink::write: chunk_id is empty");
+    }
+    if (record.serialized_train.empty()) {
+        return ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
+                       "InMemoryTensorCoreSink::write: serialized_train is empty");
+    }
+
+    std::lock_guard<std::mutex> lk(mtx_);
+    records_[makeKey(tenant_id, record.chunk_id)] = record;
+    ++write_count_;
+    return {};
+}
+
+std::size_t InMemoryTensorCoreSink::writeCount() const {
+    std::lock_guard<std::mutex> lk(mtx_);
+    return write_count_;
+}
+
+const std::unordered_map<std::string, TensorCoreRecord>&
+InMemoryTensorCoreSink::records() const {
+    std::lock_guard<std::mutex> lk(mtx_);
+    return records_;
+}
+
+const TensorCoreRecord* InMemoryTensorCoreSink::find(
+    const std::string& tenant_id, const std::string& chunk_id) const
+{
+    std::lock_guard<std::mutex> lk(mtx_);
+    auto it = records_.find(makeKey(tenant_id, chunk_id));
+    return (it == records_.end()) ? nullptr : &it->second;
+}
+
+void InMemoryTensorCoreSink::clear() {
+    std::lock_guard<std::mutex> lk(mtx_);
+    records_.clear();
+    write_count_ = 0;
+}
+
 } // namespace ingestion
 } // namespace themis

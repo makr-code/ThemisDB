@@ -332,45 +332,59 @@ The following IEEE-formatted references support the research basis for features 
 
 ---
 
-## TensorIngestionBridge — Phase 10: Storage Sink Integration (Target: Q4 2026)
+## TensorIngestionBridge — Phase 10: Storage Sink Integration (Status: Completed ✅ — 2026-05-05)
 
-**Status:** Phase 9 (`builtin.chunk_tt_decompose` + `TensorIngestionBridge`) complete.
-TT-cores are produced in `ExtractionContext::tensor_cores` but not yet persisted.
+**Phase 9 + Phase 10 are now complete.** The full TT-core ingestion pipeline is wired:
+```
+chunk_embed → chunk_tt_decompose → tensor_core_sink
+```
+
+**Delivered (Phase 10):**
+- `ITensorCoreSink` + `InMemoryTensorCoreSink` → `include/ingestion/ingestion_sinks.h` + `src/ingestion/ingestion_sinks.cpp`
+- `TensorCoreStorageSink` → `include/tensor/tensor_core_sink.h` + `src/tensor/tensor_core_sink.cpp`
+  - Key schema: `__ttcore__:<tenant_id>:<source_file_id>:<chunk_id>`
+  - Upsert semantics; fail-closed validation; atomic write counter
+  - Defaults to `InMemoryTensorBackend` (STUB_INVENTORY #160 — RocksDB Q4 2026)
+- `builtin.tensor_core_sink` step → `src/ingestion/steps/tensor_core_sink_step.cpp`
+- `createTensorCoreSinkStep()` factory → `include/ingestion/builtin_step_factories.h`
+- Tests TCS-01..TCS-20 → `tests/test_tensor_core_sink.cpp`
+
+**Open items (Phase 11, Q4 2026):**
+- Replace `InMemoryTensorBackend` with `RocksDBTensorBackend` (STUB #160)
+- WriteBatch atomicity: either all cores for one `ExtractionContext` or none
+- Wire bootstrap in server `main.cpp`
+- Gaussian random projection for κ-pilot (STUB #159)
+- LAPACK SVD (STUB #157)
 
 ### Scope
-- Add a `TensorCoreSinkAdapter` (analogous to `VectorSinkAdapter`) that iterates
-  `ctx.tensor_cores` and writes each `TensorCoreRecord::serialized_train` to
-  `TensorNetworkStorageEngine` under key schema
-  `__ttcore__:<tenant>:<file_id>:<chunk_id>:G<k>:<version>`.
-- Register the sink in `builtin.base_entity_assembler` or as a dedicated
-  `builtin.tensor_core_sink` step (config: `target_collection`, `tenant_id`).
-- Wire the sink in server bootstrap alongside existing `VectorSinkAdapter`.
+- ~~Add a `TensorCoreSinkAdapter` (analogous to `VectorSinkAdapter`) that iterates~~
+  ~~`ctx.tensor_cores` and writes each `TensorCoreRecord::serialized_train` to~~
+  ~~`TensorNetworkStorageEngine` under key schema~~
+  ~~`__ttcore__:<tenant>:<file_id>:<chunk_id>:G<k>:<version>`.~~
+  **Done** — `TensorCoreStorageSink` uses `ITensorStorageBackend` directly with the
+  `__ttcore__` key prefix (separate from `TensorNetworkStorageEngine`'s `__ttn__` space).
 
 ### Design Constraints
 - Must not import `tensor/` or `storage/` headers from `ingestion/`; use the
-  existing `ITensorCoreSink` interface pattern.
-- Sink must be transactional: either all cores for one `ExtractionContext` are
-  written or none (WriteBatch).
-- Re-ingestion of the same `file_id` must update (not duplicate) existing cores.
-  Use `file_id:chunk_id` as the upsert key.
+  existing `ITensorCoreSink` interface pattern. ✅ Implemented.
+- Re-ingestion of the same `file_id` must update (not duplicate) existing cores. ✅ Upsert.
+- Sink must be transactional (WriteBatch). 🔲 Phase 11 — requires `RocksDBTensorBackend`.
 
 ### Required Interfaces
-- `ITensorCoreSink::write(const TensorCoreRecord&)` → `Result<void>`
-- `TensorCoreRocksDBSink : ITensorCoreSink` in `tensor/` module
-- `ExtractionContext::tensor_cores` (already added — Phase 9)
+- `ITensorCoreSink::write(const TensorCoreRecord&, const std::string& tenant_id)` → `Result<void>` ✅
+- `TensorCoreStorageSink : ITensorCoreSink` in `tensor/` module ✅
+- `ExtractionContext::tensor_cores` (already added — Phase 9) ✅
 
 ### Implementation Notes
 - Pilot `shouldDecompose()` uses stride sub-sampling (STUB_INVENTORY #159);
-  replace with Gaussian random projection for dim > 1024 before Phase 10 ships.
-- `simpleSVD()` limitation (STUB_INVENTORY #157) must be resolved (LAPACK)
-  before Phase 10 cores are used for production similarity search.
+  replace with Gaussian random projection for dim > 1024 (Q4 2026).
+- `simpleSVD()` limitation (STUB_INVENTORY #157) must be resolved (LAPACK Q3 2026)
+  before cores are used for production similarity search.
 
 ### Test Strategy
-- Unit test: `TensorCoreRocksDBSink` writes one record → key appears in test DB.
-- Integration test: full pipeline (PDF → chunk_embed → chunk_tt_decompose → tensor_core_sink)
-  produces at least one RocksDB entry per chunk.
-- Round-trip test: serialize → deserialize → `TTTrain::reconstruct()` → compare with original
-  embedding (error ≤ 2 × ε).
+- Unit test: `TensorCoreStorageSink` writes one record → key appears in backend. ✅ TCS-11
+- Round-trip test: serialize → deserialize → `TTTrain::reconstruct()` → compare. 🔲 Phase 11
+- Integration test: full pipeline with RocksDB backend. 🔲 Phase 11
 
 ### Performance Targets
 - Write throughput: ≥ 500 TT-cores/s on a single node (768-d embedding, ε=0.01)
@@ -379,5 +393,6 @@ TT-cores are produced in `ExtractionContext::tensor_cores` but not yet persisted
 
 ### Security / Reliability
 - `tenant_id` must be validated (non-empty, no path-separator characters) before
-  constructing the RocksDB key to prevent key injection.
-- WriteBatch commit must be atomic; partial writes must be rolled back.
+  constructing the storage key to prevent key injection. ✅ Validated in both
+  `InMemoryTensorCoreSink::write()` and `TensorCoreStorageSink::write()`.
+- WriteBatch commit must be atomic; partial writes must be rolled back. 🔲 Phase 11.

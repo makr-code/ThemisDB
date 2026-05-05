@@ -297,9 +297,50 @@ auto step = ingestion::builtin::createChunkTtDecomposeStep(bridge);
 ```
 
 **Known limitations (Phase 9 scope):**
-- TT-cores are produced but not yet written to `TensorNetworkStorageEngine` — downstream sinks must consume `ctx.tensor_cores` explicitly (Phase 10 target).
 - Pilot sub-sampling uses stride, not Gaussian projection (STUB_INVENTORY #159 — Q4 2026).
 - `simpleSVD()` in `TensorTrainDecomposer` uses identity U/Vt without LAPACK (STUB_INVENTORY #157 — Q3 2026); κ estimates are valid but core quality degrades for non-constant matrices.
+
+---
+
+### Phase 10: TensorCoreSink — TT-Core Persistence (Status: Completed ✅ — 2026-05-05)
+
+**Scope:** Persist `TensorCoreRecord`s produced by Phase 9 (`builtin.chunk_tt_decompose`)
+into a storage backend.
+
+**Delivered components:**
+
+| Component | File | Note |
+|---|---|---|
+| `ITensorCoreSink` | `include/ingestion/ingestion_sinks.h` | Abstract sink interface (ingestion SoC boundary) |
+| `InMemoryTensorCoreSink` | `include/ingestion/ingestion_sinks.h` + `src/ingestion/ingestion_sinks.cpp` | Thread-safe in-memory sink for tests |
+| `TensorCoreStorageSink` | `include/tensor/tensor_core_sink.h` + `src/tensor/tensor_core_sink.cpp` | Production sink; backed by `ITensorStorageBackend` |
+| `builtin.tensor_core_sink` | `src/ingestion/steps/tensor_core_sink_step.cpp` | Ingestion step iterating `ctx.tensor_cores` |
+| `createTensorCoreSinkStep()` | `include/ingestion/builtin_step_factories.h` | Factory function |
+| Tests TCS-01..TCS-20 | `tests/test_tensor_core_sink.cpp` | 20 unit tests |
+| STUB_INVENTORY #160 | `src/STUB_INVENTORY.md` | RocksDB backend not yet wired |
+
+**Key schema for `TensorCoreStorageSink`:**
+```
+__ttcore__:<tenant_id>:<source_file_id>:<chunk_id>  → serialized_train bytes
+```
+Separated from `TensorNetworkStorageEngine`'s `__ttn__:` prefix.
+
+**Bootstrap wiring (server startup):**
+```cpp
+auto backend = std::make_shared<storage::InMemoryTensorBackend>(); // swap for RocksDB
+auto sink    = std::make_shared<tensor::TensorCoreStorageSink>(backend);
+auto step    = ingestion::builtin::createTensorCoreSinkStep(sink);
+// Register after builtin.chunk_tt_decompose in WorkflowEngine YAML profile
+```
+
+**Tenant resolution order in `tensor_core_sink` step:**
+1. Config key `tenant_id` (explicit override)
+2. `TensorCoreRecord::metadata["tenant_id"]` (set by `TensorIngestionBridge`)
+3. Literal `"default"`
+
+**Known limitations (Phase 10 scope):**
+- `TensorCoreStorageSink` defaults to `InMemoryTensorBackend`; RocksDB wiring is Phase 11 (Q4 2026) — STUB_INVENTORY #160.
+- No compaction, versioning, or WAL guarantees until RocksDB backend is wired.
 
 
 
