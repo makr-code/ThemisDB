@@ -202,7 +202,7 @@ std::shared_ptr<IIngestionStep> createChunkTtDecomposeStep(
     std::shared_ptr<ITensorDecompositionBackend> backend = nullptr);
 
 /**
- * @brief Create a `builtin.tensor_core_sink` step.
+ * @brief Create a `builtin.tensor_core_bridge` step.
  *
  * For every `TensorCoreRecord` in `ctx.tensor_cores`, calls
  * `sink->write(record, tenant_id)` to persist the pre-computed TT-cores.
@@ -210,7 +210,7 @@ std::shared_ptr<IIngestionStep> createChunkTtDecomposeStep(
  * Ordering constraint: this step MUST run **after** `builtin.chunk_tt_decompose`
  * so that `ctx.tensor_cores` is already populated.
  *
- * If @p sink is `nullptr`, an `InMemoryTensorCoreSink` is used; records are
+ * If @p sink is `nullptr`, an `InMemoryTensorCoreBridge` is used; records are
  * never persisted across restarts (suitable only for tests).
  *
  * Config keys (all optional):
@@ -222,10 +222,10 @@ std::shared_ptr<IIngestionStep> createChunkTtDecomposeStep(
  *  - `fail_on_write_error`    bool    Propagate write errors as step failures
  *                                     (default false — records warned but skipped).
  *
- * @param sink  Injectable ITensorCoreSink; nullptr → InMemoryTensorCoreSink.
+ * @param sink  Injectable ITensorCoreBridge; nullptr → InMemoryTensorCoreBridge.
  */
-std::shared_ptr<IIngestionStep> createTensorCoreSinkStep(
-    std::shared_ptr<ITensorCoreSink> sink = nullptr);
+std::shared_ptr<IIngestionStep> createTensorCoreBridgeStep(
+    std::shared_ptr<ITensorCoreBridge> sink = nullptr);
 
 } // namespace builtin
 } // namespace ingestion

@@ -2,7 +2,7 @@
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor_core_sink_step.cpp                          ║
+  File:            tensor_core_bridge_step.cpp                          ║
   Version:         1.0.0                                              ║
   Last Modified:   2026-05-05                                         ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -11,8 +11,8 @@
  */
 
 /**
- * @file tensor_core_sink_step.cpp
- * @brief `builtin.tensor_core_sink` — persist TT-cores produced by
+ * @file tensor_core_bridge_step.cpp
+ * @brief `builtin.tensor_core_bridge` — persist TT-cores produced by
  *        `builtin.chunk_tt_decompose`.
  *
  * For each `TensorCoreRecord` in `ctx.tensor_cores`, calls
@@ -51,15 +51,15 @@ namespace builtin {
 namespace {
 
 // ─────────────────────────────────────────────────────────────────────────────
-// TensorCoreSinkStep
+// TensorCoreBridgeStep
 // ─────────────────────────────────────────────────────────────────────────────
 
-class TensorCoreSinkStep : public IIngestionStep {
+class TensorCoreBridgeStep : public IIngestionStep {
 public:
-    explicit TensorCoreSinkStep(std::shared_ptr<ITensorCoreSink> sink)
+    explicit TensorCoreBridgeStep(std::shared_ptr<ITensorCoreBridge> sink)
         : sink_(std::move(sink)) {}
 
-    std::string name() const override { return "builtin.tensor_core_sink"; }
+    std::string name() const override { return "builtin.tensor_core_bridge"; }
 
     void configure(const nlohmann::json& cfg) override {
         if (cfg.contains("tenant_id") && cfg["tenant_id"].is_string())
@@ -104,7 +104,7 @@ public:
                 if (fail_on_write_error_) {
                     return ErrVoid(
                         errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
-                        "tensor_core_sink: write failed for chunk_id='" +
+                        "tensor_core_bridge: write failed for chunk_id='" +
                             record.chunk_id + "': " + res.error().message());
                 }
                 // Non-fatal: log via THEMIS_WARN (no-op if not configured)
@@ -116,7 +116,7 @@ public:
     }
 
 private:
-    std::shared_ptr<ITensorCoreSink> sink_;
+    std::shared_ptr<ITensorCoreBridge> sink_;
     std::string                      tenant_id_override_;
     bool                             skip_empty_           = true;
     bool                             fail_on_write_error_  = false;
@@ -128,13 +128,13 @@ private:
 // Factory
 // ─────────────────────────────────────────────────────────────────────────────
 
-std::shared_ptr<IIngestionStep> createTensorCoreSinkStep(
-    std::shared_ptr<ITensorCoreSink> sink)
+std::shared_ptr<IIngestionStep> createTensorCoreBridgeStep(
+    std::shared_ptr<ITensorCoreBridge> sink)
 {
     if (!sink) {
-        sink = std::make_shared<InMemoryTensorCoreSink>();
+        sink = std::make_shared<InMemoryTensorCoreBridge>();
     }
-    return std::make_shared<TensorCoreSinkStep>(std::move(sink));
+    return std::make_shared<TensorCoreBridgeStep>(std::move(sink));
 }
 
 } // namespace builtin

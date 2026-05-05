@@ -48,18 +48,18 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 - [x] `createChunkTtDecomposeStep()` factory in `include/ingestion/builtin_step_factories.h`
 - [x] Tests `tests/test_tensor_ingestion_bridge.cpp` (TIB-01..TIB-20)
 - [x] STUB_INVENTORY #158–#159 registered
-- [x] **`TensorCoreStorageSink`** — production `ITensorCoreSink` backed by `ITensorStorageBackend`:
-  - `include/tensor/tensor_core_sink.h` + `src/tensor/tensor_core_sink.cpp`
+- [x] **`TensorCoreStorageBridge`** — production `ITensorCoreBridge` backed by `ITensorStorageBackend`:
+  - `include/tensor/tensor_core_bridge.h` + `src/tensor/tensor_core_bridge.cpp`
   - Key schema: `__ttcore__:<tenant>:<source_file_id>:<chunk_id>`
   - Upsert semantics; atomic write counter; fail-closed validation
   - Defaults to `InMemoryTensorBackend` until RocksDB backend wired (STUB #160)
-- [x] **`builtin.tensor_core_sink`** ingestion step — runs after `chunk_tt_decompose`
-  - `src/ingestion/steps/tensor_core_sink_step.cpp`
+- [x] **`builtin.tensor_core_bridge`** ingestion step — runs after `chunk_tt_decompose`
+  - `src/ingestion/steps/tensor_core_bridge_step.cpp`
   - Tenant resolution: config key → record metadata → `"default"`
   - `skip_empty` + `fail_on_write_error` config knobs
-- [x] `ITensorCoreSink` + `InMemoryTensorCoreSink` in `include/ingestion/ingestion_sinks.h`
-- [x] `createTensorCoreSinkStep()` factory in `include/ingestion/builtin_step_factories.h`
-- [x] Tests `tests/test_tensor_core_sink.cpp` (TCS-01..TCS-20)
+- [x] `ITensorCoreBridge` + `InMemoryTensorCoreBridge` in `include/ingestion/ingestion_sinks.h`
+- [x] `createTensorCoreBridgeStep()` factory in `include/ingestion/builtin_step_factories.h`
+- [x] Tests `tests/test_tensor_core_bridge.cpp` (TCS-01..TCS-20)
 - [x] STUB_INVENTORY #160 registered
 
 ## In Progress 🚧

@@ -2,7 +2,7 @@
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor_core_sink.cpp                               ║
+  File:            tensor_core_bridge.cpp                               ║
   Version:         1.0.0                                              ║
   Last Modified:   2026-05-05                                         ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -11,15 +11,15 @@
  */
 
 // STUB/SIMULATION NOTE:
-// Purpose: TensorCoreStorageSink defaults to InMemoryTensorBackend when no
+// Purpose: TensorCoreStorageBridge defaults to InMemoryTensorBackend when no
 //   RocksDB-backed backend is injected.  Data is not persisted across restarts.
-// Activation: Any call site that constructs TensorCoreStorageSink without a
+// Activation: Any call site that constructs TensorCoreStorageBridge without a
 //   backend argument or with an InMemoryTensorBackend instance.
 // Production Delta: Data loss on process restart; no compaction or versioning.
 // Removal Plan: When RocksDBTensorBackend is implemented (Q4 2026), the
 //   production bootstrap should inject it; InMemoryTensorBackend remains for tests.
 
-#include "tensor/tensor_core_sink.h"
+#include "tensor/tensor_core_bridge.h"
 #include "storage/tensor_network_storage_engine.h"
 #include "utils/error_registry.h"
 #include "utils/expected.h"
@@ -34,7 +34,7 @@ namespace tensor {
 // Construction
 // ─────────────────────────────────────────────────────────────────────────────
 
-TensorCoreStorageSink::TensorCoreStorageSink(
+TensorCoreStorageBridge::TensorCoreStorageBridge(
     std::shared_ptr<storage::ITensorStorageBackend> backend)
     : backend_(std::move(backend))
 {
@@ -48,31 +48,31 @@ TensorCoreStorageSink::TensorCoreStorageSink(
 // Static helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
-void TensorCoreStorageSink::validateTenantId(const std::string& tenant_id) {
+void TensorCoreStorageBridge::validateTenantId(const std::string& tenant_id) {
     if (tenant_id.empty()) {
         throw std::invalid_argument(
-            "TensorCoreStorageSink: tenant_id is empty");
+            "TensorCoreStorageBridge: tenant_id is empty");
     }
     if (tenant_id.find('/') != std::string::npos) {
         throw std::invalid_argument(
-            "TensorCoreStorageSink: tenant_id contains '/' — not allowed");
+            "TensorCoreStorageBridge: tenant_id contains '/' — not allowed");
     }
     // Use std::any_of to scan all bytes including embedded nulls, avoiding any
     // ambiguity with C-string null-terminator semantics.
     if (std::any_of(tenant_id.begin(), tenant_id.end(),
                     [](unsigned char c) { return c == '\0'; })) {
         throw std::invalid_argument(
-            "TensorCoreStorageSink: tenant_id contains '\\0' — not allowed");
+            "TensorCoreStorageBridge: tenant_id contains '\\0' — not allowed");
     }
 }
 
-std::string TensorCoreStorageSink::makeKey(const std::string& tenant_id,
+std::string TensorCoreStorageBridge::makeKey(const std::string& tenant_id,
                                             const std::string& source_file_id,
                                             const std::string& chunk_id) {
     validateTenantId(tenant_id);
     if (chunk_id.empty()) {
         throw std::invalid_argument(
-            "TensorCoreStorageSink: chunk_id is empty");
+            "TensorCoreStorageBridge: chunk_id is empty");
     }
     // Build: __ttcore__:<tenant>:<file_id>:<chunk_id>
     // source_file_id may be empty (e.g. in-memory documents).
@@ -80,32 +80,32 @@ std::string TensorCoreStorageSink::makeKey(const std::string& tenant_id,
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// ITensorCoreSink::write
+// ITensorCoreBridge::write
 // ─────────────────────────────────────────────────────────────────────────────
 
-ingestion::Result<void> TensorCoreStorageSink::write(
+ingestion::Result<void> TensorCoreStorageBridge::write(
     const ingestion::TensorCoreRecord& record,
     const std::string&                 tenant_id)
 {
     // --- Input validation ---------------------------------------------------
     if (tenant_id.empty()) {
         return ingestion::ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
-                       "TensorCoreStorageSink::write: tenant_id is empty");
+                       "TensorCoreStorageBridge::write: tenant_id is empty");
     }
     if (tenant_id.find('/') != std::string::npos ||
         std::any_of(tenant_id.begin(), tenant_id.end(),
                     [](unsigned char c) { return c == '\0'; })) {
         return ingestion::ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
-                       "TensorCoreStorageSink::write: tenant_id contains "
+                       "TensorCoreStorageBridge::write: tenant_id contains "
                        "illegal characters");
     }
     if (record.chunk_id.empty()) {
         return ingestion::ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
-                       "TensorCoreStorageSink::write: chunk_id is empty");
+                       "TensorCoreStorageBridge::write: chunk_id is empty");
     }
     if (record.serialized_train.empty()) {
         return ingestion::ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
-                       "TensorCoreStorageSink::write: serialized_train is empty");
+                       "TensorCoreStorageBridge::write: serialized_train is empty");
     }
 
     // --- Build key and persist ----------------------------------------------
@@ -114,14 +114,14 @@ ingestion::Result<void> TensorCoreStorageSink::write(
         key = makeKey(tenant_id, record.source_file_id, record.chunk_id);
     } catch (const std::invalid_argument& e) {
         return ingestion::ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
-                       std::string("TensorCoreStorageSink::write: ") + e.what());
+                       std::string("TensorCoreStorageBridge::write: ") + e.what());
     }
 
     const bool ok = backend_->put(key, record.serialized_train);
     if (!ok) {
         return ingestion::ErrVoid(
             errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
-            "TensorCoreStorageSink::write: backend put() failed for key=" + key);
+            "TensorCoreStorageBridge::write: backend put() failed for key=" + key);
     }
 
     write_count_.fetch_add(1, std::memory_order_relaxed);
@@ -132,12 +132,12 @@ ingestion::Result<void> TensorCoreStorageSink::write(
 // Diagnostics
 // ─────────────────────────────────────────────────────────────────────────────
 
-std::size_t TensorCoreStorageSink::writeCount() const {
+std::size_t TensorCoreStorageBridge::writeCount() const {
     return write_count_.load(std::memory_order_relaxed);
 }
 
 std::optional<std::vector<uint8_t>>
-TensorCoreStorageSink::getRaw(const std::string& tenant_id,
+TensorCoreStorageBridge::getRaw(const std::string& tenant_id,
                                const std::string& source_file_id,
                                const std::string& chunk_id) const {
     std::string key;

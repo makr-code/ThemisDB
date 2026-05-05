@@ -2,7 +2,7 @@
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor_core_sink.h                                 ║
+  File:            tensor_core_bridge.h                                 ║
   Version:         1.0.0                                              ║
   Last Modified:   2026-05-05                                         ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -11,11 +11,11 @@
  */
 
 /**
- * @file tensor_core_sink.h
- * @brief Concrete `ITensorCoreSink` backed by `ITensorStorageBackend`.
+ * @file tensor_core_bridge.h
+ * @brief Concrete `ITensorCoreBridge` backed by `ITensorStorageBackend`.
  *
- * `TensorCoreStorageSink` is the production counterpart of
- * `InMemoryTensorCoreSink`.  It persists each `TensorCoreRecord` as raw bytes
+ * `TensorCoreStorageBridge` is the production counterpart of
+ * `InMemoryTensorCoreBridge`.  It persists each `TensorCoreRecord` as raw bytes
  * in a `ITensorStorageBackend` (either `InMemoryTensorBackend` for tests or a
  * RocksDB-backed backend for production).
  *
@@ -32,7 +32,7 @@
  *
  * ### Dependency rule
  * This header lives in `tensor/` and imports:
- *  - `ingestion/ingestion_sinks.h` → `ITensorCoreSink` (abstract interface)
+ *  - `ingestion/ingestion_sinks.h` → `ITensorCoreBridge` (abstract interface)
  *  - `storage/tensor_network_storage_engine.h` → `ITensorStorageBackend`
  *
  * `ingestion/` headers MUST NOT import this header (SoC boundary).  Wiring
@@ -51,7 +51,7 @@ namespace themis {
 namespace tensor {
 
 /**
- * @brief Production `ITensorCoreSink` backed by `ITensorStorageBackend`.
+ * @brief Production `ITensorCoreBridge` backed by `ITensorStorageBackend`.
  *
  * Stores each `TensorCoreRecord::serialized_train` byte-vector under the key:
  * `__ttcore__:<tenant>:<source_file_id>:<chunk_id>`
@@ -65,9 +65,9 @@ namespace tensor {
  * Q4 2026 (see `FUTURE_ENHANCEMENTS.md` Phase 10).
  *
  * @see `include/storage/tensor_network_storage_engine.h` for `ITensorStorageBackend`
- * @see `include/ingestion/ingestion_sinks.h` for `ITensorCoreSink`
+ * @see `include/ingestion/ingestion_sinks.h` for `ITensorCoreBridge`
  */
-class TensorCoreStorageSink : public ingestion::ITensorCoreSink {
+class TensorCoreStorageBridge : public ingestion::ITensorCoreBridge {
 public:
     // ─── Construction ─────────────────────────────────────────────────────────
 
@@ -77,10 +77,10 @@ public:
      * @param backend  KV-store backend.  Uses `InMemoryTensorBackend` when nullptr.
      * @throws std::invalid_argument if backend is explicitly constructed but null.
      */
-    explicit TensorCoreStorageSink(
+    explicit TensorCoreStorageBridge(
         std::shared_ptr<storage::ITensorStorageBackend> backend = nullptr);
 
-    // ─── ITensorCoreSink ──────────────────────────────────────────────────────
+    // ─── ITensorCoreBridge ──────────────────────────────────────────────────────
 
     /**
      * @brief Persist one `TensorCoreRecord`.

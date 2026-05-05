@@ -346,29 +346,29 @@ private:
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// ITensorCoreSink — sink for TT-core records produced by chunk_tt_decompose
+// ITensorCoreBridge — bridge for TT-core records produced by chunk_tt_decompose
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
  * @brief Abstract interface for persisting `TensorCoreRecord`s.
  *
- * The `builtin.tensor_core_sink` ingestion step calls this interface for every
+ * The `builtin.tensor_core_bridge` ingestion step calls this interface for every
  * `TensorCoreRecord` in `ExtractionContext::tensor_cores`.
  *
  * Implementations:
- *  - `InMemoryTensorCoreSink`   — in-memory map, for unit tests
- *  - `TensorCoreStorageSink`    — writes to `ITensorStorageBackend` (in `tensor/`)
+ *  - `InMemoryTensorCoreBridge`   — in-memory map, for unit tests
+ *  - `TensorCoreStorageBridge`    — writes to `ITensorStorageBackend` (in `tensor/`)
  *
- * Key contract (implemented by all concrete sinks):
+ * Key contract (implemented by all concrete bridges):
  *  - Upsert semantics: re-ingesting the same `chunk_id` under the same `tenant_id`
  *    replaces the existing record rather than creating a duplicate.
  *  - `write()` MUST be thread-safe.
  *  - A non-empty `TensorCoreRecord::serialized_train` is required;
  *    records with empty train bytes are rejected with ERR_DOC_INVALID_ARGUMENT.
  */
-class ITensorCoreSink {
+class ITensorCoreBridge {
 public:
-    virtual ~ITensorCoreSink() = default;
+    virtual ~ITensorCoreBridge() = default;
 
     /**
      * @brief Persist one Tensor-Train core record.
@@ -387,24 +387,24 @@ public:
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// InMemoryTensorCoreSink — thread-safe in-memory sink for unit tests
+// InMemoryTensorCoreBridge — thread-safe in-memory sink for unit tests
 // ─────────────────────────────────────────────────────────────────────────────
 
 // STUB/SIMULATION NOTE:
-// Purpose: Provide a fully functional but non-persistent ITensorCoreSink for
+// Purpose: Provide a fully functional but non-persistent ITensorCoreBridge for
 //   unit tests and development environments where no storage backend is available.
-// Activation: Any consumer that injects InMemoryTensorCoreSink instead of
-//   TensorCoreStorageSink (the production RocksDB-backed impl).
+// Activation: Any consumer that injects InMemoryTensorCoreBridge instead of
+//   TensorCoreStorageBridge (the production RocksDB-backed impl).
 // Production Delta: Data is NOT persisted; all records are lost on process exit.
 // Removal Plan: Not removed — remains the no-persistence default for tests.
 
 /**
- * @brief Thread-safe in-memory implementation of `ITensorCoreSink`.
+ * @brief Thread-safe in-memory implementation of `ITensorCoreBridge`.
  *
  * Records are stored in `std::unordered_map<tenant_id+":"+chunk_id, TensorCoreRecord>`.
  * Suitable for unit tests and in-process integration tests.
  */
-class InMemoryTensorCoreSink : public ITensorCoreSink {
+class InMemoryTensorCoreBridge : public ITensorCoreBridge {
 public:
     Result<void> write(const TensorCoreRecord& record,
                        const std::string& tenant_id) override;

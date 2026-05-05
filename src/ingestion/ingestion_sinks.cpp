@@ -338,35 +338,35 @@ std::size_t DocumentStoreSinkAdapter::documentCount() const {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// InMemoryTensorCoreSink
+// InMemoryTensorCoreBridge
 // ─────────────────────────────────────────────────────────────────────────────
 
-std::string InMemoryTensorCoreSink::makeKey(const std::string& tenant_id,
+std::string InMemoryTensorCoreBridge::makeKey(const std::string& tenant_id,
                                              const std::string& chunk_id) {
     return tenant_id + ":" + chunk_id;
 }
 
-Result<void> InMemoryTensorCoreSink::write(const TensorCoreRecord& record,
+Result<void> InMemoryTensorCoreBridge::write(const TensorCoreRecord& record,
                                             const std::string&      tenant_id) {
     // Validate tenant_id: non-empty and no path-separator characters.
     if (tenant_id.empty()) {
         return ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
-                       "InMemoryTensorCoreSink::write: tenant_id is empty");
+                       "InMemoryTensorCoreBridge::write: tenant_id is empty");
     }
     if (tenant_id.find('/') != std::string::npos ||
         std::any_of(tenant_id.begin(), tenant_id.end(),
                     [](unsigned char c) { return c == '\0'; })) {
         return ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
-                       "InMemoryTensorCoreSink::write: tenant_id contains "
+                       "InMemoryTensorCoreBridge::write: tenant_id contains "
                        "illegal characters ('/' or '\\0')");
     }
     if (record.chunk_id.empty()) {
         return ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
-                       "InMemoryTensorCoreSink::write: chunk_id is empty");
+                       "InMemoryTensorCoreBridge::write: chunk_id is empty");
     }
     if (record.serialized_train.empty()) {
         return ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
-                       "InMemoryTensorCoreSink::write: serialized_train is empty");
+                       "InMemoryTensorCoreBridge::write: serialized_train is empty");
     }
 
     std::lock_guard<std::mutex> lk(mtx_);
@@ -375,18 +375,18 @@ Result<void> InMemoryTensorCoreSink::write(const TensorCoreRecord& record,
     return {};
 }
 
-std::size_t InMemoryTensorCoreSink::writeCount() const {
+std::size_t InMemoryTensorCoreBridge::writeCount() const {
     std::lock_guard<std::mutex> lk(mtx_);
     return write_count_;
 }
 
 const std::unordered_map<std::string, TensorCoreRecord>&
-InMemoryTensorCoreSink::records() const {
+InMemoryTensorCoreBridge::records() const {
     std::lock_guard<std::mutex> lk(mtx_);
     return records_;
 }
 
-const TensorCoreRecord* InMemoryTensorCoreSink::find(
+const TensorCoreRecord* InMemoryTensorCoreBridge::find(
     const std::string& tenant_id, const std::string& chunk_id) const
 {
     std::lock_guard<std::mutex> lk(mtx_);
@@ -394,7 +394,7 @@ const TensorCoreRecord* InMemoryTensorCoreSink::find(
     return (it == records_.end()) ? nullptr : &it->second;
 }
 
-void InMemoryTensorCoreSink::clear() {
+void InMemoryTensorCoreBridge::clear() {
     std::lock_guard<std::mutex> lk(mtx_);
     records_.clear();
     write_count_ = 0;
