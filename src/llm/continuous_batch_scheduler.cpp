@@ -588,31 +588,25 @@ void ContinuousBatchScheduler::allocateKVCacheBlocks(ScheduledRequest* request) 
     size_t tokens = request->total_prompt_tokens + request->inference_request.max_tokens;
     size_t blocks_needed = (tokens + config_.block_size_tokens - 1) / config_.block_size_tokens;
     
-    // Get block table for this sequence
+    // Get block table for this sequence; initialize it if this is the first
+    // request for the sequence ID (no prior KV-cache state).
     auto block_table = kv_cache_->getBlockTable(request->sequence_id);
     if (!block_table) {
-        // STUB/SIMULATION NOTE:
-        // Purpose: Allow KV-cache block reservation to proceed when no block table
-        //          exists yet for the sequence (first request for a new sequence ID).
-        //          Sentinel value -1 is used as a deferred-allocation token.
-        // Activation: Whenever kv_cache_->getBlockTable(sequence_id) returns nullptr
-        //             (no prior KV-cache state for this sequence).
-        // Production Delta: `allocated_blocks` contains -1 sentinel IDs instead of
-        //                   real block indices.  Any code that treats allocated_blocks
-        //                   as actual physical block addresses before the first
-        //                   KV-cache store will read invalid block indices.
-        //                   canAddToBatch() size accounting relies on these sentinels
-        //                   and may over-commit if the block table creation fails.
-        // Removal Plan: Pre-create the block table on sequence registration so that
-        //               getBlockTable() always returns a valid object.  See
-        //               src/llm/FUTURE_ENHANCEMENTS.md §ContinuousBatch BlockPrealloc.
-        request->allocated_blocks.reserve(blocks_needed);
-        for (size_t i = 0; i < blocks_needed; ++i) {
-            request->allocated_blocks.push_back(-1);  // deferred: real index assigned on first store
+        // Initialize the block table by storing an empty KV payload for layer 0.
+        // PagedKVCache::store() creates a BlockTable entry for the sequence when
+        // one does not exist, without allocating physical blocks (kv_data is empty).
+        // After this call getBlockTable() is guaranteed to return a valid pointer.
+        kv_cache_->store(request->sequence_id, 0, {});
+        block_table = kv_cache_->getBlockTable(request->sequence_id);
+        if (!block_table) {
+            // KV cache failed to create a block table (e.g., out of memory).
+            // Log and return without poisoning allocated_blocks with sentinels.
+            spdlog::warn("allocateKVCacheBlocks: failed to create block table for "
+                         "request {} (sequence {})", request->request_id, request->sequence_id);
+            return;
         }
-        spdlog::debug("Reserved {} blocks for request {} (sequence {}), will allocate on first store",
-                      blocks_needed, request->request_id, request->sequence_id);
-        return;
+        spdlog::debug("Created block table for request {} (sequence {})",
+                      request->request_id, request->sequence_id);
     }
     
     // Allocate blocks through the block table

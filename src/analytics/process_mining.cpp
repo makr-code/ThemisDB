@@ -1979,42 +1979,138 @@ std::vector<float> ProcessMining::embedActivities(const std::vector<std::string>
     return embedding;
 }
 
-// STUB/SIMULATION NOTE (clusterVariants and methods below):
-// Purpose: Provide compilable implementations of process-mining algorithms
-//          that have not yet received their full production implementations.
-//          clusterVariants uses a naive round-robin-by-variant-signature strategy
-//          instead of a proper K-means or hierarchical algorithm.
-// Activation: Always — no iterative centroid update is performed.
-// Production Delta: clusterVariants does not minimize intra-cluster distance;
-//                   cluster assignments are deterministic but not optimal.
-//                   For num_clusters < variant_count, traces are assigned
-//                   round-robin and cluster quality metrics (silhouette score,
-//                   within-cluster distance) will be arbitrary.
-// Removal Plan: Implement K-means with edit-distance between trace variant
-//               vectors, or integrate an external clustering library.  See
-//               src/analytics/FUTURE_ENHANCEMENTS.md §ProcessMining Clustering.
-std::pair<ProcessMining::Status, std::map<int, std::vector<int>>> 
+// RESOLUTION NOTE (clusterVariants — was: naive round-robin, see STUB_INVENTORY.md #212):
+// RESOLVED 2026-05-05: Replaced naive round-robin variant assignment with a
+// K-means algorithm over hash-based variant embeddings.  Each unique variant
+// signature is converted to a fixed-length embedding via embedActivities();
+// centroids are initialised from the first k distinct variants and refined
+// iteratively (up to 20 passes) until cluster assignments stabilise.
+// Remaining limitation: embedActivities() uses a hash projection rather than
+// a semantic model, so clusters reflect activity-name co-occurrence rather than
+// true process semantics.  See src/analytics/FUTURE_ENHANCEMENTS.md
+// §ProcessMining Clustering for the semantic-model upgrade path.
+std::pair<ProcessMining::Status, std::map<int, std::vector<int>>>
 ProcessMining::clusterVariants(const EventLog& log, int num_clusters) {
-    // Simple K-means style clustering based on variant signatures
-    std::map<std::string, std::vector<int>> variant_to_traces;
     std::map<int, std::vector<int>> result;
-    
-    // Group traces by variant
+
+    if (log.traces.empty() || num_clusters <= 0) {
+        return {Status::OK(), result};
+    }
+
+    // ── 1. Collect unique variants and representative trace activity lists ──
+    // variant_signature → { trace indices, first seen activity sequence }
+    struct VariantInfo {
+        std::vector<int> trace_indices;
+        std::vector<std::string> activities;
+    };
+    std::map<std::string, VariantInfo> variant_map;
     for (size_t i = 0; i < log.traces.size(); ++i) {
-        variant_to_traces[log.traces[i].variant_signature].push_back(static_cast<int>(i));
-    }
-    
-    // Assign variants to clusters
-    int cluster_id = 0;
-    for (auto& [variant, traces] : variant_to_traces) {
-        if (cluster_id >= num_clusters) cluster_id = 0;
-        for (int trace_id : traces) {
-            result[cluster_id].push_back(trace_id);
+        const auto& trace = log.traces[i];
+        auto& info = variant_map[trace.variant_signature];
+        info.trace_indices.push_back(static_cast<int>(i));
+        if (info.activities.empty()) {
+            for (const auto& ev : trace.events) {
+                info.activities.push_back(ev.activity);
+            }
         }
-        cluster_id++;
     }
-    
-    THEMIS_INFO("Clustered {} traces into {} variant clusters", log.traces.size(), variant_to_traces.size());
+
+    // ── 2. Build per-variant embeddings ──
+    std::vector<std::string> variant_keys;
+    std::vector<std::vector<float>> variant_embeddings;
+    variant_keys.reserve(variant_map.size());
+    variant_embeddings.reserve(variant_map.size());
+    for (auto& [sig, info] : variant_map) {
+        variant_keys.push_back(sig);
+        variant_embeddings.push_back(embedActivities(info.activities));
+    }
+
+    const int n_variants = static_cast<int>(variant_keys.size());
+    const int k = std::min(num_clusters, n_variants);
+
+    if (k <= 1) {
+        // Degenerate: all traces in cluster 0
+        for (auto& [sig, info] : variant_map) {
+            for (int idx : info.trace_indices) {
+                result[0].push_back(idx);
+            }
+        }
+        return {Status::OK(), result};
+    }
+
+    // ── 3. Pad embeddings to equal length ──
+    size_t emb_dim = 0;
+    for (const auto& emb : variant_embeddings) {
+        emb_dim = std::max(emb_dim, emb.size());
+    }
+    if (emb_dim == 0) emb_dim = 1;
+    for (auto& emb : variant_embeddings) {
+        emb.resize(emb_dim, 0.0f);
+    }
+
+    // ── 4. Initialise centroids from first k distinct variants ──
+    std::vector<std::vector<float>> centroids(variant_embeddings.begin(),
+                                               variant_embeddings.begin() + k);
+
+    // ── 5. K-means iteration ──
+    auto l2sq = [&](const std::vector<float>& a, const std::vector<float>& b) {
+        float dist = 0.0f;
+        for (size_t d = 0; d < emb_dim; ++d) {
+            float diff = a[d] - b[d];
+            dist += diff * diff;
+        }
+        return dist;
+    };
+
+    std::vector<int> assignments(n_variants, 0);
+    const int MAX_ITERS = 20;
+    for (int iter = 0; iter < MAX_ITERS; ++iter) {
+        bool changed = false;
+
+        // Assignment step
+        for (int vi = 0; vi < n_variants; ++vi) {
+            int best_c = 0;
+            float best_d = l2sq(variant_embeddings[vi], centroids[0]);
+            for (int c = 1; c < k; ++c) {
+                float d = l2sq(variant_embeddings[vi], centroids[c]);
+                if (d < best_d) { best_d = d; best_c = c; }
+            }
+            if (assignments[vi] != best_c) { assignments[vi] = best_c; changed = true; }
+        }
+
+        if (!changed) break;
+
+        // Update step: recompute centroids as mean of assigned embeddings
+        std::vector<std::vector<float>> new_centroids(k, std::vector<float>(emb_dim, 0.0f));
+        std::vector<int> counts(k, 0);
+        for (int vi = 0; vi < n_variants; ++vi) {
+            int c = assignments[vi];
+            ++counts[c];
+            for (size_t d = 0; d < emb_dim; ++d) {
+                new_centroids[c][d] += variant_embeddings[vi][d];
+            }
+        }
+        for (int c = 0; c < k; ++c) {
+            if (counts[c] > 0) {
+                for (size_t d = 0; d < emb_dim; ++d) {
+                    new_centroids[c][d] /= static_cast<float>(counts[c]);
+                }
+                centroids[c] = new_centroids[c];
+            }
+        }
+    }
+
+    // ── 6. Map trace indices to clusters ──
+    for (int vi = 0; vi < n_variants; ++vi) {
+        const auto& info = variant_map.at(variant_keys[vi]);
+        int cluster_id = assignments[vi];
+        for (int trace_idx : info.trace_indices) {
+            result[cluster_id].push_back(trace_idx);
+        }
+    }
+
+    THEMIS_INFO("Clustered {} traces ({} variants) into {} K-means clusters",
+                log.traces.size(), n_variants, k);
     return {Status::OK(), result};
 }
 
