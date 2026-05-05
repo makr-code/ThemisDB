@@ -206,7 +206,8 @@
 | 154 | `tensor/hnsw_tt_bridge.cpp::HnswLayer` | Linear-scan over all sketches; not hnswlib HierarchicalNSW | Always (Phase 1) | O(n) search instead of O(log n); recall correct but latency scales linearly | Replace with hnswlib::HierarchicalNSW<float> in Phase 2 (Q4 2026) — HTB-01 | Phase 2 Q4 2026 |
 | 155 | `tensor/hnsw_tt_bridge.cpp::HnswTTBridge::save()` | No-op; emits THEMIS_WARN | Always (Phase 1) | HNSW graph and TT-cores not persisted | Implement in Phase 2 (Q4 2026) — HTB-02 | Phase 2 Q4 2026 |
 | 156 | `tensor/hnsw_tt_bridge.cpp::HnswTTBridge::load()` | No-op; emits THEMIS_WARN | Always (Phase 1) | Index empty after restart | Implement in Phase 2 (Q4 2026) — HTB-03 | Phase 2 Q4 2026 |
+| 157 | `storage/tensor_train_decomposer.cpp::simpleSVD()` | U and Vt are set to identity matrices; Householder back-accumulation not implemented; reconstruction error may reach ‖T‖_F (≤ 100%) for general matrices | Always when THEMIS_USE_LAPACK_SVD not defined | TT-cores contain original unfolding columns, not true singular vectors; compress ratio / rank selection (κ) is unaffected because singular values S are correct | Enable THEMIS_USE_LAPACK_SVD=ON in CMake; wire LAPACK dgesdd (Q3 2026) — STUB_INVENTORY #157 | Q3 2026 |
 
 ---
 
-*Last updated: 2026-05-05 — 156 entries, 20 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-05-05 — 157 entries, 20 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

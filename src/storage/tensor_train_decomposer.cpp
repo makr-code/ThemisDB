@@ -20,15 +20,22 @@
  * For production deployments with LAPACK available, define
  * THEMIS_USE_LAPACK_SVD to replace the internal SVD with dgesdd.
  *
- * STUB/SIMULATION NOTE:
- * Purpose: The internal SVD uses Golub-Reinsch bidiagonalisation limited to
- *          30 QR iterations.  For matrices with near-degenerate singular values
- *          this may not fully converge.
+ * STUB/SIMULATION NOTE (STUB_INVENTORY.md #157):
+ * Purpose: The internal `simpleSVD()` routine uses Householder bidiagonalisation
+ *          followed by QR-iteration (Golub-Reinsch, limited to 30 iterations).
+ *          CRITICAL LIMITATION: U and Vt output matrices are set to identity
+ *          matrices because the full Householder back-accumulation is not
+ *          implemented.  This means the TT-cores contain the original unfolding
+ *          columns, NOT the true left/right singular vectors.  Reconstruction
+ *          error can reach ‖T‖_F (up to 100%) for general matrices.
+ *          The singular values S are computed correctly and can be used safely
+ *          for rank selection and compression-ratio estimation (κ).
  * Activation: Always active when THEMIS_USE_LAPACK_SVD is not defined.
- * Production Delta: LAPACK dgesdd achieves full double-precision convergence;
- *                   the internal SVD may have ε ~1e-5 residual for ill-conditioned
- *                   matrices.
- * Removal Plan: Wire LAPACK via CMake option THEMIS_USE_LAPACK_SVD=ON (Q3 2026).
+ * Production Delta: With LAPACK dgesdd U and Vt are true singular vector
+ *                   matrices; reconstruction error is bounded by ε·‖T‖_F
+ *                   as guaranteed by Theorem 2.1 of Oseledets 2011.
+ * Removal Plan: Enable THEMIS_USE_LAPACK_SVD=ON in CMake (Q3 2026).
+ *               See docs/research/best_practices/tensor_train_storage.md §Deviations.
  */
 
 #include "storage/tensor_train_decomposer.h"
@@ -340,16 +347,17 @@ static void simpleSVD(std::vector<double>& A, std::size_t m, std::size_t n,
     for (std::size_t i = 0; i < n; ++i) Ss[i] = S[idx[i]];
     S = Ss;
 
-    // ACCURACY WARNING — STUB SVD (no LAPACK):
+    // ACCURACY WARNING — STUB SVD (no LAPACK) — see file-level STUB/SIMULATION NOTE
+    // and STUB_INVENTORY.md #157 for full impact analysis.
     // The singular values in S are correctly sorted, but U and Vt are set to
-    // identity matrices here. This means the TT-cores computed below are
-    // initialised from the original matrix columns, NOT from true left/right
-    // singular vectors. Reconstruction error may reach ‖T‖_F (i.e. up to 100%)
-    // for general matrices. For rank selection and compression-ratio estimation
-    // the singular values are sufficient; for accurate core values enable
+    // identity matrices because Householder back-accumulation is not implemented.
+    // This means the TT-cores computed below are initialised from the original
+    // matrix columns, NOT from true left/right singular vectors.
+    // Reconstruction error may reach ‖T‖_F (up to 100%) for general matrices.
+    // For rank selection and compression-ratio estimation (κ) the singular values
+    // alone are sufficient; for accurate TT-core values enable
     // THEMIS_USE_LAPACK_SVD=ON which replaces this routine with dgesdd.
-    // See STUB_INVENTORY.md entry for tensor_train_decomposer.cpp and
-    // docs/research/best_practices/tensor_train_storage.md §Deviations.
+    // See docs/research/best_practices/tensor_train_storage.md §Deviations.
     U.assign(m * n, 0.0);
     Vt.assign(n * n, 0.0);
     for (std::size_t i = 0; i < n; ++i) { U[i * n + i] = 1.0; Vt[i * n + i] = 1.0; }
