@@ -75,6 +75,7 @@ struct TensorRouter::Impl {
         double      compression_ratio = 1.0;
         std::size_t pilot_rank        = 0;
         double      achieved_eps      = 0.0;
+        double      kappa             = 0.0;  ///< Compressibility indicator κ
     };
 
     PilotResult runPilot(
@@ -102,6 +103,7 @@ struct TensorRouter::Impl {
         cfg.max_rank = 32;
 
         std::vector<std::size_t> pilot_shape;
+        std::size_t n_pilot = 64;
         // Use first two mode dimensions capped at sample_n
         if (mode_sizes.size() >= 2) {
             std::size_t m = std::min(mode_sizes[0], (std::size_t)64);
@@ -110,16 +112,32 @@ struct TensorRouter::Impl {
             if (m * n > sample_n) m = sample_n / n;
             pilot_shape = {m, n};
             sample.resize(m * n);
+            n_pilot = m;
         } else {
             pilot_shape = {sample.size(), 1u};
+            n_pilot = sample.size();
         }
 
+        PilotResult res;
         try {
             auto [train, stats] = decomposer.decompose(sample, pilot_shape, cfg);
-            return {stats.compression_ratio, stats.max_rank, stats.achieved_eps};
+            res.compression_ratio = stats.compression_ratio;
+            res.pilot_rank        = stats.max_rank;
+            res.achieved_eps      = stats.achieved_eps;
+
+            // κ = compressibility indicator (HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md §3.2)
+            // κ = 2·log(n_pilot) / (2·log(r_pilot) + log(n_pilot))
+            // κ ≥ 1.7 → LIFT, ≥ 1.3 → HYBRID, < 1.3 → KEEP
+            if (res.pilot_rank > 1 && n_pilot > 1) {
+                double log_n = std::log(static_cast<double>(n_pilot));
+                double log_r = std::log(static_cast<double>(res.pilot_rank));
+                double denom = 2.0 * log_r + log_n;
+                res.kappa = (denom > 1e-9) ? (2.0 * log_n / denom) : 0.0;
+            }
         } catch (const std::exception&) {
-            return {1.0, 1, 0.0};
+            res = {1.0, 1, 0.0, 0.0};
         }
+        return res;
     }
 
     // -----------------------------------------------------------------------
@@ -164,7 +182,8 @@ struct TensorRouter::Impl {
     }
 
     // -----------------------------------------------------------------------
-    // Route decision
+    // Route decision (analytically derived thresholds — see
+    // docs/research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md §3 & §5)
     // -----------------------------------------------------------------------
 
     TensorRouteDecision decide(
@@ -175,19 +194,24 @@ struct TensorRouter::Impl {
         auto override = categoryOverride(hint);
         if (override.has_value()) return *override;
 
-        // Rank cap check
+        // Rank cap check (latency break-even: r_max=48 for d=768)
         if (policy.max_lift_rank > 0 && pilot.pilot_rank > policy.max_lift_rank)
             return TensorRouteDecision::KEEP;
 
         // Minimum ratio from hint
         double min_ratio = std::max(hint.min_ratio, 0.0);
 
-        if (pilot.compression_ratio >= std::max(policy.min_lift_compression_ratio, min_ratio)) {
+        // Combined κ + ratio decision:
+        //   κ ≥ 1.7 AND ratio ≥ 4.0 → LIFT
+        //   κ ≥ 1.3 AND ratio ≥ 1.5 → HYBRID
+        //   otherwise                → KEEP
+        const double lift_ratio   = std::max(policy.min_lift_compression_ratio,   min_ratio);
+        const double hybrid_ratio = std::max(policy.min_hybrid_compression_ratio, min_ratio);
+
+        if (pilot.compression_ratio >= lift_ratio   && pilot.kappa >= 1.7)
             return TensorRouteDecision::LIFT;
-        }
-        if (pilot.compression_ratio >= std::max(policy.min_hybrid_compression_ratio, min_ratio)) {
+        if (pilot.compression_ratio >= hybrid_ratio && pilot.kappa >= 1.3)
             return TensorRouteDecision::HYBRID;
-        }
         return TensorRouteDecision::KEEP;
     }
 };

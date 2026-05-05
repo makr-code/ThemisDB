@@ -168,29 +168,95 @@ encoding — it has zero CPU overhead.
 
 ## ⚠️ Trade-offs & Limitations
 
-1. **Reconstruction error accumulates across algebraic operations:**
-   After multiple TT operations (each introducing ε_k error), the total error
-   can reach √(Σ ε_k²) without TT-rounding between steps.
-   *Mitigation:* Always apply `round()` with a tight eps after each operation.
+> Full quantitative analysis: [`docs/research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`](../HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md)
 
-2. **High-rank tensors (random noise) compress poorly:**
-   TT-SVD is effective only when the tensor has low TT-rank (structured data).
-   For truly random tensors, TT-rank = min(n_k, r_{k-1} · n_k) = O(n^{d/2}),
-   giving no compression.
-   *Mitigation:* The `min_compression_ratio` guard in `TensorNetworkStorageEngine`
-   falls back to raw storage when TT compression is not beneficial.
+### 1. Reconstruction error accumulates across algebraic operations
 
-3. **MinHash false positives for tensors with similar norms but different structures:**
-   Two tensors with the same core-norm profile but different core values will
-   hash to the same LSH bucket.  Exact verification prevents false edges, but
-   CPU cost increases linearly with the number of candidates.
-   *Mitigation:* `max_candidates` cap in `FingerprintGraphConfig`.
+After k TT operations (each introducing ε_i), the total error reaches
+√(Σ εᵢ²) with TT-rounding after each step, or up to k·ε_max without rounding.
 
-4. **NF4 is suboptimal for non-normal distributions:**
-   The NF4 lookup table is derived from N(0,1) quantiles.  For bimodal or
-   heavy-tailed distributions, INT8 achieves lower quantisation error.
-   *Mitigation:* Callers should inspect the data distribution before selecting
-   `QuantizationType`.
+**Quantitative bound:** For k=5 operations, ε=0.01:
+- With rounding: ε_total ≤ 0.022 — safe for Recall@10 ≥ 0.97
+- Without rounding: ε_total ≤ 0.05 — Recall degradation possible
+
+**Rule:** Maximum k = Δ_min / ε operations without rounding, where Δ_min is  
+the minimum pairwise distance of nearest-neighbour candidates (typically 0.025  
+for LLM embeddings → k_max = 2).
+
+*Mitigation:* Always apply `round()` after each binary TT operation.  
+Planned: `TensorContractionEngine` auto-round after each chained operation (Q4 2026).
+
+---
+
+### 2. High-rank tensors (random noise) compress poorly
+
+TT-SVD is effective only when the tensor has structured (low-rank) correlations.  
+For truly random tensors: TT-rank = O(n^{d/2}), giving no compression.
+
+**Compressibility indicator κ** (analytically derived):
+
+```
+κ = d·log(n) / log(TT-params)  =  2·log(n_pilot) / (2·log(r_pilot) + log(n_pilot))
+
+κ ≥ 1.7  →  LIFT (TT clearly beneficial)
+1.3 ≤ κ < 1.7  →  HYBRID (TT-shadow + HNSW search)
+κ < 1.3  →  KEEP (HNSW or FAISS IVF-PQ)
+```
+
+**Storage break-even vs HNSW:** TT uses less memory than HNSW when r_eff < 2√d.
+
+| Embedding dim d | r_break (memory parity) |
+|----------------|------------------------|
+| 768            | r ≈ 56                 |
+| 1536           | r ≈ 79                 |
+| 4096           | r ≈ 128                |
+
+Typical r_eff for LLM weights: 8–32 → TT wins for d ≥ 256.
+
+*Mitigation:* `TensorNetworkStorageEngine` `min_compression_ratio` guard + κ in `TensorRouter`.  
+Updated `TensorRoutingPolicy` thresholds: `min_lift_compression_ratio = 4.0`, `max_lift_rank = 48`.
+
+---
+
+### 3. MinHash false positives for tensors with similar norms but different structures
+
+Core-norm MinHash false-positive rate at Jaccard=0.3 with 128 hash functions,  
+32 bands: P_fp ≈ 23% — too high for production deduplication without exact verification.
+
+**Two-stage filter (recommended):**
+1. LSH bucket → Jaccard ≥ 0.7 (raises precision significantly)
+2. Exact TT-cosine similarity ≥ 0.999 (final dedup decision)
+
+**Verification overhead:** At 1000 candidates/insert and r=32, d=6, n=64:  
+~20 ms/insert — acceptable up to ~50 inserts/s.
+
+*Mitigation:* `max_candidates` cap in `FingerprintGraphConfig`.  
+Planned: Singular-value-based fingerprinting for better structural discrimination (Q1 2027).  
+Planned: Two-stage filter implementation (Q2 2027).
+
+---
+
+### 4. NF4 is suboptimal for non-normal distributions
+
+NF4's quantile table assumes N(0,1). Quantisation error by distribution type:
+
+| Distribution | NF4 MSE/σ² | INT8 MSE/σ² | Recommended |
+|-------------|------------|------------|-------------|
+| Normal N(0,1) | 0.0012 | 0.0014 | **NF4** |
+| Uniform [-1,1] | 0.0028 | 0.0009 | **INT8** |
+| Bimodal N(±1, 0.3) | 0.0041 | 0.0012 | **INT8** |
+| Laplace | 0.0015 | 0.0018 | **NF4** |
+| Heavy-tail (Cauchy) | 0.0180 | 0.0035 | **INT8** |
+
+**Auto-selection rule via excess kurtosis:**
+```
+|excess_kurtosis| < 1.0  →  NF4
+excess_kurtosis > 3.0   →  INT8  (heavy tail)
+excess_kurtosis < -1.0  →  INT8  (platykurtic / uniform)
+```
+
+*Mitigation:* Inspect data distribution before selecting `QuantizationType`.  
+Planned: `TTQuantizer::autoQuantize()` with kurtosis-based selection (Q4 2026).
 
 ---
 
@@ -209,7 +275,9 @@ encoding — it has zero CPU overhead.
 
 ## 📚 Related
 
-- [Paper: tensor_networks_themisdb.md](../papers/tensor_networks_themisdb.md)
+- [**HNSW/FAISS/TT Boundary Analysis**](../HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md) — quantitative decision boundaries
+- [**arXiv Draft**](../TENSOR_NETWORK_DATABASE_ARXIV_DRAFT.md) — full paper (VLDB 2027 target)
+- [Paper references: tensor_networks_themisdb.md](../papers/tensor_networks_themisdb.md)
 - [src/storage/ROADMAP.md — Phase 8](../../src/storage/ROADMAP.md)
 - [src/query/ROADMAP.md — Phase 9](../../src/query/ROADMAP.md)
 - [src/graph/ROADMAP.md — Phase 8](../../src/graph/ROADMAP.md)
