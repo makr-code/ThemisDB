@@ -40,6 +40,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <memory>
 #include <functional>
 #include <chrono>
@@ -664,6 +665,19 @@ public:
      */
     void setRaftShardManager(std::shared_ptr<themisdb::sharding::RaftShardManager> raft_manager);
 
+    /**
+     * @brief Record an observed round-trip latency for a shard.
+     *
+     * Callers (e.g. the RPC layer) should call this after each successful read
+     * so that ReadPreference::NEAREST can select the shard with the lowest
+     * recent latency.  The value is incorporated into a per-shard exponential
+     * moving average (α = 0.2).
+     *
+     * @param shard_id  Identifier of the shard that was contacted
+     * @param latency_ms Observed round-trip latency in milliseconds
+     */
+    void recordShardLatency(const std::string& shard_id, double latency_ms) noexcept;
+
 private:
     RedundancyConfig config_;
     std::unique_ptr<ErasureCoder> erasure_coder_;
@@ -671,7 +685,14 @@ private:
     
     // Raft shard manager for consensus-based writes (optional)
     std::shared_ptr<themisdb::sharding::RaftShardManager> raft_manager_;
-    
+
+    // Per-shard exponential moving average latency (ms) for NEAREST routing.
+    // Protected by latency_mutex_ (separate from mutex_ to avoid blocking reads
+    // while latency updates are in progress).
+    mutable std::mutex latency_mutex_;
+    std::unordered_map<std::string, double> shard_latency_ewma_ms_;
+    static constexpr double kLatencyEwmaAlpha = 0.2;  // smoothing factor
+
     // Statistics
     std::atomic<uint64_t> stats_writes_{0};
     std::atomic<uint64_t> stats_reads_{0};

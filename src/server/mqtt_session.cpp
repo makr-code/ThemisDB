@@ -27,6 +27,7 @@
 #include <boost/beast/websocket.hpp>
 #include <iostream>
 #include <algorithm>
+#include <unordered_set>
 
 MqttSession::MqttSession(asio::ip::tcp::socket socket, uint8_t protocolVersion, TransportType transport)
     : socket_(std::move(socket))
@@ -744,19 +745,41 @@ void MqttBroker::publish(const std::string& topic, const std::string& payload, u
 MqttMetrics MqttBroker::getAggregatedMetrics() {
     std::lock_guard<std::mutex> lock(mutex_);
     MqttMetrics aggregated;
-    
-    // STUB/SIMULATION NOTE:
-    // Purpose: Satisfies the getAggregatedMetrics() API while per-session metric
-    //          accumulation is not implemented in MqttBroker; only the session
-    //          count (from the `persistentSessions_` map size) is available.
-    // Activation: Always — no per-session metrics are tracked.
-    // Production Delta: All counters except `connectCount` are 0; message
-    //                   throughput, byte rates, error counts are not reported.
-    // Removal Plan: Track metrics per session (bytes_rx, bytes_tx, publish_count,
-    //               error_count); aggregate at broker level in getAggregatedMetrics().
-    //               See src/server/FUTURE_ENHANCEMENTS.md §MQTT Aggregated Metrics.
-    aggregated.connectCount = persistentSessions_.size();
-    
+
+    // Collect unique live sessions from the subscriptions map and aggregate
+    // their per-session counters.  The same MqttSession object may appear in
+    // multiple subscription lists (one entry per topic), so we deduplicate by
+    // raw pointer before summing.
+    std::unordered_set<MqttSession*> seen;
+    for (auto& [topic, session_vec] : subscriptions_) {
+        for (auto& weak_session : session_vec) {
+            auto session = weak_session.lock();
+            if (!session) continue;
+            if (!seen.insert(session.get()).second) continue;  // already counted
+
+            const auto& m = session->getMetrics();
+            aggregated.messagesReceived  += m.messagesReceived.load();
+            aggregated.messagesSent      += m.messagesSent.load();
+            aggregated.bytesReceived     += m.bytesReceived.load();
+            aggregated.bytesSent         += m.bytesSent.load();
+            aggregated.connectCount      += m.connectCount.load();
+            aggregated.disconnectCount   += m.disconnectCount.load();
+            aggregated.subscribeCount    += m.subscribeCount.load();
+            aggregated.publishCount      += m.publishCount.load();
+            aggregated.qos0Messages      += m.qos0Messages.load();
+            aggregated.qos1Messages      += m.qos1Messages.load();
+            aggregated.qos2Messages      += m.qos2Messages.load();
+            aggregated.rateLimitedMessages += m.rateLimitedMessages.load();
+        }
+    }
+
+    // If there are no active (subscribed) sessions, fall back to the number
+    // of persistent sessions so that the connectCount metric is never zero
+    // when clients are connected but have not yet subscribed to any topic.
+    if (seen.empty()) {
+        aggregated.connectCount = persistentSessions_.size();
+    }
+
     return aggregated;
 }
 

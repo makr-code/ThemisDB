@@ -34,9 +34,11 @@
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
+#include <yaml-cpp/yaml.h>
 #include <random>
 #include <sstream>
 #include <iomanip>
+#include <unordered_map>
 
 namespace themisdb {
 namespace storage {
@@ -273,11 +275,39 @@ std::optional<BlobMetadata> BlobMetadata::fromJson(const std::string& json) {
 // ═══════════════════════════════════════════════════════════
 
 std::optional<CollectionRedundancyConfig> CollectionRedundancyConfig::loadFromYaml(
-    [[maybe_unused]] const std::string& path
+    const std::string& path
 ) {
-    // Simplified YAML loading
-    // In production, use yaml-cpp
-    return std::nullopt;
+    try {
+        YAML::Node root = YAML::LoadFile(path);
+        if (!root || !root.IsMap()) return std::nullopt;
+
+        CollectionRedundancyConfig cfg;
+        if (root["collection"]) cfg.collection   = root["collection"].as<std::string>();
+        if (root["description"]) cfg.description = root["description"].as<std::string>();
+
+        // Parse default BlobRedundancyConfig
+        if (const YAML::Node& def = root["defaults"]) {
+            auto& d = cfg.defaults;
+            if (def["replication_factor"]) d.replication_factor = def["replication_factor"].as<uint32_t>(d.replication_factor);
+            if (def["sync_write"])         d.sync_write          = def["sync_write"].as<bool>(d.sync_write);
+            if (def["compression"])        d.compression         = def["compression"].as<std::string>(d.compression);
+            if (def["mode"]) {
+                const std::string m = def["mode"].as<std::string>("");
+                if      (m == "NONE")         d.mode = RedundancyMode::NONE;
+                else if (m == "MIRROR")        d.mode = RedundancyMode::MIRROR;
+                else if (m == "PARITY")        d.mode = RedundancyMode::PARITY;
+                else if (m == "STRIPE")        d.mode = RedundancyMode::STRIPE;
+                else if (m == "STRIPE_MIRROR") d.mode = RedundancyMode::STRIPE_MIRROR;
+                else if (m == "GEO_MIRROR")    d.mode = RedundancyMode::GEO_MIRROR;
+            }
+        }
+
+        return cfg;
+
+    } catch (const std::exception& e) {
+        spdlog::error("CollectionRedundancyConfig::loadFromYaml: failed to parse '{}': {}", path, e.what());
+        return std::nullopt;
+    }
 }
 
 bool CollectionRedundancyConfig::saveToYaml([[maybe_unused]] const std::string& path) const {
@@ -411,21 +441,123 @@ bool BlobRedundancyManager::isRunning() const {
 
 bool BlobRedundancyManager::loadConfig(const std::string& path) {
     spdlog::info("Loading blob redundancy configuration from: {}", path);
-    
-    // STUB/SIMULATION NOTE:
-    // Purpose: Allow BlobRedundancyManager to start without a YAML parser
-    //          dependency; the `path` argument is accepted but never read.
-    // Activation: Always — no YAML parser is invoked.
-    // Production Delta: Redundancy configuration (replication factor, erasure
-    //                   coding parameters, tier assignments, per-collection
-    //                   overrides) is never applied; the manager runs with
-    //                   compile-time defaults regardless of what the config
-    //                   file contains.  Changes to the YAML file at runtime
-    //                   have zero effect.
-    // Removal Plan: Parse the YAML at `path` using yaml-cpp; populate
-    //               `config_` fields.  See
-    //               src/storage/FUTURE_ENHANCEMENTS.md §BlobRedundancy ConfigLoader.
-    return true;
+
+    // Helper: parse a YAML node into a BlobRedundancyConfig, keeping the
+    // existing config as default for any field not present in the YAML node.
+    auto parseBlobConfig = [](const YAML::Node& node,
+                               BlobRedundancyConfig base = {}) -> BlobRedundancyConfig {
+        if (!node || !node.IsMap()) return base;
+
+        if (node["mode"]) {
+            const std::string mode_str = node["mode"].as<std::string>("");
+            if      (mode_str == "NONE")         base.mode = RedundancyMode::NONE;
+            else if (mode_str == "MIRROR")        base.mode = RedundancyMode::MIRROR;
+            else if (mode_str == "STRIPE")        base.mode = RedundancyMode::STRIPE;
+            else if (mode_str == "STRIPE_MIRROR") base.mode = RedundancyMode::STRIPE_MIRROR;
+            else if (mode_str == "PARITY")        base.mode = RedundancyMode::PARITY;
+            else if (mode_str == "GEO_MIRROR")    base.mode = RedundancyMode::GEO_MIRROR;
+        }
+        if (node["replication_factor"]) base.replication_factor = node["replication_factor"].as<uint32_t>(base.replication_factor);
+        if (node["sync_write"])         base.sync_write         = node["sync_write"].as<bool>(base.sync_write);
+        if (node["geo_replicate"])      base.geo_replicate      = node["geo_replicate"].as<bool>(base.geo_replicate);
+        if (node["auto_tier_down"])     base.auto_tier_down     = node["auto_tier_down"].as<bool>(base.auto_tier_down);
+        if (node["tier_down_after_days"]) base.tier_down_after_days = node["tier_down_after_days"].as<uint32_t>(base.tier_down_after_days);
+        if (node["retention_days"])     base.retention_days     = node["retention_days"].as<uint32_t>(base.retention_days);
+        if (node["version_history"])    base.version_history    = node["version_history"].as<uint32_t>(base.version_history);
+        if (node["compression"])        base.compression        = node["compression"].as<std::string>(base.compression);
+        if (node["compression_level"])  base.compression_level  = node["compression_level"].as<int32_t>(base.compression_level);
+
+        if (node["tier"]) {
+            const std::string tier_str = node["tier"].as<std::string>("");
+            if      (tier_str == "HOT")     base.tier = StorageTier::HOT;
+            else if (tier_str == "WARM")    base.tier = StorageTier::WARM;
+            else if (tier_str == "COLD")    base.tier = StorageTier::COLD;
+            else if (tier_str == "ARCHIVE") base.tier = StorageTier::ARCHIVE;
+        }
+
+        if (const YAML::Node& ec = node["erasure_coding"]) {
+            if (ec["data_shards"])   base.erasure_coding.data_shards   = ec["data_shards"].as<uint32_t>(base.erasure_coding.data_shards);
+            if (ec["parity_shards"]) base.erasure_coding.parity_shards = ec["parity_shards"].as<uint32_t>(base.erasure_coding.parity_shards);
+        }
+        return base;
+    };
+
+    // Blob-type string → BlobType mapping
+    static const std::unordered_map<std::string, BlobType> kBlobTypeMap = {
+        {"SST_L0",       BlobType::SST_L0},
+        {"SST_L1",       BlobType::SST_L1},
+        {"SST_L2_PLUS",  BlobType::SST_L2_PLUS},
+        {"WAL",          BlobType::WAL},
+        {"MANIFEST",     BlobType::MANIFEST},
+        {"CURRENT",      BlobType::CURRENT},
+        {"OPTIONS",      BlobType::OPTIONS},
+        {"INDEX_VECTOR", BlobType::INDEX_VECTOR},
+        {"INDEX_GRAPH",  BlobType::INDEX_GRAPH},
+        {"INDEX_FTS",    BlobType::INDEX_FTS},
+        {"INDEX_SPATIAL",BlobType::INDEX_SPATIAL},
+        {"BLOB_SMALL",   BlobType::BLOB_SMALL},
+        {"BLOB_MEDIUM",  BlobType::BLOB_MEDIUM},
+        {"BLOB_LARGE",   BlobType::BLOB_LARGE},
+        {"METADATA",     BlobType::METADATA},
+        {"SCHEMA",       BlobType::SCHEMA},
+    };
+
+    try {
+        YAML::Node root = YAML::LoadFile(path);
+        if (!root || !root.IsMap()) {
+            spdlog::warn("BlobRedundancyManager: config file '{}' is empty or not a YAML map; "
+                         "using compiled-in defaults", path);
+            return true;  // Non-fatal — built-in defaults remain in effect
+        }
+
+        std::unique_lock<std::shared_mutex> lock(config_mutex_);
+
+        // --- Global default ---
+        BlobRedundancyConfig global_default;
+        if (root["default"]) {
+            global_default = parseBlobConfig(root["default"]);
+        }
+
+        // --- Per-blob-type overrides ---
+        if (const YAML::Node& blob_types = root["blob_types"]) {
+            for (const auto& kv : blob_types) {
+                const std::string type_str = kv.first.as<std::string>();
+                auto it = kBlobTypeMap.find(type_str);
+                if (it == kBlobTypeMap.end()) {
+                    spdlog::warn("BlobRedundancyManager: unknown blob_type '{}' in config; skipping", type_str);
+                    continue;
+                }
+                // Merge with existing config (or global default for first-time keys)
+                BlobRedundancyConfig base = global_default;
+                auto existing = blob_type_configs_.find(it->second);
+                if (existing != blob_type_configs_.end()) base = existing->second;
+                blob_type_configs_[it->second] = parseBlobConfig(kv.second, base);
+            }
+        }
+
+        // --- Per-collection overrides ---
+        if (const YAML::Node& collections = root["collections"]) {
+            for (const auto& kv : collections) {
+                const std::string col = kv.first.as<std::string>();
+                BlobRedundancyConfig base = global_default;
+                auto existing = collection_overrides_.find(col);
+                if (existing != collection_overrides_.end()) base = existing->second;
+                collection_overrides_[col] = parseBlobConfig(kv.second, base);
+            }
+        }
+
+        spdlog::info("BlobRedundancyManager: loaded config from '{}' "
+                     "({} blob-type overrides, {} collection overrides)",
+                     path, blob_type_configs_.size(), collection_overrides_.size());
+        return true;
+
+    } catch (const YAML::Exception& e) {
+        spdlog::error("BlobRedundancyManager: failed to parse config '{}': {}", path, e.what());
+        return false;
+    } catch (const std::exception& e) {
+        spdlog::error("BlobRedundancyManager: unexpected error loading config '{}': {}", path, e.what());
+        return false;
+    }
 }
 
 bool BlobRedundancyManager::reloadConfig() {

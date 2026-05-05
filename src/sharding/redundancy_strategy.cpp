@@ -34,6 +34,7 @@
 #include "sharding/raft_shard_manager.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <limits>
 #include <numeric>
 #include <future>
 #include <cstring>
@@ -1325,6 +1326,17 @@ void RedundancyStrategy::setRaftShardManager(std::shared_ptr<themisdb::sharding:
     spdlog::info("RaftShardManager set for RedundancyStrategy");
 }
 
+void RedundancyStrategy::recordShardLatency(const std::string& shard_id, double latency_ms) noexcept {
+    std::lock_guard<std::mutex> lock(latency_mutex_);
+    auto it = shard_latency_ewma_ms_.find(shard_id);
+    if (it == shard_latency_ewma_ms_.end()) {
+        shard_latency_ewma_ms_[shard_id] = latency_ms;
+    } else {
+        // Exponential moving average: new_ewma = α * sample + (1 - α) * old_ewma
+        it->second = kLatencyEwmaAlpha * latency_ms + (1.0 - kLatencyEwmaAlpha) * it->second;
+    }
+}
+
 WriteResult RedundancyStrategy::write(
     const std::string& document_id,
     const std::vector<uint8_t>& data,
@@ -2276,19 +2288,21 @@ std::string RedundancyStrategy::selectReadShard(
         case ReadPreference::PRIMARY:
             return available_shards[0];
             
-        case ReadPreference::NEAREST:
-            // STUB/SIMULATION NOTE:
-            // Purpose: Falls back to first available shard while network-latency
-            //          measurement to each shard is not yet implemented.
-            // Activation: ReadPreference::NEAREST selected without latency tracking.
-            // Production Delta: Returns the first available shard regardless of
-            //                   actual network latency; nearest-shard routing does
-            //                   not reduce read latency as intended.
-            // Removal Plan: Maintain per-shard latency histogram (e.g. from
-            //               periodic ping or moving average of RPC RTTs); select
-            //               the shard with the minimum recent P50 latency.  See
-            //               src/sharding/FUTURE_ENHANCEMENTS.md §Redundancy Strategy Nearest Shard.
-            return available_shards[0];
+        case ReadPreference::NEAREST: {
+            // Select the available shard with the lowest recorded EWMA latency.
+            // Falls back to the first shard when no latency data is available yet.
+            std::lock_guard<std::mutex> lat_lock(latency_mutex_);
+            const std::string* best = &available_shards[0];
+            double best_latency = std::numeric_limits<double>::max();
+            for (const auto& shard_id : available_shards) {
+                auto it = shard_latency_ewma_ms_.find(shard_id);
+                if (it != shard_latency_ewma_ms_.end() && it->second < best_latency) {
+                    best_latency = it->second;
+                    best = &shard_id;
+                }
+            }
+            return *best;
+        }
             
         case ReadPreference::ROUND_ROBIN: {
             static std::atomic<uint32_t> counter{0};
