@@ -13,7 +13,7 @@
 
 #include <algorithm>
 #include <cmath>
-#include <cstdio>
+#include <iomanip>
 #include <numeric>
 #include <sstream>
 #include <unordered_map>
@@ -332,14 +332,16 @@ std::string ProcessCommunityDetector::generateReport(
         oss << " [" << community.label << "]";
     }
 
-    // Modularity contribution
+    // Modularity contribution (use ostringstream for safe float formatting)
     {
-        char buf[32];
-        std::snprintf(buf, sizeof(buf), "%.4f", community.modularity_score);
+        std::ostringstream mod_oss;
+        mod_oss << std::fixed;
+        mod_oss.precision(4);
+        mod_oss << community.modularity_score;
         if (german) {
-            oss << "; Modularität=" << buf;
+            oss << "; Modularität=" << mod_oss.str();
         } else {
-            oss << "; modularity=" << buf;
+            oss << "; modularity=" << mod_oss.str();
         }
     }
 

@@ -228,6 +228,7 @@ CompressionResult PriorRoundCompressor::compressStructuredSummary(
         std::transform(v.begin(), v.end(), v.begin(), ::toupper);
         return v;
     }();
+    // Verdict keywords: same set as extractVerdict() — keep in sync.
     static const std::array<const char*, 4> kVerdictKeywords{
         "PROHIBIT", "CONDITIONAL", "ABSTAIN", "PERMIT"
     };
