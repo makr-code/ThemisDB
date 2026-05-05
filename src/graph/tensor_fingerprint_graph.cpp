@@ -193,11 +193,22 @@ void TensorFingerprintGraph::insert(
 
     std::lock_guard<std::mutex> lk(mutex_);
 
-    // Remove old entry if updating
+    // Remove old entry if updating — inline removal to avoid recursive lock
+    // (calling remove() would attempt to re-acquire mutex_ causing deadlock).
     if (nodes_.count(tensor_id)) {
-        remove(tensor_id);  // note: we hold mutex; remove also acquires it
-        // Re-acquire after remove since remove takes the lock
-        // Actually remove is not mutex-safe here; inline removal:
+        auto ait = adj_.find(tensor_id);
+        if (ait != adj_.end()) {
+            for (const auto& e : ait->second) {
+                auto& nadj = adj_[e.to];
+                nadj.erase(std::remove_if(nadj.begin(), nadj.end(),
+                    [&](const Edge& ne){ return ne.to == tensor_id; }),
+                    nadj.end());
+                edge_count_.fetch_sub(1, std::memory_order_relaxed);
+            }
+            edge_count_.fetch_sub(ait->second.size(), std::memory_order_relaxed);
+            adj_.erase(ait);
+        }
+        nodes_.erase(tensor_id);
     }
 
     // Insert node

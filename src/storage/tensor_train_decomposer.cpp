@@ -340,15 +340,19 @@ static void simpleSVD(std::vector<double>& A, std::size_t m, std::size_t n,
     for (std::size_t i = 0; i < n; ++i) Ss[i] = S[idx[i]];
     S = Ss;
 
-    // U and Vt remain as identity for this simplified version
-    // (sufficient for rank-truncation purposes)
+    // ACCURACY WARNING — STUB SVD (no LAPACK):
+    // The singular values in S are correctly sorted, but U and Vt are set to
+    // identity matrices here. This means the TT-cores computed below are
+    // initialised from the original matrix columns, NOT from true left/right
+    // singular vectors. Reconstruction error may reach ‖T‖_F (i.e. up to 100%)
+    // for general matrices. For rank selection and compression-ratio estimation
+    // the singular values are sufficient; for accurate core values enable
+    // THEMIS_USE_LAPACK_SVD=ON which replaces this routine with dgesdd.
+    // See STUB_INVENTORY.md entry for tensor_train_decomposer.cpp and
+    // docs/research/best_practices/tensor_train_storage.md §Deviations.
     U.assign(m * n, 0.0);
     Vt.assign(n * n, 0.0);
     for (std::size_t i = 0; i < n; ++i) { U[i * n + i] = 1.0; Vt[i * n + i] = 1.0; }
-    // Real Golub-Reinsch would accumulate rotation matrices; this stub returns
-    // identity U,Vt which is sufficient for rank selection but not for the
-    // actual core values — the full implementation uses QR accumulation.
-    // The cores are initialised from the original matrix columns below.
     (void)A;
 }
 
