@@ -316,7 +316,7 @@ cannot distinguish valid from failed entries. Corrupted records are silently sto
 | SEC-NET-01 | Network/AuthZ / Fail-Closed | S1 | Hoch | `src/security/zero_trust_policy_enforcer.cpp` (`isIpAllowed`) | Open |
 | SEC-SC-01 | Supply Chain / Secret-Scanning | S2 | Mittel | `scripts/secret_scan.py` Nutzungsergebnis | Open |
 | SEC-BLD-01 | Build Security / Reproducibility | S2 | Mittel | CMake/Linux Baseline (`linux-ninja-release`) | Open |
-| SEC-BLD-02 | Build Tooling Integrity | S3 | Niedrig | `tools/check_disabled_stubs.py` | Open |
+| SEC-BLD-02 | Build Tooling Integrity | S3 | Niedrig | `tools/check_disabled_stubs.py` | ✅ Fixed 2026-05-05 |
 
 ### Finding Details (Pflichtschema)
 
@@ -410,7 +410,7 @@ Aktueller Stand: **0x S0, 2x S1, 2x S2, 1x S3**
 - [ ] **R2 (S1):** `isIpAllowed()` bei leerer Policy fail-closed + Migrationsflag (Target: v1.9.0-rc)
 - [ ] **R3 (S2):** Secret-Scan Signal/Noise Tuning + CI-Threshold (Target: v1.9.0-rc)
 - [ ] **R4 (S2):** Linux Security Build-Setup in CI reproduzierbar machen (Target: v1.9.0-rc)
-- [ ] **R5 (S3):** `check_disabled_stubs.py` reparieren + CI smoke check (Target: v1.9.0-rc)
+- [x] **R5 (S3):** `check_disabled_stubs.py` repariert (SyntaxError behoben 2026-05-05) — PASS: 18 stubs compliant, 0 violations
 
 ---
 
