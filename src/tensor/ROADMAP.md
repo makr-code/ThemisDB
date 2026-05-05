@@ -6,8 +6,9 @@
 
 > **Scientific Basis:** This roadmap is aligned with the architectural model described in
 > *"Advanced Architectural Paradigms for Multi-Model AI Databases: Integrating Tensor Graph
-> Networks and Zero-Copy Inference in ThemisDB"* (2026).  Every phase maps directly to
-> concepts from that paper.  See `docs/research/best_practices/tensor_train_storage.md`
+> Networks and Zero-Copy Inference in ThemisDB"* — ThemisDB Research Group, 2026.
+> Internal research report (pre-print); venue and DOI pending publication.
+> See `docs/research/best_practices/tensor_train_storage.md`
 > and `docs/research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md` for further background.
 
 ## Current Status

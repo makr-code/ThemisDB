@@ -4,8 +4,11 @@
 
 > **Scientific Basis:** All enhancements below are grounded in
 > *"Advanced Architectural Paradigms for Multi-Model AI Databases: Integrating Tensor Graph
-> Networks and Zero-Copy Inference in ThemisDB"* (2026).  Section references are noted
-> inline.
+> Networks and Zero-Copy Inference in ThemisDB"* — ThemisDB Research Group, 2026.
+> Internal research report (pre-print); venue and DOI pending publication.
+> Companion docs: `docs/research/best_practices/tensor_train_storage.md`,
+> `docs/research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`,
+> `docs/research/ADALORA_TT_BRIDGE_ARXIV_DRAFT.md`.
 
 ## tensor — Tensor-Train ANN Index Module
 
