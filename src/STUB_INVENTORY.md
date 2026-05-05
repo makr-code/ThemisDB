@@ -28,7 +28,7 @@
 
 ---
 
-## Stub Inventory (229 entries — 11 resolved, 218 active)
+## Stub Inventory (244 entries — 11 resolved, 233 active)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -269,6 +269,9 @@
 | 241 | `src/timeseries/hypertable.cpp::listChunks()` | Returns an empty vector; RocksDB column-family metadata enumeration for the chunk registry is not yet exposed via the storage wrapper | Always active — no CF scan performed | Chunk-level compaction, tiering, and retention enforcement see no chunks; callers always receive empty list | `src/timeseries/FUTURE_ENHANCEMENTS.md` §Hypertable listChunks | Scan hypertable metadata prefix in RocksDB; expose via `StorageBackend::listCFs()` |
 | 242 | `tests/stubs/grafana_metrics_stub.cpp` — no-op GrafanaMetrics for focused tests | All `GrafanaMetrics` methods are no-ops; no HTTP metrics emitted | Compiled only for `*_focused` test executables that omit the full `httplib.h` dependency | No metrics emitted during these test runs; grafana dashboards not updated | test-only path | Remove when focused tests are merged into `themis_core` builds or when `grafana_metrics.cpp` no longer requires `httplib.h` |
 
+| 243 | `auth/rate_limiter_backend.cpp` — `!THEMIS_ENABLE_REDIS` fail-closed stub | All Redis-backed rate-limiting operations are fail-closed: `increment()` returns `kBackendUnavailable`, `getCount()` returns `kBackendUnavailable`, `reset()` is a no-op, `isConnected()` / `reconnect()` always return false | `THEMIS_ENABLE_REDIS` not defined at compile time (default build without libhiredis) | Distributed rate limiting is disabled; every request appears to exceed the rate limit (denies all); no cross-replica coordination | `src/auth/FUTURE_ENHANCEMENTS.md` §Redis Rate Limiter Activation | install libhiredis, enable `redis` vcpkg feature, set `-DTHEMIS_ENABLE_REDIS=1` |
+| 244 | `include/ethics_ai/llm_cascade_router.h::LLMCascadeRouter::routeForRound()` — no ILLMProvider instantiation | `routeForRound()` returns a `CascadeRoutingDecision` with a string model alias but does NOT instantiate any real `ILLMProvider`; wiring to the backend factory is deferred | Always active — `ILLMProvider` integration is Target Q3 2026 | Caller must resolve `model_id` to a backend independently; no end-to-end LLM call is made by the router itself | `src/ethics_ai/FUTURE_ENHANCEMENTS.md` §ILlmCascadeRouter (§1, Q3 2026) | Wire to provider-registry factory in `LLMPluginManager::routeForRound()` (Q3 2026) |
+
 ---
 
-*Last updated: 2026-05-05 — 242 entries, 11 resolved, 231 active — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-05-05 — 244 entries, 11 resolved, 233 active — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

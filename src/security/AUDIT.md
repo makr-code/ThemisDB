@@ -312,8 +312,8 @@ cannot distinguish valid from failed entries. Corrupted records are silently sto
 
 | ID | Kategorie | Severity | Exploitability | Betroffene Dateien/Komponenten | Status |
 |---|---|---|---|---|---|
-| SEC-AUTH-01 | Auth / Fail-Closed | S1 | Hoch | `src/security/zero_trust_policy_enforcer.cpp` (`verifyToken`) | Open |
-| SEC-NET-01 | Network/AuthZ / Fail-Closed | S1 | Hoch | `src/security/zero_trust_policy_enforcer.cpp` (`isIpAllowed`) | Open |
+| SEC-AUTH-01 | Auth / Fail-Closed | S1 | Hoch | `src/security/zero_trust_policy_enforcer.cpp` (`verifyToken`) | ✅ Fixed 2026-05-05 |
+| SEC-NET-01 | Network/AuthZ / Fail-Closed | S1 | Hoch | `src/security/zero_trust_policy_enforcer.cpp` (`isIpAllowed`) | ✅ Fixed 2026-05-05 |
 | SEC-SC-01 | Supply Chain / Secret-Scanning | S2 | Mittel | `scripts/secret_scan.py` Nutzungsergebnis | Open |
 | SEC-BLD-01 | Build Security / Reproducibility | S2 | Mittel | CMake/Linux Baseline (`linux-ninja-release`) | Open |
 | SEC-BLD-02 | Build Tooling Integrity | S3 | Niedrig | `tools/check_disabled_stubs.py` | ✅ Fixed 2026-05-05 |
@@ -331,6 +331,7 @@ cannot distinguish valid from failed entries. Corrupted records are silently sto
 8. **Fix-Vorschlag:** Fail-closed default (`false`) + expliziter Test-/Dev-Override-Flag
 9. **Test-/Validierungsplan:** Unit-Tests für `no verifier => deny`; Integrationstests für konfigurierten Verifier
 10. **Restrisiko bei Nichtbehebung:** Umgehung von AuthN auf falsch konfigurierten Deployments
+11. **Fix 2026-05-05:** `verifyToken()` gibt `false` zurück, wenn `token_verifier_ == nullptr` (fail-closed). Neues Flag `allow_unverified_token_` (default `false`) + Setter `setAllowUnverifiedToken(bool)` für Test-Overrides. Alle betroffenen Unit-Tests aktualisiert.
 
 #### SEC-NET-01
 1. **Titel:** Netzwerk-Policy erlaubt Zugriff bei leerer Policy-Menge
@@ -343,6 +344,7 @@ cannot distinguish valid from failed entries. Corrupted records are silently sto
 8. **Fix-Vorschlag:** Globale Default-Policy `deny` + expliziter Bootstrap-Mode nur für dev/test
 9. **Test-/Validierungsplan:** Unit-Test `empty policy => deny`; Migrationshinweis für bestehende Deployments
 10. **Restrisiko bei Nichtbehebung:** Unautorisierter Netzpfad bei Fehlkonfiguration
+11. **Fix 2026-05-05:** `isIpAllowed()` gibt `false` zurück, wenn `policies_` leer (fail-closed). Neues Flag `allow_empty_network_policies_` (default `false`) + Setter `setAllowEmptyNetworkPolicies(bool)` für phased roll-out. Alle betroffenen Unit-Tests aktualisiert.
 
 #### SEC-SC-01
 1. **Titel:** Secret-Scan erzeugt sehr hohe False-Positive-Last
@@ -406,8 +408,8 @@ Aktueller Stand: **0x S0, 2x S1, 2x S2, 1x S3**
 
 ## 8) Remediation Plan (Wave 1)
 
-- [ ] **R1 (S1):** `verifyToken()` fail-closed by default, expliziter Test-Override (Target: v1.9.0-rc)
-- [ ] **R2 (S1):** `isIpAllowed()` bei leerer Policy fail-closed + Migrationsflag (Target: v1.9.0-rc)
+- [x] **R1 (S1):** `verifyToken()` fail-closed by default, expliziter Test-Override (Fixed: 2026-05-05)
+- [x] **R2 (S1):** `isIpAllowed()` bei leerer Policy fail-closed + Migrationsflag (Fixed: 2026-05-05)
 - [ ] **R3 (S2):** Secret-Scan Signal/Noise Tuning + CI-Threshold (Target: v1.9.0-rc)
 - [ ] **R4 (S2):** Linux Security Build-Setup in CI reproduzierbar machen (Target: v1.9.0-rc)
 - [x] **R5 (S3):** `check_disabled_stubs.py` repariert (SyntaxError behoben 2026-05-05) — PASS: 18 stubs compliant, 0 violations
