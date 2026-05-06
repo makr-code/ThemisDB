@@ -98,12 +98,17 @@ public:
 //   work out of the box.
 // Activation: Default implementation used by IngestionCoordinator when no
 //   external ISharedCheckpointStore is injected (e.g. via
-//   setSharedCheckpointStoreForTesting()).  Also the default in InProcessWorkerNode.
+//   setSharedCheckpointStore()).  Also the default in InProcessWorkerNode.
 // Production Delta: State is process-local and is lost on restart.  No
 //   cross-process coordination, no durable persistence, no TTL/expiry logic.
 // Removal Plan: Not removed — retained for single-process deployments and
 //   tests.  Multi-process / HA deployments must inject a Redis- or DB-backed
-//   implementation.
+//   implementation via IngestionCoordinator::setSharedCheckpointStore().
+// RESOLVED 2026-05-06 — public injection API `setSharedCheckpointStore(store)`
+//   confirmed on IngestionCoordinator (throws std::logic_error when called while
+//   running); getSharedCheckpointStore() accessor added; tests
+//   IngestionCoordinatorCheckpointStoreTest::InjectedStoreIsUsed and
+//   SetStoreWhileRunningThrows confirm injection semantics are correct.
 
 /**
  * @brief `ISharedCheckpointStore` backed by a mutex-protected in-memory map.
