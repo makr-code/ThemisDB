@@ -56,6 +56,14 @@ TTSProcessor::~TTSProcessor() {
     }
 }
 
+void TTSProcessor::setMp3EncoderFn(AudioEncoderFn fn) {
+    mp3_encoder_fn_ = std::move(fn);
+}
+
+void TTSProcessor::setOggEncoderFn(AudioEncoderFn fn) {
+    ogg_encoder_fn_ = std::move(fn);
+}
+
 PluginInfo TTSProcessor::getInfo() const {
     PluginInfo info;
     info.name = "tts-processor";
@@ -478,24 +486,38 @@ std::vector<uint8_t> TTSProcessor::convertToFormat(
         // Purpose: Passes through raw PCM data when the LAME MP3 encoder is not
         //          linked.  Keeps the API shape intact for callers that accept
         //          audio/mpeg.
-        // Activation: Always — LAME encoder not yet integrated.
+        // Activation: Always when no Mp3EncoderFn has been injected via
+        //             setMp3EncoderFn().
         // Production Delta: Output bytes are raw 16-bit PCM, not MP3 frames.
         //                   Any player expecting MPEG-1 Layer III audio will fail
         //                   to decode this output.
-        // Removal Plan: Integrate libmp3lame; call lame_encode_buffer_ieee_float()
-        //               and return the resulting MP3 frame bytes.
+        // Removal Plan: Inject a real lame_encode_buffer_ieee_float() wrapper via
+        //               setMp3EncoderFn() at application startup.
         //               See src/content/FUTURE_ENHANCEMENTS.md §TTS Audio Format Support.
+        if (mp3_encoder_fn_) {
+            auto encoded = mp3_encoder_fn_(pcm_data, sample_rate);
+            if (!encoded.empty()) {
+                return encoded;
+            }
+        }
         return pcm_data;
     } else if (format == "ogg") {
         // STUB/SIMULATION NOTE:
         // Purpose: Passes through raw PCM data when libvorbis / libopus is not
         //          linked.  Keeps the API shape intact for callers that accept
         //          audio/ogg.
-        // Activation: Always — Opus/Vorbis encoder not yet integrated.
+        // Activation: Always when no OggEncoderFn has been injected via
+        //             setOggEncoderFn().
         // Production Delta: Output bytes are raw 16-bit PCM, not an Ogg container.
-        // Removal Plan: Integrate libopus or libvorbis; wrap PCM into an Ogg stream
-        //               via op_write()/vorbis_analysis_wrote().
+        // Removal Plan: Inject a real op_write()/vorbis_analysis_wrote() wrapper via
+        //               setOggEncoderFn() at application startup.
         //               See src/content/FUTURE_ENHANCEMENTS.md §TTS Audio Format Support.
+        if (ogg_encoder_fn_) {
+            auto encoded = ogg_encoder_fn_(pcm_data, sample_rate);
+            if (!encoded.empty()) {
+                return encoded;
+            }
+        }
         return pcm_data;
     }
     

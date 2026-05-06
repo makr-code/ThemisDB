@@ -714,3 +714,81 @@ TEST(PriorRoundCompressor, CWBSS03_StructuredSummary_PreservesCitationsInOutput)
     EXPECT_NE(result.compressed_text.find("kant:kategorischer_imperativ"), std::string::npos)
         << "STRUCTURED_SUMMARY should retain the sentence containing the principle citation";
 }
+
+// ===========================================================================
+// PriorRoundCompressor LLM summary-fn injection tests  (stub #247)
+// ===========================================================================
+
+// CWB-SS-LLM-01: Without injected LlmSummaryFn, STRUCTURED_SUMMARY falls back
+//                to the extractive path and produces non-empty compressed text.
+TEST(PriorRoundCompressor, CWBSSLLM01_NoFnFallsBackToExtractive) {
+    PriorRoundCompressor compressor;
+    CompressionConfig cfg;
+    cfg.trigger_round        = 1;
+    cfg.mode                 = CompressionMode::STRUCTURED_SUMMARY;
+    cfg.max_tokens_per_round = 100;
+
+    const std::string content =
+        "kant:kategorischer_imperativ is central. We must universalise our maxims. "
+        "PROHIBIT actions that cannot be willed universally. This guards dignity.";
+
+    auto arg = makeArg("kant", content, ArgumentType::PRO, {"kant:kategorischer_imperativ"});
+    auto result = compressor.compressPriorRound({arg}, cfg, 2);
+
+    EXPECT_FALSE(result.compressed_text.empty());
+    EXPECT_LT(result.compression_ratio, 1.5f);
+}
+
+// CWB-SS-LLM-02: Injected LlmSummaryFn is called; its return value is used as
+//                the compressed text.
+TEST(PriorRoundCompressor, CWBSSLLM02_InjectedFnReturnValueUsed) {
+    PriorRoundCompressor compressor;
+    const std::string llm_output = "[kant|R] Categorical imperative demands universal maxims.";
+    bool fn_called = false;
+
+    compressor.setLlmSummaryFn(
+        [&](const EthicalArgument& /*arg*/, int /*max_tokens*/) -> std::string {
+            fn_called = true;
+            return llm_output;
+        });
+
+    CompressionConfig cfg;
+    cfg.trigger_round        = 1;
+    cfg.mode                 = CompressionMode::STRUCTURED_SUMMARY;
+    cfg.max_tokens_per_round = 100;
+
+    const std::string content =
+        "kant:kategorischer_imperativ is central. We must universalise our maxims. PROHIBIT.";
+
+    auto arg = makeArg("kant", content, ArgumentType::PRO, {});
+    auto result = compressor.compressPriorRound({arg}, cfg, 2);
+
+    EXPECT_TRUE(fn_called);
+    EXPECT_NE(result.compressed_text.find(llm_output), std::string::npos);
+}
+
+// CWB-SS-LLM-03: When fn returns an empty string, extractive fallback is used.
+TEST(PriorRoundCompressor, CWBSSLLM03_EmptyFnReturnFallsBackToExtractive) {
+    PriorRoundCompressor compressor;
+    bool fn_called = false;
+
+    compressor.setLlmSummaryFn(
+        [&](const EthicalArgument& /*arg*/, int /*max_tokens*/) -> std::string {
+            fn_called = true;
+            return "";  // signal fallback
+        });
+
+    CompressionConfig cfg;
+    cfg.trigger_round        = 1;
+    cfg.mode                 = CompressionMode::STRUCTURED_SUMMARY;
+    cfg.max_tokens_per_round = 100;
+
+    const std::string content =
+        "kant:kategorischer_imperativ is central. We must universalise our maxims. PROHIBIT.";
+
+    auto arg = makeArg("kant", content, ArgumentType::PRO, {});
+    auto result = compressor.compressPriorRound({arg}, cfg, 2);
+
+    EXPECT_TRUE(fn_called);
+    EXPECT_FALSE(result.compressed_text.empty());
+}

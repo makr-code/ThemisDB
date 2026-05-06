@@ -13,6 +13,14 @@ namespace plugins {
 namespace ethics {
 
 // ---------------------------------------------------------------------------
+// Injection API
+// ---------------------------------------------------------------------------
+
+void PriorRoundCompressor::setLlmSummaryFn(LlmSummaryFn fn) {
+    llm_summary_fn_ = std::move(fn);
+}
+
+// ---------------------------------------------------------------------------
 // Private static helpers
 // ---------------------------------------------------------------------------
 
@@ -160,6 +168,25 @@ CompressionResult PriorRoundCompressor::compressStructuredSummary(
     const EthicalArgument& arg,
     const CompressionConfig& config) const
 {
+    // Delegate to the injected LLM summariser when available.
+    if (llm_summary_fn_) {
+        const std::string llm_text = llm_summary_fn_(arg, config.max_tokens_per_round);
+        if (!llm_text.empty()) {
+            CompressionResult result;
+            result.original_tokens    = countTokens(arg.content);
+            result.compressed_text    = llm_text;
+            result.compressed_tokens  = countTokens(llm_text);
+            result.compression_ratio  = result.original_tokens > 0
+                ? static_cast<float>(result.compressed_tokens) /
+                  static_cast<float>(result.original_tokens)
+                : 1.0f;
+            result.estimated_dc_loss        = measureDcLoss(arg.content, llm_text);
+            result.coherence_anchors_intact = config.keep_thesis_id_anchors;
+            return result;
+        }
+        // fn returned empty → fall through to extractive path
+    }
+
     // Extractive sentence summarisation: score sentences by TF-weighted importance,
     // boosting those containing principle citations or verdict keywords.  Selects
     // sentences greedily until the token budget is exhausted.
