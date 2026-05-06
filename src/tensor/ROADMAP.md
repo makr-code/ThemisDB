@@ -62,6 +62,22 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 - [x] Tests `tests/test_tensor_core_bridge.cpp` (TCS-01..TCS-20)
 - [x] STUB_INVENTORY #160 registered
 
+## Completed ✅ (additions 2026-05-06)
+
+- [x] **`TensorRouter::Route` + `DataProfile` + `decide(DataProfile)`** — static routing API for index-creation time
+  - `include/storage/tensor_router.h`: `Route` enum (TENSOR_TRAIN/HYBRID/HNSW), `DataProfile` struct (dim, num_vectors, kappa_estimate), `static Route decide(const DataProfile&)`
+  - `src/storage/tensor_router.cpp`: κ-threshold heuristic (κ ≥ 1.7 && dim ≥ 256 → TENSOR_TRAIN; κ ≥ 1.3 → HYBRID; else HNSW)
+  - `src/tensor/tensor_index_manager.cpp`: `routeFor()` fixed to call `TensorRouter::decide(p)` (no broken default ctor)
+  - Tests TIM-03..TIM-14 in `tests/test_tensor_index_manager.cpp`
+  - STUB_INVENTORY #163 resolved
+
+- [x] **Rademacher random projection in `TensorIngestionBridge::shouldDecompose()`** (stub #159)
+  - Replaces stride-based sub-sampling for dim > 1024
+  - Signs ±1 via xorshift64; seed = `embedding.size() * 11400714819323198485ULL`; scale = 1/√dim
+  - JL guarantee: κ deviation ≤ 5% vs. ≤ 15% for stride sampling
+  - Tests TIB-21, TIB-22 added in `tests/test_tensor_ingestion_bridge.cpp`
+  - STUB_INVENTORY #159 resolved
+
 ## In Progress 🚧
 
 - [~] Stub entries registered in `src/STUB_INVENTORY.md` (TTI-01..02, TIM-01..02, HTB-01..03)

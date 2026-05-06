@@ -46,6 +46,31 @@ namespace storage {
 // to_string
 // ============================================================================
 
+// ============================================================================
+// TensorRouter::decide — static heuristic routing from DataProfile
+//
+// Used by TensorIndexManager at index-creation time (no data available).
+// Thresholds from research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md §3.2.
+// ============================================================================
+
+TensorRouter::Route TensorRouter::decide(const DataProfile& p) noexcept {
+    // Full TT compression: κ ≥ 1.7 and dimension large enough to benefit.
+    // Below dim 256 the TT overhead rarely pays off even for compressible data.
+    if (p.kappa_estimate >= 1.7 && p.dim >= 256)
+        return Route::TENSOR_TRAIN;
+
+    // Hybrid (TT shadow for ANN search + native storage): κ ≥ 1.3.
+    if (p.kappa_estimate >= 1.3)
+        return Route::HYBRID;
+
+    // Below threshold: standard vector index only (no TT layer).
+    return Route::HNSW;
+}
+
+// ============================================================================
+// to_string
+// ============================================================================
+
 std::string to_string(TensorRouteDecision d) noexcept {
     switch (d) {
         case TensorRouteDecision::LIFT:   return "LIFT";

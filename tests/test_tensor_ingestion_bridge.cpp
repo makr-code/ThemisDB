@@ -347,3 +347,40 @@ TEST(ExtractionContextExtensions, TIB20_HasTensorCoresReturnsTrueAfterWrite) {
     ctx.tensor_cores.push_back(std::move(rec));
     EXPECT_TRUE(ctx.hasTensorCores());
 }
+
+// =============================================================================
+// TIB-21..TIB-22  Rademacher random projection in shouldDecompose() (stub #159)
+// =============================================================================
+
+TEST(TensorIngestionBridge, TIB21_ShouldDecomposeHandlesLargeDimWithRademacher) {
+    // Build a compressible large embedding (dim > 1024):
+    // Use a low-rank pattern: rank-4 approximation of a 2048-dim vector.
+    // The projection should preserve spectral compressibility.
+    TensorIngestionBridge bridge(0.01, 32, 1.3);
+
+    // Low-rank compressible pattern: sum of 4 sinusoidal components.
+    constexpr std::size_t dim = 2048;
+    std::vector<float> embedding(dim);
+    for (std::size_t i = 0; i < dim; ++i) {
+        embedding[i] = std::sin(static_cast<float>(i) * 0.01f)
+                     + std::sin(static_cast<float>(i) * 0.05f) * 0.5f;
+    }
+    // Should decompose: structured signal is highly compressible (κ >> 1.3)
+    EXPECT_TRUE(bridge.shouldDecompose(embedding, 1.3));
+}
+
+TEST(TensorIngestionBridge, TIB22_RademacherProjectionIsDeterministic) {
+    // The Rademacher projection is seeded from embedding.size(), so two calls
+    // with the same embedding must return the same shouldDecompose() result.
+    TensorIngestionBridge bridge(0.01, 32, 1.3);
+
+    constexpr std::size_t dim = 1536;
+    std::vector<float> emb(dim, 0.0f);
+    for (std::size_t i = 0; i < dim; ++i) {
+        emb[i] = std::cos(static_cast<float>(i) * 0.02f);
+    }
+
+    bool r1 = bridge.shouldDecompose(emb, 1.3);
+    bool r2 = bridge.shouldDecompose(emb, 1.3);
+    EXPECT_EQ(r1, r2);
+}

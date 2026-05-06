@@ -204,6 +204,59 @@ struct TensorRoutingPolicy {
  */
 class TensorRouter {
 public:
+    // -----------------------------------------------------------------------
+    // Index-time routing (no data available — heuristic only)
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Routing result for index-creation time (no tensor data available).
+     *
+     * Used by `TensorIndexManager::routeFor()` which decides the index type
+     * for a (tenant, collection, field) triple before any vectors are stored.
+     * Values map to `TensorRouteDecision` as follows:
+     *   TENSOR_TRAIN ↔ LIFT   — full TT compression
+     *   HYBRID       ↔ HYBRID — TT shadow + native storage
+     *   HNSW         ↔ KEEP   — standard vector index only
+     */
+    enum class Route : uint8_t {
+        TENSOR_TRAIN = 0,  ///< Fully compress to TT (index on TT-cores)
+        HYBRID       = 1,  ///< TT shadow for ANN + native storage
+        HNSW         = 2,  ///< Standard vector index (no TT layer)
+    };
+
+    /**
+     * @brief Lightweight profiling descriptor used at index-creation time.
+     *
+     * Provides enough information to apply heuristic routing thresholds
+     * without running a pilot TT-SVD (which requires actual data).
+     */
+    struct DataProfile {
+        std::size_t dim              = 0;    ///< Embedding / tensor dimension
+        std::size_t num_vectors      = 0;    ///< Expected number of vectors
+        /// Pre-computed κ compressibility estimate (from dimension heuristic
+        /// or external measurement).  κ ≥ 1.7 → TENSOR_TRAIN,
+        /// κ ≥ 1.3 → HYBRID, otherwise → HNSW.
+        double      kappa_estimate   = 0.0;
+    };
+
+    /**
+     * @brief Heuristic routing from a `DataProfile` (no pilot, no engine).
+     *
+     * Applies dimension and κ thresholds without running a TT-SVD pilot.
+     * Used by `TensorIndexManager` at index-creation time when no concrete
+     * data sample is available yet.
+     *
+     * Thresholds (from research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md §3.2):
+     *   κ ≥ 1.7 AND dim ≥ 256 → TENSOR_TRAIN
+     *   κ ≥ 1.3              → HYBRID
+     *   otherwise             → HNSW
+     */
+    static Route decide(const DataProfile& p) noexcept;
+
+    // -----------------------------------------------------------------------
+    // Engine-backed routing (pilot TT-SVD on actual data)
+    // -----------------------------------------------------------------------
+
     explicit TensorRouter(
         std::shared_ptr<TensorNetworkStorageEngine> engine,
         TensorRoutingPolicy                         policy = {});

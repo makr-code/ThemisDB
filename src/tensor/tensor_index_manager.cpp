@@ -75,13 +75,16 @@ TensorIndexManager::routeFor(const std::string& /*tenant_id*/,
                               const std::string& /*field*/,
                               size_t dim,
                               size_t num_vectors) const {
-    storage::TensorRouter router;
+    // Use the static heuristic (no TT-SVD pilot; no engine required).
+    // κ estimates are dimension-derived following HNSW_FAISS_TT_BOUNDARY_ANALYSIS §3.2:
+    //   dim ≥ 4096 → κ ≈ 4.5  (LLM attention, geodata — very compressible)
+    //   dim ≥ 1024 → κ ≈ 2.8  (dense embeddings — moderately compressible)
+    //   dim  < 1024 → κ ≈ 1.2  (low-dim / sparse — unlikely to compress well)
     storage::TensorRouter::DataProfile p;
-    p.dim         = dim;
-    p.num_vectors = num_vectors;
-    // Estimate κ from dimension heuristic (replace with pilot probe in Phase 2)
+    p.dim            = dim;
+    p.num_vectors    = num_vectors;
     p.kappa_estimate = (dim >= 4096) ? 4.5 : (dim >= 1024 ? 2.8 : 1.2);
-    return router.decide(p);
+    return storage::TensorRouter::decide(p);
 }
 
 // -----------------------------------------------------------------------
