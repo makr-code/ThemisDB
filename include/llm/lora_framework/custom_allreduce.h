@@ -23,6 +23,8 @@
 #include "llm/lora_framework/gpu_tensor.h"
 #include <vector>
 #include <memory>
+#include <functional>
+#include <optional>
 
 namespace themis {
 namespace llm {
@@ -41,6 +43,15 @@ namespace lora {
  */
 class CustomAllReduce {
 public:
+    /**
+     * @brief Function type for a production ring all-reduce backend.
+     *
+     * Callers can inject a real NCCL/RCCL/MPI all-reduce via
+     * setRingAllreduceFn().  The function receives the local tensor and
+     * an `average` flag; it must aggregate values across all ranks and
+     * write the result back into the tensor.
+     */
+    using RingAllreduceFn = std::function<bool(GPUTensor&, bool /*average*/)>;
     /**
      * @brief Initialize custom all-reduce
      * @param ctx Multi-GPU context
@@ -101,6 +112,17 @@ public:
      * @brief Barrier synchronization
      */
     void barrier();
+
+    /**
+     * @brief Inject a production ring all-reduce implementation.
+     *
+     * When set, ring_allreduce() delegates to this function instead of the
+     * in-process CPU fallback.  This allows wiring a real NCCL/RCCL/MPI
+     * collective at runtime without recompiling.
+     * @param fn Callable that performs the actual collective and writes the
+     *           reduced result back into the tensor in-place.
+     */
+    void setRingAllreduceFn(RingAllreduceFn fn);
     
     /**
      * @brief Get current rank
@@ -128,6 +150,8 @@ private:
     
     // Helper: Enable P2P access if supported
     void enable_p2p_access();
+
+    std::optional<RingAllreduceFn> ring_allreduce_fn_;
 };
 
 } // namespace lora

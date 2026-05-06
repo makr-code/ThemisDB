@@ -22,6 +22,8 @@
 #include "lora_layers.h"
 #include <vector>
 #include <memory>
+#include <functional>
+#include <optional>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -117,6 +119,23 @@ struct DistributedStats {
  */
 class DistributedTrainer {
 public:
+    /**
+     * @brief Function type for barrier synchronization.
+     *
+     * Callers inject a real NCCL/MPI/Gloo barrier via setBarrierFn().
+     * The injected function must block until all world_size ranks have
+     * called barrier().
+     */
+    using BarrierFn = std::function<void()>;
+
+    /**
+     * @brief Function type for parameter broadcast.
+     *
+     * Callers inject a real MPI_Bcast / Gloo broadcast via setBroadcastFn().
+     * The function receives the rank-0 data vector in-place; non-root ranks
+     * are expected to overwrite their copy with rank-0's values.
+     */
+    using BroadcastFn = std::function<void(std::vector<float>&)>;
     explicit DistributedTrainer(const DistributedConfig& config);
     ~DistributedTrainer();
     
@@ -161,6 +180,24 @@ public:
      * @brief Barrier synchronization (wait for all processes)
      */
     void barrier();
+
+    /**
+     * @brief Inject a real barrier implementation (NCCL/MPI/Gloo).
+     *
+     * When set, barrier() delegates to this function instead of the
+     * no-op fallback.  Call before the first training step.
+     * @param fn Callable that performs the actual collective barrier.
+     */
+    void setBarrierFn(BarrierFn fn);
+
+    /**
+     * @brief Inject a real broadcast implementation (MPI/Gloo).
+     *
+     * When set, broadcast_cpu() delegates to this function so that
+     * non-master ranks receive the master's parameter values.
+     * @param fn Callable that broadcasts data in-place from rank 0.
+     */
+    void setBroadcastFn(BroadcastFn fn);
     
     /**
      * @brief Get distributed configuration
@@ -218,6 +255,9 @@ private:
     // Helper methods
     void allreduce_cpu(std::vector<float>& data);
     void broadcast_cpu(std::vector<float>& data);
+
+    std::optional<BarrierFn>   barrier_fn_;
+    std::optional<BroadcastFn> broadcast_fn_;
 };
 
 /**

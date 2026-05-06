@@ -158,18 +158,32 @@ void DistributedTrainer::barrier() {
         return;
     }
 
+    if (barrier_fn_) {
+        (*barrier_fn_)();
+        return;
+    }
+
     // STUB/SIMULATION NOTE:
     // Purpose: No-op barrier that lets distributed training loops compile and
     //          run on single-node / non-NCCL / non-MPI builds.
-    // Activation: Always when is_distributed() is true but no NCCL/MPI backend
-    //             is linked (default build).
+    // Activation: Always when is_distributed() is true and no barrier function
+    //             has been injected via setBarrierFn() (default build without
+    //             NCCL/MPI).
     // Production Delta: No actual synchronization occurs; ranks are not held
     //                   until all peers reach the same point.  In true multi-GPU
     //                   or multi-node training this leads to gradient staleness
     //                   and divergent model weights.
-    // Removal Plan: Call ncclAllReduce / MPI_Barrier depending on the configured
-    //               backend.  See src/llm/FUTURE_ENHANCEMENTS.md §Distributed Trainer Barrier.
-    spdlog::debug("Barrier synchronization (rank {}) — STUB no-op", config_.rank);
+    // Removal Plan: Inject a real NCCL/MPI barrier via setBarrierFn() at startup.
+    //               See src/llm/FUTURE_ENHANCEMENTS.md §Distributed Trainer Barrier.
+    spdlog::debug("Barrier synchronization (rank {}) — no-op (inject via setBarrierFn)", config_.rank);
+}
+
+void DistributedTrainer::setBarrierFn(BarrierFn fn) {
+    barrier_fn_ = std::move(fn);
+}
+
+void DistributedTrainer::setBroadcastFn(BroadcastFn fn) {
+    broadcast_fn_ = std::move(fn);
 }
 
 DistributedStats DistributedTrainer::stats() const {
@@ -227,20 +241,25 @@ void DistributedTrainer::allreduce_cpu(std::vector<float>& data) {
 }
 
 // CPU-based Broadcast (simplified)
-void DistributedTrainer::broadcast_cpu(std::vector<float>& /*data*/) {
+void DistributedTrainer::broadcast_cpu(std::vector<float>& data) {
+    if (broadcast_fn_) {
+        (*broadcast_fn_)(data);
+        return;
+    }
+
     // STUB/SIMULATION NOTE:
     // Purpose: Allow multi-rank training to proceed past the broadcast call in
     //          single-process CPU mode where actual inter-process communication
     //          is not needed (all "ranks" share the same address space).
-    // Activation: Called whenever NCCL/RCCL/Gloo are absent or
-    //             config_.backend == DistributedBackend::NONE.
+    // Activation: Called whenever NCCL/RCCL/Gloo are absent and no BroadcastFn
+    //             has been injected via setBroadcastFn() (default build without
+    //             MPI/Gloo).
     // Production Delta: No data is sent to any rank.  In a true multi-process
     //                   setup (e.g. mpirun with world_size > 1) all non-master
     //                   ranks will continue with stale parameters; training
     //                   diverges immediately.  Single-process builds are unaffected.
-    // Removal Plan: Implement with MPI_Bcast (when MPI backend is active) or
-    //               with Gloo broadcast collective.  Guard with backend check.
-    //               See src/llm/FUTURE_ENHANCEMENTS.md §DistributedTrainer BroadcastCPU.
+    // Removal Plan: Inject a real MPI_Bcast/Gloo broadcast via setBroadcastFn() at
+    //               startup.  See src/llm/FUTURE_ENHANCEMENTS.md §DistributedTrainer BroadcastCPU.
 }
 
 // ============================================================================

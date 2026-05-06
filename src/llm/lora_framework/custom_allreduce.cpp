@@ -139,20 +139,28 @@ void CustomAllReduce::barrier() {
     allreduce(dummy, false);
 }
 
+void CustomAllReduce::setRingAllreduceFn(RingAllreduceFn fn) {
+    ring_allreduce_fn_ = std::move(fn);
+}
+
 bool CustomAllReduce::ring_allreduce(GPUTensor& tensor, bool average) {
+    if (ring_allreduce_fn_) {
+        return (*ring_allreduce_fn_)(tensor, average);
+    }
+
     // STUB/SIMULATION NOTE:
     // Purpose: Allow single-process multi-GPU training to run an all-reduce step
     //          without NCCL or MPI by doing peer reads through the CPU.
-    // Activation: Always when world_size_ > 1 and no NCCL backend is linked.
+    // Activation: Always when world_size_ > 1, no NCCL/MPI backend is linked,
+    //             and no RingAllreduceFn has been injected via setRingAllreduceFn().
     // Production Delta: For `world_size_ > 1`, all ranks read the same in-process
     //                   `tensor.cpu_data()` snapshot — peer-to-peer GPU copies are
     //                   not performed.  Gradients from ranks ≠ rank_ are the
     //                   initiating rank's own gradients, not their real gradients.
     //                   The "all-reduce" is mathematically incorrect for true
     //                   multi-process distributed training.
-    // Removal Plan: Replace peer-GPU reads with `cudaMemcpyPeerAsync()` or NCCL
-    //               `ncclAllReduce()`.  See src/llm/FUTURE_ENHANCEMENTS.md
-    //               §CustomAllReduce NCCL Integration.
+    // Removal Plan: Inject a real NCCL/RCCL/MPI all-reduce via setRingAllreduceFn().
+    //               See src/llm/FUTURE_ENHANCEMENTS.md §CustomAllReduce NCCL Integration.
 
     if (world_size_ == 1) {
         return true;  // No reduction needed
