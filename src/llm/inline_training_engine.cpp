@@ -251,6 +251,9 @@ struct InlineTrainingEngine::Impl {
 
     // Optional governance gate (Gap 3 — AI_ML_IMPACT_ASSESSMENT.md §7)
     std::shared_ptr<governance::ModelGovernancePolicy> governance_policy;
+
+    // Optional real gradient computer (stub #37 injection)
+    GradientComputerFn gradient_computer_fn;
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -286,6 +289,16 @@ void InlineTrainingEngine::setGovernancePolicy(
 {
     std::lock_guard<std::mutex> lock(impl_->state_mutex);
     impl_->governance_policy = std::move(policy);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Public API – setGradientComputer (stub #37)
+// ═══════════════════════════════════════════════════════════════════════════
+
+void InlineTrainingEngine::setGradientComputer(GradientComputerFn fn)
+{
+    std::lock_guard<std::mutex> lock(impl_->state_mutex);
+    impl_->gradient_computer_fn = std::move(fn);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -717,6 +730,19 @@ void InlineTrainingEngine::computeGradients(
     if (batch.empty()) {
         gradients.clear();
         return;
+    }
+
+    // If a real gradient computer has been injected, delegate to it.
+    {
+        GradientComputerFn fn;
+        {
+            std::lock_guard<std::mutex> lock(impl_->state_mutex);
+            fn = impl_->gradient_computer_fn;
+        }
+        if (fn) {
+            fn(batch, gradients);
+            return;
+        }
     }
 
     // STUB/SIMULATION NOTE:

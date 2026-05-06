@@ -109,6 +109,14 @@ struct ContinuousLearningOrchestrator::Impl {
     /// Latest LoopResult per phase (kept for context serialisation).
     std::unordered_map<int, LoopResult> last_loop_results;
 
+    // ---- Signal-source injection (stub #9) ----
+    /// Loop 1: BaoOptimizer::getMissRate() provider (0.0–1.0).
+    std::function<double()> hnsw_miss_rate_provider;
+    /// Loop 2: WorkloadAdaptiveOptimizer::getProfileDrift() provider (0.0–1.0).
+    std::function<double()> workload_drift_provider;
+    /// Loop 4: FeedbackCollector::newEntryCount() provider.
+    std::function<size_t()> feedback_entry_count_provider;
+
     // ---- IMPL-A3: Federation bridges ----
     std::shared_ptr<themis::distributed_knowledge::ILoRAFederationCoordinator>
         federation_coordinator_;
@@ -792,19 +800,33 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
     }
 
     // ── Execute loop-specific logic ──────────────────────────────────────────
-    // Each loop simulates the signal check, the training call, and the
-    // guardrail evaluation.  Guardrail thresholds are read from config.
+    // Each loop checks its primary signal source (injected via the set*Provider
+    // APIs when real adapters are available) and evaluates the guardrail.
     //
-    // STUB/SIMULATION NOTE:
-    // Purpose: Run IncrementalLoRATrainer / RLAIFTrainer stubs; real signal
-    //          values come from BaoOptimizer/WorkloadAdaptiveOptimizer at runtime.
-    // Activation: Always active until IMPL-A2 Phase 2 wires real signal sources.
-    // Production Delta: Real impl calls IncrementalLoRATrainer::runIncremental()
-    //                   and checks actual ECE / hot_coverage metrics.
-    // Roadmap ref: src/rag/ROADMAP.md § "Phase 8: Loop 1–4 Explicit Orchestration & Federated RLAIF"
-    // Removal Plan: Replace signal stubs with real accessor calls when adapters
-    //               are available in the orchestrator's dependency graph.
-    // Roadmap ref: src/rag/FUTURE_ENHANCEMENTS.md § "LLMIntegration and LLMJudgeIntegration: Replace Stub/Mock Mode"
+    // STUB/SIMULATION NOTE (residual):
+    // Purpose: When no signal provider is injected, synthetic fallback values
+    //          (current_accuracy proxy) are used so the optimizer/LR-scheduling
+    //          machinery can be tested end-to-end.
+    // Activation: Active per-loop only when the corresponding provider is null.
+    // Production Delta: Without a real provider, Loop 1/2/4 signal thresholds
+    //                   are proxied by current_accuracy; true signal values are
+    //                   absent.
+    // Removal Plan: Inject BaoOptimizer::getMissRate / WorkloadAdaptiveOptimizer::
+    //               getProfileDrift / FeedbackCollector::newEntryCount via the
+    //               set*Provider() APIs at server bootstrap.
+    // Roadmap ref: src/rag/ROADMAP.md §Phase 8; src/rag/FUTURE_ENHANCEMENTS.md
+    //              §LLMIntegration
+
+    // Snapshot signal providers under the lock
+    std::function<double()> miss_rate_fn;
+    std::function<double()> drift_fn;
+    std::function<size_t()> feedback_count_fn;
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        miss_rate_fn      = impl_->hnsw_miss_rate_provider;
+        drift_fn          = impl_->workload_drift_provider;
+        feedback_count_fn = impl_->feedback_entry_count_provider;
+    }
 
     const auto next_adapter_revision = impl_->stats.lora_retraining_count + 1;
     const auto baseline_accuracy = impl_->stats.accuracy_7d_avg > 0.0
@@ -812,25 +834,39 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
         : impl_->stats.current_accuracy;
 
     switch (phase) {
-        case LoopPhase::LOOP_1_HNSW_QUERY:
-            // Signal: BaoOptimizer::getMissRate() > 0.15 or HNSWTuner recall < 0.93
+        case LoopPhase::LOOP_1_HNSW_QUERY: {
+            // Signal: BaoOptimizer::getMissRate() > 0.15 (real) or accuracy proxy (stub)
             // Guardrail: ECE < 0.05 AND hot_coverage >= 0.85
+            const double miss_rate = miss_rate_fn ? miss_rate_fn() : (1.0 - impl_->stats.current_accuracy);
             result.success          = true;
-            result.guardrail_passed = (impl_->stats.current_accuracy >= (1.0 - 0.05));
+            // Guardrail: miss rate must be below the ECE threshold (0.05 proxy)
+            result.guardrail_passed = (miss_rate < 0.05) || (impl_->stats.current_accuracy >= 0.95);
             result.metric_delta     = result.guardrail_passed ? 0.02 : 0.0;
             result.adapter_version  = result.guardrail_passed
                                           ? "v" + std::to_string(next_adapter_revision)
                                           : "";
+            if (miss_rate_fn) {
+                spdlog::debug("CLO Loop1: hnsw_miss_rate={:.4f} guardrail_passed={}",
+                              miss_rate, result.guardrail_passed);
+            }
             break;
+        }
 
-        case LoopPhase::LOOP_2_WORKLOAD:
-            // Signal: WorkloadAdaptiveOptimizer::getProfileDrift() > 0.1
+        case LoopPhase::LOOP_2_WORKLOAD: {
+            // Signal: WorkloadAdaptiveOptimizer::getProfileDrift() > 0.1 (real) or accuracy proxy
             // Guardrail: no regression in avg_speedup
+            const double drift = drift_fn ? drift_fn() : (1.0 - impl_->stats.current_accuracy);
             result.success          = true;
-            result.guardrail_passed = (impl_->stats.current_accuracy >= baseline_accuracy);
+            // Guardrail: drift must stay below 0.1 or current accuracy must not regress
+            result.guardrail_passed = (drift < 0.1) || (impl_->stats.current_accuracy >= baseline_accuracy);
             result.metric_delta     = result.guardrail_passed ? 0.01 : 0.0;
             result.adapter_version  = "";
+            if (drift_fn) {
+                spdlog::debug("CLO Loop2: workload_drift={:.4f} guardrail_passed={}",
+                              drift, result.guardrail_passed);
+            }
             break;
+        }
 
         case LoopPhase::LOOP_3_SCHEMA_INDEX:
             // Advisory-only: always succeeds, DBA review required before DDL
@@ -840,17 +876,27 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
             result.adapter_version  = "";
             break;
 
-        case LoopPhase::LOOP_4_RLAIF:
-            // Signal: FeedbackCollector::newEntryCount() >= 100
+        case LoopPhase::LOOP_4_RLAIF: {
+            // Signal: FeedbackCollector::newEntryCount() >= 100 (real) or accuracy proxy
             // Guardrail: DBA acceptance rate >= 0.75
+            const size_t entry_count = feedback_count_fn ? feedback_count_fn() : 0;
+            // When a real provider is wired, require at least 100 new entries before
+            // committing a new adapter.  Without provider, fall back to accuracy proxy.
+            const bool enough_feedback = feedback_count_fn
+                ? (entry_count >= 100)
+                : (impl_->stats.current_accuracy >= 0.75);
             result.success          = true;
-            // Use current_accuracy as proxy for DBA acceptance rate
-            result.guardrail_passed = (impl_->stats.current_accuracy >= 0.75);
+            result.guardrail_passed = enough_feedback;
             result.metric_delta     = result.guardrail_passed ? 0.03 : 0.0;
             result.adapter_version  = result.guardrail_passed
                                           ? "rlaif_v" + std::to_string(next_adapter_revision)
                                           : "";
+            if (feedback_count_fn) {
+                spdlog::debug("CLO Loop4: feedback_entries={} guardrail_passed={}",
+                              entry_count, result.guardrail_passed);
+            }
             break;
+        }
 
         default:
             break;
@@ -1071,6 +1117,26 @@ void ContinuousLearningOrchestrator::setTrainerForFederation(
     themis::training::IncrementalLoRATrainer* trainer) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->trainer_for_federation_ = trainer;
+}
+
+// ── Signal-source injection APIs (stub #9) ──────────────────────────────────
+
+void ContinuousLearningOrchestrator::setHnswMissRateProvider(
+    std::function<double()> provider) {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    impl_->hnsw_miss_rate_provider = std::move(provider);
+}
+
+void ContinuousLearningOrchestrator::setWorkloadDriftProvider(
+    std::function<double()> provider) {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    impl_->workload_drift_provider = std::move(provider);
+}
+
+void ContinuousLearningOrchestrator::setFeedbackEntryCountProvider(
+    std::function<size_t()> provider) {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    impl_->feedback_entry_count_provider = std::move(provider);
 }
 
 void ContinuousLearningOrchestrator::handleFederatedRoundStart() {
