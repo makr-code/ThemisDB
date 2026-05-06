@@ -19,6 +19,10 @@
  * - AR-01  loadAdapter() copies TT-core data from the backend into a heap
  *          allocation instead of using mmap(MAP_SHARED) for zero-copy.
  *          See STUB #172 in STUB_INVENTORY.md.
+ * - AR-02  findSimilarAdapters() uses column-mean fingerprint cosine similarity
+ *          (inherited from STUB #174 in TensorFingerprintGraph).  Full TT
+ *          inner-product deferred to Q3 2027 (Phase 4 AdaLoRA bridge).
+ *          See STUB #177 in STUB_INVENTORY.md.
  *
  * STUB/SIMULATION NOTE (AR-01):
  * Purpose: Provide a fully functional adapter store/load cycle so that
@@ -33,6 +37,18 @@
  * Removal Plan: Q1 2027 — replace backend->get() + deserialize() with
  *               mmap(MAP_SHARED) on the RocksDB SST backing file + mlock()
  *               to pin the pages; return raw float* into the mmap region.
+ *
+ * STUB/SIMULATION NOTE (AR-02 / STUB #177):
+ * Purpose: Expose findSimilarAdapters() before full TT inner-product sweep
+ *          is available in TensorFingerprintGraph.
+ * Activation: Only when setFingerprintGraph() has been called with a non-null
+ *             graph; otherwise findSimilarAdapters() returns an empty vector.
+ * Production Delta: Similarity scores are based on cosine distance of the G_0
+ *                   column-mean fingerprint, not the exact TT inner-product.
+ *                   For high-rank adapters (G_0 energy < 60% of Frobenius
+ *                   norm) the ranking may deviate from the exact result.
+ * Removal Plan: Q3 2027 — wire TTTrain::innerProduct() per-pair and add HNSW
+ *               indexing over fingerprints for sub-linear search.
  */
 
 #include "tensor/adapter_repository.h"
@@ -92,9 +108,22 @@ bool AdapterRepository::store(const std::string&      domain,
     const bool ok = backend_->put(key, bytes);
 
     if (ok) {
-        std::unique_lock lock(stats_mutex_);
-        ++stats_.total_adapters;
-        stats_.total_param_bytes += adapter_train.totalParams() * sizeof(float);
+        {
+            std::unique_lock lock(stats_mutex_);
+            ++stats_.total_adapters;
+            stats_.total_param_bytes += adapter_train.totalParams() * sizeof(float);
+        }
+
+        // Register fingerprint in the graph (if wired).
+        // Acquire graph_mutex_ AFTER releasing stats_mutex_ to preserve lock order.
+        std::shared_ptr<TensorFingerprintGraph> graph;
+        {
+            std::shared_lock glock(graph_mutex_);
+            graph = fingerprint_graph_;
+        }
+        if (graph) {
+            graph->addAdapter(key, adapter_train, domain, base_model_id, tenant_id_);
+        }
     }
     return ok;
 }
@@ -111,8 +140,20 @@ bool AdapterRepository::remove(const std::string& domain,
 
     const bool ok = backend_->del(key);
     if (ok) {
-        std::unique_lock lock(stats_mutex_);
-        if (stats_.total_adapters > 0) --stats_.total_adapters;
+        {
+            std::unique_lock lock(stats_mutex_);
+            if (stats_.total_adapters > 0) --stats_.total_adapters;
+        }
+
+        // Deregister fingerprint from the graph (if wired).
+        std::shared_ptr<TensorFingerprintGraph> graph;
+        {
+            std::shared_lock glock(graph_mutex_);
+            graph = fingerprint_graph_;
+        }
+        if (graph) {
+            graph->removeAdapter(key);
+        }
     }
     return ok;
 }
@@ -206,6 +247,44 @@ AdapterRepository::listAdapters() const {
 
     std::sort(result.begin(), result.end());
     return result;
+}
+
+// ============================================================================
+// setFingerprintGraph()
+// ============================================================================
+
+void AdapterRepository::setFingerprintGraph(
+        std::shared_ptr<TensorFingerprintGraph> graph) {
+    std::unique_lock lock(graph_mutex_);
+    fingerprint_graph_ = std::move(graph);
+}
+
+// ============================================================================
+// findSimilarAdapters()
+// ============================================================================
+
+std::vector<SimilarityResult>
+AdapterRepository::findSimilarAdapters(const std::string& domain,
+                                        const std::string& base_model_id,
+                                        std::size_t        k) const {
+    if (k == 0 || domain.empty() || base_model_id.empty()) {
+        return {};
+    }
+
+    // STUB/SIMULATION NOTE (AR-02 / STUB #177):
+    // Delegates to TensorFingerprintGraph::findSimilar() which uses
+    // column-mean fingerprint cosine similarity (not full TT inner-product).
+    std::shared_ptr<TensorFingerprintGraph> graph;
+    {
+        std::shared_lock lock(graph_mutex_);
+        graph = fingerprint_graph_;
+    }
+    if (!graph) {
+        return {};
+    }
+
+    const std::string key = makeKey(domain, base_model_id);
+    return graph->findSimilar(key, k);
 }
 
 // ============================================================================

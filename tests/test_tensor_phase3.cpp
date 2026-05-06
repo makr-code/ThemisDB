@@ -67,13 +67,19 @@
  *   TBO-05  build(FOURIER, {3}) throws (3 is not a power of 2)
  *   TBO-06  build(RADON, ...) throws std::logic_error (stub #171)
  *
- * AdapterRepository — AR-01..AR-06
+ * AdapterRepository — AR-01..AR-12
  *   AR-01  store() + loadAdapter() round-trip: valid=true and cores match
  *   AR-02  loadAdapter() for unknown domain returns valid=false
  *   AR-03  listDomains() returns all stored domains (deduplicated, sorted)
  *   AR-04  store() overwrites existing adapter at same key
  *   AR-05  Different tenants are isolated (store in tenant-A, miss in tenant-B)
  *   AR-06  listDomains() returns empty vector for empty repository
+ *   AR-07  setFingerprintGraph() wires store() to register the fingerprint
+ *   AR-08  findSimilarAdapters() returns similar adapters ranked by score
+ *   AR-09  findSimilarAdapters() returns empty when no graph is set
+ *   AR-10  remove() also deregisters the adapter from the fingerprint graph
+ *   AR-11  findSimilarAdapters() respects k limit (returns at most k results)
+ *   AR-12  findSimilarAdapters() returns empty for an adapter unknown to graph
  *
  * TensorFingerprintGraph — TFG-01..TFG-06
  *   TFG-01  addAdapter() registers the entry; size() increases
@@ -879,8 +885,141 @@ TEST(AdapterRepository, AR06_empty_repository_listDomains) {
 }
 
 // ============================================================================
-// TensorFingerprintGraph — TFG-01..TFG-06
+// AdapterRepository + TensorFingerprintGraph integration — AR-07..AR-12
 // ============================================================================
+//   AR-07  setFingerprintGraph() wires store() to register the fingerprint
+//   AR-08  findSimilarAdapters() returns similar adapters ranked by score
+//   AR-09  findSimilarAdapters() returns empty when no graph is set
+//   AR-10  remove() also deregisters the adapter from the fingerprint graph
+//   AR-11  findSimilarAdapters() respects k limit
+//   AR-12  findSimilarAdapters() returns empty for an adapter unknown to graph
+// ============================================================================
+
+// Helper: build a 2-core TT-train for similarity tests.
+// fill_value controls the first-core values so we can engineer similar adapters.
+static TTTrain makeAR07Train(float fill_value = 1.0f, std::size_t dim = 4u) {
+    TensorTrainConfig cfg;
+    cfg.max_rank = 2;
+    cfg.eps      = 0.0f;
+    TensorTrainDecomposer dec;
+    std::vector<float> data(dim * dim);
+    for (std::size_t i = 0; i < data.size(); ++i)
+        data[i] = fill_value * static_cast<float>(i + 1);
+    auto [train, unused] = dec.decompose(data, {dim, dim}, cfg);
+    return train;
+}
+
+// AR-07: setFingerprintGraph() wires store() to register the fingerprint.
+TEST(AdapterRepository, AR07_setFingerprintGraph_wires_store) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant1");
+    auto graph = std::make_shared<TensorFingerprintGraph>();
+
+    EXPECT_EQ(graph->size(), 0u);
+    repo.setFingerprintGraph(graph);
+
+    TTTrain adapter = makeAR07Train(1.0f);
+    ASSERT_TRUE(repo.store("legal", "llama3-8b", adapter));
+
+    // The graph should now have exactly one entry.
+    EXPECT_EQ(graph->size(), 1u);
+    auto keys = graph->adapterKeys();
+    ASSERT_EQ(keys.size(), 1u);
+    // Key follows __adapters__:<tenant>:<domain>:<model> schema.
+    EXPECT_NE(keys[0].find("legal"), std::string::npos);
+    EXPECT_NE(keys[0].find("llama3-8b"), std::string::npos);
+}
+
+// AR-08: findSimilarAdapters() returns adapters ranked by cosine score.
+TEST(AdapterRepository, AR08_findSimilarAdapters_ranks_by_score) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant1");
+    auto graph = std::make_shared<TensorFingerprintGraph>();
+    repo.setFingerprintGraph(graph);
+
+    // Store three adapters: A and B are nearly identical; C is very different.
+    ASSERT_TRUE(repo.store("legal",  "llama3-8b",  makeAR07Train(1.0f)));
+    ASSERT_TRUE(repo.store("legal",  "llama3-70b", makeAR07Train(1.01f)));   // very close to A
+    ASSERT_TRUE(repo.store("science","llama3-8b",  makeAR07Train(100.0f)));  // different scale
+
+    // Ask for the 2 most similar adapters to legal/llama3-8b.
+    auto results = repo.findSimilarAdapters("legal", "llama3-8b", 2);
+
+    ASSERT_FALSE(results.empty());
+    // The top result should be legal/llama3-70b (near-identical fingerprint).
+    EXPECT_EQ(results[0].base_model_id, "llama3-70b");
+    // Cosine scores should be ≥ 0 and in descending order.
+    EXPECT_GE(results[0].score, 0.0f);
+    if (results.size() >= 2u) {
+        EXPECT_GE(results[0].score, results[1].score);
+    }
+}
+
+// AR-09: findSimilarAdapters() returns empty when no graph is set.
+TEST(AdapterRepository, AR09_findSimilarAdapters_empty_without_graph) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant1");
+    // No setFingerprintGraph() call.
+
+    ASSERT_TRUE(repo.store("legal", "llama3-8b", makeAR07Train()));
+    auto results = repo.findSimilarAdapters("legal", "llama3-8b", 5);
+    EXPECT_TRUE(results.empty());
+}
+
+// AR-10: remove() also deregisters the adapter from the fingerprint graph.
+TEST(AdapterRepository, AR10_remove_deregisters_fingerprint) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant1");
+    auto graph = std::make_shared<TensorFingerprintGraph>();
+    repo.setFingerprintGraph(graph);
+
+    ASSERT_TRUE(repo.store("legal", "llama3-8b", makeAR07Train()));
+    EXPECT_EQ(graph->size(), 1u);
+
+    ASSERT_TRUE(repo.remove("legal", "llama3-8b"));
+
+    // Fingerprint entry must be gone.
+    EXPECT_EQ(graph->size(), 0u);
+}
+
+// AR-11: findSimilarAdapters() returns at most k results.
+TEST(AdapterRepository, AR11_findSimilarAdapters_respects_k_limit) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant1");
+    auto graph = std::make_shared<TensorFingerprintGraph>();
+    repo.setFingerprintGraph(graph);
+
+    // Store 5 adapters.
+    for (int i = 0; i < 5; ++i) {
+        repo.store("domain" + std::to_string(i), "model",
+                   makeAR07Train(static_cast<float>(i + 1)));
+    }
+
+    // Ask for only 2 of the 4 others.
+    auto results = repo.findSimilarAdapters("domain0", "model", 2u);
+    EXPECT_LE(results.size(), 2u);
+}
+
+// AR-12: findSimilarAdapters() returns empty for an adapter not in the graph.
+TEST(AdapterRepository, AR12_findSimilarAdapters_empty_for_unknown_adapter) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant1");
+    auto graph = std::make_shared<TensorFingerprintGraph>();
+    repo.setFingerprintGraph(graph);
+
+    // Stored in the backend but NOT via the graph-wired repo — won't be in graph.
+    // (We use a second repo that shares the same backend but has no graph.)
+    auto backend2 = backend;
+    AdapterRepository repo2(backend2, "tenant1");
+    ASSERT_TRUE(repo2.store("legal", "orphan", makeAR07Train()));
+    // The graph wired to repo still has 0 entries.
+    EXPECT_EQ(graph->size(), 0u);
+
+    // findSimilarAdapters on the graph-wired repo: adapter key is not registered.
+    auto results = repo.findSimilarAdapters("legal", "orphan", 5u);
+    EXPECT_TRUE(results.empty());
+}
+
 //   TFG-01  addAdapter() registers the entry; size() increases
 //   TFG-02  entry() returns the stored FingerprintEntry
 //   TFG-03  findSimilar() returns the same adapter as top-1 for identical train

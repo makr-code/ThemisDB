@@ -53,6 +53,7 @@
 
 #include "storage/tensor_train_decomposer.h"
 #include "storage/tensor_network_storage_engine.h"
+#include "tensor/tensor_fingerprint_graph.h"
 
 #include <chrono>
 #include <cstddef>
@@ -210,6 +211,51 @@ public:
     [[nodiscard]] std::vector<std::pair<std::string, std::string>>
         listAdapters() const;
 
+    // ─── Fingerprint Graph Integration (Phase 4 prep) ────────────────────────
+
+    /**
+     * @brief Wire a TensorFingerprintGraph to this repository.
+     *
+     * When set, every `store()` call also registers the adapter fingerprint
+     * in the graph, and every `remove()` call deregisters it.
+     * `findSimilarAdapters()` requires the graph to be set.
+     *
+     * Thread-safe; may be called at any time after construction.
+     *
+     * @param graph  Shared fingerprint graph (nullptr disables integration).
+     */
+    void setFingerprintGraph(std::shared_ptr<TensorFingerprintGraph> graph);
+
+    /**
+     * @brief Find the top-k adapters most similar to the given adapter.
+     *
+     * Delegates to the wired `TensorFingerprintGraph`.  Similarity is the
+     * cosine distance on the G_0 column-mean fingerprint.
+     *
+     * @note
+     * // STUB/SIMULATION NOTE (STUB #177):
+     * // Purpose: Expose adapter similarity search backed by fingerprint graph.
+     * // Activation: Only when setFingerprintGraph() has been called.
+     * // Production Delta: Uses column-mean fingerprint cosine (inherited from
+     * //   STUB #174), NOT the full TT inner-product sweep (O(d·r²)).  Rankings
+     * //   may differ from the exact result for high-rank adapters where G_0
+     * //   energy < 60% of the total Frobenius norm.
+     * // Removal Plan: Q3 2027 — replace with full TTTrain::innerProduct()
+     * //   similarity + HNSW index over fingerprints (Phase 4 AdaLoRA bridge).
+     *
+     * @param domain         Domain tag of the query adapter.
+     * @param base_model_id  Base model identifier of the query adapter.
+     * @param k              Maximum number of results to return.
+     *
+     * @return Sorted list (descending cosine score) of similar adapters.
+     *         Empty when the graph is not set, the adapter is not registered,
+     *         or k == 0.
+     */
+    [[nodiscard]] std::vector<SimilarityResult>
+        findSimilarAdapters(const std::string& domain,
+                            const std::string& base_model_id,
+                            std::size_t        k) const;
+
     // ─── Diagnostics ─────────────────────────────────────────────────────────
 
     struct RepositoryStats {
@@ -228,6 +274,12 @@ private:
 
     std::shared_ptr<storage::ITensorStorageBackend> backend_;
     std::string                                     tenant_id_;
+
+    /// Optional fingerprint graph — set via setFingerprintGraph().
+    /// Protected by graph_mutex_ (separate from stats_mutex_ to prevent
+    /// lock-order inversions; graph reads must never hold stats_mutex_).
+    mutable std::shared_mutex               graph_mutex_;
+    std::shared_ptr<TensorFingerprintGraph> fingerprint_graph_;
 
     mutable std::shared_mutex stats_mutex_;
     mutable RepositoryStats   stats_;

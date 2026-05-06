@@ -26,7 +26,7 @@
 
 ---
 
-## Stub Inventory (176 entries — 46 resolved, 130 active)
+## Stub Inventory (177 entries — 46 resolved, 131 active)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -232,7 +232,8 @@
 | 174 | `tensor/tensor_fingerprint_graph.cpp::findSimilar()/findSimilarByFingerprint()` | Column-mean fingerprint cosine similarity instead of full TT inner-product sweep (Holtz 2012, O(d·r²)) | Always (no compile flag required) | For adapters where first-core energy < 60% of total Frobenius norm, ranking can deviate from exact TT inner-product similarity by up to ~15% | Replace inner loop with TTTrain::innerProduct() per pair; add optional HNSW indexing over fingerprints for sub-linear search — TFG-01 | Q3 2027 |
 | 175 | `rag/tensor_rag_pipeline.cpp::step()::flare_query` | `RAGDecision::flare_query` is a plain space-joined text string built by `FlareRetrieval::buildQuery()` (STUB #168); not an embedding vector | Always (no embedding backend wired in TensorRAGPipeline) | Semantic TT-cosine retrieval requires the caller to embed the string before passing it to tensor_index.searchFlat(); BM25/exact-match retrieval still works | Phase 3-C (Q1 2027): inject IEmbeddingBackend; add `flare_query_embedding: std::vector<float>` to RAGDecision — PIPE-01 | Q1 2027 |
 | 176 | `tensor/tensor_mmap_bridge.cpp::TensorMmapBridge::buildFromTrain()` | Allocates MAP_ANONYMOUS\|MAP_PRIVATE region + memcpy from in-memory store; not a true zero-copy path | Always (no compile flag required; STUB #176) | One memcpy per TT-core at bridge-creation time; real zero-copy requires MAP_SHARED on RocksDB SST file pages; `mlock()` may silently fail in CI containers where RLIMIT_MEMLOCK=0 | Replace MAP_ANONYMOUS + memcpy with mmap(MAP_SHARED, sst_fd, offset) once RocksDB SST mmap integration available — TIM-01 | Q1 2027 |
+| 177 | `tensor/adapter_repository.cpp::AdapterRepository::findSimilarAdapters()` | Uses column-mean G_0 fingerprint cosine similarity (inherited from STUB #174 in `TensorFingerprintGraph`) instead of full TT inner-product sweep | Only when `setFingerprintGraph()` has been called; returns empty vector otherwise | Rankings may deviate from exact cosine similarity for high-rank adapters where G_0 energy < 60% of total Frobenius norm; full TT inner-product sweep (O(d·r²)) and HNSW index over fingerprints are deferred | Replace column-mean cosine with `TTTrain::innerProduct()` per-pair + HNSW index — Phase 4 AdaLoRA bridge (AR-02) | Q3 2027 |
 
 ---
 
-*Last updated: 2026-05-06 — 176 entries, 46 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-05-06 — 177 entries, 46 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

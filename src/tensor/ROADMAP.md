@@ -228,7 +228,13 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 
 ### Long-term (Phase 4, Q2–Q4 2027)
 
-- [ ] `AdaLoRA ↔ TT Bridge` Phase 3 — `findSimilarAdapters()` via TensorFingerprintGraph (Target: Q3 2027)
+- [~] `AdaLoRA ↔ TT Bridge` Phase 3 — `findSimilarAdapters()` via TensorFingerprintGraph (Target: Q3 2027)
+  - **In progress 2026-05-06**: `AdapterRepository::setFingerprintGraph()` wires `store()`/`remove()` to
+    register/deregister fingerprints automatically; `findSimilarAdapters(domain, model, k)` delegates to
+    `TensorFingerprintGraph::findSimilar()` (column-mean cosine; STUB #177 — inherits STUB #174).
+  - Tests AR-07..AR-12 added to `tests/test_tensor_phase3.cpp`.
+  - Remaining: replace column-mean fingerprint similarity with full TT inner-product sweep (O(d·r²))
+    and HNSW index over fingerprints for sub-linear search (Q3 2027, Phase 4).
 - [ ] Distributed TT shard layout (one shard per TT-core index) (Target: Q4 2027)
   - Compatible with RAID-Sharding 2.0 tensor-based reconstruction
     (paper §RAID-Sharding 2.0: node failure = missing tensor index; rebuilt via
@@ -392,7 +398,7 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 - [ ] Per-core shard distribution over Themis-Net + RAID-Sharding 2.0 tensor completion
 - [ ] CUDA cuSOLVER TT-SVD during `add()` (≤ 80ms for 10⁶-element 6D tensor)
 - [ ] HT contraction on A100 GPU tensor cores (32× vs CUDA baseline)
-- [ ] AdaLoRA `findSimilarAdapters()` wire-up
+- [~] AdaLoRA `findSimilarAdapters()` wire-up — **in progress 2026-05-06** (fingerprint cosine path; full TT inner-product + HNSW Q3 2027)
 
 ### Phase 5: HT + QTT Formats (Target: Q1–Q2 2028)
 
