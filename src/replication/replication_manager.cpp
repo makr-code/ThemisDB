@@ -3074,6 +3074,18 @@ void MultiMasterReplicationManager::replicationLoop() {
             bool ok = replicateWrite(entry);
             if (ok) {
                 stats_writes_replicated_.fetch_add(1);
+
+                // Append to committed write log so getMissingWrites() can
+                // compute the delta for lagging peers.
+                {
+                    std::lock_guard<std::mutex> log_lock(committed_log_mutex_);
+                    committed_writes_log_.push_back(entry);
+                    // Cap to 2× max_pending_writes to bound memory.
+                    const size_t cap = static_cast<size_t>(config_.max_pending_writes) * 2u;
+                    while (committed_writes_log_.size() > cap) {
+                        committed_writes_log_.pop_front();
+                    }
+                }
             }
             if (cb) {
                 cb(entry, ok);
@@ -3307,22 +3319,23 @@ void MultiMasterReplicationManager::antiEntropySync(const std::string& peer_id) 
 }
 
 std::vector<MMWriteEntry> MultiMasterReplicationManager::getMissingWrites(
-    [[maybe_unused]] const VectorClock& peer_clock)
+    const VectorClock& peer_clock)
 {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Satisfies the getMissingWrites() API while the per-entry
-    //          vector-clock comparison against a local write log is not
-    //          implemented for the multi-master sync path.
-    // Activation: Always — WAL replay for multi-master anti-entropy is handled
-    //             by ReplicationStream / WALManager on the Raft leader-follower
-    //             path only; the multi-master delta-extraction path is absent.
-    // Production Delta: Zero entries returned; any gap in peer replication state
-    //                   is not detected and never healed by this code path.
-    // Removal Plan: Implement a queryable write log keyed by vector-clock;
-    //               return all entries where `entry.clock` happens-after
-    //               `peer_clock`.  See src/replication/FUTURE_ENHANCEMENTS.md
-    //               §Multi-Master getMissingWrites.
-    return {};
+    // Return all committed entries whose vector clock is NOT already dominated
+    // by the peer's clock.  An entry's vector clock `VC_e` is dominated by
+    // `peer_clock` if `VC_e.happensBefore(peer_clock)` is true — meaning the
+    // peer has already seen this entry.  Any entry where that is false is
+    // potentially missing from the peer and must be resent.
+    std::lock_guard<std::mutex> log_lock(committed_log_mutex_);
+
+    std::vector<MMWriteEntry> missing;
+    missing.reserve(committed_writes_log_.size());
+    for (const auto& entry : committed_writes_log_) {
+        if (!entry.vector_clock.happensBefore(peer_clock)) {
+            missing.push_back(entry);
+        }
+    }
+    return missing;
 }
 
 // ============================================================================

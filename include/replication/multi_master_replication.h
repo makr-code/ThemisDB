@@ -46,6 +46,7 @@
 #include <chrono>
 #include <functional>
 #include <atomic>
+#include <deque>
 #include <mutex>
 #include <shared_mutex>
 #include <condition_variable>
@@ -501,6 +502,12 @@ private:
     std::map<std::string, WriteCallback> write_callbacks_;
     mutable std::mutex writes_mutex_;
     std::condition_variable writes_cv_;
+
+    // Committed write log: entries appended after successful replication so
+    // that getMissingWrites() can return the delta to lagging peers.
+    // Capped at max_pending_writes * 2 to bound memory usage.
+    std::deque<MMWriteEntry> committed_writes_log_;
+    mutable std::mutex committed_log_mutex_;
     
     // Conflict management
     std::map<std::string, std::shared_ptr<ConflictResolver>> resolvers_;
