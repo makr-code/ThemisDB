@@ -973,7 +973,19 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
         bool precommitted = false;
         if (precommit_cb) {
             // Invoke the real PreCommit RPC for this participant.
-            precommitted = precommit_cb(shard_id, txn.transaction_id);
+            // Exceptions are treated as NACK per the contract documented on
+            // setPreCommitCallback(): "must not throw; exceptions treated as NACK".
+            try {
+                precommitted = precommit_cb(shard_id, txn.transaction_id);
+            } catch (const std::exception& ex) {
+                spdlog::error("PreCommit callback threw for shard {} txn={}: {} — treating as NACK",
+                              shard_id, txn.transaction_id, ex.what());
+                precommitted = false;
+            } catch (...) {
+                spdlog::error("PreCommit callback threw unknown exception for shard {} txn={} — treating as NACK",
+                              shard_id, txn.transaction_id);
+                precommitted = false;
+            }
         } else {
             // CST-6 fallback: treat Phase-1 PREPARED state as PreCommit ack.
             precommitted = participant.prepared;

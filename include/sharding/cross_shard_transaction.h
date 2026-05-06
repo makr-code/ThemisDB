@@ -360,8 +360,14 @@ public:
      * Pass @c nullptr to remove the callback (restores the 2PC-equivalent
      * fallback and logs a warning per CST-6).
      *
+     * **Exception safety**: The callback must not throw.  If it does, the
+     * exception is caught by execute3PC(), treated as a NACK (i.e. the
+     * participant's PreCommit is counted as failed), and the transaction is
+     * aborted.
+     *
      * @param fn  Callable @c bool(shard_id, txn_id) that sends the PreCommit
-     *            RPC to the given shard; returns true on acknowledgement.
+     *            RPC to the given shard; returns true on acknowledgement,
+     *            false on NACK; must not throw.
      */
     using PreCommitRpcFn =
         std::function<bool(const std::string& /*shard_id*/,
