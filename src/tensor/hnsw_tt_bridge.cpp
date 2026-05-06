@@ -3,13 +3,13 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tensor/hnsw_tt_bridge.cpp                          ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-05                                         ║
+  Version:         1.1.0                                              ║
+  Last Modified:   2026-05-06                                         ║
   Author:          copilot                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                     ║
     • Maturity Level:  🟡 EXPERIMENTAL                                 ║
-    • Open Issues:     Stubs: 1 (HTB-01)                                 ║
+    • Open Issues:     Stubs: 0                                        ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
@@ -19,20 +19,26 @@
  *
  * ### Architecture recap (see header for full diagram)
  *
- * 1. add()      → extract first-core sketch → insert into HNSW layer (HTB-01)
+ * 1. add()      → extract first-core sketch → insert into HNSW layer
  *               → store full TT in tt_store_
  * 2. search()   → HNSW search on sketches → retrieve top-C candidates
  *               → TT-cosine re-rank → return top-k
  *
  * ### Stub log
- * - HTB-01  HNSW layer — hnswlib integration pending; currently linear scan
- *           on sketches (Phase 2, Q4 2026)
+ * - HTB-01  HNSW layer — resolved 2026-05-06: when THEMIS_HNSW_ENABLED,
+ *           HnswLayer uses hnswlib::HierarchicalNSW<float> over sketch
+ *           vectors (sketch_dim = min(n_1, cfg.sketch_dim)); linear scan
+ *           remains as compile-time fallback when hnswlib is absent.
  * - HTB-02  save() — resolved 2026-05-06: binary file serialization implemented
  * - HTB-03  load() — resolved 2026-05-06: binary file deserialization implemented
  */
 
 #include "tensor/hnsw_tt_bridge.h"
 #include "utils/logger.h"
+
+#ifdef THEMIS_HNSW_ENABLED
+#include <hnswlib/hnswlib.h>
+#endif
 
 #include <algorithm>
 #include <cmath>
@@ -46,50 +52,184 @@ namespace themis {
 namespace tensor {
 
 // ============================================================================
-// HnswLayer — Phase-1 stub: linear scan on first-core sketches
+// HnswLayer — hnswlib::HierarchicalNSW<float> when THEMIS_HNSW_ENABLED,
+//             linear-scan fallback otherwise (HTB-01 resolved 2026-05-06).
 //
-// STUB/SIMULATION NOTE:
-// Purpose: placeholder until hnswlib is linked in Phase 2
-// Activation: always in Phase 1
-// Production Delta: real impl uses hnswlib::HierarchicalNSW<float> over
-//   sketch vectors; sketch_dim = min(n_1, cfg.sketch_dim)
-// Removal Plan: replace in Phase 2 (Q4 2026) — HTB-01
+// Design notes:
+//   • hnswlib is lazily initialised on the first insert() call, at which
+//     point the sketch dimension is known.
+//   • hnswlib labels are assigned monotonically (next_label_++); id↔label
+//     bi-maps allow int64_t IDs to be translated.
+//   • Soft-deletion via markDelete() is used; active_count_ tracks the live
+//     count because hnswlib doesn't expose it directly.
+//   • Both space_ and appr_ are raw pointers managed by ~HnswLayer (RAII via
+//     the struct destructor).  The space must outlive the HNSW graph.
+//   • Thread safety is provided externally by HnswTTBridge::rw_mutex_.
 // ============================================================================
 
 struct HnswTTBridge::HnswLayer {
+
+    // -----------------------------------------------------------------------
+    // Linear-scan fallback (only populated when hnswlib is absent or errors)
+    // -----------------------------------------------------------------------
     std::unordered_map<int64_t, std::vector<float>> sketches;
 
+#ifdef THEMIS_HNSW_ENABLED
+    // -----------------------------------------------------------------------
+    // hnswlib resources (Phase 2 — HTB-01)
+    // -----------------------------------------------------------------------
+    hnswlib::SpaceInterface<float>*   space_   = nullptr;
+    hnswlib::HierarchicalNSW<float>*  appr_    = nullptr;
+    size_t active_count_    = 0;
+    size_t next_label_      = 0;
+    size_t M_               = 16;
+    size_t ef_construction_ = 200;
+    std::unordered_map<int64_t, size_t> id_to_label_;
+    std::unordered_map<size_t, int64_t> label_to_id_;
+    static constexpr size_t kInitialCapacity = 4096;
+
+    /// Lazy initialisation — called on the first insert() once dim is known.
+    /// Exception-safe: cleans up space_ on HierarchicalNSW ctor failure.
+    void ensureInit(size_t dim) {
+        if (appr_) return;
+        auto* sp = new hnswlib::L2Space(dim);
+        try {
+            appr_ = new hnswlib::HierarchicalNSW<float>(
+                sp, kInitialCapacity, M_, ef_construction_);
+        } catch (...) {
+            delete sp;
+            throw;
+        }
+        space_ = sp;
+    }
+#endif  // THEMIS_HNSW_ENABLED
+
+    // -----------------------------------------------------------------------
+    // Constructor / destructor
+    // -----------------------------------------------------------------------
+
+    explicit HnswLayer([[maybe_unused]] size_t M               = 16,
+                       [[maybe_unused]] size_t ef_construction = 200) {
+#ifdef THEMIS_HNSW_ENABLED
+        M_               = M;
+        ef_construction_ = ef_construction;
+#endif
+    }
+
+    ~HnswLayer() {
+#ifdef THEMIS_HNSW_ENABLED
+        delete appr_;
+        delete space_;
+#endif
+    }
+
+    HnswLayer(const HnswLayer&)            = delete;
+    HnswLayer& operator=(const HnswLayer&) = delete;
+
+    // -----------------------------------------------------------------------
+    // Write operations
+    // -----------------------------------------------------------------------
+
     void insert(int64_t id, std::vector<float> sketch) {
+#ifdef THEMIS_HNSW_ENABLED
+        if (!sketch.empty()) {
+            try {
+                ensureInit(sketch.size());
+                // Expand capacity if the pre-allocated pool is exhausted.
+                if (next_label_ >= appr_->max_elements_) {
+                    appr_->resizeIndex(appr_->max_elements_ * 2 + 1);
+                }
+                const size_t label = next_label_++;
+                appr_->addPoint(sketch.data(), label);
+                id_to_label_.emplace(id, label);
+                label_to_id_.emplace(label, id);
+                ++active_count_;
+                return;  // hnswlib path taken — skip linear-scan map
+            } catch (const std::exception& ex) {
+                THEMIS_WARN("HnswLayer::insert: hnswlib error '{}'; "
+                            "falling back to linear scan", ex.what());
+            }
+        }
+#endif
         sketches.emplace(id, std::move(sketch));
     }
 
-    void remove(int64_t id) { sketches.erase(id); }
+    void remove(int64_t id) {
+#ifdef THEMIS_HNSW_ENABLED
+        if (appr_) {
+            auto it = id_to_label_.find(id);
+            if (it != id_to_label_.end()) {
+                try {
+                    appr_->markDelete(it->second);
+                } catch (...) {}
+                label_to_id_.erase(it->second);
+                id_to_label_.erase(it);
+                if (active_count_ > 0) --active_count_;
+            }
+            return;
+        }
+#endif
+        sketches.erase(id);
+    }
 
-    /// Linear-scan ANN over sketches — returns up to `ef` candidate IDs.
+    // -----------------------------------------------------------------------
+    // Read operations
+    // -----------------------------------------------------------------------
+
+    /// ANN search — returns up to `ef` candidate IDs.
+    /// Uses hnswlib when available; falls back to linear scan otherwise.
     std::vector<int64_t> search(const std::vector<float>& query,
                                  size_t ef) const {
-        // Sort by L2 distance to sketch, return top-ef ids
+#ifdef THEMIS_HNSW_ENABLED
+        if (appr_ && active_count_ > 0) {
+            try {
+                const size_t k = std::min(ef, active_count_);
+                // hnswlib returns a max-heap keyed by distance (top = worst).
+                auto pq = appr_->searchKnn(query.data(), k, nullptr);
+                std::vector<int64_t> ids;
+                ids.reserve(pq.size());
+                while (!pq.empty()) {
+                    const auto label = static_cast<size_t>(pq.top().second);
+                    pq.pop();
+                    auto it = label_to_id_.find(label);
+                    if (it != label_to_id_.end())
+                        ids.push_back(it->second);
+                }
+                return ids;
+            } catch (const std::exception& ex) {
+                THEMIS_WARN("HnswLayer::search: hnswlib error '{}'; "
+                            "falling back to linear scan", ex.what());
+            }
+        }
+#endif
+        // Linear-scan fallback — O(n) but always correct.
         std::vector<std::pair<float, int64_t>> dist_ids;
         dist_ids.reserve(sketches.size());
         for (const auto& [id, sk] : sketches) {
             float d = 0.0f;
-            size_t dim = std::min(query.size(), sk.size());
+            const size_t dim = std::min(query.size(), sk.size());
             for (size_t i = 0; i < dim; ++i) {
-                float diff = query[i] - sk[i];
+                const float diff = query[i] - sk[i];
                 d += diff * diff;
             }
             dist_ids.emplace_back(d, id);
         }
-        size_t take = std::min(ef, dist_ids.size());
+        const size_t take = std::min(ef, dist_ids.size());
         std::partial_sort(dist_ids.begin(), dist_ids.begin() + take,
                           dist_ids.end());
         std::vector<int64_t> ids;
         ids.reserve(take);
-        for (size_t i = 0; i < take; ++i) ids.push_back(dist_ids[i].second);
+        for (size_t i = 0; i < take; ++i)
+            ids.push_back(dist_ids[i].second);
         return ids;
     }
 
-    size_t size() const { return sketches.size(); }
+    size_t size() const {
+#ifdef THEMIS_HNSW_ENABLED
+        if (appr_) return active_count_;
+#endif
+        return sketches.size();
+    }
 };
 
 // ============================================================================
@@ -119,7 +259,7 @@ struct HnswTTBridge::TTStore {
 HnswTTBridge::HnswTTBridge(HnswTTConfig config, size_t dim)
     : cfg_(config)
     , dim_(dim)
-    , hnsw_(std::make_unique<HnswLayer>())
+    , hnsw_(std::make_unique<HnswLayer>(config.M, config.ef_construction))
     , tt_store_(std::make_unique<TTStore>()) {}
 
 HnswTTBridge::~HnswTTBridge() = default;
@@ -330,7 +470,7 @@ bool HnswTTBridge::load(const std::string& path) {
     if (in.fail()) return false;
 
     // Build into local structures; apply atomically on complete success.
-    auto new_hnsw = std::make_unique<HnswLayer>();
+    auto new_hnsw = std::make_unique<HnswLayer>(cfg_.M, cfg_.ef_construction);
     auto new_tt   = std::make_unique<TTStore>();
 
     for (uint64_t i = 0; i < n; ++i) {
