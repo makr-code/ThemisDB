@@ -228,3 +228,62 @@ TEST(IntentClassifierTest, DataDestructionRiskDeltaIsHigh) {
         }
     }
 }
+
+// ---------------------------------------------------------------------------
+// IC-16  setInferenceFn() — injected function is called instead of rule-based
+// ---------------------------------------------------------------------------
+TEST(IntentClassifierTest, InjectedInferenceFnIsCalled) {
+    IntentClassifier clf;
+    bool fn_called = false;
+    clf.setInferenceFn([&fn_called](const std::string& /*q*/,
+                                    const ZeroTrustContext& /*ctx*/) {
+        fn_called = true;
+        return IntentClassifier::ClassificationResult{
+            IT::DATA_EXFILTRATION, 0.99, "INJECTED"};
+    });
+
+    EXPECT_TRUE(clf.isLoraActive());
+
+    const auto ctx = makeCtx();
+    // A completely benign query — the rule engine would return LEGITIMATE,
+    // but the injected backend should override that.
+    const auto res = clf.classify("SELECT 1", ctx);
+    EXPECT_TRUE(fn_called);
+    EXPECT_EQ(res.intent, IT::DATA_EXFILTRATION);
+    EXPECT_DOUBLE_EQ(res.confidence, 0.99);
+    EXPECT_EQ(res.primary_indicator, "INJECTED");
+}
+
+// IC-17  setInferenceFn(null) resets to rule-based engine
+TEST(IntentClassifierTest, NullInferenceFnResetsToRuleBased) {
+    IntentClassifier clf;
+    clf.setInferenceFn([](const std::string&, const ZeroTrustContext&) {
+        return IntentClassifier::ClassificationResult{IT::DATA_EXFILTRATION, 0.99, "INJ"};
+    });
+    EXPECT_TRUE(clf.isLoraActive());
+
+    // Reset to rule-based
+    clf.setInferenceFn(nullptr);
+    EXPECT_FALSE(clf.isLoraActive());
+
+    // Benign query → rule engine returns LEGITIMATE
+    const auto ctx = makeCtx();
+    const auto res = clf.classify("SELECT name FROM products WHERE id = 42", ctx);
+    EXPECT_EQ(res.intent, IT::LEGITIMATE);
+}
+
+// IC-18  setInferenceFn() — injected backend overrides even malicious patterns
+TEST(IntentClassifierTest, InjectedFnOverridesRulesForMaliciousQuery) {
+    IntentClassifier clf;
+    clf.setInferenceFn([](const std::string&, const ZeroTrustContext&) {
+        // Override: pretend the query is legitimate
+        return IntentClassifier::ClassificationResult{IT::LEGITIMATE, 0.95, "none"};
+    });
+
+    const auto ctx = makeCtx();
+    // Rule engine would classify this as SQL_INJECTION
+    const auto res = clf.classify("SELECT * FROM users WHERE 1=1 OR 1=1 --", ctx);
+    // Injected function takes precedence
+    EXPECT_EQ(res.intent, IT::LEGITIMATE);
+    EXPECT_DOUBLE_EQ(res.confidence, 0.95);
+}

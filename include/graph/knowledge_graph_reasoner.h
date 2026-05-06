@@ -352,25 +352,28 @@ public:
     /**
      * @brief Attach LoRA soft-plausibility scores to all edges in @p chain.
      *
-     * When `THEMIS_ENABLE_LLM` is defined, this method queries the LoRA
-     * adapter identified by @p adapter_id and stores a score in [0, 1] in
-     * each `InferenceEdge::lora_score`.  Edges belonging to rules whose
-     * `min_lora_score` threshold is not met are removed from the chain.
+     * When a `LoraScoreFn` has been injected via `setLoraScoreFn()`, that
+     * function is called for each edge and its return value is stored in
+     * `InferenceEdge::lora_score`.  Edges below the rule's `min_lora_score`
+     * threshold are then filtered out.
      *
-     * When `THEMIS_ENABLE_LLM` is **not** defined the method is a no-op and
-     * callers receive the chain unmodified.
+     * Without an injected function the method falls back to a deterministic
+     * heuristic: `score = 1 / (1 + premises.size())`.
      *
      * @param chain       The inference chain to annotate (modified in-place).
      * @param adapter_id  Identifier of the LoRA adapter to query.
-     *
-     * @note
-     * STUB/SIMULATION NOTE:
-     * Purpose: LoRA adapter integration not yet wired; scores are simulated.
-     * Activation: THEMIS_ENABLE_LLM compile flag is absent in this build.
-     * Production Delta: Real implementation calls MultiLoRAManager::score().
-     * Removal Plan: Replace stub with real adapter call in v2.2.0 (Q2 2027).
      */
     void applyLoRAScore(InferenceChain& chain, std::string_view adapter_id) const;
+
+    // ── LoRA score injection ─────────────────────────────────────────────────
+
+    /// Signature: (adapter_id, edge) → plausibility score in [0.0, 1.0].
+    using LoraScoreFn = std::function<double(std::string_view adapter_id,
+                                             const InferenceEdge& edge)>;
+
+    /// Inject a real LoRA scoring backend for `applyLoRAScore()`.
+    /// Passing a null function resets to the built-in heuristic fallback.
+    void setLoraScoreFn(LoraScoreFn fn);
 
     // ── Introspection ───────────────────────────────────────────────────────
 
@@ -448,6 +451,9 @@ private:
     std::vector<Triple> base_facts_;
 
     mutable InferenceStore inference_store_;
+
+    /// Injected LoRA scoring backend; null ⇒ heuristic fallback.
+    mutable LoraScoreFn lora_score_fn_;
 };
 
 } // namespace graph

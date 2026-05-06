@@ -210,6 +210,78 @@ TEST(VoiceStreamingManager, RoutingUnknownIdReturnsEmptyTranscript) {
     EXPECT_TRUE(pt.stream_id.empty());
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// STT backend injection (stub #175)
+// ─────────────────────────────────────────────────────────────────────────────
+
+// VBS-09  setTranscribeBackend() — injected backend returns real transcript
+TEST(VoiceStreamingSession, TranscribeBackendInjected) {
+    auto cfg = makeConfig();
+    auto session = VoiceStreamingSession::create(cfg);
+    session->start();
+
+    bool fn_called = false;
+    session->setTranscribeBackend(
+        [&fn_called](const std::vector<uint8_t>& /*audio*/,
+                     bool   /*is_final*/,
+                     uint32_t seq) -> PartialTranscript {
+            fn_called = true;
+            PartialTranscript pt;
+            pt.text       = "hello world";
+            pt.confidence = 0.95f;
+            pt.is_final   = false;
+            return pt;
+        });
+
+    std::vector<uint8_t> chunk(128, 0x10);
+    auto pt = session->sendAudioChunk(chunk);
+
+    EXPECT_TRUE(fn_called);
+    EXPECT_EQ(pt.text, "hello world");
+    EXPECT_FLOAT_EQ(pt.confidence, 0.95f);
+    // stream_id must be set by the session regardless of what the fn returns
+    EXPECT_FALSE(pt.stream_id.empty());
+}
+
+// VBS-10  Without injected backend, placeholder text is returned
+TEST(VoiceStreamingSession, PlaceholderTextReturnedWithoutBackend) {
+    auto cfg = makeConfig();
+    auto session = VoiceStreamingSession::create(cfg);
+    session->start();
+
+    std::vector<uint8_t> chunk(64, 0x20);
+    auto pt = session->sendAudioChunk(chunk);
+
+    // Placeholder text contains "[partial#"
+    EXPECT_NE(pt.text.find("[partial#"), std::string::npos);
+    EXPECT_FALSE(pt.stream_id.empty());
+}
+
+// VBS-11  setTranscribeBackend(null) reverts to placeholder
+TEST(VoiceStreamingSession, NullBackendRevertsToPlaceholder) {
+    auto cfg = makeConfig();
+    auto session = VoiceStreamingSession::create(cfg);
+    session->start();
+
+    // First set a backend that returns known text
+    session->setTranscribeBackend(
+        [](const std::vector<uint8_t>&, bool, uint32_t) -> PartialTranscript {
+            PartialTranscript pt;
+            pt.text = "INJECTED";
+            return pt;
+        });
+
+    // Reset to null
+    session->setTranscribeBackend(nullptr);
+
+    std::vector<uint8_t> chunk(64, 0x30);
+    auto pt = session->sendAudioChunk(chunk);
+
+    // Should now return placeholder (does not contain "INJECTED")
+    EXPECT_EQ(pt.text.find("INJECTED"), std::string::npos);
+    EXPECT_NE(pt.text.find("[partial#"), std::string::npos);
+}
+
 } // anonymous namespace
 } // namespace voice
 } // namespace themis
