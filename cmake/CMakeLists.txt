@@ -1535,6 +1535,9 @@ set(THEMIS_CORE_SOURCES
     # FLARE mid-generation retrieval (Phase 3 — Q1 2027)
     ../src/rag/flare_retrieval.cpp
 
+    # Tensor Butterfly operator + Adapter Repository (Phase 3 — Q2 2027)
+    ../src/tensor/tensor_butterfly_operator.cpp
+    ../src/tensor/adapter_repository.cpp
 
     ../src/metadata/statistics_collector.cpp
     ../src/metadata/information_schema.cpp

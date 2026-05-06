@@ -189,17 +189,26 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
     - `TensorContractionEngine::project()` and `::contractModes()` methods added
   - AC: AQL EXPLAIN shows TensorContraction operator nodes ✓; integration tests TCP/TCM verify math ✓
 
-- [ ] **Tensor Butterfly algorithm for oscillatory integral operators** (Target: Q2 2027)
-  - Paper §Operator Compression: O(n·d) vs O(n·d·log n) FFT for Radon/Fourier transforms
-  - `TensorButterflyOperator` pre-defined as a multilevel tensor network (TN graph)
-  - Operator "marriage" with data graphs via `contractOperator(data_tt, butterfly_op)`
-  - AC: CPU time scales as O(n·d); validated against reference FFT on Gaussian test case
+- [~] **Tensor Butterfly algorithm for oscillatory integral operators** (Target: Q2 2027)
+  - **In progress 2026-05-06**: `TensorButterflyOperator` in `include/tensor/tensor_butterfly_operator.h`
+    and `src/tensor/tensor_butterfly_operator.cpp`
+  - FOURIER type implemented using Walsh-Hadamard Transform (WHT) — real-valued, butterfly-structured;
+    orthogonal transform O(n·d·log n) per apply(); STUB #170 (full complex DFT deferred Q3 2027)
+  - RADON and GREENS_FUNCTION types: throw `std::logic_error` (STUB #171, Q3 2027)
+  - Tests TBO-01..TBO-06 in `tests/test_tensor_phase3.cpp`
+  - AC-partial: norm preservation confirmed (WHT orthogonality); complex DFT accuracy deferred
 
-- [ ] **Adapter sovereignty — LoRA/PEFT store as TT graphs** (Target: Q2 2027)
-  - Paper §Adapter Sovereignty: thousands of domain-specific LoRAs stored as TT graphs
-  - `AdapterRepository::loadAdapter(domain, base_model_id)` mmap-injects adapter cores
-    into ggml graph just-in-time; no model reload required
-  - AC: adapter switch latency ≤ 50ms; correctness: perplexity within 0.5% of full load
+- [~] **Adapter sovereignty — LoRA/PEFT store as TT graphs** (Target: Q2 2027)
+  - **In progress 2026-05-06**: `AdapterRepository` in `include/tensor/adapter_repository.h`
+    and `src/tensor/adapter_repository.cpp`
+  - `GgmlCoreDescriptor` struct defined (tenant_id, domain, base_model_id, TTTrain, valid flag)
+  - `store(domain, base_model_id, TTTrain)`: serialises + persists under
+    `__adapters__:<tenant>:<domain>:<base_model_id>`
+  - `loadAdapter(domain, base_model_id)`: deserialises → GgmlCoreDescriptor (heap copy; STUB #172)
+  - `listDomains() / listAdapters()`: prefix-scan + deduplicate
+  - Tenant isolation enforced via key prefix
+  - Tests AR-01..AR-06 in `tests/test_tensor_phase3.cpp`
+  - STUB #172: mmap zero-copy path deferred to Q1 2027 (currently heap-copies TT-core data)
 
 ### Long-term (Phase 4, Q2–Q4 2027)
 
@@ -345,10 +354,10 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
   - Real ggml_tensor allocation + ggml_map_custom1 contraction kernel deferred to Q1 2027
 - [x] `TensorAwareQueryOptimizer` TENSOR_CONTRACTION plan-node — resolved 2026-05-06
 - [x] AQL operators: CONTRACT, PROJECT, DECOMPOSE — resolved 2026-05-06
-- [ ] Tensor Butterfly operator for O(n·d) oscillatory integral transforms
+- [~] Tensor Butterfly operator for O(n·d) oscillatory integral transforms — 2026-05-06 (FOURIER/WHT; complex DFT Q3 2027)
 - [x] FLARE mid-generation retrieval (TTFT per step ≤ 90ms) — resolved 2026-05-06
 - [x] TARG logit-gap gating (70–90% unnecessary retrieval calls eliminated) — resolved 2026-05-06
-- [ ] Adapter sovereignty — LoRA/PEFT as TT graphs (adapter switch ≤ 50ms)
+- [~] Adapter sovereignty — LoRA/PEFT as TT graphs (adapter switch ≤ 50ms) — 2026-05-06 (heap-copy path; mmap Q1 2027)
 
 ### Phase 4: Distributed & GPU (Target: Q2–Q4 2027)
 

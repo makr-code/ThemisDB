@@ -58,12 +58,30 @@
  *   FR-08  buildQuery() returns non-empty string from partial output
  *   FR-09  buildQuery() masks low-confidence tokens when mask_uncertain_tokens=true
  *   FR-10  reset() clears all state
+ *
+ * TensorButterflyOperator — TBO-01..TBO-06
+ *   TBO-01  build(FOURIER, {4}) succeeds and describe() mentions FOURIER
+ *   TBO-02  apply() on a 1D TT (n=4) produces orthonormal output (‖WHT·v‖ = ‖v‖)
+ *   TBO-03  apply() on a 2-mode TT ({4,4}) is separable: mode transforms commute
+ *   TBO-04  apply() shape mismatch throws std::invalid_argument
+ *   TBO-05  build(FOURIER, {3}) throws (3 is not a power of 2)
+ *   TBO-06  build(RADON, ...) throws std::logic_error (stub #171)
+ *
+ * AdapterRepository — AR-01..AR-06
+ *   AR-01  store() + loadAdapter() round-trip: valid=true and cores match
+ *   AR-02  loadAdapter() for unknown domain returns valid=false
+ *   AR-03  listDomains() returns all stored domains (deduplicated, sorted)
+ *   AR-04  store() overwrites existing adapter at same key
+ *   AR-05  Different tenants are isolated (store in tenant-A, miss in tenant-B)
+ *   AR-06  listDomains() returns empty vector for empty repository
  */
 
 #include "query/tensor_contraction_engine.h"
 #include "query/tensor_aware_query_optimizer.h"
 #include "rag/targ_retrieval.h"
 #include "storage/tensor_train_decomposer.h"
+#include "tensor/tensor_butterfly_operator.h"
+#include "tensor/adapter_repository.h"
 
 #include <gtest/gtest.h>
 #include <cmath>
@@ -74,6 +92,7 @@
 using namespace themis::storage;
 using namespace themis::query;
 using namespace themis::rag;
+using namespace themis::tensor;
 
 namespace {
 
@@ -597,6 +616,245 @@ TEST(FlareRetrievalPhase3, FR10_reset_clears_state) {
     // After reset: cooldown is gone, so new low-confidence token triggers
     flare.notifyTokenEmitted("tok", -3.0f);
     EXPECT_TRUE(flare.shouldRetrieve());
+}
+
+} // anonymous namespace
+
+// ============================================================================
+// TensorButterflyOperator tests — TBO-01..TBO-06
+// ============================================================================
+
+namespace {
+
+// Helper: build a 1D TTTrain from a flat float vector using TT-SVD.
+static TTTrain make1DTrain(const std::vector<float>& v, double eps = 0.0) {
+    TensorTrainConfig cfg;
+    cfg.eps = eps;
+    TensorTrainDecomposer dec;
+    auto [train, _] = dec.decompose(v, {v.size()}, cfg);
+    return train;
+}
+
+// Helper: reconstruct a 1D TTTrain back to a flat vector.
+// For a 1D TT this is just the core data with the bond dimensions stripped.
+static std::vector<float> flatten1D(const TTTrain& t) {
+    if (t.cores.empty()) return {};
+    // 1D TT: single core of shape 1 × n × 1
+    const auto& c = t.cores[0];
+    return c.data;  // already the n values
+}
+
+// Helper: Frobenius norm of a vector.
+static float vecNorm(const std::vector<float>& v) {
+    float s = 0.0f;
+    for (float x : v) s += x * x;
+    return std::sqrt(s);
+}
+
+// Reference WHT (iterative, same as implementation) for correctness check.
+static std::vector<float> refWHT(std::vector<float> v) {
+    const std::size_t n = v.size();
+    for (std::size_t half = n >> 1; half >= 1; half >>= 1) {
+        for (std::size_t start = 0; start < n; start += 2 * half) {
+            for (std::size_t j = 0; j < half; ++j) {
+                const float u = v[start + j];
+                const float w = v[start + j + half];
+                v[start + j]        = u + w;
+                v[start + j + half] = u - w;
+            }
+        }
+    }
+    const float inv_sqrt_n = 1.0f / std::sqrt(static_cast<float>(n));
+    for (float& x : v) x *= inv_sqrt_n;
+    return v;
+}
+
+// TBO-01: build(FOURIER, {4}) succeeds; describe() mentions FOURIER
+TEST(TensorButterflyOperator, TBO01_build_fourier_ok) {
+    auto op = TensorButterflyOperator::build(OperatorType::FOURIER, {4});
+    EXPECT_EQ(op.type(), OperatorType::FOURIER);
+    EXPECT_EQ(op.gridShape().size(), 1u);
+    EXPECT_EQ(op.gridShape()[0], 4u);
+    EXPECT_NE(op.describe().find("FOURIER"), std::string::npos);
+}
+
+// TBO-02: apply() on a rank-1 1D TT preserves Frobenius norm (WHT is orthogonal)
+TEST(TensorButterflyOperator, TBO02_apply_1d_preserves_norm) {
+    // Signal: [1, 2, 3, 4]
+    const std::vector<float> sig = {1.0f, 2.0f, 3.0f, 4.0f};
+    TTTrain data = make1DTrain(sig);
+    ASSERT_EQ(data.cores.size(), 1u);
+
+    auto op = TensorButterflyOperator::build(OperatorType::FOURIER, {4});
+    TTTrain result = op.apply(data);
+
+    ASSERT_EQ(result.cores.size(), 1u);
+    const auto out = flatten1D(result);
+    ASSERT_EQ(out.size(), 4u);
+
+    // Orthogonality: ‖WHT(v)‖ = ‖v‖
+    const float norm_in  = vecNorm(sig);
+    const float norm_out = vecNorm(out);
+    EXPECT_NEAR(norm_in, norm_out, 1e-5f);
+
+    // Verify output matches reference WHT
+    const auto ref = refWHT(sig);
+    for (std::size_t i = 0; i < 4; ++i) {
+        EXPECT_NEAR(out[i], ref[i], 1e-5f) << "index " << i;
+    }
+}
+
+// TBO-03: apply() on a 2-mode TT ({4,4}) produces separable transform
+TEST(TensorButterflyOperator, TBO03_apply_2mode_separable) {
+    // Create a {4, 4} TTTrain from a 16-element vector
+    std::vector<float> sig(16);
+    std::iota(sig.begin(), sig.end(), 1.0f);
+
+    TensorTrainConfig cfg;
+    cfg.eps = 0.0;
+    TensorTrainDecomposer dec;
+    auto [data, _] = dec.decompose(sig, {4u, 4u}, cfg);
+
+    auto op = TensorButterflyOperator::build(OperatorType::FOURIER, {4u, 4u});
+    TTTrain result = op.apply(data);
+
+    ASSERT_EQ(result.cores.size(), 2u);
+    // Both modes should have the same n as input
+    EXPECT_EQ(result.cores[0].n, 4u);
+    EXPECT_EQ(result.cores[1].n, 4u);
+    // Result norm equals input norm (orthogonal transform)
+    EXPECT_NEAR(TensorTrainDecomposer::frobeniusNorm(data),
+                TensorTrainDecomposer::frobeniusNorm(result),
+                1e-4);
+}
+
+// TBO-04: apply() with mismatched shape throws std::invalid_argument
+TEST(TensorButterflyOperator, TBO04_apply_shape_mismatch_throws) {
+    // Build operator for {4}, apply to 2-mode train
+    auto op = TensorButterflyOperator::build(OperatorType::FOURIER, {4u});
+    TensorTrainConfig cfg; cfg.eps = 0.0;
+    TensorTrainDecomposer dec;
+    auto [data, _] = dec.decompose(std::vector<float>(16, 1.0f), {4u, 4u}, cfg);
+    EXPECT_THROW(op.apply(data), std::invalid_argument);
+}
+
+// TBO-05: build(FOURIER, {3}) throws (3 is not a power of 2)
+TEST(TensorButterflyOperator, TBO05_non_power2_throws) {
+    EXPECT_THROW(
+        TensorButterflyOperator::build(OperatorType::FOURIER, {3u}),
+        std::invalid_argument);
+}
+
+// TBO-06: build(RADON, ...) throws std::logic_error (STUB #171)
+TEST(TensorButterflyOperator, TBO06_radon_stub_throws) {
+    EXPECT_THROW(
+        TensorButterflyOperator::build(OperatorType::RADON, {4u}),
+        std::logic_error);
+    EXPECT_THROW(
+        TensorButterflyOperator::build(OperatorType::GREENS_FUNCTION, {4u}),
+        std::logic_error);
+}
+
+// ============================================================================
+// AdapterRepository tests — AR-01..AR-06
+// ============================================================================
+
+// Helper: build a small valid TTTrain (1D, n=4, rank-1)
+static TTTrain makeAdapterTrain() {
+    const std::vector<float> sig = {0.1f, 0.2f, 0.3f, 0.4f};
+    TensorTrainConfig cfg; cfg.eps = 0.0;
+    TensorTrainDecomposer dec;
+    auto [t, _] = dec.decompose(sig, {4u}, cfg);
+    return t;
+}
+
+// AR-01: store() + loadAdapter() round-trip: valid=true, cores match
+TEST(AdapterRepository, AR01_store_load_roundtrip) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant1");
+
+    TTTrain adapter = makeAdapterTrain();
+    ASSERT_TRUE(repo.store("legal", "llama3-8b", adapter));
+
+    auto desc = repo.loadAdapter("legal", "llama3-8b");
+    ASSERT_TRUE(desc.valid);
+    EXPECT_EQ(desc.domain,         "legal");
+    EXPECT_EQ(desc.base_model_id,  "llama3-8b");
+    EXPECT_EQ(desc.tenant_id,      "tenant1");
+
+    ASSERT_EQ(desc.train.cores.size(), adapter.cores.size());
+    ASSERT_FALSE(desc.train.cores.empty());
+    EXPECT_EQ(desc.train.cores[0].data, adapter.cores[0].data);
+}
+
+// AR-02: loadAdapter() for unknown domain returns valid=false
+TEST(AdapterRepository, AR02_load_unknown_returns_invalid) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant1");
+
+    auto desc = repo.loadAdapter("nonexistent", "model-x");
+    EXPECT_FALSE(desc.valid);
+}
+
+// AR-03: listDomains() returns all stored domains (deduplicated, sorted)
+TEST(AdapterRepository, AR03_listDomains_sorted_deduplicated) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant1");
+
+    auto adapter = makeAdapterTrain();
+    repo.store("medical", "llama3-8b",  adapter);
+    repo.store("legal",   "llama3-8b",  adapter);
+    repo.store("medical", "llama3-70b", adapter);  // same domain, different model
+
+    auto domains = repo.listDomains();
+    ASSERT_EQ(domains.size(), 2u);
+    EXPECT_EQ(domains[0], "legal");
+    EXPECT_EQ(domains[1], "medical");
+}
+
+// AR-04: store() overwrites existing adapter at same key
+TEST(AdapterRepository, AR04_store_overwrites) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant1");
+
+    TTTrain a1 = makeAdapterTrain();
+    repo.store("legal", "llama3-8b", a1);
+
+    // Overwrite with different weights
+    TensorTrainConfig cfg; cfg.eps = 0.0;
+    TensorTrainDecomposer dec;
+    auto [a2, _] = dec.decompose({0.9f, 0.8f, 0.7f, 0.6f}, {4u}, cfg);
+    ASSERT_TRUE(repo.store("legal", "llama3-8b", a2));
+
+    auto desc = repo.loadAdapter("legal", "llama3-8b");
+    ASSERT_TRUE(desc.valid);
+    EXPECT_NEAR(desc.train.cores[0].data[0], 0.9f, 1e-2f);
+}
+
+// AR-05: Different tenants are isolated
+TEST(AdapterRepository, AR05_tenant_isolation) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repoA(backend, "tenantA");
+    AdapterRepository repoB(backend, "tenantB");
+
+    auto adapter = makeAdapterTrain();
+    repoA.store("legal", "llama3-8b", adapter);
+
+    // tenantB should NOT see tenantA's adapter
+    auto desc = repoB.loadAdapter("legal", "llama3-8b");
+    EXPECT_FALSE(desc.valid);
+
+    // tenantA should still see its own adapter
+    EXPECT_TRUE(repoA.loadAdapter("legal", "llama3-8b").valid);
+}
+
+// AR-06: listDomains() returns empty vector for empty repository
+TEST(AdapterRepository, AR06_empty_repository_listDomains) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant1");
+
+    auto domains = repo.listDomains();
+    EXPECT_TRUE(domains.empty());
 }
 
 } // anonymous namespace
