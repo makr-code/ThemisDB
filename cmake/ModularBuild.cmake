@@ -372,6 +372,12 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/merge_operators.cpp
     ../src/sharding/distributed_time_coordinator.cpp
     
+    ../src/storage/encrypted_blob_backend.cpp
+    ../src/storage/mvcc_chain_pruner.cpp
+    ../src/storage/streaming_ingest_manager.cpp
+    ../src/storage/vector_index_backend.cpp
+    ../src/storage/wom_tree.cpp
+    ../src/utils/geo/ewkb.cpp
     # Metadata management
     ../src/metadata/schema_manager.cpp
     ../src/metadata/statistics_collector.cpp
@@ -383,6 +389,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/metadata/schema_audit_log.cpp
     ../src/metadata/schema_consistency_checker.cpp
     ../src/metadata/catalog_exporter.cpp
+    ../src/metadata/er_diagram_exporter.cpp
     # ../src/metadata/distributed_catalog.cpp
     # Temporarily excluded in modular build: depends on MetadataShardRouter
     # symbols from sharding module and introduces unresolved externals in
@@ -417,9 +424,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/workload_replay.cpp
     ../src/index/tiered_index_manager.cpp
     ../src/index/tiered_index_manager.cpp
-    ../src/api/tracing_middleware.cpp
-    ../src/api/otlp_exporter.cpp
-    ../src/utils/geo/ewkb.cpp
+
     
     # Performance enhancements
     ../src/performance/phase2_feature_flags.cpp
@@ -443,6 +448,8 @@ set(THEMIS_STORAGE_SOURCES
     ../src/cache/semantic_cache.cpp
     
     # Updates
+    ../src/updates/build_verifier.cpp
+    ../src/updates/hardware_telemetry.cpp
     ../src/updates/release_manifest.cpp
     ../src/updates/manifest_database.cpp
     ../src/updates/hot_reload_engine.cpp
@@ -479,6 +486,8 @@ set(THEMIS_STORAGE_SOURCES
     ../src/cdc/cdc_materialized_view.cpp
     ../src/cdc/tenant_buffer_manager.cpp
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/cdc/ws_transport.cpp>
+    ../src/temporal/temporal_cold_store.cpp
+    ../src/temporal/temporal_tier_manager.cpp
     ../src/analytics/incremental_view.cpp
     $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:../src/cdc/kafka_cdc_producer.cpp>
 )
@@ -569,11 +578,16 @@ set(THEMIS_QUERY_SOURCES
     ../src/performance/prometheus_exporter.cpp
     ../src/performance/phase3/per_query_cost_model.cpp
     ../src/cache/cache_replication.cpp
+    ../src/cache/cache_replication_coordinator.cpp
+    ../src/cache/grpc_remote_cache_peer.cpp
+    ../src/cache/redis_cache_coordinator.cpp
     ../src/cache/distributed_cache_coordinator.cpp
     ../src/cache/adaptive_query_cache.cpp
     ../src/cache/warmup.cpp
     ../src/cache/cache_hit_rate_slo_monitor.cpp
     ../src/cache/predictive_prefetcher.cpp
+    ../src/query/approximate_aggregator.cpp
+    ../src/query/aql_safety_validator.cpp
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
     ../src/query/functions/function_registry.cpp
@@ -604,6 +618,11 @@ set(THEMIS_QUERY_SOURCES
     ../src/process/vcc_vpb_importer.cpp
     ../src/process/process_linker.cpp
     ../src/process/process_graph_rag.cpp
+    ../src/process/cmmn_serializer.cpp
+    ../src/process/fim_importer.cpp
+    ../src/process/object_centric_tracer.cpp
+    ../src/process/process_community_detector.cpp
+    ../src/process/process_light_retriever.cpp
     ../src/analytics/jit_aggregation.cpp
     ../src/analytics/anomaly_detection.cpp
     ../src/analytics/forecasting.cpp
@@ -689,6 +708,10 @@ set(THEMIS_QUERY_SOURCES
 
 set(THEMIS_SECURITY_SOURCES
     # Encryption and key management
+    ../src/security/ai_operation_guard.cpp
+    ../src/security/ai_snapshot_cleanup.cpp
+    ../src/security/intent_classifier.cpp
+    ../src/governance/cross_border_transfer.cpp
     ../src/security/mock_key_provider.cpp
     ../src/security/vault_key_provider.cpp
     ../src/security/key_cache.cpp
@@ -706,6 +729,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/zero_trust_policy_enforcer.cpp
     ../src/security/prompt_injection_pattern_registry.cpp
     ../src/auth/auth_audit_logger.cpp
+    ../src/auth/rate_limiter_backend.cpp
     ../src/security/user_registration_plugin.cpp
     ../src/security/arrow_user_registration_plugin.cpp
     ../src/security/webdav_user_registration_plugin.cpp
@@ -1021,6 +1045,8 @@ set(THEMIS_LLM_SOURCES
     ../src/prompt_engineering/prompt_template_compiler.cpp
     ../src/distributed_knowledge/cross_shard_feedback_sync.cpp
     ../src/distributed_knowledge/adapter_capability_announcement.cpp
+    ../src/distributed_knowledge/lora_federation_coordinator.cpp
+    ../src/api/federation_admin_handler.cpp
     ../src/llm/block_table.cpp
     ../src/llm/paged_block_manager.cpp
     ../src/llm/paged_kv_cache.cpp
@@ -1052,6 +1078,10 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/ethics_aware_confidence_detector.cpp
     ../src/llm/ai_decision_auditor.cpp
     ../src/llm/decision_record_yaml_processor.cpp
+    ../src/storage/schema_dead_weight_detector.cpp
+    ../src/storage/storage_layout_advisor.cpp
+    ../src/transaction/transaction_semantic_advisor.cpp
+    ../src/temporal/temporal_migrator.cpp
     ../src/llm/moral_analyzer.cpp
     ../src/llm/multi_perspective_generator.cpp
     ../src/llm/meta_prompt_generator.cpp
@@ -1229,6 +1259,26 @@ set(THEMIS_LLM_SOURCES
     # LLM server API handlers (conditional)
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/llm_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/lora_api_handler.cpp>
+    # Voice assistant implementation (always required when tests link VoiceAssistant)
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/voice_assistant.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/voice_assistant_llm.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/audio_preprocessing.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/emotion_analyzer.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/voice_accessibility.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/voice_audio_storage.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/voice_authenticator.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/voice_batch_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/voice_browser_streaming.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/voice_error_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/voice_intent_detector.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/voice_macro_manager.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/voice_meeting_support.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/voice_model_cache.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/voice_security.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/voice_session_manager.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/voice_telephony.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/voice_tts_customizer.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/wake_word_detector.cpp>
 )
 
 if(THEMIS_ENABLE_GPU)
@@ -1340,7 +1390,27 @@ set(THEMIS_CONTENT_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/bulk_upload_interface.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/async_bulk_uploader.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/multimodal_chunker.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/adapters/archive_extractor_adapter.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/adapters/audio_extractor_adapter.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/adapters/format_extractor_factory.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/adapters/image_extractor_adapter.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/adapters/office_extractor_adapter.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/adapters/pdf_extractor_adapter.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/adapters/text_extractor_adapter.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/aql/aql_ingestion_bridge.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/rag/rag_ingestion_bridge.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/toolbox/content_toolbox_bridge.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/toolbox/toolbox_builder.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/toolbox/toolbox_registry.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/importers/huggingface_ingestion_plugin.cpp>
+    # Project collaboration and audit (always required by project tests)
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/projects/collaboration_manager.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/projects/in_memory_project_audit_log.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/projects/project_diff.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/projects/project_lifecycle.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/projects/project_metrics.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/projects/project_template.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/projects/project_versioning.cpp>
 )
 
 set(THEMIS_TIMESERIES_SOURCES
@@ -1361,6 +1431,8 @@ set(THEMIS_TIMESERIES_SOURCES
     ../src/timeseries/aggregates.cpp
     ../src/timeseries/downsampling.cpp
     ../src/timeseries/ts_auto_buffer_adaptive.cpp
+    ../src/timeseries/adaptive_flush_controller.cpp
+    ../src/timeseries/ts_stream_cursor.cpp
     ../src/timeseries/encrypted_chunk_store.cpp
     ../src/timeseries/ts_encrypted_key_rotation.cpp
     ../src/timeseries/compression_selector.cpp
@@ -1373,6 +1445,21 @@ set(THEMIS_INGESTION_SOURCES
     ../src/ingestion/ingestion_manager.cpp
     ../src/ingestion/filesystem_ingester.cpp
     ../src/ingestion/api_connector.cpp
+    ../src/ingestion/entity_assembler.cpp
+    ../src/ingestion/ingestion_sinks.cpp
+    ../src/ingestion/legal_domain.cpp
+    ../src/ingestion/workflow_engine.cpp
+    ../src/ingestion/steps/base_entity_assembler_step.cpp
+    ../src/ingestion/steps/chunk_embed_step.cpp
+    ../src/ingestion/steps/chunk_text_step.cpp
+    ../src/ingestion/steps/decompress_step.cpp
+    ../src/ingestion/steps/deontic_step.cpp
+    ../src/ingestion/steps/format_parse_step.cpp
+    ../src/ingestion/steps/legal_metadata_step.cpp
+    ../src/ingestion/steps/legal_reference_step.cpp
+    ../src/ingestion/steps/llm_extract_step.cpp
+    ../src/ingestion/steps/ner_step.cpp
+    ../src/ingestion/steps/parse_text_step.cpp
     ../src/ingestion/huggingface_connector.cpp
     ../src/ingestion/kafka_connector.cpp
     ../src/ingestion/s3_connector.cpp
@@ -1387,6 +1474,7 @@ set(THEMIS_INGESTION_SOURCES
     ../src/ingestion/semantic_validator.cpp
     ../src/ingestion/agentic_reference_validator.cpp
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/ingestion/llm_adapter.cpp>
+    ../src/toolbox/ingestion_toolbox.cpp
 )
 
 set(THEMIS_NETWORK_SOURCES
@@ -1542,6 +1630,7 @@ set(THEMIS_NETWORK_SOURCES
 
     # WebSocket change-stream handler (conditional)
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/api/ws_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/api/graphql_ws_handler.cpp>
 
     # gRPC API server alongside REST (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/api/grpc_server.cpp>
@@ -1570,9 +1659,12 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/service_mesh.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/envoy_xds.cpp>
+    ../src/network/kernel_bypass.cpp
+    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/network/quic_server.cpp>
 
     # Modular globals shared across handlers
     ../src/server/hsm_provider_global.cpp
+    ../src/server/workload_fingerprint_engine.cpp
     
     # Observability (GAP-008: Alertmanager integration + full stack)
     ../src/observability/alertmanager.cpp
@@ -1606,13 +1698,25 @@ set(THEMIS_NETWORK_SOURCES
     # Observability: OpenTelemetry Full Integration (v1.6.0)
     ../src/observability/opentelemetry_tracer.cpp
     ../src/observability/root_cause_analyzer.cpp
+    ../src/observability/log_search_engine.cpp
+    ../src/observability/tenant_metrics_namespace.cpp
+    # RPC service implementation (handleGet/handlePut/handleQuery/handleVectorSearch)
+    ../src/server/rpc/rpc_service_impl.cpp
 )
 
 set(THEMIS_GEO_SOURCES
     # Geospatial processing
+    ../src/geo/geo_json_geometry.cpp
+    ../src/geo/raster_query_interface.cpp
+    ../src/geo/rtree_cursor.cpp
+    ../src/geo/spatial_join_filter.cpp
+    ../src/geo/temporal_spatial_query_builder.cpp
     ../src/acceleration/geo_acceleration_bridge.cpp
     ../src/index/spatial_index.cpp
     ../src/api/geo_index_hooks.cpp
+    ../src/api/tracing_middleware.cpp
+    ../src/api/otlp_exporter.cpp
+    ../src/core/concerns/prometheus_metrics.cpp
     ../src/geo/cpu_backend.cpp
     ../src/geo/device_detector.cpp
     ../src/geo/gpu_backend_stub.cpp
@@ -1672,7 +1776,7 @@ else()
 endif()
 
 set(THEMIS_GRAPH_SOURCES
-    # Graph indexes and analytics
+    ../src/acceleration/ai_hardware_dispatcher.cpp
     ../src/index/graph_auto_buffer.cpp
     ../src/index/spatial_index.cpp
     ../src/index/temporal_graph.cpp
@@ -1691,6 +1795,7 @@ set(THEMIS_GRAPH_SOURCES
     ../src/graph/gpu_traversal.cpp
     ../src/graph/parallel_traversal.cpp
     ../src/graph/scheduled_edge_refresh.cpp
+    ../src/graph/graph_query_rewriter.cpp
 )
 
 # Function to build modular architecture (post-v1.3.0)
@@ -2163,6 +2268,7 @@ function(themis_build_modular)
             themis_base
             themis_storage
             themis_security
+            themis_ingestion
         )
         if(TARGET yaml-cpp::yaml-cpp)
             list(APPEND _themis_content_deps yaml-cpp::yaml-cpp)

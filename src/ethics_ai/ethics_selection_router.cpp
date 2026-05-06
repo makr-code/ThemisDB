@@ -158,7 +158,7 @@ void EthicsSelectionRouter::Impl::loadTaxonomy(const std::string& yaml_path)
             }
         }
     } catch (const std::exception& ex) {
-        LOG_WARN("EthicsSelectionRouter: failed to load taxonomy from '{}': {}",
+        THEMIS_WARN("EthicsSelectionRouter: failed to load taxonomy from '{}': {}",
                  yaml_path, ex.what());
     }
 #endif

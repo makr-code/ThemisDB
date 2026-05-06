@@ -634,7 +634,16 @@ target_sources(themis_tests PRIVATE
     ${THEMIS_ROOT_DIR}/src/query/synopsis_store.cpp
     ${THEMIS_ROOT_DIR}/src/query/incremental_agg.cpp
     ${THEMIS_ROOT_DIR}/src/query/cq_watermark.cpp
+    ${THEMIS_ROOT_DIR}/src/query/continuous_query_planner.cpp
     ${THEMIS_ROOT_DIR}/src/query/continuous_query_engine.cpp
+    # LLM kernel fusion, explanation, caching, validation, security
+    # (in src/llm/ but not part of THEMIS_LLM_SOURCES unity build)
+    ${THEMIS_ROOT_DIR}/src/llm/kernel_fusion.cpp
+    ${THEMIS_ROOT_DIR}/src/llm/explanation_generator.cpp
+    ${THEMIS_ROOT_DIR}/src/llm/model_metadata_cache.cpp
+    ${THEMIS_ROOT_DIR}/src/llm/lora_metadata_cache.cpp
+    ${THEMIS_ROOT_DIR}/src/llm/production_validator.cpp
+    ${THEMIS_ROOT_DIR}/src/llm/security/signature_verifier.cpp
 )
 
 # Enforce feature-gated exclusions on the resolved target source list as a
@@ -1077,15 +1086,21 @@ target_sources(themis_tests PRIVATE
     ${THEMIS_ROOT_DIR}/src/security/prompt_injection_pattern_registry.cpp
     ${THEMIS_ROOT_DIR}/src/sharding/cloud_backup.cpp
     ${THEMIS_ROOT_DIR}/src/transaction/distributed_saga.cpp
-    ${THEMIS_ROOT_DIR}/src/server/grpc_web_proxy_handler.cpp
     ${THEMIS_ROOT_DIR}/src/rag/evaluation_report_exporter.cpp
     ${THEMIS_ROOT_DIR}/src/rag/evaluation_cache.cpp
     ${THEMIS_ROOT_DIR}/src/rag/calibration_manager.cpp
     ${THEMIS_ROOT_DIR}/src/rag/batch_evaluator.cpp
     ${THEMIS_ROOT_DIR}/src/rag/replug_retriever.cpp
     ${THEMIS_ROOT_DIR}/src/rag/rlaif_trainer.cpp
-    ${THEMIS_ROOT_DIR}/src/server/cdn_cache_middleware.cpp
 )
+
+# In modular builds, server/network handlers are provided by themis_network.
+if(NOT (THEMIS_BUILD_MODULAR AND TARGET themis_network))
+    target_sources(themis_tests PRIVATE
+        ${THEMIS_ROOT_DIR}/src/server/grpc_web_proxy_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/cdn_cache_middleware.cpp
+    )
+endif()
 
 # Re-include test_huggingface_exporter.cpp which was excluded as a missing-implementation.
 # Now that huggingface_exporter.cpp is registered in cmake/CMakeLists.txt and
@@ -1163,9 +1178,39 @@ if(THEMIS_BUILD_MODULAR)
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/stubs\\.cpp$")
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/security/pii_redaction_policy\\.cpp$")
         if(TARGET themis_llm)
-            list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/llm/.*\\.cpp$")
-            list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/llm/lora_framework/(gpu_tensor|gpu_lora_layers|flash_lora|paged_optimizer|paged_memory_manager|custom_allreduce|multi_gpu|multi_gpu_trainer|multi_gpu_lora_layer)\\.cpp$")
-            message(STATUS "themis_tests: excluding direct LLM sources (provided by themis_llm module)")
+            # Exclude all sources compiled into themis_llm's unity build to avoid LNK2005.
+            # _themis_test_core_sources contains relative paths (../src/foo/bar.cpp), so we
+            # match on the path SUFFIX only — no absolute-path prefix needed.
+            # The regex "." matches any char, covering both / and \ separators.
+            # src/llm/ — all files (direct + lora_framework subdir)
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX "src.llm..*\\.cpp$")
+            # src/prompt_engineering/ — entire directory is owned by THEMIS_LLM_SOURCES
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX "src.prompt_engineering..*\\.cpp$")
+            # src/cache/embedding_cache.cpp
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX "src.cache.embedding_cache\\.cpp$")
+            # src/security/vram_secure_clear.cpp
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX "src.security.vram_secure_clear\\.cpp$")
+            # src/distributed_knowledge/ — LLM-owned files
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX "src.distributed_knowledge.(cross_shard_feedback_sync|adapter_capability_announcement)\\.cpp$")
+            # src/aql/ — LLM-owned AQL support files
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX "src.aql.(llm_aql_embedding_bridge|llm_aql_handler|aql_query_validator|aql_query_builder|aql_schema_provider|aql_fewshot_example_library|aql_syntax_highlighter|aql_confidence_scorer|llm_metrics_collector)\\.cpp$")
+            # src/rag/ — LLM-owned RAG evaluator/enhancement files in THEMIS_LLM_SOURCES
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX "src.rag.(knowledge_gap_detector|llm_integration|llm_judge_client|llm_judge_integration|nli_faithfulness_verifier|quality_control_pipeline|prompt_templates|response_parser|faithfulness_evaluator|relevance_evaluator|completeness_evaluator|coherence_evaluator|geval_evaluator|rag_judge|reranker|document_summarizer|document_splitter|hybrid_retriever|citation_highlighter|distributed_rag_evaluator|prompt_injection_detector|evaluation_report_exporter|evaluation_cache|calibration_manager|batch_evaluator|bias_detector|adversarial_tester|multimodal_rag|ab_testing_framework|agentic_rag|bayesian_optimizer|claim_extractor|continuous_learning_client|continuous_learning_orchestrator|cot_evaluator|hallucination_dashboard|http_metrics_client|judge_config|judge_ensemble|knowledge_graph_retriever|learning_metrics|llm_meta_analyzer|onnx_model_loader|pairwise_comparator|quality_control_factory|rubric_evaluator|streaming_retriever)\\.cpp$")
+            # src/training/ — LLM-owned training files in THEMIS_LLM_SOURCES
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX "src.training.(lora_data_selection|incremental_lora_trainer|lora_checkpoint_manager|adapter_serving)\\.cpp$")
+            # src/server/ — LLM API handlers
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX "src.server.(llm_api_handler|lora_api_handler)\\.cpp$")
+            message(STATUS "themis_tests: excluding LLM module sources from direct compilation (provided by themis_llm)")
+        endif()
+        if(TARGET themis_network)
+            # graphql.cpp and themisdb_grpc_service.cpp are compiled into themis_network
+            # (as static or shared lib).  Exclude them from _themis_test_core_sources to
+            # avoid LNK2005 duplicate definitions.  Generator-expression entries end with
+            # ">", so the regex uses ">?$" to match both plain and GE-wrapped paths.
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]api[\\\\/]graphql\\.cpp>?$")
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/api/graphql\\.cpp>?$")
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]api[\\\\/]themisdb_grpc_service\\.cpp>?$")
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/api/themisdb_grpc_service\\.cpp>?$")
         endif()
         if(TARGET themis_storage)
             # Exclude schema_migration / updates sources that are already compiled
@@ -1178,16 +1223,65 @@ if(THEMIS_BUILD_MODULAR)
             list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]updates[\\\\/]schema_migration_tester\\.cpp$")
             message(STATUS "themis_tests: excluding direct schema_migration sources (provided by themis_storage module)")
         endif()
+        # NOTE: logger.cpp / license_info.cpp / build_info.cpp are intentionally kept
+        # in the test sources.  The test binary defines THEMIS_BASE_EXPORTS (so the
+        # compiler sees Logger as __declspec(dllexport)), which means the static-member
+        # definition *must* come from a locally compiled .cpp.  Excluding them causes
+        # LNK2001 (logger_ undefined). The resulting LNK2005 overlap with themis_base.dll
+        # is suppressed via /FORCE:MULTIPLE on the test linker (see below).
         if(TARGET themis_network)
             get_target_property(_themis_network_target_type_for_sources themis_network TYPE)
             if(_themis_network_target_type_for_sources STREQUAL "STATIC_LIBRARY")
+                # Robust path filters for both '/' and '\\' separators.
                 list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]server[\\\\/].*\\.cpp>?$")
                 list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]network[\\\\/].*\\.cpp>?$")
-                list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]observability[\\\\/]alertmanager\\.cpp$")
-                list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]proto_generated[\\\\/]themis_.*\\.pb\\.cc$")
-                list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]proto_generated[\\\\/]themisdb(\\.grpc)?\\.pb\\.cc$")
-                message(STATUS "themis_tests: excluding direct server/network sources (provided by static themis_network module)")
+                list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]maintenance[\\\\/].*\\.cpp>?$")
+                list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]scheduler[\\\\/].*\\.cpp>?$")
+                list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]observability[\\\\/]alertmanager\\.cpp>?$")
+                list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]proto_generated[\\\\/]themis_.*\\.pb\\.cc>?$")
+                list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]proto_generated[\\\\/]themisdb(\\.grpc)?\\.pb\\.cc>?$")
+                message(STATUS "themis_tests: excluding direct server/network/maintenance sources (provided by static themis_network module)")
             endif()
+        endif()
+        # ==========================================================
+        # PERMANENT FIX: Dynamic module-source deduplication.
+        # Collects all source basenames owned by any existing module
+        # and removes matching entries from _themis_test_core_sources.
+        # This automatically handles future additions to module source
+        # lists without requiring manual filter maintenance.
+        # ==========================================================
+        set(_module_owned_basenames)
+        foreach(_dedup_mod
+                themis_base themis_storage themis_security themis_transaction
+                themis_sharding themis_llm themis_query themis_timeseries
+                themis_graph themis_geo themis_content themis_network)
+            if(TARGET ${_dedup_mod})
+                get_target_property(_dedup_mod_type ${_dedup_mod} TYPE)
+                if(_dedup_mod_type STREQUAL "STATIC_LIBRARY")
+                    get_target_property(_dedup_srcs ${_dedup_mod} SOURCES)
+                    if(_dedup_srcs)
+                        foreach(_ds IN LISTS _dedup_srcs)
+                            # Skip generator expressions — they resolve at build time
+                            if(NOT _ds MATCHES "^\\$<")
+                                get_filename_component(_bn "${_ds}" NAME)
+                                list(APPEND _module_owned_basenames "${_bn}")
+                            endif()
+                        endforeach()
+                    endif()
+                endif()
+            endif()
+        endforeach()
+        if(_module_owned_basenames)
+            list(REMOVE_DUPLICATES _module_owned_basenames)
+            set(_dedup_core)
+            foreach(_cs IN LISTS _themis_test_core_sources)
+                get_filename_component(_bn "${_cs}" NAME)
+                if(NOT "${_bn}" IN_LIST _module_owned_basenames)
+                    list(APPEND _dedup_core "${_cs}")
+                endif()
+            endforeach()
+            set(_themis_test_core_sources ${_dedup_core})
+            message(STATUS "themis_tests: dynamic module-dedup applied to core sources")
         endif()
         target_sources(themis_tests PRIVATE ${_themis_test_core_sources})
         target_compile_definitions(themis_tests PRIVATE
@@ -1206,20 +1300,6 @@ if(THEMIS_BUILD_MODULAR)
         )
 
         set(_themis_test_extra_sources
-            ${THEMIS_ROOT_DIR}/src/llm/adapter_registry.cpp
-            ${THEMIS_ROOT_DIR}/src/llm/ai_decision_auditor.cpp
-            ${THEMIS_ROOT_DIR}/src/llm/explanation_generator.cpp
-            ${THEMIS_ROOT_DIR}/src/llm/kernel_fusion.cpp
-            ${THEMIS_ROOT_DIR}/src/llm/model_metadata_cache.cpp
-            ${THEMIS_ROOT_DIR}/src/llm/lora_metadata_cache.cpp
-            ${THEMIS_ROOT_DIR}/src/llm/production_validator.cpp
-            ${THEMIS_ROOT_DIR}/src/llm/llm_model_audit_logger.cpp
-            ${THEMIS_ROOT_DIR}/src/llm/applications/themis_help_lora.cpp
-            ${THEMIS_ROOT_DIR}/src/llm/lora_framework/lora_feedback_storage.cpp
-            ${THEMIS_ROOT_DIR}/src/llm/lora_framework/lora_training_config.cpp
-            ${THEMIS_ROOT_DIR}/src/llm/lora_framework/lora_audit_logger.cpp
-            ${THEMIS_ROOT_DIR}/src/llm/lora_framework/feedback_plugin.cpp
-            ${THEMIS_ROOT_DIR}/src/llm/security/signature_verifier.cpp
             ${THEMIS_ROOT_DIR}/src/server/mvcc_api_handler.cpp
             ${THEMIS_ROOT_DIR}/src/server/geo_topology_api_handler.cpp
             ${THEMIS_ROOT_DIR}/src/server/replication_topology_api_handler.cpp
@@ -1253,7 +1333,7 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/storage/pitr_manager.cpp
             ${THEMIS_ROOT_DIR}/src/auth/auth_error.cpp
             ${THEMIS_ROOT_DIR}/src/auth/mtls_authenticator.cpp
-            ${THEMIS_ROOT_DIR}/tests/test_hsm_provider_stub.cpp
+            # test_hsm_provider_stub is appended conditionally below
             ${THEMIS_ROOT_DIR}/src/cdc/dead_letter_queue.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/delivery_tracker.cpp
@@ -1263,6 +1343,20 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/cdc/outbox.cpp
             $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:${THEMIS_ROOT_DIR}/src/cdc/ws_transport.cpp>
         )
+
+        # test_hsm_provider_stub.cpp defines g_hsm_provider.  Only add it when
+        # themis_network is NOT a STATIC_LIBRARY; if it is, the lib already
+        # contains hsm_provider_global.cpp which exports the same symbol (LNK2005).
+        set(_themis_add_hsm_stub TRUE)
+        if(TARGET themis_network)
+            get_target_property(_tn_type_hsm themis_network TYPE)
+            if(_tn_type_hsm STREQUAL "STATIC_LIBRARY")
+                set(_themis_add_hsm_stub FALSE)
+            endif()
+        endif()
+        if(_themis_add_hsm_stub AND EXISTS "${THEMIS_ROOT_DIR}/tests/test_hsm_provider_stub.cpp")
+            list(APPEND _themis_test_extra_sources ${THEMIS_ROOT_DIR}/tests/test_hsm_provider_stub.cpp)
+        endif()
 
         # Scheduler sources are compiled into themis_core only when THEMIS_ENABLE_HTTP_SERVER=ON.
         # Add them directly when HTTP_SERVER is OFF to avoid missing-symbol errors.
@@ -1300,6 +1394,23 @@ if(THEMIS_BUILD_MODULAR)
             )
         endif()
 
+        # test_hsm_provider_stub defines g_hsm_provider. When themis_network is
+        # linked as static library, it already provides hsm_provider_global.cpp,
+        # which exports the same symbol and would trigger LNK2005.
+        # pitr_manager.cpp is also in themis_network (THEMIS_ENABLE_HTTP_SERVER path);
+        # remove it from extra_sources to avoid duplicate symbol errors.
+        if(TARGET themis_network)
+            get_target_property(_themis_network_target_type_stub themis_network TYPE)
+            if(_themis_network_target_type_stub STREQUAL "STATIC_LIBRARY")
+                list(REMOVE_ITEM _themis_test_extra_sources
+                    ${THEMIS_ROOT_DIR}/tests/test_hsm_provider_stub.cpp
+                )
+                list(REMOVE_ITEM _themis_test_extra_sources
+                    ${THEMIS_ROOT_DIR}/src/storage/pitr_manager.cpp
+                )
+            endif()
+        endif()
+
         if(THEMIS_ENABLE_GPU AND NOT TARGET themis_llm)
             list(APPEND _themis_test_extra_sources
                 ${THEMIS_ROOT_DIR}/src/llm/lora_framework/gpu_tensor.cpp
@@ -1316,6 +1427,26 @@ if(THEMIS_BUILD_MODULAR)
         elseif(THEMIS_ENABLE_GPU)
             message(STATUS "themis_tests: skipping extra GPU sources (linked via themis_llm module)")
         endif()
+        # Also filter _themis_test_extra_sources against module-owned basenames.
+        # Absolute paths in extra_sources don't match relative paths in
+        # THEMIS_CORE_SOURCES (string mismatch), so the loop's FIND check alone
+        # is insufficient. Basename matching covers both path formats.
+        if(_module_owned_basenames)
+            set(_dedup_extra)
+            foreach(_es IN LISTS _themis_test_extra_sources)
+                if(_es MATCHES "^\\$<")
+                    # Preserve generator expressions unchanged
+                    list(APPEND _dedup_extra "${_es}")
+                else()
+                    get_filename_component(_bn "${_es}" NAME)
+                    if(NOT "${_bn}" IN_LIST _module_owned_basenames)
+                        list(APPEND _dedup_extra "${_es}")
+                    endif()
+                endif()
+            endforeach()
+            set(_themis_test_extra_sources ${_dedup_extra})
+            message(STATUS "themis_tests: dynamic module-dedup applied to extra sources")
+        endif()
         foreach(_extra_src IN LISTS _themis_test_extra_sources)
             if(EXISTS "${_extra_src}")
                 list(FIND THEMIS_CORE_SOURCES "${_extra_src}" _extra_src_idx)
@@ -1324,6 +1455,33 @@ if(THEMIS_BUILD_MODULAR)
                 endif()
             endif()
         endforeach()
+        # When themis_llm module is NOT available, add the LLM subsystem sources
+        # that are not in THEMIS_CORE_SOURCES but required by LLM tests.
+        if(NOT TARGET themis_llm)
+            foreach(_llm_src
+                ${THEMIS_ROOT_DIR}/src/llm/adapter_registry.cpp
+                ${THEMIS_ROOT_DIR}/src/llm/ai_decision_auditor.cpp
+                ${THEMIS_ROOT_DIR}/src/llm/explanation_generator.cpp
+                ${THEMIS_ROOT_DIR}/src/llm/kernel_fusion.cpp
+                ${THEMIS_ROOT_DIR}/src/llm/model_metadata_cache.cpp
+                ${THEMIS_ROOT_DIR}/src/llm/lora_metadata_cache.cpp
+                ${THEMIS_ROOT_DIR}/src/llm/production_validator.cpp
+                ${THEMIS_ROOT_DIR}/src/llm/llm_model_audit_logger.cpp
+                ${THEMIS_ROOT_DIR}/src/llm/applications/themis_help_lora.cpp
+                ${THEMIS_ROOT_DIR}/src/llm/lora_framework/lora_feedback_storage.cpp
+                ${THEMIS_ROOT_DIR}/src/llm/lora_framework/lora_training_config.cpp
+                ${THEMIS_ROOT_DIR}/src/llm/lora_framework/lora_audit_logger.cpp
+                ${THEMIS_ROOT_DIR}/src/llm/lora_framework/feedback_plugin.cpp
+                ${THEMIS_ROOT_DIR}/src/llm/security/signature_verifier.cpp
+            )
+                if(EXISTS "${_llm_src}")
+                    list(FIND THEMIS_CORE_SOURCES "${_llm_src}" _llm_src_idx)
+                    if(_llm_src_idx EQUAL -1)
+                        target_sources(themis_tests PRIVATE "${_llm_src}")
+                    endif()
+                endif()
+            endforeach()
+        endif()
 
         foreach(_mod
             themis_base
@@ -1387,15 +1545,68 @@ if(_themis_tests_sources_final)
     if(TARGET themis_network)
         get_target_property(_themis_network_target_type_final themis_network TYPE)
         if(_themis_network_target_type_final STREQUAL "STATIC_LIBRARY")
-            list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]src[\\/]server[\\/].*\\.cpp>?$")
-            list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]src[\\/]network[\\/].*\\.cpp>?$")
-            list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]src[\\/]observability[\\/]alertmanager\.cpp$")
-            list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]proto_generated[\\/]themis_.*\\.pb\\.cc$")
-            list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]proto_generated[\\/]themisdb(\\.grpc)?\\.pb\\.cc$")
+            list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\\\/]src[\\\\/]server[\\\\/].*\\.cpp>?$")
+            list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\\\/]src[\\\\/]network[\\\\/].*\\.cpp>?$")
+            list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\\\/]src[\\\\/]maintenance[\\\\/].*\\.cpp>?$")
+            list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\\\/]src[\\\\/]scheduler[\\\\/].*\\.cpp>?$")
+            list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\\\/]src[\\\\/]observability[\\\\/]alertmanager\\.cpp>?$")
+            list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\\\/]src[\\\\/]storage[\\\\/]pitr_manager\\.cpp>?$")
+            list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\\\/]tests[\\\\/]test_hsm_provider_stub\\.cpp>?$")
+            list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\\\/]proto_generated[\\\\/]themis_.*\\.pb\\.cc>?$")
+            list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\\\/]proto_generated[\\\\/]themisdb(\\.grpc)?\\.pb\\.cc>?$")
         endif()
     endif()
     if(NOT THEMIS_ENABLE_GPU)
         list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]test_cpu_gpu_parity\\.cpp$")
+    endif()
+
+    # Permanent module-boundary guard:
+    # Remove any directly compiled production source whose basename is already
+    # owned by a linked module target. This catches duplicates introduced by
+    # ad-hoc target_sources(...) additions outside _themis_test_core_sources and
+    # _themis_test_extra_sources.
+    set(_themis_module_owned_basenames_final)
+    foreach(_dedup_mod_final
+            themis_base themis_storage themis_security themis_transaction
+            themis_sharding themis_llm themis_query themis_timeseries
+            themis_graph themis_geo themis_content themis_network)
+        if(TARGET ${_dedup_mod_final})
+            get_target_property(_dedup_mod_type_final ${_dedup_mod_final} TYPE)
+            if(_dedup_mod_type_final STREQUAL "STATIC_LIBRARY")
+                get_target_property(_dedup_mod_srcs_final ${_dedup_mod_final} SOURCES)
+                if(_dedup_mod_srcs_final)
+                    foreach(_ms IN LISTS _dedup_mod_srcs_final)
+                        # Generator expressions can be disabled for this build
+                        # configuration. Treating all of them as active over-prunes
+                        # direct sources and causes LNK2019. Keep them skipped.
+                        if(NOT _ms MATCHES "^\\$<")
+                            get_filename_component(_mb "${_ms}" NAME)
+                            if(_mb MATCHES "\\.cpp$|\\.cc$|\\.c$|\\.cxx$")
+                                list(APPEND _themis_module_owned_basenames_final "${_mb}")
+                            endif()
+                        endif()
+                    endforeach()
+                endif()
+            endif()
+        endif()
+    endforeach()
+    if(_themis_module_owned_basenames_final)
+        list(REMOVE_DUPLICATES _themis_module_owned_basenames_final)
+        set(_themis_tests_sources_final_dedup)
+        foreach(_src_final IN LISTS _themis_tests_sources_final)
+            if(_src_final MATCHES "^\\$<")
+                list(APPEND _themis_tests_sources_final_dedup "${_src_final}")
+            elseif(_src_final MATCHES "[\\/]tests[\\/]")
+                # Always keep test translation units.
+                list(APPEND _themis_tests_sources_final_dedup "${_src_final}")
+            else()
+                get_filename_component(_src_bn_final "${_src_final}" NAME)
+                if(NOT "${_src_bn_final}" IN_LIST _themis_module_owned_basenames_final)
+                    list(APPEND _themis_tests_sources_final_dedup "${_src_final}")
+                endif()
+            endif()
+        endforeach()
+        set(_themis_tests_sources_final ${_themis_tests_sources_final_dedup})
     endif()
     set_property(TARGET themis_tests PROPERTY SOURCES ${_themis_tests_sources_final})
 endif()
@@ -1413,6 +1624,45 @@ if(TARGET themis_network)
         )
     endif()
 endif()
+
+# Shared-module bridge: some internal symbols are not exported from DLL modules
+# but are required by focused tests in the aggregate themis_tests binary.
+if(THEMIS_BUILD_MODULAR)
+    if(TARGET themis_base)
+        get_target_property(_themis_base_target_type_keep themis_base TYPE)
+        if(_themis_base_target_type_keep STREQUAL "SHARED_LIBRARY")
+            target_sources(themis_tests PRIVATE
+                ${THEMIS_ROOT_DIR}/src/config/config_path_resolver.cpp
+                ${THEMIS_ROOT_DIR}/src/core/concerns/context_propagation.cpp
+            )
+        endif()
+    endif()
+    if(TARGET themis_storage)
+        get_target_property(_themis_storage_target_type_keep themis_storage TYPE)
+        if(_themis_storage_target_type_keep STREQUAL "SHARED_LIBRARY")
+            target_sources(themis_tests PRIVATE
+                ${THEMIS_ROOT_DIR}/src/storage/distributed_transaction_manager.cpp
+            )
+        endif()
+    endif()
+endif()
+
+# FORCE-INCLUDE: logger.cpp / license_info.cpp / build_info.cpp
+# The test binary sets THEMIS_BASE_EXPORTS, so all TUs that include logger.h
+# see Logger as __declspec(dllexport) and reference logger_ directly (not via
+# __imp_).  These three files MUST be compiled into the test binary so the
+# static-member definitions are available to the linker.  The duplicate-symbol
+# overlap with themis_base.dll is suppressed by /FORCE:MULTIPLE below.
+get_target_property(_themis_tests_src_check themis_tests SOURCES)
+foreach(_force_src
+        "${THEMIS_ROOT_DIR}/src/utils/logger.cpp"
+        "${THEMIS_ROOT_DIR}/src/themis/license_info.cpp"
+        "${THEMIS_ROOT_DIR}/src/themis/build_info.cpp")
+    if(NOT "${_force_src}" IN_LIST _themis_tests_src_check)
+        target_sources(themis_tests PRIVATE "${_force_src}")
+        message(STATUS "themis_tests: force-added ${_force_src} (required by THEMIS_BASE_EXPORTS)")
+    endif()
+endforeach()
 
 target_link_libraries(themis_tests PRIVATE
     GTest::gtest
@@ -1514,6 +1764,11 @@ if(MSVC)
         $<$<CONFIG:Release>:/LTCG:OFF>
         $<$<CONFIG:RelWithDebInfo>:/LTCG:OFF>
         $<$<CONFIG:MinSizeRel>:/LTCG:OFF>
+        # /FORCE:MULTIPLE: themis_base.dll and directly-compiled .cpp files both define
+        # Logger/license/build_info symbols (because THEMIS_BASE_EXPORTS is set for the
+        # test binary). The local .obj definition is used; the DLL export is secondary.
+        # This is intentional and safe for a test binary.
+        $<$<CXX_COMPILER_ID:MSVC>:/FORCE:MULTIPLE>
     )
 endif()
 
@@ -4319,6 +4574,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_vector_index_comprehensive.cpp")
     
     add_executable(test_vector_index_comprehensive
         test_vector_index_comprehensive.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/vector_index_backend.cpp
     )
     
     target_link_libraries(test_vector_index_comprehensive PRIVATE
@@ -7367,6 +7623,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_incremental_view.cpp")
 
     target_link_libraries(test_incremental_view_focused PRIVATE
         ${TEST_LIBS}
+        themis_core
         spdlog::spdlog
         Threads::Threads
     )
@@ -25993,3 +26250,1418 @@ if(THEMIS_ENABLE_PROCESS_MINING_TESTS AND
     set_tests_properties(test_process_mining_e2e_focused PROPERTIES
         LABELS "integration;process-mining;e2e;focused" TIMEOUT 600)
 endif()
+
+# ============================================================================
+# Additional test targets migrated from cmake/CMakeLists.txt
+# ============================================================================
+# Leichtgewichtiger Test-Target: Nur SecondaryIndex-Tests
+add_executable(themis_secidx_tests
+    ${THEMIS_ROOT_DIR}/tests/test_secondary_index.cpp
+)
+target_link_libraries(themis_secidx_tests
+    PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+        Boost::system
+)
+include(GoogleTest)
+gtest_discover_tests(themis_secidx_tests
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_secidx_tests>
+    EXTRA_ARGS --gtest_color=yes
+    CONFIGURATIONS Release Debug
+)
+
+# Sync runtime DLLs next to the secidx test binary so CTest discovery
+# can resolve them without a manual PATH adjustment.
+if(WIN32)
+    add_custom_command(TARGET themis_secidx_tests POST_BUILD
+        COMMAND ${CMAKE_COMMAND}
+                -D "BIN_DIR=${CMAKE_BINARY_DIR}/bin"
+            -D "DST_DIR=$<TARGET_FILE_DIR:themis_secidx_tests>"
+            -P "${THEMIS_ROOT_DIR}/cmake/CopyRuntimeDlls.cmake"
+        COMMENT "Syncing runtime DLLs for themis_secidx_tests"
+        VERBATIM
+    )
+endif()
+
+# CRITICAL TESTS ONLY (for fast validation)
+add_executable(themis_tests_critical
+    ${THEMIS_ROOT_DIR}/tests/test_lib_rocksdb_integration.cpp
+    ${THEMIS_ROOT_DIR}/tests/test_lib_hnsw_integration.cpp
+    ${THEMIS_ROOT_DIR}/tests/test_lib_boost_integration.cpp
+    ${THEMIS_ROOT_DIR}/tests/test_secondary_index.cpp
+    ${THEMIS_ROOT_DIR}/tests/test_thread_pool_manager.cpp
+    ${THEMIS_ROOT_DIR}/tests/test_batch_write_optimizer.cpp
+)
+target_link_libraries(themis_tests_critical
+    PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+        Boost::system
+)
+include(GoogleTest)
+gtest_discover_tests(themis_tests_critical
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_tests_critical>
+    EXTRA_ARGS --gtest_color=yes
+    CONFIGURATIONS Release Debug
+)
+
+# Conditionally add LLM tests only when LLM is enabled
+if(THEMIS_ENABLE_LLM)
+    # LLM tests are now handled in tests/CMakeLists.txt via file(GLOB_RECURSE)
+
+    # Lightweight LLM-only test target to avoid unrelated suite breakages
+    # Disabled: test_llamacpp_integration.cpp does not exist
+    # add_executable(themis_llm_tests
+    #     ${THEMIS_ROOT_DIR}/tests/test_llamacpp_integration.cpp
+    # )
+    # target_link_libraries(themis_llm_tests
+    #     PRIVATE
+    #         themis_core
+    #         GTest::gtest
+    #         GTest::gtest_main
+    #         Boost::system
+    # )
+    # if(TARGET llama)
+    #     add_custom_command(TARGET themis_llm_tests POST_BUILD
+    #         COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    #                 $<TARGET_FILE:llama>
+    #                 $<TARGET_FILE_DIR:themis_llm_tests>
+    #     )
+    #     add_custom_command(TARGET themis_llm_tests POST_BUILD
+    #         COMMAND ${CMAKE_COMMAND} -E copy_directory
+    #                 $<TARGET_FILE_DIR:llama>
+    #                 $<TARGET_FILE_DIR:themis_llm_tests>
+    #     )
+    # endif()
+    # include(GoogleTest)
+    # gtest_discover_tests(themis_llm_tests
+    #     DISCOVERY_MODE PRE_TEST
+    #     WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_llm_tests>
+    #     EXTRA_ARGS --gtest_color=yes
+    #     CONFIGURATIONS Release Debug
+    # )
+    
+    # Phase 1 Feature Tests (Flash Attention, KV-Cache Reuse, Embeddings)
+    # Flash Attention Tests
+    add_executable(test_phase1_flash_attention
+        ${THEMIS_ROOT_DIR}/tests/test_phase1_flash_attention.cpp
+    )
+    target_link_libraries(test_phase1_flash_attention
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_phase1_flash_attention
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_phase1_flash_attention>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+    
+    # KV-Cache Reuse Tests
+    add_executable(test_phase1_kv_cache_reuse
+        ${THEMIS_ROOT_DIR}/tests/test_phase1_kv_cache_reuse.cpp
+    )
+    target_link_libraries(test_phase1_kv_cache_reuse
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_phase1_kv_cache_reuse
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_phase1_kv_cache_reuse>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+endif()
+
+# Note: themis_tests discovery is now handled in tests/CMakeLists.txt
+
+# ScaNN / DiskANN alternative ANN index tests (Issue #1865/#1876)
+# ScaNN is pure C++ – always build when tests are enabled
+add_executable(test_ann_index
+    ${THEMIS_ROOT_DIR}/tests/index/test_ann_index.cpp
+)
+target_link_libraries(test_ann_index
+    PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+)
+if(THEMIS_ENABLE_DISKANN)
+    target_compile_definitions(test_ann_index PRIVATE THEMIS_ENABLE_DISKANN)
+endif()
+gtest_discover_tests(test_ann_index
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_ann_index>
+    EXTRA_ARGS --gtest_color=yes
+    CONFIGURATIONS Release Debug
+)
+
+# ── New feature tests ────────────────────────────────────────────────────
+
+# Erasure Coding Backend Tests (v1.7.0 – Issue #207)
+add_executable(test_erasure_coding_backend
+    ${THEMIS_ROOT_DIR}/tests/test_erasure_coding_backend.cpp
+)
+target_link_libraries(test_erasure_coding_backend
+    PRIVATE themis_core GTest::gtest GTest::gtest_main
+)
+gtest_discover_tests(test_erasure_coding_backend
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_erasure_coding_backend>
+    EXTRA_ARGS --gtest_color=yes
+    CONFIGURATIONS Release Debug
+    PROPERTIES
+        LABELS "storage;erasure-coding;blob;reed-solomon;unit"
+        TIMEOUT 60
+)
+
+add_executable(test_search_highlighter
+    ${THEMIS_ROOT_DIR}/tests/test_search_highlighter.cpp
+)
+target_link_libraries(test_search_highlighter
+    PRIVATE themis_core GTest::gtest GTest::gtest_main
+)
+gtest_discover_tests(test_search_highlighter
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_search_highlighter>
+    EXTRA_ARGS --gtest_color=yes
+    CONFIGURATIONS Release Debug
+)
+
+add_executable(test_distributed_hybrid_search
+    ${THEMIS_ROOT_DIR}/tests/test_distributed_hybrid_search.cpp
+)
+target_link_libraries(test_distributed_hybrid_search
+    PRIVATE themis_core GTest::gtest GTest::gtest_main
+)
+gtest_discover_tests(test_distributed_hybrid_search
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_distributed_hybrid_search>
+    EXTRA_ARGS --gtest_color=yes
+    CONFIGURATIONS Release Debug
+)
+
+add_executable(test_knowledge_gap_retrieval_callback
+    ${THEMIS_ROOT_DIR}/tests/test_knowledge_gap_retrieval_callback.cpp
+    ${THEMIS_ROOT_DIR}/src/rag/knowledge_gap_detector.cpp
+)
+target_link_libraries(test_knowledge_gap_retrieval_callback
+    PRIVATE themis_core GTest::gtest GTest::gtest_main
+)
+gtest_discover_tests(test_knowledge_gap_retrieval_callback
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_knowledge_gap_retrieval_callback>
+    EXTRA_ARGS --gtest_color=yes
+    CONFIGURATIONS Release Debug
+)
+
+add_executable(test_bitemporal_join
+    ${THEMIS_ROOT_DIR}/tests/test_bitemporal_join.cpp
+)
+target_link_libraries(test_bitemporal_join
+    PRIVATE themis_core GTest::gtest GTest::gtest_main
+)
+gtest_discover_tests(test_bitemporal_join
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_bitemporal_join>
+    EXTRA_ARGS --gtest_color=yes
+    CONFIGURATIONS Release Debug
+)
+
+# Temporal Snapshot Isolation Tests (v1.1.0 – Issue: Snapshot Isolation)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_snapshot_manager.cpp")
+    add_executable(test_temporal_snapshot_manager
+        ${THEMIS_ROOT_DIR}/tests/temporal/test_snapshot_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/snapshot_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/system_versioned_table.cpp
+    )
+    target_include_directories(test_temporal_snapshot_manager
+        PRIVATE ${THEMIS_ROOT_DIR}/include
+    )
+    target_link_libraries(test_temporal_snapshot_manager
+        PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+    )
+    gtest_discover_tests(test_temporal_snapshot_manager
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_snapshot_manager>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+        PROPERTIES
+            LABELS "temporal;snapshot;isolation;unit"
+            TIMEOUT 60
+    )
+    message(STATUS "  TemporalSnapshotManager: versioning, GC (TTL + max-count), metadata, isolation")
+endif()
+
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_interval_tree_index.cpp")
+    add_executable(test_interval_tree_index
+        ${THEMIS_ROOT_DIR}/tests/temporal/test_interval_tree_index.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/interval_tree_index.cpp
+    )
+    target_include_directories(test_interval_tree_index
+        PRIVATE ${THEMIS_ROOT_DIR}/include
+    )
+    target_link_libraries(test_interval_tree_index
+        PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+    )
+    gtest_discover_tests(test_interval_tree_index
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_interval_tree_index>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+        PROPERTIES
+            LABELS "temporal;interval-tree;unit"
+            TIMEOUT 60
+    )
+    message(STATUS "  IntervalTreeIndex: augmented interval tree, O(log n + k) overlap queries")
+endif()
+
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_compressor.cpp")
+    add_executable(test_temporal_compressor
+        ${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_compressor.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/temporal_compressor.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/system_versioned_table.cpp
+    )
+    target_include_directories(test_temporal_compressor
+        PRIVATE ${THEMIS_ROOT_DIR}/include
+    )
+    target_link_libraries(test_temporal_compressor
+        PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+    )
+    if(THEMIS_LZ4_TARGET)
+        target_link_libraries(test_temporal_compressor PRIVATE ${THEMIS_LZ4_TARGET})
+    endif()
+    gtest_discover_tests(test_temporal_compressor
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_compressor>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+        PROPERTIES
+            LABELS "temporal;compressor;unit"
+            TIMEOUT 60
+    )
+    message(STATUS "  TemporalCompressor: delta/ZSTD/Gorilla/dictionary compression")
+endif()
+
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_cdc.cpp")
+    add_executable(test_temporal_cdc
+        ${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_cdc.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/temporal_cdc.cpp
+    )
+    target_include_directories(test_temporal_cdc
+        PRIVATE ${THEMIS_ROOT_DIR}/include
+    )
+    target_link_libraries(test_temporal_cdc
+        PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+    )
+    gtest_discover_tests(test_temporal_cdc
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_cdc>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+        PROPERTIES
+            LABELS "temporal;cdc;unit"
+            TIMEOUT 60
+    )
+    message(STATUS "  TemporalCDC: subscribe/publish/replay change data capture")
+endif()
+
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_migrator.cpp")
+    add_executable(test_temporal_migrator
+        ${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_migrator.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/temporal_migrator.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/system_versioned_table.cpp
+    )
+    target_include_directories(test_temporal_migrator
+        PRIVATE ${THEMIS_ROOT_DIR}/include
+    )
+    target_link_libraries(test_temporal_migrator
+        PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+    )
+    gtest_discover_tests(test_temporal_migrator
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_migrator>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+        PROPERTIES
+            LABELS "temporal;migrator;phase5;unit"
+            TIMEOUT 60
+    )
+    message(STATUS "  TemporalMigrator: analyze/migrate/backfill/verify system-versioned table migration")
+endif()
+
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_retention_manager.cpp")
+    add_executable(test_retention_manager
+        ${THEMIS_ROOT_DIR}/tests/temporal/test_retention_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/retention_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/system_versioned_table.cpp
+    )
+    target_include_directories(test_retention_manager
+        PRIVATE ${THEMIS_ROOT_DIR}/include
+    )
+    target_link_libraries(test_retention_manager
+        PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+    )
+    gtest_discover_tests(test_retention_manager
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_retention_manager>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+        PROPERTIES
+            LABELS "temporal;retention;unit"
+            TIMEOUT 60
+    )
+    message(STATUS "  RetentionManager: retention policies, RetentionRule operators")
+endif()
+
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_conflict_resolver.cpp")
+    add_executable(test_temporal_conflict_resolver
+        ${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_conflict_resolver.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/temporal_conflict_resolver.cpp
+    )
+    target_include_directories(test_temporal_conflict_resolver
+        PRIVATE ${THEMIS_ROOT_DIR}/include
+    )
+    target_link_libraries(test_temporal_conflict_resolver
+        PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+    )
+    gtest_discover_tests(test_temporal_conflict_resolver
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_conflict_resolver>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+        PROPERTIES
+            LABELS "temporal;conflict-resolver;unit"
+            TIMEOUT 60
+    )
+    message(STATUS "  TemporalConflictResolver: LWW/FWW/node-priority/CRDT/MergeResolver")
+endif()
+
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_aggregator.cpp")
+    add_executable(test_temporal_aggregator
+        ${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_aggregator.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/temporal_aggregator.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/system_versioned_table.cpp
+    )
+    target_include_directories(test_temporal_aggregator
+        PRIVATE ${THEMIS_ROOT_DIR}/include
+    )
+    target_link_libraries(test_temporal_aggregator
+        PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+    )
+    gtest_discover_tests(test_temporal_aggregator
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_aggregator>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+        PROPERTIES
+            LABELS "temporal;aggregator;unit"
+            TIMEOUT 60
+    )
+    message(STATUS "  TemporalAggregator: tumbling/sliding/session windows, FIRST_VALUE/LAST_VALUE")
+endif()
+
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_query_engine.cpp")
+    add_executable(test_temporal_query_engine
+        ${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_query_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/temporal_query_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/system_versioned_table.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/bi_temporal.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/temporal_index.cpp
+    )
+    target_include_directories(test_temporal_query_engine
+        PRIVATE ${THEMIS_ROOT_DIR}/include
+    )
+    target_link_libraries(test_temporal_query_engine
+        PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+    )
+    gtest_discover_tests(test_temporal_query_engine
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_query_engine>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+        PROPERTIES
+            LABELS "temporal;query-engine;unit"
+            TIMEOUT 60
+    )
+    message(STATUS "  TemporalQueryEngine: AS-OF/FROM-TO/BETWEEN/CONTAINED-IN/SEQUENCED-DISTINCT")
+endif()
+
+add_executable(test_ts_auto_buffer_adaptive
+    ${THEMIS_ROOT_DIR}/tests/test_ts_auto_buffer_adaptive.cpp
+)
+target_link_libraries(test_ts_auto_buffer_adaptive
+    PRIVATE themis_core GTest::gtest GTest::gtest_main
+)
+gtest_discover_tests(test_ts_auto_buffer_adaptive
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_ts_auto_buffer_adaptive>
+    EXTRA_ARGS --gtest_color=yes
+    CONFIGURATIONS Release Debug
+)
+
+add_executable(test_adaptive_flush_controller
+    ${THEMIS_ROOT_DIR}/tests/test_adaptive_flush_controller.cpp
+    ${THEMIS_ROOT_DIR}/src/timeseries/adaptive_flush_controller.cpp
+)
+target_link_libraries(test_adaptive_flush_controller
+    PRIVATE themis_core GTest::gtest GTest::gtest_main
+)
+gtest_discover_tests(test_adaptive_flush_controller
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_adaptive_flush_controller>
+    EXTRA_ARGS --gtest_color=yes
+    CONFIGURATIONS Release Debug
+)
+
+add_executable(test_chunk_level_encryption
+    ${THEMIS_ROOT_DIR}/tests/test_chunk_level_encryption.cpp
+)
+target_link_libraries(test_chunk_level_encryption
+    PRIVATE themis_core GTest::gtest GTest::gtest_main
+)
+gtest_discover_tests(test_chunk_level_encryption
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_chunk_level_encryption>
+    EXTRA_ARGS --gtest_color=yes
+    CONFIGURATIONS Release Debug
+    PROPERTIES LABELS "timeseries;encryption;security;integration" TIMEOUT 60
+)
+
+if(THEMIS_ENABLE_CUDA)
+    add_executable(test_cuda_hnsw_graph_traversal
+        ${THEMIS_ROOT_DIR}/tests/test_cuda_hnsw_graph_traversal.cpp
+    )
+    target_link_libraries(test_cuda_hnsw_graph_traversal
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_cuda_hnsw_graph_traversal
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cuda_hnsw_graph_traversal>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    add_executable(test_cuda_ann_search
+        ${THEMIS_ROOT_DIR}/tests/test_cuda_ann_search.cpp
+    )
+    target_link_libraries(test_cuda_ann_search
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_cuda_ann_search
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cuda_ann_search>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+endif()
+
+add_executable(test_wasm_runtime_injector
+    ${THEMIS_ROOT_DIR}/tests/test_wasm_runtime_injector.cpp
+)
+target_link_libraries(test_wasm_runtime_injector
+    PRIVATE themis_core GTest::gtest GTest::gtest_main
+)
+gtest_discover_tests(test_wasm_runtime_injector
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_wasm_runtime_injector>
+    EXTRA_ARGS --gtest_color=yes
+    CONFIGURATIONS Release Debug
+)
+
+# WASM Sandbox Injection focused tests (v1.8.0 – Issue #1572)
+add_executable(WasmSandboxInjectionFocusedTests
+    ${THEMIS_ROOT_DIR}/tests/test_module_sandbox_wasm_injection.cpp
+)
+target_link_libraries(WasmSandboxInjectionFocusedTests
+    PRIVATE themis_core GTest::gtest GTest::gtest_main
+)
+gtest_discover_tests(WasmSandboxInjectionFocusedTests
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:WasmSandboxInjectionFocusedTests>
+    EXTRA_ARGS --gtest_color=yes
+    CONFIGURATIONS Release Debug
+)
+
+if(THEMIS_ENABLE_VOICE_ASSISTANT)
+    add_executable(test_voice_browser_streaming
+        ${THEMIS_ROOT_DIR}/tests/test_voice_browser_streaming.cpp
+    )
+    target_link_libraries(test_voice_browser_streaming
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_voice_browser_streaming
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_voice_browser_streaming>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    add_executable(test_voice_telephony
+        ${THEMIS_ROOT_DIR}/tests/test_voice_telephony.cpp
+    )
+    target_link_libraries(test_voice_telephony
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_voice_telephony
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_voice_telephony>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+endif()
+
+# ── End new feature tests ─────────────────────────────────────────────────
+
+# Phase 3 Performance Optimization Tests (separate executables)
+if(THEMIS_ENABLE_DISKANN)
+    add_executable(test_diskann
+        ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_diskann.cpp
+    )
+    target_link_libraries(test_diskann
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_diskann
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_diskann>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
+
+if(THEMIS_ENABLE_BWTREE)
+    add_executable(test_bwtree
+        ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_bwtree.cpp
+    )
+    target_link_libraries(test_bwtree
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_bwtree
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_bwtree>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
+
+if(THEMIS_ENABLE_SPLINTERDB)
+    add_executable(test_splinterdb
+        ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_splinterdb.cpp
+    )
+    target_link_libraries(test_splinterdb
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_splinterdb
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_splinterdb>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
+
+if(THEMIS_ENABLE_GUNROCK)
+    add_executable(test_gunrock
+        ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_gunrock.cpp
+    )
+    target_link_libraries(test_gunrock
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_gunrock
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gunrock>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
+
+if(THEMIS_ENABLE_BAO)
+    add_executable(test_bao
+        ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_bao.cpp
+    )
+    target_link_libraries(test_bao
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_bao
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_bao>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
+
+if(THEMIS_ENABLE_PER_QUERY_COST_MODEL)
+    add_executable(test_per_query_cost_model
+        ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_per_query_cost_model.cpp
+    )
+    target_link_libraries(test_per_query_cost_model
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_per_query_cost_model
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_per_query_cost_model>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
+
+# AVX-512 SIMD path for vector distance computations (Phase 3, Issue #1964)
+add_executable(test_simd_distance
+    ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_simd_distance.cpp
+)
+target_link_libraries(test_simd_distance
+    PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+)
+gtest_discover_tests(test_simd_distance
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_simd_distance>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# Memory pressure monitoring with automatic cache eviction (Phase 3)
+# Tests SystemMemoryPressureMonitor: level classification, callback registration/
+# unregistration, eviction triggering under simulated high-pressure conditions,
+# thread lifecycle, and cache-size reduction via eviction callbacks.
+add_executable(test_memory_pressure
+    ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_memory_pressure.cpp
+)
+target_link_libraries(test_memory_pressure
+    PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+)
+gtest_discover_tests(test_memory_pressure
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_memory_pressure>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# Phase 4 Performance Optimization Tests (separate executables)
+if(THEMIS_ENABLE_PMEM)
+    add_executable(test_pmem_storage
+        ${THEMIS_ROOT_DIR}/tests/performance/phase4/test_pmem_storage.cpp
+    )
+    target_link_libraries(test_pmem_storage
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_pmem_storage
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_pmem_storage>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
+
+# PMU counter tests (Phase 4 – cache miss analysis, Issue #2422)
+if(THEMIS_ENABLE_PMU_COUNTERS)
+    add_executable(test_pmu_counters
+        ${THEMIS_ROOT_DIR}/tests/performance/phase4/test_pmu_counters.cpp
+    )
+    target_link_libraries(test_pmu_counters
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_pmu_counters
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_pmu_counters>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
+
+# ML-based workload predictor tests (Phase 4)
+add_executable(test_workload_predictor
+    ${THEMIS_ROOT_DIR}/tests/performance/test_workload_predictor.cpp
+)
+target_link_libraries(test_workload_predictor
+    PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+)
+gtest_discover_tests(test_workload_predictor
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_workload_predictor>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# Workload-Adaptive Optimizer tests (v1.9.0, Issue #230)
+add_executable(test_workload_adaptive_optimizer
+    ${THEMIS_ROOT_DIR}/tests/test_workload_adaptive_optimizer.cpp
+)
+target_link_libraries(test_workload_adaptive_optimizer
+    PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+)
+gtest_discover_tests(test_workload_adaptive_optimizer
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_workload_adaptive_optimizer>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# RaBitQ ProductQuantizer k-means tests
+if(THEMIS_ENABLE_RABITQ)
+    add_executable(test_rabitq_product_quantizer
+        ${THEMIS_ROOT_DIR}/tests/performance/test_rabitq_product_quantizer.cpp
+    )
+    target_link_libraries(test_rabitq_product_quantizer
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_rabitq_product_quantizer
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_rabitq_product_quantizer>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
+
+# Cicada OCC data-install and transaction-protocol tests
+if(THEMIS_ENABLE_CICADA)
+    add_executable(test_cicada
+        ${THEMIS_ROOT_DIR}/tests/performance/test_cicada.cpp
+    )
+    target_link_libraries(test_cicada
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_cicada
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cicada>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
+
+# Cycle metrics tests (Phase 1 – hardware cycle counter accuracy, Issue #2425)
+add_executable(test_cycle_metrics
+    ${THEMIS_ROOT_DIR}/tests/performance/test_cycle_metrics.cpp
+)
+target_link_libraries(test_cycle_metrics
+    PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+)
+gtest_discover_tests(test_cycle_metrics
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cycle_metrics>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# NUMA topology tests (Phase 2 – topology detection and thread pinning, Issue #2426)
+add_executable(test_numa_topology
+    ${THEMIS_ROOT_DIR}/tests/performance/test_numa_topology.cpp
+)
+target_link_libraries(test_numa_topology
+    PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+)
+gtest_discover_tests(test_numa_topology
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_numa_topology>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# Advanced Cache Manager tests (Issue #229 – v1.9.0 partitioned cache with bloom filters)
+add_executable(test_advanced_cache_manager
+    ${THEMIS_ROOT_DIR}/tests/test_advanced_cache_manager.cpp
+)
+target_link_libraries(test_advanced_cache_manager
+    PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+)
+gtest_discover_tests(test_advanced_cache_manager
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_advanced_cache_manager>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# NUMA-aware memory manager tests (Issue #228 – v1.9.0)
+add_executable(test_numa_memory_manager
+    ${THEMIS_ROOT_DIR}/tests/test_numa_memory_manager.cpp
+)
+target_link_libraries(test_numa_memory_manager
+    PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+)
+gtest_discover_tests(test_numa_memory_manager
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_numa_memory_manager>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# Wire protocol performance benchmark tests
+add_executable(test_wire_perf_benchmark
+    ${THEMIS_ROOT_DIR}/tests/performance/test_wire_perf_benchmark.cpp
+)
+target_link_libraries(test_wire_perf_benchmark
+    PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+)
+gtest_discover_tests(test_wire_perf_benchmark
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_wire_perf_benchmark>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# Adaptive batch size tuner tests (Phase 3 – LLM inference batch tuning, Issue #1996)
+add_executable(test_adaptive_batch_tuner
+    ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_adaptive_batch_tuner.cpp
+)
+target_link_libraries(test_adaptive_batch_tuner
+    PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+)
+gtest_discover_tests(test_adaptive_batch_tuner
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_adaptive_batch_tuner>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# io_uring zero-copy I/O tests (Phase 4 – DPDK/io_uring network path, Issue #2217)
+if(THEMIS_ENABLE_IO_URING)
+    add_executable(test_io_uring_zero_copy
+        ${THEMIS_ROOT_DIR}/tests/performance/phase4/test_io_uring_zero_copy.cpp
+    ${THEMIS_ROOT_DIR}/src/performance/phase4/io_uring_zero_copy.cpp
+    )
+    target_link_libraries(test_io_uring_zero_copy
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_io_uring_zero_copy
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_io_uring_zero_copy>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
+
+# GPU Graph Cache, Query Accelerator, and Stream Manager Tests
+# (Issue: #1801 — CUDA graph capture for recurring query execution patterns)
+if(THEMIS_ENABLE_GPU)
+    add_executable(test_gpu_graph_cache
+        ${THEMIS_ROOT_DIR}/tests/test_gpu_graph_cache.cpp
+    )
+    target_link_libraries(test_gpu_graph_cache
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_gpu_graph_cache
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_graph_cache>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    add_executable(test_gpu_query_accelerator
+        ${THEMIS_ROOT_DIR}/tests/test_gpu_query_accelerator.cpp
+    )
+    target_link_libraries(test_gpu_query_accelerator
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_gpu_query_accelerator
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_query_accelerator>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    add_executable(test_gpu_stream_manager
+        ${THEMIS_ROOT_DIR}/tests/test_gpu_stream_manager.cpp
+    )
+    target_link_libraries(test_gpu_stream_manager
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_gpu_stream_manager
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_stream_manager>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+endif() # THEMIS_ENABLE_GPU
+
+# -----------------------------------------------------------------------
+# GPU Module Focused Test Targets
+# Each target exercises one GPU subsystem in isolation.  All paths use
+# CPU-side bookkeeping so no GPU hardware is required.
+# -----------------------------------------------------------------------
+if(THEMIS_ENABLE_GPU)
+    # Helper macro to reduce boilerplate
+    macro(_themis_gpu_test _name)
+        add_executable(${_name}
+            ${THEMIS_ROOT_DIR}/tests/${_name}.cpp
+        )
+        target_link_libraries(${_name}
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(${_name}
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:${_name}>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endmacro()
+
+    _themis_gpu_test(test_gpu_admin_api)
+    _themis_gpu_test(test_gpu_alerts)
+    _themis_gpu_test(test_gpu_audit_log)
+    _themis_gpu_test(test_gpu_config)
+    _themis_gpu_test(test_gpu_device_discovery)
+    _themis_gpu_test(test_gpu_feature_flags)
+    _themis_gpu_test(test_gpu_kernel_validator)
+    _themis_gpu_test(test_gpu_launcher)
+    _themis_gpu_test(test_gpu_memory_management)
+    _themis_gpu_test(test_gpu_module)
+    _themis_gpu_test(test_gpu_olap_accelerator)
+    _themis_gpu_test(test_gpu_policy)
+    _themis_gpu_test(test_gpu_safe_fail)
+    _themis_gpu_test(test_gpu_safe_fail_module)
+    _themis_gpu_test(test_gpu_stubs_comprehensive)
+    _themis_gpu_test(test_gpu_tensor)
+    _themis_gpu_test(test_gpu_training_loop)
+    _themis_gpu_test(test_gpu_vram_allocation)
+endif() # THEMIS_ENABLE_GPU (focused GPU module targets)
+
+# GPU Vector Index Test
+if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)
+    add_executable(test_gpu_vector_index
+        ${THEMIS_ROOT_DIR}/tests/test_gpu_vector_index.cpp
+    )
+    target_link_libraries(test_gpu_vector_index
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_gpu_vector_index
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_vector_index>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+    
+    # Multi-GPU Vector Index Test
+    add_executable(test_multi_gpu_vector_index
+        ${THEMIS_ROOT_DIR}/tests/test_multi_gpu_vector_index.cpp
+    )
+    target_link_libraries(test_multi_gpu_vector_index
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_multi_gpu_vector_index
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_multi_gpu_vector_index>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+    
+    # NCCL/RCCL Collective Backends Test (v2.5+)
+    add_executable(test_collective_backends
+        ${THEMIS_ROOT_DIR}/tests/test_collective_backends.cpp
+    )
+    target_link_libraries(test_collective_backends
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_collective_backends
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_collective_backends>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+endif()
+
+# =========================================================================
+# S-2 / IMPL-A1: DatabaseDomainAutoLabeler tests
+# =========================================================================
+add_executable(test_database_domain_auto_labeler
+    ${THEMIS_ROOT_DIR}/tests/test_database_domain_auto_labeler.cpp
+    ${THEMIS_ROOT_DIR}/src/training/database_domain_auto_labeler.cpp
+)
+target_link_libraries(test_database_domain_auto_labeler
+    PRIVATE themis_core GTest::gtest GTest::gtest_main
+)
+gtest_discover_tests(test_database_domain_auto_labeler
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_database_domain_auto_labeler>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# =========================================================================
+# S-3 / IMPL-A2: ContinuousLearningOrchestrator tests (Loops 1–4 + Fed)
+# =========================================================================
+add_executable(test_continuous_learning_orchestrator
+    ${THEMIS_ROOT_DIR}/tests/test_continuous_learning_orchestrator.cpp
+)
+target_link_libraries(test_continuous_learning_orchestrator
+    PRIVATE themis_core GTest::gtest GTest::gtest_main
+)
+gtest_discover_tests(test_continuous_learning_orchestrator
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_continuous_learning_orchestrator>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# =========================================================================
+# S-4 / IMPL-A3: IncrementalLoRATrainer federation hooks tests
+# =========================================================================
+add_executable(test_incremental_lora_trainer
+    ${THEMIS_ROOT_DIR}/tests/test_incremental_lora_trainer.cpp
+)
+target_link_libraries(test_incremental_lora_trainer
+    PRIVATE themis_core GTest::gtest GTest::gtest_main
+)
+gtest_discover_tests(test_incremental_lora_trainer
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_incremental_lora_trainer>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# =========================================================================
+# S-5 / DK-2: GossipProtocol custom handler tests
+# =========================================================================
+add_executable(test_gossip_custom_handler
+    ${THEMIS_ROOT_DIR}/tests/test_gossip_custom_handler.cpp
+)
+target_link_libraries(test_gossip_custom_handler
+    PRIVATE themis_core GTest::gtest GTest::gtest_main
+)
+gtest_discover_tests(test_gossip_custom_handler
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gossip_custom_handler>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# =========================================================================
+# S-5 / DK-2: AdaptiveShardRouter domain routing tests
+# =========================================================================
+add_executable(test_adaptive_shard_router
+    ${THEMIS_ROOT_DIR}/tests/test_adaptive_shard_router.cpp
+)
+target_link_libraries(test_adaptive_shard_router
+    PRIVATE themis_core GTest::gtest GTest::gtest_main
+)
+gtest_discover_tests(test_adaptive_shard_router
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_adaptive_shard_router>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# =========================================================================
+# S-6 / IMPL-B5: TransactionSemanticAdvisor tests
+# =========================================================================
+add_executable(test_transaction_semantic_advisor
+    ${THEMIS_ROOT_DIR}/tests/test_transaction_semantic_advisor.cpp
+      ${THEMIS_ROOT_DIR}/src/transaction/transaction_semantic_advisor.cpp
+ )
+target_link_libraries(test_transaction_semantic_advisor
+    PRIVATE themis_core GTest::gtest GTest::gtest_main
+)
+gtest_discover_tests(test_transaction_semantic_advisor
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_transaction_semantic_advisor>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# =========================================================================
+# S-6 / IMPL-B6: SchemaDeadWeightDetector tests
+# =========================================================================
+add_executable(test_schema_dead_weight_detector
+    ${THEMIS_ROOT_DIR}/tests/test_schema_dead_weight_detector.cpp
+    ${THEMIS_ROOT_DIR}/src/storage/schema_dead_weight_detector.cpp
+)
+target_link_libraries(test_schema_dead_weight_detector
+    PRIVATE themis_core GTest::gtest GTest::gtest_main
+)
+gtest_discover_tests(test_schema_dead_weight_detector
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_schema_dead_weight_detector>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# =========================================================================
+# S-7 / IMPL-B7: IntentClassifier tests
+# =========================================================================
+add_executable(test_intent_classifier
+    ${THEMIS_ROOT_DIR}/tests/test_intent_classifier.cpp
+    ${THEMIS_ROOT_DIR}/src/security/intent_classifier.cpp
+)
+target_link_libraries(test_intent_classifier
+    PRIVATE themis_core GTest::gtest GTest::gtest_main
+)
+gtest_discover_tests(test_intent_classifier
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_intent_classifier>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# =========================================================================
+# S-7 / IMPL-B8: WorkloadFingerprintEngine tests
+# =========================================================================
+add_executable(test_workload_fingerprint_engine
+    ${THEMIS_ROOT_DIR}/tests/test_workload_fingerprint_engine.cpp
+    ${THEMIS_ROOT_DIR}/src/server/workload_fingerprint_engine.cpp
+)
+target_link_libraries(test_workload_fingerprint_engine
+    PRIVATE themis_core GTest::gtest GTest::gtest_main
+)
+gtest_discover_tests(test_workload_fingerprint_engine
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_workload_fingerprint_engine>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# =========================================================================
+# S-8 / IMPL-B9: ExplainabilityReasonBuilder tests
+# =========================================================================
+add_executable(test_explainability_reason_builder
+    ${THEMIS_ROOT_DIR}/tests/test_explainability_reason_builder.cpp
+    ${THEMIS_ROOT_DIR}/src/rag/explainability_reason_builder.cpp
+)
+target_link_libraries(test_explainability_reason_builder
+    PRIVATE themis_core GTest::gtest GTest::gtest_main
+)
+gtest_discover_tests(test_explainability_reason_builder
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_explainability_reason_builder>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# =========================================================================
+# S-8 / IMPL-B10: StorageLayoutAdvisor tests
+# =========================================================================
+add_executable(test_storage_layout_advisor
+    ${THEMIS_ROOT_DIR}/tests/test_storage_layout_advisor.cpp
+    ${THEMIS_ROOT_DIR}/src/storage/storage_layout_advisor.cpp
+)
+target_link_libraries(test_storage_layout_advisor
+    PRIVATE themis_core GTest::gtest GTest::gtest_main
+)
+gtest_discover_tests(test_storage_layout_advisor
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_storage_layout_advisor>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# =========================================================================
+# S-16 / DecisionRecord tests
+# =========================================================================
+# Targets are defined in tests/CMakeLists.txt via focused test registration.
+# Keep this file free of duplicate target definitions to avoid CMP0002 during
+# regenerate-during-build paths.
+
+# =========================================================================
+# DK-1: Distributed Knowledge Layer 11 unit tests (25+ cases)
+# =========================================================================
+add_executable(test_distributed_knowledge
+    ${THEMIS_ROOT_DIR}/tests/test_distributed_knowledge.cpp
+)
+target_link_libraries(test_distributed_knowledge
+    PRIVATE themis_core GTest::gtest GTest::gtest_main
+)
+gtest_discover_tests(test_distributed_knowledge
+    DISCOVERY_MODE PRE_TEST
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_distributed_knowledge>
+    EXTRA_ARGS --gtest_color=yes
+)
+
+# =========================================================================
+# CHIMERA adapter focused tests (Target: Q3 2026, ROADMAP Phase 4)
+# Activated by -DTHEMIS_BUILD_CHIMERA=ON; requires the external/chimera
+# submodule to be initialised.
+# =========================================================================
+if(THEMIS_BUILD_CHIMERA)
+    # ThemisDB adapter: simulation-mode and engine-injection guard tests
+    add_executable(ThemisDBAdapterFocusedTests
+        ${THEMIS_ROOT_DIR}/tests/chimera/test_themisdb_adapter.cpp
+    )
+    target_include_directories(ThemisDBAdapterFocusedTests
+        PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/external/chimera/include
+    )
+    target_link_libraries(ThemisDBAdapterFocusedTests
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(ThemisDBAdapterFocusedTests
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:ThemisDBAdapterFocusedTests>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    # Streaming result-set tests
+    add_executable(ChimeraStreamingFocusedTests
+        ${THEMIS_ROOT_DIR}/tests/chimera/test_chimera_streaming.cpp
+    )
+    target_include_directories(ChimeraStreamingFocusedTests
+        PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/external/chimera/include
+    )
+    target_link_libraries(ChimeraStreamingFocusedTests
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(ChimeraStreamingFocusedTests
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:ChimeraStreamingFocusedTests>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    # Prepared-statement tests
+    add_executable(ChimeraPreparedStatementFocusedTests
+        ${THEMIS_ROOT_DIR}/tests/chimera/test_chimera_prepared_statements.cpp
+    )
+    target_include_directories(ChimeraPreparedStatementFocusedTests
+        PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/external/chimera/include
+    )
+    target_link_libraries(ChimeraPreparedStatementFocusedTests
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(ChimeraPreparedStatementFocusedTests
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:ChimeraPreparedStatementFocusedTests>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+endif() # THEMIS_BUILD_CHIMERA
+
+# ---------------------------------------------------------------------------
+# Systemic LNK2005 fix: remove logger.cpp from focused test targets
+#
+# In a modular build, logger symbols are exported by themis_base.dll and
+# imported via __declspec(dllimport) by all consumers.  Focused test targets
+# that also compile logger.cpp directly cause LNK2005 (duplicate symbols).
+#
+# Exception: themis_tests sets THEMIS_BASE_EXPORTS + /FORCE:MULTIPLE and
+# deliberately compiles logger.cpp to provide the definitions — leave it.
+# ---------------------------------------------------------------------------
+get_directory_property(_focused_test_targets BUILDSYSTEM_TARGETS)
+set(_logger_src_variants
+    "${THEMIS_ROOT_DIR}/src/utils/logger.cpp"
+    "${CMAKE_SOURCE_DIR}/src/utils/logger.cpp"
+)
+foreach(_tgt IN LISTS _focused_test_targets)
+    if(_tgt STREQUAL "themis_tests")
+        continue()
+    endif()
+    get_target_property(_tgt_type ${_tgt} TYPE)
+    if(NOT _tgt_type STREQUAL "EXECUTABLE")
+        continue()
+    endif()
+    # Remove logger.cpp (Logger symbols come via dllimport from themis_base)
+    get_target_property(_tgt_srcs ${_tgt} SOURCES)
+    if(_tgt_srcs)
+        set(_logger_removed FALSE)
+        foreach(_variant IN LISTS _logger_src_variants)
+            if("${_variant}" IN_LIST _tgt_srcs)
+                list(REMOVE_ITEM _tgt_srcs "${_variant}")
+                set(_logger_removed TRUE)
+            endif()
+        endforeach()
+        if(_logger_removed)
+            set_property(TARGET ${_tgt} PROPERTY SOURCES ${_tgt_srcs})
+            message(STATUS "${_tgt}: removed logger.cpp (Logger dllimport via themis_base)")
+        endif()
+        # If the target compiles olap.cpp directly it also needs themis_core
+        # linked (for GPUQueryAccelerator + GPUGraphCache transitive deps).
+        # /FORCE:MULTIPLE (applied below) suppresses the resulting LNK2005.
+        set(_olap_src "${THEMIS_ROOT_DIR}/src/analytics/olap.cpp")
+        if("${_olap_src}" IN_LIST _tgt_srcs)
+            get_target_property(_existing_libs ${_tgt} LINK_LIBRARIES)
+            if(NOT _existing_libs OR NOT "themis_core" IN_LIST _existing_libs)
+                target_link_libraries(${_tgt} PRIVATE themis_core)
+                message(STATUS "${_tgt}: added themis_core link (required by olap.cpp GPU deps)")
+            endif()
+        endif()
+    endif()
+    # Apply /FORCE:MULTIPLE to suppress LNK2005 when source files compiled
+    # directly are also present in a linked static library (e.g. via Unity build
+    # in themis_network or themis_core).  The directly compiled .obj takes
+    # precedence; the duplicate from the static lib is silently discarded.
+    target_link_options(${_tgt} PRIVATE
+        $<$<CXX_COMPILER_ID:MSVC>:/FORCE:MULTIPLE>
+    )
+    # Ensure every focused executable has the baseline runtime libs it needs:
+    #   themis_base  – Logger dllimport symbols
+    #   spdlog/fmt   – logging backend
+    get_target_property(_existing_libs ${_tgt} LINK_LIBRARIES)
+    if(NOT _existing_libs OR NOT "themis_base" IN_LIST _existing_libs)
+        target_link_libraries(${_tgt} PRIVATE themis_base)
+    endif()
+    if(TARGET spdlog::spdlog)
+        if(NOT _existing_libs OR NOT "spdlog::spdlog" IN_LIST _existing_libs)
+            target_link_libraries(${_tgt} PRIVATE spdlog::spdlog)
+        endif()
+    endif()
+    if(TARGET fmt::fmt)
+        if(NOT _existing_libs OR NOT "fmt::fmt" IN_LIST _existing_libs)
+            target_link_libraries(${_tgt} PRIVATE fmt::fmt)
+        endif()
+    endif()
+endforeach()
+unset(_focused_test_targets)
+unset(_logger_src_variants)
+unset(_tgt_srcs)
+unset(_logger_removed)
