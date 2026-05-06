@@ -12,6 +12,7 @@
  */
 
 #include "storage/tensor_network_storage_engine.h"
+#include "storage/rocksdb_wrapper.h"
 
 #include <algorithm>
 #include <cassert>
@@ -75,6 +76,48 @@ InMemoryTensorBackend::listKeys(const std::string& prefix) const {
         if (kv.first.substr(0, prefix.size()) == prefix)
             result.push_back(kv.first);
     }
+    std::sort(result.begin(), result.end());
+    return result;
+}
+
+// ============================================================================
+// RocksDBTensorBackend — production implementation
+// ============================================================================
+
+RocksDBTensorBackend::RocksDBTensorBackend(std::shared_ptr<RocksDBWrapper> db)
+    : db_(std::move(db))
+{
+    if (!db_)
+        throw std::invalid_argument("RocksDBTensorBackend: db must not be null");
+}
+
+bool RocksDBTensorBackend::put(const std::string& key,
+                                const std::vector<uint8_t>& value)
+{
+    return db_->put(key, value);
+}
+
+std::optional<std::vector<uint8_t>>
+RocksDBTensorBackend::get(const std::string& key) const
+{
+    return db_->get(key);
+}
+
+bool RocksDBTensorBackend::del(const std::string& key)
+{
+    return db_->del(key);
+}
+
+std::vector<std::string>
+RocksDBTensorBackend::listKeys(const std::string& prefix) const
+{
+    std::vector<std::string> result;
+    // scanPrefix callback returns true to continue iteration.
+    db_->scanPrefix(prefix,
+        [&result](std::string_view k, std::string_view) -> bool {
+            result.emplace_back(k);
+            return true;  // continue
+        });
     std::sort(result.begin(), result.end());
     return result;
 }

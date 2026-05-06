@@ -57,6 +57,10 @@
 #include <unordered_map>
 #include <vector>
 
+// Forward-declare RocksDBWrapper so callers that only use InMemoryTensorBackend
+// do not pull in the heavy RocksDB headers.
+namespace themis { class RocksDBWrapper; }
+
 namespace themis {
 namespace storage {
 
@@ -173,6 +177,50 @@ public:
 private:
     mutable std::mutex mutex_;
     std::unordered_map<std::string, std::vector<uint8_t>> store_;
+};
+
+// ============================================================================
+// RocksDBTensorBackend — production implementation backed by RocksDBWrapper
+// ============================================================================
+
+/**
+ * @brief Production `ITensorStorageBackend` backed by `RocksDBWrapper`.
+ *
+ * Routes every KV operation to the shared `RocksDBWrapper` instance.  The
+ * key namespace used by TensorNetworkStorageEngine (`__ttn__:…`) and by
+ * TensorCoreStorageBridge (`__ttcore__:…`) is already distinct from all other
+ * RocksDB keys so no additional column-family isolation is required.
+ *
+ * ### Thread safety
+ * Delegated to `RocksDBWrapper` which is internally thread-safe for concurrent
+ * reads and writes.
+ *
+ * ### Stub resolution
+ * - STUB #148: adalora_tt_bridge store()/loadAdapter() now durable via RocksDB
+ * - STUB #160: TensorCoreStorageBridge now durable across process restarts
+ */
+class RocksDBTensorBackend final : public ITensorStorageBackend {
+public:
+    /**
+     * @brief Construct with a shared RocksDBWrapper.
+     * @throws std::invalid_argument when db is null.
+     */
+    explicit RocksDBTensorBackend(std::shared_ptr<RocksDBWrapper> db);
+
+    bool put(const std::string& key,
+             const std::vector<uint8_t>& value) override;
+
+    std::optional<std::vector<uint8_t>>
+    get(const std::string& key) const override;
+
+    bool del(const std::string& key) override;
+
+    /// Returns all keys that start with @p prefix (sorted lexicographically).
+    std::vector<std::string>
+    listKeys(const std::string& prefix) const override;
+
+private:
+    std::shared_ptr<RocksDBWrapper> db_;
 };
 
 // ============================================================================

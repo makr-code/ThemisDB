@@ -17,6 +17,7 @@
  *   ITensorCoreBridge interface validation     TCS-01..TCS-04
  *   InMemoryTensorCoreBridge                   TCS-05..TCS-09
  *   TensorCoreStorageBridge                    TCS-10..TCS-13
+ *   RocksDBTensorBackend                       TCB-RDB-01..06
  *   builtin.tensor_core_bridge step            TCS-14..TCS-20
  *
  * Acceptance criteria:
@@ -40,6 +41,14 @@
  *   TCS-12  makeKey() builds correct key schema
  *   TCS-13  write() increments writeCount() atomically
  *
+ * RocksDBTensorBackend (TCB-RDB-01..06)  — stubs #148, #160 resolved
+ *   TCB-RDB-01  null db pointer throws std::invalid_argument
+ *   TCB-RDB-02  put()/get() round-trip on real RocksDB
+ *   TCB-RDB-03  get() returns nullopt for absent key
+ *   TCB-RDB-04  del() removes entry
+ *   TCB-RDB-05  listKeys() filters by prefix, returns sorted result
+ *   TCB-RDB-06  RocksDBTensorBackend injected into TensorCoreStorageBridge
+ *
  * builtin.tensor_core_bridge step (TCS-14..TCS-20)
  *   TCS-14  Step with empty tensor_cores is a no-op
  *   TCS-15  Step writes all tensor_cores to sink
@@ -56,7 +65,11 @@
 #include "ingestion/builtin_step_factories.h"
 #include "ingestion/extraction_context.h"
 #include "tensor/tensor_core_bridge.h"
+#include "storage/tensor_network_storage_engine.h"
+#include "storage/rocksdb_wrapper.h"
 #include <nlohmann/json.hpp>
+#include <filesystem>
+#include <chrono>
 #include <string>
 #include <vector>
 #include <memory>
@@ -220,6 +233,110 @@ TEST(TCS, TCS_13_WriteCountAtomic) {
     sink.write(makeRecord("f:1"), "t1");
     sink.write(makeRecord("f:2"), "t1");
     EXPECT_EQ(sink.writeCount(), 3u);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TCB-RDB-01..05 — RocksDBTensorBackend (STUB #148, #160 resolved)
+// Tests use a temporary RocksDB instance to verify durable put/get/del/listKeys.
+// ─────────────────────────────────────────────────────────────────────────────
+
+static std::string makeTempRdbPath(const std::string& tag) {
+    namespace fs = std::filesystem;
+    auto ns = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    return (fs::temp_directory_path() /
+            ("themis_tcs_rdb_" + tag + "_" + std::to_string(ns))).string();
+}
+
+// Helper: open a temporary RocksDB and return wrapper (nullptr on failure).
+static std::shared_ptr<themis::RocksDBWrapper>
+openTempRdb(const std::string& path) {
+    themis::RocksDBWrapper::Config cfg;
+    cfg.db_path   = path;
+    cfg.enable_wal = true;
+    auto db = std::make_shared<themis::RocksDBWrapper>(cfg);
+    if (!db->open()) return nullptr;
+    return db;
+}
+
+TEST(TCS, TCB_RDB_01_NullDbThrows) {
+    EXPECT_THROW(
+        { storage::RocksDBTensorBackend b(nullptr); },
+        std::invalid_argument);
+}
+
+TEST(TCS, TCB_RDB_02_PutGetRoundTrip) {
+    auto path = makeTempRdbPath("02");
+    auto db   = openTempRdb(path);
+    if (!db) GTEST_SKIP() << "RocksDB unavailable";
+
+    storage::RocksDBTensorBackend backend(db);
+    std::vector<uint8_t> val{1, 2, 3, 4, 5};
+
+    EXPECT_TRUE(backend.put("__ttn__:t1:c1:f1:meta:1", val));
+    auto got = backend.get("__ttn__:t1:c1:f1:meta:1");
+    ASSERT_TRUE(got.has_value());
+    EXPECT_EQ(*got, val);
+}
+
+TEST(TCS, TCB_RDB_03_GetMissingReturnsNullopt) {
+    auto path = makeTempRdbPath("03");
+    auto db   = openTempRdb(path);
+    if (!db) GTEST_SKIP() << "RocksDB unavailable";
+
+    storage::RocksDBTensorBackend backend(db);
+    auto got = backend.get("__ttn__:absent:key");
+    EXPECT_FALSE(got.has_value());
+}
+
+TEST(TCS, TCB_RDB_04_DelRemovesEntry) {
+    auto path = makeTempRdbPath("04");
+    auto db   = openTempRdb(path);
+    if (!db) GTEST_SKIP() << "RocksDB unavailable";
+
+    storage::RocksDBTensorBackend backend(db);
+    std::vector<uint8_t> val{0xAB};
+    backend.put("__ttn__:t:c:f:meta:1", val);
+
+    EXPECT_TRUE(backend.del("__ttn__:t:c:f:meta:1"));
+    EXPECT_FALSE(backend.get("__ttn__:t:c:f:meta:1").has_value());
+}
+
+TEST(TCS, TCB_RDB_05_ListKeysByPrefix) {
+    auto path = makeTempRdbPath("05");
+    auto db   = openTempRdb(path);
+    if (!db) GTEST_SKIP() << "RocksDB unavailable";
+
+    storage::RocksDBTensorBackend backend(db);
+    std::vector<uint8_t> dummy{0};
+    backend.put("__ttn__:tenant1:col:field:meta:1", dummy);
+    backend.put("__ttn__:tenant1:col:field:G0:1",   dummy);
+    backend.put("__ttn__:tenant1:col:field:G1:1",   dummy);
+    backend.put("__ttn__:OTHER:col:field:meta:1",   dummy);
+
+    auto keys = backend.listKeys("__ttn__:tenant1:");
+    ASSERT_EQ(keys.size(), 3u);
+    EXPECT_TRUE(std::is_sorted(keys.begin(), keys.end()));
+    for (const auto& k : keys)
+        EXPECT_TRUE(k.rfind("__ttn__:tenant1:", 0) == 0);
+}
+
+// Also verify RocksDBTensorBackend can be injected into TensorCoreStorageBridge.
+TEST(TCS, TCB_RDB_06_IntegratedWithTensorCoreStorageBridge) {
+    auto path = makeTempRdbPath("06");
+    auto db   = openTempRdb(path);
+    if (!db) GTEST_SKIP() << "RocksDB unavailable";
+
+    auto backend = std::make_shared<storage::RocksDBTensorBackend>(db);
+    tensor::TensorCoreStorageBridge sink(backend);
+
+    auto rec = makeRecord("chunk:42", "file_sha");
+    auto res = sink.write(rec, "acme");
+    ASSERT_TRUE(res) << res.error().message();
+
+    auto raw = sink.getRaw("acme", "file_sha", "chunk:42");
+    ASSERT_TRUE(raw.has_value());
+    EXPECT_EQ(*raw, rec.serialized_train);
+    EXPECT_EQ(sink.writeCount(), 1u);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
