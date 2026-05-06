@@ -179,6 +179,11 @@ static const TE& fallbackTemplate()
 // ExplainabilityReasonBuilder — implementation
 // ---------------------------------------------------------------------------
 
+void ExplainabilityReasonBuilder::setNlGeneratorFn(NlGeneratorFn fn)
+{
+    nl_generator_fn_ = std::move(fn);
+}
+
 const ExplainabilityReasonBuilder::TemplateEntry&
 ExplainabilityReasonBuilder::getTemplate(const std::string& decision_type)
 {
@@ -265,6 +270,14 @@ ExplainabilityReasonBuilder::build(const AIDecisionRecord& record) const
 std::string
 ExplainabilityReasonBuilder::toNaturalLanguage(const CausalChain& chain) const
 {
+    // Delegate to the injected LoRA-adapted generator when available.
+    if (nl_generator_fn_) {
+        auto result = nl_generator_fn_(chain);
+        if (!result.empty()) {
+            return result;
+        }
+    }
+
     std::ostringstream out;
 
     out << "Decision type: " << chain.decision_type << ".\n\n";

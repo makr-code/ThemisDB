@@ -111,6 +111,43 @@ TEST(TierPolicyTest, DecisionFnHookOverridesThreshold) {
     EXPECT_EQ(p.evaluate(ctx), TierDecision::FLUSH_WARM_TO_COLD);
 }
 
+// TTM-POLICY-05: clearing decision_fn reverts to built-in threshold path.
+TEST(TierPolicyTest, DecisionFnClearRevertsToThreshold) {
+    TierPolicy p;
+    p.hot_max_versions_per_key = 1000; // threshold would say KEEP
+    p.decision_fn = [](const TierDecisionContext&) {
+        return TierDecision::FLUSH_WARM_TO_COLD;
+    };
+    // Clear the fn — threshold path takes over
+    p.decision_fn = {};
+    TierDecisionContext ctx;
+    ctx.hot_version_count = 1; // below threshold
+    ctx.now_ts = 1000;
+    EXPECT_EQ(p.evaluate(ctx), TierDecision::KEEP);
+}
+
+// TTM-POLICY-06: decision_fn receives fully-populated context values.
+TEST(TierPolicyTest, DecisionFnReceivesCorrectContext) {
+    TierPolicy p;
+    TierDecisionContext captured{};
+    p.decision_fn = [&captured](const TierDecisionContext& ctx) {
+        captured = ctx;
+        return TierDecision::KEEP;
+    };
+    TierDecisionContext ctx;
+    ctx.hot_version_count    = 42;
+    ctx.warm_block_count     = 7;
+    ctx.total_warm_bytes     = 1024;
+    ctx.warm_pressure        = 0.25;
+    ctx.now_ts               = 9999;
+    p.evaluate(ctx);
+    EXPECT_EQ(captured.hot_version_count, 42u);
+    EXPECT_EQ(captured.warm_block_count, 7u);
+    EXPECT_EQ(captured.total_warm_bytes, 1024u);
+    EXPECT_DOUBLE_EQ(captured.warm_pressure, 0.25);
+    EXPECT_EQ(captured.now_ts, 9999);
+}
+
 // ── Hot-only tests ────────────────────────────────────────────────────────────
 
 class TierManagerTest : public ::testing::Test {

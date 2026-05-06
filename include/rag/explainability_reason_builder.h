@@ -15,6 +15,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <functional>
 #include <map>
 #include <string>
 #include <vector>
@@ -81,11 +82,14 @@ struct AIDecisionRecord {
  * concurrent use.
  *
  * // STUB/SIMULATION NOTE:
- * // Purpose: Template-based placeholder for future LoRA-adapted NL generation
- * // Activation: Always active (v1.0); LoRA adapter replaces templates post-IMPL-A2
- * // Production Delta: Template text is deterministic; LoRA will produce
- * //                   context-sensitive prose with richer detail
- * // Removal Plan: Replace toNaturalLanguage() internals in IMPL-A2 Loop-1
+ * // Purpose: Template-based fallback for NL generation when no LoRA-adapted
+ * //          generator is injected via setNlGeneratorFn().
+ * // Activation: Always active when nl_generator_fn_ is null (default).
+ * //             Replaced by the injected fn when setNlGeneratorFn() is called.
+ * // Production Delta: Template text is deterministic; injected LoRA fn produces
+ * //                   context-sensitive prose with richer detail.
+ * // Removal Plan: Template path is retained as permanent fallback;
+ * //               callers inject a real LoRA NL generator in IMPL-A2 Loop-1.
  */
 class ExplainabilityReasonBuilder {
 public:
@@ -127,6 +131,34 @@ public:
 
     ExplainabilityReasonBuilder(const ExplainabilityReasonBuilder&) = default;
     ExplainabilityReasonBuilder& operator=(const ExplainabilityReasonBuilder&) = default;
+    ExplainabilityReasonBuilder(ExplainabilityReasonBuilder&&) = default;
+    ExplainabilityReasonBuilder& operator=(ExplainabilityReasonBuilder&&) = default;
+
+    // ─── NL Generator injection ───────────────────────────────────────────
+
+    /**
+     * @brief Type alias for an injected natural-language generator.
+     *
+     * When set via setNlGeneratorFn(), `toNaturalLanguage()` delegates to
+     * this function instead of the built-in template renderer.  The fn
+     * receives a fully-populated CausalChain and must return a non-empty
+     * string synchronously.  An empty return value falls back to the
+     * template renderer.
+     *
+     * Planned use: inject a LoRA-adapted prose generator (IMPL-A2 Loop-1).
+     */
+    using NlGeneratorFn = std::function<std::string(const CausalChain&)>;
+
+    /**
+     * @brief Inject a natural-language generator.
+     *
+     * When `fn` is non-null, `toNaturalLanguage()` calls it and returns its
+     * result.  Pass an empty (default-constructed) function to revert to the
+     * built-in template renderer.
+     *
+     * @param fn  Callable that converts a CausalChain to a NL string.
+     */
+    void setNlGeneratorFn(NlGeneratorFn fn);
 
     // ─── Core API ─────────────────────────────────────────────────────────
 
@@ -172,6 +204,8 @@ public:
     };
 
 private:
+    NlGeneratorFn nl_generator_fn_;
+
     /// Evaluate whether DBA action is required for the given record.
     static bool requiresDbaAction(const AIDecisionRecord& record);
 

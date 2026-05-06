@@ -283,3 +283,70 @@ TEST(FederatedAIDecisionAuditorTest, FADA_03_ClearFetcherRevertsToLocal)
     ASSERT_EQ(timeline.size(), 1u);
     EXPECT_EQ(timeline[0].decision_type, "LOCAL");
 }
+
+// ── ERB-NL-01: default template path still works after adding injection API
+TEST(ExplainabilityReasonBuilderNlGen, ERB_NL_01_DefaultTemplateUnchanged) {
+    using namespace themis::rag;
+    ExplainabilityReasonBuilder erb;
+    AIDecisionRecord rec;
+    rec.decision_type = "HNSW_PARAMS_UPDATED";
+    rec.confidence    = 0.9;
+    auto chain = erb.build(rec);
+    auto nl    = erb.toNaturalLanguage(chain);
+    EXPECT_FALSE(nl.empty());
+    EXPECT_NE(nl.find("HNSW_PARAMS_UPDATED"), std::string::npos);
+    EXPECT_NE(nl.find("Confidence"), std::string::npos);
+}
+
+// ── ERB-NL-02: injected fn is called and its result returned
+TEST(ExplainabilityReasonBuilderNlGen, ERB_NL_02_InjectedFnCalled) {
+    using namespace themis::rag;
+    ExplainabilityReasonBuilder erb;
+    bool called = false;
+    erb.setNlGeneratorFn([&called](const ExplainabilityReasonBuilder::CausalChain& c) {
+        called = true;
+        return std::string("custom: ") + c.decision_type;
+    });
+    AIDecisionRecord rec;
+    rec.decision_type = "BAO_PLAN_SELECTED";
+    rec.confidence    = 0.75;
+    auto chain = erb.build(rec);
+    auto nl    = erb.toNaturalLanguage(chain);
+    EXPECT_TRUE(called);
+    EXPECT_EQ(nl, "custom: BAO_PLAN_SELECTED");
+}
+
+// ── ERB-NL-03: clearing the fn reverts to template path
+TEST(ExplainabilityReasonBuilderNlGen, ERB_NL_03_ClearFnRevertsToTemplate) {
+    using namespace themis::rag;
+    ExplainabilityReasonBuilder erb;
+    erb.setNlGeneratorFn([](const ExplainabilityReasonBuilder::CausalChain&) {
+        return std::string("custom");
+    });
+    // Clear the fn
+    erb.setNlGeneratorFn({});
+    AIDecisionRecord rec;
+    rec.decision_type = "LOOP_TRIGGER";
+    rec.confidence    = 0.5;
+    auto chain = erb.build(rec);
+    auto nl    = erb.toNaturalLanguage(chain);
+    EXPECT_NE(nl.find("LOOP_TRIGGER"), std::string::npos);
+    EXPECT_EQ(nl.find("custom"), std::string::npos);
+}
+
+// ── ERB-NL-04: fn returning empty string falls back to template
+TEST(ExplainabilityReasonBuilderNlGen, ERB_NL_04_EmptyReturnFallsBackToTemplate) {
+    using namespace themis::rag;
+    ExplainabilityReasonBuilder erb;
+    erb.setNlGeneratorFn([](const ExplainabilityReasonBuilder::CausalChain&) {
+        return std::string{};  // intentionally empty
+    });
+    AIDecisionRecord rec;
+    rec.decision_type = "INTENT_ALERT";
+    rec.confidence    = 0.95;
+    auto chain = erb.build(rec);
+    auto nl    = erb.toNaturalLanguage(chain);
+    // Should fall back to template since fn returned empty
+    EXPECT_FALSE(nl.empty());
+    EXPECT_NE(nl.find("INTENT_ALERT"), std::string::npos);
+}

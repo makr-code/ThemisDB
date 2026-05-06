@@ -43,6 +43,7 @@ struct KnowledgeGapDetector::Impl {
     KnowledgeGapConfig config;
     std::function<void(const DetectionResult&)> gap_callback;
     RetrievalCallback retrieval_fn;   ///< FLARE dynamic-retrieval callback (optional)
+    LlmSampleFn       llm_sample_fn; ///< LLM-based self-consistency sample generator (optional)
 
     // Cache for performance
     std::unordered_map<std::string, DetectionResult> cache;
@@ -546,6 +547,10 @@ void KnowledgeGapDetector::setRetrievalCallback(RetrievalCallback fn) {
     impl_->retrieval_fn = std::move(fn);
 }
 
+void KnowledgeGapDetector::setLlmSampleFn(LlmSampleFn fn) {
+    impl_->llm_sample_fn = std::move(fn);
+}
+
 // Private helper methods
 
 double KnowledgeGapDetector::calculateAverageSimilarity(
@@ -1031,24 +1036,33 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
     const std::vector<RetrievedDocument>& docs,
     size_t num_samples
 ) {
+    // Delegate to the injected LLM sample generator when available.
+    if (impl_->llm_sample_fn) {
+        auto result = impl_->llm_sample_fn(query, num_samples);
+        if (!result.empty()) {
+            return result;
+        }
+        // Fall through to heuristic path if fn returned empty vector.
+    }
+
     // Heuristic sampling: generates document-grounded answer candidates without a
     // live LLM.  Each sample draws a distinct subset of sentences from the
     // retrieved documents so that the consistency checker can detect genuine
     // disagreement when different source documents describe contradictory facts.
     //
     // STUB/SIMULATION NOTE:
-    // Purpose: Exercise the consistency-checking logic without a live LLM call.
+    // Purpose: Fallback when no LlmSampleFn is injected via setLlmSampleFn().
     //          Samples are composed from document sentences rather than model
-    //          completions; they vary in content when different documents contain
-    //          complementary or conflicting information.
-    // Activation: Always active until a real LLM backend is injected.
-    // Production Delta: LLM-generated samples would capture inference chains,
+    //          completions; they vary in content when different source documents
+    //          describe complementary or conflicting information.
+    // Activation: Active when impl_->llm_sample_fn is null or returns empty.
+    // Production Delta: LLM-generated samples capture inference chains,
     //                   paraphrases, and hallucinations that document sentences do not.
     //                   Semantic contradiction detection sensitivity is lower here (~60%)
     //                   compared to a trained LLM judge (~85%).
-    // Removal Plan: Replace with live LLM calls at temperature > 0 with varied seeds
-    //               when ILLMPlugin is wired into KnowledgeGapDetector.  See
-    //               src/rag/FUTURE_ENHANCEMENTS.md §KnowledgeGapDetector SelfConsistency.
+    // Removal Plan: Retained as permanent fallback; callers inject a real ILLMPlugin
+    //               via setLlmSampleFn() for production self-consistency scoring.
+    //               See src/rag/FUTURE_ENHANCEMENTS.md §KnowledgeGapDetector SelfConsistency.
 
     // Split a text block into individual sentences (period/question/exclamation boundary).
     auto splitSentences = [](const std::string& text) -> std::vector<std::string> {
