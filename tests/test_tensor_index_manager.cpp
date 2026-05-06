@@ -35,9 +35,16 @@
  *
  * listIndexes — TIM-14
  *   TIM-14  listIndexes(tenant_id) returns only that tenant's indexes
+ *
+ * File-based persistence (setDataDir/flushAll) — TIM-15..TIM-18
+ *   TIM-15  flushAll() writes a .ttidx file to the configured data dir
+ *   TIM-16  createIndex() restores data from disk when data dir is set
+ *   TIM-17  dropIndex() deletes the corresponding .ttidx file
+ *   TIM-18  flushAll() on empty manager returns 0
  */
 
 #include <gtest/gtest.h>
+#include <filesystem>
 
 #include "tensor/tensor_index_manager.h"
 #include "storage/tensor_router.h"
@@ -320,3 +327,99 @@ TEST(FlatTensorIndexPersistence, TFI06_LoadNonExistentPathReturnsFalse) {
     auto* idx = mgr->createIndex("t", "c", "f");
     EXPECT_FALSE(idx->load("/tmp/this_file_does_not_exist_themis_tfi.bin"));
 }
+
+// ============================================================================
+// TIM-15..TIM-18 — TensorIndexManager file-based persistence (setDataDir/flushAll)
+// ============================================================================
+
+TEST(TensorIndexManagerPersistence, TIM15_FlushAllWritesFile) {
+    const std::string dir = std::filesystem::temp_directory_path().string() + "/themis_tim15_" + std::to_string(std::hash<std::string>{}("TIM15"));
+    std::filesystem::create_directories(dir);
+
+    auto mgr = TensorIndexManager::create(nullptr);
+    mgr->setDataDir(dir);
+
+    auto* idx = mgr->createIndex("tenant1", "coll", "field");
+    auto v = makeVec(8, 1.0f);
+    ASSERT_TRUE(idx->addFlat(100, v.data(), v.size()));
+
+    size_t saved = mgr->flushAll();
+    EXPECT_EQ(saved, 1u);
+
+    // At least one .ttidx file must exist in the directory
+    bool found = false;
+    for (auto& entry : std::filesystem::directory_iterator(dir)) {
+        if (entry.path().extension() == ".ttidx") { found = true; break; }
+    }
+    EXPECT_TRUE(found);
+    std::filesystem::remove_all(dir);
+}
+
+TEST(TensorIndexManagerPersistence, TIM16_CreateIndexLoadsExistingFile) {
+    const std::string dir = std::filesystem::temp_directory_path().string() + "/themis_tim16_" + std::to_string(std::hash<std::string>{}("TIM16"));
+    std::filesystem::create_directories(dir);
+
+    auto v = makeVec(8, 2.0f);
+
+    // First manager: insert data and flush
+    {
+        auto mgr = TensorIndexManager::create(nullptr);
+        mgr->setDataDir(dir);
+        auto* idx = mgr->createIndex("t", "c", "f");
+        ASSERT_TRUE(idx->addFlat(42, v.data(), v.size()));
+        EXPECT_EQ(mgr->flushAll(), 1u);
+    }
+
+    // Second manager: createIndex should restore from disk
+    {
+        auto mgr2 = TensorIndexManager::create(nullptr);
+        mgr2->setDataDir(dir);
+        auto* idx2 = mgr2->createIndex("t", "c", "f");
+        ASSERT_NE(idx2, nullptr);
+
+        auto result = idx2->searchFlat(v.data(), v.size(), 1);
+        EXPECT_FALSE(result.empty());
+        if (!result.empty()) {
+            EXPECT_EQ(result[0].id, 42);
+        }
+    }
+
+    std::filesystem::remove_all(dir);
+}
+
+TEST(TensorIndexManagerPersistence, TIM17_DropIndexDeletesFile) {
+    const std::string dir = std::filesystem::temp_directory_path().string() + "/themis_tim17_" + std::to_string(std::hash<std::string>{}("TIM17"));
+    std::filesystem::create_directories(dir);
+
+    auto mgr = TensorIndexManager::create(nullptr);
+    mgr->setDataDir(dir);
+
+    auto* idx = mgr->createIndex("t", "c", "f");
+    auto v = makeVec(8, 3.0f);
+    ASSERT_TRUE(idx->addFlat(7, v.data(), v.size()));
+    EXPECT_EQ(mgr->flushAll(), 1u);
+
+    // Verify file exists, then drop and verify it is gone
+    size_t file_count_before = 0;
+    for (auto& e : std::filesystem::directory_iterator(dir)) {
+        if (e.path().extension() == ".ttidx") ++file_count_before;
+    }
+    EXPECT_EQ(file_count_before, 1u);
+
+    EXPECT_TRUE(mgr->dropIndex("t", "c", "f"));
+
+    size_t file_count_after = 0;
+    for (auto& e : std::filesystem::directory_iterator(dir)) {
+        if (e.path().extension() == ".ttidx") ++file_count_after;
+    }
+    EXPECT_EQ(file_count_after, 0u);
+
+    std::filesystem::remove_all(dir);
+}
+
+TEST(TensorIndexManagerPersistence, TIM18_FlushAllEmptyManagerReturnsZero) {
+    auto mgr = TensorIndexManager::create(nullptr);
+    mgr->setDataDir("/tmp");
+    EXPECT_EQ(mgr->flushAll(), 0u);
+}
+

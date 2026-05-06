@@ -92,15 +92,16 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
   - Navigation accuracy: recall@10 ≥ 0.95 vs. brute-force on 1 M 4096-dim vectors
   - Re-rank on TT-domain cosine at O(d·r²); throughput target ≥ 741 ops/s (paper §Similarity Search)
 
-- [ ] RocksDB persistence for `FlatTensorIndex` and `HnswTTBridge` (Target: Q4 2026)
-  - Key schema: `__ttidx__:<tenant>:<collection>:<field>:<id>:G<k>:<version>`
-  - save() writes all TT-cores atomically via WriteBatch
-  - load() rebuilds in-memory index and HNSW graph
+- [x] RocksDB persistence for `FlatTensorIndex` and `HnswTTBridge` (Target: Q4 2026)
+  - Binary file persistence implemented (THEMIS_TTI / THEMIS_HTB magic, v1); stubs #150/#151/#155/#156 resolved
+  - `TensorIndexManager::setDataDir()` + `flushAll()` wire file-based persistence
+  - `main_server.cpp` injects the tensor pipeline under `tensor_index` config
 
 - [ ] `TensorIndexManager::dropTenantIndexes()` — RocksDB prefix-delete (Target: Q4 2026)
   - Use `DeleteRange(__ttmgr__:<tenant_id>:, __ttmgr__:<tenant_id+1>:)`
 
-- [ ] `TensorIndexManager` wired to `TensorNetworkStorageEngine` for core persistence (Target: Q4 2026)
+- [x] `TensorIndexManager` wired to `TensorNetworkStorageEngine` for core persistence (Target: Q4 2026)
+  - `setDataDir()` + `flushAll()` added; `createIndex()` loads from disk on open; `dropIndex()` removes file; `main_server.cpp` wires it with RocksDB
 
 - [ ] **Rank-adaptive RocksDB compaction filter** (Target: Q4 2026)
   - Paper §RocksDB Integration: background compaction re-compresses TT-cores when

@@ -26,6 +26,8 @@
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 
+#include <filesystem>
+#include <fstream>
 #include <shared_mutex>
 #include <stdexcept>
 
@@ -111,6 +113,17 @@ ITensorIndex* TensorIndexManager::createIndex(const std::string& tenant_id,
     }
 
     auto idx = std::make_unique<FlatTensorIndex>();
+
+    // Restore persisted data when a data directory is configured.
+    if (!data_dir_.empty()) {
+        const std::string path = indexFilePath(h.key());
+        if (std::filesystem::exists(path)) {
+            if (!idx->load(path)) {
+                THEMIS_WARN("TensorIndexManager: failed to load index from '{}'", path);
+            }
+        }
+    }
+
     ITensorIndex* raw = idx.get();
     h.index = raw;
 
@@ -141,10 +154,24 @@ bool TensorIndexManager::dropIndex(const std::string& tenant_id,
     probe.collection = collection;
     probe.field      = field;
 
-    std::unique_lock lock(registry_mutex_);
-    bool found = indexes_.erase(probe.key()) > 0;
-    handles_.erase(probe.key());
-    return found;
+    {
+        std::unique_lock lock(registry_mutex_);
+        bool found = indexes_.erase(probe.key()) > 0;
+        handles_.erase(probe.key());
+        if (!found) return false;
+    }
+
+    // Remove the persisted index file when a data directory is configured.
+    if (!data_dir_.empty()) {
+        const std::string path = indexFilePath(probe.key());
+        std::error_code ec;
+        std::filesystem::remove(path, ec);
+        if (ec) {
+            THEMIS_WARN("TensorIndexManager: could not remove index file '{}': {}",
+                        path, ec.message());
+        }
+    }
+    return true;
 }
 
 void TensorIndexManager::dropTenantIndexes(const std::string& tenant_id) {
@@ -222,6 +249,47 @@ TensorIndexStats TensorIndexManager::aggregateStats() const {
     agg.avg_tt_rank       /= n;
     agg.avg_compress_ratio /= static_cast<double>(n);
     return agg;
+}
+
+// -----------------------------------------------------------------------
+// File-based persistence
+// -----------------------------------------------------------------------
+
+void TensorIndexManager::setDataDir(const std::string& dir) {
+    data_dir_ = dir;
+}
+
+std::string TensorIndexManager::indexFilePath(const std::string& key) const {
+    // Replace characters unsafe on most filesystems with '_'.
+    std::string escaped;
+    escaped.reserve(key.size());
+    for (char c : key) {
+        escaped += (c == ':' || c == '/' || c == '\\') ? '_' : c;
+    }
+    return data_dir_ + "/" + escaped + ".ttidx";
+}
+
+size_t TensorIndexManager::flushAll() {
+    // Snapshot key→index pairs under read lock so I/O runs without holding it.
+    std::vector<std::pair<std::string, ITensorIndex*>> snapshot;
+    {
+        std::shared_lock lock(registry_mutex_);
+        snapshot.reserve(indexes_.size());
+        for (const auto& [k, idx] : indexes_) {
+            snapshot.emplace_back(k, idx.get());
+        }
+    }
+
+    size_t saved = 0;
+    for (const auto& [key, idx] : snapshot) {
+        const std::string path = indexFilePath(key);
+        if (idx->save(path)) {
+            ++saved;
+        } else {
+            THEMIS_WARN("TensorIndexManager::flushAll(): failed to save '{}'", path);
+        }
+    }
+    return saved;
 }
 
 // -----------------------------------------------------------------------

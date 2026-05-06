@@ -98,6 +98,10 @@
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
 #include "index/vector_index.h"
+#include "tensor/tensor_index_manager.h"
+#include "tensor/tensor_core_bridge.h"
+#include "tensor/tensor_ingestion_bridge.h"
+#include "storage/tensor_network_storage_engine.h"
 #include "transaction/transaction_manager.h"
 #ifdef THEMIS_ENABLE_HTTP_SERVER
 #include "server/http_server.h"
@@ -1051,7 +1055,61 @@ int main(int argc, char* argv[]) {
         );
         
         THEMIS_INFO("All managers initialized");
-        
+
+        // ── Tensor Index Manager ────────────────────────────────────────────────
+        // Backed by the same RocksDB instance as the main store.  The manager
+        // is optional; it is skipped when no "tensor_index" section is present
+        // in the config, leaving the NullTensorDecompositionBackend active.
+        std::shared_ptr<themis::tensor::TensorIndexManager> tensor_index_mgr;
+        std::shared_ptr<themis::tensor::TensorCoreStorageBridge> tensor_core_bridge;
+        std::shared_ptr<themis::tensor::TensorIngestionBridge> tensor_ingest_bridge;
+        std::string tensor_data_dir;
+
+        if (cfg && cfg->contains("tensor_index")) {
+            const auto& ti = (*cfg)["tensor_index"];
+            tensor_data_dir = ti.value("data_dir", db_path + "/tensor_indexes");
+
+            // Create directory if it does not exist.
+            {
+                std::error_code ec;
+                std::filesystem::create_directories(tensor_data_dir, ec);
+                if (ec) {
+                    THEMIS_WARN("tensor_index: could not create data_dir '{}': {}",
+                                tensor_data_dir, ec.message());
+                    tensor_data_dir.clear();
+                }
+            }
+
+            // Build TensorIndexManager backed by RocksDB.
+            tensor_index_mgr = themis::tensor::TensorIndexManager::create(db);
+            if (!tensor_data_dir.empty()) {
+                tensor_index_mgr->setDataDir(tensor_data_dir);
+                THEMIS_INFO("Tensor index data dir: {}", tensor_data_dir);
+            }
+
+            // Build TensorCoreStorageBridge with RocksDB backend for durable
+            // TT-core storage (resolves stub #160 at runtime).
+            auto rocksdb_tensor_backend =
+                std::make_shared<themis::storage::RocksDBTensorBackend>(db);
+            tensor_core_bridge =
+                std::make_shared<themis::tensor::TensorCoreStorageBridge>(
+                    rocksdb_tensor_backend);
+
+            // Build TensorIngestionBridge so ChunkTtDecomposeStep can produce
+            // real TT-cores instead of falling back to NullTensorDecompositionBackend.
+            double tt_epsilon  = ti.value("epsilon",   0.01);
+            size_t tt_max_rank = ti.value("max_rank",  static_cast<size_t>(32));
+            double tt_min_kappa = ti.value("min_kappa", 1.3);
+            tensor_ingest_bridge = std::make_shared<themis::tensor::TensorIngestionBridge>(
+                tt_epsilon, tt_max_rank, tt_min_kappa);
+
+            THEMIS_INFO("Tensor pipeline initialized (ε={:.4f}, max_rank={}, κ_min={:.2f})",
+                        tt_epsilon, tt_max_rank, tt_min_kappa);
+        } else {
+            THEMIS_INFO("Tensor index not configured (no 'tensor_index' section) — "
+                        "TT decomposition disabled; using NullTensorDecompositionBackend");
+        }
+
 #ifdef THEMIS_ENABLE_LLM
         // Initialize EmbeddedLLM if enabled in config
         if (cfg && cfg->contains("llm")) {
@@ -2569,6 +2627,10 @@ int main(int argc, char* argv[]) {
         THEMIS_INFO("  Secondary Index:         initialized (range queries)");
         THEMIS_INFO("  Graph Index:             initialized (relationship traversal)");
         THEMIS_INFO("  Vector Index (HNSW):     {}", (!vector_save_path.empty() ? "initialized (persistent at " + vector_save_path + ")" : "available"));
+        THEMIS_INFO("  Tensor Index (TT):       {}",
+            (tensor_index_mgr
+                ? ("initialized" + (tensor_data_dir.empty() ? "" : " (data dir: " + tensor_data_dir + ")"))
+                : std::string("disabled (no tensor_index config)")));
         #ifdef THEMIS_HNSW_ENABLED
         THEMIS_INFO("  Vector Search Capability:HNSWLIB-powered (high-dim similarity)");
         #endif
@@ -2771,12 +2833,17 @@ int main(int argc, char* argv[]) {
     THEMIS_INFO("[2/5] Shutting down distributed tracing...");
         Tracer::shutdown();
         
-        // Step 3: Save vector index before closing DB
+        // Step 3: Save vector index and tensor indexes before closing DB
         if (vector_index && !vector_save_path.empty()) {
             THEMIS_INFO("[3/5] Saving vector index to disk...");
             vector_index->shutdown();
         } else {
             THEMIS_INFO("[3/5] Vector index save skipped (not configured)");
+        }
+        if (tensor_index_mgr && !tensor_data_dir.empty()) {
+            THEMIS_INFO("[3/5] Flushing tensor indexes to disk ({})...", tensor_data_dir);
+            size_t saved = tensor_index_mgr->flushAll();
+            THEMIS_INFO("[3/5] Tensor index flush complete ({} index(es) saved)", saved);
         }
         
         // Step 4: Database is already closed by server->stop()

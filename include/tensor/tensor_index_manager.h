@@ -209,10 +209,36 @@ public:
                      const std::string& field,
                      int64_t id) const;
 
+    // ------------------------------------------------------------------
+    // File-based persistence
+    // ------------------------------------------------------------------
+
+    /**
+     * @brief Configure the directory used to persist index files.
+     *
+     * When set, `createIndex()` attempts to restore an existing index from
+     * `<data_dir>/<escaped_key>.ttidx`, and `dropIndex()` removes that file.
+     * Call `flushAll()` to persist all in-memory indexes to disk.
+     *
+     * @param dir  Absolute or relative path to an existing directory.
+     */
+    void setDataDir(const std::string& dir);
+
+    /**
+     * @brief Save all currently loaded indexes to their respective files.
+     *
+     * Returns the number of indexes successfully saved.
+     */
+    size_t flushAll();
+
 private:
     explicit TensorIndexManager(std::shared_ptr<RocksDBWrapper> db);
 
+    /// Derive a safe filesystem path for an index with the given registry key.
+    std::string indexFilePath(const std::string& key) const;
+
     std::shared_ptr<RocksDBWrapper> db_;
+    std::string                     data_dir_;
 
     mutable std::shared_mutex registry_mutex_;
     std::unordered_map<std::string, std::unique_ptr<ITensorIndex>> indexes_;
