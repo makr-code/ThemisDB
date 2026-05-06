@@ -82,11 +82,23 @@
  *   TFG-04  findSimilar() excludes the query adapter itself from results
  *   TFG-05  removeAdapter() removes the entry; second remove returns false
  *   TFG-06  findSimilarByFingerprint() respects tenant_id filter
+ *
+ * TensorRAGPipeline — TRPL-01..TRPL-08
+ *   TRPL-01  step() returns should_retrieve=false for a confident token (large gap, high log-prob)
+ *   TRPL-02  step() sets flare_triggered when log-prob is below FLARE threshold
+ *   TRPL-03  step() sets targ_triggered when logit gap is below TARG threshold
+ *   TRPL-04  step() sets BOTH trigger and increments combined_triggers when both gates fire
+ *   TRPL-05  notifyRetrievalDone() resets cooldown for both gates
+ *   TRPL-06  reset() clears stats and sub-gate state
+ *   TRPL-07  stats() tracks total_token_steps, flare_triggers, targ_triggers correctly
+ *   TRPL-08  use_flare=false disables FLARE; use_targ=false disables TARG
  */
 
 #include "query/tensor_contraction_engine.h"
 #include "query/tensor_aware_query_optimizer.h"
 #include "rag/targ_retrieval.h"
+#include "rag/flare_retrieval.h"
+#include "rag/tensor_rag_pipeline.h"
 #include "storage/tensor_train_decomposer.h"
 #include "tensor/tensor_butterfly_operator.h"
 #include "tensor/adapter_repository.h"
@@ -976,6 +988,230 @@ TEST(TensorFingerprintGraph, TFG06_findSimilarByFingerprint_tenant_filter) {
         EXPECT_EQ(r.adapter_key, "key_t1");  // only t1 entries
     }
     EXPECT_TRUE(results.size() <= 1u);
+}
+
+// =============================================================================
+// TensorRAGPipeline tests — TRPL-01..TRPL-08
+// =============================================================================
+
+// Helper: logits with a large gap (top-1 much larger than top-2)
+static std::vector<float> confidentLogits() {
+    // top-1 = index 0 (value 20), top-2 = index 1 (value 5) → gap = 15
+    return {20.0f, 5.0f, 1.0f, 0.5f, 0.2f};
+}
+
+// Helper: logits with a small gap (near-tie between top-1 and top-2)
+static std::vector<float> uncertainLogits() {
+    // top-1 = 5.1, top-2 = 5.0 → gap = 0.1 (below default threshold 5.0)
+    return {5.1f, 5.0f, 1.0f, 0.5f, 0.2f};
+}
+
+// TRPL-01: step() returns should_retrieve=false for a confident token
+TEST(TensorRAGPipeline, TRPL01_confident_token_no_retrieval) {
+    TensorRAGPipelineConfig cfg;
+    cfg.use_flare = true;
+    cfg.use_targ  = true;
+    cfg.flare_config.confidence_threshold = -2.303f;
+    cfg.targ_config.gap_threshold         = 5.0f;
+
+    TensorRAGPipeline pipeline(cfg);
+
+    // High log-prob (confident) + large logit gap (confident)
+    auto decision = pipeline.step("hello", -0.1f, confidentLogits());
+
+    EXPECT_FALSE(decision.should_retrieve);
+    EXPECT_EQ(decision.trigger, RAGDecision::Trigger::NONE);
+    EXPECT_FALSE(decision.flare_triggered);
+    EXPECT_FALSE(decision.targ_triggered);
+    EXPECT_EQ(pipeline.stats().total_token_steps, 1u);
+    EXPECT_EQ(pipeline.stats().flare_triggers,    0u);
+    EXPECT_EQ(pipeline.stats().targ_triggers,     0u);
+}
+
+// TRPL-02: step() sets flare_triggered when log-prob is below FLARE threshold
+TEST(TensorRAGPipeline, TRPL02_flare_triggers_on_low_log_prob) {
+    TensorRAGPipelineConfig cfg;
+    cfg.use_flare = true;
+    cfg.use_targ  = false;  // isolate FLARE
+    cfg.flare_config.confidence_threshold      = -2.303f;
+    cfg.flare_config.min_consecutive_uncertain = 1;
+
+    TensorRAGPipeline pipeline(cfg);
+
+    // Very low log-prob (well below threshold)
+    auto decision = pipeline.step("uncertain_token", -5.0f, {});
+
+    EXPECT_TRUE(decision.should_retrieve);
+    EXPECT_TRUE(decision.flare_triggered);
+    EXPECT_FALSE(decision.targ_triggered);
+    EXPECT_EQ(decision.trigger, RAGDecision::Trigger::FLARE_ONLY);
+    EXPECT_FALSE(decision.flare_query.empty());
+    EXPECT_EQ(pipeline.stats().flare_triggers, 1u);
+    EXPECT_EQ(pipeline.stats().targ_triggers,  0u);
+}
+
+// TRPL-03: step() sets targ_triggered when logit gap is below TARG threshold
+TEST(TensorRAGPipeline, TRPL03_targ_triggers_on_small_gap) {
+    TensorRAGPipelineConfig cfg;
+    cfg.use_flare = false;  // isolate TARG
+    cfg.use_targ  = true;
+    cfg.targ_config.gap_threshold             = 5.0f;
+    cfg.targ_config.min_consecutive_uncertain = 1;
+
+    TensorRAGPipeline pipeline(cfg);
+
+    // Small logit gap (0.1 < 5.0 threshold)
+    auto decision = pipeline.step("token", 0.0f, uncertainLogits());
+
+    EXPECT_TRUE(decision.should_retrieve);
+    EXPECT_TRUE(decision.targ_triggered);
+    EXPECT_FALSE(decision.flare_triggered);
+    EXPECT_EQ(decision.trigger, RAGDecision::Trigger::TARG_ONLY);
+    EXPECT_GT(decision.targ_gap, 0.0f);
+    EXPECT_EQ(pipeline.stats().targ_triggers,  1u);
+    EXPECT_EQ(pipeline.stats().flare_triggers, 0u);
+}
+
+// TRPL-04: step() sets BOTH trigger and increments combined_triggers
+TEST(TensorRAGPipeline, TRPL04_both_gates_fire_simultaneously) {
+    TensorRAGPipelineConfig cfg;
+    cfg.use_flare = true;
+    cfg.use_targ  = true;
+    cfg.flare_config.confidence_threshold      = -2.303f;
+    cfg.flare_config.min_consecutive_uncertain = 1;
+    cfg.targ_config.gap_threshold              = 5.0f;
+    cfg.targ_config.min_consecutive_uncertain  = 1;
+
+    TensorRAGPipeline pipeline(cfg);
+
+    // Low log-prob (FLARE fires) + small gap (TARG fires)
+    auto decision = pipeline.step("bad_token", -5.0f, uncertainLogits());
+
+    EXPECT_TRUE(decision.should_retrieve);
+    EXPECT_TRUE(decision.flare_triggered);
+    EXPECT_TRUE(decision.targ_triggered);
+    EXPECT_EQ(decision.trigger, RAGDecision::Trigger::BOTH);
+    EXPECT_EQ(pipeline.stats().combined_triggers, 1u);
+    EXPECT_EQ(pipeline.stats().flare_triggers,    1u);
+    EXPECT_EQ(pipeline.stats().targ_triggers,     1u);
+}
+
+// TRPL-05: notifyRetrievalDone() resets cooldowns; next uncertain token is suppressed
+TEST(TensorRAGPipeline, TRPL05_notifyRetrievalDone_resets_cooldown) {
+    TensorRAGPipelineConfig cfg;
+    cfg.use_flare = true;
+    cfg.use_targ  = true;
+    cfg.flare_config.confidence_threshold      = -2.303f;
+    cfg.flare_config.min_consecutive_uncertain = 1;
+    cfg.flare_config.retrieval_cooldown_tokens = 5;
+    cfg.targ_config.gap_threshold              = 5.0f;
+    cfg.targ_config.min_consecutive_uncertain  = 1;
+    cfg.targ_config.retrieval_cooldown_tokens  = 5;
+
+    TensorRAGPipeline pipeline(cfg);
+
+    // First call: both gates fire
+    pipeline.step("bad", -5.0f, uncertainLogits());
+    pipeline.notifyRetrievalDone();
+    EXPECT_EQ(pipeline.stats().total_retrievals, 1u);
+
+    // Immediately after retrieval: cooldown suppresses both gates
+    auto d2 = pipeline.step("next", -5.0f, uncertainLogits());
+    EXPECT_FALSE(d2.flare_triggered);  // FLARE in cooldown
+    EXPECT_FALSE(d2.targ_triggered);   // TARG in cooldown
+    EXPECT_FALSE(d2.should_retrieve);
+}
+
+// TRPL-06: reset() clears all stats and sub-gate state
+TEST(TensorRAGPipeline, TRPL06_reset_clears_all_state) {
+    TensorRAGPipelineConfig cfg;
+    cfg.use_flare = true;
+    cfg.use_targ  = true;
+    cfg.flare_config.confidence_threshold      = -2.303f;
+    cfg.flare_config.min_consecutive_uncertain = 1;
+    cfg.targ_config.gap_threshold              = 5.0f;
+    cfg.targ_config.min_consecutive_uncertain  = 1;
+
+    TensorRAGPipeline pipeline(cfg);
+
+    pipeline.step("a", -5.0f, uncertainLogits());
+    pipeline.notifyRetrievalDone();
+    EXPECT_GT(pipeline.stats().total_token_steps, 0u);
+
+    pipeline.reset();
+
+    EXPECT_EQ(pipeline.stats().total_token_steps, 0u);
+    EXPECT_EQ(pipeline.stats().flare_triggers,    0u);
+    EXPECT_EQ(pipeline.stats().targ_triggers,     0u);
+    EXPECT_EQ(pipeline.stats().combined_triggers, 0u);
+    EXPECT_EQ(pipeline.stats().total_retrievals,  0u);
+
+    // Sub-gate state is also reset: high log-prob should not trigger
+    auto d = pipeline.step("clean", -0.1f, confidentLogits());
+    EXPECT_FALSE(d.should_retrieve);
+}
+
+// TRPL-07: stats() tracks totals across a multi-step session correctly
+TEST(TensorRAGPipeline, TRPL07_stats_accuracy) {
+    TensorRAGPipelineConfig cfg;
+    cfg.use_flare = true;
+    cfg.use_targ  = true;
+    cfg.flare_config.confidence_threshold      = -2.303f;
+    cfg.flare_config.min_consecutive_uncertain = 1;
+    cfg.flare_config.retrieval_cooldown_tokens = 0;  // no cooldown
+    cfg.targ_config.gap_threshold              = 5.0f;
+    cfg.targ_config.min_consecutive_uncertain  = 1;
+    cfg.targ_config.retrieval_cooldown_tokens  = 0;  // no cooldown
+
+    TensorRAGPipeline pipeline(cfg);
+
+    // Step 1: confident → no trigger
+    pipeline.step("ok", -0.1f, confidentLogits());
+    // Step 2: both fire
+    pipeline.step("bad", -5.0f, uncertainLogits());
+    pipeline.notifyRetrievalDone();
+    // Step 3: only FLARE fires (confident TARG logits)
+    pipeline.step("low_prob", -5.0f, confidentLogits());
+
+    auto s = pipeline.stats();
+    EXPECT_EQ(s.total_token_steps, 3u);
+    EXPECT_EQ(s.total_retrievals,  1u);
+    EXPECT_EQ(s.flare_triggers,    2u);  // step 2 + step 3
+    EXPECT_EQ(s.targ_triggers,     1u);  // step 2 only
+    EXPECT_EQ(s.combined_triggers, 1u);  // step 2 only
+}
+
+// TRPL-08: use_flare=false and use_targ=false each independently disable a gate
+TEST(TensorRAGPipeline, TRPL08_individual_gate_disable) {
+    // Disable FLARE, keep TARG
+    {
+        TensorRAGPipelineConfig cfg;
+        cfg.use_flare = false;
+        cfg.use_targ  = true;
+        cfg.targ_config.gap_threshold             = 5.0f;
+        cfg.targ_config.min_consecutive_uncertain = 1;
+
+        TensorRAGPipeline pipeline(cfg);
+        auto d = pipeline.step("tok", -5.0f, uncertainLogits());
+        EXPECT_FALSE(d.flare_triggered);
+        EXPECT_TRUE(d.targ_triggered);
+        EXPECT_EQ(d.flare_log_prob, 0.0f);  // FLARE produced no output
+    }
+
+    // Disable TARG, keep FLARE
+    {
+        TensorRAGPipelineConfig cfg;
+        cfg.use_flare = true;
+        cfg.use_targ  = false;
+        cfg.flare_config.confidence_threshold      = -2.303f;
+        cfg.flare_config.min_consecutive_uncertain = 1;
+
+        TensorRAGPipeline pipeline(cfg);
+        auto d = pipeline.step("tok", -5.0f, uncertainLogits());
+        EXPECT_TRUE(d.flare_triggered);
+        EXPECT_FALSE(d.targ_triggered);
+        EXPECT_EQ(d.targ_gap, 0.0f);  // TARG produced no output
+    }
 }
 
 } // anonymous namespace

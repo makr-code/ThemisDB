@@ -26,7 +26,7 @@
 
 ---
 
-## Stub Inventory (169 entries — 45 resolved, 124 active)
+## Stub Inventory (175 entries — 45 resolved, 130 active)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -230,7 +230,8 @@
 | 172 | `tensor/adapter_repository.cpp::loadAdapter()` | Heap-copies TT-core data from backend; no mmap(MAP_SHARED) page pinning | Always (no compile flag required) | Adapter switch latency is O(totalParams) CPU copy (≈ 10–50 ms for 7B LoRA) vs. ≤ 5 ms page-pin target; no mlock() protection; extra memcpy per load | Replace backend->get() + deserialize() with mmap(MAP_SHARED) + mlock() on RocksDB SST pages — AR-01 | Q1 2027 |
 | 173 | `storage/gguf_metadata.cpp::GGUFMetadata::sign()/verify()` | Byte-XOR placeholder instead of HMAC-SHA256; NOT cryptographically secure | Always (no compile flag required) | Attacker who knows the key and any signed record can forge signatures; XOR tag is 8 bytes = trivially brute-forceable | Replace stubSign() with HMAC_CTX_new()/HMAC_Update()/HMAC_Final() from OpenSSL or vendored SHA-256 (e.g. mbedTLS) — GMD-sign | Q2 2027 |
 | 174 | `tensor/tensor_fingerprint_graph.cpp::findSimilar()/findSimilarByFingerprint()` | Column-mean fingerprint cosine similarity instead of full TT inner-product sweep (Holtz 2012, O(d·r²)) | Always (no compile flag required) | For adapters where first-core energy < 60% of total Frobenius norm, ranking can deviate from exact TT inner-product similarity by up to ~15% | Replace inner loop with TTTrain::innerProduct() per pair; add optional HNSW indexing over fingerprints for sub-linear search — TFG-01 | Q3 2027 |
+| 175 | `rag/tensor_rag_pipeline.cpp::step()::flare_query` | `RAGDecision::flare_query` is a plain space-joined text string built by `FlareRetrieval::buildQuery()` (STUB #168); not an embedding vector | Always (no embedding backend wired in TensorRAGPipeline) | Semantic TT-cosine retrieval requires the caller to embed the string before passing it to tensor_index.searchFlat(); BM25/exact-match retrieval still works | Phase 3-C (Q1 2027): inject IEmbeddingBackend; add `flare_query_embedding: std::vector<float>` to RAGDecision — PIPE-01 | Q1 2027 |
 
 ---
 
-*Last updated: 2026-05-06 — 174 entries, 45 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-05-06 — 175 entries, 45 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

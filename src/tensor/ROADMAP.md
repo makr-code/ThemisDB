@@ -377,6 +377,14 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 - [~] Adapter sovereignty — LoRA/PEFT as TT graphs (adapter switch ≤ 50ms) — 2026-05-06 (heap-copy path; mmap Q1 2027)
 - [x] GGUFMetadata — GGUF v3 provenance store (sign/verify stub #173; HMAC-SHA256 Q2 2027) — resolved 2026-05-06
 - [x] TensorFingerprintGraph — adapter similarity via G_0 fingerprint (full TT inner-product stub #174; Q3 2027) — resolved 2026-05-06
+- [x] TensorRAGPipeline — unified FLARE+TARG coordinator (PIPE-01 stub; embed path Q1 2027) — resolved 2026-05-06
+  - `include/rag/tensor_rag_pipeline.h` + `src/rag/tensor_rag_pipeline.cpp`
+  - `step(token_text, log_prob, logits)` evaluates both gates per token; returns `RAGDecision`
+  - `notifyRetrievalDone()` resets both gate cooldowns
+  - `reset()` clears all session state
+  - `PipelineStats` tracks total_token_steps, flare_triggers, targ_triggers, combined_triggers, total_retrievals
+  - `use_flare` / `use_targ` flags allow individual gate disable
+  - Tests TRPL-01..TRPL-08 in `tests/test_tensor_phase3.cpp`
 
 ### Phase 4: Distributed & GPU (Target: Q2–Q4 2027)
 
