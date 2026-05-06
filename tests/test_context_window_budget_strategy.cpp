@@ -382,6 +382,53 @@ TEST(LlmCascadeRouter, CWB14_BudgetContextK) {
 }
 
 // ---------------------------------------------------------------------------
+// CWB-14b: LlmCascadeRouter — setLlmInvokeFn + invoke() (stub #244)
+// ---------------------------------------------------------------------------
+TEST(LlmCascadeRouter, CWB14b_InvokeFnInjection_NoFnReturnsEmpty) {
+    LlmCascadeRouter router;
+    // Without injected provider, invoke() should return an empty string.
+    EXPECT_EQ(router.invoke("PRO", "some prompt"), "");
+}
+
+TEST(LlmCascadeRouter, CWB14b_InvokeFnInjection_CallsProviderWithResolvedModel) {
+    LlmCascadeRouter router;
+
+    std::string last_model;
+    std::string last_prompt;
+    size_t      last_max_tokens = 0;
+
+    router.setLlmInvokeFn([&](const std::string& model_id,
+                               const std::string& prompt,
+                               size_t             max_tokens) -> std::string {
+        last_model      = model_id;
+        last_prompt     = prompt;
+        last_max_tokens = max_tokens;
+        return "generated-response";
+    });
+
+    const std::string result = router.invoke("SYNTHESIS", "test prompt");
+
+    EXPECT_EQ(result, "generated-response");
+    // SYNTHESIS maps to LARGE tier → gpt-4o in default config
+    EXPECT_EQ(last_model, "gpt-4o");
+    EXPECT_EQ(last_prompt, "test prompt");
+    // max_output_tokens for LARGE (128K context): 128*1024/8 = capped at 2048
+    EXPECT_GT(last_max_tokens, 0u);
+}
+
+TEST(LlmCascadeRouter, CWB14b_InvokeFnInjection_ResetToNullReturnsEmpty) {
+    LlmCascadeRouter router;
+    router.setLlmInvokeFn([](const std::string&, const std::string&, size_t) {
+        return "response";
+    });
+    EXPECT_EQ(router.invoke("PRO", "prompt"), "response");
+
+    // After clearing the function, invoke should again return empty.
+    router.setLlmInvokeFn(nullptr);
+    EXPECT_EQ(router.invoke("PRO", "prompt"), "");
+}
+
+// ---------------------------------------------------------------------------
 // CWB-15: SynthesisMatrixBuilder — buildMatrix contains school verdicts + convergence markers
 // ---------------------------------------------------------------------------
 TEST(SynthesisMatrixBuilder, CWB15_BuildMatrix_ContentsAndConvergence) {

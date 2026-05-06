@@ -701,7 +701,35 @@ public:
     // =========================================================================
     // Multi-Model Queries
     // =========================================================================
-    
+
+    /**
+     * @brief AQL query executor injection function type.
+     *
+     * When set via setAqlQueryExecutor(), the multi-model query methods
+     * (queryTasksByFormData, joinWithCollection, aggregateByField) delegate to
+     * this function instead of running O(n) in-process RocksDB scans.
+     *
+     * @param aql        AQL query string with bind variable placeholders.
+     * @param bind_vars  Bind variable values keyed by name (without leading "@").
+     * @return           Result rows as JSON objects (one per document).
+     */
+    using AqlQueryExecutorFn =
+        std::function<std::vector<nlohmann::json>(std::string_view aql,
+                                                  const nlohmann::json& bind_vars)>;
+
+    /**
+     * @brief Inject an AQL query executor for index-backed multi-model queries.
+     *
+     * When a non-null executor is provided the three multi-model query methods
+     * will build an AQL statement, invoke the executor, and map the results back
+     * to their typed return values.  The in-process O(n) scan fallbacks are
+     * retained and used when no executor is set.
+     *
+     * Thread safety: call before any concurrent query; the function object is
+     * read under a shared lock from query methods.
+     */
+    void setAqlQueryExecutor(AqlQueryExecutorFn fn);
+
     // ----- RELATIONAL Queries -----
     
     /**
@@ -910,6 +938,7 @@ public:
 private:
     RocksDBWrapper& db_;
     std::function<std::vector<float>(std::string_view)> embedder_;
+    AqlQueryExecutorFn aql_query_executor_;
     
     // Internal helpers
     std::string makeProcessKey_(std::string_view process_id) const;

@@ -1140,3 +1140,76 @@ TEST_F(ProcessGraphTest, VisitTimestampsPersistedAfterTokenCompletion) {
     EXPECT_TRUE(pgm_->getVisitTimestamp(instanceId, "task").has_value());
     EXPECT_TRUE(pgm_->getVisitTimestamp(instanceId, "end").has_value());
 }
+
+// ── Tests for setAqlQueryExecutor injection API (stub #56) ─────────────────
+
+TEST_F(ProcessGraphTest, AqlQueryExecutorInjection_queryTasksByFormData) {
+    // Register a minimal process
+    themis::ProcessDefinition pd;
+    pd.process_id = "aql-inject-test";
+    pd.name = "AQL Inject Test";
+    pgm_->registerProcess(pd);
+
+    nlohmann::json filter;
+    filter["status"] = "pending";
+
+    // Without executor: falls back to in-process O(n) scan (returns OK + empty)
+    {
+        auto [st, tokens] = pgm_->queryTasksByFormData("aql-inject-test", filter);
+        EXPECT_TRUE(st.ok) << st.message;
+    }
+
+    // With injected executor: should be called and results mapped correctly
+    bool executor_called = false;
+    pgm_->setAqlQueryExecutor(
+        [&](std::string_view aql, const nlohmann::json& bind_vars) -> std::vector<nlohmann::json> {
+            executor_called = true;
+            EXPECT_NE(aql.find("process_tokens"), std::string::npos);
+            EXPECT_EQ(bind_vars.value("pid", std::string{}), "aql-inject-test");
+            nlohmann::json row;
+            row["token_id"] = "t1";
+            row["process_instance_id"] = "i1";
+            row["current_node"] = "node1";
+            row["state"] = "ACTIVE";
+            return {row};
+        });
+
+    auto [st2, tokens2] = pgm_->queryTasksByFormData("aql-inject-test", filter);
+    EXPECT_TRUE(st2.ok) << st2.message;
+    EXPECT_TRUE(executor_called);
+    ASSERT_EQ(tokens2.size(), 1u);
+    EXPECT_EQ(tokens2[0].token_id, "t1");
+    EXPECT_EQ(tokens2[0].state, themis::ProcessToken::State::ACTIVE);
+}
+
+TEST_F(ProcessGraphTest, AqlQueryExecutorInjection_aggregateByField) {
+    themis::ProcessDefinition pd;
+    pd.process_id = "aql-agg-test";
+    pgm_->registerProcess(pd);
+
+    bool executor_called = false;
+    pgm_->setAqlQueryExecutor(
+        [&](std::string_view, const nlohmann::json& bind_vars) -> std::vector<nlohmann::json> {
+            executor_called = true;
+            nlohmann::json row;
+            row["group_key"] = "alice";
+            row["count"] = 3;
+            row["sum"] = 300.0;
+            row["min"] = 50.0;
+            row["max"] = 150.0;
+            return {row};
+        });
+
+    auto [st, results] = pgm_->aggregateByField("aql-agg-test", "assignee", "amount", "SUM");
+    EXPECT_TRUE(st.ok) << st.message;
+    EXPECT_TRUE(executor_called);
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_EQ(results[0].count, 3u);
+    EXPECT_DOUBLE_EQ(results[0].sum, 300.0);
+    EXPECT_DOUBLE_EQ(results[0].avg, 100.0);
+
+    // Reset executor to null — falls back to in-process scan (no crash)
+    pgm_->setAqlQueryExecutor(nullptr);
+    auto [st2, results2] = pgm_->aggregateByField("aql-agg-test", "assignee", "amount", "SUM");
+    EXPECT_TRUE(st2.ok) << st2.message;
+}
