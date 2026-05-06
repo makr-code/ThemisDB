@@ -97,6 +97,23 @@ public:
     // ── Extended API (beyond ILLMPlugin) ──────────────────────────────────
 
     /**
+     * @brief Inject a custom embedding backend for stub/test environments.
+     *
+     * When set, `embed()` delegates to @p fn instead of returning the
+     * 384-dimensional zero-vector stub.  Enables semantic-search tests and
+     * RAG pipelines to operate without a compiled llama.cpp model.
+     *
+     * @param fn  Callable `std::vector<float>(const std::string& text)`.
+     *            Must not throw; returning an empty vector causes `embed()`
+     *            to fall back to the zero-vector stub.
+     *
+     * Stub #200 injection API — resolves the zero-vector fallback when
+     * `wrapper_` is nullptr.
+     */
+    using EmbedFn = std::function<std::vector<float>(const std::string& text)>;
+    void setEmbedFn(EmbedFn fn);
+
+    /**
      * @brief Streaming generation convenience wrapper.
      *
      * Calls generate() with the given request, injecting @p token_callback into
@@ -144,6 +161,9 @@ private:
         float       scale = 1.0f;
     };
     std::vector<LoRAEntry> loras_;
+
+/// Injected embedding backend (Stub #200 injection API).
+    EmbedFn embed_fn_;
 
 #ifdef THEMIS_LLM_ENABLED
     /// Real llama.cpp inference backend, created when a non-empty model path is

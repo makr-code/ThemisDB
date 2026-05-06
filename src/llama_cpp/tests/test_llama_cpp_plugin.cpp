@@ -642,3 +642,74 @@ TEST(LlamaCppPluginFocusedTests, P3_ConcurrentLoraRegistryAndGenerate) {
     EXPECT_EQ(generate_ok.load(), kThreads / 2)
         << "generate() threads must all succeed despite concurrent LoRA writes";
 }
+
+// ── Group Q: setEmbedFn injection (Stub #200) ────────────────────────────────
+
+// LCP-EMBED-01: injected fn is called and its result returned
+TEST(LlamaCppPluginFocusedTests, Q1_EmbedFn_InjectedFnCalled) {
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", {});
+
+    bool called = false;
+    plugin.setEmbedFn([&](const std::string& text) -> std::vector<float> {
+        called = true;
+        EXPECT_EQ(text, "hello");
+        return std::vector<float>(128, 1.0f);
+    });
+
+    auto result = plugin.embed("hello");
+    EXPECT_TRUE(called) << "setEmbedFn callback must be invoked by embed()";
+    ASSERT_EQ(result.size(), 128u);
+    EXPECT_FLOAT_EQ(result[0], 1.0f);
+}
+
+// LCP-EMBED-02: fn returning empty vector causes zero-vector stub fallback
+TEST(LlamaCppPluginFocusedTests, Q2_EmbedFn_EmptyReturnFallsBackToStub) {
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", {});
+
+    plugin.setEmbedFn([](const std::string&) -> std::vector<float> {
+        return {};  // empty → trigger stub fallback
+    });
+
+    auto result = plugin.embed("anything");
+    ASSERT_EQ(result.size(), 384u) << "empty fn result must fall back to 384-dim zero vector";
+    for (float v : result) {
+        EXPECT_FLOAT_EQ(v, 0.0f);
+    }
+}
+
+// LCP-EMBED-03: clearing fn (nullptr) reverts to zero-vector stub
+TEST(LlamaCppPluginFocusedTests, Q3_EmbedFn_ClearingRevertsToStub) {
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", {});
+
+    plugin.setEmbedFn([](const std::string&) { return std::vector<float>(64, 3.14f); });
+    // Verify injection is active
+    ASSERT_EQ(plugin.embed("test").size(), 64u);
+
+    // Clear the fn
+    plugin.setEmbedFn(nullptr);
+
+    auto result = plugin.embed("test");
+    ASSERT_EQ(result.size(), 384u) << "after clearing embed_fn_, stub zero-vector must be returned";
+    for (float v : result) {
+        EXPECT_FLOAT_EQ(v, 0.0f);
+    }
+}
+
+// LCP-EMBED-04: embed() with model not loaded but fn set still uses fn
+TEST(LlamaCppPluginFocusedTests, Q4_EmbedFn_UsedEvenWithoutModel) {
+    LlamaCppPlugin plugin;
+    // Do NOT call loadModel → model_loaded_ is false
+
+    plugin.setEmbedFn([](const std::string& text) {
+        return std::vector<float>(16, static_cast<float>(text.size()));
+    });
+
+    // embed() early-returns {} when !model_loaded_; fn is not called in that path.
+    // This test documents the existing contract (model must be loaded).
+    auto result = plugin.embed("hi");
+    EXPECT_TRUE(result.empty())
+        << "embed() returns empty without a loaded model regardless of embed_fn_";
+}

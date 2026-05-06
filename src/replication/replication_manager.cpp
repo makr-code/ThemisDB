@@ -3555,23 +3555,52 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
     }
 
     if (snapshot.empty()) {
-        // STUB/SIMULATION NOTE:
-        // Purpose: Returns a synthetic success result when there are no replicas,
-        //          allowing single-node deployments to proceed without crashing.
-        // Activation: `replicas_` list is empty (no replica endpoints configured).
-        // Production Delta: `data` field is not populated; `version = 0` ignores
-        //                   `required_version`; monotonic-read guarantees are NOT
-        //                   enforced.  In a real single-node path the document
-        //                   should be fetched from the local storage engine.
-        // Removal Plan: Replace with a local-storage read call; respect
-        //               `required_version` for monotonic reads; propagate actual
-        //               document content in the result.  See
-        //               src/replication/FUTURE_ENHANCEMENTS.md §Single-Node Quorum Read.
+        // Single-node path: no replicas configured.
+        // When a local-document fetch function has been injected (Stub #248
+        // injection API), use it to populate the data and version fields so
+        // that single-node deployments can serve real document content.
+        // Without an injected function the data field remains empty and
+        // version=0 (original behaviour retained as documented fallback).
         QuorumReadResult sr;
-        sr.success      = true;
-        sr.version      = 0;
+        sr.success       = true;
         sr.had_conflicts = false;
-        sr.session_token = generateSessionToken(0);
+
+        LocalDocumentFetchFn local_fn;
+        {
+            std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
+            local_fn = local_doc_fetch_fn_;
+        }
+
+        if (local_fn) {
+            try {
+                auto [data, version] = local_fn(collection, document_id);
+                sr.data    = std::move(data);
+                sr.version = version;
+                if (required_version > 0 && sr.version < required_version) {
+                    // Monotonic-read requirement not met; signal to caller.
+                    THEMIS_WARN("QuorumRead single-node: version {} < required {}; "
+                                "monotonic-read guarantee NOT met",
+                                sr.version, required_version);
+                }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("QuorumRead single-node: local_doc_fetch_fn_ threw: {}", e.what());
+                // Proceed with empty data; success remains true (degraded mode).
+            }
+        } else {
+            // STUB/SIMULATION NOTE:
+            // Purpose: Returns a synthetic success result when there are no replicas
+            //          AND no local-document fetch function has been injected.
+            //          Allows single-node deployments to proceed without crashing.
+            // Activation: `replicas_` list is empty AND `local_doc_fetch_fn_` is null.
+            // Production Delta: `data` field is empty; `version = 0`; monotonic-read
+            //                   guarantees are NOT enforced.
+            // Removal Plan: Inject a real local-storage read via
+            //               setLocalDocumentFetchFn(); see
+            //               src/replication/FUTURE_ENHANCEMENTS.md §Single-Node Quorum Read.
+            sr.version = 0;
+        }
+
+        sr.session_token = generateSessionToken(sr.version);
         return sr;
     }
 
@@ -3735,6 +3764,11 @@ void QuorumReadManager::setReplicas(const std::vector<ReplicaInfo>& replicas) {
 void QuorumReadManager::setDocumentFetchCallback(DocumentFetchFn fn) {
     std::unique_lock<std::shared_mutex> lock(replicas_mutex_);
     doc_fetch_fn_ = std::move(fn);
+}
+
+void QuorumReadManager::setLocalDocumentFetchFn(LocalDocumentFetchFn fn) {
+    std::unique_lock<std::shared_mutex> lock(replicas_mutex_);
+    local_doc_fetch_fn_ = std::move(fn);
 }
 
 QuorumReadManager::ReplicaResponse QuorumReadManager::queryReplica(

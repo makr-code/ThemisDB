@@ -1804,26 +1804,49 @@ bool BackupManager::performPITR(const std::string& dest_dir, const PITROptions& 
         THEMIS_INFO("PITR: selected base snapshot '{}' as closest anchor ≤ target time",
                     best_backup);
 
-        // Restore the selected snapshot.
-        // STUB/SIMULATION NOTE:
-        // Purpose: Provide timestamp-aware snapshot selection while WAL replay
-        //          is not yet implemented.
-        // Activation: Always — no WAL reader or segment-apply engine is integrated.
-        // Production Delta: Data written between the selected snapshot boundary and
-        //                   pitr_options.target_time is not replayed; restore accuracy
-        //                   is bounded by snapshot granularity (typically minutes).
-        // Removal Plan: After restoring the base snapshot, open WAL segments in
-        //               dest_dir, apply records with sequence numbers ≤ the one
-        //               corresponding to target_time, then close the WAL reader.
-        //               See src/storage/FUTURE_ENHANCEMENTS.md §PITR WAL Replay.
+        // Step 1: Restore the base snapshot.
         auto backup_path = fs::path(dest_dir) / best_backup;
-        return restoreFromBackup(backup_path.string(), ec, stats);
+        if (!restoreFromBackup(backup_path.string(), ec, stats)) {
+            return false;
+        }
+
+        // Step 2: Replay WAL segments between the snapshot boundary and
+        // pitr_options.target_time via the injected WalReplayFn (Stub #249
+        // injection API).  Without an injected function this step is skipped
+        // and restore accuracy is bounded by snapshot granularity.
+        if (wal_replay_fn_) {
+            THEMIS_INFO("PITR: replaying WAL segments up to target time via injected WalReplayFn");
+            if (!wal_replay_fn_(backup_path.string(), pitr_options.target_time, ec)) {
+                THEMIS_ERROR("PITR: WAL replay failed: {}", ec.message());
+                return false;
+            }
+            THEMIS_INFO("PITR: WAL replay completed successfully");
+        } else {
+            // STUB/SIMULATION NOTE:
+            // Purpose: Allow PITR to succeed when no WAL replay function has been
+            //          injected.  Snapshot selection (Step 1) still provides
+            //          near-PITR accuracy without replaying individual WAL records.
+            // Activation: `wal_replay_fn_` is null (default — no WAL reader integrated).
+            // Production Delta: Data written between the snapshot boundary and
+            //                   pitr_options.target_time is not replayed; restore
+            //                   accuracy is bounded by snapshot granularity (typically
+            //                   minutes).
+            // Removal Plan: Inject a real WAL replay engine via setWalReplayFn();
+            //               see src/storage/FUTURE_ENHANCEMENTS.md §PITR WAL Replay.
+            THEMIS_WARN("PITR: WAL replay skipped — no WalReplayFn injected; "
+                        "restore accuracy bounded by snapshot granularity (Stub #249)");
+        }
+        return true;
 
     } catch (const std::exception& e) {
         ec = std::make_error_code(std::errc::io_error);
         THEMIS_ERROR("Exception during PITR: {}", e.what());
         return false;
     }
+}
+
+void BackupManager::setWalReplayFn(WalReplayFn fn) {
+    wal_replay_fn_ = std::move(fn);
 }
 
 bool BackupManager::restoreCollections(const std::string& src_dir,

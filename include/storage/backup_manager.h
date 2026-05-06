@@ -462,6 +462,42 @@ public:
      */
     Result<std::vector<std::string>> listSnapshots();
 
+    // ── PITR WAL replay injection (Stub #249) ────────────────────────────────
+
+    /**
+     * @brief Callable type for WAL-segment replay during PITR.
+     *
+     * Arguments:
+     *   - dest_dir:      Directory where the base snapshot has been restored.
+     *   - target_time:   The point-in-time to replay up to.
+     *   - ec:            Set on failure.
+     *
+     * Returns @c true on success.  The production implementation opens WAL
+     * segment files in @p dest_dir, applies records whose sequence number
+     * corresponds to timestamps ≤ @p target_time, then closes the reader.
+     *
+     * Stub #249 injection API — resolves the missing WAL replay step in
+     * `performPITR()`.
+     */
+    using WalReplayFn = std::function<bool(
+        const std::string& dest_dir,
+        std::chrono::system_clock::time_point target_time,
+        std::error_code& ec)>;
+
+    /**
+     * @brief Inject a WAL-replay function used by `performPITR()` after the
+     *        base snapshot has been restored.
+     *
+     * Without an injected function `performPITR()` silently omits the WAL
+     * replay step (original behaviour).  When set, the function is called
+     * with the restore directory and target time so the caller can apply the
+     * remaining WAL delta.
+     *
+     * @param fn  Must not throw; returning @c false is treated as a replay
+     *            failure and `performPITR()` will return @c false too.
+     */
+    void setWalReplayFn(WalReplayFn fn);
+
 private:
     // -------------------------------------------------------------------------
     // Scheduling: in-memory registry for backup schedules.
@@ -552,6 +588,8 @@ private:
     
     // Helper: Find last full backup for differential
     std::string findLastFullBackup(const std::string& backup_dir);
+
+    WalReplayFn wal_replay_fn_;  ///< Optional WAL-replay hook (Stub #249)
 };
 
 } // namespace themis
