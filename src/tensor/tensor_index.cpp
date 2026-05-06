@@ -9,7 +9,7 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                     ║
     • Maturity Level:  🟡 EXPERIMENTAL                                 ║
-    • Open Issues:     Stubs: 2 (TTI-01, TTI-02)                       ║
+    • Open Issues:     None                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
@@ -30,8 +30,8 @@
  * with a custom ANN routing layer.
  *
  * ### Stub log
- * - TTI-01  `save()` — RocksDB persistence not yet wired (Phase 2, Q4 2026)
- * - TTI-02  `load()` — symmetric
+ * - TTI-01  `save()` — resolved 2026-05-06: binary file serialization implemented
+ * - TTI-02  `load()` — resolved 2026-05-06: binary file deserialization implemented
  */
 
 #include "tensor/tensor_index.h"
@@ -40,6 +40,8 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstring>
+#include <fstream>
 #include <mutex>
 #include <shared_mutex>
 #include <stdexcept>
@@ -175,26 +177,151 @@ public:
     }
 
     // -----------------------------------------------------------------------
-    // Persistence
+    // Persistence — binary file format (Phase 1)
     //
-    // STUB/SIMULATION NOTE:
-    // Purpose: Phase-1 placeholder; RocksDB wire-up deferred to Phase 2
-    // Activation: always (save/load are no-ops in Phase 1)
-    // Production Delta: real impl uses TensorNetworkStorageEngine key schema
-    //   `__ttidx__:<index_name>:<id>:G<k>:<version>`
-    // Removal Plan: replace in Phase 2 (Q4 2026) — TTI-01 / TTI-02
+    // File layout:
+    //   magic[11]        "THEMIS_TTI\0"
+    //   version: u8      = 1
+    //   n_entries: u64
+    //   For each entry:
+    //     id: i64
+    //     n_mode_sizes: u32
+    //     mode_sizes[]: u64 × n_mode_sizes
+    //     original_norm: f64
+    //     achieved_eps:  f64
+    //     n_cores: u32
+    //     For each core k:
+    //       r_left, n, r_right: u64 each
+    //       n_floats: u64
+    //       float data[n_floats] (4 bytes each)
+    //
+    // Phase 2 (Q4 2026) will layer a RocksDB key-value representation
+    // `__ttidx__:<name>:<id>:G<k>` on top of or instead of this format.
     // -----------------------------------------------------------------------
 
-    bool save(const std::string& /*path*/) const override {
-        THEMIS_WARN("FlatTensorIndex::save() — RocksDB persistence not yet "
-                    "implemented (TTI-01, Phase 2 Q4 2026)");
-        return false;
+    static constexpr char kMagic[11] = "THEMIS_TTI";  // 10 chars + '\0'
+    static constexpr uint8_t kVersion = 1;
+
+    bool save(const std::string& path) const override {
+        std::shared_lock lock(rw_mutex_);
+        std::ofstream out(path, std::ios::binary | std::ios::trunc);
+        if (!out) return false;
+
+        out.write(kMagic, 11);
+        out.write(reinterpret_cast<const char*>(&kVersion), 1);
+
+        const uint64_t n = static_cast<uint64_t>(store_.size());
+        out.write(reinterpret_cast<const char*>(&n), sizeof(n));
+
+        for (const auto& [id, train] : store_) {
+            out.write(reinterpret_cast<const char*>(&id), sizeof(id));
+
+            const uint32_t nm = static_cast<uint32_t>(train.mode_sizes.size());
+            out.write(reinterpret_cast<const char*>(&nm), sizeof(nm));
+            for (auto ms : train.mode_sizes) {
+                const uint64_t v = static_cast<uint64_t>(ms);
+                out.write(reinterpret_cast<const char*>(&v), sizeof(v));
+            }
+
+            out.write(reinterpret_cast<const char*>(&train.original_norm), sizeof(double));
+            out.write(reinterpret_cast<const char*>(&train.achieved_eps),  sizeof(double));
+
+            const uint32_t nc = static_cast<uint32_t>(train.cores.size());
+            out.write(reinterpret_cast<const char*>(&nc), sizeof(nc));
+
+            for (const auto& core : train.cores) {
+                const uint64_t rl = static_cast<uint64_t>(core.r_left);
+                const uint64_t nn = static_cast<uint64_t>(core.n);
+                const uint64_t rr = static_cast<uint64_t>(core.r_right);
+                const uint64_t nf = static_cast<uint64_t>(core.data.size());
+                out.write(reinterpret_cast<const char*>(&rl), sizeof(rl));
+                out.write(reinterpret_cast<const char*>(&nn), sizeof(nn));
+                out.write(reinterpret_cast<const char*>(&rr), sizeof(rr));
+                out.write(reinterpret_cast<const char*>(&nf), sizeof(nf));
+                out.write(reinterpret_cast<const char*>(core.data.data()),
+                          static_cast<std::streamsize>(nf * sizeof(float)));
+            }
+        }
+        return out.good();
     }
 
-    bool load(const std::string& /*path*/) override {
-        THEMIS_WARN("FlatTensorIndex::load() — RocksDB persistence not yet "
-                    "implemented (TTI-02, Phase 2 Q4 2026)");
-        return false;
+    bool load(const std::string& path) override {
+        std::ifstream in(path, std::ios::binary);
+        if (!in) return false;
+
+        char magic[11];
+        in.read(magic, 11);
+        if (in.fail() || std::memcmp(magic, kMagic, 10) != 0) return false;
+
+        uint8_t version;
+        in.read(reinterpret_cast<char*>(&version), 1);
+        if (in.fail() || version != kVersion) return false;
+
+        uint64_t n;
+        in.read(reinterpret_cast<char*>(&n), sizeof(n));
+        if (in.fail()) return false;
+
+        // Build into a local map; only replace store_ on complete success.
+        std::unordered_map<int64_t, storage::TTTrain> new_store;
+        new_store.reserve(static_cast<size_t>(n));
+
+        for (uint64_t i = 0; i < n; ++i) {
+            int64_t id;
+            in.read(reinterpret_cast<char*>(&id), sizeof(id));
+
+            uint32_t nm;
+            in.read(reinterpret_cast<char*>(&nm), sizeof(nm));
+            if (in.fail()) return false;
+
+            storage::TTTrain train;
+            train.mode_sizes.resize(nm);
+            for (uint32_t j = 0; j < nm; ++j) {
+                uint64_t v;
+                in.read(reinterpret_cast<char*>(&v), sizeof(v));
+                train.mode_sizes[j] = static_cast<std::size_t>(v);
+            }
+
+            in.read(reinterpret_cast<char*>(&train.original_norm), sizeof(double));
+            in.read(reinterpret_cast<char*>(&train.achieved_eps),  sizeof(double));
+
+            uint32_t nc;
+            in.read(reinterpret_cast<char*>(&nc), sizeof(nc));
+            if (in.fail()) return false;
+
+            train.cores.resize(nc);
+            for (uint32_t k = 0; k < nc; ++k) {
+                uint64_t rl, nn, rr, nf;
+                in.read(reinterpret_cast<char*>(&rl), sizeof(rl));
+                in.read(reinterpret_cast<char*>(&nn), sizeof(nn));
+                in.read(reinterpret_cast<char*>(&rr), sizeof(rr));
+                in.read(reinterpret_cast<char*>(&nf), sizeof(nf));
+                if (in.fail()) return false;
+
+                auto& core = train.cores[k];
+                core.r_left  = static_cast<std::size_t>(rl);
+                core.n       = static_cast<std::size_t>(nn);
+                core.r_right = static_cast<std::size_t>(rr);
+                core.data.resize(static_cast<std::size_t>(nf));
+                in.read(reinterpret_cast<char*>(core.data.data()),
+                        static_cast<std::streamsize>(nf * sizeof(float)));
+                if (in.fail()) return false;
+            }
+            new_store.emplace(id, std::move(train));
+        }
+
+        // Atomically swap in new data
+        std::unique_lock lock(rw_mutex_);
+        store_ = std::move(new_store);
+        stats_ = {};
+        dim_   = 0;
+        for (const auto& [id, train] : store_) {
+            stats_.num_vectors++;
+            stats_.storage_bytes += estimateBytes(train);
+        }
+        if (!store_.empty()) {
+            dim_ = store_.begin()->second.cores.front().n;
+        }
+        return true;
     }
 
     // -----------------------------------------------------------------------

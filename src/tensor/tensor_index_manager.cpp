@@ -9,7 +9,7 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                     ║
     • Maturity Level:  🟡 EXPERIMENTAL                                 ║
-    • Open Issues:     Stubs: 2 (TIM-01, TIM-02)                       ║
+    • Open Issues:     Stubs: 1 (TIM-01)                                 ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
@@ -19,10 +19,11 @@
  *
  * ### Stub log
  * - TIM-01  `ggmlCorePtrs()` — mmap bridge to GGML (Phase 3, Q1 2027)
- * - TIM-02  `dropTenantIndexes()` RocksDB prefix-delete (Phase 2, Q4 2026)
+ * - TIM-02  `dropTenantIndexes()` RocksDB prefix-delete — resolved 2026-05-06
  */
 
 #include "tensor/tensor_index_manager.h"
+#include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 
 #include <shared_mutex>
@@ -147,25 +148,38 @@ bool TensorIndexManager::dropIndex(const std::string& tenant_id,
 }
 
 void TensorIndexManager::dropTenantIndexes(const std::string& tenant_id) {
-    // STUB/SIMULATION NOTE:
-    // Purpose: iterate and erase all indexes belonging to tenant_id
-    // Activation: always
-    // Production Delta: real impl also issues RocksDB prefix-delete for
-    //   `__ttmgr__:<tenant_id>:` (requires Phase 2 persistence wire-up TIM-02)
-    // Removal Plan: Phase 2 Q4 2026
-
-    std::unique_lock lock(registry_mutex_);
     const std::string prefix = "__ttmgr__:" + tenant_id + ":";
-    for (auto it = indexes_.begin(); it != indexes_.end(); ) {
-        if (it->first.substr(0, prefix.size()) == prefix) {
-            handles_.erase(it->first);
-            it = indexes_.erase(it);
-        } else {
-            ++it;
+
+    {
+        std::unique_lock lock(registry_mutex_);
+        for (auto it = indexes_.begin(); it != indexes_.end(); ) {
+            if (it->first.substr(0, prefix.size()) == prefix) {
+                handles_.erase(it->first);
+                it = indexes_.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    }  // registry_mutex_ released before any I/O
+
+    // Purge persisted TT data from RocksDB when a backing store is available.
+    // Two key prefixes are cleaned up:
+    //   __ttmgr__:<tenant>:  — index handle / metadata rows
+    //   __ttidx__:<tenant>:  — serialised core rows (key schema §TTI)
+    if (db_) {
+        const std::string idx_prefix = "__ttidx__:" + tenant_id + ":";
+
+        std::vector<std::string> to_del;
+        for (const auto& pfx : {prefix, idx_prefix}) {
+            db_->scanPrefix(pfx, [&](std::string_view k, std::string_view) -> bool {
+                to_del.emplace_back(k);
+                return true;
+            });
+        }
+        for (const auto& key : to_del) {
+            db_->del(key);
         }
     }
-    THEMIS_WARN("TensorIndexManager::dropTenantIndexes: RocksDB prefix-delete "
-                "not yet implemented (TIM-02, Phase 2 Q4 2026)");
 }
 
 // -----------------------------------------------------------------------

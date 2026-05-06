@@ -42,6 +42,8 @@
 #include "tensor/tensor_index_manager.h"
 #include "storage/tensor_router.h"
 
+#include <cstdio>
+#include <fstream>
 #include <memory>
 #include <string>
 #include <vector>
@@ -194,4 +196,127 @@ TEST(TensorIndexManager, TIM14_ListIndexesFiltersbyTenant) {
 
     auto all_indexes = mgr->listIndexes();
     EXPECT_EQ(all_indexes.size(), 3u);
+}
+
+// ============================================================================
+// TFI-01..TFI-06 — FlatTensorIndex binary persistence (save / load)
+//
+//   TFI-01  save() on empty index succeeds and creates a file
+//   TFI-02  load() of empty-index file restores size 0
+//   TFI-03  save() of index with vectors succeeds
+//   TFI-04  load() after save() restores all vectors (size matches)
+//   TFI-05  loaded index is searchable (search returns non-empty results)
+//   TFI-06  load() with a non-existent path returns false
+// ============================================================================
+
+namespace {
+// Build a trivial flat vector for testing
+std::vector<float> makeVec(size_t dim, float seed) {
+    std::vector<float> v(dim);
+    for (size_t i = 0; i < dim; ++i) v[i] = seed + static_cast<float>(i) * 0.1f;
+    return v;
+}
+
+std::string tmpPath(const char* suffix) {
+    return std::string("/tmp/themis_tfi_test_") + suffix + ".bin";
+}
+} // namespace
+
+TEST(FlatTensorIndexPersistence, TFI01_SaveEmptyIndexSucceeds) {
+    auto mgr = TensorIndexManager::create(nullptr);
+    auto* idx = mgr->createIndex("t", "c", "f");
+    ASSERT_NE(idx, nullptr);
+
+    const std::string path = tmpPath("empty");
+    std::remove(path.c_str());
+    EXPECT_TRUE(idx->save(path));
+
+    // File should now exist
+    std::ifstream chk(path, std::ios::binary);
+    EXPECT_TRUE(chk.good());
+}
+
+TEST(FlatTensorIndexPersistence, TFI02_LoadEmptyIndexRestoresSizeZero) {
+    // Save an empty index first
+    auto mgr1 = TensorIndexManager::create(nullptr);
+    auto* idx1 = mgr1->createIndex("t", "c", "f");
+    const std::string path = tmpPath("empty2");
+    std::remove(path.c_str());
+    ASSERT_TRUE(idx1->save(path));
+
+    // Load into a fresh index
+    auto mgr2 = TensorIndexManager::create(nullptr);
+    auto* idx2 = mgr2->createIndex("t", "c", "f");
+    EXPECT_TRUE(idx2->load(path));
+    EXPECT_EQ(idx2->size(), 0u);
+}
+
+TEST(FlatTensorIndexPersistence, TFI03_SaveNonEmptyIndexSucceeds) {
+    auto mgr = TensorIndexManager::create(nullptr);
+    auto* idx = mgr->createIndex("t", "c", "f");
+    ASSERT_NE(idx, nullptr);
+
+    auto v1 = makeVec(8, 1.0f);
+    auto v2 = makeVec(8, 2.0f);
+    ASSERT_TRUE(idx->addFlat(1, v1.data(), v1.size()));
+    ASSERT_TRUE(idx->addFlat(2, v2.data(), v2.size()));
+
+    const std::string path = tmpPath("nonempty");
+    std::remove(path.c_str());
+    EXPECT_TRUE(idx->save(path));
+}
+
+TEST(FlatTensorIndexPersistence, TFI04_LoadAfterSaveRestoresAllVectors) {
+    const std::string path = tmpPath("roundtrip");
+    std::remove(path.c_str());
+
+    auto v1 = makeVec(8, 1.0f);
+    auto v2 = makeVec(8, 2.0f);
+    auto v3 = makeVec(8, 3.0f);
+
+    {
+        auto mgr = TensorIndexManager::create(nullptr);
+        auto* idx = mgr->createIndex("t", "c", "f");
+        ASSERT_TRUE(idx->addFlat(10, v1.data(), v1.size()));
+        ASSERT_TRUE(idx->addFlat(20, v2.data(), v2.size()));
+        ASSERT_TRUE(idx->addFlat(30, v3.data(), v3.size()));
+        ASSERT_EQ(idx->size(), 3u);
+        ASSERT_TRUE(idx->save(path));
+    }
+
+    auto mgr2 = TensorIndexManager::create(nullptr);
+    auto* idx2 = mgr2->createIndex("t", "c", "f");
+    EXPECT_TRUE(idx2->load(path));
+    EXPECT_EQ(idx2->size(), 3u);
+}
+
+TEST(FlatTensorIndexPersistence, TFI05_LoadedIndexIsSearchable) {
+    const std::string path = tmpPath("search");
+    std::remove(path.c_str());
+
+    auto v1 = makeVec(8, 0.0f);
+    auto v2 = makeVec(8, 5.0f);
+
+    {
+        auto mgr = TensorIndexManager::create(nullptr);
+        auto* idx = mgr->createIndex("t", "c", "f");
+        ASSERT_TRUE(idx->addFlat(1, v1.data(), v1.size()));
+        ASSERT_TRUE(idx->addFlat(2, v2.data(), v2.size()));
+        ASSERT_TRUE(idx->save(path));
+    }
+
+    auto mgr2 = TensorIndexManager::create(nullptr);
+    auto* idx2 = mgr2->createIndex("t", "c", "f");
+    ASSERT_TRUE(idx2->load(path));
+
+    auto query = makeVec(8, 0.1f);
+    auto results = idx2->searchFlat(query.data(), query.size(), 2);
+    EXPECT_FALSE(results.empty());
+    EXPECT_LE(results.size(), 2u);
+}
+
+TEST(FlatTensorIndexPersistence, TFI06_LoadNonExistentPathReturnsFalse) {
+    auto mgr = TensorIndexManager::create(nullptr);
+    auto* idx = mgr->createIndex("t", "c", "f");
+    EXPECT_FALSE(idx->load("/tmp/this_file_does_not_exist_themis_tfi.bin"));
 }

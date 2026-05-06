@@ -9,7 +9,7 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                     ║
     • Maturity Level:  🟡 EXPERIMENTAL                                 ║
-    • Open Issues:     Stubs: 3 (HTB-01, HTB-02, HTB-03)               ║
+    • Open Issues:     Stubs: 1 (HTB-01)                                 ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
@@ -27,8 +27,8 @@
  * ### Stub log
  * - HTB-01  HNSW layer — hnswlib integration pending; currently linear scan
  *           on sketches (Phase 2, Q4 2026)
- * - HTB-02  save() — RocksDB persistence (Phase 2, Q4 2026)
- * - HTB-03  load() — symmetric (Phase 2, Q4 2026)
+ * - HTB-02  save() — resolved 2026-05-06: binary file serialization implemented
+ * - HTB-03  load() — resolved 2026-05-06: binary file deserialization implemented
  */
 
 #include "tensor/hnsw_tt_bridge.h"
@@ -36,6 +36,8 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstring>
+#include <fstream>
 #include <mutex>
 #include <shared_mutex>
 #include <unordered_map>
@@ -241,25 +243,161 @@ const storage::TTTrain* HnswTTBridge::get(int64_t id) const {
 }
 
 // ============================================================================
-// Persistence
+// Persistence — binary file format (Phase 1)
 //
-// STUB/SIMULATION NOTE:
-// Purpose: placeholder for RocksDB/disk persistence
-// Activation: always (no-op in Phase 1)
-// Production Delta: real impl writes HNSW graph file + TT-cores to RocksDB
-// Removal Plan: Phase 2 Q4 2026 — HTB-02 / HTB-03
+// File layout:
+//   magic[11]        "THEMIS_HTB\0"
+//   version: u8      = 1
+//   n_entries: u64
+//   For each entry (TTStore):
+//     id: i64
+//     n_mode_sizes: u32
+//     mode_sizes[]: u64 × n_mode_sizes
+//     original_norm: f64
+//     achieved_eps:  f64
+//     n_cores: u32
+//     For each core k:
+//       r_left, n, r_right: u64 each
+//       n_floats: u64
+//       float data[n_floats]
+//
+// On load, HNSW sketches are re-derived from the loaded TT-trains so that
+// the full HNSW+TT state is restored from a single flat file.
 // ============================================================================
 
-bool HnswTTBridge::save(const std::string& /*path*/) const {
-    THEMIS_WARN("HnswTTBridge::save() — persistence not yet implemented "
-                "(HTB-02, Phase 2 Q4 2026)");
-    return false;
+namespace {
+constexpr char kHtbMagic[11]  = "THEMIS_HTB";
+constexpr uint8_t kHtbVersion = 1;
+} // namespace
+
+bool HnswTTBridge::save(const std::string& path) const {
+    std::shared_lock lock(rw_mutex_);
+    std::ofstream out(path, std::ios::binary | std::ios::trunc);
+    if (!out) return false;
+
+    out.write(kHtbMagic, 11);
+    out.write(reinterpret_cast<const char*>(&kHtbVersion), 1);
+
+    const uint64_t n = static_cast<uint64_t>(tt_store_->size());
+    out.write(reinterpret_cast<const char*>(&n), sizeof(n));
+
+    for (const auto& [id, train] : tt_store_->trains) {
+        out.write(reinterpret_cast<const char*>(&id), sizeof(id));
+
+        const uint32_t nm = static_cast<uint32_t>(train.mode_sizes.size());
+        out.write(reinterpret_cast<const char*>(&nm), sizeof(nm));
+        for (auto ms : train.mode_sizes) {
+            const uint64_t v = static_cast<uint64_t>(ms);
+            out.write(reinterpret_cast<const char*>(&v), sizeof(v));
+        }
+
+        out.write(reinterpret_cast<const char*>(&train.original_norm), sizeof(double));
+        out.write(reinterpret_cast<const char*>(&train.achieved_eps),  sizeof(double));
+
+        const uint32_t nc = static_cast<uint32_t>(train.cores.size());
+        out.write(reinterpret_cast<const char*>(&nc), sizeof(nc));
+
+        for (const auto& core : train.cores) {
+            const uint64_t rl = static_cast<uint64_t>(core.r_left);
+            const uint64_t nn = static_cast<uint64_t>(core.n);
+            const uint64_t rr = static_cast<uint64_t>(core.r_right);
+            const uint64_t nf = static_cast<uint64_t>(core.data.size());
+            out.write(reinterpret_cast<const char*>(&rl), sizeof(rl));
+            out.write(reinterpret_cast<const char*>(&nn), sizeof(nn));
+            out.write(reinterpret_cast<const char*>(&rr), sizeof(rr));
+            out.write(reinterpret_cast<const char*>(&nf), sizeof(nf));
+            out.write(reinterpret_cast<const char*>(core.data.data()),
+                      static_cast<std::streamsize>(nf * sizeof(float)));
+        }
+    }
+    return out.good();
 }
 
-bool HnswTTBridge::load(const std::string& /*path*/) {
-    THEMIS_WARN("HnswTTBridge::load() — persistence not yet implemented "
-                "(HTB-03, Phase 2 Q4 2026)");
-    return false;
+bool HnswTTBridge::load(const std::string& path) {
+    std::ifstream in(path, std::ios::binary);
+    if (!in) return false;
+
+    char magic[11];
+    in.read(magic, 11);
+    if (in.fail() || std::memcmp(magic, kHtbMagic, 10) != 0) return false;
+
+    uint8_t version;
+    in.read(reinterpret_cast<char*>(&version), 1);
+    if (in.fail() || version != kHtbVersion) return false;
+
+    uint64_t n;
+    in.read(reinterpret_cast<char*>(&n), sizeof(n));
+    if (in.fail()) return false;
+
+    // Build into local structures; apply atomically on complete success.
+    auto new_hnsw = std::make_unique<HnswLayer>();
+    auto new_tt   = std::make_unique<TTStore>();
+
+    for (uint64_t i = 0; i < n; ++i) {
+        int64_t id;
+        in.read(reinterpret_cast<char*>(&id), sizeof(id));
+
+        uint32_t nm;
+        in.read(reinterpret_cast<char*>(&nm), sizeof(nm));
+        if (in.fail()) return false;
+
+        storage::TTTrain train;
+        train.mode_sizes.resize(nm);
+        for (uint32_t j = 0; j < nm; ++j) {
+            uint64_t v;
+            in.read(reinterpret_cast<char*>(&v), sizeof(v));
+            train.mode_sizes[j] = static_cast<std::size_t>(v);
+        }
+
+        in.read(reinterpret_cast<char*>(&train.original_norm), sizeof(double));
+        in.read(reinterpret_cast<char*>(&train.achieved_eps),  sizeof(double));
+
+        uint32_t nc;
+        in.read(reinterpret_cast<char*>(&nc), sizeof(nc));
+        if (in.fail()) return false;
+
+        train.cores.resize(nc);
+        for (uint32_t k = 0; k < nc; ++k) {
+            uint64_t rl, nn, rr, nf;
+            in.read(reinterpret_cast<char*>(&rl), sizeof(rl));
+            in.read(reinterpret_cast<char*>(&nn), sizeof(nn));
+            in.read(reinterpret_cast<char*>(&rr), sizeof(rr));
+            in.read(reinterpret_cast<char*>(&nf), sizeof(nf));
+            if (in.fail()) return false;
+
+            auto& core = train.cores[k];
+            core.r_left  = static_cast<std::size_t>(rl);
+            core.n       = static_cast<std::size_t>(nn);
+            core.r_right = static_cast<std::size_t>(rr);
+            core.data.resize(static_cast<std::size_t>(nf));
+            in.read(reinterpret_cast<char*>(core.data.data()),
+                    static_cast<std::streamsize>(nf * sizeof(float)));
+            if (in.fail()) return false;
+        }
+
+        // Re-derive HNSW sketch from loaded train
+        auto sketch = extractSketch(train);
+        new_hnsw->insert(id, std::move(sketch));
+        new_tt->insert(id, std::move(train));
+    }
+
+    if (in.fail()) return false;
+
+    // Atomically swap in restored state
+    std::unique_lock lock(rw_mutex_);
+    tt_store_ = std::move(new_tt);
+    hnsw_     = std::move(new_hnsw);
+    stats_    = {};
+    dim_      = 0;
+
+    for (const auto& [id, t] : tt_store_->trains) {
+        stats_.num_vectors++;
+        size_t b = 0;
+        for (const auto& c : t.cores) b += c.data.size() * sizeof(float);
+        stats_.storage_bytes += b;
+        if (dim_ == 0 && !t.cores.empty()) dim_ = t.cores.front().n;
+    }
+    return true;
 }
 
 // ============================================================================
