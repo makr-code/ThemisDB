@@ -629,3 +629,125 @@ TEST(ShardRpcCompensateTest, CompensateWithEmptyOperationSucceeds) {
 
     EXPECT_TRUE(client.compensate("txn-comp-2", nlohmann::json::object()));
 }
+
+// ============================================================================
+// ShardRPCClient::setInProcessResponseHandler Tests (stub #57 resolution)
+// ============================================================================
+
+TEST(ShardRpcInjectHandlerTest, InjectedHandlerCalledInsteadOfHardcoded) {
+    themis::sharding::ShardRPCClient::Config cfg;
+    cfg.endpoint     = "shard-inject:50051";
+    cfg.timeout_ms   = 500;
+    cfg.max_retries  = 1;
+    cfg.enable_circuit_breaker = false;
+
+    themis::sharding::ShardRPCClient client(cfg);
+
+    bool handler_called = false;
+    client.setInProcessResponseHandler(
+        [&](std::string method, nlohmann::json /*params*/) -> nlohmann::json {
+            handler_called = true;
+            if (method == "ping") {
+                return {{"status", "ok"}, {"injected", true}};
+            }
+            return {{"status", "ok"}};
+        });
+
+    EXPECT_TRUE(client.ping());
+    EXPECT_TRUE(handler_called);
+}
+
+TEST(ShardRpcInjectHandlerTest, InjectedAbortVoteFailsPrepare) {
+    themis::sharding::ShardRPCClient::Config cfg;
+    cfg.endpoint     = "shard-abort:50051";
+    cfg.timeout_ms   = 500;
+    cfg.max_retries  = 1;
+    cfg.enable_circuit_breaker = false;
+
+    themis::sharding::ShardRPCClient client(cfg);
+
+    // Inject a handler that simulates an ABORT vote from the shard.
+    client.setInProcessResponseHandler(
+        [](std::string method, nlohmann::json) -> nlohmann::json {
+            if (method == "prepare") {
+                return {{"vote", "abort"}, {"status", "failed"}};
+            }
+            return {{"status", "ok"}};
+        });
+
+    EXPECT_FALSE(client.prepare("txn-abort-1", nlohmann::json::array()));
+}
+
+TEST(ShardRpcInjectHandlerTest, ClearHandlerRestoresHardcodedFallback) {
+    themis::sharding::ShardRPCClient::Config cfg;
+    cfg.endpoint     = "shard-clear:50051";
+    cfg.timeout_ms   = 500;
+    cfg.max_retries  = 1;
+    cfg.enable_circuit_breaker = false;
+
+    themis::sharding::ShardRPCClient client(cfg);
+
+    // First inject a failing handler, then clear it.
+    client.setInProcessResponseHandler(
+        [](std::string, nlohmann::json) -> nlohmann::json {
+            return {{"vote", "abort"}, {"status", "failed"}};
+        });
+    EXPECT_FALSE(client.prepare("txn-clear-1", nlohmann::json::array()));
+
+    // Clear — hardcoded success fallback should take over.
+    client.setInProcessResponseHandler(nullptr);
+    EXPECT_TRUE(client.prepare("txn-clear-2", nlohmann::json::array()));
+}
+
+// ============================================================================
+// CrossShardTransactionCoordinator::setPreCommitCallback Tests (#17)
+// ============================================================================
+
+TEST(CrossShard3PCCallbackTest, PreCommitCallbackInvokedPerParticipant) {
+    themis::sharding::CrossShardTransactionConfig cfg;
+    cfg.default_protocol = themis::sharding::TransactionProtocol::THREE_PHASE_COMMIT;
+
+    auto coordinator = std::make_shared<themis::sharding::CrossShardTransactionCoordinator>(cfg, nullptr);
+    coordinator->initialize();
+    coordinator->start();
+
+    std::vector<std::string> precommitted_shards;
+    coordinator->setPreCommitCallback(
+        [&](const std::string& shard_id, const std::string& /*txn_id*/) -> bool {
+            precommitted_shards.push_back(shard_id);
+            return true;  // accept
+        });
+
+    const std::string txn = "txn-3pc-1";
+    ASSERT_TRUE(coordinator->beginTransaction(txn));
+    coordinator->addParticipant(txn, "shard-A", "localhost:50051", {});
+    coordinator->addParticipant(txn, "shard-B", "localhost:50052", {});
+    EXPECT_TRUE(coordinator->commit(txn));
+
+    // Both participants must have received a PreCommit RPC call.
+    EXPECT_EQ(static_cast<int>(precommitted_shards.size()), 2);
+    coordinator->stop();
+}
+
+TEST(CrossShard3PCCallbackTest, PreCommitNackAbortsTransaction) {
+    themis::sharding::CrossShardTransactionConfig cfg;
+    cfg.default_protocol = themis::sharding::TransactionProtocol::THREE_PHASE_COMMIT;
+
+    auto coordinator = std::make_shared<themis::sharding::CrossShardTransactionCoordinator>(cfg, nullptr);
+    coordinator->initialize();
+    coordinator->start();
+
+    // Inject a callback that rejects one participant.
+    coordinator->setPreCommitCallback(
+        [](const std::string& shard_id, const std::string&) -> bool {
+            return shard_id != "shard-B";  // shard-B rejects PreCommit
+        });
+
+    const std::string txn = "txn-3pc-nack";
+    ASSERT_TRUE(coordinator->beginTransaction(txn));
+    coordinator->addParticipant(txn, "shard-A", "localhost:50051", {});
+    coordinator->addParticipant(txn, "shard-B", "localhost:50052", {});
+    EXPECT_FALSE(coordinator->commit(txn));
+
+    coordinator->stop();
+}

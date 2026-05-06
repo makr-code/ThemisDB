@@ -62,6 +62,12 @@ struct ShardRPCClient::Impl {
     Config config;
     bool use_grpc = false;
     CircuitBreaker circuit_breaker;
+
+    /// Optional injected response handler for the in-process simulation path.
+    /// When non-null, sendRequestInProcess() delegates to this function instead
+    /// of returning the built-in hardcoded responses.
+    std::mutex handler_mutex;
+    InProcessResponseHandler in_process_handler;
     
 #if THEMIS_HAS_SHARD_GRPC
     std::shared_ptr<grpc::Channel> channel;
@@ -266,6 +272,11 @@ ShardRPCClient::ShardRPCClient(const Config& config)
 }
 
 ShardRPCClient::~ShardRPCClient() = default;
+
+void ShardRPCClient::setInProcessResponseHandler(InProcessResponseHandler handler) {
+    std::lock_guard<std::mutex> lk(impl_->handler_mutex);
+    impl_->in_process_handler = std::move(handler);
+}
 
 bool ShardRPCClient::prepare(
     const std::string& txn_id,
@@ -808,6 +819,15 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
     //   The sendRequestInProcess() method is retained as a single-node fallback
     //   — it will only be called when use_grpc is false (loopback endpoints).
     // Roadmap ref: src/sharding/FUTURE_ENHANCEMENTS.md §"WAL gRPC Replication"
+
+    // Snapshot the injected handler (if any) so the lock is not held during the
+    // (possibly sleeping) retry loop.
+    InProcessResponseHandler injected_handler;
+    {
+        std::lock_guard<std::mutex> lk(impl_->handler_mutex);
+        injected_handler = impl_->in_process_handler;
+    }
+
     // In-process simulation for single-node deployments
     int attempts = 0;
     std::exception_ptr last_exception;
@@ -833,42 +853,47 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
                 std::chrono::milliseconds(10)
             );
             
-            // Simulate response based on method
+            // If a custom handler has been injected (e.g. for testing failure
+            // scenarios), delegate to it instead of the hardcoded fallback.
             nlohmann::json response;
-            
-            if (method == "prepare") {
-                response = {
-                    {"vote", "commit"},
-                    {"status", "prepared"}
-                };
-            } else if (method == "commit") {
-                response = {
-                    {"status", "committed"}
-                };
-            } else if (method == "abort") {
-                response = {
-                    {"status", "aborted"}
-                };
-            } else if (method == "compensate") {
-                response = {
-                    {"status", "compensated"}
-                };
-            } else if (method == "snapshot_read") {
-                response = {
-                    {"status", "success"},
-                    {"data", nlohmann::json::array()}
-                };
-            } else if (method == "write_entity") {
-                response = {
-                    {"success",          true},
-                    {"replicated_count", 1}
-                };
-            } else if (method == "ping") {
-                response = {
-                    {"status", "ok"}
-                };
+            if (injected_handler) {
+                response = injected_handler(method, params);
             } else {
-                throw std::runtime_error("Unknown RPC method: " + method);
+                // Built-in hardcoded fallback responses for single-node / test mode.
+                if (method == "prepare") {
+                    response = {
+                        {"vote", "commit"},
+                        {"status", "prepared"}
+                    };
+                } else if (method == "commit") {
+                    response = {
+                        {"status", "committed"}
+                    };
+                } else if (method == "abort") {
+                    response = {
+                        {"status", "aborted"}
+                    };
+                } else if (method == "compensate") {
+                    response = {
+                        {"status", "compensated"}
+                    };
+                } else if (method == "snapshot_read") {
+                    response = {
+                        {"status", "success"},
+                        {"data", nlohmann::json::array()}
+                    };
+                } else if (method == "write_entity") {
+                    response = {
+                        {"success",          true},
+                        {"replicated_count", 1}
+                    };
+                } else if (method == "ping") {
+                    response = {
+                        {"status", "ok"}
+                    };
+                } else {
+                    throw std::runtime_error("Unknown RPC method: " + method);
+                }
             }
 
             const auto latency_us = static_cast<uint64_t>(

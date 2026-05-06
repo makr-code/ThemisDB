@@ -215,6 +215,40 @@ public:
     [[nodiscard]] virtual KeyMetadata getKeyMetadata(const std::string& key_id, uint32_t version = 0) = 0;
     
     /**
+     * @brief Return the current (latest active) version number for a key.
+     *
+     * Default implementation uses a probe heuristic: attempts @c getKey(key_id, v)
+     * for increasing @c v until it throws, then returns the last successful version.
+     * Concrete subclasses with access to a version registry should override this for
+     * O(1) lookup and to eliminate the probe's TOCTOU window.
+     *
+     * @param key_id  Logical key identifier
+     * @return        Current active version number (≥ 1), or 0 if no version is found
+     * @throws        KeyNotFoundException if the key does not exist at all
+     */
+    [[nodiscard]] virtual uint32_t getCurrentVersion(const std::string& key_id) {
+        // Default probe: walk up from version 1 until getKey(v+1) throws.
+        uint32_t ver = 0;
+        try {
+            // Verify at least version 1 exists (throws KeyNotFoundException if key absent).
+            getKey(key_id, 1);
+            ver = 1;
+        } catch (...) {
+            return 0;
+        }
+        // Walk higher until the version is not found.
+        for (uint32_t v = 2; v <= 0xFFFFu; ++v) {
+            try {
+                getKey(key_id, v);
+                ver = v;
+            } catch (...) {
+                break;
+            }
+        }
+        return ver;
+    }
+
+    /**
      * @brief Mark a deprecated key for deletion
      * 
      * Preconditions:

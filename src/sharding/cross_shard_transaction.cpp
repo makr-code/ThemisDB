@@ -831,6 +831,11 @@ void CrossShardTransactionCoordinator::onTransactionStateChange(
     on_state_change_callback_ = std::move(callback);
 }
 
+void CrossShardTransactionCoordinator::setPreCommitCallback(PreCommitRpcFn fn) {
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    precommit_callback_ = std::move(fn);
+}
+
 // Private methods
 
 bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
@@ -897,46 +902,58 @@ bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
 }
 
 bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
-    // STUB/SIMULATION NOTE (CST-6):
-    // Purpose: Three-Phase Commit (3PC) protocol skeleton — Phase 2 (PreCommit)
-    //          does NOT send an actual PreCommit RPC to participants.  It reuses
-    //          the Phase-1 PREPARED state as a proxy for precommit acknowledgement.
-    // Activation: when CrossShardTransactionConfig::default_protocol is set to
-    //             THREE_PHASE_COMMIT.
-    // Production Delta: a real 3PC implementation requires a separate
-    //                   sendPreCommit(shard_id, txn_id) RPC that instructs each
-    //                   participant to durably store its prepared state before
-    //                   the coordinator proceeds to Phase 3.  Without this RPC
-    //                   the coordinator is functionally equivalent to 2PC and
-    //                   does not gain 3PC's non-blocking property.
-    // Removal Plan: implement sendPreCommit() in the shard RPC layer
-    //               (see src/sharding/rpc/) and replace the stub branch below.
-    //               Track in ROADMAP.md item CST-6 (Target: Q3 2026).
-    spdlog::warn("execute3PC [{}]: PreCommit RPC is not implemented (CST-6 stub). "
-                 "Falling back to 2PC-equivalent behaviour — 3PC non-blocking "
-                 "property is NOT guaranteed.", txn.transaction_id);
+    // Snapshot the PreCommit callback under the lock so the lock is not held
+    // during the (potentially blocking) RPC fan-out.
+    PreCommitRpcFn precommit_cb;
+    {
+        std::lock_guard<std::mutex> lk(callbacks_mutex_);
+        precommit_cb = precommit_callback_;
+    }
 
     // Phase 1: Prepare (CanCommit)
     if (txn.state != TransactionState::PREPARED) {
         if (!prepare(txn.transaction_id)) {
-            spdlog::error("3PC Phase 1 (Prepare) failed for transaction {}", 
+            spdlog::error("3PC Phase 1 (Prepare) failed for transaction {}",
                          txn.transaction_id);
             return false;
         }
     }
-    
-    // Phase 2: PreCommit (STUB — no actual RPC sent)
+
+    // Phase 2: PreCommit
+    //
+    // When a precommit_callback_ has been injected (real mTLS RPC layer), each
+    // participant is instructed to durably persist its prepared state before the
+    // coordinator proceeds to Phase 3.  This gives 3PC its non-blocking property:
+    // if the coordinator crashes after all participants acknowledge PreCommit,
+    // any surviving participant can unilaterally proceed to commit.
+    //
+    // Without an injected callback we fall back to the 2PC-equivalent behaviour
+    // (treat Phase-1 PREPARED state as a proxy for PreCommit acknowledgement) and
+    // emit a warning so operators know the full 3PC guarantee is absent.
+    if (!precommit_cb) {
+        // STUB/SIMULATION NOTE (CST-6):
+        // Purpose: Three-Phase Commit (3PC) protocol — Phase 2 (PreCommit) falls
+        //          back to 2PC-equivalent when no PreCommit RPC callback is injected.
+        // Activation: precommit_callback_ is null (no setPreCommitCallback() call).
+        // Production Delta: 3PC non-blocking property is absent; coordinator crash
+        //          after Phase 2 leaves participants in PREPARED state (same as 2PC).
+        // Removal Plan: Inject a real PreCommit RPC via setPreCommitCallback() once
+        //          the shard RPC layer exposes sendPreCommit().  CST-6 (Q3 2026).
+        spdlog::warn("execute3PC [{}]: no PreCommit RPC callback injected (CST-6). "
+                     "Falling back to 2PC-equivalent behaviour — 3PC non-blocking "
+                     "property is NOT guaranteed.", txn.transaction_id);
+    }
+
     txn.state = TransactionState::COMMITTING;
-    
-    spdlog::info("3PC Phase 2 (PreCommit stub) starting for transaction {}", 
+    spdlog::info("3PC Phase 2 (PreCommit) starting for transaction {}",
                 txn.transaction_id);
-    
+
     if (transaction_wal_) {
         try {
             nlohmann::json precommit_data = {
                 {"protocol", "3PC"},
                 {"phase", "PRE_COMMIT"},
-                {"stub", true},
+                {"stub", !static_cast<bool>(precommit_cb)},
                 {"participants", nlohmann::json::array()}
             };
             for (const auto& [shard_id, participant] : txn.participants) {
@@ -950,32 +967,38 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
             return false;
         }
     }
-    
-    // Without a real PreCommit RPC, use prepare state as proxy.
+
     bool all_precommitted = true;
     for (auto& [shard_id, participant] : txn.participants) {
-        // CST-6 stub: real implementation would call sendPreCommit(shard_id, txn_id)
-        const bool precommitted = participant.prepared;
+        bool precommitted = false;
+        if (precommit_cb) {
+            // Invoke the real PreCommit RPC for this participant.
+            precommitted = precommit_cb(shard_id, txn.transaction_id);
+        } else {
+            // CST-6 fallback: treat Phase-1 PREPARED state as PreCommit ack.
+            precommitted = participant.prepared;
+        }
 
         if (transaction_wal_ && precommitted) {
             try {
-                transaction_wal_->logPrepared(txn.transaction_id, shard_id, true, "pre_committed_stub");
+                const std::string phase_tag = precommit_cb ? "pre_committed" : "pre_committed_stub";
+                transaction_wal_->logPrepared(txn.transaction_id, shard_id, true, phase_tag);
                 operations_since_snapshot_++;
             } catch (const std::exception& e) {
                 spdlog::error("Failed to log PRE_COMMITTED to WAL for txn={} shard={}: {}",
                               txn.transaction_id, shard_id, e.what());
             }
         }
-        
+
         if (!precommitted) {
             all_precommitted = false;
-            spdlog::error("PreCommit (stub) failed for shard {} in transaction {}", 
+            spdlog::error("PreCommit failed for shard {} in transaction {}",
                          shard_id, txn.transaction_id);
         }
     }
-    
+
     if (!all_precommitted) {
-        spdlog::error("3PC Phase 2 (PreCommit stub) failed for transaction {}", 
+        spdlog::error("3PC Phase 2 (PreCommit) failed for transaction {}",
                      txn.transaction_id);
         for (auto& [shard_id, participant] : txn.participants) {
             sendAbort(shard_id, txn.transaction_id);
@@ -983,14 +1006,14 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
         }
         return false;
     }
-    
-    spdlog::info("3PC Phase 2 (PreCommit stub) succeeded for transaction {}", 
+
+    spdlog::info("3PC Phase 2 (PreCommit) succeeded for transaction {}",
                 txn.transaction_id);
-    
+
     // Phase 3: DoCommit
-    spdlog::info("3PC Phase 3 (DoCommit) starting for transaction {}", 
+    spdlog::info("3PC Phase 3 (DoCommit) starting for transaction {}",
                 txn.transaction_id);
-    
+
     if (transaction_wal_) {
         try {
             nlohmann::json commit_data = {

@@ -205,7 +205,32 @@ public:
      * @brief Check if shard is available
      */
     bool ping();
-    
+
+    /**
+     * @brief Inject a custom response handler for the in-process simulation path.
+     *
+     * When set, @p handler is called by sendRequestInProcess() instead of the
+     * built-in hardcoded responses.  This enables test and integration code to:
+     *   - simulate NACK/abort responses ("vote": "abort")
+     *   - inject network-timeout exceptions
+     *   - exercise partial-failure and circuit-breaker code paths
+     *
+     * The handler receives the RPC method name (e.g. "prepare", "commit") and
+     * the full @p params JSON and must return a well-formed response JSON.
+     * Pass @c nullptr to restore the built-in hardcoded fallback behaviour.
+     *
+     * Thread safety: the handler is stored under the impl mutex; it is safe to
+     * call this method from any thread before or during RPC use.
+     *
+     * @param handler  Callable matching @c nlohmann::json(std::string, nlohmann::json),
+     *                 or @c nullptr to clear.
+     */
+    using InProcessResponseHandler =
+        std::function<nlohmann::json(std::string /*method*/,
+                                     nlohmann::json /*params*/)>;
+
+    void setInProcessResponseHandler(InProcessResponseHandler handler);
+
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;

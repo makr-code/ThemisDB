@@ -741,37 +741,17 @@ std::string FieldEncryption::decryptAndReEncrypt(const EncryptedBlob& blob,
 
 bool FieldEncryption::needsReEncryption(const EncryptedBlob& blob, const std::string& key_id) {
     try {
-        // Get current key version
-        auto current_key = key_provider_->getKey(key_id);
-        
-        // Check if there's a version mismatch
-        // Note: KeyProvider should track version numbers, but as a fallback
-        // we can also check if the key_id has a newer version available
-        
-        // STUB/SIMULATION NOTE:
-        // Purpose: Determines whether a blob needs re-encryption using a probe
-        //          heuristic (try getKey(key_id, blob_version+1)) because
-        //          KeyProvider does not expose a `getCurrentVersion(key_id)` method.
-        // Activation: Always — no `getCurrentVersion` API available on KeyProvider.
-        // Production Delta: The heuristic has a TOCTOU window: if two key rotations
-        //                   happen between the probe and the actual re-encryption
-        //                   decision, the blob may be re-encrypted to version+1 while
-        //                   version+2 is already current.  For most workloads this
-        //                   is acceptable; for strict rotation compliance it is not.
-        // Removal Plan: Add `KeyProvider::getCurrentVersion(key_id)` to the
-        //               interface; compare `blob.key_version < getCurrentVersion(key_id)`
-        //               directly.  See src/security/FUTURE_ENHANCEMENTS.md
-        //               §FieldEncryption needsReEncryption Version API.
-        // Workaround: Try to get a key with version+1 and see if it exists
-        try {
-            auto next_key = key_provider_->getKey(key_id, blob.key_version + 1);
-            // If we can get version+1, then current blob is outdated
+        // Use getCurrentVersion() to determine whether the blob's key version is
+        // outdated.  KeyProvider::getCurrentVersion() has a default probe
+        // implementation that walks getKey(key_id, v) upward; concrete key
+        // providers with a version registry override this for O(1) lookup.
+        const uint32_t current_version = key_provider_->getCurrentVersion(key_id);
+        if (current_version == 0) {
+            // Key does not exist — treat as needing re-encryption so callers
+            // surface the missing-key error on the next write attempt.
             return true;
-        } catch (...) {
-            // Version+1 doesn't exist, so current version is latest
-            return false;
         }
-        
+        return blob.key_version < current_version;
     } catch (const std::exception& e) {
         THEMIS_WARN("[SECURITY] needsReEncryption: KMS unavailable for key lookup — "
                     "cannot determine re-encryption need. Error: {}. "
