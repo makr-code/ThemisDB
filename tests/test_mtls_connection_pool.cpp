@@ -392,3 +392,43 @@ TEST(MTLSConnectionPoolManagerTest, DefaultConfiguration) {
     EXPECT_TRUE(config.enable_endpoint_eviction);
     EXPECT_EQ(config.max_endpoints, 100);
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// EndpointConnectionPool::setConnectionFactory — injection API (stub #44)
+// ─────────────────────────────────────────────────────────────────────────────
+
+// MCP-01: Without an injected factory, createNewConnection returns nullopt
+//         (getConnection returns nullopt under the pool max when pool is empty).
+TEST(EndpointConnectionPoolTest, MCP01_NoFactoryReturnsNullopt) {
+    EndpointConnectionPool::Config cfg;
+    cfg.min_connections = 0;
+    cfg.max_connections = 2;
+    EndpointConnectionPool pool("localhost:50051", cfg);
+
+    // getConnection will call createNewConnection internally when the pool is
+    // empty. Without a factory the pool cannot create a real SSL connection,
+    // so the call should return nullopt.
+    auto conn = pool.getConnection(std::chrono::milliseconds(50));
+    EXPECT_FALSE(conn.has_value());
+}
+
+// MCP-02: With an injected factory that always returns nullopt (failure),
+//         getConnection propagates the failure.
+TEST(EndpointConnectionPoolTest, MCP02_InjectedFactoryFailurePropagated) {
+    EndpointConnectionPool::Config cfg;
+    cfg.min_connections = 0;
+    cfg.max_connections = 2;
+    EndpointConnectionPool pool("remote:9000", cfg);
+
+    int call_count = 0;
+    pool.setConnectionFactory([&](const std::string& /*ep*/)
+        -> std::optional<std::unique_ptr<SSL, SSLDeleter>> {
+        ++call_count;
+        return std::nullopt;  // simulate connection failure
+    });
+
+    auto conn = pool.getConnection(std::chrono::milliseconds(50));
+    EXPECT_FALSE(conn.has_value());
+    // Factory was consulted at least once.
+    EXPECT_GE(call_count, 1);
+}

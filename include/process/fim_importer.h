@@ -16,6 +16,7 @@
 #include "index/process_graph.h"
 #include "process/bpmn_serializer.h"
 #include "process/process_model_manager.h"
+#include <functional>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -52,7 +53,27 @@ struct FimModelResult {
  */
 class FimImporter {
 public:
+    /**
+     * @brief Callback type for HTTP GET operations used by importFromFitkoApi().
+     *
+     * The function receives the full URL string and returns the response body
+     * as a UTF-8 string.  An empty string or thrown exception is treated as a
+     * fetch failure.  Callers inject a libcurl-backed implementation at startup;
+     * unit tests inject a scripted response.
+     */
+    using HttpFetchFn = std::function<std::string(std::string_view url)>;
+
     FimImporter() = default;
+
+    /**
+     * @brief Inject an HTTP fetch backend for importFromFitkoApi().
+     *
+     * When set, importFromFitkoApi() delegates the HTTP GET call to @p fn
+     * instead of returning the "not yet implemented" error result.
+     *
+     * @param fn  Callable that performs the HTTP GET and returns the response body.
+     */
+    void setHttpFetchFn(HttpFetchFn fn) { http_fetch_fn_ = std::move(fn); }
 
     /**
      * @brief Parse a FIM Prozessbibliothek XML catalogue document.
@@ -86,9 +107,12 @@ public:
     /**
      * @brief Fetch and import process models from the FITKO REST API.
      *
-     * Calls @p api_base_url + "/prozesse" to retrieve the catalogue JSON, then
-     * imports each embedded BPMN payload.  Requires libcurl at runtime — if not
-     * available, returns an error result.
+     * When an HttpFetchFn has been injected via setHttpFetchFn(), calls
+     * @p api_base_url + "/prozesse" and parses the JSON response envelope
+     * (expected: `{"items": [{"bpmnXml": "..."}]}`), importing each BPMN
+     * payload via importSingleModel().  Without an injected fetch function,
+     * returns a single error result explaining that HTTP transport is not
+     * configured.
      *
      * @param api_base_url  Base URL of the FITKO FIM API (without trailing slash).
      * @param domain        Domain classification.
@@ -102,6 +126,8 @@ public:
         ProcessDomain    domain = ProcessDomain::ADMINISTRATION);
 
 private:
+    HttpFetchFn http_fetch_fn_;  ///< Optional HTTP GET backend; null = stub path.
+
     // Internal helper — wraps a BpmnSerializer::ImportResult into a ProcessModelRecord.
     static ProcessModelRecord buildRecord_(
         const BpmnSerializer::ImportResult& ir,

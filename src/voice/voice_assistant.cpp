@@ -501,17 +501,28 @@ std::vector<uint8_t> VoiceAssistant::convertAudioFormat(
     const std::vector<uint8_t>& audio_data,
     const std::string& target_format
 ) {
+    // When an audio conversion backend has been injected, delegate to it.
+    if (audio_convert_fn_) {
+        auto converted = audio_convert_fn_(audio_data, target_format);
+        if (!converted.empty()) {
+            return converted;
+        }
+        // Empty result from fn → fall through to passthrough with a warning.
+        SPDLOG_WARN("VoiceAssistant::convertAudioFormat: injected AudioConvertFn "
+                    "returned empty result for target_format='{}'; returning original bytes.",
+                    target_format);
+    }
+
     // STUB/SIMULATION NOTE:
     // Purpose: Satisfies the convertAudioFormat() API while FFmpeg (or equivalent
     //          audio transcoding library) is not linked.
-    // Activation: Always — no audio codec library is integrated.
+    // Activation: audio_convert_fn_ is null (no real codec injected).
     // Production Delta: Audio data is returned unchanged regardless of
     //                   `target_format`; a WAV caller requesting OGG/MP3/MP4
     //                   receives the original PCM bytes.
-    // Removal Plan: Integrate libavformat/libavcodec (FFmpeg); implement
-    //               per-format conversion pipelines.  Guard with
-    //               THEMIS_ENABLE_FFMPEG.  See src/voice/FUTURE_ENHANCEMENTS.md
-    //               §Voice Audio Format Conversion.
+    // Removal Plan: Inject a libavformat/libavcodec (FFmpeg) backend via
+    //               setAudioConvertFn() and guard with THEMIS_ENABLE_FFMPEG.
+    //               See src/voice/FUTURE_ENHANCEMENTS.md §Voice Audio Format Conversion.
     return audio_data;
 }
 

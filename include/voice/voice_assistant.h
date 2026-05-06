@@ -140,6 +140,28 @@ public:
     
     VoiceAssistant(const Config& config);
     ~VoiceAssistant();
+
+    /**
+     * @brief Callback type for audio format conversion.
+     *
+     * Receives (audio_data, target_format) and returns the converted audio
+     * bytes.  An empty return is treated as a conversion failure; the original
+     * bytes are returned to the caller in that case.
+     */
+    using AudioConvertFn =
+        std::function<std::vector<uint8_t>(const std::vector<uint8_t>&,
+                                           const std::string&)>;
+
+    /**
+     * @brief Inject an audio format conversion backend.
+     *
+     * When set, convertAudioFormat() delegates to @p fn instead of returning
+     * the input bytes unchanged.  Callers inject a libavformat-backed (FFmpeg)
+     * implementation at startup; unit tests inject a scripted converter.
+     *
+     * @param fn  Callable(audio_data, target_format) → converted bytes.
+     */
+    void setAudioConvertFn(AudioConvertFn fn) { audio_convert_fn_ = std::move(fn); }
     
     /**
      * @brief Initialize voice assistant
@@ -428,6 +450,7 @@ private:
     std::mutex revision_store_mutex_;
 
     bool initialized_ = false;
+    AudioConvertFn audio_convert_fn_;  ///< Optional audio format converter; null = passthrough stub.
     
     // Internal methods
     std::string generateLLMResponse(

@@ -15,6 +15,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <nlohmann/json.hpp>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -441,28 +442,83 @@ std::vector<FimModelResult> FimImporter::importFromFitkoApi(
     std::string_view api_base_url,
     ProcessDomain    domain)
 {
+    // When an HTTP fetch backend has been injected, use it to GET the
+    // /prozesse endpoint and parse the JSON envelope.
+    if (http_fetch_fn_) {
+        const std::string url = std::string(api_base_url) + "/prozesse";
+        std::string body;
+        try {
+            body = http_fetch_fn_(url);
+        } catch (const std::exception& ex) {
+            SPDLOG_WARN("FimImporter::importFromFitkoApi: fetch failed for '{}': {}",
+                        url, ex.what());
+            FimModelResult r;
+            r.ok      = false;
+            r.message = std::string("HTTP fetch failed: ") + ex.what();
+            return {std::move(r)};
+        }
+
+        if (body.empty()) {
+            FimModelResult r;
+            r.ok      = false;
+            r.message = "FITKO API returned empty response for " + url;
+            return {std::move(r)};
+        }
+
+        // Parse JSON envelope: {"items": [{"bpmnXml": "..."}, ...]}
+        nlohmann::json root;
+        try {
+            root = nlohmann::json::parse(body);
+        } catch (const nlohmann::json::exception& ex) {
+            FimModelResult r;
+            r.ok      = false;
+            r.message = std::string("FITKO API JSON parse error: ") + ex.what();
+            return {std::move(r)};
+        }
+
+        std::vector<FimModelResult> results;
+        const auto& items = root.value("items", nlohmann::json::array());
+        if (items.empty()) {
+            SPDLOG_WARN("FimImporter::importFromFitkoApi: 'items' array is empty or absent "
+                        "(url='{}')", url);
+        }
+        for (const auto& item : items) {
+            const std::string bpmn_xml = item.value("bpmnXml", "");
+            if (bpmn_xml.empty()) {
+                SPDLOG_WARN("FimImporter::importFromFitkoApi: item has no 'bpmnXml' field; skipping");
+                continue;
+            }
+            results.push_back(importSingleModel(bpmn_xml, domain));
+        }
+        if (results.empty()) {
+            FimModelResult r;
+            r.ok      = false;
+            r.message = "FITKO API returned no importable models (url=" + url + ")";
+            results.push_back(std::move(r));
+        }
+        return results;
+    }
+
     // STUB/SIMULATION NOTE:
     // Purpose: Placeholder for FITKO REST API integration.  A live HTTP call
-    //          to api_base_url/prozesse is not yet implemented because libcurl
-    //          is an optional dependency and the FITKO API endpoint is only
-    //          accessible from government networks.
-    // Activation: Always returns an error result in this release.
-    // Production Delta: Real implementation would use libcurl to GET
-    //                   <api_base_url>/prozesse (JSON), iterate the "items"
-    //                   array, extract the "bpmnXml" field per item, and call
-    //                   importSingleModel() for each.
-    // Removal Plan: Replace this stub when libcurl integration is added
+    //          to api_base_url/prozesse is not yet implemented because no
+    //          HttpFetchFn has been injected.
+    // Activation: Always returns an error result when http_fetch_fn_ is null.
+    // Production Delta: Real implementation uses setHttpFetchFn() to inject a
+    //                   libcurl-backed fetch function; the code above then
+    //                   performs the GET and parses the JSON items array.
+    // Removal Plan: Inject a real HTTP client via setHttpFetchFn() at startup
     //               (Target: Q1 2027).
 
-    SPDLOG_WARN("FimImporter::importFromFitkoApi: live HTTP import not yet "
-                "implemented (api_base_url='{}'). Returning empty result.",
+    SPDLOG_WARN("FimImporter::importFromFitkoApi: no HTTP fetch backend injected "
+                "(api_base_url='{}').  Call setHttpFetchFn() to enable live API import.",
                 api_base_url);
 
     FimModelResult r;
     r.ok      = false;
-    r.message = "FITKO API HTTP import not yet implemented "
+    r.message = "FITKO API HTTP import not yet implemented: no HttpFetchFn injected "
                 "(Target: Q1 2027). Use importFimCatalogue() with a locally "
-                "downloaded catalogue XML instead.";
+                "downloaded catalogue XML, or inject an HTTP client via setHttpFetchFn().";
     return {std::move(r)};
 }
 
