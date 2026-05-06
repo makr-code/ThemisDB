@@ -114,6 +114,12 @@ TEST_F(USBAdminAuthenticatorTest, ValidUSBDetected) {
     config.require_usb_for_admin = true;
     
     USBAdminAuthenticator auth(config);
+    // Inject verifier: accept any license with non-empty key and signature.
+    // Required because the embedded RSA public key is a placeholder and the
+    // test license does not carry a real hardware-bound signature.
+    auth.setLicenseVerifierFn([](const USBAdminLicense& lic, const std::string&) {
+        return !lic.license_key.empty() && !lic.signature.empty();
+    });
     auth.initialize();
     
     EXPECT_TRUE(auth.refreshUSBStatus());
@@ -133,6 +139,9 @@ TEST_F(USBAdminAuthenticatorTest, AdminOperationAllowedWithValidUSB) {
     config.require_usb_for_admin = true;
     
     USBAdminAuthenticator auth(config);
+    auth.setLicenseVerifierFn([](const USBAdminLicense& lic, const std::string&) {
+        return !lic.license_key.empty() && !lic.signature.empty();
+    });
     auth.initialize();
     auth.refreshUSBStatus();
     
@@ -248,6 +257,9 @@ TEST_F(USBAdminAuthenticatorTest, MetricsTracking) {
     config.require_usb_for_admin = true;
     
     USBAdminAuthenticator auth(config);
+    auth.setLicenseVerifierFn([](const USBAdminLicense& lic, const std::string&) {
+        return !lic.license_key.empty() && !lic.signature.empty();
+    });
     auth.initialize();
     
     auto metrics_before = auth.getMetrics();
@@ -320,6 +332,17 @@ protected:
         config.require_usb_for_admin  = true;
         config.challenge_ttl          = std::chrono::seconds(300);
         USBAdminAuthenticator auth(config);
+        // Inject verifier: bypass placeholder RSA key and hardware check so
+        // tests can exercise the challenge-response logic in isolation.
+        // STUB/SIMULATION NOTE:
+        // Purpose: allow challenge-response tests to load a license without
+        //   a real RSA-signed USB token.
+        // Activation: test context only.
+        // Production Delta: real verifier checks RSA signature + hardware ID.
+        // Removal Plan: remove when real signed USB tokens are available in CI.
+        auth.setLicenseVerifierFn([](const USBAdminLicense& lic, const std::string&) {
+            return !lic.license_key.empty() && !lic.signature.empty();
+        });
         auth.initialize();
         auth.refreshUSBStatus();
         return auth;
@@ -406,3 +429,74 @@ TEST_F(USBChallengeResponseTest, MultipleDistinctChallenges_EachUsableOnce) {
     EXPECT_FALSE(auth.validateChallengeResponse(c1, r1)) << "Replay of c1 must fail";
     EXPECT_FALSE(auth.validateChallengeResponse(c2, r2)) << "Replay of c2 must fail";
 }
+
+// ============================================================================
+// LicenseVerifierFn injection tests (USB-LV-01 … USB-LV-03)
+// ============================================================================
+
+class USBLicenseVerifierTest : public USBAdminAuthenticatorTest {};
+
+// USB-LV-01 — Injected verifier that always accepts → refreshUSBStatus() true
+TEST_F(USBLicenseVerifierTest, USB_LV_01_InjectedVerifier_Accepts) {
+    createValidLicense();
+
+    USBAdminConfig config;
+    config.mount_path            = test_mount_path_;
+    config.require_usb_for_admin = true;
+
+    USBAdminAuthenticator auth(config);
+    auth.setLicenseVerifierFn([](const USBAdminLicense& lic, const std::string&) {
+        // Accept: license has a non-empty key and signature (realistic basic check).
+        return !lic.license_key.empty() && !lic.signature.empty();
+    });
+
+    EXPECT_TRUE(auth.refreshUSBStatus())
+        << "USB-LV-01: injected accept-all verifier must cause refreshUSBStatus() to return true";
+    EXPECT_TRUE(auth.isAdminUSBPresent());
+
+    auto lic = auth.getCurrentLicense();
+    ASSERT_TRUE(lic.has_value());
+    EXPECT_EQ(lic->organization, "Test Organization");
+}
+
+// USB-LV-02 — Injected verifier that always rejects → refreshUSBStatus() false
+TEST_F(USBLicenseVerifierTest, USB_LV_02_InjectedVerifier_Rejects) {
+    createValidLicense();
+
+    USBAdminConfig config;
+    config.mount_path            = test_mount_path_;
+    config.require_usb_for_admin = true;
+
+    USBAdminAuthenticator auth(config);
+    auth.setLicenseVerifierFn([](const USBAdminLicense&, const std::string&) {
+        return false; // always reject
+    });
+
+    EXPECT_FALSE(auth.refreshUSBStatus())
+        << "USB-LV-02: injected reject-all verifier must cause refreshUSBStatus() to return false";
+    EXPECT_FALSE(auth.isAdminUSBPresent());
+}
+
+// USB-LV-03 — Clearing the verifier fn (nullptr) reverts to built-in RSA path.
+//   The built-in path always fails with the placeholder key, so the result is false.
+TEST_F(USBLicenseVerifierTest, USB_LV_03_ClearedVerifier_FallsBackToBuiltin) {
+    createValidLicense();
+
+    USBAdminConfig config;
+    config.mount_path            = test_mount_path_;
+    config.require_usb_for_admin = true;
+
+    USBAdminAuthenticator auth(config);
+
+    // Set and then clear verifier → built-in RSA path is restored.
+    auth.setLicenseVerifierFn([](const USBAdminLicense&, const std::string&) {
+        return true;
+    });
+    auth.setLicenseVerifierFn(nullptr); // clear
+
+    // Built-in path fails: fake RSA key rejects all real signatures.
+    EXPECT_FALSE(auth.refreshUSBStatus())
+        << "USB-LV-03: after clearing the verifier fn, the built-in (failing) RSA path must be used";
+    EXPECT_FALSE(auth.isAdminUSBPresent());
+}
+
