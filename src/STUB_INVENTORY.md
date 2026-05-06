@@ -26,7 +26,7 @@
 
 ---
 
-## Stub Inventory (163 entries — 43 resolved, 120 active)
+## Stub Inventory (169 entries — 45 resolved, 124 active)
 
 | # | File | Purpose (short) | Activation | Production Delta | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|
@@ -223,7 +223,9 @@
 | ~~165~~ | ~~`storage/tensor_compaction_filter.h` / `src/storage/tensor_compaction_filter.cpp` — missing entirely~~ | ~~No RocksDB compaction filter for background TT-rank reduction~~ | ~~Always — class did not exist~~ | ~~Compaction never triggers rank reduction; stored tensors grow indefinitely without manual recompaction~~ | ~~Implement `TensorCompactionFilter : rocksdb::CompactionFilter` targeting `__ttcore__:` and `__ttn__:...:meta:` keys~~ | ~~Q4 2026~~ | **resolved 2026-05-06**: `TensorCompactionFilter` class added to `include/storage/tensor_compaction_filter.h` and `src/storage/tensor_compaction_filter.cpp`. Targets `__ttcore__:` (raw TTTrain) and `__ttn__:...:meta:` (QuantizedTrain header) key namespaces. `FilterV2()`: deserialise → `recompress(ε)` → re-serialise only if smaller (copy-on-success). `filterTTNMeta` additionally dequantizes/re-quantizes. STUB note included for LAPACK delta. Tests TCF-01..TCF-03 added to `test_tensor_recompress.cpp`. |
 | 166 | `query/tensor_aware_query_optimizer.cpp::rewriteNode()` | Detection based on `description` string scan; not AQL IR visitor | Always (Phase 3-A; AQL IR coupling deferred to Phase 3-C Q1 2027) | In theory a node's description may not contain function name if the AQL runner serialises differently; no AST-level guarantee | Wire into AQL runner's IR visitor pattern; replace string scan — TAQO-01 | Phase 3-C Q1 2027 |
 | 167 | `rag/targ_retrieval.cpp::computeMetrics()` entropy path | Top-32 logit approximation; full-vocab entropy not computed | When `use_entropy_gate = true` | For flat distributions, entropy is underestimated vs. full-vocab entropy; overestimates confidence | Replace with full-vocab sort+softmax when benchmark confirms improvement — TARG-01 | Q2 2027 |
+| 168 | `rag/flare_retrieval.cpp::buildQuery()` | String-join of token texts; no embedding backend wired | Always (no IEmbeddingBackend injected into FlareRetrieval) | String-based query vs. semantic embedding vector; retrieval quality depends on BM25/exact-match in upper layer, not TT-cosine similarity | Inject IEmbeddingBackend and call embed(buildQuery()) before tensor_index.searchFlat() — FLR-embed | Phase 3-C Q1 2027 |
+| 169 | `storage/ggml_tensor_bridge.cpp::map()/mapAdapter()` | FakeTensor proxy instead of real ggml_tensor allocation; ggmlTensor() returns nullptr | THEMIS_ENABLE_GGML_BRIDGE=ON (no real ggml headers required at link time) | Cannot be consumed by llama.cpp until real ggml_new_tensor_1d() + ggml_map_custom1 wired; bridge stats and retrieval path exercisable in tests | Replace FakeTensor with real ggml_tensor allocation via ggml_new_tensor_1d(ctx, GGML_TYPE_TT) once ggml upstream PR merged — GTB-01 | Q1 2027 |
 
 ---
 
-*Last updated: 2026-05-06 — 167 entries, 45 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-05-06 — 169 entries, 45 resolved — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

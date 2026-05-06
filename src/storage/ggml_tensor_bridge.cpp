@@ -1,0 +1,277 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            storage/ggml_tensor_bridge.cpp                     ║
+  Version:         1.0.0                                              ║
+  Last Modified:   2026-05-06                                         ║
+  Author:          copilot                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 🟡 EXPERIMENTAL — Phase 3 (Q1 2027)                         ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/**
+ * @file storage/ggml_tensor_bridge.cpp
+ * @brief Zero-Copy GGML bridge implementation (THEMIS_ENABLE_GGML_BRIDGE).
+ *
+ * ### Compilation gate
+ *
+ * This translation unit compiles only when THEMIS_ENABLE_GGML_BRIDGE is
+ * defined.  When the flag is absent, the header is empty and this file
+ * is excluded from the build via CMake's conditional source list.
+ *
+ * ### Stub log
+ * - GTB-01  `map()` / `mapAdapter()`: decompress_to_f32 path copies TT-cores
+ *           to a flat float32 buffer and wraps it in a fake ggml_tensor via
+ *           a thin internal struct rather than calling actual ggml API.
+ *           When GGML_TYPE_TT is registered (Q1 2027) the copy is eliminated.
+ * - GTB-02  `registerGgmlTypeTT()`: returns a placeholder type ID (9999);
+ *           real registration deferred until ggml upstream PR is merged.
+ * - GTB-03  `MappedTTTensor::ggmlTensor()`: returns a pointer to internal
+ *           buffer wrapper — NOT a real ggml_tensor allocation.  Safe for
+ *           unit tests but NOT for llama.cpp injection until GTB-01 resolved.
+ *
+ * STUB/SIMULATION NOTE:
+ * Purpose: Provide a testable GgmlTensorBridge skeleton that exercises the
+ *          retrieval, decompression, and reference-counting paths.  The
+ *          actual ggml_tensor allocation and ggml_map_custom1 registration
+ *          require the ggml library to be present at link time.
+ * Activation: THEMIS_ENABLE_GGML_BRIDGE=ON and ggml headers available.
+ * Production Delta: ggml_tensor* returned is a ThemisDB-internal struct,
+ *                   not a real ggml allocation.  llama.cpp cannot consume it
+ *                   until the full ggml integration lands.
+ * Removal Plan: Phase 3 Q1 2027 — replace internal struct with real
+ *               ggml_new_tensor_1d(ctx, GGML_TYPE_TT, n_elements) and
+ *               implement ggml_map_custom1 contraction kernel.
+ */
+
+#ifdef THEMIS_ENABLE_GGML_BRIDGE
+
+#include "storage/ggml_tensor_bridge.h"
+#include "storage/tensor_train_decomposer.h"
+
+#include <atomic>
+#include <cassert>
+#include <chrono>
+#include <mutex>
+#include <stdexcept>
+#include <unordered_map>
+
+namespace themis {
+namespace storage {
+
+// ============================================================================
+// Internal: FakeTensor — minimal ggml_tensor-compatible proxy
+// ============================================================================
+// STUB/SIMULATION NOTE:
+// Purpose: Acts as a stand-in for ggml_tensor until the full ggml integration
+//          is available.  Stores the decompressed float32 data and mimics the
+//          ggml_tensor layout at the ne[] / data pointer level.
+// Activation: Always (replaces real ggml_new_tensor_1d call).
+// Production Delta: Real ggml_tensor has type-specific backend allocation,
+//                   grad pointer, src[] pointers, and op metadata.
+// Removal Plan: Q1 2027 — allocate via ggml_new_tensor_1d() and register op.
+
+struct FakeTensor {
+    std::vector<float> data;
+    std::size_t        n_elements = 0;
+
+    // Pretend to be a ggml_tensor for pointer compatibility in tests.
+    // In production this will be replaced by actual ggml_tensor*.
+    ggml_tensor* asGgmlPtr() noexcept {
+        // We store ggml_tensor* as nullptr until real ggml is wired.
+        return nullptr;
+    }
+};
+
+// ============================================================================
+// MappedTTTensor::Impl
+// ============================================================================
+
+struct MappedTTTensor::Impl {
+    TTTrain             train;
+    TensorFieldKey      key;
+    FakeTensor          fake_tensor;
+    bool                valid = false;
+};
+
+// ============================================================================
+// MappedTTTensor — constructors / destructor / move
+// ============================================================================
+
+MappedTTTensor::~MappedTTTensor() = default;
+
+MappedTTTensor::MappedTTTensor(MappedTTTensor&&) noexcept = default;
+MappedTTTensor& MappedTTTensor::operator=(MappedTTTensor&&) noexcept = default;
+
+ggml_tensor* MappedTTTensor::ggmlTensor() const noexcept {
+    if (!impl_ || !impl_->valid) return nullptr;
+    // STUB: returns nullptr until real ggml_tensor allocation is wired (GTB-03)
+    return impl_->fake_tensor.asGgmlPtr();
+}
+
+const TTTrain* MappedTTTensor::train() const noexcept {
+    return impl_ ? &impl_->train : nullptr;
+}
+
+const TensorFieldKey* MappedTTTensor::fieldKey() const noexcept {
+    return impl_ ? &impl_->key : nullptr;
+}
+
+bool MappedTTTensor::valid() const noexcept {
+    return impl_ && impl_->valid;
+}
+
+// ============================================================================
+// GgmlTensorBridge::Impl
+// ============================================================================
+
+struct GgmlTensorBridge::Impl {
+    std::shared_ptr<TensorNetworkStorageEngine> storage;
+    GgmlTensorBridgeConfig                      cfg;
+
+    std::mutex            stats_mutex;
+    BridgeStats           stats;
+
+    std::atomic<std::size_t> active_mappings{0};
+
+    explicit Impl(std::shared_ptr<TensorNetworkStorageEngine> s,
+                  GgmlTensorBridgeConfig                     c)
+        : storage(std::move(s)), cfg(std::move(c)) {}
+
+    MappedTTTensor doMap(const TensorFieldKey& key, uint64_t version) {
+        const auto t0 = std::chrono::steady_clock::now();
+
+        MappedTTTensor handle;
+        handle.impl_ = std::make_unique<MappedTTTensor::Impl>();
+        handle.impl_->key = key;
+
+        // Retrieve TTTrain from storage
+        std::optional<std::vector<float>> raw;
+        if (version == 0) {
+            raw = storage->get(key);
+        } else {
+            raw = storage->getVersion(key, static_cast<std::size_t>(version));
+        }
+
+        if (!raw.has_value() || raw->empty()) {
+            // Leave handle.impl_->valid = false
+            return handle;
+        }
+
+        // Reconstruct TTTrain via TensorTrainDecomposer
+        // For the decompress_to_f32 path: store decompressed float data.
+        // STUB GTB-01: real GGML_TYPE_TT path skips decompression entirely.
+        handle.impl_->fake_tensor.data = *raw;
+        handle.impl_->fake_tensor.n_elements = raw->size();
+        handle.impl_->valid = true;
+
+        // Update stats
+        {
+            std::lock_guard<std::mutex> lk(stats_mutex);
+            ++stats.active_mappings;
+            ++stats.total_maps;
+            stats.total_bytes_mapped += raw->size() * sizeof(float);
+
+            const auto t1 = std::chrono::steady_clock::now();
+            const double us = std::chrono::duration<double, std::micro>(t1 - t0).count();
+            // Rolling mean latency
+            stats.avg_map_latency_us +=
+                (us - stats.avg_map_latency_us) /
+                static_cast<double>(stats.total_maps);
+        }
+        ++active_mappings;
+        return handle;
+    }
+
+    void onRelease() {
+        if (active_mappings > 0) {
+            --active_mappings;
+        }
+        std::lock_guard<std::mutex> lk(stats_mutex);
+        if (stats.active_mappings > 0) {
+            --stats.active_mappings;
+        }
+        ++stats.total_releases;
+    }
+};
+
+// ============================================================================
+// GgmlTensorBridge — public methods
+// ============================================================================
+
+GgmlTensorBridge::GgmlTensorBridge(
+    std::shared_ptr<TensorNetworkStorageEngine> storage,
+    GgmlTensorBridgeConfig                     cfg)
+    : impl_(std::make_unique<Impl>(std::move(storage), std::move(cfg)))
+{}
+
+GgmlTensorBridge::~GgmlTensorBridge() = default;
+
+MappedTTTensor GgmlTensorBridge::map([[maybe_unused]] ggml_context* ctx,
+                                      const TensorFieldKey&          key,
+                                      uint64_t                       version) {
+    if (!impl_->storage) {
+        MappedTTTensor empty;
+        empty.impl_ = std::make_unique<MappedTTTensor::Impl>();
+        return empty;
+    }
+    return impl_->doMap(key, version);
+}
+
+MappedTTTensor GgmlTensorBridge::mapAdapter([[maybe_unused]] ggml_context* ctx,
+                                             const std::string&             adapter_id,
+                                             const std::string&             tenant) {
+    TensorFieldKey key;
+    key.tenant     = tenant;
+    key.collection = "__lora_adapters__";
+    key.field      = adapter_id;
+    return map(ctx, key, 0);
+}
+
+void GgmlTensorBridge::prefetch([[maybe_unused]] const TensorFieldKey& key,
+                                 [[maybe_unused]] uint64_t              version) {
+    // STUB/SIMULATION NOTE:
+    // Purpose: Speculative prefetch of TT-cores into OS page cache.
+    // Activation: Called speculatively before FLARE generation step.
+    // Production Delta: No-op in current implementation; real path calls
+    //                   madvise(MADV_SEQUENTIAL) or io_uring readahead on the
+    //                   RocksDB SST file pages containing the requested keys.
+    // Removal Plan: Q1 2027 — implement async readahead via io_uring or
+    //               TensorNetworkStorageEngine::asyncPrefetch().
+}
+
+void GgmlTensorBridge::releaseAll() {
+    // In the stub implementation there is no mmap to unmap.
+    // Production: iterate all active Impl handles and call munmap().
+    std::lock_guard<std::mutex> lk(impl_->stats_mutex);
+    impl_->stats.active_mappings = 0;
+    impl_->active_mappings.store(0);
+}
+
+GgmlTensorBridge::BridgeStats GgmlTensorBridge::stats() const noexcept {
+    std::lock_guard<std::mutex> lk(impl_->stats_mutex);
+    return impl_->stats;
+}
+
+// ============================================================================
+// registerGgmlTypeTT
+// ============================================================================
+
+int registerGgmlTypeTT() {
+    // STUB/SIMULATION NOTE:
+    // Purpose: Register GGML_TYPE_TT with the ggml runtime.
+    // Activation: Called once before any ggml tensor operation on TT-type data.
+    // Production Delta: Returns placeholder ID 9999; real registration calls
+    //                   ggml_type_register() from the ggml C API (Q1 2027 PR).
+    // Removal Plan: Replace with actual ggml_type_register() call once the
+    //               upstream PR for GGML_TYPE_TT is merged.
+    constexpr int kTTTypeIdPlaceholder = 9999;
+    return kTTTypeIdPlaceholder;
+}
+
+} // namespace storage
+} // namespace themis
+
+#endif // THEMIS_ENABLE_GGML_BRIDGE

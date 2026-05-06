@@ -231,6 +231,11 @@ option(THEMIS_ENABLE_WHISPER "Enable Whisper.cpp for Speech-to-Text" OFF)
 option(THEMIS_ENABLE_PIPER_TTS "Enable Piper TTS for Text-to-Speech" OFF)
 option(THEMIS_ENABLE_RNNOISE "Enable RNNoise deep-learning noise suppression" OFF)
 
+# GGML/llama.cpp zero-copy bridge (Phase 3 — Q1 2027)
+# Requires ggml headers and THEMIS_ENABLE_GGML_BRIDGE=ON.
+# When OFF the GgmlTensorBridge source is excluded from the build.
+option(THEMIS_ENABLE_GGML_BRIDGE "Enable zero-copy GGML/llama.cpp bridge for TT-core tensors (requires ggml headers)" OFF)
+
 # Hardware acceleration backend options
 option(THEMIS_ENABLE_CUDA "Enable NVIDIA CUDA acceleration" OFF)
 option(THEMIS_ENABLE_HIP "Enable AMD HIP acceleration" OFF)
@@ -1527,8 +1532,10 @@ set(THEMIS_CORE_SOURCES
     # TARG logit-gap gating (Phase 3)
     ../src/rag/targ_retrieval.cpp
 
+    # FLARE mid-generation retrieval (Phase 3 — Q1 2027)
+    ../src/rag/flare_retrieval.cpp
 
-    ../src/metadata/schema_manager.cpp
+
     ../src/metadata/statistics_collector.cpp
     ../src/metadata/information_schema.cpp
     ../src/metadata/schema_constraints.cpp
@@ -2549,6 +2556,12 @@ elseif(THEMIS_GEO_HIP)
     list(APPEND THEMIS_CORE_SOURCES ../src/geo/gpu_backend_hip.cpp)
 else()
     list(APPEND THEMIS_CORE_SOURCES ../src/geo/gpu_kernel_dispatcher_cpu.cpp)
+endif()
+
+# GGML/llama.cpp zero-copy bridge (Phase 3 — Q1 2027)
+if(THEMIS_ENABLE_GGML_BRIDGE)
+    message(STATUS "Including GgmlTensorBridge (THEMIS_ENABLE_GGML_BRIDGE=ON)")
+    list(APPEND THEMIS_CORE_SOURCES ../src/storage/ggml_tensor_bridge.cpp)
 endif()
 
 # HTTP Server API handlers (only if HTTP server enabled)

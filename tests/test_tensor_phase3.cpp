@@ -46,6 +46,18 @@
  *   TARG-06  entropy gate triggers when entropy exceeds threshold
  *   TARG-07  stats() tracks trigger rate correctly
  *   TARG-08  reset() clears all state
+ *
+ * FlareRetrieval — FR-01..FR-10
+ *   FR-01  shouldRetrieve() returns false before any token emitted
+ *   FR-02  shouldRetrieve() returns true when log-prob drops below threshold
+ *   FR-03  shouldRetrieve() returns false when log-prob is above threshold
+ *   FR-04  cooldown suppresses retrieval for the configured number of tokens
+ *   FR-05  min_consecutive_uncertain=2 requires two consecutive low-prob tokens
+ *   FR-06  notifyRetrievalExecuted() increments retrieval step count
+ *   FR-07  max_retrieval_steps=1 prevents further retrieval after one step
+ *   FR-08  buildQuery() returns non-empty string from partial output
+ *   FR-09  buildQuery() masks low-confidence tokens when mask_uncertain_tokens=true
+ *   FR-10  reset() clears all state
  */
 
 #include "query/tensor_contraction_engine.h"
@@ -416,6 +428,175 @@ TEST(TARGRetrievalPhase3, TARG08_reset_clears_state) {
     // After reset: no cooldown
     EXPECT_TRUE(targ.shouldRetrieve(makeLogits(10.0f, 7.0f)));
     EXPECT_EQ(targ.stats().tokens_seen, 1u);
+}
+
+// ============================================================================
+// FlareRetrieval — FR-01..FR-10
+// ============================================================================
+
+#include "rag/flare_retrieval.h"
+
+// FR-01  shouldRetrieve() returns false before any token emitted
+TEST(FlareRetrievalPhase3, FR01_no_retrieval_before_tokens) {
+    FlareRetrieval flare;
+    EXPECT_FALSE(flare.shouldRetrieve());
+}
+
+// FR-02  shouldRetrieve() returns true when log-prob drops below threshold
+TEST(FlareRetrievalPhase3, FR02_triggers_on_low_logprob) {
+    FlareConfig cfg;
+    cfg.confidence_threshold      = -2.303f;  // ln(0.1)
+    cfg.retrieval_cooldown_tokens = 0;
+    FlareRetrieval flare(cfg);
+
+    // log(-3.0) < -2.303 → uncertain
+    flare.notifyTokenEmitted("hello", -3.0f);
+    EXPECT_TRUE(flare.shouldRetrieve());
+}
+
+// FR-03  shouldRetrieve() returns false when log-prob is above threshold
+TEST(FlareRetrievalPhase3, FR03_no_trigger_high_logprob) {
+    FlareConfig cfg;
+    cfg.confidence_threshold      = -2.303f;
+    cfg.retrieval_cooldown_tokens = 0;
+    FlareRetrieval flare(cfg);
+
+    // log(-0.1) > -2.303 → confident
+    flare.notifyTokenEmitted("world", -0.1f);
+    EXPECT_FALSE(flare.shouldRetrieve());
+}
+
+// FR-04  cooldown suppresses retrieval for the configured number of tokens
+TEST(FlareRetrievalPhase3, FR04_cooldown_suppresses) {
+    FlareConfig cfg;
+    cfg.confidence_threshold      = -2.303f;
+    cfg.retrieval_cooldown_tokens = 3;
+    FlareRetrieval flare(cfg);
+
+    flare.notifyTokenEmitted("tok1", -3.0f);
+    ASSERT_TRUE(flare.shouldRetrieve());
+    flare.notifyRetrievalExecuted();
+
+    // Cooldown: next 3 tokens should be suppressed
+    for (int i = 0; i < 3; ++i) {
+        flare.notifyTokenEmitted("tok", -3.0f);
+        auto d = flare.decide();
+        EXPECT_TRUE(d.in_cooldown) << "iteration " << i;
+        EXPECT_FALSE(d.should_retrieve) << "iteration " << i;
+    }
+
+    // After cooldown expires: should trigger again
+    flare.notifyTokenEmitted("tok", -3.0f);
+    EXPECT_TRUE(flare.shouldRetrieve());
+}
+
+// FR-05  min_consecutive_uncertain=2 requires two consecutive low-prob tokens
+TEST(FlareRetrievalPhase3, FR05_min_consecutive_uncertain) {
+    FlareConfig cfg;
+    cfg.confidence_threshold      = -2.303f;
+    cfg.min_consecutive_uncertain = 2;
+    cfg.retrieval_cooldown_tokens = 0;
+    FlareRetrieval flare(cfg);
+
+    flare.notifyTokenEmitted("tok1", -3.0f);
+    EXPECT_FALSE(flare.shouldRetrieve());  // only 1 uncertain token
+
+    flare.notifyTokenEmitted("tok2", -3.0f);
+    EXPECT_TRUE(flare.shouldRetrieve());   // now 2 consecutive
+}
+
+// FR-06  notifyRetrievalExecuted() increments retrieval step count
+TEST(FlareRetrievalPhase3, FR06_retrieval_step_counter) {
+    FlareConfig cfg;
+    cfg.confidence_threshold      = -2.303f;
+    cfg.retrieval_cooldown_tokens = 0;
+    FlareRetrieval flare(cfg);
+
+    EXPECT_EQ(flare.retrievalStepsDone(), 0u);
+
+    flare.notifyTokenEmitted("tok", -3.0f);
+    flare.notifyRetrievalExecuted();
+    EXPECT_EQ(flare.retrievalStepsDone(), 1u);
+
+    flare.notifyTokenEmitted("tok", -3.0f);
+    flare.notifyRetrievalExecuted();
+    EXPECT_EQ(flare.retrievalStepsDone(), 2u);
+}
+
+// FR-07  max_retrieval_steps=1 prevents further retrieval after one step
+TEST(FlareRetrievalPhase3, FR07_max_steps_cap) {
+    FlareConfig cfg;
+    cfg.confidence_threshold      = -2.303f;
+    cfg.retrieval_cooldown_tokens = 0;
+    cfg.max_retrieval_steps       = 1;
+    FlareRetrieval flare(cfg);
+
+    flare.notifyTokenEmitted("tok", -3.0f);
+    ASSERT_TRUE(flare.shouldRetrieve());
+    flare.notifyRetrievalExecuted();
+
+    // Second low-confidence token: max steps reached
+    flare.notifyTokenEmitted("tok", -3.0f);
+    auto d = flare.decide();
+    EXPECT_TRUE(d.max_steps_reached);
+    EXPECT_FALSE(d.should_retrieve);
+}
+
+// FR-08  buildQuery() returns non-empty string from partial output
+TEST(FlareRetrievalPhase3, FR08_buildQuery_non_empty) {
+    FlareConfig cfg;
+    cfg.mask_uncertain_tokens = false;
+    FlareRetrieval flare(cfg);
+
+    flare.notifyTokenEmitted("The", -0.1f);
+    flare.notifyTokenEmitted("cat", -0.2f);
+    flare.notifyTokenEmitted("sat", -0.3f);
+
+    auto q = flare.buildQuery();
+    EXPECT_FALSE(q.empty());
+    EXPECT_NE(q.find("The"), std::string::npos);
+    EXPECT_NE(q.find("cat"), std::string::npos);
+    EXPECT_NE(q.find("sat"), std::string::npos);
+}
+
+// FR-09  buildQuery() masks low-confidence tokens when mask_uncertain_tokens=true
+TEST(FlareRetrievalPhase3, FR09_buildQuery_masks_uncertain) {
+    FlareConfig cfg;
+    cfg.confidence_threshold  = -2.303f;
+    cfg.mask_uncertain_tokens = true;
+    cfg.mask_token            = "[MASK]";
+    FlareRetrieval flare(cfg);
+
+    flare.notifyTokenEmitted("The", -0.1f);   // confident
+    flare.notifyTokenEmitted("???", -5.0f);   // uncertain → masked
+    flare.notifyTokenEmitted("end", -0.2f);   // confident
+
+    auto q = flare.buildQuery();
+    EXPECT_NE(q.find("The"), std::string::npos);
+    EXPECT_NE(q.find("[MASK]"), std::string::npos);
+    EXPECT_EQ(q.find("???"), std::string::npos);  // replaced by mask
+    EXPECT_NE(q.find("end"), std::string::npos);
+}
+
+// FR-10  reset() clears all state
+TEST(FlareRetrievalPhase3, FR10_reset_clears_state) {
+    FlareConfig cfg;
+    cfg.confidence_threshold      = -2.303f;
+    cfg.retrieval_cooldown_tokens = 10;
+    FlareRetrieval flare(cfg);
+
+    flare.notifyTokenEmitted("tok", -3.0f);
+    flare.notifyRetrievalExecuted();
+    ASSERT_EQ(flare.retrievalStepsDone(), 1u);
+
+    flare.reset();
+
+    EXPECT_EQ(flare.retrievalStepsDone(), 0u);
+    EXPECT_FALSE(flare.shouldRetrieve());
+    EXPECT_EQ(flare.stats().tokens_emitted, 0u);
+    // After reset: cooldown is gone, so new low-confidence token triggers
+    flare.notifyTokenEmitted("tok", -3.0f);
+    EXPECT_TRUE(flare.shouldRetrieve());
 }
 
 } // anonymous namespace

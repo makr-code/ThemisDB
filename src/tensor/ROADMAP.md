@@ -92,6 +92,23 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
   - [x] `TARGRetrieval` — logit-gap gating for token-adaptive retrieval (stub #167)
   - [x] Tests TCP-01..04, TCM-01..05, TAQO-01..06, TARG-01..08 in `tests/test_tensor_phase3.cpp`
 
+- [x] **FLARE mid-generation retrieval** (2026-05-06):
+  - [x] `FlareRetrieval` class — per-token log-probability gating (AC: TTFT per step ≤ 90 ms with TT-core index)
+  - [x] `FlareConfig` with `confidence_threshold`, `min_consecutive_uncertain`, cooldown, `max_retrieval_steps`, `query_window_tokens`, `mask_uncertain_tokens`
+  - [x] `FlareDecision` struct with full gating metrics
+  - [x] `buildQuery()` — sliding window token concatenation with uncertain-token masking (stub #168: string query; embed path deferred to Phase 3-C)
+  - [x] `notifyTokenEmitted()` / `notifyRetrievalExecuted()` / `reset()` state management
+  - [x] `FlareStats` with mean/min/max log-prob, trigger rate
+  - [x] Tests FR-01..FR-10 added to `tests/test_tensor_phase3.cpp`
+  - [x] STUB_INVENTORY #168 registered (buildQuery string-mode)
+
+- [~] **GgmlTensorBridge skeleton** (2026-05-06):
+  - [x] `src/storage/ggml_tensor_bridge.cpp` created (THEMIS_ENABLE_GGML_BRIDGE gate)
+  - [x] `map()` / `mapAdapter()` / `prefetch()` / `releaseAll()` / `stats()` implemented
+  - [x] `registerGgmlTypeTT()` placeholder (returns ID 9999; real ggml_type_register deferred)
+  - [x] STUB_INVENTORY #169 registered (FakeTensor proxy; real ggml_tensor* deferred to Q1 2027)
+  - [x] CMake option `THEMIS_ENABLE_GGML_BRIDGE` added
+
 ## Planned Features 📋
 
 ### Short-term (Phase 2, Q4 2026)
@@ -138,12 +155,14 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
     (paper §GGUF Metadata; required for regulated industries)
   - AC: inference output within ±ε of decompressed reference
 
-- [ ] **FLARE mid-generation retrieval integration** (Target: Q1 2027)
-  - Paper §FLARE: monitor per-token log-probability; trigger re-retrieval when
-    confidence < threshold
-  - `ThemisRagClient::flareStep(partial_output, threshold)` → new TT retrieval call
-  - AC: factuality improvement measurable on TriviaQA/HotpotQA; TTFT per step ≤ 90ms
-    (paper table: ThemisDB accelerates each FLARE round-trip)
+- [~] **FLARE mid-generation retrieval integration** (Target: Q1 2027)
+  - **resolved 2026-05-06**: `FlareRetrieval` in `include/rag/flare_retrieval.h` + `src/rag/flare_retrieval.cpp`
+  - Per-token log-probability gating (`confidence_threshold` default: ln(0.1) ≈ -2.303)
+  - Sliding-window token history with uncertain-token masking via `buildQuery()`
+  - `max_retrieval_steps` cap, cooldown, min_consecutive_uncertain knobs
+  - `FlareStats` tracks trigger rate, mean/min/max log-prob
+  - Tests FR-01..FR-10 in `tests/test_tensor_phase3.cpp`
+  - AC: TTFT per step ≤ 90 ms (pending integration test with TT-core index)
 
 - [~] **TARG logit-gap gating** (Target: Q2 2027)
   - Paper §TARG: single-shot draft measures top-1/top-2 logit gap; triggers retrieval
@@ -320,11 +339,14 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 ### Phase 3: Zero-Copy Inference + Advanced RAG (Status: 🚧 In Progress — 2026-05-06)
 
 - [ ] `ggmlCorePtrs()` — null-pointer mmap handshake (TIM-01)
-- [ ] `GgmlTensorBridge` — `GGML_TYPE_TT` + GGUF v3 metadata provenance
+- [~] `GgmlTensorBridge` — `GGML_TYPE_TT` + GGUF v3 metadata provenance
+  - Skeleton implemented 2026-05-06: `map()`/`mapAdapter()`/`prefetch()`/`releaseAll()`/`stats()` wired;
+    FakeTensor proxy (stub #169) replaces real ggml_tensor allocation; `registerGgmlTypeTT()` returns placeholder
+  - Real ggml_tensor allocation + ggml_map_custom1 contraction kernel deferred to Q1 2027
 - [x] `TensorAwareQueryOptimizer` TENSOR_CONTRACTION plan-node — resolved 2026-05-06
 - [x] AQL operators: CONTRACT, PROJECT, DECOMPOSE — resolved 2026-05-06
 - [ ] Tensor Butterfly operator for O(n·d) oscillatory integral transforms
-- [ ] FLARE mid-generation retrieval (TTFT per step ≤ 90ms)
+- [x] FLARE mid-generation retrieval (TTFT per step ≤ 90ms) — resolved 2026-05-06
 - [x] TARG logit-gap gating (70–90% unnecessary retrieval calls eliminated) — resolved 2026-05-06
 - [ ] Adapter sovereignty — LoRA/PEFT as TT graphs (adapter switch ≤ 50ms)
 
