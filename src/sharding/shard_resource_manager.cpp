@@ -30,8 +30,10 @@
 #include <windows.h>
 #include <pdh.h>
 #include <psapi.h>
+#include <iphlpapi.h>
 #pragma comment(lib, "pdh.lib")
 #pragma comment(lib, "psapi.lib")
+#pragma comment(lib, "iphlpapi.lib")
 #else
 #include <unistd.h>
 #include <sys/sysinfo.h>
@@ -625,17 +627,64 @@ std::pair<uint64_t, uint64_t> ShardResourceManager::getDiskUsage() const {
 }
 
 std::pair<uint64_t, uint64_t> ShardResourceManager::getNetworkUsage() const {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Satisfies the network I/O usage API while platform-specific
-    //          counters are not yet integrated.
-    // Activation: Always — no platform API is queried.
-    // Production Delta: Returns (0, 0); network-bandwidth-aware shard routing
-    //                   decisions will not account for actual NIC utilisation.
-    // Removal Plan: On Linux parse /proc/net/dev (rx/tx bytes); on Windows use
-    //               `GetIfTable2()` / Performance Counters.  Guard per-platform
-    //               behind compile-time detection or runtime feature flags.
-    //               See src/sharding/FUTURE_ENHANCEMENTS.md §Network Usage Monitoring.
+#ifdef _WIN32
+    // Enumerate all network interfaces via GetIfTable2 and sum rx/tx bytes.
+    MIB_IF_TABLE2* table = nullptr;
+    if (GetIfTable2(&table) != NO_ERROR || !table) {
+        return {0, 0};
+    }
+    uint64_t rx_bytes = 0;
+    uint64_t tx_bytes = 0;
+    for (ULONG i = 0; i < table->NumEntries; ++i) {
+        const auto& row = table->Table[i];
+        // Skip loopback and tunnel interfaces
+        if (row.Type == IF_TYPE_SOFTWARE_LOOPBACK ||
+            row.Type == IF_TYPE_TUNNEL) {
+            continue;
+        }
+        rx_bytes += row.InOctets;
+        tx_bytes += row.OutOctets;
+    }
+    FreeMibTable(table);
+    return {rx_bytes, tx_bytes};
+#elif defined(__linux__)
+    // Parse /proc/net/dev: columns are
+    //   face | rx_bytes ... | tx_bytes ...
+    std::ifstream f("/proc/net/dev");
+    if (!f.is_open()) {
+        return {0, 0};
+    }
+    uint64_t rx_bytes = 0;
+    uint64_t tx_bytes = 0;
+    std::string line;
+    // Skip the two header lines
+    std::getline(f, line);
+    std::getline(f, line);
+    while (std::getline(f, line)) {
+        // Strip the interface name up to and including ':'
+        const auto colon = line.find(':');
+        if (colon == std::string::npos) continue;
+        std::istringstream ss(line.substr(colon + 1));
+        uint64_t rx = 0, tx = 0;
+        uint64_t dummy = 0;
+        // rx: bytes packets errs drop fifo frame compressed multicast
+        ss >> rx >> dummy >> dummy >> dummy >> dummy >> dummy >> dummy >> dummy;
+        // tx: bytes packets errs drop fifo colls carrier compressed
+        ss >> tx;
+        // Skip loopback
+        std::string iface = line.substr(0, colon);
+        const auto first_nonspace = iface.find_first_not_of(" \t");
+        if (first_nonspace != std::string::npos) {
+            iface = iface.substr(first_nonspace);
+        }
+        if (iface == "lo") continue;
+        rx_bytes += rx;
+        tx_bytes += tx;
+    }
+    return {rx_bytes, tx_bytes};
+#else
     return {0, 0};
+#endif
 }
 
 } // namespace themis::sharding

@@ -66,6 +66,7 @@ json DistributedTrainingConfig::toJSON() const {
     j["detection_threshold"] = detection_threshold;
     j["max_byzantine_shards"] = max_byzantine_shards;
     j["byzantine_action"] = static_cast<int>(byzantine_action);
+    j["total_steps"] = total_steps;
     return j;
 }
 
@@ -111,6 +112,8 @@ DistributedTrainingConfig DistributedTrainingConfig::fromJSON(const json& j) {
         config.max_byzantine_shards = j["max_byzantine_shards"].get<int>();
     if (j.contains("byzantine_action"))
         config.byzantine_action = static_cast<ByzantineAction>(j["byzantine_action"].get<int>());
+    if (j.contains("total_steps"))
+        config.total_steps = j["total_steps"].get<int>();
     return config;
 }
 
@@ -1399,21 +1402,17 @@ float DistributedTrainingCoordinator::estimateRemainingTime() const {
     float elapsed_minutes = std::chrono::duration<float, std::ratio<60>>(elapsed).count();
     
     float avg_time_per_step = elapsed_minutes / stats_.total_steps_completed;
-    
-    // STUB/SIMULATION NOTE:
-    // Purpose: Satisfies the estimated-time-remaining API while the total
-    //          training step count is not yet exposed from the training
-    //          configuration to this coordinator.
-    // Activation: Always — total steps are unknown at this call site.
-    // Production Delta: Returns 0.0f instead of a meaningful time estimate;
-    //                   progress UIs and automated SLO monitors will see 0
-    //                   remaining regardless of actual training progress.
-    // Removal Plan: Propagate `config_.total_steps` (or equivalent) into the
-    //               coordinator at construction; compute:
-    //               `remaining_steps = total_steps - stats_.total_steps_completed`
-    //               `return avg_time_per_step * remaining_steps`.
-    //               See src/llm/FUTURE_ENHANCEMENTS.md §Distributed Training ETA.
-    return 0.0f;
+
+    if (config_.total_steps <= 0) {
+        // Total steps unknown — cannot compute absolute ETA.
+        return 0.0f;
+    }
+
+    const int remaining_steps = config_.total_steps - stats_.total_steps_completed;
+    if (remaining_steps <= 0) {
+        return 0.0f;
+    }
+    return avg_time_per_step * static_cast<float>(remaining_steps);
 }
 
 void DistributedTrainingCoordinator::setProgressCallback(ProgressCallback callback) {

@@ -108,7 +108,10 @@ struct DistributedTrainingConfig {
     float detection_threshold = 3.0f;           // For median-based (MAD multiplier)
     int max_byzantine_shards = 1;               // For Krum/Bulyan (f parameter)
     ByzantineAction byzantine_action = ByzantineAction::EXCLUDE;
-    
+
+    // Training schedule — used for ETA estimation
+    int total_steps = 0;                        // 0 = unknown / open-ended
+
     json toJSON() const;
     static DistributedTrainingConfig fromJSON(const json& j);
 };
