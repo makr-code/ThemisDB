@@ -26,6 +26,8 @@
 #include "sharding/mtls_client.h"
 #include "sharding/prometheus_metrics.h"
 #include "shard_rpc.pb.h"
+#include <spdlog/spdlog.h>
+#include <nlohmann/json.hpp>
 #include <random>
 #include <algorithm>
 #include <sstream>
@@ -555,43 +557,61 @@ std::vector<std::string> GossipConfigManager::selectRandomPeers(size_t count) {
     return selected;
 }
 
+void GossipConfigManager::setGossipSendFunction(GossipSendFn fn) {
+    gossip_send_fn_ = std::move(fn);
+}
+
 void GossipConfigManager::sendGossipMessage(
-    const std::string& peer_endpoint [[maybe_unused]],
-    const proto::GossipMessage& message [[maybe_unused]]
+    const std::string& peer_endpoint,
+    const proto::GossipMessage& message
 ) {
-    if (!client_) return;
-    
+    if (!client_ && !gossip_send_fn_) return;
+
     try {
-        // STUB/SIMULATION NOTE:
-        // Purpose: Increment the messages_sent_ counter without performing a
-        //   real network call.  GossipConfigManager can be tested and linked
-        //   without a live HTTP/gRPC gossip peer.  The protobuf message is
-        //   serialized to JSON in production; here the serialization step is
-        //   skipped and the network call is omitted.
-        // Activation: Always — the real HTTP/gRPC gossip transport has not yet
-        //   been wired into GossipConfigManager::sendGossipMessage().
-        // Production Delta: No gossip messages are actually sent to peers.
-        //   Config updates originating here never propagate to other nodes.
-        //   Cluster-wide config changes (shard topology, routing rules) are
-        //   invisible to other nodes; manual restarts or out-of-band config
-        //   delivery are required.
-        // Removal Plan: Wire the ShardRPCClient (or a dedicated HTTP gossip
-        //   client) into this method; call client_->send(peer_endpoint, payload)
-        //   with the serialized GossipMessage.  Track round-trip latency with
-        //   the `now` variable below.
-        // Roadmap ref: src/sharding/FUTURE_ENHANCEMENTS.md §"Gossip Config Propagation"
-        // Serialize message to JSON for HTTP POST
-        // In a real implementation, this would use protobuf serialization
-        // For now, we'll skip the actual network call
-        messages_sent_++;
-        
-        // Track propagation latency
-        auto now = std::chrono::steady_clock::now();
-        // In a real implementation, we'd measure round-trip time
-        
-    } catch ([[maybe_unused]] const std::exception& e) {
-        // silence unused warning in stub
-        // Log error (in production, use proper logging)
+        auto t0 = std::chrono::steady_clock::now();
+
+        if (gossip_send_fn_) {
+            // Injected transport (test or alternative production path).
+            bool ok = (*gossip_send_fn_)(peer_endpoint, message);
+            if (ok) {
+                messages_sent_++;
+            }
+        } else {
+            // Default path: serialize the GossipMessage to binary via protobuf
+            // and POST it to the peer's gossip endpoint over mTLS.
+            std::string payload;
+            if (!message.SerializeToString(&payload)) {
+                spdlog::warn("GossipConfigManager::sendGossipMessage — proto serialization failed; "
+                             "message dropped (peer={})", peer_endpoint);
+                return;
+            }
+            // Wrap the binary payload in a JSON envelope accepted by
+            // /api/v1/gossip on the receiving shard.
+            nlohmann::json body;
+            body["sender"] = config_.local_shard_id;
+            body["payload_b64"] = nlohmann::json::binary_t(
+                std::vector<uint8_t>(payload.begin(), payload.end()));
+            auto resp = client_->post(peer_endpoint, "/api/v1/gossip", body);
+            if (resp.success) {
+                messages_sent_++;
+            } else {
+                spdlog::debug("GossipConfigManager::sendGossipMessage — HTTP error "
+                              "(peer={}, status={})", peer_endpoint, resp.status_code);
+            }
+        }
+
+        auto t1 = std::chrono::steady_clock::now();
+        double latency_ms = std::chrono::duration<double, std::milli>(t1 - t0).count();
+        {
+            std::lock_guard<std::mutex> lk(latency_mutex_);
+            propagation_latencies_ms_.push_back(latency_ms);
+            // Cap history to avoid unbounded growth.
+            if (propagation_latencies_ms_.size() > 1000) {
+                propagation_latencies_ms_.erase(propagation_latencies_ms_.begin());
+            }
+        }
+    } catch (const std::exception& e) {
+        spdlog::warn("GossipConfigManager::sendGossipMessage — exception: {}", e.what());
     }
 }
 

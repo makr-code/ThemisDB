@@ -411,53 +411,15 @@ std::vector<std::string> AdaptiveShardRouter::selectShardsForIteration(
 }
 
 std::vector<ShardResult> AdaptiveShardRouter::executeOnShards(
-    [[maybe_unused]] const std::string& query,
+    const std::string& query,
     const std::vector<std::string>& shard_ids,
     [[maybe_unused]] uint32_t timeout_ms
 ) {
-    std::vector<ShardResult> results;
-    
-    // For now, use the base class's scatterGather method but filtered to specific shards
-    // In production, this would be optimized to only query the specified shards
-    
-    // Simple approach: query each shard individually
-    for (const auto& shard_id : shard_ids) {
-        ShardResult result;
-        result.shard_id = shard_id;
-        
-        try {
-            // Get shard info
-            auto shard_info = topology_->getShard(shard_id);
-            if (!shard_info) {
-                result.success = false;
-                result.error_msg = "Shard not found";
-                results.push_back(result);
-                continue;
-            }
-            
-            // STUB/SIMULATION NOTE:
-            // Purpose: Satisfies the per-shard execution API while the real RemoteExecutor
-            //          fan-out to the shard gRPC endpoint is not yet wired up.
-            // Activation: Always — RemoteExecutor integration is pending.
-            // Production Delta: No actual data is returned (`result.data` is always an
-            //                   empty JSON array); `execution_time_ms = 0` suppresses
-            //                   latency accounting.  Real shard results are not merged.
-            // Removal Plan: Call `RemoteExecutor::execute(shard_info.endpoint, query)`
-            //               here; deserialise the response into `result.data`.  See
-            //               src/sharding/FUTURE_ENHANCEMENTS.md §Adaptive Router Remote Execution.
-            result.success = true;
-            result.data = nlohmann::json::array();
-            result.execution_time_ms = 0;
-            
-        } catch (const std::exception& e) {
-            result.success = false;
-            result.error_msg = e.what();
-        }
-        
-        results.push_back(result);
-    }
-    
-    return results;
+    // Delegate to the base-class implementation which fans out via RemoteExecutor.
+    // timeout_ms is advisory; per-request timeouts are governed by the mTLS client
+    // configuration in RemoteExecutor. Per-iteration timeout enforcement is deferred
+    // until RemoteExecutor exposes a per-call timeout override API.
+    return ShardRouter::executeOnShards(query, shard_ids);
 }
 
 bool AdaptiveShardRouter::shouldStop(
