@@ -29,6 +29,8 @@
 #include "utils/logger.h"
 #include "utils/expected.h"
 #include "utils/error_registry.h"
+#include "utils/zstd_codec.h"
+#include "utils/lz4_codec.h"
 #include <filesystem>
 #include <fstream>
 #include <chrono>
@@ -1102,12 +1104,113 @@ Result<std::string> BackupManager::decompressBackup(const std::string& compresse
 
 bool BackupManager::compressPath(const std::string& src_path, const std::string& dest_path,
                                  CompressionType type, std::error_code& ec) {
-    // When THEMIS_ENABLE_COMPRESSION is defined, use the configured library:
-    //   GZIP:  zlib    EVP / gzip streams
-    //   ZSTD:  Facebook Zstandard (github.com/facebook/zstd)
-    //   LZ4:   LZ4 block API (github.com/lz4/lz4)
-    // Without the flag, fall back to a raw copy (no compression).
     namespace fs = std::filesystem;
+    // ZSTD: compress each file to dest_path/<relpath>.zst (THEMIS_HAS_ZSTD)
+    // LZ4:  compress each file to dest_path/<relpath>.lz4 with TLZB header (THEMIS_HAS_LZ4)
+    // NONE / GZIP / unsupported: raw copy (no compression library linked).
+#if defined(THEMIS_HAS_ZSTD) || defined(THEMIS_HAS_LZ4)
+    try {
+        THEMIS_INFO("Compressing {} → {} (type={})", src_path, dest_path, static_cast<int>(type));
+
+        if (type == CompressionType::NONE) {
+            fs::copy(src_path, dest_path, fs::copy_options::recursive | fs::copy_options::overwrite_existing, ec);
+            return !ec;
+        }
+
+        const fs::path src_root(src_path);
+        fs::create_directories(dest_path, ec);
+        if (ec) {
+            THEMIS_ERROR("compressPath: cannot create dest dir {}: {}", dest_path, ec.message());
+            return false;
+        }
+
+        bool all_ok = true;
+        for (const auto& entry : fs::recursive_directory_iterator(src_root, ec)) {
+            if (ec) { all_ok = false; break; }
+            const fs::path& src_entry = entry.path();
+            const fs::path rel = src_entry.lexically_relative(src_root);
+            const fs::path dest_entry = fs::path(dest_path) / rel;
+
+            if (entry.is_directory()) {
+                fs::create_directories(dest_entry, ec);
+                if (ec) { all_ok = false; break; }
+                continue;
+            }
+            if (!entry.is_regular_file()) continue;
+
+            // Read source file
+            std::ifstream fin(src_entry, std::ios::binary);
+            if (!fin) {
+                THEMIS_ERROR("compressPath: cannot open {}", src_entry.string());
+                all_ok = false; break;
+            }
+            const std::vector<uint8_t> raw_data(
+                (std::istreambuf_iterator<char>(fin)),
+                std::istreambuf_iterator<char>());
+
+#if defined(THEMIS_HAS_ZSTD)
+            if (type == CompressionType::ZSTD) {
+                const auto compressed = utils::zstd_compress(raw_data.data(), raw_data.size());
+                if (compressed.empty() && !raw_data.empty()) {
+                    THEMIS_ERROR("compressPath: ZSTD compress failed for {}", src_entry.string());
+                    all_ok = false; break;
+                }
+                const fs::path dest_file = dest_entry.string() + ".zst";
+                fs::create_directories(dest_file.parent_path(), ec);
+                std::ofstream fout(dest_file, std::ios::binary);
+                if (!fout) {
+                    THEMIS_ERROR("compressPath: cannot write {}", dest_file.string());
+                    all_ok = false; break;
+                }
+                fout.write(reinterpret_cast<const char*>(compressed.data()),
+                           static_cast<std::streamsize>(compressed.size()));
+                continue;
+            }
+#endif
+#if defined(THEMIS_HAS_LZ4)
+            if (type == CompressionType::LZ4) {
+                const auto res = utils::lz4_compress_safe(raw_data.data(), raw_data.size());
+                if (!res) {
+                    THEMIS_ERROR("compressPath: LZ4 compress failed for {}: {}", src_entry.string(), res.error().message());
+                    all_ok = false; break;
+                }
+                const auto& compressed = res.value();
+                const fs::path dest_file = dest_entry.string() + ".lz4";
+                fs::create_directories(dest_file.parent_path(), ec);
+                std::ofstream fout(dest_file, std::ios::binary);
+                if (!fout) {
+                    THEMIS_ERROR("compressPath: cannot write {}", dest_file.string());
+                    all_ok = false; break;
+                }
+                // TLZB header: 4 bytes magic + 8 bytes original size (LE uint64)
+                constexpr char kMagic[4] = {'T','L','Z','B'};
+                fout.write(kMagic, 4);
+                const uint64_t orig_sz = static_cast<uint64_t>(raw_data.size());
+                fout.write(reinterpret_cast<const char*>(&orig_sz), 8);
+                fout.write(reinterpret_cast<const char*>(compressed.data()),
+                           static_cast<std::streamsize>(compressed.size()));
+                continue;
+            }
+#endif
+            // Fallback for unsupported type with this build
+            THEMIS_WARN("compressPath: compression type {} unsupported in this build; copying {}", static_cast<int>(type), src_entry.string());
+            fs::copy_file(src_entry, dest_entry, fs::copy_options::overwrite_existing, ec);
+            if (ec) { all_ok = false; break; }
+        }
+        return all_ok;
+    } catch (const std::exception& e) {
+        ec = std::make_error_code(std::errc::io_error);
+        THEMIS_ERROR("Exception during compression: {}", e.what());
+        return false;
+    }
+#else
+    // No compression library available — raw directory copy.
+    static std::once_flag s_compress_warn;
+    std::call_once(s_compress_warn, [type] {
+        THEMIS_WARN("BackupManager::compressPath: STUB — files copied without compression "
+                    "(THEMIS_HAS_ZSTD / THEMIS_HAS_LZ4 not set, type={}). "
+                    "(This warning is printed once per process.)", static_cast<int>(type));
+    });
     try {
         THEMIS_INFO("Compressing {} to {} (type={})", src_path, dest_path, static_cast<int>(type));
         fs::copy(src_path, dest_path, fs::copy_options::recursive, ec);
@@ -1121,24 +1224,152 @@ bool BackupManager::compressPath(const std::string& src_path, const std::string&
         THEMIS_ERROR("Exception during compression: {}", e.what());
         return false;
     }
+#endif
 }
 
 bool BackupManager::decompressPath(const std::string& src_path, const std::string& dest_path,
-                                   [[maybe_unused]] CompressionType type, std::error_code& ec) {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Allow the backup pipeline to link without zstd/lz4/zlib.  Files
-    //          are simply copied byte-for-byte regardless of the compression type.
-    // Activation: Always — no decompression library (zstd, lz4, zlib) is linked.
-    // Production Delta: Compressed backup archives are not decompressed.  If the
-    //                   corresponding compressPath() call was a real compressor,
-    //                   restored data will be the compressed bytestream, not the
-    //                   original data → restore is silently broken.
-    //                   If compressPath() is also a stub (raw copy) then
-    //                   round-tripping works only in the all-stub scenario.
-    // Removal Plan: Link zstd/lz4 (vcpkg features 'zstd'/'lz4'); dispatch on
-    //               `type` to the correct decompressor.  See
-    //               src/storage/FUTURE_ENHANCEMENTS.md §Backup Compression.
+                                   CompressionType type, std::error_code& ec) {
     namespace fs = std::filesystem;
+    // ZSTD: decompress *.zst files; THEMIS_HAS_ZSTD must be set.
+    // LZ4:  decompress *.lz4 files with TLZB header; THEMIS_HAS_LZ4 must be set.
+    // NONE / GZIP / no library: raw copy fallback.
+#if defined(THEMIS_HAS_ZSTD) || defined(THEMIS_HAS_LZ4)
+    try {
+        THEMIS_INFO("Decompressing {} to {} (type={})", src_path, dest_path, static_cast<int>(type));
+
+        if (type == CompressionType::NONE) {
+            fs::copy(src_path, dest_path,
+                     fs::copy_options::recursive | fs::copy_options::overwrite_existing, ec);
+            return !ec;
+        }
+
+        const fs::path src_root(src_path);
+        fs::create_directories(dest_path, ec);
+        if (ec) {
+            THEMIS_ERROR("decompressPath: cannot create dest dir {}: {}", dest_path, ec.message());
+            return false;
+        }
+
+        bool all_ok = true;
+        for (const auto& entry : fs::recursive_directory_iterator(src_root, ec)) {
+            if (ec) { all_ok = false; break; }
+            const fs::path& src_entry = entry.path();
+            const fs::path rel = src_entry.lexically_relative(src_root);
+
+            if (entry.is_directory()) {
+                fs::create_directories(fs::path(dest_path) / rel, ec);
+                if (ec) { all_ok = false; break; }
+                continue;
+            }
+            if (!entry.is_regular_file()) continue;
+
+            const std::string ext = src_entry.extension().string();
+
+#if defined(THEMIS_HAS_ZSTD)
+            if (type == CompressionType::ZSTD && ext == ".zst") {
+                std::ifstream fin(src_entry, std::ios::binary);
+                if (!fin) {
+                    THEMIS_ERROR("decompressPath: cannot open {}", src_entry.string());
+                    all_ok = false; break;
+                }
+                const std::vector<uint8_t> compressed(
+                    (std::istreambuf_iterator<char>(fin)),
+                    std::istreambuf_iterator<char>());
+                const auto decompressed = utils::zstd_decompress(compressed);
+                if (decompressed.empty() && !compressed.empty()) {
+                    THEMIS_ERROR("decompressPath: ZSTD decompress failed for {}",
+                                 src_entry.string());
+                    all_ok = false; break;
+                }
+                // Restore original filename (strip .zst)
+                const fs::path dest_file =
+                    fs::path(dest_path) / rel.parent_path() / src_entry.stem();
+                fs::create_directories(dest_file.parent_path(), ec);
+                std::ofstream fout(dest_file, std::ios::binary);
+                if (!fout) {
+                    THEMIS_ERROR("decompressPath: cannot write {}", dest_file.string());
+                    all_ok = false; break;
+                }
+                fout.write(reinterpret_cast<const char*>(decompressed.data()),
+                           static_cast<std::streamsize>(decompressed.size()));
+                continue;
+            }
+#endif
+#if defined(THEMIS_HAS_LZ4)
+            if (type == CompressionType::LZ4 && ext == ".lz4") {
+                std::ifstream fin(src_entry, std::ios::binary);
+                if (!fin) {
+                    THEMIS_ERROR("decompressPath: cannot open {}", src_entry.string());
+                    all_ok = false; break;
+                }
+                // Read TLZB header: 4 bytes magic + 8 bytes original size (LE uint64)
+                char magic[4] = {};
+                fin.read(magic, 4);
+                if (std::string(magic, 4) != "TLZB") {
+                    THEMIS_ERROR("decompressPath: invalid LZ4 TLZB header in {}",
+                                 src_entry.string());
+                    all_ok = false; break;
+                }
+                uint64_t orig_sz = 0;
+                fin.read(reinterpret_cast<char*>(&orig_sz), 8);
+                const std::vector<uint8_t> compressed(
+                    (std::istreambuf_iterator<char>(fin)),
+                    std::istreambuf_iterator<char>());
+                const auto res =
+                    utils::lz4_decompress_safe(compressed, static_cast<size_t>(orig_sz));
+                if (!res) {
+                    THEMIS_ERROR("decompressPath: LZ4 decompress failed for {}: {}",
+                                 src_entry.string(), res.error().message());
+                    all_ok = false; break;
+                }
+                const auto& decompressed = res.value();
+                // Restore original filename (strip .lz4)
+                const fs::path dest_file =
+                    fs::path(dest_path) / rel.parent_path() / src_entry.stem();
+                fs::create_directories(dest_file.parent_path(), ec);
+                std::ofstream fout(dest_file, std::ios::binary);
+                if (!fout) {
+                    THEMIS_ERROR("decompressPath: cannot write {}", dest_file.string());
+                    all_ok = false; break;
+                }
+                fout.write(reinterpret_cast<const char*>(decompressed.data()),
+                           static_cast<std::streamsize>(decompressed.size()));
+                continue;
+            }
+#endif
+            // File extension doesn't match the compression type, or type unsupported:
+            // copy as-is so that non-compressed auxiliary files survive round-trips.
+            const fs::path dest_file = fs::path(dest_path) / rel;
+            fs::create_directories(dest_file.parent_path(), ec);
+            fs::copy_file(src_entry, dest_file, fs::copy_options::overwrite_existing, ec);
+            if (ec) { all_ok = false; break; }
+        }
+        return all_ok;
+    } catch (const std::exception& e) {
+        ec = std::make_error_code(std::errc::io_error);
+        THEMIS_ERROR("Exception during decompression: {}", e.what());
+        return false;
+    }
+#else
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow the backup pipeline to link without zstd/lz4.  Files are
+    //          copied byte-for-byte regardless of the compression type.
+    // Activation: THEMIS_HAS_ZSTD and THEMIS_HAS_LZ4 both absent at compile time.
+    // Production Delta: Compressed backup archives are NOT decompressed.  If the
+    //                   matching compressPath() produced real compressed bytes, the
+    //                   restored data will be the compressed bytestream → silent
+    //                   data corruption.  Only safe when compressPath() is also in
+    //                   stub (raw-copy) mode.
+    // Removal Plan: Build with THEMIS_HAS_ZSTD=1 (vcpkg 'zstd') or
+    //               THEMIS_HAS_LZ4=1 (vcpkg 'lz4').  See
+    //               src/storage/FUTURE_ENHANCEMENTS.md §Backup Compression.
+    static std::once_flag s_decompress_warn;
+    std::call_once(s_decompress_warn, [type] {
+        THEMIS_WARN("BackupManager::decompressPath: STUB — files copied without decompression "
+                    "(THEMIS_HAS_ZSTD / THEMIS_HAS_LZ4 not set, type={}). "
+                    "(This warning is printed once per process.)",
+                    static_cast<int>(type));
+    });
     try {
         THEMIS_INFO("Decompressing {} to {}", src_path, dest_path);
         fs::copy(src_path, dest_path, fs::copy_options::recursive, ec);
@@ -1152,6 +1383,7 @@ bool BackupManager::decompressPath(const std::string& src_path, const std::strin
         THEMIS_ERROR("Exception during decompression: {}", e.what());
         return false;
     }
+#endif
 }
 
 bool BackupManager::encryptFile(const std::string& src_path, const std::string& dest_path,
@@ -1382,31 +1614,35 @@ bool BackupManager::uploadToCloud(const std::string& local_path, [[maybe_unused]
     }
 }
 
-bool BackupManager::downloadFromCloud(const std::string& cloud_path, [[maybe_unused]] const std::string& local_path,
+bool BackupManager::downloadFromCloud(const std::string& cloud_path,
+                                      [[maybe_unused]] const std::string& local_path,
                                       StorageBackend backend,
                                       const std::map<std::string, std::string>& /*config*/,
                                       std::error_code& ec) {
     // STUB/SIMULATION NOTE:
-    // Purpose: Allow the restore pipeline to compile when no cloud SDK is linked.
-    //          Simulates a successful download without transferring any data.
-    // Activation: Always — no AWS SDK / GCS SDK / Azure SDK is linked.
-    // Production Delta: Always returns true but writes nothing to local_path.
-    //                   Any subsequent restore step that reads local_path will
-    //                   operate on stale/empty data, silently producing a corrupt
-    //                   or incomplete restore.
-    // Removal Plan: Dispatch on `backend` to the matching ICloudStorageProvider
-    //               implementation (S3StorageProvider, GCSStorageProvider, …);
-    //               call provider->download(cloud_path, local_path).  See
+    // Purpose: Prevent silent data corruption when no cloud SDK is linked.
+    //          Returns false with a clear error so that restoreFromCloud()
+    //          fails loudly rather than producing an empty/stale restore.
+    // Activation: THEMIS_ENABLE_S3, THEMIS_ENABLE_GCS, and THEMIS_ENABLE_AZURE
+    //             are all absent at compile time (default build without cloud SDKs).
+    // Production Delta: No data is transferred to local_path; function always
+    //                   fails.  Build with a cloud SDK flag to activate the real
+    //                   download path.
+    // Removal Plan: Link the matching cloud SDK (AWS SDK for C++, google-cloud-cpp,
+    //               azure-storage-cpp); dispatch on `backend` to the matching
+    //               ICloudStorageProvider implementation.  See
     //               src/storage/FUTURE_ENHANCEMENTS.md §Cloud Backup Download.
-    try {
-        THEMIS_INFO("Downloading {} from cloud backend {}", cloud_path, static_cast<int>(backend));
-        // Simulate successful download
-        return true;
-    } catch (const std::exception& e) {
-        ec = std::make_error_code(std::errc::io_error);
-        THEMIS_ERROR("Exception during cloud download: {}", e.what());
-        return false;
-    }
+    static std::once_flag s_download_warn;
+    std::call_once(s_download_warn, [] {
+        THEMIS_WARN("BackupManager::downloadFromCloud: STUB — no cloud SDK linked. "
+                    "Build with THEMIS_ENABLE_S3, THEMIS_ENABLE_GCS, or THEMIS_ENABLE_AZURE. "
+                    "(This warning is printed once per process.)");
+    });
+    THEMIS_ERROR("downloadFromCloud: cannot download {} (cloud backend {}) — "
+                 "no cloud SDK linked. Restore aborted.",
+                 cloud_path, static_cast<int>(backend));
+    ec = std::make_error_code(std::errc::not_supported);
+    return false;
 }
 
 std::string BackupManager::findLastFullBackup(const std::string& backup_dir) {

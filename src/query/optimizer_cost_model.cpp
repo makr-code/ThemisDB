@@ -577,26 +577,36 @@ int64_t StatisticsManager::getCurrentTimestamp() const {
 }
 
 void StatisticsManager::collectTableStatistics(const std::string& tableName) {
+    if (table_scan_provider_) {
+        // Provider injected: call it to get live statistics from the storage engine.
+        OptimizerCostModel::TableStatistics stats = (*table_scan_provider_)(tableName);
+        stats.tableName   = tableName;
+        stats.lastUpdated = getCurrentTimestamp();
+        stats.isStale     = false;
+        tableStats_[tableName] = stats;
+        return;
+    }
     // STUB/SIMULATION NOTE:
     // Purpose: Creates an empty placeholder entry so that getTableStatistics()
     //   always returns a well-initialised struct for a known table, even before
     //   real stats are injected.
-    // Activation: Called at table-registration time and by refreshAllStatistics().
+    // Activation: No TableScanProvider has been set via setTableScanProvider().
     // Production Delta: A production implementation would query the storage
     //   engine for live row count, page count, and average row size.  The
-    //   actual stats must be injected via updateTableStatistics() (e.g. from
-    //   StatisticsCollector after a table scan) until that path is wired up.
+    //   actual stats must be injected via setTableScanProvider() (e.g. from
+    //   a RocksDB property reader) or via updateTableStatistics() until that
+    //   path is wired up.
     // Roadmap ref: src/ROADMAP.md § "Consolidation Phase — Statistics Stubs"
     //              src/query/FUTURE_ENHANCEMENTS.md § "Cost Model Statistics"
-    // Removal Plan: Replace body with a storage-engine call once StorageEngine
-    //   is injectable into StatisticsManager (Target: v2.0.0).
-    // Roadmap ref: src/query/FUTURE_ENHANCEMENTS.md § "QueryOptimizer: Wire Real MetadataShard, Prometheus, and Statistics"
+    // Removal Plan: Call setTableScanProvider() with a storage-engine scan
+    //   function once StorageEngine is injectable into StatisticsManager
+    //   (Target: v2.0.0).
     OptimizerCostModel::TableStatistics stats;
-    stats.tableName = tableName;
-    stats.rowCount = 0;
-    stats.pageCount = 0;
-    stats.avgRowSize = 0.0;
-    stats.isStale = false;
+    stats.tableName   = tableName;
+    stats.rowCount    = 0;
+    stats.pageCount   = 0;
+    stats.avgRowSize  = 0.0;
+    stats.isStale     = false;
     stats.lastUpdated = getCurrentTimestamp();
     
     tableStats_[tableName] = stats;
@@ -606,40 +616,58 @@ void StatisticsManager::collectColumnStatistics(
     const std::string& tableName,
     const std::string& columnName) {
     
+    if (column_scan_provider_) {
+        // Provider injected: call it to get live column statistics.
+        OptimizerCostModel::ColumnStatistics stats =
+            (*column_scan_provider_)(tableName, columnName);
+        stats.columnName = columnName;
+        columnStats_[tableName][columnName] = stats;
+        return;
+    }
     // STUB/SIMULATION NOTE:
     // Purpose: Creates a zero-initialised column stats entry so downstream
     //   callers always get a valid struct (distinctValues=0 → worst-case
     //   selectivity assumption).
-    // Activation: Called at schema-registration time or on first access.
+    // Activation: No ColumnScanProvider has been set via setColumnScanProvider().
     // Production Delta: Should scan existing index or sample storage to derive
-    //   distinctValues, nullFraction, min/max, and histogram.
+    //   distinctValues, nullFraction, min/max, and histogram.  Wire via
+    //   setColumnScanProvider() once the index subsystem exposes a stats API.
     // Roadmap ref: src/ROADMAP.md § "Consolidation Phase — Statistics Stubs"
     //              src/query/FUTURE_ENHANCEMENTS.md § "Cost Model Statistics"
-    // Removal Plan: Replace with storage-engine scan once injectable (Target: v2.0.0).
+    // Removal Plan: Call setColumnScanProvider() with a storage-engine sampler
+    //   (Target: v2.0.0).
     OptimizerCostModel::ColumnStatistics stats;
-    stats.columnName = columnName;
+    stats.columnName    = columnName;
     stats.distinctValues = 0;
-    stats.nullFraction = 0.0;
+    stats.nullFraction   = 0.0;
     
     columnStats_[tableName][columnName] = stats;
 }
 
 void StatisticsManager::collectIndexStatistics(const std::string& indexName) {
+    if (index_scan_provider_) {
+        // Provider injected: call it to get live index statistics.
+        OptimizerCostModel::IndexStatistics stats = (*index_scan_provider_)(indexName);
+        stats.indexName = indexName;
+        indexStats_[indexName] = stats;
+        return;
+    }
     // STUB/SIMULATION NOTE:
     // Purpose: Registers a default btree-shaped index entry so that
     //   estimateIndexScan() always has a valid struct to work with.
-    // Activation: Called when a new index is registered with the optimizer.
+    // Activation: No IndexScanProvider has been set via setIndexScanProvider().
     // Production Delta: Should query the index subsystem for actual entry
-    //   count, tree depth, and selectivity histogram.
+    //   count, tree depth, and selectivity histogram.  Wire via
+    //   setIndexScanProvider() once the index subsystem exposes a stats API.
     // Roadmap ref: src/ROADMAP.md § "Consolidation Phase — Statistics Stubs"
     //              src/query/FUTURE_ENHANCEMENTS.md § "Cost Model Statistics"
-    // Removal Plan: Replace with real index-metadata query once the index
-    //   subsystem exposes a stats API (Target: v2.0.0).
+    // Removal Plan: Call setIndexScanProvider() with a real index-metadata
+    //   reader once the index subsystem exposes a stats API (Target: v2.0.0).
     OptimizerCostModel::IndexStatistics stats;
-    stats.indexName = indexName;
-    stats.indexType = "btree";
+    stats.indexName  = indexName;
+    stats.indexType  = "btree";
     stats.entryCount = 0;
-    stats.levels = 3;  // Default tree depth
+    stats.levels     = 3;  // Default tree depth
     stats.selectivity = 1.0;
     
     indexStats_[indexName] = stats;

@@ -24,6 +24,8 @@
 #include <vector>
 #include <map>
 #include <memory>
+#include <functional>
+#include <optional>
 #include <cstddef>
 #include <cstdint>
 
@@ -343,8 +345,38 @@ private:
  */
 class StatisticsManager {
 public:
+    // ------------------------------------------------------------------
+    // Provider injection — callers set these before the first collect/
+    // refresh call so that collectTableStatistics() / collectColumnStatistics()
+    // / collectIndexStatistics() can query real storage-engine statistics
+    // instead of returning zero-initialised defaults.
+    // ------------------------------------------------------------------
+
+    /// Callback signature: given a table name, return live TableStatistics.
+    using TableScanProvider =
+        std::function<OptimizerCostModel::TableStatistics(const std::string&)>;
+
+    /// Callback signature: given a (table, column) pair, return live ColumnStatistics.
+    using ColumnScanProvider =
+        std::function<OptimizerCostModel::ColumnStatistics(const std::string&, const std::string&)>;
+
+    /// Callback signature: given an index name, return live IndexStatistics.
+    using IndexScanProvider =
+        std::function<OptimizerCostModel::IndexStatistics(const std::string&)>;
+
     StatisticsManager() = default;
-    
+
+    /// Inject a real table-statistics provider (e.g. from RocksDB property queries).
+    /// Once set, collectTableStatistics() calls this provider instead of returning
+    /// zero-initialised defaults.
+    void setTableScanProvider(TableScanProvider fn) { table_scan_provider_ = std::move(fn); }
+
+    /// Inject a real column-statistics provider (e.g. from sampled storage scans).
+    void setColumnScanProvider(ColumnScanProvider fn) { column_scan_provider_ = std::move(fn); }
+
+    /// Inject a real index-statistics provider (e.g. from index-subsystem metadata).
+    void setIndexScanProvider(IndexScanProvider fn) { index_scan_provider_ = std::move(fn); }
+
     // Statistics collection
     void collectTableStatistics(const std::string& tableName);
     void collectColumnStatistics(const std::string& tableName, 
@@ -373,7 +405,11 @@ private:
     std::map<std::string, OptimizerCostModel::TableStatistics> tableStats_;
     std::map<std::string, std::map<std::string, OptimizerCostModel::ColumnStatistics>> columnStats_;
     std::map<std::string, OptimizerCostModel::IndexStatistics> indexStats_;
-    
+
+    std::optional<TableScanProvider>  table_scan_provider_;
+    std::optional<ColumnScanProvider> column_scan_provider_;
+    std::optional<IndexScanProvider>  index_scan_provider_;
+
     int64_t getCurrentTimestamp() const;
 };
 
