@@ -1519,6 +1519,14 @@ set(THEMIS_CORE_SOURCES
     ../src/tensor/tensor_core_bridge.cpp
     ../src/tensor/tensor_ingestion_bridge.cpp
 
+    # Tensor-query engine (Phase 3 AQL operators + optimizer)
+    ../src/query/tensor_contraction_engine.cpp
+    ../src/query/functions/tensor_functions.cpp
+    ../src/query/tensor_aware_query_optimizer.cpp
+
+    # TARG logit-gap gating (Phase 3)
+    ../src/rag/targ_retrieval.cpp
+
 
     ../src/metadata/schema_manager.cpp
     ../src/metadata/statistics_collector.cpp
@@ -4596,6 +4604,24 @@ if(THEMIS_BUILD_TESTS)
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_bitemporal_join>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
+    )
+
+    # Phase 3 Tensor: AQL operators (CONTRACT/PROJECT/DECOMPOSE),
+    #   TensorAwareQueryOptimizer, TARGRetrieval
+    add_executable(test_tensor_phase3
+        ${THEMIS_ROOT_DIR}/tests/test_tensor_phase3.cpp
+    )
+    target_link_libraries(test_tensor_phase3
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_tensor_phase3
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_tensor_phase3>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+        PROPERTIES
+            LABELS "tensor;phase3;aql;targ;unit"
+            TIMEOUT 120
     )
 
     # Temporal Snapshot Isolation Tests (v1.1.0 – Issue: Snapshot Isolation)

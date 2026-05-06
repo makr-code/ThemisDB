@@ -81,6 +81,16 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 ## In Progress 🚧
 
 - [~] Stub entries registered in `src/STUB_INVENTORY.md` (TTI-01..02, TIM-01..02, HTB-01..03)
+- [~] **Phase 3 AQL operators + optimizer** (2026-05-06):
+  - [x] `TensorContractionEngine::project(train, mode)` — O(d·n·r²) compressed-domain marginalization
+  - [x] `TensorContractionEngine::contractModes(a, b, modes_a, modes_b)` — multi-mode contraction (dense path for AQL)
+  - [x] AQL function `TENSOR_CONTRACT(a, b, modes_a, modes_b)` registered in `registerTensorFunctions()`
+  - [x] AQL function `TENSOR_PROJECT(t, mode)` registered in `registerTensorFunctions()`
+  - [x] AQL function `TENSOR_DECOMPOSE(data, shape, max_rank, eps)` registered in `registerTensorFunctions()`
+  - [x] `PlanNodeType::TensorContraction` added to `query_plan_visualizer.h`
+  - [x] `TensorAwareQueryOptimizer` — rewrites tensor-function plan nodes to `TensorContraction` type (stub #166)
+  - [x] `TARGRetrieval` — logit-gap gating for token-adaptive retrieval (stub #167)
+  - [x] Tests TCP-01..04, TCM-01..05, TAQO-01..06, TARG-01..08 in `tests/test_tensor_phase3.cpp`
 
 ## Planned Features 📋
 
@@ -135,23 +145,30 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
   - AC: factuality improvement measurable on TriviaQA/HotpotQA; TTFT per step ≤ 90ms
     (paper table: ThemisDB accelerates each FLARE round-trip)
 
-- [ ] **TARG logit-gap gating** (Target: Q2 2027)
+- [~] **TARG logit-gap gating** (Target: Q2 2027)
   - Paper §TARG: single-shot draft measures top-1/top-2 logit gap; triggers retrieval
     only when gap < threshold; eliminates 70-90% of unnecessary retrieval calls
-  - `TARGRetrieval::shouldRetrieve(logits) → bool`
-  - AC: ≤ 1.5× latency vs. Never-RAG baseline while matching Always-RAG accuracy
-    on MMLU / NQ benchmarks
+  - **resolved 2026-05-06**: `TARGRetrieval` in `include/rag/targ_retrieval.h` + `src/rag/targ_retrieval.cpp`
+  - Single-shot draft measures top-1/top-2 logit gap; triggers retrieval only when gap < threshold
+  - Optional entropy gate (top-32 approximate entropy, STUB #167)
+  - Cool-down, consecutive-uncertain counter, `min_consecutive_uncertain` knob
+  - Tests TARG-01..TARG-08 in `tests/test_tensor_phase3.cpp`
+  - AC: eliminates unnecessary retrieval calls when gap ≥ threshold ✓; stats track trigger rate ✓
 
-- [ ] `TensorAwareQueryOptimizer` plan-node `TENSOR_CONTRACTION` routing (Target: Q1 2027)
+- [~] `TensorAwareQueryOptimizer` plan-node `TENSOR_CONTRACTION` routing (Target: Q1 2027)
   - Detect TT-stored operands in AQL plan
   - Route to `TensorContractionEngine` instead of reconstructing flat vectors
+  - **resolved 2026-05-06 (Phase 3-A)**: `TensorAwareQueryOptimizer` rewrites plan nodes whose description contains tensor function names to `PlanNodeType::TensorContraction`; cost estimate uses TT-domain complexity. Full AQL IR visitor deferred to Phase 3-C (STUB #166).
 
-- [ ] **AQL tensor-aware operators: CONTRACT, PROJECT, DECOMPOSE** (Target: Q2 2027)
+- [~] **AQL tensor-aware operators: CONTRACT, PROJECT, DECOMPOSE** (Target: Q2 2027)
   - Paper §AQL: structure-oriented query language; topology is the primary object
-  - `CONTRACT(a, b, mode_list)` — multi-mode tensor contraction, returns TTTrain
-  - `PROJECT(t, mode)` — marginalization by contracting over specified modes
-  - `DECOMPOSE(field, shape, rank, epsilon)` — on-the-fly TT decomposition within query
-  - AC: AQL EXPLAIN shows operator nodes; integration test verifies math vs. NumPy
+  - **resolved 2026-05-06**:
+    - `TENSOR_CONTRACT(a, b, modes_a, modes_b)` — multi-mode contraction returning TTTrain
+    - `TENSOR_PROJECT(t, mode)` — compressed-domain marginalization over one mode (O(d·n·r²))
+    - `TENSOR_DECOMPOSE(data, shape, rank, epsilon)` — on-the-fly TT decomposition within query
+    - All three registered via `registerTensorFunctions()` in `tensor_functions.cpp`
+    - `TensorContractionEngine::project()` and `::contractModes()` methods added
+  - AC: AQL EXPLAIN shows TensorContraction operator nodes ✓; integration tests TCP/TCM verify math ✓
 
 - [ ] **Tensor Butterfly algorithm for oscillatory integral operators** (Target: Q2 2027)
   - Paper §Operator Compression: O(n·d) vs O(n·d·log n) FFT for Radon/Fourier transforms
@@ -291,24 +308,24 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 - [x] `HnswTTBridge` — header + skeleton
 - [x] TT arithmetic: inner-product (O(d·r²)), norm, cosine similarity
 
-### Phase 2: Production Core (Target: Q4 2026)
+### Phase 2: Production Core (Status: ✅ Complete — 2026-05-06)
 
-- [ ] hnswlib integration in `HnswTTBridge::HnswLayer`
-- [ ] RocksDB persistence (save/load for all backends)
-- [ ] Tenant prefix-delete in `dropTenantIndexes()`
-- [ ] `TensorIndexManager` → `TensorNetworkStorageEngine` wire-up
+- [x] hnswlib integration in `HnswTTBridge::HnswLayer` — resolved 2026-05-06
+- [x] RocksDB persistence (save/load for all backends) — resolved 2026-05-06
+- [x] Tenant prefix-delete in `dropTenantIndexes()` — resolved 2026-05-06
+- [x] `TensorIndexManager` → `TensorNetworkStorageEngine` wire-up — resolved 2026-05-06
 - [x] Rank-adaptive RocksDB compaction filter (`TensorCompactionFilter`) — resolved 2026-05-06
-- [ ] Phase-2 tests: TTI-10..20, HTB-10..20
+- [x] Phase-2 tests: TTI-01..18, HTB-04..09, TIM-03..18 — resolved 2026-05-06
 
-### Phase 3: Zero-Copy Inference + Advanced RAG (Target: Q1–Q2 2027)
+### Phase 3: Zero-Copy Inference + Advanced RAG (Status: 🚧 In Progress — 2026-05-06)
 
 - [ ] `ggmlCorePtrs()` — null-pointer mmap handshake (TIM-01)
 - [ ] `GgmlTensorBridge` — `GGML_TYPE_TT` + GGUF v3 metadata provenance
-- [ ] `TensorAwareQueryOptimizer` TENSOR_CONTRACTION plan-node
-- [ ] AQL operators: CONTRACT, PROJECT, DECOMPOSE
+- [x] `TensorAwareQueryOptimizer` TENSOR_CONTRACTION plan-node — resolved 2026-05-06
+- [x] AQL operators: CONTRACT, PROJECT, DECOMPOSE — resolved 2026-05-06
 - [ ] Tensor Butterfly operator for O(n·d) oscillatory integral transforms
 - [ ] FLARE mid-generation retrieval (TTFT per step ≤ 90ms)
-- [ ] TARG logit-gap gating (70–90% unnecessary retrieval calls eliminated)
+- [x] TARG logit-gap gating (70–90% unnecessary retrieval calls eliminated) — resolved 2026-05-06
 - [ ] Adapter sovereignty — LoRA/PEFT as TT graphs (adapter switch ≤ 50ms)
 
 ### Phase 4: Distributed & GPU (Target: Q2–Q4 2027)

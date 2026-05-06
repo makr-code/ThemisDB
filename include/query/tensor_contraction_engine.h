@@ -163,6 +163,71 @@ public:
                                        double eps,
                                        std::size_t max_rank = 0);
 
+    // ─── Marginalization / Projection ────────────────────────────────────
+
+    /**
+     * @brief Project (marginalize) a TTTrain over one mode.
+     *
+     * Computes result(i₁,…,i_{k-1},i_{k+1},…,i_d) = ∑_{j} T(i₁,…,j,…,i_d)
+     * entirely in the compressed domain by summing over the physical index of
+     * core k and absorbing the resulting matrix into an adjacent core.
+     *
+     * Complexity: O(d · n · r²) — no reconstruction required.
+     *
+     * @param train  Source TT-train of order d ≥ 2.
+     * @param mode   Mode to marginalize over (0-indexed, < train.order()).
+     * @return       TT-train of order d-1.
+     * @throws std::out_of_range  if mode ≥ train.order().
+     * @throws std::invalid_argument if the train has order < 2.
+     */
+    static storage::TTTrain project(const storage::TTTrain& train,
+                                    std::size_t mode);
+
+    // ─── Multi-mode tensor contraction ───────────────────────────────────
+
+    /**
+     * @brief Multi-mode tensor contraction of two TT-trains.
+     *
+     * Contracts modes listed in `modes_a` of train `a` with the
+     * corresponding modes listed in `modes_b` of train `b`.
+     * `modes_a[i]` and `modes_b[i]` must have equal mode_sizes.
+     *
+     * When all modes of both trains are contracted and both have the same
+     * shape, the result is equivalent to `innerProduct(a, b)` returned as a
+     * scalar 1-element TTTrain of order 1.
+     *
+     * For partial contractions the result is a TT-train whose mode sequence
+     * is: [non-contracted modes of a] + [non-contracted modes of b].
+     * The contracted dimension is eliminated from both operands.  TT-rounding
+     * is applied automatically with `eps = max(a.achieved_eps, b.achieved_eps)`
+     * to prevent rank explosion.
+     *
+     * @note Dense reconstruction is used internally for non-scalar results
+     *       to guarantee numerical correctness.  This is appropriate for
+     *       AQL queries that operate on small tensors embedded in documents.
+     *       For large tensors use the compressed-domain innerProduct/hadamardProduct
+     *       operations instead.
+     *
+     * @param a        Left operand.
+     * @param b        Right operand.
+     * @param modes_a  Modes of `a` to contract (0-indexed, non-repeating).
+     * @param modes_b  Modes of `b` to contract (0-indexed, same length as modes_a).
+     * @param max_rank Max TT-rank in the result after rounding (0 = unlimited).
+     * @param round_eps Reconstruction error tolerance (0 = use operand eps).
+     * @return TT-train of order (a.order()-modes_a.size()+b.order()-modes_b.size()).
+     *         Order-0 result (full contraction) is returned as an order-1
+     *         train with mode_size 1.
+     * @throws std::invalid_argument if modes are out of range, lengths differ,
+     *         or matched mode sizes are incompatible.
+     */
+    static storage::TTTrain contractModes(
+        const storage::TTTrain&        a,
+        const storage::TTTrain&        b,
+        const std::vector<std::size_t>& modes_a,
+        const std::vector<std::size_t>& modes_b,
+        std::size_t                    max_rank  = kDefaultMaxRankAfterOp,
+        double                         round_eps = 1e-4);
+
     // ─── Utility ──────────────────────────────────────────────────────────
 
     /**

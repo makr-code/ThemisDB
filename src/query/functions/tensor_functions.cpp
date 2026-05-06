@@ -274,6 +274,190 @@ public:
 };
 
 // ============================================================================
+// TENSOR_CONTRACT
+// ============================================================================
+
+class TensorContractFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return FunctionSignature{
+            .name     = "TENSOR_CONTRACT",
+            .category = "tensor",
+            .description =
+                "Multi-mode tensor contraction: CONTRACT(a, b, modes_a, modes_b). "
+                "Contracts modes listed in modes_a of a with modes in modes_b of b. "
+                "Result is a TTTrain of order (a.order - |modes_a| + b.order - |modes_b|). "
+                "Full contraction (all modes) returns a scalar wrapped in a 1-element train. "
+                "Ref: Oseledets (2011), paper §AQL operators.",
+            .arguments = {
+                ArgSpec{"a",       ArgType::OBJECT, true,  nullptr, "Tensor {data, shape}"},
+                ArgSpec{"b",       ArgType::OBJECT, true,  nullptr, "Tensor {data, shape}"},
+                ArgSpec{"modes_a", ArgType::ARRAY,  true,  nullptr, "Modes of a to contract"},
+                ArgSpec{"modes_b", ArgType::ARRAY,  true,  nullptr, "Modes of b to contract"}
+            },
+            .return_type      = ArgType::OBJECT,
+            .is_deterministic = true,
+            .cost = FunctionCost{
+                .complexity        = CostComplexity::QUADRATIC,
+                .base_cost         = 20.0,
+                .per_element_cost  = 0.01,
+                .can_use_index     = false,
+                .is_parallelizable = false
+            }
+        };
+    }
+
+    json execute(const std::vector<json>& args,
+                 const FunctionContext& /*ctx*/) const override {
+        if (args.size() < 4)
+            throw std::invalid_argument(
+                "TENSOR_CONTRACT: requires 4 arguments (a, b, modes_a, modes_b)");
+
+        TTTrain a = buildTrain(args[0]);
+        TTTrain b = buildTrain(args[1]);
+
+        std::vector<std::size_t> modes_a, modes_b;
+        for (const auto& v : args[2]) modes_a.push_back(v.get<std::size_t>());
+        for (const auto& v : args[3]) modes_b.push_back(v.get<std::size_t>());
+
+        TTTrain result = TensorContractionEngine::contractModes(a, b, modes_a, modes_b);
+        auto    dense  = result.reconstruct();
+
+        // If order-1 with a single element, surface scalar for convenience.
+        const bool is_scalar =
+            result.order() == 1 && result.mode_sizes[0] == 1;
+
+        return json{
+            {"data",             dense},
+            {"shape",            result.mode_sizes},
+            {"is_scalar",        is_scalar},
+            {"scalar",           is_scalar ? dense[0] : 0.0f},
+            {"compression_ratio",result.compressionRatio()},
+            {"max_rank",         result.maxRank()},
+            {"achieved_eps",     result.achieved_eps}
+        };
+    }
+};
+
+// ============================================================================
+// TENSOR_PROJECT
+// ============================================================================
+
+class TensorProjectFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return FunctionSignature{
+            .name     = "TENSOR_PROJECT",
+            .category = "tensor",
+            .description =
+                "Marginalize a tensor over one mode: PROJECT(t, mode). "
+                "Sums over all indices along mode, returning a train of order (d-1). "
+                "Operates entirely in the compressed domain (O(d*n*r^2)). "
+                "Ref: tensor marginalization, paper §AQL operators.",
+            .arguments = {
+                ArgSpec{"t",    ArgType::OBJECT,  true, nullptr, "Tensor {data, shape}"},
+                ArgSpec{"mode", ArgType::INTEGER, true, nullptr, "Mode to marginalize (0-indexed)"}
+            },
+            .return_type      = ArgType::OBJECT,
+            .is_deterministic = true,
+            .cost = FunctionCost{
+                .complexity = CostComplexity::LINEAR,
+                .base_cost  = 4.0
+            }
+        };
+    }
+
+    json execute(const std::vector<json>& args,
+                 const FunctionContext& /*ctx*/) const override {
+        if (args.size() < 2)
+            throw std::invalid_argument(
+                "TENSOR_PROJECT: requires 2 arguments (t, mode)");
+
+        TTTrain t    = buildTrain(args[0]);
+        auto    mode = static_cast<std::size_t>(args[1].get<int>());
+
+        TTTrain result = TensorContractionEngine::project(t, mode);
+        auto    recon  = result.reconstruct();
+        return json{
+            {"data",             recon},
+            {"shape",            result.mode_sizes},
+            {"compression_ratio",result.compressionRatio()},
+            {"max_rank",         result.maxRank()},
+            {"achieved_eps",     result.achieved_eps}
+        };
+    }
+};
+
+// ============================================================================
+// TENSOR_DECOMPOSE
+// ============================================================================
+
+class TensorDecomposeFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return FunctionSignature{
+            .name     = "TENSOR_DECOMPOSE",
+            .category = "tensor",
+            .description =
+                "On-the-fly TT decomposition: DECOMPOSE(data, shape, max_rank, eps). "
+                "Arguments: (data:Array<Float>, shape:Array<Int>, "
+                "max_rank:Int=0, eps:Float=0.01). "
+                "Returns {data, shape, compression_ratio, max_rank, achieved_eps, "
+                "original_norm, total_params}. "
+                "Ref: Oseledets TT-SVD (2011), paper §AQL DECOMPOSE operator.",
+            .arguments = {
+                ArgSpec{"data",     ArgType::ARRAY,   true,  nullptr,    "Flat tensor data"},
+                ArgSpec{"shape",    ArgType::ARRAY,   true,  nullptr,    "Mode sizes"},
+                ArgSpec{"max_rank", ArgType::INTEGER, false, json(0),    "Max TT-rank (0=auto)"},
+                ArgSpec{"eps",      ArgType::NUMBER,  false, json(0.01), "Error tolerance"}
+            },
+            .return_type      = ArgType::OBJECT,
+            .is_deterministic = true,
+            .cost = FunctionCost{
+                .complexity       = CostComplexity::LINEARITHMIC,
+                .base_cost        = 15.0,
+                .per_element_cost = 0.005,
+                .is_parallelizable = false
+            }
+        };
+    }
+
+    json execute(const std::vector<json>& args,
+                 const FunctionContext& /*ctx*/) const override {
+        if (args.size() < 2)
+            throw std::invalid_argument(
+                "TENSOR_DECOMPOSE: requires at least 2 arguments (data, shape)");
+
+        std::vector<float>       data;
+        std::vector<std::size_t> shape;
+        for (const auto& v : args[0]) data.push_back(v.get<float>());
+        for (const auto& s : args[1]) shape.push_back(s.get<std::size_t>());
+
+        auto max_rank = (args.size() > 2)
+            ? static_cast<std::size_t>(args[2].get<int>()) : 0u;
+        double eps = (args.size() > 3) ? args[3].get<double>() : 0.01;
+
+        TensorTrainConfig cfg;
+        cfg.eps      = eps;
+        cfg.max_rank = max_rank;
+
+        TensorTrainDecomposer dec;
+        auto [train, stats] = dec.decompose(data, shape, cfg);
+        auto recon = train.reconstruct();
+
+        return json{
+            {"data",             recon},
+            {"shape",            train.mode_sizes},
+            {"compression_ratio",stats.compression_ratio},
+            {"max_rank",         stats.max_rank},
+            {"achieved_eps",     stats.achieved_eps},
+            {"original_norm",    train.original_norm},
+            {"total_params",     stats.total_params}
+        };
+    }
+};
+
+// ============================================================================
 // Registration
 // ============================================================================
 
@@ -283,6 +467,9 @@ void registerTensorFunctions(FunctionRegistry& registry) {
     registry.registerFunction(std::make_unique<TensorSliceFunction>());
     registry.registerFunction(std::make_unique<TensorCompressFunction>());
     registry.registerFunction(std::make_unique<TensorInfoFunction>());
+    registry.registerFunction(std::make_unique<TensorContractFunction>());
+    registry.registerFunction(std::make_unique<TensorProjectFunction>());
+    registry.registerFunction(std::make_unique<TensorDecomposeFunction>());
 }
 
 } // namespace functions
