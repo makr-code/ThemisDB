@@ -74,6 +74,14 @@
  *   AR-04  store() overwrites existing adapter at same key
  *   AR-05  Different tenants are isolated (store in tenant-A, miss in tenant-B)
  *   AR-06  listDomains() returns empty vector for empty repository
+ *
+ * TensorFingerprintGraph — TFG-01..TFG-06
+ *   TFG-01  addAdapter() registers the entry; size() increases
+ *   TFG-02  entry() returns the stored FingerprintEntry with correct metadata
+ *   TFG-03  findSimilar() returns key_b as most similar to key_a (near-identical trains)
+ *   TFG-04  findSimilar() excludes the query adapter itself from results
+ *   TFG-05  removeAdapter() removes the entry; second remove returns false
+ *   TFG-06  findSimilarByFingerprint() respects tenant_id filter
  */
 
 #include "query/tensor_contraction_engine.h"
@@ -82,6 +90,7 @@
 #include "storage/tensor_train_decomposer.h"
 #include "tensor/tensor_butterfly_operator.h"
 #include "tensor/adapter_repository.h"
+#include "tensor/tensor_fingerprint_graph.h"
 
 #include <gtest/gtest.h>
 #include <cmath>
@@ -855,6 +864,118 @@ TEST(AdapterRepository, AR06_empty_repository_listDomains) {
 
     auto domains = repo.listDomains();
     EXPECT_TRUE(domains.empty());
+}
+
+// ============================================================================
+// TensorFingerprintGraph — TFG-01..TFG-06
+// ============================================================================
+//   TFG-01  addAdapter() registers the entry; size() increases
+//   TFG-02  entry() returns the stored FingerprintEntry
+//   TFG-03  findSimilar() returns the same adapter as top-1 for identical train
+//   TFG-04  findSimilar() excludes the query adapter itself
+//   TFG-05  removeAdapter() removes entry; findSimilar returns empty
+//   TFG-06  findSimilarByFingerprint() respects tenant_id filter
+// ============================================================================
+
+// Build a simple 2-core TT-train for TFG tests.
+static TTTrain makeTFGTrain(float fill_value = 1.0f) {
+    TensorTrainConfig cfg;
+    cfg.max_rank = 4;
+    cfg.eps = 0.0f;
+    TensorTrainDecomposer dec;
+    std::vector<float> data(16);
+    for (std::size_t i = 0; i < data.size(); ++i)
+        data[i] = fill_value * static_cast<float>(i + 1);
+    auto [train, info] = dec.decompose(data, {4u, 4u}, cfg);
+    return train;
+}
+
+// TFG-01: addAdapter registers the entry; size increases
+TEST(TensorFingerprintGraph, TFG01_addAdapter_registers_entry) {
+    TensorFingerprintGraph graph;
+    EXPECT_EQ(graph.size(), 0u);
+
+    auto train = makeTFGTrain();
+    graph.addAdapter("key1", train, "legal", "llama3", "t1");
+    EXPECT_EQ(graph.size(), 1u);
+
+    graph.addAdapter("key2", makeTFGTrain(2.0f), "medical", "llama3", "t1");
+    EXPECT_EQ(graph.size(), 2u);
+}
+
+// TFG-02: entry() returns the stored FingerprintEntry
+TEST(TensorFingerprintGraph, TFG02_entry_returns_stored_fingerprint) {
+    TensorFingerprintGraph graph;
+    auto train = makeTFGTrain();
+    graph.addAdapter("key_legal", train, "legal", "llama3-8b", "tenant1");
+
+    auto opt = graph.entry("key_legal");
+    ASSERT_TRUE(opt.has_value());
+    EXPECT_EQ(opt->domain,        "legal");
+    EXPECT_EQ(opt->base_model_id, "llama3-8b");
+    EXPECT_EQ(opt->tenant_id,     "tenant1");
+    EXPECT_FALSE(opt->fingerprint.empty());
+}
+
+// TFG-03: findSimilar returns top match for identical adapter re-registered
+TEST(TensorFingerprintGraph, TFG03_findSimilar_returns_most_similar) {
+    TensorFingerprintGraph graph;
+    auto train_a = makeTFGTrain(1.0f);
+    auto train_b = makeTFGTrain(1.001f);  // nearly identical
+    auto train_c = makeTFGTrain(100.0f);  // very different scale
+
+    graph.addAdapter("key_a", train_a, "legal",   "llama3", "t1");
+    graph.addAdapter("key_b", train_b, "legal",   "llama3", "t1");
+    graph.addAdapter("key_c", train_c, "science", "llama3", "t1");
+
+    auto results = graph.findSimilar("key_a", 2);
+    ASSERT_FALSE(results.empty());
+    // key_b (near-identical) should score higher than key_c.
+    EXPECT_EQ(results[0].adapter_key, "key_b");
+    EXPECT_GT(results[0].score, 0.0f);
+}
+
+// TFG-04: findSimilar excludes the query adapter itself
+TEST(TensorFingerprintGraph, TFG04_findSimilar_excludes_query_adapter) {
+    TensorFingerprintGraph graph;
+    auto train = makeTFGTrain();
+    graph.addAdapter("key_query", train, "legal", "llama3", "t1");
+    graph.addAdapter("key_other", makeTFGTrain(2.0f), "legal", "llama3", "t1");
+
+    auto results = graph.findSimilar("key_query", 5);
+    for (const auto& r : results) {
+        EXPECT_NE(r.adapter_key, "key_query");
+    }
+}
+
+// TFG-05: removeAdapter removes the entry
+TEST(TensorFingerprintGraph, TFG05_removeAdapter_removes_entry) {
+    TensorFingerprintGraph graph;
+    graph.addAdapter("key_a", makeTFGTrain(), "d", "m", "t1");
+    graph.addAdapter("key_b", makeTFGTrain(2.0f), "d", "m", "t1");
+    EXPECT_EQ(graph.size(), 2u);
+
+    EXPECT_TRUE(graph.removeAdapter("key_a"));
+    EXPECT_EQ(graph.size(), 1u);
+    EXPECT_FALSE(graph.entry("key_a").has_value());
+    EXPECT_FALSE(graph.removeAdapter("key_a"));  // second remove → false
+}
+
+// TFG-06: findSimilarByFingerprint respects tenant_id filter
+TEST(TensorFingerprintGraph, TFG06_findSimilarByFingerprint_tenant_filter) {
+    TensorFingerprintGraph graph;
+    graph.addAdapter("key_t1", makeTFGTrain(1.0f), "legal", "llama3", "t1");
+    graph.addAdapter("key_t2", makeTFGTrain(1.0f), "legal", "llama3", "t2");
+
+    // Fingerprint identical to both, but filter to tenant t1.
+    auto ent = graph.entry("key_t1");
+    ASSERT_TRUE(ent.has_value());
+
+    auto results = graph.findSimilarByFingerprint(ent->fingerprint, 5, "t1");
+    for (const auto& r : results) {
+        EXPECT_EQ(r.adapter_key, "key_t1");  // only t1 entries
+    }
+    EXPECT_TRUE(results.size() <= 1u);
 }
 
 } // anonymous namespace

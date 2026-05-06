@@ -1539,6 +1539,12 @@ set(THEMIS_CORE_SOURCES
     ../src/tensor/tensor_butterfly_operator.cpp
     ../src/tensor/adapter_repository.cpp
 
+    # GGUFMetadata provenance store (Phase 3 — Q1 2027)
+    ../src/storage/gguf_metadata.cpp
+
+    # TensorFingerprintGraph — adapter similarity (Phase 4 prep — Q3 2027)
+    ../src/tensor/tensor_fingerprint_graph.cpp
+
     ../src/metadata/statistics_collector.cpp
     ../src/metadata/information_schema.cpp
     ../src/metadata/schema_constraints.cpp
@@ -4623,7 +4629,8 @@ if(THEMIS_BUILD_TESTS)
     )
 
     # Phase 3 Tensor: AQL operators (CONTRACT/PROJECT/DECOMPOSE),
-    #   TensorAwareQueryOptimizer, TARGRetrieval
+    #   TensorAwareQueryOptimizer, TARGRetrieval,
+    #   TensorButterflyOperator, AdapterRepository, TensorFingerprintGraph
     add_executable(test_tensor_phase3
         ${THEMIS_ROOT_DIR}/tests/test_tensor_phase3.cpp
     )
@@ -4638,6 +4645,23 @@ if(THEMIS_BUILD_TESTS)
         PROPERTIES
             LABELS "tensor;phase3;aql;targ;unit"
             TIMEOUT 120
+    )
+
+    # Phase 3 GGUF v3 Provenance Metadata (GGUFMetadata — Q1 2027)
+    add_executable(test_gguf_metadata
+        ${THEMIS_ROOT_DIR}/tests/test_gguf_metadata.cpp
+    )
+    target_link_libraries(test_gguf_metadata
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_gguf_metadata
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gguf_metadata>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+        PROPERTIES
+            LABELS "tensor;phase3;gguf;provenance;unit"
+            TIMEOUT 60
     )
 
     # Temporal Snapshot Isolation Tests (v1.1.0 – Issue: Snapshot Isolation)

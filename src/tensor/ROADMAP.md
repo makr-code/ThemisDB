@@ -210,6 +210,23 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
   - Tests AR-01..AR-06 in `tests/test_tensor_phase3.cpp`
   - STUB #172: mmap zero-copy path deferred to Q1 2027 (currently heap-copies TT-core data)
 
+- [x] **GGUFMetadata — GGUF v3 provenance store** (2026-05-06):
+  - `include/storage/gguf_metadata.h` + `src/storage/gguf_metadata.cpp`
+  - `ProvenanceRecord` struct: source_filename, source_page, source_line, source_doc_id, tenant_id, ingest_timestamp, hmac_signature
+  - `GGUFMetadata::attach()` / `retrieve()` / `detach()` / `has()` / `keys()` — thread-safe via shared_mutex
+  - `GGUFMetadata::sign()` / `verify()` — byte-XOR placeholder (STUB #173; HMAC-SHA256 deferred Q2 2027)
+  - `serialize()` / `deserialize()` — flat binary format for GGUF embedding
+  - Tests GMD-01..GMD-08 in `tests/test_gguf_metadata.cpp`
+
+- [x] **TensorFingerprintGraph — adapter similarity via G_0 fingerprint** (2026-05-06):
+  - `include/tensor/tensor_fingerprint_graph.h` + `src/tensor/tensor_fingerprint_graph.cpp`
+  - `FingerprintEntry { adapter_key, domain, base_model_id, tenant_id, fingerprint, first_core_norm }`
+  - `addAdapter(key, TTTrain, domain, base_model_id, tenant_id)` — extracts column-mean fingerprint of G_0
+  - `findSimilar(adapter_key, k)` — top-k cosine similarity on fingerprints (stub #174; full TT inner-product Q3 2027)
+  - `findSimilarByFingerprint(fingerprint, k, tenant_id)` — query by raw fingerprint with optional tenant filter
+  - `removeAdapter()`, `entry()`, `adapterKeys()`, `stats()` accessors
+  - Tests TFG-01..TFG-06 appended to `tests/test_tensor_phase3.cpp`
+
 ### Long-term (Phase 4, Q2–Q4 2027)
 
 - [ ] `AdaLoRA ↔ TT Bridge` Phase 3 — `findSimilarAdapters()` via TensorFingerprintGraph (Target: Q3 2027)
@@ -358,6 +375,8 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 - [x] FLARE mid-generation retrieval (TTFT per step ≤ 90ms) — resolved 2026-05-06
 - [x] TARG logit-gap gating (70–90% unnecessary retrieval calls eliminated) — resolved 2026-05-06
 - [~] Adapter sovereignty — LoRA/PEFT as TT graphs (adapter switch ≤ 50ms) — 2026-05-06 (heap-copy path; mmap Q1 2027)
+- [x] GGUFMetadata — GGUF v3 provenance store (sign/verify stub #173; HMAC-SHA256 Q2 2027) — resolved 2026-05-06
+- [x] TensorFingerprintGraph — adapter similarity via G_0 fingerprint (full TT inner-product stub #174; Q3 2027) — resolved 2026-05-06
 
 ### Phase 4: Distributed & GPU (Target: Q2–Q4 2027)
 
