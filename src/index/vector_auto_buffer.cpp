@@ -35,33 +35,23 @@ namespace themis {
 
 // ===== BufferedOp Helper =====
 
-size_t VectorAutoBuffer::BufferedOp::estimateVectorSize(const BaseEntity& entity) {
-    // Estimate size of vector data in entity
-    // Assumes typical embedding field is a float array
+size_t VectorAutoBuffer::BufferedOp::estimateVectorSize(const BaseEntity& entity,
+                                                         size_t fallback_dim) {
+    // Estimate size of vector data in entity.
+    // Attempts to read the actual embedding dimension from the entity; falls back
+    // to `fallback_dim` (configurable via VectorAutoBufferConfig::fallback_dim,
+    // default 768) so callers with non-standard model dimensions get accurate
+    // memory accounting.
     try {
         auto embedding = entity.extractVector("embedding");
         if (embedding.has_value()) {
             return embedding->size() * sizeof(float);
         }
     } catch (...) {
-        // STUB/SIMULATION NOTE:
-        // Purpose: Provide a safe default when `extractVector("embedding")` throws
-        //   or returns an empty optional.  Returns 768 × sizeof(float) = 3072 bytes,
-        //   matching the embedding dimension of many common models (BERT, all-MiniLM,
-        //   bge-small-en-v1.5).
-        // Activation: `extractVector()` throws an exception (e.g., field not present,
-        //   wrong type) or returns `std::nullopt` after the try block.
-        // Production Delta: Memory accounting in `VectorAutoBuffer` may be inaccurate
-        //   for entities with non-standard embedding dimensions (e.g., 512, 1024, 3072
-        //   float models).  Over- or under-counting causes incorrect buffer flush
-        //   decisions (too-early or too-late flushes); performance impact is minor.
-        // Removal Plan: Accept embedding dimension as a constructor parameter of
-        //   `VectorAutoBuffer` and use it in `estimateVectorSize()` as the fallback,
-        //   eliminating the hardcoded 768 constant.
-        // Roadmap ref: src/index/FUTURE_ENHANCEMENTS.md §"VectorAutoBuffer Dynamic Dimension"
-        return 768 * sizeof(float);  // Typical embedding size (fallback)
+        // extractVector() threw (field absent or wrong type); use the caller-
+        // supplied fallback dimension rather than a hardcoded constant.
     }
-    return 0;
+    return fallback_dim * sizeof(float);
 }
 
 // ===== VectorAutoBuffer Implementation =====
@@ -150,7 +140,7 @@ VectorIndexManager::Status VectorAutoBuffer::add(const BaseEntity& entity) {
         
         // Add to buffer
         auto& buffer = buffers_[buffer_key];
-        BufferedOp op(OpType::ADD, entity);
+        BufferedOp op(OpType::ADD, entity, config_.fallback_dim);
         size_t op_size = op.memory_bytes;
         buffer.add(std::move(op));
         
@@ -192,7 +182,7 @@ VectorIndexManager::Status VectorAutoBuffer::update(const BaseEntity& entity) {
         std::lock_guard<std::mutex> lock(buffers_mutex_);
         
         auto& buffer = buffers_[buffer_key];
-        BufferedOp op(OpType::UPDATE, entity);
+        BufferedOp op(OpType::UPDATE, entity, config_.fallback_dim);
         size_t op_size = op.memory_bytes;
         buffer.add(std::move(op));
         
