@@ -323,6 +323,33 @@ public:
     // ── DI setters ─────────────────────────────────────────────────────────────
 
     /**
+     * @brief Type alias for a pluggable Gaussian noise generator.
+     *
+     * @param labels  Label vector to modify in-place.
+     * @param sigma   Pre-computed noise standard deviation from the Gaussian
+     *                mechanism (derived from ε, δ, and sensitivity).
+     */
+    using NoiseGeneratorFn =
+        std::function<void(std::vector<SoftLabel>& labels, double sigma)>;
+
+    /**
+     * @brief Inject a noise generator for DP noise application.
+     *
+     * When set, `applyDPNoise()` delegates to this function instead of the
+     * built-in CPU `std::random_device`-seeded Gaussian path.  Pass an empty
+     * (default-constructed) function to clear and revert to the CPU fallback.
+     *
+     * @par Production use
+     * Inject a GPU-backed Gaussian noise kernel (CUDA cuRAND / HIP hipRAND)
+     * for batch efficiency on large label distributions.  The CPU path is
+     * retained as the documented fallback for builds without GPU support.
+     *
+     * @param fn  Callable that applies DP noise in-place; receives the label
+     *            vector and the pre-computed sigma value.
+     */
+    void setNoiseGeneratorFn(NoiseGeneratorFn fn);
+
+    /**
      * @brief Inject a policy gate callback.
      *
      * Called in `broadcastToStudents()`.  Pass `nullptr` to clear (allow all).
@@ -425,6 +452,7 @@ private:
     PolicyGate                                 policy_gate_;
     std::function<void(const nlohmann::json&)> audit_cb_;
     std::function<void(uint64_t, double)>      rollback_trigger_;
+    NoiseGeneratorFn                           noise_generator_fn_;
 };
 
 } // namespace distributed_knowledge

@@ -195,3 +195,91 @@ TEST(ExplainabilityReasonBuilderTest, FederatedRound)
     // shard_id should appear in the signal
     EXPECT_NE(chain.signal.find("shard-3"), std::string::npos);
 }
+
+// ---------------------------------------------------------------------------
+// FADA-01  FederatedAIDecisionAuditor: mergeTimeline without fetcher
+// ---------------------------------------------------------------------------
+TEST(FederatedAIDecisionAuditorTest, FADA_01_MergeTimelineLocalOnly)
+{
+    using namespace themis::rag;
+    using namespace std::chrono;
+    FederatedAIDecisionAuditor auditor;
+
+    AIDecisionRecord r1;
+    r1.decision_type = "HNSW_PARAMS_UPDATED";
+    r1.timestamp     = system_clock::time_point{milliseconds{100}};
+
+    AIDecisionRecord r2;
+    r2.decision_type = "BAO_PLAN_SELECTED";
+    r2.timestamp     = system_clock::time_point{milliseconds{50}};
+
+    auditor.addShard("shard-A", {r1});
+    auditor.addShard("shard-B", {r2});
+
+    auto timeline = auditor.mergeTimeline();
+    ASSERT_EQ(timeline.size(), 2u);
+    // Oldest first (timestamp=50 before timestamp=100)
+    EXPECT_EQ(timeline[0].timestamp, system_clock::time_point{milliseconds{50}});
+    EXPECT_EQ(timeline[1].timestamp, system_clock::time_point{milliseconds{100}});
+    EXPECT_EQ(timeline[0].shard_id, "shard-B");
+    EXPECT_EQ(timeline[1].shard_id, "shard-A");
+}
+
+// ---------------------------------------------------------------------------
+// FADA-02  setShardRecordFetcher injects remote records into timeline
+// ---------------------------------------------------------------------------
+TEST(FederatedAIDecisionAuditorTest, FADA_02_FetcherAugmentsTimeline)
+{
+    using namespace themis::rag;
+    using namespace std::chrono;
+    FederatedAIDecisionAuditor auditor;
+
+    AIDecisionRecord local;
+    local.decision_type = "LOCAL_DECISION";
+    local.timestamp     = system_clock::time_point{milliseconds{200}};
+    auditor.addShard("shard-X", {local});
+
+    auditor.setShardRecordFetcher([](const std::string& shard_id) {
+        AIDecisionRecord remote;
+        remote.decision_type = "REMOTE_DECISION_" + shard_id;
+        remote.timestamp     = system_clock::time_point{milliseconds{100}};
+        return std::vector<AIDecisionRecord>{remote};
+    });
+
+    auto timeline = auditor.mergeTimeline();
+    ASSERT_EQ(timeline.size(), 2u);
+    // Remote record (ts=100ms) should come first
+    EXPECT_LT(timeline[0].timestamp, timeline[1].timestamp);
+    EXPECT_EQ(timeline[0].decision_type, "REMOTE_DECISION_shard-X");
+    EXPECT_EQ(timeline[0].shard_id, "shard-X");
+    EXPECT_EQ(timeline[1].decision_type, "LOCAL_DECISION");
+}
+
+// ---------------------------------------------------------------------------
+// FADA-03  Clearing the fetcher reverts to local-only behaviour
+// ---------------------------------------------------------------------------
+TEST(FederatedAIDecisionAuditorTest, FADA_03_ClearFetcherRevertsToLocal)
+{
+    using namespace themis::rag;
+    using namespace std::chrono;
+    FederatedAIDecisionAuditor auditor;
+
+    AIDecisionRecord local;
+    local.decision_type = "LOCAL";
+    local.timestamp     = system_clock::time_point{milliseconds{1}};
+    auditor.addShard("shard-Y", {local});
+
+    auditor.setShardRecordFetcher([](const std::string&) {
+        AIDecisionRecord r;
+        r.decision_type = "REMOTE";
+        r.timestamp     = system_clock::time_point{milliseconds{0}};
+        return std::vector<AIDecisionRecord>{r};
+    });
+
+    // Clear the fetcher
+    auditor.setShardRecordFetcher({});
+
+    auto timeline = auditor.mergeTimeline();
+    ASSERT_EQ(timeline.size(), 1u);
+    EXPECT_EQ(timeline[0].decision_type, "LOCAL");
+}

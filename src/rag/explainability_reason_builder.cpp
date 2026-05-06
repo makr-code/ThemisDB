@@ -308,6 +308,11 @@ ExplainabilityReasonBuilder::enrichAuditor(
 // FederatedAIDecisionAuditor — implementation
 // ---------------------------------------------------------------------------
 
+void FederatedAIDecisionAuditor::setShardRecordFetcher(ShardRecordFetcher fn)
+{
+    shard_fetcher_ = std::move(fn);
+}
+
 void FederatedAIDecisionAuditor::addShard(
     const std::string& shard_id,
     std::vector<AIDecisionRecord> records)
@@ -323,6 +328,14 @@ FederatedAIDecisionAuditor::mergeTimeline() const
         for (auto rec : records) {
             rec.shard_id = shard_id; // ensure shard_id is stamped
             merged.push_back(std::move(rec));
+        }
+        // If a fetcher is wired, supplement local records with remote ones.
+        if (shard_fetcher_) {
+            auto remote = shard_fetcher_(shard_id);
+            for (auto& rec : remote) {
+                rec.shard_id = shard_id;
+                merged.push_back(std::move(rec));
+            }
         }
     }
     // Sort by timestamp (ascending — oldest first)

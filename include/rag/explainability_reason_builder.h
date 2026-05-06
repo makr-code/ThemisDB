@@ -183,22 +183,39 @@ private:
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Stub: cross-shard autonomous-decision timeline merger.
+ * @brief Cross-shard autonomous-decision timeline merger.
  *
  * Accepts per-shard `AIDecisionRecord` collections and produces a
- * chronologically merged timeline for DBA inspection.
+ * chronologically merged timeline for DBA inspection.  When a
+ * `ShardRecordFetcher` is injected, `mergeTimeline()` also fetches
+ * records from remote shards (e.g. via GossipProtocol / FederatedRAGMerger)
+ * and merges them into the returned timeline.
  *
  * // STUB/SIMULATION NOTE:
- * // Purpose: Placeholder until DK-4 (Federated RAG Merge) wires the
+ * // Purpose: In-memory fallback until DK-4 (Federated RAG Merge) wires the
  * //          real cross-shard record propagation via FederatedRAGMerger.
- * // Activation: Always active (v1.0); real propagation available post-DK-4.
- * // Production Delta: Real version fetches records from remote shards via
- * //                   GossipProtocol; stub uses in-memory maps only.
- * // Removal Plan: Replace internal shard_records_ with FederatedRAGMerger
- * //               integration in DK-4.
+ * // Activation: In-memory path always active; remote-fetch path active only
+ * //             when a ShardRecordFetcher is injected via setShardRecordFetcher().
+ * // Production Delta: Without a fetcher, mergeTimeline() uses locally
+ * //                   registered records only; remote-shard records are absent.
+ * // Removal Plan: Replace in-memory shard_records_ with FederatedRAGMerger
+ * //               integration in DK-4; ShardRecordFetcher becomes permanent API.
  */
 class FederatedAIDecisionAuditor {
 public:
+    /**
+     * @brief Type alias for a remote shard record fetcher.
+     *
+     * When injected, called by `mergeTimeline()` for each registered shard to
+     * supplement locally cached records with records retrieved from the remote
+     * shard via GossipProtocol or FederatedRAGMerger.
+     *
+     * @param shard_id  The shard identifier to fetch records for.
+     * @return          Records fetched from the remote shard (may be empty).
+     */
+    using ShardRecordFetcher =
+        std::function<std::vector<AIDecisionRecord>(const std::string& shard_id)>;
+
     FederatedAIDecisionAuditor() = default;
     ~FederatedAIDecisionAuditor() = default;
 
@@ -212,20 +229,38 @@ public:
                   std::vector<AIDecisionRecord> records);
 
     /**
-     * @brief Return all records from all shards sorted by timestamp.
+     * @brief Return all records from all registered shards sorted by timestamp.
      *
-     * @return Chronologically ordered decision timeline.
+     * If a `ShardRecordFetcher` has been injected, it is called for each
+     * registered shard to fetch additional records from the remote node.
+     * Fetched records are merged alongside locally cached records and deduplicated
+     * by (shard_id, timestamp, decision_type) before sorting.
+     *
+     * @return Chronologically ordered decision timeline (oldest first).
      */
     std::vector<AIDecisionRecord> mergeTimeline() const;
 
     /// Return the number of registered shards.
     size_t shardCount() const noexcept { return shard_records_.size(); }
 
-    /// Return the total number of records across all shards.
+    /// Return the total number of locally cached records across all shards.
     size_t totalRecords() const noexcept;
+
+    /**
+     * @brief Inject a remote shard record fetcher.
+     *
+     * When set, `mergeTimeline()` calls this function for each registered
+     * shard and merges the returned records into the timeline alongside any
+     * locally cached records.  Pass an empty (default-constructed) function
+     * to clear.
+     *
+     * @param fn  Callable that fetches remote records for a given shard_id.
+     */
+    void setShardRecordFetcher(ShardRecordFetcher fn);
 
 private:
     std::map<std::string, std::vector<AIDecisionRecord>> shard_records_;
+    ShardRecordFetcher shard_fetcher_;
 };
 
 } // namespace rag

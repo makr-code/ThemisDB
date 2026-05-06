@@ -448,3 +448,45 @@ TEST(FDF_Tests, FDF_15_ModelCardFields)
     EXPECT_TRUE(j.value("dp_applied", false));
     EXPECT_TRUE(rollback_fired);
 }
+
+// ---------------------------------------------------------------------------
+// FDF-11: setNoiseGeneratorFn — injected fn is called instead of CPU path
+// ---------------------------------------------------------------------------
+TEST(FDF_Tests, FDF_11_InjectedNoiseGeneratorIsCalled)
+{
+    FederatedDistillationCoordinator coord{defaultCfg()};
+
+    bool fn_called = false;
+    double received_sigma = 0.0;
+
+    coord.setNoiseGeneratorFn(
+        [&](std::vector<SoftLabel>& labels, double sigma) {
+            fn_called = true;
+            received_sigma = sigma;
+            // Apply zero noise so probabilities are unchanged (deterministic).
+            (void)labels;
+        });
+
+    coord.submitSoftLabels("teacher-large", {makeSoftLabel()});
+    coord.broadcastToStudents();
+
+    EXPECT_TRUE(fn_called);
+    EXPECT_GT(received_sigma, 0.0);  // sigma is derived from ε/δ/sensitivity
+}
+
+// ---------------------------------------------------------------------------
+// FDF-12: setNoiseGeneratorFn(nullptr) reverts to CPU path (no crash)
+// ---------------------------------------------------------------------------
+TEST(FDF_Tests, FDF_12_ClearNoiseGeneratorRevertsToFallback)
+{
+    FederatedDistillationCoordinator coord{defaultCfg()};
+
+    // Inject and then clear
+    coord.setNoiseGeneratorFn(
+        [](std::vector<SoftLabel>&, double) {});
+    coord.setNoiseGeneratorFn({});  // clear with empty function
+
+    // CPU fallback must still work without crashing
+    coord.submitSoftLabels("teacher-large", {makeSoftLabel()});
+    EXPECT_NO_THROW(coord.broadcastToStudents());
+}
