@@ -8,19 +8,6 @@
 #include <string>
 #include <vector>
 
-// STUB/SIMULATION NOTE:
-// Purpose: Real LoRA adapter integration requires THEMIS_ENABLE_LLM and
-//          MultiLoRAManager. This file provides a full interface with an
-//          ILoRAScorer plugin so that real and heuristic adapters can be
-//          substituted transparently.
-// Activation: Heuristic scorer is used by default. Real LoRA scoring via
-//             MultiLoRAManager requires THEMIS_ENABLE_LLM and a concrete
-//             MultiLoRAManagerScorer implementation.
-// Production Delta: Real implementation calls MultiLoRAManager::score();
-//                   heuristic scorer uses query-document token overlap.
-// Removal Plan: Replace HeuristicLoRAScorer with real adapter call in
-//               v2.2.0 once MultiLoRAManager::selectAdapterForQuery() is stable.
-
 namespace themis::rag {
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -121,11 +108,10 @@ struct LoRARetrieverConfig {
  *
  * Production target: MRR@10 ≥ +5% vs pure RRF baseline (Q2 2027).
  *
- * @par Guard
- * The `HeuristicLoRAScorer` is used by default and provides a lightweight
- * token-overlap baseline.  For production quality, inject a real
- * `ILoRAScorer` implementation backed by `MultiLoRAManager` when
- * `THEMIS_ENABLE_LLM` is defined.
+ * @par Injection
+ * The `HeuristicLoRAScorer` is the default baseline (Jaccard token overlap).
+ * Inject a real `ILoRAScorer` via the constructor or `setScorer()` to activate
+ * model-inferred scoring backed by `MultiLoRAManager`.
  *
  * @par Thread safety
  * `rerank()` is const and safe to call concurrently once constructed.
