@@ -636,7 +636,23 @@ public:
      * Set completion callback
      */
     void setCompletionCallback(StreamCompletionCallback callback);
-    
+
+    /**
+     * @brief Inject a preparation callback for the mTLS PREPARE_REQUEST/ACK handshake.
+     *
+     * When set, `initialize()` calls this function instead of unconditionally
+     * returning true.  The callback should establish a real mTLS connection to
+     * `config_.remote_endpoint`, exchange PREPARE_REQUEST/PREPARE_ACK messages,
+     * and return true on success.
+     *
+     * Production code should inject a real transport handler here.  Tests may
+     * leave the callback unset (fallback: validate that `remote_endpoint` is
+     * non-empty and return true so the state machine can proceed).
+     *
+     * @param cb Callable returning bool — true means prepared successfully
+     */
+    void setPrepareTransferCallback(std::function<bool()> cb);
+
     /**
      * Check if session is active
      */
@@ -658,6 +674,8 @@ private:
     // Callbacks
     StreamProgressCallback progress_callback_;
     StreamCompletionCallback completion_callback_;
+    // Preparation callback (injected for mTLS PREPARE_REQUEST/ACK handshake)
+    std::function<bool()> prepare_callback_;
     
     // Threading
     std::atomic<bool> running_{false};

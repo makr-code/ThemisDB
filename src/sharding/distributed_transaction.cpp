@@ -67,6 +67,7 @@
 #include <algorithm>
 #include <set>
 #include <map>
+#include <unordered_map>
 #include <chrono>
 
 namespace themis::sharding {
@@ -113,23 +114,21 @@ std::string DistributedTransactionCoordinator::beginTransaction(
     txn.isolation_level = isolation_level;
     txn.start_time = truetime_->now().latest;
     
-    // Add participants
-    // STUB/SIMULATION NOTE:
-    // Purpose: Populate TransactionParticipant.endpoint with a syntactically valid
-    //          URI while the actual shard gRPC endpoint registry is not wired in.
-    // Activation: Always — no shard-registry or service-discovery lookup is performed.
-    // Production Delta: The endpoint is always `"shard://<shard_id>"` regardless of
-    //                   the actual network address of the shard.  2PC prepare/commit
-    //                   RPCs sent to this URI will fail to connect, making any
-    //                   multi-shard distributed transaction uncomplete-able at runtime.
-    // Removal Plan: Inject a shard-endpoint map (or service-discovery client) into
-    //               DistributedTransactionCoordinator; look up the real gRPC address
-    //               for each shard_id.  See src/sharding/FUTURE_ENHANCEMENTS.md §DTX Endpoint.
+    // Add participants — resolve real gRPC endpoint from registry when available
     for (const auto& shard_id : shard_ids) {
         TransactionParticipant participant;
         participant.shard_id = shard_id;
-        participant.endpoint = "shard://" + shard_id; // STUB: placeholder URI, not a real address
-        participant.prepared = false;
+
+        auto it = shard_endpoint_map_.find(shard_id);
+        if (it != shard_endpoint_map_.end()) {
+            participant.endpoint = it->second;
+        } else {
+            // Fallback: syntactic placeholder — 2PC RPCs will fail at connect time
+            // until a real endpoint is registered via setShardEndpointMap().
+            participant.endpoint = "shard://" + shard_id;
+        }
+
+        participant.prepared  = false;
         participant.committed = false;
         txn.participants.push_back(participant);
     }
@@ -441,6 +440,13 @@ nlohmann::json DistributedTransactionCoordinator::getStatistics() const {
         {"readonly_transactions", readonly_transactions_.load()},
         {"active_transactions", transactions_.size()}
     };
+}
+
+void DistributedTransactionCoordinator::setShardEndpointMap(
+    std::unordered_map<std::string, std::string> map)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    shard_endpoint_map_ = std::move(map);
 }
 
 bool DistributedTransactionCoordinator::preparePhase(DistributedTransaction& txn) {

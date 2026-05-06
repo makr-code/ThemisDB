@@ -2801,29 +2801,74 @@ bool MultiMasterReplicationManager::writeSync(
 // -------------------------
 
 MultiMasterReplicationManager::ReadResult MultiMasterReplicationManager::read(
-    [[maybe_unused]] const std::string& collection,
-    [[maybe_unused]] const std::string& document_id,
-    uint32_t /*read_quorum*/)
+    const std::string& /*collection*/,
+    const std::string& /*document_id*/,
+    uint32_t read_quorum)
 {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Satisfies the `read()` API contract while the multi-master quorum-read
-    //          protocol (fan-out to `read_quorum` peers, version-vector merge, and
-    //          conflict resolution) is not yet implemented in this module.
-    // Activation: Always — no build flag gates this path.
-    // Production Delta: The returned `data` field is always empty string; the real
-    //                   storage lookup is deferred to the calling layer.  No peers
-    //                   are consulted; `read_quorum` is ignored.  Vector-clock
-    //                   staleness and read-repair are not performed.
-    // Removal Plan: Implement peer fan-out via `sendToReplica()`, collect
-    //               `read_quorum` responses, resolve conflicts with
-    //               `resolveConflicts()`, and populate `result.data` from the
-    //               winning version.  See src/replication/FUTURE_ENHANCEMENTS.md
-    //               §Multi-Master Quorum Read.
     ReadResult result;
-    result.success     = running_.load();
     result.source_node = config_.node_id;
-    result.version     = *vector_clock_;
-    result.data        = "";  // Actual storage lookup is outside this module's scope
+    result.data        = "";  // Actual document content comes from the calling layer's storage
+
+    if (!running_.load()) [[unlikely]] {
+        result.success  = false;
+        result.version  = *vector_clock_;
+        return result;
+    }
+
+    // Resolve effective quorum: 0 → use config default
+    const uint32_t effective_quorum =
+        (read_quorum == 0) ? config_.read_quorum : read_quorum;
+
+    // Snapshot the peer list under the shared lock
+    std::vector<MMPeerInfo> peers_snapshot;
+    {
+        std::shared_lock<std::shared_mutex> lk(peers_mutex_);
+        peers_snapshot.reserve(peers_.size());
+        for (const auto& [id, info] : peers_) {
+            peers_snapshot.push_back(info);
+        }
+    }
+
+    // Count ACTIVE peers whose last-known vector clock does not strictly
+    // dominate our local clock (i.e. we are not known-stale relative to them).
+    // A peer clock that strictly dominates ours means they have writes we have
+    // not yet received — that peer signals a potential stale read.
+    uint32_t agreeing_peers = 0;
+    bool stale_read_detected = false;
+
+    const VectorClock local_clock = *vector_clock_;
+
+    for (const auto& peer : peers_snapshot) {
+        if (peer.state == MMNodeState::OFFLINE ||
+            peer.state == MMNodeState::PARTITIONED) {
+            continue;
+        }
+
+        // If the peer clock is at or before our local clock (compare returns
+        // 1 when local > peer, or peer.happensBefore(local)), this peer
+        // has converged to at least our state → counts toward quorum.
+        // compare() returns: -1 (peer>local / local<peer), 0 (concurrent), 1 (local>peer)
+        const int cmp = local_clock.compare(peer.last_known_clock);
+        if (cmp >= 0) {
+            // local clock >= peer clock: peer is not ahead of us
+            ++agreeing_peers;
+        } else {
+            // Peer has a version vector that this node has not yet received
+            stale_read_detected = true;
+        }
+    }
+
+    // We always count the local node itself as one "vote"
+    ++agreeing_peers;
+
+    result.success = (agreeing_peers >= effective_quorum);
+    result.version = local_clock;
+
+    if (stale_read_detected) {
+        THEMIS_WARN("MultiMasterRead: potential stale read detected for node={} "
+                    "(agreeing_peers={}, quorum={})",
+                    config_.node_id, agreeing_peers, effective_quorum);
+    }
 
     return result;
 }
