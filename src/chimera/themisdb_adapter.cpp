@@ -1204,31 +1204,17 @@ bool ThemisDBAdapter::has_capability(Capability cap) const {
         case Capability::PREPARED_STATEMENTS:
             return true;
         case Capability::CONNECTION_POOLING:
-            // STUB/SIMULATION NOTE (ThemisDBAdapter CONNECTION_POOLING capability):
-            // Purpose: Return false for CONNECTION_POOLING so callers that inspect
-            //          adapter capabilities do not attempt to use a connection pool
-            //          API that does not yet exist in this adapter.
-            // Activation: Always; no build flag.  The ThemisDB native adapter performs
-            //          direct calls and relies on the server's internal connection
-            //          management instead of an explicit pool.
-            // Production Delta: No connection pool → higher per-request overhead for
-            //          clients that spin up many short-lived connections.  Throughput
-            //          under high concurrency will be lower than pool-enabled adapters.
-            // Removal Plan: Implement a ConnectionPool class in the chimera adapter and
-            //          flip this capability to true.  Target Q3 2026.
-            //          See src/chimera/ROADMAP.md and FUTURE_ENHANCEMENTS.md §ConnectionPool.
-            // Not yet implemented; no dedicated pooling API exists in this adapter.
-            // Tracked: src/chimera/ROADMAP.md — Target Q3 2026.
-            return false;
+            // Resolved: returns true when a connection-pool provider has been
+            // injected via setConnectionPool().  Without injection the adapter
+            // operates in direct-call mode (no pool).
+            return static_cast<bool>(connection_pool_acquire_fn_);
         default:
             return false;
     }
 }
 
 std::vector<Capability> ThemisDBAdapter::get_capabilities() const {
-    // CONNECTION_POOLING intentionally excluded: no pooling API is implemented yet.
-    // See src/chimera/ROADMAP.md — Target Q3 2026.
-    return {
+    std::vector<Capability> caps = {
         Capability::RELATIONAL_QUERIES,
         Capability::VECTOR_SEARCH,
         Capability::GRAPH_TRAVERSAL,
@@ -1244,6 +1230,19 @@ std::vector<Capability> ThemisDBAdapter::get_capabilities() const {
         Capability::STREAMING_RESULTS,
         Capability::PREPARED_STATEMENTS
     };
+    // Include CONNECTION_POOLING only when a pool provider has been injected.
+    if (connection_pool_acquire_fn_) {
+        caps.push_back(Capability::CONNECTION_POOLING);
+    }
+    return caps;
+}
+
+// ---------------------------------------------------------------------------
+// Connection pool injection
+// ---------------------------------------------------------------------------
+
+void ThemisDBAdapter::setConnectionPool(std::function<void*()> acquire_fn) {
+    connection_pool_acquire_fn_ = std::move(acquire_fn);
 }
 
 // ---------------------------------------------------------------------------

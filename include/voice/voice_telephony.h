@@ -153,6 +153,42 @@ struct IvrResult {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
+// ITtsBackend — injectable TTS encoder interface
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Injectable text-to-speech backend interface.
+ *
+ * Implement this interface to supply a real TTS encoder (e.g. a G.711 µ-law
+ * PCMU encoder for SIP, or an Opus encoder for WebRTC).
+ *
+ * ## Contract
+ * - `synthesize()` must be thread-safe.
+ * - Each returned inner `vector<uint8_t>` represents one RTP payload frame
+ *   (without RTP header); the session wrapper adds the correct RTP header.
+ * - An empty outer vector indicates synthesis failure or unsupported text.
+ *
+ * @see SipCallSession::setTtsBackend()
+ * @see WebRtcCallSession::setTtsBackend()
+ */
+class ITtsBackend {
+public:
+    virtual ~ITtsBackend() = default;
+
+    /**
+     * @brief Synthesise @p text into a sequence of encoded audio frames.
+     *
+     * @param text   UTF-8 text to synthesise.
+     * @param codec  Target codec (used to select the encoder).
+     * @return       Encoded audio payload frames (one per 20 ms); empty on
+     *               failure or when the text is empty.
+     */
+    virtual std::vector<std::vector<uint8_t>> synthesize(
+        const std::string& text,
+        AudioCodec         codec) = 0;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
 // SipCallSession
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -272,12 +308,25 @@ public:
     /**
      * @brief Synthesise @p text to speech and return RTP-encoded audio.
      *
-     * The output is ready to be sent via the RTP socket.
+     * When a TTS backend has been injected via setTtsBackend(), delegates
+     * synthesis to that backend and wraps each returned frame with a minimal
+     * G.711 RTP header.  Without an injected backend the previous stub
+     * behaviour (raw text bytes in an RTP packet) is retained for compatibility.
      *
      * @param text  Text to speak to the caller.
      * @return RTP packets (one per 20 ms audio frame), empty on error.
      */
     std::vector<std::vector<uint8_t>> synthesizeTts(const std::string& text);
+
+    /**
+     * @brief Inject a TTS backend for real G.711 audio synthesis.
+     *
+     * When set, `synthesizeTts()` delegates to this backend.  Pass `nullptr`
+     * to revert to the stub (raw-text) fallback.
+     *
+     * Thread safety: must be called before the first `synthesizeTts()` call.
+     */
+    void setTtsBackend(std::shared_ptr<ITtsBackend> backend);
 
     // ── Callbacks ─────────────────────────────────────────────────────────────
 
@@ -417,8 +466,23 @@ public:
 
     /**
      * @brief Synthesise @p text and return Opus-encoded RTP packets.
+     *
+     * When a TTS backend has been injected via setTtsBackend(), delegates
+     * synthesis to that backend and wraps each returned frame with a minimal
+     * Opus RTP header (PT=111).  Without an injected backend the previous stub
+     * behaviour (raw text bytes in an RTP packet) is retained for compatibility.
      */
     std::vector<std::vector<uint8_t>> synthesizeTts(const std::string& text);
+
+    /**
+     * @brief Inject a TTS backend for real Opus audio synthesis.
+     *
+     * When set, `synthesizeTts()` delegates to this backend.  Pass `nullptr`
+     * to revert to the stub (raw-text) fallback.
+     *
+     * Thread safety: must be called before the first `synthesizeTts()` call.
+     */
+    void setTtsBackend(std::shared_ptr<ITtsBackend> backend);
 
     // ── Callbacks ─────────────────────────────────────────────────────────────
 
