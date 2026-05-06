@@ -249,3 +249,49 @@ TEST_F(ProvenanceAqlRoundTripTest, Write_LargeBatch_AllRecordsWritten) {
     auto lineage = tracker.queryLineage("model_batch");
     EXPECT_GE(lineage.parents.size(), 13u);
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PT-05: setQueryEngine() — late injection wires engine post-construction
+// ─────────────────────────────────────────────────────────────────────────────
+TEST_F(ProvenanceAqlRoundTripTest, SetQueryEngine_LateInjection_Works) {
+    auto cfg = defaultConfig();
+    // Construct without engine (offline mode)
+    ProvenanceTracker tracker(cfg, "");
+
+    // Write two records offline (in-process store only)
+    auto stats = tracker.write({makeRecord("late_s001"), makeRecord("late_s002")});
+    EXPECT_EQ(stats.records_written, 2u);
+
+    // Late-inject the engine
+    tracker.setQueryEngine(engine_.get());
+
+    // Write another record; should now also attempt AQL INSERT
+    auto stats2 = tracker.write({makeRecord("late_s003")});
+    EXPECT_EQ(stats2.records_written, 1u);
+
+    // In-process lineage must include all three records (engine fallback)
+    auto lineage = tracker.queryLineage("model_late");
+    EXPECT_GE(lineage.parents.size(), 3u);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PT-06: setQueryEngine(nullptr) — reverts to offline mode
+// ─────────────────────────────────────────────────────────────────────────────
+TEST_F(ProvenanceAqlRoundTripTest, SetQueryEngine_NullReverts_OfflineMode) {
+    auto cfg = defaultConfig();
+    ProvenanceTracker tracker(cfg, "", engine_.get());
+
+    // Write one record with the engine wired
+    tracker.write({makeRecord("revert_s001")});
+
+    // Revert to offline mode
+    tracker.setQueryEngine(nullptr);
+
+    // Write another record; must succeed against in-process store only
+    auto stats = tracker.write({makeRecord("revert_s002")});
+    EXPECT_EQ(stats.records_written, 1u);
+
+    // Both records accessible via lineage (in-process store)
+    auto lineage = tracker.queryLineage("model_revert");
+    EXPECT_GE(lineage.parents.size(), 2u);
+}

@@ -84,6 +84,21 @@ static constexpr double kSigmoidSteepness = 8.0;
 /// do not score near 0.5 by default.
 static constexpr double kSigmoidBias = 1.0;
 
+/// Cosine similarity between two dense float vectors.
+/// Returns 0.0 if either vector is empty or has mismatched dimensions.
+double cosineSimilarityVec(const std::vector<float>& a, const std::vector<float>& b) {
+    if (a.empty() || b.empty() || a.size() != b.size()) return 0.0;
+    double dot = 0.0, norm_a = 0.0, norm_b = 0.0;
+    for (std::size_t i = 0; i < a.size(); ++i) {
+        dot    += static_cast<double>(a[i]) * static_cast<double>(b[i]);
+        norm_a += static_cast<double>(a[i]) * static_cast<double>(a[i]);
+        norm_b += static_cast<double>(b[i]) * static_cast<double>(b[i]);
+    }
+    const double denom = std::sqrt(norm_a) * std::sqrt(norm_b);
+    if (denom < 1e-12) return 0.0;
+    return std::max(-1.0, std::min(1.0, dot / denom));
+}
+
 } // anonymous namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -108,6 +123,14 @@ struct EthicsSelectionRouter::Impl {
     mutable std::mutex precedent_mutex;
     std::unordered_map<std::string,
         std::unordered_map<std::string, PrecedentEntry>> precedent_store;
+
+    // Optional injection: real embedding backend for Stage-2 (stub #146).
+    // When set, cosine similarity between dense vectors replaces term-overlap.
+    EthicsSelectionRouter::EmbeddingFn embedding_fn;
+
+    // Optional injection: persistent precedent query for Stage-3 (stub #147).
+    // When set, called instead of consulting the in-memory precedent_store.
+    EthicsSelectionRouter::PrecedentQueryFn precedent_query_fn;
 
     void loadTaxonomy(const std::string& yaml_path);
     std::unordered_set<std::string> stage1(
@@ -224,18 +247,69 @@ std::unordered_set<std::string> EthicsSelectionRouter::Impl::stage1(
 // Purpose: Lightweight term-overlap proxy for semantic embedding similarity.
 //          Used until IEmbeddingProvider + ArgumentStore::searchSimilarArguments()
 //          are fully implemented (FUTURE_ENHANCEMENTS §7).
-// Activation: Always active; replaces real embedding model.
-// Production Delta: Real production path uses all-mpnet-base-v2 (768-dim)
-//          via ONNX Runtime. Term-overlap cosine underestimates semantic
-//          synonymy (e.g. "duty" vs "obligation") by ~15-20%.
-// Removal Plan: Replace with OnnxEmbeddingProvider when §7 is delivered
-//          (Target: Q3 2026). Gate via THEMIS_ETHICS_EMBEDDING_MODEL env var.
+// Activation: Term-overlap fallback is active when no EmbeddingFn is injected
+//          via setEmbeddingFn(). When an EmbeddingFn is set, dense cosine
+//          similarity replaces term-overlap (real production path).
+// Production Delta: Term-overlap cosine underestimates semantic synonymy
+//          (e.g. "duty" vs "obligation") by ~15-20%.
+// Removal Plan: Inject an OnnxEmbeddingProvider via setEmbeddingFn() when §7
+//          is delivered (Target: Q3 2026). Gate via THEMIS_ETHICS_EMBEDDING_MODEL
+//          env var. RESOLVED 2026-05-06: setEmbeddingFn() injection API added.
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::vector<RouterCandidate> EthicsSelectionRouter::Impl::stage2(
     const std::string& dilemma_text,
     const std::unordered_set<std::string>& candidates) const
 {
+    // ── Fast-path: real embedding backend injected ──────────────────────────
+    if (embedding_fn) {
+        const auto query_emb = embedding_fn(dilemma_text);
+
+        // Build school_id → metadata lookup once
+        std::unordered_map<std::string, std::string> id_to_text;
+        {
+            EthicsIndexQuery meta_q;
+            for (const auto& m : registry->queryIndex(meta_q)) {
+                std::string profile_text = m.name + " " + m.description_snippet;
+                for (const auto& t : m.tags)              profile_text += " " + t;
+                for (const auto& d : m.applicable_domains) profile_text += " " + d;
+                id_to_text[m.school_id] = std::move(profile_text);
+            }
+        }
+
+        std::vector<RouterCandidate> result;
+        result.reserve(candidates.size());
+
+        for (const auto& sid : candidates) {
+            auto it = id_to_text.find(sid);
+            const std::string& profile_text = (it != id_to_text.end()) ? it->second : sid;
+
+            double sim = 0.0;
+            if (!query_emb.empty()) {
+                const auto profile_emb = embedding_fn(profile_text);
+                const double raw = cosineSimilarityVec(query_emb, profile_emb);
+                // Shift cosine [-1,1] to [0,1]
+                sim = (raw + 1.0) * 0.5;
+            }
+
+            RouterCandidate cand;
+            cand.school_id      = sid;
+            cand.semantic_score = sim;
+            cand.taxonomy_score = 1.0;
+            result.push_back(cand);
+        }
+
+        std::sort(result.begin(), result.end(),
+                  [](const RouterCandidate& a, const RouterCandidate& b) {
+                      return a.semantic_score > b.semantic_score;
+                  });
+        if (result.size() > config.stage2_top_k) {
+            result.resize(config.stage2_top_k);
+        }
+        return result;
+    }
+
+    // ── Fallback: term-overlap TF cosine ────────────────────────────────────
     const auto dilemma_tokens = tokenise(dilemma_text);
     const auto dilemma_freq   = termFreq(dilemma_tokens);
 
@@ -287,18 +361,30 @@ std::vector<RouterCandidate> EthicsSelectionRouter::Impl::stage2(
 // STUB/SIMULATION NOTE:
 // Purpose: In-memory precedent store as proxy for full KnowledgeGraph
 //          integration with `_themis_ethics_precedents` graph collection.
-// Activation: Always active; KG paths guarded by THEMIS_ETHICS_KG_PRECEDENTS.
+// Activation: In-memory map is active when no PrecedentQueryFn is injected
+//          via setPrecedentQueryFn(). When a PrecedentQueryFn is set, the
+//          external persistent store is consulted instead.
 // Production Delta: Production path traverses a persistent ArangoDB graph
 //          where nodes are dilemma-type strings and edges carry DC scores.
 //          In-memory store is session-scoped (not persistent across restarts).
-// Removal Plan: Replace in-memory map with KnowledgeGraphRetriever.retrieve()
-//          call when the ethics precedent graph is populated (Target: Q4 2026).
+// Removal Plan: Inject a KnowledgeGraphRetriever-backed fn via
+//          setPrecedentQueryFn() when the ethics precedent graph is populated
+//          (Target: Q4 2026). RESOLVED 2026-05-06: setPrecedentQueryFn() added.
 // ─────────────────────────────────────────────────────────────────────────────
 
 void EthicsSelectionRouter::Impl::stage3(
     std::vector<RouterCandidate>& candidates,
     const std::string& dilemma_domain) const
 {
+    // ── Fast-path: external persistent precedent query function injected ────
+    if (precedent_query_fn) {
+        for (auto& c : candidates) {
+            c.precedent_dc = precedent_query_fn(dilemma_domain, c.school_id);
+        }
+        return;
+    }
+
+    // ── Fallback: in-memory precedent store ─────────────────────────────────
     std::lock_guard<std::mutex> lock(precedent_mutex);
     auto it = precedent_store.find(dilemma_domain);
     if (it == precedent_store.end()) {
@@ -397,6 +483,14 @@ void EthicsSelectionRouter::recordDecisionOutcome(
     auto& entry = impl_->precedent_store[dilemma_type][school_id];
     entry.dc_sum += std::max(0.0, std::min(1.0, dc_score));
     entry.count++;
+}
+
+void EthicsSelectionRouter::setEmbeddingFn(EmbeddingFn fn) {
+    impl_->embedding_fn = std::move(fn);
+}
+
+void EthicsSelectionRouter::setPrecedentQueryFn(PrecedentQueryFn fn) {
+    impl_->precedent_query_fn = std::move(fn);
 }
 
 } // namespace ethics

@@ -247,17 +247,17 @@ public:
         //   mode, disconnected from the graph DB, or empty AQL result set).
         //   This allows training provenance to be tracked in single-process
         //   test runs without a live ThemisDB instance.
-        // Activation: Reached when `graph_db_` is null or when AQL traversal
+        // Activation: Reached when `query_engine_` is null or when AQL traversal
         //   returns an empty result set for the given sample_id.
         // Production Delta: The in-process store only contains samples that
         //   were registered in the current process lifetime; cross-process or
         //   cross-restart lineage is not captured.  Graph relationships between
         //   samples (sibling nodes, model checkpoints) are approximated as
         //   flat parent–child pairs rather than a true provenance DAG.
-        // Removal Plan: Ensure the graph DB is always reachable in production
-        //   (i.e., `graph_db_` is set via `setGraphDB()`) and that lineage is
-        //   written via `recordSample()` before `getLineageTree()` is called.
-        //   The in-process fallback can then be removed.
+        // Removal Plan: Call setQueryEngine() to wire a live QueryEngine
+        //   before first use; the in-process fallback is then only reached
+        //   when AQL traversal returns no results (e.g. empty graph).
+        //   RESOLVED 2026-05-06: setQueryEngine() injection API added.
         //   Tracking: src/training/FUTURE_ENHANCEMENTS.md §"Provenance Graph Integration"
         // Roadmap ref: src/ROADMAP.md §Stub Lifecycle
         // In-process fallback: build a stub tree from the in-process store.
@@ -326,6 +326,11 @@ public:
         }
 
         return {};
+    }
+
+    // -------------------------------------------------------------------------
+    void setQueryEngine(QueryEngine* engine) {
+        query_engine_ = engine;
     }
 
     // -------------------------------------------------------------------------
@@ -404,6 +409,10 @@ LineageNode ProvenanceTracker::queryLineage(const std::string& model_id,
 
 ProvenanceRecord ProvenanceTracker::getRecord(const std::string& sample_id) const {
     return impl_->getRecord(sample_id);
+}
+
+void ProvenanceTracker::setQueryEngine(QueryEngine* engine) {
+    impl_->setQueryEngine(engine);
 }
 
 } // namespace training

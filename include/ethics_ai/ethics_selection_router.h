@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ethics_ai/ethics_profile_registry.h"
+#include <functional>
 #include <string>
 #include <vector>
 #include <memory>
@@ -69,10 +70,39 @@ struct RouterResult {
  *
  * ## Thread-safety
  * `route()` is const-safe when called concurrently from multiple threads.
- * `recordDecisionOutcome()` is protected by an internal mutex.
+ * `recordDecisionOutcome()` and `setEmbeddingFn()`/`setPrecedentQueryFn()`
+ * are protected by or serialised via internal mutexes.
  */
 class EthicsSelectionRouter {
 public:
+    /**
+     * @brief Signature for a Stage-2 text embedding function.
+     *
+     * Called once per text fragment (query or profile).  Returns a dense
+     * float vector; the router computes cosine similarity between query
+     * and profile embeddings.  Must be thread-safe.
+     *
+     * @param text  UTF-8 input text.
+     * @return      Dense embedding; an empty vector disables the real-embedding
+     *              path and reverts to the term-overlap fallback.
+     */
+    using EmbeddingFn = std::function<std::vector<float>(const std::string& text)>;
+
+    /**
+     * @brief Signature for a Stage-3 precedent query function.
+     *
+     * Retrieves the historical DC score for a (dilemma_domain, school_id)
+     * pair from an external persistent store (e.g. ArangoDB graph).
+     * Must be thread-safe.
+     *
+     * @param dilemma_domain  Normalised dilemma domain key.
+     * @param school_id       Ethics school identifier.
+     * @return                Historical DC score in [0, 1]; return 0.5 if
+     *                        no precedent is available.
+     */
+    using PrecedentQueryFn = std::function<double(const std::string& dilemma_domain,
+                                                   const std::string& school_id)>;
+
     /**
      * @brief Construct and load taxonomy YAML.
      *
@@ -124,6 +154,38 @@ public:
 
     /** Access current configuration. */
     const RouterConfig& config() const;
+
+    /**
+     * @brief Inject a real embedding function for Stage-2 semantic scoring.
+     *
+     * When set, `route()` calls @p fn to embed the dilemma text and each
+     * candidate profile snippet, then ranks by cosine similarity.
+     * When @p fn is empty (or returns an empty vector), the term-overlap
+     * fallback is used transparently.
+     *
+     * Thread safety: safe to call before first `route()` call.  Replacing
+     * the function while `route()` is running on another thread is undefined.
+     *
+     * @param fn  Embedding function; pass an empty `std::function` to revert
+     *            to term-overlap mode.
+     */
+    void setEmbeddingFn(EmbeddingFn fn);
+
+    /**
+     * @brief Inject a persistent precedent query function for Stage-3.
+     *
+     * When set, Stage-3 calls @p fn(dilemma_domain, school_id) instead of
+     * consulting the in-memory precedent map.  The in-memory map is still
+     * updated by `recordDecisionOutcome()` but is only consulted as a
+     * fallback when @p fn is not set.
+     *
+     * Thread safety: safe to call before first `route()` call.  Replacing
+     * the function while `route()` is running on another thread is undefined.
+     *
+     * @param fn  Precedent query function; pass an empty `std::function` to
+     *            revert to in-memory precedent mode.
+     */
+    void setPrecedentQueryFn(PrecedentQueryFn fn);
 
 private:
     struct Impl;
