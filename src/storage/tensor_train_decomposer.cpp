@@ -424,6 +424,54 @@ static void simpleSVD(std::vector<double>& A, std::size_t m, std::size_t n,
     Vt = std::move(Vts);
 }
 
+// ---------------------------------------------------------------------------
+// thinLQ — economy LQ decomposition of m×n matrix C (m ≤ n typical).
+//
+// Returns L (m×m lower triangular) and Q (m×n, orthonormal rows) such that
+// C = L * Q, using Modified Gram-Schmidt applied row-wise.
+//
+// Used by TensorTrainDecomposer::recompress() for the right-to-left
+// orthogonalisation sweep (TT-rounding, Oseledets 2011 §2.3).
+// ---------------------------------------------------------------------------
+static void thinLQ(const std::vector<float>& C, std::size_t m, std::size_t n,
+                   std::vector<float>& L_out, std::vector<float>& Q_out) {
+    // Work in double for numerical stability
+    std::vector<double> Q(m * n);
+    for (std::size_t i = 0; i < m * n; ++i) Q[i] = static_cast<double>(C[i]);
+
+    std::vector<double> L(m * m, 0.0);
+
+    for (std::size_t i = 0; i < m; ++i) {
+        // Orthogonalise row i against previously computed rows (Modified GS)
+        for (std::size_t k = 0; k < i; ++k) {
+            double dot = 0.0;
+            for (std::size_t j = 0; j < n; ++j)
+                dot += Q[k * n + j] * Q[i * n + j];
+            L[i * m + k] = dot;           // lower-triangular off-diagonal
+            for (std::size_t j = 0; j < n; ++j)
+                Q[i * n + j] -= dot * Q[k * n + j];
+        }
+        // Normalise row i
+        double norm = 0.0;
+        for (std::size_t j = 0; j < n; ++j)
+            norm += Q[i * n + j] * Q[i * n + j];
+        norm = std::sqrt(norm);
+        L[i * m + i] = norm;              // diagonal element
+        if (norm > 1e-14)
+            for (std::size_t j = 0; j < n; ++j)
+                Q[i * n + j] /= norm;
+        // else: row is numerically zero; leave unit-vector placeholder (no change)
+    }
+
+    Q_out.assign(m * n, 0.0f);
+    for (std::size_t i = 0; i < m * n; ++i)
+        Q_out[i] = static_cast<float>(Q[i]);
+
+    L_out.assign(m * m, 0.0f);
+    for (std::size_t i = 0; i < m * m; ++i)
+        L_out[i] = static_cast<float>(L[i]);
+}
+
 } // anonymous namespace
 
 // ============================================================================
@@ -632,6 +680,154 @@ TTTrain TensorTrainDecomposer::round(const TTTrain& train,
     auto dense = train.reconstruct();
     auto [rounded, stats] = decompose(dense, train.mode_sizes, cfg);
     return std::move(rounded);
+}
+
+// ============================================================================
+// TensorTrainDecomposer::recompress
+// ============================================================================
+//
+// Efficient TT-rounding (Oseledets 2011, Alg. 2) without full reconstruction:
+//
+//   Phase 1 – Right-to-left LQ orthogonalisation
+//     For k = d−1 downto 1:
+//       Unfold G_k as M: r_left × (n_k·r_right)
+//       LQ: M = L·Q  (Modified Gram-Schmidt on rows; Q has orthonormal rows)
+//       G_k ← Q reshaped (same shape, rows orthonormal → right-orthogonal)
+//       G_{k−1} right-unfolding ← G_{k−1}_right_unfold · L
+//   After this pass ‖T‖_F = ‖G_0‖_F.
+//
+//   Phase 2 – Left-to-right truncated-SVD
+//     δ = eps · ‖G_0‖_F / √(d−1)
+//     For k = 0 to d−2:
+//       Unfold G_k as M: (r_left·n_k) × r_right
+//       Truncated SVD: M ≈ U·diag(S)·Vt  (singular values < δ discarded)
+//       G_k ← U reshaped; T = diag(S)·Vt absorbed into G_{k+1}
+//
+// ============================================================================
+
+TTTrain TensorTrainDecomposer::recompress(const TTTrain& train,
+                                          const TensorTrainConfig& cfg) const {
+    const std::size_t d = train.cores.size();
+    if (d < 2) {
+        TTTrain res = train;
+        res.achieved_eps = cfg.eps;
+        return res;
+    }
+
+    TTTrain res = train;
+
+    // ─────────────────────────────────────────────────────────────────────
+    // Phase 1: Right-to-left LQ orthogonalisation
+    // ─────────────────────────────────────────────────────────────────────
+    for (std::size_t k = d - 1; k > 0; --k) {
+        auto& Gk   = res.cores[k];
+        auto& Gkm1 = res.cores[k - 1];
+
+        const std::size_t rl    = Gk.r_left;
+        const std::size_t ncols = Gk.n * Gk.r_right;
+        if (rl == 0 || ncols == 0) continue;
+
+        // Unfold G_k as M: r_left x (n_k * r_right)  [right-unfolding]
+        std::vector<float> M(rl * ncols);
+        for (std::size_t l = 0; l < rl; ++l)
+            for (std::size_t i = 0; i < Gk.n; ++i)
+                for (std::size_t r = 0; r < Gk.r_right; ++r)
+                    M[l * ncols + i * Gk.r_right + r] = Gk.at(l, i, r);
+
+        // LQ: M = L . Q_ortho  (L: rl x rl lower-triangular, Q: rl x ncols ortho rows)
+        std::vector<float> L_mat, Q_mat;
+        thinLQ(M, rl, ncols, L_mat, Q_mat);
+
+        // G_k <- Q_mat reshaped to (r_left, n_k, r_right) -- same shape
+        for (std::size_t l = 0; l < rl; ++l)
+            for (std::size_t i = 0; i < Gk.n; ++i)
+                for (std::size_t r = 0; r < Gk.r_right; ++r)
+                    Gk.at(l, i, r) = Q_mat[l * ncols + i * Gk.r_right + r];
+
+        // Absorb L into G_{k-1} right-unfolding
+        const std::size_t ml = Gkm1.r_left * Gkm1.n;
+        const std::size_t rr = Gkm1.r_right;   // equals Gk.r_left = rl
+
+        std::vector<float> Fm(ml * rr);
+        for (std::size_t li = 0; li < Gkm1.r_left; ++li)
+            for (std::size_t ni = 0; ni < Gkm1.n; ++ni)
+                for (std::size_t rj = 0; rj < rr; ++rj)
+                    Fm[(li * Gkm1.n + ni) * rr + rj] = Gkm1.at(li, ni, rj);
+
+        // Fm_new = Fm . L  (ml x rr) . (rl x rl)  [rr == rl by TT-chain invariant]
+        std::vector<float> Fm_new = matMul(Fm, L_mat, ml, rr, rl);
+
+        for (std::size_t li = 0; li < Gkm1.r_left; ++li)
+            for (std::size_t ni = 0; ni < Gkm1.n; ++ni)
+                for (std::size_t rj = 0; rj < rr; ++rj)
+                    Gkm1.at(li, ni, rj) = Fm_new[(li * Gkm1.n + ni) * rr + rj];
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // Phase 2: Left-to-right truncated-SVD
+    // ─────────────────────────────────────────────────────────────────────
+    // After right-to-left pass the full Frobenius norm resides in G_0.
+    double norm_sq = 0.0;
+    for (float v : res.cores[0].data) norm_sq += static_cast<double>(v) * v;
+    const double norm = std::sqrt(norm_sq);
+
+    const double delta = (norm > 1e-12)
+        ? cfg.eps * norm / std::sqrt(static_cast<double>(d - 1))
+        : 0.0;
+
+    for (std::size_t k = 0; k < d - 1; ++k) {
+        auto& Gk  = res.cores[k];
+        auto& Gk1 = res.cores[k + 1];
+
+        const std::size_t m = Gk.r_left * Gk.n;
+        const std::size_t n = Gk.r_right;
+        if (m == 0 || n == 0) continue;
+
+        // Unfold G_k as M: (r_left * n_k) x r_right  [left-unfolding]
+        std::vector<float> M(m * n);
+        for (std::size_t l = 0; l < Gk.r_left; ++l)
+            for (std::size_t i = 0; i < Gk.n; ++i)
+                for (std::size_t r = 0; r < n; ++r)
+                    M[(l * Gk.n + i) * n + r] = Gk.at(l, i, r);
+
+        std::vector<float> U, S, Vt;
+        std::size_t new_r;
+        truncatedSVD(M, m, n, delta, cfg.max_rank, U, S, Vt, new_r);
+
+        // G_k <- reshape(U, r_left, n_k, new_r)
+        Gk.r_right = new_r;
+        Gk.data    = U;   // U is (m x new_r), flat row-major
+
+        // Transfer T = diag(S) . Vt:  new_r x n
+        std::vector<float> T(new_r * n);
+        for (std::size_t i = 0; i < new_r; ++i)
+            for (std::size_t j = 0; j < n; ++j)
+                T[i * n + j] = S[i] * Vt[i * n + j];
+
+        // Absorb T into G_{k+1} left-unfolding
+        const std::size_t old_rl1 = Gk1.r_left;    // equals n (old G_k.r_right)
+        const std::size_t cols1   = Gk1.n * Gk1.r_right;
+
+        std::vector<float> G1_mat(old_rl1 * cols1);
+        for (std::size_t l = 0; l < old_rl1; ++l)
+            for (std::size_t i = 0; i < Gk1.n; ++i)
+                for (std::size_t r = 0; r < Gk1.r_right; ++r)
+                    G1_mat[l * cols1 + i * Gk1.r_right + r] = Gk1.at(l, i, r);
+
+        // new_G1_mat = T . G1_mat:  (new_r x n) . (old_rl1 x cols1)
+        std::vector<float> new_G1 = matMul(T, G1_mat, new_r, old_rl1, cols1);
+
+        Gk1.r_left = new_r;
+        Gk1.data.resize(new_r * cols1);
+        for (std::size_t l = 0; l < new_r; ++l)
+            for (std::size_t i = 0; i < Gk1.n; ++i)
+                for (std::size_t r = 0; r < Gk1.r_right; ++r)
+                    Gk1.at(l, i, r) = new_G1[l * cols1 + i * Gk1.r_right + r];
+    }
+
+    res.achieved_eps  = cfg.eps;
+    res.original_norm = train.original_norm;
+    return res;
 }
 
 // ============================================================================

@@ -1505,6 +1505,21 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/encrypted_blob_backend.cpp
     ../src/storage/mvcc_chain_pruner.cpp
 
+    # Tensor-Train storage layer (TT-decomposition, quantisation, compaction)
+    ../src/storage/tensor_train_decomposer.cpp
+    ../src/storage/tt_quantizer.cpp
+    ../src/storage/tensor_network_storage_engine.cpp
+    ../src/storage/tensor_router.cpp
+    ../src/storage/tensor_compaction_filter.cpp
+
+    # Tensor-graph modules (index, bridge, ingestion)
+    ../src/tensor/tensor_index.cpp
+    ../src/tensor/hnsw_tt_bridge.cpp
+    ../src/tensor/tensor_index_manager.cpp
+    ../src/tensor/tensor_core_bridge.cpp
+    ../src/tensor/tensor_ingestion_bridge.cpp
+
+
     ../src/metadata/schema_manager.cpp
     ../src/metadata/statistics_collector.cpp
     ../src/metadata/information_schema.cpp

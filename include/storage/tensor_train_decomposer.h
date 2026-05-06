@@ -270,6 +270,29 @@ public:
      */
     TTTrain round(const TTTrain& train, const TensorTrainConfig& cfg) const;
 
+    /**
+     * @brief Re-compress an existing TTTrain without full reconstruction.
+     *
+     * Implements the efficient TT-rounding algorithm (Oseledets 2011,
+     * Algorithm 2):
+     *  1. Right-to-left LQ orthogonalisation (Modified Gram-Schmidt on rows)
+     *     redistributes the Frobenius norm into the first core.
+     *  2. Left-to-right truncated-SVD sweep discards singular values below
+     *     δ = ε · ‖T‖_F / √(d−1), reducing bond dimensions.
+     *
+     * Complexity: O(d · r² · n) — avoids the O(∏ n_k) cost of full
+     * reconstruction used by `round()`.
+     *
+     * Never increases any bond dimension: if the train is already compact at
+     * the requested `eps`, it is returned unchanged (same ranks).
+     *
+     * @param train  Source TT-train.
+     * @param cfg    Target configuration (eps / max_rank).  Typically the same
+     *               or tighter than the original decomposition parameters.
+     * @return       Recompressed TTTrain with equal or lower bond dimensions.
+     */
+    TTTrain recompress(const TTTrain& train, const TensorTrainConfig& cfg) const;
+
     // ─── Inner product (compressed domain) ───────────────────────────────
 
     /**
