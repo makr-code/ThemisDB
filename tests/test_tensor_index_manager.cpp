@@ -41,12 +41,21 @@
  *   TIM-16  createIndex() restores data from disk when data dir is set
  *   TIM-17  dropIndex() deletes the corresponding .ttidx file
  *   TIM-18  flushAll() on empty manager returns 0
+ *
+ * TensorMmapBridge — TIM-19..TIM-24
+ *   TIM-19  mapCores() returns non-null for a vector that was added
+ *   TIM-20  mapCores() returns null for a non-existent vector ID
+ *   TIM-21  mapCores() returns null for a non-existent index
+ *   TIM-22  Each core slice's float data matches the stored TTTrain exactly
+ *   TIM-23  totalBytes() equals the sum of all core byte sizes
+ *   TIM-24  release() empties slices and is idempotent
  */
 
 #include <gtest/gtest.h>
 #include <filesystem>
 
 #include "tensor/tensor_index_manager.h"
+#include "tensor/tensor_mmap_bridge.h"
 #include "storage/tensor_router.h"
 
 #include <cstdio>
@@ -421,5 +430,123 @@ TEST(TensorIndexManagerPersistence, TIM18_FlushAllEmptyManagerReturnsZero) {
     auto mgr = TensorIndexManager::create(nullptr);
     mgr->setDataDir("/tmp");
     EXPECT_EQ(mgr->flushAll(), 0u);
+}
+
+// ============================================================================
+// TensorMmapBridge — TIM-19..TIM-24
+// ============================================================================
+//
+// These tests exercise TensorIndexManager::mapCores() which returns a
+// TensorMmapBridge owning mmap-pinned copies of TT-core data (STUB #176).
+// Tests are deliberately platform-agnostic: mlock() failure is non-fatal
+// (CI containers may have RLIMIT_MEMLOCK=0), so we only assert on pointer
+// validity and data correctness, not on isLocked().
+// ============================================================================
+
+namespace {
+
+/// Helper: add a vector and return the decomposed TTTrain for comparison.
+/// Also returns the raw vector so we can validate round-trip data.
+std::vector<float> addVecGetRaw(ITensorIndex* idx, int64_t id,
+                                size_t dim, float seed) {
+    auto v = makeVec(dim, seed);
+    EXPECT_TRUE(idx->addFlat(id, v.data(), v.size()));
+    return v;
+}
+
+} // namespace
+
+TEST(TensorMmapBridge, TIM19_MapCoresReturnsNonNullForExistingVector) {
+    auto mgr = TensorIndexManager::create(nullptr);
+    auto* idx = mgr->createIndex("t", "c", "f");
+    addVecGetRaw(idx, 42, 8, 1.0f);
+
+    auto bridge = mgr->mapCores("t", "c", "f", 42);
+    ASSERT_NE(bridge, nullptr);
+    EXPECT_GT(bridge->coreCount(), 0u);
+}
+
+TEST(TensorMmapBridge, TIM20_MapCoresReturnsNullForMissingId) {
+    auto mgr = TensorIndexManager::create(nullptr);
+    mgr->createIndex("t", "c", "f");
+
+    auto bridge = mgr->mapCores("t", "c", "f", 999);
+    EXPECT_EQ(bridge, nullptr);
+}
+
+TEST(TensorMmapBridge, TIM21_MapCoresReturnsNullForMissingIndex) {
+    auto mgr = TensorIndexManager::create(nullptr);
+
+    auto bridge = mgr->mapCores("ghost", "c", "f", 1);
+    EXPECT_EQ(bridge, nullptr);
+}
+
+TEST(TensorMmapBridge, TIM22_CoreDataMatchesOriginalTTCoreValues) {
+    // Decompose a known vector and verify that every float in every pinned
+    // core matches the stored TTTrain data exactly.
+    auto mgr = TensorIndexManager::create(nullptr);
+    auto* idx = mgr->createIndex("t", "c", "f");
+    addVecGetRaw(idx, 7, 8, 2.5f);
+
+    // Retrieve the raw TTTrain for comparison.
+    const storage::TTTrain* train = idx->get(7);
+    ASSERT_NE(train, nullptr);
+
+    auto bridge = mgr->mapCores("t", "c", "f", 7);
+    ASSERT_NE(bridge, nullptr);
+
+    const auto& slices = bridge->slices();
+    ASSERT_EQ(slices.size(), train->cores.size());
+
+    for (size_t ci = 0; ci < train->cores.size(); ++ci) {
+        const auto& s = slices[ci];
+        const auto& c = train->cores[ci];
+        EXPECT_EQ(s.core_idx,  ci);
+        EXPECT_EQ(s.num_elems, c.data.size());
+        EXPECT_EQ(s.bytes,     c.data.size() * sizeof(float));
+        if (s.data && !c.data.empty()) {
+            for (size_t ei = 0; ei < c.data.size(); ++ei) {
+                EXPECT_FLOAT_EQ(s.data[ei], c.data[ei])
+                    << "Mismatch at core=" << ci << " elem=" << ei;
+            }
+        }
+    }
+}
+
+TEST(TensorMmapBridge, TIM23_TotalBytesMatchesSumOfCoreSizes) {
+    auto mgr = TensorIndexManager::create(nullptr);
+    auto* idx = mgr->createIndex("t", "c", "f");
+    addVecGetRaw(idx, 3, 16, 0.5f);
+
+    const storage::TTTrain* train = idx->get(3);
+    ASSERT_NE(train, nullptr);
+
+    size_t expected = 0;
+    for (const auto& core : train->cores) {
+        expected += core.data.size() * sizeof(float);
+    }
+
+    auto bridge = mgr->mapCores("t", "c", "f", 3);
+    ASSERT_NE(bridge, nullptr);
+    EXPECT_EQ(bridge->totalBytes(), expected);
+}
+
+TEST(TensorMmapBridge, TIM24_ReleaseInvalidatesRegions) {
+    auto mgr = TensorIndexManager::create(nullptr);
+    auto* idx = mgr->createIndex("t", "c", "f");
+    addVecGetRaw(idx, 55, 8, 1.0f);
+
+    auto bridge = mgr->mapCores("t", "c", "f", 55);
+    ASSERT_NE(bridge, nullptr);
+    EXPECT_GT(bridge->coreCount(), 0u);
+
+    // After explicit release, slices must be empty.
+    bridge->release();
+    EXPECT_EQ(bridge->coreCount(), 0u);
+    EXPECT_EQ(bridge->totalBytes(), 0u);
+    EXPECT_FALSE(bridge->isLocked());
+
+    // A second release must be safe (idempotent).
+    EXPECT_NO_THROW(bridge->release());
 }
 

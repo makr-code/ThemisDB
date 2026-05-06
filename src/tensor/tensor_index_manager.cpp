@@ -23,6 +23,7 @@
  */
 
 #include "tensor/tensor_index_manager.h"
+#include "tensor/tensor_mmap_bridge.h"
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 
@@ -293,13 +294,32 @@ size_t TensorIndexManager::flushAll() {
 }
 
 // -----------------------------------------------------------------------
-// GGML bridge (stub — Phase 3)
+// mapCores() — Phase 3 mmap-pinned TT-core bridge (TIM-01, STUB #176)
+// -----------------------------------------------------------------------
+
+std::unique_ptr<TensorMmapBridge>
+TensorIndexManager::mapCores(const std::string& tenant_id,
+                              const std::string& collection,
+                              const std::string& field,
+                              int64_t id) const {
+    auto* idx = getIndex(tenant_id, collection, field);
+    if (!idx) return nullptr;
+
+    const storage::TTTrain* train = idx->get(id);
+    if (!train) return nullptr;
+
+    return TensorMmapBridge::buildFromTrain(*train);
+}
+
+// -----------------------------------------------------------------------
+// ggmlCorePtrs() — raw-pointer legacy bridge (kept for backward compat)
 //
 // STUB/SIMULATION NOTE:
 // Purpose: expose raw TT-core pointers for zero-copy GGML injection
-// Activation: called by GgmlTensorBridge when THEMIS_ENABLE_GGML_BRIDGE set
-// Production Delta: real impl pins pages via mmap() and registers fence
-// Removal Plan: implement in Phase 3 (Q1 2027) — TIM-01
+// Activation: always (deprecated; prefer mapCores() for new code)
+// Production Delta: returns raw pointers with no mmap / mlock protection;
+//   pointers are valid only while the index is alive and no mutation occurs
+// Removal Plan: remove after all callers migrate to mapCores()
 // -----------------------------------------------------------------------
 
 std::vector<std::pair<const float*, size_t>>
@@ -307,9 +327,6 @@ TensorIndexManager::ggmlCorePtrs(const std::string& tenant_id,
                                   const std::string& collection,
                                   const std::string& field,
                                   int64_t id) const {
-    THEMIS_WARN("TensorIndexManager::ggmlCorePtrs() — mmap bridge stub "
-                "(TIM-01, Phase 3 Q1 2027)");
-
     auto* idx = getIndex(tenant_id, collection, field);
     if (!idx) return {};
 

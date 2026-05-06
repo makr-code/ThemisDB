@@ -40,6 +40,7 @@
 #pragma once
 
 #include "tensor/tensor_index.h"
+#include "tensor/tensor_mmap_bridge.h"
 #include "storage/tensor_router.h"
 #include <memory>
 #include <mutex>
@@ -182,26 +183,47 @@ public:
     // ------------------------------------------------------------------
 
     /**
-     * @brief Prepare a TT-core pointer set for direct GGML injection.
+     * @brief Pin TT-core pages in RAM and return an RAII bridge object.
      *
-     * Returns the raw data pointers of the requested TT-cores so that
-     * the GGML bridge (`include/storage/ggml_tensor_bridge.h`) can expose
-     * them to llama.cpp via mmap without copying.
+     * Each TT-core for the requested vector is placed into a dedicated
+     * `mmap(MAP_ANONYMOUS|MAP_PRIVATE)` region and locked via `mlock()`.
+     * The returned `TensorMmapBridge` owns all regions; its destructor
+     * calls `munlock()` + `munmap()` automatically.
+     *
+     * Clients should store the bridge object alive as long as any pointer
+     * from `bridge->slices()` is being used (e.g. by a GGML graph node).
      *
      * @param tenant_id   Tenant namespace.
      * @param collection  Collection name.
      * @param field       Field name.
      * @param id          Vector ID.
-     * @return            List of (core_index → raw float* pointer, size_t bytes)
-     *                    Valid until the next mutation on this index.
-     *                    Empty on error.
+     * @return            Owning bridge; nullptr if the vector does not exist.
+     *
+     * @note STUB #176 — currently uses MAP_ANONYMOUS + memcpy.
+     *   Real zero-copy (MAP_SHARED on RocksDB SST pages) is deferred to
+     *   Q1 2027 (see `src/tensor/FUTURE_ENHANCEMENTS.md`).
+     */
+    [[nodiscard]] std::unique_ptr<TensorMmapBridge>
+        mapCores(const std::string& tenant_id,
+                 const std::string& collection,
+                 const std::string& field,
+                 int64_t id) const;
+
+    /**
+     * @brief Raw-pointer variant (kept for backward compatibility).
+     *
+     * Prefer `mapCores()` for new code.  This method returns raw
+     * `const float*` pointers that are valid only while the index is
+     * alive; no mmap or mlock is performed.
+     *
+     * @deprecated Use mapCores() instead.
      *
      * @note
      * // STUB/SIMULATION NOTE:
-     * // Purpose: placeholder for Phase 3 GGML-bridge integration
-     * // Activation: THEMIS_ENABLE_GGML_BRIDGE compile flag (future)
-     * // Production Delta: returns raw pointers; real impl adds mmap fence
-     * // Removal Plan: replace body in Phase 3 (Q1 2027)
+     * // Purpose: backward-compatible raw-pointer bridge (Phase 3-A)
+     * // Activation: always (no compile flag)
+     * // Production Delta: no mmap / mlock; pointers invalidated on mutation
+     * // Removal Plan: remove after all callers migrate to mapCores()
      */
     std::vector<std::pair<const float*, size_t>>
         ggmlCorePtrs(const std::string& tenant_id,

@@ -1548,6 +1548,9 @@ set(THEMIS_CORE_SOURCES
     # TensorFingerprintGraph — adapter similarity (Phase 4 prep — Q3 2027)
     ../src/tensor/tensor_fingerprint_graph.cpp
 
+    # TensorMmapBridge — mmap-pinned zero-copy bridge for TT-core data (Phase 3 — Q1 2027)
+    ../src/tensor/tensor_mmap_bridge.cpp
+
     ../src/metadata/statistics_collector.cpp
     ../src/metadata/information_schema.cpp
     ../src/metadata/schema_constraints.cpp

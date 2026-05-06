@@ -142,12 +142,11 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 
 ### Medium-term (Phase 3, Q1–Q2 2027)
 
-- [ ] `TensorIndexManager::ggmlCorePtrs()` — null-pointer mmap handshake (Target: Q1 2027)
-  - Pin TT-core pages via `mmap(MAP_SHARED)` or `cudaHostRegister`
-  - Return `GgmlCoreDescriptor { ggml_tensor*, size_t core_idx }` per core
-  - Zero-copy path: DB → VRAM without intermediate CPU buffer
-  - Apple Silicon: unified memory pool; no PCIe transfer
-  - AC: TTFT reduction ≥ 3× vs. classical JSON-RAG path (paper §Zero-Copy RAG table)
+- [~] `TensorIndexManager::ggmlCorePtrs()` / `mapCores()` — mmap-pinned zero-copy bridge (Target: Q1 2027)
+  - **Phase 3-A resolved 2026-05-06**: `TensorMmapBridge` (`include/tensor/tensor_mmap_bridge.h` + `src/tensor/tensor_mmap_bridge.cpp`) wraps each TT-core in an `mmap(MAP_ANONYMOUS|MAP_PRIVATE)` region pinned via `mlock()`; RAII destructor calls `munlock()+munmap()`.  `TensorIndexManager::mapCores()` replaces raw `ggmlCorePtrs()` as the recommended call path.  Tests TIM-19..TIM-24 added.  STUB #176 registered for MAP_SHARED SST path.
+  - Remaining: replace MAP_ANONYMOUS + memcpy with `MAP_SHARED` on RocksDB SST file pages (STUB #176, Q1 2027).
+  - Return `GgmlCoreDescriptor { ggml_tensor*, size_t core_idx }` per core — deferred to GGML_TYPE_TT merge.
+  - AC: TTFT reduction ≥ 3× vs. classical JSON-RAG path (paper §Zero-Copy RAG table) — pending integration test.
 
 - [ ] `GgmlTensorBridge` — `GGML_TYPE_TT` registration (Target: Q1 2027)
   - New `ggml_type` enum value; `ggml_map_custom1` op for O(d·r²) contraction
@@ -364,7 +363,9 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 
 ### Phase 3: Zero-Copy Inference + Advanced RAG (Status: 🚧 In Progress — 2026-05-06)
 
-- [ ] `ggmlCorePtrs()` — null-pointer mmap handshake (TIM-01)
+- [~] `ggmlCorePtrs()` — null-pointer mmap handshake (TIM-01)
+  - **Phase 3-A resolved 2026-05-06**: `TensorMmapBridge` added (`include/tensor/tensor_mmap_bridge.h` + `src/tensor/tensor_mmap_bridge.cpp`); `TensorIndexManager::mapCores()` allocates `MAP_ANONYMOUS|MAP_PRIVATE` regions + `mlock()`; RAII destructor calls `munlock()+munmap()`; STUB #176 for MAP_SHARED SST-file path (Q1 2027); tests TIM-19..TIM-24
+  - Remaining: replace MAP_ANONYMOUS + memcpy with MAP_SHARED on RocksDB SST pages (STUB #176, Q1 2027)
 - [~] `GgmlTensorBridge` — `GGML_TYPE_TT` + GGUF v3 metadata provenance
   - Skeleton implemented 2026-05-06: `map()`/`mapAdapter()`/`prefetch()`/`releaseAll()`/`stats()` wired;
     FakeTensor proxy (stub #169) replaces real ggml_tensor allocation; `registerGgmlTypeTT()` returns placeholder
