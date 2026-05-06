@@ -40,6 +40,13 @@
 #include <sstream>
 #endif
 
+#ifdef THEMIS_ENABLE_CUDA
+#include <cuda_runtime.h>
+#endif
+#ifdef THEMIS_ENABLE_HIP
+#include <hip/hip_runtime.h>
+#endif
+
 namespace themis::sharding {
 
 // ============================================================================
@@ -588,18 +595,35 @@ std::pair<uint64_t, uint64_t> ShardResourceManager::getRamUsage() const {
 }
 
 std::pair<uint64_t, uint64_t> ShardResourceManager::getVramUsage() const {
+#if defined(THEMIS_ENABLE_CUDA)
+    size_t free_bytes  = 0;
+    size_t total_bytes = 0;
+    if (cudaMemGetInfo(&free_bytes, &total_bytes) == cudaSuccess) {
+        uint64_t used = static_cast<uint64_t>(total_bytes - free_bytes);
+        return {used, static_cast<uint64_t>(total_bytes)};
+    }
+    return {0, 0};
+#elif defined(THEMIS_ENABLE_HIP)
+    size_t free_bytes  = 0;
+    size_t total_bytes = 0;
+    if (hipMemGetInfo(&free_bytes, &total_bytes) == hipSuccess) {
+        uint64_t used = static_cast<uint64_t>(total_bytes - free_bytes);
+        return {used, static_cast<uint64_t>(total_bytes)};
+    }
+    return {0, 0};
+#else
     // STUB/SIMULATION NOTE:
     // Purpose: Satisfies the VRAM usage query API on platforms without a GPU
-    //          runtime (no CUDA / HIP / Vulkan available at link time).
-    // Activation: Always — no GPU API is queried.
+    //          runtime (no CUDA / HIP available at link time).
+    // Activation: Neither THEMIS_ENABLE_CUDA nor THEMIS_ENABLE_HIP defined.
     // Production Delta: Returns (0, 0); resource-aware shard scheduling decisions
     //                   that rely on VRAM headroom will not account for actual GPU
     //                   memory consumption.
-    // Removal Plan: Add CUDA (nvmlDeviceGetMemoryInfo) / HIP (hipMemGetInfo) /
-    //               Vulkan (VK_EXT_memory_budget) backends, guarded by
-    //               THEMIS_ENABLE_CUDA / THEMIS_ENABLE_HIP / THEMIS_ENABLE_VULKAN.
+    // Removal Plan: Enable CUDA or HIP via cmake; the appropriate block above will
+    //               activate.  Vulkan (VK_EXT_memory_budget) path deferred.
     //               See src/sharding/FUTURE_ENHANCEMENTS.md §VRAM Usage Monitoring.
     return {0, 0};
+#endif
 }
 
 std::pair<uint64_t, uint64_t> ShardResourceManager::getDiskUsage() const {

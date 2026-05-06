@@ -3732,28 +3732,36 @@ void QuorumReadManager::setReplicas(const std::vector<ReplicaInfo>& replicas) {
     replicas_ = replicas;
 }
 
+void QuorumReadManager::setDocumentFetchCallback(DocumentFetchFn fn) {
+    std::unique_lock<std::shared_mutex> lock(replicas_mutex_);
+    doc_fetch_fn_ = std::move(fn);
+}
+
 QuorumReadManager::ReplicaResponse QuorumReadManager::queryReplica(
     const ReplicaInfo& replica,
-    const std::string& /*collection*/,
-    const std::string& /*document_id*/) const
+    const std::string& collection,
+    const std::string& document_id) const
 {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Simulates a quorum-read RPC response so that the quorum-read
-    //          aggregation logic can be unit-tested without a real replica
-    //          network.
-    // Activation: Always — no gRPC / TCP RPC call is made to the replica endpoint.
-    // Production Delta: `resp.data` is always empty string; a real RPC would
-    //                   return the document from the replica's storage layer.
-    //                   Health status is taken from the in-memory `replica`
-    //                   object without any network liveness check.
-    // Removal Plan: Implement a real replica RPC call (gRPC ReadDocument or
-    //               equivalent); populate `resp.data` from the response.  See
-    //               src/replication/FUTURE_ENHANCEMENTS.md §QuorumRead Replica RPC.
     ReplicaResponse resp;
     resp.endpoint = replica.endpoint;
     resp.ok       = (replica.health_status == HealthStatus::HEALTHY);
     resp.version  = resp.ok ? replica.last_applied_sequence : 0;
-    resp.data     = "";  // Real data comes from storage layer
+
+    // When a document-fetch callback has been injected (by the storage layer
+    // or a test harness), use it to populate the data field.  Without the
+    // callback the data field remains empty; health/version information is
+    // still correct and the quorum-counting logic functions normally.
+    if (resp.ok && doc_fetch_fn_) {
+        try {
+            resp.data = doc_fetch_fn_(replica.endpoint, collection, document_id);
+        } catch (const std::exception& e) {
+            THEMIS_WARN("QuorumRead: doc_fetch_fn_ threw for replica {}: {}",
+                        replica.endpoint, e.what());
+            resp.ok   = false;
+            resp.data = "";
+        }
+    }
+
     return resp;
 }
 

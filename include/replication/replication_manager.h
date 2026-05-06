@@ -945,12 +945,28 @@ public:
     // Update the replica list (called when topology changes)
     void setReplicas(const std::vector<ReplicaInfo>& replicas);
 
+    /// Callback type for fetching a document from a specific replica.
+    /// Arguments: endpoint, collection, document_id.  Returns the serialised
+    /// document data, or an empty string when the replica does not hold the
+    /// document or the fetch fails.
+    using DocumentFetchFn = std::function<
+        std::string(const std::string& /*endpoint*/,
+                    const std::string& /*collection*/,
+                    const std::string& /*document_id*/)>;
+
+    /// Inject a data-fetch function so that queryReplica() can return real
+    /// document content.  The storage / RPC layer sets this at startup; tests
+    /// inject a local-memory lookup.  Without a callback the data field of
+    /// every ReplicaResponse remains empty (original behaviour).
+    void setDocumentFetchCallback(DocumentFetchFn fn);
+
 private:
     QuorumReadConfig config_;
     std::vector<ReplicaInfo> replicas_;
     mutable std::shared_mutex replicas_mutex_;
+    DocumentFetchFn doc_fetch_fn_;   ///< Optional RPC / storage data fetcher
 
-    // Per-replica read simulation (real impl would use RPC)
+    // Per-replica read response
     struct ReplicaResponse {
         bool        ok;
         std::string data;
