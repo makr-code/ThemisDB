@@ -80,8 +80,10 @@ static constexpr uint8_t KRB5_APP1_TAG    = 0x61;  // [APPLICATION 1]  Ticket
 static constexpr uint32_t AP_OPT_USE_SESSION_KEY = 0x40000000u;
 static constexpr uint32_t AP_OPT_MUTUAL_REQUIRED  = 0x20000000u;
 
-// Read a DER-encoded length field at data[offset]; advances offset.
-// Returns false on overflow or unsupported encoding.
+// Read a DER-encoded length field starting at data[offset].
+// On success, advances offset past the length field and sets length.
+// Returns false on malformed input (indefinite form, too many length octets,
+// or overflow past data end).
 static bool derReadLength(const uint8_t* data, size_t size,
                            size_t& offset, size_t& length) {
     if (offset >= size) return false;
