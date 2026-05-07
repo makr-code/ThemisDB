@@ -239,6 +239,31 @@ public:
     void onTtsChunk(TtsChunkCb cb);       ///< Called with TTS audio chunks when enable_tts=true
     void onError(ErrorCb cb);
 
+    // ── STT backend injection ─────────────────────────────────────────────────
+
+    /**
+     * @brief Inject a real STT transcription backend.
+     *
+     * The function receives the current audio buffer, an `is_final` flag
+     * (true when `endOfUtterance()` triggers the call), and the sequence
+     * counter.  It must return a populated `PartialTranscript`; the session
+     * will overwrite `stream_id` and, if `timestamp_ms` is zero, set it to
+     * the current wall-clock time.
+     *
+     * When no function is injected the session falls back to the built-in
+     * placeholder that returns `[partial#N:MBB]` text.
+     *
+     * Signature: (audio_buffer, is_final, seq) → PartialTranscript
+     */
+    using TranscribeFn = std::function<PartialTranscript(
+        const std::vector<uint8_t>& audio,
+        bool is_final,
+        uint32_t seq)>;
+
+    /// Inject an STT transcription backend.  Passing null resets to the
+    /// built-in placeholder.
+    void setTranscribeBackend(TranscribeFn fn);
+
     // ── Session info ──────────────────────────────────────────────────────────
 
     StreamID     streamId()    const noexcept;

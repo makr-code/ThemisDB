@@ -48,7 +48,24 @@ namespace security {
 // Implementation class
 class USBAdminAuthenticator::Impl {
 public:
-    // Placeholder for any platform-specific state
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide an Impl class shell so USBAdminAuthenticator compiles on
+    //          all platforms while the platform-specific USB enumeration and
+    //          license-key cryptography are not yet implemented.
+    // Activation: Built-in RSA path always active when license_verifier_fn is
+    //             null (no LicenseVerifierFn injected).  The embedded RSA public
+    //             key is a PLACEHOLDER — it will reject all real signatures.
+    // Production Delta: Without a real LicenseVerifierFn injected:
+    //   (a) matchesHardware() is called with the system hardware ID, and
+    //   (b) validateLicenseSignature() uses the fake embedded RSA public key
+    //       (returns false for all real signatures).
+    //   When a LicenseVerifierFn is injected it replaces both (a) and (b).
+    // Removal Plan: Inject a production-grade LicenseVerifierFn that performs
+    //   real RSA/HMAC verification against a provisioned public key, OR replace
+    //   the embedded placeholder key with a real one when the key-management
+    //   workflow is established.
+    //   See src/security/FUTURE_ENHANCEMENTS.md §USBAdminAuthenticator Impl.
+    LicenseVerifierFn license_verifier_fn;
 };
 
 // USBAdminLicense methods
@@ -243,20 +260,32 @@ bool USBAdminAuthenticator::refreshUSBStatus() {
         return false;
     }
     
-    // Check hardware binding
-    std::string hw_id = getSystemHardwareID();
-    if (!license->matchesHardware(hw_id)) {
-        THEMIS_WARN("USBAdminAuthenticator: license hardware mismatch (expected={}, current={})", 
-                    license->hardware_id, hw_id);
-        current_license_.reset();
-        return false;
-    }
-    
-    // Validate signature
-    if (!validateLicenseSignature(*license)) {
-        THEMIS_WARN("USBAdminAuthenticator: license signature validation failed");
-        current_license_.reset();
-        return false;
+    // Validate hardware binding and license signature.
+    // When a LicenseVerifierFn has been injected it replaces both checks
+    // (hardware ID matching and RSA signature verification).
+    if (impl_->license_verifier_fn) {
+        std::string hw_id = getSystemHardwareID();
+        if (!impl_->license_verifier_fn(*license, hw_id)) {
+            THEMIS_WARN("USBAdminAuthenticator: injected license verifier rejected the license");
+            current_license_.reset();
+            return false;
+        }
+    } else {
+        // Check hardware binding
+        std::string hw_id = getSystemHardwareID();
+        if (!license->matchesHardware(hw_id)) {
+            THEMIS_WARN("USBAdminAuthenticator: license hardware mismatch (expected={}, current={})", 
+                        license->hardware_id, hw_id);
+            current_license_.reset();
+            return false;
+        }
+        
+        // Validate signature
+        if (!validateLicenseSignature(*license)) {
+            THEMIS_WARN("USBAdminAuthenticator: license signature validation failed");
+            current_license_.reset();
+            return false;
+        }
     }
     
     // ── USB Volume Hardening checks ───────────────────────────────────────────
@@ -322,6 +351,11 @@ bool USBAdminAuthenticator::isLockedOut() const {
 USBAdminAuthenticator::Metrics USBAdminAuthenticator::getMetrics() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return metrics_;
+}
+
+void USBAdminAuthenticator::setLicenseVerifierFn(LicenseVerifierFn fn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    impl_->license_verifier_fn = std::move(fn);
 }
 
 // Private helper methods

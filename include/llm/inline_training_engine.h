@@ -218,6 +218,22 @@ struct TrainingResult {
 };
 
 /**
+ * @brief Gradient computer callback type.
+ *
+ * When set via `setGradientComputer()` this function is called by
+ * `computeGradients()` instead of the built-in synthetic proxy signal.
+ * The function receives the current mini-batch and fills the pre-sized
+ * `gradients` vector with the real loss-gradient values.
+ *
+ * @param batch     Mini-batch of training samples.
+ * @param gradients Output gradient vector (resized by the callback to
+ *                  match the actual LoRA parameter count).
+ */
+using GradientComputerFn =
+    std::function<void(const std::vector<TrainingDataIterator::TrainingSample>&,
+                       std::vector<float>&)>;
+
+/**
  * @brief Inline training engine for LoRA/QLoRA adapters
  *
  * This engine performs training directly on data from RocksDB without
@@ -245,6 +261,27 @@ public:
     );
 
     ~InlineTrainingEngine();
+
+    /**
+     * @brief Inject a real gradient computer for production LoRA training.
+     *
+     * When set, `computeGradients()` delegates entirely to @p fn instead of
+     * the built-in synthetic proxy signal.  The callback is expected to:
+     *   1. Perform a forward + backward pass over @p batch against the loaded
+     *      llama.cpp model and return the per-parameter gradient vector.
+     *   2. Resize `gradients` to the actual LoRA parameter count.
+     *
+     * Pass `nullptr` to clear the callback and revert to the synthetic proxy
+     * (useful for unit-testing the optimizer/LR-scheduling machinery without
+     * a live model backend).
+     *
+     * Thread-safe: the stored function is replaced atomically inside the
+     * engine's internal mutex before the next training step reads it.
+     *
+     * Roadmap ref: src/llm/FUTURE_ENHANCEMENTS.md §InlineTrainingEngine
+     *              production gradient (v1.8.0)
+     */
+    void setGradientComputer(GradientComputerFn fn);
 
     /**
      * @brief Inject a governance policy used to gate training jobs.

@@ -94,47 +94,26 @@ bool ShardCertificateInfo::isValidNow() const {
         return false;
     }
 
-    // Parse an ASN1_TIME_print() string (format: "Mon DD HH:MM:SS YYYY GMT")
-    // into a UTC time_t.  Returns -1 on parse failure.
-    auto parseAsn1PrintStr = [](const std::string& s) -> time_t {
-        struct tm t = {};
-        t.tm_isdst = 0;
-#ifdef _WIN32
-        // Windows lacks strptime; use sscanf with a manual month table.
-        char mon[4] = {};
-        int d = 0, H = 0, M = 0, S = 0, Y = 0;
-        if (std::sscanf(s.c_str(), "%3s %d %d:%d:%d %d", mon, &d, &H, &M, &S, &Y) != 6)
+    // Parse the string produced by ASN1_TIME_print(), e.g. "Apr 15 10:30:00 2025 GMT".
+    // strptime %e handles space-padded single-digit days; timegm interprets the
+    // broken-down time as UTC, matching the "GMT" suffix.
+    auto parse_asn1_print_time = [](const std::string& s) -> time_t {
+        struct tm t{};
+        if (strptime(s.c_str(), "%b %e %H:%M:%S %Y", &t) == nullptr) {
             return static_cast<time_t>(-1);
-        static const char* kMonths[12] = {
-            "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"
-        };
-        t.tm_mon = -1;
-        for (int i = 0; i < 12; ++i) {
-            if (std::strcmp(mon, kMonths[i]) == 0) { t.tm_mon = i; break; }
         }
-        if (t.tm_mon < 0) return static_cast<time_t>(-1);
-        t.tm_mday = d; t.tm_hour = H; t.tm_min = M; t.tm_sec = S;
-        t.tm_year = Y - 1900;
-        return _mkgmtime(&t);
-#else
-        // POSIX: strptime handles abbreviated month names and space-padded days.
-        if (strptime(s.c_str(), "%b %d %H:%M:%S %Y", &t) == nullptr)
-            return static_cast<time_t>(-1);
         return timegm(&t);
-#endif
     };
 
-    time_t nb = parseAsn1PrintStr(not_before);
-    time_t na = parseAsn1PrintStr(not_after);
+    const time_t t_before = parse_asn1_print_time(not_before);
+    const time_t t_after  = parse_asn1_print_time(not_after);
 
-    // If parsing failed for either field, fall back to the non-empty check so
-    // that callers with an unusual date representation are not silently rejected.
-    if (nb == static_cast<time_t>(-1) || na == static_cast<time_t>(-1)) {
-        return !not_before.empty() && !not_after.empty();
+    if (t_before == static_cast<time_t>(-1) || t_after == static_cast<time_t>(-1)) {
+        return false;
     }
 
-    time_t now = std::time(nullptr);
-    return now >= nb && now <= na;
+    const time_t now = std::time(nullptr);
+    return now >= t_before && now <= t_after;
 }
 
 std::optional<ShardCertificateInfo> PKIShardCertificate::parseCertificate(const std::string& cert_path) {

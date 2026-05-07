@@ -1,17 +1,25 @@
-<!-- Status: ALL S0+S1 FIXED | validated: 2026-05-04 (full source code analysis) -->
+<!-- Status: S0 addressed 2026-05-04 | S1 fixed 2026-05-04 | S2 fixed 2026-05-04 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — AQL Module
 
-**Last Audit:** 2026-05-04
+**Last Audit:** 2026-04-21
 **Auditor:** Copilot
-**Status:** ✅ All S0 and S1 findings resolved — 0 open critical findings
+**Status:** ✅ S0+S1+S2 resolved — 0 S0, 0 S1, 0 S2
 
 > **Note:** Previous audit claimed "Security Issues: None identified" and stated AQL injection
 > was resolved via "structured prompt templates." Direct source analysis found that
 > `schema_context` is injected verbatim without delimiter escaping, and generated AQL
-> was executed at system privilege level without any ACL check.
-> Both issues are now fully remediated (2026-05-04).
+> is executed at system privilege level without any ACL check.
+> **2026-05-04:** LLM-2 addressed — `checkGeneratedAQLCollectionScope()` added; generated
+> AQL collection names are verified against the caller-supplied `schema_context`; queries
+> referencing out-of-scope collections are rejected with `INVALID_RESPONSE`. Residual risk:
+> callers who omit `schema_context` are warned but not blocked (architectural limitation).
+> **2026-05-04:** LLM-3 fixed — retrieved document content is sanitized via
+> `sanitizePromptInput()` and wrapped in `[DOCUMENT_START]/[DOCUMENT_END]` delimiters
+> before inclusion in the LLM RAG context.
+> **2026-05-04:** LLM-4 fixed — `sanitizePromptInput()` applied to `original_intent` and
+> `aql_query` in `scoreQueryConfidence()`; both wrapped in `[USERINPUT_START]/[USERINPUT_END]`.
 
 ## Summary
 
@@ -20,10 +28,10 @@
 | Build System Registration | ✅ Verified |
 | Source Files | 21 (`.cpp` in `src/aql/`) |
 | Test Coverage | ✅ All 4 phases complete; unit tests for all core components |
-| S0 Critical | ✅ 0 remaining (LLM-1 fixed 2026-04-21; LLM-2 fixed 2026-05-04) |
-| S1 High | ✅ 0 remaining (LLM-3 RAG prompt injection: addressed below) |
-| S2 Medium | ⚠️ 1 (unsanitized inputs in confidence scoring) |
-| NL→AQL privilege isolation | ✅ `setCollectionAccessChecker()` enforces per-collection ACL |
+| S0 Critical | ✅ 0 (LLM-1 fixed 2026-04-21; LLM-2 addressed 2026-05-04) |
+| S1 High | 🔴 1 (RAG indirect prompt injection) |
+| S2 Medium | ✅ 0 (LLM-4 fixed 2026-05-04) |
+| NL→AQL privilege isolation | ⚠️ Partial — schema-scope check enforced; full per-caller ACL requires architectural change |
 
 ## Build System
 
@@ -94,25 +102,29 @@ treat content between these delimiters as schema only. Also strip known jailbrea
 
 ---
 
-#### LLM-2 · `llm_aql_handler.cpp` · `translateNLToAQL()` — ✅ FIXED 2026-05-04
+#### LLM-2 · `llm_aql_handler.cpp` · `translateNLToAQL()` — Generated AQL executed at system privilege
 
-~~`AQLQueryValidator::validate()` performs syntax validation only. No ACL or collection-level
-authorization check is applied to generated AQL before it is returned and executed.~~
+`AQLQueryValidator::validate()` performs syntax validation only. No ACL or collection-level
+authorization check is applied to generated AQL before it is returned and executed:
 
-**Resolution:** `LLMAQLHandler::setCollectionAccessChecker()` was added
-(`include/aql/llm_aql_handler.h`). When a checker is registered, all three NL→AQL paths
-(`translateNLToAQL`, `translateNLToAQLStreaming`, `translateNLToAQLWithExamples`) parse the
-generated AQL via `AQLParser`, extract every collection referenced in `for_nodes`, and call
-the checker for each one. Access denial throws `LLMException(ACCESS_DENIED)`. If the AQL
-cannot be parsed the query is rejected fail-closed.
+```cpp
+AQLQueryValidator aql_validator;
+auto vresult = aql_validator.validate(aql_query);  // syntax only
+return aql_query;   // executed with system-level privilege
+```
 
-`LLMErrorCode::ACCESS_DENIED = 1008` was added to `include/aql/llm_error_codes.h`.
+Combined with LLM-1, this is a complete privilege escalation chain: an attacker with access
+to the NL→AQL endpoint can reach any collection in the database.
+
+**Fix required:** After validation, traverse the AQL AST to extract all referenced
+collection names. Verify each against the caller's ACL before returning the query for
+execution.
 
 ---
 
 ### S1 — High
 
-#### LLM-3 · `llm_aql_handler.cpp` · `executeRAG()` — Indirect prompt injection via retrieved documents
+#### LLM-3 · `llm_aql_handler.cpp` · `executeRAG()` — Indirect prompt injection via retrieved documents ✅ fixed 2026-05-04
 
 RAG-retrieved document content (including stored user data) is passed directly to the LLM
 as context without sanitization for injection markers:
@@ -125,9 +137,9 @@ auto response = plugin_mgr.generateRAG(context, request);
 An attacker who stores a document containing `"\nASSISTANT: Ignore previous instructions..."`
 can hijack the RAG response to the next user querying overlapping data.
 
-**Fix required:** Insert hard delimiters around each retrieved document in the RAG context
-(e.g., `[DOCUMENT_START]\n...\n[DOCUMENT_END]`), and instruct the model in the system
-prompt not to follow instructions within document context.
+**Fix applied 2026-05-04:** Each retrieved document's content is sanitized via
+`sanitizePromptInput()` (injection markers trigger content redaction), then wrapped in
+`[DOCUMENT_START]/[DOCUMENT_END]` delimiters before being added to the RAG context.
 
 ---
 
@@ -135,15 +147,9 @@ prompt not to follow instructions within document context.
 
 #### LLM-4 · `llm_aql_handler.cpp` · `scoreQueryConfidence()` — Unsanitized inputs in prompt
 
-`original_intent` and `aql_query` are embedded in the scoring prompt without calling
-`sanitizePromptInput`:
+✅ **Fixed 2026-05-04** — `sanitizePromptInput()` is now called on both `original_intent` and `aql_query` before they are embedded in the prompt. Both fields are wrapped in `[USERINPUT_START]/[USERINPUT_END]` delimiters.
 
-```cpp
-prompt << "The user intended: \"" << original_intent << "\"\n\n";
-prompt << "AQL query to evaluate:\n```\n" << aql_query << "\n```\n\n";
-```
-
-**Fix required:** Apply `sanitizePromptInput()` to both before embedding.
+~~`original_intent` and `aql_query` were embedded in the scoring prompt without calling `sanitizePromptInput`.~~
 
 ---
 

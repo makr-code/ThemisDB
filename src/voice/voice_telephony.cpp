@@ -193,6 +193,9 @@ struct SipCallSession::Impl {
     std::vector<int16_t> pcm_buffer;
     uint32_t             partial_seq = 0;
 
+    // Injected TTS backend (optional; stub fallback when null)
+    std::shared_ptr<ITtsBackend> tts_backend;
+
     // Callbacks
     TranscriptCb  on_transcript;
     DtmfCb        on_dtmf;
@@ -348,10 +351,38 @@ void SipCallSession::injectDtmf(const DtmfEvent& event) {
 
 std::vector<std::vector<uint8_t>>
 SipCallSession::synthesizeTts(const std::string& text) {
-    // Placeholder: return text as a single RTP-like packet per 20 ms frame
-    // In production: feed text through TTS → G.711 encoder → RTP packetiser
     std::vector<std::vector<uint8_t>> packets;
     if (text.empty()) return packets;
+
+    if (impl_->tts_backend) {
+        // Delegate to the injected backend; wrap each returned audio payload
+        // with a minimal 12-byte RTP header (version=2, no padding/ext/csrc).
+        auto frames = impl_->tts_backend->synthesize(text, impl_->config.codec);
+        packets.reserve(frames.size());
+        for (auto& frame : frames) {
+            std::vector<uint8_t> pkt;
+            pkt.reserve(12 + frame.size());
+            pkt.resize(12, 0);
+            pkt[0] = 0x80; // V=2, P=0, X=0, CC=0
+            pkt[1] = static_cast<uint8_t>(
+                impl_->config.codec == AudioCodec::PCMU ? 0 :
+                impl_->config.codec == AudioCodec::PCMA ? 8 : 0);
+            pkt.insert(pkt.end(), frame.begin(), frame.end());
+            packets.push_back(std::move(pkt));
+        }
+        return packets;
+    }
+
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow SIP call sessions to compile and run without a real TTS →
+    //          G.711 encoder → RTP packetiser pipeline.
+    // Activation: Active when no ITtsBackend has been injected via setTtsBackend().
+    // Production Delta: Raw UTF-8 text bytes are wrapped in a minimal RTP header
+    //                   instead of encoded PCM audio.  The remote SIP endpoint will
+    //                   receive undecodable data and produce garbled or silent audio.
+    // Removal Plan: Wire a real ITtsBackend implementation (G.711 µ-law PCM encoder)
+    //               via setTtsBackend() at startup.  See STUB_INVENTORY entry #173 and
+    //               src/voice/FUTURE_ENHANCEMENTS.md §SIP TTS G.711 Encoder.
 
     // Minimal RTP header (12 bytes) + text payload
     std::vector<uint8_t> pkt;
@@ -363,6 +394,10 @@ SipCallSession::synthesizeTts(const std::string& text) {
     for (char c : text) pkt.push_back(static_cast<uint8_t>(c));
     packets.push_back(std::move(pkt));
     return packets;
+}
+
+void SipCallSession::setTtsBackend(std::shared_ptr<ITtsBackend> backend) {
+    impl_->tts_backend = std::move(backend);
 }
 
 void SipCallSession::onTranscript(TranscriptCb cb) { impl_->on_transcript = std::move(cb); }
@@ -392,6 +427,9 @@ struct WebRtcCallSession::Impl {
 
     std::vector<int16_t> pcm_buffer;
     uint32_t             partial_seq = 0;
+
+    // Injected TTS backend (optional; stub fallback when null)
+    std::shared_ptr<ITtsBackend> tts_backend;
 
     // Callbacks
     TranscriptCb    on_transcript;
@@ -526,9 +564,36 @@ void WebRtcCallSession::injectDtmf(const DtmfEvent& event) {
 
 std::vector<std::vector<uint8_t>>
 WebRtcCallSession::synthesizeTts(const std::string& text) {
-    // Placeholder: return text content as Opus-style RTP packet
     std::vector<std::vector<uint8_t>> packets;
     if (text.empty()) return packets;
+
+    if (impl_->tts_backend) {
+        // Delegate to the injected backend; wrap each returned audio payload
+        // with a minimal 12-byte Opus RTP header (PT=111).
+        auto frames = impl_->tts_backend->synthesize(text, AudioCodec::OPUS);
+        packets.reserve(frames.size());
+        for (auto& frame : frames) {
+            std::vector<uint8_t> pkt;
+            pkt.reserve(12 + frame.size());
+            pkt.resize(12, 0);
+            pkt[0] = 0x80; // V=2, P=0, X=0, CC=0
+            pkt[1] = 111;  // dynamic Opus payload type
+            pkt.insert(pkt.end(), frame.begin(), frame.end());
+            packets.push_back(std::move(pkt));
+        }
+        return packets;
+    }
+
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow WebRTC sessions to compile without a real TTS → Opus encoder
+    //          → RTP packetiser pipeline.
+    // Activation: Active when no ITtsBackend has been injected via setTtsBackend().
+    // Production Delta: UTF-8 text bytes are stuffed into a fake Opus RTP packet
+    //                   (PT=111).  The remote WebRTC endpoint will receive an
+    //                   invalid Opus frame and produce silent or garbled audio.
+    // Removal Plan: Wire a real ITtsBackend implementation (Opus encoder) via
+    //               setTtsBackend() at startup.  See STUB_INVENTORY entry #174 and
+    //               src/voice/FUTURE_ENHANCEMENTS.md §WebRTC TTS Opus Encoder.
 
     std::vector<uint8_t> pkt;
     pkt.resize(12, 0);
@@ -537,6 +602,10 @@ WebRtcCallSession::synthesizeTts(const std::string& text) {
     for (char c : text) pkt.push_back(static_cast<uint8_t>(c));
     packets.push_back(std::move(pkt));
     return packets;
+}
+
+void WebRtcCallSession::setTtsBackend(std::shared_ptr<ITtsBackend> backend) {
+    impl_->tts_backend = std::move(backend);
 }
 
 void WebRtcCallSession::onTranscript(TranscriptCb cb)        { impl_->on_transcript = std::move(cb); }

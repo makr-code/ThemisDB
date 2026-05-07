@@ -709,6 +709,19 @@ public:
     /// @error ERR_INDEX_NOT_INITIALIZED if database is not open
     /// @error ERR_INDEX_CREATION_FAILED if column family creation fails
     Result<rocksdb::ColumnFamilyHandle*> getOrCreateColumnFamily(const std::string& cf_name);
+
+    /// Lightweight metadata snapshot for one column family
+    struct CFInfo {
+        std::string name;             ///< Column family name
+        uint64_t estimated_keys = 0;  ///< rocksdb.estimate-num-keys
+        uint64_t approx_size_bytes = 0; ///< rocksdb.total-sst-files-size
+    };
+
+    /// Enumerate all open column families with lightweight statistics.
+    /// The returned snapshot is consistent under cf_handles_mutex_ but the
+    /// statistics are approximate and may lag by one compaction cycle.
+    /// @return Vector of CFInfo (empty if DB not open)
+    std::vector<CFInfo> listColumnFamilies() const;
     
     /// Get raw RocksDB pointer for advanced operations
     rocksdb::TransactionDB* getRawDB() { return db_.get(); }
@@ -725,7 +738,11 @@ private:
             : wrapper_(wrapper), db_(nullptr) {
             if (wrapper_) {
                 std::lock_guard<std::mutex> lock(wrapper_->db_lifecycle_mutex_);
-                if (wrapper_->db_) {
+                // Refuse to start a new operation once close() has begun (R-1 fix):
+                // closing_ is set under db_lifecycle_mutex_ before db_.reset(), so
+                // checking it here (while holding the same lock) makes the check
+                // and the db_.reset() in close() mutually exclusive and race-free.
+                if (wrapper_->db_ && !wrapper_->closing_.load(std::memory_order_relaxed)) {
                     wrapper_->active_operations_.fetch_add(1, std::memory_order_acquire);
                     db_ = wrapper_->db_.get();
                 }
@@ -765,6 +782,9 @@ private:
     mutable std::mutex db_lifecycle_mutex_;
     // Active operations counter for safe close (race condition fix #3)
     mutable std::atomic<int> active_operations_{0};
+    // Set to true inside db_lifecycle_mutex_ when close() starts so that new
+    // OperationGuards see it under the same lock and refuse to start (R-1 fix).
+    mutable std::atomic<bool> closing_{false};
     // NVMe optimizations manager (null when enable_nvme_optimizations=false)
     std::unique_ptr<storage::NVMeManager> nvme_manager_;
     

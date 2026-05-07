@@ -23,7 +23,10 @@
 #include <cctype>
 #include <cmath>
 #include <regex>
+#include <sstream>
 #include <unordered_set>
+#include <unordered_map>
+#include <vector>
 
 namespace themis {
 namespace llm {
@@ -218,41 +221,24 @@ bool LLMOutputValidator::detectTruncation(const std::string& text) {
 // ═══════════════════════════════════════════════════════════
 
 double LLMOutputValidator::estimateCoherence(const std::string& text) {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Provide a lightweight, zero-dependency coherence estimate for
-    //   LLM output validation without requiring a trained language model.
-    //   Uses four surface-level heuristics: average word length, words-per-
-    //   sentence ratio, character diversity, and word diversity.
-    // Activation: Always active (no build flag or runtime gate).  All calls to
-    //   `estimateCoherence()` use this heuristic path.
-    // Production Delta: Heuristic scoring is insensitive to semantic meaning,
-    //   topic drift, factual correctness, or grammar subtleties.  A model
-    //   generating plausible-but-incoherent text (e.g., hallucinations with
-    //   normal word and sentence statistics) will receive a high coherence score.
-    //   False-positive acceptance rate is unknown without empirical calibration.
-    // Removal Plan: Replace with an embedding-distance or perplexity-based
-    //   coherence model.  Candidate approaches: (a) small local BERT model via
-    //   llama.cpp CPU inference; (b) perplexity measurement using the same LLM.
-    //   Wire the replacement via a new `ICoherenceEstimator` interface injected
-    //   into `LLMOutputValidator`.
-    // Roadmap ref: src/llm/FUTURE_ENHANCEMENTS.md §"LLM Output Coherence Model"
+    // Six surface-level heuristics for lightweight coherence estimation.
+    // No external model is required.  The score is in [0, 1] where 1.0
+    // means "likely coherent" and values approaching 0.0 indicate
+    // strong evidence of incoherence (repetition, nonsense, extreme statistics).
 
-    // Simple heuristic-based coherence estimation
-    // In production, consider using a trained model
-    
     double score = 1.0;
-    
+
     if (text.empty()) return 0.0;
-    
+
     int word_count = countWords(text);
     if (word_count == 0) return 0.0;
-    
+
     // Heuristic 1: Average word length (too short or too long is suspicious)
     double avg_word_len = calculateAvgWordLength(text);
     if (avg_word_len < 2.0 || avg_word_len > 15.0) {
         score *= 0.7;
     }
-    
+
     // Heuristic 2: Sentence structure (ratio of words to sentences)
     int sentence_count = countSentences(text);
     if (sentence_count > 0) {
@@ -264,17 +250,17 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
         // No sentences at all - very suspicious
         score *= 0.5;
     }
-    
+
     // Heuristic 3: Character diversity (low diversity suggests repetition)
     // Note: This counts bytes, not UTF-8 characters, but is still useful for detecting
     // repetition patterns in both ASCII and UTF-8 text
     std::unordered_set<char> unique_chars(text.begin(), text.end());
-    double char_diversity = static_cast<double>(unique_chars.size()) / 
+    double char_diversity = static_cast<double>(unique_chars.size()) /
                            std::max(static_cast<size_t>(1), text.length());
     if (char_diversity < 0.05) {
         score *= 0.6;
     }
-    
+
     // Heuristic 4: Word diversity (rough estimate)
     // Count approximate unique words (case-insensitive)
     // Limit to first 1000 words for performance on large texts
@@ -283,7 +269,7 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
     std::string word;
     int words_checked = 0;
     const int MAX_WORDS_TO_CHECK = 1000;
-    
+
     while (iss >> word && words_checked < MAX_WORDS_TO_CHECK) {
         // Simple lowercase conversion (in-place for efficiency)
         for (char& c : word) {
@@ -292,7 +278,7 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
         words.insert(std::move(word));
         words_checked++;
     }
-    
+
     if (word_count > 0) {
         // Calculate diversity based on checked words
         int effective_word_count = std::min(word_count, MAX_WORDS_TO_CHECK);
@@ -301,7 +287,76 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
             score *= 0.7;  // Low word diversity
         }
     }
-    
+
+    // Heuristic 5: Consecutive sentence repetition.
+    // Texts where two or more consecutive sentences are identical (after
+    // normalisation) are a strong hallucination signal.
+    {
+        // Split text into sentences on '.', '!', '?'
+        std::vector<std::string> sentences;
+        std::string current;
+        for (char c : text) {
+            if (c == '.' || c == '!' || c == '?') {
+                // Trim whitespace
+                size_t a = current.find_first_not_of(" \t\r\n");
+                if (a != std::string::npos) {
+                    size_t b = current.find_last_not_of(" \t\r\n");
+                    sentences.push_back(current.substr(a, b - a + 1));
+                }
+                current.clear();
+            } else {
+                current += c;
+            }
+        }
+        int consec_dup = 0;
+        for (size_t i = 1; i < sentences.size(); ++i) {
+            if (sentences[i] == sentences[i - 1]) {
+                ++consec_dup;
+            }
+        }
+        if (!sentences.empty()) {
+            double dup_ratio = static_cast<double>(consec_dup) / sentences.size();
+            if (dup_ratio > 0.25) {
+                score *= 0.5;  // >25% consecutive duplicate sentences
+            } else if (dup_ratio > 0.10) {
+                score *= 0.75;
+            }
+        }
+    }
+
+    // Heuristic 6: Bigram repetition ratio.
+    // A high fraction of repeated bigrams indicates the model has entered a
+    // repetitive loop, a common failure mode.
+    {
+        std::vector<std::string> tokens;
+        {
+            std::istringstream ts(text);
+            std::string tok;
+            while (ts >> tok) {
+                for (char& c : tok) c = std::tolower(static_cast<unsigned char>(c));
+                tokens.push_back(std::move(tok));
+            }
+        }
+        if (tokens.size() >= 4) {
+            std::unordered_map<std::string, int> bigram_count;
+            int repeated = 0;
+            for (size_t i = 0; i + 1 < tokens.size(); ++i) {
+                // Increment count and check: if the bigram has already been seen
+                // (new count > 1) this occurrence is a repetition.
+                if (++bigram_count[tokens[i] + " " + tokens[i + 1]] > 1) {
+                    ++repeated;
+                }
+            }
+            double bigram_repeat_ratio = static_cast<double>(repeated) /
+                                         static_cast<double>(tokens.size() - 1);
+            if (bigram_repeat_ratio > 0.40) {
+                score *= 0.5;  // >40% of bigrams are repeated
+            } else if (bigram_repeat_ratio > 0.20) {
+                score *= 0.75;
+            }
+        }
+    }
+
     return std::max(0.0, std::min(1.0, score));
 }
 

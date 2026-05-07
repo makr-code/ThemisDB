@@ -32,6 +32,10 @@
 #include "sharding/health_check.h"
 #include <memory>
 #include <string>
+#include <map>
+#include <mutex>
+#include <optional>
+#include <chrono>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -139,6 +143,18 @@ private:
     std::unique_ptr<themisdb::sharding::OperationalMetrics> metrics_;
     std::unique_ptr<ShardTopology> topology_;
     std::unique_ptr<HealthCheckSystem> health_check_;
+
+    /// In-memory registry of rebalance operations.
+    /// Estimated total duration used for time-based progress approximation.
+    static constexpr int64_t kRebalanceEstimatedDurationSeconds = 300;
+    struct RebalanceOp {
+        std::string operation_id;
+        std::chrono::system_clock::time_point started_at;
+        std::optional<std::chrono::system_clock::time_point> completed_at;
+        std::string error_message; ///< Non-empty only on failure
+    };
+    mutable std::mutex rebalance_ops_mutex_;
+    std::map<std::string, RebalanceOp> rebalance_ops_;
     
     /**
      * @brief Handle topology requests

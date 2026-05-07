@@ -29,9 +29,12 @@
 #include "utils/logger.h"
 #include "utils/expected.h"
 #include "utils/error_registry.h"
+#include "utils/zstd_codec.h"
+#include "utils/lz4_codec.h"
 #include <filesystem>
 #include <fstream>
 #include <chrono>
+#include <ctime>
 #include <iomanip>
 #include <sstream>
 #include <algorithm>
@@ -39,6 +42,10 @@
 #include <nlohmann/json.hpp>
 #include <cstdlib>
 #include <openssl/sha.h>
+#ifdef THEMIS_ENABLE_OPENSSL
+#  include <openssl/evp.h>
+#  include <openssl/rand.h>
+#endif
 #ifndef _WIN32
 #  include <sys/types.h>
 #  include <sys/wait.h>
@@ -1097,12 +1104,113 @@ Result<std::string> BackupManager::decompressBackup(const std::string& compresse
 
 bool BackupManager::compressPath(const std::string& src_path, const std::string& dest_path,
                                  CompressionType type, std::error_code& ec) {
-    // When THEMIS_ENABLE_COMPRESSION is defined, use the configured library:
-    //   GZIP:  zlib    EVP / gzip streams
-    //   ZSTD:  Facebook Zstandard (github.com/facebook/zstd)
-    //   LZ4:   LZ4 block API (github.com/lz4/lz4)
-    // Without the flag, fall back to a raw copy (no compression).
     namespace fs = std::filesystem;
+    // ZSTD: compress each file to dest_path/<relpath>.zst (THEMIS_HAS_ZSTD)
+    // LZ4:  compress each file to dest_path/<relpath>.lz4 with TLZB header (THEMIS_HAS_LZ4)
+    // NONE / GZIP / unsupported: raw copy (no compression library linked).
+#if defined(THEMIS_HAS_ZSTD) || defined(THEMIS_HAS_LZ4)
+    try {
+        THEMIS_INFO("Compressing {} → {} (type={})", src_path, dest_path, static_cast<int>(type));
+
+        if (type == CompressionType::NONE) {
+            fs::copy(src_path, dest_path, fs::copy_options::recursive | fs::copy_options::overwrite_existing, ec);
+            return !ec;
+        }
+
+        const fs::path src_root(src_path);
+        fs::create_directories(dest_path, ec);
+        if (ec) {
+            THEMIS_ERROR("compressPath: cannot create dest dir {}: {}", dest_path, ec.message());
+            return false;
+        }
+
+        bool all_ok = true;
+        for (const auto& entry : fs::recursive_directory_iterator(src_root, ec)) {
+            if (ec) { all_ok = false; break; }
+            const fs::path& src_entry = entry.path();
+            const fs::path rel = src_entry.lexically_relative(src_root);
+            const fs::path dest_entry = fs::path(dest_path) / rel;
+
+            if (entry.is_directory()) {
+                fs::create_directories(dest_entry, ec);
+                if (ec) { all_ok = false; break; }
+                continue;
+            }
+            if (!entry.is_regular_file()) continue;
+
+            // Read source file
+            std::ifstream fin(src_entry, std::ios::binary);
+            if (!fin) {
+                THEMIS_ERROR("compressPath: cannot open {}", src_entry.string());
+                all_ok = false; break;
+            }
+            const std::vector<uint8_t> raw_data(
+                (std::istreambuf_iterator<char>(fin)),
+                std::istreambuf_iterator<char>());
+
+#if defined(THEMIS_HAS_ZSTD)
+            if (type == CompressionType::ZSTD) {
+                const auto compressed = utils::zstd_compress(raw_data.data(), raw_data.size());
+                if (compressed.empty() && !raw_data.empty()) {
+                    THEMIS_ERROR("compressPath: ZSTD compress failed for {}", src_entry.string());
+                    all_ok = false; break;
+                }
+                const fs::path dest_file = dest_entry.string() + ".zst";
+                fs::create_directories(dest_file.parent_path(), ec);
+                std::ofstream fout(dest_file, std::ios::binary);
+                if (!fout) {
+                    THEMIS_ERROR("compressPath: cannot write {}", dest_file.string());
+                    all_ok = false; break;
+                }
+                fout.write(reinterpret_cast<const char*>(compressed.data()),
+                           static_cast<std::streamsize>(compressed.size()));
+                continue;
+            }
+#endif
+#if defined(THEMIS_HAS_LZ4)
+            if (type == CompressionType::LZ4) {
+                const auto res = utils::lz4_compress_safe(raw_data.data(), raw_data.size());
+                if (!res) {
+                    THEMIS_ERROR("compressPath: LZ4 compress failed for {}: {}", src_entry.string(), res.error().message());
+                    all_ok = false; break;
+                }
+                const auto& compressed = res.value();
+                const fs::path dest_file = dest_entry.string() + ".lz4";
+                fs::create_directories(dest_file.parent_path(), ec);
+                std::ofstream fout(dest_file, std::ios::binary);
+                if (!fout) {
+                    THEMIS_ERROR("compressPath: cannot write {}", dest_file.string());
+                    all_ok = false; break;
+                }
+                // TLZB header: 4 bytes magic + 8 bytes original size (LE uint64)
+                constexpr char kMagic[4] = {'T','L','Z','B'};
+                fout.write(kMagic, 4);
+                const uint64_t orig_sz = static_cast<uint64_t>(raw_data.size());
+                fout.write(reinterpret_cast<const char*>(&orig_sz), 8);
+                fout.write(reinterpret_cast<const char*>(compressed.data()),
+                           static_cast<std::streamsize>(compressed.size()));
+                continue;
+            }
+#endif
+            // Fallback for unsupported type with this build
+            THEMIS_WARN("compressPath: compression type {} unsupported in this build; copying {}", static_cast<int>(type), src_entry.string());
+            fs::copy_file(src_entry, dest_entry, fs::copy_options::overwrite_existing, ec);
+            if (ec) { all_ok = false; break; }
+        }
+        return all_ok;
+    } catch (const std::exception& e) {
+        ec = std::make_error_code(std::errc::io_error);
+        THEMIS_ERROR("Exception during compression: {}", e.what());
+        return false;
+    }
+#else
+    // No compression library available — raw directory copy.
+    static std::once_flag s_compress_warn;
+    std::call_once(s_compress_warn, [type] {
+        THEMIS_WARN("BackupManager::compressPath: STUB — files copied without compression "
+                    "(THEMIS_HAS_ZSTD / THEMIS_HAS_LZ4 not set, type={}). "
+                    "(This warning is printed once per process.)", static_cast<int>(type));
+    });
     try {
         THEMIS_INFO("Compressing {} to {} (type={})", src_path, dest_path, static_cast<int>(type));
         fs::copy(src_path, dest_path, fs::copy_options::recursive, ec);
@@ -1116,12 +1224,152 @@ bool BackupManager::compressPath(const std::string& src_path, const std::string&
         THEMIS_ERROR("Exception during compression: {}", e.what());
         return false;
     }
+#endif
 }
 
 bool BackupManager::decompressPath(const std::string& src_path, const std::string& dest_path,
-                                   [[maybe_unused]] CompressionType type, std::error_code& ec) {
-    // Placeholder implementation
+                                   CompressionType type, std::error_code& ec) {
     namespace fs = std::filesystem;
+    // ZSTD: decompress *.zst files; THEMIS_HAS_ZSTD must be set.
+    // LZ4:  decompress *.lz4 files with TLZB header; THEMIS_HAS_LZ4 must be set.
+    // NONE / GZIP / no library: raw copy fallback.
+#if defined(THEMIS_HAS_ZSTD) || defined(THEMIS_HAS_LZ4)
+    try {
+        THEMIS_INFO("Decompressing {} to {} (type={})", src_path, dest_path, static_cast<int>(type));
+
+        if (type == CompressionType::NONE) {
+            fs::copy(src_path, dest_path,
+                     fs::copy_options::recursive | fs::copy_options::overwrite_existing, ec);
+            return !ec;
+        }
+
+        const fs::path src_root(src_path);
+        fs::create_directories(dest_path, ec);
+        if (ec) {
+            THEMIS_ERROR("decompressPath: cannot create dest dir {}: {}", dest_path, ec.message());
+            return false;
+        }
+
+        bool all_ok = true;
+        for (const auto& entry : fs::recursive_directory_iterator(src_root, ec)) {
+            if (ec) { all_ok = false; break; }
+            const fs::path& src_entry = entry.path();
+            const fs::path rel = src_entry.lexically_relative(src_root);
+
+            if (entry.is_directory()) {
+                fs::create_directories(fs::path(dest_path) / rel, ec);
+                if (ec) { all_ok = false; break; }
+                continue;
+            }
+            if (!entry.is_regular_file()) continue;
+
+            const std::string ext = src_entry.extension().string();
+
+#if defined(THEMIS_HAS_ZSTD)
+            if (type == CompressionType::ZSTD && ext == ".zst") {
+                std::ifstream fin(src_entry, std::ios::binary);
+                if (!fin) {
+                    THEMIS_ERROR("decompressPath: cannot open {}", src_entry.string());
+                    all_ok = false; break;
+                }
+                const std::vector<uint8_t> compressed(
+                    (std::istreambuf_iterator<char>(fin)),
+                    std::istreambuf_iterator<char>());
+                const auto decompressed = utils::zstd_decompress(compressed);
+                if (decompressed.empty() && !compressed.empty()) {
+                    THEMIS_ERROR("decompressPath: ZSTD decompress failed for {}",
+                                 src_entry.string());
+                    all_ok = false; break;
+                }
+                // Restore original filename (strip .zst)
+                const fs::path dest_file =
+                    fs::path(dest_path) / rel.parent_path() / src_entry.stem();
+                fs::create_directories(dest_file.parent_path(), ec);
+                std::ofstream fout(dest_file, std::ios::binary);
+                if (!fout) {
+                    THEMIS_ERROR("decompressPath: cannot write {}", dest_file.string());
+                    all_ok = false; break;
+                }
+                fout.write(reinterpret_cast<const char*>(decompressed.data()),
+                           static_cast<std::streamsize>(decompressed.size()));
+                continue;
+            }
+#endif
+#if defined(THEMIS_HAS_LZ4)
+            if (type == CompressionType::LZ4 && ext == ".lz4") {
+                std::ifstream fin(src_entry, std::ios::binary);
+                if (!fin) {
+                    THEMIS_ERROR("decompressPath: cannot open {}", src_entry.string());
+                    all_ok = false; break;
+                }
+                // Read TLZB header: 4 bytes magic + 8 bytes original size (LE uint64)
+                char magic[4] = {};
+                fin.read(magic, 4);
+                if (std::string(magic, 4) != "TLZB") {
+                    THEMIS_ERROR("decompressPath: invalid LZ4 TLZB header in {}",
+                                 src_entry.string());
+                    all_ok = false; break;
+                }
+                uint64_t orig_sz = 0;
+                fin.read(reinterpret_cast<char*>(&orig_sz), 8);
+                const std::vector<uint8_t> compressed(
+                    (std::istreambuf_iterator<char>(fin)),
+                    std::istreambuf_iterator<char>());
+                const auto res =
+                    utils::lz4_decompress_safe(compressed, static_cast<size_t>(orig_sz));
+                if (!res) {
+                    THEMIS_ERROR("decompressPath: LZ4 decompress failed for {}: {}",
+                                 src_entry.string(), res.error().message());
+                    all_ok = false; break;
+                }
+                const auto& decompressed = res.value();
+                // Restore original filename (strip .lz4)
+                const fs::path dest_file =
+                    fs::path(dest_path) / rel.parent_path() / src_entry.stem();
+                fs::create_directories(dest_file.parent_path(), ec);
+                std::ofstream fout(dest_file, std::ios::binary);
+                if (!fout) {
+                    THEMIS_ERROR("decompressPath: cannot write {}", dest_file.string());
+                    all_ok = false; break;
+                }
+                fout.write(reinterpret_cast<const char*>(decompressed.data()),
+                           static_cast<std::streamsize>(decompressed.size()));
+                continue;
+            }
+#endif
+            // File extension doesn't match the compression type, or type unsupported:
+            // copy as-is so that non-compressed auxiliary files survive round-trips.
+            const fs::path dest_file = fs::path(dest_path) / rel;
+            fs::create_directories(dest_file.parent_path(), ec);
+            fs::copy_file(src_entry, dest_file, fs::copy_options::overwrite_existing, ec);
+            if (ec) { all_ok = false; break; }
+        }
+        return all_ok;
+    } catch (const std::exception& e) {
+        ec = std::make_error_code(std::errc::io_error);
+        THEMIS_ERROR("Exception during decompression: {}", e.what());
+        return false;
+    }
+#else
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow the backup pipeline to link without zstd/lz4.  Files are
+    //          copied byte-for-byte regardless of the compression type.
+    // Activation: THEMIS_HAS_ZSTD and THEMIS_HAS_LZ4 both absent at compile time.
+    // Production Delta: Compressed backup archives are NOT decompressed.  If the
+    //                   matching compressPath() produced real compressed bytes, the
+    //                   restored data will be the compressed bytestream → silent
+    //                   data corruption.  Only safe when compressPath() is also in
+    //                   stub (raw-copy) mode.
+    // Removal Plan: Build with THEMIS_HAS_ZSTD=1 (vcpkg 'zstd') or
+    //               THEMIS_HAS_LZ4=1 (vcpkg 'lz4').  See
+    //               src/storage/FUTURE_ENHANCEMENTS.md §Backup Compression.
+    static std::once_flag s_decompress_warn;
+    std::call_once(s_decompress_warn, [type] {
+        THEMIS_WARN("BackupManager::decompressPath: STUB — files copied without decompression "
+                    "(THEMIS_HAS_ZSTD / THEMIS_HAS_LZ4 not set, type={}). "
+                    "(This warning is printed once per process.)",
+                    static_cast<int>(type));
+    });
     try {
         THEMIS_INFO("Decompressing {} to {}", src_path, dest_path);
         fs::copy(src_path, dest_path, fs::copy_options::recursive, ec);
@@ -1135,18 +1383,95 @@ bool BackupManager::decompressPath(const std::string& src_path, const std::strin
         THEMIS_ERROR("Exception during decompression: {}", e.what());
         return false;
     }
+#endif
 }
 
 bool BackupManager::encryptFile(const std::string& src_path, const std::string& dest_path,
-                                [[maybe_unused]] const std::string& key, std::error_code& ec) {
-    // When THEMIS_ENABLE_OPENSSL is defined, use AES-256-GCM authenticated encryption:
-    //   EVP_CIPHER_CTX with EVP_aes_256_gcm()
-    //   Reference: https://wiki.openssl.org/index.php/EVP_Authenticated_Encryption_and_Decryption
-    // Without the flag, the file is copied without encryption (development-only).
+                                const std::string& key, std::error_code& ec) {
+#ifdef THEMIS_ENABLE_OPENSSL
+    // AES-256-GCM encryption.  File format:
+    //   [4 bytes magic "TENC"] [12 bytes IV] [ciphertext] [16 bytes GCM tag]
+    static constexpr int IV_LEN  = 12;
+    static constexpr int TAG_LEN = 16;
+    static constexpr uint8_t MAGIC[4] = {'T','E','N','C'};
+
+    // Derive 32-byte AES key from the caller-supplied string via SHA-256.
+    unsigned char aes_key[32];
+    SHA256(reinterpret_cast<const unsigned char*>(key.data()), key.size(), aes_key);
+
+    // Generate random IV.
+    unsigned char iv[IV_LEN];
+    if (RAND_bytes(iv, IV_LEN) != 1) {
+        ec = std::make_error_code(std::errc::io_error);
+        THEMIS_ERROR("encryptFile: RAND_bytes failed");
+        return false;
+    }
+
+    std::ifstream in(src_path, std::ios::binary);
+    if (!in) {
+        ec = std::make_error_code(std::errc::no_such_file_or_directory);
+        THEMIS_ERROR("encryptFile: cannot open source: {}", src_path);
+        return false;
+    }
+    std::ofstream out(dest_path, std::ios::binary);
+    if (!out) {
+        ec = std::make_error_code(std::errc::permission_denied);
+        THEMIS_ERROR("encryptFile: cannot open dest: {}", dest_path);
+        return false;
+    }
+
+    out.write(reinterpret_cast<const char*>(MAGIC), 4);
+    out.write(reinterpret_cast<const char*>(iv), IV_LEN);
+
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    if (!ctx) { ec = std::make_error_code(std::errc::io_error); return false; }
+
+    bool ok = true;
+    if (EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, aes_key, iv) != 1) {
+        ok = false;
+    }
+    static constexpr size_t BUF = 64 * 1024;
+    std::vector<unsigned char> plain(BUF), cipher(BUF + 16);
+    while (ok && in) {
+        in.read(reinterpret_cast<char*>(plain.data()), BUF);
+        int rd = static_cast<int>(in.gcount());
+        if (rd <= 0) break;
+        int outl = 0;
+        if (EVP_EncryptUpdate(ctx, cipher.data(), &outl, plain.data(), rd) != 1) {
+            ok = false; break;
+        }
+        out.write(reinterpret_cast<const char*>(cipher.data()), outl);
+    }
+    int outl = 0;
+    if (ok && EVP_EncryptFinal_ex(ctx, cipher.data(), &outl) == 1) {
+        out.write(reinterpret_cast<const char*>(cipher.data()), outl);
+        unsigned char tag[TAG_LEN];
+        EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, TAG_LEN, tag);
+        out.write(reinterpret_cast<const char*>(tag), TAG_LEN);
+    } else {
+        ok = false;
+    }
+    EVP_CIPHER_CTX_free(ctx);
+
+    if (!ok) {
+        ec = std::make_error_code(std::errc::io_error);
+        THEMIS_ERROR("encryptFile: AES-256-GCM encryption failed for {}", src_path);
+        namespace fs = std::filesystem;
+        std::error_code ignored;
+        fs::remove(dest_path, ignored);
+        return false;
+    }
+    return true;
+#else
+    static std::once_flag s_encrypt_warn;
+    std::call_once(s_encrypt_warn, [] {
+        THEMIS_WARN("BackupManager::encryptFile: STUB — files will be copied without "
+                    "AES-256-GCM encryption (THEMIS_ENABLE_OPENSSL not set). "
+                    "Build with -DTHEMIS_ENABLE_OPENSSL=ON for encrypted backups. "
+                    "(This warning is printed once per process.)");
+    });
     namespace fs = std::filesystem;
     try {
-        THEMIS_INFO("Encrypting {} to {}", src_path, dest_path);
-        // used by the real OpenSSL path
         fs::copy(src_path, dest_path, fs::copy_options::recursive, ec);
         if (ec) {
             THEMIS_ERROR("Failed to copy for encryption: {}", ec.message());
@@ -1158,14 +1483,104 @@ bool BackupManager::encryptFile(const std::string& src_path, const std::string& 
         THEMIS_ERROR("Exception during encryption: {}", e.what());
         return false;
     }
+#endif
 }
 
 bool BackupManager::decryptFile(const std::string& src_path, const std::string& dest_path,
-                                [[maybe_unused]] const std::string& key, std::error_code& ec) {
-    // Placeholder implementation
+                                const std::string& key, std::error_code& ec) {
+#ifdef THEMIS_ENABLE_OPENSSL
+    // AES-256-GCM decryption — mirrors encryptFile() format:
+    //   [4 bytes magic "TENC"] [12 bytes IV] [ciphertext] [16 bytes GCM tag]
+    static constexpr int IV_LEN  = 12;
+    static constexpr int TAG_LEN = 16;
+    static constexpr uint8_t MAGIC[4] = {'T','E','N','C'};
+
+    std::ifstream in(src_path, std::ios::binary | std::ios::ate);
+    if (!in) {
+        ec = std::make_error_code(std::errc::no_such_file_or_directory);
+        THEMIS_ERROR("decryptFile: cannot open source: {}", src_path);
+        return false;
+    }
+    const auto file_size = static_cast<size_t>(in.tellg());
+    in.seekg(0);
+    if (file_size < static_cast<size_t>(4 + IV_LEN + TAG_LEN)) {
+        ec = std::make_error_code(std::errc::invalid_argument);
+        THEMIS_ERROR("decryptFile: file too short to be a valid TENC archive: {}", src_path);
+        return false;
+    }
+
+    // Verify magic.
+    uint8_t magic_buf[4];
+    in.read(reinterpret_cast<char*>(magic_buf), 4);
+    if (std::memcmp(magic_buf, MAGIC, 4) != 0) {
+        ec = std::make_error_code(std::errc::invalid_argument);
+        THEMIS_ERROR("decryptFile: bad magic — file was not encrypted by encryptFile(): {}", src_path);
+        return false;
+    }
+
+    unsigned char iv[IV_LEN];
+    in.read(reinterpret_cast<char*>(iv), IV_LEN);
+
+    // Read ciphertext (everything except trailing tag).
+    const size_t cipher_len = file_size - 4 - IV_LEN - TAG_LEN;
+    std::vector<unsigned char> ciphertext(cipher_len);
+    in.read(reinterpret_cast<char*>(ciphertext.data()), cipher_len);
+    unsigned char tag[TAG_LEN];
+    in.read(reinterpret_cast<char*>(tag), TAG_LEN);
+
+    // Derive AES key via SHA-256.
+    unsigned char aes_key[32];
+    SHA256(reinterpret_cast<const unsigned char*>(key.data()), key.size(), aes_key);
+
+    std::ofstream out(dest_path, std::ios::binary);
+    if (!out) {
+        ec = std::make_error_code(std::errc::permission_denied);
+        THEMIS_ERROR("decryptFile: cannot open dest: {}", dest_path);
+        return false;
+    }
+
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    if (!ctx) { ec = std::make_error_code(std::errc::io_error); return false; }
+
+    bool ok = true;
+    std::vector<unsigned char> plain(cipher_len + 16);
+    int outl = 0;
+    if (EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, aes_key, iv) != 1) {
+        ok = false;
+    }
+    if (ok) {
+        EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, TAG_LEN, tag);
+        if (EVP_DecryptUpdate(ctx, plain.data(), &outl,
+                              ciphertext.data(), static_cast<int>(cipher_len)) != 1) {
+            ok = false;
+        }
+    }
+    int finl = 0;
+    if (ok && EVP_DecryptFinal_ex(ctx, plain.data() + outl, &finl) <= 0) {
+        ok = false;  // authentication tag mismatch
+    }
+    EVP_CIPHER_CTX_free(ctx);
+
+    if (!ok) {
+        ec = std::make_error_code(std::errc::io_error);
+        THEMIS_ERROR("decryptFile: AES-256-GCM decryption/authentication failed for {}", src_path);
+        namespace fs = std::filesystem;
+        std::error_code ignored;
+        fs::remove(dest_path, ignored);
+        return false;
+    }
+
+    out.write(reinterpret_cast<const char*>(plain.data()), outl + finl);
+    return true;
+#else
+    static std::once_flag s_decrypt_warn;
+    std::call_once(s_decrypt_warn, [] {
+        THEMIS_WARN("BackupManager::decryptFile: STUB — files will be copied without "
+                    "AES-256-GCM decryption (THEMIS_ENABLE_OPENSSL not set). "
+                    "(This warning is printed once per process.)");
+    });
     namespace fs = std::filesystem;
     try {
-        THEMIS_INFO("Decrypting {} to {}", src_path, dest_path);
         fs::copy(src_path, dest_path, fs::copy_options::recursive, ec);
         if (ec) {
             THEMIS_ERROR("Failed to copy for decryption: {}", ec.message());
@@ -1177,6 +1592,7 @@ bool BackupManager::decryptFile(const std::string& src_path, const std::string& 
         THEMIS_ERROR("Exception during decryption: {}", e.what());
         return false;
     }
+#endif
 }
 
 bool BackupManager::uploadToCloud(const std::string& local_path, [[maybe_unused]] const std::string& cloud_path,
@@ -1198,20 +1614,35 @@ bool BackupManager::uploadToCloud(const std::string& local_path, [[maybe_unused]
     }
 }
 
-bool BackupManager::downloadFromCloud(const std::string& cloud_path, [[maybe_unused]] const std::string& local_path,
+bool BackupManager::downloadFromCloud(const std::string& cloud_path,
+                                      [[maybe_unused]] const std::string& local_path,
                                       StorageBackend backend,
                                       const std::map<std::string, std::string>& /*config*/,
                                       std::error_code& ec) {
-    // Placeholder implementation
-    try {
-        THEMIS_INFO("Downloading {} from cloud backend {}", cloud_path, static_cast<int>(backend));
-        // Simulate successful download
-        return true;
-    } catch (const std::exception& e) {
-        ec = std::make_error_code(std::errc::io_error);
-        THEMIS_ERROR("Exception during cloud download: {}", e.what());
-        return false;
-    }
+    // STUB/SIMULATION NOTE:
+    // Purpose: Prevent silent data corruption when no cloud SDK is linked.
+    //          Returns false with a clear error so that restoreFromCloud()
+    //          fails loudly rather than producing an empty/stale restore.
+    // Activation: THEMIS_ENABLE_S3, THEMIS_ENABLE_GCS, and THEMIS_ENABLE_AZURE
+    //             are all absent at compile time (default build without cloud SDKs).
+    // Production Delta: No data is transferred to local_path; function always
+    //                   fails.  Build with a cloud SDK flag to activate the real
+    //                   download path.
+    // Removal Plan: Link the matching cloud SDK (AWS SDK for C++, google-cloud-cpp,
+    //               azure-storage-cpp); dispatch on `backend` to the matching
+    //               ICloudStorageProvider implementation.  See
+    //               src/storage/FUTURE_ENHANCEMENTS.md §Cloud Backup Download.
+    static std::once_flag s_download_warn;
+    std::call_once(s_download_warn, [] {
+        THEMIS_WARN("BackupManager::downloadFromCloud: STUB — no cloud SDK linked. "
+                    "Build with THEMIS_ENABLE_S3, THEMIS_ENABLE_GCS, or THEMIS_ENABLE_AZURE. "
+                    "(This warning is printed once per process.)");
+    });
+    THEMIS_ERROR("downloadFromCloud: cannot download {} (cloud backend {}) — "
+                 "no cloud SDK linked. Restore aborted.",
+                 cloud_path, static_cast<int>(backend));
+    ec = std::make_error_code(std::errc::not_supported);
+    return false;
 }
 
 std::string BackupManager::findLastFullBackup(const std::string& backup_dir) {
@@ -1321,33 +1752,92 @@ bool BackupManager::restoreFromBackup(const std::string& src_dir, std::error_cod
     }
 }
 
-bool BackupManager::performPITR(const std::string& dest_dir, [[maybe_unused]] const PITROptions& pitr_options,
+bool BackupManager::performPITR(const std::string& dest_dir, const PITROptions& pitr_options,
                                 std::error_code& ec, RecoveryStats* stats) {
-    // Placeholder implementation for PITR
     namespace fs = std::filesystem;
     try {
-        THEMIS_INFO("Performing PITR to target time");
-        
-        // Find backups before target time
-        auto backups = listBackups(dest_dir);
-        std::string target_backup;
-        
-        for (const auto& backup : backups) {
-            // Parse timestamp from backup name and compare with target
-            // This is simplified - production would need proper timestamp parsing
-            target_backup = backup;
+        THEMIS_INFO("Performing PITR restore to requested target time");
+
+        // Convert target_time to a comparable std::time_t value.
+        const std::time_t target_tt =
+            std::chrono::system_clock::to_time_t(pitr_options.target_time);
+
+        // Enumerate all backups and parse the embedded timestamp from directory names.
+        // Expected naming convention (set by createFullBackup): "full_YYYYMMDD_HHMMSS"
+        const auto backups = listBackups(dest_dir);
+
+        std::string  best_backup;
+        std::time_t  best_time = 0;
+
+        for (const auto& backup_name : backups) {
+            // Only consider full backups (incremental replay not yet implemented).
+            static constexpr std::string_view kPrefix = "full_";
+            if (backup_name.size() < kPrefix.size() + 15u) continue;
+            if (backup_name.compare(0, kPrefix.size(), kPrefix) != 0) continue;
+
+            // Parse the timestamp portion: "YYYYMMDD_HHMMSS"
+            const std::string ts_str = backup_name.substr(kPrefix.size());
+            std::tm tm{};
+            std::istringstream iss(ts_str);
+            iss >> std::get_time(&tm, "%Y%m%d_%H%M%S");
+            if (iss.fail()) {
+                THEMIS_INFO("PITR: skipping '{}' — timestamp parse failed", backup_name);
+                continue;
+            }
+            tm.tm_isdst = -1;
+            const std::time_t backup_time = std::mktime(&tm);
+            if (backup_time == static_cast<std::time_t>(-1)) continue;
+
+            // Keep the latest snapshot whose boundary is at or before target_time.
+            if (backup_time <= target_tt && backup_time > best_time) {
+                best_time   = backup_time;
+                best_backup = backup_name;
+            }
         }
-        
-        if (target_backup.empty()) {
-            THEMIS_ERROR("No suitable backup found for PITR");
+
+        if (best_backup.empty()) {
+            THEMIS_ERROR("PITR: no full backup found at or before the requested target time");
             ec = std::make_error_code(std::errc::no_such_file_or_directory);
             return false;
         }
-        
-        // Restore the base backup
-        auto backup_path = fs::path(dest_dir) / target_backup;
-        return restoreFromBackup(backup_path.string(), ec, stats);
-        
+
+        THEMIS_INFO("PITR: selected base snapshot '{}' as closest anchor ≤ target time",
+                    best_backup);
+
+        // Step 1: Restore the base snapshot.
+        auto backup_path = fs::path(dest_dir) / best_backup;
+        if (!restoreFromBackup(backup_path.string(), ec, stats)) {
+            return false;
+        }
+
+        // Step 2: Replay WAL segments between the snapshot boundary and
+        // pitr_options.target_time via the injected WalReplayFn (Stub #249
+        // injection API).  Without an injected function this step is skipped
+        // and restore accuracy is bounded by snapshot granularity.
+        if (wal_replay_fn_) {
+            THEMIS_INFO("PITR: replaying WAL segments up to target time via injected WalReplayFn");
+            if (!wal_replay_fn_(backup_path.string(), pitr_options.target_time, ec)) {
+                THEMIS_ERROR("PITR: WAL replay failed: {}", ec.message());
+                return false;
+            }
+            THEMIS_INFO("PITR: WAL replay completed successfully");
+        } else {
+            // STUB/SIMULATION NOTE:
+            // Purpose: Allow PITR to succeed when no WAL replay function has been
+            //          injected.  Snapshot selection (Step 1) still provides
+            //          near-PITR accuracy without replaying individual WAL records.
+            // Activation: `wal_replay_fn_` is null (default — no WAL reader integrated).
+            // Production Delta: Data written between the snapshot boundary and
+            //                   pitr_options.target_time is not replayed; restore
+            //                   accuracy is bounded by snapshot granularity (typically
+            //                   minutes).
+            // Removal Plan: Inject a real WAL replay engine via setWalReplayFn();
+            //               see src/storage/FUTURE_ENHANCEMENTS.md §PITR WAL Replay.
+            THEMIS_WARN("PITR: WAL replay skipped — no WalReplayFn injected; "
+                        "restore accuracy bounded by snapshot granularity (Stub #249)");
+        }
+        return true;
+
     } catch (const std::exception& e) {
         ec = std::make_error_code(std::errc::io_error);
         THEMIS_ERROR("Exception during PITR: {}", e.what());
@@ -1355,19 +1845,85 @@ bool BackupManager::performPITR(const std::string& dest_dir, [[maybe_unused]] co
     }
 }
 
-bool BackupManager::restoreCollections([[maybe_unused]] const std::string& src_dir, 
+void BackupManager::setWalReplayFn(WalReplayFn fn) {
+    wal_replay_fn_ = std::move(fn);
+}
+
+bool BackupManager::restoreCollections(const std::string& src_dir,
                                        const std::vector<std::string>& collections,
                                        std::error_code& ec) {
-    // Placeholder implementation for partial recovery
+    namespace fs = std::filesystem;
     try {
-        THEMIS_INFO("Restoring {} collections from backup", collections.size());
-        
-        // In production, this would:
-        // 1. Load the backup
-        // 2. Filter data by collection names
-        // 3. Restore only specified collections
-        
+        THEMIS_INFO("Restoring {} collection(s) from backup at '{}'",
+                    collections.size(), src_dir);
+
+        if (!fs::exists(src_dir)) {
+            THEMIS_ERROR("restoreCollections: source directory '{}' does not exist", src_dir);
+            ec = std::make_error_code(std::errc::no_such_file_or_directory);
+            return false;
+        }
+
+        // Validate backup manifest.
+        std::string type;
+        uint64_t seq = 0;
+        auto manifest_result = readManifest(src_dir, type, seq);
+        if (!manifest_result) {
+            THEMIS_ERROR("restoreCollections: cannot read backup manifest in '{}'", src_dir);
+            ec = std::make_error_code(std::errc::io_error);
+            return false;
+        }
+
+        if (type != "full") {
+            THEMIS_ERROR("restoreCollections: only full backups support collection restore "
+                         "(backup type is '{}')", type);
+            ec = std::make_error_code(std::errc::invalid_argument);
+            return false;
+        }
+
+        // Verify the checkpoint directory exists.
+        const auto checkpoint_dir = fs::path(src_dir) / "checkpoint";
+        if (!fs::exists(checkpoint_dir)) {
+            THEMIS_ERROR("restoreCollections: checkpoint directory not found at '{}'",
+                         checkpoint_dir.string());
+            ec = std::make_error_code(std::errc::no_such_file_or_directory);
+            return false;
+        }
+
+        // Log requested collection names for operator visibility.
+        if (!collections.empty()) {
+            std::string coll_list;
+            for (size_t i = 0; i < collections.size(); ++i) {
+                if (i) coll_list += ", ";
+                coll_list += collections[i];
+            }
+            THEMIS_INFO("restoreCollections: requested collections: [{}]", coll_list);
+        }
+
+        // STUB/SIMULATION NOTE:
+        // Purpose: Provide a validated, non-silent restore path while per-column-family
+        //          selective restore (via rocksdb::DB::IngestExternalFile) is not yet
+        //          implemented.  Restores the full checkpoint so that all requested
+        //          collections are available after the call.
+        // Activation: Always — per-CF SST ingest is not yet wired.
+        // Production Delta: All column families in the checkpoint are restored, not
+        //                   only the named collections.  Existing collections not in
+        //                   `collections` will be overwritten from the backup.
+        // Removal Plan: Map collection names to CF names from the backup MANIFEST;
+        //               for each match, call db_wrapper_->getRawDB()->IngestExternalFile()
+        //               with the SST files from checkpoint/ that belong to that CF.
+        //               See src/storage/FUTURE_ENHANCEMENTS.md §Partial Collection Restore.
+        if (!db_wrapper_->restoreFromCheckpoint(checkpoint_dir.string())) {
+            THEMIS_ERROR("restoreCollections: checkpoint restore failed for '{}'",
+                         checkpoint_dir.string());
+            ec = std::make_error_code(std::errc::io_error);
+            return false;
+        }
+
+        THEMIS_INFO("restoreCollections: checkpoint restored from '{}' "
+                    "({} collection(s) requested; full checkpoint applied)",
+                    checkpoint_dir.string(), collections.size());
         return true;
+
     } catch (const std::exception& e) {
         ec = std::make_error_code(std::errc::io_error);
         THEMIS_ERROR("Exception during partial restore: {}", e.what());

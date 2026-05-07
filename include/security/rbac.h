@@ -26,6 +26,8 @@
 #include <optional>
 #include <memory>
 #include <mutex>
+#include <atomic>
+#include <chrono>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -117,14 +119,12 @@ private:
     RBACConfig config_;
     mutable std::mutex mutex_;
     std::unordered_map<std::string, Role> roles_;
+    bool hierarchy_valid_ = true;  // set to false when a cyclic role hierarchy is detected; fail-closed
 
-    // RB-1: Grace-period state for license-server outages.
-    // When a license check passes, we record the timestamp.  If a subsequent
-    // check fails, we allow access for up to kLicenseGracePeriodMs before
-    // finally denying.  This prevents a transient license-server outage from
-    // locking out ALL users system-wide.
-    static constexpr int64_t kLicenseGracePeriodMs = 5 * 60 * 1000;  // 5 minutes
-    mutable std::atomic<int64_t> license_last_ok_ms_{0};  // epoch ms of last passing check
+    // [RB-1] Grace period for license server outages: track last successful check.
+    // Stored as milliseconds since steady_clock epoch.
+    mutable std::atomic<int64_t> last_license_success_ms_{0};
+    static constexpr int64_t LICENSE_GRACE_PERIOD_MS = 300'000; // 5 minutes
     
     /// Helper: expand role with inheritance
     std::vector<Permission> expandRolePermissions(const std::string& role_name, std::unordered_set<std::string>& visited) const;

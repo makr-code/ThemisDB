@@ -259,7 +259,7 @@ EthicsProfileMeta EthicsProfileRegistry::scanHeader(const std::string& filepath)
         }
     } catch (const std::exception& ex) {
         // Non-fatal: return what we have (school_id from filename)
-        LOG_WARN("EthicsProfileRegistry: failed to scan header of '{}': {}",
+        THEMIS_WARN("EthicsProfileRegistry: failed to scan header of '{}': {}",
                  filepath, ex.what());
     }
 #endif

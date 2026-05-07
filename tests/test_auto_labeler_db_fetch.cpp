@@ -382,3 +382,69 @@ TEST_F(AutoLabelerDbFetchTest, LabelAll_WithEngine_SkipsDocsWithoutText) {
     EXPECT_EQ(stats.documents_processed, 3u)
         << "Documents without a text field must be excluded by FETCH_ALL_DOCUMENTS";
 }
+
+
+// ============================================================================
+// registerDocument() — stub #66 resolution
+// ============================================================================
+
+TEST_F(AutoLabelerDbFetchTest, RegisterDocument_OfflineMode_UsesRegisteredText) {
+    // In offline mode (no engine), registerDocument() feeds per-document text
+    // into the labeler, overriding the hardcoded fallback paragraph.
+    auto cfg = makeConfig("legal_documents");
+    LegalAutoLabeler labeler(cfg, "", nullptr);
+
+    // Register a document containing only "kann" (permission) — should produce
+    // only "permission" samples, unlike the hardcoded fallback which contains
+    // all three modalities (muss/soll/kann).
+    labeler.registerDocument("offline_doc_1",
+        "Die Behörde kann eine Ausnahme genehmigen.");
+
+    auto samples = labeler.labelDocument("offline_doc_1");
+    ASSERT_FALSE(samples.empty())
+        << "LabelDocument with a registered offline document must produce samples";
+    for (const auto& s : samples) {
+        EXPECT_EQ(s.category, "permission")
+            << "Only 'permission' samples expected from a 'kann'-only text";
+    }
+}
+
+TEST_F(AutoLabelerDbFetchTest, RegisterDocument_FallbackForUnregisteredId) {
+    // When a document_id is NOT registered and no engine is wired, the
+    // hardcoded fallback paragraph should still be used.
+    auto cfg = makeConfig("legal_documents");
+    LegalAutoLabeler labeler(cfg, "", nullptr);
+
+    // Do NOT register the document.
+    auto samples = labeler.labelDocument("unregistered_doc");
+    // The hardcoded fallback contains muss/soll/kann → expect at least one sample
+    // from the obligation/duty category.
+    ASSERT_FALSE(samples.empty())
+        << "Unregistered document should fall back to hardcoded text and produce samples";
+}
+
+TEST_F(AutoLabelerDbFetchTest, RegisterDocument_EngineWinsOverRegistry) {
+    // When a query engine is wired, the DB text takes precedence over any
+    // registered offline text.
+    {
+        BaseEntity e("doc_muss_only");
+        e.setField("text", std::string("Die Behörde muss handeln."));
+        ASSERT_TRUE(idx_->put("legal_documents", e).ok);
+    }
+
+    auto cfg = makeConfig("legal_documents");
+    LegalAutoLabeler labeler(cfg, "", engine_.get());
+    // Register a different text for the same document_id.
+    labeler.registerDocument("doc_muss_only",
+        "Die Behörde kann eine Ausnahme genehmigen.");
+
+    auto samples = labeler.labelDocument("doc_muss_only");
+    // DB text is "muss" (obligation) → engine wins, samples must be obligation.
+    ASSERT_FALSE(samples.empty());
+    bool has_obligation = false;
+    for (const auto& s : samples) {
+        if (s.category == "obligation") has_obligation = true;
+    }
+    EXPECT_TRUE(has_obligation)
+        << "Engine-backed text (muss) must take precedence over registered offline text (kann)";
+}

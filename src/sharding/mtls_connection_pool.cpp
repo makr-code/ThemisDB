@@ -217,33 +217,33 @@ void EndpointConnectionPool::closeAll() {
 }
 
 std::optional<std::unique_ptr<SSL, SSLDeleter>> EndpointConnectionPool::createNewConnection() {
-// STUB/SIMULATION NOTE:
+    // When a connection factory has been injected, delegate to it.
+    if (connection_factory_) {
+        auto conn = connection_factory_(endpoint_);
+        if (conn) {
+            total_created_++;
+        } else {
+            connections_failed_++;
+        }
+        return conn;
+    }
+
+    // STUB/SIMULATION NOTE:
     // Purpose: Deferred placeholder for the actual mTLS connection creation path.
     //   SSL context setup, TCP connect, and TLS handshake are managed by
     //   MTLSClient (the pool's owner); this pool-level factory method is reserved
     //   for a future refactor that moves connection creation into the pool itself.
-    // Activation: Always active — the current design delegates creation to
-    //   MTLSClient::connect() instead.  The pool is used for reuse only.
+    // Activation: connection_factory_ is null (no factory injected via setConnectionFactory()).
     // Production Delta: createNewConnection() always returns nullopt; callers
     //   that call it directly get no connection and must fall back to
     //   MTLSClient::connect().  The pool's acquireConnection() path is unaffected
     //   because it only calls createNewConnection() as a last-resort extension
     //   point (currently never reached in production code paths).
-    // Removal Plan: Refactor mTLS connection lifecycle so that pool owns
-    //   creation.  Implement TCP+SSL setup here using the stored ssl_ctx_ member.
+    // Removal Plan: Refactor mTLS connection lifecycle so that pool owns creation.
+    //   Inject a factory via setConnectionFactory() that implements TCP+SSL setup.
     //   Remove this note once the refactor is complete (v2.0.0 target).
     // Roadmap ref: src/sharding/FUTURE_ENHANCEMENTS.md § "mTLS Pool Connection Ownership"
-    // Note: This is a stub implementation
-    // In production, this would:
-    // 1. Parse endpoint to get host and port
-    // 2. Create TCP socket
-    // 3. Initialize SSL context
-    // 4. Perform SSL handshake
-    // 5. Return SSL* pointer
-    
-    // For now, we return nullopt since we don't have the SSL context here
-    // The actual connection creation will happen in MTLSClient
-    
+
     total_created_++;
     return std::nullopt;
 }

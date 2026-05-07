@@ -30,6 +30,7 @@
 #include <mutex>
 #include <atomic>
 #include <functional>
+#include <optional>
 #include <chrono>
 #include <thread>
 
@@ -225,6 +226,15 @@ class GossipConfigManager {
 public:
     using ConfigUpdateCallback = std::function<void(const ConfigUpdate&)>;
     using ResourceSnapshotCallback = std::function<void(const ResourceSnapshot&)>;
+
+    /**
+     * Transport function type for gossip message delivery.
+     * @param peer_endpoint  Destination endpoint string (e.g. "https://shard-2:8080")
+     * @param message        Gossip message to deliver
+     * @return true if the message was accepted by the peer, false on error
+     */
+    using GossipSendFn = std::function<bool(const std::string& peer_endpoint,
+                                            const proto::GossipMessage& message)>;
     
     /**
      * Construct GossipConfigManager
@@ -286,6 +296,20 @@ public:
      * @param callback Function called when resource snapshot is received
      */
     void onResourceSnapshot(ResourceSnapshotCallback callback);
+
+    /**
+     * Inject a custom gossip transport function.
+     *
+     * When set, every outbound gossip message is delivered via @p fn instead
+     * of the default MTLSClient HTTP path.  Intended for testing or for
+     * integrating alternative transports (e.g. gRPC gossip service).
+     *
+     * @param fn  Callable with signature
+     *            `bool(const std::string& endpoint, const proto::GossipMessage&)`.
+     *            Returning true counts as a successful delivery; false increments
+     *            the error counter.  Must be thread-safe.
+     */
+    void setGossipSendFunction(GossipSendFn fn);
     
     /**
      * Get current configuration value
@@ -363,6 +387,7 @@ private:
     // Callbacks
     ConfigUpdateCallback config_update_callback_;
     ResourceSnapshotCallback resource_snapshot_callback_;
+    std::optional<GossipSendFn> gossip_send_fn_;  // injected transport; nullopt → use client_
     
     // Statistics
     std::atomic<uint64_t> gossip_rounds_{0};

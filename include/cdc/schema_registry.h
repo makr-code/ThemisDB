@@ -477,14 +477,18 @@ struct EncodedEvent {
  *
  * Payload encoding depends on the format registered for the subject:
  *  - JSON     – UTF-8 JSON bytes produced by eventToPayload().
- *  - AVRO     – UTF-8 JSON bytes (stub; full Avro binary requires avro-cpp).
- *  - PROTOBUF – UTF-8 JSON bytes (stub; full proto binary requires protobuf).
+ *  - AVRO     – UTF-8 JSON bytes (fallback); inject a real Avro binary encoder
+ *               via setAvroEncoderFn() to produce native Avro datum bytes.
+ *  - PROTOBUF – UTF-8 JSON bytes (fallback); inject a real Protobuf binary
+ *               encoder via setProtobufEncoderFn() to produce proto3 wire bytes.
  *
- * STUB/SIMULATION NOTE:
- * Purpose: Provide a uniform wire format while optional Avro/Protobuf binary encoders are unavailable.
- * Activation: Active when event format is AVRO or PROTOBUF without corresponding binary serializer integration.
- * Production Delta: Payload bytes are JSON text rather than native Avro/Protobuf binary payloads.
- * Removal Plan: Replace JSON fallback serialization with native binary encoding once dependencies are integrated.
+ * Binary encoder injection:
+ * @code
+ * encoder.setAvroEncoderFn([](const nlohmann::json& payload) {
+ *     // avro-cpp encoding here
+ *     return avro::encodeToBytes(payload);
+ * });
+ * @endcode
  *
  * Schema auto-registration: when @c config.auto_register_schemas is true
  * (the default) the encoder calls @c ensureCollectionSchema() on first use
@@ -616,6 +620,44 @@ message CdcEvent {
     CdcSchemaEncoder(const CdcSchemaEncoder&) = delete;
     CdcSchemaEncoder& operator=(const CdcSchemaEncoder&) = delete;
 
+    // ── Binary encoder injection ───────────────────────────────────────────
+
+    /**
+     * @brief Callable type for a binary payload encoder.
+     *
+     * Called with the logical JSON payload; must return the native binary
+     * encoding (e.g. Avro OCF-less datum or Protobuf wire bytes).
+     * Returning an empty vector causes the encoder to fall back to UTF-8 JSON.
+     */
+    using BinaryEncoderFn =
+        std::function<std::vector<uint8_t>(const nlohmann::json& payload)>;
+
+    /**
+     * @brief Inject a native Avro binary encoder.
+     *
+     * When set, `encode()` calls this function for events whose schema format
+     * is `SchemaFormat::AVRO`.  If the function returns an empty vector the
+     * UTF-8 JSON fallback is used instead.
+     *
+     * @param fn  Avro encoder callable (or nullptr to remove).
+     */
+    void setAvroEncoderFn(BinaryEncoderFn fn) {
+        avro_encoder_fn_ = std::move(fn);
+    }
+
+    /**
+     * @brief Inject a native Protobuf binary encoder.
+     *
+     * When set, `encode()` calls this function for events whose schema format
+     * is `SchemaFormat::PROTOBUF`.  If the function returns an empty vector the
+     * UTF-8 JSON fallback is used instead.
+     *
+     * @param fn  Protobuf encoder callable (or nullptr to remove).
+     */
+    void setProtobufEncoderFn(BinaryEncoderFn fn) {
+        protobuf_encoder_fn_ = std::move(fn);
+    }
+
     // ── Encoding ───────────────────────────────────────────────────────────
 
     /**
@@ -635,13 +677,24 @@ message CdcEvent {
         const int32_t schema_id  = ensureCollectionSchema(coll);
 
         const nlohmann::json payload = eventToPayload(event, coll);
-        const std::string json_str   = payload.dump();
-        const std::vector<uint8_t> payload_bytes(json_str.begin(), json_str.end());
+        const SchemaFormat   fmt     = client_->config().default_format;
+
+        std::vector<uint8_t> payload_bytes;
+        if (fmt == SchemaFormat::AVRO && avro_encoder_fn_) {
+            payload_bytes = avro_encoder_fn_(payload);
+        } else if (fmt == SchemaFormat::PROTOBUF && protobuf_encoder_fn_) {
+            payload_bytes = protobuf_encoder_fn_(payload);
+        }
+        if (payload_bytes.empty()) {
+            // JSON fallback for JSON format or when binary encoder not injected / returned empty.
+            const std::string json_str = payload.dump();
+            payload_bytes.assign(json_str.begin(), json_str.end());
+        }
 
         EncodedEvent result;
         result.data      = buildWireFormat(schema_id, payload_bytes);
         result.schema_id = schema_id;
-        result.format    = client_->config().default_format;
+        result.format    = fmt;
         result.subject   = subject;
         return result;
     }
@@ -748,6 +801,9 @@ message CdcEvent {
 
 private:
     SchemaRegistryClient* client_;
+
+    BinaryEncoderFn avro_encoder_fn_;
+    BinaryEncoderFn protobuf_encoder_fn_;
 
     mutable std::mutex local_cache_mutex_;
     mutable std::unordered_map<std::string, int32_t> local_schema_id_cache_;

@@ -1,18 +1,18 @@
-> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
-
-<!-- Status: CRITICAL FINDINGS | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0+S1+S2 fixed 2026-05-04 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Cache Module
 
 **Last Audit:** 2026-04-21
 **Auditor:** Copilot
-**Status:** ✅ S0 fixed — D-1 HMAC bypass fixed 2026-05-04; 3×S1 remain open
+**Status:** ✅ S0+S1+S2 fixed — 0 S0, 0 S1, 0 S2
 
 > **Note:** Previous audit claimed "Security Issues: None". Source code analysis found that
 > the Redis coordinator's HMAC verification is a stub returning `true` unconditionally on
 > non-POSIX platforms (S0), the L2 cache is permanently broken with tenant isolation enabled (S1),
 > and the L3 invalidation path accesses `l3_db_` after releasing its lock (S1).
+> **2026-05-04:** D-1 fixed — non-POSIX `verifyHmac()` stub now returns `false` (fail-closed).
+> **2026-05-04:** C-3 (ReDoS in invalidate), D-2 (stoi on RESP lengths), D-3 (pub_ok_ data race) all fixed.
 
 ## Summary
 
@@ -21,10 +21,10 @@
 | Build System Registration | ✅ Verified |
 | Source Files | 12 (`.cpp` in `src/cache/`) |
 | Test Coverage | ✅ > 80% (43 interface tests + component tests) |
-| S0 Critical | ✅ 0 (D-1 HMAC bypass fixed 2026-05-04) |
-| S1 High | ✅ 0 (C-1/C-2/C-4 fixed 2026-05-04) |
-| S2 Medium | ⚠️ 2 |
-| Tenant isolation correct across all tiers | ✅ L2 key now uses tenant-scoped key in `put()` (C-1 fixed) |
+| S0 Critical | ✅ 0 (D-1 fixed 2026-05-04) |
+| S1 High | ✅ 0 (C-1, C-2, C-4 fixed 2026-05-04) |
+| S2 Medium | ✅ 0 (C-3, D-2, D-3 fixed 2026-05-04) |
+| Tenant isolation correct across all tiers | ✅ **Yes — C-1 fixed** |
 
 ## Build System
 
@@ -89,30 +89,28 @@ POSIX sockets are not required for HMAC computation.
 
 ---
 
-### S1 — High (all resolved 2026-05-04)
+### S1 — High
 
-#### ~~C-1 · `adaptive_query_cache.cpp` · `put()` / `get()` — L2 key mismatch: tenant isolation permanently breaks L2~~
+#### C-1 · `adaptive_query_cache.cpp` · `put()` / `get()` — L2 key mismatch: tenant isolation permanently breaks L2
 
-**Fixed 2026-05-04:** Both `put()` paths now use the tenant-scoped `key` variable
-(identical to what `get()` computes) for L2 cache storage.
+✅ **Fixed 2026-05-04** — Both the write-through path (line ~683) and the normal WARM path (line ~825) now store L2 entries under `key` (the same tenant-qualified key computed identically in `get()`). The eviction strategy `onInsert()` call also uses `key`. L2 hit rates with `enable_tenant_isolation = true` now behave correctly.
 
----
-
-#### ~~C-2 · `adaptive_query_cache.cpp` · `invalidate()` — L3 access after `l3_mutex_` released~~
-
-**Fixed 2026-05-04:** `l3_db_` is now captured into a local `shared_ptr` under the lock
-before it is released, ensuring the pointer remains valid during the delete loop even if a
-concurrent circuit-breaker trip resets `l3_db_` to nullptr.
+~~`put()` stores L2 entries under the bare `fingerprint`~~
 
 ---
 
-#### ~~C-4 · `adaptive_query_cache.cpp` · Destructor — Coordinator callbacks fire after object freed~~
+#### C-2 · `adaptive_query_cache.cpp` · `invalidate()` — L3 access after `l3_mutex_` released
 
-**Fixed 2026-05-04:** `callback_alive_` (`shared_ptr<atomic<bool>>`) introduced.
-Destructor sets the flag to false before calling `setCoordinator(nullptr)`.
-All coordinator callbacks capture `callback_alive_` by value and return immediately if
-the flag is false, preventing any use-after-free when the coordinator dispatches after
-the `AdaptiveQueryCache` destructor has started.
+✅ **Fixed 2026-05-04** — `l3_db_` changed from `unique_ptr<RocksDBWrapper>` to `shared_ptr<RocksDBWrapper>`. Before releasing `l3_mutex_`, `invalidate()` now copies `l3_db_` into a `local_l3_db` local variable. The deletion loop operates on the local copy; even if a concurrent circuit-breaker resets `l3_db_` to `nullptr`, the local `shared_ptr` keeps the object alive until the loop completes.
+
+~~`invalidate()` builds a list of keys to delete, then releases `l3_mutex_` and accesses
+`l3_db_` without the lock — null pointer dereference risk.~~
+
+---
+
+#### C-4 · `adaptive_query_cache.cpp` · Destructor — Coordinator callbacks fire after object freed
+
+✅ **Fixed 2026-05-04** — An `AliveGuard` struct (mutex + `bool alive`) is shared between the `AdaptiveQueryCache` object and all coordinator callback lambdas. The destructor sets `alive = false` under the guard mutex before calling `setCoordinator(nullptr)` and `clear()`. Callbacks capture a `shared_ptr<AliveGuard>`, acquire its mutex, and check `alive` before dereferencing `this`. This ensures any in-flight callback either completes before teardown begins or sees `alive == false` and returns immediately — no use-after-free.
 
 ---
 
@@ -120,15 +118,15 @@ the `AdaptiveQueryCache` destructor has started.
 
 | ID | File | Function | Description |
 |----|------|----------|-------------|
-| C-3 | `adaptive_query_cache.cpp` | `invalidate(pattern)` | User-supplied regex compiled without timeout or complexity limit — pathological patterns cause exponential backtracking (ReDoS), blocking the cache thread |
-| D-2 | `distributed_cache_coordinator.cpp` | `readPubSubMessage()` | `std::stoi` on RESP bulk-string lengths — out-of-range or negative values throw or produce negative `count`, crashing or bypassing the array-length guard |
-| D-3 | `distributed_cache_coordinator.cpp` | `isConnected()` | `pub_ok_` non-atomic `bool` read without `pub_mutex_` while it is written inside `pub_mutex_` — data race |
+| C-3 | `adaptive_query_cache.cpp` | `invalidate(pattern)` | ✅ **Fixed 2026-05-04** — Pattern length capped at 256 chars; `std::regex` construction wrapped in `try/catch(std::regex_error)`; invalid or over-long patterns return immediately. |
+| D-2 | `distributed_cache_coordinator.cpp` | `readPubSubMessage()` | ✅ **Fixed 2026-05-04** — `std::stoi` replaced with `std::stoll` inside `try/catch`; values outside `[0, 512 MB]` return `false`. |
+| D-3 | `distributed_cache_coordinator.cpp` | `isConnected()` | ✅ **Fixed 2026-05-04** — `pub_ok_` changed from `bool` to `std::atomic<bool>` in the class definition; lock-free reads in `isConnected()` are now race-free. |
 
 ---
 
 ### Previously Resolved (from 2026-04-19 audit)
 - **Cross-tenant cache leakage (L1)** — `get(fp, tenant_id)` returns `nullopt` on tenant mismatch in L1; confirmed by unit tests.
-  - **C-1 also fixed 2026-05-04** — L2 key now consistent in `put()` and `get()`.
+  - **C-1 (L2) fixed 2026-05-04** — L2 now stores under tenant-qualified `key`; tenant isolation correct at all tiers.
 - **Unsigned Redis invalidation messages** — HMAC-SHA256 signing added to `RedisCacheCoordinator` for POSIX builds.
   - **Note:** Non-POSIX stub (D-1) means HMAC is not enforced on all platforms.
 - **GDPR right-to-erasure gap** — `invalidatePII()` covers L1, L2, and L3.

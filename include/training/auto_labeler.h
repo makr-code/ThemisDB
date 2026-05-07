@@ -211,6 +211,24 @@ public:
                                float new_confidence,
                                const std::string& reviewed_by);
 
+    /**
+     * @brief Register a document text for offline/test-mode labeling.
+     *
+     * When no QueryEngine is wired in, `labelDocument()` and
+     * `fetchDocumentText()` look up documents registered here instead of
+     * falling back to a fixed hardcoded placeholder paragraph.  This allows
+     * unit and integration tests to exercise the full NLP pipeline with
+     * controlled, per-document texts without requiring a live database.
+     *
+     * Documents registered via this method take precedence over the
+     * built-in hardcoded fallback text.  They do not affect the AQL-backed
+     * code path: when a QueryEngine is present, the DB always wins.
+     *
+     * @param document_id  Primary key used to identify the document.
+     * @param text         Document body text.
+     */
+    void registerDocument(const std::string& document_id, const std::string& text);
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;

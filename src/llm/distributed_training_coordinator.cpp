@@ -66,7 +66,6 @@ json DistributedTrainingConfig::toJSON() const {
     j["detection_threshold"] = detection_threshold;
     j["max_byzantine_shards"] = max_byzantine_shards;
     j["byzantine_action"] = static_cast<int>(byzantine_action);
-    j["total_steps"] = total_steps;
     return j;
 }
 
@@ -112,8 +111,6 @@ DistributedTrainingConfig DistributedTrainingConfig::fromJSON(const json& j) {
         config.max_byzantine_shards = j["max_byzantine_shards"].get<int>();
     if (j.contains("byzantine_action"))
         config.byzantine_action = static_cast<ByzantineAction>(j["byzantine_action"].get<int>());
-    if (j.contains("total_steps"))
-        config.total_steps = j["total_steps"].get<int>();
     return config;
 }
 
@@ -1403,16 +1400,17 @@ float DistributedTrainingCoordinator::estimateRemainingTime() const {
     
     float avg_time_per_step = elapsed_minutes / stats_.total_steps_completed;
 
-    if (config_.total_steps <= 0) {
-        // Total steps unknown — cannot compute absolute ETA.
-        return 0.0f;
+    // Use total_steps from config when available to compute a real ETA.
+    if (config_.total_steps > 0) {
+        int remaining = config_.total_steps - static_cast<int>(stats_.total_steps_completed);
+        if (remaining <= 0) {
+            return 0.0f;  // Training already at or past the configured step count
+        }
+        return avg_time_per_step * static_cast<float>(remaining);
     }
 
-    const int remaining_steps = config_.total_steps - stats_.total_steps_completed;
-    if (remaining_steps <= 0) {
-        return 0.0f;
-    }
-    return avg_time_per_step * static_cast<float>(remaining_steps);
+    // total_steps not configured — cannot compute remaining time
+    return 0.0f;
 }
 
 void DistributedTrainingCoordinator::setProgressCallback(ProgressCallback callback) {

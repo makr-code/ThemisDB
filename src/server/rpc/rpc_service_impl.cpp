@@ -2252,7 +2252,20 @@ json ThemisRPCService::handleGetCollectionMetadata(const json& params) {
             {"document_count", document_count},
             {"total_size_bytes", total_size},
             {"models", models_array},
-            {"indexes", json::array()}  // Placeholder for index metadata
+            {"indexes", [&] {
+                json idx_array = json::array();
+                std::string idx_prefix = "_idx_meta:" + collection + ":";
+                storage->scanPrefix(idx_prefix,
+                    [&idx_array](std::string_view /*key*/, std::string_view value) -> bool {
+                        try {
+                            idx_array.push_back(json::parse(value));
+                        } catch (const json::exception&) {
+                            // Skip malformed index metadata entries
+                        }
+                        return true;
+                    });
+                return idx_array;
+            }()}
         };
         
         return createSuccess(result);

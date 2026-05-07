@@ -27,6 +27,26 @@
 
 namespace sharding {
 
+// TWAL-2: static_assert guards lock the TransactionWALEntryType enum values so
+// that a future enum change causes a compile-time error instead of a silent
+// recovery failure (wrong entries silently filtered out in readEntries()).
+static_assert(static_cast<uint8_t>(TransactionWALEntryType::BEGIN)      == 130,
+              "TWAL-2: TransactionWALEntryType::BEGIN must stay at 130 for WAL compatibility");
+static_assert(static_cast<uint8_t>(TransactionWALEntryType::PREPARE)    == 131,
+              "TWAL-2: TransactionWALEntryType::PREPARE must stay at 131 for WAL compatibility");
+static_assert(static_cast<uint8_t>(TransactionWALEntryType::PREPARED)   == 132,
+              "TWAL-2: TransactionWALEntryType::PREPARED must stay at 132 for WAL compatibility");
+static_assert(static_cast<uint8_t>(TransactionWALEntryType::COMMIT)     == 133,
+              "TWAL-2: TransactionWALEntryType::COMMIT must stay at 133 for WAL compatibility");
+static_assert(static_cast<uint8_t>(TransactionWALEntryType::COMMITTED)  == 134,
+              "TWAL-2: TransactionWALEntryType::COMMITTED must stay at 134 for WAL compatibility");
+static_assert(static_cast<uint8_t>(TransactionWALEntryType::ABORT)      == 135,
+              "TWAL-2: TransactionWALEntryType::ABORT must stay at 135 for WAL compatibility");
+static_assert(static_cast<uint8_t>(TransactionWALEntryType::ABORTED)    == 136,
+              "TWAL-2: TransactionWALEntryType::ABORTED must stay at 136 for WAL compatibility");
+static_assert(static_cast<uint8_t>(TransactionWALEntryType::COMPENSATE) == 137,
+              "TWAL-2: TransactionWALEntryType::COMPENSATE must stay at 137 for WAL compatibility");
+
 TransactionWAL::TransactionWAL(const TransactionWALConfig& config)
     : config_(config), current_lsn_(0, 0) {}
 

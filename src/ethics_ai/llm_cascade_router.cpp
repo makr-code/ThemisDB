@@ -83,6 +83,20 @@ CascadeModelTier LlmCascadeRouter::tierForRound(const std::string& round_role) c
     return resolveTier(round_role);
 }
 
+void LlmCascadeRouter::setLlmInvokeFn(LlmInvokeFn fn) {
+    llm_invoke_fn_ = std::move(fn);
+}
+
+std::string LlmCascadeRouter::invoke(const std::string& round_role,
+                                     const std::string& prompt) const {
+    if (!llm_invoke_fn_) {
+        return {};
+    }
+    const size_t estimated_tokens = prompt.size() / 4;  // rough char→token estimate
+    const CascadeRoutingDecision decision = routeForRound(round_role, estimated_tokens);
+    return llm_invoke_fn_(decision.model_id, prompt, decision.budget.max_output_tokens);
+}
+
 } // namespace ethics
 } // namespace plugins
 } // namespace themis

@@ -204,55 +204,65 @@ bool RedisTokenBlacklist::reconnect() {
 #else // !THEMIS_ENABLE_REDIS
 
 // ============================================================================
-// No-op stub — compiled when hiredis is not available
+// In-memory fallback — compiled when hiredis is not available
 //
-// STUB/SIMULATION NOTE:
-// Purpose: Provide a link-compatible implementation of RedisTokenBlacklist
-//   for builds without hiredis, so that the auth module compiles on systems
-//   where Redis is not available (e.g., embedded or air-gapped deployments).
-// Activation: Compiled when THEMIS_ENABLE_REDIS is NOT defined (default in
-//   minimal builds; set via -DTHEMIS_ENABLE_REDIS in CMake or the 'redis'
-//   vcpkg feature).
-// Production Delta: Token revocations are NEVER persisted — isRevoked() always
-//   returns false, so revoked JWTs will be accepted until they expire naturally.
-//   This is a security regression for multi-node deployments where a revocation
-//   on one node must propagate to all nodes.
-// Removal Plan: Enable hiredis via the 'redis' vcpkg feature and define
-//   THEMIS_ENABLE_REDIS; the real implementation above the #else takes effect.
-//   All unit tests under tests/test_redis_token_blacklist.cpp guard on
-//   THEMIS_ENABLE_REDIS and skip when the stub is active.
-// Roadmap ref: src/auth/FUTURE_ENHANCEMENTS.md § "Distributed Token Blacklist (v1.6.0)"
+// Token revocations are honoured within the lifetime of a single process.
+// They are NOT propagated to other nodes or persisted across restarts.
+// Multi-node deployments must enable THEMIS_ENABLE_REDIS for distributed
+// blacklisting.
 // ============================================================================
 
 RedisTokenBlacklist::RedisTokenBlacklist(const Config& config)
     : config_(config)
 {
     THEMIS_WARN("RedisTokenBlacklist: built without hiredis (THEMIS_ENABLE_REDIS not "
-                "defined).  Token revocations will NOT be persisted to Redis.  "
+                "defined).  Token revocations are stored in-process only and will "
+                "NOT propagate to other nodes or survive process restart.  "
                 "Enable the 'redis' vcpkg feature to activate distributed blacklisting.");
 }
 
+RedisTokenBlacklist::RedisTokenBlacklist()
+    : RedisTokenBlacklist(Config{})
+{}
+
 RedisTokenBlacklist::~RedisTokenBlacklist() = default;
 
-void RedisTokenBlacklist::add(const std::string& /*jti*/,
-                               std::chrono::system_clock::time_point /*expiry*/) {
-    // no-op stub
+void RedisTokenBlacklist::add(const std::string& jti,
+                               std::chrono::system_clock::time_point expiry) {
+    std::lock_guard<std::mutex> lock(fallback_mutex_);
+    fallback_map_[jti] = expiry;
 }
 
-bool RedisTokenBlacklist::isRevoked(const std::string& /*jti*/) const {
-    return false;  // safe default: no false positives
+bool RedisTokenBlacklist::isRevoked(const std::string& jti) const {
+    std::lock_guard<std::mutex> lock(fallback_mutex_);
+    auto it = fallback_map_.find(jti);
+    if (it == fallback_map_.end()) {
+        return false;
+    }
+    // Honour natural expiry — expired entries are not considered revoked.
+    // Cleanup of expired entries is deferred to purgeExpired() to keep
+    // isRevoked() semantically read-only (no map mutation).
+    return std::chrono::system_clock::now() < it->second;
 }
 
 void RedisTokenBlacklist::purgeExpired() {
-    // no-op stub
+    const auto now = std::chrono::system_clock::now();
+    std::lock_guard<std::mutex> lock(fallback_mutex_);
+    for (auto it = fallback_map_.begin(); it != fallback_map_.end(); ) {
+        if (now >= it->second) {
+            it = fallback_map_.erase(it);
+        } else {
+            ++it;
+        }
+    }
 }
 
 bool RedisTokenBlacklist::isConnected() const {
-    return false;
+    return false;  // no Redis connection in this build
 }
 
 bool RedisTokenBlacklist::reconnect() {
-    return false;
+    return false;  // no Redis connection in this build
 }
 
 #endif // THEMIS_ENABLE_REDIS

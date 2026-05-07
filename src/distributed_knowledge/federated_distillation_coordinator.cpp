@@ -250,6 +250,12 @@ void FederatedDistillationCoordinator::setRollbackTrigger(
     rollback_trigger_ = std::move(cb);
 }
 
+void FederatedDistillationCoordinator::setNoiseGeneratorFn(NoiseGeneratorFn fn)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    noise_generator_fn_ = std::move(fn);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Utility reporting
 // ─────────────────────────────────────────────────────────────────────────────
@@ -326,14 +332,21 @@ void FederatedDistillationCoordinator::applyDPNoise(
     const double sigma = gaussianSigma(
         config_.dp_epsilon, config_.dp_delta, config_.dp_sensitivity);
 
+    if (noise_generator_fn_) {
+        // Delegate to the injected noise generator (e.g. GPU-backed cuRAND).
+        noise_generator_fn_(labels, sigma);
+        return;
+    }
+
     // STUB/SIMULATION NOTE:
     // Purpose: uses std::random_device seeded Gaussian noise to simulate DP.
-    //   In production with CUDA-capable hardware, this would be replaced by a
-    //   GPU-based Gaussian noise kernel for batch efficiency.
-    // Activation: always active in this build; no runtime gate.
+    //   In production with CUDA-capable hardware, inject a GPU-based Gaussian
+    //   noise kernel via setNoiseGeneratorFn() for batch efficiency.
+    // Activation: active when no NoiseGeneratorFn is injected via
+    //   setNoiseGeneratorFn(); always active in this build otherwise.
     // Production Delta: CPU-only; GPU version would operate on tensors directly.
     // Roadmap ref: src/distributed_knowledge/ROADMAP.md § "Phase 3 — Layer B: Federated LoRA Integration"
-    // Removal Plan: retain CPU path as fallback; add GPU path when CUDA is available.
+    // Removal Plan: retain CPU path as fallback; inject GPU path when CUDA is available.
     // Roadmap ref: src/distributed_knowledge/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
     std::random_device rd;
     std::mt19937_64 rng(rd());

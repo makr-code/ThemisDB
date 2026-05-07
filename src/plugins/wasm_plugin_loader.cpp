@@ -456,9 +456,18 @@ int32_t themis_plugin_restore_state(const char* /*state_json*/) { return 0; }
 #else // !THEMIS_WASM_SUPPORT
 
 // ---------------------------------------------------------------------------
-// Stub definitions when WASM support is not compiled in.
-// These satisfy link-time references from any translation unit that includes
-// wasm_host_api.h without defining THEMIS_WASM_SUPPORT.
+// STUB/SIMULATION NOTE:
+// Purpose: Satisfy link-time references from any TU that includes wasm_host_api.h
+//          without THEMIS_WASM_SUPPORT so the server binary compiles and starts
+//          even when the WebAssembly runtime (Wasmtime/Wasmer) is not available.
+// Activation: THEMIS_WASM_SUPPORT is NOT defined at compile time (default).
+// Production Delta: loadWasmPlugin() always returns nullptr with an error string.
+//                   All `themis_plugin_*` C-ABI entry points return 0/empty.
+//                   No WASM plugin can be loaded, initialized, or executed;
+//                   any plugin-manager request for a WASM plugin will fail gracefully.
+// Removal Plan: Build with -DTHEMIS_WASM_SUPPORT=ON after vcpkg-installing
+//               Wasmtime or Wasmer; the real implementation above the #else
+//               replaces these stubs.  See src/plugins/FUTURE_ENHANCEMENTS.md §WASMRuntime.
 // ---------------------------------------------------------------------------
 
 std::unique_ptr<IThemisPlugin> loadWasmPlugin(

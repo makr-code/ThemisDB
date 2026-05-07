@@ -159,6 +159,9 @@ struct KnowledgeGapConfig {
         FallbackStrategy::REFORMULATE_QUERY,
         FallbackStrategy::INSUFFICIENT_DATA_RESPONSE
     };
+
+    // Tenant isolation
+    std::string tenant_id; ///< Tenant identifier threaded through retrieval calls; empty = global/anonymous
 };
 
 /**
@@ -197,6 +200,37 @@ using RetrievalCallback =
         const std::string& query,
         size_t k,
         const std::string& tenant_id)>;
+
+/**
+ * @brief Callback type for LLM-based self-consistency sample generation.
+ *
+ * When injected via KnowledgeGapDetector::setLlmSampleFn(), the
+ * `generateMultipleSamples()` internal method delegates to this function
+ * instead of the built-in heuristic sentence-cycling path.
+ *
+ * The callable receives:
+ *   - @p query      The original user query.
+ *   - @p num_samples  The requested number of answer candidates.
+ *
+ * It must return a vector of strings (answer candidates) of any non-zero
+ * size.  An empty return value causes `generateMultipleSamples()` to fall
+ * back to the heuristic path.
+ *
+ * Example wiring with an ILLMPlugin:
+ * @code
+ *   detector->setLlmSampleFn(
+ *       [&llm](const std::string& q, size_t n) {
+ *           std::vector<std::string> samples;
+ *           samples.reserve(n);
+ *           for (size_t i = 0; i < n; ++i)
+ *               samples.push_back(llm.generate(q, 0.8f)); // temperature
+ *           return samples;
+ *       });
+ * @endcode
+ */
+using LlmSampleFn =
+    std::function<std::vector<std::string>(const std::string& query,
+                                           size_t             num_samples)>;
 
 /**
  * @brief Main Knowledge Gap Detector class
@@ -328,6 +362,17 @@ public:
      * @param fn RetrievalCallback — receives (query, k) and returns documents.
      */
     void setRetrievalCallback(RetrievalCallback fn);
+
+    /**
+     * @brief Inject an LLM-based sample generator for the self-consistency check.
+     *
+     * When set, `checkSelfConsistency()` calls this function to obtain answer
+     * candidates instead of cycling document sentences.  Pass an empty
+     * (default-constructed) function to revert to the heuristic path.
+     *
+     * @param fn  LlmSampleFn — receives (query, num_samples) and returns candidates.
+     */
+    void setLlmSampleFn(LlmSampleFn fn);
 
     /**
      * @brief Detect ethical perspective gap

@@ -1788,6 +1788,16 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(
     // -----------------------------------------------------------------------
     // Mach-O format (macOS dylib) — code signatures are in
     // LC_CODE_SIGNATURE; full load-command parsing is required.
+    //
+    // Mach-O magic values and byte-order:
+    //   0xFEEDFACE (BE 32-bit):  bytes FE ED FA CE
+    //   0xFEEDFACF (BE 64-bit):  bytes FE ED FA CF
+    //   0xCEFAEDFE (LE 32-bit):  bytes CE FA ED FE
+    //   0xCFFAEDFE (LE 64-bit):  bytes CF FA ED FE
+    // LC_CODE_SIGNATURE = 0x0000_001D
+    // linkedit_data_command layout (8 bytes after cmd+cmdsize):
+    //   uint32_t dataoff;   // file offset of signature blob
+    //   uint32_t datasize;  // byte size of signature blob
     // -----------------------------------------------------------------------
     else if ((header[0] == 0xFE && header[1] == 0xED && header[2] == 0xFA &&
               (header[3] == 0xCE || header[3] == 0xCF)) ||
@@ -1795,19 +1805,100 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(
               header[2] == 0xED && header[3] == 0xFE) ||
              (header[0] == 0xCE && header[1] == 0xFA &&
               header[2] == 0xED && header[3] == 0xFE)) {
-        // STUB/SIMULATION NOTE:
-        // Purpose: Identifies Mach-O magic bytes but does not parse LC_CODE_SIGNATURE
-        //          load commands; the full Mach-O header+load-command walking is
-        //          pending.
-        // Activation: Plugin binary has a Mach-O magic header (macOS dylib/bundle).
-        // Production Delta: `std::nullopt` is returned; no embedded Apple code
-        //                   signature is extracted; macOS plugin signature verification
-        //                   falls back to `codesign -v` subprocess (if configured) or
-        //                   is skipped entirely — unsigned macOS plugins pass unchecked.
-        // Removal Plan: Parse Mach-O load commands: iterate `mach_header.ncmds`;
-        //               locate `LC_CODE_SIGNATURE` (`cmd == 0x1D`); read the
-        //               `linkedit_data_command.dataoff/datasize` blob.  See
-        //               src/acceleration/FUTURE_ENHANCEMENTS.md §Plugin Security Mach-O Signature.
+        // Determine byte order and bitness from magic bytes.
+        const bool macho_be  = (header[0] == 0xFE);  // big-endian magic
+        const bool macho_64  = macho_be ? (header[3] == 0xCF)
+                                        : (header[0] == 0xCF);
+
+        // Helper lambdas that read 32-bit integers respecting byte order.
+        auto readU32be = [](const uint8_t* p) -> uint32_t {
+            return (static_cast<uint32_t>(p[0]) << 24) |
+                   (static_cast<uint32_t>(p[1]) << 16) |
+                   (static_cast<uint32_t>(p[2]) <<  8) |
+                    static_cast<uint32_t>(p[3]);
+        };
+        auto readU32le = [](const uint8_t* p) -> uint32_t {
+            return  static_cast<uint32_t>(p[0])         |
+                   (static_cast<uint32_t>(p[1]) <<  8)  |
+                   (static_cast<uint32_t>(p[2]) << 16)  |
+                   (static_cast<uint32_t>(p[3]) << 24);
+        };
+        auto readU32 = [&](const uint8_t* p) -> uint32_t {
+            return macho_be ? readU32be(p) : readU32le(p);
+        };
+
+        // mach_header layout (32-bit): magic(4)+cputype(4)+cpusubtype(4)+
+        //   filetype(4)+ncmds(4)+sizeofcmds(4)+flags(4) = 28 bytes.
+        // mach_header_64 adds reserved(4) = 32 bytes total.
+        constexpr uint32_t kMachHeader32Size = 28u;
+        constexpr uint32_t kMachHeader64Size = 32u;
+        constexpr uint32_t kLcCodeSignature  = 0x0000001Du;
+        constexpr uint32_t kMaxSigSizeMacho  = 64u * 1024u * 1024u;  // 64 MiB
+        constexpr uint32_t kMinLoadCmdSize   = 8u;
+
+        const uint32_t hdr_size = macho_64 ? kMachHeader64Size : kMachHeader32Size;
+
+        // We need at least hdr_size bytes to read ncmds and sizeofcmds.
+        // Re-read the header with enough bytes if needed.
+        std::vector<uint8_t> hdr_buf(hdr_size);
+        file.seekg(0);
+        file.read(reinterpret_cast<char*>(hdr_buf.data()),
+                  static_cast<std::streamsize>(hdr_size));
+        if (static_cast<uint32_t>(file.gcount()) < hdr_size) {
+            // File too small to be a valid Mach-O binary.
+        } else {
+            const uint32_t ncmds       = readU32(hdr_buf.data() + 16);
+            const uint32_t sizeofcmds  = readU32(hdr_buf.data() + 20);
+
+            // Sanity-cap: refuse unreasonably large load-command regions.
+            constexpr uint32_t kMaxLoadCmdsSize = 16u * 1024u * 1024u;
+            if (ncmds > 0 && sizeofcmds >= kMinLoadCmdSize &&
+                    sizeofcmds <= kMaxLoadCmdsSize) {
+                // Load all load commands into memory.
+                std::vector<uint8_t> lc_buf(sizeofcmds);
+                file.seekg(static_cast<std::streamoff>(hdr_size));
+                file.read(reinterpret_cast<char*>(lc_buf.data()),
+                          static_cast<std::streamsize>(sizeofcmds));
+                if (static_cast<uint32_t>(file.gcount()) == sizeofcmds) {
+                    uint32_t offset = 0;
+                    for (uint32_t i = 0; i < ncmds && offset + kMinLoadCmdSize <= sizeofcmds; ++i) {
+                        const uint8_t* lc = lc_buf.data() + offset;
+                        const uint32_t cmd     = readU32(lc);
+                        const uint32_t cmdsize = readU32(lc + 4);
+
+                        // Validate cmdsize before advancing.
+                        if (cmdsize < kMinLoadCmdSize ||
+                                offset + cmdsize > sizeofcmds) {
+                            break;
+                        }
+
+                        if (cmd == kLcCodeSignature && cmdsize >= 16u) {
+                            // linkedit_data_command:
+                            //   cmd(4) + cmdsize(4) + dataoff(4) + datasize(4)
+                            const uint32_t dataoff  = readU32(lc + 8);
+                            const uint32_t datasize = readU32(lc + 12);
+
+                            if (datasize > 0 && datasize <= kMaxSigSizeMacho &&
+                                    dataoff > 0) {
+                                std::vector<uint8_t> sig_blob(datasize);
+                                file.seekg(static_cast<std::streamoff>(dataoff));
+                                file.read(
+                                    reinterpret_cast<char*>(sig_blob.data()),
+                                    static_cast<std::streamsize>(datasize));
+                                if (static_cast<uint32_t>(file.gcount()) ==
+                                        datasize) {
+                                    return sig_blob;
+                                }
+                            }
+                            // LC_CODE_SIGNATURE found but read failed; stop.
+                            break;
+                        }
+
+                        offset += cmdsize;
+                    }
+                }
+            }
+        }
     }
 
     return std::nullopt;
@@ -1876,8 +1967,9 @@ EnhancedPluginSecurityVerifier::extractEmbeddedSignature(
               (header[3] == 0xCE || header[3] == 0xCF)) ||
              (header[0] == 0xCF && header[1] == 0xFA && header[2] == 0xED && header[3] == 0xFE) ||
              (header[0] == 0xCE && header[1] == 0xFA && header[2] == 0xED && header[3] == 0xFE)) {
-        // Mach-O format - code signature in LC_CODE_SIGNATURE load command
-        // Full implementation would parse load commands to find signature blob
+        // Mach-O format: delegate to the primary extractor which implements
+        // full LC_CODE_SIGNATURE load-command parsing.
+        return extractCodeSignatureData(plugin_path);
     }
     
     // No signature found or format not fully supported

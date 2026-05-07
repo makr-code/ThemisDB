@@ -277,10 +277,12 @@ PolicyEngine::Decision PolicyEngine::authorize(const std::string& user_id,
 
     std::lock_guard<std::mutex> lock(mutex_);
 
-    // If no policies defined, default allow
+    // If no policies defined, default deny (fail-closed).
+    // Loading a policy file that does not exist leaves policies_ empty; allowing
+    // all access in that state would silently bypass authorization.
     if (policies_.empty()) {
-        metrics_.policy_allow_total++;
-        return {true, "", "no_policies_default_allow"};
+        metrics_.policy_deny_total++;
+        return {false, "", "no_policies_default_deny"};
     }
 
     // Evaluate in order: first matching policy decides

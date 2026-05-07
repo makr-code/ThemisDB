@@ -106,20 +106,106 @@ std::pair<double, double> MortonEncoder::decode2D(uint64_t code, const geo::MBR&
     return {real_x, real_y};
 }
 
-// Get Morton ranges for MBR query (simplified: just return min/max range)
+// Get Morton ranges for MBR query using quadtree-style range decomposition.
+//
+// The 2D space is encoded as a 64-bit Morton (Z-order) code where x occupies
+// even-numbered bits and y occupies odd-numbered bits.  A power-of-2-aligned
+// quadtree cell at depth d forms a *contiguous* Morton range because all points
+// in the cell share the same upper 2d prefix bits — the lower 2*(32-d) bits
+// vary freely, so the range is [prefix<<free_bits, prefix<<free_bits | mask].
+//
+// The algorithm uses an explicit stack of quadtree nodes.  For each node:
+//   • No overlap with query bbox  → skip
+//   • Fully contained in query    → emit range (no false positives from this node)
+//   • Partially overlapping       → subdivide into 4 children (or emit as superset
+//                                   if the output budget is exhausted)
+//
+// The calling layer already applies a geometric post-filter, so emitting superset
+// ranges (false positives) is correct — it only affects query performance, not
+// correctness.  False negatives would be a bug; the algorithm never skips an
+// overlapping node.
 std::vector<std::pair<uint64_t, uint64_t>> MortonEncoder::getRanges(
     const geo::MBR& query_bbox,
     const geo::MBR& total_bounds,
-    [[maybe_unused]] int max_ranges
-) {
-    // unused parameter
-    // Simplified implementation: compute min/max Morton codes
-    uint64_t min_code = encode2D(query_bbox.minx, query_bbox.miny, total_bounds);
-    uint64_t max_code = encode2D(query_bbox.maxx, query_bbox.maxy, total_bounds);
-    
-    // For accurate query, we'd need to decompose into multiple ranges
-    // For MVP, use single range (may include false positives)
-    return {{min_code, max_code}};
+    int max_ranges)
+{
+    if (max_ranges <= 0) max_ranges = 8;
+
+    // Clip query to the declared total bounds and normalize to [0, 2^32-1].
+    uint32_t qx_lo = normalizeCoord(
+        std::max(query_bbox.minx, total_bounds.minx), total_bounds.minx, total_bounds.maxx);
+    uint32_t qx_hi = normalizeCoord(
+        std::min(query_bbox.maxx, total_bounds.maxx), total_bounds.minx, total_bounds.maxx);
+    uint32_t qy_lo = normalizeCoord(
+        std::max(query_bbox.miny, total_bounds.miny), total_bounds.miny, total_bounds.maxy);
+    uint32_t qy_hi = normalizeCoord(
+        std::min(query_bbox.maxy, total_bounds.maxy), total_bounds.miny, total_bounds.maxy);
+
+    if (qx_lo > qx_hi || qy_lo > qy_hi) return {};
+
+    // Quadtree node: x0/y0 are the inclusive low corners; `bits` is the number
+    // of free bits per dimension (32 = root covering [0, 2^32-1], 0 = leaf).
+    struct QNode { uint32_t x0, y0; int bits; };
+
+    std::vector<std::pair<uint64_t, uint64_t>> ranges;
+    std::vector<QNode> stack = {{0u, 0u, 32}};  // root covers the full space
+
+    while (!stack.empty()) {
+        QNode n = stack.back();
+        stack.pop_back();
+
+        // Inclusive high corner of this node.
+        uint32_t x1 = (n.bits < 32) ? n.x0 + (1u << n.bits) - 1u : 0xFFFFFFFFu;
+        uint32_t y1 = (n.bits < 32) ? n.y0 + (1u << n.bits) - 1u : 0xFFFFFFFFu;
+
+        // Skip nodes that do not overlap the query bbox.
+        if (x1 < qx_lo || n.x0 > qx_hi || y1 < qy_lo || n.y0 > qy_hi) continue;
+
+        // Morton range for this power-of-2-aligned quadtree node.
+        // lo = code of (x0, y0) with all free bits set to 0.
+        // hi = lo | mask, where mask fills all 2*bits free low bits with 1.
+        uint64_t lo = interleaveBits2D(n.x0, n.y0);
+        uint64_t hi;
+        if (n.bits == 0) {
+            hi = lo;
+        } else {
+            const uint64_t free_bits = 2u * static_cast<uint64_t>(n.bits);
+            const uint64_t mask = (free_bits < 64u) ? (1ULL << free_bits) - 1u : ~0ULL;
+            hi = lo | mask;
+        }
+
+        bool fully_inside = (n.x0 >= qx_lo && x1 <= qx_hi &&
+                             n.y0 >= qy_lo && y1 <= qy_hi);
+        bool budget_full  = (static_cast<int>(ranges.size()) >= max_ranges - 1);
+
+        if (fully_inside || n.bits == 0 || budget_full) {
+            // Emit this range.  Merge with the previous entry when adjacent to
+            // reduce the output size.
+            if (!ranges.empty() && ranges.back().second + 1u == lo) {
+                ranges.back().second = hi;
+            } else {
+                ranges.emplace_back(lo, hi);
+            }
+        } else {
+            // Subdivide into four children (SW, SE, NW, NE).
+            // Push in reverse processing order so SW is popped/processed first,
+            // keeping output ranges sorted in ascending Morton-code order.
+            const int cb   = n.bits - 1;
+            const uint32_t half = (cb < 32) ? (1u << cb) : 0x80000000u;
+            stack.push_back({n.x0 + half, n.y0 + half, cb});  // NE
+            stack.push_back({n.x0,        n.y0 + half, cb});  // NW
+            stack.push_back({n.x0 + half, n.y0,        cb});  // SE
+            stack.push_back({n.x0,        n.y0,        cb});  // SW
+        }
+    }
+
+    if (ranges.empty()) {
+        // Safety fallback: return a single superset range covering the query.
+        ranges.emplace_back(interleaveBits2D(qx_lo, qy_lo),
+                            interleaveBits2D(qx_hi, qy_hi));
+    }
+
+    return ranges;
 }
 
 // ===== SpatialIndexManager Implementation =====

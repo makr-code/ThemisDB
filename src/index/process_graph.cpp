@@ -1286,6 +1286,42 @@ ProcessGraphManager::Status ProcessGraphManager::signalEvent(
     return Status::OK();
 }
 
+std::optional<std::pair<std::string, std::string>>
+ProcessGraphManager::findTokenByTokenId(std::string_view token_id) const {
+    if (!db_.isOpen() || token_id.empty()) return std::nullopt;
+
+    std::optional<std::pair<std::string, std::string>> found;
+    const std::string token_id_str(token_id);
+
+    db_.scanPrefix("process:token:", [&](std::string_view key, std::string_view val) -> bool {
+        if (found) return false; // already found, stop scan
+
+        // Key format: "process:token:<instance_id>:<token_id>"
+        const std::string keyStr(key);
+        // After "process:token:" (14 chars) find the colon separating instance from token
+        const size_t prefix_len = 14; // strlen("process:token:")
+        const size_t second_colon = keyStr.find(':', prefix_len);
+        if (second_colon == std::string::npos) return true;
+
+        const std::string stored_token_id = keyStr.substr(second_colon + 1);
+        if (stored_token_id != token_id_str) return true;
+
+        // Found a key with matching token_id — check it's READY or ACTIVE
+        std::vector<uint8_t> blob(val.begin(), val.end());
+        BaseEntity tokenEntity = BaseEntity::deserialize(stored_token_id, blob);
+        const auto stateStr = tokenEntity.getFieldAsString("state").value_or("");
+        if (stateStr != "READY" && stateStr != "ACTIVE") return true;
+
+        const std::string instance_id = keyStr.substr(prefix_len, second_colon - prefix_len);
+        const std::string current_node =
+            tokenEntity.getFieldAsString("current_node").value_or("");
+        found = std::make_pair(instance_id, current_node);
+        return false; // stop scan
+    });
+
+    return found;
+}
+
 std::pair<ProcessGraphManager::Status, std::vector<ProcessToken>> 
 ProcessGraphManager::findActiveTasks(std::string_view assignee_or_role) const {
     std::vector<ProcessToken> result;
@@ -1857,8 +1893,12 @@ ProcessGraphManager::isHyperedgeReady(std::string_view hyperedge_id) const {
 //   scan implementations become fallback paths.
 // Roadmap ref: src/index/FUTURE_ENHANCEMENTS.md §"Process Graph Multi-Model Query Engine"
 // ============================================================================
-// Multi-Model Query Stubs
+// Multi-Model Query Implementation
 // ============================================================================
+
+void ProcessGraphManager::setAqlQueryExecutor(AqlQueryExecutorFn fn) {
+    aql_query_executor_ = std::move(fn);
+}
 
 std::pair<ProcessGraphManager::Status, std::vector<ProcessToken>>
 ProcessGraphManager::queryTasksByFormData(
@@ -1870,6 +1910,35 @@ ProcessGraphManager::queryTasksByFormData(
     if (!db_.isOpen()) return {Status::Error("Database not open"), result};
     if (filter_conditions.is_null() || filter_conditions.empty())
         return {Status::Error("filter_conditions must be a non-empty JSON object"), result};
+
+    // ── AQL-backed path (index-accelerated) ──────────────────────────────
+    if (aql_query_executor_) {
+        const std::string aql =
+            "FOR t IN process_tokens "
+            "FILTER t.process_id == @pid "
+            "FILTER MATCHES(t.variables, @filter) OR MATCHES(t.form_data, @filter) "
+            "RETURN t";
+        nlohmann::json bind_vars;
+        bind_vars["pid"]    = std::string(process_id);
+        bind_vars["filter"] = filter_conditions;
+        const auto rows = aql_query_executor_(aql, bind_vars);
+        for (const auto& row : rows) {
+            ProcessToken token;
+            token.token_id             = row.value("token_id", std::string{});
+            token.process_instance_id  = row.value("process_instance_id", std::string{});
+            token.current_node         = row.value("current_node", std::string{});
+            token.created_at_ms        = row.value("created_at_ms", int64_t{0});
+            if (row.contains("variables") && row["variables"].is_object())
+                token.variables = row["variables"];
+            const auto stStr = row.value("state", std::string{"READY"});
+            if      (stStr == "ACTIVE")    token.state = ProcessToken::State::ACTIVE;
+            else if (stStr == "WAITING")   token.state = ProcessToken::State::WAITING;
+            else if (stStr == "COMPLETED") token.state = ProcessToken::State::COMPLETED;
+            else if (stStr == "FAILED")    token.state = ProcessToken::State::FAILED;
+            result.push_back(std::move(token));
+        }
+        return {Status::OK(), result};
+    }
 
     const std::string pid(process_id);
     db_.scanPrefix("process:token:", [&](std::string_view key, std::string_view val) {
@@ -1947,6 +2016,37 @@ ProcessGraphManager::joinWithCollection(
     std::vector<JoinResult> result;
 
     if (!db_.isOpen()) return {Status::Error("Database not open"), result};
+
+    // ── AQL-backed path (index-accelerated) ──────────────────────────────
+    if (aql_query_executor_) {
+        const std::string aql =
+            "FOR t IN process_tokens "
+            "FILTER t.process_id == @pid "
+            "LET fk = t.variables[@lf] "
+            "LET ext = FIRST(FOR doc IN @@coll FILTER doc[@ff] == fk RETURN doc) "
+            "RETURN { token: t, joined: ext }";
+        nlohmann::json bind_vars;
+        bind_vars["pid"]   = std::string(process_id);
+        bind_vars["@coll"] = std::string(collection_name);
+        bind_vars["lf"]    = std::string(local_field);
+        bind_vars["ff"]    = std::string(foreign_field);
+        const auto rows = aql_query_executor_(aql, bind_vars);
+        for (const auto& row : rows) {
+            JoinResult jr;
+            if (row.contains("token") && row["token"].is_object()) {
+                const auto& t = row["token"];
+                jr.token.token_id            = t.value("token_id", std::string{});
+                jr.token.process_instance_id = t.value("process_instance_id", std::string{});
+                jr.token.current_node        = t.value("current_node", std::string{});
+                jr.token.created_at_ms       = t.value("created_at_ms", int64_t{0});
+                if (t.contains("variables") && t["variables"].is_object())
+                    jr.token.variables = t["variables"];
+            }
+            jr.joined_data = row.value("joined", nlohmann::json::object());
+            result.push_back(std::move(jr));
+        }
+        return {Status::OK(), result};
+    }
 
     const std::string pid(process_id);
     const std::string lf(local_field);
@@ -2029,6 +2129,36 @@ ProcessGraphManager::aggregateByField(
     std::vector<AggregateResult> result;
 
     if (!db_.isOpen()) return {Status::Error("Database not open"), result};
+
+    // ── AQL-backed path (index-accelerated) ──────────────────────────────
+    if (aql_query_executor_) {
+        const std::string aggFn(agg_function);
+        const std::string aql =
+            "FOR t IN process_tokens "
+            "FILTER t.process_id == @pid "
+            "COLLECT gk = t.variables[@gf] "
+            "AGGREGATE cnt = COUNT(1), "
+            "           sm  = SUM(t.variables[@af]), "
+            "           mn  = MIN(t.variables[@af]), "
+            "           mx  = MAX(t.variables[@af]) "
+            "RETURN { group_key: gk, count: cnt, sum: sm, min: mn, max: mx }";
+        nlohmann::json bind_vars;
+        bind_vars["pid"] = std::string(process_id);
+        bind_vars["gf"]  = std::string(group_field);
+        bind_vars["af"]  = std::string(agg_field);
+        const auto rows = aql_query_executor_(aql, bind_vars);
+        for (const auto& row : rows) {
+            AggregateResult ar;
+            ar.group_key = row.value("group_key", nlohmann::json{});
+            ar.count     = row.value("count", size_t{0});
+            ar.sum       = row.value("sum",   0.0);
+            ar.min       = row.value("min",   0.0);
+            ar.max       = row.value("max",   0.0);
+            ar.avg       = ar.count > 0 ? ar.sum / static_cast<double>(ar.count) : 0.0;
+            result.push_back(std::move(ar));
+        }
+        return {Status::OK(), result};
+    }
 
     const std::string pid(process_id);
     const std::string gf(group_field);

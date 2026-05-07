@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ethics_ai/ethics_ai_types.h"
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -102,6 +103,30 @@ public:
         const std::string& original_arg,
         const std::string& compressed_arg) const;
 
+    /**
+     * @brief Callback type for an external LLM abstractive summariser.
+     *
+     * Receives the full ethical argument and the maximum token budget.  Must
+     * return a non-empty abstractive summary string that fits within the
+     * budget, or an empty string to fall back to the built-in extractive path.
+     *
+     * Thread safety: fn must be callable from multiple threads.
+     */
+    using LlmSummaryFn = std::function<std::string(
+        const EthicalArgument& arg, int max_tokens)>;
+
+    /**
+     * @brief Inject a real LLM abstractive summariser for STRUCTURED_SUMMARY mode.
+     *
+     * When set, `compressStructuredSummary()` delegates to @p fn instead of
+     * the built-in TF-weighted extractive fallback.  An empty return from fn
+     * (e.g. model timeout) transparently falls back to extractive selection.
+     * Pass `nullptr` to revert to the extractive path.
+     *
+     * Roadmap ref: src/ethics_ai/FUTURE_ENHANCEMENTS.md §PriorRoundCompressor LLM (§12.2.1)
+     */
+    void setLlmSummaryFn(LlmSummaryFn fn);
+
 private:
     /// Approximate token count: chars / 4 (GPT-style BPE approximation).
     static int countTokens(const std::string& text) noexcept;
@@ -126,8 +151,8 @@ private:
     // STUB/SIMULATION NOTE:
     // Purpose: STRUCTURED_SUMMARY mode requires a small LLM call. Until the
     //          LLM backend integration (§1, Target Q3 2026) is complete, this
-    //          falls back to PRINCIPLE_CITATIONS_ONLY compression.
-    // Activation: Always (LLM backend not yet wired in this module).
+    //          falls back to TF-weighted extractive sentence selection.
+    // Activation: Always when no LlmSummaryFn is injected via setLlmSummaryFn().
     // Production Delta: Real impl sends the argument to a "small" model tier
     //                   (§12.2.1 Cascade) and returns its abstractive summary.
     // Removal Plan: Replace with real LLM dispatch when IArgumentGenerator
@@ -135,6 +160,9 @@ private:
     CompressionResult compressStructuredSummary(
         const EthicalArgument& arg,
         const CompressionConfig& config) const;
+
+    /// Injected LLM abstractive summariser (null → extractive fallback).
+    LlmSummaryFn llm_summary_fn_;
 };
 
 } // namespace ethics

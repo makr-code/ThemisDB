@@ -38,6 +38,10 @@
  * Usage (browser – protect with HTTP Basic Auth or IP allowlist in production):
  *   https://api.themisdb.org/setup.php?token=<SETUP_TOKEN>
  *
+ * Integrated admin tools:
+ *   https://api.themisdb.org/admin.php
+ *   (uses admin_api.php for setup, CRUD, and analytics)
+ *
  * Environment variable / define:
  *   THEMIS_SETUP_TOKEN  – secret token required when called via HTTP.
  *                         Set it in the web-server environment or in a
@@ -262,6 +266,11 @@ if ((int)($row['cnt'] ?? 0) !== 1) {
 
 out('');
 out('Setup complete.  Database is ready at: ' . TELEMETRY_DB_PATH);
+if ($isCli) {
+    out('Admin UI: api/admin.php');
+} else {
+    out('Admin UI: /api/admin.php');
+}
 
 if (!$isCli) {
     http_response_code(200);

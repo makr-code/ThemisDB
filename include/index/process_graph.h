@@ -617,6 +617,21 @@ public:
     // ===== Process Queries =====
     
     /**
+     * @brief Resolve a token-only task_id to its (instance_id, current_node) pair.
+     *
+     * Scans all stored tokens and returns the instance_id and current_node for
+     * the first READY or ACTIVE token whose token_id matches @p token_id.
+     * Used by WireProtocolServer to accept task_ids without the
+     * "instance_id:node_id" colon format.  Stub #138 resolution.
+     *
+     * @param token_id  The token identifier (without instance prefix).
+     * @return A pair {instance_id, current_node} if a matching active token is
+     *         found; std::nullopt otherwise.
+     */
+    [[nodiscard]] std::optional<std::pair<std::string, std::string>>
+    findTokenByTokenId(std::string_view token_id) const;
+
+    /**
      * @brief Find all active tasks for a user/role
      */
     std::pair<Status, std::vector<ProcessToken>> findActiveTasks(
@@ -686,7 +701,35 @@ public:
     // =========================================================================
     // Multi-Model Queries
     // =========================================================================
-    
+
+    /**
+     * @brief AQL query executor injection function type.
+     *
+     * When set via setAqlQueryExecutor(), the multi-model query methods
+     * (queryTasksByFormData, joinWithCollection, aggregateByField) delegate to
+     * this function instead of running O(n) in-process RocksDB scans.
+     *
+     * @param aql        AQL query string with bind variable placeholders.
+     * @param bind_vars  Bind variable values keyed by name (without leading "@").
+     * @return           Result rows as JSON objects (one per document).
+     */
+    using AqlQueryExecutorFn =
+        std::function<std::vector<nlohmann::json>(std::string_view aql,
+                                                  const nlohmann::json& bind_vars)>;
+
+    /**
+     * @brief Inject an AQL query executor for index-backed multi-model queries.
+     *
+     * When a non-null executor is provided the three multi-model query methods
+     * will build an AQL statement, invoke the executor, and map the results back
+     * to their typed return values.  The in-process O(n) scan fallbacks are
+     * retained and used when no executor is set.
+     *
+     * Thread safety: call before any concurrent query; the function object is
+     * read under a shared lock from query methods.
+     */
+    void setAqlQueryExecutor(AqlQueryExecutorFn fn);
+
     // ----- RELATIONAL Queries -----
     
     /**
@@ -895,6 +938,7 @@ public:
 private:
     RocksDBWrapper& db_;
     std::function<std::vector<float>(std::string_view)> embedder_;
+    AqlQueryExecutorFn aql_query_executor_;
     
     // Internal helpers
     std::string makeProcessKey_(std::string_view process_id) const;

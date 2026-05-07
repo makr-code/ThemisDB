@@ -554,13 +554,37 @@ bool StreamSession::initialize() {
     }
     
     transitionState(StreamSessionState::PREPARING);
-    
-    // In real implementation:
-    // 1. Establish mTLS connection to remote
-    // 2. Send PREPARE_REQUEST with file list
-    // 3. Wait for PREPARE_ACK
-    
-    // For now, simulate successful preparation
+
+    // Validate that a remote endpoint is configured — without one, no
+    // PREPARE_REQUEST can ever be sent (even with a real transport).
+    if (config_.remote_endpoint.empty()) {
+        transitionState(StreamSessionState::ABORTED);
+        return false;
+    }
+
+    // If a preparation callback has been injected (e.g. a real mTLS transport
+    // that exchanges PREPARE_REQUEST / PREPARE_ACK), delegate to it.
+    if (prepare_callback_) {
+        const bool prepared = prepare_callback_();
+        if (!prepared) {
+            transitionState(StreamSessionState::ABORTED);
+        }
+        return prepared;
+    }
+
+    // No transport callback wired yet.
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow the StreamSession state machine to advance past PREPARING
+    //          while the mTLS PREPARE_REQUEST/PREPARE_ACK exchange is not yet
+    //          wired up.  The remote endpoint is validated above to catch
+    //          misconfigured sessions early.
+    // Activation: `prepare_callback_` not set (no real transport injected).
+    // Production Delta: No actual connection is established; the remote side
+    //                   has no matching prepared session, so subsequent data
+    //                   transfers will fail on the remote end.
+    // Removal Plan: Inject a real mTLS preparation callback via
+    //               `setPrepareTransferCallback()` and remove this fallback.
+    //               See src/sharding/FUTURE_ENHANCEMENTS.md §Stream Protocol PrepareTransfer.
     return true;
 }
 
@@ -669,6 +693,11 @@ void StreamSession::setProgressCallback(StreamProgressCallback callback) {
 
 void StreamSession::setCompletionCallback(StreamCompletionCallback callback) {
     completion_callback_ = std::move(callback);
+}
+
+void StreamSession::setPrepareTransferCallback(std::function<bool()> cb) {
+    std::lock_guard<std::mutex> lk(mutex_);
+    prepare_callback_ = std::move(cb);
 }
 
 bool StreamSession::isActive() const {

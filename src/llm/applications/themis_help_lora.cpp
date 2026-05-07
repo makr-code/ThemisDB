@@ -57,6 +57,7 @@ public:
     
     // State
     std::string current_adapter_version;
+    std::vector<std::string> version_history;   // ordered list of published versions
     std::atomic<bool> is_trained{false};
     std::atomic<int64_t> total_queries{0};
     std::atomic<int64_t> successful_queries{0};
@@ -69,6 +70,7 @@ public:
     explicit Impl(const Config& cfg)
         : config(cfg)
         , current_adapter_version("v1.0")
+        , version_history({"v1.0"})
     {
         // Initialize orchestrator
         lora::LoRAOrchestrator::Config orch_config;
@@ -356,8 +358,9 @@ bool ThemisHelpLoRA::trainFromFeedback() {
         auto end = std::chrono::system_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);
 
-        // Increment version
+        // Increment version and record in history
         impl_->current_adapter_version = incrementVersion(impl_->current_adapter_version);
+        impl_->version_history.push_back(impl_->current_adapter_version);
         impl_->is_trained = true;
 
         size_t num_samples = impl_->feedback_buffer.size();
@@ -581,8 +584,16 @@ bool ThemisHelpLoRA::rollbackToPreviousVersion() {
     try {
         bool success = impl_->orchestrator->rollback(impl_->config.adapter_id);
         if (success) {
-            // Decrement version
-            impl_->current_adapter_version = decrementVersion(impl_->current_adapter_version);
+            // Use version history to restore the real predecessor version.
+            // If multiple training passes have been performed the history holds every
+            // published version in order; pop the current one and restore the previous.
+            if (impl_->version_history.size() > 1) {
+                impl_->version_history.pop_back();
+                impl_->current_adapter_version = impl_->version_history.back();
+            } else {
+                // No prior version recorded — fall back to string decrement.
+                impl_->current_adapter_version = decrementVersion(impl_->current_adapter_version);
+            }
             spdlog::info("Rolled back to version: {}", impl_->current_adapter_version);
         }
         return success;
@@ -642,11 +653,11 @@ std::string ThemisHelpLoRA::decrementVersion(const std::string& version) {
             // Decrement minor version
             return "v" + major + "." + std::to_string(minor_num - 1);
         } else if (major_num > 1) {
-            // Minor is 0, decrement major and reset minor to 0
-            // TODO: In a production system, implement proper version history tracking
-            // to determine the actual previous version (e.g., v2.0 -> v1.5 if v1.5
-            // was the last v1.x version). For now, this simplified approach is
-            // sufficient for the initial implementation.
+            // No version history available for this major boundary; return the
+            // floor of the previous major series.  rollbackToPreviousVersion()
+            // uses the recorded version_history instead, so this path is only
+            // reached when decrementVersion() is called directly without a
+            // valid history (e.g., in standalone unit tests).
             return "v" + std::to_string(major_num - 1) + ".0";
         } else {
             // Already at minimum version v1.0

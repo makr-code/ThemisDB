@@ -532,10 +532,10 @@ void GossipProtocol::syncWithTopology() {
 // Called only when peers_mutex_ is already held by the current thread.
 void GossipProtocol::syncWithTopologyLocked() {
     if (!topology_) return;
-    
+
     for (const auto& [id, peer] : peers_) {
         if (!peer.is_healthy) continue;
-        
+
         // Check if already in topology
         if (!topology_->hasShard(peer.peer_id)) {
             ShardInfo shard;
@@ -544,7 +544,18 @@ void GossipProtocol::syncWithTopologyLocked() {
             shard.datacenter = peer.datacenter;
             shard.is_healthy = peer.is_healthy;
             shard.certificate_serial = peer.certificate_serial;
-            
+
+            // CC-4: Gossip-discovered peers are added to the topology for
+            // routing awareness, but this does NOT constitute a Raft membership
+            // change.  Adding a node here does NOT grant it quorum voting rights.
+            // TODO (v2.0.0): Route quorum membership changes exclusively through
+            // Raft joint-consensus to prevent rogue nodes from influencing quorum
+            // by advertising themselves via gossip (CC-4).
+            spdlog::warn("[GOSSIP] Adding gossip-discovered peer '{}' to topology. "
+                         "This peer has NOT been admitted through Raft membership "
+                         "change and MUST NOT affect quorum calculations. "
+                         "Ensure quorum is computed only from Raft-confirmed members.",
+                         peer.peer_id);
             topology_->addShard(shard);
         } else {
             // Update health status
@@ -624,19 +635,26 @@ bool GossipProtocol::verifyMessage(const GossipMessage& message) const {
         return true;
     }
 
-    // If signature is empty, accept (peer may not have signing configured)
+    // If signature is empty and validation is enabled, fail-closed: an
+    // unsigned message from a peer must not be accepted when the operator
+    // has explicitly enabled certificate validation.
     if (message.signature.empty()) {
-        return true;
+        spdlog::warn("GossipProtocol: rejecting unsigned message '{}' from '{}': "
+                     "validate_certificates is enabled",
+                     message.message_id, message.sender_id);
+        return false;
     }
 
     // GOS-2: Attempt real RSA-SHA256 signature verification when a public key
     // is available for the sender. Public key files are expected at:
     //   {peer_public_keys_dir}/{sender_id}.pem
     if (config_.peer_public_keys_dir.empty()) {
-        // No key directory configured — cannot verify; accept with warning.
-        spdlog::warn("GossipProtocol: cannot verify signature from '{}': "
-                     "peer_public_keys_dir not configured", message.sender_id);
-        return true;
+        // No key directory configured — fail-closed: cannot verify signature.
+        spdlog::warn("GossipProtocol: rejecting message '{}' from '{}': "
+                     "validate_certificates is enabled but peer_public_keys_dir "
+                     "is not configured",
+                     message.message_id, message.sender_id);
+        return false;
     }
 
     const std::string key_path = config_.peer_public_keys_dir + "/" +

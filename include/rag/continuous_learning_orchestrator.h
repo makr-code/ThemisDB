@@ -416,6 +416,42 @@ class ContinuousLearningOrchestrator {
      */
     void setTrainerForFederation(themis::training::IncrementalLoRATrainer* trainer);
 
+    // ── Signal-source injection APIs (stub #9) ──────────────────────────────
+
+    /**
+     * @brief Inject a BaoOptimizer miss-rate provider for Loop 1 guardrail checks.
+     *
+     * The callback should return the current HNSW query miss-rate in [0.0, 1.0].
+     * Loop 1's guardrail passes when the returned value is below 0.05.
+     * Without a provider the guardrail falls back to the accuracy-proxy heuristic.
+     *
+     * Roadmap ref: src/rag/ROADMAP.md §Phase 8 Loop 1
+     */
+    void setHnswMissRateProvider(std::function<double()> provider);
+
+    /**
+     * @brief Inject a WorkloadAdaptiveOptimizer drift provider for Loop 2.
+     *
+     * The callback should return the current workload profile drift in [0.0, 1.0].
+     * Loop 2's guardrail passes when the returned value is below 0.1.
+     * Without a provider the guardrail falls back to the accuracy-proxy heuristic.
+     *
+     * Roadmap ref: src/rag/ROADMAP.md §Phase 8 Loop 2
+     */
+    void setWorkloadDriftProvider(std::function<double()> provider);
+
+    /**
+     * @brief Inject a FeedbackCollector new-entry-count provider for Loop 4.
+     *
+     * The callback should return the number of new feedback entries since the
+     * last Loop-4 run.  Loop 4 only commits a new adapter when the count
+     * reaches ≥ 100.  Without a provider the guardrail falls back to the
+     * accuracy-proxy heuristic.
+     *
+     * Roadmap ref: src/rag/ROADMAP.md §Phase 8 Loop 4
+     */
+    void setFeedbackEntryCountProvider(std::function<size_t()> provider);
+
     // Persistence
     void saveMetrics();
     void loadMetrics();

@@ -604,3 +604,36 @@ TEST(MqttClientServiceTest, GAP017_PopulatedTlsCaPath_TakesVerifyPeerPath) {
     EXPECT_FALSE(cfg.tls_ca_path.empty())
         << "Non-empty tls_ca_path should use verify_peer (no warning)";
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// findTokenByTokenId — stub #138 resolution
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(BpmnIntegrationTest, FindTokenByTokenId_ReturnsInstanceAndNode) {
+    // Start a process instance, retrieve its token_id from the first active task,
+    // then resolve it back via findTokenByTokenId().
+    auto [start_status, instance_id] = process_graph_->startProcess("testProcess", {});
+    ASSERT_TRUE(start_status.ok) << start_status.message;
+    ASSERT_FALSE(instance_id.empty());
+
+    auto [get_status, instance] = process_graph_->getProcessInstance(instance_id);
+    ASSERT_TRUE(get_status.ok) << get_status.message;
+    ASSERT_FALSE(instance.tokens.empty());
+
+    const std::string token_id    = instance.tokens[0].token_id;
+    const std::string current_node = instance.tokens[0].current_node;
+
+    auto resolved = process_graph_->findTokenByTokenId(token_id);
+    ASSERT_TRUE(resolved.has_value())
+        << "findTokenByTokenId must find an active token by its token_id";
+    EXPECT_EQ(resolved->first, instance_id)
+        << "Resolved instance_id must match";
+    EXPECT_EQ(resolved->second, current_node)
+        << "Resolved current_node must match";
+}
+
+TEST_F(BpmnIntegrationTest, FindTokenByTokenId_UnknownId_ReturnsNullopt) {
+    auto result = process_graph_->findTokenByTokenId("no-such-token-xyz");
+    EXPECT_FALSE(result.has_value())
+        << "findTokenByTokenId with unknown token_id must return nullopt";
+}

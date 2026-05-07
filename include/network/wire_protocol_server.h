@@ -343,9 +343,10 @@ private:
 
     // Rate limiting state (per-IP)
     struct RateLimitState {
-        uint64_t window_start_ms = 0;
-        uint32_t request_count_second = 0;
-        uint32_t request_count_minute = 0;
+        uint64_t window_start_ms        = 0;  // start of current 1-second window
+        uint64_t minute_window_start_ms = 0;  // start of current 60-second window
+        uint32_t request_count_second   = 0;
+        uint32_t request_count_minute   = 0;
     };
     mutable std::mutex rate_limit_mutex_;
     std::unordered_map<std::string, RateLimitState> rate_limits_;

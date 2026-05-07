@@ -147,6 +147,16 @@ public:
     bool download(const std::string& remote_path,
                  const std::string& local_path) override {
         
+        // STUB/SIMULATION NOTE (S3StorageProvider::download):
+        // Purpose: Placeholder download path inside the S3 stub class (same stub block
+        //          documented at the class-level STUB/SIMULATION NOTE above).
+        // Activation: THEMIS_ENABLE_S3 not defined; same condition as upload().
+        // Production Delta: Returns false without contacting S3. Sets THEMIS_CLOUD_BACKUP_MOCK=1
+        //          to simulate a successful download (writes a marker file) for integration
+        //          testing without AWS credentials.
+        // Removal Plan: Same as upload() — replace with Aws::S3::Model::GetObjectRequest
+        //          when aws-sdk-cpp[s3] is linked (-DTHEMIS_ENABLE_S3=ON).
+        //          See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         // In production, use AWS SDK:
         // Aws::S3::Model::GetObjectRequest request;
         // request.SetBucket(bucket_);
@@ -396,6 +406,15 @@ public:
     }
     
     bool deleteObject(const std::string& remote_path) override {
+        // STUB/SIMULATION NOTE (GCSStorageProvider::deleteObject):
+        // Purpose: Placeholder delete path inside the GCS stub class (same stub block
+        //          documented at the class-level STUB/SIMULATION NOTE above).
+        // Activation: THEMIS_ENABLE_GCS not defined; same condition as upload/download().
+        // Production Delta: Returns false without contacting GCS.  Set THEMIS_CLOUD_BACKUP_MOCK=1
+        //          to simulate a successful deletion for integration testing.
+        // Removal Plan: Replace with google::cloud::storage::Client::DeleteObject() call
+        //          when google-cloud-cpp[storage] is linked (-DTHEMIS_ENABLE_GCS=ON).
+        //          See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         THEMIS_INFO("GCS delete (placeholder): gs://{}/{}", bucket_, remote_path);
         THEMIS_WARN("Using placeholder GCS implementation - real SDK integration planned for v1.4.0");
         

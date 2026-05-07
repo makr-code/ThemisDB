@@ -17,6 +17,7 @@ build-*/
 # Temporary files from editors/IDEs
 **/*.tmp
 .tmp_issue_*.md
+tmp/
 
 # Local workflow event payloads for act (developer-local only)
 .act-event-*.json

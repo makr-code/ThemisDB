@@ -416,6 +416,14 @@ void RocksDBWrapper::configureOptions() {
     // faults.  For full power-loss durability also enable force_sync_on_write or
     // wal_bytes_per_sync.
     write_options_->sync = false;
+    // [DURABILITY] write_options_->sync=false: acknowledged writes may be lost on power failure
+    // between db_->Write() returning OK and the next OS fsync. This is the default for
+    // performance (throughput limited by disk IOPS when sync=true). Set
+    // THEMIS_ROCKSDB_SYNC=1 or config 'force_sync_on_write: true' for full durability.
+    // Only appropriate for non-critical data or testing environments.
+    THEMIS_WARN("[DURABILITY] write_options_->sync=false: power loss between Write() and OS fsync "
+                "may cause acknowledged-write loss. Set THEMIS_ROCKSDB_SYNC=1 or "
+                "'force_sync_on_write: true' for power-loss durability.");
     write_options_->disableWAL = config_.disable_wal_for_benchmark;  // Phase 2F: Benchmark optimization
     if (!config_.wal_dir.empty()) {
         options_->wal_dir = config_.wal_dir;
@@ -647,7 +655,11 @@ bool RocksDBWrapper::open() {
                           std::string(sharding_enabled) == "1");
     
     if (sharding_mode && cf_descriptors.size() > 1) {
-        THEMIS_WARN("Sharding mode detected: opening only default column family to prevent MVCC deadlock");
+        THEMIS_WARN("[CONFIG] THEMIS_ENABLE_SHARDING=1: non-default column families will be dropped. "
+                    "This is a destructive operation. Ensure this is intentional and authorized. "
+                    "All non-default column family data will be inaccessible until re-created.");
+        THEMIS_WARN("[AUDIT] Sharding mode detected: opening only default column family to prevent MVCC deadlock. "
+                    "Non-default CFs dropped: count={}", cf_descriptors.size() - 1);
         // Keep only the default CF
         cf_descriptors.erase(
             std::remove_if(cf_descriptors.begin(), cf_descriptors.end(),
@@ -686,7 +698,13 @@ bool RocksDBWrapper::open() {
         close();
     }
     
-    db_.reset(txn_db_ptr);
+    // Reset closing_ flag under db_lifecycle_mutex_ before assigning the new db_,
+    // so that OperationGuards created after this point are allowed to proceed (R-1 fix).
+    {
+        std::lock_guard<std::mutex> lock(db_lifecycle_mutex_);
+        closing_.store(false, std::memory_order_release);
+        db_.reset(txn_db_ptr);
+    }
     
     // RACE CONDITION FIX #1: Protect cf_handles_ during initialization
     {
@@ -713,14 +731,18 @@ void RocksDBWrapper::close() {
     if (db_) {
         THEMIS_INFO("Closing RocksDB");
         
-        // RACE CONDITION FIX #3: Wait for active operations to complete before closing
+        // RACE CONDITION FIX #3 + R-1: Set closing_ flag under db_lifecycle_mutex_ so
+        // that OperationGuard constructors observe it while holding the same lock and
+        // refuse to start new operations.  This eliminates the TOCTOU window where a
+        // new guard could start after the lock was released but before db_.reset().
         {
             std::lock_guard<std::mutex> lock(db_lifecycle_mutex_);
-            // After acquiring lock, new operations can't start (OperationGuard checks db_ under lock)
-            // Now we just need to wait for existing operations to finish
+            closing_.store(true, std::memory_order_release);
         }
         
-        // Busy-wait for active operations to complete
+        // Busy-wait for already-started operations to complete.
+        // No new OperationGuards can be created after closing_ is set (above), so
+        // active_operations_ is guaranteed to reach zero.
         int wait_count = 0;
         while (active_operations_.load(std::memory_order_acquire) > 0) {
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -940,6 +962,46 @@ inline std::string blobChunkKey(std::string_view key, uint32_t idx) {
     return ck;
 }
 
+// R-6: Explicit little-endian serialisation helpers so that blob manifests are
+// portable across mixed-endian architectures (e.g., big-endian POWER/SPARC
+// reading a manifest written on x86).  Plain memcpy() would use the host byte
+// order, producing a manifest that cannot be decoded on a different-endian host.
+inline void writeLE32(uint8_t* dst, uint32_t v) {
+    dst[0] = static_cast<uint8_t>(v);
+    dst[1] = static_cast<uint8_t>(v >> 8);
+    dst[2] = static_cast<uint8_t>(v >> 16);
+    dst[3] = static_cast<uint8_t>(v >> 24);
+}
+
+inline void writeLE64(uint8_t* dst, uint64_t v) {
+    dst[0] = static_cast<uint8_t>(v);
+    dst[1] = static_cast<uint8_t>(v >> 8);
+    dst[2] = static_cast<uint8_t>(v >> 16);
+    dst[3] = static_cast<uint8_t>(v >> 24);
+    dst[4] = static_cast<uint8_t>(v >> 32);
+    dst[5] = static_cast<uint8_t>(v >> 40);
+    dst[6] = static_cast<uint8_t>(v >> 48);
+    dst[7] = static_cast<uint8_t>(v >> 56);
+}
+
+inline uint32_t readLE32(const uint8_t* src) {
+    return static_cast<uint32_t>(src[0])
+         | (static_cast<uint32_t>(src[1]) << 8)
+         | (static_cast<uint32_t>(src[2]) << 16)
+         | (static_cast<uint32_t>(src[3]) << 24);
+}
+
+inline uint64_t readLE64(const uint8_t* src) {
+    return static_cast<uint64_t>(src[0])
+         | (static_cast<uint64_t>(src[1]) << 8)
+         | (static_cast<uint64_t>(src[2]) << 16)
+         | (static_cast<uint64_t>(src[3]) << 24)
+         | (static_cast<uint64_t>(src[4]) << 32)
+         | (static_cast<uint64_t>(src[5]) << 40)
+         | (static_cast<uint64_t>(src[6]) << 48)
+         | (static_cast<uint64_t>(src[7]) << 56);
+}
+
 } // anonymous namespace
 
 bool RocksDBWrapper::putBlob(std::string_view key, const std::vector<uint8_t>& data) {
@@ -998,66 +1060,66 @@ bool RocksDBWrapper::putBlob(std::string_view key, const std::vector<uint8_t>& d
         }
     }
 
-    // ── Phase 2: Atomic Transaction commit ────────────────────────────────────
-    // R-2: Use an explicit rocksdb::Transaction so that MVCC prevents any
-    // concurrent snapshot-isolated reader from observing chunk keys without the
-    // corresponding manifest entry.  A WriteBatch applied via db_->Write() gets
-    // a single LSM sequence number but is NOT registered with the
-    // TransactionDB's conflict-detection layer; a GetForUpdate() in a concurrent
-    // transaction can still read a chunk key after our batch hits the LSN but
-    // before the caller's snapshot advances, giving it an apparently-committed
-    // partial view.  Wrapping in a Transaction with the default MVCC write
-    // policy closes this window.
-    {
-        std::unique_ptr<rocksdb::Transaction> txn(
-            db_->BeginTransaction(*write_options_));
-        if (!txn) {
-            THEMIS_ERROR("putBlob: BeginTransaction failed for key '{}'",
-                         std::string(key));
+    // ── Phase 2: Atomic Transaction commit (R-2 fix) ──────────────────────────
+    // Use an explicit rocksdb::Transaction so that MVCC snapshot-isolated readers
+    // (GetForUpdate, GetWithSnapshot) cannot observe any partial blob state.
+    // A WriteBatch via db_->Write() is atomic at the LSM level, but within
+    // TransactionDB, concurrent transactions using GetForUpdate can see intermediate
+    // sequence numbers between batch entries.  An explicit transaction gives a single
+    // commit sequence number that no concurrent snapshot can interleave with.
+    std::unique_ptr<rocksdb::Transaction> blob_txn(
+        db_->BeginTransaction(*write_options_, *txn_options_));
+    if (!blob_txn) {
+        THEMIS_ERROR("putBlob: BeginTransaction returned nullptr for key '{}'",
+                     std::string(key));
+        return false;
+    }
+
+    // Write chunk keys within the transaction.
+    for (uint32_t i = 0; i < num_chunks; ++i) {
+        const std::string ck = blobChunkKey(key, i);
+        rocksdb::Status s = blob_txn->Put(
+            rocksdb::Slice(ck),
+            rocksdb::Slice(
+                reinterpret_cast<const char*>(encoded_chunks[i].data()),
+                encoded_chunks[i].size()));
+        if (!s.ok()) {
+            THEMIS_ERROR("putBlob: transaction Put chunk {} failed for key '{}': {}",
+                         i, std::string(key), s.ToString());
+            blob_txn->Rollback();
             return false;
         }
+    }
 
-        // Write chunk keys.
-        for (uint32_t i = 0; i < num_chunks; ++i) {
-            const std::string ck = blobChunkKey(key, i);
-            rocksdb::Status s = txn->Put(
-                rocksdb::Slice(ck),
-                rocksdb::Slice(
-                    reinterpret_cast<const char*>(encoded_chunks[i].data()),
-                    encoded_chunks[i].size()));
-            if (!s.ok()) {
-                THEMIS_ERROR("putBlob: Transaction Put chunk {} failed: {}", i, s.ToString());
-                txn->Rollback();
-                return false;
-            }
-        }
-
-        // Write manifest (20 bytes, little-endian).
-        uint8_t manifest_buf[20];
-        {
-            uint32_t n  = num_chunks;
-            uint64_t cs = static_cast<uint64_t>(chunk_size);
-            uint64_t ts = static_cast<uint64_t>(total_size);
-            std::memcpy(manifest_buf,      &n,  4);
-            std::memcpy(manifest_buf + 4,  &cs, 8);
-            std::memcpy(manifest_buf + 12, &ts, 8);
-        }
-        const std::string mk = blobManifestKey(key);
-        rocksdb::Status ms = txn->Put(
+    // Write manifest (20 bytes, little-endian) within the transaction.
+    uint8_t manifest_buf[20];
+    {
+        uint32_t n  = num_chunks;
+        uint64_t cs = static_cast<uint64_t>(chunk_size);
+        uint64_t ts = static_cast<uint64_t>(total_size);
+        // R-6: Use explicit little-endian helpers (portable across architectures).
+        writeLE32(manifest_buf,      n);
+        writeLE64(manifest_buf + 4,  cs);
+        writeLE64(manifest_buf + 12, ts);
+    }
+    const std::string mk = blobManifestKey(key);
+    {
+        rocksdb::Status s = blob_txn->Put(
             rocksdb::Slice(mk),
             rocksdb::Slice(reinterpret_cast<const char*>(manifest_buf), 20));
-        if (!ms.ok()) {
-            THEMIS_ERROR("putBlob: Transaction Put manifest failed: {}", ms.ToString());
-            txn->Rollback();
+        if (!s.ok()) {
+            THEMIS_ERROR("putBlob: transaction Put manifest failed for key '{}': {}",
+                         std::string(key), s.ToString());
+            blob_txn->Rollback();
             return false;
         }
+    }
 
-        rocksdb::Status commit_status = txn->Commit();
-        if (!commit_status.ok()) {
-            THEMIS_ERROR("putBlob: Transaction Commit failed for key '{}': {}",
-                         std::string(key), commit_status.ToString());
-            return false;
-        }
+    rocksdb::Status commit_status = blob_txn->Commit();
+    if (!commit_status.ok()) {
+        THEMIS_ERROR("putBlob: transaction Commit failed for key '{}': {}",
+                     std::string(key), commit_status.ToString());
+        return false;
     }
     return true;
 }
@@ -1072,13 +1134,11 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::getBlob(std::string_view key
         *read_options_, rocksdb::Slice(mk), &manifest_raw);
 
     if (ms.ok() && manifest_raw.size() == 20) {
-        // Decode manifest.
-        uint32_t num_chunks = 0;
-        uint64_t chunk_size = 0;
-        uint64_t total_size = 0;
-        std::memcpy(&num_chunks, manifest_raw.data(),      4);
-        std::memcpy(&chunk_size, manifest_raw.data() + 4,  8);
-        std::memcpy(&total_size, manifest_raw.data() + 12, 8);
+        // Decode manifest using explicit little-endian helpers (R-6).
+        const auto* raw = reinterpret_cast<const uint8_t*>(manifest_raw.data());
+        uint32_t num_chunks = readLE32(raw);
+        uint64_t chunk_size = readLE64(raw + 4);
+        uint64_t total_size = readLE64(raw + 12);
 
         if (num_chunks == 0 || total_size == 0) {
             THEMIS_WARN("getBlob: corrupt manifest for key '{}'",
@@ -1390,6 +1450,10 @@ RocksDBWrapper::TransactionWrapper::~TransactionWrapper() {
             txn_.reset();  // Safe to destroy when DB is open
         } else {
             // DB is closed, just release without destroying to avoid crash
+            THEMIS_WARN("[RESOURCE] TransactionWrapper::~TransactionWrapper: leaking active transaction "
+                        "because DB is closed. This is expected during shutdown but should not "
+                        "accumulate under normal operation. "
+                        "Consider committing or rolling back transactions before closing the DB.");
             txn_.release();  // Intentional leak in rare edge case (DB shutdown)
         }
     }
@@ -2105,6 +2169,28 @@ Result<rocksdb::ColumnFamilyHandle*> RocksDBWrapper::getOrCreateColumnFamily(con
     cf_handles_.push_back(cf_handle);
     THEMIS_INFO("Created or got column family '{}'", cf_name);
     return Ok(cf_handle);
+}
+
+std::vector<RocksDBWrapper::CFInfo> RocksDBWrapper::listColumnFamilies() const {
+    std::vector<CFInfo> result;
+    std::lock_guard<std::mutex> lock(cf_handles_mutex_);
+    if (!db_) return result;
+    result.reserve(cf_handles_.size());
+    for (auto* handle : cf_handles_) {
+        if (!handle) continue;
+        CFInfo info;
+        info.name = handle->GetName();
+        uint64_t keys = 0;
+        if (db_->GetIntProperty(handle, "rocksdb.estimate-num-keys", &keys)) {
+            info.estimated_keys = keys;
+        }
+        uint64_t size = 0;
+        if (db_->GetIntProperty(handle, "rocksdb.total-sst-files-size", &size)) {
+            info.approx_size_bytes = size;
+        }
+        result.push_back(std::move(info));
+    }
+    return result;
 }
 
 // ===== v1.1.0: Advanced RocksDB Features =====

@@ -31,6 +31,8 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 
+#include <algorithm>
+#include <cctype>
 #include <random>
 #include <sstream>
 #include <iomanip>
@@ -781,12 +783,22 @@ bool AccessControl::detectSQLInjection(const std::string& query) const {
         return false;
     }
 
-    // Fast heuristic detection
-    static const std::vector<std::string> patterns = {
-        "' OR '1'='1", "'; DROP TABLE", "UNION SELECT", "-- ", "/*", "*/"
+    // SECURITY NOTE: This is a heuristic/defense-in-depth layer, NOT a substitute
+    // for parameterized queries. Always use parameterized queries as the primary
+    // defense against SQL injection.
+
+    // Case-fold for detection — prevents trivial bypass via lowercase/mixed-case input
+    std::string lower_query = query;
+    std::transform(lower_query.begin(), lower_query.end(), lower_query.begin(),
+                   [](unsigned char c) { return std::tolower(c); });
+
+    static const std::array<std::string_view, 17> kSqlPatterns = {
+        "union", "select", "insert", "update", "delete", "drop", "exec",
+        "execute", "xp_", "--", "/*", "*/", ";", "or 1=1", "' or '",
+        "1=1", "1 = 1"
     };
-    for (const auto& pattern : patterns) {
-        if (query.find(pattern) != std::string::npos) {
+    for (const auto& pat : kSqlPatterns) {
+        if (lower_query.find(pat) != std::string::npos) {
             return true;
         }
     }
@@ -830,7 +842,8 @@ bool AccessControl::detectSuspiciousQuery(const std::string& query, const std::s
 }
 
 void AccessControl::recordFailedLogin(const std::string& user_id, [[maybe_unused]] const std::string& ip_address) {
-    
+    // SECURITY NOTE: Lockout state is in-memory only. On process restart, counters reset.
+    // Persistent lockout requires an external store (Redis, DB). Log lockout events for SIEM.
     auto& entry = rate_limits_[user_id];
     entry.failed_login_count++;
     
@@ -845,7 +858,8 @@ void AccessControl::recordFailedLogin(const std::string& user_id, [[maybe_unused
             {{"failed_attempts", entry.failed_login_count}}
         );
         
-        THEMIS_WARN("User locked out due to failed login attempts: {}", user_id);
+        THEMIS_WARN("[SECURITY] Account lockout activated for user '{}' after {} failed attempts. "
+                    "Note: lockout state is not persistent across restarts.", user_id, entry.failed_login_count);
     }
 }
 
@@ -880,23 +894,37 @@ void AccessControl::logSecurityEvent(
 }
 
 nlohmann::json AccessControl::getAuditLogs(
-    [[maybe_unused]] const std::string& user_id,
-    [[maybe_unused]] std::optional<std::chrono::system_clock::time_point> since,
-    [[maybe_unused]] std::optional<std::chrono::system_clock::time_point> until
+    const std::string& user_id,
+    std::optional<std::chrono::system_clock::time_point> since,
+    std::optional<std::chrono::system_clock::time_point> until
 ) const {
-    
-    // STUB/SIMULATION NOTE:
-    // Purpose: Satisfies the getAccessHistory() API while audit-log storage
-    //          query is not wired into AccessControl.
-    // Activation: Always — audit logger integration for history queries is absent.
-    // Production Delta: Always returns empty JSON array; callers that rely on
-    //                   this for compliance or investigation cannot get access
-    //                   history for any user or resource.
-    // Removal Plan: Query the AuditLogger for events of type ACCESS_ATTEMPT /
-    //               ACCESS_GRANTED / ACCESS_DENIED filtered by `user_id`,
-    //               `resource`, `since`, `until`.  See
-    //               src/security/FUTURE_ENHANCEMENTS.md §AccessControl getAccessHistory.
-    return nlohmann::json::array();
+    auto result = nlohmann::json::array();
+
+    if (!audit_logger_) {
+        return result;
+    }
+
+    const auto entries = audit_logger_->enumerateEntries();
+    for (const auto& entry : entries) {
+        // Apply time-range filters
+        if (since.has_value() && entry.timestamp < *since) {
+            continue;
+        }
+        if (until.has_value() && entry.timestamp > *until) {
+            continue;
+        }
+        // Filter by user_id when provided (empty means "all users")
+        if (!user_id.empty()) {
+            const auto& rec = entry.record;
+            if (!rec.contains("user_id") ||
+                rec["user_id"].get<std::string>() != user_id) {
+                continue;
+            }
+        }
+        result.push_back(entry.record);
+    }
+
+    return result;
 }
 
 // ============================================================================
@@ -928,7 +956,6 @@ nlohmann::json AccessControl::getStatistics() const {
         {"rate_limited_requests", stats_.rate_limited_requests.load()},
         {"sql_injection_attempts", stats_.sql_injection_attempts.load()},
         {"suspicious_queries", stats_.suspicious_queries.load()},
-        {"active_sessions", sessions_.size()},
         {"active_sessions", sessions_.size()}
     };
 }

@@ -187,7 +187,9 @@ public:
     /**
      * @brief Construct with optional token verifier
      * @param token_verifier Optional callback for token validation.
-     *        When null, token verification is skipped (identity_verified = true).
+     *        When null, `verifyToken()` denies by default (fail-closed).
+     *        Call `setAllowUnverifiedToken(true)` to allow access without a
+     *        verifier (test environments only).
      */
     explicit ZeroTrustPolicyEnforcer(TokenVerifier token_verifier = nullptr);
 
@@ -239,10 +241,42 @@ public:
     // Individual checks (usable for testing or staged enforcement)
     // ========================================================================
 
+    // ========================================================================
+    // Fail-closed configuration
+    // ========================================================================
+
+    /**
+     * @brief Allow access when no TokenVerifier is configured (default: false)
+     *
+     * By default, `verifyToken()` denies every request when the TokenVerifier
+     * callback is null (fail-closed).  Call `setAllowUnverifiedToken(true)` to
+     * restore the old pass-through behaviour in unit-test environments where a
+     * real verifier is deliberately absent.
+     *
+     * SECURITY NOTE: never enable this in production.  Document the override
+     * clearly in test fixtures using a STUB/SIMULATION NOTE comment.
+     */
+    void setAllowUnverifiedToken(bool allow) noexcept { allow_unverified_token_ = allow; }
+
+    /**
+     * @brief Allow access when no network policies are registered (default: false)
+     *
+     * By default, `isIpAllowed()` denies all requests when `policies_` is
+     * empty (fail-closed).  Set to `true` during phased roll-out of network
+     * policy configuration to preserve the legacy "unconfigured = allow"
+     * behaviour.  Remove all call-sites before moving to production.
+     */
+    void setAllowEmptyNetworkPolicies(bool allow) noexcept { allow_empty_network_policies_ = allow; }
+
+    // ========================================================================
+    // Individual checks (usable for testing or staged enforcement)
+    // ========================================================================
+
     /**
      * @brief Verify a token/credential for the given user_id
-     * @return true if no TokenVerifier is set (token check skipped) or
-     *         if the TokenVerifier confirms the token
+     *
+     * Returns `false` (deny) when no TokenVerifier is configured unless
+     * `setAllowUnverifiedToken(true)` has been called explicitly.
      */
     bool verifyToken(const std::string& token, const std::string& user_id) const;
 
@@ -322,6 +356,10 @@ private:
     std::unordered_map<std::string, NetworkPolicy> policies_; ///< Keyed by policy_id
     TokenVerifier token_verifier_;
     mutable Metrics metrics_;
+    /// When false (default), verifyToken() denies if token_verifier_ is null (fail-closed).
+    bool allow_unverified_token_{false};
+    /// When false (default), isIpAllowed() denies if policies_ is empty (fail-closed).
+    bool allow_empty_network_policies_{false};
 };
 
 } // namespace security

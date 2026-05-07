@@ -120,19 +120,40 @@ private:
     };
 
     /**
-     * @brief EXCLUDE constraint stub (v2.1).
+     * @brief EXCLUDE constraint metadata (v2.2).
      *
-     * Records the constraint name and exclusion operator for geospatial /
-     * range-type constraints.  The full GiST/operator-class details are not
-     * parsed because ThemisDB has no direct equivalent – they are stored as
-     * metadata for information / export purposes.
+     * Records the constraint name, the index access method (`USING <method>`),
+     * the per-column exclusion operator pairs, and the raw definition text.
+     * Stored for information / export purposes; ThemisDB has no native EXCLUDE
+     * enforcement, but callers that re-create the schema in PostgreSQL can use
+     * the parsed fields to reconstruct the DDL exactly.
      */
     struct ExcludeConstraint {
-        std::string name;       ///< Constraint name
-        std::string definition; ///< Raw definition text after EXCLUDE
+        /// Constraint name (from `CONSTRAINT <name> EXCLUDE …`)
+        std::string name;
+        /// Index access method (e.g. "gist", "btree", "spgist")
+        std::string index_method;
+        /// Per-column exclusion pairs: {column_expression, WITH_operator}
+        /// e.g. {{"room", "="}, {"period", "&&"}}
+        struct Element {
+            std::string column;        ///< Column or expression
+            std::string with_operator; ///< Exclusion operator (e.g. "=", "&&", "<>")
+        };
+        std::vector<Element> elements;
+        /// Raw definition text after the EXCLUDE keyword (for round-trip fidelity)
+        std::string definition;
 
         json toJson() const {
-            return json{{"name", name}, {"definition", definition}};
+            json elems = json::array();
+            for (const auto& el : elements) {
+                elems.push_back({{"column", el.column}, {"with_operator", el.with_operator}});
+            }
+            return json{
+                {"name",         name},
+                {"index_method", index_method},
+                {"elements",     elems},
+                {"definition",   definition}
+            };
         }
     };
 

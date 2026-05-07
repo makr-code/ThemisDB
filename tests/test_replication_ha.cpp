@@ -1998,6 +1998,74 @@ TEST(QuorumReadManagerTest, SingleNodeMode_ReturnsSessionToken) {
         << "Session token must be returned even in single-node mode";
 }
 
+// ── QRM-SN: setLocalDocumentFetchFn injection (Stub #248) ────────────────────
+
+// QRM-SN-01: injected fn is called and its data/version propagated
+TEST(QuorumReadManagerTest, SingleNodeLocalFetch_InjectedFnCalled) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 1;
+    cfg.read_timeout_ms = 200;
+
+    QuorumReadManager qrm(cfg, {});
+
+    bool called = false;
+    qrm.setLocalDocumentFetchFn(
+        [&](const std::string& collection, const std::string& document_id)
+            -> std::pair<std::string, uint64_t> {
+            called = true;
+            EXPECT_EQ(collection,  "my_col");
+            EXPECT_EQ(document_id, "doc-42");
+            return {R"({"id":"doc-42","val":7})", 99u};
+        });
+
+    auto result = qrm.read("my_col", "doc-42");
+    EXPECT_TRUE(result.success);
+    EXPECT_TRUE(called) << "setLocalDocumentFetchFn callback must be invoked";
+    EXPECT_EQ(result.data,    R"({"id":"doc-42","val":7})");
+    EXPECT_EQ(result.version, 99u);
+}
+
+// QRM-SN-02: clearing fn reverts to empty-data stub
+TEST(QuorumReadManagerTest, SingleNodeLocalFetch_ClearingRevertsToStub) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 1;
+    cfg.read_timeout_ms = 200;
+
+    QuorumReadManager qrm(cfg, {});
+    qrm.setLocalDocumentFetchFn(
+        [](const std::string&, const std::string&) -> std::pair<std::string, uint64_t> {
+            return {"some_data", 5u};
+        });
+
+    // Verify injection is active
+    ASSERT_EQ(qrm.read("c", "d").version, 5u);
+
+    // Clear the fn
+    qrm.setLocalDocumentFetchFn(nullptr);
+
+    auto result = qrm.read("c", "d");
+    EXPECT_TRUE(result.success)         << "single-node always succeeds";
+    EXPECT_TRUE(result.data.empty())    << "without fn, data must be empty";
+    EXPECT_EQ(result.version, 0u)       << "without fn, version must be 0";
+}
+
+// QRM-SN-03: throwing fn leaves success=true but data empty (degraded mode)
+TEST(QuorumReadManagerTest, SingleNodeLocalFetch_ThrowingFnDegradesGracefully) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 1;
+    cfg.read_timeout_ms = 200;
+
+    QuorumReadManager qrm(cfg, {});
+    qrm.setLocalDocumentFetchFn(
+        [](const std::string&, const std::string&) -> std::pair<std::string, uint64_t> {
+            throw std::runtime_error("storage unavailable");
+        });
+
+    auto result = qrm.read("col", "doc-1");
+    EXPECT_TRUE(result.success)      << "degraded mode must still return success=true";
+    EXPECT_TRUE(result.data.empty()) << "exception must leave data empty";
+}
+
 // Session consistency: a malformed (non-empty) token is treated as version 0,
 // so all replicas qualify and the read succeeds normally.
 TEST(QuorumReadManagerTest, SessionConsistency_MalformedTokenTreatedAsNoRequirement) {

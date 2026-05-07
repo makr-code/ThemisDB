@@ -137,3 +137,73 @@ TEST(OpaWasmAdapter, WasmAndRestBothFail_ReturnsNullopt) {
     EXPECT_FALSE(result.has_value())
         << "When both WASM and REST fail, evaluate() must return nullopt";
 }
+
+// ---------------------------------------------------------------------------
+// OPA-WASM-INJ-01 — Injected WasmEvalFn returning a policy decision is used
+// ---------------------------------------------------------------------------
+TEST(OpaWasmAdapter, WasmEvalFn_InjectedFnUsed) {
+    OpaAdapter adapter(make_wasm_config("/any/bundle.wasm"));
+
+    PolicyDecision injected;
+    injected.classification             = "vs-nfd";
+    injected.mode                       = "enforce";
+    injected.encrypt_logs               = false;
+    injected.redaction                  = "standard";
+    injected.ann_allowed                = true;
+    injected.require_content_encryption = false;
+    injected.export_allowed             = true;
+    injected.cache_allowed              = true;
+    injected.retention_days             = 365;
+
+    adapter.setWasmEvalFn([injected](const std::unordered_map<std::string, std::string>&,
+                                      const std::string&) -> std::optional<PolicyDecision> {
+        return injected;
+    });
+
+    const auto result = adapter.evaluate(kTestHeaders, "/vector/search");
+    ASSERT_TRUE(result.has_value())
+        << "OPA-WASM-INJ-01: injected WasmEvalFn returning a decision must be used by evaluate()";
+    EXPECT_EQ(result->classification, "vs-nfd");
+    EXPECT_TRUE(result->ann_allowed);
+}
+
+// ---------------------------------------------------------------------------
+// OPA-WASM-INJ-02 — Injected WasmEvalFn returning nullopt falls through to REST
+// ---------------------------------------------------------------------------
+TEST(OpaWasmAdapter, WasmEvalFn_InjectedFnNulloptFallsThrough) {
+    OpaAdapter adapter(make_wasm_config("/any/bundle.wasm"));
+
+    // Injected fn returns nullopt → evaluate() should try REST (unreachable → nullopt).
+    adapter.setWasmEvalFn([](const std::unordered_map<std::string, std::string>&,
+                              const std::string&) -> std::optional<PolicyDecision> {
+        return std::nullopt;
+    });
+
+    const auto result = adapter.evaluate(kTestHeaders, "/api/data");
+    // REST is unreachable → overall result is still nullopt
+    EXPECT_FALSE(result.has_value())
+        << "OPA-WASM-INJ-02: injected fn returning nullopt must cause evaluate() to fall through to REST (which also returns nullopt here)";
+}
+
+// ---------------------------------------------------------------------------
+// OPA-WASM-INJ-03 — Clearing the WasmEvalFn (nullptr) restores stub behaviour
+// ---------------------------------------------------------------------------
+TEST(OpaWasmAdapter, WasmEvalFn_ClearedRestoresStub) {
+    OpaAdapter adapter(make_wasm_config("/nonexistent/bundle.wasm"));
+
+    // First inject a fn that always succeeds …
+    adapter.setWasmEvalFn([](const std::unordered_map<std::string, std::string>&,
+                              const std::string&) -> std::optional<PolicyDecision> {
+        PolicyDecision d;
+        d.export_allowed = true;
+        return d;
+    });
+
+    // … then clear it.
+    adapter.setWasmEvalFn(nullptr);
+
+    // Stub path: bundle file doesn't exist → nullopt; REST also unreachable → nullopt.
+    const auto result = adapter.evaluate(kTestHeaders, "/api/data");
+    EXPECT_FALSE(result.has_value())
+        << "OPA-WASM-INJ-03: after clearing WasmEvalFn, the built-in stub must be used (bundle missing → nullopt)";
+}

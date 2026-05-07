@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include <functional>
 #include <string>
 #include <vector>
 #include <memory>
@@ -143,6 +144,26 @@ public:
     }
 
     /**
+     * @brief Callback type for a real embedding backend.
+     *
+     * Receives the chunk text and returns the embedding vector (e.g.
+     * all-mpnet-base-v2 / ONNXClipPlugin / Sentence-BERT).  The returned
+     * vector must be L2-normalised and non-empty.
+     */
+    using EmbeddingFn = std::function<std::vector<float>(const std::string&)>;
+
+    /**
+     * @brief Inject a real semantic embedding backend.
+     *
+     * When set, `generateEmbedding()` delegates to @p fn instead of the
+     * built-in hash-projection fallback.  Pass `nullptr` to revert to the
+     * hash-projection path.
+     *
+     * Roadmap ref: src/content/ROADMAP.md §Phase 5; src/content/FUTURE_ENHANCEMENTS.md
+     */
+    void setEmbeddingBackend(EmbeddingFn fn);
+
+    /**
      * @brief Compute a MinHash signature for near-duplicate text detection.
      *
      * Uses `num_hashes` independent hash functions over 3-word shingles
@@ -164,6 +185,9 @@ private:
     std::string normalizeText(const std::string& text);
     int countTokens(const std::string& text); // Simple whitespace-based tokenizer
     std::vector<std::string> splitIntoSentences(const std::string& text);
+
+    /// Injected real embedding backend (null → hash-projection fallback).
+    EmbeddingFn embedding_fn_;
 };
 
 /**

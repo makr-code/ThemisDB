@@ -27,6 +27,7 @@
 #include <boost/beast/websocket.hpp>
 #include <iostream>
 #include <algorithm>
+#include <unordered_set>
 
 MqttSession::MqttSession(asio::ip::tcp::socket socket, uint8_t protocolVersion, TransportType transport)
     : socket_(std::move(socket))
@@ -46,7 +47,6 @@ MqttSession::~MqttSession() {
         triggerWillMessage();
     }
     metrics_.disconnectCount++;
-    MqttBroker::getInstance().unregisterActiveSession(this);
     stop();
 }
 
@@ -136,9 +136,6 @@ void MqttSession::handleConnect() {
     }
     
     sendConnAck(sessionPresent, 0); // Connection accepted
-    
-    // Register this session for aggregated metrics collection
-    MqttBroker::getInstance().registerActiveSession(shared_from_this());
     
     // Start keepalive timer
     keepaliveTimer_.expires_after(keepaliveInterval_ + (keepaliveInterval_ / 2));
@@ -749,50 +746,41 @@ MqttMetrics MqttBroker::getAggregatedMetrics() {
     std::lock_guard<std::mutex> lock(mutex_);
     MqttMetrics aggregated;
 
-    // Aggregate per-session counters from all currently-alive sessions.
-    // Expired weak_ptrs are cleaned up in-place while iterating.
-    std::vector<std::weak_ptr<MqttSession>> alive;
-    alive.reserve(activeSessions_.size());
-    for (auto& wp : activeSessions_) {
-        if (auto sp = wp.lock()) {
-            const auto& m = sp->getMetrics();
-            aggregated.messagesReceived   += m.messagesReceived.load();
-            aggregated.messagesSent       += m.messagesSent.load();
-            aggregated.bytesReceived      += m.bytesReceived.load();
-            aggregated.bytesSent          += m.bytesSent.load();
-            aggregated.connectCount       += m.connectCount.load();
-            aggregated.disconnectCount    += m.disconnectCount.load();
-            aggregated.publishCount       += m.publishCount.load();
-            aggregated.subscribeCount     += m.subscribeCount.load();
-            aggregated.qos0Messages       += m.qos0Messages.load();
-            aggregated.qos1Messages       += m.qos1Messages.load();
-            aggregated.qos2Messages       += m.qos2Messages.load();
-            aggregated.rateLimitedMessages+= m.rateLimitedMessages.load();
-            alive.push_back(wp);
+    // Collect unique live sessions from the subscriptions map and aggregate
+    // their per-session counters.  The same MqttSession object may appear in
+    // multiple subscription lists (one entry per topic), so we deduplicate by
+    // raw pointer before summing.
+    std::unordered_set<MqttSession*> seen;
+    for (auto& [topic, session_vec] : subscriptions_) {
+        for (auto& weak_session : session_vec) {
+            auto session = weak_session.lock();
+            if (!session) continue;
+            if (!seen.insert(session.get()).second) continue;  // already counted
+
+            const auto& m = session->getMetrics();
+            aggregated.messagesReceived  += m.messagesReceived.load();
+            aggregated.messagesSent      += m.messagesSent.load();
+            aggregated.bytesReceived     += m.bytesReceived.load();
+            aggregated.bytesSent         += m.bytesSent.load();
+            aggregated.connectCount      += m.connectCount.load();
+            aggregated.disconnectCount   += m.disconnectCount.load();
+            aggregated.subscribeCount    += m.subscribeCount.load();
+            aggregated.publishCount      += m.publishCount.load();
+            aggregated.qos0Messages      += m.qos0Messages.load();
+            aggregated.qos1Messages      += m.qos1Messages.load();
+            aggregated.qos2Messages      += m.qos2Messages.load();
+            aggregated.rateLimitedMessages += m.rateLimitedMessages.load();
         }
     }
-    activeSessions_ = std::move(alive);
 
-    // Also count persistent (offline) sessions in the connect total.
-    aggregated.connectCount += static_cast<uint64_t>(persistentSessions_.size());
+    // If there are no active (subscribed) sessions, fall back to the number
+    // of persistent sessions so that the connectCount metric is never zero
+    // when clients are connected but have not yet subscribed to any topic.
+    if (seen.empty()) {
+        aggregated.connectCount = persistentSessions_.size();
+    }
 
     return aggregated;
-}
-
-void MqttBroker::registerActiveSession(std::weak_ptr<MqttSession> session) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    activeSessions_.push_back(std::move(session));
-}
-
-void MqttBroker::unregisterActiveSession(MqttSession* raw_ptr) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    activeSessions_.erase(
-        std::remove_if(activeSessions_.begin(), activeSessions_.end(),
-            [raw_ptr](const std::weak_ptr<MqttSession>& wp) {
-                auto sp = wp.lock();
-                return !sp || sp.get() == raw_ptr;
-            }),
-        activeSessions_.end());
 }
 
 // WebSocket transport support methods for MqttSession

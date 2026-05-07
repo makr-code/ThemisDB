@@ -128,6 +128,16 @@ public:
      *        using canonical IDs (`law:<norm>:§<n>:Abs<m>`).
      */
     std::vector<BaseEntity> toEntities(const GesetzHierarchy& hierarchy) const;
+
+private:
+    /**
+     * @brief Extract §-paragraphs together with their byte-offset in the source text.
+     *
+     * Returns pairs of (match_start_offset, GesetzNode) so that `parse()` can
+     * assign each paragraph to the correct Teil section based on relative position.
+     */
+    std::vector<std::pair<std::size_t, GesetzNode>>
+        extractParagraphsWithOffsets(const std::string& text) const;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

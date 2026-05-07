@@ -27,6 +27,7 @@
 #include <functional>
 #include <memory>
 #include <mutex>
+#include <optional>
 
 // Forward declarations for ThemisDB components
 namespace themis {
@@ -60,6 +61,31 @@ class ArgumentStore {
 public:
     ArgumentStore() = default;
     ~ArgumentStore() = default;
+
+    /**
+     * @brief Callable type for vector embedding storage.
+     *
+     * Called by storeArgument() when store_vector=true and argument.content
+     * is non-empty.  The function is responsible for:
+     *  1. Generating an embedding for @p content (e.g. via an IEmbeddingBackend)
+     *  2. Writing the embedding + @p id into a vector index / IVectorWriter
+     *
+     * @param id       Argument ID (used as the vector document key)
+     * @param content  Text content to embed
+     */
+    using VectorStoreFn = std::function<void(const std::string& id,
+                                             const std::string& content)>;
+
+    /**
+     * @brief Inject a vector-embedding storage function.
+     *
+     * When set, storeArgument() will call @p fn for every argument whose
+     * store_vector flag is true and whose content is non-empty.  Replaces the
+     * former STUB/SIMULATION NOTE for the vector path in storeArgument().
+     *
+     * @param fn  Callable matching VectorStoreFn; must be thread-safe.
+     */
+    void setVectorStoreFunction(VectorStoreFn fn);
     
     /**
      * @brief Initialize the argument store with ThemisDB storage
@@ -194,6 +220,9 @@ private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<QueryEngine> query_engine_;
     
+    // Optional injected vector embedding function
+    std::optional<VectorStoreFn> vector_store_fn_;
+
     // Fallback in-memory storage for standalone mode (testing)
     bool standalone_mode_ = false;
     std::map<std::string, EthicalArgument> arguments_;

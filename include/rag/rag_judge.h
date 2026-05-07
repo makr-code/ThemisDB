@@ -221,10 +221,7 @@ struct EvaluationInput {
     std::vector<RetrievedDocument> documents;
     std::string generated_answer;
     std::unordered_map<std::string, std::string> metadata;
-    // F4-2: Tenant identifier for cache isolation.  Without this, evaluation
-    // results (including ethical_violations, bias scores, verified claims) from
-    // one tenant can be served to another for identical query+answer pairs.
-    std::string tenant_id;
+    std::string tenant_id; ///< Tenant identifier for cache isolation; empty means global/anonymous
 };
 
 /**

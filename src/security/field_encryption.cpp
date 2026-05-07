@@ -275,12 +275,6 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
     };
 
     if (do_parallel) {
-        // E-2: Collect the first failure from the parallel path so that callers
-        // can detect failures instead of receiving silent default-constructed blobs.
-        std::atomic<bool> any_failure{false};
-        std::exception_ptr first_exception;
-        std::mutex exception_mutex;
-
         tbb::parallel_for(tbb::blocked_range<size_t>(0, items.size()), [&](const tbb::blocked_range<size_t>& r) {
             for (size_t i = r.begin(); i != r.end(); ++i) {
                 const auto& ent = items[i];
@@ -293,29 +287,18 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
                         logDebugDumpFailure(i, true, nullptr);
                     }
                 } catch (const std::exception& ex) {
+                    // [E-2] Partial encryption is unsafe — propagate failures so callers
+                    // cannot silently store default-constructed (empty) EncryptedBlobs.
                     THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
                                 "(parallel item {}): {}", i, ex.what());
-                    any_failure.store(true, std::memory_order_relaxed);
-                    std::lock_guard<std::mutex> lk(exception_mutex);
-                    if (!first_exception) {
-                        first_exception = std::current_exception();
-                    }
+                    throw;
                 } catch (...) {
                     THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
                                 "(parallel item {}) with unknown exception", i);
-                    any_failure.store(true, std::memory_order_relaxed);
-                    std::lock_guard<std::mutex> lk(exception_mutex);
-                    if (!first_exception) {
-                        first_exception = std::current_exception();
-                    }
+                    throw;
                 }
             }
         });
-        // E-2: Propagate the first failure so callers cannot silently receive
-        // a result vector with corrupt (default-constructed) entries.
-        if (any_failure.load(std::memory_order_relaxed) && first_exception) {
-            std::rethrow_exception(first_exception);
-        }
     } else {
         // Use sequential loop to avoid potential threading issues with OpenSSL in tests.
         for (size_t i = 0; i < items.size(); ++i) {
@@ -329,16 +312,15 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
                     logDebugDumpFailure(i, false, nullptr);
                 }
             } catch (const std::exception& ex) {
-                // E-2: Propagate the first per-item failure.  Callers must not
-                // silently receive a result vector with default-constructed (invalid)
-                // blobs — that would cause corrupt records to be stored undetected.
+                // [E-2] Partial encryption is unsafe — propagate failures so callers
+                // cannot silently store default-constructed (empty) EncryptedBlobs.
                 THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
                             "(item {}): {}", i, ex.what());
-                throw;  // propagate — caller is responsible for transactional rollback
+                throw;
             } catch (...) {
                 THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
                             "(item {}) with unknown exception", i);
-                throw;  // propagate
+                throw;
             }
         }
     }
@@ -372,6 +354,21 @@ std::shared_ptr<FieldEncryption> FieldEncryption::createDefault() {
     //               HsmKeyProviderAdapter, or similar) via the constructor.
     //               This factory should only be invoked through explicit test/demo paths.
     //               See src/security/FUTURE_ENHANCEMENTS.md §Field Encryption Key Provider.
+
+    // [E-4] Runtime guard: refuse to use MockKeyProvider unless explicitly opted in.
+    // Set THEMIS_ALLOW_MOCK_KEY_PROVIDER=1 only in test/demo environments.
+    const char* allow_env = std::getenv("THEMIS_ALLOW_MOCK_KEY_PROVIDER");
+    const bool allow_mock = (allow_env != nullptr) &&
+                            (std::string_view(allow_env) == "1" ||
+                             std::string_view(allow_env) == "true");
+    if (!allow_mock) {
+        throw std::runtime_error(
+            "FieldEncryption::createDefault() uses MockKeyProvider which is unsafe in "
+            "production (keys are in-memory only and will NOT survive restarts). "
+            "Inject a real KeyProvider via the constructor. "
+            "To explicitly opt in for testing, set THEMIS_ALLOW_MOCK_KEY_PROVIDER=1.");
+    }
+
     THEMIS_WARN("FieldEncryption::createDefault() is using MockKeyProvider — "
                 "keys are in-memory only and will NOT survive restarts. "
                 "Inject a production KeyProvider for any persistent data.");
@@ -744,17 +741,25 @@ std::string FieldEncryption::decryptAndReEncrypt(const EncryptedBlob& blob,
 
 bool FieldEncryption::needsReEncryption(const EncryptedBlob& blob, const std::string& key_id) {
     try {
-        // Retrieve the current active key version via getKeyMetadata(key_id, 0).
-        // version=0 is the convention for "latest active" on all KeyProvider
-        // implementations (see include/security/key_provider.h).
-        // This replaces the old probe heuristic (getKey(version+1)) which had a
-        // TOCTOU window on rapid key rotations.
-        auto meta = key_provider_->getKeyMetadata(key_id, 0);
-        return blob.key_version < meta.version;
+        // Use getCurrentVersion() to determine whether the blob's key version is
+        // outdated.  KeyProvider::getCurrentVersion() has a default probe
+        // implementation that walks getKey(key_id, v) upward; concrete key
+        // providers with a version registry override this for O(1) lookup.
+        const uint32_t current_version = key_provider_->getCurrentVersion(key_id);
+        if (current_version == 0) {
+            // Key does not exist — treat as needing re-encryption so callers
+            // surface the missing-key error on the next write attempt.
+            return true;
+        }
+        return blob.key_version < current_version;
     } catch (const std::exception& e) {
-        THEMIS_WARN("needsReEncryption check failed for key_id={}: {}", key_id, e.what());
-        // On error, assume no re-encryption needed (safe default)
-        return false;
+        THEMIS_WARN("[SECURITY] needsReEncryption: KMS unavailable for key lookup — "
+                    "cannot determine re-encryption need. Error: {}. "
+                    "Re-encryption check will be retried on next cycle.", e.what());
+        // Fail-safe: assume re-encryption is needed when KMS is unavailable.
+        // Silently skipping re-encryption on KMS error would leave stale key versions
+        // in production and suppress the underlying availability problem.
+        return true;
     }
 }
 

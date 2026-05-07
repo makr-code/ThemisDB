@@ -163,3 +163,39 @@ TEST(FimImporter, FIM07_FitkoApiReturnsError) {
     EXPECT_NE(results[0].message.find("not yet implemented"), std::string::npos)
         << "Expected 'not yet implemented' in error message";
 }
+
+// FIM-08: importFromFitkoApi with injected HttpFetchFn returns models from JSON envelope.
+TEST(FimImporter, FIM08_FitkoApiWithInjectedFetchFn) {
+    // Synthesise a FITKO JSON response envelope with one BPMN item.
+    const std::string mock_bpmn = R"(<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             targetNamespace="http://fim.xoev.de/bpmn" id="api_defs">
+  <process id="api_proc1" name="API Import Process">
+    <startEvent id="s1" name="Start"/>
+    <endEvent id="e1" name="End"/>
+    <sequenceFlow id="sf1" sourceRef="s1" targetRef="e1"/>
+  </process>
+</definitions>)";
+
+    // Escape double-quotes inside the BPMN string for the JSON value.
+    // (The mock_bpmn above has no literal double-quotes, so this is safe.)
+    const std::string json_body =
+        R"({"items":[{"bpmnXml":")" + mock_bpmn + R"("}]})";
+
+    FimImporter imp;
+    std::string captured_url;
+    imp.setHttpFetchFn([&](std::string_view url) -> std::string {
+        captured_url = std::string(url);
+        return json_body;
+    });
+
+    auto results = imp.importFromFitkoApi(
+        "https://fim.fitko.de/api/v1", ProcessDomain::ADMINISTRATION);
+
+    // URL must include the /prozesse suffix.
+    EXPECT_EQ(captured_url, "https://fim.fitko.de/api/v1/prozesse");
+
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_TRUE(results[0].ok) << results[0].message;
+    EXPECT_FALSE(results[0].record.id.empty());
+}

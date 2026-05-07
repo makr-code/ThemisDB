@@ -162,6 +162,35 @@ public:
     
     Stats getStats() const;
     void resetStats();
+
+    // ─── ONNX model prediction injection (stub #251) ─────────────────────────
+    /**
+     * @brief Type alias for an injectable ONNX-style prediction function.
+     *
+     * When set via @c setPredictFn(), @c predictShard() calls this function
+     * in place of the built-in sigmoid-calibrated heuristic.  The function
+     * receives the extracted feature vector and must return a two-element
+     * vector @c {failure_probability, days_to_failure}.
+     *
+     * Example (test injection):
+     * @code
+     *   detector.setPredictFn([](const std::vector<float>&) -> std::vector<float> {
+     *       return {0.9f, 1.0f};  // high-risk, 1 day
+     *   });
+     * @endcode
+     */
+    using PredictFn = std::function<std::vector<float>(const std::vector<float>&)>;
+
+    /**
+     * @brief Inject an ONNX-backed (or test-double) prediction function.
+     *
+     * Replaces the heuristic fallback with @p fn for all subsequent
+     * @c predictShard() calls.  Passing @c nullptr resets to the heuristic.
+     * Thread-safe: guarded by an internal mutex.
+     *
+     * @param fn Callable that maps a feature vector to {probability, days}.
+     */
+    void setPredictFn(PredictFn fn);
     
 private:
     // Background monitoring
@@ -204,6 +233,10 @@ private:
     // ML model handle (opaque pointer for ONNX Runtime)
     struct ModelImpl;
     std::unique_ptr<ModelImpl> model_;
+
+    // Injection slot for ONNX / test-double predict function (stub #251)
+    PredictFn predict_fn_;
+    mutable std::mutex predict_fn_mutex_;
 };
 
 } // namespace sharding

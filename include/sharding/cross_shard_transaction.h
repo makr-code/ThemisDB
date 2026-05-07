@@ -344,7 +344,37 @@ public:
     void onTransactionStateChange(
         std::function<void(const std::string&, TransactionState, TransactionState)> callback
     );
-    
+
+    /**
+     * @brief Inject a PreCommit RPC callback for the 3PC protocol.
+     *
+     * In the 3PC protocol, Phase 2 must instruct every participant to durably
+     * persist its prepared state (PreCommit) before the coordinator proceeds to
+     * Phase 3 (Commit).  Without this RPC the coordinator is functionally
+     * equivalent to 2PC and does not achieve 3PC's non-blocking property.
+     *
+     * When @p fn is non-null, execute3PC() calls it for each participant in
+     * Phase 2 and aborts the transaction if any participant rejects.  This
+     * activates the full 3PC non-blocking guarantee.
+     *
+     * Pass @c nullptr to remove the callback (restores the 2PC-equivalent
+     * fallback and logs a warning per CST-6).
+     *
+     * **Exception safety**: The callback must not throw.  If it does, the
+     * exception is caught by execute3PC(), treated as a NACK (i.e. the
+     * participant's PreCommit is counted as failed), and the transaction is
+     * aborted.
+     *
+     * @param fn  Callable @c bool(shard_id, txn_id) that sends the PreCommit
+     *            RPC to the given shard; returns true on acknowledgement,
+     *            false on NACK; must not throw.
+     */
+    using PreCommitRpcFn =
+        std::function<bool(const std::string& /*shard_id*/,
+                           const std::string& /*txn_id*/)>;
+
+    void setPreCommitCallback(PreCommitRpcFn fn);
+
 private:
     /**
      * @brief Execute 2PC protocol
@@ -474,6 +504,10 @@ private:
     mutable std::mutex callbacks_mutex_;
     std::function<void(const std::string&, TransactionState, TransactionState)> 
         on_state_change_callback_;
+
+    /// Injected 3PC PreCommit RPC callback (CST-6).
+    /// Protected by callbacks_mutex_.
+    PreCommitRpcFn precommit_callback_;
     
     // Background thread
     std::atomic<bool> running_;

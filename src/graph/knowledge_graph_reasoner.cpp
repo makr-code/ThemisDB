@@ -423,30 +423,32 @@ void KnowledgeGraphReasoner::onCDCEvent(const CDCEvent& event) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// setLoraScoreFn()
+// ─────────────────────────────────────────────────────────────────────────────
+
+void KnowledgeGraphReasoner::setLoraScoreFn(LoraScoreFn fn) {
+    lora_score_fn_ = std::move(fn);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // applyLoRAScore()
 // ─────────────────────────────────────────────────────────────────────────────
 
 void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain& chain,
-                                             [[maybe_unused]] std::string_view adapter_id) const {
-// STUB/SIMULATION NOTE:
-// Purpose: LoRA adapter wiring not yet available in this build; simulate scores.
-// Activation: THEMIS_ENABLE_LLM compile flag absent.
-// Production Delta: Real implementation calls MultiLoRAManager::score(chain, adapter_id).
-// Removal Plan: Replace in v2.2.0 (Q2 2027) when MultiLoRAManager is integrated.
-#ifdef THEMIS_ENABLE_LLM
-    // Production path — not yet implemented.  MultiLoRAManager::score() will
-    // be called here once the LLM module is wired.
-    (void)chain;
-    (void)adapter_id;
-#else
-    // Stub: assign a deterministic score based on the number of premises.
-    // More premises ⇒ lower confidence (longer inference chains are less certain).
+                                             std::string_view adapter_id) const {
     for (auto& edge : chain.edges) {
-        const std::size_t n = edge.premises.size();
-        // Simulate score in (0, 1]: 1/(1+n)
-        edge.lora_score = 1.0 / static_cast<double>(1 + n);
+        if (lora_score_fn_) {
+            // Use injected backend (real LoRA/MultiLoRAManager::score()).
+            edge.lora_score = lora_score_fn_(adapter_id, edge);
+        } else {
+            // Heuristic fallback: longer inference chains are less certain.
+            // score = 1 / (1 + number_of_premises)
+            const std::size_t n = edge.premises.size();
+            edge.lora_score = 1.0 / static_cast<double>(1 + n);
+        }
     }
-    // Filter out edges below the rule's minimum score threshold.
+
+    // Filter out edges whose score falls below the rule's minimum threshold.
     {
         std::shared_lock lock(rules_mutex_);
         chain.edges.erase(
@@ -460,7 +462,6 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain& chain,
                 }),
             chain.edges.end());
     }
-#endif
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

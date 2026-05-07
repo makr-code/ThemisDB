@@ -443,12 +443,13 @@ json ContentManager::parseEntities(const std::string& entities_text) {
  * @brief Get extracted text from content
  */
 std::string ContentManager::getExtractedText(const std::string& content_id) {
-    auto assembly = assembleContent(content_id, /*include_text=*/true);
-    if (!assembly) {
-        return "";
+    const auto chunks = getContentChunks(content_id);
+    std::string result;
+    result.reserve(chunks.size() * 256);
+    for (const auto& chunk : chunks) {
+        result += chunk.text;
     }
-    return assembly->assembled_text.value_or("");
-}
+    return result;
 }
 
 } // namespace content

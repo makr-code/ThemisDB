@@ -28,10 +28,11 @@
 #include "storage/rocksdb_wrapper.h"
 #include "utils/zstd_codec.h"
 #include "utils/logger.h"
-#include "utils/hash_util.h"
 #include "observability/metrics_collector.h"
 #include <algorithm>
 #include <cmath>
+#include <sstream>
+#include <iomanip>
 #include <fstream>
 #include <thread>
 #include <shared_mutex>
@@ -123,7 +124,7 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
             db_config.block_cache_size_mb = 256;  // small cache for query cache
             db_config.max_background_jobs = 2;
             
-            l3_db_ = std::make_unique<RocksDBWrapper>(db_config);
+            l3_db_ = std::make_shared<RocksDBWrapper>(db_config);
             THEMIS_INFO("L3 cache (RocksDB) initialized at: {}", config_.l3_db_path);
             break;  // Success
         } catch (const std::exception& e) {
@@ -151,12 +152,15 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
 }
 
 AdaptiveQueryCache::~AdaptiveQueryCache() {
-    // C-4: Signal all coordinator callbacks that this object is being destroyed.
-    // The callbacks capture callback_alive_ by value (shared_ptr).  Setting the
-    // flag to false here, before we call setCoordinator(nullptr) and clear(), means
-    // any dispatch that races the destructor will see the flag false and return
-    // without touching any member of the now-partially-destroyed object.
-    callback_alive_->store(false, std::memory_order_release);
+    // [C-4] Mark this object inactive BEFORE unregistering the coordinator.
+    // Any in-flight callback that has already captured alive_guard_ will block
+    // until this lock is released; once it sees alive=false it returns without
+    // touching `this`. This acts as a synchronisation barrier between the
+    // destructor and any concurrent coordinator callback.
+    {
+        std::lock_guard<std::mutex> alive_lock(alive_guard_->mutex);
+        alive_guard_->alive = false;
+    }
     // Phase 4: Deregister coordinator callbacks before releasing memory.
     // Any coordinator that outlives this cache would otherwise hold a [this]
     // lambda pointing to freed memory, causing use-after-free on the next
@@ -186,7 +190,14 @@ std::string AdaptiveQueryCache::generateFingerprint(
     SHA256(reinterpret_cast<const unsigned char*>(input.data()), 
            input.size(), hash);
     
-    return themis::hash::bytes_to_hex(hash, SHA256_DIGEST_LENGTH);
+    // Convert to hex string
+    std::ostringstream ss;
+    ss << std::hex << std::setfill('0');
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+        ss << std::setw(2) << static_cast<int>(hash[i]);
+    }
+    
+    return ss.str();
 }
 
 std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
@@ -678,10 +689,6 @@ bool AdaptiveQueryCache::put(
                 l2_entry.window_start_ms = now_ms;
                 l2_entry.window_count = 0;
                 enhanced_metrics_.total_bytes_compressed += l2_entry.compressed_result.size();
-                // C-1: Use the same tenant-scoped key that get() uses so L2 lookups
-                // succeed when enable_tenant_isolation is active.  Previously storing
-                // under the bare fingerprint meant get() could never find the entry
-                // (it looked up "tenant:X:fp" while put() stored "fp").
                 l2_cache_[key] = std::move(l2_entry);
                 l2_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
                 any_written = true;
@@ -824,8 +831,6 @@ bool AdaptiveQueryCache::put(
             entry.window_start_ms = now_ms;
             entry.window_count = 0;
             compressed_size = entry.compressed_result.size();
-            // C-1: Use tenant-scoped key (consistent with get()) so the entry is
-            // actually found on subsequent lookups in multi-tenant deployments.
             l2_cache_[key] = std::move(entry);
             l2_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
             enhanced_metrics_.total_bytes_cached += result_size;
@@ -912,7 +917,22 @@ bool AdaptiveQueryCache::put(
 
 size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
     size_t count = 0;
-    std::regex re(pattern);
+
+    // C-3: Limit pattern length to mitigate ReDoS; C++ stdlib regex has no
+    // backtracking budget API, so length capping is the primary mitigation.
+    constexpr size_t kMaxRegexPatternLen = 256;
+    if (pattern.size() > kMaxRegexPatternLen) {
+        THEMIS_WARN("Cache invalidate: pattern too long ({} chars), rejecting to prevent ReDoS",
+                    pattern.size());
+        return 0;
+    }
+    std::regex re;
+    try {
+        re = std::regex(pattern, std::regex::ECMAScript | std::regex::optimize);
+    } catch (const std::regex_error& e) {
+        THEMIS_WARN("Cache invalidate: invalid regex pattern '{}': {}", pattern, e.what());
+        return 0;
+    }
     
     // Invalidate L1
     {
@@ -963,18 +983,17 @@ size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
                     return true;  // Continue iteration
                 });
 
-                // C-2: Copy the shared_ptr under the lock so that if a concurrent
-                // circuit-breaker trip resets l3_db_ to nullptr after we release
-                // the lock, our local reference remains valid for the duration of
-                // the deletion loop.
-                auto l3_db_local = l3_db_;
+                // [C-2] Copy l3_db_ into a local shared_ptr while holding the lock so
+                // that the pointer remains valid even if a concurrent circuit-breaker
+                // trip resets l3_db_ between the unlock and the bulk delete loop.
+                auto local_l3_db = l3_db_;
 
                 // Release lock before issuing bulk deletes so readers are not
                 // blocked during the I/O-intensive delete phase.
                 lock.unlock();
 
                 for (const auto& key : keys_to_delete) {
-                    l3_db_local->del(key);
+                    local_l3_db->del(key);
                     count++;
                 }
                 
@@ -2222,17 +2241,23 @@ void AdaptiveQueryCache::setCoordinator(
         return;
     }
 
-    // Subscribe for entries replicated from peer nodes
+    // Subscribe for entries replicated from peer nodes.
+    // [C-4] Capture alive_guard_ by value (shared_ptr copy) so the guard struct
+    // outlives the callback. The lock+flag check prevents use-after-free when the
+    // AdaptiveQueryCache destructor has started but this callback fires concurrently.
+    auto guard = alive_guard_;
     coordinator_->subscribeEntries(
-        [this, alive = callback_alive_](const cache::ReplicationMessage& msg) {
-            if (!alive->load(std::memory_order_acquire)) return;
+        [this, guard](const cache::ReplicationMessage& msg) {
+            std::lock_guard<std::mutex> alive_lock(guard->mutex);
+            if (!guard->alive) return;
             applyReplicatedEntry(msg);
         });
 
     // Subscribe for invalidations propagated from peer nodes
     coordinator_->subscribeInvalidations(
-        [this, alive = callback_alive_](const cache::ReplicationMessage& msg) {
-            if (!alive->load(std::memory_order_acquire)) return;
+        [this, guard](const cache::ReplicationMessage& msg) {
+            std::lock_guard<std::mutex> alive_lock(guard->mutex);
+            if (!guard->alive) return;
             applyReplicatedInvalidation(msg);
         });
 

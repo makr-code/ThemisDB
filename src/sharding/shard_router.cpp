@@ -588,24 +588,73 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
         
         span.setAttribute("left_rows", static_cast<int64_t>(total_left_rows));
         span.setAttribute("hash_table_size", static_cast<int64_t>(hash_table.size()));
-        
-        // STUB/SIMULATION NOTE:
-        // Purpose: Returns Phase-1 (left-side) results + hash-table metadata while
-        //          the Phase-2 right-side broadcast-hash join execution is pending.
-        // Activation: Always — right-side shard query in broadcast-hash join path
-        //             is not yet implemented.
-        // Production Delta: Right-side documents are never fetched; join probe phase
-        //                   is skipped; result rows are only from the left/build side.
-        // Removal Plan: Execute the right-side query via `executeOnShards()`; probe
-        //               `hash_table` with each right-side row's join-field value;
-        //               emit matched row pairs.  See src/sharding/FUTURE_ENHANCEMENTS.md
-        //               §Shard Router Broadcast-Hash Join Phase 2.
+
+        // Phase 2: Parse right-side collection from the query string and probe
+        // the hash table with right-side documents.
+        //
+        // Expected query format:
+        //   "JOIN <left_coll> ON <field> WITH <right_coll> [WHERE ...]"
+        // A plain collection name is also accepted as a fallback.
+        std::string right_collection;
+        {
+            const std::string with_kw = " WITH ";  // uppercase per convention
+            const std::string WITH_KW = " with ";  // case-insensitive fallback
+            auto pos = query.find(with_kw);
+            if (pos == std::string::npos) pos = query.find(WITH_KW);
+            if (pos != std::string::npos) {
+                pos += with_kw.size();
+                // Collection name ends at whitespace, ';', or end-of-string.
+                auto end = query.find_first_of(" \t\r\n;", pos);
+                right_collection = (end == std::string::npos)
+                    ? query.substr(pos)
+                    : query.substr(pos, end - pos);
+            }
+        }
+
+        size_t total_right_rows  = 0;
+        size_t total_matched_rows = 0;
+        nlohmann::json joined_rows = nlohmann::json::array();
+
+        if (!right_collection.empty()) {
+            // Fetch right-side documents from all shards.
+            const std::string right_query =
+                "FOR doc IN " + right_collection + " RETURN doc";
+            auto right_results = scatterGather(right_query);
+
+            for (const auto& shard_result : right_results) {
+                if (!shard_result.success || !shard_result.data.is_array()) continue;
+                for (const auto& right_row : shard_result.data) {
+                    total_right_rows++;
+                    if (!right_row.contains(join_field)) continue;
+                    std::string key = right_row[join_field].is_string()
+                        ? right_row[join_field].get<std::string>()
+                        : right_row[join_field].dump();
+                    auto it = hash_table.find(key);
+                    if (it == hash_table.end()) continue;
+                    // Emit one merged row per matching left-side entry.
+                    for (const auto& left_row : it->second) {
+                        nlohmann::json merged = nlohmann::json::object();
+                        for (const auto& [k, v] : left_row.items()) {
+                            merged["left_" + k] = v;
+                        }
+                        for (const auto& [k, v] : right_row.items()) {
+                            const std::string rk = "right_" + k;
+                            if (!merged.contains(rk)) merged[rk] = v;
+                        }
+                        joined_rows.push_back(std::move(merged));
+                        ++total_matched_rows;
+                    }
+                }
+            }
+        }
+
         nlohmann::json result = {
-            {"join_type", "broadcast_hash"},
-            {"join_field", join_field},
-            {"total_rows", total_left_rows},
-            {"unique_keys", hash_table.size()},
-            {"data", mergeResults(left_results)}
+            {"join_type",    "broadcast_hash"},
+            {"join_field",   join_field},
+            {"left_rows",    total_left_rows},
+            {"right_rows",   total_right_rows},
+            {"matched_rows", total_matched_rows},
+            {"data",         std::move(joined_rows)}
         };
         
         auto end_time = std::chrono::steady_clock::now();
@@ -614,10 +663,8 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
         
         if (metrics_) {
             metrics_->recordCrossShardJoinDuration(strategy_name, static_cast<double>(duration_ms));
-            // Note: In a complete implementation, right_rows would come from the right-side query results
-            // For now, using total_left_rows as a placeholder for the result set size
-            // TODO: Track actual right-side row count when full join implementation is complete
-            metrics_->recordCrossShardJoinRows(strategy_name, total_left_rows, total_left_rows, total_left_rows);
+            metrics_->recordCrossShardJoinRows(strategy_name, total_left_rows,
+                                               total_right_rows, total_matched_rows);
         }
         
         return result;

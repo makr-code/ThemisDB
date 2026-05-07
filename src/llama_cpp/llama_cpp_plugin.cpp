@@ -314,8 +314,40 @@ std::vector<float> LlamaCppPlugin::embed(const std::string& text) {
         }
     }
 #endif
-    // Stub: return a fixed-size zero vector
+    // Injection API (Stub #200): delegate to the injected EmbedFn when set.
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (embed_fn_) {
+            try {
+                auto result = embed_fn_(text);
+                if (!result.empty()) return result;
+            } catch (...) {
+                // fn must not throw; fall through to zero-vector stub
+            }
+        }
+    }
+    // STUB/SIMULATION NOTE:
+    // Purpose: Return a syntactically valid embedding vector when llama.cpp is not
+    //          compiled in (THEMIS_LLM_ENABLED absent) or the model wrapper is null
+    //          and no EmbedFn has been injected via setEmbedFn().
+    // Activation: Reached when `wrapper_` is nullptr (model not loaded or
+    //             THEMIS_LLM_ENABLED not set at build time) AND no `embed_fn_` set.
+    // Production Delta: Every embed() call returns a 384-dimensional zero vector.
+    //                   Cosine similarity between any two texts becomes 0/NaN;
+    //                   semantic search, ANN indexing, and RAG retrieval all
+    //                   produce meaningless results.
+    // Removal Plan: Build with THEMIS_LLM_ENABLED and call loadModel() before
+    //               embed(); the wrapper_->embed() path then returns real vectors.
+    //               Alternatively, inject a real backend via setEmbedFn().
+    //               See src/llama_cpp/FUTURE_ENHANCEMENTS.md §LlamaCppPlugin Embed.
     return std::vector<float>(384, 0.0f);
+}
+
+// ── setEmbedFn ────────────────────────────────────────────────────────────────
+
+void LlamaCppPlugin::setEmbedFn(EmbedFn fn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    embed_fn_ = std::move(fn);
 }
 
 // ── capabilities / stats ──────────────────────────────────────────────────────

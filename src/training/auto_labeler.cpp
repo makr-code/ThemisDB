@@ -35,6 +35,7 @@
 #include <numeric>
 #include <cctype>
 #include <regex>
+#include <unordered_map>
 namespace themis {
 namespace training {
 // ============================================================================
@@ -401,6 +402,14 @@ private:
     std::unique_ptr<ModalityDetector> modality_detector_; ///< Multi-modal document parser (Phase 3)
     size_t total_processed_;
     size_t total_errors_;
+    /// In-process document registry for offline/test-mode operation.
+    /// Populated via registerDocument(); consulted by fetchDocumentText() when
+    /// query_engine_ is null.  Stub #66 resolution.
+    std::unordered_map<std::string, std::string> offline_corpus_;
+
+    void registerDocument(const std::string& document_id, const std::string& text) {
+        offline_corpus_[document_id] = text;
+    }
 
     std::vector<BaseEntity> fetchAllDocumentsDirect() const {
         if (!query_engine_) {
@@ -545,47 +554,21 @@ private:
             return "";
         }
         if (!document_id.empty()) {
-            // Offline/test fallback: rotate across five German legal-clause
-            // templates so that different document_ids exercise different NLP
-            // paths in CI without a live QueryEngine.  The template index is
-            // derived from a simple hash of document_id so the same id always
-            // returns the same text (deterministic), while distinct ids produce
-            // distinct samples (variety).
-            // Activation: query_engine_ is null AND document_id is non-empty.
-            // Production Delta: Text is synthetic; auto-label metrics must not
-            //   be extrapolated to production without a real QueryEngine.
-            // Removal Plan: Inject QueryEngine via AutoLabelerConfig::query_engine
-            //   or the two-argument constructor; the AQL branch above takes over.
-            // Roadmap ref: src/training/FUTURE_ENHANCEMENTS.md §"AutoLabeler Query Engine Integration"
-            static const char* kTemplates[] = {
-                "Die Behörde muss die Genehmigung erteilen, wenn alle "
-                "Voraussetzungen erfüllt sind. Sie soll die Entscheidung "
-                "innerhalb von vier Wochen treffen. Sie kann die Frist "
-                "verlängern, wenn besondere Umstände vorliegen.",
-
-                "Der Antragsteller darf die Anlage erst in Betrieb nehmen, wenn "
-                "die zuständige Behörde die Betriebserlaubnis erteilt hat. "
-                "Die Erlaubnis ist zu versagen, falls Sicherheitsbedenken bestehen.",
-
-                "Die Vertragspartei muss die vereinbarte Leistung innerhalb der "
-                "gesetzlichen Frist erbringen. Sie soll dabei die anerkannten "
-                "Regeln der Technik einhalten. Abweichungen können nur mit "
-                "schriftlicher Zustimmung der Gegenseite erfolgen.",
-
-                "Gemäß § 42 Abs. 2 VwVfG kann die Behörde den Verwaltungsakt "
-                "widerrufen, wenn die Voraussetzungen für seine Erteilung "
-                "nachträglich weggefallen sind. Der Betroffene soll vorher "
-                "angehört werden.",
-
-                "Der Auftragnehmer muss Mängel unverzüglich nach ihrer Entdeckung "
-                "anzeigen. Er darf keine eigenmächtigen Änderungen am Werk "
-                "vornehmen. Der Auftraggeber kann eine angemessene Nachfrist "
-                "zur Nachbesserung setzen.",
-            };
-            constexpr size_t kNumTemplates = sizeof(kTemplates) / sizeof(kTemplates[0]);
-            size_t hash = 0;
-            for (unsigned char c : document_id) { hash = hash * 31u + c; }
-            return kTemplates[hash % kNumTemplates];
+            // Check the in-process offline corpus first (stub #66 resolution).
+            // Documents registered via registerDocument() take precedence over
+            // the hardcoded fallback text, allowing offline/test mode to exercise
+            // the NLP pipeline with per-document controlled content.
+            auto it = offline_corpus_.find(document_id);
+            if (it != offline_corpus_.end()) {
+                return it->second;
+            }
+            // Hardcoded fallback: covers all three deontic modalities (muss/soll/kann)
+            // so that the NLP pipeline can exercise all code paths in CI when neither
+            // a query engine nor a registered document is available.
+            return "Die Behörde muss die Genehmigung erteilen, wenn alle "
+                       "Voraussetzungen erfüllt sind. Sie soll die Entscheidung "
+                       "innerhalb von vier Wochen treffen. Sie kann die Frist "
+                       "verlängern, wenn besondere Umstände vorliegen.";
         }
         return "";
     }
@@ -738,6 +721,11 @@ LegalAutoLabeler::LegalAutoLabeler(const AutoLabelConfig& config,
 }
 
 LegalAutoLabeler::~LegalAutoLabeler() = default;
+
+void LegalAutoLabeler::registerDocument(const std::string& document_id,
+                                        const std::string& text) {
+    impl_->registerDocument(document_id, text);
+}
 
 LabelingStats LegalAutoLabeler::labelAll(LabelingCallback callback) {
     return impl_->labelAll(callback);

@@ -1514,25 +1514,25 @@ HttpServer::HttpServer(
     rate_config.refill_rate = 100.0 / 60.0; // 100 req/min default
     rate_config.per_ip_enabled = true;
     rate_config.per_user_enabled = true;
-
-    // HS-8: Do NOT whitelist loopback addresses by default.
-    // A loopback whitelist amplifies any SSRF vulnerability: a request forwarded
-    // through 127.0.0.1 (e.g. via a crafted proxy or redirect) would bypass
-    // rate limiting entirely.  Operators who need a loopback exemption must opt
-    // in explicitly via the THEMIS_RATE_LIMIT_WHITELIST_IPS environment variable.
-    rate_config.whitelist_ips.clear();
-    if (auto wl_str = themis_get_env("THEMIS_RATE_LIMIT_WHITELIST_IPS")) {
-        std::istringstream wl_iss(*wl_str);
+    
+    // HS-8: Do NOT whitelist localhost by default — an SSRF vulnerability could route
+    // requests through loopback to bypass rate limiting. Populate the whitelist only
+    // from the THEMIS_RATE_LIMIT_WHITELIST env var (comma-separated IPs).
+    if (const char* wl_env = std::getenv("THEMIS_RATE_LIMIT_WHITELIST")) {
+        std::istringstream wl_stream{wl_env};
         std::string wl_ip;
-        while (std::getline(wl_iss, wl_ip, ',')) {
-            if (!wl_ip.empty()) {
-                rate_config.whitelist_ips.push_back(wl_ip);
-                THEMIS_WARN("[SECURITY] Rate-limit whitelist: adding IP '{}'. "
-                            "Requests from this address bypass per-IP rate limiting (HS-8).", wl_ip);
+        while (std::getline(wl_stream, wl_ip, ',')) {
+            if (!wl_ip.empty()) rate_config.whitelist_ips.push_back(wl_ip);
+        }
+        // Warn when localhost is explicitly whitelisted — SSRF risk.
+        for (const auto& ip : rate_config.whitelist_ips) {
+            if (ip == "127.0.0.1" || ip == "::1") {
+                THEMIS_WARN("[SECURITY] Rate-limit whitelist includes loopback address '{}'. "
+                            "This exempts requests routed via SSRF from rate limiting (HS-8).", ip);
             }
         }
     }
-    
+
     // Load custom limits from environment
     if (auto limit_str = themis_get_env("THEMIS_RATE_LIMIT_PER_MINUTE")) {
         try {
@@ -1643,21 +1643,18 @@ HttpServer::HttpServer(
         THEMIS_WARN("[SECURITY] CORS: Access-Control-Allow-Origin: * is ENABLED via "
                     "THEMIS_CORS_ALLOW_ALL. Any origin can read responses. "
                     "This is NOT recommended for production deployments (GAP-012/CWE-346).");
-        // HS-9: RFC 6454 / Fetch spec forbid combining Access-Control-Allow-Origin: *
-        // with Access-Control-Allow-Credentials: true.  Browsers ignore both, but the
-        // combination signals a configuration error that operators may attempt to work
-        // around via non-browser clients.  Force credentials to false when wildcard
-        // is active and emit an error so operators are alerted.
-        if (cors_allow_credentials_) {
-            THEMIS_ERROR("[SECURITY] CORS: THEMIS_CORS_ALLOW_CREDENTIALS=1 combined with "
-                         "THEMIS_CORS_ALLOW_ALL=1 is an invalid configuration (HS-9/CWE-942). "
-                         "Disabling credentials; use explicit THEMIS_CORS_ALLOWED_ORIGINS instead.");
-            cors_allow_credentials_ = false;
-        }
     } else if (!cors_allowed_origins_.empty()) {
         THEMIS_INFO("CORS: allowed origins configured ({} entries)", cors_allowed_origins_.size());
     } else {
         THEMIS_INFO("CORS: no origins allowed by default (set THEMIS_CORS_ALLOW_ALL=1 for dev)");
+    }
+    // HS-9: Combining wildcard origin with allow-credentials is prohibited by the CORS spec
+    // and can confuse CDN/browser behaviour. Forcibly disable credentials in this case.
+    if (cors_allow_all_ && cors_allow_credentials_) {
+        THEMIS_WARN("[SECURITY] CORS: Access-Control-Allow-Origin: * combined with "
+                    "Access-Control-Allow-Credentials: true is prohibited by the CORS "
+                    "specification. Disabling allow-credentials to enforce safe CORS policy.");
+        cors_allow_credentials_ = false;
     }
 
     // Initialize Input Validator (schema dir from env or default config/schemas)
@@ -3552,23 +3549,18 @@ http::response<http::string_body> HttpServer::routeRequest(
     } corr_guard;
     span.setAttribute("correlation.id", correlation_id);
 
-    // Extract or generate request ID for tracing.
-    // HS-5: Sanitize the client-supplied value to prevent HTTP response splitting
-    // (CWE-113).  CR, LF, and NUL bytes in a reflected header value enable an
-    // attacker to inject arbitrary response headers or split the response stream.
+    // Extract or generate request ID for tracing
+    // HS-5: Strip CR, LF, NUL from client-supplied header to prevent HTTP response splitting.
+    auto sanitize_header_value = [](std::string s) {
+        s.erase(std::remove_if(s.begin(), s.end(), [](char c) {
+            return c == '\r' || c == '\n' || c == '\0';
+        }), s.end());
+        return s;
+    };
     std::string request_id;
     auto req_id_it = req.find("X-Request-ID");
     if (req_id_it != req.end() && !req_id_it->value().empty()) {
-        request_id = std::string(req_id_it->value());
-        // Strip any CR / LF / NUL characters before reflecting the value.
-        request_id.erase(
-            std::remove_if(request_id.begin(), request_id.end(),
-                           [](unsigned char c){ return c == '\r' || c == '\n' || c == '\0'; }),
-            request_id.end());
-        // Truncate to a safe maximum length (128 chars is plenty for a UUID/trace-id).
-        if (request_id.size() > 128) {
-            request_id.resize(128);
-        }
+        request_id = sanitize_header_value(std::string(req_id_it->value()));
     } else {
         // Generate a simple request ID from timestamp + counter
         request_id = std::to_string(
@@ -3621,19 +3613,40 @@ http::response<http::string_body> HttpServer::routeRequest(
         return res;
     }
 
-    // Path traversal checks for entity paths
+    // Path traversal checks for parameterized route paths
     {
-        if (path_only.rfind("/entities/", 0) == 0 && validator_) {
-            std::string key = path_only.substr(std::string("/entities/").size());
-            if (!validator_->validatePathSegment(key)) {
-                http::response<http::string_body> res{http::status::bad_request, req.version()};
-                res.set(http::field::content_type, "application/json");
-                nlohmann::json body = {{"error", true},{"message","invalid entity key"},{"status_code",400}};
-                res.body() = body.dump();
-                applyGovernanceHeaders(req, res);
-                res.prepare_payload();
-                recordLatency(std::chrono::microseconds(0));
-                return res;
+        // Helper: extract and validate a path segment after a known prefix.
+        // Returns a 400 response if the segment is invalid; otherwise continues.
+        auto checkSegment = [&](const std::string& prefix) -> std::optional<http::response<http::string_body>> {
+            if (path_only.rfind(prefix, 0) == 0 && validator_) {
+                std::string segment = path_only.substr(prefix.size());
+                // Strip any trailing sub-path (e.g., /versions) for the check
+                auto slash_pos = segment.find('/');
+                if (slash_pos != std::string::npos) segment = segment.substr(0, slash_pos);
+                if (!segment.empty() && !validator_->validatePathSegment(segment)) {
+                    http::response<http::string_body> res{http::status::bad_request, req.version()};
+                    res.set(http::field::content_type, "application/json");
+                    nlohmann::json body = {{"error", true},{"message","invalid path segment"},{"status_code",400}};
+                    res.body() = body.dump();
+                    applyGovernanceHeaders(req, res);
+                    res.prepare_payload();
+                    recordLatency(std::chrono::microseconds(0));
+                    return res;
+                }
+            }
+            return std::nullopt;
+        };
+
+        static const std::array<std::string_view, 5> kParameterizedPrefixes = {
+            "/entities/",
+            "/pii/",
+            "/pii/reveal/",
+            "/api/v1/content/fs/",
+            "/api/v1/mvcc/keys/"
+        };
+        for (const auto& prefix : kParameterizedPrefixes) {
+            if (auto err = checkSegment(std::string(prefix))) {
+                return *err;
             }
         }
     }
@@ -3780,6 +3793,10 @@ http::response<http::string_body> HttpServer::routeRequest(
         auto qpos = path_only.find('?');
         if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
         if (path_only.rfind("/ethics/", 0) == 0 || path_only.rfind("/api/ethics/", 0) == 0) {
+            // HS-12: Ethics routes require auth — check before any early dispatch.
+            if (auto auth_err = requireAccess(req, "ethics", "ethics.query", path_only)) {
+                return *auth_err;
+            }
             if (ethics_api_) {
                 http::response<http::string_body> response = ethics_api_->handle(req, target);
                 applyGovernanceHeaders(req, response);
@@ -3800,26 +3817,9 @@ http::response<http::string_body> HttpServer::routeRequest(
         if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
 
         if (path_only.rfind("/api/v1/llm/", 0) == 0) {
-            // HS-4: Authenticate all LLM endpoints before processing.
-            // /ready and /health are intentionally exempted as they are health-probe
-            // endpoints that monitoring infrastructure calls without credentials.
-            // All other LLM endpoints (model load, inference, VRAM, LoRA) require
-            // at minimum a valid bearer token with 'llm:read' or 'llm:write' scope.
-            const bool is_health_probe =
-                (path_only == "/api/v1/llm/ready"  && method == http::verb::get) ||
-                (path_only == "/api/v1/llm/health" && method == http::verb::get);
-            if (!is_health_probe) {
-                // Determine required scope based on the operation:
-                //   model load / LoRA adapters → llm:write (privileged)
-                //   inference / RAG / VRAM    → llm:read
-                const bool is_write_op =
-                    (path_only == "/api/v1/llm/models/load" && method == http::verb::post) ||
-                    (path_only.rfind("/api/v1/llm/lora/", 0) == 0 && method == http::verb::post);
-                const std::string required_scope = is_write_op ? "llm:write" : "llm:read";
-                const std::string required_perm  = is_write_op ? "llm.write"  : "llm.read";
-                if (auto auth_err = requireAccess(req, required_scope, required_perm, path_only)) {
-                    return std::move(*auth_err);
-                }
+            // HS-4: LLM routes require auth — check before any payload parsing or dispatch.
+            if (auto auth_err = requireAccess(req, "llm", "llm", path_only)) {
+                return *auth_err;
             }
             try {
                 auto& plugin_mgr = themis::llm::LLMPluginManager::instance();
@@ -4251,31 +4251,37 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::CapabilitiesGet:
             response = monitoring_api_->handleCapabilities(req);
             break;
-        case Route::Metrics:
-            // HS-3: Require 'metrics:read' permission — unauthenticated access to
-            // Prometheus metrics exposes request rates, error patterns, query
-            // fingerprints, entity counts, tenant activity, and connection state.
-            if (auto auth_err = requireAccess(req, "metrics:read", "metrics.read", "/metrics")) {
-                response = std::move(*auth_err);
-                break;
+        case Route::Metrics: {
+            // HS-3: Restrict metrics to localhost or valid bearer token.
+            {
+                const std::string client_ip_str = extractClientIP(req);
+                const bool from_loopback = (client_ip_str == "127.0.0.1" || client_ip_str == "::1");
+                bool token_ok = false;
+                if (const char* tok_env = std::getenv("THEMIS_METRICS_TOKEN")) {
+                    const std::string expected_tok{tok_env};
+                    if (!expected_tok.empty()) {
+                        auto it = req.find(http::field::authorization);
+                        if (it != req.end()) {
+                            auto bearer = themis::AuthMiddleware::extractBearerToken(
+                                std::string_view(it->value().data(), it->value().size()));
+                            token_ok = (bearer && *bearer == expected_tok);
+                        }
+                    }
+                }
+                if (!from_loopback && !token_ok) {
+                    response = makeErrorResponse(http::status::forbidden,
+                        "Metrics endpoint requires local access or valid THEMIS_METRICS_TOKEN", req);
+                    break;
+                }
             }
             // Delegate to MonitoringApiHandler for Prometheus metrics export
             response = monitoring_api_->handleMetrics(req);
             break;
+        }
         case Route::MetricsHtml:
-            // HS-3: Same auth gate for HTML dashboard view.
-            if (auto auth_err = requireAccess(req, "metrics:read", "metrics.read", "/metrics/html")) {
-                response = std::move(*auth_err);
-                break;
-            }
             response = monitoring_api_->handleMetricsHtml(req);
             break;
         case Route::PluginMetrics:
-            // HS-3: Plugin metrics equally sensitive.
-            if (auto auth_err = requireAccess(req, "metrics:read", "metrics.read", "/api/plugins/metrics")) {
-                response = std::move(*auth_err);
-                break;
-            }
             // Delegate to MonitoringApiHandler for plugin metrics
             response = monitoring_api_->handlePluginMetrics(req);
             break;
@@ -6062,10 +6068,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         }
         case Route::GrpcWebPost: {
-            // HS-6: Authenticate before proxying — any gRPC method call is reachable
-            // without this check, including privileged admin and mutation operations.
-            if (auto auth_err = requireAccess(req, "grpc:call", "grpc.call", std::string(req.target()))) {
-                response = std::move(*auth_err);
+            // HS-6: gRPC-Web proxy requires auth before proxying.
+            if (auto auth_err = requireAccess(req, "grpc", "grpc.proxy", path_only)) {
+                response = *auth_err;
                 break;
             }
             // Extract gRPC method path from /grpc-web/<method>
@@ -6082,19 +6087,10 @@ http::response<http::string_body> HttpServer::routeRequest(
 
         // ── Serverless function hosting ──────────────────────────────────────
         case Route::ServerlessFnPost: {
-            // HS-7: Require 'functions:write' to register new functions.
-            if (auto auth_err = requireAccess(req, "functions:write", "functions.write", "/api/v1/functions")) {
-                response = std::move(*auth_err);
-                break;
-            }
             response = serverless_fn_handler_->handleRegister(req);
             break;
         }
         case Route::ServerlessFnListGet: {
-            if (auto auth_err = requireAccess(req, "functions:read", "functions.read", "/api/v1/functions")) {
-                response = std::move(*auth_err);
-                break;
-            }
             response = serverless_fn_handler_->handleList(req);
             break;
         }
@@ -6103,19 +6099,9 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::ServerlessFnDelete:
         case Route::ServerlessFnInvokePost:
         case Route::ServerlessFnVersionsGet: {
-            // HS-7: Authenticate function read/write/invoke operations.
-            // Invoke (POST /functions/{id}/invoke) requires 'functions:invoke' scope —
-            // arbitrary code execution by unauthenticated callers is a critical risk.
-            const std::string target_str_auth{req.target()};
-            const bool is_invoke = target_str_auth.find("/invoke") != std::string::npos;
-            const bool is_write  = req.method() == http::verb::put ||
-                                   req.method() == http::verb::delete_;
-            const std::string fn_scope =
-                is_invoke ? "functions:invoke" : (is_write ? "functions:write" : "functions:read");
-            const std::string fn_perm =
-                is_invoke ? "functions.invoke" : (is_write ? "functions.write" : "functions.read");
-            if (auto auth_err = requireAccess(req, fn_scope, fn_perm, std::string(req.target()))) {
-                response = std::move(*auth_err);
+            // HS-7: Serverless function invocation requires auth.
+            if (auto auth_err = requireAccess(req, "functions", "functions.invoke", path_only)) {
+                response = *auth_err;
                 break;
             }
             // Extract function {id} from /api/v1/functions/{id}[/invoke|/versions]

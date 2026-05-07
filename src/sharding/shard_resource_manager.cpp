@@ -30,16 +30,21 @@
 #include <windows.h>
 #include <pdh.h>
 #include <psapi.h>
-#include <iphlpapi.h>
 #pragma comment(lib, "pdh.lib")
 #pragma comment(lib, "psapi.lib")
-#pragma comment(lib, "iphlpapi.lib")
 #else
 #include <unistd.h>
 #include <sys/sysinfo.h>
 #include <sys/statvfs.h>
 #include <fstream>
 #include <sstream>
+#endif
+
+#ifdef THEMIS_ENABLE_CUDA
+#include <cuda_runtime.h>
+#endif
+#ifdef THEMIS_ENABLE_HIP
+#include <hip/hip_runtime.h>
 #endif
 
 namespace themis::sharding {
@@ -590,18 +595,35 @@ std::pair<uint64_t, uint64_t> ShardResourceManager::getRamUsage() const {
 }
 
 std::pair<uint64_t, uint64_t> ShardResourceManager::getVramUsage() const {
+#if defined(THEMIS_ENABLE_CUDA)
+    size_t free_bytes  = 0;
+    size_t total_bytes = 0;
+    if (cudaMemGetInfo(&free_bytes, &total_bytes) == cudaSuccess) {
+        uint64_t used = static_cast<uint64_t>(total_bytes - free_bytes);
+        return {used, static_cast<uint64_t>(total_bytes)};
+    }
+    return {0, 0};
+#elif defined(THEMIS_ENABLE_HIP)
+    size_t free_bytes  = 0;
+    size_t total_bytes = 0;
+    if (hipMemGetInfo(&free_bytes, &total_bytes) == hipSuccess) {
+        uint64_t used = static_cast<uint64_t>(total_bytes - free_bytes);
+        return {used, static_cast<uint64_t>(total_bytes)};
+    }
+    return {0, 0};
+#else
     // STUB/SIMULATION NOTE:
     // Purpose: Satisfies the VRAM usage query API on platforms without a GPU
-    //          runtime (no CUDA / HIP / Vulkan available at link time).
-    // Activation: Always — no GPU API is queried.
+    //          runtime (no CUDA / HIP available at link time).
+    // Activation: Neither THEMIS_ENABLE_CUDA nor THEMIS_ENABLE_HIP defined.
     // Production Delta: Returns (0, 0); resource-aware shard scheduling decisions
     //                   that rely on VRAM headroom will not account for actual GPU
     //                   memory consumption.
-    // Removal Plan: Add CUDA (nvmlDeviceGetMemoryInfo) / HIP (hipMemGetInfo) /
-    //               Vulkan (VK_EXT_memory_budget) backends, guarded by
-    //               THEMIS_ENABLE_CUDA / THEMIS_ENABLE_HIP / THEMIS_ENABLE_VULKAN.
+    // Removal Plan: Enable CUDA or HIP via cmake; the appropriate block above will
+    //               activate.  Vulkan (VK_EXT_memory_budget) path deferred.
     //               See src/sharding/FUTURE_ENHANCEMENTS.md §VRAM Usage Monitoring.
     return {0, 0};
+#endif
 }
 
 std::pair<uint64_t, uint64_t> ShardResourceManager::getDiskUsage() const {
@@ -628,62 +650,33 @@ std::pair<uint64_t, uint64_t> ShardResourceManager::getDiskUsage() const {
 
 std::pair<uint64_t, uint64_t> ShardResourceManager::getNetworkUsage() const {
 #ifdef _WIN32
-    // Enumerate all network interfaces via GetIfTable2 and sum rx/tx bytes.
-    MIB_IF_TABLE2* table = nullptr;
-    if (GetIfTable2(&table) != NO_ERROR || !table) {
+    // Windows: GetIfTable2 / Performance Counter integration deferred.
+    // Returns (0, 0) on Windows until iphlpapi-based counters are wired in.
+    return {0, 0};
+#else
+    // Linux: aggregate rx_bytes and tx_bytes across all interfaces from
+    // /proc/net/dev.  Format (after two header lines):
+    //   <iface>: rx_bytes rx_pkts rx_errs rx_drop … tx_bytes tx_pkts …
+    std::ifstream net_dev("/proc/net/dev");
+    if (!net_dev.is_open()) {
         return {0, 0};
     }
-    uint64_t rx_bytes = 0;
-    uint64_t tx_bytes = 0;
-    for (ULONG i = 0; i < table->NumEntries; ++i) {
-        const auto& row = table->Table[i];
-        // Skip loopback and tunnel interfaces
-        if (row.Type == IF_TYPE_SOFTWARE_LOOPBACK ||
-            row.Type == IF_TYPE_TUNNEL) {
-            continue;
-        }
-        rx_bytes += row.InOctets;
-        tx_bytes += row.OutOctets;
-    }
-    FreeMibTable(table);
-    return {rx_bytes, tx_bytes};
-#elif defined(__linux__)
-    // Parse /proc/net/dev: columns are
-    //   face | rx_bytes ... | tx_bytes ...
-    std::ifstream f("/proc/net/dev");
-    if (!f.is_open()) {
-        return {0, 0};
-    }
-    uint64_t rx_bytes = 0;
-    uint64_t tx_bytes = 0;
+    uint64_t total_rx = 0, total_tx = 0;
     std::string line;
-    // Skip the two header lines
-    std::getline(f, line);
-    std::getline(f, line);
-    while (std::getline(f, line)) {
-        // Strip the interface name up to and including ':'
+    int line_num = 0;
+    while (std::getline(net_dev, line)) {
+        if (++line_num <= 2) continue; // skip the two header lines
         const auto colon = line.find(':');
         if (colon == std::string::npos) continue;
-        std::istringstream ss(line.substr(colon + 1));
-        uint64_t rx = 0, tx = 0;
-        uint64_t dummy = 0;
-        // rx: bytes packets errs drop fifo frame compressed multicast
-        ss >> rx >> dummy >> dummy >> dummy >> dummy >> dummy >> dummy >> dummy;
-        // tx: bytes packets errs drop fifo colls carrier compressed
-        ss >> tx;
-        // Skip loopback
-        std::string iface = line.substr(0, colon);
-        const auto first_nonspace = iface.find_first_not_of(" \t");
-        if (first_nonspace != std::string::npos) {
-            iface = iface.substr(first_nonspace);
+        std::istringstream iss(line.substr(colon + 1));
+        uint64_t rx = 0, pkts = 0, errs = 0, drop = 0,
+                 fifo = 0, frame = 0, comp = 0, mcast = 0, tx = 0;
+        if (iss >> rx >> pkts >> errs >> drop >> fifo >> frame >> comp >> mcast >> tx) {
+            total_rx += rx;
+            total_tx += tx;
         }
-        if (iface == "lo") continue;
-        rx_bytes += rx;
-        tx_bytes += tx;
     }
-    return {rx_bytes, tx_bytes};
-#else
-    return {0, 0};
+    return {total_rx, total_tx};
 #endif
 }
 

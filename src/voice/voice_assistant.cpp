@@ -501,17 +501,28 @@ std::vector<uint8_t> VoiceAssistant::convertAudioFormat(
     const std::vector<uint8_t>& audio_data,
     const std::string& target_format
 ) {
+    // When an audio conversion backend has been injected, delegate to it.
+    if (audio_convert_fn_) {
+        auto converted = audio_convert_fn_(audio_data, target_format);
+        if (!converted.empty()) {
+            return converted;
+        }
+        // Empty result from fn → fall through to passthrough with a warning.
+        SPDLOG_WARN("VoiceAssistant::convertAudioFormat: injected AudioConvertFn "
+                    "returned empty result for target_format='{}'; returning original bytes.",
+                    target_format);
+    }
+
     // STUB/SIMULATION NOTE:
     // Purpose: Satisfies the convertAudioFormat() API while FFmpeg (or equivalent
     //          audio transcoding library) is not linked.
-    // Activation: Always — no audio codec library is integrated.
+    // Activation: audio_convert_fn_ is null (no real codec injected).
     // Production Delta: Audio data is returned unchanged regardless of
     //                   `target_format`; a WAV caller requesting OGG/MP3/MP4
     //                   receives the original PCM bytes.
-    // Removal Plan: Integrate libavformat/libavcodec (FFmpeg); implement
-    //               per-format conversion pipelines.  Guard with
-    //               THEMIS_ENABLE_FFMPEG.  See src/voice/FUTURE_ENHANCEMENTS.md
-    //               §Voice Audio Format Conversion.
+    // Removal Plan: Inject a libavformat/libavcodec (FFmpeg) backend via
+    //               setAudioConvertFn() and guard with THEMIS_ENABLE_FFMPEG.
+    //               See src/voice/FUTURE_ENHANCEMENTS.md §Voice Audio Format Conversion.
     return audio_data;
 }
 
@@ -599,18 +610,33 @@ std::string VoiceAssistant::createRevisionEntry(
     const std::vector<uint8_t>& data,
     const json& metadata
 ) {
-    // Real implementation would:
-    // 1. Create revision entry in ThemisDB
-    // 2. Store previous version
-    // 3. Update current version
-    // 4. Add audit log entry
-    // 5. Return revision ID
-    
-    // Placeholder
-    auto now = std::chrono::system_clock::now().time_since_epoch().count();
+    // Build a unique revision ID from the entity ID and current time.
+    const auto now = std::chrono::system_clock::now().time_since_epoch().count();
     std::stringstream ss;
-    ss << "revision:" << std::hex << now;
-    return ss.str();
+    ss << "revision:" << entity_id << ":" << std::hex << now;
+    const std::string rev_id = ss.str();
+
+    // FNV-1a hash of the data payload for integrity / change-detection purposes.
+    uint32_t hash = 2166136261u;
+    for (const uint8_t byte : data) {
+        hash ^= static_cast<uint32_t>(byte);
+        hash *= 16777619u;
+    }
+
+    // Store the revision record so that history queries find it within this
+    // process lifetime.  A persistent backend (e.g., RocksDB collection) can
+    // be wired in by replacing this in-memory store without changing the API.
+    {
+        std::lock_guard<std::mutex> lock(revision_store_mutex_);
+        RevisionEntry entry;
+        entry.entity_id  = entity_id;
+        entry.data_hash  = hash;
+        entry.metadata   = metadata;
+        entry.timestamp  = now;
+        revision_store_[rev_id] = std::move(entry);
+    }
+
+    return rev_id;
 }
 
 // ---------------------------------------------------------------------------

@@ -1,1 +1,0 @@
-{"inputs":{"workflow":"04-release_build-binary-linux.yml","ref":"main","inputs_json":"{\"tag_name\":\"v1.9.0\",\"dry_run\":\"true\"}"}}

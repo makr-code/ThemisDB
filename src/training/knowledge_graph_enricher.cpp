@@ -504,6 +504,8 @@ private:
     std::unordered_map<std::string, std::string> custom_queries_;
     std::unique_ptr<EnrichmentLRUCache> cache_; ///< optional LRU cache (Phase 9)
     VectorIndexManager* vector_index_ = nullptr; ///< non-owning; nullptr = offline/stub
+    std::string graph_version_ = "v0"; ///< version appended to cache keys; updateable via setGraphVersion()
+    std::unordered_map<std::string, std::string> source_doc_map_; ///< sample_id → doc_id registry
 
     // Convert a VectorIndexManager distance to a cosine similarity score [0, 1].
     // For the COSINE metric VectorIndexManager stores distance = 1 - cosine, so
@@ -515,34 +517,37 @@ private:
 
     // Build the cache key for a given entity + graph version
     std::string cacheKey(const std::string& entity_key) const {
-        // STUB/SIMULATION NOTE:
-        // Purpose: Static "v0" graph-version suffix so the cache key is deterministic
-        //          in unit tests and development environments without a live AQL engine.
-        // Activation: Always active until the AQL metadata API is wired.
-        // Production Delta: A live implementation appends the current graph schema
-        //          version (queryable via the AQL metadata API) to enable cache
-        //          invalidation on schema changes.
-        // Removal Plan: Replace ":v0" with a real version query once the query engine
-        //          is injectable into KnowledgeGraphEnricher::Impl (Target: v1.5.0).
-        // Roadmap ref: src/training/FUTURE_ENHANCEMENTS.md § "AQL metadata API wiring"
         std::hash<std::string> hasher;
-        size_t h = hasher(entity_key + ":v0");
+        size_t h = hasher(entity_key + ":" + graph_version_);
         std::ostringstream oss;
         oss << std::hex << h;
         return oss.str();
     }
 
+    // Set the graph schema version used in cache-key generation.
+    void setGraphVersion(const std::string& version) {
+        if (!version.empty()) {
+            graph_version_ = version;
+        }
+    }
+
+    // Register a sample → source-document mapping for offline/in-process use.
+    void registerSourceDocument(const std::string& sample_id,
+                                const std::string& document_id) {
+        source_doc_map_[sample_id] = document_id;
+    }
+
     // Phase 6: Resolve the source document ID for a given sample
-    std::string resolveSourceDocumentId([[maybe_unused]] const std::string& sample_id) const {
-        // STUB/SIMULATION NOTE:
-        // Purpose: Return empty string in test/dev environments where no AQL
-        //          FOR-loop query is available. Prevents enrichment from running
-        //          when there is no real document to back-reference.
-        // Activation: Always active until an AQL query engine is injected.
-        // Production Delta: Real query: FOR s IN @@collection FILTER s._key == @id
-        //                   RETURN s.source_doc_id
-        // Removal Plan: Wire real query engine injection into KnowledgeGraphEnricher
-        //               (Target: v1.5.0, see FUTURE_ENHANCEMENTS.md §"AQL metadata API").
+    std::string resolveSourceDocumentId(const std::string& sample_id) const {
+        // Look up the in-process registry populated via registerSourceDocument().
+        // This covers offline/test builds where no AQL query engine is injected.
+        // Production use: wire the AQL engine into KnowledgeGraphEnricher and
+        // execute: FOR s IN @@collection FILTER s._key == @id RETURN s.source_doc_id
+        // (Target: v1.5.0, src/training/FUTURE_ENHANCEMENTS.md §"AQL metadata API").
+        auto it = source_doc_map_.find(sample_id);
+        if (it != source_doc_map_.end()) {
+            return it->second;
+        }
         return "";
     }
 
@@ -635,6 +640,15 @@ std::vector<std::pair<std::string, float>> KnowledgeGraphEnricher::findSimilarDo
 void KnowledgeGraphEnricher::setCustomQuery(const std::string& query_name,
                                            const std::string& aql_query) {
     impl_->setCustomQuery(query_name, aql_query);
+}
+
+void KnowledgeGraphEnricher::setGraphVersion(const std::string& version) {
+    impl_->setGraphVersion(version);
+}
+
+void KnowledgeGraphEnricher::registerSourceDocument(const std::string& sample_id,
+                                                    const std::string& document_id) {
+    impl_->registerSourceDocument(sample_id, document_id);
 }
 
 void KnowledgeGraphEnricher::setVectorIndex(VectorIndexManager* vim) {

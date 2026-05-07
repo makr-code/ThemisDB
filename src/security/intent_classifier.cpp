@@ -167,18 +167,26 @@ double scoreToConfidence(double score, double scale = 3.0) {
 IntentClassifier::IntentClassifier(std::string shard_id)
     : shard_id_(std::move(shard_id)) {}
 
+void IntentClassifier::setInferenceFn(InferenceFn fn) {
+    inference_fn_ = std::move(fn);
+    // Activating the injected backend also enables the LoRA path so that
+    // isLoraActive() reflects the live state.  Passing a null function
+    // resets to rule-based mode.
+    if (inference_fn_) {
+        lora_active_ = true;
+    } else if (lora_model_path_.empty()) {
+        lora_active_ = false;
+    }
+}
+
 IntentClassifier::ClassificationResult IntentClassifier::classify(
     const std::string&      query,
-    const ZeroTrustContext& /*session_context*/
+    const ZeroTrustContext& session_context
 ) const {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Placeholder for LoRA model inference call (ASL-13)
-    // Activation: lora_active_ == true
-    // Production Delta: Would call llama.cpp / GGUF inference pipeline here.
-    //                   Currently falls through to rule-based classifier.
-    // Removal Plan: Wire actual inference in IMPL-A2 Loop-1.
-    if (lora_active_) {
-        spdlog::debug("IntentClassifier: LoRA model active but inference not yet wired (ASL-13 IMPL-A2); using rule-based fallback");
+    // When an inference function has been injected (real LoRA/LLM backend),
+    // delegate to it directly and bypass the rule-based classifier.
+    if (lora_active_ && inference_fn_) {
+        return inference_fn_(query, session_context);
     }
 
     const std::string uq = toUpper(query);

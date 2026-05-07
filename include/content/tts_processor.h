@@ -143,6 +143,39 @@ public:
      */
     std::vector<std::string> getSupportedLanguages() const;
 
+    /**
+     * @brief Callback type for an external audio format encoder.
+     *
+     * Receives the raw 16-bit PCM buffer and the sample rate (Hz) and must
+     * return the encoded audio bytes (e.g. real LAME MP3 or libopus Ogg
+     * frames).  The returned vector must be non-empty to replace the PCM
+     * passthrough fallback.
+     */
+    using AudioEncoderFn = std::function<std::vector<uint8_t>(
+        const std::vector<uint8_t>& pcm, int sample_rate)>;
+
+    /**
+     * @brief Inject a real MP3 encoder backend.
+     *
+     * When set, `convertToFormat()` delegates to @p fn for `format == "mp3"`
+     * instead of returning raw PCM bytes.  Pass `nullptr` to revert to the
+     * PCM passthrough path.
+     *
+     * Roadmap ref: src/content/FUTURE_ENHANCEMENTS.md §TTS Audio Format Support
+     */
+    void setMp3EncoderFn(AudioEncoderFn fn);
+
+    /**
+     * @brief Inject a real Ogg/Opus encoder backend.
+     *
+     * When set, `convertToFormat()` delegates to @p fn for `format == "ogg"`
+     * instead of returning raw PCM bytes.  Pass `nullptr` to revert to the
+     * PCM passthrough path.
+     *
+     * Roadmap ref: src/content/FUTURE_ENHANCEMENTS.md §TTS Audio Format Support
+     */
+    void setOggEncoderFn(AudioEncoderFn fn);
+
 private:
     // Configuration
     std::string model_path_;
@@ -168,6 +201,10 @@ private:
     
     bool initialized_ = false;
     
+    // Injected audio format encoder backends (null → PCM passthrough fallback).
+    AudioEncoderFn mp3_encoder_fn_;
+    AudioEncoderFn ogg_encoder_fn_;
+
     // Internal methods
     bool loadTTSModel();
     void unloadTTSModel();

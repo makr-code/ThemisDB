@@ -186,6 +186,24 @@ public:
      */
     ProvenanceRecord getRecord(const std::string& sample_id) const;
 
+    /**
+     * @brief Inject or replace the AQL query engine after construction.
+     *
+     * Allows server bootstrap code to wire a live `QueryEngine` into an
+     * already-constructed `ProvenanceTracker` without recreating it.
+     * When @p engine is non-null, subsequent `write()` calls persist
+     * vertices and edges via AQL INSERT, and `queryLineage()` traverses
+     * the live graph via AQL.  Pass `nullptr` to revert to offline/test
+     * mode (in-process store only).
+     *
+     * Thread safety: not thread-safe with respect to concurrent `write()`
+     * or `queryLineage()` calls; call this method before first use or
+     * while no other threads are accessing the tracker.
+     *
+     * @param engine Non-owning pointer to the AQL query engine; may be null.
+     */
+    void setQueryEngine(QueryEngine* engine);
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;

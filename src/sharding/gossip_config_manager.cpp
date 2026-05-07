@@ -26,8 +26,8 @@
 #include "sharding/mtls_client.h"
 #include "sharding/prometheus_metrics.h"
 #include "shard_rpc.pb.h"
+#include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
-#include <iostream>
 #include <random>
 #include <algorithm>
 #include <sstream>
@@ -557,47 +557,61 @@ std::vector<std::string> GossipConfigManager::selectRandomPeers(size_t count) {
     return selected;
 }
 
+void GossipConfigManager::setGossipSendFunction(GossipSendFn fn) {
+    gossip_send_fn_ = std::move(fn);
+}
+
 void GossipConfigManager::sendGossipMessage(
     const std::string& peer_endpoint,
     const proto::GossipMessage& message
 ) {
-    if (!client_) return;
+    if (!client_ && !gossip_send_fn_) return;
 
     try {
-        // Build a JSON representation of the proto::GossipMessage so the
-        // receiving shard can decode it via its own handleGossipMessage()
-        // REST endpoint.  We avoid the protobuf JSON transcoding library to
-        // keep the build dependency-free; the field names match the proto
-        // definition in proto/sharding/shard_rpc.proto.
-        nlohmann::json body;
-        body["sender_shard_id"] = message.sender_shard_id();
-        body["timestamp_ns"]    = message.timestamp_ns();
-        body["message_type"]    = message.message_type();
+        auto t0 = std::chrono::steady_clock::now();
 
-        if (message.has_vector_clock()) {
-            nlohmann::json vc;
-            for (const auto& [shard, clock] : message.vector_clock().clocks()) {
-                vc[shard] = clock;
-            }
-            body["vector_clock"] = vc;
-        }
-
-        const auto response = client_->post(peer_endpoint, "/api/gossip", body);
-        if (response.success) {
-            messages_sent_++;
-            if (metrics_) {
-                metrics_->recordGossipMessage(message.message_type());
-                metrics_->recordGossipMessageSize(
-                    static_cast<int64_t>(body.dump().size()));
+        if (gossip_send_fn_) {
+            // Injected transport (test or alternative production path).
+            bool ok = (*gossip_send_fn_)(peer_endpoint, message);
+            if (ok) {
+                messages_sent_++;
             }
         } else {
-            std::cerr << "[GossipConfigManager] POST to " << peer_endpoint
-                      << " /api/gossip failed: " << response.error
-                      << " (status=" << response.status_code << ")\n";
+            // Default path: serialize the GossipMessage to binary via protobuf
+            // and POST it to the peer's gossip endpoint over mTLS.
+            std::string payload;
+            if (!message.SerializeToString(&payload)) {
+                spdlog::warn("GossipConfigManager::sendGossipMessage — proto serialization failed; "
+                             "message dropped (peer={})", peer_endpoint);
+                return;
+            }
+            // Wrap the binary payload in a JSON envelope accepted by
+            // /api/v1/gossip on the receiving shard.
+            nlohmann::json body;
+            body["sender"] = config_.local_shard_id;
+            body["payload_b64"] = nlohmann::json::binary_t(
+                std::vector<uint8_t>(payload.begin(), payload.end()));
+            auto resp = client_->post(peer_endpoint, "/api/v1/gossip", body);
+            if (resp.success) {
+                messages_sent_++;
+            } else {
+                spdlog::debug("GossipConfigManager::sendGossipMessage — HTTP error "
+                              "(peer={}, status={})", peer_endpoint, resp.status_code);
+            }
+        }
+
+        auto t1 = std::chrono::steady_clock::now();
+        double latency_ms = std::chrono::duration<double, std::milli>(t1 - t0).count();
+        {
+            std::lock_guard<std::mutex> lk(latency_mutex_);
+            propagation_latencies_ms_.push_back(latency_ms);
+            // Cap history to avoid unbounded growth.
+            if (propagation_latencies_ms_.size() > 1000) {
+                propagation_latencies_ms_.erase(propagation_latencies_ms_.begin());
+            }
         }
     } catch (const std::exception& e) {
-        std::cerr << "[GossipConfigManager] sendGossipMessage exception: "
-                  << e.what() << "\n";
+        spdlog::warn("GossipConfigManager::sendGossipMessage — exception: {}", e.what());
     }
 }
 

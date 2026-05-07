@@ -561,3 +561,99 @@ TEST_F(CdcSchemaEncoderTest, TransactionRollbackOperationString) {
     ASSERT_TRUE(decoded.has_value());
     EXPECT_EQ((*decoded)["operation"].get<std::string>(), "TRANSACTION_ROLLBACK");
 }
+
+// ── Binary encoder injection ──────────────────────────────────────────────────
+//
+// CDCSE-BIN-01  setAvroEncoderFn: injected fn is called; binary payload used
+// CDCSE-BIN-02  setAvroEncoderFn empty return → JSON fallback
+// CDCSE-BIN-03  setProtobufEncoderFn: injected fn is called; binary payload used
+// CDCSE-BIN-04  setProtobufEncoderFn(nullptr) clears; JSON fallback resumes
+
+TEST(CdcBinaryEncoderInjectionTest, CDCSEBIN01_AvroEncoderInjected) {
+    SchemaRegistryConfig cfg;
+    cfg.default_format = SchemaFormat::AVRO;
+    SchemaRegistryClient client(cfg);
+    CdcSchemaEncoder enc(&client);
+
+    // Inject a synthetic Avro encoder that returns fixed sentinel bytes.
+    const std::vector<uint8_t> sentinel = {0xAA, 0xBB, 0xCC};
+    bool encoder_called = false;
+    enc.setAvroEncoderFn([&](const nlohmann::json&) -> std::vector<uint8_t> {
+        encoder_called = true;
+        return sentinel;
+    });
+
+    auto ev = makePutEvent("col:1", "{}");
+    auto result = enc.encode(ev, "col");
+
+    EXPECT_TRUE(encoder_called);
+    // Wire format = [0x00][4-byte schema id][sentinel...]
+    ASSERT_GT(result.data.size(), 5u);
+    const auto payload_begin = result.data.begin() + 5;
+    const std::vector<uint8_t> payload(payload_begin, result.data.end());
+    EXPECT_EQ(payload, sentinel);
+}
+
+TEST(CdcBinaryEncoderInjectionTest, CDCSEBIN02_AvroEncoderEmptyReturnFallsBackToJson) {
+    SchemaRegistryConfig cfg;
+    cfg.default_format = SchemaFormat::AVRO;
+    SchemaRegistryClient client(cfg);
+    CdcSchemaEncoder enc(&client);
+
+    // Encoder returns empty → JSON fallback must be used.
+    enc.setAvroEncoderFn([](const nlohmann::json&) -> std::vector<uint8_t> {
+        return {};
+    });
+
+    auto ev = makePutEvent("orders:1", R"({"qty":3})");
+    auto result = enc.encode(ev, "orders");
+
+    // Payload should be valid JSON (decodable).
+    auto decoded = enc.decodeToJson(result.data);
+    ASSERT_TRUE(decoded.has_value());
+    EXPECT_EQ((*decoded)["operation"].get<std::string>(), "PUT");
+}
+
+TEST(CdcBinaryEncoderInjectionTest, CDCSEBIN03_ProtobufEncoderInjected) {
+    SchemaRegistryConfig cfg;
+    cfg.default_format = SchemaFormat::PROTOBUF;
+    SchemaRegistryClient client(cfg);
+    CdcSchemaEncoder enc(&client);
+
+    const std::vector<uint8_t> sentinel = {0x08, 0x01, 0x10, 0x02}; // minimal proto bytes
+    bool encoder_called = false;
+    enc.setProtobufEncoderFn([&](const nlohmann::json&) -> std::vector<uint8_t> {
+        encoder_called = true;
+        return sentinel;
+    });
+
+    auto ev = makePutEvent("users:5", "{}");
+    auto result = enc.encode(ev, "users");
+
+    EXPECT_TRUE(encoder_called);
+    ASSERT_GT(result.data.size(), 5u);
+    const auto payload_begin = result.data.begin() + 5;
+    const std::vector<uint8_t> payload(payload_begin, result.data.end());
+    EXPECT_EQ(payload, sentinel);
+}
+
+TEST(CdcBinaryEncoderInjectionTest, CDCSEBIN04_ProtobufEncoderNullptrClearsInjection) {
+    SchemaRegistryConfig cfg;
+    cfg.default_format = SchemaFormat::PROTOBUF;
+    SchemaRegistryClient client(cfg);
+    CdcSchemaEncoder enc(&client);
+
+    // Set then clear the encoder.
+    enc.setProtobufEncoderFn([](const nlohmann::json&) -> std::vector<uint8_t> {
+        return {0xFF}; // any non-empty bytes
+    });
+    enc.setProtobufEncoderFn(nullptr); // clear
+
+    auto ev = makePutEvent("items:9", "{}");
+    auto result = enc.encode(ev, "items");
+
+    // After clearing, JSON fallback should be used → decodable.
+    auto decoded = enc.decodeToJson(result.data);
+    ASSERT_TRUE(decoded.has_value());
+    EXPECT_EQ((*decoded)["operation"].get<std::string>(), "PUT");
+}

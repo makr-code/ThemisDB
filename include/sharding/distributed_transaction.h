@@ -31,6 +31,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <memory>
 #include <optional>
 #include <chrono>
@@ -222,9 +223,23 @@ public:
      */
     nlohmann::json getStatistics() const;
 
+    /**
+     * @brief Register real gRPC endpoints for shard IDs.
+     *
+     * Injects a shard_id → network-address mapping so that
+     * beginTransaction() can populate participant endpoints with real
+     * addresses instead of the placeholder "shard://<id>" URIs.
+     *
+     * @param map Map of shard_id to gRPC address (e.g. "host:port")
+     */
+    void setShardEndpointMap(std::unordered_map<std::string, std::string> map);
+
 private:
     std::shared_ptr<TrueTime> truetime_;
     Config config_;
+
+    // Shard-id to real network endpoint (populated via setShardEndpointMap())
+    std::unordered_map<std::string, std::string> shard_endpoint_map_;
     
     // Write-Ahead Log for transaction recovery
     std::unique_ptr<WALManager> wal_manager_;

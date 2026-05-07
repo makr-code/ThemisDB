@@ -1503,47 +1503,92 @@ bool PostgreSQLImporter::parseCheckConstraint(const std::string& constraint_def,
 }
 
 /**
- * @brief Parse an EXCLUDE constraint stub.
+ * @brief Parse an EXCLUDE constraint definition.
  *
- * Records the constraint name and raw definition text (after the EXCLUDE
- * keyword) for informational purposes.
+ * Extracts the optional constraint name, the index access method from the
+ * `USING <method>` clause, the per-column `WITH <operator>` pairs from the
+ * parenthesised element list, and stores the raw definition text for
+ * round-trip fidelity.
  *
- * STUB/SIMULATION NOTE:
- * Purpose: Allow PostgreSQL DDL imports to succeed even when EXCLUDE
- *   constraints are present.  The function captures the raw exclusion
- *   definition text and the optional constraint name, but does NOT
- *   parse the individual EXCLUDE elements (operator class, access method,
- *   `USING` clause, or per-column `WITH` operators).
- * Activation: Always active; called for every `CONSTRAINT … EXCLUDE …`
- *   clause encountered during DDL parsing.
- * Production Delta: Imported schema metadata for EXCLUDE constraints is
- *   incomplete.  The `ExcludeConstraint::definition` field holds a raw
- *   text blob; `elements` (operator + column pairs) and `index_method`
- *   are not populated.  Index recreation, constraint validation, and
- *   query-planner hints that rely on parsed EXCLUDE metadata will be
- *   silently incorrect.
- * Removal Plan: Implement full EXCLUDE constraint parsing using a
- *   dedicated regex or a small PEG grammar.  Populate `elements`,
- *   `index_method`, and `using_clause` in `ExcludeConstraint`.
+ * Example input:
+ *   CONSTRAINT no_overlapping_rooms EXCLUDE USING gist (room WITH =, period WITH &&)
+ *
  * Roadmap ref: src/importers/FUTURE_ENHANCEMENTS.md §"Postgres EXCLUDE Constraint Parsing"
  */
 bool PostgreSQLImporter::parseExcludeConstraint(const std::string& constraint_def,
                                                  ExcludeConstraint& excl) {
-    // Extract optional constraint name
+    // ── 1. Extract optional constraint name ──────────────────────────────
     std::smatch cm;
     if (std::regex_search(constraint_def, cm, kConstraintNameRe)) {
         excl.name = cm[1].str();
     }
 
+    // ── 2. Locate the EXCLUDE keyword (case-insensitive) ─────────────────
     std::string upper = constraint_def;
     for (auto& c : upper) c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
-    size_t ex_pos = upper.find("EXCLUDE");
+    const size_t ex_pos = upper.find("EXCLUDE");
     if (ex_pos == std::string::npos) return false;
 
+    // ── 3. Capture raw definition text for round-trip fidelity ────────────
     excl.definition = constraint_def.substr(ex_pos);
-    // Trim semicolons and trailing whitespace
-    size_t r = excl.definition.find_last_not_of(" \t\r\n;");
-    if (r != std::string::npos) excl.definition = excl.definition.substr(0, r + 1);
+    {
+        size_t r = excl.definition.find_last_not_of(" \t\r\n;");
+        if (r != std::string::npos) excl.definition = excl.definition.substr(0, r + 1);
+    }
+
+    // ── 4. Parse USING <access_method> ───────────────────────────────────
+    // Pattern: EXCLUDE [USING <method>] (...)
+    const size_t using_pos = upper.find("USING", ex_pos);
+    size_t paren_pos = upper.find('(', ex_pos);
+
+    if (using_pos != std::string::npos &&
+        (paren_pos == std::string::npos || using_pos < paren_pos)) {
+        // Skip "USING" and whitespace
+        size_t meth_start = using_pos + 5;
+        while (meth_start < upper.size() && std::isspace(static_cast<unsigned char>(upper[meth_start])))
+            ++meth_start;
+        // Method name ends at whitespace or '('
+        size_t meth_end = meth_start;
+        while (meth_end < upper.size() &&
+               !std::isspace(static_cast<unsigned char>(upper[meth_end])) &&
+               upper[meth_end] != '(')
+            ++meth_end;
+        excl.index_method = constraint_def.substr(meth_start, meth_end - meth_start);
+        // Convert to lower-case (method names are case-insensitive in PG)
+        for (auto& c : excl.index_method)
+            c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        // Update paren_pos to search after the method name
+        paren_pos = upper.find('(', meth_end);
+    }
+
+    // ── 5. Parse element list: (col1 WITH op1, col2 WITH op2, ...) ────────
+    if (paren_pos != std::string::npos) {
+        // Find matching closing parenthesis
+        int depth = 0;
+        size_t close_pos = std::string::npos;
+        for (size_t i = paren_pos; i < upper.size(); ++i) {
+            if (upper[i] == '(')      ++depth;
+            else if (upper[i] == ')') { if (--depth == 0) { close_pos = i; break; } }
+        }
+        if (close_pos != std::string::npos) {
+            const std::string inner =
+                constraint_def.substr(paren_pos + 1, close_pos - paren_pos - 1);
+            // Split by top-level commas
+            const auto parts = splitTopLevelCommas(inner);
+            static const std::regex kWithRe(
+                R"(\s*(.+?)\s+WITH\s+(\S+)\s*)", std::regex_constants::icase);
+            for (const auto& part : parts) {
+                std::smatch wm;
+                if (std::regex_match(part, wm, kWithRe)) {
+                    ExcludeConstraint::Element el;
+                    el.column        = wm[1].str();
+                    el.with_operator = wm[2].str();
+                    excl.elements.push_back(std::move(el));
+                }
+            }
+        }
+    }
+
     return !excl.definition.empty();
 }
 

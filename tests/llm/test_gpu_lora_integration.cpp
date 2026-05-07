@@ -46,6 +46,8 @@
 // Forward declarations for C API
 extern "C" {
     bool themis_llama_lora_available();
+    void themis_lora_inject_api_functions(void*, void*, void*, void*, void*);
+    void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora);
 }
 #endif
 
@@ -369,3 +371,76 @@ TEST_F(GPULoRAIntegrationTest, ConfigurationLogging) {
 
 // Note: This test file is auto-discovered by CMake via GLOB_RECURSE in tests/CMakeLists.txt
 // and linked with GTest::gtest_main, so no explicit main() function is needed here.
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LoRA API injection tests (LORA-INJ-01..03)
+// Tests for themis_lora_inject_api_functions()
+// ─────────────────────────────────────────────────────────────────────────────
+// These tests exercise the override path introduced for stub #75.  They require
+// the LoRA adapter TU to be compiled (THEMIS_ENABLE_LLM) but do NOT need a
+// real llama.cpp LoRA build — mock functions are injected instead.
+
+#ifdef THEMIS_ENABLE_LLM
+namespace {
+    static bool g_mock_lora_init_called = false;
+    static int  g_mock_set_count = 0;
+
+    static void* mock_lora_init_fn(struct llama_model* /*model*/, const char* /*path*/) {
+        g_mock_lora_init_called = true;
+        return reinterpret_cast<void*>(static_cast<uintptr_t>(0xDEAD));
+    }
+    static int mock_lora_set_fn(struct llama_context* /*ctx*/, void* /*adapter*/, float /*scale*/) {
+        ++g_mock_set_count;
+        return 0;
+    }
+    static int  mock_lora_remove_fn(struct llama_context* /*ctx*/, void* /*adapter*/) { return 0; }
+    static int  mock_lora_clear_fn(struct llama_context* /*ctx*/) { return 0; }
+    static void mock_lora_free_fn(void* /*adapter*/) {}
+} // namespace
+
+// LORA-INJ-01: After injecting mock functions, themis_llama_lora_available() == true
+TEST(LoraApiInjectionTest, InjectedApiReportsAvailable) {
+    themis_lora_inject_api_functions(
+        reinterpret_cast<void*>(mock_lora_init_fn),
+        reinterpret_cast<void*>(mock_lora_set_fn),
+        reinterpret_cast<void*>(mock_lora_remove_fn),
+        reinterpret_cast<void*>(mock_lora_clear_fn),
+        reinterpret_cast<void*>(mock_lora_free_fn));
+    EXPECT_TRUE(themis_llama_lora_available());
+    // Clean up — clear the override so other tests use the real dlsym path.
+    themis_lora_inject_api_functions(nullptr, nullptr, nullptr, nullptr, nullptr);
+}
+
+// LORA-INJ-02: Injected init mock is actually called and returns the mock handle
+TEST(LoraApiInjectionTest, InjectedInitIsInvoked) {
+    g_mock_lora_init_called = false;
+    themis_lora_inject_api_functions(
+        reinterpret_cast<void*>(mock_lora_init_fn),
+        reinterpret_cast<void*>(mock_lora_set_fn),
+        reinterpret_cast<void*>(mock_lora_remove_fn),
+        reinterpret_cast<void*>(mock_lora_clear_fn),
+        reinterpret_cast<void*>(mock_lora_free_fn));
+    // Provide a non-null sentinel as fake model pointer — mock ignores it.
+    struct llama_model* fake_model = reinterpret_cast<struct llama_model*>(static_cast<uintptr_t>(1));
+    void* handle = llama_lora_adapter_init(fake_model, "/fake/path.bin");
+    EXPECT_TRUE(g_mock_lora_init_called);
+    EXPECT_EQ(handle, reinterpret_cast<void*>(static_cast<uintptr_t>(0xDEAD)));
+    themis_lora_inject_api_functions(nullptr, nullptr, nullptr, nullptr, nullptr);
+}
+
+// LORA-INJ-03: Clearing injection reverts availability; no crash on subsequent availability check
+TEST(LoraApiInjectionTest, ClearInjectionRevertsOverride) {
+    // Inject first so we have a known state.
+    themis_lora_inject_api_functions(
+        reinterpret_cast<void*>(mock_lora_init_fn),
+        reinterpret_cast<void*>(mock_lora_set_fn),
+        reinterpret_cast<void*>(mock_lora_remove_fn),
+        reinterpret_cast<void*>(mock_lora_clear_fn),
+        reinterpret_cast<void*>(mock_lora_free_fn));
+    ASSERT_TRUE(themis_llama_lora_available());
+    // Clear override — availability now reflects actual dlsym detection.
+    themis_lora_inject_api_functions(nullptr, nullptr, nullptr, nullptr, nullptr);
+    // Calling available() after clearing must not crash.
+    EXPECT_NO_THROW(themis_llama_lora_available());
+}
+#endif  // THEMIS_ENABLE_LLM

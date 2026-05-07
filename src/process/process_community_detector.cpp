@@ -13,6 +13,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <iomanip>
 #include <numeric>
 #include <sstream>
 #include <unordered_map>
@@ -303,28 +304,66 @@ std::string ProcessCommunityDetector::generateReport(
     const ProcessCommunity& community,
     [[maybe_unused]] std::string_view model_id,
     [[maybe_unused]] std::string_view llm_endpoint,
-    [[maybe_unused]] std::string_view language) const
+    std::string_view language) const
 {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Generates community report without a real LLM call
-    // Activation: Always (LLM endpoint integration not yet implemented)
-    // Production Delta: Real implementation calls llm_endpoint with community
-    //                   node descriptions obtained from the process model DB
-    // Removal Plan: Replace with HTTP LLM call when LLM integration is wired (Q4 2026)
+    // Structured community report built from available metadata (node IDs, label,
+    // modularity score).  Produces a richer summary than the former stub which
+    // only listed the first three nodes.  The real LLM-backed path remains
+    // planned for Q4 2026 (STUB_INVENTORY #238); once integrated, `llm_endpoint`
+    // will be used to obtain an abstractive description via HTTP POST.
 
     if (community.node_ids.empty()) return {};
 
+    const bool german = (language == "de");
     std::ostringstream oss;
-    oss << "Community '" << community.community_id
-        << "' contains " << community.node_ids.size() << " nodes: ";
-    const int preview = std::min(static_cast<int>(community.node_ids.size()), 3);
-    for (int i = 0; i < preview; ++i) {
-        if (i > 0) oss << "; ";
-        oss << community.node_ids[i];
+
+    const int n = static_cast<int>(community.node_ids.size());
+
+    if (german) {
+        oss << "Gemeinschaft '" << community.community_id << "': "
+            << n << (n == 1 ? " Knoten" : " Knoten");
+    } else {
+        oss << "Community '" << community.community_id << "': "
+            << n << (n == 1 ? " node" : " nodes");
     }
-    if (static_cast<int>(community.node_ids.size()) > preview) {
-        oss << " ... (" << (community.node_ids.size() - preview) << " more)";
+
+    // Label (first 3 node names joined by "; ", already computed in detect())
+    if (!community.label.empty()) {
+        oss << " [" << community.label << "]";
     }
+
+    // Modularity contribution (use ostringstream for safe float formatting)
+    {
+        std::ostringstream mod_oss;
+        mod_oss << std::fixed;
+        mod_oss.precision(4);
+        mod_oss << community.modularity_score;
+        if (german) {
+            oss << "; Modularität=" << mod_oss.str();
+        } else {
+            oss << "; modularity=" << mod_oss.str();
+        }
+    }
+
+    // Node list (up to 10 nodes, then ellipsis)
+    constexpr int kMaxNodes = 10;
+    const int show = std::min(n, kMaxNodes);
+    if (german) {
+        oss << "; Knoten:";
+    } else {
+        oss << "; nodes:";
+    }
+    for (int i = 0; i < show; ++i) {
+        oss << (i == 0 ? " " : ", ") << community.node_ids[i];
+    }
+    if (n > kMaxNodes) {
+        if (german) {
+            oss << " ... (" << (n - kMaxNodes) << " weitere)";
+        } else {
+            oss << " ... (" << (n - kMaxNodes) << " more)";
+        }
+    }
+
     return oss.str();
 }
 

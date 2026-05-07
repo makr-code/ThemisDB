@@ -37,9 +37,16 @@
 #  include <execinfo.h>
 #  define THEMIS_HAS_BACKTRACE 1
 #elif defined(_WIN32)
+#  ifndef WIN32_LEAN_AND_MEAN
+#    define WIN32_LEAN_AND_MEAN
+#  endif
 #  include <windows.h>
 #  include <dbghelp.h>
-#  define THEMIS_HAS_WIN_BACKTRACE 1
+#  define THEMIS_HAS_BACKTRACE 0
+#  define THEMIS_HAS_WIN32_DBGHELP 1
+#else
+#  define THEMIS_HAS_BACKTRACE 0
+#  define THEMIS_HAS_WIN32_DBGHELP 0
 #endif
 
 namespace themis {
@@ -54,7 +61,7 @@ namespace {
 /** Collect a raw call stack, up to @p max_depth frames. */
 std::vector<std::string> captureStack([[maybe_unused]] int max_depth = 64) {
     std::vector<std::string> frames;
-#if defined(THEMIS_HAS_BACKTRACE)
+#if THEMIS_HAS_BACKTRACE
     std::vector<void*> buffer(static_cast<size_t>(max_depth));
     int count = ::backtrace(buffer.data(), max_depth);
     if (count <= 0) {
@@ -69,46 +76,46 @@ std::vector<std::string> captureStack([[maybe_unused]] int max_depth = 64) {
         frames.emplace_back(symbols[i] ? symbols[i] : "??");
     }
     ::free(symbols);
-#elif defined(THEMIS_HAS_WIN_BACKTRACE)
-    // Windows DbgHelp-based stack capture.
-    // SymInitialize is thread-safe on Windows 8.1+ when called once per process.
-    // We use a static flag to avoid repeated initialisation.
-    static bool sym_initialized = []() {
-        return SymInitialize(GetCurrentProcess(), nullptr, TRUE) == TRUE;
-    }();
-    (void)sym_initialized;
+#else
+#if defined(THEMIS_HAS_WIN32_DBGHELP) && THEMIS_HAS_WIN32_DBGHELP
+    // Windows DbgHelp path: CaptureStackBackTrace + SymFromAddr
+    constexpr DWORD kMaxFrames = 64;
+    void* frame_ptrs[kMaxFrames] = {};
+    const DWORD captured = ::CaptureStackBackTrace(
+        /*FramesToSkip=*/1,  // skip this captureStack() frame
+        /*FramesToCapture=*/std::min(static_cast<DWORD>(max_depth), kMaxFrames),
+        frame_ptrs,
+        /*BackTraceHash=*/nullptr);
 
-    std::vector<void*> stack(static_cast<size_t>(max_depth));
-    WORD captured = CaptureStackBackTrace(
-        0,
-        static_cast<DWORD>(max_depth),
-        stack.data(),
-        nullptr);
-    if (captured == 0) {
-        return frames;
-    }
+    if (captured > 0) {
+        const HANDLE process = ::GetCurrentProcess();
+        ::SymInitialize(process, nullptr, TRUE);
 
-    // SYMBOL_INFO requires trailing storage for the name string.
-    constexpr DWORD kMaxNameLen = 256;
-    alignas(SYMBOL_INFO) char sym_buf[sizeof(SYMBOL_INFO) + kMaxNameLen * sizeof(CHAR)];
-    SYMBOL_INFO* sym = reinterpret_cast<SYMBOL_INFO*>(sym_buf);
-    sym->SizeOfStruct = sizeof(SYMBOL_INFO);
-    sym->MaxNameLen   = kMaxNameLen;
+        // SymFromAddr needs a SYMBOL_INFO buffer with space for the name
+        constexpr DWORD kNameLen = 256;
+        alignas(SYMBOL_INFO) char sym_buf[sizeof(SYMBOL_INFO) + kNameLen * sizeof(TCHAR)];
+        auto* sym = reinterpret_cast<SYMBOL_INFO*>(sym_buf);
+        sym->SizeOfStruct = sizeof(SYMBOL_INFO);
+        sym->MaxNameLen   = kNameLen;
 
-    frames.reserve(captured);
-    HANDLE process = GetCurrentProcess();
-    for (WORD i = 0; i < captured; ++i) {
-        DWORD64 addr = reinterpret_cast<DWORD64>(stack[i]);
-        if (SymFromAddr(process, addr, nullptr, sym)) {
-            frames.emplace_back(sym->Name, sym->NameLen);
-        } else {
-            frames.emplace_back("??");
+        frames.reserve(static_cast<size_t>(captured));
+        for (DWORD i = 0; i < captured; ++i) {
+            DWORD64 displacement = 0;
+            if (::SymFromAddr(process, reinterpret_cast<DWORD64>(frame_ptrs[i]),
+                              &displacement, sym)) {
+                frames.emplace_back(sym->Name);
+            } else {
+                char addr_buf[32];
+                std::snprintf(addr_buf, sizeof(addr_buf), "0x%p", frame_ptrs[i]);
+                frames.emplace_back(addr_buf);
+            }
         }
+    } else {
+        frames.emplace_back("(stack-trace-unavailable)");
     }
 #else
-    // Fallback for WASM / unsupported embedded targets where neither
-    // POSIX execinfo.h nor Windows DbgHelp is available.
     frames.emplace_back("(stack-trace-unavailable)");
+#endif
 #endif
     return frames;
 }

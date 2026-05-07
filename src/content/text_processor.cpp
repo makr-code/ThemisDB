@@ -204,12 +204,17 @@ std::vector<json> TextProcessor::chunk(
 }
 
 std::vector<float> TextProcessor::generateEmbedding(const std::string& chunk_data) {
+    // If a real embedding backend has been injected, delegate to it.
+    if (embedding_fn_) {
+        return embedding_fn_(chunk_data);
+    }
+
     // STUB/SIMULATION NOTE:
     // Purpose: Provide a deterministic, zero-dependency embedding for unit
     //   tests and environments where no real embedding service is available.
-    // Activation: Always active — TextProcessor has no IEmbeddingBackend
-    //   injection point yet.  Replace this body once an embedding backend
-    //   interface is introduced (tracked as a future enhancement).
+    // Activation: Active when no IEmbeddingBackend is injected via
+    //   setEmbeddingBackend().  Set a real backend (ONNXClipPlugin,
+    //   Sentence-BERT, etc.) to get semantically meaningful vectors.
     // Production Delta: Uses a hash-based deterministic formula instead of a
     //   real transformer model (e.g. Sentence-BERT / all-mpnet-base-v2).
     //   Output vectors are NOT semantically meaningful for similarity search.
@@ -276,6 +281,14 @@ std::vector<float> TextProcessor::generateEmbedding(const std::string& chunk_dat
     }
     
     return embedding;
+}
+
+// ============================================================================
+// TextProcessor::setEmbeddingBackend (stub #6 injection API)
+// ============================================================================
+
+void TextProcessor::setEmbeddingBackend(EmbeddingFn fn) {
+    embedding_fn_ = std::move(fn);
 }
 
 // ============================================================================

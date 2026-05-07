@@ -492,45 +492,48 @@ Result<FragmentationMetrics> IndexMaintenanceManager::calculateFragmentation(
                                              "Database not initialized");
         }
         
-        // Calculate fragmentation based on compaction stats
-        std::string stats_str;
-        if (db->GetProperty("rocksdb.stats", &stats_str)) {
-            // Parse stats for fragmentation indicators
-            // In production, this would parse actual RocksDB metrics
-            
-            // For now, simulate fragmentation calculation
-            // Real implementation would check:
-            // - Number of SST files
-            // - Overlap between levels
-            // - Delete markers vs live keys
-            // - File size distribution
-            
-            std::string file_count_str;
-            if (db->GetProperty("rocksdb.num-files-at-level0", &file_count_str)) {
-                try {
-                    metrics.file_count = std::stoull(file_count_str);
-                } catch (...) {
-                    metrics.file_count = 0;
-                }
-            }
-            
-            // Estimate fragmentation (simplified)
-            if (metrics.file_count > 10) {
-                metrics.fragmentation_percentage = std::min(50.0, metrics.file_count * 2.0);
-            } else {
-                metrics.fragmentation_percentage = metrics.file_count * 1.5;
-            }
-        } else {
-            // Fallback: use simulated values
-            metrics.fragmentation_percentage = 5.0;
-            metrics.file_count = 3;
+        // Calculate fragmentation from RocksDB properties.
+        // Uses three complementary signals:
+        //   1. L0 file count  — write-stall / flush pressure
+        //   2. (total_sst - live_sst) / total_sst — dead-key / wasted-space ratio
+        //   3. pending compaction bytes — background work backlog
+        //
+        // These are the same signals used by IndexAnalyzer; keeping both in sync
+        // avoids contradictory recommendations from the two subsystems.
+
+        // ── L0 file count ───────────────────────────────────────────────────
+        std::string file_count_str;
+        if (db->GetProperty("rocksdb.num-files-at-level0", &file_count_str)) {
+            try { metrics.file_count = std::stoull(file_count_str); } catch (...) {}
         }
-        
-        // Get approximate sizes
-        uint64_t total_size = 0;
-        if (db->GetIntProperty("rocksdb.total-sst-files-size", &total_size)) {
-            metrics.size_bytes = total_size;
+
+        // ── SST size ratio (wasted space) ────────────────────────────────────
+        uint64_t total_sst = 0, live_sst = 0;
+        db->GetIntProperty("rocksdb.total-sst-files-size", &total_sst);
+        db->GetIntProperty("rocksdb.live-sst-files-size",  &live_sst);
+
+        double frag_pct = 0.0;
+        if (total_sst > 0) {
+            const double wasted = static_cast<double>(
+                total_sst > live_sst ? total_sst - live_sst : 0);
+            frag_pct = (wasted / static_cast<double>(total_sst)) * 100.0;
         }
+
+        // ── L0 pressure augments the size-ratio estimate ─────────────────────
+        // Each L0 file adds ~1.5 percentage points of fragmentation pressure.
+        static constexpr double kFragPctPerL0File = 1.5;
+        frag_pct = std::min(100.0, frag_pct + static_cast<double>(metrics.file_count) * kFragPctPerL0File);
+
+        // ── Pending compaction bytes provide an additional signal ─────────────
+        uint64_t pending_compact_bytes = 0;
+        db->GetIntProperty("rocksdb.estimate-pending-compaction-bytes", &pending_compact_bytes);
+        static constexpr uint64_t kBytesPerMB = 1024ULL * 1024ULL;
+        static constexpr double kFragPctPerPendingMB = 0.1;
+        const double pending_mb = static_cast<double>(pending_compact_bytes) / static_cast<double>(kBytesPerMB);
+        frag_pct = std::min(100.0, frag_pct + pending_mb * kFragPctPerPendingMB);
+
+        metrics.fragmentation_percentage = frag_pct;
+        metrics.size_bytes = total_sst;
         
         // Calculate derived metrics
         metrics.wasted_space_bytes = 
@@ -541,8 +544,18 @@ Result<FragmentationMetrics> IndexMaintenanceManager::calculateFragmentation(
         metrics.last_updated_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()).count();
         
-        // Simulated statistics staleness (would track actual update time in production)
-        metrics.statistics_staleness_ms = 1800000; // 30 minutes
+        // Statistics staleness: how long ago the cached metrics were last refreshed.
+        // Use the manager's own cache-update timestamp so the value reflects
+        // actual elapsed time rather than a hardcoded constant.
+        {
+            const uint64_t now_ms = static_cast<uint64_t>(
+                std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::system_clock::now().time_since_epoch()).count());
+            metrics.statistics_staleness_ms =
+                (last_metrics_update_ms_ > 0 && now_ms >= last_metrics_update_ms_)
+                ? now_ms - last_metrics_update_ms_
+                : 0u;
+        }
         
         return metrics;
         

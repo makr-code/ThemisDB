@@ -945,12 +945,46 @@ public:
     // Update the replica list (called when topology changes)
     void setReplicas(const std::vector<ReplicaInfo>& replicas);
 
+    /// Callback type for fetching a document from a specific replica.
+    /// Arguments: endpoint, collection, document_id.  Returns the serialised
+    /// document data, or an empty string when the replica does not hold the
+    /// document or the fetch fails.
+    using DocumentFetchFn = std::function<
+        std::string(const std::string& /*endpoint*/,
+                    const std::string& /*collection*/,
+                    const std::string& /*document_id*/)>;
+
+    /// Inject a data-fetch function so that queryReplica() can return real
+    /// document content.  The storage / RPC layer sets this at startup; tests
+    /// inject a local-memory lookup.  Without a callback the data field of
+    /// every ReplicaResponse remains empty (original behaviour).
+    void setDocumentFetchCallback(DocumentFetchFn fn);
+
+    /// Callback type for fetching a document from the local storage engine
+    /// when no replicas are configured (single-node deployment).
+    /// Arguments: collection, document_id.
+    /// Returns: {serialised document data, version}.  An empty data string is
+    /// valid when the document does not exist; version 0 means unknown.
+    ///
+    /// Stub #248 injection API — resolves the single-node quorum-read path
+    /// that previously returned an empty data field and version=0.
+    using LocalDocumentFetchFn = std::function<
+        std::pair<std::string, uint64_t>(const std::string& /*collection*/,
+                                         const std::string& /*document_id*/)>;
+
+    /// Inject a local-storage read function used by read() when the replica
+    /// list is empty (single-node deployments).  Without a callback the
+    /// data field remains empty and version=0 (original behaviour).
+    void setLocalDocumentFetchFn(LocalDocumentFetchFn fn);
+
 private:
     QuorumReadConfig config_;
     std::vector<ReplicaInfo> replicas_;
     mutable std::shared_mutex replicas_mutex_;
+    DocumentFetchFn      doc_fetch_fn_;         ///< Optional RPC / storage data fetcher
+    LocalDocumentFetchFn local_doc_fetch_fn_;   ///< Optional local-storage read (Stub #248)
 
-    // Per-replica read simulation (real impl would use RPC)
+    // Per-replica read response
     struct ReplicaResponse {
         bool        ok;
         std::string data;

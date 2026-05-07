@@ -52,6 +52,7 @@ typedef ZludaError (*PFN_zludaStreamCreate)(ZludaStream*);
 typedef ZludaError (*PFN_zludaStreamDestroy)(ZludaStream);
 typedef ZludaError (*PFN_zludaStreamSynchronize)(ZludaStream);
 typedef ZludaError (*PFN_zludaLaunchKernel)(const void*, dim3, dim3, void**, size_t, ZludaStream);
+typedef ZludaError (*PFN_zludaDeviceTotalMem)(size_t*, int);
 
 // ============================================================================
 // ZLUDAVectorBackend Implementation
@@ -101,7 +102,9 @@ public:
         if (initialized_) {
             // Query device properties through ZLUDA
             caps.deviceName = "AMD Radeon (ZLUDA)";
-            caps.maxMemoryBytes = 8ULL * 1024 * 1024 * 1024; // Placeholder
+            // Use the real VRAM size detected during initialize(); fall back to
+            // 8 GiB sentinel when cuDeviceTotalMem was unavailable at init time.
+            caps.maxMemoryBytes = detected_memory_bytes_;
         }
         
         return caps;
@@ -125,6 +128,15 @@ public:
         
         // Load function pointers
         loadFunctions();
+
+        // Query total VRAM for this device via cuDeviceTotalMem.
+        // Store in detected_memory_bytes_; used by getCapabilities().
+        if (fnDeviceTotalMem_) {
+            size_t total_mem = 0;
+            if (fnDeviceTotalMem_(&total_mem, deviceId_) == ZLUDA_SUCCESS && total_mem > 0) {
+                detected_memory_bytes_ = total_mem;
+            }
+        }
         
         // Check device count
         int deviceCount = 0;
@@ -176,15 +188,22 @@ public:
             return {};
         }
         
-        // ZLUDA allows using CUDA kernels directly
-        // For now, we'll use a simplified CPU fallback
-        // In production, we'd compile CUDA kernels and run them through ZLUDA
-        
-        std::cerr << "ZLUDA: Kernel execution requires CUDA-compiled PTX" << std::endl;
-        std::cerr << "ZLUDA: Falling back to CPU for now" << std::endl;
-        std::cerr << "ZLUDA: To enable GPU execution, compile CUDA kernels and load PTX" << std::endl;
-        
-        return {}; // Placeholder - would execute CUDA kernels via ZLUDA
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allows ZLUDABackend to compile and report initialization success
+    //          while actual CUDA PTX kernel loading and execution via ZLUDA is
+    //          not yet implemented.
+    // Activation: Always — no PTX binary is compiled into or loaded by ThemisDB.
+    // Production Delta: computeDistances() and batchKnnSearch() return empty
+    //                   results; all vector distance computations fall through
+    //                   to CPU paths.  AMD GPU acceleration via ZLUDA is
+    //                   completely non-functional at runtime.
+    // Removal Plan: Compile CUDA kernel sources to PTX; load PTX via cuModuleLoadData();
+    //               launch kernels via cuLaunchKernel() through the ZLUDA dlopen
+    //               handles.  See src/acceleration/FUTURE_ENHANCEMENTS.md §ZLUDA Activation.
+    std::cerr << "ZLUDA: Kernel execution requires CUDA-compiled PTX" << std::endl;
+    std::cerr << "ZLUDA: Falling back to CPU (STUB — no PTX loaded)" << std::endl;
+
+    return {}; // STUB: no GPU kernel executed
     }
     
     std::vector<std::vector<std::pair<uint32_t, float>>> batchKnnSearch(
@@ -215,12 +234,16 @@ private:
         fnStreamCreate_ = (PFN_zludaStreamCreate)dlsym(zludaLib_, "cuStreamCreate");
         fnStreamDestroy_ = (PFN_zludaStreamDestroy)dlsym(zludaLib_, "cuStreamDestroy");
         fnStreamSynchronize_ = (PFN_zludaStreamSynchronize)dlsym(zludaLib_, "cuStreamSynchronize");
+        fnDeviceTotalMem_ = (PFN_zludaDeviceTotalMem)dlsym(zludaLib_, "cuDeviceTotalMem");
     }
     
     bool initialized_ = false;
     int deviceId_ = 0;
     void* zludaLib_ = nullptr;
     ZludaStream stream_ = nullptr;
+    /// Actual VRAM capacity queried via cuDeviceTotalMem during initialize().
+    /// Sentinel 8 GiB used when the function is unavailable through ZLUDA.
+    size_t detected_memory_bytes_ = 8ULL * 1024 * 1024 * 1024;
     
     // Function pointers
     PFN_zludaGetDeviceCount fnGetDeviceCount_ = nullptr;
@@ -231,6 +254,7 @@ private:
     PFN_zludaStreamCreate fnStreamCreate_ = nullptr;
     PFN_zludaStreamDestroy fnStreamDestroy_ = nullptr;
     PFN_zludaStreamSynchronize fnStreamSynchronize_ = nullptr;
+    PFN_zludaDeviceTotalMem fnDeviceTotalMem_ = nullptr;
 };
 
 } // namespace acceleration
