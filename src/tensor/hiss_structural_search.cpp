@@ -15,6 +15,8 @@
 #include <array>
 #include <cmath>
 #include <limits>
+#include <stdexcept>
+#include <unordered_map>
 
 namespace themis {
 namespace tensor {
@@ -100,6 +102,7 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
     TensorNetworkGraph graph;
     if (train.cores.empty()) return graph;
 
+    std::vector<double> entropy(train.cores.size(), 0.0);
     for (std::size_t i = 0; i < train.cores.size(); ++i) {
         const auto& c = train.cores[i];
         TensorGraphNode node;
@@ -109,6 +112,7 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
         node.rank_right = c.r_right;
         node.mode_size = c.n;
         node.entropy_score = coreEntropy(c);
+        entropy[i] = node.entropy_score;
         graph.addNode(std::move(node));
     }
 
@@ -132,26 +136,61 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
     // Removal Plan: Q2 2028 — replace with full Hiss TN-SS (global sampling +
     //               local refinement + diversity objective).
     std::uint64_t rng = cfg.random_seed;
-    std::size_t added = 0;
-    for (std::size_t i = 0; i < train.cores.size() && added < cfg.diversity_budget; ++i) {
-        const auto entropy_i = coreEntropy(train.cores[i]);
-        if (entropy_i < cfg.entropy_threshold) continue;
-        for (std::size_t d = 2; d <= cfg.max_reshape_depth + 1; ++d) {
-            const auto j = i + d;
-            if (j >= train.cores.size() || added >= cfg.diversity_budget) break;
-            const auto coin = xorshift64(rng) & 0xFFU;
-            if (coin > 96U) { // ~38% hit rate
-                TensorGraphEdge e;
-                e.from = i;
-                e.to = j;
-                e.weight = 1.0 + entropy_i;
-                e.topology = "reshaped";
-                if (graph.addEdge(std::move(e))) ++added;
-            }
+    std::vector<TensorGraphEdge> candidates;
+    candidates.reserve(std::min<std::size_t>(cfg.num_samples, train.cores.size() * 2));
+
+    const std::size_t max_depth = std::max<std::size_t>(cfg.max_reshape_depth, 1);
+    for (std::size_t s = 0; s < cfg.num_samples; ++s) {
+        const auto i = static_cast<std::size_t>(xorshift64(rng) % train.cores.size());
+        const auto d = 2 + static_cast<std::size_t>(xorshift64(rng) % max_depth);
+        const auto j = i + d;
+        if (j >= train.cores.size()) continue;
+
+        if (entropy[i] < cfg.entropy_threshold && entropy[j] < cfg.entropy_threshold) continue;
+
+        const auto avg_entropy = 0.5 * (entropy[i] + entropy[j]);
+        const auto span_bonus = 1.0 / static_cast<double>(1 + (j - i));
+
+        TensorGraphEdge e;
+        e.from = i;
+        e.to = j;
+        e.weight = 1.0 + avg_entropy + span_bonus;
+        e.topology = "reshaped";
+        candidates.push_back(std::move(e));
+    }
+
+    std::sort(candidates.begin(), candidates.end(),
+              [](const auto& a, const auto& b) { return a.weight > b.weight; });
+
+    std::unordered_map<std::uint64_t, TensorGraphEdge> best_by_edge;
+    for (const auto& e : candidates) {
+        const auto key = (static_cast<std::uint64_t>(e.from) << 32U) | static_cast<std::uint64_t>(e.to);
+        const auto it = best_by_edge.find(key);
+        if (it == best_by_edge.end() || e.weight > it->second.weight) {
+            best_by_edge[key] = e;
         }
     }
 
-    (void)cfg.num_samples; // reserved for full TN-SS implementation
+    std::vector<TensorGraphEdge> unique_candidates;
+    unique_candidates.reserve(best_by_edge.size());
+    for (const auto& kv : best_by_edge) unique_candidates.push_back(kv.second);
+    std::sort(unique_candidates.begin(), unique_candidates.end(),
+              [](const auto& a, const auto& b) { return a.weight > b.weight; });
+
+    std::size_t added = 0;
+    for (const auto& e : unique_candidates) {
+        if (added >= cfg.diversity_budget) break;
+        if (graph.addEdge(e)) ++added;
+    }
+
+    for (const auto& e : graph.edges()) {
+        if (e.topology != "reshaped") continue;
+        const auto avg_entropy = 0.5 * (entropy[e.from] + entropy[e.to]);
+        if (avg_entropy >= (cfg.entropy_threshold * 1.5)) {
+            graph.rerouteEdge(e.from, e.to, "clustered");
+        }
+    }
+
     return graph;
 }
 
@@ -164,8 +203,32 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     //                   no binary index-factorization into true quantics cores.
     // Removal Plan: Q2 2028 — implement Quantics decomposition with per-dimension
     //               bit-depths and reversible QTTrain <-> TTTrain mapping.
+    if (!grid_sizes.empty() && !train.mode_sizes.empty() && grid_sizes.size() != train.mode_sizes.size()) {
+        throw std::invalid_argument("grid_sizes must match train.mode_sizes length");
+    }
+
+    auto to_bit_depth = [](std::size_t grid_size) -> std::size_t {
+        if (grid_size == 0) throw std::invalid_argument("grid_sizes must be > 0");
+        std::size_t depth = 0;
+        std::size_t v = 1;
+        while (v < grid_size) {
+            v <<= 1U;
+            ++depth;
+        }
+        return std::max<std::size_t>(depth, 1);
+    };
+
+    std::vector<std::size_t> bit_depths;
+    if (!grid_sizes.empty()) {
+        bit_depths.reserve(grid_sizes.size());
+        for (const auto g : grid_sizes) bit_depths.push_back(to_bit_depth(g));
+    } else if (!train.mode_sizes.empty()) {
+        bit_depths.reserve(train.mode_sizes.size());
+        for (const auto n : train.mode_sizes) bit_depths.push_back(to_bit_depth(n));
+    }
+
     QTTrain qt;
-    qt.bit_depths = grid_sizes;
+    qt.bit_depths = std::move(bit_depths);
     qt.tt_train = train;
     return qt;
 }

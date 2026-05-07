@@ -8,6 +8,7 @@
 #include "storage/tensor_train_decomposer.h"
 
 #include <gtest/gtest.h>
+#include <stdexcept>
 
 namespace {
 
@@ -73,6 +74,13 @@ TEST(TensorHissSearch, HissSearchBuildsDeterministicGraph) {
     const auto g2 = engine.search(train, cfg);
     EXPECT_EQ(g1.nodeCount(), train.cores.size());
     EXPECT_EQ(g1.edgeCount(), g2.edgeCount());
+    ASSERT_EQ(g1.edges().size(), g2.edges().size());
+    for (std::size_t i = 0; i < g1.edges().size(); ++i) {
+        EXPECT_EQ(g1.edges()[i].from, g2.edges()[i].from);
+        EXPECT_EQ(g1.edges()[i].to, g2.edges()[i].to);
+        EXPECT_EQ(g1.edges()[i].topology, g2.edges()[i].topology);
+        EXPECT_FLOAT_EQ(static_cast<float>(g1.edges()[i].weight), static_cast<float>(g2.edges()[i].weight));
+    }
 }
 
 TEST(TensorHissSearch, TemplateCatalogRegisterLookup) {
@@ -89,7 +97,24 @@ TEST(TensorHissSearch, TemplateCatalogRegisterLookup) {
 
 TEST(TensorHissSearch, HissReshaperExposeQuanticsPassthrough) {
     const auto train = makeSmallTrain();
-    const auto qt = themis::tensor::HissReshaper::exposeQuantics(train, {2, 2, 2});
+    const auto qt = themis::tensor::HissReshaper::exposeQuantics(train, {2, 4, 8});
     EXPECT_EQ(qt.bit_depths.size(), 3u);
+    EXPECT_EQ(qt.bit_depths[0], 1u);
+    EXPECT_EQ(qt.bit_depths[1], 2u);
+    EXPECT_EQ(qt.bit_depths[2], 3u);
     EXPECT_EQ(qt.toTTTrain().cores.size(), train.cores.size());
+}
+
+TEST(TensorHissSearch, HissReshaperInfersBitDepthsFromTrainModes) {
+    const auto train = makeSmallTrain();
+    const auto qt = themis::tensor::HissReshaper::exposeQuantics(train, {});
+    ASSERT_EQ(qt.bit_depths.size(), 3u);
+    EXPECT_EQ(qt.bit_depths[0], 2u);
+    EXPECT_EQ(qt.bit_depths[1], 2u);
+    EXPECT_EQ(qt.bit_depths[2], 2u);
+}
+
+TEST(TensorHissSearch, HissReshaperRejectsMismatchedGridSizeCount) {
+    const auto train = makeSmallTrain();
+    EXPECT_THROW((void)themis::tensor::HissReshaper::exposeQuantics(train, {4, 4}), std::invalid_argument);
 }
