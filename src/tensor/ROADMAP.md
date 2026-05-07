@@ -325,29 +325,42 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 
 ### Phase 7: Unified Tensor Representation (UTR) — Multi-Modal Interoperability (Target: Q3–Q4 2028)
 
-- [ ] **`UTRConverter` — heterogeneous-to-tensor-native pipeline** (Target: Q3 2028)
+- [~] **`UTRConverter` — heterogeneous-to-tensor-native pipeline** (Target: Q3 2028)
   - Paper §UTR: geospatial, relational, visual, and textual data unified via TT/HT encoding
   - `UTRConverter::fromGeospatial(grid, resolution) → TTTrain`  — preserves topological neighborhoods
   - `UTRConverter::fromTabular(table, schema) → HyperIndexTensor`  — relational Hyper-Index with latent joins
   - `UTRConverter::fromImage(pixels, h, w, c) → TTTrain`  — 3D/4D core network for structural similarity
   - `UTRConverter::fromDocument(text, structure_hint) → HTTrain`  — hierarchical paragraph cores
   - AC: round-trip encode/decode with normalized RMSE ≤ ε per data type
+  - **2026-05-07 in progress**: `UTRConverter` + `HyperIndexBuilder` / `HyperIndexTensor` implemented
+    in `include/tensor/utr_converter.h` / `src/tensor/utr_converter.cpp` and
+    `include/tensor/hyper_index_builder.h` / `src/tensor/hyper_index_builder.cpp`;
+    tests UTR-01..UTR-16 in `tests/test_tensor_utr.cpp`.
+    STUBs: #255 (uniform bucketing, no FK graph), #256 (row-major geo encoding),
+    #257 (hash-projection doc embedding), #258 (raw pixel TT).
 
-- [ ] **Geospatial TT-cores preserving topological proximity** (Target: Q3 2028)
+- [~] **Geospatial TT-cores preserving topological proximity** (Target: Q3 2028)
   - Paper §Geospatial: n-dimensional grids factorized; spatial reasoning by core contraction
   - `GeoTTIndex::spatialContraction(flood_risk_tt, population_tt) → correlation_score`
   - AC: spatial correlation result within 0.1% of raster-based baseline
+  - **2026-05-07 in progress**: `fromGeospatial()` encodes raster grids as 2-D TTTrain;
+    row-major locality used (STUB #256); Hilbert-curve reordering deferred Q3 2028.
 
-- [ ] **Relational Hyper-Index with latent join discovery** (Target: Q4 2028)
+- [~] **Relational Hyper-Index with latent join discovery** (Target: Q4 2028)
   - Paper §Relational: Hyper-Index tensor extracts cross-table relationships invisible to
     the relational engine
   - `HyperIndexBuilder::fromSchema(tables, fk_graph) → HyperIndexTensor`
   - AC: latent join for standard TPC-H Q18 detected without explicit JOIN hint
+  - **2026-05-07 in progress**: `HyperIndexBuilder::fromSchema()` builds co-occurrence tensor
+    (STUB #255 — uniform bucketing, no FK-graph awareness).
 
-- [ ] **Hierarchical document tensor — child-to-parent retrieval** (Target: Q4 2028)
+- [~] **Hierarchical document tensor — child-to-parent retrieval** (Target: Q4 2028)
   - Paper §Documents: 3–5× better accuracy on structured data via structural context retention
   - `DocumentHTIndex::retrieveFragment(query_tt, k) → { fragment, parent_context }`
   - AC: recall@5 on government-document benchmark ≥ 3× vs. flat chunk retrieval
+  - **2026-05-07 in progress**: `fromDocument()` encodes document segments as 2-D HTTrain
+    (segment × embed_dim) using hash-projection embeddings (STUB #257); HT decomposer
+    from Phase 5 applied.
 
 ### Phase 8: Physics-Informed Scientific Solvers (Target: Q1–Q2 2029)
 
@@ -487,6 +500,9 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
   rerouteEdge counted but not persisted (STUB #252)
 - Domain template graph routing wired to TensorRouter (STUB #253): promotes
   routing to LIFT on catalog hit; actual TN topology not yet embedded in stored index
+- Phase 7 UTR encoders use simplified approaches (STUBs #255–#258): geospatial row-major
+  mode order (#256), document hash-projection embedding (#257), raw pixel TT decomposition
+  (#258), relational Hyper-Index with uniform bucketing and no FK-graph weighting (#255)
 
 ## Breaking Changes
 

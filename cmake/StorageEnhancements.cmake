@@ -122,4 +122,8 @@ list(APPEND THEMIS_CORE_SOURCES
     # Phase 6 — Hiss structural search, TNSR background task
     ../src/tensor/hiss_structural_search.cpp
     ../src/tensor/tnsr_task.cpp
+
+    # Phase 7 — Unified Tensor Representation (UTR)
+    ../src/tensor/hyper_index_builder.cpp
+    ../src/tensor/utr_converter.cpp
 )

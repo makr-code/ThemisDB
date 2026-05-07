@@ -27710,3 +27710,6 @@ _tensor_focused_test(test_tensor_hiss_structural_search)
 
 # TensorRouter domain-tag + TemplateCatalog (Phase 6)
 _tensor_focused_test(test_tensor_router)
+
+# Phase 7: Unified Tensor Representation (UTR) — multi-modal converters
+_tensor_focused_test(test_tensor_utr)
