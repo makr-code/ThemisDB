@@ -249,7 +249,9 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
         if (avg_entropy >= (cfg.entropy_threshold * 1.5)) {
             const auto rerouted = graph.rerouteEdge(e.from, e.to, "clustered");
             if (!rerouted) {
-                throw std::logic_error("failed to reroute existing reshaped edge to clustered topology");
+                throw std::logic_error(
+                    "failed to reroute edge from " + std::to_string(e.from) +
+                    " to " + std::to_string(e.to) + " to clustered topology");
             }
         }
     }

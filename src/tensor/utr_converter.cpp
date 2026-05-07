@@ -185,8 +185,11 @@ storage::TTTrain UTRConverter::fromGeospatial(const RasterGrid& grid,
 
     // Persist normalisation range in achieved_eps field for now; a proper metadata
     // struct will carry vmin/vmax when the geospatial TT extension lands (Q3 2028).
-    tt_train.original_norm = static_cast<double>(vmin) * 1e10 +
-                              static_cast<double>(vmax);
+    // NOTE: We intentionally do not encode vmin/vmax into original_norm (which stores
+    // a Frobenius norm) to avoid confusion. The normalisation is implicit (values
+    // were mapped to [0,1]); callers that need to recover physical units must store
+    // vmin/vmax externally until a dedicated GeospatialTTMetadata struct is added.
+    (void)vmin; (void)vmax;
     return tt_train;
 }
 

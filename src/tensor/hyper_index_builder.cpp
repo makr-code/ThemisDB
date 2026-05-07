@@ -209,7 +209,7 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
         if (total_elements > (std::numeric_limits<std::size_t>::max() / bucket_count)) {
             throw std::overflow_error(
                 "co-occurrence tensor size overflow: " + std::to_string(d) +
-                " modes × " + std::to_string(bucket_count) + " buckets each");
+                " modes x " + std::to_string(bucket_count) + " buckets each");
         }
         total_elements *= bucket_count;
     }
