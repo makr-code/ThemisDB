@@ -13,7 +13,6 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <cmath>
 #include <limits>
 #include <stdexcept>
@@ -165,8 +164,11 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
 
     std::unordered_map<std::uint64_t, TensorGraphEdge> best_by_edge;
     for (const auto& e : candidates) {
-        // Assumption: graph node indices fit into 32-bit lanes for packed edge key.
-        assert(e.from <= 0xFFFFFFFFULL && e.to <= 0xFFFFFFFFULL);
+        // Packed edge key uses 32-bit lanes per endpoint.
+        constexpr std::size_t kMaxPackedIndex = 0xFFFFFFFFULL;
+        if (e.from > kMaxPackedIndex || e.to > kMaxPackedIndex) {
+            throw std::invalid_argument("tensor graph index exceeds packed edge-key limit");
+        }
         const auto key = (static_cast<std::uint64_t>(e.from) << 32U) | static_cast<std::uint64_t>(e.to);
         const auto it = best_by_edge.find(key);
         if (it == best_by_edge.end() || e.weight > it->second.weight) {
@@ -215,6 +217,9 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
         std::size_t depth = 0;
         std::size_t v = 1;
         while (v < grid_size) {
+            if (depth >= std::numeric_limits<std::size_t>::digits - 1) {
+                throw std::overflow_error("grid_size is too large for bit-depth calculation");
+            }
             v <<= 1U;
             ++depth;
         }
