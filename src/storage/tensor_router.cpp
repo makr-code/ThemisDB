@@ -85,9 +85,10 @@ std::string to_string(TensorRouteDecision d) noexcept {
 // ============================================================================
 
 struct TensorRouter::Impl {
-    std::shared_ptr<TensorNetworkStorageEngine> engine;
-    TensorRoutingPolicy                         policy;
-    TensorTrainDecomposer                       decomposer;
+    std::shared_ptr<TensorNetworkStorageEngine>   engine;
+    TensorRoutingPolicy                           policy;
+    TensorTrainDecomposer                         decomposer;
+    std::shared_ptr<tensor::TemplateCatalog>      template_catalog;
 
     mutable std::mutex   stats_mu;
     mutable RouterStats  stats_ {};
@@ -219,6 +220,15 @@ struct TensorRouter::Impl {
         auto override = categoryOverride(hint);
         if (override.has_value()) return *override;
 
+        // Domain template catalog promotion (STUB #253):
+        // A matching template means an optimised TN structure is known → LIFT.
+        if (!hint.domain_tag.empty() && template_catalog) {
+            const auto tmpl = template_catalog->lookup(hint.domain_tag);
+            if (tmpl.has_value()) {
+                return TensorRouteDecision::LIFT;
+            }
+        }
+
         // Rank cap check (latency break-even: r_max=48 for d=768)
         if (policy.max_lift_rank > 0 && pilot.pilot_rank > policy.max_lift_rank)
             return TensorRouteDecision::KEEP;
@@ -328,7 +338,8 @@ std::string TensorRouter::explain(
         {"distribution",  static_cast<int>(hint.distribution)},
         {"inference_use", hint.inference_use},
         {"high_churn",    hint.high_churn},
-        {"min_ratio",     hint.min_ratio}
+        {"min_ratio",     hint.min_ratio},
+        {"domain_tag",    hint.domain_tag}
     };
 
     // Human-readable reason
@@ -363,6 +374,17 @@ const TensorRoutingPolicy& TensorRouter::policy() const noexcept {
 
 void TensorRouter::setPolicy(TensorRoutingPolicy p) {
     impl_->policy = std::move(p);
+}
+
+void TensorRouter::setTemplateCatalog(
+    std::shared_ptr<tensor::TemplateCatalog> catalog)
+{
+    impl_->template_catalog = std::move(catalog);
+}
+
+std::shared_ptr<tensor::TemplateCatalog>
+TensorRouter::templateCatalog() const noexcept {
+    return impl_->template_catalog;
 }
 
 } // namespace storage

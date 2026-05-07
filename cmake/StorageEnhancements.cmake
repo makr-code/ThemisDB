@@ -80,3 +80,46 @@ list(APPEND THEMIS_CORE_SOURCES
     # Online Schema Migration (zero-downtime DDL) – v1.7.0
     ../src/storage/online_schema_migration.cpp
 )
+
+# ============================================================================
+# Tensor Network Module — TT/HT/QTT index and storage sources
+# Added 2026-05-07: Phase 1–6 implementation files
+# ============================================================================
+list(APPEND THEMIS_CORE_SOURCES
+    # Storage-layer tensor sources (TT decomposer, network engine, router, ...)
+    ../src/storage/tensor_train_decomposer.cpp
+    ../src/storage/tt_quantizer.cpp
+    ../src/storage/tensor_network_storage_engine.cpp
+    ../src/storage/tensor_router.cpp
+    ../src/storage/tensor_compaction_filter.cpp
+    ../src/storage/ggml_tensor_bridge.cpp
+    ../src/storage/gguf_metadata.cpp
+    ../src/storage/hierarchical_tucker_decomposer.cpp
+
+    # Core tensor index and manager
+    ../src/tensor/tensor_index.cpp
+    ../src/tensor/tensor_index_manager.cpp
+    ../src/tensor/hnsw_tt_bridge.cpp
+
+    # Phase 3 — zero-copy inference, query operators, RAG pipeline
+    ../src/tensor/tensor_mmap_bridge.cpp
+    ../src/tensor/tensor_core_bridge.cpp
+    ../src/tensor/tensor_butterfly_operator.cpp
+    ../src/tensor/tensor_ingestion_bridge.cpp
+    ../src/query/tensor_contraction_engine.cpp
+    ../src/query/tensor_aware_query_optimizer.cpp
+    ../src/rag/flare_retrieval.cpp
+    ../src/rag/targ_retrieval.cpp
+    ../src/rag/tensor_rag_pipeline.cpp
+
+    # Phase 3 — fingerprint graph, adapter repository
+    ../src/tensor/tensor_fingerprint_graph.cpp
+    ../src/tensor/adapter_repository.cpp
+
+    # Phase 5 — HT index
+    ../src/tensor/ht_index.cpp
+
+    # Phase 6 — Hiss structural search, TNSR background task
+    ../src/tensor/hiss_structural_search.cpp
+    ../src/tensor/tnsr_task.cpp
+)

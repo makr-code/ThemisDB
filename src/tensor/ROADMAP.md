@@ -293,7 +293,7 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
   - `HissReshaper::exposeQuantics(train, grid_sizes) → QTTrain`
   - AC: QTT compression ≥ 2.5× better than plain TT on same data after reshaping
 
-- [ ] **`TensorNetworkStructuralRounding` (TNSR) — background task** (Target: Q3 2028)
+- [~] **`TensorNetworkStructuralRounding` (TNSR) — background task** (Target: Q3 2028)
   - Paper §TNSR: generalizes round to arbitrary existing tree networks; adjusts bond
     dimensions AND reconfigures topology as background maintenance
   - `TNSRTask` runs in RocksDB compaction thread pool; uses same `ε` tolerance as
@@ -301,12 +301,21 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
   - `TNSRReport { bytes_saved, rank_delta, topology_changes }` written to metrics
   - AC: storage decrease ≥ 15% over 24h on a live index with ongoing inserts, without
     measurable accuracy regression (cosine sim δ < 0.001 vs. pre-TNSR)
+  - **2026-05-07 in progress**: `TNSRTask` header + impl added in
+    `include/tensor/tnsr_task.h` + `src/tensor/tnsr_task.cpp`; bond-dimension
+    reduction (recompress) is durable; topology mutation via `rerouteEdge` is
+    counted but not yet persisted (STUB #252); tests TNSR-01..TNSR-08 added to
+    `tests/test_tensor_hiss_structural_search.cpp`
 
-- [ ] **Domain template graphs** — reuse structure across similar datasets (Target: Q3 2028)
+- [~] **Domain template graphs** — reuse structure across similar datasets (Target: Q3 2028)
   - Paper §Hiss: optimized structure for one instance maintains ≤10% perf on similar data
   - `TemplateCatalog::register(domain_tag, tn_graph_template)`
   - Automatic template selection by `TensorRouter` based on `domain_tag` metadata
   - AC: first-time search on new dataset using template within 10% of Hiss-optimized recall
+  - **2026-05-07 in progress**: `TensorRouteHint::domain_tag` field added;
+    `TensorRouter::setTemplateCatalog()` / `templateCatalog()` wired; catalog hit
+    promotes routing to LIFT (STUB #253 — topology not yet embedded in stored index);
+    tests TR-07..TR-10 added to `tests/test_tensor_router.cpp`
 
 ### Phase 7: Unified Tensor Representation (UTR) — Multi-Modal Interoperability (Target: Q3–Q4 2028)
 
@@ -426,8 +435,8 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 
 - [~] `HissStructuralSearchEngine` — TN-SS with entropy-guided clustering
 - [ ] Targeted index reshaping to expose QTT latent structures
-- [ ] `TensorNetworkStructuralRounding` (TNSR) background maintenance task
-- [~] Domain template graph catalog (`TemplateCatalog`)
+- [~] `TensorNetworkStructuralRounding` (TNSR) background maintenance task (STUB #252)
+- [~] Domain template graph catalog (`TemplateCatalog`) wired to `TensorRouter` (STUB #253)
 
 ### Phase 7: UTR Multi-Modal Interoperability (Target: Q3–Q4 2028)
 
@@ -464,7 +473,11 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 - `simpleSVD()` sets U/Vt to identity matrices (STUB_INVENTORY #157);
   reconstruction error can reach ‖T‖_F when THEMIS_USE_LAPACK_SVD is not set
 - HT and QTT formats not yet implemented (Phases 5+)
-- Hiss/TNSR adaptive rounding not yet integrated (Phase 6)
+- Hiss/TNSR adaptive rounding partially integrated (Phase 6): bond-dimension
+  reduction is durable (TNSR-01..TNSR-08 pass); topology mutation via
+  rerouteEdge counted but not persisted (STUB #252)
+- Domain template graph routing wired to TensorRouter (STUB #253): promotes
+  routing to LIFT on catalog hit; actual TN topology not yet embedded in stored index
 
 ## Breaking Changes
 

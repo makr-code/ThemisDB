@@ -27665,3 +27665,48 @@ unset(_focused_test_targets)
 unset(_logger_src_variants)
 unset(_tgt_srcs)
 unset(_logger_removed)
+
+# =========================================================================
+# Tensor Network Module — focused test targets (Phase 1–6)
+# Added 2026-05-07
+# Each target links against themis_core which now includes all tensor sources
+# via cmake/StorageEnhancements.cmake (Tensor Network Module section).
+# =========================================================================
+
+# Helper macro for tensor focused tests
+macro(_tensor_focused_test _name)
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/${_name}.cpp" AND NOT TARGET ${_name}_focused)
+        add_executable(${_name}_focused
+            ${THEMIS_ROOT_DIR}/tests/${_name}.cpp
+        )
+        target_link_libraries(${_name}_focused
+            PRIVATE themis_core GTest::gtest GTest::gtest_main
+        )
+        gtest_discover_tests(${_name}_focused
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:${_name}_focused>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+endmacro()
+
+# Phase 1–2: core TT decomposition and recompression
+_tensor_focused_test(test_tensor_recompress)
+
+# Phase 2–3: ingestion bridge, core bridge, index manager
+_tensor_focused_test(test_tensor_ingestion_bridge)
+_tensor_focused_test(test_tensor_core_bridge)
+_tensor_focused_test(test_tensor_index_manager)
+
+# Phase 3: RAG pipeline, FLARE/TARG, fingerprint graph, adapter repository
+_tensor_focused_test(test_tensor_phase3)
+_tensor_focused_test(test_gguf_metadata)
+
+# Phase 5: HT decomposition and HT index
+_tensor_focused_test(test_tensor_ht)
+
+# Phase 6: Hiss structural search, TNSR, TemplateCatalog, HissReshaper
+_tensor_focused_test(test_tensor_hiss_structural_search)
+
+# TensorRouter domain-tag + TemplateCatalog (Phase 6)
+_tensor_focused_test(test_tensor_router)
