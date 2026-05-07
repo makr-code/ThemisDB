@@ -477,6 +477,76 @@ void TensorFingerprintGraph::importPersistedEdges(
     }
 }
 
+PersistedFingerprintGraphSnapshot
+TensorFingerprintGraph::exportPersistedGraph() const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    PersistedFingerprintGraphSnapshot snapshot;
+    snapshot.nodes.reserve(nodes_.size());
+    snapshot.edges.reserve(edge_count_.load(std::memory_order_relaxed));
+
+    for (const auto& [tensor_id, node] : nodes_) {
+        PersistedFingerprintNode persisted;
+        persisted.tensor_id = tensor_id;
+        persisted.fingerprint = node.fingerprint;
+        persisted.tenant = node.tenant;
+        persisted.collection = node.collection;
+        persisted.field = node.field;
+        snapshot.nodes.push_back(std::move(persisted));
+    }
+
+    for (const auto& [from, edges] : adj_) {
+        for (const auto& edge : edges) {
+            PersistedFingerprintEdge persisted;
+            persisted.from = from;
+            persisted.to = edge.to;
+            persisted.similarity = edge.similarity;
+            snapshot.edges.push_back(std::move(persisted));
+        }
+    }
+
+    return snapshot;
+}
+
+void TensorFingerprintGraph::importPersistedGraph(
+    const PersistedFingerprintGraphSnapshot& snapshot) {
+    std::lock_guard<std::mutex> lk(mutex_);
+
+    nodes_.clear();
+    adj_.clear();
+    lsh_buckets_.clear();
+    edge_count_.store(0, std::memory_order_relaxed);
+
+    for (const auto& persisted : snapshot.nodes) {
+        NodeEntry entry;
+        entry.fingerprint = persisted.fingerprint;
+        entry.tenant = persisted.tenant;
+        entry.collection = persisted.collection;
+        entry.field = persisted.field;
+        nodes_[persisted.tensor_id] = std::move(entry);
+        adj_[persisted.tensor_id];
+        insertIntoBuckets(persisted.tensor_id, persisted.fingerprint);
+    }
+
+    std::unordered_set<std::string> seen;
+    seen.reserve(snapshot.edges.size());
+
+    // ASCII Unit Separator avoids collisions with user-provided IDs in joined keys.
+    constexpr char kSep = '\x1f';
+    for (const auto& edge : snapshot.edges) {
+        if (edge.from == edge.to) continue;
+        if (nodes_.find(edge.from) == nodes_.end() ||
+            nodes_.find(edge.to) == nodes_.end()) {
+            continue;
+        }
+
+        const auto dedup_key = edge.from + kSep + edge.to;
+        if (!seen.insert(dedup_key).second) continue;
+
+        adj_[edge.from].push_back({edge.to, edge.similarity});
+        edge_count_.fetch_add(1, std::memory_order_relaxed);
+    }
+}
+
 // ============================================================================
 // Statistics
 // ============================================================================

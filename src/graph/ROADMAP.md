@@ -240,6 +240,9 @@
   - **Progress 2026-05-07 (edge persistence)**: Added persisted edge export/import for
     adjacency re-hydration (`exportPersistedEdges()` / `importPersistedEdges()`), including
     robust import behavior for dangling/duplicate directed edges (test TFG-27).
+  - **Progress 2026-05-07 (snapshot lifecycle)**: Added one-shot full snapshot APIs
+    (`exportPersistedGraph()` / `importPersistedGraph()`) to atomically restore nodes +
+    adjacency in one call; import filters self/dangling/duplicate edges (test TFG-28).
   - Remaining: GraphIndex-backed durable storage integration for node+edge payloads.
   - O(d·n·r³) per candidate pair — bounded by `max_candidates=1000`
 - [x] CDC changefeed integration for incremental graph updates (Target: Q2 2027)
@@ -265,7 +268,7 @@
 - Fingerprint + LSH insert ≤ 10ms per tensor
 - Similar-tensor graph query ≤ 50ms for 100K nodes
 - ≥ 40% storage reduction for LLM weight repositories with shared Transformer blocks
-- 21 TFG + 7 TDM = 28 tests passing
+- 22 TFG + 7 TDM = 29 tests passing
 
 ## Known Issues & Limitations
 - Adaptive plan selection using execution feedback is now active; `selectAlgorithm` uses learned EMA costs when confidence > 0, falling back to static depth heuristics otherwise

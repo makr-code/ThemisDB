@@ -134,6 +134,14 @@ struct PersistedFingerprintEdge {
     double similarity = 0.0;
 };
 
+/**
+ * @brief Durable full graph payload used for one-shot snapshot restore.
+ */
+struct PersistedFingerprintGraphSnapshot {
+    std::vector<PersistedFingerprintNode> nodes;
+    std::vector<PersistedFingerprintEdge> edges;
+};
+
 // ============================================================================
 // FingerprintGraphConfig
 // ============================================================================
@@ -265,6 +273,12 @@ public:
     /// Replace in-memory adjacency with persisted directed edges.
     /// Missing nodes and duplicate directed edges are ignored.
     void importPersistedEdges(const std::vector<PersistedFingerprintEdge>& edges);
+
+    /// Export node + edge payload in one snapshot.
+    PersistedFingerprintGraphSnapshot exportPersistedGraph() const;
+
+    /// Atomically replace graph state from a full persisted snapshot.
+    void importPersistedGraph(const PersistedFingerprintGraphSnapshot& snapshot);
 
     // ─── Statistics ───────────────────────────────────────────────────────
 

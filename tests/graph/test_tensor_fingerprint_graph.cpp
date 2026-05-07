@@ -30,6 +30,7 @@
  *   TFG-25  Missing train loader with disabled cache produces no false edges
  *   TFG-26  Persisted node metadata import rebuilds buckets for recovery queries
  *   TFG-27  Persisted edge import re-hydrates adjacency from durable payload
+ *   TFG-28  One-shot persisted graph snapshot import restores nodes and adjacency
  *   TDM-01  DeduplicationManager: getRecord returns record for stored id
  *   TDM-02  DeduplicationManager: getStats total_tensors increments
  *   TDM-03  DeduplicationManager: null dependency throws
@@ -459,6 +460,39 @@ TEST(TensorFingerprintGraphResolverTest, TFG27_ImportPersistedEdgesRehydratesAdj
     auto nb = recovered.neighbours("edge_a");
     ASSERT_FALSE(nb.empty());
     EXPECT_EQ(nb.front().tensor_id, "edge_b");
+}
+
+// TFG-28: one-shot snapshot import restores both nodes and adjacency.
+TEST(TensorFingerprintGraphResolverTest, TFG28_ImportPersistedGraphSnapshot) {
+    FingerprintGraphConfig cfg;
+    cfg.similarity_threshold = 0.90;
+    cfg.num_hash_funcs = 64;
+    cfg.num_bands = 16;
+
+    TensorFingerprintGraph original(cfg);
+    auto data = randVec(8, 614);
+    auto t1 = makeTT(data, {8, 1});
+    auto t2 = makeTT(data, {8, 1});
+    original.insert("snap_a", t1, "ten", "col", "fa");
+    original.insert("snap_b", t2, "ten", "col", "fb");
+    ASSERT_EQ(original.nodeCount(), 2u);
+    ASSERT_GE(original.edgeCount(), 2u);
+
+    auto snapshot = original.exportPersistedGraph();
+    ASSERT_EQ(snapshot.nodes.size(), 2u);
+    ASSERT_EQ(snapshot.edges.size(), original.edgeCount());
+    snapshot.edges.push_back({"snap_a", "snap_a", 1.0});      // self-edge ignored
+    snapshot.edges.push_back({"missing", "snap_b", 0.5});     // dangling ignored
+    snapshot.edges.push_back(snapshot.edges.front());          // duplicate ignored
+
+    TensorFingerprintGraph recovered(cfg);
+    recovered.importPersistedGraph(snapshot);
+
+    EXPECT_EQ(recovered.nodeCount(), 2u);
+    EXPECT_EQ(recovered.edgeCount(), original.edgeCount());
+    auto nb = recovered.neighbours("snap_a");
+    ASSERT_FALSE(nb.empty());
+    EXPECT_EQ(nb.front().tensor_id, "snap_b");
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
