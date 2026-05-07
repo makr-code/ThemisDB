@@ -40,7 +40,7 @@
 
 ---
 
-## Stub Inventory (251 entries — 142 resolved, 109 active)
+## Stub Inventory (260 entries — 142 resolved, 118 active)
 
 | # | File | Purpose (short) | Activation | Production Delta | **Funktions-Impact** | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|---|
@@ -298,6 +298,9 @@
 | 257 | `tensor/utr_converter.cpp::UTRConverter::fromDocument()` — FNV-1a hash-projection embedding | Segment embedding computed via word-level FNV-1a hash projection rather than a learned sentence encoder | Always | Similarity is lexical (token-overlap based) rather than semantic; distant paraphrases or synonyms produce low cosine similarity | 🟡 Mittel | `include/tensor/utr_converter.h`; `src/tensor/utr_converter.cpp` STUB/SIMULATION NOTE | Q4 2028 — wire learnable sentence encoder (quantised SBERT via LLMPluginManager) to replace hash projection |
 | 258 | `tensor/utr_converter.cpp::UTRConverter::fromImage()` — raw pixel TT decomposition | Pixel values normalised to [0, 1] in HWC mode order and TT-decomposed directly without patch embedding or semantic alignment | Always | Similarity is pixel-level, not semantic; structurally different images with similar pixel distributions score similarly | 🟡 Mittel | `include/tensor/utr_converter.h`; `src/tensor/utr_converter.cpp` STUB/SIMULATION NOTE | Q4 2028 — add patch-based structural embedding (non-overlapping patches → learned linear projection → TT decompose in patch space) |
 
+| 259 | `analytics/knowledge_base.cpp::KnowledgeBase::loadRulesFromYaml()` — inline line-by-line YAML parser | Simple state-machine parses `id:`, `priority:`, `if:`/`then:` blocks and `- [s, p, o]` triple patterns; no full YAML spec compliance | Always | Multi-line strings, anchors, aliases, and complex YAML features not supported; rules with quoted multi-word objects must use simple double-quoted strings without internal quotes | 🟢 Niedrig | `src/analytics/FUTURE_ENHANCEMENTS.md` §Expert System Engine | Q2 2027 — wire yaml-cpp (already optional dep) for full spec compliance |
+| 260 | `analytics/lora_pattern_classifier.cpp::LoRAPatternClassifier::automlFallback()` — constant-confidence fallback | Returns `PatternResult{label="unknown", confidence=cfg.fallback_confidence, used_fallback=true}` without calling AutoML::train()/predict() | `inference_fn_` is null (no LoRA injection) | No semantic classification; all events get the same constant confidence label; real AutoML classification requires training data | 🟡 Mittel | `src/analytics/FUTURE_ENHANCEMENTS.md` §AI/ML + LoRA Pattern Classification | Q3 2027 — wire AutoML::train()+predict() pipeline with labelled CEP event dataset |
+
 ---
 
-*Last updated: 2026-05-07 — 258 entries, 142 resolved, 116 active — Entries #255, #256, #257, #258 added 2026-05-07: HyperIndexBuilder co-occurrence, UTRConverter geospatial, document, image encoders (🔴 22 Kritisch · 🟠 24 Hoch · 🟡 53 Mittel · 🟢 16 Niedrig · ⚪ 18 Minimal · — 142 Resolved) — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-05-07 — 260 entries, 142 resolved, 118 active — Entries #259, #260 added 2026-05-07: KnowledgeBase YAML loader and LoRAPatternClassifier AutoML fallback (🔴 22 Kritisch · 🟠 24 Hoch · 🟡 54 Mittel · 🟢 17 Niedrig · ⚪ 18 Minimal · — 142 Resolved) — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
