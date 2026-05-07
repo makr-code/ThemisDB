@@ -297,6 +297,9 @@ public:
      * Uses WAL+snapshot recovery when persistence is enabled; otherwise falls
      * back to legacy file-log recovery.
      *
+     * This method is intended for startup recovery before new transactions are
+     * accepted. If called during live traffic, the returned value is best-effort.
+     *
      * @return Number of in-doubt transactions resolved by this invocation.
      */
     size_t recoverInDoubtTransactions() override;

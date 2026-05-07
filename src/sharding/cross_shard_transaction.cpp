@@ -187,11 +187,13 @@ size_t CrossShardTransactionCoordinator::recoverInDoubtTransactions() {
     };
 
     const auto before = count_in_doubt();
-    const auto ok = (transaction_wal_ && snapshot_manager_)
-                        ? recoverFromWAL()
-                        : recoverFromFailure();
+    const bool use_wal_recovery = (transaction_wal_ && snapshot_manager_);
+    const auto* backend = use_wal_recovery ? "WAL/snapshot" : "legacy file-log";
+    const auto ok = use_wal_recovery ? recoverFromWAL() : recoverFromFailure();
     if (!ok) {
-        spdlog::error("CrossShardTransactionCoordinator: in-doubt recovery failed");
+        spdlog::error(
+            "CrossShardTransactionCoordinator: in-doubt recovery failed (backend={})",
+            backend);
         return 0;
     }
 
@@ -199,7 +201,8 @@ size_t CrossShardTransactionCoordinator::recoverInDoubtTransactions() {
     if (after > before) {
         spdlog::warn(
             "CrossShardTransactionCoordinator: in-doubt count increased during recovery "
-            "(before={}, after={})",
+            "(backend={}, before={}, after={}); returning conservative resolved=0",
+            backend,
             before,
             after);
         return 0;
