@@ -245,12 +245,15 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 
 ### Phase 5: Hierarchical Tucker (HT) + Quantics TT (QTT) (Target: Q1–Q2 2028)
 
-- [ ] **`HierarchicalTuckerDecomposer`** — binary-tree tensor factorization (Target: Q1 2028)
+- [~] **`HierarchicalTuckerDecomposer`** — binary-tree tensor factorization (Target: Q1 2028)
   - Paper §HT: storage O(d·n·r + d·r³); parallelizable tree branches
-  - `HTTrain` type: binary tree of `HTNode { U_left, U_right, B_transfer }`
+  - `HTTrain` type: binary tree of `HTNode { U_k (leaf), B_transfer (internal) }`
   - `IHierarchicalTuckerIndex` parallel to `ITensorIndex`; tree-branch ops parallelized
     via thread pool
   - AC: storage ≤ O(d·n·r + d·r³); contraction ≤ O(d·n·r² + d·r⁴)
+  - **2026-05-07 in progress**: HOSVD initialization + top-down SVD transfer tensor
+    construction implemented; FlatHTIndex linear-scan search; STUBS #178, #179, #180;
+    tests HT-01..HT-18 all passing; HOOI iteration + GPU path deferred Q2 2028
 
 - [ ] **`QuanticsTensorTrainDecomposer`** — QTT for multi-scale data (Target: Q1 2028)
   - Paper §QTT: each physical dimension further factorized in binary (log₂ n factors);
@@ -402,7 +405,15 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 
 ### Phase 5: HT + QTT Formats (Target: Q1–Q2 2028)
 
-- [ ] `HierarchicalTuckerDecomposer` + `IHierarchicalTuckerIndex`
+- [~] `HierarchicalTuckerDecomposer` + `IHierarchicalTuckerIndex` — **in progress 2026-05-07**
+  - HOSVD-based HT decomposition implemented (STUB #179 — HOOI iteration deferred Q2 2028)
+  - `HTNode` binary tree with leaf U matrices and internal B transfer tensors
+  - `HTTrain` type: binary tree with shape, max_rank, achieved_eps, serialization
+  - `HTContractionEngine`: O(d·n·r² + d·r⁴) inner product via Gram matrix propagation
+  - `FlatHTIndex` (linear-scan IHierarchicalTuckerIndex), serialization, cosine search
+  - Jacobi EVD-based truncated SVD (STUB #180; LAPACK dgesdd deferred Q2 2028)
+  - toTTTrain() compatibility bridge (STUB #178; full TT path deferred Q2 2028)
+  - Tests HT-01..HT-18 in `tests/test_tensor_ht.cpp`
 - [ ] `QuanticsTensorTrainDecomposer` for multi-scale / OIO data
 - [ ] HT GPU tensor core kernel (`HTContractionKernel.cu`)
 - [ ] FPGA bi-directional contraction driver for edge devices

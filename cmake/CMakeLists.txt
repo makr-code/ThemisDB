@@ -1551,6 +1551,10 @@ set(THEMIS_CORE_SOURCES
     # TensorMmapBridge — mmap-pinned zero-copy bridge for TT-core data (Phase 3 — Q1 2027)
     ../src/tensor/tensor_mmap_bridge.cpp
 
+    # HierarchicalTuckerDecomposer + FlatHTIndex (Phase 5 — Q1 2028)
+    ../src/storage/hierarchical_tucker_decomposer.cpp
+    ../src/tensor/ht_index.cpp
+
     ../src/metadata/statistics_collector.cpp
     ../src/metadata/information_schema.cpp
     ../src/metadata/schema_constraints.cpp
@@ -4656,6 +4660,23 @@ if(THEMIS_BUILD_TESTS)
     # Phase 3 GGUF v3 Provenance Metadata (GGUFMetadata — Q1 2027)
     add_executable(test_gguf_metadata
         ${THEMIS_ROOT_DIR}/tests/test_gguf_metadata.cpp
+    )
+
+    # Phase 5 HierarchicalTucker decomposition + FlatHTIndex (Q1 2028)
+    add_executable(test_tensor_ht
+        ${THEMIS_ROOT_DIR}/tests/test_tensor_ht.cpp
+    )
+    target_link_libraries(test_tensor_ht
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_tensor_ht
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_tensor_ht>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+        PROPERTIES
+            LABELS "tensor;phase5;ht;unit"
+            TIMEOUT 120
     )
     target_link_libraries(test_gguf_metadata
         PRIVATE themis_core GTest::gtest GTest::gtest_main
