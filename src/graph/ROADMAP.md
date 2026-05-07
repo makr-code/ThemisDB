@@ -239,9 +239,13 @@
     (`exportPersistedNodes()` / `importPersistedNodes()`; test TFG-26).
   - Remaining: edge persistence/re-hydration path for adjacency reconstruction.
   - O(d·n·r³) per candidate pair — bounded by `max_candidates=1000`
-- [ ] CDC changefeed integration for incremental graph updates (Target: Q2 2027)
-  - Subscribe to `TensorNetworkStorageEngine` write events via Observer pattern
-  - Trigger `insert()` / `remove()` on tensor create/delete/update
+- [x] CDC changefeed integration for incremental graph updates (Target: Q2 2027)
+  - **Progress 2026-05-07**: `TensorNetworkStorageEngine` now exposes `TensorWriteObserverFn` /
+    `TensorDeleteObserverFn` callback types + `setWriteObserverFn()` / `setDeleteObserverFn()`
+    setters.  Observers are invoked outside the write lock after successful `put()` / `remove()`.
+    Wiring to `TensorFingerprintGraph::insert()` / `remove()` verified by tests TNSE-OBS-01..03.
+  - Remaining: wiring in `TensorDeduplicationManager` once canonical `tensor_id`→`TensorFieldKey`
+    mapping is formalised; edge persistence / adjacency re-hydration.
 - [ ] Expected ≥ 40% storage reduction for LLM weight repositories (Target: Q2 2027)
   - Benchmark: 100 Transformer block weight sets with shared FFN matrices
 - [ ] `GraphIndex` persistence for the fingerprint graph (Target: Q2 2027)

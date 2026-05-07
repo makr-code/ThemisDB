@@ -242,7 +242,33 @@ bool TensorNetworkStorageEngine::put(const TensorFieldKey&            key,
             backend_->del(makeCoreKey(key, k, oldest));
     }
 
+    wlk.unlock();
+
+    // Notify write observer outside the write lock to avoid lock ordering issues.
+    {
+        std::lock_guard<std::mutex> olk(observer_mutex_);
+        if (write_observer_) {
+            try {
+                write_observer_(key, train);
+            } catch (...) { /* observer must not throw; swallow exceptions */ }
+        }
+    }
+
     return true;
+}
+
+// ============================================================================
+// CDC observer setters
+// ============================================================================
+
+void TensorNetworkStorageEngine::setWriteObserverFn(TensorWriteObserverFn fn) {
+    std::lock_guard<std::mutex> lk(observer_mutex_);
+    write_observer_ = std::move(fn);
+}
+
+void TensorNetworkStorageEngine::setDeleteObserverFn(TensorDeleteObserverFn fn) {
+    std::lock_guard<std::mutex> lk(observer_mutex_);
+    delete_observer_ = std::move(fn);
 }
 
 // ============================================================================
@@ -297,6 +323,18 @@ bool TensorNetworkStorageEngine::remove(const TensorFieldKey& key) {
             backend_->del(makeCoreKey(key, k, ver));
     }
     version_cache_.erase(key);
+    wlk.unlock();
+
+    // Notify delete observer outside the write lock.
+    {
+        std::lock_guard<std::mutex> olk(observer_mutex_);
+        if (delete_observer_) {
+            try {
+                delete_observer_(key);
+            } catch (...) { /* observer must not throw; swallow exceptions */ }
+        }
+    }
+
     return true;
 }
 
