@@ -234,7 +234,7 @@ Sharding is a database architecture pattern that involves breaking a database in
 - [x] **CC-1 — Enforce WAL flush as hard error (not warn+continue) across all consensus layers** — Fixed 2026-04-27
   - Fix: `logToWAL()` in `DistributedTransactionManager` now re-throws WAL write
     exceptions instead of catching and swallowing them.
-- [ ] **CC-4 — Gate gossip-driven topology mutations behind Raft membership change protocol**
+- [ ] **CC-4 — Gate gossip-driven topology mutations behind Raft membership change protocol** — resolved 2026-05-07: `RaftMembershipGateFn` injection added via `setRaftMembershipGateFn()`; `syncWithTopologyLocked()` only calls `topology_->addShard()` when the gate approves; without a gate the legacy warn+add path is retained for backward compatibility; tests GP-GATE-01..GP-GATE-04 added to `test_gossip_custom_handler.cpp`
 - [x] **CC-5 — Consolidate 2PC coordinator implementations or enforce a shared recovery interface** — shared interface `themis::transaction::IInDoubtRecoveryCoordinator` introduced and wired into `TwoPhaseCommitCoordinator`, `transaction::DistributedTransactionManager`, and `CrossShardTransactionCoordinator` (2026-05-07)
 
 ## Conclusion
