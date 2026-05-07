@@ -985,7 +985,12 @@ TEST(FederatedDispatchTest, FED06_ShardTimeoutCountsAsFailed) {
     das.addShard("fast", makeSuccessExec(42.0));
     das.addShard("slow", makeSlowExec(800));  // will time out
 
+    const auto t0 = std::chrono::steady_clock::now();
     auto res = das.executeDistributed(makeSumQuery());
+    const auto t1 = std::chrono::steady_clock::now();
+    const auto elapsed_ms =
+        std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
+
     EXPECT_EQ(res.total_shards, 2u);
     // The slow shard should have timed out → only fast shard succeeded
     EXPECT_EQ(res.successful_shards, 1u);
@@ -1001,6 +1006,8 @@ TEST(FederatedDispatchTest, FED06_ShardTimeoutCountsAsFailed) {
         }
     }
     EXPECT_TRUE(found_timeout) << "Expected a timeout entry in shard_info";
+    EXPECT_LT(elapsed_ms, 400)
+        << "executeDistributed() still blocked for timed-out async work";
 }
 
 // FED-07: Mixed tenant shards — unrestricted shards serve any tenant.

@@ -662,32 +662,45 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery& query) {
     futures.reserve(active.size());
 
     for (const auto& entry : active) {
-        futures.push_back(
-            std::async(std::launch::async,
-                [&entry, &query]() -> std::pair<OLAPResult, ShardExecutionInfo> {
-                    ShardExecutionInfo info;
-                    info.shard_id = entry.shard_id;
+        std::promise<std::pair<OLAPResult, ShardExecutionInfo>> promise;
+        futures.push_back(promise.get_future());
 
-                    auto t0 = std::chrono::steady_clock::now();
-                    try {
-                        OLAPResult partial = entry.executor->execute(entry.shard_id, query);
-                        auto t1 = std::chrono::steady_clock::now();
-                        info.success = true;
-                        info.execution_time_ms =
-                            std::chrono::duration<double, std::milli>(t1 - t0).count();
-                        return {std::move(partial), std::move(info)};
-                    } catch (const std::exception& ex) {
-                        auto t1 = std::chrono::steady_clock::now();
-                        info.success = false;
-                        info.error   = ex.what();
-                        info.execution_time_ms =
-                            std::chrono::duration<double, std::milli>(t1 - t0).count();
-                        spdlog::error(
-                            "DistributedAnalyticsSharding: shard {} failed: {}",
-                            entry.shard_id, ex.what());
-                        return {OLAPResult{}, std::move(info)};
-                    }
-                }));
+        std::thread(
+            [entry, query, promise = std::move(promise)]() mutable {
+                ShardExecutionInfo info;
+                info.shard_id = entry.shard_id;
+
+                const auto t0 = std::chrono::steady_clock::now();
+                try {
+                    auto partial = entry.executor->execute(entry.shard_id, query);
+                    const auto t1 = std::chrono::steady_clock::now();
+                    info.success = true;
+                    info.execution_time_ms =
+                        std::chrono::duration<double, std::milli>(t1 - t0).count();
+                    promise.set_value({std::move(partial), std::move(info)});
+                } catch (const std::exception& ex) {
+                    const auto t1 = std::chrono::steady_clock::now();
+                    info.success = false;
+                    info.error   = ex.what();
+                    info.execution_time_ms =
+                        std::chrono::duration<double, std::milli>(t1 - t0).count();
+                    spdlog::error(
+                        "DistributedAnalyticsSharding: shard {} failed: {}",
+                        entry.shard_id, ex.what());
+                    promise.set_value({OLAPResult{}, std::move(info)});
+                } catch (...) {
+                    const auto t1 = std::chrono::steady_clock::now();
+                    info.success = false;
+                    info.error   = "unknown shard error";
+                    info.execution_time_ms =
+                        std::chrono::duration<double, std::milli>(t1 - t0).count();
+                    spdlog::error(
+                        "DistributedAnalyticsSharding: shard {} failed with unknown exception",
+                        entry.shard_id);
+                    promise.set_value({OLAPResult{}, std::move(info)});
+                }
+            })
+            .detach();
     }
 
     // ------------------------------------------------------------------
@@ -697,20 +710,14 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery& query) {
     partials.reserve(active.size());
 
     const bool has_timeout = (config_.shard_timeout_ms > 0);
-    const auto per_shard_deadline =
-        std::chrono::steady_clock::now() +
-        std::chrono::milliseconds(config_.shard_timeout_ms);
+    const auto per_shard_timeout = std::chrono::milliseconds(config_.shard_timeout_ms);
 
     for (size_t i = 0; i < futures.size(); ++i) {
         auto& f = futures[i];
 
         // Per-shard timeout: use wait_for so we never block forever.
         if (has_timeout) {
-            const auto remaining = per_shard_deadline - std::chrono::steady_clock::now();
-            const auto status = (remaining > std::chrono::milliseconds::zero())
-                ? f.wait_for(remaining)
-                : std::future_status::timeout;
-
+            const auto status = f.wait_for(per_shard_timeout);
             if (status == std::future_status::timeout) {
                 ShardExecutionInfo info;
                 info.shard_id = active[i].shard_id;
