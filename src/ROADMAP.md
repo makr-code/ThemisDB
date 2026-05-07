@@ -221,7 +221,7 @@ See: <Detail link>
 | 85 | performance | Hardware-Accelerated Query Execution | v1.8.0 | `performance`, `gpu`, `module:performance` | #3916 | [→ Detail](performance/FUTURE_ENHANCEMENTS.md#hardware-accelerated-query-execution) |
 | 86 | performance | Adaptive Query Compilation | v1.8.0 | `performance`, `jit`, `module:performance` | #3917 | [→ Detail](performance/FUTURE_ENHANCEMENTS.md#adaptive-query-compilation) |
 | 87 | query | `QueryOptimizer`: Wire Real MetadataShard, Prometheus, and Statistics | v1.6.0 | `correctness`, `stub-replacement`, `module:query` | #3918 | [→ Detail](query/FUTURE_ENHANCEMENTS.md#queryoptimizer-wire-real-metadatashard-prometheus-and-statistics) |
-| 88 | query | `QueryFederation`: Real Shard Determination Logic | v1.6.0 | `correctness`, `stub-replacement`, `performance`, `module:query` | #3919 | [→ Detail](query/FUTURE_ENHANCEMENTS.md#queryfederation-real-shard-determination-logic) |
+| ~~88~~ | query | ~~`QueryFederation`: Real Shard Determination Logic~~ | v1.6.0 | `correctness`, `stub-replacement`, `performance`, `module:query` | #3919 | [→ Detail](query/FUTURE_ENHANCEMENTS.md#queryfederation-real-shard-determination-logic) |
 | 89 | query | Query Compilation & JIT | v1.8.0 | `performance`, `jit`, `module:query` | #3920 | [→ Detail](query/FUTURE_ENHANCEMENTS.md#query-compilation--jit) |
 | 90 | query | Columnar Execution Engine | v1.7.0 | `performance`, `module:query` | #3921 | [→ Detail](query/FUTURE_ENHANCEMENTS.md#columnar-execution-engine) |
 | 91 | query | Adaptive Join Strategies | v1.7.0 | `performance`, `module:query` | #3922 | [→ Detail](query/FUTURE_ENHANCEMENTS.md#adaptive-join-strategies) |
@@ -251,7 +251,7 @@ See: <Detail link>
 | 115 | themis | Wire Protocol V2 Implementation | v1.8.0 | `feature`, `module:themis` | #3946 | [→ Detail](themis/FUTURE_ENHANCEMENTS.md#wire-protocol-v2-implementation) |
 | 116 | timeseries | `TSStore`: Single-Point Insert Buffering for Gorilla Compression | v1.8.0 | `performance`, `correctness`, `module:timeseries` | #3947 | [→ Detail](timeseries/FUTURE_ENHANCEMENTS.md#tsstore-single-point-insert-buffering-for-gorilla-compression) |
 | 117 | timeseries | Vectorised Gorilla Chunk Decoder with SIMD | v1.6.0 | `performance`, `simd`, `module:timeseries` | #3948 | [→ Detail](timeseries/FUTURE_ENHANCEMENTS.md#-vectorised-gorilla-chunk-decoder-with-simd) |
-| 118 | timeseries | Incremental Continuous Aggregation with Watermark Pushdown | v1.6.0 | `feature`, `module:timeseries` | #3949 | [→ Detail](timeseries/FUTURE_ENHANCEMENTS.md#-incremental-continuous-aggregation-with-watermark-pushdown) |
+| ~~118~~ | timeseries | ~~Incremental Continuous Aggregation with Watermark Pushdown~~ | v1.6.0 | `feature`, `module:timeseries` | #3949 | [→ Detail](timeseries/FUTURE_ENHANCEMENTS.md#-incremental-continuous-aggregation-with-watermark-pushdown) |
 | 119 | timeseries | Chunk-Level Encryption at Rest | v1.7.0 | `security`, `module:timeseries` | #3950 | [→ Detail](timeseries/FUTURE_ENHANCEMENTS.md#-chunk-level-encryption-at-rest) |
 | 120 | training | `ProvenanceTracker`: Replace AQL Template Stubs with Live Connection | v1.8.0 | `stub-replacement`, `correctness`, `module:training` | #3951 | [→ Detail](training/FUTURE_ENHANCEMENTS.md#provenancetracker-replace-aql-template-stubs-with-live-connection) |
 | 121 | training | Multi-Modality Legal Document Parser | v1.6.0 | `feature`, `module:training` | #3952 | [→ Detail](training/FUTURE_ENHANCEMENTS.md#x-multi-modality-legal-document-parser) |

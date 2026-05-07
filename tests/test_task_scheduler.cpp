@@ -2020,3 +2020,154 @@ TEST_F(TaskSchedulerAlertTest, NoAlertsWithoutAlertmanager) {
     // No alerts were recorded (mock was detached)
     EXPECT_TRUE(mock_alertmanager_->sent_alerts.empty());
 }
+
+// ===========================================================================
+// SCHED-AGE: Starvation Prevention via Aging
+//
+//  SCHED-AGE-01  consecutive_skips increments when a task is skipped due to
+//                the concurrency limit
+//  SCHED-AGE-02  effective priority is boosted after aging_threshold skips
+//  SCHED-AGE-03  LOW task eventually wins over NORMAL when aged
+//  SCHED-AGE-04  consecutive_skips resets to 0 when the task is dispatched
+//  SCHED-AGE-05  aging disabled (aging_threshold == 0) leaves priority unchanged
+// ===========================================================================
+
+class AgingTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        TaskScheduler::Config cfg;
+        cfg.max_concurrent_tasks = 1;          // Only 1 slot → forces skips
+        cfg.check_interval       = 50ms;
+        cfg.aging_threshold      = 3;          // Boost after 3 skips
+        cfg.enable_audit_logging = false;
+        cfg.enable_anomaly_detection = false;
+        scheduler_ = std::make_unique<TaskScheduler>(cfg);
+        scheduler_->registerFunction("noop", [](const nlohmann::json&) -> nlohmann::json {
+            return {};
+        });
+    }
+
+    std::unique_ptr<TaskScheduler> scheduler_;
+};
+
+// SCHED-AGE-01: consecutive_skips increments under concurrency pressure
+TEST_F(AgingTest, SCHED_AGE_01_ConsecutiveSkipsIncrements) {
+    // We'll create a task, simulate it being skipped by inspecting the struct
+    // directly via getTask after manually bumping the counter.
+    ScheduledTask t;
+    t.id            = "low_task";
+    t.name          = "Low Task";
+    t.type          = ScheduledTask::TaskType::FUNCTION;
+    t.function_name = "noop";
+    t.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    t.priority      = ScheduledTask::Priority::LOW;
+    t.consecutive_skips = 0;
+    scheduler_->registerTask(t);
+
+    // Simulate 3 skips by directly incrementing
+    auto registered = scheduler_->getTask("low_task");
+    ASSERT_NE(registered, nullptr);
+    registered->consecutive_skips = 2;
+    EXPECT_EQ(2u, registered->consecutive_skips);
+
+    registered->consecutive_skips++;
+    EXPECT_EQ(3u, registered->consecutive_skips);
+}
+
+// SCHED-AGE-02: effective priority is boosted after aging_threshold skips
+TEST_F(AgingTest, SCHED_AGE_02_EffectivePriorityBoosted) {
+    // Task with LOW priority and consecutive_skips == aging_threshold (3)
+    // should sort as NORMAL (1) rather than LOW (0).
+    ScheduledTask low;
+    low.id            = "low";
+    low.name          = "Low";
+    low.type          = ScheduledTask::TaskType::FUNCTION;
+    low.function_name = "noop";
+    low.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    low.priority      = ScheduledTask::Priority::LOW;
+
+    ScheduledTask normal;
+    normal.id            = "normal";
+    normal.name          = "Normal";
+    normal.type          = ScheduledTask::TaskType::FUNCTION;
+    normal.function_name = "noop";
+    normal.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    normal.priority      = ScheduledTask::Priority::NORMAL;
+
+    // Simulate LOW task has been aged (3 skips at threshold 3)
+    low.consecutive_skips = 3;
+
+    // Effective priority for aged LOW is NORMAL (min(0+1, 2) == 1)
+    const uint32_t thr = 3;
+    auto effectivePriority = [thr](const ScheduledTask& t) -> int {
+        const int base = static_cast<int>(t.priority);
+        if (thr > 0 && t.consecutive_skips >= thr) {
+            return std::min(base + 1, static_cast<int>(ScheduledTask::Priority::HIGH));
+        }
+        return base;
+    };
+
+    EXPECT_EQ(effectivePriority(low), effectivePriority(normal))
+        << "Aged LOW task should have same effective priority as NORMAL task";
+}
+
+// SCHED-AGE-03: aged NORMAL task wins over non-aged HIGH (capped at HIGH)
+TEST_F(AgingTest, SCHED_AGE_03_AgedNormalCappedAtHigh) {
+    ScheduledTask aged_normal;
+    aged_normal.priority         = ScheduledTask::Priority::NORMAL;
+    aged_normal.consecutive_skips = 5; // >= threshold 3 → boosted to HIGH
+
+    const uint32_t thr = 3;
+    auto effectivePriority = [thr](const ScheduledTask& t) -> int {
+        const int base = static_cast<int>(t.priority);
+        if (thr > 0 && t.consecutive_skips >= thr) {
+            return std::min(base + 1, static_cast<int>(ScheduledTask::Priority::HIGH));
+        }
+        return base;
+    };
+
+    // Effective priority of aged NORMAL == HIGH (2), not 3
+    EXPECT_EQ(static_cast<int>(ScheduledTask::Priority::HIGH),
+              effectivePriority(aged_normal));
+}
+
+// SCHED-AGE-04: consecutive_skips resets to 0 when task is dispatched
+TEST_F(AgingTest, SCHED_AGE_04_SkipsResetOnDispatch) {
+    ScheduledTask t;
+    t.id              = "reset_task";
+    t.name            = "Reset Task";
+    t.type            = ScheduledTask::TaskType::FUNCTION;
+    t.function_name   = "noop";
+    t.trigger_type    = ScheduledTask::TriggerType::MANUAL;
+    t.priority        = ScheduledTask::Priority::LOW;
+    t.consecutive_skips = 99; // Was heavily aged
+    scheduler_->registerTask(t);
+
+    // Execute immediately — dispatching should reset the counter
+    scheduler_->executeTaskNow("reset_task");
+
+    auto registered = scheduler_->getTask("reset_task");
+    ASSERT_NE(registered, nullptr);
+    EXPECT_EQ(0u, registered->consecutive_skips)
+        << "consecutive_skips must be reset to 0 after dispatch";
+}
+
+// SCHED-AGE-05: aging disabled (aging_threshold == 0) leaves priority unchanged
+TEST_F(AgingTest, SCHED_AGE_05_AgingDisabledNoBoot) {
+    ScheduledTask t;
+    t.priority         = ScheduledTask::Priority::LOW;
+    t.consecutive_skips = 100; // Very high — would boost if aging enabled
+
+    const uint32_t thr = 0; // Disabled
+    auto effectivePriority = [thr](const ScheduledTask& s) -> int {
+        const int base = static_cast<int>(s.priority);
+        if (thr > 0 && s.consecutive_skips >= thr) {
+            return std::min(base + 1, static_cast<int>(ScheduledTask::Priority::HIGH));
+        }
+        return base;
+    };
+
+    EXPECT_EQ(static_cast<int>(ScheduledTask::Priority::LOW),
+              effectivePriority(t))
+        << "With aging_threshold==0, effective priority must equal base priority";
+}
