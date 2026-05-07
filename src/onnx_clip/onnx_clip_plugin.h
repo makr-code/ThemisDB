@@ -40,6 +40,7 @@
 #pragma once
 
 #include "plugins/image_analysis_interface.h"
+#include <functional>
 #include <memory>
 #include <vector>
 #include <string>
@@ -86,7 +87,22 @@ public:
     bool healthCheck() const override;
     nlohmann::json getStatistics() const override;
     void warmup() override;
-    
+
+    // -----------------------------------------------------------------------
+    // Injectable model-hash bridge (STUB #94)
+    // -----------------------------------------------------------------------
+    /// Callback type: given a file path, returns its SHA-256 hex digest (or
+    /// empty string on I/O error).  Used as a fallback when THEMIS_HAS_OPENSSL
+    /// is not defined so that callers can inject a hash implementation without
+    /// rebuilding with OpenSSL.
+    using ModelHashFn = std::function<std::string(const std::string& file_path)>;
+
+    /// Register a hash function used by `initialize()` when OpenSSL is absent.
+    /// Pass an empty `std::function` to clear any previously registered function
+    /// and revert to the skip-check behaviour.
+    /// Thread-safe (guarded by a static mutex).
+    static void setModelHashFn(ModelHashFn fn);
+
 private:
     // Implementation details
     struct Impl;

@@ -26,6 +26,7 @@
 #pragma once
 
 #include "cache/cache_replication_coordinator.h"
+#include <functional>
 #include <string>
 #include <thread>
 #include <atomic>
@@ -269,6 +270,21 @@ private:
     /// signature matches.  Returns false on mismatch or when signing is enabled
     /// but the field is absent.
     bool verifyHmac(const nlohmann::json& j) const;
+
+    // -----------------------------------------------------------------------
+    // Injectable publish bridge (STUB #42)
+    // -----------------------------------------------------------------------
+    /// Callback type: given a channel name and a JSON payload string, publish
+    /// the message and return true on success.  Used as a drop-in transport
+    /// when THEMIS_ENABLE_REDIS is not defined (hiredis absent).
+    using RedisPublishFn = std::function<bool(const std::string& channel,
+                                              const std::string& payload)>;
+
+    /// Register a publish function used by `publishEntry()` and
+    /// `publishInvalidation()` in non-hiredis builds.
+    /// Pass an empty `std::function` to clear and revert to the no-op fallback.
+    /// Thread-safe (guarded by a static mutex).
+    static void setRedisPublishFn(RedisPublishFn fn);
 };
 
 } // namespace cache

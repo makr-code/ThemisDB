@@ -273,6 +273,22 @@ private:
     uint64_t messages_received_   = 0;
     uint64_t publish_errors_      = 0;
     uint64_t reconnect_count_     = 0;
+
+public:
+    // -----------------------------------------------------------------------
+    // Injectable publish bridge (STUB #61)
+    // -----------------------------------------------------------------------
+    /// Callback type: given a channel name and a serialised JSON payload,
+    /// publish the message and return true on success.  Used as a transport
+    /// replacement when THEMIS_POSIX_SOCKETS is not defined (non-POSIX builds).
+    using RedisPublishBridgeFn = std::function<bool(const std::string& channel,
+                                                    const std::string& payload)>;
+
+    /// Register a publish bridge used by `publishEntry()` and
+    /// `publishInvalidation()` on non-POSIX builds.
+    /// Pass an empty `std::function` to clear and revert to the no-op fallback.
+    /// Thread-safe (guarded by a static mutex).
+    static void setRedisPublishBridgeFn(RedisPublishBridgeFn fn);
 };
 
 } // namespace cache

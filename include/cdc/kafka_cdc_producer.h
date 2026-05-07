@@ -274,7 +274,8 @@ private:
  * STUB/SIMULATION NOTE:
  * Purpose: Preserve compile-time API compatibility without linking librdkafka.
  * Activation: Compiled when THEMIS_ENABLE_KAFKA is not defined.
- * Production Delta: start()/publish() return false and no CDC events are emitted to Kafka.
+ * Production Delta: start()/publish() delegate to injected fns when set;
+ *   otherwise return false and no CDC events are emitted to Kafka.
  * Removal Plan: Keep as optional-build fallback; remove only if Kafka becomes a mandatory runtime dependency.
  */
 class KafkaCDCProducer : public ICDCTransport {
@@ -287,12 +288,57 @@ public:
     KafkaCDCProducer(const KafkaCDCProducer&) = delete;
     KafkaCDCProducer& operator=(const KafkaCDCProducer&) = delete;
 
-    bool start() override { return false; }  ///< No-op; returns false (Kafka not available).
-    void stop()  override {}
+    bool start() override {
+        StartFn fn;
+        { std::lock_guard<std::mutex> lk(s_start_fn_mutex_()); fn = s_start_fn_(); }
+        if (fn) { try { return fn(); } catch (...) { return false; } }
+        return false;
+    }
 
-    bool publish(const Changefeed::ChangeEvent& /*event*/) override { return false; }
+    void stop() override {}
+
+    bool publish(const Changefeed::ChangeEvent& event) override {
+        PublishFn fn;
+        { std::lock_guard<std::mutex> lk(s_publish_fn_mutex_()); fn = s_publish_fn_(); }
+        if (fn) { try { return fn(event); } catch (...) { return false; } }
+        return false;
+    }
 
     KafkaProducerStats getStats() const { return {}; }
+
+    // -----------------------------------------------------------------------
+    // Injectable bridge (STUB #98)
+    // -----------------------------------------------------------------------
+    /// Callback type for start(): return true when the Kafka producer has
+    /// started successfully.
+    using StartFn   = std::function<bool()>;
+    /// Callback type for publish(): return true when the event was accepted
+    /// by the Kafka producer.
+    using PublishFn = std::function<bool(const Changefeed::ChangeEvent&)>;
+
+    /// Register a start callback used by `start()` in non-Kafka builds.
+    /// Pass an empty `std::function` to revert to the always-false fallback.
+    /// Thread-safe.
+    static void setStartFn(StartFn fn) {
+        std::lock_guard<std::mutex> lk(s_start_fn_mutex_());
+        s_start_fn_() = std::move(fn);
+    }
+
+    /// Register a publish callback used by `publish()` in non-Kafka builds.
+    /// Pass an empty `std::function` to revert to the always-false fallback.
+    /// Thread-safe.
+    static void setPublishFn(PublishFn fn) {
+        std::lock_guard<std::mutex> lk(s_publish_fn_mutex_());
+        s_publish_fn_() = std::move(fn);
+    }
+
+private:
+    // Static storage via function-local statics so they are lazily initialised
+    // and avoid static-initialisation-order issues.
+    static std::mutex&   s_start_fn_mutex_()   { static std::mutex m; return m; }
+    static StartFn&      s_start_fn_()          { static StartFn f; return f; }
+    static std::mutex&   s_publish_fn_mutex_()  { static std::mutex m; return m; }
+    static PublishFn&    s_publish_fn_()         { static PublishFn f; return f; }
 };
 
 #endif // THEMIS_ENABLE_KAFKA

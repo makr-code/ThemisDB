@@ -55,6 +55,19 @@
 namespace themis {
 namespace cache {
 
+// ---------------------------------------------------------------------------
+// STUB #42 — RedisPublishFn static bridge (non-hiredis injection)
+// ---------------------------------------------------------------------------
+namespace {
+std::mutex                         s_redis_pub_fn_mutex;
+RedisCacheCoordinator::RedisPublishFn s_redis_pub_fn;
+} // namespace
+
+void RedisCacheCoordinator::setRedisPublishFn(RedisPublishFn fn) {
+    std::lock_guard<std::mutex> lk(s_redis_pub_fn_mutex);
+    s_redis_pub_fn = std::move(fn);
+}
+
 // ============================================================================
 // Constructor / destructor
 // ============================================================================
@@ -159,10 +172,26 @@ void RedisCacheCoordinator::publishEntry(const std::string& key,
         ++messages_published_;
     }
 #else
-#endif
-}
-
-void RedisCacheCoordinator::publishInvalidation(const std::string& pattern,
+    {
+        RedisPublishFn fn;
+        { std::lock_guard<std::mutex> lk(s_redis_pub_fn_mutex); fn = s_redis_pub_fn; }
+        if (fn) {
+            ReplicationMessage msg2;
+            msg2.type        = ReplicationMessage::Type::ENTRY_PUT;
+            msg2.key         = key;
+            msg2.result      = result;
+            msg2.ttl_seconds = ttl_seconds;
+            msg2.tenant_id   = tenant_id;
+            bool ok = false;
+            try { ok = fn(channel_, serializeMessage(msg2)); } catch (...) { ok = false; }
+            std::lock_guard<std::mutex> slk(stats_mutex_);
+            if (ok) ++messages_published_; else ++publish_errors_;
+        } else {
+            std::lock_guard<std::mutex> slk(stats_mutex_);
+            ++publish_errors_;
+        }
+    }
+#endifconst std::string& pattern,
                                                   const std::string& tenant_id) {
 #ifdef THEMIS_ENABLE_REDIS
     ReplicationMessage msg;
@@ -202,12 +231,25 @@ void RedisCacheCoordinator::publishInvalidation(const std::string& pattern,
         ++messages_published_;
     }
 #else
+    {
+        RedisPublishFn fn;
+        { std::lock_guard<std::mutex> lk(s_redis_pub_fn_mutex); fn = s_redis_pub_fn; }
+        if (fn) {
+            ReplicationMessage msg2;
+            msg2.type      = ReplicationMessage::Type::INVALIDATE;
+            msg2.key       = pattern;
+            msg2.tenant_id = tenant_id;
+            bool ok = false;
+            try { ok = fn(channel_, serializeMessage(msg2)); } catch (...) { ok = false; }
+            std::lock_guard<std::mutex> slk(stats_mutex_);
+            if (ok) ++messages_published_; else ++publish_errors_;
+        } else {
+            std::lock_guard<std::mutex> slk(stats_mutex_);
+            ++publish_errors_;
+        }
+    }
 #endif
 }
-
-// ============================================================================
-// ICacheCoordinator – subscribe side
-// ============================================================================
 
 void RedisCacheCoordinator::subscribeEntries(EntryCallback callback) {
     std::lock_guard<std::mutex> lk(cb_mutex_);
