@@ -196,7 +196,16 @@ size_t CrossShardTransactionCoordinator::recoverInDoubtTransactions() {
     }
 
     const auto after = count_in_doubt();
-    return before > after ? (before - after) : 0;
+    if (after > before) {
+        spdlog::warn(
+            "CrossShardTransactionCoordinator: in-doubt count increased during recovery "
+            "(before={}, after={})",
+            before,
+            after);
+        return 0;
+    }
+
+    return before - after;
 }
 
 void CrossShardTransactionCoordinator::stop() {
