@@ -61,7 +61,7 @@ themis::storage::TTTrain makeSmallTrain() {
     return t;
 }
 
-themis::storage::TTTrain makeNonPowerTrain() {
+themis::storage::TTTrain makeNonPowerOfTwoModeTrain() {
     std::vector<float> dense(60);
     std::iota(dense.begin(), dense.end(), 1.0f);
 
@@ -178,7 +178,7 @@ TEST(TensorHissSearch, HissReshaperPreservesDenseTensorValues) {
 }
 
 TEST(TensorHissSearch, HissReshaperUsesResidualFactorForNonPowerModes) {
-    const auto train = makeNonPowerTrain();
+    const auto train = makeNonPowerOfTwoModeTrain();
     const auto qt = themis::tensor::HissReshaper::exposeQuantics(train, {});
 
     EXPECT_EQ(qt.grid_sizes, (std::vector<std::size_t>{3u, 4u, 5u}));

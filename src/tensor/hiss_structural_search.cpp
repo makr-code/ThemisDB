@@ -23,6 +23,8 @@ namespace tensor {
 
 namespace {
 
+constexpr double kMinQuanticsEpsilon = 1e-6;
+
 double coreEntropy(const storage::TTCore& core) {
     if (core.data.empty()) return 0.0;
     constexpr std::size_t kBins = 16;
@@ -58,7 +60,7 @@ std::uint64_t xorshift64(std::uint64_t& x) {
     return x;
 }
 
-[[nodiscard]] std::size_t denseElementCount(const std::vector<std::size_t>& shape) {
+static std::size_t denseElementCount(const std::vector<std::size_t>& shape) {
     if (shape.empty()) return 0;
     std::size_t product = 1;
     for (const auto dim : shape) {
@@ -245,7 +247,10 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
         if (e.topology != "reshaped") continue;
         const auto avg_entropy = 0.5 * (entropy[e.from] + entropy[e.to]);
         if (avg_entropy >= (cfg.entropy_threshold * 1.5)) {
-            [[maybe_unused]] const auto rerouted = graph.rerouteEdge(e.from, e.to, "clustered");
+            const auto rerouted = graph.rerouteEdge(e.from, e.to, "clustered");
+            if (!rerouted) {
+                throw std::logic_error("failed to reroute existing reshaped edge to clustered topology");
+            }
         }
     }
 
@@ -297,8 +302,8 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     storage::TensorTrainDecomposer decomposer;
     storage::TensorTrainConfig cfg;
     cfg.eps = train.achieved_eps > 0.0
-                  ? std::max(train.achieved_eps, 1e-6)
-                  : 1e-6;
+                  ? std::max(train.achieved_eps, kMinQuanticsEpsilon)
+                  : kMinQuanticsEpsilon;
     cfg.max_rank = train.maxRank();
 
     auto decomposed = decomposer.decompose(dense_tensor, quantics_mode_sizes, cfg);

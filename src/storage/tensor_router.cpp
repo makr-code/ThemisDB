@@ -216,6 +216,11 @@ struct TensorRouter::Impl {
         const PilotResult&     pilot,
         const TensorRouteHint& hint) const
     {
+        // Priority order:
+        // 1. hard category overrides (e.g. RELATIONAL -> KEEP, GEODATA -> LIFT)
+        // 2. domain-template promotion (TemplateCatalog hit -> LIFT)
+        // 3. rank-cap guard
+        // 4. κ + compression-ratio heuristic
         // Category override has highest priority
         auto override = categoryOverride(hint);
         if (override.has_value()) return *override;
