@@ -35,6 +35,7 @@
  */
 
 #include "core/concerns/redis_cache.h"
+#include "utils/hash_util.h"
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -195,12 +196,7 @@ RedisCache::~RedisCache() {
 
 /*static*/
 uint32_t RedisCache::fnv1a32(const char* data, size_t len) noexcept {
-    uint32_t hash = 0x811c9dc5u;
-    for (size_t i = 0; i < len; ++i) {
-        hash ^= static_cast<uint8_t>(data[i]);
-        hash *= 0x01000193u;
-    }
-    return hash;
+    return themis::hash::fnv1a32(data, len);
 }
 
 void RedisCache::buildHashRing() {

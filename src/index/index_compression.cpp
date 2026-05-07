@@ -21,6 +21,7 @@
  */
 
 #include "index/index_compression.h"
+#include "utils/hash_util.h"
 
 #include <algorithm>
 #include <cassert>
@@ -46,16 +47,6 @@ static size_t commonPrefixLen(std::string_view a, std::string_view b) {
     size_t i   = 0;
     while (i < len && a[i] == b[i]) ++i;
     return i;
-}
-
-/// FNV-1a 64-bit hash.
-static uint64_t fnv1a64(const uint8_t* data, size_t n) {
-    uint64_t h = 14695981039346656037ULL;
-    for (size_t i = 0; i < n; ++i) {
-        h ^= static_cast<uint64_t>(data[i]);
-        h *= 1099511628211ULL;
-    }
-    return h;
 }
 
 /// MurmurHash3-inspired mixer for a 64-bit seed.
@@ -97,7 +88,7 @@ BloomFilter::BloomFilter(size_t expected_elements, double false_positive_rate) {
 
 std::pair<uint64_t, uint64_t> BloomFilter::hash2_(std::string_view key) {
     const auto* data = reinterpret_cast<const uint8_t*>(key.data());
-    uint64_t h1 = fnv1a64(data, key.size());
+    uint64_t h1 = themis::hash::fnv1a64(data, key.size());
     uint64_t h2 = mixSeed(h1 ^ static_cast<uint64_t>(key.size()));
     return {h1, h2};
 }

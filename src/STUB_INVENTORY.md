@@ -40,7 +40,7 @@
 
 ---
 
-## Stub Inventory (251 entries — 149 resolved, 102 active)
+## Stub Inventory (251 entries — 152 resolved, 99 active)
 
 | # | File | Purpose (short) | Activation | Production Delta | **Funktions-Impact** | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|---|

@@ -18,6 +18,7 @@
  */
 
 #include "query/runtime_reoptimizer.h"
+#include "utils/hash_util.h"
 #include <spdlog/spdlog.h>
 #include <iomanip>
 #include <sstream>
@@ -28,18 +29,7 @@ namespace themis {
 // FNV-1a 64-bit hash (public domain)
 // ---------------------------------------------------------------------------
 static std::string fnv1a_hex(const std::string& text) {
-    constexpr uint64_t FNV_OFFSET_BASIS = 14695981039346656037ULL;
-    constexpr uint64_t FNV_PRIME        = 1099511628211ULL;
-
-    uint64_t hash = FNV_OFFSET_BASIS;
-    for (unsigned char c : text) {
-        hash ^= c;
-        hash *= FNV_PRIME;
-    }
-
-    std::ostringstream oss;
-    oss << std::hex << std::setfill('0') << std::setw(16) << hash;
-    return oss.str();
+    return themis::hash::fnv1a64_hex(text);
 }
 
 // ---------------------------------------------------------------------------
