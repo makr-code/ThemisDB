@@ -47,7 +47,10 @@
 
 #include <atomic>
 #include <chrono>
+#include <exception>
+#include <mutex>
 #include <string>
+#include <utility>
 #include <vector>
 
 // JSON parsing for StreamAQL result decomposition (nlohmann/json is available
@@ -63,6 +66,9 @@ namespace {
 
 using themis::api::aqlEscapeLiteral;
 using themis::api::isValidAqlIdentifier;
+
+std::mutex g_api_grpc_service_mutex;
+themis::api::ThemisDBGrpcService::ServiceFn g_api_grpc_service_fn;
 
 /// Escape a string for safe embedding inside an AQL single-quoted literal.
 /// Replaces backslashes and single-quotes to prevent AQL injection.
@@ -845,18 +851,39 @@ void ThemisDBGrpcService::buildImpl() {
     // Roadmap ref: src/api/FUTURE_ENHANCEMENTS.md §"gRPC API Service Activation"
     THEMIS_WARN("ThemisDBGrpcService: themisdb.grpc.pb.h not found; "
                 "service will be a no-op until protoc generates the stubs");
+
+    // Try injected accessor (for non-proto builds wiring an external service).
+    ServiceFn fn;
+    {
+        std::lock_guard<std::mutex> lock(g_api_grpc_service_mutex);
+        fn = g_api_grpc_service_fn;
+    }
+    if (fn) {
+        try {
+            service_ptr_ = fn();
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("ThemisDBGrpcService: service callback failed: {}", e.what());
+            service_ptr_ = nullptr;
+        } catch (...) {
+            THEMIS_ERROR("ThemisDBGrpcService: service callback failed: unknown error");
+            service_ptr_ = nullptr;
+        }
+    }
 #endif
 }
 
 ThemisDBGrpcService::~ThemisDBGrpcService() = default;
 
+void ThemisDBGrpcService::setServiceFn(ServiceFn fn) {
+    std::lock_guard<std::mutex> lock(g_api_grpc_service_mutex);
+    g_api_grpc_service_fn = std::move(fn);
+}
+
 void* ThemisDBGrpcService::service() {
 #if THEMIS_HAS_API_GRPC
     return impl_ ? static_cast<void*>(impl_->get()) : nullptr;
 #else
-    // proto stubs not generated; returning null is expected here
-    void* no_service = nullptr;
-    return no_service;
+    return service_ptr_;
 #endif
 }
 

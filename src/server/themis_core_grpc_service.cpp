@@ -23,7 +23,10 @@
 #include "utils/logger.h"
 #include <atomic>
 #include <chrono>
+#include <exception>
+#include <mutex>
 #include <string>
+#include <utility>
 
 // Conditionally compile the real service implementation when the protobuf
 // stubs generated from proto/themis_core.proto are available on the include
@@ -39,6 +42,11 @@
 
 namespace themis {
 namespace core {
+
+namespace {
+std::mutex g_core_grpc_instance_mutex;
+ThemisCoreServiceImpl::ServiceInstanceFn g_core_grpc_instance_fn;
+} // namespace
 
 class ThemisCoreServiceImpl::Impl {
 public:
@@ -128,18 +136,39 @@ ThemisCoreServiceImpl::ThemisCoreServiceImpl(
     // Roadmap ref: src/server/FUTURE_ENHANCEMENTS.md §"gRPC Core Service Activation"
     THEMIS_WARN("ThemisCoreServiceImpl: themis_core.grpc.pb.h not found; "
                 "service will be a no-op until protoc generates the stubs");
+
+    // Try injected accessor (for non-proto builds wiring an external service).
+    ServiceInstanceFn fn;
+    {
+        std::lock_guard<std::mutex> lock(g_core_grpc_instance_mutex);
+        fn = g_core_grpc_instance_fn;
+    }
+    if (fn) {
+        try {
+            service_ptr_ = fn();
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("ThemisCoreServiceImpl: service-instance callback failed: {}", e.what());
+            service_ptr_ = nullptr;
+        } catch (...) {
+            THEMIS_ERROR("ThemisCoreServiceImpl: service-instance callback failed: unknown error");
+            service_ptr_ = nullptr;
+        }
+    }
 #endif
 }
 
 ThemisCoreServiceImpl::~ThemisCoreServiceImpl() = default;
 
+void ThemisCoreServiceImpl::setServiceInstanceFn(ServiceInstanceFn fn) {
+    std::lock_guard<std::mutex> lock(g_core_grpc_instance_mutex);
+    g_core_grpc_instance_fn = std::move(fn);
+}
+
 void* ThemisCoreServiceImpl::getServiceInstance() {
 #if THEMIS_HAS_CORE_GRPC
     return impl_ ? static_cast<void*>(impl_->get()) : nullptr;
 #else
-    // proto stubs not generated; returning null is expected here
-    void* no_service = nullptr;
-    return no_service;
+    return service_ptr_;
 #endif
 }
 
