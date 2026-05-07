@@ -40,7 +40,7 @@
 
 ---
 
-## Stub Inventory (260 entries — 142 resolved, 118 active)
+## Stub Inventory (262 entries — 142 resolved, 120 active)
 
 | # | File | Purpose (short) | Activation | Production Delta | **Funktions-Impact** | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|---|
@@ -303,4 +303,7 @@
 
 ---
 
-*Last updated: 2026-05-07 — 260 entries, 142 resolved, 118 active — Entries #259, #260 added 2026-05-07: KnowledgeBase YAML loader and LoRAPatternClassifier AutoML fallback (🔴 22 Kritisch · 🟠 24 Hoch · 🟡 54 Mittel · 🟢 17 Niedrig · ⚪ 18 Minimal · — 142 Resolved) — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+| 261 | `llm/llm_plugin_interface.h::ILLMPlugin::generateDraftTokens()` — text-to-token-ID heuristic | Maps UTF-8 byte codes modulo vocab_size to draft token IDs; logit rows are peaked (+5 / −5) at the mapped ID; no true per-token logit from a model forward pass | Always active for plugins that do not override this method (all current ILLMPlugin implementations) | Acceptance-rate statistics in SpeculativeDecoder reflect text-character similarity rather than true probability ratios; draft token IDs are non-zero and text-derived (improved over previous constant-zero approach) | 🟠 Hoch | `include/llm/llm_plugin_interface.h::ILLMPlugin::generateDraftTokens()` STUB/SIMULATION NOTE; `src/llm/FUTURE_ENHANCEMENTS.md` §Speculative Decoding | Q1 2027 — override in `LlamaCppPlugin` once `llama_get_logits()` is threaded through `ILLMPlugin::generateDraftTokens()` |
+| 262 | `llm/inference_engine_enhanced.cpp::trySpeculativeGeneration()` — target logit estimation | Target logit rows are peaked at a single token predicted by one `generate()` call with `max_tokens=1`; K+1 rows use the same predicted token; not true per-position target logits | Always active | Acceptance statistics are approximate; true target logits would require a parallel K+1 forward pass on the extended draft context | 🟠 Hoch | `src/llm/inference_engine_enhanced.cpp::trySpeculativeGeneration()` STUB/SIMULATION NOTE | Q1 2027 — add `ILLMPlugin::getPositionLogits()` and wire `llama_get_logits()` callback |
+
+*Last updated: 2026-05-07 — 262 entries, 142 resolved, 120 active — Entries #261, #262 added 2026-05-07: ILLMPlugin::generateDraftTokens() text-heuristic (STUB #261) and trySpeculativeGeneration() target-logit estimation (STUB #262) (🔴 22 Kritisch · 🟠 26 Hoch · 🟡 54 Mittel · 🟢 17 Niedrig · ⚪ 18 Minimal · — 142 Resolved) — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

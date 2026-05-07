@@ -350,7 +350,88 @@ public:
     // ═══════════════════════════════════════════════════════════
     // Inference
     // ═══════════════════════════════════════════════════════════
-    
+
+    /**
+     * @brief Result of a draft-token generation pass for speculative decoding.
+     *
+     * Returned by generateDraftTokens().  Each element of `logits[i]` is a
+     * vocab_size-dimensional raw logit vector for draft position i, suitable
+     * for passing directly to SpeculativeDecoder::verify().
+     */
+    struct DraftTokensResult {
+        /// K draft token IDs (one per speculative step).
+        std::vector<int> tokens;
+        /// K × vocab_size raw logit rows (row i corresponds to tokens[i]).
+        std::vector<std::vector<float>> logits;
+        /// Vocabulary size used for the logit rows.
+        size_t vocab_size = 0;
+    };
+
+    /**
+     * @brief Generate K draft tokens with per-token logit distributions.
+     *
+     * Used by InferenceEngineEnhanced::trySpeculativeGeneration() to feed
+     * real token IDs and logit distributions into SpeculativeDecoder::verify().
+     *
+     * Default implementation (STUB #261):
+     *   Calls generate() internally and maps the returned text to token IDs
+     *   via UTF-8 byte values modulo vocab_size.  Logit distributions are
+     *   peaked (+5 / −5) at the mapped IDs — approximate, but guarantees that
+     *   different draft-model outputs produce different acceptance patterns.
+     *   Override with a llama.cpp low-level sampler hook when true per-token
+     *   logits become available (Target: Q1 2027).
+     *
+     * // STUB/SIMULATION NOTE:
+     * // Purpose: surface draft-model text output as token-ID+logit pairs so
+     * //          SpeculativeDecoder::verify() receives non-constant inputs.
+     * // Activation: always active for plugins that do not override this method.
+     * // Production Delta: logits are text-heuristic (char-code % vocab_size),
+     * //                   not true per-token distributions from the model's
+     * //                   forward pass; acceptance statistics are approximate.
+     * // Removal Plan: override in LlamaCppPlugin once llama_get_logits() is
+     * //               threaded through ILLMPlugin (STUB #261, Q1 2027).
+     *
+     * @param request        Inference request (prompt + generation parameters).
+     *                       max_tokens is overridden to k internally.
+     * @param k              Number of draft tokens to produce.
+     * @param vocab_size_hint Expected vocabulary size; 32 000 used as fallback.
+     * @return DraftTokensResult with k tokens and k logit rows.
+     */
+    [[nodiscard]] virtual DraftTokensResult generateDraftTokens(
+        const InferenceRequest& request,
+        size_t                  k,
+        size_t                  vocab_size_hint
+    ) {
+        InferenceRequest draft_req = request;
+        draft_req.max_tokens      = static_cast<int>(k);
+        draft_req.stream_callback = nullptr;
+
+        const auto resp = generate(draft_req);
+
+        const size_t vocab         = (vocab_size_hint > 0) ? vocab_size_hint : 32000u;
+        constexpr float kPeak      =  5.0f;
+        constexpr float kBaseline  = -5.0f;
+
+        DraftTokensResult result;
+        result.vocab_size = vocab;
+        result.tokens.reserve(k);
+        result.logits.reserve(k);
+
+        const std::string& text = resp.text;
+        for (size_t i = 0; i < k; ++i) {
+            const int token_id = (i < text.size())
+                ? (static_cast<int>(static_cast<unsigned char>(text[i])) %
+                   static_cast<int>(vocab))
+                : 0;
+            result.tokens.push_back(token_id);
+
+            std::vector<float> row(vocab, kBaseline);
+            row[static_cast<size_t>(token_id)] = kPeak;
+            result.logits.push_back(std::move(row));
+        }
+        return result;
+    }
+
     /**
      * @brief Generate text from prompt
      * @param request Inference parameters

@@ -25432,6 +25432,40 @@ else()
     message(STATUS "LLM+RAID Phase 4 integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_raid_integration.cpp")
 endif()
 
+# ─────────────────────────────────────────────────────────────────────────────
+# SD-REAL: Real draft-model logits for speculative decoding (STUB #261/#262)
+# Tests: SD-REAL-01..SD-REAL-08
+# ─────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_speculative_decoder_real_logits.cpp")
+    add_executable(test_speculative_decoder_real_logits_focused
+        test_speculative_decoder_real_logits.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/speculative_decoder.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_speculative_decoder_real_logits_focused
+        PRIVATE ${THEMIS_ROOT_DIR}/include ${THEMIS_ROOT_DIR}/src)
+
+    target_link_libraries(test_speculative_decoder_real_logits_focused
+        PRIVATE ${TEST_LIBS} spdlog::spdlog nlohmann_json::nlohmann_json
+                Threads::Threads)
+
+    target_compile_definitions(test_speculative_decoder_real_logits_focused
+        PRIVATE THEMIS_TEST_BUILD=1 THEMIS_ENABLE_LLM=1)
+
+    add_test(NAME SDRealLogitsTests
+             COMMAND test_speculative_decoder_real_logits_focused)
+
+    set_tests_properties(SDRealLogitsTests PROPERTIES
+        LABELS "llm;speculative;draft-logits;SD-REAL"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  SD-REAL: draft-model logits for speculative decoding (SD-REAL-01..08)")
+else()
+    message(STATUS "SD-REAL tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_speculative_decoder_real_logits.cpp")
+endif()
+
 
 # Covers: CLO-L1-01..03, CLO-L2-01..03, CLO-L3-01..02, CLO-L4-01..02,
 #         CLO-FED-01, CLO-COOL-01  (test_clo_loops.cpp)

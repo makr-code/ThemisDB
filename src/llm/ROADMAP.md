@@ -60,7 +60,13 @@ Key additions since v1.15.0:
 
 ### Remaining
 - [I] Federated inference across distributed nodes (Issue: #1928)
-- [ ] Real draft-model logits for speculative decoding (Target: v1.18.0)
+- [~] Real draft-model logits for speculative decoding (Target: v1.18.0)
+  - `ILLMPlugin::DraftTokensResult` struct + `generateDraftTokens(request, k, vocab_size_hint)` default-virtual added to `llm_plugin_interface.h`
+  - Default impl maps UTF-8 byte codes → token IDs (char % vocab_size), peaked logit rows — STUB #261
+  - `trySpeculativeGeneration()` now calls `generateDraftTokens()` (real draft-text IDs, not constant token 0)
+  - Target logit estimation via one-token `generate()` call — STUB #262
+  - Tests SD-REAL-01..SD-REAL-08 in `tests/test_speculative_decoder_real_logits.cpp`
+  - Remaining: override in `LlamaCppPlugin` with real `llama_get_logits()` hook (Q1 2027)
 - [ ] Persistent disk-backed KV-cache (Target: v1.18.0)
 - [ ] Hard cancellation for in-flight requests (Target: v1.18.0)
 - [x] `DecisionRecordYamlProcessor` integration: `LoraRouter`, `AdapterLoadBalancer`, `LoraOrchestrator` (Target: v1.9.0) — `setDecisionRecordProcessor()` on all three; focused tests `DecisionRecordIntegrationFocusedTests` (DRI-01..11), `DecisionRecordYamlProcessorFocusedTests`, `DecisionRecordE2EFocusedTests` registered in tests/CMakeLists.txt
