@@ -28,6 +28,7 @@
  *   TFG-23  insert overwrite purges stale bucket entries
  *   TFG-24  Similarity works with external train loader when in-memory cache disabled
  *   TFG-25  Missing train loader with disabled cache produces no false edges
+ *   TFG-26  Persisted node metadata import rebuilds buckets for recovery queries
  *   TDM-01  DeduplicationManager: getRecord returns record for stored id
  *   TDM-02  DeduplicationManager: getStats total_tensors increments
  *   TDM-03  DeduplicationManager: null dependency throws
@@ -376,6 +377,50 @@ TEST(TensorFingerprintGraphResolverTest, TFG25_DisabledCacheWithoutLoaderSkipsEd
 
     auto nb = graph.neighbours("noload_a");
     EXPECT_TRUE(nb.empty());
+}
+
+// TFG-26: importing persisted fingerprint nodes rebuilds LSH buckets for recovery.
+TEST(TensorFingerprintGraphResolverTest, TFG26_ImportPersistedNodesRebuildsBuckets) {
+    FingerprintGraphConfig cfg;
+    cfg.similarity_threshold = 0.90;
+    cfg.num_hash_funcs = 64;
+    cfg.num_bands = 16;
+    cfg.cache_trains_in_memory = false;
+
+    TensorFingerprintGraph original(cfg);
+    std::unordered_map<std::string, TTTrain> train_store;
+    auto loader = [&](const std::string& tensor_id,
+                      const std::string&,
+                      const std::string&,
+                      const std::string&) -> std::optional<TTTrain> {
+        auto it = train_store.find(tensor_id);
+        if (it == train_store.end()) return std::nullopt;
+        return it->second;
+    };
+    original.setTrainLoadFn(loader);
+
+    auto data = randVec(8, 612);
+    auto t1 = makeTT(data, {8, 1});
+    auto t2 = makeTT(data, {8, 1});
+    train_store["persist_a"] = t1;
+    train_store["persist_b"] = t2;
+
+    original.insert("persist_a", t1, "ten", "col", "fa");
+    original.insert("persist_b", t2, "ten", "col", "fb");
+
+    auto persisted = original.exportPersistedNodes();
+    ASSERT_EQ(persisted.size(), 2u);
+
+    TensorFingerprintGraph recovered(cfg);
+    recovered.setTrainLoadFn(loader);
+    recovered.importPersistedNodes(persisted);
+
+    EXPECT_EQ(recovered.nodeCount(), 2u);
+    EXPECT_EQ(recovered.edgeCount(), 0u);
+
+    auto results = recovered.findSimilar(makeTT(data, {8, 1}), 5);
+    ASSERT_FALSE(results.empty());
+    EXPECT_GE(results.front().similarity, 0.99);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

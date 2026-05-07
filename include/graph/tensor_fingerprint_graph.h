@@ -108,6 +108,24 @@ struct SimilarTensorResult {
 };
 
 // ============================================================================
+// PersistedFingerprintNode
+// ============================================================================
+
+/**
+ * @brief Durable node payload used for graph metadata recovery.
+ *
+ * Stores only fingerprint + node metadata. TT-trains and edges are rebuilt or
+ * resolved externally after restore.
+ */
+struct PersistedFingerprintNode {
+    std::string tensor_id;
+    TensorFingerprint fingerprint;
+    std::string tenant;
+    std::string collection;
+    std::string field;
+};
+
+// ============================================================================
 // FingerprintGraphConfig
 // ============================================================================
 
@@ -224,6 +242,13 @@ public:
      */
     std::vector<SimilarTensorResult>
     neighbours(const std::string& tensor_id) const;
+
+    /// Export node fingerprint metadata for durable graph bootstrap.
+    std::vector<PersistedFingerprintNode> exportPersistedNodes() const;
+
+    /// Replace in-memory graph with persisted node metadata and rebuilt buckets.
+    /// Edges are not restored and start empty after import.
+    void importPersistedNodes(const std::vector<PersistedFingerprintNode>& nodes);
 
     // ─── Statistics ───────────────────────────────────────────────────────
 

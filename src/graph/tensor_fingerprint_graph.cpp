@@ -392,6 +392,44 @@ TensorFingerprintGraph::neighbours(const std::string& tensor_id) const {
     return results;
 }
 
+std::vector<PersistedFingerprintNode>
+TensorFingerprintGraph::exportPersistedNodes() const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    std::vector<PersistedFingerprintNode> out;
+    out.reserve(nodes_.size());
+    for (const auto& [tensor_id, node] : nodes_) {
+        PersistedFingerprintNode persisted;
+        persisted.tensor_id = tensor_id;
+        persisted.fingerprint = node.fingerprint;
+        persisted.tenant = node.tenant;
+        persisted.collection = node.collection;
+        persisted.field = node.field;
+        out.push_back(std::move(persisted));
+    }
+    return out;
+}
+
+void TensorFingerprintGraph::importPersistedNodes(
+    const std::vector<PersistedFingerprintNode>& nodes) {
+    std::lock_guard<std::mutex> lk(mutex_);
+
+    nodes_.clear();
+    adj_.clear();
+    lsh_buckets_.clear();
+    edge_count_.store(0, std::memory_order_relaxed);
+
+    for (const auto& persisted : nodes) {
+        NodeEntry entry;
+        entry.fingerprint = persisted.fingerprint;
+        entry.tenant = persisted.tenant;
+        entry.collection = persisted.collection;
+        entry.field = persisted.field;
+        nodes_[persisted.tensor_id] = std::move(entry);
+        adj_[persisted.tensor_id];
+        insertIntoBuckets(persisted.tensor_id, persisted.fingerprint);
+    }
+}
+
 // ============================================================================
 // Statistics
 // ============================================================================

@@ -234,7 +234,10 @@
     `setTrainLoadFn()` to `TensorNetworkStorageEngine::getCompressed()` + dequantize so
     exact-similarity checks can resolve candidate TT trains without in-memory cache
     (integration test TDM-09 with `cache_trains_in_memory=false`).
-  - Remaining: persisted graph metadata recovery path (node bootstrap after process restart).
+  - **Progress 2026-05-07 (recovery bootstrap)**: `TensorFingerprintGraph` now supports
+    export/import of persisted fingerprint-node metadata to rebuild LSH buckets after restart
+    (`exportPersistedNodes()` / `importPersistedNodes()`; test TFG-26).
+  - Remaining: edge persistence/re-hydration path for adjacency reconstruction.
   - O(d·n·r³) per candidate pair — bounded by `max_candidates=1000`
 - [ ] CDC changefeed integration for incremental graph updates (Target: Q2 2027)
   - Subscribe to `TensorNetworkStorageEngine` write events via Observer pattern
