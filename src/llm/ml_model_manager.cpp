@@ -1332,6 +1332,29 @@ Result<MLInferenceResponse> MLModelManager::infer(const MLInferenceRequest& requ
     auto infer_start = std::chrono::steady_clock::now();
     
     // TODO: Actual inference logic based on model type
+    // Check for an injected dispatch function first
+    {
+        std::lock_guard<std::mutex> fn_lock(dispatch_fn_mutex_);
+        if (inference_dispatch_fn_) {
+            const auto output = inference_dispatch_fn_(request, *instance);
+            response.success = true;
+            response.output_data = output;
+
+            auto infer_end = std::chrono::steady_clock::now();
+            auto inference_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+                infer_end - infer_start
+            ).count();
+            response.inference_time_ms = static_cast<float>(inference_time);
+            response.total_time_ms = response.queue_time_ms + response.inference_time_ms;
+
+            instance->active_requests--;
+            updateInstanceMetrics(instance, response.total_time_ms, response.success);
+            successful_requests_++;
+            total_requests_++;
+            return Ok(response);
+        }
+    }
+
     // STUB/SIMULATION NOTE:
     // Purpose: Allow MLModelManager::runInference() to return a successful response
     //          while real model-type dispatch (llama_cpp, ONNX, TensorRT, etc.) is
@@ -1369,6 +1392,12 @@ Result<MLInferenceResponse> MLModelManager::infer(const MLInferenceRequest& requ
     total_requests_++;
     
     return Ok(response);
+}
+
+// ── setInferenceDispatchFn (stub #250) ───────────────────────────────────────
+void MLModelManager::setInferenceDispatchFn(InferenceDispatchFn fn) {
+    std::lock_guard<std::mutex> lock(dispatch_fn_mutex_);
+    inference_dispatch_fn_ = std::move(fn);
 }
 
 std::string MLModelManager::inferAsync(

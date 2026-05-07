@@ -445,6 +445,22 @@ FailurePrediction PredictiveFailureDetector::runInference(
     FailurePrediction prediction;
     prediction.shard_id = shard_id;
     prediction.prediction_time = std::chrono::system_clock::now();
+
+    // Check for an injected prediction function (stub #251 injection path)
+    {
+        std::lock_guard<std::mutex> fn_lock(predict_fn_mutex_);
+        if (predict_fn_) {
+            auto output = predict_fn_(features);
+            if (output.size() >= 2) {
+                prediction.failure_probability = output[0];
+                prediction.predicted_days_to_failure = static_cast<uint32_t>(output[1]);
+            }
+            for (size_t i = 0; i < std::min(size_t(5), features.size()); ++i) {
+                prediction.feature_importance["feature_" + std::to_string(i)] = features[i];
+            }
+            return prediction;
+        }
+    }
     
     if (!model_ || !model_->loaded) {
         // Fallback: use simple heuristics
@@ -480,6 +496,12 @@ bool PredictiveFailureDetector::loadModel(const std::string& model_path) {
     model_->loaded = true;
     
     return true;
+}
+
+// ── setPredictFn (stub #251) ──────────────────────────────────────────────────
+void PredictiveFailureDetector::setPredictFn(PredictFn fn) {
+    std::lock_guard<std::mutex> lock(predict_fn_mutex_);
+    predict_fn_ = std::move(fn);
 }
 
 // ═══════════════════════════════════════════════════════════
