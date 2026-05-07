@@ -130,7 +130,7 @@ public:
      * @brief Default hot-plug reload callback.
      *
      * Calls loadModel(config["model_path"], config) when "model_path" is
-     * present; otherwise does nothing and returns true (stub mode).
+     * present; otherwise returns false.
      */
     static ReloadCallback defaultReloadCallback();
 

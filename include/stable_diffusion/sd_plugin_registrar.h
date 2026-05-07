@@ -61,7 +61,7 @@ public:
      * Expected JSON keys: "model_path" (string, optional).
      *
      * @param config_json JSON configuration string.
-     * @return true on success or when no model_path is provided (stub mode).
+     * @return true on success; false when config is missing a non-empty model_path.
      */
     bool initialize(const char* config_json) override;
 
@@ -159,7 +159,7 @@ public:
      * @brief Default hot-plug reload callback.
      *
      * Calls SDPlugin::initialize(config["model_path"], config) when
-     * "model_path" is present; otherwise returns true (stub mode).
+     * "model_path" is present; otherwise returns false.
      */
     static ReloadCallback defaultReloadCallback();
 

@@ -476,14 +476,14 @@ TEST_F(HSMProviderTest, GetCertificateFailsClosedWithoutOptIn) {
 
     HSMConfig config;
     config.library_path = "";
-    HsmProviderEnvGuard allow_guard("THEMIS_ALLOW_HSM_STUB", "1");
-
     HSMProvider hsm(config);
-    // Initialize with stub allowed so we get a usable instance
-    ASSERT_TRUE(hsm.initialize());
+    {
+        HsmProviderEnvGuard allow_guard("THEMIS_ALLOW_HSM_STUB", "1");
+        // Initialize with stub allowed so we get a usable instance
+        ASSERT_TRUE(hsm.initialize());
+    }
 
-    // Now remove the opt-in and test getCertificate fail-closed
-    allow_guard.~HsmProviderEnvGuard();
+    // Now the opt-in is gone again; getCertificate must fail closed.
     HsmProviderEnvUnsetGuard no_stub("THEMIS_ALLOW_HSM_STUB");
 
     auto cert = hsm.getCertificate("test-key");
@@ -541,4 +541,3 @@ TEST_F(HSMProviderTest, ImportCertificateReturnsFalseInStub) {
     EXPECT_FALSE(result)
         << "importCertificate() must return false in stub mode to signal no real cert was stored";
 }
-
