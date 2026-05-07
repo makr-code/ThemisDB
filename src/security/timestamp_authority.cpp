@@ -46,6 +46,7 @@
 #include <iomanip>
 #include <cstdlib>
 #include <string>
+#include <mutex>
 
 namespace themis { namespace security {
 
@@ -96,20 +97,20 @@ static TimestampToken makeProductionError() {
 }
 
 // STUB/SIMULATION NOTE (TimestampAuthority::Impl — software-only stub):
-// Purpose: Provide an empty Impl class so that TimestampAuthority's pimpl
-//          pattern compiles when OpenSSL TSA is absent.  The real Impl
-//          (defined in the `#ifdef THEMIS_USE_OPENSSL_TSA` block below) holds
-//          a libcurl connection pool and OpenSSL context.
+// Purpose: Provide a lightweight stateful Impl so the non-OpenSSL path keeps
+//          pimpl compatibility while still tracking minimal runtime state
+//          (issued token count + cached certificate string).
 // Activation: `THEMIS_USE_OPENSSL_TSA` not defined (same as the outer stub block).
-// Production Delta: Impl has no state.  All TimestampAuthority methods operate
-//          on a stateless object; caching, connection re-use, and async dispatch
-//          are absent.
+// Production Delta: No external TSA connection pool, no OpenSSL context, no
+//          async RFC3161 request pipeline.  State is local-process only.
 // Removal Plan: Compile with -DTHEMIS_USE_OPENSSL_TSA=ON; the real Impl replaces
-//          this empty class at link time.
-// Stub placeholder: Impl is stateless in the software (non-OpenSSL) path.
-// The real Impl with connection-pool state is defined below under
-// #ifdef THEMIS_USE_OPENSSL_TSA.
-class TimestampAuthority::Impl { };
+//          this stub class at link time.
+class TimestampAuthority::Impl {
+public:
+    mutable std::mutex state_mutex;
+    uint64_t issued_count = 0;
+    std::optional<std::string> cached_tsa_cert_pem;
+};
 
 // Helper: hex encode
 static std::string hex(const std::vector<uint8_t>& data) {
@@ -169,6 +170,10 @@ TimestampToken TimestampAuthority::getTimestamp(const std::vector<uint8_t>& data
     tok.tsa_serial = "STUB-TSA-SERIAL";
     tok.verified = true;
     tok.cert_valid = true;
+    {
+        std::lock_guard<std::mutex> lk(impl_->state_mutex);
+        ++impl_->issued_count;
+    }
     return tok;
 }
 
@@ -197,7 +202,14 @@ TimestampToken TimestampAuthority::parseToken(const std::string& token_b64) {
     TimestampToken tok; tok.success = true; tok.token_b64 = token_b64; tok.serial_number="PARSE"; return tok;
 }
 
-std::optional<std::string> TimestampAuthority::getTSACertificate() { return std::string("-----BEGIN CERTIFICATE-----\nSTUB-TSA\n-----END CERTIFICATE-----\n"); }
+std::optional<std::string> TimestampAuthority::getTSACertificate() {
+    std::lock_guard<std::mutex> lk(impl_->state_mutex);
+    if (!impl_->cached_tsa_cert_pem) {
+        impl_->cached_tsa_cert_pem =
+            std::string("-----BEGIN CERTIFICATE-----\nSTUB-TSA\n-----END CERTIFICATE-----\n");
+    }
+    return impl_->cached_tsa_cert_pem;
+}
 bool TimestampAuthority::isAvailable() { return true; }
 std::string TimestampAuthority::getLastError() const { return last_error_; }
 
@@ -218,21 +230,40 @@ std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>&
 //             TimestampAuthority stub above).  Production builds with
 //             -DTHEMIS_USE_OPENSSL_TSA=ON compile the real implementation
 //             (lines ~892+) which performs full ASN.1 chain validation.
-// Production Delta (validateeIDASTimestamp): Accepts any token whose `success`
-//             flag is true without verifying the RFC 3161 signature, the
-//             certificate chain, the hash algorithm, or the TSA's eIDAS
-//             trust-list status.  Legally non-binding in all jurisdictions.
-// Production Delta (isQualifiedTSA): Always returns false + pushes an error
-//             message; cannot validate QTSP certificates without OpenSSL.
+// Production Delta (validateeIDASTimestamp): Without an injected ValidateFn,
+//             accepts any token whose `success` flag is true only when the
+//             explicit stub override is enabled; no RFC3161 signature validation.
+//             Optional ValidateFn injection allows external validation logic.
+// Production Delta (isQualifiedTSA): Without an injected QualifiedTSAFn,
+//             always returns false + pushes an error message; cannot validate
+//             QTSP certificates without OpenSSL.
 // Removal Plan: Build with -DTHEMIS_USE_OPENSSL_TSA=ON; this entire
 //             `#ifndef` block is compiled out.  See
 //             src/security/FUTURE_ENHANCEMENTS.md §"eIDAS TSA Validation".
 
 bool eIDASTimestampValidator::validateeIDASTimestamp(
     const TimestampToken& token,
-    const std::vector<std::string>& /*trust_anchors*/) {
+    const std::vector<std::string>& trust_anchors) {
     
     validation_errors_.clear();
+
+    eIDASTimestampValidator::ValidateFn fn;
+    {
+        std::lock_guard<std::mutex> lk(eIDASTimestampValidator::validateFnMutex());
+        fn = eIDASTimestampValidator::validateFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(token, trust_anchors, validation_errors_);
+        } catch (const std::exception& e) {
+            validation_errors_.push_back(
+                std::string("Injected ValidateFn threw exception: ") + e.what());
+            return false;
+        } catch (...) {
+            validation_errors_.push_back("Injected ValidateFn threw unknown exception");
+            return false;
+        }
+    }
     
     // SECURITY HARDENING: full eIDAS validation requires the OpenSSL implementation.
     // The stub path is denied by default and only available with explicit opt-in.
@@ -300,10 +331,28 @@ bool eIDASTimestampValidator::validateAge(const TimestampToken& token, int max_a
 }
 
 bool eIDASTimestampValidator::isQualifiedTSA(
-    const std::string& /*tsa_cert*/,
-    const std::vector<std::string>& /*qtsp_list*/) {
+    const std::string& tsa_cert,
+    const std::vector<std::string>& qtsp_list) {
     
     validation_errors_.clear();
+
+    eIDASTimestampValidator::QualifiedTSAFn fn;
+    {
+        std::lock_guard<std::mutex> lk(eIDASTimestampValidator::qualifiedTSAFnMutex());
+        fn = eIDASTimestampValidator::qualifiedTSAFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(tsa_cert, qtsp_list, validation_errors_);
+        } catch (const std::exception& e) {
+            validation_errors_.push_back(
+                std::string("Injected QualifiedTSAFn threw exception: ") + e.what());
+            return false;
+        } catch (...) {
+            validation_errors_.push_back("Injected QualifiedTSAFn threw unknown exception");
+            return false;
+        }
+    }
     
     // STUB/SIMULATION NOTE (isQualifiedTSA — supplement to the eIDASTimestampValidator
     // class-level note above): Always returns false; cannot validate QTSP certificate

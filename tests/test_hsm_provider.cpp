@@ -21,6 +21,7 @@
 #include "security/hsm_provider.h"
 #include <filesystem>
 #include <fstream>
+#include <stdexcept>
 
 using namespace themis::security;
 
@@ -540,4 +541,103 @@ TEST_F(HSMProviderTest, ImportCertificateReturnsFalseInStub) {
     bool result = hsm.importCertificate("test-key", "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----\n");
     EXPECT_FALSE(result)
         << "importCertificate() must return false in stub mode to signal no real cert was stored";
+}
+
+// HSM-KM-BRIDGE-01: injected generate/import callbacks are used in stub mode
+TEST_F(HSMProviderTest, KeyManagementCallbacksAreUsed) {
+    HsmProviderEnvGuard allow_guard("THEMIS_ALLOW_HSM_STUB", "1");
+    HsmProviderEnvUnsetGuard prod_guard("THEMIS_PRODUCTION_MODE");
+
+    HSMConfig config;
+    config.library_path = "";
+    HSMProvider hsm(config);
+    ASSERT_TRUE(hsm.initialize());
+
+    bool generate_called = false;
+    bool import_called = false;
+    HSMProvider::setGenerateKeyPairFn(
+        [&](const std::string& label, uint32_t key_size, bool extractable) {
+            generate_called = true;
+            EXPECT_EQ(label, "bridge-key");
+            EXPECT_EQ(key_size, 3072u);
+            EXPECT_TRUE(extractable);
+            return true;
+        });
+    HSMProvider::setImportCertificateFn(
+        [&](const std::string& key_label, const std::string& cert_pem) {
+            import_called = true;
+            EXPECT_EQ(key_label, "bridge-key");
+            EXPECT_NE(cert_pem.find("BEGIN CERTIFICATE"), std::string::npos);
+            return true;
+        });
+
+    EXPECT_TRUE(hsm.generateKeyPair("bridge-key", 3072, true));
+    EXPECT_TRUE(hsm.importCertificate("bridge-key",
+                                      "-----BEGIN CERTIFICATE-----\nX\n-----END CERTIFICATE-----\n"));
+    EXPECT_TRUE(generate_called);
+    EXPECT_TRUE(import_called);
+
+    HSMProvider::setGenerateKeyPairFn({});
+    HSMProvider::setImportCertificateFn({});
+}
+
+// HSM-KM-BRIDGE-02: injected getCertificate callback bypasses stub dummy cert path
+TEST_F(HSMProviderTest, GetCertificateCallbackOverridesStubPath) {
+    HsmProviderEnvUnsetGuard allow_guard("THEMIS_ALLOW_HSM_STUB");
+    HsmProviderEnvUnsetGuard prod_guard("THEMIS_PRODUCTION_MODE");
+
+    HSMConfig config;
+    config.library_path = "";
+    HSMProvider hsm(config);
+    {
+        HsmProviderEnvGuard init_allow("THEMIS_ALLOW_HSM_STUB", "1");
+        ASSERT_TRUE(hsm.initialize());
+    }
+
+    HSMProvider::setGetCertificateFn(
+        [](const std::string& key_label) -> std::optional<std::string> {
+            if (key_label == "bridge-cert-key") {
+                return std::string(
+                    "-----BEGIN CERTIFICATE-----\nBRIDGE-CERT\n-----END CERTIFICATE-----\n");
+            }
+            return std::nullopt;
+        });
+
+    auto cert = hsm.getCertificate("bridge-cert-key");
+    ASSERT_TRUE(cert.has_value());
+    EXPECT_NE(cert->find("BRIDGE-CERT"), std::string::npos);
+
+    HSMProvider::setGetCertificateFn({});
+}
+
+// HSM-KM-BRIDGE-03: callback exceptions fail closed
+TEST_F(HSMProviderTest, KeyManagementCallbackExceptionsFailClosed) {
+    HsmProviderEnvGuard allow_guard("THEMIS_ALLOW_HSM_STUB", "1");
+    HsmProviderEnvUnsetGuard prod_guard("THEMIS_PRODUCTION_MODE");
+
+    HSMConfig config;
+    config.library_path = "";
+    HSMProvider hsm(config);
+    ASSERT_TRUE(hsm.initialize());
+
+    HSMProvider::setGenerateKeyPairFn(
+        [](const std::string&, uint32_t, bool) -> bool {
+            throw std::runtime_error("generate failed");
+        });
+    HSMProvider::setImportCertificateFn(
+        [](const std::string&, const std::string&) -> bool {
+            throw std::runtime_error("import failed");
+        });
+    HSMProvider::setGetCertificateFn(
+        [](const std::string&) -> std::optional<std::string> {
+            throw std::runtime_error("get cert failed");
+        });
+
+    EXPECT_FALSE(hsm.generateKeyPair("k", 2048, false));
+    EXPECT_FALSE(hsm.importCertificate("k", "pem"));
+    EXPECT_FALSE(hsm.getCertificate("k").has_value());
+
+    HSMProvider::setGenerateKeyPairFn({});
+    HSMProvider::setImportCertificateFn({});
+    HSMProvider::setGetCertificateFn({});
 }

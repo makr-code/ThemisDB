@@ -25,6 +25,8 @@
 #include <optional>
 #include <cstdint>
 #include <chrono>
+#include <functional>
+#include <mutex>
 
 namespace themis {
 namespace security {
@@ -251,6 +253,29 @@ private:
 class eIDASTimestampValidator {
 public:
     eIDASTimestampValidator() = default;
+
+    // -----------------------------------------------------------------------
+    // Injectable validation bridge (STUB #213 / #214)
+    // -----------------------------------------------------------------------
+    using ValidateFn = std::function<bool(const TimestampToken& token,
+                                          const std::vector<std::string>& trust_anchors,
+                                          std::vector<std::string>& validation_errors)>;
+    using QualifiedTSAFn = std::function<bool(const std::string& tsa_cert,
+                                              const std::vector<std::string>& qtsp_list,
+                                              std::vector<std::string>& validation_errors)>;
+
+    /// Register callback used by validateeIDASTimestamp() in non-OpenSSL builds.
+    /// Pass empty fn to restore default stub behavior.
+    static void setValidateFn(ValidateFn fn) {
+        std::lock_guard<std::mutex> lk(validateFnMutex());
+        validateFnStorage() = std::move(fn);
+    }
+    /// Register callback used by isQualifiedTSA() in non-OpenSSL builds.
+    /// Pass empty fn to restore default stub behavior.
+    static void setQualifiedTSAFn(QualifiedTSAFn fn) {
+        std::lock_guard<std::mutex> lk(qualifiedTSAFnMutex());
+        qualifiedTSAFnStorage() = std::move(fn);
+    }
     
     /**
      * Validate timestamp for eIDAS compliance
@@ -282,6 +307,24 @@ public:
      * Get validation errors
      */
     std::vector<std::string> getValidationErrors() const;
+
+private:
+    static std::mutex& validateFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static ValidateFn& validateFnStorage() {
+        static ValidateFn fn;
+        return fn;
+    }
+    static std::mutex& qualifiedTSAFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static QualifiedTSAFn& qualifiedTSAFnStorage() {
+        static QualifiedTSAFn fn;
+        return fn;
+    }
 
 private:
     std::vector<std::string> validation_errors_;

@@ -314,18 +314,72 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
 // Removal Plan: Replaced by hsm_provider_pkcs11.cpp when -DTHEMIS_ENABLE_HSM_REAL
 //             is set.  See src/security/FUTURE_ENHANCEMENTS.md §"HSM Key Management".
 bool HSMProvider::generateKeyPair(const std::string& label, [[maybe_unused]] uint32_t key_size, [[maybe_unused]] bool extractable) {
+    GenerateKeyPairFn fn;
+    {
+        std::lock_guard<std::mutex> lk(HSMProvider::generateKeyPairFnMutex());
+        fn = HSMProvider::generateKeyPairFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(label, key_size, extractable);
+        } catch (const std::exception& e) {
+            last_error_ = std::string("generateKeyPair callback failed: ") + e.what();
+            THEMIS_ERROR("{}", last_error_);
+            return false;
+        } catch (...) {
+            last_error_ = "generateKeyPair callback failed: unknown exception";
+            THEMIS_ERROR("{}", last_error_);
+            return false;
+        }
+    }
     // Stub: unused
     THEMIS_WARN("HSMProvider stub generateKeyPair ignored (label='{}')", label);
     return false;
 }
 
 bool HSMProvider::importCertificate(const std::string& key_label, [[maybe_unused]] const std::string& cert_pem) {
+    ImportCertificateFn fn;
+    {
+        std::lock_guard<std::mutex> lk(HSMProvider::importCertificateFnMutex());
+        fn = HSMProvider::importCertificateFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(key_label, cert_pem);
+        } catch (const std::exception& e) {
+            last_error_ = std::string("importCertificate callback failed: ") + e.what();
+            THEMIS_ERROR("{}", last_error_);
+            return false;
+        } catch (...) {
+            last_error_ = "importCertificate callback failed: unknown exception";
+            THEMIS_ERROR("{}", last_error_);
+            return false;
+        }
+    }
     // Stub: unused
     THEMIS_WARN("HSMProvider stub importCertificate ignored (key='{}')", key_label);
     return false;
 }
 
 std::optional<std::string> HSMProvider::getCertificate([[maybe_unused]] const std::string& key_label) {
+    GetCertificateFn fn;
+    {
+        std::lock_guard<std::mutex> lk(HSMProvider::getCertificateFnMutex());
+        fn = HSMProvider::getCertificateFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(key_label);
+        } catch (const std::exception& e) {
+            last_error_ = std::string("getCertificate callback failed: ") + e.what();
+            THEMIS_ERROR("{}", last_error_);
+            return std::nullopt;
+        } catch (...) {
+            last_error_ = "getCertificate callback failed: unknown exception";
+            THEMIS_ERROR("{}", last_error_);
+            return std::nullopt;
+        }
+    }
     // Fail-closed by default: returning a dummy PEM to an unsuspecting caller is dangerous.
     // A caller that trusts the returned certificate for authentication or TLS would use
     // a meaningless stub cert, opening the door to certificate-validation bypass.

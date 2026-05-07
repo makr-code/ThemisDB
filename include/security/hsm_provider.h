@@ -24,6 +24,8 @@
 #include <memory>
 #include <optional>
 #include <cstdint>
+#include <functional>
+#include <mutex>
 
 namespace themis {
 namespace security {
@@ -210,6 +212,35 @@ public:
      */
     std::optional<std::string> getCertificate(const std::string& key_label);
 
+    // -----------------------------------------------------------------------
+    // Injectable key-management bridge (STUB #215)
+    // -----------------------------------------------------------------------
+    using GenerateKeyPairFn =
+        std::function<bool(const std::string& label, uint32_t key_size, bool extractable)>;
+    using ImportCertificateFn =
+        std::function<bool(const std::string& key_label, const std::string& cert_pem)>;
+    using GetCertificateFn =
+        std::function<std::optional<std::string>(const std::string& key_label)>;
+
+    /// Register callback used by generateKeyPair() in stub builds.
+    /// Pass empty fn to restore default stub behavior.
+    static void setGenerateKeyPairFn(GenerateKeyPairFn fn) {
+        std::lock_guard<std::mutex> lk(generateKeyPairFnMutex());
+        generateKeyPairFnStorage() = std::move(fn);
+    }
+    /// Register callback used by importCertificate() in stub builds.
+    /// Pass empty fn to restore default stub behavior.
+    static void setImportCertificateFn(ImportCertificateFn fn) {
+        std::lock_guard<std::mutex> lk(importCertificateFnMutex());
+        importCertificateFnStorage() = std::move(fn);
+    }
+    /// Register callback used by getCertificate() in stub builds.
+    /// Pass empty fn to restore default stub behavior.
+    static void setGetCertificateFn(GetCertificateFn fn) {
+        std::lock_guard<std::mutex> lk(getCertificateFnMutex());
+        getCertificateFnStorage() = std::move(fn);
+    }
+
     /**
      * Encrypt data using HSM-backed public key (RSA-PKCS#1 v1.5 or OAEP)
      * Intended for DEK wrapping in the key management hierarchy.
@@ -270,6 +301,31 @@ public:
     void periodicSecurityCheck();
 
 private:
+    static std::mutex& generateKeyPairFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static GenerateKeyPairFn& generateKeyPairFnStorage() {
+        static GenerateKeyPairFn fn;
+        return fn;
+    }
+    static std::mutex& importCertificateFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static ImportCertificateFn& importCertificateFnStorage() {
+        static ImportCertificateFn fn;
+        return fn;
+    }
+    static std::mutex& getCertificateFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static GetCertificateFn& getCertificateFnStorage() {
+        static GetCertificateFn fn;
+        return fn;
+    }
+
     class Impl;
     std::unique_ptr<Impl> impl_;
     HSMConfig config_;
