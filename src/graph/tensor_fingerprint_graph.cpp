@@ -460,6 +460,7 @@ void TensorFingerprintGraph::importPersistedEdges(
     std::unordered_set<std::string> seen;
     seen.reserve(edges.size());
 
+    // ASCII Unit Separator avoids collisions with user-provided IDs in joined keys.
     constexpr char kSep = '\x1f';
     for (const auto& edge : edges) {
         if (edge.from == edge.to) continue;
