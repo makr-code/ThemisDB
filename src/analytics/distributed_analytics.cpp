@@ -658,50 +658,6 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery& query) {
     // Scatter: dispatch query to each shard asynchronously
     // ------------------------------------------------------------------
     using FutureResult = std::future<std::pair<OLAPResult, ShardExecutionInfo>>;
-    std::vector<FutureResult> futures;
-    futures.reserve(active.size());
-
-    for (const auto& entry : active) {
-        std::promise<std::pair<OLAPResult, ShardExecutionInfo>> promise;
-        futures.push_back(promise.get_future());
-
-        std::thread(
-            [entry, query, promise = std::move(promise)]() mutable {
-                ShardExecutionInfo info;
-                info.shard_id = entry.shard_id;
-
-                const auto t0 = std::chrono::steady_clock::now();
-                try {
-                    auto partial = entry.executor->execute(entry.shard_id, query);
-                    const auto t1 = std::chrono::steady_clock::now();
-                    info.success = true;
-                    info.execution_time_ms =
-                        std::chrono::duration<double, std::milli>(t1 - t0).count();
-                    promise.set_value({std::move(partial), std::move(info)});
-                } catch (const std::exception& ex) {
-                    const auto t1 = std::chrono::steady_clock::now();
-                    info.success = false;
-                    info.error   = ex.what();
-                    info.execution_time_ms =
-                        std::chrono::duration<double, std::milli>(t1 - t0).count();
-                    spdlog::error(
-                        "DistributedAnalyticsSharding: shard {} failed: {}",
-                        entry.shard_id, ex.what());
-                    promise.set_value({OLAPResult{}, std::move(info)});
-                } catch (...) {
-                    const auto t1 = std::chrono::steady_clock::now();
-                    info.success = false;
-                    info.error   = "unknown shard error";
-                    info.execution_time_ms =
-                        std::chrono::duration<double, std::milli>(t1 - t0).count();
-                    spdlog::error(
-                        "DistributedAnalyticsSharding: shard {} failed with unknown exception",
-                        entry.shard_id);
-                    promise.set_value({OLAPResult{}, std::move(info)});
-                }
-            })
-            .detach();
-    }
 
     // ------------------------------------------------------------------
     // Gather: collect partial results (with per-shard timeout)
@@ -712,36 +668,92 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery& query) {
     const bool has_timeout = (config_.shard_timeout_ms > 0);
     const auto per_shard_timeout = std::chrono::milliseconds(config_.shard_timeout_ms);
 
-    for (size_t i = 0; i < futures.size(); ++i) {
-        auto& f = futures[i];
+    const size_t parallel_limit =
+        (config_.max_parallel_shards == 0)
+            ? active.size()
+            : std::min(active.size(), config_.max_parallel_shards);
 
-        // Per-shard timeout: use wait_for so we never block forever.
-        if (has_timeout) {
-            const auto status = f.wait_for(per_shard_timeout);
-            if (status == std::future_status::timeout) {
-                ShardExecutionInfo info;
-                info.shard_id = active[i].shard_id;
-                info.success  = false;
-                info.error    = "timeout (" + std::to_string(config_.shard_timeout_ms) + " ms)";
-                spdlog::warn("DistributedAnalyticsSharding: shard '{}' timed out",
-                             active[i].shard_id);
-                result.shard_info.push_back(std::move(info));
-                continue;
-            }
+    for (size_t batch_begin = 0; batch_begin < active.size(); batch_begin += parallel_limit) {
+        const size_t batch_end = std::min(active.size(), batch_begin + parallel_limit);
+        std::vector<FutureResult> futures;
+        futures.reserve(batch_end - batch_begin);
+
+        for (size_t idx = batch_begin; idx < batch_end; ++idx) {
+            const auto& entry = active[idx];
+
+            std::promise<std::pair<OLAPResult, ShardExecutionInfo>> promise;
+            futures.push_back(promise.get_future());
+
+            std::thread(
+                [entry, query, promise = std::move(promise)]() mutable {
+                    ShardExecutionInfo info;
+                    info.shard_id = entry.shard_id;
+
+                    const auto t0 = std::chrono::steady_clock::now();
+                    try {
+                        auto partial = entry.executor->execute(entry.shard_id, query);
+                        const auto t1 = std::chrono::steady_clock::now();
+                        info.success = true;
+                        info.execution_time_ms =
+                            std::chrono::duration<double, std::milli>(t1 - t0).count();
+                        promise.set_value({std::move(partial), std::move(info)});
+                    } catch (const std::exception& ex) {
+                        const auto t1 = std::chrono::steady_clock::now();
+                        info.success = false;
+                        info.error   = ex.what();
+                        info.execution_time_ms =
+                            std::chrono::duration<double, std::milli>(t1 - t0).count();
+                        spdlog::error(
+                            "DistributedAnalyticsSharding: shard {} failed: {}",
+                            entry.shard_id, ex.what());
+                        promise.set_value({OLAPResult{}, std::move(info)});
+                    } catch (...) {
+                        const auto t1 = std::chrono::steady_clock::now();
+                        info.success = false;
+                        info.error   = "unknown shard error";
+                        info.execution_time_ms =
+                            std::chrono::duration<double, std::milli>(t1 - t0).count();
+                        spdlog::error(
+                            "DistributedAnalyticsSharding: shard {} failed with unknown exception",
+                            entry.shard_id);
+                        promise.set_value({OLAPResult{}, std::move(info)});
+                    }
+                })
+                .detach();
         }
 
-        auto [partial, info] = f.get();
-        result.shard_info.push_back(info);
-        if (info.success) {
-            ++result.successful_shards;
-            partials.push_back(std::move(partial));
-        } else if (!config_.allow_partial_results) {
-            // At least one shard failed and partial results are not allowed
-            spdlog::error(
-                "DistributedAnalyticsSharding: shard {} failed and "
-                "allow_partial_results=false; aborting merge",
-                info.shard_id);
-            return result;
+        for (size_t i = 0; i < futures.size(); ++i) {
+            auto& f = futures[i];
+            const auto active_index = batch_begin + i;
+
+            // Per-shard timeout: use wait_for so we never block forever.
+            if (has_timeout) {
+                const auto status = f.wait_for(per_shard_timeout);
+                if (status == std::future_status::timeout) {
+                    ShardExecutionInfo info;
+                    info.shard_id = active[active_index].shard_id;
+                    info.success  = false;
+                    info.error    = "timeout (" + std::to_string(config_.shard_timeout_ms) + " ms)";
+                    spdlog::warn("DistributedAnalyticsSharding: shard '{}' timed out",
+                                 active[active_index].shard_id);
+                    result.shard_info.push_back(std::move(info));
+                    continue;
+                }
+            }
+
+            auto [partial, info] = f.get();
+            result.shard_info.push_back(info);
+            if (info.success) {
+                ++result.successful_shards;
+                partials.push_back(std::move(partial));
+            } else if (!config_.allow_partial_results) {
+                // At least one shard failed and partial results are not allowed
+                spdlog::error(
+                    "DistributedAnalyticsSharding: shard {} failed and "
+                    "allow_partial_results=false; aborting merge",
+                    info.shard_id);
+                return result;
+            }
         }
     }
 

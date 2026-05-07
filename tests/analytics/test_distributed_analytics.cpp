@@ -876,6 +876,52 @@ static std::shared_ptr<ShardQueryExecutor> makeSlowExec(int sleep_ms = 500) {
     return std::make_shared<SlowExec>(sleep_ms);
 }
 
+// Helper: executor that tracks concurrent in-flight calls.
+static std::shared_ptr<ShardQueryExecutor> makeTrackingExec(
+        std::shared_ptr<std::atomic<int>> current_inflight,
+        std::shared_ptr<std::atomic<int>> peak_inflight,
+        int sleep_ms = 120) {
+    using namespace themis::analytics;
+    class TrackingExec : public ShardQueryExecutor {
+    public:
+        TrackingExec(std::shared_ptr<std::atomic<int>> current,
+                     std::shared_ptr<std::atomic<int>> peak,
+                     int sleep_ms)
+            : current_(std::move(current)),
+              peak_(std::move(peak)),
+              sleep_ms_(sleep_ms) {}
+
+        OLAPResult execute(const std::string&, const OLAPQuery&) override {
+            const int now = current_->fetch_add(1, std::memory_order_relaxed) + 1;
+            int observed_peak = peak_->load(std::memory_order_relaxed);
+            while (now > observed_peak &&
+                   !peak_->compare_exchange_weak(
+                       observed_peak, now,
+                       std::memory_order_relaxed,
+                       std::memory_order_relaxed)) {
+            }
+
+            std::this_thread::sleep_for(std::chrono::milliseconds{sleep_ms_});
+            current_->fetch_sub(1, std::memory_order_relaxed);
+
+            OLAPResult r;
+            r.columns = {"total"};
+            OLAPResult::Row row;
+            row.values["total"] = 1.0;
+            r.rows.push_back(std::move(row));
+            r.total_rows = 1;
+            return r;
+        }
+
+    private:
+        std::shared_ptr<std::atomic<int>> current_;
+        std::shared_ptr<std::atomic<int>> peak_;
+        int sleep_ms_;
+    };
+    return std::make_shared<TrackingExec>(
+        std::move(current_inflight), std::move(peak_inflight), sleep_ms);
+}
+
 } // anonymous namespace
 
 // FED-01: All shards belong to the same tenant — query is dispatched normally.
@@ -1059,4 +1105,28 @@ TEST(FederatedDispatchTest, FED08_UpdateShardClearsTenantRestriction) {
         EXPECT_EQ(res.total_shards, 1u);
         EXPECT_EQ(res.successful_shards, 1u);
     }
+}
+
+// FED-09: max_parallel_shards limits concurrent in-flight shard execution.
+TEST(FederatedDispatchTest, FED09_MaxParallelShardsRespected) {
+    using namespace themisdb::analytics;
+
+    DistributedAnalyticsSharding::Config cfg;
+    cfg.max_parallel_shards = 2;
+    cfg.shard_timeout_ms = 1000;
+    DistributedAnalyticsSharding das(cfg);
+
+    auto current = std::make_shared<std::atomic<int>>(0);
+    auto peak = std::make_shared<std::atomic<int>>(0);
+
+    das.addShard("s1", makeTrackingExec(current, peak));
+    das.addShard("s2", makeTrackingExec(current, peak));
+    das.addShard("s3", makeTrackingExec(current, peak));
+    das.addShard("s4", makeTrackingExec(current, peak));
+    das.addShard("s5", makeTrackingExec(current, peak));
+
+    auto res = das.executeDistributed(makeSumQuery());
+    EXPECT_EQ(res.total_shards, 5u);
+    EXPECT_EQ(res.successful_shards, 5u);
+    EXPECT_LE(peak->load(std::memory_order_relaxed), 2);
 }
