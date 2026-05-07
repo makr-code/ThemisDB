@@ -160,13 +160,31 @@ uint64_t TensorFingerprintGraph::bandHash(const TensorFingerprint& fp,
 }
 
 void TensorFingerprintGraph::insertIntoBuckets(const std::string& id,
-                                                const TensorFingerprint& fp) {
+                                                 const TensorFingerprint& fp) {
     for (std::size_t band = 0; band < cfg_.num_bands; ++band) {
         std::size_t start = band * rows_per_band_;
         uint64_t bh = bandHash(fp, start, rows_per_band_, band);
         // Combine band index into bucket key to avoid false cross-band collisions
         uint64_t bucket_key = bh ^ (static_cast<uint64_t>(band) * 0x9e3779b97f4a7c15ULL);
         lsh_buckets_[bucket_key].insert(id);
+    }
+}
+
+void TensorFingerprintGraph::removeFromBuckets(const std::string& id,
+                                               const TensorFingerprint& fp) {
+    for (std::size_t band = 0; band < cfg_.num_bands; ++band) {
+        const std::size_t start = band * rows_per_band_;
+        const uint64_t bh = bandHash(fp, start, rows_per_band_, band);
+        const uint64_t bucket_key =
+            bh ^ (static_cast<uint64_t>(band) * 0x9e3779b97f4a7c15ULL);
+        auto it = lsh_buckets_.find(bucket_key);
+        if (it == lsh_buckets_.end()) {
+            continue;
+        }
+        it->second.erase(id);
+        if (it->second.empty()) {
+            lsh_buckets_.erase(it);
+        }
     }
 }
 
@@ -205,6 +223,7 @@ void TensorFingerprintGraph::insert(
     // Remove old entry if updating — inline removal to avoid recursive lock
     // (calling remove() would attempt to re-acquire mutex_ causing deadlock).
     if (nodes_.count(tensor_id)) {
+        const auto previous_fp = nodes_[tensor_id].fingerprint;
         auto ait = adj_.find(tensor_id);
         if (ait != adj_.end()) {
             for (const auto& e : ait->second) {
@@ -217,6 +236,7 @@ void TensorFingerprintGraph::insert(
             edge_count_.fetch_sub(ait->second.size(), std::memory_order_relaxed);
             adj_.erase(ait);
         }
+        removeFromBuckets(tensor_id, previous_fp);
         nodes_.erase(tensor_id);
     }
 
@@ -276,7 +296,7 @@ bool TensorFingerprintGraph::remove(const std::string& tensor_id) {
         adj_.erase(ait);
     }
 
-    // Remove from LSH buckets (lazy: leave stale entry; clean on query miss)
+    removeFromBuckets(tensor_id, nit->second.fingerprint);
     nodes_.erase(nit);
     return true;
 }

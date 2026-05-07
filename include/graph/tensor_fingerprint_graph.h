@@ -254,6 +254,7 @@ private:
     TensorFingerprint computeFingerprint(const storage::TTTrain& train) const;
 
     void insertIntoBuckets(const std::string& id, const TensorFingerprint& fp);
+    void removeFromBuckets(const std::string& id, const TensorFingerprint& fp);
 
     std::unordered_set<std::string>
     lshCandidates(const TensorFingerprint& fp) const;

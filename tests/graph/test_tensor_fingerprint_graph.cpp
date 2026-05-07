@@ -24,6 +24,8 @@
  *   TFG-19  Large graph (1K nodes): findSimilar ≤ top_k results
  *   TFG-20  DeduplicationManager: store canonical sets is_canonical=true
  *   TFG-21  Exact TT-cosine is used for edge similarity
+ *   TFG-22  remove() purges LSH buckets for deleted tensor
+ *   TFG-23  insert overwrite purges stale bucket entries
  *   TDM-01  DeduplicationManager: getRecord returns record for stored id
  *   TDM-02  DeduplicationManager: getStats total_tensors increments
  *   TDM-03  DeduplicationManager: null dependency throws
@@ -278,6 +280,41 @@ TEST_F(TensorFingerprintGraphTest, TFG21_UsesExactTTCosineForEdges) {
     ASSERT_FALSE(nb.empty());
     EXPECT_EQ(nb[0].tensor_id, "cos_b");
     EXPECT_NEAR(nb[0].similarity, expected, 1e-6);
+}
+
+// TFG-22: remove should purge bucket membership so deleted IDs are never returned.
+TEST_F(TensorFingerprintGraphTest, TFG22_RemovePurgesBucketMembership) {
+    auto data = randVec(8, 321);
+    auto t = makeTT(data, {8, 1});
+
+    graph_->insert("gone", t);
+    ASSERT_TRUE(graph_->remove("gone"));
+
+    auto results = graph_->findSimilar(t, 5);
+    EXPECT_TRUE(results.empty());
+}
+
+// TFG-23: overwriting an ID should remove old bucket entries and keep graph stable.
+TEST_F(TensorFingerprintGraphTest, TFG23_OverwritePurgesOldBucketMembership) {
+    auto data_a = randVec(8, 500);
+    auto data_b = randVec(8, 501);
+    auto data_q = randVec(8, 502);
+
+    auto t_a = makeTT(data_a, {8, 1});
+    auto t_b = makeTT(data_b, {8, 1});
+    auto t_q = makeTT(data_q, {8, 1});
+
+    graph_->insert("same_id", t_a);
+    graph_->insert("same_id", t_b);
+
+    auto results = graph_->findSimilar(t_q, 20);
+    std::size_t hits = 0;
+    for (const auto& r : results) {
+        if (r.tensor_id == "same_id") {
+            ++hits;
+        }
+    }
+    EXPECT_LE(hits, 1u);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

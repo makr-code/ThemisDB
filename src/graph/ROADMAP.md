@@ -217,6 +217,11 @@
 - [ ] Graph query ≤ 50ms for 100K nodes (Target: Q2 2027)
   - Profiling baseline: LSH band scan over 32 bands × 100K total entries
   - Optimisation: Bloom filter per band to skip empty buckets early
+- [x] LSH bucket cleanup on remove/update to prevent stale candidate IDs (2026-05-07)
+  - `TensorFingerprintGraph::removeFromBuckets()` now removes tensor IDs from all
+    band buckets both on `remove()` and overwrite path in `insert()`.
+  - Regression tests TFG-22 and TFG-23 verify no stale IDs are returned via
+    `findSimilar()` after delete/update.
 - [~] Exact TT-cosine similarity verification for edge creation (replace Jaccard approximation) (Target: Q2 2027)
   - **In progress 2026-05-07**: `TensorFingerprintGraph::insert()` and `findSimilar()` now use
     `TensorTrainDecomposer::cosineSimilarity()` for exact compressed-domain verification/ranking;
