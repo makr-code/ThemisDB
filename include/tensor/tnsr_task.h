@@ -122,7 +122,10 @@ struct TNSRReport {
     /// Total bytes saved by recompression (before – after serialised sizes).
     std::size_t bytes_saved = 0;
 
-    /// Sum of (old_max_rank – new_max_rank) across all keys that were rewritten.
+    /// Sum of (old_max_rank - new_max_rank) across all keys that were rewritten.
+    /// Positive values indicate rank reduction (storage savings); negative values
+    /// indicate rank increase (unusual — possible only when recompression with a
+    /// looser epsilon yields a higher-rank intermediate train, which is rare).
     std::int64_t rank_delta = 0;
 
     /// Number of rerouteEdge calls applied across all keys.
