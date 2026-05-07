@@ -64,6 +64,10 @@ void TTSProcessor::setOggEncoderFn(AudioEncoderFn fn) {
     ogg_encoder_fn_ = std::move(fn);
 }
 
+void TTSProcessor::setSynthFn(TTSSynthFn fn) {
+    synth_fn_ = std::move(fn);
+}
+
 PluginInfo TTSProcessor::getInfo() const {
     PluginInfo info;
     info.name = "tts-processor";
@@ -414,15 +418,22 @@ std::vector<uint8_t> TTSProcessor::generatePCM(
     // STUB/SIMULATION NOTE:
     // Purpose: Return a byte-valid PCM buffer so callers that depend on
     //          synthesizeSpeech() do not crash when TTS backend is absent.
-    // Activation: THEMIS_TTS_ENABLED is NOT defined (default build without
-    //             espeak-ng or compatible TTS library).
+    // Activation: THEMIS_ENABLE_PIPER_TTS is NOT defined (default build without
+    //             Piper TTS or espeak-ng).
     // Production Delta: Every synthesizeSpeech() call returns silence.
     //                   Audio players and streaming endpoints receive zeros;
     //                   no audible speech is ever produced.  Duration is
     //                   approximated as text.length() * 100 samples (crude).
-    // Removal Plan: Build with -DTHEMIS_TTS_ENABLED and link espeak-ng (or
+    //                   Inject a real backend via setSynthFn() to bypass.
+    // Removal Plan: Build with -DTHEMIS_ENABLE_PIPER_TTS and link espeak-ng (or
     //               equivalent); the real synthesis path above the #else replaces
     //               this stub.  See src/content/FUTURE_ENHANCEMENTS.md §TTS Backend.
+    if (synth_fn_) {
+        auto result = synth_fn_(text, options);
+        if (!result.empty()) {
+            return result;
+        }
+    }
     size_t duration_samples = text.length() * 100;  // ~100 samples per character
     std::vector<uint8_t> pcm_data(duration_samples * 2);  // 16-bit samples
     

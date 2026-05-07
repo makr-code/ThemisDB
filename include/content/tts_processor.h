@@ -31,6 +31,7 @@
 #pragma once
 
 #include "content_plugin_interface.h"
+#include <functional>
 #include <mutex>
 #include <atomic>
 #include <memory>
@@ -176,6 +177,29 @@ public:
      */
     void setOggEncoderFn(AudioEncoderFn fn);
 
+    /**
+     * @brief Injection type for a custom PCM synthesis backend.
+     *
+     * Signature: `std::vector<uint8_t> fn(const std::string& text,
+     *                                     const TTSOptions& options)`
+     *
+     * The returned vector must be a non-empty 16-bit PCM buffer to replace
+     * the silence stub.  An empty return reverts to the built-in silence path.
+     */
+    using TTSSynthFn = std::function<
+        std::vector<uint8_t>(const std::string& text, const TTSOptions& options)>;
+
+    /**
+     * @brief Inject a custom PCM synthesis backend (non-TTS builds).
+     *
+     * When @p fn is non-null, `generatePCM()` delegates to it instead of the
+     * built-in silence stub used when `THEMIS_ENABLE_PIPER_TTS` is not defined.
+     * Pass `nullptr` to revert to the silence stub.
+     *
+     * Roadmap ref: src/content/FUTURE_ENHANCEMENTS.md §TTS Backend.
+     */
+    void setSynthFn(TTSSynthFn fn);
+
 private:
     // Configuration
     std::string model_path_;
@@ -204,6 +228,9 @@ private:
     // Injected audio format encoder backends (null → PCM passthrough fallback).
     AudioEncoderFn mp3_encoder_fn_;
     AudioEncoderFn ogg_encoder_fn_;
+
+    // Injected PCM synthesis backend (null → silence stub fallback).
+    TTSSynthFn synth_fn_;
 
     // Internal methods
     bool loadTTSModel();

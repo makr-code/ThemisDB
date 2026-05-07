@@ -41,8 +41,34 @@
 #ifdef THEMIS_ENABLE_VULKAN
 #include <vulkan/vulkan.h>
 
+#include <mutex>
+
 namespace themis {
 namespace acceleration {
+
+// ============================================================================
+// GLSL → SPIR-V compiler injection
+// ============================================================================
+
+namespace {
+
+std::mutex     g_glsl_compiler_mutex;
+GlslCompilerFn g_glsl_compiler_fn;
+
+} // anonymous namespace
+
+/**
+ * @brief Inject a runtime GLSL-to-SPIR-V compiler (e.g. shaderc).
+ *
+ * When @p fn is non-null, `compileGLSLtoSPIRV()` delegates to it instead of
+ * returning an empty buffer.  Pass `nullptr` to revert to the stub path.
+ *
+ * Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md §Vulkan GLSL Compiler.
+ */
+void setVulkanGlslCompilerFn(GlslCompilerFn fn) {
+    std::lock_guard<std::mutex> lk(g_glsl_compiler_mutex);
+    g_glsl_compiler_fn = std::move(fn);
+}
 
 // ============================================================================
 // Vulkan Helper Structures
@@ -130,22 +156,36 @@ static VkShaderModule createShaderModule(VkDevice device, const std::vector<uint
     return shaderModule;
 }
 
-static std::vector<uint32_t> compileGLSLtoSPIRV(const std::string& /*glslSource*/,
-                                                 const std::string& /*shaderType*/) {
+static std::vector<uint32_t> compileGLSLtoSPIRV(const std::string& glslSource,
+                                                 const std::string& shaderType) {
+    // Check for an injected GLSL→SPIR-V compiler first.
+    {
+        std::lock_guard<std::mutex> lk(g_glsl_compiler_mutex);
+        if (g_glsl_compiler_fn) {
+            auto spirv = g_glsl_compiler_fn(glslSource, shaderType);
+            if (!spirv.empty()) {
+                return spirv;
+            }
+        }
+    }
     // STUB/SIMULATION NOTE:
     // Purpose: Stub for runtime GLSL→SPIR-V compilation while the shaderc
     //          library is not linked into ThemisDB.
-    // Activation: Always — shaderc is not a ThemisDB build dependency.
+    // Activation: No GlslCompilerFn injected via setVulkanGlslCompilerFn() and
+    //             shaderc is not a ThemisDB build dependency.
     // Production Delta: Returns an empty SPIR-V buffer.  Any compute shader
     //                   that goes through this path fails to create a
     //                   VkShaderModule; Vulkan-accelerated vector operations
     //                   are silently disabled at pipeline creation time.
     //                   Callers must supply pre-compiled .spv files via
-    //                   loadSPIRV() instead.
-    // Removal Plan: Link libshaderc_combined; replace this function body with
-    //               shaderc_compiler_initialize() + shaderc_compile_into_spv().
-    //               Alternatively ship pre-compiled SPIR-V assets.  See
+    //                   loadSPIRV() or inject a real compiler via
+    //                   setVulkanGlslCompilerFn().
+    // Removal Plan: Link libshaderc_combined and inject it via
+    //               setVulkanGlslCompilerFn(); or ship pre-compiled SPIR-V assets
+    //               and use loadSPIRV().  See
     //               src/acceleration/FUTURE_ENHANCEMENTS.md §Vulkan GLSL Compiler.
+    (void)glslSource;
+    (void)shaderType;
     std::cerr << "GLSL to SPIR-V compilation requires shaderc library (STUB)" << std::endl;
     std::cerr << "Pre-compile shaders with: glslangValidator -V shader.comp -o shader.spv" << std::endl;
     return {}; // STUB: empty — requires actual compilation

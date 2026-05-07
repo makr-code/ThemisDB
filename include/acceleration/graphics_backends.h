@@ -315,3 +315,42 @@ private:
 
 } // namespace acceleration
 } // namespace themis
+
+// ============================================================================
+// Vulkan GLSL compiler injection — only available in THEMIS_ENABLE_VULKAN builds
+// ============================================================================
+
+#ifdef THEMIS_ENABLE_VULKAN
+#include <functional>
+#include <vector>
+#include <string>
+
+namespace themis {
+namespace acceleration {
+
+/**
+ * @brief Injection type for a runtime GLSL→SPIR-V compiler (e.g. shaderc).
+ *
+ * Signature: `std::vector<uint32_t> fn(const std::string& glsl_source,
+ *                                      const std::string& shader_type)`
+ *
+ * A non-empty return replaces the built-in empty-SPIR-V stub path.
+ */
+using GlslCompilerFn = std::function<
+    std::vector<uint32_t>(const std::string& glsl_source,
+                          const std::string& shader_type)>;
+
+/**
+ * @brief Inject a real GLSL-to-SPIR-V compiler backend.
+ *
+ * When @p fn is non-null, `compileGLSLtoSPIRV()` in `vulkan_backend_full.cpp`
+ * delegates to it instead of returning an empty buffer.  Pass @p nullptr to
+ * revert to the stub.  Thread-safe.
+ *
+ * Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md §Vulkan GLSL Compiler.
+ */
+void setVulkanGlslCompilerFn(GlslCompilerFn fn);
+
+} // namespace acceleration
+} // namespace themis
+#endif // THEMIS_ENABLE_VULKAN
