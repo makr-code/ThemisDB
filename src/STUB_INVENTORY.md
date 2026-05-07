@@ -40,7 +40,7 @@
 
 ---
 
-## Stub Inventory (251 entries — 154 resolved, 97 active)
+## Stub Inventory (251 entries — 155 resolved, 96 active)
 
 | # | File | Purpose (short) | Activation | Production Delta | **Funktions-Impact** | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|---|
@@ -61,7 +61,7 @@
 | 15 | `security/timestamp_authority.cpp` | Deterministic software TSA for dev/CI | `THEMIS_USE_OPENSSL_TSA` not defined | Timestamps are not RFC 3161-compliant | 🟡 Mittel | `-DTHEMIS_USE_OPENSSL_TSA=ON` | v1.5.0 |
 | 16 | `governance/opa_adapter.cpp` | WASM OPA evaluation placeholder | `Config::mode == WASM` and `wasm_bundle_path` set | Real WASM runtime not yet integrated | 🟡 Mittel | `src/governance/ROADMAP.md` | v1.6.0 |
 | ~~17~~ | ~~`sharding/cross_shard_transaction.cpp` (3PC)~~ | ~~3PC Phase-2 skeleton (PreCommit)~~ | ~~`default_protocol == THREE_PHASE_COMMIT`~~ | ~~3PC not yet safe for production~~ | — | `src/sharding/ROADMAP.md` CST-6 | ~~v1.5.0~~ **RESOLVED 2026-05-06** — `setPreCommitCallback(fn)` public API added; Phase 2 calls `fn(shard_id, txn_id)` for each participant when set and aborts on any rejection, activating the full 3PC non-blocking property; without a callback the 2PC-equivalent fallback is retained with a WARN log |
-| 18 | `sharding/cloud_backup.cpp` | S3-compatible backup provider placeholder | `THEMIS_ENABLE_S3` not defined | No real cloud upload | 🟠 Hoch | `src/sharding/ROADMAP.md` | post-v1.3.0 |
+| ~~18~~ | ~~`sharding/cloud_backup.cpp`~~ | ~~S3-compatible backup provider placeholder~~ | ~~`THEMIS_ENABLE_S3` not defined~~ | ~~No real cloud upload~~ | — | `src/sharding/ROADMAP.md` | ~~post-v1.3.0~~ **RESOLVED 2026-05-07** — `S3UploadFn = std::function<bool(const std::string& bucket, const std::string& local_path, const std::string& remote_path, const std::map<std::string, std::string>& metadata)>` + `setS3UploadFn(fn)` added in `include/sharding/cloud_backup.h`; `S3StorageProvider::upload()` now delegates to injected callback first (thread-safe snapshot + exception-safe fail-closed behavior), with existing mock/env fallback retained when no callback is set; tests `CreateBackupUsesS3UploadCallbackWithoutMockMode` added in `tests/test_cloud_backup.cpp` |
 | 19 | ~~`cdc/cdc_admin.cpp`~~ | ~~`purgeTenant()` always throws (unimplemented)~~ | ~~Always active~~ | ~~GDPR purge not executed~~ | — | `src/cdc/ROADMAP.md` | ~~v1.5.0~~ **RESOLVED 2026-05-05** — implemented via `TenantBufferManager::flushTenant()` + `removeTenant()` |
 | 20 | ~~`training/knowledge_graph_enricher.cpp` (cache key)~~ | ~~Static `":v0"` graph-version suffix~~ | ~~Always active; AQL metadata API not wired~~ | ~~No version-based cache invalidation~~ | — | `src/training/FUTURE_ENHANCEMENTS.md` | ~~v1.5.0~~ **RESOLVED 2026-05-05** — `graph_version_` field added to `Impl` (default `"v0"`); `setGraphVersion()` public method allows callers to set current schema version; cache key now uses `entity_key + ":" + graph_version_` |
 | 21 | ~~`training/knowledge_graph_enricher.cpp` (docId)~~ | ~~Returns `""` for source document ID~~ | ~~Always active; AQL engine not injected~~ | ~~Enrichment silently skipped~~ | — | `FUTURE_ENHANCEMENTS.md` §AQL metadata | ~~v1.5.0~~ **RESOLVED 2026-05-05** — `source_doc_map_` in-process registry added to `Impl`; `registerSourceDocument(sample_id, doc_id)` public method populates the map; `resolveSourceDocumentId()` looks up the map (offline/test) instead of always returning `""` |
@@ -291,4 +291,4 @@
 
 ---
 
-*Last updated: 2026-05-07 — 251 entries, 154 resolved, 97 active — #221/#222 resolved 2026-05-07 via injection APIs (🔴 22 Kritisch · 🟠 20 Hoch · 🟡 44 Mittel · 🟢 12 Niedrig · ⚪ 18 Minimal · — 154 Resolved) — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-05-07 — 251 entries, 155 resolved, 96 active — #18 resolved 2026-05-07 via injection API (🔴 22 Kritisch · 🟠 19 Hoch · 🟡 44 Mittel · 🟢 12 Niedrig · ⚪ 18 Minimal · — 155 Resolved) — maintained by: Consolidation Phase, see `src/ROADMAP.md`*

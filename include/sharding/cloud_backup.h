@@ -218,10 +218,15 @@ private:
 using S3DownloadFn = std::function<bool(const std::string& bucket,
                                         const std::string& remote_path,
                                         const std::string& local_path)>;
+using S3UploadFn = std::function<bool(const std::string& bucket,
+                                      const std::string& local_path,
+                                      const std::string& remote_path,
+                                      const std::map<std::string, std::string>& metadata)>;
 using GCSDeleteFn = std::function<bool(const std::string& bucket,
                                        const std::string& remote_path)>;
 
 void setS3DownloadFn(S3DownloadFn fn);
+void setS3UploadFn(S3UploadFn fn);
 void setGCSDeleteFn(GCSDeleteFn fn);
 
 } // namespace sharding
