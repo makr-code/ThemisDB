@@ -37,6 +37,8 @@
  *   TDM-06  DeduplicationManager: retrieve() canonical returns approx original data
  *   TDM-07  DeduplicationManager: retrieve() delta round-trip returns approx original data
  *   TDM-09  Dedup manager wires external TT loader for graph lookup when cache is disabled
+ *   TDM-10  Dedup manager removes mapped canonical node on external storage delete
+ *   TDM-11  Dedup manager updates mapped canonical node on external storage write
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -608,4 +610,55 @@ TEST(TensorDeduplicationManagerIntegrationTest,
     auto query_train = makeTT(data, {8, 1});
     auto similar = fp->findSimilar(query_train, 5);
     ASSERT_FALSE(similar.empty());
+}
+
+// TDM-10: canonical key mapping drives external delete -> graph and records cleanup
+TEST(TensorDeduplicationManagerIntegrationTest,
+     TDM10_ExternalCanonicalDeleteRemovesGraphNodeAndRecord) {
+    auto engine = makeEngine();
+
+    FingerprintGraphConfig fp_cfg;
+    fp_cfg.similarity_threshold = 0.99;
+    fp_cfg.num_hash_funcs = 64;
+    fp_cfg.num_bands = 16;
+    auto fp = std::make_shared<TensorFingerprintGraph>(fp_cfg);
+
+    auto dec = std::make_shared<TensorTrainDecomposer>();
+    TensorDeduplicationManager mgr(engine, fp, dec, {});
+
+    auto data = randVec(8, 901);
+    auto rec = mgr.store("mapped_id", data, {8, 1}, "t", "c", "fmap");
+    ASSERT_TRUE(rec.is_canonical);
+    ASSERT_EQ(fp->nodeCount(), 1u);
+    ASSERT_TRUE(mgr.getRecord("mapped_id").has_value());
+
+    ASSERT_TRUE(engine->remove({"t", "c", "fmap"}));
+    EXPECT_EQ(fp->nodeCount(), 0u);
+    EXPECT_FALSE(mgr.getRecord("mapped_id").has_value());
+}
+
+// TDM-11: canonical key mapping drives external write -> graph update without duplicate node
+TEST(TensorDeduplicationManagerIntegrationTest,
+     TDM11_ExternalCanonicalWriteUpdatesMappedNodeWithoutDuplication) {
+    auto engine = makeEngine();
+
+    FingerprintGraphConfig fp_cfg;
+    fp_cfg.similarity_threshold = 0.99;
+    fp_cfg.num_hash_funcs = 64;
+    fp_cfg.num_bands = 16;
+    auto fp = std::make_shared<TensorFingerprintGraph>(fp_cfg);
+
+    auto dec = std::make_shared<TensorTrainDecomposer>();
+    TensorDeduplicationManager mgr(engine, fp, dec, {});
+
+    auto data_a = randVec(8, 902);
+    auto rec = mgr.store("mapped_id", data_a, {8, 1}, "t", "c", "fmap");
+    ASSERT_TRUE(rec.is_canonical);
+    ASSERT_EQ(fp->nodeCount(), 1u);
+
+    auto data_b = randVec(8, 903);
+    ASSERT_TRUE(engine->put({"t", "c", "fmap"}, data_b, {8, 1}));
+
+    // Observer should overwrite the same tensor ID rather than creating a second node.
+    EXPECT_EQ(fp->nodeCount(), 1u);
 }

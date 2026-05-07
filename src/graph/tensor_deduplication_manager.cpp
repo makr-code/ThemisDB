@@ -56,6 +56,40 @@ TensorDeduplicationManager::TensorDeduplicationManager(
             storage::TTQuantizer quantizer;
             return quantizer.dequantize(*qtrain);
         });
+
+    storage_->setWriteObserverFn(
+        [this](const TensorFieldKey& key, const TTTrain& train) {
+            std::string tensor_id;
+            {
+                std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
+                auto it = key_to_tensor_id_.find(makeKeyIndex(key));
+                if (it == key_to_tensor_id_.end()) return;
+                tensor_id = it->second;
+            }
+            fp_graph_->insert(tensor_id, train, key.tenant, key.collection, key.field);
+        });
+
+    storage_->setDeleteObserverFn(
+        [this](const TensorFieldKey& key) {
+            std::string tensor_id;
+            {
+                std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
+                auto it = key_to_tensor_id_.find(makeKeyIndex(key));
+                if (it == key_to_tensor_id_.end()) return;
+                tensor_id = it->second;
+                key_to_tensor_id_.erase(it);
+                tensor_id_to_key_.erase(tensor_id);
+                records_.erase(tensor_id);
+            }
+            fp_graph_->remove(tensor_id);
+        });
+}
+
+TensorDeduplicationManager::~TensorDeduplicationManager() {
+    if (storage_) {
+        storage_->setWriteObserverFn(nullptr);
+        storage_->setDeleteObserverFn(nullptr);
+    }
 }
 
 // ============================================================================
@@ -67,6 +101,11 @@ TensorFieldKey TensorDeduplicationManager::makeKey(
     const std::string& collection,
     const std::string& field) const {
     return {tenant, collection, field};
+}
+
+std::string TensorDeduplicationManager::makeKeyIndex(const TensorFieldKey& key) const {
+    constexpr char kSep = '\x1f';
+    return key.tenant + kSep + key.collection + kSep + key.field;
 }
 
 TTTrain TensorDeduplicationManager::computeDelta(
@@ -204,7 +243,20 @@ store_canonical:
 
     // Store record
     std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
+    auto prev = records_.find(tensor_id);
+    if (prev != records_.end()) {
+        auto prev_key_it = tensor_id_to_key_.find(tensor_id);
+        if (prev_key_it != tensor_id_to_key_.end()) {
+            key_to_tensor_id_.erase(prev_key_it->second);
+            tensor_id_to_key_.erase(prev_key_it);
+        }
+    }
     records_[tensor_id] = record;
+    if (record.is_canonical) {
+        const auto idx = makeKeyIndex(makeKey(record.tenant, record.collection, record.field));
+        key_to_tensor_id_[idx] = tensor_id;
+        tensor_id_to_key_[tensor_id] = idx;
+    }
 
     return record;
 }

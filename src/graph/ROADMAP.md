@@ -244,8 +244,11 @@
     `TensorDeleteObserverFn` callback types + `setWriteObserverFn()` / `setDeleteObserverFn()`
     setters.  Observers are invoked outside the write lock after successful `put()` / `remove()`.
     Wiring to `TensorFingerprintGraph::insert()` / `remove()` verified by tests TNSE-OBS-01..03.
-  - Remaining: wiring in `TensorDeduplicationManager` once canonical `tensor_id`→`TensorFieldKey`
-    mapping is formalised; edge persistence / adjacency re-hydration.
+  - **Progress 2026-05-07 (TDM mapping wiring)**: `TensorDeduplicationManager` now formalises
+    canonical `tensor_id`↔`TensorFieldKey` mapping and wires storage observers so external
+    canonical-key writes update mapped graph nodes and canonical-key deletes remove mapped graph
+    nodes + dedup records (tests TDM-10/TDM-11).
+  - Remaining: edge persistence / adjacency re-hydration.
 - [ ] Expected ≥ 40% storage reduction for LLM weight repositories (Target: Q2 2027)
   - Benchmark: 100 Transformer block weight sets with shared FFN matrices
 - [ ] `GraphIndex` persistence for the fingerprint graph (Target: Q2 2027)
@@ -259,7 +262,7 @@
 - Fingerprint + LSH insert ≤ 10ms per tensor
 - Similar-tensor graph query ≤ 50ms for 100K nodes
 - ≥ 40% storage reduction for LLM weight repositories with shared Transformer blocks
-- 20 TFG + 5 TDM = 25 tests passing
+- 20 TFG + 7 TDM = 27 tests passing
 
 ## Known Issues & Limitations
 - Adaptive plan selection using execution feedback is now active; `selectAlgorithm` uses learned EMA costs when confidence > 0, falling back to static depth heuristics otherwise

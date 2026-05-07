@@ -181,7 +181,7 @@ public:
         std::shared_ptr<storage::TensorTrainDecomposer>      decomposer,
         const DeduplicationConfig&                           cfg = {});
 
-    ~TensorDeduplicationManager() = default;
+    ~TensorDeduplicationManager();
 
     // ─── Write ────────────────────────────────────────────────────────────
 
@@ -240,6 +240,8 @@ private:
     mutable std::shared_mutex rw_mutex_;
 
     std::unordered_map<std::string, StoredTensorRecord> records_;
+    std::unordered_map<std::string, std::string> key_to_tensor_id_;
+    std::unordered_map<std::string, std::string> tensor_id_to_key_;
 
     std::atomic<std::size_t> total_bytes_stored_{0};
     std::atomic<std::size_t> bytes_saved_{0};
@@ -257,6 +259,8 @@ private:
     storage::TensorFieldKey makeKey(const std::string& tenant,
                                     const std::string& collection,
                                     const std::string& field) const;
+
+    std::string makeKeyIndex(const storage::TensorFieldKey& key) const;
 };
 
 } // namespace graph
