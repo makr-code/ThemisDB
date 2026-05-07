@@ -72,6 +72,7 @@
 #include "query/functions/ethics_functions.h"
 #include "query/functions/process_mining_functions.h"
 #include "query/functions/fulltext_functions.h"
+#include "query/functions/tensor_functions.h"
 
 #include <iostream>
 #include <stdexcept>
@@ -137,6 +138,11 @@ void registerBuiltinFunctions() {
         // Process Mining functions (process discovery, conformance checking, pattern matching)
         // Includes: PM_EXTRACT_LOG, PM_DISCOVER_PROCESS, PM_FIND_SIMILAR, PM_COMPARE_IDEAL, PM_CONFORMANCE, etc.
         registerProcessMiningFunctions(registry);
+        
+        // Tensor Network functions (TT-compressed domain operations)
+        // Includes: TENSOR_SIMILARITY, TENSOR_NORM, TENSOR_SLICE, TENSOR_COMPRESS, TENSOR_INFO
+        // Ref: Oseledets (2011) TT-SVD; Holtz et al. (2012) TT-format algebra
+        registerTensorFunctions(registry);
         
         // Fulltext functions (search, phrase matching, fuzzy search, n-gram similarity)
         // Includes: FULLTEXT, PHRASE, FUZZY, NGRAM_MATCH, TOKENS, SOUNDEX, METAPHONE, DOUBLE_METAPHONE

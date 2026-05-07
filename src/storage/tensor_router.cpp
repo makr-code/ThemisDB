@@ -1,0 +1,369 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            tensor_router.cpp                                  ║
+  Version:         1.0.0                                              ║
+  Last Modified:   2026-05-05                                         ║
+  Author:          copilot                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 📋 Phase 3 (Q1 2027) — heuristic path complete              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/**
+ * @file tensor_router.cpp
+ * @brief TensorRouter implementation: heuristic routing of multi-model data.
+ *
+ * STUB/SIMULATION NOTE:
+ * Purpose: Heuristic routing using pilot TT-SVD on a subsample.
+ * Activation: Always active. ML path gated by policy.use_ml_routing=true
+ *             AND THEMIS_ENABLE_ROUTING_ML=ON (CMake, Q2 2027).
+ * Production Delta: ML model uses XGBoost trained on historical (ratio, rank,
+ *   access frequency, category) tuples. Heuristic remains as fallback.
+ * Removal Plan: Heuristic path NOT removed; remains as reliable fallback.
+ */
+
+#include "storage/tensor_router.h"
+#include "storage/tensor_train_decomposer.h"
+
+#include <algorithm>
+#include <atomic>
+#include <chrono>
+#include <cmath>
+#include <mutex>
+#include <nlohmann/json.hpp>
+#include <numeric>
+#include <random>
+#include <sstream>
+#include <stdexcept>
+#include <string>
+
+namespace themis {
+namespace storage {
+
+// ============================================================================
+// to_string
+// ============================================================================
+
+// ============================================================================
+// TensorRouter::decide — static heuristic routing from DataProfile
+//
+// Used by TensorIndexManager at index-creation time (no data available).
+// Thresholds from research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md §3.2.
+// ============================================================================
+
+TensorRouter::Route TensorRouter::decide(const DataProfile& p) noexcept {
+    // Full TT compression: κ ≥ 1.7 and dimension large enough to benefit.
+    // Below dim 256 the TT overhead rarely pays off even for compressible data.
+    if (p.kappa_estimate >= 1.7 && p.dim >= 256)
+        return Route::TENSOR_TRAIN;
+
+    // Hybrid (TT shadow for ANN search + native storage): κ ≥ 1.3.
+    if (p.kappa_estimate >= 1.3)
+        return Route::HYBRID;
+
+    // Below threshold: standard vector index only (no TT layer).
+    return Route::HNSW;
+}
+
+// ============================================================================
+// to_string
+// ============================================================================
+
+std::string to_string(TensorRouteDecision d) noexcept {
+    switch (d) {
+        case TensorRouteDecision::LIFT:   return "LIFT";
+        case TensorRouteDecision::HYBRID: return "HYBRID";
+        case TensorRouteDecision::KEEP:   return "KEEP";
+    }
+    return "KEEP";
+}
+
+// ============================================================================
+// TensorRouter::Impl
+// ============================================================================
+
+struct TensorRouter::Impl {
+    std::shared_ptr<TensorNetworkStorageEngine> engine;
+    TensorRoutingPolicy                         policy;
+    TensorTrainDecomposer                       decomposer;
+
+    mutable std::mutex   stats_mu;
+    mutable RouterStats  stats_ {};
+
+    // -----------------------------------------------------------------------
+    // Pilot compression probe
+    // -----------------------------------------------------------------------
+
+    struct PilotResult {
+        double      compression_ratio = 1.0;
+        std::size_t pilot_rank        = 0;
+        double      achieved_eps      = 0.0;
+        double      kappa             = 0.0;  ///< Compressibility indicator κ
+    };
+
+    PilotResult runPilot(
+        const std::vector<float>&       data,
+        const std::vector<std::size_t>& mode_sizes) const
+    {
+        // Sample up to probe_sample_elements from the tensor
+        std::size_t total = data.size();
+        std::size_t sample_n = std::min(total, policy.probe_sample_elements);
+
+        std::vector<float> sample;
+        if (sample_n >= total) {
+            sample = data;
+        } else {
+            // Uniform sub-sampling
+            std::mt19937 rng(42);
+            std::uniform_int_distribution<std::size_t> dist(0, total - 1);
+            sample.resize(sample_n);
+            for (auto& v : sample) v = data[dist(rng)];
+        }
+
+        // Pilot as a 1D tensor (can only estimate compressibility, not shape)
+        TensorTrainConfig cfg;
+        cfg.eps      = 0.05;
+        cfg.max_rank = 32;
+
+        std::vector<std::size_t> pilot_shape;
+        std::size_t n_pilot = 64;
+        // Use first two mode dimensions capped at sample_n
+        if (mode_sizes.size() >= 2) {
+            std::size_t m = std::min(mode_sizes[0], (std::size_t)64);
+            std::size_t n = sample_n / m;
+            if (n < 1) n = 1;
+            if (m * n > sample_n) m = sample_n / n;
+            pilot_shape = {m, n};
+            sample.resize(m * n);
+            n_pilot = m;
+        } else {
+            pilot_shape = {sample.size(), 1u};
+            n_pilot = sample.size();
+        }
+
+        PilotResult res;
+        try {
+            auto [train, stats] = decomposer.decompose(sample, pilot_shape, cfg);
+            res.compression_ratio = stats.compression_ratio;
+            res.pilot_rank        = stats.max_rank;
+            res.achieved_eps      = stats.achieved_eps;
+
+            // κ = compressibility indicator (HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md §3.2)
+            // κ = 2·log(n_pilot) / (2·log(r_pilot) + log(n_pilot))
+            // κ ≥ 1.7 → LIFT, ≥ 1.3 → HYBRID, < 1.3 → KEEP
+            if (res.pilot_rank > 1 && n_pilot > 1) {
+                double log_n = std::log(static_cast<double>(n_pilot));
+                double log_r = std::log(static_cast<double>(res.pilot_rank));
+                double denom = 2.0 * log_r + log_n;
+                res.kappa = (denom > 1e-9) ? (2.0 * log_n / denom) : 0.0;
+            }
+        } catch (const std::exception&) {
+            res = {1.0, 1, 0.0, 0.0};
+        }
+        return res;
+    }
+
+    // -----------------------------------------------------------------------
+    // Apply category overrides
+    // -----------------------------------------------------------------------
+
+    std::optional<TensorRouteDecision> categoryOverride(
+        const TensorRouteHint& hint) const
+    {
+        using Cat = TensorRouteHint::DataCategory;
+
+        // Force-LIFT for inference-bound data when policy says so
+        if (policy.force_lift_for_inference && hint.inference_use) {
+            switch (hint.category) {
+                case Cat::LLM_WEIGHTS:
+                case Cat::LLM_ADAPTER:
+                case Cat::EMBEDDING:
+                case Cat::SIMULATION:
+                    return TensorRouteDecision::LIFT;
+                default:
+                    break;
+            }
+        }
+
+        // Geodata + smooth fields → LIFT regardless
+        if (hint.category == Cat::GEODATA ||
+            hint.category == Cat::SIMULATION) {
+            return TensorRouteDecision::LIFT;
+        }
+
+        // Relational data → KEEP (no benefit from TT compression)
+        if (hint.category == Cat::RELATIONAL) {
+            return TensorRouteDecision::KEEP;
+        }
+
+        // High-churn data → KEEP (compression overhead outweighs benefit)
+        if (hint.high_churn) {
+            return TensorRouteDecision::KEEP;
+        }
+
+        return std::nullopt;  // No override; use pilot-based decision
+    }
+
+    // -----------------------------------------------------------------------
+    // Route decision (analytically derived thresholds — see
+    // research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md §3 & §5)
+    // -----------------------------------------------------------------------
+
+    TensorRouteDecision decide(
+        const PilotResult&     pilot,
+        const TensorRouteHint& hint) const
+    {
+        // Category override has highest priority
+        auto override = categoryOverride(hint);
+        if (override.has_value()) return *override;
+
+        // Rank cap check (latency break-even: r_max=48 for d=768)
+        if (policy.max_lift_rank > 0 && pilot.pilot_rank > policy.max_lift_rank)
+            return TensorRouteDecision::KEEP;
+
+        // Minimum ratio from hint
+        double min_ratio = std::max(hint.min_ratio, 0.0);
+
+        // Combined κ + ratio decision:
+        //   κ ≥ 1.7 AND ratio ≥ 4.0 → LIFT
+        //   κ ≥ 1.3 AND ratio ≥ 1.5 → HYBRID
+        //   otherwise                → KEEP
+        const double lift_ratio   = std::max(policy.min_lift_compression_ratio,   min_ratio);
+        const double hybrid_ratio = std::max(policy.min_hybrid_compression_ratio, min_ratio);
+
+        if (pilot.compression_ratio >= lift_ratio   && pilot.kappa >= 1.7)
+            return TensorRouteDecision::LIFT;
+        if (pilot.compression_ratio >= hybrid_ratio && pilot.kappa >= 1.3)
+            return TensorRouteDecision::HYBRID;
+        return TensorRouteDecision::KEEP;
+    }
+};
+
+// ============================================================================
+// TensorRouter ctor / dtor
+// ============================================================================
+
+TensorRouter::TensorRouter(
+    std::shared_ptr<TensorNetworkStorageEngine> engine,
+    TensorRoutingPolicy                         policy)
+    : impl_(std::make_unique<Impl>())
+{
+    if (!engine)
+        throw std::invalid_argument("TensorRouter: storage engine must not be null");
+    impl_->engine = std::move(engine);
+    impl_->policy = std::move(policy);
+}
+
+TensorRouter::~TensorRouter() = default;
+
+// ============================================================================
+// route()
+// ============================================================================
+
+TensorRouteDecision TensorRouter::route(
+    const std::vector<float>&       data,
+    const std::vector<std::size_t>& mode_sizes,
+    const TensorRouteHint&          hint) const
+{
+    auto t0 = std::chrono::steady_clock::now();
+
+    // Quick path: single element or empty
+    if (data.empty() || mode_sizes.empty())
+        return TensorRouteDecision::KEEP;
+
+    auto pilot   = impl_->runPilot(data, mode_sizes);
+    auto decision = impl_->decide(pilot, hint);
+
+    auto t1      = std::chrono::steady_clock::now();
+    double us    = std::chrono::duration<double, std::micro>(t1 - t0).count();
+
+    std::lock_guard<std::mutex> lk(impl_->stats_mu);
+    auto& s = impl_->stats_;
+    ++s.total_decisions;
+    switch (decision) {
+        case TensorRouteDecision::LIFT:   ++s.lift_decisions;   break;
+        case TensorRouteDecision::HYBRID: ++s.hybrid_decisions; break;
+        case TensorRouteDecision::KEEP:   ++s.keep_decisions;   break;
+    }
+    // Exponential moving average for ratio and latency
+    constexpr double alpha = 0.1;
+    s.avg_pilot_ratio = (s.total_decisions == 1)
+        ? pilot.compression_ratio
+        : (1 - alpha) * s.avg_pilot_ratio + alpha * pilot.compression_ratio;
+    s.avg_decision_us = (s.total_decisions == 1)
+        ? us
+        : (1 - alpha) * s.avg_decision_us + alpha * us;
+
+    return decision;
+}
+
+// ============================================================================
+// explain()
+// ============================================================================
+
+std::string TensorRouter::explain(
+    const std::vector<float>&       data,
+    const std::vector<std::size_t>& mode_sizes,
+    const TensorRouteHint&          hint) const
+{
+    auto pilot    = impl_->runPilot(data, mode_sizes);
+    auto decision = impl_->decide(pilot, hint);
+
+    nlohmann::json j;
+    j["decision"]             = to_string(decision);
+    j["pilot_compression_ratio"] = pilot.compression_ratio;
+    j["pilot_rank"]           = pilot.pilot_rank;
+    j["pilot_achieved_eps"]   = pilot.achieved_eps;
+    j["policy"] = {
+        {"min_lift_compression_ratio",   impl_->policy.min_lift_compression_ratio},
+        {"min_hybrid_compression_ratio", impl_->policy.min_hybrid_compression_ratio},
+        {"max_lift_rank",                impl_->policy.max_lift_rank},
+        {"force_lift_for_inference",     impl_->policy.force_lift_for_inference},
+        {"use_ml_routing",               impl_->policy.use_ml_routing}
+    };
+    j["hint"] = {
+        {"category",      static_cast<int>(hint.category)},
+        {"distribution",  static_cast<int>(hint.distribution)},
+        {"inference_use", hint.inference_use},
+        {"high_churn",    hint.high_churn},
+        {"min_ratio",     hint.min_ratio}
+    };
+
+    // Human-readable reason
+    if (decision == TensorRouteDecision::LIFT)
+        j["reason"] = "Compression ratio " +
+            std::to_string(pilot.compression_ratio) +
+            " exceeds lift threshold " +
+            std::to_string(impl_->policy.min_lift_compression_ratio);
+    else if (decision == TensorRouteDecision::HYBRID)
+        j["reason"] = "Compression ratio " +
+            std::to_string(pilot.compression_ratio) +
+            " qualifies for hybrid (TT shadow index)";
+    else
+        j["reason"] = "Data does not benefit sufficiently from TT compression "
+                      "(ratio=" + std::to_string(pilot.compression_ratio) + ")";
+
+    return j.dump(2);
+}
+
+// ============================================================================
+// stats / policy accessors
+// ============================================================================
+
+TensorRouter::RouterStats TensorRouter::stats() const noexcept {
+    std::lock_guard<std::mutex> lk(impl_->stats_mu);
+    return impl_->stats_;
+}
+
+const TensorRoutingPolicy& TensorRouter::policy() const noexcept {
+    return impl_->policy;
+}
+
+void TensorRouter::setPolicy(TensorRoutingPolicy p) {
+    impl_->policy = std::move(p);
+}
+
+} // namespace storage
+} // namespace themis

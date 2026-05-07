@@ -826,7 +826,7 @@ target_link_libraries(themisdb_query
 
 ## Continuous Query Language (CQL) — v2.0.0
 
-ThemisDB v2.0.0 introduces a production-grade **Continuous Query Language (CQL)** engine that evaluates standing queries continuously as new data arrives. The implementation is based on the formal semantics of Arasu, Babu & Widom (2006); see [arasu_cql_2006.md](../../docs/research/papers/arasu_cql_2006.md).
+ThemisDB v2.0.0 introduces a production-grade **Continuous Query Language (CQL)** engine that evaluates standing queries continuously as new data arrives. The implementation is based on the formal semantics of Arasu, Babu & Widom (2006); see [arasu_cql_2006.md](../../research/papers/arasu_cql_2006.md).
 
 ### CQL Syntax Reference
 
@@ -1030,7 +1030,7 @@ engine->dropQuery("my_query");
 - [Query Optimization Guide](../../docs/query_optimization.md) - Performance tuning and best practices
 - [IMPLEMENTATION_SUMMARY_AQL_FUNCTIONS.md](../../IMPLEMENTATION_SUMMARY_AQL_FUNCTIONS.md) - AQL function implementation details
 - [IMPLEMENTATION_SUMMARY_OPTIMIZER.md](../../IMPLEMENTATION_SUMMARY_OPTIMIZER.md) - Query optimizer internals
-- [arasu_cql_2006.md](../../docs/research/papers/arasu_cql_2006.md) - CQL formal semantics (Arasu, Babu & Widom 2006)
+- [arasu_cql_2006.md](../../research/papers/arasu_cql_2006.md) - CQL formal semantics (Arasu, Babu & Widom 2006)
 
 *Last Updated: April 2026*
 *Module Version: v2.0.0*
@@ -1048,7 +1048,7 @@ engine->dropQuery("my_query");
 
 5. Leis, V., Gubichev, A., Mirchev, A., Boncz, P., Kemper, A., & Neumann, T. (2015). **How Good Are Query Optimizers, Really?** *Proceedings of the VLDB Endowment*, 9(3), 204–215. https://doi.org/10.14778/2850583.2850594
 
-6. Arasu, A., Babu, S., & Widom, J. (2006). **The CQL Continuous Query Language: Semantic Foundations and Query Execution**. *The VLDB Journal*, 15(2), 121–142. https://doi.org/10.1007/s00778-004-0147-z — foundational reference for ThemisDB CQL engine (Phase 8); see [`docs/research/papers/arasu_cql_2006.md`](../../docs/research/papers/arasu_cql_2006.md)
+6. Arasu, A., Babu, S., & Widom, J. (2006). **The CQL Continuous Query Language: Semantic Foundations and Query Execution**. *The VLDB Journal*, 15(2), 121–142. https://doi.org/10.1007/s00778-004-0147-z — foundational reference for ThemisDB CQL engine (Phase 8); see [`research/papers/arasu_cql_2006.md`](../../research/papers/arasu_cql_2006.md)
 
 ## Installation
 

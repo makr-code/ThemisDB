@@ -5,7 +5,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/PackageCommon.cmake)
 
 if(WIN32 AND NOT TARGET package-msi)
     if(THEMIS_HAS_MSI_TOOLS)
-        set(_themis_msi_components Unspecified runtime tools models)
+        set(_themis_msi_components runtime tools models)
         if(THEMIS_PACKAGE_INCLUDE_TESTS)
             list(APPEND _themis_msi_components tests)
         endif()

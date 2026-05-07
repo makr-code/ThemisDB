@@ -233,6 +233,83 @@ v1.8.0 – Production-grade persistent storage layer built on RocksDB with MVCC,
 - [x] `tests/test_blob_streaming.cpp` — 16 focused tests (BlobStreamingFocusedTests): round-trip, boundary, parallel, integrity, delete, overwrite, fallback, custom chunk size, single thread, zero-length, non-aligned
 - [x] `benchmarks/bench_comprehensive.cpp` `StoreLargeBlobs_1MB` updated to use `putBlob()` with 8-thread encoding
 
+### Phase 8: Tensor-Native Storage Engine (QTC) (Status: [~] In Progress — Phase 1 complete 2026-05-05)
+
+**Wissenschaftliche Basis:** Oseledets 2011 (DOI: 10.1137/090752142); Khoromskij 2011; Dettmers et al. 2023 (NF4)
+
+#### Phase 8.1 — Design / API Contract (Target: Q3 2026) ✅
+
+- [x] `TensorTrainConfig` — `eps`, `max_rank`, `dtype`, `svd_power_iterations` parameters
+- [x] `TTCore` — 3-D core tensor struct (r_left × n × r_right) with row-major data layout
+- [x] `TTTrain` — full TT-decomposition: `cores`, `mode_sizes`, `originalNorm`, `achievedEps`, `serialize()`/`deserialize()`
+- [x] `TensorStorageConfig` — engine configuration: `tt_config`, `quant_type`, `version_retention`, `min_compression_ratio`
+- [x] `TensorFieldKey` — logical address `{tenant, collection, field}` + `TensorFieldKeyHash`
+- [x] `ITensorStorageBackend` — abstraction interface for RocksDB / in-memory backends
+- [x] Key schema defined: `__ttn__:<tenant>:<collection>:<field>:G<k>:<version>` (meta + core keys)
+- [x] `StorageLayoutAdvisor` integration: new `TENSOR_NETWORK` layout type (Target: Q3 2026)
+
+#### Phase 8.2 — Core Implementation (Target: Q3 2026) ✅
+
+- [x] `TensorTrainDecomposer::decompose()` — TT-SVD (Oseledets 2011, Algorithm 1)
+  - Per-step threshold: `δ = ε · ‖T‖_F / √(d-1)` — global error bound guaranteed
+  - Internal Golub-Reinsch bidiagonalisation SVD (LAPACK `dgesdd` via `THEMIS_USE_LAPACK_SVD=ON`, Q3 2026)
+  - Input: dense float32/float64; Output: `TTTrain` with `achieved_eps`
+- [x] `TensorTrainDecomposer::round()` — TT-Rounding (Algorithm 2)
+- [x] `TensorTrainDecomposer::innerProduct()` / `frobeniusNorm()` / `cosineSimilarity()` — transfer-matrix algorithm O(d·n·r³)
+- [x] `TTQuantizer::quantize(INT8)` — symmetric per-core channel-wise scaling, 1 byte/element + 4 bytes scale
+- [x] `TTQuantizer::quantize(NF4)` — 16-entry lookup table (Dettmers 2023 Table 1), 2 values/byte
+- [x] `TTQuantizer::dequantize()` — inverse INT8 / NF4 round-trip
+- [x] `InMemoryTensorBackend` — testing KV-store (no RocksDB required in unit tests)
+- [x] `TensorNetworkStorageEngine::put()` — decompose + quantise + persist (all cores per version)
+- [x] `TensorNetworkStorageEngine::get()` / `getVersion()` — load + dequantise + reconstruct
+- [x] `TensorNetworkStorageEngine::getCompressed()` — returns `QuantizedTrain` without decompression
+- [x] `TensorNetworkStorageEngine::compact()` — version pruning by retention threshold
+
+#### Phase 8.3 — Error Handling & Edge Cases (Target: Q3 2026) ✅
+
+- [x] Shape mismatch → `std::invalid_argument` in `decompose()` and `put()`
+- [x] Null backend → `std::invalid_argument` in `TensorNetworkStorageEngine` constructor
+- [x] `min_compression_ratio` guard — fall back to raw storage when TT compression not beneficial
+- [x] Version retention: old core keys purged on configurable `version_retention` threshold
+- [x] Zero tensor, constant tensor — handled without division-by-zero in error bound calculation
+
+#### Phase 8.4 — Tests (Target: Q3 2026) ✅
+
+- [x] 16 unit tests (TTD-01..TTD-16) in `tests/storage/test_tensor_train_decomposer.cpp`
+  - TTD-01..05: TT-SVD correctness, compression ratio, core shapes
+  - TTD-06..08: inner product, cosine similarity (identical, zero-norm)
+  - TTD-09..12: serialisation, F64, invalid input, max_rank
+  - TTD-13..16: INT8 / NF4 quantisation round-trip, QuantizedTrain serialisation, bytesPerElement
+- [x] 8 storage engine tests (TNS-01..TNS-08) in `tests/storage/test_tensor_train_decomposer.cpp`
+
+#### Phase 8.5 — Performance & Hardening (Target: Q4 2026)
+
+- [ ] LAPACK `dgesdd` integration (`THEMIS_USE_LAPACK_SVD=ON` CMake option) (Target: Q3 2026)
+  - Inputs: unfolding matrices up to 4096 × 4096; Outputs: exact singular values
+  - Required for: TT-SVD of 10⁶-element 6D tensor ≤ 500ms CPU, ≤ 80ms GPU (acceptance criterion)
+- [ ] CUDA cuSOLVER SVD path (`THEMIS_ENABLE_CUDA`) (Target: Q4 2026)
+  - Inputs: float32 unfolding matrices; Outputs: GPU singular values
+  - Guard: graceful CPU fallback when CUDA not available
+  - Perf target: ≤ 80ms for 10⁶-element 6D tensor
+- [ ] RocksDB backend (`RocksDBTensorBackend : ITensorStorageBackend`) (Target: Q4 2026)
+  - Put: core bytes stored in column-family `cf_tensor_cores`
+  - Get: `MultiGet` for parallel core loading
+  - Compaction: use RocksDB `DeleteRange` for version purging
+- [ ] Compression benchmark: ≥ 10× for LLM attention matrices at ε ≤ 1% (Target: Q4 2026)
+- [ ] Reconstruction error benchmark: ≤ ε × ‖T‖ for all test cases (Target: Q4 2026)
+
+#### Phase 8.6 — Documentation & Acceptance (Target: Q4 2026)
+
+- [x] `research/papers/tensor_networks_themisdb.md` — DOI + BibTeX for all 9 papers
+- [x] `research/best_practices/tensor_train_storage.md` — implementation guidelines
+- [ ] API Stability declaration for `TensorTrainDecomposer`, `TTQuantizer`, `TensorNetworkStorageEngine` (Target: Q4 2026)
+
+**Acceptance Criteria:**
+- TT-SVD ≤ 500ms CPU / ≤ 80ms GPU for 10⁶-element 6D tensor
+- Compression ≥ 10× at ε ≤ 1% for typical LLM attention matrices
+- Reconstruction error ≤ ε × ‖T‖_F (verified in TTD-04)
+- Tests: 16 TTD + 8 TNS = 24 tests passing
+
 ## Production Readiness Checklist
 - [x] Unit test coverage for core storage paths
 - [x] Integration tests with real RocksDB instance

@@ -51,6 +51,7 @@ enum class PlanNodeType {
     SpatialFilter,    // Geospatial predicate
     CTE,              // Common Table Expression
     Subquery,         // Inline subquery
+    TensorContraction,// TT-compressed tensor operation routed by TensorAwareQueryOptimizer
     Unknown
 };
 

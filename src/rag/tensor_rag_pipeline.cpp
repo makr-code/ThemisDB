@@ -1,0 +1,147 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            rag/tensor_rag_pipeline.cpp                        ║
+  Version:         1.0.0                                              ║
+  Last Modified:   2026-05-06                                         ║
+  Author:          copilot                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 🟡 EXPERIMENTAL — Phase 3 (Q1–Q2 2027)                      ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/**
+ * @file rag/tensor_rag_pipeline.cpp
+ * @brief TensorRAGPipeline — unified FLARE + TARG coordinator (Phase 3).
+ *
+ * ### Design
+ *
+ * The pipeline owns one `FlareRetrieval` and one `TARGRetrieval` instance.
+ * On each `step()` call:
+ *
+ *   1. If `use_targ`: evaluate TARG gate with the supplied logit vector.
+ *      - Calls `TARGRetrieval::gate(logits)`.
+ *      - Calls `TARGRetrieval::notifyTokenEmitted()` to advance cooldown.
+ *   2. If `use_flare`: update FLARE window and evaluate gate.
+ *      - Calls `FlareRetrieval::notifyTokenEmitted(token_text, log_prob)`.
+ *      - Calls `FlareRetrieval::decide()`.
+ *   3. Aggregate decisions into `RAGDecision`.
+ *
+ * ### Stub log
+ * - PIPE-01  `flare_query` in `RAGDecision` is a surface-form string built by
+ *            `FlareRetrieval::buildQuery()` (STUB #168).  Embedding the query
+ *            before passing it to the TT-core index is the caller's
+ *            responsibility until Phase 3-C wires the embedding backend.
+ *
+ * STUB/SIMULATION NOTE:
+ * Purpose: RAGDecision::flare_query is a plain text string (space-joined tokens).
+ *          A fully integrated pipeline would embed this string using the same
+ *          text encoder as the TT-core index and return a float-vector query.
+ * Activation: Always (no embedding backend wired in TensorRAGPipeline).
+ * Production Delta: Callers receive a raw text query; semantic TT-cosine
+ *                   similarity requires the caller to embed it first.
+ * Removal Plan: Phase 3-C (Q1 2027) — inject IEmbeddingBackend; replace
+ *               flare_query with flare_query_embedding (std::vector<float>).
+ */
+
+#include "rag/tensor_rag_pipeline.h"
+
+namespace themis {
+namespace rag {
+
+// ============================================================================
+// Construction
+// ============================================================================
+
+TensorRAGPipeline::TensorRAGPipeline(TensorRAGPipelineConfig cfg)
+    : cfg_(std::move(cfg))
+    , flare_(cfg_.flare_config)
+    , targ_(cfg_.targ_config)
+    , stats_{}
+{}
+
+// ============================================================================
+// step() — core per-token evaluation
+// ============================================================================
+
+RAGDecision TensorRAGPipeline::step(const std::string&        token_text,
+                                    float                     log_prob,
+                                    const std::vector<float>& logits)
+{
+    ++stats_.total_token_steps;
+
+    RAGDecision decision;
+    bool        targ_fired  = false;
+    bool        flare_fired = false;
+
+    // ── 1. TARG gate (logit-gap) ─────────────────────────────────────────
+    if (cfg_.use_targ) {
+        const TARGDecision td = targ_.gate(logits);
+        targ_.notifyTokenEmitted();  // advance cooldown regardless of gate decision
+        decision.targ_gap = td.logit_gap;
+        if (td.should_retrieve) {
+            targ_fired             = true;
+            decision.targ_triggered = true;
+            ++stats_.targ_triggers;
+        }
+    }
+
+    // ── 2. FLARE gate (log-probability window) ───────────────────────────
+    if (cfg_.use_flare) {
+        flare_.notifyTokenEmitted(token_text, log_prob);
+        const FlareDecision fd = flare_.decide();
+        decision.flare_log_prob = fd.last_log_prob;
+        if (fd.should_retrieve) {
+            flare_fired             = true;
+            decision.flare_triggered = true;
+            decision.flare_query     = flare_.buildQuery();
+            ++stats_.flare_triggers;
+        }
+    }
+
+    // ── 3. Combined decision ─────────────────────────────────────────────
+    decision.should_retrieve = (targ_fired || flare_fired);
+
+    if (targ_fired && flare_fired) {
+        decision.trigger = RAGDecision::Trigger::BOTH;
+        ++stats_.combined_triggers;
+    } else if (flare_fired) {
+        decision.trigger = RAGDecision::Trigger::FLARE_ONLY;
+    } else if (targ_fired) {
+        decision.trigger = RAGDecision::Trigger::TARG_ONLY;
+    } else {
+        decision.trigger = RAGDecision::Trigger::NONE;
+    }
+
+    return decision;
+}
+
+// ============================================================================
+// notifyRetrievalDone()
+// ============================================================================
+
+void TensorRAGPipeline::notifyRetrievalDone()
+{
+    if (cfg_.use_flare) {
+        flare_.notifyRetrievalExecuted();
+    }
+    if (cfg_.use_targ) {
+        targ_.notifyRetrievalExecuted();
+    }
+    ++stats_.total_retrievals;
+}
+
+// ============================================================================
+// reset()
+// ============================================================================
+
+void TensorRAGPipeline::reset()
+{
+    flare_.reset();
+    targ_.reset();
+    stats_ = {};
+}
+
+} // namespace rag
+} // namespace themis

@@ -215,7 +215,7 @@ cardinality distributions without user configuration.
 - No external ML runtime dependency; all algorithms run in-process.
 **Required Interfaces:** `inferImplicitRelationships()`, `detectSemanticTypes()`, `estimateCardinalities()`
 **Implementation Notes:** Jaccard similarity for FK name-stem matching; voting-based regex for semantic types; Wilson-score CI for cardinalities.
-**Research:** `docs/research/SCHEMA_INFERENCE_ALGORITHM.md`, `docs/research/CARDINALITY_ESTIMATION.md`
+**Research:** `research/SCHEMA_INFERENCE_ALGORITHM.md`, `research/CARDINALITY_ESTIMATION.md`
 **Performance Target:** ≤ 500 ms for 100-table schema with 10 000 sample values per column.
 
 #### Column Importance Analyzer (`importers/column_importance.cpp`)
@@ -257,19 +257,19 @@ cardinality distributions without user configuration.
 #### Temporal Database Support (`importers/temporal_support.cpp`)
 **Scope:** SQL:2011 temporal dimension detection and point-in-time query generation.
 **Required Interfaces:** `detectTemporalDimensions()`, `buildPointInTimeQuery()`, `buildSystemTimeQuery()`
-**Research:** `docs/research/TEMPORAL_DATABASE_SUPPORT.md`
+**Research:** `research/TEMPORAL_DATABASE_SUPPORT.md`
 
 #### Blockchain Integrity Verifier (`importers/blockchain_integrity.cpp`)
 **Scope:** SHA-256 Merkle tree with optional blockchain anchoring for tamper-evidence.
 **Design Constraints:** Default uses `std::hash`; enable `THEMIS_ENABLE_OPENSSL` for FIPS 140-2 SHA-256.
 **Required Interfaces:** `buildMerkleTree()`, `verifyRecordInTree()`, `anchorToBlockchain()`, `verifyBlockchainAnchor()`
-**Research:** `docs/research/BLOCKCHAIN_VERIFICATION.md`
+**Research:** `research/BLOCKCHAIN_VERIFICATION.md`
 
 #### Federated Learning Coordinator (`importers/federated_learning.cpp`)
 **Scope:** Aggregate schema statistics from distributed PostgreSQL nodes without raw-data transfer.
 **Design Constraints:** ε-δ differential privacy (Gaussian mechanism, ε ≤ 1.0 for strong privacy).
 **Required Interfaces:** `aggregateUpdates()`, `addDifferentialPrivacy()`, `spendBudget()`, `verifyPrivacyBudget()`
-**Research:** `docs/research/FEDERATED_LEARNING_DESIGN.md`
+**Research:** `research/FEDERATED_LEARNING_DESIGN.md`
 
 #### GraphQL Federation Support (`importers/graphql_federation.cpp`)
 **Scope:** Auto-generate Apollo Federation v2 SDL from relational schemas.

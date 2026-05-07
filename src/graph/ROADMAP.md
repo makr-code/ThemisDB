@@ -169,6 +169,75 @@
 - [x] Documentation complete
 - [x] API stability guaranteed for graph query optimizer and path finder
 
+### Phase 8: Cross-Tensor Redundancy Mapping (Status: [~] In Progress — Phase 1 complete 2026-05-05)
+
+**Wissenschaftliche Basis:** Yadav et al. 2023 (TIES-Merging, NeurIPS); Stoudenmire & Schwab 2016 (TN for ML); Rajaraman & Ullman 2011 (LSH)
+
+#### Phase 8.1 — Design / API Contract (Target: Q2 2027) ✅
+
+- [x] `TensorFingerprint` — 128-element MinHash + core-norm vector + total_norm + max_rank
+- [x] `FingerprintGraphConfig` — `similarity_threshold`, `num_hash_funcs`, `num_bands`, `max_candidates`, `top_k`
+- [x] `SimilarTensorResult` — `{tensor_id, similarity, tenant, collection, field}`
+- [x] `TensorFingerprintGraph` — node/edge graph with LSH-based nearest-neighbour search
+- [x] `DeduplicationConfig` — `similarity_threshold=0.999`, `delta_eps`, `delta_max_rank`, `allow_full_storage_fallback`
+- [x] `StoredTensorRecord` — `{tensor_id, reference_id, is_canonical, compressed_bytes, saved_bytes, similarity_to_reference}`
+- [x] `DeduplicationStats` — `{total_tensors, canonical_tensors, delta_tensors, total_bytes_stored, bytes_saved, dedup_ratio}`
+- [x] `TensorDeduplicationManager` — write path (store + delta), read path (retrieve), stats
+
+#### Phase 8.2 — Core Implementation (Target: Q2 2027) ✅
+
+- [x] `TensorFingerprintGraph::computeFingerprint()` — FNV-1a-based MinHash (128 functions), core-norm quantisation, total-norm scaling
+- [x] `TensorFingerprintGraph::insertIntoBuckets()` — LSH banding (b=32 bands, r=4 rows/band by default)
+- [x] `TensorFingerprintGraph::insert()` — fingerprint → LSH → candidate set → Jaccard approximation → edge insertion
+- [x] `TensorFingerprintGraph::remove()` — removes node + edges from adjacency list; O(neighbours) cleanup
+- [x] `TensorFingerprintGraph::findSimilar()` — LSH lookup + Jaccard ranking + top_k truncation
+- [x] `TensorFingerprintGraph::neighbours()` — direct adjacency list lookup
+- [x] `TensorDeduplicationManager::store()` — fingerprint graph query → delta-encode if reference found → canonical otherwise
+- [x] `TensorDeduplicationManager::computeDelta()` — dense subtraction + TT-recompression of residual
+- [x] `TensorDeduplicationManager::getStats()` — atomic counters for bytes_stored, bytes_saved, dedup_ratio
+
+#### Phase 8.3 — Error Handling (Target: Q2 2027) ✅
+
+- [x] Invalid `FingerprintGraphConfig` (num_hash_funcs not divisible by num_bands) → `std::invalid_argument`
+- [x] Null dependencies in `TensorDeduplicationManager` → `std::invalid_argument`
+- [x] `remove()` returns false for unknown tensor_id
+- [x] `findSimilar` on empty graph returns empty vector
+- [x] `allow_full_storage_fallback = true` — no data loss when reference not loadable
+
+#### Phase 8.4 — Tests (Target: Q2 2027) ✅
+
+- [x] 20 unit tests (TFG-01..TFG-20) in `tests/graph/test_tensor_fingerprint_graph.cpp`
+- [x] 5 deduplication manager tests (TDM-01..TDM-05) in `tests/graph/test_tensor_fingerprint_graph.cpp`
+
+#### Phase 8.5 — Performance & Hardening (Target: Q2 2027)
+
+- [ ] Fingerprint + LSH insert ≤ 10ms per tensor (Target: Q2 2027)
+  - Profiling baseline: sequential MinHash over 128 hash functions on 8-mode train
+  - Optimisation: SIMD-accelerated FNV-1a hash over core_norms
+- [ ] Graph query ≤ 50ms for 100K nodes (Target: Q2 2027)
+  - Profiling baseline: LSH band scan over 32 bands × 100K total entries
+  - Optimisation: Bloom filter per band to skip empty buckets early
+- [ ] Exact TT-cosine similarity verification for edge creation (replace Jaccard approximation) (Target: Q2 2027)
+  - Requires loading both `TTTrain` objects from `TensorNetworkStorageEngine`
+  - O(d·n·r³) per candidate pair — bounded by `max_candidates=1000`
+- [ ] CDC changefeed integration for incremental graph updates (Target: Q2 2027)
+  - Subscribe to `TensorNetworkStorageEngine` write events via Observer pattern
+  - Trigger `insert()` / `remove()` on tensor create/delete/update
+- [ ] Expected ≥ 40% storage reduction for LLM weight repositories (Target: Q2 2027)
+  - Benchmark: 100 Transformer block weight sets with shared FFN matrices
+- [ ] `GraphIndex` persistence for the fingerprint graph (Target: Q2 2027)
+
+#### Phase 8.6 — Documentation (Target: Q2 2027)
+
+- [x] `research/papers/tensor_networks_themisdb.md` — P6 (TIES-Merging), P7 (Stoudenmire), P9 (LSH) entries
+- [x] `research/best_practices/tensor_train_storage.md` — delta encoding guidelines
+
+**Acceptance Criteria:**
+- Fingerprint + LSH insert ≤ 10ms per tensor
+- Similar-tensor graph query ≤ 50ms for 100K nodes
+- ≥ 40% storage reduction for LLM weight repositories with shared Transformer blocks
+- 20 TFG + 5 TDM = 25 tests passing
+
 ## Known Issues & Limitations
 - Adaptive plan selection using execution feedback is now active; `selectAlgorithm` uses learned EMA costs when confidence > 0, falling back to static depth heuristics otherwise
 - Advanced cost model calibration from real execution feedback is implemented: `calibrateFromHistory()` re-seeds EMA models from batch history and computes cost accuracy metrics (`mean_estimated_ms`, `mean_absolute_error_ms`, `cost_ratio`) when `ExecutionStats::estimated_cost_ms` is populated (automatic in all execute* methods)

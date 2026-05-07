@@ -128,7 +128,7 @@ Successfully implemented geospatial data processing with GDAL integration for Sh
    - 15+ comprehensive unit tests
    - Programmatic test data generation
 
-2. `docs/research/GEOSPATIAL_BEST_PRACTICES.md`
+2. `research/GEOSPATIAL_BEST_PRACTICES.md`
    - Comprehensive research document
    - Industry analysis (PostGIS, SpatiaLite, MongoDB, Oracle)
    - Academic research (15+ papers)
@@ -293,7 +293,7 @@ cmake --build build
 - GDAL/OGR Documentation
 
 ### Research Document
-Complete analysis: `docs/research/GEOSPATIAL_BEST_PRACTICES.md`
+Complete analysis: `research/GEOSPATIAL_BEST_PRACTICES.md`
 
 ---
 

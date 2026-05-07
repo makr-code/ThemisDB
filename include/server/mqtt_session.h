@@ -297,6 +297,10 @@ public:
     // Connection retry
     void setRetryConfig(const MqttRetryConfig& config) { retryConfig_ = config; }
     const MqttRetryConfig& getRetryConfig() const { return retryConfig_; }
+
+    // Active-session registry — called by MqttSession on connect/disconnect
+    void registerActiveSession(std::weak_ptr<MqttSession> session);
+    void unregisterActiveSession(MqttSession* raw_ptr);
     
 private:
     MqttBroker() = default;
@@ -311,6 +315,8 @@ private:
     std::mutex mutex_;
     // Thread-safe round-robin index for shared subscriptions
     std::atomic<size_t> sharedSubscriptionRoundRobin_{0};
+    // All currently-connected sessions (weak refs; expired entries are cleaned up lazily)
+    std::vector<std::weak_ptr<MqttSession>> activeSessions_;
 };
 
 #endif // THEMIS_ENABLE_MQTT

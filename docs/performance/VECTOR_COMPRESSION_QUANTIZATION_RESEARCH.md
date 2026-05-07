@@ -975,7 +975,7 @@ This research evaluated three advanced vector quantization techniques for Themis
 5. → Optimize with SIMD/GPU
 
 **References:**
-- See `docs/research/vector_quantization_references.bib` for full bibliography
+- See `research/vector_quantization_references.bib` for full bibliography
 - See `benchmarks/bench_*_quantization.cpp` for performance validation
 - See `tests/test_*_quantizer.cpp` for correctness validation
 
