@@ -139,7 +139,7 @@ bool AccountLockoutManager::isAccountLocked(const std::string& user_id) const {
 std::optional<LockoutInfo> AccountLockoutManager::getLockoutInfo(
     const std::string& user_id) const
 {
-    std::unique_lock<std::shared_mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     
     auto it = lockout_state_.find(user_id);
     if (it == lockout_state_.end()) {
@@ -292,72 +292,82 @@ bool AuthRateLimiter::allowAuthAttempt(
     const std::string& ip_address,
     const std::string& user_id)
 {
-    bool stuffing_alert = false;
+    stat_total_auth_attempts_.fetch_add(1, std::memory_order_relaxed);
 
+    // Snapshot the mutable shared state that requires a lock (config_ and
+    // backend_) using a brief shared read-lock.  All rate-limiter calls
+    // and any backend network I/O are then performed WITHOUT holding the
+    // mutex, eliminating the lock-hold during Redis round-trips.
+    AuthRateLimitConfig cfg;
+    std::shared_ptr<IRateLimiterBackend> backend;
     {
-        std::unique_lock<std::shared_mutex> lock(stats_mutex_);
-        stats_.total_auth_attempts++;
-
-        // Check if IP is whitelisted
-        if (isWhitelisted(ip_address)) {
-            stats_.allowed_attempts++;
-            return true;
-        }
-
-        // Check account lockout first
-        if (!user_id.empty() && config_.enable_account_lockout) {
-            if (lockout_manager_->isAccountLocked(user_id)) {
-                stats_.lockout_blocked_attempts++;
-                utils::Logger::warn("Authentication blocked - account locked: " + user_id);
-                return false;
-            }
-        }
-
-        // Check IP rate limit
-        if (config_.enable_ip_rate_limiting) {
-            if (backend_) {
-                auto count = backend_->increment("ip:" + ip_address, 60);
-                if (static_cast<size_t>(count) > config_.max_attempts_per_ip_per_minute) {
-                    stats_.rate_limited_attempts++;
-                    utils::Logger::warn("Authentication rate limited by IP (distributed): " + ip_address);
-                    return false;
-                }
-            } else if (!ip_rate_limiter_->allowRequest(ip_address)) {
-                stats_.rate_limited_attempts++;
-                utils::Logger::warn("Authentication rate limited by IP: " + ip_address);
-                return false;
-            }
-        }
-
-        // Check user rate limit
-        if (!user_id.empty() && config_.enable_user_rate_limiting) {
-            if (backend_) {
-                auto count = backend_->increment("user:" + user_id, 60);
-                if (static_cast<size_t>(count) > config_.max_attempts_per_user_per_minute) {
-                    stats_.rate_limited_attempts++;
-                    utils::Logger::warn("Authentication rate limited for user (distributed): " + user_id);
-                    return false;
-                }
-            } else if (!user_rate_limiter_->allowRequest("", user_id)) {
-                stats_.rate_limited_attempts++;
-                utils::Logger::warn("Authentication rate limited for user: " + user_id);
-                return false;
-            }
-        }
-
-        // Track this attempt for credential-stuffing detection (may set stuffing_alert)
-        if (!user_id.empty()) {
-            stuffing_alert = trackCredentialStuffing(ip_address, user_id);
-        }
-
-        stats_.allowed_attempts++;
+        std::shared_lock<std::shared_mutex> lock(stats_mutex_);
+        cfg     = config_;
+        backend = backend_;
     }
 
-    // Fire anomaly events outside the lock so callbacks can safely call back into us.
+    // Check if IP is whitelisted
+    if (isWhitelisted(ip_address)) {
+        stat_allowed_attempts_.fetch_add(1, std::memory_order_relaxed);
+        return true;
+    }
+
+    // Check account lockout first
+    if (!user_id.empty() && cfg.enable_account_lockout) {
+        if (lockout_manager_->isAccountLocked(user_id)) {
+            stat_lockout_blocked_attempts_.fetch_add(1, std::memory_order_relaxed);
+            utils::Logger::warn("Authentication blocked - account locked: " + user_id);
+            return false;
+        }
+    }
+
+    // Check IP rate limit
+    if (cfg.enable_ip_rate_limiting) {
+        if (backend) {
+            auto count = backend->increment("ip:" + ip_address, 60);
+            if (static_cast<size_t>(count) > cfg.max_attempts_per_ip_per_minute) {
+                stat_rate_limited_attempts_.fetch_add(1, std::memory_order_relaxed);
+                utils::Logger::warn("Authentication rate limited by IP (distributed): " + ip_address);
+                return false;
+            }
+        } else if (!ip_rate_limiter_->allowRequest(ip_address)) {
+            stat_rate_limited_attempts_.fetch_add(1, std::memory_order_relaxed);
+            utils::Logger::warn("Authentication rate limited by IP: " + ip_address);
+            return false;
+        }
+    }
+
+    // Check user rate limit
+    if (!user_id.empty() && cfg.enable_user_rate_limiting) {
+        if (backend) {
+            auto count = backend->increment("user:" + user_id, 60);
+            if (static_cast<size_t>(count) > cfg.max_attempts_per_user_per_minute) {
+                stat_rate_limited_attempts_.fetch_add(1, std::memory_order_relaxed);
+                utils::Logger::warn("Authentication rate limited for user (distributed): " + user_id);
+                return false;
+            }
+        } else if (!user_rate_limiter_->allowRequest("", user_id)) {
+            stat_rate_limited_attempts_.fetch_add(1, std::memory_order_relaxed);
+            utils::Logger::warn("Authentication rate limited for user: " + user_id);
+            return false;
+        }
+    }
+
+    // Track this attempt for credential-stuffing detection under stuffing_mutex_
+    // (separate from stats_mutex_ so rate-limiter calls are not serialised here).
+    bool stuffing_alert = false;
+    if (!user_id.empty()) {
+        std::unique_lock<std::mutex> slock(stuffing_mutex_);
+        stuffing_alert = trackCredentialStuffing(ip_address, user_id, cfg);
+    }
+
+    stat_allowed_attempts_.fetch_add(1, std::memory_order_relaxed);
+
+    // Fire anomaly events without holding any lock so callbacks can safely
+    // call back into us.
     if (stuffing_alert) {
         const std::string detail =
             "credential stuffing suspected: threshold reached from ip=" + ip_address;
-        // Escalate only when a specific user triggered the threshold.
         CredentialStuffingOutcome outcome = CredentialStuffingOutcome::ALLOWED;
         if (!user_id.empty()) {
             outcome = escalateCredentialStuffing(user_id, ip_address);
@@ -377,32 +387,38 @@ void AuthRateLimiter::recordFailedAuth(
     bool lockout_triggered = false;
     bool stuffing_alert    = false;
 
+    stat_failed_auths_.fetch_add(1, std::memory_order_relaxed);
+
+    // Snapshot config_ under a brief read lock before acquiring stuffing_mutex_.
+    // This avoids a nested lock acquisition (stuffing_mutex_ then stats_mutex_)
+    // in trackCredentialStuffing().
+    AuthRateLimitConfig cfg;
     {
-        std::unique_lock<std::shared_mutex> lock(stats_mutex_);
-        stats_.failed_auths++;
+        std::shared_lock<std::shared_mutex> lock(stats_mutex_);
+        cfg = config_;
+    }
 
-        // Track for credential-stuffing detection
-        if (!user_id.empty()) {
-            stuffing_alert = trackCredentialStuffing(ip_address, user_id);
-        }
+    // Track stuffing state under its own mutex (not stats_mutex_).
+    if (!user_id.empty()) {
+        std::unique_lock<std::mutex> slock(stuffing_mutex_);
+        stuffing_alert = trackCredentialStuffing(ip_address, user_id, cfg);
+    }
 
-        if (!user_id.empty()) {
-            lockout_triggered =
-                lockout_manager_->recordFailedAttempt(user_id, ip_address, reason);
-            if (lockout_triggered) {
-                stats_.currently_locked_accounts =
-                    lockout_manager_->getLockedAccountCount();
-            }
+    if (!user_id.empty()) {
+        lockout_triggered =
+            lockout_manager_->recordFailedAttempt(user_id, ip_address, reason);
+        if (lockout_triggered) {
+            stat_currently_locked_accounts_.store(
+                lockout_manager_->getLockedAccountCount(), std::memory_order_relaxed);
         }
     }
 
-    // Fire anomaly events outside the lock.
+    // Fire anomaly events without holding any lock.
     if (stuffing_alert) {
         const std::string detail =
             "credential stuffing suspected: threshold reached from ip=" + ip_address;
         utils::Logger::warn("Auth anomaly [CREDENTIAL_STUFFING_SUSPECTED] ip=" +
                             ip_address + " " + detail);
-        // Escalate based on per-user persistent breach count.
         CredentialStuffingOutcome outcome = CredentialStuffingOutcome::ALLOWED;
         if (!user_id.empty()) {
             outcome = escalateCredentialStuffing(user_id, ip_address);
@@ -433,8 +449,7 @@ void AuthRateLimiter::recordSuccessfulAuth(
     const std::string& user_id,
     [[maybe_unused]] const std::string& ip_address)
 {
-    std::unique_lock<std::shared_mutex> lock(stats_mutex_);
-    stats_.successful_auths++;
+    stat_successful_auths_.fetch_add(1, std::memory_order_relaxed);
     
     if (!user_id.empty()) {
         lockout_manager_->recordSuccessfulAuth(user_id);
@@ -454,18 +469,24 @@ std::optional<LockoutInfo> AuthRateLimiter::getLockoutInfo(
 bool AuthRateLimiter::unlockAccount(const std::string& user_id) {
     bool unlocked = lockout_manager_->unlockAccount(user_id);
     if (unlocked) {
-        std::unique_lock<std::shared_mutex> lock(stats_mutex_);
-        stats_.currently_locked_accounts = lockout_manager_->getLockedAccountCount();
+        stat_currently_locked_accounts_.store(
+            lockout_manager_->getLockedAccountCount(), std::memory_order_relaxed);
     }
     return unlocked;
 }
 
 uint32_t AuthRateLimiter::getRetryAfter(const std::string& ip_address) const {
-    std::shared_lock<std::shared_mutex> lock(stats_mutex_);
-    if (backend_) {
-        auto count = backend_->getCount("ip:" + ip_address, 60);
-        if (static_cast<size_t>(count) >= config_.max_attempts_per_ip_per_minute) {
-            return 60; // standard window length
+    std::shared_ptr<IRateLimiterBackend> backend;
+    size_t max_per_min;
+    {
+        std::shared_lock<std::shared_mutex> lock(stats_mutex_);
+        backend     = backend_;
+        max_per_min = config_.max_attempts_per_ip_per_minute;
+    }
+    if (backend) {
+        auto count = backend->getCount("ip:" + ip_address, 60);
+        if (static_cast<size_t>(count) >= max_per_min) {
+            return 60;
         }
         return 0;
     }
@@ -592,10 +613,8 @@ CredentialStuffingOutcome AuthRateLimiter::escalateCredentialStuffing(
         utils::Logger::warn("Credential stuffing escalation: 24h lock applied for user=" +
                             user_id + " ip=" + ip +
                             " (breach_count=" + std::to_string(count) + ")");
-        {
-            std::unique_lock<std::shared_mutex> lock(stats_mutex_);
-            stats_.currently_locked_accounts = lockout_manager_->getLockedAccountCount();
-        }
+        stat_currently_locked_accounts_.store(
+            lockout_manager_->getLockedAccountCount(), std::memory_order_relaxed);
     } else if (outcome == CredentialStuffingOutcome::OTP_REQUIRED) {
         utils::Logger::warn("Credential stuffing escalation: OTP required for user=" +
                             user_id + " ip=" + ip +
@@ -687,12 +706,15 @@ void AuthRateLimiter::fireAuthAnomaly(AuthAnomalyEvent::Type type,
 }
 
 bool AuthRateLimiter::trackCredentialStuffing(const std::string& ip,
-                                              const std::string& user_id) {
-    // Called with stats_mutex_ held.
-    if (!config_.enable_credential_stuffing_detection || user_id.empty()) return false;
+                                              const std::string& user_id,
+                                              const AuthRateLimitConfig& cfg) {
+    // Called with stuffing_mutex_ held.
+    // cfg is a snapshot captured by the caller before acquiring stuffing_mutex_,
+    // so no further lock on stats_mutex_ is needed here.
+    if (!cfg.enable_credential_stuffing_detection || user_id.empty()) return false;
 
     auto now = std::chrono::steady_clock::now();
-    auto  window    = std::chrono::seconds(config_.credential_stuffing_window_seconds);
+    auto  window    = std::chrono::seconds(cfg.credential_stuffing_window_seconds);
     auto& entry     = stuffing_state_[ip];
     auto  cutoff    = now - window;
 
@@ -715,7 +737,7 @@ bool AuthRateLimiter::trackCredentialStuffing(const std::string& ip,
     entry.usernames.insert(user_id);
 
     if (!entry.alerted &&
-        entry.usernames.size() >= config_.credential_stuffing_user_threshold) {
+        entry.usernames.size() >= cfg.credential_stuffing_user_threshold) {
         entry.alerted = true;
         // Caller fires the anomaly event outside the lock.
         return true;
@@ -742,12 +764,25 @@ void AuthRateLimiter::updateConfig(const AuthRateLimitConfig& config) {
     // ensures the new threshold and window take effect immediately for all IPs.
     // A side-effect is that any IP currently being tracked will restart from zero.
     // Callers that need continuity should trigger cleanup() before updateConfig().
+    //
+    // stats_mutex_ is held here; we then acquire stuffing_mutex_ — the one place
+    // in the codebase where both locks are nested.  The hierarchy (stats_mutex_
+    // before stuffing_mutex_) is documented in include/auth/auth_rate_limiter.h.
+    // Hot paths (allowAuthAttempt / recordFailedAuth) never nest these two locks.
+    std::unique_lock<std::mutex> slock(stuffing_mutex_);
     stuffing_state_.clear();
 }
 
 AuthRateLimiter::Statistics AuthRateLimiter::getStatistics() const {
-    std::shared_lock<std::shared_mutex> lock(stats_mutex_);
-    return stats_;
+    Statistics s;
+    s.total_auth_attempts     = stat_total_auth_attempts_.load(std::memory_order_relaxed);
+    s.allowed_attempts        = stat_allowed_attempts_.load(std::memory_order_relaxed);
+    s.rate_limited_attempts   = stat_rate_limited_attempts_.load(std::memory_order_relaxed);
+    s.lockout_blocked_attempts = stat_lockout_blocked_attempts_.load(std::memory_order_relaxed);
+    s.successful_auths        = stat_successful_auths_.load(std::memory_order_relaxed);
+    s.failed_auths            = stat_failed_auths_.load(std::memory_order_relaxed);
+    s.currently_locked_accounts = stat_currently_locked_accounts_.load(std::memory_order_relaxed);
+    return s;
 }
 
 void AuthRateLimiter::reset() {
@@ -756,9 +791,19 @@ void AuthRateLimiter::reset() {
         ip_rate_limiter_->reset();
         user_rate_limiter_->reset();
         lockout_manager_->reset();
-        stuffing_state_.clear();
-        stats_ = Statistics{};
     }
+    {
+        std::unique_lock<std::mutex> slock(stuffing_mutex_);
+        stuffing_state_.clear();
+    }
+    // Zero all atomic counters.
+    stat_total_auth_attempts_.store(0, std::memory_order_relaxed);
+    stat_allowed_attempts_.store(0, std::memory_order_relaxed);
+    stat_rate_limited_attempts_.store(0, std::memory_order_relaxed);
+    stat_lockout_blocked_attempts_.store(0, std::memory_order_relaxed);
+    stat_successful_auths_.store(0, std::memory_order_relaxed);
+    stat_failed_auths_.store(0, std::memory_order_relaxed);
+    stat_currently_locked_accounts_.store(0, std::memory_order_relaxed);
     {
         std::lock_guard<std::mutex> mlock(cs_breach_mutex_);
         cs_breach_count_.clear();
@@ -771,10 +816,15 @@ void AuthRateLimiter::cleanup() {
     lockout_manager_->cleanup();
 
     // Prune stale credential-stuffing state for IPs whose rolling window has expired.
-    std::unique_lock<std::shared_mutex> lock(stats_mutex_);
+    size_t stuffing_window_secs;
+    {
+        std::shared_lock<std::shared_mutex> lock(stats_mutex_);
+        stuffing_window_secs = config_.credential_stuffing_window_seconds;
+    }
     auto now    = std::chrono::steady_clock::now();
-    auto window = std::chrono::seconds(config_.credential_stuffing_window_seconds);
-    auto cutoff = now - window;
+    auto cutoff = now - std::chrono::seconds(stuffing_window_secs);
+
+    std::unique_lock<std::mutex> slock(stuffing_mutex_);
     for (auto it = stuffing_state_.begin(); it != stuffing_state_.end(); ) {
         auto& entry = it->second;
         // attempt_times is chronological – erase the expired prefix efficiently.

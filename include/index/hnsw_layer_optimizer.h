@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include <map>
+#include <unordered_map>
 #include <vector>
 #include <memory>
 #include <mutex>
@@ -141,7 +141,7 @@ public:
     bool shouldPruneLayer(int current_layer, size_t candidate_count, size_t k) const;
     
     /// Get layer statistics for monitoring
-    std::map<int, LayerStats> getLayerStats() const;
+    std::unordered_map<int, LayerStats> getLayerStats() const;
     
     /// Get recent query statistics
     std::vector<QueryStats> getRecentQueryStats() const;
@@ -157,7 +157,7 @@ private:
     
     // Layer statistics tracking
     mutable std::mutex stats_mutex_;
-    std::map<int, LayerStats> layer_stats_;
+    std::unordered_map<int, LayerStats> layer_stats_;
     
     // Recent query statistics for adaptive optimization
     std::deque<QueryStats> recent_queries_;

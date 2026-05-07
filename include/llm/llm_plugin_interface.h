@@ -198,6 +198,11 @@ struct InferenceRequest {
     
     // Metadata for tracking
     json metadata;
+    
+    // F2-3: Tenant identifier used for cache isolation.  Without this, two
+    // tenants with identical prompts share a single cache entry, leaking
+    // inference results across tenant boundaries.
+    std::string tenant_id;
 };
 
 /**

@@ -113,11 +113,16 @@ TokenBucketRateLimiter::TokenBucketRateLimiter(const Config& config)
 
 TokenBucketRateLimiter::~TokenBucketRateLimiter() {
 #ifdef THEMIS_ENABLE_REDIS
-    std::lock_guard<std::mutex> lk(redis_mutex_);
-    if (redis_ctx_) {
-        redisFree(redis_ctx_);
-        redis_ctx_ = nullptr;
+    // Drain the pool and free every connection.
+    std::lock_guard<std::mutex> lk(redis_pool_.pool_mu);
+    for (auto& slot : redis_pool_.slots) {
+        if (slot.ctx) {
+            redisFree(slot.ctx);
+            slot.ctx = nullptr;
+        }
     }
+    redis_pool_.slots.clear();
+    redis_pool_.available.clear();
 #endif
 }
 
@@ -218,72 +223,80 @@ std::string TokenBucketRateLimiter::redisKey(const std::string& bucket_id,
 
 bool TokenBucketRateLimiter::redisConnect() {
 #ifdef THEMIS_ENABLE_REDIS
-    std::lock_guard<std::mutex> lk(redis_mutex_);
-
-    if (redis_ctx_ && !redis_ctx_->err) {
-        return true; // Already connected
-    }
-
-    if (redis_ctx_) {
-        redisFree(redis_ctx_);
-        redis_ctx_ = nullptr;
-    }
+    // F-008: initialise / replenish the connection pool.
+    // We (re-)create every slot that has no live connection.
+    // Returns true if at least one slot is operational.
+    const int pool_size = std::max(1, config_.redis.pool_size);
 
     struct timeval tv;
     tv.tv_sec  = config_.redis.timeout_ms / 1000;
     tv.tv_usec = (config_.redis.timeout_ms % 1000) * 1000;
 
-    redis_ctx_ = redisConnectWithTimeout(
-        config_.redis.host.c_str(), config_.redis.port, tv);
+    // Helper: connect one slot, load Lua script, return true on success.
+    auto connectSlot = [&](RedisConnectionPool::Slot& slot) -> bool {
+        if (slot.ctx && !slot.ctx->err) return true;  // Already healthy.
+        if (slot.ctx) { redisFree(slot.ctx); slot.ctx = nullptr; }
 
-    if (!redis_ctx_ || redis_ctx_->err) {
-        THEMIS_WARN("TokenBucketRateLimiter: Redis connect failed ({}:{}): {}",
-                    config_.redis.host, config_.redis.port,
-                    redis_ctx_ ? redis_ctx_->errstr : "null context");
-        if (redis_ctx_) {
-            redisFree(redis_ctx_);
-            redis_ctx_ = nullptr;
-        }
-        redis_healthy_.store(false, std::memory_order_release);
-        return false;
-    }
-
-    // AUTH
-    if (!config_.redis.auth.empty()) {
-        redisReply* reply = static_cast<redisReply*>(
-            redisCommand(redis_ctx_, "AUTH %s", config_.redis.auth.c_str()));
-        bool ok = reply && reply->type != REDIS_REPLY_ERROR;
-        if (reply) freeReplyObject(reply);
-        if (!ok) {
-            THEMIS_WARN("TokenBucketRateLimiter: Redis AUTH failed");
-            redisFree(redis_ctx_);
-            redis_ctx_ = nullptr;
-            redis_healthy_.store(false, std::memory_order_release);
+        slot.ctx = redisConnectWithTimeout(
+            config_.redis.host.c_str(), config_.redis.port, tv);
+        if (!slot.ctx || slot.ctx->err) {
+            THEMIS_WARN("TokenBucketRateLimiter: pool slot connect failed ({}:{}): {}",
+                        config_.redis.host, config_.redis.port,
+                        slot.ctx ? slot.ctx->errstr : "null context");
+            if (slot.ctx) { redisFree(slot.ctx); slot.ctx = nullptr; }
             return false;
         }
+        // AUTH
+        if (!config_.redis.auth.empty()) {
+            redisReply* r = static_cast<redisReply*>(
+                redisCommand(slot.ctx, "AUTH %s", config_.redis.auth.c_str()));
+            bool ok = r && r->type != REDIS_REPLY_ERROR;
+            if (r) freeReplyObject(r);
+            if (!ok) {
+                THEMIS_WARN("TokenBucketRateLimiter: Redis AUTH failed");
+                redisFree(slot.ctx); slot.ctx = nullptr;
+                return false;
+            }
+        }
+        // Load Lua script
+        redisReply* r = static_cast<redisReply*>(
+            redisCommand(slot.ctx, "SCRIPT LOAD %s", kTokenBucketLua));
+        if (!r || r->type != REDIS_REPLY_STRING) {
+            THEMIS_WARN("TokenBucketRateLimiter: SCRIPT LOAD failed on pool slot");
+            if (r) freeReplyObject(r);
+            redisFree(slot.ctx); slot.ctx = nullptr;
+            return false;
+        }
+        slot.evalsha       = r->str;
+        slot.script_loaded = true;
+        freeReplyObject(r);
+        return true;
+    };
+
+    std::unique_lock<std::mutex> lk(redis_pool_.pool_mu);
+    // Grow or replenish the pool to pool_size slots.
+    if (static_cast<int>(redis_pool_.slots.size()) < pool_size) {
+        redis_pool_.slots.resize(pool_size);
+    }
+    int healthy = 0;
+    redis_pool_.available.clear();
+    for (int i = 0; i < pool_size; ++i) {
+        if (connectSlot(redis_pool_.slots[static_cast<size_t>(i)])) {
+            redis_pool_.available.push_back(static_cast<size_t>(i));
+            ++healthy;
+        }
     }
 
-    // Load Lua script via SCRIPT LOAD
-    redisReply* reply = static_cast<redisReply*>(
-        redisCommand(redis_ctx_, "SCRIPT LOAD %s", kTokenBucketLua));
-
-    if (!reply || reply->type != REDIS_REPLY_STRING) {
-        THEMIS_WARN("TokenBucketRateLimiter: SCRIPT LOAD failed");
-        if (reply) freeReplyObject(reply);
-        redisFree(redis_ctx_);
-        redis_ctx_ = nullptr;
-        redis_healthy_.store(false, std::memory_order_release);
-        return false;
+    if (healthy > 0) {
+        redis_errors_.store(0, std::memory_order_relaxed);
+        redis_healthy_.store(true, std::memory_order_release);
+        THEMIS_INFO("TokenBucketRateLimiter: Redis pool ready ({}/{} connections), "
+                    "script SHA={}", healthy, pool_size,
+                    redis_pool_.slots[0].evalsha);
+        return true;
     }
-
-    evalsha_       = reply->str;
-    script_loaded_ = true;
-    freeReplyObject(reply);
-
-    redis_errors_.store(0, std::memory_order_relaxed);
-    redis_healthy_.store(true, std::memory_order_release);
-    THEMIS_INFO("TokenBucketRateLimiter: Redis connected, script SHA={}", evalsha_);
-    return true;
+    redis_healthy_.store(false, std::memory_order_release);
+    return false;
 #else
     return false;
 #endif
@@ -294,46 +307,92 @@ int TokenBucketRateLimiter::redisEvalBucket([[maybe_unused]] Priority prio,
                                              [[maybe_unused]] size_t refill_rate,
                                              [[maybe_unused]] size_t consume_count) {
 #ifdef THEMIS_ENABLE_REDIS
-    std::string key = redisKey(config_.bucket_id, prio);
-
-    // Fast path: existing healthy connection
+    // F-008: borrow a pool connection (blocks if all are in use).
+    size_t slot_idx;
     {
-        std::lock_guard<std::mutex> lk(redis_mutex_);
-        if (redis_ctx_ && !redis_ctx_->err && script_loaded_) {
-            return redisExecEvalsha(key, capacity, refill_rate, consume_count);
+        std::unique_lock<std::mutex> lk(redis_pool_.pool_mu);
+        redis_pool_.pool_cv.wait(lk, [this]() {
+            return !redis_pool_.available.empty();
+        });
+        slot_idx = redis_pool_.available.front();
+        redis_pool_.available.pop_front();
+    }
+
+    auto& slot = redis_pool_.slots[slot_idx];
+    std::string key = redisKey(config_.bucket_id, prio);
+    int result = redisExecEvalsha(slot, key, capacity, refill_rate, consume_count);
+
+    // If the slot is dead after the call, attempt an inline reconnect.
+    // If reconnect also fails the slot is returned with ctx == nullptr;
+    // redisExecEvalsha() checks for that on the next borrow and returns -1
+    // immediately, so borrowers won't block on a dead socket.
+    if (!slot.ctx) {
+        // Reconnect attempt is made outside pool_mu (connect can be slow).
+        struct timeval tv{ config_.redis.timeout_ms / 1000,
+                           (config_.redis.timeout_ms % 1000) * 1000 };
+        slot.ctx = redisConnectWithTimeout(
+            config_.redis.host.c_str(), config_.redis.port, tv);
+        if (slot.ctx && !slot.ctx->err && !config_.redis.auth.empty()) {
+            redisReply* r = static_cast<redisReply*>(
+                redisCommand(slot.ctx, "AUTH %s", config_.redis.auth.c_str()));
+            if (!r || r->type == REDIS_REPLY_ERROR) {
+                if (r) freeReplyObject(r);
+                redisFree(slot.ctx); slot.ctx = nullptr;
+            } else {
+                freeReplyObject(r);
+            }
+        }
+        if (slot.ctx && !slot.ctx->err) {
+            redisReply* r = static_cast<redisReply*>(
+                redisCommand(slot.ctx, "SCRIPT LOAD %s", kTokenBucketLua));
+            if (r && r->type == REDIS_REPLY_STRING) {
+                slot.evalsha       = r->str;
+                slot.script_loaded = true;
+                freeReplyObject(r);
+            } else {
+                if (r) freeReplyObject(r);
+                redisFree(slot.ctx); slot.ctx = nullptr;
+            }
+        }
+        if (!slot.ctx) {
+            // Reconnect failed; mark the backend unhealthy so the caller
+            // switches to the local fallback.  The dead slot is still returned
+            // to the pool — redisExecEvalsha() will detect ctx==nullptr and
+            // return -1 instantly, avoiding any blocking on a dead socket.
+            markRedisError();
         }
     }
 
-    // Reconnect path (redisConnect() acquires redis_mutex_ internally)
-    if (!redisConnect()) {
-        return -1;
+    // Return the slot to the pool regardless of outcome.
+    {
+        std::lock_guard<std::mutex> lk(redis_pool_.pool_mu);
+        redis_pool_.available.push_back(slot_idx);
     }
+    redis_pool_.pool_cv.notify_one();
 
-    // Retry after successful reconnect
-    std::lock_guard<std::mutex> lk(redis_mutex_);
-    if (!redis_ctx_ || !script_loaded_) {
-        return -1;
-    }
-    return redisExecEvalsha(key, capacity, refill_rate, consume_count);
+    return result;
 #else
     return -1;
 #endif
 }
 
-int TokenBucketRateLimiter::redisExecEvalsha([[maybe_unused]] const std::string& key,
-                                              [[maybe_unused]] size_t capacity,
-                                              [[maybe_unused]] size_t refill_rate,
-                                              [[maybe_unused]] size_t consume_count) {
+int TokenBucketRateLimiter::redisExecEvalsha(
+    [[maybe_unused]] RedisConnectionPool::Slot& slot,
+    [[maybe_unused]] const std::string& key,
+    [[maybe_unused]] size_t capacity,
+    [[maybe_unused]] size_t refill_rate,
+    [[maybe_unused]] size_t consume_count) {
 #ifdef THEMIS_ENABLE_REDIS
-    // Caller must hold redis_mutex_ and have a valid redis_ctx_ with script loaded.
+    if (!slot.ctx || slot.ctx->err || !slot.script_loaded) return -1;
+
     auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                       std::chrono::system_clock::now().time_since_epoch())
                       .count();
 
     redisReply* reply = static_cast<redisReply*>(
-        redisCommand(redis_ctx_,
+        redisCommand(slot.ctx,
                      "EVALSHA %s 1 %s %zu %zu %zu %lld %d",
-                     evalsha_.c_str(),
+                     slot.evalsha.c_str(),
                      key.c_str(),
                      capacity,
                      refill_rate,
@@ -341,13 +400,12 @@ int TokenBucketRateLimiter::redisExecEvalsha([[maybe_unused]] const std::string&
                      static_cast<long long>(now_ms),
                      config_.redis.key_ttl_seconds));
 
-    if (!reply || redis_ctx_->err) {
-        THEMIS_WARN("TokenBucketRateLimiter: EVALSHA failed: {}",
-                    redis_ctx_ ? redis_ctx_->errstr : "null context");
+    if (!reply || slot.ctx->err) {
+        THEMIS_WARN("TokenBucketRateLimiter: EVALSHA failed on pool slot: {}",
+                    slot.ctx ? slot.ctx->errstr : "null context");
         if (reply) freeReplyObject(reply);
-        redisFree(redis_ctx_);
-        redis_ctx_     = nullptr;
-        script_loaded_ = false;
+        if (slot.ctx) { redisFree(slot.ctx); slot.ctx = nullptr; }
+        slot.script_loaded = false;
         markRedisError();
         return -1;
     }
@@ -377,8 +435,8 @@ void TokenBucketRateLimiter::tryRedisRecover() {
     if (config_.backend != Backend::REDIS) return;
     if (redis_healthy_.load(std::memory_order_acquire)) return;
 
-    THEMIS_INFO("TokenBucketRateLimiter: attempting Redis recovery");
-    redisConnect(); // Sets redis_healthy_ if successful
+    THEMIS_INFO("TokenBucketRateLimiter: attempting Redis pool recovery");
+    redisConnect(); // Rebuilds healthy slots; sets redis_healthy_ if any succeed.
 #endif
 }
 

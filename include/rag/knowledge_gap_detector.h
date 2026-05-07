@@ -186,8 +186,20 @@ struct KnowledgeGapConfig {
  *       });
  * @endcode
  */
+/**
+ * @brief Retrieval callback invoked by FLARE active retrieval.
+ *
+ * F5-2: The callback receives the query, max result count, and a
+ * tenant identifier.  The tenant_id MUST be forwarded to the underlying
+ * vector store so that dynamic re-retrieval always queries the same
+ * tenant's document corpus as the original request — without this, a
+ * reformulated FLARE query can silently cross tenant boundaries.
+ */
 using RetrievalCallback =
-    std::function<std::vector<RetrievedDocument>(const std::string& query, size_t k)>;
+    std::function<std::vector<RetrievedDocument>(
+        const std::string& query,
+        size_t k,
+        const std::string& tenant_id)>;
 
 /**
  * @brief Callback type for LLM-based self-consistency sample generation.
@@ -310,7 +322,8 @@ public:
      */
     DetectionResult detectWithActiveRetrieval(
         const std::string& query,
-        std::vector<RetrievedDocument>& initial_documents
+        std::vector<RetrievedDocument>& initial_documents,
+        const std::string& tenant_id = {}  ///< F5-2: tenant scope for FLARE re-retrieval
     );
     
     /**
@@ -415,7 +428,8 @@ private:
                                     const std::vector<RetrievedDocument>& docs);
     std::string reformulateQuery(const std::string& original_query,
                                 const std::string& missing_info);
-    std::vector<RetrievedDocument> performDynamicRetrieval(const std::string& query);
+    std::vector<RetrievedDocument> performDynamicRetrieval(const std::string& query,
+                                                           const std::string& tenant_id = {});
     // Ethical gap detection helpers
     bool isEthicalQuery(const std::string& query);
     int countEthicalPerspectives(const std::vector<RetrievedDocument>& docs);

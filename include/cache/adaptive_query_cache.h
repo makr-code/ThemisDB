@@ -661,6 +661,11 @@ private:
     // Phase 4: Replication coordinator for HA multi-node deployments
     std::shared_ptr<cache::ICacheCoordinator> coordinator_;
     mutable std::mutex coordinator_mutex_;
+    // C-4: Shared flag that the coordinator callbacks check before dereferencing
+    // 'this'.  Set to false in the destructor before tearing down callbacks, so
+    // any in-flight dispatch from the coordinator's background thread will find
+    // the flag false and return immediately instead of calling into freed memory.
+    std::shared_ptr<std::atomic<bool>> callback_alive_{ std::make_shared<std::atomic<bool>>(true) };
 
     // [C-4] Alive guard: prevents coordinator callbacks from accessing a destroyed
     // AdaptiveQueryCache. The guard is shared between the object and any captured

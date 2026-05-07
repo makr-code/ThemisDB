@@ -23,6 +23,7 @@
 
 #include "query/functions/ethics_functions.h"
 #include <nlohmann/json.hpp>
+#include <stdexcept>
 
 namespace themis {
 namespace query {
@@ -160,15 +161,15 @@ json EthicsGetArgumentsFunction::execute(
     [[maybe_unused]] const json& types = args.size() > 1 ? args[1] : json::array();
     [[maybe_unused]] int limit = args.size() > 2 ? args[2].get<int>() : 20;
     
-    // Return empty array as placeholder until collection is populated
-    // Real implementation would execute AQL query:
-    // FOR arg IN ethics_arguments
-    //   FILTER arg.philosophy_school == @school
-    //   FILTER @types == [] OR arg.argument_type IN @types
-    //   LIMIT @limit
-    //   RETURN arg
-    
-    return json::array();
+    // F-028: throw so the AQL runtime surfaces a real error instead of
+    // returning a silent empty array that callers cannot distinguish from
+    // a legitimate empty result set.
+    // Implement by executing the AQL query shown in the NOTE above once the
+    // ethics_ai plugin populates the ethics_arguments collection.
+    throw std::runtime_error(
+        "ETHICS_GET_ARGUMENTS: not implemented — "
+        "the ethics_arguments collection has not been populated by the "
+        "ethics_ai plugin.");
 }
 
 json EthicsFindSimilarDilemmasFunction::execute(
@@ -187,16 +188,12 @@ json EthicsFindSimilarDilemmasFunction::execute(
     [[maybe_unused]] double threshold = args.size() > 1 ? args[1].get<double>() : 0.65;
     [[maybe_unused]] int limit = args.size() > 2 ? args[2].get<int>() : 10;
     
-    // Return empty array as placeholder
-    // Real implementation would execute vector similarity search:
-    // FOR doc IN ethics_dilemmas
-    //   LET similarity = VECTOR_COSINE_SIMILARITY(doc.embedding, EMBED(@query_text))
-    //   FILTER similarity >= @threshold
-    //   SORT similarity DESC
-    //   LIMIT @limit
-    //   RETURN {dilemma: doc, similarity: similarity}
-    
-    return json::array();
+    // F-028: throw instead of silent empty array.
+    // Implement via vector similarity search on ethics_dilemmas collection
+    // (see NOTE above) once the ethics_ai plugin is active.
+    throw std::runtime_error(
+        "ETHICS_FIND_SIMILAR_DILEMMAS: not implemented — "
+        "requires the ethics_ai plugin and a vector index on ethics_dilemmas.");
 }
 
 json EthicsTraverseChainFunction::execute(
@@ -211,13 +208,12 @@ json EthicsTraverseChainFunction::execute(
     [[maybe_unused]] const std::string& start_id = args[0];
     [[maybe_unused]] int max_depth = args.size() > 1 ? args[1].get<int>() : 5;
     
-    // Return empty array as placeholder
-    // Real implementation would execute graph traversal:
-    // FOR v, e, p IN 1..@max_depth OUTBOUND @start_id
-    //   GRAPH 'ethics_arguments_graph'
-    //   RETURN {vertex: v, edge: e, path: p, depth: LENGTH(p.edges)}
-    
-    return json::array();
+    // F-028: throw instead of silent empty array.
+    // Implement via graph traversal on ethics_arguments_graph
+    // (see NOTE above) once the ethics_ai plugin is active.
+    throw std::runtime_error(
+        "ETHICS_TRAVERSE_CHAIN: not implemented — "
+        "requires the ethics_ai plugin and the ethics_arguments_graph to be created.");
 }
 
 // ============================================================================

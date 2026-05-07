@@ -24,6 +24,7 @@
 #pragma once
 
 #include <string>
+#include <functional>
 #include <string_view>
 #include <vector>
 #include <optional>
@@ -374,7 +375,33 @@ public:
      * Pass nullptr to disable statistics-based optimisation.
      */
     void setStatisticsCollector(StatisticsCollector* sc) noexcept { stats_collector_ = sc; }
-    
+
+    /**
+     * @brief Inject a collection-access checker (QE-2 fix).
+     *
+     * When set, every public `execute*` method checks whether the caller is
+     * permitted to access the requested collection before executing any I/O.
+     *
+     * Signature: `bool checker(const std::string& collection,
+     *                           const std::string& caller_id)`.
+     * Return `true` to allow, `false` to deny.  A `nullptr` checker disables
+     * the gate (permissive mode — only safe in single-tenant / trusted callers).
+     *
+     * The caller is responsible for injecting a real ACL implementation before
+     * the engine is exposed to untrusted query paths.
+     *
+     * @param checker Callable that returns true iff access is allowed.
+     * @param caller_id Opaque identity string forwarded to every checker call.
+     */
+    void setCollectionAccessChecker(
+        std::function<bool(const std::string& collection,
+                           const std::string& caller_id)> checker,
+        std::string caller_id = "") noexcept
+    {
+        collection_access_checker_ = std::move(checker);
+        collection_access_caller_id_ = std::move(caller_id);
+    }
+
     /**
      * @brief Provide expression evaluator for Storage and Index to use
      * 
@@ -711,6 +738,8 @@ private:
     VectorIndexManager* vectorIdx_ = nullptr;  // Optional for Vector+Geo optimization
     SpatialIndexManager* spatialIdx_ = nullptr;  // Optional for Spatial pre-filtering
     StatisticsCollector* stats_collector_ = nullptr;  ///< Optional; for cardinality-based optimisation
+    std::function<bool(const std::string&, const std::string&)> collection_access_checker_;
+    std::string collection_access_caller_id_;  ///< Caller identity forwarded to access checker
     
     // New interface-based dependencies (used with DI constructors)
     // When these are set, they take precedence over legacy pointers

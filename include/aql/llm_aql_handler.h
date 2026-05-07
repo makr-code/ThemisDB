@@ -602,6 +602,37 @@ public:
     TranslationValidationMode getValidationMode() const;
 
     // =========================================================================
+    // Collection-level access control for generated AQL (LLM-2 fix)
+    // =========================================================================
+
+    /**
+     * @brief Register a per-collection access checker for NL→AQL translation.
+     *
+     * When set, every `translateNLToAQL*()` call passes the generated AQL
+     * through the AQL parser, extracts all referenced collection names (from
+     * FOR…IN, REMOVE … IN, UPSERT INTO, UPDATE … IN, REPLACE … IN, INSERT
+     * INTO clauses), and invokes @p checker for each one.  If the checker
+     * returns `false` for any collection, the call throws
+     * `LLMException(ACCESS_DENIED)` — the generated query is not returned.
+     *
+     * Set to an empty `std::function` (the default) to disable the check.
+     *
+     * Typical integration:
+     * @code
+     * handler.setCollectionAccessChecker([&acl, user_id](const std::string& col) {
+     *     return acl.canRead(user_id, col);
+     * });
+     * @endcode
+     *
+     * @param checker  Callable that receives a collection name and returns
+     *                 `true` when the caller is authorised to access it,
+     *                 `false` to deny access and abort translation.
+     */
+    void setCollectionAccessChecker(
+        std::function<bool(const std::string& collection_name)> checker
+    );
+
+    // =========================================================================
     // Runtime-overridable validation limits
     // =========================================================================
 

@@ -245,7 +245,10 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
 #if defined(__AVX2__)
     // Runtime guard for binaries compiled with AVX2 but executed on non-AVX2 CPUs.
     // In that case we must not execute AVX2 instructions.
-    if (!gorilla_simd_has_avx2()) {
+    // Cache the CPUID result as a static constant so the CPUID instruction is
+    // executed only once per process lifetime (not on every decode call).
+    static const bool kHasAVX2 = gorilla_simd_has_avx2();
+    if (!kHasAVX2) {
         GorillaDecoder fallback(data_);
         const size_t out_begin = out.size();
         // Same conservative estimate used by the SIMD path below:
