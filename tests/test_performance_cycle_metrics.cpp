@@ -86,6 +86,24 @@ TEST(HardwareCycleCounterTest, CpuCycles_IncreasesOverTime) {
     EXPECT_GE(c2, c1);
 }
 
+#ifdef THEMIS_ENABLE_GPU_CYCLE_METRICS
+TEST(HardwareCycleCounterTest, GpuCycleCallbacks_AreUsedOnStubPath) {
+    HardwareCycleCounter::setGpuCyclesStartFn([]() -> void* {
+        return reinterpret_cast<void*>(0x1234);
+    });
+    HardwareCycleCounter::setGpuCyclesEndFn([](void* event) -> uint64_t {
+        return event ? 4242u : 0u;
+    });
+
+    void* evt = HardwareCycleCounter::gpu_cycles_start();
+    EXPECT_EQ(evt, reinterpret_cast<void*>(0x1234));
+    EXPECT_EQ(HardwareCycleCounter::gpu_cycles_end(evt), 4242u);
+
+    HardwareCycleCounter::setGpuCyclesStartFn({});
+    HardwareCycleCounter::setGpuCyclesEndFn({});
+}
+#endif
+
 // ============================================================================
 // CycleTimer RAII guard
 // ============================================================================

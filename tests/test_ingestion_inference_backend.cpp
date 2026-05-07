@@ -120,11 +120,44 @@ TEST(InferenceBackend, IB03_Null_Description_NonEmpty) {
     EXPECT_FALSE(nb.description().empty());
 }
 
+TEST(InferenceBackend, IB03b_NullText_CallbackBridge_OverridesGenerateAndAvailability) {
+    NullTextGenerationBackend::setGenerateFn(
+        [](const std::string& prompt, int, double, const std::string&) {
+            return std::string("bridge:") + prompt;
+        });
+    NullTextGenerationBackend::setAvailabilityFn([]() { return true; });
+
+    NullTextGenerationBackend nb;
+    EXPECT_TRUE(nb.isAvailable());
+    EXPECT_EQ(nb.generate("hello", 32, 0.2, ""), "bridge:hello");
+
+    NullTextGenerationBackend::setGenerateFn({});
+    NullTextGenerationBackend::setAvailabilityFn({});
+}
+
 TEST(InferenceBackend, IB04_Polymorphism_ViaSharedPtr) {
     std::shared_ptr<ITextGenerationBackend> ptr =
         std::make_shared<NullTextGenerationBackend>();
     EXPECT_FALSE(ptr->isAvailable());
     EXPECT_TRUE(ptr->generate("x", 1, 0.1, "").empty());
+}
+
+TEST(InferenceBackend, IB04b_NullEmbedding_CallbackBridge_OverridesEmbedAndAvailability) {
+    NullEmbeddingBackend::setEmbedFn(
+        [](const std::string& text, int dims) {
+            return std::vector<float>(static_cast<std::size_t>(dims),
+                                      text.empty() ? 0.0f : 1.0f);
+        });
+    NullEmbeddingBackend::setAvailabilityFn([]() { return true; });
+
+    NullEmbeddingBackend eb(4);
+    auto vec = eb.embed("abc");
+    ASSERT_EQ(vec.size(), 4u);
+    EXPECT_FLOAT_EQ(vec[0], 1.0f);
+    EXPECT_TRUE(eb.isAvailable());
+
+    NullEmbeddingBackend::setEmbedFn({});
+    NullEmbeddingBackend::setAvailabilityFn({});
 }
 
 // =============================================================================

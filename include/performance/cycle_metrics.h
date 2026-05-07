@@ -22,6 +22,8 @@
 #include <atomic>
 #include <chrono>
 #include <cstdint>
+#include <functional>
+#include <mutex>
 #include <string>
 
 #ifdef _MSC_VER
@@ -114,6 +116,12 @@ public:
     static std::string cpu_model() noexcept;
 
 #ifdef THEMIS_ENABLE_GPU_CYCLE_METRICS
+    using GpuCyclesStartFn = std::function<void*()>;
+    using GpuCyclesEndFn = std::function<uint64_t(void* event)>;
+
+    static void setGpuCyclesStartFn(GpuCyclesStartFn fn);
+    static void setGpuCyclesEndFn(GpuCyclesEndFn fn);
+
     /**
      * @brief Start GPU cycle measurement
      * @return GPU event handle
