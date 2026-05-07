@@ -261,6 +261,7 @@ private:
                                     const std::string& field) const;
 
     std::string makeKeyIndex(const storage::TensorFieldKey& key) const;
+    void clearMappingForTensorIdLocked(const std::string& tensor_id);
 };
 
 } // namespace graph

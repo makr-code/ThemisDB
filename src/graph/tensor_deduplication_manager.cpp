@@ -77,8 +77,7 @@ TensorDeduplicationManager::TensorDeduplicationManager(
                 auto it = key_to_tensor_id_.find(makeKeyIndex(key));
                 if (it == key_to_tensor_id_.end()) return;
                 tensor_id = it->second;
-                key_to_tensor_id_.erase(it);
-                tensor_id_to_key_.erase(tensor_id);
+                clearMappingForTensorIdLocked(tensor_id);
                 records_.erase(tensor_id);
             }
             fp_graph_->remove(tensor_id);
@@ -106,6 +105,14 @@ TensorFieldKey TensorDeduplicationManager::makeKey(
 std::string TensorDeduplicationManager::makeKeyIndex(const TensorFieldKey& key) const {
     constexpr char kSep = '\x1f';
     return key.tenant + kSep + key.collection + kSep + key.field;
+}
+
+void TensorDeduplicationManager::clearMappingForTensorIdLocked(
+    const std::string& tensor_id) {
+    auto key_it = tensor_id_to_key_.find(tensor_id);
+    if (key_it == tensor_id_to_key_.end()) return;
+    key_to_tensor_id_.erase(key_it->second);
+    tensor_id_to_key_.erase(key_it);
 }
 
 TTTrain TensorDeduplicationManager::computeDelta(
@@ -245,11 +252,7 @@ store_canonical:
     std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
     auto prev = records_.find(tensor_id);
     if (prev != records_.end()) {
-        auto prev_key_it = tensor_id_to_key_.find(tensor_id);
-        if (prev_key_it != tensor_id_to_key_.end()) {
-            key_to_tensor_id_.erase(prev_key_it->second);
-            tensor_id_to_key_.erase(prev_key_it);
-        }
+        clearMappingForTensorIdLocked(tensor_id);
     }
     records_[tensor_id] = record;
     if (record.is_canonical) {
