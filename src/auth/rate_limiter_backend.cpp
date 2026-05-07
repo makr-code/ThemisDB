@@ -269,47 +269,49 @@ bool RedisRateLimiterBackend::reconnect()
 
 // STUB/SIMULATION NOTE:
 // Purpose: Allow ThemisDB to be built without hiredis.  All Redis-backed
-//   distributed rate-limiting operations are now fail-CLOSED: `increment()`
-//   returns IRateLimiterBackend::kBackendUnavailable so that every call appears
-//   to exceed the rate limit, `getCount()` returns kBackendUnavailable, `reset()`
-//   is a no-op, and `isConnected()` / `reconnect()` always return false.
+//   distributed rate-limiting operations use a process-local in-memory fallback.
 // Activation: `THEMIS_ENABLE_REDIS` is not defined at compile time (default for
 //   builds without the 'redis' vcpkg feature or without libhiredis).
-// Production Delta: Distributed rate limiting is disabled and all requests are
-//   REJECTED (fail-closed) to prevent DoS/bypass.  Use InMemoryRateLimiterBackend
-//   for a single-node in-process fallback that does not share state across
-//   ThemisDB replicas.
+// Production Delta: Cross-replica/shared Redis counters are unavailable; limits
+//   are enforced per process only and do not synchronize across ThemisDB replicas.
 // Removal Plan: Install libhiredis (`apt install libhiredis-dev` or enable the
 //   'redis' vcpkg feature) and set `-DTHEMIS_ENABLE_REDIS=1` in CMake.
 // Roadmap ref: src/auth/FUTURE_ENHANCEMENTS.md §"Redis Rate Limiter Activation"
+
+namespace {
+InMemoryRateLimiterBackend& redisFallbackBackend()
+{
+    static InMemoryRateLimiterBackend backend;
+    return backend;
+}
+} // namespace
 
 RedisRateLimiterBackend::RedisRateLimiterBackend(const Config& config)
     : config_(config)
 {
     THEMIS_WARN("RedisRateLimiterBackend: built without hiredis (THEMIS_ENABLE_REDIS not "
-                "defined).  Distributed rate limiting is unavailable; all requests will be "
-                "REJECTED (fail-closed).  Use InMemoryRateLimiterBackend for single-node "
-                "rate limiting, or enable the 'redis' vcpkg feature to activate distributed "
-                "rate limiting.");
+                "defined).  Using process-local in-memory fallback counters; distributed "
+                "rate-limit synchronization across replicas is unavailable. Enable the "
+                "'redis' vcpkg feature to activate Redis-backed shared counters.");
 }
 
 RedisRateLimiterBackend::~RedisRateLimiterBackend() = default;
 
-int64_t RedisRateLimiterBackend::increment(const std::string& /*key*/,
-                                            uint32_t /*window_seconds*/)
+int64_t RedisRateLimiterBackend::increment(const std::string& key,
+                                            uint32_t window_seconds)
 {
-    return IRateLimiterBackend::kBackendUnavailable; // fail-closed: return sentinel; callers must treat this as a rate-limit breach
+    return redisFallbackBackend().increment(key, window_seconds);
 }
 
-int64_t RedisRateLimiterBackend::getCount(const std::string& /*key*/,
-                                           uint32_t /*window_seconds*/) const
+int64_t RedisRateLimiterBackend::getCount(const std::string& key,
+                                           uint32_t window_seconds) const
 {
-    return IRateLimiterBackend::kBackendUnavailable; // fail-closed: appear at maximum rate
+    return redisFallbackBackend().getCount(key, window_seconds);
 }
 
-void RedisRateLimiterBackend::reset(const std::string& /*key*/)
+void RedisRateLimiterBackend::reset(const std::string& key)
 {
-    // no-op stub
+    redisFallbackBackend().reset(key);
 }
 
 bool RedisRateLimiterBackend::isConnected() const

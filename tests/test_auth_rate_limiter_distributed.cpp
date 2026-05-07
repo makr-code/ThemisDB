@@ -274,3 +274,24 @@ TEST(AuthRateLimiterDistributedTest, NullBackendRevertsToDefault) {
 
     EXPECT_TRUE(limiter.allowAuthAttempt(ip)); // allowed via token bucket
 }
+
+#ifndef THEMIS_ENABLE_REDIS
+/**
+ * @brief Verify RedisRateLimiterBackend falls back to process-local in-memory
+ *        counters when hiredis support is not compiled in.
+ */
+TEST(RedisRateLimiterBackendNoRedisTest, UsesInProcessFallbackCounters) {
+    RedisRateLimiterBackend backend;
+
+    EXPECT_EQ(backend.increment("ip:1.2.3.4", 60), 1);
+    EXPECT_EQ(backend.increment("ip:1.2.3.4", 60), 2);
+    EXPECT_EQ(backend.getCount("ip:1.2.3.4", 60), 2);
+
+    backend.reset("ip:1.2.3.4");
+    EXPECT_EQ(backend.getCount("ip:1.2.3.4", 60), 0);
+
+    // Redis connectivity is still unavailable in this build mode.
+    EXPECT_FALSE(backend.isConnected());
+    EXPECT_FALSE(backend.reconnect());
+}
+#endif

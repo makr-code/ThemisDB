@@ -150,8 +150,9 @@ private:
  * an indivisible unit — no concurrent request can observe a partial state.
  *
  * When built without hiredis (THEMIS_ENABLE_REDIS not defined), all methods
- * compile and link but operate as no-ops; increment() returns 0 so all requests
- * are allowed (fail-open), preventing hard failures in environments without Redis.
+ * compile and link and transparently use a process-local in-memory fallback.
+ * This preserves single-process rate limiting but does not synchronize counters
+ * across replicas.
  *
  * Thread-safety: all public methods are thread-safe.
  *
@@ -193,15 +194,15 @@ public:
     /**
      * @brief Atomically increment the sliding-window counter via a Lua script.
      *
-     * Returns 0 (fail-open) when Redis is unavailable so that transient
-     * connectivity issues do not block legitimate authentication traffic.
+     * Returns a process-local fallback count when Redis support is not compiled
+     * in, so that non-Redis builds still enforce local rate limits.
      */
     int64_t increment(const std::string& key, uint32_t window_seconds) override;
 
     /**
      * @brief Return current count via a read-only Lua script (no side-effects).
      *
-     * Returns 0 when Redis is unavailable.
+     * Returns a process-local fallback count when Redis support is not compiled in.
      */
     int64_t getCount(const std::string& key, uint32_t window_seconds) const override;
 
