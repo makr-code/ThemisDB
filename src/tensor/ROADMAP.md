@@ -276,11 +276,15 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 
 ### Phase 6: Hiss Framework — Adaptive Structural Rounding (Target: Q2–Q3 2028)
 
-- [ ] **`HissStructuralSearchEngine`** — TN-SS with index reshaping (Target: Q2 2028)
+- [~] **`HissStructuralSearchEngine`** — TN-SS with index reshaping (Target: Q2 2028)
   - Paper §Hiss: global stochastic sub-network sampling + local hierarchical refinement;
     entropy-guided index clustering
   - `HissConfig { num_samples, entropy_threshold, max_reshape_depth }`
   - `HissStructuralSearchEngine::search(data_tensor, config) → TensorNetworkGraph`
+  - **2026-05-07 in progress**: `TensorNetworkGraph` node/edge model + reroute API,
+    deterministic entropy-gated sampling skeleton, and `TemplateCatalog` registry added
+    in `include/tensor/hiss_structural_search.h` + `src/tensor/hiss_structural_search.cpp`
+    with tests `tests/test_tensor_hiss_structural_search.cpp`
   - AC: compression ratio 2.5×–100× better than fixed TT/HT on test corpus;
     structures from one data instance transfer to similar instances within 10% perf
 
@@ -420,10 +424,10 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 
 ### Phase 6: Hiss Adaptive Structural Rounding (Target: Q2–Q3 2028)
 
-- [ ] `HissStructuralSearchEngine` — TN-SS with entropy-guided clustering
+- [~] `HissStructuralSearchEngine` — TN-SS with entropy-guided clustering
 - [ ] Targeted index reshaping to expose QTT latent structures
 - [ ] `TensorNetworkStructuralRounding` (TNSR) background maintenance task
-- [ ] Domain template graph catalog (`TemplateCatalog`)
+- [~] Domain template graph catalog (`TemplateCatalog`)
 
 ### Phase 7: UTR Multi-Modal Interoperability (Target: Q3–Q4 2028)
 

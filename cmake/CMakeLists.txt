@@ -1555,6 +1555,9 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/hierarchical_tucker_decomposer.cpp
     ../src/tensor/ht_index.cpp
 
+    # Hiss Structural Search + TemplateCatalog (Phase 6 — Q2 2028)
+    ../src/tensor/hiss_structural_search.cpp
+
     ../src/metadata/statistics_collector.cpp
     ../src/metadata/information_schema.cpp
     ../src/metadata/schema_constraints.cpp
@@ -4676,6 +4679,23 @@ if(THEMIS_BUILD_TESTS)
         CONFIGURATIONS Release Debug
         PROPERTIES
             LABELS "tensor;phase5;ht;unit"
+            TIMEOUT 120
+    )
+
+    # Phase 6 Hiss structural search + tensor-network graph catalog (Q2 2028)
+    add_executable(test_tensor_hiss_structural_search
+        ${THEMIS_ROOT_DIR}/tests/test_tensor_hiss_structural_search.cpp
+    )
+    target_link_libraries(test_tensor_hiss_structural_search
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_tensor_hiss_structural_search
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_tensor_hiss_structural_search>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+        PROPERTIES
+            LABELS "tensor;phase6;hiss;unit"
             TIMEOUT 120
     )
     target_link_libraries(test_gguf_metadata
