@@ -103,6 +103,7 @@ TensorFieldKey TensorDeduplicationManager::makeKey(
 }
 
 std::string TensorDeduplicationManager::makeKeyIndex(const TensorFieldKey& key) const {
+    // Use ASCII Unit Separator to avoid ambiguity with user-provided key chars.
     constexpr char kSep = '\x1f';
     return key.tenant + kSep + key.collection + kSep + key.field;
 }
