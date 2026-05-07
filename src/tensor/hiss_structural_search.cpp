@@ -162,10 +162,10 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
     std::sort(candidates.begin(), candidates.end(),
               [](const auto& a, const auto& b) { return a.weight > b.weight; });
 
+    constexpr std::size_t kMaxPackedIndex = 0xFFFFFFFFULL;
     std::unordered_map<std::uint64_t, TensorGraphEdge> best_by_edge;
     for (const auto& e : candidates) {
         // Packed edge key uses 32-bit lanes per endpoint.
-        constexpr std::size_t kMaxPackedIndex = 0xFFFFFFFFULL;
         if (e.from > kMaxPackedIndex || e.to > kMaxPackedIndex) {
             throw std::invalid_argument("tensor graph index from=" + std::to_string(e.from) +
                                         " or to=" + std::to_string(e.to) +
@@ -217,7 +217,7 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
                                     std::to_string(train.mode_sizes.size()) + ")");
     }
 
-    auto toBitDepth = [](std::size_t grid_size) -> std::size_t {
+    auto calculate_bit_depth = [](std::size_t grid_size) -> std::size_t {
         if (grid_size == 0) {
             throw std::invalid_argument("grid_size must be > 0, got: " + std::to_string(grid_size));
         }
@@ -238,10 +238,10 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     std::vector<std::size_t> bit_depths;
     if (!grid_sizes.empty()) {
         bit_depths.reserve(grid_sizes.size());
-        for (const auto g : grid_sizes) bit_depths.push_back(toBitDepth(g));
+        for (const auto g : grid_sizes) bit_depths.push_back(calculate_bit_depth(g));
     } else if (!train.mode_sizes.empty()) {
         bit_depths.reserve(train.mode_sizes.size());
-        for (const auto n : train.mode_sizes) bit_depths.push_back(toBitDepth(n));
+        for (const auto n : train.mode_sizes) bit_depths.push_back(calculate_bit_depth(n));
     }
 
     QTTrain qt;
