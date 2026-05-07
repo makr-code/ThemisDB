@@ -230,8 +230,11 @@
   - **Progress 2026-05-07 (integration hardening)**: Added `setTrainLoadFn()` + config
     `cache_trains_in_memory=false` to resolve candidate TT trains externally when node cache is
     not retained in memory; tests TFG-24/TFG-25 cover resolver path and safe no-loader behavior.
-  - Remaining: wire `setTrainLoadFn()` to `TensorNetworkStorageEngine`/persisted graph recovery so
-    similarity verification survives process restart with durable graph metadata.
+  - **Progress 2026-05-07 (storage wiring)**: `TensorDeduplicationManager` now wires
+    `setTrainLoadFn()` to `TensorNetworkStorageEngine::getCompressed()` + dequantize so
+    exact-similarity checks can resolve candidate TT trains without in-memory cache
+    (integration test TDM-09 with `cache_trains_in_memory=false`).
+  - Remaining: persisted graph metadata recovery path (node bootstrap after process restart).
   - O(d·n·r³) per candidate pair — bounded by `max_candidates=1000`
 - [ ] CDC changefeed integration for incremental graph updates (Target: Q2 2027)
   - Subscribe to `TensorNetworkStorageEngine` write events via Observer pattern

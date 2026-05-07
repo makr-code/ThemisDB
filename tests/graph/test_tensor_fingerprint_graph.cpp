@@ -35,6 +35,7 @@
  *   TDM-05  DeduplicationManager: similar tensor stored as delta
  *   TDM-06  DeduplicationManager: retrieve() canonical returns approx original data
  *   TDM-07  DeduplicationManager: retrieve() delta round-trip returns approx original data
+ *   TDM-09  Dedup manager wires external TT loader for graph lookup when cache is disabled
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -532,4 +533,34 @@ TEST_F(TensorDeduplicationManagerTest, TDM05_SimilarTensorStoreTracksRecords) {
     EXPECT_EQ(rec2.tensor_id, "copy");
     const auto s = mgr_->getStats();
     EXPECT_EQ(s.total_tensors, 2u);
+}
+
+// TDM-09: dedup manager should wire fp-graph train resolver via storage engine.
+TEST(TensorDeduplicationManagerIntegrationTest,
+     TDM09_WiresGraphTrainResolverWhenCacheDisabled) {
+    auto engine = makeEngine();
+
+    FingerprintGraphConfig fp_cfg;
+    fp_cfg.similarity_threshold = 0.99;
+    fp_cfg.num_hash_funcs = 64;
+    fp_cfg.num_bands = 16;
+    fp_cfg.cache_trains_in_memory = false;
+    auto fp = std::make_shared<TensorFingerprintGraph>(fp_cfg);
+
+    auto dec = std::make_shared<TensorTrainDecomposer>();
+    DeduplicationConfig dedup_cfg;
+    dedup_cfg.similarity_threshold = 0.99;
+    TensorDeduplicationManager mgr(engine, fp, dec, dedup_cfg);
+
+    auto data = randVec(8, 777);
+    auto rec1 = mgr.store("resolver_ref", data, {8, 1}, "t", "c", "fref");
+    ASSERT_TRUE(rec1.is_canonical);
+
+    auto rec2 = mgr.store("resolver_copy", data, {8, 1}, "t", "c", "fcopy");
+    EXPECT_FALSE(rec2.is_canonical);
+    EXPECT_EQ(rec2.reference_id, "resolver_ref");
+
+    auto query_train = makeTT(data, {8, 1});
+    auto similar = fp->findSimilar(query_train, 5);
+    ASSERT_FALSE(similar.empty());
 }

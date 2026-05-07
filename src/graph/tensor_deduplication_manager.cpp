@@ -13,6 +13,7 @@
 
 #include "graph/tensor_deduplication_manager.h"
 #include "storage/tensor_train_decomposer.h"
+#include "storage/tt_quantizer.h"
 
 #include <algorithm>
 #include <cmath>
@@ -42,6 +43,19 @@ TensorDeduplicationManager::TensorDeduplicationManager(
 {
     if (!storage_ || !fp_graph_ || !decomposer_)
         throw std::invalid_argument("TensorDeduplicationManager: null dependency");
+
+    fp_graph_->setTrainLoadFn(
+        [storage = storage_](const std::string&,
+                             const std::string& tenant,
+                             const std::string& collection,
+                             const std::string& field)
+            -> std::optional<TTTrain> {
+            if (!storage) return std::nullopt;
+            auto qtrain = storage->getCompressed({tenant, collection, field});
+            if (!qtrain.has_value()) return std::nullopt;
+            storage::TTQuantizer quantizer;
+            return quantizer.dequantize(*qtrain);
+        });
 }
 
 // ============================================================================
