@@ -167,7 +167,10 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
         // Packed edge key uses 32-bit lanes per endpoint.
         constexpr std::size_t kMaxPackedIndex = 0xFFFFFFFFULL;
         if (e.from > kMaxPackedIndex || e.to > kMaxPackedIndex) {
-            throw std::invalid_argument("tensor graph index exceeds packed edge-key limit");
+            throw std::invalid_argument("tensor graph index from=" + std::to_string(e.from) +
+                                        " or to=" + std::to_string(e.to) +
+                                        " exceeds packed edge-key limit of " +
+                                        std::to_string(kMaxPackedIndex));
         }
         const auto key = (static_cast<std::uint64_t>(e.from) << 32U) | static_cast<std::uint64_t>(e.to);
         const auto it = best_by_edge.find(key);
@@ -209,16 +212,22 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     // Removal Plan: Q2 2028 — implement Quantics decomposition with per-dimension
     //               bit-depths and reversible QTTrain <-> TTTrain mapping.
     if (!grid_sizes.empty() && !train.mode_sizes.empty() && grid_sizes.size() != train.mode_sizes.size()) {
-        throw std::invalid_argument("grid_sizes must match train.mode_sizes length");
+        throw std::invalid_argument("grid_sizes.size() (" + std::to_string(grid_sizes.size()) +
+                                    ") must match train.mode_sizes.size() (" +
+                                    std::to_string(train.mode_sizes.size()) + ")");
     }
 
-    auto to_bit_depth = [](std::size_t grid_size) -> std::size_t {
-        if (grid_size == 0) throw std::invalid_argument("grid_size must be > 0");
+    auto toBitDepth = [](std::size_t grid_size) -> std::size_t {
+        if (grid_size == 0) {
+            throw std::invalid_argument("grid_size must be > 0, got: " + std::to_string(grid_size));
+        }
         std::size_t depth = 0;
         std::size_t v = 1;
         while (v < grid_size) {
             if (depth >= std::numeric_limits<std::size_t>::digits - 1) {
-                throw std::overflow_error("grid_size is too large for bit-depth calculation");
+                throw std::overflow_error("grid_size " + std::to_string(grid_size) +
+                                          " is too large for bit-depth calculation (max depth: " +
+                                          std::to_string(std::numeric_limits<std::size_t>::digits - 1) + ")");
             }
             v <<= 1U;
             ++depth;
@@ -229,10 +238,10 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     std::vector<std::size_t> bit_depths;
     if (!grid_sizes.empty()) {
         bit_depths.reserve(grid_sizes.size());
-        for (const auto g : grid_sizes) bit_depths.push_back(to_bit_depth(g));
+        for (const auto g : grid_sizes) bit_depths.push_back(toBitDepth(g));
     } else if (!train.mode_sizes.empty()) {
         bit_depths.reserve(train.mode_sizes.size());
-        for (const auto n : train.mode_sizes) bit_depths.push_back(to_bit_depth(n));
+        for (const auto n : train.mode_sizes) bit_depths.push_back(toBitDepth(n));
     }
 
     QTTrain qt;
