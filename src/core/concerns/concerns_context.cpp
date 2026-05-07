@@ -349,6 +349,107 @@ void ConcernsContext::logWithTrace(ILogger::Level level,
     logger_->logWithContext(level, message, ctx, fields);
 }
 
+// ---------------------------------------------------------------------------
+// Dynamic Adapter Reconfiguration
+// ---------------------------------------------------------------------------
+
+void ConcernsContext::replaceLogger(std::unique_ptr<ILogger> new_logger) {
+    if (!new_logger) {
+        throw std::invalid_argument("ConcernsContext::replaceLogger: new_logger must not be nullptr");
+    }
+    std::unique_ptr<ILogger> old;
+    {
+        std::lock_guard<std::mutex> lk(adapters_mutex_);
+        old = std::move(logger_);
+        logger_ = std::move(new_logger);
+    }
+    // Flush the old adapter outside the lock so in-flight log calls complete.
+    old->flush();
+}
+
+void ConcernsContext::replaceTracer(std::unique_ptr<ITracer> new_tracer) {
+    if (!new_tracer) {
+        throw std::invalid_argument("ConcernsContext::replaceTracer: new_tracer must not be nullptr");
+    }
+    std::unique_ptr<ITracer> old;
+    {
+        std::lock_guard<std::mutex> lk(adapters_mutex_);
+        old = std::move(tracer_);
+        tracer_ = std::move(new_tracer);
+    }
+    old->flush();
+    old->shutdown();
+}
+
+void ConcernsContext::replaceMetrics(std::unique_ptr<IMetrics> new_metrics) {
+    if (!new_metrics) {
+        throw std::invalid_argument("ConcernsContext::replaceMetrics: new_metrics must not be nullptr");
+    }
+    std::unique_ptr<IMetrics> old;
+    {
+        std::lock_guard<std::mutex> lk(adapters_mutex_);
+        old = std::move(metrics_);
+        metrics_ = std::move(new_metrics);
+    }
+    old->flush();
+}
+
+void ConcernsContext::replaceCache(std::unique_ptr<ICache> new_cache) {
+    if (!new_cache) {
+        throw std::invalid_argument("ConcernsContext::replaceCache: new_cache must not be nullptr");
+    }
+    std::unique_ptr<ICache> old;
+    {
+        std::lock_guard<std::mutex> lk(adapters_mutex_);
+        old = std::move(cache_);
+        cache_ = std::move(new_cache);
+    }
+    old->flush();
+    old->shutdown();
+}
+
+void ConcernsContext::replaceSecrets(std::unique_ptr<ISecrets> new_secrets) {
+    if (!new_secrets) {
+        throw std::invalid_argument("ConcernsContext::replaceSecrets: new_secrets must not be nullptr");
+    }
+    std::unique_ptr<ISecrets> old;
+    {
+        std::lock_guard<std::mutex> lk(adapters_mutex_);
+        old = std::move(secrets_);
+        secrets_ = std::move(new_secrets);
+    }
+    old->flush();
+    old->shutdown();
+}
+
+void ConcernsContext::replaceFeatureFlags(std::unique_ptr<IFeatureFlags> new_ff) {
+    if (!new_ff) {
+        throw std::invalid_argument("ConcernsContext::replaceFeatureFlags: new_ff must not be nullptr");
+    }
+    std::unique_ptr<IFeatureFlags> old;
+    {
+        std::lock_guard<std::mutex> lk(adapters_mutex_);
+        old = std::move(featureFlags_);
+        featureFlags_ = std::move(new_ff);
+    }
+    old->flush();
+    old->shutdown();
+}
+
+void ConcernsContext::replaceAuditLog(std::unique_ptr<IAuditLog> new_audit) {
+    if (!new_audit) {
+        throw std::invalid_argument("ConcernsContext::replaceAuditLog: new_audit must not be nullptr");
+    }
+    std::unique_ptr<IAuditLog> old;
+    {
+        std::lock_guard<std::mutex> lk(adapters_mutex_);
+        old = std::move(auditLog_);
+        auditLog_ = std::move(new_audit);
+    }
+    old->flush();
+    old->shutdown();
+}
+
 } // namespace concerns
 } // namespace core
 } // namespace themis

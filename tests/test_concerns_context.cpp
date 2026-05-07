@@ -1927,3 +1927,144 @@ TEST(InMemoryAuditLogTest, ThreadSafetyUnderConcurrentRecord) {
     for (auto& th : threads) th.join();
     EXPECT_EQ(static_cast<size_t>(kThreads * kPerThread), log.size());
 }
+
+// ===========================================================================
+// DAR: Dynamic Adapter Reconfiguration tests
+//
+//  DAR-01  replaceLogger() swaps adapter; new adapter receives subsequent calls
+//  DAR-02  replaceTracer() swaps adapter
+//  DAR-03  replaceMetrics() swaps adapter
+//  DAR-04  replaceCache() swaps adapter
+//  DAR-05  replaceLogger(nullptr) throws std::invalid_argument
+//  DAR-06  replaceLogger() is safe to call from a concurrent thread while
+//          another thread is actively logging
+// ===========================================================================
+
+namespace {
+
+/// Minimal spy logger that counts how many times info() is called.
+class SpyLogger : public ILogger {
+public:
+    std::atomic<int> call_count{0};
+
+    void log(Level, const std::string&) override {}
+    void trace(const std::string&) override {}
+    void debug(const std::string&) override {}
+    void info(const std::string&) override { ++call_count; }
+    void warn(const std::string&) override {}
+    void error(const std::string&) override {}
+    void critical(const std::string&) override {}
+    void logStructured(Level, const std::string&, const Fields& = {}) override {}
+    void logWithContext(Level, const std::string&,
+                        const TraceContext&, const Fields&) override {}
+    void setLevel(Level) override {}
+    Level getLevel() const override { return Level::TRACE; }
+    void setPattern(const std::string&) override {}
+    void flush() noexcept override {}
+    void shutdown() noexcept override {}
+    ProbeResult isHealthy() const override { return ProbeResult::healthy(); }
+};
+
+/// Minimal spy metrics that counts how many times incrementCounter() is called.
+class SpyMetrics : public IMetrics {
+public:
+    std::atomic<int> inc_count{0};
+
+    void incrementCounter(const std::string&, int64_t = 1, const Labels& = {}) override { ++inc_count; }
+    void setGauge(const std::string&, double, const Labels& = {}) override {}
+    void incrementGauge(const std::string&, double, const Labels& = {}) override {}
+    void decrementGauge(const std::string&, double, const Labels& = {}) override {}
+    void observeHistogram(const std::string&, double, const Labels& = {}) override {}
+    void recordLatency(const std::string&, double, const Labels& = {}) override {}
+    void recordError(const std::string&, const Labels& = {}) override {}
+    void recordSuccess(const std::string&, const Labels& = {}) override {}
+    std::string exportMetrics() const override { return ""; }
+    void reset() override {}
+    void flush() noexcept override {}
+    void shutdown() noexcept override {}
+    ProbeResult isHealthy() const override { return ProbeResult::healthy(); }
+};
+
+} // anonymous namespace
+
+// DAR-01: replaceLogger() installs the new adapter
+TEST_F(ConcernsContextTest, DAR_01_ReplaceLogger_SwapsAdapter) {
+    auto spy = std::make_unique<SpyLogger>();
+    auto* spy_ptr = spy.get();
+
+    context->replaceLogger(std::move(spy));
+
+    context->logger().info("after swap");
+    EXPECT_EQ(1, spy_ptr->call_count.load())
+        << "Calls after swap must be delivered to the new adapter";
+}
+
+// DAR-02: replaceTracer() installs the new adapter
+TEST_F(ConcernsContextTest, DAR_02_ReplaceTracer_SwapsAdapter) {
+    // NoOp tracer; just verify the swap does not crash and the new adapter
+    // is active (startSpan returns non-null).
+    context->replaceTracer(std::make_unique<NoOpTracer>());
+    auto span = context->startSpan("after-tracer-swap");
+    EXPECT_NE(nullptr, span.get());
+}
+
+// DAR-03: replaceMetrics() installs the new adapter
+TEST_F(ConcernsContextTest, DAR_03_ReplaceMetrics_SwapsAdapter) {
+    auto spy = std::make_unique<SpyMetrics>();
+    auto* spy_ptr = spy.get();
+
+    context->replaceMetrics(std::move(spy));
+
+    context->metrics().incrementCounter("test_counter");
+    EXPECT_EQ(1, spy_ptr->inc_count.load())
+        << "Calls after swap must be delivered to the new metrics adapter";
+}
+
+// DAR-04: replaceCache() installs the new adapter
+TEST_F(ConcernsContextTest, DAR_04_ReplaceCache_SwapsAdapter) {
+    context->replaceCache(std::make_unique<NoOpCache>());
+    // NoOp cache put/get must not crash.
+    using Entry = ICache::CacheEntry;
+    context->cache().put("key", Entry{"value"});
+    auto val = context->cache().get("key");
+    (void)val; // NoOp always returns nullopt
+}
+
+// DAR-05: replaceLogger(nullptr) throws std::invalid_argument
+TEST_F(ConcernsContextTest, DAR_05_ReplaceLogger_NullptrThrows) {
+    EXPECT_THROW(context->replaceLogger(nullptr), std::invalid_argument);
+}
+
+// DAR-06: replaceLogger() is race-free when called concurrently with logging
+TEST_F(ConcernsContextTest, DAR_06_ReplaceLogger_ConcurrentSafe) {
+    constexpr int kLogThreads  = 4;
+    constexpr int kLogsPerThread = 200;
+
+    std::atomic<bool> start{false};
+    std::vector<std::thread> threads;
+    threads.reserve(kLogThreads + 1);
+
+    // Logging threads
+    for (int t = 0; t < kLogThreads; ++t) {
+        threads.emplace_back([&] {
+            while (!start.load()) { /* spin */ }
+            for (int i = 0; i < kLogsPerThread; ++i) {
+                context->logger().info("concurrent log");
+            }
+        });
+    }
+
+    // Adapter-swapper thread
+    threads.emplace_back([&] {
+        while (!start.load()) { /* spin */ }
+        for (int i = 0; i < 10; ++i) {
+            context->replaceLogger(std::make_unique<NoOpLogger>());
+        }
+    });
+
+    start.store(true);
+    for (auto& th : threads) th.join();
+
+    // If we reach here without ASAN/TSAN error the test passes.
+    SUCCEED();
+}

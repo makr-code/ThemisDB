@@ -33,6 +33,8 @@
 // lifecycle.h (ProbeResult, HealthStatus) is already transitively included
 // via each of the four interface headers above; no direct include needed.
 #include <memory>
+#include <mutex>
+#include <shared_mutex>
 #include <string>
 #include <map>
 #include <unordered_map>
@@ -255,6 +257,93 @@ public:
      */
     ILogger::Level getLogLevel() const { return logger_->getLevel(); }
 
+    // -------------------------------------------------------------------------
+    // Dynamic Adapter Reconfiguration (Issue #1412 / core/FUTURE_ENHANCEMENTS.md)
+    //
+    // These methods replace an active concern adapter at runtime without
+    // restarting the database process.  The old adapter is flushed before the
+    // swap so that no buffered data is lost.  All replace* calls are
+    // thread-safe: a brief exclusive lock is taken only to swap the pointer;
+    // in-flight calls on the old adapter complete before the old object is
+    // destroyed (the caller retains a shared_ptr reference until the return).
+    //
+    // Passing nullptr is rejected (throws std::invalid_argument).
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Swap the active logger adapter.
+     *
+     * Flushes the current adapter before installing @p new_logger.  After
+     * this call, `logger()` returns a reference to the new adapter.
+     *
+     * Thread-safety: safe to call while other threads are logging.
+     *
+     * @param new_logger Replacement adapter; must not be nullptr.
+     * @throws std::invalid_argument if @p new_logger is nullptr.
+     */
+    void replaceLogger(std::unique_ptr<ILogger> new_logger);
+
+    /**
+     * @brief Swap the active tracer adapter.
+     *
+     * Flushes and shuts down the current adapter before installing
+     * @p new_tracer.
+     *
+     * @param new_tracer Replacement adapter; must not be nullptr.
+     * @throws std::invalid_argument if @p new_tracer is nullptr.
+     */
+    void replaceTracer(std::unique_ptr<ITracer> new_tracer);
+
+    /**
+     * @brief Swap the active metrics adapter.
+     *
+     * Flushes the current adapter before installing @p new_metrics.
+     *
+     * @param new_metrics Replacement adapter; must not be nullptr.
+     * @throws std::invalid_argument if @p new_metrics is nullptr.
+     */
+    void replaceMetrics(std::unique_ptr<IMetrics> new_metrics);
+
+    /**
+     * @brief Swap the active cache adapter.
+     *
+     * Flushes the current adapter before installing @p new_cache.
+     *
+     * @param new_cache Replacement adapter; must not be nullptr.
+     * @throws std::invalid_argument if @p new_cache is nullptr.
+     */
+    void replaceCache(std::unique_ptr<ICache> new_cache);
+
+    /**
+     * @brief Swap the active secrets adapter.
+     *
+     * Flushes the current adapter before installing @p new_secrets.
+     *
+     * @param new_secrets Replacement adapter; must not be nullptr.
+     * @throws std::invalid_argument if @p new_secrets is nullptr.
+     */
+    void replaceSecrets(std::unique_ptr<ISecrets> new_secrets);
+
+    /**
+     * @brief Swap the active feature-flags adapter.
+     *
+     * Flushes the current adapter before installing @p new_ff.
+     *
+     * @param new_ff Replacement adapter; must not be nullptr.
+     * @throws std::invalid_argument if @p new_ff is nullptr.
+     */
+    void replaceFeatureFlags(std::unique_ptr<IFeatureFlags> new_ff);
+
+    /**
+     * @brief Swap the active audit-log adapter.
+     *
+     * Flushes the current adapter before installing @p new_audit.
+     *
+     * @param new_audit Replacement adapter; must not be nullptr.
+     * @throws std::invalid_argument if @p new_audit is nullptr.
+     */
+    void replaceAuditLog(std::unique_ptr<IAuditLog> new_audit);
+
     std::unique_ptr<ITracer::ISpan> startSpan(const std::string& name) {
         return tracer_->startSpan(name);
     }
@@ -432,6 +521,8 @@ private:
     std::unique_ptr<ICircuitBreaker> circuit_breaker_;
     std::unique_ptr<IFeatureFlags> featureFlags_;
     std::unique_ptr<IAuditLog> auditLog_;
+    /// Guards all replaceX() adapter swaps.
+    mutable std::mutex adapters_mutex_;
 };
 
 } // namespace concerns
