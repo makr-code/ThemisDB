@@ -29,8 +29,11 @@
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <cstdlib>
+#include <exception>
+#include <mutex>
 #include <stdexcept>
 #include <string>
+#include <utility>
 #include <vector>
 
 #if __has_include("sharding/shard_rpc.grpc.pb.h")
@@ -86,6 +89,11 @@ bool isWalGrpcStubAllowed() {
     return allow_stub && std::string(allow_stub) == "1";
 }
 
+} // namespace
+
+namespace {
+std::mutex g_wal_grpc_service_mutex;
+themis::server::WalGrpcService::ServiceFn g_wal_grpc_service_fn;
 } // namespace
 
 class WalGrpcService::Impl {
@@ -247,16 +255,39 @@ WalGrpcService::WalGrpcService(std::shared_ptr<sharding::WALApplier> wal_applier
         "Shard gRPC stubs not found; WalGrpcService replication endpoint is disabled. "
         "Set THEMIS_ALLOW_WAL_GRPC_STUB=1 only for development/testing."
     );
+
+    // Try injected accessor (for non-proto builds wiring an external service).
+    ServiceFn fn;
+    {
+        std::lock_guard<std::mutex> lock(g_wal_grpc_service_mutex);
+        fn = g_wal_grpc_service_fn;
+    }
+    if (fn) {
+        try {
+            service_ptr_ = fn();
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("WalGrpcService: service callback failed: {}", e.what());
+            service_ptr_ = nullptr;
+        } catch (...) {
+            THEMIS_ERROR("WalGrpcService: service callback failed: unknown error");
+            service_ptr_ = nullptr;
+        }
+    }
 #endif
 }
 
 WalGrpcService::~WalGrpcService() = default;
 
+void WalGrpcService::setServiceFn(ServiceFn fn) {
+    std::lock_guard<std::mutex> lock(g_wal_grpc_service_mutex);
+    g_wal_grpc_service_fn = std::move(fn);
+}
+
 void* WalGrpcService::service() {
 #if THEMIS_HAS_SHARD_GRPC
     return impl_ ? static_cast<void*>(impl_->get()) : nullptr;
 #else
-    return nullptr;
+    return service_ptr_;
 #endif
 }
 
