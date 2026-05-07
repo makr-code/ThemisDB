@@ -2153,7 +2153,7 @@ TEST_F(AgingTest, SCHED_AGE_04_SkipsResetOnDispatch) {
 }
 
 // SCHED-AGE-05: aging disabled (aging_threshold == 0) leaves priority unchanged
-TEST_F(AgingTest, SCHED_AGE_05_AgingDisabledNoBoot) {
+TEST_F(AgingTest, SCHED_AGE_05_AgingDisabledNoBoost) {
     ScheduledTask t;
     t.priority         = ScheduledTask::Priority::LOW;
     t.consecutive_skips = 100; // Very high — would boost if aging enabled
