@@ -34,6 +34,7 @@
 #include "llm/shared_worker_pool.h"
 #include "llm/speculative_decoder.h"
 #include "llm/adapter_registry.h"
+#include "llm/i_federated_inference_backend.h"
 #include <memory>
 #include <mutex>
 #include <vector>
@@ -467,6 +468,23 @@ public:
      */
     void setRemoteExecutor(sharding::RemoteExecutor* exec,
                            const sharding::ShardInfo& draft_shard);
+
+    /**
+     * @brief Attach a federated inference backend for cross-instance fan-out.
+     *
+     * When a non-null backend is attached **and** an incoming
+     * `EnhancedInferenceRequest` carries a non-empty `target_instance_ids`
+     * list, the request is delegated to the backend's `execute()` instead of
+     * the local model pipeline.  The backend decides how to fan-out and
+     * fan-in across the listed instances.
+     *
+     * The engine adopts a "first-wins" merge strategy: it returns the text of
+     * the first successful `FanOutInstanceResult`.  If all instances fail, the
+     * response carries `success=false` and an aggregated error message.
+     *
+     * Pass @c nullptr to detach a previously attached backend.
+     */
+    void setFederatedBackend(std::shared_ptr<IFederatedInferenceBackend> backend);
     
 private:
     Config config_;
@@ -490,6 +508,11 @@ private:
     sharding::RemoteExecutor* remote_executor_ = nullptr;
     // ShardInfo for the remote draft shard (valid only when remote_executor_ != nullptr).
     sharding::ShardInfo remote_draft_shard_info_;
+
+    // Optional federated backend for cross-instance fan-out (Issue #1928).
+    // Protected by federated_backend_mutex_.
+    std::shared_ptr<IFederatedInferenceBackend> federated_backend_;
+    mutable std::mutex federated_backend_mutex_;
 
     // Lookup decoder (n-gram based, draft-model-free).
     // nullptr when enable_lookup_decoding == false.

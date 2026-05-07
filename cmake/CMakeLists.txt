@@ -4079,6 +4079,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/streaming_handler.cpp          # SSE / chunked-response streaming handler (Phase 2)
         ../src/llm/openai_compat_adapter.cpp      # OpenAI-compatible /v1/chat/completions adapter (Phase 3)
         ../src/llm/speculative_decoder.cpp        # Speculative decoding for latency reduction (Phase 3)
+        ../src/llm/federated_inference_coordinator.cpp  # RAID fan-out/fan-in coordinator (Issue #1928)
         ../src/llm/kv_prefix_transfer_manager.cpp  # Phase 5 KV-Prefix Cross-Shard Transfer
         ../src/llm/lookup_decoder.cpp             # N-gram prompt lookup decoding (draft-model-free speculation)
         

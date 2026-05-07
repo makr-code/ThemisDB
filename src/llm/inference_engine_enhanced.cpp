@@ -156,6 +156,19 @@ void InferenceEngineEnhanced::setRemoteExecutor(
     }
 }
 
+void InferenceEngineEnhanced::setFederatedBackend(
+    std::shared_ptr<IFederatedInferenceBackend> backend)
+{
+    std::lock_guard<std::mutex> lock(federated_backend_mutex_);
+    federated_backend_ = std::move(backend);
+    if (federated_backend_) {
+        spdlog::info("InferenceEngineEnhanced: federated inference backend attached "
+                     "(cross-instance fan-out enabled)");
+    } else {
+        spdlog::info("InferenceEngineEnhanced: federated inference backend detached");
+    }
+}
+
 // ═══════════════════════════════════════════════════════════
 // Model Management
 // ═══════════════════════════════════════════════════════════
@@ -1125,6 +1138,56 @@ void InferenceEngineEnhanced::processBatch(
             InferenceResponse response;
             bool used_speculative = false;
 
+            // ── RAID fan-out: delegate to federated backend when requested ──
+            // If a federated backend is attached and the request lists specific
+            // target instances, delegate the request instead of running locally.
+            // Merge strategy: first-wins (first successful instance result).
+            {
+                std::shared_ptr<IFederatedInferenceBackend> fed_backend;
+                {
+                    std::lock_guard<std::mutex> fb_lock(federated_backend_mutex_);
+                    fed_backend = federated_backend_;
+                }
+
+                if (fed_backend && !req.target_instance_ids.empty()) {
+                    spdlog::debug("InferenceEngineEnhanced: delegating request '{}' "
+                                  "to federated backend ({} instance(s))",
+                                  req.request_id, req.target_instance_ids.size());
+
+                    const auto fan_results =
+                        fed_backend->execute(req.target_instance_ids, effective_request);
+
+                    // First-wins merge: pick first successful result.
+                    bool merged = false;
+                    for (const auto& fr : fan_results) {
+                        if (fr.success) {
+                            response = fr.response;
+                            response.metadata["fan_out_instance"] = fr.instance_id;
+                            response.metadata["fan_out_total"]    = fan_results.size();
+                            merged = true;
+                            break;
+                        }
+                    }
+
+                    if (!merged) {
+                        // All instances failed — build aggregated error.
+                        std::string agg;
+                        for (const auto& fr : fan_results) {
+                            agg += "[" + fr.instance_id + ": " + fr.error + "] ";
+                        }
+                        spdlog::error("InferenceEngineEnhanced: all {} fan-out instances "
+                                      "failed for request '{}': {}",
+                                      fan_results.size(), req.request_id, agg);
+                        response.success       = false;
+                        response.error_message = "All fan-out instances failed: " + agg;
+                    }
+
+                    // Skip local inference for fan-out requests.
+                    // Jump to the result handling below.
+                    goto fan_out_done; // NOLINT(cppcoreguidelines-avoid-goto)
+                }
+            }
+
             const bool grammar_active =
                 req.base_request.grammar_type.has_value() ||
                 req.base_request.grammar_ebnf.has_value() ||
@@ -1201,6 +1264,8 @@ void InferenceEngineEnhanced::processBatch(
             if (!used_speculative) {
                 response = plugin->generate(effective_request);
             }
+
+            fan_out_done: // Label for fan-out path (skips local inference)
 
             // After the (uninterruptible) plugin call returns, re-check whether
             // the request was cancelled or timed out during execution.  The
