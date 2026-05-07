@@ -235,11 +235,12 @@ bool eIDASTimestampValidator::validateeIDASTimestamp(
     validation_errors_.clear();
     
     // SECURITY HARDENING: full eIDAS validation requires the OpenSSL implementation.
-    // In production mode, refuse to perform stub-level validation.
-    if (isProductionMode() && !isStubAllowed()) {
+    // The stub path is denied by default and only available with explicit opt-in.
+    if (!isStubAllowed()) {
         validation_errors_.push_back(
-            "eIDAS timestamp validation is not available in stub mode during production. "
-            "Build with -DTHEMIS_USE_OPENSSL_TSA=ON or set THEMIS_ALLOW_TSA_STUB=1.");
+            "eIDAS timestamp validation is not available in OpenSSL-stub mode by default. "
+            "Build with -DTHEMIS_USE_OPENSSL_TSA=ON for RFC3161/QTSP validation "
+            "or set THEMIS_ALLOW_TSA_STUB=1 for explicit non-production override.");
         return false;
     }
 

@@ -24,9 +24,19 @@
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <algorithm>
+#include <cstdlib>
 
 namespace themis {
 namespace security {
+
+namespace {
+
+bool isStubHsmDekWrapAllowed() {
+    const char* allow_stub = std::getenv("THEMIS_ALLOW_HSM_STUB");
+    return allow_stub && std::string(allow_stub) == "1";
+}
+
+} // namespace
 
 HSMKeyProviderAdapter::HSMKeyProviderAdapter(
     std::shared_ptr<HSMProvider> hsm,
@@ -352,6 +362,15 @@ std::vector<uint8_t> HSMKeyProviderAdapter::wrapDEK(const std::vector<uint8_t>& 
     stats_.hsm_encrypt_operations++;
     
     try {
+        if (hsm_ && hsm_->isStubProvider() && !isStubHsmDekWrapAllowed()) {
+            stats_.hsm_errors++;
+            throw KeyOperationException(
+                "Refusing DEK wrap with stub HSM provider. "
+                "Configure a real PKCS#11 HSM or set THEMIS_ALLOW_HSM_STUB=1 "
+                "for explicit development/testing override."
+            );
+        }
+
         // STUB/SIMULATION NOTE (wrapDEK):
         // Purpose: Document the dual-path behavior of HSMKeyProviderAdapter.
         //   When a real PKCS#11 HSM is present, encryptData() invokes C_Encrypt
@@ -396,6 +415,15 @@ std::vector<uint8_t> HSMKeyProviderAdapter::unwrapDEK(const std::vector<uint8_t>
     stats_.hsm_decrypt_operations++;
     
     try {
+        if (hsm_ && hsm_->isStubProvider() && !isStubHsmDekWrapAllowed()) {
+            stats_.hsm_errors++;
+            throw KeyOperationException(
+                "Refusing DEK unwrap with stub HSM provider. "
+                "Configure a real PKCS#11 HSM or set THEMIS_ALLOW_HSM_STUB=1 "
+                "for explicit development/testing override."
+            );
+        }
+
         // STUB/SIMULATION NOTE (unwrapDEK):
         // Same dual-path as wrapDEK above.  In stub mode, decryptData() uses the
         // same in-memory AES-256-GCM KEK that was used during wrapDEK.  If the

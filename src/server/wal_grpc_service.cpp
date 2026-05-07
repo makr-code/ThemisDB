@@ -28,6 +28,8 @@
 #include "utils/zstd_codec.h"
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
+#include <cstdlib>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -42,6 +44,49 @@
 
 namespace themis {
 namespace server {
+
+namespace {
+
+bool isProductionMode() {
+    const char* prod_mode = std::getenv("THEMIS_PRODUCTION_MODE");
+    const char* environment = std::getenv("THEMIS_ENVIRONMENT");
+    const char* env_type = std::getenv("ENVIRONMENT");
+    const char* node_env = std::getenv("NODE_ENV");
+
+    if (prod_mode) {
+        const std::string s(prod_mode);
+        if (s == "1" || s == "true" || s == "True" || s == "TRUE" ||
+            s == "yes" || s == "Yes" || s == "on" || s == "On") {
+            return true;
+        }
+    }
+    if (environment) {
+        const std::string s(environment);
+        if (s == "production" || s == "prod") {
+            return true;
+        }
+    }
+    if (env_type) {
+        const std::string s(env_type);
+        if (s == "production" || s == "prod") {
+            return true;
+        }
+    }
+    if (node_env) {
+        const std::string s(node_env);
+        if (s == "production") {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool isWalGrpcStubAllowed() {
+    const char* allow_stub = std::getenv("THEMIS_ALLOW_WAL_GRPC_STUB");
+    return allow_stub && std::string(allow_stub) == "1";
+}
+
+} // namespace
 
 class WalGrpcService::Impl {
 public:
@@ -190,7 +235,18 @@ WalGrpcService::WalGrpcService(std::shared_ptr<sharding::WALApplier> wal_applier
     //   is on the include path so THEMIS_HAS_SHARD_GRPC is set to 1.
     // Roadmap ref: src/sharding/FUTURE_ENHANCEMENTS.md § "WAL gRPC Replication"
     (void)wal_applier_;
-    THEMIS_INFO("Shard gRPC stubs not found; WalGrpcService is a no-op");
+    if (isProductionMode() && !isWalGrpcStubAllowed()) {
+        const std::string error =
+            "WalGrpcService cannot run in production without shard gRPC stubs. "
+            "Enable shard gRPC/protoc generation or set THEMIS_ALLOW_WAL_GRPC_STUB=1 "
+            "to explicitly allow insecure single-node/no-replication mode.";
+        THEMIS_CRITICAL("SECURITY ERROR: {}", error);
+        throw std::runtime_error(error);
+    }
+    THEMIS_WARN(
+        "Shard gRPC stubs not found; WalGrpcService replication endpoint is disabled. "
+        "Set THEMIS_ALLOW_WAL_GRPC_STUB=1 only for development/testing."
+    );
 #endif
 }
 
