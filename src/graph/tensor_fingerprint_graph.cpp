@@ -20,6 +20,7 @@
 #include <cstring>
 #include <functional>
 #include <stdexcept>
+#include <utility>
 
 namespace themis {
 namespace graph {
@@ -64,6 +65,18 @@ double TensorFingerprintGraph::exactSimilarity(const TTTrain& a,
     } catch (const std::invalid_argument&) {
         return 0.0;
     }
+}
+
+std::optional<TTTrain>
+TensorFingerprintGraph::resolveTrainForNode(const std::string& tensor_id,
+                                            const NodeEntry& node) const {
+    if (!node.train.cores.empty()) {
+        return node.train;
+    }
+    if (!train_load_fn_) {
+        return std::nullopt;
+    }
+    return train_load_fn_(tensor_id, node.tenant, node.collection, node.field);
 }
 
 // ============================================================================
@@ -243,7 +256,9 @@ void TensorFingerprintGraph::insert(
     // Insert node
     NodeEntry entry;
     entry.fingerprint = fp;
-    entry.train       = train;
+    if (cfg_.cache_trains_in_memory) {
+        entry.train = train;
+    }
     entry.tenant      = tenant;
     entry.collection  = collection;
     entry.field       = field;
@@ -260,8 +275,10 @@ void TensorFingerprintGraph::insert(
     for (const auto& cid : candidates) {
         auto nit = nodes_.find(cid);
         if (nit == nodes_.end()) continue;
+        auto candidate_train = resolveTrainForNode(cid, nit->second);
+        if (!candidate_train.has_value()) continue;
 
-        const double similarity = exactSimilarity(train, nit->second.train);
+        const double similarity = exactSimilarity(train, *candidate_train);
 
         if (similarity >= cfg_.similarity_threshold) {
             adj_[tensor_id].push_back({cid, similarity});
@@ -269,6 +286,11 @@ void TensorFingerprintGraph::insert(
             edge_count_.fetch_add(2, std::memory_order_relaxed);
         }
     }
+}
+
+void TensorFingerprintGraph::setTrainLoadFn(TrainLoadFn fn) {
+    std::lock_guard<std::mutex> lk(mutex_);
+    train_load_fn_ = std::move(fn);
 }
 
 // ============================================================================
@@ -320,8 +342,10 @@ TensorFingerprintGraph::findSimilar(const TTTrain& train,
     for (const auto& cid : candidates) {
         auto nit = nodes_.find(cid);
         if (nit == nodes_.end()) continue;
+        auto candidate_train = resolveTrainForNode(cid, nit->second);
+        if (!candidate_train.has_value()) continue;
 
-        const double sim = exactSimilarity(train, nit->second.train);
+        const double sim = exactSimilarity(train, *candidate_train);
 
         SimilarTensorResult r;
         r.tensor_id  = cid;

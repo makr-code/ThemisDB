@@ -227,8 +227,11 @@
     `TensorTrainDecomposer::cosineSimilarity()` for exact compressed-domain verification/ranking;
     `NodeEntry` stores the inserted `TTTrain` for candidate checks; tests TFG-03 + TFG-21 verify
     edge creation with near-1.0 cosine and exact score parity.
-  - Remaining: load candidate/reference TT trains via `TensorNetworkStorageEngine` instead of
-    in-memory node cache so verification survives process restart and works with persisted graphs.
+  - **Progress 2026-05-07 (integration hardening)**: Added `setTrainLoadFn()` + config
+    `cache_trains_in_memory=false` to resolve candidate TT trains externally when node cache is
+    not retained in memory; tests TFG-24/TFG-25 cover resolver path and safe no-loader behavior.
+  - Remaining: wire `setTrainLoadFn()` to `TensorNetworkStorageEngine`/persisted graph recovery so
+    similarity verification survives process restart with durable graph metadata.
   - O(d·n·r³) per candidate pair — bounded by `max_candidates=1000`
 - [ ] CDC changefeed integration for incremental graph updates (Target: Q2 2027)
   - Subscribe to `TensorNetworkStorageEngine` write events via Observer pattern

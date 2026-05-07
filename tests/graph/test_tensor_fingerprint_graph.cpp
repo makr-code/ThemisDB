@@ -26,6 +26,8 @@
  *   TFG-21  Exact TT-cosine is used for edge similarity
  *   TFG-22  remove() purges LSH buckets for deleted tensor
  *   TFG-23  insert overwrite purges stale bucket entries
+ *   TFG-24  Similarity works with external train loader when in-memory cache disabled
+ *   TFG-25  Missing train loader with disabled cache produces no false edges
  *   TDM-01  DeduplicationManager: getRecord returns record for stored id
  *   TDM-02  DeduplicationManager: getStats total_tensors increments
  *   TDM-03  DeduplicationManager: null dependency throws
@@ -48,6 +50,7 @@
 #include <cmath>
 #include <memory>
 #include <random>
+#include <unordered_map>
 #include <vector>
 
 using namespace themis::storage;
@@ -315,6 +318,63 @@ TEST_F(TensorFingerprintGraphTest, TFG23_OverwritePurgesOldBucketMembership) {
         }
     }
     EXPECT_LE(hits, 1u);
+}
+
+// TFG-24: exact similarity can be verified via external resolver (no in-memory TT cache).
+TEST(TensorFingerprintGraphResolverTest, TFG24_ExternalTrainLoaderUsedWhenCacheDisabled) {
+    FingerprintGraphConfig cfg;
+    cfg.similarity_threshold = 0.90;
+    cfg.num_hash_funcs = 64;
+    cfg.num_bands = 16;
+    cfg.cache_trains_in_memory = false;
+
+    TensorFingerprintGraph graph(cfg);
+    std::unordered_map<std::string, TTTrain> train_store;
+
+    graph.setTrainLoadFn([&](const std::string& tensor_id,
+                             const std::string&,
+                             const std::string&,
+                             const std::string&) -> std::optional<TTTrain> {
+        auto it = train_store.find(tensor_id);
+        if (it == train_store.end()) return std::nullopt;
+        return it->second;
+    });
+
+    auto data_a = randVec(8, 610);
+    auto data_b = data_a;
+    for (auto& x : data_b) x += 0.01f;
+
+    auto t1 = makeTT(data_a, {8, 1});
+    auto t2 = makeTT(data_b, {8, 1});
+    train_store["ext_a"] = t1;
+    train_store["ext_b"] = t2;
+
+    graph.insert("ext_a", t1);
+    graph.insert("ext_b", t2);
+
+    auto nb = graph.neighbours("ext_a");
+    ASSERT_FALSE(nb.empty());
+    EXPECT_EQ(nb[0].tensor_id, "ext_b");
+}
+
+// TFG-25: when cache is disabled and no resolver is set, no exact-similarity edge is created.
+TEST(TensorFingerprintGraphResolverTest, TFG25_DisabledCacheWithoutLoaderSkipsEdges) {
+    FingerprintGraphConfig cfg;
+    cfg.similarity_threshold = 0.90;
+    cfg.num_hash_funcs = 64;
+    cfg.num_bands = 16;
+    cfg.cache_trains_in_memory = false;
+
+    TensorFingerprintGraph graph(cfg);
+    auto data = randVec(8, 611);
+    auto t1 = makeTT(data, {8, 1});
+    auto t2 = makeTT(data, {8, 1});
+
+    graph.insert("noload_a", t1);
+    graph.insert("noload_b", t2);
+
+    auto nb = graph.neighbours("noload_a");
+    EXPECT_TRUE(nb.empty());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

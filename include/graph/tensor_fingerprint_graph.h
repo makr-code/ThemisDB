@@ -129,6 +129,10 @@ struct FingerprintGraphConfig {
 
     /// Maximum number of similar tensors to return per query
     std::size_t top_k           = 50;
+
+    /// Keep full TT-trains in-memory for similarity verification.
+    /// When false, a train loader callback should be provided.
+    bool cache_trains_in_memory = true;
 };
 
 // ============================================================================
@@ -150,6 +154,11 @@ struct FingerprintGraphConfig {
  */
 class TensorFingerprintGraph {
 public:
+    using TrainLoadFn = std::function<std::optional<storage::TTTrain>(
+        const std::string& tensor_id,
+        const std::string& tenant,
+        const std::string& collection,
+        const std::string& field)>;
     /**
      * @brief Construct with configuration.
      * @throws std::invalid_argument if num_hash_funcs % num_bands != 0.
@@ -180,6 +189,9 @@ public:
                 const std::string&           tenant     = "",
                 const std::string&           collection = "",
                 const std::string&           field      = "");
+
+    /// Configure optional train resolver used when in-memory train cache is disabled.
+    void setTrainLoadFn(TrainLoadFn fn);
 
     /**
      * @brief Remove a tensor and all its edges from the graph.
@@ -246,6 +258,7 @@ private:
 
     mutable std::mutex mutex_;
     std::atomic<std::size_t> edge_count_{0};
+    TrainLoadFn train_load_fn_;
 
     std::size_t rows_per_band_ = 4;
 
@@ -268,6 +281,10 @@ private:
 
     double exactSimilarity(const storage::TTTrain& a,
                            const storage::TTTrain& b) const;
+
+    std::optional<storage::TTTrain>
+    resolveTrainForNode(const std::string& tensor_id,
+                        const NodeEntry& node) const;
 };
 
 } // namespace graph
