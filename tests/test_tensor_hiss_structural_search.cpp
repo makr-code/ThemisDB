@@ -116,5 +116,5 @@ TEST(TensorHissSearch, HissReshaperInfersBitDepthsFromTrainModes) {
 
 TEST(TensorHissSearch, HissReshaperRejectsMismatchedGridSizeCount) {
     const auto train = makeSmallTrain();
-    EXPECT_THROW((void)themis::tensor::HissReshaper::exposeQuantics(train, {4, 4}), std::invalid_argument);
+    EXPECT_THROW(themis::tensor::HissReshaper::exposeQuantics(train, {4, 4}), std::invalid_argument);
 }
