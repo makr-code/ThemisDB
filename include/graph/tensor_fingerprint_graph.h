@@ -230,6 +230,7 @@ private:
     // Node metadata + fingerprint
     struct NodeEntry {
         TensorFingerprint  fingerprint;
+        storage::TTTrain   train;
         std::string        tenant;
         std::string        collection;
         std::string        field;
@@ -263,6 +264,9 @@ private:
                              std::size_t band_idx) noexcept;
 
     static uint64_t fnv1a64(const void* data, std::size_t len) noexcept;
+
+    double exactSimilarity(const storage::TTTrain& a,
+                           const storage::TTTrain& b) const;
 };
 
 } // namespace graph

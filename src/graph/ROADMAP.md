@@ -217,8 +217,13 @@
 - [ ] Graph query ≤ 50ms for 100K nodes (Target: Q2 2027)
   - Profiling baseline: LSH band scan over 32 bands × 100K total entries
   - Optimisation: Bloom filter per band to skip empty buckets early
-- [ ] Exact TT-cosine similarity verification for edge creation (replace Jaccard approximation) (Target: Q2 2027)
-  - Requires loading both `TTTrain` objects from `TensorNetworkStorageEngine`
+- [~] Exact TT-cosine similarity verification for edge creation (replace Jaccard approximation) (Target: Q2 2027)
+  - **In progress 2026-05-07**: `TensorFingerprintGraph::insert()` and `findSimilar()` now use
+    `TensorTrainDecomposer::cosineSimilarity()` for exact compressed-domain verification/ranking;
+    `NodeEntry` stores the inserted `TTTrain` for candidate checks; tests TFG-03 + TFG-21 verify
+    edge creation with near-1.0 cosine and exact score parity.
+  - Remaining: load candidate/reference TT trains via `TensorNetworkStorageEngine` instead of
+    in-memory node cache so verification survives process restart and works with persisted graphs.
   - O(d·n·r³) per candidate pair — bounded by `max_candidates=1000`
 - [ ] CDC changefeed integration for incremental graph updates (Target: Q2 2027)
   - Subscribe to `TensorNetworkStorageEngine` write events via Observer pattern
@@ -259,4 +264,3 @@ _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNC
 
 - `LocalShardGraphExecutor` – Führt Graph-Traversals lokal auf einem Shard aus; getestet in test_graph_distributed
   > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
-

@@ -23,6 +23,7 @@
  *   TFG-18  neighbours() returns empty for tensor with no edges
  *   TFG-19  Large graph (1K nodes): findSimilar ≤ top_k results
  *   TFG-20  DeduplicationManager: store canonical sets is_canonical=true
+ *   TFG-21  Exact TT-cosine is used for edge similarity
  *   TDM-01  DeduplicationManager: getRecord returns record for stored id
  *   TDM-02  DeduplicationManager: getStats total_tensors increments
  *   TDM-03  DeduplicationManager: null dependency throws
@@ -75,7 +76,7 @@ static TTTrain makeTT(std::size_t n, unsigned seed, double eps = 0.05) {
     return makeTT(randVec(n, seed), {n, 1}, eps);  // 2D degenerate
 }
 
-static std::shared_ptr<storage::TensorNetworkStorageEngine> makeEngine() {
+static std::shared_ptr<TensorNetworkStorageEngine> makeEngine() {
     auto backend = std::make_shared<InMemoryTensorBackend>();
     TensorStorageConfig cfg;
     cfg.tt_config.eps = 0.05;
@@ -121,11 +122,11 @@ TEST_F(TensorFingerprintGraphTest, TFG03_IdenticalTensorsGetEdge) {
     graph_->insert("a", t1);
     graph_->insert("b", t2);
     EXPECT_EQ(graph_->nodeCount(), 2u);
-    // Identical fingerprints → edge expected
+    // Identical tensors should produce an edge with near-perfect cosine.
     auto nb = graph_->neighbours("a");
-    if (!nb.empty()) {
-        EXPECT_GE(nb[0].similarity, 0.0);
-    }
+    ASSERT_FALSE(nb.empty());
+    EXPECT_EQ(nb[0].tensor_id, "b");
+    EXPECT_GT(nb[0].similarity, 0.99);
 }
 
 // TFG-04
@@ -187,7 +188,7 @@ TEST(TensorFingerprintGraphConfigTest, TFG10_InvalidConfigThrows) {
     FingerprintGraphConfig cfg;
     cfg.num_hash_funcs = 64;
     cfg.num_bands      = 7;  // 64 % 7 != 0
-    EXPECT_THROW(TensorFingerprintGraph(cfg), std::invalid_argument);
+    EXPECT_THROW((void)TensorFingerprintGraph(cfg), std::invalid_argument);
 }
 
 // TFG-11
@@ -256,6 +257,27 @@ TEST_F(TensorFingerprintGraphTest, TFG19_LargeGraphFindSimilarBounded) {
     auto tq = makeTT(randVec(8, 1000), {8, 1});
     auto results = graph_->findSimilar(tq, 5);
     EXPECT_LE(results.size(), 5u);
+}
+
+// TFG-21: verify similarity score equals compressed-domain TT cosine
+TEST_F(TensorFingerprintGraphTest, TFG21_UsesExactTTCosineForEdges) {
+    auto data_a = randVec(8, 123);
+    auto data_b = data_a;
+    for (auto& x : data_b) x += 0.05f;
+
+    auto t1 = makeTT(data_a, {8, 1});
+    auto t2 = makeTT(data_b, {8, 1});
+
+    const double expected =
+        TensorTrainDecomposer::cosineSimilarity(t1, t2);
+
+    graph_->insert("cos_a", t1);
+    graph_->insert("cos_b", t2);
+
+    auto nb = graph_->neighbours("cos_a");
+    ASSERT_FALSE(nb.empty());
+    EXPECT_EQ(nb[0].tensor_id, "cos_b");
+    EXPECT_NEAR(nb[0].similarity, expected, 1e-6);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -399,19 +421,18 @@ TEST(TensorDeduplicationManagerDeltaTest, TDM07_RetrieveDeltaRoundTrip) {
 TEST_F(TensorDeduplicationManagerTest, TDM08_RetrieveUnknownReturnsNullopt) {
     EXPECT_FALSE(mgr_->retrieve("does_not_exist").has_value());
 }
+
+// TDM-05: storing a close copy keeps valid dedup tracking
+TEST_F(TensorDeduplicationManagerTest, TDM05_SimilarTensorStoreTracksRecords) {
     auto data = randVec(8, 50);
-    // Store first as canonical
     auto rec1 = mgr_->store("orig", data, {8, 1}, "t", "c", "forig");
     EXPECT_TRUE(rec1.is_canonical);
 
-    // Store slightly perturbed version
     auto data2 = data;
     for (auto& x : data2) x += 0.001f;
     auto rec2 = mgr_->store("copy", data2, {8, 1}, "t", "c", "fcopy");
 
-    // We don't assert is_canonical=false (depends on LSH collision) but
-    // the record must be valid
     EXPECT_EQ(rec2.tensor_id, "copy");
-    auto s = mgr_->getStats();
+    const auto s = mgr_->getStats();
     EXPECT_EQ(s.total_tensors, 2u);
 }

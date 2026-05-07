@@ -57,6 +57,15 @@ uint64_t TensorFingerprintGraph::fnv1a64(const void* data,
     return h;
 }
 
+double TensorFingerprintGraph::exactSimilarity(const TTTrain& a,
+                                               const TTTrain& b) const {
+    try {
+        return TensorTrainDecomposer::cosineSimilarity(a, b);
+    } catch (const std::invalid_argument&) {
+        return 0.0;
+    }
+}
+
 // ============================================================================
 // Fingerprinting
 // ============================================================================
@@ -214,6 +223,7 @@ void TensorFingerprintGraph::insert(
     // Insert node
     NodeEntry entry;
     entry.fingerprint = fp;
+    entry.train       = train;
     entry.tenant      = tenant;
     entry.collection  = collection;
     entry.field       = field;
@@ -231,17 +241,11 @@ void TensorFingerprintGraph::insert(
         auto nit = nodes_.find(cid);
         if (nit == nodes_.end()) continue;
 
-        // Compute exact similarity using fingerprint norm ratio as approximation
-        // (full TT inner product would require loading both trains)
-        // Approximation: Jaccard similarity of MinHash signatures
-        std::size_t matches = 0;
-        for (std::size_t h = 0; h < cfg_.num_hash_funcs; ++h)
-            if (fp.minhash[h] == nit->second.fingerprint.minhash[h]) ++matches;
-        double jaccard = static_cast<double>(matches) / cfg_.num_hash_funcs;
+        const double similarity = exactSimilarity(train, nit->second.train);
 
-        if (jaccard >= cfg_.similarity_threshold) {
-            adj_[tensor_id].push_back({cid, jaccard});
-            adj_[cid].push_back({tensor_id, jaccard});
+        if (similarity >= cfg_.similarity_threshold) {
+            adj_[tensor_id].push_back({cid, similarity});
+            adj_[cid].push_back({tensor_id, similarity});
             edge_count_.fetch_add(2, std::memory_order_relaxed);
         }
     }
@@ -297,11 +301,7 @@ TensorFingerprintGraph::findSimilar(const TTTrain& train,
         auto nit = nodes_.find(cid);
         if (nit == nodes_.end()) continue;
 
-        // MinHash Jaccard approximation
-        std::size_t matches = 0;
-        for (std::size_t h = 0; h < cfg_.num_hash_funcs; ++h)
-            if (fp.minhash[h] == nit->second.fingerprint.minhash[h]) ++matches;
-        double sim = static_cast<double>(matches) / cfg_.num_hash_funcs;
+        const double sim = exactSimilarity(train, nit->second.train);
 
         SimilarTensorResult r;
         r.tensor_id  = cid;
