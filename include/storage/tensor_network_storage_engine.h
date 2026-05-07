@@ -359,6 +359,30 @@ public:
     /// Register (or replace) the delete observer. Pass nullptr to remove.
     void setDeleteObserverFn(TensorDeleteObserverFn fn);
 
+    // ─── Raw metadata (opaque byte blobs) ────────────────────────────────
+
+    /**
+     * @brief Store an opaque byte blob under a named metadata key.
+     *
+     * The key is namespaced to `__tfgmeta__:<key>` so it cannot collide
+     * with regular tensor keys.  Used by TensorDeduplicationManager to
+     * persist the fingerprint graph snapshot between process restarts.
+     *
+     * @param key    Logical metadata key (must be non-empty).
+     * @param value  Raw byte payload.
+     * @return True on success.
+     */
+    bool putRawMetadata(const std::string& key,
+                        const std::vector<uint8_t>& value);
+
+    /**
+     * @brief Load an opaque byte blob stored under @p key.
+     *
+     * @return The blob, or std::nullopt if not found.
+     */
+    std::optional<std::vector<uint8_t>>
+    getRawMetadata(const std::string& key) const;
+
 private:
     std::shared_ptr<ITensorStorageBackend> backend_;
     TensorStorageConfig  cfg_;

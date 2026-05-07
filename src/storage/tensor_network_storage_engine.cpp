@@ -383,5 +383,23 @@ TensorNetworkStorageEngine::stats(const TensorFieldKey& key) const {
     return s;
 }
 
+// ============================================================================
+// Raw metadata
+// ============================================================================
+
+static std::string rawMetaKey(const std::string& key) {
+    return "__tfgmeta__:" + key;
+}
+
+bool TensorNetworkStorageEngine::putRawMetadata(
+    const std::string& key, const std::vector<uint8_t>& value) {
+    return backend_->put(rawMetaKey(key), value);
+}
+
+std::optional<std::vector<uint8_t>>
+TensorNetworkStorageEngine::getRawMetadata(const std::string& key) const {
+    return backend_->get(rawMetaKey(key));
+}
+
 } // namespace storage
 } // namespace themis

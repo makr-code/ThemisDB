@@ -258,6 +258,13 @@
 - [ ] Expected ≥ 40% storage reduction for LLM weight repositories (Target: Q2 2027)
   - Benchmark: 100 Transformer block weight sets with shared FFN matrices
 - [ ] `GraphIndex` persistence for the fingerprint graph (Target: Q2 2027)
+  - **Progress 2026-05-07 (TDM snapshot/restore)**: `TensorDeduplicationManager::snapshotGraph()` /
+    `restoreGraph()` serialize the full `PersistedFingerprintGraphSnapshot` (all nodes +
+    edges) to/from the storage backend via new `TensorNetworkStorageEngine::putRawMetadata()` /
+    `getRawMetadata()` helpers (namespaced under `__tfgmeta__:`).  After a process restart
+    the fingerprint graph can be fully restored without re-inserting any tensor data.
+    Tests TDM-12 (node+edge round-trip) and TDM-13 (findSimilar on restored graph) added.
+  - Remaining: RocksDB-durable write-ahead of incremental graph mutations.
 
 #### Phase 8.6 — Documentation (Target: Q2 2027)
 

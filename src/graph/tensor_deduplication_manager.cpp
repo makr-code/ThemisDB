@@ -17,6 +17,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstring>
 #include <stdexcept>
 
 namespace themis {
@@ -342,6 +343,197 @@ DeduplicationStats TensorDeduplicationManager::getStats() const noexcept {
         ? static_cast<double>(full_bytes) / static_cast<double>(s.total_bytes_stored)
         : 1.0;
     return s;
+}
+
+// ============================================================================
+// Graph snapshot serialization helpers
+// ============================================================================
+//
+// Binary layout (all integers little-endian):
+//   uint64_t magic    = 0x504E535F47465400  ("TFG_SNP\0")
+//   uint32_t version  = 1
+//   uint64_t node_count
+//   for each node:
+//     uint64_t tensor_id_len  + bytes
+//     uint64_t minhash[128]   (128 × uint64_t, raw)
+//     uint32_t core_norms_len
+//     float    core_norms[core_norms_len]
+//     float    total_norm
+//     uint64_t order
+//     uint64_t max_rank
+//     uint64_t tenant_len     + bytes
+//     uint64_t collection_len + bytes
+//     uint64_t field_len      + bytes
+//   uint64_t edge_count
+//   for each edge:
+//     uint64_t from_len       + bytes
+//     uint64_t to_len         + bytes
+//     double   similarity
+
+namespace {
+
+constexpr uint64_t kGraphSnapshotMagic   = 0x504E535F47465400ULL; // "TFG_SNP\0"
+constexpr uint32_t kGraphSnapshotVersion = 1;
+
+// Little-endian write helpers.
+template<typename T>
+static void writeLE(std::vector<uint8_t>& buf, T val) {
+    static_assert(std::is_trivially_copyable<T>::value);
+    const uint8_t* p = reinterpret_cast<const uint8_t*>(&val);
+    for (std::size_t i = 0; i < sizeof(T); ++i) buf.push_back(p[i]);
+}
+
+static void writeStr(std::vector<uint8_t>& buf, const std::string& s) {
+    writeLE<uint64_t>(buf, static_cast<uint64_t>(s.size()));
+    for (unsigned char c : s) buf.push_back(c);
+}
+
+// Little-endian read helpers.
+template<typename T>
+static bool readLE(const uint8_t* data, std::size_t size,
+                   std::size_t& pos, T& out) {
+    if (pos + sizeof(T) > size) return false;
+    std::memcpy(&out, data + pos, sizeof(T));
+    pos += sizeof(T);
+    return true;
+}
+
+static bool readStr(const uint8_t* data, std::size_t size,
+                    std::size_t& pos, std::string& out) {
+    uint64_t len = 0;
+    if (!readLE(data, size, pos, len)) return false;
+    if (pos + len > size) return false;
+    out.assign(reinterpret_cast<const char*>(data + pos), static_cast<std::size_t>(len));
+    pos += static_cast<std::size_t>(len);
+    return true;
+}
+
+static std::vector<uint8_t> serializeGraphSnapshot(
+    const themis::graph::PersistedFingerprintGraphSnapshot& snapshot)
+{
+    std::vector<uint8_t> buf;
+    buf.reserve(4096);
+
+    writeLE<uint64_t>(buf, kGraphSnapshotMagic);
+    writeLE<uint32_t>(buf, kGraphSnapshotVersion);
+
+    writeLE<uint64_t>(buf, static_cast<uint64_t>(snapshot.nodes.size()));
+    for (const auto& n : snapshot.nodes) {
+        writeStr(buf, n.tensor_id);
+
+        // fingerprint.minhash (128 × uint64_t)
+        for (const auto h : n.fingerprint.minhash) writeLE<uint64_t>(buf, h);
+
+        // fingerprint.core_norms
+        writeLE<uint32_t>(buf, static_cast<uint32_t>(n.fingerprint.core_norms.size()));
+        for (float f : n.fingerprint.core_norms) writeLE<float>(buf, f);
+
+        writeLE<float>(buf, n.fingerprint.total_norm);
+        writeLE<uint64_t>(buf, static_cast<uint64_t>(n.fingerprint.order));
+        writeLE<uint64_t>(buf, static_cast<uint64_t>(n.fingerprint.max_rank));
+
+        writeStr(buf, n.tenant);
+        writeStr(buf, n.collection);
+        writeStr(buf, n.field);
+    }
+
+    writeLE<uint64_t>(buf, static_cast<uint64_t>(snapshot.edges.size()));
+    for (const auto& e : snapshot.edges) {
+        writeStr(buf, e.from);
+        writeStr(buf, e.to);
+        writeLE<double>(buf, e.similarity);
+    }
+
+    return buf;
+}
+
+static bool deserializeGraphSnapshot(
+    const std::vector<uint8_t>& buf,
+    themis::graph::PersistedFingerprintGraphSnapshot& snapshot)
+{
+    std::size_t pos = 0;
+    const uint8_t* data = buf.data();
+    const std::size_t size = buf.size();
+
+    uint64_t magic = 0;
+    uint32_t ver   = 0;
+    if (!readLE(data, size, pos, magic)) return false;
+    if (magic != kGraphSnapshotMagic) return false;
+    if (!readLE(data, size, pos, ver)) return false;
+    if (ver != kGraphSnapshotVersion) return false;
+
+    uint64_t node_count = 0;
+    if (!readLE(data, size, pos, node_count)) return false;
+
+    snapshot.nodes.clear();
+    snapshot.nodes.reserve(static_cast<std::size_t>(node_count));
+
+    for (uint64_t i = 0; i < node_count; ++i) {
+        themis::graph::PersistedFingerprintNode n;
+        if (!readStr(data, size, pos, n.tensor_id)) return false;
+
+        for (auto& h : n.fingerprint.minhash)
+            if (!readLE(data, size, pos, h)) return false;
+
+        uint32_t core_norms_len = 0;
+        if (!readLE(data, size, pos, core_norms_len)) return false;
+        n.fingerprint.core_norms.resize(core_norms_len);
+        for (auto& f : n.fingerprint.core_norms)
+            if (!readLE(data, size, pos, f)) return false;
+
+        if (!readLE(data, size, pos, n.fingerprint.total_norm)) return false;
+
+        uint64_t order = 0, max_rank = 0;
+        if (!readLE(data, size, pos, order)) return false;
+        if (!readLE(data, size, pos, max_rank)) return false;
+        n.fingerprint.order    = static_cast<std::size_t>(order);
+        n.fingerprint.max_rank = static_cast<std::size_t>(max_rank);
+
+        if (!readStr(data, size, pos, n.tenant)) return false;
+        if (!readStr(data, size, pos, n.collection)) return false;
+        if (!readStr(data, size, pos, n.field)) return false;
+
+        snapshot.nodes.push_back(std::move(n));
+    }
+
+    uint64_t edge_count = 0;
+    if (!readLE(data, size, pos, edge_count)) return false;
+
+    snapshot.edges.clear();
+    snapshot.edges.reserve(static_cast<std::size_t>(edge_count));
+
+    for (uint64_t i = 0; i < edge_count; ++i) {
+        themis::graph::PersistedFingerprintEdge e;
+        if (!readStr(data, size, pos, e.from)) return false;
+        if (!readStr(data, size, pos, e.to)) return false;
+        if (!readLE(data, size, pos, e.similarity)) return false;
+        snapshot.edges.push_back(std::move(e));
+    }
+
+    return true;
+}
+
+} // namespace
+
+// ============================================================================
+// snapshotGraph / restoreGraph
+// ============================================================================
+
+bool TensorDeduplicationManager::snapshotGraph(const std::string& snapshot_key) {
+    auto snapshot = fp_graph_->exportPersistedGraph();
+    auto bytes    = serializeGraphSnapshot(snapshot);
+    return storage_->putRawMetadata(snapshot_key, bytes);
+}
+
+bool TensorDeduplicationManager::restoreGraph(const std::string& snapshot_key) {
+    auto bytes_opt = storage_->getRawMetadata(snapshot_key);
+    if (!bytes_opt) return false;
+
+    PersistedFingerprintGraphSnapshot snapshot;
+    if (!deserializeGraphSnapshot(*bytes_opt, snapshot)) return false;
+
+    fp_graph_->importPersistedGraph(snapshot);
+    return true;
 }
 
 } // namespace graph
