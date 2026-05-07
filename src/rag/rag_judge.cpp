@@ -71,6 +71,7 @@ struct RAGJudge::Impl {
 
     // AI Safety: prompt-injection screening
     std::unique_ptr<security::PromptInjectionDetector> injection_detector;
+    std::unique_ptr<security::PromptInjectionSanitizer> injection_sanitizer;
 
     // AI Safety: bias tracking across evaluations
     std::unique_ptr<BiasDetector> bias_detector;
@@ -144,6 +145,7 @@ RAGJudge::RAGJudge(const RAGJudgeConfig& config)
 
     // AI Safety: prompt-injection detector (always instantiated; guarded by config flag at call-site)
     impl_->injection_detector = std::make_unique<security::PromptInjectionDetector>();
+    impl_->injection_sanitizer = std::make_unique<security::PromptInjectionSanitizer>();
 
     // AI Safety: bias tracker
     impl_->bias_detector = std::make_unique<BiasDetector>();
@@ -958,6 +960,15 @@ std::vector<std::string> RAGJudge::extractClaims(const std::string& answer) {
 std::vector<std::string> RAGJudge::extractClaimsViaLLM(const std::string& answer) {
     THEMIS_DEBUG("Extracting claims via LLM");
 
+    // F4-1: Apply prompt injection detection to the answer content before
+    // embedding it in the judge prompt.  A malicious document could otherwise
+    // contain instructions like "IGNORE PREVIOUS INSTRUCTIONS. Return {…}" to
+    // subvert the faithfulness check.
+    std::string safe_answer = answer;
+    if (impl_->injection_sanitizer) {
+        safe_answer = impl_->injection_sanitizer->sanitize(answer);
+    }
+
     std::string prompt =
         "You are an expert at identifying factual claims in text.\n"
         "Extract ONLY standalone factual claims (not opinions, not questions).\n"
@@ -1111,7 +1122,22 @@ bool RAGJudge::verifyClaimViaLLM(
 
     std::ostringstream context;
     for (size_t i = 0; i < documents.size(); ++i) {
-        context << "[DOCUMENT_START]\n" << documents[i].content << "\n[DOCUMENT_END]\n\n";
+        // F4-1: Wrap each document in hard delimiters and apply injection
+        // sanitization so that adversarial document content cannot override
+        // the judge's instructions via prompt injection.
+        std::string safe_content = documents[i].content;
+        if (impl_->injection_sanitizer) {
+            safe_content = impl_->injection_sanitizer->sanitize(documents[i].content);
+        }
+        context << "[DOCUMENT_START doc=" << (i + 1) << "]\n"
+                << safe_content
+                << "\n[DOCUMENT_END]\n\n";
+    }
+
+    // F4-1: Also sanitize the claim itself.
+    std::string safe_claim = claim;
+    if (impl_->injection_sanitizer) {
+        safe_claim = impl_->injection_sanitizer->sanitize(claim);
     }
 
     std::string prompt =

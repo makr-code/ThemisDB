@@ -586,8 +586,13 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
             response.tokens_prompt = n_prompt;
 
             // --- Prefill (process prompt) ---
-            // Clear KV cache before each request to prevent cross-tenant context leakage
-            llama_kv_cache_clear(model_context);
+            // F1-5: Clear the KV cache before processing each request to prevent
+            // context from a previous tenant's request leaking into this one.
+            // Without this reset, tokens from the preceding inference persist in
+            // the cached KV state and are visible to the next decode call.
+            if (llama_memory_t mem = llama_get_memory(model_context); mem != nullptr) {
+                llama_memory_seq_rm(mem, 0, -1, -1);
+            }
             struct llama_batch batch = llama_batch_get_one(
                 prompt_tokens.data(), n_prompt);
             if (llama_decode(model_context, batch) != 0) {

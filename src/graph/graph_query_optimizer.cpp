@@ -1698,6 +1698,30 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
         );
     }
 
+    // GQ-2: Enforce a hard maximum on pattern size before starting the VF2
+    // backtracking search.  The algorithm is O(|V|^|pattern|); without this
+    // guard a 5-vertex pattern on a 1,000-node graph explores up to 10^15
+    // candidate pairs, which permanently blocks the handling thread.
+    // A 10-vertex cap is generous for practical subgraph queries while still
+    // bounding the worst-case search space to a tractable level.
+    static constexpr size_t kMaxPatternVertices = 10;
+    if (pattern_vertices.size() > kMaxPatternVertices) {
+        return Err<SubgraphIsomorphismResult>(
+            errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+            "SubgraphIsomorphism: pattern size " +
+            std::to_string(pattern_vertices.size()) +
+            " exceeds maximum allowed " + std::to_string(kMaxPatternVertices));
+    }
+
+    // GQ-2: Apply a minimum non-zero timeout for isomorphism queries even when
+    // the caller does not specify one, because default QueryConstraints{} has
+    // timeout_ms == 0 (no timeout).  With default constraints the timedOut()
+    // lambda is a no-op, making the unbounded recursion below possible.
+    QueryConstraints effective_constraints = constraints;
+    if (effective_constraints.timeout_ms == 0) {
+        effective_constraints.timeout_ms = 30000;  // 30-second hard cap
+    }
+
     auto start_time = std::chrono::steady_clock::now();
 
     SubgraphIsomorphismResult result;
