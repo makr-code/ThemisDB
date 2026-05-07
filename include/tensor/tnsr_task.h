@@ -131,6 +131,13 @@ struct TNSRReport {
     /// Number of rerouteEdge calls applied across all keys.
     std::size_t topology_changes = 0;
 
+    /// Number of keys where topology-search was skipped by fast-path.
+    ///
+    /// Fast-path applies when the recompressed train is structurally trivial
+    /// (`cores.size() < 3` or `maxRank() < 2`), where HISS topology analysis
+    /// cannot produce useful non-chain mutations.
+    std::size_t topology_search_skipped_keys = 0;
+
     /// Number of keys inspected (including skipped ones).
     std::size_t keys_processed = 0;
 

@@ -91,28 +91,41 @@ TNSRReport TNSRTask::run(
 
         // ── 4. Topology analysis via HissStructuralSearchEngine ────────────
         //
-        // STUB/SIMULATION NOTE:
-        // Purpose: Demonstrate topology analysis (HissStructuralSearchEngine)
-        //          integration; count rerouteEdge calls in the report.
-        // Activation: Always.
-        // Production Delta: The TensorNetworkGraph is rebuilt for the
-        //   recompressed train and rerouteEdge changes are counted, but the
-        //   mutated topology is NOT re-serialised to storage.  Bond-dimension
-        //   reduction (recompress) IS durable.  Topology changes are advisory
-        //   in this release.
-        // Removal Plan: Q3 2028 — map rerouteEdge suggestions to a topology-
-        //   aware contraction and re-serialisation path.
-        TensorNetworkGraph tng = hiss_engine_.search(recompressed, cfg.hiss_config);
-        std::size_t topo_changes_this_key = 0;
-        for (const auto& edge : tng.edges()) {
-            if (topo_changes_this_key >= cfg.max_topology_changes_per_run) break;
-            // Skip chain edges; only propose "reshaped" / "clustered" ones.
-            if (edge.topology == "chain") continue;
-            // rerouteEdge is idempotent and harmless on the in-memory graph.
-            tng.rerouteEdge(edge.from, edge.to, edge.topology);
-            ++topo_changes_this_key;
+        // Fast path:
+        // Skip HISS for structurally trivial trains where topology search is
+        // unlikely to produce meaningful non-chain mutations.
+        const bool trivial_topology =
+            (recompressed.cores.size() < 3U) || (recompressed.maxRank() < 2U);
+        if (trivial_topology) {
+            ++report.topology_search_skipped_keys;
+        } else {
+            // STUB/SIMULATION NOTE:
+            // Purpose: Demonstrate topology analysis (HissStructuralSearchEngine)
+            //          integration; count rerouteEdge calls in the report.
+            // Activation: Non-trivial TT trains only.
+            // Production Delta: The TensorNetworkGraph is rebuilt for the
+            //   recompressed train and rerouteEdge changes are counted, but the
+            //   mutated topology is NOT re-serialised to storage.  Bond-dimension
+            //   reduction (recompress) IS durable.  Topology changes are advisory
+            //   in this release.
+            // Removal Plan: Q3 2028 — map rerouteEdge suggestions to a topology-
+            //   aware contraction and re-serialisation path.
+            TensorNetworkGraph tng = hiss_engine_.search(recompressed, cfg.hiss_config);
+            std::size_t topo_changes_this_key = 0;
+            for (const auto& edge : tng.edges()) {
+                if (topo_changes_this_key >= cfg.max_topology_changes_per_run) break;
+                // Skip chain edges; only propose "reshaped" / "clustered" ones.
+                if (edge.topology == "chain") continue;
+                // rerouteEdge is idempotent and harmless on the in-memory graph.
+                const bool rerouted = tng.rerouteEdge(edge.from, edge.to, edge.topology);
+                if (!rerouted) {
+                    ++report.error_count;
+                    continue;
+                }
+                ++topo_changes_this_key;
+            }
+            report.topology_changes += topo_changes_this_key;
         }
-        report.topology_changes += topo_changes_this_key;
 
         // ── 5. Decide whether to write back ────────────────────────────────
         const auto recompressed_qtz = quantizer.quantize(recompressed, compressed_opt->quant_type);

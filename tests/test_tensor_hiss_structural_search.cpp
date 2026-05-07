@@ -22,6 +22,7 @@
  * TNSRTask cancel mid-run                     TNSR-06
  * TNSRTask report duration > 0               TNSR-07
  * TNSRTask multiple keys, rank_delta positive TNSR-08
+ * TNSRTask trivial train fast-path skip        TNSR-09
  */
 
 #include "tensor/hiss_structural_search.h"
@@ -70,6 +71,21 @@ themis::storage::TTTrain makeNonPowerOfTwoModeTrain() {
     cfg.eps = 1e-6;
 
     return decomposer.decompose(dense, {3, 4, 5}, cfg).first;
+}
+
+themis::storage::TTTrain makeRankOneTrain2D() {
+    std::vector<float> dense(16, 0.0f);
+    // Outer-product-like separable signal -> near rank-1 TT.
+    for (std::size_t r = 0; r < 4; ++r) {
+        for (std::size_t c = 0; c < 4; ++c) {
+            dense[r * 4 + c] = static_cast<float>((r + 1) * (c + 1));
+        }
+    }
+
+    themis::storage::TensorTrainDecomposer decomposer;
+    themis::storage::TensorTrainConfig cfg;
+    cfg.eps = 1e-8;
+    return decomposer.decompose(dense, {4, 4}, cfg).first;
 }
 
 } // namespace
@@ -365,4 +381,36 @@ TEST(TNSRTask, TwoKeysRankDeltaNonNegative) {
 
     EXPECT_EQ(report.keys_processed, 2u);
     EXPECT_GE(report.rank_delta, 0);
+}
+
+// ============================================================================
+// TNSR-09  Trivial train skips HISS topology-search fast-path
+// ============================================================================
+TEST(TNSRTask, TrivialTrainSkipsTopologySearch) {
+    auto backend = std::make_shared<themis::storage::InMemoryTensorBackend>();
+
+    themis::storage::TensorStorageConfig cfg_storage;
+    cfg_storage.tt_config.eps = 0.01;
+    cfg_storage.tt_config.max_rank = 4;
+    cfg_storage.min_compression_ratio = 0.0;
+
+    auto engine = std::make_shared<themis::storage::TensorNetworkStorageEngine>(
+        backend, cfg_storage);
+
+    const auto train = makeRankOneTrain2D();
+    const auto flat  = train.reconstruct();
+    const themis::storage::TensorFieldKey key{"tenant", "simple", "rank1"};
+    ASSERT_TRUE(engine->put(key, flat, train.mode_sizes));
+
+    themis::tensor::TNSRTask task(engine);
+    themis::tensor::TNSRConfig cfg;
+    cfg.epsilon = 0.1;
+    cfg.min_bytes_saved_to_commit = 0;
+    cfg.max_topology_changes_per_run = 16;
+
+    const auto report = task.run({key}, cfg);
+    EXPECT_EQ(report.keys_processed, 1u);
+    EXPECT_EQ(report.error_count, 0u);
+    EXPECT_EQ(report.topology_search_skipped_keys, 1u);
+    EXPECT_EQ(report.topology_changes, 0u);
 }

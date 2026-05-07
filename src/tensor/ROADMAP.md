@@ -455,14 +455,17 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 - [~] `HissStructuralSearchEngine` — TN-SS with entropy-guided clustering
 - [~] Targeted index reshaping to expose QTT latent structures (residual-factor path implemented; strict pure-binary QTT deferred, STUB #254)
 - [~] `TensorNetworkStructuralRounding` (TNSR) background maintenance task (STUB #252)
+  - **2026-05-07 update**: trivial-train fast-path skips HISS topology-search when
+    `cores.size() < 3` or `maxRank() < 2`; `TNSRReport::topology_search_skipped_keys`
+    tracks skipped keys.
 - [~] Domain template graph catalog (`TemplateCatalog`) wired to `TensorRouter` (STUB #253)
 
 ### Phase 7: UTR Multi-Modal Interoperability (Target: Q3–Q4 2028)
 
-- [ ] `UTRConverter` — geospatial / relational / visual / document TT encoding
-- [ ] Geospatial TT-cores with topological proximity preservation
-- [ ] Relational Hyper-Index with latent join discovery
-- [ ] Hierarchical document HTTrain child-to-parent retrieval
+- [~] `UTRConverter` — geospatial / relational / visual / document TT encoding
+- [~] Geospatial TT-cores with topological proximity preservation
+- [~] Relational Hyper-Index with latent join discovery
+- [~] Hierarchical document HTTrain child-to-parent retrieval
 
 ### Phase 8: Physics-Informed Scientific Solvers (Target: Q1–Q2 2029)
 
