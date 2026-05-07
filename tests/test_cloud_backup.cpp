@@ -26,6 +26,7 @@
 #include <memory>
 #include <filesystem>
 #include <cstdlib>
+#include <fstream>
 
 #ifdef _WIN32
 #define setenv(name, value, overwrite) _putenv_s(name, value)
@@ -42,6 +43,9 @@ using namespace themis::sharding;
 class CloudBackupTest : public ::testing::Test {
 protected:
     void SetUp() override {
+        setS3DownloadFn({});
+        setGCSDeleteFn({});
+
         // Create unique temporary paths for each test
         auto temp_base = std::filesystem::temp_directory_path();
         auto timestamp = std::chrono::system_clock::now().time_since_epoch().count();
@@ -75,6 +79,9 @@ protected:
     }
     
     void TearDown() override {
+        setS3DownloadFn({});
+        setGCSDeleteFn({});
+
         coordinator_.reset();
         cloud_agent_.reset();
         topology_.reset();
@@ -437,4 +444,66 @@ TEST_F(CloudBackupTest, RestoreBackupMockMode) {
     // Restore backup
     bool success = coordinator_->restoreBackup("backup-for-restore", shard_ids);
     EXPECT_TRUE(success);
+}
+
+TEST_F(CloudBackupTest, RestoreBackupUsesS3DownloadCallbackWithoutMockMode) {
+    unsetenv("THEMIS_CLOUD_BACKUP_MOCK");
+
+    CloudBackupConfig config;
+    config.provider = "s3";
+    config.s3_bucket = "test-bucket";
+    config.s3_region = "us-east-1";
+    config.local_backup_dir = local_backup_dir_.string();
+
+    coordinator_ = std::make_unique<CloudBackupCoordinator>(
+        cloud_agent_, backup_manager_, config
+    );
+
+    std::vector<std::string> shard_ids = {"shard1"};
+    ASSERT_TRUE(coordinator_->createBackup("backup-for-s3-callback", shard_ids));
+
+    bool called = false;
+    setS3DownloadFn([&called](const std::string& bucket,
+                              const std::string& remote_path,
+                              const std::string& local_path) {
+        called = true;
+        EXPECT_EQ(bucket, "test-bucket");
+        EXPECT_EQ(remote_path, "backup-for-s3-callback/shard1");
+        std::ofstream out(local_path);
+        out << "callback-download";
+        return out.good();
+    });
+
+    bool success = coordinator_->restoreBackup("backup-for-s3-callback", shard_ids);
+    EXPECT_TRUE(success);
+    EXPECT_TRUE(called);
+}
+
+TEST_F(CloudBackupTest, DeleteBackupUsesGCSDeleteCallbackWithoutMockMode) {
+    unsetenv("THEMIS_CLOUD_BACKUP_MOCK");
+
+    CloudBackupConfig config;
+    config.provider = "gcs";
+    config.gcs_project_id = "test-project";
+    config.gcs_bucket = "test-bucket";
+    config.local_backup_dir = local_backup_dir_.string();
+
+    coordinator_ = std::make_unique<CloudBackupCoordinator>(
+        cloud_agent_, backup_manager_, config
+    );
+
+    std::vector<std::string> shard_ids = {"shard1"};
+    ASSERT_TRUE(coordinator_->createBackup("backup-for-gcs-delete-callback", shard_ids));
+
+    bool called = false;
+    setGCSDeleteFn([&called](const std::string& bucket, const std::string& remote_path) {
+        called = true;
+        EXPECT_EQ(bucket, "test-bucket");
+        EXPECT_EQ(remote_path, "backup-for-gcs-delete-callback/shard1");
+        return true;
+    });
+
+    bool deleted = coordinator_->deleteBackup("backup-for-gcs-delete-callback");
+    EXPECT_TRUE(deleted);
+    EXPECT_TRUE(called);
 }

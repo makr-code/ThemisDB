@@ -25,6 +25,7 @@
 #include <memory>
 #include <optional>
 #include <chrono>
+#include <functional>
 
 namespace themis {
 
@@ -213,6 +214,15 @@ private:
     class Impl;
     std::unique_ptr<Impl> impl_;
 };
+
+using S3DownloadFn = std::function<bool(const std::string& bucket,
+                                        const std::string& remote_path,
+                                        const std::string& local_path)>;
+using GCSDeleteFn = std::function<bool(const std::string& bucket,
+                                       const std::string& remote_path)>;
+
+void setS3DownloadFn(S3DownloadFn fn);
+void setGCSDeleteFn(GCSDeleteFn fn);
 
 } // namespace sharding
 } // namespace themis
