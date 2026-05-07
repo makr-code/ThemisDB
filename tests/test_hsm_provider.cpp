@@ -428,4 +428,117 @@ TEST_F(HSMProviderTest, StubProviderStillFunctional) {
     EXPECT_GE(stats.sign_count, 1);
 }
 
+// ============================================================================
+// HSM-215: getCertificate() fail-closed hardening
+// ============================================================================
+
+struct HsmProviderEnvGuard {
+    std::string name;
+    std::string previous;
+    bool had_previous{false};
+
+    HsmProviderEnvGuard(const std::string& var_name, const std::string& value)
+        : name(var_name) {
+        const char* existing = std::getenv(name.c_str());
+        had_previous = (existing != nullptr);
+        if (had_previous) previous = existing;
+        ::setenv(name.c_str(), value.c_str(), 1);
+    }
+
+    ~HsmProviderEnvGuard() {
+        if (had_previous) ::setenv(name.c_str(), previous.c_str(), 1);
+        else ::unsetenv(name.c_str());
+    }
+};
+
+struct HsmProviderEnvUnsetGuard {
+    std::string name;
+    std::string previous;
+    bool had_previous{false};
+
+    explicit HsmProviderEnvUnsetGuard(const std::string& var_name) : name(var_name) {
+        const char* existing = std::getenv(name.c_str());
+        had_previous = (existing != nullptr);
+        if (had_previous) previous = existing;
+        ::unsetenv(name.c_str());
+    }
+
+    ~HsmProviderEnvUnsetGuard() {
+        if (had_previous) ::setenv(name.c_str(), previous.c_str(), 1);
+        else ::unsetenv(name.c_str());
+    }
+};
+
+// HSM-CERT-01: getCertificate() returns nullopt when no stub opt-in is set
+TEST_F(HSMProviderTest, GetCertificateFailsClosedWithoutOptIn) {
+    HsmProviderEnvUnsetGuard guard("THEMIS_ALLOW_HSM_STUB");
+    HsmProviderEnvUnsetGuard prod_guard("THEMIS_PRODUCTION_MODE");
+
+    HSMConfig config;
+    config.library_path = "";
+    HsmProviderEnvGuard allow_guard("THEMIS_ALLOW_HSM_STUB", "1");
+
+    HSMProvider hsm(config);
+    // Initialize with stub allowed so we get a usable instance
+    ASSERT_TRUE(hsm.initialize());
+
+    // Now remove the opt-in and test getCertificate fail-closed
+    allow_guard.~HsmProviderEnvGuard();
+    HsmProviderEnvUnsetGuard no_stub("THEMIS_ALLOW_HSM_STUB");
+
+    auto cert = hsm.getCertificate("test-key");
+    EXPECT_FALSE(cert.has_value())
+        << "getCertificate() must return nullopt without THEMIS_ALLOW_HSM_STUB=1";
+}
+
+// HSM-CERT-02: getCertificate() returns dummy PEM when stub is explicitly allowed
+TEST_F(HSMProviderTest, GetCertificateReturnsDummyPemWithOptIn) {
+    HsmProviderEnvGuard allow_guard("THEMIS_ALLOW_HSM_STUB", "1");
+    HsmProviderEnvUnsetGuard prod_guard("THEMIS_PRODUCTION_MODE");
+
+    HSMConfig config;
+    config.library_path = "";
+
+    HSMProvider hsm(config);
+    ASSERT_TRUE(hsm.initialize());
+
+    auto cert = hsm.getCertificate("test-key");
+    ASSERT_TRUE(cert.has_value())
+        << "getCertificate() must return value when THEMIS_ALLOW_HSM_STUB=1";
+    EXPECT_NE(cert->find("STUB"), std::string::npos)
+        << "Returned PEM should be the stub placeholder";
+    EXPECT_NE(cert->find("BEGIN CERTIFICATE"), std::string::npos);
+}
+
+// HSM-CERT-03: generateKeyPair returns false (not a silent no-op that claims success)
+TEST_F(HSMProviderTest, GenerateKeyPairReturnsFalseInStub) {
+    HsmProviderEnvGuard allow_guard("THEMIS_ALLOW_HSM_STUB", "1");
+    HsmProviderEnvUnsetGuard prod_guard("THEMIS_PRODUCTION_MODE");
+
+    HSMConfig config;
+    config.library_path = "";
+
+    HSMProvider hsm(config);
+    ASSERT_TRUE(hsm.initialize());
+
+    bool result = hsm.generateKeyPair("test-label", 2048, false);
+    EXPECT_FALSE(result)
+        << "generateKeyPair() must return false in stub mode to signal no real key was created";
+}
+
+// HSM-CERT-04: importCertificate returns false (not a silent no-op that claims success)
+TEST_F(HSMProviderTest, ImportCertificateReturnsFalseInStub) {
+    HsmProviderEnvGuard allow_guard("THEMIS_ALLOW_HSM_STUB", "1");
+    HsmProviderEnvUnsetGuard prod_guard("THEMIS_PRODUCTION_MODE");
+
+    HSMConfig config;
+    config.library_path = "";
+
+    HSMProvider hsm(config);
+    ASSERT_TRUE(hsm.initialize());
+
+    bool result = hsm.importCertificate("test-key", "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----\n");
+    EXPECT_FALSE(result)
+        << "importCertificate() must return false in stub mode to signal no real cert was stored";
+}
 

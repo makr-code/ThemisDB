@@ -326,7 +326,23 @@ bool HSMProvider::importCertificate(const std::string& key_label, [[maybe_unused
 }
 
 std::optional<std::string> HSMProvider::getCertificate([[maybe_unused]] const std::string& key_label) {
-    // Stub: unused
+    // Fail-closed by default: returning a dummy PEM to an unsuspecting caller is dangerous.
+    // A caller that trusts the returned certificate for authentication or TLS would use
+    // a meaningless stub cert, opening the door to certificate-validation bypass.
+    // Require explicit opt-in to the insecure stub path.
+    const char* allow_stub = std::getenv("THEMIS_ALLOW_HSM_STUB");
+    if (!allow_stub || std::string(allow_stub) != "1") {
+        THEMIS_ERROR(
+            "HSMProvider stub getCertificate('{}') refused: returning a dummy PEM "
+            "is insecure. Set THEMIS_ALLOW_HSM_STUB=1 for explicit development override, "
+            "or build with -DTHEMIS_ENABLE_HSM_REAL=ON.",
+            key_label);
+        return std::nullopt;
+    }
+    THEMIS_WARN(
+        "HSMProvider stub getCertificate('{}') returning hardcoded dummy PEM "
+        "(THEMIS_ALLOW_HSM_STUB=1). Not suitable for production.",
+        key_label);
     return std::string("-----BEGIN CERTIFICATE-----\nSTUB\n-----END CERTIFICATE-----\n");
 }
 
