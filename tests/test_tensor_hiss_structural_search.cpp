@@ -8,9 +8,12 @@
  * TensorNetworkGraph rerouteEdge              THSS-02
  * HissStructuralSearchEngine determinism      THSS-03
  * TemplateCatalog register/lookup             THSS-04
- * HissReshaper exposeQuantics passthrough     THSS-05
+ * HissReshaper exposeQuantics reshape         THSS-05
  * HissReshaper infer bit-depths from modes    THSS-06
  * HissReshaper reject mismatched grid count   THSS-07
+ * HissReshaper reject mismatched grid product THSS-08
+ * HissReshaper preserves dense tensor values  THSS-09
+ * HissReshaper residual-factor reshape        THSS-10
  * TNSRTask construction error on null engine  TNSR-01
  * TNSRTask empty key range → zero report      TNSR-02
  * TNSRTask recompresses and writes back       TNSR-03
@@ -28,6 +31,7 @@
 #include "storage/tensor_network_storage_engine.h"
 
 #include <gtest/gtest.h>
+#include <numeric>
 #include <stdexcept>
 
 namespace {
@@ -55,6 +59,17 @@ themis::storage::TTTrain makeSmallTrain() {
     t.cores[2].data.assign(2 * 4 * 1, 0.3f);
     t.cores[2].data[3] = 6.0f;
     return t;
+}
+
+themis::storage::TTTrain makeNonPowerTrain() {
+    std::vector<float> dense(60);
+    std::iota(dense.begin(), dense.end(), 1.0f);
+
+    themis::storage::TensorTrainDecomposer decomposer;
+    themis::storage::TensorTrainConfig cfg;
+    cfg.eps = 1e-6;
+
+    return decomposer.decompose(dense, {3, 4, 5}, cfg).first;
 }
 
 } // namespace
@@ -115,14 +130,17 @@ TEST(TensorHissSearch, TemplateCatalogRegisterLookup) {
     EXPECT_FALSE(c.lookup("unknown").has_value());
 }
 
-TEST(TensorHissSearch, HissReshaperExposeQuanticsPassthrough) {
+TEST(TensorHissSearch, HissReshaperExposeQuanticsReshapesModes) {
     const auto train = makeSmallTrain();
     const auto qt = themis::tensor::HissReshaper::exposeQuantics(train, {2, 4, 8});
     EXPECT_EQ(qt.bit_depths.size(), 3u);
     EXPECT_EQ(qt.bit_depths[0], 1u);
     EXPECT_EQ(qt.bit_depths[1], 2u);
     EXPECT_EQ(qt.bit_depths[2], 3u);
-    EXPECT_EQ(qt.toTTTrain().cores.size(), train.cores.size());
+    EXPECT_EQ(qt.grid_sizes, (std::vector<std::size_t>{2u, 4u, 8u}));
+    EXPECT_EQ(qt.quantics_mode_sizes, (std::vector<std::size_t>{2u, 2u, 2u, 2u, 2u, 2u}));
+    EXPECT_EQ(qt.toTTTrain().mode_sizes, qt.quantics_mode_sizes);
+    EXPECT_EQ(qt.toTTTrain().cores.size(), qt.quantics_mode_sizes.size());
 }
 
 TEST(TensorHissSearch, HissReshaperInfersBitDepthsFromTrainModes) {
@@ -132,11 +150,47 @@ TEST(TensorHissSearch, HissReshaperInfersBitDepthsFromTrainModes) {
     EXPECT_EQ(qt.bit_depths[0], 2u);
     EXPECT_EQ(qt.bit_depths[1], 2u);
     EXPECT_EQ(qt.bit_depths[2], 2u);
+    EXPECT_EQ(qt.grid_sizes, train.mode_sizes);
+    EXPECT_EQ(qt.quantics_mode_sizes, (std::vector<std::size_t>{2u, 2u, 2u, 2u, 2u, 2u}));
 }
 
 TEST(TensorHissSearch, HissReshaperRejectsMismatchedGridSizeCount) {
     const auto train = makeSmallTrain();
     EXPECT_THROW(themis::tensor::HissReshaper::exposeQuantics(train, {4, 4}), std::invalid_argument);
+}
+
+TEST(TensorHissSearch, HissReshaperRejectsMismatchedGridProduct) {
+    const auto train = makeSmallTrain();
+    EXPECT_THROW(themis::tensor::HissReshaper::exposeQuantics(train, {4, 4, 5}), std::invalid_argument);
+}
+
+TEST(TensorHissSearch, HissReshaperPreservesDenseTensorValues) {
+    const auto train = makeSmallTrain();
+    const auto qt = themis::tensor::HissReshaper::exposeQuantics(train, {2, 4, 8});
+
+    const auto original = train.reconstruct();
+    const auto reshaped = qt.toTTTrain().reconstruct();
+    ASSERT_EQ(original.size(), reshaped.size());
+
+    for (std::size_t i = 0; i < original.size(); ++i) {
+        EXPECT_NEAR(original[i], reshaped[i], 1e-3f);
+    }
+}
+
+TEST(TensorHissSearch, HissReshaperUsesResidualFactorForNonPowerModes) {
+    const auto train = makeNonPowerTrain();
+    const auto qt = themis::tensor::HissReshaper::exposeQuantics(train, {});
+
+    EXPECT_EQ(qt.grid_sizes, (std::vector<std::size_t>{3u, 4u, 5u}));
+    EXPECT_EQ(qt.bit_depths, (std::vector<std::size_t>{2u, 2u, 3u}));
+    EXPECT_EQ(qt.quantics_mode_sizes, (std::vector<std::size_t>{3u, 2u, 2u, 5u}));
+
+    const auto original = train.reconstruct();
+    const auto reshaped = qt.toTTTrain().reconstruct();
+    ASSERT_EQ(original.size(), reshaped.size());
+    for (std::size_t i = 0; i < original.size(); ++i) {
+        EXPECT_NEAR(original[i], reshaped[i], 1e-3f);
+    }
 }
 
 // ============================================================================

@@ -288,10 +288,16 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
   - AC: compression ratio 2.5×–100× better than fixed TT/HT on test corpus;
     structures from one data instance transfer to similar instances within 10% perf
 
-- [ ] **Targeted index reshaping to expose QTT/latent-rank structures** (Target: Q2 2028)
+- [~] **Targeted index reshaping to expose QTT/latent-rank structures** (Target: Q2 2028)
   - Hiss reshapes native indices to reveal Quantics formats invisible in original layout
   - `HissReshaper::exposeQuantics(train, grid_sizes) → QTTrain`
   - AC: QTT compression ≥ 2.5× better than plain TT on same data after reshaping
+  - **2026-05-07 in progress**: `HissReshaper::exposeQuantics()` now reconstructs
+    dense data, factorizes each physical mode into repeated `2` modes plus one
+    residual factor when needed, and re-decomposes into a reshaped `QTTrain`;
+    `QTTrain` now records `grid_sizes` + `quantics_mode_sizes`; dense round-trip
+    parity tests THSS-05..THSS-09 added. Strict pure-binary padded QTT with
+    reversible index mapping remains deferred (STUB #254).
 
 - [~] **`TensorNetworkStructuralRounding` (TNSR) — background task** (Target: Q3 2028)
   - Paper §TNSR: generalizes round to arbitrary existing tree networks; adjusts bond
@@ -434,7 +440,7 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 ### Phase 6: Hiss Adaptive Structural Rounding (Target: Q2–Q3 2028)
 
 - [~] `HissStructuralSearchEngine` — TN-SS with entropy-guided clustering
-- [ ] Targeted index reshaping to expose QTT latent structures
+- [~] Targeted index reshaping to expose QTT latent structures (residual-factor path implemented; strict pure-binary QTT deferred, STUB #254)
 - [~] `TensorNetworkStructuralRounding` (TNSR) background maintenance task (STUB #252)
 - [~] Domain template graph catalog (`TemplateCatalog`) wired to `TensorRouter` (STUB #253)
 
@@ -473,6 +479,9 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 - `simpleSVD()` sets U/Vt to identity matrices (STUB_INVENTORY #157);
   reconstruction error can reach ‖T‖_F when THEMIS_USE_LAPACK_SVD is not set
 - HT and QTT formats not yet implemented (Phases 5+)
+- `HissReshaper::exposeQuantics()` uses repeated `2` modes plus a residual
+  factor for non-power-of-two physical dimensions; strict padded pure-binary
+  QTT with reversible index mapping remains deferred (STUB_INVENTORY #254)
 - Hiss/TNSR adaptive rounding partially integrated (Phase 6): bond-dimension
   reduction is durable (TNSR-01..TNSR-08 pass); topology mutation via
   rerouteEdge counted but not persisted (STUB #252)
