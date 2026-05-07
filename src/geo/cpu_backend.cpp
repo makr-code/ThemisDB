@@ -119,8 +119,10 @@ static bool cpuSegmentsIntersect(double ax, double ay, double bx, double by,
 // Complexity: O(n1 * n2) edge comparisons — adequate for the CPU fallback
 // path where n is typically small (< 1000 vertices).  Callers with very
 // large polygons should use the Boost.Geometry backend instead.
+// When pip is non-null, it replaces the built-in ray-casting containment check.
 static bool polygonIntersects(const std::vector<Coordinate>& poly1,
-                               const std::vector<Coordinate>& poly2) {
+                               const std::vector<Coordinate>& poly2,
+                               const GeoContainmentFn& pip = {}) {
     if (poly1.empty() || poly2.empty()) return false;
 
     // Edge-edge crossing check
@@ -135,9 +137,15 @@ static bool polygonIntersects(const std::vector<Coordinate>& poly1,
             }
         }
     }
-    // Containment: one polygon wholly inside the other
-    if (pointInPolygon(poly1[0].x, poly1[0].y, poly2)) return true;
-    if (pointInPolygon(poly2[0].x, poly2[0].y, poly1)) return true;
+    // Containment: one polygon wholly inside the other.
+    // Delegate to injected fn when available, otherwise use built-in ray-casting.
+    if (pip) {
+        if (pip(poly1[0].x, poly1[0].y, poly2)) return true;
+        if (pip(poly2[0].x, poly2[0].y, poly1)) return true;
+    } else {
+        if (pointInPolygon(poly1[0].x, poly1[0].y, poly2)) return true;
+        if (pointInPolygon(poly2[0].x, poly2[0].y, poly1)) return true;
+    }
     return false;
 }
 
@@ -247,6 +255,18 @@ class CpuExactBackend final : public ISpatialComputeBackend {
 public:
     const char* name() const noexcept override { return "cpu_exact"; }
     bool isAvailable() const noexcept override { return true; }
+
+    /**
+     * @brief Inject a custom point-in-polygon function.
+     *
+     * When set, exactIntersects() calls this fn for every point-in-polygon
+     * test instead of the built-in ray-casting algorithm.  Pass nullptr to
+     * restore the built-in fallback.
+     */
+    void setContainmentFn(GeoContainmentFn fn) {
+        std::lock_guard<std::mutex> lk(containment_fn_mtx_);
+        containment_fn_ = std::move(fn);
+    }
     
     SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {
         SpatialBatchResults out;
@@ -272,6 +292,19 @@ public:
     // Uses ray-casting (point-in-polygon) and segment-intersection
     // to handle all cases including edge-only polygon crossings.
     bool exactIntersects(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
+        // Snapshot the injected containment fn once to avoid locking inside the loop.
+        GeoContainmentFn pip;
+        {
+            std::lock_guard<std::mutex> lk(containment_fn_mtx_);
+            pip = containment_fn_;
+        }
+
+        // Helper: point-in-polygon, dispatches to injected fn or ray-casting.
+        auto containmentCheck = [&pip](double px, double py,
+                                       const std::vector<Coordinate>& ring) -> bool {
+            return pip ? pip(px, py, ring) : pointInPolygon(px, py, ring);
+        };
+
         try {
             // Point-Point intersection
             if (geom1.isPoint() && geom2.isPoint()) {
@@ -291,9 +324,9 @@ public:
                 
                 // Check against outer ring
                 if (!geom2.rings.empty()) {
-                    return pointInPolygon(pt.x, pt.y, geom2.rings[0]);
+                    return containmentCheck(pt.x, pt.y, geom2.rings[0]);
                 } else if (!geom2.coords.empty()) {
-                    return pointInPolygon(pt.x, pt.y, geom2.coords);
+                    return containmentCheck(pt.x, pt.y, geom2.coords);
                 }
                 return false;
             }
@@ -305,9 +338,9 @@ public:
                 
                 // Check against outer ring
                 if (!geom1.rings.empty()) {
-                    return pointInPolygon(pt.x, pt.y, geom1.rings[0]);
+                    return containmentCheck(pt.x, pt.y, geom1.rings[0]);
                 } else if (!geom1.coords.empty()) {
-                    return pointInPolygon(pt.x, pt.y, geom1.coords);
+                    return containmentCheck(pt.x, pt.y, geom1.coords);
                 }
                 return false;
             }
@@ -318,7 +351,7 @@ public:
                     !geom1.rings.empty() ? geom1.rings[0] : geom1.coords;
                 const std::vector<Coordinate>& poly2 =
                     !geom2.rings.empty() ? geom2.rings[0] : geom2.coords;
-                return polygonIntersects(poly1, poly2);
+                return polygonIntersects(poly1, poly2, pip);
             }
             
             // MultiPolygon: intersects if any constituent polygon intersects
@@ -923,6 +956,10 @@ private:
         if (result.rings.empty()) return geom1; // Fallback
         return result;
     }
+
+private:
+    mutable std::mutex containment_fn_mtx_;
+    GeoContainmentFn containment_fn_; ///< Injected point-in-polygon; null → ray-casting fallback
 };
 
 // ---------------------------------------------------------------------------
@@ -1013,6 +1050,10 @@ static CpuExactBackend& getCpuExactBackendInstance() {
 
 ISpatialComputeBackend* getCpuExactBackend() {
     return &getCpuExactBackendInstance();
+}
+
+void setCpuExactContainmentFn(GeoContainmentFn fn) {
+    getCpuExactBackendInstance().setContainmentFn(std::move(fn));
 }
 
 // Public factory: returns the built-in CPU approximate backend singleton.

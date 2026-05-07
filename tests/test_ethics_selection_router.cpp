@@ -1,6 +1,6 @@
 /**
  * @file test_ethics_selection_router.cpp
- * @brief Unit tests for EthicsSelectionRouter — ESR-01..10
+ * @brief Unit tests for EthicsSelectionRouter — ESR-01..10, ESR-11..14
  *
  * Tests cover:
  *  ESR-01  route() returns ≤ top_n results
@@ -13,6 +13,10 @@
  *  ESR-08  Score weights normalise to 1.0 even with non-unit config
  *  ESR-09  Final scores are in [0, 1]
  *  ESR-10  Concurrent route() calls from 4 threads produce consistent counts
+ *  ESR-11  setEmbeddingFn: real embedding path produces non-zero scores
+ *  ESR-12  setEmbeddingFn: empty return reverts to term-overlap fallback
+ *  ESR-13  setPrecedentQueryFn: injected fn is called for each candidate
+ *  ESR-14  setPrecedentQueryFn: null fn reverts to in-memory precedent map
  */
 
 #include <gtest/gtest.h>
@@ -266,5 +270,108 @@ TEST_F(EthicsSelectionRouterTest, ESR10_ConcurrentRouteCalls) {
     // All threads must have produced non-zero results (registry has profiles)
     for (int i = 0; i < kThreads; ++i) {
         EXPECT_GT(counts[i], 0u) << "thread " << i << " produced no results";
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ESR-11: setEmbeddingFn — real embedding path produces scores in [0,1]
+// ─────────────────────────────────────────────────────────────────────────────
+TEST_F(EthicsSelectionRouterTest, ESR11_SetEmbeddingFn_ProducesValidScores) {
+    EthicsSelectionRouter router(registry.get(), makeConfig(/*top_n=*/5));
+
+    // Inject a deterministic embedding: return a fixed 4-dim vector based on
+    // hash of the first character of the text, giving distinct embeddings.
+    router.setEmbeddingFn([](const std::string& text) -> std::vector<float> {
+        float seed = text.empty() ? 0.5f : static_cast<float>(text[0] % 8) / 8.0f;
+        return {seed, 1.0f - seed, seed * 0.5f, 0.5f};
+    });
+
+    auto res = router.route("Ethical dilemma about duty and obligation",
+                             "medical", {"duty", "utility"});
+    for (const auto& c : res.selected) {
+        EXPECT_GE(c.semantic_score, 0.0) << "school: " << c.school_id;
+        EXPECT_LE(c.semantic_score, 1.0) << "school: " << c.school_id;
+    }
+    // Router must still return at most top_n results
+    EXPECT_LE(res.selected.size(), 5u);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ESR-12: setEmbeddingFn with fn returning empty reverts to term-overlap
+// ─────────────────────────────────────────────────────────────────────────────
+TEST_F(EthicsSelectionRouterTest, ESR12_SetEmbeddingFn_EmptyReturnUsesTermOverlap) {
+    EthicsSelectionRouter router(registry.get(), makeConfig(/*top_n=*/5));
+
+    // Embedding fn returns empty vector → triggers term-overlap fallback
+    router.setEmbeddingFn([](const std::string&) -> std::vector<float> {
+        return {};
+    });
+
+    auto res = router.route("Utilitarian calculation of harm and benefit",
+                             "medical", {"utility"});
+    // Scores must still be valid; term-overlap fallback kicks in
+    for (const auto& c : res.selected) {
+        EXPECT_GE(c.semantic_score, 0.0);
+        EXPECT_LE(c.semantic_score, 1.0);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ESR-13: setPrecedentQueryFn — injected fn is called for each candidate
+// ─────────────────────────────────────────────────────────────────────────────
+TEST_F(EthicsSelectionRouterTest, ESR13_SetPrecedentQueryFn_CalledPerCandidate) {
+    EthicsSelectionRouter router(registry.get(), makeConfig(/*top_n=*/5));
+
+    std::atomic<int> call_count{0};
+    // Injected precedent fn: always returns 0.9 (high precedent)
+    router.setPrecedentQueryFn(
+        [&call_count](const std::string& /*domain*/,
+                      const std::string& /*school_id*/) -> double {
+            ++call_count;
+            return 0.9;
+        });
+
+    auto res = router.route("Privacy in AI systems",
+                             "ai_governance", {"autonomy"});
+
+    // At least one candidate must have been scored
+    EXPECT_GT(call_count.load(), 0);
+    // All returned precedent scores must reflect the injected value
+    for (const auto& c : res.selected) {
+        EXPECT_NEAR(c.precedent_dc, 0.9, 1e-9) << "school: " << c.school_id;
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ESR-14: setPrecedentQueryFn(null) reverts to in-memory precedent store
+// ─────────────────────────────────────────────────────────────────────────────
+TEST_F(EthicsSelectionRouterTest, ESR14_SetPrecedentQueryFn_NullRevertsToInMemory) {
+    EthicsSelectionRouter router(registry.get(), makeConfig(/*top_n=*/5));
+
+    // First install a precedent outcome so the in-memory store has data
+    router.recordDecisionOutcome("medical", "utilitarian", 0.8);
+    router.recordDecisionOutcome("medical", "utilitarian", 0.8);
+
+    // Set injected fn, then clear it — must revert to in-memory store
+    router.setPrecedentQueryFn([](const std::string&, const std::string&) {
+        return 0.0;
+    });
+    router.setPrecedentQueryFn({}); // clear
+
+    auto res = router.route("Resource allocation in critical care",
+                             "medical", {"utility"});
+
+    // The "utilitarian" school should have precedent_dc ≈ 0.8 from in-memory store
+    bool found = false;
+    for (const auto& c : res.selected) {
+        if (c.school_id == "utilitarian") {
+            EXPECT_NEAR(c.precedent_dc, 0.8, 1e-9);
+            found = true;
+            break;
+        }
+    }
+    // Note: "utilitarian" may not be in top_n; test is only meaningful if found
+    if (found) {
+        SUCCEED() << "utilitarian school found with correct in-memory precedent_dc";
     }
 }

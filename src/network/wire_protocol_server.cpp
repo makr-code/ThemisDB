@@ -50,8 +50,10 @@
 #else
     #include <arpa/inet.h>  // For ntohl/htonl on Unix
 #endif
+#include <openssl/crypto.h>  // For CRYPTO_memcmp (WPS-2: constant-time token comparison)
 #include <map>  // For multi-bucket aggregation
 #include <algorithm>  // For std::min/max
+#include <spdlog/spdlog.h>  // For WPS-3 misconfiguration error log
 
 using json = nlohmann::json;
 
@@ -319,16 +321,28 @@ bool WireProtocolServer::checkRateLimit(const std::string& remote_ip) {
     auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
     
-    auto& state = rate_limits_[remote_ip];
-    if (state.window_start_ms == 0) {
-        state.window_start_ms = now_ms;
+    // WPS-9: prune map before inserting to prevent unbounded growth from IP cycling
+    constexpr size_t kMaxRateLimitEntries = 100'000;
+    if (rate_limits_.size() >= kMaxRateLimitEntries) {
+        rate_limits_.clear();
     }
 
-    // Reset if window expired
+    auto& state = rate_limits_[remote_ip];
+    if (state.window_start_ms == 0) {
+        state.window_start_ms        = now_ms;
+        state.minute_window_start_ms = now_ms;
+    }
+
+    // Reset per-second window
     if (now_ms - state.window_start_ms >= 1000) {
-        state.window_start_ms = now_ms;
+        state.window_start_ms     = now_ms;
         state.request_count_second = 0;
-        state.request_count_minute = 0;
+    }
+
+    // Reset per-minute window (WPS-6: was incorrectly reusing the 1-second window)
+    if (now_ms - state.minute_window_start_ms >= 60000) {
+        state.minute_window_start_ms = now_ms;
+        state.request_count_minute   = 0;
     }
 
     // Check rate limits
@@ -444,7 +458,7 @@ void WireProtocolServer::handleAccept(std::shared_ptr<Session> session, const bo
 
         {
             std::lock_guard<std::mutex> lock(connections_mutex_);
-            active_sessions_[remote_ip] = session;
+            active_sessions_.try_emplace(remote_ip, session);
         }
 
         session->start();
@@ -533,6 +547,19 @@ void WireProtocolServer::Session::asyncReadHeader() {
             if (!ec) {
                 // Parse header to get payload size, then read payload
                 if (header_buffer_.size() >= 12) {
+                    // WPS-4 fix: Validate 4-byte magic field "TMDB" (0x544D4442) before
+                    // dispatching any further reads.  An invalid magic closes the connection
+                    // immediately to prevent unknown clients from reaching the opcode dispatcher.
+                    uint32_t magic_recv = 0;
+                    std::memcpy(&magic_recv, &header_buffer_[0], sizeof(uint32_t));
+                    magic_recv = ntohl(magic_recv);
+                    static constexpr uint32_t kExpectedMagic = 0x544D4442u; // "TMDB"
+                    if (magic_recv != kExpectedMagic) {
+                        sendError(0x0008, "Invalid frame magic");
+                        socket_.close();
+                        return;
+                    }
+
                     // Extract flags (bytes 6-7, big-endian)
                     uint16_t flags = 0;
                     std::memcpy(&flags, &header_buffer_[6], sizeof(uint16_t));
@@ -545,8 +572,10 @@ void WireProtocolServer::Session::asyncReadHeader() {
                     std::memcpy(&payload_size, &header_buffer_[8], sizeof(uint32_t));
                     payload_size = ntohl(payload_size);
                     
-                    // Validate payload size
-                    if (payload_size > server_->config_.max_frame_size_mb * 1024 * 1024) {
+                    // WPS-5 fix: cast to uint64_t before multiplication to prevent integer
+                    // overflow when max_frame_size_mb >= 4096 (wraps to 0 → check disabled).
+                    if (static_cast<uint64_t>(payload_size) >
+                            static_cast<uint64_t>(server_->config_.max_frame_size_mb) * 1024 * 1024) {
                         sendError(0x0001, "Payload size exceeds maximum allowed");
                         asyncReadHeader();  // Continue reading
                         return;
@@ -612,6 +641,19 @@ void WireProtocolServer::Session::asyncReadRemainingHeader() {
         net::buffer(header_buffer_.data() + 4, 8),
         [this, self](const boost::system::error_code& ec, std::size_t /*bytes*/) {
             if (!ec) {
+                // WPS-4 fix: validate the magic bytes that were peeked in asyncDetectProtocol.
+                // bytes [0..3] are already in header_buffer_; check them now that the full
+                // 12-byte header is available.
+                uint32_t magic_recv = 0;
+                std::memcpy(&magic_recv, &header_buffer_[0], sizeof(uint32_t));
+                magic_recv = ntohl(magic_recv);
+                static constexpr uint32_t kExpectedMagic = 0x544D4442u; // "TMDB"
+                if (magic_recv != kExpectedMagic) {
+                    sendError(0x0008, "Invalid frame magic");
+                    socket_.close();
+                    return;
+                }
+
                 // Same logic as asyncReadHeader callback
                 uint16_t flags = 0;
                 std::memcpy(&flags, &header_buffer_[6], sizeof(uint16_t));
@@ -622,7 +664,9 @@ void WireProtocolServer::Session::asyncReadRemainingHeader() {
                 std::memcpy(&payload_size, &header_buffer_[8], sizeof(uint32_t));
                 payload_size = ntohl(payload_size);
 
-                if (payload_size > server_->config_.max_frame_size_mb * 1024 * 1024) {
+                // WPS-5 fix: cast to uint64_t before multiplication (same as asyncReadHeader).
+                if (static_cast<uint64_t>(payload_size) >
+                        static_cast<uint64_t>(server_->config_.max_frame_size_mb) * 1024 * 1024) {
                     sendError(0x0001, "Payload size exceeds maximum allowed");
                     asyncReadHeader();
                     return;
@@ -1029,7 +1073,9 @@ void WireProtocolServer::Session::handleHello() {
         response["wire_protocol_version"] = 1;
         response["server_version"] = "1.7.0";
         response["auth_required"] = server_->config_.require_auth;
-        response["auth_mechanism"] = server_->config_.auth_mechanism;
+        // WPS-11: Do not leak the internal auth mechanism identifier to
+        // unauthenticated clients. Indicate only whether auth is supported.
+        response["auth_supported"] = true;
         response["capabilities"] = json::array({
             "GET", "PUT", "DELETE", "QUERY_AQL",
             "VECTOR_SEARCH", "TIMESERIES_QUERY",
@@ -1066,11 +1112,22 @@ void WireProtocolServer::Session::handleAuthRequest() {
             // Auth disabled – accept all clients.
             accepted = true;
         } else if (!server_->config_.auth_token.empty()) {
-            // Validate against the configured pre-shared token.
-            accepted = (token == server_->config_.auth_token);
+            // WPS-2 fix: use CRYPTO_memcmp for constant-time comparison to prevent
+            // timing side-channel attacks that leak the pre-shared token prefix/length.
+            const auto& stored = server_->config_.auth_token;
+            if (token.size() == stored.size()) {
+                accepted = (CRYPTO_memcmp(token.data(), stored.data(), stored.size()) == 0);
+            }
+            // Different lengths → accepted stays false (no timing leak from size mismatch
+            // because the size comparison itself is O(1) and constant).
         } else {
-            // No token configured: accept any non-empty token (development mode).
-            accepted = !token.empty();
+            // WPS-3 fix: auth_token is empty but require_auth=true — this is a
+            // misconfiguration (missing secret env-var). Reject all connections with a
+            // configuration error rather than silently accepting any non-empty token.
+            spdlog::error("[SEC/WPS-3] require_auth=true but auth_token is empty — "
+                          "all connections rejected. Set the auth_token configuration "
+                          "parameter or disable require_auth for development use.");
+            accepted = false;
         }
 
         if (accepted) {
@@ -1278,6 +1335,12 @@ void WireProtocolServer::Session::handleBatchGet() {
             return;
         }
 
+        constexpr size_t kMaxBatchElements = 1000;
+        if (keys_arr.size() > kMaxBatchElements) {
+            sendError(400, "BATCH_GET exceeds maximum of 1000 keys per request");
+            return;
+        }
+
         std::vector<std::string> client_keys;
         client_keys.reserve(keys_arr.size());
         std::vector<std::string> storage_keys;
@@ -1357,6 +1420,12 @@ void WireProtocolServer::Session::handleBatchPut() {
         const auto& items_arr = request["items"];
         if (items_arr.empty()) {
             sendError(400, "Empty 'items' array in BATCH_PUT request");
+            return;
+        }
+
+        constexpr size_t kMaxBatchElements = 1000;
+        if (items_arr.size() > kMaxBatchElements) {
+            sendError(400, "BATCH_PUT exceeds maximum of 1000 items per request");
             return;
         }
 
@@ -1881,6 +1950,12 @@ void WireProtocolServer::Session::handleVectorSearch() {
         size_t k = request.value("k", static_cast<size_t>(10));
         if (k == 0) k = 10;
 
+        constexpr size_t kMaxVectorSearchK = 10000;
+        if (k > kMaxVectorSearchK) {
+            sendError(400, "VECTOR_SEARCH 'k' exceeds maximum value of 10000");
+            return;
+        }
+
         auto [status, results] = server_->vector_index_->searchKnn(query_vector, k);
 
         json response;
@@ -2359,20 +2434,16 @@ void WireProtocolServer::Session::handleBpmnTaskComplete() {
             instance_id = task_id.substr(0, colon_pos);
             node_id = task_id.substr(colon_pos + 1);
         } else {
-            // STUB/SIMULATION NOTE:
-            // Purpose: Rejects task_ids that lack the expected "instance_id:node_id"
-            //          colon separator until a real task_id→instance mapping lookup
-            //          is implemented.
-            // Activation: `task_id` string contains no ':' character.
-            // Production Delta: A token-only task_id that could be resolved via a
-            //                   registry lookup is rejected with HTTP 400; clients
-            //                   that use opaque task IDs without the colon format
-            //                   cannot use this endpoint.
-            // Removal Plan: Implement a TaskRegistry lookup (task_id → {instance_id,
-            //               node_id}) so that token-only task_ids are also supported.
-            //               See src/server/FUTURE_ENHANCEMENTS.md §WireProtocol Task ID Resolution.
-            sendError(400, "Invalid task_id format. Expected 'instance_id:node_id'");
-            return;
+            // Resolve a token-only task_id via ProcessGraphManager.
+            // Scans active tokens to find the matching token_id and extracts
+            // instance_id + current_node.  Stub #138 resolution.
+            auto resolved = server_->process_graph_->findTokenByTokenId(task_id);
+            if (!resolved) {
+                sendError(400, "Invalid task_id: not found or not active");
+                return;
+            }
+            instance_id = resolved->first;
+            node_id     = resolved->second;
         }
 
         // Complete the task

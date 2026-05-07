@@ -40,6 +40,13 @@
 #include <sstream>
 #endif
 
+#ifdef THEMIS_ENABLE_CUDA
+#include <cuda_runtime.h>
+#endif
+#ifdef THEMIS_ENABLE_HIP
+#include <hip/hip_runtime.h>
+#endif
+
 namespace themis::sharding {
 
 // ============================================================================
@@ -588,18 +595,35 @@ std::pair<uint64_t, uint64_t> ShardResourceManager::getRamUsage() const {
 }
 
 std::pair<uint64_t, uint64_t> ShardResourceManager::getVramUsage() const {
+#if defined(THEMIS_ENABLE_CUDA)
+    size_t free_bytes  = 0;
+    size_t total_bytes = 0;
+    if (cudaMemGetInfo(&free_bytes, &total_bytes) == cudaSuccess) {
+        uint64_t used = static_cast<uint64_t>(total_bytes - free_bytes);
+        return {used, static_cast<uint64_t>(total_bytes)};
+    }
+    return {0, 0};
+#elif defined(THEMIS_ENABLE_HIP)
+    size_t free_bytes  = 0;
+    size_t total_bytes = 0;
+    if (hipMemGetInfo(&free_bytes, &total_bytes) == hipSuccess) {
+        uint64_t used = static_cast<uint64_t>(total_bytes - free_bytes);
+        return {used, static_cast<uint64_t>(total_bytes)};
+    }
+    return {0, 0};
+#else
     // STUB/SIMULATION NOTE:
     // Purpose: Satisfies the VRAM usage query API on platforms without a GPU
-    //          runtime (no CUDA / HIP / Vulkan available at link time).
-    // Activation: Always — no GPU API is queried.
+    //          runtime (no CUDA / HIP available at link time).
+    // Activation: Neither THEMIS_ENABLE_CUDA nor THEMIS_ENABLE_HIP defined.
     // Production Delta: Returns (0, 0); resource-aware shard scheduling decisions
     //                   that rely on VRAM headroom will not account for actual GPU
     //                   memory consumption.
-    // Removal Plan: Add CUDA (nvmlDeviceGetMemoryInfo) / HIP (hipMemGetInfo) /
-    //               Vulkan (VK_EXT_memory_budget) backends, guarded by
-    //               THEMIS_ENABLE_CUDA / THEMIS_ENABLE_HIP / THEMIS_ENABLE_VULKAN.
+    // Removal Plan: Enable CUDA or HIP via cmake; the appropriate block above will
+    //               activate.  Vulkan (VK_EXT_memory_budget) path deferred.
     //               See src/sharding/FUTURE_ENHANCEMENTS.md §VRAM Usage Monitoring.
     return {0, 0};
+#endif
 }
 
 std::pair<uint64_t, uint64_t> ShardResourceManager::getDiskUsage() const {
@@ -625,17 +649,35 @@ std::pair<uint64_t, uint64_t> ShardResourceManager::getDiskUsage() const {
 }
 
 std::pair<uint64_t, uint64_t> ShardResourceManager::getNetworkUsage() const {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Satisfies the network I/O usage API while platform-specific
-    //          counters are not yet integrated.
-    // Activation: Always — no platform API is queried.
-    // Production Delta: Returns (0, 0); network-bandwidth-aware shard routing
-    //                   decisions will not account for actual NIC utilisation.
-    // Removal Plan: On Linux parse /proc/net/dev (rx/tx bytes); on Windows use
-    //               `GetIfTable2()` / Performance Counters.  Guard per-platform
-    //               behind compile-time detection or runtime feature flags.
-    //               See src/sharding/FUTURE_ENHANCEMENTS.md §Network Usage Monitoring.
+#ifdef _WIN32
+    // Windows: GetIfTable2 / Performance Counter integration deferred.
+    // Returns (0, 0) on Windows until iphlpapi-based counters are wired in.
     return {0, 0};
+#else
+    // Linux: aggregate rx_bytes and tx_bytes across all interfaces from
+    // /proc/net/dev.  Format (after two header lines):
+    //   <iface>: rx_bytes rx_pkts rx_errs rx_drop … tx_bytes tx_pkts …
+    std::ifstream net_dev("/proc/net/dev");
+    if (!net_dev.is_open()) {
+        return {0, 0};
+    }
+    uint64_t total_rx = 0, total_tx = 0;
+    std::string line;
+    int line_num = 0;
+    while (std::getline(net_dev, line)) {
+        if (++line_num <= 2) continue; // skip the two header lines
+        const auto colon = line.find(':');
+        if (colon == std::string::npos) continue;
+        std::istringstream iss(line.substr(colon + 1));
+        uint64_t rx = 0, pkts = 0, errs = 0, drop = 0,
+                 fifo = 0, frame = 0, comp = 0, mcast = 0, tx = 0;
+        if (iss >> rx >> pkts >> errs >> drop >> fifo >> frame >> comp >> mcast >> tx) {
+            total_rx += rx;
+            total_tx += tx;
+        }
+    }
+    return {total_rx, total_tx};
+#endif
 }
 
 } // namespace themis::sharding

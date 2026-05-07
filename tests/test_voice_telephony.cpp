@@ -239,8 +239,74 @@ TEST(SipCallSession, SynthesizeTtsEmptyReturnsNothing) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// WebRtcCallSession — construction & validation
+// SipCallSession — TTS backend injection (STUB #173)
 // ─────────────────────────────────────────────────────────────────────────────
+
+namespace {
+
+/// Minimal ITtsBackend that returns N fixed-size payloads per synthesis call.
+class FakeTtsBackend : public ITtsBackend {
+public:
+    explicit FakeTtsBackend(int frame_count = 2, int frame_bytes = 160)
+        : frame_count_(frame_count), frame_bytes_(frame_bytes) {}
+
+    std::vector<std::vector<uint8_t>> synthesize(
+        const std::string& text, AudioCodec) override
+    {
+        if (text.empty()) return {};
+        last_text_ = text;
+        std::vector<std::vector<uint8_t>> frames;
+        frames.reserve(static_cast<size_t>(frame_count_));
+        for (int i = 0; i < frame_count_; ++i)
+            frames.push_back(std::vector<uint8_t>(
+                static_cast<size_t>(frame_bytes_), static_cast<uint8_t>(i)));
+        return frames;
+    }
+
+    const std::string& lastText() const { return last_text_; }
+
+private:
+    int frame_count_;
+    int frame_bytes_;
+    std::string last_text_;
+};
+
+} // namespace
+
+TEST(SipCallSession, SynthesizeTtsWithInjectedBackendDelegates) {
+    auto session = SipCallSession::create(makeSipConfig());
+    auto backend = std::make_shared<FakeTtsBackend>(3, 160);
+    session->setTtsBackend(backend);
+    session->start();
+
+    auto pkts = session->synthesizeTts("Hello world");
+    // 3 frames returned by backend → 3 RTP packets
+    ASSERT_EQ(pkts.size(), 3u);
+    for (const auto& p : pkts) {
+        EXPECT_EQ(p.size(), 12u + 160u); // 12-byte RTP header + 160-byte payload
+        EXPECT_EQ(p[0], 0x80u);          // RTP version=2
+    }
+    EXPECT_EQ(backend->lastText(), "Hello world");
+}
+
+TEST(SipCallSession, SynthesizeTtsInjectedBackendEmptyTextReturnsNothing) {
+    auto session = SipCallSession::create(makeSipConfig());
+    session->setTtsBackend(std::make_shared<FakeTtsBackend>());
+    session->start();
+    EXPECT_TRUE(session->synthesizeTts("").empty());
+}
+
+TEST(SipCallSession, SynthesizeTtsNullBackendReverts) {
+    auto session = SipCallSession::create(makeSipConfig());
+    session->setTtsBackend(std::make_shared<FakeTtsBackend>(1, 160));
+    session->start();
+    // Remove the backend; stub path should produce one packet with text in payload
+    session->setTtsBackend(nullptr);
+    auto pkts = session->synthesizeTts("fallback");
+    ASSERT_FALSE(pkts.empty());
+    // Stub path: text bytes follow the 12-byte header
+    EXPECT_GT(pkts[0].size(), 12u);
+}
 
 TEST(WebRtcCallSession, CreateSucceeds) {
     auto session = WebRtcCallSession::create(makeWebRtcConfig());
@@ -363,8 +429,42 @@ TEST(WebRtcCallSession, SynthesizeTtsReturnsPackets) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// IvrEngine
+// WebRtcCallSession — TTS backend injection (STUB #174)
 // ─────────────────────────────────────────────────────────────────────────────
+
+TEST(WebRtcCallSession, SynthesizeTtsWithInjectedBackendDelegates) {
+    auto session = WebRtcCallSession::create(makeWebRtcConfig());
+    auto backend = std::make_shared<FakeTtsBackend>(4, 240);
+    session->setTtsBackend(backend);
+    session->start();
+
+    auto pkts = session->synthesizeTts("Opus test");
+    ASSERT_EQ(pkts.size(), 4u);
+    for (const auto& p : pkts) {
+        EXPECT_EQ(p.size(), 12u + 240u);
+        EXPECT_EQ(p[0], 0x80u);
+        EXPECT_EQ(p[1], 111u); // Opus PT
+    }
+    EXPECT_EQ(backend->lastText(), "Opus test");
+}
+
+TEST(WebRtcCallSession, SynthesizeTtsInjectedBackendEmptyTextReturnsNothing) {
+    auto session = WebRtcCallSession::create(makeWebRtcConfig());
+    session->setTtsBackend(std::make_shared<FakeTtsBackend>());
+    session->start();
+    EXPECT_TRUE(session->synthesizeTts("").empty());
+}
+
+TEST(WebRtcCallSession, SynthesizeTtsNullBackendReverts) {
+    auto session = WebRtcCallSession::create(makeWebRtcConfig());
+    session->setTtsBackend(std::make_shared<FakeTtsBackend>(1, 240));
+    session->start();
+    session->setTtsBackend(nullptr);
+    auto pkts = session->synthesizeTts("fallback");
+    ASSERT_FALSE(pkts.empty());
+    EXPECT_GT(pkts[0].size(), 12u);
+    EXPECT_EQ(pkts[0][1], 111u); // still Opus PT in stub path
+}
 
 static IvrEngine buildTestIvr() {
     IvrEngine ivr("root");

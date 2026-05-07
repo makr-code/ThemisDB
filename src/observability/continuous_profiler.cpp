@@ -36,8 +36,17 @@
 #if defined(__linux__) || defined(__APPLE__)
 #  include <execinfo.h>
 #  define THEMIS_HAS_BACKTRACE 1
+#elif defined(_WIN32)
+#  ifndef WIN32_LEAN_AND_MEAN
+#    define WIN32_LEAN_AND_MEAN
+#  endif
+#  include <windows.h>
+#  include <dbghelp.h>
+#  define THEMIS_HAS_BACKTRACE 0
+#  define THEMIS_HAS_WIN32_DBGHELP 1
 #else
 #  define THEMIS_HAS_BACKTRACE 0
+#  define THEMIS_HAS_WIN32_DBGHELP 0
 #endif
 
 namespace themis {
@@ -68,19 +77,45 @@ std::vector<std::string> captureStack([[maybe_unused]] int max_depth = 64) {
     }
     ::free(symbols);
 #else
-    // STUB/SIMULATION NOTE:
-    // Purpose: Provides a safe no-crash fallback on platforms that lack
-    //          POSIX backtrace() (Windows, WebAssembly, some embedded targets).
-    // Activation: `HAVE_EXECINFO_H` not defined at compile time.
-    // Production Delta: Stack frames are not captured; profiler flame graphs
-    //                   and crash reports show "(stack-trace-unavailable)"
-    //                   instead of real symbol names.
-    // Removal Plan: On Windows integrate `CaptureStackBackTrace()` +
-    //               `SymFromAddr()` from DbgHelp.  On WASM/embedded consider
-    //               `__builtin_return_address()` loop with a platform-specific
-    //               symbol resolver.  Guard each backend with its detection macro.
-    //               See src/observability/FUTURE_ENHANCEMENTS.md §Cross-Platform Stack Trace.
+#if defined(THEMIS_HAS_WIN32_DBGHELP) && THEMIS_HAS_WIN32_DBGHELP
+    // Windows DbgHelp path: CaptureStackBackTrace + SymFromAddr
+    constexpr DWORD kMaxFrames = 64;
+    void* frame_ptrs[kMaxFrames] = {};
+    const DWORD captured = ::CaptureStackBackTrace(
+        /*FramesToSkip=*/1,  // skip this captureStack() frame
+        /*FramesToCapture=*/std::min(static_cast<DWORD>(max_depth), kMaxFrames),
+        frame_ptrs,
+        /*BackTraceHash=*/nullptr);
+
+    if (captured > 0) {
+        const HANDLE process = ::GetCurrentProcess();
+        ::SymInitialize(process, nullptr, TRUE);
+
+        // SymFromAddr needs a SYMBOL_INFO buffer with space for the name
+        constexpr DWORD kNameLen = 256;
+        alignas(SYMBOL_INFO) char sym_buf[sizeof(SYMBOL_INFO) + kNameLen * sizeof(TCHAR)];
+        auto* sym = reinterpret_cast<SYMBOL_INFO*>(sym_buf);
+        sym->SizeOfStruct = sizeof(SYMBOL_INFO);
+        sym->MaxNameLen   = kNameLen;
+
+        frames.reserve(static_cast<size_t>(captured));
+        for (DWORD i = 0; i < captured; ++i) {
+            DWORD64 displacement = 0;
+            if (::SymFromAddr(process, reinterpret_cast<DWORD64>(frame_ptrs[i]),
+                              &displacement, sym)) {
+                frames.emplace_back(sym->Name);
+            } else {
+                char addr_buf[32];
+                std::snprintf(addr_buf, sizeof(addr_buf), "0x%p", frame_ptrs[i]);
+                frames.emplace_back(addr_buf);
+            }
+        }
+    } else {
+        frames.emplace_back("(stack-trace-unavailable)");
+    }
+#else
     frames.emplace_back("(stack-trace-unavailable)");
+#endif
 #endif
     return frames;
 }

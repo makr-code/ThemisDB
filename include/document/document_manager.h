@@ -230,7 +230,9 @@ public:
  * Purpose:          Provide a testable IEncryptedDocumentEntity without a
  *                   real key provider.
  * Activation:       Always active in InMemoryDocumentManager.
- * Production Delta: reencrypt() is a no-op; no actual cipher is applied.
+ * Production Delta: reencrypt() records the new key_id but does not
+ *                   re-cipher any data bytes; equivalent to a no-op cipher
+ *                   on an empty plaintext (valid for in-memory/test use).
  * Removal Plan:     Replace with a KeyProviderEncryptedEntity that wraps a
  *                   real IKeyProvider when key management is wired in.
  */
@@ -248,13 +250,26 @@ public:
                 errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
                 "new_key_id must not be empty"));
         }
-        // No-op for the in-memory stub.
+        // Record the key rotation so callers can verify key-id progression.
+        // No actual data re-ciphering is performed; this entity holds no
+        // encrypted bytes.  Valid for unit tests and in-memory development.
+        current_key_id_ = desc.new_key_id;
         return Result<void>{};
+    }
+
+    /**
+     * @brief Return the current key ID after the last successful reencrypt().
+     *
+     * Returns an empty string if reencrypt() has never been called.
+     */
+    [[nodiscard]] const std::string& currentKeyId() const noexcept {
+        return current_key_id_;
     }
 
 private:
     DocumentId   doc_id_;
     CollectionId col_id_;
+    std::string  current_key_id_;  ///< Updated on each successful reencrypt().
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

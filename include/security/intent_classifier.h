@@ -15,6 +15,7 @@
 
 #include "security/zero_trust_policy_enforcer.h"
 
+#include <functional>
 #include <optional>
 #include <string>
 #include <vector>
@@ -145,16 +146,6 @@ public:
     static std::string intentName(IntentType t);
 
     // ── LoRA-Adapter API (ASL-13 / IMPL-A2) ───────────────────────────────
-    //
-    // STUB/SIMULATION NOTE:
-    // Purpose: Extension point for replacing the rule-based classifier with a
-    //          LoRA-fine-tuned embedding model (target precision ≥ 92%).
-    // Activation: Active only when setLoraModelPath() is called with a valid
-    //             .bin file AND THEMIS_ENABLE_LLM is defined.
-    // Production Delta: Without LoRA model, classify() uses the rule-based engine
-    //                   (~80% precision). With LoRA, inference replaces the rules.
-    // Removal Plan: Remove rule-based fallback after IMPL-A2 Loop-1 validation.
-    // Roadmap: src/security/ROADMAP.md § Phase 4 (ASL-13)
 
     enum class LoraLoadResult {
         kSuccess,              ///< Model loaded and active
@@ -171,12 +162,34 @@ public:
     /// Returns the path of the currently loaded LoRA model (empty if none).
     [[nodiscard]] const std::string& loraModelPath() const noexcept;
 
+    // ── Inference injection API (IMPL-A2 / ASL-13) ───────────────────────
+    //
+    // Inject a real LoRA/LLM inference backend so that classify() delegates to
+    // it instead of the rule-based fallback.  Setting a non-null function also
+    // activates the LoRA path (i.e. isLoraActive() returns true).
+    //
+    // Signature: (query, session_context) → ClassificationResult
+    //
+    // Production Delta: Without a function injected, classify() uses the
+    //   rule-based engine (~80 % precision).  With a function, precision is
+    //   determined by the injected model (target ≥ 92 %).
+    // Roadmap: src/security/ROADMAP.md § Phase 4 (ASL-13) / IMPL-A2 Loop-1
+
+    using InferenceFn = std::function<
+        ClassificationResult(const std::string& query,
+                             const ZeroTrustContext& session_context)>;
+
+    /// Inject a LoRA/LLM inference function.  Passing a null function resets
+    /// the injected backend; classify() then falls back to the rule-based engine.
+    void setInferenceFn(InferenceFn fn);
+
 private:
     std::string shard_id_;
 
     // ── LoRA adapter state (ASL-13) ───────────────────────────────────────
-    std::string lora_model_path_;
-    bool        lora_active_ = false;
+    std::string  lora_model_path_;
+    bool         lora_active_ = false;
+    InferenceFn  inference_fn_;
 
     /// Evidence embedding dimension (fixed at 384 for Layer-11 compatibility).
     static constexpr std::size_t kEmbeddingDim = 384;

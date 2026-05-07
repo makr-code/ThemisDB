@@ -27,6 +27,7 @@
 #include <optional>
 #include <chrono>
 #include <atomic>
+#include <functional>
 #include <queue>
 #include <set>
 #include <map>
@@ -82,6 +83,30 @@ public:
         double utilization_percent;     // (active / max) * 100
     };
     
+    /**
+     * @brief Callback type for creating new mTLS connections.
+     *
+     * Receives the target endpoint string and returns a fully established
+     * SSL connection, or `nullopt` on failure.  Callers inject a factory
+     * that performs TCP connect + TLS handshake; unit tests inject a mock.
+     */
+    using ConnectionFactory =
+        std::function<std::optional<std::unique_ptr<SSL, SSLDeleter>>(
+            const std::string& endpoint)>;
+
+    /**
+     * @brief Inject a connection factory for createNewConnection().
+     *
+     * When set, createNewConnection() delegates to @p factory instead of
+     * returning nullopt (the stub path).  Enables full connection-lifecycle
+     * ownership inside the pool.
+     *
+     * @param factory  Callable(endpoint) → optional<unique_ptr<SSL>>.
+     */
+    void setConnectionFactory(ConnectionFactory factory) {
+        connection_factory_ = std::move(factory);
+    }
+
     /**
      * @brief Construct endpoint connection pool
      * @param endpoint Target endpoint (e.g., "localhost:50051")
@@ -161,6 +186,7 @@ private:
     
     std::string endpoint_;
     Config config_;
+    ConnectionFactory connection_factory_;  ///< Optional; null = stub returns nullopt.
     
     // Thread-safe queue for idle connections
     std::queue<PooledConnection> idle_pool_;

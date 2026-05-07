@@ -1500,8 +1500,10 @@ std::vector<GPUVectorIndex::Backend> GPUVectorIndex::getAvailableBackends() cons
 // =============================================================================
 
 #ifdef THEMIS_ENABLE_VULKAN
-// Include the Vulkan backend implementation
-// The actual implementation is in gpu_vector_index_vulkan.cpp
+// The full implementation lives in gpu_vector_index_vulkan.cpp which is compiled
+// when THEMIS_ENABLE_VULKAN is ON.  This class declaration must be token-for-token
+// identical to the one in gpu_vector_index_vulkan.cpp to satisfy the ODR.
+// Do NOT modify one without modifying the other.
 
 /**
  * @brief Vulkan backend implementation for GPU vector indexing
@@ -1510,17 +1512,19 @@ class VulkanVectorIndexBackend {
 public:
     explicit VulkanVectorIndexBackend(const GPUVectorIndex::Config& config);
     ~VulkanVectorIndexBackend();
-    
+
     bool initialize(int dimension);
     void shutdown();
     bool uploadVectors(const std::vector<std::vector<float>>& vectors);
     std::vector<std::pair<float, size_t>> searchIndices(const std::vector<float>& query, size_t k);
+    std::vector<std::vector<std::pair<float, size_t>>> searchBatchIndices(
+        const std::vector<std::vector<float>>& queries, size_t k);
     std::vector<GPUVectorIndex::SearchResult> search(const std::vector<float>& query, size_t k);
     std::vector<std::vector<GPUVectorIndex::SearchResult>> searchBatch(
         const std::vector<std::vector<float>>& queries, size_t k);
     GPUVectorIndex::Statistics getStatistics() const;
     bool isInitialized() const;
-    
+
 private:
     class Impl;
     std::unique_ptr<Impl> pImpl;

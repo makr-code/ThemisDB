@@ -477,3 +477,87 @@ TEST_F(PredictiveDetectorTest, LargeMetricsHistory) {
     
     EXPECT_EQ(prediction.shard_id, "shard_001");
 }
+
+// ============================================================================
+// PFD-01..PFD-03 — setPredictFn injection (stub #251)
+// ============================================================================
+
+// ---------------------------------------------------------------------------
+// PFD-01: Without an injected fn, predictShard uses the heuristic fallback
+//         (probability in [0,1] and days in [1,30]).
+// ---------------------------------------------------------------------------
+TEST_F(PredictiveDetectorTest, PFD01_HeuristicFallbackWithNoInjectedPredictFn) {
+    PredictiveConfig config;
+    PredictiveFailureDetector detector(config, *strategy_, *topology_);
+
+    // Feed some metrics so the heuristic has data to work with
+    PredictiveShardMetrics m;
+    m.shard_id        = "shard_001";
+    m.timestamp       = std::chrono::system_clock::now();
+    m.avg_latency_ms  = 20.0;
+    m.error_rate      = 0.1f;
+    detector.recordMetrics(m);
+
+    auto pred = detector.predictShard("shard_001");
+
+    EXPECT_EQ(pred.shard_id, "shard_001");
+    EXPECT_GE(pred.failure_probability, 0.0f);
+    EXPECT_LE(pred.failure_probability, 1.0f);
+}
+
+// ---------------------------------------------------------------------------
+// PFD-02: With an injected predict fn, predictShard returns its values.
+// ---------------------------------------------------------------------------
+TEST_F(PredictiveDetectorTest, PFD02_InjectedPredictFnIsUsed) {
+    PredictiveConfig config;
+    PredictiveFailureDetector detector(config, *strategy_, *topology_);
+
+    // Inject a fn that signals imminent failure
+    detector.setPredictFn([](const std::vector<float>&) -> std::vector<float> {
+        return {0.95f, 1.0f};  // 95% probability, 1 day
+    });
+
+    PredictiveShardMetrics m;
+    m.shard_id       = "shard_001";
+    m.timestamp      = std::chrono::system_clock::now();
+    m.avg_latency_ms = 5.0;
+    detector.recordMetrics(m);
+
+    auto pred = detector.predictShard("shard_001");
+
+    EXPECT_EQ(pred.shard_id, "shard_001");
+    EXPECT_NEAR(pred.failure_probability, 0.95f, 1e-4f);
+    EXPECT_EQ(pred.predicted_days_to_failure, 1u);
+}
+
+// ---------------------------------------------------------------------------
+// PFD-03: Resetting predict fn to nullptr reverts to the heuristic fallback.
+// ---------------------------------------------------------------------------
+TEST_F(PredictiveDetectorTest, PFD03_NullptrResetRevertsToHeuristic) {
+    PredictiveConfig config;
+    PredictiveFailureDetector detector(config, *strategy_, *topology_);
+
+    // Inject a deterministic high-risk fn
+    detector.setPredictFn([](const std::vector<float>&) -> std::vector<float> {
+        return {0.99f, 1.0f};
+    });
+
+    PredictiveShardMetrics m;
+    m.shard_id       = "shard_001";
+    m.timestamp      = std::chrono::system_clock::now();
+    m.avg_latency_ms = 10.0;
+    detector.recordMetrics(m);
+
+    auto r1 = detector.predictShard("shard_001");
+    EXPECT_NEAR(r1.failure_probability, 0.99f, 1e-4f);
+
+    // Reset → heuristic resumes
+    detector.setPredictFn(nullptr);
+
+    auto r2 = detector.predictShard("shard_001");
+    EXPECT_EQ(r2.shard_id, "shard_001");
+    EXPECT_GE(r2.failure_probability, 0.0f);
+    EXPECT_LE(r2.failure_probability, 1.0f);
+    // Heuristic should produce a different value than the injected constant
+    EXPECT_LT(r2.failure_probability, 0.99f);
+}

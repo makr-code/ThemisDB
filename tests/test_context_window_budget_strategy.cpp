@@ -382,6 +382,53 @@ TEST(LlmCascadeRouter, CWB14_BudgetContextK) {
 }
 
 // ---------------------------------------------------------------------------
+// CWB-14b: LlmCascadeRouter — setLlmInvokeFn + invoke() (stub #244)
+// ---------------------------------------------------------------------------
+TEST(LlmCascadeRouter, CWB14b_InvokeFnInjection_NoFnReturnsEmpty) {
+    LlmCascadeRouter router;
+    // Without injected provider, invoke() should return an empty string.
+    EXPECT_EQ(router.invoke("PRO", "some prompt"), "");
+}
+
+TEST(LlmCascadeRouter, CWB14b_InvokeFnInjection_CallsProviderWithResolvedModel) {
+    LlmCascadeRouter router;
+
+    std::string last_model;
+    std::string last_prompt;
+    size_t      last_max_tokens = 0;
+
+    router.setLlmInvokeFn([&](const std::string& model_id,
+                               const std::string& prompt,
+                               size_t             max_tokens) -> std::string {
+        last_model      = model_id;
+        last_prompt     = prompt;
+        last_max_tokens = max_tokens;
+        return "generated-response";
+    });
+
+    const std::string result = router.invoke("SYNTHESIS", "test prompt");
+
+    EXPECT_EQ(result, "generated-response");
+    // SYNTHESIS maps to LARGE tier → gpt-4o in default config
+    EXPECT_EQ(last_model, "gpt-4o");
+    EXPECT_EQ(last_prompt, "test prompt");
+    // max_output_tokens for LARGE (128K context): 128*1024/8 = capped at 2048
+    EXPECT_GT(last_max_tokens, 0u);
+}
+
+TEST(LlmCascadeRouter, CWB14b_InvokeFnInjection_ResetToNullReturnsEmpty) {
+    LlmCascadeRouter router;
+    router.setLlmInvokeFn([](const std::string&, const std::string&, size_t) {
+        return "response";
+    });
+    EXPECT_EQ(router.invoke("PRO", "prompt"), "response");
+
+    // After clearing the function, invoke should again return empty.
+    router.setLlmInvokeFn(nullptr);
+    EXPECT_EQ(router.invoke("PRO", "prompt"), "");
+}
+
+// ---------------------------------------------------------------------------
 // CWB-15: SynthesisMatrixBuilder — buildMatrix contains school verdicts + convergence markers
 // ---------------------------------------------------------------------------
 TEST(SynthesisMatrixBuilder, CWB15_BuildMatrix_ContentsAndConvergence) {
@@ -581,4 +628,167 @@ TEST(PositionAbstractValidator, CWB20_ValidateValid_AndAutoRepairMissingVerdict)
 
     EXPECT_TRUE(validator.autoRepair(broken_out));
     EXPECT_FALSE(broken_out.verdict.empty());
+}
+
+// ---------------------------------------------------------------------------
+// CWB-SS-01: STRUCTURED_SUMMARY achieves better DC preservation than PRINCIPLE_CITATIONS_ONLY
+// ---------------------------------------------------------------------------
+TEST(PriorRoundCompressor, CWBSS01_StructuredSummary_BetterDcPreservation) {
+    PriorRoundCompressor compressor;
+    CompressionConfig cfg;
+    cfg.trigger_round   = 1;
+    cfg.mode            = CompressionMode::STRUCTURED_SUMMARY;
+    cfg.max_tokens_per_round = 100;
+    cfg.keep_verdict    = true;
+
+    const std::string long_content =
+        "The categorical imperative demands universalizability. kant:kategorischer_imperativ "
+        "is central here. PROHIBIT: Using people as mere means violates their dignity and "
+        "autonomy. The principle of humanity requires treating rational agents as ends in "
+        "themselves. This universalizability formula is non-negotiable for Kantian ethics.";
+
+    auto arg = makeArg("kant", long_content, ArgumentType::PRO,
+                       {"kant:kategorischer_imperativ"});
+
+    auto structured = compressor.compressPriorRound({arg}, cfg, 3);
+
+    cfg.mode = CompressionMode::PRINCIPLE_CITATIONS_ONLY;
+    auto citations_only = compressor.compressPriorRound({arg}, cfg, 3);
+
+    // STRUCTURED_SUMMARY must preserve more DC (lower estimated_dc_loss)
+    EXPECT_LE(structured.estimated_dc_loss, citations_only.estimated_dc_loss + 0.05f)
+        << "STRUCTURED_SUMMARY should not be worse in DC loss than PRINCIPLE_CITATIONS_ONLY. "
+        << "structured=" << structured.estimated_dc_loss
+        << " citations_only=" << citations_only.estimated_dc_loss;
+
+    // Both must produce non-empty output
+    EXPECT_FALSE(structured.compressed_text.empty());
+}
+
+// ---------------------------------------------------------------------------
+// CWB-SS-02: STRUCTURED_SUMMARY respects token budget
+// ---------------------------------------------------------------------------
+TEST(PriorRoundCompressor, CWBSS02_StructuredSummary_RespectsTokenBudget) {
+    PriorRoundCompressor compressor;
+    CompressionConfig cfg;
+    cfg.trigger_round   = 1;
+    cfg.mode            = CompressionMode::STRUCTURED_SUMMARY;
+    cfg.max_tokens_per_round = 30;
+
+    const std::string long_content =
+        "First very long philosophical sentence about the nature of obligation under Kantian ethics. "
+        "Second sentence covering the universalizability test and its practical application. "
+        "Third sentence discussing the humanity formula and its implications for modern ethics. "
+        "Fourth sentence elaborating on the kingdom of ends framework. "
+        "Fifth sentence concluding the argument with a final PROHIBIT verdict.";
+
+    auto arg = makeArg("kant", long_content);
+    auto result = compressor.compressPriorRound({arg}, cfg, 3);
+
+    const int tokens = PriorRoundCompressor::countTokens(result.compressed_text);
+    // Allow generous slack (prefix "[kant|R]" + verdict add tokens)
+    EXPECT_LE(tokens, cfg.max_tokens_per_round * 3)
+        << "STRUCTURED_SUMMARY must not grossly exceed max_tokens_per_round. tokens=" << tokens;
+    EXPECT_FALSE(result.compressed_text.empty());
+}
+
+// ---------------------------------------------------------------------------
+// CWB-SS-03: STRUCTURED_SUMMARY preserves citations in output
+// ---------------------------------------------------------------------------
+TEST(PriorRoundCompressor, CWBSS03_StructuredSummary_PreservesCitationsInOutput) {
+    PriorRoundCompressor compressor;
+    CompressionConfig cfg;
+    cfg.trigger_round   = 1;
+    cfg.mode            = CompressionMode::STRUCTURED_SUMMARY;
+    cfg.max_tokens_per_round = 200;
+
+    const std::string content =
+        "kant:kategorischer_imperativ is the core thesis. We must act only on maxims we can "
+        "will to become universal laws. PROHIBIT: treating people as mere means. "
+        "This principle has wide application across modern ethics.";
+
+    auto arg = makeArg("kant", content, ArgumentType::PRO, {"kant:kategorischer_imperativ"});
+    auto result = compressor.compressPriorRound({arg}, cfg, 3);
+
+    // The sentence containing the citation should be selected (boosted)
+    EXPECT_NE(result.compressed_text.find("kant:kategorischer_imperativ"), std::string::npos)
+        << "STRUCTURED_SUMMARY should retain the sentence containing the principle citation";
+}
+
+// ===========================================================================
+// PriorRoundCompressor LLM summary-fn injection tests  (stub #247)
+// ===========================================================================
+
+// CWB-SS-LLM-01: Without injected LlmSummaryFn, STRUCTURED_SUMMARY falls back
+//                to the extractive path and produces non-empty compressed text.
+TEST(PriorRoundCompressor, CWBSSLLM01_NoFnFallsBackToExtractive) {
+    PriorRoundCompressor compressor;
+    CompressionConfig cfg;
+    cfg.trigger_round        = 1;
+    cfg.mode                 = CompressionMode::STRUCTURED_SUMMARY;
+    cfg.max_tokens_per_round = 100;
+
+    const std::string content =
+        "kant:kategorischer_imperativ is central. We must universalise our maxims. "
+        "PROHIBIT actions that cannot be willed universally. This guards dignity.";
+
+    auto arg = makeArg("kant", content, ArgumentType::PRO, {"kant:kategorischer_imperativ"});
+    auto result = compressor.compressPriorRound({arg}, cfg, 2);
+
+    EXPECT_FALSE(result.compressed_text.empty());
+    EXPECT_LT(result.compression_ratio, 1.5f);
+}
+
+// CWB-SS-LLM-02: Injected LlmSummaryFn is called; its return value is used as
+//                the compressed text.
+TEST(PriorRoundCompressor, CWBSSLLM02_InjectedFnReturnValueUsed) {
+    PriorRoundCompressor compressor;
+    const std::string llm_output = "[kant|R] Categorical imperative demands universal maxims.";
+    bool fn_called = false;
+
+    compressor.setLlmSummaryFn(
+        [&](const EthicalArgument& /*arg*/, int /*max_tokens*/) -> std::string {
+            fn_called = true;
+            return llm_output;
+        });
+
+    CompressionConfig cfg;
+    cfg.trigger_round        = 1;
+    cfg.mode                 = CompressionMode::STRUCTURED_SUMMARY;
+    cfg.max_tokens_per_round = 100;
+
+    const std::string content =
+        "kant:kategorischer_imperativ is central. We must universalise our maxims. PROHIBIT.";
+
+    auto arg = makeArg("kant", content, ArgumentType::PRO, {});
+    auto result = compressor.compressPriorRound({arg}, cfg, 2);
+
+    EXPECT_TRUE(fn_called);
+    EXPECT_NE(result.compressed_text.find(llm_output), std::string::npos);
+}
+
+// CWB-SS-LLM-03: When fn returns an empty string, extractive fallback is used.
+TEST(PriorRoundCompressor, CWBSSLLM03_EmptyFnReturnFallsBackToExtractive) {
+    PriorRoundCompressor compressor;
+    bool fn_called = false;
+
+    compressor.setLlmSummaryFn(
+        [&](const EthicalArgument& /*arg*/, int /*max_tokens*/) -> std::string {
+            fn_called = true;
+            return "";  // signal fallback
+        });
+
+    CompressionConfig cfg;
+    cfg.trigger_round        = 1;
+    cfg.mode                 = CompressionMode::STRUCTURED_SUMMARY;
+    cfg.max_tokens_per_round = 100;
+
+    const std::string content =
+        "kant:kategorischer_imperativ is central. We must universalise our maxims. PROHIBIT.";
+
+    auto arg = makeArg("kant", content, ArgumentType::PRO, {});
+    auto result = compressor.compressPriorRound({arg}, cfg, 2);
+
+    EXPECT_TRUE(fn_called);
+    EXPECT_FALSE(result.compressed_text.empty());
 }

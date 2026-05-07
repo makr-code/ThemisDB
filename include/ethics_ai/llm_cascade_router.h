@@ -128,18 +128,54 @@ public:
     /// Access the routing config (for testing/observability).
     const CascadeRoutingConfig& config() const noexcept { return config_; }
 
+    /**
+     * @brief LLM backend invoke function type.
+     *
+     * When set via setLlmInvokeFn(), the invoke() method will call the real
+     * LLM backend with the resolved model_id instead of only returning the
+     * routing decision.
+     *
+     * @param model_id   Model alias from the routing decision (e.g. "llama-3-8b-instruct").
+     * @param prompt     Full user + system prompt for this round.
+     * @param max_tokens Maximum tokens to generate.
+     * @return           Generated text from the model.
+     */
+    using LlmInvokeFn = std::function<std::string(
+        const std::string& model_id,
+        const std::string& prompt,
+        size_t             max_tokens)>;
+
+    /**
+     * @brief Inject the LLM backend provider.
+     *
+     * After injection, the invoke() method resolves the route for a given
+     * round and immediately calls the model via the provided function.
+     * Without an injected provider, invoke() returns an empty string and
+     * callers must resolve the model_id themselves from the routing decision.
+     *
+     * Thread safety: call before any concurrent invoke(); the function object
+     * is stored under a plain copy (not atomic) and must be set once at
+     * startup before concurrent use.
+     */
+    void setLlmInvokeFn(LlmInvokeFn fn);
+
+    /**
+     * @brief Route and optionally invoke the LLM for a discourse round.
+     *
+     * If a provider function was set via setLlmInvokeFn(), this method routes
+     * the round, then calls the model and returns its generated text.
+     * If no provider is set, an empty string is returned (callers should use
+     * routeForRound() directly and dispatch to the model themselves).
+     *
+     * @param round_role  Discourse round role ("PRO", "REBUTTAL", etc.).
+     * @param prompt      Full prompt to send to the selected model.
+     * @return            Generated model output, or empty string when no provider set.
+     */
+    std::string invoke(const std::string& round_role, const std::string& prompt) const;
+
 private:
     CascadeRoutingConfig config_;
-
-    // STUB/SIMULATION NOTE:
-    // Purpose: routeForRound() returns a CascadeRoutingDecision but does NOT
-    //          instantiate any real ILLMProvider. The model_id is a string alias
-    //          only, resolved to an actual backend by the caller.
-    // Activation: Always (ILLMProvider integration is §1, Target Q3 2026).
-    // Production Delta: Real implementation passes the decision to LLM backend
-    //                   factories (see §12.2.1 ILlmCascadeRouter::routeForRound docstring).
-    // Removal Plan: Wire to actual provider registry when §1 LLM backend integration
-    //               lands (Q3 2026). Keep routing logic unchanged.
+    LlmInvokeFn          llm_invoke_fn_;
 
     CascadeModelTier resolveTier(const std::string& round_role) const noexcept;
     ModelTokenBudget budgetForTier(CascadeModelTier tier) const noexcept;

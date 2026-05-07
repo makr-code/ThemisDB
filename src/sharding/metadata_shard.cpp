@@ -442,18 +442,23 @@ bool MetadataShard::applyChange(
         {"value", value}
     };
     
-    // STUB/SIMULATION NOTE:
-    // Purpose: Returns success immediately while the real consensus-based write
-    //          (submit to Raft/Paxos log and wait for quorum commit confirmation)
-    //          is not yet wired into MetadataShard.
-    // Activation: Always — consensus module integration is pending.
-    // Production Delta: No durability guarantee; the write is not replicated or
-    //                   persisted; a crash after this call will silently lose the
-    //                   metadata entry.
-    // Removal Plan: Submit the {partition, key, value} entry to the consensus
-    //               module (RaftConsensus::appendEntry or PaxosConsensus::propose);
-    //               block until quorum commits the entry; then return true.  See
-    //               src/sharding/FUTURE_ENHANCEMENTS.md §MetadataShard Consensus Write.
+    // Propose the entry to the consensus module and wait for quorum commit.
+    auto log_index = consensus_->propose(operation, log_data);
+    if (!log_index.has_value()) {
+        spdlog::warn("MetadataShard::applyChange: consensus propose failed "
+                     "(op={}, partition={}, key={})",
+                     operation, static_cast<int>(partition), key);
+        return false;
+    }
+
+    constexpr auto kCommitTimeout = std::chrono::milliseconds{5000};
+    if (!consensus_->waitForCommit(*log_index, kCommitTimeout)) {
+        spdlog::warn("MetadataShard::applyChange: consensus commit timeout "
+                     "(op={}, partition={}, key={}, log_index={})",
+                     operation, static_cast<int>(partition), key, *log_index);
+        return false;
+    }
+
     return true;
 }
 

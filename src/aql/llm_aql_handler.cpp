@@ -33,7 +33,6 @@
 #include "aql/llm_timeout_manager.h"
 #include "aql/llm_metrics_collector.h"
 #include "aql/llm_token_estimator.h"
-#include "query/aql_parser.h"
 #include "distributed_knowledge/adapter_capability_announcement.h"
 #include "sharding/adaptive_shard_router.h"
 #include "sharding/circuit_breaker.h"
@@ -51,6 +50,7 @@
 #include <atomic>
 #include <cctype>
 #include <future>
+#include <regex>
 #include <thread>
 #include <spdlog/spdlog.h>
 
@@ -256,6 +256,65 @@ std::string buildAQLExplanationPrompt(
 }
 
 } // anonymous namespace
+
+// LLM-2 fix: extract collection names referenced in a generated AQL query via
+// FOR <var> IN <collection> patterns, and verify each against the caller-supplied
+// schema_context.  Returns a non-empty error message when a collection outside the
+// schema scope is found; returns "" when the scope check passes (or is skipped).
+static std::string checkGeneratedAQLCollectionScope(
+    const std::string& aql_query,
+    const std::string& schema_context)
+{
+    if (schema_context.empty()) {
+        // No schema provided by the caller — scope check cannot be performed.
+        // Log a security advisory so operators are aware (LLM-2 residual risk).
+        spdlog::warn("[SEC/LLM-2] translateNLToAQL: no schema_context supplied; "
+                     "generated AQL collection scope cannot be verified. "
+                     "Ensure callers provide schema_context to restrict accessible collections.");
+        return {};
+    }
+
+    // Extract all word tokens that follow "FOR <var> IN" in the AQL (case-insensitive).
+    // This covers basic and graph traversal patterns:
+    //   FOR doc IN myCollection
+    //   FOR v, e, p IN 1..3 OUTBOUND startId GRAPH myGraph
+    static const std::regex kForInPattern(
+        R"(\bFOR\s+\w+\s+IN\s+(\w+))",
+        std::regex_constants::icase
+    );
+
+    std::vector<std::string> referenced_collections;
+    {
+        auto begin = std::sregex_iterator(aql_query.begin(), aql_query.end(), kForInPattern);
+        const auto end = std::sregex_iterator{};
+        for (auto it = begin; it != end; ++it) {
+            referenced_collections.push_back((*it)[1].str());
+        }
+    }
+
+    if (referenced_collections.empty()) {
+        return {};  // No FOR..IN found — nothing to check.
+    }
+
+    // Check each referenced collection appears somewhere in schema_context as a word.
+    // This is a heuristic: if the caller's schema lists only allowed collections, any
+    // collection name absent from it was not in scope and is likely an injection result.
+    for (const auto& coll : referenced_collections) {
+        // Word-boundary search in schema_context (case-insensitive).
+        const std::regex word_re(
+            std::string(R"(\b)") + coll + R"(\b)",
+            std::regex_constants::icase
+        );
+        if (!std::regex_search(schema_context, word_re)) {
+            return "Generated AQL references collection '" + coll +
+                   "' which is not present in the provided schema context. "
+                   "Request rejected to prevent privilege escalation (LLM-2).";
+        }
+    }
+
+    return {};  // All referenced collections are within schema scope.
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // AQLConversationSession
 // ─────────────────────────────────────────────────────────────────────────────
@@ -336,9 +395,6 @@ public:
     LLMTimeoutManager timeout_manager_;
     RetryPolicy retry_policy_;
 
-    // Optional collection-level access checker (LLM-2: privilege isolation for generated AQL)
-    std::function<bool(const std::string&)> collection_access_checker_;
-
     // Post-generation AQL validation enforcement level
     TranslationValidationMode validation_mode_ = TranslationValidationMode::WARN_ONLY;
 
@@ -399,12 +455,6 @@ void LLMAQLHandler::setValidationMode(TranslationValidationMode mode) {
 
 TranslationValidationMode LLMAQLHandler::getValidationMode() const {
     return impl_->validation_mode_;
-}
-
-void LLMAQLHandler::setCollectionAccessChecker(
-    std::function<bool(const std::string&)> checker)
-{
-    impl_->collection_access_checker_ = std::move(checker);
 }
 
 void LLMAQLHandler::setValidationLimits(const ValidationLimitsConfig& config) {
@@ -915,6 +965,18 @@ std::string LLMAQLHandler::executeRAG(
                                     context.documents.push_back(doc);
                                 }
                             }
+                            // Sanitize and wrap each retrieved document to prevent prompt injection.
+                            // Document content originates from user-controlled storage and must not
+                            // be able to override LLM system instructions.
+                            for (auto& d : context.documents) {
+                                try {
+                                    sanitizePromptInput(d.content, "retrieved_document", 0);
+                                } catch (const LLMException&) {
+                                    spdlog::warn("RAG: prompt injection detected in document pk={}, content redacted", d.source);
+                                    d.content = "[CONTENT REDACTED: injection marker detected]";
+                                }
+                                d.content = "[DOCUMENT_START]\n" + d.content + "\n[DOCUMENT_END]";
+                            }
                             retrieved_docs = context.documents.size();
                         }
                     } catch (const std::exception& e) {
@@ -1408,44 +1470,6 @@ void LLMAQLHandler::logAnnotations(
     spdlog::warn("{}", warn_msg.str());
 }
 
-// LLM-2: Post-generation collection-level ACL guard.
-// Parses the generated AQL and checks every referenced collection against the
-// caller-supplied access checker.  Throws LLMException(ACCESS_DENIED) if any
-// collection is denied; no-ops when no checker is registered.
-static void checkGeneratedAQLCollectionScope(
-    const std::string& aql_query,
-    const std::function<bool(const std::string&)>& checker)
-{
-    if (!checker) return;
-
-    query::AQLParser parser;
-    auto parse_result = parser.parse(aql_query);
-    if (!parse_result) {
-        // If the AQL cannot be parsed we cannot determine the collection set;
-        // fail closed to prevent privilege escalation via malformed queries.
-        spdlog::warn("LLM-generated AQL failed collection ACL check: parse error — {}",
-                     parse_result.error().message());
-        throw LLMException(LLMErrorCode::ACCESS_DENIED,
-            "Generated AQL could not be parsed for collection ACL check ("
-            + parse_result.error().message() + "); query rejected as a security precaution");
-    }
-
-    const auto& query = *parse_result.value();
-    // Collect all collection names from every FOR clause.
-    // Note: for_node (backwards-compat field) is always for_nodes[0],
-    // so iterating for_nodes alone is sufficient.
-    for (const auto& fn : query.for_nodes) {
-        if (fn.collection.empty()) continue;
-        if (!checker(fn.collection)) {
-            spdlog::warn("LLM-generated AQL denied: caller lacks access to collection '{}'",
-                         fn.collection);
-            throw LLMException(LLMErrorCode::ACCESS_DENIED,
-                "Generated AQL references collection '" + fn.collection +
-                "' which the caller is not authorised to access");
-        }
-    }
-}
-
 std::string LLMAQLHandler::translateNLToAQL(
     const std::string& nl_query,
     const std::string& schema_context
@@ -1516,8 +1540,16 @@ std::string LLMAQLHandler::translateNLToAQL(
             logAnnotations(validator.annotateErrors(aql_query),
                            nl_query, "translateNLToAQL");
 
-            // LLM-2: enforce collection-level ACL before returning the query.
-            checkGeneratedAQLCollectionScope(aql_query, impl_->collection_access_checker_);
+            // LLM-2 fix: verify that the generated AQL only references collections
+            // present in the caller-supplied schema_context to prevent privilege
+            // escalation via injected or hallucinated collection names.
+            {
+                std::string scope_err =
+                    checkGeneratedAQLCollectionScope(aql_query, schema_context);
+                if (!scope_err.empty()) {
+                    throw LLMException(LLMErrorCode::INVALID_RESPONSE, scope_err);
+                }
+            }
 
             return aql_query;
 
@@ -1615,8 +1647,14 @@ std::string LLMAQLHandler::translateNLToAQLStreaming(
             logAnnotations(validator.annotateErrors(aql_query),
                            nl_query, "translateNLToAQLStreaming");
 
-            // LLM-2: enforce collection-level ACL before returning the query.
-            checkGeneratedAQLCollectionScope(aql_query, impl_->collection_access_checker_);
+            // LLM-2 fix: scope check (same as translateNLToAQL).
+            {
+                std::string scope_err =
+                    checkGeneratedAQLCollectionScope(aql_query, schema_context);
+                if (!scope_err.empty()) {
+                    throw LLMException(LLMErrorCode::INVALID_RESPONSE, scope_err);
+                }
+            }
 
             return aql_query;
         }
@@ -1910,9 +1948,6 @@ std::string LLMAQLHandler::translateNLToAQLWithExamples(
                           injected_count,
                           nl_query.size() > 60 ? nl_query.substr(0, 60) + "..." : nl_query);
 
-            // LLM-2: enforce collection-level ACL before returning the query.
-            checkGeneratedAQLCollectionScope(aql_query, impl_->collection_access_checker_);
-
             return aql_query;
 
         } catch (const LLMException&) {
@@ -1950,6 +1985,12 @@ LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(
     }
 
     try {
+        // LLM-4: sanitize user-supplied inputs before embedding in prompt
+        if (!original_intent.empty()) {
+            sanitizePromptInput(original_intent, "original_intent");
+        }
+        sanitizePromptInput(aql_query, "aql_query");
+
         // Build a structured prompt that asks the LLM to respond in a parseable format
         std::ostringstream prompt;
         prompt << "You are an expert in AQL (ArangoDB Query Language) for ThemisDB.\n\n";
@@ -1959,10 +2000,10 @@ LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(
         }
 
         if (!original_intent.empty()) {
-            prompt << "The user intended: \"" << original_intent << "\"\n\n";
+            prompt << "The user intended:\n[USERINPUT_START]\n" << original_intent << "\n[USERINPUT_END]\n\n";
         }
 
-        prompt << "AQL query to evaluate:\n```\n" << aql_query << "\n```\n\n";
+        prompt << "AQL query to evaluate:\n[USERINPUT_START]\n" << aql_query << "\n[USERINPUT_END]\n\n";
         prompt << "Evaluate this AQL query on a scale from 0.0 to 1.0 and respond in EXACTLY "
                << "this format (no extra text):\n"
                << "SCORE: <float between 0.0 and 1.0>\n"

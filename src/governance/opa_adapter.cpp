@@ -67,6 +67,10 @@ OpaAdapter::OpaAdapter(const Config& config) : config_(config) {
 
 OpaAdapter::~OpaAdapter() = default;
 
+void OpaAdapter::setWasmEvalFn(WasmEvalFn fn) {
+    wasm_eval_fn_ = std::move(fn);
+}
+
 std::string OpaAdapter::buildUrl() const {
     // Ensure exactly one '/' between endpoint and path
     std::string url = config_.endpoint_url;
@@ -220,8 +224,11 @@ std::optional<PolicyDecision> OpaAdapter::evaluate(
 //   Loads a pre-compiled OPA bundle (.wasm) and evaluates it locally.
 // Activation: Config::mode == EvalMode::WASM and wasm_bundle_path is set.
 //   Gated by THEMIS_ENABLE_OPA_WASM build flag for real WASM runtime linkage.
-// Production Delta: This stub checks only that the bundle file exists, then
-//   returns a permissive PolicyDecision. A real implementation would invoke
+//   When a WasmEvalFn is injected via setWasmEvalFn(), it is called first and
+//   bypasses the built-in stub path entirely.
+// Production Delta: Without an injected WasmEvalFn and without
+//   THEMIS_ENABLE_OPA_WASM, this stub checks only that the bundle file exists,
+//   then returns a permissive PolicyDecision. A real implementation would invoke
 //   a WASM runtime (e.g. wasmer/wasmtime) to evaluate the Rego bundle.
 // Roadmap ref: src/ROADMAP.md § "Consolidation Phase — OPA WASM Stub"
 //              src/governance/FUTURE_ENHANCEMENTS.md § "OPA WASM Evaluation"
@@ -229,9 +236,20 @@ std::optional<PolicyDecision> OpaAdapter::evaluate(
 //   THEMIS_ENABLE_OPA_WASM is added to the build system and a WASM runtime
 //   dependency is approved (Target: v1.6.0).
 std::optional<PolicyDecision> OpaAdapter::evaluateWasm(
-    const std::unordered_map<std::string, std::string>& /*headers*/,
-    const std::string& /*route*/) const
+    const std::unordered_map<std::string, std::string>& headers,
+    const std::string& route) const
 {
+    // Injected evaluator takes priority over the built-in stub.
+    if (wasm_eval_fn_) {
+        auto result = wasm_eval_fn_(headers, route);
+        if (result.has_value()) {
+            ++governance_opa_wasm_eval_wasm_success;
+        } else {
+            ++governance_opa_wasm_eval_wasm_fallback;
+        }
+        return result;
+    }
+
 #ifdef THEMIS_ENABLE_OPA_WASM
     // Real WASM evaluation path (not yet implemented — requires WASM runtime linkage)
     // Fall through to REST

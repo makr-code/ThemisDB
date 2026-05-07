@@ -636,3 +636,29 @@ TEST_F(DocumentDiffMergeTest, ReencryptErrInvalidArgumentForEmptyNewKey) {
     ASSERT_FALSE(r.has_value());
     EXPECT_EQ(r.error().code(), errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT);
 }
+
+// DDM-12
+TEST_F(DocumentDiffMergeTest, ReencryptUpdatesCurrentKeyId)
+{
+    InMemoryDocumentManager mgr;
+    auto enc = mgr.createEncrypted(kCol, "re-003", makeBody());
+    ASSERT_TRUE(enc.has_value());
+
+    // Cast to the concrete type to access currentKeyId()
+    auto* entity = dynamic_cast<InMemoryEncryptedEntity*>(enc.value().get());
+    ASSERT_NE(entity, nullptr);
+
+    // currentKeyId() is empty before any rotation
+    EXPECT_TRUE(entity->currentKeyId().empty());
+
+    KeyRotationDescriptor desc{"old-key", "new-key-v2", 0};
+    ASSERT_TRUE(entity->reencrypt(desc).has_value());
+
+    // After rotation the new key_id should be reflected
+    EXPECT_EQ(entity->currentKeyId(), "new-key-v2");
+
+    // A second rotation advances the key_id
+    KeyRotationDescriptor desc2{"new-key-v2", "new-key-v3", 1};
+    ASSERT_TRUE(entity->reencrypt(desc2).has_value());
+    EXPECT_EQ(entity->currentKeyId(), "new-key-v3");
+}

@@ -147,9 +147,57 @@ bool ContentValidationPlugin::containsSpam(const std::string& text) const {
     return false;
 }
 
-bool ContentValidationPlugin::containsProfanity([[maybe_unused]] const std::string& text) const {
-    // Placeholder - can be implemented with a profanity filter library
-    // or word list if needed
+bool ContentValidationPlugin::containsProfanity(const std::string& text) const {
+    // Minimal built-in word list covering the most common offensive terms.
+    // All checks are case-insensitive with word-boundary matching so that
+    // legitimate words containing these substrings are not falsely flagged.
+    //
+    // Configuration note: a richer word list can be loaded from a file at
+    // startup by wiring a path into ContentValidationPlugin::Config.  This
+    // built-in list serves as the unconditional safety net.
+    static const std::vector<std::regex> kProfanityPatterns = []() {
+        // clang-format off
+        static const char* const kWords[] = {
+            "\\bfuck\\b", "\\bfucking\\b", "\\bfucker\\b", "\\bfucked\\b",
+            "\\bshit\\b",  "\\bbullshit\\b",
+            "\\basshole\\b", "\\basshat\\b",
+            "\\bbitch\\b",
+            "\\bcunt\\b",
+            "\\bdick\\b",  "\\bdickhead\\b",
+            "\\bprick\\b",
+            "\\bpussy\\b",
+            "\\bwhore\\b",
+            "\\bslut\\b",
+            "\\bnigger\\b", "\\bnigga\\b",
+            "\\bfaggot\\b", "\\bfag\\b",
+            "\\bretard\\b", "\\bretarded\\b",
+            "\\bkike\\b",
+            "\\bspic\\b",
+            "\\bwetback\\b",
+            "\\bchink\\b",
+            "\\bgook\\b",
+            "\\bcracker\\b",
+            "\\bbastard\\b",
+            "\\bdamn\\b",
+            "\\bcrap\\b",
+            "\\bcock\\b",
+            "\\barse\\b",  "\\bbollocks\\b",
+        };
+        // clang-format on
+        std::vector<std::regex> patterns;
+        patterns.reserve(std::size(kWords));
+        for (const char* w : kWords) {
+            patterns.emplace_back(w, std::regex_constants::icase |
+                                         std::regex_constants::ECMAScript);
+        }
+        return patterns;
+    }();
+
+    for (const auto& re : kProfanityPatterns) {
+        if (std::regex_search(text, re)) {
+            return true;
+        }
+    }
     return false;
 }
 

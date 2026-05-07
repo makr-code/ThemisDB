@@ -1,14 +1,24 @@
 #include "ethics_ai/prior_round_compressor.h"
 
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <regex>
 #include <set>
 #include <sstream>
+#include <unordered_map>
 
 namespace themis {
 namespace plugins {
 namespace ethics {
+
+// ---------------------------------------------------------------------------
+// Injection API
+// ---------------------------------------------------------------------------
+
+void PriorRoundCompressor::setLlmSummaryFn(LlmSummaryFn fn) {
+    llm_summary_fn_ = std::move(fn);
+}
 
 // ---------------------------------------------------------------------------
 // Private static helpers
@@ -158,14 +168,192 @@ CompressionResult PriorRoundCompressor::compressStructuredSummary(
     const EthicalArgument& arg,
     const CompressionConfig& config) const
 {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Real STRUCTURED_SUMMARY sends arg.content to a small LLM and
-    //          returns an abstractive summary. Backend not yet integrated.
-    // Activation: Always (LLM backend not yet wired in this module).
-    // Production Delta: Real impl calls small model tier and returns abstractive
-    //                   summary with ~60 % reduction and ΔDC ≤ −0.08.
-    // Removal Plan: Replace with real LLM dispatch (§12.2.1, Q3 2026).
-    return compressPrincipleCitationsOnly(arg, config);
+    // Delegate to the injected LLM summariser when available.
+    if (llm_summary_fn_) {
+        const std::string llm_text = llm_summary_fn_(arg, config.max_tokens_per_round);
+        if (!llm_text.empty()) {
+            CompressionResult result;
+            result.original_tokens    = countTokens(arg.content);
+            result.compressed_text    = llm_text;
+            result.compressed_tokens  = countTokens(llm_text);
+            result.compression_ratio  = result.original_tokens > 0
+                ? static_cast<float>(result.compressed_tokens) /
+                  static_cast<float>(result.original_tokens)
+                : 1.0f;
+            result.estimated_dc_loss        = measureDcLoss(arg.content, llm_text);
+            result.coherence_anchors_intact = config.keep_thesis_id_anchors;
+            return result;
+        }
+        // fn returned empty → fall through to extractive path
+    }
+
+    // Extractive sentence summarisation: score sentences by TF-weighted importance,
+    // boosting those containing principle citations or verdict keywords.  Selects
+    // sentences greedily until the token budget is exhausted.
+    //
+    // This replaces the former delegation to compressPrincipleCitationsOnly() and
+    // achieves substantially better DC preservation because full sentences (rather
+    // than only citation tokens) are retained.  See STUB_INVENTORY.md entry #235.
+
+    CompressionResult result;
+    result.original_tokens = countTokens(arg.content);
+
+    // ── 1. Split content into sentences ──────────────────────────────────────
+    std::vector<std::string> sentences;
+    {
+        std::string current;
+        for (char c : arg.content) {
+            current += c;
+            if (c == '.' || c == '!' || c == '?' || c == '\n') {
+                // Trim leading/trailing whitespace
+                size_t start = current.find_first_not_of(" \t\r\n");
+                if (start != std::string::npos) {
+                    size_t end = current.find_last_not_of(" \t\r\n");
+                    sentences.push_back(current.substr(start, end - start + 1));
+                }
+                current.clear();
+            }
+        }
+        if (!current.empty()) {
+            size_t start = current.find_first_not_of(" \t\r\n");
+            if (start != std::string::npos) {
+                size_t end = current.find_last_not_of(" \t\r\n");
+                sentences.push_back(current.substr(start, end - start + 1));
+            }
+        }
+    }
+
+    if (sentences.empty()) {
+        return compressPrincipleCitationsOnly(arg, config);
+    }
+
+    // ── 2. Build word-frequency table (TF) from the full content ─────────────
+    std::unordered_map<std::string, int> word_freq;
+    {
+        std::istringstream iss(arg.content);
+        std::string word;
+        while (iss >> word) {
+            // Normalise: lower-case, strip trailing punctuation
+            std::transform(word.begin(), word.end(), word.begin(), ::tolower);
+            while (!word.empty() && !std::isalnum(static_cast<unsigned char>(word.back()))) {
+                word.pop_back();
+            }
+            if (word.size() >= 3) { // ignore very short words
+                ++word_freq[word];
+            }
+        }
+    }
+
+    // ── 3. Collect citation and verdict tokens for boosting ───────────────────
+    const auto citations = [&]() {
+        std::vector<std::string> c = arg.principle_basis;
+        if (c.empty()) c = extractPrincipleCitations(arg.content);
+        return c;
+    }();
+    const std::string verdict_upper = [&]() {
+        std::string v = arg.content;
+        std::transform(v.begin(), v.end(), v.begin(), ::toupper);
+        return v;
+    }();
+    // Verdict keywords: same set as extractVerdict() — keep in sync.
+    static const std::array<const char*, 4> kVerdictKeywords{
+        "PROHIBIT", "CONDITIONAL", "ABSTAIN", "PERMIT"
+    };
+
+    // ── 4. Score each sentence ────────────────────────────────────────────────
+    std::vector<std::pair<float, size_t>> scored; // (score, sentence_index)
+    scored.reserve(sentences.size());
+
+    for (size_t i = 0; i < sentences.size(); ++i) {
+        const std::string& sent = sentences[i];
+        float score = 0.f;
+
+        // TF component: sum of word frequencies
+        std::istringstream iss(sent);
+        std::string word;
+        int word_count = 0;
+        while (iss >> word) {
+            std::transform(word.begin(), word.end(), word.begin(), ::tolower);
+            while (!word.empty() && !std::isalnum(static_cast<unsigned char>(word.back()))) {
+                word.pop_back();
+            }
+            auto it = word_freq.find(word);
+            if (it != word_freq.end()) {
+                score += static_cast<float>(it->second);
+            }
+            ++word_count;
+        }
+        if (word_count > 0) score /= static_cast<float>(word_count); // normalise by length
+
+        // Boost: contains a principle citation
+        std::string sent_upper = sent;
+        std::transform(sent_upper.begin(), sent_upper.end(), sent_upper.begin(), ::toupper);
+        for (const auto& cite : citations) {
+            std::string cite_upper = cite;
+            std::transform(cite_upper.begin(), cite_upper.end(), cite_upper.begin(), ::toupper);
+            if (sent_upper.find(cite_upper) != std::string::npos) {
+                score += 2.f;
+                break;
+            }
+        }
+
+        // Boost: contains a verdict keyword
+        for (const char* kw : kVerdictKeywords) {
+            if (sent_upper.find(kw) != std::string::npos) {
+                score += 1.5f;
+                break;
+            }
+        }
+
+        // Slight position bias: first and last sentences often contain thesis / verdict
+        if (i == 0 || i == sentences.size() - 1) score += 0.5f;
+
+        scored.emplace_back(score, i);
+    }
+
+    // Sort by score descending
+    std::sort(scored.begin(), scored.end(),
+              [](const auto& a, const auto& b) { return a.first > b.first; });
+
+    // ── 5. Greedily select sentences within token budget ─────────────────────
+    const int budget = std::max(config.max_tokens_per_round, 20);
+    std::vector<size_t> selected_indices;
+    int used_tokens = 0;
+
+    for (const auto& [sc, idx] : scored) {
+        const int t = countTokens(sentences[idx]);
+        if (used_tokens + t > budget && !selected_indices.empty()) break;
+        selected_indices.push_back(idx);
+        used_tokens += t;
+        if (used_tokens >= budget) break;
+    }
+
+    // Restore original order for readability
+    std::sort(selected_indices.begin(), selected_indices.end());
+
+    // ── 6. Build output text with verdict prefix when kept ────────────────────
+    std::ostringstream oss;
+    oss << "[" << arg.philosophy_school << "|R]";
+
+    if (config.keep_verdict) {
+        const std::string verdict = extractVerdict(arg.content);
+        if (verdict != "UNKNOWN") oss << " Verdict:" << verdict << ".";
+    }
+
+    for (size_t idx : selected_indices) {
+        oss << " " << sentences[idx];
+    }
+
+    result.compressed_text   = oss.str();
+    result.compressed_tokens = countTokens(result.compressed_text);
+    result.compression_ratio = result.original_tokens > 0
+        ? static_cast<float>(result.compressed_tokens) /
+          static_cast<float>(result.original_tokens)
+        : 1.0f;
+    result.estimated_dc_loss         = measureDcLoss(arg.content, result.compressed_text);
+    result.coherence_anchors_intact   = config.keep_thesis_id_anchors && !citations.empty();
+
+    return result;
 }
 
 // ---------------------------------------------------------------------------

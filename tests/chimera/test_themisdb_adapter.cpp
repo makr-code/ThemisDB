@@ -727,18 +727,39 @@ TEST_F(ThemisDBCapabilityTest, HasTransactionCapability) {
     EXPECT_TRUE(adapter.has_capability(Capability::TRANSACTIONS));
 }
 
-TEST_F(ThemisDBCapabilityTest, ConnectionPoolingNotAvailable) {
-    // CONNECTION_POOLING is not implemented; has_capability() must return false
-    // to avoid false capability advertisement. Tracked: src/chimera/ROADMAP.md Q3-2026.
+TEST_F(ThemisDBCapabilityTest, ConnectionPoolingNotAvailableWithoutInjection) {
+    // Without a pool provider injected, has_capability() returns false.
     EXPECT_FALSE(adapter.has_capability(Capability::CONNECTION_POOLING));
 }
 
-TEST_F(ThemisDBCapabilityTest, GetCapabilitiesExcludesConnectionPooling) {
+TEST_F(ThemisDBCapabilityTest, GetCapabilitiesExcludesConnectionPoolingWithoutInjection) {
     auto caps = adapter.get_capabilities();
     EXPECT_FALSE(caps.empty());
     auto it = std::find(caps.begin(), caps.end(), Capability::CONNECTION_POOLING);
     EXPECT_EQ(it, caps.end())
-        << "CONNECTION_POOLING must not appear in get_capabilities() until implemented";
+        << "CONNECTION_POOLING must not appear in get_capabilities() when no pool is injected";
+}
+
+TEST_F(ThemisDBCapabilityTest, ConnectionPoolingAvailableAfterInjection) {
+    // After injecting a pool provider, has_capability() must return true.
+    adapter.setConnectionPool([]() -> void* { return reinterpret_cast<void*>(0x1); });
+    EXPECT_TRUE(adapter.has_capability(Capability::CONNECTION_POOLING));
+}
+
+TEST_F(ThemisDBCapabilityTest, GetCapabilitiesIncludesConnectionPoolingAfterInjection) {
+    adapter.setConnectionPool([]() -> void* { return reinterpret_cast<void*>(0x1); });
+    auto caps = adapter.get_capabilities();
+    auto it = std::find(caps.begin(), caps.end(), Capability::CONNECTION_POOLING);
+    EXPECT_NE(it, caps.end())
+        << "CONNECTION_POOLING must appear in get_capabilities() when a pool is injected";
+}
+
+TEST_F(ThemisDBCapabilityTest, ConnectionPoolingDisabledAfterNullInjection) {
+    adapter.setConnectionPool([]() -> void* { return reinterpret_cast<void*>(0x1); });
+    ASSERT_TRUE(adapter.has_capability(Capability::CONNECTION_POOLING));
+    // Removing the pool reverts the capability.
+    adapter.setConnectionPool(nullptr);
+    EXPECT_FALSE(adapter.has_capability(Capability::CONNECTION_POOLING));
 }
 
 TEST_F(ThemisDBCapabilityTest, GetSystemInfoReturnsOk) {

@@ -1,13 +1,13 @@
 > ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
 
-<!-- Status: HIGH FINDINGS | validated: 2026-04-21 (source code analysis of graph_query_optimizer.cpp) -->
+<!-- Status: S1 fixed 2026-05-04 | validated: 2026-04-21 (source code analysis of graph_query_optimizer.cpp) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Graph Module
 
 **Last Audit:** 2026-04-21
 **Auditor:** Copilot
-**Status:** ⚠️ High — 2×S1 (bidirectional BFS no timeout + VF2 exponential without bounds)
+**Status:** ✅ S1 fixed 2026-05-04 — 0 S1 open
 
 ## Summary
 
@@ -17,8 +17,8 @@
 | Source Files | 8 |
 | Test Coverage | ⚠️ >80% target per ROADMAP; GPU paths not yet covered |
 | S0 Critical | ✅ None from graph_query_optimizer.cpp |
-| S1 High | ✅ 0 (GQ-1 + GQ-2 fixed 2026-05-04) |
-| Traversal timeout enforcement | ✅ Bidirectional BFS and VF2 both have per-iteration timeout (fixed 2026-05-04) |
+| S1 High | ✅ 0 (GQ-1 and GQ-2 fixed 2026-05-04) |
+| Traversal timeout enforcement | ✅ **Bidirectional BFS timeout added** |
 
 ## Build System
 
@@ -46,24 +46,21 @@ The graph module is registered in the top-level `CMakeLists.txt` as a static lib
 
 ## Findings
 
-### S1 — High (all resolved 2026-05-04)
+### S1 — High (from source code analysis of `graph_query_optimizer.cpp`)
 
-#### ~~GQ-1 · `graph_query_optimizer.cpp` · `executeBidirectional()` — No timeout check inside BFS loop~~
+#### GQ-1 · `graph_query_optimizer.cpp` · `executeBidirectional()` — No timeout check inside BFS loop
 
-**Fixed 2026-05-04:** Timeout check added at the top of the `while` loop in
-`executeBidirectional()`, consistent with `executeBFS()` and `executeDFS()`.
-Returns `ERR_QUERY_TIMEOUT` when `constraints.timeout_ms > 0` and the elapsed
-time exceeds the limit.
+✅ **Fixed 2026-05-04** — A `bidiTimedOut()` lambda is now evaluated at the top of every `while` loop iteration. When `constraints.timeout_ms > 0` the clock-based check fires; when it is `0` a 30-second default cap applies. On expiry, `recordExecution()` is called and `ERR_QUERY_TIMEOUT` is returned, consistent with `executeBFS` and `executeDFS`.
+
+~~Unlike `executeBFS()` and `executeDFS()`, the bidirectional BFS implementation had no timeout check inside its `while` loop.~~
 
 ---
 
-#### ~~GQ-2 · `graph_query_optimizer.cpp` · `executeSubgraphIsomorphism()` — VF2 exponential without hard resource limit~~
+#### GQ-2 · `graph_query_optimizer.cpp` · `executeSubgraphIsomorphism()` — VF2 exponential without hard resource limit
 
-**Fixed 2026-05-04:**
-1. Pattern size is validated against `kMaxPatternVertices = 10` at the entry point;
-   larger patterns are rejected with `ERR_INVALID_ARGUMENT`.
-2. When the caller passes `timeout_ms == 0` (default), `effective_constraints.timeout_ms`
-   is set to 30000 ms (30-second hard cap) so the `timedOut()` helper is always active.
+✅ **Fixed 2026-05-04** — A hard iteration counter `vf2_iteration_count` is incremented for every candidate pair evaluated. Once it exceeds `VF2_MAX_CANDIDATE_PAIRS = 10'000'000`, `early_terminated` is set to `true` and the backtrack function returns immediately. The post-`backtrack(0)` error path now checks `vf2_limit_exceeded` independently of `timeout_ms`, returning `ERR_QUERY_TIMEOUT` with a clear message about the candidate-pair limit.
+
+~~The VF2 backtracking is O(|V|^|pattern|) with no hard upper bound when `timeout_ms = 0`.~~
 
 ---
 

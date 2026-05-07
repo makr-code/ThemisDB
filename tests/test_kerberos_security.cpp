@@ -382,3 +382,254 @@ TEST(KerberosSecurityValidatorTest, TokenSizeVariations) {
     medium_token[1] = 0x60;  // length 96
     EXPECT_TRUE(validator.validateASN1Structure(medium_token));
 }
+
+// ============================================================================
+// Tests for GSSAPI/KRB5 DER parsing (stubs #139, #156, #191)
+// ============================================================================
+
+namespace {
+
+// Build a minimal but structurally valid GSSAPI KRB5 AP-REQ token.
+// Ticket sname = "HTTP/testhost" @ realm "TEST.REALM"
+// The resulting token is cleartext-only (no real encryption) and is just
+// large enough for the parser helpers to traverse.
+static std::vector<uint8_t> buildMinimalKrb5ApReqToken(
+    const std::string& service_name,   // e.g. "HTTP"
+    const std::string& host_name,      // e.g. "testhost"
+    const std::string& realm,          // e.g. "TEST.REALM"
+    bool mutual_required = false)
+{
+    // Helper lambdas to DER-encode length and build TLVs.
+    auto encLen = [](size_t n, std::vector<uint8_t>& out) {
+        if (n < 128) {
+            out.push_back(static_cast<uint8_t>(n));
+        } else if (n < 256) {
+            out.push_back(0x81);
+            out.push_back(static_cast<uint8_t>(n));
+        } else {
+            out.push_back(0x82);
+            out.push_back(static_cast<uint8_t>(n >> 8));
+            out.push_back(static_cast<uint8_t>(n));
+        }
+    };
+    auto tlv = [&encLen](uint8_t tag, const std::vector<uint8_t>& val) {
+        std::vector<uint8_t> r;
+        r.push_back(tag);
+        encLen(val.size(), r);
+        r.insert(r.end(), val.begin(), val.end());
+        return r;
+    };
+    auto wrap = [&tlv](uint8_t tag, const std::vector<uint8_t>& inner) {
+        return tlv(tag, inner);
+    };
+    auto str2gs = [&tlv](const std::string& s) {
+        std::vector<uint8_t> sv(s.begin(), s.end());
+        return tlv(0x1B, sv); // GeneralString
+    };
+    auto intTlv = [&tlv](uint32_t v) {
+        std::vector<uint8_t> iv;
+        iv.push_back(0x02); // INTEGER
+        iv.push_back(0x01);
+        iv.push_back(static_cast<uint8_t>(v));
+        return iv;
+    };
+
+    // PrincipalName: SEQUENCE { [0] name-type=1, [1] SEQUENCE OF {svc, host} }
+    auto nameType = wrap(0xA0, intTlv(1));  // NT-SRV-HST
+    auto nameStrings = [&]() {
+        std::vector<uint8_t> combined;
+        auto s1 = str2gs(service_name);
+        auto s2 = str2gs(host_name);
+        combined.insert(combined.end(), s1.begin(), s1.end());
+        combined.insert(combined.end(), s2.begin(), s2.end());
+        std::vector<uint8_t> outer;
+        outer.push_back(0x30); // SEQUENCE
+        encLen(combined.size(), outer);
+        outer.insert(outer.end(), combined.begin(), combined.end());
+        return outer;
+    }();
+    auto nameStringWrapped = wrap(0xA1, nameStrings);
+    std::vector<uint8_t> pnSeqContent;
+    pnSeqContent.insert(pnSeqContent.end(), nameType.begin(), nameType.end());
+    pnSeqContent.insert(pnSeqContent.end(), nameStringWrapped.begin(), nameStringWrapped.end());
+    auto pnSeq = tlv(0x30, pnSeqContent);  // PrincipalName SEQUENCE
+    auto snameWrapped = wrap(0xA2, pnSeq); // [2] sname
+
+    // Realm [1]
+    auto realmWrapped = wrap(0xA1, str2gs(realm));
+
+    // tkt-vno [0]
+    auto tktVno = wrap(0xA0, intTlv(5));
+
+    // enc-part [3] — dummy minimal EncryptedData
+    std::vector<uint8_t> encPartSeq = {0x30, 0x05, 0xA0, 0x03, 0x02, 0x01, 0x11};
+    auto encPartWrapped = wrap(0xA3, encPartSeq);
+
+    // Assemble Ticket SEQUENCE content
+    std::vector<uint8_t> ticketSeqContent;
+    ticketSeqContent.insert(ticketSeqContent.end(), tktVno.begin(), tktVno.end());
+    ticketSeqContent.insert(ticketSeqContent.end(), realmWrapped.begin(), realmWrapped.end());
+    ticketSeqContent.insert(ticketSeqContent.end(), snameWrapped.begin(), snameWrapped.end());
+    ticketSeqContent.insert(ticketSeqContent.end(), encPartWrapped.begin(), encPartWrapped.end());
+    auto ticketSeq = tlv(0x30, ticketSeqContent); // SEQUENCE
+    auto ticketApp = wrap(0x61, ticketSeq);        // [APPLICATION 1]
+
+    // AP-REQ fields
+    auto pvno    = wrap(0xA0, intTlv(5));   // [0] pvno=5
+    auto msgType = wrap(0xA1, intTlv(14));  // [1] msg-type=14
+
+    // ap-options [2] BIT STRING — 5 bytes: 0x03 0x05 0x00 <4 flag bytes>
+    uint32_t opts = mutual_required ? 0x20000000u : 0u;
+    std::vector<uint8_t> bsContent = {
+        0x03, 0x05, 0x00,
+        static_cast<uint8_t>(opts >> 24),
+        static_cast<uint8_t>(opts >> 16),
+        static_cast<uint8_t>(opts >>  8),
+        static_cast<uint8_t>(opts)
+    };
+    auto apOptions = wrap(0xA2, bsContent);
+
+    // ticket [3]
+    auto ticketWrapped = wrap(0xA3, ticketApp);
+
+    // authenticator [4] — dummy minimal EncryptedData
+    std::vector<uint8_t> authSeq = {0x30, 0x05, 0xA0, 0x03, 0x02, 0x01, 0x12};
+    auto authWrapped = wrap(0xA4, authSeq);
+
+    // AP-REQ SEQUENCE content
+    std::vector<uint8_t> apReqSeqContent;
+    apReqSeqContent.insert(apReqSeqContent.end(), pvno.begin(), pvno.end());
+    apReqSeqContent.insert(apReqSeqContent.end(), msgType.begin(), msgType.end());
+    apReqSeqContent.insert(apReqSeqContent.end(), apOptions.begin(), apOptions.end());
+    apReqSeqContent.insert(apReqSeqContent.end(), ticketWrapped.begin(), ticketWrapped.end());
+    apReqSeqContent.insert(apReqSeqContent.end(), authWrapped.begin(), authWrapped.end());
+    auto apReqSeq = tlv(0x30, apReqSeqContent);
+    auto apReqApp = wrap(0x6E, apReqSeq);   // [APPLICATION 14] AP-REQ
+
+    // GSSAPI outer wrapper: [APPLICATION 0] CONSTRUCTED = 0x60
+    // KRB5 OID + 2-byte token ID (0x01 0x00) + AP-REQ
+    std::vector<uint8_t> gssInner = {
+        0x06, 0x09,  // OID tag + length=9
+        0x2A, 0x86, 0x48, 0x86, 0xF7, 0x12, 0x01, 0x02, 0x02, // KRB5 OID
+        0x01, 0x00   // AP-REQ token ID
+    };
+    gssInner.insert(gssInner.end(), apReqApp.begin(), apReqApp.end());
+
+    std::vector<uint8_t> token;
+    token.push_back(0x60); // APPLICATION 0 CONSTRUCTED
+    encLen(gssInner.size(), token);
+    token.insert(token.end(), gssInner.begin(), gssInner.end());
+    return token;
+}
+
+} // anonymous test namespace
+
+/**
+ * @brief Test extractServicePrincipal with a real KRB5 AP-REQ token
+ */
+TEST(KerberosSecurityValidatorTest, ExtractServicePrincipalFromRealToken) {
+    auto config = KerberosSecurityValidator::forService("HTTP/realhost@TEST.REALM");
+    KerberosSecurityValidator validator(config);
+
+    auto token = buildMinimalKrb5ApReqToken("HTTP", "realhost", "TEST.REALM");
+    std::string principal = validator.extractServicePrincipal(token);
+
+    // Parser should find "HTTP/realhost@TEST.REALM" from the ticket sname
+    EXPECT_EQ(principal, "HTTP/realhost@TEST.REALM");
+}
+
+/**
+ * @brief Test extractServicePrincipal falls back for non-KRB5 tokens
+ */
+TEST(KerberosSecurityValidatorTest, ExtractServicePrincipalFallbackOnBadToken) {
+    const std::string expected = "HTTP/server.example.com@REALM.COM";
+    auto config = KerberosSecurityValidator::forService(expected);
+    KerberosSecurityValidator validator(config);
+
+    // Dummy token (not a GSSAPI/KRB5 structure)
+    std::vector<uint8_t> bad_token(100, 0);
+    EXPECT_EQ(validator.extractServicePrincipal(bad_token), expected);
+}
+
+/**
+ * @brief Test getTokenInfo extracts realm and sname from real KRB5 token
+ */
+TEST(KerberosSecurityValidatorTest, GetTokenInfoFromRealToken) {
+    KerberosSecurityValidator::Config config;
+    config.verify_service_target       = false;
+    config.validate_token_structure    = false;
+    config.reject_expired_tickets      = false;
+    KerberosSecurityValidator validator(config);
+
+    auto token = buildMinimalKrb5ApReqToken("HTTP", "myhost", "MY.REALM");
+    auto info  = validator.getTokenInfo(token);
+
+    EXPECT_EQ(info.service_principal, "HTTP/myhost@MY.REALM");
+    EXPECT_EQ(info.realm,             "MY.REALM");
+    EXPECT_FALSE(info.client_principal.empty());
+    EXPECT_GT(info.end_time, 0);
+}
+
+/**
+ * @brief Test getTokenInfo has_mutual_auth reflects AP-REQ ap-options
+ */
+TEST(KerberosSecurityValidatorTest, GetTokenInfoMutualAuthFlag) {
+    KerberosSecurityValidator::Config config;
+    config.verify_service_target    = false;
+    config.validate_token_structure = false;
+    config.reject_expired_tickets   = false;
+    KerberosSecurityValidator validator(config);
+
+    // Token without mutual-required flag
+    auto token_no_mutual = buildMinimalKrb5ApReqToken("SVC", "host", "REALM", false);
+    auto info_no = validator.getTokenInfo(token_no_mutual);
+    EXPECT_FALSE(info_no.has_mutual_auth);
+
+    // Token with mutual-required flag
+    auto token_mutual = buildMinimalKrb5ApReqToken("SVC", "host", "REALM", true);
+    auto info_yes = validator.getTokenInfo(token_mutual);
+    EXPECT_TRUE(info_yes.has_mutual_auth);
+}
+
+/**
+ * @brief Test verifyChannelBinding fails for non-KRB5 tokens (fail-closed)
+ */
+TEST(KerberosSecurityValidatorTest, VerifyChannelBindingFailClosedForBadToken) {
+    auto config = KerberosSecurityValidator::withChannelBindings(
+        KerberosSecurityValidator::ChannelBindingType::TLS_SERVER_ENDPOINT);
+    KerberosSecurityValidator validator(config);
+
+    std::vector<uint8_t> garbage_token(50, 0xAB);
+    std::vector<uint8_t> binding(32, 0x01);
+
+    // Must reject non-KRB5 token fail-closed
+    EXPECT_FALSE(validator.verifyChannelBinding(garbage_token, binding));
+}
+
+/**
+ * @brief Test verifyChannelBinding accepts valid KRB5 token structurally
+ */
+TEST(KerberosSecurityValidatorTest, VerifyChannelBindingAcceptsValidKrb5) {
+    auto config = KerberosSecurityValidator::withChannelBindings(
+        KerberosSecurityValidator::ChannelBindingType::TLS_SERVER_ENDPOINT);
+    KerberosSecurityValidator validator(config);
+
+    auto token = buildMinimalKrb5ApReqToken("HTTP", "server", "REALM.COM");
+    std::vector<uint8_t> binding(32, 0x42);
+
+    // Structural check passes for a valid KRB5 AP-REQ
+    EXPECT_TRUE(validator.verifyChannelBinding(token, binding));
+}
+
+/**
+ * @brief Test verifyChannelBinding passes when binding is empty (no binding requested)
+ */
+TEST(KerberosSecurityValidatorTest, VerifyChannelBindingEmptyAlwaysPasses) {
+    auto config = KerberosSecurityValidator::strictValidation();
+    KerberosSecurityValidator validator(config);
+
+    std::vector<uint8_t> garbage_token(50, 0);
+    std::vector<uint8_t> empty_binding;
+
+    EXPECT_TRUE(validator.verifyChannelBinding(garbage_token, empty_binding));
+}

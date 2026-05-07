@@ -27,6 +27,7 @@
 #include <vector>
 #include <memory>
 #include <cstdint>
+#include <functional>
 
 #include "utils/geo/ewkb.h"
 
@@ -139,6 +140,32 @@ ISpatialComputeBackend* getCpuApproximateBackend();
 // Get the global geo backend registry.
 // Backends self-register at startup so they are discoverable at runtime.
 IGeoRegistry* getGeoBackendRegistry();
+
+/**
+ * @brief Point-in-polygon containment callback type.
+ *
+ * When injected via setCpuExactContainmentFn(), this function is called by
+ * CpuExactBackend::exactIntersects() for every point-in-polygon test instead
+ * of the built-in ray-casting algorithm.
+ *
+ * Signature: (px, py, polygon_ring) → true if (px, py) is inside the ring.
+ *
+ * This injection point lets callers (e.g. Boost.Geometry wrappers) provide
+ * OGC-compliant geodesic or spherical containment without recompiling the
+ * backend.  Pass nullptr to restore the built-in ray-casting fallback.
+ */
+using GeoContainmentFn = std::function<bool(double px, double py,
+                                             const std::vector<Coordinate>& ring)>;
+
+/**
+ * @brief Inject a custom point-in-polygon function into the CPU exact backend.
+ *
+ * Thread-safe.  Can be called multiple times; the last value wins.
+ * Pass nullptr to restore the built-in ray-casting algorithm.
+ *
+ * @param fn  Containment callback; nullptr clears the override.
+ */
+void setCpuExactContainmentFn(GeoContainmentFn fn);
 
 // Get a backend for the requested precision mode.
 // Exact   → getCpuExactBackend()

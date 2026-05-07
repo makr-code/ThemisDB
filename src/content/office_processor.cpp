@@ -41,6 +41,9 @@
 #include <cstring>
 #include <algorithm>
 #include <map>
+#include <cmath>
+#include <functional>
+#include <string>
 
 // POSIX subprocess support for LibreOffice headless fallback
 #ifndef _WIN32
@@ -1112,9 +1115,50 @@ std::vector<json> OfficeProcessor::chunk(
     return chunks;
 }
 
-std::vector<float> OfficeProcessor::generateEmbedding(const std::string& /*chunk_data*/) {
-    // Placeholder
-    return std::vector<float>();
+std::vector<float> OfficeProcessor::generateEmbedding(const std::string& chunk_data) {
+    // Hash-projection embedding (768-dim, L2-normalised) matching the
+    // approach used by TextProcessor::generateEmbedding().  Each token
+    // influences 30 dimensions via sine-phase mixing so that documents
+    // with different vocabulary produce distinct vectors.  Semantically
+    // identical but differently worded chunks will differ; this is expected
+    // until a real IEmbeddingBackend is injected (see
+    // src/content/FUTURE_ENHANCEMENTS.md §OfficeProcessor Embedding Integration).
+    constexpr int kDim = 768;
+    std::vector<float> embedding(kDim, 0.0f);
+
+    if (chunk_data.empty()) return embedding;
+
+    std::hash<std::string> hasher;
+    std::istringstream iss(chunk_data);
+    std::vector<std::string> tokens;
+    std::string tok;
+    while (iss >> tok) tokens.push_back(tok);
+    if (tokens.empty()) return embedding;
+
+    for (size_t i = 0; i < tokens.size(); ++i) {
+        const size_t token_hash = hasher(tokens[i]);
+        for (int seed = 0; seed < 3; ++seed) {
+            const size_t combined = token_hash
+                                    ^ (i * 31u)
+                                    ^ (static_cast<size_t>(seed) * 97u);
+            for (int d = 0; d < 10; ++d) {
+                const int dim = static_cast<int>(
+                    (combined + static_cast<size_t>(d) * 73u) % static_cast<size_t>(kDim));
+                const float weight = 1.0f / (1.0f + static_cast<float>(i) * 0.1f);
+                const float phase  = static_cast<float>(
+                    (combined + static_cast<size_t>(dim)) % 360u) * 3.14159f / 180.0f;
+                embedding[dim] += std::sin(phase) * weight;
+            }
+        }
+    }
+
+    float norm = 0.0f;
+    for (float v : embedding) norm += v * v;
+    norm = std::sqrt(norm);
+    if (norm > 1e-6f) {
+        for (float& v : embedding) v /= norm;
+    }
+    return embedding;
 }
 
 int OfficeProcessor::countTokens(const std::string& text) {

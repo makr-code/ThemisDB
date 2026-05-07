@@ -26,6 +26,7 @@
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cstring>
+#include <unordered_set>
 
 // Include actual CUDA headers when CUDA support is built
 #ifdef THEMIS_ENABLE_CUDA
@@ -492,17 +493,12 @@ bool GPUMemoryManager::freeGPU(const std::string& model_id, void* ptr) {
     // The holder's destructor will automatically handle cleanup via RAII
     for (auto alloc_it = it->second.begin(); alloc_it != it->second.end(); ++alloc_it) {
         if (alloc_it->gpu_ptr == ptr) {
-            // F3-1: Guard against unsigned underflow.  An accounting mismatch
-            // (e.g. double-free, or allocate/free size mismatch) could cause
-            // total_vram_used_ to wrap around to UINT64_MAX, making the pool
-            // appear permanently exhausted.
-            if (alloc_it->vram_bytes <= total_vram_used_) {
-                total_vram_used_ -= alloc_it->vram_bytes;
-            } else {
-                spdlog::error("GPUMemoryManager::freeGPU: accounting underflow for model '{}' "
-                              "(alloc {} > total {}); clamping to 0",
-                              model_id, alloc_it->vram_bytes, total_vram_used_);
+            if (alloc_it->vram_bytes > total_vram_used_) {
+                spdlog::error("GPUMemoryManager::freeGPU: VRAM accounting underflow for model '{}'; "
+                              "clamping to 0", model_id);
                 total_vram_used_ = 0;
+            } else {
+                total_vram_used_ -= alloc_it->vram_bytes;
             }
             
             // Erase triggers holder destructor for automatic cleanup
@@ -531,14 +527,12 @@ bool GPUMemoryManager::freeCPU(const std::string& model_id, void* ptr) {
     // The holder's destructor will automatically handle cleanup via RAII
     for (auto alloc_it = it->second.begin(); alloc_it != it->second.end(); ++alloc_it) {
         if (alloc_it->cpu_ptr == ptr) {
-            // F3-1: Guard against unsigned underflow (symmetric fix with freeGPU).
-            if (alloc_it->ram_bytes <= total_ram_used_) {
-                total_ram_used_ -= alloc_it->ram_bytes;
-            } else {
-                spdlog::error("GPUMemoryManager::freeCPU: accounting underflow for model '{}' "
-                              "(alloc {} > total {}); clamping to 0",
-                              model_id, alloc_it->ram_bytes, total_ram_used_);
+            if (alloc_it->ram_bytes > total_ram_used_) {
+                spdlog::error("GPUMemoryManager::freeCPU: RAM accounting underflow for model '{}'; "
+                              "clamping to 0", model_id);
                 total_ram_used_ = 0;
+            } else {
+                total_ram_used_ -= alloc_it->ram_bytes;
             }
             
             // Erase triggers holder destructor for automatic cleanup
@@ -572,9 +566,20 @@ bool GPUMemoryManager::freeModel(const std::string& model_id) {
         freed_ram += alloc.ram_bytes;
     }
     
-    // F3-1: Underflow-safe decrement for freeModel.
-    total_vram_used_ = (freed_vram <= total_vram_used_) ? total_vram_used_ - freed_vram : 0;
-    total_ram_used_  = (freed_ram  <= total_ram_used_)  ? total_ram_used_  - freed_ram  : 0;
+    if (freed_vram > total_vram_used_) {
+        spdlog::error("GPUMemoryManager::freeModel: VRAM accounting underflow for model '{}'; "
+                      "clamping to 0", model_id);
+        total_vram_used_ = 0;
+    } else {
+        total_vram_used_ -= freed_vram;
+    }
+    if (freed_ram > total_ram_used_) {
+        spdlog::error("GPUMemoryManager::freeModel: RAM accounting underflow for model '{}'; "
+                      "clamping to 0", model_id);
+        total_ram_used_ = 0;
+    } else {
+        total_ram_used_ -= freed_ram;
+    }
     
     // Erase all allocations for this model
     // Holders will automatically clean up via RAII
@@ -848,25 +853,17 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
 #endif
 
         // Update allocations list for this model/device
-        // F3-2: Before erasing the old fragmented entries, subtract their
-        // contribution from total_vram_used_.  The RAII holder destructors do
-        // NOT update this counter, so without this step the counter grows by
-        // one consolidated allocation every defragmentation cycle while the
-        // freed fragment entries are silently discarded — causing permanent
-        // accounting corruption.
+        // Remove only the allocations that were identified as fragmented (device_allocs),
+        // not all allocations for this device_id.
         auto& model_allocs = allocations_[model_id];
-        for (const auto& alloc : model_allocs) {
-            if (alloc.gpu_device_id == device_id && alloc.vram_bytes > 0) {
-                // F3-1: underflow-safe
-                total_vram_used_ = (alloc.vram_bytes <= total_vram_used_)
-                    ? total_vram_used_ - alloc.vram_bytes : 0;
-            }
+        std::unordered_set<void*> ptrs_to_erase;
+        for (const auto& alloc : device_allocs) {
+            ptrs_to_erase.insert(alloc.gpu_ptr);
         }
-        // Remove old (fragmented) allocations — triggers RAII cleanup.
         model_allocs.erase(
             std::remove_if(model_allocs.begin(), model_allocs.end(),
-                [device_id](const MemoryAllocation& alloc) {
-                    return alloc.gpu_device_id == device_id && alloc.vram_bytes > 0;
+                [&ptrs_to_erase](const MemoryAllocation& alloc) {
+                    return ptrs_to_erase.count(alloc.gpu_ptr) > 0;
                 }),
             model_allocs.end());
 
@@ -879,8 +876,6 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
         consolidated.holder = std::make_shared<detail::MemoryHolder>(
             new_ptr, total_vram, detail::MemoryHolder::Type::GPU, gpu_available_, device_id
         );
-        // F3-2: Account for the newly inserted consolidated block.
-        total_vram_used_ += total_vram;
         model_allocs.push_back(std::move(consolidated));
 
         spdlog::debug("Consolidated {} GPU allocations for model {} on device {} into single {} MB block",

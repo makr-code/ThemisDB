@@ -259,5 +259,35 @@ TEST_F(VectorAutoBufferFixture, PQFallbackOnBadDimDivisibility) {
     EXPECT_NO_THROW(buf.flush());
 }
 
+// ============================================================================
+// fallback_dim config field tests (stub #90)
+// ============================================================================
+
+TEST_F(VectorAutoBufferFixture, FallbackDimDefaultIs768) {
+    VectorAutoBufferConfig cfg;
+    EXPECT_EQ(cfg.fallback_dim, 768u);
+}
+
+TEST_F(VectorAutoBufferFixture, FallbackDimUsedWhenEmbeddingAbsent) {
+    // Build an entity WITHOUT an "embedding" field so estimateVectorSize()
+    // must fall back to config_.fallback_dim.
+    BaseEntity no_embed_entity("no_embed");
+    no_embed_entity.setField("name", std::string("test"));
+
+    // With fallback_dim = 512 the memory estimate for the op should be
+    // at least 512 * sizeof(float) = 2048 bytes.
+    VectorAutoBufferConfig cfg;
+    cfg.async_flush  = false;
+    cfg.fallback_dim = 512;
+    VectorAutoBuffer buf(vim.get(), cfg);
+
+    // add() should succeed; after adding, current_buffer_memory reflects 512-dim fallback
+    auto status = buf.add(no_embed_entity);
+    EXPECT_TRUE(status.ok) << status.message;
+
+    const auto stats = buf.getStats();
+    EXPECT_GE(stats.current_buffer_memory, 512u * sizeof(float));
+}
+
 }  // namespace
 }  // namespace themis

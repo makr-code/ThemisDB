@@ -52,6 +52,9 @@ struct VoiceStreamingSession::Impl {
     std::string partial_text;
     uint32_t    partial_seq = 0;
 
+    // Injected STT backend (null = built-in placeholder)
+    TranscribeFn transcribe_fn;
+
     // Callbacks
     PartialTranscriptCb on_partial;
     FinalTranscriptCb   on_final;
@@ -94,7 +97,17 @@ PartialTranscript runPartialStt([[maybe_unused]] const std::string& session_id,
                                  bool   is_final,
                                  uint32_t seq)
 {
-    // Placeholder: emit placeholder text proportional to audio length
+    // STUB/SIMULATION NOTE:
+    // Purpose: Return a recognisable placeholder transcript while no real STT
+    //          backend is wired into the browser streaming pipeline.
+    // Activation: Always — no IWhisperTranscriber or equivalent is injected here.
+    // Production Delta: All browser-stream transcripts contain synthetic text like
+    //                   `[partial#N:MBB]` instead of actual speech content.
+    //                   Applications that consume these transcripts receive
+    //                   meaningless captions regardless of audio input.
+    // Removal Plan: Inject an IWhisperTranscriber; call transcribeStream() per
+    //               audio chunk; populate pt.text from the real transcript token.
+    //               See src/voice/FUTURE_ENHANCEMENTS.md §Browser STT Backend.
     PartialTranscript pt;
     pt.stream_id  = stream_id;
     pt.is_final   = is_final;
@@ -217,13 +230,22 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
 
     if (!impl_->config.partial_results) return empty;
 
-    // Run incremental STT
+    // Run incremental STT — use injected backend when available.
     ++impl_->partial_seq;
-    auto pt = runPartialStt(impl_->config.session_id,
-                             impl_->stream_id,
-                             impl_->audio_buffer,
-                             /*is_final=*/false,
-                             impl_->partial_seq);
+    PartialTranscript pt;
+    if (impl_->transcribe_fn) {
+        pt = impl_->transcribe_fn(impl_->audio_buffer,
+                                   /*is_final=*/false,
+                                   impl_->partial_seq);
+        pt.stream_id = impl_->stream_id;
+        if (pt.timestamp_ms == 0) pt.timestamp_ms = nowMs();
+    } else {
+        pt = runPartialStt(impl_->config.session_id,
+                           impl_->stream_id,
+                           impl_->audio_buffer,
+                           /*is_final=*/false,
+                           impl_->partial_seq);
+    }
     if (impl_->on_partial) impl_->on_partial(pt);
     return pt;
 }
@@ -259,6 +281,9 @@ void VoiceStreamingSession::onTtsChunk(TtsChunkCb cb) {
 }
 void VoiceStreamingSession::onError(ErrorCb cb) {
     impl_->on_error = std::move(cb);
+}
+void VoiceStreamingSession::setTranscribeBackend(TranscribeFn fn) {
+    impl_->transcribe_fn = std::move(fn);
 }
 
 // ── Session info ──────────────────────────────────────────────────────────────

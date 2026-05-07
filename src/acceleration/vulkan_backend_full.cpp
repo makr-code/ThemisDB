@@ -130,17 +130,25 @@ static VkShaderModule createShaderModule(VkDevice device, const std::vector<uint
     return shaderModule;
 }
 
-static std::vector<uint32_t> compileGLSLtoSPIRV(const std::string& glslSource, 
-                                                 const std::string& shaderType) {
-    // In production, use glslangValidator or shaderc library to compile GLSL to SPIR-V
-    // For this implementation, we assume pre-compiled SPIR-V binaries
-    // or use runtime compilation with shaderc
-    
-    // Placeholder: would call shaderc_compile_into_spv() here
-    std::cerr << "GLSL to SPIR-V compilation requires shaderc library" << std::endl;
-    std::cerr << "Please pre-compile shaders with: glslangValidator -V shader.comp -o shader.spv" << std::endl;
-    
-    return {}; // Empty - requires actual compilation
+static std::vector<uint32_t> compileGLSLtoSPIRV(const std::string& /*glslSource*/,
+                                                 const std::string& /*shaderType*/) {
+    // STUB/SIMULATION NOTE:
+    // Purpose: Stub for runtime GLSL→SPIR-V compilation while the shaderc
+    //          library is not linked into ThemisDB.
+    // Activation: Always — shaderc is not a ThemisDB build dependency.
+    // Production Delta: Returns an empty SPIR-V buffer.  Any compute shader
+    //                   that goes through this path fails to create a
+    //                   VkShaderModule; Vulkan-accelerated vector operations
+    //                   are silently disabled at pipeline creation time.
+    //                   Callers must supply pre-compiled .spv files via
+    //                   loadSPIRV() instead.
+    // Removal Plan: Link libshaderc_combined; replace this function body with
+    //               shaderc_compiler_initialize() + shaderc_compile_into_spv().
+    //               Alternatively ship pre-compiled SPIR-V assets.  See
+    //               src/acceleration/FUTURE_ENHANCEMENTS.md §Vulkan GLSL Compiler.
+    std::cerr << "GLSL to SPIR-V compilation requires shaderc library (STUB)" << std::endl;
+    std::cerr << "Pre-compile shaders with: glslangValidator -V shader.comp -o shader.spv" << std::endl;
+    return {}; // STUB: empty — requires actual compilation
 }
 
 static std::vector<uint32_t> loadSPIRV(const std::string& filename) {

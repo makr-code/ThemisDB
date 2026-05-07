@@ -29,13 +29,13 @@
 #include "utils/error_registry.h"
 
 #include <algorithm>
-#include <array>
 #include <cassert>
 #include <cerrno>
 #include <cstddef>
 #include <cstring>
 #include <filesystem>
 #include <fstream>
+#include <mutex>
 #include <regex>
 #include <sstream>
 #include <stdexcept>
@@ -99,25 +99,22 @@ static constexpr size_t   HEADER_SIZE  = 4 + 8 + 1 + 4 + 4; // magic+seq+type+kl
 // CRC32 (simple table-based implementation; no external dependency)
 // ──────────────────────────────────────────────────────────────────────────────
 
-// Build the 256-entry CRC32 lookup table exactly once, using C++11 guaranteed
-// thread-safe static-local initialisation.  No explicit flag or mutex needed.
-static const uint32_t* crc32_table() {
-    static const auto table = [] {
-        std::array<uint32_t, 256> t{};
+static uint32_t crc32_update(uint32_t crc, const void* data, size_t len) {
+    // Build the CRC32 table exactly once, thread-safely, via std::call_once.
+    // The previous non-atomic `if (!initialized)` pattern is a data race under
+    // concurrent WALStorage::open() calls (UB per C++ memory model — W-1 fix).
+    static std::once_flag crc32_init_flag;
+    static uint32_t table[256];
+    std::call_once(crc32_init_flag, []() {
         for (uint32_t i = 0; i < 256; ++i) {
             uint32_t c = i;
             for (int k = 0; k < 8; ++k) {
                 c = (c & 1u) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
             }
-            t[i] = c;
+            table[i] = c;
         }
-        return t;
-    }();
-    return table.data();
-}
+    });
 
-static uint32_t crc32_update(uint32_t crc, const void* data, size_t len) {
-    const uint32_t* table = crc32_table();
     crc = ~crc;
     const uint8_t* p = static_cast<const uint8_t*>(data);
     for (size_t i = 0; i < len; ++i) {
@@ -403,30 +400,12 @@ Result<uint64_t> WALStorage::appendEntryLocked(EntryType type,
     uint8_t crc_buf[4];
     encode_u32(crc_buf, crc);
 
-    // Assemble the full record (header + key + value + CRC) into a single
-    // contiguous buffer and issue one write syscall instead of four.
-    // For compact records (≤ kStackBufSize) the buffer lives on the stack to
-    // avoid a heap allocation on the hot write path.  512 bytes comfortably
-    // covers typical WAL records (21-byte header + short key + small JSON value
-    // + 4-byte CRC); larger records fall back to heap allocation.
-    const size_t total = HEADER_SIZE + klen + vlen + 4;
-    constexpr size_t kStackBufSize = 512;
-    uint8_t stack_buf[kStackBufSize];
-    std::vector<uint8_t> heap_buf;
-    uint8_t* buf;
-    if (total <= kStackBufSize) {
-        buf = stack_buf;
-    } else {
-        heap_buf.resize(total);
-        buf = heap_buf.data();
-    }
-    uint8_t* p = buf;
-    std::memcpy(p, hdr,           HEADER_SIZE); p += HEADER_SIZE;
-    std::memcpy(p, key.data(),    klen);        p += klen;
-    std::memcpy(p, value.data(),  vlen);        p += vlen;
-    std::memcpy(p, crc_buf,       4);
-
-    if (!write_all_fd(fd_, buf, total)) {
+    // Write header, key, value and CRC in sequence.
+    themis_ssize_t total = static_cast<themis_ssize_t>(HEADER_SIZE + klen + vlen + 4);
+    if (!write_all_fd(fd_, hdr, HEADER_SIZE) ||
+        !write_all_fd(fd_, key.data(), klen) ||
+        !write_all_fd(fd_, value.data(), vlen) ||
+        !write_all_fd(fd_, crc_buf, 4)) {
         return Err<uint64_t>(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
                              "WAL write failed (expected " + std::to_string(total) +
                                  " bytes)");
@@ -467,6 +446,14 @@ Result<uint64_t> WALStorage::appendBatch(std::vector<BatchEntry> entries) {
     for (const auto& e : entries) {
         // Rotate if needed before each entry so no entry straddles a segment boundary.
         if (auto r = rotateIfNeeded(); !r) {
+            // [DURABILITY] W-2: Segment rotation failed mid-batch. Entries written to the
+            // previous segment before this failure are durable. Entries in this batch after
+            // the failure point are lost. Recovery must handle partial batch replay
+            // idempotently — there is no atomic batch boundary marker in the WAL format.
+            THEMIS_WARN("[DURABILITY] WAL appendBatch: segment rotation failed mid-batch. "
+                        "Entries before rotation point are durable; remaining entries are lost. "
+                        "Recovery must handle partial batch replay idempotently. "
+                        "Error: {}", r.error().context());
             return Err<uint64_t>(r.error().code(), r.error().context());
         }
 
@@ -482,11 +469,22 @@ Result<uint64_t> WALStorage::appendBatch(std::vector<BatchEntry> entries) {
 }
 
 Result<uint64_t> WALStorage::checkpoint(bool delete_old_segments) {
-    auto res = appendEntry(EntryType::CHECKPOINT, {}, {});
+    // W-3: Acquire the mutex once for the full checkpoint operation.
+    // Previously checkpoint() called appendEntry() (which locks/unlocks) and
+    // then re-locked for segment cleanup, leaving a window where other writers
+    // could append entries between the CHECKPOINT marker and the cleanup.
+    // Using appendEntryLocked() inside a single lock eliminates that window.
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    if (auto r = rotateIfNeeded(); !r)
+        return Err<uint64_t>(r.error().code(), r.error().context());
+
+    auto res = appendEntryLocked(EntryType::CHECKPOINT, {}, {});
     if (!res) return res;
 
+    syncIfRequired();
+
     if (delete_old_segments) {
-        std::lock_guard<std::mutex> lock(mutex_);
         // Remove all segments except the current one.
         std::vector<uint64_t> to_remove;
         for (uint64_t sid : segments_) {

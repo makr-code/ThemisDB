@@ -157,32 +157,45 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchBFS(
         return {};
     }
 
-    // Placeholder implementation
     std::vector<std::vector<uint32_t>> results(numStarts);
-    
     for (size_t s = 0; s < numStarts; ++s) {
-        uint32_t start = startVertices[s];
+        const uint32_t start = startVertices[s];
+        if (start >= static_cast<uint32_t>(numVertices)) {
+            continue;
+        }
+
         std::vector<bool> visited(numVertices, false);
-        std::queue<std::pair<uint32_t, uint32_t>> queue; // (vertex, depth)
-        
-        queue.push({start, 0});
+        std::queue<std::pair<uint32_t, uint32_t>> bfsQueue; // (vertex, depth)
+
         visited[start] = true;
+        bfsQueue.push({start, 0u});
         results[s].push_back(start);
-        
-        while (!queue.empty()) {
-            auto [current, depth] = queue.front();
-            queue.pop();
-            
+
+        while (!bfsQueue.empty()) {
+            auto [current, depth] = bfsQueue.front();
+            bfsQueue.pop();
+
             if (depth >= maxDepth) {
                 continue;
             }
-            
-            // Note: This assumes adjacency is stored as an offset array
-            // In a real implementation, you'd need a proper adjacency list structure
-            // For now, this is a simplified placeholder
+
+        // Dense adjacency matrix row for vertex `current`.
+        // Interface contract: `adjacency` is a row-major N×N matrix where
+        // adjacency[u * N + v] != 0 denotes an edge u→v (confirmed by the
+        // CUDA backend which allocates numVertices * numVertices elements).
+        // Complexity per BFS is therefore O(N²) in the number of vertices;
+        // this is inherent to the dense-matrix representation and acceptable
+        // for graphs where the caller already uses a dense format.
+        const uint32_t* row = adjacency + current * numVertices;
+            for (uint32_t v = 0; v < static_cast<uint32_t>(numVertices); ++v) {
+                if (row[v] != 0u && !visited[v]) {
+                    visited[v] = true;
+                    results[s].push_back(v);
+                    bfsQueue.push({v, depth + 1u});
+                }
+            }
         }
     }
-    
     return results;
 }
 
@@ -202,12 +215,83 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(
         return {};
     }
 
-    // Placeholder implementation
     std::vector<std::vector<uint32_t>> results(numPairs);
-    
-    // Simplified Dijkstra implementation placeholder
-    // Full implementation would require proper graph data structures
-    
+
+    const auto N = static_cast<uint32_t>(numVertices);
+
+    for (size_t p = 0; p < numPairs; ++p) {
+        const uint32_t src = startVertices[p];
+        const uint32_t dst = endVertices[p];
+
+        if (src >= N || dst >= N) {
+            continue;
+        }
+
+        if (src == dst) {
+            results[p] = {src};
+            continue;
+        }
+
+        // Dijkstra over dense N×N adjacency / weight matrices.
+        // adjacency[u * N + v] != 0  →  edge u→v exists.
+        // weights[u * N + v]          →  non-negative edge weight u→v.
+        std::vector<float> dist(numVertices, std::numeric_limits<float>::infinity());
+        std::vector<int64_t> parent(numVertices, -1);
+        dist[src] = 0.0f;
+
+        using DV = std::pair<float, uint32_t>; // (distance, vertex)
+        std::priority_queue<DV, std::vector<DV>, std::greater<DV>> pq;
+        pq.push({0.0f, src});
+
+        while (!pq.empty()) {
+            auto [d, u] = pq.top();
+            pq.pop();
+
+            if (d > dist[u]) {
+                continue; // stale entry
+            }
+            if (u == dst) {
+                break; // target reached
+            }
+
+            const uint32_t* adjRow = adjacency + u * N;
+            const float*    wRow   = weights   + u * N;
+            for (uint32_t v = 0; v < N; ++v) {
+                if (adjRow[v] == 0u) {
+                    continue;
+                }
+                const float raw_w = wRow[v];
+                // Dijkstra requires non-negative edge weights.  Negative
+                // weights in the input indicate invalid/corrupt weight data;
+                // clamp to 0 to remain correct (zero-cost edge) rather than
+                // silently producing a wrong shortest path.
+                if (raw_w < 0.0f) {
+                    std::cerr << "[CPUGraph] batchShortestPath: negative weight "
+                              << raw_w << " on edge " << u << "→" << v
+                              << "; clamped to 0\n";
+                }
+                const float w  = std::max(0.0f, raw_w);
+                const float nd = dist[u] + w;
+                if (nd < dist[v]) {
+                    dist[v]   = nd;
+                    parent[v] = static_cast<int64_t>(u);
+                    pq.push({nd, v});
+                }
+            }
+        }
+
+        if (std::isinf(dist[dst])) {
+            continue; // no path
+        }
+
+        // Reconstruct path from destination back to source via parent chain.
+        std::vector<uint32_t> path;
+        for (int64_t v = static_cast<int64_t>(dst); v != -1; v = parent[v]) {
+            path.push_back(static_cast<uint32_t>(v));
+        }
+        std::reverse(path.begin(), path.end());
+        results[p] = std::move(path);
+    }
     return results;
 }
 

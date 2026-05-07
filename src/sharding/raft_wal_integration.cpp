@@ -67,10 +67,14 @@ RaftWALIntegration::WriteResult RaftWALIntegration::write(const WALEntry& entry)
     pending.committed = false;
     
     pending_writes_[log_index] = pending;
-    
-    // 4. Wait for quorum with a condition variable so that onAppendEntriesResponse()
-    //    can acquire the same mutex to deliver ACKs while write() is waiting.
-    //    The mutex is temporarily released by cv_.wait_for() on each iteration.
+
+    // CC-2a: The original audit finding flagged a potential self-deadlock where
+    // onAppendEntriesResponse() needed to acquire mutex_ to deliver ACKs while
+    // write() was still holding it.  This is resolved by using cv_.wait_for()
+    // which atomically releases mutex_ during the wait and re-acquires it before
+    // the predicate check or before returning.  onAppendEntriesResponse() can
+    // therefore acquire mutex_ to update pending_writes_ while write() is parked
+    // in wait_for(), eliminating the deadlock.
     auto timeout = std::chrono::milliseconds(5000);
     bool quorum_reached = cv_.wait_for(lock, timeout, [this, log_index]() {
         auto it = pending_writes_.find(log_index);

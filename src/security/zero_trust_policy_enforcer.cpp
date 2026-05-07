@@ -186,8 +186,12 @@ VerificationResult ZeroTrustPolicyEnforcer::verify(const ZeroTrustContext& conte
 bool ZeroTrustPolicyEnforcer::verifyToken(const std::string& token,
                                           const std::string& user_id) const {
     if (!token_verifier_) {
-        // No verifier configured – treat as pass-through (integration callers
-        // are expected to supply a verifier in production).
+        // No verifier configured — fail-closed by default.
+        // Call setAllowUnverifiedToken(true) in test environments to override.
+        if (!allow_unverified_token_) {
+            THEMIS_WARN("ZeroTrust: verifyToken() called with no TokenVerifier set — denying (fail-closed)");
+            return false;
+        }
         return true;
     }
     try {
@@ -205,9 +209,13 @@ bool ZeroTrustPolicyEnforcer::isIpAllowed(const std::string& client_ip,
 
     if (!policy) {
         // No policy registered for this identity.
-        // Honour global zero-trust default: deny unless a policy explicitly permits.
-        // However, if there are NO policies at all, allow (unconfigured system).
         if (policies_.empty()) {
+            // No policies at all — fail-closed by default.
+            // Call setAllowEmptyNetworkPolicies(true) for phased roll-out / migration.
+            if (!allow_empty_network_policies_) {
+                THEMIS_WARN("ZeroTrust: isIpAllowed() called with no network policies configured — denying (fail-closed)");
+                return false;
+            }
             return true;
         }
         // Policies exist but none match this identity → deny by default

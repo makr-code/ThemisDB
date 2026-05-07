@@ -255,3 +255,51 @@ TEST_F(ProcessCommunityDetectorTest, LCD10_PerformanceTwentyNodes) {
     EXPECT_LT(dt, 500) << "detect() took " << dt << " ms for 20-node graph";
     EXPECT_FALSE(comms.empty());
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LCD-11: generateReport includes node count and modularity score (stub #238)
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(ProcessCommunityDetectorTest, LCD11_GenerateReport_IncludesModularityAndCount) {
+    themis::process::ProcessCommunity c;
+    c.community_id     = "community_0";
+    c.node_ids         = {"n1", "n2", "n3", "n4", "n5"};
+    c.label            = "n1; n2; n3";
+    c.modularity_score = 0.1234f;
+
+    const std::string report_en = detector_->generateReport(c, "m", "", "en");
+    // Must contain node count
+    EXPECT_NE(report_en.find("5"), std::string::npos)
+        << "Report must mention the node count (5). Report: " << report_en;
+    // Must contain modularity
+    EXPECT_NE(report_en.find("modularity"), std::string::npos)
+        << "English report must contain 'modularity'. Report: " << report_en;
+    // Must contain the community_id
+    EXPECT_NE(report_en.find("community_0"), std::string::npos);
+
+    // German variant
+    const std::string report_de = detector_->generateReport(c, "m", "", "de");
+    EXPECT_NE(report_de.find("Modularität"), std::string::npos)
+        << "German report must contain 'Modularität'. Report: " << report_de;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LCD-12: generateReport lists all nodes (up to 10) with ellipsis beyond that
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(ProcessCommunityDetectorTest, LCD12_GenerateReport_EllipsisForLargeCommunit) {
+    themis::process::ProcessCommunity c;
+    c.community_id = "community_1";
+    for (int i = 0; i < 15; ++i) {
+        c.node_ids.push_back("node_" + std::to_string(i));
+    }
+    c.modularity_score = 0.05f;
+
+    const std::string report = detector_->generateReport(c, "m", "", "en");
+    // Ellipsis must appear because >10 nodes
+    EXPECT_NE(report.find("more"), std::string::npos)
+        << "Report should contain ellipsis for communities with >10 nodes. Report: " << report;
+    // First 10 nodes should be listed
+    EXPECT_NE(report.find("node_0"), std::string::npos);
+    EXPECT_NE(report.find("node_9"), std::string::npos);
+}

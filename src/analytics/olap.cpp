@@ -92,6 +92,17 @@ public:
     std::unique_ptr<themis::analytics::detail::AnalyticsMemoryPool> pool;
 
     // -------------------------------------------------------------------------
+    // Per-collection statistics cache used by explain() / collectStatistics().
+    // -------------------------------------------------------------------------
+    struct CollectionStats {
+        size_t row_count = 0;
+        std::chrono::steady_clock::time_point updated;
+        bool valid = false;
+    };
+    mutable std::mutex                                    stats_mutex;
+    std::unordered_map<std::string, CollectionStats>      stats_cache_;
+
+    // -------------------------------------------------------------------------
     // O(1) LRU result cache — doubly-linked list + unordered_map.
     // Front of list = MRU (most recently used), back = LRU (eviction candidate).
     // -------------------------------------------------------------------------
@@ -732,9 +743,25 @@ std::vector<OLAPEngine::WindowResult> OLAPEngine::evaluateWindowFunctions(
 
 OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery& query) {
     QueryPlan plan;
-    
-    plan.estimated_rows = 1000;  // Placeholder
-    plan.estimated_cost = 1.0;
+
+    // Use cached collection statistics when available; fall back to 1000 rows.
+    {
+        std::lock_guard<std::mutex> lock(impl_->stats_mutex);
+        auto it = impl_->stats_cache_.find(query.collection);
+        if (it != impl_->stats_cache_.end() && it->second.valid) {
+            plan.estimated_rows = static_cast<size_t>(it->second.row_count);
+        } else {
+            // No statistics collected yet — use the in-memory store directly if
+            // it holds data for this collection.
+            auto cit = impl_->collections.find(query.collection);
+            if (cit != impl_->collections.end() && !cit->second.empty()) {
+                plan.estimated_rows = cit->second.size();
+            } else {
+                plan.estimated_rows = 1000; // default when no data available
+            }
+        }
+    }
+    plan.estimated_cost = static_cast<double>(plan.estimated_rows);
     
     // Check for index usage
     if (query.filters.empty()) {
@@ -773,8 +800,27 @@ OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery& query) {
     return plan;
 }
 
-void OLAPEngine::collectStatistics([[maybe_unused]] std::string_view collection) {
-    // Placeholder for statistics collection
+void OLAPEngine::collectStatistics(std::string_view collection) {
+    const std::string key(collection);
+
+    // Hold stats_mutex for the entire operation so that the row count and
+    // the cache update are atomic with respect to any concurrent reader of
+    // stats_cache_ (e.g., explain()).  In production, collections would be
+    // accessed via a storage backend with its own concurrency guarantees;
+    // for the in-memory store used here, a single lock is sufficient.
+    std::lock_guard<std::mutex> lock(impl_->stats_mutex);
+
+    Impl::CollectionStats stats;
+    stats.valid = false;
+
+    auto it = impl_->collections.find(key);
+    if (it != impl_->collections.end()) {
+        stats.row_count = it->second.size();
+        stats.valid = true;
+    }
+    stats.updated = std::chrono::steady_clock::now();
+
+    impl_->stats_cache_[key] = stats;
 }
 
 double OLAPEngine::computeAggregate(

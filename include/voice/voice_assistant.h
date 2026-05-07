@@ -40,6 +40,9 @@
 #include <string>
 #include <memory>
 #include <functional>
+#include <map>
+#include <unordered_map>
+#include <mutex>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -137,6 +140,28 @@ public:
     
     VoiceAssistant(const Config& config);
     ~VoiceAssistant();
+
+    /**
+     * @brief Callback type for audio format conversion.
+     *
+     * Receives (audio_data, target_format) and returns the converted audio
+     * bytes.  An empty return is treated as a conversion failure; the original
+     * bytes are returned to the caller in that case.
+     */
+    using AudioConvertFn =
+        std::function<std::vector<uint8_t>(const std::vector<uint8_t>&,
+                                           const std::string&)>;
+
+    /**
+     * @brief Inject an audio format conversion backend.
+     *
+     * When set, convertAudioFormat() delegates to @p fn instead of returning
+     * the input bytes unchanged.  Callers inject a libavformat-backed (FFmpeg)
+     * implementation at startup; unit tests inject a scripted converter.
+     *
+     * @param fn  Callable(audio_data, target_format) → converted bytes.
+     */
+    void setAudioConvertFn(AudioConvertFn fn) { audio_convert_fn_ = std::move(fn); }
     
     /**
      * @brief Initialize voice assistant
@@ -411,8 +436,21 @@ private:
     // Session management
     std::map<std::string, VoiceSession> sessions_;
     std::mutex sessions_mutex_;
-    
+
+    // Revision store — tracks all createRevisionEntry() calls so that
+    // history queries, version diffing, and audit log consumers can find
+    // the records within the same process lifetime.
+    struct RevisionEntry {
+        std::string entity_id;   ///< Owning entity key
+        uint32_t    data_hash;   ///< FNV-1a hash of the data payload
+        json        metadata;    ///< Caller-supplied metadata snapshot
+        int64_t     timestamp;   ///< Epoch nanoseconds at entry creation
+    };
+    std::unordered_map<std::string, RevisionEntry> revision_store_;
+    std::mutex revision_store_mutex_;
+
     bool initialized_ = false;
+    AudioConvertFn audio_convert_fn_;  ///< Optional audio format converter; null = passthrough stub.
     
     // Internal methods
     std::string generateLLMResponse(

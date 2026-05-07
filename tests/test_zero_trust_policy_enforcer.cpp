@@ -144,9 +144,22 @@ TEST(ZeroTrustPolicyEnforcerTest, DefaultDenyFalseAllowsUnmatchedIp) {
     EXPECT_TRUE(enforcer.isIpAllowed("192.168.1.1", "alice"));
 }
 
-TEST(ZeroTrustPolicyEnforcerTest, NoPoliciesAllowsAll) {
-    // When no policies are registered there is nothing to check, so allow.
+TEST(ZeroTrustPolicyEnforcerTest, NoPoliciesDeniesAll) {
+    // R2 (S1): When no policies are registered, isIpAllowed() is fail-closed (deny).
     ZeroTrustPolicyEnforcer enforcer;
+    EXPECT_FALSE(enforcer.isIpAllowed("1.2.3.4", "unknown-user"));
+}
+
+TEST(ZeroTrustPolicyEnforcerTest, NoPoliciesAllowsAll_MigrationFlag) {
+    // Migration path: setAllowEmptyNetworkPolicies(true) restores legacy allow-all
+    // behaviour.  Use only during phased roll-out; remove before production.
+    // STUB/SIMULATION NOTE:
+    //   Purpose: preserve pre-R2 allow semantics in integration tests during migration
+    //   Activation: explicit setAllowEmptyNetworkPolicies(true) call in test setup
+    //   Production Delta: production code must NOT set this flag
+    //   Removal Plan: once all services have network policies configured
+    ZeroTrustPolicyEnforcer enforcer;
+    enforcer.setAllowEmptyNetworkPolicies(true);
     EXPECT_TRUE(enforcer.isIpAllowed("1.2.3.4", "unknown-user"));
 }
 
@@ -193,8 +206,22 @@ TEST(ZeroTrustPolicyEnforcerTest, WildcardCidrZeroPrefix) {
 // Token verification
 // ============================================================================
 
-TEST(ZeroTrustPolicyEnforcerTest, NoVerifierPassesAll) {
+TEST(ZeroTrustPolicyEnforcerTest, NoVerifierDeniesAll) {
+    // R1 (S1): When no TokenVerifier is configured, verifyToken() is fail-closed (deny).
     ZeroTrustPolicyEnforcer enforcer; // no token_verifier
+    EXPECT_FALSE(enforcer.verifyToken("any-token", "any-user"));
+}
+
+TEST(ZeroTrustPolicyEnforcerTest, NoVerifierAllowsAll_TestOverride) {
+    // setAllowUnverifiedToken(true) restores pass-through for test fixtures that
+    // deliberately omit a real verifier.
+    // STUB/SIMULATION NOTE:
+    //   Purpose: allow unit tests to skip real token validation
+    //   Activation: explicit setAllowUnverifiedToken(true) call in test setup
+    //   Production Delta: production code must NOT set this flag
+    //   Removal Plan: N/A (test-only helper)
+    ZeroTrustPolicyEnforcer enforcer;
+    enforcer.setAllowUnverifiedToken(true);
     EXPECT_TRUE(enforcer.verifyToken("any-token", "any-user"));
 }
 
@@ -302,7 +329,8 @@ TEST(ZeroTrustPolicyEnforcerTest, VerifyDeniesOnBadToken) {
 }
 
 TEST(ZeroTrustPolicyEnforcerTest, VerifyDeniesOnNetworkPolicyViolation) {
-    ZeroTrustPolicyEnforcer enforcer; // no token verifier → token check passes
+    ZeroTrustPolicyEnforcer enforcer;
+    enforcer.setAllowUnverifiedToken(true); // token check passes; only network denial is tested
 
     NetworkPolicy p;
     p.policy_id = "p1";
@@ -322,6 +350,7 @@ TEST(ZeroTrustPolicyEnforcerTest, VerifyDeniesOnNetworkPolicyViolation) {
 
 TEST(ZeroTrustPolicyEnforcerTest, VerifyDeniesOnDeniedCidr) {
     ZeroTrustPolicyEnforcer enforcer;
+    enforcer.setAllowUnverifiedToken(true); // token check passes; only CIDR denial is tested
 
     NetworkPolicy p;
     p.policy_id = "p1";
@@ -342,7 +371,17 @@ TEST(ZeroTrustPolicyEnforcerTest, VerifyDeniesOnDeniedCidr) {
 // ============================================================================
 
 TEST(ZeroTrustPolicyEnforcerTest, MetricsAreUpdatedCorrectly) {
-    ZeroTrustPolicyEnforcer enforcer; // no verifier, no policies → allow all
+    // Use migration flags so that an enforcer with no verifier and no policies
+    // still allows all requests (needed to keep the metrics test meaningful
+    // without adding a real verifier or policies here).
+    // STUB/SIMULATION NOTE:
+    //   Purpose: exercise metrics counters without real verifier/policy setup
+    //   Activation: setAllowUnverifiedToken + setAllowEmptyNetworkPolicies both true
+    //   Production Delta: production code must NOT set either flag
+    //   Removal Plan: replace with a fixture that supplies a real verifier + policy
+    ZeroTrustPolicyEnforcer enforcer;
+    enforcer.setAllowUnverifiedToken(true);
+    enforcer.setAllowEmptyNetworkPolicies(true);
 
     auto ctx = makeCtx("alice", "1.2.3.4");
     enforcer.verify(ctx);
@@ -355,6 +394,7 @@ TEST(ZeroTrustPolicyEnforcerTest, MetricsAreUpdatedCorrectly) {
 
 TEST(ZeroTrustPolicyEnforcerTest, MetricsDenialCountedOnNetworkViolation) {
     ZeroTrustPolicyEnforcer enforcer;
+    enforcer.setAllowUnverifiedToken(true); // let the token check pass so network denial fires
 
     NetworkPolicy p;
     p.policy_id = "p1";
@@ -390,6 +430,7 @@ TEST(ZeroTrustPolicyEnforcerTest, MetricsIdentityFailureCounted) {
 
 TEST(ZeroTrustPolicyEnforcerTest, IPv6CidrMatchesExact) {
     ZeroTrustPolicyEnforcer enforcer;
+    enforcer.setAllowUnverifiedToken(true);
     NetworkPolicy p;
     p.policy_id = "v6-exact";
     p.identity  = "alice";
@@ -405,6 +446,7 @@ TEST(ZeroTrustPolicyEnforcerTest, IPv6CidrMatchesExact) {
 
 TEST(ZeroTrustPolicyEnforcerTest, IPv6CidrRejectsOutsideBlock) {
     ZeroTrustPolicyEnforcer enforcer;
+    enforcer.setAllowUnverifiedToken(true);
     NetworkPolicy p;
     p.policy_id = "v6-block";
     p.identity  = "bob";
@@ -420,6 +462,7 @@ TEST(ZeroTrustPolicyEnforcerTest, IPv6CidrRejectsOutsideBlock) {
 
 TEST(ZeroTrustPolicyEnforcerTest, IPv6SlashOneHundredTwentyEightExactMatch) {
     ZeroTrustPolicyEnforcer enforcer;
+    enforcer.setAllowUnverifiedToken(true);
     NetworkPolicy p;
     p.policy_id = "v6-128";
     p.identity  = "carol";
@@ -433,6 +476,7 @@ TEST(ZeroTrustPolicyEnforcerTest, IPv6SlashOneHundredTwentyEightExactMatch) {
 
 TEST(ZeroTrustPolicyEnforcerTest, IPv6SlashZeroMatchesAny) {
     ZeroTrustPolicyEnforcer enforcer;
+    enforcer.setAllowUnverifiedToken(true);
     NetworkPolicy p;
     p.policy_id = "v6-any";
     p.identity  = "dave";
@@ -446,6 +490,7 @@ TEST(ZeroTrustPolicyEnforcerTest, IPv6SlashZeroMatchesAny) {
 
 TEST(ZeroTrustPolicyEnforcerTest, IPv6MalformedRejected) {
     ZeroTrustPolicyEnforcer enforcer;
+    enforcer.setAllowUnverifiedToken(true);
     NetworkPolicy p;
     p.policy_id = "v6-malformed";
     p.identity  = "eve";
@@ -461,6 +506,7 @@ TEST(ZeroTrustPolicyEnforcerTest, IPv6MalformedRejected) {
 
 TEST(ZeroTrustPolicyEnforcerTest, IPv4MappedIPv6NormalisedToIPv4) {
     ZeroTrustPolicyEnforcer enforcer;
+    enforcer.setAllowUnverifiedToken(true);
     NetworkPolicy p;
     p.policy_id = "v4-mapped";
     p.identity  = "frank";
@@ -476,6 +522,7 @@ TEST(ZeroTrustPolicyEnforcerTest, IPv4MappedIPv6NormalisedToIPv4) {
 
 TEST(ZeroTrustPolicyEnforcerTest, IPv6DeniedCidrTakesPrecedence) {
     ZeroTrustPolicyEnforcer enforcer;
+    enforcer.setAllowUnverifiedToken(true);
     NetworkPolicy p;
     p.policy_id = "v6-deny";
     p.identity  = "grace";
@@ -521,6 +568,7 @@ TEST(ZeroTrustPolicyEnforcerTest, ContinuousReVerificationTriggersWhenExpired) {
 
 TEST(ZeroTrustPolicyEnforcerTest, RiskScoreThresholdRevokesSession) {
     ZeroTrustPolicyEnforcer enforcer;
+    enforcer.setAllowUnverifiedToken(true); // let token pass so risk score logic is reached
 
     NetworkPolicy p;
     p.policy_id = "risky";
@@ -539,6 +587,7 @@ TEST(ZeroTrustPolicyEnforcerTest, RiskScoreThresholdRevokesSession) {
 
 TEST(ZeroTrustPolicyEnforcerTest, RiskScoreBelowThresholdAllowed) {
     ZeroTrustPolicyEnforcer enforcer;
+    enforcer.setAllowUnverifiedToken(true);
 
     NetworkPolicy p;
     p.policy_id = "safe";
@@ -556,6 +605,7 @@ TEST(ZeroTrustPolicyEnforcerTest, RiskScoreBelowThresholdAllowed) {
 
 TEST(ZeroTrustPolicyEnforcerTest, RiskScoreReducesTrustScore) {
     ZeroTrustPolicyEnforcer enforcer;
+    enforcer.setAllowUnverifiedToken(true);
 
     NetworkPolicy p;
     p.policy_id = "trust-check";

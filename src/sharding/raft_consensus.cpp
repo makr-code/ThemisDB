@@ -193,7 +193,10 @@ std::vector<ReplicaState> RaftConsensus::getReplicaStates() const {
 }
 
 void RaftConsensus::setReplicationCallback(ReplicationCallback callback) {
-    replication_callback_ = callback;
+    // RAFT-2: Protect the write side under the same mutex used by propose()
+    // to read the callback, preventing a data race on std::function.
+    std::lock_guard<std::mutex> lock(replica_mutex_);
+    replication_callback_ = std::move(callback);
 }
 
 void RaftConsensus::setHeartbeatCallback(HeartbeatCallback callback) {

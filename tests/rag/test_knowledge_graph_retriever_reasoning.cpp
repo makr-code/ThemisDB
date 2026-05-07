@@ -168,3 +168,77 @@ TEST(KGRetrieverReasoningTests, KGRRAG06_ZeroHopsDisablesInference) {
     EXPECT_FALSE(res.has_reasoning);
     EXPECT_TRUE(res.inference_chains.empty());
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// KGR-07  applyLoRAScore() heuristic fallback — score = 1/(1+premises)
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(KGRetrieverReasoningTests, KGRRAG07_ApplyLoRAScoreHeuristicFallback) {
+    KnowledgeGraphReasoner kgr;
+    configureReasoner(kgr);
+
+    auto chain = kgr.infer("alice", 2);
+    ASSERT_FALSE(chain.empty());
+
+    kgr.applyLoRAScore(chain, "test-adapter");
+
+    // Heuristic: score = 1 / (1 + premises.size()); must be in (0, 1].
+    for (const auto& edge : chain.edges) {
+        EXPECT_GT(edge.lora_score, 0.0);
+        EXPECT_LE(edge.lora_score, 1.0);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// KGR-08  setLoraScoreFn() — injected function is called per edge
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(KGRetrieverReasoningTests, KGRRAG08_InjectedLoraScoreFnCalled) {
+    KnowledgeGraphReasoner kgr;
+    configureReasoner(kgr);
+
+    int call_count = 0;
+    const double kFixedScore = 0.77;
+    kgr.setLoraScoreFn([&call_count, kFixedScore](
+            std::string_view /*adapter_id*/,
+            const InferenceEdge& /*edge*/) -> double {
+        ++call_count;
+        return kFixedScore;
+    });
+
+    auto chain = kgr.infer("alice", 2);
+    ASSERT_FALSE(chain.empty());
+
+    const std::size_t edge_count = chain.edges.size();
+    call_count = 0;
+    kgr.applyLoRAScore(chain, "test-adapter");
+
+    EXPECT_EQ(static_cast<std::size_t>(call_count), edge_count);
+    for (const auto& edge : chain.edges) {
+        EXPECT_DOUBLE_EQ(edge.lora_score, kFixedScore);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// KGR-09  setLoraScoreFn() — edges below min_lora_score are filtered out
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(KGRetrieverReasoningTests, KGRRAG09_LoraScoreFilterApplied) {
+    KnowledgeGraphReasoner kgr;
+    // Rule with min_lora_score = 0.9 — injected backend returns 0.5 → filtered
+    kgr.addRule({ "strict_rule",
+                  {{"?A","likes","?B"}},
+                  {{"?A","loves","?B"}},
+                  /*lora_adapter=*/"test-adapter",
+                  /*min_lora_score=*/0.9 });
+    kgr.addFact({"alice", "likes", "bob"});
+
+    kgr.setLoraScoreFn([](std::string_view, const InferenceEdge&) -> double {
+        return 0.5; // below threshold
+    });
+
+    auto chain = kgr.infer("alice", 1);
+    kgr.applyLoRAScore(chain, "test-adapter");
+
+    // All edges from strict_rule should be filtered out (score 0.5 < 0.9).
+    for (const auto& edge : chain.edges) {
+        EXPECT_NE(edge.rule_id, "strict_rule");
+    }
+}

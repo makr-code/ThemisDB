@@ -23,6 +23,7 @@
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <functional>
 
 namespace themis {
 namespace governance {
@@ -112,6 +113,32 @@ public:
     OpaAdapter& operator=(OpaAdapter&&)      = delete;
 
     /**
+     * @brief WASM evaluation callback type.
+     *
+     * When injected via setWasmEvalFn(), this function is called by
+     * evaluateWasm() instead of the built-in stub.  It receives the
+     * same (headers, route) inputs as evaluate() and must return an
+     * optional PolicyDecision (std::nullopt = fall through to REST).
+     *
+     * Injection enables tests and alternative runtime integrations
+     * (e.g. a real wasmer/wasmtime binding) to exercise WASM-mode
+     * policy evaluation without the THEMIS_ENABLE_OPA_WASM build flag.
+     *
+     * Passing nullptr clears the override and restores the built-in
+     * stub behaviour (bundle-exists → permissive allow).
+     */
+    using WasmEvalFn = std::function<std::optional<PolicyDecision>(
+        const std::unordered_map<std::string, std::string>& headers,
+        const std::string& route)>;
+
+    /**
+     * @brief Inject a custom WASM evaluator (replaces the built-in stub).
+     *
+     * @param fn  Evaluator callback; pass nullptr to restore stub behaviour.
+     */
+    void setWasmEvalFn(WasmEvalFn fn);
+
+    /**
      * @brief Query OPA for a governance policy decision.
      *
      * Sends a synchronous HTTP POST to `{endpoint_url}/v1/data/{policy_path}`.
@@ -128,6 +155,7 @@ public:
 
 private:
     Config config_;
+    WasmEvalFn wasm_eval_fn_;
 
     /// Build the full OPA query URL from config.
     std::string buildUrl() const;

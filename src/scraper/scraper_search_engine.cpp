@@ -23,6 +23,7 @@
 
 #include "scraper/scraper_search_engine.h"
 #include <algorithm>
+#include <array>
 #include <sstream>
 #include <iomanip>
 #include <cctype>
@@ -129,21 +130,77 @@ std::string buildQueryString(
     const std::string tl = toLower(type);
     if (tl == "search") return true;
     if (tl != "text" && tl != "") return false;
-    // name/id heuristics
-    const auto looks = [](const std::string& s) {
+
+    // name/id heuristics — English, German, French, Spanish, Italian, Dutch,
+    // Polish, Portuguese, Swedish, and common URL/API parameter names.
+    const auto looksLikeSearch = [](const std::string& s) {
         const std::string l = toLower(s);
-        return l.find("search") != std::string::npos ||
-               l.find("query")  != std::string::npos ||
-               l.find("suche")  != std::string::npos ||
-               l.find("q")      == 0                 ||
-               l == "s";
+        // Exact matches for very short canonical parameters
+        if (l == "q" || l == "s" || l == "search" || l == "query" ||
+            l == "suche" || l == "recherche" || l == "buscar" || l == "zoek")
+            return true;
+        // Prefix match: starts with "q=" or "search"
+        if (l.size() >= 1 && l[0] == 'q' && (l.size() == 1 || l[1] == '_' || l[1] == '-'))
+            return true;
+        // Substring keywords (multilingual)
+        static const std::array<std::string, 22> kKeywords = {{
+            "search",    // English
+            "query",     // English
+            "keyword",   // English
+            "find",      // English
+            "lookup",    // English
+            "suche",     // German
+            "anfrage",   // German (query)
+            "recherche", // French
+            "chercher",  // French (to search)
+            "busqueda",  // Spanish
+            "buscar",    // Spanish (to search)
+            "cerca",     // Italian
+            "ricerca",   // Italian
+            "zoek",      // Dutch
+            "szukaj",    // Polish
+            "pesquisa",  // Portuguese
+            "pesquisar", // Portuguese (to search)
+            "sok",       // Swedish/Norwegian
+            "søk",       // Norwegian
+            "haku",      // Finnish
+            "sucht",     // German variant
+            "suchfeld",  // German (search field)
+        }};
+        for (const auto& kw : kKeywords) {
+            if (l.find(kw) != std::string::npos) return true;
+        }
+        return false;
     };
-    if (looks(name) || looks(id)) return true;
-    // placeholder heuristic
+
+    if (looksLikeSearch(name) || looksLikeSearch(id)) return true;
+
+    // Placeholder heuristics — look for search-intent words in many languages.
     const std::string pl = toLower(placeholder);
-    return pl.find("such") != std::string::npos ||
-           pl.find("search") != std::string::npos ||
-           pl.find("eingabe") != std::string::npos;
+    static const std::array<std::string, 18> kPlaceholderKeywords = {{
+        "search",     // English
+        "find",       // English
+        "look",       // English
+        "query",      // English
+        "such",       // German (partial: "Suche", "suchen", "Suchfeld")
+        "eingabe",    // German (input)
+        "recherch",   // French (partial: "recherche", "rechercher")
+        "cherch",     // French (chercher)
+        "busca",      // Spanish/Portuguese
+        "busqu",      // Spanish (búsqueda)
+        "pesquis",    // Portuguese
+        "cerca",      // Italian
+        "ricerca",    // Italian
+        "zoek",       // Dutch
+        "szukaj",     // Polish
+        "søk",        // Norwegian
+        "haku",       // Finnish
+        "ara",        // Turkish
+    }};
+    for (const auto& kw : kPlaceholderKeywords) {
+        if (pl.find(kw) != std::string::npos) return true;
+    }
+    return false;
 }
 
 /*static*/ std::string HtmlSearchEngine::extractText(const std::string& fragment) {

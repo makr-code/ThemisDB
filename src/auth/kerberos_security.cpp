@@ -55,6 +55,264 @@ constexpr uint8_t ASN1_TAG_OBJECT_ID = 0x06;
 } // anonymous namespace
 
 // ============================================================================
+// GSSAPI / Kerberos-5 DER parsing helpers (RFC 4120, RFC 4121)
+// ============================================================================
+// These helpers extract cleartext fields from a GSSAPI KRB5 AP-REQ token.
+// Fields inside EncryptedData (authenticator, enc-part) are NOT decrypted;
+// timestamps and client principal remain unavailable without the service key.
+// ============================================================================
+
+namespace {
+
+// KRB5 OID: 1.2.840.113554.1.2.2 (DER encoded with tag+length)
+static const uint8_t KRB5_OID_DER[] = {
+    0x06, 0x09,
+    0x2A, 0x86, 0x48, 0x86, 0xF7, 0x12, 0x01, 0x02, 0x02
+};
+static constexpr size_t KRB5_OID_DER_LEN = sizeof(KRB5_OID_DER);
+
+// APPLICATION tag values
+static constexpr uint8_t GSSAPI_APP0_TAG  = 0x60;  // [APPLICATION 0] CONSTRUCTED
+static constexpr uint8_t KRB5_APP14_TAG   = 0x6E;  // [APPLICATION 14] AP-REQ
+static constexpr uint8_t KRB5_APP1_TAG    = 0x61;  // [APPLICATION 1]  Ticket
+
+// AP-REQ ap-options flags (RFC 4120 §5.5.1)
+static constexpr uint32_t AP_OPT_USE_SESSION_KEY = 0x40000000u;
+static constexpr uint32_t AP_OPT_MUTUAL_REQUIRED  = 0x20000000u;
+
+// Read a DER-encoded length field starting at data[offset].
+// On success, advances offset past the length field and sets length.
+// Returns false on malformed input (indefinite form, too many length octets,
+// or overflow past data end).
+static bool derReadLength(const uint8_t* data, size_t size,
+                           size_t& offset, size_t& length) {
+    if (offset >= size) return false;
+    uint8_t lb = data[offset++];
+    if ((lb & 0x80u) == 0u) {
+        length = lb;
+        return true;
+    }
+    size_t nb = lb & 0x7Fu;
+    if (nb == 0u || nb > 4u || offset + nb > size) return false;
+    length = 0;
+    for (size_t i = 0; i < nb; ++i) {
+        length = (length << 8u) | data[offset++];
+    }
+    return true;
+}
+
+// Find the content of the first context-specific [tag_num] CONSTRUCTED element
+// within the given SEQUENCE content buffer.  Returns nullptr if not found.
+static const uint8_t* findContextTag(const uint8_t* data, size_t size,
+                                      uint8_t tag_num, size_t& content_size) {
+    size_t pos = 0;
+    while (pos < size) {
+        if (pos >= size) break;
+        uint8_t tag = data[pos++];
+        size_t len = 0;
+        if (!derReadLength(data, size, pos, len)) break;
+        if (pos + len > size) break;
+        // Context-specific CONSTRUCTED [N] = 0xA0 | N
+        if (tag == static_cast<uint8_t>(0xA0u | tag_num)) {
+            content_size = len;
+            return data + pos;
+        }
+        pos += len;
+    }
+    return nullptr;
+}
+
+// Unwrap a SEQUENCE: verify tag 0x30, advance past tag+length, return content.
+static bool unwrapSequence(const uint8_t* data, size_t size,
+                            const uint8_t*& content, size_t& content_size) {
+    if (size < 2u || data[0] != ASN1_TAG_SEQUENCE) return false;
+    size_t pos = 1;
+    size_t len = 0;
+    if (!derReadLength(data, size, pos, len)) return false;
+    if (pos + len > size) return false;
+    content      = data + pos;
+    content_size = len;
+    return true;
+}
+
+// Read the string value of an ASN.1 string primitive at data[0..size).
+// Accepts GeneralString (0x1B), UTF8String (0x0C), PrintableString (0x13),
+// IA5String (0x16) as Kerberos implementations vary.
+static std::string readKerberosString(const uint8_t* data, size_t size) {
+    if (size < 2u) return {};
+    uint8_t tag = data[0];
+    // Accepted string tags
+    if (tag != 0x1Bu && tag != 0x0Cu && tag != 0x13u && tag != 0x16u) return {};
+    size_t pos = 1;
+    size_t len = 0;
+    if (!derReadLength(data, size, pos, len)) return {};
+    if (pos + len > size) return {};
+    return {reinterpret_cast<const char*>(data + pos), len};
+}
+
+// Holds the cleartext fields extractable from a KRB5 AP-REQ token.
+struct Krb5TokenFields {
+    std::string realm;
+    std::string sname;         // "service/host@REALM"
+    uint32_t    ap_options{0}; // AP-REQ ap-options bitmask
+    bool        parsed{false};
+};
+
+// Parse Ticket [APPLICATION 1] to extract realm and sname.
+static bool parseKrb5Ticket(const uint8_t* data, size_t size,
+                              Krb5TokenFields& out) {
+    if (size < 2u || data[0] != KRB5_APP1_TAG) return false;
+    size_t pos = 1;
+    size_t app_len = 0;
+    if (!derReadLength(data, size, pos, app_len)) return false;
+    if (pos + app_len > size) return false;
+
+    const uint8_t* seq_content = nullptr;
+    size_t         seq_size    = 0;
+    if (!unwrapSequence(data + pos, app_len, seq_content, seq_size)) return false;
+
+    // [1] Realm  — GeneralString
+    size_t realm_tag_size = 0;
+    const uint8_t* realm_tag =
+        findContextTag(seq_content, seq_size, 1u, realm_tag_size);
+    if (realm_tag) {
+        out.realm = readKerberosString(realm_tag, realm_tag_size);
+    }
+
+    // [2] PrincipalName SEQUENCE { [0] name-type, [1] SEQUENCE OF KerberosString }
+    size_t sname_tag_size = 0;
+    const uint8_t* sname_tag =
+        findContextTag(seq_content, seq_size, 2u, sname_tag_size);
+    if (sname_tag) {
+        const uint8_t* pn_content = nullptr;
+        size_t         pn_size    = 0;
+        if (unwrapSequence(sname_tag, sname_tag_size, pn_content, pn_size)) {
+            size_t names_tag_size = 0;
+            const uint8_t* names_tag =
+                findContextTag(pn_content, pn_size, 1u, names_tag_size);
+            if (names_tag) {
+                const uint8_t* names_seq = nullptr;
+                size_t         names_seq_size = 0;
+                if (unwrapSequence(names_tag, names_tag_size,
+                                    names_seq, names_seq_size)) {
+                    std::string sname_str;
+                    size_t p = 0;
+                    while (p < names_seq_size) {
+                        // Each element: tag byte, length, string bytes
+                        if (p + 2u > names_seq_size) break;
+                        uint8_t stag = names_seq[p++];
+                        (void)stag; // accept any string tag variant
+                        size_t slen = 0;
+                        if (!derReadLength(names_seq, names_seq_size, p, slen))
+                            break;
+                        if (p + slen > names_seq_size) break;
+                        if (!sname_str.empty()) sname_str += '/';
+                        sname_str.append(
+                            reinterpret_cast<const char*>(names_seq + p), slen);
+                        p += slen;
+                    }
+                    if (!sname_str.empty()) {
+                        out.sname = sname_str;
+                        if (!out.realm.empty())
+                            out.sname += '@' + out.realm;
+                    }
+                }
+            }
+        }
+    }
+
+    return !out.sname.empty() || !out.realm.empty();
+}
+
+// Parse AP-REQ [APPLICATION 14] to extract ap-options and the embedded Ticket.
+static bool parseKrb5ApReq(const uint8_t* data, size_t size,
+                             Krb5TokenFields& out) {
+    if (size < 2u || data[0] != KRB5_APP14_TAG) return false;
+    size_t pos = 1;
+    size_t app_len = 0;
+    if (!derReadLength(data, size, pos, app_len)) return false;
+    if (pos + app_len > size) return false;
+
+    const uint8_t* seq_content = nullptr;
+    size_t         seq_size    = 0;
+    if (!unwrapSequence(data + pos, app_len, seq_content, seq_size)) return false;
+
+    // [2] APOptions BIT STRING
+    size_t opts_tag_size = 0;
+    const uint8_t* opts_tag =
+        findContextTag(seq_content, seq_size, 2u, opts_tag_size);
+    if (opts_tag && opts_tag_size >= 2u && opts_tag[0] == 0x03u) {
+        size_t bs_pos = 1;
+        size_t bs_len = 0;
+        if (derReadLength(opts_tag, opts_tag_size, bs_pos, bs_len) &&
+            bs_len >= 5u && bs_pos + bs_len <= opts_tag_size) {
+            // Skip unused-bits byte; read 4 flag bytes (big-endian)
+            const uint8_t* fb = opts_tag + bs_pos + 1;
+            out.ap_options =
+                (static_cast<uint32_t>(fb[0]) << 24u) |
+                (static_cast<uint32_t>(fb[1]) << 16u) |
+                (static_cast<uint32_t>(fb[2]) <<  8u) |
+                 static_cast<uint32_t>(fb[3]);
+        }
+    }
+
+    // [3] Ticket
+    size_t ticket_tag_size = 0;
+    const uint8_t* ticket_tag =
+        findContextTag(seq_content, seq_size, 3u, ticket_tag_size);
+    if (!ticket_tag) return false;
+
+    return parseKrb5Ticket(ticket_tag, ticket_tag_size, out);
+}
+
+// Parse a GSSAPI KRB5 outer wrapper ([APPLICATION 0] + KRB5 OID).
+// Returns pointer to the bytes immediately after the 2-byte token-ID field
+// (i.e., the start of the AP-REQ), and sets inner_size.
+// Returns nullptr on any format error.
+static const uint8_t* parseGssapiKrb5Header(const uint8_t* data, size_t size,
+                                              size_t& inner_size) {
+    if (size < 2u || data[0] != GSSAPI_APP0_TAG) return nullptr;
+    size_t pos = 1;
+    size_t outer_len = 0;
+    if (!derReadLength(data, size, pos, outer_len)) return nullptr;
+    if (pos + outer_len > size) return nullptr;
+
+    const uint8_t* inner   = data + pos;
+    size_t         rem     = outer_len;
+
+    // Verify KRB5 OID
+    if (rem < KRB5_OID_DER_LEN) return nullptr;
+    if (std::memcmp(inner, KRB5_OID_DER, KRB5_OID_DER_LEN) != 0) return nullptr;
+    inner += KRB5_OID_DER_LEN;
+    rem   -= KRB5_OID_DER_LEN;
+
+    // Skip 2-byte inner token ID (0x01 0x00 = AP-REQ)
+    if (rem < 2u) return nullptr;
+    inner += 2u;
+    rem   -= 2u;
+
+    inner_size = rem;
+    return inner;
+}
+
+// Top-level helper: try to parse a GSSAPI KRB5 AP-REQ token and extract
+// cleartext fields.  Returns a Krb5TokenFields with parsed=true on success.
+static Krb5TokenFields extractKrb5Fields(const std::vector<uint8_t>& token_data) {
+    Krb5TokenFields fields;
+    size_t inner_size = 0;
+    const uint8_t* inner =
+        parseGssapiKrb5Header(token_data.data(), token_data.size(), inner_size);
+    if (!inner) return fields;
+
+    if (parseKrb5ApReq(inner, inner_size, fields)) {
+        fields.parsed = true;
+    }
+    return fields;
+}
+
+} // second anonymous namespace
+
+// ============================================================================
 // KerberosSecurityValidator Implementation
 // ============================================================================
 
@@ -266,52 +524,70 @@ bool KerberosSecurityValidator::verifyServicePrincipal(
 }
 
 bool KerberosSecurityValidator::verifyChannelBinding(
-    const std::vector<uint8_t>& /*token_data*/,
+    const std::vector<uint8_t>& token_data,
     const std::vector<uint8_t>& channel_binding)
 {
-    // In a full implementation, would extract channel binding from token
-    // and compare with provided binding
-    
     if (channel_binding.empty()) {
-        return true;  // No binding to verify
+        return true;  // No binding requested; nothing to verify.
     }
-    
-    // Simplified implementation: assumes token contains channel binding
-    // In production, would parse GSSAPI token structure to extract CB data
-    
-    utils::Logger::info("Channel binding verification: {} bytes", channel_binding.size());
-    
-    return true;  // Placeholder - full implementation needed
+
+    // Validate the token is a structurally valid GSSAPI/KRB5 AP-REQ.
+    // Reject non-KRB5 tokens fail-closed to prevent token-type confusion.
+    size_t inner_size = 0;
+    const uint8_t* inner =
+        parseGssapiKrb5Header(token_data.data(), token_data.size(), inner_size);
+    if (!inner) {
+        utils::Logger::warn("verifyChannelBinding: token is not a valid GSSAPI/KRB5 "
+                            "token (size={}); rejecting {} binding bytes (fail-closed)",
+                            token_data.size(), channel_binding.size());
+        return false;
+    }
+
+    if (inner_size < 2u || inner[0] != KRB5_APP14_TAG) {
+        utils::Logger::warn("verifyChannelBinding: AP-REQ APPLICATION 14 not found; "
+                            "rejecting channel binding (fail-closed)");
+        return false;
+    }
+
+    // The channel binding value is carried in the Authenticator's cksum field
+    // (RFC 4121 §4.1.1 / RFC 4120 §5.5.1), which is inside EncryptedData [4]
+    // of the AP-REQ.  Without the service session key we cannot decrypt the
+    // Authenticator and therefore cannot perform a cryptographic comparison.
+    //
+    // We accept the binding for structurally valid KRB5 AP-REQ tokens and emit
+    // a clear log entry.  Full cryptographic verification requires injecting
+    // the service session key — see src/auth/FUTURE_ENHANCEMENTS.md
+    // §Kerberos Channel Binding.
+    utils::Logger::info("verifyChannelBinding: valid KRB5 AP-REQ; {} binding byte(s) "
+                        "accepted (structural check only — cryptographic binding "
+                        "verification requires service session key)",
+                        channel_binding.size());
+    return true;
 }
 
 std::string KerberosSecurityValidator::extractServicePrincipal(
     const std::vector<uint8_t>& token_data)
 {
-    // Simplified implementation
-    // In production, would parse GSSAPI token to extract service principal
-    
-    // GSSAPI tokens typically start with OID for Kerberos mechanism
-    // Followed by AP-REQ structure containing ticket with service principal
-    
-    // STUB/SIMULATION NOTE:
-    // Purpose: Provides a minimal length-gate while full ASN.1 GSSAPI/Kerberos
-    //          token parsing (to extract the service principal from the AP-REQ
-    //          structure) is not yet implemented.
-    // Activation: Always — no ASN.1 OID / AP-REQ parser is invoked.
-    // Production Delta: Returns empty string for all valid Kerberos tokens
-    //                   longer than 10 bytes; service-principal-based policy
-    //                   enforcement cannot function.
-    // Removal Plan: Parse the GSSAPI token OID (1.2.840.113554.1.2.2 for
-    //               KRB5); decode the AP-REQ DER structure; extract the
-    //               service principal from the ticket's sname field.  Use
-    //               Heimdal or MIT KRB5 ASN.1 APIs.  See
-    //               src/auth/FUTURE_ENHANCEMENTS.md §Kerberos Service Principal Extraction.
-    if (token_data.size() < 10) {
-        return "";
+    // Parse the GSSAPI/KRB5 DER token and extract the service principal from
+    // the Ticket's sname field, which is transmitted in cleartext (RFC 4120
+    // §5.3).  The client principal and timestamps reside in EncryptedData and
+    // cannot be recovered without the service's long-term key.
+    const auto fields = extractKrb5Fields(token_data);
+    if (fields.parsed && !fields.sname.empty()) {
+        utils::Logger::info("extractServicePrincipal: parsed '{}' from KRB5 ticket sname",
+                            fields.sname);
+        return fields.sname;
     }
-    
-    // Placeholder extraction
-    return config_.expected_service_principal;  // Would parse from token
+
+    if (!fields.parsed) {
+        utils::Logger::warn("extractServicePrincipal: token is not a valid GSSAPI/KRB5 "
+                            "AP-REQ (size={}); falling back to configured principal",
+                            token_data.size());
+    } else {
+        utils::Logger::warn("extractServicePrincipal: sname field empty in parsed ticket; "
+                            "falling back to configured principal");
+    }
+    return config_.expected_service_principal;
 }
 
 bool KerberosSecurityValidator::isTicketExpired(const std::vector<uint8_t>& token_data) {
@@ -338,31 +614,47 @@ bool KerberosSecurityValidator::isTicketExpired(const std::vector<uint8_t>& toke
 }
 
 KerberosSecurityValidator::TokenInfo 
-KerberosSecurityValidator::getTokenInfo(const std::vector<uint8_t>& /*token_data*/) {
+KerberosSecurityValidator::getTokenInfo(const std::vector<uint8_t>& token_data) {
     TokenInfo info;
-    
-    // Simplified implementation
-    // In production, would fully parse GSSAPI/Kerberos token
-    
-    info.service_principal = config_.expected_service_principal;
-    info.client_principal = "unknown@REALM";
-    info.realm = "REALM";
-    
-    // Set reasonable defaults
-    auto now = std::chrono::system_clock::now();
+
+    // Attempt to parse the GSSAPI/KRB5 AP-REQ DER token and extract the
+    // cleartext fields.  The service principal (sname) and realm are carried
+    // in the Ticket structure and are NOT encrypted.  The client principal
+    // lives inside the encrypted Authenticator and therefore cannot be
+    // recovered without the service's session key.
+    const auto fields = extractKrb5Fields(token_data);
+    if (fields.parsed) {
+        info.service_principal = fields.sname.empty()
+                                 ? config_.expected_service_principal
+                                 : fields.sname;
+        info.realm             = fields.realm.empty() ? "REALM" : fields.realm;
+        info.client_principal  = "unknown@" + info.realm;
+
+        // Extract has_mutual_auth from the AP-REQ ap-options bitmask
+        // (RFC 4120 §5.5.1 — bit 1 = mutual-required).
+        info.has_mutual_auth = (fields.ap_options & AP_OPT_MUTUAL_REQUIRED) != 0u;
+    } else {
+        // Fallback: token is not a parseable KRB5 AP-REQ; use config defaults.
+        info.service_principal = config_.expected_service_principal;
+        info.client_principal  = "unknown@REALM";
+        info.realm             = "REALM";
+        info.has_mutual_auth   = config_.require_mutual_auth;
+    }
+
+    // Timestamps reside in EncryptedData (enc-part of the Ticket) and cannot
+    // be decrypted without the service long-term key.  Use wall-clock defaults
+    // that satisfy isTicketExpired() under normal conditions.
+    auto now        = std::chrono::system_clock::now();
     auto now_time_t = std::chrono::system_clock::to_time_t(now);
-    
-    info.auth_time = now_time_t;
-    info.start_time = now_time_t;
-    info.end_time = now_time_t + 3600;  // 1 hour validity
-    info.renew_till = now_time_t + 86400;  // 24 hours renewable
-    
-    // Assume standard security features
-    info.has_mutual_auth = config_.require_mutual_auth;
-    info.has_integrity = true;
+    info.auth_time   = now_time_t;
+    info.start_time  = now_time_t;
+    info.end_time    = now_time_t + 3600;   // 1-hour default validity
+    info.renew_till  = now_time_t + 86400;  // 24-hour renewable window
+
+    info.has_integrity       = true;
     info.has_confidentiality = config_.require_confidentiality;
     info.has_channel_binding = config_.enable_channel_bindings;
-    
+
     return info;
 }
 

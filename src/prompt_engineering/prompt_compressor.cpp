@@ -72,23 +72,61 @@ SimplePromptCompressor::SimplePromptCompressor() {
         return (estimate < 1 && !text.empty()) ? 1 : estimate;
     };
 
-    // Default summary: placeholder string.
-    // STUB/SIMULATION NOTE:
-    // Purpose: Provide a deterministic, dependency-free fallback summary so
-    //   the SUMMARY strategy is always functional without an LLM call.
-    // Activation: Used whenever setSummaryFn() has not been called.
-    // Production Delta: A real deployment should inject an LLM call via
-    //   setSummaryFn() to produce an actual semantic summary.
-    // Roadmap ref: src/prompt_engineering/ROADMAP.md § "Planned Features"
-    // Removal Plan: Replace or supplement once an LLM inference integration
-    //   is wired into the prompt-engineering pipeline.
-    // Roadmap ref: src/prompt_engineering/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
+    // Default summary: extractive sentence-level summary.
+    // When setSummaryFn() has not been called, extract the first few sentences
+    // of the omitted text (up to kMaxSummaryChars characters) as a lightweight
+    // extractive summary.  This is far more informative than a token-count
+    // placeholder and requires no external LLM dependency.
+    // A production deployment should inject a real semantic summariser via
+    // setSummaryFn().
     summary_fn_ = [](const std::string& omitted_text,
                      const std::string& /*model_id*/) -> std::string {
-        const int char_count = static_cast<int>(omitted_text.size());
-        return "[…summary of approximately " +
-               std::to_string(char_count / 4) +
-               " omitted tokens…]";
+        if (omitted_text.empty()) return "";
+
+        static constexpr size_t kMaxSummaryChars = 300;
+
+        // Collect complete sentences until we reach the character budget.
+        std::string summary;
+        summary.reserve(kMaxSummaryChars + 16);
+        size_t pos = 0;
+        const size_t len = omitted_text.size();
+
+        while (pos < len && summary.size() < kMaxSummaryChars) {
+            // Skip leading whitespace between sentences.
+            while (pos < len && std::isspace(static_cast<unsigned char>(omitted_text[pos])))
+                ++pos;
+            if (pos >= len) break;
+
+            // Find end of sentence: ., !, ? or end-of-text.
+            size_t end = omitted_text.find_first_of(".!?\n", pos);
+            if (end == std::string::npos) {
+                // Last fragment — take what remains up to the budget.
+                const size_t avail = kMaxSummaryChars - summary.size();
+                summary += omitted_text.substr(pos, avail);
+                pos = len;
+            } else {
+                std::string sentence = omitted_text.substr(pos, end - pos + 1);
+                // Trim trailing whitespace from the sentence.
+                size_t r = sentence.find_last_not_of(" \t\r\n");
+                if (r != std::string::npos) sentence = sentence.substr(0, r + 1);
+                if (!summary.empty()) summary += ' ';
+                summary += sentence;
+                pos = end + 1;
+            }
+        }
+
+        // Trim the result.
+        size_t r = summary.find_last_not_of(" \t\r\n");
+        if (r != std::string::npos) summary.resize(r + 1);
+
+        if (summary.empty()) {
+            // Absolute fallback: first kMaxSummaryChars characters verbatim.
+            summary = omitted_text.substr(0, kMaxSummaryChars);
+        }
+
+        const bool truncated = (summary.size() >= kMaxSummaryChars ||
+                                 omitted_text.size() > summary.size() + 10);
+        return "[summary: " + summary + (truncated ? "…" : "") + "]";
     };
 }
 

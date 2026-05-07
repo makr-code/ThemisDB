@@ -95,6 +95,20 @@ static TimestampToken makeProductionError() {
     return tok;
 }
 
+// STUB/SIMULATION NOTE (TimestampAuthority::Impl — software-only stub):
+// Purpose: Provide an empty Impl class so that TimestampAuthority's pimpl
+//          pattern compiles when OpenSSL TSA is absent.  The real Impl
+//          (defined in the `#ifdef THEMIS_USE_OPENSSL_TSA` block below) holds
+//          a libcurl connection pool and OpenSSL context.
+// Activation: `THEMIS_USE_OPENSSL_TSA` not defined (same as the outer stub block).
+// Production Delta: Impl has no state.  All TimestampAuthority methods operate
+//          on a stateless object; caching, connection re-use, and async dispatch
+//          are absent.
+// Removal Plan: Compile with -DTHEMIS_USE_OPENSSL_TSA=ON; the real Impl replaces
+//          this empty class at link time.
+// Stub placeholder: Impl is stateless in the software (non-OpenSSL) path.
+// The real Impl with connection-pool state is defined below under
+// #ifdef THEMIS_USE_OPENSSL_TSA.
 class TimestampAuthority::Impl { };
 
 // Helper: hex encode
@@ -197,6 +211,22 @@ std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>&
 // ============================================================================
 // eIDAS Timestamp Validator Stub Implementation
 // ============================================================================
+// STUB/SIMULATION NOTE (eIDASTimestampValidator — all methods below):
+// Purpose: Provide a compilable eIDASTimestampValidator that enforces production
+//          guards and fails safely in dev/CI builds where OpenSSL TSA is absent.
+// Activation: Compiled inside `#ifndef THEMIS_USE_OPENSSL_TSA` (same as the
+//             TimestampAuthority stub above).  Production builds with
+//             -DTHEMIS_USE_OPENSSL_TSA=ON compile the real implementation
+//             (lines ~892+) which performs full ASN.1 chain validation.
+// Production Delta (validateeIDASTimestamp): Accepts any token whose `success`
+//             flag is true without verifying the RFC 3161 signature, the
+//             certificate chain, the hash algorithm, or the TSA's eIDAS
+//             trust-list status.  Legally non-binding in all jurisdictions.
+// Production Delta (isQualifiedTSA): Always returns false + pushes an error
+//             message; cannot validate QTSP certificates without OpenSSL.
+// Removal Plan: Build with -DTHEMIS_USE_OPENSSL_TSA=ON; this entire
+//             `#ifndef` block is compiled out.  See
+//             src/security/FUTURE_ENHANCEMENTS.md §"eIDAS TSA Validation".
 
 bool eIDASTimestampValidator::validateeIDASTimestamp(
     const TimestampToken& token,
@@ -274,6 +304,10 @@ bool eIDASTimestampValidator::isQualifiedTSA(
     
     validation_errors_.clear();
     
+    // STUB/SIMULATION NOTE (isQualifiedTSA — supplement to the eIDASTimestampValidator
+    // class-level note above): Always returns false; cannot validate QTSP certificate
+    // chains without OpenSSL.  See the class-level note for activation conditions and
+    // removal plan.
     // Stub implementation - default to false for security
     // Without OpenSSL, we cannot properly validate certificates
     // In production builds with OpenSSL, proper validation is performed

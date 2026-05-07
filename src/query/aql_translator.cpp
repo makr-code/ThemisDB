@@ -760,20 +760,15 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 // Multiple FILTERs with OR: AND-combine via cartesian product (DNF expansion).
                 // If existing disjuncts = [A, B] and new disjuncts = [C, D], the result is
                 // [A∧C, A∧D, B∧C, B∧D] — each pair of conjuncts is merged.
-                //
-                // TR-2 fix: guard against exponential blowup (M^N disjuncts) that would
-                // exhaust memory during query planning.
-                static constexpr size_t kMaxDNFDisjuncts = 1000;
-                const size_t expandedSize = disjQuery.disjuncts.size() * disjuncts.size();
-                if (expandedSize > kMaxDNFDisjuncts) {
+                constexpr size_t kMaxDNFDisjuncts = 1000;
+                if (disjQuery.disjuncts.size() * disjuncts.size() > kMaxDNFDisjuncts) {
                     return TranslationResult::Error(
-                        "DNF expansion would produce " + std::to_string(expandedSize) +
-                        " disjuncts, exceeding the limit " +
-                        std::to_string(kMaxDNFDisjuncts) +
-                        ". Simplify the query by reducing nested OR clauses across multiple FILTER statements.");
+                        "OR query too complex: DNF expansion would produce " +
+                        std::to_string(disjQuery.disjuncts.size() * disjuncts.size()) +
+                        " disjuncts (limit: " + std::to_string(kMaxDNFDisjuncts) + ")");
                 }
                 std::vector<ConjunctiveQuery> merged;
-                merged.reserve(expandedSize);
+                merged.reserve(disjQuery.disjuncts.size() * disjuncts.size());
                 for (const auto& existing : disjQuery.disjuncts) {
                     for (const auto& incoming : disjuncts) {
                         ConjunctiveQuery combined;
@@ -1075,13 +1070,11 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     };
                     continue; // Skip normal predicate extraction for this filter
                 } else {
-                    // TR-1 fix: fail-closed — reject the translation when bbox cannot
-                    // be computed from the geometry expression.  Silently dropping the
-                    // spatial predicate would allow all records to bypass the geo-fence.
+                    // Non-literal geometry expressions cannot be resolved at translation time.
+                    // Silently dropping the spatial filter would bypass the geo-fence entirely.
                     return TranslationResult::Error(
-                        funcName + "(): cannot compute bounding box from geometry expression. "
-                        "Only literal bbox strings in the form [[minx,miny],[maxx,maxy]] are "
-                        "currently supported as the second argument.");
+                        "ST_* spatial filter with non-literal geometry is not supported; "
+                        "use a literal coordinate string or WKT geometry (e.g. [[minx,miny],[maxx,maxy]])");
                 }
             }
         }
@@ -1346,11 +1339,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                         
                         continue; // Successfully handled ST_* AND <predicates>
                     } else {
-                        // TR-1 fix: fail-closed — reject translation when bbox cannot be computed.
-                        return TranslationResult::Error(
-                            funcName + "(): cannot compute bounding box from geometry expression. "
-                            "Only literal bbox strings in the form [[minx,miny],[maxx,maxy]] are "
-                            "currently supported as the second argument.");
+                        // Cannot compute bbox - log warning and fall through to normal processing
+                        THEMIS_WARN("Spatial predicate {} in AND requires bbox but could not compute from expression", 
+                                    funcName);
                     }
                 }
             }

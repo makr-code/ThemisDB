@@ -318,3 +318,93 @@ TEST_F(EnhancedBackupTest, PartialRestoreFramework) {
 }
 
 
+
+// ── PITR-WAL: setWalReplayFn injection (Stub #249) ───────────────────────────
+
+// PITR-WAL-01: injected fn is called after snapshot restore with correct args
+TEST_F(EnhancedBackupTest, PITRWalReplayFn_CalledAfterSnapshotRestore) {
+    // Create a full backup so PITR has a snapshot to select.
+    std::vector<uint8_t> value{'v', '1'};
+    ASSERT_TRUE(db_wrapper_->put("pitr_wal_key", value));
+
+    std::error_code ec;
+    themis::BackupOptions options;
+    ASSERT_TRUE(backup_manager_->createFullBackup(backup_path_, ec, options));
+
+    auto target = std::chrono::system_clock::now() + std::chrono::seconds(1);
+
+    bool fn_called = false;
+    std::string captured_dest;
+    std::chrono::system_clock::time_point captured_time;
+
+    backup_manager_->setWalReplayFn(
+        [&](const std::string& dest_dir,
+            std::chrono::system_clock::time_point t,
+            std::error_code& replay_ec) -> bool {
+            fn_called      = true;
+            captured_dest  = dest_dir;
+            captured_time  = t;
+            replay_ec.clear();
+            return true;
+        });
+
+    themis::PITROptions pitr_opts;
+    pitr_opts.target_time       = target;
+    pitr_opts.timeline_consistent = true;
+
+    themis::RecoveryStats stats;
+    ASSERT_TRUE(backup_manager_->performPITR(backup_path_, pitr_opts, ec, &stats));
+    EXPECT_FALSE(ec);
+    EXPECT_TRUE(fn_called) << "WalReplayFn must be invoked by performPITR()";
+    EXPECT_FALSE(captured_dest.empty()) << "dest_dir passed to WalReplayFn must not be empty";
+    EXPECT_EQ(captured_time, target) << "target_time must be forwarded unchanged";
+}
+
+// PITR-WAL-02: returning false from fn causes performPITR to fail
+TEST_F(EnhancedBackupTest, PITRWalReplayFn_FailurePropagated) {
+    std::vector<uint8_t> value{'v', '2'};
+    ASSERT_TRUE(db_wrapper_->put("pitr_wal_key2", value));
+
+    std::error_code ec;
+    themis::BackupOptions options;
+    ASSERT_TRUE(backup_manager_->createFullBackup(backup_path_, ec, options));
+
+    backup_manager_->setWalReplayFn(
+        [](const std::string&, std::chrono::system_clock::time_point, std::error_code& replay_ec)
+            -> bool {
+            replay_ec = std::make_error_code(std::errc::io_error);
+            return false;
+        });
+
+    themis::PITROptions pitr_opts;
+    pitr_opts.target_time = std::chrono::system_clock::now() + std::chrono::seconds(1);
+
+    themis::RecoveryStats stats;
+    bool result = backup_manager_->performPITR(backup_path_, pitr_opts, ec, &stats);
+    EXPECT_FALSE(result) << "performPITR() must fail when WalReplayFn returns false";
+}
+
+// PITR-WAL-03: clearing fn (nullptr) reverts to stub (skip WAL replay, still succeed)
+TEST_F(EnhancedBackupTest, PITRWalReplayFn_ClearingRevertsToStub) {
+    std::vector<uint8_t> value{'v', '3'};
+    ASSERT_TRUE(db_wrapper_->put("pitr_wal_key3", value));
+
+    std::error_code ec;
+    themis::BackupOptions options;
+    ASSERT_TRUE(backup_manager_->createFullBackup(backup_path_, ec, options));
+
+    // First install a fn, then clear it.
+    backup_manager_->setWalReplayFn(
+        [](const std::string&, std::chrono::system_clock::time_point, std::error_code&) {
+            return true;
+        });
+    backup_manager_->setWalReplayFn(nullptr);
+
+    themis::PITROptions pitr_opts;
+    pitr_opts.target_time = std::chrono::system_clock::now() + std::chrono::seconds(1);
+
+    themis::RecoveryStats stats;
+    ASSERT_TRUE(backup_manager_->performPITR(backup_path_, pitr_opts, ec, &stats))
+        << "performPITR() must still succeed after WalReplayFn is cleared (stub path)";
+    EXPECT_FALSE(ec);
+}

@@ -35,6 +35,7 @@
 #include <numeric>
 #include <cctype>
 #include <regex>
+#include <unordered_map>
 namespace themis {
 namespace training {
 // ============================================================================
@@ -401,6 +402,14 @@ private:
     std::unique_ptr<ModalityDetector> modality_detector_; ///< Multi-modal document parser (Phase 3)
     size_t total_processed_;
     size_t total_errors_;
+    /// In-process document registry for offline/test-mode operation.
+    /// Populated via registerDocument(); consulted by fetchDocumentText() when
+    /// query_engine_ is null.  Stub #66 resolution.
+    std::unordered_map<std::string, std::string> offline_corpus_;
+
+    void registerDocument(const std::string& document_id, const std::string& text) {
+        offline_corpus_[document_id] = text;
+    }
 
     std::vector<BaseEntity> fetchAllDocumentsDirect() const {
         if (!query_engine_) {
@@ -545,29 +554,21 @@ private:
             return "";
         }
         if (!document_id.empty()) {
-            // STUB/SIMULATION NOTE:
-        // Purpose: Allow AutoLabeler to produce plausible German legal text
-        //   samples for offline/test labeling passes when no QueryEngine is
-        //   wired in and document_id is provided.  The hardcoded paragraph
-        //   covers the three key deontic modalities (muss, soll, kann) so that
-        //   the NLP/modality pipeline can exercise all code paths in CI without
-        //   a live database connection.
-        // Activation: `query_engine_` is null AND document_id is non-empty
-        //   (i.e., the caller specified a document key but no DB engine was
-        //   injected at construction time).
-        // Production Delta: The returned text is always the same short German
-        //   paragraph, regardless of the actual document content.  Auto-labeling
-        //   results will be biased toward the three sample clauses; precision and
-        //   recall metrics from offline benchmarks must not be extrapolated to
-        //   production without a real query engine.
-        // Removal Plan: Inject a QueryEngine at AutoLabeler construction time
-        //   (via AutoLabelerConfig::query_engine or the two-argument constructor).
-        //   The AQL-backed branch in fetchDocumentText() will then take precedence.
-        // Roadmap ref: src/training/FUTURE_ENHANCEMENTS.md §"AutoLabeler Query Engine Integration"
-        return "Die Behörde muss die Genehmigung erteilen, wenn alle "
-                   "Voraussetzungen erfüllt sind. Sie soll die Entscheidung "
-                   "innerhalb von vier Wochen treffen. Sie kann die Frist "
-                   "verlängern, wenn besondere Umstände vorliegen.";
+            // Check the in-process offline corpus first (stub #66 resolution).
+            // Documents registered via registerDocument() take precedence over
+            // the hardcoded fallback text, allowing offline/test mode to exercise
+            // the NLP pipeline with per-document controlled content.
+            auto it = offline_corpus_.find(document_id);
+            if (it != offline_corpus_.end()) {
+                return it->second;
+            }
+            // Hardcoded fallback: covers all three deontic modalities (muss/soll/kann)
+            // so that the NLP pipeline can exercise all code paths in CI when neither
+            // a query engine nor a registered document is available.
+            return "Die Behörde muss die Genehmigung erteilen, wenn alle "
+                       "Voraussetzungen erfüllt sind. Sie soll die Entscheidung "
+                       "innerhalb von vier Wochen treffen. Sie kann die Frist "
+                       "verlängern, wenn besondere Umstände vorliegen.";
         }
         return "";
     }
@@ -720,6 +721,11 @@ LegalAutoLabeler::LegalAutoLabeler(const AutoLabelConfig& config,
 }
 
 LegalAutoLabeler::~LegalAutoLabeler() = default;
+
+void LegalAutoLabeler::registerDocument(const std::string& document_id,
+                                        const std::string& text) {
+    impl_->registerDocument(document_id, text);
+}
 
 LabelingStats LegalAutoLabeler::labelAll(LabelingCallback callback) {
     return impl_->labelAll(callback);

@@ -1332,9 +1332,43 @@ Result<MLInferenceResponse> MLModelManager::infer(const MLInferenceRequest& requ
     auto infer_start = std::chrono::steady_clock::now();
     
     // TODO: Actual inference logic based on model type
-    // For now, simulate inference
+    // Check for an injected dispatch function first
+    {
+        std::lock_guard<std::mutex> fn_lock(dispatch_fn_mutex_);
+        if (inference_dispatch_fn_) {
+            const auto output = inference_dispatch_fn_(request, *instance);
+            response.success = true;
+            response.output_data = output;
+
+            auto infer_end = std::chrono::steady_clock::now();
+            auto inference_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+                infer_end - infer_start
+            ).count();
+            response.inference_time_ms = static_cast<float>(inference_time);
+            response.total_time_ms = response.queue_time_ms + response.inference_time_ms;
+
+            instance->active_requests--;
+            updateInstanceMetrics(instance, response.total_time_ms, response.success);
+            successful_requests_++;
+            total_requests_++;
+            return Ok(response);
+        }
+    }
+
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow MLModelManager::runInference() to return a successful response
+    //          while real model-type dispatch (llama_cpp, ONNX, TensorRT, etc.) is
+    //          not yet wired.
+    // Activation: Always — no model-type-specific inference backend is dispatched.
+    // Production Delta: Returns `{"result": "simulated"}` with a fixed 10ms sleep
+    //                   instead of actual model output.  Any caller consuming
+    //                   output_data receives a constant stub value regardless of
+    //                   the input; model quality metrics are meaningless.
+    // Removal Plan: Dispatch to the appropriate backend based on instance->model_type
+    //               (e.g. LlamaPlugin::generate(), OnnxRuntime::run(), etc.).  See
+    //               src/llm/FUTURE_ENHANCEMENTS.md §MLModelManager Inference Dispatch.
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    
+
     response.success = true;
     response.output_data = json{{"result", "simulated"}};
     
@@ -1358,6 +1392,12 @@ Result<MLInferenceResponse> MLModelManager::infer(const MLInferenceRequest& requ
     total_requests_++;
     
     return Ok(response);
+}
+
+// ── setInferenceDispatchFn (stub #250) ───────────────────────────────────────
+void MLModelManager::setInferenceDispatchFn(InferenceDispatchFn fn) {
+    std::lock_guard<std::mutex> lock(dispatch_fn_mutex_);
+    inference_dispatch_fn_ = std::move(fn);
 }
 
 std::string MLModelManager::inferAsync(
@@ -1714,6 +1754,19 @@ MLModelInstance* MLModelManager::selectInstance(const std::string& model_id) {
     
     auto& entry = it->second;
     
+    // STUB/SIMULATION NOTE (selectInstance — lower half of file, second definition):
+    // Purpose: Instance selection uses a simple least-active-requests scan as a
+    //          stand-in for proper weighted round-robin, latency-aware, or
+    //          locality-aware load balancing.
+    // Activation: Always active; no build flag.  This is the second definition of
+    //          selectInstance (first at line ~885) — they must remain in sync.
+    // Production Delta: The algorithm ignores GPU memory pressure, NUMA topology,
+    //          thermal throttling, and per-instance queue depth.  Under heterogeneous
+    //          instance configurations the least-loaded instance is not necessarily
+    //          the fastest.
+    // Removal Plan: Implement a pluggable LoadBalancingStrategy interface with
+    //          at least: ROUND_ROBIN, LEAST_ACTIVE, WEIGHTED_RANDOM policies.
+    //          See src/llm/FUTURE_ENHANCEMENTS.md §MLModelManagerLoadBalancing.
     // Simple round-robin selection
     // TODO: Implement more sophisticated load balancing strategies
     MLModelInstance* selected = nullptr;

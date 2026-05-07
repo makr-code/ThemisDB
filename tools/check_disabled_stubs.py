@@ -20,6 +20,7 @@
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
 """
+from __future__ import annotations
 
 #!/usr/bin/env python3
 """
@@ -38,8 +39,6 @@ Exit codes
 
 See ``docs/governance/DISABLED_STUB_POLICY.md`` for the full policy.
 """
-
-from __future__ import annotations
 
 import argparse
 import re

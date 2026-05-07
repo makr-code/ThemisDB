@@ -242,20 +242,44 @@ std::pair<int64_t, int64_t> Hypertable::parseChunkTimeRange(const std::string& c
 
 std::vector<Hypertable::ChunkInfo> Hypertable::listChunks() {
     std::vector<ChunkInfo> chunks;
-    
-    // STUB/SIMULATION NOTE:
-    // Purpose: Satisfies the listChunks() API while RocksDB column-family
-    //          metadata enumeration for the hypertable chunk registry is not
-    //          yet exposed through the storage wrapper.
-    // Activation: Always — no CF scan is performed.
-    // Production Delta: Callers always receive an empty list; chunk-level
-    //                   compaction, tiering, and retention enforcement that
-    //                   iterate over chunks will see no chunks to process.
-    // Removal Plan: Scan the hypertable metadata prefix in RocksDB to build
-    //               the ChunkInfo list; expose via `StorageBackend::listCFs()`.
-    //               See src/timeseries/FUTURE_ENHANCEMENTS.md §Hypertable listChunks.
+
     THEMIS_INFO("Listing chunks for hypertable '{}'", config_.table_name);
-    
+
+    const std::string prefix = "hypertable_" + config_.table_name + "_chunk_";
+    auto all_cfs = db_->listColumnFamilies();
+
+    for (const auto& cf : all_cfs) {
+        if (cf.name.rfind(prefix, 0) != 0) {
+            continue;  // belongs to a different table or not a chunk CF
+        }
+
+        auto [start_time, end_time] = parseChunkTimeRange(cf.name);
+        if (start_time == 0 && end_time == 0) {
+            THEMIS_WARN("Hypertable '{}': could not parse time range from CF name '{}'",
+                        config_.table_name, cf.name);
+            continue;
+        }
+
+        ChunkInfo info;
+        info.chunk_name   = cf.name;
+        info.start_time   = start_time;
+        info.end_time     = end_time;
+        info.row_count    = static_cast<size_t>(cf.estimated_keys);
+        info.size_bytes   = static_cast<size_t>(cf.approx_size_bytes);
+        info.is_compressed = false;  // RocksDB block compression is transparent;
+                                     // manual chunk compression not yet tracked here
+        info.cf_handle    = nullptr; // owned by DB; callers use getOrCreateChunk()
+
+        chunks.push_back(std::move(info));
+    }
+
+    // Return in chronological order for consistent iteration by callers
+    std::sort(chunks.begin(), chunks.end(),
+              [](const ChunkInfo& a, const ChunkInfo& b) {
+                  return a.start_time < b.start_time;
+              });
+
+    THEMIS_INFO("Hypertable '{}': found {} chunk(s)", config_.table_name, chunks.size());
     return chunks;
 }
 

@@ -28,6 +28,7 @@
 #include <chrono>
 #include <vector>
 #include <mutex>
+#include <functional>
 #include <unordered_map>
 
 #include "security/usb_volume_hardening.h"
@@ -144,6 +145,33 @@ public:
     };
     
     Metrics getMetrics() const;
+
+    /**
+     * @brief License verifier callback type.
+     *
+     * When injected via setLicenseVerifierFn(), this function completely
+     * replaces the hardware-binding check (matchesHardware) and the
+     * RSA signature verification (validateLicenseSignature) inside
+     * refreshUSBStatus().  It receives the loaded license and the
+     * current system hardware ID and must return true iff the license
+     * is considered valid for this host.
+     *
+     * Injection is the primary mechanism for tests and alternative
+     * production integrations (e.g. HMAC-based license server) to bypass
+     * the embedded placeholder RSA public key.
+     *
+     * Passing nullptr clears the override and restores the built-in RSA
+     * verification path.
+     */
+    using LicenseVerifierFn = std::function<bool(const USBAdminLicense&,
+                                                  const std::string& hw_id)>;
+
+    /**
+     * @brief Inject a custom license verifier (replaces hardware + RSA checks).
+     *
+     * @param fn  Verifier callback; pass nullptr to restore built-in behaviour.
+     */
+    void setLicenseVerifierFn(LicenseVerifierFn fn);
 
     /**
      * @brief Generate a one-time cryptographic challenge for replay-protected auth.

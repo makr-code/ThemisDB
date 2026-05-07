@@ -56,6 +56,14 @@ TTSProcessor::~TTSProcessor() {
     }
 }
 
+void TTSProcessor::setMp3EncoderFn(AudioEncoderFn fn) {
+    mp3_encoder_fn_ = std::move(fn);
+}
+
+void TTSProcessor::setOggEncoderFn(AudioEncoderFn fn) {
+    ogg_encoder_fn_ = std::move(fn);
+}
+
 PluginInfo TTSProcessor::getInfo() const {
     PluginInfo info;
     info.name = "tts-processor";
@@ -185,24 +193,36 @@ TTSResult TTSProcessor::synthesize(
 }
 
 bool TTSProcessor::streamSynthesize(
-    const std::string& /*text*/,
-    std::function<void(const std::vector<uint8_t>&)> /*callback*/,
-    const TTSOptions& /*options*/
+    const std::string& text,
+    std::function<void(const std::vector<uint8_t>&)> callback,
+    const TTSOptions& options
 ) {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Satisfies the API contract of streamSynthesize() while the
-    //          real streaming TTS pipeline (chunk-by-chunk Piper/ONNX inference
-    //          with callback-driven audio delivery) has not yet been wired up.
-    // Activation: Always — no build flag gates this path.
-    // Production Delta: The callback is never invoked; the caller receives no
-    //                   audio segments.  A full implementation would call
-    //                   synthesizeInternal() in chunks and invoke `callback`
-    //                   for each chunk so that the caller can begin playback
-    //                   before the full synthesis is complete.
-    // Removal Plan: Implement chunk-based Piper inference and call the callback
-    //               per audio frame.  See src/content/FUTURE_ENHANCEMENTS.md
-    //               §TTS Streaming Synthesis.
-    return false;
+    if (!initialized_ || !callback) return false;
+
+    // Synthesise the complete audio via the existing pipeline, then deliver
+    // the result to the caller in fixed-size chunks so that downstream
+    // consumers receive audio data through the callback interface.
+    //
+    // Production note: true frame-by-frame streaming would interleave
+    // Piper/ONNX inference and audio delivery so that playback can begin
+    // before synthesis completes (see src/content/FUTURE_ENHANCEMENTS.md
+    // §TTS Streaming Synthesis).  This "batch-then-chunk" path requires the
+    // full synthesis to finish before the first callback fires, but it
+    // correctly invokes the callback with real audio data, enabling all
+    // callers that consume streaming audio to work end-to-end.
+    const TTSResult result = synthesizeInternal(text, options);
+    if (!result.success || result.audio_data.empty()) {
+        return false;
+    }
+
+    constexpr size_t kChunkBytes = 8192; // 8 KiB per delivery (≈ ~186 ms at 22 050 Hz mono 16-bit)
+    const auto& data = result.audio_data;
+    for (size_t offset = 0; offset < data.size(); offset += kChunkBytes) {
+        const size_t end = std::min(offset + kChunkBytes, data.size());
+        callback({data.begin() + static_cast<ptrdiff_t>(offset),
+                  data.begin() + static_cast<ptrdiff_t>(end)});
+    }
+    return true;
 }
 
 json TTSProcessor::getAvailableVoices() const {
@@ -391,7 +411,18 @@ std::vector<uint8_t> TTSProcessor::generatePCM(
         return pcm_data;
     }
     #else
-    // Placeholder: generate silence based on text length
+    // STUB/SIMULATION NOTE:
+    // Purpose: Return a byte-valid PCM buffer so callers that depend on
+    //          synthesizeSpeech() do not crash when TTS backend is absent.
+    // Activation: THEMIS_TTS_ENABLED is NOT defined (default build without
+    //             espeak-ng or compatible TTS library).
+    // Production Delta: Every synthesizeSpeech() call returns silence.
+    //                   Audio players and streaming endpoints receive zeros;
+    //                   no audible speech is ever produced.  Duration is
+    //                   approximated as text.length() * 100 samples (crude).
+    // Removal Plan: Build with -DTHEMIS_TTS_ENABLED and link espeak-ng (or
+    //               equivalent); the real synthesis path above the #else replaces
+    //               this stub.  See src/content/FUTURE_ENHANCEMENTS.md §TTS Backend.
     size_t duration_samples = text.length() * 100;  // ~100 samples per character
     std::vector<uint8_t> pcm_data(duration_samples * 2);  // 16-bit samples
     
@@ -455,24 +486,38 @@ std::vector<uint8_t> TTSProcessor::convertToFormat(
         // Purpose: Passes through raw PCM data when the LAME MP3 encoder is not
         //          linked.  Keeps the API shape intact for callers that accept
         //          audio/mpeg.
-        // Activation: Always — LAME encoder not yet integrated.
+        // Activation: Always when no Mp3EncoderFn has been injected via
+        //             setMp3EncoderFn().
         // Production Delta: Output bytes are raw 16-bit PCM, not MP3 frames.
         //                   Any player expecting MPEG-1 Layer III audio will fail
         //                   to decode this output.
-        // Removal Plan: Integrate libmp3lame; call lame_encode_buffer_ieee_float()
-        //               and return the resulting MP3 frame bytes.
+        // Removal Plan: Inject a real lame_encode_buffer_ieee_float() wrapper via
+        //               setMp3EncoderFn() at application startup.
         //               See src/content/FUTURE_ENHANCEMENTS.md §TTS Audio Format Support.
+        if (mp3_encoder_fn_) {
+            auto encoded = mp3_encoder_fn_(pcm_data, sample_rate);
+            if (!encoded.empty()) {
+                return encoded;
+            }
+        }
         return pcm_data;
     } else if (format == "ogg") {
         // STUB/SIMULATION NOTE:
         // Purpose: Passes through raw PCM data when libvorbis / libopus is not
         //          linked.  Keeps the API shape intact for callers that accept
         //          audio/ogg.
-        // Activation: Always — Opus/Vorbis encoder not yet integrated.
+        // Activation: Always when no OggEncoderFn has been injected via
+        //             setOggEncoderFn().
         // Production Delta: Output bytes are raw 16-bit PCM, not an Ogg container.
-        // Removal Plan: Integrate libopus or libvorbis; wrap PCM into an Ogg stream
-        //               via op_write()/vorbis_analysis_wrote().
+        // Removal Plan: Inject a real op_write()/vorbis_analysis_wrote() wrapper via
+        //               setOggEncoderFn() at application startup.
         //               See src/content/FUTURE_ENHANCEMENTS.md §TTS Audio Format Support.
+        if (ogg_encoder_fn_) {
+            auto encoded = ogg_encoder_fn_(pcm_data, sample_rate);
+            if (!encoded.empty()) {
+                return encoded;
+            }
+        }
         return pcm_data;
     }
     

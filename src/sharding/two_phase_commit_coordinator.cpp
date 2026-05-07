@@ -25,6 +25,14 @@
 // Licensed under MIT License
 //
 // Two-Phase Commit (2PC) Coordinator – cross-shard transaction driver
+//
+// CC-5 NOTE: ThemisDB contains three independent 2PC implementations with
+// different state machines, WAL integration depths, and recovery logic:
+//   1. two_phase_commit_coordinator.cpp  (this file) — standalone coordinator
+//   2. cross_shard_transaction.cpp       — CrossShardTransactionCoordinator
+//   3. distributed_transaction.cpp       — DistributedTransactionCoordinator
+// A transaction begun with one coordinator CANNOT be recovered by another.
+// Future work: unify under a single 2PC engine (Target: v2.0.0).
 
 #include "sharding/two_phase_commit_coordinator.h"
 #include "sharding/shard_rpc_client_adapter.h"
@@ -204,11 +212,14 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
     }
 
     // Persist the Phase 2 decision
+    // 2PC-3: Tag this entry with phase="decision" so recovery can distinguish
+    // it from the completion entry written after Phase 2 finishes.
     logToWAL(all_prepared ? WALEntryType::COMMIT_TX : WALEntryType::ABORT_TX,
              transaction_id,
              {
                 {"transaction_id", transaction_id},
                 {"coordinator_id", coordinator_id_},
+                {"phase",          "decision"},
                 {"decision",       all_prepared ? "commit" : "abort"}
              });
 

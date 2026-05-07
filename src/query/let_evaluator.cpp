@@ -601,101 +601,100 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         auto g1 = evaluateExpression(args[0], currentDoc);
         auto g2 = evaluateExpression(args[1], currentDoc);
         
-        // Simplified implementation: Check if Point g1 is within Polygon g2 using MBR
-        // Full implementation would use Boost.Geometry within()
-        
-        std::function<std::pair<double, double>(const nlohmann::json&)> extractPoint = [&](const nlohmann::json& geojson) -> std::pair<double, double> {
-            // Allow string input containing JSON
-            if (geojson.is_string()) {
-                try {
-                    auto parsed = nlohmann::json::parse(geojson.get<std::string>());
-                    return extractPoint(parsed); // recurse on parsed JSON
-                } catch (...) {
-                    // fall through
-                }
-            }
-            // Accept GeoJSON Point
-            if (geojson.is_object() && geojson.contains("type") && geojson["type"] == "Point") {
-                if (geojson.contains("coordinates") && geojson["coordinates"].size() >= 2) {
-                    double x = geojson["coordinates"][0].get<double>();
-                    double y = geojson["coordinates"][1].get<double>();
-                    return {x, y};
-                }
-            }
-            // Accept simple array [lon, lat]
-            if (geojson.is_array() && geojson.size() >= 2) {
-                double x = geojson[0].get<double>();
-                double y = geojson[1].get<double>();
-                return {x, y};
-            }
-            throw std::runtime_error("ST_Within: Expected Point geometry");
-        };
-        
-        std::function<geo::MBR(const nlohmann::json&)> extractMBR = [&](const nlohmann::json& geojson) -> geo::MBR {
-            // Allow string input containing JSON
-            if (geojson.is_string()) {
-                try {
-                    auto parsed = nlohmann::json::parse(geojson.get<std::string>());
-                    return extractMBR(parsed); // recurse
-                } catch (...) {
-                    // fall through
-                }
-            }
-            // Support bbox array [minx, miny, maxx, maxy]
-            if (geojson.is_array() && geojson.size() == 4) {
-                double minx = geojson[0].get<double>();
-                double miny = geojson[1].get<double>();
-                double maxx = geojson[2].get<double>();
-                double maxy = geojson[3].get<double>();
-                return geo::MBR{minx, miny, maxx, maxy};
-            }
-            // Extract MBR from Polygon or use Point as degenerate MBR
-            if (geojson.is_object() && geojson.contains("type")) {
-                std::string type = geojson["type"];
-                if (type == "Point" && geojson.contains("coordinates") && geojson["coordinates"].size() >= 2) {
-                    double x = geojson["coordinates"][0].get<double>();
-                    double y = geojson["coordinates"][1].get<double>();
-                    return geo::MBR{x, y, x, y};
-                }
-                if (type == "Polygon" && geojson.contains("coordinates")) {
-                    // Compute MBR from polygon exterior ring
-                    const auto& rings = geojson["coordinates"];
-                    if (rings.is_array() && !rings.empty()) {
-                        const auto& exteriorRing = rings[0];
-                        if (exteriorRing.is_array() && !exteriorRing.empty()) {
-                            double minx = std::numeric_limits<double>::max();
-                            double miny = std::numeric_limits<double>::max();
-                            double maxx = std::numeric_limits<double>::lowest();
-                            double maxy = std::numeric_limits<double>::lowest();
-                            
-                            for (const auto& coord : exteriorRing) {
-                                if (coord.is_array() && coord.size() >= 2) {
-                                    double x = coord[0].get<double>();
-                                    double y = coord[1].get<double>();
-                                    minx = std::min(minx, x);
-                                    miny = std::min(miny, y);
-                                    maxx = std::max(maxx, x);
-                                    maxy = std::max(maxy, y);
-                                }
-                            }
-                            
-                            return geo::MBR{minx, miny, maxx, maxy};
-                        }
-                    }
-                }
-            }
-            throw std::runtime_error("ST_Within: Could not extract MBR from geometry");
-        };
-        
-        try {
-            auto [px, py] = extractPoint(g1);
-            auto mbr = extractMBR(g2);
+        // Point-in-polygon via the ray casting algorithm (Jordan curve theorem).
+        // Works correctly for arbitrary simple polygons (convex, concave, with holes).
+        // For Point-in-Polygon queries the false-positive rate of the old MBR check
+        // is eliminated; boundary points are treated as inside (inclusive semantics).
+        // Production improvement: Boost.Geometry `within()` would additionally handle
+        // MultiPolygon, GeometryCollection, and strict-interior semantics.
 
-            // Check if point is within MBR (simplified within test)
-            bool within = (px >= mbr.minx && px <= mbr.maxx && py >= mbr.miny && py <= mbr.maxy);
-            return within;
+        // Helper: resolve a string-wrapped GeoJSON node.
+        std::function<nlohmann::json(const nlohmann::json&)> resolveJson =
+            [&](const nlohmann::json& v) -> nlohmann::json {
+            if (v.is_string()) {
+                try { return nlohmann::json::parse(v.get<std::string>()); }
+                catch (...) {}
+            }
+            return v;
+        };
+
+        // Extract a 2D point from a GeoJSON Point or [x,y] array.
+        auto extractPoint = [&](const nlohmann::json& raw) -> std::pair<double, double> {
+            const auto j = resolveJson(raw);
+            if (j.is_object() && j.contains("type") && j["type"] == "Point") {
+                if (j.contains("coordinates") && j["coordinates"].size() >= 2)
+                    return {j["coordinates"][0].get<double>(),
+                            j["coordinates"][1].get<double>()};
+            }
+            if (j.is_array() && j.size() >= 2)
+                return {j[0].get<double>(), j[1].get<double>()};
+            throw std::runtime_error("ST_Within: g1 must be a GeoJSON Point or [x,y] array");
+        };
+
+        // Ray-casting point-in-polygon test on a ring (array of [x,y] coordinate pairs).
+        // Returns true if (px,py) is inside or on the boundary of the ring.
+        // Uses the horizontal ray cast to the right; boundary crossings are counted.
+        auto pointInRing = [](double px, double py,
+                               const nlohmann::json& ring) -> bool {
+            if (!ring.is_array() || ring.size() < 3) return false;
+            const std::size_t n = ring.size();
+            int crossings = 0;
+            for (std::size_t i = 0, j = n - 1; i < n; j = i++) {
+                if (!ring[i].is_array() || ring[i].size() < 2) continue;
+                if (!ring[j].is_array() || ring[j].size() < 2) continue;
+                const double xi = ring[i][0].get<double>();
+                const double yi = ring[i][1].get<double>();
+                const double xj = ring[j][0].get<double>();
+                const double yj = ring[j][1].get<double>();
+                // Check if the ray from (px,py) eastward crosses edge (j→i).
+                const bool yStraddle = ((yi > py) != (yj > py));
+                if (yStraddle) {
+                    const double xIntersect = (xj - xi) * (py - yi) / (yj - yi) + xi;
+                    if (px <= xIntersect) ++crossings;
+                }
+            }
+            return (crossings % 2) != 0;
+        };
+
+        // Test containment: g1 (Point) within g2 (Polygon or bbox).
+        auto testWithin = [&](const nlohmann::json& raw_g1,
+                               const nlohmann::json& raw_g2) -> bool {
+            const auto [px, py] = extractPoint(raw_g1);
+            const auto g2j = resolveJson(raw_g2);
+
+            // GeoJSON Polygon: coordinates = [exteriorRing, ...holeRings]
+            if (g2j.is_object() && g2j.contains("type") && g2j["type"] == "Polygon") {
+                if (!g2j.contains("coordinates") || !g2j["coordinates"].is_array()
+                        || g2j["coordinates"].empty())
+                    return false;
+                const auto& rings = g2j["coordinates"];
+                // Must be inside exterior ring …
+                if (!pointInRing(px, py, rings[0])) return false;
+                // … and outside every hole ring.
+                for (std::size_t h = 1; h < rings.size(); ++h) {
+                    if (pointInRing(px, py, rings[h])) return false;
+                }
+                return true;
+            }
+
+            // Fallback for bbox [minx, miny, maxx, maxy] or Point degenerate case.
+            if (g2j.is_array() && g2j.size() == 4) {
+                return (px >= g2j[0].get<double>() && px <= g2j[2].get<double>()
+                     && py >= g2j[1].get<double>() && py <= g2j[3].get<double>());
+            }
+            if (g2j.is_object() && g2j.contains("type") && g2j["type"] == "Point") {
+                if (g2j.contains("coordinates") && g2j["coordinates"].size() >= 2) {
+                    return (px == g2j["coordinates"][0].get<double>()
+                         && py == g2j["coordinates"][1].get<double>());
+                }
+            }
+            throw std::runtime_error("ST_Within: g2 must be a GeoJSON Polygon, bbox array, or Point");
+        };
+
+        try {
+            return testWithin(g1, g2);
         } catch (...) {
-            // If geometry cannot be parsed, fail open (do not drop the document)
+            // If geometry cannot be parsed, fail open (do not drop the document).
             return true;
         }
     }

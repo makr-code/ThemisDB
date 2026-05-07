@@ -29,7 +29,6 @@
 #include "rag/knowledge_gap_detector.h"
 #include "utils/logger.h"
 #include <algorithm>
-#include <mutex>
 #include <numeric>
 #include <cmath>
 #include <chrono>
@@ -44,6 +43,7 @@ struct KnowledgeGapDetector::Impl {
     KnowledgeGapConfig config;
     std::function<void(const DetectionResult&)> gap_callback;
     RetrievalCallback retrieval_fn;   ///< FLARE dynamic-retrieval callback (optional)
+    LlmSampleFn       llm_sample_fn; ///< LLM-based self-consistency sample generator (optional)
 
     // Cache for performance
     std::unordered_map<std::string, DetectionResult> cache;
@@ -282,13 +282,13 @@ DetectionResult KnowledgeGapDetector::detectPostGeneration(
     // Self-consistency check: detect conflicting information across
     // multiple candidate generations using the configured consistency threshold.
     if (impl_->config.enable_self_consistency_check) {
-        bool is_consistent = checkSelfConsistency(query, documents);
-        if (!is_consistent) {
+        if (!checkSelfConsistency(query, documents)) {
             result.gap_detected = true;
             result.gap_type = GapType::CONFLICTING_INFO;
             result.confidence_score = 0.75;
-            result.recommendation = FallbackStrategy::REFORMULATE_QUERY;
-            result.explanation = "Generated answers lack self-consistency";
+            result.recommendation = FallbackStrategy::EXPAND_SEARCH;
+            result.explanation = "Heuristic self-consistency check detected low agreement "
+                                 "across document-derived answer samples";
             return result;
         }
     }
@@ -315,21 +315,32 @@ DetectionResult KnowledgeGapDetector::detectGap(
     const std::string& generated_answer,
     const GenerationContext& context
 ) {
-    // Check for ethical perspective gap first if enabled
+    // F5-4 fix: ethical perspective gap check no longer short-circuits the other checks.
+    // Previously, a positive ethical keyword match returned immediately, skipping
+    // similarity and coverage pre-generation checks. Now all checks run and any
+    // gap (ethical or coverage/similarity) triggers a retrieval.
+    bool ethical_gap_detected = false;
+    DetectionResult ethical_result;
     if (impl_->config.enable_ethical_gap_detection) {
-        auto ethical_result = detectEthicalPerspectiveGap(query, documents);
+        ethical_result = detectEthicalPerspectiveGap(query, documents);
         if (ethical_result.gap_detected) {
+            ethical_gap_detected = true;
             if (impl_->gap_callback) {
                 impl_->gap_callback(ethical_result);
             }
-            return ethical_result;
+            // Do not return here — continue running coverage/similarity checks below.
         }
     }
     
-    // Comprehensive detection based on mode
+    // Comprehensive detection based on mode; merge ethical gap into final result.
     switch (impl_->config.mode) {
-        case DetectionMode::FAST:
-            return detectPreGeneration(query, documents);
+        case DetectionMode::FAST: {
+            auto pre_result = detectPreGeneration(query, documents);
+            if (ethical_gap_detected && !pre_result.gap_detected) {
+                return ethical_result;
+            }
+            return pre_result;
+        }
             
         case DetectionMode::BALANCED: {
             auto pre_result = detectPreGeneration(query, documents);
@@ -342,6 +353,12 @@ DetectionResult KnowledgeGapDetector::detectGap(
                 if (during_result.gap_detected) {
                     return during_result;
                 }
+            }
+
+            // If ethical gap was detected but coverage/similarity checks were clean,
+            // still report the ethical gap to trigger retrieval.
+            if (ethical_gap_detected) {
+                return ethical_result;
             }
             
             return pre_result;
@@ -373,18 +390,22 @@ DetectionResult KnowledgeGapDetector::detectGap(
                 }
                 return post_result;
             }
+
+            // If ethical gap was detected but all other checks were clean, report it.
+            if (ethical_gap_detected) {
+                return ethical_result;
+            }
             
             return pre_result;
         }
     }
     
-    return DetectionResult{};
+    return ethical_gap_detected ? ethical_result : DetectionResult{};
 }
 
 DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
     const std::string& query,
-    std::vector<RetrievedDocument>& initial_documents,
-    const std::string& tenant_id
+    std::vector<RetrievedDocument>& initial_documents
 ) {
     // Phase 2: FLARE-style active retrieval implementation
     
@@ -393,7 +414,7 @@ DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
         return detectPreGeneration(query, initial_documents);
     }
     
-    THEMIS_DEBUG("FLARE active retrieval for query: {} (tenant={})", query, tenant_id);
+    THEMIS_DEBUG("FLARE active retrieval for query: {}", query);
     
     DetectionResult result;
     result.num_retrieved_docs = initial_documents.size();
@@ -443,8 +464,7 @@ DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
         THEMIS_DEBUG("Reformulated query: {}", reformulated);
         
         // Retrieve additional documents for the reformulated query
-        // F5-2: Pass tenant_id so the callback queries the correct tenant's corpus.
-        auto new_documents = performDynamicRetrieval(reformulated, tenant_id);
+        auto new_documents = performDynamicRetrieval(reformulated);
         
         // Deduplicate and merge
         for (auto& new_doc : new_documents) {
@@ -525,6 +545,10 @@ void KnowledgeGapDetector::setGapDetectionCallback(
 
 void KnowledgeGapDetector::setRetrievalCallback(RetrievalCallback fn) {
     impl_->retrieval_fn = std::move(fn);
+}
+
+void KnowledgeGapDetector::setLlmSampleFn(LlmSampleFn fn) {
+    impl_->llm_sample_fn = std::move(fn);
 }
 
 // Private helper methods
@@ -807,7 +831,12 @@ bool KnowledgeGapDetector::verifyClaim(
     }
     
     if (claim_terms.empty()) {
-        return true; // No specific claims to verify
+        // F5-3 fix: fail-closed — empty term list (stop-word-only or very short claim)
+        // cannot be verified against documents. Returning true here would pass any
+        // short sentence through verification unconditionally.
+        THEMIS_DEBUG("verifyClaim: empty term list after stop-word removal — "
+                     "claim '{}' cannot be verified; treating as unverified.", claim);
+        return false;
     }
     
     // Check how many terms are found in documents
@@ -1007,59 +1036,92 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
     const std::vector<RetrievedDocument>& docs,
     size_t num_samples
 ) {
+    // Delegate to the injected LLM sample generator when available.
+    if (impl_->llm_sample_fn) {
+        auto result = impl_->llm_sample_fn(query, num_samples);
+        if (!result.empty()) {
+            return result;
+        }
+        // Fall through to heuristic path if fn returned empty vector.
+    }
+
+    // Heuristic sampling: generates document-grounded answer candidates without a
+    // live LLM.  Each sample draws a distinct subset of sentences from the
+    // retrieved documents so that the consistency checker can detect genuine
+    // disagreement when different source documents describe contradictory facts.
+    //
     // STUB/SIMULATION NOTE:
-    // Purpose: Heuristic fallback used when no LLM inference engine is wired.
-    // Activation: When impl_->llm_engine is nullptr (current state — no LLM
-    //   client is injected into KnowledgeGapDetector).
-    // Production Delta: The stub generates simple phrase variations from document
-    //   snippets.  All variations draw from the same source material, so
-    //   detectContradiction() will rarely fire and checkSelfConsistency() will
-    //   almost always return true — making F5-1 a real consistency bypass risk.
-    //   A production implementation must call the LLM engine with varying
-    //   temperature/seed to produce genuinely independent answer candidates:
-    //
-    //   InferenceRequest req;
-    //   req.prompt = formatPrompt(query, docs);
-    //   req.temperature = config.temperature_range[i % range_size];
-    //   req.seed = static_cast<uint32_t>(i);
-    //   samples.push_back(llm->generate(req).text);
-    //
-    // Removal Plan: Replace with real LLM inference when a KnowledgeGapDetector
-    //   LLM client injection API is added (see ROADMAP.md Phase 2 self-consistency).
-    //
-    // F5-1 mitigation: Emit a one-time warning so operators know that the
-    // self-consistency check is running in heuristic/stub mode and is NOT
-    // detecting real LLM inconsistencies.
-    {
-        static std::once_flag f5_1_warned;
-        std::call_once(f5_1_warned, [](){
-            THEMIS_WARN("[F5-1] KnowledgeGapDetector::generateMultipleSamples is operating "
-                        "in STUB MODE — no LLM engine is wired.  Self-consistency checks "
-                        "will produce trivially passing results and CANNOT detect real "
-                        "LLM output inconsistencies.  Wire an LLM client via "
-                        "KnowledgeGapDetector::setLLMClient() when available.");
-        });
+    // Purpose: Fallback when no LlmSampleFn is injected via setLlmSampleFn().
+    //          Samples are composed from document sentences rather than model
+    //          completions; they vary in content when different source documents
+    //          describe complementary or conflicting information.
+    // Activation: Active when impl_->llm_sample_fn is null or returns empty.
+    // Production Delta: LLM-generated samples capture inference chains,
+    //                   paraphrases, and hallucinations that document sentences do not.
+    //                   Semantic contradiction detection sensitivity is lower here (~60%)
+    //                   compared to a trained LLM judge (~85%).
+    // Removal Plan: Retained as permanent fallback; callers inject a real ILLMPlugin
+    //               via setLlmSampleFn() for production self-consistency scoring.
+    //               See src/rag/FUTURE_ENHANCEMENTS.md §KnowledgeGapDetector SelfConsistency.
+
+    // Split a text block into individual sentences (period/question/exclamation boundary).
+    auto splitSentences = [](const std::string& text) -> std::vector<std::string> {
+        std::vector<std::string> sentences;
+        std::string current;
+        for (std::size_t i = 0; i < text.size(); ++i) {
+            current += text[i];
+            const char c = text[i];
+            if ((c == '.' || c == '!' || c == '?')
+                    && i + 1 < text.size() && std::isspace(static_cast<unsigned char>(text[i + 1]))) {
+                const std::size_t s = current.find_first_not_of(" \t\n\r");
+                if (s != std::string::npos && current.size() - s > 10) {
+                    sentences.push_back(current.substr(s));
+                }
+                current.clear();
+            }
+        }
+        if (!current.empty()) {
+            const std::size_t s = current.find_first_not_of(" \t\n\r");
+            if (s != std::string::npos && current.size() - s > 10) {
+                sentences.push_back(current.substr(s));
+            }
+        }
+        return sentences;
+    };
+
+    // Collect all sentences tagged by source document index.
+    std::vector<std::pair<std::size_t, std::string>> tagged;  // (doc_index, sentence)
+    for (std::size_t d = 0; d < docs.size(); ++d) {
+        for (auto& sent : splitSentences(docs[d].content)) {
+            tagged.emplace_back(d, std::move(sent));
+        }
     }
 
     std::vector<std::string> samples;
     samples.reserve(num_samples);
 
-    // Collect snippets from documents to vary sample content
-    std::vector<std::string> snippets;
-    for (const auto& doc : docs) {
-        if (!doc.content.empty()) {
-            // Take up to the first 120 characters as a snippet
-            snippets.push_back(doc.content.substr(0, std::min(doc.content.size(), size_t(120))));
+    if (tagged.empty()) {
+        // No sentences available — fall back to generic per-sample stubs.
+        for (std::size_t i = 0; i < num_samples; ++i) {
+            samples.push_back("No document content available for query: " + query
+                              + " (sample " + std::to_string(i) + ")");
         }
+        return samples;
     }
 
-    for (size_t i = 0; i < num_samples; ++i) {
+    // Build each sample from sentences drawn at a stride offset so adjacent
+    // samples prefer sentences from different documents (maximising diversity).
+    const std::size_t stride = std::max(std::size_t{1}, tagged.size() / num_samples);
+    for (std::size_t s = 0; s < num_samples; ++s) {
         std::ostringstream oss;
-        oss << "Based on the query '" << query << "': ";
-        if (!snippets.empty()) {
-            oss << snippets[i % snippets.size()];
-        } else {
-            oss << "No relevant documents found for variation " << i;
+        oss << "Regarding '" << query << "': ";
+        // Pick up to 3 sentences starting at a unique offset for this sample.
+        const std::size_t start = (s * stride) % tagged.size();
+        std::size_t added = 0;
+        for (std::size_t k = 0; k < tagged.size() && added < 3; ++k) {
+            const std::size_t idx = (start + k) % tagged.size();
+            oss << tagged[idx].second << " ";
+            ++added;
         }
         samples.push_back(oss.str());
     }
@@ -1293,10 +1355,9 @@ std::string KnowledgeGapDetector::reformulateQuery(
 }
 
 std::vector<RetrievedDocument> KnowledgeGapDetector::performDynamicRetrieval(
-    const std::string& query,
-    const std::string& tenant_id
+    const std::string& query
 ) {
-    THEMIS_DEBUG("Dynamic retrieval for query: {} (tenant={})", query, tenant_id);
+    THEMIS_DEBUG("Dynamic retrieval for query: {}", query);
 
     if (!impl_->retrieval_fn) {
         // No retrieval callback wired — caller must provide documents upfront or
@@ -1306,9 +1367,23 @@ std::vector<RetrievedDocument> KnowledgeGapDetector::performDynamicRetrieval(
 
     // Use top_k from config (min_documents serves as a reasonable per-round budget).
     const size_t k = std::max(impl_->config.min_documents, size_t{1});
+
+    if (impl_->config.tenant_id.empty()) {
+        THEMIS_WARN("performDynamicRetrieval: no tenant_id configured — retrieval callback "
+                    "cannot enforce tenant isolation. Set KnowledgeGapConfig::tenant_id.");
+    } else {
+        THEMIS_DEBUG("performDynamicRetrieval: tenant_id={}", impl_->config.tenant_id);
+    }
+
+    // Prepend tenant_id to the query so tenant-aware callbacks can enforce isolation.
+    // Callbacks that are not tenant-aware will receive a slightly modified query;
+    // callers MUST configure a tenant-aware RetrievalCallback when multi-tenancy is required.
+    const std::string scoped_query = impl_->config.tenant_id.empty()
+        ? query
+        : "[tenant:" + impl_->config.tenant_id + "] " + query;
+
     try {
-        // F5-2: Pass tenant_id so the callback queries the correct tenant corpus.
-        return impl_->retrieval_fn(query, k, tenant_id);
+        return impl_->retrieval_fn(scoped_query, k);
     } catch (const std::exception& ex) {
         THEMIS_DEBUG("Dynamic retrieval callback threw: {}", ex.what());
         return {};

@@ -48,6 +48,7 @@
 
 #include "chimera/database_adapter.hpp"
 #include <atomic>
+#include <functional>
 #include <map>
 #include <mutex>
 #include <unordered_set>
@@ -380,6 +381,20 @@ public:
 
     Result<std::vector<std::string>> list_prepared() override;
 
+    /**
+     * @brief Inject a connection-pool provider.
+     *
+     * When a non-null `acquire_fn` is set, `has_capability(CONNECTION_POOLING)`
+     * returns true and `get_capabilities()` includes `Capability::CONNECTION_POOLING`.
+     *
+     * The `acquire_fn` is a zero-argument callable returning a connection
+     * handle as a `void*` (adapter-specific; unused internally but recorded
+     * as evidence that a pool is present).  Pass `nullptr` to disable pooling.
+     *
+     * Thread safety: call before the first `connect()` invocation.
+     */
+    void setConnectionPool(std::function<void*()> acquire_fn);
+
 private:
     // ── Connection state ────────────────────────────────────────────────────
     bool connected_ = false;
@@ -391,6 +406,10 @@ private:
     themis::QueryEngine*        query_engine_  = nullptr;
     themis::VectorIndexManager* vector_index_  = nullptr;
     themis::GraphIndexManager*  graph_index_   = nullptr;
+
+    // ── Connection pool (optional) ───────────────────────────────────────────
+    // When non-null, has_capability(CONNECTION_POOLING) returns true.
+    std::function<void*()> connection_pool_acquire_fn_;
 
     // ── In-memory simulation collections ────────────────────────────────────
     // Used when no engine is injected (unit-test / simulation mode).

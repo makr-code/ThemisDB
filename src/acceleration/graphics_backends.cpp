@@ -2193,6 +2193,18 @@ public:
         cpuFallback_  = false;
     }
 #else
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide stub data-member declarations so the class body compiles
+    //          when THEMIS_ENABLE_OPENGL is not defined, without requiring
+    //          callers to be guarded by the same preprocessor flag.
+    // Activation: `THEMIS_ENABLE_OPENGL` is NOT defined (default build).
+    // Production Delta: gpuAvailable_ is always false; rendererName_/vendorName_
+    //          are empty; glMajor_/glMinor_ are 0.  All GPU-accelerated rendering
+    //          paths (L2 norm, cosine similarity via shader) are skipped; the
+    //          CPU fallback path is used unconditionally.
+    // Removal Plan: Build with -DTHEMIS_ENABLE_OPENGL=ON; the real member
+    //          definitions above the `#else` replace this stub block.  See
+    //          src/acceleration/FUTURE_ENHANCEMENTS.md §OpenGL Backend.
     // Stub members so the class compiles without THEMIS_ENABLE_OPENGL
     bool gpuAvailable_ = false;
     bool cpuFallback_  = false;

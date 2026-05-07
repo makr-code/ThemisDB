@@ -54,7 +54,9 @@
 //   attempts to locate `llama_grammar_init` and `llama_grammar_free` via
 //   `dlsym`/`GetProcAddress`.  If either is absent, `g_grammar_api_available`
 //   is set to false and all grammar operations (`init`, `apply`, `free`) log a
-//   warning and return nullptr / no-op.
+//   warning and return nullptr / no-op.  When `themis_grammar_inject_api_functions()`
+//   has been called with non-null pointers for all four functions, the override
+//   path is active and the dlsym-detected path is bypassed entirely.
 // Activation: llama.cpp linked without grammar support; or `llama_grammar_init`
 //   not exported from the linked llama.cpp shared/static library.
 // Production Delta: Grammar-constrained generation (GBNF, JSON schema enforcement,
@@ -64,7 +66,13 @@
 // Removal Plan: Rebuild llama.cpp with grammar support enabled and ensure the
 //   shared library exports `llama_grammar_init` / `llama_grammar_free`.
 //   Verify by checking the log line "✓ llama.cpp Grammar API detected" at startup.
+//   The override path (themis_grammar_inject_api_functions) is retained for testing.
 // Roadmap ref: src/llm/FUTURE_ENHANCEMENTS.md §"LlamaCpp Grammar API Runtime Activation"
+// RESOLVED 2026-05-06 — `themis_grammar_inject_api_functions(init, free, sample, accept)`
+//   extern "C" API added; when called with non-null pointers for all four functions,
+//   the override path bypasses dlsym detection so tests can exercise all grammar code
+//   paths without a real llama.cpp grammar build; null arguments revert to detected
+//   path; tests GRAM-INJ-01..03 added in test_grammar_integration.cpp.
 //
 // ═══════════════════════════════════════════════════════════
 
@@ -95,6 +103,16 @@ namespace {
     
     std::once_flag g_grammar_api_init_flag;
     bool g_grammar_api_available = false;
+
+    // Override function pointers for testing (set via themis_grammar_inject_api_functions()
+    // before any grammar call).  When g_grammar_api_override_active is true, these take
+    // precedence over the dlsym-detected pointers so tests can run without a real
+    // llama.cpp grammar build.
+    llama_grammar_init_fn   g_override_grammar_init   = nullptr;
+    llama_grammar_free_fn   g_override_grammar_free   = nullptr;
+    llama_grammar_sample_fn g_override_grammar_sample = nullptr;
+    llama_grammar_accept_fn g_override_grammar_accept = nullptr;
+    bool g_grammar_api_override_active = false;
     
     /**
      * @brief Initialize Grammar API function pointers via dynamic lookup
@@ -174,8 +192,11 @@ extern "C" {
  * @return true if all Grammar functions are available, false otherwise
  */
 bool themis_llama_grammar_available() {
-    ensureGrammarAPIInitialized();
-    return g_grammar_api_available;
+    if (!g_grammar_api_override_active) ensureGrammarAPIInitialized();
+    return g_grammar_api_override_active
+        ? (g_override_grammar_init != nullptr && g_override_grammar_free != nullptr &&
+           g_override_grammar_sample != nullptr && g_override_grammar_accept != nullptr)
+        : g_grammar_api_available;
 }
 
 /**
@@ -190,14 +211,16 @@ struct llama_grammar* llama_grammar_init(
     const char* grammar_str,
     const char* start_rule
 ) {
-    ensureGrammarAPIInitialized();
-    
-    if (!g_grammar_api_available || !g_llama_grammar_init) {
+    if (!g_grammar_api_override_active) ensureGrammarAPIInitialized();
+    auto* fn        = g_grammar_api_override_active ? g_override_grammar_init : g_llama_grammar_init;
+    const bool avail = g_grammar_api_override_active ? (g_override_grammar_init != nullptr) : g_grammar_api_available;
+
+    if (!avail || !fn) {
         spdlog::warn("llama_grammar_init called but API is not available");
         return nullptr;
     }
     
-    return g_llama_grammar_init(vocab, grammar_str, start_rule);
+    return fn(vocab, grammar_str, start_rule);
 }
 
 /**
@@ -205,13 +228,15 @@ struct llama_grammar* llama_grammar_init(
  * @param grammar Grammar handle to free
  */
 void llama_grammar_free(struct llama_grammar* grammar) {
-    ensureGrammarAPIInitialized();
-    
-    if (!g_grammar_api_available || !g_llama_grammar_free || !grammar) {
+    if (!g_grammar_api_override_active) ensureGrammarAPIInitialized();
+    auto* fn        = g_grammar_api_override_active ? g_override_grammar_free : g_llama_grammar_free;
+    const bool avail = g_grammar_api_override_active ? (g_override_grammar_free != nullptr) : g_grammar_api_available;
+
+    if (!avail || !fn || !grammar) {
         return;
     }
     
-    g_llama_grammar_free(grammar);
+    fn(grammar);
 }
 
 /**
@@ -225,13 +250,15 @@ void llama_grammar_sample(
     const struct llama_context* ctx,
     struct llama_token_data_array* candidates
 ) {
-    ensureGrammarAPIInitialized();
-    
-    if (!g_grammar_api_available || !g_llama_grammar_sample || !grammar || !ctx || !candidates) {
+    if (!g_grammar_api_override_active) ensureGrammarAPIInitialized();
+    auto* fn        = g_grammar_api_override_active ? g_override_grammar_sample : g_llama_grammar_sample;
+    const bool avail = g_grammar_api_override_active ? (g_override_grammar_sample != nullptr) : g_grammar_api_available;
+
+    if (!avail || !fn || !grammar || !ctx || !candidates) {
         return;
     }
     
-    g_llama_grammar_sample(grammar, ctx, candidates);
+    fn(grammar, ctx, candidates);
 }
 
 /**
@@ -245,13 +272,48 @@ void llama_grammar_accept(
     const struct llama_context* ctx,
     int token
 ) {
-    ensureGrammarAPIInitialized();
-    
-    if (!g_grammar_api_available || !g_llama_grammar_accept || !grammar || !ctx) {
+    if (!g_grammar_api_override_active) ensureGrammarAPIInitialized();
+    auto* fn        = g_grammar_api_override_active ? g_override_grammar_accept : g_llama_grammar_accept;
+    const bool avail = g_grammar_api_override_active ? (g_override_grammar_accept != nullptr) : g_grammar_api_available;
+
+    if (!avail || !fn || !grammar || !ctx) {
         return;
     }
     
-    g_llama_grammar_accept(grammar, ctx, token);
+    fn(grammar, ctx, token);
+}
+
+/**
+ * @brief Inject Grammar API function pointers for testing.
+ *
+ * Overrides the runtime-detected (dlsym) function pointers so that unit tests
+ * can exercise all grammar code paths without a real llama.cpp build that exports
+ * the grammar API.  Pass nullptr for all parameters to revert to the detected path.
+ *
+ * @note Call before any other grammar function.  Not thread-safe — intended for
+ *       test set-up only.
+ * @note Parameters are passed as void* to avoid a llama.h dependency in callers.
+ *       Internally they are reinterpret_cast to the correct function pointer types.
+ */
+void themis_grammar_inject_api_functions(
+    void* init_fn,
+    void* free_fn,
+    void* sample_fn,
+    void* accept_fn)
+{
+    g_override_grammar_init   = reinterpret_cast<llama_grammar_init_fn>(init_fn);
+    g_override_grammar_free   = reinterpret_cast<llama_grammar_free_fn>(free_fn);
+    g_override_grammar_sample = reinterpret_cast<llama_grammar_sample_fn>(sample_fn);
+    g_override_grammar_accept = reinterpret_cast<llama_grammar_accept_fn>(accept_fn);
+    g_grammar_api_override_active = (init_fn != nullptr && free_fn != nullptr &&
+                                     sample_fn != nullptr && accept_fn != nullptr);
+    if (g_grammar_api_override_active) {
+        g_grammar_api_available = true;
+        spdlog::debug("Grammar API injected for testing");
+    } else {
+        g_grammar_api_available = false;
+        spdlog::debug("Grammar API injection cleared; reverted to dlsym-detected path");
+    }
 }
 
 } // extern "C"

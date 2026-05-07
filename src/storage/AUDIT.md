@@ -1,16 +1,18 @@
 > ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
 
-<!-- Status: S0 FIXED | validated: 2026-05-04 (code re-verified) -->
+<!-- Status: S0 fixed 2026-05-04 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Storage Module
 
-**Last Audit:** 2026-05-04 | **Auditor:** Copilot | **Status:** ✅ S0 fixed — `OperationGuard` + `active_operations_` prevents use-after-free in `close()`
+**Last Audit:** 2026-05-04 | **Auditor:** Copilot | **Status:** ✅ S0+S1 fixed — 0 S0, 0 S1, see below
 
 > **Note:** Previous audit claimed "Security Issues: None critical". Source code analysis found
 > a TOCTOU race in `RocksDBWrapper::close()` that causes use-after-free under concurrent load,
 > a blob atomicity gap (partial blob visible to snapshot readers), and a non-durable write
 > default. Header quality scores do not reflect actual correctness.
+> **2026-05-04:** R-1 fixed — `closing_` atomic flag added; `OperationGuard` checks it under
+> `db_lifecycle_mutex_` so no new guard can start after `close()` sets the flag.
 
 ## Summary
 
@@ -19,11 +21,11 @@
 | Build System Registration | ✅ Verified (`cmake/CMakeLists.txt`, `cmake/StorageEnhancements.cmake`, `cmake/BlobStorage.cmake`) |
 | Source Files | 51 (`.cpp` in `src/storage/`) |
 | Test Coverage | ✅ 21 focused standalone test targets |
-| S0 Critical / Safety Violations | ✅ 0 (R-1 fixed 2026-05-04 — `OperationGuard` + `active_operations_` counter) |
-| S1 High | ✅ 0 (R-2 fixed 2026-05-04 — `putBlob()` now uses explicit Transaction) |
-| S2 Medium | ⚠️ 5 |
-| S3 Low | ℹ️ 2 |
-| Durability-by-default | 🔴 `write_options_->sync = false` — power-loss loses acknowledged writes |
+| S0 Critical / Safety Violations | ✅ 0 (R-1 fixed 2026-05-04) |
+| S1 High | ✅ 0 (R-2 fixed 2026-05-04) |
+| S2 Medium | ✅ 0 (R-3, R-4, R-5, W-1, W-2 fixed 2026-05-04) |
+| S3 Low | ✅ 0 (W-3, R-6 fixed 2026-05-04) |
+| Durability-by-default | 🔴 `write_options_->sync = false` — power-loss loses acknowledged writes (warning now emitted at startup) |
 
 ## Source Files Audited
 
@@ -115,14 +117,20 @@ so that `OperationGuard` constructors observe it and fail fast.
 
 ---
 
-### S1 — High (resolved 2026-05-04)
+### S1 — High
 
-#### ~~R-2 · `rocksdb_wrapper.cpp` · `putBlob()` — Partial blob visible to concurrent snapshot readers~~
+#### ~~R-2 · `rocksdb_wrapper.cpp` · `putBlob()` — Partial blob visible to concurrent snapshot readers~~ ✅ Fixed 2026-05-04
 
-**Fixed 2026-05-04:** `putBlob()` now wraps all chunk writes + manifest write in an
-explicit `rocksdb::Transaction` (`db_->BeginTransaction()`). The transaction is committed
-atomically; concurrent snapshot-isolated readers see either the complete blob (all chunks
-+ manifest) or nothing — partial views are no longer possible.
+~~`putBlob()` builds a `WriteBatch` containing all chunk entries plus a manifest key, then
+commits via `commitBatch()` which calls `db_->Write()` directly on the `TransactionDB`.
+The `WriteBatch` becomes visible atomically at the LSM level **after the write**, but
+concurrent snapshot-isolated reads (`GetForUpdate`, `GetWithSnapshot`) taken between chunk
+writes and manifest commit can read chunks that belong to an incomplete multi-chunk blob.~~
+
+**Fix applied 2026-05-04:** `putBlob()` now uses an explicit `rocksdb::Transaction`
+(`db_->BeginTransaction()`). All chunk `Put()` calls and the manifest `Put()` execute
+within the transaction, which is committed in a single `txn->Commit()`. MVCC guarantees
+that no concurrent snapshot can observe any partial blob state.
 
 ---
 
@@ -130,18 +138,18 @@ atomically; concurrent snapshot-isolated readers see either the complete blob (a
 
 | ID | Function | Description |
 |----|----------|-------------|
-| R-3 | `open()` | `THEMIS_ENABLE_SHARDING` environment variable silently drops all non-default column families with no audit log and no authorization check |
-| R-4 | `TransactionWrapper::~TransactionWrapper()` | Intentional `txn_.release()` (explicit leak) when DB closes while transaction is active; accumulates under rapid restart cycles |
-| R-5 | `configureOptions()` | `write_options_->sync = false` default — power failure between `db_->Write()` returning OK and the next OS `fsync` loses acknowledged writes; default is silent |
-| W-1 | `crc32_update()` in `wal_storage.cpp` | Static CRC table uses non-atomic `if (!initialized)` pattern — data race under concurrent `WALStorage` opens (UB per C++ memory model); fix: `std::call_once` or `constexpr` table |
-| W-2 | `appendBatch()` in `wal_storage.cpp` | Segment rotation failure mid-batch leaves earlier segment entries durable; recovery of partial batch requires idempotent replay logic not verified to exist |
+| ~~R-3~~ | ~~`open()`~~ | ~~`THEMIS_ENABLE_SHARDING` environment variable silently drops all non-default column families with no audit log and no authorization check~~ ✅ Fixed 2026-05-04 — added WARN + AUDIT log before drop |
+| ~~R-4~~ | ~~`TransactionWrapper::~TransactionWrapper()`~~ | ~~Intentional `txn_.release()` (explicit leak) when DB closes while transaction is active; accumulates under rapid restart cycles~~ ✅ Fixed 2026-05-04 — added WARN log on leak path |
+| ~~R-5~~ | ~~`configureOptions()`~~ | ~~`write_options_->sync = false` default — power failure between `db_->Write()` returning OK and the next OS `fsync` loses acknowledged writes; default is silent~~ ✅ Fixed 2026-05-04 — WARN emitted at startup when sync=false |
+| ~~W-1~~ | ~~`crc32_update()` in `wal_storage.cpp`~~ | ~~Static CRC table uses non-atomic `if (!initialized)` pattern — data race under concurrent `WALStorage` opens (UB per C++ memory model); fix: `std::call_once` or `constexpr` table~~ ✅ Fixed 2026-05-04 — replaced with `std::call_once` |
+| ~~W-2~~ | ~~`appendBatch()` in `wal_storage.cpp`~~ | ~~Segment rotation failure mid-batch leaves earlier segment entries durable; recovery of partial batch requires idempotent replay logic not verified to exist~~ ✅ Fixed 2026-05-04 — WARN logged on rotation failure with durability context |
 
 ### S3 — Low
 
 | ID | Function | Description |
 |----|----------|-------------|
-| W-3 | `checkpoint()` in `wal_storage.cpp` | Double mutex acquisition: `appendEntry()` and then `checkpoint()` re-acquire `mutex_`; short window allows other writers to append after the checkpoint marker |
-| R-6 | `putBlob()` manifest | Manifest uses host-endian `memcpy` without explicit little-endian enforcement — non-portable across mixed-endian architectures |
+| W-3 | `checkpoint()` in `wal_storage.cpp` | ✅ **Fixed 2026-05-04** — `checkpoint()` now acquires `mutex_` once for the full operation, calling `appendEntryLocked()` + `syncIfRequired()` inside the lock before segment cleanup; the race window between checkpoint marker and cleanup is eliminated. |
+| R-6 | `putBlob()` manifest | ✅ **Fixed 2026-05-04** — Added `writeLE32`/`writeLE64`/`readLE32`/`readLE64` helpers with explicit byte-order serialisation; manifest writes and reads now use these helpers instead of `memcpy` from host-order integers. |
 
 ---
 

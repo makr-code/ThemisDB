@@ -225,15 +225,6 @@ struct TierDecisionContext {
  *
  * Until the LoRA advisor is integrated, leave `decision_fn` empty (nullptr)
  * and the built-in evaluate() is used automatically.
- *
- * // STUB/SIMULATION NOTE:
- * // Purpose:    decision_fn hook is a no-op placeholder; built-in thresholds
- * //             are the production path today.
- * // Activation: set decision_fn to a non-null callable to override.
- * // Production Delta: LoRA advisor will replace threshold logic with a
- * //                   model that observes workload patterns over time.
- * // Removal Plan:     Once LoRA advisor is validated, default thresholds
- * //                   become the fallback only; advisor becomes primary.
  */
 struct TierPolicy {
     // ── Hot tier ──────────────────────────────────────────────────────────

@@ -348,74 +348,154 @@ nlohmann::json QueryFederation::executeJoin(
     uint64_t right_size = estimateCollectionSize(right_collection);
     
     nlohmann::json result = nlohmann::json::array();
-    
+
+    // -------------------------------------------------------------------------
+    // Parse join_condition to extract per-side field names.
+    // Supported formats (case-insensitive equality sign):
+    //   "field"                          → same field used on both sides
+    //   "alias.field"                    → field extracted, same on both sides
+    //   "left_alias.lfield = right_alias.rfield"
+    //   "lfield = rfield"
+    // -------------------------------------------------------------------------
+    std::string left_field;
+    std::string right_field;
+
+    auto extractField = [](const std::string& expr) -> std::string {
+        // Trim whitespace.
+        size_t start = expr.find_first_not_of(" \t");
+        size_t end   = expr.find_last_not_of(" \t");
+        if (start == std::string::npos) return expr;
+        std::string trimmed = expr.substr(start, end - start + 1);
+        // If "alias.field", keep only the part after the last '.'.
+        auto dot = trimmed.rfind('.');
+        return (dot != std::string::npos) ? trimmed.substr(dot + 1) : trimmed;
+    };
+
+    {
+        auto eq_pos = join_condition.find('=');
+        if (eq_pos != std::string::npos) {
+            size_t rhs_start = eq_pos + 1;
+            if (rhs_start < join_condition.size() && join_condition[rhs_start] == '=') {
+                ++rhs_start;  // skip second '=' for '==' syntax
+            }
+            left_field  = extractField(join_condition.substr(0, eq_pos));
+            right_field = extractField(join_condition.substr(rhs_start));
+        } else {
+            left_field  = extractField(join_condition);
+            right_field = left_field;
+        }
+    }
+
     if (config_.enable_broadcast_join && 
         std::min(left_size, right_size) < config_.broadcast_threshold_bytes) {
-        // Broadcast join: Send smaller table to all shards
+        // Broadcast join: fetch the smaller table, build a hash table, then
+        // probe with the larger table.
         broadcast_joins_++;
         
-        std::string small_table = (left_size < right_size) ? 
-                                 left_collection : right_collection;
-        std::string large_table = (left_size < right_size) ? 
-                                 right_collection : left_collection;
+        const bool left_is_small = (left_size <= right_size);
+        const std::string small_table = left_is_small ? left_collection  : right_collection;
+        const std::string large_table = left_is_small ? right_collection : left_collection;
+        const std::string small_field = left_is_small ? left_field       : right_field;
+        const std::string large_field = left_is_small ? right_field      : left_field;
         
         spdlog::info("Broadcasting {} to all shards for join with {}",
                     small_table, large_table);
         
-        // 1. Fetch small table completely
-        std::string fetch_query = "FOR doc IN " + small_table + " RETURN doc";
-        auto small_table_data = shard_router_->executeQuery(fetch_query);
-        
-        // STUB/SIMULATION NOTE:
-        // Purpose: Returns a metadata-only JSON result while the real broadcast
-        //          mechanism (replicate small table to all shard executors, perform
-        //          co-located join) is not implemented.
-        // Activation: Broadcast-join strategy selected (small_table estimated rows
-        //             < broadcast_threshold).
-        // Production Delta: No join results are produced; callers receive metadata
-        //                   about the join strategy, not actual document rows.
-        // Removal Plan: Implement broadcast via shard_router_->broadcastQuery();
-        //               collect per-shard join results; merge into unified result set.
-        //               See src/query/FUTURE_ENHANCEMENTS.md §QueryFederation Broadcast Join.
-        // F-025: make the stub failure explicit so callers cannot silently receive
-        //        zero rows without noticing.
-        result["type"]         = "broadcast_join";
-        result["left"]         = left_collection;
-        result["right"]        = right_collection;
-        result["strategy"]     = "broadcast";
-        result["data"]         = nlohmann::json::array();
-        result["_error"]       = "ERR_NOT_IMPLEMENTED";
-        result["_error_detail"] = "Broadcast join is not yet implemented; "
-                                  "no result rows were produced.";
+        // 1. Fetch small table completely.
+        const nlohmann::json small_data =
+            shard_router_->executeQuery("FOR doc IN " + small_table + " RETURN doc");
+
+        // Build hash table keyed by the join field from the small side.
+        std::unordered_map<std::string, std::vector<nlohmann::json>> hash_table;
+        if (small_data.is_array()) {
+            for (const auto& row : small_data) {
+                if (!row.contains(small_field)) continue;
+                std::string key = row[small_field].is_string()
+                    ? row[small_field].get<std::string>()
+                    : row[small_field].dump();
+                hash_table[key].push_back(row);
+            }
+        }
+
+        // 2. Fetch large table and probe the hash table.
+        const nlohmann::json large_data =
+            shard_router_->executeQuery("FOR doc IN " + large_table + " RETURN doc");
+
+        result = nlohmann::json::array();
+        if (large_data.is_array()) {
+            for (const auto& large_row : large_data) {
+                if (!large_row.contains(large_field)) continue;
+                const std::string key = large_row[large_field].is_string()
+                    ? large_row[large_field].get<std::string>()
+                    : large_row[large_field].dump();
+                auto it = hash_table.find(key);
+                if (it == hash_table.end()) continue;
+
+                for (const auto& small_row : it->second) {
+                    nlohmann::json merged = nlohmann::json::object();
+                    for (const auto& [k, v] : small_row.items()) {
+                        merged[(left_is_small ? left_collection : right_collection) + "_" + k] = v;
+                    }
+                    for (const auto& [k, v] : large_row.items()) {
+                        const std::string rk =
+                            (left_is_small ? right_collection : left_collection) + "_" + k;
+                        if (!merged.contains(rk)) merged[rk] = v;
+                    }
+                    result.push_back(std::move(merged));
+                }
+            }
+        }
+
+        spdlog::info("Broadcast join completed: {} result rows", result.size());
         
     } else {
-        // Shuffle join: Redistribute data based on join key
+        // Shuffle join: both sides are fetched and joined in-process using
+        // a hash join (build on left, probe with right).
         shuffle_joins_++;
         
         spdlog::info("Using shuffle join for {} ⋈ {}", 
                     left_collection, right_collection);
-        
-        // STUB/SIMULATION NOTE:
-        // Purpose: Returns a metadata-only JSON result while the real shuffle-join
-        //          mechanism (repartition both sides by join key, execute co-located
-        //          joins per shard) is not implemented.
-        // Activation: Shuffle-join strategy selected (neither table fits broadcast
-        //             threshold).
-        // Production Delta: No join results are produced; callers receive metadata
-        //                   about the join strategy only.
-        // Removal Plan: Implement shuffle via shard_router_->shufflePartition();
-        //               drive per-shard equi-joins and collect results.
-        //               See src/query/FUTURE_ENHANCEMENTS.md §QueryFederation Shuffle Join.
-        // F-025: make the stub failure explicit so callers cannot silently receive
-        //        zero rows without noticing.
-        result["type"]         = "shuffle_join";
-        result["left"]         = left_collection;
-        result["right"]        = right_collection;
-        result["strategy"]     = "shuffle";
-        result["data"]         = nlohmann::json::array();
-        result["_error"]       = "ERR_NOT_IMPLEMENTED";
-        result["_error_detail"] = "Shuffle join is not yet implemented; "
-                                  "no result rows were produced.";
+
+        const nlohmann::json left_data =
+            shard_router_->executeQuery("FOR doc IN " + left_collection + " RETURN doc");
+        const nlohmann::json right_data =
+            shard_router_->executeQuery("FOR doc IN " + right_collection + " RETURN doc");
+
+        std::unordered_map<std::string, std::vector<nlohmann::json>> hash_table;
+        if (left_data.is_array()) {
+            for (const auto& row : left_data) {
+                if (!row.contains(left_field)) continue;
+                std::string key = row[left_field].is_string()
+                    ? row[left_field].get<std::string>()
+                    : row[left_field].dump();
+                hash_table[key].push_back(row);
+            }
+        }
+
+        result = nlohmann::json::array();
+        if (right_data.is_array()) {
+            for (const auto& right_row : right_data) {
+                if (!right_row.contains(right_field)) continue;
+                const std::string key = right_row[right_field].is_string()
+                    ? right_row[right_field].get<std::string>()
+                    : right_row[right_field].dump();
+                auto it = hash_table.find(key);
+                if (it == hash_table.end()) continue;
+                for (const auto& left_row : it->second) {
+                    nlohmann::json merged = nlohmann::json::object();
+                    for (const auto& [k, v] : left_row.items()) {
+                        merged[left_collection + "_" + k] = v;
+                    }
+                    for (const auto& [k, v] : right_row.items()) {
+                        const std::string rk = right_collection + "_" + k;
+                        if (!merged.contains(rk)) merged[rk] = v;
+                    }
+                    result.push_back(std::move(merged));
+                }
+            }
+        }
+
+        spdlog::info("Shuffle join completed: {} result rows", result.size());
     }
     
     return result;

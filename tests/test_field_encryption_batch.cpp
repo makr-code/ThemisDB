@@ -48,3 +48,48 @@ TEST(FieldEncryptionBatch, RoundtripEncryptDecrypt) {
         EXPECT_EQ(decrypted, items[i].second);
     }
 }
+
+// ============================================================================
+// needsReEncryption via KeyProvider::getCurrentVersion (#145)
+// ============================================================================
+
+TEST(FieldEncryptionBatch, NeedsReEncryptionFalseForLatestVersion) {
+    auto provider = std::make_shared<MockKeyProvider>();
+    std::vector<uint8_t> key_bytes(32, 0xAB);
+    provider->createKeyFromBytes("re_enc_key", key_bytes);  // version 1
+
+    FieldEncryption enc(provider);
+
+    // Encrypt produces blob at current version (1).
+    auto blob = enc.encryptString("secret", "re_enc_key");
+    EXPECT_FALSE(enc.needsReEncryption(blob, "re_enc_key"));
+}
+
+TEST(FieldEncryptionBatch, NeedsReEncryptionTrueAfterRotation) {
+    auto provider = std::make_shared<MockKeyProvider>();
+    std::vector<uint8_t> key_bytes(32, 0xCD);
+    provider->createKeyFromBytes("rotate_key", key_bytes);   // version 1
+
+    FieldEncryption enc(provider);
+
+    // Encrypt at version 1.
+    auto blob = enc.encryptString("secret", "rotate_key");
+    ASSERT_EQ(blob.key_version, static_cast<uint32_t>(1));
+
+    // Rotate to version 2.
+    provider->rotateKey("rotate_key");
+
+    // Now the blob is outdated.
+    EXPECT_TRUE(enc.needsReEncryption(blob, "rotate_key"));
+}
+
+TEST(FieldEncryptionBatch, GetCurrentVersionReturnsProbeResult) {
+    auto provider = std::make_shared<MockKeyProvider>();
+    std::vector<uint8_t> key_bytes(32, 0xEF);
+    provider->createKeyFromBytes("ver_key", key_bytes);   // version 1
+    provider->rotateKey("ver_key");                        // version 2
+
+    // Default probe implementation must find version 2.
+    EXPECT_EQ(provider->getCurrentVersion("ver_key"), static_cast<uint32_t>(2));
+}
+

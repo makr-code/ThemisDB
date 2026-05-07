@@ -20,6 +20,9 @@
 #include "llm/mixed_precision_inference.h"
 #include <algorithm>
 #include <stdexcept>
+#if defined(THEMIS_HAS_CUDA) && THEMIS_HAS_CUDA
+#  include <cuda_runtime.h>
+#endif
 
 namespace themis {
 namespace llm {
@@ -233,45 +236,47 @@ std::string MixedPrecisionInference::toString(PrecisionMode precision) {
 }
 
 bool MixedPrecisionInference::isSupported(PrecisionMode precision) {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Placeholder hardware-capability check that returns true for all
-    //   precision modes except Q3 (experimental), so that the rest of the
-    //   mixed-precision pipeline can be exercised without a GPU or CUDA runtime.
-    // Activation: Always active — no compile-time gate.  CUDA compute capability
-    //   is not queried at runtime (requires CUDA SDK + GPU).
-    // Production Delta: BFLOAT16 is reported as supported even on pre-Ampere GPUs
-    //   (SM < 8.0); in production this would cause a CUDA illegal instruction at
-    //   the first BF16 kernel launch.  Similarly, Q4 and INT8 are marked supported
-    //   regardless of whether Tensor Cores are present.
-    // Removal Plan: Replace this function with a CUDA-runtime query using
-    //   cudaDeviceGetAttribute(cudaDevAttrComputeCapabilityMajor) and map
-    //   compute capability to supported precision modes.  Gate on
-    //   THEMIS_HAS_CUDA=1.  Tracking:
-    //   src/llm/FUTURE_ENHANCEMENTS.md § "Mixed Precision Hardware Capability Check"
-    // Roadmap ref: src/ROADMAP.md §GPU/Acceleration stub lifecycle
-    // Stub implementation - would check hardware capabilities
-    // In production, would check CUDA compute capability, tensor cores, etc.
-    
-    switch (precision) {
-        case PrecisionMode::FP32:
-        case PrecisionMode::FP16:
-        case PrecisionMode::INT8:
-        case PrecisionMode::Q4:
-            return true;  // Widely supported
-            
-        case PrecisionMode::BFLOAT16:
-            // Requires Ampere or newer (SM 8.0+)
-            return true;  // Assume supported
-            
-        case PrecisionMode::Q3:
-            return false;  // Experimental
-            
-        case PrecisionMode::AUTO:
-            return true;
-            
-        default:
-            return false;
+#if defined(THEMIS_HAS_CUDA) && THEMIS_HAS_CUDA
+    // Query CUDA device compute capability to determine which precision formats
+    // are natively accelerated.  Falls back to CPU-safe modes if no device is present.
+    int dev = 0;
+    if (cudaGetDevice(&dev) != cudaSuccess) {
+        // No CUDA device accessible at runtime even though the CUDA runtime is
+        // linked.  Report no modes supported — the non-CUDA branch handles the
+        // CPU-only case and is not reached here.
+        return false;
     }
+    int major = 0, minor_ver = 0;
+    cudaDeviceGetAttribute(&major, cudaDevAttrComputeCapabilityMajor, dev);
+    cudaDeviceGetAttribute(&minor_ver, cudaDevAttrComputeCapabilityMinor, dev);
+    const int sm = major * 10 + minor_ver;
+
+    switch (precision) {
+        case PrecisionMode::FP32:     return true;
+        case PrecisionMode::FP16:     return sm >= 60;   // Pascal+ (SM 6.0)
+        case PrecisionMode::BFLOAT16: return sm >= 80;   // Ampere+ (SM 8.0)
+        case PrecisionMode::INT8:     return sm >= 72;   // Turing+ (SM 7.2) for Tensor Core INT8
+        case PrecisionMode::Q4:       return sm >= 70;   // Volta+ (SM 7.0) for Tensor Cores
+        case PrecisionMode::AUTO:     return true;
+        case PrecisionMode::Q3:       return false;       // Experimental — not production-safe
+        default:                      return false;
+    }
+#else
+    // No CUDA runtime available.  Only report modes that have software/CPU fallbacks.
+    // BFLOAT16 is explicitly excluded: it requires Ampere hardware (SM >= 8.0) and
+    // claiming support without a GPU runtime check would cause an illegal instruction
+    // at the first BF16 kernel launch.
+    switch (precision) {
+        case PrecisionMode::FP32:     return true;
+        case PrecisionMode::FP16:     return true;   // Wide CPU library support
+        case PrecisionMode::INT8:     return true;   // CPU INT8 inference (ONNX Runtime etc.)
+        case PrecisionMode::Q4:       return true;   // CPU Q4 inference (llama.cpp style)
+        case PrecisionMode::AUTO:     return true;
+        case PrecisionMode::BFLOAT16: return false;  // Ampere GPU required
+        case PrecisionMode::Q3:       return false;  // Experimental
+        default:                      return false;
+    }
+#endif
 }
 
 } // namespace llm

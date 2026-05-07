@@ -195,3 +195,158 @@ TEST(ExplainabilityReasonBuilderTest, FederatedRound)
     // shard_id should appear in the signal
     EXPECT_NE(chain.signal.find("shard-3"), std::string::npos);
 }
+
+// ---------------------------------------------------------------------------
+// FADA-01  FederatedAIDecisionAuditor: mergeTimeline without fetcher
+// ---------------------------------------------------------------------------
+TEST(FederatedAIDecisionAuditorTest, FADA_01_MergeTimelineLocalOnly)
+{
+    using namespace themis::rag;
+    using namespace std::chrono;
+    FederatedAIDecisionAuditor auditor;
+
+    AIDecisionRecord r1;
+    r1.decision_type = "HNSW_PARAMS_UPDATED";
+    r1.timestamp     = system_clock::time_point{milliseconds{100}};
+
+    AIDecisionRecord r2;
+    r2.decision_type = "BAO_PLAN_SELECTED";
+    r2.timestamp     = system_clock::time_point{milliseconds{50}};
+
+    auditor.addShard("shard-A", {r1});
+    auditor.addShard("shard-B", {r2});
+
+    auto timeline = auditor.mergeTimeline();
+    ASSERT_EQ(timeline.size(), 2u);
+    // Oldest first (timestamp=50 before timestamp=100)
+    EXPECT_EQ(timeline[0].timestamp, system_clock::time_point{milliseconds{50}});
+    EXPECT_EQ(timeline[1].timestamp, system_clock::time_point{milliseconds{100}});
+    EXPECT_EQ(timeline[0].shard_id, "shard-B");
+    EXPECT_EQ(timeline[1].shard_id, "shard-A");
+}
+
+// ---------------------------------------------------------------------------
+// FADA-02  setShardRecordFetcher injects remote records into timeline
+// ---------------------------------------------------------------------------
+TEST(FederatedAIDecisionAuditorTest, FADA_02_FetcherAugmentsTimeline)
+{
+    using namespace themis::rag;
+    using namespace std::chrono;
+    FederatedAIDecisionAuditor auditor;
+
+    AIDecisionRecord local;
+    local.decision_type = "LOCAL_DECISION";
+    local.timestamp     = system_clock::time_point{milliseconds{200}};
+    auditor.addShard("shard-X", {local});
+
+    auditor.setShardRecordFetcher([](const std::string& shard_id) {
+        AIDecisionRecord remote;
+        remote.decision_type = "REMOTE_DECISION_" + shard_id;
+        remote.timestamp     = system_clock::time_point{milliseconds{100}};
+        return std::vector<AIDecisionRecord>{remote};
+    });
+
+    auto timeline = auditor.mergeTimeline();
+    ASSERT_EQ(timeline.size(), 2u);
+    // Remote record (ts=100ms) should come first
+    EXPECT_LT(timeline[0].timestamp, timeline[1].timestamp);
+    EXPECT_EQ(timeline[0].decision_type, "REMOTE_DECISION_shard-X");
+    EXPECT_EQ(timeline[0].shard_id, "shard-X");
+    EXPECT_EQ(timeline[1].decision_type, "LOCAL_DECISION");
+}
+
+// ---------------------------------------------------------------------------
+// FADA-03  Clearing the fetcher reverts to local-only behaviour
+// ---------------------------------------------------------------------------
+TEST(FederatedAIDecisionAuditorTest, FADA_03_ClearFetcherRevertsToLocal)
+{
+    using namespace themis::rag;
+    using namespace std::chrono;
+    FederatedAIDecisionAuditor auditor;
+
+    AIDecisionRecord local;
+    local.decision_type = "LOCAL";
+    local.timestamp     = system_clock::time_point{milliseconds{1}};
+    auditor.addShard("shard-Y", {local});
+
+    auditor.setShardRecordFetcher([](const std::string&) {
+        AIDecisionRecord r;
+        r.decision_type = "REMOTE";
+        r.timestamp     = system_clock::time_point{milliseconds{0}};
+        return std::vector<AIDecisionRecord>{r};
+    });
+
+    // Clear the fetcher
+    auditor.setShardRecordFetcher({});
+
+    auto timeline = auditor.mergeTimeline();
+    ASSERT_EQ(timeline.size(), 1u);
+    EXPECT_EQ(timeline[0].decision_type, "LOCAL");
+}
+
+// ── ERB-NL-01: default template path still works after adding injection API
+TEST(ExplainabilityReasonBuilderNlGen, ERB_NL_01_DefaultTemplateUnchanged) {
+    using namespace themis::rag;
+    ExplainabilityReasonBuilder erb;
+    AIDecisionRecord rec;
+    rec.decision_type = "HNSW_PARAMS_UPDATED";
+    rec.confidence    = 0.9;
+    auto chain = erb.build(rec);
+    auto nl    = erb.toNaturalLanguage(chain);
+    EXPECT_FALSE(nl.empty());
+    EXPECT_NE(nl.find("HNSW_PARAMS_UPDATED"), std::string::npos);
+    EXPECT_NE(nl.find("Confidence"), std::string::npos);
+}
+
+// ── ERB-NL-02: injected fn is called and its result returned
+TEST(ExplainabilityReasonBuilderNlGen, ERB_NL_02_InjectedFnCalled) {
+    using namespace themis::rag;
+    ExplainabilityReasonBuilder erb;
+    bool called = false;
+    erb.setNlGeneratorFn([&called](const ExplainabilityReasonBuilder::CausalChain& c) {
+        called = true;
+        return std::string("custom: ") + c.decision_type;
+    });
+    AIDecisionRecord rec;
+    rec.decision_type = "BAO_PLAN_SELECTED";
+    rec.confidence    = 0.75;
+    auto chain = erb.build(rec);
+    auto nl    = erb.toNaturalLanguage(chain);
+    EXPECT_TRUE(called);
+    EXPECT_EQ(nl, "custom: BAO_PLAN_SELECTED");
+}
+
+// ── ERB-NL-03: clearing the fn reverts to template path
+TEST(ExplainabilityReasonBuilderNlGen, ERB_NL_03_ClearFnRevertsToTemplate) {
+    using namespace themis::rag;
+    ExplainabilityReasonBuilder erb;
+    erb.setNlGeneratorFn([](const ExplainabilityReasonBuilder::CausalChain&) {
+        return std::string("custom");
+    });
+    // Clear the fn
+    erb.setNlGeneratorFn({});
+    AIDecisionRecord rec;
+    rec.decision_type = "LOOP_TRIGGER";
+    rec.confidence    = 0.5;
+    auto chain = erb.build(rec);
+    auto nl    = erb.toNaturalLanguage(chain);
+    EXPECT_NE(nl.find("LOOP_TRIGGER"), std::string::npos);
+    EXPECT_EQ(nl.find("custom"), std::string::npos);
+}
+
+// ── ERB-NL-04: fn returning empty string falls back to template
+TEST(ExplainabilityReasonBuilderNlGen, ERB_NL_04_EmptyReturnFallsBackToTemplate) {
+    using namespace themis::rag;
+    ExplainabilityReasonBuilder erb;
+    erb.setNlGeneratorFn([](const ExplainabilityReasonBuilder::CausalChain&) {
+        return std::string{};  // intentionally empty
+    });
+    AIDecisionRecord rec;
+    rec.decision_type = "INTENT_ALERT";
+    rec.confidence    = 0.95;
+    auto chain = erb.build(rec);
+    auto nl    = erb.toNaturalLanguage(chain);
+    // Should fall back to template since fn returned empty
+    EXPECT_FALSE(nl.empty());
+    EXPECT_NE(nl.find("INTENT_ALERT"), std::string::npos);
+}

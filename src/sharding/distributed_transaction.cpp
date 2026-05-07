@@ -25,6 +25,14 @@
 //
 // Distributed Transaction Coordinator with Two-Phase Commit (2PC)
 //
+// CC-5 NOTE: ThemisDB contains three independent 2PC implementations with
+// different state machines, WAL integration depths, and recovery logic:
+//   1. two_phase_commit_coordinator.cpp  — standalone coordinator
+//   2. cross_shard_transaction.cpp       — CrossShardTransactionCoordinator
+//   3. distributed_transaction.cpp       (this file) — DistributedTransactionCoordinator
+// A transaction begun with one coordinator CANNOT be recovered by another.
+// Future work: unify under a single 2PC engine (Target: v2.0.0).
+//
 // This implementation provides ACID guarantees for transactions spanning multiple
 // shards using the classical 2PC protocol enhanced with TrueTime for external
 // consistency.
@@ -59,6 +67,7 @@
 #include <algorithm>
 #include <set>
 #include <map>
+#include <unordered_map>
 #include <chrono>
 
 namespace themis::sharding {
@@ -105,12 +114,21 @@ std::string DistributedTransactionCoordinator::beginTransaction(
     txn.isolation_level = isolation_level;
     txn.start_time = truetime_->now().latest;
     
-    // Add participants
+    // Add participants — resolve real gRPC endpoint from registry when available
     for (const auto& shard_id : shard_ids) {
         TransactionParticipant participant;
         participant.shard_id = shard_id;
-        participant.endpoint = "shard://" + shard_id; // Placeholder
-        participant.prepared = false;
+
+        auto it = shard_endpoint_map_.find(shard_id);
+        if (it != shard_endpoint_map_.end()) {
+            participant.endpoint = it->second;
+        } else {
+            // Fallback: syntactic placeholder — 2PC RPCs will fail at connect time
+            // until a real endpoint is registered via setShardEndpointMap().
+            participant.endpoint = "shard://" + shard_id;
+        }
+
+        participant.prepared  = false;
         participant.committed = false;
         txn.participants.push_back(participant);
     }
@@ -264,7 +282,32 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
     // Phase 2: Commit
     txn.state = TransactionState::COMMITTING;
     lock.unlock();
-    
+
+    // DTM-4: Write and durably flush the COMMIT decision to WAL *before*
+    // broadcasting Phase 2 to participants.  A coordinator crash after flush
+    // but before broadcast is recoverable; a crash before flush is not.
+    if (wal_manager_ && config_.enable_recovery_log) {
+        try {
+            WALEntry commit_intent;
+            commit_intent.type = WALEntryType::COMMIT_TX;
+            commit_intent.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count();
+            commit_intent.transaction_id = txn.transaction_id;
+            commit_intent.data = {{"state", "COMMITTING"},
+                                  {"commit_time", txn.commit_time.count()}};
+            wal_manager_->append(commit_intent);
+            wal_manager_->flush(); // must be durable before Phase 2
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("DTM: Failed to flush COMMIT WAL entry for txn '{}': {}. "
+                         "Aborting to prevent unsafe state.", txn.transaction_id, e.what());
+            lock.lock();
+            txn.state = TransactionState::ABORTED;
+            txn.error_detail = "WAL flush failed before Phase 2 COMMIT";
+            aborted_transactions_.fetch_add(1, std::memory_order_relaxed);
+            return false;
+        }
+    }
+
     auto commit_start = std::chrono::steady_clock::now();
     bool committed = retryCommitPhase(txn);
     auto commit_ms = std::chrono::duration<double, std::milli>(
@@ -397,6 +440,13 @@ nlohmann::json DistributedTransactionCoordinator::getStatistics() const {
         {"readonly_transactions", readonly_transactions_.load()},
         {"active_transactions", transactions_.size()}
     };
+}
+
+void DistributedTransactionCoordinator::setShardEndpointMap(
+    std::unordered_map<std::string, std::string> map)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    shard_endpoint_map_ = std::move(map);
 }
 
 bool DistributedTransactionCoordinator::preparePhase(DistributedTransaction& txn) {

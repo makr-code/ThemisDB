@@ -399,6 +399,10 @@ private:
     std::vector<Token> tokens_;
     size_t pos_;
     std::shared_ptr<Query::TraversalNode> lastTraversal_;
+    // PA-1 fix: tracks current expression parse depth to prevent unbounded recursion
+    // (stack overflow via crafted queries with thousands of nested NOT / subexpressions).
+    int depth_{0};
+    static constexpr int kMaxExprDepth = 500;
     
     const Token& current() const {
         return (pos_ < tokens_.size()) ? tokens_[pos_] : tokens_.back();
@@ -578,6 +582,17 @@ private:
                     " exceeds limit " + std::to_string(kMaxTraversalDepth));
             }
             advance();
+
+            // Enforce traversal depth limits to prevent BFS/DFS runaway
+            constexpr int kMaxTraversalDepth = 100;
+            if (minDepth < 0) {
+                throw std::runtime_error("Graph traversal min_depth must be non-negative");
+            }
+            if (maxDepth > kMaxTraversalDepth) {
+                throw std::runtime_error(
+                    "Graph traversal max_depth " + std::to_string(maxDepth) +
+                    " exceeds limit of " + std::to_string(kMaxTraversalDepth));
+            }
 
             // Direction
             Query::TraversalNode::Direction dir;
@@ -804,6 +819,15 @@ private:
     }
     
     std::shared_ptr<Expression> parseExpression() {
+        // PA-1 fix: guard against unbounded recursion from crafted deeply-nested queries.
+        if (depth_ >= kMaxExprDepth) {
+            throw std::runtime_error(
+                fmt::format("Query expression exceeds maximum nesting depth of {}; "
+                            "simplify the query.", kMaxExprDepth)
+            );
+        }
+        ++depth_;
+        struct DepthGuard { int& d; ~DepthGuard() { --d; } } guard{depth_};
         return parseLogicalOr();
     }
     

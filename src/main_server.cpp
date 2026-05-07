@@ -913,6 +913,19 @@ int main(int argc, char* argv[]) {
                 const auto& hsm = (*sec_cfg)["hsm"];
                 if (hsm.contains("provider")) {
                     std::string provider = hsm["provider"].get<std::string>();
+                    // STUB/SIMULATION NOTE (main_server.cpp HSM provider selection):
+                    // Purpose: Recognise "stub" as a valid HSM provider name in the security
+                    //          config so the server starts cleanly in dev/CI environments
+                    //          where no real PKCS#11 device or library is present.
+                    // Activation: security.yaml sets `hsm.provider: stub` (or no security
+                    //          config at all).  "stub" maps to an empty library_path which
+                    //          causes HSMProvider to load the software-only stub backend.
+                    // Production Delta: No hardware key protection; all crypto uses the
+                    //          in-memory software AES-256-GCM KEK from the HSM stub.
+                    //          The server will also log a WARN on startup.
+                    // Removal Plan: Set `hsm.provider: pkcs11` with a valid library path in
+                    //          the production security config.  See
+                    //          docs/deployment/security_hardening.md §HSM Configuration.
                     // For now, we support stub and pkcs11
                     // stub provider means empty library_path
                     if (provider == "stub") {

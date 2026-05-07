@@ -21,12 +21,15 @@
  */
 
 #include "utils/input_validator.h"
+#include "utils/logger.h"
 #include <fstream>
 #include <sstream>
 #include <cctype>
 #include <algorithm>
 #include <array>
 #include <regex>
+#include <mutex>
+#include <unordered_set>
 
 namespace themis {
 namespace utils {
@@ -253,28 +256,31 @@ std::optional<std::string> InputValidator::validateJsonStub(
     const nlohmann::json& payload,
     const std::string& schema_name
 ) const {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Provide a lightweight JSON-schema validation path that silently
-    //   accepts requests when the schema file is not present on disk.  If the
-    //   schema file `<schema_dir>/<schema_name>.json` exists, the payload is
-    //   validated against it via `validateJson()`.  If the file is absent,
-    //   `validateJsonStub()` returns `std::nullopt` (no error) and the request
-    //   is accepted unconditionally.
-    // Activation: Schema file not deployed to `schema_dir_` at runtime (the
-    //   common case in development and CI builds).
-    // Production Delta: Without a schema file, arbitrary JSON payloads (including
-    //   malformed or adversarial requests) pass validation silently.  The only
-    //   protection in effect is the surrounding hard-coded structural checks in
-    //   `validateAqlRequest()`.  Missing schema files are a silent security gap:
-    //   no warning is logged when the file is absent.
-    // Removal Plan: (1) Deploy schema files to `schema_dir_` in production
-    //   (controlled via `THEMIS_SCHEMA_DIR` env var or config YAML).
-    //   (2) Log WARN when a requested schema file is not found so the gap is
-    //   visible in logs.
-    // Roadmap ref: src/utils/FUTURE_ENHANCEMENTS.md §"JSON Schema Validation Activation"
     auto schema = loadSchema(schema_name);
     if (!schema.has_value()) {
-        return std::nullopt; // no schema file present -> accept
+        // Fail-closed: reject the request.  Warn once per unique schema_name to
+        // avoid log spam when schemas are intentionally not deployed in an env.
+        // Thread-safety: C++17 §9.7[stmt.dcl]p4 (formerly C++11 §6.7[stmt.dcl]p4)
+        // guarantees that the initialization of a block-scope static variable is
+        // performed exactly once, even under concurrent access ("magic statics").
+        // The mutex then serializes all subsequent accesses to s_warned_schemas.
+        // emplace() combines lookup and insert atomically under the lock.
+        {
+            static std::mutex s_warned_mutex;
+            static std::unordered_set<std::string> s_warned_schemas;
+            std::lock_guard<std::mutex> lock(s_warned_mutex);
+            if (s_warned_schemas.emplace(schema_name).second) {
+                THEMIS_WARN("InputValidator::validateJsonStub: schema '{}' not found — "
+                            "expected file: '{}/{}.json'.  "
+                            "Place the JSON Schema file in that directory or set "
+                            "THEMIS_SCHEMA_DIR to the correct path.  "
+                            "Request rejected (fail-closed).  "
+                            "(Subsequent occurrences for this schema are suppressed.)",
+                            schema_name, schema_dir_, schema_name);
+            }
+        }
+        return std::string("schema '" + schema_name + "' not found in '" +
+                           schema_dir_ + "' — validation failed");
     }
     return validateJson(payload, *schema);
 }

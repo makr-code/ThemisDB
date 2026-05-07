@@ -201,7 +201,17 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd,
 void RedisCacheCoordinator::dispatchMessage(const std::string&, const std::string&) {}
 
 std::string RedisCacheCoordinator::computeHmac(const std::string&) const { return {}; }
-bool RedisCacheCoordinator::verifyHmac(const nlohmann::json&) const { return true; }
+bool RedisCacheCoordinator::verifyHmac(const nlohmann::json&) const {
+    // STUB/SIMULATION NOTE:
+    // Purpose: Non-POSIX build stub — POSIX sockets unavailable, so no pub/sub traffic
+    //          can arrive; this function should never be called in a real non-POSIX run.
+    // Activation: !THEMIS_POSIX_SOCKETS preprocessor guard.
+    // Production Delta: The POSIX path performs real HMAC-SHA256 verification.
+    // Removal Plan: Non-POSIX builds are development/test only; production uses POSIX.
+    // Fail-closed (D-1 fix): return false so that any unexpected call rejects the message
+    // rather than silently accepting it, preventing an HMAC bypass on non-POSIX builds.
+    return false;
+}
 
 #else  // THEMIS_POSIX_SOCKETS
 
@@ -663,8 +673,19 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd,
             return true;
         }
         if (line[0] != '$') return false;
-        int len = std::stoi(line.substr(1));
+        // D-2: use stoll with bounds check to avoid UB on out-of-range values
+        long long len = 0;
+        try {
+            len = std::stoll(line.substr(1));
+        } catch (const std::exception& e) {
+            THEMIS_WARN("RESP: invalid bulk-string length '{}': {}", line.substr(1), e.what());
+            return false;
+        }
         if (len < 0) { out.clear(); return true; }  // null bulk string
+        if (len > 512'000'000LL) {
+            THEMIS_WARN("RESP: bulk-string length {} exceeds 512 MB limit", len);
+            return false;
+        }
         out.resize(static_cast<size_t>(len));
         size_t received = 0;
         while (received < static_cast<size_t>(len)) {
@@ -683,7 +704,13 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd,
     std::string hdr;
     if (!readLine(fd, hdr)) return false;
     if (hdr.empty() || hdr[0] != '*') return false;
-    int count = std::stoi(hdr.substr(1));
+    long long count = 0;
+    try {
+        count = std::stoll(hdr.substr(1));
+    } catch (const std::exception& e) {
+        THEMIS_WARN("RESP: invalid array count '{}': {}", hdr.substr(1), e.what());
+        return false;
+    }
     if (count < 3) return false;
 
     std::string type_field;

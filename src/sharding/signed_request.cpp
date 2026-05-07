@@ -28,14 +28,19 @@
 #include <chrono>
 #include <random>
 #include <algorithm>
+#include <fstream>
+#include <filesystem>
+#include <regex>
+#include <spdlog/spdlog.h>
 
-// OpenSSL for signing
+// OpenSSL for signing / verification
 #include <openssl/pem.h>
 #include <openssl/rsa.h>
 #include <openssl/sha.h>
 #include <openssl/evp.h>
 #include <openssl/bio.h>
 #include <openssl/buffer.h>
+#include <openssl/x509.h>
 
 namespace themis::sharding {
 
@@ -78,6 +83,14 @@ namespace {
         
         decoded.resize(decoded_len);
         return decoded;
+    }
+
+    // Certificate serial number pattern: up to 80 hex chars (RFC 5280 §4.1.2.2 caps
+    // at 20 octets = 40 chars; 80 accommodates non-conformant enterprise CAs).
+    // Static local — initialised exactly once (C++11 guarantee).
+    const std::regex& certSerialPattern() {
+        static const std::regex kPattern("^[0-9A-Fa-f]{1,80}$");
+        return kPattern;
     }
 }
 
@@ -319,36 +332,135 @@ bool SignedRequestVerifier::verifyNonce(uint64_t nonce, [[maybe_unused]] uint64_
 }
 
 bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
-    // For Phase 2, we provide the structure
-    // Full implementation would:
-    // 1. Load certificate by serial number
-    // 2. Extract public key
-    // 3. Verify signature against canonical string
-    // 4. Check certificate is not revoked (CRL)
-    
-    // Decode signature
+    // Decode base64 signature; reject if empty or malformed
     auto signature_bytes = base64DecodeBytes(request.signature_b64);
-    if (!signature_bytes) {
+    if (!signature_bytes || signature_bytes->empty()) {
         return false;
     }
-    
-    // Get canonical string
-    std::string canonical = request.getCanonicalString();
-    
-    // STUB/SIMULATION NOTE:
-    // Purpose: Satisfies the verifySignature() API while the real RSA/ECDSA
-    //          signature verification against the shard public-key certificate
-    //          is not yet implemented.
-    // Activation: Always — no public-key crypto call is made.
-    // Production Delta: Any `SignedRequest` with a non-empty (but invalid/forged)
-    //                   `signature_b64` field will pass verification.  An attacker
-    //                   that intercepts a request can modify the body and the
-    //                   signature field trivially.
-    // Removal Plan: Parse the certificate from `request.sender_cert_pem`; extract
-    //               the public key; compute SHA-256 of `getCanonicalString()`; call
-    //               EVP_DigestVerify to validate `signature_b64`.  See
-    //               src/sharding/FUTURE_ENHANCEMENTS.md §Signed Request Crypto Verification.
-    return !request.signature_b64.empty();
+
+    // Step 1: Locate the peer certificate by serial number.
+    // Certs are stored as <trusted_certs_dir>/<cert_serial>.pem.
+    if (config_.trusted_certs_dir.empty()) {
+        // Cannot verify without a cert directory; reject the request.
+        // Warn once per process so operators know why verification is failing.
+        static std::once_flag s_no_cert_dir_warn;
+        std::call_once(s_no_cert_dir_warn, [] {
+            spdlog::warn("SignedRequestVerifier: trusted_certs_dir is not configured — "
+                         "all signature verifications will be REJECTED.  Set "
+                         "Config::trusted_certs_dir to the directory containing "
+                         "peer certificate PEM files.  "
+                         "(This warning is printed once per process.)");
+        });
+        return false;
+    }
+
+    // Sanitize cert_serial: only allow hexadecimal characters (certificate serial
+    // numbers are hex strings per RFC 5280 §4.1.2.2).  Reject anything that could
+    // be used to escape the trusted_certs_dir via path traversal (e.g. "../",
+    // absolute paths, null bytes).  RFC 5280 caps at 20 octets (40 hex chars);
+    // allow up to 80 to accommodate non-conformant enterprise CAs.
+    if (!std::regex_match(request.cert_serial, certSerialPattern())) {
+        THEMIS_WARN("verifySignature: rejected invalid cert_serial (path-traversal guard): '{}'",
+                    request.cert_serial);
+        return false;
+    }
+
+    // Use std::filesystem::path for safe concatenation.
+    namespace fs = std::filesystem;
+    fs::path cert_path = fs::path(config_.trusted_certs_dir) / (request.cert_serial + ".pem");
+
+    // Verify the resolved certificate path is actually inside trusted_certs_dir
+    // (defence-in-depth).  Compare parent_path() rather than doing string-prefix
+    // matching, which can be fooled by directory names that share a prefix
+    // (e.g. /trusted/certs vs /trusted/certs_evil).
+    // Note on TOCTOU: there is an inherent window between weakly_canonical() and
+    // the subsequent ifstream open below.  This is mitigated by (a) the regex
+    // filter which rejects any non-hex character before path construction, and
+    // (b) running ThemisDB under a process user that has no write access to
+    // trusted_certs_dir.
+    // DEPLOYMENT REQUIREMENT: the process user MUST NOT have write access to
+    // trusted_certs_dir (enforce via OS-level ACLs / container security context).
+    // If this cannot be guaranteed, the administrator MUST use the fully atomic
+    // openat(2)+O_NOFOLLOW approach (left to the OS-hardening layer) or mount the
+    // directory read-only.  This requirement is documented in
+    // docs/deployment/security_hardening.md §TrustedCertsDir.
+    // A fully atomic solution would require openat(2) with O_NOFOLLOW or equivalent,
+    // which is left to the OS-hardening layer.
+    fs::path canonical_dir;
+    fs::path canonical_cert;
+    try {
+        canonical_dir  = fs::weakly_canonical(fs::path(config_.trusted_certs_dir));
+        canonical_cert = fs::weakly_canonical(cert_path);
+    } catch (const fs::filesystem_error& e) {
+        spdlog::warn("SignedRequestVerifier: path canonicalization failed for cert_serial='{}': {}",
+                     request.cert_serial, e.what());
+        return false;
+    }
+    if (canonical_cert.parent_path() != canonical_dir) {
+        return false;
+    }
+
+    // Open the file using the canonicalized path to reduce the TOCTOU window
+    // between weakly_canonical() and the read (the cert_path variable retains
+    // the non-canonical form; using canonical_cert here means the fd refers to
+    // the resolved inode, not a symlink that could be swapped after canonicalization).
+    // A fully atomic solution would require openat(2)/O_NOFOLLOW; that is left
+    // to the OS-hardening layer as noted above.
+    std::ifstream cert_file(canonical_cert);
+    if (!cert_file.good()) {
+        // Log only the serial number to avoid leaking internal directory paths.
+        spdlog::warn("SignedRequestVerifier: certificate not found or unreadable for serial='{}'",
+                     request.cert_serial);
+        return false;
+    }
+    std::string cert_pem((std::istreambuf_iterator<char>(cert_file)),
+                          std::istreambuf_iterator<char>());
+    if (cert_pem.empty()) {
+        return false;
+    }
+
+    // Step 2: Parse the certificate and extract the public key.
+    auto bio = utils::make_bio_mem_buf(cert_pem.c_str(), static_cast<int>(cert_pem.size()));
+    if (!bio) return false;
+    auto cert = utils::read_x509_from_bio(bio.get());
+    if (!cert) return false;
+
+    // Step 3: Verify the certificate against the CA (if ca_cert_path is configured).
+    // Note: if ca_cert_path is empty, chain validation is skipped.  Production
+    // deployments MUST configure ca_cert_path; warn once per process when absent.
+    if (config_.ca_cert_path.empty()) {
+        static std::once_flag s_ca_warn;
+        std::call_once(s_ca_warn, [] {
+            spdlog::warn("SignedRequestVerifier: ca_cert_path not configured — "
+                         "certificate chain validation is SKIPPED.  Set Config::ca_cert_path "
+                         "to the CA certificate to enable full chain validation. "
+                         "(This warning is printed once per process.)");
+        });
+    } else if (!PKIShardCertificate::verifyCertificate(cert_path.string(), config_.ca_cert_path)) {
+        return false;
+    }
+
+    // Step 4: Check Certificate Revocation List if configured.
+    if (!config_.crl_path.empty() &&
+        PKIShardCertificate::isRevoked(request.cert_serial, config_.crl_path)) {
+        return false;
+    }
+
+    // Step 5: Extract public key from the parsed certificate.
+    auto pubkey = utils::EVPKeyPtr(X509_get_pubkey(cert.get()));
+    if (!pubkey) return false;
+
+    // Step 6: Verify RSA/ECDSA-SHA-256 signature against the canonical request string.
+    const std::string canonical = request.getCanonicalString();
+    auto md_ctx = utils::make_evp_md_ctx();
+    if (!md_ctx) return false;
+    if (EVP_DigestVerifyInit(md_ctx.get(), nullptr, EVP_sha256(), nullptr, pubkey.get()) != 1) {
+        return false;
+    }
+    if (EVP_DigestVerifyUpdate(md_ctx.get(), canonical.c_str(), canonical.size()) != 1) {
+        return false;
+    }
+    return EVP_DigestVerifyFinal(md_ctx.get(), signature_bytes->data(), signature_bytes->size()) == 1;
 }
 
 uint64_t SignedRequestVerifier::getCurrentTimestampMs() const {
