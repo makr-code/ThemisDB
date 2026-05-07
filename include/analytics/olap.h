@@ -161,6 +161,13 @@ struct OLAPQuery {
     std::vector<Sort> sorts;
     std::optional<int64_t> limit;
     std::optional<int64_t> offset;
+
+    /// Optional tenant identifier for multi-tenant deployments.
+    /// When non-empty, `DistributedAnalyticsSharding` enforces that every
+    /// registered shard belongs to (or is allowed for) this tenant before
+    /// dispatching the query.  Shard executors may also use this field to
+    /// scope their key-prefix access at the storage layer.
+    std::string tenant_id;
     
     // Advanced grouping
     enum class GroupingMode {

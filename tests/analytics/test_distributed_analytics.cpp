@@ -802,3 +802,254 @@ TEST(DistributedAnalyticsShardingTest, AddShardDoesNotBlockDuringHealthCheck) {
     EXPECT_LT(elapsed_ms, 50.0)
         << "addShard() was blocked during health check for " << elapsed_ms << " ms";
 }
+
+// ============================================================================
+// Federated query dispatch tests (FED-01 .. FED-08)
+// Covers: tenant isolation, failure-rate threshold, per-shard timeout,
+//         PERMISSION_DENIED guard, partial toleration.
+// ============================================================================
+
+namespace {
+
+// Helper: builds a minimal OLAPQuery pointing at a dummy collection.
+static themis::analytics::OLAPQuery makeSumQuery(
+        const std::string& tenant_id = {}) {
+    using namespace themis::analytics;
+    OLAPQuery q;
+    q.collection = "sales";
+    q.tenant_id  = tenant_id;
+    q.measures.push_back({"total", "amount", Measure::Function::Sum});
+    return q;
+}
+
+// Helper: returns an executor that always succeeds with a single-row result
+// whose SUM value equals `value`.
+static std::shared_ptr<ShardQueryExecutor> makeSuccessExec(double value) {
+    using namespace themis::analytics;
+    class FixedExec : public ShardQueryExecutor {
+    public:
+        explicit FixedExec(double v) : v_(v) {}
+        OLAPResult execute(const std::string&, const OLAPQuery& q) override {
+            OLAPResult r;
+            r.columns = {"total"};
+            OLAPResult::Row row;
+            row.values["total"] = v_;
+            r.rows.push_back(std::move(row));
+            r.total_rows = 1;
+            return r;
+        }
+    private:
+        double v_;
+    };
+    return std::make_shared<FixedExec>(value);
+}
+
+// Helper: executor that always throws.
+static std::shared_ptr<ShardQueryExecutor> makeFailExec(
+        const std::string& msg = "shard error") {
+    using namespace themis::analytics;
+    class FailExec : public ShardQueryExecutor {
+    public:
+        explicit FailExec(std::string m) : m_(std::move(m)) {}
+        OLAPResult execute(const std::string&, const OLAPQuery&) override {
+            throw std::runtime_error(m_);
+        }
+    private:
+        std::string m_;
+    };
+    return std::make_shared<FailExec>(msg);
+}
+
+// Helper: executor that sleeps longer than any timeout window used in tests.
+static std::shared_ptr<ShardQueryExecutor> makeSlowExec(int sleep_ms = 500) {
+    using namespace themis::analytics;
+    class SlowExec : public ShardQueryExecutor {
+    public:
+        explicit SlowExec(int ms) : ms_(ms) {}
+        OLAPResult execute(const std::string&, const OLAPQuery&) override {
+            std::this_thread::sleep_for(std::chrono::milliseconds{ms_});
+            return {};
+        }
+    private:
+        int ms_;
+    };
+    return std::make_shared<SlowExec>(sleep_ms);
+}
+
+} // anonymous namespace
+
+// FED-01: All shards belong to the same tenant — query is dispatched normally.
+TEST(FederatedDispatchTest, FED01_TenantMatchAllShards) {
+    using namespace themisdb::analytics;
+
+    DistributedAnalyticsSharding das;
+    das.addShard("s1", makeSuccessExec(10.0), "acme");
+    das.addShard("s2", makeSuccessExec(20.0), "acme");
+
+    auto res = das.executeDistributed(makeSumQuery("acme"));
+    EXPECT_EQ(res.successful_shards, 2u);
+    EXPECT_EQ(res.total_shards, 2u);
+    ASSERT_FALSE(res.merged.rows.empty());
+    // Merged SUM should be 30.0
+    const auto& val = res.merged.rows[0].values.at("total");
+    EXPECT_DOUBLE_EQ(std::get<double>(val), 30.0);
+}
+
+// FED-02: Shard registered for tenant "acme" must not serve queries from "beta".
+TEST(FederatedDispatchTest, FED02_TenantMismatchShardExcluded) {
+    using namespace themisdb::analytics;
+
+    DistributedAnalyticsSharding das;
+    das.addShard("s_acme", makeSuccessExec(99.0), "acme");
+    das.addShard("s_open", makeSuccessExec(5.0));   // no restriction
+
+    auto res = das.executeDistributed(makeSumQuery("beta"));
+    // Only s_open is eligible for tenant "beta"
+    EXPECT_EQ(res.total_shards, 1u);
+    EXPECT_EQ(res.successful_shards, 1u);
+    ASSERT_FALSE(res.merged.rows.empty());
+    const auto& val = res.merged.rows[0].values.at("total");
+    EXPECT_DOUBLE_EQ(std::get<double>(val), 5.0);
+}
+
+// FED-03: All registered shards are tenant-specific and belong to a different
+//         tenant — no shard is eligible, result is empty.
+TEST(FederatedDispatchTest, FED03_AllShardsDenied) {
+    using namespace themisdb::analytics;
+
+    DistributedAnalyticsSharding das;
+    das.addShard("s1", makeSuccessExec(1.0), "corp");
+    das.addShard("s2", makeSuccessExec(2.0), "corp");
+
+    auto res = das.executeDistributed(makeSumQuery("outsider"));
+    EXPECT_EQ(res.total_shards, 0u);      // none passed the tenant gate
+    EXPECT_EQ(res.successful_shards, 0u);
+    EXPECT_TRUE(res.merged.rows.empty());
+}
+
+// FED-04: Failure rate below max_failure_rate — partial results returned.
+TEST(FederatedDispatchTest, FED04_FailureRateBelowThreshold) {
+    using namespace themisdb::analytics;
+
+    DistributedAnalyticsSharding::Config cfg;
+    cfg.allow_partial_results = true;
+    cfg.max_failure_rate      = 0.30;  // tolerate up to 30 %
+    DistributedAnalyticsSharding das(cfg);
+
+    // 3 shards: 2 succeed, 1 fails → failure rate = 33 % > 30 % threshold
+    // Re-design: use 4 shards, 1 fails → 25 % < 30 % → merge should succeed
+    das.addShard("s1", makeSuccessExec(10.0));
+    das.addShard("s2", makeSuccessExec(10.0));
+    das.addShard("s3", makeSuccessExec(10.0));
+    das.addShard("s4", makeFailExec("disk error"));
+
+    auto res = das.executeDistributed(makeSumQuery());
+    EXPECT_EQ(res.successful_shards, 3u);
+    // Merged result must be present (failure rate 25 % < 30 %)
+    ASSERT_FALSE(res.merged.rows.empty());
+    const auto& val = res.merged.rows[0].values.at("total");
+    EXPECT_DOUBLE_EQ(std::get<double>(val), 30.0);
+}
+
+// FED-05: Failure rate exceeds max_failure_rate — no merged result returned.
+TEST(FederatedDispatchTest, FED05_FailureRateExceedsThreshold) {
+    using namespace themisdb::analytics;
+
+    DistributedAnalyticsSharding::Config cfg;
+    cfg.allow_partial_results = true;
+    cfg.max_failure_rate      = 0.20;  // tolerate up to 20 %
+    DistributedAnalyticsSharding das(cfg);
+
+    // 3 shards: 1 succeeds, 2 fail → failure rate ≈ 67 % > 20 %
+    das.addShard("s1", makeSuccessExec(5.0));
+    das.addShard("s2", makeFailExec("network error"));
+    das.addShard("s3", makeFailExec("network error"));
+
+    auto res = das.executeDistributed(makeSumQuery());
+    EXPECT_EQ(res.total_shards, 3u);
+    EXPECT_EQ(res.successful_shards, 1u);
+    // Merge must be aborted — merged result is empty
+    EXPECT_TRUE(res.merged.rows.empty());
+}
+
+// FED-06: Shard timeout — timed-out shard is treated as failed.
+TEST(FederatedDispatchTest, FED06_ShardTimeoutCountsAsFailed) {
+    using namespace themisdb::analytics;
+
+    DistributedAnalyticsSharding::Config cfg;
+    cfg.shard_timeout_ms      = 100;   // 100 ms timeout
+    cfg.allow_partial_results = true;
+    cfg.max_failure_rate      = 0.60;  // allow up to 60 % failures
+    DistributedAnalyticsSharding das(cfg);
+
+    das.addShard("fast", makeSuccessExec(42.0));
+    das.addShard("slow", makeSlowExec(800));  // will time out
+
+    auto res = das.executeDistributed(makeSumQuery());
+    EXPECT_EQ(res.total_shards, 2u);
+    // The slow shard should have timed out → only fast shard succeeded
+    EXPECT_EQ(res.successful_shards, 1u);
+    ASSERT_FALSE(res.merged.rows.empty());
+    const auto& val = res.merged.rows[0].values.at("total");
+    EXPECT_DOUBLE_EQ(std::get<double>(val), 42.0);
+
+    // Verify a timeout error is recorded in shard_info
+    bool found_timeout = false;
+    for (const auto& si : res.shard_info) {
+        if (!si.success && si.error.find("timeout") != std::string::npos) {
+            found_timeout = true;
+        }
+    }
+    EXPECT_TRUE(found_timeout) << "Expected a timeout entry in shard_info";
+}
+
+// FED-07: Mixed tenant shards — unrestricted shards serve any tenant.
+TEST(FederatedDispatchTest, FED07_UnrestrictedShardServesAnyTenant) {
+    using namespace themisdb::analytics;
+
+    DistributedAnalyticsSharding das;
+    das.addShard("global", makeSuccessExec(7.0));  // no tenant restriction
+    das.addShard("acme",   makeSuccessExec(3.0), "acme");
+
+    // Query from "acme" — both shards participate
+    {
+        auto res = das.executeDistributed(makeSumQuery("acme"));
+        EXPECT_EQ(res.total_shards, 2u);
+        EXPECT_EQ(res.successful_shards, 2u);
+    }
+
+    // Query from "beta" — only the global shard participates
+    {
+        auto res = das.executeDistributed(makeSumQuery("beta"));
+        EXPECT_EQ(res.total_shards, 1u);
+        EXPECT_EQ(res.successful_shards, 1u);
+        ASSERT_FALSE(res.merged.rows.empty());
+        const auto& val = res.merged.rows[0].values.at("total");
+        EXPECT_DOUBLE_EQ(std::get<double>(val), 7.0);
+    }
+}
+
+// FED-08: addShard() with tenant_id, then update without tenant_id — tenant
+//         restriction is cleared on the second call.
+TEST(FederatedDispatchTest, FED08_UpdateShardClearsTenantRestriction) {
+    using namespace themisdb::analytics;
+
+    DistributedAnalyticsSharding das;
+    das.addShard("s1", makeSuccessExec(1.0), "corp");
+
+    // Initially restricted to "corp"
+    {
+        auto res = das.executeDistributed(makeSumQuery("other"));
+        EXPECT_EQ(res.total_shards, 0u);
+    }
+
+    // Re-register the same shard without tenant restriction
+    das.addShard("s1", makeSuccessExec(2.0));  // no tenant_id → unrestricted
+
+    // Now any tenant can reach s1
+    {
+        auto res = das.executeDistributed(makeSumQuery("other"));
+        EXPECT_EQ(res.total_shards, 1u);
+        EXPECT_EQ(res.successful_shards, 1u);
+    }
+}

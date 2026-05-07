@@ -355,7 +355,8 @@ void DistributedAnalyticsSharding::runHealthMonitor() {
 
 void DistributedAnalyticsSharding::addShard(
         const std::string& shard_id,
-        std::shared_ptr<ShardQueryExecutor> executor) {
+        std::shared_ptr<ShardQueryExecutor> executor,
+        const std::string& tenant_id) {
     bool initial_healthy = true;
     if (executor) {
         try {
@@ -368,7 +369,8 @@ void DistributedAnalyticsSharding::addShard(
     std::lock_guard<std::mutex> lock(mutex_);
     for (auto& e : shards_) {
         if (e.shard_id == shard_id) {
-            e.executor = std::move(executor);
+            e.executor            = std::move(executor);
+            e.allowed_tenant_id   = tenant_id;
             if (!e.cached_healthy) {
                 e.cached_healthy = std::make_shared<std::atomic<bool>>(initial_healthy);
             } else {
@@ -378,9 +380,10 @@ void DistributedAnalyticsSharding::addShard(
         }
     }
     ShardEntry entry;
-    entry.shard_id = shard_id;
-    entry.executor = std::move(executor);
-    entry.cached_healthy = std::make_shared<std::atomic<bool>>(initial_healthy);
+    entry.shard_id          = shard_id;
+    entry.executor          = std::move(executor);
+    entry.allowed_tenant_id = tenant_id;
+    entry.cached_healthy    = std::make_shared<std::atomic<bool>>(initial_healthy);
     shards_.push_back(std::move(entry));
 }
 
@@ -623,11 +626,22 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery& query) {
     {
         std::lock_guard<std::mutex> lock(mutex_);
         for (const auto& e : shards_) {
-            if (e.executor &&
-                e.cached_healthy &&
-                e.cached_healthy->load(std::memory_order_relaxed)) {
-                active.push_back(e);
+            if (!e.executor ||
+                !e.cached_healthy ||
+                !e.cached_healthy->load(std::memory_order_relaxed)) {
+                continue;
             }
+            // Tenant isolation: skip shards whose allowed_tenant_id is
+            // non-empty and does not match the query's tenant_id.
+            if (!e.allowed_tenant_id.empty() &&
+                e.allowed_tenant_id != query.tenant_id) {
+                spdlog::warn(
+                    "DistributedAnalyticsSharding: shard '{}' rejected query "
+                    "from tenant '{}' (shard allows '{}') — PERMISSION_DENIED",
+                    e.shard_id, query.tenant_id, e.allowed_tenant_id);
+                continue;
+            }
+            active.push_back(e);
         }
     }
 
@@ -635,7 +649,8 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery& query) {
     result.total_shards = active.size();
 
     if (active.empty()) {
-        spdlog::warn("DistributedAnalyticsSharding: no healthy shards registered");
+        spdlog::warn("DistributedAnalyticsSharding: no healthy shards registered "
+                     "for tenant '{}'", query.tenant_id);
         return result;
     }
 
@@ -676,12 +691,38 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery& query) {
     }
 
     // ------------------------------------------------------------------
-    // Gather: collect partial results
+    // Gather: collect partial results (with per-shard timeout)
     // ------------------------------------------------------------------
     std::vector<OLAPResult> partials;
     partials.reserve(active.size());
 
-    for (auto& f : futures) {
+    const bool has_timeout = (config_.shard_timeout_ms > 0);
+    const auto per_shard_deadline =
+        std::chrono::steady_clock::now() +
+        std::chrono::milliseconds(config_.shard_timeout_ms);
+
+    for (size_t i = 0; i < futures.size(); ++i) {
+        auto& f = futures[i];
+
+        // Per-shard timeout: use wait_for so we never block forever.
+        if (has_timeout) {
+            const auto remaining = per_shard_deadline - std::chrono::steady_clock::now();
+            const auto status = (remaining > std::chrono::milliseconds::zero())
+                ? f.wait_for(remaining)
+                : std::future_status::timeout;
+
+            if (status == std::future_status::timeout) {
+                ShardExecutionInfo info;
+                info.shard_id = active[i].shard_id;
+                info.success  = false;
+                info.error    = "timeout (" + std::to_string(config_.shard_timeout_ms) + " ms)";
+                spdlog::warn("DistributedAnalyticsSharding: shard '{}' timed out",
+                             active[i].shard_id);
+                result.shard_info.push_back(std::move(info));
+                continue;
+            }
+        }
+
         auto [partial, info] = f.get();
         result.shard_info.push_back(info);
         if (info.success) {
@@ -693,6 +734,25 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery& query) {
                 "DistributedAnalyticsSharding: shard {} failed and "
                 "allow_partial_results=false; aborting merge",
                 info.shard_id);
+            return result;
+        }
+    }
+
+    // ------------------------------------------------------------------
+    // Failure-rate gate: abort if too many shards failed
+    // ------------------------------------------------------------------
+    if (!active.empty() && config_.allow_partial_results) {
+        const size_t failed_shards = active.size() - result.successful_shards;
+        const double failure_rate  = static_cast<double>(failed_shards) /
+                                     static_cast<double>(active.size());
+        if (failure_rate > config_.max_failure_rate) {
+            spdlog::error(
+                "DistributedAnalyticsSharding: failure rate {:.1f}% exceeds "
+                "max_failure_rate {:.1f}% ({}/{} shards failed); aborting merge",
+                failure_rate * 100.0, config_.max_failure_rate * 100.0,
+                failed_shards, active.size());
+            // Return partial shard_info without a merged result so the caller
+            // can distinguish this from a full success.
             return result;
         }
     }
