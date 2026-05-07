@@ -557,7 +557,20 @@ int main(int argc, char* argv[]) {
 
     // Initialize logger AFTER simple flag checks to avoid file I/O for --version/--help
     // This prevents unnecessary initialization when user just wants version info
-    utils::Logger::init("themis_server.log", utils::Logger::Level::INFO);
+    //
+    // All runtime logs are written to logs/themis_server.log (rotating, max 10 MB × 5 files)
+    // relative to the working directory (i.e. bin/ in a deployment archive the sibling
+    // logs/ folder is bin/../logs/).  Create the directory unconditionally so the first
+    // log-write never fails due to a missing parent.
+    {
+        std::error_code _logs_ec;
+        std::filesystem::create_directories("../logs", _logs_ec); // bin/../logs
+        std::filesystem::create_directories("logs", _logs_ec);    // cwd fallback
+    }
+    utils::Logger::initRotating("../logs/themis_server.log",
+                                10ULL * 1024ULL * 1024ULL,  // 10 MB per file
+                                5,                           // keep 5 rotations
+                                utils::Logger::Level::INFO);
 
 #ifdef THEMIS_HAS_PROMETHEUS
     // Initialize Prometheus registry for config path resolution metrics
@@ -2159,7 +2172,7 @@ int main(int argc, char* argv[]) {
                 themis::utils::AuditLoggerConfig audit_cfg;
                 audit_cfg.enabled = true;
                 audit_cfg.encrypt_then_sign = true;
-                audit_cfg.log_path = "data/logs/retention_audit.jsonl";
+                audit_cfg.log_path = "../logs/retention_audit.jsonl";
                 audit_cfg.key_id = "retention_audit_key";
                 auto audit_logger = std::make_shared<themis::utils::AuditLogger>(field_enc, pki_client, audit_cfg);
                 
@@ -2179,7 +2192,7 @@ int main(int argc, char* argv[]) {
                     themis::utils::AuditLoggerConfig main_audit_cfg;
                     main_audit_cfg.enabled = true;
                     main_audit_cfg.encrypt_then_sign = true;
-                    main_audit_cfg.log_path = "data/logs/audit.jsonl";
+                    main_audit_cfg.log_path = "../logs/audit.jsonl";
                     main_audit_cfg.key_id = "saga_log";
                     main_audit_logger = std::make_shared<themis::utils::AuditLogger>(field_enc, pki_client, main_audit_cfg);
                 } else {
@@ -2189,7 +2202,7 @@ int main(int argc, char* argv[]) {
                 themis::utils::AuditLoggerConfig main_audit_cfg;
                 main_audit_cfg.enabled = true;
                 main_audit_cfg.encrypt_then_sign = true;
-                main_audit_cfg.log_path = "data/logs/audit.jsonl";
+                main_audit_cfg.log_path = "../logs/audit.jsonl";
                 main_audit_cfg.key_id = "saga_log";
                 auto main_audit_logger = std::make_shared<themis::utils::AuditLogger>(field_enc, pki_client, main_audit_cfg);
 #endif
