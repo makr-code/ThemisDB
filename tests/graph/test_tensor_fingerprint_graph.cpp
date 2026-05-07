@@ -29,6 +29,7 @@
  *   TFG-24  Similarity works with external train loader when in-memory cache disabled
  *   TFG-25  Missing train loader with disabled cache produces no false edges
  *   TFG-26  Persisted node metadata import rebuilds buckets for recovery queries
+ *   TFG-27  Persisted edge import re-hydrates adjacency from durable payload
  *   TDM-01  DeduplicationManager: getRecord returns record for stored id
  *   TDM-02  DeduplicationManager: getStats total_tensors increments
  *   TDM-03  DeduplicationManager: null dependency throws
@@ -423,6 +424,41 @@ TEST(TensorFingerprintGraphResolverTest, TFG26_ImportPersistedNodesRebuildsBucke
     auto results = recovered.findSimilar(makeTT(data, {8, 1}), 5);
     ASSERT_FALSE(results.empty());
     EXPECT_GE(results.front().similarity, 0.99);
+}
+
+// TFG-27: persisted edges can re-hydrate adjacency after node bootstrap.
+TEST(TensorFingerprintGraphResolverTest, TFG27_ImportPersistedEdgesRehydratesAdjacency) {
+    FingerprintGraphConfig cfg;
+    cfg.similarity_threshold = 0.90;
+    cfg.num_hash_funcs = 64;
+    cfg.num_bands = 16;
+    cfg.cache_trains_in_memory = false;
+
+    TensorFingerprintGraph original(cfg);
+    auto data = randVec(8, 613);
+    auto t1 = makeTT(data, {8, 1});
+    auto t2 = makeTT(data, {8, 1});
+
+    original.insert("edge_a", t1, "ten", "col", "fa");
+    original.insert("edge_b", t2, "ten", "col", "fb");
+    ASSERT_EQ(original.nodeCount(), 2u);
+    ASSERT_GE(original.edgeCount(), 2u);
+
+    auto persisted_nodes = original.exportPersistedNodes();
+    auto persisted_edges = original.exportPersistedEdges();
+    ASSERT_EQ(persisted_edges.size(), original.edgeCount());
+    persisted_edges.push_back(persisted_edges.front()); // duplicate directed edge
+    persisted_edges.push_back({"missing", "edge_a", 0.5}); // dangling source ignored
+
+    TensorFingerprintGraph recovered(cfg);
+    recovered.importPersistedNodes(persisted_nodes);
+    recovered.importPersistedEdges(persisted_edges);
+
+    EXPECT_EQ(recovered.nodeCount(), 2u);
+    EXPECT_EQ(recovered.edgeCount(), original.edgeCount());
+    auto nb = recovered.neighbours("edge_a");
+    ASSERT_FALSE(nb.empty());
+    EXPECT_EQ(nb.front().tensor_id, "edge_b");
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

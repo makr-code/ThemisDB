@@ -237,7 +237,10 @@
   - **Progress 2026-05-07 (recovery bootstrap)**: `TensorFingerprintGraph` now supports
     export/import of persisted fingerprint-node metadata to rebuild LSH buckets after restart
     (`exportPersistedNodes()` / `importPersistedNodes()`; test TFG-26).
-  - Remaining: edge persistence/re-hydration path for adjacency reconstruction.
+  - **Progress 2026-05-07 (edge persistence)**: Added persisted edge export/import for
+    adjacency re-hydration (`exportPersistedEdges()` / `importPersistedEdges()`), including
+    robust import behavior for dangling/duplicate directed edges (test TFG-27).
+  - Remaining: GraphIndex-backed durable storage integration for node+edge payloads.
   - O(d·n·r³) per candidate pair — bounded by `max_candidates=1000`
 - [x] CDC changefeed integration for incremental graph updates (Target: Q2 2027)
   - **Progress 2026-05-07**: `TensorNetworkStorageEngine` now exposes `TensorWriteObserverFn` /
@@ -248,7 +251,7 @@
     canonical `tensor_id`↔`TensorFieldKey` mapping and wires storage observers so external
     canonical-key writes update mapped graph nodes and canonical-key deletes remove mapped graph
     nodes + dedup records (tests TDM-10/TDM-11).
-  - Remaining: edge persistence / adjacency re-hydration.
+  - Remaining: durable GraphIndex integration for persisted node/edge payload lifecycle.
 - [ ] Expected ≥ 40% storage reduction for LLM weight repositories (Target: Q2 2027)
   - Benchmark: 100 Transformer block weight sets with shared FFN matrices
 - [ ] `GraphIndex` persistence for the fingerprint graph (Target: Q2 2027)
@@ -262,7 +265,7 @@
 - Fingerprint + LSH insert ≤ 10ms per tensor
 - Similar-tensor graph query ≤ 50ms for 100K nodes
 - ≥ 40% storage reduction for LLM weight repositories with shared Transformer blocks
-- 20 TFG + 7 TDM = 27 tests passing
+- 21 TFG + 7 TDM = 28 tests passing
 
 ## Known Issues & Limitations
 - Adaptive plan selection using execution feedback is now active; `selectAlgorithm` uses learned EMA costs when confidence > 0, falling back to static depth heuristics otherwise

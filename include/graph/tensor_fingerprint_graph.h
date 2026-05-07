@@ -125,6 +125,15 @@ struct PersistedFingerprintNode {
     std::string field;
 };
 
+/**
+ * @brief Durable directed edge payload for adjacency re-hydration.
+ */
+struct PersistedFingerprintEdge {
+    std::string from;
+    std::string to;
+    double similarity = 0.0;
+};
+
 // ============================================================================
 // FingerprintGraphConfig
 // ============================================================================
@@ -249,6 +258,13 @@ public:
     /// Replace in-memory graph with persisted node metadata and rebuilt buckets.
     /// Edges are not restored and start empty after import.
     void importPersistedNodes(const std::vector<PersistedFingerprintNode>& nodes);
+
+    /// Export directed adjacency edges for durable graph re-hydration.
+    std::vector<PersistedFingerprintEdge> exportPersistedEdges() const;
+
+    /// Replace in-memory adjacency with persisted directed edges.
+    /// Missing nodes and duplicate directed edges are ignored.
+    void importPersistedEdges(const std::vector<PersistedFingerprintEdge>& edges);
 
     // ─── Statistics ───────────────────────────────────────────────────────
 

@@ -430,6 +430,52 @@ void TensorFingerprintGraph::importPersistedNodes(
     }
 }
 
+std::vector<PersistedFingerprintEdge>
+TensorFingerprintGraph::exportPersistedEdges() const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    std::vector<PersistedFingerprintEdge> out;
+    out.reserve(edge_count_.load(std::memory_order_relaxed));
+    for (const auto& [from, edges] : adj_) {
+        for (const auto& edge : edges) {
+            PersistedFingerprintEdge persisted;
+            persisted.from = from;
+            persisted.to = edge.to;
+            persisted.similarity = edge.similarity;
+            out.push_back(std::move(persisted));
+        }
+    }
+    return out;
+}
+
+void TensorFingerprintGraph::importPersistedEdges(
+    const std::vector<PersistedFingerprintEdge>& edges) {
+    std::lock_guard<std::mutex> lk(mutex_);
+
+    adj_.clear();
+    for (const auto& kv : nodes_) {
+        adj_[kv.first];
+    }
+    edge_count_.store(0, std::memory_order_relaxed);
+
+    std::unordered_set<std::string> seen;
+    seen.reserve(edges.size());
+
+    constexpr char kSep = '\x1f';
+    for (const auto& edge : edges) {
+        if (edge.from == edge.to) continue;
+        if (nodes_.find(edge.from) == nodes_.end() ||
+            nodes_.find(edge.to) == nodes_.end()) {
+            continue;
+        }
+
+        const auto dedup_key = edge.from + kSep + edge.to;
+        if (!seen.insert(dedup_key).second) continue;
+
+        adj_[edge.from].push_back({edge.to, edge.similarity});
+        edge_count_.fetch_add(1, std::memory_order_relaxed);
+    }
+}
+
 // ============================================================================
 // Statistics
 // ============================================================================
