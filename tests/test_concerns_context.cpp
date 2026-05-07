@@ -2047,7 +2047,7 @@ TEST_F(ConcernsContextTest, DAR_06_ReplaceLogger_ConcurrentSafe) {
     // Logging threads
     for (int t = 0; t < kLogThreads; ++t) {
         threads.emplace_back([&] {
-            while (!start.load()) { /* spin */ }
+            while (!start.load()) { std::this_thread::yield(); }
             for (int i = 0; i < kLogsPerThread; ++i) {
                 context->logger().info("concurrent log");
             }
@@ -2056,7 +2056,7 @@ TEST_F(ConcernsContextTest, DAR_06_ReplaceLogger_ConcurrentSafe) {
 
     // Adapter-swapper thread
     threads.emplace_back([&] {
-        while (!start.load()) { /* spin */ }
+        while (!start.load()) { std::this_thread::yield(); }
         for (int i = 0; i < 10; ++i) {
             context->replaceLogger(std::make_unique<NoOpLogger>());
         }

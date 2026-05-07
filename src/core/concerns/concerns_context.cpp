@@ -353,6 +353,27 @@ void ConcernsContext::logWithTrace(ILogger::Level level,
 // Dynamic Adapter Reconfiguration
 // ---------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
+// Dynamic Adapter Reconfiguration — private helpers
+// ---------------------------------------------------------------------------
+
+namespace {
+
+/// Flush + conditionally shutdown an adapter before releasing it.
+/// Flush errors are silently swallowed because all flush() overrides in
+/// ThemisDB are declared noexcept — failures are logged internally by the
+/// adapter itself.  Callers that need guaranteed delivery should flush the
+/// adapter explicitly before calling replaceX().
+template <typename T>
+void drainAdapter(std::unique_ptr<T>& old, bool also_shutdown) noexcept {
+    old->flush();
+    if (also_shutdown) {
+        old->shutdown();
+    }
+}
+
+} // anonymous namespace
+
 void ConcernsContext::replaceLogger(std::unique_ptr<ILogger> new_logger) {
     if (!new_logger) {
         throw std::invalid_argument("ConcernsContext::replaceLogger: new_logger must not be nullptr");
@@ -363,8 +384,10 @@ void ConcernsContext::replaceLogger(std::unique_ptr<ILogger> new_logger) {
         old = std::move(logger_);
         logger_ = std::move(new_logger);
     }
-    // Flush the old adapter outside the lock so in-flight log calls complete.
-    old->flush();
+    // Drain outside the lock so in-flight log calls on the old adapter
+    // complete before the object is destroyed.  Note: flush() is noexcept;
+    // any internal errors are emitted by the adapter itself.
+    drainAdapter(old, /*also_shutdown=*/false);
 }
 
 void ConcernsContext::replaceTracer(std::unique_ptr<ITracer> new_tracer) {
@@ -377,8 +400,7 @@ void ConcernsContext::replaceTracer(std::unique_ptr<ITracer> new_tracer) {
         old = std::move(tracer_);
         tracer_ = std::move(new_tracer);
     }
-    old->flush();
-    old->shutdown();
+    drainAdapter(old, /*also_shutdown=*/true);
 }
 
 void ConcernsContext::replaceMetrics(std::unique_ptr<IMetrics> new_metrics) {
@@ -391,7 +413,7 @@ void ConcernsContext::replaceMetrics(std::unique_ptr<IMetrics> new_metrics) {
         old = std::move(metrics_);
         metrics_ = std::move(new_metrics);
     }
-    old->flush();
+    drainAdapter(old, /*also_shutdown=*/false);
 }
 
 void ConcernsContext::replaceCache(std::unique_ptr<ICache> new_cache) {
@@ -404,8 +426,7 @@ void ConcernsContext::replaceCache(std::unique_ptr<ICache> new_cache) {
         old = std::move(cache_);
         cache_ = std::move(new_cache);
     }
-    old->flush();
-    old->shutdown();
+    drainAdapter(old, /*also_shutdown=*/true);
 }
 
 void ConcernsContext::replaceSecrets(std::unique_ptr<ISecrets> new_secrets) {
@@ -418,8 +439,7 @@ void ConcernsContext::replaceSecrets(std::unique_ptr<ISecrets> new_secrets) {
         old = std::move(secrets_);
         secrets_ = std::move(new_secrets);
     }
-    old->flush();
-    old->shutdown();
+    drainAdapter(old, /*also_shutdown=*/true);
 }
 
 void ConcernsContext::replaceFeatureFlags(std::unique_ptr<IFeatureFlags> new_ff) {
@@ -432,8 +452,7 @@ void ConcernsContext::replaceFeatureFlags(std::unique_ptr<IFeatureFlags> new_ff)
         old = std::move(featureFlags_);
         featureFlags_ = std::move(new_ff);
     }
-    old->flush();
-    old->shutdown();
+    drainAdapter(old, /*also_shutdown=*/true);
 }
 
 void ConcernsContext::replaceAuditLog(std::unique_ptr<IAuditLog> new_audit) {
@@ -446,8 +465,7 @@ void ConcernsContext::replaceAuditLog(std::unique_ptr<IAuditLog> new_audit) {
         old = std::move(auditLog_);
         auditLog_ = std::move(new_audit);
     }
-    old->flush();
-    old->shutdown();
+    drainAdapter(old, /*also_shutdown=*/true);
 }
 
 } // namespace concerns

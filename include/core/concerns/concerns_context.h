@@ -34,7 +34,6 @@
 // via each of the four interface headers above; no direct include needed.
 #include <memory>
 #include <mutex>
-#include <shared_mutex>
 #include <string>
 #include <map>
 #include <unordered_map>
