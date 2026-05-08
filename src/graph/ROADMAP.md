@@ -286,6 +286,10 @@
     under a dedicated metadata namespace key (`__tfgmeta__:wal:<snapshot>`) while restore keeps
     backward compatibility with legacy `<snapshot>::wal` payloads and normalizes legacy data back
     into the namespaced key after replay (test TDM-19).
+  - **Progress 2026-05-08 (journal corruption reset hardening)**: Restore now clears invalid
+    namespaced/legacy mutation journal payloads in metadata on parse failure, emits explicit reset
+    diagnostics, and safely continues from the base snapshot without replaying corrupt journal
+    bytes (test TDM-20).
   - Remaining: GraphIndex-backed storage/compaction for incremental mutation journal payloads.
 
 #### Phase 8.6 — Documentation (Target: Q2 2027)

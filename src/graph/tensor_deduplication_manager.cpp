@@ -414,6 +414,13 @@ constexpr uint64_t kMutationJournalMagic = 0x4A4E4C5F4D445400ULL; // "TDM_JNL\0"
 constexpr uint32_t kMutationJournalVersion = 1;
 constexpr char kActiveSnapshotMetaKey[] = "__tfg_active_snapshot__";
 constexpr char kMutationJournalMetaPrefix[] = "__tfgmeta__:wal:";
+constexpr char kLegacyMutationJournalSuffix[] = "::wal";
+
+enum class JournalLoadStatus {
+    Missing,
+    Loaded,
+    InvalidReset
+};
 
 enum class MutationJournalEntryType : uint8_t {
     Upsert = 1,
@@ -829,9 +836,9 @@ static void compactMutationJournalEntries(
 
 [[nodiscard]] static std::string legacyMutationJournalKeyForSnapshot(const std::string& snapshot_key) {
     std::string key;
-    key.reserve(snapshot_key.size() + 5U);
+    key.reserve(snapshot_key.size() + (sizeof(kLegacyMutationJournalSuffix) - 1U));
     key.append(snapshot_key);
-    key.append("::wal");
+    key.append(kLegacyMutationJournalSuffix);
     return key;
 }
 
@@ -839,41 +846,52 @@ static void compactMutationJournalEntries(
 //   1) namespaced key "__tfgmeta__:wal:<snapshot>"
 //   2) legacy key "<snapshot>::wal"
 // Return value:
-//   - true  => a journal payload existed (valid or invalid-reset)
-//   - false => no journal payload existed under either key
-static bool loadJournalWithLegacyFallback(
+//   - Loaded => journal payload exists and was deserialized successfully
+//   - InvalidReset => a payload existed but was invalid and got cleared
+//   - Missing => no journal payload exists under either key
+static JournalLoadStatus loadJournalWithLegacyFallback(
     const std::shared_ptr<themis::storage::TensorNetworkStorageEngine>& storage,
     const std::string& snapshot_key,
     std::vector<MutationJournalEntry>& entries) {
     if (!storage) {
         entries.clear();
-        return false;
+        return JournalLoadStatus::Missing;
     }
 
-    const auto try_load_key = [&](const std::string& key) -> bool {
+    const auto try_load_key = [&](const std::string& key) -> JournalLoadStatus {
         const auto payload = storage->getRawMetadata(key);
         if (!payload || payload->empty()) {
-            return false;
+            return JournalLoadStatus::Missing;
         }
         if (deserializeMutationJournal(*payload, entries)) {
-            return true;
+            return JournalLoadStatus::Loaded;
         }
         THEMIS_WARN("[TensorDeduplicationManager] mutation journal parse failed for key='{}' ({} bytes); clearing in-memory replay entries",
                     key,
                     payload->size());
+        storage->putRawMetadata(key, {});
         entries.clear();
-        return true;
+        return JournalLoadStatus::InvalidReset;
     };
 
-    if (try_load_key(mutationJournalKeyForSnapshot(snapshot_key))) {
-        return true;
+    const auto namespaced_status =
+        try_load_key(mutationJournalKeyForSnapshot(snapshot_key));
+    if (namespaced_status == JournalLoadStatus::Loaded) {
+        return JournalLoadStatus::Loaded;
     }
-    if (try_load_key(legacyMutationJournalKeyForSnapshot(snapshot_key))) {
-        return true;
+
+    const auto legacy_status =
+        try_load_key(legacyMutationJournalKeyForSnapshot(snapshot_key));
+    if (legacy_status == JournalLoadStatus::Loaded) {
+        return JournalLoadStatus::Loaded;
     }
 
     entries.clear();
-    return false;
+    if (namespaced_status == JournalLoadStatus::InvalidReset ||
+        legacy_status == JournalLoadStatus::InvalidReset) {
+        return JournalLoadStatus::InvalidReset;
+    }
+    return JournalLoadStatus::Missing;
 }
 
 static void writeJournalAndClearLegacy(
@@ -1080,14 +1098,19 @@ bool TensorDeduplicationManager::restoreGraph(const std::string& snapshot_key) {
 
 bool TensorDeduplicationManager::replayMutationJournal(const std::string& snapshot_key) {
     std::vector<MutationJournalEntry> entries;
-    if (!loadJournalWithLegacyFallback(storage_, snapshot_key, entries)) {
+    const auto load_status =
+        loadJournalWithLegacyFallback(storage_, snapshot_key, entries);
+    if (load_status == JournalLoadStatus::Missing) {
         return true;
     }
     if (entries.empty()) {
-        // This path handles both a valid empty journal and a previously invalid
-        // payload that has been reset to an empty in-memory entry set.
+        // This path handles both a valid empty journal and an invalid payload
+        // that has been reset.
         // Parse failures are treated as no-op replay because the base snapshot
         // payload has already restored a consistent graph/record state.
+        if (load_status == JournalLoadStatus::InvalidReset) {
+            THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: mutation journal reset after parse failure; replay skipped");
+        }
         return true;
     }
 

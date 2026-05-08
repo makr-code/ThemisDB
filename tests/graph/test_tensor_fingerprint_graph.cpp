@@ -49,6 +49,7 @@
  *   TDM-17  restoreGraph replays post-snapshot overwrite journal mutations
  *   TDM-18  repeated post-snapshot overwrites compact the persisted mutation journal
  *   TDM-19  restoreGraph replays legacy journal keys and rewrites namespaced keys
+ *   TDM-20  invalid namespaced journal payloads are reset and skipped safely
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -1194,5 +1195,38 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     ASSERT_EQ(restored->size(), 16u);
     for (float value : *restored) {
         EXPECT_NEAR(value, 2.0f, 1e-4f);
+    }
+}
+
+// TDM-20: invalid namespaced journal payloads should be cleared and skipped safely.
+TEST(TensorDeduplicationManagerSnapshotTest,
+     TDM20_InvalidNamespacedJournalPayloadIsResetAndSkipped) {
+    auto engine = makeEngine();
+    constexpr auto kSnapshotKey = "snap20";
+    const auto namespaced_journal_key = std::string{"__tfgmeta__:wal:"} + kSnapshotKey;
+
+    {
+        auto mgr = makeDedup(engine);
+        const auto snapshot_data = std::vector<float>(16, 0.75f);
+        mgr->store("invalid_journal_tensor", snapshot_data, {16, 1}, "t", "c", "finvalid");
+        ASSERT_TRUE(mgr->snapshotGraph(kSnapshotKey));
+        mgr->store("invalid_journal_tensor", std::vector<float>(16, 3.5f), {16, 1}, "t", "c", "finvalid");
+    }
+
+    ASSERT_TRUE(engine->putRawMetadata(namespaced_journal_key,
+                                       std::vector<uint8_t>{0xFF, 0x00, 0xAB, 0x7C}));
+
+    auto mgr_b = makeDedup(engine);
+    ASSERT_TRUE(mgr_b->restoreGraph(kSnapshotKey));
+
+    const auto reset_payload = engine->getRawMetadata(namespaced_journal_key);
+    ASSERT_TRUE(reset_payload.has_value());
+    EXPECT_TRUE(reset_payload->empty());
+
+    auto restored = mgr_b->retrieve("invalid_journal_tensor");
+    ASSERT_TRUE(restored.has_value());
+    ASSERT_EQ(restored->size(), 16u);
+    for (float value : *restored) {
+        EXPECT_NEAR(value, 0.75f, 1e-4f);
     }
 }
