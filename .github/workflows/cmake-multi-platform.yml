@@ -7,9 +7,21 @@ on:
     branches: [ "develop" ]
   pull_request:
     branches: [ "develop" ]
+    paths:
+      - CMakeLists.txt
+      - CMakePresets.json
+      - cmake/*/**
+      - include/*/**
+      - src/*/**
+      - tests/*/**
+      - .github/workflows/cmake-multi-platform.yml
 
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
