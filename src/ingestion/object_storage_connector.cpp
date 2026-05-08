@@ -716,10 +716,18 @@ void ObjectStorageConnector::setRetryConfig(const RetryConfig& config) {
 }
 
 void ObjectStorageConnector::setObjectListForTesting(ObjectListFn fn) {
+    setObjectListProvider(std::move(fn));
+}
+
+void ObjectStorageConnector::setObjectListProvider(ObjectListFn fn) {
     impl_->setObjectListForTesting(std::move(fn));
 }
 
 void ObjectStorageConnector::setObjectFetchForTesting(ObjectFetchFn fn) {
+    setObjectFetchProvider(std::move(fn));
+}
+
+void ObjectStorageConnector::setObjectFetchProvider(ObjectFetchFn fn) {
     impl_->setObjectFetchForTesting(std::move(fn));
 }
 

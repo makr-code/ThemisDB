@@ -43,9 +43,18 @@
  */
 
 #include "server/prompt_engineering_grpc_service.h"
+#include "utils/logger.h"
+#include <exception>
+#include <mutex>
+#include <utility>
 
 namespace themis {
 namespace server {
+
+namespace {
+std::mutex g_prompt_grpc_service_accessor_mutex;
+PromptEngineeringGrpcService::ServiceAccessorFn g_prompt_grpc_service_accessor_fn;
+} // namespace
 
 PromptEngineeringGrpcService::PromptEngineeringGrpcService(
     std::shared_ptr<RocksDBWrapper> storage,
@@ -63,7 +72,33 @@ PromptEngineeringGrpcService::PromptEngineeringGrpcService(
     , orchestrator_(std::move(orchestrator))
     , feedback_collector_(std::move(feedback_collector))
     , version_control_(std::move(version_control))
-    , integration_(std::move(integration)) {}
+    , integration_(std::move(integration)) {
+    ServiceAccessorFn fn;
+    {
+        std::lock_guard<std::mutex> lock(g_prompt_grpc_service_accessor_mutex);
+        fn = g_prompt_grpc_service_accessor_fn;
+    }
+    if (fn) {
+        try {
+            service_ptr_ = fn();
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Prompt gRPC service accessor callback failed: {}", e.what());
+            service_ptr_ = nullptr;
+        } catch (...) {
+            THEMIS_ERROR("Prompt gRPC service accessor callback failed: unknown error");
+            service_ptr_ = nullptr;
+        }
+    }
+}
+
+void* PromptEngineeringGrpcService::service() const {
+    return service_ptr_;
+}
+
+void PromptEngineeringGrpcService::setServiceAccessorFn(ServiceAccessorFn fn) {
+    std::lock_guard<std::mutex> lock(g_prompt_grpc_service_accessor_mutex);
+    g_prompt_grpc_service_accessor_fn = std::move(fn);
+}
 
 } // namespace server
 } // namespace themis

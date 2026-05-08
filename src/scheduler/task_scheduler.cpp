@@ -837,6 +837,9 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
     
     auto start_time = std::chrono::steady_clock::now();
 
+    // Dispatching via executeTaskNow — reset the aging counter.
+    task->consecutive_skips = 0;
+
     // Execute synchronously with retry logic (same as scheduled execution)
     const ScheduledTask::RetryPolicy policy = effectiveRetryPolicy(*task);
     const size_t base_max_attempts = (policy.strategy == ScheduledTask::RetryStrategy::NONE)
@@ -1641,6 +1644,17 @@ void TaskScheduler::schedulerLoop() {
                         THEMIS_DEBUG("Max concurrent tasks reached ({}), delaying task {}",
                                     effective_limit, id);
                         ++pending_count;
+                        // Starvation prevention via aging: count consecutive skips
+                        // so the task can be boosted in the next sort pass.
+                        if (config_.aging_threshold > 0) {
+                            ++task->consecutive_skips;
+                            if (task->consecutive_skips >= config_.aging_threshold) {
+                                THEMIS_INFO("TaskScheduler: aging boost triggered for task '{}' "
+                                           "(skipped {} ticks, priority={})",
+                                           id, task->consecutive_skips,
+                                           static_cast<int>(task->priority));
+                            }
+                        }
                         continue;
                     }
                     
@@ -1669,14 +1683,29 @@ void TaskScheduler::schedulerLoop() {
         // Adjust concurrency limit based on pending queue depth (no-op when scaling disabled).
         adjustConcurrencyLimit(pending_count);
 
-        // Sort pending tasks by priority (HIGH first) before dispatch.
+        // Sort pending tasks by effective priority (HIGH first) before dispatch.
+        // Aging: a task that has been skipped >= aging_threshold consecutive ticks
+        // gets its base priority boosted by one level for the sort key, ensuring
+        // it cannot be indefinitely starved by higher-priority tasks.
+        const uint32_t aging_thr = config_.aging_threshold;
+        auto effectivePriority = [aging_thr](const std::shared_ptr<ScheduledTask>& t) -> int {
+            const int base = static_cast<int>(t->priority);
+            if (aging_thr > 0 && t->consecutive_skips >= aging_thr) {
+                // Boost by 1 level (clamped to HIGH == 2).
+                return std::min(base + 1, static_cast<int>(ScheduledTask::Priority::HIGH));
+            }
+            return base;
+        };
         std::sort(tasks_to_execute.begin(), tasks_to_execute.end(),
-            [](const std::shared_ptr<ScheduledTask>& a, const std::shared_ptr<ScheduledTask>& b) {
-                return static_cast<int>(a->priority) > static_cast<int>(b->priority);
+            [&effectivePriority](const std::shared_ptr<ScheduledTask>& a,
+                                 const std::shared_ptr<ScheduledTask>& b) {
+                return effectivePriority(a) > effectivePriority(b);
             });
 
         // Execute tasks outside the lock
         for (auto& task : tasks_to_execute) {
+            // Reset aging counter: this task is being dispatched.
+            task->consecutive_skips = 0;
             task->running = true;
             active_task_threads_.fetch_add(1);
             

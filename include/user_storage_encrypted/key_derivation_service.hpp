@@ -27,9 +27,7 @@
 #include <string>
 #include <vector>
 #include <cstdint>
-#include <vector>
-#include <cstdint>
-#include <string>
+#include <functional>
 
 namespace themis {
 namespace plugins {
@@ -130,6 +128,16 @@ public:
 
     explicit Argon2idKeyDerivationService(const Argon2idParams& params = Argon2idParams{});
     ~Argon2idKeyDerivationService() override = default;
+
+    // -----------------------------------------------------------------------
+    // Injectable KDF bridge (STUB #31 — Argon2id SHA-256 fallback)
+    // -----------------------------------------------------------------------
+    using DeriveKeyFn = std::function<Result<std::vector<uint8_t>>(
+        const std::vector<uint8_t>& master_key,
+        const std::vector<uint8_t>& salt)>;
+
+    /// Inject a custom KDF (e.g., real Argon2id). Pass empty fn to restore default.
+    static void setDeriveKeyFn(DeriveKeyFn fn);
 
     // IKeyDerivationService interface
     Result<std::vector<uint8_t>> deriveKey(

@@ -33,6 +33,40 @@
 namespace themis {
 namespace auth {
 
+namespace {
+std::mutex                              s_redis_rate_bridge_mutex;
+RedisRateLimiterBackend::IncrementFn    s_increment_fn;
+RedisRateLimiterBackend::GetCountFn     s_get_count_fn;
+RedisRateLimiterBackend::ResetFn        s_reset_fn;
+RedisRateLimiterBackend::IsConnectedFn  s_is_connected_fn;
+RedisRateLimiterBackend::ReconnectFn    s_reconnect_fn;
+}
+
+void RedisRateLimiterBackend::setIncrementFn(IncrementFn fn) {
+    std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);
+    s_increment_fn = std::move(fn);
+}
+
+void RedisRateLimiterBackend::setGetCountFn(GetCountFn fn) {
+    std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);
+    s_get_count_fn = std::move(fn);
+}
+
+void RedisRateLimiterBackend::setResetFn(ResetFn fn) {
+    std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);
+    s_reset_fn = std::move(fn);
+}
+
+void RedisRateLimiterBackend::setIsConnectedFn(IsConnectedFn fn) {
+    std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);
+    s_is_connected_fn = std::move(fn);
+}
+
+void RedisRateLimiterBackend::setReconnectFn(ReconnectFn fn) {
+    std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);
+    s_reconnect_fn = std::move(fn);
+}
+
 // ============================================================================
 // InMemoryRateLimiterBackend
 // ============================================================================
@@ -300,27 +334,85 @@ RedisRateLimiterBackend::~RedisRateLimiterBackend() = default;
 int64_t RedisRateLimiterBackend::increment(const std::string& key,
                                             uint32_t window_seconds)
 {
+    IncrementFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);
+        fn = s_increment_fn;
+    }
+    if (fn) {
+        try {
+            return fn(key, window_seconds);
+        } catch (...) {
+        }
+    }
     return redisFallbackBackend().increment(key, window_seconds);
 }
 
 int64_t RedisRateLimiterBackend::getCount(const std::string& key,
                                            uint32_t window_seconds) const
 {
+    GetCountFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);
+        fn = s_get_count_fn;
+    }
+    if (fn) {
+        try {
+            return fn(key, window_seconds);
+        } catch (...) {
+        }
+    }
     return redisFallbackBackend().getCount(key, window_seconds);
 }
 
 void RedisRateLimiterBackend::reset(const std::string& key)
 {
+    ResetFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);
+        fn = s_reset_fn;
+    }
+    if (fn) {
+        try {
+            fn(key);
+            return;
+        } catch (...) {
+        }
+    }
     redisFallbackBackend().reset(key);
 }
 
 bool RedisRateLimiterBackend::isConnected() const
 {
+    IsConnectedFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);
+        fn = s_is_connected_fn;
+    }
+    if (fn) {
+        try {
+            return fn();
+        } catch (...) {
+            return false;
+        }
+    }
     return false;
 }
 
 bool RedisRateLimiterBackend::reconnect()
 {
+    ReconnectFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);
+        fn = s_reconnect_fn;
+    }
+    if (fn) {
+        try {
+            return fn();
+        } catch (...) {
+            return false;
+        }
+    }
     return false;
 }
 

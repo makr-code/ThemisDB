@@ -23,6 +23,7 @@
 #include "security/hsm_provider.h"
 #include <atomic>
 #include <chrono>
+#include <functional>
 #include <map>
 #include <memory>
 #include <mutex>
@@ -233,6 +234,37 @@ public:
      * @return true if HSM is initialized and ready
      */
     bool isHSMReady() const;
+
+    // ─── Injectable DEK wrap/unwrap bridge (STUB #47 / #48) ──────────────────
+    // Allows non-HSM builds and tests to inject wrap/unwrap implementations
+    // without requiring a real PKCS#11 library.  When set, the injected
+    // function is invoked instead of the HSMProvider path.  When not set
+    // (default), the HSMProvider path is used (fail-closed on stub providers).
+
+    /// Signature for a DEK wrap (encrypt) callback.
+    using WrapDEKFn   = std::function<std::vector<uint8_t>(const std::vector<uint8_t>& plaintext_dek)>;
+    /// Signature for a DEK unwrap (decrypt) callback.
+    using UnwrapDEKFn = std::function<std::vector<uint8_t>(const std::vector<uint8_t>& encrypted_dek)>;
+
+    /**
+     * @brief Register a process-wide DEK wrap callback.
+     *
+     * When set, wrapDEK() calls @p fn instead of the HSMProvider.
+     * Pass an empty function to clear the override (default).
+     *
+     * Thread-safe.
+     */
+    static void setWrapDEKFn(WrapDEKFn fn);
+
+    /**
+     * @brief Register a process-wide DEK unwrap callback.
+     *
+     * When set, unwrapDEK() calls @p fn instead of the HSMProvider.
+     * Pass an empty function to clear the override (default).
+     *
+     * Thread-safe.
+     */
+    static void setUnwrapDEKFn(UnwrapDEKFn fn);
 
 private:
     std::shared_ptr<HSMProvider> hsm_;

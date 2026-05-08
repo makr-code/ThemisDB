@@ -247,6 +247,41 @@ TEST_F(AdvancedVectorIntegrationTest, BatchSearch) {
     #endif
 }
 
+TEST_F(AdvancedVectorIntegrationTest, StubCallbacksProvideNonFaissBridge) {
+    themis::AdvancedVectorIndex::StubCallbacks callbacks;
+    callbacks.initialize = [](size_t dimension, const themis::AdvancedVectorIndex::Config&) {
+        return dimension == 128;
+    };
+    callbacks.train = [](const float*, size_t count) { return count == 4; };
+    callbacks.add_with_ids = [](const float*, const int64_t*, size_t count) { return count == 2; };
+    callbacks.search = [](const float*, size_t k) {
+        themis::AdvancedVectorIndex::SearchResult result;
+        result.ids = {7, 8};
+        result.distances = {0.1f, 0.2f};
+        result.ids.resize(k > 2 ? 2 : k);
+        result.distances.resize(k > 2 ? 2 : k);
+        return result;
+    };
+    callbacks.save = [](const std::string& path) { return !path.empty(); };
+    callbacks.load = [](const std::string& path) { return !path.empty(); };
+    themis::AdvancedVectorIndex::setStubCallbacks(std::move(callbacks));
+
+    themis::AdvancedVectorIndex::Config config;
+    themis::AdvancedVectorIndex index(128, config);
+    std::vector<float> training(4 * 128, 0.25f);
+    std::vector<int64_t> ids = {1, 2};
+
+    EXPECT_TRUE(index.train(training.data(), 4));
+    EXPECT_TRUE(index.addWithIds(training.data(), ids.data(), ids.size()));
+    auto result = index.search(training.data(), 2);
+    ASSERT_EQ(result.ids.size(), 2u);
+    EXPECT_EQ(result.ids[0], 7);
+    EXPECT_TRUE(index.save("/tmp/adv-index"));
+    EXPECT_TRUE(index.load("/tmp/adv-index"));
+
+    themis::AdvancedVectorIndex::setStubCallbacks({});
+}
+
 // Test different index types
 TEST_F(AdvancedVectorIntegrationTest, DifferentIndexTypes) {
     #ifdef THEMIS_GPU_ENABLED

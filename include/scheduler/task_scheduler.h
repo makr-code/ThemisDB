@@ -141,6 +141,16 @@ struct ScheduledTask {
     bool enabled = true;
     bool running = false;  // Currently executing
 
+    // ── Starvation prevention via aging ──────────────────────────────────
+    /// How many consecutive scheduler ticks this task was ready-but-skipped
+    /// (due to the concurrency limit being reached).  When this counter
+    /// reaches the configured `aging_threshold` the scheduler temporarily
+    /// treats the task as having NORMAL priority (LOW→NORMAL) or HIGH
+    /// priority (NORMAL→HIGH) so that it cannot be starved indefinitely by
+    /// higher-priority tasks.  The counter is reset to 0 when the task is
+    /// dispatched or when the task is disabled.
+    uint32_t consecutive_skips = 0;
+
     // ── Error categorization ──────────────────────────────────────────────
     /**
      * @brief Classification of the most recent execution failure.
@@ -386,6 +396,13 @@ public:
 
         // Sandboxed execution
         bool sandbox_execution = false; ///< When true, wrap user-provided task functions in ModuleSandbox
+
+        // Starvation prevention via aging (Issue #1928 / scheduler/FUTURE_ENHANCEMENTS.md)
+        // When a task is ready-but-skipped (concurrency limit reached) for
+        // `aging_threshold` consecutive ticks its effective priority is boosted
+        // by one level (LOW→NORMAL, NORMAL→HIGH) until it is dispatched.
+        // Set to 0 to disable aging.
+        uint32_t aging_threshold = 5; ///< Ticks before a skipped task's priority is boosted
     };
 
     /**

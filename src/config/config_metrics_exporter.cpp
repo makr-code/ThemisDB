@@ -86,6 +86,7 @@ uint64_t counterDelta(uint64_t current, uint64_t& previous) {
     return 0;
 }
 #endif // THEMIS_HAS_PROMETHEUS
+
 } // namespace
 
 std::string ConfigMetricsExporter::collect() {
@@ -257,6 +258,53 @@ std::string ConfigMetricsExporter::collect() {
 }
 
 void ConfigMetricsExporter::updateMetricsCollector() {
+    const auto& m = ConfigPathResolver::metrics();
+    const uint64_t hits        = m.resolution_hits.load(std::memory_order_relaxed);
+    const uint64_t misses      = m.resolution_misses.load(std::memory_order_relaxed);
+    const uint64_t fallbacks   = m.legacy_fallbacks.load(std::memory_order_relaxed);
+    const uint64_t new_path_hits = m.new_path_hits.load(std::memory_order_relaxed);
+    const uint64_t unmapped    = m.unmapped_requests.load(std::memory_order_relaxed);
+    const uint64_t cache_hits  = m.cache_hits.load(std::memory_order_relaxed);
+    const uint64_t cache_misses = m.cache_misses.load(std::memory_order_relaxed);
+
+    const auto cache_stats = ConfigPathResolver::cacheStats();
+    const uint64_t cache_total = cache_stats.hits + cache_stats.misses;
+    const double cache_hit_ratio =
+        cache_total > 0 ? static_cast<double>(cache_stats.hits) / static_cast<double>(cache_total) : 0.0;
+    const auto cache_cfg = ConfigPathResolver::currentCacheConfig();
+
+    const auto emitToOptionalSink = [&]() {
+        GaugeSinkFn fn;
+        {
+            std::lock_guard<std::mutex> lk(ConfigMetricsExporter::gaugeSinkFnMutex());
+            fn = ConfigMetricsExporter::gaugeSinkFnStorage();
+        }
+        if (!fn) {
+            return;
+        }
+
+        const auto emit = [&](const std::string& name, double value) {
+            try {
+                fn(name, value);
+            } catch (...) {
+                // Fail closed: metrics sinks are optional integration hooks and
+                // must not affect production collector updates.
+            }
+        };
+
+        emit("themis_config_resolution_hits_current", static_cast<double>(hits));
+        emit("themis_config_resolution_misses_current", static_cast<double>(misses));
+        emit("themis_config_legacy_fallbacks_current", static_cast<double>(fallbacks));
+        emit("themis_config_new_path_hits_current", static_cast<double>(new_path_hits));
+        emit("themis_config_unmapped_requests_current", static_cast<double>(unmapped));
+        emit("themis_config_cache_hits_current", static_cast<double>(cache_hits));
+        emit("themis_config_cache_misses_current", static_cast<double>(cache_misses));
+        emit("themis_config_cache_hit_ratio", cache_hit_ratio);
+        emit("themis_config_cache_size", static_cast<double>(cache_stats.size));
+        emit("themis_config_cache_capacity", static_cast<double>(cache_stats.capacity));
+        emit("themis_config_cache_ttl_seconds", static_cast<double>(cache_cfg.ttl_seconds));
+    };
+
 #ifdef THEMIS_TEST_BUILD
     // STUB/SIMULATION NOTE:
     // Purpose: Allow focused/unit test binaries to compile `ConfigMetricsExporter`
@@ -279,23 +327,10 @@ void ConfigMetricsExporter::updateMetricsCollector() {
     // stub keeps those test builds lightweight while production builds execute
     // the real synchronization. Callers in test builds should not expect this
     // function to mutate any global metrics state.
+    emitToOptionalSink();
     return;
 #else
     auto& collector = observability::MetricsCollector::getInstance();
-    const auto& m = ConfigPathResolver::metrics();
-
-    const uint64_t hits        = m.resolution_hits.load(std::memory_order_relaxed);
-    const uint64_t misses      = m.resolution_misses.load(std::memory_order_relaxed);
-    const uint64_t fallbacks   = m.legacy_fallbacks.load(std::memory_order_relaxed);
-    const uint64_t new_path_hits = m.new_path_hits.load(std::memory_order_relaxed);
-    const uint64_t unmapped    = m.unmapped_requests.load(std::memory_order_relaxed);
-    const uint64_t cache_hits  = m.cache_hits.load(std::memory_order_relaxed);
-    const uint64_t cache_misses = m.cache_misses.load(std::memory_order_relaxed);
-
-    const auto cache_stats = ConfigPathResolver::cacheStats();
-    const uint64_t cache_total = cache_stats.hits + cache_stats.misses;
-    const double cache_hit_ratio =
-        cache_total > 0 ? static_cast<double>(cache_stats.hits) / static_cast<double>(cache_total) : 0.0;
 
     // Push current counter values as gauges in the MetricsCollector so they
     // appear in the server-wide scrape endpoint.  Gauge names use the
@@ -321,7 +356,6 @@ void ConfigMetricsExporter::updateMetricsCollector() {
     collector.setGauge("themis_config_cache_hit_ratio",            cache_hit_ratio);
     collector.setGauge("themis_config_cache_size",                 static_cast<double>(cache_stats.size));
     collector.setGauge("themis_config_cache_capacity",             static_cast<double>(cache_stats.capacity));
-    const auto cache_cfg = ConfigPathResolver::currentCacheConfig();
     collector.setGauge("themis_config_cache_ttl_seconds",          static_cast<double>(cache_cfg.ttl_seconds));
 
     // Per-category legacy fallback gauges
@@ -329,6 +363,7 @@ void ConfigMetricsExporter::updateMetricsCollector() {
         collector.setGauge("themis_config_legacy_fallbacks_by_category_current",
                            static_cast<double>(count), {{"category", cat}});
     }
+    emitToOptionalSink();
 #endif
 }
 

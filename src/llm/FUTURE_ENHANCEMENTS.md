@@ -32,7 +32,7 @@ This document covers planned enhancements to the LLM module beyond what is track
 ### RAID-Sharding Interlock for Cross-Instance (Batch-)Inference
 **Priority:** High
 **Target Version:** v1.18.0
-**Status:** [~] In progress (API contract + metadata wiring)
+**Status:** ✅ Implemented
 
 #### Scope
 - Coordinate inference and continuous batch inference across multiple ThemisDB shard instances.
@@ -55,11 +55,12 @@ This document covers planned enhancements to the LLM module beyond what is track
 #### Implementation Notes
 - [x] Added shard-routing and cross-instance batching hints to `EnhancedInferenceRequest`.
 - [x] Forwarded RAID hint envelope into `InferenceRequest::metadata["raid_sharding"]` before plugin generation call.
-- [ ] Add coordinator-side fan-out/fan-in execution path using these hints (Issue: #1928).
-- [ ] Add per-shard partial-failure handling + adaptive retry gates for distributed batches.
+- [x] Coordinator-side fan-out/fan-in execution path: `IFederatedInferenceBackend` injectable interface + `FederatedInferenceCoordinator` (parallel fan-out via `RemoteExecutor::post()`, exponential-back-off retry, first-wins merge); wired via `InferenceEngineEnhanced::setFederatedBackend()` — Issue #1928 resolved.
+- [x] Per-shard partial-failure handling + adaptive retry gates: bounded retries (`Config::max_retries`, default 2) with exponential back-off; permanent failures (HTTP 4xx) are not retried; all-failed case returns aggregated error with no silent data loss; each `FanOutInstanceResult` records `instance_id`, `success`, `error`, and `attempts`.
 
 #### Test Strategy
 - [x] Unit test validating RAID hint forwarding (`tests/test_inference_engine_enhanced.cpp`: `RaidShardingHintsAreForwardedToRequestMetadata`).
+- [x] Unit tests RAID-FAN-01..06 validating fan-out dispatch, first-wins merge, all-fail error, local fallback (no target_instance_ids), and partial-failure scenarios (`tests/test_inference_engine_enhanced.cpp`).
 - [ ] Integration test with 1/4/8 shard instances validating deterministic routing and aggregated responses.
 - [ ] Failure-injection tests for partial shard outages during cross-instance batch execution.
 

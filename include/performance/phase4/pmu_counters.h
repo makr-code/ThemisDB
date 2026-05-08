@@ -38,6 +38,7 @@
 #pragma once
 
 #include <cstdint>
+#include <functional>
 
 namespace themis {
 namespace performance {
@@ -63,6 +64,9 @@ struct CacheMissMetrics {
 /// Not copyable; movable.
 class PmuCounter {
 public:
+    using OpenFn = std::function<bool(uint32_t, uint64_t)>;
+    using ReadFn = std::function<uint64_t()>;
+
     PmuCounter() noexcept;
     ~PmuCounter() noexcept;
 
@@ -94,6 +98,9 @@ public:
     /// Returns true if the counter was successfully opened.
     bool is_open() const noexcept { return fd_ >= 0; }
 
+    static void setOpenFn(OpenFn fn);
+    static void setReadFn(ReadFn fn);
+
 private:
     int fd_{-1};
 };
@@ -115,6 +122,9 @@ private:
 /// @endcode
 class CacheMissAnalyzer {
 public:
+    using StopFn = std::function<CacheMissMetrics()>;
+    using ProbeFn = std::function<bool()>;
+
     CacheMissAnalyzer() noexcept;
     ~CacheMissAnalyzer() noexcept = default;
 
@@ -132,6 +142,9 @@ public:
 
     /// Static convenience check (tries to open a test counter).
     static bool pmu_accessible() noexcept;
+
+    static void setStopFn(StopFn fn);
+    static void setProbeFn(ProbeFn fn);
 
 private:
     PmuCounter l1d_misses_;

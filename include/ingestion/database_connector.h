@@ -157,7 +157,7 @@ public:
     using DbRow = std::unordered_map<std::string, std::string>;
 
     /**
-     * @brief Function type for injecting mock database rows in unit tests.
+     * @brief Function type for providing database row batches.
      *
      * Each call should return the next batch of rows.  Return an empty vector
      * to signal end-of-result-set.  Injected via `setRowFetchForTesting()`.
@@ -165,12 +165,13 @@ public:
     using RowFetchFn = std::function<std::vector<DbRow>()>;
 
     /**
-     * @brief Inject a mock row-fetch function (unit testing only).
+     * @brief Inject a database row-batch provider.
      *
      * When set, every database query that would normally be executed via ODBC
      * is replaced by calls to @p fn.  Pass an empty `RowFetchFn{}` to restore
      * the real ODBC path.
      */
+    void setRowBatchProvider(RowFetchFn fn);
     void setRowFetchForTesting(RowFetchFn fn);
 
 private:

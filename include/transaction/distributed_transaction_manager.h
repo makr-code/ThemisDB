@@ -57,6 +57,7 @@
 
 #pragma once
 
+#include "transaction/in_doubt_recovery_coordinator.h"
 #include "sharding/wal_manager.h"
 #include <atomic>
 #include <chrono>
@@ -267,7 +268,7 @@ struct DistributedTxnManagerConfig {
  *
  * Thread-safety: All public methods are thread-safe.
  */
-class DistributedTransactionManager {
+class DistributedTransactionManager : public IInDoubtRecoveryCoordinator {
 public:
     using TransactionId = std::string;
 
@@ -413,7 +414,7 @@ public:
      *
      * @return Number of in-doubt transactions resolved.
      */
-    size_t recoverInDoubtTransactions();
+    size_t recoverInDoubtTransactions() override;
 
     // ── Timeout handling ──────────────────────────────────────────────────────
 

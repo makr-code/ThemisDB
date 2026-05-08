@@ -61,6 +61,7 @@
  */
 
 #include "query/query_compiler.h"
+#include "utils/hash_util.h"
 
 #include <algorithm>
 #include <chrono>
@@ -83,20 +84,6 @@ namespace query {
 // ============================================================================
 
 namespace {
-
-// -- FNV-1a 64-bit hash -------------------------------------------------------
-
-static constexpr uint64_t kFNVOffsetBasis = 14695981039346656037ULL;
-static constexpr uint64_t kFNVPrime       = 1099511628211ULL;
-
-static uint64_t fnv1a64(const std::string& s) noexcept {
-    uint64_t h = kFNVOffsetBasis;
-    for (unsigned char c : s) {
-        h ^= static_cast<uint64_t>(c);
-        h *= kFNVPrime;
-    }
-    return h;
-}
 
 // Convert a 64-bit integer to a 16-char lowercase hex string.
 static std::string toHex16(uint64_t v) {
@@ -398,7 +385,7 @@ QueryCompiler::~QueryCompiler() = default;
 
 // static
 std::string QueryCompiler::makeKey(const std::string& query_text) {
-    return toHex16(fnv1a64(query_text));
+    return toHex16(themis::hash::fnv1a64(query_text));
 }
 
 QueryCompiler::CompiledQuery QueryCompiler::compile(

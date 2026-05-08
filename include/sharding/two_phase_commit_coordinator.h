@@ -50,6 +50,7 @@
 
 #include "sharding/shard_rpc_server.h"
 #include "sharding/shard_rpc_client.h"
+#include "transaction/in_doubt_recovery_coordinator.h"
 #include "sharding/wal_manager.h"
 #ifdef ERROR
 #undef ERROR
@@ -137,7 +138,7 @@ struct CoordinatorTxnRecord {
  *   assert(outcome.committed());
  * @endcode
  */
-class TwoPhaseCommitCoordinator {
+class TwoPhaseCommitCoordinator : public themis::transaction::IInDoubtRecoveryCoordinator {
 public:
     /**
      * @brief Configuration for the coordinator.
@@ -249,7 +250,7 @@ public:
      *
      * @return Number of in-doubt transactions resolved
      */
-    size_t recoverInDoubtTransactions();
+    size_t recoverInDoubtTransactions() override;
 
     // ── Introspection ─────────────────────────────────────────────────────────
 

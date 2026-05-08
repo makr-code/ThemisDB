@@ -26,6 +26,8 @@
 #include <cmath>
 #include <iostream>
 #include <algorithm>
+#include <functional>
+#include <mutex>
 
 // OneAPI/SYCL headers (conditionally included if available)
 #ifdef THEMIS_ENABLE_ONEAPI
@@ -232,26 +234,78 @@ public:
 //   OpenCL runtime) and set `-DTHEMIS_ENABLE_ONEAPI=1` in CMake.
 // Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md §"OneAPI Backend Activation"
 
+// STUB/SIMULATION NOTE (computeDistances bridge):
+// Purpose:    Allow injection of a real computeDistances implementation for the
+//             non-OneAPI stub path (tests / integration without Intel XPU SDK).
+// Activation: Runtime — when setComputeDistancesFn() is called with a non-empty fn.
+// Production Delta: With no fn, computeDistances() returns {}; with fn the
+//             provided implementation is called instead.
+// Removal Plan: Remove bridge once THEMIS_ENABLE_ONEAPI is standard in all envs.
+
 // Stub implementation when OneAPI is not available
 class OneAPIVectorBackend : public IVectorBackend {
 public:
+    // Injectable bridge type for the non-OneAPI stub path.
+    using ComputeDistancesFn = std::function<std::vector<float>(
+        const float* query, size_t query_count, size_t dim,
+        const float* db, size_t db_count, bool use_l2)>;
+
+    /// Inject a computeDistances implementation for the non-OneAPI stub path.
+    /// Pass empty fn to restore fail-closed stub default (returns {}).
+    static void setComputeDistancesFn(ComputeDistancesFn fn);
+
     BackendType type() const noexcept override { return BackendType::ONEAPI; }
     const char* name() const noexcept override { return "OneAPI (Not Available)"; }
     bool isAvailable() const noexcept override { return false; }
     BackendCapabilities getCapabilities() const override { return {}; }
     bool initialize() override { return false; }
     void shutdown() override {}
-    
+
     std::vector<float> computeDistances(
-        const float*, size_t, size_t, const float*, size_t, bool) override {
-        return {};
-    }
-    
+        const float* queries, size_t numQueries, size_t dimension,
+        const float* vectors, size_t numVectors, bool useL2) override;
+
     std::vector<std::vector<std::pair<uint32_t, float>>> batchKnnSearch(
         const float*, size_t, size_t, const float*, size_t, size_t, bool) override {
         return {};
     }
 };
+
+static std::mutex s_oneapi_compute_fn_mutex_;
+static OneAPIVectorBackend::ComputeDistancesFn s_oneapi_compute_fn_;
+
+void OneAPIVectorBackend::setComputeDistancesFn(
+    OneAPIVectorBackend::ComputeDistancesFn fn) {
+    std::lock_guard<std::mutex> lk(s_oneapi_compute_fn_mutex_);
+    s_oneapi_compute_fn_ = std::move(fn);
+}
+
+std::vector<float> OneAPIVectorBackend::computeDistances(
+    const float* queries, size_t numQueries, size_t dimension,
+    const float* vectors, size_t numVectors, bool useL2) {
+    OneAPIVectorBackend::ComputeDistancesFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_oneapi_compute_fn_mutex_);
+        fn = s_oneapi_compute_fn_;
+    }
+    if (fn) [[unlikely]] {
+        try {
+            return fn(queries, numQueries, dimension, vectors, numVectors, useL2);
+        } catch (...) {
+            return {};
+        }
+    }
+    return {};
+}
+
+/// Free-function wrapper — allows test code to inject a computeDistances
+/// implementation for the non-OneAPI stub path without requiring access to
+/// the local `OneAPIVectorBackend` class definition.
+void setOneAPIComputeDistancesFn(
+    std::function<std::vector<float>(
+        const float*, size_t, size_t, const float*, size_t, bool)> fn) {
+    OneAPIVectorBackend::setComputeDistancesFn(std::move(fn));
+}
 
 #endif
 

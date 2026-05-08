@@ -20,6 +20,7 @@
 #pragma once
 
 #include <chrono>
+#include <functional>
 #include <future>
 #include <memory>
 #include <mutex>
@@ -207,6 +208,24 @@ private:
 
     mutable std::mutex                          mutex_;
     std::unordered_map<std::string, Stream>     streams_;
+
+public:
+    // -----------------------------------------------------------------------
+    // Injectable CUDA backend bridge (STUB #77)
+    // -----------------------------------------------------------------------
+    /// Callback type: given a device index, return a GPULauncher::BackendFn
+    /// that dispatches work to a CUDA (or compatible) device.  Used as a
+    /// replacement for the real cudaStream_t path when THEMIS_ENABLE_CUDA is
+    /// not defined so that callers can inject a CUDA-like backend without
+    /// rebuilding with the CUDA Toolkit.
+    using CudaStreamBackendFn =
+        std::function<GPULauncher::BackendFn(int device_index)>;
+
+    /// Register a CUDA backend factory used by `createCudaStream()` when
+    /// THEMIS_ENABLE_CUDA is not defined.
+    /// Pass an empty `std::function` to clear and revert to the ROCm/CPU fallback.
+    /// Thread-safe (guarded by a static mutex).
+    static void setCudaStreamBackendFn(CudaStreamBackendFn fn);
 };
 
 

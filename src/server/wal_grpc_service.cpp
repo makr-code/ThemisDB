@@ -28,7 +28,12 @@
 #include "utils/zstd_codec.h"
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
+#include <cstdlib>
+#include <exception>
+#include <mutex>
+#include <stdexcept>
 #include <string>
+#include <utility>
 #include <vector>
 
 #if __has_include("sharding/shard_rpc.grpc.pb.h")
@@ -42,6 +47,54 @@
 
 namespace themis {
 namespace server {
+
+namespace {
+
+bool isProductionMode() {
+    const char* prod_mode = std::getenv("THEMIS_PRODUCTION_MODE");
+    const char* environment = std::getenv("THEMIS_ENVIRONMENT");
+    const char* env_type = std::getenv("ENVIRONMENT");
+    const char* node_env = std::getenv("NODE_ENV");
+
+    if (prod_mode) {
+        const std::string s(prod_mode);
+        if (s == "1" || s == "true" || s == "True" || s == "TRUE" ||
+            s == "yes" || s == "Yes" || s == "on" || s == "On") {
+            return true;
+        }
+    }
+    if (environment) {
+        const std::string s(environment);
+        if (s == "production" || s == "prod") {
+            return true;
+        }
+    }
+    if (env_type) {
+        const std::string s(env_type);
+        if (s == "production" || s == "prod") {
+            return true;
+        }
+    }
+    if (node_env) {
+        const std::string s(node_env);
+        if (s == "production") {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool isWalGrpcStubAllowed() {
+    const char* allow_stub = std::getenv("THEMIS_ALLOW_WAL_GRPC_STUB");
+    return allow_stub && std::string(allow_stub) == "1";
+}
+
+} // namespace
+
+namespace {
+std::mutex g_wal_grpc_service_mutex;
+themis::server::WalGrpcService::ServiceFn g_wal_grpc_service_fn;
+} // namespace
 
 class WalGrpcService::Impl {
 public:
@@ -190,17 +243,51 @@ WalGrpcService::WalGrpcService(std::shared_ptr<sharding::WALApplier> wal_applier
     //   is on the include path so THEMIS_HAS_SHARD_GRPC is set to 1.
     // Roadmap ref: src/sharding/FUTURE_ENHANCEMENTS.md § "WAL gRPC Replication"
     (void)wal_applier_;
-    THEMIS_INFO("Shard gRPC stubs not found; WalGrpcService is a no-op");
+    if (isProductionMode() && !isWalGrpcStubAllowed()) {
+        const std::string error =
+            "WalGrpcService cannot run in production without shard gRPC stubs. "
+            "Enable shard gRPC/protoc generation or set THEMIS_ALLOW_WAL_GRPC_STUB=1 "
+            "to explicitly allow insecure single-node/no-replication mode.";
+        THEMIS_CRITICAL("SECURITY ERROR: {}", error);
+        throw std::runtime_error(error);
+    }
+    THEMIS_WARN(
+        "Shard gRPC stubs not found; WalGrpcService replication endpoint is disabled. "
+        "Set THEMIS_ALLOW_WAL_GRPC_STUB=1 only for development/testing."
+    );
+
+    // Try injected accessor (for non-proto builds wiring an external service).
+    ServiceFn fn;
+    {
+        std::lock_guard<std::mutex> lock(g_wal_grpc_service_mutex);
+        fn = g_wal_grpc_service_fn;
+    }
+    if (fn) {
+        try {
+            service_ptr_ = fn();
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("WalGrpcService: service callback failed: {}", e.what());
+            service_ptr_ = nullptr;
+        } catch (...) {
+            THEMIS_ERROR("WalGrpcService: service callback failed: unknown error");
+            service_ptr_ = nullptr;
+        }
+    }
 #endif
 }
 
 WalGrpcService::~WalGrpcService() = default;
 
+void WalGrpcService::setServiceFn(ServiceFn fn) {
+    std::lock_guard<std::mutex> lock(g_wal_grpc_service_mutex);
+    g_wal_grpc_service_fn = std::move(fn);
+}
+
 void* WalGrpcService::service() {
 #if THEMIS_HAS_SHARD_GRPC
     return impl_ ? static_cast<void*>(impl_->get()) : nullptr;
 #else
-    return nullptr;
+    return service_ptr_;
 #endif
 }
 

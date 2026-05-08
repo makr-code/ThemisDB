@@ -21,6 +21,7 @@
 #include "security/hsm_provider.h"
 #include <filesystem>
 #include <fstream>
+#include <stdexcept>
 
 using namespace themis::security;
 
@@ -216,6 +217,57 @@ TEST_F(HSMProviderTest, DifferentAlgorithmsFallbackHex) {
         auto sig = hsm.sign(data);
         EXPECT_TRUE(sig.success); EXPECT_EQ(sig.algorithm, a);
     }
+}
+
+TEST_F(HSMProviderTest, SignHashBridgeIsUsed) {
+    HSMConfig config = createTestConfig();
+    HSMProvider hsm(config);
+    ASSERT_TRUE(hsm.initialize());
+
+    HSMProvider::setSignHashFn([](const std::vector<uint8_t>& hash, const std::string& key_label) {
+        HSMSignatureResult result;
+        result.success = true;
+        result.signature_b64 = "bridge-signature";
+        result.algorithm = "bridge";
+        result.key_id = key_label;
+        result.timestamp_ms = hash.size();
+        return result;
+    });
+
+    auto result = hsm.signHash({1, 2, 3}, "bridge-key");
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(result.signature_b64, "bridge-signature");
+    EXPECT_EQ(result.key_id, "bridge-key");
+
+    HSMProvider::setSignHashFn({});
+}
+
+TEST_F(HSMProviderTest, VerifyAndEncryptDecryptBridgesAreUsed) {
+    HSMConfig config = createTestConfig();
+    HSMProvider hsm(config);
+    ASSERT_TRUE(hsm.initialize());
+
+    HSMProvider::setVerifyFn([](const std::vector<uint8_t>& data,
+                                const std::string& signature,
+                                const std::string& key_label) {
+        return data.size() == 3 && signature == "ok" && key_label == "verify-key";
+    });
+    HSMProvider::setEncryptDataFn([](const std::vector<uint8_t>& data, const std::string&) {
+        return std::vector<uint8_t>(data.rbegin(), data.rend());
+    });
+    HSMProvider::setDecryptDataFn([](const std::vector<uint8_t>& data, const std::string&) {
+        return std::vector<uint8_t>(data.rbegin(), data.rend());
+    });
+
+    EXPECT_TRUE(hsm.verify({1, 2, 3}, "ok", "verify-key"));
+    auto encrypted = hsm.encryptData({1, 2, 3});
+    EXPECT_EQ(encrypted, (std::vector<uint8_t>{3, 2, 1}));
+    auto decrypted = hsm.decryptData(encrypted);
+    EXPECT_EQ(decrypted, (std::vector<uint8_t>{1, 2, 3}));
+
+    HSMProvider::setVerifyFn({});
+    HSMProvider::setEncryptDataFn({});
+    HSMProvider::setDecryptDataFn({});
 }
 
 // Performance benchmark test (disabled by default)
@@ -428,4 +480,215 @@ TEST_F(HSMProviderTest, StubProviderStillFunctional) {
     EXPECT_GE(stats.sign_count, 1);
 }
 
+// ============================================================================
+// HSM-215: getCertificate() fail-closed hardening
+// ============================================================================
 
+struct HsmProviderEnvGuard {
+    std::string name;
+    std::string previous;
+    bool had_previous{false};
+
+    HsmProviderEnvGuard(const std::string& var_name, const std::string& value)
+        : name(var_name) {
+        const char* existing = std::getenv(name.c_str());
+        had_previous = (existing != nullptr);
+        if (had_previous) previous = existing;
+        ::setenv(name.c_str(), value.c_str(), 1);
+    }
+
+    ~HsmProviderEnvGuard() {
+        if (had_previous) ::setenv(name.c_str(), previous.c_str(), 1);
+        else ::unsetenv(name.c_str());
+    }
+};
+
+struct HsmProviderEnvUnsetGuard {
+    std::string name;
+    std::string previous;
+    bool had_previous{false};
+
+    explicit HsmProviderEnvUnsetGuard(const std::string& var_name) : name(var_name) {
+        const char* existing = std::getenv(name.c_str());
+        had_previous = (existing != nullptr);
+        if (had_previous) previous = existing;
+        ::unsetenv(name.c_str());
+    }
+
+    ~HsmProviderEnvUnsetGuard() {
+        if (had_previous) ::setenv(name.c_str(), previous.c_str(), 1);
+        else ::unsetenv(name.c_str());
+    }
+};
+
+// HSM-CERT-01: getCertificate() returns nullopt when no stub opt-in is set
+TEST_F(HSMProviderTest, GetCertificateFailsClosedWithoutOptIn) {
+    HsmProviderEnvUnsetGuard guard("THEMIS_ALLOW_HSM_STUB");
+    HsmProviderEnvUnsetGuard prod_guard("THEMIS_PRODUCTION_MODE");
+
+    HSMConfig config;
+    config.library_path = "";
+    HSMProvider hsm(config);
+    {
+        HsmProviderEnvGuard allow_guard("THEMIS_ALLOW_HSM_STUB", "1");
+        // Initialize with stub allowed so we get a usable instance
+        ASSERT_TRUE(hsm.initialize());
+    }
+
+    // Now the opt-in is gone again; getCertificate must fail closed.
+    HsmProviderEnvUnsetGuard no_stub("THEMIS_ALLOW_HSM_STUB");
+
+    auto cert = hsm.getCertificate("test-key");
+    EXPECT_FALSE(cert.has_value())
+        << "getCertificate() must return nullopt without THEMIS_ALLOW_HSM_STUB=1";
+}
+
+// HSM-CERT-02: getCertificate() returns dummy PEM when stub is explicitly allowed
+TEST_F(HSMProviderTest, GetCertificateReturnsDummyPemWithOptIn) {
+    HsmProviderEnvGuard allow_guard("THEMIS_ALLOW_HSM_STUB", "1");
+    HsmProviderEnvUnsetGuard prod_guard("THEMIS_PRODUCTION_MODE");
+
+    HSMConfig config;
+    config.library_path = "";
+
+    HSMProvider hsm(config);
+    ASSERT_TRUE(hsm.initialize());
+
+    auto cert = hsm.getCertificate("test-key");
+    ASSERT_TRUE(cert.has_value())
+        << "getCertificate() must return value when THEMIS_ALLOW_HSM_STUB=1";
+    EXPECT_NE(cert->find("STUB"), std::string::npos)
+        << "Returned PEM should be the stub placeholder";
+    EXPECT_NE(cert->find("BEGIN CERTIFICATE"), std::string::npos);
+}
+
+// HSM-CERT-03: generateKeyPair returns false (not a silent no-op that claims success)
+TEST_F(HSMProviderTest, GenerateKeyPairReturnsFalseInStub) {
+    HsmProviderEnvGuard allow_guard("THEMIS_ALLOW_HSM_STUB", "1");
+    HsmProviderEnvUnsetGuard prod_guard("THEMIS_PRODUCTION_MODE");
+
+    HSMConfig config;
+    config.library_path = "";
+
+    HSMProvider hsm(config);
+    ASSERT_TRUE(hsm.initialize());
+
+    bool result = hsm.generateKeyPair("test-label", 2048, false);
+    EXPECT_FALSE(result)
+        << "generateKeyPair() must return false in stub mode to signal no real key was created";
+}
+
+// HSM-CERT-04: importCertificate returns false (not a silent no-op that claims success)
+TEST_F(HSMProviderTest, ImportCertificateReturnsFalseInStub) {
+    HsmProviderEnvGuard allow_guard("THEMIS_ALLOW_HSM_STUB", "1");
+    HsmProviderEnvUnsetGuard prod_guard("THEMIS_PRODUCTION_MODE");
+
+    HSMConfig config;
+    config.library_path = "";
+
+    HSMProvider hsm(config);
+    ASSERT_TRUE(hsm.initialize());
+
+    bool result = hsm.importCertificate("test-key", "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----\n");
+    EXPECT_FALSE(result)
+        << "importCertificate() must return false in stub mode to signal no real cert was stored";
+}
+
+// HSM-KM-BRIDGE-01: injected generate/import callbacks are used in stub mode
+TEST_F(HSMProviderTest, KeyManagementCallbacksAreUsed) {
+    HsmProviderEnvGuard allow_guard("THEMIS_ALLOW_HSM_STUB", "1");
+    HsmProviderEnvUnsetGuard prod_guard("THEMIS_PRODUCTION_MODE");
+
+    HSMConfig config;
+    config.library_path = "";
+    HSMProvider hsm(config);
+    ASSERT_TRUE(hsm.initialize());
+
+    bool generate_called = false;
+    bool import_called = false;
+    HSMProvider::setGenerateKeyPairFn(
+        [&](const std::string& label, uint32_t key_size, bool extractable) {
+            generate_called = true;
+            EXPECT_EQ(label, "bridge-key");
+            EXPECT_EQ(key_size, 3072u);
+            EXPECT_TRUE(extractable);
+            return true;
+        });
+    HSMProvider::setImportCertificateFn(
+        [&](const std::string& key_label, const std::string& cert_pem) {
+            import_called = true;
+            EXPECT_EQ(key_label, "bridge-key");
+            EXPECT_NE(cert_pem.find("BEGIN CERTIFICATE"), std::string::npos);
+            return true;
+        });
+
+    EXPECT_TRUE(hsm.generateKeyPair("bridge-key", 3072, true));
+    EXPECT_TRUE(hsm.importCertificate("bridge-key",
+                                      "-----BEGIN CERTIFICATE-----\nX\n-----END CERTIFICATE-----\n"));
+    EXPECT_TRUE(generate_called);
+    EXPECT_TRUE(import_called);
+
+    HSMProvider::setGenerateKeyPairFn({});
+    HSMProvider::setImportCertificateFn({});
+}
+
+// HSM-KM-BRIDGE-02: injected getCertificate callback bypasses stub dummy cert path
+TEST_F(HSMProviderTest, GetCertificateCallbackOverridesStubPath) {
+    HsmProviderEnvUnsetGuard allow_guard("THEMIS_ALLOW_HSM_STUB");
+    HsmProviderEnvUnsetGuard prod_guard("THEMIS_PRODUCTION_MODE");
+
+    HSMConfig config;
+    config.library_path = "";
+    HSMProvider hsm(config);
+    {
+        HsmProviderEnvGuard init_allow("THEMIS_ALLOW_HSM_STUB", "1");
+        ASSERT_TRUE(hsm.initialize());
+    }
+
+    HSMProvider::setGetCertificateFn(
+        [](const std::string& key_label) -> std::optional<std::string> {
+            if (key_label == "bridge-cert-key") {
+                return std::string(
+                    "-----BEGIN CERTIFICATE-----\nBRIDGE-CERT\n-----END CERTIFICATE-----\n");
+            }
+            return std::nullopt;
+        });
+
+    auto cert = hsm.getCertificate("bridge-cert-key");
+    ASSERT_TRUE(cert.has_value());
+    EXPECT_NE(cert->find("BRIDGE-CERT"), std::string::npos);
+
+    HSMProvider::setGetCertificateFn({});
+}
+
+// HSM-KM-BRIDGE-03: callback exceptions fail closed
+TEST_F(HSMProviderTest, KeyManagementCallbackExceptionsFailClosed) {
+    HsmProviderEnvGuard allow_guard("THEMIS_ALLOW_HSM_STUB", "1");
+    HsmProviderEnvUnsetGuard prod_guard("THEMIS_PRODUCTION_MODE");
+
+    HSMConfig config;
+    config.library_path = "";
+    HSMProvider hsm(config);
+    ASSERT_TRUE(hsm.initialize());
+
+    HSMProvider::setGenerateKeyPairFn(
+        [](const std::string&, uint32_t, bool) -> bool {
+            throw std::runtime_error("generate failed");
+        });
+    HSMProvider::setImportCertificateFn(
+        [](const std::string&, const std::string&) -> bool {
+            throw std::runtime_error("import failed");
+        });
+    HSMProvider::setGetCertificateFn(
+        [](const std::string&) -> std::optional<std::string> {
+            throw std::runtime_error("get cert failed");
+        });
+
+    EXPECT_FALSE(hsm.generateKeyPair("k", 2048, false));
+    EXPECT_FALSE(hsm.importCertificate("k", "pem"));
+    EXPECT_FALSE(hsm.getCertificate("k").has_value());
+
+    HSMProvider::setGenerateKeyPairFn({});
+    HSMProvider::setImportCertificateFn({});
+    HSMProvider::setGetCertificateFn({});
+}

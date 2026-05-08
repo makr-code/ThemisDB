@@ -172,6 +172,13 @@ public:
         /// were skipped.
         bool allow_partial_results = true;
 
+        /// Maximum fraction of shards that may fail before the entire
+        /// `executeDistributed()` call is considered failed.
+        /// Range: [0.0, 1.0]. Default: 0.20 (tolerate up to 20 % failures).
+        /// When `allow_partial_results` is false, this field is not consulted
+        /// (a single failure is already fatal).
+        double max_failure_rate = 0.20;
+
         /// Timeout per shard in milliseconds. 0 = no timeout.
         uint32_t shard_timeout_ms = 30000;
 
@@ -215,9 +222,16 @@ public:
     /**
      * Register a shard and its executor.
      * Overwrites any previously registered executor for the same shard_id.
+     *
+     * @param shard_id      Unique shard identifier.
+     * @param executor      Per-shard query executor.
+     * @param tenant_id     Optional tenant this shard exclusively serves.
+     *                      Empty string means the shard is accessible to all
+     *                      tenants (or tenant isolation is not required).
      */
     void addShard(const std::string& shard_id,
-                  std::shared_ptr<ShardQueryExecutor> executor);
+                  std::shared_ptr<ShardQueryExecutor> executor,
+                  const std::string& tenant_id = {});
 
     /**
      * Deregister a shard.
@@ -315,6 +329,9 @@ private:
     struct ShardEntry {
         std::string shard_id;
         std::shared_ptr<ShardQueryExecutor> executor;
+        /// If non-empty, only queries whose `tenant_id` matches are allowed
+        /// on this shard.  Empty = accessible to all tenants.
+        std::string allowed_tenant_id;
         /// Cached health flag updated by the background monitor.
         /// Initialised to true (optimistic) when a shard is first added.
         std::shared_ptr<std::atomic<bool>> cached_healthy =

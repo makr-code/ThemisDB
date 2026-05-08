@@ -71,11 +71,11 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
   - Errors: invalid geometry (NaN/Inf coordinates), polygon self-intersection, overflow during Haversine distance
   - Tests: unit + property-based + GPU/CPU parity
   - Perf: ≥ 8x speedup vs CPU baseline on RTX-class GPU
-- [ ] Federated analytics query dispatch across multiple ThemisDB clusters (Target: Q3 2026)
+- [x] Federated analytics query dispatch across multiple ThemisDB clusters (Target: Q3 2026)
   - Affected: `src/analytics/distributed_analytics.cpp`, `include/analytics/distributed_analytics.h`
   - Expected behavior: scatter-gather with partial failure tolerance; partial results returned if <20% shards fail
   - Errors: shard unreachable → skip with warning; tenant isolation violation → reject with PERMISSION_DENIED
-  - Tests: unit tests for scatter/gather logic + integration tests with mock shards
+  - Tests: FED-01..FED-08 (`tests/analytics/test_distributed_analytics.cpp`)
   - Perf: fan-out latency ≤ 200 ms for 16 shards on LAN
   - Per-tenant data isolation at the `SourceRegistry` boundary
 - [x] SARIMA and Prophet-style forecasting models (Target: Q4 2026)

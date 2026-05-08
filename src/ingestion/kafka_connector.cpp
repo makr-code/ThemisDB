@@ -596,6 +596,10 @@ void KafkaConnector::setCheckpointStore(std::shared_ptr<CheckpointStore> store) 
 }
 
 void KafkaConnector::setMessageFetchForTesting(KafkaMessageFn fn) {
+    setMessageBatchProvider(std::move(fn));
+}
+
+void KafkaConnector::setMessageBatchProvider(KafkaMessageFn fn) {
     impl_->setMessageFetchForTesting(std::move(fn));
 }
 

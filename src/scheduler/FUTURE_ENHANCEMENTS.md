@@ -93,7 +93,7 @@ Implementation tasks:
 - [x] Priority-ordered dispatch – `schedulerLoop()` sorts `tasks_to_execute` by `ScheduledTask::priority` (HIGH → NORMAL → LOW) before launching threads (`std::sort` descending, added v1.7.0)
 - [ ] Full lock-free priority queue to replace the pre-sort approach
 - [ ] Priority-based resource allocation (CPU/memory slot reservations per priority tier)
-- [ ] Starvation prevention via aging (dynamically boost low-priority task priority after N idle ticks)
+- [x] Starvation prevention via aging – `ScheduledTask::consecutive_skips` counts how many consecutive ticks a task was skipped due to the concurrency limit; after `Config::aging_threshold` (default 5) skips the effective priority is boosted by one level (LOW→NORMAL, NORMAL→HIGH, clamped at HIGH); `consecutive_skips` resets to 0 when the task is dispatched via the scheduler loop or `executeTaskNow()`. Tests SCHED-AGE-01..05 in `tests/test_task_scheduler.cpp`.
 - [ ] Dynamic priority adjustment at runtime
 - [ ] Per-priority slot reservation
 

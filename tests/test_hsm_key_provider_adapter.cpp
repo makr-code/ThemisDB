@@ -21,6 +21,7 @@
 #include "security/hsm_key_provider_adapter.h"
 #include "security/hsm_provider.h"
 #include <filesystem>
+#include <cstdlib>
 
 using namespace themis;
 using namespace themis::security;
@@ -410,7 +411,99 @@ protected:
     }
 };
 
+struct HsmEnvGuard {
+    std::string name;
+    std::string previous;
+    bool had_previous{false};
+
+    HsmEnvGuard(std::string var_name, std::string value) : name(std::move(var_name)) {
+        const char* existing = std::getenv(name.c_str());
+        had_previous = (existing != nullptr);
+        if (had_previous) {
+            previous = existing;
+        }
+#ifdef _WIN32
+        _putenv_s(name.c_str(), value.c_str());
+#else
+        ::setenv(name.c_str(), value.c_str(), 1);
+#endif
+    }
+
+    ~HsmEnvGuard() {
+#ifdef _WIN32
+        if (had_previous) {
+            _putenv_s(name.c_str(), previous.c_str());
+        } else {
+            _putenv_s(name.c_str(), "");
+        }
+#else
+        if (had_previous) {
+            ::setenv(name.c_str(), previous.c_str(), 1);
+        } else {
+            ::unsetenv(name.c_str());
+        }
+#endif
+    }
+};
+
+struct HsmEnvUnsetGuard {
+    std::string name;
+    std::string previous;
+    bool had_previous{false};
+
+    explicit HsmEnvUnsetGuard(std::string var_name) : name(std::move(var_name)) {
+        const char* existing = std::getenv(name.c_str());
+        had_previous = (existing != nullptr);
+        if (had_previous) {
+            previous = existing;
+        }
+#ifdef _WIN32
+        _putenv_s(name.c_str(), "");
+#else
+        ::unsetenv(name.c_str());
+#endif
+    }
+
+    ~HsmEnvUnsetGuard() {
+#ifdef _WIN32
+        if (had_previous) {
+            _putenv_s(name.c_str(), previous.c_str());
+        } else {
+            _putenv_s(name.c_str(), "");
+        }
+#else
+        if (had_previous) {
+            ::setenv(name.c_str(), previous.c_str(), 1);
+        } else {
+            ::unsetenv(name.c_str());
+        }
+#endif
+    }
+};
+
+TEST_F(HSMKeyProviderAdapterStubTest, StubWrapBlockedByDefault) {
+    HsmEnvUnsetGuard allow_stub("THEMIS_ALLOW_HSM_STUB");
+
+    auto hsm = createStubHSM();
+    if (!hsm) {
+        GTEST_SKIP() << "Stub HSM could not initialize (production mode env?)";
+    }
+    ASSERT_TRUE(hsm->isStubProvider());
+
+    HSMKeyProviderAdapter adapter(hsm);
+    std::vector<uint8_t> original_key(32, 0x11);
+    KeyMetadata meta;
+    meta.status = KeyStatus::ACTIVE;
+
+    EXPECT_THROW(
+        adapter.createKeyFromBytes("blocked-wrap-key", original_key, meta),
+        KeyOperationException
+    );
+}
+
 TEST_F(HSMKeyProviderAdapterStubTest, WrapUnwrapRoundTrip) {
+    HsmEnvGuard allow_stub("THEMIS_ALLOW_HSM_STUB", "1");
+
     auto hsm = createStubHSM();
     if (!hsm) {
         GTEST_SKIP() << "Stub HSM could not initialize (production mode env?)";
@@ -433,6 +526,8 @@ TEST_F(HSMKeyProviderAdapterStubTest, WrapUnwrapRoundTrip) {
 }
 
 TEST_F(HSMKeyProviderAdapterStubTest, MultipleKeysIndependentWrap) {
+    HsmEnvGuard allow_stub("THEMIS_ALLOW_HSM_STUB", "1");
+
     auto hsm = createStubHSM();
     if (!hsm) {
         GTEST_SKIP() << "Stub HSM could not initialize (production mode env?)";
@@ -455,6 +550,8 @@ TEST_F(HSMKeyProviderAdapterStubTest, MultipleKeysIndependentWrap) {
 }
 
 TEST_F(HSMKeyProviderAdapterStubTest, RotatedKeyRoundTrip) {
+    HsmEnvGuard allow_stub("THEMIS_ALLOW_HSM_STUB", "1");
+
     auto hsm = createStubHSM();
     if (!hsm) {
         GTEST_SKIP() << "Stub HSM could not initialize (production mode env?)";

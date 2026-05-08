@@ -33,6 +33,7 @@
 #include <gtest/gtest.h>
 
 #include "cache/cache_replication_coordinator.h"
+#include "cache/grpc_remote_cache_peer.h"
 
 #include <atomic>
 #include <chrono>
@@ -197,6 +198,42 @@ TEST(IRemoteCachePeerTest, InvalidateTenantRecordsTenant) {
     peer.invalidateTenant("my_tenant");
     EXPECT_EQ(peer.last_tenant, "my_tenant");
 }
+
+#ifndef THEMIS_ENABLE_GRPC
+TEST(GrpcRemoteCachePeerStubTest, BackendInvokeBridgeHandlesInvalidateCalls) {
+    std::string seen_address;
+    std::string seen_type;
+    std::string seen_key;
+    std::string seen_tenant;
+
+    GrpcRemoteCachePeer::setBackendInvokeFn(
+        [&](const std::string& address,
+            const std::string& type,
+            const std::string& key,
+            const std::string& tenant_id) {
+            seen_address = address;
+            seen_type = type;
+            seen_key = key;
+            seen_tenant = tenant_id;
+            return true;
+        });
+
+    GrpcRemoteCachePeer peer("cache-peer:9443");
+    EXPECT_NO_THROW(peer.invalidate("users:*", "tenant-a"));
+    EXPECT_TRUE(peer.isHealthy());
+    EXPECT_EQ(seen_address, "cache-peer:9443");
+    EXPECT_EQ(seen_type, "invalidate");
+    EXPECT_EQ(seen_key, "users:*");
+    EXPECT_EQ(seen_tenant, "tenant-a");
+
+    EXPECT_NO_THROW(peer.invalidateTenant("tenant-b"));
+    EXPECT_EQ(seen_type, "invalidate_tenant");
+    EXPECT_EQ(seen_key, "");
+    EXPECT_EQ(seen_tenant, "tenant-b");
+
+    GrpcRemoteCachePeer::setBackendInvokeFn(nullptr);
+}
+#endif
 
 // ─────────────────────────────────────────────────────────────────────────────
 // IClusterView interface smoke tests

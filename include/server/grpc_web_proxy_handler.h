@@ -23,6 +23,7 @@
 #pragma once
 
 #include <boost/beast/http.hpp>
+#include <functional>
 #include <string>
 #include <vector>
 #include <cstdint>
@@ -233,6 +234,23 @@ private:
     static void appendFrameHeader(std::string& out,
                                    uint8_t flags,
                                    uint32_t length);
+
+#ifndef THEMIS_ENABLE_GRPC
+public:
+    /// Callback type for injecting a gRPC backend implementation in non-gRPC builds.
+    /// The fn receives the gRPC method path and raw protobuf request bytes.
+    /// It must fill `out_grpc_status` (0 = OK, 12 = UNIMPLEMENTED, etc.) and
+    /// `out_grpc_message`, then return the raw protobuf response bytes (may be empty).
+    using BackendInvokeFn = std::function<std::string(
+        const std::string& method,
+        const std::string& proto_request,
+        int& out_grpc_status,
+        std::string& out_grpc_message)>;
+
+    /// Inject a gRPC backend for the non-gRPC stub path.
+    /// Pass empty fn to restore the UNIMPLEMENTED stub default.
+    static void setBackendInvokeFn(BackendInvokeFn fn);
+#endif // !THEMIS_ENABLE_GRPC
 };
 
 } // namespace server

@@ -61,6 +61,7 @@
 #include <iomanip>
 #include <stdexcept>
 #include <vector>
+#include <mutex>
 
 // SHA-256 via OpenSSL (same approach as plugin_system_edition.cpp)
 #include <openssl/evp.h>
@@ -81,6 +82,16 @@ namespace plugins {
 // ============================================================================
 
 namespace {
+
+WasmPluginLoadFn& wasmPluginLoadFnStorage() {
+    static WasmPluginLoadFn fn;
+    return fn;
+}
+
+std::mutex& wasmPluginLoadFnMutex() {
+    static std::mutex m;
+    return m;
+}
 
 /**
  * @brief Compute the SHA-256 hex digest of a file at @p path.
@@ -134,6 +145,11 @@ static bool isWasmRuntimeAllowed(std::string& error_out) {
 }
 
 } // anonymous namespace
+
+void setWasmPluginLoadFn(WasmPluginLoadFn fn) {
+    std::lock_guard<std::mutex> lk(wasmPluginLoadFnMutex());
+    wasmPluginLoadFnStorage() = std::move(fn);
+}
 
 // ============================================================================
 // WasmPluginLoader — public API
@@ -194,15 +210,23 @@ bool verifyWasmModuleHash(const std::string& wasm_path,
  * @param runtime         Which WASM backend to use.
  * @param module_name     Human-readable plugin name for diagnostics.
  * @param error_out       Receives a human-readable error on failure.
- * @return Owning pointer to a WasmHostAPI instance, or nullptr on failure.
+ * @return Owning pointer to an IThemisPlugin-compatible WASM bridge, or nullptr on failure.
  */
-std::unique_ptr<WasmHostAPI> loadWasmPlugin(
+std::unique_ptr<IThemisPlugin> loadWasmPlugin(
     const std::string& wasm_path,
     const std::string& expected_sha256,
     WasmPluginRuntime  runtime,
     const std::string& module_name,
     std::string&       error_out)
 {
+    WasmPluginLoadFn fn;
+    {
+        std::lock_guard<std::mutex> lk(wasmPluginLoadFnMutex());
+        fn = wasmPluginLoadFnStorage();
+    }
+    if (fn) {
+        return fn(wasm_path, expected_sha256, runtime, module_name, error_out);
+    }
     // 1. Enterprise edition gate
     if (!isWasmRuntimeAllowed(error_out)) {
         return nullptr;
@@ -471,12 +495,20 @@ int32_t themis_plugin_restore_state(const char* /*state_json*/) { return 0; }
 // ---------------------------------------------------------------------------
 
 std::unique_ptr<IThemisPlugin> loadWasmPlugin(
-    const std::string& /*wasm_path*/,
-    const std::string& /*expected_sha256*/,
-    WasmPluginRuntime  /*runtime*/,
+    const std::string& wasm_path,
+    const std::string& expected_sha256,
+    WasmPluginRuntime  runtime,
     const std::string& module_name,
     std::string&       error_out)
 {
+    WasmPluginLoadFn fn;
+    {
+        std::lock_guard<std::mutex> lk(wasmPluginLoadFnMutex());
+        fn = wasmPluginLoadFnStorage();
+    }
+    if (fn) {
+        return fn(wasm_path, expected_sha256, runtime, module_name, error_out);
+    }
     error_out = "WASM plugin support is not enabled in this build. "
                 "Recompile with -DTHEMIS_WASM_SUPPORT to enable. "
                 "Requested plugin: " + module_name;

@@ -25,10 +25,14 @@
 #include <vector>
 #include <memory>
 #include <cstddef>
+#include <functional>
+#include <mutex>
 
 namespace themis {
 namespace llm {
 namespace lora {
+
+class Tensor;
 
 /**
  * @brief GPU-enabled Tensor class for LoRA training
@@ -248,6 +252,17 @@ public:
      */
     bool has_inf_or_nan() const;
 
+    // ========== dtype-cast callback bridges (STUB #2/#3) ==========
+    //
+    // Allow injection of a real GPU dtype-cast kernel for CUDA (STUB #2) or
+    // HIP/ROCm (STUB #3) builds, replacing the default CPU round-trip fallback.
+    // The function receives the current element data as fp32, the source DType,
+    // and the target DType; it returns the converted element data as fp32.
+    // Passing nullptr reverts to the CPU round-trip fallback path.
+    using DtypeCastFn = std::function<std::vector<float>(const std::vector<float>&, DType, DType)>;
+    static void setCudaDtypeCastFn(DtypeCastFn fn);
+    static void setHipDtypeCastFn(DtypeCastFn fn);
+
 private:
     std::vector<size_t> shape_;
     Device device_;
@@ -320,15 +335,14 @@ namespace gpu_tensor_utils {
     /**
      * @brief Convert legacy Tensor to GPUTensor
      */
-    class Tensor;  // Forward declaration
-    GPUTensor from_legacy_tensor(const Tensor& tensor, 
-                                 const Device& device = Device::cpu(),
-                                 DType dtype = DType::FLOAT32);
+    [[nodiscard]] GPUTensor from_legacy_tensor(const Tensor& tensor,
+                                               const Device& device = Device::cpu(),
+                                               DType dtype = DType::FLOAT32);
     
     /**
      * @brief Convert GPUTensor to legacy Tensor
      */
-    Tensor to_legacy_tensor(const GPUTensor& gpu_tensor);
+    [[nodiscard]] Tensor to_legacy_tensor(const GPUTensor& gpu_tensor);
 }
 
 } // namespace lora

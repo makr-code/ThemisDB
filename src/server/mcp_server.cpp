@@ -2658,6 +2658,16 @@ json McpServer::toolAiCleanupSnapshots(const json& /*args*/) {
 // StdioTransport Implementation
 // ============================================================================
 
+static std::mutex& stdioReadFnMutex() { static std::mutex m; return m; }
+static StdioTransport::StdioReadFn& stdioReadFnStorage() {
+    static StdioTransport::StdioReadFn fn;
+    return fn;
+}
+void StdioTransport::setStdioReadFn(StdioReadFn fn) {
+    std::lock_guard<std::mutex> lk(stdioReadFnMutex());
+    stdioReadFnStorage() = std::move(fn);
+}
+
 StdioTransport::StdioTransport(asio::io_context& io_context, int buffer_size)
     : io_context_(io_context), buffer_size_(buffer_size), read_buffer_(buffer_size) {
 }
@@ -2680,16 +2690,27 @@ void StdioTransport::start() {
     //   platforms other than Windows, Unix, and macOS (e.g., embedded or
     //   exotic toolchain targets).  On those platforms, async stdin reading
     //   via platform threads is not implemented; the transport runs but
-    //   silently ignores all stdin input.
+    //   silently ignores all stdin input — unless a StdioReadFn is injected
+    //   via StdioTransport::setStdioReadFn().
     // Activation: Compiled when none of _WIN32, __unix__, __APPLE__ are defined.
-    // Production Delta: MCP clients connected via stdio receive no responses
-    //   because request bytes from stdin are never read.  The transport reports
-    //   "started" but is functionally deaf.
-    // Removal Plan: Implement `readStdin()` for the target platform using the
-    //   appropriate async I/O primitives, then add the platform's preprocessor
-    //   guard to the `#if` condition above.
+    // Production Delta: Without an injected StdioReadFn, MCP clients connected
+    //   via stdio receive no responses (transport deaf).
+    // Removal Plan: Implement `readStdin()` for the target platform and add the
+    //   preprocessor guard to the `#if` condition above, OR inject a platform-
+    //   specific reader via setStdioReadFn() at startup.
     // Roadmap ref: src/server/FUTURE_ENHANCEMENTS.md §"MCP StdioTransport Platform Support"
-    spdlog::warn("MCP stdio transport: Unsupported platform, stdin reading not implemented");
+    {
+        StdioReadFn fn;
+        {
+            std::lock_guard<std::mutex> lk(stdioReadFnMutex());
+            fn = stdioReadFnStorage();
+        }
+        if (fn) {
+            try { fn(); } catch (...) {}
+        } else {
+            spdlog::warn("MCP stdio transport: Unsupported platform, stdin reading not implemented");
+        }
+    }
 #endif
 }
 

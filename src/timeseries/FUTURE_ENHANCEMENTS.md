@@ -63,17 +63,18 @@ Rewrite the `gorilla.cpp` decode path to use SIMD intrinsics (AVX2 on x86-64, NE
 
 ---
 
-### [ ] Incremental Continuous Aggregation with Watermark Pushdown
+### [x] Incremental Continuous Aggregation with Watermark Pushdown
 **Priority:** High
 **Target Version:** v0.9.0
+**Status:** ✅ Implemented
 
-Extend `continuous_agg.cpp` to support watermark-based incremental refresh so that only newly ingested data since the last refresh is re-aggregated. The watermark is tracked per aggregate in the metadata layer and pushed down to `tsstore.cpp` scan predicates to skip already-processed chunks.
+`ContinuousAggWatermarkStore` (in `continuous_agg.cpp`) persists watermarks via the system metadata store. `ContinuousAggregateManager::refreshIncremental()` reads the watermark, scans only `[watermark, now)` in TSStore, writes aggregate points, and atomically advances the watermark. `AggregateScheduler::backfill_range()` in `aggregate_scheduler_helper.cpp` provides manual gap recovery. Lag metrics are emitted from the scheduler loop per aggregate.
 
 **Implementation Notes:**
-- Add a `ContinuousAggWatermark` table to the metadata store; `continuous_agg.cpp::refresh()` reads the watermark, scans only `[watermark, now)` in `tsstore.cpp`, and advances the watermark atomically after a successful aggregate write.
-- `aggregate_scheduler.cpp` must persist per-aggregate state including watermark to survive node restarts; use the WAL path from `tsstore.cpp` for durability.
-- `aggregate_scheduler_helper.cpp` should expose a `backfill_range(agg_id, start, end)` method for manual recovery from gaps in watermark history.
-- Emit aggregate refresh latency and lag metrics from `timeseries_metrics.cpp` tagged with `agg_id`.
+- [x] Add a `ContinuousAggWatermark` table to the metadata store; `continuous_agg.cpp::refresh()` reads the watermark, scans only `[watermark, now)` in `tsstore.cpp`, and advances the watermark atomically after a successful aggregate write.
+- [x] `aggregate_scheduler.cpp` must persist per-aggregate state including watermark to survive node restarts; use the WAL path from `tsstore.cpp` for durability.
+- [x] `aggregate_scheduler_helper.cpp` should expose a `backfill_range(agg_id, start, end)` method for manual recovery from gaps in watermark history.
+- [x] Emit aggregate refresh latency and lag metrics from `timeseries_metrics.cpp` tagged with `agg_id`.
 
 **Performance Targets:**
 - Incremental refresh overhead: <500 ms per aggregate per 1-minute interval under 100k inserts/s ingest rate.

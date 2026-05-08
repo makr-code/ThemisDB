@@ -35,12 +35,23 @@
 #include <chrono>
 #include <filesystem>
 #include <iomanip>
+#include <mutex>
 #include <nlohmann/json.hpp>
 
 namespace themis {
 namespace rpc {
 
 namespace fs = std::filesystem;
+
+namespace {
+std::mutex                    s_blob_checksum_bridge_mutex;
+BlobTransferHandler::ChecksumFn s_blob_checksum_fn;
+}
+
+void BlobTransferHandler::setChecksumFn(ChecksumFn fn) {
+    std::lock_guard<std::mutex> lk(s_blob_checksum_bridge_mutex);
+    s_blob_checksum_fn = std::move(fn);
+}
 
 // Security: Maximum chunk size to prevent memory exhaustion
 static constexpr size_t MAX_CHUNK_SIZE = 100 * 1024 * 1024;  // 100 MB
@@ -364,6 +375,33 @@ private:
     }
     
     std::string CalculateChecksum(const std::string& data) {
+        BlobTransferHandler::ChecksumFn fn;
+        {
+            std::lock_guard<std::mutex> lk(s_blob_checksum_bridge_mutex);
+            fn = s_blob_checksum_fn;
+        }
+        if (fn) {
+            try {
+                auto bridged = fn(data, config_.checksum_type);
+                if (!bridged.empty()) {
+                    return bridged;
+                }
+            } catch (...) {
+            }
+        }
+
+        // Local CRC32 implementation (poly 0xEDB88320)
+        auto crc32 = [](const unsigned char* buf, size_t len) -> uint32_t {
+            uint32_t crc = 0xFFFFFFFFu;
+            for (size_t i = 0; i < len; ++i) {
+                crc ^= static_cast<uint32_t>(buf[i]);
+                for (int j = 0; j < 8; ++j) {
+                    const uint32_t mask = (crc & 1u) ? 0xFFFFFFFFu : 0u;
+                    crc = (crc >> 1) ^ (0xEDB88320u & mask);
+                }
+            }
+            return ~crc;
+        };
         if (config_.checksum_type == themis::sharding::proto::CHECKSUM_CRC32) {
             // Table-based CRC-32 (Ethernet, poly 0xEDB88320): ~8× faster than
             // the previous bit-by-bit loop. Stub #32 resolved.

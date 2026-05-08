@@ -25,6 +25,7 @@
 #include <iostream>
 #include <algorithm>
 #include <chrono>
+#include <mutex>
 #include <numeric>
 #include <stdexcept>
 #include <cstring>
@@ -598,6 +599,22 @@ bool RCCLVectorBackend::checkXGMISupport(const std::vector<int>& deviceIds) {
 //   The full RCCL implementation block (above `#else`) will then be compiled.
 // Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md §"NCCL/RCCL Activation"
 
+// STUB/SIMULATION NOTE (allReduce bridge):
+// Purpose:    Allow injection of a real allReduce implementation for the
+//             non-RCCL stub path, enabling integration tests and gradual
+//             feature rollout without modifying the production RCCL path.
+// Activation: Runtime — when setAllReduceFn() is called with a non-empty fn.
+// Production Delta: With no fn injected, allReduce() returns false; with fn
+//             injected the provided implementation is called instead.
+// Removal Plan: Remove bridge once THEMIS_ENABLE_RCCL is always set in CI/CD.
+static std::mutex s_rccl_allreduce_mutex_;
+static RCCLVectorBackend::AllReduceFn s_rccl_allreduce_fn_;
+
+void RCCLVectorBackend::setAllReduceFn(RCCLVectorBackend::AllReduceFn fn) {
+    std::lock_guard<std::mutex> lk(s_rccl_allreduce_mutex_);
+    s_rccl_allreduce_fn_ = std::move(fn);
+}
+
 // Stub implementation when RCCL is not available
 // Define empty Impl class to satisfy unique_ptr
 class RCCLVectorBackend::Impl {
@@ -617,6 +634,19 @@ int RCCLVectorBackend::getRank() const { return 0; }
 int RCCLVectorBackend::getWorldSize() const { return 1; }
 std::vector<int> RCCLVectorBackend::getDeviceIds() const { return {}; }
 bool RCCLVectorBackend::isP2PEnabled() const { return false; }
+bool RCCLVectorBackend::allReduce(const float* send, float* recv, size_t count,
+                                  ReductionOp op, void* stream) {
+    RCCLVectorBackend::AllReduceFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_rccl_allreduce_mutex_);
+        fn = s_rccl_allreduce_fn_;
+    }
+    if (fn) [[unlikely]] {
+        try {
+            return fn(send, recv, count, op, stream);
+        } catch (...) {
+            return false;
+        }
 bool RCCLVectorBackend::allReduce(const float* sendBuf,
                                   float* recvBuf,
                                   size_t count,

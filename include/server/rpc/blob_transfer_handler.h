@@ -99,6 +99,9 @@ using BlobChunkCallback = std::function<void(const themis::sharding::proto::Blob
  */
 class BlobTransferHandler {
 public:
+    using ChecksumFn = std::function<std::string(const std::string&,
+                                                 themis::sharding::proto::ChecksumType)>;
+
     BlobTransferHandler();
     ~BlobTransferHandler();
     
@@ -171,6 +174,8 @@ public:
      * Cancel an in-progress transfer.
      */
     void Cancel();
+
+    static void setChecksumFn(ChecksumFn fn);
 
 private:
     class Impl;

@@ -44,24 +44,33 @@
 ### Dynamic Adapter Reconfiguration
 **Priority:** High
 **Target Version:** v1.6.0
+**Status:** ✅ Implemented
 
 Enable runtime switching of adapters without restarting the database.
 
 ```cpp
-// Future API
-context->replaceLogger(new_logger_adapter);
-context->reloadMetricsConfig(new_config);
+// Runtime adapter swap — no restart required
+context->replaceLogger(std::make_unique<SpdlogLoggerAdapter>(...));
+context->replaceMetrics(std::make_unique<PrometheusMetricsAdapter>(...));
 ```
+
+**What was implemented:**
+- `replaceLogger()`, `replaceTracer()`, `replaceMetrics()`, `replaceCache()`,
+  `replaceSecrets()`, `replaceFeatureFlags()`, `replaceAuditLog()` methods added
+  to `ConcernsContext` in `include/core/concerns/concerns_context.h` /
+  `src/core/concerns/concerns_context.cpp`.
+- Thread-safe swap via `mutable std::mutex adapters_mutex_`; the pointer swap
+  is performed under the lock, then the old adapter is flushed and shut down
+  outside the lock so in-flight calls can complete safely.
+- Passing `nullptr` throws `std::invalid_argument` (fail-closed).
+- 6 focused unit tests (DAR-01..DAR-06) in `tests/test_concerns_context.cpp`:
+  logger swap, tracer swap, metrics swap, cache swap, null-reject, and
+  concurrent-safe swap under 4 logging threads.
 
 **Benefits:**
 - Zero-downtime logging level changes
 - Switch between tracing backends without restart
 - Enable/disable metrics dynamically
-
-**Implementation Considerations:**
-- Thread-safe adapter swapping
-- Graceful handling of in-flight operations
-- Configuration validation before swap
 
 ---
 

@@ -1,8 +1,8 @@
 # ThemisDB v1.9.0-alpha — Release Notes
 
-**Release Date:** 2026-04-26  
-**Type:** Alpha Pre-Release  
-**Previous Version:** v1.8.2  
+**Release Date:** 2026-04-26
+**Type:** Alpha Pre-Release
+**Previous Version:** v1.8.2
 **Milestone:** v1.9.0-alpha
 
 ## Uebersicht

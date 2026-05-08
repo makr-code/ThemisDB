@@ -27,6 +27,7 @@
 #include <memory>
 #include <mutex>
 #include <optional>
+#include <functional>
 
 namespace themis {
 namespace utils {
@@ -69,13 +70,16 @@ struct SignatureResult {
 // Stub fallback paths are only compiled when THEMIS_TEST_MODE is defined.
 class VCCPKIClient {
 public:
+    using SignHashFn = std::function<SignatureResult(const std::vector<uint8_t>& hash_bytes)>;
+    using VerifyHashFn = std::function<bool(const std::vector<uint8_t>& hash_bytes, const SignatureResult& sig)>;
+
     explicit VCCPKIClient(PKIConfig cfg);
 
     // Sign a precomputed hash (e.g. SHA-256 over ciphertext batch)
-    SignatureResult signHash(const std::vector<uint8_t>& hash_bytes) const;
+    [[nodiscard]] SignatureResult signHash(const std::vector<uint8_t>& hash_bytes) const;
 
     // Verify a signature against a precomputed hash
-    bool verifyHash(const std::vector<uint8_t>& hash_bytes, const SignatureResult& sig) const;
+    [[nodiscard]] bool verifyHash(const std::vector<uint8_t>& hash_bytes, const SignatureResult& sig) const;
 
     const PKIConfig& config() const { return cfg_; }
 
@@ -88,7 +92,33 @@ public:
     // Requires key_path to be set in the configuration.
     std::string generateCSR() const;
 
+    static void setSignHashFn(SignHashFn fn) {
+        std::lock_guard<std::mutex> lock(signHashFnMutex());
+        signHashFnStorage() = std::move(fn);
+    }
+    static void setVerifyHashFn(VerifyHashFn fn) {
+        std::lock_guard<std::mutex> lock(verifyHashFnMutex());
+        verifyHashFnStorage() = std::move(fn);
+    }
+
 private:
+    static std::mutex& signHashFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static SignHashFn& signHashFnStorage() {
+        static SignHashFn fn;
+        return fn;
+    }
+    static std::mutex& verifyHashFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static VerifyHashFn& verifyHashFnStorage() {
+        static VerifyHashFn fn;
+        return fn;
+    }
+
     PKIConfig cfg_;
 
     // In-memory certificate cache populated via CSR provisioning (ca_url path).

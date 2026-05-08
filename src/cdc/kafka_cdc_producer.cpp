@@ -34,10 +34,11 @@
  *   affecting the rest of the CDC pipeline.
  * Activation: `THEMIS_ENABLE_KAFKA` not defined at compile time (default for
  *   CPU-only / bare-metal builds without a Kafka broker).
- * Production Delta: All CDC change events are silently discarded.  Downstream
- *   consumers (stream processors, analytics pipelines) will not receive
- *   real-time change feeds.  `publish()` returns without error, masking the
- *   absence of Kafka delivery semantics.
+ * Production Delta: Header fallback path handles the non-Kafka behavior:
+ *   start()/publish() return false by default, and can be explicitly bridged
+ *   via injected callbacks in tests/dev builds (see STUB #98 bridge APIs).
+ *   Downstream consumers will not receive real-time change feeds unless a
+ *   real Kafka backend is enabled.
  * Removal Plan: Install librdkafka (e.g., `apt install librdkafka-dev`) and
  *   set `-DTHEMIS_ENABLE_KAFKA=1` in CMake.  The full implementation in this
  *   .cpp file will then be compiled and the inline header stubs skipped.

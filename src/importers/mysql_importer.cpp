@@ -22,6 +22,7 @@
  */
 
 #include "importers/mysql_importer.h"
+#include "utils/hash_util.h"
 #include "importers/importer_common.h"
 #include "utils/logger.h"
 #include <fstream>
@@ -1252,12 +1253,7 @@ void MySQLImporter::reportProgress(ProgressCallback& callback, const std::string
 // FNV-1a 64-bit hash – matches the implementation in postgres_importer.cpp so
 // that hash files written by one importer can be read by the other.
 static uint64_t mysql_fnv1a64(const char* data, size_t len) {
-    uint64_t hash = UINT64_C(14695981039346656037);
-    for (size_t i = 0; i < len; ++i) {
-        hash ^= static_cast<uint8_t>(data[i]);
-        hash *= UINT64_C(1099511628211);
-    }
-    return hash;
+    return themis::hash::fnv1a64(data, len);
 }
 
 uint64_t MySQLImporter::computeRowHash(const std::string& tuple_str,

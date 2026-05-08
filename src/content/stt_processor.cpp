@@ -127,6 +127,11 @@ void STTProcessor::shutdown() {
     initialized_ = false;
 }
 
+void STTProcessor::setTranscribeFn(STTTranscribeFn fn) {
+    std::lock_guard<std::mutex> lk(stats_mutex_);
+    transcribe_fn_ = std::move(fn);
+}
+
 bool STTProcessor::canProcess(const std::string& mime_type) const {
     static const std::vector<std::string> supported = {
         "audio/mpeg", "audio/mp3", "audio/wav", "audio/x-wav",
@@ -879,9 +884,26 @@ TranscriptionResult STTProcessor::transcribeInternal(
     //                   instead of real speech-to-text output.  All confidence
     //                   scores are 0.  Applications relying on transcribed text
     //                   will receive useless content.
+    //                   Inject a real backend via setTranscribeFn() to bypass.
     // Removal Plan: Build with `-DTHEMIS_ENABLE_WHISPER=ON` and supply a
     //               whisper.cpp model path; this `#else` branch is then dead.
     //               See src/content/FUTURE_ENHANCEMENTS.md §STTProcessor WhisperActivation.
+    {
+        STTTranscribeFn fn_snapshot;
+        {
+            std::lock_guard<std::mutex> lk(stats_mutex_);
+            fn_snapshot = transcribe_fn_;
+        }
+        if (fn_snapshot) {
+            auto injected = fn_snapshot(pcm_data, options);
+            if (injected.success || !injected.error_message.empty()) {
+                auto end = std::chrono::steady_clock::now();
+                injected.processing_time_ms =
+                    std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+                return injected;
+            }
+        }
+    }
     result.success = true;
     result.full_text = "[Transcription requires Whisper.cpp - enable THEMIS_ENABLE_WHISPER in CMake]";
     result.detected_language = "en";

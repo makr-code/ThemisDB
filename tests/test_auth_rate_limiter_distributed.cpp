@@ -123,6 +123,36 @@ TEST(InMemoryRateLimiterBackendTest, ConcurrentIncrements) {
     EXPECT_EQ(backend.getCount("shared", 60), kThreads * kPerThread);
 }
 
+TEST(RedisRateLimiterBackendStubBridgeTest, BridgeCallbacksOverrideLocalFallback) {
+    RedisRateLimiterBackend::setIncrementFn([](const std::string& key, uint32_t window_seconds) {
+        return key == "bridge" && window_seconds == 30 ? 11 : 0;
+    });
+    RedisRateLimiterBackend::setGetCountFn([](const std::string& key, uint32_t) {
+        return key == "bridge" ? 7 : 0;
+    });
+
+    bool reset_called = false;
+    RedisRateLimiterBackend::setResetFn([&reset_called](const std::string& key) {
+        reset_called = (key == "bridge");
+    });
+    RedisRateLimiterBackend::setIsConnectedFn([] { return true; });
+    RedisRateLimiterBackend::setReconnectFn([] { return true; });
+
+    RedisRateLimiterBackend backend;
+    EXPECT_EQ(backend.increment("bridge", 30), 11);
+    EXPECT_EQ(backend.getCount("bridge", 30), 7);
+    backend.reset("bridge");
+    EXPECT_TRUE(reset_called);
+    EXPECT_TRUE(backend.isConnected());
+    EXPECT_TRUE(backend.reconnect());
+
+    RedisRateLimiterBackend::setIncrementFn(nullptr);
+    RedisRateLimiterBackend::setGetCountFn(nullptr);
+    RedisRateLimiterBackend::setResetFn(nullptr);
+    RedisRateLimiterBackend::setIsConnectedFn(nullptr);
+    RedisRateLimiterBackend::setReconnectFn(nullptr);
+}
+
 // ============================================================================
 // Distributed integration tests: two AuthRateLimiter instances sharing a
 // single InMemoryRateLimiterBackend observe each other's request counts.

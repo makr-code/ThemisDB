@@ -21,6 +21,7 @@
  */
 
 #include "utils/consistent_hash.h"
+#include "utils/hash_util.h"
 
 #include <algorithm>
 #include <mutex>
@@ -43,14 +44,7 @@ static uint64_t mix64(uint64_t x) {
 // ---------------------------------------------------------------------------
 
 uint64_t ConsistentHashRing::fnv1a64(const std::string& s) {
-    constexpr uint64_t basis = 14695981039346656037ULL;
-    constexpr uint64_t prime = 1099511628211ULL;
-    uint64_t h = basis;
-    for (unsigned char c : s) {
-        h ^= static_cast<uint64_t>(c);
-        h *= prime;
-    }
-    return mix64(h);
+    return mix64(themis::hash::fnv1a64(s));
 }
 
 uint64_t ConsistentHashRing::virtualKey(const std::string& node, size_t idx) {

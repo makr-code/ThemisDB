@@ -23,22 +23,7 @@ plugins::PluginCapabilities SDPluginAdapter::getCapabilities() const {
 
 bool SDPluginAdapter::initialize(const char* config_json) {
     if (!config_json || config_json[0] == '\0') {
-        // STUB/SIMULATION NOTE:
-        // Purpose: Allow SDPluginAdapter to be constructed and initialized
-        //   without a real Stable Diffusion model, for environments where
-        //   stable-diffusion.cpp is not installed or no model checkpoint is
-        //   available (CI, unit tests, development builds without image generation).
-        // Activation: config_json is null, empty, or contains no "model_path"
-        //   key (or model_path is empty).
-        // Production Delta: generate() will return empty/error responses because
-        //   no SD model is loaded; the SDPlugin object is in its default
-        //   (uninitialized) state.
-        // Removal Plan: Provide a valid model_path in the plugin configuration
-        //   (e.g., "model_path": "/opt/models/v1-5-pruned.safetensors").  The
-        //   real initialize() path will load the model via stable-diffusion.cpp.
-        // Roadmap ref: src/llm/FUTURE_ENHANCEMENTS.md §"Stable Diffusion Plugin Activation"
-        // Stub mode — no model required
-        return true;
+        return false;
     }
     try {
         const auto config = nlohmann::json::parse(config_json);
@@ -48,8 +33,7 @@ bool SDPluginAdapter::initialize(const char* config_json) {
                 return sd_plugin_->initialize(model_path_, config);
             }
         }
-        // No model_path → stub mode
-        return true;
+        return false;
     } catch (...) {
         return false;
     }
@@ -91,18 +75,11 @@ SDPluginRegistrar::ReloadCallback SDPluginRegistrar::defaultReloadCallback() {
                 return plugin.initialize(path, config);
             }
         }
-        // STUB/SIMULATION NOTE:
-        // Purpose: Allow makeReloadCallback() to return a functional callback when
-        //          no Stable Diffusion model was loaded during initialize() (stub mode).
-        // Activation: Called when config contains no "model_path" or model_path is
-        //          empty (same condition as the stub initialize() path above).
-        // Production Delta: Reload callback returns true without re-loading any model;
-        //          subsequent generate() calls continue returning empty/error responses
-        //          (no image generation).
-        // Removal Plan: Provide a valid model_path; the real initialize() path then
-        //          loads the model, and the reload callback re-initializes it correctly.
-        //          See src/stable_diffusion/FUTURE_ENHANCEMENTS.md §"SD Reload".
-        // Stub mode — no model to reload; treat as success
+        return false;
+    };
+}
+
+bool SDPluginRegistrar::enableHotPlug(
         plugins::PluginManager& manager,
         const std::string& directory) {
     plugins::HotPlugConfig cfg;

@@ -26,6 +26,7 @@
 
 #include <nlohmann/json.hpp>
 #include <chrono>
+#include <mutex>
 
 #ifdef THEMIS_ENABLE_GRPC
 #include <grpcpp/grpcpp.h>
@@ -275,6 +276,23 @@ http::response<http::string_body> GrpcWebProxyHandler::handleStatus(
 // POST /grpc-web/<Service>/<Method>
 // ─────────────────────────────────────────────────────────────────────────────
 
+#ifndef THEMIS_ENABLE_GRPC
+// STUB/SIMULATION NOTE (BackendInvokeFn bridge):
+// Purpose:    Allow injection of a real gRPC backend for the non-gRPC stub path,
+//             enabling integration tests without requiring a gRPC SDK build.
+// Activation: Runtime — when setBackendInvokeFn() is called with a non-empty fn.
+// Production Delta: With no fn injected, handlePost() returns UNIMPLEMENTED (12);
+//             with fn injected the provided implementation is called instead.
+// Removal Plan: Remove bridge once THEMIS_ENABLE_GRPC is always set in CI/CD.
+static std::mutex s_grpc_web_backend_mutex_;
+static GrpcWebProxyHandler::BackendInvokeFn s_grpc_web_backend_fn_;
+
+void GrpcWebProxyHandler::setBackendInvokeFn(GrpcWebProxyHandler::BackendInvokeFn fn) {
+    std::lock_guard<std::mutex> lk(s_grpc_web_backend_mutex_);
+    s_grpc_web_backend_fn_ = std::move(fn);
+}
+#endif // !THEMIS_ENABLE_GRPC
+
 http::response<http::string_body> GrpcWebProxyHandler::handlePost(
     const http::request<http::string_body>& req,
     const std::string& method)
@@ -384,9 +402,25 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
         }
     }
 #else
-    // gRPC not compiled in: return UNIMPLEMENTED
-    grpc_code    = 12; // grpc::StatusCode::UNIMPLEMENTED
-    grpc_message = "gRPC backend not available in this build";
+    // gRPC not compiled in: check for injected backend fn first.
+    {
+        GrpcWebProxyHandler::BackendInvokeFn fn;
+        {
+            std::lock_guard<std::mutex> lk(s_grpc_web_backend_mutex_);
+            fn = s_grpc_web_backend_fn_;
+        }
+        if (fn) {
+            try {
+                response_proto = fn(method, proto_payload, grpc_code, grpc_message);
+            } catch (...) {
+                grpc_code    = 13; // grpc::StatusCode::INTERNAL
+                grpc_message = "BackendInvokeFn threw an exception";
+            }
+        } else {
+            grpc_code    = 12; // grpc::StatusCode::UNIMPLEMENTED
+            grpc_message = "gRPC backend not available in this build";
+        }
+    }
 #endif
     }
 

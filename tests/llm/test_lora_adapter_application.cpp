@@ -178,10 +178,20 @@ TEST_F(LoraAdapterApplicationTest, PinAndUnpinLoRA) {
 
 TEST_F(LoraAdapterApplicationTest, ApplyLoRAWithNullContext) {
     ASSERT_TRUE(manager_->loadLoRA("adapter1", adapter_paths_["adapter1"], "model", false, GPUPlacement::SINGLE_GPU, 1.0f));
-    
-    // Apply with null context (mock mode for testing)
+    manager_->setApplyAdapterFn([](const LoRASlot& slot) {
+        return slot.lora_id == "adapter1";
+    });
     bool applied = manager_->applyLoRA("adapter1", nullptr);
     EXPECT_TRUE(applied);
+    auto* slot = manager_->getLoRA("adapter1");
+    ASSERT_NE(slot, nullptr);
+    EXPECT_TRUE(slot->is_active);
+}
+
+TEST_F(LoraAdapterApplicationTest, ApplyLoRAWithNullContextBridgeFailure) {
+    ASSERT_TRUE(manager_->loadLoRA("adapter1", adapter_paths_["adapter1"], "model", false, GPUPlacement::SINGLE_GPU, 1.0f));
+    manager_->setApplyAdapterFn([](const LoRASlot&) { return false; });
+    EXPECT_FALSE(manager_->applyLoRA("adapter1", nullptr));
 }
 
 TEST_F(LoraAdapterApplicationTest, ApplyNonexistentLoRA) {
@@ -194,7 +204,8 @@ TEST_F(LoraAdapterApplicationTest, ApplyNonexistentLoRA) {
 
 TEST_F(LoraAdapterApplicationTest, RemoveLoRA) {
     ASSERT_TRUE(manager_->loadLoRA("adapter1", adapter_paths_["adapter1"], "model", false, GPUPlacement::SINGLE_GPU, 1.0f));
-    
+    manager_->setApplyAdapterFn([](const LoRASlot&) { return true; });
+    manager_->setRemoveAdapterFn([](const LoRASlot&) { return true; });
     bool applied = manager_->applyLoRA("adapter1", nullptr);
     EXPECT_TRUE(applied);
     

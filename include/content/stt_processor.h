@@ -31,6 +31,7 @@
 #pragma once
 
 #include "content_plugin_interface.h"
+#include <functional>
 #include <mutex>
 #include <atomic>
 #include <memory>
@@ -65,6 +66,20 @@ struct TranscriptionResult {
     int64_t processing_time_ms = 0;
     int64_t audio_duration_ms = 0;
 };
+
+/**
+ * @brief Injection type for a custom transcription backend.
+ *
+ * Signature: `TranscriptionResult fn(const std::vector<float>& pcm_data,
+ *                                    const json& options)`
+ *
+ * When set via `setTranscribeFn()`, `transcribeInternal()` delegates to @p fn
+ * instead of the built-in Whisper.cpp path.  Useful in non-Whisper builds or
+ * for testing.  Returning an empty/default `TranscriptionResult` from @p fn
+ * reverts to the built-in notice-string stub.
+ */
+using STTTranscribeFn = std::function<
+    TranscriptionResult(const std::vector<float>& pcm_data, const json& options)>;
 
 /**
  * @brief Speech-to-Text Processor using Whisper.cpp
@@ -163,6 +178,17 @@ public:
         const json& options = {}
     );
 
+    /**
+     * @brief Inject a custom transcription backend (non-Whisper builds).
+     *
+     * When @p fn is non-null, `transcribeInternal()` delegates to it instead of
+     * the built-in notice-string stub used when `THEMIS_ENABLE_WHISPER` is not
+     * defined.  Pass `nullptr` to revert to the stub path.
+     *
+     * Roadmap ref: src/content/FUTURE_ENHANCEMENTS.md §STTProcessor WhisperActivation.
+     */
+    void setTranscribeFn(STTTranscribeFn fn);
+
 private:
     // Configuration
     std::string model_path_;
@@ -186,6 +212,10 @@ private:
     
     bool initialized_ = false;
     
+    // Injected transcription backend (non-Whisper builds).
+    // Protected by stats_mutex_ for thread-safe set/clear.
+    STTTranscribeFn transcribe_fn_;
+
     // Internal methods
     bool loadWhisperModel();
     void unloadWhisperModel();

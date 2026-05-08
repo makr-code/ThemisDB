@@ -21,6 +21,8 @@
 
 #include <string>
 #include <vector>
+#include <functional>
+#include <mutex>
 #include "themis/gpu/device_discovery.h"
 
 namespace themis {
@@ -68,6 +70,8 @@ struct GeoDeviceCapability {
  */
 class GeoDeviceDetector {
 public:
+    using EnumerateFn = std::function<std::vector<themis::gpu::DeviceInfo>()>;
+
     /**
      * @brief Enumerate all devices and assess their geo capability.
      *
@@ -148,6 +152,23 @@ public:
      * @brief Convenience overload: detect then serialise.
      */
     static std::string ReportJson();
+
+    /// Register a custom device enumeration bridge for CPU-only or test builds.
+    /// Thread-safe; pass an empty function to fall back to DeviceDiscovery::Enumerate().
+    static void setEnumerateFn(EnumerateFn fn) {
+        std::lock_guard<std::mutex> lk(enumerateFnMutex());
+        enumerateFnStorage() = std::move(fn);
+    }
+
+private:
+    static std::mutex& enumerateFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static EnumerateFn& enumerateFnStorage() {
+        static EnumerateFn fn;
+        return fn;
+    }
 };
 
 } // namespace geo

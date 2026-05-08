@@ -29,6 +29,7 @@
 #include <numbers>
 #include <numeric>
 #include <algorithm>
+#include <mutex>
 #include <stdexcept>
 
 #ifdef THEMIS_ENABLE_RNNOISE
@@ -36,6 +37,16 @@
 #endif
 
 namespace themis { namespace voice {
+
+namespace {
+std::mutex                      s_noise_suppressor_bridge_mutex;
+NoiseSuppressor::ProcessFramesFn s_process_frames_fn;
+}
+
+void NoiseSuppressor::setProcessFramesFn(ProcessFramesFn fn) {
+    std::lock_guard<std::mutex> lk(s_noise_suppressor_bridge_mutex);
+    s_process_frames_fn = std::move(fn);
+}
 
 // ============================================================================
 // NoiseSuppressor – RNNoise integration (Phase 3)
@@ -136,6 +147,18 @@ float NoiseSuppressor::processRNNoiseFrames(
     }
     return (num_frames > 0) ? (vad_sum / static_cast<float>(num_frames)) : 0.0f;
 #else
+    ProcessFramesFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_noise_suppressor_bridge_mutex);
+        fn = s_process_frames_fn;
+    }
+    if (fn) {
+        try {
+            return fn(samples_48k, vad_threshold);
+        } catch (...) {
+        }
+    }
+
     // Fallback: spectral-gate noise suppression (no external library).
     // Estimate noise floor from leading samples and attenuate below threshold.
     if (samples_48k.size() < 2) return 0.0f;

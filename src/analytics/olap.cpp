@@ -72,6 +72,22 @@
 namespace themis {
 namespace analytics {
 
+namespace {
+std::mutex                               s_olap_export_bridge_mutex;
+OLAPEngine::ExportToParquetFn            s_export_to_parquet_fn;
+OLAPEngine::ExportCollectionToParquetFn  s_export_collection_to_parquet_fn;
+}
+
+void OLAPEngine::setExportToParquetFn(ExportToParquetFn fn) {
+    std::lock_guard<std::mutex> lk(s_olap_export_bridge_mutex);
+    s_export_to_parquet_fn = std::move(fn);
+}
+
+void OLAPEngine::setExportCollectionToParquetFn(ExportCollectionToParquetFn fn) {
+    std::lock_guard<std::mutex> lk(s_olap_export_bridge_mutex);
+    s_export_collection_to_parquet_fn = std::move(fn);
+}
+
 // ============================================================================
 // OLAPEngine Implementation
 // ============================================================================
@@ -1799,20 +1815,44 @@ bool OLAPEngine::exportCollectionToParquet(
 // Removal Plan: Install Apache Arrow via vcpkg and rebuild with ARROW_ENABLED.
 // Roadmap ref: src/analytics/FUTURE_ENHANCEMENTS.md § "Parquet/Arrow Export (v1.7.0)"
 bool OLAPEngine::exportToParquet(
-    const OLAPResult&,
-    const std::string&,
-    const std::string&
+    const OLAPResult& result,
+    const std::string& path,
+    const std::string& compression
 ) {
+    ExportToParquetFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_olap_export_bridge_mutex);
+        fn = s_export_to_parquet_fn;
+    }
+    if (fn) {
+        try {
+            return fn(result, path, compression);
+        } catch (...) {
+            return false;
+        }
+    }
     spdlog::warn("OLAPEngine::exportToParquet: Arrow not compiled in – rebuild with -DTHEMIS_HAS_ARROW=ON");
     return false;
 }
 
 bool OLAPEngine::exportCollectionToParquet(
-    std::string_view,
-    const std::string&,
-    const std::vector<Filter>&,
-    const std::string&
+    std::string_view collection,
+    const std::string& path,
+    const std::vector<Filter>& filters,
+    const std::string& compression
 ) {
+    ExportCollectionToParquetFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_olap_export_bridge_mutex);
+        fn = s_export_collection_to_parquet_fn;
+    }
+    if (fn) {
+        try {
+            return fn(collection, path, filters, compression);
+        } catch (...) {
+            return false;
+        }
+    }
     spdlog::warn("OLAPEngine::exportCollectionToParquet: Arrow not compiled in – rebuild with -DTHEMIS_HAS_ARROW=ON");
     return false;
 }

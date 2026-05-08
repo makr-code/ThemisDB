@@ -24,6 +24,8 @@
 #include <memory>
 #include <optional>
 #include <cstdint>
+#include <functional>
+#include <mutex>
 
 namespace themis {
 namespace security {
@@ -177,6 +179,45 @@ public:
                 const std::string& signature_b64,
                 const std::string& key_label = "");
 
+    using SignHashFn =
+        std::function<HSMSignatureResult(const std::vector<uint8_t>& hash,
+                                         const std::string& key_label)>;
+    using VerifyFn =
+        std::function<bool(const std::vector<uint8_t>& data,
+                           const std::string& signature_b64,
+                           const std::string& key_label)>;
+    using EncryptDataFn =
+        std::function<std::vector<uint8_t>(const std::vector<uint8_t>& data,
+                                           const std::string& key_label)>;
+    using DecryptDataFn =
+        std::function<std::vector<uint8_t>(const std::vector<uint8_t>& encrypted,
+                                           const std::string& key_label)>;
+
+    /// Register a signing bridge for stub builds without a real HSM.
+    /// Thread-safe; pass an empty function to restore the built-in stub path.
+    static void setSignHashFn(SignHashFn fn) {
+        std::lock_guard<std::mutex> lk(signHashFnMutex());
+        signHashFnStorage() = std::move(fn);
+    }
+    /// Register a verification bridge for stub builds without a real HSM.
+    /// Thread-safe; pass an empty function to restore the built-in stub path.
+    static void setVerifyFn(VerifyFn fn) {
+        std::lock_guard<std::mutex> lk(verifyFnMutex());
+        verifyFnStorage() = std::move(fn);
+    }
+    /// Register a wrap/encrypt bridge for stub builds without a real HSM.
+    /// Thread-safe; pass an empty function to restore the built-in stub path.
+    static void setEncryptDataFn(EncryptDataFn fn) {
+        std::lock_guard<std::mutex> lk(encryptDataFnMutex());
+        encryptDataFnStorage() = std::move(fn);
+    }
+    /// Register an unwrap/decrypt bridge for stub builds without a real HSM.
+    /// Thread-safe; pass an empty function to restore the built-in stub path.
+    static void setDecryptDataFn(DecryptDataFn fn) {
+        std::lock_guard<std::mutex> lk(decryptDataFnMutex());
+        decryptDataFnStorage() = std::move(fn);
+    }
+
     /**
      * List available keys in HSM
      * @return Vector of key information
@@ -209,6 +250,35 @@ public:
      * @return Certificate in PEM format, or empty optional if not found
      */
     std::optional<std::string> getCertificate(const std::string& key_label);
+
+    // -----------------------------------------------------------------------
+    // Injectable key-management bridge (STUB #215)
+    // -----------------------------------------------------------------------
+    using GenerateKeyPairFn =
+        std::function<bool(const std::string& label, uint32_t key_size, bool extractable)>;
+    using ImportCertificateFn =
+        std::function<bool(const std::string& key_label, const std::string& cert_pem)>;
+    using GetCertificateFn =
+        std::function<std::optional<std::string>(const std::string& key_label)>;
+
+    /// Register callback used by generateKeyPair() in stub builds.
+    /// Pass empty fn to restore default stub behavior.
+    static void setGenerateKeyPairFn(GenerateKeyPairFn fn) {
+        std::lock_guard<std::mutex> lk(generateKeyPairFnMutex());
+        generateKeyPairFnStorage() = std::move(fn);
+    }
+    /// Register callback used by importCertificate() in stub builds.
+    /// Pass empty fn to restore default stub behavior.
+    static void setImportCertificateFn(ImportCertificateFn fn) {
+        std::lock_guard<std::mutex> lk(importCertificateFnMutex());
+        importCertificateFnStorage() = std::move(fn);
+    }
+    /// Register callback used by getCertificate() in stub builds.
+    /// Pass empty fn to restore default stub behavior.
+    static void setGetCertificateFn(GetCertificateFn fn) {
+        std::lock_guard<std::mutex> lk(getCertificateFnMutex());
+        getCertificateFnStorage() = std::move(fn);
+    }
 
     /**
      * Encrypt data using HSM-backed public key (RSA-PKCS#1 v1.5 or OAEP)
@@ -270,6 +340,63 @@ public:
     void periodicSecurityCheck();
 
 private:
+    static std::mutex& signHashFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static SignHashFn& signHashFnStorage() {
+        static SignHashFn fn;
+        return fn;
+    }
+    static std::mutex& verifyFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static VerifyFn& verifyFnStorage() {
+        static VerifyFn fn;
+        return fn;
+    }
+    static std::mutex& encryptDataFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static EncryptDataFn& encryptDataFnStorage() {
+        static EncryptDataFn fn;
+        return fn;
+    }
+    static std::mutex& decryptDataFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static DecryptDataFn& decryptDataFnStorage() {
+        static DecryptDataFn fn;
+        return fn;
+    }
+    static std::mutex& generateKeyPairFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static GenerateKeyPairFn& generateKeyPairFnStorage() {
+        static GenerateKeyPairFn fn;
+        return fn;
+    }
+    static std::mutex& importCertificateFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static ImportCertificateFn& importCertificateFnStorage() {
+        static ImportCertificateFn fn;
+        return fn;
+    }
+    static std::mutex& getCertificateFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static GetCertificateFn& getCertificateFnStorage() {
+        static GetCertificateFn fn;
+        return fn;
+    }
+
     class Impl;
     std::unique_ptr<Impl> impl_;
     HSMConfig config_;

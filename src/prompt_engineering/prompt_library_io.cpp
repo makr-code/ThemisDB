@@ -21,6 +21,7 @@
  */
 
 #include "prompt_engineering/prompt_library_io.h"
+#include "utils/hash_util.h"
 
 #include <algorithm>
 #include <cstdint>
@@ -42,19 +43,6 @@ namespace prompt_engineering {
 // ============================================================================
 
 namespace {
-
-// FNV-1a 64-bit hash (public domain, Fowler/Noll/Vo).
-constexpr std::uint64_t kFnvOffset = 14695981039346656037ULL;
-constexpr std::uint64_t kFnvPrime  = 1099511628211ULL;
-
-std::uint64_t fnv1a64(const std::string& s) noexcept {
-    std::uint64_t hash = kFnvOffset;
-    for (unsigned char c : s) {
-        hash ^= static_cast<std::uint64_t>(c);
-        hash *= kFnvPrime;
-    }
-    return hash;
-}
 
 std::string toHex16(std::uint64_t v) {
     std::ostringstream ss;
@@ -183,7 +171,7 @@ std::string PromptLibraryIO::computeChecksum(
     std::string concat;
     for (const auto& p : parts) { concat += p; }
 
-    return toHex16(fnv1a64(concat));
+    return toHex16(themis::hash::fnv1a64(concat));
 }
 
 bool PromptLibraryIO::verifyChecksum(const PromptLibraryBundle& bundle) {

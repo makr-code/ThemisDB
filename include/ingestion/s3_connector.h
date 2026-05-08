@@ -190,6 +190,8 @@ public:
      *
      * Pass empty functors to restore the real provider path.
      */
+    void setObjectListProvider(ObjectListFn list_fn);
+    void setObjectFetchProvider(ObjectFetchFn fetch_fn);
     void setObjectListForTesting(ObjectListFn list_fn);
     void setObjectFetchForTesting(ObjectFetchFn fetch_fn);
 

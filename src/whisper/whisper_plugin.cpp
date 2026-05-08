@@ -31,6 +31,16 @@
 namespace themis {
 namespace whisper {
 
+namespace {
+std::mutex                            s_stub_transcriber_factory_mutex;
+WhisperPlugin::StubTranscriberFactoryFn s_stub_transcriber_factory_fn;
+}
+
+void WhisperPlugin::setStubTranscriberFactoryFn(StubTranscriberFactoryFn fn) {
+    std::lock_guard<std::mutex> lk(s_stub_transcriber_factory_mutex);
+    s_stub_transcriber_factory_fn = std::move(fn);
+}
+
 // ── constructors ─────────────────────────────────────────────────────────────
 
 WhisperPlugin::WhisperPlugin() {
@@ -44,7 +54,21 @@ WhisperPlugin::WhisperPlugin() {
     // Roadmap ref: src/whisper/ROADMAP.md § "Planned Features"
     // Removal Plan: Remove once Whisper becomes a mandatory dependency in all build targets.
     // Roadmap ref: src/whisper/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
-    transcriber_ = std::make_unique<WhisperStubTranscriber>();
+    StubTranscriberFactoryFn factory;
+    {
+        std::lock_guard<std::mutex> lk(s_stub_transcriber_factory_mutex);
+        factory = s_stub_transcriber_factory_fn;
+    }
+    if (factory) {
+        try {
+            transcriber_ = factory();
+        } catch (...) {
+            transcriber_.reset();
+        }
+    }
+    if (!transcriber_) {
+        transcriber_ = std::make_unique<WhisperStubTranscriber>();
+    }
 #endif
     auto composite = std::make_unique<CompositeAudioChunkReader>();
     composite->addReader(std::make_unique<WavAudioChunkReader>());

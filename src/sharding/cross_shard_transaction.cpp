@@ -173,6 +173,44 @@ bool CrossShardTransactionCoordinator::start() {
     return true;
 }
 
+size_t CrossShardTransactionCoordinator::recoverInDoubtTransactions() {
+    const auto count_in_doubt = [this]() -> size_t {
+        std::lock_guard<std::mutex> lock(transactions_mutex_);
+        return static_cast<size_t>(std::count_if(
+            transactions_.begin(),
+            transactions_.end(),
+            [](const auto& kv) {
+                const auto state = kv.second.state;
+                return state != TransactionState::COMMITTED &&
+                       state != TransactionState::ABORTED;
+            }));
+    };
+
+    const auto before = count_in_doubt();
+    const bool use_wal_recovery = (transaction_wal_ && snapshot_manager_);
+    const auto* backend = use_wal_recovery ? "WAL/snapshot" : "legacy file-log";
+    const auto ok = use_wal_recovery ? recoverFromWAL() : recoverFromFailure();
+    if (!ok) {
+        spdlog::error(
+            "CrossShardTransactionCoordinator: in-doubt recovery failed (backend={})",
+            backend);
+        return 0;
+    }
+
+    const auto after = count_in_doubt();
+    if (after > before) {
+        spdlog::warn(
+            "CrossShardTransactionCoordinator: in-doubt count increased during recovery "
+            "(backend={}, before={}, after={}); returning conservative resolved=0",
+            backend,
+            before,
+            after);
+        return 0;
+    }
+
+    return before - after;
+}
+
 void CrossShardTransactionCoordinator::stop() {
     if (!running_.load()) {
         return;

@@ -600,6 +600,42 @@ TEST_F(TimestampAuthorityTest, StubAllowedWhenExplicitlyPermitted) {
     EXPECT_EQ(token.serial_number, "STUB-SERIAL");
 }
 
+TEST_F(TimestampAuthorityTest, eIDASValidatorRefusesWithoutExplicitStubOptIn) {
+    EnvUnsetGuard prod_guard("THEMIS_PRODUCTION_MODE");
+    EnvUnsetGuard stub_guard("THEMIS_ALLOW_TSA_STUB");
+
+    TimestampToken token;
+    token.success = true;
+    token.timestamp_unix_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+
+    eIDASTimestampValidator validator;
+    std::vector<std::string> trust_anchors = {"ca.pem"};
+
+    bool result = validator.validateeIDASTimestamp(token, trust_anchors);
+    EXPECT_FALSE(result) << "eIDAS validator stub must be fail-closed without explicit opt-in";
+
+    auto errors = validator.getValidationErrors();
+    EXPECT_FALSE(errors.empty()) << "Validation errors must explain the rejection";
+}
+
+TEST_F(TimestampAuthorityTest, eIDASValidatorAllowsExplicitStubOptIn) {
+    EnvUnsetGuard prod_guard("THEMIS_PRODUCTION_MODE");
+    EnvGuard stub_guard("THEMIS_ALLOW_TSA_STUB", "1");
+
+    TimestampToken token;
+    token.success = true;
+    token.timestamp_unix_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+
+    eIDASTimestampValidator validator;
+    std::vector<std::string> trust_anchors = {"ca.pem"};
+
+    bool result = validator.validateeIDASTimestamp(token, trust_anchors);
+    EXPECT_TRUE(result) << "eIDAS validator stub should work only with explicit opt-in";
+    EXPECT_TRUE(validator.getValidationErrors().empty());
+}
+
 TEST_F(TimestampAuthorityTest, eIDASValidatorRefusesInProductionMode) {
     EnvGuard prod_guard("THEMIS_PRODUCTION_MODE", "1");
     EnvUnsetGuard stub_guard("THEMIS_ALLOW_TSA_STUB");

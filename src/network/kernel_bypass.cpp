@@ -313,7 +313,16 @@ ZeroCopyDmaBuffer::ZeroCopyDmaBuffer(size_t size_bytes, int numa_node) {
     //   correct for the intended platform.
     // Roadmap ref: src/network/FUTURE_ENHANCEMENTS.md §"Kernel Bypass Windows Support"
     // Windows / other: plain aligned allocation.
-    data_      = NumaAllocator::allocate(size_bytes, -1);
+    auto alloc_fn = NonLinuxAllocFn{};
+    {
+        std::lock_guard<std::mutex> lock(nonLinuxAllocFnMutex());
+        alloc_fn = nonLinuxAllocFnStorage();
+    }
+    data_ = alloc_fn ? alloc_fn(size_bytes, numa_node)
+                     : NumaAllocator::allocate(size_bytes, -1);
+    if (!data_) {
+        THEMIS_WARN("ZeroCopyDmaBuffer: non-Linux allocator bridge returned null");
+    }
     size_      = size_bytes;
     huge_page_ = false;
 #endif
@@ -324,7 +333,16 @@ ZeroCopyDmaBuffer::~ZeroCopyDmaBuffer() {
 #ifdef __linux__
     ::munmap(data_, size_);
 #else
-    NumaAllocator::deallocate(data_, size_);
+    auto free_fn = NonLinuxFreeFn{};
+    {
+        std::lock_guard<std::mutex> lock(nonLinuxFreeFnMutex());
+        free_fn = nonLinuxFreeFnStorage();
+    }
+    if (free_fn) {
+        free_fn(data_, size_);
+    } else {
+        NumaAllocator::deallocate(data_, size_);
+    }
 #endif
     data_ = nullptr;
 }
