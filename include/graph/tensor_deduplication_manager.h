@@ -294,6 +294,15 @@ private:
 
     std::string makeKeyIndex(const storage::TensorFieldKey& key) const;
     void clearMappingForTensorIdLocked(const std::string& tensor_id);
+    bool replayMutationJournal(const std::string& snapshot_key);
+    void activateSnapshotKey(const std::string& snapshot_key) const;
+    void clearMutationJournal(const std::string& snapshot_key) const;
+    void persistUpsertJournalEntry(const StoredTensorRecord& record,
+                                   std::size_t total_bytes_stored,
+                                   std::size_t bytes_saved) const;
+    void persistDeleteJournalEntry(const std::string& tensor_id,
+                                   std::size_t total_bytes_stored,
+                                   std::size_t bytes_saved) const;
 };
 
 } // namespace graph

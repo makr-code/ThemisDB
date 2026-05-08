@@ -507,6 +507,43 @@ TensorFingerprintGraph::exportPersistedGraph() const {
     return snapshot;
 }
 
+std::optional<PersistedFingerprintNode>
+TensorFingerprintGraph::exportPersistedNode(const std::string& tensor_id) const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    const auto it = nodes_.find(tensor_id);
+    if (it == nodes_.end()) {
+        return std::nullopt;
+    }
+
+    PersistedFingerprintNode persisted;
+    persisted.tensor_id = tensor_id;
+    persisted.fingerprint = it->second.fingerprint;
+    persisted.tenant = it->second.tenant;
+    persisted.collection = it->second.collection;
+    persisted.field = it->second.field;
+    return persisted;
+}
+
+std::vector<PersistedFingerprintEdge>
+TensorFingerprintGraph::exportPersistedEdgesFor(const std::string& tensor_id) const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    std::vector<PersistedFingerprintEdge> out;
+    const auto it = adj_.find(tensor_id);
+    if (it == adj_.end()) {
+        return out;
+    }
+
+    out.reserve(it->second.size());
+    for (const auto& edge : it->second) {
+        PersistedFingerprintEdge persisted;
+        persisted.from = tensor_id;
+        persisted.to = edge.to;
+        persisted.similarity = edge.similarity;
+        out.push_back(std::move(persisted));
+    }
+    return out;
+}
+
 void TensorFingerprintGraph::importPersistedGraph(
     const PersistedFingerprintGraphSnapshot& snapshot) {
     std::lock_guard<std::mutex> lk(mutex_);
@@ -544,6 +581,66 @@ void TensorFingerprintGraph::importPersistedGraph(
 
         adj_[edge.from].push_back({edge.to, edge.similarity});
         edge_count_.fetch_add(1, std::memory_order_relaxed);
+    }
+}
+
+void TensorFingerprintGraph::upsertPersistedNode(
+    const PersistedFingerprintNode& node,
+    const std::vector<PersistedFingerprintEdge>& edges) {
+    std::lock_guard<std::mutex> lk(mutex_);
+
+    const auto remove_existing = [this](const std::string& tensor_id) {
+        const auto node_it = nodes_.find(tensor_id);
+        if (node_it == nodes_.end()) {
+            return;
+        }
+
+        auto adj_it = adj_.find(tensor_id);
+        if (adj_it != adj_.end()) {
+            for (const auto& edge : adj_it->second) {
+                auto& reverse = adj_[edge.to];
+                reverse.erase(std::remove_if(reverse.begin(), reverse.end(),
+                                             [&](const Edge& existing) {
+                                                 return existing.to == tensor_id;
+                                             }),
+                              reverse.end());
+                edge_count_.fetch_sub(1, std::memory_order_relaxed);
+            }
+            edge_count_.fetch_sub(adj_it->second.size(), std::memory_order_relaxed);
+            adj_.erase(adj_it);
+        }
+
+        removeFromBuckets(tensor_id, node_it->second.fingerprint);
+        nodes_.erase(node_it);
+    };
+
+    remove_existing(node.tensor_id);
+
+    NodeEntry entry;
+    entry.fingerprint = node.fingerprint;
+    entry.tenant = node.tenant;
+    entry.collection = node.collection;
+    entry.field = node.field;
+    nodes_[node.tensor_id] = std::move(entry);
+    adj_[node.tensor_id];
+    insertIntoBuckets(node.tensor_id, node.fingerprint);
+
+    std::unordered_set<std::string> seen_targets;
+    seen_targets.reserve(edges.size());
+    for (const auto& edge : edges) {
+        if (edge.from != node.tensor_id || edge.to == node.tensor_id) {
+            continue;
+        }
+        if (!seen_targets.insert(edge.to).second) {
+            continue;
+        }
+        if (nodes_.find(edge.to) == nodes_.end()) {
+            continue;
+        }
+
+        adj_[node.tensor_id].push_back({edge.to, edge.similarity});
+        adj_[edge.to].push_back({node.tensor_id, edge.similarity});
+        edge_count_.fetch_add(2, std::memory_order_relaxed);
     }
 }
 

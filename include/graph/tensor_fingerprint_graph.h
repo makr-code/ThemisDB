@@ -277,8 +277,20 @@ public:
     /// Export node + edge payload in one snapshot.
     PersistedFingerprintGraphSnapshot exportPersistedGraph() const;
 
+    /// Export one persisted node payload if present.
+    std::optional<PersistedFingerprintNode>
+    exportPersistedNode(const std::string& tensor_id) const;
+
+    /// Export directed edges originating from one node.
+    std::vector<PersistedFingerprintEdge>
+    exportPersistedEdgesFor(const std::string& tensor_id) const;
+
     /// Atomically replace graph state from a full persisted snapshot.
     void importPersistedGraph(const PersistedFingerprintGraphSnapshot& snapshot);
+
+    /// Upsert one persisted node and replace its symmetric adjacency.
+    void upsertPersistedNode(const PersistedFingerprintNode& node,
+                             const std::vector<PersistedFingerprintEdge>& edges);
 
     // ─── Statistics ───────────────────────────────────────────────────────
 

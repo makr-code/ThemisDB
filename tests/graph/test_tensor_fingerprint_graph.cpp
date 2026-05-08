@@ -45,6 +45,8 @@
  *   TDM-13  restoreGraph enables similarity queries for nodes restored from snapshot
  *   TDM-14  restoreGraph rehydrates dedup records and canonical delete mappings
  *   TDM-15  restoreGraph rejects malformed snapshot payloads safely
+ *   TDM-16  restoreGraph replays post-snapshot insert/delete journal mutations
+ *   TDM-17  restoreGraph replays post-snapshot overwrite journal mutations
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -924,6 +926,8 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     EXPECT_EQ(fp_b->nodeCount(), 0u);
     EXPECT_FALSE(mgr_b.getRecord("canon_x").has_value());
     EXPECT_EQ(mgr_b.getStats().total_tensors, 0u);
+    EXPECT_EQ(mgr_b.getStats().total_bytes_stored, 0u);
+    EXPECT_EQ(mgr_b.getStats().bytes_saved, 0u);
 }
 
 // TDM-15: malformed snapshot payload should fail restore cleanly.
@@ -991,4 +995,90 @@ TEST(TensorDeduplicationManagerSnapshotTest,
         EXPECT_EQ(mgr->getStats().total_tensors, 1u);
         EXPECT_TRUE(mgr->getRecord("seed_tensor").has_value());
     }
+}
+
+// TDM-16: post-snapshot insert/delete mutations should replay during restore.
+TEST(TensorDeduplicationManagerSnapshotTest,
+     TDM16_RestoreGraphReplaysPostSnapshotInsertDeleteMutations) {
+    auto engine = makeEngine();
+
+    std::vector<float> added_data;
+    {
+        auto mgr = makeDedup(engine);
+        auto base_data = randVec(16, 1701);
+        mgr->store("base_tensor", base_data, {16, 1}, "t", "c", "fbase");
+        ASSERT_TRUE(mgr->snapshotGraph("snap16"));
+
+        added_data = randVec(16, 1702);
+        mgr->store("added_tensor", added_data, {16, 1}, "t", "c", "fadded");
+        ASSERT_TRUE(engine->remove({"t", "c", "fbase"}));
+    }
+
+    FingerprintGraphConfig fp_cfg;
+    fp_cfg.similarity_threshold   = 0.80;
+    fp_cfg.num_hash_funcs         = 64;
+    fp_cfg.num_bands              = 16;
+    fp_cfg.cache_trains_in_memory = true;
+    auto fp_b  = std::make_shared<TensorFingerprintGraph>(fp_cfg);
+    auto dec_b = std::make_shared<TensorTrainDecomposer>();
+    DeduplicationConfig dcfg;
+    dcfg.similarity_threshold = 0.80;
+    TensorDeduplicationManager mgr_b(engine, fp_b, dec_b, dcfg);
+
+    ASSERT_TRUE(mgr_b.restoreGraph("snap16"));
+    EXPECT_EQ(mgr_b.getStats().total_tensors, 1u);
+    EXPECT_FALSE(mgr_b.getRecord("base_tensor").has_value());
+    ASSERT_TRUE(mgr_b.getRecord("added_tensor").has_value());
+    EXPECT_EQ(fp_b->nodeCount(), 1u);
+
+    auto query_tt = makeTT(added_data, {16, 1});
+    auto results = fp_b->findSimilar(query_tt, 3);
+    ASSERT_FALSE(results.empty());
+    EXPECT_EQ(results.front().tensor_id, "added_tensor");
+    EXPECT_GT(results.front().similarity, 0.95);
+}
+
+// TDM-17: post-snapshot overwrite mutations should replay during restore.
+TEST(TensorDeduplicationManagerSnapshotTest,
+     TDM17_RestoreGraphReplaysPostSnapshotOverwriteMutation) {
+    auto engine = makeEngine();
+
+    std::vector<float> updated_data;
+    {
+        auto mgr = makeDedup(engine);
+        auto initial_data = std::vector<float>(16, 1.0f);
+        mgr->store("mutable_tensor", initial_data, {16, 1}, "t", "c", "fmutable");
+        ASSERT_TRUE(mgr->snapshotGraph("snap17"));
+
+        updated_data = std::vector<float>(16, -3.0f);
+        mgr->store("mutable_tensor", updated_data, {16, 1}, "t", "c", "fmutable");
+    }
+
+    FingerprintGraphConfig fp_cfg;
+    fp_cfg.similarity_threshold   = 0.80;
+    fp_cfg.num_hash_funcs         = 64;
+    fp_cfg.num_bands              = 16;
+    fp_cfg.cache_trains_in_memory = true;
+    auto fp_b  = std::make_shared<TensorFingerprintGraph>(fp_cfg);
+    auto dec_b = std::make_shared<TensorTrainDecomposer>();
+    DeduplicationConfig dcfg;
+    dcfg.similarity_threshold = 0.80;
+    TensorDeduplicationManager mgr_b(engine, fp_b, dec_b, dcfg);
+
+    ASSERT_TRUE(mgr_b.restoreGraph("snap17"));
+    EXPECT_EQ(mgr_b.getStats().total_tensors, 1u);
+    ASSERT_TRUE(mgr_b.getRecord("mutable_tensor").has_value());
+
+    auto restored = mgr_b.retrieve("mutable_tensor");
+    ASSERT_TRUE(restored.has_value());
+    ASSERT_EQ(restored->size(), updated_data.size());
+    for (std::size_t i = 0; i < updated_data.size(); ++i) {
+        EXPECT_NEAR((*restored)[i], updated_data[i], 1e-4f);
+    }
+
+    auto query_tt = makeTT(updated_data, {16, 1});
+    auto results = fp_b->findSimilar(query_tt, 3);
+    ASSERT_FALSE(results.empty());
+    EXPECT_EQ(results.front().tensor_id, "mutable_tensor");
+    EXPECT_GT(results.front().similarity, 0.95);
 }

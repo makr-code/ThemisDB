@@ -274,7 +274,11 @@
     trailing bytes) and for fallback behavior to legacy graph-only payload parsing; expanded
     malformed-payload regression coverage for bad magic/version, invalid graph lengths,
     embedded-graph corruption, and trailing bytes (TDM-15).
-  - Remaining: RocksDB-durable write-ahead of incremental graph mutations.
+  - **Progress 2026-05-08 (incremental recovery journal)**: Added persisted post-snapshot
+    mutation journaling for tensor upserts/deletes so `restoreGraph()` now replays incremental
+    graph/record changes after the last full snapshot; overwrite/delete paths also keep byte
+    counters consistent during replay and external canonical deletes (tests TDM-16/TDM-17).
+  - Remaining: GraphIndex-backed storage/compaction for incremental mutation journal payloads.
 
 #### Phase 8.6 — Documentation (Target: Q2 2027)
 

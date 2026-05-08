@@ -62,27 +62,54 @@ TensorDeduplicationManager::TensorDeduplicationManager(
     storage_->setWriteObserverFn(
         [this](const TensorFieldKey& key, const TTTrain& train) {
             std::string tensor_id;
+            std::optional<StoredTensorRecord> record;
+            std::size_t total_bytes_stored = 0;
+            std::size_t bytes_saved = 0;
             {
                 std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
                 auto it = key_to_tensor_id_.find(makeKeyIndex(key));
                 if (it == key_to_tensor_id_.end()) return;
                 tensor_id = it->second;
+                auto record_it = records_.find(tensor_id);
+                if (record_it == records_.end()) return;
+                record = record_it->second;
+                total_bytes_stored = total_bytes_stored_.load(std::memory_order_relaxed);
+                bytes_saved = bytes_saved_.load(std::memory_order_relaxed);
             }
             fp_graph_->insert(tensor_id, train, key.tenant, key.collection, key.field);
+            persistUpsertJournalEntry(*record, total_bytes_stored, bytes_saved);
         });
 
     storage_->setDeleteObserverFn(
         [this](const TensorFieldKey& key) {
             std::string tensor_id;
+            std::size_t total_bytes_stored = 0;
+            std::size_t bytes_saved = 0;
             {
                 std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
                 auto it = key_to_tensor_id_.find(makeKeyIndex(key));
                 if (it == key_to_tensor_id_.end()) return;
                 tensor_id = it->second;
+                const auto record_it = records_.find(tensor_id);
+                if (record_it != records_.end()) {
+                    const auto& record = record_it->second;
+                    total_bytes_stored =
+                        total_bytes_stored_.fetch_sub(record.compressed_bytes,
+                                                      std::memory_order_relaxed) -
+                        record.compressed_bytes;
+                    bytes_saved =
+                        bytes_saved_.fetch_sub(record.saved_bytes,
+                                               std::memory_order_relaxed) -
+                        record.saved_bytes;
+                } else {
+                    total_bytes_stored = total_bytes_stored_.load(std::memory_order_relaxed);
+                    bytes_saved = bytes_saved_.load(std::memory_order_relaxed);
+                }
                 clearMappingForTensorIdLocked(tensor_id);
                 records_.erase(tensor_id);
             }
             fp_graph_->remove(tensor_id);
+            persistDeleteJournalEntry(tensor_id, total_bytes_stored, bytes_saved);
         });
 }
 
@@ -252,9 +279,13 @@ store_canonical:
     record.field      = field;
 
     // Store record
+    std::size_t total_bytes_stored = 0;
+    std::size_t bytes_saved = 0;
     std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
     auto prev = records_.find(tensor_id);
     if (prev != records_.end()) {
+        total_bytes_stored_.fetch_sub(prev->second.compressed_bytes, std::memory_order_relaxed);
+        bytes_saved_.fetch_sub(prev->second.saved_bytes, std::memory_order_relaxed);
         clearMappingForTensorIdLocked(tensor_id);
     }
     records_[tensor_id] = record;
@@ -263,6 +294,11 @@ store_canonical:
         key_to_tensor_id_[idx] = tensor_id;
         tensor_id_to_key_[tensor_id] = idx;
     }
+    total_bytes_stored = total_bytes_stored_.load(std::memory_order_relaxed);
+    bytes_saved = bytes_saved_.load(std::memory_order_relaxed);
+    wlk.unlock();
+
+    persistUpsertJournalEntry(record, total_bytes_stored, bytes_saved);
 
     return record;
 }
@@ -377,6 +413,24 @@ constexpr uint64_t kGraphSnapshotMagic   = 0x504E535F47465400ULL; // "TFG_SNP\0"
 constexpr uint32_t kGraphSnapshotVersion = 1;
 constexpr uint64_t kDedupSnapshotMagic   = 0x504E535F4D445400ULL; // "TDM_SNP\0"
 constexpr uint32_t kDedupSnapshotVersion = 1;
+constexpr uint64_t kMutationJournalMagic = 0x4A4E4C5F4D445400ULL; // "TDM_JNL\0"
+constexpr uint32_t kMutationJournalVersion = 1;
+constexpr char kActiveSnapshotMetaKey[] = "__tfg_active_snapshot__";
+
+enum class MutationJournalEntryType : uint8_t {
+    Upsert = 1,
+    Delete = 2,
+};
+
+struct MutationJournalEntry {
+    MutationJournalEntryType type = MutationJournalEntryType::Upsert;
+    themis::graph::StoredTensorRecord record;
+    themis::graph::PersistedFingerprintNode node;
+    std::vector<themis::graph::PersistedFingerprintEdge> edges;
+    std::string tensor_id;
+    std::size_t total_bytes_stored = 0;
+    std::size_t bytes_saved = 0;
+};
 
 // Little-endian write helpers.
 template<typename T>
@@ -461,6 +515,58 @@ static void writeStoredTensorRecord(std::vector<uint8_t>& buf,
     writeStr(buf, record.tenant);
     writeStr(buf, record.collection);
     writeStr(buf, record.field);
+}
+
+static void writePersistedFingerprintNode(
+    std::vector<uint8_t>& buf,
+    const themis::graph::PersistedFingerprintNode& node) {
+    writeStr(buf, node.tensor_id);
+    for (const auto hash : node.fingerprint.minhash) {
+        writeLE<uint64_t>(buf, hash);
+    }
+    writeLE<uint32_t>(buf, static_cast<uint32_t>(node.fingerprint.core_norms.size()));
+    for (const auto core_norm : node.fingerprint.core_norms) {
+        writeLE<float>(buf, core_norm);
+    }
+    writeLE<float>(buf, node.fingerprint.total_norm);
+    writeLE<uint64_t>(buf, static_cast<uint64_t>(node.fingerprint.order));
+    writeLE<uint64_t>(buf, static_cast<uint64_t>(node.fingerprint.max_rank));
+    writeStr(buf, node.tenant);
+    writeStr(buf, node.collection);
+    writeStr(buf, node.field);
+}
+
+static void writePersistedFingerprintEdge(
+    std::vector<uint8_t>& buf,
+    const themis::graph::PersistedFingerprintEdge& edge) {
+    writeStr(buf, edge.from);
+    writeStr(buf, edge.to);
+    writeLE<double>(buf, edge.similarity);
+}
+
+static std::vector<uint8_t> serializeMutationJournal(
+    const std::vector<MutationJournalEntry>& entries) {
+    std::vector<uint8_t> buf;
+    buf.reserve(entries.size() * 256U + 64U);
+    writeLE<uint64_t>(buf, kMutationJournalMagic);
+    writeLE<uint32_t>(buf, kMutationJournalVersion);
+    writeLE<uint64_t>(buf, static_cast<uint64_t>(entries.size()));
+    for (const auto& entry : entries) {
+        writeLE<uint8_t>(buf, static_cast<uint8_t>(entry.type));
+        if (entry.type == MutationJournalEntryType::Upsert) {
+            writeStoredTensorRecord(buf, entry.record);
+            writePersistedFingerprintNode(buf, entry.node);
+            writeLE<uint64_t>(buf, static_cast<uint64_t>(entry.edges.size()));
+            for (const auto& edge : entry.edges) {
+                writePersistedFingerprintEdge(buf, edge);
+            }
+        } else {
+            writeStr(buf, entry.tensor_id);
+        }
+        writeLE<uint64_t>(buf, static_cast<uint64_t>(entry.total_bytes_stored));
+        writeLE<uint64_t>(buf, static_cast<uint64_t>(entry.bytes_saved));
+    }
+    return buf;
 }
 
 static std::vector<uint8_t> serializeDedupSnapshot(
@@ -576,6 +682,109 @@ static bool readStoredTensorRecord(const uint8_t* data,
     record.compressed_bytes = static_cast<std::size_t>(compressed_bytes);
     record.saved_bytes = static_cast<std::size_t>(saved_bytes);
     return true;
+}
+
+static bool readPersistedFingerprintNode(
+    const uint8_t* data,
+    std::size_t size,
+    std::size_t& pos,
+    themis::graph::PersistedFingerprintNode& node) {
+    if (!readStr(data, size, pos, node.tensor_id)) return false;
+    for (auto& hash : node.fingerprint.minhash) {
+        if (!readLE(data, size, pos, hash)) return false;
+    }
+
+    uint32_t core_norm_count = 0;
+    if (!readLE(data, size, pos, core_norm_count)) return false;
+    node.fingerprint.core_norms.resize(core_norm_count);
+    for (auto& core_norm : node.fingerprint.core_norms) {
+        if (!readLE(data, size, pos, core_norm)) return false;
+    }
+
+    if (!readLE(data, size, pos, node.fingerprint.total_norm)) return false;
+
+    uint64_t order = 0;
+    uint64_t max_rank = 0;
+    if (!readLE(data, size, pos, order)) return false;
+    if (!readLE(data, size, pos, max_rank)) return false;
+    node.fingerprint.order = static_cast<std::size_t>(order);
+    node.fingerprint.max_rank = static_cast<std::size_t>(max_rank);
+
+    if (!readStr(data, size, pos, node.tenant)) return false;
+    if (!readStr(data, size, pos, node.collection)) return false;
+    if (!readStr(data, size, pos, node.field)) return false;
+    return true;
+}
+
+static bool readPersistedFingerprintEdge(
+    const uint8_t* data,
+    std::size_t size,
+    std::size_t& pos,
+    themis::graph::PersistedFingerprintEdge& edge) {
+    if (!readStr(data, size, pos, edge.from)) return false;
+    if (!readStr(data, size, pos, edge.to)) return false;
+    return readLE(data, size, pos, edge.similarity);
+}
+
+static bool deserializeMutationJournal(
+    const std::vector<uint8_t>& buf,
+    std::vector<MutationJournalEntry>& entries) {
+    std::size_t pos = 0;
+    const auto* data = buf.data();
+    const auto size = buf.size();
+
+    uint64_t magic = 0;
+    uint32_t version = 0;
+    if (!readLE(data, size, pos, magic) || magic != kMutationJournalMagic) {
+        return false;
+    }
+    if (!readLE(data, size, pos, version) || version != kMutationJournalVersion) {
+        return false;
+    }
+
+    uint64_t entry_count = 0;
+    if (!readLE(data, size, pos, entry_count)) {
+        return false;
+    }
+
+    entries.clear();
+    entries.reserve(static_cast<std::size_t>(entry_count));
+    for (uint64_t i = 0; i < entry_count; ++i) {
+        uint8_t raw_type = 0;
+        if (!readLE(data, size, pos, raw_type)) {
+            return false;
+        }
+
+        MutationJournalEntry entry;
+        entry.type = static_cast<MutationJournalEntryType>(raw_type);
+        if (entry.type == MutationJournalEntryType::Upsert) {
+            if (!readStoredTensorRecord(data, size, pos, entry.record)) return false;
+            if (!readPersistedFingerprintNode(data, size, pos, entry.node)) return false;
+
+            uint64_t edge_count = 0;
+            if (!readLE(data, size, pos, edge_count)) return false;
+            entry.edges.reserve(static_cast<std::size_t>(edge_count));
+            for (uint64_t edge_idx = 0; edge_idx < edge_count; ++edge_idx) {
+                themis::graph::PersistedFingerprintEdge edge;
+                if (!readPersistedFingerprintEdge(data, size, pos, edge)) return false;
+                entry.edges.push_back(std::move(edge));
+            }
+        } else if (entry.type == MutationJournalEntryType::Delete) {
+            if (!readStr(data, size, pos, entry.tensor_id)) return false;
+        } else {
+            return false;
+        }
+
+        uint64_t total_bytes_stored = 0;
+        uint64_t bytes_saved = 0;
+        if (!readLE(data, size, pos, total_bytes_stored)) return false;
+        if (!readLE(data, size, pos, bytes_saved)) return false;
+        entry.total_bytes_stored = static_cast<std::size_t>(total_bytes_stored);
+        entry.bytes_saved = static_cast<std::size_t>(bytes_saved);
+        entries.push_back(std::move(entry));
+    }
+
+    return pos == size;
 }
 
 static bool deserializeDedupSnapshot(
@@ -694,10 +903,15 @@ bool TensorDeduplicationManager::snapshotGraph(const std::string& snapshot_key) 
     }
 
     auto bytes = serializeDedupSnapshot(snapshot,
-                                        records,
-                                        total_bytes_stored,
-                                        bytes_saved);
-    return storage_->putRawMetadata(snapshot_key, bytes);
+                                         records,
+                                         total_bytes_stored,
+                                         bytes_saved);
+    if (!storage_->putRawMetadata(snapshot_key, bytes)) {
+        return false;
+    }
+    clearMutationJournal(snapshot_key);
+    activateSnapshotKey(snapshot_key);
+    return true;
 }
 
 bool TensorDeduplicationManager::restoreGraph(const std::string& snapshot_key) {
@@ -742,7 +956,133 @@ bool TensorDeduplicationManager::restoreGraph(const std::string& snapshot_key) {
     }
     total_bytes_stored_.store(total_bytes_stored, std::memory_order_relaxed);
     bytes_saved_.store(bytes_saved, std::memory_order_relaxed);
+    if (!replayMutationJournal(snapshot_key)) {
+        return false;
+    }
+    activateSnapshotKey(snapshot_key);
     return true;
+}
+
+bool TensorDeduplicationManager::replayMutationJournal(const std::string& snapshot_key) {
+    const auto journal_key = snapshot_key + "::wal";
+    const auto bytes_opt = storage_->getRawMetadata(journal_key);
+    if (!bytes_opt || bytes_opt->empty()) {
+        return true;
+    }
+
+    std::vector<MutationJournalEntry> entries;
+    if (!deserializeMutationJournal(*bytes_opt, entries)) {
+        THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: mutation journal is invalid");
+        return false;
+    }
+
+    for (const auto& entry : entries) {
+        if (entry.type == MutationJournalEntryType::Upsert) {
+            fp_graph_->upsertPersistedNode(entry.node, entry.edges);
+
+            std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
+            clearMappingForTensorIdLocked(entry.record.tensor_id);
+            records_[entry.record.tensor_id] = entry.record;
+            if (entry.record.is_canonical) {
+                const auto key = makeKey(entry.record.tenant,
+                                         entry.record.collection,
+                                         entry.record.field);
+                const auto key_index = makeKeyIndex(key);
+                key_to_tensor_id_[key_index] = entry.record.tensor_id;
+                tensor_id_to_key_[entry.record.tensor_id] = key_index;
+            }
+            total_bytes_stored_.store(entry.total_bytes_stored, std::memory_order_relaxed);
+            bytes_saved_.store(entry.bytes_saved, std::memory_order_relaxed);
+            continue;
+        }
+
+        {
+            std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
+            clearMappingForTensorIdLocked(entry.tensor_id);
+            records_.erase(entry.tensor_id);
+            total_bytes_stored_.store(entry.total_bytes_stored, std::memory_order_relaxed);
+            bytes_saved_.store(entry.bytes_saved, std::memory_order_relaxed);
+        }
+        fp_graph_->remove(entry.tensor_id);
+    }
+
+    return true;
+}
+
+void TensorDeduplicationManager::activateSnapshotKey(
+    const std::string& snapshot_key) const {
+    storage_->putRawMetadata(kActiveSnapshotMetaKey,
+                             std::vector<uint8_t>(snapshot_key.begin(), snapshot_key.end()));
+}
+
+void TensorDeduplicationManager::clearMutationJournal(
+    const std::string& snapshot_key) const {
+    storage_->putRawMetadata(snapshot_key + "::wal", {});
+}
+
+void TensorDeduplicationManager::persistUpsertJournalEntry(
+    const StoredTensorRecord& record,
+    std::size_t total_bytes_stored,
+    std::size_t bytes_saved) const {
+    const auto active_snapshot_opt = storage_->getRawMetadata(kActiveSnapshotMetaKey);
+    if (!active_snapshot_opt || active_snapshot_opt->empty()) {
+        return;
+    }
+
+    const std::string snapshot_key(active_snapshot_opt->begin(), active_snapshot_opt->end());
+    const auto node_opt = fp_graph_->exportPersistedNode(record.tensor_id);
+    if (!node_opt.has_value()) {
+        return;
+    }
+
+    MutationJournalEntry entry;
+    entry.type = MutationJournalEntryType::Upsert;
+    entry.record = record;
+    entry.node = *node_opt;
+    entry.edges = fp_graph_->exportPersistedEdgesFor(record.tensor_id);
+    entry.total_bytes_stored = total_bytes_stored;
+    entry.bytes_saved = bytes_saved;
+
+    std::vector<MutationJournalEntry> entries;
+    const auto journal_key = snapshot_key + "::wal";
+    if (const auto existing = storage_->getRawMetadata(journal_key);
+        existing && !existing->empty()) {
+        if (!deserializeMutationJournal(*existing, entries)) {
+            THEMIS_WARN("[TensorDeduplicationManager] mutation journal parse failed; resetting journal");
+            entries.clear();
+        }
+    }
+    entries.push_back(std::move(entry));
+    storage_->putRawMetadata(journal_key, serializeMutationJournal(entries));
+}
+
+void TensorDeduplicationManager::persistDeleteJournalEntry(
+    const std::string& tensor_id,
+    std::size_t total_bytes_stored,
+    std::size_t bytes_saved) const {
+    const auto active_snapshot_opt = storage_->getRawMetadata(kActiveSnapshotMetaKey);
+    if (!active_snapshot_opt || active_snapshot_opt->empty()) {
+        return;
+    }
+
+    MutationJournalEntry entry;
+    entry.type = MutationJournalEntryType::Delete;
+    entry.tensor_id = tensor_id;
+    entry.total_bytes_stored = total_bytes_stored;
+    entry.bytes_saved = bytes_saved;
+
+    const std::string snapshot_key(active_snapshot_opt->begin(), active_snapshot_opt->end());
+    std::vector<MutationJournalEntry> entries;
+    const auto journal_key = snapshot_key + "::wal";
+    if (const auto existing = storage_->getRawMetadata(journal_key);
+        existing && !existing->empty()) {
+        if (!deserializeMutationJournal(*existing, entries)) {
+            THEMIS_WARN("[TensorDeduplicationManager] mutation journal parse failed; resetting journal");
+            entries.clear();
+        }
+    }
+    entries.push_back(std::move(entry));
+    storage_->putRawMetadata(journal_key, serializeMutationJournal(entries));
 }
 
 } // namespace graph
