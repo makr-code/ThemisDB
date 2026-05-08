@@ -85,7 +85,7 @@ TensorDeduplicationManager::TensorDeduplicationManager(
             std::string tensor_id;
             std::size_t total_bytes_stored = 0;
             std::size_t bytes_saved = 0;
-            const auto post_subtracted_value =
+            const auto subtractAndGetNew =
                 [](std::atomic<std::size_t>& counter, std::size_t value) {
                     return counter.fetch_sub(value, std::memory_order_relaxed) - value;
                 };
@@ -98,9 +98,9 @@ TensorDeduplicationManager::TensorDeduplicationManager(
                 if (record_it != records_.end()) {
                     const auto& record = record_it->second;
                     total_bytes_stored =
-                        post_subtracted_value(total_bytes_stored_, record.compressed_bytes);
+                        subtractAndGetNew(total_bytes_stored_, record.compressed_bytes);
                     bytes_saved =
-                        post_subtracted_value(bytes_saved_, record.saved_bytes);
+                        subtractAndGetNew(bytes_saved_, record.saved_bytes);
                 } else {
                     total_bytes_stored = total_bytes_stored_.load(std::memory_order_relaxed);
                     bytes_saved = bytes_saved_.load(std::memory_order_relaxed);
@@ -1010,6 +1010,10 @@ bool TensorDeduplicationManager::replayMutationJournal(const std::string& snapsh
                 key_to_tensor_id_[key_index] = entry.record.tensor_id;
                 tensor_id_to_key_[entry.record.tensor_id] = key_index;
             }
+            // Journal entries store absolute counter snapshots, not deltas.
+            // restoreGraph() always resets records_ / mappings / counters from the
+            // full snapshot before replaying entries sequentially, so overwriting
+            // the atomics here is deterministic and idempotent for one replay pass.
             total_bytes_stored_.store(entry.total_bytes_stored, std::memory_order_relaxed);
             bytes_saved_.store(entry.bytes_saved, std::memory_order_relaxed);
             continue;
@@ -1019,6 +1023,9 @@ bool TensorDeduplicationManager::replayMutationJournal(const std::string& snapsh
             std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
             clearMappingForTensorIdLocked(entry.tensor_id);
             records_.erase(entry.tensor_id);
+            // Delete journal entries also persist absolute counter snapshots.
+            // They are applied under the same single-threaded replay contract as
+            // upsert entries after restoreGraph() has reloaded the base snapshot.
             total_bytes_stored_.store(entry.total_bytes_stored, std::memory_order_relaxed);
             bytes_saved_.store(entry.bytes_saved, std::memory_order_relaxed);
         }
