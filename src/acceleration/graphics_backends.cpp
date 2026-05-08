@@ -883,6 +883,19 @@ DirectXVectorBackend::~DirectXVectorBackend() {
 }
 
 bool DirectXVectorBackend::isAvailable() const noexcept {
+    AvailabilityFn fn;
+    {
+        std::lock_guard<std::mutex> lk(DirectXVectorBackend::availabilityFnMutex());
+        fn = DirectXVectorBackend::availabilityFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn();
+        } catch (...) {
+            std::cerr << "[DirectX] stub availability callback failed" << std::endl;
+            return false;
+        }
+    }
     return false;
 }
 
@@ -891,31 +904,70 @@ BackendCapabilities DirectXVectorBackend::getCapabilities() const {
 }
 
 bool DirectXVectorBackend::initialize() {
+    InitializeFn fn;
+    {
+        std::lock_guard<std::mutex> lk(DirectXVectorBackend::initializeFnMutex());
+        fn = DirectXVectorBackend::initializeFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn();
+        } catch (...) {
+            std::cerr << "[DirectX] stub initialize callback failed" << std::endl;
+            return false;
+        }
+    }
     return false;
 }
 
 void DirectXVectorBackend::shutdown() {}
 
 std::vector<float> DirectXVectorBackend::computeDistances(
-    const float* /*queries*/,
-    size_t /*numQueries*/,
-    size_t /*dim*/,
-    const float* /*vectors*/,
-    size_t /*numVectors*/,
-    bool /*useL2*/
+    const float* queries,
+    size_t numQueries,
+    size_t dim,
+    const float* vectors,
+    size_t numVectors,
+    bool useL2
 ) {
+    ComputeDistancesFn fn;
+    {
+        std::lock_guard<std::mutex> lk(DirectXVectorBackend::computeDistancesFnMutex());
+        fn = DirectXVectorBackend::computeDistancesFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(queries, numQueries, dim, vectors, numVectors, useL2);
+        } catch (...) {
+            std::cerr << "[DirectX] stub computeDistances callback failed" << std::endl;
+            return {};
+        }
+    }
     return {};
 }
 
 std::vector<std::vector<std::pair<uint32_t, float>>> DirectXVectorBackend::batchKnnSearch(
-    const float* /*queries*/,
-    size_t /*numQueries*/,
-    size_t /*dim*/,
-    const float* /*vectors*/,
-    size_t /*numVectors*/,
-    size_t /*k*/,
-    bool /*useL2*/
+    const float* queries,
+    size_t numQueries,
+    size_t dim,
+    const float* vectors,
+    size_t numVectors,
+    size_t k,
+    bool useL2
 ) {
+    BatchKnnSearchFn fn;
+    {
+        std::lock_guard<std::mutex> lk(DirectXVectorBackend::batchKnnSearchFnMutex());
+        fn = DirectXVectorBackend::batchKnnSearchFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(queries, numQueries, dim, vectors, numVectors, k, useL2);
+        } catch (...) {
+            std::cerr << "[DirectX] stub batchKnnSearch callback failed" << std::endl;
+            return {};
+        }
+    }
     return {};
 }
 

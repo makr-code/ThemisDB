@@ -260,3 +260,98 @@ TEST(VulkanGlslCompilerFnTest, OpenGLStubBridgeFnsForwardParameters) {
     OpenGLVectorBackend::setComputeDistancesFn({});
 #endif
 }
+
+TEST(VulkanGlslCompilerFnTest, DirectXStubBridgeFnsWorkWithoutSdk) {
+#if defined(_WIN32) && defined(THEMIS_ENABLE_DIRECTX)
+    GTEST_SKIP() << "Real DirectX build active; stub bridge path is not compiled.";
+#else
+    using namespace themis::acceleration;
+
+    DirectXVectorBackend::setAvailabilityFn([] { return true; });
+    DirectXVectorBackend::setInitializeFn([] { return true; });
+    DirectXVectorBackend::setComputeDistancesFn(
+        []([[maybe_unused]] const float* queries,
+           [[maybe_unused]] size_t numQueries,
+           [[maybe_unused]] size_t dim,
+           [[maybe_unused]] const float* vectors,
+           [[maybe_unused]] size_t numVectors,
+           [[maybe_unused]] bool useL2) {
+            return std::vector<float>{5.0f, 6.0f};
+        });
+    DirectXVectorBackend::setBatchKnnSearchFn(
+        []([[maybe_unused]] const float* queries,
+           [[maybe_unused]] size_t numQueries,
+           [[maybe_unused]] size_t dim,
+           [[maybe_unused]] const float* vectors,
+           [[maybe_unused]] size_t numVectors,
+           [[maybe_unused]] size_t k,
+           [[maybe_unused]] bool useL2) {
+            return std::vector<std::vector<std::pair<uint32_t, float>>>{
+                {{7u, 0.7f}, {6u, 0.6f}}
+            };
+        });
+
+    DirectXVectorBackend backend;
+    EXPECT_TRUE(backend.isAvailable());
+    EXPECT_TRUE(backend.initialize());
+    auto distances = backend.computeDistances(nullptr, 0, 0, nullptr, 0, true);
+    ASSERT_EQ(distances.size(), 2u);
+    EXPECT_FLOAT_EQ(distances[0], 5.0f);
+    EXPECT_FLOAT_EQ(distances[1], 6.0f);
+
+    auto knn = backend.batchKnnSearch(nullptr, 0, 0, nullptr, 0, 2, true);
+    ASSERT_EQ(knn.size(), 1u);
+    ASSERT_EQ(knn[0].size(), 2u);
+    EXPECT_EQ(knn[0][0].first, 7u);
+    EXPECT_FLOAT_EQ(knn[0][0].second, 0.7f);
+    EXPECT_EQ(knn[0][1].first, 6u);
+    EXPECT_FLOAT_EQ(knn[0][1].second, 0.6f);
+
+    DirectXVectorBackend::setAvailabilityFn({});
+    DirectXVectorBackend::setInitializeFn({});
+    DirectXVectorBackend::setComputeDistancesFn({});
+    DirectXVectorBackend::setBatchKnnSearchFn({});
+#endif
+}
+
+TEST(VulkanGlslCompilerFnTest, DirectXStubBridgeFnsFailClosedOnException) {
+#if defined(_WIN32) && defined(THEMIS_ENABLE_DIRECTX)
+    GTEST_SKIP() << "Real DirectX build active; stub bridge path is not compiled.";
+#else
+    using namespace themis::acceleration;
+
+    DirectXVectorBackend::setAvailabilityFn([]() -> bool { throw std::runtime_error("boom"); });
+    DirectXVectorBackend::setInitializeFn([]() -> bool { throw std::runtime_error("boom"); });
+    DirectXVectorBackend::setComputeDistancesFn(
+        []([[maybe_unused]] const float* queries,
+           [[maybe_unused]] size_t numQueries,
+           [[maybe_unused]] size_t dim,
+           [[maybe_unused]] const float* vectors,
+           [[maybe_unused]] size_t numVectors,
+           [[maybe_unused]] bool useL2) -> std::vector<float> {
+            throw std::runtime_error("boom");
+        });
+    DirectXVectorBackend::setBatchKnnSearchFn(
+        []([[maybe_unused]] const float* queries,
+           [[maybe_unused]] size_t numQueries,
+           [[maybe_unused]] size_t dim,
+           [[maybe_unused]] const float* vectors,
+           [[maybe_unused]] size_t numVectors,
+           [[maybe_unused]] size_t k,
+           [[maybe_unused]] bool useL2)
+            -> std::vector<std::vector<std::pair<uint32_t, float>>> {
+            throw std::runtime_error("boom");
+        });
+
+    DirectXVectorBackend backend;
+    EXPECT_FALSE(backend.isAvailable());
+    EXPECT_FALSE(backend.initialize());
+    EXPECT_TRUE(backend.computeDistances(nullptr, 0, 0, nullptr, 0, true).empty());
+    EXPECT_TRUE(backend.batchKnnSearch(nullptr, 0, 0, nullptr, 0, 1, true).empty());
+
+    DirectXVectorBackend::setAvailabilityFn({});
+    DirectXVectorBackend::setInitializeFn({});
+    DirectXVectorBackend::setComputeDistancesFn({});
+    DirectXVectorBackend::setBatchKnnSearchFn({});
+#endif
+}
