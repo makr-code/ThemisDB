@@ -3025,7 +3025,7 @@ bool OpenGLVectorBackend::isAvailable() const noexcept {
         try {
             return fn();
         } catch (...) {
-            std::cerr << "[OpenGL] stub initialize callback failed" << std::endl;
+            std::cerr << "[OpenGL] stub availability callback failed" << std::endl;
             return false;
         }
     }

@@ -166,8 +166,18 @@ TEST(VulkanGlslCompilerFnTest, OpenGLStubBridgeFnsWorkWithoutSdk) {
     OpenGLVectorBackend backend;
     EXPECT_TRUE(backend.isAvailable());
     EXPECT_TRUE(backend.initialize());
-    EXPECT_EQ(backend.computeDistances(nullptr, 0, 0, nullptr, 0).size(), 2u);
-    EXPECT_EQ(backend.batchKnnSearch(nullptr, 0, 0, nullptr, 0, 2).size(), 1u);
+    auto distances = backend.computeDistances(nullptr, 0, 0, nullptr, 0);
+    ASSERT_EQ(distances.size(), 2u);
+    EXPECT_FLOAT_EQ(distances[0], 3.0f);
+    EXPECT_FLOAT_EQ(distances[1], 4.0f);
+
+    auto knn = backend.batchKnnSearch(nullptr, 0, 0, nullptr, 0, 2);
+    ASSERT_EQ(knn.size(), 1u);
+    ASSERT_EQ(knn[0].size(), 2u);
+    EXPECT_EQ(knn[0][0].first, 9u);
+    EXPECT_FLOAT_EQ(knn[0][0].second, 0.9f);
+    EXPECT_EQ(knn[0][1].first, 8u);
+    EXPECT_FLOAT_EQ(knn[0][1].second, 0.8f);
 
     OpenGLVectorBackend::setAvailabilityFn({});
     OpenGLVectorBackend::setInitializeFn({});
@@ -224,8 +234,8 @@ TEST(VulkanGlslCompilerFnTest, OpenGLStubBridgeFnsForwardParameters) {
 #else
     using namespace themis::acceleration;
 
-    constexpr float q[] = {1.0f, 2.0f};
-    constexpr float v[] = {3.0f, 4.0f, 5.0f, 6.0f};
+    const float q[] = {1.0f, 2.0f};
+    const float v[] = {3.0f, 4.0f, 5.0f, 6.0f};
 
     bool sawExpected = false;
     OpenGLVectorBackend::setComputeDistancesFn(
