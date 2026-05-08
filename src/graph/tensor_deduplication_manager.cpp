@@ -819,11 +819,11 @@ static void compactMutationJournalEntries(
     entries = std::move(compacted);
 }
 
-static std::string mutationJournalKeyForSnapshot(const std::string& snapshot_key) {
+[[nodiscard]] static std::string mutationJournalKeyForSnapshot(const std::string& snapshot_key) {
     return std::string(kMutationJournalMetaPrefix) + snapshot_key;
 }
 
-static std::string legacyMutationJournalKeyForSnapshot(const std::string& snapshot_key) {
+[[nodiscard]] static std::string legacyMutationJournalKeyForSnapshot(const std::string& snapshot_key) {
     return snapshot_key + "::wal";
 }
 
@@ -1058,8 +1058,8 @@ bool TensorDeduplicationManager::replayMutationJournal(const std::string& snapsh
         return true;
     }
     if (entries.empty()) {
-        // Invalid payloads are treated as no-op for replay; subsequent writes
-        // will normalize the journal by persisting a fresh valid payload.
+        // This path handles both a valid empty journal and a previously invalid
+        // payload that has been reset to an empty in-memory entry set.
         return true;
     }
 
