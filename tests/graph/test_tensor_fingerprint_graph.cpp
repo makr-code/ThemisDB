@@ -1174,7 +1174,8 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     ASSERT_TRUE(namespaced_payload.has_value());
     ASSERT_FALSE(namespaced_payload->empty());
     // Simulate legacy persisted state where journal data exists only under the
-    // historical <snapshot>::wal key.
+    // historical <snapshot>::wal key (equivalent here by clearing the modern
+    // key after writing the same payload).
     ASSERT_TRUE(engine->putRawMetadata(legacy_journal_key, *namespaced_payload));
     ASSERT_TRUE(engine->putRawMetadata(namespaced_journal_key, {}));
 

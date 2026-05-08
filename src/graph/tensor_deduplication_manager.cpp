@@ -821,8 +821,7 @@ static void compactMutationJournalEntries(
 
 [[nodiscard]] static std::string mutationJournalKeyForSnapshot(const std::string& snapshot_key) {
     std::string key;
-    key.reserve(std::char_traits<char>::length(kMutationJournalMetaPrefix) +
-                snapshot_key.size());
+    key.reserve((sizeof(kMutationJournalMetaPrefix) - 1U) + snapshot_key.size());
     key.append(kMutationJournalMetaPrefix);
     key.append(snapshot_key);
     return key;
@@ -859,7 +858,7 @@ static bool loadJournalWithLegacyFallback(
         if (deserializeMutationJournal(*payload, entries)) {
             return true;
         }
-        THEMIS_WARN("[TensorDeduplicationManager] mutation journal parse failed for key='{}' ({} bytes); resetting journal payload",
+        THEMIS_WARN("[TensorDeduplicationManager] mutation journal parse failed for key='{}' ({} bytes); clearing in-memory replay entries",
                     key,
                     payload->size());
         entries.clear();
@@ -1087,6 +1086,8 @@ bool TensorDeduplicationManager::replayMutationJournal(const std::string& snapsh
     if (entries.empty()) {
         // This path handles both a valid empty journal and a previously invalid
         // payload that has been reset to an empty in-memory entry set.
+        // Parse failures are treated as no-op replay because the base snapshot
+        // payload has already restored a consistent graph/record state.
         return true;
     }
 
