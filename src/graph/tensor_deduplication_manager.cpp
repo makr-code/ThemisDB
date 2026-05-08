@@ -85,6 +85,10 @@ TensorDeduplicationManager::TensorDeduplicationManager(
             std::string tensor_id;
             std::size_t total_bytes_stored = 0;
             std::size_t bytes_saved = 0;
+            const auto post_subtracted_value =
+                [](std::atomic<std::size_t>& counter, std::size_t value) {
+                    return counter.fetch_sub(value, std::memory_order_relaxed) - value;
+                };
             {
                 std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
                 auto it = key_to_tensor_id_.find(makeKeyIndex(key));
@@ -94,13 +98,9 @@ TensorDeduplicationManager::TensorDeduplicationManager(
                 if (record_it != records_.end()) {
                     const auto& record = record_it->second;
                     total_bytes_stored =
-                        total_bytes_stored_.fetch_sub(record.compressed_bytes,
-                                                      std::memory_order_relaxed) -
-                        record.compressed_bytes;
+                        post_subtracted_value(total_bytes_stored_, record.compressed_bytes);
                     bytes_saved =
-                        bytes_saved_.fetch_sub(record.saved_bytes,
-                                               std::memory_order_relaxed) -
-                        record.saved_bytes;
+                        post_subtracted_value(bytes_saved_, record.saved_bytes);
                 } else {
                     total_bytes_stored = total_bytes_stored_.load(std::memory_order_relaxed);
                     bytes_saved = bytes_saved_.load(std::memory_order_relaxed);
@@ -783,6 +783,29 @@ static bool deserializeMutationJournal(
     return pos == size;
 }
 
+static void loadOrResetJournal(
+    const std::shared_ptr<themis::storage::TensorNetworkStorageEngine>& storage,
+    const std::string& journal_key,
+    std::vector<MutationJournalEntry>& entries) {
+    entries.clear();
+    if (!storage) {
+        return;
+    }
+
+    const auto existing = storage->getRawMetadata(journal_key);
+    if (!existing || existing->empty()) {
+        return;
+    }
+    if (deserializeMutationJournal(*existing, entries)) {
+        return;
+    }
+
+    THEMIS_WARN("[TensorDeduplicationManager] mutation journal parse failed for key='{}' ({} bytes); resetting journal payload",
+                journal_key,
+                existing->size());
+    entries.clear();
+}
+
 static bool deserializeDedupSnapshot(
     const std::vector<uint8_t>& buf,
     themis::graph::PersistedFingerprintGraphSnapshot& snapshot,
@@ -1041,13 +1064,7 @@ void TensorDeduplicationManager::persistUpsertJournalEntry(
 
     std::vector<MutationJournalEntry> entries;
     const auto journal_key = snapshot_key + "::wal";
-    if (const auto existing = storage_->getRawMetadata(journal_key);
-        existing && !existing->empty()) {
-        if (!deserializeMutationJournal(*existing, entries)) {
-            THEMIS_WARN("[TensorDeduplicationManager] mutation journal parse failed; resetting journal");
-            entries.clear();
-        }
-    }
+    loadOrResetJournal(storage_, journal_key, entries);
     entries.push_back(std::move(entry));
     storage_->putRawMetadata(journal_key, serializeMutationJournal(entries));
 }
@@ -1070,13 +1087,7 @@ void TensorDeduplicationManager::persistDeleteJournalEntry(
     const std::string snapshot_key(active_snapshot_opt->begin(), active_snapshot_opt->end());
     std::vector<MutationJournalEntry> entries;
     const auto journal_key = snapshot_key + "::wal";
-    if (const auto existing = storage_->getRawMetadata(journal_key);
-        existing && !existing->empty()) {
-        if (!deserializeMutationJournal(*existing, entries)) {
-            THEMIS_WARN("[TensorDeduplicationManager] mutation journal parse failed; resetting journal");
-            entries.clear();
-        }
-    }
+    loadOrResetJournal(storage_, journal_key, entries);
     entries.push_back(std::move(entry));
     storage_->putRawMetadata(journal_key, serializeMutationJournal(entries));
 }
