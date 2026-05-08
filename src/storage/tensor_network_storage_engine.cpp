@@ -409,12 +409,13 @@ bool TensorNetworkStorageEngine::deleteRawMetadata(const std::string& key) {
 
 std::vector<std::string>
 TensorNetworkStorageEngine::listRawMetadataKeys(const std::string& prefix) const {
-    auto raw_keys = backend_->listKeys(rawMetaKey(prefix));
+    const auto raw_prefix = rawMetaKey(prefix);
+    auto raw_keys = backend_->listKeys(raw_prefix);
     std::vector<std::string> logical_keys;
     logical_keys.reserve(raw_keys.size());
 
     for (const auto& raw_key : raw_keys) {
-        if (raw_key.rfind(kRawMetaPrefix, 0) != 0) {
+        if (raw_key.rfind(raw_prefix, 0) != 0) {
             continue;
         }
         logical_keys.push_back(raw_key.substr(kRawMetaPrefix.size()));

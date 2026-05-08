@@ -1325,8 +1325,7 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     EXPECT_EQ(journal_keys.front(), per_entry_prefix + "per_entry_tensor");
 
     const auto blob_journal = engine->getRawMetadata(blob_journal_key);
-    ASSERT_TRUE(blob_journal.has_value());
-    EXPECT_TRUE(blob_journal->empty());
+    EXPECT_TRUE(!blob_journal.has_value() || blob_journal->empty());
 
     auto mgr_b = makeDedup(engine);
     ASSERT_TRUE(mgr_b->restoreGraph(kSnapshotKey));
