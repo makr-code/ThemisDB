@@ -599,9 +599,10 @@ static bool deserializeDedupSnapshot(
     if (!readLE(data, size, pos, graph_bytes_size)) return false;
     if (pos + graph_bytes_size > size) return false;
 
-    std::vector<uint8_t> graph_bytes(graph_bytes_size);
-    std::memcpy(graph_bytes.data(), data + pos, static_cast<std::size_t>(graph_bytes_size));
-    pos += static_cast<std::size_t>(graph_bytes_size);
+    const auto graph_size = static_cast<std::size_t>(graph_bytes_size);
+    std::vector<uint8_t> graph_bytes(graph_size);
+    std::memcpy(graph_bytes.data(), data + pos, graph_size);
+    pos += graph_size;
     if (!deserializeGraphSnapshot(graph_bytes, snapshot)) return false;
 
     uint64_t record_count = 0;
@@ -682,8 +683,9 @@ bool TensorDeduplicationManager::restoreGraph(const std::string& snapshot_key) {
             continue;
         }
 
-        const auto key_index =
-            makeKeyIndex(makeKey(record.tenant, record.collection, record.field));
+        const auto key =
+            makeKey(record.tenant, record.collection, record.field);
+        const auto key_index = makeKeyIndex(key);
         key_to_tensor_id_[key_index] = record.tensor_id;
         tensor_id_to_key_[record.tensor_id] = key_index;
     }
