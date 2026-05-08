@@ -167,6 +167,7 @@ void InferenceEngineEnhanced::setFederatedBackend(
     } else {
         spdlog::info("InferenceEngineEnhanced: federated inference backend detached");
     }
+    }
 // ── setTargetLogitsFn (STUB #262) ────────────────────────────────────────────
 void InferenceEngineEnhanced::setTargetLogitsFn(TargetLogitsFn fn) {
     std::lock_guard<std::mutex> lock(target_logits_fn_mutex_);
@@ -1142,6 +1143,12 @@ void InferenceEngineEnhanced::processBatch(
             InferenceResponse response;
             bool used_speculative = false;
 
+            const bool grammar_active =
+                req.base_request.grammar_type.has_value() ||
+                req.base_request.grammar_ebnf.has_value() ||
+                req.base_request.json_schema.has_value() ||
+                !req.base_request.tools.empty();
+
             // ── RAID fan-out: delegate to federated backend when requested ──
             // If a federated backend is attached and the request lists specific
             // target instances, delegate the request instead of running locally.
@@ -1191,12 +1198,6 @@ void InferenceEngineEnhanced::processBatch(
                     goto fan_out_done; // NOLINT(cppcoreguidelines-avoid-goto)
                 }
             }
-
-            const bool grammar_active =
-                req.base_request.grammar_type.has_value() ||
-                req.base_request.grammar_ebnf.has_value() ||
-                req.base_request.json_schema.has_value() ||
-                !req.base_request.tools.empty();
 
             if (grammar_active && config_.enable_speculative_decoding) {
                 spdlog::debug("Speculative decoding disabled for request {} "
