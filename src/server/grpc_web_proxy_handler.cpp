@@ -33,12 +33,42 @@
 #endif
 
 #include <cstring>
+#include <mutex>
 #include <sstream>
+#include <utility>
 
 namespace themis {
 namespace server {
 
 using json = nlohmann::json;
+
+namespace {
+
+std::mutex& backendInvokeFnMutex()
+{
+    static std::mutex mutex;
+    return mutex;
+}
+
+GrpcWebProxyHandler::BackendInvokeFn& backendInvokeFnStorage()
+{
+    static GrpcWebProxyHandler::BackendInvokeFn callback;
+    return callback;
+}
+
+GrpcWebProxyHandler::BackendInvokeFn getBackendInvokeFn()
+{
+    std::lock_guard<std::mutex> lock(backendInvokeFnMutex());
+    return backendInvokeFnStorage();
+}
+
+} // namespace
+
+void GrpcWebProxyHandler::setBackendInvokeFn(BackendInvokeFn fn)
+{
+    std::lock_guard<std::mutex> lock(backendInvokeFnMutex());
+    backendInvokeFnStorage() = std::move(fn);
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Frame helpers
@@ -247,7 +277,7 @@ http::response<http::string_body> GrpcWebProxyHandler::handleStatus(
 
 http::response<http::string_body> GrpcWebProxyHandler::handlePost(
     const http::request<http::string_body>& req,
-    [[maybe_unused]] const std::string& method)
+    const std::string& method)
 {
     // Validate Content-Type
     const std::string content_type{req[http::field::content_type]};
@@ -267,7 +297,14 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
     std::string response_proto;
     int grpc_code = 0;          // grpc::StatusCode::OK
     std::string grpc_message;
+    bool handled_by_override = false;
 
+    if (auto backend_invoke = getBackendInvokeFn(); backend_invoke) {
+        handled_by_override = backend_invoke(
+            method, proto_payload, response_proto, grpc_code, grpc_message);
+    }
+
+    if (!handled_by_override) {
 #ifdef THEMIS_ENABLE_GRPC
     ensureChannel();
 
@@ -351,6 +388,7 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
     grpc_code    = 12; // grpc::StatusCode::UNIMPLEMENTED
     grpc_message = "gRPC backend not available in this build";
 #endif
+    }
 
     // Encode gRPC-Web response (data frame + trailer frame)
     const std::string grpc_web_body =

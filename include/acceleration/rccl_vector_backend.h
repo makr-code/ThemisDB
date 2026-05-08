@@ -20,6 +20,7 @@
 #pragma once
 
 #include "acceleration/compute_backend.h"
+#include <functional>
 #include <memory>
 #include <vector>
 #include <string>
@@ -98,6 +99,14 @@ public:
         MAX,
         PROD
     };
+
+    using AllReduceFn = std::function<bool(const float* sendBuf,
+                                           float* recvBuf,
+                                           size_t count,
+                                           ReductionOp op,
+                                           hipStream_t stream)>;
+
+    static void setAllReduceFn(AllReduceFn fn);
 
     // Constructor & Destructor
     RCCLVectorBackend();

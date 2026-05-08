@@ -1619,7 +1619,6 @@ if(TARGET themis_network)
     if(_themis_network_target_type_keep STREQUAL "STATIC_LIBRARY")
         target_sources(themis_tests PRIVATE
             ${THEMIS_ROOT_DIR}/src/network/udp_server.cpp
-            ${THEMIS_ROOT_DIR}/src/server/rpc/rpc_service_impl.cpp
             ${THEMIS_ROOT_DIR}/src/server/workload_fingerprint_engine.cpp
         )
     endif()
@@ -3620,7 +3619,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_geo_query.cpp")
     
     add_executable(test_rpc_geo_query
         test_rpc_geo_query.cpp
-        ${THEMIS_ROOT_DIR}/src/server/rpc/rpc_service_impl.cpp
     )
     
     target_link_libraries(test_rpc_geo_query PRIVATE
@@ -3654,7 +3652,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_batch_operations.cpp")
 
     add_executable(test_rpc_batch_operations
         test_rpc_batch_operations.cpp
-        ${THEMIS_ROOT_DIR}/src/server/rpc/rpc_service_impl.cpp
     )
 
     target_link_libraries(test_rpc_batch_operations PRIVATE
@@ -24668,7 +24665,7 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_context_
         ${CMAKE_CURRENT_SOURCE_DIR}/../src
     )
     target_link_libraries(test_context_window_budget_strategy_focused PRIVATE
-        GTest::GTest GTest::Main
+        GTest::gtest GTest::gtest_main
     )
     if(yaml-cpp_FOUND)
         target_link_libraries(test_context_window_budget_strategy_focused PRIVATE yaml-cpp::yaml-cpp)
