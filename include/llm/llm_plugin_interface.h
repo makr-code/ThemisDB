@@ -31,6 +31,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <mutex>
 #include <optional>
 #include <functional>
 #include <nlohmann/json.hpp>
@@ -367,29 +368,37 @@ public:
         size_t vocab_size = 0;
     };
 
+    // ─────────────────────────────────────────────────────────────────────
+    // STUB #261 bridge — callback injection for generateDraftTokens()
+    // ─────────────────────────────────────────────────────────────────────
+
+    /// Callback type that replaces the default heuristic implementation of
+    /// generateDraftTokens() without requiring a full plugin subclass.
+    using GenerateDraftTokensFn = std::function<
+        DraftTokensResult(const InferenceRequest& /*request*/,
+                          size_t                  /*k*/,
+                          size_t                  /*vocab_size_hint*/)>;
+
+    /// Inject (or remove) a real generateDraftTokens() implementation into
+    /// the default virtual method body.  Pass nullptr / empty fn to restore
+    /// the built-in text-heuristic path.  Thread-safe with concurrent calls
+    /// to generateDraftTokens().
+    static void setDefaultGenerateDraftTokensFn(GenerateDraftTokensFn fn) {
+        std::lock_guard<std::mutex> lk(s_draft_fn_mutex_);
+        s_default_draft_fn_ = std::move(fn);
+    }
+
     /**
      * @brief Generate K draft tokens with per-token logit distributions.
      *
      * Used by InferenceEngineEnhanced::trySpeculativeGeneration() to feed
      * real token IDs and logit distributions into SpeculativeDecoder::verify().
      *
-     * Default implementation (STUB #261):
-     *   Calls generate() internally and maps the returned text to token IDs
-     *   via UTF-8 byte values modulo vocab_size.  Logit distributions are
-     *   peaked (+5 / −5) at the mapped IDs — approximate, but guarantees that
-     *   different draft-model outputs produce different acceptance patterns.
-     *   Override with a llama.cpp low-level sampler hook when true per-token
-     *   logits become available (Target: Q1 2027).
-     *
-     * // STUB/SIMULATION NOTE:
-     * // Purpose: surface draft-model text output as token-ID+logit pairs so
-     * //          SpeculativeDecoder::verify() receives non-constant inputs.
-     * // Activation: always active for plugins that do not override this method.
-     * // Production Delta: logits are text-heuristic (char-code % vocab_size),
-     * //                   not true per-token distributions from the model's
-     * //                   forward pass; acceptance statistics are approximate.
-     * // Removal Plan: override in LlamaCppPlugin once llama_get_logits() is
-     * //               threaded through ILLMPlugin (STUB #261, Q1 2027).
+     * When a fn has been injected via setDefaultGenerateDraftTokensFn() the
+     * call is forwarded to that fn.  Otherwise the built-in heuristic applies:
+     * generate() is called internally and the returned text is mapped to token
+     * IDs via UTF-8 byte values modulo vocab_size; logit distributions are
+     * peaked (+5 / −5) at the mapped IDs (STUB #261 — Q1 2027).
      *
      * @param request        Inference request (prompt + generation parameters).
      *                       max_tokens is overridden to k internally.
@@ -402,6 +411,17 @@ public:
         size_t                  k,
         size_t                  vocab_size_hint
     ) {
+        // Check injected fn first (STUB #261 bridge).
+        GenerateDraftTokensFn fn_copy;
+        {
+            std::lock_guard<std::mutex> lk(s_draft_fn_mutex_);
+            fn_copy = s_default_draft_fn_;
+        }
+        if (fn_copy) {
+            return fn_copy(request, k, vocab_size_hint);
+        }
+
+        // Built-in text-heuristic fallback.
         InferenceRequest draft_req = request;
         draft_req.max_tokens      = static_cast<int>(k);
         draft_req.stream_callback = nullptr;
@@ -431,6 +451,14 @@ public:
         }
         return result;
     }
+
+private:
+    // Inline static storage for the default generateDraftTokens() injection
+    // (STUB #261 bridge).  Using inline static avoids a separate .cpp TU.
+    inline static std::mutex              s_draft_fn_mutex_;
+    inline static GenerateDraftTokensFn   s_default_draft_fn_;
+
+public:
 
     /**
      * @brief Generate text from prompt

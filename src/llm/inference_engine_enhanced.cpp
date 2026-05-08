@@ -156,6 +156,12 @@ void InferenceEngineEnhanced::setRemoteExecutor(
     }
 }
 
+// ── setTargetLogitsFn (STUB #262) ────────────────────────────────────────────
+void InferenceEngineEnhanced::setTargetLogitsFn(TargetLogitsFn fn) {
+    std::lock_guard<std::mutex> lock(target_logits_fn_mutex_);
+    target_logits_fn_ = std::move(fn);
+}
+
 // ═══════════════════════════════════════════════════════════
 // Model Management
 // ═══════════════════════════════════════════════════════════
@@ -1750,60 +1756,83 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
         return false;
     }
 
-    // ── Target logit estimation (STUB #262) ───────────────────────────────
-    // A full per-token target-model logit API requires llama.cpp hooks not yet
-    // exposed through ILLMPlugin.  Until then we construct peaked distributions
-    // using the first token the target model would predict (one generate() call
-    // with max_tokens=1) for verification positions, and a distinct token ID
-    // for the bonus position.  This is more informative than a constant
-    // peaked-at-0 approach because the target's predicted token now reflects
-    // the actual prompt.
-    //
-    // STUB/SIMULATION NOTE:
-    // Purpose: provide a non-trivial target-logit estimate for SpeculativeDecoder.
-    // Activation: always active; override when target per-token logits are
-    //             surfaced through ILLMPlugin (STUB #262, Target: Q1 2027).
-    // Production Delta: K+1 logit rows use peaked distributions, not true
-    //                   forward-pass logits; acceptance statistics remain
-    //                   approximate.
-    // Removal Plan: add ILLMPlugin::getPositionLogits() and wire llama.cpp
-    //               llama_get_logits() callback through the plugin.
-
-    constexpr float kTargetPeak     =  5.0f;
-    constexpr float kTargetBaseline = -5.0f;
-
-    // Predict a single target token to use for verification positions.
-    int target_pred_token = 0;
+    // ── Target logit estimation (STUB #262 bridge) ────────────────────────
+    // Try the injected TargetLogitsFn first; fall back to the single-token
+    // peaked-distribution heuristic when no fn is set.
+    TargetLogitsFn target_logits_fn_copy;
     {
-        InferenceRequest one_tok_req = request;
-        one_tok_req.max_tokens      = 1;
-        one_tok_req.stream_callback = nullptr;
+        std::lock_guard<std::mutex> lk(target_logits_fn_mutex_);
+        target_logits_fn_copy = target_logits_fn_;
+    }
+
+    std::vector<std::vector<float>> target_logit_matrix;
+    bool used_injected_logits = false;
+    if (target_logits_fn_copy) {
         try {
-            const auto tgt_resp = target_plugin->generate(one_tok_req);
-            if (!tgt_resp.text.empty()) {
-                target_pred_token =
-                    static_cast<int>(static_cast<unsigned char>(tgt_resp.text[0])) %
-                    static_cast<int>(vocab_size);
+            target_logit_matrix = target_logits_fn_copy(request, K, vocab_size, target_plugin);
+            // Validate output size: must be exactly K+1 rows of vocab_size columns.
+            if (target_logit_matrix.size() == K + 1) {
+                bool valid = true;
+                for (const auto& row : target_logit_matrix) {
+                    if (row.size() != vocab_size) { valid = false; break; }
+                }
+                used_injected_logits = valid;
+                if (!valid) {
+                    target_logit_matrix.clear();
+                    spdlog::warn("TargetLogitsFn returned wrong shape — "
+                                 "falling back to heuristic");
+                }
+            } else {
+                target_logit_matrix.clear();
+                spdlog::warn("TargetLogitsFn returned {} rows (expected {}) — "
+                             "falling back to heuristic",
+                             target_logit_matrix.size(), K + 1);
             }
-        } catch (const std::exception&) {
-            // Non-fatal: keep target_pred_token = 0.
+        } catch (const std::exception& e) {
+            target_logit_matrix.clear();
+            spdlog::warn("TargetLogitsFn threw: {} — falling back to heuristic",
+                         e.what());
         }
     }
 
-    auto make_target_row = [&](int peak_token) {
-        std::vector<float> row(vocab_size, kTargetBaseline);
-        row[static_cast<size_t>(
-            std::max(0, peak_token) % static_cast<int>(vocab_size))] = kTargetPeak;
-        return row;
-    };
+    if (!used_injected_logits) {
+        // Built-in heuristic: single generate(max_tokens=1) call to obtain the
+        // target's most-likely next token; peaked distributions for all K+1 rows.
+        constexpr float kTargetPeak     =  5.0f;
+        constexpr float kTargetBaseline = -5.0f;
 
-    std::vector<std::vector<float>> target_logit_matrix(K + 1);
-    for (size_t i = 0; i < K; ++i) {
-        target_logit_matrix[i] = make_target_row(target_pred_token);
+        int target_pred_token = 0;
+        {
+            InferenceRequest one_tok_req = request;
+            one_tok_req.max_tokens      = 1;
+            one_tok_req.stream_callback = nullptr;
+            try {
+                const auto tgt_resp = target_plugin->generate(one_tok_req);
+                if (!tgt_resp.text.empty()) {
+                    target_pred_token =
+                        static_cast<int>(static_cast<unsigned char>(tgt_resp.text[0])) %
+                        static_cast<int>(vocab_size);
+                }
+            } catch (const std::exception&) {
+                // Non-fatal: keep target_pred_token = 0.
+            }
+        }
+
+        auto make_target_row = [&](int peak_token) {
+            std::vector<float> row(vocab_size, kTargetBaseline);
+            row[static_cast<size_t>(
+                std::max(0, peak_token) % static_cast<int>(vocab_size))] = kTargetPeak;
+            return row;
+        };
+
+        target_logit_matrix.resize(K + 1);
+        for (size_t i = 0; i < K; ++i) {
+            target_logit_matrix[i] = make_target_row(target_pred_token);
+        }
+        // Bonus position: use a token shifted by 1 to distinguish from verification.
+        target_logit_matrix[K] = make_target_row(
+            (target_pred_token + 1) % static_cast<int>(vocab_size));
     }
-    // Bonus position: use a token shifted by 1 to distinguish from verification.
-    target_logit_matrix[K] = make_target_row(
-        (target_pred_token + 1) % static_cast<int>(vocab_size));
 
     // ── Acceptance / rejection loop ───────────────────────────────────────
     SpeculativeDecoder::VerifyResult verify_result;

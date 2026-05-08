@@ -28,6 +28,7 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include <mutex>
 
 namespace themis {
 namespace whisper {
@@ -119,6 +120,12 @@ private:
  */
 class WhisperStubTranscriber : public IWhisperTranscriber {
 public:
+    /// Callback type for injecting a real transcription implementation into
+    /// WhisperStubTranscriber without full whisper.cpp integration.
+    using TranscribeFn = std::function<
+        audio::TranscriptionResult(const std::vector<float>& /*pcm*/,
+                                   float                    /*sample_rate*/)>;
+
     bool initialize(const WhisperConfig& cfg) override {
         model_id_ = cfg.model_path.empty() ? "stub" : cfg.model_path;
         initialized_ = true;
@@ -126,7 +133,27 @@ public:
     }
     bool isInitialized() const override { return initialized_; }
 
-    audio::TranscriptionResult transcribe(const std::vector<float>&, float) override {
+    /// Inject (or remove) a real transcription fn.  Pass nullptr to restore
+    /// the empty-result stub.  Thread-safe with concurrent transcribe() calls.
+    void setTranscribeFn(TranscribeFn fn) {
+        std::lock_guard<std::mutex> lk(transcribe_fn_mutex_);
+        transcribe_fn_ = std::move(fn);
+    }
+
+    audio::TranscriptionResult transcribe(const std::vector<float>& pcm,
+                                          float sample_rate) override {
+        TranscribeFn fn_copy;
+        {
+            std::lock_guard<std::mutex> lk(transcribe_fn_mutex_);
+            fn_copy = transcribe_fn_;
+        }
+        if (fn_copy) {
+            auto result = fn_copy(pcm, sample_rate);
+            result.model_id            = model_id_;
+            result.plugin_version      = "2.0.0";
+            result.ingestion_source_type = "WHISPER";
+            return result;
+        }
         audio::TranscriptionResult r;
         r.text = "";
         r.language = "unknown";
@@ -144,6 +171,8 @@ public:
 private:
     bool        initialized_ = false;
     std::string model_id_ = "stub";
+    TranscribeFn        transcribe_fn_;
+    mutable std::mutex  transcribe_fn_mutex_;
 };
 
 // ---------------------------------------------------------------------------
