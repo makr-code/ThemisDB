@@ -89,3 +89,35 @@ TEST(VulkanGlslCompilerFnTest, SetTwiceLastFnWins) {
     setVulkanGlslCompilerFn(nullptr);
 #endif
 }
+
+TEST(VulkanGlslCompilerFnTest, VulkanStubBridgeFnsWorkWithoutSdk) {
+#ifdef THEMIS_ENABLE_VULKAN
+    GTEST_SKIP() << "Real Vulkan build active; stub bridge path is not compiled.";
+#else
+    using namespace themis::acceleration;
+
+    VulkanVectorBackend::setAvailabilityFn([] { return true; });
+    VulkanVectorBackend::setInitializeFn([] { return true; });
+    VulkanVectorBackend::setComputeDistancesFn(
+        [](const float*, size_t, size_t, const float*, size_t, bool) {
+            return std::vector<float>{1.0f, 2.0f};
+        });
+    VulkanVectorBackend::setBatchKnnSearchFn(
+        [](const float*, size_t, size_t, const float*, size_t, size_t, bool) {
+            return std::vector<std::vector<std::pair<uint32_t, float>>>{
+                {{1u, 0.1f}, {2u, 0.2f}}
+            };
+        });
+
+    VulkanVectorBackend backend;
+    EXPECT_TRUE(backend.isAvailable());
+    EXPECT_TRUE(backend.initialize());
+    EXPECT_EQ(backend.computeDistances(nullptr, 0, 0, nullptr, 0).size(), 2u);
+    EXPECT_EQ(backend.batchKnnSearch(nullptr, 0, 0, nullptr, 0, 2).size(), 1u);
+
+    VulkanVectorBackend::setAvailabilityFn({});
+    VulkanVectorBackend::setInitializeFn({});
+    VulkanVectorBackend::setComputeDistancesFn({});
+    VulkanVectorBackend::setBatchKnnSearchFn({});
+#endif
+}

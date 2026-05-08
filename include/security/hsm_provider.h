@@ -179,6 +179,37 @@ public:
                 const std::string& signature_b64,
                 const std::string& key_label = "");
 
+    using SignHashFn =
+        std::function<HSMSignatureResult(const std::vector<uint8_t>& hash,
+                                         const std::string& key_label)>;
+    using VerifyFn =
+        std::function<bool(const std::vector<uint8_t>& data,
+                           const std::string& signature_b64,
+                           const std::string& key_label)>;
+    using EncryptDataFn =
+        std::function<std::vector<uint8_t>(const std::vector<uint8_t>& data,
+                                           const std::string& key_label)>;
+    using DecryptDataFn =
+        std::function<std::vector<uint8_t>(const std::vector<uint8_t>& encrypted,
+                                           const std::string& key_label)>;
+
+    static void setSignHashFn(SignHashFn fn) {
+        std::lock_guard<std::mutex> lk(signHashFnMutex());
+        signHashFnStorage() = std::move(fn);
+    }
+    static void setVerifyFn(VerifyFn fn) {
+        std::lock_guard<std::mutex> lk(verifyFnMutex());
+        verifyFnStorage() = std::move(fn);
+    }
+    static void setEncryptDataFn(EncryptDataFn fn) {
+        std::lock_guard<std::mutex> lk(encryptDataFnMutex());
+        encryptDataFnStorage() = std::move(fn);
+    }
+    static void setDecryptDataFn(DecryptDataFn fn) {
+        std::lock_guard<std::mutex> lk(decryptDataFnMutex());
+        decryptDataFnStorage() = std::move(fn);
+    }
+
     /**
      * List available keys in HSM
      * @return Vector of key information
@@ -301,6 +332,38 @@ public:
     void periodicSecurityCheck();
 
 private:
+    static std::mutex& signHashFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static SignHashFn& signHashFnStorage() {
+        static SignHashFn fn;
+        return fn;
+    }
+    static std::mutex& verifyFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static VerifyFn& verifyFnStorage() {
+        static VerifyFn fn;
+        return fn;
+    }
+    static std::mutex& encryptDataFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static EncryptDataFn& encryptDataFnStorage() {
+        static EncryptDataFn fn;
+        return fn;
+    }
+    static std::mutex& decryptDataFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static DecryptDataFn& decryptDataFnStorage() {
+        static DecryptDataFn fn;
+        return fn;
+    }
     static std::mutex& generateKeyPairFnMutex() {
         static std::mutex m;
         return m;

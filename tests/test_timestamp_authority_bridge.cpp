@@ -115,3 +115,55 @@ TEST(TimestampAuthorityBridgeTest, StubImplStatefulCertificateCachePathWorks) {
     EXPECT_NE(cert1->find("BEGIN CERTIFICATE"), std::string::npos);
 }
 
+TEST(TimestampAuthorityBridgeTest, GetTimestampForHashBridgeIsUsed) {
+#ifdef THEMIS_USE_OPENSSL_TSA
+    GTEST_SKIP() << "THEMIS_USE_OPENSSL_TSA is ON; stub bridge path not compiled.";
+#endif
+    EnvUnsetGuard no_stub("THEMIS_ALLOW_TSA_STUB");
+
+    TimestampAuthority::setGetTimestampForHashFn(
+        [](const std::vector<uint8_t>& hash, const TSAConfig& cfg) {
+            TimestampToken token;
+            token.success = true;
+            token.serial_number = "BRIDGED";
+            token.token_b64 = "hash:" + std::to_string(hash.size());
+            token.policy_oid = cfg.policy_oid;
+            return token;
+        });
+
+    TSAConfig cfg;
+    cfg.policy_oid = "1.2.3";
+    TimestampAuthority tsa(cfg);
+    auto token = tsa.getTimestampForHash({1, 2, 3, 4});
+    EXPECT_TRUE(token.success);
+    EXPECT_EQ(token.serial_number, "BRIDGED");
+    EXPECT_EQ(token.policy_oid, "1.2.3");
+
+    TimestampAuthority::setGetTimestampForHashFn({});
+}
+
+TEST(TimestampAuthorityBridgeTest, VerifyTimestampForHashBridgeIsUsedAndFailsClosed) {
+#ifdef THEMIS_USE_OPENSSL_TSA
+    GTEST_SKIP() << "THEMIS_USE_OPENSSL_TSA is ON; stub bridge path not compiled.";
+#endif
+    EnvUnsetGuard no_stub("THEMIS_ALLOW_TSA_STUB");
+
+    TimestampAuthority::setVerifyTimestampForHashFn(
+        [](const std::vector<uint8_t>& hash, const TimestampToken& token, const TSAConfig&) {
+            return hash.size() == 2 && token.serial_number == "OK";
+        });
+
+    TSAConfig cfg;
+    TimestampAuthority tsa(cfg);
+    TimestampToken token;
+    token.serial_number = "OK";
+    EXPECT_TRUE(tsa.verifyTimestampForHash({9, 9}, token));
+
+    TimestampAuthority::setVerifyTimestampForHashFn(
+        [](const std::vector<uint8_t>&, const TimestampToken&, const TSAConfig&) -> bool {
+            throw std::runtime_error("verify failure");
+        });
+    EXPECT_FALSE(tsa.verifyTimestampForHash({9, 9}, token));
+
+    TimestampAuthority::setVerifyTimestampForHashFn({});
+}

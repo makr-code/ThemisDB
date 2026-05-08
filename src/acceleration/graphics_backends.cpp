@@ -1002,6 +1002,18 @@ bool VulkanVectorBackend::isAvailable() const noexcept {
     }
     return false;
 #else
+    AvailabilityFn fn;
+    {
+        std::lock_guard<std::mutex> lk(VulkanVectorBackend::availabilityFnMutex());
+        fn = VulkanVectorBackend::availabilityFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn();
+        } catch (...) {
+            return false;
+        }
+    }
     return false;
 #endif
 }
@@ -1117,6 +1129,20 @@ bool VulkanVectorBackend::initialize() {
 
     return true;
 #else
+    InitializeFn fn;
+    {
+        std::lock_guard<std::mutex> lk(VulkanVectorBackend::initializeFnMutex());
+        fn = VulkanVectorBackend::initializeFnStorage();
+    }
+    if (fn) {
+        try {
+            initialized_ = fn();
+            return initialized_;
+        } catch (...) {
+            initialized_ = false;
+            return false;
+        }
+    }
     return false;
 #endif
 }
@@ -1263,6 +1289,18 @@ std::vector<float> VulkanVectorBackend::computeDistances(
         return {};
     }
 #else
+    ComputeDistancesFn fn;
+    {
+        std::lock_guard<std::mutex> lk(VulkanVectorBackend::computeDistancesFnMutex());
+        fn = VulkanVectorBackend::computeDistancesFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(queries, numQueries, dim, vectors, numVectors, useL2);
+        } catch (...) {
+            return {};
+        }
+    }
     return {};
 #endif
 }
@@ -1360,6 +1398,18 @@ std::vector<std::vector<std::pair<uint32_t, float>>> VulkanVectorBackend::batchK
     clearError();
     return results;
 #else
+    BatchKnnSearchFn fn;
+    {
+        std::lock_guard<std::mutex> lk(VulkanVectorBackend::batchKnnSearchFnMutex());
+        fn = VulkanVectorBackend::batchKnnSearchFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(queries, numQueries, dim, vectors, numVectors, k, useL2);
+        } catch (...) {
+            return {};
+        }
+    }
     return {};
 #endif
 }

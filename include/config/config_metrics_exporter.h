@@ -24,6 +24,8 @@
 
 #include <memory>
 #include <string>
+#include <functional>
+#include <mutex>
 
 namespace prometheus {
 class Registry;
@@ -57,6 +59,8 @@ namespace config {
  */
 class ConfigMetricsExporter {
 public:
+    using GaugeSinkFn = std::function<void(const std::string& name, double value)>;
+
     ConfigMetricsExporter() = delete;
 
     /**
@@ -90,6 +94,19 @@ public:
      * Prometheus support (THEMIS_HAS_PROMETHEUS) is not available.
      */
     static void registerWithRegistry(const std::shared_ptr<prometheus::Registry>& registry);
+
+    static void setGaugeSinkFn(GaugeSinkFn fn) {
+        std::lock_guard<std::mutex> lk(gaugeSinkFnMutex());
+        gaugeSinkFnStorage() = std::move(fn);
+    }
+    static std::mutex& gaugeSinkFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static GaugeSinkFn& gaugeSinkFnStorage() {
+        static GaugeSinkFn fn;
+        return fn;
+    }
 };
 
 } // namespace config

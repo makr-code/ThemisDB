@@ -146,7 +146,32 @@ TimestampToken TimestampAuthority::getTimestamp(const std::vector<uint8_t>& data
     // This stub does NOT provide cryptographic timestamps!
     THEMIS_WARN("Using TimestampAuthority STUB - NOT SECURE for production!");
     
-    auto hash = computeHash(data);
+    return getTimestampForHash(computeHash(data));
+}
+
+TimestampToken TimestampAuthority::getTimestampForHash(const std::vector<uint8_t>& hash) {
+    if (isProductionMode() && !isStubAllowed()) {
+        return makeProductionError();
+    }
+    GetTimestampForHashFn fn;
+    {
+        std::lock_guard<std::mutex> lk(TimestampAuthority::getTimestampForHashFnMutex());
+        fn = TimestampAuthority::getTimestampForHashFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(hash, config_);
+        } catch (const std::exception& e) {
+            TimestampToken tok;
+            tok.error_message = std::string("getTimestampForHash callback failed: ") + e.what();
+            return tok;
+        } catch (...) {
+            TimestampToken tok;
+            tok.error_message = "getTimestampForHash callback failed: unknown exception";
+            return tok;
+        }
+    }
+
     TimestampToken tok;
     tok.success = true;
     tok.hash_algorithm = config_.hash_algorithm;
@@ -177,20 +202,23 @@ TimestampToken TimestampAuthority::getTimestamp(const std::vector<uint8_t>& data
     return tok;
 }
 
-TimestampToken TimestampAuthority::getTimestampForHash(const std::vector<uint8_t>& hash) {
-    if (isProductionMode() && !isStubAllowed()) {
-        return makeProductionError();
-    }
-    // Reuse getTimestamp for simplicity (non-cryptographic anyway)
-    return getTimestamp(hash);
-}
-
 bool TimestampAuthority::verifyTimestamp(const std::vector<uint8_t>& data, const TimestampToken& token) {
-    auto h = computeHash(data);
-    return token.success && token.token_b64 == std::string("hex:")+hex(h);
+    return verifyTimestampForHash(computeHash(data), token);
 }
 
 bool TimestampAuthority::verifyTimestampForHash(const std::vector<uint8_t>& hash, const TimestampToken& token) {
+    VerifyTimestampForHashFn fn;
+    {
+        std::lock_guard<std::mutex> lk(TimestampAuthority::verifyTimestampForHashFnMutex());
+        fn = TimestampAuthority::verifyTimestampForHashFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(hash, token, config_);
+        } catch (...) {
+            return false;
+        }
+    }
     return token.success && token.token_b64 == std::string("hex:")+hex(hash);
 }
 

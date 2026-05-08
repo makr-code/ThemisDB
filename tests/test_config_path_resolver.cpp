@@ -1042,6 +1042,24 @@ TEST_F(ConfigMetricsExporterTest, UpdateMetricsCollectorDoesNotThrow) {
     EXPECT_NO_THROW(ConfigMetricsExporter::updateMetricsCollector());
 }
 
+TEST_F(ConfigMetricsExporterTest, UpdateMetricsCollectorGaugeSinkBridgeIsUsed) {
+    std::map<std::string, double> gauges;
+    ConfigMetricsExporter::setGaugeSinkFn(
+        [&gauges](const std::string& name, double value) {
+            gauges[name] = value;
+        });
+
+    try {
+        ConfigPathResolver::resolve("config/nonexistent_for_sink_bridge.yaml");
+    } catch (const ConfigNotFoundException&) {
+        // expected
+    }
+    ConfigMetricsExporter::updateMetricsCollector();
+    EXPECT_TRUE(gauges.count("themis_config_resolution_misses_current"));
+
+    ConfigMetricsExporter::setGaugeSinkFn({});
+}
+
 TEST_F(ConfigMetricsExporterTest, CollectIsIdempotent) {
     // Trigger a resolution miss so counters are non-zero
     try {

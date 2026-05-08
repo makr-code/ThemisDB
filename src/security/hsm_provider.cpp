@@ -243,6 +243,35 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
         if (impl_) impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
         return r;
     }
+
+    SignHashFn fn;
+    {
+        std::lock_guard<std::mutex> lk(HSMProvider::signHashFnMutex());
+        fn = HSMProvider::signHashFnStorage();
+    }
+    if (fn) {
+        try {
+            auto result = fn(hash, key_label.empty() ? config_.key_label : key_label);
+            if (result.success) {
+                impl_->sign_count.fetch_add(1, std::memory_order_relaxed);
+            } else {
+                impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
+            }
+            auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::high_resolution_clock::now() - startTime).count();
+            impl_->total_sign_time_us.fetch_add(static_cast<uint64_t>(elapsed), std::memory_order_relaxed);
+            return result;
+        } catch (const std::exception& e) {
+            r.error_message = std::string("signHash callback failed: ") + e.what();
+            impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
+            return r;
+        } catch (...) {
+            r.error_message = "signHash callback failed: unknown exception";
+            impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
+            return r;
+        }
+    }
+
     THEMIS_WARN("HSMProvider STUB signing - NOT cryptographically secure!");
     r.success = true;
     r.signature_b64 = pseudo_b64(hash);
@@ -260,8 +289,22 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
 
 bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& signature_b64, const std::string& key_label) {
     auto startTime = std::chrono::high_resolution_clock::now();
-    auto expected = pseudo_b64(data);
-    bool ok = (expected == signature_b64);
+    VerifyFn fn;
+    {
+        std::lock_guard<std::mutex> lk(HSMProvider::verifyFnMutex());
+        fn = HSMProvider::verifyFnStorage();
+    }
+    bool ok = false;
+    if (fn) {
+        try {
+            ok = fn(data, signature_b64, key_label.empty() ? config_.key_label : key_label);
+        } catch (...) {
+            ok = false;
+        }
+    } else {
+        auto expected = pseudo_b64(data);
+        ok = (expected == signature_b64);
+    }
     THEMIS_DEBUG("HSMProvider stub verify key='{}' ok={}", key_label.empty()?config_.key_label:key_label, ok);
     if (impl_) {
         if (ok) impl_->verify_count.fetch_add(1, std::memory_order_relaxed);
@@ -287,6 +330,22 @@ std::vector<HSMKeyInfo> HSMProvider::listKeys() {
 
 std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, [[maybe_unused]] const std::string& key_label) {
     if (!initialized_) { last_error_ = "HSM stub not initialized"; return {}; }
+    EncryptDataFn fn;
+    {
+        std::lock_guard<std::mutex> lk(HSMProvider::encryptDataFnMutex());
+        fn = HSMProvider::encryptDataFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(data, key_label.empty() ? config_.key_label : key_label);
+        } catch (const std::exception& e) {
+            last_error_ = std::string("encryptData callback failed: ") + e.what();
+            return {};
+        } catch (...) {
+            last_error_ = "encryptData callback failed: unknown exception";
+            return {};
+        }
+    }
     THEMIS_WARN("HSMProvider STUB encryptData - NOT hardware-protected, for development only!");
     auto result = stub_aes_encrypt(impl_->stub_kek, data);
     if (result.empty()) { last_error_ = "Stub AES encrypt failed"; }
@@ -295,6 +354,22 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
 
 std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, [[maybe_unused]] const std::string& key_label) {
     if (!initialized_) { last_error_ = "HSM stub not initialized"; return {}; }
+    DecryptDataFn fn;
+    {
+        std::lock_guard<std::mutex> lk(HSMProvider::decryptDataFnMutex());
+        fn = HSMProvider::decryptDataFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(encrypted, key_label.empty() ? config_.key_label : key_label);
+        } catch (const std::exception& e) {
+            last_error_ = std::string("decryptData callback failed: ") + e.what();
+            return {};
+        } catch (...) {
+            last_error_ = "decryptData callback failed: unknown exception";
+            return {};
+        }
+    }
     THEMIS_WARN("HSMProvider STUB decryptData - NOT hardware-protected, for development only!");
     auto result = stub_aes_decrypt(impl_->stub_kek, encrypted);
     if (result.empty()) { last_error_ = "Stub AES decrypt failed (bad ciphertext or key mismatch)"; }

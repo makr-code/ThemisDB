@@ -56,6 +56,8 @@
 
 #include "plugins/plugin_interface.h"
 #include <cstdint>
+#include <functional>
+#include <memory>
 #include <string>
 
 namespace themis {
@@ -75,6 +77,21 @@ enum class WasmPluginRuntime {
     WASMTIME,   ///< Wasmtime (Bytecode Alliance).
     WASMEDGE,   ///< WasmEdge (CNCF).
 };
+
+using WasmPluginLoadFn = std::function<std::unique_ptr<IThemisPlugin>(
+    const std::string& wasm_path,
+    const std::string& expected_sha256,
+    WasmPluginRuntime runtime,
+    const std::string& module_name,
+    std::string& error_out)>;
+
+void setWasmPluginLoadFn(WasmPluginLoadFn fn);
+std::unique_ptr<IThemisPlugin> loadWasmPlugin(
+    const std::string& wasm_path,
+    const std::string& expected_sha256,
+    WasmPluginRuntime runtime,
+    const std::string& module_name,
+    std::string& error_out);
 
 // ============================================================================
 // Host-function C ABI (always visible regardless of THEMIS_WASM_SUPPORT)

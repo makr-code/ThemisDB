@@ -25,7 +25,9 @@
 
 #include "acceleration/compute_backend.h"
 #include "acceleration/metrics/backend_metrics.h"
+#include <functional>
 #include <memory>
+#include <mutex>
 
 namespace themis {
 namespace acceleration {
@@ -72,6 +74,24 @@ private:
 // Vulkan Compute backend (cross-platform)
 class VulkanVectorBackend : public IVectorBackend {
 public:
+    using AvailabilityFn = std::function<bool()>;
+    using InitializeFn = std::function<bool()>;
+    using ComputeDistancesFn = std::function<std::vector<float>(
+        const float* queries,
+        size_t numQueries,
+        size_t dim,
+        const float* vectors,
+        size_t numVectors,
+        bool useL2)>;
+    using BatchKnnSearchFn = std::function<std::vector<std::vector<std::pair<uint32_t, float>>>(
+        const float* queries,
+        size_t numQueries,
+        size_t dim,
+        const float* vectors,
+        size_t numVectors,
+        size_t k,
+        bool useL2)>;
+
     VulkanVectorBackend();
     ~VulkanVectorBackend() override;
     
@@ -128,7 +148,56 @@ public:
     std::pair<uint32_t, uint32_t> getWorkgroupSizeL2() const noexcept;
     uint32_t getWorkgroupSizeBatchSearch() const noexcept;
 
+    static void setAvailabilityFn(AvailabilityFn fn) {
+        std::lock_guard<std::mutex> lk(availabilityFnMutex());
+        availabilityFnStorage() = std::move(fn);
+    }
+    static void setInitializeFn(InitializeFn fn) {
+        std::lock_guard<std::mutex> lk(initializeFnMutex());
+        initializeFnStorage() = std::move(fn);
+    }
+    static void setComputeDistancesFn(ComputeDistancesFn fn) {
+        std::lock_guard<std::mutex> lk(computeDistancesFnMutex());
+        computeDistancesFnStorage() = std::move(fn);
+    }
+    static void setBatchKnnSearchFn(BatchKnnSearchFn fn) {
+        std::lock_guard<std::mutex> lk(batchKnnSearchFnMutex());
+        batchKnnSearchFnStorage() = std::move(fn);
+    }
+
 private:
+    static std::mutex& availabilityFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static AvailabilityFn& availabilityFnStorage() {
+        static AvailabilityFn fn;
+        return fn;
+    }
+    static std::mutex& initializeFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static InitializeFn& initializeFnStorage() {
+        static InitializeFn fn;
+        return fn;
+    }
+    static std::mutex& computeDistancesFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static ComputeDistancesFn& computeDistancesFnStorage() {
+        static ComputeDistancesFn fn;
+        return fn;
+    }
+    static std::mutex& batchKnnSearchFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static BatchKnnSearchFn& batchKnnSearchFnStorage() {
+        static BatchKnnSearchFn fn;
+        return fn;
+    }
     bool initialized_ = false;
     class VulkanVectorBackendImpl;
     std::unique_ptr<VulkanVectorBackendImpl> impl_;

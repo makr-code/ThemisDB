@@ -23,6 +23,8 @@
 #include <memory>
 #include <string>
 #include <cstdint>
+#include <functional>
+#include <mutex>
 
 namespace themis {
 
@@ -151,6 +153,23 @@ public:
     };
     
     Stats getStats() const;
+
+    struct StubCallbacks {
+        std::function<bool(size_t dimension, const Config& config)> initialize;
+        std::function<bool(const float* vectors, size_t count)> train;
+        std::function<bool(const float* vectors, size_t count)> add;
+        std::function<bool(const float* vectors, const int64_t* ids, size_t count)> add_with_ids;
+        std::function<SearchResult(const float* query, size_t k)> search;
+        std::function<std::vector<SearchResult>(const float* queries, size_t num_queries, size_t k)> search_batch;
+        std::function<Stats()> stats;
+        std::function<bool(const std::string& path)> save;
+        std::function<bool(const std::string& path)> load;
+    };
+
+    static void setStubCallbacks(StubCallbacks callbacks) {
+        std::lock_guard<std::mutex> lk(stubCallbacksMutex());
+        stubCallbacksStorage() = std::move(callbacks);
+    }
     
     /**
      * @brief Save index to disk
@@ -180,6 +199,14 @@ public:
         WorkloadType workload);
 
 private:
+    static std::mutex& stubCallbacksMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static StubCallbacks& stubCallbacksStorage() {
+        static StubCallbacks callbacks;
+        return callbacks;
+    }
     size_t dimension_;
     Config config_;
     void* index_;  // Opaque FAISS index pointer

@@ -152,6 +152,14 @@ struct TimestampToken {
  */
 class TimestampAuthority {
 public:
+    using GetTimestampForHashFn =
+        std::function<TimestampToken(const std::vector<uint8_t>& hash,
+                                     const TSAConfig& config)>;
+    using VerifyTimestampForHashFn =
+        std::function<bool(const std::vector<uint8_t>& hash,
+                           const TimestampToken& token,
+                           const TSAConfig& config)>;
+
     explicit TimestampAuthority(TSAConfig config);
     ~TimestampAuthority();
 
@@ -220,7 +228,32 @@ public:
      */
     std::string getLastError() const;
 
+    static void setGetTimestampForHashFn(GetTimestampForHashFn fn) {
+        std::lock_guard<std::mutex> lk(getTimestampForHashFnMutex());
+        getTimestampForHashFnStorage() = std::move(fn);
+    }
+    static void setVerifyTimestampForHashFn(VerifyTimestampForHashFn fn) {
+        std::lock_guard<std::mutex> lk(verifyTimestampForHashFnMutex());
+        verifyTimestampForHashFnStorage() = std::move(fn);
+    }
+
 private:
+    static std::mutex& getTimestampForHashFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static GetTimestampForHashFn& getTimestampForHashFnStorage() {
+        static GetTimestampForHashFn fn;
+        return fn;
+    }
+    static std::mutex& verifyTimestampForHashFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static VerifyTimestampForHashFn& verifyTimestampForHashFnStorage() {
+        static VerifyTimestampForHashFn fn;
+        return fn;
+    }
     class Impl;
     std::unique_ptr<Impl> impl_;
     TSAConfig config_;

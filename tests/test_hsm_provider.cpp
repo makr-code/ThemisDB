@@ -219,6 +219,57 @@ TEST_F(HSMProviderTest, DifferentAlgorithmsFallbackHex) {
     }
 }
 
+TEST_F(HSMProviderTest, SignHashBridgeIsUsed) {
+    HSMConfig config = createTestConfig();
+    HSMProvider hsm(config);
+    ASSERT_TRUE(hsm.initialize());
+
+    HSMProvider::setSignHashFn([](const std::vector<uint8_t>& hash, const std::string& key_label) {
+        HSMSignatureResult result;
+        result.success = true;
+        result.signature_b64 = "bridge-signature";
+        result.algorithm = "bridge";
+        result.key_id = key_label;
+        result.timestamp_ms = hash.size();
+        return result;
+    });
+
+    auto result = hsm.signHash({1, 2, 3}, "bridge-key");
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(result.signature_b64, "bridge-signature");
+    EXPECT_EQ(result.key_id, "bridge-key");
+
+    HSMProvider::setSignHashFn({});
+}
+
+TEST_F(HSMProviderTest, VerifyAndEncryptDecryptBridgesAreUsed) {
+    HSMConfig config = createTestConfig();
+    HSMProvider hsm(config);
+    ASSERT_TRUE(hsm.initialize());
+
+    HSMProvider::setVerifyFn([](const std::vector<uint8_t>& data,
+                                const std::string& signature,
+                                const std::string& key_label) {
+        return data.size() == 3 && signature == "ok" && key_label == "verify-key";
+    });
+    HSMProvider::setEncryptDataFn([](const std::vector<uint8_t>& data, const std::string&) {
+        return std::vector<uint8_t>(data.rbegin(), data.rend());
+    });
+    HSMProvider::setDecryptDataFn([](const std::vector<uint8_t>& data, const std::string&) {
+        return std::vector<uint8_t>(data.rbegin(), data.rend());
+    });
+
+    EXPECT_TRUE(hsm.verify({1, 2, 3}, "ok", "verify-key"));
+    auto encrypted = hsm.encryptData({1, 2, 3});
+    EXPECT_EQ(encrypted, (std::vector<uint8_t>{3, 2, 1}));
+    auto decrypted = hsm.decryptData(encrypted);
+    EXPECT_EQ(decrypted, (std::vector<uint8_t>{1, 2, 3}));
+
+    HSMProvider::setVerifyFn({});
+    HSMProvider::setEncryptDataFn({});
+    HSMProvider::setDecryptDataFn({});
+}
+
 // Performance benchmark test (disabled by default)
 TEST_F(HSMProviderTest, DISABLED_SignPerformanceBenchmark) {
     if (!isHSMAvailable()) {

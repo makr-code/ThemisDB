@@ -23,6 +23,7 @@
 
 #include <gtest/gtest.h>
 #include "geo/spatial_backend.h"
+#include "geo/device_detector.h"
 #include "utils/geo/ewkb.h"
 #include "acceleration/geo_acceleration_bridge.h"
 #include "acceleration/compute_backend.h"
@@ -122,6 +123,26 @@ bool segsIntersect(double ax, double ay, double bx, double by,
 // ---------------------------------------------------------------------------
 
 class GpuGeoBackendTest : public ::testing::Test {};
+
+TEST_F(GpuGeoBackendTest, DeviceDetectorEnumerateFnBridgeIsUsed) {
+    themis::gpu::DeviceInfo info;
+    info.index = 3;
+    info.device_index = 3;
+    info.name = "Injected GPU";
+    info.backend = "CUDA";
+    info.is_healthy = true;
+    info.compute_major = 8;
+    info.compute_minor = 0;
+    info.free_vram_bytes = 512ULL * 1024ULL * 1024ULL;
+    info.total_vram_bytes = 1024ULL * 1024ULL * 1024ULL;
+
+    GeoDeviceDetector::setEnumerateFn([info] { return std::vector<themis::gpu::DeviceInfo>{info}; });
+    const auto caps = GeoDeviceDetector::Detect();
+    ASSERT_EQ(caps.size(), 1u);
+    EXPECT_EQ(caps.front().device.name, "Injected GPU");
+    EXPECT_TRUE(caps.front().suitable_for_geo);
+    GeoDeviceDetector::setEnumerateFn({});
+}
 
 // ============================================================
 // Point × Point
