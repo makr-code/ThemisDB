@@ -827,7 +827,7 @@ static std::string legacyMutationJournalKeyForSnapshot(const std::string& snapsh
     return snapshot_key + "::wal";
 }
 
-static bool loadOrResetJournalWithLegacyFallback(
+static bool loadJournalWithLegacyFallback(
     const std::shared_ptr<themis::storage::TensorNetworkStorageEngine>& storage,
     const std::string& snapshot_key,
     std::vector<MutationJournalEntry>& entries) {
@@ -836,29 +836,25 @@ static bool loadOrResetJournalWithLegacyFallback(
         return false;
     }
 
-    const auto primary_key = mutationJournalKeyForSnapshot(snapshot_key);
-    const auto primary_payload = storage->getRawMetadata(primary_key);
-    if (primary_payload && !primary_payload->empty()) {
-        if (deserializeMutationJournal(*primary_payload, entries)) {
+    const auto try_load_key = [&](const std::string& key) -> bool {
+        const auto payload = storage->getRawMetadata(key);
+        if (!payload || payload->empty()) {
+            return false;
+        }
+        if (deserializeMutationJournal(*payload, entries)) {
             return true;
         }
         THEMIS_WARN("[TensorDeduplicationManager] mutation journal parse failed for key='{}' ({} bytes); resetting journal payload",
-                    primary_key,
-                    primary_payload->size());
+                    key,
+                    payload->size());
         entries.clear();
         return true;
-    }
+    };
 
-    const auto legacy_key = legacyMutationJournalKeyForSnapshot(snapshot_key);
-    const auto legacy_payload = storage->getRawMetadata(legacy_key);
-    if (legacy_payload && !legacy_payload->empty()) {
-        if (deserializeMutationJournal(*legacy_payload, entries)) {
-            return true;
-        }
-        THEMIS_WARN("[TensorDeduplicationManager] mutation journal parse failed for key='{}' ({} bytes); resetting journal payload",
-                    legacy_key,
-                    legacy_payload->size());
-        entries.clear();
+    if (try_load_key(mutationJournalKeyForSnapshot(snapshot_key))) {
+        return true;
+    }
+    if (try_load_key(legacyMutationJournalKeyForSnapshot(snapshot_key))) {
         return true;
     }
 
@@ -1058,8 +1054,12 @@ bool TensorDeduplicationManager::restoreGraph(const std::string& snapshot_key) {
 
 bool TensorDeduplicationManager::replayMutationJournal(const std::string& snapshot_key) {
     std::vector<MutationJournalEntry> entries;
-    if (!loadOrResetJournalWithLegacyFallback(storage_, snapshot_key, entries) ||
-        entries.empty()) {
+    if (!loadJournalWithLegacyFallback(storage_, snapshot_key, entries)) {
+        return true;
+    }
+    if (entries.empty()) {
+        // Invalid payloads are treated as no-op for replay; subsequent writes
+        // will normalize the journal by persisting a fresh valid payload.
         return true;
     }
 
@@ -1147,7 +1147,7 @@ void TensorDeduplicationManager::persistUpsertJournalEntry(
 
     std::vector<MutationJournalEntry> entries;
     const auto journal_key = mutationJournalKeyForSnapshot(*snapshot_key);
-    loadOrResetJournalWithLegacyFallback(storage_, *snapshot_key, entries);
+    loadJournalWithLegacyFallback(storage_, *snapshot_key, entries);
     entries.push_back(std::move(entry));
     compactMutationJournalEntries(entries);
     storage_->putRawMetadata(journal_key, serializeMutationJournal(entries));
@@ -1171,7 +1171,7 @@ void TensorDeduplicationManager::persistDeleteJournalEntry(
 
     std::vector<MutationJournalEntry> entries;
     const auto journal_key = mutationJournalKeyForSnapshot(*snapshot_key);
-    loadOrResetJournalWithLegacyFallback(storage_, *snapshot_key, entries);
+    loadJournalWithLegacyFallback(storage_, *snapshot_key, entries);
     entries.push_back(std::move(entry));
     compactMutationJournalEntries(entries);
     storage_->putRawMetadata(journal_key, serializeMutationJournal(entries));
