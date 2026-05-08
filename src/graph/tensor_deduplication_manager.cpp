@@ -663,8 +663,9 @@ static bool deserializeDedupSnapshot(
     total_bytes_stored = static_cast<std::size_t>(total_bytes_stored_u64);
     bytes_saved = static_cast<std::size_t>(bytes_saved_u64);
     if (pos != size) {
+        const auto trailing_bytes = size - pos;
         THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: trailing bytes detected ({})",
-                    size - pos);
+                    trailing_bytes);
         return false;
     }
     return true;
