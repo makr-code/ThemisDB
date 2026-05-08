@@ -48,6 +48,7 @@
  *   TDM-16  restoreGraph replays post-snapshot insert/delete journal mutations
  *   TDM-17  restoreGraph replays post-snapshot overwrite journal mutations
  *   TDM-18  repeated post-snapshot overwrites compact the persisted mutation journal
+ *   TDM-19  restoreGraph replays legacy journal keys and rewrites namespaced keys
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -1108,7 +1109,7 @@ TEST(TensorDeduplicationManagerSnapshotTest,
      TDM18_RepeatedOverwritesCompactMutationJournal) {
     auto engine = makeEngine();
     constexpr auto kSnapshotKey = "snap18";
-    const auto journal_key = std::string{kSnapshotKey} + "::wal";
+    const auto journal_key = std::string{"__tfgmeta__:wal:"} + kSnapshotKey;
 
     std::vector<float> final_data;
     std::size_t journal_size_after_first_overwrite = 0;
@@ -1152,4 +1153,36 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     for (std::size_t i = 0; i < final_data.size(); ++i) {
         EXPECT_NEAR((*restored)[i], final_data[i], 1e-4f);
     }
+}
+
+// TDM-19: restoreGraph should accept legacy journal keys and normalize to namespaced key.
+TEST(TensorDeduplicationManagerSnapshotTest,
+     TDM19_RestoreGraphReplaysLegacyJournalAndRewritesNamespacedKey) {
+    auto engine = makeEngine();
+    constexpr auto kSnapshotKey = "snap19";
+    const auto namespaced_journal_key = std::string{"__tfgmeta__:wal:"} + kSnapshotKey;
+    const auto legacy_journal_key = std::string{kSnapshotKey} + "::wal";
+
+    {
+        auto mgr = makeDedup(engine);
+        mgr->store("legacy_tensor", std::vector<float>(16, 0.25f), {16, 1}, "t", "c", "flegacy");
+        ASSERT_TRUE(mgr->snapshotGraph(kSnapshotKey));
+        mgr->store("legacy_tensor", std::vector<float>(16, 2.0f), {16, 1}, "t", "c", "flegacy");
+    }
+
+    const auto namespaced_payload = engine->getRawMetadata(namespaced_journal_key);
+    ASSERT_TRUE(namespaced_payload.has_value());
+    ASSERT_FALSE(namespaced_payload->empty());
+    ASSERT_TRUE(engine->putRawMetadata(legacy_journal_key, *namespaced_payload));
+    ASSERT_TRUE(engine->putRawMetadata(namespaced_journal_key, {}));
+
+    auto mgr_b = makeDedup(engine);
+    ASSERT_TRUE(mgr_b->restoreGraph(kSnapshotKey));
+
+    const auto replayed_namespaced_payload = engine->getRawMetadata(namespaced_journal_key);
+    ASSERT_TRUE(replayed_namespaced_payload.has_value());
+    EXPECT_FALSE(replayed_namespaced_payload->empty());
+    const auto cleared_legacy_payload = engine->getRawMetadata(legacy_journal_key);
+    ASSERT_TRUE(cleared_legacy_payload.has_value());
+    EXPECT_TRUE(cleared_legacy_payload->empty());
 }

@@ -282,6 +282,10 @@
     superseded repeated updates for the same tensor before persistence and after replay so
     snapshot-following overwrite streams stay bounded by latest per-tensor state instead of
     growing linearly with every overwrite (test TDM-18).
+  - **Progress 2026-05-08 (journal key lifecycle hardening)**: Mutation journals now persist
+    under a dedicated metadata namespace key (`__tfgmeta__:wal:<snapshot>`) while restore keeps
+    backward compatibility with legacy `<snapshot>::wal` payloads and normalizes legacy data back
+    into the namespaced key after replay (test TDM-19).
   - Remaining: GraphIndex-backed storage/compaction for incremental mutation journal payloads.
 
 #### Phase 8.6 — Documentation (Target: Q2 2027)
