@@ -1370,6 +1370,9 @@ std::vector<RetrievedDocument> KnowledgeGapDetector::performDynamicRetrieval(
     // Use top_k from config (min_documents serves as a reasonable per-round budget).
     const size_t k = std::max(impl_->config.min_documents, size_t{1});
 
+    // Prefer explicit tenant_id parameter over the config value.
+    const std::string effective_tenant = tenant_id.empty() ? impl_->config.tenant_id : tenant_id;
+
     if (effective_tenant.empty()) {
         THEMIS_WARN("performDynamicRetrieval: no tenant_id configured — retrieval callback "
                     "cannot enforce tenant isolation. Set KnowledgeGapConfig::tenant_id.");
@@ -1377,17 +1380,8 @@ std::vector<RetrievedDocument> KnowledgeGapDetector::performDynamicRetrieval(
         THEMIS_DEBUG("performDynamicRetrieval: tenant_id={}", effective_tenant);
     }
 
-    // Prepend tenant_id to the query so tenant-aware callbacks can enforce isolation.
-    // Callbacks that are not tenant-aware will receive a slightly modified query;
-    // callers MUST configure a tenant-aware RetrievalCallback when multi-tenancy is required.
-    // Prefer explicit tenant_id parameter over the config value.
-    const std::string effective_tenant = tenant_id.empty() ? impl_->config.tenant_id : tenant_id;
-    const std::string scoped_query = effective_tenant.empty()
-        ? query
-        : "[tenant:" + effective_tenant + "] " + query;
-
     try {
-        return impl_->retrieval_fn(scoped_query, k);
+        return impl_->retrieval_fn(query, k, effective_tenant);
     } catch (const std::exception& ex) {
         THEMIS_DEBUG("Dynamic retrieval callback threw: {}", ex.what());
         return {};
