@@ -111,7 +111,7 @@ template<typename T>
 static void overwriteLittleEndian(std::vector<uint8_t>& buf,
                                   std::size_t offset,
                                   T value) {
-    static_assert(std::is_integral_v<T>);
+    static_assert(std::is_integral_v<T>, "T must be an integral type");
     if (buf.size() < offset + sizeof(T)) {
         ADD_FAILURE() << "overwriteLittleEndian out of bounds";
         return;
@@ -941,10 +941,14 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     auto valid_payload = engine->getRawMetadata("valid_snap");
     ASSERT_TRUE(valid_payload.has_value());
 
-    constexpr uint64_t kInvalidMagic = 0x0102030405060708ULL;     // Different from valid dedup magic 0x504E535F4D445400 and graph magic 0x504E535F47465400.
-    constexpr uint32_t kUnsupportedVersion = 99U;                 // Well beyond the only supported version (1).
+    // Different from valid dedup magic 0x504E535F4D445400 and graph magic
+    // 0x504E535F47465400.
+    constexpr uint64_t kInvalidMagic = 0x0102030405060708ULL;
+    // Well beyond the only supported version (1).
+    constexpr uint32_t kUnsupportedVersion = 99U;
+    // Unambiguously larger than any real payload buffer.
     constexpr uint64_t kInvalidGraphPayloadLength =
-        std::numeric_limits<uint64_t>::max();                     // Unambiguously larger than any real payload buffer.
+        std::numeric_limits<uint64_t>::max();
     constexpr std::size_t kVersionOffset = sizeof(uint64_t);
     constexpr std::size_t kGraphSizeOffset = sizeof(uint64_t) + sizeof(uint32_t);
     constexpr std::size_t kGraphPayloadOffset =
