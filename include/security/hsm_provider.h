@@ -193,18 +193,26 @@ public:
         std::function<std::vector<uint8_t>(const std::vector<uint8_t>& encrypted,
                                            const std::string& key_label)>;
 
+    /// Register a signing bridge for stub builds without a real HSM.
+    /// Thread-safe; pass an empty function to restore the built-in stub path.
     static void setSignHashFn(SignHashFn fn) {
         std::lock_guard<std::mutex> lk(signHashFnMutex());
         signHashFnStorage() = std::move(fn);
     }
+    /// Register a verification bridge for stub builds without a real HSM.
+    /// Thread-safe; pass an empty function to restore the built-in stub path.
     static void setVerifyFn(VerifyFn fn) {
         std::lock_guard<std::mutex> lk(verifyFnMutex());
         verifyFnStorage() = std::move(fn);
     }
+    /// Register a wrap/encrypt bridge for stub builds without a real HSM.
+    /// Thread-safe; pass an empty function to restore the built-in stub path.
     static void setEncryptDataFn(EncryptDataFn fn) {
         std::lock_guard<std::mutex> lk(encryptDataFnMutex());
         encryptDataFnStorage() = std::move(fn);
     }
+    /// Register an unwrap/decrypt bridge for stub builds without a real HSM.
+    /// Thread-safe; pass an empty function to restore the built-in stub path.
     static void setDecryptDataFn(DecryptDataFn fn) {
         std::lock_guard<std::mutex> lk(decryptDataFnMutex());
         decryptDataFnStorage() = std::move(fn);

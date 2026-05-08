@@ -153,6 +153,8 @@ public:
      */
     static std::string ReportJson();
 
+    /// Register a custom device enumeration bridge for CPU-only or test builds.
+    /// Thread-safe; pass an empty function to fall back to DeviceDiscovery::Enumerate().
     static void setEnumerateFn(EnumerateFn fn) {
         std::lock_guard<std::mutex> lk(enumerateFnMutex());
         enumerateFnStorage() = std::move(fn);

@@ -228,10 +228,14 @@ public:
      */
     std::string getLastError() const;
 
+    /// Register a stamping bridge for non-OpenSSL TSA builds.
+    /// Thread-safe; pass an empty function to restore the deterministic fallback.
     static void setGetTimestampForHashFn(GetTimestampForHashFn fn) {
         std::lock_guard<std::mutex> lk(getTimestampForHashFnMutex());
         getTimestampForHashFnStorage() = std::move(fn);
     }
+    /// Register a verification bridge for non-OpenSSL TSA builds.
+    /// Thread-safe; pass an empty function to restore the built-in fallback.
     static void setVerifyTimestampForHashFn(VerifyTimestampForHashFn fn) {
         std::lock_guard<std::mutex> lk(verifyTimestampForHashFnMutex());
         verifyTimestampForHashFnStorage() = std::move(fn);

@@ -154,6 +154,12 @@ public:
     
     Stats getStats() const;
 
+    /**
+     * Injectable bridge callbacks used only when FAISS is unavailable.
+     *
+     * Any callback may be left empty; the corresponding operation then keeps
+     * the original fail-closed behavior (false or empty result).
+     */
     struct StubCallbacks {
         std::function<bool(size_t dimension, const Config& config)> initialize;
         std::function<bool(const float* vectors, size_t count)> train;
@@ -166,6 +172,8 @@ public:
         std::function<bool(const std::string& path)> load;
     };
 
+    /// Register non-FAISS bridge callbacks for this process.
+    /// Thread-safe; pass a default-constructed StubCallbacks to clear all hooks.
     static void setStubCallbacks(StubCallbacks callbacks) {
         std::lock_guard<std::mutex> lk(stubCallbacksMutex());
         stubCallbacksStorage() = std::move(callbacks);

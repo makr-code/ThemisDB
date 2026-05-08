@@ -150,6 +150,8 @@ TimestampToken TimestampAuthority::getTimestamp(const std::vector<uint8_t>& data
 }
 
 TimestampToken TimestampAuthority::getTimestampForHash(const std::vector<uint8_t>& hash) {
+    // Bridge path: when a callback is registered, delegate stamping to the
+    // injected implementation. When unset, retain the deterministic local stub.
     if (isProductionMode() && !isStubAllowed()) {
         return makeProductionError();
     }
@@ -207,6 +209,9 @@ bool TimestampAuthority::verifyTimestamp(const std::vector<uint8_t>& data, const
 }
 
 bool TimestampAuthority::verifyTimestampForHash(const std::vector<uint8_t>& hash, const TimestampToken& token) {
+    // Bridge path: when a callback is registered, delegate verification to the
+    // injected implementation and fail closed on exceptions. When unset, keep
+    // the original hex-token comparison fallback.
     VerifyTimestampForHashFn fn;
     {
         std::lock_guard<std::mutex> lk(TimestampAuthority::verifyTimestampForHashFnMutex());

@@ -210,7 +210,7 @@ bool verifyWasmModuleHash(const std::string& wasm_path,
  * @param runtime         Which WASM backend to use.
  * @param module_name     Human-readable plugin name for diagnostics.
  * @param error_out       Receives a human-readable error on failure.
- * @return Owning pointer to a WasmHostAPI instance, or nullptr on failure.
+ * @return Owning pointer to an IThemisPlugin-compatible WASM bridge, or nullptr on failure.
  */
 std::unique_ptr<IThemisPlugin> loadWasmPlugin(
     const std::string& wasm_path,

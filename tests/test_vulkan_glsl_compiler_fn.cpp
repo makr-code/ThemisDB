@@ -99,11 +99,22 @@ TEST(VulkanGlslCompilerFnTest, VulkanStubBridgeFnsWorkWithoutSdk) {
     VulkanVectorBackend::setAvailabilityFn([] { return true; });
     VulkanVectorBackend::setInitializeFn([] { return true; });
     VulkanVectorBackend::setComputeDistancesFn(
-        [](const float*, size_t, size_t, const float*, size_t, bool) {
+        []([[maybe_unused]] const float* queries,
+           [[maybe_unused]] size_t numQueries,
+           [[maybe_unused]] size_t dim,
+           [[maybe_unused]] const float* vectors,
+           [[maybe_unused]] size_t numVectors,
+           [[maybe_unused]] bool useL2) {
             return std::vector<float>{1.0f, 2.0f};
         });
     VulkanVectorBackend::setBatchKnnSearchFn(
-        [](const float*, size_t, size_t, const float*, size_t, size_t, bool) {
+        []([[maybe_unused]] const float* queries,
+           [[maybe_unused]] size_t numQueries,
+           [[maybe_unused]] size_t dim,
+           [[maybe_unused]] const float* vectors,
+           [[maybe_unused]] size_t numVectors,
+           [[maybe_unused]] size_t k,
+           [[maybe_unused]] bool useL2) {
             return std::vector<std::vector<std::pair<uint32_t, float>>>{
                 {{1u, 0.1f}, {2u, 0.2f}}
             };

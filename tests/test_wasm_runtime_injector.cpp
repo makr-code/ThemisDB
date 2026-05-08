@@ -195,7 +195,11 @@ TEST_F(InjectorFixture, WasmPluginLoaderBridgeIsUsed) {
     };
 
     themis::plugins::setWasmPluginLoadFn(
-        [](const std::string&, const std::string&, WasmPluginRuntime, const std::string& module_name, std::string&) {
+        []([[maybe_unused]] const std::string& wasm_path,
+           [[maybe_unused]] const std::string& expected_sha256,
+           [[maybe_unused]] WasmPluginRuntime runtime,
+           const std::string& module_name,
+           [[maybe_unused]] std::string& error_out) {
             if (module_name == "bridge-module") {
                 return std::unique_ptr<IThemisPlugin>(std::make_unique<DummyPlugin>());
             }

@@ -95,6 +95,8 @@ public:
      */
     static void registerWithRegistry(const std::shared_ptr<prometheus::Registry>& registry);
 
+    /// Register an optional gauge sink used by lightweight test builds.
+    /// Thread-safe; sink exceptions are ignored by updateMetricsCollector().
     static void setGaugeSinkFn(GaugeSinkFn fn) {
         std::lock_guard<std::mutex> lk(gaugeSinkFnMutex());
         gaugeSinkFnStorage() = std::move(fn);
