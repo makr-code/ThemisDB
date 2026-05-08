@@ -184,7 +184,14 @@ protected:
 TEST_F(ZLUDAServiceBridgeTest, InjectedComputeDistancesFnIsCalled) {
     bool fn_called = false;
     themis::acceleration::setZLUDAComputeDistancesFn(
-        [&](const float*, size_t, size_t, const float*, size_t, bool) -> std::vector<float> {
+        [&](const float* queries, size_t numQueries, size_t dim, const float* vectors,
+            size_t numVectors, bool useL2) -> std::vector<float> {
+            (void)queries;
+            (void)numQueries;
+            (void)dim;
+            (void)vectors;
+            (void)numVectors;
+            (void)useL2;
             fn_called = true;
             return {2.5f};
         });
@@ -203,8 +210,16 @@ TEST_F(ZLUDAServiceBridgeTest, InjectedComputeDistancesFnIsCalled) {
 TEST_F(ZLUDAServiceBridgeTest, InjectedBatchKnnSearchFnIsCalled) {
     bool fn_called = false;
     themis::acceleration::setZLUDABatchKnnSearchFn(
-        [&](const float*, size_t, size_t, const float*, size_t, size_t, bool)
+        [&](const float* queries, size_t numQueries, size_t dim, const float* vectors,
+            size_t numVectors, size_t k, bool useL2)
             -> std::vector<std::vector<std::pair<uint32_t, float>>> {
+            (void)queries;
+            (void)numQueries;
+            (void)dim;
+            (void)vectors;
+            (void)numVectors;
+            (void)k;
+            (void)useL2;
             fn_called = true;
             return {{{4u, 0.4f}, {7u, 0.7f}}};
         });
@@ -224,12 +239,27 @@ TEST_F(ZLUDAServiceBridgeTest, InjectedBatchKnnSearchFnIsCalled) {
 
 TEST_F(ZLUDAServiceBridgeTest, ThrowingBridgeFnsFailClosed) {
     themis::acceleration::setZLUDAComputeDistancesFn(
-        [](const float*, size_t, size_t, const float*, size_t, bool) -> std::vector<float> {
+        [](const float* queries, size_t numQueries, size_t dim, const float* vectors,
+           size_t numVectors, bool useL2) -> std::vector<float> {
+            (void)queries;
+            (void)numQueries;
+            (void)dim;
+            (void)vectors;
+            (void)numVectors;
+            (void)useL2;
             throw std::runtime_error("simulated zluda compute failure");
         });
     themis::acceleration::setZLUDABatchKnnSearchFn(
-        [](const float*, size_t, size_t, const float*, size_t, size_t, bool)
+        [](const float* queries, size_t numQueries, size_t dim, const float* vectors,
+           size_t numVectors, size_t k, bool useL2)
             -> std::vector<std::vector<std::pair<uint32_t, float>>> {
+            (void)queries;
+            (void)numQueries;
+            (void)dim;
+            (void)vectors;
+            (void)numVectors;
+            (void)k;
+            (void)useL2;
             throw std::runtime_error("simulated zluda knn failure");
         });
 

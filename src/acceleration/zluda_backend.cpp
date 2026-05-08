@@ -79,7 +79,11 @@ public:
         size_t k,
         bool useL2)>;
 
+    /// Inject a computeDistances callback for non-PTX/test/integration paths.
+    /// Thread-safe: callback storage is guarded by a static mutex.
     static void setComputeDistancesFn(ComputeDistancesFn fn);
+    /// Inject a batchKnnSearch callback for non-PTX/test/integration paths.
+    /// Thread-safe: callback storage is guarded by a static mutex.
     static void setBatchKnnSearchFn(BatchKnnSearchFn fn);
 
     ZLUDAVectorBackend() = default;
@@ -337,12 +341,18 @@ void ZLUDAVectorBackend::setBatchKnnSearchFn(BatchKnnSearchFn fn) {
     s_batch_knn_fn_ = std::move(fn);
 }
 
+/// Free-function wrapper for injecting ZLUDA computeDistances callback bridges.
+/// Thread-safe via backend static mutex; callback exceptions are handled
+/// fail-closed in computeDistances() by returning an empty result.
 void setZLUDAComputeDistancesFn(
     std::function<std::vector<float>(
         const float*, size_t, size_t, const float*, size_t, bool)> fn) {
     ZLUDAVectorBackend::setComputeDistancesFn(std::move(fn));
 }
 
+/// Free-function wrapper for injecting ZLUDA batchKnnSearch callback bridges.
+/// Thread-safe via backend static mutex; callback exceptions are handled
+/// fail-closed in batchKnnSearch() by returning an empty result.
 void setZLUDABatchKnnSearchFn(
     std::function<std::vector<std::vector<std::pair<uint32_t, float>>>(
         const float*, size_t, size_t, const float*, size_t, size_t, bool)> fn) {
