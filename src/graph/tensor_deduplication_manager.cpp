@@ -870,7 +870,7 @@ static JournalLoadStatus loadJournalWithLegacyFallback(
                     key,
                     payload->size());
         if (!storage->putRawMetadata(key, {})) {
-            THEMIS_WARN("[TensorDeduplicationManager] failed to reset invalid mutation journal payload for key='{}'",
+            THEMIS_WARN("[TensorDeduplicationManager] failed to reset invalid mutation journal payload for key='{}'; corrupted payload may persist across restore attempts",
                         key);
         }
         entries.clear();
