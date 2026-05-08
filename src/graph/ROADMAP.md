@@ -264,6 +264,11 @@
     `getRawMetadata()` helpers (namespaced under `__tfgmeta__:`).  After a process restart
     the fingerprint graph can be fully restored without re-inserting any tensor data.
     Tests TDM-12 (node+edge round-trip) and TDM-13 (findSimilar on restored graph) added.
+  - **Progress 2026-05-08 (restore state hardening)**: Dedup snapshots now also persist
+    `StoredTensorRecord` entries, byte counters, and canonical key mappings so a restored
+    `TensorDeduplicationManager` continues to serve `getRecord()`/`getStats()` and external
+    canonical deletes still remove mapped graph nodes (tests TDM-12/TDM-14). `restoreGraph()`
+    remains backward-compatible with older graph-only snapshot blobs.
   - Remaining: RocksDB-durable write-ahead of incremental graph mutations.
 
 #### Phase 8.6 — Documentation (Target: Q2 2027)

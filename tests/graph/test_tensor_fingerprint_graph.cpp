@@ -43,6 +43,7 @@
  *   TDM-11  Dedup manager updates mapped canonical node on external storage write
  *   TDM-12  snapshotGraph/restoreGraph round-trip preserves node and edge counts
  *   TDM-13  restoreGraph enables similarity queries for nodes restored from snapshot
+ *   TDM-14  restoreGraph rehydrates dedup records and canonical delete mappings
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -780,6 +781,12 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     // Restore graph into mgr2.
     ASSERT_TRUE(mgr2->restoreGraph("test_snap"));
 
+    auto stats = mgr2->getStats();
+    EXPECT_EQ(stats.total_tensors, 2u);
+    EXPECT_EQ(stats.canonical_tensors + stats.delta_tensors, 2u);
+    EXPECT_TRUE(mgr2->getRecord("snap_a").has_value());
+    EXPECT_TRUE(mgr2->getRecord("snap_b").has_value());
+
     // The fp_graph inside mgr2 should have the same topology.
     // We verify indirectly via the public accessor on the underlying graph:
     // rebuild engine around same backend and make a fresh TFG to compare.
@@ -844,4 +851,49 @@ TEST(TensorDeduplicationManagerSnapshotTest,
         auto results    = fp_b->findSimilar(query_tt, 5);
         EXPECT_FALSE(results.empty());
     }
+}
+
+// TDM-14: restoreGraph rehydrates dedup records and canonical delete mappings.
+TEST(TensorDeduplicationManagerSnapshotTest,
+     TDM14_RestoreGraphRehydratesRecordsAndDeleteMappings) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    auto engine  = std::make_shared<TensorNetworkStorageEngine>(backend);
+
+    {
+        FingerprintGraphConfig fp_cfg;
+        fp_cfg.similarity_threshold   = 0.80;
+        fp_cfg.num_hash_funcs         = 64;
+        fp_cfg.num_bands              = 16;
+        fp_cfg.cache_trains_in_memory = true;
+        auto fp_a  = std::make_shared<TensorFingerprintGraph>(fp_cfg);
+        auto dec_a = std::make_shared<TensorTrainDecomposer>();
+        DeduplicationConfig dcfg;
+        dcfg.similarity_threshold = 0.80;
+        TensorDeduplicationManager mgr_a(engine, fp_a, dec_a, dcfg);
+
+        auto data = randVec(16, 1201);
+        mgr_a.store("canon_x", data, {16, 1}, "t", "c", "fx");
+        ASSERT_TRUE(mgr_a.snapshotGraph("snap14"));
+    }
+
+    FingerprintGraphConfig fp_cfg;
+    fp_cfg.similarity_threshold   = 0.80;
+    fp_cfg.num_hash_funcs         = 64;
+    fp_cfg.num_bands              = 16;
+    fp_cfg.cache_trains_in_memory = true;
+    auto fp_b  = std::make_shared<TensorFingerprintGraph>(fp_cfg);
+    auto dec_b = std::make_shared<TensorTrainDecomposer>();
+    DeduplicationConfig dcfg;
+    dcfg.similarity_threshold = 0.80;
+    TensorDeduplicationManager mgr_b(engine, fp_b, dec_b, dcfg);
+
+    ASSERT_TRUE(mgr_b.restoreGraph("snap14"));
+    ASSERT_TRUE(mgr_b.getRecord("canon_x").has_value());
+    EXPECT_EQ(mgr_b.getStats().total_tensors, 1u);
+    EXPECT_EQ(fp_b->nodeCount(), 1u);
+
+    ASSERT_TRUE(engine->remove({"t", "c", "fx"}));
+    EXPECT_EQ(fp_b->nodeCount(), 0u);
+    EXPECT_FALSE(mgr_b.getRecord("canon_x").has_value());
+    EXPECT_EQ(mgr_b.getStats().total_tensors, 0u);
 }

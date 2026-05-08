@@ -374,6 +374,8 @@ namespace {
 
 constexpr uint64_t kGraphSnapshotMagic   = 0x504E535F47465400ULL; // "TFG_SNP\0"
 constexpr uint32_t kGraphSnapshotVersion = 1;
+constexpr uint64_t kDedupSnapshotMagic   = 0x504E535F4D445400ULL; // "TDM_SNP\0"
+constexpr uint32_t kDedupSnapshotVersion = 1;
 
 // Little-endian write helpers.
 template<typename T>
@@ -447,6 +449,44 @@ static std::vector<uint8_t> serializeGraphSnapshot(
     return buf;
 }
 
+static void writeStoredTensorRecord(std::vector<uint8_t>& buf,
+                                    const themis::graph::StoredTensorRecord& record) {
+    writeStr(buf, record.tensor_id);
+    writeStr(buf, record.reference_id);
+    writeLE<uint8_t>(buf, record.is_canonical ? 1U : 0U);
+    writeLE<uint64_t>(buf, static_cast<uint64_t>(record.compressed_bytes));
+    writeLE<uint64_t>(buf, static_cast<uint64_t>(record.saved_bytes));
+    writeLE<double>(buf, record.similarity_to_reference);
+    writeStr(buf, record.tenant);
+    writeStr(buf, record.collection);
+    writeStr(buf, record.field);
+}
+
+static std::vector<uint8_t> serializeDedupSnapshot(
+    const themis::graph::PersistedFingerprintGraphSnapshot& snapshot,
+    const std::vector<themis::graph::StoredTensorRecord>& records,
+    std::size_t total_bytes_stored,
+    std::size_t bytes_saved)
+{
+    auto graph_bytes = serializeGraphSnapshot(snapshot);
+
+    std::vector<uint8_t> buf;
+    buf.reserve(graph_bytes.size() + records.size() * 256U + 64U);
+    writeLE<uint64_t>(buf, kDedupSnapshotMagic);
+    writeLE<uint32_t>(buf, kDedupSnapshotVersion);
+    writeLE<uint64_t>(buf, static_cast<uint64_t>(graph_bytes.size()));
+    buf.insert(buf.end(), graph_bytes.begin(), graph_bytes.end());
+
+    writeLE<uint64_t>(buf, static_cast<uint64_t>(records.size()));
+    for (const auto& record : records) {
+        writeStoredTensorRecord(buf, record);
+    }
+
+    writeLE<uint64_t>(buf, static_cast<uint64_t>(total_bytes_stored));
+    writeLE<uint64_t>(buf, static_cast<uint64_t>(bytes_saved));
+    return buf;
+}
+
 static bool deserializeGraphSnapshot(
     const std::vector<uint8_t>& buf,
     themis::graph::PersistedFingerprintGraphSnapshot& snapshot)
@@ -513,6 +553,77 @@ static bool deserializeGraphSnapshot(
     return true;
 }
 
+static bool readStoredTensorRecord(const uint8_t* data,
+                                   std::size_t size,
+                                   std::size_t& pos,
+                                   themis::graph::StoredTensorRecord& record) {
+    if (!readStr(data, size, pos, record.tensor_id)) return false;
+    if (!readStr(data, size, pos, record.reference_id)) return false;
+
+    uint8_t is_canonical = 0;
+    uint64_t compressed_bytes = 0;
+    uint64_t saved_bytes = 0;
+    if (!readLE(data, size, pos, is_canonical)) return false;
+    if (!readLE(data, size, pos, compressed_bytes)) return false;
+    if (!readLE(data, size, pos, saved_bytes)) return false;
+    if (!readLE(data, size, pos, record.similarity_to_reference)) return false;
+    if (!readStr(data, size, pos, record.tenant)) return false;
+    if (!readStr(data, size, pos, record.collection)) return false;
+    if (!readStr(data, size, pos, record.field)) return false;
+
+    record.is_canonical = (is_canonical != 0);
+    record.compressed_bytes = static_cast<std::size_t>(compressed_bytes);
+    record.saved_bytes = static_cast<std::size_t>(saved_bytes);
+    return true;
+}
+
+static bool deserializeDedupSnapshot(
+    const std::vector<uint8_t>& buf,
+    themis::graph::PersistedFingerprintGraphSnapshot& snapshot,
+    std::vector<themis::graph::StoredTensorRecord>& records,
+    std::size_t& total_bytes_stored,
+    std::size_t& bytes_saved)
+{
+    std::size_t pos = 0;
+    const auto* data = buf.data();
+    const auto size = buf.size();
+
+    uint64_t magic = 0;
+    uint32_t version = 0;
+    if (!readLE(data, size, pos, magic)) return false;
+    if (magic != kDedupSnapshotMagic) return false;
+    if (!readLE(data, size, pos, version)) return false;
+    if (version != kDedupSnapshotVersion) return false;
+
+    uint64_t graph_bytes_size = 0;
+    if (!readLE(data, size, pos, graph_bytes_size)) return false;
+    if (pos + graph_bytes_size > size) return false;
+
+    std::vector<uint8_t> graph_bytes(graph_bytes_size);
+    std::memcpy(graph_bytes.data(), data + pos, static_cast<std::size_t>(graph_bytes_size));
+    pos += static_cast<std::size_t>(graph_bytes_size);
+    if (!deserializeGraphSnapshot(graph_bytes, snapshot)) return false;
+
+    uint64_t record_count = 0;
+    if (!readLE(data, size, pos, record_count)) return false;
+    records.clear();
+    records.reserve(static_cast<std::size_t>(record_count));
+    for (uint64_t i = 0; i < record_count; ++i) {
+        themis::graph::StoredTensorRecord record;
+        if (!readStoredTensorRecord(data, size, pos, record)) return false;
+        records.push_back(std::move(record));
+    }
+
+    uint64_t total_bytes_stored_u64 = 0;
+    uint64_t bytes_saved_u64 = 0;
+    if (!readLE(data, size, pos, total_bytes_stored_u64)) return false;
+    if (!readLE(data, size, pos, bytes_saved_u64)) return false;
+
+    total_bytes_stored = static_cast<std::size_t>(total_bytes_stored_u64);
+    bytes_saved = static_cast<std::size_t>(bytes_saved_u64);
+    return pos == size;
+}
+
 } // namespace
 
 // ============================================================================
@@ -521,7 +632,24 @@ static bool deserializeGraphSnapshot(
 
 bool TensorDeduplicationManager::snapshotGraph(const std::string& snapshot_key) {
     auto snapshot = fp_graph_->exportPersistedGraph();
-    auto bytes    = serializeGraphSnapshot(snapshot);
+
+    std::vector<StoredTensorRecord> records;
+    std::size_t total_bytes_stored = 0;
+    std::size_t bytes_saved = 0;
+    {
+        std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
+        records.reserve(records_.size());
+        for (const auto& [_, record] : records_) {
+            records.push_back(record);
+        }
+        total_bytes_stored = total_bytes_stored_.load(std::memory_order_relaxed);
+        bytes_saved = bytes_saved_.load(std::memory_order_relaxed);
+    }
+
+    auto bytes = serializeDedupSnapshot(snapshot,
+                                        records,
+                                        total_bytes_stored,
+                                        bytes_saved);
     return storage_->putRawMetadata(snapshot_key, bytes);
 }
 
@@ -530,9 +658,37 @@ bool TensorDeduplicationManager::restoreGraph(const std::string& snapshot_key) {
     if (!bytes_opt) return false;
 
     PersistedFingerprintGraphSnapshot snapshot;
-    if (!deserializeGraphSnapshot(*bytes_opt, snapshot)) return false;
+    std::vector<StoredTensorRecord> records;
+    std::size_t total_bytes_stored = 0;
+    std::size_t bytes_saved = 0;
+
+    if (!deserializeDedupSnapshot(*bytes_opt,
+                                  snapshot,
+                                  records,
+                                  total_bytes_stored,
+                                  bytes_saved)) {
+        if (!deserializeGraphSnapshot(*bytes_opt, snapshot)) return false;
+    }
 
     fp_graph_->importPersistedGraph(snapshot);
+
+    std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
+    records_.clear();
+    key_to_tensor_id_.clear();
+    tensor_id_to_key_.clear();
+    for (const auto& record : records) {
+        records_[record.tensor_id] = record;
+        if (!record.is_canonical) {
+            continue;
+        }
+
+        const auto key_index =
+            makeKeyIndex(makeKey(record.tenant, record.collection, record.field));
+        key_to_tensor_id_[key_index] = record.tensor_id;
+        tensor_id_to_key_[record.tensor_id] = key_index;
+    }
+    total_bytes_stored_.store(total_bytes_stored, std::memory_order_relaxed);
+    bytes_saved_.store(bytes_saved, std::memory_order_relaxed);
     return true;
 }
 

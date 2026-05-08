@@ -234,9 +234,11 @@ public:
      * @brief Persist the fingerprint graph state to the storage backend.
      *
      * Exports the full node+edge snapshot via `TensorFingerprintGraph::exportPersistedGraph()`
-     * and stores the serialized payload as a raw metadata blob under `snapshot_key`.
-     * A subsequent call to `restoreGraph(snapshot_key)` can reload the snapshot
-     * without requiring any TT-trains to be loaded from storage.
+     * together with deduplication records, canonical key mappings, and persisted
+     * byte counters, then stores the serialized payload as a raw metadata blob
+     * under `snapshot_key`. A subsequent call to `restoreGraph(snapshot_key)`
+     * can reload the snapshot without requiring any TT-trains to be loaded from
+     * storage.
      *
      * @param snapshot_key  Logical name for the snapshot (default: "__tfg_default__").
      * @return True on success.
@@ -247,9 +249,11 @@ public:
      * @brief Restore fingerprint graph state from a previously persisted snapshot.
      *
      * Loads the raw metadata blob stored under `snapshot_key`, deserializes the
-     * full node+edge payload, and calls `TensorFingerprintGraph::importPersistedGraph()`
-     * to atomically replace graph state.  After restore the graph supports
-     * `neighbours()` and `findSimilar()` without re-inserting tensors.
+     * persisted graph payload, restores deduplication records/counters, and calls
+     * `TensorFingerprintGraph::importPersistedGraph()` to atomically replace graph
+     * state. After restore the graph supports `neighbours()` and `findSimilar()`
+     * without re-inserting tensors, and canonical storage observers continue to
+     * update/remove the restored graph state.
      *
      * @param snapshot_key  Logical name matching a prior `snapshotGraph()` call.
      * @return True on success, false if no snapshot exists for the given key.
