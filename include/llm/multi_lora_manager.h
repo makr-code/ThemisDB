@@ -469,6 +469,12 @@ public:
      * @param context Model context to apply to (llama_context*)
      * @return true if applied successfully
      */
+    using ApplyAdapterFn = std::function<bool(const LoRASlot& slot, llama_context* context)>;
+    using RemoveAdapterFn = std::function<bool(const LoRASlot& slot, llama_context* context)>;
+
+    void setApplyAdapterFn(ApplyAdapterFn fn);
+    void setRemoveAdapterFn(RemoveAdapterFn fn);
+
     bool applyLoRA(const std::string& lora_id, llama_context* context);
     
     /**
@@ -895,6 +901,8 @@ private:
     std::unique_ptr<std::thread> eviction_thread_;
     std::atomic<bool> eviction_thread_running_{false};
     std::condition_variable eviction_cv_;
+    ApplyAdapterFn apply_adapter_fn_;
+    RemoveAdapterFn remove_adapter_fn_;
     
     // Internal helpers
     LoRASlot* loadLoRAInternal(

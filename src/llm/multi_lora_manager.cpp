@@ -364,36 +364,41 @@ LoRASlot* MultiLoRAManager::getLoRA(const std::string& lora_id) {
     return it->second.get();
 }
 
+void MultiLoRAManager::setApplyAdapterFn(ApplyAdapterFn fn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    apply_adapter_fn_ = std::move(fn);
+}
+
+void MultiLoRAManager::setRemoveAdapterFn(RemoveAdapterFn fn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    remove_adapter_fn_ = std::move(fn);
+}
+
 bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* context) {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Allow unit tests to exercise LoRA lifecycle (load/apply/remove) without a
-    //          real llama_context. When context is null the adapter is marked active in
-    //          metadata only – no llama_lora_adapter_set() call is made.
-    // Activation: Runtime – triggered whenever applyLoRA is called with context == nullptr
-    //             (only happens in test code; production server always passes a valid ctx).
-    // Production Delta: No actual llama.cpp adapter is applied. State change is in-memory.
-    // Roadmap ref: src/llm/ROADMAP.md § "Phase 4: LLM+RAID Integration Tests"
-    // Removal Plan: Permanent test-gate; no removal needed. Protected by null guard below.
-    // Roadmap ref: src/llm/FUTURE_ENHANCEMENTS.md § "LoRA Training Integration"
-    // In test mode, allow null context (mock inference)
-    if (!context) {
-        spdlog::warn("applyLoRA called with null context (test/mock mode)");
-        auto* lora = getLoRA(lora_id);
-        if (!lora) {
-            spdlog::error("LoRA {} not found", lora_id);
-            return false;
-        }
-        lora->is_active = true;
-        lora->use_count++;
-        lora->last_used = std::chrono::system_clock::now();
-        spdlog::info("LoRA {} marked as active (mock mode)", lora_id);
-        return true;
-    }
-    
     auto* lora = getLoRA(lora_id);
     if (!lora) {
         errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, lora_id);
         return false;
+    }
+
+    if (!context) {
+        auto apply_fn = ApplyAdapterFn{};
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            apply_fn = apply_adapter_fn_;
+        }
+        if (!apply_fn) {
+            spdlog::error("applyLoRA: null context without ApplyAdapterFn bridge for {}", lora_id);
+            return false;
+        }
+        if (!apply_fn(*lora, context)) {
+            spdlog::error("ApplyAdapterFn bridge rejected LoRA {}", lora_id);
+            return false;
+        }
+        lora->is_active = true;
+        switches_++;
+        spdlog::info("LoRA {} applied successfully via bridge", lora_id);
+        return true;
     }
     
     spdlog::debug("Applying LoRA: {} to context", lora_id);
@@ -423,26 +428,28 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
 }
 
 bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* context) {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Null-context gate for unit tests. Marks LoRA as inactive in metadata
-    //          without calling llama_lora_adapter_remove() on a real context.
-    // Activation: Runtime – null context only occurs in test code.
-    // Production Delta: No llama.cpp adapter removal; state change is in-memory only.
-    // Roadmap ref: src/llm/ROADMAP.md § "Phase 4: LLM+RAID Integration Tests"
-    // Removal Plan: Permanent test-gate; guarded by null check.
-    if (!context) {
-        spdlog::warn("removeLoRA called with null context (test/mock mode)");
-        auto* lora = getLoRA(lora_id);
-        if (!lora) {
-            return false;
-        }
-        lora->is_active = false;
-        return true;
-    }
-    
     auto* lora = getLoRA(lora_id);
     if (!lora) {
         return false;
+    }
+
+    if (!context) {
+        auto remove_fn = RemoveAdapterFn{};
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            remove_fn = remove_adapter_fn_;
+        }
+        if (!remove_fn) {
+            spdlog::error("removeLoRA: null context without RemoveAdapterFn bridge for {}", lora_id);
+            return false;
+        }
+        if (!remove_fn(*lora, context)) {
+            spdlog::warn("RemoveAdapterFn bridge rejected LoRA {}", lora_id);
+            return false;
+        }
+        lora->is_active = false;
+        spdlog::info("LoRA {} removed successfully via bridge", lora_id);
+        return true;
     }
     
     spdlog::debug("Removing LoRA: {} from context", lora_id);

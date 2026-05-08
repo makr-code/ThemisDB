@@ -178,8 +178,9 @@ TEST_F(LoraAdapterApplicationTest, PinAndUnpinLoRA) {
 
 TEST_F(LoraAdapterApplicationTest, ApplyLoRAWithNullContext) {
     ASSERT_TRUE(manager_->loadLoRA("adapter1", adapter_paths_["adapter1"], "model", false, GPUPlacement::SINGLE_GPU, 1.0f));
-    
-    // Apply with null context (mock mode for testing)
+    manager_->setApplyAdapterFn([](const LoRASlot& slot, llama_context*) {
+        return slot.lora_id == "adapter1";
+    });
     bool applied = manager_->applyLoRA("adapter1", nullptr);
     EXPECT_TRUE(applied);
 }
@@ -194,7 +195,8 @@ TEST_F(LoraAdapterApplicationTest, ApplyNonexistentLoRA) {
 
 TEST_F(LoraAdapterApplicationTest, RemoveLoRA) {
     ASSERT_TRUE(manager_->loadLoRA("adapter1", adapter_paths_["adapter1"], "model", false, GPUPlacement::SINGLE_GPU, 1.0f));
-    
+    manager_->setApplyAdapterFn([](const LoRASlot&, llama_context*) { return true; });
+    manager_->setRemoveAdapterFn([](const LoRASlot&, llama_context*) { return true; });
     bool applied = manager_->applyLoRA("adapter1", nullptr);
     EXPECT_TRUE(applied);
     

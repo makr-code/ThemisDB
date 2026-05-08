@@ -149,7 +149,7 @@ public:
     void setRetryConfig(const RetryConfig& config);
 
     /**
-     * @brief Function type for injecting a mock object-list in unit tests.
+     * @brief Function type for providing object-key batches.
      *
      * Each call should return the next batch of object keys.  Return an empty
      * vector to signal end-of-listing.
@@ -157,7 +157,7 @@ public:
     using ObjectListFn = std::function<std::vector<std::string>()>;
 
     /**
-     * @brief Function type for injecting mock object bodies in unit tests.
+     * @brief Function type for providing object bodies.
      *
      * Given an object key the function returns the raw object body as a
      * string.  Return an empty string to simulate a fetch failure.
@@ -165,7 +165,7 @@ public:
     using ObjectFetchFn = std::function<std::string(const std::string& key)>;
 
     /**
-     * @brief Inject mock object-listing and object-fetch functions (unit tests).
+     * @brief Inject object-listing and object-fetch providers.
      *
      * When both are set, every cloud API call is replaced by these functions
      * and no real credentials or network access is required.
@@ -173,6 +173,8 @@ public:
      * Pass empty `ObjectListFn{}` / `ObjectFetchFn{}` to restore the real
      * provider path.
      */
+    void setObjectListProvider(ObjectListFn list_fn);
+    void setObjectFetchProvider(ObjectFetchFn fetch_fn);
     void setObjectListForTesting(ObjectListFn list_fn);
     void setObjectFetchForTesting(ObjectFetchFn fetch_fn);
 

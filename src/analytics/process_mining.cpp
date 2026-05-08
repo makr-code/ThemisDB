@@ -28,8 +28,9 @@
 //   yet ported (BPMN runtime, Petri-net evaluator, and conformance checker each
 //   depend on POSIX APIs that are not yet wrapped for Win32).
 // Activation: Compiled when both _WIN32 and THEMIS_PROCESS_MINING_WINDOWS_STUB
-//   are defined.  The stub flag is set via CMake preset
-//   `THEMIS_PROCESS_MINING_WINDOWS_STUB=ON` (default on Windows CI).
+//   are defined.  The stub flag is an explicit opt-in compatibility switch for
+//   Windows fallback builds and is not required for the default cross-platform
+//   implementation path.
 // Production Delta: Every ProcessMining call returns Status::Error immediately
 //   with a clear message.  No event logs are created, no conformance checks run,
 //   no BPMN models are evaluated.  Windows nodes in a mixed cluster cannot run

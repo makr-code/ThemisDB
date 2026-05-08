@@ -631,8 +631,7 @@ TEST_F(LoRAAdapterUnitTest, QuantizedLoRACanBeApplied) {
     auto apply_path = createMockAdapter("apply-quant");
     bool loaded = manager.loadLoRA("apply-quant", apply_path, "base-model", true, 1.0f);
     EXPECT_TRUE(loaded);
-    
-    // Apply the quantized LoRA
+    manager.setApplyAdapterFn([](const LoRASlot&, llama_context*) { return true; });
     bool applied = manager.applyLoRA("apply-quant", nullptr);
     EXPECT_TRUE(applied);
     

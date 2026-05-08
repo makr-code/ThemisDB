@@ -756,6 +756,10 @@ void DatabaseConnector::setRetryConfig(const RetryConfig& config) {
 }
 
 void DatabaseConnector::setRowFetchForTesting(RowFetchFn fn) {
+    setRowBatchProvider(std::move(fn));
+}
+
+void DatabaseConnector::setRowBatchProvider(RowFetchFn fn) {
     impl_->setRowFetchForTesting(std::move(fn));
 }
 

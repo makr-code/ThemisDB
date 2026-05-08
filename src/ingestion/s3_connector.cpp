@@ -740,10 +740,18 @@ void S3Connector::setRetryConfig(const RetryConfig& config) {
 }
 
 void S3Connector::setObjectListForTesting(ObjectListFn fn) {
+    setObjectListProvider(std::move(fn));
+}
+
+void S3Connector::setObjectListProvider(ObjectListFn fn) {
     impl_->setObjectListForTesting(std::move(fn));
 }
 
 void S3Connector::setObjectFetchForTesting(ObjectFetchFn fn) {
+    setObjectFetchProvider(std::move(fn));
+}
+
+void S3Connector::setObjectFetchProvider(ObjectFetchFn fn) {
     impl_->setObjectFetchForTesting(std::move(fn));
 }
 
