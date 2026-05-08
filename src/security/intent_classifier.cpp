@@ -40,7 +40,7 @@ namespace security {
 namespace {
 
 /// Convert query to uppercase for case-insensitive matching.
-std::string toUpper(const std::string& s) {
+std::string toUpperAscii(const std::string& s) {
     std::string out;
     out.reserve(s.size());
     for (auto c : s) out.push_back(static_cast<char>(std::toupper(static_cast<unsigned char>(c))));
@@ -189,7 +189,7 @@ IntentClassifier::ClassificationResult IntentClassifier::classify(
         return inference_fn_(query, session_context);
     }
 
-    const std::string uq = toUpper(query);
+    const std::string uq = toUpperAscii(query);
 
     // Compute per-class feature scores.
     const double injScore   = scoreFeatures(uq, kSqlInjectionFeatures);
