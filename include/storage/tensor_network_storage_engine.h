@@ -388,14 +388,13 @@ public:
      *
      * @return True if the key existed and was removed.
      */
-    [[nodiscard]] bool deleteRawMetadata(const std::string& key);
+    bool deleteRawMetadata(const std::string& key);
 
     /**
      * @brief List logical metadata keys whose names start with @p prefix.
      *
-     * Returned keys are de-namespaced logical keys (the inverse of
-     * `putRawMetadata()` / `getRawMetadata()`), not backend-internal
-     * `__tfgmeta__:`-prefixed keys.
+     * Returned keys are relative to @p prefix and do not include the internal
+     * `__tfgmeta__:` namespace prefix.
      */
     [[nodiscard]] std::vector<std::string>
     listRawMetadataKeys(const std::string& prefix) const;

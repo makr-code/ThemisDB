@@ -418,7 +418,7 @@ TensorNetworkStorageEngine::listRawMetadataKeys(const std::string& prefix) const
         if (raw_key.rfind(raw_prefix, 0) != 0) {
             continue;
         }
-        logical_keys.push_back(raw_key.substr(kRawMetaPrefix.size()));
+        logical_keys.push_back(raw_key.substr(raw_prefix.size()));
     }
 
     return logical_keys;

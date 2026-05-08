@@ -1322,9 +1322,12 @@ TEST(TensorDeduplicationManagerSnapshotTest,
 
     const auto journal_keys = engine->listRawMetadataKeys(per_entry_prefix);
     ASSERT_EQ(journal_keys.size(), 1u);
-    EXPECT_EQ(journal_keys.front(), per_entry_prefix + "per_entry_tensor");
+    EXPECT_EQ(journal_keys.front(), "per_entry_tensor");
 
     const auto blob_journal = engine->getRawMetadata(blob_journal_key);
+    // snapshotGraph() clears the legacy blob-journal key even when per-entry
+    // journaling is active; some backends may materialize that as an empty key
+    // while others may treat it as absent.
     EXPECT_TRUE(!blob_journal.has_value() || blob_journal->empty());
 
     auto mgr_b = makeDedup(engine);

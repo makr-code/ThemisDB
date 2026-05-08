@@ -76,9 +76,10 @@ TensorDeduplicationManager::TensorDeduplicationManager(
                 std::string{"__tfgjournal__:"} +
                 std::string{snapshot_key} + ":";
             for (const auto& key : storage->listRawMetadataKeys(prefix)) {
-                const auto payload = storage->getRawMetadata(key);
+                const auto logical_key = prefix + key;
+                const auto payload = storage->getRawMetadata(logical_key);
                 if (!payload.has_value()) continue;
-                cb(std::string_view{key}.substr(prefix.size()), *payload);
+                cb(key, *payload);
             }
         },
         [storage = storage_](std::string_view snapshot_key) {
@@ -88,7 +89,7 @@ TensorDeduplicationManager::TensorDeduplicationManager(
                 std::string{"__tfgjournal__:"} +
                 std::string{snapshot_key} + ":";
             for (const auto& key : storage->listRawMetadataKeys(prefix)) {
-                const auto deleted = storage->deleteRawMetadata(key);
+                const auto deleted = storage->deleteRawMetadata(prefix + key);
                 ok = deleted && ok;
             }
             return ok;
