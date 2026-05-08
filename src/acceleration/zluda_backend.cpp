@@ -218,12 +218,12 @@ public:
             try {
                 return fn(queries, numQueries, dim, vectors, numVectors, useL2);
             } catch (const std::exception& e) {
-                std::cerr << "ZLUDA: computeDistances callback failed: " << e.what() << std::endl;
-                std::cerr << "ZLUDA: computeDistances fail-closed -> returning empty result" << std::endl;
+                std::cerr << "ZLUDA: computeDistances callback failed: " << e.what()
+                          << " (fail-closed -> returning empty result)" << std::endl;
                 return {};
             } catch (...) {
-                std::cerr << "ZLUDA: computeDistances callback failed" << std::endl;
-                std::cerr << "ZLUDA: computeDistances fail-closed -> returning empty result" << std::endl;
+                std::cerr << "ZLUDA: computeDistances callback failed"
+                          << " (fail-closed -> returning empty result)" << std::endl;
                 return {};
             }
         }
@@ -269,12 +269,12 @@ public:
             try {
                 return fn(queries, numQueries, dim, vectors, numVectors, k, useL2);
             } catch (const std::exception& e) {
-                std::cerr << "ZLUDA: batchKnnSearch callback failed: " << e.what() << std::endl;
-                std::cerr << "ZLUDA: batchKnnSearch fail-closed -> returning empty result" << std::endl;
+                std::cerr << "ZLUDA: batchKnnSearch callback failed: " << e.what()
+                          << " (fail-closed -> returning empty result)" << std::endl;
                 return {};
             } catch (...) {
-                std::cerr << "ZLUDA: batchKnnSearch callback failed" << std::endl;
-                std::cerr << "ZLUDA: batchKnnSearch fail-closed -> returning empty result" << std::endl;
+                std::cerr << "ZLUDA: batchKnnSearch callback failed"
+                          << " (fail-closed -> returning empty result)" << std::endl;
                 return {};
             }
         }
@@ -284,8 +284,8 @@ public:
             return {};
         }
 
-        std::cerr << "ZLUDA: batchKnnSearch requires CUDA-compiled PTX" << std::endl;
-        std::cerr << "ZLUDA: Falling back to CPU (STUB — no PTX loaded)" << std::endl;
+        std::cerr << "ZLUDA: batchKnnSearch requires CUDA-compiled PTX"
+                  << " (Falling back to CPU - STUB — no PTX loaded)" << std::endl;
 
         return {};
     }
