@@ -222,11 +222,13 @@ private:
     int redisEvalBucket(Priority prio, size_t capacity, size_t refill_rate,
                         size_t consume_count);
 
+#ifdef THEMIS_ENABLE_REDIS
     /// Execute EVALSHA on a borrowed slot (caller holds the slot exclusively).
     /// Returns -1 on error, 1 if allowed, 0 if rejected.
     int redisExecEvalsha(RedisConnectionPool::Slot& slot,
                          const std::string& key, size_t capacity,
                          size_t refill_rate, size_t consume_count);
+#endif
 
     /// Mark Redis as unhealthy; increments error counter and, if max_errors
     /// reached, sets redis_healthy_ = false and emits a WARN log.

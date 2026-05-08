@@ -376,13 +376,13 @@ int TokenBucketRateLimiter::redisEvalBucket([[maybe_unused]] Priority prio,
 #endif
 }
 
-int TokenBucketRateLimiter::redisExecEvalsha(
-    [[maybe_unused]] RedisConnectionPool::Slot& slot,
-    [[maybe_unused]] const std::string& key,
-    [[maybe_unused]] size_t capacity,
-    [[maybe_unused]] size_t refill_rate,
-    [[maybe_unused]] size_t consume_count) {
 #ifdef THEMIS_ENABLE_REDIS
+int TokenBucketRateLimiter::redisExecEvalsha(
+    RedisConnectionPool::Slot& slot,
+    const std::string& key,
+    size_t capacity,
+    size_t refill_rate,
+    size_t consume_count) {
     if (!slot.ctx || slot.ctx->err || !slot.script_loaded) return -1;
 
     auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -416,10 +416,8 @@ int TokenBucketRateLimiter::redisExecEvalsha(
     freeReplyObject(reply);
     redis_errors_.store(0, std::memory_order_relaxed);
     return result;
-#else
-    return -1;
-#endif
 }
+#endif
 
 void TokenBucketRateLimiter::markRedisError() {
     int errors = redis_errors_.fetch_add(1, std::memory_order_relaxed) + 1;
