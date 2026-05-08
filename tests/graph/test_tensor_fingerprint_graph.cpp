@@ -108,7 +108,10 @@ static void overwriteLittleEndian(std::vector<uint8_t>& buf,
                                   std::size_t offset,
                                   T value) {
     static_assert(std::is_integral_v<T>);
-    ASSERT_GE(buf.size(), offset + sizeof(T));
+    if (buf.size() < offset + sizeof(T)) {
+        ADD_FAILURE() << "overwriteLittleEndian out of bounds";
+        return;
+    }
     for (std::size_t i = 0; i < sizeof(T); ++i) {
         buf[offset + i] = static_cast<uint8_t>(
             (static_cast<std::make_unsigned_t<T>>(value) >> (i * 8U)) & 0xffU);
@@ -934,8 +937,9 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     auto valid_payload = engine->getRawMetadata("valid_snap");
     ASSERT_TRUE(valid_payload.has_value());
 
-    constexpr uint64_t kBadMagic = 0x0102030405060708ULL;
-    constexpr uint32_t kBadVersion = 99U;
+    constexpr uint64_t kInvalidMagic = 0x0102030405060708ULL;
+    constexpr uint32_t kUnsupportedVersion = 99U;
+    constexpr uint64_t kGraphLengthOverflowBytes = 128U;
     constexpr std::size_t kVersionOffset = sizeof(uint64_t);
     constexpr std::size_t kGraphSizeOffset = sizeof(uint64_t) + sizeof(uint32_t);
     constexpr std::size_t kGraphPayloadOffset =
@@ -944,21 +948,22 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     std::vector<std::pair<std::string, std::vector<uint8_t>>> cases;
 
     auto wrong_magic = *valid_payload;
-    overwriteLittleEndian<uint64_t>(wrong_magic, 0, kBadMagic);
+    overwriteLittleEndian<uint64_t>(wrong_magic, 0, kInvalidMagic);
     cases.emplace_back("bad_magic", std::move(wrong_magic));
 
     auto wrong_version = *valid_payload;
-    overwriteLittleEndian<uint32_t>(wrong_version, kVersionOffset, kBadVersion);
+    overwriteLittleEndian<uint32_t>(wrong_version, kVersionOffset, kUnsupportedVersion);
     cases.emplace_back("bad_version", std::move(wrong_version));
 
     auto bad_graph_length = *valid_payload;
     overwriteLittleEndian<uint64_t>(bad_graph_length,
                                     kGraphSizeOffset,
-                                    static_cast<uint64_t>(bad_graph_length.size() + 128U));
+                                    static_cast<uint64_t>(bad_graph_length.size() +
+                                                          kGraphLengthOverflowBytes));
     cases.emplace_back("bad_graph_length", std::move(bad_graph_length));
 
     auto bad_embedded_graph = *valid_payload;
-    overwriteLittleEndian<uint64_t>(bad_embedded_graph, kGraphPayloadOffset, kBadMagic);
+    overwriteLittleEndian<uint64_t>(bad_embedded_graph, kGraphPayloadOffset, kInvalidMagic);
     cases.emplace_back("bad_embedded_graph", std::move(bad_embedded_graph));
 
     auto trailing_bytes = *valid_payload;
