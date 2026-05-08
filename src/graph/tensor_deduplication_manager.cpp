@@ -414,7 +414,6 @@ constexpr uint64_t kMutationJournalMagic = 0x4A4E4C5F4D445400ULL; // "TDM_JNL\0"
 constexpr uint32_t kMutationJournalVersion = 1;
 constexpr char kActiveSnapshotMetaKey[] = "__tfg_active_snapshot__";
 constexpr char kMutationJournalMetaPrefix[] = "__tfgmeta__:wal:";
-constexpr char kLegacyMutationJournalSuffix[] = "::wal";
 
 enum class JournalLoadStatus {
     Missing,
@@ -836,9 +835,9 @@ static void compactMutationJournalEntries(
 
 [[nodiscard]] static std::string legacyMutationJournalKeyForSnapshot(const std::string& snapshot_key) {
     std::string key;
-    key.reserve(snapshot_key.size() + (sizeof(kLegacyMutationJournalSuffix) - 1U));
+    key.reserve(snapshot_key.size() + 5U);
     key.append(snapshot_key);
-    key.append(kLegacyMutationJournalSuffix);
+    key.append("::wal");
     return key;
 }
 
@@ -870,7 +869,7 @@ static JournalLoadStatus loadJournalWithLegacyFallback(
                     key,
                     payload->size());
         if (!storage->putRawMetadata(key, {})) {
-            THEMIS_WARN("[TensorDeduplicationManager] failed to reset invalid mutation journal payload for key='{}'; corrupted payload may persist across restore attempts",
+            THEMIS_WARN("[TensorDeduplicationManager] failed to reset invalid mutation journal payload for key='{}'; corrupted payload may persist across restore attempts and manual metadata cleanup may be required",
                         key);
         }
         entries.clear();
