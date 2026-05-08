@@ -299,7 +299,9 @@
     `TensorNetworkStorageEngine` raw metadata keys (`__tfgjournal__:<snapshot>:<tensor_id>`),
     so post-snapshot upsert/delete journaling rewrites only the affected tensor entry instead
     of the entire monolithic blob; restore remains backward-compatible by falling back to the
-    legacy blob journal when no per-entry entries exist (tests TDM-22/TDM-23).
+    legacy blob journal when no per-entry entries exist, and per-entry replay
+    takes precedence when both journal formats coexist for the same snapshot
+    (tests TDM-22/TDM-24).
   - Remaining: GraphIndex-backed storage backend for the same per-entry journal lifecycle.
 
 #### Phase 8.6 — Documentation (Target: Q2 2027)
@@ -311,7 +313,7 @@
 - Fingerprint + LSH insert ≤ 10ms per tensor
 - Similar-tensor graph query ≤ 50ms for 100K nodes
 - ≥ 40% storage reduction for LLM weight repositories with shared Transformer blocks
-- 22 TFG + 9 TDM = 31 tests passing
+- 22 TFG + 10 TDM = 32 tests passing
 
 ## Known Issues & Limitations
 - Adaptive plan selection using execution feedback is now active; `selectAlgorithm` uses learned EMA costs when confidence > 0, falling back to static depth heuristics otherwise

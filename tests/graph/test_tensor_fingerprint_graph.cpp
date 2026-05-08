@@ -53,6 +53,7 @@
  *   TDM-21  unchanged mutation-journal payloads avoid redundant metadata rewrites
  *   TDM-22  auto-wired per-entry journal keys compact overwrites and replay on restore
  *   TDM-23  auto-wired per-entry restore falls back to legacy blob journals
+ *   TDM-24  when both journal formats coexist, per-entry entries take precedence
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -1372,4 +1373,49 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     for (float value : *restored) {
         EXPECT_NEAR(value, 3.25f, 1e-4f);
     }
+}
+
+// TDM-24: when both per-entry and blob journals exist for one snapshot, per-entry should win.
+TEST(TensorDeduplicationManagerSnapshotTest,
+     TDM24_PerEntryJournalTakesPrecedenceOverConflictingBlobJournal) {
+    auto engine = makeEngine();
+    constexpr auto kSnapshotKey = "snap24";
+    const auto per_entry_prefix = std::string{"__tfgjournal__:"} + kSnapshotKey + ":";
+    const auto blob_journal_key = std::string{"__tfgmeta__:wal:"} + kSnapshotKey;
+    const TensorFieldKey canonical_key{"t", "c", "f24"};
+
+    {
+        auto mgr = makeDedup(engine);
+        mgr->store("conflict_tensor", std::vector<float>(16, 1.0f), {16, 1},
+                   canonical_key.tenant, canonical_key.collection, canonical_key.field);
+        ASSERT_TRUE(mgr->snapshotGraph(kSnapshotKey));
+
+        // Create a per-entry DELETE journal record.
+        ASSERT_TRUE(engine->remove(canonical_key));
+    }
+
+    // Also create a conflicting blob-journal UPSERT for the same tensor by
+    // forcing legacy blob mode.
+    {
+        auto blob_mgr = makeDedup(engine);
+        blob_mgr->setJournalEntryHooks({}, {}, {}, {});
+        blob_mgr->store("conflict_tensor", std::vector<float>(16, 4.0f), {16, 1},
+                        canonical_key.tenant, canonical_key.collection, canonical_key.field);
+    }
+
+    const auto per_entry_keys = engine->listRawMetadataKeys(per_entry_prefix);
+    ASSERT_EQ(per_entry_keys.size(), 1u);
+    EXPECT_EQ(per_entry_keys.front(), "conflict_tensor");
+
+    const auto blob_payload = engine->getRawMetadata(blob_journal_key);
+    ASSERT_TRUE(blob_payload.has_value());
+    ASSERT_FALSE(blob_payload->empty());
+
+    auto restored_mgr = makeDedup(engine);
+    ASSERT_TRUE(restored_mgr->restoreGraph(kSnapshotKey));
+
+    // If per-entry precedence works, restore replays DELETE and the tensor
+    // remains absent even though the blob journal contains a conflicting UPSERT.
+    EXPECT_FALSE(restored_mgr->retrieve("conflict_tensor").has_value());
+    EXPECT_FALSE(restored_mgr->getRecord("conflict_tensor").has_value());
 }
