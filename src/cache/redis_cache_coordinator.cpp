@@ -60,7 +60,7 @@ namespace cache {
 // ---------------------------------------------------------------------------
 namespace {
 std::mutex                         s_redis_pub_fn_mutex;
-RedisCacheCoordinator::RedisPublishFn s_redis_pub_fn;
+std::function<bool(const std::string&, const std::string&)> s_redis_pub_fn;
 } // namespace
 
 void RedisCacheCoordinator::setRedisPublishFn(RedisPublishFn fn) {
@@ -191,7 +191,10 @@ void RedisCacheCoordinator::publishEntry(const std::string& key,
             ++publish_errors_;
         }
     }
-#endifconst std::string& pattern,
+#endif
+}
+
+void RedisCacheCoordinator::publishInvalidation(const std::string& pattern,
                                                   const std::string& tenant_id) {
 #ifdef THEMIS_ENABLE_REDIS
     ReplicationMessage msg;
