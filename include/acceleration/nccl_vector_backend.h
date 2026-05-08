@@ -24,6 +24,8 @@
 #include <vector>
 #include <string>
 #include <cstdint>
+#include <functional>
+#include <mutex>
 
 // Forward declarations - defined differently based on NCCL availability
 #ifdef THEMIS_ENABLE_NCCL
@@ -246,6 +248,16 @@ public:
     static int getNCCLVersion();
     static std::string getNCCLVersionString();
     static bool checkNVLinkSupport(const std::vector<int>& deviceIds);
+
+    // -----------------------------------------------------------------------
+    // Stub-path injection — active only when THEMIS_ENABLE_NCCL is not defined.
+    // -----------------------------------------------------------------------
+    using AllReduceFn = std::function<bool(
+        const float* send, float* recv, size_t count, ReductionOp op, void* stream)>;
+
+    /// Inject an allReduce implementation for the non-NCCL stub path.
+    /// Pass empty fn to restore fail-closed stub default.
+    static void setAllReduceFn(AllReduceFn fn);
 
 private:
     class Impl;

@@ -22,6 +22,8 @@
 #include "acceleration/compute_backend.h"
 #include <vector>
 #include <memory>
+#include <functional>
+#include <mutex>
 
 #ifdef THEMIS_ENABLE_OPENCL
 #ifdef __APPLE__
@@ -128,6 +130,17 @@ public:
         size_t k,
         bool useL2 = true
     ) override;
+
+    // -----------------------------------------------------------------------
+    // Stub-path injection — active only when THEMIS_ENABLE_OPENCL is not defined.
+    // -----------------------------------------------------------------------
+    using ComputeDistancesFn = std::function<std::vector<float>(
+        const float* query, size_t query_count, size_t dim,
+        const float* db, size_t db_count, bool use_l2)>;
+
+    /// Inject a computeDistances implementation for the non-OpenCL stub path.
+    /// Pass empty fn to restore fail-closed stub default (returns {}).
+    static void setComputeDistancesFn(ComputeDistancesFn fn);
 };
 
 #endif // THEMIS_ENABLE_OPENCL

@@ -367,6 +367,22 @@ std::vector<std::vector<std::pair<uint32_t, float>>> OpenCLVectorBackend::batchK
 //   or CUDA OpenCL) and set `-DTHEMIS_ENABLE_OPENCL=1` in CMake.
 // Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md §"OpenCL Backend Activation"
 
+// STUB/SIMULATION NOTE (computeDistances bridge):
+// Purpose:    Allow injection of a real computeDistances implementation for the
+//             non-OpenCL stub path (tests / integration without an OpenCL SDK).
+// Activation: Runtime — when setComputeDistancesFn() is called with a non-empty fn.
+// Production Delta: With no fn, computeDistances() returns {}; with fn the
+//             provided implementation is called instead.
+// Removal Plan: Remove bridge once THEMIS_ENABLE_OPENCL is standard in all envs.
+static std::mutex s_opencl_compute_fn_mutex_;
+static OpenCLVectorBackend::ComputeDistancesFn s_compute_distances_fn_;
+
+void OpenCLVectorBackend::setComputeDistancesFn(
+    OpenCLVectorBackend::ComputeDistancesFn fn) {
+    std::lock_guard<std::mutex> lk(s_opencl_compute_fn_mutex_);
+    s_compute_distances_fn_ = std::move(fn);
+}
+
 // Stub method definitions when OpenCL is not available
 BackendType OpenCLVectorBackend::type() const noexcept { return BackendType::OPENCL; }
 const char* OpenCLVectorBackend::name() const noexcept { return "OpenCL (Not Available)"; }
@@ -376,7 +392,20 @@ bool OpenCLVectorBackend::initialize() { return false; }
 void OpenCLVectorBackend::shutdown() {}
 
 std::vector<float> OpenCLVectorBackend::computeDistances(
-    const float*, size_t, size_t, const float*, size_t, bool) {
+    const float* queries, size_t numQueries, size_t dimension,
+    const float* vectors, size_t numVectors, bool useL2) {
+    OpenCLVectorBackend::ComputeDistancesFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_opencl_compute_fn_mutex_);
+        fn = s_compute_distances_fn_;
+    }
+    if (fn) [[unlikely]] {
+        try {
+            return fn(queries, numQueries, dimension, vectors, numVectors, useL2);
+        } catch (...) {
+            return {};
+        }
+    }
     return {};
 }
 
