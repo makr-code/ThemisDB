@@ -242,7 +242,33 @@ bool TensorNetworkStorageEngine::put(const TensorFieldKey&            key,
             backend_->del(makeCoreKey(key, k, oldest));
     }
 
+    wlk.unlock();
+
+    // Notify write observer outside the write lock to avoid lock ordering issues.
+    {
+        std::lock_guard<std::mutex> olk(observer_mutex_);
+        if (write_observer_) {
+            try {
+                write_observer_(key, train);
+            } catch (...) { /* observer must not throw; swallow exceptions */ }
+        }
+    }
+
     return true;
+}
+
+// ============================================================================
+// CDC observer setters
+// ============================================================================
+
+void TensorNetworkStorageEngine::setWriteObserverFn(TensorWriteObserverFn fn) {
+    std::lock_guard<std::mutex> lk(observer_mutex_);
+    write_observer_ = std::move(fn);
+}
+
+void TensorNetworkStorageEngine::setDeleteObserverFn(TensorDeleteObserverFn fn) {
+    std::lock_guard<std::mutex> lk(observer_mutex_);
+    delete_observer_ = std::move(fn);
 }
 
 // ============================================================================
@@ -297,6 +323,18 @@ bool TensorNetworkStorageEngine::remove(const TensorFieldKey& key) {
             backend_->del(makeCoreKey(key, k, ver));
     }
     version_cache_.erase(key);
+    wlk.unlock();
+
+    // Notify delete observer outside the write lock.
+    {
+        std::lock_guard<std::mutex> olk(observer_mutex_);
+        if (delete_observer_) {
+            try {
+                delete_observer_(key);
+            } catch (...) { /* observer must not throw; swallow exceptions */ }
+        }
+    }
+
     return true;
 }
 
@@ -343,6 +381,44 @@ TensorNetworkStorageEngine::stats(const TensorFieldKey& key) const {
     if (s.dense_elements == 0) s.dense_elements = 1;
 
     return s;
+}
+
+// ============================================================================
+// Raw metadata
+// ============================================================================
+
+static std::string rawMetaKey(const std::string& key) {
+    return "__tfgmeta__:" + key;
+}
+
+static constexpr std::string_view kRawMetaPrefix = "__tfgmeta__:";
+
+bool TensorNetworkStorageEngine::putRawMetadata(
+    const std::string& key, const std::vector<uint8_t>& value) {
+    return backend_->put(rawMetaKey(key), value);
+}
+
+std::optional<std::vector<uint8_t>>
+TensorNetworkStorageEngine::getRawMetadata(const std::string& key) const {
+    return backend_->get(rawMetaKey(key));
+}
+
+bool TensorNetworkStorageEngine::deleteRawMetadata(const std::string& key) {
+    return backend_->del(rawMetaKey(key));
+}
+
+std::vector<std::string>
+TensorNetworkStorageEngine::listRawMetadataKeys(const std::string& prefix) const {
+    const auto raw_prefix = rawMetaKey(prefix);
+    auto raw_keys = backend_->listKeys(raw_prefix);
+    std::vector<std::string> logical_keys;
+    logical_keys.reserve(raw_keys.size());
+
+    for (const auto& raw_key : raw_keys) {
+        logical_keys.push_back(raw_key.substr(raw_prefix.size()));
+    }
+
+    return logical_keys;
 }
 
 } // namespace storage

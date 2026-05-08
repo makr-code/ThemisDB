@@ -84,6 +84,8 @@ public:
 
 struct QTTrain {
     std::vector<std::size_t> bit_depths;
+    std::vector<std::size_t> grid_sizes;
+    std::vector<std::size_t> quantics_mode_sizes;
     storage::TTTrain         tt_train;
 
     [[nodiscard]] storage::TTTrain toTTTrain() const { return tt_train; }
@@ -92,7 +94,19 @@ struct QTTrain {
 class HissReshaper {
 public:
     /**
-     * @brief Placeholder QTT exposure path (Phase-6 prep).
+     * @brief Reinterprets a TT train in a quantics-friendly reshaped mode layout.
+     *
+     * The reshaper reconstructs the dense tensor, expands each provided
+     * physical dimension into a sequence of quantics factors, and decomposes
+     * the tensor again in the reshaped layout.
+     *
+     * Factorisation strategy:
+     * - powers of two become repeated `2` modes
+     * - non-power-of-two dimensions are decomposed into repeated `2` modes
+     *   plus a final residual factor (e.g. `12 -> {2, 2, 3}`)
+     *
+     * This exposes latent low-rank structure to later Hiss/QTT phases while
+     * preserving the exact dense element count.
      */
     [[nodiscard]] static QTTrain
     exposeQuantics(const storage::TTTrain& train, const std::vector<std::size_t>& grid_sizes);
@@ -111,4 +125,3 @@ private:
 
 } // namespace tensor
 } // namespace themis
-

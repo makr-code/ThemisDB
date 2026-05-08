@@ -288,12 +288,18 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
   - AC: compression ratio 2.5×–100× better than fixed TT/HT on test corpus;
     structures from one data instance transfer to similar instances within 10% perf
 
-- [ ] **Targeted index reshaping to expose QTT/latent-rank structures** (Target: Q2 2028)
+- [~] **Targeted index reshaping to expose QTT/latent-rank structures** (Target: Q2 2028)
   - Hiss reshapes native indices to reveal Quantics formats invisible in original layout
   - `HissReshaper::exposeQuantics(train, grid_sizes) → QTTrain`
   - AC: QTT compression ≥ 2.5× better than plain TT on same data after reshaping
+  - **2026-05-07 in progress**: `HissReshaper::exposeQuantics()` now reconstructs
+    dense data, factorizes each physical mode into repeated `2` modes plus one
+    residual factor when needed, and re-decomposes into a reshaped `QTTrain`;
+    `QTTrain` now records `grid_sizes` + `quantics_mode_sizes`; dense round-trip
+    parity tests THSS-05..THSS-09 added. Strict pure-binary padded QTT with
+    reversible index mapping remains deferred (STUB #254).
 
-- [ ] **`TensorNetworkStructuralRounding` (TNSR) — background task** (Target: Q3 2028)
+- [~] **`TensorNetworkStructuralRounding` (TNSR) — background task** (Target: Q3 2028)
   - Paper §TNSR: generalizes round to arbitrary existing tree networks; adjusts bond
     dimensions AND reconfigures topology as background maintenance
   - `TNSRTask` runs in RocksDB compaction thread pool; uses same `ε` tolerance as
@@ -301,38 +307,60 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
   - `TNSRReport { bytes_saved, rank_delta, topology_changes }` written to metrics
   - AC: storage decrease ≥ 15% over 24h on a live index with ongoing inserts, without
     measurable accuracy regression (cosine sim δ < 0.001 vs. pre-TNSR)
+  - **2026-05-07 in progress**: `TNSRTask` header + impl added in
+    `include/tensor/tnsr_task.h` + `src/tensor/tnsr_task.cpp`; bond-dimension
+    reduction (recompress) is durable; topology mutation via `rerouteEdge` is
+    counted but not yet persisted (STUB #252); tests TNSR-01..TNSR-08 added to
+    `tests/test_tensor_hiss_structural_search.cpp`
 
-- [ ] **Domain template graphs** — reuse structure across similar datasets (Target: Q3 2028)
+- [~] **Domain template graphs** — reuse structure across similar datasets (Target: Q3 2028)
   - Paper §Hiss: optimized structure for one instance maintains ≤10% perf on similar data
   - `TemplateCatalog::register(domain_tag, tn_graph_template)`
   - Automatic template selection by `TensorRouter` based on `domain_tag` metadata
   - AC: first-time search on new dataset using template within 10% of Hiss-optimized recall
+  - **2026-05-07 in progress**: `TensorRouteHint::domain_tag` field added;
+    `TensorRouter::setTemplateCatalog()` / `templateCatalog()` wired; catalog hit
+    promotes routing to LIFT (STUB #253 — topology not yet embedded in stored index);
+    tests TR-07..TR-10 added to `tests/test_tensor_router.cpp`
 
 ### Phase 7: Unified Tensor Representation (UTR) — Multi-Modal Interoperability (Target: Q3–Q4 2028)
 
-- [ ] **`UTRConverter` — heterogeneous-to-tensor-native pipeline** (Target: Q3 2028)
+- [~] **`UTRConverter` — heterogeneous-to-tensor-native pipeline** (Target: Q3 2028)
   - Paper §UTR: geospatial, relational, visual, and textual data unified via TT/HT encoding
   - `UTRConverter::fromGeospatial(grid, resolution) → TTTrain`  — preserves topological neighborhoods
   - `UTRConverter::fromTabular(table, schema) → HyperIndexTensor`  — relational Hyper-Index with latent joins
   - `UTRConverter::fromImage(pixels, h, w, c) → TTTrain`  — 3D/4D core network for structural similarity
   - `UTRConverter::fromDocument(text, structure_hint) → HTTrain`  — hierarchical paragraph cores
   - AC: round-trip encode/decode with normalized RMSE ≤ ε per data type
+  - **2026-05-07 in progress**: `UTRConverter` + `HyperIndexBuilder` / `HyperIndexTensor` implemented
+    in `include/tensor/utr_converter.h` / `src/tensor/utr_converter.cpp` and
+    `include/tensor/hyper_index_builder.h` / `src/tensor/hyper_index_builder.cpp`;
+    tests UTR-01..UTR-16 in `tests/test_tensor_utr.cpp`.
+    STUBs: #255 (uniform bucketing, no FK graph), #256 (row-major geo encoding),
+    #257 (hash-projection doc embedding), #258 (raw pixel TT).
 
-- [ ] **Geospatial TT-cores preserving topological proximity** (Target: Q3 2028)
+- [~] **Geospatial TT-cores preserving topological proximity** (Target: Q3 2028)
   - Paper §Geospatial: n-dimensional grids factorized; spatial reasoning by core contraction
   - `GeoTTIndex::spatialContraction(flood_risk_tt, population_tt) → correlation_score`
   - AC: spatial correlation result within 0.1% of raster-based baseline
+  - **2026-05-07 in progress**: `fromGeospatial()` encodes raster grids as 2-D TTTrain;
+    row-major locality used (STUB #256); Hilbert-curve reordering deferred Q3 2028.
 
-- [ ] **Relational Hyper-Index with latent join discovery** (Target: Q4 2028)
+- [~] **Relational Hyper-Index with latent join discovery** (Target: Q4 2028)
   - Paper §Relational: Hyper-Index tensor extracts cross-table relationships invisible to
     the relational engine
   - `HyperIndexBuilder::fromSchema(tables, fk_graph) → HyperIndexTensor`
   - AC: latent join for standard TPC-H Q18 detected without explicit JOIN hint
+  - **2026-05-07 in progress**: `HyperIndexBuilder::fromSchema()` builds co-occurrence tensor
+    (STUB #255 — uniform bucketing, no FK-graph awareness).
 
-- [ ] **Hierarchical document tensor — child-to-parent retrieval** (Target: Q4 2028)
+- [~] **Hierarchical document tensor — child-to-parent retrieval** (Target: Q4 2028)
   - Paper §Documents: 3–5× better accuracy on structured data via structural context retention
   - `DocumentHTIndex::retrieveFragment(query_tt, k) → { fragment, parent_context }`
   - AC: recall@5 on government-document benchmark ≥ 3× vs. flat chunk retrieval
+  - **2026-05-07 in progress**: `fromDocument()` encodes document segments as 2-D HTTrain
+    (segment × embed_dim) using hash-projection embeddings (STUB #257); HT decomposer
+    from Phase 5 applied.
 
 ### Phase 8: Physics-Informed Scientific Solvers (Target: Q1–Q2 2029)
 
@@ -425,16 +453,19 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 ### Phase 6: Hiss Adaptive Structural Rounding (Target: Q2–Q3 2028)
 
 - [~] `HissStructuralSearchEngine` — TN-SS with entropy-guided clustering
-- [ ] Targeted index reshaping to expose QTT latent structures
-- [ ] `TensorNetworkStructuralRounding` (TNSR) background maintenance task
-- [~] Domain template graph catalog (`TemplateCatalog`)
+- [~] Targeted index reshaping to expose QTT latent structures (residual-factor path implemented; strict pure-binary QTT deferred, STUB #254)
+- [~] `TensorNetworkStructuralRounding` (TNSR) background maintenance task (STUB #252)
+  - **2026-05-07 update**: trivial-train fast-path skips HISS topology-search when
+    `cores.size() < 3` or `maxRank() < 2`; `TNSRReport::topology_search_skipped_keys`
+    tracks skipped keys.
+- [~] Domain template graph catalog (`TemplateCatalog`) wired to `TensorRouter` (STUB #253)
 
 ### Phase 7: UTR Multi-Modal Interoperability (Target: Q3–Q4 2028)
 
-- [ ] `UTRConverter` — geospatial / relational / visual / document TT encoding
-- [ ] Geospatial TT-cores with topological proximity preservation
-- [ ] Relational Hyper-Index with latent join discovery
-- [ ] Hierarchical document HTTrain child-to-parent retrieval
+- [~] `UTRConverter` — geospatial / relational / visual / document TT encoding
+- [~] Geospatial TT-cores with topological proximity preservation
+- [~] Relational Hyper-Index with latent join discovery
+- [~] Hierarchical document HTTrain child-to-parent retrieval
 
 ### Phase 8: Physics-Informed Scientific Solvers (Target: Q1–Q2 2029)
 
@@ -464,7 +495,17 @@ RocksDB persistence and hnswlib integration are Phase 2 targets.
 - `simpleSVD()` sets U/Vt to identity matrices (STUB_INVENTORY #157);
   reconstruction error can reach ‖T‖_F when THEMIS_USE_LAPACK_SVD is not set
 - HT and QTT formats not yet implemented (Phases 5+)
-- Hiss/TNSR adaptive rounding not yet integrated (Phase 6)
+- `HissReshaper::exposeQuantics()` uses repeated `2` modes plus a residual
+  factor for non-power-of-two physical dimensions; strict padded pure-binary
+  QTT with reversible index mapping remains deferred (STUB_INVENTORY #254)
+- Hiss/TNSR adaptive rounding partially integrated (Phase 6): bond-dimension
+  reduction is durable (TNSR-01..TNSR-08 pass); topology mutation via
+  rerouteEdge counted but not persisted (STUB #252)
+- Domain template graph routing wired to TensorRouter (STUB #253): promotes
+  routing to LIFT on catalog hit; actual TN topology not yet embedded in stored index
+- Phase 7 UTR encoders use simplified approaches (STUBs #255–#258): geospatial row-major
+  mode order (#256), document hash-projection embedding (#257), raw pixel TT decomposition
+  (#258), relational Hyper-Index with uniform bucketing and no FK-graph weighting (#255)
 
 ## Breaking Changes
 

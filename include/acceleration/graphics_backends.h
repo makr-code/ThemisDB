@@ -25,7 +25,10 @@
 
 #include "acceleration/compute_backend.h"
 #include "acceleration/metrics/backend_metrics.h"
+#include <functional>
 #include <memory>
+#include <string>
+#include <vector>
 
 namespace themis {
 namespace acceleration {
@@ -127,6 +130,23 @@ public:
     // Returns {wgX, wgY} for the L2 pipeline; {batchX, 1} for batch-search.
     std::pair<uint32_t, uint32_t> getWorkgroupSizeL2() const noexcept;
     uint32_t getWorkgroupSizeBatchSearch() const noexcept;
+
+    // ── STUB #169 bridge — runtime GLSL→SPIR-V compiler injection ──────────
+    /// Callback type for injecting a shaderc/glslang-based GLSL→SPIR-V
+    /// compiler so that compute shaders can be compiled at runtime without
+    /// pre-built .spv files.
+    ///
+    /// Parameters: (glsl_source, shader_type)
+    ///   shader_type is a string such as "compute", "vertex", "fragment".
+    /// Must return a non-empty SPIR-V buffer or an empty vector on failure.
+    using CompileGLSLFn = std::function<
+        std::vector<uint32_t>(const std::string& /*glsl_source*/,
+                              const std::string& /*shader_type*/)>;
+
+    /// Inject (or remove) a runtime GLSL→SPIR-V compiler.  Pass nullptr /
+    /// empty fn to restore the stub path (returns empty SPIR-V).
+    /// Thread-safe.
+    static void setCompileGLSLFn(CompileGLSLFn fn);
 
 private:
     bool initialized_ = false;

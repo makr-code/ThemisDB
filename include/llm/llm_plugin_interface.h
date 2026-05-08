@@ -31,6 +31,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <mutex>
 #include <optional>
 #include <functional>
 #include <nlohmann/json.hpp>
@@ -350,7 +351,118 @@ public:
     // ═══════════════════════════════════════════════════════════
     // Inference
     // ═══════════════════════════════════════════════════════════
-    
+
+    /**
+     * @brief Result of a draft-token generation pass for speculative decoding.
+     *
+     * Returned by generateDraftTokens().  Each element of `logits[i]` is a
+     * vocab_size-dimensional raw logit vector for draft position i, suitable
+     * for passing directly to SpeculativeDecoder::verify().
+     */
+    struct DraftTokensResult {
+        /// K draft token IDs (one per speculative step).
+        std::vector<int> tokens;
+        /// K × vocab_size raw logit rows (row i corresponds to tokens[i]).
+        std::vector<std::vector<float>> logits;
+        /// Vocabulary size used for the logit rows.
+        size_t vocab_size = 0;
+    };
+
+    // ─────────────────────────────────────────────────────────────────────
+    // STUB #261 bridge — callback injection for generateDraftTokens()
+    // ─────────────────────────────────────────────────────────────────────
+
+    /// Callback type that replaces the default heuristic implementation of
+    /// generateDraftTokens() without requiring a full plugin subclass.
+    using GenerateDraftTokensFn = std::function<
+        DraftTokensResult(const InferenceRequest& /*request*/,
+                          size_t                  /*k*/,
+                          size_t                  /*vocab_size_hint*/)>;
+
+    /// Inject (or remove) a real generateDraftTokens() implementation into
+    /// the default virtual method body.  Pass nullptr / empty fn to restore
+    /// the built-in text-heuristic path.  Thread-safe with concurrent calls
+    /// to generateDraftTokens().
+    static void setDefaultGenerateDraftTokensFn(GenerateDraftTokensFn fn) {
+        std::lock_guard<std::mutex> lk(s_draft_fn_mutex_);
+        s_default_draft_fn_ = std::move(fn);
+    }
+
+    /**
+     * @brief Generate K draft tokens with per-token logit distributions.
+     *
+     * Used by InferenceEngineEnhanced::trySpeculativeGeneration() to feed
+     * real token IDs and logit distributions into SpeculativeDecoder::verify().
+     *
+     * When a fn has been injected via setDefaultGenerateDraftTokensFn() the
+     * call is forwarded to that fn.  Otherwise the built-in heuristic applies:
+     * generate() is called internally and the returned text is mapped to token
+     * IDs via UTF-8 byte values modulo vocab_size; logit distributions are
+     * peaked (+5 / −5) at the mapped IDs (STUB #261 — Q1 2027).
+     *
+     * @param request        Inference request (prompt + generation parameters).
+     *                       max_tokens is overridden to k internally.
+     * @param k              Number of draft tokens to produce.
+     * @param vocab_size_hint Expected vocabulary size; 32 000 used as fallback.
+     * @return DraftTokensResult with k tokens and k logit rows.
+     */
+    [[nodiscard]] virtual DraftTokensResult generateDraftTokens(
+        const InferenceRequest& request,
+        size_t                  k,
+        size_t                  vocab_size_hint
+    ) {
+        // Check injected fn first (STUB #261 bridge).
+        GenerateDraftTokensFn fn_copy;
+        {
+            std::lock_guard<std::mutex> lk(s_draft_fn_mutex_);
+            fn_copy = s_default_draft_fn_;
+        }
+        if (fn_copy) {
+            return fn_copy(request, k, vocab_size_hint);
+        }
+
+        // Built-in text-heuristic fallback.
+        InferenceRequest draft_req = request;
+        draft_req.max_tokens      = static_cast<int>(k);
+        draft_req.stream_callback = nullptr;
+
+        const auto resp = generate(draft_req);
+
+        const size_t vocab         = (vocab_size_hint > 0) ? vocab_size_hint : 32000u;
+        constexpr float kPeak      =  5.0f;
+        constexpr float kBaseline  = -5.0f;
+
+        DraftTokensResult result;
+        result.vocab_size = vocab;
+        result.tokens.reserve(k);
+        result.logits.reserve(k);
+
+        const std::string& text = resp.text;
+        for (size_t i = 0; i < k; ++i) {
+            const int token_id = (i < text.size())
+                ? (static_cast<int>(static_cast<unsigned char>(text[i])) %
+                   static_cast<int>(vocab))
+                : 0;
+            result.tokens.push_back(token_id);
+
+            std::vector<float> row(vocab, kBaseline);
+            row[static_cast<size_t>(token_id)] = kPeak;
+            result.logits.push_back(std::move(row));
+        }
+        return result;
+    }
+
+private:
+    // Inline static storage for the default generateDraftTokens() injection
+    // (STUB #261 bridge).  Using inline static avoids a separate .cpp TU.
+    // Placed in a private section between two public ones so that the injected
+    // state cannot be accessed directly; access is exclusively through the
+    // public static setter setDefaultGenerateDraftTokensFn().
+    inline static std::mutex              s_draft_fn_mutex_;
+    inline static GenerateDraftTokensFn   s_default_draft_fn_;
+
+public:
+
     /**
      * @brief Generate text from prompt
      * @param request Inference parameters

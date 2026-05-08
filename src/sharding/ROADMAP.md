@@ -234,8 +234,10 @@ Sharding is a database architecture pattern that involves breaking a database in
 - [x] **CC-1 — Enforce WAL flush as hard error (not warn+continue) across all consensus layers** — Fixed 2026-04-27
   - Fix: `logToWAL()` in `DistributedTransactionManager` now re-throws WAL write
     exceptions instead of catching and swallowing them.
-- [ ] **CC-4 — Gate gossip-driven topology mutations behind Raft membership change protocol**
-- [ ] **CC-5 — Consolidate 2PC coordinator implementations or enforce a shared recovery interface**
+- [x] **CC-4 — Gate gossip-driven topology mutations behind Raft membership change protocol**
+  - Resolved 2026-05-07: `GossipProtocol::setRaftMembershipGateFn()` gates `topology->addShard()` calls; tests GP-GATE-01..04.
+- [x] **CC-5 — Consolidate 2PC coordinator implementations or enforce a shared recovery interface**
+  - Resolved 2026-05-07: `IInDoubtRecoveryCoordinator` with `recoverInDoubtTransactions()` shared by `TwoPhaseCommitCoordinator`, `DistributedTransactionManager`, and `CrossShardTransaction`.
 
 ## Conclusion
 Implementing sharding requires careful planning and execution. Following this roadmap will help ensure that the ThemisDB sharding architecture is robust, scalable, and ready for production deployment.

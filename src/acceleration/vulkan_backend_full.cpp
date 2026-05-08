@@ -27,6 +27,8 @@
 #include "acceleration/graphics_backends.h"
 #include <iostream>
 #include <fstream>
+#include <functional>
+#include <mutex>
 #include <vector>
 #include <algorithm>
 #include <cstring>
@@ -43,6 +45,15 @@
 
 namespace themis {
 namespace acceleration {
+
+// ── STUB #169 bridge — access storage from graphics_backends.cpp (extern) ───
+// The mutex and fn are defined in graphics_backends.cpp (always-compiled TU)
+// so that setCompileGLSLFn() is callable even when Vulkan is not enabled.
+// Here we declare them with extern to access them from compileGLSLtoSPIRV().
+namespace glsl_bridge {
+    extern std::mutex                       s_vk_compile_glsl_mutex;
+    extern VulkanVectorBackend::CompileGLSLFn s_vk_compile_glsl_fn;
+}
 
 // ============================================================================
 // Vulkan Helper Structures
@@ -130,25 +141,29 @@ static VkShaderModule createShaderModule(VkDevice device, const std::vector<uint
     return shaderModule;
 }
 
-static std::vector<uint32_t> compileGLSLtoSPIRV(const std::string& /*glslSource*/,
-                                                 const std::string& /*shaderType*/) {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Stub for runtime GLSL→SPIR-V compilation while the shaderc
-    //          library is not linked into ThemisDB.
-    // Activation: Always — shaderc is not a ThemisDB build dependency.
-    // Production Delta: Returns an empty SPIR-V buffer.  Any compute shader
-    //                   that goes through this path fails to create a
-    //                   VkShaderModule; Vulkan-accelerated vector operations
-    //                   are silently disabled at pipeline creation time.
-    //                   Callers must supply pre-compiled .spv files via
-    //                   loadSPIRV() instead.
-    // Removal Plan: Link libshaderc_combined; replace this function body with
-    //               shaderc_compiler_initialize() + shaderc_compile_into_spv().
-    //               Alternatively ship pre-compiled SPIR-V assets.  See
-    //               src/acceleration/FUTURE_ENHANCEMENTS.md §Vulkan GLSL Compiler.
-    std::cerr << "GLSL to SPIR-V compilation requires shaderc library (STUB)" << std::endl;
+static std::vector<uint32_t> compileGLSLtoSPIRV(const std::string& glslSource,
+                                                 const std::string& shaderType) {
+    // Check injected fn first (STUB #169 bridge).
+    // Storage lives in graphics_backends.cpp; accessed here via glsl_bridge extern.
+    VulkanVectorBackend::CompileGLSLFn fn_copy;
+    {
+        std::lock_guard<std::mutex> lk(glsl_bridge::s_vk_compile_glsl_mutex);
+        fn_copy = glsl_bridge::s_vk_compile_glsl_fn;
+    }
+    if (fn_copy) {
+        auto spv = fn_copy(glslSource, shaderType);
+        if (!spv.empty()) {
+            return spv;
+        }
+    }
+
+    // Built-in stub path: shaderc is not a ThemisDB build dependency.
+    // Inject a real compiler via VulkanVectorBackend::setCompileGLSLFn() or
+    // supply pre-compiled .spv files via loadSPIRV().
+    // See src/acceleration/FUTURE_ENHANCEMENTS.md §Vulkan GLSL Compiler.
+    std::cerr << "GLSL to SPIR-V compilation requires shaderc library (STUB #169)" << std::endl;
     std::cerr << "Pre-compile shaders with: glslangValidator -V shader.comp -o shader.spv" << std::endl;
-    return {}; // STUB: empty — requires actual compilation
+    return {};
 }
 
 static std::vector<uint32_t> loadSPIRV(const std::string& filename) {

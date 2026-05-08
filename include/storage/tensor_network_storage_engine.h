@@ -49,6 +49,7 @@
 #include "storage/tt_quantizer.h"
 
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <mutex>
 #include <optional>
@@ -329,6 +330,75 @@ public:
      */
     const TensorStorageConfig& config() const noexcept { return cfg_; }
 
+    // ─── CDC change observers ─────────────────────────────────────────────
+
+    /**
+     * @brief Observer invoked after a successful put().
+     *
+     * Called outside the internal write lock with the storage key and the
+     * decompressed TTTrain so downstream consumers (e.g. TensorFingerprintGraph)
+     * can update their index without holding the storage lock.
+     *
+     * Must be noexcept-safe; exceptions thrown by the callback are swallowed.
+     */
+    using TensorWriteObserverFn =
+        std::function<void(const TensorFieldKey&, const TTTrain&)>;
+
+    /**
+     * @brief Observer invoked after a successful remove().
+     *
+     * Called outside the internal write lock with the removed key.
+     * Must be noexcept-safe; exceptions thrown by the callback are swallowed.
+     */
+    using TensorDeleteObserverFn =
+        std::function<void(const TensorFieldKey&)>;
+
+    /// Register (or replace) the write observer. Pass nullptr to remove.
+    void setWriteObserverFn(TensorWriteObserverFn fn);
+
+    /// Register (or replace) the delete observer. Pass nullptr to remove.
+    void setDeleteObserverFn(TensorDeleteObserverFn fn);
+
+    // ─── Raw metadata (opaque byte blobs) ────────────────────────────────
+
+    /**
+     * @brief Store an opaque byte blob under a named metadata key.
+     *
+     * The key is namespaced to `__tfgmeta__:<key>` so it cannot collide
+     * with regular tensor keys.  Used by TensorDeduplicationManager to
+     * persist the fingerprint graph snapshot between process restarts.
+     *
+     * @param key    Logical metadata key (must be non-empty).
+     * @param value  Raw byte payload.
+     * @return True on success.
+     */
+    bool putRawMetadata(const std::string& key,
+                        const std::vector<uint8_t>& value);
+
+    /**
+     * @brief Load an opaque byte blob stored under @p key.
+     *
+     * @return The blob, or std::nullopt if not found.
+     */
+    std::optional<std::vector<uint8_t>>
+    getRawMetadata(const std::string& key) const;
+
+    /**
+     * @brief Delete an opaque metadata blob stored under @p key.
+     *
+     * @return True if the key existed and was removed.
+     */
+    bool deleteRawMetadata(const std::string& key);
+
+    /**
+     * @brief List logical metadata keys whose names start with @p prefix.
+     *
+     * Returned keys are relative to @p prefix and do not include the internal
+     * `__tfgmeta__:` namespace prefix.
+     */
+    [[nodiscard]] std::vector<std::string>
+    listRawMetadataKeys(const std::string& prefix) const;
+
 private:
     std::shared_ptr<ITensorStorageBackend> backend_;
     TensorStorageConfig  cfg_;
@@ -336,6 +406,12 @@ private:
     TTQuantizer          quantizer_;
 
     mutable std::shared_mutex rw_mutex_;
+
+    // ─── CDC observers ────────────────────────────────────────────────────
+
+    TensorWriteObserverFn  write_observer_;
+    TensorDeleteObserverFn delete_observer_;
+    mutable std::mutex     observer_mutex_;
 
     // ─── Internal key building ────────────────────────────────────────────
 

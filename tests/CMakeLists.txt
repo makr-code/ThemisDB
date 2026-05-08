@@ -25429,6 +25429,146 @@ else()
     message(STATUS "LLM+RAID Phase 4 integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_raid_integration.cpp")
 endif()
 
+# ─────────────────────────────────────────────────────────────────────────────
+# SD-REAL: Real draft-model logits for speculative decoding (STUB #261/#262)
+# Tests: SD-REAL-01..SD-REAL-08
+# ─────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_speculative_decoder_real_logits.cpp")
+    add_executable(test_speculative_decoder_real_logits_focused
+        test_speculative_decoder_real_logits.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/speculative_decoder.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_speculative_decoder_real_logits_focused
+        PRIVATE ${THEMIS_ROOT_DIR}/include ${THEMIS_ROOT_DIR}/src)
+
+    target_link_libraries(test_speculative_decoder_real_logits_focused
+        PRIVATE ${TEST_LIBS} spdlog::spdlog nlohmann_json::nlohmann_json
+                Threads::Threads)
+
+    target_compile_definitions(test_speculative_decoder_real_logits_focused
+        PRIVATE THEMIS_TEST_BUILD=1 THEMIS_ENABLE_LLM=1)
+
+    add_test(NAME SDRealLogitsTests
+             COMMAND test_speculative_decoder_real_logits_focused)
+
+    set_tests_properties(SDRealLogitsTests PROPERTIES
+        LABELS "llm;speculative;draft-logits;SD-REAL"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  SD-REAL: draft-model logits for speculative decoding (SD-REAL-01..08)")
+else()
+    message(STATUS "SD-REAL tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_speculative_decoder_real_logits.cpp")
+endif()
+
+
+# ============================================================================
+# STUB #261 + #262 bridge tests (SD-DFT-01..03, SPEC-TL-01..03)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_speculative_draft_fn_bridge.cpp")
+    add_executable(test_speculative_draft_fn_bridge_focused
+        test_speculative_draft_fn_bridge.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/speculative_decoder.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/inference_engine_enhanced.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/prefix_cache.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/kv_prefix_transfer_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/continuous_batch_scheduler.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/lookup_decoder.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_speculative_draft_fn_bridge_focused
+        PRIVATE ${THEMIS_ROOT_DIR}/include ${THEMIS_ROOT_DIR}/src)
+
+    target_link_libraries(test_speculative_draft_fn_bridge_focused
+        PRIVATE ${TEST_LIBS} spdlog::spdlog nlohmann_json::nlohmann_json
+                Threads::Threads)
+
+    target_compile_definitions(test_speculative_draft_fn_bridge_focused
+        PRIVATE THEMIS_TEST_BUILD=1 THEMIS_ENABLE_LLM=1)
+
+    add_test(NAME SpecDraftFnBridgeTests
+             COMMAND test_speculative_draft_fn_bridge_focused)
+
+    set_tests_properties(SpecDraftFnBridgeTests PROPERTIES
+        LABELS "llm;speculative;stub-bridge;SD-DFT;SPEC-TL"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  SD-DFT/SPEC-TL: GenerateDraftTokensFn+TargetLogitsFn bridges (SD-DFT-01..03, SPEC-TL-01..03)")
+else()
+    message(STATUS "SD-DFT/SPEC-TL tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_speculative_draft_fn_bridge.cpp")
+endif()
+
+# ============================================================================
+# STUB #96 bridge tests (WST-01..03) — WhisperStubTranscriber TranscribeFn
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_whisper_stub_transcribe_bridge.cpp")
+    add_executable(test_whisper_stub_transcribe_bridge_focused
+        test_whisper_stub_transcribe_bridge.cpp
+        ${THEMIS_ROOT_DIR}/src/whisper/whisper_plugin.cpp
+        ${THEMIS_ROOT_DIR}/src/whisper/audio_chunk_reader.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_whisper_stub_transcribe_bridge_focused
+        PRIVATE ${THEMIS_ROOT_DIR}/include ${THEMIS_ROOT_DIR}/src)
+
+    target_link_libraries(test_whisper_stub_transcribe_bridge_focused
+        PRIVATE ${TEST_LIBS} spdlog::spdlog nlohmann_json::nlohmann_json
+                Threads::Threads)
+
+    target_compile_definitions(test_whisper_stub_transcribe_bridge_focused
+        PRIVATE THEMIS_TEST_BUILD=1)
+
+    add_test(NAME WhisperStubTranscribeBridgeTests
+             COMMAND test_whisper_stub_transcribe_bridge_focused)
+
+    set_tests_properties(WhisperStubTranscribeBridgeTests PROPERTIES
+        LABELS "whisper;stub-bridge;WST"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  WST: WhisperStubTranscriber TranscribeFn bridge (WST-01..03)")
+else()
+    message(STATUS "WST tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_whisper_stub_transcribe_bridge.cpp")
+endif()
+
+# ============================================================================
+# STUB #169 bridge tests (VKC-01..03) — VulkanVectorBackend CompileGLSLFn
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_vulkan_compile_glsl_bridge.cpp")
+    add_executable(test_vulkan_compile_glsl_bridge_focused
+        test_vulkan_compile_glsl_bridge.cpp
+        ${THEMIS_ROOT_DIR}/src/acceleration/graphics_backends.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_vulkan_compile_glsl_bridge_focused
+        PRIVATE ${THEMIS_ROOT_DIR}/include ${THEMIS_ROOT_DIR}/src)
+
+    target_link_libraries(test_vulkan_compile_glsl_bridge_focused
+        PRIVATE ${TEST_LIBS} spdlog::spdlog nlohmann_json::nlohmann_json
+                Threads::Threads)
+
+    target_compile_definitions(test_vulkan_compile_glsl_bridge_focused
+        PRIVATE THEMIS_TEST_BUILD=1)
+
+    add_test(NAME VulkanCompileGlslBridgeTests
+             COMMAND test_vulkan_compile_glsl_bridge_focused)
+
+    set_tests_properties(VulkanCompileGlslBridgeTests PROPERTIES
+        LABELS "acceleration;vulkan;stub-bridge;VKC"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  VKC: VulkanVectorBackend CompileGLSLFn bridge (VKC-01..03)")
+else()
+    message(STATUS "VKC tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_vulkan_compile_glsl_bridge.cpp")
+endif()
+
 
 # Covers: CLO-L1-01..03, CLO-L2-01..03, CLO-L3-01..02, CLO-L4-01..02,
 #         CLO-FED-01, CLO-COOL-01  (test_clo_loops.cpp)
@@ -27662,3 +27802,51 @@ unset(_focused_test_targets)
 unset(_logger_src_variants)
 unset(_tgt_srcs)
 unset(_logger_removed)
+
+# =========================================================================
+# Tensor Network Module — focused test targets (Phase 1–6)
+# Added 2026-05-07
+# Each target links against themis_core which now includes all tensor sources
+# via cmake/StorageEnhancements.cmake (Tensor Network Module section).
+# =========================================================================
+
+# Helper macro for tensor focused tests
+macro(_tensor_focused_test _name)
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/${_name}.cpp" AND NOT TARGET ${_name}_focused)
+        add_executable(${_name}_focused
+            ${THEMIS_ROOT_DIR}/tests/${_name}.cpp
+        )
+        target_link_libraries(${_name}_focused
+            PRIVATE themis_core GTest::gtest GTest::gtest_main
+        )
+        gtest_discover_tests(${_name}_focused
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:${_name}_focused>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+endmacro()
+
+# Phase 1–2: core TT decomposition and recompression
+_tensor_focused_test(test_tensor_recompress)
+
+# Phase 2–3: ingestion bridge, core bridge, index manager
+_tensor_focused_test(test_tensor_ingestion_bridge)
+_tensor_focused_test(test_tensor_core_bridge)
+_tensor_focused_test(test_tensor_index_manager)
+
+# Phase 3: RAG pipeline, FLARE/TARG, fingerprint graph, adapter repository
+_tensor_focused_test(test_tensor_phase3)
+_tensor_focused_test(test_gguf_metadata)
+
+# Phase 5: HT decomposition and HT index
+_tensor_focused_test(test_tensor_ht)
+
+# Phase 6: Hiss structural search, TNSR, TemplateCatalog, HissReshaper
+_tensor_focused_test(test_tensor_hiss_structural_search)
+
+# TensorRouter domain-tag + TemplateCatalog (Phase 6)
+_tensor_focused_test(test_tensor_router)
+
+# Phase 7: Unified Tensor Representation (UTR) — multi-modal converters
+_tensor_focused_test(test_tensor_utr)
