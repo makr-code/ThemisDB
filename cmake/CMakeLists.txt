@@ -1485,6 +1485,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/columnar_format.cpp
     ../src/storage/simd_filter.cpp
     ../src/storage/storage_parquet_exporter.cpp
+    ../src/storage/tensor_train_decomposer.cpp
     ../src/storage/batch_write_optimizer.cpp
     ../src/storage/wal_storage.cpp
     ../src/storage/transaction_retry_manager.cpp
@@ -1665,6 +1666,8 @@ set(THEMIS_CORE_SOURCES
     ../src/query/functions/ethics_functions.cpp
     ../src/query/functions/fulltext_functions.cpp
     ../src/query/functions/lora_functions.cpp
+    ../src/query/functions/tensor_functions.cpp
+    ../src/query/tensor_contraction_engine.cpp
     ../src/query/functions/process_mining_functions.cpp
     ../src/query/functions/udf_registry.cpp
     ../src/prompt_engineering/prompt_manager.cpp
@@ -1946,6 +1949,8 @@ set(THEMIS_CORE_SOURCES
     ../src/ingestion/steps/decompress_step.cpp
     ../src/ingestion/steps/legal_reference_step.cpp
     ../src/ingestion/steps/chunk_embed_step.cpp
+    ../src/ingestion/steps/chunk_tt_decompose_step.cpp
+    ../src/ingestion/steps/tensor_core_bridge_step.cpp
 
     # Toolbox module — system-wide access point for ingestion infrastructure
     ../src/toolbox/ingestion_toolbox.cpp
@@ -3136,6 +3141,10 @@ if(MSVC)
         ../src/process/process_light_retriever.cpp
         ../src/process/object_centric_tracer.cpp
         ../src/process/process_model_manager.cpp
+        ../src/process/cmmn_serializer.cpp
+        ../src/process/fim_importer.cpp
+        ../src/cache/distributed_cache_coordinator.cpp
+        ../src/cache/redis_cache_coordinator.cpp
         PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
     )
 endif()

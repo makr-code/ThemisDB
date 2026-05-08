@@ -701,7 +701,13 @@ json ThemisRPCService::handleBatchDelete(const json& params) {
 
 json ThemisRPCService::handleQuery(const json& params) {
     try {
-        std::string aql(params.value("aql", ""));
+        std::string aql;
+        if (params.is_object()) {
+            aql = params.value("aql", "");
+            if (aql.empty()) {
+                aql = params.value("query", "");
+            }
+        }
         
         if (aql.empty()) {
             return createError(
@@ -751,10 +757,12 @@ json ThemisRPCService::handleVectorSearch(const json& params) {
             );
         }
         
-        if (!params.contains("vector") || !params["vector"].is_array()) {
+        const bool has_vector = params.contains("vector") && params["vector"].is_array();
+        const bool has_query_vector = params.contains("query_vector") && params["query_vector"].is_array();
+        if (!has_vector && !has_query_vector) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
-                "Missing or invalid parameter: vector (must be array)"
+                "Missing or invalid parameter: vector/query_vector (must be array)"
             );
         }
         
@@ -1057,8 +1065,8 @@ json ThemisRPCService::handleTimeSeriesQuery(const json& params) {
         }
         
         // Extract time series parameters
-        uint64_t start_time = params.value("start_time", 0);
-        uint64_t end_time = params.value("end_time", 0);
+        uint64_t start_time = params.value("start_time", static_cast<uint64_t>(0));
+        uint64_t end_time = params.value("end_time", static_cast<uint64_t>(0));
         std::string aggregation(params.value("aggregation", ""));  // sum, avg, min, max, count
         std::string agg_field(params.value("field", ""));          // field to aggregate
         int limit = params.value("limit", 1000);
@@ -1176,8 +1184,12 @@ json ThemisRPCService::handleTransactionBegin(const json& params) {
             );
         }
         
-        // Extract isolation level if provided
-        std::string isolation(params.value("isolation_level", "READ_COMMITTED"));
+        // Extract isolation level if provided. Some callers pass null/empty JSON;
+        // treat that as default isolation instead of throwing type_error.
+        std::string isolation = "READ_COMMITTED";
+        if (params.is_object()) {
+            isolation = params.value("isolation_level", isolation);
+        }
         
         // Create new transaction
         std::lock_guard<std::mutex> lock(transaction_mutex);
@@ -1185,6 +1197,12 @@ json ThemisRPCService::handleTransactionBegin(const json& params) {
         
         // Create transaction wrapper
         auto tx = storage->beginTransaction();
+        if (!tx) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Failed to begin transaction"
+            );
+        }
         active_transactions[tx_id] = std::move(tx);
         
         json result = {
@@ -1205,7 +1223,10 @@ json ThemisRPCService::handleTransactionBegin(const json& params) {
 
 json ThemisRPCService::handleTransactionCommit(const json& params) {
     try {
-        std::string tx_id(params.value("transaction_id", ""));
+        std::string tx_id;
+        if (params.is_object()) {
+            tx_id = params.value("transaction_id", "");
+        }
         
         if (tx_id.empty()) {
             return createError(
@@ -1261,7 +1282,10 @@ json ThemisRPCService::handleTransactionCommit(const json& params) {
 
 json ThemisRPCService::handleTransactionAbort(const json& params) {
     try {
-        std::string tx_id(params.value("transaction_id", ""));
+        std::string tx_id;
+        if (params.is_object()) {
+            tx_id = params.value("transaction_id", "");
+        }
         
         if (tx_id.empty()) {
             return createError(
@@ -1336,8 +1360,12 @@ json ThemisRPCService::handleHealthCheck([[maybe_unused]] const json& params) {
 
 json ThemisRPCService::handleAuthenticate(const json& params) {
     try {
-        std::string username(params.value("username", ""));
-        std::string password(params.value("password", ""));
+        std::string username;
+        std::string password;
+        if (params.is_object()) {
+            username = params.value("username", "");
+            password = params.value("password", "");
+        }
         
         if (username.empty() || password.empty()) {
             return createError(

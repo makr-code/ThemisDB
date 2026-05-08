@@ -40,7 +40,7 @@ namespace voice {
 
 namespace {
 
-int64_t nowMs() {
+int64_t telephonyNowMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
 }
@@ -121,7 +121,7 @@ CallTranscript runCallStt(const CallID&                call_id,
     ct.call_id     = call_id;
     ct.is_final    = is_final;
     ct.confidence  = is_final ? 0.91f : 0.74f;
-    ct.timestamp_ms = nowMs();
+    ct.timestamp_ms = telephonyNowMs();
 
     std::ostringstream oss;
     oss << "[" << (is_final ? "final" : "partial")
@@ -242,7 +242,7 @@ CallID SipCallSession::start() {
     impl_->call_id      = impl_->config.call_id.empty()
                               ? generateCallId()
                               : impl_->config.call_id;
-    impl_->started_at_ms = nowMs();
+    impl_->started_at_ms = telephonyNowMs();
     impl_->setState(CallState::ACTIVE);
     THEMIS_INFO("SipCallSession: started call_id={} from={} to={}",
                 impl_->call_id,
@@ -292,7 +292,7 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
     if (!impl_ || impl_->state != CallState::ACTIVE) return empty;
 
     // Enforce max session duration
-    int64_t elapsed_s = (nowMs() - impl_->started_at_ms) / 1000;
+    int64_t elapsed_s = (telephonyNowMs() - impl_->started_at_ms) / 1000;
     if (static_cast<uint32_t>(elapsed_s) > impl_->config.max_duration_s) {
         THEMIS_WARN("SipCallSession: max duration exceeded, ending call_id={}",
                     impl_->call_id);
@@ -500,7 +500,7 @@ void WebRtcCallSession::addIceCandidate([[maybe_unused]] const std::string& cand
 CallID WebRtcCallSession::start() {
     if (impl_->state == CallState::ACTIVE) return impl_->call_id;
     if (impl_->call_id.empty()) impl_->call_id = generateCallId();
-    impl_->started_at_ms = nowMs();
+    impl_->started_at_ms = telephonyNowMs();
     impl_->setState(CallState::ACTIVE);
     THEMIS_INFO("WebRtcCallSession: started call_id={} user={}",
                 impl_->call_id, impl_->config.user_id);
@@ -537,7 +537,7 @@ CallTranscript WebRtcCallSession::receiveAudioFrame(const std::vector<int16_t>& 
     if (!impl_ || impl_->state != CallState::ACTIVE) return empty;
 
     // Enforce max duration
-    int64_t elapsed_s = (nowMs() - impl_->started_at_ms) / 1000;
+    int64_t elapsed_s = (telephonyNowMs() - impl_->started_at_ms) / 1000;
     if (static_cast<uint32_t>(elapsed_s) > impl_->config.max_duration_s) {
         THEMIS_WARN("WebRtcCallSession: max duration exceeded, ending call_id={}",
                     impl_->call_id);

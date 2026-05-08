@@ -63,7 +63,7 @@ namespace voice {
 // Helpers
 // ---------------------------------------------------------------------------
 
-static std::string toLower(const std::string& s) {
+static std::string wakeToLower(const std::string& s) {
     std::string out;
     out.reserve(s.size());
     for (unsigned char c : s) {
@@ -109,7 +109,7 @@ bool WakeWordDetector::addWakeWord(const WakeWordID& id, const std::string& phra
     }
     WakeWord ww;
     ww.id     = id;
-    ww.phrase = toLower(phrase);
+    ww.phrase = wakeToLower(phrase);
     ww.tokens = tokenize(ww.phrase);
     wake_words_.push_back(std::move(ww));
     return true;

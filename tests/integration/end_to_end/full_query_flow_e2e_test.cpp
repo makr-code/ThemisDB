@@ -132,8 +132,14 @@ TEST_F(FullQueryFlowE2ETest, AuthenticatedQueryWithAuditLog) {
     
     // If query is not fully implemented, skip gracefully
     if (query_response.contains("error")) {
-        GTEST_SKIP() << "Query execution not fully implemented: " 
-                      << query_response["error"].get<std::string>();
+        std::string error_text;
+        const auto& err = query_response["error"];
+        if (err.is_string()) {
+            error_text = err.get<std::string>();
+        } else {
+            error_text = err.dump();
+        }
+        GTEST_SKIP() << "Query execution not fully implemented: " << error_text;
         return;
     }
     

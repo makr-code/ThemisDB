@@ -70,7 +70,7 @@ std::string generateID() {
     return ss.str();
 }
 
-int64_t nowMs() {
+int64_t macroNowMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
 }
@@ -286,7 +286,7 @@ MacroID VoiceMacroManager::createMacro(
     info.name           = trigger_phrase;  // default name == trigger phrase
     info.steps          = steps;
     info.options        = options;
-    info.created_at     = nowMs();
+    info.created_at     = macroNowMs();
     info.enabled        = true;
 
     std::lock_guard<std::mutex> lock(impl_->mutex);
@@ -415,7 +415,7 @@ MacroResult VoiceMacroManager::executeMacro(
         auto it = impl_->macros.find(macro_id);
         if (it != impl_->macros.end()) {
             it->second.use_count++;
-            it->second.last_used = nowMs();
+            it->second.last_used = macroNowMs();
         }
         impl_->total_executions++;
     }

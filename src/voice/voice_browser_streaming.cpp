@@ -70,7 +70,7 @@ struct VoiceStreamingSession::Impl {
 
 namespace {
 
-int64_t nowMs() {
+int64_t streamingNowMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
 }
@@ -112,7 +112,7 @@ PartialTranscript runPartialStt([[maybe_unused]] const std::string& session_id,
     pt.stream_id  = stream_id;
     pt.is_final   = is_final;
     pt.confidence = is_final ? 0.92f : 0.75f;
-    pt.timestamp_ms = nowMs();
+    pt.timestamp_ms = streamingNowMs();
     // Placeholder text — real STT backend fills this
     std::ostringstream oss;
     oss << "[partial#" << seq << ":" << audio.size() << "B]";
@@ -128,7 +128,7 @@ FinalTranscript makeFinalTranscript([[maybe_unused]] const std::string& session_
     FinalTranscript ft;
     ft.stream_id   = stream_id;
     ft.confidence  = 0.92f;
-    ft.duration_ms = nowMs() - started_at_ms;
+    ft.duration_ms = streamingNowMs() - started_at_ms;
 
     std::ostringstream oss;
     oss << "[transcript:" << audio.size() << "B]";
@@ -173,7 +173,7 @@ VoiceStreamingSession::create(Config config) {
 StreamID VoiceStreamingSession::start() {
     if (impl_->active) return impl_->stream_id;
     impl_->stream_id    = generateStreamId();
-    impl_->started_at_ms= nowMs();
+    impl_->started_at_ms= streamingNowMs();
     impl_->active       = true;
     impl_->audio_buffer.clear();
     impl_->partial_seq  = 0;
@@ -215,7 +215,7 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
     }
 
     // Enforce session duration
-    int64_t elapsed_s = (nowMs() - impl_->started_at_ms) / 1000;
+    int64_t elapsed_s = (streamingNowMs() - impl_->started_at_ms) / 1000;
     if (static_cast<uint32_t>(elapsed_s) > impl_->config.max_duration_s) {
         THEMIS_WARN("VoiceStreamingSession: max duration exceeded, closing stream_id={}",
                     impl_->stream_id);
@@ -238,7 +238,7 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
                                    /*is_final=*/false,
                                    impl_->partial_seq);
         pt.stream_id = impl_->stream_id;
-        if (pt.timestamp_ms == 0) pt.timestamp_ms = nowMs();
+        if (pt.timestamp_ms == 0) pt.timestamp_ms = streamingNowMs();
     } else {
         pt = runPartialStt(impl_->config.session_id,
                            impl_->stream_id,

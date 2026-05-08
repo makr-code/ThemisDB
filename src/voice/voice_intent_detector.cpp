@@ -110,7 +110,7 @@ VoiceIntentDetector::VoiceIntentDetector(const IntentDetectorConfig& config)
 
 namespace {
 
-std::string toLower(const std::string& s) {
+std::string intentToLower(const std::string& s) {
     std::string out = s;
     std::transform(out.begin(), out.end(), out.begin(),
         [](unsigned char c) { return std::tolower(c); });
@@ -118,7 +118,7 @@ std::string toLower(const std::string& s) {
 }
 
 bool containsAny(const std::string& text, const std::vector<std::string>& keywords) {
-    std::string lower = toLower(text);
+    std::string lower = intentToLower(text);
     for (const auto& kw : keywords) {
         if (lower.find(kw) != std::string::npos) return true;
     }
@@ -142,7 +142,7 @@ IntentCategory VoiceIntentDetector::classifyIntent(const std::string& text) {
 
 float VoiceIntentDetector::computeIntentConfidence(const std::string& text, IntentCategory cat) const {
     // Simple heuristic: count matching keywords and map to confidence
-    auto lower = toLower(text);
+    auto lower = intentToLower(text);
 
     struct KwSet { IntentCategory cat; std::vector<std::string> kws; };
     static const KwSet sets[] = {
@@ -166,7 +166,7 @@ float VoiceIntentDetector::computeIntentConfidence(const std::string& text, Inte
 
 std::vector<NamedEntity> VoiceIntentDetector::extractDateEntities(const std::string& text) const {
     std::vector<NamedEntity> entities;
-    auto lower = toLower(text);
+    auto lower = intentToLower(text);
 
     static const std::vector<std::pair<std::string, std::string>> date_patterns = {
         {"yesterday",   "DATE"},
@@ -215,7 +215,7 @@ std::vector<NamedEntity> VoiceIntentDetector::extractNumberEntities(const std::s
 
 std::vector<NamedEntity> VoiceIntentDetector::extractMetricEntities(const std::string& text) const {
     std::vector<NamedEntity> entities;
-    auto lower = toLower(text);
+    auto lower = intentToLower(text);
 
     static const std::vector<std::string> metric_kw = {
         "revenue","sales","count","profit","loss","margin","rate",
