@@ -75,11 +75,13 @@ TensorDeduplicationManager::TensorDeduplicationManager(
             const auto prefix =
                 std::string{"__tfgjournal__:"} +
                 std::string{snapshot_key} + ":";
-            for (const auto& key : storage->listRawMetadataKeys(prefix)) {
-                const auto logical_key = prefix + key;
-                const auto payload = storage->getRawMetadata(logical_key);
+            for (const auto& tensor_id_suffix : storage->listRawMetadataKeys(prefix)) {
+                // listRawMetadataKeys(prefix) returns suffixes relative to @p prefix,
+                // while getRawMetadata() expects the full logical key.
+                const auto payload =
+                    storage->getRawMetadata(prefix + tensor_id_suffix);
                 if (!payload.has_value()) continue;
-                cb(key, *payload);
+                cb(tensor_id_suffix, *payload);
             }
         },
         [storage = storage_](std::string_view snapshot_key) {

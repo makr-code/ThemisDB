@@ -1326,8 +1326,9 @@ TEST(TensorDeduplicationManagerSnapshotTest,
 
     const auto blob_journal = engine->getRawMetadata(blob_journal_key);
     // snapshotGraph() clears the legacy blob-journal key even when per-entry
-    // journaling is active; some backends may materialize that as an empty key
-    // while others may treat it as absent.
+    // journaling is active so restoreGraph() cannot see conflicting blob and
+    // per-entry journal state for the same snapshot. Some backends materialize
+    // that clear as an empty key while others treat it as absent.
     EXPECT_TRUE(!blob_journal.has_value() || blob_journal->empty());
 
     auto mgr_b = makeDedup(engine);
