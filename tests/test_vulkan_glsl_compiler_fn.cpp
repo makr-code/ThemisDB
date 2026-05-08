@@ -175,3 +175,45 @@ TEST(VulkanGlslCompilerFnTest, OpenGLStubBridgeFnsWorkWithoutSdk) {
     OpenGLVectorBackend::setBatchKnnSearchFn({});
 #endif
 }
+
+TEST(VulkanGlslCompilerFnTest, OpenGLStubBridgeFnsFailClosedOnException) {
+#ifdef THEMIS_ENABLE_OPENGL
+    GTEST_SKIP() << "Real OpenGL build active; stub bridge path is not compiled.";
+#else
+    using namespace themis::acceleration;
+
+    OpenGLVectorBackend::setAvailabilityFn([]() -> bool { throw std::runtime_error("boom"); });
+    OpenGLVectorBackend::setInitializeFn([]() -> bool { throw std::runtime_error("boom"); });
+    OpenGLVectorBackend::setComputeDistancesFn(
+        []([[maybe_unused]] const float* queries,
+           [[maybe_unused]] size_t numQueries,
+           [[maybe_unused]] size_t dim,
+           [[maybe_unused]] const float* vectors,
+           [[maybe_unused]] size_t numVectors,
+           [[maybe_unused]] bool useL2) -> std::vector<float> {
+            throw std::runtime_error("boom");
+        });
+    OpenGLVectorBackend::setBatchKnnSearchFn(
+        []([[maybe_unused]] const float* queries,
+           [[maybe_unused]] size_t numQueries,
+           [[maybe_unused]] size_t dim,
+           [[maybe_unused]] const float* vectors,
+           [[maybe_unused]] size_t numVectors,
+           [[maybe_unused]] size_t k,
+           [[maybe_unused]] bool useL2)
+            -> std::vector<std::vector<std::pair<uint32_t, float>>> {
+            throw std::runtime_error("boom");
+        });
+
+    OpenGLVectorBackend backend;
+    EXPECT_FALSE(backend.isAvailable());
+    EXPECT_FALSE(backend.initialize());
+    EXPECT_TRUE(backend.computeDistances(nullptr, 0, 0, nullptr, 0).empty());
+    EXPECT_TRUE(backend.batchKnnSearch(nullptr, 0, 0, nullptr, 0, 1).empty());
+
+    OpenGLVectorBackend::setAvailabilityFn({});
+    OpenGLVectorBackend::setInitializeFn({});
+    OpenGLVectorBackend::setComputeDistancesFn({});
+    OpenGLVectorBackend::setBatchKnnSearchFn({});
+#endif
+}
