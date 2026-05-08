@@ -891,6 +891,9 @@ bool DirectXVectorBackend::isAvailable() const noexcept {
     if (fn) {
         try {
             return fn();
+        } catch (const std::exception& e) {
+            std::cerr << "[DirectX] stub availability callback failed: " << e.what() << std::endl;
+            return false;
         } catch (...) {
             std::cerr << "[DirectX] stub availability callback failed" << std::endl;
             return false;
@@ -912,6 +915,9 @@ bool DirectXVectorBackend::initialize() {
     if (fn) {
         try {
             return fn();
+        } catch (const std::exception& e) {
+            std::cerr << "[DirectX] stub initialize callback failed: " << e.what() << std::endl;
+            return false;
         } catch (...) {
             std::cerr << "[DirectX] stub initialize callback failed" << std::endl;
             return false;
@@ -938,6 +944,9 @@ std::vector<float> DirectXVectorBackend::computeDistances(
     if (fn) {
         try {
             return fn(queries, numQueries, dim, vectors, numVectors, useL2);
+        } catch (const std::exception& e) {
+            std::cerr << "[DirectX] stub computeDistances callback failed: " << e.what() << std::endl;
+            return {};
         } catch (...) {
             std::cerr << "[DirectX] stub computeDistances callback failed" << std::endl;
             return {};
@@ -963,6 +972,9 @@ std::vector<std::vector<std::pair<uint32_t, float>>> DirectXVectorBackend::batch
     if (fn) {
         try {
             return fn(queries, numQueries, dim, vectors, numVectors, k, useL2);
+        } catch (const std::exception& e) {
+            std::cerr << "[DirectX] stub batchKnnSearch callback failed: " << e.what() << std::endl;
+            return {};
         } catch (...) {
             std::cerr << "[DirectX] stub batchKnnSearch callback failed" << std::endl;
             return {};
