@@ -1187,4 +1187,11 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     const auto cleared_legacy_payload = engine->getRawMetadata(legacy_journal_key);
     ASSERT_TRUE(cleared_legacy_payload.has_value());
     EXPECT_TRUE(cleared_legacy_payload->empty());
+
+    auto restored = mgr_b->retrieve("legacy_tensor");
+    ASSERT_TRUE(restored.has_value());
+    ASSERT_EQ(restored->size(), 16u);
+    for (float value : *restored) {
+        EXPECT_NEAR(value, 2.0f, 1e-4f);
+    }
 }

@@ -820,13 +820,28 @@ static void compactMutationJournalEntries(
 }
 
 [[nodiscard]] static std::string mutationJournalKeyForSnapshot(const std::string& snapshot_key) {
-    return std::string(kMutationJournalMetaPrefix) + snapshot_key;
+    std::string key;
+    key.reserve(std::char_traits<char>::length(kMutationJournalMetaPrefix) +
+                snapshot_key.size());
+    key.append(kMutationJournalMetaPrefix);
+    key.append(snapshot_key);
+    return key;
 }
 
 [[nodiscard]] static std::string legacyMutationJournalKeyForSnapshot(const std::string& snapshot_key) {
-    return snapshot_key + "::wal";
+    std::string key;
+    key.reserve(snapshot_key.size() + 5U);
+    key.append(snapshot_key);
+    key.append("::wal");
+    return key;
 }
 
+// Load mutation journal entries using key fallback order:
+//   1) namespaced key "__tfgmeta__:wal:<snapshot>"
+//   2) legacy key "<snapshot>::wal"
+// Return value:
+//   - true  => a journal payload existed (valid or invalid-reset)
+//   - false => no journal payload existed under either key
 static bool loadJournalWithLegacyFallback(
     const std::shared_ptr<themis::storage::TensorNetworkStorageEngine>& storage,
     const std::string& snapshot_key,
@@ -860,6 +875,18 @@ static bool loadJournalWithLegacyFallback(
 
     entries.clear();
     return false;
+}
+
+static void writeJournalAndClearLegacy(
+    const std::shared_ptr<themis::storage::TensorNetworkStorageEngine>& storage,
+    const std::string& snapshot_key,
+    const std::vector<MutationJournalEntry>& entries) {
+    if (!storage) {
+        return;
+    }
+    storage->putRawMetadata(mutationJournalKeyForSnapshot(snapshot_key),
+                            serializeMutationJournal(entries));
+    storage->putRawMetadata(legacyMutationJournalKeyForSnapshot(snapshot_key), {});
 }
 
 static std::optional<std::string> activeSnapshotKeyOrNullopt(
@@ -1105,9 +1132,7 @@ bool TensorDeduplicationManager::replayMutationJournal(const std::string& snapsh
     // The remaining cross-tensor entry order is preserved from the last seen
     // mutation sequence, so absolute counter snapshots still replay correctly.
     compactMutationJournalEntries(entries);
-    storage_->putRawMetadata(mutationJournalKeyForSnapshot(snapshot_key),
-                             serializeMutationJournal(entries));
-    storage_->putRawMetadata(legacyMutationJournalKeyForSnapshot(snapshot_key), {});
+    writeJournalAndClearLegacy(storage_, snapshot_key, entries);
 
     return true;
 }
@@ -1146,12 +1171,10 @@ void TensorDeduplicationManager::persistUpsertJournalEntry(
     entry.bytes_saved = bytes_saved;
 
     std::vector<MutationJournalEntry> entries;
-    const auto journal_key = mutationJournalKeyForSnapshot(*snapshot_key);
     loadJournalWithLegacyFallback(storage_, *snapshot_key, entries);
     entries.push_back(std::move(entry));
     compactMutationJournalEntries(entries);
-    storage_->putRawMetadata(journal_key, serializeMutationJournal(entries));
-    storage_->putRawMetadata(legacyMutationJournalKeyForSnapshot(*snapshot_key), {});
+    writeJournalAndClearLegacy(storage_, *snapshot_key, entries);
 }
 
 void TensorDeduplicationManager::persistDeleteJournalEntry(
@@ -1170,12 +1193,10 @@ void TensorDeduplicationManager::persistDeleteJournalEntry(
     entry.bytes_saved = bytes_saved;
 
     std::vector<MutationJournalEntry> entries;
-    const auto journal_key = mutationJournalKeyForSnapshot(*snapshot_key);
     loadJournalWithLegacyFallback(storage_, *snapshot_key, entries);
     entries.push_back(std::move(entry));
     compactMutationJournalEntries(entries);
-    storage_->putRawMetadata(journal_key, serializeMutationJournal(entries));
-    storage_->putRawMetadata(legacyMutationJournalKeyForSnapshot(*snapshot_key), {});
+    writeJournalAndClearLegacy(storage_, *snapshot_key, entries);
 }
 
 } // namespace graph
