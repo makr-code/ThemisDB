@@ -61,6 +61,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstring>
 #include <cstdint>
 #include <memory>
 #include <limits>
@@ -127,6 +128,14 @@ static void overwriteLittleEndian(std::vector<uint8_t>& buf,
         buf[offset + i] = static_cast<uint8_t>(
             (static_cast<std::make_unsigned_t<T>>(value) >> (i * 8U)) & 0xffU);
     }
+}
+
+static uint64_t readLittleEndianU64(const std::vector<uint8_t>& buf,
+                                    std::size_t offset) {
+    uint64_t value = 0;
+    EXPECT_GE(buf.size(), offset + sizeof(value));
+    std::memcpy(&value, buf.data() + offset, sizeof(value));
+    return value;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1127,6 +1136,9 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     const auto compacted_journal = engine->getRawMetadata(journal_key);
     ASSERT_TRUE(compacted_journal.has_value());
     EXPECT_EQ(compacted_journal->size(), journal_size_after_second_overwrite);
+    constexpr std::size_t kJournalEntryCountOffset =
+        sizeof(uint64_t) + sizeof(uint32_t);
+    EXPECT_EQ(readLittleEndianU64(*compacted_journal, kJournalEntryCountOffset), 1u);
 
     auto restored = mgr_b->retrieve("compact_tensor");
     ASSERT_TRUE(restored.has_value());

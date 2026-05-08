@@ -791,24 +791,26 @@ static void compactMutationJournalEntries(
         return;
     }
 
-    const auto tensor_id_for = [](const MutationJournalEntry& entry) -> const std::string& {
+    const auto tensor_id_for = [](const MutationJournalEntry& entry) -> const std::string* {
         return (entry.type == MutationJournalEntryType::Upsert)
-                   ? entry.record.tensor_id
-                   : entry.tensor_id;
+                   ? &entry.record.tensor_id
+                   : &entry.tensor_id;
     };
 
     std::unordered_map<std::string, std::size_t> last_index_by_tensor_id;
     last_index_by_tensor_id.reserve(entries.size());
     for (std::size_t i = 0; i < entries.size(); ++i) {
-        last_index_by_tensor_id[tensor_id_for(entries[i])] = i;
+        last_index_by_tensor_id[*tensor_id_for(entries[i])] = i;
     }
 
     std::vector<MutationJournalEntry> compacted;
     compacted.reserve(last_index_by_tensor_id.size());
     for (std::size_t i = 0; i < entries.size(); ++i) {
         auto& entry = entries[i];
-        const std::string& tensor_id = tensor_id_for(entry);
-        if (last_index_by_tensor_id[tensor_id] != i) {
+        const auto* tensor_id = tensor_id_for(entry);
+        const auto last_index_it = last_index_by_tensor_id.find(*tensor_id);
+        if (last_index_it == last_index_by_tensor_id.end() ||
+            last_index_it->second != i) {
             continue;
         }
         compacted.push_back(std::move(entry));
@@ -1079,6 +1081,9 @@ bool TensorDeduplicationManager::replayMutationJournal(const std::string& snapsh
         fp_graph_->remove(entry.tensor_id);
     }
 
+    // restoreGraph() rewrites the journal in compact form as a recovery-time
+    // maintenance step so older, pre-compaction payloads are normalized after
+    // the first successful replay even if they were persisted by earlier code.
     compactMutationJournalEntries(entries);
     storage_->putRawMetadata(journal_key, serializeMutationJournal(entries));
 
