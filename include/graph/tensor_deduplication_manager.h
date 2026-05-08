@@ -260,6 +260,53 @@ public:
      */
     bool restoreGraph(const std::string& snapshot_key = "__tfg_default__");
 
+    // ─── Per-entry journal storage hooks (GraphIndex-backed journaling) ────
+
+    /// Persist or overwrite one journal entry for a given snapshot key.
+    /// @param snapshot_key  Active snapshot key.
+    /// @param tensor_id     Tensor this entry covers (used as the entry key).
+    /// @param payload       Serialized entry bytes (single-entry journal blob).
+    /// @return true on success.
+    using JournalEntryPersistFn = std::function<bool(
+        std::string_view snapshot_key,
+        std::string_view tensor_id,
+        const std::vector<uint8_t>& payload)>;
+
+    /// Delete a single journal entry for a tensor within a snapshot.
+    using JournalEntryDeleteFn = std::function<bool(
+        std::string_view snapshot_key,
+        std::string_view tensor_id)>;
+
+    /// Enumerate all journal entries for a snapshot.
+    /// The inner callback receives (tensor_id, payload) for each stored entry.
+    using JournalEntryEnumerateFn = std::function<void(
+        std::string_view snapshot_key,
+        std::function<void(std::string_view tensor_id,
+                           const std::vector<uint8_t>& payload)>)>;
+
+    /// Clear all journal entries for a snapshot key.
+    using JournalEntryClearFn = std::function<bool(std::string_view snapshot_key)>;
+
+    /**
+     * @brief Inject per-entry journal storage hooks for GraphIndex-backed journaling.
+     *
+     * When all four hooks are non-null, individual journal entries are stored and
+     * retrieved via the injected callbacks instead of the monolithic-blob approach.
+     * This enables O(1) amortized journal writes (overwriting an existing entry
+     * acts as natural compaction) without reading and rewriting the entire blob.
+     *
+     * Pass all nullptr (or call with no arguments) to revert to the blob approach.
+     *
+     * @param persist_fn   Stores/overwrites one entry.
+     * @param delete_fn    Deletes one entry (optional; used on explicit removal).
+     * @param enumerate_fn Enumerates all entries for a snapshot key.
+     * @param clear_fn     Clears all entries for a snapshot key.
+     */
+    void setJournalEntryHooks(JournalEntryPersistFn persist_fn,
+                               JournalEntryDeleteFn  delete_fn,
+                               JournalEntryEnumerateFn enumerate_fn,
+                               JournalEntryClearFn  clear_fn);
+
     /// Configuration.
     const DeduplicationConfig& config() const noexcept { return cfg_; }
 
@@ -277,6 +324,16 @@ private:
 
     std::atomic<std::size_t> total_bytes_stored_{0};
     std::atomic<std::size_t> bytes_saved_{0};
+
+    // ─── Per-entry journal hooks ──────────────────────────────────────────
+    mutable std::mutex journal_hooks_mutex_;
+    JournalEntryPersistFn   journal_entry_persist_fn_;
+    JournalEntryDeleteFn    journal_entry_delete_fn_;
+    JournalEntryEnumerateFn journal_entry_enumerate_fn_;
+    JournalEntryClearFn     journal_entry_clear_fn_;
+
+    /// Returns true when all four per-entry journal hooks are set.
+    bool hasJournalEntryHooks() const noexcept;
 
     // ─── Internal helpers ─────────────────────────────────────────────────
 

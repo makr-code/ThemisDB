@@ -1126,19 +1126,44 @@ bool TensorDeduplicationManager::restoreGraph(const std::string& snapshot_key) {
 
 bool TensorDeduplicationManager::replayMutationJournal(const std::string& snapshot_key) {
     std::vector<MutationJournalEntry> entries;
-    const auto load_status =
-        loadJournalWithLegacyFallback(storage_, snapshot_key, entries);
-    if (load_status == JournalLoadStatus::Missing) {
-        return true;
-    }
-    if (entries.empty()) {
-        // This path handles both a valid empty journal and an invalid payload
-        // that has been reset.
-        // Parse failures are treated as no-op replay because the base snapshot
-        // payload has already restored a consistent graph/record state.
-        if (load_status == JournalLoadStatus::InvalidReset) {
-            THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: mutation journal reset after parse failure; replay skipped");
+
+    // Per-entry hook path: enumerate individual per-tensor journal records.
+    if (hasJournalEntryHooks()) {
+        std::lock_guard<std::mutex> hlk(journal_hooks_mutex_);
+        if (journal_entry_enumerate_fn_) {
+            try {
+                journal_entry_enumerate_fn_(
+                    snapshot_key,
+                    [&](std::string_view /*tensor_id*/, const std::vector<uint8_t>& payload) {
+                        std::vector<MutationJournalEntry> one;
+                        if (deserializeMutationJournal(payload, one) && !one.empty()) {
+                            entries.push_back(std::move(one[0]));
+                        }
+                    });
+            } catch (...) {}
         }
+        // Per-entry journals are already compacted (one entry per tensor_id).
+        // Compact again to handle duplicate tensor_ids from concurrent writes.
+        compactMutationJournalEntries(entries);
+    } else {
+        const auto load_status =
+            loadJournalWithLegacyFallback(storage_, snapshot_key, entries);
+        if (load_status == JournalLoadStatus::Missing) {
+            return true;
+        }
+        if (entries.empty()) {
+            // This path handles both a valid empty journal and an invalid payload
+            // that has been reset.
+            // Parse failures are treated as no-op replay because the base snapshot
+            // payload has already restored a consistent graph/record state.
+            if (load_status == JournalLoadStatus::InvalidReset) {
+                THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: mutation journal reset after parse failure; replay skipped");
+            }
+            return true;
+        }
+    }
+
+    if (entries.empty()) {
         return true;
     }
 
@@ -1178,13 +1203,14 @@ bool TensorDeduplicationManager::replayMutationJournal(const std::string& snapsh
         fp_graph_->remove(entry.tensor_id);
     }
 
-    // restoreGraph() rewrites the journal in compact form as a recovery-time
+    // For blob-based journals: rewrite in compact form as a recovery-time
     // maintenance step so older, pre-compaction payloads are normalized after
     // the first successful replay even if they were persisted by earlier code.
-    // The remaining cross-tensor entry order is preserved from the last seen
-    // mutation sequence, so absolute counter snapshots still replay correctly.
-    compactMutationJournalEntries(entries);
-    writeJournalAndClearLegacy(storage_, snapshot_key, entries);
+    // Skip for per-entry journals — entries are already individually stored.
+    if (!hasJournalEntryHooks()) {
+        compactMutationJournalEntries(entries);
+        writeJournalAndClearLegacy(storage_, snapshot_key, entries);
+    }
 
     return true;
 }
@@ -1197,6 +1223,18 @@ void TensorDeduplicationManager::activateSnapshotKey(
 
 void TensorDeduplicationManager::clearMutationJournal(
     const std::string& snapshot_key) const {
+    // Per-entry hook path: clear all per-entry records for this snapshot key.
+    if (hasJournalEntryHooks()) {
+        std::lock_guard<std::mutex> hlk(journal_hooks_mutex_);
+        if (journal_entry_clear_fn_) {
+            try { journal_entry_clear_fn_(snapshot_key); }
+            catch (...) {}
+        }
+        // Also clear the legacy blob keys so they don't confuse future restores.
+        storage_->putRawMetadata(mutationJournalKeyForSnapshot(snapshot_key), {});
+        storage_->putRawMetadata(legacyMutationJournalKeyForSnapshot(snapshot_key), {});
+        return;
+    }
     storage_->putRawMetadata(mutationJournalKeyForSnapshot(snapshot_key), {});
     storage_->putRawMetadata(legacyMutationJournalKeyForSnapshot(snapshot_key), {});
 }
@@ -1222,6 +1260,18 @@ void TensorDeduplicationManager::persistUpsertJournalEntry(
     entry.total_bytes_stored = total_bytes_stored;
     entry.bytes_saved = bytes_saved;
 
+    // Per-entry hook path: write a single-entry blob for this tensor_id.
+    // Overwriting an existing entry for the same tensor_id IS compaction.
+    if (hasJournalEntryHooks()) {
+        const auto payload = serializeMutationJournal({entry});
+        std::lock_guard<std::mutex> hlk(journal_hooks_mutex_);
+        if (journal_entry_persist_fn_) {
+            try { journal_entry_persist_fn_(*snapshot_key, record.tensor_id, payload); }
+            catch (...) {}
+        }
+        return;
+    }
+
     std::vector<MutationJournalEntry> entries;
     loadJournalWithLegacyFallback(storage_, *snapshot_key, entries);
     entries.push_back(std::move(entry));
@@ -1244,11 +1294,48 @@ void TensorDeduplicationManager::persistDeleteJournalEntry(
     entry.total_bytes_stored = total_bytes_stored;
     entry.bytes_saved = bytes_saved;
 
+    // Per-entry hook path: overwrite the entry for this tensor_id with DELETE.
+    if (hasJournalEntryHooks()) {
+        const auto payload = serializeMutationJournal({entry});
+        std::lock_guard<std::mutex> hlk(journal_hooks_mutex_);
+        if (journal_entry_persist_fn_) {
+            try { journal_entry_persist_fn_(*snapshot_key, tensor_id, payload); }
+            catch (...) {}
+        }
+        return;
+    }
+
     std::vector<MutationJournalEntry> entries;
     loadJournalWithLegacyFallback(storage_, *snapshot_key, entries);
     entries.push_back(std::move(entry));
     compactMutationJournalEntries(entries);
     writeJournalAndClearLegacy(storage_, *snapshot_key, entries);
+}
+
+// ============================================================================
+// Per-entry journal hooks
+// ============================================================================
+
+void TensorDeduplicationManager::setJournalEntryHooks(
+    JournalEntryPersistFn   persist_fn,
+    JournalEntryDeleteFn    delete_fn,
+    JournalEntryEnumerateFn enumerate_fn,
+    JournalEntryClearFn     clear_fn)
+{
+    std::lock_guard<std::mutex> lk(journal_hooks_mutex_);
+    journal_entry_persist_fn_   = std::move(persist_fn);
+    journal_entry_delete_fn_    = std::move(delete_fn);
+    journal_entry_enumerate_fn_ = std::move(enumerate_fn);
+    journal_entry_clear_fn_     = std::move(clear_fn);
+}
+
+bool TensorDeduplicationManager::hasJournalEntryHooks() const noexcept {
+    // Quick non-locking check: if none are set, no need to lock.
+    // Safe because fn objects are only set once via setJournalEntryHooks().
+    std::lock_guard<std::mutex> lk(journal_hooks_mutex_);
+    return static_cast<bool>(journal_entry_persist_fn_) &&
+           static_cast<bool>(journal_entry_enumerate_fn_) &&
+           static_cast<bool>(journal_entry_clear_fn_);
 }
 
 } // namespace graph

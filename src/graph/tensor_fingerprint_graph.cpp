@@ -231,59 +231,81 @@ void TensorFingerprintGraph::insert(
 {
     TensorFingerprint fp = computeFingerprint(train);
 
-    std::lock_guard<std::mutex> lk(mutex_);
+    PersistedFingerprintNode hook_node;
+    std::vector<PersistedFingerprintEdge> hook_edges;
+    bool should_notify = false;
 
-    // Remove old entry if updating — inline removal to avoid recursive lock
-    // (calling remove() would attempt to re-acquire mutex_ causing deadlock).
-    if (nodes_.count(tensor_id)) {
-        const auto previous_fp = nodes_[tensor_id].fingerprint;
-        auto ait = adj_.find(tensor_id);
-        if (ait != adj_.end()) {
-            for (const auto& e : ait->second) {
-                auto& nadj = adj_[e.to];
-                nadj.erase(std::remove_if(nadj.begin(), nadj.end(),
-                    [&](const Edge& ne){ return ne.to == tensor_id; }),
-                    nadj.end());
-                edge_count_.fetch_sub(1, std::memory_order_relaxed);
+    {
+        std::lock_guard<std::mutex> lk(mutex_);
+
+        // Remove old entry if updating — inline removal to avoid recursive lock
+        // (calling remove() would attempt to re-acquire mutex_ causing deadlock).
+        if (nodes_.count(tensor_id)) {
+            const auto previous_fp = nodes_[tensor_id].fingerprint;
+            auto ait = adj_.find(tensor_id);
+            if (ait != adj_.end()) {
+                for (const auto& e : ait->second) {
+                    auto& nadj = adj_[e.to];
+                    nadj.erase(std::remove_if(nadj.begin(), nadj.end(),
+                        [&](const Edge& ne){ return ne.to == tensor_id; }),
+                        nadj.end());
+                    edge_count_.fetch_sub(1, std::memory_order_relaxed);
+                }
+                edge_count_.fetch_sub(ait->second.size(), std::memory_order_relaxed);
+                adj_.erase(ait);
             }
-            edge_count_.fetch_sub(ait->second.size(), std::memory_order_relaxed);
-            adj_.erase(ait);
+            removeFromBuckets(tensor_id, previous_fp);
+            nodes_.erase(tensor_id);
         }
-        removeFromBuckets(tensor_id, previous_fp);
-        nodes_.erase(tensor_id);
-    }
 
-    // Insert node
-    NodeEntry entry;
-    entry.fingerprint = fp;
-    if (cfg_.cache_trains_in_memory) {
-        entry.train = train;
-    }
-    entry.tenant      = tenant;
-    entry.collection  = collection;
-    entry.field       = field;
-    nodes_[tensor_id] = std::move(entry);
-    adj_[tensor_id];  // create empty adjacency list
+        // Insert node
+        NodeEntry entry;
+        entry.fingerprint = fp;
+        if (cfg_.cache_trains_in_memory) {
+            entry.train = train;
+        }
+        entry.tenant      = tenant;
+        entry.collection  = collection;
+        entry.field       = field;
+        nodes_[tensor_id] = std::move(entry);
+        adj_[tensor_id];  // create empty adjacency list
 
-    // LSH buckets
-    insertIntoBuckets(tensor_id, fp);
+        // LSH buckets
+        insertIntoBuckets(tensor_id, fp);
 
-    // Find candidates and add edges
-    auto candidates = lshCandidates(fp);
-    candidates.erase(tensor_id);
+        // Find candidates and add edges
+        auto candidates = lshCandidates(fp);
+        candidates.erase(tensor_id);
 
-    for (const auto& cid : candidates) {
-        auto nit = nodes_.find(cid);
-        if (nit == nodes_.end()) continue;
-        auto candidate_train = resolveTrainForNode(cid, nit->second);
-        if (!candidate_train.has_value()) continue;
+        for (const auto& cid : candidates) {
+            auto nit = nodes_.find(cid);
+            if (nit == nodes_.end()) continue;
+            auto candidate_train = resolveTrainForNode(cid, nit->second);
+            if (!candidate_train.has_value()) continue;
 
-        const double similarity = exactSimilarity(train, *candidate_train);
+            const double similarity = exactSimilarity(train, *candidate_train);
 
-        if (similarity >= cfg_.similarity_threshold) {
-            adj_[tensor_id].push_back({cid, similarity});
-            adj_[cid].push_back({tensor_id, similarity});
-            edge_count_.fetch_add(2, std::memory_order_relaxed);
+            if (similarity >= cfg_.similarity_threshold) {
+                adj_[tensor_id].push_back({cid, similarity});
+                adj_[cid].push_back({tensor_id, similarity});
+                edge_count_.fetch_add(2, std::memory_order_relaxed);
+            }
+        }
+
+        // Capture hook data before releasing the main lock.
+        if (has_node_persist_hook_.load(std::memory_order_relaxed)) {
+            hook_node  = buildPersistedNodeLocked(tensor_id);
+            hook_edges = buildPersistedEdgesForLocked(tensor_id);
+            should_notify = true;
+        }
+    } // mutex_ released
+
+    // Call node-persist hook outside the main lock (matches TNSE observer pattern).
+    if (should_notify) {
+        std::lock_guard<std::mutex> hlk(hook_mutex_);
+        if (node_persist_hook_) {
+            try { node_persist_hook_(hook_node, hook_edges); }
+            catch (...) { /* hook must not throw; swallow */ }
         }
     }
 }
@@ -294,33 +316,81 @@ void TensorFingerprintGraph::setTrainLoadFn(TrainLoadFn fn) {
 }
 
 // ============================================================================
+// GraphIndex-backed durable storage hooks
+// ============================================================================
+
+void TensorFingerprintGraph::setNodePersistHook(NodePersistHookFn fn) {
+    std::lock_guard<std::mutex> hlk(hook_mutex_);
+    node_persist_hook_ = std::move(fn);
+    has_node_persist_hook_.store(static_cast<bool>(node_persist_hook_),
+                                  std::memory_order_relaxed);
+}
+
+void TensorFingerprintGraph::setNodeRemoveHook(NodeRemoveHookFn fn) {
+    std::lock_guard<std::mutex> hlk(hook_mutex_);
+    node_remove_hook_ = std::move(fn);
+    has_node_remove_hook_.store(static_cast<bool>(node_remove_hook_),
+                                 std::memory_order_relaxed);
+}
+
+void TensorFingerprintGraph::restoreFromExternalStore(NodeEnumerateFn enumerate_fn) {
+    {
+        std::lock_guard<std::mutex> lk(mutex_);
+        nodes_.clear();
+        adj_.clear();
+        lsh_buckets_.clear();
+        edge_count_.store(0, std::memory_order_relaxed);
+    }
+
+    if (!enumerate_fn) return;
+
+    enumerate_fn([this](const PersistedFingerprintNode& node,
+                        const std::vector<PersistedFingerprintEdge>& edges) {
+        upsertPersistedNode(node, edges);
+    });
+}
+
+// ============================================================================
 // remove
 // ============================================================================
 
 bool TensorFingerprintGraph::remove(const std::string& tensor_id) {
-    std::lock_guard<std::mutex> lk(mutex_);
-    auto nit = nodes_.find(tensor_id);
-    if (nit == nodes_.end()) return false;
+    bool existed = false;
+    {
+        std::lock_guard<std::mutex> lk(mutex_);
+        auto nit = nodes_.find(tensor_id);
+        if (nit == nodes_.end()) return false;
 
-    // Remove edges to neighbours
-    auto ait = adj_.find(tensor_id);
-    if (ait != adj_.end()) {
-        for (const auto& e : ait->second) {
-            auto& nadj = adj_[e.to];
-            nadj.erase(std::remove_if(nadj.begin(), nadj.end(),
-                [&](const Edge& ne){ return ne.to == tensor_id; }),
-                nadj.end());
-            edge_count_.fetch_sub(1, std::memory_order_relaxed);
+        // Remove edges to neighbours
+        auto ait = adj_.find(tensor_id);
+        if (ait != adj_.end()) {
+            for (const auto& e : ait->second) {
+                auto& nadj = adj_[e.to];
+                nadj.erase(std::remove_if(nadj.begin(), nadj.end(),
+                    [&](const Edge& ne){ return ne.to == tensor_id; }),
+                    nadj.end());
+                edge_count_.fetch_sub(1, std::memory_order_relaxed);
+            }
+            edge_count_.fetch_sub(
+                static_cast<std::size_t>(ait->second.size()),
+                std::memory_order_relaxed);
+            adj_.erase(ait);
         }
-        edge_count_.fetch_sub(
-            static_cast<std::size_t>(ait->second.size()),
-            std::memory_order_relaxed);
-        adj_.erase(ait);
-    }
 
-    removeFromBuckets(tensor_id, nit->second.fingerprint);
-    nodes_.erase(nit);
-    return true;
+        removeFromBuckets(tensor_id, nit->second.fingerprint);
+        nodes_.erase(nit);
+        existed = true;
+    } // mutex_ released
+
+    // Call node-remove hook outside the main lock.
+    if (existed && has_node_remove_hook_.load(std::memory_order_relaxed)) {
+        std::lock_guard<std::mutex> hlk(hook_mutex_);
+        if (node_remove_hook_) {
+            try { node_remove_hook_(tensor_id); }
+            catch (...) { /* hook must not throw; swallow */ }
+        }
+    }
+    return existed;
 }
 
 // ============================================================================
@@ -510,36 +580,39 @@ TensorFingerprintGraph::exportPersistedGraph() const {
 std::optional<PersistedFingerprintNode>
 TensorFingerprintGraph::exportPersistedNode(const std::string& tensor_id) const {
     std::lock_guard<std::mutex> lk(mutex_);
-    const auto it = nodes_.find(tensor_id);
-    if (it == nodes_.end()) {
-        return std::nullopt;
-    }
-
-    PersistedFingerprintNode persisted;
-    persisted.tensor_id = tensor_id;
-    persisted.fingerprint = it->second.fingerprint;
-    persisted.tenant = it->second.tenant;
-    persisted.collection = it->second.collection;
-    persisted.field = it->second.field;
-    return persisted;
+    if (nodes_.find(tensor_id) == nodes_.end()) return std::nullopt;
+    return buildPersistedNodeLocked(tensor_id);
 }
 
 std::vector<PersistedFingerprintEdge>
 TensorFingerprintGraph::exportPersistedEdgesFor(const std::string& tensor_id) const {
     std::lock_guard<std::mutex> lk(mutex_);
+    return buildPersistedEdgesForLocked(tensor_id);
+}
+
+// ─── Private locked helpers ───────────────────────────────────────────────
+
+PersistedFingerprintNode
+TensorFingerprintGraph::buildPersistedNodeLocked(const std::string& tensor_id) const {
+    PersistedFingerprintNode p;
+    const auto it = nodes_.find(tensor_id);
+    if (it == nodes_.end()) return p;
+    p.tensor_id   = tensor_id;
+    p.fingerprint = it->second.fingerprint;
+    p.tenant      = it->second.tenant;
+    p.collection  = it->second.collection;
+    p.field       = it->second.field;
+    return p;
+}
+
+std::vector<PersistedFingerprintEdge>
+TensorFingerprintGraph::buildPersistedEdgesForLocked(const std::string& tensor_id) const {
     std::vector<PersistedFingerprintEdge> out;
     const auto it = adj_.find(tensor_id);
-    if (it == adj_.end()) {
-        return out;
-    }
-
+    if (it == adj_.end()) return out;
     out.reserve(it->second.size());
     for (const auto& edge : it->second) {
-        PersistedFingerprintEdge persisted;
-        persisted.from = tensor_id;
-        persisted.to = edge.to;
-        persisted.similarity = edge.similarity;
-        out.push_back(std::move(persisted));
+        out.push_back({tensor_id, edge.to, edge.similarity});
     }
     return out;
 }
