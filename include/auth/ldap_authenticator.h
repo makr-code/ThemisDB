@@ -31,6 +31,7 @@
 #include <optional>
 #include <memory>
 #include <chrono>
+#include <functional>
 #include <future>
 
 namespace themis {
@@ -314,6 +315,19 @@ private:
     LDAPAuthResult performBind(const std::string& username,
                                const std::string& dn,
                                const std::string& password);
+
+public:
+#ifndef THEMIS_HAS_LDAP
+    /// Callback type for injecting an LDAP bind implementation in non-libldap builds.
+    using LdapBindFn = std::function<LDAPAuthResult(
+        const std::string& username,
+        const std::string& dn,
+        const std::string& password)>;
+
+    /// Inject an LDAP bind implementation for the non-libldap stub path.
+    /// Pass empty fn to restore fail-closed stub default.
+    static void setLdapBindFn(LdapBindFn fn);
+#endif // !THEMIS_HAS_LDAP
 };
 
 } // namespace auth

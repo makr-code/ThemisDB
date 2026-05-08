@@ -20,6 +20,7 @@
 #pragma once
 
 #include "acceleration/compute_backend.h"
+#include <functional>
 #include <memory>
 #include <vector>
 #include <string>
@@ -247,6 +248,16 @@ public:
     static int getRCCLVersion();
     static std::string getRCCLVersionString();
     static bool checkXGMISupport(const std::vector<int>& deviceIds);
+
+#ifndef THEMIS_ENABLE_RCCL
+    /// Callback type for injecting an allReduce implementation in non-RCCL builds.
+    using AllReduceFn = std::function<bool(
+        const float* send, float* recv, size_t count, ReductionOp op, void* stream)>;
+
+    /// Inject an allReduce implementation for the non-RCCL stub path.
+    /// Pass empty fn to restore fail-closed stub default.
+    static void setAllReduceFn(AllReduceFn fn);
+#endif // !THEMIS_ENABLE_RCCL
 
 private:
     class Impl;

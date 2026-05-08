@@ -30,6 +30,7 @@
 
 #include <algorithm>
 #include <future>
+#include <mutex>
 
 // ---------------------------------------------------------------------------
 // Platform-specific LDAP includes
@@ -705,10 +706,39 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
 // Roadmap ref: src/auth/FUTURE_ENHANCEMENTS.md § "LDAP Group Membership (v1.6.0)"
 // ---------------------------------------------------------------------------
 
+// STUB/SIMULATION NOTE (LdapBindFn bridge):
+// Purpose:    Allow injection of a real LDAP bind implementation for the
+//             non-libldap stub path, enabling integration tests without
+//             modifying the production libldap path.
+// Activation: Runtime — when setLdapBindFn() is called with a non-empty fn.
+// Production Delta: With no fn injected, performBind() returns Failed(); with
+//             fn injected the provided implementation is called instead.
+// Removal Plan: Remove bridge once THEMIS_HAS_LDAP is always set in CI/CD.
+static std::mutex s_ldap_bind_mutex_;
+static LDAPAuthenticator::LdapBindFn s_ldap_bind_fn_;
+
+void LDAPAuthenticator::setLdapBindFn(LDAPAuthenticator::LdapBindFn fn) {
+    std::lock_guard<std::mutex> lk(s_ldap_bind_mutex_);
+    s_ldap_bind_fn_ = std::move(fn);
+}
+
 LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
-                                              const std::string& /*dn*/,
-                                              const std::string& /*password*/)
+                                              const std::string& dn,
+                                              const std::string& password)
 {
+    LDAPAuthenticator::LdapBindFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_ldap_bind_mutex_);
+        fn = s_ldap_bind_fn_;
+    }
+    if (fn) {
+        try {
+            return fn(username, dn, password);
+        } catch (...) {
+            return LDAPAuthResult::Failed("LdapBindFn threw an exception");
+        }
+    }
+
     AuthAuditLogger audit(audit_logger_);
     const std::string msg =
         "LDAP support is not available: rebuild ThemisDB with THEMIS_ENABLE_LDAP=ON";
