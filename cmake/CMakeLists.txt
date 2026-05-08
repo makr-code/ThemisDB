@@ -4808,7 +4808,6 @@ if(UNIX AND NOT APPLE)
         OPTIONAL
     )
 endif()
-
 # Central logs/ directory — all runtime log files are written here.
 # The .gitkeep placeholder creates the directory in the archive; the server
 # auto-creates logs/ at startup if it does not yet exist.
