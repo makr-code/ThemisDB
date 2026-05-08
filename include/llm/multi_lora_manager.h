@@ -469,8 +469,8 @@ public:
      * @param context Model context to apply to (llama_context*)
      * @return true if applied successfully
      */
-    using ApplyAdapterFn = std::function<bool(const LoRASlot& slot, llama_context* context)>;
-    using RemoveAdapterFn = std::function<bool(const LoRASlot& slot, llama_context* context)>;
+    using ApplyAdapterFn = std::function<bool(const LoRASlot& slot)>;
+    using RemoveAdapterFn = std::function<bool(const LoRASlot& slot)>;
 
     void setApplyAdapterFn(ApplyAdapterFn fn);
     void setRemoveAdapterFn(RemoveAdapterFn fn);
