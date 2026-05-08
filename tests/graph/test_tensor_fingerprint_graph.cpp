@@ -124,18 +124,15 @@ public:
 
     std::optional<std::vector<uint8_t>>
     get(const std::string& key) const override {
-        std::lock_guard<std::mutex> lk(mutex_);
         return inner_.get(key);
     }
 
     bool del(const std::string& key) override {
-        std::lock_guard<std::mutex> lk(mutex_);
         return inner_.del(key);
     }
 
     std::vector<std::string>
     listKeys(const std::string& prefix) const override {
-        std::lock_guard<std::mutex> lk(mutex_);
         return inner_.listKeys(prefix);
     }
 
@@ -147,6 +144,8 @@ public:
 
 private:
     mutable std::mutex mutex_;
+    // InMemoryTensorBackend already provides its own internal synchronization
+    // for KV operations; this mutex only protects put_counts_.
     InMemoryTensorBackend inner_;
     std::unordered_map<std::string, std::size_t> put_counts_;
 };

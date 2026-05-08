@@ -908,6 +908,7 @@ static void writeJournalAndClearLegacy(
     auto payload = serializeMutationJournal(entries);
 
     const auto existing_namespaced = storage->getRawMetadata(namespaced_key);
+    // Missing namespaced key and changed payload are both write paths.
     const bool namespaced_changed =
         !existing_namespaced.has_value() || (*existing_namespaced != payload);
     bool namespaced_ready = !namespaced_changed;
@@ -925,11 +926,11 @@ static void writeJournalAndClearLegacy(
     const auto legacy_payload = storage->getRawMetadata(legacy_key);
     // Skip no-op empty rewrites: legacy key may already exist with an empty
     // payload from previous normalization/reset cycles.
-    if (legacy_payload.has_value() &&
-        !legacy_payload->empty() &&
-        !storage->putRawMetadata(legacy_key, {})) {
-        THEMIS_WARN("[TensorDeduplicationManager] failed to clear legacy mutation journal key='{}'",
-                    legacy_key);
+    if (legacy_payload.has_value() && !legacy_payload->empty()) {
+        if (!storage->putRawMetadata(legacy_key, {})) {
+            THEMIS_WARN("[TensorDeduplicationManager] failed to clear legacy mutation journal key='{}'",
+                        legacy_key);
+        }
     }
 }
 
