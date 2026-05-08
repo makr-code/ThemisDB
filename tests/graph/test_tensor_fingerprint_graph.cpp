@@ -58,9 +58,12 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
 #include <memory>
 #include <random>
+#include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 using namespace themis::storage;
@@ -97,6 +100,15 @@ static std::shared_ptr<TensorNetworkStorageEngine> makeEngine() {
     cfg.tt_config.eps = 0.05;
     cfg.min_compression_ratio = 0.0;
     return std::make_shared<TensorNetworkStorageEngine>(backend, cfg);
+}
+
+template<typename T>
+static void overwriteLE(std::vector<uint8_t>& buf, std::size_t offset, T value) {
+    ASSERT_GE(buf.size(), offset + sizeof(T));
+    const auto* raw = reinterpret_cast<const uint8_t*>(&value);
+    for (std::size_t i = 0; i < sizeof(T); ++i) {
+        buf[offset + i] = raw[i];
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -904,11 +916,51 @@ TEST(TensorDeduplicationManagerSnapshotTest,
      TDM15_RestoreGraphRejectsMalformedSnapshotPayload) {
     auto backend = std::make_shared<InMemoryTensorBackend>();
     auto engine  = std::make_shared<TensorNetworkStorageEngine>(backend);
-
     auto mgr = makeDedup(engine);
-    std::vector<uint8_t> malformed = {0x01, 0x02, 0x03, 0x04, 0x05};
-    ASSERT_TRUE(engine->putRawMetadata("malformed_snap", malformed));
 
-    EXPECT_FALSE(mgr->restoreGraph("malformed_snap"));
-    EXPECT_EQ(mgr->getStats().total_tensors, 0u);
+    auto seed_data = randVec(16, 1601);
+    mgr->store("seed_tensor", seed_data, {16, 1}, "t", "c", "fseed");
+    ASSERT_TRUE(mgr->snapshotGraph("valid_snap"));
+
+    auto valid_payload = engine->getRawMetadata("valid_snap");
+    ASSERT_TRUE(valid_payload.has_value());
+
+    constexpr uint64_t kBadMagic = 0x0102030405060708ULL;
+    constexpr uint32_t kBadVersion = 99U;
+    constexpr std::size_t kVersionOffset = sizeof(uint64_t);
+    constexpr std::size_t kGraphSizeOffset = sizeof(uint64_t) + sizeof(uint32_t);
+    constexpr std::size_t kGraphPayloadOffset =
+        sizeof(uint64_t) + sizeof(uint32_t) + sizeof(uint64_t);
+
+    std::vector<std::pair<std::string, std::vector<uint8_t>>> cases;
+
+    auto wrong_magic = *valid_payload;
+    overwriteLE<uint64_t>(wrong_magic, 0, kBadMagic);
+    cases.emplace_back("bad_magic", std::move(wrong_magic));
+
+    auto wrong_version = *valid_payload;
+    overwriteLE<uint32_t>(wrong_version, kVersionOffset, kBadVersion);
+    cases.emplace_back("bad_version", std::move(wrong_version));
+
+    auto bad_graph_length = *valid_payload;
+    overwriteLE<uint64_t>(bad_graph_length, kGraphSizeOffset,
+                          static_cast<uint64_t>(bad_graph_length.size() + 128U));
+    cases.emplace_back("bad_graph_length", std::move(bad_graph_length));
+
+    auto bad_embedded_graph = *valid_payload;
+    overwriteLE<uint64_t>(bad_embedded_graph, kGraphPayloadOffset, kBadMagic);
+    cases.emplace_back("bad_embedded_graph", std::move(bad_embedded_graph));
+
+    auto trailing_bytes = *valid_payload;
+    trailing_bytes.push_back(0x7f);
+    cases.emplace_back("trailing_bytes", std::move(trailing_bytes));
+
+    for (const auto& [suffix, payload] : cases) {
+        SCOPED_TRACE(suffix);
+        const auto snapshot_key = "malformed_snap_" + suffix;
+        ASSERT_TRUE(engine->putRawMetadata(snapshot_key, payload));
+        EXPECT_FALSE(mgr->restoreGraph(snapshot_key));
+        EXPECT_EQ(mgr->getStats().total_tensors, 1u);
+        EXPECT_TRUE(mgr->getRecord("seed_tensor").has_value());
+    }
 }
