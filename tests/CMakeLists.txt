@@ -25472,7 +25472,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_speculative_draft_fn_bridge.cpp")
         test_speculative_draft_fn_bridge.cpp
         ${THEMIS_ROOT_DIR}/src/llm/speculative_decoder.cpp
         ${THEMIS_ROOT_DIR}/src/llm/inference_engine_enhanced.cpp
-        ${THEMIS_ROOT_DIR}/src/llm/prefix_cache.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/llm_prefix_cache.cpp
         ${THEMIS_ROOT_DIR}/src/llm/kv_prefix_transfer_manager.cpp
         ${THEMIS_ROOT_DIR}/src/llm/continuous_batch_scheduler.cpp
         ${THEMIS_ROOT_DIR}/src/llm/lookup_decoder.cpp
