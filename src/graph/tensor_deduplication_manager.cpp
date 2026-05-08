@@ -249,9 +249,6 @@ StoredTensorRecord TensorDeduplicationManager::store(
             record.compressed_bytes          = delta_bytes;
             record.saved_bytes               = (full_bytes > delta_bytes) ? full_bytes - delta_bytes : 0;
             record.similarity_to_reference   = similar[0].similarity;
-
-            total_bytes_stored_.fetch_add(delta_bytes, std::memory_order_relaxed);
-            bytes_saved_.fetch_add(record.saved_bytes, std::memory_order_relaxed);
         } else {
             // Reference not loadable — fall back to full storage
             goto store_canonical;
@@ -265,9 +262,6 @@ store_canonical:
         std::size_t stored_bytes = new_train.totalParams() * sizeof(float);
         record.compressed_bytes = stored_bytes;
         record.saved_bytes      = (full_bytes > stored_bytes) ? full_bytes - stored_bytes : 0;
-
-        total_bytes_stored_.fetch_add(stored_bytes, std::memory_order_relaxed);
-        bytes_saved_.fetch_add(record.saved_bytes, std::memory_order_relaxed);
     }
 
     // Insert into fingerprint graph
@@ -288,6 +282,8 @@ store_canonical:
         bytes_saved_.fetch_sub(prev->second.saved_bytes, std::memory_order_relaxed);
         clearMappingForTensorIdLocked(tensor_id);
     }
+    total_bytes_stored_.fetch_add(record.compressed_bytes, std::memory_order_relaxed);
+    bytes_saved_.fetch_add(record.saved_bytes, std::memory_order_relaxed);
     records_[tensor_id] = record;
     if (record.is_canonical) {
         const auto idx = makeKeyIndex(makeKey(record.tenant, record.collection, record.field));
