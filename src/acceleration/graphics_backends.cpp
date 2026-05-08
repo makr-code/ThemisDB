@@ -1011,6 +1011,7 @@ bool VulkanVectorBackend::isAvailable() const noexcept {
         try {
             return fn();
         } catch (...) {
+            std::cerr << "[OpenGL] stub availability callback failed" << std::endl;
             return false;
         }
     }
@@ -3024,6 +3025,7 @@ bool OpenGLVectorBackend::isAvailable() const noexcept {
         try {
             return fn();
         } catch (...) {
+            std::cerr << "[OpenGL] stub initialize callback failed" << std::endl;
             return false;
         }
     }
@@ -3187,6 +3189,7 @@ std::vector<float> OpenGLVectorBackend::computeDistances(
         try {
             return fn(queries, numQueries, dim, vectors, numVectors, useL2);
         } catch (...) {
+            std::cerr << "[OpenGL] stub computeDistances callback failed" << std::endl;
             return {};
         }
     }
@@ -3286,6 +3289,7 @@ std::vector<std::vector<std::pair<uint32_t, float>>> OpenGLVectorBackend::batchK
         try {
             return fn(queries, numQueries, dim, vectors, numVectors, k, useL2);
         } catch (...) {
+            std::cerr << "[OpenGL] stub batchKnnSearch callback failed" << std::endl;
             return {};
         }
     }

@@ -217,3 +217,36 @@ TEST(VulkanGlslCompilerFnTest, OpenGLStubBridgeFnsFailClosedOnException) {
     OpenGLVectorBackend::setBatchKnnSearchFn({});
 #endif
 }
+
+TEST(VulkanGlslCompilerFnTest, OpenGLStubBridgeFnsForwardParameters) {
+#ifdef THEMIS_ENABLE_OPENGL
+    GTEST_SKIP() << "Real OpenGL build active; stub bridge path is not compiled.";
+#else
+    using namespace themis::acceleration;
+
+    constexpr float q[] = {1.0f, 2.0f};
+    constexpr float v[] = {3.0f, 4.0f, 5.0f, 6.0f};
+
+    bool sawExpected = false;
+    OpenGLVectorBackend::setComputeDistancesFn(
+        [&](const float* queries,
+            size_t numQueries,
+            size_t dim,
+            const float* vectors,
+            size_t numVectors,
+            bool useL2) {
+            sawExpected = (queries == q && vectors == v &&
+                           numQueries == 1 && numVectors == 2 &&
+                           dim == 2 && useL2);
+            return std::vector<float>{7.0f};
+        });
+
+    OpenGLVectorBackend backend;
+    auto result = backend.computeDistances(q, 1, 2, v, 2, true);
+    EXPECT_TRUE(sawExpected);
+    ASSERT_EQ(result.size(), 1u);
+    EXPECT_FLOAT_EQ(result[0], 7.0f);
+
+    OpenGLVectorBackend::setComputeDistancesFn({});
+#endif
+}

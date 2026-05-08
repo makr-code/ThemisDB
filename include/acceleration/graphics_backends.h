@@ -305,21 +305,25 @@ public:
     ) override;
 
     /// Register a non-OpenGL availability bridge for stub builds.
+    /// Thread-safe setter; passing empty function restores fail-closed default.
     static void setAvailabilityFn(AvailabilityFn fn) {
         std::lock_guard<std::mutex> lk(availabilityFnMutex());
         availabilityFnStorage() = std::move(fn);
     }
     /// Register a non-OpenGL initialization bridge for stub builds.
+    /// Thread-safe setter; passing empty function restores fail-closed default.
     static void setInitializeFn(InitializeFn fn) {
         std::lock_guard<std::mutex> lk(initializeFnMutex());
         initializeFnStorage() = std::move(fn);
     }
     /// Register a non-OpenGL distance-compute bridge for stub builds.
+    /// Thread-safe setter; passing empty function restores fail-closed default.
     static void setComputeDistancesFn(ComputeDistancesFn fn) {
         std::lock_guard<std::mutex> lk(computeDistancesFnMutex());
         computeDistancesFnStorage() = std::move(fn);
     }
     /// Register a non-OpenGL batch-KNN bridge for stub builds.
+    /// Thread-safe setter; passing empty function restores fail-closed default.
     static void setBatchKnnSearchFn(BatchKnnSearchFn fn) {
         std::lock_guard<std::mutex> lk(batchKnnSearchFnMutex());
         batchKnnSearchFnStorage() = std::move(fn);
