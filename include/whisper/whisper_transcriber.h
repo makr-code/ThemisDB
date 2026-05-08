@@ -172,7 +172,7 @@ private:
     bool        initialized_ = false;
     std::string model_id_ = "stub";
     TranscribeFn        transcribe_fn_;
-    mutable std::mutex  transcribe_fn_mutex_;
+    std::mutex          transcribe_fn_mutex_;
 };
 
 // ---------------------------------------------------------------------------

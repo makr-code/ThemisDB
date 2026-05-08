@@ -931,7 +931,9 @@ std::vector<std::vector<std::pair<uint32_t, float>>> DirectXVectorBackend::batch
 // Defined here (always-compiled TU) so setCompileGLSLFn() is available
 // regardless of whether THEMIS_ENABLE_VULKAN is set.  The storage is accessed
 // from vulkan_backend_full.cpp via extern declarations when Vulkan is enabled.
-// Using a named sub-namespace (not anonymous) so the extern linkage works.
+// Using a named sub-namespace (not anonymous) so the extern linkage works:
+// anonymous-namespace symbols have internal linkage and cannot be declared
+// extern in another TU.
 namespace glsl_bridge {
     std::mutex                       s_vk_compile_glsl_mutex;
     VulkanVectorBackend::CompileGLSLFn s_vk_compile_glsl_fn;

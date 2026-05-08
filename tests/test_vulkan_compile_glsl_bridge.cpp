@@ -36,6 +36,8 @@ TEST(VulkanCompileGlslBridge, VKC_01_SetFnNoThrow) {
     CompileGlslGuard guard;
 
     std::atomic<int> call_count{0};
+    // The SPIR-V magic number (0x07230203) is required as the first word of any
+    // valid SPIR-V binary module (per Khronos SPIR-V specification §2.3).
     const std::vector<uint32_t> fake_spv = {0x07230203u, 0x00010500u, 0u, 1u, 0u};
 
     EXPECT_NO_THROW(

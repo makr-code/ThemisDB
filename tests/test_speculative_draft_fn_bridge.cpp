@@ -130,9 +130,10 @@ TEST(SdDraftFnBridge, SD_DFT_02_NullFnRestoresHeuristic) {
 
     // First set an fn, then clear it.
     ILLMPlugin::setDefaultGenerateDraftTokensFn(
-        [](const InferenceRequest&, size_t k, size_t v)
+        [](const InferenceRequest& /*req*/, size_t k, size_t v)
             -> ILLMPlugin::DraftTokensResult {
-            (void)k; (void)v;
+            [[maybe_unused]] auto sink_k = k;
+            [[maybe_unused]] auto sink_v = v;
             return {};  // intentionally return empty result
         });
     ILLMPlugin::setDefaultGenerateDraftTokensFn(nullptr);

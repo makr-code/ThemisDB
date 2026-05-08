@@ -455,6 +455,9 @@ public:
 private:
     // Inline static storage for the default generateDraftTokens() injection
     // (STUB #261 bridge).  Using inline static avoids a separate .cpp TU.
+    // Placed in a private section between two public ones so that the injected
+    // state cannot be accessed directly; access is exclusively through the
+    // public static setter setDefaultGenerateDraftTokensFn().
     inline static std::mutex              s_draft_fn_mutex_;
     inline static GenerateDraftTokensFn   s_default_draft_fn_;
 

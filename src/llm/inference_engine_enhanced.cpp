@@ -1783,10 +1783,11 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
                                  "falling back to heuristic");
                 }
             } else {
+                const size_t actual_rows = target_logit_matrix.size();
                 target_logit_matrix.clear();
                 spdlog::warn("TargetLogitsFn returned {} rows (expected {}) — "
                              "falling back to heuristic",
-                             target_logit_matrix.size(), K + 1);
+                             actual_rows, K + 1);
             }
         } catch (const std::exception& e) {
             target_logit_matrix.clear();
