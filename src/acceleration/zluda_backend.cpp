@@ -207,17 +207,19 @@ public:
     ) override {
         ComputeDistancesFn fn;
         {
-            std::lock_guard<std::mutex> lk(s_compute_distances_fn_mutex_);
+            std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
             fn = s_compute_distances_fn_;
         }
-        if (fn) [[unlikely]] {
+        if (fn) {
             try {
                 return fn(queries, numQueries, dim, vectors, numVectors, useL2);
             } catch (const std::exception& e) {
                 std::cerr << "ZLUDA: computeDistances callback failed: " << e.what() << std::endl;
+                std::cerr << "ZLUDA: computeDistances fail-closed -> returning empty result" << std::endl;
                 return {};
             } catch (...) {
                 std::cerr << "ZLUDA: computeDistances callback failed" << std::endl;
+                std::cerr << "ZLUDA: computeDistances fail-closed -> returning empty result" << std::endl;
                 return {};
             }
         }
@@ -256,17 +258,19 @@ public:
     ) override {
         BatchKnnSearchFn fn;
         {
-            std::lock_guard<std::mutex> lk(s_batch_knn_fn_mutex_);
+            std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
             fn = s_batch_knn_fn_;
         }
-        if (fn) [[unlikely]] {
+        if (fn) {
             try {
                 return fn(queries, numQueries, dim, vectors, numVectors, k, useL2);
             } catch (const std::exception& e) {
                 std::cerr << "ZLUDA: batchKnnSearch callback failed: " << e.what() << std::endl;
+                std::cerr << "ZLUDA: batchKnnSearch fail-closed -> returning empty result" << std::endl;
                 return {};
             } catch (...) {
                 std::cerr << "ZLUDA: batchKnnSearch callback failed" << std::endl;
+                std::cerr << "ZLUDA: batchKnnSearch fail-closed -> returning empty result" << std::endl;
                 return {};
             }
         }
@@ -283,8 +287,7 @@ public:
     }
 
 private:
-    static std::mutex s_compute_distances_fn_mutex_;
-    static std::mutex s_batch_knn_fn_mutex_;
+    static std::mutex s_callback_fn_mutex_;
     static ComputeDistancesFn s_compute_distances_fn_;
     static BatchKnnSearchFn s_batch_knn_fn_;
 
@@ -320,18 +323,17 @@ private:
     PFN_zludaDeviceTotalMem fnDeviceTotalMem_ = nullptr;
 };
 
-std::mutex ZLUDAVectorBackend::s_compute_distances_fn_mutex_;
-std::mutex ZLUDAVectorBackend::s_batch_knn_fn_mutex_;
+std::mutex ZLUDAVectorBackend::s_callback_fn_mutex_;
 ZLUDAVectorBackend::ComputeDistancesFn ZLUDAVectorBackend::s_compute_distances_fn_;
 ZLUDAVectorBackend::BatchKnnSearchFn ZLUDAVectorBackend::s_batch_knn_fn_;
 
 void ZLUDAVectorBackend::setComputeDistancesFn(ComputeDistancesFn fn) {
-    std::lock_guard<std::mutex> lk(s_compute_distances_fn_mutex_);
+    std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
     s_compute_distances_fn_ = std::move(fn);
 }
 
 void ZLUDAVectorBackend::setBatchKnnSearchFn(BatchKnnSearchFn fn) {
-    std::lock_guard<std::mutex> lk(s_batch_knn_fn_mutex_);
+    std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
     s_batch_knn_fn_ = std::move(fn);
 }
 
