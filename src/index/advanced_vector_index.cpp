@@ -450,23 +450,22 @@ AdvancedVectorIndex::Stats AdvancedVectorIndex::getStats() const {
         
             stats.memory_usage_bytes = static_cast<size_t>(static_cast<double>(stats.total_vectors * dimension_ * sizeof(float)) / stats.compression_ratio);
     }
-#endif
-    if (!stats.total_vectors && !stats.is_trained) {
-        StubCallbacks callbacks;
-        {
-            std::lock_guard<std::mutex> lk(AdvancedVectorIndex::stubCallbacksMutex());
-            callbacks = AdvancedVectorIndex::stubCallbacksStorage();
-        }
-        if (callbacks.stats) {
-            try {
-                return callbacks.stats();
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("AdvancedVectorIndex::getStats callback failed: {}", e.what());
-            } catch (...) {
-                THEMIS_ERROR("AdvancedVectorIndex::getStats callback failed");
-            }
+#else
+    StubCallbacks callbacks;
+    {
+        std::lock_guard<std::mutex> lk(AdvancedVectorIndex::stubCallbacksMutex());
+        callbacks = AdvancedVectorIndex::stubCallbacksStorage();
+    }
+    if (callbacks.stats) {
+        try {
+            return callbacks.stats();
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("AdvancedVectorIndex::getStats callback failed: {}", e.what());
+        } catch (...) {
+            THEMIS_ERROR("AdvancedVectorIndex::getStats callback failed");
         }
     }
+#endif
     
     return stats;
 }
