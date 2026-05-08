@@ -59,21 +59,29 @@ public:
     explicit TensorCoreBridgeStep(std::shared_ptr<ITensorCoreBridge> sink)
         : sink_(std::move(sink)) {}
 
-    std::string name() const override { return "builtin.tensor_core_bridge"; }
+    // IThemisPlugin
+    const char* getName() const override { return "builtin.tensor_core_bridge"; }
+    const char* getVersion() const override { return "1.0.0"; }
+    plugins::PluginCapabilities getCapabilities() const override { return {}; }
+    bool initialize(const char*) override { return true; }
+    void shutdown() override {}
+    void* getInstance() override { return this; }
 
-    void configure(const nlohmann::json& cfg) override {
-        if (cfg.contains("tenant_id") && cfg["tenant_id"].is_string())
-            tenant_id_override_ = cfg["tenant_id"].get<std::string>();
+    // IIngestionStep
+    std::vector<std::string> supportedMimeTypes() const override { return {}; }
 
-        if (cfg.contains("skip_empty") && cfg["skip_empty"].is_boolean())
-            skip_empty_ = cfg["skip_empty"].get<bool>();
+    Result<void> execute(ExtractionContext& ctx, const StepConfig& cfg) override {
+        if (cfg.config.contains("tenant_id") && cfg.config["tenant_id"].is_string()) {
+            tenant_id_override_ = cfg.config["tenant_id"].get<std::string>();
+        }
+        if (cfg.config.contains("skip_empty") && cfg.config["skip_empty"].is_boolean()) {
+            skip_empty_ = cfg.config["skip_empty"].get<bool>();
+        }
+        if (cfg.config.contains("fail_on_write_error") &&
+            cfg.config["fail_on_write_error"].is_boolean()) {
+            fail_on_write_error_ = cfg.config["fail_on_write_error"].get<bool>();
+        }
 
-        if (cfg.contains("fail_on_write_error") &&
-            cfg["fail_on_write_error"].is_boolean())
-            fail_on_write_error_ = cfg["fail_on_write_error"].get<bool>();
-    }
-
-    Result<void> execute(ExtractionContext& ctx) override {
         if (ctx.tensor_cores.empty()) {
             return {}; // nothing to sink
         }

@@ -25,6 +25,7 @@
 #include <algorithm>
 #include <array>
 #include <cctype>
+#include <cstring>
 #include <functional>
 #include <regex>
 #include <sstream>
@@ -63,6 +64,45 @@ std::string toLower(std::string s) {
     std::transform(s.begin(), s.end(), s.begin(),
                    [](unsigned char c) { return std::tolower(c); });
     return s;
+}
+
+std::string entityTypeName(const EntityType type) {
+    switch (type) {
+    case EntityType::LEGAL_PROVISION:      return "LEGAL_PROVISION";
+    case EntityType::LEGAL_NORM_REFERENCE: return "LEGAL_NORM_REFERENCE";
+    case EntityType::LEGAL_OBLIGATION:     return "LEGAL_OBLIGATION";
+    case EntityType::LEGAL_PROHIBITION:    return "LEGAL_PROHIBITION";
+    case EntityType::LEGAL_PERMISSION:     return "LEGAL_PERMISSION";
+    case EntityType::LEGAL_AUTHORITY:      return "LEGAL_AUTHORITY";
+    case EntityType::LEGAL_AKTENZEICHEN:   return "LEGAL_AKTENZEICHEN";
+    case EntityType::LEGAL_DECISION:       return "LEGAL_DECISION";
+    case EntityType::LEGAL_APPLICANT:      return "LEGAL_APPLICANT";
+    case EntityType::LEGAL_EFFECTIVE_DATE: return "LEGAL_EFFECTIVE_DATE";
+    default:                               return "UNKNOWN";
+    }
+}
+
+std::string relationTypeName(const RelationType type) {
+    switch (type) {
+    case RelationType::CITES:     return "CITES";
+    case RelationType::AMENDS:    return "AMENDS";
+    case RelationType::SUPERSEDES:return "SUPERSEDES";
+    case RelationType::REGULATES: return "REGULATES";
+    case RelationType::PART_OF:   return "PART_OF";
+    case RelationType::CO_OCCURS: return "CO_OCCURS";
+    case RelationType::GEO_CONTAINS: return "GEO_CONTAINS";
+    case RelationType::ISSUED_BY: return "ISSUED_BY";
+    case RelationType::APPLIES_TO:return "APPLIES_TO";
+    default:                      return "UNKNOWN";
+    }
+}
+
+std::string entityDisplayLabel(const BaseEntity& e) {
+    const auto it = e.properties.find("label");
+    if (it != e.properties.end() && !it->second.empty()) {
+        return it->second;
+    }
+    return e.text;
 }
 
 /// German month name → 2-digit month number.
@@ -110,23 +150,23 @@ namespace {
 // Regexes for structural recognition
 const std::regex RE_PARAGRAPH(
     R"((?:^|\n)\s*(§§?\s*\d+[a-zA-Z]?(?:\s+[a-zA-Z]\w+)?)\s*\n(.*?)(?=\n\s*§§?\s*\d|\n\s*(?:Teil|Abschnitt|Kapitel)\s|\z))",
-    std::regex::icase | std::regex::multiline);
+    std::regex::icase);
 
 const std::regex RE_ABSATZ(
-    R"(\((\d+)\)\s*(.*?)(?=\(\d+\)|\z))",
-    std::regex::icase | std::regex::dotall);
+    R"(\((\d+)\)\s*([\s\S]*?)(?=\(\d+\)|\z))",
+    std::regex::icase);
 
 const std::regex RE_TEIL(
     R"((?:^|\n)\s*((?:Erster|Zweiter|Dritter|Vierter|Fünfter|Sechster|Siebter|Achter|Neunter|Zehnter|\d+\.)\s*Teil)\s*\n([^\n]*)\n)",
-    std::regex::icase | std::regex::multiline);
+    std::regex::icase);
 
 const std::regex RE_ABSCHNITT(
     R"((?:^|\n)\s*((?:\d+\.?\s+)?(?:Abschnitt|Kapitel|Unterabschnitt))\s*\n([^\n]*)\n)",
-    std::regex::icase | std::regex::multiline);
+    std::regex::icase);
 
 const std::regex RE_TITLE(
     R"(^[^\n]*(?:gesetz|verordnung|richtlinie|satzung|ordnung)[^\n]*$)",
-    std::regex::icase | std::regex::multiline);
+    std::regex::icase);
 
 } // anonymous namespace
 
@@ -209,7 +249,7 @@ std::vector<std::pair<std::size_t, GesetzNode>> GesetzParser::extractParagraphsW
     // Split on §-boundaries; capture (match_start, body_start)
     const std::regex para_split(
         R"((?:^|\n)(§§?\s*\d+[a-zA-Z]?(?:\s+\w+)?)\s*\n)",
-        std::regex::multiline);
+        std::regex::icase);
 
     // headers[i] = { heading_text, body_start_offset }
     // match_starts[i] = byte offset of the § match start in text
@@ -286,9 +326,9 @@ std::vector<BaseEntity> GesetzParser::toEntities(
 
             BaseEntity e;
             e.id         = "law:" + norm + ":§" + n;
-            e.type       = "law_paragraph";
-            e.label      = node.number + (node.heading.empty() ? "" : " " + node.heading);
-            e.source_doc = hierarchy.norm_abbreviation;
+            e.entity_type = EntityType::LEGAL_PROVISION;
+            e.text        = node.number + (node.heading.empty() ? "" : " " + node.heading);
+            e.properties["source_doc"] = hierarchy.norm_abbreviation;
             e.properties["norm"]    = hierarchy.norm_abbreviation;
             e.properties["number"]  = node.number;
             e.properties["heading"] = node.heading;
@@ -306,9 +346,9 @@ std::vector<BaseEntity> GesetzParser::toEntities(
                     if (d != std::string::npos)
                         absn = absn.substr(d, absn.find_first_not_of("0123456789", d) - d);
                     ae.id         = "law:" + norm + ":§" + n + ":Abs" + absn;
-                    ae.type       = "law_absatz";
-                    ae.label      = "§" + n + " Abs." + absn;
-                    ae.source_doc = hierarchy.norm_abbreviation;
+                    ae.entity_type = EntityType::LEGAL_PROVISION;
+                    ae.text        = "§" + n + " Abs." + absn;
+                    ae.properties["source_doc"] = hierarchy.norm_abbreviation;
                     ae.properties["paragraph"] = "§" + n;
                     ae.properties["absatz"]    = child.number;
                     ae.properties["text"]      = child.text.substr(
@@ -510,13 +550,13 @@ BescheidEntity BescheidExtractor::extract(const std::string& text) const {
     // Auflagen
     static const std::regex re_aufl_header(
         R"((?:^|\n)\s*(?:Auflagen?|Nebenbestimmungen?)\s*[:\n])",
-        std::regex::icase | std::regex::multiline);
+        std::regex::icase);
     static const std::regex re_aufl_item(
         R"((?:^|\n)\s*(?:\d+[.)]\s*|[A-Z]\)\s*|-\s*)([^\n]{5,200}))",
-        std::regex::multiline);
+        std::regex::icase);
     static const std::regex re_neben(
         R"((?:^|\n)\s*Nebenbestimmung[:\s]+([^\n]{5,200}))",
-        std::regex::icase | std::regex::multiline);
+        std::regex::icase);
 
     std::smatch m;
 
@@ -557,9 +597,10 @@ BaseEntity BescheidExtractor::toEntity(const BescheidEntity& be,
     } else {
         e.id = "bescheid:" + std::to_string(fnv1a32(source_doc));
     }
-    e.type       = "bescheid";
-    e.label      = be.aktenzeichen.empty() ? "Bescheid" : "Bescheid " + be.aktenzeichen;
-    e.source_doc = source_doc;
+    e.entity_type = EntityType::LEGAL_DECISION;
+    e.text = be.aktenzeichen.empty() ? "Bescheid" : "Bescheid " + be.aktenzeichen;
+    e.properties["label"] = e.text;
+    e.properties["source_doc"] = source_doc;
     e.properties["aktenzeichen"]   = be.aktenzeichen;
     e.properties["antragsteller"]  = be.antragsteller;
     e.properties["bescheid_datum"] = be.bescheid_datum;
@@ -610,16 +651,18 @@ std::vector<EntityRelation> CrossDocumentLinker::linkDocuments(
 
     // Match norm_reference / law entities in ctx1 against ctx2 entities
     for (const auto& e1 : entities1) {
-        if (e1.type != "norm_reference" && e1.type != "law_paragraph"
-            && e1.type != "law_absatz") continue;
+        if (e1.entity_type != EntityType::LEGAL_NORM_REFERENCE
+            && e1.entity_type != EntityType::LEGAL_PROVISION) {
+            continue;
+        }
 
         const auto it = id_map.find(normId(e1.id));
         if (it != id_map.end()) {
             EntityRelation rel;
             rel.from_id       = e1.id;
             rel.to_id         = it->second->id;
-            rel.relation_type = "CITES";
-            rel.weight        = 1.0f;
+            rel.relation_type = RelationType::CITES;
+            rel.properties["weight"] = "1.0";
             rel.properties["source_doc"] = src1;
             rel.properties["target_doc"] = src2;
             edges.push_back(std::move(rel));
@@ -628,7 +671,7 @@ std::vector<EntityRelation> CrossDocumentLinker::linkDocuments(
         // Secondary: match by label suffix
         for (const auto& e2 : entities2) {
             if (normId(e2.id) == normId(e1.id)) continue;
-            const auto label2 = toLower(e2.label);
+            const auto label2 = toLower(entityDisplayLabel(e2));
             const auto id1    = normId(e1.id);
             const auto colon  = id1.rfind(':');
             const auto suffix = (colon != std::string::npos) ? id1.substr(colon + 1) : id1;
@@ -636,8 +679,8 @@ std::vector<EntityRelation> CrossDocumentLinker::linkDocuments(
                 EntityRelation rel;
                 rel.from_id       = e1.id;
                 rel.to_id         = e2.id;
-                rel.relation_type = "CITES";
-                rel.weight        = 0.7f;
+                rel.relation_type = RelationType::CITES;
+                rel.properties["weight"] = "0.7";
                 rel.properties["source_doc"] = src1;
                 rel.properties["target_doc"] = src2;
                 rel.properties["match"]      = "label";
@@ -730,9 +773,12 @@ nlohmann::json LegalEntityExport::exportJsonLd(
     for (const auto& e : entities) {
         nlohmann::json node;
         node["@id"]      = base_iri + escapeIriComponent(e.id);
-        node["@type"]    = e.type;
-        node["rdfs:label"] = e.label;
-        node["dc:source"]  = e.source_doc;
+        node["@type"]    = entityTypeName(e.entity_type);
+        node["rdfs:label"] = entityDisplayLabel(e);
+        const auto src_it = e.properties.find("source_doc");
+        if (src_it != e.properties.end()) {
+            node["dc:source"] = src_it->second;
+        }
         for (const auto& [k, v] : e.properties) {
             node["themis:" + k] = v;
         }
@@ -751,8 +797,11 @@ nlohmann::json LegalEntityExport::exportJsonLd(
         edge["@type"]               = "themis:Relation";
         edge["themis:from"]         = base_iri + escapeIriComponent(r.from_id);
         edge["themis:to"]           = base_iri + escapeIriComponent(r.to_id);
-        edge["themis:relationType"] = r.relation_type;
-        edge["themis:weight"]       = r.weight;
+        edge["themis:relationType"] = relationTypeName(r.relation_type);
+        const auto w_it = r.properties.find("weight");
+        if (w_it != r.properties.end()) {
+            edge["themis:weight"] = w_it->second;
+        }
         graph.push_back(std::move(edge));
     }
 
@@ -777,11 +826,13 @@ std::string LegalEntityExport::buildTurtle(
     for (const auto& e : entities) {
         const std::string iri = "<" + escapeIriComponent(e.id) + ">";
         out << iri << "\n";
-        out << "    a themis:" << e.type << " ;\n";
-        out << "    rdfs:label \"" << escapeTurtleLiteral(e.label) << "\" ;\n";
+        out << "    a themis:" << entityTypeName(e.entity_type) << " ;\n";
+        out << "    rdfs:label \"" << escapeTurtleLiteral(entityDisplayLabel(e)) << "\" ;\n";
         out << "    dc:identifier \"" << escapeTurtleLiteral(e.id) << "\" ;\n";
-        if (!e.source_doc.empty())
-            out << "    dc:source \"" << escapeTurtleLiteral(e.source_doc) << "\" ;\n";
+        const auto src_it = e.properties.find("source_doc");
+        if (src_it != e.properties.end()) {
+            out << "    dc:source \"" << escapeTurtleLiteral(src_it->second) << "\" ;\n";
+        }
         for (const auto& [k, v] : e.properties) {
             out << "    themis:" << k << " \"" << escapeTurtleLiteral(v) << "\" ;\n";
         }
@@ -796,7 +847,7 @@ std::string LegalEntityExport::buildTurtle(
 
     for (const auto& r : relations) {
         out << "<" << escapeIriComponent(r.from_id) << ">\n";
-        out << "    themis:" << toLower(r.relation_type)
+        out << "    themis:" << toLower(relationTypeName(r.relation_type))
             << " <" << escapeIriComponent(r.to_id) << "> .\n\n";
     }
 
@@ -818,12 +869,13 @@ std::string LegalEntityExport::buildNTriples(
     for (const auto& e : entities) {
         const std::string s = "<" + base + escapeIriComponent(e.id) + ">";
         out << s << " " << p_type
-            << " <https://themisdb.io/legal/" << e.type << "> .\n";
+            << " <https://themisdb.io/legal/" << entityTypeName(e.entity_type) << "> .\n";
         out << s << " " << p_label
-            << " \"" << escapeTurtleLiteral(e.label) << "\" .\n";
-        if (!e.source_doc.empty())
+            << " \"" << escapeTurtleLiteral(entityDisplayLabel(e)) << "\" .\n";
+        const auto src_it = e.properties.find("source_doc");
+        if (src_it != e.properties.end())
             out << s << " " << p_source
-                << " \"" << escapeTurtleLiteral(e.source_doc) << "\" .\n";
+                << " \"" << escapeTurtleLiteral(src_it->second) << "\" .\n";
     }
 
     auto relations = es.edges;
@@ -834,7 +886,7 @@ std::string LegalEntityExport::buildNTriples(
 
     for (const auto& r : relations) {
         const std::string pred =
-            "<https://themisdb.io/legal/" + toLower(r.relation_type) + ">";
+            "<https://themisdb.io/legal/" + toLower(relationTypeName(r.relation_type)) + ">";
         out << "<" << base << escapeIriComponent(r.from_id) << "> "
             << pred << " "
             << "<" << base << escapeIriComponent(r.to_id) << "> .\n";
