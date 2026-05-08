@@ -1,40 +1,40 @@
 /*
  * Tests for MCP StdioTransport::setStdioReadFn() callback bridge (STUB #65)
  *
- * Covers: MCP-SRF-01..MCP-SRF-03
- *   MCP-SRF-01 — setStdioReadFn: injected fn is invoked when start() is called
- *                on an unsupported platform (simulated via the bridge API)
- *   MCP-SRF-02 — setStdioReadFn: exception in injected fn is swallowed (fail-closed)
- *   MCP-SRF-03 — setStdioReadFn(nullptr): clears the bridge; no crash
+ * The `#else` stub branch in StdioTransport::start() is only compiled when
+ * none of _WIN32, __unix__, __APPLE__ are defined (exotic/embedded targets).
+ * CI runs on Linux/macOS/Windows so the branch is never compiled there.
+ * These tests therefore verify the bridge contract through the public static
+ * setter API — confirming that callbacks are stored, replaced, and cleared
+ * correctly, which is the prerequisite for the runtime path to work on the
+ * target platform.
  *
- * Because the #else branch is only compiled when none of _WIN32, __unix__,
- * __APPLE__ are defined (and CI runs on Linux/macOS/Windows), these tests
- * exercise the bridge API through the public setter/getter contract directly
- * rather than by exercising the #else compile path.  The bridge contract is
- * verified by calling setStdioReadFn() and confirming the stored fn behaves
- * as expected when cleared.
+ * Covers: MCP-SRF-01..MCP-SRF-03
+ *   MCP-SRF-01 — setStdioReadFn: fn is stored without being invoked by setter
+ *   MCP-SRF-02 — setStdioReadFn: second call replaces first (last-writer wins)
+ *   MCP-SRF-03 — setStdioReadFn(nullptr): clears stored fn; no crash
  */
 
 #include <gtest/gtest.h>
 #include "server/mcp_server.h"
 
-// ─── MCP-SRF-01: StdioReadFn is stored and cleared without error ─────────────
+// ─── MCP-SRF-01: Setter stores fn without invoking it ────────────────────────
 
-TEST(McpStdioReadFnBridgeTest, SetAndClearStdioReadFnDoesNotThrow) {
+TEST(McpStdioReadFnBridgeTest, SetterStoresFnWithoutInvokingIt) {
     bool invoked = false;
 
     EXPECT_NO_THROW(
         themis::server::StdioTransport::setStdioReadFn([&]() { invoked = true; }));
 
-    // Clean up
-    EXPECT_NO_THROW(
-        themis::server::StdioTransport::setStdioReadFn(nullptr));
-
-    // Setter alone must not invoke the fn
+    // Setter must not invoke the fn — invocation happens inside start() on the
+    // exotic platform #else branch.
     EXPECT_FALSE(invoked);
+
+    // Clean up
+    themis::server::StdioTransport::setStdioReadFn(nullptr);
 }
 
-// ─── MCP-SRF-02: Replacing fn — second set overrides first ───────────────────
+// ─── MCP-SRF-02: Second set replaces first (last-writer wins) ────────────────
 
 TEST(McpStdioReadFnBridgeTest, SecondSetOverridesFirst) {
     int first_count  = 0;

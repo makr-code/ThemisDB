@@ -36,8 +36,8 @@ protected:
 
 TEST_F(GPUTensorDtypeCastBridgeTest, CudaCastFnIsRegisteredAndStoredCorrectly) {
     bool called = false;
-    DType received_src = DType::FLOAT32;
-    DType received_dst = DType::FLOAT32;
+    DType received_src = DType::FLOAT16;  // intentionally wrong to detect non-update
+    DType received_dst = DType::FLOAT16;
 
     GPUTensor::setCudaDtypeCastFn(
         [&](const std::vector<float>& data, DType src, DType dst) -> std::vector<float> {
@@ -51,8 +51,8 @@ TEST_F(GPUTensorDtypeCastBridgeTest, CudaCastFnIsRegisteredAndStoredCorrectly) {
     // Verify the fn is stored (we can confirm by the fact that clearing it works)
     GPUTensor::setCudaDtypeCastFn(nullptr);  // should not throw
     EXPECT_FALSE(called);  // setter itself doesn't call the fn
-    (void)received_src;
-    (void)received_dst;
+    EXPECT_EQ(received_src, DType::FLOAT16);  // unchanged — fn was never invoked
+    EXPECT_EQ(received_dst, DType::FLOAT16);
 }
 
 // ─── GT-DC-02: CUDA cast fn — nullptr clears storage ─────────────────────────
