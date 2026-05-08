@@ -792,23 +792,23 @@ static void compactMutationJournalEntries(
         return;
     }
 
-    const auto extractTensorId = [](const MutationJournalEntry& entry) -> std::string_view {
+    const auto extractTensorId = [](const MutationJournalEntry& entry) -> const std::string& {
         return (entry.type == MutationJournalEntryType::Upsert)
-                   ? std::string_view(entry.record.tensor_id)
-                   : std::string_view(entry.tensor_id);
+                   ? entry.record.tensor_id
+                   : entry.tensor_id;
     };
 
     std::unordered_map<std::string, std::size_t> last_index_by_tensor_id;
     last_index_by_tensor_id.reserve(entries.size());
     for (std::size_t i = 0; i < entries.size(); ++i) {
-        last_index_by_tensor_id[std::string(extractTensorId(entries[i]))] = i;
+        last_index_by_tensor_id[extractTensorId(entries[i])] = i;
     }
 
     std::vector<MutationJournalEntry> compacted;
     compacted.reserve(last_index_by_tensor_id.size());
     for (std::size_t i = 0; i < entries.size(); ++i) {
         auto& entry = entries[i];
-        const std::string tensor_id(extractTensorId(entry));
+        const std::string& tensor_id = extractTensorId(entry);
         if (last_index_by_tensor_id.at(tensor_id) != i) {
             continue;
         }
