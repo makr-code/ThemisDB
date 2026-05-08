@@ -92,8 +92,8 @@ public:
      * @param tenant_id  Tenant scope; must be non-empty and free of '/' and '\\0'.
      * @return Error on invalid input or backend write failure.
      */
-    ingestion::Result<void> write(const ingestion::TensorCoreRecord& record,
-                                  const std::string& tenant_id) override;
+    Result<void> write(const ingestion::TensorCoreRecord& record,
+               const std::string& tenant_id) override;
 
     std::size_t writeCount() const override;
 

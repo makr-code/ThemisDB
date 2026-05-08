@@ -83,29 +83,29 @@ std::string TensorCoreStorageBridge::makeKey(const std::string& tenant_id,
 // ITensorCoreBridge::write
 // ─────────────────────────────────────────────────────────────────────────────
 
-ingestion::Result<void> TensorCoreStorageBridge::write(
+Result<void> TensorCoreStorageBridge::write(
     const ingestion::TensorCoreRecord& record,
     const std::string&                 tenant_id)
 {
     // --- Input validation ---------------------------------------------------
     if (tenant_id.empty()) {
-        return ingestion::ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
-                       "TensorCoreStorageBridge::write: tenant_id is empty");
+        return ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
+                   "TensorCoreStorageBridge::write: tenant_id is empty");
     }
     if (tenant_id.find('/') != std::string::npos ||
         std::any_of(tenant_id.begin(), tenant_id.end(),
                     [](unsigned char c) { return c == '\0'; })) {
-        return ingestion::ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
-                       "TensorCoreStorageBridge::write: tenant_id contains "
-                       "illegal characters");
+        return ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
+                   "TensorCoreStorageBridge::write: tenant_id contains "
+                   "illegal characters");
     }
     if (record.chunk_id.empty()) {
-        return ingestion::ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
-                       "TensorCoreStorageBridge::write: chunk_id is empty");
+        return ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
+                   "TensorCoreStorageBridge::write: chunk_id is empty");
     }
     if (record.serialized_train.empty()) {
-        return ingestion::ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
-                       "TensorCoreStorageBridge::write: serialized_train is empty");
+        return ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
+                   "TensorCoreStorageBridge::write: serialized_train is empty");
     }
 
     // --- Build key and persist ----------------------------------------------
@@ -113,13 +113,13 @@ ingestion::Result<void> TensorCoreStorageBridge::write(
     try {
         key = makeKey(tenant_id, record.source_file_id, record.chunk_id);
     } catch (const std::invalid_argument& e) {
-        return ingestion::ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
-                       std::string("TensorCoreStorageBridge::write: ") + e.what());
+        return ErrVoid(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
+                   std::string("TensorCoreStorageBridge::write: ") + e.what());
     }
 
     const bool ok = backend_->put(key, record.serialized_train);
     if (!ok) {
-        return ingestion::ErrVoid(
+        return ErrVoid(
             errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
             "TensorCoreStorageBridge::write: backend put() failed for key=" + key);
     }

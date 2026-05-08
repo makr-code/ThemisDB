@@ -1486,6 +1486,14 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/simd_filter.cpp
     ../src/storage/storage_parquet_exporter.cpp
     ../src/storage/tensor_train_decomposer.cpp
+    ../src/storage/tensor_network_storage_engine.cpp
+    ../src/storage/tt_quantizer.cpp
+    ../src/storage/tensor_router.cpp
+    ../src/tensor/tensor_mmap_bridge.cpp
+    ../src/tensor/hiss_structural_search.cpp
+    ../src/tensor/tensor_index_manager.cpp
+    ../src/tensor/tensor_ingestion_bridge.cpp
+    ../src/tensor/tensor_core_bridge.cpp
     ../src/storage/batch_write_optimizer.cpp
     ../src/storage/wal_storage.cpp
     ../src/storage/transaction_retry_manager.cpp

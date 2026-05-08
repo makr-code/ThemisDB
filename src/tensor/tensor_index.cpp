@@ -81,15 +81,22 @@ public:
     [[nodiscard]] bool addFlat(int64_t id,
                                const float* vector,
                                size_t dim) override {
-        storage::TensorTrainDecomposer decomposer;
-        storage::TensorTrainDecomposer::Config cfg;
-        cfg.max_rank = 32;
-        cfg.epsilon  = 0.01;
+        if (!vector || dim == 0) return false;
 
+        storage::TensorTrainDecomposer decomposer;
+        storage::TensorTrainConfig cfg;
+        cfg.max_rank = 32;
+        cfg.eps      = 0.01;
+
+        std::vector<float> data(vector, vector + dim);
         std::vector<size_t> shape = { dim };  // treat as 1-D for Phase 1
-        auto result = decomposer.decompose(vector, shape, cfg);
-        if (!result) return false;
-        return add(id, *result);
+        try {
+            auto [train, stats] = decomposer.decompose(data, shape, cfg);
+            (void)stats;
+            return add(id, train);
+        } catch (...) {
+            return false;
+        }
     }
 
     bool remove(int64_t id) override {
@@ -144,14 +151,22 @@ public:
 
     std::vector<TensorSearchResult> searchFlat(
             const float* query, size_t dim, int k) const override {
+        if (!query || dim == 0) return {};
+
         storage::TensorTrainDecomposer decomposer;
-        storage::TensorTrainDecomposer::Config cfg;
+        storage::TensorTrainConfig cfg;
         cfg.max_rank = 32;
-        cfg.epsilon  = 0.01;
+        cfg.eps      = 0.01;
         std::vector<size_t> shape = { dim };
-        auto result = decomposer.decompose(query, shape, cfg);
-        if (!result) return {};
-        return search(*result, k);
+        std::vector<float> data(query, query + dim);
+
+        try {
+            auto [train, stats] = decomposer.decompose(data, shape, cfg);
+            (void)stats;
+            return search(train, k);
+        } catch (...) {
+            return {};
+        }
     }
 
     std::optional<float> innerProduct(int64_t id_a,
