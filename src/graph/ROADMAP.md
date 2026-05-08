@@ -269,6 +269,10 @@
     `TensorDeduplicationManager` continues to serve `getRecord()`/`getStats()` and external
     canonical deletes still remove mapped graph nodes (tests TDM-12/TDM-14). `restoreGraph()`
     remains backward-compatible with older graph-only snapshot blobs.
+  - **Progress 2026-05-08 (restore diagnostics hardening)**: Added explicit debug/warn
+    diagnostics for dedup snapshot parse failures (magic/version mismatch, malformed lengths,
+    trailing bytes) and for fallback behavior to legacy graph-only payload parsing; added
+    malformed-payload regression test TDM-15.
   - Remaining: RocksDB-durable write-ahead of incremental graph mutations.
 
 #### Phase 8.6 — Documentation (Target: Q2 2027)

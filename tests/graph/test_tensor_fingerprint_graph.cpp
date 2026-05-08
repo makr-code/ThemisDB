@@ -44,6 +44,7 @@
  *   TDM-12  snapshotGraph/restoreGraph round-trip preserves node and edge counts
  *   TDM-13  restoreGraph enables similarity queries for nodes restored from snapshot
  *   TDM-14  restoreGraph rehydrates dedup records and canonical delete mappings
+ *   TDM-15  restoreGraph rejects malformed snapshot payloads safely
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -896,4 +897,18 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     EXPECT_EQ(fp_b->nodeCount(), 0u);
     EXPECT_FALSE(mgr_b.getRecord("canon_x").has_value());
     EXPECT_EQ(mgr_b.getStats().total_tensors, 0u);
+}
+
+// TDM-15: malformed snapshot payload should fail restore cleanly.
+TEST(TensorDeduplicationManagerSnapshotTest,
+     TDM15_RestoreGraphRejectsMalformedSnapshotPayload) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    auto engine  = std::make_shared<TensorNetworkStorageEngine>(backend);
+
+    auto mgr = makeDedup(engine);
+    std::vector<uint8_t> malformed = {0x01, 0x02, 0x03, 0x04, 0x05};
+    ASSERT_TRUE(engine->putRawMetadata("malformed_snap", malformed));
+
+    EXPECT_FALSE(mgr->restoreGraph("malformed_snap"));
+    EXPECT_EQ(mgr->getStats().total_tensors, 0u);
 }

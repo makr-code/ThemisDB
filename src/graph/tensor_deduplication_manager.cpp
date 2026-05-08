@@ -14,6 +14,7 @@
 #include "graph/tensor_deduplication_manager.h"
 #include "storage/tensor_train_decomposer.h"
 #include "storage/tt_quantizer.h"
+#include "utils/logger.h"
 
 #include <algorithm>
 #include <cmath>
@@ -590,39 +591,83 @@ static bool deserializeDedupSnapshot(
 
     uint64_t magic = 0;
     uint32_t version = 0;
-    if (!readLE(data, size, pos, magic)) return false;
-    if (magic != kDedupSnapshotMagic) return false;
-    if (!readLE(data, size, pos, version)) return false;
-    if (version != kDedupSnapshotVersion) return false;
+    if (!readLE(data, size, pos, magic)) {
+        THEMIS_DEBUG("[TensorDeduplicationManager] restore snapshot: failed to read dedup magic");
+        return false;
+    }
+    if (magic != kDedupSnapshotMagic) {
+        THEMIS_DEBUG("[TensorDeduplicationManager] restore snapshot: dedup magic mismatch (expected={}, actual={})",
+                     kDedupSnapshotMagic,
+                     magic);
+        return false;
+    }
+    if (!readLE(data, size, pos, version)) {
+        THEMIS_DEBUG("[TensorDeduplicationManager] restore snapshot: failed to read dedup version");
+        return false;
+    }
+    if (version != kDedupSnapshotVersion) {
+        THEMIS_DEBUG("[TensorDeduplicationManager] restore snapshot: unsupported dedup version (expected={}, actual={})",
+                     kDedupSnapshotVersion,
+                     version);
+        return false;
+    }
 
     uint64_t graph_bytes_size = 0;
-    if (!readLE(data, size, pos, graph_bytes_size)) return false;
-    if (pos + graph_bytes_size > size) return false;
+    if (!readLE(data, size, pos, graph_bytes_size)) {
+        THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: failed to read graph payload length");
+        return false;
+    }
+    if (pos + graph_bytes_size > size) {
+        THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: graph payload length {} exceeds buffer size {}",
+                    graph_bytes_size,
+                    size - pos);
+        return false;
+    }
 
     const auto graph_size = static_cast<std::size_t>(graph_bytes_size);
     std::vector<uint8_t> graph_bytes(graph_size);
     std::memcpy(graph_bytes.data(), data + pos, graph_size);
     pos += graph_size;
-    if (!deserializeGraphSnapshot(graph_bytes, snapshot)) return false;
+    if (!deserializeGraphSnapshot(graph_bytes, snapshot)) {
+        THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: embedded graph payload is invalid");
+        return false;
+    }
 
     uint64_t record_count = 0;
-    if (!readLE(data, size, pos, record_count)) return false;
+    if (!readLE(data, size, pos, record_count)) {
+        THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: failed to read record count");
+        return false;
+    }
     records.clear();
     records.reserve(static_cast<std::size_t>(record_count));
     for (uint64_t i = 0; i < record_count; ++i) {
         themis::graph::StoredTensorRecord record;
-        if (!readStoredTensorRecord(data, size, pos, record)) return false;
+        if (!readStoredTensorRecord(data, size, pos, record)) {
+            THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: failed to read record {}", i);
+            return false;
+        }
         records.push_back(std::move(record));
     }
 
     uint64_t total_bytes_stored_u64 = 0;
     uint64_t bytes_saved_u64 = 0;
-    if (!readLE(data, size, pos, total_bytes_stored_u64)) return false;
-    if (!readLE(data, size, pos, bytes_saved_u64)) return false;
+    if (!readLE(data, size, pos, total_bytes_stored_u64)) {
+        THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: failed to read total_bytes_stored");
+        return false;
+    }
+    if (!readLE(data, size, pos, bytes_saved_u64)) {
+        THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: failed to read bytes_saved");
+        return false;
+    }
 
     total_bytes_stored = static_cast<std::size_t>(total_bytes_stored_u64);
     bytes_saved = static_cast<std::size_t>(bytes_saved_u64);
-    return pos == size;
+    if (pos != size) {
+        THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: trailing bytes detected ({})",
+                    size - pos);
+        return false;
+    }
+    return true;
 }
 
 } // namespace
@@ -668,7 +713,12 @@ bool TensorDeduplicationManager::restoreGraph(const std::string& snapshot_key) {
                                   records,
                                   total_bytes_stored,
                                   bytes_saved)) {
-        if (!deserializeGraphSnapshot(*bytes_opt, snapshot)) return false;
+        THEMIS_DEBUG("[TensorDeduplicationManager] restore snapshot: dedup payload parse failed, trying legacy graph-only payload");
+        if (!deserializeGraphSnapshot(*bytes_opt, snapshot)) {
+            THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: both dedup and legacy graph payload parsing failed");
+            return false;
+        }
+        THEMIS_DEBUG("[TensorDeduplicationManager] restore snapshot: legacy graph-only payload restored");
     }
 
     fp_graph_->importPersistedGraph(snapshot);
