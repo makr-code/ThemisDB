@@ -244,6 +244,8 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
         return r;
     }
 
+    // initialize() already enforces the stub production-mode restrictions before
+    // `initialized_` becomes true, so an injected bridge cannot bypass them.
     SignHashFn fn;
     {
         std::lock_guard<std::mutex> lk(HSMProvider::signHashFnMutex());

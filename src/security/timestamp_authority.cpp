@@ -155,6 +155,8 @@ TimestampToken TimestampAuthority::getTimestampForHash(const std::vector<uint8_t
     if (isProductionMode() && !isStubAllowed()) {
         return makeProductionError();
     }
+    // Production-mode gating applies before any injected bridge runs so that a
+    // callback cannot silently bypass the non-production restriction.
     GetTimestampForHashFn fn;
     {
         std::lock_guard<std::mutex> lk(TimestampAuthority::getTimestampForHashFnMutex());

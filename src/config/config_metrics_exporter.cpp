@@ -273,7 +273,7 @@ void ConfigMetricsExporter::updateMetricsCollector() {
         cache_total > 0 ? static_cast<double>(cache_stats.hits) / static_cast<double>(cache_total) : 0.0;
     const auto cache_cfg = ConfigPathResolver::currentCacheConfig();
 
-    const auto emitAllGauges = [&]() {
+    const auto emitToOptionalSink = [&]() {
         GaugeSinkFn fn;
         {
             std::lock_guard<std::mutex> lk(ConfigMetricsExporter::gaugeSinkFnMutex());
@@ -327,7 +327,7 @@ void ConfigMetricsExporter::updateMetricsCollector() {
     // stub keeps those test builds lightweight while production builds execute
     // the real synchronization. Callers in test builds should not expect this
     // function to mutate any global metrics state.
-    emitAllGauges();
+    emitToOptionalSink();
     return;
 #else
     auto& collector = observability::MetricsCollector::getInstance();
@@ -363,7 +363,7 @@ void ConfigMetricsExporter::updateMetricsCollector() {
         collector.setGauge("themis_config_legacy_fallbacks_by_category_current",
                            static_cast<double>(count), {{"category", cat}});
     }
-    emitAllGauges();
+    emitToOptionalSink();
 #endif
 }
 
