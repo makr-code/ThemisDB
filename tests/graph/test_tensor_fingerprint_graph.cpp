@@ -1118,6 +1118,7 @@ TEST(TensorDeduplicationManagerSnapshotTest,
         journal_size_after_second_overwrite = journal_after_second->size();
     }
 
+    EXPECT_GT(journal_size_after_first_overwrite, 0u);
     EXPECT_EQ(journal_size_after_second_overwrite, journal_size_after_first_overwrite);
 
     auto mgr_b = makeDedup(engine);

@@ -791,29 +791,27 @@ static void compactMutationJournalEntries(
         return;
     }
 
+    const auto tensor_id_for = [](const MutationJournalEntry& entry) -> const std::string& {
+        return (entry.type == MutationJournalEntryType::Upsert)
+                   ? entry.record.tensor_id
+                   : entry.tensor_id;
+    };
+
     std::unordered_map<std::string, std::size_t> last_index_by_tensor_id;
     last_index_by_tensor_id.reserve(entries.size());
     for (std::size_t i = 0; i < entries.size(); ++i) {
-        const auto& entry = entries[i];
-        const std::string& tensor_id =
-            (entry.type == MutationJournalEntryType::Upsert)
-                ? entry.record.tensor_id
-                : entry.tensor_id;
-        last_index_by_tensor_id[tensor_id] = i;
+        last_index_by_tensor_id[tensor_id_for(entries[i])] = i;
     }
 
     std::vector<MutationJournalEntry> compacted;
     compacted.reserve(last_index_by_tensor_id.size());
     for (std::size_t i = 0; i < entries.size(); ++i) {
-        const auto& entry = entries[i];
-        const std::string& tensor_id =
-            (entry.type == MutationJournalEntryType::Upsert)
-                ? entry.record.tensor_id
-                : entry.tensor_id;
+        auto& entry = entries[i];
+        const std::string& tensor_id = tensor_id_for(entry);
         if (last_index_by_tensor_id[tensor_id] != i) {
             continue;
         }
-        compacted.push_back(entry);
+        compacted.push_back(std::move(entry));
     }
 
     entries = std::move(compacted);
