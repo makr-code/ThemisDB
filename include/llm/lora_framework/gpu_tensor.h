@@ -335,14 +335,14 @@ namespace gpu_tensor_utils {
     /**
      * @brief Convert legacy Tensor to GPUTensor
      */
-    GPUTensor from_legacy_tensor(const ::themis::llm::lora::Tensor& tensor,
-                                 const Device& device = Device::cpu(),
-                                 DType dtype = DType::FLOAT32);
+    [[nodiscard]] GPUTensor from_legacy_tensor(const Tensor& tensor,
+                                               const Device& device = Device::cpu(),
+                                               DType dtype = DType::FLOAT32);
     
     /**
      * @brief Convert GPUTensor to legacy Tensor
      */
-    ::themis::llm::lora::Tensor to_legacy_tensor(const GPUTensor& gpu_tensor);
+    [[nodiscard]] Tensor to_legacy_tensor(const GPUTensor& gpu_tensor);
 }
 
 } // namespace lora
