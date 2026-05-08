@@ -249,6 +249,7 @@ public:
     static std::string getNCCLVersionString();
     static bool checkNVLinkSupport(const std::vector<int>& deviceIds);
 
+#ifndef THEMIS_ENABLE_NCCL
     // -----------------------------------------------------------------------
     // Stub-path injection — active only when THEMIS_ENABLE_NCCL is not defined.
     // -----------------------------------------------------------------------
@@ -258,6 +259,7 @@ public:
     /// Inject an allReduce implementation for the non-NCCL stub path.
     /// Pass empty fn to restore fail-closed stub default.
     static void setAllReduceFn(AllReduceFn fn);
+#endif // !THEMIS_ENABLE_NCCL
 
 private:
     class Impl;

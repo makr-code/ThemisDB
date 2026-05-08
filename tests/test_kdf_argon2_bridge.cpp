@@ -11,8 +11,8 @@
 #include <gtest/gtest.h>
 #include "user_storage_encrypted/key_derivation_service.hpp"
 
-using themis::user_storage_encrypted::Argon2idKeyDerivationService;
-using themis::user_storage_encrypted::Result;
+using themis::plugins::user_storage::Argon2idKeyDerivationService;
+using themis::plugins::user_storage::Result;
 
 // ── Fixture ───────────────────────────────────────────────────────────────────
 
@@ -30,8 +30,8 @@ TEST_F(Argon2BridgeTest, NoFnUsesBuiltIn) {
     const std::vector<uint8_t> master(32, 0xAB);
     const std::vector<uint8_t> salt(16, 0xCD);
 
-    auto result = kdf.deriveKey(master, salt, 32);
-    EXPECT_TRUE(result.ok());
+    auto result = kdf.deriveKey(master, salt);
+    EXPECT_TRUE(result.isSuccess());
     EXPECT_EQ(result.value().size(), 32u);
 }
 
@@ -47,16 +47,16 @@ TEST_F(Argon2BridgeTest, InjectedFnIsCalled) {
             fn_called = true;
             EXPECT_FALSE(mk.empty());
             EXPECT_FALSE(s.empty());
-            return Result<std::vector<uint8_t>>::ok(sentinel);
+            return Result<std::vector<uint8_t>>(sentinel);
         });
 
     Argon2idKeyDerivationService kdf;
     const std::vector<uint8_t> master(32, 0xAB);
     const std::vector<uint8_t> salt(16, 0xCD);
 
-    auto result = kdf.deriveKey(master, salt, 32);
+    auto result = kdf.deriveKey(master, salt);
     EXPECT_TRUE(fn_called);
-    EXPECT_TRUE(result.ok());
+    EXPECT_TRUE(result.isSuccess());
     EXPECT_EQ(result.value(), sentinel);
 }
 
@@ -76,8 +76,8 @@ TEST_F(Argon2BridgeTest, ThrowingFnFallsThrough) {
 
     // Should not throw — fallthrough to built-in must succeed or return error Result.
     EXPECT_NO_THROW({
-        auto result = kdf.deriveKey(master, salt, 32);
+        auto result = kdf.deriveKey(master, salt);
         // The built-in path will produce a valid key (Argon2id or SHA-256 fallback).
-        EXPECT_TRUE(result.ok());
+        EXPECT_TRUE(result.isSuccess());
     });
 }

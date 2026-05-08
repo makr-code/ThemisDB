@@ -298,6 +298,15 @@ std::vector<float> OneAPIVectorBackend::computeDistances(
     return {};
 }
 
+/// Free-function wrapper — allows test code to inject a computeDistances
+/// implementation for the non-OneAPI stub path without requiring access to
+/// the local `OneAPIVectorBackend` class definition.
+void setOneAPIComputeDistancesFn(
+    std::function<std::vector<float>(
+        const float*, size_t, size_t, const float*, size_t, bool)> fn) {
+    OneAPIVectorBackend::setComputeDistancesFn(std::move(fn));
+}
+
 #endif
 
 // Factory function
