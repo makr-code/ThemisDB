@@ -589,6 +589,22 @@ bool NCCLVectorBackend::checkNVLinkSupport(const std::vector<int>& deviceIds) {
 //   (above `#else`) will then be compiled instead.
 // Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md §"NCCL/RCCL Activation"
 
+// STUB/SIMULATION NOTE (allReduce bridge):
+// Purpose:    Allow injection of a real allReduce implementation for the
+//             non-NCCL stub path, enabling integration tests and gradual
+//             feature rollout without modifying the production NCCL path.
+// Activation: Runtime — when setAllReduceFn() is called with a non-empty fn.
+// Production Delta: With no fn injected, allReduce() returns false; with fn
+//             injected the provided implementation is called instead.
+// Removal Plan: Remove bridge once THEMIS_ENABLE_NCCL is always set in CI/CD.
+static std::mutex s_nccl_allreduce_mutex_;
+static NCCLVectorBackend::AllReduceFn s_allreduce_fn_;
+
+void NCCLVectorBackend::setAllReduceFn(NCCLVectorBackend::AllReduceFn fn) {
+    std::lock_guard<std::mutex> lk(s_nccl_allreduce_mutex_);
+    s_allreduce_fn_ = std::move(fn);
+}
+
 // Stub implementation when NCCL is not available
 // Define empty Impl class to satisfy unique_ptr
 class NCCLVectorBackend::Impl {
@@ -608,7 +624,22 @@ int NCCLVectorBackend::getRank() const { return 0; }
 int NCCLVectorBackend::getWorldSize() const { return 1; }
 std::vector<int> NCCLVectorBackend::getDeviceIds() const { return {}; }
 bool NCCLVectorBackend::isP2PEnabled() const { return false; }
-bool NCCLVectorBackend::allReduce(const float*, float*, size_t, ReductionOp, void*) { return false; }
+bool NCCLVectorBackend::allReduce(const float* send, float* recv, size_t count,
+                                  ReductionOp op, void* stream) {
+    NCCLVectorBackend::AllReduceFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_nccl_allreduce_mutex_);
+        fn = s_allreduce_fn_;
+    }
+    if (fn) [[unlikely]] {
+        try {
+            return fn(send, recv, count, op, stream);
+        } catch (...) {
+            return false;
+        }
+    }
+    return false;
+}
 bool NCCLVectorBackend::broadcast(float*, size_t, int, void*) { return false; }
 bool NCCLVectorBackend::allGather(const float*, float*, size_t, void*) { return false; }
 bool NCCLVectorBackend::reduce(const float*, float*, size_t, ReductionOp, int, void*) { return false; }

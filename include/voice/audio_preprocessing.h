@@ -95,6 +95,8 @@ struct LanguageDetectionResult {
 // ---------------------------------------------------------------------------
 class NoiseSuppressor {
 public:
+    using ProcessFramesFn = std::function<float(std::vector<float>&, float)>;
+
     NoiseSuppressor();
     ~NoiseSuppressor();
 
@@ -117,6 +119,8 @@ public:
 
     // Returns true when the real RNNoise library is linked in.
     static bool isRNNoiseEnabled();
+
+    static void setProcessFramesFn(ProcessFramesFn fn);
 
     // Diagnostic counters
     uint64_t framesProcessed() const { return frames_processed_; }

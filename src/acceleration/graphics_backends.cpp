@@ -29,8 +29,10 @@
 #include "acceleration/error_codes.h"
 #include "acceleration/error_context.h"
 #include "acceleration/shader_integrity.h"
+#include <functional>
 #include <iostream>
 #include <fstream>
+#include <mutex>
 #include <vector>
 #include <algorithm>
 #include <cmath>
@@ -883,6 +885,22 @@ DirectXVectorBackend::~DirectXVectorBackend() {
 }
 
 bool DirectXVectorBackend::isAvailable() const noexcept {
+    AvailabilityFn fn;
+    {
+        std::lock_guard<std::mutex> lk(DirectXVectorBackend::availabilityFnMutex());
+        fn = DirectXVectorBackend::availabilityFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn();
+        } catch (const std::exception& e) {
+            std::cerr << "[DirectX] stub availability callback failed: " << e.what() << std::endl;
+            return false;
+        } catch (...) {
+            std::cerr << "[DirectX] stub availability callback failed" << std::endl;
+            return false;
+        }
+    }
     return false;
 }
 
@@ -891,31 +909,79 @@ BackendCapabilities DirectXVectorBackend::getCapabilities() const {
 }
 
 bool DirectXVectorBackend::initialize() {
+    InitializeFn fn;
+    {
+        std::lock_guard<std::mutex> lk(DirectXVectorBackend::initializeFnMutex());
+        fn = DirectXVectorBackend::initializeFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn();
+        } catch (const std::exception& e) {
+            std::cerr << "[DirectX] stub initialize callback failed: " << e.what() << std::endl;
+            return false;
+        } catch (...) {
+            std::cerr << "[DirectX] stub initialize callback failed" << std::endl;
+            return false;
+        }
+    }
     return false;
 }
 
 void DirectXVectorBackend::shutdown() {}
 
 std::vector<float> DirectXVectorBackend::computeDistances(
-    const float* /*queries*/,
-    size_t /*numQueries*/,
-    size_t /*dim*/,
-    const float* /*vectors*/,
-    size_t /*numVectors*/,
-    bool /*useL2*/
+    const float* queries,
+    size_t numQueries,
+    size_t dim,
+    const float* vectors,
+    size_t numVectors,
+    bool useL2
 ) {
+    ComputeDistancesFn fn;
+    {
+        std::lock_guard<std::mutex> lk(DirectXVectorBackend::computeDistancesFnMutex());
+        fn = DirectXVectorBackend::computeDistancesFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(queries, numQueries, dim, vectors, numVectors, useL2);
+        } catch (const std::exception& e) {
+            std::cerr << "[DirectX] stub computeDistances callback failed: " << e.what() << std::endl;
+            return {};
+        } catch (...) {
+            std::cerr << "[DirectX] stub computeDistances callback failed" << std::endl;
+            return {};
+        }
+    }
     return {};
 }
 
 std::vector<std::vector<std::pair<uint32_t, float>>> DirectXVectorBackend::batchKnnSearch(
-    const float* /*queries*/,
-    size_t /*numQueries*/,
-    size_t /*dim*/,
-    const float* /*vectors*/,
-    size_t /*numVectors*/,
-    size_t /*k*/,
-    bool /*useL2*/
+    const float* queries,
+    size_t numQueries,
+    size_t dim,
+    const float* vectors,
+    size_t numVectors,
+    size_t k,
+    bool useL2
 ) {
+    BatchKnnSearchFn fn;
+    {
+        std::lock_guard<std::mutex> lk(DirectXVectorBackend::batchKnnSearchFnMutex());
+        fn = DirectXVectorBackend::batchKnnSearchFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(queries, numQueries, dim, vectors, numVectors, k, useL2);
+        } catch (const std::exception& e) {
+            std::cerr << "[DirectX] stub batchKnnSearch callback failed: " << e.what() << std::endl;
+            return {};
+        } catch (...) {
+            std::cerr << "[DirectX] stub batchKnnSearch callback failed" << std::endl;
+            return {};
+        }
+    }
     return {};
 }
 
@@ -924,6 +990,23 @@ std::vector<std::vector<std::pair<uint32_t, float>>> DirectXVectorBackend::batch
 // ============================================================================
 // VulkanVectorBackend — public interface implementation
 // ============================================================================
+
+// ── STUB #169 bridge — global GLSL→SPIR-V compiler storage ──────────────────
+// Defined here (always-compiled TU) so setCompileGLSLFn() is available
+// regardless of whether THEMIS_ENABLE_VULKAN is set.  The storage is accessed
+// from vulkan_backend_full.cpp via extern declarations when Vulkan is enabled.
+// Using a named sub-namespace (not anonymous) so the extern linkage works:
+// anonymous-namespace symbols have internal linkage and cannot be declared
+// extern in another TU.
+namespace glsl_bridge {
+    std::mutex                       s_vk_compile_glsl_mutex;
+    VulkanVectorBackend::CompileGLSLFn s_vk_compile_glsl_fn;
+}
+
+void VulkanVectorBackend::setCompileGLSLFn(CompileGLSLFn fn) {
+    std::lock_guard<std::mutex> lk(glsl_bridge::s_vk_compile_glsl_mutex);
+    glsl_bridge::s_vk_compile_glsl_fn = std::move(fn);
+}
 
 VulkanVectorBackend::VulkanVectorBackend()
     : initialized_(false), impl_(std::make_unique<VulkanVectorBackendImpl>()) {}
@@ -1002,6 +1085,19 @@ bool VulkanVectorBackend::isAvailable() const noexcept {
     }
     return false;
 #else
+    AvailabilityFn fn;
+    {
+        std::lock_guard<std::mutex> lk(VulkanVectorBackend::availabilityFnMutex());
+        fn = VulkanVectorBackend::availabilityFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn();
+        } catch (...) {
+            std::cerr << "[OpenGL] stub availability callback failed" << std::endl;
+            return false;
+        }
+    }
     return false;
 #endif
 }
@@ -1117,6 +1213,20 @@ bool VulkanVectorBackend::initialize() {
 
     return true;
 #else
+    InitializeFn fn;
+    {
+        std::lock_guard<std::mutex> lk(VulkanVectorBackend::initializeFnMutex());
+        fn = VulkanVectorBackend::initializeFnStorage();
+    }
+    if (fn) {
+        try {
+            initialized_ = fn();
+            return initialized_;
+        } catch (...) {
+            initialized_ = false;
+            return false;
+        }
+    }
     return false;
 #endif
 }
@@ -1263,6 +1373,18 @@ std::vector<float> VulkanVectorBackend::computeDistances(
         return {};
     }
 #else
+    ComputeDistancesFn fn;
+    {
+        std::lock_guard<std::mutex> lk(VulkanVectorBackend::computeDistancesFnMutex());
+        fn = VulkanVectorBackend::computeDistancesFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(queries, numQueries, dim, vectors, numVectors, useL2);
+        } catch (...) {
+            return {};
+        }
+    }
     return {};
 #endif
 }
@@ -1360,6 +1482,18 @@ std::vector<std::vector<std::pair<uint32_t, float>>> VulkanVectorBackend::batchK
     clearError();
     return results;
 #else
+    BatchKnnSearchFn fn;
+    {
+        std::lock_guard<std::mutex> lk(VulkanVectorBackend::batchKnnSearchFnMutex());
+        fn = VulkanVectorBackend::batchKnnSearchFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(queries, numQueries, dim, vectors, numVectors, k, useL2);
+        } catch (...) {
+            return {};
+        }
+    }
     return {};
 #endif
 }
@@ -2965,6 +3099,19 @@ bool OpenGLVectorBackend::isAvailable() const noexcept {
     closeLib(lib);
     return ok;
 #else
+    AvailabilityFn fn;
+    {
+        std::lock_guard<std::mutex> lk(OpenGLVectorBackend::availabilityFnMutex());
+        fn = OpenGLVectorBackend::availabilityFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn();
+        } catch (...) {
+            std::cerr << "[OpenGL] stub availability callback failed" << std::endl;
+            return false;
+        }
+    }
     return false;
 #endif
 }
@@ -3028,6 +3175,18 @@ bool OpenGLVectorBackend::initialize() {
     clearError();
     return true;
 #else
+    InitializeFn fn;
+    {
+        std::lock_guard<std::mutex> lk(OpenGLVectorBackend::initializeFnMutex());
+        fn = OpenGLVectorBackend::initializeFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn();
+        } catch (...) {
+            return false;
+        }
+    }
     return false;
 #endif
 }
@@ -3104,6 +3263,19 @@ std::vector<float> OpenGLVectorBackend::computeDistances(
         return {};
     }
 #else
+    ComputeDistancesFn fn;
+    {
+        std::lock_guard<std::mutex> lk(OpenGLVectorBackend::computeDistancesFnMutex());
+        fn = OpenGLVectorBackend::computeDistancesFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(queries, numQueries, dim, vectors, numVectors, useL2);
+        } catch (...) {
+            std::cerr << "[OpenGL] stub computeDistances callback failed" << std::endl;
+            return {};
+        }
+    }
     return {};
 #endif
 }
@@ -3191,6 +3363,19 @@ std::vector<std::vector<std::pair<uint32_t, float>>> OpenGLVectorBackend::batchK
     clearError();
     return results;
 #else
+    BatchKnnSearchFn fn;
+    {
+        std::lock_guard<std::mutex> lk(OpenGLVectorBackend::batchKnnSearchFnMutex());
+        fn = OpenGLVectorBackend::batchKnnSearchFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(queries, numQueries, dim, vectors, numVectors, k, useL2);
+        } catch (...) {
+            std::cerr << "[OpenGL] stub batchKnnSearch callback failed" << std::endl;
+            return {};
+        }
+    }
     return {};
 #endif
 }

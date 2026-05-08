@@ -24,6 +24,11 @@ endif()
 
 project(Themis VERSION ${_ver_numeric} LANGUAGES CXX)
 
+# Treat uncomponentized install() rules as runtime payload by default.
+# This keeps third-party DLLs in the runtime component instead of a parallel
+# 'Unspecified' component, which otherwise causes duplicate WiX components.
+set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME runtime)
+
 # Make project version available to all translation units
 if(NOT THEMIS_VERSION_COMPILE_DEF_DEFINED)
     add_compile_definitions(THEMIS_VERSION_STRING="${_ver}")
@@ -2538,6 +2543,13 @@ set(THEMIS_CORE_SOURCES
     # Distributed Analytics Sharding – scatter-gather coordinator for distributed OLAP (Phase 3)
     ../src/analytics/distributed_analytics.cpp
 
+    # Expert System Engine – forward/backward chaining, KnowledgeBase, proof traces (Phase 4)
+    ../src/analytics/knowledge_base.cpp
+    ../src/analytics/expert_system_engine.cpp
+
+    # LoRA Pattern Classifier – adapter-based CEP event classification with AutoML fallback (Phase 5)
+    ../src/analytics/lora_pattern_classifier.cpp
+
     # Git-like MVCC Features
     # Phase 1: Named Snapshots
     ../src/transaction/snapshot_manager.cpp
@@ -4079,6 +4091,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/streaming_handler.cpp          # SSE / chunked-response streaming handler (Phase 2)
         ../src/llm/openai_compat_adapter.cpp      # OpenAI-compatible /v1/chat/completions adapter (Phase 3)
         ../src/llm/speculative_decoder.cpp        # Speculative decoding for latency reduction (Phase 3)
+        ../src/llm/federated_inference_coordinator.cpp  # RAID fan-out/fan-in coordinator (Issue #1928)
         ../src/llm/kv_prefix_transfer_manager.cpp  # Phase 5 KV-Prefix Cross-Shard Transfer
         ../src/llm/lookup_decoder.cpp             # N-gram prompt lookup decoding (draft-model-free speculation)
         
@@ -4802,6 +4815,15 @@ if(UNIX AND NOT APPLE)
         OPTIONAL
     )
 endif()
+# Central logs/ directory — all runtime log files are written here.
+# The .gitkeep placeholder creates the directory in the archive; the server
+# auto-creates logs/ at startup if it does not yet exist.
+install(FILES "${THEMIS_ROOT_DIR}/logs/.gitkeep"
+    DESTINATION logs
+    COMPONENT runtime
+)
+# Compatibility: server is typically started from bin/, so logs/ must also be
+# reachable as bin/../logs (already covered by the rule above).
 
 if(WIN32)
     set(_themis_runtime_dependency_dirs "${CMAKE_BINARY_DIR}/bin")
@@ -4817,21 +4839,6 @@ if(WIN32)
         PRE_EXCLUDE_REGEXES "api-ms-.*" "ext-ms-.*"
         POST_EXCLUDE_REGEXES ".*/system32/.*\\.dll" ".*/cmake/.*\\.dll"
     )
-
-    if(THEMIS_ENABLE_LLM)
-        foreach(_themis_llm_runtime_dll IN ITEMS
-            "ggml-base.dll"
-            "ggml-cpu.dll"
-            "ggml.dll"
-            "llama.dll"
-        )
-            install(FILES "${CMAKE_BINARY_DIR}/bin/${_themis_llm_runtime_dll}"
-                DESTINATION bin
-                COMPONENT runtime
-                OPTIONAL
-            )
-        endforeach()
-    endif()
 
     install(FILES "${CMAKE_BINARY_DIR}/bin/faiss.dll"
         DESTINATION bin

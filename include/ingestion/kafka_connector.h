@@ -158,7 +158,7 @@ public:
     void setCheckpointStore(std::shared_ptr<CheckpointStore> store);
 
     /**
-     * @brief Function type for injecting mock Kafka messages in unit tests.
+     * @brief Function type for providing Kafka message batches.
      *
      * Each call to the function should return a batch of raw message payloads
      * (as strings).  Return an empty vector to signal "no more messages".
@@ -167,12 +167,13 @@ public:
     using KafkaMessageFn = std::function<std::vector<std::string>()>;
 
     /**
-     * @brief Inject a mock message-fetch function (unit testing only).
+     * @brief Inject a Kafka message-batch provider.
      *
      * When set, every Kafka poll that would normally be performed via
      * librdkafka is replaced by a call to @p fn.  Pass an empty
      * `KafkaMessageFn{}` to restore the real librdkafka consumer.
      */
+    void setMessageBatchProvider(KafkaMessageFn fn);
     void setMessageFetchForTesting(KafkaMessageFn fn);
 
 private:

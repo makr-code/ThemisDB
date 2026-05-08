@@ -26,7 +26,9 @@
 #include "server/prompt_engineering_grpc_service.h"
 // #include "proto/prompt_engineering_service.grpc.pb.h"  // Proto file not generated yet
 #include <grpcpp/grpcpp.h>
+#include <cstdint>
 #include <memory>
+#include <stdexcept>
 
 // NOTE: All tests disabled - proto files not generated, all request/response types missing
 
@@ -233,4 +235,33 @@ TEST_F(PromptEngineeringGrpcServiceTest, MissingRequiredFields) {
 // Placeholder test to satisfy build system
 TEST(PromptEngineeringGrpcServiceDisabled, ProtoFilesNotGenerated) {
     GTEST_SKIP() << "Proto files not generated - all gRPC service tests disabled";
+}
+
+using themis::server::PromptEngineeringGrpcService;
+
+TEST(PromptEngineeringGrpcServiceBridgeTest, ServiceIsNullWithoutAccessor) {
+    PromptEngineeringGrpcService::setServiceAccessorFn({});
+    PromptEngineeringGrpcService svc(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
+    EXPECT_EQ(svc.service(), nullptr);
+}
+
+TEST(PromptEngineeringGrpcServiceBridgeTest, ServiceUsesAccessorPointer) {
+    void* expected = reinterpret_cast<void*>(static_cast<std::uintptr_t>(0x1234));
+    PromptEngineeringGrpcService::setServiceAccessorFn([expected]() { return expected; });
+
+    PromptEngineeringGrpcService svc(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
+    EXPECT_EQ(svc.service(), expected);
+
+    PromptEngineeringGrpcService::setServiceAccessorFn({});
+}
+
+TEST(PromptEngineeringGrpcServiceBridgeTest, AccessorExceptionFailsClosed) {
+    PromptEngineeringGrpcService::setServiceAccessorFn([]() -> void* {
+        throw std::runtime_error("boom");
+    });
+
+    PromptEngineeringGrpcService svc(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
+    EXPECT_EQ(svc.service(), nullptr);
+
+    PromptEngineeringGrpcService::setServiceAccessorFn({});
 }

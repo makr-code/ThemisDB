@@ -24,9 +24,26 @@
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <algorithm>
+#include <cstdlib>
 
 namespace themis {
 namespace security {
+
+namespace {
+
+bool isStubHsmDekWrapAllowed() {
+    const char* allow_stub = std::getenv("THEMIS_ALLOW_HSM_STUB");
+    return allow_stub && std::string(allow_stub) == "1";
+}
+
+} // namespace
+
+// ── Process-wide injectable DEK bridge (STUB #47 / #48) ─────────────────────
+static HSMKeyProviderAdapter::WrapDEKFn   g_wrap_dek_fn;
+static HSMKeyProviderAdapter::UnwrapDEKFn g_unwrap_dek_fn;
+static std::mutex                          g_dek_fn_mutex;
+
+// ────────────────────────────────────────────────────────────────────────────
 
 HSMKeyProviderAdapter::HSMKeyProviderAdapter(
     std::shared_ptr<HSMProvider> hsm,
@@ -350,8 +367,39 @@ std::vector<uint8_t> HSMKeyProviderAdapter::generateRandomDEK() const {
 
 std::vector<uint8_t> HSMKeyProviderAdapter::wrapDEK(const std::vector<uint8_t>& dek) {
     stats_.hsm_encrypt_operations++;
+
+    // ── Injected bridge (STUB #47) ────────────────────────────────────────────
+    {
+        WrapDEKFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_dek_fn_mutex);
+            fn = g_wrap_dek_fn;
+        }
+        if (fn) {
+            try {
+                return fn(dek);
+            } catch (const std::exception& e) {
+                stats_.hsm_errors++;
+                throw KeyOperationException(
+                    "WrapDEKFn bridge failed: " + std::string(e.what()));
+            } catch (...) {
+                stats_.hsm_errors++;
+                throw KeyOperationException("WrapDEKFn bridge failed: unknown error");
+            }
+        }
+    }
+    // ─────────────────────────────────────────────────────────────────────────
     
     try {
+        if (hsm_ && hsm_->isStubProvider() && !isStubHsmDekWrapAllowed()) {
+            stats_.hsm_errors++;
+            throw KeyOperationException(
+                "Refusing DEK wrap with stub HSM provider. "
+                "Configure a real PKCS#11 HSM or set THEMIS_ALLOW_HSM_STUB=1 "
+                "for explicit development/testing override."
+            );
+        }
+
         // STUB/SIMULATION NOTE (wrapDEK):
         // Purpose: Document the dual-path behavior of HSMKeyProviderAdapter.
         //   When a real PKCS#11 HSM is present, encryptData() invokes C_Encrypt
@@ -394,8 +442,39 @@ std::vector<uint8_t> HSMKeyProviderAdapter::wrapDEK(const std::vector<uint8_t>& 
 
 std::vector<uint8_t> HSMKeyProviderAdapter::unwrapDEK(const std::vector<uint8_t>& encrypted_dek) {
     stats_.hsm_decrypt_operations++;
+
+    // ── Injected bridge (STUB #48) ────────────────────────────────────────────
+    {
+        UnwrapDEKFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_dek_fn_mutex);
+            fn = g_unwrap_dek_fn;
+        }
+        if (fn) {
+            try {
+                return fn(encrypted_dek);
+            } catch (const std::exception& e) {
+                stats_.hsm_errors++;
+                throw KeyOperationException(
+                    "UnwrapDEKFn bridge failed: " + std::string(e.what()));
+            } catch (...) {
+                stats_.hsm_errors++;
+                throw KeyOperationException("UnwrapDEKFn bridge failed: unknown error");
+            }
+        }
+    }
+    // ─────────────────────────────────────────────────────────────────────────
     
     try {
+        if (hsm_ && hsm_->isStubProvider() && !isStubHsmDekWrapAllowed()) {
+            stats_.hsm_errors++;
+            throw KeyOperationException(
+                "Refusing DEK unwrap with stub HSM provider. "
+                "Configure a real PKCS#11 HSM or set THEMIS_ALLOW_HSM_STUB=1 "
+                "for explicit development/testing override."
+            );
+        }
+
         // STUB/SIMULATION NOTE (unwrapDEK):
         // Same dual-path as wrapDEK above.  In stub mode, decryptData() uses the
         // same in-memory AES-256-GCM KEK that was used during wrapDEK.  If the
@@ -507,6 +586,18 @@ int64_t HSMKeyProviderAdapter::getCurrentTimeMs() const {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()
     ).count();
+}
+
+// ── Static bridge setters (STUB #47 / #48) ───────────────────────────────────
+
+void HSMKeyProviderAdapter::setWrapDEKFn(WrapDEKFn fn) {
+    std::lock_guard<std::mutex> lock(g_dek_fn_mutex);
+    g_wrap_dek_fn = std::move(fn);
+}
+
+void HSMKeyProviderAdapter::setUnwrapDEKFn(UnwrapDEKFn fn) {
+    std::lock_guard<std::mutex> lock(g_dek_fn_mutex);
+    g_unwrap_dek_fn = std::move(fn);
 }
 
 } // namespace security

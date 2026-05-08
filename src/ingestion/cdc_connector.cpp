@@ -853,6 +853,10 @@ void CdcConnector::setRetryConfig(const RetryConfig& config) {
 }
 
 void CdcConnector::setCdcEventFetchForTesting(CdcEventFetchFn fn) {
+    setEventBatchProvider(std::move(fn));
+}
+
+void CdcConnector::setEventBatchProvider(CdcEventFetchFn fn) {
     impl_->setCdcEventFetchForTesting(std::move(fn));
 }
 

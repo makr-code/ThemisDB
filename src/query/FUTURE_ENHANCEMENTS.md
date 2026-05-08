@@ -63,14 +63,18 @@
 ### `QueryFederation`: Real Shard Determination Logic
 **Priority:** High
 **Target Version:** v1.6.0
+**Status:** ✅ Implemented
 
-`query_federation.cpp` line 348: "TODO: Implement actual shard determination logic". All federated queries currently default to broadcasting to all shards, making federation performance O(N shards) regardless of the query's key range.
+`query_federation.cpp` implements shard key routing via `ShardRouter` / `URNResolver`:
+- Point lookups route to a single shard via `getShardForKey(collection, key)`.
+- Range queries route to the relevant subset via `getShardsForKeyRange(collection, min, max)`.
+- When no shard-key predicate is present, all healthy shards are returned (broadcast); a WARN is emitted for broadcasts to > 10 shards.
 
 **Implementation Notes:**
-- `[ ]` Implement shard key routing: use `ShardingManager::getShardsForKeyRange(collection, min_key, max_key)` to route range queries to only the relevant shards.
-- `[ ]` For point lookups, route to the single shard owning the key via `ShardingManager::getShardForKey(collection, key)`.
-- `[ ]` Retain broadcast for queries without a shard key predicate (full-collection scans); log a `WARN` when broadcasting to > 10 shards.
-- `[ ]` Add unit tests: 3-shard setup, point lookup routes to 1 shard; range query routes to 2 shards; full scan broadcasts to all 3.
+- [x] Implement shard key routing: use `ShardingManager::getShardsForKeyRange(collection, min_key, max_key)` to route range queries to only the relevant shards.
+- [x] For point lookups, route to the single shard owning the key via `ShardingManager::getShardForKey(collection, key)`.
+- [x] Retain broadcast for queries without a shard key predicate (full-collection scans); log a `WARN` when broadcasting to > 10 shards.
+- [x] Add unit tests: 3-shard setup, point lookup routes to 1 shard; range query routes to 2 shards; full scan broadcasts to all 3.
 
 ---
 

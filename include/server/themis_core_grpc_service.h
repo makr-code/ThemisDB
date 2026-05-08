@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include <functional>
 #include <memory>
 #include <string>
 
@@ -45,6 +46,10 @@ namespace core {
  */
 class ThemisCoreServiceImpl {
 public:
+    /// Callback type that provides an opaque grpc::Service* to the wrapper
+    /// when the generated proto stubs are absent from the build.
+    using ServiceInstanceFn = std::function<void*()>;
+
     /**
      * @brief Construct service with database components.
      * @param db         RocksDB wrapper for storage operations.
@@ -65,13 +70,30 @@ public:
      * Returns the concrete service implementation when `themis_core.grpc.pb.h`
      * is available (i.e. protoc has been run).  Returns nullptr otherwise so
      * that callers can safely skip registration without crashing.
+     *
+     * If a service-instance callback was registered via setServiceInstanceFn(),
+     * the result of that callback is returned for non-proto builds.
      */
     void* getServiceInstance();
+
+    /**
+     * @brief Configure a process-wide callback that provides a grpc::Service*.
+     *
+     * Used in non-proto builds to wire a service instance obtained from another
+     * module (e.g. a dynamically loaded plugin or a test double).  The callback
+     * is invoked once during construction in an exception-safe manner; exceptions
+     * cause the service pointer to remain null (fail-closed).
+     *
+     * Pass an empty function to remove a previously registered callback.
+     */
+    static void setServiceInstanceFn(ServiceInstanceFn fn);
 
 private:
     std::shared_ptr<RocksDBWrapper>     db_;
     std::shared_ptr<TransactionManager> txn_mgr_;
     std::shared_ptr<AQLEngine>          aql_engine_;
+
+    void* service_ptr_ = nullptr;
 
     class Impl;
     std::unique_ptr<Impl> impl_;

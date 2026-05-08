@@ -32,6 +32,7 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
+#include <mutex>
 
 // Test coverage: expand as needed in test_cloud_backup.cpp
 // See: tests/test_cloud_backup.cpp for current unit/integration coverage
@@ -45,6 +46,13 @@ namespace fs = std::filesystem;
 
 namespace themis {
 namespace sharding {
+
+namespace {
+std::mutex g_cloud_backup_fn_mutex;
+S3DownloadFn g_s3_download_fn;
+S3UploadFn g_s3_upload_fn;
+GCSDeleteFn g_gcs_delete_fn;
+} // namespace
 
 // Cloud storage provider interface
 class ICloudStorageProvider {
@@ -95,6 +103,22 @@ public:
     bool upload(const std::string& local_path, 
                const std::string& remote_path,
                [[maybe_unused]] const std::map<std::string, std::string>& metadata) override {
+        S3UploadFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_s3_upload_fn;
+        }
+        if (fn) {
+            try {
+                return fn(bucket_, local_path, remote_path, metadata);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("S3 upload callback failed: {}", e.what());
+                return false;
+            } catch (...) {
+                THEMIS_ERROR("S3 upload callback failed: unknown error");
+                return false;
+            }
+        }
         
         if (!fs::exists(local_path)) {
             THEMIS_ERROR("Local file does not exist: {}", local_path);
@@ -146,7 +170,23 @@ public:
     
     bool download(const std::string& remote_path,
                  const std::string& local_path) override {
-        
+        S3DownloadFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_s3_download_fn;
+        }
+        if (fn) {
+            try {
+                return fn(bucket_, remote_path, local_path);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("S3 download callback failed: {}", e.what());
+                return false;
+            } catch (...) {
+                THEMIS_ERROR("S3 download callback failed: unknown error");
+                return false;
+            }
+        }
+         
         // STUB/SIMULATION NOTE (S3StorageProvider::download):
         // Purpose: Placeholder download path inside the S3 stub class (same stub block
         //          documented at the class-level STUB/SIMULATION NOTE above).
@@ -406,6 +446,23 @@ public:
     }
     
     bool deleteObject(const std::string& remote_path) override {
+        GCSDeleteFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_gcs_delete_fn;
+        }
+        if (fn) {
+            try {
+                return fn(bucket_, remote_path);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("GCS delete callback failed: {}", e.what());
+                return false;
+            } catch (...) {
+                THEMIS_ERROR("GCS delete callback failed: unknown error");
+                return false;
+            }
+        }
+
         // STUB/SIMULATION NOTE (GCSStorageProvider::deleteObject):
         // Purpose: Placeholder delete path inside the GCS stub class (same stub block
         //          documented at the class-level STUB/SIMULATION NOTE above).
@@ -750,6 +807,21 @@ bool CloudBackupCoordinator::enableContinuousReplication(const std::string& data
 
 bool CloudBackupCoordinator::disableContinuousReplication(const std::string& datacenter_id) {
     return impl_->disableContinuousReplication(datacenter_id);
+}
+
+void setS3DownloadFn(S3DownloadFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_s3_download_fn = std::move(fn);
+}
+
+void setS3UploadFn(S3UploadFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_s3_upload_fn = std::move(fn);
+}
+
+void setGCSDeleteFn(GCSDeleteFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_gcs_delete_fn = std::move(fn);
 }
 
 } // namespace sharding

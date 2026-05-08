@@ -68,6 +68,7 @@
 
 #include "storage/tensor_train_decomposer.h"
 #include "storage/tensor_network_storage_engine.h"
+#include "tensor/hiss_structural_search.h"
 
 #include <cstddef>
 #include <functional>
@@ -139,6 +140,26 @@ struct TensorRouteHint {
 
     /// Minimum acceptable compression ratio (0.0 = no minimum).
     double        min_ratio     = 0.0;
+
+    /**
+     * @brief Optional domain tag used for TemplateCatalog lookup.
+     *
+     * When non-empty and a `TemplateCatalog` has been wired via
+     * `TensorRouter::setTemplateCatalog()`, the router checks whether a
+     * structural template is available for this domain.  A cache-hit
+     * promotes the routing decision toward LIFT (TENSOR_TRAIN), because
+     * an optimised TN topology is known — reducing structure-search cost
+     * at query time.
+     *
+     * STUB/SIMULATION NOTE (STUB #253):
+     * Purpose: Phase-6 template-aware routing.
+     * Activation: When domain_tag is non-empty AND setTemplateCatalog() used.
+     * Production Delta: Template presence promotes to LIFT but doesn't yet
+     *   carry the concrete TN topology into the stored index.
+     * Removal Plan: Q3 2028 — wire template graph into index construction
+     *   so the stored TT-cores follow the template topology.
+     */
+    std::string   domain_tag;
 };
 
 // ============================================================================
@@ -310,6 +331,29 @@ public:
 
     const TensorRoutingPolicy& policy() const noexcept;
     void setPolicy(TensorRoutingPolicy p);
+
+    /**
+     * @brief Wire a TemplateCatalog for domain-tag-based routing promotion.
+     *
+     * When a non-null catalog is set, `route()` checks the catalog for a
+     * matching template whenever `TensorRouteHint::domain_tag` is non-empty.
+     * A catalog hit promotes the routing decision toward LIFT.
+     *
+     * Passing nullptr disables template-catalog lookups (default).
+     *
+     * STUB/SIMULATION NOTE (STUB #253):
+     * Purpose: Enable domain-aware routing via TemplateCatalog.
+     * Activation: When setTemplateCatalog(non-null) AND hint.domain_tag set.
+     * Production Delta: Template presence promotes to LIFT; actual TN
+     *   topology is not yet embedded into the stored index structure.
+     * Removal Plan: Q3 2028 — carry template graph into index construction.
+     */
+    void setTemplateCatalog(std::shared_ptr<tensor::TemplateCatalog> catalog);
+
+    /**
+     * @brief Return the currently wired TemplateCatalog (may be nullptr).
+     */
+    std::shared_ptr<tensor::TemplateCatalog> templateCatalog() const noexcept;
 
 private:
     struct Impl;

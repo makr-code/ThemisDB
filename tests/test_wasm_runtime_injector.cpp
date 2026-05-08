@@ -22,6 +22,7 @@
 
 #include <gtest/gtest.h>
 #include "themis/base/wasm_runtime_injector.h"
+#include "plugins/wasm_host_api.h"
 
 namespace themis {
 namespace modules {
@@ -174,6 +175,44 @@ TEST_F(InjectorFixture, ClearAllRemovesAllRuntimes) {
     WasmRuntimeInjector::clearAll();
     EXPECT_FALSE(WasmRuntimeInjector::available());
     EXPECT_TRUE(WasmRuntimeInjector::registeredNames().empty());
+}
+
+TEST_F(InjectorFixture, WasmPluginLoaderBridgeIsUsed) {
+    using themis::plugins::IThemisPlugin;
+    using themis::plugins::WasmPluginRuntime;
+
+    class DummyPlugin final : public IThemisPlugin {
+    public:
+        const char* getName() const override { return "dummy"; }
+        const char* getVersion() const override { return "1.0"; }
+        themis::plugins::PluginType getType() const override { return themis::plugins::PluginType::CUSTOM; }
+        themis::plugins::PluginCapabilities getCapabilities() const override { return {}; }
+        bool initialize(const char*) override { return true; }
+        void shutdown() override {}
+        void* getInstance() override { return nullptr; }
+        std::string saveState() override { return {}; }
+        bool restoreState(const std::string&) override { return true; }
+    };
+
+    themis::plugins::setWasmPluginLoadFn(
+        []([[maybe_unused]] const std::string& wasm_path,
+           [[maybe_unused]] const std::string& expected_sha256,
+           [[maybe_unused]] WasmPluginRuntime runtime,
+           const std::string& module_name,
+           [[maybe_unused]] std::string& error_out) {
+            if (module_name == "bridge-module") {
+                return std::unique_ptr<IThemisPlugin>(std::make_unique<DummyPlugin>());
+            }
+            return std::unique_ptr<IThemisPlugin>{};
+        });
+
+    std::string error;
+    auto plugin = themis::plugins::loadWasmPlugin(
+        "ignored.wasm", "", WasmPluginRuntime::NONE, "bridge-module", error);
+    ASSERT_NE(plugin, nullptr);
+    EXPECT_STREQ(plugin->getName(), "dummy");
+
+    themis::plugins::setWasmPluginLoadFn({});
 }
 
 } // anonymous namespace

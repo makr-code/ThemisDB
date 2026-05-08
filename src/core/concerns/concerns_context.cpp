@@ -349,6 +349,125 @@ void ConcernsContext::logWithTrace(ILogger::Level level,
     logger_->logWithContext(level, message, ctx, fields);
 }
 
+// ---------------------------------------------------------------------------
+// Dynamic Adapter Reconfiguration
+// ---------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------
+// Dynamic Adapter Reconfiguration — private helpers
+// ---------------------------------------------------------------------------
+
+namespace {
+
+/// Flush + conditionally shutdown an adapter before releasing it.
+/// Flush errors are silently swallowed because all flush() overrides in
+/// ThemisDB are declared noexcept — failures are logged internally by the
+/// adapter itself.  Callers that need guaranteed delivery should flush the
+/// adapter explicitly before calling replaceX().
+template <typename T>
+void drainAdapter(std::unique_ptr<T>& old, bool also_shutdown) noexcept {
+    old->flush();
+    if (also_shutdown) {
+        old->shutdown();
+    }
+}
+
+} // anonymous namespace
+
+void ConcernsContext::replaceLogger(std::unique_ptr<ILogger> new_logger) {
+    if (!new_logger) {
+        throw std::invalid_argument("ConcernsContext::replaceLogger: new_logger must not be nullptr");
+    }
+    std::unique_ptr<ILogger> old;
+    {
+        std::lock_guard<std::mutex> lk(adapters_mutex_);
+        old = std::move(logger_);
+        logger_ = std::move(new_logger);
+    }
+    // Drain outside the lock so in-flight log calls on the old adapter
+    // complete before the object is destroyed.  Note: flush() is noexcept;
+    // any internal errors are emitted by the adapter itself.
+    drainAdapter(old, /*also_shutdown=*/false);
+}
+
+void ConcernsContext::replaceTracer(std::unique_ptr<ITracer> new_tracer) {
+    if (!new_tracer) {
+        throw std::invalid_argument("ConcernsContext::replaceTracer: new_tracer must not be nullptr");
+    }
+    std::unique_ptr<ITracer> old;
+    {
+        std::lock_guard<std::mutex> lk(adapters_mutex_);
+        old = std::move(tracer_);
+        tracer_ = std::move(new_tracer);
+    }
+    drainAdapter(old, /*also_shutdown=*/true);
+}
+
+void ConcernsContext::replaceMetrics(std::unique_ptr<IMetrics> new_metrics) {
+    if (!new_metrics) {
+        throw std::invalid_argument("ConcernsContext::replaceMetrics: new_metrics must not be nullptr");
+    }
+    std::unique_ptr<IMetrics> old;
+    {
+        std::lock_guard<std::mutex> lk(adapters_mutex_);
+        old = std::move(metrics_);
+        metrics_ = std::move(new_metrics);
+    }
+    drainAdapter(old, /*also_shutdown=*/false);
+}
+
+void ConcernsContext::replaceCache(std::unique_ptr<ICache> new_cache) {
+    if (!new_cache) {
+        throw std::invalid_argument("ConcernsContext::replaceCache: new_cache must not be nullptr");
+    }
+    std::unique_ptr<ICache> old;
+    {
+        std::lock_guard<std::mutex> lk(adapters_mutex_);
+        old = std::move(cache_);
+        cache_ = std::move(new_cache);
+    }
+    drainAdapter(old, /*also_shutdown=*/true);
+}
+
+void ConcernsContext::replaceSecrets(std::unique_ptr<ISecrets> new_secrets) {
+    if (!new_secrets) {
+        throw std::invalid_argument("ConcernsContext::replaceSecrets: new_secrets must not be nullptr");
+    }
+    std::unique_ptr<ISecrets> old;
+    {
+        std::lock_guard<std::mutex> lk(adapters_mutex_);
+        old = std::move(secrets_);
+        secrets_ = std::move(new_secrets);
+    }
+    drainAdapter(old, /*also_shutdown=*/true);
+}
+
+void ConcernsContext::replaceFeatureFlags(std::unique_ptr<IFeatureFlags> new_ff) {
+    if (!new_ff) {
+        throw std::invalid_argument("ConcernsContext::replaceFeatureFlags: new_ff must not be nullptr");
+    }
+    std::unique_ptr<IFeatureFlags> old;
+    {
+        std::lock_guard<std::mutex> lk(adapters_mutex_);
+        old = std::move(featureFlags_);
+        featureFlags_ = std::move(new_ff);
+    }
+    drainAdapter(old, /*also_shutdown=*/true);
+}
+
+void ConcernsContext::replaceAuditLog(std::unique_ptr<IAuditLog> new_audit) {
+    if (!new_audit) {
+        throw std::invalid_argument("ConcernsContext::replaceAuditLog: new_audit must not be nullptr");
+    }
+    std::unique_ptr<IAuditLog> old;
+    {
+        std::lock_guard<std::mutex> lk(adapters_mutex_);
+        old = std::move(auditLog_);
+        auditLog_ = std::move(new_audit);
+    }
+    drainAdapter(old, /*also_shutdown=*/true);
+}
+
 } // namespace concerns
 } // namespace core
 } // namespace themis

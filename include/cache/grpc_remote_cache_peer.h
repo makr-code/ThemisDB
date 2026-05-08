@@ -41,18 +41,21 @@
 
 #pragma once
 
-#ifdef THEMIS_ENABLE_GRPC
-
 #include "cache/cache_replication_coordinator.h"
+
+#include <atomic>
+#include <cstdint>
+#include <functional>
+#include <memory>
+#include <mutex>
+#include <stdexcept>
+#include <string>
+
+#ifdef THEMIS_ENABLE_GRPC
 
 #include <grpcpp/create_channel.h>
 #include <grpcpp/generic/generic_stub.h>
 #include <grpcpp/security/credentials.h>
-
-#include <atomic>
-#include <cstdint>
-#include <memory>
-#include <string>
 
 namespace themis {
 namespace cache {
@@ -160,6 +163,102 @@ private:
     std::shared_ptr<grpc::Channel>            channel_;
     std::unique_ptr<grpc::GenericStub>        stub_;
     std::atomic<bool>                         healthy_{true};
+};
+
+}  // namespace cache
+}  // namespace themis
+
+#else
+
+namespace themis {
+namespace cache {
+
+class GrpcRemoteCachePeer final : public IRemoteCachePeer {
+public:
+    using BackendInvokeFn = std::function<bool(const std::string& address,
+                                               const std::string& type,
+                                               const std::string& key,
+                                               const std::string& tenant_id)>;
+
+    static constexpr const char* kInvalidateMethod =
+        "/themis.cache.v1.CacheInvalidation/Invalidate";
+
+    struct Config {
+        std::string address;
+        int rpc_timeout_ms = 1000;
+        bool        tls_enabled   = false;
+        std::string tls_ca_cert;
+
+        Config() = default;
+        explicit Config(std::string addr) : address(std::move(addr)) {}
+    };
+
+    explicit GrpcRemoteCachePeer(Config config)
+        : config_(std::move(config)) {}
+
+    explicit GrpcRemoteCachePeer(const std::string& addr)
+        : GrpcRemoteCachePeer(Config(addr)) {}
+
+    ~GrpcRemoteCachePeer() override = default;
+
+    static void setBackendInvokeFn(BackendInvokeFn fn) {
+        std::lock_guard<std::mutex> lk(bridgeMutex());
+        backendInvokeFn() = std::move(fn);
+    }
+
+    void invalidate(const std::string& key,
+                    const std::string& tenant_id = "") override {
+        invoke("invalidate", key, tenant_id);
+    }
+
+    void invalidateTenant(const std::string& tenant_id) override {
+        invoke("invalidate_tenant", "", tenant_id);
+    }
+
+    std::string address() const override { return config_.address; }
+
+    bool isHealthy() const override {
+        return healthy_.load(std::memory_order_relaxed);
+    }
+
+private:
+    static std::mutex& bridgeMutex() {
+        static std::mutex m;
+        return m;
+    }
+
+    static BackendInvokeFn& backendInvokeFn() {
+        static BackendInvokeFn fn;
+        return fn;
+    }
+
+    void invoke(const std::string& type,
+                const std::string& key,
+                const std::string& tenant_id) {
+        BackendInvokeFn fn;
+        {
+            std::lock_guard<std::mutex> lk(bridgeMutex());
+            fn = backendInvokeFn();
+        }
+        if (!fn) {
+            healthy_.store(false, std::memory_order_relaxed);
+            throw std::runtime_error("GrpcRemoteCachePeer stub: gRPC transport unavailable");
+        }
+        bool ok = false;
+        try {
+            ok = fn(config_.address, type, key, tenant_id);
+        } catch (...) {
+            healthy_.store(false, std::memory_order_relaxed);
+            throw;
+        }
+        healthy_.store(ok, std::memory_order_relaxed);
+        if (!ok) {
+            throw std::runtime_error("GrpcRemoteCachePeer backend invocation failed");
+        }
+    }
+
+    Config            config_;
+    std::atomic<bool> healthy_{false};
 };
 
 }  // namespace cache

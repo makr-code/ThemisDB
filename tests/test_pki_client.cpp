@@ -139,6 +139,31 @@ TEST(PKIClientTest, SignVerify_StubMode_Base64Echo) {
     // In stub mode signature is base64(hash); verify should succeed
     EXPECT_TRUE(client.verifyHash(hash, sig));
 }
+
+TEST(PKIClientTest, SignVerify_UsesBridgeCallbacksBeforeStubFallback) {
+    PKIConfig cfg;
+    VCCPKIClient::setSignHashFn([](const std::vector<uint8_t>&) {
+        SignatureResult result;
+        result.ok = true;
+        result.signature_b64 = "bridge-signature";
+        result.cert_serial = "bridge-cert";
+        return result;
+    });
+    VCCPKIClient::setVerifyHashFn([](const std::vector<uint8_t>&, const SignatureResult& sig) {
+        return sig.signature_b64 == "bridge-signature";
+    });
+
+    VCCPKIClient client(cfg);
+    auto hash = random_bytes(32);
+    auto sig = client.signHash(hash);
+    ASSERT_TRUE(sig.ok);
+    EXPECT_EQ(sig.signature_b64, "bridge-signature");
+    EXPECT_EQ(sig.cert_serial, "bridge-cert");
+    EXPECT_TRUE(client.verifyHash(hash, sig));
+
+    VCCPKIClient::setSignHashFn({});
+    VCCPKIClient::setVerifyHashFn({});
+}
 #endif // THEMIS_TEST_MODE
 
 TEST(PKIClientTest, SignVerify_RSA_SHA256_Succeeds) {

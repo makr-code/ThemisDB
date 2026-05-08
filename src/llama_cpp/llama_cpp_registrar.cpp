@@ -89,8 +89,8 @@ LlamaCppPluginRegistrar::defaultReloadCallback() {
         //   model_path before invoking reload.  Once THEMIS_MODEL_DIR is set
         //   and model files are present, this path should never be reached.
         // Roadmap ref: src/llm/FUTURE_ENHANCEMENTS.md §"LlamaCpp Plugin Model Reload"
-        // Stub mode — no model to load; treat as success
-        return true;
+        // Fail closed: reloading without a model path must signal failure.
+        return false;
     };
 }
 

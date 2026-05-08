@@ -201,6 +201,26 @@ class GossipProtocol {
 public:
     using PeerDiscoveryCallback = std::function<void(const PeerInfo& peer)>;
     using PeerLostCallback = std::function<void(const std::string& peer_id)>;
+
+    /**
+     * @brief Raft membership gate callback type (CC-4).
+     *
+     * When set via @ref setRaftMembershipGateFn, this function is called
+     * before any gossip-discovered peer is written to the ShardTopology.
+     *
+     * @param peer_id  Gossip-level peer identifier.
+     * @param endpoint Network endpoint (host:port) of the peer.
+     * @return true  — the peer has been admitted through the Raft
+     *                 joint-consensus membership protocol and MAY be added
+     *                 to the routing topology.
+     * @return false — the peer has NOT been admitted; it stays in the gossip
+     *                 `peers_` map for health tracking but MUST NOT appear in
+     *                 the routing topology or influence quorum.
+     *
+     * **Exception safety:** The function must not throw.
+     */
+    using RaftMembershipGateFn = std::function<bool(const std::string& peer_id,
+                                                     const std::string& endpoint)>;
     
     /**
      * Construct GossipProtocol with configuration
@@ -296,6 +316,26 @@ public:
      * @param callback Function called when peer is lost
      */
     void onPeerLost(PeerLostCallback callback);
+
+    /**
+     * @brief Register a Raft membership gate for gossip-driven topology mutations (CC-4).
+     *
+     * When a gate function is registered, any gossip-discovered peer that is
+     * NOT yet in the ShardTopology is admitted only if the gate returns `true`.
+     * A peer rejected by the gate is still tracked in the internal `peers_` map
+     * so that it participates in health-monitoring rounds, but it is NEVER
+     * written to the routing topology and NEVER influences quorum calculations.
+     *
+     * When no gate is registered (the default), gossip-discovered peers are
+     * added to the topology with a one-time warning — preserving backward
+     * compatibility while clearly marking the unprotected path.
+     *
+     * @param fn  Gate function.  Pass `nullptr` to remove a previously
+     *            registered gate and revert to the legacy warn+add behaviour.
+     *
+     * Thread-safety: the function pointer is stored under `peers_mutex_`.
+     */
+    void setRaftMembershipGateFn(RaftMembershipGateFn fn);
     
     /**
      * Get gossip statistics
@@ -328,6 +368,8 @@ private:
     // Callbacks
     PeerDiscoveryCallback on_peer_discovered_;
     PeerLostCallback on_peer_lost_;
+    // CC-4: Raft membership gate — guarded by peers_mutex_
+    RaftMembershipGateFn raft_membership_gate_fn_;
     
     // Statistics
     std::atomic<uint64_t> messages_sent_{0};

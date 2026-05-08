@@ -238,6 +238,45 @@ TEST(OLAPLRUCache, DefaultConfigValues) {
     EXPECT_EQ(cfg.result_cache_ttl_ms,     60'000LL);
 }
 
+TEST(OLAPLRUCache, ExportToParquetUsesInjectedFallbackBridge) {
+    OLAPEngine::setExportToParquetFn([](const OLAPResult& result,
+                                        const std::string& path,
+                                        const std::string& compression) {
+        return path == "/tmp/olap.parquet" &&
+               compression == "zstd" &&
+               result.total_rows == 5;
+    });
+
+    OLAPResult result;
+    result.total_rows = 5;
+    OLAPEngine engine;
+    EXPECT_TRUE(engine.exportToParquet(result, "/tmp/olap.parquet", "zstd"));
+
+    OLAPEngine::setExportToParquetFn(nullptr);
+}
+
+TEST(OLAPLRUCache, ExportCollectionToParquetUsesInjectedFallbackBridge) {
+    OLAPEngine::setExportCollectionToParquetFn(
+        [](std::string_view collection,
+           const std::string& path,
+           const std::vector<Filter>& filters,
+           const std::string& compression) {
+            return collection == "sales" &&
+                   path == "/tmp/sales.parquet" &&
+                   filters.size() == 1 &&
+                   compression == "snappy";
+        });
+
+    Filter filter;
+    filter.field = "region";
+    filter.op = Filter::Operator::Eq;
+    filter.value = std::string("eu");
+    OLAPEngine engine;
+    EXPECT_TRUE(engine.exportCollectionToParquet("sales", "/tmp/sales.parquet", {filter}, "snappy"));
+
+    OLAPEngine::setExportCollectionToParquetFn(nullptr);
+}
+
 // ---------------------------------------------------------------------------
 // AC-9: Bounded memory growth under 10 000 unique queries
 //

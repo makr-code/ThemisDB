@@ -211,6 +211,11 @@ public:
  */
 class ZeroCopyDmaBuffer {
 public:
+    /// Optional non-Linux allocator bridge; must return nullptr on allocation failure.
+    using NonLinuxAllocFn = std::function<void*(size_t size_bytes, int numa_node)>;
+    /// Optional non-Linux free bridge matching NonLinuxAllocFn; must tolerate valid allocations from the paired allocator.
+    using NonLinuxFreeFn = std::function<void(void* ptr, size_t size_bytes)>;
+
     /**
      * @brief Allocate a zero-copy buffer.
      *
@@ -238,7 +243,33 @@ public:
     /** @return true if the allocation succeeded. */
     bool valid() const noexcept { return data_ != nullptr; }
 
+    static void setNonLinuxAllocFn(NonLinuxAllocFn fn) {
+        std::lock_guard<std::mutex> lock(nonLinuxAllocFnMutex());
+        nonLinuxAllocFnStorage() = std::move(fn);
+    }
+    static void setNonLinuxFreeFn(NonLinuxFreeFn fn) {
+        std::lock_guard<std::mutex> lock(nonLinuxFreeFnMutex());
+        nonLinuxFreeFnStorage() = std::move(fn);
+    }
+
 private:
+    static std::mutex& nonLinuxAllocFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static NonLinuxAllocFn& nonLinuxAllocFnStorage() {
+        static NonLinuxAllocFn fn;
+        return fn;
+    }
+    static std::mutex& nonLinuxFreeFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static NonLinuxFreeFn& nonLinuxFreeFnStorage() {
+        static NonLinuxFreeFn fn;
+        return fn;
+    }
+
     void*  data_      = nullptr;
     size_t size_      = 0;
     bool   huge_page_ = false;

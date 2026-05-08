@@ -201,6 +201,42 @@ TEST(Phase4FeatureFlagsTest, PmemFlagUnaffectedByPmuToggle) {
     flags.set_pmu_enabled(false);
 }
 
+#ifndef THEMIS_ENABLE_PMU_COUNTERS
+TEST(PmuCounterStubBridgeTest, BridgeCallbacksProvideSyntheticMetrics) {
+    PmuCounter::setOpenFn([](uint32_t type, uint64_t config) {
+        return type == 1 && config == 2;
+    });
+    PmuCounter::setReadFn([] { return 1234u; });
+    CacheMissAnalyzer::setProbeFn([] { return true; });
+    CacheMissAnalyzer::setStopFn([] {
+        CacheMissMetrics metrics;
+        metrics.l1d_read_misses = 10;
+        metrics.llc_misses = 20;
+        metrics.branch_mispredictions = 30;
+        return metrics;
+    });
+
+    PmuCounter counter;
+    EXPECT_TRUE(counter.open(1, 2));
+    EXPECT_TRUE(counter.is_open());
+    EXPECT_EQ(counter.read(), 1234u);
+
+    CacheMissAnalyzer analyzer;
+    EXPECT_TRUE(analyzer.is_available());
+    auto metrics = analyzer.stop();
+    EXPECT_TRUE(metrics.available);
+    EXPECT_EQ(metrics.l1d_read_misses, 10u);
+    EXPECT_EQ(metrics.llc_misses, 20u);
+    EXPECT_EQ(metrics.branch_mispredictions, 30u);
+    EXPECT_TRUE(CacheMissAnalyzer::pmu_accessible());
+
+    PmuCounter::setOpenFn(nullptr);
+    PmuCounter::setReadFn(nullptr);
+    CacheMissAnalyzer::setProbeFn(nullptr);
+    CacheMissAnalyzer::setStopFn(nullptr);
+}
+#endif
+
 // ---------------------------------------------------------------------------
 // Non-Linux platform backend tests
 // Verify the RDTSC / cycle-count fallback that is active on macOS, Windows,

@@ -601,6 +601,23 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
         return r; 
     }
     if(!impl_->real_ready){
+        auto bridge = SignHashFn{};
+        {
+            std::lock_guard<std::mutex> bridge_lock(signHashFnMutex());
+            bridge = signHashFnStorage();
+        }
+        if (bridge) {
+            auto bridged = bridge(hash, key_label.empty() ? config_.key_label : key_label);
+            if (bridged.success) {
+                impl_->sign_count.fetch_add(1, std::memory_order_relaxed);
+            } else {
+                impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
+            }
+            auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::high_resolution_clock::now() - startTime).count();
+            impl_->total_sign_time_us.fetch_add(elapsed, std::memory_order_relaxed);
+            return bridged;
+        }
         // Fallback stub behaviour: return Base64-encoded hash
         r.success = true; 
         r.signature_b64 = toBase64(hash);
@@ -669,6 +686,20 @@ bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& si
         return false;
     }
     if(!impl_->real_ready){
+        auto bridge = VerifyFn{};
+        {
+            std::lock_guard<std::mutex> bridge_lock(verifyFnMutex());
+            bridge = verifyFnStorage();
+        }
+        if (bridge) {
+            bool result = bridge(data, signature_b64, key_label.empty() ? config_.key_label : key_label);
+            if(result) impl_->verify_count.fetch_add(1, std::memory_order_relaxed);
+            else impl_->verify_errors.fetch_add(1, std::memory_order_relaxed);
+            auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::high_resolution_clock::now() - startTime).count();
+            impl_->total_verify_time_us.fetch_add(elapsed, std::memory_order_relaxed);
+            return result;
+        }
         // Fallback: verify by comparing Base64-encoded hash
         auto expected = toBase64(sha256(data));
         bool result = (expected == signature_b64);
@@ -723,6 +754,14 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if (!initialized_) { last_error_ = "Not initialized"; return {}; }
     if (!impl_->real_ready || !impl_->loader.api()) {
+        auto bridge = EncryptDataFn{};
+        {
+            std::lock_guard<std::mutex> bridge_lock(encryptDataFnMutex());
+            bridge = encryptDataFnStorage();
+        }
+        if (bridge) {
+            return bridge(data, key_label.empty() ? config_.key_label : key_label);
+        }
         // Fallback: AES-256-GCM with stub KEK
         auto result = pkcs11_stub_aes_encrypt(impl_->stub_kek, data);
         if (result.empty()) last_error_ = "Stub AES encrypt failed";
@@ -765,6 +804,14 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if (!initialized_) { last_error_ = "Not initialized"; return {}; }
     if (!impl_->real_ready || !impl_->loader.api()) {
+        auto bridge = DecryptDataFn{};
+        {
+            std::lock_guard<std::mutex> bridge_lock(decryptDataFnMutex());
+            bridge = decryptDataFnStorage();
+        }
+        if (bridge) {
+            return bridge(encrypted, key_label.empty() ? config_.key_label : key_label);
+        }
         // Fallback: AES-256-GCM with stub KEK
         auto result = pkcs11_stub_aes_decrypt(impl_->stub_kek, encrypted);
         if (result.empty()) last_error_ = "Stub AES decrypt failed (bad ciphertext or mismatched key)";
@@ -805,6 +852,14 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
 bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, bool extractable){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if(!impl_->real_ready){ 
+        auto bridge = GenerateKeyPairFn{};
+        {
+            std::lock_guard<std::mutex> bridge_lock(generateKeyPairFnMutex());
+            bridge = generateKeyPairFnStorage();
+        }
+        if (bridge) {
+            return bridge(label, key_size, extractable);
+        }
         THEMIS_WARN("generateKeyPair Fallback stub (label='{}')", label); 
         return false; 
     }
@@ -881,6 +936,14 @@ bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, b
 bool HSMProvider::importCertificate(const std::string& key_label, const std::string& cert_pem){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if(!impl_->real_ready){ 
+        auto bridge = ImportCertificateFn{};
+        {
+            std::lock_guard<std::mutex> bridge_lock(importCertificateFnMutex());
+            bridge = importCertificateFnStorage();
+        }
+        if (bridge) {
+            return bridge(key_label, cert_pem);
+        }
         THEMIS_WARN("importCertificate Fallback stub (key='{}')", key_label); 
         return false; 
     }
@@ -980,7 +1043,17 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
 
 std::optional<std::string> HSMProvider::getCertificate(const std::string& key_label){
     std::lock_guard<std::mutex> lock(impl_->mtx);
-    if(!impl_->real_ready) return std::string("-----BEGIN CERTIFICATE-----\nSTUB\n-----END CERTIFICATE-----\n");
+    if(!impl_->real_ready) {
+        auto bridge = GetCertificateFn{};
+        {
+            std::lock_guard<std::mutex> bridge_lock(getCertificateFnMutex());
+            bridge = getCertificateFnStorage();
+        }
+        if (bridge) {
+            return bridge(key_label);
+        }
+        return std::string("-----BEGIN CERTIFICATE-----\nSTUB\n-----END CERTIFICATE-----\n");
+    }
     auto api = impl_->loader.api(); if(!api || !api->C_GetAttributeValue) return std::nullopt;
     CK_ATTRIBUTE valAttr; valAttr.type = CKA_VALUE; valAttr.pValue = nullptr; valAttr.ulValueLen = 0;
     // Zertifikat aus erster Session mit certObj

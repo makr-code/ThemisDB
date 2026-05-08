@@ -25,11 +25,13 @@
 #include "llm/inference_engine_enhanced.h"
 #include "llm/async_inference_engine.h"
 #include "llm/llm_plugin_interface.h"
+#include "llm/i_federated_inference_backend.h"
 #include <thread>
 #include <chrono>
 #include <spdlog/spdlog.h>
 #include <atomic>
 #include <array>
+#include <algorithm>
 #include <condition_variable>
 #include <mutex>
 #include <string_view>
@@ -1573,4 +1575,207 @@ TEST(AsyncInferenceEngineStreamingTest, SubmitStreaming_QueuedCancelFiresFinalSe
 
     EXPECT_EQ(final_count.load(), 1)
         << "Queued cancel must deliver exactly one is_final=true callback";
+}
+
+// ===========================================================================
+// RAID-FAN: Federated Inference Fan-Out/Fan-In
+//
+//  RAID-FAN-01  setFederatedBackend() can be attached and detached
+//  RAID-FAN-02  When backend is set and target_instance_ids is non-empty,
+//               the request is delegated to the backend (not local plugin)
+//  RAID-FAN-03  First-wins merge: first successful instance result is returned
+//  RAID-FAN-04  All-fail: aggregated error is returned
+//  RAID-FAN-05  Local inference used when target_instance_ids is empty,
+//               even if a backend is attached
+//  RAID-FAN-06  Partial failure: one instance fails, first winner returned
+// ===========================================================================
+
+namespace {
+
+struct MockFanOutBackend : public themis::llm::IFederatedInferenceBackend {
+    // Configurable per-instance results for testing.
+    struct InstanceConfig {
+        bool success = true;
+        std::string text = "fan-out response";
+        std::string error;
+    };
+
+    std::unordered_map<std::string, InstanceConfig> instance_configs;
+
+    std::vector<std::string> dispatched_to;  // recorded calls
+    mutable std::mutex mu;
+
+    std::vector<themis::llm::FanOutInstanceResult> execute(
+        const std::vector<std::string>&       instance_ids,
+        const themis::llm::InferenceRequest&  /*request*/) override {
+
+        std::lock_guard<std::mutex> lock(mu);
+        dispatched_to.insert(dispatched_to.end(),
+                             instance_ids.begin(), instance_ids.end());
+
+        std::vector<themis::llm::FanOutInstanceResult> results;
+        results.reserve(instance_ids.size());
+        for (const auto& id : instance_ids) {
+            themis::llm::FanOutInstanceResult r;
+            r.instance_id = id;
+            auto it = instance_configs.find(id);
+            if (it != instance_configs.end()) {
+                r.success = it->second.success;
+                r.error   = it->second.error;
+                if (r.success) {
+                    r.response.text    = it->second.text;
+                    r.response.success = true;
+                }
+            } else {
+                // Default: success
+                r.success          = true;
+                r.response.text    = "default-response-from-" + id;
+                r.response.success = true;
+            }
+            r.attempts = 1;
+            results.push_back(std::move(r));
+        }
+        return results;
+    }
+};
+
+}  // namespace
+
+class FanOutTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        InferenceEngineEnhanced::Config cfg;
+        cfg.enable_context_caching = false;
+        engine_ = std::make_unique<InferenceEngineEnhanced>(cfg);
+
+        // Local plugin to verify local-path is NOT taken for fan-out requests
+        local_plugin_ = std::make_shared<MockLLMPlugin>("local_model", 10);
+        engine_->registerModel("local_model", local_plugin_);
+        engine_->start();
+    }
+
+    void TearDown() override { engine_->shutdown(); }
+
+    std::unique_ptr<InferenceEngineEnhanced> engine_;
+    std::shared_ptr<MockLLMPlugin>           local_plugin_;
+};
+
+// RAID-FAN-01: backend attach / detach
+TEST_F(FanOutTest, RAID_FAN_01_AttachDetach) {
+    auto backend = std::make_shared<MockFanOutBackend>();
+    EXPECT_NO_THROW(engine_->setFederatedBackend(backend));
+    EXPECT_NO_THROW(engine_->setFederatedBackend(nullptr));
+}
+
+// RAID-FAN-02: fan-out is triggered when backend is set and instances are listed
+TEST_F(FanOutTest, RAID_FAN_02_FanOutTriggeredWhenBackendSet) {
+    auto backend = std::make_shared<MockFanOutBackend>();
+    engine_->setFederatedBackend(backend);
+
+    InferenceEngineEnhanced::EnhancedInferenceRequest req;
+    req.request_id            = "fan-02";
+    req.base_request.prompt   = "hello fan-out";
+    req.preferred_model_id    = "local_model";
+    req.target_instance_ids   = {"shard-a", "shard-b"};
+
+    auto handle   = engine_->submit(req);
+    auto response = handle.get();
+
+    // Backend must have been called with both shards
+    {
+        std::lock_guard<std::mutex> lock(backend->mu);
+        EXPECT_EQ(backend->dispatched_to.size(), 2u);
+        const auto& d = backend->dispatched_to;
+        bool has_a = std::find(d.begin(), d.end(), "shard-a") != d.end();
+        bool has_b = std::find(d.begin(), d.end(), "shard-b") != d.end();
+        EXPECT_TRUE(has_a) << "shard-a must be dispatched";
+        EXPECT_TRUE(has_b) << "shard-b must be dispatched";
+    }
+    // Response from backend
+    EXPECT_TRUE(response.success);
+    EXPECT_FALSE(response.text.empty());
+}
+
+// RAID-FAN-03: first-wins merge
+TEST_F(FanOutTest, RAID_FAN_03_FirstWinsMerge) {
+    auto backend = std::make_shared<MockFanOutBackend>();
+    // Make shard-1 fail, shard-2 succeed
+    backend->instance_configs["shard-1"] = {false, "", "network error"};
+    backend->instance_configs["shard-2"] = {true, "winner-text", ""};
+    engine_->setFederatedBackend(backend);
+
+    InferenceEngineEnhanced::EnhancedInferenceRequest req;
+    req.request_id          = "fan-03";
+    req.base_request.prompt = "first-wins test";
+    req.preferred_model_id  = "local_model";
+    req.target_instance_ids = {"shard-1", "shard-2"};
+
+    auto handle   = engine_->submit(req);
+    auto response = handle.get();
+
+    EXPECT_TRUE(response.success);
+    EXPECT_EQ(response.text, "winner-text");
+}
+
+// RAID-FAN-04: all instances fail → error response
+TEST_F(FanOutTest, RAID_FAN_04_AllFail_ErrorResponse) {
+    auto backend = std::make_shared<MockFanOutBackend>();
+    backend->instance_configs["bad-1"] = {false, "", "timeout"};
+    backend->instance_configs["bad-2"] = {false, "", "unavailable"};
+    engine_->setFederatedBackend(backend);
+
+    InferenceEngineEnhanced::EnhancedInferenceRequest req;
+    req.request_id          = "fan-04";
+    req.base_request.prompt = "all fail test";
+    req.preferred_model_id  = "local_model";
+    req.target_instance_ids = {"bad-1", "bad-2"};
+
+    auto handle   = engine_->submit(req);
+    auto response = handle.get();
+
+    EXPECT_FALSE(response.success);
+    EXPECT_FALSE(response.error_message.empty());
+}
+
+// RAID-FAN-05: local path used when no target_instance_ids, even with backend attached
+TEST_F(FanOutTest, RAID_FAN_05_LocalInference_WhenNoTargetInstances) {
+    auto backend = std::make_shared<MockFanOutBackend>();
+    engine_->setFederatedBackend(backend);
+
+    InferenceEngineEnhanced::EnhancedInferenceRequest req;
+    req.request_id          = "fan-05";
+    req.base_request.prompt = "local path test";
+    req.preferred_model_id  = "local_model";
+    // target_instance_ids deliberately empty
+
+    auto handle   = engine_->submit(req);
+    auto response = handle.get();
+
+    // Backend must NOT have been called
+    {
+        std::lock_guard<std::mutex> lock(backend->mu);
+        EXPECT_TRUE(backend->dispatched_to.empty())
+            << "Backend must not be called when target_instance_ids is empty";
+    }
+    EXPECT_TRUE(response.success);
+}
+
+// RAID-FAN-06: partial failure — one instance fails, winner returned
+TEST_F(FanOutTest, RAID_FAN_06_PartialFailure_WinnerReturned) {
+    auto backend = std::make_shared<MockFanOutBackend>();
+    backend->instance_configs["ok-shard"]   = {true,  "ok-response",  ""};
+    backend->instance_configs["fail-shard"] = {false, "",             "crashed"};
+    engine_->setFederatedBackend(backend);
+
+    InferenceEngineEnhanced::EnhancedInferenceRequest req;
+    req.request_id          = "fan-06";
+    req.base_request.prompt = "partial fail test";
+    req.preferred_model_id  = "local_model";
+    req.target_instance_ids = {"ok-shard", "fail-shard"};
+
+    auto handle   = engine_->submit(req);
+    auto response = handle.get();
+
+    EXPECT_TRUE(response.success);
+    EXPECT_EQ(response.text, "ok-response");
 }

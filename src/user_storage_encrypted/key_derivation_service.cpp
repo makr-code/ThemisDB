@@ -22,6 +22,8 @@
  */
 
 #include "key_derivation_service.hpp"
+#include <functional>
+#include <mutex>
 #if defined(__has_include)
 #  if __has_include(<argon2.h>)
 #    include <argon2.h>
@@ -104,6 +106,25 @@ std::vector<uint8_t> deriveFallbackPbkdf2(
 // Argon2idKeyDerivationService
 // ---------------------------------------------------------------------------
 
+// STUB/SIMULATION NOTE:
+// Purpose:    Allow injection of a real Argon2id implementation at runtime,
+//             bypassing the SHA-256 fallback without changing the public API.
+// Activation: Runtime — when setDeriveKeyFn() is called with a non-empty fn
+//             before the first deriveKey() call.
+// Production Delta: With no fn injected, the THEMIS_HAS_ARGON2 path (or
+//             SHA-256 fallback when Argon2 is absent) is used; with a fn
+//             injected the custom KDF runs instead.
+// Removal Plan: Remove bridge slot once libargon2 is universally available in
+//             all ThemisDB build environments.
+static std::mutex s_kdf_fn_mutex_;
+static Argon2idKeyDerivationService::DeriveKeyFn s_derive_key_fn_;
+
+void Argon2idKeyDerivationService::setDeriveKeyFn(
+    Argon2idKeyDerivationService::DeriveKeyFn fn) {
+    std::lock_guard<std::mutex> lk(s_kdf_fn_mutex_);
+    s_derive_key_fn_ = std::move(fn);
+}
+
 Result<std::vector<uint8_t>> Argon2idKeyDerivationService::deriveKey(
     const std::vector<uint8_t>& master_key,
     const std::vector<uint8_t>& salt
@@ -113,6 +134,21 @@ Result<std::vector<uint8_t>> Argon2idKeyDerivationService::deriveKey(
     }
     if (salt.empty()) {
         return Result<std::vector<uint8_t>>::error("salt must not be empty");
+    }
+
+    {
+        DeriveKeyFn fn;
+        {
+            std::lock_guard<std::mutex> lk(s_kdf_fn_mutex_);
+            fn = s_derive_key_fn_;
+        }
+        if (fn) [[unlikely]] {
+            try {
+                return fn(master_key, salt);
+            } catch (...) {
+                // Fall through to built-in implementation.
+            }
+        }
     }
 
 #if THEMIS_HAS_ARGON2

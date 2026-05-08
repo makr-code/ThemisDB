@@ -76,6 +76,19 @@
 namespace themis {
 namespace cache {
 
+// ---------------------------------------------------------------------------
+// STUB #61 — RedisPublishBridgeFn static bridge (non-POSIX injection)
+// ---------------------------------------------------------------------------
+namespace {
+std::mutex                              s_redis_bridge_fn_mutex;
+RedisCacheCoordinator::RedisPublishBridgeFn s_redis_bridge_fn;
+} // namespace
+
+void RedisCacheCoordinator::setRedisPublishBridgeFn(RedisPublishBridgeFn fn) {
+    std::lock_guard<std::mutex> lk(s_redis_bridge_fn_mutex);
+    s_redis_bridge_fn = std::move(fn);
+}
+
 #if !defined(THEMIS_POSIX_SOCKETS)
 
 // STUB/SIMULATION NOTE:
@@ -107,18 +120,46 @@ RedisCacheCoordinator::RedisCacheCoordinator(const RedisCacheCoordinatorConfig& 
 
 RedisCacheCoordinator::~RedisCacheCoordinator() = default;
 
-void RedisCacheCoordinator::publishEntry(const std::string&,
-                                          const nlohmann::json&,
-                                          int,
-                                          const std::string&) {
-    std::lock_guard<std::mutex> lk(stats_mutex_);
-    ++publish_errors_;
+void RedisCacheCoordinator::publishEntry(const std::string& key,
+                                          const nlohmann::json& result,
+                                          int ttl_seconds,
+                                          const std::string& tenant_id) {
+    RedisPublishBridgeFn fn;
+    { std::lock_guard<std::mutex> lk(s_redis_bridge_fn_mutex); fn = s_redis_bridge_fn; }
+    if (fn) {
+        const std::string channel = config_.channel_prefix + ":entries";
+        nlohmann::json payload = {
+            {"type", "ENTRY_PUT"}, {"key", key},
+            {"tenant_id", tenant_id}, {"ttl_seconds", ttl_seconds},
+            {"result", result}
+        };
+        bool ok = false;
+        try { ok = fn(channel, payload.dump()); } catch (...) { ok = false; }
+        std::lock_guard<std::mutex> lk(stats_mutex_);
+        if (ok) ++messages_published_; else ++publish_errors_;
+    } else {
+        std::lock_guard<std::mutex> lk(stats_mutex_);
+        ++publish_errors_;
+    }
 }
 
-void RedisCacheCoordinator::publishInvalidation(const std::string&,
-                                                 const std::string&) {
-    std::lock_guard<std::mutex> lk(stats_mutex_);
-    ++publish_errors_;
+void RedisCacheCoordinator::publishInvalidation(const std::string& pattern,
+                                                 const std::string& tenant_id) {
+    RedisPublishBridgeFn fn;
+    { std::lock_guard<std::mutex> lk(s_redis_bridge_fn_mutex); fn = s_redis_bridge_fn; }
+    if (fn) {
+        const std::string channel = config_.channel_prefix + ":invalidations";
+        nlohmann::json payload = {
+            {"type", "INVALIDATE"}, {"key", pattern}, {"tenant_id", tenant_id}
+        };
+        bool ok = false;
+        try { ok = fn(channel, payload.dump()); } catch (...) { ok = false; }
+        std::lock_guard<std::mutex> lk(stats_mutex_);
+        if (ok) ++messages_published_; else ++publish_errors_;
+    } else {
+        std::lock_guard<std::mutex> lk(stats_mutex_);
+        ++publish_errors_;
+    }
 }
 
 void RedisCacheCoordinator::subscribeEntries(EntryCallback callback) {

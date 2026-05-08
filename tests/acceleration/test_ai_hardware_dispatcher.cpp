@@ -259,6 +259,34 @@ TEST(AiHardwareDispatcherFocusedTests, AH_22_RunOn_NpuIntel_Graceful) {
     EXPECT_FALSE(res.error.empty());
 }
 
+TEST(AiHardwareDispatcherFocusedTests, AH_22b_RunOn_NpuApple_UsesInjectedBridge) {
+    std::vector<float> data = {9.0f, 8.0f};
+    AiHardwareDispatcher::setAppleANEDispatchFn([](AiInferenceRequest& req) {
+        AiInferenceResult result;
+        result.success = true;
+        result.backend_used = BackendType::NPU_APPLE;
+        result.output.assign(req.input_data, req.input_data + req.input_elements);
+        result.output_shape = req.input_shape;
+        result.ep_used = "InjectedAppleANE";
+        return result;
+    });
+
+    AiInferenceRequest req;
+    req.input_data = data.data();
+    req.input_elements = data.size();
+    req.input_shape = {1, 2};
+    req.model_path = "";
+
+    auto res = AiHardwareDispatcher::instance().runOn(BackendType::NPU_APPLE, req);
+    AiHardwareDispatcher::setAppleANEDispatchFn(nullptr);
+
+    ASSERT_TRUE(res.success);
+    EXPECT_EQ(res.backend_used, BackendType::NPU_APPLE);
+    ASSERT_EQ(res.output.size(), data.size());
+    EXPECT_FLOAT_EQ(res.output[0], 9.0f);
+    EXPECT_EQ(res.ep_used, "InjectedAppleANE");
+}
+
 TEST(AiHardwareDispatcherFocusedTests, AH_23_RunOn_OnnxRuntime_NoModel_Error) {
     std::vector<float> data(4, 0.0f);
     AiInferenceRequest req;

@@ -24,6 +24,8 @@
 
 #include <string>
 #include <vector>
+#include <functional>
+#include <mutex>
 
 namespace themis {
 namespace ingestion {
@@ -131,15 +133,74 @@ public:
  */
 class NullTextGenerationBackend : public ITextGenerationBackend {
 public:
-    std::string generate(const std::string& /*prompt*/,
-                         int   /*max_tokens*/,
-                         double /*temperature*/,
-                         const std::string& /*lora_adapter*/) override {
+    using GenerateFn = std::function<std::string(const std::string& prompt,
+                                                 int max_tokens,
+                                                 double temperature,
+                                                 const std::string& lora_adapter)>;
+    using AvailabilityFn = std::function<bool()>;
+
+    static void setGenerateFn(GenerateFn fn) {
+        std::lock_guard<std::mutex> lk(generateFnMutex());
+        generateFnStorage() = std::move(fn);
+    }
+    static void setAvailabilityFn(AvailabilityFn fn) {
+        std::lock_guard<std::mutex> lk(availabilityFnMutex());
+        availabilityFnStorage() = std::move(fn);
+    }
+
+    std::string generate(const std::string& prompt,
+                         int   max_tokens,
+                         double temperature,
+                         const std::string& lora_adapter) override {
+        GenerateFn fn;
+        {
+            std::lock_guard<std::mutex> lk(generateFnMutex());
+            fn = generateFnStorage();
+        }
+        if (fn) {
+            try {
+                return fn(prompt, max_tokens, temperature, lora_adapter);
+            } catch (...) {
+                return {};
+            }
+        }
         return {};
     }
 
-    bool        isAvailable() const override { return false; }
+    bool        isAvailable() const override {
+        AvailabilityFn fn;
+        {
+            std::lock_guard<std::mutex> lk(availabilityFnMutex());
+            fn = availabilityFnStorage();
+        }
+        if (fn) {
+            try {
+                return fn();
+            } catch (...) {
+                return false;
+            }
+        }
+        return false;
+    }
     std::string description() const override { return "NullTextGenerationBackend (no-op)"; }
+
+private:
+    static std::mutex& generateFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static GenerateFn& generateFnStorage() {
+        static GenerateFn fn;
+        return fn;
+    }
+    static std::mutex& availabilityFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static AvailabilityFn& availabilityFnStorage() {
+        static AvailabilityFn fn;
+        return fn;
+    }
 };
 
 // ============================================================================
@@ -205,20 +266,75 @@ public:
  */
 class NullEmbeddingBackend : public IEmbeddingBackend {
 public:
+    using EmbedFn = std::function<std::vector<float>(const std::string& text, int dims)>;
+    using AvailabilityFn = std::function<bool()>;
+
+    static void setEmbedFn(EmbedFn fn) {
+        std::lock_guard<std::mutex> lk(embedFnMutex());
+        embedFnStorage() = std::move(fn);
+    }
+    static void setAvailabilityFn(AvailabilityFn fn) {
+        std::lock_guard<std::mutex> lk(availabilityFnMutex());
+        availabilityFnStorage() = std::move(fn);
+    }
+
     /// Construct with embedding dimensionality (default: 768).
     explicit NullEmbeddingBackend(int dims = 768) : dims_(dims) {}
 
-    std::vector<float> embed(const std::string& /*text*/) override {
+    std::vector<float> embed(const std::string& text) override {
+        EmbedFn fn;
+        {
+            std::lock_guard<std::mutex> lk(embedFnMutex());
+            fn = embedFnStorage();
+        }
+        if (fn) {
+            try {
+                return fn(text, dims_);
+            } catch (...) {
+                return std::vector<float>(static_cast<std::size_t>(dims_), 0.0f);
+            }
+        }
         return std::vector<float>(static_cast<std::size_t>(dims_), 0.0f);
     }
 
     int  dimensions()  const override { return dims_; }
-    bool isAvailable() const override { return false; }
+    bool isAvailable() const override {
+        AvailabilityFn fn;
+        {
+            std::lock_guard<std::mutex> lk(availabilityFnMutex());
+            fn = availabilityFnStorage();
+        }
+        if (fn) {
+            try {
+                return fn();
+            } catch (...) {
+                return false;
+            }
+        }
+        return false;
+    }
     std::string description() const override {
         return "NullEmbeddingBackend (zero-vector, dims=" + std::to_string(dims_) + ")";
     }
 
 private:
+    static std::mutex& embedFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static EmbedFn& embedFnStorage() {
+        static EmbedFn fn;
+        return fn;
+    }
+    static std::mutex& availabilityFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static AvailabilityFn& availabilityFnStorage() {
+        static AvailabilityFn fn;
+        return fn;
+    }
+
     int dims_;
 };
 

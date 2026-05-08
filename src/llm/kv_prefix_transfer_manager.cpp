@@ -11,13 +11,48 @@
 
 namespace themis::llm {
 
+std::mutex& KVPrefixTransferManager::serializerFactoryMutex() {
+    static std::mutex m;
+    return m;
+}
+
+KVPrefixTransferManager::SerializerFactoryFn&
+KVPrefixTransferManager::serializerFactoryStorage() {
+    static SerializerFactoryFn fn;
+    return fn;
+}
+
+void KVPrefixTransferManager::setDefaultSerializerFactory(SerializerFactoryFn fn) {
+    std::lock_guard<std::mutex> lk(serializerFactoryMutex());
+    serializerFactoryStorage() = std::move(fn);
+}
+
 KVPrefixTransferManager::KVPrefixTransferManager(
     themis::sharding::RemoteExecutor& remote_executor,
     std::unique_ptr<IKVStateSerializer> serializer,
     std::size_t min_prefix_tokens)
     : remote_executor_(remote_executor)
-    , serializer_(serializer ? std::move(serializer)
-                             : std::make_unique<NullKVStateSerializer>())
+    , serializer_([&]() -> std::unique_ptr<IKVStateSerializer> {
+        if (serializer) {
+            return std::move(serializer);
+        }
+        SerializerFactoryFn factory;
+        {
+            std::lock_guard<std::mutex> lk(serializerFactoryMutex());
+            factory = serializerFactoryStorage();
+        }
+        if (factory) {
+            try {
+                auto custom = factory();
+                if (custom) {
+                    return custom;
+                }
+            } catch (...) {
+                // fail-closed: default back to NullKVStateSerializer
+            }
+        }
+        return std::make_unique<NullKVStateSerializer>();
+    }())
     , min_prefix_tokens_(min_prefix_tokens)
 {}
 

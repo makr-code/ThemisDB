@@ -42,8 +42,26 @@
 
 #include "geo/gpu_kernel_dispatcher.h"
 
+#include <mutex>
+
 namespace themis {
 namespace geo {
+
+namespace {
+std::mutex                              s_dispatch_mutex;
+GpuKernelDispatcher::ContainmentDispatchFn s_containment_dispatch_fn;
+GpuKernelDispatcher::DistanceDispatchFn    s_distance_dispatch_fn;
+}
+
+void GpuKernelDispatcher::setContainmentDispatchFn(ContainmentDispatchFn fn) {
+    std::lock_guard<std::mutex> lk(s_dispatch_mutex);
+    s_containment_dispatch_fn = std::move(fn);
+}
+
+void GpuKernelDispatcher::setDistanceDispatchFn(DistanceDispatchFn fn) {
+    std::lock_guard<std::mutex> lk(s_dispatch_mutex);
+    s_distance_dispatch_fn = std::move(fn);
+}
 
 GpuKernelDispatcher::GpuKernelDispatcher(
     const themis::acceleration::GeoKernelDispatch& dt) noexcept
@@ -51,27 +69,58 @@ GpuKernelDispatcher::GpuKernelDispatcher(
 {}
 
 bool GpuKernelDispatcher::isAvailable() const noexcept {
-    return false;
+    std::lock_guard<std::mutex> lk(s_dispatch_mutex);
+    return static_cast<bool>(s_containment_dispatch_fn) ||
+           static_cast<bool>(s_distance_dispatch_fn);
 }
 
 GpuKernelDispatcher::ContainmentResult GpuKernelDispatcher::dispatchContainment(
-    const double* /*point_lats*/,
-    const double* /*point_lons*/,
-    int           /*numPoints*/,
-    const double* /*polygon_coords*/,
-    int           /*numPolygonVertices*/
+    const double* point_lats,
+    const double* point_lons,
+    int           numPoints,
+    const double* polygon_coords,
+    int           numPolygonVertices
 ) {
+    ContainmentDispatchFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_dispatch_mutex);
+        fn = s_containment_dispatch_fn;
+    }
+    if (fn && point_lats && point_lons && polygon_coords && numPoints > 0 &&
+        numPolygonVertices >= 3) {
+        try {
+            return fn(point_lats, point_lons, numPoints, polygon_coords, numPolygonVertices);
+        } catch (...) {
+            auto result = ContainmentResult{};
+            result.error_code = -1;
+            return result;
+        }
+    }
     return ContainmentResult{};
 }
 
 GpuKernelDispatcher::DistanceResult GpuKernelDispatcher::dispatchDistance(
-    const double* /*lats1*/,
-    const double* /*lons1*/,
-    const double* /*lats2*/,
-    const double* /*lons2*/,
-    int           /*count*/,
-    themis::acceleration::GeoDistanceFormula /*formula*/
+    const double* lats1,
+    const double* lons1,
+    const double* lats2,
+    const double* lons2,
+    int           count,
+    themis::acceleration::GeoDistanceFormula formula
 ) {
+    DistanceDispatchFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_dispatch_mutex);
+        fn = s_distance_dispatch_fn;
+    }
+    if (fn && lats1 && lons1 && lats2 && lons2 && count > 0) {
+        try {
+            return fn(lats1, lons1, lats2, lons2, count, formula);
+        } catch (...) {
+            auto result = DistanceResult{};
+            result.error_code = -1;
+            return result;
+        }
+    }
     return DistanceResult{};
 }
 

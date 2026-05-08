@@ -25,7 +25,11 @@
 
 #include "acceleration/compute_backend.h"
 #include "acceleration/metrics/backend_metrics.h"
+#include <functional>
 #include <memory>
+#include <mutex>
+#include <string>
+#include <vector>
 
 namespace themis {
 namespace acceleration {
@@ -33,6 +37,24 @@ namespace acceleration {
 // DirectX 12 Compute Shaders backend (Windows only)
 class DirectXVectorBackend : public IVectorBackend {
 public:
+    using AvailabilityFn = std::function<bool()>;
+    using InitializeFn = std::function<bool()>;
+    using ComputeDistancesFn = std::function<std::vector<float>(
+        const float* queries,
+        size_t numQueries,
+        size_t dim,
+        const float* vectors,
+        size_t numVectors,
+        bool useL2)>;
+    using BatchKnnSearchFn = std::function<std::vector<std::vector<std::pair<uint32_t, float>>>(
+        const float* queries,
+        size_t numQueries,
+        size_t dim,
+        const float* vectors,
+        size_t numVectors,
+        size_t k,
+        bool useL2)>;
+
     DirectXVectorBackend();
     ~DirectXVectorBackend() override;
     
@@ -63,7 +85,64 @@ public:
         bool useL2 = true
     ) override;
 
+    /// Register a non-DirectX availability bridge for stub builds.
+    /// Thread-safe setter; passing empty function restores fail-closed default.
+    static void setAvailabilityFn(AvailabilityFn fn) {
+        std::lock_guard<std::mutex> lk(availabilityFnMutex());
+        availabilityFnStorage() = std::move(fn);
+    }
+    /// Register a non-DirectX initialization bridge for stub builds.
+    /// Thread-safe setter; passing empty function restores fail-closed default.
+    static void setInitializeFn(InitializeFn fn) {
+        std::lock_guard<std::mutex> lk(initializeFnMutex());
+        initializeFnStorage() = std::move(fn);
+    }
+    /// Register a non-DirectX distance-compute bridge for stub builds.
+    /// Thread-safe setter; passing empty function restores fail-closed default.
+    static void setComputeDistancesFn(ComputeDistancesFn fn) {
+        std::lock_guard<std::mutex> lk(computeDistancesFnMutex());
+        computeDistancesFnStorage() = std::move(fn);
+    }
+    /// Register a non-DirectX batch-KNN bridge for stub builds.
+    /// Thread-safe setter; passing empty function restores fail-closed default.
+    static void setBatchKnnSearchFn(BatchKnnSearchFn fn) {
+        std::lock_guard<std::mutex> lk(batchKnnSearchFnMutex());
+        batchKnnSearchFnStorage() = std::move(fn);
+    }
+
 private:
+    static std::mutex& availabilityFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static AvailabilityFn& availabilityFnStorage() {
+        static AvailabilityFn fn;
+        return fn;
+    }
+    static std::mutex& initializeFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static InitializeFn& initializeFnStorage() {
+        static InitializeFn fn;
+        return fn;
+    }
+    static std::mutex& computeDistancesFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static ComputeDistancesFn& computeDistancesFnStorage() {
+        static ComputeDistancesFn fn;
+        return fn;
+    }
+    static std::mutex& batchKnnSearchFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static BatchKnnSearchFn& batchKnnSearchFnStorage() {
+        static BatchKnnSearchFn fn;
+        return fn;
+    }
     bool initialized_ = false;
     class DirectXVectorBackendImpl;
     std::unique_ptr<DirectXVectorBackendImpl> impl_;
@@ -72,6 +151,24 @@ private:
 // Vulkan Compute backend (cross-platform)
 class VulkanVectorBackend : public IVectorBackend {
 public:
+    using AvailabilityFn = std::function<bool()>;
+    using InitializeFn = std::function<bool()>;
+    using ComputeDistancesFn = std::function<std::vector<float>(
+        const float* queries,
+        size_t numQueries,
+        size_t dim,
+        const float* vectors,
+        size_t numVectors,
+        bool useL2)>;
+    using BatchKnnSearchFn = std::function<std::vector<std::vector<std::pair<uint32_t, float>>>(
+        const float* queries,
+        size_t numQueries,
+        size_t dim,
+        const float* vectors,
+        size_t numVectors,
+        size_t k,
+        bool useL2)>;
+
     VulkanVectorBackend();
     ~VulkanVectorBackend() override;
     
@@ -128,7 +225,76 @@ public:
     std::pair<uint32_t, uint32_t> getWorkgroupSizeL2() const noexcept;
     uint32_t getWorkgroupSizeBatchSearch() const noexcept;
 
+    /// Register a non-Vulkan availability bridge for stub builds.
+    static void setAvailabilityFn(AvailabilityFn fn) {
+        std::lock_guard<std::mutex> lk(availabilityFnMutex());
+        availabilityFnStorage() = std::move(fn);
+    }
+    /// Register a non-Vulkan initialization bridge for stub builds.
+    static void setInitializeFn(InitializeFn fn) {
+        std::lock_guard<std::mutex> lk(initializeFnMutex());
+        initializeFnStorage() = std::move(fn);
+    }
+    /// Register a non-Vulkan distance-compute bridge for stub builds.
+    static void setComputeDistancesFn(ComputeDistancesFn fn) {
+        std::lock_guard<std::mutex> lk(computeDistancesFnMutex());
+        computeDistancesFnStorage() = std::move(fn);
+    }
+    /// Register a non-Vulkan batch-KNN bridge for stub builds.
+    static void setBatchKnnSearchFn(BatchKnnSearchFn fn) {
+        std::lock_guard<std::mutex> lk(batchKnnSearchFnMutex());
+        batchKnnSearchFnStorage() = std::move(fn);
+    }
+    // ── STUB #169 bridge — runtime GLSL→SPIR-V compiler injection ──────────
+    /// Callback type for injecting a shaderc/glslang-based GLSL→SPIR-V
+    /// compiler so that compute shaders can be compiled at runtime without
+    /// pre-built .spv files.
+    ///
+    /// Parameters: (glsl_source, shader_type)
+    ///   shader_type is a string such as "compute", "vertex", "fragment".
+    /// Must return a non-empty SPIR-V buffer or an empty vector on failure.
+    using CompileGLSLFn = std::function<
+        std::vector<uint32_t>(const std::string& /*glsl_source*/,
+                              const std::string& /*shader_type*/)>;
+
+    /// Inject (or remove) a runtime GLSL→SPIR-V compiler.  Pass nullptr /
+    /// empty fn to restore the stub path (returns empty SPIR-V).
+    /// Thread-safe.
+    static void setCompileGLSLFn(CompileGLSLFn fn);
+
 private:
+    static std::mutex& availabilityFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static AvailabilityFn& availabilityFnStorage() {
+        static AvailabilityFn fn;
+        return fn;
+    }
+    static std::mutex& initializeFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static InitializeFn& initializeFnStorage() {
+        static InitializeFn fn;
+        return fn;
+    }
+    static std::mutex& computeDistancesFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static ComputeDistancesFn& computeDistancesFnStorage() {
+        static ComputeDistancesFn fn;
+        return fn;
+    }
+    static std::mutex& batchKnnSearchFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static BatchKnnSearchFn& batchKnnSearchFnStorage() {
+        static BatchKnnSearchFn fn;
+        return fn;
+    }
     bool initialized_ = false;
     class VulkanVectorBackendImpl;
     std::unique_ptr<VulkanVectorBackendImpl> impl_;
@@ -183,6 +349,24 @@ private:
 // on the calling thread before the function returns.
 class OpenGLVectorBackend : public IVectorBackend {
 public:
+    using AvailabilityFn = std::function<bool()>;
+    using InitializeFn = std::function<bool()>;
+    using ComputeDistancesFn = std::function<std::vector<float>(
+        const float* queries,
+        size_t numQueries,
+        size_t dim,
+        const float* vectors,
+        size_t numVectors,
+        bool useL2)>;
+    using BatchKnnSearchFn = std::function<std::vector<std::vector<std::pair<uint32_t, float>>>(
+        const float* queries,
+        size_t numQueries,
+        size_t dim,
+        const float* vectors,
+        size_t numVectors,
+        size_t k,
+        bool useL2)>;
+
     OpenGLVectorBackend();
     ~OpenGLVectorBackend() override;
     
@@ -213,7 +397,64 @@ public:
         bool useL2 = true
     ) override;
 
+    /// Register a non-OpenGL availability bridge for stub builds.
+    /// Thread-safe setter; passing empty function restores fail-closed default.
+    static void setAvailabilityFn(AvailabilityFn fn) {
+        std::lock_guard<std::mutex> lk(availabilityFnMutex());
+        availabilityFnStorage() = std::move(fn);
+    }
+    /// Register a non-OpenGL initialization bridge for stub builds.
+    /// Thread-safe setter; passing empty function restores fail-closed default.
+    static void setInitializeFn(InitializeFn fn) {
+        std::lock_guard<std::mutex> lk(initializeFnMutex());
+        initializeFnStorage() = std::move(fn);
+    }
+    /// Register a non-OpenGL distance-compute bridge for stub builds.
+    /// Thread-safe setter; passing empty function restores fail-closed default.
+    static void setComputeDistancesFn(ComputeDistancesFn fn) {
+        std::lock_guard<std::mutex> lk(computeDistancesFnMutex());
+        computeDistancesFnStorage() = std::move(fn);
+    }
+    /// Register a non-OpenGL batch-KNN bridge for stub builds.
+    /// Thread-safe setter; passing empty function restores fail-closed default.
+    static void setBatchKnnSearchFn(BatchKnnSearchFn fn) {
+        std::lock_guard<std::mutex> lk(batchKnnSearchFnMutex());
+        batchKnnSearchFnStorage() = std::move(fn);
+    }
+
 private:
+    static std::mutex& availabilityFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static AvailabilityFn& availabilityFnStorage() {
+        static AvailabilityFn fn;
+        return fn;
+    }
+    static std::mutex& initializeFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static InitializeFn& initializeFnStorage() {
+        static InitializeFn fn;
+        return fn;
+    }
+    static std::mutex& computeDistancesFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static ComputeDistancesFn& computeDistancesFnStorage() {
+        static ComputeDistancesFn fn;
+        return fn;
+    }
+    static std::mutex& batchKnnSearchFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static BatchKnnSearchFn& batchKnnSearchFnStorage() {
+        static BatchKnnSearchFn fn;
+        return fn;
+    }
     bool initialized_ = false;
     class OpenGLVectorBackendImpl;
     std::unique_ptr<OpenGLVectorBackendImpl> impl_;
@@ -315,3 +556,42 @@ private:
 
 } // namespace acceleration
 } // namespace themis
+
+// ============================================================================
+// Vulkan GLSL compiler injection — only available in THEMIS_ENABLE_VULKAN builds
+// ============================================================================
+
+#ifdef THEMIS_ENABLE_VULKAN
+#include <functional>
+#include <vector>
+#include <string>
+
+namespace themis {
+namespace acceleration {
+
+/**
+ * @brief Injection type for a runtime GLSL→SPIR-V compiler (e.g. shaderc).
+ *
+ * Signature: `std::vector<uint32_t> fn(const std::string& glsl_source,
+ *                                      const std::string& shader_type)`
+ *
+ * A non-empty return replaces the built-in empty-SPIR-V stub path.
+ */
+using GlslCompilerFn = std::function<
+    std::vector<uint32_t>(const std::string& glsl_source,
+                          const std::string& shader_type)>;
+
+/**
+ * @brief Inject a real GLSL-to-SPIR-V compiler backend.
+ *
+ * When @p fn is non-null, `compileGLSLtoSPIRV()` in `vulkan_backend_full.cpp`
+ * delegates to it instead of returning an empty buffer.  Pass @p nullptr to
+ * revert to the stub.  Thread-safe.
+ *
+ * Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md §Vulkan GLSL Compiler.
+ */
+void setVulkanGlslCompilerFn(GlslCompilerFn fn);
+
+} // namespace acceleration
+} // namespace themis
+#endif // THEMIS_ENABLE_VULKAN

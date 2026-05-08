@@ -161,6 +161,13 @@ struct OLAPQuery {
     std::vector<Sort> sorts;
     std::optional<int64_t> limit;
     std::optional<int64_t> offset;
+
+    /// Optional tenant identifier for multi-tenant deployments.
+    /// When non-empty, `DistributedAnalyticsSharding` enforces that every
+    /// registered shard belongs to (or is allowed for) this tenant before
+    /// dispatching the query.  Shard executors may also use this field to
+    /// scope their key-prefix access at the storage layer.
+    std::string tenant_id;
     
     // Advanced grouping
     enum class GroupingMode {
@@ -241,6 +248,14 @@ struct OLAPResult {
  */
 class OLAPEngine {
 public:
+    using ExportToParquetFn = std::function<bool(const OLAPResult&,
+                                                 const std::string&,
+                                                 const std::string&)>;
+    using ExportCollectionToParquetFn = std::function<bool(std::string_view,
+                                                           const std::string&,
+                                                           const std::vector<Filter>&,
+                                                           const std::string&)>;
+
     /**
      * @brief GPU acceleration configuration for the OLAP engine.
      */
@@ -343,6 +358,9 @@ public:
         const std::vector<Filter>& filters = {},
         const std::string& compression = "snappy"
     );
+
+    static void setExportToParquetFn(ExportToParquetFn fn);
+    static void setExportCollectionToParquetFn(ExportCollectionToParquetFn fn);
 
 private:
     // Internal helpers

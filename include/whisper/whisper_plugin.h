@@ -54,6 +54,8 @@ namespace whisper {
  */
 class WhisperPlugin : public audio::IAudioBackend {
 public:
+    using StubTranscriberFactoryFn = std::function<std::unique_ptr<IWhisperTranscriber>()>;
+
     /** Default constructor – builds production or stub backend automatically. */
     WhisperPlugin();
 
@@ -94,6 +96,8 @@ public:
     std::string getModelId() const override;
     std::string getPluginVersion() const override { return "2.0.0"; }
     nlohmann::json getStatistics() const override;
+
+    static void setStubTranscriberFactoryFn(StubTranscriberFactoryFn fn);
 
     // ── VAD injection ──────────────────────────────────────────────────────
     /**

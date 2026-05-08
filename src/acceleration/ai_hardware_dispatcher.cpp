@@ -77,6 +77,16 @@
 namespace themis {
 namespace acceleration {
 
+namespace {
+std::mutex                               s_apple_ane_dispatch_mutex;
+AiHardwareDispatcher::AppleANEDispatchFn s_apple_ane_dispatch_fn;
+}
+
+void AiHardwareDispatcher::setAppleANEDispatchFn(AppleANEDispatchFn fn) {
+    std::lock_guard<std::mutex> lk(s_apple_ane_dispatch_mutex);
+    s_apple_ane_dispatch_fn = std::move(fn);
+}
+
 // =============================================================================
 // Singleton
 // =============================================================================
@@ -522,6 +532,21 @@ static AiInferenceResult makeError(BackendType bt, const std::string& msg) {
 }
 
 AiInferenceResult AiHardwareDispatcher::dispatchAppleANE([[maybe_unused]] AiInferenceRequest& req) {
+    AppleANEDispatchFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_apple_ane_dispatch_mutex);
+        fn = s_apple_ane_dispatch_fn;
+    }
+    if (fn) {
+        try {
+            return fn(req);
+        } catch (const std::exception& e) {
+            return makeError(BackendType::NPU_APPLE,
+                             std::string("Injected Apple ANE dispatch failed: ") + e.what());
+        } catch (...) {
+            return makeError(BackendType::NPU_APPLE, "Injected Apple ANE dispatch failed");
+        }
+    }
 #if defined(THEMIS_HAS_NPU_APPLE)
     if (!req.input_data || req.input_elements == 0) {
         return makeError(BackendType::NPU_APPLE, "Invalid input: null or empty");

@@ -30,6 +30,7 @@
 #include "sharding/distributed_transaction.h"
 #include "sharding/truetime.h"
 #include "sharding/wal_manager.h"  // For LSN type
+#include "transaction/in_doubt_recovery_coordinator.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -216,7 +217,7 @@ struct CrossShardTransactionConfig {
  * - Distributed deadlock detection
  * - Snapshot isolation across shards
  */
-class CrossShardTransactionCoordinator {
+class CrossShardTransactionCoordinator : public themis::transaction::IInDoubtRecoveryCoordinator {
 public:
     explicit CrossShardTransactionCoordinator(
         const CrossShardTransactionConfig& config,
@@ -289,6 +290,19 @@ public:
      * @return true if aborted successfully
      */
     bool abort(const std::string& transaction_id);
+
+    /**
+     * @brief Re-drive in-doubt transactions using the configured recovery backend.
+     *
+     * Uses WAL+snapshot recovery when persistence is enabled; otherwise falls
+     * back to legacy file-log recovery.
+     *
+     * This method is intended for startup recovery before new transactions are
+     * accepted. If called during live traffic, the returned value is best-effort.
+     *
+     * @return Number of in-doubt transactions resolved by this invocation.
+     */
+    size_t recoverInDoubtTransactions() override;
     
     /**
      * @brief Execute a SAGA transaction

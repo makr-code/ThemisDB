@@ -20,6 +20,7 @@
 #include <gtest/gtest.h>
 #include <grpcpp/grpcpp.h>
 #include <atomic>
+#include <cstdlib>
 #include <memory>
 #include <mutex>
 #include <set>
@@ -44,6 +45,76 @@ using themis::sharding::WALApplierConfig;
 using themis::sharding::LSN;
 
 namespace {
+
+struct EnvGuard {
+    std::string name;
+    std::string previous;
+    bool had_previous{false};
+
+    EnvGuard(std::string var_name, std::string value) : name(std::move(var_name)) {
+        const char* existing = std::getenv(name.c_str());
+        had_previous = (existing != nullptr);
+        if (had_previous) {
+            previous = existing;
+        }
+#ifdef _WIN32
+        _putenv_s(name.c_str(), value.c_str());
+#else
+        ::setenv(name.c_str(), value.c_str(), 1);
+#endif
+    }
+
+    ~EnvGuard() {
+#ifdef _WIN32
+        if (had_previous) {
+            _putenv_s(name.c_str(), previous.c_str());
+        } else {
+            _putenv_s(name.c_str(), "");
+        }
+#else
+        if (had_previous) {
+            ::setenv(name.c_str(), previous.c_str(), 1);
+        } else {
+            ::unsetenv(name.c_str());
+        }
+#endif
+    }
+};
+
+struct EnvUnsetGuard {
+    std::string name;
+    std::string previous;
+    bool had_previous{false};
+
+    explicit EnvUnsetGuard(std::string var_name) : name(std::move(var_name)) {
+        const char* existing = std::getenv(name.c_str());
+        had_previous = (existing != nullptr);
+        if (had_previous) {
+            previous = existing;
+        }
+#ifdef _WIN32
+        _putenv_s(name.c_str(), "");
+#else
+        ::unsetenv(name.c_str());
+#endif
+    }
+
+    ~EnvUnsetGuard() {
+#ifdef _WIN32
+        if (had_previous) {
+            _putenv_s(name.c_str(), previous.c_str());
+        } else {
+            _putenv_s(name.c_str(), "");
+        }
+#else
+        if (had_previous) {
+            ::setenv(name.c_str(), previous.c_str(), 1);
+        } else {
+            ::unsetenv(name.c_str());
+        }
+#endif
+    }
+};
 
 class WalGrpcApplyTest : public ::testing::Test {
 protected:
@@ -169,5 +240,26 @@ TEST_F(WalGrpcApplyTest, RejectsMissingPayload) {
     EXPECT_EQ(status.error_code(), grpc::StatusCode::INVALID_ARGUMENT);
 #endif
 }
+
+#if !__has_include("sharding/shard_rpc.grpc.pb.h")
+TEST(WalGrpcServiceStubGuardTest, StubRefusesProductionModeByDefault) {
+    EnvGuard production("THEMIS_PRODUCTION_MODE", "1");
+    EnvUnsetGuard allow_stub("THEMIS_ALLOW_WAL_GRPC_STUB");
+
+    EXPECT_THROW(
+        (void)std::make_unique<themis::server::WalGrpcService>(nullptr),
+        std::runtime_error
+    );
+}
+
+TEST(WalGrpcServiceStubGuardTest, StubCanBeExplicitlyAllowed) {
+    EnvGuard production("THEMIS_PRODUCTION_MODE", "1");
+    EnvGuard allow_stub("THEMIS_ALLOW_WAL_GRPC_STUB", "1");
+
+    auto service = std::make_unique<themis::server::WalGrpcService>(nullptr);
+    ASSERT_NE(service, nullptr);
+    EXPECT_EQ(service->service(), nullptr);
+}
+#endif
 
 } // namespace

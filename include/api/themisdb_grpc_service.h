@@ -23,6 +23,7 @@
 
 #pragma once
 
+#include <functional>
 #include <memory>
 
 // Forward declarations of the internal components required by the service.
@@ -77,6 +78,10 @@ namespace api {
  */
 class ThemisDBGrpcService {
 public:
+    /// Callback type that provides an opaque grpc::Service* to the wrapper
+    /// when the generated proto stubs are absent from the build.
+    using ServiceFn = std::function<void*()>;
+
     /**
      * @brief Construct with storage only (AQL and vector search return UNIMPLEMENTED).
      * @param db       Storage backend (must outlive this object).
@@ -113,14 +118,31 @@ public:
      * Returns the concrete service implementation when `themisdb.grpc.pb.h`
      * is available (i.e. protoc has been run).  Returns nullptr otherwise so
      * that callers can safely skip registration without crashing.
+     *
+     * If a service callback was registered via setServiceFn(), its return
+     * value is used for non-proto builds.
      */
     void* service();
+
+    /**
+     * @brief Configure a process-wide callback that provides a grpc::Service*.
+     *
+     * Used in non-proto builds to wire a service instance obtained from another
+     * module (e.g. a dynamically loaded plugin or a test double).  The callback
+     * is invoked once during construction in an exception-safe manner; exceptions
+     * cause the service pointer to remain null (fail-closed).
+     *
+     * Pass an empty function to remove a previously registered callback.
+     */
+    static void setServiceFn(ServiceFn fn);
 
 private:
     std::shared_ptr<RocksDBWrapper>             db_;
     std::shared_ptr<TransactionManager>         txn_mgr_;
     std::shared_ptr<themis::IQueryEngine>       aql_engine_;
     std::shared_ptr<themis::IVectorIndex>       vector_index_;
+
+    void* service_ptr_ = nullptr;
 
     class Impl;
     std::unique_ptr<Impl> impl_;

@@ -411,6 +411,14 @@ public:
     void stop() override;
     void send(const json& message) override;
 
+    // Bridge callback for exotic/embedded platforms that lack _WIN32, __unix__,
+    // and __APPLE__ (STUB #65). When set, the injected function is called from
+    // start() instead of the warn-only stub path, allowing platform-specific
+    // async stdin reading to be wired in without changing preprocessor guards.
+    // Passing nullptr reverts to the default warn-only behaviour.
+    using StdioReadFn = std::function<void()>;
+    static void setStdioReadFn(StdioReadFn fn);
+
 private:
     void readStdin();
     void writeStdout(const std::string& data);

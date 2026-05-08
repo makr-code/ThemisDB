@@ -18,6 +18,7 @@
  */
 
 #include "server/cdn_cache_middleware.h"
+#include "utils/hash_util.h"
 
 #include <boost/beast/core/string.hpp>
 #include <sstream>
@@ -30,22 +31,6 @@ namespace server {
 // ─────────────────────────────────────────────────────────────────────────────
 // Internal helpers
 // ─────────────────────────────────────────────────────────────────────────────
-
-namespace {
-
-/// FNV-1a 64-bit hash (fast, no OpenSSL dependency).
-uint64_t fnv1a64(const std::string& data) {
-    constexpr uint64_t FNV_OFFSET = 14695981039346656037ULL;
-    constexpr uint64_t FNV_PRIME  = 1099511628211ULL;
-    uint64_t hash = FNV_OFFSET;
-    for (unsigned char c : data) {
-        hash ^= static_cast<uint64_t>(c);
-        hash *= FNV_PRIME;
-    }
-    return hash;
-}
-
-} // anonymous namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Policy management
@@ -101,7 +86,7 @@ bool CdnCacheMiddleware::isServerError(http::status status) {
 }
 
 std::string CdnCacheMiddleware::generateETag(const std::string& body) {
-    uint64_t h = fnv1a64(body);
+    uint64_t h = themis::hash::fnv1a64(body);
     std::ostringstream oss;
     oss << "W/\"" << std::hex << std::setfill('0') << std::setw(16) << h << "\"";
     return oss.str();

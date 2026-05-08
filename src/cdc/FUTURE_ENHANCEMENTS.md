@@ -578,8 +578,8 @@ References for the features described in this document. IEEE/ACM format, numbere
 
 ## Kafka CDC Producer Activation (Target: v1.6.0)
 
-**Stub:** `src/cdc/kafka_cdc_producer.cpp` — `!THEMIS_ENABLE_KAFKA`: TU empty; no-op stub inline in `include/cdc/kafka_cdc_producer.h`; `publish()` silently no-ops  
-**Risk:** All CDC change events discarded; downstream Kafka consumers receive no real-time feeds; publish errors are masked (return without error).
+**Stub:** `src/cdc/kafka_cdc_producer.cpp` — `!THEMIS_ENABLE_KAFKA`: TU empty; fallback stub inline in `include/cdc/kafka_cdc_producer.h`; `start()`/`publish()` return `false`  
+**Risk:** All CDC change events discarded; downstream Kafka consumers receive no real-time feeds; callers must handle explicit failure (`false`) when Kafka support is not compiled.
 
 ### Scope
 - Install librdkafka (`apt install librdkafka-dev` or equivalent).

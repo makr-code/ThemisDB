@@ -108,6 +108,41 @@ struct SimilarTensorResult {
 };
 
 // ============================================================================
+// PersistedFingerprintNode
+// ============================================================================
+
+/**
+ * @brief Durable node payload used for graph metadata recovery.
+ *
+ * Stores only fingerprint + node metadata. TT-trains and edges are rebuilt or
+ * resolved externally after restore.
+ */
+struct PersistedFingerprintNode {
+    std::string tensor_id;
+    TensorFingerprint fingerprint;
+    std::string tenant;
+    std::string collection;
+    std::string field;
+};
+
+/**
+ * @brief Durable directed edge payload for adjacency re-hydration.
+ */
+struct PersistedFingerprintEdge {
+    std::string from;
+    std::string to;
+    double similarity = 0.0;
+};
+
+/**
+ * @brief Durable full graph payload used for one-shot snapshot restore.
+ */
+struct PersistedFingerprintGraphSnapshot {
+    std::vector<PersistedFingerprintNode> nodes;
+    std::vector<PersistedFingerprintEdge> edges;
+};
+
+// ============================================================================
 // FingerprintGraphConfig
 // ============================================================================
 
@@ -129,6 +164,10 @@ struct FingerprintGraphConfig {
 
     /// Maximum number of similar tensors to return per query
     std::size_t top_k           = 50;
+
+    /// Keep full TT-trains in-memory for similarity verification.
+    /// When false, a train loader callback should be provided.
+    bool cache_trains_in_memory = true;
 };
 
 // ============================================================================
@@ -150,6 +189,11 @@ struct FingerprintGraphConfig {
  */
 class TensorFingerprintGraph {
 public:
+    using TrainLoadFn = std::function<std::optional<storage::TTTrain>(
+        const std::string& tensor_id,
+        const std::string& tenant,
+        const std::string& collection,
+        const std::string& field)>;
     /**
      * @brief Construct with configuration.
      * @throws std::invalid_argument if num_hash_funcs % num_bands != 0.
@@ -180,6 +224,9 @@ public:
                 const std::string&           tenant     = "",
                 const std::string&           collection = "",
                 const std::string&           field      = "");
+
+    /// Configure optional train resolver used when in-memory train cache is disabled.
+    void setTrainLoadFn(TrainLoadFn fn);
 
     /**
      * @brief Remove a tensor and all its edges from the graph.
@@ -213,6 +260,75 @@ public:
     std::vector<SimilarTensorResult>
     neighbours(const std::string& tensor_id) const;
 
+    /// Export node fingerprint metadata for durable graph bootstrap.
+    std::vector<PersistedFingerprintNode> exportPersistedNodes() const;
+
+    /// Replace in-memory graph with persisted node metadata and rebuilt buckets.
+    /// Edges are not restored and start empty after import.
+    void importPersistedNodes(const std::vector<PersistedFingerprintNode>& nodes);
+
+    /// Export directed adjacency edges for durable graph re-hydration.
+    std::vector<PersistedFingerprintEdge> exportPersistedEdges() const;
+
+    /// Replace in-memory adjacency with persisted directed edges.
+    /// Missing nodes and duplicate directed edges are ignored.
+    void importPersistedEdges(const std::vector<PersistedFingerprintEdge>& edges);
+
+    /// Export node + edge payload in one snapshot.
+    PersistedFingerprintGraphSnapshot exportPersistedGraph() const;
+
+    /// Export one persisted node payload if present.
+    std::optional<PersistedFingerprintNode>
+    exportPersistedNode(const std::string& tensor_id) const;
+
+    /// Export directed edges originating from one node.
+    std::vector<PersistedFingerprintEdge>
+    exportPersistedEdgesFor(const std::string& tensor_id) const;
+
+    /// Atomically replace graph state from a full persisted snapshot.
+    void importPersistedGraph(const PersistedFingerprintGraphSnapshot& snapshot);
+
+    /// Upsert one persisted node and replace its symmetric adjacency.
+    void upsertPersistedNode(const PersistedFingerprintNode& node,
+                             const std::vector<PersistedFingerprintEdge>& edges);
+
+    // ─── GraphIndex-backed durable storage hooks ──────────────────────────
+
+    /// Called after insert() succeeds; delivers the newly persisted node and
+    /// all outgoing directed edges from that node.
+    /// Invoked outside the graph mutex. Exceptions are swallowed.
+    using NodePersistHookFn =
+        std::function<void(const PersistedFingerprintNode&,
+                           const std::vector<PersistedFingerprintEdge>&)>;
+
+    /// Called after remove() succeeds; delivers the removed tensor_id.
+    /// Invoked outside the graph mutex. Exceptions are swallowed.
+    using NodeRemoveHookFn = std::function<void(std::string_view tensor_id)>;
+
+    /// Callback signature for enumerating externally stored nodes during restore.
+    /// The caller's callback receives each (node, edges) pair.
+    using NodeEnumerateFn = std::function<void(
+        std::function<void(const PersistedFingerprintNode&,
+                           const std::vector<PersistedFingerprintEdge>&)>)>;
+
+    /// Register (or clear with nullptr/empty fn) the node-persistence hook.
+    /// The hook is invoked after every successful insert() call.
+    void setNodePersistHook(NodePersistHookFn fn);
+
+    /// Register (or clear with nullptr/empty fn) the node-removal hook.
+    /// The hook is invoked after every successful remove() call.
+    void setNodeRemoveHook(NodeRemoveHookFn fn);
+
+    /// Restore graph state by enumerating nodes from an external per-node store.
+    ///
+    /// Clears the current in-memory graph, then calls @p enumerate_fn which
+    /// must invoke its argument once per stored (node, edges) pair.
+    /// After enumeration the graph supports findSimilar() and neighbours()
+    /// without requiring a full-blob snapshot.
+    ///
+    /// @param enumerate_fn  Callback that enumerates all stored nodes.
+    void restoreFromExternalStore(NodeEnumerateFn enumerate_fn);
+
     // ─── Statistics ───────────────────────────────────────────────────────
 
     /// Number of nodes in the graph.
@@ -230,6 +346,7 @@ private:
     // Node metadata + fingerprint
     struct NodeEntry {
         TensorFingerprint  fingerprint;
+        storage::TTTrain   train;
         std::string        tenant;
         std::string        collection;
         std::string        field;
@@ -245,14 +362,23 @@ private:
 
     mutable std::mutex mutex_;
     std::atomic<std::size_t> edge_count_{0};
+    TrainLoadFn train_load_fn_;
 
     std::size_t rows_per_band_ = 4;
+
+    // ─── Persistence hooks ────────────────────────────────────────────────
+    NodePersistHookFn  node_persist_hook_;
+    NodeRemoveHookFn   node_remove_hook_;
+    mutable std::mutex hook_mutex_;  ///< guards node_persist_hook_ / node_remove_hook_
+    std::atomic<bool>  has_node_persist_hook_{false};
+    std::atomic<bool>  has_node_remove_hook_{false};
 
     // ─── Fingerprinting ───────────────────────────────────────────────────
 
     TensorFingerprint computeFingerprint(const storage::TTTrain& train) const;
 
     void insertIntoBuckets(const std::string& id, const TensorFingerprint& fp);
+    void removeFromBuckets(const std::string& id, const TensorFingerprint& fp);
 
     std::unordered_set<std::string>
     lshCandidates(const TensorFingerprint& fp) const;
@@ -263,6 +389,21 @@ private:
                              std::size_t band_idx) noexcept;
 
     static uint64_t fnv1a64(const void* data, std::size_t len) noexcept;
+
+    double exactSimilarity(const storage::TTTrain& a,
+                           const storage::TTTrain& b) const;
+
+    std::optional<storage::TTTrain>
+    resolveTrainForNode(const std::string& tensor_id,
+                        const NodeEntry& node) const;
+
+    /// Build persisted node payload — caller MUST hold mutex_.
+    PersistedFingerprintNode
+    buildPersistedNodeLocked(const std::string& tensor_id) const;
+
+    /// Build persisted outgoing edges for a node — caller MUST hold mutex_.
+    std::vector<PersistedFingerprintEdge>
+    buildPersistedEdgesForLocked(const std::string& tensor_id) const;
 };
 
 } // namespace graph

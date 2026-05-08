@@ -23,6 +23,7 @@
 #pragma once
 
 #include <string>
+#include <functional>
 #include <unordered_map>
 #include <vector>
 #include <mutex>
@@ -160,6 +161,12 @@ private:
  */
 class RedisRateLimiterBackend final : public IRateLimiterBackend {
 public:
+    using IncrementFn = std::function<int64_t(const std::string&, uint32_t)>;
+    using GetCountFn = std::function<int64_t(const std::string&, uint32_t)>;
+    using ResetFn = std::function<void(const std::string&)>;
+    using IsConnectedFn = std::function<bool()>;
+    using ReconnectFn = std::function<bool()>;
+
     struct Config {
         /// Redis server hostname or IP address.
         std::string host = "127.0.0.1";
@@ -223,6 +230,12 @@ public:
      * @return true on success.
      */
     bool reconnect();
+
+    static void setIncrementFn(IncrementFn fn);
+    static void setGetCountFn(GetCountFn fn);
+    static void setResetFn(ResetFn fn);
+    static void setIsConnectedFn(IsConnectedFn fn);
+    static void setReconnectFn(ReconnectFn fn);
 
 private:
     Config config_;

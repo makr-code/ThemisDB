@@ -942,6 +942,21 @@ struct SphincsPlus::Impl {
     // Simulation: re-use Ed25519 via EVP_PKEY
 };
 
+// STUB/SIMULATION NOTE:
+// Purpose:    Allow injection of a real liboqs-backed SphincsPlus implementation
+//             at runtime (for integration tests or phased production rollout),
+//             bypassing the Ed25519 simulation without changing the public API.
+// Activation: Runtime — when setGenerateKeyPairFn / setSignFn / setVerifyFn is
+//             called with a non-empty function object before the first use.
+// Production Delta: With no fn injected the Ed25519 simulation is used; with a fn
+//             injected the real OQS_SIG_alg_sphincs_sha2_256{s,f} path runs instead.
+// Removal Plan: Remove bridge slots once liboqs is permanently compiled in via vcpkg
+//             and the simulation block is deleted.
+static std::mutex s_sphincs_fn_mutex_;
+static SphincsPlus::GenerateKeyPairFn s_generate_key_pair_fn_;
+static SphincsPlus::SignFn            s_sign_fn_;
+static SphincsPlus::VerifyFn          s_verify_fn_;
+
 SphincsPlus::SphincsPlus(Variant variant)
     : variant_(variant), impl_(std::make_unique<Impl>()) {}
 
@@ -971,6 +986,15 @@ size_t SphincsPlus::signatureSize() const noexcept {
 }
 
 SphincsPlus::KeyPair SphincsPlus::generateKeyPair() {
+    SphincsPlus::GenerateKeyPairFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_sphincs_fn_mutex_);
+        fn = s_generate_key_pair_fn_;
+    }
+    if (fn) [[unlikely]] {
+        return fn();
+    }
+
     EVP_PKEY_CTX* pctx = EVP_PKEY_CTX_new_id(EVP_PKEY_ED25519, nullptr);
     if (!pctx) throw std::runtime_error("SphincsPlus::generateKeyPair: EVP_PKEY_CTX_new_id failed");
     if (EVP_PKEY_keygen_init(pctx) <= 0) {
@@ -1003,6 +1027,19 @@ SphincsPlus::KeyPair SphincsPlus::generateKeyPair() {
 
 std::vector<uint8_t> SphincsPlus::sign(const std::vector<uint8_t>& message,
                                         const std::vector<uint8_t>& secret_key) {
+    SphincsPlus::SignFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_sphincs_fn_mutex_);
+        fn = s_sign_fn_;
+    }
+    if (fn) [[unlikely]] {
+        try {
+            return fn(message, secret_key);
+        } catch (...) {
+            return {};
+        }
+    }
+
     if (secret_key.size() != secretKeySize()) {
         throw std::invalid_argument("SphincsPlus::sign: unexpected secret key size");
     }
@@ -1037,6 +1074,19 @@ std::vector<uint8_t> SphincsPlus::sign(const std::vector<uint8_t>& message,
 bool SphincsPlus::verify(const std::vector<uint8_t>& message,
                           const std::vector<uint8_t>& signature,
                           const std::vector<uint8_t>& public_key) {
+    SphincsPlus::VerifyFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_sphincs_fn_mutex_);
+        fn = s_verify_fn_;
+    }
+    if (fn) [[unlikely]] {
+        try {
+            return fn(message, signature, public_key);
+        } catch (...) {
+            return false;
+        }
+    }
+
     if (public_key.size() != publicKeySize()) return false;
 
     EVP_PKEY* pkey = EVP_PKEY_new_raw_public_key(
@@ -1054,6 +1104,23 @@ bool SphincsPlus::verify(const std::vector<uint8_t>& message,
     EVP_MD_CTX_free(ctx);
     EVP_PKEY_free(pkey);
     return ok;
+}
+
+// ── SphincsPlus bridge setters ────────────────────────────────────────────────
+
+void SphincsPlus::setGenerateKeyPairFn(SphincsPlus::GenerateKeyPairFn fn) {
+    std::lock_guard<std::mutex> lk(s_sphincs_fn_mutex_);
+    s_generate_key_pair_fn_ = std::move(fn);
+}
+
+void SphincsPlus::setSignFn(SphincsPlus::SignFn fn) {
+    std::lock_guard<std::mutex> lk(s_sphincs_fn_mutex_);
+    s_sign_fn_ = std::move(fn);
+}
+
+void SphincsPlus::setVerifyFn(SphincsPlus::VerifyFn fn) {
+    std::lock_guard<std::mutex> lk(s_sphincs_fn_mutex_);
+    s_verify_fn_ = std::move(fn);
 }
 
 } // namespace security

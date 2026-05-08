@@ -186,7 +186,7 @@ public:
     };
 
     /**
-     * @brief Function type for injecting mock CDC events in unit tests.
+     * @brief Function type for providing CDC event batches.
      *
      * Each call should return the next batch of events.  Return an empty
      * vector to signal end-of-stream.  Injected via
@@ -195,12 +195,13 @@ public:
     using CdcEventFetchFn = std::function<std::vector<CdcEvent>()>;
 
     /**
-     * @brief Inject a mock event-fetch function (unit testing only).
+     * @brief Inject a CDC event-batch provider.
      *
      * When set, every replication-stream poll that would normally be executed
      * against a live database is replaced by calls to @p fn.  Pass an empty
      * `CdcEventFetchFn{}` to restore the real stream path.
      */
+    void setEventBatchProvider(CdcEventFetchFn fn);
     void setCdcEventFetchForTesting(CdcEventFetchFn fn);
 
 private:

@@ -702,6 +702,14 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
     //   THEMIS_TEST_MODE block.  Production builds with no endpoint configured
     //   already return ok=false (the #else branch below).
     // Roadmap ref: src/utils/FUTURE_ENHANCEMENTS.md § "PKI Client Production Signing"
+    auto sign_hash_fn = VCCPKIClient::SignHashFn{};
+    {
+        std::lock_guard<std::mutex> lock(VCCPKIClient::signHashFnMutex());
+        sign_hash_fn = VCCPKIClient::signHashFnStorage();
+    }
+    if (sign_hash_fn) {
+        return sign_hash_fn(hash_bytes);
+    }
 #ifdef THEMIS_TEST_MODE
     res.ok = true;
     res.signature_b64 = base64_encode(hash_bytes);
@@ -845,6 +853,14 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
     //   PKI endpoint is configured.  The #else branch already returns false for
     //   production builds without a cert/endpoint.
     // Roadmap ref: src/utils/FUTURE_ENHANCEMENTS.md § "PKI Client Production Signing"
+    auto verify_hash_fn = VCCPKIClient::VerifyHashFn{};
+    {
+        std::lock_guard<std::mutex> lock(VCCPKIClient::verifyHashFnMutex());
+        verify_hash_fn = VCCPKIClient::verifyHashFnStorage();
+    }
+    if (verify_hash_fn) {
+        return verify_hash_fn(hash_bytes, sig);
+    }
 #ifdef THEMIS_TEST_MODE
     {
         std::string expected = base64_encode(hash_bytes);

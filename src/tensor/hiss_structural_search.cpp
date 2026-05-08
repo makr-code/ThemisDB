@@ -23,6 +23,8 @@ namespace tensor {
 
 namespace {
 
+constexpr double kMinQuanticsEpsilon = 1e-6;
+
 double coreEntropy(const storage::TTCore& core) {
     if (core.data.empty()) return 0.0;
     constexpr std::size_t kBins = 16;
@@ -56,6 +58,56 @@ std::uint64_t xorshift64(std::uint64_t& x) {
     x ^= x >> 7U;
     x ^= x << 17U;
     return x;
+}
+
+static std::size_t denseElementCount(const std::vector<std::size_t>& shape) {
+    if (shape.empty()) return 0;
+    std::size_t product = 1;
+    for (const auto dim : shape) {
+        if (dim == 0) {
+            throw std::invalid_argument("shape dimension must be > 0");
+        }
+        if (product > (std::numeric_limits<std::size_t>::max() / dim)) {
+            throw std::overflow_error("shape product overflow");
+        }
+        product *= dim;
+    }
+    return product;
+}
+
+[[nodiscard]] std::size_t calculateBitDepth(std::size_t grid_size) {
+    if (grid_size == 0) {
+        throw std::invalid_argument("grid_size must be > 0, got: " + std::to_string(grid_size));
+    }
+    std::size_t depth = 0;
+    std::size_t v = 1;
+    while (v < grid_size) {
+        if (depth >= std::numeric_limits<std::size_t>::digits - 1) {
+            throw std::overflow_error("grid_size " + std::to_string(grid_size) +
+                                      " is too large for bit-depth calculation (max depth: " +
+                                      std::to_string(std::numeric_limits<std::size_t>::digits - 1) + ")");
+        }
+        v <<= 1U;
+        ++depth;
+    }
+    return std::max<std::size_t>(depth, 1);
+}
+
+[[nodiscard]] std::vector<std::size_t> quanticsFactors(std::size_t grid_size) {
+    if (grid_size == 0) {
+        throw std::invalid_argument("grid_size must be > 0, got: " + std::to_string(grid_size));
+    }
+
+    std::vector<std::size_t> factors;
+    auto remaining = grid_size;
+    while (remaining > 1 && (remaining % 2U) == 0U) {
+        factors.push_back(2);
+        remaining /= 2U;
+    }
+    if (remaining > 1 || factors.empty()) {
+        factors.push_back(remaining);
+    }
+    return factors;
 }
 
 } // namespace
@@ -195,7 +247,12 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
         if (e.topology != "reshaped") continue;
         const auto avg_entropy = 0.5 * (entropy[e.from] + entropy[e.to]);
         if (avg_entropy >= (cfg.entropy_threshold * 1.5)) {
-            graph.rerouteEdge(e.from, e.to, "clustered");
+            const auto rerouted = graph.rerouteEdge(e.from, e.to, "clustered");
+            if (!rerouted) {
+                throw std::logic_error(
+                    "failed to reroute edge from " + std::to_string(e.from) +
+                    " to " + std::to_string(e.to) + " to clustered topology");
+            }
         }
     }
 
@@ -204,49 +261,62 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
 
 QTTrain
 HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<std::size_t>& grid_sizes) {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Keep QTT interface available for Phase-6 integration points.
-    // Activation: Always.
-    // Production Delta: Returns a pass-through QTTrain wrapper around TTTrain;
-    //                   no binary index-factorization into true quantics cores.
-    // Removal Plan: Q2 2028 — implement Quantics decomposition with per-dimension
-    //               bit-depths and reversible QTTrain <-> TTTrain mapping.
+    if (train.cores.empty() || train.mode_sizes.empty()) {
+        throw std::invalid_argument("train must contain at least one core and one mode size");
+    }
+
     if (!grid_sizes.empty() && !train.mode_sizes.empty() && grid_sizes.size() != train.mode_sizes.size()) {
         throw std::invalid_argument("grid_sizes.size() (" + std::to_string(grid_sizes.size()) +
                                     ") must match train.mode_sizes.size() (" +
                                     std::to_string(train.mode_sizes.size()) + ")");
     }
 
-    auto calculate_bit_depth = [](std::size_t grid_size) -> std::size_t {
-        if (grid_size == 0) {
-            throw std::invalid_argument("grid_size must be > 0, got: " + std::to_string(grid_size));
-        }
-        std::size_t depth = 0;
-        std::size_t v = 1;
-        while (v < grid_size) {
-            if (depth >= std::numeric_limits<std::size_t>::digits - 1) {
-                throw std::overflow_error("grid_size " + std::to_string(grid_size) +
-                                          " is too large for bit-depth calculation (max depth: " +
-                                          std::to_string(std::numeric_limits<std::size_t>::digits - 1) + ")");
-            }
-            v <<= 1U;
-            ++depth;
-        }
-        return std::max<std::size_t>(depth, 1);
-    };
+    const auto resolved_grid_sizes = !grid_sizes.empty() ? grid_sizes : train.mode_sizes;
+    const auto original_dense_elements = denseElementCount(train.mode_sizes);
+    const auto reshaped_dense_elements = denseElementCount(resolved_grid_sizes);
+    if (original_dense_elements != reshaped_dense_elements) {
+        throw std::invalid_argument("grid_sizes product (" + std::to_string(reshaped_dense_elements) +
+                                    ") must match train.mode_sizes product (" +
+                                    std::to_string(original_dense_elements) + ")");
+    }
 
     std::vector<std::size_t> bit_depths;
-    if (!grid_sizes.empty()) {
-        bit_depths.reserve(grid_sizes.size());
-        for (const auto g : grid_sizes) bit_depths.push_back(calculate_bit_depth(g));
-    } else if (!train.mode_sizes.empty()) {
-        bit_depths.reserve(train.mode_sizes.size());
-        for (const auto n : train.mode_sizes) bit_depths.push_back(calculate_bit_depth(n));
+    std::vector<std::size_t> quantics_mode_sizes;
+    bit_depths.reserve(resolved_grid_sizes.size());
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide a production-usable quantics reshape path before the
+    //          full pure-binary QTT layout and inverse physical-index mapping land.
+    // Activation: Always.
+    // Production Delta: Each physical dimension is factorised into repeated
+    //                   `2` modes plus one residual factor when needed
+    //                   (e.g. 12 -> {2, 2, 3}) instead of a zero-padded pure
+    //                   binary QTT layout; metadata stores `grid_sizes` and
+    //                   `quantics_mode_sizes` only.
+    // Removal Plan: Q2 2028 — replace residual-factor fallback with padded
+    //               pure-binary QTT plus explicit reversible index mapping.
+    for (const auto grid_size : resolved_grid_sizes) {
+        bit_depths.push_back(calculateBitDepth(grid_size));
+        const auto factors = quanticsFactors(grid_size);
+        quantics_mode_sizes.insert(quantics_mode_sizes.end(), factors.begin(), factors.end());
     }
+
+    const auto dense_tensor = train.reconstruct();
+    storage::TensorTrainDecomposer decomposer;
+    storage::TensorTrainConfig cfg;
+    cfg.eps = train.achieved_eps > 0.0
+                  ? std::max(train.achieved_eps, kMinQuanticsEpsilon)
+                  : kMinQuanticsEpsilon;
+    cfg.max_rank = train.maxRank();
+
+    auto decomposed = decomposer.decompose(dense_tensor, quantics_mode_sizes, cfg);
+    auto reshaped_train = std::move(decomposed.first);
+    reshaped_train.original_norm = train.original_norm;
 
     QTTrain qt;
     qt.bit_depths = std::move(bit_depths);
-    qt.tt_train = train;
+    qt.grid_sizes = resolved_grid_sizes;
+    qt.quantics_mode_sizes = quantics_mode_sizes;
+    qt.tt_train = std::move(reshaped_train);
     return qt;
 }
 

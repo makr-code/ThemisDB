@@ -130,7 +130,12 @@ GeoDeviceCapability GeoDeviceDetector::Assess(
 }
 
 std::vector<GeoDeviceCapability> GeoDeviceDetector::Detect() {
-    const auto raw = themis::gpu::DeviceDiscovery::Enumerate();
+    EnumerateFn fn;
+    {
+        std::lock_guard<std::mutex> lk(GeoDeviceDetector::enumerateFnMutex());
+        fn = GeoDeviceDetector::enumerateFnStorage();
+    }
+    const auto raw = fn ? fn() : themis::gpu::DeviceDiscovery::Enumerate();
 
     std::vector<GeoDeviceCapability> result;
     result.reserve(raw.size());

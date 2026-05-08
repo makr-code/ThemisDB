@@ -41,6 +41,7 @@
 #include <cstdint>
 #include <functional>
 #include <memory>
+#include <mutex>
 #include <optional>
 #include <string>
 #include <vector>
@@ -91,13 +92,70 @@ struct IKVStateSerializer {
  */
 class NullKVStateSerializer final : public IKVStateSerializer {
 public:
-    std::vector<std::uint8_t> serialise(const std::string& /*prefix_text*/,
-                                        const std::string& /*model_id*/) override {
+    using SerialiseFn =
+        std::function<std::vector<std::uint8_t>(const std::string& prefix_text,
+                                                const std::string& model_id)>;
+    using ModelFingerprintFn =
+        std::function<std::string(const std::string& model_id)>;
+
+    static void setSerialiseFn(SerialiseFn fn) {
+        std::lock_guard<std::mutex> lk(serialiseFnMutex());
+        serialiseFnStorage() = std::move(fn);
+    }
+    static void setModelFingerprintFn(ModelFingerprintFn fn) {
+        std::lock_guard<std::mutex> lk(modelFingerprintFnMutex());
+        modelFingerprintFnStorage() = std::move(fn);
+    }
+
+    std::vector<std::uint8_t> serialise(const std::string& prefix_text,
+                                        const std::string& model_id) override {
+        SerialiseFn fn;
+        {
+            std::lock_guard<std::mutex> lk(serialiseFnMutex());
+            fn = serialiseFnStorage();
+        }
+        if (fn) {
+            try {
+                return fn(prefix_text, model_id);
+            } catch (...) {
+                return {};
+            }
+        }
         return {};
     }
 
     std::string modelFingerprint(const std::string& model_id) const override {
+        ModelFingerprintFn fn;
+        {
+            std::lock_guard<std::mutex> lk(modelFingerprintFnMutex());
+            fn = modelFingerprintFnStorage();
+        }
+        if (fn) {
+            try {
+                return fn(model_id);
+            } catch (...) {
+                return "null:" + model_id;
+            }
+        }
         return "null:" + model_id;
+    }
+
+private:
+    static std::mutex& serialiseFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static SerialiseFn& serialiseFnStorage() {
+        static SerialiseFn fn;
+        return fn;
+    }
+    static std::mutex& modelFingerprintFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static ModelFingerprintFn& modelFingerprintFnStorage() {
+        static ModelFingerprintFn fn;
+        return fn;
     }
 };
 
@@ -120,6 +178,10 @@ public:
  */
 class KVPrefixTransferManager {
 public:
+    using SerializerFactoryFn = std::function<std::unique_ptr<IKVStateSerializer>()>;
+
+    static void setDefaultSerializerFactory(SerializerFactoryFn fn);
+
     /**
      * @param remote_executor  Shared RemoteExecutor used to send the KV state.
      * @param serializer       Optional custom serialiser (defaults to NullKVStateSerializer).
@@ -176,6 +238,9 @@ private:
     static constexpr std::size_t kCharsPerToken = 4;
 
     static constexpr const char* kIngestPath = "/api/v1/kv-prefix/ingest";
+
+    static std::mutex& serializerFactoryMutex();
+    static SerializerFactoryFn& serializerFactoryStorage();
 };
 
 } // namespace themis::llm

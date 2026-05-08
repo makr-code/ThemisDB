@@ -71,11 +71,11 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
   - Errors: invalid geometry (NaN/Inf coordinates), polygon self-intersection, overflow during Haversine distance
   - Tests: unit + property-based + GPU/CPU parity
   - Perf: ≥ 8x speedup vs CPU baseline on RTX-class GPU
-- [ ] Federated analytics query dispatch across multiple ThemisDB clusters (Target: Q3 2026)
+- [x] Federated analytics query dispatch across multiple ThemisDB clusters (Target: Q3 2026)
   - Affected: `src/analytics/distributed_analytics.cpp`, `include/analytics/distributed_analytics.h`
   - Expected behavior: scatter-gather with partial failure tolerance; partial results returned if <20% shards fail
   - Errors: shard unreachable → skip with warning; tenant isolation violation → reject with PERMISSION_DENIED
-  - Tests: unit tests for scatter/gather logic + integration tests with mock shards
+  - Tests: FED-01..FED-08 (`tests/analytics/test_distributed_analytics.cpp`)
   - Perf: fan-out latency ≤ 200 ms for 16 shards on LAN
   - Per-tenant data isolation at the `SourceRegistry` boundary
 - [x] SARIMA and Prophet-style forecasting models (Target: Q4 2026)
@@ -94,41 +94,18 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
   - Tests: unit test export → load → infer round-trip; ONNX opset compatibility for all supported algorithms
   - Perf: export time ≤ 500 ms for any model trained on ≤ 1M samples
 
-- [ ] **Expertensystem-Engine** (CEP + Rule-Engine + ML-Inferenz) (Target: Q2 2027)
-  - Affected: `include/analytics/expert_system_engine.h` (new), `src/analytics/expert_system_engine.cpp` (new),
-    `include/analytics/knowledge_base.h` (new), `src/analytics/knowledge_base.cpp` (new),
-    Integration mit `src/analytics/cep_engine.cpp`, `src/analytics/model_serving.cpp`
-  - Scope: Das bestehende CEP-NFA-Pattern-Matching (`cep_engine.cpp`) bildet das Regelausführungssubsystem
-    (Working Memory + Agenda + NFA-Matcher). `ExpertSystemEngine` erweitert es um:
-    (1) eine persistente `KnowledgeBase` für Fakten (RocksDB-backed), (2) einen Inferenz-Controller
-    der Vorwärts- und Rückwärtsverkettung unterstützt, (3) eine Erklärungskomponente die
-    Entscheidungspfade als geordnete Regelanwendungs-Traces exportiert
-  - Expected behavior:
-    - `ExpertSystemEngine::assertFact(fact)` → schreibt Fakt in Working Memory; triggert NFA-Evaluierung
-    - `ExpertSystemEngine::queryGoal(goal)` → Rückwärtsverkettung; liefert `GoalResult` mit Proof-Trace
-    - `ExpertSystemEngine::forwardChain(max_cycles)` → Vorwärtsverkettung bis Fixpunkt oder Limit
-    - `ExpertSystemEngine::explain(decision_id)` → exportiert Regelanwendungs-Trace als JSON
-    - ML-Augmentierung: `ExpertSystemEngine::setMLScorer(ModelServingEngine*)` → AI/ML-Modell
-      bewertet Regelprämissen mit Konfidenzwert; unscharfe Regeln (confidence < threshold) werden
-      als Hinweis nicht als harte Entscheidung behandelt
-  - Constraints: max 10 000 aktive Fakten im Working Memory (Ring-Eviction); max 100 Regeln;
-    Vorwärtsverkettungs-Zyklus ≤ 50 ms; Erklärungsgeneration ≤ 10 ms
-  - Errors: Regelwiderspruch → `ConflictError` mit beteiligten Regel-IDs; zirkulärer Beweis →
-    Depth-Limit-Fehler; ML-Scorer nicht erreichbar → deterministische Regelauswertung
-  - Tests: ES-01..ES-20 in `tests/analytics/test_expert_system_engine.cpp`
-    - ES-01..ES-05: Faktenassertierung + Vorwärtsverkettung
-    - ES-06..ES-10: Rückwärtsverkettung + Proof-Traces
-    - ES-11..ES-14: ML-Scorer-Integration (Mock)
-    - ES-15..ES-17: Regelkonflikt-Erkennung
-    - ES-18..ES-20: Concurrency (8 Threads)
-  - Perf: 1 000 Fakten + 100 Regeln, Vorwärtsverkettung ≤ 50 ms; Rückwärtsverkettung ≤ 20 ms
-  - Wissensrepräsentation: `KnowledgeBase` speichert Fakten als `(subject, predicate, object)` Tripel
-    (kompatibel mit `KnowledgeGraphReasoner`); Regeln als Horn-Klauseln in YAML-Format
+- [~] **Expertensystem-Engine** (CEP + Rule-Engine + ML-Inferenz) (Target: Q2 2027)
+  - Affected: `include/analytics/expert_system_engine.h` ✅, `src/analytics/expert_system_engine.cpp` ✅,
+    `include/analytics/knowledge_base.h` ✅, `src/analytics/knowledge_base.cpp` ✅,
+    Integration mit `src/analytics/cep_engine.cpp` (EPL extension pending), `src/analytics/model_serving.cpp` ✅
+  - **Implemented 2026-05-07**: ExpertSystemEngine with forward/backward chaining, KnowledgeBase YAML rules,
+    ML scorer injection, explain() JSON proof traces; tests ES-01..ES-20 + KB-01..KB-08.
+  - Open: KnowledgeGraphReasoner triple exchange integration (Target: Q3 2027)
   - Detail: `src/analytics/FUTURE_ENHANCEMENTS.md` → Expert System Engine
 
-- [ ] **AI/ML + LoRA Mustererkennung und Auswertung** (Target: Q3 2027)
-  - Affected: `include/analytics/lora_pattern_classifier.h` (new), `src/analytics/lora_pattern_classifier.cpp` (new),
-    Integration mit `src/llm/multi_lora_manager.cpp`, `src/analytics/cep_engine.cpp`,
+- [~] **AI/ML + LoRA Mustererkennung und Auswertung** (Target: Q3 2027)
+  - Affected: `include/analytics/lora_pattern_classifier.h` ✅, `src/analytics/lora_pattern_classifier.cpp` ✅,
+    Integration mit `src/llm/multi_lora_manager.cpp` (via injection fn), `src/analytics/cep_engine.cpp` (EPL pending),
     `src/analytics/model_serving.cpp`
   - Scope: LoRA-fine-tuned LLM-Adapter übernehmen domänenspezifische Mustererkennung in
     Ereignisströmen und Analyseresultaten. `LoRAPatternClassifier` wrapped `MultiLoRAManager`
@@ -187,25 +164,25 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] AutoML integration for automated model selection
 - [x] Model serving and online inference pipeline (`analytics/model_serving.cpp`) (Issue: #1477)
 
-### Phase 4: Expert System Engine (Status: Planned [ ], Target: Q2 2027)
-- [ ] `ExpertSystemEngine` — CEP-basiertes Vorwärts-/Rückwärts-Verkettungs-Framework
+### Phase 4: Expert System Engine (Status: In Progress [~], Target: Q2 2027)
+- [x] `ExpertSystemEngine` — forward/backward chaining Framework
   (Target: Q2 2027) → `include/analytics/expert_system_engine.h`, `src/analytics/expert_system_engine.cpp`
-- [ ] `KnowledgeBase` — persistente Fakten-Wissensbasis (subject, predicate, object Tripel);
-  RocksDB-backed (Target: Q2 2027) → `include/analytics/knowledge_base.h`, `src/analytics/knowledge_base.cpp`
-- [ ] YAML-Regelformat (Horn-Klauseln), `KnowledgeBase::loadRulesFromYaml()` (Target: Q2 2027)
-- [ ] ML-Scorer-Anbindung: `ExpertSystemEngine::setMLScorer(ModelServingEngine*)` (Target: Q3 2027)
-- [ ] Erklärungskomponente: `explain(decision_id)` → JSON Proof-Trace (Target: Q3 2027)
-- [ ] Integration mit `KnowledgeGraphReasoner` (Graph-Modul) für Triple-Austausch (Target: Q3 2027)
-- [ ] Tests: ES-01..ES-20 (`tests/analytics/test_expert_system_engine.cpp`) + KB-01..KB-08 (Target: Q3 2027)
+- [x] `KnowledgeBase` — persistent fact working memory (subject, predicate, object triples);
+  in-memory with FIFO eviction at 10 000 facts, YAML rule loader (Target: Q2 2027) → `include/analytics/knowledge_base.h`, `src/analytics/knowledge_base.cpp`
+- [x] YAML rule format (Horn clauses), `KnowledgeBase::loadRulesFromYaml()` (Target: Q2 2027)
+- [x] ML-scorer injection: `ExpertSystemEngine::setMLScorer(ModelServingEngine*)` + `setMLScorerFn()` (Target: Q3 2027)
+- [x] Explain component: `explain(fact_id)` → JSON Proof-Trace (Target: Q3 2027)
+- [ ] Integration with `KnowledgeGraphReasoner` (Graph module) for triple exchange (Target: Q3 2027)
+- [x] Tests: ES-01..ES-20 + KB-01..KB-08 in `tests/analytics/test_expert_system_engine.cpp` (Target: Q3 2027)
 
-### Phase 5: AI/ML + LoRA Mustererkennung (Status: Planned [ ], Target: Q3 2027)
-- [ ] `LoRAPatternClassifier` — LoRA-Adapter-basierte Mustererkennung in CEP-Ereignisströmen,
-  Zeitreihen und Graphpfaden (Target: Q3 2027)
+### Phase 5: AI/ML + LoRA Mustererkennung (Status: In Progress [~], Target: Q3 2027)
+- [x] `LoRAPatternClassifier` — LoRA-adapter-based pattern classification in CEP event streams,
+  time series and graph paths (Target: Q3 2027)
   → `include/analytics/lora_pattern_classifier.h`, `src/analytics/lora_pattern_classifier.cpp`
-- [ ] EPL-Erweiterung: `PATTERN CLASSIFIED_AS "..."` + `EXPERT_SYSTEM_CONFIRMS(...)` (Target: Q4 2027)
-- [ ] `CEPEngine::setLoRAPatternClassifier()` für Adapter-basierte Ereignisfilterung (Target: Q4 2027)
-- [ ] AutoML-Fallback wenn `THEMIS_ENABLE_LLM=OFF` (Target: Q3 2027)
-- [ ] Tests: LPC-01..LPC-15 (`tests/analytics/test_lora_pattern_classifier.cpp`) (Target: Q4 2027)
+- [ ] EPL extension: `PATTERN CLASSIFIED_AS "..."` + `EXPERT_SYSTEM_CONFIRMS(...)` (Target: Q4 2027)
+- [ ] `CEPEngine::setLoRAPatternClassifier()` for adapter-based event filtering (Target: Q4 2027)
+- [x] AutoML fallback when `THEMIS_ENABLE_LLM=OFF` (Target: Q3 2027)
+- [x] Tests: LPC-01..LPC-15 in `tests/analytics/test_lora_pattern_classifier.cpp` (Target: Q4 2027)
 
 
 - [x] Unit tests (OLAP, Arrow export, process mining, NLP, diff engine, forecasting)

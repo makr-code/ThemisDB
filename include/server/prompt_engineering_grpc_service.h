@@ -39,6 +39,7 @@
 #include "prompt_engineering/prompt_version_control.h"
 #include "prompt_engineering/prompt_engineering_integration.h"
 #include <grpcpp/grpcpp.h>
+#include <functional>
 #include <memory>
 
 namespace themis {
@@ -55,6 +56,8 @@ namespace server {
  */
 class PromptEngineeringGrpcService final {
 public:
+    using ServiceAccessorFn = std::function<void*()>;
+
     /**
      * @brief Construct gRPC service with all prompt engineering components
      */
@@ -71,6 +74,20 @@ public:
 
     ~PromptEngineeringGrpcService() = default;
 
+    /**
+     * @brief Return opaque pointer to an externally provided grpc::Service instance.
+     *
+     * Returns nullptr when no service accessor callback is configured.
+     */
+    void* service() const;
+
+    /**
+     * @brief Configure process-wide callback that provides grpc::Service pointer.
+     *
+     * Used by non-proto builds to wire a generated service from another module.
+     */
+    static void setServiceAccessorFn(ServiceAccessorFn fn);
+
     // NOTE: All gRPC methods removed - proto file not generated yet
     // Stub service - full implementation available once proto is generated
 
@@ -83,6 +100,7 @@ private:
     std::shared_ptr<::themis::prompt_engineering::FeedbackCollector> feedback_collector_;
     std::shared_ptr<::themis::prompt_engineering::PromptVersionControl> version_control_;
     std::shared_ptr<::themis::prompt_engineering::PromptEngineeringIntegration> integration_;
+    void* service_ptr_ = nullptr;
 };
 
 } // namespace server

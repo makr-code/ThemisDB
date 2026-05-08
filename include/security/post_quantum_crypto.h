@@ -25,6 +25,7 @@
 #include <string>
 #include <memory>
 #include <cstdint>
+#include <functional>
 #include <mutex>
 
 namespace themis {
@@ -476,6 +477,25 @@ public:
     bool verify(const std::vector<uint8_t>& message,
                 const std::vector<uint8_t>& signature,
                 const std::vector<uint8_t>& public_key);
+
+    // -----------------------------------------------------------------------
+    // Injectable liboqs bridge (STUB #14 — SphincsPlus simulation)
+    // -----------------------------------------------------------------------
+    using GenerateKeyPairFn = std::function<KeyPair()>;
+    using SignFn = std::function<std::vector<uint8_t>(
+        const std::vector<uint8_t>& message,
+        const std::vector<uint8_t>& secret_key)>;
+    using VerifyFn = std::function<bool(
+        const std::vector<uint8_t>& message,
+        const std::vector<uint8_t>& signature,
+        const std::vector<uint8_t>& public_key)>;
+
+    /// Inject a real liboqs or test backend. Pass empty fn to restore simulation.
+    static void setGenerateKeyPairFn(GenerateKeyPairFn fn);
+    /// Inject a real liboqs sign implementation. Pass empty fn to restore simulation.
+    static void setSignFn(SignFn fn);
+    /// Inject a real liboqs verify implementation. Pass empty fn to restore simulation.
+    static void setVerifyFn(VerifyFn fn);
 
     Variant getVariant() const noexcept { return variant_; }
 

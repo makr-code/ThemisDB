@@ -52,6 +52,19 @@ static std::mutex& cudaStreamMutex() {
 namespace themis {
 namespace gpu {
 
+// ---------------------------------------------------------------------------
+// STUB #77 — CudaStreamBackendFn static bridge (non-CUDA injection)
+// ---------------------------------------------------------------------------
+namespace {
+std::mutex                               s_cuda_backend_fn_mutex;
+GPUStreamManager::CudaStreamBackendFn   s_cuda_backend_fn;
+} // namespace
+
+void GPUStreamManager::setCudaStreamBackendFn(CudaStreamBackendFn fn) {
+    std::lock_guard<std::mutex> lk(s_cuda_backend_fn_mutex);
+    s_cuda_backend_fn = std::move(fn);
+}
+
 // ============================================================================
 // Construction / destruction
 // ============================================================================
@@ -170,8 +183,20 @@ bool GPUStreamManager::createCudaStream(const StreamConfig& cfg,
     // Removal Plan: Install CUDA Toolkit and set `-DTHEMIS_ENABLE_CUDA=1` in CMake.
     // Roadmap ref: src/gpu/FUTURE_ENHANCEMENTS.md §"CUDA Stream Manager Activation"
 
-    // CUDA not available — delegate to ROCm / CPU fallback.
-    backend_fn = ROCmBackend::GetInstance().createBackendFn(device_index);
+    // CUDA not available — try injected CudaStreamBackendFn, fall back to ROCm/CPU.
+    {
+        CudaStreamBackendFn fn;
+        { std::lock_guard<std::mutex> lk(s_cuda_backend_fn_mutex); fn = s_cuda_backend_fn; }
+        if (fn) {
+            try {
+                backend_fn = fn(device_index);
+            } catch (...) {
+                backend_fn = ROCmBackend::GetInstance().createBackendFn(device_index);
+            }
+        } else {
+            backend_fn = ROCmBackend::GetInstance().createBackendFn(device_index);
+        }
+    }
 #endif
 
     std::lock_guard<std::mutex> lock(mutex_);

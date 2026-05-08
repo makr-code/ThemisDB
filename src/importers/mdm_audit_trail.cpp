@@ -21,6 +21,7 @@
  */
 
 #include "importers/mdm_audit_trail.h"
+#include "utils/hash_util.h"
 #include <algorithm>
 #include <chrono>
 #include <iomanip>
@@ -69,16 +70,6 @@ std::string MDMAuditTrail::nowRfc3339() {
     return ss.str();
 }
 
-// FNV-1a 64-bit hash used for the audit chain.
-static uint64_t fnv1a64(const std::string& s) {
-    uint64_t h = 14695981039346656037ULL;
-    for (unsigned char c : s) {
-        h ^= static_cast<uint64_t>(c);
-        h *= 1099511628211ULL;
-    }
-    return h;
-}
-
 std::string MDMAuditTrail::computeChainHash(
     const std::string& previous_hash,
     const AuditEvent&  event
@@ -88,7 +79,7 @@ std::string MDMAuditTrail::computeChainHash(
                                 + event.timestamp
                                 + event.source_entity_id
                                 + event.target_entity_id;
-    const uint64_t h = fnv1a64(payload);
+    const uint64_t h = themis::hash::fnv1a64(payload);
     std::ostringstream ss;
     ss << std::hex << std::setfill('0') << std::setw(16) << h;
     return ss.str();

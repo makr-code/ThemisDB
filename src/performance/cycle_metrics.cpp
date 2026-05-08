@@ -21,6 +21,7 @@
 #include <fstream>
 #include <sstream>
 #include <cstring>
+#include <mutex>
 
 #ifdef __linux__
 #include <unistd.h>
@@ -108,6 +109,35 @@ std::string HardwareCycleCounter::cpu_model() noexcept {
 }
 
 #ifdef THEMIS_ENABLE_GPU_CYCLE_METRICS
+namespace {
+std::mutex& gpuStartFnMutex() {
+    static std::mutex m;
+    return m;
+}
+HardwareCycleCounter::GpuCyclesStartFn& gpuStartFnStorage() {
+    static HardwareCycleCounter::GpuCyclesStartFn fn;
+    return fn;
+}
+std::mutex& gpuEndFnMutex() {
+    static std::mutex m;
+    return m;
+}
+HardwareCycleCounter::GpuCyclesEndFn& gpuEndFnStorage() {
+    static HardwareCycleCounter::GpuCyclesEndFn fn;
+    return fn;
+}
+} // namespace
+
+void HardwareCycleCounter::setGpuCyclesStartFn(GpuCyclesStartFn fn) {
+    std::lock_guard<std::mutex> lk(gpuStartFnMutex());
+    gpuStartFnStorage() = std::move(fn);
+}
+
+void HardwareCycleCounter::setGpuCyclesEndFn(GpuCyclesEndFn fn) {
+    std::lock_guard<std::mutex> lk(gpuEndFnMutex());
+    gpuEndFnStorage() = std::move(fn);
+}
+
 #ifdef __CUDACC__
 #include <cuda_runtime.h>
 
@@ -149,10 +179,34 @@ uint64_t HardwareCycleCounter::gpu_cycles_end(void* event) noexcept {
 //                   runtime linked to enable real GPU cycle measurement.
 //                   Tracked in src/performance/FUTURE_ENHANCEMENTS.md § GPU Cycle Metrics.
 void* HardwareCycleCounter::gpu_cycles_start() noexcept {
+    GpuCyclesStartFn fn;
+    {
+        std::lock_guard<std::mutex> lk(gpuStartFnMutex());
+        fn = gpuStartFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn();
+        } catch (...) {
+            return nullptr;
+        }
+    }
     return nullptr;
 }
 
 uint64_t HardwareCycleCounter::gpu_cycles_end(void* event) noexcept {
+    GpuCyclesEndFn fn;
+    {
+        std::lock_guard<std::mutex> lk(gpuEndFnMutex());
+        fn = gpuEndFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(event);
+        } catch (...) {
+            return 0;
+        }
+    }
     return 0;
 }
 #endif

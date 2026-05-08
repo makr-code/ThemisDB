@@ -275,6 +275,11 @@ void GossipProtocol::onPeerLost(PeerLostCallback callback) {
     on_peer_lost_ = std::move(callback);
 }
 
+void GossipProtocol::setRaftMembershipGateFn(RaftMembershipGateFn fn) {
+    std::lock_guard<std::mutex> lock(peers_mutex_);
+    raft_membership_gate_fn_ = std::move(fn);
+}
+
 void GossipProtocol::registerCustomHandler(
     const std::string& message_type,
     std::function<void(const GossipMessage&)> handler
@@ -545,18 +550,27 @@ void GossipProtocol::syncWithTopologyLocked() {
             shard.is_healthy = peer.is_healthy;
             shard.certificate_serial = peer.certificate_serial;
 
-            // CC-4: Gossip-discovered peers are added to the topology for
-            // routing awareness, but this does NOT constitute a Raft membership
-            // change.  Adding a node here does NOT grant it quorum voting rights.
-            // TODO (v2.0.0): Route quorum membership changes exclusively through
-            // Raft joint-consensus to prevent rogue nodes from influencing quorum
-            // by advertising themselves via gossip (CC-4).
-            spdlog::warn("[GOSSIP] Adding gossip-discovered peer '{}' to topology. "
-                         "This peer has NOT been admitted through Raft membership "
-                         "change and MUST NOT affect quorum calculations. "
-                         "Ensure quorum is computed only from Raft-confirmed members.",
-                         peer.peer_id);
-            topology_->addShard(shard);
+            // CC-4: Gate gossip-driven topology mutations behind the Raft membership
+            // protocol.  When a RaftMembershipGateFn is registered, only admit the peer
+            // to the routing topology if the gate approves it (i.e., the peer has been
+            // confirmed through Raft joint-consensus).  Without a gate (backward compat),
+            // use the legacy warn+add path.
+            if (raft_membership_gate_fn_) {
+                if (raft_membership_gate_fn_(peer.peer_id, peer.endpoint)) {
+                    topology_->addShard(shard);
+                } else {
+                    spdlog::debug("[GOSSIP] Peer '{}' denied by Raft membership gate; "
+                                  "tracked for health monitoring only.",
+                                  peer.peer_id);
+                }
+            } else {
+                spdlog::warn("[GOSSIP] Adding gossip-discovered peer '{}' to topology. "
+                             "This peer has NOT been admitted through Raft membership "
+                             "change and MUST NOT affect quorum calculations. "
+                             "Ensure quorum is computed only from Raft-confirmed members.",
+                             peer.peer_id);
+                topology_->addShard(shard);
+            }
         } else {
             // Update health status
             topology_->updateHealth(peer.peer_id, peer.is_healthy);
