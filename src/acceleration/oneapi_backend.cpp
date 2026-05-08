@@ -288,7 +288,7 @@ std::vector<float> OneAPIVectorBackend::computeDistances(
         std::lock_guard<std::mutex> lk(s_oneapi_compute_fn_mutex_);
         fn = s_oneapi_compute_fn_;
     }
-    if (fn) {
+    if (fn) [[unlikely]] {
         try {
             return fn(queries, numQueries, dimension, vectors, numVectors, useL2);
         } catch (...) {

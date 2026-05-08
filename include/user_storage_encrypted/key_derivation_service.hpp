@@ -28,7 +28,6 @@
 #include <vector>
 #include <cstdint>
 #include <functional>
-#include <mutex>
 
 namespace themis {
 namespace plugins {
