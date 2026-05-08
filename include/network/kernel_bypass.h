@@ -211,7 +211,9 @@ public:
  */
 class ZeroCopyDmaBuffer {
 public:
+    /// Optional non-Linux allocator bridge; must return nullptr on allocation failure.
     using NonLinuxAllocFn = std::function<void*(size_t size_bytes, int numa_node)>;
+    /// Optional non-Linux free bridge matching NonLinuxAllocFn; must tolerate valid allocations from the paired allocator.
     using NonLinuxFreeFn = std::function<void(void* ptr, size_t size_bytes)>;
 
     /**

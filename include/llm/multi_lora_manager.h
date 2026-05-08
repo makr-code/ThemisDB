@@ -469,7 +469,9 @@ public:
      * @param context Model context to apply to (llama_context*)
      * @return true if applied successfully
      */
+    /// Bridge callback for applying a LoRA adapter when no llama_context is available.
     using ApplyAdapterFn = std::function<bool(const LoRASlot& slot)>;
+    /// Bridge callback for removing a LoRA adapter when no llama_context is available.
     using RemoveAdapterFn = std::function<bool(const LoRASlot& slot)>;
 
     void setApplyAdapterFn(ApplyAdapterFn fn);

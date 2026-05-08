@@ -388,7 +388,9 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
             apply_fn = apply_adapter_fn_;
         }
         if (!apply_fn) {
-            spdlog::error("applyLoRA: null context without ApplyAdapterFn bridge for {}", lora_id);
+            spdlog::error(
+                "applyLoRA requires either a valid llama_context or an ApplyAdapterFn bridge; neither was provided for {}",
+                lora_id);
             return false;
         }
         if (!apply_fn(*lora)) {
@@ -440,7 +442,9 @@ bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* con
             remove_fn = remove_adapter_fn_;
         }
         if (!remove_fn) {
-            spdlog::error("removeLoRA: null context without RemoveAdapterFn bridge for {}", lora_id);
+            spdlog::error(
+                "removeLoRA requires either a valid llama_context or a RemoveAdapterFn bridge; neither was provided for {}",
+                lora_id);
             return false;
         }
         if (!remove_fn(*lora)) {

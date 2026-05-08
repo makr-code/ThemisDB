@@ -185,6 +185,12 @@ TEST_F(LoraAdapterApplicationTest, ApplyLoRAWithNullContext) {
     EXPECT_TRUE(applied);
 }
 
+TEST_F(LoraAdapterApplicationTest, ApplyLoRAWithNullContextBridgeFailure) {
+    ASSERT_TRUE(manager_->loadLoRA("adapter1", adapter_paths_["adapter1"], "model", false, GPUPlacement::SINGLE_GPU, 1.0f));
+    manager_->setApplyAdapterFn([](const LoRASlot&) { return false; });
+    EXPECT_FALSE(manager_->applyLoRA("adapter1", nullptr));
+}
+
 TEST_F(LoraAdapterApplicationTest, ApplyNonexistentLoRA) {
     // Create mock llama context
     struct llama_context* mock_context = reinterpret_cast<struct llama_context*>(0x12345678);
