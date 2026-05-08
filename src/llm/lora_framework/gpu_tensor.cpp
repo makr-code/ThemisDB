@@ -1009,18 +1009,6 @@ GPUTensor ones(const std::vector<size_t>& shape, const Device& device, DType dty
     return GPUTensor(shape, 1.0f, device, dtype);
 }
 
-// STUB/SIMULATION NOTE:
-// Purpose: from_legacy_tensor / to_legacy_tensor bridge functions are disabled because
-//          the `Tensor` type is forward-declared in the translation unit but its full
-//          definition is not available here (Tensor is defined in a separate module).
-// Activation: Disabled at compile time via this block comment.
-// Production Delta: Without these functions, callers must manually upload/download data
-//                   between Tensor and GPUTensor rather than using a convenience bridge.
-// Removal Plan: Include the Tensor header once the include graph allows it without
-//               circular dependencies (Target: v1.6.0). Replace the block comment with
-//               real function bodies and remove this note.
-// Roadmap ref: src/llm/lora_framework/FUTURE_ENHANCEMENTS.md § "GPUTensor legacy bridge"
-/*
 GPUTensor from_legacy_tensor(const Tensor& tensor, const Device& device, DType dtype) {
     GPUTensor result(tensor.shape(), device, dtype);
     result.upload(tensor.data());
@@ -1035,7 +1023,6 @@ Tensor to_legacy_tensor(const GPUTensor& gpu_tensor) {
     }
     return result;
 }
-*/
 
 } // namespace gpu_tensor_utils
 

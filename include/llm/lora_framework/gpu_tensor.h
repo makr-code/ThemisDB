@@ -32,6 +32,8 @@ namespace themis {
 namespace llm {
 namespace lora {
 
+class Tensor;
+
 /**
  * @brief GPU-enabled Tensor class for LoRA training
  * 
@@ -333,15 +335,14 @@ namespace gpu_tensor_utils {
     /**
      * @brief Convert legacy Tensor to GPUTensor
      */
-    class Tensor;  // Forward declaration
-    GPUTensor from_legacy_tensor(const Tensor& tensor, 
+    GPUTensor from_legacy_tensor(const ::themis::llm::lora::Tensor& tensor,
                                  const Device& device = Device::cpu(),
                                  DType dtype = DType::FLOAT32);
     
     /**
      * @brief Convert GPUTensor to legacy Tensor
      */
-    Tensor to_legacy_tensor(const GPUTensor& gpu_tensor);
+    ::themis::llm::lora::Tensor to_legacy_tensor(const GPUTensor& gpu_tensor);
 }
 
 } // namespace lora

@@ -40,14 +40,14 @@
 
 ---
 
-## Stub Inventory (251 entries — 187 resolved, 64 active)
+## Stub Inventory (251 entries — 188 resolved, 63 active)
 
 | # | File | Purpose (short) | Activation | Production Delta | **Funktions-Impact** | Roadmap Ref | Target |
 |---|---|---|---|---|---|---|---|
 | 1 | `llm/embedded_llm_stub.cpp` | No-op EmbeddedLLM when `THEMIS_ENABLE_LLM=OFF` | `THEMIS_ENABLE_LLM` not defined | All inference returns `"LLM disabled"`, `isReady()=false` | 🟡 Mittel | `src/llm/ROADMAP.md` §Phase 1 | permanent fallback |
 | ~~2~~ | ~~`llm/lora_framework/gpu_tensor.cpp` (CUDA path)~~ | ~~CPU round-trip fallback for CUDA dtype conversion~~ | ~~Always active for CUDA path~~ | ~~PCIe round-trip; no native CUDA cast kernel~~ | — | `FUTURE_ENHANCEMENTS.md` §CUDA dtype kernels | ~~v1.7.0~~ **RESOLVED 2026-05-08** — `DtypeCastFn = std::function<std::vector<float>(const std::vector<float>&, DType, DType)>` type alias + `setCudaDtypeCastFn(fn)` static API added to `GPUTensor`; `to_dtype()` CUDA path delegates to the injected fn when set (fail-closed on exception); CPU round-trip fallback retained when no fn is set; tests GT-DC-01..GT-DC-06 in `tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp` |
 | ~~3~~ | ~~`llm/lora_framework/gpu_tensor.cpp` (HIP path)~~ | ~~CPU round-trip fallback for HIP/ROCm dtype conversion~~ | ~~Always active for HIP path~~ | ~~Same as CUDA entry~~ | — | `FUTURE_ENHANCEMENTS.md` §HIP dtype kernels | ~~v1.7.0~~ **RESOLVED 2026-05-08** — `setHipDtypeCastFn(fn)` static API added (same `DtypeCastFn` type as CUDA); `to_dtype()` HIP path delegates to the injected fn when set; CPU round-trip fallback retained; both CUDA and HIP fns are independently settable with `std::mutex`-guarded storage |
-| 4 | `llm/lora_framework/gpu_tensor.cpp` (legacy bridge) | `from_legacy_tensor` / `to_legacy_tensor` disabled | Block-comment — Tensor type not fully defined | No convenience bridge; callers must manually upload/download | 🟢 Niedrig | `FUTURE_ENHANCEMENTS.md` §GPUTensor legacy bridge | v1.6.0 |
+| ~~4~~ | ~~`llm/lora_framework/gpu_tensor.cpp` (legacy bridge)~~ | ~~`from_legacy_tensor` / `to_legacy_tensor` disabled~~ | ~~Block-comment — Tensor type not fully defined~~ | ~~No convenience bridge; callers must manually upload/download~~ | — | `FUTURE_ENHANCEMENTS.md` §GPUTensor legacy bridge | ~~v1.6.0~~ **RESOLVED 2026-05-08** — the legacy bridge now uses the real `themis::llm::lora::Tensor` type in `gpu_tensor.h`; `gpu_tensor_utils::from_legacy_tensor()` uploads the legacy tensor payload into a `GPUTensor`, and `to_legacy_tensor()` copies CPU-visible data back into a legacy `Tensor`; focused coverage added in `tests/llm/test_gpu_tensor_legacy_bridge.cpp` |
 | 5 | `llm/multi_lora_manager.cpp` | Unit-test LoRA lifecycle without GPU context | Runtime — `context == nullptr` | Skips real adapter registration | ⚪ Minimal | permanent test-gate | — |
 | 6 | ~~`content/text_processor.cpp`~~ | ~~Hash-based deterministic embedding (no model)~~ | ~~Always active (`IEmbeddingBackend` not wired)~~ | ~~Not semantically meaningful for similarity search~~ | — | `src/content/ROADMAP.md` §Phase 5 | ~~v1.6.0~~ **RESOLVED 2026-05-06** — `TextProcessor::EmbeddingFn` type + `setEmbeddingBackend(fn)` public API added; `generateEmbedding()` delegates to the injected backend when set; hash-projection path retained as fallback |
 | 7 | ~~`prompt_engineering/prompt_compressor.cpp`~~ | ~~Deterministic fallback summary without LLM~~ | ~~`setSummaryFn()` not called~~ | ~~Truncation only, no semantic compression~~ | — | post-v1.4.0 | ~~v1.5.0~~ **RESOLVED 2026-05-05** — replaced with real extractive sentence summary |
@@ -291,4 +291,4 @@
 
 ---
 
-*Last updated: 2026-05-08 — 251 entries, 187 resolved, 64 active — #2/#3/#54/#65 resolved 2026-05-08 via GPUTensor DtypeCastFn bridges (CUDA/HIP), VulkanVectorIndexBackend callback bridges (already implemented), and MCP StdioTransport StdioReadFn bridge (🔴 21 Kritisch · 🟠 13 Hoch · 🟡 25 Mittel · 🟢 7 Niedrig · ⚪ 18 Minimal · — 187 Resolved) — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
+*Last updated: 2026-05-08 — 251 entries, 188 resolved, 63 active — #4 resolved 2026-05-08 via real `Tensor`↔`GPUTensor` legacy bridge implementation; #2/#3/#54/#65 resolved earlier the same day via DtypeCastFn/MCP/Vulkan bridge work (🔴 21 Kritisch · 🟠 13 Hoch · 🟡 25 Mittel · 🟢 6 Niedrig · ⚪ 18 Minimal · — 188 Resolved) — maintained by: Consolidation Phase, see `src/ROADMAP.md`*
