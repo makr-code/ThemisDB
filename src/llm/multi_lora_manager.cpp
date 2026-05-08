@@ -37,8 +37,11 @@
 
 // llama.cpp forward declarations (newer API may not be present in headers)
 extern "C" {
-    int llama_lora_adapter_set(struct llama_context* ctx, void* adapter_handle, float scale);
-    void llama_kv_cache_clear(struct llama_context* ctx);
+    // F1-3 fix: pass the adapter handle as a pointer (void*) rather than a
+    // pointer-to-int cast.  On 64-bit platforms any heap address lies above
+    // INT_MAX so the old range-check always failed, permanently preventing
+    // LoRA activation in production.
+    int llama_lora_adapter_set(struct llama_context* ctx, void* adapter, float scale);
     void llama_lora_adapter_free(void* adapter);
     bool themis_llama_lora_available();
     void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora);
@@ -400,7 +403,8 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
     
     // Apply LoRA adapter to context using modern llama.cpp API
     if (lora->adapter_handle && context) {
-        // Pass adapter_handle directly as void* — no pointer-to-int conversion needed
+        // F1-3 fixed: pass the adapter pointer directly instead of casting to
+        // int (which always fails on 64-bit where heap addresses > INT_MAX).
         int result = llama_lora_adapter_set(context, lora->adapter_handle, lora->scale);
         
         if (result != 0) {
@@ -449,7 +453,8 @@ bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* con
     
     // Remove LoRA adapter from context using llama.cpp API
     if (lora->adapter_handle && context) {
-        // Pass adapter_handle directly as void* and scale 0.0 to disable it
+        // F1-3 fixed: pass adapter pointer directly (see applyLoRA fix above).
+        // Set scale to 0.0f to effectively disable the adapter.
         int result = llama_lora_adapter_set(context, lora->adapter_handle, 0.0f);
         
         if (result != 0) {
@@ -1828,11 +1833,6 @@ bool MultiLoRAManager::loadLoRAMultiGPU(LoRASlot* lora) {
             
             spdlog::info("LoRA {} replicated across {} GPUs (data parallel)", 
                          lora->lora_id, lora->assigned_gpus.size());
-            // Account for N-1 additional GPU replicas (caller adds 1 copy to total_vram_bytes_ already)
-            const size_t num_replicas = lora->assigned_gpus.size();
-            if (num_replicas > 1) {
-                total_vram_bytes_ += lora->vram_bytes * (num_replicas - 1);
-            }
             break;
         }
         
@@ -2070,9 +2070,20 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
             return nullptr;
         }
     }
-    
-    // Update totals
-    total_vram_bytes_ += lora->vram_bytes;
+
+    // F1-4: Charge the correct aggregate VRAM for the chosen placement.
+    // DATA_PARALLEL replicates the adapter on every GPU, so the actual total
+    // memory consumed is vram_bytes * num_gpus — not just vram_bytes.
+    // Other strategies (MODEL_PARALLEL, SINGLE_GPU) consume vram_bytes once.
+    {
+        size_t vram_charge = lora->vram_bytes;
+        if (placement == GPUPlacement::MULTI_GPU && config_.multi_gpu.enabled &&
+            config_.multi_gpu.strategy == MultiGPUStrategy::DATA_PARALLEL &&
+            !config_.multi_gpu.devices.empty()) {
+            vram_charge = lora->vram_bytes * config_.multi_gpu.devices.size();
+        }
+        total_vram_bytes_ += vram_charge;
+    }
     
     auto* result = lora.get();
     loras_[lora_id] = std::move(lora);
