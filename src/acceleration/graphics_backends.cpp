@@ -29,8 +29,10 @@
 #include "acceleration/error_codes.h"
 #include "acceleration/error_context.h"
 #include "acceleration/shader_integrity.h"
+#include <functional>
 #include <iostream>
 #include <fstream>
+#include <mutex>
 #include <vector>
 #include <algorithm>
 #include <cmath>
@@ -988,6 +990,23 @@ std::vector<std::vector<std::pair<uint32_t, float>>> DirectXVectorBackend::batch
 // ============================================================================
 // VulkanVectorBackend — public interface implementation
 // ============================================================================
+
+// ── STUB #169 bridge — global GLSL→SPIR-V compiler storage ──────────────────
+// Defined here (always-compiled TU) so setCompileGLSLFn() is available
+// regardless of whether THEMIS_ENABLE_VULKAN is set.  The storage is accessed
+// from vulkan_backend_full.cpp via extern declarations when Vulkan is enabled.
+// Using a named sub-namespace (not anonymous) so the extern linkage works:
+// anonymous-namespace symbols have internal linkage and cannot be declared
+// extern in another TU.
+namespace glsl_bridge {
+    std::mutex                       s_vk_compile_glsl_mutex;
+    VulkanVectorBackend::CompileGLSLFn s_vk_compile_glsl_fn;
+}
+
+void VulkanVectorBackend::setCompileGLSLFn(CompileGLSLFn fn) {
+    std::lock_guard<std::mutex> lk(glsl_bridge::s_vk_compile_glsl_mutex);
+    glsl_bridge::s_vk_compile_glsl_fn = std::move(fn);
+}
 
 VulkanVectorBackend::VulkanVectorBackend()
     : initialized_(false), impl_(std::make_unique<VulkanVectorBackendImpl>()) {}

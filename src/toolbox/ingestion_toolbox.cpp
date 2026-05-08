@@ -77,6 +77,17 @@ std::shared_ptr<IngestionToolbox> IngestionToolbox::createDefault() {
     (void)reg.registerStep("builtin.llm_extract",
         ingestion::builtin::createLlmExtractStep(toolbox->textBackend()));
 
+    // Register tensor pipeline steps with null backends.
+    // The null backends produce graceful no-ops (skip_when_unavailable=true
+    // default); callers that need real TT-cores should replace these steps
+    // via stepRegistry().registerStep(...) with a live TensorIngestionBridge
+    // and TensorCoreStorageBridge after construction.
+    (void)reg.registerStep("builtin.chunk_tt_decompose",
+        ingestion::builtin::createChunkTtDecomposeStep(nullptr));
+
+    (void)reg.registerStep("builtin.tensor_core_bridge",
+        ingestion::builtin::createTensorCoreBridgeStep(nullptr));
+
     return toolbox;
 }
 

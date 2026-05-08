@@ -77,7 +77,7 @@ The current Project Lead is [@makr-code](https://github.com/makr-code).
 1. Open a GitHub Issue or Discussion describing the proposal.
 2. Allow **at least 5 business days** for community feedback.
 3. Achieve **consensus** among active maintainers, or final approval from the Project Lead if consensus is not reached.
-4. Document the decision in `docs/research/architecture_decisions/adr_NNN.md`.
+4. Document the decision in `research/architecture_decisions/adr_NNN.md`.
 
 ### Breaking changes (require MAJOR version bump)
 

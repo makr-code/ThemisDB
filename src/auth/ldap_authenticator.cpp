@@ -31,6 +31,7 @@
 #include <algorithm>
 #include <future>
 #include <mutex>
+#include <utility>
 
 // ---------------------------------------------------------------------------
 // Platform-specific LDAP includes
@@ -53,6 +54,24 @@ namespace auth {
 // ===========================================================================
 
 namespace {
+
+std::mutex& ldapBindFnMutex()
+{
+    static std::mutex mutex;
+    return mutex;
+}
+
+LDAPAuthenticator::LdapBindFn& ldapBindFnStorage()
+{
+    static LDAPAuthenticator::LdapBindFn callback;
+    return callback;
+}
+
+LDAPAuthenticator::LdapBindFn getLdapBindFn()
+{
+    std::lock_guard<std::mutex> lock(ldapBindFnMutex());
+    return ldapBindFnStorage();
+}
 
 /**
  * @brief Escape a value for use as a DN attribute value component (RFC 4514 §2.4).
@@ -160,6 +179,12 @@ void substitutePreEscapedPlaceholderValue(std::string& target,
 }
 
 } // anonymous namespace
+
+void LDAPAuthenticator::setLdapBindFn(LdapBindFn fn)
+{
+    std::lock_guard<std::mutex> lock(ldapBindFnMutex());
+    ldapBindFnStorage() = std::move(fn);
+}
 
 // ===========================================================================
 // Construction / destruction
@@ -371,6 +396,10 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
                                               const std::string& dn,
                                               const std::string& password)
 {
+    if (auto bind_fn = getLdapBindFn(); bind_fn) {
+        return bind_fn(username, dn, password);
+    }
+
     AuthAuditLogger audit(audit_logger_);
 
     // -----------------------------------------------------------------------
@@ -532,6 +561,10 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
                                               const std::string& dn,
                                               const std::string& password)
 {
+    if (auto bind_fn = getLdapBindFn(); bind_fn) {
+        return bind_fn(username, dn, password);
+    }
+
     AuthAuditLogger audit(audit_logger_);
 
     // -----------------------------------------------------------------------
@@ -737,6 +770,8 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
         } catch (...) {
             return LDAPAuthResult::Failed("LdapBindFn threw an exception");
         }
+    if (auto bind_fn = getLdapBindFn(); bind_fn) {
+        return bind_fn(username, dn, password);
     }
 
     AuthAuditLogger audit(audit_logger_);

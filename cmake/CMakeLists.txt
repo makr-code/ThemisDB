@@ -2543,6 +2543,13 @@ set(THEMIS_CORE_SOURCES
     # Distributed Analytics Sharding – scatter-gather coordinator for distributed OLAP (Phase 3)
     ../src/analytics/distributed_analytics.cpp
 
+    # Expert System Engine – forward/backward chaining, KnowledgeBase, proof traces (Phase 4)
+    ../src/analytics/knowledge_base.cpp
+    ../src/analytics/expert_system_engine.cpp
+
+    # LoRA Pattern Classifier – adapter-based CEP event classification with AutoML fallback (Phase 5)
+    ../src/analytics/lora_pattern_classifier.cpp
+
     # Git-like MVCC Features
     # Phase 1: Named Snapshots
     ../src/transaction/snapshot_manager.cpp

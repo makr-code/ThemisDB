@@ -1,7 +1,7 @@
 # Scientific Foundations and Systems Integration for LLM-Native Database Workloads
 
 **Status**: Draft  
-**Version**: 0.2 (migrated from docs/research)  
+**Version**: 0.2 (migrated from research/)  
 **Last Updated**: 2026-04-19  
 **Target Venue**: arXiv (cs.DB / cs.LG)
 
@@ -108,4 +108,4 @@ ThemisDB already contains substantial LLM integration infrastructure. The next p
 
 ## References
 
-- See foundational bibliography in migrated source: `docs/research/LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md`.
+- See foundational bibliography in migrated source: `research/LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md`.

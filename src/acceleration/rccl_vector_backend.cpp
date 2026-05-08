@@ -29,6 +29,8 @@
 #include <numeric>
 #include <stdexcept>
 #include <cstring>
+#include <mutex>
+#include <utility>
 #include <vector>
 
 #ifdef THEMIS_ENABLE_RCCL
@@ -61,6 +63,30 @@
 
 namespace themis {
 namespace acceleration {
+
+namespace {
+
+std::mutex& rcclAllReduceFnMutex() {
+    static std::mutex mutex;
+    return mutex;
+}
+
+RCCLVectorBackend::AllReduceFn& rcclAllReduceFnStorage() {
+    static RCCLVectorBackend::AllReduceFn callback;
+    return callback;
+}
+
+RCCLVectorBackend::AllReduceFn getRcclAllReduceFn() {
+    std::lock_guard<std::mutex> lock(rcclAllReduceFnMutex());
+    return rcclAllReduceFnStorage();
+}
+
+} // namespace
+
+void RCCLVectorBackend::setAllReduceFn(AllReduceFn fn) {
+    std::lock_guard<std::mutex> lock(rcclAllReduceFnMutex());
+    rcclAllReduceFnStorage() = std::move(fn);
+}
 
 #ifdef THEMIS_ENABLE_RCCL
 
@@ -621,6 +647,13 @@ bool RCCLVectorBackend::allReduce(const float* send, float* recv, size_t count,
         } catch (...) {
             return false;
         }
+bool RCCLVectorBackend::allReduce(const float* sendBuf,
+                                  float* recvBuf,
+                                  size_t count,
+                                  ReductionOp op,
+                                  void* stream) {
+    if (auto all_reduce_fn = getRcclAllReduceFn(); all_reduce_fn) {
+        return all_reduce_fn(sendBuf, recvBuf, count, op, stream);
     }
     return false;
 }

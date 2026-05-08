@@ -243,7 +243,7 @@ Expected performance (based on research literature):
 
 ## References
 
-- [Research Document](../../docs/research/GNN_BASED_INDEXING_AND_EMBEDDINGS.md)
+- [Research Document](../../research/GNN_BASED_INDEXING_AND_EMBEDDINGS.md)
 - [PyTorch Geometric Documentation](https://pytorch-geometric.readthedocs.io/)
 - [GraphSAGE Paper](https://arxiv.org/abs/1706.02216)
 - [GCN Paper](https://arxiv.org/abs/1609.02907)

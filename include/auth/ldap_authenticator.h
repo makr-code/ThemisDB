@@ -33,6 +33,7 @@
 #include <chrono>
 #include <functional>
 #include <future>
+#include <functional>
 
 namespace themis {
 namespace utils { class AuditLogger; }
@@ -168,6 +169,12 @@ struct LDAPAuthResult {
  */
 class LDAPAuthenticator {
 public:
+    using LdapBindFn = std::function<LDAPAuthResult(const std::string& username,
+                                                    const std::string& dn,
+                                                    const std::string& password)>;
+
+    static void setLdapBindFn(LdapBindFn fn);
+
     /**
      * @brief Construct an uninitialised authenticator.
      */

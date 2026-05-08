@@ -545,7 +545,7 @@ app.use('/audit/diff', getDiff, (req, res) => {
 - [Changefeed Documentation](../cdc/changefeed.md)
 - [Named Snapshots](./features_snapshots.md)
 - [Point-in-Time Recovery](./features_pitr.md)
-- [Git-like Features Research](../../docs/research/GIT_LIKE_FEATURES_FOR_MVCC.md)
+- [Git-like Features Research](../../research/GIT_LIKE_FEATURES_FOR_MVCC.md)
 
 ---
 

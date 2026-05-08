@@ -72,7 +72,7 @@
 | `docs/gpu_roadmap.md` | Produktionsreife-Bewertung und vollständige Roadmap |
 | `docs/gpu_runbooks.md` | Operative Runbooks für GPU-Vorfälle |
 | `docs/GPU_KERNEL_IMPLEMENTATION_GUIDE.md` | Leitfaden zur Kernel-Implementierung |
-| `docs/research/GPU_VECTOR_INDEXING_RESEARCH.md` | Forschungsstand GPU-basiertes Vektor-Indexing |
+| `research/GPU_VECTOR_INDEXING_RESEARCH.md` | Forschungsstand GPU-basiertes Vektor-Indexing |
 
 ---
 

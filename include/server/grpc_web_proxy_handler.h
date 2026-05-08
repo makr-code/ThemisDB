@@ -28,6 +28,7 @@
 #include <vector>
 #include <cstdint>
 #include <memory>
+#include <functional>
 
 namespace themis {
 namespace server {
@@ -101,6 +102,14 @@ public:
         /// Request deadline in milliseconds (0 = no deadline).
         uint32_t deadline_ms = 30000;
     };
+
+    using BackendInvokeFn = std::function<bool(const std::string& method,
+                                               const std::string& request_proto,
+                                               std::string& response_proto,
+                                               int& grpc_status,
+                                               std::string& grpc_message)>;
+
+    static void setBackendInvokeFn(BackendInvokeFn fn);
 
     /**
      * @brief Construct a proxy with the given configuration.

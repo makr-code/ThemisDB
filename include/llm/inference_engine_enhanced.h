@@ -486,6 +486,25 @@ public:
      */
     void setFederatedBackend(std::shared_ptr<IFederatedInferenceBackend> backend);
     
+    // ── STUB #262 bridge — target logit injection ─────────────────────────
+
+    /// Callback type for injecting real per-position target-model logits into
+    /// trySpeculativeGeneration() without requiring a full llama.cpp rewrite.
+    ///
+    /// Parameters: (request, K, vocab_size, target_plugin)
+    /// Must return exactly K+1 rows of vocab_size floats.
+    using TargetLogitsFn = std::function<
+        std::vector<std::vector<float>>(
+            const InferenceRequest&            /*request*/,
+            size_t                             /*K*/,
+            size_t                             /*vocab_size*/,
+            std::shared_ptr<ILLMPlugin>        /*target_plugin*/)>;
+
+    /// Inject a real target-logit computation into trySpeculativeGeneration().
+    /// Pass nullptr / empty fn to restore the built-in peaked-distribution
+    /// heuristic (STUB #262).  Thread-safe.
+    void setTargetLogitsFn(TargetLogitsFn fn);
+
 private:
     Config config_;
     std::atomic<bool> running_{false};
@@ -513,6 +532,9 @@ private:
     // Protected by federated_backend_mutex_.
     std::shared_ptr<IFederatedInferenceBackend> federated_backend_;
     mutable std::mutex federated_backend_mutex_;
+    // STUB #262 bridge — target logit injection.
+    TargetLogitsFn target_logits_fn_;
+    mutable std::mutex target_logits_fn_mutex_;
 
     // Lookup decoder (n-gram based, draft-model-free).
     // nullptr when enable_lookup_decoding == false.

@@ -94,13 +94,13 @@ GESAMT: ~1400 LOC neuer Code, 3-4 Sprints
 DOKUMENTATION ERSTELLT
 ================================================================================
 
-1. docs/research/AGENTIC_AI_SELF_AWARENESS_RESEARCH.md (769 Zeilen)
+1. research/AGENTIC_AI_SELF_AWARENESS_RESEARCH.md (769 Zeilen)
    → Vollständige Analyse: Was existiert, was fehlt, was zu tun ist
 
-2. docs/research/AGENTIC_AI_IMPLEMENTATION_EXAMPLE.md (763 Zeilen)
+2. research/AGENTIC_AI_IMPLEMENTATION_EXAMPLE.md (763 Zeilen)
    → Konkrete Code-Beispiele für alle Komponenten
 
-3. docs/research/README.md (250 Zeilen)
+3. research/README.md (250 Zeilen)
    → Executive Summary mit Roadmap
 
 TOTAL: 1,782 Zeilen Research Documentation
@@ -110,8 +110,8 @@ NÄCHSTE SCHRITTE
 ================================================================================
 
 FÜR ENTWICKLER:
-1. Lesen: docs/research/AGENTIC_AI_SELF_AWARENESS_RESEARCH.md
-2. Design Review: docs/research/AGENTIC_AI_IMPLEMENTATION_EXAMPLE.md
+1. Lesen: research/AGENTIC_AI_SELF_AWARENESS_RESEARCH.md
+2. Design Review: research/AGENTIC_AI_IMPLEMENTATION_EXAMPLE.md
 3. Issue erstellen: "Implement Full MCP Schema Integration"
 4. Proof-of-Concept: Schema-Discovery aus RocksDB starten
 

@@ -449,11 +449,11 @@ The 200 ms SLO is appropriate for the *slow loop* (news-driven signals). Pure mi
 | E11 | `tests/graph/test_ontology_manager.cpp` | OM-01..OM-12 | Validates ontology correctness for entity type enforcement | Ready |
 | E12 | `tests/graph/test_path_constraints_semantic.cpp` | SC-01..SC-10 | Validates semantic path constraint enforcement | Ready |
 | E13 | `src/stubs.cpp` | (empty after migration) | Confirms production-grade implementation; no mock stubs | Ready |
-| E14 | `docs/research/TEMPORAL_DATABASE_SUPPORT.md` | Full | Bitemporal query design for point-in-time financial data | Ready |
-| E15 | `docs/research/best_practices/continuous_query_sliding_window.md` | Full | CQL sliding-window design for streaming financial signals | Ready |
-| E16 | `docs/research/best_practices/multi_lora_adapter_routing.md` | Full | LoRA adapter routing for domain-specific LLM selection | Ready |
-| E17 | `docs/research/papers/wang_speculative_rag_2024.md` | Full | Speculative RAG latency optimization — informs §5.4 | Ready |
-| E18 | `docs/research/papers/yao_react_2022.md` | Full | ReAct agentic loop — informs §5 TAO architecture | Ready |
+| E14 | `research/TEMPORAL_DATABASE_SUPPORT.md` | Full | Bitemporal query design for point-in-time financial data | Ready |
+| E15 | `research/best_practices/continuous_query_sliding_window.md` | Full | CQL sliding-window design for streaming financial signals | Ready |
+| E16 | `research/best_practices/multi_lora_adapter_routing.md` | Full | LoRA adapter routing for domain-specific LLM selection | Ready |
+| E17 | `research/papers/wang_speculative_rag_2024.md` | Full | Speculative RAG latency optimization — informs §5.4 | Ready |
+| E18 | `research/papers/yao_react_2022.md` | Full | ReAct agentic loop — informs §5 TAO architecture | Ready |
 
 ---
 

@@ -51,6 +51,7 @@
 #endif
 
 #include <openssl/sha.h>
+#include <openssl/evp.h>
 
 namespace themis {
 namespace plugins {
@@ -64,37 +65,39 @@ inline void secureZero(void* ptr, size_t len) {
     }
 }
 
-// STUB/SIMULATION NOTE:
-// Purpose: Keep Windows/community builds functional when libargon2 headers are unavailable.
-// Activation: THEMIS_HAS_ARGON2 == 0 at compile time.
-// Production Delta: Uses iterative SHA-256 KDF fallback instead of Argon2id.
-// Roadmap ref: src/user_storage_encrypted/ROADMAP.md § "Planned Features"
-// Removal Plan: Remove once Argon2 is available/linked in all supported build environments.
-std::vector<uint8_t> deriveFallbackSha256(
+// PBKDF2-HMAC-SHA256 fallback used when libargon2 is unavailable.
+// Iteration count is intentionally separate from kTimeCost (which is tuned for
+// Argon2id's memory-hard parameters) and matches OWASP's 2023 minimum for
+// PBKDF2-HMAC-SHA256 (310 000 rounds).
+//
+// MIGRATION NOTE: Keys previously derived with the old iterative-SHA-256 path
+// (pre-2026-05-05 builds without libargon2) are NOT compatible with this
+// function.  Operators upgrading from that path must re-derive all affected
+// keys.  Production deployments SHOULD link libargon2 instead (see ROADMAP.md).
+static constexpr uint32_t kPbkdf2FallbackIterations = 310'000;
+
+std::vector<uint8_t> deriveFallbackPbkdf2(
     const std::vector<uint8_t>& password,
     const std::vector<uint8_t>& salt,
     size_t out_len,
-    uint32_t iterations)
+    uint32_t /*argon2_time_cost_unused*/)
 {
-    std::vector<uint8_t> out;
-    out.reserve(out_len);
-
-    std::vector<uint8_t> state(password);
-    state.insert(state.end(), salt.begin(), salt.end());
-
-    for (uint32_t i = 0; i < std::max<uint32_t>(1, iterations) && out.size() < out_len; ++i) {
-        unsigned char digest[SHA256_DIGEST_LENGTH];
-        SHA256(state.data(), state.size(), digest);
-
-        const size_t remaining = out_len - out.size();
-        const size_t take = std::min(remaining, static_cast<size_t>(SHA256_DIGEST_LENGTH));
-        out.insert(out.end(), digest, digest + take);
-
-        state.assign(digest, digest + SHA256_DIGEST_LENGTH);
-        state.insert(state.end(), salt.begin(), salt.end());
+    std::vector<uint8_t> out(out_len, 0);
+    const int rc = PKCS5_PBKDF2_HMAC(
+        reinterpret_cast<const char*>(password.data()),
+        static_cast<int>(password.size()),
+        salt.data(),
+        static_cast<int>(salt.size()),
+        static_cast<int>(kPbkdf2FallbackIterations),
+        EVP_sha256(),
+        static_cast<int>(out_len),
+        out.data());
+    if (rc != 1) {
+        // PKCS5_PBKDF2_HMAC only fails on invalid arguments (e.g. null EVP_MD);
+        // zero the output and propagate to caller.
+        secureZero(out.data(), out.size());
+        out.assign(out_len, 0);
     }
-
-    secureZero(state.data(), state.size());
     return out;
 }
 }
@@ -169,7 +172,7 @@ Result<std::vector<uint8_t>> Argon2idKeyDerivationService::deriveKey(
     return Result<std::vector<uint8_t>>(derived);
 #else
     return Result<std::vector<uint8_t>>(
-        deriveFallbackSha256(master_key, salt, kKeyLength, kTimeCost)
+        deriveFallbackPbkdf2(master_key, salt, kKeyLength, kTimeCost)
     );
 #endif
 }
@@ -313,7 +316,7 @@ std::vector<uint8_t> Argon2idKeyDerivationService::derive(
 
     return derived_key;
 #else
-    auto derived = deriveFallbackSha256(password, salt, params_.output_len, params_.iterations);
+    auto derived = deriveFallbackPbkdf2(password, salt, params_.output_len, params_.iterations);
     secureZero(password.data(), password.size());
     return derived;
 #endif

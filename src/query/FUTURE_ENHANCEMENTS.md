@@ -1485,7 +1485,7 @@ if (resource_limits.max_memory_bytes == 0) {
 
 ## Continuous Query Language (CQL) — Phase 8
 
-> **Research foundation:** [CQL — Arasu, Babu & Widom (2006)](../../docs/research/papers/arasu_cql_2006.md) · [Best Practice: Continuous Query Sliding Windows](../../docs/research/best_practices/continuous_query_sliding_window.md)
+> **Research foundation:** [CQL — Arasu, Babu & Widom (2006)](../../research/papers/arasu_cql_2006.md) · [Best Practice: Continuous Query Sliding Windows](../../research/best_practices/continuous_query_sliding_window.md)
 
 ### Scope
 

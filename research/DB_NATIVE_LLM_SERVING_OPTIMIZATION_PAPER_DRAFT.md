@@ -67,8 +67,8 @@ Scaling analysis measures throughput and latency as batch size, context length, 
 
 | Evidence ID | File | Scope | What It Proves | Status |
 |-------------|------|-------|----------------|--------|
-| E1 | `docs/research/implementation_influence/by_paper.md` | Kwon et al. (PagedAttention) entry | Paged attention influence mapped to implementation | ready |
-| E2 | `docs/research/implementation_influence/by_paper.md` | Chen et al. (Speculative Decoding) entry | Speculative decoding influence mapped to implementation | ready |
+| E1 | `research/implementation_influence/by_paper.md` | Kwon et al. (PagedAttention) entry | Paged attention influence mapped to implementation | ready |
+| E2 | `research/implementation_influence/by_paper.md` | Chen et al. (Speculative Decoding) entry | Speculative decoding influence mapped to implementation | ready |
 | E3 | `ARCHITECTURE.md` | LLM features section | Continuous batching and paged KV-cache capabilities declared | ready |
 | E4 | `ARCHITECTURE.md` | Flash Attention section | Related low-level serving optimization surface exists | ready |
 | E5 | `PERFORMANCE_EXPECTATIONS.md` | v1.8.2 abstract + methodology scope | Root-level measured system baseline and pending AI/ML wave-measurement note | ready |

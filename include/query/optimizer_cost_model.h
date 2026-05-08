@@ -43,6 +43,9 @@ enum class WorkloadType {
     ANALYTICS_OLAP,  ///< Full-scan aggregations → Arrow IPC + GPU (large batches)
     CDC_STREAM,      ///< Change-data-capture event streams → Binary/CPU threaded
     CACHE_REPL,      ///< Internal cache replication → Protobuf/CPU threaded
+    TENSOR_RAG,      ///< TT-domain RAG/FLARE retrieval — see tensor_rag_cost_model.h
+                     ///< Maps to Arrow IPC / GPU_VRAM when GgmlTensorBridge is active;
+                     ///< falls back to VECTOR_SEARCH serialization path otherwise.
 };
 
 /**

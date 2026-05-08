@@ -100,9 +100,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rpc/rpc_service_integration_test.cpp")
         rpc_service_integration_test
         rpc/rpc_service_integration_test.cpp
     )
-    target_sources(rpc_service_integration_test PRIVATE
-        ${THEMIS_ROOT_DIR}/src/server/rpc/rpc_service_impl.cpp
-    )
     target_link_libraries(rpc_service_integration_test PRIVATE
         # Add gRPC dependencies
         # gRPC::grpc++

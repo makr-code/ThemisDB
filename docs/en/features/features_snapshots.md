@@ -529,7 +529,7 @@ create_audited_snapshot(
 - [MVCC Architecture](../architecture/architecture_mvcc.md)
 - [Changefeed Documentation](../cdc/changefeed.md)
 - [Point-in-Time Recovery](./features_pitr.md)
-- [Git-like Features Research](../../docs/research/GIT_LIKE_FEATURES_FOR_MVCC.md)
+- [Git-like Features Research](../../research/GIT_LIKE_FEATURES_FOR_MVCC.md)
 
 ---
 

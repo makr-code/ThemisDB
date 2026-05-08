@@ -329,3 +329,70 @@ The following IEEE-formatted references support the research basis for features 
 - Document with 2 Teil sections and 3 paragraphs: §1 belongs to Teil 1, §2–§3 belong to Teil 2.
 - `buildHierarchy()` result: `root.children = [Teil1, Teil2]`; `Teil1.children = [§1]`; `Teil2.children = [§2, §3]`.
 - Document without Teil sections: all paragraphs under root (existing behaviour; must not regress).
+
+---
+
+## TensorIngestionBridge — Phase 10: Storage Sink Integration (Status: Completed ✅ — 2026-05-05)
+
+**Phase 9 + Phase 10 are now complete.** The full TT-core ingestion pipeline is wired:
+```
+chunk_embed → chunk_tt_decompose → tensor_core_bridge
+```
+
+**Delivered (Phase 10):**
+- `ITensorCoreBridge` + `InMemoryTensorCoreBridge` → `include/ingestion/ingestion_sinks.h` + `src/ingestion/ingestion_sinks.cpp`
+- `TensorCoreStorageBridge` → `include/tensor/tensor_core_bridge.h` + `src/tensor/tensor_core_bridge.cpp`
+  - Key schema: `__ttcore__:<tenant_id>:<source_file_id>:<chunk_id>`
+  - Upsert semantics; fail-closed validation; atomic write counter
+  - Defaults to `InMemoryTensorBackend` (STUB_INVENTORY #160 — RocksDB Q4 2026)
+- `builtin.tensor_core_bridge` step → `src/ingestion/steps/tensor_core_bridge_step.cpp`
+- `createTensorCoreBridgeStep()` factory → `include/ingestion/builtin_step_factories.h`
+- Tests TCS-01..TCS-20 → `tests/test_tensor_core_bridge.cpp`
+
+**Open items (Phase 11, Q4 2026):**
+- Replace `InMemoryTensorBackend` with `RocksDBTensorBackend` (STUB #160)
+- WriteBatch atomicity: either all cores for one `ExtractionContext` or none
+- Wire bootstrap in server `main.cpp`
+- Gaussian random projection for κ-pilot (STUB #159)
+- LAPACK SVD (STUB #157)
+
+### Scope
+- ~~Add a `TensorCoreBridgeAdapter` (analogous to `VectorSinkAdapter`) that iterates~~
+  ~~`ctx.tensor_cores` and writes each `TensorCoreRecord::serialized_train` to~~
+  ~~`TensorNetworkStorageEngine` under key schema~~
+  ~~`__ttcore__:<tenant>:<file_id>:<chunk_id>:G<k>:<version>`.~~
+  **Done** — `TensorCoreStorageBridge` uses `ITensorStorageBackend` directly with the
+  `__ttcore__` key prefix (separate from `TensorNetworkStorageEngine`'s `__ttn__` space).
+
+### Design Constraints
+- Must not import `tensor/` or `storage/` headers from `ingestion/`; use the
+  existing `ITensorCoreBridge` interface pattern. ✅ Implemented.
+- Re-ingestion of the same `file_id` must update (not duplicate) existing cores. ✅ Upsert.
+- Sink must be transactional (WriteBatch). 🔲 Phase 11 — requires `RocksDBTensorBackend`.
+
+### Required Interfaces
+- `ITensorCoreBridge::write(const TensorCoreRecord&, const std::string& tenant_id)` → `Result<void>` ✅
+- `TensorCoreStorageBridge : ITensorCoreBridge` in `tensor/` module ✅
+- `ExtractionContext::tensor_cores` (already added — Phase 9) ✅
+
+### Implementation Notes
+- Pilot `shouldDecompose()` uses stride sub-sampling (STUB_INVENTORY #159);
+  replace with Gaussian random projection for dim > 1024 (Q4 2026).
+- `simpleSVD()` limitation (STUB_INVENTORY #157) must be resolved (LAPACK Q3 2026)
+  before cores are used for production similarity search.
+
+### Test Strategy
+- Unit test: `TensorCoreStorageBridge` writes one record → key appears in backend. ✅ TCS-11
+- Round-trip test: serialize → deserialize → `TTTrain::reconstruct()` → compare. 🔲 Phase 11
+- Integration test: full pipeline with RocksDB backend. 🔲 Phase 11
+
+### Performance Targets
+- Write throughput: ≥ 500 TT-cores/s on a single node (768-d embedding, ε=0.01)
+- RocksDB write amplification: ≤ 3× (achieved via column-family segregation)
+- Memory overhead per write: ≤ 2 MB working set (stream decomposition, no full dense copy)
+
+### Security / Reliability
+- `tenant_id` must be validated (non-empty, no path-separator characters) before
+  constructing the storage key to prevent key injection. ✅ Validated in both
+  `InMemoryTensorCoreBridge::write()` and `TensorCoreStorageBridge::write()`.
+- WriteBatch commit must be atomic; partial writes must be rolled back. 🔲 Phase 11.

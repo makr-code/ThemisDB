@@ -63,6 +63,26 @@ v1.6.0 – AdaLoRA (adaptive rank pruning), LoRAAdapterMerger (TIES + linear), a
 - [?] Evaluation metrics dashboard (validation loss curves, accuracy)
 - [?] Export labeled datasets in standard formats (JSONL, Hugging Face datasets)
 
+### AdaLoRA ↔ Tensor-Train Bridge (Q2–Q4 2027)
+> Full research: `research/ADALORA_TT_BRIDGE_RESEARCH.md`  
+> Specification: `include/training/adalora_tt_bridge.h`
+
+- [ ] **Phase 1 (Q2 2027):** Core conversion `AdaLoRA ↔ TT` — `AdaLoraTTBridge::exportToTT()` / `importFromTT()`
+  - Mathematical basis: G₀[0,:,i] = P[:,i]·√λᵢ, G₁[i,:,0] = Q[:,i]·√λᵢ (bijective for 2D matrices)
+  - QR sign-normalisation + orthogonality validation (‖P^T·P − I‖_F < ε_orth = 1e-4)
+  - Round-trip error < machine epsilon; 15+ unit tests
+  - Acceptance: lossless for active_rank ≤ 64; `std::invalid_argument` for rank > max_tt_rank
+- [ ] **Phase 2 (Q2 2027):** Storage integration — `store()` / `loadAdapter()` via `TensorNetworkStorageEngine`
+  - Key schema: `__lora_adapters__:<tenant>:<adapter>:<layer>:G<0|1>`
+  - `LoRACheckpointManager` backend `TT_STORAGE`; adapter-load latency target ≤ 11 ms (7B, r=64)
+- [ ] **Phase 3 (Q3 2027):** Deduplication + serving — `TensorFingerprintGraph` integration
+  - `findSimilarAdapters()` for FLARE live adapter switch ≤ 15 ms
+  - `GgmlTensorBridge::mapAdapter()` zero-copy mmap path
+  - Expected: ≥40% storage reduction for 100 domain-related adapters
+- [ ] **Phase 4 (Q4 2027):** Unified rank control — `roundAndReallocate()`
+  - TT-rounding as globally optimal alternative to AdaLoRA greedy pruning
+  - Comparison study: AdaLoRA pruning vs. TT-SVD vs. combined (target: ≥2% better Frobenius-optimal rank cut)
+
 ### Long-term (6-12 months)
 - [?] Reinforcement learning from human feedback (RLHF) training loop
 - [?] Multi-modal training samples (text + table + chart)

@@ -1,0 +1,182 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            tensor_compaction_filter.cpp                       ║
+  Version:         1.0.0                                              ║
+  Last Modified:   2026-05-06                                         ║
+  Author:          copilot                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Phase 2 (Q4 2026)                                        ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+// STUB/SIMULATION NOTE:
+// Purpose: background TT-rank reduction during RocksDB compaction.
+// Activation: user registers this filter on a ColumnFamilyOptions;
+//   no automatic activation — opt-in only.
+// Production Delta: recompress() internally calls truncatedSVD which uses
+//   Golub-Reinsch (self-contained); will switch to LAPACK dgesdd when
+//   THEMIS_USE_LAPACK_SVD is defined.  Results are mathematically correct
+//   either way; LAPACK offers better performance for large unfoldings.
+// Removal Plan: permanent component; not removed.
+
+#include "storage/tensor_compaction_filter.h"
+
+#include <cstring>
+#include <string>
+#include <vector>
+
+namespace themis {
+namespace storage {
+
+namespace {
+
+// Prefix constants for key classification
+static constexpr const char* kTTCorePrefix = "__ttcore__:";
+static constexpr std::size_t kTTCorePrefixLen = 11;  // strlen("__ttcore__:")
+
+static constexpr const char* kTTNPrefix = "__ttn__:";
+static constexpr std::size_t kTTNPrefixLen = 8;      // strlen("__ttn__:")
+
+static constexpr const char* kMetaInfix = ":meta:";
+static constexpr std::size_t kMetaInfixLen = 6;      // strlen(":meta:")
+
+} // anonymous namespace
+
+// ============================================================================
+// Construction
+// ============================================================================
+
+TensorCompactionFilter::TensorCompactionFilter(
+    double           epsilon,
+    QuantizationType quant_type) noexcept
+    : epsilon_(epsilon)
+    , quant_type_(quant_type)
+{}
+
+// ============================================================================
+// Key classification
+// ============================================================================
+
+bool TensorCompactionFilter::isTTCoreKey(const rocksdb::Slice& key) noexcept {
+    if (key.size() < kTTCorePrefixLen) return false;
+    return std::memcmp(key.data(), kTTCorePrefix, kTTCorePrefixLen) == 0;
+}
+
+bool TensorCompactionFilter::isTTNMetaKey(const rocksdb::Slice& key) noexcept {
+    if (key.size() < kTTNPrefixLen + kMetaInfixLen) return false;
+    if (std::memcmp(key.data(), kTTNPrefix, kTTNPrefixLen) != 0) return false;
+    // Search for ":meta:" anywhere after the prefix
+    const char* data = key.data() + kTTNPrefixLen;
+    std::size_t remaining = key.size() - kTTNPrefixLen;
+    for (std::size_t i = 0; i + kMetaInfixLen <= remaining; ++i) {
+        if (std::memcmp(data + i, kMetaInfix, kMetaInfixLen) == 0)
+            return true;
+    }
+    return false;
+}
+
+// ============================================================================
+// Per-format handlers
+// ============================================================================
+
+bool TensorCompactionFilter::filterTTCore(const rocksdb::Slice& value,
+                                           std::string*          new_bytes) const {
+    // Deserialize raw TTTrain
+    const std::vector<uint8_t> bytes(
+        reinterpret_cast<const uint8_t*>(value.data()),
+        reinterpret_cast<const uint8_t*>(value.data()) + value.size());
+
+    auto opt = TTTrain::deserialize(bytes);
+    if (!opt) return false;  // corrupt value; leave unchanged
+
+    const TTTrain& orig = *opt;
+
+    TensorTrainConfig cfg;
+    cfg.eps = epsilon_;
+
+    TTTrain compressed = decomposer_.recompress(orig, cfg);
+
+    // Only replace if the compressed form is strictly smaller
+    if (compressed.totalParams() >= orig.totalParams()) return false;
+
+    auto new_serial = compressed.serialize();
+    new_bytes->assign(reinterpret_cast<const char*>(new_serial.data()),
+                      new_serial.size());
+    return true;
+}
+
+bool TensorCompactionFilter::filterTTNMeta(const rocksdb::Slice& value,
+                                            std::string*          new_bytes) const {
+    // Deserialize QuantizedTrain header
+    const std::vector<uint8_t> bytes(
+        reinterpret_cast<const uint8_t*>(value.data()),
+        reinterpret_cast<const uint8_t*>(value.data()) + value.size());
+
+    auto opt = QuantizedTrain::deserialize(bytes);
+    if (!opt) return false;
+
+    const QuantizedTrain& orig_qt = *opt;
+
+    // Dequantize → recompress → re-quantize
+    TTTrain train;
+    try {
+        train = quantizer_.dequantize(orig_qt);
+    } catch (...) {
+        return false;  // dequantization failure; leave unchanged
+    }
+
+    TensorTrainConfig cfg;
+    cfg.eps = epsilon_;
+
+    TTTrain compressed = decomposer_.recompress(train, cfg);
+
+    // Only replace if the compressed form has fewer parameters
+    if (compressed.totalParams() >= train.totalParams()) return false;
+
+    QuantizedTrain new_qt;
+    try {
+        new_qt = quantizer_.quantize(compressed, quant_type_);
+    } catch (...) {
+        return false;  // quantization failure; leave unchanged
+    }
+
+    auto new_serial = new_qt.serialize();
+    new_bytes->assign(reinterpret_cast<const char*>(new_serial.data()),
+                      new_serial.size());
+    return true;
+}
+
+// ============================================================================
+// FilterV2 — main compaction callback
+// ============================================================================
+
+rocksdb::CompactionFilter::Decision
+TensorCompactionFilter::FilterV2(
+    int                      /*level*/,
+    const rocksdb::Slice&    key,
+    ValueType                /*value_type*/,
+    const rocksdb::Slice&    existing_value,
+    std::string*             new_value,
+    std::string*             /*skip_until*/) const
+{
+    std::string new_bytes;
+
+    if (isTTCoreKey(key)) {
+        if (filterTTCore(existing_value, &new_bytes)) {
+            *new_value = std::move(new_bytes);
+            return Decision::kChangeValue;
+        }
+    } else if (isTTNMetaKey(key)) {
+        if (filterTTNMeta(existing_value, &new_bytes)) {
+            *new_value = std::move(new_bytes);
+            return Decision::kChangeValue;
+        }
+    }
+
+    return Decision::kKeep;
+}
+
+} // namespace storage
+} // namespace themis

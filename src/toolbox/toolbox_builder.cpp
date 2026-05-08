@@ -29,13 +29,15 @@ namespace toolbox {
 // ─────────────────────────────────────────────────────────────────────────────
 
 struct ToolboxBuilder::Impl {
-    std::vector<std::string>                                     profile_paths;
-    std::shared_ptr<ingestion::WorkflowEngine>                   engine;
-    std::shared_ptr<ingestion::ITextGenerationBackend>           text_backend;
-    std::shared_ptr<ingestion::IGraphWriter>                     graph_writer;
-    std::shared_ptr<ingestion::IVectorWriter>                    vector_writer;
-    std::vector<std::shared_ptr<ingestion::IFormatExtractor>>    format_extractors;
-    bool                                                         built{false};
+    std::vector<std::string>                                       profile_paths;
+    std::shared_ptr<ingestion::WorkflowEngine>                     engine;
+    std::shared_ptr<ingestion::ITextGenerationBackend>             text_backend;
+    std::shared_ptr<ingestion::IGraphWriter>                       graph_writer;
+    std::shared_ptr<ingestion::IVectorWriter>                      vector_writer;
+    std::vector<std::shared_ptr<ingestion::IFormatExtractor>>      format_extractors;
+    std::shared_ptr<ingestion::ITensorDecompositionBackend>        tensor_decomp_backend;
+    std::shared_ptr<ingestion::ITensorCoreBridge>                  tensor_core_bridge;
+    bool                                                           built{false};
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -74,6 +76,20 @@ ToolboxBuilder& ToolboxBuilder::withTextBackend(
     std::shared_ptr<ingestion::ITextGenerationBackend> backend)
 {
     impl_->text_backend = std::move(backend);
+    return *this;
+}
+
+ToolboxBuilder& ToolboxBuilder::withTensorDecompositionBackend(
+    std::shared_ptr<ingestion::ITensorDecompositionBackend> backend)
+{
+    impl_->tensor_decomp_backend = std::move(backend);
+    return *this;
+}
+
+ToolboxBuilder& ToolboxBuilder::withTensorCoreSink(
+    std::shared_ptr<ingestion::ITensorCoreBridge> sink)
+{
+    impl_->tensor_core_bridge = std::move(sink);
     return *this;
 }
 
@@ -188,6 +204,16 @@ std::shared_ptr<IngestionToolbox> ToolboxBuilder::build() {
     // ── 4. Inject text-generation backend
     if (impl_->text_backend) {
         toolbox->setTextBackend(impl_->text_backend);
+    }
+
+    // ── 4b. Re-register tensor steps with real backends (if provided)
+    if (impl_->tensor_decomp_backend) {
+        (void)reg.registerStep("builtin.chunk_tt_decompose",
+            ingestion::builtin::createChunkTtDecomposeStep(impl_->tensor_decomp_backend));
+    }
+    if (impl_->tensor_core_bridge) {
+        (void)reg.registerStep("builtin.tensor_core_bridge",
+            ingestion::builtin::createTensorCoreBridgeStep(impl_->tensor_core_bridge));
     }
 
     // ── 5. Load workflow profiles

@@ -167,6 +167,10 @@ void InferenceEngineEnhanced::setFederatedBackend(
     } else {
         spdlog::info("InferenceEngineEnhanced: federated inference backend detached");
     }
+// ── setTargetLogitsFn (STUB #262) ────────────────────────────────────────────
+void InferenceEngineEnhanced::setTargetLogitsFn(TargetLogitsFn fn) {
+    std::lock_guard<std::mutex> lock(target_logits_fn_mutex_);
+    target_logits_fn_ = std::move(fn);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1710,14 +1714,17 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
     std::shared_ptr<ILLMPlugin> draft_plugin,
     InferenceResponse&          response
 ) {
-    // Generate draft tokens with the small model.
-    // We ask the draft model to produce speculative_draft_tokens tokens.
-    InferenceRequest draft_request = request;
-    draft_request.max_tokens = static_cast<int>(config_.speculative_draft_tokens);
-    // Disable streaming for the draft pass.
-    draft_request.stream_callback = nullptr;
+    const size_t K = config_.speculative_draft_tokens;
 
-    InferenceResponse draft_response;
+    // Use the actual vocab size reported by the target model when available;
+    // fall back to a common LLaMA-family default to keep logit vectors finite.
+    size_t vocab_size = 32000u;
+    {
+        auto model_info = target_plugin->getModelInfo();
+        if (model_info && model_info->vocab_size > 0) {
+            vocab_size = model_info->vocab_size;
+        }
+    }
 
     // ── Remote draft path ─────────────────────────────────────────────────
     // When a remote draft shard is configured and a RemoteExecutor is injected,
@@ -1736,11 +1743,19 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
         speculative_decoder_ &&
         !speculative_decoder_->getConfig().remote_draft_shard_id.empty();
 
+    // draft_result holds the token IDs + logit distributions obtained from the
+    // draft model (either remote text or local generateDraftTokens()).
+    ILLMPlugin::DraftTokensResult draft_result;
+
     if (use_remote) {
+        // Fetch draft text from the remote shard and convert to token IDs +
+        // peaked logit distributions using the same heuristic as the default
+        // generateDraftTokens() implementation (STUB #261).
+        std::string remote_text;
         try {
             const nlohmann::json body = {
                 {"prompt",     request.prompt},
-                {"max_tokens", static_cast<int>(config_.speculative_draft_tokens)},
+                {"max_tokens", static_cast<int>(K)},
                 {"model_id",   config_.speculative_draft_model_id}
             };
             const auto result = remote_exec->post(
@@ -1751,9 +1766,9 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
             if (result.success && result.data.contains("text") &&
                 !result.data["text"].get<std::string>().empty())
             {
-                draft_response.text = result.data["text"].get<std::string>();
+                remote_text = result.data["text"].get<std::string>();
                 spdlog::debug("Remote draft tokens fetched from shard '{}' ({} chars)",
-                              remote_shard.shard_id, draft_response.text.size());
+                              remote_shard.shard_id, remote_text.size());
             } else {
                 spdlog::debug("Remote draft shard '{}' returned no tokens — "
                               "falling back to local draft model",
@@ -1764,77 +1779,130 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
                          "falling back to local draft model",
                          remote_shard.shard_id, e.what());
         }
+
+        if (!remote_text.empty()) {
+            // Convert remote text to token IDs + logit distributions.
+            constexpr float kPeak     =  5.0f;
+            constexpr float kBaseline = -5.0f;
+            draft_result.vocab_size = vocab_size;
+            for (size_t i = 0; i < K; ++i) {
+                const int tid = (i < remote_text.size())
+                    ? (static_cast<int>(static_cast<unsigned char>(remote_text[i])) %
+                       static_cast<int>(vocab_size))
+                    : 0;
+                draft_result.tokens.push_back(tid);
+                std::vector<float> row(vocab_size, kBaseline);
+                row[static_cast<size_t>(tid)] = kPeak;
+                draft_result.logits.push_back(std::move(row));
+            }
+        }
     }
 
     // ── Local draft path (fallback or primary) ────────────────────────────
-    if (draft_response.text.empty()) {
+    // generateDraftTokens() calls generate() internally and maps text to token
+    // IDs via UTF-8 byte values modulo vocab_size (STUB #261).
+    if (draft_result.tokens.empty()) {
+        InferenceRequest draft_request = request;
+        draft_request.stream_callback  = nullptr;
         try {
-            draft_response = draft_plugin->generate(draft_request);
+            draft_result = draft_plugin->generateDraftTokens(
+                draft_request, K, vocab_size);
         } catch (const std::exception& e) {
-            spdlog::warn("Draft model generation failed: {} — falling back to target",
-                         e.what());
+            spdlog::warn("Draft model generateDraftTokens failed: {} — "
+                         "falling back to target", e.what());
             return false;
         }
     }
 
-    if (draft_response.text.empty()) {
-        spdlog::debug("Draft model returned empty response — falling back to target");
+    if (draft_result.tokens.empty()) {
+        spdlog::debug("Draft model returned no tokens — falling back to target");
         return false;
     }
 
-    // Build synthetic logit arrays from the draft and target models.
-    // Since ILLMPlugin::generate() returns text (not per-token logits), we
-    // construct minimal probability distributions that encode the draft token
-    // choices.  The target model is then asked to generate from the full prompt
-    // so we can obtain its view of the draft-extended context.
-    //
-    // This approximation is intentional: a full per-token logit API requires
-    // llama.cpp low-level hooks not yet exposed through ILLMPlugin.  The
-    // infrastructure (SpeculativeDecoder, engine plumbing, statistics) is
-    // complete; the logit arrays will be replaced with real values once
-    // llama.cpp per-token logits are surfaced through the plugin interface
-    // (tracked in FUTURE_ENHANCEMENTS.md §"Speculative Decoding").
-
-    const size_t K = config_.speculative_draft_tokens;
-
-    // Use the actual vocab size reported by the target model when available;
-    // fall back to a common LLaMA-family default to keep logit vectors finite.
-    size_t vocab_size = 32000;
+    // ── Target logit estimation (STUB #262 bridge) ────────────────────────
+    // Try the injected TargetLogitsFn first; fall back to the single-token
+    // peaked-distribution heuristic when no fn is set.
+    TargetLogitsFn target_logits_fn_copy;
     {
-        auto model_info = target_plugin->getModelInfo();
-        if (model_info && model_info->vocab_size > 0) {
-            vocab_size = model_info->vocab_size;
+        std::lock_guard<std::mutex> lk(target_logits_fn_mutex_);
+        target_logits_fn_copy = target_logits_fn_;
+    }
+
+    std::vector<std::vector<float>> target_logit_matrix;
+    bool used_injected_logits = false;
+    if (target_logits_fn_copy) {
+        try {
+            target_logit_matrix = target_logits_fn_copy(request, K, vocab_size, target_plugin);
+            // Validate output size: must be exactly K+1 rows of vocab_size columns.
+            if (target_logit_matrix.size() == K + 1) {
+                bool valid = true;
+                for (const auto& row : target_logit_matrix) {
+                    if (row.size() != vocab_size) { valid = false; break; }
+                }
+                used_injected_logits = valid;
+                if (!valid) {
+                    target_logit_matrix.clear();
+                    spdlog::warn("TargetLogitsFn returned wrong shape — "
+                                 "falling back to heuristic");
+                }
+            } else {
+                const size_t actual_rows = target_logit_matrix.size();
+                target_logit_matrix.clear();
+                spdlog::warn("TargetLogitsFn returned {} rows (expected {}) — "
+                             "falling back to heuristic",
+                             actual_rows, K + 1);
+            }
+        } catch (const std::exception& e) {
+            target_logit_matrix.clear();
+            spdlog::warn("TargetLogitsFn threw: {} — falling back to heuristic",
+                         e.what());
         }
     }
 
-    // Build uniform logits except a high-confidence peak on token 0 (placeholder).
-    // This causes the decoder to accept all draft tokens and sample a bonus token,
-    // exercising the full acceptance loop for statistics purposes.
-    const float peak_logit     =  5.0f;
-    const float baseline_logit = -5.0f;
+    if (!used_injected_logits) {
+        // Built-in heuristic: single generate(max_tokens=1) call to obtain the
+        // target's most-likely next token; peaked distributions for all K+1 rows.
+        constexpr float kTargetPeak     =  5.0f;
+        constexpr float kTargetBaseline = -5.0f;
 
-    auto make_peaked_logits = [&](size_t peak_token) {
-        std::vector<float> logits(vocab_size, baseline_logit);
-        if (peak_token < vocab_size) logits[peak_token] = peak_logit;
-        return logits;
-    };
+        int target_pred_token = 0;
+        {
+            InferenceRequest one_tok_req = request;
+            one_tok_req.max_tokens      = 1;
+            one_tok_req.stream_callback = nullptr;
+            try {
+                const auto tgt_resp = target_plugin->generate(one_tok_req);
+                if (!tgt_resp.text.empty()) {
+                    target_pred_token =
+                        static_cast<int>(static_cast<unsigned char>(tgt_resp.text[0])) %
+                        static_cast<int>(vocab_size);
+                }
+            } catch (const std::exception&) {
+                // Non-fatal: keep target_pred_token = 0.
+            }
+        }
 
-    std::vector<int>                        draft_tokens(K, 0);
-    std::vector<std::vector<float>>         draft_logit_matrix(K);
-    std::vector<std::vector<float>>         target_logit_matrix(K + 1);
+        auto make_target_row = [&](int peak_token) {
+            std::vector<float> row(vocab_size, kTargetBaseline);
+            row[static_cast<size_t>(
+                std::max(0, peak_token) % static_cast<int>(vocab_size))] = kTargetPeak;
+            return row;
+        };
 
-    for (size_t i = 0; i < K; ++i) {
-        draft_tokens[i]        = 0;
-        draft_logit_matrix[i]  = make_peaked_logits(0);
-        target_logit_matrix[i] = make_peaked_logits(0);
+        target_logit_matrix.resize(K + 1);
+        for (size_t i = 0; i < K; ++i) {
+            target_logit_matrix[i] = make_target_row(target_pred_token);
+        }
+        // Bonus position: use a token shifted by 1 to distinguish from verification.
+        target_logit_matrix[K] = make_target_row(
+            (target_pred_token + 1) % static_cast<int>(vocab_size));
     }
-    target_logit_matrix[K] = make_peaked_logits(1);  // Bonus token position
 
-    // Run the acceptance/rejection loop.
+    // ── Acceptance / rejection loop ───────────────────────────────────────
     SpeculativeDecoder::VerifyResult verify_result;
     try {
         verify_result = speculative_decoder_->verify(
-            draft_tokens, draft_logit_matrix, target_logit_matrix);
+            draft_result.tokens, draft_result.logits, target_logit_matrix);
     } catch (const std::exception& e) {
         spdlog::warn("SpeculativeDecoder::verify failed: {} — falling back to target",
                      e.what());

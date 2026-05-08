@@ -71,8 +71,8 @@ Scaling analysis covers both offline and online dimensions: index build/refresh 
 
 | Evidence ID | File | Scope | What It Proves | Status |
 |-------------|------|-------|----------------|--------|
-| E1 | `docs/research/implementation_influence/by_paper.md` | ADR-001 (HNSW over FAISS) | Architectural choice is accepted and tracked | ready |
-| E2 | `docs/research/implementation_influence/by_paper.md` | Malkov/Yashunin entry | HNSW influence mapped to implemented modules | ready |
+| E1 | `research/implementation_influence/by_paper.md` | ADR-001 (HNSW over FAISS) | Architectural choice is accepted and tracked | ready |
+| E2 | `research/implementation_influence/by_paper.md` | Malkov/Yashunin entry | HNSW influence mapped to implemented modules | ready |
 | E3 | `ARCHITECTURE.md` | Index & Vector layer section | HNSW, FAISS, and hybrid search are architecture-level capabilities | ready |
 | E4 | `README.md` | capability matrix | Vector search support communicated at product level | ready |
 | E5 | `PERFORMANCE_EXPECTATIONS.md` | v1.8.2 abstract + benchmark summary | Root-level measured performance baseline and index/query gaps | ready |

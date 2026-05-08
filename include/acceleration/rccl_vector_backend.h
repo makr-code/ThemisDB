@@ -100,6 +100,14 @@ public:
         PROD
     };
 
+    using AllReduceFn = std::function<bool(const float* sendBuf,
+                                           float* recvBuf,
+                                           size_t count,
+                                           ReductionOp op,
+                                           hipStream_t stream)>;
+
+    static void setAllReduceFn(AllReduceFn fn);
+
     // Constructor & Destructor
     RCCLVectorBackend();
     ~RCCLVectorBackend();

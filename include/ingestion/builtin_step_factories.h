@@ -24,6 +24,7 @@
 
 #include "ingestion/ingestion_step.h"
 #include "ingestion/inference_backend.h"
+#include "ingestion/ingestion_sinks.h"
 #include "ingestion/format_extractor.h"
 #include <memory>
 namespace themis {
@@ -173,6 +174,58 @@ std::shared_ptr<IIngestionStep> createLegalReferenceExtractorStep();
  */
 std::shared_ptr<IIngestionStep> createChunkEmbedStep(
     std::shared_ptr<IEmbeddingBackend> backend = nullptr);
+
+/**
+ * @brief Create a `builtin.chunk_tt_decompose` step.
+ *
+ * For every `VectorRecord` in `ctx.embeddings` that passes the κ-gate,
+ * computes a Tensor-Train decomposition via @p backend and appends a
+ * `TensorCoreRecord` to `ctx.tensor_cores`.
+ *
+ * Ordering constraint: this step MUST run **after** `builtin.chunk_embed`
+ * so that `ctx.embeddings` is already populated.
+ *
+ * If @p backend is `nullptr`, a `NullTensorDecompositionBackend`
+ * (`isAvailable() == false`) is used; the step becomes a no-op unless
+ * `skip_when_unavailable` is set to `false`.
+ *
+ * Config keys (all optional):
+ *  - `skip_when_unavailable`  bool    default true
+ *  - `epsilon`                number  TT-SVD error tolerance ε (default 0.01)
+ *  - `max_rank`               number  Bond-dimension cap (0 = no cap, default 0)
+ *  - `min_kappa`              number  Minimum compression ratio for κ-gate
+ *                                     (default 1.3; set 0.0 to decompose all)
+ *
+ * @param backend  Injectable ITensorDecompositionBackend; nullptr → NullTensorDecompositionBackend.
+ */
+std::shared_ptr<IIngestionStep> createChunkTtDecomposeStep(
+    std::shared_ptr<ITensorDecompositionBackend> backend = nullptr);
+
+/**
+ * @brief Create a `builtin.tensor_core_bridge` step.
+ *
+ * For every `TensorCoreRecord` in `ctx.tensor_cores`, calls
+ * `sink->write(record, tenant_id)` to persist the pre-computed TT-cores.
+ *
+ * Ordering constraint: this step MUST run **after** `builtin.chunk_tt_decompose`
+ * so that `ctx.tensor_cores` is already populated.
+ *
+ * If @p sink is `nullptr`, an `InMemoryTensorCoreBridge` is used; records are
+ * never persisted across restarts (suitable only for tests).
+ *
+ * Config keys (all optional):
+ *  - `tenant_id`              string  Overrides `ctx.manifest.tenant_id`
+ *                                     when non-empty.  Falls back to the
+ *                                     manifest value, then to "default".
+ *  - `skip_empty`             bool    Skip records with empty serialized_train
+ *                                     (default true).
+ *  - `fail_on_write_error`    bool    Propagate write errors as step failures
+ *                                     (default false — records warned but skipped).
+ *
+ * @param sink  Injectable ITensorCoreBridge; nullptr → InMemoryTensorCoreBridge.
+ */
+std::shared_ptr<IIngestionStep> createTensorCoreBridgeStep(
+    std::shared_ptr<ITensorCoreBridge> sink = nullptr);
 
 } // namespace builtin
 } // namespace ingestion

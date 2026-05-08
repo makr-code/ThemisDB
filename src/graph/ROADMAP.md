@@ -169,6 +169,152 @@
 - [x] Documentation complete
 - [x] API stability guaranteed for graph query optimizer and path finder
 
+### Phase 8: Cross-Tensor Redundancy Mapping (Status: [~] In Progress — Phase 1 complete 2026-05-05)
+
+**Wissenschaftliche Basis:** Yadav et al. 2023 (TIES-Merging, NeurIPS); Stoudenmire & Schwab 2016 (TN for ML); Rajaraman & Ullman 2011 (LSH)
+
+#### Phase 8.1 — Design / API Contract (Target: Q2 2027) ✅
+
+- [x] `TensorFingerprint` — 128-element MinHash + core-norm vector + total_norm + max_rank
+- [x] `FingerprintGraphConfig` — `similarity_threshold`, `num_hash_funcs`, `num_bands`, `max_candidates`, `top_k`
+- [x] `SimilarTensorResult` — `{tensor_id, similarity, tenant, collection, field}`
+- [x] `TensorFingerprintGraph` — node/edge graph with LSH-based nearest-neighbour search
+- [x] `DeduplicationConfig` — `similarity_threshold=0.999`, `delta_eps`, `delta_max_rank`, `allow_full_storage_fallback`
+- [x] `StoredTensorRecord` — `{tensor_id, reference_id, is_canonical, compressed_bytes, saved_bytes, similarity_to_reference}`
+- [x] `DeduplicationStats` — `{total_tensors, canonical_tensors, delta_tensors, total_bytes_stored, bytes_saved, dedup_ratio}`
+- [x] `TensorDeduplicationManager` — write path (store + delta), read path (retrieve), stats
+
+#### Phase 8.2 — Core Implementation (Target: Q2 2027) ✅
+
+- [x] `TensorFingerprintGraph::computeFingerprint()` — FNV-1a-based MinHash (128 functions), core-norm quantisation, total-norm scaling
+- [x] `TensorFingerprintGraph::insertIntoBuckets()` — LSH banding (b=32 bands, r=4 rows/band by default)
+- [x] `TensorFingerprintGraph::insert()` — fingerprint → LSH → candidate set → Jaccard approximation → edge insertion
+- [x] `TensorFingerprintGraph::remove()` — removes node + edges from adjacency list; O(neighbours) cleanup
+- [x] `TensorFingerprintGraph::findSimilar()` — LSH lookup + Jaccard ranking + top_k truncation
+- [x] `TensorFingerprintGraph::neighbours()` — direct adjacency list lookup
+- [x] `TensorDeduplicationManager::store()` — fingerprint graph query → delta-encode if reference found → canonical otherwise
+- [x] `TensorDeduplicationManager::computeDelta()` — dense subtraction + TT-recompression of residual
+- [x] `TensorDeduplicationManager::getStats()` — atomic counters for bytes_stored, bytes_saved, dedup_ratio
+
+#### Phase 8.3 — Error Handling (Target: Q2 2027) ✅
+
+- [x] Invalid `FingerprintGraphConfig` (num_hash_funcs not divisible by num_bands) → `std::invalid_argument`
+- [x] Null dependencies in `TensorDeduplicationManager` → `std::invalid_argument`
+- [x] `remove()` returns false for unknown tensor_id
+- [x] `findSimilar` on empty graph returns empty vector
+- [x] `allow_full_storage_fallback = true` — no data loss when reference not loadable
+
+#### Phase 8.4 — Tests (Target: Q2 2027) ✅
+
+- [x] 20 unit tests (TFG-01..TFG-20) in `tests/graph/test_tensor_fingerprint_graph.cpp`
+- [x] 5 deduplication manager tests (TDM-01..TDM-05) in `tests/graph/test_tensor_fingerprint_graph.cpp`
+
+#### Phase 8.5 — Performance & Hardening (Target: Q2 2027)
+
+- [ ] Fingerprint + LSH insert ≤ 10ms per tensor (Target: Q2 2027)
+  - Profiling baseline: sequential MinHash over 128 hash functions on 8-mode train
+  - Optimisation: SIMD-accelerated FNV-1a hash over core_norms
+- [ ] Graph query ≤ 50ms for 100K nodes (Target: Q2 2027)
+  - Profiling baseline: LSH band scan over 32 bands × 100K total entries
+  - Optimisation: Bloom filter per band to skip empty buckets early
+- [x] LSH bucket cleanup on remove/update to prevent stale candidate IDs (2026-05-07)
+  - `TensorFingerprintGraph::removeFromBuckets()` now removes tensor IDs from all
+    band buckets both on `remove()` and overwrite path in `insert()`.
+  - Regression tests TFG-22 and TFG-23 verify no stale IDs are returned via
+    `findSimilar()` after delete/update.
+- [~] Exact TT-cosine similarity verification for edge creation (replace Jaccard approximation) (Target: Q2 2027)
+  - **In progress 2026-05-07**: `TensorFingerprintGraph::insert()` and `findSimilar()` now use
+    `TensorTrainDecomposer::cosineSimilarity()` for exact compressed-domain verification/ranking;
+    `NodeEntry` stores the inserted `TTTrain` for candidate checks; tests TFG-03 + TFG-21 verify
+    edge creation with near-1.0 cosine and exact score parity.
+  - **Progress 2026-05-07 (integration hardening)**: Added `setTrainLoadFn()` + config
+    `cache_trains_in_memory=false` to resolve candidate TT trains externally when node cache is
+    not retained in memory; tests TFG-24/TFG-25 cover resolver path and safe no-loader behavior.
+  - **Progress 2026-05-07 (storage wiring)**: `TensorDeduplicationManager` now wires
+    `setTrainLoadFn()` to `TensorNetworkStorageEngine::getCompressed()` + dequantize so
+    exact-similarity checks can resolve candidate TT trains without in-memory cache
+    (integration test TDM-09 with `cache_trains_in_memory=false`).
+  - **Progress 2026-05-07 (recovery bootstrap)**: `TensorFingerprintGraph` now supports
+    export/import of persisted fingerprint-node metadata to rebuild LSH buckets after restart
+    (`exportPersistedNodes()` / `importPersistedNodes()`; test TFG-26).
+  - **Progress 2026-05-07 (edge persistence)**: Added persisted edge export/import for
+    adjacency re-hydration (`exportPersistedEdges()` / `importPersistedEdges()`), including
+    robust import behavior for dangling/duplicate directed edges (test TFG-27).
+  - **Progress 2026-05-07 (snapshot lifecycle)**: Added one-shot full snapshot APIs
+    (`exportPersistedGraph()` / `importPersistedGraph()`) to atomically restore nodes +
+    adjacency in one call; import filters self/dangling/duplicate edges (test TFG-28).
+  - Remaining: GraphIndex-backed durable storage integration for node+edge payloads.
+  - O(d·n·r³) per candidate pair — bounded by `max_candidates=1000`
+- [x] CDC changefeed integration for incremental graph updates (Target: Q2 2027)
+  - **Progress 2026-05-07**: `TensorNetworkStorageEngine` now exposes `TensorWriteObserverFn` /
+    `TensorDeleteObserverFn` callback types + `setWriteObserverFn()` / `setDeleteObserverFn()`
+    setters.  Observers are invoked outside the write lock after successful `put()` / `remove()`.
+    Wiring to `TensorFingerprintGraph::insert()` / `remove()` verified by tests TNSE-OBS-01..03.
+  - **Progress 2026-05-07 (TDM mapping wiring)**: `TensorDeduplicationManager` now formalises
+    canonical `tensor_id`↔`TensorFieldKey` mapping and wires storage observers so external
+    canonical-key writes update mapped graph nodes and canonical-key deletes remove mapped graph
+    nodes + dedup records (tests TDM-10/TDM-11).
+  - Remaining: durable GraphIndex integration for persisted node/edge payload lifecycle.
+- [ ] Expected ≥ 40% storage reduction for LLM weight repositories (Target: Q2 2027)
+  - Benchmark: 100 Transformer block weight sets with shared FFN matrices
+- [ ] `GraphIndex` persistence for the fingerprint graph (Target: Q2 2027)
+  - **Progress 2026-05-07 (TDM snapshot/restore)**: `TensorDeduplicationManager::snapshotGraph()` /
+    `restoreGraph()` serialize the full `PersistedFingerprintGraphSnapshot` (all nodes +
+    edges) to/from the storage backend via new `TensorNetworkStorageEngine::putRawMetadata()` /
+    `getRawMetadata()` helpers (namespaced under `__tfgmeta__:`).  After a process restart
+    the fingerprint graph can be fully restored without re-inserting any tensor data.
+    Tests TDM-12 (node+edge round-trip) and TDM-13 (findSimilar on restored graph) added.
+  - **Progress 2026-05-08 (restore state hardening)**: Dedup snapshots now also persist
+    `StoredTensorRecord` entries, byte counters, and canonical key mappings so a restored
+    `TensorDeduplicationManager` continues to serve `getRecord()`/`getStats()` and external
+    canonical deletes still remove mapped graph nodes (tests TDM-12/TDM-14). `restoreGraph()`
+    remains backward-compatible with older graph-only snapshot blobs.
+  - **Progress 2026-05-08 (restore diagnostics hardening)**: Added explicit debug/warn
+    diagnostics for dedup snapshot parse failures (magic/version mismatch, malformed lengths,
+    trailing bytes) and for fallback behavior to legacy graph-only payload parsing; expanded
+    malformed-payload regression coverage for bad magic/version, invalid graph lengths,
+    embedded-graph corruption, and trailing bytes (TDM-15).
+  - **Progress 2026-05-08 (incremental recovery journal)**: Added persisted post-snapshot
+    mutation journaling for tensor upserts/deletes so `restoreGraph()` now replays incremental
+    graph/record changes after the last full snapshot; overwrite/delete paths also keep byte
+    counters consistent during replay and external canonical deletes (tests TDM-16/TDM-17).
+  - **Progress 2026-05-08 (journal compaction)**: Incremental mutation journals now compact
+    superseded repeated updates for the same tensor before persistence and after replay so
+    snapshot-following overwrite streams stay bounded by latest per-tensor state instead of
+    growing linearly with every overwrite (test TDM-18).
+  - **Progress 2026-05-08 (journal key lifecycle hardening)**: Mutation journals now persist
+    under a dedicated metadata namespace key (`__tfgmeta__:wal:<snapshot>`) while restore keeps
+    backward compatibility with legacy `<snapshot>::wal` payloads and normalizes legacy data back
+    into the namespaced key after replay (test TDM-19).
+  - **Progress 2026-05-08 (journal corruption reset hardening)**: Restore now clears invalid
+    namespaced/legacy mutation journal payloads in metadata on parse failure, emits explicit reset
+    diagnostics, and safely continues from the base snapshot without replaying corrupt journal
+    bytes (test TDM-20).
+  - **Progress 2026-05-08 (journal write compaction hardening)**: Mutation journal persistence
+    now avoids redundant metadata rewrites when the compacted namespaced payload is unchanged and
+    only clears legacy journal keys when they still contain data, reducing unnecessary write churn
+    during repeated no-op canonical updates (test TDM-21).
+  - **Progress 2026-05-08 (storage-backed per-entry journal integration)**:
+    `TensorDeduplicationManager` now auto-wires its per-entry journal hooks to
+    `TensorNetworkStorageEngine` raw metadata keys (`__tfgjournal__:<snapshot>:<tensor_id>`),
+    so post-snapshot upsert/delete journaling rewrites only the affected tensor entry instead
+    of the entire monolithic blob; restore remains backward-compatible by falling back to the
+    legacy blob journal when no per-entry entries exist, and per-entry replay
+    takes precedence when both journal formats coexist for the same snapshot
+    (tests TDM-22/TDM-24).
+  - Remaining: GraphIndex-backed storage backend for the same per-entry journal lifecycle.
+
+#### Phase 8.6 — Documentation (Target: Q2 2027)
+
+- [x] `research/papers/tensor_networks_themisdb.md` — P6 (TIES-Merging), P7 (Stoudenmire), P9 (LSH) entries
+- [x] `research/best_practices/tensor_train_storage.md` — delta encoding guidelines
+
+**Acceptance Criteria:**
+- Fingerprint + LSH insert ≤ 10ms per tensor
+- Similar-tensor graph query ≤ 50ms for 100K nodes
+- ≥ 40% storage reduction for LLM weight repositories with shared Transformer blocks
+- 22 TFG + 10 TDM = 32 tests passing
+
 ## Known Issues & Limitations
 - Adaptive plan selection using execution feedback is now active; `selectAlgorithm` uses learned EMA costs when confidence > 0, falling back to static depth heuristics otherwise
 - Advanced cost model calibration from real execution feedback is implemented: `calibrateFromHistory()` re-seeds EMA models from batch history and computes cost accuracy metrics (`mean_estimated_ms`, `mean_absolute_error_ms`, `cost_ratio`) when `ExecutionStats::estimated_cost_ms` is populated (automatic in all execute* methods)
@@ -190,4 +336,3 @@ _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNC
 
 - `LocalShardGraphExecutor` – Führt Graph-Traversals lokal auf einem Shard aus; getestet in test_graph_distributed
   > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
-

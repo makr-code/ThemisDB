@@ -195,7 +195,7 @@ Primary comparisons (Wilcoxon signed-rank, Bonferroni α' = 0.05/4):
 | E6 | `benchmarks/bench_ann_gpu.cpp` | GPU-specific bench | GPU benchmark harness exists |
 | E7 | `tests/test_faiss_gpu_backend.cpp` | FAISS GPU tests | Unit test coverage for GPU path |
 | E8 | `src/index/product_quantizer.cpp` | PQ implementation | Codebook training + ADC path |
-| E9 | `docs/research/GPU_VECTOR_INDEXING_RESEARCH.md` | Research basis | Existing state-of-the-art analysis |
+| E9 | `research/GPU_VECTOR_INDEXING_RESEARCH.md` | Research basis | Existing state-of-the-art analysis |
 
 ---
 

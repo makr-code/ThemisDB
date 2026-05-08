@@ -289,6 +289,32 @@ public:
      */
     std::size_t profileCount() const noexcept;
 
+    /**
+     * @brief Inject a real `ITensorDecompositionBackend` for TT-core production.
+     *
+     * Re-registers the `builtin.chunk_tt_decompose` step with the supplied
+     * backend, replacing the default `NullTensorDecompositionBackend`.
+     * Pass `nullptr` to restore the no-op fallback.
+     *
+     * @param backend  A `TensorIngestionBridge` (or any custom implementation).
+     * @return `*this` for chaining.
+     */
+    ToolboxBuilder& withTensorDecompositionBackend(
+        std::shared_ptr<ingestion::ITensorDecompositionBackend> backend);
+
+    /**
+     * @brief Inject a real `ITensorCoreBridge` for durable TT-core storage.
+     *
+     * Re-registers the `builtin.tensor_core_bridge` step with the supplied
+     * sink, replacing the default no-op fallback.
+     * Pass `nullptr` to restore the no-op fallback.
+     *
+     * @param sink  A `TensorCoreStorageBridge` (or any custom implementation).
+     * @return `*this` for chaining.
+     */
+    ToolboxBuilder& withTensorCoreSink(
+        std::shared_ptr<ingestion::ITensorCoreBridge> sink);
+
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
