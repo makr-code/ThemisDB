@@ -683,10 +683,10 @@ void StatisticsManager::refreshAllStatistics() {
     //    first registration via collectTableStatistics().
     int64_t now = getCurrentTimestamp();
     for (auto& [tableName, stats] : tableStats_) {
-        if (row_count_provider_) {
-            int64_t count = row_count_provider_(tableName);
-            if (count >= 0) {
-                stats.rowCount = count;
+        if (table_scan_provider_) {
+            auto live = (*table_scan_provider_)(tableName);
+            if (live.rowCount >= 0) {
+                stats.rowCount = live.rowCount;
             }
         }
         // Mark as freshly updated so areStatisticsStale() returns false.
@@ -700,10 +700,10 @@ void StatisticsManager::refreshStaleStatistics() {
     int64_t now = getCurrentTimestamp();
     for (auto& [tableName, stats] : tableStats_) {
         if (!areStatisticsStale(tableName, kStaleThresholdSeconds)) continue;
-        if (row_count_provider_) {
-            int64_t count = row_count_provider_(tableName);
-            if (count >= 0) {
-                stats.rowCount = count;
+        if (table_scan_provider_) {
+            auto live = (*table_scan_provider_)(tableName);
+            if (live.rowCount >= 0) {
+                stats.rowCount = live.rowCount;
             }
         }
         stats.lastUpdated = now;
