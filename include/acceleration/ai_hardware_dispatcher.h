@@ -169,6 +169,8 @@ struct AiHardwareCapability {
  */
 class AiHardwareDispatcher {
 public:
+    using AppleANEDispatchFn = std::function<AiInferenceResult(AiInferenceRequest&)>;
+
     /// Probe TTL: re-probe hardware if the cache is older than this.
     static constexpr auto kCacheTTL = std::chrono::seconds(120);
 
@@ -226,6 +228,8 @@ public:
     // ── Observability ─────────────────────────────────────────────────────────
     /// Log a structured summary of all probed backends to the ThemisDB logger.
     void logCapabilities() const;
+
+    static void setAppleANEDispatchFn(AppleANEDispatchFn fn);
 
 private:
     AiHardwareDispatcher() = default;

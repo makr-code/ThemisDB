@@ -258,6 +258,28 @@ TEST(WhisperPluginFocusedTests, E2_TranscribeAfterInit) {
     EXPECT_EQ(p.transcribe({0.f}, 16000.f).text, "OK");
 }
 
+#ifndef THEMIS_ENABLE_WHISPER
+TEST(WhisperPluginFocusedTests, E2b_DefaultCtorUsesInjectedStubFactoryWhenWhisperDisabled) {
+    WhisperPlugin::setStubTranscriberFactoryFn([] {
+        auto t = std::make_unique<InMemoryWhisperTranscriber>();
+        TranscriptionResult preset;
+        preset.text = "bridge";
+        preset.success = true;
+        t->setNextResult(preset);
+        return t;
+    });
+
+    WhisperPlugin p;
+    ASSERT_TRUE(p.initialize("", {}));
+    auto res = p.transcribe({0.f}, 16000.f);
+
+    WhisperPlugin::setStubTranscriberFactoryFn(nullptr);
+
+    EXPECT_TRUE(res.success);
+    EXPECT_EQ(res.text, "bridge");
+}
+#endif
+
 TEST(WhisperPluginFocusedTests, E3_DetectLanguageAfterInit) {
     auto t = std::make_unique<InMemoryWhisperTranscriber>();
     t->initialize(WhisperConfig{});

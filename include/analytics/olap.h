@@ -248,6 +248,14 @@ struct OLAPResult {
  */
 class OLAPEngine {
 public:
+    using ExportToParquetFn = std::function<bool(const OLAPResult&,
+                                                 const std::string&,
+                                                 const std::string&)>;
+    using ExportCollectionToParquetFn = std::function<bool(std::string_view,
+                                                           const std::string&,
+                                                           const std::vector<Filter>&,
+                                                           const std::string&)>;
+
     /**
      * @brief GPU acceleration configuration for the OLAP engine.
      */
@@ -350,6 +358,9 @@ public:
         const std::vector<Filter>& filters = {},
         const std::string& compression = "snappy"
     );
+
+    static void setExportToParquetFn(ExportToParquetFn fn);
+    static void setExportCollectionToParquetFn(ExportCollectionToParquetFn fn);
 
 private:
     // Internal helpers

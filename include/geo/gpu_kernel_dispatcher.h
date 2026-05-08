@@ -21,6 +21,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <vector>
 
 #include "acceleration/kernel_invocation.h"
@@ -119,6 +120,23 @@ public:
 
     /// Returns true when at least one dispatch function in the table is non-null.
     bool isAvailable() const noexcept;
+
+#ifndef THEMIS_GEO_CUDA
+    using ContainmentDispatchFn = std::function<ContainmentResult(const double*,
+                                                                  const double*,
+                                                                  int,
+                                                                  const double*,
+                                                                  int)>;
+    using DistanceDispatchFn = std::function<DistanceResult(const double*,
+                                                            const double*,
+                                                            const double*,
+                                                            const double*,
+                                                            int,
+                                                            themis::acceleration::GeoDistanceFormula)>;
+
+    static void setContainmentDispatchFn(ContainmentDispatchFn fn);
+    static void setDistanceDispatchFn(DistanceDispatchFn fn);
+#endif
 
 private:
     themis::acceleration::GeoKernelDispatch dispatch_table_;

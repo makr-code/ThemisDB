@@ -123,6 +123,9 @@ struct PartitionStats {
  */
 class AdvancedCacheManager {
 public:
+    using CompressFn = std::function<std::string(const std::string&, CompressionAlgorithm)>;
+    using DecompressFn = std::function<std::string(const std::string&, CompressionAlgorithm)>;
+
     // =========================================================================
     // Construction
     // =========================================================================
@@ -233,6 +236,9 @@ public:
     // =========================================================================
 
     const CacheConfig& config() const noexcept { return config_; }
+
+    static void setCompressFn(CompressFn fn);
+    static void setDecompressFn(DecompressFn fn);
 
 private:
     // ── Bloom filter (simple bit-array, k=3 hash functions) ──────────────────

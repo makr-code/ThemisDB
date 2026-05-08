@@ -23,6 +23,8 @@
 
 #include "performance/phase4/pmu_counters.h"
 
+#include <mutex>
+
 #ifdef THEMIS_ENABLE_PMU_COUNTERS
 #ifdef __linux__
 
@@ -719,6 +721,34 @@ namespace themis {
 namespace performance {
 namespace phase4 {
 
+namespace {
+std::mutex                 s_pmu_stub_mutex;
+PmuCounter::OpenFn         s_pmu_open_fn;
+PmuCounter::ReadFn         s_pmu_read_fn;
+CacheMissAnalyzer::StopFn  s_cache_miss_stop_fn;
+CacheMissAnalyzer::ProbeFn s_cache_miss_probe_fn;
+}
+
+void PmuCounter::setOpenFn(OpenFn fn) {
+    std::lock_guard<std::mutex> lk(s_pmu_stub_mutex);
+    s_pmu_open_fn = std::move(fn);
+}
+
+void PmuCounter::setReadFn(ReadFn fn) {
+    std::lock_guard<std::mutex> lk(s_pmu_stub_mutex);
+    s_pmu_read_fn = std::move(fn);
+}
+
+void CacheMissAnalyzer::setStopFn(StopFn fn) {
+    std::lock_guard<std::mutex> lk(s_pmu_stub_mutex);
+    s_cache_miss_stop_fn = std::move(fn);
+}
+
+void CacheMissAnalyzer::setProbeFn(ProbeFn fn) {
+    std::lock_guard<std::mutex> lk(s_pmu_stub_mutex);
+    s_cache_miss_probe_fn = std::move(fn);
+}
+
 PmuCounter::PmuCounter() noexcept : fd_(-1) {}
 PmuCounter::~PmuCounter() noexcept {}
 PmuCounter::PmuCounter(PmuCounter&& o) noexcept : fd_(o.fd_) { o.fd_ = -1; }
@@ -726,16 +756,78 @@ PmuCounter& PmuCounter::operator=(PmuCounter&& o) noexcept {
     if (this != &o) { close(); fd_ = o.fd_; o.fd_ = -1; }
     return *this;
 }
-bool     PmuCounter::open(uint32_t, uint64_t) noexcept { return false; }
+bool PmuCounter::open(uint32_t type, uint64_t config) noexcept {
+    OpenFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_pmu_stub_mutex);
+        fn = s_pmu_open_fn;
+    }
+    if (fn) {
+        try {
+            const bool opened = fn(type, config);
+            fd_ = opened ? 1 : -1;
+            return opened;
+        } catch (...) {
+            fd_ = -1;
+            return false;
+        }
+    }
+    fd_ = -1;
+    return false;
+}
 void     PmuCounter::enable()  noexcept {}
 void     PmuCounter::disable() noexcept {}
-uint64_t PmuCounter::read()  const noexcept { return 0; }
+uint64_t PmuCounter::read()  const noexcept {
+    ReadFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_pmu_stub_mutex);
+        fn = s_pmu_read_fn;
+    }
+    if (fn) {
+        try {
+            return fn();
+        } catch (...) {
+            return 0;
+        }
+    }
+    return 0;
+}
 void     PmuCounter::close() noexcept { fd_ = -1; }
 
-CacheMissAnalyzer::CacheMissAnalyzer() noexcept : available_(false) {}
+CacheMissAnalyzer::CacheMissAnalyzer() noexcept : available_(pmu_accessible()) {}
 void             CacheMissAnalyzer::start() noexcept {}
-CacheMissMetrics CacheMissAnalyzer::stop() noexcept { return {}; }
-bool             CacheMissAnalyzer::pmu_accessible() noexcept { return false; }
+CacheMissMetrics CacheMissAnalyzer::stop() noexcept {
+    StopFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_pmu_stub_mutex);
+        fn = s_cache_miss_stop_fn;
+    }
+    if (fn) {
+        try {
+            auto metrics = fn();
+            metrics.available = true;
+            return metrics;
+        } catch (...) {
+            return {};
+        }
+    }
+    return {};
+}
+bool CacheMissAnalyzer::pmu_accessible() noexcept {
+    ProbeFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_pmu_stub_mutex);
+        fn = s_cache_miss_probe_fn;
+    }
+    if (fn) {
+        try {
+            return fn();
+        } catch (...) {
+            return false;
+        }
+    }
+    return false;
+}
 
 } // namespace phase4
 } // namespace performance

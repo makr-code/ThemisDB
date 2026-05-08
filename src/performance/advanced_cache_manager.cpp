@@ -110,6 +110,9 @@ void AdvancedCacheManager::BloomFilter::clear() noexcept {
 // ---------------------------------------------------------------------------
 
 namespace {
+std::mutex                         s_codec_bridge_mutex;
+AdvancedCacheManager::CompressFn   s_compress_fn;
+AdvancedCacheManager::DecompressFn s_decompress_fn;
 
 // Import canonical tag constants; using-declarations keep the existing code
 // below readable without adding a namespace qualifier to every use.
@@ -134,8 +137,18 @@ using themis::compression::kTagZstd;
 
 } // anonymous namespace
 
+void AdvancedCacheManager::setCompressFn(CompressFn fn) {
+    std::lock_guard<std::mutex> lk(s_codec_bridge_mutex);
+    s_compress_fn = std::move(fn);
+}
+
+void AdvancedCacheManager::setDecompressFn(DecompressFn fn) {
+    std::lock_guard<std::mutex> lk(s_codec_bridge_mutex);
+    s_decompress_fn = std::move(fn);
+}
+
 std::string AdvancedCacheManager::compress(const std::string& val,
-                                            [[maybe_unused]] CompressionAlgorithm algo) {
+                                             [[maybe_unused]] CompressionAlgorithm algo) {
     if (val.empty()) {
         // Empty input: tag-only frame, decompress returns ""
         return std::string(1, static_cast<char>(kTagPassthrough));
@@ -200,6 +213,23 @@ std::string AdvancedCacheManager::compress(const std::string& val,
     }
 #endif
 
+    {
+        CompressFn fn;
+        {
+            std::lock_guard<std::mutex> lk(s_codec_bridge_mutex);
+            fn = s_compress_fn;
+        }
+        if (fn) {
+            try {
+                auto bridged = fn(val, algo);
+                if (!bridged.empty()) {
+                    return bridged;
+                }
+            } catch (...) {
+            }
+        }
+    }
+
     // Passthrough: [tag(1)] [original data]
     std::string out;
     out.reserve(1 + val.size());
@@ -263,6 +293,23 @@ std::string AdvancedCacheManager::decompress(const std::string& val,
         return val.substr(5);
     }
 #endif
+
+    {
+        DecompressFn fn;
+        {
+            std::lock_guard<std::mutex> lk(s_codec_bridge_mutex);
+            fn = s_decompress_fn;
+        }
+        if (fn) {
+            try {
+                auto bridged = fn(val, algo);
+                if (!bridged.empty()) {
+                    return bridged;
+                }
+            } catch (...) {
+            }
+        }
+    }
 
     // Unknown tag (data written by a build with a library we don't have):
     // return the payload without the tag byte as the safest fallback.

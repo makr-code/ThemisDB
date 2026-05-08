@@ -86,6 +86,32 @@ TEST_F(ACMTest, PutAndGetColdPartition) {
     EXPECT_EQ(*val, "cold_value");
 }
 
+TEST_F(ACMTest, CompressionBridgeCanOverrideFallbackCodec) {
+    CacheConfig cfg;
+    cfg.total_size_mb = 2;
+    cfg.enable_bloom_filters = false;
+    cfg.partitions.push_back({"cold", 1, EvictionPolicy::LRU, true, CompressionAlgorithm::None});
+    AdvancedCacheManager bridged(cfg);
+
+    AdvancedCacheManager::setCompressFn([](const std::string& val, CompressionAlgorithm algo) {
+        if (algo != CompressionAlgorithm::None) return std::string{};
+        return std::string("B") + val;
+    });
+    AdvancedCacheManager::setDecompressFn([](const std::string& val, CompressionAlgorithm algo) {
+        if (algo != CompressionAlgorithm::None || val.empty() || val[0] != 'B') return std::string{};
+        return val.substr(1);
+    });
+
+    bridged.put("bridge-key", "bridge-value", "cold");
+    auto val = bridged.get("bridge-key", "cold");
+
+    AdvancedCacheManager::setCompressFn(nullptr);
+    AdvancedCacheManager::setDecompressFn(nullptr);
+
+    ASSERT_TRUE(val.has_value());
+    EXPECT_EQ(*val, "bridge-value");
+}
+
 TEST_F(ACMTest, UpdateExistingKey) {
     mgr.put("k2", "old", "hot");
     mgr.put("k2", "new", "hot");
