@@ -132,3 +132,46 @@ TEST(VulkanGlslCompilerFnTest, VulkanStubBridgeFnsWorkWithoutSdk) {
     VulkanVectorBackend::setBatchKnnSearchFn({});
 #endif
 }
+
+TEST(VulkanGlslCompilerFnTest, OpenGLStubBridgeFnsWorkWithoutSdk) {
+#ifdef THEMIS_ENABLE_OPENGL
+    GTEST_SKIP() << "Real OpenGL build active; stub bridge path is not compiled.";
+#else
+    using namespace themis::acceleration;
+
+    OpenGLVectorBackend::setAvailabilityFn([] { return true; });
+    OpenGLVectorBackend::setInitializeFn([] { return true; });
+    OpenGLVectorBackend::setComputeDistancesFn(
+        []([[maybe_unused]] const float* queries,
+           [[maybe_unused]] size_t numQueries,
+           [[maybe_unused]] size_t dim,
+           [[maybe_unused]] const float* vectors,
+           [[maybe_unused]] size_t numVectors,
+           [[maybe_unused]] bool useL2) {
+            return std::vector<float>{3.0f, 4.0f};
+        });
+    OpenGLVectorBackend::setBatchKnnSearchFn(
+        []([[maybe_unused]] const float* queries,
+           [[maybe_unused]] size_t numQueries,
+           [[maybe_unused]] size_t dim,
+           [[maybe_unused]] const float* vectors,
+           [[maybe_unused]] size_t numVectors,
+           [[maybe_unused]] size_t k,
+           [[maybe_unused]] bool useL2) {
+            return std::vector<std::vector<std::pair<uint32_t, float>>>{
+                {{9u, 0.9f}, {8u, 0.8f}}
+            };
+        });
+
+    OpenGLVectorBackend backend;
+    EXPECT_TRUE(backend.isAvailable());
+    EXPECT_TRUE(backend.initialize());
+    EXPECT_EQ(backend.computeDistances(nullptr, 0, 0, nullptr, 0).size(), 2u);
+    EXPECT_EQ(backend.batchKnnSearch(nullptr, 0, 0, nullptr, 0, 2).size(), 1u);
+
+    OpenGLVectorBackend::setAvailabilityFn({});
+    OpenGLVectorBackend::setInitializeFn({});
+    OpenGLVectorBackend::setComputeDistancesFn({});
+    OpenGLVectorBackend::setBatchKnnSearchFn({});
+#endif
+}

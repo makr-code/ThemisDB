@@ -3015,6 +3015,18 @@ bool OpenGLVectorBackend::isAvailable() const noexcept {
     closeLib(lib);
     return ok;
 #else
+    AvailabilityFn fn;
+    {
+        std::lock_guard<std::mutex> lk(OpenGLVectorBackend::availabilityFnMutex());
+        fn = OpenGLVectorBackend::availabilityFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn();
+        } catch (...) {
+            return false;
+        }
+    }
     return false;
 #endif
 }
@@ -3078,6 +3090,18 @@ bool OpenGLVectorBackend::initialize() {
     clearError();
     return true;
 #else
+    InitializeFn fn;
+    {
+        std::lock_guard<std::mutex> lk(OpenGLVectorBackend::initializeFnMutex());
+        fn = OpenGLVectorBackend::initializeFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn();
+        } catch (...) {
+            return false;
+        }
+    }
     return false;
 #endif
 }
@@ -3154,6 +3178,18 @@ std::vector<float> OpenGLVectorBackend::computeDistances(
         return {};
     }
 #else
+    ComputeDistancesFn fn;
+    {
+        std::lock_guard<std::mutex> lk(OpenGLVectorBackend::computeDistancesFnMutex());
+        fn = OpenGLVectorBackend::computeDistancesFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(queries, numQueries, dim, vectors, numVectors, useL2);
+        } catch (...) {
+            return {};
+        }
+    }
     return {};
 #endif
 }
@@ -3241,6 +3277,18 @@ std::vector<std::vector<std::pair<uint32_t, float>>> OpenGLVectorBackend::batchK
     clearError();
     return results;
 #else
+    BatchKnnSearchFn fn;
+    {
+        std::lock_guard<std::mutex> lk(OpenGLVectorBackend::batchKnnSearchFnMutex());
+        fn = OpenGLVectorBackend::batchKnnSearchFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(queries, numQueries, dim, vectors, numVectors, k, useL2);
+        } catch (...) {
+            return {};
+        }
+    }
     return {};
 #endif
 }
