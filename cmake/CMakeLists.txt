@@ -24,6 +24,11 @@ endif()
 
 project(Themis VERSION ${_ver_numeric} LANGUAGES CXX)
 
+# Treat uncomponentized install() rules as runtime payload by default.
+# This keeps third-party DLLs in the runtime component instead of a parallel
+# 'Unspecified' component, which otherwise causes duplicate WiX components.
+set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME runtime)
+
 # Make project version available to all translation units
 if(NOT THEMIS_VERSION_COMPILE_DEF_DEFINED)
     add_compile_definitions(THEMIS_VERSION_STRING="${_ver}")
@@ -4804,6 +4809,16 @@ if(UNIX AND NOT APPLE)
     )
 endif()
 
+# Central logs/ directory — all runtime log files are written here.
+# The .gitkeep placeholder creates the directory in the archive; the server
+# auto-creates logs/ at startup if it does not yet exist.
+install(FILES "${THEMIS_ROOT_DIR}/logs/.gitkeep"
+    DESTINATION logs
+    COMPONENT runtime
+)
+# Compatibility: server is typically started from bin/, so logs/ must also be
+# reachable as bin/../logs (already covered by the rule above).
+
 if(WIN32)
     set(_themis_runtime_dependency_dirs "${CMAKE_BINARY_DIR}/bin")
     if(DEFINED VCPKG_INSTALLED_DIR AND DEFINED VCPKG_TARGET_TRIPLET)
@@ -4818,21 +4833,6 @@ if(WIN32)
         PRE_EXCLUDE_REGEXES "api-ms-.*" "ext-ms-.*"
         POST_EXCLUDE_REGEXES ".*/system32/.*\\.dll" ".*/cmake/.*\\.dll"
     )
-
-    if(THEMIS_ENABLE_LLM)
-        foreach(_themis_llm_runtime_dll IN ITEMS
-            "ggml-base.dll"
-            "ggml-cpu.dll"
-            "ggml.dll"
-            "llama.dll"
-        )
-            install(FILES "${CMAKE_BINARY_DIR}/bin/${_themis_llm_runtime_dll}"
-                DESTINATION bin
-                COMPONENT runtime
-                OPTIONAL
-            )
-        endforeach()
-    endif()
 
     install(FILES "${CMAKE_BINARY_DIR}/bin/faiss.dll"
         DESTINATION bin

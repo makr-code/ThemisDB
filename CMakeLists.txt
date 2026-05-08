@@ -33,6 +33,12 @@ project(Themis
     LANGUAGES CXX
 )
 
+# Treat uncomponentized install() rules as runtime payload by default.
+# This prevents third-party runtime DLLs from leaking into a separate
+# 'Unspecified' package component and colliding with the explicit runtime
+# package during WiX/MSI generation.
+set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME runtime)
+
 # Preflight for externally provided toolchain file
 # Common failure: CMAKE_TOOLCHAIN_FILE points to missing repo-local vcpkg path.
 if(DEFINED CMAKE_TOOLCHAIN_FILE AND NOT EXISTS "${CMAKE_TOOLCHAIN_FILE}")
