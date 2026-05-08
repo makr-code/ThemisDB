@@ -359,7 +359,7 @@ void setZLUDABatchKnnSearchFn(
     ZLUDAVectorBackend::setBatchKnnSearchFn(std::move(fn));
 }
 
-std::unique_ptr<IVectorBackend> createZLUDABackend() {
+[[nodiscard]] std::unique_ptr<IVectorBackend> createZLUDABackend() {
     return std::make_unique<ZLUDAVectorBackend>();
 }
 
