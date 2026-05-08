@@ -99,6 +99,8 @@ public:
         std::lock_guard<std::mutex> lk(gaugeSinkFnMutex());
         gaugeSinkFnStorage() = std::move(fn);
     }
+
+private:
     static std::mutex& gaugeSinkFnMutex() {
         static std::mutex m;
         return m;

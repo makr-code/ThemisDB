@@ -87,16 +87,6 @@ uint64_t counterDelta(uint64_t current, uint64_t& previous) {
 }
 #endif // THEMIS_HAS_PROMETHEUS
 
-void emitGaugeViaSink(const std::string& name, double value) {
-    ConfigMetricsExporter::GaugeSinkFn fn;
-    {
-        std::lock_guard<std::mutex> lk(ConfigMetricsExporter::gaugeSinkFnMutex());
-        fn = ConfigMetricsExporter::gaugeSinkFnStorage();
-    }
-    if (fn) {
-        fn(name, value);
-    }
-}
 } // namespace
 
 std::string ConfigMetricsExporter::collect() {
@@ -284,17 +274,35 @@ void ConfigMetricsExporter::updateMetricsCollector() {
     const auto cache_cfg = ConfigPathResolver::currentCacheConfig();
 
     const auto emitAllGauges = [&]() {
-        emitGaugeViaSink("themis_config_resolution_hits_current", static_cast<double>(hits));
-        emitGaugeViaSink("themis_config_resolution_misses_current", static_cast<double>(misses));
-        emitGaugeViaSink("themis_config_legacy_fallbacks_current", static_cast<double>(fallbacks));
-        emitGaugeViaSink("themis_config_new_path_hits_current", static_cast<double>(new_path_hits));
-        emitGaugeViaSink("themis_config_unmapped_requests_current", static_cast<double>(unmapped));
-        emitGaugeViaSink("themis_config_cache_hits_current", static_cast<double>(cache_hits));
-        emitGaugeViaSink("themis_config_cache_misses_current", static_cast<double>(cache_misses));
-        emitGaugeViaSink("themis_config_cache_hit_ratio", cache_hit_ratio);
-        emitGaugeViaSink("themis_config_cache_size", static_cast<double>(cache_stats.size));
-        emitGaugeViaSink("themis_config_cache_capacity", static_cast<double>(cache_stats.capacity));
-        emitGaugeViaSink("themis_config_cache_ttl_seconds", static_cast<double>(cache_cfg.ttl_seconds));
+        GaugeSinkFn fn;
+        {
+            std::lock_guard<std::mutex> lk(ConfigMetricsExporter::gaugeSinkFnMutex());
+            fn = ConfigMetricsExporter::gaugeSinkFnStorage();
+        }
+        if (!fn) {
+            return;
+        }
+
+        const auto emit = [&](const std::string& name, double value) {
+            try {
+                fn(name, value);
+            } catch (...) {
+                // Fail closed: metrics sinks are optional integration hooks and
+                // must not affect production collector updates.
+            }
+        };
+
+        emit("themis_config_resolution_hits_current", static_cast<double>(hits));
+        emit("themis_config_resolution_misses_current", static_cast<double>(misses));
+        emit("themis_config_legacy_fallbacks_current", static_cast<double>(fallbacks));
+        emit("themis_config_new_path_hits_current", static_cast<double>(new_path_hits));
+        emit("themis_config_unmapped_requests_current", static_cast<double>(unmapped));
+        emit("themis_config_cache_hits_current", static_cast<double>(cache_hits));
+        emit("themis_config_cache_misses_current", static_cast<double>(cache_misses));
+        emit("themis_config_cache_hit_ratio", cache_hit_ratio);
+        emit("themis_config_cache_size", static_cast<double>(cache_stats.size));
+        emit("themis_config_cache_capacity", static_cast<double>(cache_stats.capacity));
+        emit("themis_config_cache_ttl_seconds", static_cast<double>(cache_cfg.ttl_seconds));
     };
 
 #ifdef THEMIS_TEST_BUILD
