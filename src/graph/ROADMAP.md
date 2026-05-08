@@ -290,6 +290,10 @@
     namespaced/legacy mutation journal payloads in metadata on parse failure, emits explicit reset
     diagnostics, and safely continues from the base snapshot without replaying corrupt journal
     bytes (test TDM-20).
+  - **Progress 2026-05-08 (journal write compaction hardening)**: Mutation journal persistence
+    now avoids redundant metadata rewrites when the compacted namespaced payload is unchanged and
+    only clears legacy journal keys when they still contain data, reducing unnecessary write churn
+    during repeated no-op canonical updates (test TDM-21).
   - Remaining: GraphIndex-backed storage/compaction for incremental mutation journal payloads.
 
 #### Phase 8.6 — Documentation (Target: Q2 2027)

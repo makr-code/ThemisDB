@@ -50,6 +50,7 @@
  *   TDM-18  repeated post-snapshot overwrites compact the persisted mutation journal
  *   TDM-19  restoreGraph replays legacy journal keys and rewrites namespaced keys
  *   TDM-20  invalid namespaced journal payloads are reset and skipped safely
+ *   TDM-21  unchanged mutation-journal payloads avoid redundant metadata rewrites
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -66,6 +67,7 @@
 #include <cstdint>
 #include <memory>
 #include <limits>
+#include <mutex>
 #include <random>
 #include <string>
 #include <type_traits>
@@ -108,6 +110,43 @@ static std::shared_ptr<TensorNetworkStorageEngine> makeEngine() {
     cfg.min_compression_ratio = 0.0;
     return std::make_shared<TensorNetworkStorageEngine>(backend, cfg);
 }
+
+class CountingTensorBackend final : public ITensorStorageBackend {
+public:
+    bool put(const std::string& key,
+             const std::vector<uint8_t>& value) override {
+        {
+            std::lock_guard<std::mutex> lk(mutex_);
+            ++put_counts_[key];
+        }
+        return inner_.put(key, value);
+    }
+
+    std::optional<std::vector<uint8_t>>
+    get(const std::string& key) const override {
+        return inner_.get(key);
+    }
+
+    bool del(const std::string& key) override {
+        return inner_.del(key);
+    }
+
+    std::vector<std::string>
+    listKeys(const std::string& prefix) const override {
+        return inner_.listKeys(prefix);
+    }
+
+    std::size_t putCount(const std::string& key) const {
+        std::lock_guard<std::mutex> lk(mutex_);
+        auto it = put_counts_.find(key);
+        return (it == put_counts_.end()) ? 0U : it->second;
+    }
+
+private:
+    mutable std::mutex mutex_;
+    InMemoryTensorBackend inner_;
+    std::unordered_map<std::string, std::size_t> put_counts_;
+};
 
 /**
  * @brief Test-only helper that corrupts a serialized snapshot field in place.
@@ -1231,4 +1270,32 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     for (float value : *restored) {
         EXPECT_NEAR(value, 0.75f, 1e-4f);
     }
+}
+
+// TDM-21: unchanged compacted journal payloads should not be rewritten.
+TEST(TensorDeduplicationManagerSnapshotTest,
+     TDM21_UnchangedCompactedJournalSkipsRedundantMetadataWrite) {
+    auto counting_backend = std::make_shared<CountingTensorBackend>();
+    TensorStorageConfig cfg;
+    cfg.tt_config.eps = 0.05;
+    cfg.min_compression_ratio = 0.0;
+    auto engine = std::make_shared<TensorNetworkStorageEngine>(counting_backend, cfg);
+    auto mgr = makeDedup(engine);
+
+    constexpr auto kSnapshotKey = "snap21";
+    constexpr auto kJournalBackendKey = "__tfgmeta__:__tfgmeta__:wal:snap21";
+
+    const auto tensor_data = std::vector<float>(16, 1.25f);
+    mgr->store("stable_tensor", tensor_data, {16, 1}, "t", "c", "fstable");
+    ASSERT_TRUE(mgr->snapshotGraph(kSnapshotKey));
+
+    ASSERT_TRUE(engine->put({"t", "c", "fstable"}, tensor_data, {16, 1}));
+    const auto put_count_after_first_update =
+        counting_backend->putCount(kJournalBackendKey);
+    ASSERT_GT(put_count_after_first_update, 0u);
+
+    ASSERT_TRUE(engine->put({"t", "c", "fstable"}, tensor_data, {16, 1}));
+    const auto put_count_after_second_update =
+        counting_backend->putCount(kJournalBackendKey);
+    EXPECT_EQ(put_count_after_second_update, put_count_after_first_update);
 }

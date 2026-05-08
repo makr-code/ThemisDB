@@ -903,9 +903,26 @@ static void writeJournalAndClearLegacy(
     if (!storage) {
         return;
     }
-    storage->putRawMetadata(mutationJournalKeyForSnapshot(snapshot_key),
-                            serializeMutationJournal(entries));
-    storage->putRawMetadata(legacyMutationJournalKeyForSnapshot(snapshot_key), {});
+    const auto namespaced_key = mutationJournalKeyForSnapshot(snapshot_key);
+    const auto legacy_key = legacyMutationJournalKeyForSnapshot(snapshot_key);
+    auto payload = serializeMutationJournal(entries);
+
+    const auto existing_namespaced = storage->getRawMetadata(namespaced_key);
+    const bool namespaced_changed =
+        !existing_namespaced.has_value() || (*existing_namespaced != payload);
+    if (namespaced_changed &&
+        !storage->putRawMetadata(namespaced_key, payload)) {
+        THEMIS_WARN("[TensorDeduplicationManager] failed to persist mutation journal for key='{}'",
+                    namespaced_key);
+    }
+
+    const auto legacy_payload = storage->getRawMetadata(legacy_key);
+    if (legacy_payload.has_value() &&
+        !legacy_payload->empty() &&
+        !storage->putRawMetadata(legacy_key, {})) {
+        THEMIS_WARN("[TensorDeduplicationManager] failed to clear legacy mutation journal key='{}'",
+                    legacy_key);
+    }
 }
 
 static std::optional<std::string> activeSnapshotKeyOrNullopt(
