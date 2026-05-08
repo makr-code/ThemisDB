@@ -24,6 +24,9 @@
 #include "acceleration/compute_backend.h"
 #include <iostream>
 #include <vector>
+#include <functional>
+#include <mutex>
+#include <utility>
 #include <dlfcn.h>
 
 #ifdef THEMIS_ENABLE_ZLUDA
@@ -60,6 +63,25 @@ typedef ZludaError (*PFN_zludaDeviceTotalMem)(size_t*, int);
 
 class ZLUDAVectorBackend : public IVectorBackend {
 public:
+    using ComputeDistancesFn = std::function<std::vector<float>(
+        const float* queries,
+        size_t numQueries,
+        size_t dim,
+        const float* vectors,
+        size_t numVectors,
+        bool useL2)>;
+    using BatchKnnSearchFn = std::function<std::vector<std::vector<std::pair<uint32_t, float>>>(
+        const float* queries,
+        size_t numQueries,
+        size_t dim,
+        const float* vectors,
+        size_t numVectors,
+        size_t k,
+        bool useL2)>;
+
+    static void setComputeDistancesFn(ComputeDistancesFn fn);
+    static void setBatchKnnSearchFn(BatchKnnSearchFn fn);
+
     ZLUDAVectorBackend() = default;
     ~ZLUDAVectorBackend() override { shutdown(); }
     
@@ -183,11 +205,28 @@ public:
         size_t numVectors,
         bool useL2 = true
     ) override {
+        ComputeDistancesFn fn;
+        {
+            std::lock_guard<std::mutex> lk(s_compute_distances_fn_mutex_);
+            fn = s_compute_distances_fn_;
+        }
+        if (fn) [[unlikely]] {
+            try {
+                return fn(queries, numQueries, dim, vectors, numVectors, useL2);
+            } catch (const std::exception& e) {
+                std::cerr << "ZLUDA: computeDistances callback failed: " << e.what() << std::endl;
+                return {};
+            } catch (...) {
+                std::cerr << "ZLUDA: computeDistances callback failed" << std::endl;
+                return {};
+            }
+        }
+
         if (!initialized_) {
             std::cerr << "ZLUDA backend not initialized" << std::endl;
             return {};
         }
-        
+
     // STUB/SIMULATION NOTE:
     // Purpose: Allows ZLUDABackend to compile and report initialization success
     //          while actual CUDA PTX kernel loading and execution via ZLUDA is
@@ -215,16 +254,40 @@ public:
         size_t k,
         bool useL2 = true
     ) override {
+        BatchKnnSearchFn fn;
+        {
+            std::lock_guard<std::mutex> lk(s_batch_knn_fn_mutex_);
+            fn = s_batch_knn_fn_;
+        }
+        if (fn) [[unlikely]] {
+            try {
+                return fn(queries, numQueries, dim, vectors, numVectors, k, useL2);
+            } catch (const std::exception& e) {
+                std::cerr << "ZLUDA: batchKnnSearch callback failed: " << e.what() << std::endl;
+                return {};
+            } catch (...) {
+                std::cerr << "ZLUDA: batchKnnSearch callback failed" << std::endl;
+                return {};
+            }
+        }
+
         if (!initialized_) {
             std::cerr << "ZLUDA backend not initialized" << std::endl;
             return {};
         }
-        
-        // Would execute CUDA kernels via ZLUDA
+
+        std::cerr << "ZLUDA: batchKnnSearch requires CUDA-compiled PTX" << std::endl;
+        std::cerr << "ZLUDA: Falling back to CPU (STUB — no PTX loaded)" << std::endl;
+
         return {};
     }
 
 private:
+    static std::mutex s_compute_distances_fn_mutex_;
+    static std::mutex s_batch_knn_fn_mutex_;
+    static ComputeDistancesFn s_compute_distances_fn_;
+    static BatchKnnSearchFn s_batch_knn_fn_;
+
     void loadFunctions() {
         fnGetDeviceCount_ = (PFN_zludaGetDeviceCount)dlsym(zludaLib_, "cuDeviceGetCount");
         fnSetDevice_ = (PFN_zludaSetDevice)dlsym(zludaLib_, "cuDeviceSet");
@@ -256,6 +319,37 @@ private:
     PFN_zludaStreamSynchronize fnStreamSynchronize_ = nullptr;
     PFN_zludaDeviceTotalMem fnDeviceTotalMem_ = nullptr;
 };
+
+std::mutex ZLUDAVectorBackend::s_compute_distances_fn_mutex_;
+std::mutex ZLUDAVectorBackend::s_batch_knn_fn_mutex_;
+ZLUDAVectorBackend::ComputeDistancesFn ZLUDAVectorBackend::s_compute_distances_fn_;
+ZLUDAVectorBackend::BatchKnnSearchFn ZLUDAVectorBackend::s_batch_knn_fn_;
+
+void ZLUDAVectorBackend::setComputeDistancesFn(ComputeDistancesFn fn) {
+    std::lock_guard<std::mutex> lk(s_compute_distances_fn_mutex_);
+    s_compute_distances_fn_ = std::move(fn);
+}
+
+void ZLUDAVectorBackend::setBatchKnnSearchFn(BatchKnnSearchFn fn) {
+    std::lock_guard<std::mutex> lk(s_batch_knn_fn_mutex_);
+    s_batch_knn_fn_ = std::move(fn);
+}
+
+void setZLUDAComputeDistancesFn(
+    std::function<std::vector<float>(
+        const float*, size_t, size_t, const float*, size_t, bool)> fn) {
+    ZLUDAVectorBackend::setComputeDistancesFn(std::move(fn));
+}
+
+void setZLUDABatchKnnSearchFn(
+    std::function<std::vector<std::vector<std::pair<uint32_t, float>>>(
+        const float*, size_t, size_t, const float*, size_t, size_t, bool)> fn) {
+    ZLUDAVectorBackend::setBatchKnnSearchFn(std::move(fn));
+}
+
+std::unique_ptr<IVectorBackend> createZLUDABackend() {
+    return std::make_unique<ZLUDAVectorBackend>();
+}
 
 } // namespace acceleration
 } // namespace themis
