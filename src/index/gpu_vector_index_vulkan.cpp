@@ -35,8 +35,10 @@
 #include <chrono>
 #include <cmath>
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <memory>
+#include <mutex>
 #include <stdexcept>
 
 // Check if Vulkan headers are available
@@ -77,7 +79,41 @@ public:
         const std::vector<std::vector<float>>& queries, size_t k);
     GPUVectorIndex::Statistics getStatistics() const;
     bool isInitialized() const;
-    
+
+    // Callback bridge types for non-Vulkan builds (VVI-BRIDGE)
+    using InitializeFn   = std::function<bool(int /*dimension*/)>;
+    using UploadFn       = std::function<bool(const std::vector<std::vector<float>>&)>;
+    using SearchFn       = std::function<std::vector<GPUVectorIndex::SearchResult>(
+                               const std::vector<float>&, size_t /*k*/)>;
+    using SearchBatchFn  = std::function<std::vector<std::vector<GPUVectorIndex::SearchResult>>(
+                               const std::vector<std::vector<float>>&, size_t /*k*/)>;
+
+    static void setInitializeFn(InitializeFn fn) {
+        std::lock_guard<std::mutex> lk(initializeFnMutex());
+        initializeFnStorage() = std::move(fn);
+    }
+    static void setUploadFn(UploadFn fn) {
+        std::lock_guard<std::mutex> lk(uploadFnMutex());
+        uploadFnStorage() = std::move(fn);
+    }
+    static void setSearchFn(SearchFn fn) {
+        std::lock_guard<std::mutex> lk(searchFnMutex());
+        searchFnStorage() = std::move(fn);
+    }
+    static void setSearchBatchFn(SearchBatchFn fn) {
+        std::lock_guard<std::mutex> lk(searchBatchFnMutex());
+        searchBatchFnStorage() = std::move(fn);
+    }
+
+    static std::mutex& initializeFnMutex()  { static std::mutex m; return m; }
+    static InitializeFn&  initializeFnStorage()  { static InitializeFn f;  return f; }
+    static std::mutex& uploadFnMutex()      { static std::mutex m; return m; }
+    static UploadFn&      uploadFnStorage()      { static UploadFn f;      return f; }
+    static std::mutex& searchFnMutex()      { static std::mutex m; return m; }
+    static SearchFn&      searchFnStorage()      { static SearchFn f;      return f; }
+    static std::mutex& searchBatchFnMutex() { static std::mutex m; return m; }
+    static SearchBatchFn& searchBatchFnStorage() { static SearchBatchFn f; return f; }
+
 private:
     class Impl;
     std::unique_ptr<Impl> pImpl;
@@ -886,18 +922,19 @@ bool VulkanVectorIndexBackend::isInitialized() const {
 // Purpose: Provide link-compatible no-op implementations of
 //   VulkanVectorIndexBackend when the Vulkan SDK is not present, so that the
 //   vector search subsystem can be compiled and run without GPU drivers.
-//   All methods return false or empty containers; isInitialized() returns false.
+//   All methods check for an injected bridge callback first; if none is set
+//   they return false or empty containers.
 // Activation: THEMIS_HAS_VULKAN_IMPL is 0 — set when the Vulkan headers
 //   and loader library (libvulkan.so) are not found by CMake.
 // Production Delta: GPU-accelerated vector similarity search (HNSW on Vulkan
-//   compute shaders) is silently disabled.  All vector queries fall back to
-//   the CPU-based HNSW/FAISS index (AdvancedVectorIndex).  Throughput is
-//   reduced by 5–20× for ANN search on large corpora (≥ 1 M vectors).
+//   compute shaders) is silently disabled when no callback is injected.
+//   All vector queries fall back to the CPU-based HNSW/FAISS index
+//   (AdvancedVectorIndex).  Throughput is reduced by 5–20× for ANN search on
+//   large corpora (≥ 1 M vectors).
 // Removal Plan: Install the Vulkan SDK and a compatible GPU driver; rebuild
 //   with -DTHEMIS_HAS_VULKAN_IMPL=1.  The Pimpl implementation block above
 //   (inside #if THEMIS_HAS_VULKAN_IMPL) is then compiled instead.
 // Roadmap ref: src/index/FUTURE_ENHANCEMENTS.md §"GPU Vector Index (Vulkan)"
-// Stub implementations when Vulkan is not available
 namespace themis {
 namespace index {
 
@@ -905,17 +942,72 @@ class VulkanVectorIndexBackend::Impl {
 public:
     explicit Impl(const GPUVectorIndex::Config&) {}
     ~Impl() = default;
-    bool initialize(int) { return false; }
-    void shutdown() {}
-    bool uploadVectors(const std::vector<std::vector<float>>&) { return false; }
-    std::vector<std::pair<float, size_t>> searchIndices(const std::vector<float>&, size_t) { return {}; }
+    bool initialized_ = false;
+
+    bool initialize(int dimension) {
+        InitializeFn fn;
+        {
+            std::lock_guard<std::mutex> lk(VulkanVectorIndexBackend::initializeFnMutex());
+            fn = VulkanVectorIndexBackend::initializeFnStorage();
+        }
+        if (fn) {
+            try {
+                initialized_ = fn(dimension);
+            } catch (...) {
+                initialized_ = false;
+            }
+            return initialized_;
+        }
+        return false;
+    }
+
+    void shutdown() { initialized_ = false; }
+
+    bool uploadVectors(const std::vector<std::vector<float>>& vectors) {
+        UploadFn fn;
+        {
+            std::lock_guard<std::mutex> lk(VulkanVectorIndexBackend::uploadFnMutex());
+            fn = VulkanVectorIndexBackend::uploadFnStorage();
+        }
+        if (fn) {
+            try { return fn(vectors); } catch (...) { return false; }
+        }
+        return false;
+    }
+
+    std::vector<std::pair<float, size_t>> searchIndices(
+        const std::vector<float>&, size_t) { return {}; }
     std::vector<std::vector<std::pair<float, size_t>>> searchBatchIndices(
         const std::vector<std::vector<float>>&, size_t) { return {}; }
-    std::vector<GPUVectorIndex::SearchResult> search(const std::vector<float>&, size_t) { return {}; }
+
+    std::vector<GPUVectorIndex::SearchResult> search(
+        const std::vector<float>& query, size_t k) {
+        SearchFn fn;
+        {
+            std::lock_guard<std::mutex> lk(VulkanVectorIndexBackend::searchFnMutex());
+            fn = VulkanVectorIndexBackend::searchFnStorage();
+        }
+        if (fn) {
+            try { return fn(query, k); } catch (...) { return {}; }
+        }
+        return {};
+    }
+
     std::vector<std::vector<GPUVectorIndex::SearchResult>> searchBatch(
-        const std::vector<std::vector<float>>&, size_t) { return {}; }
+        const std::vector<std::vector<float>>& queries, size_t k) {
+        SearchBatchFn fn;
+        {
+            std::lock_guard<std::mutex> lk(VulkanVectorIndexBackend::searchBatchFnMutex());
+            fn = VulkanVectorIndexBackend::searchBatchFnStorage();
+        }
+        if (fn) {
+            try { return fn(queries, k); } catch (...) { return {}; }
+        }
+        return {};
+    }
+
     GPUVectorIndex::Statistics getStatistics() const { return {}; }
-    bool isInitialized() const { return false; }
+    bool isInitialized() const { return initialized_; }
 };
 
 VulkanVectorIndexBackend::VulkanVectorIndexBackend(const GPUVectorIndex::Config& config)
@@ -923,24 +1015,34 @@ VulkanVectorIndexBackend::VulkanVectorIndexBackend(const GPUVectorIndex::Config&
 
 VulkanVectorIndexBackend::~VulkanVectorIndexBackend() = default;
 
-bool VulkanVectorIndexBackend::initialize(int) { return false; }
-void VulkanVectorIndexBackend::shutdown() {}
-bool VulkanVectorIndexBackend::uploadVectors(const std::vector<std::vector<float>>&) { return false; }
+bool VulkanVectorIndexBackend::initialize(int dimension) {
+    return pImpl->initialize(dimension);
+}
+void VulkanVectorIndexBackend::shutdown() { pImpl->shutdown(); }
+bool VulkanVectorIndexBackend::uploadVectors(const std::vector<std::vector<float>>& v) {
+    return pImpl->uploadVectors(v);
+}
 
 std::vector<std::pair<float, size_t>> VulkanVectorIndexBackend::searchIndices(
-    const std::vector<float>&, size_t) { return {}; }
+    const std::vector<float>& q, size_t k) { return pImpl->searchIndices(q, k); }
 
 std::vector<std::vector<std::pair<float, size_t>>> VulkanVectorIndexBackend::searchBatchIndices(
-    const std::vector<std::vector<float>>&, size_t) { return {}; }
+    const std::vector<std::vector<float>>& qs, size_t k) {
+    return pImpl->searchBatchIndices(qs, k);
+}
 
 std::vector<GPUVectorIndex::SearchResult> VulkanVectorIndexBackend::search(
-    const std::vector<float>&, size_t) { return {}; }
+    const std::vector<float>& q, size_t k) { return pImpl->search(q, k); }
 
 std::vector<std::vector<GPUVectorIndex::SearchResult>> VulkanVectorIndexBackend::searchBatch(
-    const std::vector<std::vector<float>>&, size_t) { return {}; }
+    const std::vector<std::vector<float>>& qs, size_t k) {
+    return pImpl->searchBatch(qs, k);
+}
 
-GPUVectorIndex::Statistics VulkanVectorIndexBackend::getStatistics() const { return {}; }
-bool VulkanVectorIndexBackend::isInitialized() const { return false; }
+GPUVectorIndex::Statistics VulkanVectorIndexBackend::getStatistics() const {
+    return pImpl->getStatistics();
+}
+bool VulkanVectorIndexBackend::isInitialized() const { return pImpl->isInitialized(); }
 
 } // namespace index
 } // namespace themis
