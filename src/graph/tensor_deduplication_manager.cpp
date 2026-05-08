@@ -1394,8 +1394,9 @@ void TensorDeduplicationManager::setJournalEntryHooks(
 }
 
 bool TensorDeduplicationManager::hasJournalEntryHooks() const noexcept {
-    // Hooks may be reconfigured (e.g., tests switching between per-entry and
-    // blob journaling), so guard the composite check with the mutex.
+    // Hooks are mutable and may be reconfigured at runtime (e.g., tests
+    // switching between per-entry and blob journaling), so the composite
+    // readiness check must be guarded with the mutex.
     std::lock_guard<std::mutex> lk(journal_hooks_mutex_);
     return static_cast<bool>(journal_entry_persist_fn_) &&
            static_cast<bool>(journal_entry_enumerate_fn_) &&

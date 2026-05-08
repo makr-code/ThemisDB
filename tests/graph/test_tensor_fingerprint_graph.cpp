@@ -1398,6 +1398,8 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     // forcing legacy blob mode.
     {
         auto blob_mgr = makeDedup(engine);
+        // Clear all per-entry hooks (persist/delete/enumerate/clear) so this
+        // manager writes to the legacy blob journal path.
         blob_mgr->setJournalEntryHooks({}, {}, {}, {});
         blob_mgr->store("conflict_tensor", std::vector<float>(16, 4.0f), {16, 1},
                         canonical_key.tenant, canonical_key.collection, canonical_key.field);
