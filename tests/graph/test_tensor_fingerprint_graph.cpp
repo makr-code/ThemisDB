@@ -133,7 +133,10 @@ static void overwriteLittleEndian(std::vector<uint8_t>& buf,
 static uint64_t readLittleEndianU64(const std::vector<uint8_t>& buf,
                                     std::size_t offset) {
     uint64_t value = 0;
-    ASSERT_GE(buf.size(), offset + sizeof(value));
+    EXPECT_GE(buf.size(), offset + sizeof(value));
+    if (buf.size() < offset + sizeof(value)) {
+        return value;
+    }
     for (std::size_t i = 0; i < sizeof(value); ++i) {
         value |= static_cast<uint64_t>(buf[offset + i]) << (i * 8U);
     }
@@ -1138,6 +1141,8 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     const auto compacted_journal = engine->getRawMetadata(journal_key);
     ASSERT_TRUE(compacted_journal.has_value());
     EXPECT_EQ(compacted_journal->size(), journal_size_after_second_overwrite);
+    // Matches serializeMutationJournal(): magic(uint64_t), version(uint32_t),
+    // then entry_count(uint64_t).
     constexpr std::size_t kJournalEntryCountOffset =
         sizeof(uint64_t) + sizeof(uint32_t);
     EXPECT_EQ(readLittleEndianU64(*compacted_journal, kJournalEntryCountOffset), 1u);

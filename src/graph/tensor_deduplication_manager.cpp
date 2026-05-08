@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstring>
+#include <string_view>
 #include <stdexcept>
 
 namespace themis {
@@ -791,26 +792,24 @@ static void compactMutationJournalEntries(
         return;
     }
 
-    const auto extractTensorId = [](const MutationJournalEntry& entry) -> const std::string* {
+    const auto extractTensorId = [](const MutationJournalEntry& entry) -> std::string_view {
         return (entry.type == MutationJournalEntryType::Upsert)
-                   ? &entry.record.tensor_id
-                   : &entry.tensor_id;
+                   ? std::string_view(entry.record.tensor_id)
+                   : std::string_view(entry.tensor_id);
     };
 
     std::unordered_map<std::string, std::size_t> last_index_by_tensor_id;
     last_index_by_tensor_id.reserve(entries.size());
     for (std::size_t i = 0; i < entries.size(); ++i) {
-        last_index_by_tensor_id[*extractTensorId(entries[i])] = i;
+        last_index_by_tensor_id[std::string(extractTensorId(entries[i]))] = i;
     }
 
     std::vector<MutationJournalEntry> compacted;
     compacted.reserve(last_index_by_tensor_id.size());
     for (std::size_t i = 0; i < entries.size(); ++i) {
         auto& entry = entries[i];
-        const auto* tensor_id = extractTensorId(entry);
-        const auto last_index_it = last_index_by_tensor_id.find(*tensor_id);
-        if (last_index_it == last_index_by_tensor_id.end() ||
-            last_index_it->second != i) {
+        const std::string tensor_id(extractTensorId(entry));
+        if (last_index_by_tensor_id.at(tensor_id) != i) {
             continue;
         }
         compacted.push_back(std::move(entry));
