@@ -104,14 +104,18 @@ static std::shared_ptr<TensorNetworkStorageEngine> makeEngine() {
     return std::make_shared<TensorNetworkStorageEngine>(backend, cfg);
 }
 
-// Overwrite an integral field inside a serialized snapshot buffer using
-// little-endian byte order. The helper fails the active test if the requested
-// offset would overflow the buffer.
+/**
+ * @brief Test-only helper that corrupts a serialized snapshot field in place.
+ *
+ * Writes the integral @p value into @p buf at @p offset using little-endian
+ * byte order. If the write would exceed the buffer bounds the helper records a
+ * test failure via `ADD_FAILURE()` and returns without modifying the buffer.
+ */
 template<typename T>
 static void overwriteLittleEndian(std::vector<uint8_t>& buf,
                                   std::size_t offset,
                                   T value) {
-    static_assert(std::is_integral_v<T>, "T must be an integral type");
+    static_assert(std::is_integral_v<T>, "T must be integral");
     if (buf.size() < offset + sizeof(T)) {
         ADD_FAILURE() << "overwriteLittleEndian out of bounds";
         return;
@@ -943,7 +947,7 @@ TEST(TensorDeduplicationManagerSnapshotTest,
 
     // Different from valid dedup magic 0x504E535F4D445400 and graph magic
     // 0x504E535F47465400.
-    constexpr uint64_t kInvalidMagic = 0x0102030405060708ULL;
+    constexpr uint64_t kInvalidMagic = 0xDEADBEEFDEADBEEFULL;
     // Well beyond the only supported version (1).
     constexpr uint32_t kUnsupportedVersion = 99U;
     // Unambiguously larger than any real payload buffer.
