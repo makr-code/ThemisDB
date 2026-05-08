@@ -124,15 +124,18 @@ public:
 
     std::optional<std::vector<uint8_t>>
     get(const std::string& key) const override {
+        std::lock_guard<std::mutex> lk(mutex_);
         return inner_.get(key);
     }
 
     bool del(const std::string& key) override {
+        std::lock_guard<std::mutex> lk(mutex_);
         return inner_.del(key);
     }
 
     std::vector<std::string>
     listKeys(const std::string& prefix) const override {
+        std::lock_guard<std::mutex> lk(mutex_);
         return inner_.listKeys(prefix);
     }
 

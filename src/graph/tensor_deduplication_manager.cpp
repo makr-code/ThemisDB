@@ -923,6 +923,8 @@ static void writeJournalAndClearLegacy(
     }
 
     const auto legacy_payload = storage->getRawMetadata(legacy_key);
+    // Skip no-op empty rewrites: legacy key may already exist with an empty
+    // payload from previous normalization/reset cycles.
     if (legacy_payload.has_value() &&
         !legacy_payload->empty() &&
         !storage->putRawMetadata(legacy_key, {})) {
