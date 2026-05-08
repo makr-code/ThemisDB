@@ -47,6 +47,7 @@
  *   TDM-15  restoreGraph rejects malformed snapshot payloads safely
  *   TDM-16  restoreGraph replays post-snapshot insert/delete journal mutations
  *   TDM-17  restoreGraph replays post-snapshot overwrite journal mutations
+ *   TDM-18  repeated post-snapshot overwrites compact the persisted mutation journal
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -1087,4 +1088,49 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     ASSERT_FALSE(results.empty());
     EXPECT_EQ(results.front().tensor_id, "mutable_tensor");
     EXPECT_GT(results.front().similarity, 0.95);
+}
+
+// TDM-18: repeated post-snapshot overwrites should compact journal payloads.
+TEST(TensorDeduplicationManagerSnapshotTest,
+     TDM18_RepeatedOverwritesCompactMutationJournal) {
+    auto engine = makeEngine();
+    constexpr auto kSnapshotKey = "snap18";
+    const auto journal_key = std::string{kSnapshotKey} + "::wal";
+
+    std::vector<float> final_data;
+    std::size_t journal_size_after_first_overwrite = 0;
+    std::size_t journal_size_after_second_overwrite = 0;
+
+    {
+        auto mgr = makeDedup(engine);
+        mgr->store("compact_tensor", std::vector<float>(16, 0.5f), {16, 1}, "t", "c", "fcompact");
+        ASSERT_TRUE(mgr->snapshotGraph(kSnapshotKey));
+
+        mgr->store("compact_tensor", std::vector<float>(16, 1.5f), {16, 1}, "t", "c", "fcompact");
+        const auto journal_after_first = engine->getRawMetadata(journal_key);
+        ASSERT_TRUE(journal_after_first.has_value());
+        journal_size_after_first_overwrite = journal_after_first->size();
+
+        final_data = std::vector<float>(16, -2.5f);
+        mgr->store("compact_tensor", final_data, {16, 1}, "t", "c", "fcompact");
+        const auto journal_after_second = engine->getRawMetadata(journal_key);
+        ASSERT_TRUE(journal_after_second.has_value());
+        journal_size_after_second_overwrite = journal_after_second->size();
+    }
+
+    EXPECT_EQ(journal_size_after_second_overwrite, journal_size_after_first_overwrite);
+
+    auto mgr_b = makeDedup(engine);
+    ASSERT_TRUE(mgr_b->restoreGraph(kSnapshotKey));
+
+    const auto compacted_journal = engine->getRawMetadata(journal_key);
+    ASSERT_TRUE(compacted_journal.has_value());
+    EXPECT_EQ(compacted_journal->size(), journal_size_after_second_overwrite);
+
+    auto restored = mgr_b->retrieve("compact_tensor");
+    ASSERT_TRUE(restored.has_value());
+    ASSERT_EQ(restored->size(), final_data.size());
+    for (std::size_t i = 0; i < final_data.size(); ++i) {
+        EXPECT_NEAR((*restored)[i], final_data[i], 1e-4f);
+    }
 }

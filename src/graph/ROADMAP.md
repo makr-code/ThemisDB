@@ -278,6 +278,10 @@
     mutation journaling for tensor upserts/deletes so `restoreGraph()` now replays incremental
     graph/record changes after the last full snapshot; overwrite/delete paths also keep byte
     counters consistent during replay and external canonical deletes (tests TDM-16/TDM-17).
+  - **Progress 2026-05-08 (journal compaction)**: Incremental mutation journals now compact
+    superseded repeated updates for the same tensor before persistence and after replay so
+    snapshot-following overwrite streams stay bounded by latest per-tensor state instead of
+    growing linearly with every overwrite (test TDM-18).
   - Remaining: GraphIndex-backed storage/compaction for incremental mutation journal payloads.
 
 #### Phase 8.6 — Documentation (Target: Q2 2027)

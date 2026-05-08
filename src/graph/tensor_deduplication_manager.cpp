@@ -542,8 +542,10 @@ static void writePersistedFingerprintEdge(
 
 static std::vector<uint8_t> serializeMutationJournal(
     const std::vector<MutationJournalEntry>& entries) {
+    constexpr std::size_t kEstimatedBytesPerEntry = 256U;
+    constexpr std::size_t kJournalHeaderBytes = 64U;
     std::vector<uint8_t> buf;
-    buf.reserve(entries.size() * 256U + 64U);
+    buf.reserve(entries.size() * kEstimatedBytesPerEntry + kJournalHeaderBytes);
     writeLE<uint64_t>(buf, kMutationJournalMagic);
     writeLE<uint32_t>(buf, kMutationJournalVersion);
     writeLE<uint64_t>(buf, static_cast<uint64_t>(entries.size()));
@@ -783,6 +785,40 @@ static bool deserializeMutationJournal(
     return pos == size;
 }
 
+static void compactMutationJournalEntries(
+    std::vector<MutationJournalEntry>& entries) {
+    if (entries.size() < 2) {
+        return;
+    }
+
+    std::unordered_map<std::string, std::size_t> last_index_by_tensor_id;
+    last_index_by_tensor_id.reserve(entries.size());
+    for (std::size_t i = 0; i < entries.size(); ++i) {
+        const auto& entry = entries[i];
+        const std::string& tensor_id =
+            (entry.type == MutationJournalEntryType::Upsert)
+                ? entry.record.tensor_id
+                : entry.tensor_id;
+        last_index_by_tensor_id[tensor_id] = i;
+    }
+
+    std::vector<MutationJournalEntry> compacted;
+    compacted.reserve(last_index_by_tensor_id.size());
+    for (std::size_t i = 0; i < entries.size(); ++i) {
+        const auto& entry = entries[i];
+        const std::string& tensor_id =
+            (entry.type == MutationJournalEntryType::Upsert)
+                ? entry.record.tensor_id
+                : entry.tensor_id;
+        if (last_index_by_tensor_id[tensor_id] != i) {
+            continue;
+        }
+        compacted.push_back(entry);
+    }
+
+    entries = std::move(compacted);
+}
+
 static void loadOrResetJournal(
     const std::shared_ptr<themis::storage::TensorNetworkStorageEngine>& storage,
     const std::string& journal_key,
@@ -1013,6 +1049,8 @@ bool TensorDeduplicationManager::replayMutationJournal(const std::string& snapsh
     // full snapshot state into records_, mappings, and counters. Replay is
     // single-threaded during restore, so journal entries can safely overwrite
     // the relaxed atomic counters with their absolute snapshots in sequence.
+    // Each entry captures the full counter state after its mutation, so the
+    // compacted journal remains replay-order-dependent but deterministic.
     for (const auto& entry : entries) {
         if (entry.type == MutationJournalEntryType::Upsert) {
             fp_graph_->upsertPersistedNode(entry.node, entry.edges);
@@ -1042,6 +1080,9 @@ bool TensorDeduplicationManager::replayMutationJournal(const std::string& snapsh
         }
         fp_graph_->remove(entry.tensor_id);
     }
+
+    compactMutationJournalEntries(entries);
+    storage_->putRawMetadata(journal_key, serializeMutationJournal(entries));
 
     return true;
 }
@@ -1082,6 +1123,7 @@ void TensorDeduplicationManager::persistUpsertJournalEntry(
     const auto journal_key = *snapshot_key + "::wal";
     loadOrResetJournal(storage_, journal_key, entries);
     entries.push_back(std::move(entry));
+    compactMutationJournalEntries(entries);
     storage_->putRawMetadata(journal_key, serializeMutationJournal(entries));
 }
 
@@ -1104,6 +1146,7 @@ void TensorDeduplicationManager::persistDeleteJournalEntry(
     const auto journal_key = *snapshot_key + "::wal";
     loadOrResetJournal(storage_, journal_key, entries);
     entries.push_back(std::move(entry));
+    compactMutationJournalEntries(entries);
     storage_->putRawMetadata(journal_key, serializeMutationJournal(entries));
 }
 
