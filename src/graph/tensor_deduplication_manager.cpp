@@ -910,10 +910,16 @@ static void writeJournalAndClearLegacy(
     const auto existing_namespaced = storage->getRawMetadata(namespaced_key);
     const bool namespaced_changed =
         !existing_namespaced.has_value() || (*existing_namespaced != payload);
-    if (namespaced_changed &&
-        !storage->putRawMetadata(namespaced_key, payload)) {
-        THEMIS_WARN("[TensorDeduplicationManager] failed to persist mutation journal for key='{}'",
-                    namespaced_key);
+    bool namespaced_ready = !namespaced_changed;
+    if (namespaced_changed) {
+        namespaced_ready = storage->putRawMetadata(namespaced_key, payload);
+        if (!namespaced_ready) {
+            THEMIS_WARN("[TensorDeduplicationManager] failed to persist mutation journal for key='{}'; keeping legacy payload to avoid data loss",
+                        namespaced_key);
+        }
+    }
+    if (!namespaced_ready) {
+        return;
     }
 
     const auto legacy_payload = storage->getRawMetadata(legacy_key);

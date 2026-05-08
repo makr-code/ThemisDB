@@ -136,7 +136,7 @@ public:
         return inner_.listKeys(prefix);
     }
 
-    std::size_t putCount(const std::string& key) const {
+    [[nodiscard]] std::size_t putCount(const std::string& key) const {
         std::lock_guard<std::mutex> lk(mutex_);
         auto it = put_counts_.find(key);
         return (it == put_counts_.end()) ? 0U : it->second;
