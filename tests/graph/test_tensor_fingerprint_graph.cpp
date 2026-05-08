@@ -51,6 +51,8 @@
  *   TDM-19  restoreGraph replays legacy journal keys and rewrites namespaced keys
  *   TDM-20  invalid namespaced journal payloads are reset and skipped safely
  *   TDM-21  unchanged mutation-journal payloads avoid redundant metadata rewrites
+ *   TDM-22  auto-wired per-entry journal keys compact overwrites and replay on restore
+ *   TDM-23  auto-wired per-entry restore falls back to legacy blob journals
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -1300,4 +1302,71 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     const auto put_count_after_second_update =
         counting_backend->putCount(kJournalBackendKey);
     EXPECT_EQ(put_count_after_second_update, put_count_after_first_update);
+}
+
+// TDM-22: auto-wired per-entry journal keys should compact overwrites and replay on restore.
+TEST(TensorDeduplicationManagerSnapshotTest,
+     TDM22_AutoPerEntryJournalKeysCompactAndReplayOnRestore) {
+    auto engine = makeEngine();
+    constexpr auto kSnapshotKey = "snap22";
+    const auto per_entry_prefix = std::string{"__tfgjournal__:"} + kSnapshotKey + ":";
+    const auto blob_journal_key = std::string{"__tfgmeta__:wal:"} + kSnapshotKey;
+
+    {
+        auto mgr = makeDedup(engine);
+        mgr->store("per_entry_tensor", std::vector<float>(16, 0.5f), {16, 1}, "t", "c", "f22");
+        ASSERT_TRUE(mgr->snapshotGraph(kSnapshotKey));
+        mgr->store("per_entry_tensor", std::vector<float>(16, 1.5f), {16, 1}, "t", "c", "f22");
+        mgr->store("per_entry_tensor", std::vector<float>(16, 2.5f), {16, 1}, "t", "c", "f22");
+    }
+
+    const auto journal_keys = engine->listRawMetadataKeys(per_entry_prefix);
+    ASSERT_EQ(journal_keys.size(), 1u);
+    EXPECT_EQ(journal_keys.front(), per_entry_prefix + "per_entry_tensor");
+
+    const auto blob_journal = engine->getRawMetadata(blob_journal_key);
+    ASSERT_TRUE(blob_journal.has_value());
+    EXPECT_TRUE(blob_journal->empty());
+
+    auto mgr_b = makeDedup(engine);
+    ASSERT_TRUE(mgr_b->restoreGraph(kSnapshotKey));
+
+    const auto restored = mgr_b->retrieve("per_entry_tensor");
+    ASSERT_TRUE(restored.has_value());
+    ASSERT_EQ(restored->size(), 16u);
+    for (float value : *restored) {
+        EXPECT_NEAR(value, 2.5f, 1e-4f);
+    }
+}
+
+// TDM-23: when no per-entry journal keys exist, restore should fall back to legacy blob journals.
+TEST(TensorDeduplicationManagerSnapshotTest,
+     TDM23_PerEntryRestoreFallsBackToLegacyBlobJournal) {
+    auto engine = makeEngine();
+    constexpr auto kSnapshotKey = "snap23";
+    const auto per_entry_prefix = std::string{"__tfgjournal__:"} + kSnapshotKey + ":";
+    const auto blob_journal_key = std::string{"__tfgmeta__:wal:"} + kSnapshotKey;
+
+    {
+        auto mgr = makeDedup(engine);
+        mgr->setJournalEntryHooks({}, {}, {}, {});
+        mgr->store("legacy_blob_tensor", std::vector<float>(16, 0.25f), {16, 1}, "t", "c", "f23");
+        ASSERT_TRUE(mgr->snapshotGraph(kSnapshotKey));
+        mgr->store("legacy_blob_tensor", std::vector<float>(16, 3.25f), {16, 1}, "t", "c", "f23");
+    }
+
+    const auto legacy_blob = engine->getRawMetadata(blob_journal_key);
+    ASSERT_TRUE(legacy_blob.has_value());
+    ASSERT_FALSE(legacy_blob->empty());
+    EXPECT_TRUE(engine->listRawMetadataKeys(per_entry_prefix).empty());
+
+    auto mgr_b = makeDedup(engine);
+    ASSERT_TRUE(mgr_b->restoreGraph(kSnapshotKey));
+
+    const auto restored = mgr_b->retrieve("legacy_blob_tensor");
+    ASSERT_TRUE(restored.has_value());
+    ASSERT_EQ(restored->size(), 16u);
+    for (float value : *restored) {
+        EXPECT_NEAR(value, 3.25f, 1e-4f);
+    }
 }

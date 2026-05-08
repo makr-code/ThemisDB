@@ -294,7 +294,13 @@
     now avoids redundant metadata rewrites when the compacted namespaced payload is unchanged and
     only clears legacy journal keys when they still contain data, reducing unnecessary write churn
     during repeated no-op canonical updates (test TDM-21).
-  - Remaining: GraphIndex-backed storage/compaction for incremental mutation journal payloads.
+  - **Progress 2026-05-08 (storage-backed per-entry journal integration)**:
+    `TensorDeduplicationManager` now auto-wires its per-entry journal hooks to
+    `TensorNetworkStorageEngine` raw metadata keys (`__tfgjournal__:<snapshot>:<tensor_id>`),
+    so post-snapshot upsert/delete journaling rewrites only the affected tensor entry instead
+    of the entire monolithic blob; restore remains backward-compatible by falling back to the
+    legacy blob journal when no per-entry entries exist (tests TDM-22/TDM-23).
+  - Remaining: GraphIndex-backed storage backend for the same per-entry journal lifecycle.
 
 #### Phase 8.6 — Documentation (Target: Q2 2027)
 
@@ -305,7 +311,7 @@
 - Fingerprint + LSH insert ≤ 10ms per tensor
 - Similar-tensor graph query ≤ 50ms for 100K nodes
 - ≥ 40% storage reduction for LLM weight repositories with shared Transformer blocks
-- 22 TFG + 7 TDM = 29 tests passing
+- 22 TFG + 9 TDM = 31 tests passing
 
 ## Known Issues & Limitations
 - Adaptive plan selection using execution feedback is now active; `selectAlgorithm` uses learned EMA costs when confidence > 0, falling back to static depth heuristics otherwise

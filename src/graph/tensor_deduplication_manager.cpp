@@ -47,6 +47,53 @@ TensorDeduplicationManager::TensorDeduplicationManager(
     if (!storage_ || !fp_graph_ || !decomposer_)
         throw std::invalid_argument("TensorDeduplicationManager: null dependency");
 
+    // Auto-wire per-entry mutation journaling to raw storage metadata so
+    // post-snapshot updates rewrite only one tensor-specific journal record.
+    // This keeps write amplification bounded while restoreGraph() remains
+    // backward-compatible with older blob-only journals.
+    setJournalEntryHooks(
+        [storage = storage_](std::string_view snapshot_key,
+                             std::string_view tensor_id,
+                             const std::vector<uint8_t>& payload) {
+            if (!storage) return false;
+            return storage->putRawMetadata(
+                std::string{"__tfgjournal__:"} +
+                    std::string{snapshot_key} + ":" + std::string{tensor_id},
+                payload);
+        },
+        [storage = storage_](std::string_view snapshot_key,
+                             std::string_view tensor_id) {
+            if (!storage) return false;
+            return storage->deleteRawMetadata(
+                std::string{"__tfgjournal__:"} +
+                    std::string{snapshot_key} + ":" + std::string{tensor_id});
+        },
+        [storage = storage_](std::string_view snapshot_key,
+                             std::function<void(std::string_view,
+                                                const std::vector<uint8_t>&)> cb) {
+            if (!storage || !cb) return;
+            const auto prefix =
+                std::string{"__tfgjournal__:"} +
+                std::string{snapshot_key} + ":";
+            for (const auto& key : storage->listRawMetadataKeys(prefix)) {
+                if (key.rfind(prefix, 0) != 0) continue;
+                const auto payload = storage->getRawMetadata(key);
+                if (!payload.has_value()) continue;
+                cb(std::string_view{key}.substr(prefix.size()), *payload);
+            }
+        },
+        [storage = storage_](std::string_view snapshot_key) {
+            if (!storage) return false;
+            bool ok = true;
+            const auto prefix =
+                std::string{"__tfgjournal__:"} +
+                std::string{snapshot_key} + ":";
+            for (const auto& key : storage->listRawMetadataKeys(prefix)) {
+                ok = storage->deleteRawMetadata(key) && ok;
+            }
+            return ok;
+        });
+
     fp_graph_->setTrainLoadFn(
         [storage = storage_](const std::string&,
                              const std::string& tenant,
@@ -414,6 +461,7 @@ constexpr uint64_t kMutationJournalMagic = 0x4A4E4C5F4D445400ULL; // "TDM_JNL\0"
 constexpr uint32_t kMutationJournalVersion = 1;
 constexpr char kActiveSnapshotMetaKey[] = "__tfg_active_snapshot__";
 constexpr char kMutationJournalMetaPrefix[] = "__tfgmeta__:wal:";
+constexpr char kPerEntryMutationJournalPrefix[] = "__tfgjournal__:";
 
 enum class JournalLoadStatus {
     Missing,
@@ -1145,6 +1193,19 @@ bool TensorDeduplicationManager::replayMutationJournal(const std::string& snapsh
         // Per-entry journals are already compacted (one entry per tensor_id).
         // Compact again to handle duplicate tensor_ids from concurrent writes.
         compactMutationJournalEntries(entries);
+        if (entries.empty()) {
+            const auto load_status =
+                loadJournalWithLegacyFallback(storage_, snapshot_key, entries);
+            if (load_status == JournalLoadStatus::Missing) {
+                return true;
+            }
+            if (entries.empty()) {
+                if (load_status == JournalLoadStatus::InvalidReset) {
+                    THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: mutation journal reset after parse failure; replay skipped");
+                }
+                return true;
+            }
+        }
     } else {
         const auto load_status =
             loadJournalWithLegacyFallback(storage_, snapshot_key, entries);

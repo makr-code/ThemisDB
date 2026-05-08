@@ -383,6 +383,23 @@ public:
     std::optional<std::vector<uint8_t>>
     getRawMetadata(const std::string& key) const;
 
+    /**
+     * @brief Delete an opaque metadata blob stored under @p key.
+     *
+     * @return True if the key existed and was removed.
+     */
+    [[nodiscard]] bool deleteRawMetadata(const std::string& key);
+
+    /**
+     * @brief List logical metadata keys whose names start with @p prefix.
+     *
+     * Returned keys are de-namespaced logical keys (the inverse of
+     * `putRawMetadata()` / `getRawMetadata()`), not backend-internal
+     * `__tfgmeta__:`-prefixed keys.
+     */
+    [[nodiscard]] std::vector<std::string>
+    listRawMetadataKeys(const std::string& prefix) const;
+
 private:
     std::shared_ptr<ITensorStorageBackend> backend_;
     TensorStorageConfig  cfg_;

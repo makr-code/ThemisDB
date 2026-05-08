@@ -391,6 +391,8 @@ static std::string rawMetaKey(const std::string& key) {
     return "__tfgmeta__:" + key;
 }
 
+static constexpr std::string_view kRawMetaPrefix = "__tfgmeta__:";
+
 bool TensorNetworkStorageEngine::putRawMetadata(
     const std::string& key, const std::vector<uint8_t>& value) {
     return backend_->put(rawMetaKey(key), value);
@@ -399,6 +401,26 @@ bool TensorNetworkStorageEngine::putRawMetadata(
 std::optional<std::vector<uint8_t>>
 TensorNetworkStorageEngine::getRawMetadata(const std::string& key) const {
     return backend_->get(rawMetaKey(key));
+}
+
+bool TensorNetworkStorageEngine::deleteRawMetadata(const std::string& key) {
+    return backend_->del(rawMetaKey(key));
+}
+
+std::vector<std::string>
+TensorNetworkStorageEngine::listRawMetadataKeys(const std::string& prefix) const {
+    auto raw_keys = backend_->listKeys(rawMetaKey(prefix));
+    std::vector<std::string> logical_keys;
+    logical_keys.reserve(raw_keys.size());
+
+    for (const auto& raw_key : raw_keys) {
+        if (raw_key.rfind(kRawMetaPrefix, 0) != 0) {
+            continue;
+        }
+        logical_keys.push_back(raw_key.substr(kRawMetaPrefix.size()));
+    }
+
+    return logical_keys;
 }
 
 } // namespace storage
