@@ -10,9 +10,13 @@ on:
     paths:
       - CMakeLists.txt
       - CMakePresets.json
+      - cmake/*
       - cmake/*/**
+      - include/*
       - include/*/**
+      - src/*
       - src/*/**
+      - tests/*
       - tests/*/**
       - .github/workflows/cmake-multi-platform.yml
 
