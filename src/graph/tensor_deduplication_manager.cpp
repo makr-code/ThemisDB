@@ -869,7 +869,10 @@ static JournalLoadStatus loadJournalWithLegacyFallback(
         THEMIS_WARN("[TensorDeduplicationManager] mutation journal parse failed for key='{}' ({} bytes); clearing in-memory replay entries",
                     key,
                     payload->size());
-        storage->putRawMetadata(key, {});
+        if (!storage->putRawMetadata(key, {})) {
+            THEMIS_WARN("[TensorDeduplicationManager] failed to reset invalid mutation journal payload for key='{}'",
+                        key);
+        }
         entries.clear();
         return JournalLoadStatus::InvalidReset;
     };

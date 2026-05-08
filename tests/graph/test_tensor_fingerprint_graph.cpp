@@ -1213,6 +1213,8 @@ TEST(TensorDeduplicationManagerSnapshotTest,
         mgr->store("invalid_journal_tensor", std::vector<float>(16, 3.5f), {16, 1}, "t", "c", "finvalid");
     }
 
+    // Intentionally write a truncated/non-conforming payload that cannot match
+    // the mutation-journal header+entry format.
     ASSERT_TRUE(engine->putRawMetadata(namespaced_journal_key,
                                        std::vector<uint8_t>{0xFF, 0x00, 0xAB, 0x7C}));
 
