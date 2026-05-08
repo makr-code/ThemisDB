@@ -101,13 +101,8 @@ public:
     };
 
     using AllReduceFn = std::function<bool(const float* sendBuf,
-                                           float* recvBuf,
-                                           size_t count,
-                                           ReductionOp op,
-                                           hipStream_t stream)>;
-
-    static void setAllReduceFn(AllReduceFn fn);
-
+                                           float* recvBuf, size_t count,
+                                           ReductionOp op, hipStream_t stream)>;
     // Constructor & Destructor
     RCCLVectorBackend();
     ~RCCLVectorBackend();
@@ -258,10 +253,6 @@ public:
     static bool checkXGMISupport(const std::vector<int>& deviceIds);
 
 #ifndef THEMIS_ENABLE_RCCL
-    /// Callback type for injecting an allReduce implementation in non-RCCL builds.
-    using AllReduceFn = std::function<bool(
-        const float* send, float* recv, size_t count, ReductionOp op, void* stream)>;
-
     /// Inject an allReduce implementation for the non-RCCL stub path.
     /// Pass empty fn to restore fail-closed stub default.
     static void setAllReduceFn(AllReduceFn fn);
