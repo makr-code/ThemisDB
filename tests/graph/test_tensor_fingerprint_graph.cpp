@@ -133,8 +133,10 @@ static void overwriteLittleEndian(std::vector<uint8_t>& buf,
 static uint64_t readLittleEndianU64(const std::vector<uint8_t>& buf,
                                     std::size_t offset) {
     uint64_t value = 0;
-    EXPECT_GE(buf.size(), offset + sizeof(value));
-    std::memcpy(&value, buf.data() + offset, sizeof(value));
+    ASSERT_GE(buf.size(), offset + sizeof(value));
+    for (std::size_t i = 0; i < sizeof(value); ++i) {
+        value |= static_cast<uint64_t>(buf[offset + i]) << (i * 8U);
+    }
     return value;
 }
 
