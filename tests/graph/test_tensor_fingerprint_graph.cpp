@@ -103,6 +103,9 @@ static std::shared_ptr<TensorNetworkStorageEngine> makeEngine() {
     return std::make_shared<TensorNetworkStorageEngine>(backend, cfg);
 }
 
+// Overwrite an integral field inside a serialized snapshot buffer using
+// little-endian byte order. The helper fails the active test if the requested
+// offset would overflow the buffer.
 template<typename T>
 static void overwriteLittleEndian(std::vector<uint8_t>& buf,
                                   std::size_t offset,
@@ -937,9 +940,9 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     auto valid_payload = engine->getRawMetadata("valid_snap");
     ASSERT_TRUE(valid_payload.has_value());
 
-    constexpr uint64_t kInvalidMagic = 0x0102030405060708ULL;
-    constexpr uint32_t kUnsupportedVersion = 99U;
-    constexpr uint64_t kGraphLengthOverflowBytes = 128U;
+    constexpr uint64_t kInvalidMagic = 0x0102030405060708ULL; // Deliberately different from all valid snapshot magic values.
+    constexpr uint32_t kUnsupportedVersion = 99U;             // Well beyond the only supported version (1).
+    constexpr uint64_t kGraphLengthOverflowBytes = 128U;      // Large enough to force the declared graph payload past the buffer end.
     constexpr std::size_t kVersionOffset = sizeof(uint64_t);
     constexpr std::size_t kGraphSizeOffset = sizeof(uint64_t) + sizeof(uint32_t);
     constexpr std::size_t kGraphPayloadOffset =
