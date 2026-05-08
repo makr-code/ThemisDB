@@ -622,7 +622,7 @@ void TensorFingerprintGraph::upsertPersistedNode(
     entry.collection = node.collection;
     entry.field = node.field;
     nodes_[node.tensor_id] = std::move(entry);
-    [[maybe_unused]] auto& adj_entry = adj_[node.tensor_id];
+    adj_.try_emplace(node.tensor_id);
     insertIntoBuckets(node.tensor_id, node.fingerprint);
 
     std::unordered_set<std::string> seen_targets;
