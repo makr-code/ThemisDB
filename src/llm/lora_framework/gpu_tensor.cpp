@@ -37,6 +37,30 @@ GPUMemoryManager& GPUTensor::get_memory_manager() {
     return manager;
 }
 
+// ─── dtype-cast callback bridges (STUB #2 / STUB #3) ─────────────────────────
+// These allow injection of real CUDA/HIP gpu-side dtype-cast kernels, replacing
+// the default CPU round-trip fallback (download → convert → upload).
+
+static std::mutex& cudaDtypeCastMutex() { static std::mutex m; return m; }
+static GPUTensor::DtypeCastFn& cudaDtypeCastFnStorage() {
+    static GPUTensor::DtypeCastFn fn;
+    return fn;
+}
+void GPUTensor::setCudaDtypeCastFn(DtypeCastFn fn) {
+    std::lock_guard<std::mutex> lk(cudaDtypeCastMutex());
+    cudaDtypeCastFnStorage() = std::move(fn);
+}
+
+static std::mutex& hipDtypeCastMutex() { static std::mutex m; return m; }
+static GPUTensor::DtypeCastFn& hipDtypeCastFnStorage() {
+    static GPUTensor::DtypeCastFn fn;
+    return fn;
+}
+void GPUTensor::setHipDtypeCastFn(DtypeCastFn fn) {
+    std::lock_guard<std::mutex> lk(hipDtypeCastMutex());
+    hipDtypeCastFnStorage() = std::move(fn);
+}
+
 // ============================================================================
 // Constructors and Destructor
 // ============================================================================
@@ -345,12 +369,29 @@ GPUTensor GPUTensor::to_dtype(DType target_dtype) const {
         // STUB/SIMULATION NOTE:
         // Purpose: CPU round-trip fallback for dtype conversion on CUDA tensors when
         //          dedicated CUDA dtype-cast kernels are not yet implemented.
-        // Activation: Always active for CUDA path (real kernels not yet written).
+        // Activation: Active when no CudaDtypeCastFn is injected via
+        //             GPUTensor::setCudaDtypeCastFn().  A real CUDA kernel can be
+        //             injected at startup to replace this path.
         // Production Delta: download() + upload() incur PCIe round-trip overhead;
         //                   a native CUDA kernel (e.g. thrust::transform) is 10-50×
         //                   faster and avoids peak-VRAM doubling.
-        // Removal Plan: Implement a CUDA __global__ cast kernel and remove this
-        //               CPU path (Target: v1.7.0, FUTURE_ENHANCEMENTS.md §"CUDA dtype kernels").
+        // Removal Plan: Implement a CUDA __global__ cast kernel and register it via
+        //               setCudaDtypeCastFn() at startup (Target: v1.7.0,
+        //               FUTURE_ENHANCEMENTS.md §"CUDA dtype kernels").
+        DtypeCastFn fn;
+        {
+            std::lock_guard<std::mutex> lk(cudaDtypeCastMutex());
+            fn = cudaDtypeCastFnStorage();
+        }
+        if (fn) {
+            try {
+                auto converted_data = fn(download(), dtype_, target_dtype);
+                result.upload(converted_data);
+                return result;
+            } catch (...) {
+                // fall through to CPU round-trip
+            }
+        }
         auto cpu_data = download();
         GPUTensor temp(shape_, Device::cpu(), dtype_);
         temp.upload(cpu_data);
@@ -364,9 +405,26 @@ GPUTensor GPUTensor::to_dtype(DType target_dtype) const {
     if (device_.type == DeviceType::HIP) {
         // STUB/SIMULATION NOTE:
         // Purpose: CPU round-trip fallback for dtype conversion on HIP/ROCm tensors.
-        // Activation: Always active for HIP path (real kernels not yet written).
+        // Activation: Active when no HipDtypeCastFn is injected via
+        //             GPUTensor::setHipDtypeCastFn().  A real HIP kernel can be
+        //             injected at startup to replace this path.
         // Production Delta: Same PCIe round-trip overhead as the CUDA path above.
-        // Removal Plan: Implement a HIP __global__ cast kernel (Target: v1.7.0).
+        // Removal Plan: Implement a HIP __global__ cast kernel and register it via
+        //               setHipDtypeCastFn() at startup (Target: v1.7.0).
+        DtypeCastFn fn;
+        {
+            std::lock_guard<std::mutex> lk(hipDtypeCastMutex());
+            fn = hipDtypeCastFnStorage();
+        }
+        if (fn) {
+            try {
+                auto converted_data = fn(download(), dtype_, target_dtype);
+                result.upload(converted_data);
+                return result;
+            } catch (...) {
+                // fall through to CPU round-trip
+            }
+        }
         auto cpu_data = download();
         GPUTensor temp(shape_, Device::cpu(), dtype_);
         temp.upload(cpu_data);

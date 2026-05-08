@@ -25,6 +25,8 @@
 #include <vector>
 #include <memory>
 #include <cstddef>
+#include <functional>
+#include <mutex>
 
 namespace themis {
 namespace llm {
@@ -247,6 +249,17 @@ public:
      * @return true if NaN or Inf detected
      */
     bool has_inf_or_nan() const;
+
+    // ========== dtype-cast callback bridges (STUB #2/#3) ==========
+    //
+    // Allow injection of a real GPU dtype-cast kernel for CUDA (STUB #2) or
+    // HIP/ROCm (STUB #3) builds, replacing the default CPU round-trip fallback.
+    // The function receives the current element data as fp32, the source DType,
+    // and the target DType; it returns the converted element data as fp32.
+    // Passing nullptr reverts to the CPU round-trip fallback path.
+    using DtypeCastFn = std::function<std::vector<float>(const std::vector<float>&, DType, DType)>;
+    static void setCudaDtypeCastFn(DtypeCastFn fn);
+    static void setHipDtypeCastFn(DtypeCastFn fn);
 
 private:
     std::vector<size_t> shape_;
