@@ -320,6 +320,9 @@ ZeroCopyDmaBuffer::ZeroCopyDmaBuffer(size_t size_bytes, int numa_node) {
     }
     data_ = alloc_fn ? alloc_fn(size_bytes, numa_node)
                      : NumaAllocator::allocate(size_bytes, -1);
+    if (!data_) {
+        THEMIS_WARN("ZeroCopyDmaBuffer: non-Linux allocator bridge returned null");
+    }
     size_      = size_bytes;
     huge_page_ = false;
 #endif

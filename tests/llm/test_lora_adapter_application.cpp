@@ -183,6 +183,9 @@ TEST_F(LoraAdapterApplicationTest, ApplyLoRAWithNullContext) {
     });
     bool applied = manager_->applyLoRA("adapter1", nullptr);
     EXPECT_TRUE(applied);
+    auto* slot = manager_->getLoRA("adapter1");
+    ASSERT_NE(slot, nullptr);
+    EXPECT_TRUE(slot->is_active);
 }
 
 TEST_F(LoraAdapterApplicationTest, ApplyLoRAWithNullContextBridgeFailure) {

@@ -76,10 +76,10 @@ public:
     explicit VCCPKIClient(PKIConfig cfg);
 
     // Sign a precomputed hash (e.g. SHA-256 over ciphertext batch)
-    SignatureResult signHash(const std::vector<uint8_t>& hash_bytes) const;
+    [[nodiscard]] SignatureResult signHash(const std::vector<uint8_t>& hash_bytes) const;
 
     // Verify a signature against a precomputed hash
-    bool verifyHash(const std::vector<uint8_t>& hash_bytes, const SignatureResult& sig) const;
+    [[nodiscard]] bool verifyHash(const std::vector<uint8_t>& hash_bytes, const SignatureResult& sig) const;
 
     const PKIConfig& config() const { return cfg_; }
 

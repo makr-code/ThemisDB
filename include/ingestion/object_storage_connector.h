@@ -151,6 +151,9 @@ public:
     /**
      * @brief Function type for providing object-key batches.
      *
+     * Usable both for tests and for custom production integrations that want to
+     * bridge an external object-storage listing backend into the connector.
+     *
      * Each call should return the next batch of object keys.  Return an empty
      * vector to signal end-of-listing.
      */
@@ -158,6 +161,9 @@ public:
 
     /**
      * @brief Function type for providing object bodies.
+     *
+     * Usable both for tests and for custom production integrations that want to
+     * bridge an external object fetch backend into the connector.
      *
      * Given an object key the function returns the raw object body as a
      * string.  Return an empty string to simulate a fetch failure.
@@ -167,8 +173,9 @@ public:
     /**
      * @brief Inject object-listing and object-fetch providers.
      *
-     * When both are set, every cloud API call is replaced by these functions
-     * and no real credentials or network access is required.
+     * When both are set, every cloud API call is replaced by these functions.
+     * This is suitable both for tests and for custom production bridges to
+     * non-native or out-of-process object-storage backends.
      *
      * Pass empty `ObjectListFn{}` / `ObjectFetchFn{}` to restore the real
      * provider path.
